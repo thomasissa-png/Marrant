@@ -1,0 +1,1602 @@
+[
+  {
+    "id": 1,
+    "content": "Je suis tellement mauvais en cuisine que mon détecteur de fumée me sert de minuteur.",
+    "punchline": "La dernière fois, les pompiers m'ont laissé un avis Google : une étoile.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 2,
+    "content": "Mon psy m'a dit que je devais arrêter de me comparer aux autres.",
+    "punchline": "J'ai vérifié, les autres n'ont pas ce problème.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 3,
+    "content": "Un homme entre dans une bibliothèque et demande un livre sur le paranoia.",
+    "punchline": "La bibliothécaire chuchote : « Ils sont derrière vous. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 4,
+    "content": "Pourquoi les plongeurs plongent-ils toujours en arrière et jamais en avant ?",
+    "punchline": "Parce que sinon ils tomberaient dans le bateau.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 5,
+    "content": "En France, on a pas de pétrole, mais on a des idées.",
+    "punchline": "Et surtout, on a des grèves pour empêcher les idées d'arriver au bureau.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 6,
+    "content": "Ma copine m'a demandé de choisir entre elle et le foot.",
+    "punchline": "Elle me manque, mais tu aurais dû voir le match.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 7,
+    "content": "Mon patron m'a dit : « Tu es irremplaçable. »",
+    "punchline": "Je me suis senti flatté jusqu'à ce que je comprenne que personne d'autre ne voulait le poste.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 8,
+    "content": "Tu sais que t'es adulte quand tu te réjouis d'un samedi soir à la maison.",
+    "punchline": "Et que tu considères le passage à l'heure d'été comme une agression personnelle.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 9,
+    "content": "J'ai une mémoire photographique.",
+    "punchline": "Malheureusement, le bouchon de l'objectif est toujours dessus.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 10,
+    "content": "J'ai demandé à un poisson rouge ce qu'il pensait de son bocal.",
+    "punchline": "Il m'a dit : « C'est génial, tous les jours c'est un nouveau décor. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 11,
+    "content": "C'est quoi la différence entre un bon et un mauvais chasseur ?",
+    "punchline": "Le mauvais chasseur, il tire. Le bon chasseur, il tire... mais c'est un bon chasseur.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 12,
+    "content": "Ma femme m'a dit : « Chéri, est-ce que tu m'écoutes ? »",
+    "punchline": "J'ai trouvé ça bizarre comme façon de commencer une conversation.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 13,
+    "content": "Lors de mon entretien annuel, mon manager m'a dit que j'avais un problème d'attitude.",
+    "punchline": "J'ai répondu : « Merci, j'y travaille depuis des années. »",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 14,
+    "content": "J'ai mis mon lit sur le balcon pour dormir dehors.",
+    "punchline": "Maintenant je fais des rêves en terrasse.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 15,
+    "content": "Je suis allé voir un spectacle de mimes.",
+    "punchline": "Après le show, je suis allé en coulisses. Ils n'avaient rien à dire.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 16,
+    "content": "Si tu te sens inutile, rappelle-toi qu'il y a quelqu'un dont le métier est d'installer les clignotants sur les BMW.",
+    "punchline": "Et un autre dont le métier est de mettre « résultats pouvant varier » sous les pubs de régime.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 17,
+    "content": "Qu'est-ce qu'un canif ?",
+    "punchline": "Un petit fien.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 18,
+    "content": "J'ai dit à mon chat qu'on allait chez le vétérinaire.",
+    "punchline": "Depuis, il cherche « droits des animaux » sur mon ordinateur.",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 19,
+    "content": "J'essaie de faire un régime, mais c'est compliqué en France.",
+    "punchline": "On habite dans un pays où la boulangerie est classée au patrimoine mondial.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 20,
+    "content": "Mon couple, c'est comme un mot de passe Wi-Fi.",
+    "punchline": "Compliqué, oublié par tous les invités, et ça plante régulièrement.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 21,
+    "content": "Mon CV dit que je suis « résistant au stress ».",
+    "punchline": "En vrai, je suis juste dissocié en permanence.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 22,
+    "content": "J'ai tellement procrastiné que ma liste de choses à faire a pris la poussière.",
+    "punchline": "Même la poussière a fini par se barrer.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 23,
+    "content": "On dit qu'il faut rester soi-même dans la vie.",
+    "punchline": "C'est exactement ce que je fais, et visiblement c'est le problème.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 24,
+    "content": "Un mec entre dans un bar et dit : « Tout le monde dehors, je suis claustrophobe ! »",
+    "punchline": "Le barman répond : « Monsieur, c'est un bar, pas un ascenseur. — Raison de plus, y a pas de bouton d'urgence. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 25,
+    "content": "La SNCF annonce un retard de 45 minutes.",
+    "punchline": "Les habitués sont soulagés : au moins aujourd'hui, c'est un retard raisonnable.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 26,
+    "content": "Pourquoi les étoiles ne vont-elles pas à l'école ?",
+    "punchline": "Parce qu'elles brillent déjà.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 27,
+    "content": "Ma copine m'a envoyé un message : « C'est fini entre nous. » J'ai répondu : « D'accord. »",
+    "punchline": "Elle m'a rappelé furieuse : « Tu pourrais au moins te battre ! » — Là j'ai compris, c'était un test.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 28,
+    "content": "En open space, tout le monde fait semblant de travailler.",
+    "punchline": "Le vrai talent, c'est de faire semblant de ne pas entendre le collègue qui mange des carottes crues.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 29,
+    "content": "J'ai acheté un tapis roulant pour faire du sport à la maison.",
+    "punchline": "Pour l'instant, il me sert surtout de portant pour sécher le linge.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 30,
+    "content": "Un type va chez le médecin. « Docteur, j'ai l'impression que personne ne m'écoute. »",
+    "punchline": "Le médecin : « Au suivant ! »",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 31,
+    "content": "La seule course que je gagne régulièrement...",
+    "punchline": "C'est celle entre mon réveil et le bouton snooze.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 32,
+    "content": "Mon frigo fait plus de bruit la nuit que mon voisin du dessus.",
+    "punchline": "Et pourtant, mon voisin fait de la zumba à minuit.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 33,
+    "content": "Un escargot entre dans un commissariat et dit : « On m'a agressé ! »",
+    "punchline": "Le policier demande : « Vous pouvez décrire l'agresseur ? » — « Non, tout est allé trop vite. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 34,
+    "content": "Pourquoi les Français sont-ils les meilleurs en philo ?",
+    "punchline": "Parce qu'ils passent leur vie à répondre « ça dépend ».",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 35,
+    "content": "Ma copine me dit que je ne fais jamais attention aux détails.",
+    "punchline": "En tout cas, c'est ce que j'ai cru comprendre.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 36,
+    "content": "J'ai reçu un mail de mon chef qui disait : « Urgent, à traiter immédiatement. »",
+    "punchline": "Il l'avait envoyé un vendredi à 17h59.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 37,
+    "content": "Un mathématicien, un physicien et un informaticien débattent de l'existence de Dieu.",
+    "punchline": "L'informaticien dit : « Aucune idée, mais si on relance le système, on verra bien. »",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 38,
+    "content": "Je parle couramment trois langues.",
+    "punchline": "Le français, le sarcasme et le silence gênant.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 39,
+    "content": "Un jour, j'arriverai à plier un drap-housse correctement.",
+    "punchline": "Ce jour-là, j'aurai aussi résolu le mystère des chaussettes orphelines.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 40,
+    "content": "Un homme dit à sa femme : « Tu sais, les études montrent que les femmes disent environ 20 000 mots par jour et les hommes seulement 7 000. »",
+    "punchline": "Sa femme : « C'est parce qu'on doit tout répéter. » Lui : « Quoi ? »",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 41,
+    "content": "En réunion, « on en reparlera » veut dire...",
+    "punchline": "« On n'en reparlera jamais, mais au moins on a tous perdu une heure. »",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 42,
+    "content": "Un fantôme entre dans un bar. Le barman dit : « Désolé, on ne sert pas les esprits ici. »",
+    "punchline": "Le fantôme répond : « C'est pas grave, j'ai déjà pas de corps pour payer. »",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 43,
+    "content": "L'avantage d'être pessimiste...",
+    "punchline": "C'est qu'on a toujours soit raison, soit une bonne surprise.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 44,
+    "content": "J'ai essayé le yoga pour me détendre.",
+    "punchline": "J'ai fini bloqué en position lotus avec le chat assis sur ma tête.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 45,
+    "content": "Un Parisien et un Marseillais se disputent sur la météo.",
+    "punchline": "Le Parisien : « Il pleut. » Le Marseillais : « Oui mais chez nous, la pluie elle a l'accent. »",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 46,
+    "content": "Mon téléphone a plus de mémoire que moi.",
+    "punchline": "Et il se souvient de trucs que j'aurais préféré oublier.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 47,
+    "content": "Je suis sorti de chez moi pour la première fois en trois jours.",
+    "punchline": "Le soleil m'a regardé comme un ex qu'on croise par hasard.",
+    "category": "ABSURDE",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 48,
+    "content": "Pourquoi le livre de maths est-il toujours triste ?",
+    "punchline": "Parce qu'il a trop de problèmes.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 49,
+    "content": "Mon couple est comme une connexion Wi-Fi.",
+    "punchline": "Plus je m'éloigne, meilleure est la réception.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 50,
+    "content": "On m'a proposé un poste avec « un salaire compétitif ».",
+    "punchline": "Compétitif avec le SMIC, apparemment.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 51,
+    "content": "Je me suis inscrit à la salle de sport en janvier.",
+    "punchline": "Mon abonnement et moi, on se voit une fois par an. Le jour du prélèvement.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 52,
+    "content": "Tu sais que tu vieillis quand tu fais du bruit en t'asseyant.",
+    "punchline": "Et quand le bruit que tu fais en te levant est encore pire.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 53,
+    "content": "Deux sardines nagent dans la mer. L'une dit : « Regarde, un sous-marin ! »",
+    "punchline": "L'autre répond : « Où ça ? — Ben là, la grosse boîte de sardines. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 54,
+    "content": "En France, un repas de famille, c'est comme un débat politique.",
+    "punchline": "Tout le monde a un avis, personne n'écoute, et ça finit toujours par le fromage.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 55,
+    "content": "Comment appelle-t-on un chat tombé dans un pot de peinture le jour de Noël ?",
+    "punchline": "Un chat-peint de Noël.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 56,
+    "content": "Ma copine a changé son statut en « c'est compliqué ».",
+    "punchline": "J'ai répondu : « Bah non, c'est même très clair. »",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 57,
+    "content": "Le WiFi au bureau est tellement lent...",
+    "punchline": "Que j'ai eu le temps de finir un café, faire une pause, et reconsidérer mes choix de carrière.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 58,
+    "content": "J'ai vu un documentaire sur le sommeil hier soir.",
+    "punchline": "Je me suis endormi devant. C'était très immersif.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 59,
+    "content": "Ma vie sociale ressemble à mon frigo un dimanche soir.",
+    "punchline": "Vide, avec juste un truc périmé depuis longtemps au fond.",
+    "category": "AUTODERISION",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 60,
+    "content": "Un GPS recalcule l'itinéraire pour la sixième fois.",
+    "punchline": "Finalement, il affiche : « Garez-vous et réfléchissez à votre vie. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 61,
+    "content": "Comment appelle-t-on un boomerang qui ne revient pas ?",
+    "punchline": "Un bâton.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 62,
+    "content": "Rien ne unit plus les Français que...",
+    "punchline": "Râler ensemble contre la même chose, même s'ils ne sont pas d'accord sur pourquoi.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 63,
+    "content": "Mon mec m'a demandé si je voulais un diamant ou un voyage.",
+    "punchline": "J'ai choisi le voyage. Au moins, je peux en profiter sans me demander combien il a menti sur le prix.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 64,
+    "content": "Sur LinkedIn, tout le monde est « passionné » par son travail.",
+    "punchline": "En vrai, la plupart sont passionnés par le vendredi.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 65,
+    "content": "J'ai commandé un plat végan au restaurant.",
+    "punchline": "Le serveur m'a regardé comme si je lui avais demandé de résoudre une équation différentielle.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 66,
+    "content": "Qu'est-ce qu'un crocodile qui surveille les examens ?",
+    "punchline": "Un croco-surveillant.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 67,
+    "content": "On dit que le rire est le meilleur médicament.",
+    "punchline": "Mon médecin n'a pas apprécié que je rigole en voyant l'ordonnance.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 68,
+    "content": "Je suis tellement introverti...",
+    "punchline": "Que quand on me propose de sortir, je négocie une visioconférence.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 69,
+    "content": "Le livreur a sonné à ma porte à 7h du matin un samedi.",
+    "punchline": "J'ai ouvert la porte avec un regard qui disait : « J'espère que le colis vaut la peine de mourir pour. »",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 70,
+    "content": "Un zèbre va chez le coiffeur et demande une coupe originale.",
+    "punchline": "Le coiffeur : « Désolé, je ne fais que les rayures. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 71,
+    "content": "Qu'est-ce qu'un pays où les gens sont toujours en grève, en vacances ou en terrasse ?",
+    "punchline": "Le paradis. Et ça s'appelle la France.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 72,
+    "content": "Ma copine dit que je suis immature.",
+    "punchline": "Elle a pas le droit de rentrer dans mon fort en coussins, alors son avis ne compte pas.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 73,
+    "content": "Mon chef a dit « pensez out of the box ».",
+    "punchline": "J'ai pensé à ma démission. C'est assez out of the box, non ?",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 74,
+    "content": "Que dit un électricien quand il a un problème ?",
+    "punchline": "Watt ?",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 75,
+    "content": "J'ai une capacité unique à transformer n'importe quelle situation sociale en malaise.",
+    "punchline": "Ma dernière performance : dire « toi aussi » au serveur qui m'a dit « bon appétit ».",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 76,
+    "content": "La pire chose au réveil, c'est de réaliser que la veille, c'est toi qui as mis l'alarme si tôt.",
+    "punchline": "Tu es ton propre ennemi, littéralement programmé pour te ruiner la journée.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 77,
+    "content": "Deux atomes discutent. L'un dit : « Je crois que j'ai perdu un électron. »",
+    "punchline": "L'autre : « T'es sûr ? » — « Oui, je suis positif. »",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 78,
+    "content": "Un robot entre dans un bar et commande une huile d'olive.",
+    "punchline": "Le barman : « On n'a pas ça. » Le robot, en partant : « C'est pas humain. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 79,
+    "content": "Le serveur au restaurant me demande : « Ça vous a plu ? »",
+    "punchline": "Mon assiette est vide, mes yeux sont pleins de bonheur, et j'ai honte. C'est un oui.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 80,
+    "content": "J'ai dit à Alexa de me raconter une blague.",
+    "punchline": "Elle m'a lu mon historique de recherches.",
+    "category": "AUTODERISION",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 81,
+    "content": "Deux fromages se disputent dans une cave d'affinage.",
+    "punchline": "Le comté dit au camembert : « Tu te laisses aller. » Le camembert : « Toi, t'es dur. »",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 82,
+    "content": "Mon ex m'a dit qu'elle avait besoin d'espace.",
+    "punchline": "Je l'ai inscrite à la NASA.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 83,
+    "content": "La machine à café du bureau est tombée en panne.",
+    "punchline": "La productivité a chuté de 90%. Les 10% restants, c'est ceux qui avaient prévu un thermos.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 84,
+    "content": "Hier soir, Netflix m'a demandé : « Vous êtes toujours là ? »",
+    "punchline": "Personne ne m'avait posé cette question avec autant de sincérité depuis longtemps.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 85,
+    "content": "Un escalier mécanique tombe en panne.",
+    "punchline": "Pour information, ça s'appelle désormais un escalier.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 86,
+    "content": "Qu'est-ce qu'un poisson sans yeux ?",
+    "punchline": "Un posson.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 87,
+    "content": "J'ai essayé la méditation de pleine conscience.",
+    "punchline": "Ma pleine conscience m'a rappelé que j'avais oublié de payer le loyer.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 88,
+    "content": "Un dictionnaire dit à un roman : « Tu racontes n'importe quoi. »",
+    "punchline": "Le roman répond : « Au moins, moi, j'ai une histoire. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 89,
+    "content": "Les gens qui disent « l'argent ne fait pas le bonheur »...",
+    "punchline": "N'ont jamais essayé de payer un loyer parisien avec de la bonne humeur.",
+    "category": "CULTUREL",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 90,
+    "content": "Mon mec range les courses n'importe comment dans le frigo.",
+    "punchline": "C'est le seul endroit où le Nutella côtoie les cornichons. Un peu comme notre couple.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 91,
+    "content": "Mon collègue met « cordialement » en fin de mail.",
+    "punchline": "Le ton du mail dit « va te faire voir », mais bon, c'est cordial.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 92,
+    "content": "Quel est le comble pour un électricien ?",
+    "punchline": "De ne pas être au courant.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 93,
+    "content": "Les gens qui courent le matin avec le sourire...",
+    "punchline": "Soit ils n'ont pas de problèmes, soit ils fuient quelque chose.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 94,
+    "content": "J'ai un talent caché.",
+    "punchline": "Si caché que même moi, je ne l'ai pas encore trouvé.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 95,
+    "content": "J'ai voulu impressionner une fille en cuisinant.",
+    "punchline": "On a fini par commander des pizzas. Le livreur, lui, l'a impressionnée.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 96,
+    "content": "Un pingouin entre dans un aéroport et demande un billet d'avion.",
+    "punchline": "L'hôtesse : « Vous pouvez voler ? » — « Non, c'est pour ça que je prends l'avion. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 97,
+    "content": "En France, on prend l'apéro vers 18h.",
+    "punchline": "Le reste de la journée, c'est juste de la préparation psychologique.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 98,
+    "content": "Ma copine m'a demandé d'être plus romantique.",
+    "punchline": "Alors j'ai éteint la lumière pendant le match pour créer de l'ambiance.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 99,
+    "content": "Mon patron a dit : « Ici, on est une famille. »",
+    "punchline": "J'ai demandé un héritage, il a dit non.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 100,
+    "content": "Pourquoi les plantes sont-elles nulles en maths ?",
+    "punchline": "Parce qu'elles prennent racine au lieu de résoudre les problèmes.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 101,
+    "content": "Mon niveau d'énergie le lundi matin est comparable à celui de mon téléphone le dimanche soir.",
+    "punchline": "3%, mode économie, et une vague envie de s'éteindre.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 102,
+    "content": "J'ai dit à mon dentiste que je n'avais pas peur.",
+    "punchline": "Il a souri. Je n'ai pas aimé ce sourire.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 103,
+    "content": "Un bonhomme de neige dit à un autre : « Tu sens pas la carotte, toi ? »",
+    "punchline": "L'autre : « Ah non, c'est mon nez. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 104,
+    "content": "La différence entre un touriste à Paris et un Parisien...",
+    "punchline": "Le touriste lève la tête pour admirer les monuments. Le Parisien la baisse pour esquiver les trottinettes.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 105,
+    "content": "Mon ex a dit : « Tu ne changeras jamais. »",
+    "punchline": "Je l'ai remerciée. La constance, c'est une qualité.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 106,
+    "content": "« N'hésite pas si tu as des questions », a dit mon chef le premier jour.",
+    "punchline": "Six mois plus tard, j'ai appris que c'était une expression, pas une invitation.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 107,
+    "content": "J'ai fait une blague à l'eau. Personne n'a ri.",
+    "punchline": "C'est normal, elle était trop diluée.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 108,
+    "content": "Les gens qui mettent des stories en avion avec le mode avion activé...",
+    "punchline": "Sont les mêmes qui marquent « en déplacement » alors qu'ils vont chez Ikea.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 109,
+    "content": "Mon ambition dans la vie, c'est d'être aussi confiant...",
+    "punchline": "Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 110,
+    "content": "Tu sais que tu es vieux quand les policiers commencent à avoir l'air jeune.",
+    "punchline": "Et que ta première réaction en voyant des ados dans la rue, c'est « ils n'ont pas école ? »",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 111,
+    "content": "Un miroir dit à un autre miroir : « Tu me reflètes ou je te reflète ? »",
+    "punchline": "Les deux ont fini en thérapie de couple.",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 112,
+    "content": "En France, quand quelqu'un dit « c'est pas mal »...",
+    "punchline": "C'est le plus grand compliment que tu recevras jamais.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 113,
+    "content": "Mon copain m'offre toujours des cadeaux pratiques.",
+    "punchline": "L'an dernier, une éponge. Cette année, un seau. Je crois qu'il essaie de me dire quelque chose.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 114,
+    "content": "Le stagiaire a demandé quand il serait embauché.",
+    "punchline": "Toute l'équipe a ri. C'était la blague la plus drôle de l'open space depuis des mois.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 115,
+    "content": "Un caillou rencontre un autre caillou au bord de la route.",
+    "punchline": "L'un dit : « La vie est dure. » L'autre : « Grave. »",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 116,
+    "content": "Les pantoufles, c'est le vêtement le plus honnête qui existe.",
+    "punchline": "Elles disent la vérité : tu ne vas nulle part ce soir.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 117,
+    "content": "Ma mère m'appelle chaque dimanche pour me demander si je mange bien.",
+    "punchline": "Je lui réponds oui avec une main et je tiens mon kebab de l'autre.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 118,
+    "content": "J'ai oublié mon parapluie un jour de pluie.",
+    "punchline": "J'ai couru si vite que Usain Bolt m'a envoyé un message de félicitations.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 119,
+    "content": "Deux œufs dans une poêle. L'un dit : « Il fait chaud ici, non ? »",
+    "punchline": "L'autre crie : « Ah ! Un œuf qui parle ! »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 120,
+    "content": "Le Français moyen a trois certitudes dans la vie.",
+    "punchline": "La mort, les impôts, et le fait que c'était mieux avant.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 121,
+    "content": "J'ai dit « je t'aime » par erreur à mon livreur Uber Eats.",
+    "punchline": "En même temps, il m'apporte de la nourriture à domicile sans poser de questions. C'est plus que mon ex.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 122,
+    "content": "La réunion qui « devait durer 15 minutes »...",
+    "punchline": "Dure toujours. On y est encore. Envoyez de l'aide.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 123,
+    "content": "Que fait un informaticien quand il a froid ?",
+    "punchline": "Il ouvre Windows.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 124,
+    "content": "Le supermarché à 18h un vendredi soir.",
+    "punchline": "Un spectacle de la condition humaine. Dantesque. Avec des promotions sur les pizzas.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 125,
+    "content": "J'ai essayé de devenir influenceur.",
+    "punchline": "J'ai trois abonnés. Ma mère, mon père, et un bot russe.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 126,
+    "content": "Le bruit le plus effrayant du monde...",
+    "punchline": "C'est celui de ton téléphone qui tombe sur le carrelage, écran vers le sol.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 127,
+    "content": "Un nuage dit à un autre : « Tu fais quoi ce soir ? »",
+    "punchline": "« Rien, je me disperse un peu. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 128,
+    "content": "Le bac français, c'est l'épreuve où on te demande ton avis...",
+    "punchline": "Mais où la seule bonne réponse, c'est l'avis du prof.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 129,
+    "content": "Ma copine dit que je suis trop possessif.",
+    "punchline": "Enfin, MA copine.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 130,
+    "content": "Je travaille bien sous pression.",
+    "punchline": "Et par « bien », je veux dire « je panique efficacement ».",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 131,
+    "content": "Comment appelle-t-on un chien qui fait de la magie ?",
+    "punchline": "Un labracadabrador.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 132,
+    "content": "Le plus dur dans un régime, c'est pas de résister aux gâteaux.",
+    "punchline": "C'est de résister aux gens qui te proposent des gâteaux en disant : « Allez, juste un. »",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 133,
+    "content": "Mon niveau en bricolage est tel que quand j'achète un meuble Ikea...",
+    "punchline": "Le mode d'emploi me demande si j'ai un ami disponible.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 134,
+    "content": "J'ai passé 15 minutes à chercher mes lunettes.",
+    "punchline": "Elles étaient sur ma tête. Elles avaient meilleure vue que moi sur la situation.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 135,
+    "content": "Un feu rouge dit à un feu vert : « Ne me regarde pas, je change. »",
+    "punchline": "Le feu orange, lui, n'a jamais su de quel côté il était.",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 136,
+    "content": "En France, la pause déjeuner est sacrée.",
+    "punchline": "On est le seul pays où « j'ai pas eu le temps de manger » est une urgence médicale reconnue.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 137,
+    "content": "Mon mec a dit : « Ce soir, c'est moi qui cuisine. »",
+    "punchline": "J'ai discrètement commandé sur l'appli, au cas où. Bien m'en a pris.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 138,
+    "content": "Mon collègue met toujours « envoyé depuis mon iPhone » en signature.",
+    "punchline": "On bosse sur des ordinateurs fixes. C'est juste pour frimer.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 139,
+    "content": "Qu'est-ce qu'une moustache sous le nez d'un informaticien ?",
+    "punchline": "Un pare-feu.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 140,
+    "content": "T'as remarqué qu'on dit toujours « il faudrait qu'on se fasse un truc » ?",
+    "punchline": "C'est l'engagement social le plus faible qui existe. Le « peut-être » de l'amitié.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 141,
+    "content": "Je suis tellement maladroit socialement...",
+    "punchline": "Que quand quelqu'un me dit « à un de ces quatre », je demande « quel jour exactement ? »",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 142,
+    "content": "Le train de 7h12 est arrivé à l'heure.",
+    "punchline": "Tout le quai a applaudi. Le conducteur a pleuré. Un journaliste local est venu couvrir l'événement.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 143,
+    "content": "Un réfrigérateur dit à un micro-ondes : « Tu chauffes les gens trop vite. »",
+    "punchline": "Le micro-ondes : « Et toi, tu les refroidis. On est pas si différents. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 144,
+    "content": "Le Français a inventé un sport national : râler dans la file d'attente.",
+    "punchline": "Niveau olympique : quand il y a une deuxième caisse fermée juste à côté.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 145,
+    "content": "Ma copine et moi, on fait tout ensemble.",
+    "punchline": "Surtout des erreurs.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 146,
+    "content": "En télétravail, je suis habillé en haut pour les réunions Zoom.",
+    "punchline": "En bas, c'est le festival de Woodstock.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 147,
+    "content": "Pourquoi le thé est-il jaloux du café ?",
+    "punchline": "Parce que le café a plus de filtres sur Instagram.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 148,
+    "content": "L'invention la plus cruelle de l'humanité, c'est la porte vitrée trop propre.",
+    "punchline": "Elle a brisé plus de dignités que de verres.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 149,
+    "content": "Je suis le genre de personne qui vérifie trois fois si la porte est fermée.",
+    "punchline": "Et qui oublie ses clés à l'intérieur la quatrième fois.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 150,
+    "content": "J'ai voulu prendre un bain relaxant avec des bougies.",
+    "punchline": "J'ai déclenché le détecteur de fumée, glissé dans la baignoire, et renversé le verre de vin. Très relaxant.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 151,
+    "content": "Une chaise dit à une table : « T'as l'air tendue. »",
+    "punchline": "La table : « Normal, j'ai quatre pieds et tout le monde s'appuie sur moi. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 152,
+    "content": "L'art de la bise en France, c'est un sport à risque.",
+    "punchline": "Deux bises, trois bises, quatre bises... C'est le seul pays où dire bonjour peut devenir un combat.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 153,
+    "content": "Mon copain m'a demandé : « Tu penses à quoi ? »",
+    "punchline": "J'ai dit « rien ». C'était vrai. Et pourtant, il ne m'a pas crue.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 154,
+    "content": "Le team building, c'est l'art de mettre des gens qui ne s'aiment pas dans une forêt.",
+    "punchline": "Et d'espérer qu'ils en ressortent amis. Spoiler : ils en ressortent mouillés.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 155,
+    "content": "Comment les arbres accèdent à internet ?",
+    "punchline": "Ils se connectent.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 156,
+    "content": "Le moment le plus stressant de la journée...",
+    "punchline": "C'est quand tu entends « il faut qu'on parle » et que tu revis mentalement tout ce que t'as fait depuis trois semaines.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 157,
+    "content": "J'ai un sixième sens.",
+    "punchline": "Malheureusement, les cinq autres ne fonctionnent pas très bien non plus.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 158,
+    "content": "J'ai lavé mon pull préféré à 60 degrés au lieu de 30.",
+    "punchline": "Maintenant il va très bien à mon hamster.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 159,
+    "content": "Un arbre dit à un bûcheron : « Je croyais qu'on était potes. »",
+    "punchline": "Le bûcheron : « Les temps sont durs, mon vieux. » L'arbre : « Pas autant que ta hache. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 160,
+    "content": "Quand un Français dit « c'est intéressant »...",
+    "punchline": "Ça veut dire : je ne suis absolument pas d'accord mais je suis trop poli pour le dire maintenant.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 161,
+    "content": "Mon ex m'a dit : « Tu trouveras mieux que moi. »",
+    "punchline": "Elle avait raison, c'est la première fois qu'on était d'accord sur quelque chose.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 162,
+    "content": "L'imprimante du bureau ne marche jamais quand tu en as besoin.",
+    "punchline": "Mais elle fonctionne parfaitement quand c'est le patron qui imprime. Elle a compris la hiérarchie.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 163,
+    "content": "Que dit un zéro à un huit ?",
+    "punchline": "Belle ceinture.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 164,
+    "content": "Le panneau « Souriez, vous êtes filmés ».",
+    "punchline": "C'est la seule occasion où on te demande de sourire sans raison, et c'est une menace.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 165,
+    "content": "Ma confiance en moi est comme la batterie de mon téléphone.",
+    "punchline": "Elle commence fort le matin et s'effondre vers 15 heures.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 166,
+    "content": "J'ai essayé de monter un meuble sans la notice.",
+    "punchline": "Résultat : j'ai une étagère, deux vis en trop, et un traumatisme.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 167,
+    "content": "Un GPS et une boussole se rencontrent. La boussole dit : « Moi, je montre toujours le nord. »",
+    "punchline": "Le GPS : « Moi aussi, mais en passant par trois détours et un péage. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 168,
+    "content": "En France, les gens qui disent « à la base » commencent à raconter une histoire...",
+    "punchline": "Qui n'a plus rien à voir avec la base depuis au moins trois digressions.",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 169,
+    "content": "Mon couple est basé sur la confiance et la communication.",
+    "punchline": "Et aussi sur le fait qu'aucun de nous deux ne sait cuisiner, donc on a besoin l'un de l'autre pour commander.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 170,
+    "content": "On m'a dit que j'avais une « progression de carrière latérale ».",
+    "punchline": "En gros, j'avance comme un crabe. Rapidement, mais pas dans la bonne direction.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 171,
+    "content": "Quel est le point commun entre un sapin et un sosie ?",
+    "punchline": "Ils sont tous les deux des faux-semblants. Enfin, le sapin est un faux-sapin, bref.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "ABSURDE"
+  },
+  {
+    "id": 172,
+    "content": "Le moment de malaise suprême : quand tu fais signe à quelqu'un dans la rue...",
+    "punchline": "Et que la personne ne te connaît pas. Alors tu fais semblant de te gratter la tête.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 173,
+    "content": "Je suis nul en small talk.",
+    "punchline": "Quelqu'un m'a dit « il fait beau » et j'ai répondu « oui, mais ça ne durera pas ». On ne s'est plus reparlé.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 174,
+    "content": "J'ai essayé de faire du vélo à Paris.",
+    "punchline": "C'est comme Mario Kart, mais les carapaces, c'est des portières de taxi.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 175,
+    "content": "Un stylo et un crayon se disputent. Le stylo dit : « Je suis indélébile ! »",
+    "punchline": "Le crayon : « Et moi, je peux m'effacer. Qui de nous deux a le plus de maturité émotionnelle ? »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 176,
+    "content": "Les Français ont un superpouvoir.",
+    "punchline": "Transformer n'importe quel sujet de conversation en débat sur la bouffe.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 177,
+    "content": "Ma copine veut toujours avoir raison.",
+    "punchline": "Un jour, elle a eu tort. On ne l'a jamais su : elle a effacé les preuves.",
+    "category": "COUPLE",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 178,
+    "content": "Le pot de départ d'un collègue : seul moment où tout le bureau est sincèrement joyeux.",
+    "punchline": "Et le collègue pense que c'est pour lui. C'est beau, l'innocence.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 179,
+    "content": "Pourquoi le soleil va-t-il à l'école ?",
+    "punchline": "Pour briller en société.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 180,
+    "content": "Pourquoi on dit toujours « dernier message » en fin de soirée ?",
+    "punchline": "Parce qu'il y en a toujours trente après.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 181,
+    "content": "J'ai mis trois jours à répondre à un message.",
+    "punchline": "Ma réponse : « désolé, j'avais pas vu. » On sait tous les deux que c'est faux.",
+    "category": "AUTODERISION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 182,
+    "content": "J'ai acheté un hamac pour cet été.",
+    "punchline": "J'ai passé plus de temps à essayer de m'y installer qu'à m'y reposer. Bilan : une épaule foulée.",
+    "category": "SITUATION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 183,
+    "content": "Une fourchette dit à un couteau : « Tu me piques ma place. »",
+    "punchline": "Le couteau : « C'est plutôt toi qui piques, non ? »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 184,
+    "content": "Deux Parisiens se croisent en province. L'un dit : « T'es en exil aussi ? »",
+    "punchline": "L'autre : « Non, en vacances. » — « Ah, c'est pareil. »",
+    "category": "CULTUREL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 185,
+    "content": "Mon ex m'a bloqué sur tous les réseaux.",
+    "punchline": "C'est la relation la plus stable qu'on ait jamais eue : zéro changement depuis des mois.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 186,
+    "content": "J'ai un collègue qui commence toutes ses phrases par « sans vouloir t'offenser ».",
+    "punchline": "Spoiler : il veut toujours t'offenser.",
+    "category": "BOULOT",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 187,
+    "content": "Que fait une fraise sur un cheval ?",
+    "punchline": "Tagada, tagada.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 188,
+    "content": "Le silence après qu'on a dit une blague et que personne ne rit.",
+    "punchline": "C'est le bruit le plus assourdissant de l'univers.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 189,
+    "content": "Je me suis motivé à ranger mon appart.",
+    "punchline": "J'ai ouvert un placard, vu le bazar, et j'ai fermé le placard. Rangement terminé.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 190,
+    "content": "J'ai eu un appel inconnu à 8h du matin.",
+    "punchline": "Mon cœur a battu plus vite que pendant mon dernier jogging. Qui date de 2019.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 191,
+    "content": "Un parapluie dit à un imperméable : « On fait le même métier. »",
+    "punchline": "L'imperméable : « Oui, mais moi, on ne m'oublie pas dans les restaurants. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 192,
+    "content": "Le plus grand mystère de France...",
+    "punchline": "C'est comment la baguette achetée à midi est déjà dure à 14h.",
+    "category": "CULTUREL",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 193,
+    "content": "Ma femme m'a demandé ce que je ferais si je gagnais au loto.",
+    "punchline": "J'ai dit : « La moitié est pour toi. » Elle a dit : « Parfait, je prends ma moitié et je pars. » On n'a pas acheté de ticket.",
+    "category": "COUPLE",
+    "maturityLevel": 3,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 194,
+    "content": "« On a un baby-foot et des fruits frais ! » dit la startup dans l'annonce.",
+    "punchline": "Ce qu'ils ne disent pas : le baby-foot remplace la prime et les fruits, l'assurance santé.",
+    "category": "BOULOT",
+    "maturityLevel": 3,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 195,
+    "content": "Pourquoi le squelette n'a-t-il pas d'amis ?",
+    "punchline": "Parce qu'il n'a personne sous la main.",
+    "category": "JEUX_DE_MOTS",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 196,
+    "content": "La vie d'adulte, c'est être content quand l'aspirateur fonctionne bien.",
+    "punchline": "Et déprimé quand le prix des courses augmente de 20 centimes.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 197,
+    "content": "Je suis le genre de personne qui répète « j'arrive dans 5 minutes ».",
+    "punchline": "Alors que je suis encore en pyjama, à chercher mes clés.",
+    "category": "AUTODERISION",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 198,
+    "content": "La pire invention moderne, c'est la notification « vu ».",
+    "punchline": "Avant, on pouvait ignorer les gens en paix. Maintenant, c'est un crime social.",
+    "category": "SITUATION",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  },
+  {
+    "id": 199,
+    "content": "Un ascenseur dit à un escalier : « Tu montes ? »",
+    "punchline": "L'escalier : « Toujours. Mais moi, je ne tombe jamais en panne. »",
+    "category": "ABSURDE",
+    "maturityLevel": 1,
+    "type": "CLASSIQUE"
+  },
+  {
+    "id": 200,
+    "content": "La vie, c'est comme une tartine de confiture.",
+    "punchline": "Elle tombe toujours du mauvais côté. Et quand elle tombe du bon côté, c'est qu'il n'y avait pas de confiture.",
+    "category": "OBSERVATIONNEL",
+    "maturityLevel": 2,
+    "type": "SUBTIL"
+  }
+]
