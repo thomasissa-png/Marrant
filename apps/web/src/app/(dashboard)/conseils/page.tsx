@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ConseilsList } from "@/components/conseils/conseils-list";
 
 export const metadata: Metadata = {
   title: "Conseils humour — Progresse du débutant à l'expert",
@@ -26,53 +24,7 @@ export default function ConseilsPage() {
           </p>
         </div>
 
-        {/* Niveaux */}
-        <div className="mb-6 flex flex-wrap gap-2">
-          {["Tous", "Débutant", "Intermédiaire", "Expert"].map((level) => (
-            <Button
-              key={level}
-              variant={level === "Tous" ? "secondary" : "ghost"}
-              size="sm"
-            >
-              {level}
-            </Button>
-          ))}
-        </div>
-
-        {/* Catégories */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          {[
-            "Timing",
-            "Auto-dérision",
-            "Observation",
-            "Répartie",
-            "Storytelling",
-            "Absurde",
-            "Jeux de mots",
-          ].map((cat) => (
-            <Badge key={cat} variant="default" className="cursor-pointer">
-              {cat}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Liste des conseils (placeholder) */}
-        <div className="grid gap-4">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Badge variant="orange">Débutant</Badge>
-                <Badge variant="default">Timing</Badge>
-              </div>
-              <CardTitle>Chargement des conseils...</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-text-secondary">
-                Les conseils seront chargés depuis la base de données.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <ConseilsList />
       </main>
       <Footer />
     </>

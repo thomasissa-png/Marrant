@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
+import { verify } from "@/lib/password";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as NextAuthOptions["adapter"],
@@ -30,9 +31,8 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // TODO: Vérifier le hash du mot de passe avec bcrypt
-        // const isValid = await bcrypt.compare(credentials.password, user.passwordHash);
-        // if (!isValid) return null;
+        const isValid = await verify(credentials.password, user.passwordHash);
+        if (!isValid) return null;
 
         return {
           id: user.id,

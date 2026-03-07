@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { DailyContent } from "@/components/home/daily-content";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -39,43 +40,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Blague du jour */}
-        <section className="py-8">
-          <h2 className="font-display mb-6 text-2xl font-bold">
-            Blague du jour
-          </h2>
-          <Card className="mx-auto max-w-2xl">
-            <CardHeader>
-              <Badge variant="yellow" className="w-fit">
-                Blague du jour
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-text-primary">
-                Chargement de la blague du jour...
-              </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Conseil du jour */}
-        <section className="py-8">
-          <h2 className="font-display mb-6 text-2xl font-bold">
-            Conseil du jour
-          </h2>
-          <Card className="mx-auto max-w-2xl">
-            <CardHeader>
-              <Badge variant="orange" className="w-fit">
-                Conseil du jour
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-text-primary">
-                Chargement du conseil du jour...
-              </p>
-            </CardContent>
-          </Card>
-        </section>
+        {/* Contenu du jour (dynamique) */}
+        <DailyContent />
 
         {/* Sections */}
         <section className="grid gap-6 py-12 md:grid-cols-3">

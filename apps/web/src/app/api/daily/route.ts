@@ -6,6 +6,7 @@ export async function GET() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // Chercher le contenu du jour configuré
     const dailyContent = await prisma.dailyContent.findUnique({
       where: { date: today },
       include: {
@@ -14,17 +15,47 @@ export async function GET() {
       },
     });
 
-    if (!dailyContent) {
+    if (dailyContent) {
+      return NextResponse.json({
+        date: dailyContent.date,
+        joke: dailyContent.joke,
+        tip: dailyContent.tip,
+      });
+    }
+
+    // Fallback : contenu déterministe basé sur le jour de l'année
+    const dayOfYear = Math.floor(
+      (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
+        (1000 * 60 * 60 * 24)
+    );
+
+    const [jokeCount, tipCount] = await Promise.all([
+      prisma.joke.count({ where: { isActive: true } }),
+      prisma.tip.count({ where: { isActive: true } }),
+    ]);
+
+    if (jokeCount === 0 || tipCount === 0) {
       return NextResponse.json(
-        { error: "Pas de contenu du jour configuré" },
+        { error: "Pas de contenu disponible" },
         { status: 404 }
       );
     }
 
+    const [joke, tip] = await Promise.all([
+      prisma.joke.findFirst({
+        where: { isActive: true },
+        skip: dayOfYear % jokeCount,
+      }),
+      prisma.tip.findFirst({
+        where: { isActive: true },
+        skip: dayOfYear % tipCount,
+      }),
+    ]);
+
     return NextResponse.json({
-      date: dailyContent.date,
-      joke: dailyContent.joke,
-      tip: dailyContent.tip,
+      date: today,
+      joke,
+      tip,
     });
   } catch {
     return NextResponse.json(

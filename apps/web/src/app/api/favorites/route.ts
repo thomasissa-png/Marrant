@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
@@ -7,13 +9,14 @@ const addFavoriteSchema = z.object({
   contentId: z.string(),
 });
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    // TODO: Récupérer l'userId depuis la session
-    const userId = request.headers.get("x-user-id");
-    if (!userId) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || !("id" in session.user)) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
+
+    const userId = (session.user as { id: string }).id;
 
     const favorites = await prisma.userFavorite.findMany({
       where: { userId },
@@ -33,11 +36,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = request.headers.get("x-user-id");
-    if (!userId) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || !("id" in session.user)) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
 
+    const userId = (session.user as { id: string }).id;
     const body = await request.json();
     const { contentType, contentId } = addFavoriteSchema.parse(body);
 
@@ -49,7 +53,14 @@ export async function POST(request: NextRequest) {
       ...(contentType === "VIDEO" && { videoId: contentId }),
     };
 
-    const favorite = await prisma.userFavorite.create({ data });
+    const favorite = await prisma.userFavorite.create({
+      data,
+      include: {
+        joke: true,
+        tip: true,
+        video: true,
+      },
+    });
 
     return NextResponse.json({ favorite }, { status: 201 });
   } catch (error) {

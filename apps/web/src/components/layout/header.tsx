@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,8 @@ const navItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -40,16 +43,40 @@ export function Header() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">
-            <Button variant="ghost" size="sm">
-              Connexion
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button variant="primary" size="sm">
-              Commencer
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link href="/favoris">
+                <Button variant="ghost" size="sm">
+                  Favoris
+                </Button>
+              </Link>
+              <Link href="/profil">
+                <Button variant="ghost" size="sm">
+                  {session?.user?.name ?? "Profil"}
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => signOut({ callbackUrl: "/" })}
+              >
+                Déconnexion
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  Connexion
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="primary" size="sm">
+                  Commencer
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Menu burger mobile */}
@@ -105,16 +132,41 @@ export function Header() {
               </Link>
             ))}
             <hr className="my-2 border-border" />
-            <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-              <Button variant="ghost" size="sm" className="w-full">
-                Connexion
-              </Button>
-            </Link>
-            <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-              <Button variant="primary" size="sm" className="w-full">
-                Commencer
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/favoris" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" size="sm" className="w-full">
+                    Favoris
+                  </Button>
+                </Link>
+                <Link href="/profil" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" size="sm" className="w-full">
+                    Profil
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}
+                >
+                  Déconnexion
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" size="sm" className="w-full">
+                    Connexion
+                  </Button>
+                </Link>
+                <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="primary" size="sm" className="w-full">
+                    Commencer
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       )}

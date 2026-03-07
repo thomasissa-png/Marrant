@@ -1,0 +1,177 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+interface Joke {
+  id: string;
+  content: string;
+  punchline: string;
+  category: string;
+  type: string;
+  maturityLevel: number;
+}
+
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+const CATEGORIES = [
+  { value: "", label: "Toutes" },
+  { value: "AUTODERISION", label: "Auto-dérision" },
+  { value: "SITUATION", label: "Situation" },
+  { value: "ABSURDE", label: "Absurde" },
+  { value: "OBSERVATIONNEL", label: "Observationnel" },
+  { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
+  { value: "CULTUREL", label: "Culturel" },
+  { value: "COUPLE", label: "Couple" },
+  { value: "BOULOT", label: "Boulot" },
+];
+
+const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
+  CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
+);
+
+export function BlaguesList() {
+  const [jokes, setJokes] = useState<Joke[]>([]);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [category, setCategory] = useState("");
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
+
+  const fetchJokes = useCallback(async () => {
+    setIsLoading(true);
+    const params = new URLSearchParams({ page: String(page), limit: "12" });
+    if (category) params.set("category", category);
+
+    try {
+      const res = await fetch(`/api/jokes?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setJokes(data.jokes);
+        setPagination(data.pagination);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [category, page]);
+
+  useEffect(() => {
+    fetchJokes();
+  }, [fetchJokes]);
+
+  const handleCategoryChange = (cat: string) => {
+    setCategory(cat);
+    setPage(1);
+    setRevealedIds(new Set());
+  };
+
+  const togglePunchline = (id: string) => {
+    setRevealedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  return (
+    <>
+      {/* Filtres catégories */}
+      <div className="mb-6 flex flex-wrap gap-2">
+        {CATEGORIES.map((cat) => (
+          <Button
+            key={cat.value}
+            variant={category === cat.value ? "primary" : "ghost"}
+            size="sm"
+            onClick={() => handleCategoryChange(cat.value)}
+          >
+            {cat.label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Grille de blagues */}
+      {isLoading ? (
+        <div className="grid gap-4 md:grid-cols-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i} className="animate-pulse">
+              <CardContent className="py-6">
+                <div className="h-4 w-1/4 rounded bg-background-elevated" />
+                <div className="mt-3 h-4 w-3/4 rounded bg-background-elevated" />
+                <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : jokes.length === 0 ? (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <p className="text-text-secondary">Aucune blague trouvée dans cette catégorie.</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {jokes.map((joke) => (
+            <Card
+              key={joke.id}
+              className="cursor-pointer transition-colors hover:bg-background-light"
+              onClick={() => togglePunchline(joke.id)}
+            >
+              <CardContent className="pt-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <Badge variant="yellow">
+                    {CATEGORY_LABELS[joke.category] ?? joke.category}
+                  </Badge>
+                  <Badge variant="default">{joke.type}</Badge>
+                </div>
+                <p className="text-text-primary">{joke.content}</p>
+                {revealedIds.has(joke.id) && (
+                  <p className="mt-3 font-semibold text-accent-yellow animate-fade-in">
+                    {joke.punchline}
+                  </p>
+                )}
+                {!revealedIds.has(joke.id) && (
+                  <p className="mt-3 text-sm text-text-muted">
+                    Clique pour révéler la chute
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled={page <= 1}
+            onClick={() => setPage((p) => p - 1)}
+          >
+            Précédent
+          </Button>
+          <span className="text-sm text-text-secondary">
+            Page {pagination.page} / {pagination.totalPages}
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled={page >= pagination.totalPages}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            Suivant
+          </Button>
+        </div>
+      )}
+    </>
+  );
+}

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { BlaguesList } from "@/components/blagues/blagues-list";
 
 export const metadata: Metadata = {
   title: "Blagues — Deviens drôle avec des centaines de blagues",
@@ -26,41 +24,7 @@ export default function BlaguesPage() {
           </p>
         </div>
 
-        {/* Filtres */}
-        <div className="mb-6 flex flex-wrap gap-2">
-          {[
-            "Toutes",
-            "Auto-dérision",
-            "Situation",
-            "Absurde",
-            "Observationnel",
-            "Jeux de mots",
-            "Couple",
-            "Boulot",
-          ].map((cat) => (
-            <Button
-              key={cat}
-              variant={cat === "Toutes" ? "primary" : "ghost"}
-              size="sm"
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
-
-        {/* Grille de blagues (placeholder) */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardContent className="pt-4">
-              <Badge variant="yellow" className="mb-3">
-                Chargement...
-              </Badge>
-              <p className="text-text-secondary">
-                Les blagues seront chargées depuis la base de données.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <BlaguesList />
       </main>
       <Footer />
     </>

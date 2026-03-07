@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +11,38 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Email ou mot de passe incorrect.");
+      } else {
+        router.push("/");
+        router.refresh();
+      }
+    } catch {
+      setError("Une erreur est survenue. Réessaie.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogle = () => {
+    signIn("google", { callbackUrl: "/" });
+  };
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4">
@@ -22,7 +56,12 @@ export default function LoginPage() {
           <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {error && (
+              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                {error}
+              </p>
+            )}
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
                 Email
@@ -49,10 +88,10 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <Button type="submit" variant="primary" className="w-full">
-              Se connecter
+            <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
+              {isLoading ? "Connexion..." : "Se connecter"}
             </Button>
-            <Button type="button" variant="outline" className="w-full">
+            <Button type="button" variant="outline" className="w-full" onClick={handleGoogle}>
               Continuer avec Google
             </Button>
           </form>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
+import { SessionProvider } from "@/components/providers/session-provider";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -59,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${inter.variable} ${syne.variable}`}>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
