@@ -1,0 +1,78 @@
+import Link from "next/link";
+
+const footerLinks = {
+  produit: [
+    { href: "/blagues", label: "Blagues" },
+    { href: "/conseils", label: "Conseils" },
+    { href: "/videos", label: "Vidéos stand-up" },
+  ],
+  legal: [
+    { href: "/mentions-legales", label: "Mentions légales" },
+    { href: "/cgu", label: "CGU" },
+    { href: "/confidentialite", label: "Confidentialité" },
+  ],
+};
+
+export function Footer() {
+  return (
+    <footer className="border-t border-border bg-background-light">
+      <div className="mx-auto max-w-7xl px-4 py-12">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+          {/* Marque */}
+          <div>
+            <span className="font-display text-lg font-bold text-gradient">
+              deviensmarrant
+            </span>
+            <p className="mt-2 text-sm text-text-secondary">
+              La plateforme francophone pour progresser en humour et en
+              répartie.
+            </p>
+          </div>
+
+          {/* Liens produit */}
+          <div>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
+              Produit
+            </h3>
+            <ul className="flex flex-col gap-2">
+              {footerLinks.produit.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Liens légaux */}
+          <div>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
+              Légal
+            </h3>
+            <ul className="flex flex-col gap-2">
+              {footerLinks.legal.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
+          &copy; {new Date().getFullYear()} deviensmarrant.fr — Tous droits
+          réservés
+        </div>
+      </div>
+    </footer>
+  );
+}

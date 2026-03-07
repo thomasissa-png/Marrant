@@ -1,0 +1,287 @@
+// Schéma Prisma — deviensmarrant.fr
+// Base de données PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// AUTH — NextAuth.js
+// ==========================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ==========================================
+// UTILISATEURS
+// ==========================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  plan          Plan      @default(FREE)
+  level         UserLevel @default(NOVICE)
+  xp            Int       @default(0)
+  streak        Int       @default(0)
+  lastActiveAt  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations NextAuth
+  accounts Account[]
+  sessions Session[]
+
+  // Relations métier
+  favorites    UserFavorite[]
+  subscription Subscription?
+  jokeLikes    JokeLike[]
+
+  @@index([email])
+}
+
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum UserLevel {
+  NOVICE
+  APPRENTI
+  FARCEUR
+  COMIQUE
+  LEGENDE
+}
+
+// ==========================================
+// BLAGUES
+// ==========================================
+
+model Joke {
+  id            String        @id @default(cuid())
+  content       String        @db.Text
+  punchline     String        @db.Text
+  category      JokeCategory
+  maturityLevel Int           @default(1) // 1-5
+  type          JokeType      @default(CLASSIQUE)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  dailyContents DailyContent[]
+  favorites     UserFavorite[]
+  likes         JokeLike[]
+
+  @@index([category])
+  @@index([isActive])
+}
+
+enum JokeCategory {
+  AUTODERISION
+  SITUATION
+  ABSURDE
+  OBSERVATIONNEL
+  JEUX_DE_MOTS
+  CULTUREL
+  COUPLE
+  BOULOT
+}
+
+enum JokeType {
+  SUBTIL
+  CLASSIQUE
+  ABSURDE
+}
+
+model JokeLike {
+  id        String   @id @default(cuid())
+  userId    String
+  jokeId    String
+  isLike    Boolean  // true = like, false = dislike
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joke Joke @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jokeId])
+}
+
+// ==========================================
+// CONSEILS
+// ==========================================
+
+model Tip {
+  id         String        @id @default(cuid())
+  title      String
+  content    String        @db.Text
+  category   TipCategory
+  difficulty TipDifficulty
+  example    String        @db.Text
+  exercise   String        @db.Text
+  isActive   Boolean       @default(true)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  // Relations
+  dailyContents DailyContent[]
+  favorites     UserFavorite[]
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([isActive])
+}
+
+enum TipCategory {
+  TIMING
+  AUTODERISION
+  OBSERVATION
+  REPARTIE
+  STORYTELLING
+  ABSURDE
+  JEUX_DE_MOTS
+}
+
+enum TipDifficulty {
+  DEBUTANT
+  INTERMEDIAIRE
+  EXPERT
+}
+
+// ==========================================
+// VIDÉOS
+// ==========================================
+
+model Video {
+  id          String          @id @default(cuid())
+  youtubeId   String          @unique
+  title       String
+  channelName String
+  duration    String          // Format ISO 8601 (PT5M30S)
+  category    TipCategory     // Même catégories que les conseils
+  difficulty  TipDifficulty   // Même niveaux que les conseils
+  description String          @db.Text
+  technique   String          // Technique humoristique principale
+  isActive    Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // Relations
+  favorites UserFavorite[]
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([isActive])
+}
+
+// ==========================================
+// CONTENU DU JOUR
+// ==========================================
+
+model DailyContent {
+  id     String   @id @default(cuid())
+  date   DateTime @unique @db.Date
+  jokeId String
+  tipId  String
+
+  joke Joke @relation(fields: [jokeId], references: [id])
+  tip  Tip  @relation(fields: [tipId], references: [id])
+
+  @@index([date])
+}
+
+// ==========================================
+// FAVORIS
+// ==========================================
+
+model UserFavorite {
+  id          String      @id @default(cuid())
+  userId      String
+  contentType ContentType
+  jokeId      String?
+  tipId       String?
+  videoId     String?
+  createdAt   DateTime    @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joke  Joke?  @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  tip   Tip?   @relation(fields: [tipId], references: [id], onDelete: Cascade)
+  video Video? @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentType, jokeId])
+  @@unique([userId, contentType, tipId])
+  @@unique([userId, contentType, videoId])
+  @@index([userId])
+}
+
+enum ContentType {
+  JOKE
+  TIP
+  VIDEO
+}
+
+// ==========================================
+// ABONNEMENTS (Stripe)
+// ==========================================
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  plan                 Plan               @default(FREE)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  status               SubscriptionStatus @default(INACTIVE)
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
