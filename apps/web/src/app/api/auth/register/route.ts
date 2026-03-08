@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { hash } from "@/lib/password";
+import { rateLimit } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Le prénom doit faire au moins 2 caractères"),
@@ -13,6 +14,16 @@ const registerSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: 5 inscriptions par IP par heure
+    const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+    const rl = rateLimit(`register:${ip}`, { maxRequests: 5, windowMs: 3600_000 });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie plus tard." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { name, email, password } = registerSchema.parse(body);
 
@@ -53,6 +64,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    console.error("[API /auth/register]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

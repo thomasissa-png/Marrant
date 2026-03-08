@@ -12,29 +12,41 @@ export async function GET() {
 
     const userId = (session.user as { id: string }).id;
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        plan: true,
-        level: true,
-        xp: true,
-        streak: true,
-        lastActiveAt: true,
-        _count: {
-          select: {
-            favorites: true,
-            jokeLikes: { where: { isLike: true } },
+    const [user, pathProgress] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          plan: true,
+          level: true,
+          xp: true,
+          streak: true,
+          lastActiveAt: true,
+          _count: {
+            select: {
+              favorites: true,
+              jokeLikes: { where: { isLike: true } },
+              pathProgress: { where: { completedAt: { not: null } } },
+            },
           },
         },
-      },
-    });
+      }),
+      prisma.userPathProgress.findMany({
+        where: { userId },
+        select: { completedSteps: true },
+      }),
+    ]);
 
     if (!user) {
       return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
     }
+
+    const tipsCompleted = pathProgress.reduce(
+      (sum, p) => sum + p.completedSteps.length,
+      0
+    );
 
     return NextResponse.json({
       user: {
@@ -48,13 +60,15 @@ export async function GET() {
         lastActiveAt: user.lastActiveAt,
         stats: {
           jokesRead: user._count.jokeLikes,
-          tipsCompleted: 0,
+          tipsCompleted,
           videosWatched: 0,
           totalFavorites: user._count.favorites,
+          pathsCompleted: user._count.pathProgress,
         },
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("[API /user]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

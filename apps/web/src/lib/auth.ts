@@ -5,6 +5,58 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { verify } from "@/lib/password";
 
+async function updateStreak(userId: string): Promise<void> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { lastActiveAt: true, streak: true },
+    });
+
+    if (!user) return;
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    if (user.lastActiveAt) {
+      const lastActive = new Date(user.lastActiveAt);
+      const lastActiveDay = new Date(
+        lastActive.getFullYear(),
+        lastActive.getMonth(),
+        lastActive.getDate()
+      );
+
+      const diffDays = Math.floor(
+        (today.getTime() - lastActiveDay.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      if (diffDays === 0) {
+        // Même jour — pas de changement
+        return;
+      } else if (diffDays === 1) {
+        // Jour consécutif — incrémenter
+        await prisma.user.update({
+          where: { id: userId },
+          data: { streak: { increment: 1 }, lastActiveAt: now },
+        });
+      } else {
+        // Gap > 1 jour — reset
+        await prisma.user.update({
+          where: { id: userId },
+          data: { streak: 1, lastActiveAt: now },
+        });
+      }
+    } else {
+      // Première connexion
+      await prisma.user.update({
+        where: { id: userId },
+        data: { streak: 1, lastActiveAt: now },
+      });
+    }
+  } catch (error) {
+    console.error("[Auth] Erreur mise à jour streak:", error);
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as NextAuthOptions["adapter"],
   providers: [
@@ -56,6 +108,8 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
+        // Mettre à jour le streak à chaque connexion
+        await updateStreak(user.id);
       }
       return token;
     },

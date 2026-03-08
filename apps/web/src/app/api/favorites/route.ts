@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
 const addFavoriteSchema = z.object({
   contentType: z.enum(["JOKE", "TIP", "VIDEO"]),
@@ -29,7 +30,8 @@ export async function GET() {
     });
 
     return NextResponse.json({ favorites });
-  } catch {
+  } catch (error) {
+    console.error("[API /favorites GET]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
@@ -70,6 +72,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    // Doublon favori — Prisma unique constraint violation
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return NextResponse.json(
+        { error: "Ce contenu est déjà dans tes favoris" },
+        { status: 409 }
+      );
+    }
+    console.error("[API /favorites POST]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

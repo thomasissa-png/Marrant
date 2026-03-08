@@ -4,7 +4,6 @@ import { resolve } from "path";
 
 const prisma = new PrismaClient();
 
-// Charger les fichiers JSON de seed
 function loadSeedData<T>(filename: string): T[] {
   const filePath = resolve(__dirname, "../../../docs/content", filename);
   const raw = readFileSync(filePath, "utf-8");
@@ -45,105 +44,85 @@ interface VideoSeed {
 async function main() {
   console.log("Début du seeding...");
 
-  // Nettoyage des tables existantes (ordre important pour les FK)
-  await prisma.userPathProgress.deleteMany();
-  await prisma.learningPathStep.deleteMany();
-  await prisma.learningPath.deleteMany();
-  await prisma.dailyContent.deleteMany();
-  await prisma.userFavorite.deleteMany();
-  await prisma.jokeLike.deleteMany();
-  await prisma.joke.deleteMany();
-  await prisma.tip.deleteMany();
-  await prisma.video.deleteMany();
-  console.log("Tables nettoyées");
+  // Nettoyage dans une transaction (atomique)
+  await prisma.$transaction([
+    prisma.userPathProgress.deleteMany(),
+    prisma.learningPathStep.deleteMany(),
+    prisma.learningPath.deleteMany(),
+    prisma.dailyContent.deleteMany(),
+    prisma.userFavorite.deleteMany(),
+    prisma.jokeLike.deleteMany(),
+    prisma.joke.deleteMany(),
+    prisma.tip.deleteMany(),
+    prisma.video.deleteMany(),
+  ]);
+  console.log("Tables nettoyées (transaction)");
 
-  // ========================
-  // BLAGUES — 200 entrées
-  // ========================
+  // BLAGUES — insertion en batch
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
-  let jokeCount = 0;
-  for (const joke of jokes) {
-    await prisma.joke.create({
-      data: {
-        content: joke.content,
-        punchline: joke.punchline,
-        category: joke.category,
-        maturityLevel: joke.maturityLevel,
-        type: joke.type,
-      },
-    });
-    jokeCount++;
-  }
-  console.log(`${jokeCount} blagues importées`);
+  await prisma.joke.createMany({
+    data: jokes.map((joke) => ({
+      content: joke.content,
+      punchline: joke.punchline,
+      category: joke.category as never,
+      maturityLevel: joke.maturityLevel,
+      type: joke.type as never,
+    })),
+  });
+  console.log(`${jokes.length} blagues importées (batch)`);
 
-  // ========================
-  // CONSEILS — 50 entrées
-  // ========================
+  // CONSEILS — insertion en batch
   const tips = loadSeedData<TipSeed>("conseils-seed.json");
-  let tipCount = 0;
-  for (const tip of tips) {
-    await prisma.tip.create({
-      data: {
-        title: tip.title,
-        content: tip.content,
-        category: tip.category,
-        difficulty: tip.difficulty,
-        example: tip.example,
-        exercise: tip.exercise,
-      },
-    });
-    tipCount++;
-  }
-  console.log(`${tipCount} conseils importés`);
+  await prisma.tip.createMany({
+    data: tips.map((tip) => ({
+      title: tip.title,
+      content: tip.content,
+      category: tip.category as never,
+      difficulty: tip.difficulty as never,
+      example: tip.example,
+      exercise: tip.exercise,
+    })),
+  });
+  console.log(`${tips.length} conseils importés (batch)`);
 
-  // ========================
-  // VIDÉOS — 30 entrées
-  // ========================
+  // VIDÉOS — insertion en batch
   const videos = loadSeedData<VideoSeed>("videos-seed.json");
-  let videoCount = 0;
-  for (const video of videos) {
-    await prisma.video.create({
-      data: {
-        youtubeId: video.youtubeId,
-        title: video.title,
-        channelName: video.channelName,
-        duration: video.duration,
-        category: video.category,
-        difficulty: video.difficulty,
-        description: video.description,
-        technique: video.technique,
-      },
-    });
-    videoCount++;
-  }
-  console.log(`${videoCount} vidéos importées`);
+  await prisma.video.createMany({
+    data: videos.map((video) => ({
+      youtubeId: video.youtubeId,
+      title: video.title,
+      channelName: video.channelName,
+      duration: video.duration,
+      category: video.category as never,
+      difficulty: video.difficulty as never,
+      description: video.description,
+      technique: video.technique,
+    })),
+  });
+  console.log(`${videos.length} vidéos importées (batch)`);
 
-  // ========================
-  // CONTENU DU JOUR — 7 jours de contenu
-  // ========================
+  // CONTENU DU JOUR — 7 jours
   const allJokes = await prisma.joke.findMany({ take: 7 });
   const allTips = await prisma.tip.findMany({ take: 7 });
 
+  const dailyData = [];
   for (let i = 0; i < 7; i++) {
     const date = new Date();
     date.setDate(date.getDate() - i);
     date.setHours(0, 0, 0, 0);
 
     if (allJokes[i] && allTips[i]) {
-      await prisma.dailyContent.create({
-        data: {
-          date,
-          jokeId: allJokes[i].id,
-          tipId: allTips[i].id,
-        },
+      dailyData.push({
+        date,
+        jokeId: allJokes[i].id,
+        tipId: allTips[i].id,
       });
     }
   }
-  console.log("7 jours de contenu quotidien créés");
+  await prisma.dailyContent.createMany({ data: dailyData });
+  console.log(`${dailyData.length} jours de contenu quotidien créés`);
 
-  // ========================
   // PARCOURS D'APPRENTISSAGE
-  // ========================
   const learningPaths = [
     {
       title: "Les bases de l'humour",
@@ -199,25 +178,24 @@ async function main() {
       },
     });
 
-    // Link existing tips as steps (use up to 5 tips per path, cycling through available tips)
     const stepsCount = Math.min(5, seededTips.length);
+    const stepsData = [];
     for (let i = 0; i < stepsCount; i++) {
       const tipIndex = ((pathData.order - 1) * 5 + i) % seededTips.length;
-      await prisma.learningPathStep.create({
-        data: {
-          learningPathId: path.id,
-          tipId: seededTips[tipIndex].id,
-          order: i + 1,
-          dayNumber: (i + 1) * (pathData.order <= 2 ? 2 : 3),
-        },
+      stepsData.push({
+        learningPathId: path.id,
+        tipId: seededTips[tipIndex].id,
+        order: i + 1,
+        dayNumber: (i + 1) * (pathData.order <= 2 ? 2 : 3),
       });
     }
+    await prisma.learningPathStep.createMany({ data: stepsData });
     pathCount++;
   }
   console.log(`${pathCount} parcours d'apprentissage créés`);
 
   console.log("Seeding terminé !");
-  console.log(`Total : ${jokeCount} blagues, ${tipCount} conseils, ${videoCount} vidéos, ${pathCount} parcours`);
+  console.log(`Total : ${jokes.length} blagues, ${tips.length} conseils, ${videos.length} vidéos, ${pathCount} parcours`);
 }
 
 main()

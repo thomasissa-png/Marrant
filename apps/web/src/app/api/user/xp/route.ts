@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rate-limit";
 
 const XP_THRESHOLDS = {
   NOVICE: 0,
@@ -35,34 +36,41 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = (session.user as { id: string }).id;
+
+    // Rate limit: 30 gains XP par minute par utilisateur
+    const rl = rateLimit(`xp:${userId}`, { maxRequests: 30, windowMs: 60_000 });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de requêtes. Réessaie dans quelques instants." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { amount } = xpSchema.parse(body);
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { xp: true },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
-    }
-
-    const newXp = user.xp + amount;
-    const newLevel = calculateLevel(newXp);
-
+    // Increment atomique pour éviter les race conditions
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
-        xp: newXp,
-        level: newLevel,
+        xp: { increment: amount },
         lastActiveAt: new Date(),
       },
+      select: { xp: true },
+    });
+
+    // Recalculer le niveau après l'increment atomique
+    const newLevel = calculateLevel(updatedUser.xp);
+
+    const finalUser = await prisma.user.update({
+      where: { id: userId },
+      data: { level: newLevel },
       select: { xp: true, level: true },
     });
 
     return NextResponse.json({
-      xp: updatedUser.xp,
-      level: updatedUser.level,
+      xp: finalUser.xp,
+      level: finalUser.level,
       xpGained: amount,
     });
   } catch (error) {
@@ -72,6 +80,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    console.error("[API /user/xp]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
