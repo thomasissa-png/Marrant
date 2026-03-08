@@ -1,5 +1,5 @@
 # MEMORY.md — deviensmarrant.fr
-_Dernière mise à jour : 2026-03-07 par AGENT MARRANT_
+_Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 
 ## État du projet
 - Phase actuelle : Phase 4 en cours — Améliorations post-audit (toutes phases)
@@ -103,34 +103,96 @@ _Dernière mise à jour : 2026-03-07 par AGENT MARRANT_
 3. Phase 5 : Streak auto-increment sur connexion quotidienne
 4. Phase 6 : Tests E2E Playwright + déploiement
 
+## Personas de référence
+
+Trois personas guident **toutes les décisions** de contenu, UX, design, SEO et audit. Chaque agent doit les avoir en tête dans son travail.
+
+### Yanis — 17 ans, lycéen
+- **Profil** : Manque de confiance en lui, introverti, veut progresser en répartie pour s'affirmer au lycée et avec ses potes.
+- **Objectif** : Avoir de la répartie — savoir quoi répondre du tac au tac sans rester muet.
+- **Besoins** : Exercices concrets, techniques simples, progression visible (XP/streak), ton encourageant et non intimidant.
+- **Friction** : Jargon trop « adulte », contenu qui suppose une vie sociale active, absence de message rassurant pour les timides.
+
+### Sophie — 26 ans, jeune active
+- **Profil** : CDI dans une boîte moyenne, sociable mais manque de conversation à la machine à café. Veut avoir des anecdotes et blagues à ressortir au bon moment.
+- **Objectif** : Alimenter ses conversations quotidiennes — machine à café, afterwork, dîners entre amis.
+- **Besoins** : Blagues courtes et mémorisables, conseils de timing, contenu actualisé régulièrement, catégories filtrables.
+- **Friction** : Contenu trop long, blagues datées, pas de mention de situations professionnelles.
+
+### Marc — 34 ans, récemment séparé
+- **Profil** : En reconstruction après une séparation, veut renouer avec l'humour et la légèreté. Cherche à progresser globalement — blagues, répartie, storytelling.
+- **Objectif** : Redevenir drôle et à l'aise socialement, retrouver confiance en ses interactions.
+- **Besoins** : Parcours structurés, progression mesurable, variété de contenus (blagues + conseils + vidéos), ton bienveillant sans infantiliser.
+- **Friction** : Contenu uniquement orienté « ados/étudiants », manque de profondeur dans les parcours, absence de recommandations personnalisées.
+
+---
+
 ## Agents et périmètres stricts
 
-Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniquement sur sa mission propre**, pas sur celle des autres.
+Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniquement sur sa mission propre**, pas sur celle des autres. **Tous les agents doivent intégrer les 3 personas (Yanis, Sophie, Marc) dans leurs décisions.**
 
 ### Agent Blagues
 - **Mission** : Produire les blagues (contenu, punchline, catégorisation, ton, variété, qualité humoristique)
 - **Périmètre d'audit** : Qualité du contenu, nombre, diversité catégories, pertinence cible 15-35 ans, ton/style, maturityLevel
 - **Hors périmètre** : UX des pages, SEO, composants React, API routes
+- **Directive personas** :
+  - Yanis : inclure des blagues qui marchent au lycée (école, potes, parents), ton jamais condescendant, maturityLevel 1 majoritaire
+  - Sophie : privilégier les blagues courtes et mémorisables, faciles à ressortir à la machine à café ou en afterwork, inclure des blagues « situation pro »
+  - Marc : varier les registres (auto-dérision, storytelling, observationnel), blagues qui marchent en contexte social adulte (dîner, rendez-vous, soirée)
 
 ### Agent Conseils
 - **Mission** : Produire les conseils humour (titre, contenu, exemples, exercices, catégories, niveaux)
 - **Périmètre d'audit** : Qualité pédagogique, progression, exemples concrets, exercices actionnables, cohérence des niveaux
 - **Hors périmètre** : UX des pages, SEO, composants React, API routes
+- **Directive personas** :
+  - Yanis : exercices réalisables seul ou avec un ami, ton encourageant « tu vas y arriver », accent mis sur la répartie et la confiance
+  - Sophie : conseils de timing et de placement dans une conversation, exemples en contexte professionnel (réunion, pause café, afterwork)
+  - Marc : conseils de storytelling et d'auto-dérision, progression structurée de « débutant » à « à l'aise », ton bienveillant adulte
 
 ### Agent Stand-up (Vidéos)
 - **Mission** : Sélectionner et structurer les vidéos stand-up (vrais youtubeId, titres, humoristes, techniques, descriptions)
 - **Périmètre d'audit** : Validité des YouTube IDs, diversité des humoristes, pertinence des techniques identifiées, qualité des descriptions, accents/orthographe
 - **Hors périmètre** : Player vidéo, UI des cartes, SEO, composants React
+- **Directive personas** :
+  - Yanis : inclure des humoristes jeunes/actuels (Fary, Paul Mirabel, Kev Adams), contenu accessible, techniques de répartie identifiées
+  - Sophie : mettre en avant les techniques de timing et d'anecdote, descriptions orientées « à reproduire au quotidien »
+  - Marc : varier les profils d'humoristes (débutants et confirmés), inclure des exemples d'auto-dérision et de storytelling
+
+### Agent Design
+- **Mission** : Design system, identité visuelle, palette, typographie, composants visuels, cohérence graphique
+- **Périmètre d'audit** : Cohérence palette, contraste, lisibilité, hiérarchie visuelle, responsive, dark mode
+- **Hors périmètre** : Contenu textuel, SEO technique, logique métier
+- **Directive personas** :
+  - Yanis : interface gaming-friendly, animations engageantes (XP, streak, badges), pas d'UI « corporate » qui ferait fuir un ado
+  - Sophie : design clean et pro, pas enfantin, rapide à scanner (cards courtes, CTAs clairs)
+  - Marc : interface mature sans être austère, progression visible et gratifiante, pas de design trop « jeune »
 
 ### Agent UX
-- **Mission** : Design system, composants UI, layout, pages, navigation, responsive, interactions utilisateur
-- **Périmètre d'audit** : Cohérence visuelle, architecture composants, accessibilité (a11y), responsive, états (loading/empty/error), parcours utilisateur, micro-interactions
+- **Mission** : Parcours utilisateur, navigation, layout, pages, interactions, états (loading/empty/error), onboarding, rétention
+- **Périmètre d'audit** : Architecture de l'information, parcours utilisateur, accessibilité (a11y), micro-interactions, conversion, rétention
 - **Hors périmètre** : Contenu des blagues/conseils/vidéos, SEO technique, API routes, logique métier backend
+- **Directive personas** :
+  - Yanis : onboarding guidé et rassurant, quiz d'entrée orienté « objectif » (répartie/confiance), progression gamifiée (XP, streaks, badges), recommandations personnalisées sur le profil
+  - Sophie : accès rapide au contenu du jour, filtres efficaces, favoris faciles à retrouver, partage en 1 clic
+  - Marc : parcours structurés mis en avant, section « Prochaine étape » dans le profil, recommandations contextuelles basées sur la progression
 
-### Agent SEO (futur)
+### Agent SEO
 - **Mission** : Référencement naturel (metadata, structured data, sitemap, robots.txt, Core Web Vitals, SSR/SSG)
 - **Périmètre d'audit** : Balises meta, Open Graph, schema.org, canonical URLs, performance, indexabilité
 - **Hors périmètre** : Design, contenu humoristique, logique métier
+- **Directive personas** :
+  - Yanis : cibler « comment avoir de la répartie », « devenir drôle ado », « manque de confiance humour »
+  - Sophie : cibler « blagues machine à café », « conversation bureau », « devenir drôle au travail »
+  - Marc : cibler « apprendre l'humour adulte », « progresser en humour », « retrouver confiance humour »
+
+### Agent Test
+- **Mission** : Garantir la qualité du code par les tests unitaires, d'intégration et E2E. Exécuter les tests avant chaque commit.
+- **Périmètre d'audit** : Couverture des composants, pages, stores, libs, API routes. Tests de rendu, interactions, ARIA, états, filtres, pagination, navigation.
+- **Hors périmètre** : Contenu des blagues/conseils/vidéos, design visuel, SEO
+- **Directive personas** :
+  - Tester les parcours critiques de chaque persona : onboarding quiz (objectif + contexte), recommandations profil, filtres par catégorie, favoris, partage
+  - Vérifier que le copy persona-driven est bien rendu (use-case tags hero, « percutant », « répartie », « machine à café »)
+  - Tester les états conditionnels du profil (tipsCompleted < 3, jokesRead < 10, etc.)
 
 ### Agent Auditeur
 - **Mission** : Auditer chaque agent **dans son périmètre uniquement**. Donner une note /10, un compte rendu détaillé, et la liste exhaustive des améliorations à faire.
@@ -140,6 +202,13 @@ Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniq
   3. Évaluer par rapport à l'objectif produit : devenir n°1 pour les 15-35 ans qui veulent apprendre l'humour
   4. Note /10 obligatoire + compte rendu détaillé + liste d'améliorations concrètes
   5. Ne PAS implémenter les corrections soi-même — lister les améliorations pour que l'agent concerné les implémente
+- **Directive personas** :
+  - Évaluer **systématiquement** chaque agent à travers le prisme des 3 personas
+  - Pour chaque audit, inclure une section « Adéquation personas » qui vérifie que le travail de l'agent sert bien Yanis, Sophie ET Marc
+  - Signaler tout contenu/design/UX qui exclurait ou frustrerait l'un des 3 profils
+  - Bonus : proposer des améliorations spécifiques par persona quand c'est pertinent
+
+---
 
 ## Notes importantes
 - TypeScript strict activé — pas de `any`
@@ -148,3 +217,4 @@ Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniq
 - Commentaires en français dans le code
 - Seed Prisma lit les JSON depuis docs/content/ (pas de données hardcodées)
 - Cible utilisateur : 15-35 ans francophones qui veulent apprendre l'humour et la répartie
+- **Les 3 personas (Yanis, Sophie, Marc) sont la boussole de toutes les décisions produit**

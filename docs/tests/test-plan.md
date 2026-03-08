@@ -43,6 +43,28 @@
 - [ ] Ajout / suppression de favoris
 - [ ] Upgrade premium (mock Stripe)
 
+## Tests persona-driven
+
+Chaque persona a des parcours critiques à couvrir par les tests :
+
+### Yanis (17 ans — répartie & confiance)
+- [x] Quiz onboarding : sélection « Avoir de la répartie » + « Entre potes / au lycée »
+- [x] HeroSection : affichage tags « Répartie au quotidien », « Confiance en soi »
+- [x] Profil : recommandation « Apprends les bases » quand tipsCompleted < 3
+- [ ] Parcours : accès au parcours débutant depuis la recommandation profil
+
+### Sophie (26 ans — machine à café)
+- [x] Quiz onboarding : sélection « Faire rire les gens » + « Au boulot / machine à café »
+- [x] HeroSection : affichage tag « Blagues machine à café »
+- [x] Blagues : filtrage par catégorie, pagination, reveal punchline
+- [ ] Favoris : ajout rapide et consultation dans l'onglet favoris
+
+### Marc (34 ans — progression globale)
+- [x] Quiz onboarding : sélection « Tout ça à la fois » + résultat adapté
+- [x] Profil : section « Prochaine étape » avec recommandations contextuelles
+- [x] Profil : « Lance un parcours » quand stats suffisantes (tips >= 3, jokes >= 10)
+- [ ] Parcours : progression et gain d'XP
+
 ## Métriques cibles
 
 | Métrique | Cible |

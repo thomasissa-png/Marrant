@@ -34,3 +34,33 @@
 3. Il clique sur "Passer Premium"
 4. Redirection vers Stripe Checkout
 5. Paiement → retour sur le profil avec badge Premium
+
+---
+
+## Parcours par persona
+
+### Yanis (17 ans — répartie & confiance)
+1. Arrive sur la home → voit "Confiance en soi" et "Répartie au quotidien" dans les tags
+2. Clique "Découvrir mon profil humour" → Quiz
+3. Sélectionne « Avoir de la répartie » → « Entre potes / au lycée » → « Mes blagues tombent à plat »
+4. Résultat : "Le Novice Prometteur" → orienté vers /parcours débutant
+5. Consulte les conseils de répartie → gagne ses premiers XP
+6. Revient chaque jour → streak qui grandit, confiance qui monte
+7. Profil : voit "Apprends les bases" → suit les conseils fondamentaux
+
+### Sophie (26 ans — machine à café)
+1. Arrive sur la home → voit "Blagues machine à café" dans les tags
+2. Va directement dans /blagues → filtre par catégorie (Observationnel, Jeux de mots)
+3. Mémorise 2-3 blagues courtes → les sauvegarde en favoris
+4. Consulte le conseil du jour sur le timing → gagne des XP
+5. Le lendemain, revient pour de nouvelles blagues → streak à 2
+6. Partage une blague en 1 clic depuis la carte
+
+### Marc (34 ans — progression globale)
+1. Arrive sur la home → voit "Progression structurée" dans les tags
+2. Clique "Découvrir mon profil humour" → Quiz
+3. Sélectionne « Tout ça à la fois » → « Partout » → « Parfois ça marche »
+4. Résultat : "Le Blagueur en Herbe" → orienté vers /conseils
+5. Lit plusieurs conseils → accumule XP → monte de niveau
+6. Profil : voit "Lance un parcours" → suit un parcours structuré
+7. Explore les vidéos stand-up pour les techniques avancées

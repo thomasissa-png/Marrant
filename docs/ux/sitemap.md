@@ -7,12 +7,14 @@
 - `/forgot-password` — Mot de passe oublié
 
 ## Pages connectées (dashboard)
-- `/` — Home avec blague/conseil du jour + streak
+- `/` — Home avec blague/conseil du jour + streak + use-case tags personas
 - `/blagues` — Section blagues (filtres, recherche, pagination)
 - `/conseils` — Section conseils (niveaux, catégories, progression)
 - `/videos` — Section vidéos stand-up (filtres, embed YouTube)
+- `/parcours` — Parcours guidés structurés (progression pas à pas)
 - `/favoris` — Favoris personnels (blagues, conseils, vidéos)
-- `/profil` — Profil utilisateur (progression, stats, abonnement)
+- `/profil` — Profil utilisateur (progression, stats, abonnement, recommandations « Prochaine étape »)
+- `/onboarding` — Quiz "Découvre ton profil humour" (objectif + contexte + niveau)
 
 ## Pages légales
 - `/mentions-legales` — Mentions légales
