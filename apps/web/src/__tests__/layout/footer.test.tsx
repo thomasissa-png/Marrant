@@ -1,0 +1,62 @@
+import { render, screen } from "@testing-library/react";
+import { Footer } from "@/components/layout/footer";
+
+describe("Footer", () => {
+  it("renders brand name", () => {
+    render(<Footer />);
+    expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
+  });
+
+  it("renders brand description", () => {
+    render(<Footer />);
+    expect(
+      screen.getByText(/plateforme francophone pour progresser/)
+    ).toBeInTheDocument();
+  });
+
+  it("renders product links", () => {
+    render(<Footer />);
+    expect(screen.getByText("Blagues")).toBeInTheDocument();
+    expect(screen.getByText("Conseils")).toBeInTheDocument();
+    expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
+  });
+
+  it("renders legal links", () => {
+    render(<Footer />);
+    expect(screen.getByText("Mentions légales")).toBeInTheDocument();
+    expect(screen.getByText("CGU")).toBeInTheDocument();
+    expect(screen.getByText("Confidentialité")).toBeInTheDocument();
+  });
+
+  it("renders Produit and Légal section headers", () => {
+    render(<Footer />);
+    expect(screen.getByText("Produit")).toBeInTheDocument();
+    expect(screen.getByText("Légal")).toBeInTheDocument();
+  });
+
+  it("renders copyright with current year", () => {
+    render(<Footer />);
+    const year = new Date().getFullYear();
+    expect(screen.getByText(new RegExp(String(year)))).toBeInTheDocument();
+  });
+
+  it("renders copyright text", () => {
+    render(<Footer />);
+    expect(screen.getByText(/Tous droits réservés/)).toBeInTheDocument();
+  });
+
+  it("has correct href for product links", () => {
+    render(<Footer />);
+    expect(screen.getByText("Blagues").closest("a")).toHaveAttribute("href", "/blagues");
+    expect(screen.getByText("Conseils").closest("a")).toHaveAttribute("href", "/conseils");
+  });
+
+  it("has correct href for legal links", () => {
+    render(<Footer />);
+    expect(screen.getByText("CGU").closest("a")).toHaveAttribute("href", "/cgu");
+    expect(screen.getByText("Confidentialité").closest("a")).toHaveAttribute(
+      "href",
+      "/confidentialite"
+    );
+  });
+});
