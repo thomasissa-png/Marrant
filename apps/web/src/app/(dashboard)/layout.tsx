@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ToastProvider } from "@/components/ui/toast";
+import { XpNotificationProvider } from "@/components/ui/xp-notification";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <main id="main-content" className="mx-auto max-w-7xl px-4 py-8">{children}</main>
       <Footer />
       <ToastProvider />
+      <XpNotificationProvider />
     </>
   );
 }

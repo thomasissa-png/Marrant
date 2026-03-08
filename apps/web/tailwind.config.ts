@@ -25,7 +25,7 @@ const config: Config = {
         text: {
           primary: "#FFFFFF",
           secondary: "#B3B3B3",
-          muted: "#858585",
+          muted: "#9A9A9A",
         },
         border: {
           DEFAULT: "#2A2A2A",
@@ -51,6 +51,7 @@ const config: Config = {
         "streak-pulse": "streakPulse 2s ease-in-out infinite",
         shake: "shake 0.5s ease-in-out",
         "stagger-in": "staggerIn 0.4s ease-out both",
+        "xp-float": "xpFloat 2s ease-out forwards",
       },
       keyframes: {
         fadeIn: {
@@ -77,6 +78,11 @@ const config: Config = {
         staggerIn: {
           "0%": { opacity: "0", transform: "translateY(12px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        xpFloat: {
+          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          "50%": { opacity: "1", transform: "translateY(-20px) scale(1.1)" },
+          "100%": { opacity: "0", transform: "translateY(-40px) scale(0.9)" },
         },
       },
     },

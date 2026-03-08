@@ -148,9 +148,11 @@ export function BlaguesList() {
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
               style={{ animationDelay: `${index * 50}ms` }}
+              tabIndex={0}
               onClick={() => togglePunchline(joke.id)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePunchline(joke.id); } }}
             >
               <CardContent className="pt-4">
                 <div className="mb-3 flex items-center justify-between">

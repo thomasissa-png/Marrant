@@ -23,7 +23,7 @@
 |-------|-----|-------|
 | `text-primary` | `#FFFFFF` | Texte principal |
 | `text-secondary` | `#B3B3B3` | Texte secondaire |
-| `text-muted` | `#666666` | Texte désactivé / labels |
+| `text-muted` | `#9A9A9A` | Texte désactivé / labels |
 
 ### Bordures
 | Token | Hex | Usage |

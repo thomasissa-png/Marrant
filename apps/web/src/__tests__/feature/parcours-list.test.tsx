@@ -1,6 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { ParcoursList } from "@/components/parcours/parcours-list";
 
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn().mockReturnValue({ status: "unauthenticated" }),
+}));
+
 const mockPaths = [
   {
     id: "p1",
@@ -59,11 +63,11 @@ describe("ParcoursList", () => {
     });
   });
 
-  it("shows step count", async () => {
+  it("shows step count with progress", async () => {
     render(<ParcoursList />);
     await waitFor(() => {
-      expect(screen.getByText("3 étapes")).toBeInTheDocument();
-      expect(screen.getByText("1 étapes")).toBeInTheDocument();
+      expect(screen.getByText("0/3 étapes")).toBeInTheDocument();
+      expect(screen.getByText("0/1 étapes")).toBeInTheDocument();
     });
   });
 
@@ -113,6 +117,30 @@ describe("ParcoursList", () => {
     render(<ParcoursList />);
     await waitFor(() => {
       expect(screen.getByText("Apprends l'humour absurde")).toBeInTheDocument();
+    });
+  });
+
+  it("shows 'Continuer le parcours' when progress exists", async () => {
+    const { useSession } = require("next-auth/react");
+    useSession.mockReturnValue({ status: "authenticated" });
+
+    (global.fetch as jest.Mock).mockImplementation((url: string) => {
+      if (url.includes("/api/user/progress")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ progress: { p1: 2 } }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: async () => ({ paths: mockPaths }),
+      });
+    });
+
+    render(<ParcoursList />);
+    await waitFor(() => {
+      expect(screen.getByText("Continuer le parcours")).toBeInTheDocument();
+      expect(screen.getByText("2/3 étapes")).toBeInTheDocument();
     });
   });
 });

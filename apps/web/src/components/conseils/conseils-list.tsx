@@ -9,6 +9,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useUserStore } from "@/stores/user-store";
+import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
 
 interface Tip {
@@ -106,6 +107,7 @@ export function ConseilsList() {
         if (status === "authenticated" && !completedTipIds.has(id)) {
           setCompletedTipIds((prev) => new Set(prev).add(id));
           addXp(10, "tip_read");
+          showXpGain(10);
         }
       }
       return next;
@@ -133,19 +135,16 @@ export function ConseilsList() {
       {/* Filtres catégories */}
       <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
         {CATEGORIES.map((cat) => (
-          <button
+          <Button
             key={cat.value}
+            variant={category === cat.value ? "primary" : "ghost"}
+            size="sm"
             role="tab"
             aria-selected={category === cat.value}
-            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow ${
-              category === cat.value
-                ? "bg-accent-yellow/20 text-accent-yellow"
-                : "bg-background-elevated text-text-secondary hover:text-text-primary"
-            }`}
             onClick={() => { setCategory(cat.value); setPage(1); }}
           >
             {cat.label}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -180,9 +179,11 @@ export function ConseilsList() {
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
               style={{ animationDelay: `${index * 60}ms` }}
+              tabIndex={0}
               onClick={() => toggleExpanded(tip.id)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpanded(tip.id); } }}
             >
               <CardHeader>
                 <div className="flex items-center justify-between">
