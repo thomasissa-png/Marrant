@@ -17,9 +17,9 @@ describe("Badge", () => {
     expect(screen.getByText("Yellow")).toHaveClass("text-accent-yellow");
   });
 
-  it("applies orange variant", () => {
-    render(<Badge variant="orange">Orange</Badge>);
-    expect(screen.getByText("Orange")).toHaveClass("text-accent-orange");
+  it("applies violet variant", () => {
+    render(<Badge variant="violet">Violet</Badge>);
+    expect(screen.getByText("Violet")).toHaveClass("text-accent-violet");
   });
 
   it("applies success variant", () => {

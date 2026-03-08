@@ -15,8 +15,8 @@
 |-------|-----|-------|
 | `accent-yellow` | `#F5C518` | Accent principal (CTA, liens, badges) |
 | `accent-yellow-hover` | `#FFD93D` | Hover de l'accent jaune |
-| `accent-orange` | `#FF6B35` | Accent secondaire (conseils, streaks) |
-| `accent-orange-hover` | `#FF8555` | Hover de l'accent orange |
+| `accent-violet` | `#8B5CF6` | Accent secondaire (conseils, streaks) |
+| `accent-violet-hover` | `#A78BFA` | Hover de l'accent violet |
 
 ### Texte
 | Token | Hex | Usage |
@@ -40,23 +40,23 @@
 ## Composants UI
 
 ### Button
-Variants : `primary` (jaune), `secondary` (orange), `ghost`, `outline`, `danger`
+Variants : `primary` (jaune), `secondary` (violet), `ghost`, `outline`, `danger`
 Tailles : `sm`, `md`, `lg`, `icon`
 
 ### Card
 Fond `background-card`, bordure `border`, hover `border-hover`, radius `lg`
 
 ### Badge
-Variants : `default`, `yellow`, `orange`, `success`, `error`, `premium`
+Variants : `default`, `yellow`, `violet`, `success`, `error`, `premium`
 
 ### Input
 Fond `background-light`, bordure `border`, focus `accent-yellow`
 
 ### ProgressBar
-Variants : `yellow`, `orange`, `gradient`
+Variants : `yellow`, `violet`, `gradient`
 
 ### StreakCounter
-Animation pulse sur l'emoji feu, fond `accent-orange/10`
+Animation pulse sur l'emoji feu, fond `accent-violet/10`
 
 ## Animations
 
@@ -71,7 +71,7 @@ Le design doit satisfaire simultanément 3 profils :
 
 ### Yanis (17 ans, lycéen)
 - Interface engageante type « gaming » : animations XP, badges, streak avec pulse
-- Utiliser les accents jaune/orange généreusement pour les éléments de progression
+- Utiliser les accents jaune/violet généreusement pour les éléments de progression
 - Éviter un look « corporate » ou trop sobre — garder l'énergie
 - Cards interactives avec transitions fluides (hover, scale, reveal)
 

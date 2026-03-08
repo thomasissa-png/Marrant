@@ -136,7 +136,7 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Blagues lues</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-orange">
+              <p className="text-2xl font-bold text-accent-violet">
                 {user.stats.tipsCompleted}
               </p>
               <p className="text-xs text-text-muted">Conseils terminés</p>
@@ -189,8 +189,8 @@ export function ProfilDashboard() {
               </Link>
             )}
             <Link href="/videos" className="group">
-              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-orange">
-                <p className="font-semibold text-accent-orange">Regarde les pros</p>
+              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-violet">
+                <p className="font-semibold text-accent-violet">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Analyse les techniques des meilleurs humoristes pour t&apos;en inspirer.
                 </p>

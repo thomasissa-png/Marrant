@@ -19,8 +19,8 @@ const config: Config = {
         accent: {
           yellow: "#F5C518",
           "yellow-hover": "#FFD93D",
-          orange: "#FF6B35",
-          "orange-hover": "#FF8555",
+          violet: "#8B5CF6",
+          "violet-hover": "#A78BFA",
         },
         text: {
           primary: "#FFFFFF",

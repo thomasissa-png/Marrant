@@ -7,6 +7,10 @@ _Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 - Audit complet réalisé le 2026-03-08 par l'agent auditeur
 
 ## Décisions techniques prises
+- 2026-03-08 DEPLOY : Configuration Replit (.replit, replit.nix, port 5000 sur 0.0.0.0)
+- 2026-03-08 DEPLOY : Script setup (`npm run setup` = install + prisma generate + db push + seed)
+- 2026-03-08 DESIGN : Remplacement couleur secondaire orange (#FF6B35) → violet (#8B5CF6)
+- 2026-03-08 DESIGN : Accent-violet comme couleur secondaire, gradient jaune→violet
 - 2026-03-07 INFRA : Monorepo avec apps/web (Next.js 14) + apps/mobile (Expo)
 - 2026-03-07 INFRA : PostgreSQL avec Prisma ORM, schéma complet défini
 - 2026-03-07 INFRA : NextAuth.js avec Credentials + Google OAuth
@@ -36,7 +40,7 @@ _Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 - Système de progression : niveaux, XP, badges, streaks ✅
 
 ## Architecture
-- Design system : palette sombre (#0D0D0D), accents jaune (#F5C518) et orange (#FF6B35)
+- Design system : palette sombre (#0D0D0D), accents jaune (#F5C518) et violet (#8B5CF6)
 - Composants UI : Button, Card, Badge, Input, ProgressBar, StreakCounter
 - Pages : Home, Blagues, Conseils, Vidéos, Favoris, Profil, Login, Register
 - API routes : /api/jokes, /api/tips, /api/videos, /api/daily, /api/ai, /api/favorites, /api/auth
@@ -55,6 +59,13 @@ _Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 - Progression XP : store Zustand + API XP + calcul niveau auto ✅
 - Profil : dashboard dynamique (niveau, streak, stats, abonnement) ✅
 - Contenu du jour : fallback déterministe basé sur le jour de l'année ✅
+
+## Déploiement Replit
+1. **Provisionner PostgreSQL** dans Replit (Database tab ou secrets `DATABASE_URL`)
+2. **Configurer les secrets Replit** : `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` (= URL Replit publique)
+3. **Installer et initialiser** : `cd apps/web && npm run setup` (install + prisma generate + db push + seed)
+4. **Lancer** : `npm run dev` (port 5000 sur 0.0.0.0, automatiquement exposé par Replit)
+5. **Build production** : `npm run build && npm run start`
 
 ## Problèmes ouverts
 - YouTube video IDs placeholder à remplacer par vrais IDs — MARRANT — Moyenne

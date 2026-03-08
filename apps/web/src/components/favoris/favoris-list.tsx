@@ -105,7 +105,7 @@ export function FavorisList() {
                       fav.contentType === "JOKE"
                         ? "yellow"
                         : fav.contentType === "TIP"
-                        ? "orange"
+                        ? "violet"
                         : "default"
                     }
                     className="mb-2"

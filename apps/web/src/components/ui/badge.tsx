@@ -9,11 +9,11 @@ const badgeVariants = cva(
       variant: {
         default: "bg-background-elevated text-text-secondary",
         yellow: "bg-accent-yellow/20 text-accent-yellow",
-        orange: "bg-accent-orange/20 text-accent-orange",
+        violet: "bg-accent-violet/20 text-accent-violet",
         success: "bg-success/20 text-success",
         error: "bg-error/20 text-error",
         premium:
-          "bg-gradient-to-r from-accent-yellow/20 to-accent-orange/20 text-accent-yellow",
+          "bg-gradient-to-r from-accent-yellow/20 to-accent-violet/20 text-accent-yellow",
       },
     },
     defaultVariants: {

@@ -19,8 +19,8 @@ interface LearningPath {
   steps: { id: string; order: number; tip: { id: string; title: string } }[];
 }
 
-const DIFFICULTY_VARIANT: Record<string, "orange" | "yellow" | "error"> = {
-  DEBUTANT: "orange",
+const DIFFICULTY_VARIANT: Record<string, "violet" | "yellow" | "error"> = {
+  DEBUTANT: "violet",
   INTERMEDIAIRE: "yellow",
   EXPERT: "error",
 };

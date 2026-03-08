@@ -129,7 +129,7 @@ export function DailyContent() {
         <Card className="mx-auto max-w-2xl">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Badge variant="orange" className="w-fit">
+              <Badge variant="violet" className="w-fit">
                 Conseil du jour
               </Badge>
               {data.tip && (

@@ -62,9 +62,9 @@ describe("ProgressBar", () => {
     expect(inner).toBeInTheDocument();
   });
 
-  it("applies orange variant", () => {
-    const { container } = render(<ProgressBar value={50} variant="orange" />);
-    const inner = container.querySelector(".bg-accent-orange");
+  it("applies violet variant", () => {
+    const { container } = render(<ProgressBar value={50} variant="violet" />);
+    const inner = container.querySelector(".bg-accent-violet");
     expect(inner).toBeInTheDocument();
   });
 });

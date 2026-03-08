@@ -10,7 +10,7 @@ const buttonVariants = cva(
         primary:
           "bg-accent-yellow text-background hover:bg-accent-yellow-hover focus-visible:ring-accent-yellow",
         secondary:
-          "bg-accent-orange text-white hover:bg-accent-orange-hover focus-visible:ring-accent-orange",
+          "bg-accent-violet text-white hover:bg-accent-violet-hover focus-visible:ring-accent-violet",
         ghost:
           "text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:ring-accent-yellow",
         outline:

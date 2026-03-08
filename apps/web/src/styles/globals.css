@@ -13,8 +13,8 @@
     /* Accents */
     --color-accent-yellow: #F5C518;
     --color-accent-yellow-hover: #FFD93D;
-    --color-accent-orange: #FF6B35;
-    --color-accent-orange-hover: #FF8555;
+    --color-accent-violet: #8B5CF6;
+    --color-accent-violet-hover: #A78BFA;
 
     /* Texte */
     --color-text-primary: #FFFFFF;
@@ -106,6 +106,6 @@
 
   /* Gradient texte accent */
   .text-gradient {
-    @apply bg-gradient-to-r from-accent-yellow to-accent-orange bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-yellow to-accent-violet bg-clip-text text-transparent;
   }
 }

@@ -47,8 +47,8 @@ const CATEGORIES = [
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
 ];
 
-const DIFFICULTY_VARIANT: Record<string, "orange" | "yellow" | "error"> = {
-  DEBUTANT: "orange",
+const DIFFICULTY_VARIANT: Record<string, "violet" | "yellow" | "error"> = {
+  DEBUTANT: "violet",
   INTERMEDIAIRE: "yellow",
   EXPERT: "error",
 };
@@ -212,7 +212,7 @@ export function ConseilsList() {
                       <p className="text-sm text-text-primary">{tip.example}</p>
                     </div>
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-orange">Exercice</p>
+                      <p className="mb-1 text-xs font-semibold uppercase text-accent-violet">Exercice</p>
                       <p className="text-sm text-text-primary">{tip.exercise}</p>
                     </div>
                   </div>

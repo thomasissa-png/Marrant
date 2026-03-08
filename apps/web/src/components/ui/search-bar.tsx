@@ -65,7 +65,7 @@ export function SearchBar({ className }: { className?: string }) {
   const typeColor = (type: string) => {
     switch (type) {
       case "JOKE": return "text-accent-yellow";
-      case "TIP": return "text-accent-orange";
+      case "TIP": return "text-accent-violet";
       default: return "text-text-secondary";
     }
   };

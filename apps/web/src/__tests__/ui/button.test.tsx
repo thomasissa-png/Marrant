@@ -15,7 +15,7 @@ describe("Button", () => {
 
   it("applies secondary variant", () => {
     render(<Button variant="secondary">Sec</Button>);
-    expect(screen.getByRole("button")).toHaveClass("bg-accent-orange");
+    expect(screen.getByRole("button")).toHaveClass("bg-accent-violet");
   });
 
   it("applies ghost variant", () => {
