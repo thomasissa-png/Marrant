@@ -18,6 +18,7 @@ const navItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -39,7 +40,7 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
                 pathname === item.href
                   ? "bg-background-elevated text-accent-yellow"
                   : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -52,7 +53,7 @@ export function Header() {
 
         <SearchBar className="hidden w-64 md:block" />
 
-        {/* Actions */}
+        {/* Actions desktop */}
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <>
@@ -90,45 +91,53 @@ export function Header() {
           )}
         </div>
 
-        {/* Menu burger mobile */}
-        <button
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Menu"
-          aria-expanded={isMenuOpen}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* Actions mobile */}
+        <div className="flex items-center gap-1 md:hidden">
+          {/* Bouton recherche mobile */}
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+            onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
+            aria-label="Rechercher"
           >
-            {isMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+
+          {/* Menu burger mobile */}
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+            onClick={() => { setIsMenuOpen(!isMenuOpen); setIsMobileSearchOpen(false); }}
+            aria-label="Menu"
+            aria-expanded={isMenuOpen}
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Overlay recherche mobile */}
+      {isMobileSearchOpen && (
+        <div className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
+          <SearchBar className="w-full" />
+        </div>
+      )}
 
       {/* Menu mobile */}
       {isMenuOpen && (
         <nav
-          className={cn(
-            "border-t border-border bg-background px-4 py-4 md:hidden",
-            "animate-slide-up"
-          )}
+          className="border-t border-border bg-background px-4 py-4 md:hidden animate-slide-up"
           aria-label="Navigation mobile"
         >
           <div className="flex flex-col gap-2">
@@ -137,7 +146,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
                   pathname === item.href
                     ? "bg-background-elevated text-accent-yellow"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -151,35 +160,22 @@ export function Header() {
             {isAuthenticated ? (
               <>
                 <Link href="/favoris" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Favoris
-                  </Button>
+                  <Button variant="ghost" size="sm" className="w-full">Favoris</Button>
                 </Link>
                 <Link href="/profil" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Profil
-                  </Button>
+                  <Button variant="ghost" size="sm" className="w-full">Profil</Button>
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}
-                >
+                <Button variant="ghost" size="sm" className="w-full" onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}>
                   Déconnexion
                 </Button>
               </>
             ) : (
               <>
                 <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Connexion
-                  </Button>
+                  <Button variant="ghost" size="sm" className="w-full">Connexion</Button>
                 </Link>
                 <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="primary" size="sm" className="w-full">
-                    Commencer
-                  </Button>
+                  <Button variant="primary" size="sm" className="w-full">Commencer</Button>
                 </Link>
               </>
             )}

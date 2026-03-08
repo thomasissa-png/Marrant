@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface ReactionButtonsProps {
   jokeId: string;
@@ -23,6 +24,12 @@ export function ReactionButtons({
   const [likes, setLikes] = useState(initialLikes);
   const [dislikes, setDislikes] = useState(initialDislikes);
   const [userReaction, setUserReaction] = useState<boolean | null>(initialUserReaction);
+  const [isShaking, setIsShaking] = useState(false);
+
+  const triggerShake = () => {
+    setIsShaking(true);
+    setTimeout(() => setIsShaking(false), 500);
+  };
 
   const handleReaction = async (e: React.MouseEvent, isLike: boolean) => {
     e.stopPropagation();
@@ -55,18 +62,22 @@ export function ReactionButtons({
           }
           setUserReaction(isLike);
         }
+      } else {
+        triggerShake();
+        toast("Erreur lors de la réaction", "error");
       }
     } catch {
-      // silent
+      triggerShake();
+      toast("Connexion perdue, réessaie", "error");
     }
   };
 
   return (
-    <div className={cn("flex items-center gap-3", className)}>
+    <div className={cn("flex items-center gap-3", isShaking && "animate-shake", className)}>
       <button
         onClick={(e) => handleReaction(e, true)}
         className={cn(
-          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all",
+          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
           userReaction === true
             ? "bg-accent-yellow/20 text-accent-yellow"
             : "bg-background-elevated text-text-muted hover:text-accent-yellow"
@@ -79,7 +90,7 @@ export function ReactionButtons({
       <button
         onClick={(e) => handleReaction(e, false)}
         className={cn(
-          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all",
+          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
           userReaction === false
             ? "bg-error/20 text-error"
             : "bg-background-elevated text-text-muted hover:text-text-secondary"

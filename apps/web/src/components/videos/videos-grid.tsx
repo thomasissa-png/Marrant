@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
+import { ErrorState } from "@/components/ui/error-state";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface Video {
   id: string;
@@ -58,9 +60,11 @@ export function VideosGrid() {
   const [difficulty, setDifficulty] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const fetchVideos = useCallback(async () => {
     setIsLoading(true);
+    setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "12" });
     if (difficulty) params.set("difficulty", difficulty);
 
@@ -70,7 +74,11 @@ export function VideosGrid() {
         const data = await res.json();
         setVideos(data.videos);
         setPagination(data.pagination);
+      } else {
+        setError(true);
       }
+    } catch {
+      setError(true);
     } finally {
       setIsLoading(false);
     }
@@ -83,12 +91,14 @@ export function VideosGrid() {
   return (
     <>
       {/* Filtres */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
         {DIFFICULTIES.map((d) => (
           <Button
             key={d.value}
             variant={difficulty === d.value ? "secondary" : "ghost"}
             size="sm"
+            role="tab"
+            aria-selected={difficulty === d.value}
             onClick={() => { setDifficulty(d.value); setPage(1); }}
           >
             {d.label}
@@ -96,8 +106,10 @@ export function VideosGrid() {
         ))}
       </div>
 
-      {/* Grille vidéos */}
-      {isLoading ? (
+      {/* Error state */}
+      {error ? (
+        <ErrorState message="Impossible de charger les vidéos." onRetry={fetchVideos} />
+      ) : isLoading ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -110,18 +122,30 @@ export function VideosGrid() {
           ))}
         </div>
       ) : videos.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-text-secondary">Aucune vidéo trouvée avec ces filtres.</p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          emoji="🎬"
+          emojiLabel="pas de vidéos"
+          title="Aucune vidéo avec ce filtre"
+          description="Essaie un autre niveau de difficulté !"
+          ctaLabel="Voir toutes les vidéos"
+          ctaHref="/videos"
+        />
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {videos.map((video) => (
-            <Card key={video.id} className="overflow-hidden transition-colors hover:bg-background-light">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="tabpanel">
+          {videos.map((video, index) => (
+            <Card
+              key={video.id}
+              className="overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
               <CardContent className="pt-4">
-                {/* Thumbnail YouTube */}
-                <a href={`https://www.youtube.com/watch?v=${video.youtubeId}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+                >
                   <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                     <img
                       src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
@@ -143,18 +167,12 @@ export function VideosGrid() {
                     <ShareButton title={`${video.title} - deviensmarrant.fr`} text={`${video.title} par ${video.channelName}`} />
                   </div>
                 </div>
-                <p className="mt-1 text-sm text-text-secondary">
-                  {video.channelName}
-                </p>
+                <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  <Badge variant="default">
-                    {CATEGORY_LABELS[video.category] ?? video.category}
-                  </Badge>
+                  <Badge variant="default">{CATEGORY_LABELS[video.category] ?? video.category}</Badge>
                   <Badge variant="default">{video.technique}</Badge>
                 </div>
-                <p className="mt-2 text-xs text-text-muted line-clamp-2">
-                  {video.description}
-                </p>
+                <p className="mt-2 text-xs text-text-muted line-clamp-2">{video.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -164,23 +182,13 @@ export function VideosGrid() {
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
+          <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Précédent
           </Button>
           <span className="text-sm text-text-secondary">
             Page {pagination.page} / {pagination.totalPages}
           </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page >= pagination.totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
+          <Button variant="ghost" size="sm" disabled={page >= pagination.totalPages} onClick={() => setPage((p) => p + 1)}>
             Suivant
           </Button>
         </div>

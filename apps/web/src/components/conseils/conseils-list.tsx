@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
+import { ErrorState } from "@/components/ui/error-state";
+import { EmptyState } from "@/components/ui/empty-state";
 import { useUserStore } from "@/stores/user-store";
 import { useSession } from "next-auth/react";
 
@@ -61,6 +63,7 @@ export function ConseilsList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const { status } = useSession();
   const addXp = useUserStore((s) => s.addXp);
@@ -68,6 +71,7 @@ export function ConseilsList() {
 
   const fetchTips = useCallback(async () => {
     setIsLoading(true);
+    setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "10" });
     if (difficulty) params.set("difficulty", difficulty);
     if (category) params.set("category", category);
@@ -78,7 +82,11 @@ export function ConseilsList() {
         const data = await res.json();
         setTips(data.tips);
         setPagination(data.pagination);
+      } else {
+        setError(true);
       }
+    } catch {
+      setError(true);
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +103,6 @@ export function ConseilsList() {
         next.delete(id);
       } else {
         next.add(id);
-        // Award XP for reading a new tip
         if (status === "authenticated" && !completedTipIds.has(id)) {
           setCompletedTipIds((prev) => new Set(prev).add(id));
           addXp(10, "tip_read");
@@ -107,13 +114,15 @@ export function ConseilsList() {
 
   return (
     <>
-      {/* Niveaux */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      {/* Filtres niveaux */}
+      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
         {DIFFICULTIES.map((d) => (
           <Button
             key={d.value}
             variant={difficulty === d.value ? "secondary" : "ghost"}
             size="sm"
+            role="tab"
+            aria-selected={difficulty === d.value}
             onClick={() => { setDifficulty(d.value); setPage(1); }}
           >
             {d.label}
@@ -121,22 +130,32 @@ export function ConseilsList() {
         ))}
       </div>
 
-      {/* Catégories */}
-      <div className="mb-8 flex flex-wrap gap-2">
+      {/* Filtres catégories */}
+      <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
         {CATEGORIES.map((cat) => (
-          <Badge
+          <button
             key={cat.value}
-            variant={category === cat.value ? "yellow" : "default"}
-            className="cursor-pointer"
+            role="tab"
+            aria-selected={category === cat.value}
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow ${
+              category === cat.value
+                ? "bg-accent-yellow/20 text-accent-yellow"
+                : "bg-background-elevated text-text-secondary hover:text-text-primary"
+            }`}
             onClick={() => { setCategory(cat.value); setPage(1); }}
           >
             {cat.label}
-          </Badge>
+          </button>
         ))}
       </div>
 
-      {/* Liste */}
-      {isLoading ? (
+      {/* Error state */}
+      {error ? (
+        <ErrorState
+          message="Impossible de charger les conseils."
+          onRetry={fetchTips}
+        />
+      ) : isLoading ? (
         <div className="grid gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -148,17 +167,21 @@ export function ConseilsList() {
           ))}
         </div>
       ) : tips.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-text-secondary">Aucun conseil trouvé avec ces filtres.</p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          emoji="🎓"
+          emojiLabel="pas de conseils"
+          title="Aucun conseil avec ces filtres"
+          description="Change de catégorie ou de niveau pour trouver ton bonheur !"
+          ctaLabel="Voir tous les conseils"
+          ctaHref="/conseils"
+        />
       ) : (
-        <div className="grid gap-4">
-          {tips.map((tip) => (
+        <div className="grid gap-4" role="tabpanel">
+          {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="cursor-pointer transition-colors hover:bg-background-light"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
+              style={{ animationDelay: `${index * 60}ms` }}
               onClick={() => toggleExpanded(tip.id)}
             >
               <CardHeader>
@@ -184,15 +207,11 @@ export function ConseilsList() {
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-yellow">
-                        Exemple
-                      </p>
+                      <p className="mb-1 text-xs font-semibold uppercase text-accent-yellow">Exemple</p>
                       <p className="text-sm text-text-primary">{tip.example}</p>
                     </div>
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-orange">
-                        Exercice
-                      </p>
+                      <p className="mb-1 text-xs font-semibold uppercase text-accent-orange">Exercice</p>
                       <p className="text-sm text-text-primary">{tip.exercise}</p>
                     </div>
                   </div>
@@ -212,23 +231,13 @@ export function ConseilsList() {
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
+          <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Précédent
           </Button>
           <span className="text-sm text-text-secondary">
             Page {pagination.page} / {pagination.totalPages}
           </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page >= pagination.totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
+          <Button variant="ghost" size="sm" disabled={page >= pagination.totalPages} onClick={() => setPage((p) => p + 1)}>
             Suivant
           </Button>
         </div>

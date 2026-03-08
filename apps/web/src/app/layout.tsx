@@ -69,7 +69,9 @@ export default function RootLayout({
     <html lang="fr" className={`${inter.variable} ${syne.variable}`}>
       <head>
         <meta name="theme-color" content="#0D0D0D" />
-        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <SessionProvider>{children}</SessionProvider>

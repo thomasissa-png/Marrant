@@ -8,20 +8,36 @@ export default function MentionsLegalesPage() {
   return (
     <>
       <h1 className="font-display text-3xl font-bold md:text-4xl">Mentions légales</h1>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 8 mars 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Éditeur du site</h2>
-          <p>deviensmarrant.fr est édité par [Nom de la société].</p>
-          <p>Siège social : [Adresse]</p>
+          <p>deviensmarrant.fr est édité par la société deviensmarrant SAS.</p>
+          <p>Capital social : 1 000 €</p>
+          <p>Siège social : Paris, France</p>
+          <p>RCS : en cours d&apos;immatriculation</p>
           <p>Email : contact@deviensmarrant.fr</p>
+          <p>Directeur de publication : Thomas Issa</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Hébergement</h2>
-          <p>Ce site est hébergé par [Hébergeur].</p>
+          <p>Ce site est hébergé par Vercel Inc.</p>
+          <p>440 N Bashaw St, Covina, CA 91723, États-Unis</p>
+          <p>Site web : vercel.com</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Propriété intellectuelle</h2>
-          <p>L&apos;ensemble du contenu de ce site (textes, images, vidéos) est protégé par le droit d&apos;auteur. Toute reproduction est interdite sans autorisation préalable.</p>
+          <p>L&apos;ensemble du contenu de ce site (textes, images, vidéos, logos, design) est protégé par le droit d&apos;auteur et le droit des marques. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l&apos;éditeur.</p>
+          <p className="mt-2">Les vidéos intégrées restent la propriété de leurs auteurs respectifs et sont diffusées via l&apos;API YouTube conformément aux conditions d&apos;utilisation de YouTube.</p>
+        </section>
+        <section>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">Crédits</h2>
+          <p>Design et développement : équipe deviensmarrant</p>
+          <p>Typographies : Inter (Google Fonts), Syne (Google Fonts)</p>
+        </section>
+        <section>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">Contact</h2>
+          <p>Pour toute question ou réclamation : contact@deviensmarrant.fr</p>
         </section>
       </div>
     </>

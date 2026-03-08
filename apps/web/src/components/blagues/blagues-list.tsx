@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
+import { ErrorState } from "@/components/ui/error-state";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface Joke {
   id: string;
@@ -52,10 +54,12 @@ export function BlaguesList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   const fetchJokes = useCallback(async () => {
     setIsLoading(true);
+    setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "12" });
     if (category) params.set("category", category);
 
@@ -65,7 +69,11 @@ export function BlaguesList() {
         const data = await res.json();
         setJokes(data.jokes);
         setPagination(data.pagination);
+      } else {
+        setError(true);
       }
+    } catch {
+      setError(true);
     } finally {
       setIsLoading(false);
     }
@@ -92,13 +100,15 @@ export function BlaguesList() {
 
   return (
     <>
-      {/* Filtres catégories */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      {/* Filtres catégories avec ARIA */}
+      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de blagues">
         {CATEGORIES.map((cat) => (
           <Button
             key={cat.value}
             variant={category === cat.value ? "primary" : "ghost"}
             size="sm"
+            role="tab"
+            aria-selected={category === cat.value}
             onClick={() => handleCategoryChange(cat.value)}
           >
             {cat.label}
@@ -106,8 +116,13 @@ export function BlaguesList() {
         ))}
       </div>
 
-      {/* Grille de blagues */}
-      {isLoading ? (
+      {/* Error state */}
+      {error ? (
+        <ErrorState
+          message="Impossible de charger les blagues."
+          onRetry={fetchJokes}
+        />
+      ) : isLoading ? (
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -120,17 +135,21 @@ export function BlaguesList() {
           ))}
         </div>
       ) : jokes.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-text-secondary">Aucune blague trouvée dans cette catégorie.</p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          emoji="😅"
+          emojiLabel="pas de blagues"
+          title="Aucune blague dans cette catégorie"
+          description="Essaie une autre catégorie ou reviens plus tard !"
+          ctaLabel="Voir toutes les blagues"
+          ctaHref="/blagues"
+        />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {jokes.map((joke) => (
+        <div className="grid gap-4 md:grid-cols-2" role="tabpanel">
+          {jokes.map((joke, index) => (
             <Card
               key={joke.id}
-              className="cursor-pointer transition-colors hover:bg-background-light"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
+              style={{ animationDelay: `${index * 50}ms` }}
               onClick={() => togglePunchline(joke.id)}
             >
               <CardContent className="pt-4">
