@@ -76,6 +76,7 @@ model User {
   favorites    UserFavorite[]
   subscription Subscription?
   jokeLikes    JokeLike[]
+  pathProgress  UserPathProgress[]
 
   @@index([email])
 }
@@ -126,12 +127,22 @@ enum JokeCategory {
   CULTUREL
   COUPLE
   BOULOT
+  ECOLE
+  GAMING
+  RESEAUX_SOCIAUX
+  DATING
+  SOIREES
+  PARENTS
 }
 
 enum JokeType {
   SUBTIL
   CLASSIQUE
   ABSURDE
+  ONE_LINER
+  STORY
+  DIALOGUE
+  QA
 }
 
 model JokeLike {
@@ -166,6 +177,7 @@ model Tip {
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
+  pathSteps     LearningPathStep[]
 
   @@index([category])
   @@index([difficulty])
@@ -186,6 +198,59 @@ enum TipDifficulty {
   DEBUTANT
   INTERMEDIAIRE
   EXPERT
+}
+
+// ==========================================
+// PARCOURS D'APPRENTISSAGE
+// ==========================================
+
+model LearningPath {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  slug        String   @unique
+  duration    String   // ex: "4 semaines"
+  difficulty  TipDifficulty
+  icon        String   // emoji
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  steps       LearningPathStep[]
+  userProgress UserPathProgress[]
+
+  @@index([isActive])
+}
+
+model LearningPathStep {
+  id              String       @id @default(cuid())
+  learningPathId  String
+  tipId           String
+  order           Int
+  dayNumber       Int          // Jour dans le parcours
+
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  tip          Tip          @relation(fields: [tipId], references: [id])
+
+  @@unique([learningPathId, order])
+  @@index([learningPathId])
+}
+
+model UserPathProgress {
+  id              String       @id @default(cuid())
+  userId          String
+  learningPathId  String
+  currentStep     Int          @default(0)
+  completedSteps  Int[]        // Array of completed step orders
+  startedAt       DateTime     @default(now())
+  completedAt     DateTime?
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, learningPathId])
+  @@index([userId])
 }
 
 // ==========================================

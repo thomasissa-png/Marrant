@@ -4,6 +4,9 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/ui/favorite-button";
+import { ShareButton } from "@/components/ui/share-button";
+import { ReactionButtons } from "@/components/ui/reaction-buttons";
 
 interface Joke {
   id: string;
@@ -31,6 +34,12 @@ const CATEGORIES = [
   { value: "CULTUREL", label: "Culturel" },
   { value: "COUPLE", label: "Couple" },
   { value: "BOULOT", label: "Boulot" },
+  { value: "ECOLE", label: "École" },
+  { value: "GAMING", label: "Gaming" },
+  { value: "RESEAUX_SOCIAUX", label: "Réseaux sociaux" },
+  { value: "DATING", label: "Dating" },
+  { value: "SOIREES", label: "Soirées" },
+  { value: "PARENTS", label: "Parents" },
 ];
 
 const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
@@ -125,17 +134,26 @@ export function BlaguesList() {
               onClick={() => togglePunchline(joke.id)}
             >
               <CardContent className="pt-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <Badge variant="yellow">
-                    {CATEGORY_LABELS[joke.category] ?? joke.category}
-                  </Badge>
-                  <Badge variant="default">{joke.type}</Badge>
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="yellow">
+                      {CATEGORY_LABELS[joke.category] ?? joke.category}
+                    </Badge>
+                    <Badge variant="default">{joke.type}</Badge>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FavoriteButton contentType="JOKE" contentId={joke.id} />
+                    <ShareButton title="Blague - deviensmarrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
+                  </div>
                 </div>
                 <p className="text-text-primary">{joke.content}</p>
                 {revealedIds.has(joke.id) && (
                   <p className="mt-3 font-semibold text-accent-yellow animate-fade-in">
                     {joke.punchline}
                   </p>
+                )}
+                {revealedIds.has(joke.id) && (
+                  <ReactionButtons jokeId={joke.id} className="mt-3" />
                 )}
                 {!revealedIds.has(joke.id) && (
                   <p className="mt-3 text-sm text-text-muted">

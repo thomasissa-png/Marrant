@@ -2,19 +2,23 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { SearchBar } from "@/components/ui/search-bar";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Accueil" },
   { href: "/blagues", label: "Blagues" },
   { href: "/conseils", label: "Conseils" },
+  { href: "/parcours", label: "Parcours" },
   { href: "/videos", label: "Vidéos" },
 ];
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
 
@@ -34,12 +38,19 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                pathname === item.href
+                  ? "bg-background-elevated text-accent-yellow"
+                  : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
+              )}
             >
               {item.label}
             </Link>
           ))}
         </nav>
+
+        <SearchBar className="hidden w-64 md:block" />
 
         {/* Actions */}
         <div className="hidden items-center gap-3 md:flex">
@@ -125,7 +136,12 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
+                className={cn(
+                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  pathname === item.href
+                    ? "bg-background-elevated text-accent-yellow"
+                    : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
+                )}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

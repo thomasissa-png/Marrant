@@ -29,8 +29,11 @@ export const metadata: Metadata = {
     "blague du jour",
     "stand-up français",
     "conseils humour",
+    "cours humour en ligne",
+    "apprendre le stand-up",
   ],
   authors: [{ name: "deviensmarrant.fr" }],
+  manifest: "/manifest.json",
   openGraph: {
     type: "website",
     locale: "fr_FR",
@@ -50,6 +53,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({
@@ -59,6 +67,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${inter.variable} ${syne.variable}`}>
+      <head>
+        <meta name="theme-color" content="#0D0D0D" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+      </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <SessionProvider>{children}</SessionProvider>
       </body>

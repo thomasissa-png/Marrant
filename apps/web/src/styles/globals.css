@@ -104,21 +104,6 @@
     @apply rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-border-hover;
   }
 
-  /* Bouton accent jaune */
-  .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-accent-yellow px-4 py-2 font-semibold text-background transition-colors hover:bg-accent-yellow-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-background;
-  }
-
-  /* Bouton accent orange */
-  .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-lg bg-accent-orange px-4 py-2 font-semibold text-white transition-colors hover:bg-accent-orange-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background;
-  }
-
-  /* Bouton ghost */
-  .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-background;
-  }
-
   /* Gradient texte accent */
   .text-gradient {
     @apply bg-gradient-to-r from-accent-yellow to-accent-orange bg-clip-text text-transparent;

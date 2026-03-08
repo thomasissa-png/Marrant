@@ -4,6 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/ui/favorite-button";
+import { ShareButton } from "@/components/ui/share-button";
+import { useUserStore } from "@/stores/user-store";
+import { useSession } from "next-auth/react";
 
 interface Tip {
   id: string;
@@ -58,6 +62,9 @@ export function ConseilsList() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const { status } = useSession();
+  const addXp = useUserStore((s) => s.addXp);
+  const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
 
   const fetchTips = useCallback(async () => {
     setIsLoading(true);
@@ -84,8 +91,16 @@ export function ConseilsList() {
   const toggleExpanded = (id: string) => {
     setExpandedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+        // Award XP for reading a new tip
+        if (status === "authenticated" && !completedTipIds.has(id)) {
+          setCompletedTipIds((prev) => new Set(prev).add(id));
+          addXp(10, "tip_read");
+        }
+      }
       return next;
     });
   };
@@ -147,13 +162,19 @@ export function ConseilsList() {
               onClick={() => toggleExpanded(tip.id)}
             >
               <CardHeader>
-                <div className="flex items-center gap-2">
-                  <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
-                    {DIFFICULTIES.find((d) => d.value === tip.difficulty)?.label ?? tip.difficulty}
-                  </Badge>
-                  <Badge variant="default">
-                    {CATEGORY_LABELS[tip.category] ?? tip.category}
-                  </Badge>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
+                      {DIFFICULTIES.find((d) => d.value === tip.difficulty)?.label ?? tip.difficulty}
+                    </Badge>
+                    <Badge variant="default">
+                      {CATEGORY_LABELS[tip.category] ?? tip.category}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FavoriteButton contentType="TIP" contentId={tip.id} />
+                    <ShareButton title={`${tip.title} - deviensmarrant.fr`} text={tip.content} />
+                  </div>
                 </div>
                 <CardTitle>{tip.title}</CardTitle>
               </CardHeader>

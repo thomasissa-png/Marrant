@@ -46,6 +46,9 @@ async function main() {
   console.log("Début du seeding...");
 
   // Nettoyage des tables existantes (ordre important pour les FK)
+  await prisma.userPathProgress.deleteMany();
+  await prisma.learningPathStep.deleteMany();
+  await prisma.learningPath.deleteMany();
   await prisma.dailyContent.deleteMany();
   await prisma.userFavorite.deleteMany();
   await prisma.jokeLike.deleteMany();
@@ -138,8 +141,83 @@ async function main() {
   }
   console.log("7 jours de contenu quotidien créés");
 
+  // ========================
+  // PARCOURS D'APPRENTISSAGE
+  // ========================
+  const learningPaths = [
+    {
+      title: "Les bases de l'humour",
+      description: "Maîtrise les fondamentaux : timing, structure de la blague, et punchline. Le parcours parfait pour débuter.",
+      slug: "bases-humour",
+      duration: "2 semaines",
+      difficulty: "DEBUTANT" as const,
+      icon: "🌱",
+      order: 1,
+    },
+    {
+      title: "Roi de la répartie",
+      description: "Apprends à répondre du tac au tac avec style. Ne te fais plus jamais clouer le bec.",
+      slug: "roi-repartie",
+      duration: "3 semaines",
+      difficulty: "INTERMEDIAIRE" as const,
+      icon: "⚡",
+      order: 2,
+    },
+    {
+      title: "Maître du storytelling",
+      description: "Raconte des histoires captivantes qui font rire aux larmes. L'art de tenir ton audience en haleine.",
+      slug: "maitre-storytelling",
+      duration: "4 semaines",
+      difficulty: "INTERMEDIAIRE" as const,
+      icon: "📖",
+      order: 3,
+    },
+    {
+      title: "Stand-up : du concept à la scène",
+      description: "Crée ton propre set de stand-up de A à Z. Pour ceux qui veulent monter sur scène.",
+      slug: "standup-scene",
+      duration: "6 semaines",
+      difficulty: "EXPERT" as const,
+      icon: "🎤",
+      order: 4,
+    },
+  ];
+
+  const seededTips = await prisma.tip.findMany({ orderBy: { createdAt: "asc" } });
+  let pathCount = 0;
+
+  for (const pathData of learningPaths) {
+    const path = await prisma.learningPath.create({
+      data: {
+        title: pathData.title,
+        description: pathData.description,
+        slug: pathData.slug,
+        duration: pathData.duration,
+        difficulty: pathData.difficulty,
+        icon: pathData.icon,
+        order: pathData.order,
+      },
+    });
+
+    // Link existing tips as steps (use up to 5 tips per path, cycling through available tips)
+    const stepsCount = Math.min(5, seededTips.length);
+    for (let i = 0; i < stepsCount; i++) {
+      const tipIndex = ((pathData.order - 1) * 5 + i) % seededTips.length;
+      await prisma.learningPathStep.create({
+        data: {
+          learningPathId: path.id,
+          tipId: seededTips[tipIndex].id,
+          order: i + 1,
+          dayNumber: (i + 1) * (pathData.order <= 2 ? 2 : 3),
+        },
+      });
+    }
+    pathCount++;
+  }
+  console.log(`${pathCount} parcours d'apprentissage créés`);
+
   console.log("Seeding terminé !");
-  console.log(`Total : ${jokeCount} blagues, ${tipCount} conseils, ${videoCount} vidéos`);
+  console.log(`Total : ${jokeCount} blagues, ${tipCount} conseils, ${videoCount} vidéos, ${pathCount} parcours`);
 }
 
 main()

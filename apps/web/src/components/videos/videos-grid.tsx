@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/ui/favorite-button";
+import { ShareButton } from "@/components/ui/share-button";
 
 interface Video {
   id: string;
@@ -119,20 +121,28 @@ export function VideosGrid() {
             <Card key={video.id} className="overflow-hidden transition-colors hover:bg-background-light">
               <CardContent className="pt-4">
                 {/* Thumbnail YouTube */}
-                <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <img
-                    src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
-                    alt={video.title}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                  <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium text-white">
-                    {formatDuration(video.duration)}
-                  </span>
+                <a href={`https://www.youtube.com/watch?v=${video.youtubeId}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                    <img
+                      src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
+                      alt={video.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium text-white">
+                      {formatDuration(video.duration)}
+                    </span>
+                  </div>
+                </a>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-base font-semibold text-text-primary line-clamp-2">
+                    {video.title}
+                  </h3>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <FavoriteButton contentType="VIDEO" contentId={video.id} />
+                    <ShareButton title={`${video.title} - deviensmarrant.fr`} text={`${video.title} par ${video.channelName}`} />
+                  </div>
                 </div>
-                <h3 className="text-base font-semibold text-text-primary line-clamp-2">
-                  {video.title}
-                </h3>
                 <p className="mt-1 text-sm text-text-secondary">
                   {video.channelName}
                 </p>

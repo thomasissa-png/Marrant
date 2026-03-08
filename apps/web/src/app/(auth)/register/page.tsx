@@ -45,7 +45,7 @@ export default function RegisterPage() {
         // Inscription réussie mais connexion échouée, rediriger vers login
         router.push("/login");
       } else {
-        router.push("/");
+        router.push("/onboarding");
         router.refresh();
       }
     } catch {
@@ -56,7 +56,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/onboarding" });
   };
 
   return (
