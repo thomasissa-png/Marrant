@@ -1598,5 +1598,965 @@
     "category": "OBSERVATIONNEL",
     "maturityLevel": 2,
     "type": "SUBTIL"
+  },
+  {
+    "id": 201,
+    "content": "Mon prof de maths m'a dit que j'étais nul. J'ai répondu : « Au moins en maths, zéro c'est quelqu'un. »",
+    "punchline": "Il m'a mis un zéro pointé pour insolence.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 202,
+    "content": "La différence entre l'école et la vie ?",
+    "punchline": "À l'école, on t'apprend la leçon avant l'examen. Dans la vie, l'examen vient d'abord.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "QA"
+  },
+  {
+    "id": 203,
+    "content": "Je révisais en écoutant du lo-fi hip hop.",
+    "punchline": "J'ai eu 3/20 mais dans une ambiance incroyable.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 204,
+    "content": "Mon prof a dit « il n'y a pas de questions bêtes ».",
+    "punchline": "J'ai levé la main et il a changé d'avis.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 205,
+    "content": "J'ai écrit « je ne sais pas » sur ma copie d'examen.",
+    "punchline": "Le prof a répondu dans la marge : « Moi non plus, zéro. »",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 206,
+    "content": "En cours d'histoire, le prof nous a demandé ce qui s'est passé en 1789.",
+    "punchline": "J'ai répondu « j'étais pas né ». Techniquement, j'ai pas tort.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 207,
+    "content": "Pourquoi les étudiants adorent les escaliers ?",
+    "punchline": "Parce que c'est la seule chose qu'ils montent cette année.",
+    "category": "ECOLE",
+    "maturityLevel": 2,
+    "type": "QA"
+  },
+  {
+    "id": 208,
+    "content": "La cantine de la fac propose un menu « équilibré ».",
+    "punchline": "Équilibré entre immangeable et suspect.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 209,
+    "content": "Mon pote révise la veille de l'examen et a 15.",
+    "punchline": "Moi je révise deux semaines et j'ai 8. La vie est un scam.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 210,
+    "content": "Le WiFi de la fac est comme mes notes :",
+    "punchline": "Instable, décevant, et ça coupe au pire moment.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 211,
+    "content": "J'ai fait un exposé de 10 minutes sur un sujet que je maîtrisais pas.",
+    "punchline": "Les 9 premières minutes c'était « euh » et « du coup ».",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 212,
+    "content": "Mon prof de philo a dit : « Je pense, donc je suis. »",
+    "punchline": "Moi je pense pas, donc je suis en rattrapages.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 213,
+    "content": "J'ai demandé à ChatGPT de faire mon devoir.",
+    "punchline": "Le prof m'a mis 18. C'est la meilleure note que j'ai jamais pas méritée.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 214,
+    "content": "En amphi, y'a trois types d'étudiants :",
+    "punchline": "Ceux qui écoutent, ceux qui dorment, et ceux qui regardent des vidéos TikTok sans le son.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 215,
+    "content": "Mon prof a dit que la triche ne mène nulle part.",
+    "punchline": "Bizarre, elle m'a mené jusqu'en terminale.",
+    "category": "ECOLE",
+    "maturityLevel": 2,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 216,
+    "content": "La rentrée, c'est comme un lundi.",
+    "punchline": "Mais un lundi qui dure 10 mois.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 217,
+    "content": "Le BDE organise une soirée « révisions ».",
+    "punchline": "La seule chose qu'on a révisée c'est notre tolérance à l'alcool.",
+    "category": "ECOLE",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 218,
+    "content": "Mon relevé de notes ressemble à la météo :",
+    "punchline": "Principalement en dessous de la moyenne avec des éclaircies occasionnelles.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 219,
+    "content": "Le prof a demandé « Qui n'a pas fait ses devoirs ? »",
+    "punchline": "J'ai pas levé la main. Techniquement, ne pas lever la main c'est aussi ne pas faire d'effort.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 220,
+    "content": "J'ai dit à mes parents que j'avais la moyenne.",
+    "punchline": "J'ai pas précisé que c'était la moyenne de mes deux pires notes.",
+    "category": "ECOLE",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 221,
+    "content": "Mon père m'a demandé pourquoi je parlais tout seul.",
+    "punchline": "Je lui ai expliqué que mon équipe sur Fortnite avait plus besoin de coaching que moi.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 222,
+    "content": "J'ai passé 200 heures sur un jeu vidéo.",
+    "punchline": "Mon CV dit « persévérant et déterminé ».",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 223,
+    "content": "Ma copine m'a dit « c'est moi ou les jeux vidéo ».",
+    "punchline": "Elle me manque parfois. Surtout entre deux parties.",
+    "category": "GAMING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 224,
+    "content": "Sur Discord, mon pseudo c'est « xX_DarkKiller_Xx ».",
+    "punchline": "Dans la vraie vie, j'ai peur des araignées.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 225,
+    "content": "J'ai ragequit tellement fort que j'ai cassé ma manette.",
+    "punchline": "Ma mère m'a dit « t'as autant de self-control que ton WiFi ».",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 226,
+    "content": "La différence entre un gamer et un sportif ?",
+    "punchline": "Le gamer, lui, fait jamais de pause.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "QA"
+  },
+  {
+    "id": 227,
+    "content": "Mon coéquipier random en ranked m'a insulté en 4 langues.",
+    "punchline": "Au moins, les jeux vidéo c'est multiculturel.",
+    "category": "GAMING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 228,
+    "content": "J'ai mis « gamer compétitif » sur mon CV.",
+    "punchline": "Le recruteur m'a demandé mon rank. J'ai retiré la ligne.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 229,
+    "content": "Le mec qui dit « GG easy » après un match de 45 minutes :",
+    "punchline": "Frère, t'as failli perdre trois fois et t'as pleuré sur le chat.",
+    "category": "GAMING",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 230,
+    "content": "Mon perso dans le jeu a une meilleure vie sociale que moi.",
+    "punchline": "Il a une maison, des amis, et il sort régulièrement.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 231,
+    "content": "Ma mère m'a demandé si je pouvais « mettre le jeu en pause ».",
+    "punchline": "C'est un jeu en ligne, maman. Tu peux pas mettre la guerre en pause.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 232,
+    "content": "J'ai acheté un skin à 20 euros dans un jeu gratuit.",
+    "punchline": "L'économie, c'est pas mon truc.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 233,
+    "content": "En ranked, j'ai un plan de jeu très précis :",
+    "punchline": "Foncer, mourir, blâmer l'équipe. Répéter.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 234,
+    "content": "Mon pote dit qu'il est « hardstuck » à cause de ses teammates.",
+    "punchline": "Ça fait 5 saisons et il change d'équipe à chaque partie. Le point commun c'est lui.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 235,
+    "content": "Je me suis endormi avec mon casque gaming.",
+    "punchline": "J'ai rêvé en 7.1 surround. Le cauchemar était immersif.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 236,
+    "content": "Mon inventaire dans le jeu est mieux rangé que ma chambre.",
+    "punchline": "Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 237,
+    "content": "J'ai installé un jeu de 120 Go.",
+    "punchline": "J'y ai joué 20 minutes. C'était nul. J'ai pas désinstallé, on sait jamais.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 238,
+    "content": "Le tuto du jeu dit « appuyez sur X pour esquiver ».",
+    "punchline": "Je fais pareil dans la vie quand on me pose des questions gênantes.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 239,
+    "content": "Mon historique Steam, c'est comme mes résolutions du Nouvel An :",
+    "punchline": "Plein de trucs achetés avec enthousiasme et jamais terminés.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 240,
+    "content": "J'ai crié « ALLONS-Y LES GARS » dans mon micro.",
+    "punchline": "J'étais en mute depuis 20 minutes. L'équipe m'a jamais entendu. On a perdu.",
+    "category": "GAMING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 241,
+    "content": "J'ai posté une photo de mon plat au restaurant.",
+    "punchline": "Le plat a refroidi, mais j'ai eu 47 likes. Ça valait le coup.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 242,
+    "content": "Mon ex a liké ma story de vacances.",
+    "punchline": "Mon thérapeute appelle ça du progrès, moi j'appelle ça de l'espionnage.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 243,
+    "content": "J'ai supprimé Instagram pendant 3 jours.",
+    "punchline": "J'ai réinstallé au bout de 2 heures. Mon record personnel.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 244,
+    "content": "Ma bio Instagram dit « living my best life ».",
+    "punchline": "En vrai, je suis en pyjama depuis vendredi.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 245,
+    "content": "J'ai passé 4 heures à scroller TikTok.",
+    "punchline": "J'ai appris à faire une étagère, parler japonais et cuisiner thaï. J'ai rien fait de tout ça.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 246,
+    "content": "Mon temps d'écran cette semaine : 9h par jour.",
+    "punchline": "Mon téléphone m'a envoyé une notif de félicitations. Même lui est ironique.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 247,
+    "content": "Quelqu'un m'a unfollow sur Instagram.",
+    "punchline": "Je sais pas qui c'est mais je le prends personnellement.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 248,
+    "content": "J'ai posté une story et personne a répondu.",
+    "punchline": "J'ai vérifié si mon WiFi marchait. Oui. C'est juste ma vie sociale.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 249,
+    "content": "Sur LinkedIn, tout le monde est « passionné » et « motivé ».",
+    "punchline": "En vrai, on est tous là pour le salaire.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 250,
+    "content": "J'ai mis « influenceur » dans ma bio.",
+    "punchline": "J'influence surtout ma mère à me demander de trouver un vrai travail.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 251,
+    "content": "Twitter, c'est comme un dîner de famille :",
+    "punchline": "Tout le monde a un avis, personne écoute, et ça finit en bagarre.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 252,
+    "content": "J'ai fait une vidéo TikTok qui a fait 3 vues.",
+    "punchline": "C'était moi, ma mère, et un bot russe. Merci à tous les trois.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 253,
+    "content": "J'envoie des snaps à mes potes pour maintenir les flammes.",
+    "punchline": "On se parle pas, mais on a une série de 200 jours. C'est ça l'amitié moderne.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 254,
+    "content": "Quelqu'un a commenté « premier » sous ma vidéo.",
+    "punchline": "Il était aussi le dernier. Et le seul.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 255,
+    "content": "J'ai désactivé les notifications de mon téléphone.",
+    "punchline": "Personne m'a écrit pendant 3 jours. Au moins, j'étais pas dérangé.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 256,
+    "content": "Mon algorithme TikTok me connaît mieux que mes parents.",
+    "punchline": "Il sait que j'aime les chats, la pizza, et pleurer à 2h du mat.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 257,
+    "content": "J'ai bloqué quelqu'un sur les réseaux.",
+    "punchline": "Il m'a appelé pour demander pourquoi. Frère, c'est justement pour pas te parler.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 258,
+    "content": "Je poste une photo de profil tous les 6 mois.",
+    "punchline": "C'est pas de la paresse, c'est du personal branding à long terme.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 259,
+    "content": "Un pote m'a envoyé un reel que j'avais déjà vu.",
+    "punchline": "Je l'ai quand même regardé. Par politesse. Et parce que c'était drôle.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 260,
+    "content": "Mon compte Twitter a 12 followers.",
+    "punchline": "Je tweete comme si j'en avais 12 millions. L'énergie est là.",
+    "category": "RESEAUX_SOCIAUX",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 261,
+    "content": "Elle m'a dit « sois toi-même » sur Tinder.",
+    "punchline": "J'ai été moi-même. Elle m'a unmatché.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 262,
+    "content": "La bio Tinder parfaite :",
+    "punchline": "« Cherche quelqu'un qui rira à mes blagues. Niveau requis : très bas. »",
+    "category": "DATING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 263,
+    "content": "On m'a dit que les applis de rencontre c'est un jeu de chiffres.",
+    "punchline": "Pour l'instant mes chiffres c'est : 200 swipes, 3 matchs, 0 réponse.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 264,
+    "content": "Ma technique de drague c'est l'humour.",
+    "punchline": "Le problème c'est que les gens rient de moi, pas avec moi.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 265,
+    "content": "J'ai eu un date Tinder dans un café.",
+    "punchline": "Elle est partie aux toilettes et elle est jamais revenue. Le café était bon au moins.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 266,
+    "content": "Elle m'a demandé ce que je faisais dans la vie.",
+    "punchline": "J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 267,
+    "content": "Sur Bumble, la fille doit écrire en premier.",
+    "punchline": "Le match a expiré. Apparemment, même quand c'est son tour, personne veut me parler.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 268,
+    "content": "Mon pote utilise des photos d'il y a 5 ans sur Tinder.",
+    "punchline": "Les filles matchent avec son passé. Le présent, il le gère sur place.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 269,
+    "content": "J'ai mis « 1m80 » sur mon profil.",
+    "punchline": "En vrai je fais 1m74. Mais avec les chaussures et la confiance en soi, ça se tient.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 270,
+    "content": "Mon date m'a dit « t'es pas comme sur tes photos ».",
+    "punchline": "J'ai répondu « toi non plus ». On a payé l'addition chacun de son côté.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 271,
+    "content": "Elle m'a ghosté après 3 semaines de messages.",
+    "punchline": "J'ai plus de conversations avec mon livreur Uber Eats qu'avec mes matchs.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 272,
+    "content": "J'ai essayé la drague à l'ancienne, en vrai.",
+    "punchline": "Je suis allé parler à une fille dans un bar. Elle m'a demandé mon @. On en est là.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 273,
+    "content": "Mon premier message Tinder c'est toujours un jeu de mots avec son prénom.",
+    "punchline": "Elle s'appelait Solange. J'ai écrit « Solange que t'es là, autant en profiter ». Pas de réponse.",
+    "category": "DATING",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 274,
+    "content": "Ma mère me demande quand je vais ramener quelqu'un à la maison.",
+    "punchline": "J'ai ramené une pizza. C'est la seule relation stable que j'ai.",
+    "category": "DATING",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 275,
+    "content": "On m'a dit « l'amour vient quand on s'y attend pas ».",
+    "punchline": "Je m'y attends pas depuis 3 ans. Toujours rien.",
+    "category": "DATING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 276,
+    "content": "J'ai payé Tinder Gold pour voir qui m'avait liké.",
+    "punchline": "C'était un compte à 8000 km et un profil sans photo. L'investissement du siècle.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 277,
+    "content": "Elle m'a demandé « c'est quoi ton love language ? »",
+    "punchline": "J'ai répondu « envoyer des memes à 3h du mat ». C'était la mauvaise réponse.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 278,
+    "content": "Mon profil Hinge dit « en recherche de quelque chose de sérieux ».",
+    "punchline": "En vrai, je cherche surtout quelqu'un qui partage son mot de passe Netflix.",
+    "category": "DATING",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 279,
+    "content": "Sur les applis, y'a toujours la question « tu cherches quoi ? »",
+    "punchline": "La vraie réponse c'est « quelqu'un qui répond en moins de 3 jours ».",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 280,
+    "content": "Elle m'a dit « on reste amis ».",
+    "punchline": "Super. J'avais justement besoin d'un 847e ami qui me parle jamais.",
+    "category": "DATING",
+    "maturityLevel": 2,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 281,
+    "content": "En soirée, y'a toujours un mec qui dit « je bois pas ce soir ».",
+    "punchline": "C'est toujours le premier à danser sur la table.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 282,
+    "content": "Ma technique de drague en soirée :",
+    "punchline": "Rester près du buffet et attendre que quelqu'un me demande de lui passer les chips.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 283,
+    "content": "En soirée, y'a celui qui contrôle la musique.",
+    "punchline": "Il met du Jul. La moitié de la salle part, l'autre moitié chante. Y'a pas d'entre-deux.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 284,
+    "content": "J'ai dit « je reste une heure max » en arrivant à la soirée.",
+    "punchline": "Il est 4h du mat et je suis en train d'expliquer ma théorie sur les dinosaures.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 285,
+    "content": "Le lendemain de soirée, je vérifie mon téléphone.",
+    "punchline": "12 photos floues, 3 stories regrettables, et un message à mon ex. Classique.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 286,
+    "content": "En soirée, y'a toujours quelqu'un qui dit « c'est ma chanson ! »",
+    "punchline": "C'est sa chanson toutes les 3 chansons. Il a beaucoup de chansons.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 287,
+    "content": "La playlist de soirée commence par du chill.",
+    "punchline": "Deux heures plus tard, on est sur du Rammstein. Personne sait comment on en est arrivés là.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 288,
+    "content": "Mon pote a vomi dans un pot de fleurs en soirée.",
+    "punchline": "La plante a jamais été aussi belle. Un vrai engrais naturel.",
+    "category": "SOIREES",
+    "maturityLevel": 3,
+    "type": "STORY"
+  },
+  {
+    "id": 289,
+    "content": "En soirée, tout le monde devient philosophe à 3h du mat.",
+    "punchline": "« Tu crois qu'on est seuls dans l'univers ? » Frère, t'es même pas capable de trouver tes clés.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 290,
+    "content": "J'ai apporté des chips en soirée.",
+    "punchline": "Elles ont duré 4 minutes. Mon effort social aussi.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 291,
+    "content": "En soirée, y'a toujours un mec qui connaît personne.",
+    "punchline": "C'est moi. À chaque fois c'est moi.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 292,
+    "content": "La règle numéro 1 en soirée : ne jamais prendre le micro au karaoké.",
+    "punchline": "La règle numéro 2 : après trois verres, la règle 1 n'existe plus.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 293,
+    "content": "Mon pote organise une soirée « tranquille, juste 10 personnes ».",
+    "punchline": "On était 47. Le voisin a appelé la police. Deux fois.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 294,
+    "content": "En after, tout le monde dit « demain je me lève tôt ».",
+    "punchline": "Il est 6h. Le soleil se lève. Personne n'est parti.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 295,
+    "content": "La soirée était tellement bien que j'ai oublié de prendre des photos.",
+    "punchline": "Du coup, ça n'a jamais existé. Y'a pas de preuve.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 296,
+    "content": "En soirée, je danse comme si personne me regardait.",
+    "punchline": "Malheureusement, tout le monde me regarde. Et filme.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 297,
+    "content": "Le DJ a mis un slow en soirée.",
+    "punchline": "J'ai dansé avec mon téléphone. Au moins lui, il me lâche pas.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 298,
+    "content": "Mon pote est arrivé en soirée avec une enceinte Bluetooth.",
+    "punchline": "Y'avait déjà une sono. Maintenant y'a deux musiques en même temps. Merci mec.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 299,
+    "content": "En soirée, j'ai perdu mes clés, mon téléphone et ma dignité.",
+    "punchline": "J'ai retrouvé les clés le lendemain. Le reste, toujours pas.",
+    "category": "SOIREES",
+    "maturityLevel": 2,
+    "type": "STORY"
+  },
+  {
+    "id": 300,
+    "content": "Y'a toujours un mec en soirée qui raconte la même histoire.",
+    "punchline": "Ça fait 4 soirées qu'il l'a racontée. À chaque fois, les détails changent. À chaque fois, c'est lui le héros.",
+    "category": "SOIREES",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 301,
+    "content": "Ma mère m'envoie des vocaux de 4 minutes.",
+    "punchline": "Les 3 premières minutes c'est le bruit de fond de la cuisine.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 302,
+    "content": "Mon père a découvert les emojis.",
+    "punchline": "Il m'envoie un pouce levé pour me dire que mamie est à l'hôpital.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 303,
+    "content": "Ma mère m'a appelé pour me dire qu'elle m'a envoyé un SMS.",
+    "punchline": "Dans le SMS, elle me dit de vérifier mes mails. Dans le mail, elle me dit de l'appeler.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 304,
+    "content": "Mon père utilise Google comme barre d'adresse.",
+    "punchline": "Il tape « google » dans Google. L'univers a failli imploser.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 305,
+    "content": "Ma mère a partagé un article Facebook sur les dangers d'Internet.",
+    "punchline": "Sur Internet.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 306,
+    "content": "Mon père m'a demandé d'installer WhatsApp sur sa tablette.",
+    "punchline": "Il m'a fallu 3 heures. 10 minutes pour l'installer, 2h50 pour lui expliquer.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 307,
+    "content": "Ma mère pense que mettre son téléphone en mode avion ça le fait voler.",
+    "punchline": "J'ai même pas essayé de corriger. C'est plus drôle comme ça.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 308,
+    "content": "Mon père m'envoie des messages en MAJUSCULES.",
+    "punchline": "J'AI PAS L'IMPRESSION QU'IL ME PARLE, J'AI L'IMPRESSION QU'IL ME CRIE DESSUS PAR ÉCRIT.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 309,
+    "content": "Ma mère a créé un groupe WhatsApp famille.",
+    "punchline": "On est 4 dedans et y'a déjà un conflit. Le ratio est impressionnant.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 310,
+    "content": "Mon père regarde des tutos YouTube à fond le son dans le salon.",
+    "punchline": "Toute la famille sait maintenant comment réparer une chasse d'eau.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 311,
+    "content": "Ma mère m'a envoyé un lien suspect en me disant « c'est vrai ? »",
+    "punchline": "C'était un article qui disait que le Wi-Fi rend stérile. Signé : blog-sante-naturelle-2008.fr",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 312,
+    "content": "Mon père a pris un selfie pour la première fois.",
+    "punchline": "On voit son front, le plafond, et son doigt devant l'objectif. Chef-d'œuvre.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 313,
+    "content": "Ma mère m'a dit « je t'ai vu en ligne à 2h du mat ».",
+    "punchline": "Elle était en ligne aussi. On s'est regardés en silence. Personne a rien dit.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 314,
+    "content": "Mon père dit « de mon temps, on avait pas de téléphone ».",
+    "punchline": "Maintenant il est incapable de trouver une boulangerie sans Google Maps.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 315,
+    "content": "Ma mère croit que « LOL » veut dire « Lots Of Love ».",
+    "punchline": "Elle m'a écrit « ton oncle est malade LOL ». L'émotion était... différente.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 316,
+    "content": "Mon père a découvert la fonctionnalité « transfert » sur WhatsApp.",
+    "punchline": "Je reçois maintenant 15 « bonjour » animés avec des papillons par semaine.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
+  },
+  {
+    "id": 317,
+    "content": "Ma mère a mis 4 minutes à écrire « ok ».",
+    "punchline": "Elle a effacé, réécrit, ajouté un point, enlevé le point, remis un point, et envoyé « Ok. » Le suspense était insoutenable.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 318,
+    "content": "Mon père a essayé de prendre une photo du coucher de soleil.",
+    "punchline": "Il a activé le flash. Sur le soleil.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "STORY"
+  },
+  {
+    "id": 319,
+    "content": "Ma mère m'a demandé de supprimer « le Google » de son téléphone.",
+    "punchline": "Parce qu'il « sait tout sur elle » et ça lui fait peur.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "DIALOGUE"
+  },
+  {
+    "id": 320,
+    "content": "Mon père signe ses SMS comme des lettres.",
+    "punchline": "« Bien cordialement, Papa. » C'est pour me demander si je veux des pâtes ce soir.",
+    "category": "PARENTS",
+    "maturityLevel": 1,
+    "type": "ONE_LINER"
   }
 ]
