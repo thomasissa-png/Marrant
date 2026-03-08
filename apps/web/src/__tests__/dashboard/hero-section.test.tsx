@@ -14,17 +14,27 @@ describe("HeroSection", () => {
     expect(screen.getByText("Nouveau : coaching IA personnalisé")).toBeInTheDocument();
   });
 
-  it("shows main heading", () => {
+  it("shows main heading with drôle and percutant", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("drôle")).toBeInTheDocument();
+    expect(screen.getByText("percutant")).toBeInTheDocument();
     expect(screen.getByText(/pour de vrai/)).toBeInTheDocument();
   });
 
-  it("shows description", () => {
+  it("shows description with répartie", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Blagues, conseils de pros/)).toBeInTheDocument();
+    expect(screen.getByText(/techniques de répartie/)).toBeInTheDocument();
+  });
+
+  it("shows use-case tags", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    expect(screen.getByText("Répartie au quotidien")).toBeInTheDocument();
+    expect(screen.getByText("Blagues machine à café")).toBeInTheDocument();
+    expect(screen.getByText("Confiance en soi")).toBeInTheDocument();
+    expect(screen.getByText("Progression structurée")).toBeInTheDocument();
   });
 
   it("shows unauthenticated buttons", () => {

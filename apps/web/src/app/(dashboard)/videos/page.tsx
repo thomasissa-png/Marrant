@@ -15,7 +15,10 @@ export default function VideosPage() {
           Vidéos stand-up
         </h1>
         <p className="mt-2 text-text-secondary">
-          Apprends des meilleurs humoristes français avec des extraits annotés.
+          Regarde comment les meilleurs humoristes français construisent
+          leurs blagues et leurs punchlines. Chaque vidéo est annotée avec
+          la technique utilisée — idéal pour comprendre et reproduire ce qui
+          fait rire.
         </p>
       </div>
 

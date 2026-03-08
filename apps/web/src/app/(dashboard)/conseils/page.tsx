@@ -12,11 +12,13 @@ export default function ConseilsPage() {
     <>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Conseils humour
+          Conseils humour &amp; répartie
         </h1>
         <p className="mt-2 text-text-secondary">
-          Progresse à ton rythme avec des conseils actionnables, des exemples
-          concrets et des exercices pratiques.
+          Techniques de répartie, timing, storytelling, auto-dérision — chaque
+          conseil vient avec un exemple concret et un exercice à tester
+          dès aujourd&apos;hui. Du débutant qui manque de confiance au confirmé
+          qui veut affiner son jeu.
         </p>
       </div>
 

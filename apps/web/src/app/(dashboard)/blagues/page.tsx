@@ -15,8 +15,9 @@ export default function BlaguesPage() {
           Blagues
         </h1>
         <p className="mt-2 text-text-secondary">
-          Des centaines de blagues pour tous les goûts. Clique pour révéler la
-          chute.
+          Des centaines de blagues triées par catégorie — à ressortir entre
+          potes, à la machine à café ou en soirée. Clique pour révéler la
+          chute, et sauvegarde tes préférées.
         </p>
       </div>
 

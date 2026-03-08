@@ -14,7 +14,10 @@ export default function ParcoursPage() {
           Parcours d&apos;apprentissage
         </h1>
         <p className="mt-2 text-text-secondary">
-          Des programmes structurés pour progresser étape par étape. Complète les exercices pour gagner de l&apos;XP.
+          Tu veux progresser mais tu ne sais pas par où commencer ? Suis un
+          parcours guidé étape par étape — du débutant qui manque de répartie
+          au comique en herbe qui veut monter sur scène. Gagne de l&apos;XP
+          à chaque exercice complété.
         </p>
       </div>
       <ParcoursList />

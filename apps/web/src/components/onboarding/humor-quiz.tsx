@@ -14,20 +14,20 @@ interface QuizQuestion {
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    question: "C'est quoi ton style d'humour préféré ?",
+    question: "C'est quoi ton objectif principal ?",
     options: [
-      { label: "Blagues absurdes", value: "ABSURDE", emoji: "🤪" },
-      { label: "Répartie cinglante", value: "REPARTIE", emoji: "⚡" },
-      { label: "Histoires drôles", value: "STORYTELLING", emoji: "📖" },
-      { label: "Jeux de mots", value: "JEUX_DE_MOTS", emoji: "🧩" },
+      { label: "Avoir de la répartie", value: "REPARTIE", emoji: "⚡" },
+      { label: "Faire rire les gens", value: "BLAGUES", emoji: "😂" },
+      { label: "Être plus à l'aise socialement", value: "CONFIANCE", emoji: "💪" },
+      { label: "Tout ça à la fois", value: "GLOBAL", emoji: "🎯" },
     ],
   },
   {
     question: "Où tu veux être drôle ?",
     options: [
-      { label: "Avec mes potes", value: "social", emoji: "👯" },
-      { label: "En soirée", value: "party", emoji: "🎉" },
-      { label: "Sur les réseaux", value: "online", emoji: "📱" },
+      { label: "Entre potes / au lycée", value: "social", emoji: "👯" },
+      { label: "Au boulot / machine à café", value: "work", emoji: "☕" },
+      { label: "En soirée / rendez-vous", value: "party", emoji: "🎉" },
       { label: "Partout", value: "everywhere", emoji: "🌍" },
     ],
   },
@@ -37,7 +37,7 @@ const QUESTIONS: QuizQuestion[] = [
       { label: "Mes blagues tombent à plat", value: "DEBUTANT", emoji: "😬" },
       { label: "Parfois ça marche", value: "INTERMEDIAIRE", emoji: "😏" },
       { label: "Je fais rire souvent", value: "AVANCE", emoji: "😂" },
-      { label: "Je veux monter sur scène", value: "EXPERT", emoji: "🎤" },
+      { label: "Je veux aller encore plus loin", value: "EXPERT", emoji: "🎤" },
     ],
   },
 ];
@@ -45,25 +45,25 @@ const QUESTIONS: QuizQuestion[] = [
 const RESULTS: Record<string, { title: string; description: string; emoji: string; path: string }> = {
   DEBUTANT: {
     title: "Le Novice Prometteur",
-    description: "T'as le potentiel, il te manque juste les techniques ! Commence par les bases.",
+    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance — étape par étape.",
     emoji: "🌱",
     path: "/parcours",
   },
   INTERMEDIAIRE: {
     title: "Le Blagueur en Herbe",
-    description: "T'as déjà le sens de l'humour, on va l'affûter ensemble.",
+    description: "T'as déjà le sens de l'humour, on va l'affûter. Répartie, timing, anecdotes — tu vas devenir celui qu'on écoute.",
     emoji: "🌿",
     path: "/conseils",
   },
   AVANCE: {
     title: "Le Comique Naturel",
-    description: "T'es déjà bon ! On va te rendre inoubliable.",
+    description: "T'es déjà bon ! On va te donner les techniques avancées pour être inoubliable — en soirée, au boulot, partout.",
     emoji: "🔥",
     path: "/videos",
   },
   EXPERT: {
     title: "La Future Star",
-    description: "Tu vises haut et c'est ce qu'on aime. Prépare-toi pour la scène !",
+    description: "Tu vises haut et c'est ce qu'on aime. Analyse les meilleurs, peaufine tes techniques et prépare-toi à briller.",
     emoji: "⭐",
     path: "/parcours",
   },

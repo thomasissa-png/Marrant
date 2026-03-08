@@ -151,8 +151,57 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
+      {/* Prochaine étape — recommandation personnalisée */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Prochaine étape</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {user.stats.tipsCompleted < 3 && (
+              <Link href="/conseils" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
+                  <p className="font-semibold text-accent-yellow">Apprends les bases</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Commence par les conseils de répartie et de timing — les fondamentaux pour être à l&apos;aise.
+                  </p>
+                </div>
+              </Link>
+            )}
+            {user.stats.jokesRead < 10 && (
+              <Link href="/blagues" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
+                  <p className="font-semibold text-accent-yellow">Enrichis ton répertoire</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Lis des blagues par catégorie et sauvegarde celles que tu veux ressortir.
+                  </p>
+                </div>
+              </Link>
+            )}
+            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && (
+              <Link href="/parcours" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
+                  <p className="font-semibold text-accent-yellow">Lance un parcours</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Tu as les bases — suis un parcours structuré pour passer au niveau supérieur.
+                  </p>
+                </div>
+              </Link>
+            )}
+            <Link href="/videos" className="group">
+              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-orange">
+                <p className="font-semibold text-accent-orange">Regarde les pros</p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  Analyse les techniques des meilleurs humoristes pour t&apos;en inspirer.
+                </p>
+              </div>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Abonnement */}
-      <Card>
+      <Card className="md:col-span-2">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Abonnement</CardTitle>
@@ -170,7 +219,8 @@ export function ProfilDashboard() {
             <>
               <p className="mb-4 text-sm text-text-secondary">
                 Passe en Premium pour débloquer l&apos;accès illimité et le
-                coaching IA personnalisé.
+                coaching IA — génère des blagues sur mesure, reçois des
+                conseils personnalisés et entraîne ta répartie.
               </p>
               <Button variant="secondary" size="sm">
                 Passer Premium — 9,99€/mois

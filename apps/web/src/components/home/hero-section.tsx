@@ -17,13 +17,33 @@ export function HeroSection() {
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
         Deviens{" "}
         <span className="text-gradient">drôle</span>
+        {" "}et{" "}
+        <span className="text-gradient">percutant</span>
         <br />
         pour de vrai.
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
-        Blagues, conseils de pros, vidéos stand-up et coaching IA — tout ce
-        qu&apos;il faut pour maîtriser l&apos;humour et la répartie.
+        Blagues à ressortir, techniques de répartie, conseils de pros et
+        coaching IA — progresse en humour à ton rythme, que ce soit entre
+        potes, au boulot ou dans la vie de tous les jours.
       </p>
+
+      {/* Use cases concrets */}
+      <div className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-3">
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Répartie au quotidien
+        </span>
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Blagues machine à café
+        </span>
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Confiance en soi
+        </span>
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Progression structurée
+        </span>
+      </div>
+
       <div className="mt-8 flex items-center justify-center gap-4">
         {isAuthenticated ? (
           <>

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 
 jest.mock("next-auth/react", () => ({
@@ -120,5 +120,33 @@ describe("ProfilDashboard", () => {
     render(<ProfilDashboard />);
     expect(screen.getByText("Progression")).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  });
+
+  it("shows 'Prochaine étape' section", () => {
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Prochaine étape")).toBeInTheDocument();
+  });
+
+  it("shows 'Regarde les pros' recommendation", () => {
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Regarde les pros")).toBeInTheDocument();
+    expect(screen.getByText(/techniques des meilleurs humoristes/)).toBeInTheDocument();
+  });
+
+  it("shows 'Lance un parcours' when stats are high enough", () => {
+    render(<ProfilDashboard />);
+    // mockUser has tipsCompleted=15 and jokesRead=42, so parcours is shown
+    expect(screen.getByText("Lance un parcours")).toBeInTheDocument();
+  });
+
+  it("shows 'Apprends les bases' for new users with few tips", () => {
+    useUserStore.mockReturnValue({
+      user: { ...mockUser, stats: { ...mockUser.stats, tipsCompleted: 1, jokesRead: 2 } },
+      isLoading: false,
+      fetchUser: mockFetchUser,
+    });
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Apprends les bases")).toBeInTheDocument();
+    expect(screen.getByText("Enrichis ton répertoire")).toBeInTheDocument();
   });
 });
