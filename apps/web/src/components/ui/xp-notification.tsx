@@ -43,7 +43,7 @@ export function XpNotificationProvider() {
       {events.map((ev) => (
         <div
           key={ev.id}
-          className="animate-xp-float rounded-full bg-accent-yellow px-4 py-2 text-sm font-bold text-background shadow-lg"
+          className="animate-xp-float rounded-full bg-accent-primary px-4 py-2 text-sm font-bold text-white shadow-lg"
           role="status"
           aria-label={`${ev.amount} XP gagnés`}
         >

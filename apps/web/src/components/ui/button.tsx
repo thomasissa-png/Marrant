@@ -8,13 +8,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-accent-yellow text-background hover:bg-accent-yellow-hover focus-visible:ring-accent-yellow",
+          "bg-accent-primary text-white hover:bg-accent-primary-hover focus-visible:ring-accent-primary",
         secondary:
-          "bg-accent-violet text-white hover:bg-accent-violet-hover focus-visible:ring-accent-violet",
+          "bg-accent-secondary text-white hover:bg-accent-secondary-hover focus-visible:ring-accent-secondary",
         ghost:
-          "text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:ring-accent-yellow",
+          "text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:ring-accent-primary",
         outline:
-          "border border-border text-text-primary hover:bg-background-elevated hover:border-border-hover focus-visible:ring-accent-yellow",
+          "border border-border text-text-primary hover:bg-background-elevated hover:border-border-hover focus-visible:ring-accent-primary",
         danger:
           "bg-error text-white hover:bg-red-600 focus-visible:ring-error",
       },

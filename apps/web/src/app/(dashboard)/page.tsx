@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
+import { PremiumCta } from "@/components/home/premium-cta";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -90,21 +91,21 @@ export default function HomePage() {
           <CardContent>
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
-                <p className="font-semibold text-accent-yellow">Pour les timides</p>
+                <p className="font-semibold text-accent-primary">Pour les timides</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Tu manques de répartie ? On t&apos;apprend à rebondir avec des
                   techniques simples et des exercices concrets.
                 </p>
               </div>
               <div>
-                <p className="font-semibold text-accent-yellow">Au quotidien</p>
+                <p className="font-semibold text-accent-primary">Au quotidien</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Pause café, afterwork, dîner — apprends des blagues et
                   anecdotes qui marchent à tous les coups.
                 </p>
               </div>
               <div>
-                <p className="font-semibold text-accent-yellow">Pour progresser</p>
+                <p className="font-semibold text-accent-primary">Pour progresser</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Tu veux devenir vraiment drôle ? Suis un parcours structuré
                   et mesure ta progression avec les XP.
@@ -114,6 +115,9 @@ export default function HomePage() {
           </CardContent>
         </Card>
       </section>
+
+      {/* CTA Premium / Freemium */}
+      <PremiumCta />
     </>
   );
 }

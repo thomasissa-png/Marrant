@@ -144,7 +144,7 @@ export function VideosGrid() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+                  className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                 >
                   <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                     <img

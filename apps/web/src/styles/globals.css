@@ -10,11 +10,11 @@
     --color-bg-card: #1F1F1F;
     --color-bg-elevated: #2A2A2A;
 
-    /* Accents */
-    --color-accent-yellow: #F5C518;
-    --color-accent-yellow-hover: #FFD93D;
-    --color-accent-violet: #8B5CF6;
-    --color-accent-violet-hover: #A78BFA;
+    /* Accents — palette 100% violet */
+    --color-accent-primary: #8B5CF6;
+    --color-accent-primary-hover: #A78BFA;
+    --color-accent-secondary: #6D28D9;
+    --color-accent-secondary-hover: #7C3AED;
 
     /* Texte */
     --color-text-primary: #FFFFFF;
@@ -75,7 +75,7 @@
 
   /* Sélection personnalisée */
   ::selection {
-    background-color: var(--color-accent-yellow);
+    background-color: var(--color-accent-primary);
     color: var(--color-bg);
   }
 
@@ -106,6 +106,6 @@
 
   /* Gradient texte accent */
   .text-gradient {
-    @apply bg-gradient-to-r from-accent-yellow to-accent-violet bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-primary-hover to-accent-secondary bg-clip-text text-transparent;
   }
 }

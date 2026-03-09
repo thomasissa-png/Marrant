@@ -95,7 +95,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                 >
                   {showPassword ? (
@@ -119,13 +119,13 @@ export default function LoginPage() {
             </Button>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/forgot-password" className="text-accent-yellow hover:underline">
+            <Link href="/forgot-password" className="text-accent-primary hover:underline">
               Mot de passe oublié ?
             </Link>
           </div>
           <div className="mt-2 text-center text-sm text-text-secondary">
             Pas de compte ?{" "}
-            <Link href="/register" className="text-accent-yellow hover:underline">
+            <Link href="/register" className="text-accent-primary hover:underline">
               Inscris-toi
             </Link>
           </div>

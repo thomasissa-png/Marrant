@@ -47,9 +47,9 @@ const CATEGORIES = [
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
 ];
 
-const DIFFICULTY_VARIANT: Record<string, "violet" | "yellow" | "error"> = {
-  DEBUTANT: "violet",
-  INTERMEDIAIRE: "yellow",
+const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
+  DEBUTANT: "secondary",
+  INTERMEDIAIRE: "primary",
   EXPERT: "error",
 };
 
@@ -179,7 +179,7 @@ export function ConseilsList() {
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               style={{ animationDelay: `${index * 60}ms` }}
               tabIndex={0}
               onClick={() => toggleExpanded(tip.id)}
@@ -208,11 +208,11 @@ export function ConseilsList() {
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-yellow">Exemple</p>
+                      <p className="mb-1 text-xs font-semibold uppercase text-accent-primary">Exemple</p>
                       <p className="text-sm text-text-primary">{tip.example}</p>
                     </div>
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-violet">Exercice</p>
+                      <p className="mb-1 text-xs font-semibold uppercase text-accent-secondary">Exercice</p>
                       <p className="text-sm text-text-primary">{tip.exercise}</p>
                     </div>
                   </div>

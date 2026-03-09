@@ -63,7 +63,7 @@ export function ToastProvider() {
             "animate-slide-up rounded-lg px-4 py-3 text-sm font-medium shadow-lg",
             t.type === "success" && "bg-success text-white",
             t.type === "error" && "bg-error text-white",
-            t.type === "info" && "bg-accent-yellow text-background"
+            t.type === "info" && "bg-accent-primary text-white"
           )}
           role="status"
         >

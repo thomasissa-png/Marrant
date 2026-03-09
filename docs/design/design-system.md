@@ -10,13 +10,13 @@
 | `background-card` | `#1F1F1F` | Cards et conteneurs |
 | `background-elevated` | `#2A2A2A` | Éléments surélevés (hover, actif) |
 
-### Accents
+### Accents — Palette 100% violet
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `accent-yellow` | `#F5C518` | Accent principal (CTA, liens, badges) |
-| `accent-yellow-hover` | `#FFD93D` | Hover de l'accent jaune |
-| `accent-violet` | `#8B5CF6` | Accent secondaire (conseils, streaks) |
-| `accent-violet-hover` | `#A78BFA` | Hover de l'accent violet |
+| `accent-primary` | `#8B5CF6` | Accent principal (CTA, liens, badges, focus) |
+| `accent-primary-hover` | `#A78BFA` | Hover de l'accent principal |
+| `accent-secondary` | `#6D28D9` | Accent secondaire (boutons secondary, deep) |
+| `accent-secondary-hover` | `#7C3AED` | Hover de l'accent secondaire |
 
 ### Texte
 | Token | Hex | Usage |
@@ -40,23 +40,23 @@
 ## Composants UI
 
 ### Button
-Variants : `primary` (jaune), `secondary` (violet), `ghost`, `outline`, `danger`
+Variants : `primary` (violet vif), `secondary` (violet profond), `ghost`, `outline`, `danger`
 Tailles : `sm`, `md`, `lg`, `icon`
 
 ### Card
 Fond `background-card`, bordure `border`, hover `border-hover`, radius `lg`
 
 ### Badge
-Variants : `default`, `yellow`, `violet`, `success`, `error`, `premium`
+Variants : `default`, `primary`, `secondary`, `success`, `error`, `premium`
 
 ### Input
-Fond `background-light`, bordure `border`, focus `accent-yellow`
+Fond `background-light`, bordure `border`, focus `accent-primary`
 
 ### ProgressBar
-Variants : `yellow`, `violet`, `gradient`
+Variants : `primary`, `secondary`, `gradient`
 
 ### StreakCounter
-Animation pulse sur l'emoji feu, fond `accent-violet/10`
+Animation pulse sur l'emoji feu, fond `accent-secondary/10`
 
 ## Animations
 
@@ -64,6 +64,7 @@ Animation pulse sur l'emoji feu, fond `accent-violet/10`
 - `slide-up` : 300ms ease-out
 - `scale-in` : 200ms ease-out
 - `streak-pulse` : 2s ease-in-out infinite
+- `xp-float` : 2s ease-out notification +XP
 
 ## Directives personas
 
@@ -71,7 +72,7 @@ Le design doit satisfaire simultanément 3 profils :
 
 ### Yanis (17 ans, lycéen)
 - Interface engageante type « gaming » : animations XP, badges, streak avec pulse
-- Utiliser les accents jaune/violet généreusement pour les éléments de progression
+- Utiliser les tons violets généreusement pour les éléments de progression
 - Éviter un look « corporate » ou trop sobre — garder l'énergie
 - Cards interactives avec transitions fluides (hover, scale, reveal)
 

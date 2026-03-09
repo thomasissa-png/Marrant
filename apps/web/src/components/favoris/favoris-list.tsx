@@ -103,9 +103,9 @@ export function FavorisList() {
                   <Badge
                     variant={
                       fav.contentType === "JOKE"
-                        ? "yellow"
+                        ? "primary"
                         : fav.contentType === "TIP"
-                        ? "violet"
+                        ? "secondary"
                         : "default"
                     }
                     className="mb-2"

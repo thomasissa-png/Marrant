@@ -40,9 +40,9 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                 pathname === item.href
-                  ? "bg-background-elevated text-accent-yellow"
+                  ? "bg-background-elevated text-accent-primary"
                   : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
               )}
             >
@@ -95,7 +95,7 @@ export function Header() {
         <div className="flex items-center gap-1 md:hidden">
           {/* Bouton recherche mobile */}
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
             onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
             aria-label="Rechercher"
           >
@@ -106,7 +106,7 @@ export function Header() {
 
           {/* Menu burger mobile */}
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
             onClick={() => { setIsMenuOpen(!isMenuOpen); setIsMobileSearchOpen(false); }}
             aria-label="Menu"
             aria-expanded={isMenuOpen}
@@ -146,9 +146,9 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
+                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                   pathname === item.href
-                    ? "bg-background-elevated text-accent-yellow"
+                    ? "bg-background-elevated text-accent-primary"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
                 )}
                 onClick={() => setIsMenuOpen(false)}

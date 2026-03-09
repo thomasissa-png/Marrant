@@ -116,14 +116,14 @@ export function HumorQuiz() {
   return (
     <div className="mx-auto max-w-lg">
       <div className="mb-6 flex items-center justify-between">
-        <Badge variant="yellow">Question {currentQ + 1}/{QUESTIONS.length}</Badge>
+        <Badge variant="primary">Question {currentQ + 1}/{QUESTIONS.length}</Badge>
         <div className="flex gap-1">
           {QUESTIONS.map((_, i) => (
             <div
               key={i}
               className={cn(
                 "h-2 w-8 rounded-full transition-colors",
-                i <= currentQ ? "bg-accent-yellow" : "bg-background-elevated"
+                i <= currentQ ? "bg-accent-primary" : "bg-background-elevated"
               )}
             />
           ))}
@@ -139,7 +139,7 @@ export function HumorQuiz() {
           <button
             key={option.value}
             onClick={() => handleAnswer(option.value)}
-            className="flex flex-col items-center gap-2 rounded-lg border border-border bg-background-card p-4 text-center transition-all hover:border-accent-yellow hover:bg-background-elevated active:scale-95"
+            className="flex flex-col items-center gap-2 rounded-lg border border-border bg-background-card p-4 text-center transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-95"
           >
             <span className="text-3xl">{option.emoji}</span>
             <span className="text-sm font-medium text-text-primary">{option.label}</span>

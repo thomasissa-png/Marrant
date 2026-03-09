@@ -32,10 +32,10 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
     <button
       onClick={handleClick}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
+        "flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
         isFav
-          ? "bg-accent-yellow/20 text-accent-yellow scale-110"
-          : "bg-background-elevated text-text-muted hover:text-accent-yellow hover:bg-accent-yellow/10",
+          ? "bg-accent-primary/20 text-accent-primary scale-110"
+          : "bg-background-elevated text-text-muted hover:text-accent-primary hover:bg-accent-primary/10",
         className
       )}
       aria-label={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}

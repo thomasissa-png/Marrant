@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/login" className="text-accent-yellow hover:underline">
+            <Link href="/login" className="text-accent-primary hover:underline">
               Retour à la connexion
             </Link>
           </div>

@@ -13,13 +13,13 @@ describe("Badge", () => {
   });
 
   it("applies yellow variant", () => {
-    render(<Badge variant="yellow">Yellow</Badge>);
-    expect(screen.getByText("Yellow")).toHaveClass("text-accent-yellow");
+    render(<Badge variant="primary">Yellow</Badge>);
+    expect(screen.getByText("Yellow")).toHaveClass("text-accent-primary");
   });
 
   it("applies violet variant", () => {
-    render(<Badge variant="violet">Violet</Badge>);
-    expect(screen.getByText("Violet")).toHaveClass("text-accent-violet");
+    render(<Badge variant="secondary">Violet</Badge>);
+    expect(screen.getByText("Violet")).toHaveClass("text-accent-secondary");
   });
 
   it("applies success variant", () => {

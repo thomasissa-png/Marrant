@@ -8,12 +8,12 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: "bg-background-elevated text-text-secondary",
-        yellow: "bg-accent-yellow/20 text-accent-yellow",
-        violet: "bg-accent-violet/20 text-accent-violet",
+        primary: "bg-accent-primary/20 text-accent-primary",
+        secondary: "bg-accent-secondary/20 text-accent-secondary",
         success: "bg-success/20 text-success",
         error: "bg-error/20 text-error",
         premium:
-          "bg-gradient-to-r from-accent-yellow/20 to-accent-violet/20 text-accent-yellow",
+          "bg-gradient-to-r from-accent-primary/20 to-accent-secondary/20 text-accent-primary",
       },
     },
     defaultVariants: {

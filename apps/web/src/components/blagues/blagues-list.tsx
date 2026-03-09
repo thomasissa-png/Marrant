@@ -148,7 +148,7 @@ export function BlaguesList() {
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               style={{ animationDelay: `${index * 50}ms` }}
               tabIndex={0}
               onClick={() => togglePunchline(joke.id)}
@@ -157,7 +157,7 @@ export function BlaguesList() {
               <CardContent className="pt-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Badge variant="yellow">
+                    <Badge variant="primary">
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
                     <Badge variant="default">{joke.type}</Badge>
@@ -169,7 +169,7 @@ export function BlaguesList() {
                 </div>
                 <p className="text-text-primary">{joke.content}</p>
                 {revealedIds.has(joke.id) && (
-                  <p className="mt-3 font-semibold text-accent-yellow animate-fade-in">
+                  <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
                     {joke.punchline}
                   </p>
                 )}

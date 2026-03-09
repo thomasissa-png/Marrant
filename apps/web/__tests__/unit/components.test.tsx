@@ -14,7 +14,7 @@ describe("Button", () => {
   it("applique la variante primary par défaut", () => {
     render(<Button>Test</Button>);
     const button = screen.getByRole("button");
-    expect(button.className).toContain("bg-accent-yellow");
+    expect(button.className).toContain("bg-accent-primary");
   });
 
   it("applique la variante ghost", () => {

@@ -17,10 +17,10 @@ const config: Config = {
           elevated: "#2A2A2A",
         },
         accent: {
-          yellow: "#F5C518",
-          "yellow-hover": "#FFD93D",
-          violet: "#8B5CF6",
-          "violet-hover": "#A78BFA",
+          primary: "#8B5CF6",
+          "primary-hover": "#A78BFA",
+          secondary: "#6D28D9",
+          "secondary-hover": "#7C3AED",
         },
         text: {
           primary: "#FFFFFF",

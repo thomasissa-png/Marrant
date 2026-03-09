@@ -38,7 +38,7 @@ export function ShareButton({ title, text, className }: ShareButtonProps) {
     <button
       onClick={handleShare}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-full bg-background-elevated text-text-muted transition-all duration-200 hover:bg-accent-violet/10 hover:text-accent-violet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow",
+        "flex h-8 w-8 items-center justify-center rounded-full bg-background-elevated text-text-muted transition-all duration-200 hover:bg-accent-secondary/10 hover:text-accent-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
         copied && "bg-success/20 text-success",
         className
       )}

@@ -11,7 +11,7 @@ export function HeroSection() {
 
   return (
     <section className="py-12 text-center md:py-20">
-      <Badge variant="yellow" className="mb-4">
+      <Badge variant="primary" className="mb-4">
         Nouveau : coaching IA personnalisé
       </Badge>
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">

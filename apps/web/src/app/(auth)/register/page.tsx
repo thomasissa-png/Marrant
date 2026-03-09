@@ -123,7 +123,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                 >
                   {showPassword ? (
@@ -149,7 +149,7 @@ export default function RegisterPage() {
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
             Déjà un compte ?{" "}
-            <Link href="/login" className="text-accent-yellow hover:underline">
+            <Link href="/login" className="text-accent-primary hover:underline">
               Connecte-toi
             </Link>
           </div>

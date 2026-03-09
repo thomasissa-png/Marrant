@@ -87,7 +87,7 @@ export function DailyContent() {
         <Card className="mx-auto max-w-2xl">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Badge variant="yellow" className="w-fit">
+              <Badge variant="primary" className="w-fit">
                 Blague du jour
               </Badge>
               {data.joke && (
@@ -102,7 +102,7 @@ export function DailyContent() {
               <>
                 <p className="text-lg text-text-primary">{data.joke.content}</p>
                 {showPunchline ? (
-                  <p className="mt-4 text-lg font-semibold text-accent-yellow animate-fade-in">
+                  <p className="mt-4 text-lg font-semibold text-accent-primary animate-fade-in">
                     {data.joke.punchline}
                   </p>
                 ) : (
@@ -129,7 +129,7 @@ export function DailyContent() {
         <Card className="mx-auto max-w-2xl">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Badge variant="violet" className="w-fit">
+              <Badge variant="secondary" className="w-fit">
                 Conseil du jour
               </Badge>
               {data.tip && (

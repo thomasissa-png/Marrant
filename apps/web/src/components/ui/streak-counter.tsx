@@ -11,7 +11,7 @@ export function StreakCounter({ count, className }: StreakCounterProps) {
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full bg-accent-violet/10 px-4 py-2",
+        "inline-flex items-center gap-2 rounded-full bg-accent-secondary/10 px-4 py-2",
         className
       )}
     >
@@ -23,7 +23,7 @@ export function StreakCounter({ count, className }: StreakCounterProps) {
         🔥
       </span>
       <div className="flex flex-col">
-        <span className="text-sm font-bold text-accent-violet">
+        <span className="text-sm font-bold text-accent-secondary">
           {count} jour{count > 1 ? "s" : ""}
         </span>
         <span className="text-xs text-text-muted">de suite</span>

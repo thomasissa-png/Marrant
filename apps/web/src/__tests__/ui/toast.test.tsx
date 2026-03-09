@@ -70,7 +70,7 @@ describe("ToastProvider", () => {
       screen.getByText("Info")
     );
     expect(screen.getByText("Info!")).toBeInTheDocument();
-    expect(screen.getByText("Info!").closest("[role='status']")).toHaveClass("bg-accent-yellow");
+    expect(screen.getByText("Info!").closest("[role='status']")).toHaveClass("bg-accent-primary");
   });
 
   it("has aria-live polite for accessibility", async () => {

@@ -130,13 +130,13 @@ export function ProfilDashboard() {
         <CardContent>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold text-accent-yellow">
+              <p className="text-2xl font-bold text-accent-primary">
                 {user.stats.jokesRead}
               </p>
               <p className="text-xs text-text-muted">Blagues lues</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-violet">
+              <p className="text-2xl font-bold text-accent-secondary">
                 {user.stats.tipsCompleted}
               </p>
               <p className="text-xs text-text-muted">Conseils terminés</p>
@@ -160,8 +160,8 @@ export function ProfilDashboard() {
           <div className="grid gap-4 sm:grid-cols-3">
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
-                  <p className="font-semibold text-accent-yellow">Apprends les bases</p>
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-primary">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Commence par les conseils de répartie et de timing — les fondamentaux pour être à l&apos;aise.
                   </p>
@@ -170,8 +170,8 @@ export function ProfilDashboard() {
             )}
             {user.stats.jokesRead < 10 && (
               <Link href="/blagues" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
-                  <p className="font-semibold text-accent-yellow">Enrichis ton répertoire</p>
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Lis des blagues par catégorie et sauvegarde celles que tu veux ressortir.
                   </p>
@@ -180,8 +180,8 @@ export function ProfilDashboard() {
             )}
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && (
               <Link href="/parcours" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-yellow">
-                  <p className="font-semibold text-accent-yellow">Lance un parcours</p>
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-primary">Lance un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Tu as les bases — suis un parcours structuré pour passer au niveau supérieur.
                   </p>
@@ -189,8 +189,8 @@ export function ProfilDashboard() {
               </Link>
             )}
             <Link href="/videos" className="group">
-              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-violet">
-                <p className="font-semibold text-accent-violet">Regarde les pros</p>
+              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-secondary">
+                <p className="font-semibold text-accent-secondary">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Analyse les techniques des meilleurs humoristes pour t&apos;en inspirer.
                 </p>
@@ -205,7 +205,7 @@ export function ProfilDashboard() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Abonnement</CardTitle>
-            <Badge variant={user.plan === "PREMIUM" ? "yellow" : "default"}>
+            <Badge variant={user.plan === "PREMIUM" ? "primary" : "default"}>
               {user.plan === "PREMIUM" ? "Premium" : "Gratuit"}
             </Badge>
           </div>

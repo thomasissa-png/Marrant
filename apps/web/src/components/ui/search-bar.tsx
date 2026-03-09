@@ -64,8 +64,8 @@ export function SearchBar({ className }: { className?: string }) {
 
   const typeColor = (type: string) => {
     switch (type) {
-      case "JOKE": return "text-accent-yellow";
-      case "TIP": return "text-accent-violet";
+      case "JOKE": return "text-accent-primary";
+      case "TIP": return "text-accent-secondary";
       default: return "text-text-secondary";
     }
   };
@@ -101,7 +101,7 @@ export function SearchBar({ className }: { className?: string }) {
         />
         {isLoading && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent-yellow border-t-transparent" />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent-primary border-t-transparent" />
           </div>
         )}
       </div>

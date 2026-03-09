@@ -21,9 +21,9 @@ export default function MentionsLegalesPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Hébergement</h2>
-          <p>Ce site est hébergé par Vercel Inc.</p>
-          <p>440 N Bashaw St, Covina, CA 91723, États-Unis</p>
-          <p>Site web : vercel.com</p>
+          <p>Ce site est hébergé par Replit Inc.</p>
+          <p>50 Beale St, San Francisco, CA 94105, États-Unis</p>
+          <p>Site web : replit.com</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Propriété intellectuelle</h2>

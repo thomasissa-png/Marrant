@@ -89,7 +89,7 @@ describe("Header", () => {
     render(<Header />);
     const blaguesLinks = screen.getAllByText("Blagues");
     const desktopLink = blaguesLinks[0];
-    expect(desktopLink).toHaveClass("text-accent-yellow");
+    expect(desktopLink).toHaveClass("text-accent-primary");
   });
 
   it("calls signOut with callbackUrl on Déconnexion click", async () => {

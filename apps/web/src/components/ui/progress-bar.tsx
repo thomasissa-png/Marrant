@@ -8,7 +8,7 @@ interface ProgressBarProps {
   label?: string;
   showPercentage?: boolean;
   className?: string;
-  variant?: "yellow" | "violet" | "gradient";
+  variant?: "primary" | "secondary" | "gradient";
 }
 
 export function ProgressBar({
@@ -17,14 +17,14 @@ export function ProgressBar({
   label,
   showPercentage = false,
   className,
-  variant = "yellow",
+  variant = "primary",
 }: ProgressBarProps) {
   const percentage = Math.min(Math.round((value / max) * 100), 100);
 
   const variantClasses = {
-    yellow: "bg-accent-yellow",
-    violet: "bg-accent-violet",
-    gradient: "bg-gradient-to-r from-accent-yellow to-accent-violet",
+    primary: "bg-accent-primary",
+    secondary: "bg-accent-secondary",
+    gradient: "bg-gradient-to-r from-accent-primary to-accent-secondary",
   };
 
   return (
