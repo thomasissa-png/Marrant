@@ -114,22 +114,26 @@ async function main() {
   }
 
   // CONTENU DU JOUR — 7 jours (seulement si vide)
+  // Utilise des dates UTC pour être cohérent avec l'API (/api/daily)
   const dailyCount = await prisma.dailyContent.count();
   if (dailyCount === 0) {
     const allJokes = await prisma.joke.findMany({ take: 7 });
     const allTips = await prisma.tip.findMany({ take: 7 });
+    const allVideos = await prisma.video.findMany({ take: 7 });
 
     const dailyData = [];
+    const now = new Date();
     for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      date.setHours(0, 0, 0, 0);
+      const date = new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i)
+      );
 
       if (allJokes[i] && allTips[i]) {
         dailyData.push({
           date,
           jokeId: allJokes[i].id,
           tipId: allTips[i].id,
+          videoId: allVideos[i]?.id ?? null,
         });
       }
     }
