@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { generateJokeMonthlyPlan } from "./agents/joke-agent";
 import { generateTipMonthlyPlan } from "./agents/tip-agent";
@@ -31,22 +32,30 @@ export async function generateMonthlyPlans(month: number, year: number) {
 
       const entries = await agent.generate(month, year, daysInMonth);
 
-      await prisma.contentPlan.create({
-        data: {
-          agentType: agent.type,
-          month,
-          year,
-          entries: {
-            create: entries.map((entry) => ({
-              dayOfMonth: entry.dayOfMonth,
-              category: entry.category,
-              theme: entry.theme,
-              targetPersona: entry.targetPersona,
-              status: "PLANNED",
-            })),
+      try {
+        await prisma.contentPlan.create({
+          data: {
+            agentType: agent.type,
+            month,
+            year,
+            entries: {
+              create: entries.map((entry) => ({
+                dayOfMonth: entry.dayOfMonth,
+                category: entry.category,
+                theme: entry.theme,
+                targetPersona: entry.targetPersona,
+                status: "PLANNED",
+              })),
+            },
           },
-        },
-      });
+        });
+      } catch (error) {
+        // P2002 = unique constraint violation (race condition — plan créé par un autre processus)
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+          return { type: agent.type, message: `Plan ${agent.type} ${month}/${year} déjà créé (race condition)` };
+        }
+        throw error;
+      }
 
       return { type: agent.type, message: `Plan ${agent.type} créé : ${entries.length} entrées` };
     })

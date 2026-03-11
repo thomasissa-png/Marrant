@@ -35,8 +35,25 @@ export const PERSONAS = {
 
 export type PersonaKey = keyof typeof PERSONAS;
 
+const PERSONA_ORDER: PersonaKey[] = ["YANIS", "SOPHIE", "MARC"];
+
 // Rotation des personas sur le mois pour assurer la variété
 export function getPersonaForDay(dayOfMonth: number): PersonaKey {
-  const personas: PersonaKey[] = ["YANIS", "SOPHIE", "MARC"];
-  return personas[(dayOfMonth - 1) % 3];
+  return PERSONA_ORDER[(dayOfMonth - 1) % 3];
+}
+
+/**
+ * Génère la section "personas en rotation" pour les prompts de planification.
+ * Source unique de vérité — évite la divergence entre prompts et code.
+ */
+export function buildPersonaRotationPrompt(
+  categoryField: "jokeCategories" | "tipCategories"
+): string {
+  return PERSONA_ORDER.map((key, i) => {
+    const p = PERSONAS[key];
+    const days = `Jour ${i + 1}, ${i + 4}, ${i + 7}...`;
+    const cats = p[categoryField].join(", ");
+    const difficulty = categoryField === "tipCategories" ? ` (${p.tipDifficulty})` : "";
+    return `- ${days} → ${key} (${p.name}, ${p.age} ans${difficulty}) : catégories = ${cats}`;
+  }).join("\n");
 }

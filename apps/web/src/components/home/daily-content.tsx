@@ -18,6 +18,8 @@ interface Tip {
   content: string;
   category: string;
   difficulty: string;
+  example?: string;
+  exercise?: string;
 }
 
 interface Video {
@@ -180,12 +182,24 @@ export function DailyContent() {
           </CardHeader>
           <CardContent>
             {data.tip ? (
-              <>
-                <h3 className="mb-2 text-lg font-bold text-text-primary">
+              <div className="space-y-3">
+                <h3 className="text-lg font-bold text-text-primary">
                   {data.tip.title}
                 </h3>
                 <p className="text-text-secondary">{data.tip.content}</p>
-              </>
+                {data.tip.example && (
+                  <div className="rounded-lg bg-background-elevated p-3">
+                    <p className="text-sm font-semibold text-text-primary">Exemple concret</p>
+                    <p className="mt-1 text-sm text-text-secondary">{data.tip.example}</p>
+                  </div>
+                )}
+                {data.tip.exercise && (
+                  <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
+                    <p className="text-sm font-semibold text-accent-primary">Exercice du jour</p>
+                    <p className="mt-1 text-sm text-text-secondary">{data.tip.exercise}</p>
+                  </div>
+                )}
+              </div>
             ) : (
               <p className="text-text-secondary">Aucun conseil disponible aujourd&apos;hui.</p>
             )}

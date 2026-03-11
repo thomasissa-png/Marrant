@@ -1,6 +1,6 @@
 import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-import { getPersonaForDay } from "../personas";
+import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
 
 const TIP_CATEGORIES = [
@@ -127,9 +127,7 @@ export async function generateTipMonthlyPlan(
 Tu dois créer un plan de contenu pour ${daysInMonth} jours (${month}/${year}).
 
 3 PERSONAS à servir en rotation :
-- Jour 1, 4, 7... → YANIS (17 ans) : niveau DEBUTANT, catégories = REPARTIE, AUTODERISION, TIMING, ABSURDE
-- Jour 2, 5, 8... → SOPHIE (26 ans) : niveau INTERMEDIAIRE, catégories = TIMING, OBSERVATION, STORYTELLING, JEUX_DE_MOTS
-- Jour 3, 6, 9... → MARC (34 ans) : niveau INTERMEDIAIRE, catégories = STORYTELLING, AUTODERISION, REPARTIE, OBSERVATION, TIMING
+${buildPersonaRotationPrompt("tipCategories")}
 
 RÈGLES :
 1. Progression pédagogique sur le mois (les conseils s'enchaînent logiquement)

@@ -318,6 +318,60 @@ describe("Joke Agent", () => {
     expect(joke.content.length).toBeLessThanOrEqual(1000);
     expect(joke.punchline.length).toBeLessThanOrEqual(500);
   });
+
+  it("clamps maturityLevel to 1-3 range", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Chute",
+            category: "BOULOT",
+            type: "CLASSIQUE",
+            maturityLevel: 5,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(joke.maturityLevel).toBe(1);
+  });
+
+  it("falls back to CLASSIQUE on invalid type", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Chute",
+            category: "BOULOT",
+            type: "INVALID_TYPE",
+            maturityLevel: 2,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(joke.type).toBe("CLASSIQUE");
+  });
 });
 
 describe("Tip Agent", () => {
@@ -365,6 +419,62 @@ describe("Tip Agent", () => {
     expect(tip.difficulty).toBe("DEBUTANT");
     expect(tip.example).toBeTruthy();
     expect(tip.exercise).toBeTruthy();
+  });
+
+  it("corrects invalid difficulty to persona default", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Titre",
+            content: "Contenu du conseil",
+            category: "TIMING",
+            difficulty: "INVALID_DIFF",
+            example: "Exemple",
+            exercise: "Exercice",
+          }),
+        },
+      ],
+    });
+
+    const tip = await generateDailyTip({
+      persona: "YANIS",
+      plannedCategory: "TIMING",
+      plannedTheme: "Test",
+      recentTips: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(tip.difficulty).toBe("DEBUTANT"); // YANIS tipDifficulty
+  });
+
+  it("corrects invalid category to planned category", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Titre",
+            content: "Contenu",
+            category: "INVALID_CAT",
+            difficulty: "DEBUTANT",
+            example: "Exemple",
+            exercise: "Exercice",
+          }),
+        },
+      ],
+    });
+
+    const tip = await generateDailyTip({
+      persona: "YANIS",
+      plannedCategory: "REPARTIE",
+      plannedTheme: "Test",
+      recentTips: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(tip.category).toBe("REPARTIE");
   });
 
   it("throws on empty required fields", async () => {
@@ -533,9 +643,22 @@ describe("AI Client utilities", () => {
     expect(result).toEqual({ a: 1 });
   });
 
+  it("extractJson handles nested JSON objects", async () => {
+    const { extractJson } = await import("@/lib/ai/client");
+    const nested = '{"data": {"inner": [1,2,3]}, "name": "test"}';
+    const result = extractJson<{ data: { inner: number[] }; name: string }>(nested);
+    expect(result.data.inner).toEqual([1, 2, 3]);
+    expect(result.name).toBe("test");
+  });
+
   it("extractJson throws on no JSON", async () => {
     const { extractJson } = await import("@/lib/ai/client");
     expect(() => extractJson("no json here")).toThrow("aucun objet trouvé");
+  });
+
+  it("extractJson throws on incomplete JSON", async () => {
+    const { extractJson } = await import("@/lib/ai/client");
+    expect(() => extractJson('{"incomplete": ')).toThrow("incomplet");
   });
 
   it("extractJsonArray extracts JSON array", async () => {
@@ -544,9 +667,61 @@ describe("AI Client utilities", () => {
     expect(result).toEqual([{ x: 1 }, { x: 2 }]);
   });
 
+  it("extractJsonArray handles nested arrays", async () => {
+    const { extractJsonArray } = await import("@/lib/ai/client");
+    const result = extractJsonArray<{ data: number[] }>('[{"data": [1,2,3]}]');
+    expect(result[0].data).toEqual([1, 2, 3]);
+  });
+
   it("getResponseText extracts text from Anthropic response", async () => {
     const { getResponseText } = await import("@/lib/ai/client");
     const response = { content: [{ type: "text" as const, text: "hello" }] };
     expect(getResponseText(response as never)).toBe("hello");
+  });
+
+  it("getResponseText returns empty string when content is empty", async () => {
+    const { getResponseText } = await import("@/lib/ai/client");
+    const response = { content: [] };
+    expect(getResponseText(response as never)).toBe("");
+  });
+});
+
+describe("Persona rotation helpers", () => {
+  it("buildPersonaRotationPrompt generates consistent output", () => {
+    const { buildPersonaRotationPrompt } = require("@/lib/ai/personas");
+    const prompt = buildPersonaRotationPrompt("jokeCategories");
+    expect(prompt).toContain("YANIS");
+    expect(prompt).toContain("SOPHIE");
+    expect(prompt).toContain("MARC");
+    expect(prompt).toContain("ECOLE");
+    expect(prompt).toContain("BOULOT");
+    expect(prompt).toContain("COUPLE");
+  });
+
+  it("buildPersonaRotationPrompt includes difficulty for tipCategories", () => {
+    const { buildPersonaRotationPrompt } = require("@/lib/ai/personas");
+    const prompt = buildPersonaRotationPrompt("tipCategories");
+    expect(prompt).toContain("DEBUTANT");
+    expect(prompt).toContain("INTERMEDIAIRE");
+  });
+});
+
+describe("Date utilities", () => {
+  it("todayUTC returns midnight UTC", () => {
+    const { todayUTC } = require("@/lib/ai/date-utils");
+    const today = todayUTC();
+    expect(today.getUTCHours()).toBe(0);
+    expect(today.getUTCMinutes()).toBe(0);
+    expect(today.getUTCSeconds()).toBe(0);
+  });
+
+  it("getDayOfYear returns correct day", () => {
+    const { getDayOfYear } = require("@/lib/ai/date-utils");
+    // Jan 1 = day 1
+    expect(getDayOfYear(new Date(Date.UTC(2026, 0, 1)))).toBe(1);
+    // Feb 1 = day 32
+    expect(getDayOfYear(new Date(Date.UTC(2026, 1, 1)))).toBe(32);
+    // Dec 31 (non-leap year) = day 365
+    expect(getDayOfYear(new Date(Date.UTC(2026, 11, 31)))).toBe(365);
   });
 });

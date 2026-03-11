@@ -1,6 +1,6 @@
 import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-import { getPersonaForDay } from "../personas";
+import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
 
 const JOKE_CATEGORIES = [
@@ -101,7 +101,7 @@ Crée une blague originale qui fera sourire ${persona.name} dans son quotidien.`
   if (!JOKE_TYPES.includes(parsed.type as (typeof JOKE_TYPES)[number])) {
     parsed.type = "CLASSIQUE";
   }
-  if (!parsed.maturityLevel || parsed.maturityLevel < 1 || parsed.maturityLevel > 5) {
+  if (!parsed.maturityLevel || parsed.maturityLevel < 1 || parsed.maturityLevel > 3) {
     parsed.maturityLevel = 1;
   }
 
@@ -128,9 +128,7 @@ export async function generateJokeMonthlyPlan(
 Tu dois créer un plan de contenu pour ${daysInMonth} jours (${month}/${year}).
 
 3 PERSONAS à servir en rotation :
-- Jour 1, 4, 7... → YANIS (17 ans, lycéen) : catégories favorites = ECOLE, GAMING, RESEAUX_SOCIAUX, AUTODERISION, ABSURDE, DATING
-- Jour 2, 5, 8... → SOPHIE (26 ans, active) : catégories favorites = BOULOT, SITUATION, OBSERVATIONNEL, JEUX_DE_MOTS, COUPLE, CULTUREL, SOIREES
-- Jour 3, 6, 9... → MARC (34 ans, en reconstruction) : catégories favorites = COUPLE, PARENTS, BOULOT, AUTODERISION, OBSERVATIONNEL, DATING, CULTUREL
+${buildPersonaRotationPrompt("jokeCategories")}
 
 RÈGLES :
 1. Chaque persona doit avoir ses catégories variées sur le mois

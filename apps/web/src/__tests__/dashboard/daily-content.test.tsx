@@ -15,6 +15,8 @@ const mockDailyData = {
     content: "Fais une pause avant la chute.",
     category: "TIMING",
     difficulty: "DEBUTANT",
+    example: "Quand tu racontes une histoire, marque une pause de 2 secondes.",
+    exercise: "Raconte une blague à un ami en faisant 3 pauses aujourd'hui.",
   },
   video: {
     id: "v1",
@@ -185,6 +187,32 @@ describe("DailyContent", () => {
     await waitFor(() => {
       // Should not crash — shows empty state
       expect(screen.getByText("Aucune blague disponible aujourd'hui.")).toBeInTheDocument();
+    });
+  });
+
+  it("shows tip example and exercise", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Exemple concret")).toBeInTheDocument();
+      expect(screen.getByText(/Quand tu racontes une histoire/)).toBeInTheDocument();
+      expect(screen.getByText("Exercice du jour")).toBeInTheDocument();
+      expect(screen.getByText(/Raconte une blague à un ami/)).toBeInTheDocument();
+    });
+  });
+
+  it("hides example/exercise when not available", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockDailyData,
+        tip: { ...mockDailyData.tip, example: undefined, exercise: undefined },
+      }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Le timing parfait")).toBeInTheDocument();
+      expect(screen.queryByText("Exemple concret")).not.toBeInTheDocument();
+      expect(screen.queryByText("Exercice du jour")).not.toBeInTheDocument();
     });
   });
 

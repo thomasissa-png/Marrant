@@ -1,6 +1,6 @@
 import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-import { getPersonaForDay } from "../personas";
+import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
 
 const TIP_CATEGORIES = [
@@ -122,9 +122,7 @@ CATÉGORIES VIDÉO : ${TIP_CATEGORIES.join(", ")}
 DIFFICULTÉS : DEBUTANT, INTERMEDIAIRE, EXPERT
 
 3 PERSONAS en rotation :
-- Jour 1, 4, 7... → YANIS (17 ans, DEBUTANT) : vidéos accessibles, gaming/réseaux
-- Jour 2, 5, 8... → SOPHIE (26 ans, INTERMEDIAIRE) : storytelling, timing, observation
-- Jour 3, 6, 9... → MARC (34 ans, INTERMEDIAIRE) : techniques avancées, auto-dérision, répartie
+${buildPersonaRotationPrompt("tipCategories")}
 
 RÈGLES :
 1. Varier les catégories sur le mois

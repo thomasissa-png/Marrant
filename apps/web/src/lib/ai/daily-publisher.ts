@@ -6,6 +6,7 @@ import { selectDailyVideo } from "./agents/video-agent";
 import { getPlanSummary } from "./content-planner";
 import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
+import { todayUTC, getDayOfYear } from "./date-utils";
 
 interface PublishResult {
   date: string;
@@ -13,14 +14,6 @@ interface PublishResult {
   tip: { id: string; category: string } | null;
   video: { id: string; title: string } | null;
   errors: string[];
-}
-
-/**
- * Construit une date UTC à minuit pour aujourd'hui.
- */
-function todayUTC(): Date {
-  const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 }
 
 /**
@@ -188,14 +181,16 @@ export async function publishDailyContent(
     result.errors.push(`Vidéo: ${videoResult.reason instanceof Error ? videoResult.reason.message : String(videoResult.reason)}`);
   }
 
-  // Fallback : contenu existant déterministe basé sur le jour (pas toujours le même)
+  // Fallback : contenu existant déterministe basé sur dayOfYear (cohérent avec /api/daily)
+  const dayOfYear = getDayOfYear(today);
+
   if (!jokeId) {
     const jokeCount = await prisma.joke.count({ where: { isActive: true } });
     if (jokeCount > 0) {
       const fallbackJoke = await prisma.joke.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
-        skip: (dayOfMonth - 1) % jokeCount,
+        skip: dayOfYear % jokeCount,
       });
       if (fallbackJoke) jokeId = fallbackJoke.id;
     }
@@ -206,9 +201,20 @@ export async function publishDailyContent(
       const fallbackTip = await prisma.tip.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
-        skip: (dayOfMonth - 1) % tipCount,
+        skip: dayOfYear % tipCount,
       });
       if (fallbackTip) tipId = fallbackTip.id;
+    }
+  }
+  if (!videoId) {
+    const videoCount = await prisma.video.count({ where: { isActive: true } });
+    if (videoCount > 0) {
+      const fallbackVideo = await prisma.video.findFirst({
+        where: { isActive: true },
+        orderBy: { id: "asc" },
+        skip: dayOfYear % videoCount,
+      });
+      if (fallbackVideo) videoId = fallbackVideo.id;
     }
   }
 
