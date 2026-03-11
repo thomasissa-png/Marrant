@@ -5,7 +5,7 @@ entrypoint = "apps/web/src/app/page.tsx"
 # Shell Replit : cd apps/web && npm run setup && npm run build
 
 [deployment]
-build = ["sh", "-c", "cd apps/web && npm install && npx prisma generate && npx prisma db push && npm run build"]
+build = ["sh", "-c", "cd apps/web && npm install && npx prisma generate && npx prisma db push && npx tsx prisma/seed.ts && npm run build"]
 run = ["sh", "-c", "cd apps/web && npm run start"]
 deploymentTarget = "cloudrun"
 
