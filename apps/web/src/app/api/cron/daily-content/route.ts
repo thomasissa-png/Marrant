@@ -8,24 +8,24 @@ import { generateMonthlyPlans } from "@/lib/ai/content-planner";
  * 2. Génère et publie le contenu du jour (blague + conseil + vidéo)
  */
 export async function GET(request: Request) {
-  // Vérifier le secret pour sécuriser l'endpoint
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  // Refuser l'accès si CRON_SECRET n'est pas configuré ou si le token est invalide
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   try {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
+    const now = new Date();
+    const month = now.getUTCMonth() + 1;
+    const year = now.getUTCFullYear();
 
     // S'assurer que le plan du mois existe
     const planResults = await generateMonthlyPlans(month, year);
 
     // Publier le contenu du jour
-    const publishResult = await publishDailyContent(today);
+    const publishResult = await publishDailyContent();
 
     return NextResponse.json({
       success: true,

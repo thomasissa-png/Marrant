@@ -1,9 +1,7 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { getPersonaForDay } from "../personas";
+import { validateMonthlyPlan } from "../plan-validator";
 
 const TIP_CATEGORIES = [
   "TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE",
@@ -71,7 +69,7 @@ Réponds UNIQUEMENT en JSON valide :
   "exercise": "Exercice pratique pour aujourd'hui"
 }`;
 
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1200,
     system: systemPrompt,
@@ -88,19 +86,27 @@ Crée un conseil qui aide ${persona.name} à progresser concrètement aujourd'hu
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error("Agent Conseils : réponse JSON invalide");
+  const text = getResponseText(response);
+  const parsed = extractJson<GeneratedTip>(text);
 
-  const parsed = JSON.parse(jsonMatch[0]) as GeneratedTip;
+  // Validation des champs obligatoires
+  if (!parsed.title?.trim() || !parsed.content?.trim() || !parsed.example?.trim() || !parsed.exercise?.trim()) {
+    throw new Error("Agent Conseils : un ou plusieurs champs obligatoires sont vides");
+  }
 
-  // Validation
+  // Validation et fallback des enums
   if (!TIP_CATEGORIES.includes(parsed.category as (typeof TIP_CATEGORIES)[number])) {
     parsed.category = ctx.plannedCategory;
   }
   if (!TIP_DIFFICULTIES.includes(parsed.difficulty as (typeof TIP_DIFFICULTIES)[number])) {
     parsed.difficulty = persona.tipDifficulty;
   }
+
+  // Tronquer si excessivement long
+  parsed.title = parsed.title.trim().slice(0, 200);
+  parsed.content = parsed.content.trim().slice(0, 2000);
+  parsed.example = parsed.example.trim().slice(0, 1000);
+  parsed.exercise = parsed.exercise.trim().slice(0, 1000);
 
   return parsed;
 }
@@ -113,7 +119,7 @@ export async function generateTipMonthlyPlan(
   year: number,
   daysInMonth: number
 ): Promise<Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>> {
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
     system: `Tu es le planificateur de l'Agent Conseils de deviensmarrant.fr.
@@ -141,9 +147,8 @@ Réponds UNIQUEMENT en JSON — un tableau de ${daysInMonth} objets :
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\[[\s\S]*\]/);
-  if (!jsonMatch) throw new Error("Plan mensuel conseils : JSON invalide");
+  const text = getResponseText(response);
+  const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);
 
-  return JSON.parse(jsonMatch[0]);
+  return validateMonthlyPlan(raw, daysInMonth, TIP_CATEGORIES as unknown as readonly string[], getPersonaForDay);
 }

@@ -1,16 +1,12 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { getPersonaForDay } from "../personas";
+import { validateMonthlyPlan } from "../plan-validator";
 
 const TIP_CATEGORIES = [
   "TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE",
   "STORYTELLING", "ABSURDE", "JEUX_DE_MOTS",
 ] as const;
-
-const TIP_DIFFICULTIES = ["DEBUTANT", "INTERMEDIAIRE", "EXPERT"] as const;
 
 interface VideoSelection {
   videoId: string;
@@ -81,7 +77,7 @@ RÈGLES :
 Réponds UNIQUEMENT en JSON :
 {"videoId": "ID_EXACT_DE_LA_VIDEO", "reason": "Pourquoi cette vidéo"}`;
 
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 300,
     system: systemPrompt,
@@ -93,16 +89,12 @@ Réponds UNIQUEMENT en JSON :
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error("Agent Vidéos : réponse JSON invalide");
-
-  const parsed = JSON.parse(jsonMatch[0]) as VideoSelection;
+  const text = getResponseText(response);
+  const parsed = extractJson<VideoSelection>(text);
 
   // Valider que le videoId existe
   const validVideo = eligibleVideos.find((v) => v.id === parsed.videoId);
   if (!validVideo) {
-    // Fallback : prendre la première vidéo de la catégorie ou la première dispo
     const fallback = eligibleVideos.find((v) => v.category === ctx.plannedCategory) ?? eligibleVideos[0];
     return { videoId: fallback.id, reason: "Fallback — ID invalide corrigé" };
   }
@@ -118,7 +110,7 @@ export async function generateVideoMonthlyPlan(
   year: number,
   daysInMonth: number
 ): Promise<Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>> {
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
     system: `Tu es le planificateur de l'Agent Vidéos de deviensmarrant.fr.
@@ -127,7 +119,7 @@ Tu dois créer un plan de curation vidéo pour ${daysInMonth} jours (${month}/${
 
 Les vidéos sont des tutoriels/analyses de stand-up et techniques d'humour.
 CATÉGORIES VIDÉO : ${TIP_CATEGORIES.join(", ")}
-DIFFICULTÉS : ${TIP_DIFFICULTIES.join(", ")}
+DIFFICULTÉS : DEBUTANT, INTERMEDIAIRE, EXPERT
 
 3 PERSONAS en rotation :
 - Jour 1, 4, 7... → YANIS (17 ans, DEBUTANT) : vidéos accessibles, gaming/réseaux
@@ -149,9 +141,8 @@ Réponds UNIQUEMENT en JSON :
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\[[\s\S]*\]/);
-  if (!jsonMatch) throw new Error("Plan mensuel vidéos : JSON invalide");
+  const text = getResponseText(response);
+  const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);
 
-  return JSON.parse(jsonMatch[0]);
+  return validateMonthlyPlan(raw, daysInMonth, TIP_CATEGORIES as unknown as readonly string[], getPersonaForDay);
 }

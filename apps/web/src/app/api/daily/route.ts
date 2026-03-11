@@ -3,8 +3,8 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const now = new Date();
+    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
     // Chercher le contenu du jour configuré
     const dailyContent = await prisma.dailyContent.findUnique({
@@ -47,15 +47,18 @@ export async function GET() {
     const [joke, tip, video] = await Promise.all([
       prisma.joke.findFirst({
         where: { isActive: true },
+        orderBy: { id: "asc" },
         skip: dayOfYear % jokeCount,
       }),
       prisma.tip.findFirst({
         where: { isActive: true },
+        orderBy: { id: "asc" },
         skip: dayOfYear % tipCount,
       }),
       videoCount > 0
         ? prisma.video.findFirst({
             where: { isActive: true },
+            orderBy: { id: "asc" },
             skip: dayOfYear % videoCount,
           })
         : null,

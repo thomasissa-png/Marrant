@@ -1,9 +1,7 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { getPersonaForDay } from "../personas";
+import { validateMonthlyPlan } from "../plan-validator";
 
 const JOKE_CATEGORIES = [
   "AUTODERISION", "SITUATION", "ABSURDE", "OBSERVATIONNEL",
@@ -71,7 +69,7 @@ Réponds UNIQUEMENT en JSON valide :
   "maturityLevel": 1
 }`;
 
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 600,
     system: systemPrompt,
@@ -88,22 +86,28 @@ Crée une blague originale qui fera sourire ${persona.name} dans son quotidien.`
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error("Agent Blagues : réponse JSON invalide");
+  const text = getResponseText(response);
+  const parsed = extractJson<GeneratedJoke>(text);
 
-  const parsed = JSON.parse(jsonMatch[0]) as GeneratedJoke;
+  // Validation des champs obligatoires
+  if (!parsed.content?.trim() || !parsed.punchline?.trim()) {
+    throw new Error("Agent Blagues : contenu ou punchline vide");
+  }
 
-  // Validation
+  // Validation et fallback des enums
   if (!JOKE_CATEGORIES.includes(parsed.category as (typeof JOKE_CATEGORIES)[number])) {
     parsed.category = ctx.plannedCategory;
   }
   if (!JOKE_TYPES.includes(parsed.type as (typeof JOKE_TYPES)[number])) {
     parsed.type = "CLASSIQUE";
   }
-  if (parsed.maturityLevel < 1 || parsed.maturityLevel > 5) {
+  if (!parsed.maturityLevel || parsed.maturityLevel < 1 || parsed.maturityLevel > 5) {
     parsed.maturityLevel = 1;
   }
+
+  // Tronquer si excessivement long
+  parsed.content = parsed.content.trim().slice(0, 1000);
+  parsed.punchline = parsed.punchline.trim().slice(0, 500);
 
   return parsed;
 }
@@ -116,7 +120,7 @@ export async function generateJokeMonthlyPlan(
   year: number,
   daysInMonth: number
 ): Promise<Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>> {
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
     system: `Tu es le planificateur de l'Agent Blagues de deviensmarrant.fr.
@@ -144,9 +148,8 @@ Réponds UNIQUEMENT en JSON — un tableau de ${daysInMonth} objets :
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text : "";
-  const jsonMatch = text.match(/\[[\s\S]*\]/);
-  if (!jsonMatch) throw new Error("Plan mensuel blagues : JSON invalide");
+  const text = getResponseText(response);
+  const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);
 
-  return JSON.parse(jsonMatch[0]);
+  return validateMonthlyPlan(raw, daysInMonth, JOKE_CATEGORIES as unknown as readonly string[], getPersonaForDay);
 }

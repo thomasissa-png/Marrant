@@ -60,10 +60,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 function formatDuration(iso: string): string {
   const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if (!match) return iso;
-  const h = match[1] ? `${match[1]}:` : "";
+  const h = match[1] ?? "";
   const m = match[2] ?? "0";
   const s = match[3]?.padStart(2, "0") ?? "00";
-  return `${h}${h ? m.padStart(2, "0") : m}:${s}`;
+  if (h) return `${h}:${m.padStart(2, "0")}:${s}`;
+  return `${m}:${s}`;
 }
 
 export function DailyContent() {
@@ -76,6 +77,9 @@ export function DailyContent() {
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         if (json) setData({ joke: json.joke, tip: json.tip, video: json.video ?? null });
+      })
+      .catch(() => {
+        // Network error — keep default null state
       })
       .finally(() => setIsLoading(false));
   }, []);

@@ -9,22 +9,22 @@ export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  // Refuser l'accès si CRON_SECRET n'est pas configuré ou si le token est invalide
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   try {
-    const today = new Date();
-    // Générer le plan du mois prochain
-    const nextMonth = today.getMonth() + 2; // getMonth() is 0-based, +2 for next month 1-based
-    const nextYear = nextMonth > 12 ? today.getFullYear() + 1 : today.getFullYear();
-    const adjustedMonth = nextMonth > 12 ? 1 : nextMonth;
+    const now = new Date();
+    const currentMonth = now.getUTCMonth() + 1; // 1-12
+    const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+    const nextYear = currentMonth === 12 ? now.getUTCFullYear() + 1 : now.getUTCFullYear();
 
-    const results = await generateMonthlyPlans(adjustedMonth, nextYear);
+    const results = await generateMonthlyPlans(nextMonth, nextYear);
 
     return NextResponse.json({
       success: true,
-      month: adjustedMonth,
+      month: nextMonth,
       year: nextYear,
       plans: results,
     });

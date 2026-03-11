@@ -7,30 +7,28 @@ import { generateVideoMonthlyPlan } from "./agents/video-agent";
  * Génère les plans de contenu pour le mois donné.
  * Chaque agent (blague, conseil, vidéo) reçoit son propre plan individualisé.
  * Idempotent : ne régénère pas un plan qui existe déjà.
+ * Les 3 plans sont générés en parallèle.
  */
 export async function generateMonthlyPlans(month: number, year: number) {
   const daysInMonth = new Date(year, month, 0).getDate();
-  const results: Record<string, string> = {};
 
-  // Générer les 3 plans en parallèle (un par agent)
   const agents = [
     { type: "JOKE" as const, generate: generateJokeMonthlyPlan },
     { type: "TIP" as const, generate: generateTipMonthlyPlan },
     { type: "VIDEO" as const, generate: generateVideoMonthlyPlan },
   ];
 
-  for (const agent of agents) {
-    // Vérifier si le plan existe déjà
-    const existing = await prisma.contentPlan.findUnique({
-      where: { agentType_month_year: { agentType: agent.type, month, year } },
-    });
+  const results = await Promise.allSettled(
+    agents.map(async (agent) => {
+      // Vérifier si le plan existe déjà
+      const existing = await prisma.contentPlan.findUnique({
+        where: { agentType_month_year: { agentType: agent.type, month, year } },
+      });
 
-    if (existing) {
-      results[agent.type] = `Plan ${agent.type} ${month}/${year} existe déjà`;
-      continue;
-    }
+      if (existing) {
+        return { type: agent.type, message: `Plan ${agent.type} ${month}/${year} existe déjà` };
+      }
 
-    try {
       const entries = await agent.generate(month, year, daysInMonth);
 
       await prisma.contentPlan.create({
@@ -50,14 +48,22 @@ export async function generateMonthlyPlans(month: number, year: number) {
         },
       });
 
-      results[agent.type] = `Plan ${agent.type} créé : ${entries.length} entrées`;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      results[agent.type] = `Erreur plan ${agent.type} : ${message}`;
+      return { type: agent.type, message: `Plan ${agent.type} créé : ${entries.length} entrées` };
+    })
+  );
+
+  const output: Record<string, string> = {};
+  for (const [i, result] of results.entries()) {
+    const agentType = agents[i].type;
+    if (result.status === "fulfilled") {
+      output[agentType] = result.value.message;
+    } else {
+      const errMsg = result.reason instanceof Error ? result.reason.message : String(result.reason);
+      output[agentType] = `Erreur plan ${agentType} : ${errMsg}`;
     }
   }
 
-  return results;
+  return output;
 }
 
 /**

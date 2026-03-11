@@ -160,10 +160,31 @@ describe("DailyContent", () => {
     render(<DailyContent />);
     await waitFor(() => {
       expect(screen.getByText("Aucune vidéo disponible aujourd'hui.")).toBeInTheDocument();
-      // Joke and tip still show
       expect(
         screen.getByText("Pourquoi les plongeurs plongent-ils toujours en arrière ?")
       ).toBeInTheDocument();
+    });
+  });
+
+  it("handles fetch error gracefully", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: false,
+      status: 500,
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Aucune blague disponible aujourd'hui.")).toBeInTheDocument();
+      expect(screen.getByText("Aucun conseil disponible aujourd'hui.")).toBeInTheDocument();
+      expect(screen.getByText("Aucune vidéo disponible aujourd'hui.")).toBeInTheDocument();
+    });
+  });
+
+  it("handles network failure gracefully", async () => {
+    (global.fetch as jest.Mock).mockRejectedValue(new Error("Network error"));
+    render(<DailyContent />);
+    await waitFor(() => {
+      // Should not crash — shows empty state
+      expect(screen.getByText("Aucune blague disponible aujourd'hui.")).toBeInTheDocument();
     });
   });
 

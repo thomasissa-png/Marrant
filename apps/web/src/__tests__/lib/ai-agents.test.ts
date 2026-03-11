@@ -1,4 +1,5 @@
 import { getPersonaForDay, PERSONAS } from "@/lib/ai/personas";
+import { validateMonthlyPlan } from "@/lib/ai/plan-validator";
 
 // Mock the Anthropic SDK
 jest.mock("@anthropic-ai/sdk", () => {
@@ -75,7 +76,6 @@ describe("Personas", () => {
   });
 
   it("handles day 31 correctly", () => {
-    // (31-1) % 3 = 0 → YANIS
     expect(getPersonaForDay(31)).toBe("YANIS");
   });
 
@@ -96,6 +96,82 @@ describe("Personas", () => {
     expect(PERSONAS.MARC.jokeCategories).toContain("COUPLE");
     expect(PERSONAS.MARC.jokeCategories).toContain("PARENTS");
     expect(PERSONAS.MARC.tipDifficulty).toBe("INTERMEDIAIRE");
+  });
+});
+
+describe("Plan Validator", () => {
+  const validCategories = ["TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE"];
+
+  it("returns all days even if AI returns fewer entries", () => {
+    const raw = [
+      { dayOfMonth: 1, category: "TIMING", theme: "Sujet 1", targetPersona: "YANIS" },
+      { dayOfMonth: 3, category: "OBSERVATION", theme: "Sujet 3", targetPersona: "MARC" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 5, validCategories, getPersonaForDay);
+    expect(result).toHaveLength(5);
+    expect(result[0].category).toBe("TIMING");
+    expect(result[1].theme).toBe("Contenu du jour 2"); // filled default
+    expect(result[2].category).toBe("OBSERVATION");
+  });
+
+  it("corrects invalid categories", () => {
+    const raw = [
+      { dayOfMonth: 1, category: "INVALIDE", theme: "Test", targetPersona: "YANIS" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 1, validCategories, getPersonaForDay);
+    expect(validCategories).toContain(result[0].category);
+  });
+
+  it("corrects invalid personas", () => {
+    const raw = [
+      { dayOfMonth: 1, category: "TIMING", theme: "Test", targetPersona: "INCONNU" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 1, validCategories, getPersonaForDay);
+    expect(result[0].targetPersona).toBe("YANIS"); // day 1 = YANIS
+  });
+
+  it("handles empty AI response", () => {
+    const result = validateMonthlyPlan([], 28, validCategories, getPersonaForDay);
+    expect(result).toHaveLength(28);
+    result.forEach((entry, i) => {
+      expect(entry.dayOfMonth).toBe(i + 1);
+      expect(entry.theme).toBeTruthy();
+      expect(validCategories).toContain(entry.category);
+    });
+  });
+
+  it("handles duplicate dayOfMonth entries (keeps first)", () => {
+    const raw = [
+      { dayOfMonth: 1, category: "TIMING", theme: "Premier", targetPersona: "YANIS" },
+      { dayOfMonth: 1, category: "OBSERVATION", theme: "Doublon", targetPersona: "SOPHIE" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 1, validCategories, getPersonaForDay);
+    expect(result[0].theme).toBe("Premier");
+  });
+
+  it("ignores out-of-range dayOfMonth", () => {
+    const raw = [
+      { dayOfMonth: 0, category: "TIMING", theme: "Invalid", targetPersona: "YANIS" },
+      { dayOfMonth: 32, category: "TIMING", theme: "Invalid", targetPersona: "YANIS" },
+      { dayOfMonth: 1, category: "TIMING", theme: "Valid", targetPersona: "YANIS" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 3, validCategories, getPersonaForDay);
+    expect(result[0].theme).toBe("Valid");
+    expect(result[1].theme).toBe("Contenu du jour 2"); // default
+  });
+
+  it("fills empty theme with default", () => {
+    const raw = [
+      { dayOfMonth: 1, category: "TIMING", theme: "", targetPersona: "YANIS" },
+    ];
+
+    const result = validateMonthlyPlan(raw, 1, validCategories, getPersonaForDay);
+    expect(result[0].theme).toBe("Contenu du jour 1");
   });
 });
 
@@ -172,6 +248,33 @@ describe("Joke Agent", () => {
     expect(joke.category).toBe("ECOLE");
   });
 
+  it("throws on empty content", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "",
+            punchline: "",
+            category: "BOULOT",
+            type: "CLASSIQUE",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    await expect(
+      generateDailyJoke({
+        persona: "SOPHIE",
+        plannedCategory: "BOULOT",
+        plannedTheme: "Test",
+        recentJokes: [],
+        monthlyPlanSummary: "",
+      })
+    ).rejects.toThrow("contenu ou punchline vide");
+  });
+
   it("throws on invalid JSON response", async () => {
     mockAnthropicCreate.mockResolvedValue({
       content: [{ type: "text", text: "pas du json" }],
@@ -186,6 +289,34 @@ describe("Joke Agent", () => {
         monthlyPlanSummary: "",
       })
     ).rejects.toThrow();
+  });
+
+  it("truncates excessively long content", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "A".repeat(2000),
+            punchline: "B".repeat(1000),
+            category: "BOULOT",
+            type: "STORY",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(joke.content.length).toBeLessThanOrEqual(1000);
+    expect(joke.punchline.length).toBeLessThanOrEqual(500);
   });
 });
 
@@ -234,6 +365,34 @@ describe("Tip Agent", () => {
     expect(tip.difficulty).toBe("DEBUTANT");
     expect(tip.example).toBeTruthy();
     expect(tip.exercise).toBeTruthy();
+  });
+
+  it("throws on empty required fields", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Ok",
+            content: "Ok",
+            category: "TIMING",
+            difficulty: "DEBUTANT",
+            example: "",
+            exercise: "Ok",
+          }),
+        },
+      ],
+    });
+
+    await expect(
+      generateDailyTip({
+        persona: "YANIS",
+        plannedCategory: "TIMING",
+        plannedTheme: "Test",
+        recentTips: [],
+        monthlyPlanSummary: "",
+      })
+    ).rejects.toThrow("champs obligatoires sont vides");
   });
 });
 
@@ -363,7 +522,31 @@ describe("Video Agent", () => {
       monthlyPlanSummary: "",
     });
 
-    // Should fallback to a valid video
     expect(["v1", "v2"]).toContain(result.videoId);
+  });
+});
+
+describe("AI Client utilities", () => {
+  it("extractJson extracts first valid JSON object", async () => {
+    const { extractJson } = await import("@/lib/ai/client");
+    const result = extractJson<{ a: number }>('Some text {"a": 1} more text');
+    expect(result).toEqual({ a: 1 });
+  });
+
+  it("extractJson throws on no JSON", async () => {
+    const { extractJson } = await import("@/lib/ai/client");
+    expect(() => extractJson("no json here")).toThrow("aucun objet trouvé");
+  });
+
+  it("extractJsonArray extracts JSON array", async () => {
+    const { extractJsonArray } = await import("@/lib/ai/client");
+    const result = extractJsonArray<{ x: number }>('Prefix [{"x": 1}, {"x": 2}] suffix');
+    expect(result).toEqual([{ x: 1 }, { x: 2 }]);
+  });
+
+  it("getResponseText extracts text from Anthropic response", async () => {
+    const { getResponseText } = await import("@/lib/ai/client");
+    const response = { content: [{ type: "text" as const, text: "hello" }] };
+    expect(getResponseText(response as never)).toBe("hello");
   });
 });
