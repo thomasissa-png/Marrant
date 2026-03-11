@@ -10,7 +10,7 @@ export const anthropic = new Anthropic({
  * Retente jusqu'à 3 fois en cas d'erreur réseau, 5xx ou 429 (rate limit).
  */
 export async function callWithRetry(
-  params: Parameters<typeof anthropic.messages.create>[0],
+  params: Anthropic.MessageCreateParamsNonStreaming,
   maxRetries = 2
 ): Promise<Anthropic.Message> {
   let lastError: unknown;

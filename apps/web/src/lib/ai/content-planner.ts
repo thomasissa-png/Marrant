@@ -62,7 +62,8 @@ export async function generateMonthlyPlans(month: number, year: number) {
   );
 
   const output: Record<string, string> = {};
-  for (const [i, result] of results.entries()) {
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
     const agentType = agents[i].type;
     if (result.status === "fulfilled") {
       output[agentType] = result.value.message;
