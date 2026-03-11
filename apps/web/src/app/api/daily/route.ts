@@ -12,6 +12,7 @@ export async function GET() {
       include: {
         joke: true,
         tip: true,
+        video: true,
       },
     });
 
@@ -20,6 +21,7 @@ export async function GET() {
         date: dailyContent.date,
         joke: dailyContent.joke,
         tip: dailyContent.tip,
+        video: dailyContent.video,
       });
     }
 
@@ -29,9 +31,10 @@ export async function GET() {
         (1000 * 60 * 60 * 24)
     );
 
-    const [jokeCount, tipCount] = await Promise.all([
+    const [jokeCount, tipCount, videoCount] = await Promise.all([
       prisma.joke.count({ where: { isActive: true } }),
       prisma.tip.count({ where: { isActive: true } }),
+      prisma.video.count({ where: { isActive: true } }),
     ]);
 
     if (jokeCount === 0 || tipCount === 0) {
@@ -41,7 +44,7 @@ export async function GET() {
       );
     }
 
-    const [joke, tip] = await Promise.all([
+    const [joke, tip, video] = await Promise.all([
       prisma.joke.findFirst({
         where: { isActive: true },
         skip: dayOfYear % jokeCount,
@@ -50,12 +53,19 @@ export async function GET() {
         where: { isActive: true },
         skip: dayOfYear % tipCount,
       }),
+      videoCount > 0
+        ? prisma.video.findFirst({
+            where: { isActive: true },
+            skip: dayOfYear % videoCount,
+          })
+        : null,
     ]);
 
     return NextResponse.json({
       date: today,
       joke,
       tip,
+      video,
     });
   } catch {
     return NextResponse.json(

@@ -20,9 +20,20 @@ interface Tip {
   difficulty: string;
 }
 
+interface Video {
+  id: string;
+  youtubeId: string;
+  title: string;
+  channelName: string;
+  duration: string;
+  category: string;
+  technique: string;
+}
+
 interface DailyData {
   joke: Joke | null;
   tip: Tip | null;
+  video: Video | null;
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -34,14 +45,29 @@ const CATEGORY_LABELS: Record<string, string> = {
   CULTUREL: "Culturel",
   COUPLE: "Couple",
   BOULOT: "Boulot",
+  ECOLE: "École",
+  GAMING: "Gaming",
+  RESEAUX_SOCIAUX: "Réseaux sociaux",
+  DATING: "Dating",
+  SOIREES: "Soirées",
+  PARENTS: "Parents",
   TIMING: "Timing",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",
 };
 
+function formatDuration(iso: string): string {
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return iso;
+  const h = match[1] ? `${match[1]}:` : "";
+  const m = match[2] ?? "0";
+  const s = match[3]?.padStart(2, "0") ?? "00";
+  return `${h}${h ? m.padStart(2, "0") : m}:${s}`;
+}
+
 export function DailyContent() {
-  const [data, setData] = useState<DailyData>({ joke: null, tip: null });
+  const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
   const [showPunchline, setShowPunchline] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,7 +75,7 @@ export function DailyContent() {
     fetch("/api/daily")
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
-        if (json) setData({ joke: json.joke, tip: json.tip });
+        if (json) setData({ joke: json.joke, tip: json.tip, video: json.video ?? null });
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -68,6 +94,15 @@ export function DailyContent() {
         </section>
         <section className="py-8">
           <h2 className="font-display mb-6 text-2xl font-bold">Conseil du jour</h2>
+          <Card className="mx-auto max-w-2xl animate-pulse">
+            <CardContent className="py-8">
+              <div className="h-4 w-3/4 rounded bg-background-elevated" />
+              <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
+            </CardContent>
+          </Card>
+        </section>
+        <section className="py-8">
+          <h2 className="font-display mb-6 text-2xl font-bold">Vidéo du jour</h2>
           <Card className="mx-auto max-w-2xl animate-pulse">
             <CardContent className="py-8">
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
@@ -149,6 +184,59 @@ export function DailyContent() {
               </>
             ) : (
               <p className="text-text-secondary">Aucun conseil disponible aujourd&apos;hui.</p>
+            )}
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Vidéo du jour */}
+      <section className="py-8">
+        <h2 className="font-display mb-6 text-2xl font-bold">Vidéo du jour</h2>
+        <Card className="mx-auto max-w-2xl">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Badge variant="default" className="w-fit">
+                Vidéo du jour
+              </Badge>
+              {data.video && (
+                <>
+                  <Badge variant="secondary">
+                    {CATEGORY_LABELS[data.video.category] ?? data.video.category}
+                  </Badge>
+                  <Badge variant="primary">{data.video.technique}</Badge>
+                </>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {data.video ? (
+              <div className="space-y-4">
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  <a
+                    href={`https://www.youtube.com/watch?v=${encodeURIComponent(data.video.youtubeId)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Regarder ${data.video.title} sur YouTube`}
+                    className="block"
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${encodeURIComponent(data.video.youtubeId)}/hqdefault.jpg`}
+                      alt={data.video.title}
+                      className="h-full w-full object-cover transition-transform hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs text-white">
+                      {formatDuration(data.video.duration)}
+                    </div>
+                  </a>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-text-primary">{data.video.title}</h3>
+                  <p className="text-sm text-text-secondary">{data.video.channelName}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-text-secondary">Aucune vidéo disponible aujourd&apos;hui.</p>
             )}
           </CardContent>
         </Card>

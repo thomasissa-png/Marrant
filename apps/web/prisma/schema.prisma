@@ -109,6 +109,8 @@ model Joke {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  generatedByAI Boolean       @default(false)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -170,9 +172,10 @@ model Tip {
   difficulty TipDifficulty
   example    String        @db.Text
   exercise   String        @db.Text
-  isActive   Boolean       @default(true)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  isActive      Boolean       @default(true)
+  generatedByAI Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   // Relations
   dailyContents DailyContent[]
@@ -271,8 +274,11 @@ model Video {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
+  generatedByAI Boolean         @default(false)
+
   // Relations
-  favorites UserFavorite[]
+  dailyContents DailyContent[]
+  favorites     UserFavorite[]
 
   @@index([category])
   @@index([difficulty])
@@ -284,15 +290,63 @@ model Video {
 // ==========================================
 
 model DailyContent {
-  id     String   @id @default(cuid())
-  date   DateTime @unique @db.Date
-  jokeId String
-  tipId  String
+  id      String   @id @default(cuid())
+  date    DateTime @unique @db.Date
+  jokeId  String
+  tipId   String
+  videoId String?
 
-  joke Joke @relation(fields: [jokeId], references: [id])
-  tip  Tip  @relation(fields: [tipId], references: [id])
+  joke  Joke   @relation(fields: [jokeId], references: [id])
+  tip   Tip    @relation(fields: [tipId], references: [id])
+  video Video? @relation(fields: [videoId], references: [id])
 
   @@index([date])
+}
+
+// ==========================================
+// PLAN DE CONTENU MENSUEL (agents IA)
+// ==========================================
+
+model ContentPlan {
+  id          String          @id @default(cuid())
+  agentType   ContentAgentType
+  month       Int             // 1-12
+  year        Int
+  entries     ContentPlanEntry[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@unique([agentType, month, year])
+}
+
+model ContentPlanEntry {
+  id            String         @id @default(cuid())
+  planId        String
+  dayOfMonth    Int            // 1-31
+  category      String         // catégorie prévue
+  theme         String         // thème/sujet prévu
+  targetPersona String         // YANIS | SOPHIE | MARC
+  status        PlanEntryStatus @default(PLANNED)
+  contentId     String?        // ID du contenu créé (joke/tip/video)
+  createdAt     DateTime       @default(now())
+
+  plan ContentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, dayOfMonth])
+  @@index([planId])
+  @@index([status])
+}
+
+enum ContentAgentType {
+  JOKE
+  TIP
+  VIDEO
+}
+
+enum PlanEntryStatus {
+  PLANNED
+  PUBLISHED
+  SKIPPED
 }
 
 // ==========================================

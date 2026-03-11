@@ -16,6 +16,15 @@ const mockDailyData = {
     category: "TIMING",
     difficulty: "DEBUTANT",
   },
+  video: {
+    id: "v1",
+    youtubeId: "dQw4w9WgXcQ",
+    title: "Les secrets du timing comique",
+    channelName: "Humour Academy",
+    duration: "PT12M30S",
+    category: "TIMING",
+    technique: "Pause dramatique",
+  },
 };
 
 describe("DailyContent", () => {
@@ -42,6 +51,13 @@ describe("DailyContent", () => {
     render(<DailyContent />);
     await waitFor(() => {
       expect(screen.getAllByText("Conseil du jour").length).toBeGreaterThan(0);
+    });
+  });
+
+  it("shows Vidéo du jour section", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getAllByText("Vidéo du jour").length).toBeGreaterThan(0);
     });
   });
 
@@ -88,19 +104,66 @@ describe("DailyContent", () => {
   it("shows tip category badge", async () => {
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("Timing")).toBeInTheDocument();
+      expect(screen.getAllByText("Timing").length).toBeGreaterThan(0);
     });
   });
 
-  it("shows no joke message when null", async () => {
+  it("shows video title and channel", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Les secrets du timing comique")).toBeInTheDocument();
+      expect(screen.getByText("Humour Academy")).toBeInTheDocument();
+    });
+  });
+
+  it("shows video duration formatted", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("12:30")).toBeInTheDocument();
+    });
+  });
+
+  it("shows video technique badge", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Pause dramatique")).toBeInTheDocument();
+    });
+  });
+
+  it("shows video thumbnail with YouTube link", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      const link = screen.getByLabelText("Regarder Les secrets du timing comique sur YouTube");
+      expect(link).toHaveAttribute("href", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+      expect(link).toHaveAttribute("target", "_blank");
+    });
+  });
+
+  it("shows no content messages when null", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
-      json: async () => ({ joke: null, tip: null }),
+      json: async () => ({ joke: null, tip: null, video: null }),
     });
     render(<DailyContent />);
     await waitFor(() => {
       expect(screen.getByText("Aucune blague disponible aujourd'hui.")).toBeInTheDocument();
       expect(screen.getByText("Aucun conseil disponible aujourd'hui.")).toBeInTheDocument();
+      expect(screen.getByText("Aucune vidéo disponible aujourd'hui.")).toBeInTheDocument();
+    });
+  });
+
+  it("handles missing video gracefully", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ ...mockDailyData, video: null }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Aucune vidéo disponible aujourd'hui.")).toBeInTheDocument();
+      // Joke and tip still show
+      expect(
+        screen.getByText("Pourquoi les plongeurs plongent-ils toujours en arrière ?")
+      ).toBeInTheDocument();
     });
   });
 
