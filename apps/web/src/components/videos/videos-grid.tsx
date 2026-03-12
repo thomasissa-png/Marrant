@@ -8,6 +8,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
+import Link from "next/link";
 
 interface Video {
   id: string;
@@ -61,6 +62,7 @@ export function VideosGrid() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [limited, setLimited] = useState(false);
 
   const fetchVideos = useCallback(async () => {
     setIsLoading(true);
@@ -74,6 +76,7 @@ export function VideosGrid() {
         const data = await res.json();
         setVideos(data.videos);
         setPagination(data.pagination);
+        setLimited(data.limited ?? false);
       } else {
         setError(true);
       }
@@ -179,8 +182,25 @@ export function VideosGrid() {
         </div>
       )}
 
+      {/* Upsell Premium */}
+      {limited && (
+        <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
+          <p className="text-lg font-semibold text-text-primary">
+            Analyse les techniques des meilleurs — 30+ vidéos disponibles.
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois.
+          </p>
+          <Link href="/register">
+            <Button variant="primary" size="lg" className="mt-4">
+              Débloquer tout — 0,99 €/mois
+            </Button>
+          </Link>
+        </div>
+      )}
+
       {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
+      {!limited && pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
           <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Précédent

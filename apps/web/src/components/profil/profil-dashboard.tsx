@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { StreakCounter } from "@/components/ui/streak-counter";
 import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 import Link from "next/link";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
@@ -42,6 +43,24 @@ function getXpProgress(xp: number, currentLevel: string) {
 export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        toast("Erreur lors de la création du paiement", "error");
+      }
+    } catch {
+      toast("Connexion perdue, réessaie", "error");
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -222,11 +241,14 @@ export function ProfilDashboard() {
                 toutes les vidéos analysées et le contenu quotidien — pour
                 seulement 0,99 €/mois (offre de lancement).
               </p>
-              <Link href="/register">
-                <Button variant="secondary" size="sm">
-                  Débloquer tout — 0,99 €/mois
-                </Button>
-              </Link>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
+              >
+                {isCheckoutLoading ? "Redirection..." : "Débloquer tout — 0,99 €/mois"}
+              </Button>
             </>
           )}
         </CardContent>

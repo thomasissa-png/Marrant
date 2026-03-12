@@ -1,14 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useUserStore } from "@/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/components/ui/toast";
 
 export function PremiumCta() {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
+
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        toast("Erreur lors de la création du paiement", "error");
+      }
+    } catch {
+      toast("Connexion perdue, réessaie", "error");
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  };
 
   // Ne pas afficher si déjà premium
   if (user?.plan === "PREMIUM") return null;
@@ -68,16 +89,23 @@ export function PremiumCta() {
               </li>
             </ul>
 
-            <Link
-              href={status === "authenticated" ? "/profil" : "/register"}
-              className="mt-8 block"
-            >
-              <Button variant="primary" size="lg" className="w-full">
-                {status === "authenticated"
-                  ? "Passer à l'offre complète"
-                  : "Commencer — 0,99 €/mois"}
+            {status === "authenticated" ? (
+              <Button
+                variant="primary"
+                size="lg"
+                className="mt-8 w-full"
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
+              >
+                {isCheckoutLoading ? "Redirection..." : "Passer à l'offre complète"}
               </Button>
-            </Link>
+            ) : (
+              <Link href="/register" className="mt-8 block">
+                <Button variant="primary" size="lg" className="w-full">
+                  Commencer — 0,99 €/mois
+                </Button>
+              </Link>
+            )}
             <p className="mt-3 text-center text-xs text-text-muted">
               Sans engagement — annule en 1 clic
             </p>

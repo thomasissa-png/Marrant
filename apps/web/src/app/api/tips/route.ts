@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+
+const FREE_LIMIT = 3;
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -19,11 +23,40 @@ export async function GET(request: NextRequest) {
       limit: searchParams.get("limit") ?? 10,
     });
 
+    // Vérifier le plan de l'utilisateur
+    const session = await getServerSession(authOptions);
+    const userId = (session?.user as { id?: string })?.id;
+    let isPremium = false;
+
+    if (userId) {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { plan: true },
+      });
+      isPremium = user?.plan === "PREMIUM";
+    }
+
     const where = {
       isActive: true,
       ...(query.category && { category: query.category as never }),
       ...(query.difficulty && { difficulty: query.difficulty as never }),
     };
+
+    // FREE / anonyme : limiter
+    if (!isPremium) {
+      const tips = await prisma.tip.findMany({
+        where,
+        take: FREE_LIMIT,
+        orderBy: { createdAt: "desc" },
+      });
+
+      return NextResponse.json({
+        tips,
+        pagination: { page: 1, limit: FREE_LIMIT, total: FREE_LIMIT, totalPages: 1 },
+        limited: true,
+        upgradeMessage: "Débloque tous les conseils — 0,99 €/mois",
+      });
+    }
 
     const [tips, total] = await Promise.all([
       prisma.tip.findMany({
@@ -43,6 +76,7 @@ export async function GET(request: NextRequest) {
         total,
         totalPages: Math.ceil(total / query.limit),
       },
+      limited: false,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
