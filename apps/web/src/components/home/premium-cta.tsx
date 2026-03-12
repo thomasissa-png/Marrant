@@ -69,15 +69,15 @@ export function PremiumCta() {
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les blagues</strong> — 500+ classées par catégorie</span>
+                <span><strong>Toutes les blagues</strong> — 500+ classées par catégorie (au lieu de 10)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> + exemples concrets + exercices</span>
+                <span><strong>Tous les conseils</strong> + exemples concrets + exercices (au lieu de 5)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Vidéos stand-up</strong> analysées avec les techniques</span>
+                <span><strong>Toutes les vidéos stand-up</strong> analysées avec les techniques (au lieu de 5)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>

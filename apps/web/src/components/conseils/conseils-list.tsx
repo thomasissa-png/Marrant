@@ -236,7 +236,7 @@ export function ConseilsList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Envie d&apos;aller plus loin ? 50+ conseils t&apos;attendent.
+            Tu as accès à 5 conseils + le conseil du jour — 50+ t&apos;attendent !
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois.

@@ -186,7 +186,7 @@ export function VideosGrid() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Analyse les techniques des meilleurs — 30+ vidéos disponibles.
+            Tu as accès à 5 vidéos + la vidéo du jour — 30+ disponibles !
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois.

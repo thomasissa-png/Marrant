@@ -49,12 +49,16 @@ describe("USER_LEVELS — niveaux utilisateur", () => {
 });
 
 describe("FREE_LIMITS — limites plan gratuit", () => {
-  it("autorise 10 blagues par jour", () => {
-    expect(FREE_LIMITS.JOKES_PER_DAY).toBe(10);
+  it("autorise 10 blagues", () => {
+    expect(FREE_LIMITS.JOKES).toBe(10);
   });
 
-  it("autorise 5 conseils par jour", () => {
-    expect(FREE_LIMITS.TIPS_PER_DAY).toBe(5);
+  it("autorise 5 conseils", () => {
+    expect(FREE_LIMITS.TIPS).toBe(5);
+  });
+
+  it("autorise 5 vidéos", () => {
+    expect(FREE_LIMITS.VIDEOS).toBe(5);
   });
 
   it("limite à 20 favoris", () => {

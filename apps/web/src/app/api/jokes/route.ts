@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
-const FREE_LIMIT = 5;
+const FREE_LIMIT = 10;
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         jokes,
         pagination: { page: 1, limit: FREE_LIMIT, total: FREE_LIMIT, totalPages: 1 },
         limited: true,
-        upgradeMessage: "Débloque les 500+ blagues — 0,99 €/mois",
+        upgradeMessage: "Tu as accès à 10 blagues + la blague du jour. Débloque les 500+ blagues — 0,99 €/mois",
       });
     }
 

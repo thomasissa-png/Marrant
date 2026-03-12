@@ -154,15 +154,17 @@ describe("Cohérence inter-agents", () => {
 
   it("FREE_LIMITS définit des limites raisonnables", () => {
     const FREE_LIMITS = {
-      JOKES_PER_DAY: 10,
-      TIPS_PER_DAY: 5,
+      JOKES: 10,
+      TIPS: 5,
+      VIDEOS: 5,
       MAX_FAVORITES: 20,
     };
 
-    expect(FREE_LIMITS.JOKES_PER_DAY).toBeGreaterThan(0);
-    expect(FREE_LIMITS.TIPS_PER_DAY).toBeGreaterThan(0);
+    expect(FREE_LIMITS.JOKES).toBeGreaterThan(0);
+    expect(FREE_LIMITS.TIPS).toBeGreaterThan(0);
+    expect(FREE_LIMITS.VIDEOS).toBeGreaterThan(0);
     expect(FREE_LIMITS.MAX_FAVORITES).toBeGreaterThan(0);
-    expect(FREE_LIMITS.JOKES_PER_DAY).toBeLessThanOrEqual(50);
+    expect(FREE_LIMITS.JOKES).toBeLessThanOrEqual(50);
     expect(FREE_LIMITS.MAX_FAVORITES).toBeLessThanOrEqual(100);
   });
 });

@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
-const FREE_LIMIT = 3;
+const FREE_LIMIT = 5;
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         tips,
         pagination: { page: 1, limit: FREE_LIMIT, total: FREE_LIMIT, totalPages: 1 },
         limited: true,
-        upgradeMessage: "Débloque tous les conseils — 0,99 €/mois",
+        upgradeMessage: "Tu as accès à 5 conseils + le conseil du jour. Débloque tous les conseils — 0,99 €/mois",
       });
     }
 
