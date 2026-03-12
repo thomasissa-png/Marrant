@@ -5,4 +5,4 @@ const path = require("path");
 const webDir = path.join(__dirname, "apps", "web");
 process.chdir(webDir);
 require("tsx/cjs/api").register();
-require("./prisma/seed.ts");
+require(path.join(webDir, "prisma", "seed.ts"));
