@@ -9,8 +9,8 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
 // Prix de l'abonnement premium
 export const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PRICE_ID ?? "";
 
-// Montant premium en centimes
-export const PREMIUM_PRICE_CENTS = 999; // 9,99€
+// Montant offre de lancement en centimes
+export const PREMIUM_PRICE_CENTS = 99; // 0,99€
 
 /**
  * Crée une session de paiement Stripe Checkout

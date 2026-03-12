@@ -179,11 +179,11 @@ export function ProfilDashboard() {
               </Link>
             )}
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && (
-              <Link href="/parcours" className="group">
+              <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Lance un parcours</p>
+                  <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases — suis un parcours structuré pour passer au niveau supérieur.
+                    Tu as les bases — explore les conseils avancés pour affiner ton humour.
                   </p>
                 </div>
               </Link>
@@ -218,13 +218,15 @@ export function ProfilDashboard() {
           ) : (
             <>
               <p className="mb-4 text-sm text-text-secondary">
-                Passe en Premium pour débloquer l&apos;accès illimité et le
-                coaching IA — génère des blagues sur mesure, reçois des
-                conseils personnalisés et entraîne ta répartie.
+                Débloque l&apos;accès à toutes les blagues, tous les conseils,
+                toutes les vidéos analysées et le contenu quotidien — pour
+                seulement 0,99 €/mois (offre de lancement).
               </p>
-              <Button variant="secondary" size="sm">
-                Passer Premium — 9,99€/mois
-              </Button>
+              <Link href="/register">
+                <Button variant="secondary" size="sm">
+                  Débloquer tout — 0,99 €/mois
+                </Button>
+              </Link>
             </>
           )}
         </CardContent>

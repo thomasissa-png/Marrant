@@ -93,7 +93,7 @@ describe("ProfilDashboard", () => {
 
   it("shows upgrade button for FREE plan", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Passer Premium — 9,99€/mois")).toBeInTheDocument();
+    expect(screen.getByText("Débloquer tout — 0,99 €/mois")).toBeInTheDocument();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {
@@ -133,10 +133,10 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText(/techniques des meilleurs humoristes/)).toBeInTheDocument();
   });
 
-  it("shows 'Lance un parcours' when stats are high enough", () => {
+  it("shows 'Approfondis tes techniques' when stats are high enough", () => {
     render(<ProfilDashboard />);
-    // mockUser has tipsCompleted=15 and jokesRead=42, so parcours is shown
-    expect(screen.getByText("Lance un parcours")).toBeInTheDocument();
+    // mockUser has tipsCompleted=15 and jokesRead=42
+    expect(screen.getByText("Approfondis tes techniques")).toBeInTheDocument();
   });
 
   it("shows 'Apprends les bases' for new users with few tips", () => {

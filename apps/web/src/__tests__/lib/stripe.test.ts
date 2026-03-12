@@ -17,8 +17,8 @@ jest.mock("stripe", () => {
 import { stripe, PREMIUM_PRICE_ID, PREMIUM_PRICE_CENTS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
 
 describe("Stripe constants", () => {
-  it("PREMIUM_PRICE_CENTS is 999", () => {
-    expect(PREMIUM_PRICE_CENTS).toBe(999);
+  it("PREMIUM_PRICE_CENTS is 99 (launch offer)", () => {
+    expect(PREMIUM_PRICE_CENTS).toBe(99);
   });
 
   it("PREMIUM_PRICE_ID is defined", () => {

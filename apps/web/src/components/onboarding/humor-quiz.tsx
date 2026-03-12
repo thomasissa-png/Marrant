@@ -47,7 +47,7 @@ const RESULTS: Record<string, { title: string; description: string; emoji: strin
     title: "Le Novice Prometteur",
     description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance — étape par étape.",
     emoji: "🌱",
-    path: "/parcours",
+    path: "/conseils",
   },
   INTERMEDIAIRE: {
     title: "Le Blagueur en Herbe",
@@ -65,7 +65,7 @@ const RESULTS: Record<string, { title: string; description: string; emoji: strin
     title: "La Future Star",
     description: "Tu vises haut et c'est ce qu'on aime. Analyse les meilleurs, peaufine tes techniques et prépare-toi à briller.",
     emoji: "⭐",
-    path: "/parcours",
+    path: "/videos",
   },
 };
 

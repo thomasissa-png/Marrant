@@ -94,7 +94,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
 
     await userEvent.click(screen.getByText("C'est parti !"));
-    expect(mockPush).toHaveBeenCalledWith("/parcours");
+    expect(mockPush).toHaveBeenCalledWith("/conseils");
   });
 
   it("navigates home on 'Explorer librement' click", async () => {
