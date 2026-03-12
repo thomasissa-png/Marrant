@@ -113,7 +113,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / au lycée"));
     await userEvent.click(screen.getByText("Parfois ça marche"));
 
-    expect(screen.getByText("Le Blagueur en Herbe")).toBeInTheDocument();
+    expect(screen.getByText("Le Blagueur Affûté")).toBeInTheDocument();
   });
 
   it("shows AVANCE result", async () => {

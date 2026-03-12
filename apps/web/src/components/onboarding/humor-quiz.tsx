@@ -50,7 +50,7 @@ const RESULTS: Record<string, { title: string; description: string; emoji: strin
     path: "/conseils",
   },
   INTERMEDIAIRE: {
-    title: "Le Blagueur en Herbe",
+    title: "Le Blagueur Affûté",
     description: "T'as déjà le sens de l'humour, on va l'affûter. Répartie, timing, anecdotes — tu vas devenir celui qu'on écoute.",
     emoji: "🌿",
     path: "/conseils",

@@ -35,16 +35,21 @@ export default function CGUPage() {
           <p>Le contenu de la plateforme (blagues originales, conseils, parcours d&apos;apprentissage, design) est protégé par le droit d&apos;auteur. Toute reproduction non autorisée est strictement interdite.</p>
         </section>
         <section>
-          <h2 className="mb-2 text-lg font-semibold text-text-primary">6. Résiliation</h2>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">6. Droit de rétractation</h2>
+          <p>Conformément à la Directive européenne 2011/83/UE et au Code de la consommation français, vous disposez d&apos;un délai de 14 jours à compter de la souscription pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
+          <p className="mt-2">Pour exercer ce droit, adressez votre demande à contact@deviensmarrant.fr. Le remboursement sera effectué dans un délai de 14 jours suivant la réception de la demande.</p>
+        </section>
+        <section>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
           <p>L&apos;utilisateur peut supprimer son compte à tout moment depuis son profil. La suppression entraîne l&apos;effacement de toutes les données personnelles dans un délai de 30 jours.</p>
           <p className="mt-2">L&apos;abonnement Premium peut être annulé avant la fin de la période en cours. L&apos;accès Premium reste actif jusqu&apos;à la fin de la période payée.</p>
         </section>
         <section>
-          <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Limitation de responsabilité</h2>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Limitation de responsabilité</h2>
           <p>L&apos;éditeur ne garantit pas que le service sera disponible de manière ininterrompue. L&apos;éditeur ne pourra être tenu responsable des dommages indirects liés à l&apos;utilisation du service.</p>
         </section>
         <section>
-          <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Droit applicable</h2>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">9. Droit applicable</h2>
           <p>Les présentes CGU sont soumises au droit français. Tout litige sera soumis à la compétence exclusive des tribunaux de Paris.</p>
         </section>
       </div>

@@ -119,7 +119,7 @@ export function PremiumCta() {
           </ul>
 
           <a
-            href="https://cal.com"
+            href="https://cal.com/deviensmarrant/coaching-humour"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 block"

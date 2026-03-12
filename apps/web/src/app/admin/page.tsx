@@ -167,7 +167,7 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <div className="flex min-h-[60vh] items-center justify-center p-4">
         <div className="w-full max-w-sm rounded-lg border border-border bg-background-card p-8">
           <h1 className="mb-6 text-center font-display text-2xl font-bold text-text-primary">
             Admin — deviensmarrant
@@ -197,7 +197,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="p-4 md:p-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
@@ -354,7 +354,7 @@ export default function AdminPage() {
                   ["STRIPE_SECRET_KEY", "Non", "Stripe (paiements premium)"],
                   ["STRIPE_PUBLISHABLE_KEY", "Non", "Stripe (frontend)"],
                   ["YOUTUBE_API_KEY", "Non", "API YouTube (métadonnées vidéos)"],
-                  ["ANTHROPIC_API_KEY", "Non", "Claude API (coaching IA)"],
+                  ["ANTHROPIC_API_KEY", "Non", "Claude API (génération de contenu)"],
                 ].map(([name, required, desc]) => (
                   <tr key={name} className="border-b border-border last:border-0">
                     <td className="px-4 py-2 font-mono text-accent-primary">{name}</td>

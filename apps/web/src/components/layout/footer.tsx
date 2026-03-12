@@ -28,6 +28,9 @@ export function Footer() {
               La plateforme francophone pour progresser en humour et en
               répartie.
             </p>
+            <p className="mt-3 text-sm text-text-muted">
+              contact@deviensmarrant.fr
+            </p>
           </div>
 
           {/* Liens produit */}
