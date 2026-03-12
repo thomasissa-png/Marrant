@@ -43,10 +43,10 @@ describe("Header", () => {
     expect(screen.queryByText("Parcours")).not.toBeInTheDocument();
   });
 
-  it("shows Connexion and Essayer 0,99 € when unauthenticated", () => {
+  it("shows Connexion and Commencer CTA when unauthenticated", () => {
     render(<Header />);
     expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Essayer 0,99 €").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Commencer — 0,99 €/mois").length).toBeGreaterThan(0);
   });
 
   it("shows Favoris, Profil, Déconnexion when authenticated", () => {

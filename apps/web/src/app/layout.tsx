@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | deviensmarrant.fr",
   },
   description:
-    "La plateforme francophone pour progresser en humour et en répartie. Blagues, conseils de pros, vidéos stand-up et coaching IA personnalisé.",
+    "La plateforme francophone pour progresser en humour et en répartie. Blagues, conseils de pros, vidéos stand-up et progression personnalisée.",
   keywords: [
     "devenir drôle",
     "apprendre l'humour",

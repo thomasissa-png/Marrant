@@ -30,7 +30,7 @@ export default function ConfidentialitePage() {
           <p>Vos données sont utilisées pour :</p>
           <ul className="mt-2 list-disc pl-6 space-y-1">
             <li>Gérer votre compte et votre authentification</li>
-            <li>Personnaliser votre expérience (recommandations, coaching IA)</li>
+            <li>Personnaliser votre expérience (recommandations de contenu)</li>
             <li>Suivre votre progression dans l&apos;apprentissage de l&apos;humour</li>
             <li>Améliorer nos services grâce aux statistiques d&apos;utilisation anonymisées</li>
             <li>Gérer les abonnements et la facturation</li>

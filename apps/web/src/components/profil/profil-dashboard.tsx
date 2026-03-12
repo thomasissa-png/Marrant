@@ -213,7 +213,7 @@ export function ProfilDashboard() {
         <CardContent>
           {user.plan === "PREMIUM" ? (
             <p className="text-sm text-text-secondary">
-              Tu profites de l&apos;accès illimité et du coaching IA personnalisé.
+              Tu profites de l&apos;accès illimité à tous les contenus et de la progression personnalisée.
             </p>
           ) : (
             <>

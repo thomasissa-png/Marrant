@@ -83,7 +83,7 @@ export function Header() {
               </Link>
               <Link href="/register">
                 <Button variant="primary" size="sm">
-                  Essayer 0,99 €
+                  Commencer — 0,99 €/mois
                 </Button>
               </Link>
             </>

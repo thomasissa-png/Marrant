@@ -39,7 +39,7 @@ describe("HeroSection", () => {
   it("shows unauthenticated buttons", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Essayer pour 0,99 €\/mois/)).toBeInTheDocument();
+    expect(screen.getByText(/Commencer — 0,99 €\/mois/)).toBeInTheDocument();
     expect(screen.getByText("Voir les blagues gratuites")).toBeInTheDocument();
   });
 
@@ -53,7 +53,7 @@ describe("HeroSection", () => {
   it("links to /register when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Essayer pour 0,99 €\/mois/).closest("a")).toHaveAttribute(
+    expect(screen.getByText(/Commencer — 0,99 €\/mois/).closest("a")).toHaveAttribute(
       "href",
       "/register"
     );

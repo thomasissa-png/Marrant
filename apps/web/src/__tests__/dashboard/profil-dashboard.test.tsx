@@ -113,7 +113,7 @@ describe("ProfilDashboard", () => {
       fetchUser: mockFetchUser,
     });
     render(<ProfilDashboard />);
-    expect(screen.getByText(/accès illimité et du coaching/)).toBeInTheDocument();
+    expect(screen.getByText(/accès illimité à tous les contenus/)).toBeInTheDocument();
   });
 
   it("shows progress section", () => {

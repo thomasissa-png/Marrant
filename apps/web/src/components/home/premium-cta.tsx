@@ -75,7 +75,7 @@ export function PremiumCta() {
               <Button variant="primary" size="lg" className="w-full">
                 {status === "authenticated"
                   ? "Passer à l'offre complète"
-                  : "Commencer pour 0,99 €/mois"}
+                  : "Commencer — 0,99 €/mois"}
               </Button>
             </Link>
             <p className="mt-3 text-center text-xs text-text-muted">

@@ -60,7 +60,7 @@ export function HeroSection() {
           <>
             <Link href="/register">
               <Button variant="primary" size="lg">
-                Essayer pour 0,99 €/mois
+                Commencer — 0,99 €/mois
               </Button>
             </Link>
             <Link href="/blagues">

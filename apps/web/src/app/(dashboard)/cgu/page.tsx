@@ -23,7 +23,7 @@ export default function CGUPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">3. Offres et tarifs</h2>
           <p>Le plan gratuit donne accès à un nombre limité de contenus par jour (blagues, conseils, vidéos).</p>
-          <p className="mt-2">Le plan Premium (9,99 €/mois) offre un accès illimité à l&apos;ensemble du catalogue, le coaching IA personnalisé, et des fonctionnalités exclusives. L&apos;abonnement est sans engagement et peut être annulé à tout moment depuis l&apos;espace profil.</p>
+          <p className="mt-2">Le plan Premium (0,99 €/mois — offre de lancement, puis 9,99 €/mois) offre un accès illimité à l&apos;ensemble du catalogue et des fonctionnalités exclusives. L&apos;abonnement est sans engagement et peut être annulé à tout moment depuis l&apos;espace profil.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">4. Contenu utilisateur</h2>

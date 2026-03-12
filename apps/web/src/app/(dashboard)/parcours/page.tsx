@@ -27,7 +27,7 @@ export default function ParcoursPage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link href="/register">
               <Button variant="primary" size="lg">
-                S&apos;inscrire — 0,99 €/mois
+                Commencer — 0,99 €/mois
               </Button>
             </Link>
             <Link href="/">

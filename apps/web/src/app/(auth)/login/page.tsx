@@ -59,7 +59,7 @@ export default function LoginPage() {
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {error && (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400" role="alert">
+              <p className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
               </p>
             )}
