@@ -6,7 +6,7 @@
     "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 5000",
-    "setup": "npm install && npx prisma generate && npx prisma db push && tsx prisma/seed.ts",
+    "setup": "npm install && npx prisma generate && npx prisma db push && npx prisma db seed",
     "lint": "next lint",
     "test": "jest",
     "test:ci": "jest --bail --passWithNoTests",
@@ -15,7 +15,7 @@
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:seed": "npx prisma db seed",
     "db:studio": "prisma studio"
   },
   "dependencies": {
@@ -44,6 +44,9 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1",
     "zustand": "^5.0.3"
+  },
+  "prisma": {
+    "seed": "npx esbuild prisma/seed.ts --bundle --platform=node --outfile=.seed-compiled.js --external:@prisma/client && node .seed-compiled.js && rm .seed-compiled.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",

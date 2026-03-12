@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "bash -c 'cd /home/runner/workspace/apps/web && npm install && npx prisma generate'",
-    "build": "bash -c 'cd /home/runner/workspace/apps/web && npx prisma db push && npx esbuild prisma/seed.ts --bundle --platform=node --outfile=.seed-compiled.js --external:@prisma/client && node .seed-compiled.js && rm .seed-compiled.js && npm run build && cp -r /home/runner/workspace/apps/web/public /home/runner/workspace/apps/web/.next/standalone/public && cp -r /home/runner/workspace/apps/web/.next/static /home/runner/workspace/apps/web/.next/standalone/.next/static'",
+    "build": "bash -c 'cd /home/runner/workspace/apps/web && npx prisma db push && npx prisma db seed && npm run build && cp -r /home/runner/workspace/apps/web/public /home/runner/workspace/apps/web/.next/standalone/public && cp -r /home/runner/workspace/apps/web/.next/static /home/runner/workspace/apps/web/.next/standalone/.next/static'",
     "start": "bash -c 'cd /home/runner/workspace/apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js'"
   },
   "devDependencies": {
