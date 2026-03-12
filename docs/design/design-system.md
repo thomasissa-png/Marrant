@@ -70,7 +70,7 @@ Animation pulse sur l'emoji feu, fond `accent-secondary/10`
 
 Le design doit satisfaire simultanément 3 profils :
 
-### Yanis (17 ans, lycéen)
+### Yanis (20 ans, étudiant)
 - Interface engageante type « gaming » : animations XP, badges, streak avec pulse
 - Utiliser les tons violets généreusement pour les éléments de progression
 - Éviter un look « corporate » ou trop sobre — garder l'énergie

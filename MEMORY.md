@@ -152,7 +152,7 @@ Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniq
 - **Périmètre d'audit** : Qualité du contenu, nombre, diversité catégories, pertinence cible 15-35 ans, ton/style, maturityLevel
 - **Hors périmètre** : UX des pages, SEO, composants React, API routes
 - **Directive personas** :
-  - Yanis : inclure des blagues qui marchent au lycée (école, potes, parents), ton jamais condescendant, maturityLevel 1 majoritaire
+  - Yanis : inclure des blagues qui marchent en soirée étudiante (école/fac, potes, gaming, dating), ton complice et encourageant, maturityLevel 1 majoritaire
   - Sophie : privilégier les blagues courtes et mémorisables, faciles à ressortir à la machine à café ou en afterwork, inclure des blagues « situation pro »
   - Marc : varier les registres (auto-dérision, storytelling, observationnel), blagues qui marchent en contexte social adulte (dîner, rendez-vous, soirée)
 

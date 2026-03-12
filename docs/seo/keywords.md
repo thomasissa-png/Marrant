@@ -35,9 +35,9 @@
 
 ## Mots-clés par persona
 
-### Yanis (17 ans — répartie & confiance)
+### Yanis (20 ans — répartie & confiance)
 - comment avoir de la répartie
-- devenir drôle ado / lycée
+- devenir drôle étudiant / fac
 - manque de confiance humour
 - exercices répartie débutant
 - blagues à sortir entre potes
