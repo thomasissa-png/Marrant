@@ -792,6 +792,77 @@ describe("Marketing Agent", () => {
       })
     ).rejects.toThrow();
   });
+
+  it("throws on empty hook in social post", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify({
+        platform: "TIKTOK",
+        format: "REEL",
+        targetPersona: "YANIS",
+        hook: "",
+        content: "Contenu",
+        cta: "CTA",
+        hashtags: [],
+        objective: "Test",
+        kpi: "Test",
+      }) }],
+    });
+
+    await expect(
+      generateSocialPost({
+        platform: "TIKTOK",
+        theme: "Test",
+        targetPersona: "YANIS",
+      })
+    ).rejects.toThrow("hook");
+  });
+
+  it("throws on empty scenes in video script", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify({
+        title: "Test",
+        targetPersona: "SOPHIE",
+        platform: "INSTAGRAM_REELS",
+        hook: "Hook",
+        scenes: [],
+        cta: "CTA",
+        duration: "15s",
+        objective: "Test",
+      }) }],
+    });
+
+    await expect(
+      generateShortVideoScript({
+        theme: "Test",
+        targetPersona: "SOPHIE",
+        platform: "INSTAGRAM_REELS",
+      })
+    ).rejects.toThrow("scène");
+  });
+
+  it("truncates overly long hook in social post", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify({
+        platform: "TIKTOK",
+        format: "REEL",
+        targetPersona: "YANIS",
+        hook: "A".repeat(500),
+        content: "Contenu",
+        cta: "CTA",
+        hashtags: ["#test"],
+        objective: "Test",
+        kpi: "Test",
+      }) }],
+    });
+
+    const post = await generateSocialPost({
+      platform: "TIKTOK",
+      theme: "Test",
+      targetPersona: "YANIS",
+    });
+
+    expect(post.hook.length).toBeLessThanOrEqual(200);
+  });
 });
 
 describe("AI Client utilities", () => {

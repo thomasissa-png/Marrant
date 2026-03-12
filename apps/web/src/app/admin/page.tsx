@@ -15,7 +15,7 @@ const AGENTS = [
   {
     name: "Agent Design",
     status: "actif",
-    mission: "Design system, identité visuelle, palette, typographie, composants",
+    mission: "Design system, identité visuelle, palette, typographie, composants. Reporte à l'Agent Marketing.",
     recent: [
       "Palette 100% violet implémentée (primary #8B5CF6, secondary #6D28D9)",
       "Contraste text-muted corrigé (#9A9A9A — WCAG AA)",
@@ -27,7 +27,7 @@ const AGENTS = [
   {
     name: "Agent UX",
     status: "actif",
-    mission: "Parcours utilisateur, navigation, layout, interactions, onboarding, rétention",
+    mission: "Parcours utilisateur, navigation, layout, interactions, onboarding, rétention. Reporte à l'Agent Marketing.",
     recent: [
       "Layout partagé avec Header/Footer",
       "Page 404 personnalisée",
@@ -73,9 +73,24 @@ const AGENTS = [
     phase: "Terminé",
   },
   {
+    name: "Agent Marketing",
+    status: "actif",
+    mission: "Creative Strategist — direction marketing, copy, social media, vidéos courtes, campagnes. Chapeaute SEO, Design et UX.",
+    recent: [
+      "Génération de posts réseaux sociaux (TikTok, Instagram, Twitter, YouTube Shorts)",
+      "Scripts vidéo courte scène par scène (hooks, timing, CTA)",
+      "Briefs de campagne avec plan jour par jour et KPIs",
+      "Audit copy/UX avec recommandations par persona",
+      "Séquences email marketing (onboarding, conversion, rétention)",
+      "Calendrier éditorial mensuel multi-plateforme",
+      "Directives stratégiques pour sous-agents (SEO, Design, UX)",
+    ],
+    phase: "Phase 4 — Post-audit",
+  },
+  {
     name: "Agent SEO",
     status: "actif",
-    mission: "Référencement naturel (metadata, sitemap, robots.txt)",
+    mission: "Référencement naturel (metadata, sitemap, robots.txt). Reporte à l'Agent Marketing.",
     recent: [
       "Metadata SEO sur toutes les pages",
       "PWA manifest + robots.txt + sitemap.xml",
@@ -102,6 +117,9 @@ const AGENTS = [
       "Audit design complet : note 7.5/10",
       "25 améliorations identifiées (6 haute priorité)",
       "Évaluation personas : Yanis 7/10, Sophie 8/10, Marc 7.5/10",
+      "Audit Agent Marketing : note 7/10 → 8.5/10 post-corrections",
+      "9 points identifiés (4 haute, 3 moyenne, 2 basse priorité)",
+      "Corrections appliquées : validation outputs, positionnement/marché, funnel AARRR, sécurité prompt injection, import mort supprimé",
     ],
     phase: "Terminé",
   },
