@@ -15,19 +15,19 @@ export default function HomePage() {
       <DailyContent />
 
       {/* Sections principales */}
-      <section className="grid gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-6 py-12 md:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Blagues à ressortir</CardTitle>
+            <CardTitle>Blagues prêtes à sortir</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Des centaines de blagues par catégorie — parfaites à sortir entre
-              potes, en soirée ou à la machine à café.
+              Plus de 500 blagues classées par catégorie — école, boulot, couple,
+              soirées. Tu trouveras toujours la bonne blague au bon moment.
             </p>
             <Link href="/blagues">
               <Button variant="ghost" size="sm">
-                Explorer →
+                Explorer les blagues →
               </Button>
             </Link>
           </CardContent>
@@ -35,12 +35,12 @@ export default function HomePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Conseils &amp; répartie</CardTitle>
+            <CardTitle>Techniques de répartie</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Timing, répartie, storytelling — des techniques concrètes avec
-              exemples et exercices pour gagner en aisance.
+              Timing, répartie, storytelling — chaque conseil vient avec un
+              exemple concret et un exercice à tester dans la journée.
             </p>
             <Link href="/conseils">
               <Button variant="ghost" size="sm">
@@ -52,12 +52,12 @@ export default function HomePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Vidéos stand-up</CardTitle>
+            <CardTitle>Vidéos stand-up analysées</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Analyse les techniques des meilleurs humoristes français pour
-              comprendre ce qui fait rire.
+              Comprends ce qui fait rire chez les meilleurs humoristes français.
+              Chaque vidéo est décryptée avec la technique utilisée.
             </p>
             <Link href="/videos">
               <Button variant="ghost" size="sm">
@@ -66,57 +66,66 @@ export default function HomePage() {
             </Link>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Parcours guidés</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-text-secondary">
-              Des programmes pas à pas pour progresser de zéro à l&apos;aise — idéal
-              pour ceux qui veulent un cadre structuré.
-            </p>
-            <Link href="/parcours">
-              <Button variant="ghost" size="sm">
-                Commencer →
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card className="md:col-span-2 lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Pourquoi deviensmarrant ?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <p className="font-semibold text-accent-primary">Pour les timides</p>
-                <p className="mt-1 text-sm text-text-secondary">
-                  Tu manques de répartie ? On t&apos;apprend à rebondir avec des
-                  techniques simples et des exercices concrets.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-accent-primary">Au quotidien</p>
-                <p className="mt-1 text-sm text-text-secondary">
-                  Pause café, afterwork, dîner — apprends des blagues et
-                  anecdotes qui marchent à tous les coups.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-accent-primary">Pour progresser</p>
-                <p className="mt-1 text-sm text-text-secondary">
-                  Tu veux devenir vraiment drôle ? Suis un parcours structuré
-                  et mesure ta progression avec les XP.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </section>
 
-      {/* CTA Premium / Freemium */}
+      {/* Section "Tu te reconnais ?" — les 3 personas */}
+      <section className="py-12">
+        <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
+          Tu te reconnais ?
+        </h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* Yanis */}
+          <div className="rounded-xl border border-border bg-background-card p-6">
+            <p className="text-2xl">🎒</p>
+            <h3 className="mt-3 text-lg font-bold text-text-primary">
+              &quot;Je reste muet quand on me chambre&quot;
+            </h3>
+            <p className="mt-2 text-sm text-text-secondary">
+              Tu as 16-20 ans et tu aimerais avoir de la répartie avec tes potes
+              sans rester planté là ? On t&apos;apprend les bases avec des
+              exercices simples et encourageants. Zéro pression, 100% progression.
+            </p>
+            <Link href="/conseils" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+              Commencer à progresser →
+            </Link>
+          </div>
+
+          {/* Sophie */}
+          <div className="rounded-xl border border-border bg-background-card p-6">
+            <p className="text-2xl">☕</p>
+            <h3 className="mt-3 text-lg font-bold text-text-primary">
+              &quot;Je n&apos;ai jamais rien de drôle à dire&quot;
+            </h3>
+            <p className="mt-2 text-sm text-text-secondary">
+              Pause café, afterwork, dîner entre amis — tu voudrais avoir la
+              blague qui fait mouche au bon moment ? On te donne des blagues
+              courtes et mémorisables, et le timing pour les placer.
+            </p>
+            <Link href="/blagues" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+              Découvrir les blagues →
+            </Link>
+          </div>
+
+          {/* Marc */}
+          <div className="rounded-xl border border-border bg-background-card p-6">
+            <p className="text-2xl">🔄</p>
+            <h3 className="mt-3 text-lg font-bold text-text-primary">
+              &quot;J&apos;ai perdu ma légèreté&quot;
+            </h3>
+            <p className="mt-2 text-sm text-text-secondary">
+              Après une période difficile, tu veux retrouver ton humour et ta
+              confiance dans tes interactions ? Blagues, techniques de
+              storytelling et auto-dérision — progresse à ton rythme,
+              sans pression.
+            </p>
+            <Link href="/register" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+              Rejoindre pour 0,99 €/mois →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Offres */}
       <PremiumCta />
     </>
   );

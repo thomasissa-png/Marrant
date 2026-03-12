@@ -12,7 +12,6 @@ const navItems = [
   { href: "/", label: "Accueil" },
   { href: "/blagues", label: "Blagues" },
   { href: "/conseils", label: "Conseils" },
-  { href: "/parcours", label: "Parcours" },
   { href: "/videos", label: "Vidéos" },
 ];
 
@@ -84,7 +83,7 @@ export function Header() {
               </Link>
               <Link href="/register">
                 <Button variant="primary" size="sm">
-                  Commencer
+                  Essayer 0,99 €
                 </Button>
               </Link>
             </>
@@ -175,7 +174,7 @@ export function Header() {
                   <Button variant="ghost" size="sm" className="w-full">Connexion</Button>
                 </Link>
                 <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="primary" size="sm" className="w-full">Commencer</Button>
+                  <Button variant="primary" size="sm" className="w-full">Essayer 0,99 €</Button>
                 </Link>
               </>
             )}

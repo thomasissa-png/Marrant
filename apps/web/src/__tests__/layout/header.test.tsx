@@ -34,19 +34,19 @@ describe("Header", () => {
     expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
   });
 
-  it("renders navigation items", () => {
+  it("renders navigation items without Parcours", () => {
     render(<Header />);
     expect(screen.getByText("Accueil")).toBeInTheDocument();
     expect(screen.getByText("Blagues")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
-    expect(screen.getByText("Parcours")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
+    expect(screen.queryByText("Parcours")).not.toBeInTheDocument();
   });
 
-  it("shows Connexion and Commencer when unauthenticated", () => {
+  it("shows Connexion and Essayer 0,99 € when unauthenticated", () => {
     render(<Header />);
     expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Essayer 0,99 €").length).toBeGreaterThan(0);
   });
 
   it("shows Favoris, Profil, Déconnexion when authenticated", () => {

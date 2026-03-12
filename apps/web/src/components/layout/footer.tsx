@@ -5,6 +5,7 @@ const footerLinks = {
     { href: "/blagues", label: "Blagues" },
     { href: "/conseils", label: "Conseils" },
     { href: "/videos", label: "Vidéos stand-up" },
+    { href: "/#offres", label: "Nos offres" },
   ],
   legal: [
     { href: "/mentions-legales", label: "Mentions légales" },

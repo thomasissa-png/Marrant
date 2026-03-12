@@ -8,18 +8,17 @@ jest.mock("next-auth/react", () => ({
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows badge text", () => {
+  it("shows badge text with launch offer", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Nouveau : coaching IA personnalisé")).toBeInTheDocument();
+    expect(screen.getByText(/Offre de lancement — 0,99 €\/mois au lieu de 9,99 €/)).toBeInTheDocument();
   });
 
-  it("shows main heading with drôle and percutant", () => {
+  it("shows main heading with drôle", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("drôle")).toBeInTheDocument();
-    expect(screen.getByText("percutant")).toBeInTheDocument();
-    expect(screen.getByText(/pour de vrai/)).toBeInTheDocument();
+    expect(screen.getByText(/du groupe/)).toBeInTheDocument();
   });
 
   it("shows description with répartie", () => {
@@ -28,47 +27,53 @@ describe("HeroSection", () => {
     expect(screen.getByText(/techniques de répartie/)).toBeInTheDocument();
   });
 
-  it("shows use-case tags", () => {
+  it("shows use-case tags for all 3 personas", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Répartie au quotidien")).toBeInTheDocument();
-    expect(screen.getByText("Blagues machine à café")).toBeInTheDocument();
-    expect(screen.getByText("Confiance en soi")).toBeInTheDocument();
-    expect(screen.getByText("Progression structurée")).toBeInTheDocument();
+    expect(screen.getByText("Avoir de la répartie au lycée")).toBeInTheDocument();
+    expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
+    expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
+    expect(screen.getByText("Blagues prêtes à ressortir")).toBeInTheDocument();
   });
 
   it("shows unauthenticated buttons", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Découvrir mon profil humour")).toBeInTheDocument();
-    expect(screen.getByText("Voir les blagues")).toBeInTheDocument();
+    expect(screen.getByText(/Essayer pour 0,99 €\/mois/)).toBeInTheDocument();
+    expect(screen.getByText("Voir les blagues gratuites")).toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Mes parcours")).toBeInTheDocument();
     expect(screen.getByText("Explorer les blagues")).toBeInTheDocument();
+    expect(screen.getByText("Voir les conseils")).toBeInTheDocument();
   });
 
-  it("links to /onboarding when unauthenticated", () => {
+  it("links to /register when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Découvrir mon profil humour").closest("a")).toHaveAttribute(
+    expect(screen.getByText(/Essayer pour 0,99 €\/mois/).closest("a")).toHaveAttribute(
       "href",
-      "/onboarding"
+      "/register"
     );
   });
 
-  it("links to /parcours when authenticated", () => {
+  it("links to /blagues when authenticated", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Mes parcours").closest("a")).toHaveAttribute("href", "/parcours");
+    expect(screen.getByText("Explorer les blagues").closest("a")).toHaveAttribute("href", "/blagues");
   });
 
-  it("links to /blagues for both states", () => {
+  it("links to /blagues for unauthenticated secondary CTA", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Voir les blagues").closest("a")).toHaveAttribute("href", "/blagues");
+    expect(screen.getByText("Voir les blagues gratuites").closest("a")).toHaveAttribute("href", "/blagues");
+  });
+
+  it("shows reassurance text", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
   });
 });
