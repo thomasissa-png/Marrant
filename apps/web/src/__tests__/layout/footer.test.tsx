@@ -20,6 +20,8 @@ describe("Footer", () => {
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
     expect(screen.getByText("Parcours")).toBeInTheDocument();
+    expect(screen.getByText("Blog")).toBeInTheDocument();
+    expect(screen.getByText("Blog").closest("a")).toHaveAttribute("href", "/blog");
   });
 
   it("renders legal links", () => {

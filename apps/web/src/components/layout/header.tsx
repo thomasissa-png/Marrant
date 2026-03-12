@@ -15,6 +15,7 @@ const navItems = [
   { href: "/conseils", label: "Conseils" },
   { href: "/videos", label: "Vidéos" },
   { href: "/parcours", label: "Parcours" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Header() {

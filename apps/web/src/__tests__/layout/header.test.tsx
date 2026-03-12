@@ -41,6 +41,7 @@ describe("Header", () => {
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
     expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
   });
 
   it("shows Connexion and Commencer CTA with trust badge when unauthenticated", () => {
