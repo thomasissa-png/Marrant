@@ -14,11 +14,12 @@ describe("Footer", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders product links", () => {
+  it("renders product links including Parcours", () => {
     render(<Footer />);
     expect(screen.getByText("Blagues")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
+    expect(screen.getByText("Parcours")).toBeInTheDocument();
   });
 
   it("renders legal links", () => {

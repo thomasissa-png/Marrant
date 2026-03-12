@@ -1,6 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import ParcoursPage from "@/app/(dashboard)/parcours/page";
 
+jest.mock("@/components/ui/progress-bar", () => ({
+  ProgressBar: ({ value, max }: { value: number; max: number }) => (
+    <div data-testid="progress-bar" data-value={value} data-max={max} />
+  ),
+}));
+
+jest.mock("@/components/home/faq-section", () => ({
+  FaqSection: () => <div data-testid="faq-section" />,
+}));
+
 describe("ParcoursPage — Parcours structurés", () => {
   beforeEach(() => {
     render(<ParcoursPage />);
@@ -13,10 +23,18 @@ describe("ParcoursPage — Parcours structurés", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the launch price", () => {
+  it("shows the launch price and trust badges", () => {
     expect(
       screen.getByText(/Prix de lancement : 0,99 €\/mois/)
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Annule en 1 clic · Sans carte bancaire · Semaine 1 offerte/)
+    ).toBeInTheDocument();
+  });
+
+  it("mentions XP and streaks in the hero", () => {
+    expect(screen.getByText(/Gagne des XP/)).toBeInTheDocument();
+    expect(screen.getByText(/streak/)).toBeInTheDocument();
   });
 
   it("renders the 3 parcours titles", () => {
@@ -25,24 +43,47 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getByText(/Parcours Confiance/)).toBeInTheDocument();
   });
 
-  it("shows the duration for each parcours", () => {
+  it("shows the duration and time per week for each parcours", () => {
     expect(screen.getByText("4 semaines")).toBeInTheDocument();
     expect(screen.getByText("3 semaines")).toBeInTheDocument();
     expect(screen.getByText("6 semaines")).toBeInTheDocument();
+    expect(screen.getAllByText(/min\/semaine/).length).toBe(3);
   });
 
   it("shows difficulty badges", () => {
-    const intermediaire = screen.getAllByText("DEBUTANT → INTERMEDIAIRE");
+    const intermediaire = screen.getAllByText("DEBUTANT \u2192 INTERMEDIAIRE");
     expect(intermediaire).toHaveLength(2);
-    expect(screen.getByText("DEBUTANT → EXPERT")).toBeInTheDocument();
+    expect(screen.getByText("DEBUTANT \u2192 EXPERT")).toBeInTheDocument();
   });
 
-  it("renders CTA buttons for each parcours", () => {
-    const buttons = screen.getAllByText("Commencer ce parcours");
+  it("shows persona targeting text for each parcours", () => {
+    expect(screen.getByText(/Idéal si tu travailles en équipe/)).toBeInTheDocument();
+    expect(screen.getByText(/Pour toi si tu es étudiant/)).toBeInTheDocument();
+    expect(screen.getByText(/Parfait pour redémarrer/)).toBeInTheDocument();
+  });
+
+  it("shows testimonials for each parcours", () => {
+    expect(screen.getByText(/muette à la machine à café/)).toBeInTheDocument();
+    expect(screen.getByText(/meilleures répliques/)).toBeInTheDocument();
+    expect(screen.getByText(/retrouver ma légèreté/)).toBeInTheDocument();
+  });
+
+  it("renders free trial CTA buttons for each parcours", () => {
+    const buttons = screen.getAllByText("Essaie le premier module gratuitement");
     expect(buttons).toHaveLength(3);
     buttons.forEach((btn) => {
       expect(btn.closest("a")).toHaveAttribute("href", "/register");
     });
+  });
+
+  it("marks first module as GRATUIT on each parcours", () => {
+    const gratuitBadges = screen.getAllByText("GRATUIT");
+    expect(gratuitBadges).toHaveLength(3);
+  });
+
+  it("shows XP rewards on modules", () => {
+    expect(screen.getAllByText("+50 XP").length).toBe(3);
+    expect(screen.getAllByText("+75 XP").length).toBe(3);
   });
 
   it("shows weekly modules for Parcours Répartie", () => {
@@ -81,10 +122,29 @@ describe("ParcoursPage — Parcours structurés", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows week labels for modules", () => {
-    const semaine1 = screen.getAllByText("Semaine 1");
-    expect(semaine1.length).toBeGreaterThanOrEqual(3);
-    const semaine6 = screen.getAllByText("Semaine 6");
-    expect(semaine6).toHaveLength(1);
+  it("shows progress bars", () => {
+    const bars = screen.getAllByTestId("progress-bar");
+    expect(bars).toHaveLength(3);
+  });
+
+  it("shows total XP to earn", () => {
+    expect(screen.getByText("225 XP à gagner")).toBeInTheDocument();
+    expect(screen.getByText("375 XP à gagner")).toBeInTheDocument();
+    expect(screen.getByText("700 XP à gagner")).toBeInTheDocument();
+  });
+
+  it("renders the FAQ section", () => {
+    expect(screen.getByTestId("faq-section")).toBeInTheDocument();
+  });
+
+  it("orders parcours from shortest to longest", () => {
+    const titles = screen.getAllByText(/Parcours (Machine à Café|Répartie|Confiance)/);
+    expect(titles[0]).toHaveTextContent("Machine à Café");
+    expect(titles[1]).toHaveTextContent("Répartie");
+    expect(titles[2]).toHaveTextContent("Confiance");
+  });
+
+  it("uses 🌱 emoji for Parcours Confiance", () => {
+    expect(screen.getByText("🌱")).toBeInTheDocument();
   });
 });

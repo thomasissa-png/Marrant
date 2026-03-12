@@ -34,13 +34,13 @@ describe("Header", () => {
     expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
   });
 
-  it("renders navigation items without Parcours", () => {
+  it("renders navigation items including Parcours", () => {
     render(<Header />);
     expect(screen.getByText("Accueil")).toBeInTheDocument();
     expect(screen.getByText("Blagues")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
-    expect(screen.queryByText("Parcours")).not.toBeInTheDocument();
+    expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
   });
 
   it("shows Connexion and Commencer CTA with trust badge when unauthenticated", () => {

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
+import { FaqSection } from "@/components/home/faq-section";
 
 export function PremiumCta() {
   const { status } = useSession();
@@ -174,48 +175,8 @@ export function PremiumCta() {
       </p>
 
       {/* FAQ */}
-      <div className="mt-16 max-w-2xl mx-auto">
-        <h3 className="font-display text-2xl font-bold text-text-primary text-center mb-8">
-          Questions fréquentes
-        </h3>
-        <div className="space-y-4">
-          <details className="group rounded-xl border border-border bg-background-card p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-text-primary list-none flex items-center justify-between">
-              Est-ce que je peux vraiment apprendre à être drôle ?
-              <span className="ml-2 text-text-muted transition-transform group-open:rotate-180">▼</span>
-            </summary>
-            <p className="mt-3 text-sm text-text-secondary">
-              Oui. L&apos;humour n&apos;est pas un talent inné, c&apos;est une compétence qui se travaille. Comme un muscle, plus tu pratiques, plus tu progresses. Nos membres gagnent en moyenne 50 XP par semaine et voient une vraie différence en quelques jours.
-            </p>
-          </details>
-          <details className="group rounded-xl border border-border bg-background-card p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-text-primary list-none flex items-center justify-between">
-              0,99 €/mois, c&apos;est vraiment tout ? Pas de frais cachés ?
-              <span className="ml-2 text-text-muted transition-transform group-open:rotate-180">▼</span>
-            </summary>
-            <p className="mt-3 text-sm text-text-secondary">
-              C&apos;est le prix de lancement, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Et tu peux commencer sans carte bancaire.
-            </p>
-          </details>
-          <details className="group rounded-xl border border-border bg-background-card p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-text-primary list-none flex items-center justify-between">
-              C&apos;est quoi la différence avec juste regarder des vidéos YouTube ?
-              <span className="ml-2 text-text-muted transition-transform group-open:rotate-180">▼</span>
-            </summary>
-            <p className="mt-3 text-sm text-text-secondary">
-              YouTube te montre des humoristes. Nous, on t&apos;apprend leurs techniques. Chaque vidéo est analysée, chaque conseil vient avec un exercice concret. Et avec le système de streaks et d&apos;XP, tu gardes la motivation sur la durée.
-            </p>
-          </details>
-          <details className="group rounded-xl border border-border bg-background-card p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-text-primary list-none flex items-center justify-between">
-              Je suis timide, c&apos;est fait pour moi ?
-              <span className="ml-2 text-text-muted transition-transform group-open:rotate-180">▼</span>
-            </summary>
-            <p className="mt-3 text-sm text-text-secondary">
-              Surtout pour toi. La majorité de nos membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à ton rythme, sans pression, avec des exercices que tu peux pratiquer seul avant de les tester en groupe.
-            </p>
-          </details>
-        </div>
+      <div className="mt-16">
+        <FaqSection />
       </div>
     </section>
   );

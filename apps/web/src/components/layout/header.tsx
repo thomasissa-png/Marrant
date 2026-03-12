@@ -14,6 +14,7 @@ const navItems = [
   { href: "/blagues", label: "Blagues" },
   { href: "/conseils", label: "Conseils" },
   { href: "/videos", label: "Vidéos" },
+  { href: "/parcours", label: "Parcours" },
 ];
 
 export function Header() {
