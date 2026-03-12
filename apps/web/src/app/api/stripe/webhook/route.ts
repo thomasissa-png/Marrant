@@ -4,6 +4,18 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import Stripe from "stripe";
 
+// Déduplication en mémoire — empêche le traitement en double d'un même événement
+const processedEvents = new Map<string, number>();
+const DEDUP_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+// Nettoyage périodique
+setInterval(() => {
+  const now = Date.now();
+  processedEvents.forEach((ts, key) => {
+    if (now - ts > DEDUP_TTL_MS) processedEvents.delete(key);
+  });
+}, 60 * 1000);
+
 export async function POST(request: NextRequest) {
   const body = await request.text();
   const headersList = headers();
@@ -25,6 +37,12 @@ export async function POST(request: NextRequest) {
     console.error("[Stripe Webhook] Signature invalide:", error);
     return NextResponse.json({ error: "Signature invalide" }, { status: 400 });
   }
+
+  // Déduplication : ignorer les événements déjà traités
+  if (processedEvents.has(event.id)) {
+    return NextResponse.json({ received: true, deduplicated: true });
+  }
+  processedEvents.set(event.id, Date.now());
 
   try {
     switch (event.type) {

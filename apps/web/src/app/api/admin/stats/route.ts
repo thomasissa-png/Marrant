@@ -1,7 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    return NextResponse.json({ error: "ADMIN_PASSWORD non configuré" }, { status: 500 });
+  }
+
+  const auth = request.headers.get("authorization");
+  if (auth !== `Bearer ${adminPassword}`) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
   try {
     const [users, jokes, tips, videos, paths, favorites] = await Promise.all([
       prisma.user.count(),
