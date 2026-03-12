@@ -93,7 +93,7 @@ describe("ProfilDashboard", () => {
 
   it("shows upgrade button for FREE plan", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Débloquer tout — 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Débloquer tout à 0,99 €/mois")).toBeInTheDocument();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {

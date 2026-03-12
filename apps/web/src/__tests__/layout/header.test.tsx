@@ -46,7 +46,7 @@ describe("Header", () => {
   it("shows Connexion and Commencer CTA when unauthenticated", () => {
     render(<Header />);
     expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Commencer — 0,99 €/mois").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Commencer à 0,99 €/mois").length).toBeGreaterThan(0);
   });
 
   it("shows Favoris, Profil, Déconnexion when authenticated", () => {

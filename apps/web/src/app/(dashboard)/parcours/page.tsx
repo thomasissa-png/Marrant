@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Parcours — Bientôt disponible",
+  title: "Parcours | Bientôt disponible",
   description: "Les parcours d'apprentissage structurés arrivent bientôt sur deviensmarrant.fr.",
 };
 
@@ -27,7 +27,7 @@ export default function ParcoursPage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link href="/register">
               <Button variant="primary" size="lg">
-                Commencer — 0,99 €/mois
+                Commencer à 0,99 €/mois
               </Button>
             </Link>
             <Link href="/">

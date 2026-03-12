@@ -238,14 +238,14 @@ export function ConseilsList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as acc&egrave;s &agrave; 5 conseils + le conseil du jour{totalAvailable > 0 ? ` — ${totalAvailable}+ t'attendent !` : " !"}
+            Tu as acc&egrave;s &agrave; 5 conseils + le conseil du jour{totalAvailable > 0 ? `, ${totalAvailable}+ t'attendent !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois — prix de lancement.
+            Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois (prix de lancement).
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout — 0,99 €/mois
+              Débloquer tout à 0,99 €/mois
             </Button>
           </Link>
         </div>

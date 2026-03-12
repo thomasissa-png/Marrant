@@ -45,19 +45,19 @@ const QUESTIONS: QuizQuestion[] = [
 const RESULTS: Record<string, { title: string; description: string; emoji: string; path: string }> = {
   DEBUTANT: {
     title: "En Route Vers la Répartie",
-    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance — étape par étape.",
+    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance, étape par étape.",
     emoji: "🌱",
     path: "/conseils",
   },
   INTERMEDIAIRE: {
     title: "Le Blagueur Affûté",
-    description: "T'as déjà le sens de l'humour, on va l'affûter. Répartie, timing, anecdotes — tu vas devenir celui qu'on écoute.",
+    description: "T'as déjà le sens de l'humour, on va l'affûter. Répartie, timing, anecdotes : tu vas devenir celui qu'on écoute.",
     emoji: "🌿",
     path: "/conseils",
   },
   AVANCE: {
     title: "Le Comique Naturel",
-    description: "T'es déjà bon ! On va te donner les techniques avancées pour être inoubliable — en soirée, au boulot, partout.",
+    description: "T'es déjà bon ! On va te donner les techniques avancées pour être inoubliable, en soirée, au boulot, partout.",
     emoji: "🔥",
     path: "/videos",
   },

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlaguesList } from "@/components/blagues/blagues-list";
 
 export const metadata: Metadata = {
-  title: "Blagues — Deviens drôle avec des centaines de blagues",
+  title: "Blagues | Deviens drôle avec des centaines de blagues",
   description:
     "Découvre des blagues triées par catégorie : auto-dérision, absurde, jeux de mots, observationnel. Révèle la chute d'un clic !",
 };
@@ -15,7 +15,7 @@ export default function BlaguesPage() {
           Blagues
         </h1>
         <p className="mt-2 text-text-secondary">
-          Des centaines de blagues triées par catégorie — à ressortir entre
+          Des centaines de blagues triées par catégorie, à ressortir entre
           potes, à la machine à café ou en soirée. Clique pour révéler la
           chute, et sauvegarde tes préférées.
         </p>

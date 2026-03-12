@@ -22,12 +22,12 @@ export function HomeCta() {
           Prêt à devenir plus drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} blagues, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — tout ça pour moins d&apos;un café par mois.
+          {jokesLabel} blagues, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour moins d&apos;un café par mois.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/register">
             <Button variant="primary" size="lg">
-              Commencer — 0,99 €/mois
+              Commencer à 0,99 €/mois
             </Button>
           </Link>
           <Link href="/blagues">
@@ -37,7 +37,7 @@ export function HomeCta() {
           </Link>
         </div>
         <p className="mt-3 text-sm text-text-muted">
-          Sans engagement — annule en 1 clic — satisfait ou remboursé
+          Sans engagement · annule en 1 clic · satisfait ou remboursé
         </p>
       </div>
     </section>

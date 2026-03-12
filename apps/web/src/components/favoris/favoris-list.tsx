@@ -90,7 +90,7 @@ export function FavorisList() {
               Ton coffre-fort à vannes est vide
             </p>
             <p className="mt-1 text-sm text-text-secondary">
-              Mets des blagues, conseils ou vidéos de côté — tu nous remercieras en soirée.
+              Mets des blagues, conseils ou vidéos de côté, tu nous remercieras en soirée.
             </p>
           </CardContent>
         </Card>

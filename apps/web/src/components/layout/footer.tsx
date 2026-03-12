@@ -25,7 +25,7 @@ export function Footer() {
               deviensmarrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              Ton coach humour perso — blagues, répartie et techniques
+              Ton coach humour perso. Blagues, répartie et techniques
               de pro pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
@@ -73,7 +73,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
-          &copy; {new Date().getFullYear()} deviensmarrant.fr — Fait avec
+          &copy; {new Date().getFullYear()} deviensmarrant.fr · Fait avec
           humour (et un peu de café)
         </div>
       </div>

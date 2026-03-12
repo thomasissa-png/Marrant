@@ -182,7 +182,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Commence par les conseils de répartie et de timing — les fondamentaux pour être à l&apos;aise.
+                    Commence par les conseils de répartie et de timing, les fondamentaux pour être à l&apos;aise.
                   </p>
                 </div>
               </Link>
@@ -202,7 +202,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases — explore les conseils avancés pour affiner ton humour.
+                    Tu as les bases, explore les conseils avancés pour affiner ton humour.
                   </p>
                 </div>
               </Link>
@@ -238,7 +238,7 @@ export function ProfilDashboard() {
             <>
               <p className="mb-4 text-sm text-text-secondary">
                 Débloque l&apos;accès à toutes les blagues, tous les conseils,
-                toutes les vidéos analysées et le contenu quotidien — pour
+                toutes les vidéos analysées et le contenu quotidien, le tout pour
                 seulement 0,99 €/mois. Prix de lancement, profites-en.
               </p>
               <Button
@@ -247,7 +247,7 @@ export function ProfilDashboard() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "Redirection..." : "Débloquer tout — 0,99 €/mois"}
+                {isCheckoutLoading ? "Redirection..." : "Débloquer tout à 0,99 €/mois"}
               </Button>
             </>
           )}

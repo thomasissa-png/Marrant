@@ -128,7 +128,7 @@ export function SearchBar({ className }: { className?: string }) {
 
       {isOpen && query.length >= 2 && results.length === 0 && !isLoading && (
         <div className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 text-center text-sm text-text-muted shadow-xl">
-          Rien trouvé pour &laquo; {query} &raquo; — essaie autre chose !
+          Rien trouvé pour &laquo; {query} &raquo;, essaie autre chose !
         </div>
       )}
     </div>

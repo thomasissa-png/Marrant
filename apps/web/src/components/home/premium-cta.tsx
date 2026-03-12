@@ -40,13 +40,13 @@ export function PremiumCta() {
     <section className="py-12" id="offres">
       <div className="text-center">
         <Badge variant="primary" className="mb-4">
-          Prix de lancement — Profites-en tant que c&apos;est dispo
+          Prix de lancement · Profites-en tant que c&apos;est dispo
         </Badge>
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           Choisis ta formule
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Que tu sois étudiant, jeune actif ou en pleine reconstruction — on a
+          Que tu sois étudiant, jeune actif ou en pleine reconstruction, on a
           ce qu&apos;il te faut pour devenir vraiment drôle.
         </p>
       </div>
@@ -65,25 +65,25 @@ export function PremiumCta() {
               <span className="text-text-muted">/ mois</span>
             </div>
             <p className="mt-1 text-sm text-accent-primary font-medium">
-              Prix de lancement — ce tarif ne durera pas
+              Prix de lancement, ce tarif ne durera pas
             </p>
 
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les blagues</strong> — {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 20)</span>
+                <span><strong>Toutes les blagues</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 20)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> — {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 5)</span>
+                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 5)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vidéos stand-up</strong> — {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 10)</span>
+                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 10)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Contenu du jour</strong> — blague + conseil + vidéo quotidiens</span>
+                <span><strong>Contenu du jour</strong> : blague + conseil + vidéo quotidiens</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
@@ -104,12 +104,12 @@ export function PremiumCta() {
             ) : (
               <Link href="/register" className="mt-8 block">
                 <Button variant="primary" size="lg" className="w-full">
-                  Commencer — 0,99 €/mois
+                  Commencer à 0,99 €/mois
                 </Button>
               </Link>
             )}
             <p className="mt-3 text-center text-xs text-text-muted">
-              Sans engagement — annule en 1 clic
+              Sans engagement · annule en 1 clic
             </p>
           </div>
         </div>
@@ -155,7 +155,7 @@ export function PremiumCta() {
             className="mt-8 block"
           >
             <Button variant="outline" size="lg" className="w-full">
-              Réserver un appel — 99 €
+              Réserver un appel · 99 €
             </Button>
           </a>
           <p className="mt-3 text-center text-xs text-text-muted">

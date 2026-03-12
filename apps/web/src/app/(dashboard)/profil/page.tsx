@@ -3,7 +3,7 @@ import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
 
 export const metadata: Metadata = {
-  title: "Mon profil — Progression & Statistiques",
+  title: "Mon profil | Progression & Statistiques",
   description: "Suis ta progression en humour, tes statistiques et gère ton abonnement.",
 };
 

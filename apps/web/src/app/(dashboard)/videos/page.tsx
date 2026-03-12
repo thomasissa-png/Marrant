@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { VideosGrid } from "@/components/videos/videos-grid";
 
 export const metadata: Metadata = {
-  title: "Vidéos stand-up — Apprends des meilleurs humoristes français",
+  title: "Vidéos stand-up | Apprends des meilleurs humoristes français",
   description:
     "Regarde des extraits de stand-up français annotés avec les techniques d'humour utilisées. Gad Elmaleh, Blanche Gardin, Fary, Paul Mirabel...",
 };
@@ -17,7 +17,7 @@ export default function VideosPage() {
         <p className="mt-2 text-text-secondary">
           Regarde comment les meilleurs humoristes français construisent
           leurs blagues et leurs punchlines. Chaque vidéo est annotée avec
-          la technique utilisée — idéal pour comprendre et reproduire ce qui
+          la technique utilisée. Idéal pour comprendre et reproduire ce qui
           fait rire.
         </p>
       </div>

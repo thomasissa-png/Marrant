@@ -13,7 +13,7 @@ export function UpgradeToast({ status }: { status: string }) {
       // Rafraîchir les données user pour refléter le nouveau plan
       fetchUser();
     } else if (status === "cancel") {
-      toast("Paiement annulé — tu peux réessayer quand tu veux.", "info");
+      toast("Paiement annulé, tu peux réessayer quand tu veux.", "info");
     }
   }, [status, fetchUser]);
 

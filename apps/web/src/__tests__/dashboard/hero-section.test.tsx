@@ -11,7 +11,7 @@ describe("HeroSection", () => {
   it("shows badge text with launch offer", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Prix de lancement — 0,99 €\/mois — Ce tarif ne durera pas/)).toBeInTheDocument();
+    expect(screen.getByText(/Prix de lancement : 0,99 €\/mois\. Ce tarif ne durera pas/)).toBeInTheDocument();
   });
 
   it("shows main heading with drôle", () => {
@@ -39,7 +39,7 @@ describe("HeroSection", () => {
   it("does not show CTA buttons when unauthenticated (CTA is in HomeCta)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.queryByText(/Commencer — 0,99 €\/mois/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Commencer à 0,99 €\/mois/)).not.toBeInTheDocument();
     expect(screen.queryByText("Voir les blagues gratuites")).not.toBeInTheDocument();
   });
 

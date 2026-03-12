@@ -19,7 +19,7 @@ describe("ParcoursPage — Bientôt disponible", () => {
 
   it("has register CTA with 0,99 € price", () => {
     render(<ParcoursPage />);
-    const registerBtn = screen.getByText(/Commencer — 0,99 €\/mois/);
+    const registerBtn = screen.getByText(/Commencer à 0,99 €\/mois/);
     expect(registerBtn).toBeInTheDocument();
     expect(registerBtn.closest("a")).toHaveAttribute("href", "/register");
   });

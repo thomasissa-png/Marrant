@@ -17,7 +17,7 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   title: {
-    default: "deviensmarrant.fr — Apprends à être drôle",
+    default: "deviensmarrant.fr | Apprends à être drôle",
     template: "%s | deviensmarrant.fr",
   },
   description:
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "https://deviensmarrant.fr",
     siteName: "deviensmarrant.fr",
-    title: "deviensmarrant.fr — Apprends à être drôle",
+    title: "deviensmarrant.fr | Apprends à être drôle",
     description:
       "La plateforme francophone pour progresser en humour et en répartie.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "deviensmarrant.fr — Apprends à être drôle",
+    title: "deviensmarrant.fr | Apprends à être drôle",
     description:
       "La plateforme francophone pour progresser en humour et en répartie.",
   },

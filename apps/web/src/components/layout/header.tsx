@@ -96,7 +96,7 @@ export function Header() {
                   Connexion
                 </Button>
                 <Button variant="primary" size="sm" onClick={openRegister}>
-                  Commencer — 0,99 €/mois
+                  Commencer à 0,99 €/mois
                 </Button>
               </>
             )}

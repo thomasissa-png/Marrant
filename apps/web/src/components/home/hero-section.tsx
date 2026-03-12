@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <section className="py-12 text-center md:py-20">
       <Badge variant="primary" className="mb-4">
-        Prix de lancement — 0,99 €/mois — Ce tarif ne durera pas
+        Prix de lancement : 0,99 €/mois. Ce tarif ne durera pas
       </Badge>
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
         Deviens la personne{" "}
@@ -22,7 +22,7 @@ export function HeroSection() {
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
         à café ? Tu voudrais retrouver ta légèreté ? Des blagues, des techniques
-        de répartie et des conseils de pros — tout pour progresser en humour,
+        de répartie et des conseils de pros pour progresser en humour,
         à ton rythme.
       </p>
 

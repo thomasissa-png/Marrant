@@ -23,7 +23,7 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Des centaines de blagues classées par catégorie — école, boulot, couple,
+              Des centaines de blagues classées par catégorie : école, boulot, couple,
               soirées. Tu trouveras toujours la bonne blague au bon moment.
             </p>
             <Link href="/blagues">
@@ -40,7 +40,7 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Timing, répartie, storytelling — chaque conseil vient avec un
+              Timing, répartie, storytelling. Chaque conseil vient avec un
               exemple concret et un exercice à tester dans la journée.
             </p>
             <Link href="/conseils">
@@ -101,7 +101,7 @@ export default function HomePage() {
               &quot;Je n&apos;ai jamais rien de drôle à dire&quot;
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Pause café, afterwork, dîner entre amis — tu voudrais avoir la
+              Pause café, afterwork, dîner entre amis... tu voudrais avoir la
               blague qui fait mouche au bon moment ? On te donne des blagues
               courtes et mémorisables, et le timing pour les placer.
             </p>
@@ -119,7 +119,7 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-text-secondary">
               Après une période difficile, tu veux retrouver ton humour et ta
               confiance dans tes interactions ? Blagues, techniques de
-              storytelling et auto-dérision — progresse à ton rythme,
+              storytelling et auto-dérision. Progresse à ton rythme,
               sans pression.
             </p>
             <Link href="/register" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
