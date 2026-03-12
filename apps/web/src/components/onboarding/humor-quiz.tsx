@@ -44,7 +44,7 @@ const QUESTIONS: QuizQuestion[] = [
 
 const RESULTS: Record<string, { title: string; description: string; emoji: string; path: string }> = {
   DEBUTANT: {
-    title: "Le Novice Prometteur",
+    title: "En Route Vers la Répartie",
     description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance — étape par étape.",
     emoji: "🌱",
     path: "/conseils",

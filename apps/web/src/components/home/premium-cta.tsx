@@ -92,7 +92,7 @@ export function PremiumCta() {
             <span className="text-text-muted">/ séance</span>
           </div>
           <p className="mt-1 text-sm text-text-secondary">
-            Un appel de 45 min avec un coach humour
+            Un appel de 45 min avec un professionnel de l&apos;humour
           </p>
 
           <ul className="mt-6 space-y-3 text-sm text-text-secondary">

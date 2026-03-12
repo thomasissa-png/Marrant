@@ -22,14 +22,14 @@ describe("ReactionButtons", () => {
 
   it("renders like and dislike buttons", () => {
     render(<ReactionButtons jokeId="j1" />);
-    expect(screen.getByLabelText("0 j'adore")).toBeInTheDocument();
-    expect(screen.getByLabelText("0 bof")).toBeInTheDocument();
+    expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    expect(screen.getByLabelText("0 pas terrible")).toBeInTheDocument();
   });
 
   it("displays initial counts", () => {
     render(<ReactionButtons jokeId="j1" initialLikes={5} initialDislikes={3} />);
-    expect(screen.getByLabelText("5 j'adore")).toBeInTheDocument();
-    expect(screen.getByLabelText("3 bof")).toBeInTheDocument();
+    expect(screen.getByLabelText("5 hilarant")).toBeInTheDocument();
+    expect(screen.getByLabelText("3 pas terrible")).toBeInTheDocument();
   });
 
   it("increments likes on created action", async () => {
@@ -39,10 +39,10 @@ describe("ReactionButtons", () => {
     });
 
     render(<ReactionButtons jokeId="j1" initialLikes={2} />);
-    await userEvent.click(screen.getByLabelText("2 j'adore"));
+    await userEvent.click(screen.getByLabelText("2 hilarant"));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("3 j'adore")).toBeInTheDocument();
+      expect(screen.getByLabelText("3 hilarant")).toBeInTheDocument();
     });
   });
 
@@ -53,10 +53,10 @@ describe("ReactionButtons", () => {
     });
 
     render(<ReactionButtons jokeId="j1" initialLikes={5} initialUserReaction={true} />);
-    await userEvent.click(screen.getByLabelText("5 j'adore"));
+    await userEvent.click(screen.getByLabelText("5 hilarant"));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("4 j'adore")).toBeInTheDocument();
+      expect(screen.getByLabelText("4 hilarant")).toBeInTheDocument();
     });
   });
 
@@ -67,7 +67,7 @@ describe("ReactionButtons", () => {
     });
 
     render(<ReactionButtons jokeId="joke-123" />);
-    await userEvent.click(screen.getByLabelText("0 j'adore"));
+    await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     expect(global.fetch).toHaveBeenCalledWith("/api/jokes/joke-123/like", {
       method: "POST",
@@ -83,7 +83,7 @@ describe("ReactionButtons", () => {
     });
 
     render(<ReactionButtons jokeId="j1" />);
-    await userEvent.click(screen.getByLabelText("0 bof"));
+    await userEvent.click(screen.getByLabelText("0 pas terrible"));
 
     expect(global.fetch).toHaveBeenCalledWith("/api/jokes/j1/like", {
       method: "POST",
@@ -96,7 +96,7 @@ describe("ReactionButtons", () => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
 
     render(<ReactionButtons jokeId="j1" />);
-    await userEvent.click(screen.getByLabelText("0 j'adore"));
+    await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     await waitFor(() => {
       expect(toast).toHaveBeenCalledWith("Erreur lors de la réaction", "error");
@@ -107,7 +107,7 @@ describe("ReactionButtons", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("Network"));
 
     render(<ReactionButtons jokeId="j1" />);
-    await userEvent.click(screen.getByLabelText("0 j'adore"));
+    await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     await waitFor(() => {
       expect(toast).toHaveBeenCalledWith("Connexion perdue, réessaie", "error");
@@ -118,7 +118,7 @@ describe("ReactionButtons", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
 
     render(<ReactionButtons jokeId="j1" />);
-    await userEvent.click(screen.getByLabelText("0 j'adore"));
+    await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     expect(global.fetch).not.toHaveBeenCalled();
   });

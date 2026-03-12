@@ -82,7 +82,7 @@ export function ReactionButtons({
             ? "bg-accent-primary/20 text-accent-primary"
             : "bg-background-elevated text-text-muted hover:text-accent-primary"
         )}
-        aria-label={`${likes} j'adore`}
+        aria-label={`${likes} hilarant`}
       >
         <span>🔥</span>
         <span>{likes}</span>
@@ -95,7 +95,7 @@ export function ReactionButtons({
             ? "bg-error/20 text-error"
             : "bg-background-elevated text-text-muted hover:text-text-secondary"
         )}
-        aria-label={`${dislikes} bof`}
+        aria-label={`${dislikes} pas terrible`}
       >
         <span>💀</span>
         <span>{dislikes}</span>

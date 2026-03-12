@@ -126,7 +126,7 @@ export function VideosGrid() {
           emoji="🎬"
           emojiLabel="pas de vidéos"
           title="Aucune vidéo avec ce filtre"
-          description="Essaie un autre niveau de difficulté !"
+          description="Explore un autre niveau pour découvrir plus de vidéos."
           ctaLabel="Voir toutes les vidéos"
           ctaHref="/videos"
         />

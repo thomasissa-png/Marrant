@@ -139,7 +139,7 @@ export function BlaguesList() {
           emoji="😅"
           emojiLabel="pas de blagues"
           title="Aucune blague dans cette catégorie"
-          description="Essaie une autre catégorie ou reviens plus tard !"
+          description="Explore une autre catégorie ou reviens bientôt."
           ctaLabel="Voir toutes les blagues"
           ctaHref="/blagues"
         />

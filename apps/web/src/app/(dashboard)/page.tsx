@@ -76,7 +76,7 @@ export default function HomePage() {
         <div className="grid gap-6 md:grid-cols-3">
           {/* Yanis */}
           <div className="rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">🎒</p>
+            <p className="text-2xl">⚡</p>
             <h3 className="mt-3 text-lg font-bold text-text-primary">
               &quot;Je reste muet quand on me chambre&quot;
             </h3>

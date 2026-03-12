@@ -72,7 +72,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / au lycée"));
     await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
 
-    expect(screen.getByText("Le Novice Prometteur")).toBeInTheDocument();
+    expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
     expect(screen.getByText("🌱")).toBeInTheDocument();
     expect(screen.getByText(/potentiel/)).toBeInTheDocument();
   });

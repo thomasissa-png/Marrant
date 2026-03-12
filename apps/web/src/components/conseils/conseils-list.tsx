@@ -170,7 +170,7 @@ export function ConseilsList() {
           emoji="🎓"
           emojiLabel="pas de conseils"
           title="Aucun conseil avec ces filtres"
-          description="Change de catégorie ou de niveau pour trouver ton bonheur !"
+          description="Affine tes filtres pour découvrir d'autres techniques."
           ctaLabel="Voir tous les conseils"
           ctaHref="/conseils"
         />
