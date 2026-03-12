@@ -43,9 +43,9 @@ const AGENTS = [
     status: "terminé",
     mission: "Produire les blagues (contenu, punchline, catégorisation)",
     recent: [
-      "200 blagues rédigées (8 catégories)",
-      "6 nouvelles catégories jeunes (École, Gaming, Dating…)",
-      "120 blagues additionnelles",
+      "320 blagues rédigées (14 catégories)",
+      "Catégories jeunes (École, Gaming, Dating, Soirées…)",
+      "Types variés (ONE_LINER, SUBTIL, STORY, QA…)",
       "Système de réactions (🔥/💀)",
     ],
     phase: "Terminé",
@@ -55,7 +55,7 @@ const AGENTS = [
     status: "terminé",
     mission: "Produire les conseils humour (techniques, exemples, exercices)",
     recent: [
-      "50 conseils rédigés (7 catégories, 3 niveaux)",
+      "100 conseils rédigés (7 catégories, 3 niveaux)",
       "4 parcours d'apprentissage guidés",
       "Gain d'XP à la lecture des conseils",
     ],
@@ -66,7 +66,7 @@ const AGENTS = [
     status: "terminé",
     mission: "Sélectionner et structurer les vidéos stand-up",
     recent: [
-      "30 vidéos sélectionnées (10 humoristes)",
+      "100 vidéos sélectionnées (30+ humoristes)",
       "Vrais YouTube IDs validés",
       "Descriptions et techniques identifiées",
     ],

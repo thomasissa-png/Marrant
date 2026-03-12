@@ -25,11 +25,11 @@
   },
   {
     "id": 4,
-    "content": "Pourquoi les plongeurs plongent-ils toujours en arrière et jamais en avant ?",
-    "punchline": "Parce que sinon ils tomberaient dans le bateau.",
+    "content": "Mon mot de passe c'est « incorrect ».",
+    "punchline": "Comme ça quand je l'oublie, l'ordi me rappelle : « Votre mot de passe est incorrect. »",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 5,
@@ -129,11 +129,11 @@
   },
   {
     "id": 17,
-    "content": "Qu'est-ce qu'un canif ?",
-    "punchline": "Un petit fien.",
+    "content": "J'ai un ami boulanger qui gagne bien sa vie.",
+    "punchline": "Il roule sur l'or... enfin, sur la farine.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 18,
@@ -201,11 +201,11 @@
   },
   {
     "id": 26,
-    "content": "Pourquoi les étoiles ne vont-elles pas à l'école ?",
-    "punchline": "Parce qu'elles brillent déjà.",
+    "content": "Mon appétit a deux vitesses.",
+    "punchline": "« J'ai pas faim » et « c'est tout ce qu'il reste ? »",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 27,
@@ -377,11 +377,11 @@
   },
   {
     "id": 48,
-    "content": "Pourquoi le livre de maths est-il toujours triste ?",
-    "punchline": "Parce qu'il a trop de problèmes.",
+    "content": "J'ai mis « polyglotte » sur mon CV.",
+    "punchline": "Je parle français, mauvais anglais, et couramment Google Translate.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 49,
@@ -433,11 +433,11 @@
   },
   {
     "id": 55,
-    "content": "Comment appelle-t-on un chat tombé dans un pot de peinture le jour de Noël ?",
-    "punchline": "Un chat-peint de Noël.",
+    "content": "Mon banquier m'a dit de diversifier mes investissements.",
+    "punchline": "J'ai acheté des pâtes de trois marques différentes.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 56,
@@ -481,11 +481,11 @@
   },
   {
     "id": 61,
-    "content": "Comment appelle-t-on un boomerang qui ne revient pas ?",
-    "punchline": "Un bâton.",
+    "content": "L'amour c'est comme le Wi-Fi.",
+    "punchline": "Plus t'es loin, moins ça capte.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 62,
@@ -521,11 +521,11 @@
   },
   {
     "id": 66,
-    "content": "Qu'est-ce qu'un crocodile qui surveille les examens ?",
-    "punchline": "Un croco-surveillant.",
+    "content": "Mon plan de carrière, c'est d'avoir un plan de carrière.",
+    "punchline": "Pour l'instant, j'en suis à la phase « plan ».",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 67,
@@ -585,11 +585,11 @@
   },
   {
     "id": 74,
-    "content": "Que dit un électricien quand il a un problème ?",
-    "punchline": "Watt ?",
+    "content": "Les gens qui mettent « à l'écoute » sur LinkedIn...",
+    "punchline": "Sont les mêmes qui répondent jamais à tes messages.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 75,
@@ -681,11 +681,11 @@
   },
   {
     "id": 86,
-    "content": "Qu'est-ce qu'un poisson sans yeux ?",
-    "punchline": "Un posson.",
+    "content": "Mon réfrigérateur fait plus de meal prep que moi.",
+    "punchline": "Lui au moins, il garde les trucs au frais. Moi je commande.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 87,
@@ -729,11 +729,11 @@
   },
   {
     "id": 92,
-    "content": "Quel est le comble pour un électricien ?",
-    "punchline": "De ne pas être au courant.",
+    "content": "Les gens qui disent « je dis toujours ce que je pense »...",
+    "punchline": "Pensent rarement avant de le dire.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 93,
@@ -793,11 +793,11 @@
   },
   {
     "id": 100,
-    "content": "Pourquoi les plantes sont-elles nulles en maths ?",
-    "punchline": "Parce qu'elles prennent racine au lieu de résoudre les problèmes.",
+    "content": "Mon correcteur automatique me connaît mieux que mes amis.",
+    "punchline": "Il sait que je veux écrire « fatigué » à chaque phrase.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 101,
@@ -849,11 +849,11 @@
   },
   {
     "id": 107,
-    "content": "J'ai fait une blague à l'eau. Personne n'a ri.",
-    "punchline": "C'est normal, elle était trop diluée.",
+    "content": "Mon chat me juge 24h/24.",
+    "punchline": "C'est le seul être vivant qui me fait sentir coupable de manger dans mon propre frigo.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 108,
@@ -913,11 +913,11 @@
   },
   {
     "id": 115,
-    "content": "Un caillou rencontre un autre caillou au bord de la route.",
-    "punchline": "L'un dit : « La vie est dure. » L'autre : « Grave. »",
+    "content": "Mon prof de philo a dit « remettez tout en question ».",
+    "punchline": "Du coup je lui ai demandé s'il était vraiment qualifié pour enseigner.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "QA"
   },
   {
     "id": 116,
@@ -977,11 +977,11 @@
   },
   {
     "id": 123,
-    "content": "Que fait un informaticien quand il a froid ?",
-    "punchline": "Il ouvre Windows.",
+    "content": "Mon agenda dit que je suis « disponible ».",
+    "punchline": "Mon canapé et Netflix disent le contraire.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 124,
@@ -1041,11 +1041,11 @@
   },
   {
     "id": 131,
-    "content": "Comment appelle-t-on un chien qui fait de la magie ?",
-    "punchline": "Un labracadabrador.",
+    "content": "J'ai tellement de tabs ouverts dans mon navigateur...",
+    "punchline": "Que même mon ordi a de l'anxiété.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 132,
@@ -1105,11 +1105,11 @@
   },
   {
     "id": 139,
-    "content": "Qu'est-ce qu'une moustache sous le nez d'un informaticien ?",
-    "punchline": "Un pare-feu.",
+    "content": "Ma playlist « motivation » dure 3 heures.",
+    "punchline": "Ma motivation dure 3 minutes. Le reste c'est de la musique de fond pour procrastiner.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 140,
@@ -1233,11 +1233,11 @@
   },
   {
     "id": 155,
-    "content": "Comment les arbres accèdent à internet ?",
-    "punchline": "Ils se connectent.",
+    "content": "Mon réveil sonne à 6h.",
+    "punchline": "À 6h01, j'ai déjà reporté tous mes objectifs de vie à demain.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 156,
@@ -1297,11 +1297,11 @@
   },
   {
     "id": 163,
-    "content": "Que dit un zéro à un huit ?",
-    "punchline": "Belle ceinture.",
+    "content": "La différence entre un adulte et un enfant ?",
+    "punchline": "L'enfant a hâte d'aller se coucher tard. L'adulte a hâte d'aller se coucher tôt.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "QA"
   },
   {
     "id": 164,
@@ -1425,11 +1425,11 @@
   },
   {
     "id": 179,
-    "content": "Pourquoi le soleil va-t-il à l'école ?",
-    "punchline": "Pour briller en société.",
+    "content": "Mon application de méditation me dit de « lâcher prise ».",
+    "punchline": "J'ai lâché prise sur l'application. Ça compte ?",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 180,
@@ -1489,11 +1489,11 @@
   },
   {
     "id": 187,
-    "content": "Que fait une fraise sur un cheval ?",
-    "punchline": "Tagada, tagada.",
+    "content": "J'ai acheté un agenda pour être organisé.",
+    "punchline": "J'ai perdu l'agenda.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 188,
@@ -1553,11 +1553,11 @@
   },
   {
     "id": 195,
-    "content": "Pourquoi le squelette n'a-t-il pas d'amis ?",
-    "punchline": "Parce qu'il n'a personne sous la main.",
+    "content": "Mon coloc dit qu'il va « faire les courses ».",
+    "punchline": "Il revient avec des chips et de la bière. Techniquement, c'est pas faux.",
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "ONE_LINER"
   },
   {
     "id": 196,

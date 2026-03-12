@@ -2,6 +2,7 @@ import { callWithRetry, extractJson, extractJsonArray, getResponseText } from ".
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
+import { TONALITY_BRIEF } from "./marketing-agent";
 
 const JOKE_CATEGORIES = [
   "AUTODERISION", "SITUATION", "ABSURDE", "OBSERVATIONNEL",
@@ -44,14 +45,22 @@ PERSONA CIBLE AUJOURD'HUI : ${persona.name} (${persona.age} ans)
 CATÉGORIES VALIDES : ${JOKE_CATEGORIES.join(", ")}
 TYPES VALIDES : ${JOKE_TYPES.join(", ")}
 
+DIRECTIVE TONALITÉ (Agent Marketing) :
+- Voix de marque : "${TONALITY_BRIEF.voice}"
+- ${TONALITY_BRIEF.principles.join("\n- ")}
+- Types préférés : ${TONALITY_BRIEF.jokeGuidelines.preferredTypes.join(", ")}
+- ${TONALITY_BRIEF.jokeGuidelines.avoidTypes}
+- ${TONALITY_BRIEF.jokeGuidelines.freshness}
+- INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
+
 RÈGLES STRICTES :
-1. La blague doit être ORIGINALE — jamais une blague connue
+1. La blague doit être ORIGINALE — jamais une blague connue ni un calembour éculé
 2. Humour intelligent, jamais vulgaire ou offensant
 3. Structure claire : setup + chute percutante
 4. Adaptée au persona cible (vocabulaire, références, situations)
 5. La catégorie DOIT être "${ctx.plannedCategory}"
 6. maturityLevel de 1 (tout public) à 3 max (jamais au-delà)
-7. Le type doit varier — évite de répéter les types récents
+7. Le type doit varier — privilégier ONE_LINER et SUBTIL pour la sharability
 
 IMPORTANT — NE PAS RÉPÉTER :
 Voici les ${ctx.recentJokes.length} dernières blagues publiées (NE PAS les plagier ni s'en rapprocher) :

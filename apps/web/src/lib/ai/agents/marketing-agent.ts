@@ -51,9 +51,9 @@ COMPÉTENCES CLÉS
 - Management : capacité à coordonner SEO, Design et UX vers un objectif commun
 
 PRODUIT
-- 500+ blagues classées par catégorie
-- 50+ conseils de pros (timing, répartie, storytelling) avec exercices
-- 30+ vidéos de stand-up analysées
+- 300+ blagues classées par catégorie (catalogue en croissance continue)
+- 100+ conseils de pros (timing, répartie, storytelling) avec exercices
+- 100+ vidéos de stand-up analysées
 - Contenu quotidien personnalisé (blague + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
@@ -81,11 +81,13 @@ CONTRAINTE BUSINESS
 la conversion ou la rétention. Pas de marketing "pour faire joli" — chaque action sert
 un objectif quantifiable.
 
-TONALITÉ DE MARQUE
-- Accessible mais jamais condescendant
-- Drôle sans forcer — l'humour au service du message
-- Encourageant — on progresse ensemble
-- Mature — notre audience va de 16 à 35+ ans, le ton doit parler à tous
+TONALITÉ DE MARQUE — "Le pote drôle et bienveillant"
+- Complice : on tutoie, on parle comme un ami qui veut t'aider à progresser
+- Drôle sans forcer : l'humour est partout (microcopy, erreurs, vides) mais jamais forcé
+- Encourageant : on progresse ensemble, jamais condescendant
+- Mature : notre audience va de 20 à 35+ ans, le ton est adulte et décontracté
+- Shareable : chaque contenu doit donner envie d'être envoyé à un pote
+- Signature : on utilise des comparaisons du quotidien, de l'auto-dérision douce, et un ton "entre nous"
 
 3 PERSONAS CIBLES :`;
 
@@ -655,3 +657,45 @@ Réponds UNIQUEMENT en JSON :
   const text = getResponseText(response);
   return extractJson<StrategicDirective>(text);
 }
+
+// ─── Tonality Brief pour les agents de contenu ────────────────
+
+/**
+ * Brief tonalité que l'Agent Marketing fournit aux agents Blagues, Conseils,
+ * Vidéo et Stand-up. Source unique de vérité pour le ton de la marque.
+ */
+export const TONALITY_BRIEF = {
+  voice: "Le pote drôle et bienveillant",
+  principles: [
+    "Tutoiement systématique — on parle comme un ami",
+    "Humour du quotidien — comparaisons accessibles, situations universelles",
+    "Auto-dérision douce — on rit de soi, jamais des autres",
+    "Encourageant — chaque contenu donne envie de progresser, jamais de se sentir nul",
+    "Mature et décontracté — ton adulte (20-35 ans), jamais infantilisant",
+    "Shareable — chaque blague/conseil doit donner envie d'être envoyé à un pote",
+  ],
+  doNot: [
+    "Jamais vulgaire, offensant ou discriminatoire",
+    "Jamais de calembours éculés type 'oncle en soirée' (canif/fien, chat-peint...)",
+    "Jamais condescendant ou moralisateur",
+    "Jamais de jargon marketing ou corporate dans le contenu utilisateur",
+    "Jamais forcer l'humour — si c'est pas drôle naturellement, reformuler",
+  ],
+  jokeGuidelines: {
+    preferredTypes: ["ONE_LINER", "SUBTIL", "STORY"],
+    avoidTypes: "Limiter CLASSIQUE à max 25% — privilégier les formats courts et partageables",
+    maturityBalance: "55% level 1 (tout public), 35% level 2 (ados+), 10% level 3 (adultes)",
+    freshness: "Références actuelles (réseaux sociaux, apps, streaming, colocation, dating apps)",
+  },
+  tipGuidelines: {
+    tone: "Coach bienveillant et complice, pas prof",
+    references: "Humoristes francophones actuels : Fary, Paul Mirabel, Pierre Croce, Roman Frayssinet, Blanche Gardin, Panayotis Pascot",
+    exercises: "Concrets et faisables dans la journée — pas de 'devoir maison'",
+    examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc)",
+  },
+  videoGuidelines: {
+    tone: "Analyste passionné — on décortique avec enthousiasme, pas avec pédanterie",
+    descriptions: "Courtes, punchy, qui donnent envie de regarder — pas de résumé académique",
+    techniques: "Toujours rattacher à une technique applicable par l'utilisateur",
+  },
+} as const;

@@ -5,6 +5,10 @@ jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
 }));
 
+jest.mock("@/hooks/use-content-stats", () => ({
+  useContentStats: () => ({ jokes: 320, tips: 100, videos: 100 }),
+}));
+
 const { useSession } = require("next-auth/react");
 
 describe("HomeCta", () => {
@@ -14,6 +18,13 @@ describe("HomeCta", () => {
     expect(screen.getByText(/Prêt à devenir plus drôle/)).toBeInTheDocument();
     expect(screen.getByText(/Commencer — 0,99 €\/mois/)).toBeInTheDocument();
     expect(screen.getByText("Voir les blagues gratuites")).toBeInTheDocument();
+  });
+
+  it("shows dynamic content counts", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HomeCta />);
+    expect(screen.getByText(/320\+/)).toBeInTheDocument();
+    expect(screen.getByText(/100\+/)).toBeInTheDocument();
   });
 
   it("shows reassurance text", () => {

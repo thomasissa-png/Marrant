@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { getDayOfYear, todayUTC } from "@/lib/ai/date-utils";
 
-const FREE_LIMIT = 10;
+const FREE_LIMIT = 20;
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -37,27 +38,41 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
+    // FREE / anonyme : rotation quotidienne aléatoire, catégories bloquées
+    if (!isPremium) {
+      // Ignorer les filtres catégorie/type en free (catégories bloquées)
+      const total = await prisma.joke.count({ where: { isActive: true } });
+
+      // Sélection déterministe basée sur le jour — change tous les jours
+      const dayOfYear = getDayOfYear(todayUTC());
+      const seed = dayOfYear * 7919; // Nombre premier pour dispersion
+
+      // Récupérer toutes les blagues actives et faire la rotation côté serveur
+      const allJokes = await prisma.joke.findMany({
+        where: { isActive: true },
+        orderBy: { id: "asc" },
+      });
+
+      // Rotation quotidienne : sélectionner FREE_LIMIT blagues à partir d'un offset qui change chaque jour
+      const offset = seed % Math.max(allJokes.length, 1);
+      const rotated = [];
+      for (let i = 0; i < Math.min(FREE_LIMIT, allJokes.length); i++) {
+        rotated.push(allJokes[(offset + i) % allJokes.length]);
+      }
+
+      return NextResponse.json({
+        jokes: rotated,
+        pagination: { page: 1, limit: FREE_LIMIT, total: rotated.length, totalPages: 1 },
+        limited: true,
+        totalAvailable: total,
+      });
+    }
+
     const where = {
       isActive: true,
       ...(query.category && { category: query.category as never }),
       ...(query.type && { type: query.type as never }),
     };
-
-    // FREE / anonyme : limiter à FREE_LIMIT
-    if (!isPremium) {
-      const jokes = await prisma.joke.findMany({
-        where,
-        take: FREE_LIMIT,
-        orderBy: { createdAt: "desc" },
-      });
-
-      return NextResponse.json({
-        jokes,
-        pagination: { page: 1, limit: FREE_LIMIT, total: FREE_LIMIT, totalPages: 1 },
-        limited: true,
-        upgradeMessage: "Tu as accès à 10 blagues + la blague du jour. Débloque les 500+ blagues — 0,99 €/mois",
-      });
-    }
 
     const [jokes, total] = await Promise.all([
       prisma.joke.findMany({

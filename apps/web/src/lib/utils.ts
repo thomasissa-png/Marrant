@@ -23,9 +23,9 @@ export const USER_LEVELS = {
  * Limites du plan gratuit
  */
 export const FREE_LIMITS = {
-  JOKES: 10,
+  JOKES: 20,
   TIPS: 5,
-  VIDEOS: 5,
+  VIDEOS: 10,
   MAX_FAVORITES: 20,
 } as const;
 

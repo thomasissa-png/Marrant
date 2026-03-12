@@ -36,7 +36,7 @@ export function FavorisList() {
             🔒
           </span>
           <p className="mt-4 text-lg font-medium text-text-primary">
-            Connecte-toi pour voir tes favoris
+            Connecte-toi pour retrouver tes p&#233;pites
           </p>
           <Link href="/login" className="mt-4">
             <Button variant="primary" size="sm">
@@ -87,10 +87,10 @@ export function FavorisList() {
               ⭐
             </span>
             <p className="mt-4 text-lg font-medium text-text-primary">
-              Aucun favori pour le moment
+              Ton coffre-fort à vannes est vide
             </p>
             <p className="mt-1 text-sm text-text-secondary">
-              Sauvegarde des blagues, conseils ou vidéos pour les retrouver ici.
+              Mets des blagues, conseils ou vidéos de côté — tu nous remercieras en soirée.
             </p>
           </CardContent>
         </Card>

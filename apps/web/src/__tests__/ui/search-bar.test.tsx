@@ -26,12 +26,12 @@ describe("SearchBar", () => {
 
   it("renders search input with placeholder", () => {
     render(<SearchBar />);
-    expect(screen.getByPlaceholderText("Rechercher une blague, un conseil...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Cherche une vanne, une technique...")).toBeInTheDocument();
   });
 
   it("does not fetch for queries shorter than 2 characters", async () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Rechercher une blague, un conseil...");
+    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "a");
     jest.advanceTimersByTime(500);
     expect(global.fetch).not.toHaveBeenCalled();
@@ -44,7 +44,7 @@ describe("SearchBar", () => {
     });
 
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Rechercher une blague, un conseil...");
+    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
 
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "bl");
 
@@ -60,7 +60,7 @@ describe("SearchBar", () => {
     });
 
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Rechercher une blague, un conseil...");
+    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "test");
 
     await waitFor(() => {
@@ -78,7 +78,7 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Rechercher une blague, un conseil..."),
+      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
       "test"
     );
 
@@ -97,12 +97,12 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Rechercher une blague, un conseil..."),
+      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
       "xyz"
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Aucun résultat/)).toBeInTheDocument();
+      expect(screen.getByText(/Rien trouvé/)).toBeInTheDocument();
     });
   });
 
@@ -114,7 +114,7 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Rechercher une blague, un conseil..."),
+      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
       "blague"
     );
 

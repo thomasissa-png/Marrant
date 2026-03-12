@@ -68,6 +68,7 @@ export function ConseilsList() {
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
+  const [totalAvailable, setTotalAvailable] = useState(0);
   const { status } = useSession();
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
@@ -86,6 +87,7 @@ export function ConseilsList() {
         setTips(data.tips);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
+        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -154,7 +156,7 @@ export function ConseilsList() {
       {/* Error state */}
       {error ? (
         <ErrorState
-          message="Impossible de charger les conseils."
+          message="Les conseils se font désirer... comme une bonne chute."
           onRetry={fetchTips}
         />
       ) : isLoading ? (
@@ -172,8 +174,8 @@ export function ConseilsList() {
         <EmptyState
           emoji="🎓"
           emojiLabel="pas de conseils"
-          title="Aucun conseil avec ces filtres"
-          description="Affine tes filtres pour découvrir d'autres techniques."
+          title="Aucun conseil ici... on a cherché partout"
+          description="Change tes filtres, y'a plein de techniques qui t'attendent."
           ctaLabel="Voir tous les conseils"
           ctaHref="/conseils"
         />
@@ -223,7 +225,7 @@ export function ConseilsList() {
 
                 {!expandedIds.has(tip.id) && (
                   <p className="mt-2 text-xs text-text-muted">
-                    Clique pour voir l&apos;exemple et l&apos;exercice
+                    Ouvre pour l&apos;exemple et le d&eacute;fi du jour
                   </p>
                 )}
               </CardContent>
@@ -236,7 +238,7 @@ export function ConseilsList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 5 conseils + le conseil du jour — 50+ t&apos;attendent !
+            Tu as acc&egrave;s &agrave; 5 conseils + le conseil du jour{totalAvailable > 0 ? ` — ${totalAvailable}+ t'attendent !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois.

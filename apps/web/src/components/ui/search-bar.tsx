@@ -93,7 +93,7 @@ export function SearchBar({ className }: { className?: string }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <Input
-          placeholder="Rechercher une blague, un conseil..."
+          placeholder="Cherche une vanne, une technique..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-10"
@@ -128,7 +128,7 @@ export function SearchBar({ className }: { className?: string }) {
 
       {isOpen && query.length >= 2 && results.length === 0 && !isLoading && (
         <div className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 text-center text-sm text-text-muted shadow-xl">
-          Aucun résultat pour &quot;{query}&quot;
+          Rien trouvé pour &laquo; {query} &raquo; — essaie autre chose !
         </div>
       )}
     </div>

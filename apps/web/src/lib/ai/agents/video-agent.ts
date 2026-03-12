@@ -2,6 +2,7 @@ import { callWithRetry, extractJson, extractJsonArray, getResponseText } from ".
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
+import { TONALITY_BRIEF } from "./marketing-agent";
 
 const TIP_CATEGORIES = [
   "TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE",
@@ -68,6 +69,12 @@ CATÉGORIE VISÉE : ${ctx.plannedCategory}
 
 VIDÉOS DISPONIBLES (non utilisées récemment) :
 ${eligibleVideos.map((v, i) => `${i + 1}. [ID: ${v.id}] "${v.title}" par ${v.channelName} — ${v.category}/${v.difficulty} — Technique: ${v.technique}`).join("\n")}
+
+DIRECTIVE TONALITÉ (Agent Marketing) :
+- Voix : "${TONALITY_BRIEF.voice}"
+- Ton vidéo : ${TONALITY_BRIEF.videoGuidelines.tone}
+- Descriptions : ${TONALITY_BRIEF.videoGuidelines.descriptions}
+- Techniques : ${TONALITY_BRIEF.videoGuidelines.techniques}
 
 RÈGLES :
 1. Privilégie la catégorie "${ctx.plannedCategory}" si possible

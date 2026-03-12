@@ -57,10 +57,10 @@ describe("BlaguesList", () => {
     });
   });
 
-  it("shows 'Clique pour révéler la chute' hint", async () => {
+  it("shows punchline hint", async () => {
     render(<BlaguesList />);
     await waitFor(() => {
-      expect(screen.getAllByText("Clique pour révéler la chute")).toHaveLength(2);
+      expect(screen.getAllByText("Tape pour la chute (promis, ça vaut le coup)")).toHaveLength(2);
     });
   });
 
@@ -86,7 +86,7 @@ describe("BlaguesList", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("Network"));
     render(<BlaguesList />);
     await waitFor(() => {
-      expect(screen.getByText("Impossible de charger les blagues.")).toBeInTheDocument();
+      expect(screen.getByText("Les blagues se sont perdues en chemin.")).toBeInTheDocument();
     });
     expect(screen.getByText("Réessayer")).toBeInTheDocument();
   });
@@ -98,7 +98,7 @@ describe("BlaguesList", () => {
     });
     render(<BlaguesList />);
     await waitFor(() => {
-      expect(screen.getByText("Aucune blague dans cette catégorie")).toBeInTheDocument();
+      expect(screen.getByText("Rien ici... c'est aussi vide que mon frigo un dimanche soir")).toBeInTheDocument();
     });
   });
 

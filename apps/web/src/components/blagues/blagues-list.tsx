@@ -57,6 +57,7 @@ export function BlaguesList() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
+  const [totalAvailable, setTotalAvailable] = useState(0);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   const fetchJokes = useCallback(async () => {
@@ -72,6 +73,7 @@ export function BlaguesList() {
         setJokes(data.jokes);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
+        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -122,7 +124,7 @@ export function BlaguesList() {
       {/* Error state */}
       {error ? (
         <ErrorState
-          message="Impossible de charger les blagues."
+          message="Les blagues se sont perdues en chemin."
           onRetry={fetchJokes}
         />
       ) : isLoading ? (
@@ -141,8 +143,8 @@ export function BlaguesList() {
         <EmptyState
           emoji="😅"
           emojiLabel="pas de blagues"
-          title="Aucune blague dans cette catégorie"
-          description="Explore une autre catégorie ou reviens bientôt."
+          title="Rien ici... c'est aussi vide que mon frigo un dimanche soir"
+          description="Essaie une autre catégorie, on a forcément un truc pour toi."
           ctaLabel="Voir toutes les blagues"
           ctaHref="/blagues"
         />
@@ -181,7 +183,7 @@ export function BlaguesList() {
                 )}
                 {!revealedIds.has(joke.id) && (
                   <p className="mt-3 text-sm text-text-muted">
-                    Clique pour révéler la chute
+                    Tape pour la chute (promis, ça vaut le coup)
                   </p>
                 )}
               </CardContent>
@@ -194,7 +196,7 @@ export function BlaguesList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 10 blagues + la blague du jour — il y en a 500+ !
+            Tu as acc&egrave;s &agrave; 20 blagues + la blague du jour{totalAvailable > 0 ? ` — il y en a ${totalAvailable}+ !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les blagues, classées par catégorie, pour seulement 0,99 €/mois.

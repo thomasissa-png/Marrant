@@ -3,11 +3,17 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useContentStats } from "@/hooks/use-content-stats";
 
 export function HomeCta() {
   const { status } = useSession();
+  const stats = useContentStats();
 
   if (status === "authenticated") return null;
+
+  const jokesLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
+  const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
+  const videosLabel = stats.videos > 0 ? `${stats.videos}+` : "Des";
 
   return (
     <section className="py-8 text-center">
@@ -16,7 +22,7 @@ export function HomeCta() {
           Prêt à devenir plus drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          500+ blagues, 50+ conseils de pros et 30+ vidéos analysées — tout ça pour moins d&apos;un café par mois.
+          {jokesLabel} blagues, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — tout ça pour moins d&apos;un café par mois.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/register">

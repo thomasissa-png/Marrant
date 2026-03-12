@@ -147,23 +147,34 @@ Trois personas guident **toutes les décisions** de contenu, UX, design, SEO et 
 
 Chaque agent a un périmètre précis. L'agent auditeur juge chaque agent **uniquement sur sa mission propre**, pas sur celle des autres. **Tous les agents doivent intégrer les 3 personas (Yanis, Sophie, Marc) dans leurs décisions.**
 
+### Tonalité de marque — "Le pote drôle et bienveillant"
+- Tutoiement systématique, ton complice entre amis
+- Humour du quotidien, comparaisons accessibles, auto-dérision douce
+- Encourageant, jamais condescendant ni moralisateur
+- Mature et décontracté (audience 20-35 ans)
+- Chaque contenu doit donner envie d'être envoyé à un pote (shareable)
+- INTERDIT : vulgaire, calembours éculés, jargon corporate, humour forcé
+- Source de vérité : `TONALITY_BRIEF` dans `marketing-agent.ts`
+
 ### Agent Blagues
 - **Mission** : Produire les blagues (contenu, punchline, catégorisation, ton, variété, qualité humoristique)
-- **Périmètre d'audit** : Qualité du contenu, nombre, diversité catégories, pertinence cible 15-35 ans, ton/style, maturityLevel
+- **Périmètre d'audit** : Qualité du contenu, nombre, diversité catégories, pertinence cible 20-35 ans, ton/style, maturityLevel
 - **Hors périmètre** : UX des pages, SEO, composants React, API routes
+- **Directive tonalité** : types préférés ONE_LINER/SUBTIL/STORY, limiter CLASSIQUE à 25%, références actuelles (apps, streaming, coloc, dating)
 - **Directive personas** :
-  - Yanis : inclure des blagues qui marchent en soirée étudiante (école/fac, potes, gaming, dating), ton complice et encourageant, maturityLevel 1 majoritaire
-  - Sophie : privilégier les blagues courtes et mémorisables, faciles à ressortir à la machine à café ou en afterwork, inclure des blagues « situation pro »
-  - Marc : varier les registres (auto-dérision, storytelling, observationnel), blagues qui marchent en contexte social adulte (dîner, rendez-vous, soirée)
+  - Yanis : blagues soirée étudiante (fac, potes, gaming, dating), ton complice, maturityLevel 1 majoritaire
+  - Sophie : blagues courtes et mémorisables, machine à café, afterwork, situations pro
+  - Marc : registres variés (auto-dérision, storytelling, observationnel), contexte social adulte
 
 ### Agent Conseils
 - **Mission** : Produire les conseils humour (titre, contenu, exemples, exercices, catégories, niveaux)
 - **Périmètre d'audit** : Qualité pédagogique, progression, exemples concrets, exercices actionnables, cohérence des niveaux
 - **Hors périmètre** : UX des pages, SEO, composants React, API routes
+- **Directive tonalité** : coach bienveillant et complice (pas prof), exercices = défis concrets (pas devoirs), 120-180 mots max, refs humoristes actuels
 - **Directive personas** :
-  - Yanis : exercices réalisables seul ou avec un ami, ton encourageant « tu vas y arriver », accent mis sur la répartie et la confiance
-  - Sophie : conseils de timing et de placement dans une conversation, exemples en contexte professionnel (réunion, pause café, afterwork)
-  - Marc : conseils de storytelling et d'auto-dérision, progression structurée de « débutant » à « à l'aise », ton bienveillant adulte
+  - Yanis : défis réalisables seul ou avec un pote, ton « tu vas y arriver », accent répartie et confiance
+  - Sophie : conseils timing et placement en conversation, exemples pro (réunion, pause café, afterwork)
+  - Marc : storytelling et auto-dérision, progression structurée, ton bienveillant adulte
 
 ### Agent Stand-up (Vidéos)
 - **Mission** : Sélectionner et structurer les vidéos stand-up (vrais youtubeId, titres, humoristes, techniques, descriptions)

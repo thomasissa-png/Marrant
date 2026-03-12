@@ -103,7 +103,7 @@ describe("ConseilsList", () => {
   it("shows hint before expanding", async () => {
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getAllByText("Clique pour voir l'exemple et l'exercice")).toHaveLength(2);
+      expect(screen.getAllByText(/Ouvre pour l.exemple et le d.fi du jour/)).toHaveLength(2);
     });
   });
 
@@ -111,7 +111,7 @@ describe("ConseilsList", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("fail"));
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getByText("Impossible de charger les conseils.")).toBeInTheDocument();
+      expect(screen.getByText("Les conseils se font désirer... comme une bonne chute.")).toBeInTheDocument();
     });
   });
 
@@ -122,7 +122,7 @@ describe("ConseilsList", () => {
     });
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getByText("Aucun conseil avec ces filtres")).toBeInTheDocument();
+      expect(screen.getByText("Aucun conseil ici... on a cherché partout")).toBeInTheDocument();
     });
   });
 

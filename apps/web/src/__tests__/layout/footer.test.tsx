@@ -10,7 +10,7 @@ describe("Footer", () => {
   it("renders brand description", () => {
     render(<Footer />);
     expect(
-      screen.getByText(/plateforme francophone pour progresser/)
+      screen.getByText(/coach humour perso/)
     ).toBeInTheDocument();
   });
 
@@ -42,7 +42,7 @@ describe("Footer", () => {
 
   it("renders copyright text", () => {
     render(<Footer />);
-    expect(screen.getByText(/Tous droits réservés/)).toBeInTheDocument();
+    expect(screen.getByText(/humour \(et un peu de café\)/)).toBeInTheDocument();
   });
 
   it("has correct href for product links", () => {

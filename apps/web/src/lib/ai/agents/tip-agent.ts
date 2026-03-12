@@ -2,6 +2,7 @@ import { callWithRetry, extractJson, extractJsonArray, getResponseText } from ".
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
+import { TONALITY_BRIEF } from "./marketing-agent";
 
 const TIP_CATEGORIES = [
   "TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE",
@@ -43,14 +44,22 @@ PERSONA CIBLE AUJOURD'HUI : ${persona.name} (${persona.age} ans)
 CATÉGORIES VALIDES : ${TIP_CATEGORIES.join(", ")}
 DIFFICULTÉS VALIDES : ${TIP_DIFFICULTIES.join(", ")}
 
+DIRECTIVE TONALITÉ (Agent Marketing) :
+- Voix de marque : "${TONALITY_BRIEF.voice}"
+- Ton : ${TONALITY_BRIEF.tipGuidelines.tone}
+- Références : ${TONALITY_BRIEF.tipGuidelines.references}
+- Exercices : ${TONALITY_BRIEF.tipGuidelines.exercises}
+- Exemples : ${TONALITY_BRIEF.tipGuidelines.examples}
+- INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
+
 RÈGLES STRICTES :
 1. Le conseil doit être PRATIQUE — testable immédiatement
 2. L'exemple doit être CONCRET et adapté à la vie de ${persona.name}
-3. L'exercice doit être réalisable dans la journée
+3. L'exercice doit être un défi réalisable dans la journée (pas un devoir)
 4. La catégorie DOIT être "${ctx.plannedCategory}"
 5. La difficulté doit correspondre au persona (${persona.tipDifficulty})
 6. Le titre doit être percutant et donner envie de lire
-7. Le contenu fait 150-200 mots, précis, jamais généraliste
+7. Le contenu fait 120-180 mots, précis, jamais généraliste
 
 IMPORTANT — NE PAS RÉPÉTER :
 Voici les ${ctx.recentTips.length} derniers conseils publiés :

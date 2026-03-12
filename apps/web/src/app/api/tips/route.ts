@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { getDayOfYear, todayUTC } from "@/lib/ai/date-utils";
 
 const FREE_LIMIT = 5;
 
@@ -36,27 +37,37 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
+    // FREE / anonyme : rotation quotidienne, catégories bloquées
+    if (!isPremium) {
+      const total = await prisma.tip.count({ where: { isActive: true } });
+
+      const dayOfYear = getDayOfYear(todayUTC());
+      const seed = dayOfYear * 6871;
+
+      const allTips = await prisma.tip.findMany({
+        where: { isActive: true },
+        orderBy: { id: "asc" },
+      });
+
+      const offset = seed % Math.max(allTips.length, 1);
+      const rotated = [];
+      for (let i = 0; i < Math.min(FREE_LIMIT, allTips.length); i++) {
+        rotated.push(allTips[(offset + i) % allTips.length]);
+      }
+
+      return NextResponse.json({
+        tips: rotated,
+        pagination: { page: 1, limit: FREE_LIMIT, total: rotated.length, totalPages: 1 },
+        limited: true,
+        totalAvailable: total,
+      });
+    }
+
     const where = {
       isActive: true,
       ...(query.category && { category: query.category as never }),
       ...(query.difficulty && { difficulty: query.difficulty as never }),
     };
-
-    // FREE / anonyme : limiter
-    if (!isPremium) {
-      const tips = await prisma.tip.findMany({
-        where,
-        take: FREE_LIMIT,
-        orderBy: { createdAt: "desc" },
-      });
-
-      return NextResponse.json({
-        tips,
-        pagination: { page: 1, limit: FREE_LIMIT, total: FREE_LIMIT, totalPages: 1 },
-        limited: true,
-        upgradeMessage: "Tu as accès à 5 conseils + le conseil du jour. Débloque tous les conseils — 0,99 €/mois",
-      });
-    }
 
     const [tips, total] = await Promise.all([
       prisma.tip.findMany({

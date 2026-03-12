@@ -7,10 +7,12 @@ import { useUserStore } from "@/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
+import { useContentStats } from "@/hooks/use-content-stats";
 
 export function PremiumCta() {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
+  const stats = useContentStats();
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
 
@@ -69,15 +71,15 @@ export function PremiumCta() {
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les blagues</strong> — 500+ classées par catégorie (au lieu de 10)</span>
+                <span><strong>Toutes les blagues</strong> — {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 20)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> + exemples concrets + exercices (au lieu de 5)</span>
+                <span><strong>Tous les conseils</strong> — {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 5)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vidéos stand-up</strong> analysées avec les techniques (au lieu de 5)</span>
+                <span><strong>Toutes les vidéos stand-up</strong> — {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 10)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>

@@ -68,7 +68,7 @@ describe("FavorisList", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<FavorisList />);
     expect(screen.getByRole("img", { name: "cadenas" })).toBeInTheDocument();
-    expect(screen.getByText("Connecte-toi pour voir tes favoris")).toBeInTheDocument();
+    expect(screen.getByText(/Connecte-toi pour retrouver tes p/)).toBeInTheDocument();
   });
 
   it("renders tab filters", () => {
@@ -137,7 +137,7 @@ describe("FavorisList", () => {
     });
     render(<FavorisList />);
     expect(screen.getByRole("img", { name: "favoris" })).toBeInTheDocument();
-    expect(screen.getByText("Aucun favori pour le moment")).toBeInTheDocument();
+    expect(screen.getByText(/coffre-fort à vannes est vide/)).toBeInTheDocument();
   });
 
   it("shows loading skeleton", () => {

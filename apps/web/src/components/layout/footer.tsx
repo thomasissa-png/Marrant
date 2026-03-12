@@ -25,8 +25,8 @@ export function Footer() {
               deviensmarrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              La plateforme francophone pour progresser en humour et en
-              répartie.
+              Ton coach humour perso — blagues, répartie et techniques
+              de pro pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
               contact@deviensmarrant.fr
@@ -73,8 +73,8 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
-          &copy; {new Date().getFullYear()} deviensmarrant.fr — Tous droits
-          réservés
+          &copy; {new Date().getFullYear()} deviensmarrant.fr — Fait avec
+          humour (et un peu de café)
         </div>
       </div>
     </footer>

@@ -7,7 +7,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  message = "Oups, quelque chose s'est mal passé.",
+  message = "Oups, on a raté notre entrée.",
   onRetry,
 }: ErrorStateProps) {
   return (

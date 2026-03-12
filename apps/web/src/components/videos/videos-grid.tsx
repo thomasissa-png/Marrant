@@ -63,6 +63,7 @@ export function VideosGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
+  const [totalAvailable, setTotalAvailable] = useState(0);
 
   const fetchVideos = useCallback(async () => {
     setIsLoading(true);
@@ -77,6 +78,7 @@ export function VideosGrid() {
         setVideos(data.videos);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
+        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -111,7 +113,7 @@ export function VideosGrid() {
 
       {/* Error state */}
       {error ? (
-        <ErrorState message="Impossible de charger les vidéos." onRetry={fetchVideos} />
+        <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
       ) : isLoading ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -128,8 +130,8 @@ export function VideosGrid() {
         <EmptyState
           emoji="🎬"
           emojiLabel="pas de vidéos"
-          title="Aucune vidéo avec ce filtre"
-          description="Explore un autre niveau pour découvrir plus de vidéos."
+          title="Pas de vidéo ici... même les humoristes font des pauses"
+          description="Essaie un autre niveau, y'a du lourd qui t'attend."
           ctaLabel="Voir toutes les vidéos"
           ctaHref="/videos"
         />
@@ -177,7 +179,7 @@ export function VideosGrid() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 5 vidéos + la vidéo du jour — 30+ disponibles !
+            Tu as acc&egrave;s &agrave; 10 vid&eacute;os + la vid&eacute;o du jour{totalAvailable > 0 ? ` — ${totalAvailable}+ disponibles !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois.

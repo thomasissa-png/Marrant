@@ -105,7 +105,7 @@ describe("VideosGrid", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("fail"));
     render(<VideosGrid />);
     await waitFor(() => {
-      expect(screen.getByText("Impossible de charger les vidéos.")).toBeInTheDocument();
+      expect(screen.getByText("Les vidéos ont pris un jour de congé.")).toBeInTheDocument();
     });
   });
 
@@ -116,7 +116,7 @@ describe("VideosGrid", () => {
     });
     render(<VideosGrid />);
     await waitFor(() => {
-      expect(screen.getByText("Aucune vidéo avec ce filtre")).toBeInTheDocument();
+      expect(screen.getByText("Pas de vidéo ici... même les humoristes font des pauses")).toBeInTheDocument();
     });
   });
 

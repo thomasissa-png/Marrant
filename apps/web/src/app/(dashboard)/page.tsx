@@ -23,7 +23,7 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-text-secondary">
-              Plus de 500 blagues classées par catégorie — école, boulot, couple,
+              Des centaines de blagues classées par catégorie — école, boulot, couple,
               soirées. Tu trouveras toujours la bonne blague au bon moment.
             </p>
             <Link href="/blagues">
