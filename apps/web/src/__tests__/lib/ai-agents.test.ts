@@ -636,6 +636,164 @@ describe("Video Agent", () => {
   });
 });
 
+describe("Marketing Agent", () => {
+  let generateSocialPost: typeof import("@/lib/ai/agents/marketing-agent").generateSocialPost;
+  let generateShortVideoScript: typeof import("@/lib/ai/agents/marketing-agent").generateShortVideoScript;
+  let generateSubAgentDirectives: typeof import("@/lib/ai/agents/marketing-agent").generateSubAgentDirectives;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const mod = await import("@/lib/ai/agents/marketing-agent");
+    generateSocialPost = mod.generateSocialPost;
+    generateShortVideoScript = mod.generateShortVideoScript;
+    generateSubAgentDirectives = mod.generateSubAgentDirectives;
+  });
+
+  it("generates a social post with valid structure", async () => {
+    const mockPost = {
+      platform: "TIKTOK",
+      format: "REEL",
+      targetPersona: "YANIS",
+      hook: "Tu restes muet quand on te chambre ?",
+      content: "Voici 3 techniques de répartie...",
+      cta: "Lien en bio pour progresser",
+      hashtags: ["#humour", "#répartie", "#deviensmarrant"],
+      objective: "Acquisition persona jeune",
+      kpi: "Taux d'engagement > 5%",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockPost) }],
+    });
+
+    const post = await generateSocialPost({
+      platform: "TIKTOK",
+      theme: "Techniques de répartie pour ados",
+      targetPersona: "YANIS",
+    });
+
+    expect(post.platform).toBe("TIKTOK");
+    expect(post.targetPersona).toBe("YANIS");
+    expect(post.hook).toBeTruthy();
+    expect(post.cta).toBeTruthy();
+    expect(post.hashtags.length).toBeGreaterThan(0);
+  });
+
+  it("generates a short video script with scenes", async () => {
+    const mockScript = {
+      title: "3 répliques qui tuent",
+      targetPersona: "SOPHIE",
+      platform: "INSTAGRAM_REELS",
+      hook: "Ta collègue te lance une pique ?",
+      scenes: [
+        { timing: "0-2s", visual: "Face caméra", text: "Hook", audio: "Musique trending" },
+        { timing: "2-15s", visual: "Texte animé", text: "3 répliques", audio: "Voix off" },
+      ],
+      cta: "Suivez pour + de répartie",
+      duration: "15s",
+      objective: "Notoriété de marque",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockScript) }],
+    });
+
+    const script = await generateShortVideoScript({
+      theme: "Répartie au bureau",
+      targetPersona: "SOPHIE",
+      platform: "INSTAGRAM_REELS",
+    });
+
+    expect(script.platform).toBe("INSTAGRAM_REELS");
+    expect(script.scenes.length).toBeGreaterThan(0);
+    expect(script.hook).toBeTruthy();
+    expect(script.duration).toBeTruthy();
+  });
+
+  it("generates sub-agent directives for SEO, Design, UX", async () => {
+    const mockDirective = {
+      campaign: "Lancement V2",
+      overallObjective: "Tripler les inscriptions en 30 jours",
+      briefs: [
+        {
+          agent: "SEO",
+          objective: "Optimiser les pages clés",
+          context: "Lancement de la V2",
+          deliverables: ["Audit SEO", "Mots-clés prioritaires"],
+          constraints: ["Budget limité"],
+          priority: "HIGH",
+          deadline: "J+7",
+          successCriteria: ["Top 3 sur 5 mots-clés"],
+          personaFocus: ["YANIS", "SOPHIE"],
+        },
+        {
+          agent: "DESIGN",
+          objective: "Créer les visuels de campagne",
+          context: "Assets pour réseaux sociaux",
+          deliverables: ["Templates Reel", "Bannières"],
+          constraints: ["Charte graphique violet/noir"],
+          priority: "HIGH",
+          deadline: "J+5",
+          successCriteria: ["10 templates validés"],
+          personaFocus: ["YANIS", "SOPHIE", "MARC"],
+        },
+        {
+          agent: "UX",
+          objective: "Optimiser le tunnel de conversion",
+          context: "Funnel free → premium",
+          deliverables: ["Wireframes A/B", "Recommandations CTA"],
+          constraints: ["Mobile-first"],
+          priority: "MEDIUM",
+          deadline: "J+10",
+          successCriteria: ["Conversion +20%"],
+          personaFocus: ["MARC"],
+        },
+      ],
+      coordinationNotes: "Le Design doit attendre les mots-clés SEO pour les visuels.",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockDirective) }],
+    });
+
+    const directive = await generateSubAgentDirectives({
+      campaign: "Lancement V2",
+      objective: "Tripler les inscriptions",
+      agents: ["SEO", "DESIGN", "UX"],
+    });
+
+    expect(directive.campaign).toBe("Lancement V2");
+    expect(directive.briefs).toHaveLength(3);
+    expect(directive.briefs.map((b) => b.agent)).toEqual(["SEO", "DESIGN", "UX"]);
+    expect(directive.coordinationNotes).toBeTruthy();
+    directive.briefs.forEach((brief) => {
+      expect(brief.deliverables.length).toBeGreaterThan(0);
+      expect(brief.successCriteria.length).toBeGreaterThan(0);
+      expect(brief.personaFocus.length).toBeGreaterThan(0);
+    });
+  });
+
+  it("throws on invalid JSON response", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: "pas du json valide" }],
+    });
+
+    await expect(
+      generateSocialPost({
+        platform: "TWITTER",
+        theme: "Test",
+        targetPersona: "MARC",
+      })
+    ).rejects.toThrow();
+  });
+});
+
 describe("AI Client utilities", () => {
   it("extractJson extracts first valid JSON object", async () => {
     const { extractJson } = await import("@/lib/ai/client");
