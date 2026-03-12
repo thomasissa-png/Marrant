@@ -6,9 +6,6 @@
     "build": "bash -c 'cd /home/runner/workspace/apps/web && npx prisma db push && bash scripts/seed.sh && npm run build && cp -r /home/runner/workspace/apps/web/public /home/runner/workspace/apps/web/.next/standalone/public && cp -r /home/runner/workspace/apps/web/.next/static /home/runner/workspace/apps/web/.next/standalone/.next/static'",
     "start": "bash -c 'cd /home/runner/workspace/apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js'"
   },
-  "prisma": {
-    "seed": "cd /home/runner/workspace/apps/web && bash scripts/seed.sh"
-  },
   "devDependencies": {
     "prisma": "6.19.2"
   },
