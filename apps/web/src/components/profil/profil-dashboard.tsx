@@ -239,7 +239,7 @@ export function ProfilDashboard() {
               <p className="mb-4 text-sm text-text-secondary">
                 Débloque l&apos;accès à toutes les blagues, tous les conseils,
                 toutes les vidéos analysées et le contenu quotidien — pour
-                seulement 0,99 €/mois (offre de lancement).
+                seulement 0,99 €/mois. Prix de lancement, profites-en.
               </p>
               <Button
                 variant="secondary"

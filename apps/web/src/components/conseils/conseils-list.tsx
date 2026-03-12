@@ -241,7 +241,7 @@ export function ConseilsList() {
             Tu as acc&egrave;s &agrave; 5 conseils + le conseil du jour{totalAvailable > 0 ? ` — ${totalAvailable}+ t'attendent !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois.
+            Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois — prix de lancement.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">

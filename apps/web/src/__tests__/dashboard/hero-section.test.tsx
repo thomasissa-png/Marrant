@@ -11,7 +11,7 @@ describe("HeroSection", () => {
   it("shows badge text with launch offer", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Offre de lancement — 0,99 €\/mois au lieu de 9,99 €/)).toBeInTheDocument();
+    expect(screen.getByText(/Prix de lancement — 0,99 €\/mois — Ce tarif ne durera pas/)).toBeInTheDocument();
   });
 
   it("shows main heading with drôle", () => {

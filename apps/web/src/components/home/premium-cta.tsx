@@ -40,7 +40,7 @@ export function PremiumCta() {
     <section className="py-12" id="offres">
       <div className="text-center">
         <Badge variant="primary" className="mb-4">
-          Offre de lancement exclusive
+          Prix de lancement — Profites-en tant que c&apos;est dispo
         </Badge>
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           Choisis ta formule
@@ -65,7 +65,7 @@ export function PremiumCta() {
               <span className="text-text-muted">/ mois</span>
             </div>
             <p className="mt-1 text-sm text-accent-primary font-medium">
-              Au lieu de 9,99 € — offre de lancement
+              Prix de lancement — ce tarif ne durera pas
             </p>
 
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">

@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <section className="py-12 text-center md:py-20">
       <Badge variant="primary" className="mb-4">
-        Offre de lancement — 0,99 €/mois au lieu de 9,99 €
+        Prix de lancement — 0,99 €/mois — Ce tarif ne durera pas
       </Badge>
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
         Deviens la personne{" "}

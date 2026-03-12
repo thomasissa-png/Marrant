@@ -182,7 +182,7 @@ export function VideosGrid() {
             Tu as acc&egrave;s &agrave; 10 vid&eacute;os + la vid&eacute;o du jour{totalAvailable > 0 ? ` — ${totalAvailable}+ disponibles !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois.
+            Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois — prix de lancement.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">

@@ -199,7 +199,7 @@ export function BlaguesList() {
             Tu as acc&egrave;s &agrave; 20 blagues + la blague du jour{totalAvailable > 0 ? ` — il y en a ${totalAvailable}+ !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les blagues, classées par catégorie, pour seulement 0,99 €/mois.
+            Débloque toutes les blagues, classées par catégorie, pour seulement 0,99 €/mois — prix de lancement.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">

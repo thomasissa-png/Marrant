@@ -57,7 +57,7 @@ PRODUIT
 - Contenu quotidien personnalisé (blague + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
-- Offre de lancement : 0,99 €/mois (prix régulier 9,99 €/mois)
+- Prix de lancement : 0,99 €/mois (tarif susceptible d'évoluer)
 - Coaching individuel à 99 €/session
 
 POSITIONNEMENT & MARCHÉ
