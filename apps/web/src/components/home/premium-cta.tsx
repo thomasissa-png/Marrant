@@ -44,7 +44,7 @@ export function PremiumCta() {
           Choisis ta formule
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Que tu sois lycéen, jeune actif ou en pleine reconstruction — on a
+          Que tu sois étudiant, jeune actif ou en pleine reconstruction — on a
           ce qu&apos;il te faut pour devenir vraiment drôle.
         </p>
       </div>

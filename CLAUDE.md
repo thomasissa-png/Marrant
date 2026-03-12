@@ -34,11 +34,11 @@ apps/web/src/__tests__/
 
 Trois personas guident les décisions UX/copy du site. À consulter pour toute évolution majeure.
 
-### Yanis — 17 ans, lycéen
-- **Profil** : Manque de confiance en lui, introverti, veut progresser en répartie pour s'affirmer au lycée et avec ses potes.
+### Yanis — 20 ans, étudiant
+- **Profil** : Étudiant introverti, manque de confiance en lui, veut progresser en répartie pour s'affirmer en soirées, en coloc et avec ses potes.
 - **Objectif principal** : Avoir de la répartie — savoir quoi répondre du tac au tac sans rester muet.
-- **Besoins** : Exercices concrets, techniques simples, progression visible (XP/streak), ton encourageant et non intimidant.
-- **Points de friction** : Jargon trop « adulte », contenu qui suppose une vie sociale active, absence de message rassurant pour les timides.
+- **Besoins** : Exercices concrets, techniques simples, progression visible (XP/streak), ton encourageant et complice.
+- **Points de friction** : Contenu trop formel ou corporate, absence de message rassurant pour les timides, manque de références à la vie étudiante.
 
 ### Sophie — 26 ans, jeune active
 - **Profil** : CDI dans une boîte moyenne, sociable mais manque de conversation à la machine à café. Veut avoir des anecdotes et blagues à ressortir au bon moment.

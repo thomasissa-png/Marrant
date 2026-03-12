@@ -3,11 +3,11 @@
 export const PERSONAS = {
   YANIS: {
     name: "Yanis",
-    age: 17,
-    description: "Lycéen introverti, veut progresser en répartie pour s'affirmer",
-    interests: ["école", "gaming", "réseaux sociaux", "soirées", "dating"],
-    tone: "encourageant, non intimidant, adapté aux ados",
-    jokeCategories: ["ECOLE", "GAMING", "RESEAUX_SOCIAUX", "AUTODERISION", "ABSURDE", "DATING"],
+    age: 20,
+    description: "Étudiant introverti, veut progresser en répartie pour s'affirmer en soirées et dans sa vie sociale",
+    interests: ["études", "gaming", "réseaux sociaux", "soirées", "dating", "colocation"],
+    tone: "encourageant, complice, ton décontracté entre potes",
+    jokeCategories: ["ECOLE", "GAMING", "RESEAUX_SOCIAUX", "AUTODERISION", "ABSURDE", "DATING", "SOIREES"],
     tipCategories: ["REPARTIE", "AUTODERISION", "TIMING", "ABSURDE"],
     tipDifficulty: "DEBUTANT",
   },

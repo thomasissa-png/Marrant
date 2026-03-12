@@ -52,7 +52,7 @@ describe("HumorQuiz", () => {
   it("shows Q2 options including machine à café", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    expect(screen.getByText("Entre potes / au lycée")).toBeInTheDocument();
+    expect(screen.getByText("Entre potes / en soirée étudiante")).toBeInTheDocument();
     expect(screen.getByText("Au boulot / machine à café")).toBeInTheDocument();
     expect(screen.getByText("En soirée / rendez-vous")).toBeInTheDocument();
     expect(screen.getByText("Partout")).toBeInTheDocument();
@@ -61,7 +61,7 @@ describe("HumorQuiz", () => {
   it("advances to question 3 after second answer", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     expect(screen.getByText("Ton niveau actuel en humour ?")).toBeInTheDocument();
     expect(screen.getByText("Question 3/3")).toBeInTheDocument();
   });
@@ -69,7 +69,7 @@ describe("HumorQuiz", () => {
   it("shows result screen after all 3 answers (DEBUTANT)", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
 
     expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe("HumorQuiz", () => {
   it("shows result for EXPERT path", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Je veux aller encore plus loin"));
 
     expect(screen.getByText("La Future Star")).toBeInTheDocument();
@@ -90,7 +90,7 @@ describe("HumorQuiz", () => {
   it("navigates to result path on 'C'est parti !' click", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
 
     await userEvent.click(screen.getByText("C'est parti !"));
@@ -100,7 +100,7 @@ describe("HumorQuiz", () => {
   it("navigates home on 'Explorer librement' click", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
 
     await userEvent.click(screen.getByText("Explorer librement"));
@@ -110,7 +110,7 @@ describe("HumorQuiz", () => {
   it("shows INTERMEDIAIRE result", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Parfois ça marche"));
 
     expect(screen.getByText("Le Blagueur Affûté")).toBeInTheDocument();
@@ -119,7 +119,7 @@ describe("HumorQuiz", () => {
   it("shows AVANCE result", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
-    await userEvent.click(screen.getByText("Entre potes / au lycée"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Je fais rire souvent"));
 
     expect(screen.getByText("Le Comique Naturel")).toBeInTheDocument();

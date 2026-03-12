@@ -25,7 +25,7 @@ const QUESTIONS: QuizQuestion[] = [
   {
     question: "Où tu veux être drôle ?",
     options: [
-      { label: "Entre potes / au lycée", value: "social", emoji: "👯" },
+      { label: "Entre potes / en soirée étudiante", value: "social", emoji: "👯" },
       { label: "Au boulot / machine à café", value: "work", emoji: "☕" },
       { label: "En soirée / rendez-vous", value: "party", emoji: "🎉" },
       { label: "Partout", value: "everywhere", emoji: "🌍" },
