@@ -30,17 +30,17 @@ describe("HeroSection", () => {
   it("shows use-case tags for all 3 personas", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Avoir de la répartie au lycée")).toBeInTheDocument();
+    expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
     expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
     expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
     expect(screen.getByText("Blagues prêtes à ressortir")).toBeInTheDocument();
   });
 
-  it("shows unauthenticated buttons", () => {
+  it("does not show CTA buttons when unauthenticated (CTA is in HomeCta)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Commencer — 0,99 €\/mois/)).toBeInTheDocument();
-    expect(screen.getByText("Voir les blagues gratuites")).toBeInTheDocument();
+    expect(screen.queryByText(/Commencer — 0,99 €\/mois/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Voir les blagues gratuites")).not.toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {
@@ -50,30 +50,15 @@ describe("HeroSection", () => {
     expect(screen.getByText("Voir les conseils")).toBeInTheDocument();
   });
 
-  it("links to /register when unauthenticated", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText(/Commencer — 0,99 €\/mois/).closest("a")).toHaveAttribute(
-      "href",
-      "/register"
-    );
-  });
-
   it("links to /blagues when authenticated", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
     expect(screen.getByText("Explorer les blagues").closest("a")).toHaveAttribute("href", "/blagues");
   });
 
-  it("links to /blagues for unauthenticated secondary CTA", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
+  it("links to /conseils when authenticated", () => {
+    useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Voir les blagues gratuites").closest("a")).toHaveAttribute("href", "/blagues");
-  });
-
-  it("shows reassurance text", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
+    expect(screen.getByText("Voir les conseils").closest("a")).toHaveAttribute("href", "/conseils");
   });
 });

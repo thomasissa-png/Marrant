@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
 import { PremiumCta } from "@/components/home/premium-cta";
+import { HomeCta } from "@/components/home/home-cta";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -67,6 +68,9 @@ export default function HomePage() {
           </CardContent>
         </Card>
       </section>
+
+      {/* CTA principal — après avoir montré le contenu */}
+      <HomeCta />
 
       {/* Section "Tu te reconnais ?" — les 3 personas */}
       <section className="py-12">

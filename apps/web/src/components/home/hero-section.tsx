@@ -29,7 +29,7 @@ export function HeroSection() {
       {/* Situations concrètes = les 3 personas se reconnaissent */}
       <div className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-3">
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Avoir de la répartie au lycée
+          Avoir de la répartie
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Briller à la machine à café
@@ -42,40 +42,21 @@ export function HeroSection() {
         </span>
       </div>
 
-      <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        {isAuthenticated ? (
-          <>
-            <Link href="/blagues">
-              <Button variant="primary" size="lg">
-                Explorer les blagues
-              </Button>
-            </Link>
-            <Link href="/conseils">
-              <Button variant="outline" size="lg">
-                Voir les conseils
-              </Button>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href="/register">
-              <Button variant="primary" size="lg">
-                Commencer — 0,99 €/mois
-              </Button>
-            </Link>
-            <Link href="/blagues">
-              <Button variant="outline" size="lg">
-                Voir les blagues gratuites
-              </Button>
-            </Link>
-          </>
-        )}
-      </div>
-
-      {/* Réassurance */}
-      <p className="mt-4 text-sm text-text-muted">
-        Sans engagement — annule en 1 clic — satisfait ou remboursé
-      </p>
+      {/* CTA only for authenticated users — non-auth CTA is below feature cards */}
+      {isAuthenticated && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link href="/blagues">
+            <Button variant="primary" size="lg">
+              Explorer les blagues
+            </Button>
+          </Link>
+          <Link href="/conseils">
+            <Button variant="outline" size="lg">
+              Voir les conseils
+            </Button>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

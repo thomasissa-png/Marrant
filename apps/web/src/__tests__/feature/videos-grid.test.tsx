@@ -75,20 +75,6 @@ describe("VideosGrid", () => {
     });
   });
 
-  it("formats duration correctly (PT12M30S -> 12:30)", async () => {
-    render(<VideosGrid />);
-    await waitFor(() => {
-      expect(screen.getByText("12:30")).toBeInTheDocument();
-    });
-  });
-
-  it("formats duration with hours (PT1H5M -> 1:5:00)", async () => {
-    render(<VideosGrid />);
-    await waitFor(() => {
-      expect(screen.getByText("1:5:00")).toBeInTheDocument();
-    });
-  });
-
   it("shows category and technique badges", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
@@ -97,21 +83,21 @@ describe("VideosGrid", () => {
     });
   });
 
-  it("links to YouTube with target _blank", async () => {
+  it("embeds YouTube video as iframe", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
-      const link = screen.getByAltText("Stand-up hilarant").closest("a");
-      expect(link).toHaveAttribute("href", "https://www.youtube.com/watch?v=abc123");
-      expect(link).toHaveAttribute("target", "_blank");
-      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+      const iframe = screen.getByTitle("Stand-up hilarant");
+      expect(iframe).toBeInTheDocument();
+      expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/abc123");
+      expect(iframe).toHaveAttribute("allowFullScreen");
     });
   });
 
-  it("uses lazy loading for thumbnails", async () => {
+  it("uses lazy loading for iframes", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
-      const img = screen.getByAltText("Stand-up hilarant");
-      expect(img).toHaveAttribute("loading", "lazy");
+      const iframe = screen.getByTitle("Stand-up hilarant");
+      expect(iframe).toHaveAttribute("loading", "lazy");
     });
   });
 

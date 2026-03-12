@@ -42,6 +42,13 @@ describe("DailyContent", () => {
     expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(0);
   });
 
+  it("shows section title", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Ton contenu du jour")).toBeInTheDocument();
+    });
+  });
+
   it("shows Blague du jour section", async () => {
     render(<DailyContent />);
     await waitFor(() => {
@@ -118,10 +125,12 @@ describe("DailyContent", () => {
     });
   });
 
-  it("shows video duration formatted", async () => {
+  it("shows embedded YouTube video iframe", async () => {
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("12:30")).toBeInTheDocument();
+      const iframe = screen.getByTitle("Les secrets du timing comique");
+      expect(iframe).toBeInTheDocument();
+      expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/dQw4w9WgXcQ");
     });
   });
 
@@ -129,15 +138,6 @@ describe("DailyContent", () => {
     render(<DailyContent />);
     await waitFor(() => {
       expect(screen.getByText("Pause dramatique")).toBeInTheDocument();
-    });
-  });
-
-  it("shows video thumbnail with YouTube link", async () => {
-    render(<DailyContent />);
-    await waitFor(() => {
-      const link = screen.getByLabelText("Regarder Les secrets du timing comique sur YouTube");
-      expect(link).toHaveAttribute("href", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-      expect(link).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -185,7 +185,6 @@ describe("DailyContent", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("Network error"));
     render(<DailyContent />);
     await waitFor(() => {
-      // Should not crash — shows empty state
       expect(screen.getByText("Aucune blague disponible aujourd'hui.")).toBeInTheDocument();
     });
   });

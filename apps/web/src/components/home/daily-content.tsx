@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -59,16 +58,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   STORYTELLING: "Storytelling",
 };
 
-function formatDuration(iso: string): string {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return iso;
-  const h = match[1] ?? "";
-  const m = match[2] ?? "0";
-  const s = match[3]?.padStart(2, "0") ?? "00";
-  if (h) return `${h}:${m.padStart(2, "0")}:${s}`;
-  return `${m}:${s}`;
-}
-
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
   const [showPunchline, setShowPunchline] = useState(false);
@@ -88,62 +77,49 @@ export function DailyContent() {
 
   if (isLoading) {
     return (
-      <>
-        <section className="py-8">
-          <h2 className="font-display mb-6 text-2xl font-bold">Blague du jour</h2>
-          <Card className="mx-auto max-w-2xl animate-pulse">
-            <CardContent className="py-8">
+      <section className="py-10">
+        <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
+          Ton contenu du jour
+        </h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="animate-pulse rounded-xl border border-border bg-background-card p-6">
+              <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
               <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
-            </CardContent>
-          </Card>
-        </section>
-        <section className="py-8">
-          <h2 className="font-display mb-6 text-2xl font-bold">Conseil du jour</h2>
-          <Card className="mx-auto max-w-2xl animate-pulse">
-            <CardContent className="py-8">
-              <div className="h-4 w-3/4 rounded bg-background-elevated" />
-              <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
-            </CardContent>
-          </Card>
-        </section>
-        <section className="py-8">
-          <h2 className="font-display mb-6 text-2xl font-bold">Vidéo du jour</h2>
-          <Card className="mx-auto max-w-2xl animate-pulse">
-            <CardContent className="py-8">
-              <div className="h-4 w-3/4 rounded bg-background-elevated" />
-              <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
-            </CardContent>
-          </Card>
-        </section>
-      </>
+              <div className="mt-4 h-10 w-full rounded bg-background-elevated" />
+            </div>
+          ))}
+        </div>
+      </section>
     );
   }
 
   return (
-    <>
-      {/* Blague du jour */}
-      <section className="py-8">
-        <h2 className="font-display mb-6 text-2xl font-bold">Blague du jour</h2>
-        <Card className="mx-auto max-w-2xl">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Badge variant="primary" className="w-fit">
-                Blague du jour
-              </Badge>
+    <section className="py-10">
+      <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
+        Ton contenu du jour
+      </h2>
+      <div className="grid gap-6 md:grid-cols-3">
+        {/* Blague du jour */}
+        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+          {/* Top accent bar */}
+          <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
+          <div className="p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-2xl" aria-hidden="true">😂</span>
+              <Badge variant="primary">Blague du jour</Badge>
               {data.joke && (
                 <Badge variant="default">
                   {CATEGORY_LABELS[data.joke.category] ?? data.joke.category}
                 </Badge>
               )}
             </div>
-          </CardHeader>
-          <CardContent>
             {data.joke ? (
-              <>
-                <p className="text-lg text-text-primary">{data.joke.content}</p>
+              <div className="min-h-[120px]">
+                <p className="text-base leading-relaxed text-text-primary">{data.joke.content}</p>
                 {showPunchline ? (
-                  <p className="mt-4 text-lg font-semibold text-accent-primary animate-fade-in">
+                  <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-primary animate-fade-in">
                     {data.joke.punchline}
                   </p>
                 ) : (
@@ -156,66 +132,58 @@ export function DailyContent() {
                     Révéler la chute
                   </Button>
                 )}
-              </>
+              </div>
             ) : (
               <p className="text-text-secondary">Aucune blague disponible aujourd&apos;hui.</p>
             )}
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </div>
 
-      {/* Conseil du jour */}
-      <section className="py-8">
-        <h2 className="font-display mb-6 text-2xl font-bold">Conseil du jour</h2>
-        <Card className="mx-auto max-w-2xl">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="w-fit">
-                Conseil du jour
-              </Badge>
+        {/* Conseil du jour */}
+        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40">
+          <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
+          <div className="p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-2xl" aria-hidden="true">💡</span>
+              <Badge variant="secondary">Conseil du jour</Badge>
               {data.tip && (
                 <Badge variant="default">
                   {CATEGORY_LABELS[data.tip.category] ?? data.tip.category}
                 </Badge>
               )}
             </div>
-          </CardHeader>
-          <CardContent>
             {data.tip ? (
               <div className="space-y-3">
-                <h3 className="text-lg font-bold text-text-primary">
+                <h3 className="text-base font-bold text-text-primary">
                   {data.tip.title}
                 </h3>
-                <p className="text-text-secondary">{data.tip.content}</p>
+                <p className="text-sm leading-relaxed text-text-secondary">{data.tip.content}</p>
                 {data.tip.example && (
                   <div className="rounded-lg bg-background-elevated p-3">
-                    <p className="text-sm font-semibold text-text-primary">Exemple concret</p>
-                    <p className="mt-1 text-sm text-text-secondary">{data.tip.example}</p>
+                    <p className="text-xs font-semibold text-text-primary">Exemple concret</p>
+                    <p className="mt-1 text-xs text-text-secondary">{data.tip.example}</p>
                   </div>
                 )}
                 {data.tip.exercise && (
                   <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                    <p className="text-sm font-semibold text-accent-primary">Exercice du jour</p>
-                    <p className="mt-1 text-sm text-text-secondary">{data.tip.exercise}</p>
+                    <p className="text-xs font-semibold text-accent-primary">Exercice du jour</p>
+                    <p className="mt-1 text-xs text-text-secondary">{data.tip.exercise}</p>
                   </div>
                 )}
               </div>
             ) : (
               <p className="text-text-secondary">Aucun conseil disponible aujourd&apos;hui.</p>
             )}
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </div>
 
-      {/* Vidéo du jour */}
-      <section className="py-8">
-        <h2 className="font-display mb-6 text-2xl font-bold">Vidéo du jour</h2>
-        <Card className="mx-auto max-w-2xl">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Badge variant="default" className="w-fit">
-                Vidéo du jour
-              </Badge>
+        {/* Vidéo du jour */}
+        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+          <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
+          <div className="p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-2xl" aria-hidden="true">🎬</span>
+              <Badge variant="default">Vidéo du jour</Badge>
               {data.video && (
                 <>
                   <Badge variant="secondary">
@@ -225,40 +193,29 @@ export function DailyContent() {
                 </>
               )}
             </div>
-          </CardHeader>
-          <CardContent>
             {data.video ? (
-              <div className="space-y-4">
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <a
-                    href={`https://www.youtube.com/watch?v=${encodeURIComponent(data.video.youtubeId)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Regarder ${data.video.title} sur YouTube`}
-                    className="block"
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${encodeURIComponent(data.video.youtubeId)}/hqdefault.jpg`}
-                      alt={data.video.title}
-                      className="h-full w-full object-cover transition-transform hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs text-white">
-                      {formatDuration(data.video.duration)}
-                    </div>
-                  </a>
+              <div className="space-y-3">
+                <div className="aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${encodeURIComponent(data.video.youtubeId)}`}
+                    title={data.video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                    loading="lazy"
+                  />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text-primary">{data.video.title}</h3>
-                  <p className="text-sm text-text-secondary">{data.video.channelName}</p>
+                  <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
+                  <p className="text-xs text-text-secondary">{data.video.channelName}</p>
                 </div>
               </div>
             ) : (
               <p className="text-text-secondary">Aucune vidéo disponible aujourd&apos;hui.</p>
             )}
-          </CardContent>
-        </Card>
-      </section>
-    </>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

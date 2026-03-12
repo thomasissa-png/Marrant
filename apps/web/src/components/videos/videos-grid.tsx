@@ -142,25 +142,16 @@ export function VideosGrid() {
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <CardContent className="pt-4">
-                <a
-                  href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-                >
-                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                    <img
-                      src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
-                      alt={video.title}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                    <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium text-white">
-                      {formatDuration(video.duration)}
-                    </span>
-                  </div>
-                </a>
+                <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${encodeURIComponent(video.youtubeId)}`}
+                    title={video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                    loading="lazy"
+                  />
+                </div>
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-base font-semibold text-text-primary line-clamp-2">
                     {video.title}
