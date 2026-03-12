@@ -5,7 +5,7 @@ import { resolve } from "path";
 const prisma = new PrismaClient();
 
 function loadSeedData<T>(filename: string): T[] {
-  const filePath = resolve(__dirname, "../../../docs/content", filename);
+  const filePath = resolve(process.cwd(), "../../docs/content", filename);
   const raw = readFileSync(filePath, "utf-8");
   return JSON.parse(raw) as T[];
 }
