@@ -84,6 +84,7 @@ const AGENTS = [
       "Séquences email marketing (onboarding, conversion, rétention)",
       "Calendrier éditorial mensuel multi-plateforme",
       "Directives stratégiques pour sous-agents (SEO, Design, UX)",
+      "Audit tonalité : 7.5/10 — 11 points identifiés (3 haute, 5 moyenne, 3 basse priorité)",
     ],
     phase: "Phase 4 — Post-audit",
   },
