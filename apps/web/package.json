@@ -46,7 +46,7 @@
     "zustand": "^5.0.3"
   },
   "prisma": {
-    "seed": "npx esbuild prisma/seed.ts --bundle --platform=node --outfile=.seed-compiled.js --external:@prisma/client && node .seed-compiled.js && rm .seed-compiled.js"
+    "seed": "node ./node_modules/.bin/esbuild prisma/seed.ts --bundle --platform=node --outfile=.seed-compiled.js --external:@prisma/client && node .seed-compiled.js && rm -f .seed-compiled.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
