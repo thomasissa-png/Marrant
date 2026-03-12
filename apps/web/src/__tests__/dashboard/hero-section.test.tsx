@@ -27,20 +27,28 @@ describe("HeroSection", () => {
     expect(screen.getByText(/techniques de répartie/)).toBeInTheDocument();
   });
 
-  it("shows use-case tags for all 3 personas", () => {
+  it("shows social proof counter", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    expect(screen.getByText(/5 000\+ membres/)).toBeInTheDocument();
+  });
+
+  it("shows use-case tags for all 3 personas plus XP/streak", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
     expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
     expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
+    expect(screen.getByText(/XP.*streak/)).toBeInTheDocument();
     expect(screen.getByText("Blagues prêtes à ressortir")).toBeInTheDocument();
   });
 
-  it("does not show CTA buttons when unauthenticated (CTA is in HomeCta)", () => {
+  it("shows CTA with trust badge when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.queryByText(/Commencer à 0,99 €\/mois/)).not.toBeInTheDocument();
-    expect(screen.queryByText("Voir les blagues gratuites")).not.toBeInTheDocument();
+    expect(screen.getByText(/Commencer à 0,99 €\/mois/)).toBeInTheDocument();
+    expect(screen.getByText(/Annule en 1 clic/)).toBeInTheDocument();
+    expect(screen.getByText(/Sans carte bancaire/)).toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {

@@ -43,10 +43,11 @@ describe("Header", () => {
     expect(screen.queryByText("Parcours")).not.toBeInTheDocument();
   });
 
-  it("shows Connexion and Commencer CTA when unauthenticated", () => {
+  it("shows Connexion and Commencer CTA with trust badge when unauthenticated", () => {
     render(<Header />);
     expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Commencer à 0,99 €/mois").length).toBeGreaterThan(0);
+    expect(screen.getByText(/Annule en 1 clic · Sans carte bancaire/)).toBeInTheDocument();
   });
 
   it("shows Favoris, Profil, Déconnexion when authenticated", () => {

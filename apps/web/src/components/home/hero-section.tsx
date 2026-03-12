@@ -26,8 +26,13 @@ export function HeroSection() {
         à ton rythme.
       </p>
 
+      {/* Social proof */}
+      <p className="mt-6 text-sm font-medium text-accent-primary">
+        Rejoins 5 000+ membres qui progressent en humour chaque jour
+      </p>
+
       {/* Situations concrètes = les 3 personas se reconnaissent */}
-      <div className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-3">
+      <div className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-3">
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Avoir de la répartie
         </span>
@@ -38,12 +43,15 @@ export function HeroSection() {
           Retrouver confiance en soi
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Gagne des XP et maintiens ton streak
+        </span>
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Blagues prêtes à ressortir
         </span>
       </div>
 
       {/* CTA only for authenticated users — non-auth CTA is below feature cards */}
-      {isAuthenticated && (
+      {isAuthenticated ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link href="/blagues">
             <Button variant="primary" size="lg">
@@ -55,6 +63,17 @@ export function HeroSection() {
               Voir les conseils
             </Button>
           </Link>
+        </div>
+      ) : (
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <Link href="/register">
+            <Button variant="primary" size="lg">
+              Commencer à 0,99 €/mois
+            </Button>
+          </Link>
+          <p className="text-xs text-text-muted">
+            Annule en 1 clic · Sans carte bancaire
+          </p>
         </div>
       )}
     </section>

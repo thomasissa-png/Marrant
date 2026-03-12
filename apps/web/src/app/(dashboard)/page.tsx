@@ -69,9 +69,6 @@ export default function HomePage() {
         </Card>
       </section>
 
-      {/* CTA principal — après avoir montré le contenu */}
-      <HomeCta />
-
       {/* Section "Tu te reconnais ?" — les 3 personas */}
       <section className="py-12">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
@@ -87,7 +84,7 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-text-secondary">
               Tu as 16-20 ans et tu aimerais avoir de la répartie avec tes potes
               sans rester planté là ? On t&apos;apprend les bases avec des
-              exercices simples et encourageants. Zéro pression, 100% progression.
+              exercices simples et encourageants. Gagne des XP chaque jour et suis ta progression.
             </p>
             <Link href="/conseils" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Commencer à progresser →
@@ -103,7 +100,7 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis... tu voudrais avoir la
               blague qui fait mouche au bon moment ? On te donne des blagues
-              courtes et mémorisables, et le timing pour les placer.
+              courtes et mémorisables. Maintiens ton streak pour ne rien oublier.
             </p>
             <Link href="/blagues" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Découvrir les blagues →
@@ -119,8 +116,7 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-text-secondary">
               Après une période difficile, tu veux retrouver ton humour et ta
               confiance dans tes interactions ? Blagues, techniques de
-              storytelling et auto-dérision. Progresse à ton rythme,
-              sans pression.
+              storytelling et auto-dérision. Suis ta progression avec les XP et les streaks.
             </p>
             <Link href="/register" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Rejoindre pour 0,99 €/mois →
@@ -129,7 +125,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Offres */}
+      {/* CTA principal */}
+      <HomeCta />
+
+      {/* CTA Offres — abonnement d'abord, coaching en dessous */}
       <PremiumCta />
     </>
   );
