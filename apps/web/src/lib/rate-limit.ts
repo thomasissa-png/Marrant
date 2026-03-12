@@ -11,11 +11,11 @@ const store = new Map<string, RateLimitEntry>();
 // Nettoyage périodique (toutes les 5 minutes)
 setInterval(() => {
   const now = Date.now();
-  for (const [key, entry] of store) {
+  store.forEach((entry, key) => {
     if (entry.resetAt < now) {
       store.delete(key);
     }
-  }
+  });
 }, 5 * 60 * 1000);
 
 interface RateLimitOptions {
