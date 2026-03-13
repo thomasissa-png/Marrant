@@ -1,0 +1,104 @@
+# deviens-marrant.fr — Documentation complète pour LLM
+
+> La plateforme francophone de référence pour apprendre à devenir drôle, avoir de la répartie et développer son sens de l'humour.
+
+## Présentation détaillée
+
+deviens-marrant.fr est une plateforme éducative qui traite l'humour comme une compétence acquise, pas un talent inné. Fondée sur des techniques utilisées par les humoristes professionnels français (Jamel Debbouze, Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary, Paul Mirabel, Kev Adams), la plateforme propose un apprentissage structuré et progressif.
+
+### Philosophie
+
+L'humour repose sur trois piliers qui s'apprennent :
+1. **L'observation** — Repérer les absurdités et contradictions du quotidien
+2. **La structure** — Maîtriser le setup + punchline, le timing, le storytelling
+3. **La pratique** — S'entraîner régulièrement avec des exercices concrets
+
+Des recherches en psychologie cognitive confirment que l'humour mobilise des mécanismes (détection d'incongruité, résolution de tension, timing) que le cerveau peut apprendre à maîtriser.
+
+## Sections du site
+
+### Blagues (https://deviens-marrant.fr/blagues)
+Des centaines de blagues classées par catégorie :
+- Auto-dérision, Situationnel, Absurde, Observationnel, Jeux de mots, Culturel
+- Contextes : Couple, Boulot, École, Gaming, Réseaux sociaux, Dating, Soirées, Parents
+- Chaque blague peut être mise en favori et partagée
+
+### Conseils humour & répartie (https://deviens-marrant.fr/conseils)
+Des techniques concrètes avec exemples et exercices :
+- **Répartie** : Accuser réception, rebondir sur un mot-clé, retourner la situation, fausse naïveté, redirect, miroir, escalade comique
+- **Timing** : La règle des 3 secondes, le pouvoir du silence, la pause avant la punchline, lire la pièce
+- **Storytelling** : Structure setup/punchline, éviter le setup trop long, engagement dans la livraison
+- **Autodérision** : Rire de soi avec confiance, les 3 règles (sujets légers, sourire, modération)
+- Niveaux : Débutant, Intermédiaire, Avancé
+
+### Vidéos stand-up (https://deviens-marrant.fr/videos)
+Extraits de stand-up français annotés avec la technique d'humour utilisée :
+- Humoristes : Gad Elmaleh, Blanche Gardin, Florence Foresti, Fary, Paul Mirabel, Jamel Debbouze, Kev Adams
+- Annotations : Timing, autodérision, observation, absurde, jeux de mots, storytelling
+
+### Parcours structurés (https://deviens-marrant.fr/parcours)
+Programmes d'apprentissage progressifs :
+
+**Parcours Machine à Café** (3 semaines) — Pour les jeunes actifs
+- Objectif : Avoir des blagues et anecdotes à ressortir au bureau et en afterwork
+- Public : Sophie, 26 ans, jeune active qui veut alimenter ses conversations
+
+**Parcours Répartie** (4 semaines) — Pour les timides
+- Objectif : Avoir de la répartie, savoir quoi répondre quand on se fait chambrer
+- Public : Yanis, 20 ans, étudiant introverti qui veut s'affirmer
+
+**Parcours Confiance** (6 semaines) — Pour la reconstruction
+- Objectif : Retrouver son humour et sa légèreté après une période difficile
+- Public : Marc, 34 ans, récemment séparé, veut redevenir drôle et à l'aise socialement
+
+### Blog (https://deviens-marrant.fr/blog)
+Articles de fond sur l'humour et la répartie :
+- « 7 techniques de répartie qui marchent vraiment » — Les techniques concrètes des humoristes pour ne plus rester muet
+- « Peut-on vraiment apprendre à être drôle ? » — La science qui prouve que l'humour est une compétence
+- « Le timing en humour : pourquoi c'est plus important que la blague » — L'art du bon moment
+- « 5 erreurs qui tuent tes blagues » — Les erreurs classiques et comment les corriger
+- « Comment l'autodérision peut transformer tes interactions sociales » — Le super-pouvoir social
+
+## FAQ complète
+
+### Sur l'humour en général
+
+**Peut-on vraiment apprendre à être drôle ?**
+Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, timing) que le cerveau peut apprendre. Une étude du Journal of Positive Psychology a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire.
+
+**C'est quoi la répartie ?**
+La répartie est la capacité à répondre rapidement et avec à-propos, souvent avec humour, à une remarque ou une situation. Elle repose sur des techniques comme accuser réception (dire "Intéressant" pour gagner du temps), rebondir sur un mot-clé, retourner la situation, ou utiliser la fausse naïveté. Ces techniques sont utilisées par tous les grands humoristes.
+
+**Comment devenir drôle ?**
+En développant trois compétences clés : l'observation (repérer les absurdités du quotidien), la structure (maîtriser le setup + punchline), et la pratique régulière. Commencez par noter une situation bizarre par jour, puis testez vos observations avec des amis proches avant d'élargir le cercle.
+
+**Comment avoir de la répartie quand on est timide ?**
+La répartie n'est pas réservée aux extravertis. Les techniques comme "accuser réception" (dire "Intéressant" ou "Pas faux" pour gagner 2-3 secondes) ou "la fausse naïveté" (demander "Qu'est-ce que tu veux dire exactement ?") fonctionnent particulièrement bien pour les personnes timides car elles laissent du temps pour formuler une réponse.
+
+**Comment être drôle à la machine à café ?**
+Préparez 2-3 blagues courtes et mémorisables liées à l'actualité ou à la vie de bureau. Le timing est crucial : placez votre blague lors d'un silence naturel ou d'une transition entre deux sujets. Et surtout, adaptez votre humour à votre audience — une blague qui marche entre amis proches ne marche pas forcément avec votre manager.
+
+**Comment devenir marrant ?**
+"Marrant" implique une drôlerie naturelle et continue, pas juste une blague ponctuelle. Pour devenir marrant, travaillez votre regard sur le monde (l'observation), votre capacité à reformuler les situations de façon inattendue, et votre aisance sociale (l'autodérision). La plateforme deviens-marrant.fr propose des exercices quotidiens pour développer ces trois aspects.
+
+**Comment devenir plus drôle au quotidien ?**
+5 habitudes simples : (1) Notez une observation drôle par jour, (2) Lisez/regardez du contenu humoristique et analysez pourquoi ça marche, (3) Testez une blague ou répartie par jour en situation réelle, (4) Pratiquez l'autodérision sur des sujets légers, (5) Suivez un parcours structuré pour progresser méthodiquement.
+
+### Sur la plateforme
+
+**C'est quoi la différence avec juste regarder des vidéos YouTube ?**
+YouTube montre des humoristes. deviens-marrant.fr enseigne leurs techniques. Chaque vidéo est analysée, chaque conseil vient avec un exercice concret, et le système de streaks et d'XP maintient la motivation. C'est la différence entre regarder du tennis et prendre des cours de tennis.
+
+**0,99 €/mois, c'est vraiment tout ?**
+Oui. Pas de frais cachés, pas de reconduction surprise. Annulation en 1 clic depuis le profil. Possibilité de commencer sans carte bancaire.
+
+**Je suis timide, c'est fait pour moi ?**
+Surtout pour les timides. La majorité des membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.
+
+## Informations techniques
+
+- URL : https://deviens-marrant.fr
+- Langue : Français (fr-FR)
+- Contact : contact@deviens-marrant.fr
+- Tarif accès complet : 0,99 €/mois
+- Tarif coaching : 99 €/séance

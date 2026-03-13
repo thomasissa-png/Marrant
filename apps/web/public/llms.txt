@@ -1,0 +1,41 @@
+# deviens-marrant.fr
+
+> La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.
+
+## À propos
+
+deviens-marrant.fr est une plateforme éducative en ligne qui enseigne l'humour comme compétence. Le site propose des blagues classées par catégorie, des techniques de répartie avec exercices concrets, des vidéos de stand-up analysées et des parcours structurés pour progresser pas à pas.
+
+## Public cible
+
+- Étudiants timides (16-25 ans) qui veulent avoir de la répartie
+- Jeunes actifs (25-35 ans) qui cherchent à alimenter leurs conversations au bureau et en soirée
+- Adultes en reconstruction (30-40 ans) qui veulent retrouver leur humour et leur confiance
+
+## Contenu principal
+
+- [Blagues](https://deviens-marrant.fr/blagues): Des centaines de blagues classées par catégorie (boulot, couple, soirées, école, gaming, etc.)
+- [Conseils humour & répartie](https://deviens-marrant.fr/conseils): Techniques de répartie, timing, storytelling, autodérision avec exercices
+- [Vidéos stand-up](https://deviens-marrant.fr/videos): Extraits d'humoristes français analysés technique par technique
+- [Parcours](https://deviens-marrant.fr/parcours): Programmes structurés de 3 à 6 semaines (Machine à Café, Répartie, Confiance)
+- [Blog](https://deviens-marrant.fr/blog): Articles de fond sur l'humour, la répartie et le développement personnel
+
+## Questions fréquentes
+
+Q: Peut-on vraiment apprendre à être drôle ?
+R: Oui. L'humour est une compétence qui se travaille, pas un talent inné. La science le confirme : l'observation, la structure et la pratique permettent de progresser significativement en quelques semaines.
+
+Q: C'est quoi la répartie ?
+R: La répartie est la capacité à répondre rapidement et avec à-propos, souvent avec humour. Elle repose sur des techniques précises (accuser réception, rebondir sur un mot-clé, retourner la situation) qui s'apprennent et se perfectionnent.
+
+Q: Comment devenir drôle ?
+R: En développant trois compétences : l'observation (repérer les absurdités du quotidien), la structure (setup + punchline), et la pratique régulière. deviens-marrant.fr propose des exercices concrets pour chaque compétence.
+
+Q: Comment avoir de la répartie quand on est timide ?
+R: La répartie n'est pas réservée aux extravertis. Les techniques comme "accuser réception" ou "la fausse naïveté" fonctionnent particulièrement bien pour les personnes timides car elles donnent du temps pour formuler une réponse.
+
+## Tarifs
+
+- Accès gratuit : 20 blagues, 5 conseils, 10 vidéos
+- Accès complet : 0,99 €/mois (toutes les blagues, conseils, vidéos, parcours, contenu quotidien)
+- Coaching individuel : 99 €/séance (45 min en visio)

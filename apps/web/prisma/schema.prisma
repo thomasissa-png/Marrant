@@ -343,6 +343,13 @@ enum ContentAgentType {
   JOKE
   TIP
   VIDEO
+  SEO_BLOG
+}
+
+enum SeoEntryStatus {
+  PLANNED
+  PUBLISHED
+  SKIPPED
 }
 
 enum PlanEntryStatus {
@@ -405,4 +412,46 @@ enum SubscriptionStatus {
   PAST_DUE
   CANCELED
   TRIALING
+}
+
+// ==========================================
+// BLOG (Agent SEO)
+// ==========================================
+
+model BlogArticle {
+  id          String            @id @default(cuid())
+  slug        String            @unique
+  title       String
+  excerpt     String            @db.Text
+  content     String            @db.Text
+  category    String
+  readingTime String
+  targetKeyword String          // mot-clé principal ciblé
+  metaTitle   String?           // title SEO custom si différent du titre
+  metaDescription String?       @db.Text
+  isPublished Boolean           @default(false)
+  publishedAt DateTime?
+  generatedByAI Boolean         @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([isPublished])
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+model SeoCalendar {
+  id            String          @id @default(cuid())
+  weekNumber    Int             // 1-52
+  year          Int
+  targetKeyword String          // mot-clé cible pour cet article
+  articleTitle  String?         // titre planifié
+  status        SeoEntryStatus  @default(PLANNED)
+  articleId     String?         // ID de l'article créé
+  notes         String?         @db.Text // notes de l'agent sur le choix
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([weekNumber, year])
+  @@index([status])
 }
