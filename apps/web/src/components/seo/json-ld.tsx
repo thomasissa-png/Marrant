@@ -23,7 +23,6 @@ export const organizationJsonLd = {
     contactType: "customer service",
     availableLanguage: "French",
   },
-  sameAs: [],
 };
 
 export const websiteJsonLd = {
@@ -34,14 +33,6 @@ export const websiteJsonLd = {
   description:
     "Apprends à devenir drôle, à avoir de la répartie et à faire rire ton entourage. Blagues, techniques, vidéos stand-up et parcours personnalisés.",
   inLanguage: "fr-FR",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `${BASE_URL}/blog?q={search_term_string}`,
-    },
-    "query-input": "required name=search_term_string",
-  },
 };
 
 export function buildFaqJsonLd(

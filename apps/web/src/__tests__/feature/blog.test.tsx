@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const notFoundError = new Error("NEXT_NOT_FOUND");
 
@@ -9,6 +9,22 @@ jest.mock("next/navigation", () => ({
 }));
 
 const { notFound } = require("next/navigation");
+
+jest.mock("@/components/seo/json-ld", () => ({
+  JsonLd: ({ data }: { data: Record<string, unknown> }) => (
+    <script data-testid="json-ld" type="application/ld+json">
+      {JSON.stringify(data)}
+    </script>
+  ),
+  buildBreadcrumbJsonLd: (items: { name: string; url: string }[]) => ({
+    "@type": "BreadcrumbList",
+    itemListElement: items,
+  }),
+  buildArticleJsonLd: (article: Record<string, unknown>) => ({
+    "@type": "Article",
+    headline: article.title,
+  }),
+}));
 
 const mockArticlesData = [
   {
@@ -59,6 +75,15 @@ jest.mock("@/lib/blog-articles", () => {
   };
 });
 
+jest.mock("@/lib/prisma", () => ({
+  prisma: {
+    blogArticle: {
+      findMany: jest.fn().mockResolvedValue([]),
+      findUnique: jest.fn().mockResolvedValue(null),
+    },
+  },
+}));
+
 import BlogPage from "@/app/(dashboard)/blog/page";
 import BlogArticlePage, {
   generateStaticParams,
@@ -66,17 +91,22 @@ import BlogArticlePage, {
 } from "@/app/(dashboard)/blog/[slug]/page";
 
 describe("BlogPage — listing", () => {
-  beforeEach(() => {
-    render(<BlogPage />);
+  beforeEach(async () => {
+    const BlogPageResolved = await BlogPage();
+    render(BlogPageResolved);
   });
 
   it("renders the page title", () => {
-    expect(screen.getByText("Blog humour et répartie")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Comment devenir drôle : guides et techniques d'humour"
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders the page description", () => {
     expect(
-      screen.getByText(/Articles pratiques pour progresser/)
+      screen.getByText(/Articles complets pour apprendre à devenir drôle/)
     ).toBeInTheDocument();
   });
 
@@ -111,37 +141,84 @@ describe("BlogPage — listing", () => {
     expect(hrefs).toContain("/blog/techniques-repartie");
     expect(hrefs).toContain("/blog/apprendre-etre-drole");
   });
+
+  it("renders breadcrumb navigation", () => {
+    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    expect(breadcrumb).toBeInTheDocument();
+    expect(screen.getByText("Accueil")).toBeInTheDocument();
+  });
+
+  it("renders JSON-LD structured data", () => {
+    const jsonLdScripts = document.querySelectorAll('[data-testid="json-ld"]');
+    expect(jsonLdScripts.length).toBeGreaterThanOrEqual(1);
+  });
 });
 
 describe("BlogArticlePage — article detail", () => {
-  it("renders article content and metadata", () => {
-    render(<BlogArticlePage params={{ slug: "techniques-repartie" }} />);
+  it("renders article content and metadata", async () => {
+    const Page = await BlogArticlePage({
+      params: { slug: "techniques-repartie" },
+    });
+    render(Page);
     expect(
-      screen.getByText("7 techniques de répartie qui marchent vraiment")
+      screen.getByRole("heading", {
+        level: 1,
+        name: "7 techniques de répartie qui marchent vraiment",
+      })
     ).toBeInTheDocument();
-    expect(screen.getByText("REPARTIE")).toBeInTheDocument();
+    expect(screen.getAllByText("REPARTIE").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("2026-03-10")).toBeInTheDocument();
     expect(screen.getByText("5 min de lecture")).toBeInTheDocument();
   });
 
-  it("renders content paragraphs", () => {
-    render(<BlogArticlePage params={{ slug: "techniques-repartie" }} />);
+  it("renders content paragraphs", async () => {
+    const Page = await BlogArticlePage({
+      params: { slug: "techniques-repartie" },
+    });
+    render(Page);
     expect(screen.getByText("Premier paragraphe.")).toBeInTheDocument();
     expect(screen.getByText("Deuxième paragraphe.")).toBeInTheDocument();
   });
 
-  it("renders CTA section with link to register", () => {
-    render(<BlogArticlePage params={{ slug: "techniques-repartie" }} />);
-    expect(screen.getByText("Envie de passer à l'action ?")).toBeInTheDocument();
+  it("renders CTA section with link to register", async () => {
+    const Page = await BlogArticlePage({
+      params: { slug: "techniques-repartie" },
+    });
+    render(Page);
+    expect(
+      screen.getByText("Envie de passer à l'action ?")
+    ).toBeInTheDocument();
     expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
     const ctaLink = screen.getByText("Essaie gratuitement").closest("a");
     expect(ctaLink).toHaveAttribute("href", "/register");
   });
 
-  it("calls notFound for invalid slug", () => {
-    expect(() =>
-      render(<BlogArticlePage params={{ slug: "article-inexistant" }} />)
-    ).toThrow("NEXT_NOT_FOUND");
+  it("renders breadcrumb navigation", async () => {
+    const Page = await BlogArticlePage({
+      params: { slug: "techniques-repartie" },
+    });
+    render(Page);
+    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    expect(breadcrumb).toBeInTheDocument();
+  });
+
+  it("renders related articles section", async () => {
+    const Page = await BlogArticlePage({
+      params: { slug: "techniques-repartie" },
+    });
+    render(Page);
+    expect(
+      screen.getByText("Continue ta progression")
+    ).toBeInTheDocument();
+  });
+
+  it("calls notFound for invalid slug", async () => {
+    await expect(async () => {
+      const Page = await BlogArticlePage({
+        params: { slug: "article-inexistant" },
+      });
+      render(Page);
+    }).rejects.toThrow("NEXT_NOT_FOUND");
     expect(notFound).toHaveBeenCalled();
   });
 });
@@ -155,14 +232,16 @@ describe("BlogArticlePage — static generation", () => {
     ]);
   });
 
-  it("generateMetadata returns article title and description", () => {
-    const metadata = generateMetadata({ params: { slug: "techniques-repartie" } });
+  it("generateMetadata returns article title and description", async () => {
+    const metadata = await generateMetadata({
+      params: { slug: "techniques-repartie" },
+    });
     expect(metadata.title).toContain("7 techniques de répartie");
     expect(metadata.description).toContain("Tu restes muet");
   });
 
-  it("generateMetadata returns fallback for invalid slug", () => {
-    const metadata = generateMetadata({ params: { slug: "nope" } });
+  it("generateMetadata returns fallback for invalid slug", async () => {
+    const metadata = await generateMetadata({ params: { slug: "nope" } });
     expect(metadata.title).toBe("Article introuvable");
   });
 });
