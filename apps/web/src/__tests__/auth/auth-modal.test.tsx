@@ -33,7 +33,7 @@ describe("AuthModal", () => {
 
   it("shows logo text", () => {
     render(<AuthModal isOpen={true} onClose={jest.fn()} />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("has tabbed navigation", () => {

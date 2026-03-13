@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/page";
 
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -9,6 +10,15 @@ jest.mock("@/components/ui/progress-bar", () => ({
 
 jest.mock("@/components/home/faq-section", () => ({
   FaqSection: () => <div data-testid="faq-section" />,
+}));
+
+jest.mock("next-auth/react", () => ({
+  useSession: () => ({ data: null, status: "unauthenticated" }),
+  signIn: jest.fn(),
+}));
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
 
 describe("ParcoursPage — Parcours structurés", () => {
@@ -69,8 +79,16 @@ describe("ParcoursPage — Parcours structurés", () => {
     const buttons = screen.getAllByText("Essaie le premier module gratuitement");
     expect(buttons).toHaveLength(3);
     buttons.forEach((btn) => {
-      expect(btn.closest("a")).toHaveAttribute("href", "/register");
+      expect(btn.tagName).toBe("BUTTON");
     });
+  });
+
+  it("opens auth modal when CTA button is clicked", async () => {
+    const buttons = screen.getAllByText("Essaie le premier module gratuitement");
+    await userEvent.click(buttons[0]);
+    // AuthModal should open with register tab
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Inscription")).toBeInTheDocument();
   });
 
   it("marks first module as GRATUIT on each parcours", () => {

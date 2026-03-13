@@ -138,7 +138,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
       <Card className="w-full">
         <CardHeader className="text-center">
           <span className="font-display text-2xl font-bold text-gradient">
-            deviens-marrant
+            deviens-marrant.fr
           </span>
           {/* Tabs */}
           <div className="mt-4 flex rounded-lg bg-background-elevated p-1" role="tablist">
