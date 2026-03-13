@@ -191,7 +191,9 @@ export function VideosGrid() {
                 <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   <Badge variant="default">{CATEGORY_LABELS[video.category] ?? video.category}</Badge>
-                  <Badge variant="default">{video.technique}</Badge>
+                  {video.technique && video.technique.toLowerCase() !== (CATEGORY_LABELS[video.category] ?? video.category).toLowerCase() && (
+                    <Badge variant="default">{video.technique}</Badge>
+                  )}
                 </div>
                 <p className="mt-2 text-xs text-text-muted line-clamp-2">{video.description}</p>
                 {video.learnings && video.learnings.length > 0 && (

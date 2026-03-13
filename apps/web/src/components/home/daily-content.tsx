@@ -192,7 +192,10 @@ export function DailyContent() {
                   <Badge variant="secondary">
                     {CATEGORY_LABELS[data.video.category] ?? data.video.category}
                   </Badge>
-                  <Badge variant="primary">{data.video.technique}</Badge>
+                  {data.video.technique &&
+                    data.video.technique.toLowerCase() !== (CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
+                    <Badge variant="primary">{data.video.technique}</Badge>
+                  )}
                 </>
               )}
             </div>
