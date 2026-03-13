@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ConseilsList } from "@/components/conseils/conseils-list";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function ConseilsPage() {
         </p>
       </div>
 
-      <ConseilsList />
+      <Suspense fallback={null}>
+        <ConseilsList />
+      </Suspense>
     </>
   );
 }

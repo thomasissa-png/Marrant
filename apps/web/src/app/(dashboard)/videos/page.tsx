@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { VideosGrid } from "@/components/videos/videos-grid";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function VideosPage() {
         </p>
       </div>
 
-      <VideosGrid />
+      <Suspense fallback={null}>
+        <VideosGrid />
+      </Suspense>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { BlaguesList } from "@/components/blagues/blagues-list";
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default function BlaguesPage() {
         </p>
       </div>
 
-      <BlaguesList />
+      <Suspense fallback={null}>
+        <BlaguesList />
+      </Suspense>
     </>
   );
 }
