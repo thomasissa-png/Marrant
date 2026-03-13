@@ -229,7 +229,7 @@ export function ConseilsList() {
 
                 {!expandedIds.has(tip.id) && (
                   <p className="mt-2 text-xs text-text-muted">
-                    Ouvre pour l&apos;exemple et le d&eacute;fi du jour
+                    Ouvre pour l&apos;exemple et le défi du jour
                   </p>
                 )}
               </CardContent>
@@ -242,7 +242,7 @@ export function ConseilsList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as acc&egrave;s &agrave; 5 conseils + le conseil du jour{totalAvailable > 0 ? `, ${totalAvailable}+ t'attendent !` : " !"}
+            Tu as accès à 5 conseils + le conseil du jour{totalAvailable > 0 ? `, ${totalAvailable}+ t'attendent !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois (prix de lancement).

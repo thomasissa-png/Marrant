@@ -134,7 +134,7 @@ export function DailyContent() {
                 )}
               </div>
             ) : (
-              <p className="text-text-secondary">Aucune blague disponible aujourd&apos;hui.</p>
+              <p className="text-text-secondary">Même l&apos;humour prend un jour off. Reviens demain pour ta dose !</p>
             )}
           </div>
         </div>
@@ -172,7 +172,7 @@ export function DailyContent() {
                 )}
               </div>
             ) : (
-              <p className="text-text-secondary">Aucun conseil disponible aujourd&apos;hui.</p>
+              <p className="text-text-secondary">Le prof d&apos;humour est en pause café. Ça revient demain.</p>
             )}
           </div>
         </div>
@@ -211,7 +211,7 @@ export function DailyContent() {
                 </div>
               </div>
             ) : (
-              <p className="text-text-secondary">Aucune vidéo disponible aujourd&apos;hui.</p>
+              <p className="text-text-secondary">L&apos;humoriste du jour est en coulisses. À demain !</p>
             )}
           </div>
         </div>

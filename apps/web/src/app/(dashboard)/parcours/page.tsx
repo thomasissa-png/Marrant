@@ -103,7 +103,7 @@ const parcours = [
     duration: "6 semaines",
     timePerWeek: "20 min/semaine",
     difficulty: "DEBUTANT \u2192 EXPERT",
-    persona: "Parfait pour redémarrer après une pause et retrouver ta légèreté",
+    persona: "Parfait si tu veux renouer avec l'humour et retrouver ta légèreté",
     description:
       "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Blagues, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
     testimonial:

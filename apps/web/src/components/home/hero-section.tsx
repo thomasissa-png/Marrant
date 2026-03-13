@@ -39,7 +39,7 @@ export function HeroSection() {
           Retrouver confiance en soi
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Gagne des XP et maintiens ton streak
+          Gagner des XP et maintenir ton streak
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Blagues prêtes à ressortir

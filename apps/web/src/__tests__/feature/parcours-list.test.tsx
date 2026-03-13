@@ -56,7 +56,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("shows persona targeting text for each parcours", () => {
     expect(screen.getByText(/Idéal si tu travailles en équipe/)).toBeInTheDocument();
     expect(screen.getByText(/Pour toi si tu es étudiant/)).toBeInTheDocument();
-    expect(screen.getByText(/Parfait pour redémarrer/)).toBeInTheDocument();
+    expect(screen.getByText(/Parfait si tu veux renouer/)).toBeInTheDocument();
   });
 
   it("shows testimonials for each parcours", () => {

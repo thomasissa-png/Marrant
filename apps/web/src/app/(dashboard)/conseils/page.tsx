@@ -4,7 +4,7 @@ import { ConseilsList } from "@/components/conseils/conseils-list";
 export const metadata: Metadata = {
   title: "Conseils humour | Progresse du débutant à l'expert",
   description:
-    "Conseils pratiques et actionnables pour maîtriser le timing, la répartie, le storytelling et l'auto-dérision. Exercices inclus.",
+    "Apprends le timing, la répartie et le storytelling avec des exercices concrets. Du débutant au confirmé, progresse à ton rythme.",
 };
 
 export default function ConseilsPage() {

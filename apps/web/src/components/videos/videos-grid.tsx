@@ -204,7 +204,7 @@ export function VideosGrid() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as acc&egrave;s &agrave; 10 vid&eacute;os + la vid&eacute;o du jour{totalAvailable > 0 ? `, ${totalAvailable}+ disponibles !` : " !"}
+            Tu as accès à 10 vidéos + la vidéo du jour{totalAvailable > 0 ? `, ${totalAvailable}+ disponibles !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois (prix de lancement).

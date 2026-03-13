@@ -132,7 +132,7 @@ describe("BlogArticlePage — article detail", () => {
 
   it("renders CTA section with link to register", () => {
     render(<BlogArticlePage params={{ slug: "techniques-repartie" }} />);
-    expect(screen.getByText("Prêt à progresser ?")).toBeInTheDocument();
+    expect(screen.getByText("Envie de passer à l'action ?")).toBeInTheDocument();
     expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
     const ctaLink = screen.getByText("Essaie gratuitement").closest("a");
     expect(ctaLink).toHaveAttribute("href", "/register");

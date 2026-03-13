@@ -168,7 +168,7 @@ export function PremiumCta() {
 
       {/* Social proof */}
       <p className="mt-8 text-center text-sm text-text-muted">
-        Rejoins 5 000+ membres qui progressent en humour chaque jour
+        Déjà 5 000+ inscrits — et toi ?
       </p>
 
       {/* FAQ */}

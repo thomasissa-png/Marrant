@@ -62,11 +62,11 @@ export default function BlogArticlePage({
       {/* CTA */}
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
         <p className="font-display text-xl font-bold text-text-primary">
-          Prêt à progresser ?
+          Envie de passer à l&apos;action ?
         </p>
         <p className="mt-2 text-text-secondary">
-          Exercices interactifs, parcours structurés et suivi de ta
-          progression.
+          Des exercices concrets, des parcours pas à pas, et un système de
+          progression qui te motive chaque jour.
         </p>
         <Link href="/register" className="mt-4 inline-block">
           <Button variant="primary" size="lg">

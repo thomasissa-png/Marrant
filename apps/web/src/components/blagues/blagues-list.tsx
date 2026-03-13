@@ -200,7 +200,7 @@ export function BlaguesList() {
       {limited && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as acc&egrave;s &agrave; 20 blagues + la blague du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}
+            Tu as accès à 20 blagues + la blague du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les blagues, classées par catégorie, pour seulement 0,99 €/mois (prix de lancement).
