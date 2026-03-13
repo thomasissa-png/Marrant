@@ -58,6 +58,7 @@ export function BlaguesList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
@@ -85,6 +86,7 @@ export function BlaguesList() {
       setError(true);
     } finally {
       setIsLoading(false);
+      setIsInitialLoad(false);
     }
   }, [category, page, searchQuery]);
 
@@ -125,13 +127,28 @@ export function BlaguesList() {
         ))}
       </div>
 
-      {/* Error state */}
-      {error ? (
+      {/* CTA catégorie pour les utilisateurs gratuits */}
+      {limited && category !== "" ? (
+        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
+          <p className="text-2xl" aria-hidden="true">🔒</p>
+          <p className="mt-3 text-lg font-semibold text-text-primary">
+            Les filtres par catégorie sont réservés aux membres
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Débloque toutes les blagues classées par catégorie pour trouver exactement ce que tu cherches.
+          </p>
+          <Link href="/register">
+            <Button variant="primary" size="lg" className="mt-4">
+              Débloquer tout à 0,99 €/mois
+            </Button>
+          </Link>
+        </div>
+      ) : error ? (
         <ErrorState
           message="Les blagues se sont perdues en chemin."
           onRetry={fetchJokes}
         />
-      ) : isLoading ? (
+      ) : isLoading && isInitialLoad ? (
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">

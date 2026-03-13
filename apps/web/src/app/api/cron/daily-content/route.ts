@@ -3,7 +3,9 @@ import { publishDailyContent } from "@/lib/ai/daily-publisher";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
 /**
- * Cron job quotidien — déclenché chaque jour à 6h UTC.
+ * Cron job quotidien — déclenché à 5h et 6h UTC pour garantir 7h heure française.
+ * (5h UTC = 7h CEST en été, 6h UTC = 7h CET en hiver)
+ * Le contenu est idempotent : s'il existe déjà pour aujourd'hui, il ne sera pas recréé.
  * 1. Vérifie/crée le plan du mois si nécessaire
  * 2. Génère et publie le contenu du jour (blague + conseil + vidéo)
  */
@@ -17,6 +19,19 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Vérifier qu'il est bien 7h heure française (Europe/Paris)
+    const parisHour = new Date().toLocaleString("en-US", {
+      timeZone: "Europe/Paris",
+      hour: "numeric",
+      hour12: false,
+    });
+    if (parseInt(parisHour, 10) !== 7) {
+      return NextResponse.json({
+        skipped: true,
+        reason: `Pas encore 7h à Paris (il est ${parisHour}h)`,
+      });
+    }
+
     const now = new Date();
     const month = now.getUTCMonth() + 1;
     const year = now.getUTCFullYear();

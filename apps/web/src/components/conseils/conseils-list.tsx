@@ -68,6 +68,7 @@ export function ConseilsList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
@@ -99,6 +100,7 @@ export function ConseilsList() {
       setError(true);
     } finally {
       setIsLoading(false);
+      setIsInitialLoad(false);
     }
   }, [difficulty, category, page, searchQuery]);
 
@@ -157,13 +159,28 @@ export function ConseilsList() {
         ))}
       </div>
 
-      {/* Error state */}
-      {error ? (
+      {/* CTA filtres pour les utilisateurs gratuits */}
+      {limited && (category !== "" || difficulty !== "") ? (
+        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
+          <p className="text-2xl" aria-hidden="true">🔒</p>
+          <p className="mt-3 text-lg font-semibold text-text-primary">
+            Les filtres sont réservés aux membres
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Débloque tous les conseils avec filtres par niveau et catégorie pour progresser à ton rythme.
+          </p>
+          <Link href="/register">
+            <Button variant="primary" size="lg" className="mt-4">
+              Débloquer tout à 0,99 €/mois
+            </Button>
+          </Link>
+        </div>
+      ) : error ? (
         <ErrorState
           message="Les conseils se font désirer... comme une bonne chute."
           onRetry={fetchTips}
         />
-      ) : isLoading ? (
+      ) : isLoading && isInitialLoad ? (
         <div className="grid gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">

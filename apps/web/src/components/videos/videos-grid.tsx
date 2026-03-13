@@ -66,6 +66,7 @@ export function VideosGrid() {
   const [difficulty, setDifficulty] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
@@ -92,6 +93,7 @@ export function VideosGrid() {
       setError(true);
     } finally {
       setIsLoading(false);
+      setIsInitialLoad(false);
     }
   }, [difficulty, page, searchQuery]);
 
@@ -117,10 +119,25 @@ export function VideosGrid() {
         ))}
       </div>
 
-      {/* Error state */}
-      {error ? (
+      {/* CTA filtres pour les utilisateurs gratuits */}
+      {limited && difficulty !== "" ? (
+        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
+          <p className="text-2xl" aria-hidden="true">🔒</p>
+          <p className="mt-3 text-lg font-semibold text-text-primary">
+            Les filtres par niveau sont réservés aux membres
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Débloque toutes les vidéos analysées et filtre par niveau pour progresser étape par étape.
+          </p>
+          <Link href="/register">
+            <Button variant="primary" size="lg" className="mt-4">
+              Débloquer tout à 0,99 €/mois
+            </Button>
+          </Link>
+        </div>
+      ) : error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
-      ) : isLoading ? (
+      ) : isLoading && isInitialLoad ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
