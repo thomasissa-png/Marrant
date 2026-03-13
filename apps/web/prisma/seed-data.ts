@@ -95,9 +95,9 @@ async function main() {
     console.log(`Conseils déjà présents (${tipCount}), ignoré`);
   }
 
-  // VIDÉOS — insertion seulement si table vide
+  // VIDÉOS — upsert pour mettre à jour les IDs YouTube, learnings et exercices
+  const videos = loadSeedData<VideoSeed>("videos-seed.json");
   if (videoCount === 0) {
-    const videos = loadSeedData<VideoSeed>("videos-seed.json");
     await prisma.video.createMany({
       data: videos.map((video) => ({
         youtubeId: video.youtubeId,
@@ -114,7 +114,45 @@ async function main() {
     });
     console.log(`${videos.length} vidéos importées`);
   } else {
-    console.log(`Vidéos déjà présentes (${videoCount}), ignoré`);
+    // Upsert chaque vidéo et désactiver celles qui ne sont plus dans le seed
+    const seedYoutubeIds = new Set(videos.map((v) => v.youtubeId));
+    let updated = 0;
+    for (const video of videos) {
+      await prisma.video.upsert({
+        where: { youtubeId: video.youtubeId },
+        update: {
+          title: video.title,
+          channelName: video.channelName,
+          duration: video.duration,
+          category: video.category as never,
+          difficulty: video.difficulty as never,
+          description: video.description,
+          technique: video.technique,
+          learnings: video.learnings ?? [],
+          exercise: video.exercise ?? null,
+          isActive: true,
+        },
+        create: {
+          youtubeId: video.youtubeId,
+          title: video.title,
+          channelName: video.channelName,
+          duration: video.duration,
+          category: video.category as never,
+          difficulty: video.difficulty as never,
+          description: video.description,
+          technique: video.technique,
+          learnings: video.learnings ?? [],
+          exercise: video.exercise ?? null,
+        },
+      });
+      updated++;
+    }
+    // Désactiver les vidéos qui ne sont plus dans le seed (IDs YouTube invalides)
+    const deactivated = await prisma.video.updateMany({
+      where: { youtubeId: { notIn: [...seedYoutubeIds] } },
+      data: { isActive: false },
+    });
+    console.log(`${updated} vidéos mises à jour/ajoutées, ${deactivated.count} désactivées`);
   }
 
   // CONTENU DU JOUR — 7 jours (seulement si vide)
