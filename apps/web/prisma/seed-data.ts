@@ -120,7 +120,7 @@ async function main() {
     console.log(`${videos.length} vidéos importées`);
   } else {
     // Upsert chaque vidéo et désactiver celles qui ne sont plus dans le seed
-    const seedYoutubeIds = new Set(videos.map((v) => v.youtubeId));
+    const seedYoutubeIds = videos.map((v) => v.youtubeId);
     let updated = 0;
     for (const video of videos) {
       await prisma.video.upsert({
@@ -154,7 +154,7 @@ async function main() {
     }
     // Désactiver les vidéos qui ne sont plus dans le seed (IDs YouTube invalides)
     const deactivated = await prisma.video.updateMany({
-      where: { youtubeId: { notIn: [...seedYoutubeIds] } },
+      where: { youtubeId: { notIn: seedYoutubeIds } },
       data: { isActive: false },
     });
     console.log(`${updated} vidéos mises à jour/ajoutées, ${deactivated.count} désactivées`);
