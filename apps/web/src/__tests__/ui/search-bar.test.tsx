@@ -126,7 +126,7 @@ describe("SearchBar", () => {
       screen.getByText("Blague drôle")
     );
 
-    expect(mockPush).toHaveBeenCalledWith("/blagues");
+    expect(mockPush).toHaveBeenCalledWith("/blagues?q=blague");
   });
 
   it("merges custom className", () => {

@@ -73,9 +73,6 @@ export default function BlogArticlePage({
             Essaie gratuitement
           </Button>
         </Link>
-        <p className="mt-2 text-xs text-text-muted">
-          Annule en 1 clic · Sans carte bancaire
-        </p>
       </div>
     </article>
   );

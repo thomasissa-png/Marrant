@@ -8,12 +8,6 @@ jest.mock("next-auth/react", () => ({
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows badge text with launch offer", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText(/Prix de lancement : 0,99 €\/mois\. Ce tarif ne durera pas/)).toBeInTheDocument();
-  });
-
   it("shows main heading with drôle", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
@@ -43,12 +37,10 @@ describe("HeroSection", () => {
     expect(screen.getByText("Blagues prêtes à ressortir")).toBeInTheDocument();
   });
 
-  it("shows CTA with trust badge when unauthenticated", () => {
+  it("shows CTA when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Commencer à 0,99 €\/mois/)).toBeInTheDocument();
-    expect(screen.getByText(/Annule en 1 clic/)).toBeInTheDocument();
-    expect(screen.getByText(/Sans carte bancaire/)).toBeInTheDocument();
+    expect(screen.getByText("Commencer")).toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {

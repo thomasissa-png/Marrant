@@ -36,9 +36,6 @@ export function HomeCta() {
             </Button>
           </Link>
         </div>
-        <p className="mt-3 text-sm text-text-muted">
-          Annule en 1 clic · Sans carte bancaire · Sans engagement
-        </p>
       </div>
     </section>
   );

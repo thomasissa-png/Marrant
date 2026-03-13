@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,8 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 export function BlaguesList() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q") ?? "";
   const [jokes, setJokes] = useState<Joke[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [category, setCategory] = useState("");
@@ -65,6 +68,7 @@ export function BlaguesList() {
     setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "12" });
     if (category) params.set("category", category);
+    if (searchQuery) params.set("q", searchQuery);
 
     try {
       const res = await fetch(`/api/jokes?${params}`);
@@ -82,7 +86,7 @@ export function BlaguesList() {
     } finally {
       setIsLoading(false);
     }
-  }, [category, page]);
+  }, [category, page, searchQuery]);
 
   useEffect(() => {
     fetchJokes();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,8 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 export function ConseilsList() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q") ?? "";
   const [tips, setTips] = useState<Tip[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [difficulty, setDifficulty] = useState("");
@@ -79,6 +82,7 @@ export function ConseilsList() {
     const params = new URLSearchParams({ page: String(page), limit: "10" });
     if (difficulty) params.set("difficulty", difficulty);
     if (category) params.set("category", category);
+    if (searchQuery) params.set("q", searchQuery);
 
     try {
       const res = await fetch(`/api/tips?${params}`);
@@ -96,7 +100,7 @@ export function ConseilsList() {
     } finally {
       setIsLoading(false);
     }
-  }, [difficulty, category, page]);
+  }, [difficulty, category, page, searchQuery]);
 
   useEffect(() => {
     fetchTips();

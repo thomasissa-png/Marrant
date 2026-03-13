@@ -27,14 +27,6 @@ describe("HomeCta", () => {
     expect(screen.getByText(/100\+/)).toBeInTheDocument();
   });
 
-  it("shows reassurance text with trust badges", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HomeCta />);
-    expect(screen.getByText(/Annule en 1 clic/)).toBeInTheDocument();
-    expect(screen.getByText(/Sans carte bancaire/)).toBeInTheDocument();
-    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
-  });
-
   it("mentions streaks and XP", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);

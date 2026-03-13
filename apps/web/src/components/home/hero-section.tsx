@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export function HeroSection() {
   const { status } = useSession();
@@ -11,9 +10,6 @@ export function HeroSection() {
 
   return (
     <section className="py-12 text-center md:py-20">
-      <Badge variant="primary" className="mb-4">
-        Prix de lancement : 0,99 €/mois. Ce tarif ne durera pas
-      </Badge>
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
         Deviens la personne{" "}
         <span className="text-gradient">drôle</span>
@@ -68,12 +64,9 @@ export function HeroSection() {
         <div className="mt-8 flex flex-col items-center gap-2">
           <Link href="/register">
             <Button variant="primary" size="lg">
-              Commencer à 0,99 €/mois
+              Commencer
             </Button>
           </Link>
-          <p className="text-xs text-text-muted">
-            Annule en 1 clic · Sans carte bancaire
-          </p>
         </div>
       )}
     </section>

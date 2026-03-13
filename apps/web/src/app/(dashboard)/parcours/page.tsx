@@ -178,10 +178,7 @@ export default function ParcoursPage() {
           Gagne des XP à chaque module, maintiens ton streak et suis ta progression
         </p>
         <p className="mt-2 text-sm text-text-secondary">
-          Prix de lancement : 0,99 &euro;/mois
-        </p>
-        <p className="mt-1 text-xs text-text-muted">
-          Annule en 1 clic · Sans carte bancaire · Semaine 1 offerte sur chaque parcours
+          Semaine 1 offerte sur chaque parcours
         </p>
       </div>
 
@@ -269,9 +266,6 @@ export default function ParcoursPage() {
                       Essaie le premier module gratuitement
                     </Button>
                   </Link>
-                  <p className="text-xs text-text-muted">
-                    Annule en 1 clic · Sans carte bancaire
-                  </p>
                 </div>
               </CardContent>
             </Card>

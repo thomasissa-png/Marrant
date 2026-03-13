@@ -138,13 +138,6 @@ describe("BlogArticlePage — article detail", () => {
     expect(ctaLink).toHaveAttribute("href", "/register");
   });
 
-  it("renders trust badge under CTA", () => {
-    render(<BlogArticlePage params={{ slug: "techniques-repartie" }} />);
-    expect(
-      screen.getByText("Annule en 1 clic · Sans carte bancaire")
-    ).toBeInTheDocument();
-  });
-
   it("calls notFound for invalid slug", () => {
     expect(() =>
       render(<BlogArticlePage params={{ slug: "article-inexistant" }} />)

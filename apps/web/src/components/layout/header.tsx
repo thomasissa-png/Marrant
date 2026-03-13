@@ -97,14 +97,9 @@ export function Header() {
                 <Button variant="ghost" size="sm" onClick={openLogin}>
                   Connexion
                 </Button>
-                <div className="flex flex-col items-center">
-                  <Button variant="primary" size="sm" onClick={openRegister}>
-                    Commencer à 0,99 €/mois
-                  </Button>
-                  <span className="mt-0.5 text-[10px] text-text-muted">
-                    Annule en 1 clic · Sans carte bancaire
-                  </span>
-                </div>
+                <Button variant="primary" size="sm" onClick={openRegister}>
+                  Commencer
+                </Button>
               </>
             )}
           </div>
@@ -193,7 +188,7 @@ export function Header() {
                     Connexion
                   </Button>
                   <Button variant="primary" size="sm" className="w-full" onClick={openRegister}>
-                    Essayer 0,99 €
+                    Commencer
                   </Button>
                 </>
               )}

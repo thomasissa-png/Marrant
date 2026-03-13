@@ -11,6 +11,7 @@ const FREE_LIMIT = 20;
 const querySchema = z.object({
   category: z.string().optional(),
   type: z.string().optional(),
+  q: z.string().optional(),
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(50).default(10),
 });
@@ -21,6 +22,7 @@ export async function GET(request: NextRequest) {
     const query = querySchema.parse({
       category: searchParams.get("category") ?? undefined,
       type: searchParams.get("type") ?? undefined,
+      q: searchParams.get("q") ?? undefined,
       page: searchParams.get("page") ?? 1,
       limit: searchParams.get("limit") ?? 10,
     });
@@ -72,6 +74,12 @@ export async function GET(request: NextRequest) {
       isActive: true,
       ...(query.category && { category: query.category as never }),
       ...(query.type && { type: query.type as never }),
+      ...(query.q && {
+        OR: [
+          { title: { contains: query.q, mode: "insensitive" as const } },
+          { content: { contains: query.q, mode: "insensitive" as const } },
+        ],
+      }),
     };
 
     const [jokes, total] = await Promise.all([

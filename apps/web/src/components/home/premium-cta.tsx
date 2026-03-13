@@ -113,9 +113,6 @@ export function PremiumCta() {
                 </Button>
               </Link>
             )}
-            <p className="mt-3 text-center text-xs text-text-muted">
-              Annule en 1 clic · Sans carte bancaire · Sans engagement
-            </p>
           </div>
         </div>
 

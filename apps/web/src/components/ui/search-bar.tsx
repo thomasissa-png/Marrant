@@ -71,12 +71,13 @@ export function SearchBar({ className }: { className?: string }) {
   };
 
   const handleSelect = (result: SearchResult) => {
+    const q = encodeURIComponent(query);
     setIsOpen(false);
     setQuery("");
     switch (result.type) {
-      case "JOKE": router.push("/blagues"); break;
-      case "TIP": router.push("/conseils"); break;
-      case "VIDEO": router.push("/videos"); break;
+      case "JOKE": router.push(`/blagues?q=${q}`); break;
+      case "TIP": router.push(`/conseils?q=${q}`); break;
+      case "VIDEO": router.push(`/videos?q=${q}`); break;
     }
   };
 

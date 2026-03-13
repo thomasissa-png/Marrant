@@ -44,11 +44,10 @@ describe("Header", () => {
     expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
   });
 
-  it("shows Connexion and Commencer CTA with trust badge when unauthenticated", () => {
+  it("shows Connexion and Commencer CTA when unauthenticated", () => {
     render(<Header />);
     expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Commencer à 0,99 €/mois").length).toBeGreaterThan(0);
-    expect(screen.getByText(/Annule en 1 clic · Sans carte bancaire/)).toBeInTheDocument();
+    expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
   });
 
   it("shows Favoris, Profil, Déconnexion when authenticated", () => {

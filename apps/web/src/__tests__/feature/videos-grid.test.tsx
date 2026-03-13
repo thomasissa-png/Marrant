@@ -2,6 +2,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { VideosGrid } from "@/components/videos/videos-grid";
 
+jest.mock("next/navigation", () => ({
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 jest.mock("next-auth/react", () => ({
   useSession: () => ({ status: "unauthenticated" }),
 }));

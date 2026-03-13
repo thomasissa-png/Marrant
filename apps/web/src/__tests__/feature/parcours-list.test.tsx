@@ -23,12 +23,9 @@ describe("ParcoursPage — Parcours structurés", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the launch price and trust badges", () => {
+  it("shows the free first week info", () => {
     expect(
-      screen.getByText(/Prix de lancement : 0,99 €\/mois/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Annule en 1 clic · Sans carte bancaire · Semaine 1 offerte/)
+      screen.getByText(/Semaine 1 offerte sur chaque parcours/)
     ).toBeInTheDocument();
   });
 

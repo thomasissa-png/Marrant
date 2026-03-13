@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,8 @@ function formatDuration(iso: string): string {
 }
 
 export function VideosGrid() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q") ?? "";
   const [videos, setVideos] = useState<Video[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [difficulty, setDifficulty] = useState("");
@@ -72,6 +75,7 @@ export function VideosGrid() {
     setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "12" });
     if (difficulty) params.set("difficulty", difficulty);
+    if (searchQuery) params.set("q", searchQuery);
 
     try {
       const res = await fetch(`/api/videos?${params}`);
@@ -89,7 +93,7 @@ export function VideosGrid() {
     } finally {
       setIsLoading(false);
     }
-  }, [difficulty, page]);
+  }, [difficulty, page, searchQuery]);
 
   useEffect(() => {
     fetchVideos();

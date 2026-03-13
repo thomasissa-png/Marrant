@@ -10,6 +10,7 @@ const FREE_LIMIT = 10;
 const querySchema = z.object({
   category: z.string().optional(),
   difficulty: z.string().optional(),
+  q: z.string().optional(),
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(50).default(10),
 });
@@ -20,6 +21,7 @@ export async function GET(request: NextRequest) {
     const query = querySchema.parse({
       category: searchParams.get("category") ?? undefined,
       difficulty: searchParams.get("difficulty") ?? undefined,
+      q: searchParams.get("q") ?? undefined,
       page: searchParams.get("page") ?? 1,
       limit: searchParams.get("limit") ?? 10,
     });
@@ -67,6 +69,12 @@ export async function GET(request: NextRequest) {
       isActive: true,
       ...(query.category && { category: query.category as never }),
       ...(query.difficulty && { difficulty: query.difficulty as never }),
+      ...(query.q && {
+        OR: [
+          { title: { contains: query.q, mode: "insensitive" as const } },
+          { comedian: { contains: query.q, mode: "insensitive" as const } },
+        ],
+      }),
     };
 
     const [videos, total] = await Promise.all([
