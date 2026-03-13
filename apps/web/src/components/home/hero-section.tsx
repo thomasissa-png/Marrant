@@ -64,7 +64,7 @@ export function HeroSection() {
         <div className="mt-8 flex flex-col items-center gap-2">
           <Link href="/register">
             <Button variant="primary" size="lg">
-              Commencer
+              Commencer à 0,99 €/mois
             </Button>
           </Link>
         </div>

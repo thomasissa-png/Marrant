@@ -40,7 +40,7 @@ describe("HeroSection", () => {
   it("shows CTA when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Commencer")).toBeInTheDocument();
+    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {
