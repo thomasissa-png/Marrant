@@ -70,7 +70,7 @@ describe("HumorQuiz", () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
-    await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
+    await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
     expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
     expect(screen.getByText("🌱")).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe("HumorQuiz", () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
-    await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
+    await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
     await userEvent.click(screen.getByText("C'est parti !"));
     expect(mockPush).toHaveBeenCalledWith("/conseils");
@@ -101,7 +101,7 @@ describe("HumorQuiz", () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
-    await userEvent.click(screen.getByText("Mes blagues tombent à plat"));
+    await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
     await userEvent.click(screen.getByText("Explorer librement"));
     expect(mockPush).toHaveBeenCalledWith("/");

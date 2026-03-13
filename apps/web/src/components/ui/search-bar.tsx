@@ -55,7 +55,7 @@ export function SearchBar({ className }: { className?: string }) {
 
   const typeLabel = (type: string) => {
     switch (type) {
-      case "JOKE": return "Blague";
+      case "JOKE": return "Vanne";
       case "TIP": return "Conseil";
       case "VIDEO": return "Vidéo";
       default: return type;
@@ -75,7 +75,7 @@ export function SearchBar({ className }: { className?: string }) {
     setIsOpen(false);
     setQuery("");
     switch (result.type) {
-      case "JOKE": router.push(`/blagues?q=${q}`); break;
+      case "JOKE": router.push(`/vannes?q=${q}`); break;
       case "TIP": router.push(`/conseils?q=${q}`); break;
       case "VIDEO": router.push(`/videos?q=${q}`); break;
     }

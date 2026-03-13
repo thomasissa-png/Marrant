@@ -34,7 +34,7 @@ describe("HeroSection", () => {
     expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
     expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
     expect(screen.getByText(/XP.*streak/)).toBeInTheDocument();
-    expect(screen.getByText("Blagues prêtes à ressortir")).toBeInTheDocument();
+    expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
   });
 
   it("shows CTA when unauthenticated", () => {
@@ -46,14 +46,14 @@ describe("HeroSection", () => {
   it("shows authenticated buttons", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Explorer les blagues")).toBeInTheDocument();
+    expect(screen.getByText("Explorer les vannes")).toBeInTheDocument();
     expect(screen.getByText("Voir les conseils")).toBeInTheDocument();
   });
 
-  it("links to /blagues when authenticated", () => {
+  it("links to /vannes when authenticated", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Explorer les blagues").closest("a")).toHaveAttribute("href", "/blagues");
+    expect(screen.getByText("Explorer les vannes").closest("a")).toHaveAttribute("href", "/vannes");
   });
 
   it("links to /conseils when authenticated", () => {

@@ -12,7 +12,7 @@ type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
 const TABS: { value: TabFilter; label: string }[] = [
   { value: "ALL", label: "Tout" },
-  { value: "JOKE", label: "Blagues" },
+  { value: "JOKE", label: "Vannes" },
   { value: "TIP", label: "Conseils" },
   { value: "VIDEO", label: "Vidéos" },
 ];
@@ -90,7 +90,7 @@ export function FavorisList() {
               Ton coffre-fort à vannes est vide
             </p>
             <p className="mt-1 text-sm text-text-secondary">
-              Mets des blagues, conseils ou vidéos de côté, tu nous remercieras en soirée.
+              Mets des vannes, conseils ou vidéos de côté, tu nous remercieras en soirée.
             </p>
           </CardContent>
         </Card>
@@ -111,7 +111,7 @@ export function FavorisList() {
                     className="mb-2"
                   >
                     {fav.contentType === "JOKE"
-                      ? "Blague"
+                      ? "Vanne"
                       : fav.contentType === "TIP"
                       ? "Conseil"
                       : "Vidéo"}

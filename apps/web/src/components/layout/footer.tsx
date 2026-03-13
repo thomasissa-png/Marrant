@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const footerLinks = {
   produit: [
-    { href: "/blagues", label: "Blagues" },
+    { href: "/vannes", label: "Vannes" },
     { href: "/conseils", label: "Conseils" },
     { href: "/videos", label: "Vidéos stand-up" },
     { href: "/parcours", label: "Parcours" },
@@ -27,7 +27,7 @@ export function Footer() {
               deviens-marrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              Ton coach humour perso. Blagues, répartie et techniques
+              Ton coach humour perso. Vannes, répartie et techniques
               de pro pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">

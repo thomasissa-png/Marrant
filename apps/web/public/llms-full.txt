@@ -17,11 +17,11 @@ Des recherches en psychologie cognitive confirment que l'humour mobilise des mé
 
 ## Sections du site
 
-### Blagues (https://deviens-marrant.fr/blagues)
-Des centaines de blagues classées par catégorie :
+### Vannes (https://deviens-marrant.fr/vannes)
+Des centaines de vannes classées par catégorie :
 - Auto-dérision, Situationnel, Absurde, Observationnel, Jeux de mots, Culturel
 - Contextes : Couple, Boulot, École, Gaming, Réseaux sociaux, Dating, Soirées, Parents
-- Chaque blague peut être mise en favori et partagée
+- Chaque vanne peut être mise en favori et partagée
 
 ### Conseils humour & répartie (https://deviens-marrant.fr/conseils)
 Des techniques concrètes avec exemples et exercices :
@@ -40,7 +40,7 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée :
 Programmes d'apprentissage progressifs :
 
 **Parcours Machine à Café** (3 semaines) — Pour les jeunes actifs
-- Objectif : Avoir des blagues et anecdotes à ressortir au bureau et en afterwork
+- Objectif : Avoir des vannes et anecdotes à ressortir au bureau et en afterwork
 - Public : Sophie, 26 ans, jeune active qui veut alimenter ses conversations
 
 **Parcours Répartie** (4 semaines) — Pour les timides
@@ -92,7 +92,7 @@ YouTube montre des humoristes. deviens-marrant.fr enseigne leurs techniques. Cha
 **0,99 €/mois, c'est vraiment tout ?**
 Oui. Pas de frais cachés, pas de reconduction surprise. Annulation en 1 clic depuis le profil. Possibilité de commencer sans carte bancaire.
 
-**Je suis timide, c'est fait pour moi ?**
+**Je suis timide, c'est pour moi ?**
 Surtout pour les timides. La majorité des membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.
 
 ## Informations techniques

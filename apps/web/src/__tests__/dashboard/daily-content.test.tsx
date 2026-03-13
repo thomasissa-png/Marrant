@@ -51,10 +51,10 @@ describe("DailyContent", () => {
     });
   });
 
-  it("shows Blague du jour section", async () => {
+  it("shows Vanne du jour section", async () => {
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getAllByText("Blague du jour").length).toBeGreaterThan(0);
+      expect(screen.getAllByText("Vanne du jour").length).toBeGreaterThan(0);
     });
   });
 

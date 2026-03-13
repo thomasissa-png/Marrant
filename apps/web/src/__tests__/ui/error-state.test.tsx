@@ -21,7 +21,7 @@ describe("ErrorState", () => {
   it("shows supportive message", () => {
     render(<ErrorState />);
     expect(
-      screen.getByText("Pas de panique, même les meilleurs humoristes ratent des blagues.")
+      screen.getByText("Pas de panique, même les meilleurs humoristes ratent des vannes.")
     ).toBeInTheDocument();
   });
 

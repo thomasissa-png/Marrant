@@ -24,7 +24,7 @@ const mockFavorites = [
     tipId: null,
     videoId: null,
     createdAt: "2024-01-01",
-    joke: { content: "Une blague drôle" },
+    joke: { content: "Une vanne drôle" },
     tip: null,
     video: null,
   },
@@ -74,29 +74,29 @@ describe("FavorisList", () => {
   it("renders tab filters", () => {
     render(<FavorisList />);
     expect(screen.getByText("Tout")).toBeInTheDocument();
-    expect(screen.getByText("Blagues")).toBeInTheDocument();
+    expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
   });
 
   it("shows all favorites by default", () => {
     render(<FavorisList />);
-    expect(screen.getByText("Une blague drôle")).toBeInTheDocument();
+    expect(screen.getByText("Une vanne drôle")).toBeInTheDocument();
     expect(screen.getByText("Un super conseil")).toBeInTheDocument();
     expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
   });
 
   it("shows content type badges", () => {
     render(<FavorisList />);
-    expect(screen.getByText("Blague")).toBeInTheDocument();
+    expect(screen.getByText("Vanne")).toBeInTheDocument();
     expect(screen.getByText("Conseil")).toBeInTheDocument();
     expect(screen.getByText("Vidéo")).toBeInTheDocument();
   });
 
   it("filters by JOKE tab", async () => {
     render(<FavorisList />);
-    await userEvent.click(screen.getByText("Blagues"));
-    expect(screen.getByText("Une blague drôle")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("Vannes"));
+    expect(screen.getByText("Une vanne drôle")).toBeInTheDocument();
     expect(screen.queryByText("Un super conseil")).not.toBeInTheDocument();
     expect(screen.queryByText("Vidéo stand-up")).not.toBeInTheDocument();
   });
@@ -104,7 +104,7 @@ describe("FavorisList", () => {
   it("filters by TIP tab", async () => {
     render(<FavorisList />);
     await userEvent.click(screen.getByText("Conseils"));
-    expect(screen.queryByText("Une blague drôle")).not.toBeInTheDocument();
+    expect(screen.queryByText("Une vanne drôle")).not.toBeInTheDocument();
     expect(screen.getByText("Un super conseil")).toBeInTheDocument();
   });
 
@@ -112,7 +112,7 @@ describe("FavorisList", () => {
     render(<FavorisList />);
     await userEvent.click(screen.getByText("Vidéos"));
     expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
-    expect(screen.queryByText("Une blague drôle")).not.toBeInTheDocument();
+    expect(screen.queryByText("Une vanne drôle")).not.toBeInTheDocument();
   });
 
   it("has remove buttons with aria-label", () => {

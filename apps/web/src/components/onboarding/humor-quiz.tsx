@@ -17,7 +17,7 @@ const QUESTIONS: QuizQuestion[] = [
     question: "C'est quoi ton objectif principal ?",
     options: [
       { label: "Avoir de la répartie", value: "REPARTIE", emoji: "⚡" },
-      { label: "Faire rire les gens", value: "BLAGUES", emoji: "😂" },
+      { label: "Faire rire les gens", value: "VANNES", emoji: "😂" },
       { label: "Être plus à l'aise socialement", value: "CONFIANCE", emoji: "💪" },
       { label: "Tout ça à la fois", value: "GLOBAL", emoji: "🎯" },
     ],
@@ -34,7 +34,7 @@ const QUESTIONS: QuizQuestion[] = [
   {
     question: "Ton niveau actuel en humour ?",
     options: [
-      { label: "Mes blagues tombent à plat", value: "DEBUTANT", emoji: "😬" },
+      { label: "Mes vannes tombent à plat", value: "DEBUTANT", emoji: "😬" },
       { label: "Parfois ça marche", value: "INTERMEDIAIRE", emoji: "😏" },
       { label: "Je fais rire souvent", value: "AVANCE", emoji: "😂" },
       { label: "Je veux aller encore plus loin", value: "EXPERT", emoji: "🎤" },
@@ -45,7 +45,7 @@ const QUESTIONS: QuizQuestion[] = [
 const RESULTS: Record<string, { title: string; description: string; emoji: string; path: string }> = {
   DEBUTANT: {
     title: "En Route Vers la Répartie",
-    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes blagues et à gagner en confiance, étape par étape.",
+    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
     emoji: "🌱",
     path: "/conseils",
   },

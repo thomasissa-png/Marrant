@@ -6,7 +6,7 @@ import { generateVideoMonthlyPlan } from "./agents/video-agent";
 
 /**
  * Génère les plans de contenu pour le mois donné.
- * Chaque agent (blague, conseil, vidéo) reçoit son propre plan individualisé.
+ * Chaque agent (vanne, conseil, vidéo) reçoit son propre plan individualisé.
  * Idempotent : ne régénère pas un plan qui existe déjà.
  * Les 3 plans sont générés en parallèle.
  */

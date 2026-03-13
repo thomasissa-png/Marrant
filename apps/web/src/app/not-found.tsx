@@ -20,9 +20,9 @@ export default function NotFound() {
             Retour à l&apos;accueil
           </Button>
         </Link>
-        <Link href="/blagues">
+        <Link href="/vannes">
           <Button variant="outline" size="lg">
-            Voir les blagues
+            Voir les vannes
           </Button>
         </Link>
       </div>

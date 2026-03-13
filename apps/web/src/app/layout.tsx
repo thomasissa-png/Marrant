@@ -42,6 +42,7 @@ export const metadata: Metadata = {
     "être drôle en société",
     "développer son humour",
     "techniques de répartie",
+    "vanne du jour",
     "blague du jour",
     "stand-up français",
     "conseils humour",

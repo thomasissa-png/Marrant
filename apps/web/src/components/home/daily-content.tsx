@@ -104,14 +104,14 @@ export function DailyContent() {
         Ton contenu du jour
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
-        {/* Blague du jour */}
+        {/* Vanne du jour */}
         <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
           {/* Top accent bar */}
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
             <div className="mb-4 flex items-center gap-2">
               <span className="text-2xl" aria-hidden="true">😂</span>
-              <Badge variant="primary">Blague du jour</Badge>
+              <Badge variant="primary">Vanne du jour</Badge>
               {data.joke && (
                 <Badge variant="default">
                   {CATEGORY_LABELS[data.joke.category] ?? data.joke.category}

@@ -16,7 +16,7 @@ describe("Footer", () => {
 
   it("renders product links including Parcours", () => {
     render(<Footer />);
-    expect(screen.getByText("Blagues")).toBeInTheDocument();
+    expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
     expect(screen.getByText("Parcours")).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe("Footer", () => {
 
   it("has correct href for product links", () => {
     render(<Footer />);
-    expect(screen.getByText("Blagues").closest("a")).toHaveAttribute("href", "/blagues");
+    expect(screen.getByText("Vannes").closest("a")).toHaveAttribute("href", "/vannes");
     expect(screen.getByText("Conseils").closest("a")).toHaveAttribute("href", "/conseils");
   });
 

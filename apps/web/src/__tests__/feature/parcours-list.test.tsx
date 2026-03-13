@@ -112,7 +112,7 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   it("shows weekly modules for Parcours Machine à Café", () => {
     expect(
-      screen.getByText("Blagues courtes et mémorisables")
+      screen.getByText("Vannes courtes et mémorisables")
     ).toBeInTheDocument();
     expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
     expect(screen.getByText("Anecdotes et storytelling")).toBeInTheDocument();

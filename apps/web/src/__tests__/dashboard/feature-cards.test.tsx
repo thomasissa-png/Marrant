@@ -14,25 +14,25 @@ describe("FeatureCards", () => {
 
   it("displays dynamic counts for each content type", () => {
     render(<FeatureCards />);
-    expect(screen.getByText(/320\+ blagues/)).toBeInTheDocument();
+    expect(screen.getByText(/320\+ vannes/)).toBeInTheDocument();
     expect(screen.getByText(/50\+ techniques/)).toBeInTheDocument();
     expect(screen.getByText(/40\+ vidéos/)).toBeInTheDocument();
   });
 
   it("renders CTA buttons with correct text", () => {
     render(<FeatureCards />);
-    expect(screen.getByText(/voir les blagues/i)).toBeInTheDocument();
+    expect(screen.getByText(/voir les vannes/i)).toBeInTheDocument();
     expect(screen.getByText(/découvrir les techniques/i)).toBeInTheDocument();
     expect(screen.getByText(/regarder les vidéos/i)).toBeInTheDocument();
   });
 
   it("renders links to correct pages", () => {
     render(<FeatureCards />);
-    const blaguesLink = screen.getByText(/voir les blagues/i).closest("a");
+    const vannesLink = screen.getByText(/voir les vannes/i).closest("a");
     const conseilsLink = screen.getByText(/découvrir les techniques/i).closest("a");
     const videosLink = screen.getByText(/regarder les vidéos/i).closest("a");
 
-    expect(blaguesLink).toHaveAttribute("href", "/blagues");
+    expect(vannesLink).toHaveAttribute("href", "/vannes");
     expect(conseilsLink).toHaveAttribute("href", "/conseils");
     expect(videosLink).toHaveAttribute("href", "/videos");
   });

@@ -258,7 +258,7 @@ Le rôle de la confiance en soi
 
 Il y a un cercle vertueux entre humour et confiance. Plus tu fais rire, plus tu as confiance. Plus tu as confiance, plus tu oses. Plus tu oses, plus tu fais rire. Le déclencheur ? Accepter que les premières tentatives seront imparfaites. Et c'est OK. Personne ne te jugera pour une blague qui tombe à plat, tant que tu ne la forces pas.
 
-Sur deviens-marrant.fr, on a conçu des parcours progressifs qui te guident pas à pas dans ce processus. Des blagues à mémoriser, des techniques de répartie à pratiquer, des vidéos de pros à analyser, et un système de progression (XP + streaks) pour rester motivé. Commence gratuitement et deviens la personne drôle du groupe.`,
+Sur deviens-marrant.fr, on a conçu des parcours progressifs qui te guident pas à pas dans ce processus. Des vannes à mémoriser, des techniques de répartie à pratiquer, des vidéos de pros à analyser, et un système de progression (XP + streaks) pour rester motivé. Commence gratuitement et deviens la personne drôle du groupe.`,
     date: "2026-03-13",
     readingTime: "7 min",
     category: "GUIDE",
@@ -330,7 +330,7 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un parcours Répartie de 
 
 Être marrant vs être drôle : la différence qui change tout
 
-Être "drôle", c'est faire rire avec une blague. Être "marrant", c'est plus profond. C'est une énergie, une façon d'être. La personne marrante ne raconte pas forcément des blagues. Elle a un regard amusé sur le monde, elle reformule les situations banales de façon inattendue, elle crée une atmosphère légère autour d'elle. C'est un état d'esprit, pas une performance.
+Être "drôle", c'est faire rire avec une blague. Être "marrant", c'est plus profond. C'est une énergie, une façon d'être. La personne marrante ne raconte pas forcément des vannes. Elle a un regard amusé sur le monde, elle reformule les situations banales de façon inattendue, elle crée une atmosphère légère autour d'elle. C'est un état d'esprit, pas une performance.
 
 Et la bonne nouvelle ? Cet état d'esprit se cultive. Comme la forme physique ou la culture générale, devenir marrant demande de la pratique régulière, pas un talent spécial.
 
@@ -346,7 +346,7 @@ Comment développer cette habitude : prends un événement banal de ta journée 
 
 Habitude 3 : Elles ne se prennent pas au sérieux. L'autodérision est le trait commun de toutes les personnes marrantes. Elles assument leurs défauts avec humour. Elles se moquent d'elles-mêmes avant que les autres ne le fassent. Et ça les rend immédiatement sympathiques et accessibles. Blanche Gardin en a fait un art : elle transforme ses galères les plus intimes en matière comique, et le public l'adore pour ça. Fary fait pareil avec ses observations sur sa propre culture et ses contradictions — c'est drôle parce que c'est vrai et assumé.
 
-Comment développer cette habitude : identifie 2-3 défauts légers chez toi (sens de l'orientation catastrophique, incapacité à cuisiner, retard chronique) et prépare des blagues dessus. La prochaine fois qu'on te fait remarquer un de ces défauts, tu auras ta réponse prête.
+Comment développer cette habitude : identifie 2-3 défauts légers chez toi (sens de l'orientation catastrophique, incapacité à cuisiner, retard chronique) et prépare des vannes dessus. La prochaine fois qu'on te fait remarquer un de ces défauts, tu auras ta réponse prête.
 
 Habitude 4 : Elles dosent. Les personnes marrantes ne sont pas "on" en permanence. Elles sentent quand c'est le bon moment et quand ce ne l'est pas. Elles savent que l'humour constant fatigue, et que le silence rend les prochaines saillies encore plus impactantes.
 
@@ -370,7 +370,7 @@ Semaines 3-4 : Reformuler et partager. Transforme tes meilleures observations en
 
 Semaines 5-6 : Intégrer et élargir. Utilise tes observations et reformulations dans des contextes plus larges (bureau, soirées, réseaux sociaux). Note ce qui marche.
 
-Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le Parcours Confiance (6 semaines). Des blagues à mémoriser, des techniques à pratiquer, des vidéos de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. Essaie gratuitement.`,
+Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le Parcours Confiance (6 semaines). Des vannes à mémoriser, des techniques à pratiquer, des vidéos de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. Essaie gratuitement.`,
     date: "2026-03-11",
     readingTime: "7 min",
     category: "GUIDE",
@@ -402,9 +402,9 @@ Habitude 4 : Pratique la règle du "oui, et..."
 
 C'est la règle d'or de l'improvisation théâtrale. Quand quelqu'un dit quelque chose, au lieu de bloquer, tu enchéris. "Il fait froid aujourd'hui" → "Oui, et je suis à peu près sûr que mes orteils ont fait sécession." Tu construis sur ce que l'autre a dit au lieu de couper la dynamique.
 
-Habitude 5 : Maîtrise 5 blagues par cœur
+Habitude 5 : Maîtrise 5 vannes par cœur
 
-Pas 50, pas 100. Juste 5 blagues courtes, adaptées à des situations courantes, que tu peux ressortir à tout moment. Une pour le bureau, une pour les dîners, une passe-partout, une sur toi-même, une sur l'actualité (à renouveler). Comme un musicien qui a ses morceaux de référence, avoir un petit répertoire prêt te donne de la confiance.
+Pas 50, pas 100. Juste 5 vannes courtes, adaptées à des situations courantes, que tu peux ressortir à tout moment. Une pour le bureau, une pour les dîners, une passe-partout, une sur toi-même, une sur l'actualité (à renouveler). Comme un musicien qui a ses morceaux de référence, avoir un petit répertoire prêt te donne de la confiance.
 
 Habitude 6 : Travaille tes réactions
 
@@ -426,7 +426,7 @@ Mettre tout ça ensemble
 
 Tu n'as pas besoin d'appliquer les 8 habitudes dès demain. Choisis-en 2 et intègre-les pendant 2 semaines. Puis ajoute-en 2 autres. En un mois, tu auras transformé tes conversations quotidiennes. Les gens autour de toi le remarqueront, et ce cercle vertueux (plus de rires → plus de confiance → plus d'humour) s'enclenchera naturellement.
 
-Pour accélérer ta progression, deviens-marrant.fr te propose des blagues à mémoriser, des techniques de répartie avec exercices, et des vidéos de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). Commence gratuitement et deviens plus drôle, un jour à la fois.`,
+Pour accélérer ta progression, deviens-marrant.fr te propose des vannes à mémoriser, des techniques de répartie avec exercices, et des vidéos de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). Commence gratuitement et deviens plus drôle, un jour à la fois.`,
     date: "2026-03-09",
     readingTime: "6 min",
     category: "GUIDE",
@@ -458,9 +458,9 @@ Exercice concret : chaque jour, envoie à un ami un message qui reformule un év
 
 Étape 3 : Mémorise quelques classiques
 
-Avant de créer ton propre humour, commence par emprunter celui des autres. Mémorise 3 à 5 blagues courtes et universelles. Pas des blagues de comptoir interminables. Des one-liners, des observations drôles, des retours rapides. C'est ton filet de sécurité. Quand la conversation s'y prête, tu en sors une. Et le rire des autres te donne confiance pour la suite.
+Avant de créer ton propre humour, commence par emprunter celui des autres. Mémorise 3 à 5 vannes courtes et universelles. Pas des blagues de comptoir interminables. Des one-liners, des observations drôles, des retours rapides. C'est ton filet de sécurité. Quand la conversation s'y prête, tu en sors une. Et le rire des autres te donne confiance pour la suite.
 
-Exercice concret : va sur la section Blagues de deviens-marrant.fr, choisis 5 blagues qui te font vraiment rire, et mémorise-les. Teste-les avec un ami cette semaine.
+Exercice concret : va sur la section Vannes de deviens-marrant.fr, choisis 5 vannes qui te font vraiment rire, et mémorise-les. Teste-les avec un ami cette semaine.
 
 Étape 4 : Apprends une seule technique de répartie
 
@@ -480,7 +480,7 @@ Jours 1-3 : Observer et noter. 2 observations absurdes par jour. Pas besoin qu'e
 
 Jours 4-7 : Écrire et reformuler. Prends tes observations et reformule-les par écrit. Envoie la meilleure à un ami chaque jour.
 
-Jours 8-10 : Mémoriser. Choisis 5 blagues courtes sur deviens-marrant.fr et apprends-les par cœur.
+Jours 8-10 : Mémoriser. Choisis 5 vannes courtes sur deviens-marrant.fr et apprends-les par cœur.
 
 Jours 11-14 : Tester. Ressors une blague en conversation. Utilise l'accusé de réception quand on te chambre. Note comment tu te sens.
 

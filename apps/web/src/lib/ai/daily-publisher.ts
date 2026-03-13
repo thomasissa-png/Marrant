@@ -241,7 +241,7 @@ export async function publishDailyContent(
     ]);
   } else {
     result.errors.push(
-      "Impossible de créer le contenu du jour : blague ou conseil manquant"
+      "Impossible de créer le contenu du jour : vanne ou conseil manquant"
     );
   }
 

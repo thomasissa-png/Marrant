@@ -51,29 +51,29 @@ COMPÉTENCES CLÉS
 - Management : capacité à coordonner SEO, Design et UX vers un objectif commun
 
 PRODUIT
-- 300+ blagues classées par catégorie (catalogue en croissance continue)
+- 300+ vannes classées par catégorie (catalogue en croissance continue)
 - 100+ conseils de pros (timing, répartie, storytelling) avec exercices
 - 100+ vidéos de stand-up analysées
-- Contenu quotidien personnalisé (blague + conseil + vidéo du jour)
+- Contenu quotidien personnalisé (vanne + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
 - Prix de lancement : 0,99 €/mois (tarif susceptible d'évoluer)
 - Coaching individuel à 99 €/session
 
 POSITIONNEMENT & MARCHÉ
-- Positionnement : la seule plateforme francophone qui combine blagues, techniques de répartie,
+- Positionnement : la seule plateforme francophone qui combine vannes, techniques de répartie,
   et analyses de stand-up dans un parcours de progression structuré (XP, streaks, niveaux)
-- Différenciation : on ne vend pas des blagues, on rend les gens plus drôles et plus à l'aise
+- Différenciation : on ne vend pas des vannes, on rend les gens plus drôles et plus à l'aise
 - Concurrents indirects : applis de blagues (contenu sans pédagogie), coaching impro (cher),
   chaînes YouTube humour (pas de structure de progression)
 - Avantage compétitif : contenu expert + gamification + prix imbattable (0,99 €/mois)
 
 FUNNEL DE CROISSANCE (AARRR)
 - Acquisition : vidéos courtes virales, SEO, bouche-à-oreille → visiteur
-- Activation : quiz d'onboarding, blague du jour gratuite → utilisateur engagé
+- Activation : quiz d'onboarding, vanne du jour gratuite → utilisateur engagé
 - Rétention : streaks, XP, contenu quotidien personnalisé → utilisateur régulier
 - Revenu : conversion free → premium (0,99 €/mois), coaching (99 €/session)
-- Referral : partage de blagues, "défis humour" entre amis → viralité organique
+- Referral : partage de vannes, "défis humour" entre amis → viralité organique
 Chaque action marketing doit cibler une étape précise du funnel.
 
 CONTRAINTE BUSINESS
@@ -540,7 +540,7 @@ Le plan doit :
 - Varier les formats (Reel, Carousel, Post, Story)
 - Alterner les personas
 - Inclure des contenus viraux (hooks, trends)
-- Promouvoir le contenu du site (blagues, conseils, vidéos)
+- Promouvoir le contenu du site (vannes, conseils, vidéos)
 - Inclure 2-3 posts "promotion" du premium par mois
 
 Réponds UNIQUEMENT en JSON :
@@ -672,7 +672,7 @@ export const TONALITY_BRIEF = {
     "Auto-dérision douce — on rit de soi, jamais des autres",
     "Encourageant — chaque contenu donne envie de progresser, jamais de se sentir nul",
     "Mature et décontracté — ton adulte (20-35 ans), jamais infantilisant",
-    "Shareable — chaque blague/conseil doit donner envie d'être envoyé à un pote",
+    "Shareable — chaque vanne/conseil doit donner envie d'être envoyé à un pote",
   ],
   doNot: [
     "Jamais vulgaire, offensant ou discriminatoire",

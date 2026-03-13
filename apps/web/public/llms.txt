@@ -4,7 +4,7 @@
 
 ## À propos
 
-deviens-marrant.fr est une plateforme éducative en ligne qui enseigne l'humour comme compétence. Le site propose des blagues classées par catégorie, des techniques de répartie avec exercices concrets, des vidéos de stand-up analysées et des parcours structurés pour progresser pas à pas.
+deviens-marrant.fr est une plateforme éducative en ligne qui enseigne l'humour comme compétence. Le site propose des vannes classées par catégorie, des techniques de répartie avec exercices concrets, des vidéos de stand-up analysées et des parcours structurés pour progresser pas à pas.
 
 ## Public cible
 
@@ -14,7 +14,7 @@ deviens-marrant.fr est une plateforme éducative en ligne qui enseigne l'humour 
 
 ## Contenu principal
 
-- [Blagues](https://deviens-marrant.fr/blagues): Des centaines de blagues classées par catégorie (boulot, couple, soirées, école, gaming, etc.)
+- [Vannes](https://deviens-marrant.fr/vannes): Des centaines de vannes classées par catégorie (boulot, couple, soirées, école, gaming, etc.)
 - [Conseils humour & répartie](https://deviens-marrant.fr/conseils): Techniques de répartie, timing, storytelling, autodérision avec exercices
 - [Vidéos stand-up](https://deviens-marrant.fr/videos): Extraits d'humoristes français analysés technique par technique
 - [Parcours](https://deviens-marrant.fr/parcours): Programmes structurés de 3 à 6 semaines (Machine à Café, Répartie, Confiance)
@@ -36,6 +36,6 @@ R: La répartie n'est pas réservée aux extravertis. Les techniques comme "accu
 
 ## Tarifs
 
-- Accès gratuit : 20 blagues, 5 conseils, 10 vidéos
-- Accès complet : 0,99 €/mois (toutes les blagues, conseils, vidéos, parcours, contenu quotidien)
+- Accès gratuit : 20 vannes, 5 conseils, 10 vidéos
+- Accès complet : 0,99 €/mois (toutes les vannes, conseils, vidéos, parcours, contenu quotidien)
 - Coaching individuel : 99 €/séance (45 min en visio)

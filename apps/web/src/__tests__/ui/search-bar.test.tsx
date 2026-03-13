@@ -8,7 +8,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 const mockResults = [
-  { id: "1", type: "JOKE", title: "Blague drôle", preview: "Setup..." },
+  { id: "1", type: "JOKE", title: "Vanne drôle", preview: "Setup..." },
   { id: "2", type: "TIP", title: "Bon conseil", preview: "Astuce..." },
   { id: "3", type: "VIDEO", title: "Vidéo fun", preview: "Watch..." },
 ];
@@ -53,7 +53,7 @@ describe("SearchBar", () => {
     });
   });
 
-  it("shows type labels: Blague, Conseil, Vidéo", async () => {
+  it("shows type labels: Vanne, Conseil, Vidéo", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({ results: mockResults }),
@@ -64,7 +64,7 @@ describe("SearchBar", () => {
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "test");
 
     await waitFor(() => {
-      expect(screen.getByText("Blague")).toBeInTheDocument();
+      expect(screen.getByText("Vanne")).toBeInTheDocument();
       expect(screen.getByText("Conseil")).toBeInTheDocument();
       expect(screen.getByText("Vidéo")).toBeInTheDocument();
     });
@@ -83,7 +83,7 @@ describe("SearchBar", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Blague drôle")).toBeInTheDocument();
+      expect(screen.getByText("Vanne drôle")).toBeInTheDocument();
       expect(screen.getByText("Bon conseil")).toBeInTheDocument();
       expect(screen.getByText("Vidéo fun")).toBeInTheDocument();
     });
@@ -119,14 +119,14 @@ describe("SearchBar", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Blague drôle")).toBeInTheDocument();
+      expect(screen.getByText("Vanne drôle")).toBeInTheDocument();
     });
 
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
-      screen.getByText("Blague drôle")
+      screen.getByText("Vanne drôle")
     );
 
-    expect(mockPush).toHaveBeenCalledWith("/blagues?q=blague");
+    expect(mockPush).toHaveBeenCalledWith("/vannes?q=blague");
   });
 
   it("merges custom className", () => {

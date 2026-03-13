@@ -16,7 +16,7 @@ export const PERSONAS = {
     age: 26,
     description: "Jeune active, veut alimenter ses conversations au bureau et entre amis",
     interests: ["boulot", "couple", "soirées", "situations sociales", "culture"],
-    tone: "dynamique, complice, blagues courtes et mémorisables",
+    tone: "dynamique, complice, vannes courtes et mémorisables",
     jokeCategories: ["BOULOT", "SITUATION", "OBSERVATIONNEL", "JEUX_DE_MOTS", "COUPLE", "CULTUREL", "SOIREES"],
     tipCategories: ["TIMING", "OBSERVATION", "STORYTELLING", "JEUX_DE_MOTS"],
     tipDifficulty: "INTERMEDIAIRE",

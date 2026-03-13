@@ -33,9 +33,9 @@ interface JokeAgentContext {
 export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
   const persona = PERSONAS[ctx.persona];
 
-  const systemPrompt = `Tu es l'Agent Blagues de deviens-marrant.fr — un expert en humour francophone.
+  const systemPrompt = `Tu es l'Agent Vannes de deviens-marrant.fr — un expert en humour francophone.
 
-TON RÔLE : Créer UNE blague originale par jour, adaptée au public cible du site.
+TON RÔLE : Créer UNE vanne originale par jour, adaptée au public cible du site.
 
 PERSONA CIBLE AUJOURD'HUI : ${persona.name} (${persona.age} ans)
 - Profil : ${persona.description}
@@ -54,7 +54,7 @@ DIRECTIVE TONALITÉ (Agent Marketing) :
 - INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
 
 RÈGLES STRICTES :
-1. La blague doit être ORIGINALE — jamais une blague connue ni un calembour éculé
+1. La vanne doit être ORIGINALE — jamais une vanne connue ni un calembour éculé
 2. Humour intelligent, jamais vulgaire ou offensant
 3. Structure claire : setup + chute percutante
 4. Adaptée au persona cible (vocabulaire, références, situations)
@@ -63,7 +63,7 @@ RÈGLES STRICTES :
 7. Le type doit varier — privilégier ONE_LINER et SUBTIL pour la sharability
 
 IMPORTANT — NE PAS RÉPÉTER :
-Voici les ${ctx.recentJokes.length} dernières blagues publiées (NE PAS les plagier ni s'en rapprocher) :
+Voici les ${ctx.recentJokes.length} dernières vannes publiées (NE PAS les plagier ni s'en rapprocher) :
 ${ctx.recentJokes.map((j, i) => `${i + 1}. [${j.category}/${j.type}] ${j.content}`).join("\n")}
 
 PLAN DU MOIS (contexte pour cohérence) :
@@ -71,7 +71,7 @@ ${ctx.monthlyPlanSummary}
 
 Réponds UNIQUEMENT en JSON valide :
 {
-  "content": "Le setup de la blague (2-3 phrases max)",
+  "content": "Le setup de la vanne (2-3 phrases max)",
   "punchline": "La chute (1 phrase percutante)",
   "category": "${ctx.plannedCategory}",
   "type": "UN_DES_TYPES_VALIDES",
@@ -85,12 +85,12 @@ Réponds UNIQUEMENT en JSON valide :
     messages: [
       {
         role: "user",
-        content: `Génère la blague du jour.
+        content: `Génère la vanne du jour.
 Thème prévu : "${ctx.plannedTheme}"
 Catégorie : ${ctx.plannedCategory}
 Persona : ${persona.name} (${persona.age} ans)
 
-Crée une blague originale qui fera sourire ${persona.name} dans son quotidien.`,
+Crée une vanne originale qui fera sourire ${persona.name} dans son quotidien.`,
       },
     ],
   });
@@ -100,7 +100,7 @@ Crée une blague originale qui fera sourire ${persona.name} dans son quotidien.`
 
   // Validation des champs obligatoires
   if (!parsed.content?.trim() || !parsed.punchline?.trim()) {
-    throw new Error("Agent Blagues : contenu ou punchline vide");
+    throw new Error("Agent Vannes : contenu ou punchline vide");
   }
 
   // Validation et fallback des enums
@@ -122,7 +122,7 @@ Crée une blague originale qui fera sourire ${persona.name} dans son quotidien.`
 }
 
 /**
- * Génère le plan mensuel de blagues via l'IA
+ * Génère le plan mensuel de vannes via l'IA
  */
 export async function generateJokeMonthlyPlan(
   month: number,
@@ -132,7 +132,7 @@ export async function generateJokeMonthlyPlan(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
-    system: `Tu es le planificateur de l'Agent Blagues de deviens-marrant.fr.
+    system: `Tu es le planificateur de l'Agent Vannes de deviens-marrant.fr.
 
 Tu dois créer un plan de contenu pour ${daysInMonth} jours (${month}/${year}).
 
@@ -150,7 +150,7 @@ Réponds UNIQUEMENT en JSON — un tableau de ${daysInMonth} objets :
     messages: [
       {
         role: "user",
-        content: `Génère le plan de blagues pour ${month}/${year} (${daysInMonth} jours).`,
+        content: `Génère le plan de vannes pour ${month}/${year} (${daysInMonth} jours).`,
       },
     ],
   });

@@ -152,7 +152,7 @@ export function ProfilDashboard() {
               <p className="text-2xl font-bold text-accent-primary">
                 {user.stats.jokesRead}
               </p>
-              <p className="text-xs text-text-muted">Blagues lues</p>
+              <p className="text-xs text-text-muted">Vannes lues</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-accent-secondary">
@@ -188,11 +188,11 @@ export function ProfilDashboard() {
               </Link>
             )}
             {user.stats.jokesRead < 10 && (
-              <Link href="/blagues" className="group">
+              <Link href="/vannes" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Lis des blagues par catégorie et sauvegarde celles que tu veux ressortir.
+                    Lis des vannes par catégorie et sauvegarde celles que tu veux ressortir.
                   </p>
                 </div>
               </Link>
@@ -237,7 +237,7 @@ export function ProfilDashboard() {
           ) : (
             <>
               <p className="mb-4 text-sm text-text-secondary">
-                Débloque l&apos;accès à toutes les blagues, tous les conseils,
+                Débloque l&apos;accès à toutes les vannes, tous les conseils,
                 toutes les vidéos analysées et le contenu quotidien, le tout pour
                 seulement 0,99 €/mois. Prix de lancement, profites-en.
               </p>

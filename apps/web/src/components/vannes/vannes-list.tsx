@@ -50,7 +50,7 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
 );
 
-export function BlaguesList() {
+export function VannesList() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const [jokes, setJokes] = useState<Joke[]>([]);
@@ -120,7 +120,7 @@ export function BlaguesList() {
   return (
     <>
       {/* Filtres catégories avec ARIA */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de blagues">
+      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
         {CATEGORIES.map((cat) => (
           <Button
             key={cat.value}
@@ -143,7 +143,7 @@ export function BlaguesList() {
             Les filtres par catégorie sont réservés aux membres
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Tu as accès à 20 blagues{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par catégorie pour trouver la blague parfaite.
+            Tu as accès à 20 vannes{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par catégorie pour trouver la vanne parfaite.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">
@@ -153,7 +153,7 @@ export function BlaguesList() {
         </div>
       ) : error ? (
         <ErrorState
-          message="Les blagues se sont perdues en chemin."
+          message="Les vannes se sont perdues en chemin."
           onRetry={fetchJokes}
         />
       ) : showSkeleton ? (
@@ -171,11 +171,11 @@ export function BlaguesList() {
       ) : jokes.length === 0 ? (
         <EmptyState
           emoji="😅"
-          emojiLabel="pas de blagues"
+          emojiLabel="pas de vannes"
           title="Rien ici... c'est aussi vide que mon frigo un dimanche soir"
           description="Essaie une autre catégorie, on a forcément un truc pour toi."
-          ctaLabel="Voir toutes les blagues"
-          ctaHref="/blagues"
+          ctaLabel="Voir toutes les vannes"
+          ctaHref="/vannes"
         />
       ) : (
         <div className="grid gap-4 md:grid-cols-2" role="tabpanel">
@@ -198,7 +198,7 @@ export function BlaguesList() {
                   </div>
                   <div className="flex items-center gap-1">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
-                    <ShareButton title="Blague - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
+                    <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
                 </div>
                 <p className="text-text-primary">{joke.content}</p>
@@ -225,10 +225,10 @@ export function BlaguesList() {
       {limited && category === "" && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 20 blagues + la blague du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}
+            Tu as accès à 20 vannes + la vanne du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les blagues, classées par catégorie, pour seulement 0,99 €/mois (prix de lancement).
+            Débloque toutes les vannes, classées par catégorie, pour seulement 0,99 €/mois (prix de lancement).
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">

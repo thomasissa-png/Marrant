@@ -17,7 +17,7 @@ export function HeroSection() {
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
-        à café ? Tu voudrais retrouver ta légèreté ? Des blagues, des techniques
+        à café ? Tu voudrais retrouver ta légèreté ? Des vannes, des techniques
         de répartie et des conseils de pros pour progresser en humour,
         à ton rythme.
       </p>
@@ -42,16 +42,16 @@ export function HeroSection() {
           Gagner des XP et maintenir ton streak
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Blagues prêtes à ressortir
+          Vannes prêtes à ressortir
         </span>
       </div>
 
       {/* CTA only for authenticated users — non-auth CTA is below feature cards */}
       {isAuthenticated ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/blagues">
+          <Link href="/vannes">
             <Button variant="primary" size="lg">
-              Explorer les blagues
+              Explorer les vannes
             </Button>
           </Link>
           <Link href="/conseils">

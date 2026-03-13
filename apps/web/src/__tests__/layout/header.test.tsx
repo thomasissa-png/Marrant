@@ -37,7 +37,7 @@ describe("Header", () => {
   it("renders navigation items including Parcours", () => {
     render(<Header />);
     expect(screen.getByText("Accueil")).toBeInTheDocument();
-    expect(screen.getByText("Blagues")).toBeInTheDocument();
+    expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
     expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
@@ -86,10 +86,10 @@ describe("Header", () => {
   });
 
   it("highlights current path in navigation", () => {
-    usePathname.mockReturnValue("/blagues");
+    usePathname.mockReturnValue("/vannes");
     render(<Header />);
-    const blaguesLinks = screen.getAllByText("Blagues");
-    const desktopLink = blaguesLinks[0];
+    const vannesLinks = screen.getAllByText("Vannes");
+    const desktopLink = vannesLinks[0];
     expect(desktopLink).toHaveClass("text-accent-primary");
   });
 

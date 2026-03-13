@@ -8,11 +8,11 @@ const features = [
   {
     emoji: "😂",
     getTitle: (count: number) =>
-      count > 0 ? `${count}+ blagues prêtes à ressortir` : "Blagues prêtes à ressortir",
+      count > 0 ? `${count}+ vannes prêtes à ressortir` : "Vannes prêtes à ressortir",
     description:
-      "École, boulot, couple, soirées — trouve la blague parfaite pour chaque situation. Classées par catégorie, prêtes à mémoriser.",
-    cta: "Voir les blagues",
-    href: "/blagues",
+      "École, boulot, couple, soirées — trouve la vanne parfaite pour chaque situation. Classées par catégorie, prêtes à mémoriser.",
+    cta: "Voir les vannes",
+    href: "/vannes",
     variant: "primary" as const,
     gradient: "from-accent-primary to-accent-secondary",
   },

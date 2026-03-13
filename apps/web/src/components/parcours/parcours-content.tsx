@@ -18,15 +18,15 @@ const parcours = [
     difficulty: "DEBUTANT → INTERMEDIAIRE",
     persona: "Idéal si tu travailles en équipe et veux briller en conversation",
     description:
-      "Tu veux avoir des anecdotes et blagues à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de blagues courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
+      "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
     testimonial:
-      "« Avant je restais muette à la machine à café. Maintenant c'est moi qu'on vient voir pour la blague du jour. »",
+      "« Avant je restais muette à la machine à café. Maintenant c'est moi qu'on vient voir pour la vanne du jour. »",
     modules: [
       {
         week: "Semaine 1",
-        title: "Blagues courtes et mémorisables",
+        title: "Vannes courtes et mémorisables",
         detail:
-          "Apprends à retenir et placer des one-liners et jeux de mots qui font mouche à tous les coups. Tu repars avec 10 blagues prêtes à l'emploi.",
+          "Apprends à retenir et placer des one-liners et jeux de mots qui font mouche à tous les coups. Tu repars avec 10 vannes prêtes à l'emploi.",
         xp: 50,
         free: true,
       },
@@ -102,7 +102,7 @@ const parcours = [
     difficulty: "DEBUTANT → EXPERT",
     persona: "Parfait si tu veux renouer avec l'humour et retrouver ta légèreté",
     description:
-      "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Blagues, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
+      "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
     testimonial:
       "« Après ma séparation, j'avais perdu mon humour. Ce parcours m'a aidé à retrouver ma légèreté, étape par étape. »",
     modules: [
