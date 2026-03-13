@@ -46,23 +46,21 @@ interface VideoSeed {
 async function main() {
   console.log("Début du seeding...");
 
-  // Vérifier si le contenu existe déjà
   const [jokeCount, tipCount, videoCount] = await Promise.all([
     prisma.joke.count(),
     prisma.tip.count(),
     prisma.video.count(),
   ]);
 
-  if (jokeCount > 0 && tipCount > 0 && videoCount > 0) {
-    console.log(
-      `Contenu déjà présent (${jokeCount} blagues, ${tipCount} conseils, ${videoCount} vidéos). Seed ignoré.`
-    );
-    return;
-  }
-
-  // BLAGUES — insertion seulement si table vide
-  if (jokeCount === 0) {
-    const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
+  // BLAGUES — re-seed si le count ne correspond pas au fichier seed
+  const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
+  if (jokeCount !== jokes.length) {
+    // Nettoyer les dépendances avant de supprimer
+    if (jokeCount > 0) {
+      await prisma.dailyContent.deleteMany({});
+      await prisma.joke.deleteMany({});
+      console.log(`${jokeCount} anciennes blagues supprimées`);
+    }
     await prisma.joke.createMany({
       data: jokes.map((joke) => ({
         content: joke.content,
@@ -74,12 +72,19 @@ async function main() {
     });
     console.log(`${jokes.length} blagues importées`);
   } else {
-    console.log(`Blagues déjà présentes (${jokeCount}), ignoré`);
+    console.log(`Blagues à jour (${jokeCount}), ignoré`);
   }
 
-  // CONSEILS — insertion seulement si table vide
-  if (tipCount === 0) {
-    const tips = loadSeedData<TipSeed>("conseils-seed.json");
+  // CONSEILS — re-seed si le count ne correspond pas au fichier seed
+  const tips = loadSeedData<TipSeed>("conseils-seed.json");
+  if (tipCount !== tips.length) {
+    // Nettoyer les dépendances avant de supprimer
+    if (tipCount > 0) {
+      await prisma.dailyContent.deleteMany({});
+      await prisma.learningPathStep.deleteMany({});
+      await prisma.tip.deleteMany({});
+      console.log(`${tipCount} anciens conseils supprimés`);
+    }
     await prisma.tip.createMany({
       data: tips.map((tip) => ({
         title: tip.title,
@@ -92,10 +97,10 @@ async function main() {
     });
     console.log(`${tips.length} conseils importés`);
   } else {
-    console.log(`Conseils déjà présents (${tipCount}), ignoré`);
+    console.log(`Conseils à jour (${tipCount}), ignoré`);
   }
 
-  // VIDÉOS — upsert pour mettre à jour les IDs YouTube, learnings et exercices
+  // VIDÉOS — upsert pour mettre à jour IDs YouTube, learnings, exercices
   const videos = loadSeedData<VideoSeed>("videos-seed.json");
   if (videoCount === 0) {
     await prisma.video.createMany({
@@ -155,13 +160,12 @@ async function main() {
     console.log(`${updated} vidéos mises à jour/ajoutées, ${deactivated.count} désactivées`);
   }
 
-  // CONTENU DU JOUR — 7 jours (seulement si vide)
-  // Utilise des dates UTC pour être cohérent avec l'API (/api/daily)
+  // CONTENU DU JOUR — recréer si vide (supprimé lors du re-seed blagues/conseils)
   const dailyCount = await prisma.dailyContent.count();
   if (dailyCount === 0) {
     const allJokes = await prisma.joke.findMany({ take: 7 });
     const allTips = await prisma.tip.findMany({ take: 7 });
-    const allVideos = await prisma.video.findMany({ take: 7 });
+    const allVideos = await prisma.video.findMany({ where: { isActive: true }, take: 7 });
 
     const dailyData = [];
     const now = new Date();
@@ -185,9 +189,16 @@ async function main() {
     console.log(`Contenu quotidien déjà présent (${dailyCount}), ignoré`);
   }
 
-  // PARCOURS D'APPRENTISSAGE (seulement si vide)
+  // PARCOURS D'APPRENTISSAGE — recréer si vide ou si les steps ont été nettoyées
   const pathCount = await prisma.learningPath.count();
-  if (pathCount === 0) {
+  const stepCount = await prisma.learningPathStep.count();
+  if (pathCount === 0 || stepCount === 0) {
+    // Nettoyer avant de recréer
+    if (pathCount > 0) {
+      await prisma.learningPathStep.deleteMany({});
+      await prisma.learningPath.deleteMany({});
+    }
+
     const learningPaths = [
       {
         title: "Les bases de l'humour",
