@@ -20,6 +20,8 @@ interface Video {
   difficulty: string;
   description: string;
   technique: string;
+  learnings: string[];
+  exercise: string | null;
 }
 
 interface Pagination {
@@ -169,6 +171,25 @@ export function VideosGrid() {
                   <Badge variant="default">{video.technique}</Badge>
                 </div>
                 <p className="mt-2 text-xs text-text-muted line-clamp-2">{video.description}</p>
+                {video.learnings && video.learnings.length > 0 && (
+                  <div className="mt-3 rounded-lg bg-background-elevated p-3">
+                    <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
+                    <ul className="mt-1.5 space-y-1">
+                      {video.learnings.map((learning, i) => (
+                        <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                          {learning}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {video.exercise && (
+                  <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
+                    <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
+                    <p className="mt-1 text-xs text-text-secondary">{video.exercise}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}

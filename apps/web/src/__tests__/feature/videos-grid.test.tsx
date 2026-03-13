@@ -26,6 +26,8 @@ const mockVideos = [
     difficulty: "DEBUTANT",
     description: "Une vidéo super drôle",
     technique: "Callback",
+    learnings: ["Observer le timing des pauses", "Utiliser le callback en fin de set"],
+    exercise: "Regarde la vidéo et note chaque pause de plus de 2 secondes. Essaie de reproduire ce timing dans une anecdote.",
   },
   {
     id: "v2",
@@ -37,6 +39,8 @@ const mockVideos = [
     difficulty: "EXPERT",
     description: "Technique avancée",
     technique: "Rule of Three",
+    learnings: [],
+    exercise: null,
   },
 ];
 
@@ -117,6 +121,16 @@ describe("VideosGrid", () => {
     render(<VideosGrid />);
     await waitFor(() => {
       expect(screen.getByText("Pas de vidéo ici... même les humoristes font des pauses")).toBeInTheDocument();
+    });
+  });
+
+  it("displays learnings and exercise when available", async () => {
+    render(<VideosGrid />);
+    await waitFor(() => {
+      expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
+      expect(screen.getByText("Observer le timing des pauses")).toBeInTheDocument();
+      expect(screen.getByText("Utiliser le callback en fin de set")).toBeInTheDocument();
+      expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
     });
   });
 

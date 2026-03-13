@@ -270,6 +270,8 @@ model Video {
   difficulty  TipDifficulty   // Même niveaux que les conseils
   description String          @db.Text
   technique   String          // Technique humoristique principale
+  learnings   String[]        // Points clés à retenir de la vidéo
+  exercise    String?         @db.Text  // Exercice pratique lié à la vidéo
   isActive    Boolean         @default(true)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt

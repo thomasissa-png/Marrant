@@ -39,6 +39,8 @@ interface VideoSeed {
   difficulty: string;
   description: string;
   technique: string;
+  learnings: string[];
+  exercise: string | null;
 }
 
 async function main() {
@@ -106,6 +108,8 @@ async function main() {
         difficulty: video.difficulty as never,
         description: video.description,
         technique: video.technique,
+        learnings: video.learnings ?? [],
+        exercise: video.exercise ?? null,
       })),
     });
     console.log(`${videos.length} vidéos importées`);
