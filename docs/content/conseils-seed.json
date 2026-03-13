@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "title": "La règle des 3 secondes",
-    "content": "Le timing est tout en humour. Quand tu fais une blague, marque une pause de 3 secondes avant la chute. Ce silence crée de l'anticipation et amplifie l'effet comique. Les meilleurs stand-uppers maîtrisent cette technique instinctivement. Regarde comment Blanche Gardin laisse traîner ses silences — le public rit avant même la chute parce que la tension est insupportable. Le silence est ton meilleur allié sur scène.",
+    "title": "La pause et le silence : tes meilleurs alliés",
+    "content": "Le timing est tout en humour. Quand tu fais une blague, marque une pause de 3 secondes avant la chute. Ce silence crée de l'anticipation et amplifie l'effet comique. Et en face-à-face, 50% de l'humour passe par le non-verbal : le regard fixe après une blague, le sourcil levé, le silence prolongé. Les stand-uppers appellent ça le 'beat'. Ne comble jamais le silence trop vite après une blague. Regarde comment Blanche Gardin laisse traîner ses silences — le public rit avant même la chute. Marina Rollman aussi maîtrise ces pauses qui en disent plus que les mots.",
     "category": "TIMING",
     "difficulty": "DEBUTANT",
-    "example": "\"J'ai essayé le yoga ce matin... (pause 3s) ...j'ai réussi à toucher mes pieds... (pause 2s) ...parce que je suis tombé.\"",
-    "exercise": "Choisis une blague que tu connais bien. Raconte-la à voix haute devant un miroir en comptant 3 secondes dans ta tête avant chaque chute. Fais-le 5 fois."
+    "example": "\"J'ai essayé le yoga ce matin...\" (pause 3s, regard fixe sur ton interlocuteur) \"...j'ai réussi à toucher mes pieds...\" (sourcil levé, 2s) \"...parce que je suis tombé.\" (visage neutre, laisse le silence faire le travail)",
+    "exercise": "DÉFI MIROIR : Choisis une blague que tu connais bien. Raconte-la devant un miroir en comptant 3 secondes dans ta tête avant chaque chute. Garde un visage parfaitement neutre. Fais-le 5 fois, puis teste sur un ami en ajoutant le regard fixe après la chute."
   },
   {
     "id": 2,
@@ -24,7 +24,7 @@
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Vous avez remarqué qu'on vérifie toujours l'heure sur son téléphone, et 3 secondes après on doit revérifier parce qu'on a regardé sans regarder ?\"",
-    "exercise": "Pendant une journée, note dans ton téléphone 10 petites absurdités du quotidien. Le soir, transforme au moins 3 d'entre elles en début de blague."
+    "exercise": "ANALYSE VIDÉO : Regarde un sketch de Vérino ou Roman Frayssinet. Note les 5 observations du quotidien qu'il utilise. Puis pendant une journée, note dans ton téléphone 10 petites absurdités que TU observes. Le soir, transforme les 3 meilleures en début de blague."
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
     "example": "Quelqu'un dit : \"T'es toujours en retard !\" → \"C'est pas que je suis en retard, c'est que vous êtes tous en avance sur mon emploi du temps.\"",
-    "exercise": "Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma : accuse réception → rebondis → retourne. Chronomètre-toi : la meilleure répartie prend moins de 5 secondes."
+    "exercise": "CHRONO RÉPARTIE : Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma en moins de 5 secondes : accuse réception → rebondis → retourne. Chronomètre-toi. L'objectif : descendre sous les 3 secondes à la fin de la semaine."
   },
   {
     "id": 5,
@@ -46,12 +46,12 @@
   },
   {
     "id": 6,
-    "title": "Le callback : la technique secrète des pros",
-    "content": "Le callback, c'est reprendre une blague ou un élément mentionné plus tôt et y revenir au moment inattendu. Ça crée un effet de surprise et montre que tu maîtrises ta narration. C'est la technique favorite de Gad Elmaleh — il revient sur un thème du début quand tu l'as complètement oublié. Le callback récompense l'attention du public et multiplie le rire.",
+    "title": "Le callback : faire revenir une blague au bon moment",
+    "content": "Le callback, c'est reprendre un élément mentionné plus tôt et y revenir au moment inattendu. Ça récompense l'attention du public et multiplie le rire. Version débutant : tu y reviens 2 minutes plus tard. Version pro : tu plantes une graine au début d'une soirée et tu la fais germer 30 minutes plus tard. Plus l'attente est longue, plus l'effet de surprise est fort. Élodie Poux est redoutable de callback dans ses spectacles — elle construit des fils rouges que le public a oubliés avant de les faire revenir avec un timing parfait.",
     "category": "TIMING",
     "difficulty": "EXPERT",
-    "example": "En début de soirée : \"Mon GPS m'a dit de faire demi-tour.\" (...plus tard...) Quelqu'un se trompe de chemin → \"Attends, toi aussi t'as mon GPS ?\"",
-    "exercise": "Lors de ta prochaine conversation de groupe, note mentalement la première chose drôle qui est dite. 20 minutes plus tard, trouve un moyen naturel d'y faire référence."
+    "example": "En début de soirée : \"Mon GPS m'a dit de faire demi-tour.\" (...30 min plus tard, quelqu'un se trompe de chemin) \"Attends, toi aussi t'as mon GPS ?\" Le callback récompense ceux qui suivent depuis le début.",
+    "exercise": "DÉFI SOIRÉE : Lors de ta prochaine conversation de groupe, note mentalement la première chose drôle qui est dite. Attends au moins 20 minutes, puis trouve un moyen naturel d'y faire référence. Observe la réaction — le callback fonctionne quand les gens mettent 1 seconde à comprendre puis éclatent de rire."
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@
   {
     "id": 9,
     "title": "Le rythme de la phrase comique",
-    "content": "Une blague bien rythmée, c'est comme une chanson : il y a un tempo. La règle d'or : le setup doit être le plus court possible pour donner le contexte, et la chute doit arriver au dernier mot. Chaque mot superflu dans une blague dilue l'impact. Gad Elmaleh est chirurgical là-dessus — il peut résumer un setup en 5 mots et placer la chute au millimètre.",
+    "content": "Une blague bien rythmée, c'est comme une chanson : il y a un tempo. La règle d'or : le setup doit être le plus court possible pour donner le contexte, et la chute doit arriver au dernier mot. Chaque mot superflu dilue l'impact. Doully est chirurgicale là-dessus — elle peut résumer un setup en 5 mots et placer la chute au millimètre. Chaque mot compte.",
     "category": "TIMING",
     "difficulty": "INTERMEDIAIRE",
     "example": "Trop long : \"Hier, quand j'étais à la maison, j'ai décidé de me regarder dans le miroir de la salle de bain et je me suis rendu compte que...\" → Mieux : \"Je me suis regardé dans le miroir. Le miroir a ri.\"",
@@ -87,7 +87,7 @@
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "\"Ma mère m'envoie tellement de messages que mon téléphone a demandé un congé maladie.\"",
-    "exercise": "Choisis 5 vérités sur ta vie quotidienne et exagère-les. Trouve le point où c'est drôle sans être invraisemblable."
+    "exercise": "DÉFI 5 JOURS : Chaque jour, exagère UNE vérité sur ta vie (lundi : ta cuisine, mardi : tes transports, mercredi : ton boss, jeudi : ton téléphone, vendredi : ton weekend). Trouve le sweet spot entre 'exagéré' et 'pas crédible'. Raconte la meilleure à la machine à café."
   },
   {
     "id": 11,
@@ -100,24 +100,6 @@
   },
   {
     "id": 12,
-    "title": "L'art de la chute retardée",
-    "content": "Parfois, la blague la plus drôle est celle où la chute arrive bien après qu'on l'a plantée. Tu plantes une graine au début d'une conversation, tu continues normalement, et 5 minutes plus tard tu y reviens. L'effet de surprise est décuplé. C'est la technique du callback poussée à l'extrême. Paul Mirabel fait ça magistralement dans ses spectacles.",
-    "category": "TIMING",
-    "difficulty": "EXPERT",
-    "example": "\"(en début de dîner) Au fait, quelqu'un a vu mon chat ? (...30 min plus tard, en servant le plat) ...bon, sinon, goûtez la blanquette.\"",
-    "exercise": "Lors de ton prochain dîner entre amis, plante 3 éléments bizarres dans tes premières phrases. Attends au moins 15 minutes avant d'y revenir. Note les réactions."
-  },
-  {
-    "id": 13,
-    "title": "Le regard et le silence",
-    "content": "En face-à-face, 50% de l'humour passe par le non-verbal. Le regard fixe après une blague, le sourcil levé, le silence prolongé — tout ça amplifie le comique. Les comiques de stand-up appellent ça le 'beat'. C'est le moment où tu laisses le public comprendre. Ne comble jamais le silence trop vite après une blague, même si c'est inconfortable au début.",
-    "category": "TIMING",
-    "difficulty": "DEBUTANT",
-    "example": "Après avoir dit quelque chose d'absurde, garde un visage parfaitement neutre pendant 3 secondes. Le décalage entre ton sérieux et l'absurdité de tes mots crée le rire.",
-    "exercise": "Devant ton miroir, dis 'J'ai quitté mon travail pour devenir dresseur de pigeons' avec le plus grand sérieux. Garde le regard fixe 5 secondes. Entraîne-toi à ne pas craquer."
-  },
-  {
-    "id": 14,
     "title": "La technique du miroir inversé",
     "content": "Prends un cliché, un comportement courant, et retourne-le complètement. Si tout le monde fait X, imagine ce qui se passerait si quelqu'un faisait exactement l'opposé avec le même sérieux. Pierre Croce excelle dans cet exercice : il prend des situations normales et les examine sous un angle totalement inversé, révélant l'absurdité de nos habitudes.",
     "category": "OBSERVATION",
@@ -126,7 +108,7 @@
     "exercise": "Prends 5 situations sociales normales (commander au restaurant, aller chez le médecin, un entretien d'embauche) et inverse les rôles. Lequel est le plus drôle ?"
   },
   {
-    "id": 15,
+    "id": 13,
     "title": "Ne jamais expliquer sa blague",
     "content": "Règle absolue : si tu dois expliquer ta blague, c'est qu'elle n'a pas marché — et l'expliquer ne la sauvera pas. Si personne ne rit, enchaîne comme si de rien n'était. Les pros font des 'blagues fantômes' : une blague qui tombe à plat devient elle-même une source de comédie si tu la gères bien. L'auto-dérision sur une blague ratée est souvent plus drôle que la blague elle-même.",
     "category": "REPARTIE",
@@ -135,25 +117,25 @@
     "exercise": "Fais volontairement une mauvaise blague à un ami. Quand elle tombe à plat, enchaîne immédiatement avec une phrase d'auto-dérision sur la blague elle-même."
   },
   {
-    "id": 16,
-    "title": "La mécanique de l'escalade",
-    "content": "L'escalade comique, c'est commencer petit et monter progressivement en absurdité. Chaque phrase est un cran au-dessus de la précédente. La règle : 3 éléments minimum. Le premier est normal, le deuxième un peu décalé, le troisième complètement absurde. Fary utilise beaucoup cette technique dans ses listes et énumérations.",
+    "id": 14,
+    "title": "L'escalade et l'accumulation comique",
+    "content": "L'escalade comique, c'est commencer petit et monter progressivement en absurdité. Chaque phrase est un cran au-dessus de la précédente. La règle : 3 éléments minimum. Le premier est normal, le deuxième décalé, le troisième complètement absurde. L'accumulation en est la forme la plus simple : une liste où chaque élément surprend un peu plus. Fary utilise constamment cette technique dans ses punchlines, et Constance la pousse à l'extrême dans ses spectacles avec des listes qui partent en vrille totale.",
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
-    "example": "\"Pour être en forme, je fais du sport le matin, je mange équilibré le midi, et le soir je négocie avec mon reflet dans le miroir pour qu'il arrête de me juger.\"",
-    "exercise": "Écris 5 phrases avec une liste de 3 éléments : les 2 premiers normaux, le 3ème absurde. Entraîne-toi à les sortir naturellement en conversation."
+    "example": "\"Ce weekend j'ai fait du rangement : j'ai trié mes chaussettes, organisé ma bibliothèque, négocié un traité de paix avec les araignées du plafond, et déposé une motion de censure contre le frigo.\"",
+    "exercise": "EN GROUPE : Lancez un jeu à table — quelqu'un commence une phrase, chacun ajoute un élément de plus en plus absurde. Ex : 'Pour être en forme, je fais du sport...' → '...je mange équilibré...' → '...je négocie avec mon reflet...' → '...je fais un TED talk à mes plantes'. Le dernier à faire rire marque un point."
   },
   {
-    "id": 17,
+    "id": 15,
     "title": "Adapter son humour à l'audience",
-    "content": "L'humour n'est pas universel. Ce qui fait rire tes potes ne marchera pas forcément avec tes collègues ou ta belle-famille. Un bon humoriste scanne toujours son public avant de se lancer. Observe les réactions aux premières blagues légères et ajuste. Gad Elmaleh adapte ses spectacles selon les villes — c'est ça, l'intelligence comique.",
+    "content": "L'humour n'est pas universel. Ce qui fait rire tes potes ne marchera pas forcément avec tes collègues ou ta belle-famille. Un bon humoriste scanne toujours son public avant de se lancer. Observe les réactions aux premières blagues légères et ajuste. Marina Rollman adapte finement son registre selon le contexte — c'est ça, l'intelligence comique.",
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "Avec des collègues → humour observationnel sur le bureau. Avec des amis proches → auto-dérision et absurde. En famille → jeux de mots et situations.",
     "exercise": "Cette semaine, fais la même blague à 3 groupes différents (amis, famille, collègues). Note les réactions. Adapte le ton et le vocabulaire à chaque groupe."
   },
   {
-    "id": 18,
+    "id": 16,
     "title": "L'humour de situation : être présent",
     "content": "Les meilleures vannes ne sont pas préparées — elles viennent de ce qui se passe en temps réel. Pour ça, il faut être mentalement présent, attentif à tout. Un bruit bizarre, un comportement inattendu, une coïncidence : tout est matière à rire. L'humour de situation est le plus naturel et le plus apprécié car il ne peut pas être copié-collé.",
     "category": "OBSERVATION",
@@ -162,7 +144,7 @@
     "exercise": "Pendant ta prochaine sortie, force-toi à commenter de façon drôle au moins 3 choses qui se passent autour de toi. L'objectif : réagir en moins de 5 secondes."
   },
   {
-    "id": 19,
+    "id": 17,
     "title": "Le double sens en conversation",
     "content": "Le double sens est l'arme secrète des esprits vifs. Il s'agit de formuler une phrase qui peut être comprise de deux façons — une innocente et une drôle. La clé est de laisser l'audience faire le travail mental. Plus le double sens est subtil, plus le rire est satisfaisant. Florence Foresti est une maîtresse du double sens intelligent.",
     "category": "JEUX_DE_MOTS",
@@ -171,16 +153,16 @@
     "exercise": "Prends 5 mots qui ont plusieurs sens (note, courant, marcher, tomber, sortir) et construis une phrase où le double sens crée un effet comique."
   },
   {
-    "id": 20,
+    "id": 18,
     "title": "La technique du personnage",
     "content": "Incarner un personnage (un serveur, ton boss, ta mère) en imitant sa façon de parler amplifie énormément l'humour d'une anecdote. Tu n'as pas besoin d'être un grand imitateur — juste changer légèrement ta voix, ton rythme ou ta posture suffit. Jamel Debbouze est un maître absolu de cette technique avec ses multiples personnages.",
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Raconter une histoire avec ta mère → prends un ton concerné et dramatique. Avec ton pote → accélère le débit et ajoute des 'genre' et 'tu vois'.",
-    "exercise": "Raconte la même anecdote en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Observe lequel est le plus drôle."
+    "exercise": "EN DUO : Raconte la même anecdote à un ami en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Change juste ta voix et ton rythme — pas besoin d'être un grand imitateur. Demande-lui lequel était le plus drôle et pourquoi."
   },
   {
-    "id": 21,
+    "id": 19,
     "title": "Transformer le négatif en comique",
     "content": "Les situations frustrantes sont une mine d'or comique. Être coincé dans les bouchons, attendre au téléphone, un vol annulé — plus c'est pénible, plus c'est drôle a posteriori. La technique : prends la situation, pousse-la à l'extrême, et raconte-la comme si tu étais un reporter de guerre. Le décalage entre la gravité du ton et la banalité du sujet est hilarant.",
     "category": "AUTODERISION",
@@ -189,7 +171,7 @@
     "exercise": "Note ta prochaine galère du quotidien. Le soir même, raconte-la à quelqu'un en dramatisant au maximum. Utilise des comparaisons épiques."
   },
   {
-    "id": 22,
+    "id": 20,
     "title": "L'art du non-dit",
     "content": "Parfois, ce que tu ne dis PAS est plus drôle que ce que tu dis. Laisser l'audience compléter la blague dans sa tête est une technique puissante. Tu plantes le contexte, tu amènes vers une conclusion évidente... et tu t'arrêtes juste avant. Le cerveau de l'autre fait le travail et rit de sa propre pensée. Blanche Gardin excelle dans ces pauses où tout est dit sans rien dire.",
     "category": "TIMING",
@@ -198,7 +180,7 @@
     "exercise": "Raconte 3 anecdotes à un ami mais arrête-toi AVANT la fin. Laisse un silence de 3 secondes. Observe s'il rit — s'il rit, c'est que le non-dit fonctionne."
   },
   {
-    "id": 23,
+    "id": 21,
     "title": "L'humour par l'absurde du quotidien",
     "content": "On vit entourés d'absurdités qu'on ne remarque plus. Les panneaux contradictoires, les instructions stupides, les règles administratives kafkaïennes. L'humoriste est celui qui pointe du doigt ces absurdités avec un sourire. Roman Frayssinet fait ça brillamment — il transforme des observations banales en démonstrations absurdes implacables.",
     "category": "ABSURDE",
@@ -207,7 +189,7 @@
     "exercise": "Aujourd'hui, photographie 5 choses absurdes dans ta journée (panneaux, emballages, situations). Pour chacune, écris une punchline."
   },
   {
-    "id": 24,
+    "id": 22,
     "title": "La répartie bienveillante",
     "content": "La meilleure répartie n'humilie personne. Elle fait rire tout le monde, y compris la personne visée. Le secret : vise le comportement, jamais la personne. Au lieu de dire 'tu es bête', dis quelque chose qui pointe l'absurdité de la situation. La répartie bienveillante te fait gagner le respect de tout le groupe, pas juste un rire au détriment de quelqu'un.",
     "category": "REPARTIE",
@@ -216,25 +198,25 @@
     "exercise": "La prochaine fois que quelqu'un fait une gaffe, trouve un commentaire drôle qui dédramatise SANS se moquer de la personne. Bonus : fais rire la personne elle-même."
   },
   {
-    "id": 25,
+    "id": 23,
     "title": "Raconter une anecdote en 3 actes",
     "content": "Toute bonne histoire drôle suit une structure en 3 actes : 1) Le contexte (qui, où, quand — en 2 phrases max), 2) La montée (ce qui s'est passé, avec des détails spécifiques), 3) La chute (le retournement inattendu). Plus tu maîtrises cette structure, plus tes anecdotes sont impactantes. Paul Mirabel suit cette structure religieusement dans chaque sketch.",
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Contexte : \"Mardi, rendez-vous Tinder.\" Montée : \"Elle arrive, on parle, ça se passe bien, elle me dit qu'elle adore les gens spontanés.\" Chute : \"Alors spontanément, j'ai renversé mon café sur elle.\"",
-    "exercise": "Reprends 3 anecdotes de ta vie. Réécris chacune en respectant strictement les 3 actes. Le contexte en 2 phrases max, la montée en 3-4 phrases, la chute en 1 phrase."
+    "exercise": "ENREGISTRE-TOI : Reprends 3 anecdotes de ta vie. Filme-toi en respectant strictement les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
   },
   {
-    "id": 26,
-    "title": "Le vocabulaire décalé",
-    "content": "Utiliser un vocabulaire inattendu pour décrire une situation banale est une technique simple et efficace. Parle de ton petit-déjeuner comme un critique gastronomique, de tes transports en commun comme un correspondant de guerre, de ton chat comme un analyste géopolitique. Le décalage lexical crée instantanément un effet comique.",
+    "id": 24,
+    "title": "Le décalage de registre",
+    "content": "Utiliser un vocabulaire ou un ton complètement décalé par rapport à la situation est une technique simple et redoutable. Parle de ton petit-déjeuner comme un critique gastronomique, de ton chat comme un analyste géopolitique, d'une galère au bureau comme un correspondant de guerre. Le contraste entre le fond banal et la forme soutenue (ou l'inverse) crée automatiquement un effet comique. Florence Foresti alterne brillamment les registres — du soutenu au familier en une phrase.",
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
-    "example": "\"Ce matin, j'ai procédé à l'extraction cérémoniaire de mes tartines de confiture, suivi d'un briefing stratégique avec mon chat concernant la répartition des croquettes.\"",
-    "exercise": "Décris ta dernière journée comme si tu étais : 1) un commentateur sportif, 2) un narrateur de documentaire animalier, 3) un avocat. Choisis le registre le plus drôle."
+    "example": "\"Suite à un audit approfondi de mon réfrigérateur, je suis au regret de vous informer que le camembert a dépassé sa DLC. Les mesures d'évacuation sont en cours. Le chat a été nommé responsable de la cellule de crise.\"",
+    "exercise": "DÉFI QUOTIDIEN (3 jours) : Jour 1 — Décris ta journée comme un commentateur sportif. Jour 2 — Comme un narrateur de documentaire animalier. Jour 3 — Comme un avocat plaidant au tribunal. Envoie la meilleure version par texto à un ami et note sa réaction."
   },
   {
-    "id": 27,
+    "id": 25,
     "title": "L'autodérision physique",
     "content": "Se moquer gentiment de son physique (taille, coiffure, style) est une forme d'auto-dérision très accessible qui met immédiatement les gens à l'aise. Attention : ça ne marche que si TU es à l'aise avec. Si tu sens une vraie insécurité, évite le sujet — l'audience le percevra. Kev Adams a lancé sa carrière sur l'auto-dérision de son âge et de sa tête.",
     "category": "AUTODERISION",
@@ -243,16 +225,16 @@
     "exercise": "Trouve 3 caractéristiques physiques qui ne te gênent pas vraiment et invente une vanne pour chacune. Teste-les — si tu ris sincèrement, elles sont bonnes."
   },
   {
-    "id": 28,
+    "id": 26,
     "title": "La fausse naïveté",
-    "content": "Jouer l'innocent qui ne comprend pas une situation évidente est une technique puissante. Tu poses des questions faussement naïves qui mettent en lumière l'absurdité d'une situation. C'est la technique socratique version humour. Pierre Croce fait souvent ça dans ses vidéos — il questionne des évidences avec un air sincèrement perplexe.",
+    "content": "Jouer l'innocent qui ne comprend pas une situation évidente est une technique puissante. Tu poses des questions faussement naïves qui mettent en lumière l'absurdité d'une situation. C'est la technique socratique version humour. Lilia Benchabane fait souvent ça — elle questionne des évidences avec un air sincèrement perplexe qui révèle l'absurdité de nos conventions sociales.",
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
     "example": "Au restaurant chic : \"Excusez-moi, le 'tartare de bœuf assaisonné aux herbes aromatiques de Provence', c'est de la viande crue avec du persil ?\"",
     "exercise": "La prochaine fois que quelqu'un utilise du jargon (au boulot, en société), pose une question faussement naïve qui ramène les choses à leur plus simple expression."
   },
   {
-    "id": 29,
+    "id": 27,
     "title": "L'ancrage culturel",
     "content": "Les références culturelles partagées sont un multiplicateur de rire. Un clin d'œil à une pub connue, un film culte, un mème internet ou un événement récent crée une complicité immédiate. La clé : assure-toi que ta référence est connue de ton audience. Une référence obscure tue la blague. Fary mélange brillamment références pop culture et humour.",
     "category": "OBSERVATION",
@@ -261,16 +243,16 @@
     "exercise": "Choisis 5 références culturelles que tout le monde connaît (films, pubs, mèmes). Intègre chacune dans une situation quotidienne de façon drôle."
   },
   {
-    "id": 30,
+    "id": 28,
     "title": "La comparaison inattendue",
     "content": "Les comparaisons sont le pain et le beurre de l'humour. 'C'est comme...' suivi d'un parallèle inattendu fait instantanément sourire. La meilleure comparaison prend deux choses qui n'ont rien à voir et trouve le lien caché entre elles. Plus le lien est surprenant mais juste, plus c'est drôle. Florence Foresti est la reine des comparaisons absurdes mais parfaitement justes.",
-    "category": "JEUX_DE_MOTS",
+    "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "\"Mon réveil du matin, c'est comme un premier rendez-vous : tu sais que ça va être pénible mais tu te lèves quand même en espérant que ça ira mieux que la dernière fois.\"",
     "exercise": "Prends 5 situations banales et trouve pour chacune une comparaison avec quelque chose de complètement différent. La comparaison doit être surprenante mais qu'on se dise 'ah oui, c'est vrai'."
   },
   {
-    "id": 31,
+    "id": 29,
     "title": "Répondre aux compliments avec humour",
     "content": "Accepter un compliment avec humour est un signe de confiance et de charisme. Au lieu du classique 'merci' gêné, retourne le compliment de façon drôle. Ça montre que tu ne te prends pas au sérieux tout en étant gracieux. C'est une forme avancée de répartie qui marche dans tous les contextes sociaux.",
     "category": "REPARTIE",
@@ -279,7 +261,7 @@
     "exercise": "Prépare 5 réponses drôles aux compliments courants ('tu es drôle', 'tu es beau', 'tu es intelligent'). Utilise-les la prochaine fois."
   },
   {
-    "id": 32,
+    "id": 30,
     "title": "Le twist final",
     "content": "Le twist, c'est la technique de base du stand-up : tu amènes l'audience dans une direction et tu pivotes au dernier moment. Tout le monde s'attend à A, et tu donnes B. La clé : le twist doit être logique rétrospectivement. Quand la personne comprend, elle doit se dire 'ah oui bien sûr' tout en riant. Panayotis Pascot excelle dans ces retournements narratifs.",
     "category": "STORYTELLING",
@@ -288,25 +270,16 @@
     "exercise": "Écris 5 phrases de setup qui semblent aller vers une conclusion évidente. Trouve pour chacune un twist qui part dans une direction totalement différente mais logique."
   },
   {
-    "id": 33,
-    "title": "L'accumulation comique",
-    "content": "L'accumulation est une liste où chaque élément est un peu plus absurde que le précédent. Elle fonctionne en escalade : normal → décalé → absurde → complètement dingue. C'est une technique très utilisée en stand-up et facile à placer en conversation. Fary l'utilise constamment dans ses punchlines.",
-    "category": "ABSURDE",
-    "difficulty": "DEBUTANT",
-    "example": "\"Ce weekend j'ai fait du rangement : j'ai trié mes chaussettes, organisé ma bibliothèque, et négocié un traité de paix avec les araignées du plafond.\"",
-    "exercise": "Écris 5 listes de 4 éléments où les 2 premiers sont normaux et les 2 derniers partent en vrille. Glisse-les naturellement en conversation cette semaine."
-  },
-  {
-    "id": 34,
+    "id": 31,
     "title": "Savoir rebondir sur un raté",
-    "content": "Les meilleurs humoristes sont ceux qui gèrent le mieux les moments où rien ne se passe comme prévu. Ta blague tombe à plat ? Rebondis dessus. Un silence gênant ? Commente-le. Plus tu es à l'aise avec l'échec, plus tu es drôle. L'anti-fragilité comique, c'est quand les ratés te rendent encore plus drôle. Gad Elmaleh est le maître du rattrapage en live.",
+    "content": "Les meilleurs humoristes sont ceux qui gèrent le mieux les moments où rien ne se passe comme prévu. Ta blague tombe à plat ? Rebondis dessus. Un silence gênant ? Commente-le. Plus tu es à l'aise avec l'échec, plus tu es drôle. L'anti-fragilité comique, c'est quand les ratés te rendent encore plus drôle. Tania Dutel est la maîtresse du rattrapage en live — ses moments de flottement deviennent les meilleurs passages de ses spectacles.",
     "category": "REPARTIE",
     "difficulty": "EXPERT",
     "example": "Blague qui tombe à plat → \"Bon, celle-là je la remets au four, elle est pas assez cuite.\" ou \"C'était un test pour voir qui avait le sens de l'humour. Apparemment personne.\"",
     "exercise": "Volontairement, raconte une blague nulle à un groupe. Quand elle tombe à plat, enchaîne avec un commentaire méta sur l'échec. L'objectif : que le commentaire fasse plus rire que la blague."
   },
   {
-    "id": 35,
+    "id": 32,
     "title": "Le personnage exagéré",
     "content": "Quand tu racontes une anecdote, transformer les vrais personnages en versions caricaturales rend l'histoire 10 fois plus drôle. Ton boss devient un dictateur mégalomane, ta grand-mère devient une espionne russe, le serveur du restaurant devient un philosophe existentialiste. L'exagération des personnages permet de rester bienveillant tout en étant hilarant.",
     "category": "STORYTELLING",
@@ -315,7 +288,7 @@
     "exercise": "Prends une anecdote récente avec au moins 3 personnes. Réécris-la en donnant à chaque personne un archétype exagéré. Raconte-la ce soir."
   },
   {
-    "id": 36,
+    "id": 33,
     "title": "Les questions rhétoriques drôles",
     "content": "Poser une question à laquelle tout le monde connaît la réponse, mais la formuler de façon à créer un décalage, c'est une technique classique de stand-up. La question invite le public à réfléchir une seconde, ce qui prépare le terrain pour la chute. C'est une entrée en matière parfaite pour une blague ou un développement observationnel.",
     "category": "OBSERVATION",
@@ -324,7 +297,7 @@
     "exercise": "Formule 10 questions rhétoriques drôles sur des absurdités du quotidien. Teste-les dans tes conversations de la semaine."
   },
   {
-    "id": 37,
+    "id": 34,
     "title": "L'humour méta",
     "content": "L'humour méta, c'est faire de l'humour sur l'humour lui-même. Commenter ta propre blague, questionner le format même de la conversation, pointer les conventions sociales absurdes du moment. C'est un humour de niveau expert qui marche très bien avec un public jeune et averti. Roman Frayssinet pousse le méta à un niveau vertigineux dans ses chroniques.",
     "category": "ABSURDE",
@@ -333,7 +306,7 @@
     "exercise": "La prochaine fois que tu fais une blague, ajoute un commentaire méta dessus : sur sa structure, sa qualité, ou pourquoi elle devrait (ou pas) être drôle."
   },
   {
-    "id": 38,
+    "id": 35,
     "title": "Le jeu de mots phonétique",
     "content": "Le jeu de mots phonétique exploite les sons similaires entre des mots différents. C'est la base du calembour, mais bien fait c'est redoutable. La clé : le jeu de mots doit apporter un sens nouveau, pas juste être un son rigolo. Le meilleur jeu de mots phonétique provoque un 'aaaah' de compréhension suivi d'un rire ou d'un groan amusé.",
     "category": "JEUX_DE_MOTS",
@@ -342,16 +315,16 @@
     "exercise": "Prends 10 mots de ton quotidien et cherche pour chacun un mot qui sonne presque pareil mais qui change le sens de la phrase."
   },
   {
-    "id": 39,
+    "id": 36,
     "title": "L'anecdote de l'étranger",
-    "content": "Raconter une observation sur une autre culture ou un voyage est une mine d'or comique, à condition de se moquer de SOI face à la situation, pas de l'autre culture. 'J'étais perdu' est drôle, 'ils sont bizarres' ne l'est pas. L'humour de voyage fonctionne quand tu es le personnage naïf de ta propre histoire. Gad Elmaleh fait ça magistralement avec ses anecdotes franco-américaines.",
+    "content": "Raconter une observation sur une autre culture ou un voyage est une mine d'or comique, à condition de se moquer de SOI face à la situation, pas de l'autre culture. 'J'étais perdu' est drôle, 'ils sont bizarres' ne l'est pas. L'humour de voyage fonctionne quand tu es le personnage naïf de ta propre histoire. Fanny Ruwet (belge en France) joue brillamment sur les malentendus culturels avec une candeur désarmante.",
     "category": "STORYTELLING",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"À Londres, j'ai commandé 'un café'. Le barista m'a posé 47 questions. En France, le serveur te pose une seule question : 'Quoi ?'\"",
     "exercise": "Pense à ta dernière expérience 'culturellement confuse' (voyage, restaurant étranger, conversation avec quelqu'un d'un autre pays). Raconte-la en étant le personnage naïf de l'histoire."
   },
   {
-    "id": 40,
+    "id": 37,
     "title": "La pause dramatique inversée",
     "content": "Au lieu de la pause classique avant la chute, essaie la pause APRÈS la chute. Tu balances la punchline très vite, presque en la jetant, puis tu fais une longue pause. L'audience met un instant à processer, puis rit. Cette technique marche particulièrement bien avec les one-liners et les blagues très courtes. C'est plus avancé mais très efficace.",
     "category": "TIMING",
@@ -360,7 +333,7 @@
     "exercise": "Choisis 5 one-liners courts. Entraîne-toi à les dire très vite, presque comme si tu pensais à voix haute, puis maintiens un silence total de 4-5 secondes après."
   },
   {
-    "id": 41,
+    "id": 38,
     "title": "La répartie de redirection",
     "content": "Quand quelqu'un te pose une question gênante ou fait une remarque déplacée, la répartie de redirection consiste à répondre à une question que personne n'a posée. Tu esquives élégamment tout en faisant rire. C'est la technique du politicien, mais en version drôle. Ça te permet de garder le contrôle de la conversation sans confrontation.",
     "category": "REPARTIE",
@@ -369,7 +342,7 @@
     "exercise": "Prépare des réponses de redirection pour les 5 questions gênantes les plus fréquentes de ta vie (salaire, couple, poids, études, avenir). Utilise-les cette semaine."
   },
   {
-    "id": 42,
+    "id": 39,
     "title": "La blague à tiroirs",
     "content": "La blague à tiroirs est une blague qui en contient d'autres. Tu ouvres un sujet, tu digresses sur un détail, tu fais une blague dans la digression, puis tu reviens au sujet principal pour la chute finale. C'est de l'architecture narrative avancée. Paul Mirabel est le roi de cette technique — ses spectacles sont des poupées russes comiques.",
     "category": "STORYTELLING",
@@ -378,16 +351,7 @@
     "exercise": "Prends une de tes anecdotes favorites. Ajoute une digression drôle au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire principale. Entraîne-toi à gérer les deux niveaux."
   },
   {
-    "id": 43,
-    "title": "Le contraste de registre",
-    "content": "Utiliser un registre de langue complètement décalé par rapport à la situation crée un effet comique immédiat. Parler familièrement d'un sujet sérieux, ou utiliser du vocabulaire soutenu pour un truc banal. Le décalage entre le fond et la forme est un générateur de rire automatique. Florence Foresti alterne brillamment les registres dans ses sketches.",
-    "category": "JEUX_DE_MOTS",
-    "difficulty": "INTERMEDIAIRE",
-    "example": "\"Suite à un audit approfondi de mon réfrigérateur, je suis au regret de vous informer que la date de péremption du camembert a été largement dépassée. Les mesures d'évacuation sont en cours.\"",
-    "exercise": "Décris 3 situations banales (faire les courses, se brosser les dents, chercher ses clés) avec un vocabulaire hyper soutenu et officiel. Teste sur un ami."
-  },
-  {
-    "id": 44,
+    "id": 40,
     "title": "L'auto-dérision sociale",
     "content": "Se moquer de ses propres galères sociales (malaise en soirée, date raté, erreur de mail) est universellement drôle parce que TOUT LE MONDE a vécu ça. La clé : détaille les pensées internes que tout le monde a mais que personne ne dit. C'est ça qui crée l'identification. Panayotis Pascot excelle dans la verbalisation des malaises sociaux ordinaires.",
     "category": "AUTODERISION",
@@ -396,7 +360,7 @@
     "exercise": "Note tes 3 derniers moments de malaise social. Réécris chacun en détaillant tes pensées internes du moment. Le monologue interne est presque toujours plus drôle que l'action."
   },
   {
-    "id": 45,
+    "id": 41,
     "title": "La règle du 'et si'",
     "content": "L'imagination comique commence par 'Et si...'. Et si les animaux avaient des jobs ? Et si les meubles avaient des sentiments ? Et si Napoléon avait eu Instagram ? Cette technique de brainstorming de l'absurde est utilisée par tous les auteurs de comédies. Elle libère la créativité et permet de trouver des angles que personne n'a explorés.",
     "category": "ABSURDE",
@@ -405,7 +369,7 @@
     "exercise": "Écris 10 'Et si...' absurdes. Développe les 3 plus drôles en mini-scénarios de 3-4 phrases. Partage le meilleur sur les réseaux."
   },
   {
-    "id": 46,
+    "id": 42,
     "title": "L'ironie bienveillante",
     "content": "L'ironie est un couteau à double tranchant : bien utilisée, elle est brillante ; mal utilisée, elle est blessante. L'ironie bienveillante consiste à dire le contraire de ce qu'on pense, mais de façon tellement évidente que c'est drôle sans être méchant. Le sourire et le ton sont essentiels. L'ironie sans malice est un des outils les plus puissants du comique social.",
     "category": "REPARTIE",
@@ -414,7 +378,7 @@
     "exercise": "Pendant une journée, exprime au moins 5 observations ironiques sur des situations du quotidien. Veille à ce que le ton soit clairement bienveillant et que l'ironie soit évidente."
   },
   {
-    "id": 47,
+    "id": 43,
     "title": "Le one-liner : l'art de la concision",
     "content": "Un one-liner est une blague en une seule phrase. C'est la forme la plus pure d'humour : setup ET chute en une ligne. Pour y arriver, chaque mot doit être chirurgicalement choisi. Un bon one-liner peut être cité, partagé, et mémorisé. C'est l'équivalent humoristique d'un haïku. Construis-en un portfolio pour les sortir au bon moment.",
     "category": "JEUX_DE_MOTS",
@@ -423,7 +387,7 @@
     "exercise": "Écris 10 one-liners. Réduis chacun au strict minimum de mots (supprime les adverbes, les adjectifs non essentiels). Le one-liner parfait tient en moins de 15 mots."
   },
   {
-    "id": 48,
+    "id": 44,
     "title": "Lire le groupe avant de parler",
     "content": "Avant de lancer une blague en groupe, prends 30 secondes pour lire l'ambiance. Les gens sont-ils détendus ou stressés ? Qui rit facilement ? Qui est sensible sur quels sujets ? Cette lecture sociale te permet d'adapter ta blague en temps réel et d'éviter les flops. C'est ce que font les stand-uppers quand ils 'chauffent' le public — ils le scannent.",
     "category": "OBSERVATION",
@@ -432,7 +396,7 @@
     "exercise": "Lors de ta prochaine soirée, passe les 10 premières minutes à observer sans faire de blague. Note mentalement l'humeur, les sujets, les personnalités. Puis lance ta première blague calibrée. Compare le résultat avec tes blagues habituelles."
   },
   {
-    "id": 49,
+    "id": 45,
     "title": "La chute anti-climax",
     "content": "L'anti-climax est une chute qui déçoit volontairement les attentes. Tu construis une montée épique, tu crées une tension énorme... et la chute est ridiculement banale. Le décalage entre l'attente et la réalité crée le rire. C'est l'inverse du twist classique. Roman Frayssinet utilise beaucoup cette technique dans ses histoires qui montent, montent... pour retomber comme un soufflé.",
     "category": "STORYTELLING",
@@ -441,12 +405,138 @@
     "exercise": "Écris 3 histoires avec une montée dramatique (accumulation de problèmes/péripéties) et termine chacune par une chute volontairement plate et banale."
   },
   {
-    "id": 50,
+    "id": 46,
     "title": "Développer son style personnel",
     "content": "Au final, être drôle c'est être authentique. Les techniques sont des outils, mais ton style unique vient de qui tu es. Observe quel type d'humour te vient naturellement : absurde ? observationnel ? auto-dérision ? Capitalise dessus. Ne force pas un style qui n'est pas toi. Chaque grand humoriste a un style reconnaissable : la brutalité douce de Blanche Gardin, l'énergie de Fary, la narration de Paul Mirabel. Trouve le tien.",
     "category": "OBSERVATION",
     "difficulty": "EXPERT",
     "example": "Demande à 3 amis : \"Quand est-ce que tu me trouves le plus drôle ?\" Leurs réponses te révéleront ton style naturel.",
     "exercise": "Fais un auto-audit : note tes 10 dernières blagues qui ont fait rire. Classe-les par catégorie. Le pattern qui émerge, c'est ton style naturel. Concentre-toi dessus pendant un mois."
+  },
+  {
+    "id": 47,
+    "title": "Oser être drôle : le courage avant la technique",
+    "content": "Le plus grand frein à l'humour, ce n'est pas le manque de technique — c'est la peur du jugement. La vérité : tout le monde rate des blagues, même les pros. Blanche Gardin raconte qu'elle a bombed pendant des années avant de trouver son style. L'humour est un muscle qui se développe en l'utilisant, pas en attendant d'être prêt. Le premier pas, c'est d'accepter que tu vas rater. Et le deuxième, c'est de rater quand même.",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "example": "Tu veux faire une blague mais tu hésites ? Dis-la quand même et ajoute : \"C'est ma première blague de la journée, soyez indulgents.\" Le simple fait de verbaliser ta vulnérabilité te rend attachant.",
+    "exercise": "DÉFI 7 JOURS : Chaque jour, fais UNE tentative d'humour dans une conversation (blague, observation drôle, commentaire décalé). Note dans ton téléphone : la blague, la réaction, et comment tu t'es senti. En fin de semaine, relis — tu verras que le courage vient avec la pratique."
+  },
+  {
+    "id": 48,
+    "title": "L'autodérision en mode storytelling",
+    "content": "L'autodérision la plus efficace ne dit pas 'je suis nul' — elle raconte une histoire où tu es le personnage comique. Tu es le héros maladroit de ta propre aventure. La différence entre l'autodérision qui fait rire et celle qui met mal à l'aise : dans la première, tu ris AVEC le public de la situation. Dans la seconde, tu demandes de la pitié. Constance est une maîtresse de cette technique — elle raconte ses pires moments avec une énergie contagieuse.",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "example": "Au lieu de : \"Je suis nul en cuisine\" → Raconte : \"Hier j'ai voulu impressionner avec un risotto. Au bout de 40 minutes de mélange, j'ai réalisé que j'avais fait de la colle à papier peint. Mon coloc a accroché une étagère avec.\"",
+    "exercise": "EXERCICE RÉCIT : Pense à ton dernier fail (cuisine ratée, appli de rencontre, gaffe au boulot). Raconte-le en 1 minute chrono à voix haute, comme si c'était la meilleure histoire du monde. Le truc : ne te plains pas, célèbre ton échec avec enthousiasme."
+  },
+  {
+    "id": 49,
+    "title": "L'autodérision comme bouclier social",
+    "content": "En groupe, l'autodérision est le meilleur brise-glace. Quand tu ris de toi en premier, tu donnes la permission aux autres de se détendre. Ça crée un climat de confiance où tout le monde ose être drôle. Attention : l'autodérision fonctionne sur des sujets LÉGERS (ta coiffure, ta cuisine, tes dates ratés). Évite les vrais sujets sensibles — si ça te fait mal d'en rire, c'est pas de l'autodérision, c'est de l'auto-sabotage.",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "example": "En arrivant à une soirée où tu ne connais personne : \"Salut, je suis la personne qui va rester 10 minutes près du buffet en faisant semblant de lire les étiquettes des bouteilles.\" Tout le monde se reconnaît → glace brisée.",
+    "exercise": "EN SOIRÉE : La prochaine fois que tu arrives dans un groupe, commence par une phrase d'autodérision légère sur toi. Observe comment ça change l'ambiance. Note la différence avec les fois où tu arrives sans oser rien dire."
+  },
+  {
+    "id": 50,
+    "title": "L'autodérision de couple et de famille",
+    "content": "Les situations de couple et de famille sont un terreau comique universel. Les petites guerres pour la télécommande, les discussions sur qui fait la vaisselle, les repas de famille interminables — tout le monde connaît. L'autodérision de couple fonctionne parce qu'elle verbalise des tensions que chacun vit en silence. Élodie Poux excelle dans ce registre avec ses histoires de vie quotidienne poussées jusqu'à l'absurde.",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "example": "\"Avec ma copine on communique très bien. Par exemple, hier elle m'a dit 'tu m'écoutes jamais'. Apparemment c'était pas la première fois qu'elle le disait.\"",
+    "exercise": "MACHINE À CAFÉ READY : Écris 3 mini-anecdotes de couple ou de famille (repas de famille, cohabitation, Ikea, vacances). Exagère le conflit de façon bienveillante. Teste la meilleure sur un collègue — si il/elle répond 'oh c'est tellement ça !', tu as trouvé le bon filon."
+  },
+  {
+    "id": 51,
+    "title": "L'humour à la machine à café",
+    "content": "La machine à café est le théâtre social numéro un en entreprise. Tout s'y joue : les potins, les alliances, les vannes. Pour briller, pas besoin de préparer un spectacle — il suffit d'observer les rituels absurdes du bureau. Les réunions qui auraient pu être un mail, le jargon corporate insupportable, le collègue qui répond 'pas mal et toi ?' sans écouter la réponse. Karim Duval a construit tout un style sur l'absurdité du monde du travail.",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "example": "\"Encore une réunion de 45 minutes pour décider qu'on fera une autre réunion. On devrait avoir des réunions pour décider si la réunion vaut le coup d'être une réunion.\"",
+    "exercise": "CARNET DE BUREAU (1 semaine) : Note chaque jour une absurdité de ton lieu de travail (jargon, process, comportement). Le vendredi, relis tes notes et transforme la meilleure en observation drôle. Teste-la à la machine à café lundi."
+  },
+  {
+    "id": 52,
+    "title": "Survivre aux réunions avec humour",
+    "content": "Les réunions sont un concentré d'absurdités sociales : le PowerPoint illisible, le manager qui 'rebondit' sur tout, le collègue qui pose LA question à 17h55. L'humour en réunion demande de la finesse — tu vises le système, jamais les personnes. Le commentaire drôle parfait en réunion doit faire rire tout le monde, y compris la cible involontaire. C'est du stand-up corporate.",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "example": "Le manager dit 'pensez out of the box' → \"D'accord, mais on pourrait d'abord définir la box ? Parce que j'ai l'impression qu'on est même pas dans la même pièce.\"",
+    "exercise": "BINGO RÉUNION : Lors de ta prochaine réunion, note mentalement les clichés corporate qui tombent (synergies, best practices, on est alignés, je rebondis). Après la réunion, raconte le bingo à un collègue complice. Bonus : prépare 2 commentaires drôles calibrés pour la prochaine fois."
+  },
+  {
+    "id": 53,
+    "title": "L'humour par mail, Slack et Teams",
+    "content": "L'humour professionnel par écrit est un art subtil : trop formel et tu es invisible, trop drôle et tu passes pour le clown de service. Le sweet spot : une touche d'humour dans un message par ailleurs professionnel. Un sujet de mail légèrement décalé, un GIF bien placé dans Slack, une parenthèse inattendue dans un message Teams. La clé : l'humour écrit pro doit pouvoir être lu par ton N+2 sans problème.",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "INTERMEDIAIRE",
+    "example": "Objet du mail : \"Compte-rendu réunion (oui, encore une)\" ou en réponse à un process compliqué : \"J'ai suivi les 47 étapes. À l'étape 48, j'ai contemplé ma vie. À l'étape 49, j'ai trouvé le formulaire.\"",
+    "exercise": "CETTE SEMAINE : Ajoute une micro-touche d'humour dans 3 messages professionnels écrits (mail, Slack, Teams). Règle : l'humour tient en max 5 mots ou une parenthèse. Observe quels collègues réagissent — ce sont tes alliés humour au bureau."
+  },
+  {
+    "id": 54,
+    "title": "Les scripts de répartie prêts à l'emploi",
+    "content": "Quand tu débutes en répartie, le plus dur c'est le blanc : tu ne trouves rien à répondre sur le moment. La solution : prépare des réponses 'passe-partout' qui marchent dans 80% des situations. C'est pas de la triche, c'est de l'entraînement. Même les stand-uppers préparent leurs réponses au hecklers. Avec le temps, ces scripts deviennent des réflexes et tu n'en as plus besoin.",
+    "category": "REPARTIE",
+    "difficulty": "DEBUTANT",
+    "example": "Pique générique → \"Venant de quelqu'un qui [observation drôle], ça me touche.\" | Remarque sur ton physique → \"Je sais, j'ai hésité entre ça et être parfait, mais parfait c'était complet.\" | Question gênante → \"Excellente question. Suivante.\"",
+    "exercise": "ARSENAL DE POCHE : Écris et mémorise 5 réponses passe-partout pour les situations les plus courantes : la pique amicale, la question gênante, le compliment bizarre, la remarque sur ton retard, la blague qui tombe à plat. Répète-les à voix haute 3 fois. Utilises-en au moins 2 cette semaine."
+  },
+  {
+    "id": 55,
+    "title": "Répondre aux questions gênantes avec classe",
+    "content": "\"T'as quelqu'un ?\", \"Tu gagnes combien ?\", \"C'est pour quand le bébé ?\" — les questions gênantes sont le terrain de jeu parfait pour la répartie. Au lieu de te braquer ou de répondre sèchement, transforme la gêne en moment comique. Ça coupe court à l'indiscrétion tout en gardant une ambiance légère. Le secret : réponds à côté de la question avec un aplomb total.",
+    "category": "REPARTIE",
+    "difficulty": "DEBUTANT",
+    "example": "\"T'as quelqu'un ?\" → \"J'ai un cactus. C'est pareil mais ça demande moins d'arrosage.\" | \"Tu gagnes combien ?\" → \"Assez pour payer mon Netflix, pas assez pour la thérapie qu'il me faudrait.\" | \"T'as maigri ?\" → \"Non, j'ai juste changé de miroir.\"",
+    "exercise": "PRÉPARATION DÎNER DE FAMILLE : Identifie les 5 questions gênantes que ta famille/tes amis te posent systématiquement. Prépare pour chacune une réponse drôle et bienveillante qui esquive élégamment. Teste-les au prochain repas de famille."
+  },
+  {
+    "id": 56,
+    "title": "L'humour par texto et sur les réseaux",
+    "content": "Par écrit, l'humour n'a pas le ton de ta voix ni ton visage pour l'accompagner. Ça change tout. Les règles du texto drôle : 1) Sois bref — un message drôle de 3 lignes perd son impact, 2) Utilise le décalage entre ton sujet et ton ton, 3) Les réponses inattendues aux questions banales font mouche, 4) Le mème bien placé vaut mille mots. Attention : l'ironie passe MAL par écrit — préfère l'absurde ou l'autodérision.",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "DEBUTANT",
+    "example": "Pote : \"T'es où ?\" → \"Physiquement au bureau. Mentalement sur une plage. Émotionnellement dans le frigo.\" | Pote : \"On mange quoi ?\" → \"De l'espoir et des restes d'hier.\"",
+    "exercise": "DÉFI TEXTO (1 semaine) : Chaque jour, réponds à au moins 1 message banal d'un ami avec une réponse décalée au lieu de la réponse standard. Note les réactions (émoji rire = gagné, \"??\" = à retravailler). En fin de semaine, tu sauras quel style marche par écrit."
+  },
+  {
+    "id": 57,
+    "title": "Faire rire en rendez-vous",
+    "content": "L'humour en date est le super-pouvoir de la séduction. Mais attention : le but n'est pas de faire un spectacle — c'est de créer de la complicité. L'autodérision légère sur les conventions du date (le silence gênant, choisir le restaurant, qui paie) fonctionne universellement. L'observation partagée aussi : commenter ensemble ce qui se passe autour de vous crée un 'nous' immédiat. Panayotis Pascot parle brillamment de l'absurdité des dates modernes.",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "example": "Silence gênant au date → \"C'est le moment du date où d'habitude je fais semblant de regarder la carte alors que j'ai choisi depuis 10 minutes.\" Boom — tu as nommé l'éléphant dans la pièce, vous riez ensemble.",
+    "exercise": "AVANT TON PROCHAIN DATE : Prépare 3 observations drôles sur les conventions du date (la photo de profil vs la réalité, le 'et sinon tu fais quoi dans la vie', le choix impossible du restaurant). Ce ne sont pas des blagues à réciter — ce sont des munitions à sortir au bon moment."
+  },
+  {
+    "id": 58,
+    "title": "Trouver sa place dans un groupe qui rit",
+    "content": "En groupe, les rôles se distribuent vite : le leader comique, le public, le silencieux. Si tu es naturellement discret, pas besoin de forcer le rôle du boute-en-train. Ton créneau : la remarque chirurgicale. Pendant que les autres enchaînent les vannes, toi tu observes. Et quand tu places UNE phrase bien sentie, elle a 10 fois plus d'impact parce que tout le monde l'attend. La qualité bat la quantité.",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "example": "Tes amis débattent bruyamment sur le meilleur kebab du quartier. Toi, après 5 minutes de silence : \"On dirait un conseil municipal sur un sujet de défense nationale.\" Une phrase, maximum d'impact.",
+    "exercise": "PROCHAINE SOIRÉE : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles."
+  },
+  {
+    "id": 59,
+    "title": "Humour et confiance : le cercle vertueux",
+    "content": "L'humour et la confiance se nourrissent mutuellement. Plus tu oses, plus tu réussis, plus tu oses. Mais le cercle marche aussi dans l'autre sens : moins tu oses, moins tu t'entraînes, moins tu progresses. Le secret pour lancer le cercle vertueux : commence petit, dans un environnement safe. Un ami proche, un message texte, un commentaire en petit comité. Chaque micro-victoire alimente ta confiance pour la suivante.",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "example": "Lundi : une blague par texto. Mardi : un commentaire drôle à un ami. Mercredi : une observation à la machine à café. Jeudi : une vanne en réunion informelle. Vendredi : tu racontes une anecdote drôle à un groupe. La progression douce est la clé.",
+    "exercise": "PROGRAMME CONFIANCE (2 semaines) : Semaine 1 — Fais 1 tentative d'humour par jour uniquement avec des proches (amis, famille). Note les résultats. Semaine 2 — Élargis le cercle (collègues, connaissances). Compare ton niveau de confort entre le jour 1 et le jour 14."
+  },
+  {
+    "id": 60,
+    "title": "La routine hebdomadaire de l'apprenti humoriste",
+    "content": "Comme la musique ou le sport, l'humour se travaille avec régularité. Les meilleurs stand-uppers écrivent tous les jours. Toi, tu n'as pas besoin d'en faire autant — mais une routine légère fait des miracles. Le plan : observer le lundi, écrire le mardi, tester le mercredi, analyser le jeudi. Le weekend, tu profites de tes progrès en soirée. En un mois, tu verras une vraie différence.",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "example": "Lundi : Note 3 absurdités du quotidien. Mardi : Transforme-les en blagues. Mercredi : Teste la meilleure sur un ami. Jeudi : Analyse ce qui a marché et pourquoi. Vendredi : Blague libre — applique ce que tu as appris. Weekend : Profite sans pression.",
+    "exercise": "LANCE-TOI : Applique cette routine pendant 4 semaines. Crée une note dans ton téléphone 'Carnet d'humour' avec 5 sections : Observations, Blagues brutes, Tests, Résultats, Favoris. Au bout d'un mois, relis ton carnet — tu seras surpris par ta progression."
   }
 ]
