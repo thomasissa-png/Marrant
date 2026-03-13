@@ -9,6 +9,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
+import { YouTubePlayer } from "@/components/ui/youtube-player";
 import Link from "next/link";
 
 interface Video {
@@ -168,14 +169,7 @@ export function VideosGrid() {
             >
               <CardContent className="pt-4">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${encodeURIComponent(video.youtubeId)}`}
-                    title={video.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-full w-full"
-                    loading="lazy"
-                  />
+                  <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-base font-semibold text-text-primary line-clamp-2">

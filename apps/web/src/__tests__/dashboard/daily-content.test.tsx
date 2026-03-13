@@ -125,12 +125,11 @@ describe("DailyContent", () => {
     });
   });
 
-  it("shows embedded YouTube video iframe", async () => {
+  it("shows YouTube thumbnail with play button", async () => {
     render(<DailyContent />);
     await waitFor(() => {
-      const iframe = screen.getByTitle("Les secrets du timing comique");
-      expect(iframe).toBeInTheDocument();
-      expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/dQw4w9WgXcQ");
+      const playButton = screen.getByLabelText("Lire la vidéo : Les secrets du timing comique");
+      expect(playButton).toBeInTheDocument();
     });
   });
 

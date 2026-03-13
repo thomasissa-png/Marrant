@@ -91,22 +91,23 @@ describe("VideosGrid", () => {
     });
   });
 
-  it("embeds YouTube video as iframe", async () => {
+  it("shows YouTube thumbnail with play button", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
-      const iframe = screen.getByTitle("Stand-up hilarant");
-      expect(iframe).toBeInTheDocument();
-      expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/abc123");
-      expect(iframe).toHaveAttribute("allowFullScreen");
+      const playButton = screen.getByLabelText("Lire la vidéo : Stand-up hilarant");
+      expect(playButton).toBeInTheDocument();
     });
   });
 
-  it("uses lazy loading for iframes", async () => {
+  it("loads iframe on play click", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
-      const iframe = screen.getByTitle("Stand-up hilarant");
-      expect(iframe).toHaveAttribute("loading", "lazy");
+      expect(screen.getByLabelText("Lire la vidéo : Stand-up hilarant")).toBeInTheDocument();
     });
+    await userEvent.click(screen.getByLabelText("Lire la vidéo : Stand-up hilarant"));
+    const iframe = screen.getByTitle("Stand-up hilarant");
+    expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/abc123?autoplay=1");
+    expect(iframe).toHaveAttribute("allowFullScreen");
   });
 
   it("shows error state on failure", async () => {

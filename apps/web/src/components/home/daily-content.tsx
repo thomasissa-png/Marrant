@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { YouTubePlayer } from "@/components/ui/youtube-player";
 
 interface Joke {
   id: string;
@@ -195,15 +196,8 @@ export function DailyContent() {
             </div>
             {data.video ? (
               <div className="space-y-3">
-                <div className="aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${encodeURIComponent(data.video.youtubeId)}`}
-                    title={data.video.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-full w-full"
-                    loading="lazy"
-                  />
+                <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                  <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
