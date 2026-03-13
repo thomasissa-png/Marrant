@@ -177,7 +177,7 @@ export function VideosGrid() {
                   </h3>
                   <div className="flex shrink-0 items-center gap-1">
                     <FavoriteButton contentType="VIDEO" contentId={video.id} />
-                    <ShareButton title={`${video.title} - deviensmarrant.fr`} text={`${video.title} par ${video.channelName}`} />
+                    <ShareButton title={`${video.title} - deviens-marrant.fr`} text={`${video.title} par ${video.channelName}`} />
                   </div>
                 </div>
                 <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>

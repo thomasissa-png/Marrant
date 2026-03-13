@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Palette deviensmarrant — ambiance cinéma/Netflix
+        // Palette deviens-marrant — ambiance cinéma/Netflix
         background: {
           DEFAULT: "#0D0D0D",
           light: "#1A1A1A",

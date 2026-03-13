@@ -1,4 +1,4 @@
-# Design System — deviensmarrant.fr
+# Design System — deviens-marrant.fr
 
 ## Palette de couleurs
 

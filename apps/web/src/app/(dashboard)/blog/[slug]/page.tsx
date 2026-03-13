@@ -21,7 +21,7 @@ export function generateMetadata({
     return { title: "Article introuvable" };
   }
   return {
-    title: `${article.title} | Blog deviensmarrant`,
+    title: `${article.title} | Blog deviens-marrant`,
     description: article.excerpt,
   };
 }

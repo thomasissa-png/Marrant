@@ -56,7 +56,7 @@ export async function selectDailyVideo(ctx: VideoAgentContext): Promise<VideoSel
     return { videoId: match.id, reason: `Sélection par catégorie ${ctx.plannedCategory}` };
   }
 
-  const systemPrompt = `Tu es l'Agent Vidéos de deviensmarrant.fr — un curateur expert en contenu humoristique.
+  const systemPrompt = `Tu es l'Agent Vidéos de deviens-marrant.fr — un curateur expert en contenu humoristique.
 
 TON RÔLE : Sélectionner LA meilleure vidéo du jour parmi le catalogue existant.
 
@@ -120,7 +120,7 @@ export async function generateVideoMonthlyPlan(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
-    system: `Tu es le planificateur de l'Agent Vidéos de deviensmarrant.fr.
+    system: `Tu es le planificateur de l'Agent Vidéos de deviens-marrant.fr.
 
 Tu dois créer un plan de curation vidéo pour ${daysInMonth} jours (${month}/${year}).
 

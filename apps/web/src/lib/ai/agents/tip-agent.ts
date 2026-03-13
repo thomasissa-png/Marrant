@@ -31,7 +31,7 @@ interface TipAgentContext {
 export async function generateDailyTip(ctx: TipAgentContext): Promise<GeneratedTip> {
   const persona = PERSONAS[ctx.persona];
 
-  const systemPrompt = `Tu es l'Agent Conseils de deviensmarrant.fr — un coach en humour et répartie avec 20 ans d'expérience.
+  const systemPrompt = `Tu es l'Agent Conseils de deviens-marrant.fr — un coach en humour et répartie avec 20 ans d'expérience.
 
 TON RÔLE : Créer UN conseil pratique et actionnable par jour.
 
@@ -131,7 +131,7 @@ export async function generateTipMonthlyPlan(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
-    system: `Tu es le planificateur de l'Agent Conseils de deviensmarrant.fr.
+    system: `Tu es le planificateur de l'Agent Conseils de deviens-marrant.fr.
 
 Tu dois créer un plan de contenu pour ${daysInMonth} jours (${month}/${year}).
 

@@ -1,4 +1,4 @@
-# Stratégie mots-clés — deviensmarrant.fr
+# Stratégie mots-clés — deviens-marrant.fr
 
 ## Mots-clés principaux (volume élevé)
 - devenir drôle

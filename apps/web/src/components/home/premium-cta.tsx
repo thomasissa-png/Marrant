@@ -151,7 +151,7 @@ export function PremiumCta() {
           </ul>
 
           <a
-            href="https://cal.com/deviensmarrant/coaching-humour"
+            href="https://cal.com/deviens-marrant/coaching-humour"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 block"

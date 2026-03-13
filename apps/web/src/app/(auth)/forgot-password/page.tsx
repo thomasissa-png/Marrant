@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
             <span className="font-display text-2xl font-bold text-gradient">
-              deviensmarrant
+              deviens-marrant
             </span>
           </Link>
           <CardTitle>Mot de passe oublié</CardTitle>

@@ -1,4 +1,4 @@
-# Guide de déploiement — deviensmarrant.fr
+# Guide de déploiement — deviens-marrant.fr
 
 ## Prérequis
 

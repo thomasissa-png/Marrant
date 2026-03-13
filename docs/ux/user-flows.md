@@ -1,4 +1,4 @@
-# Parcours utilisateur — deviensmarrant.fr
+# Parcours utilisateur — deviens-marrant.fr
 
 ## 1. Découverte → Inscription
 1. L'utilisateur arrive sur la homepage

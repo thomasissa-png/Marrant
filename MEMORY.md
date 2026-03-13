@@ -1,4 +1,4 @@
-# MEMORY.md — deviensmarrant.fr
+# MEMORY.md — deviens-marrant.fr
 _Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 
 ## État du projet

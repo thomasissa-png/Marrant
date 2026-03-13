@@ -663,7 +663,7 @@ describe("Marketing Agent", () => {
       hook: "Tu restes muet quand on te chambre ?",
       content: "Voici 3 techniques de répartie...",
       cta: "Lien en bio pour progresser",
-      hashtags: ["#humour", "#répartie", "#deviensmarrant"],
+      hashtags: ["#humour", "#répartie", "#deviens-marrant"],
       objective: "Acquisition persona jeune",
       kpi: "Taux d'engagement > 5%",
     };

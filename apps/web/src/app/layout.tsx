@@ -17,8 +17,8 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   title: {
-    default: "deviensmarrant.fr | Apprends à être drôle",
-    template: "%s | deviensmarrant.fr",
+    default: "deviens-marrant.fr | Apprends à être drôle",
+    template: "%s | deviens-marrant.fr",
   },
   description:
     "La plateforme francophone pour progresser en humour et en répartie. Blagues, conseils de pros, vidéos stand-up et progression personnalisée.",
@@ -32,20 +32,20 @@ export const metadata: Metadata = {
     "cours humour en ligne",
     "apprendre le stand-up",
   ],
-  authors: [{ name: "deviensmarrant.fr" }],
+  authors: [{ name: "deviens-marrant.fr" }],
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://deviensmarrant.fr",
-    siteName: "deviensmarrant.fr",
-    title: "deviensmarrant.fr | Apprends à être drôle",
+    url: "https://deviens-marrant.fr",
+    siteName: "deviens-marrant.fr",
+    title: "deviens-marrant.fr | Apprends à être drôle",
     description:
       "La plateforme francophone pour progresser en humour et en répartie.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "deviensmarrant.fr | Apprends à être drôle",
+    title: "deviens-marrant.fr | Apprends à être drôle",
     description:
       "La plateforme francophone pour progresser en humour et en répartie.",
   },

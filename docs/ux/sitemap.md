@@ -1,4 +1,4 @@
-# Sitemap — deviensmarrant.fr
+# Sitemap — deviens-marrant.fr
 
 ## Pages publiques
 - `/` — Home (hero + blague/conseil du jour)

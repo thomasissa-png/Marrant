@@ -28,7 +28,7 @@ describe("LoginPage", () => {
 
   it("renders logo linking to home", () => {
     render(<LoginPage />);
-    expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
   });
 
   it("has submit button", () => {

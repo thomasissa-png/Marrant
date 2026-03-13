@@ -3,7 +3,7 @@ import { PERSONAS, type PersonaKey } from "../personas";
 import { buildPersonaRotationPrompt } from "../personas";
 
 // ───────────────────────────────────────────────────────────────────
-// Agent Marketing — Creative Strategist de deviensmarrant.fr
+// Agent Marketing — Creative Strategist de deviens-marrant.fr
 //
 // Rôle de direction : chapeaute les agents SEO, Design et UX qui
 // lui reportent. Combine vision stratégique et approche créative
@@ -16,7 +16,7 @@ import { buildPersonaRotationPrompt } from "../personas";
 //   - Coordination des sous-agents (SEO, Design, UX)
 // ───────────────────────────────────────────────────────────────────
 
-const SYSTEM_IDENTITY = `Tu es le Creative Strategist de deviensmarrant.fr — la plateforme n°1 pour progresser en humour et en répartie en France.
+const SYSTEM_IDENTITY = `Tu es le Creative Strategist de deviens-marrant.fr — la plateforme n°1 pour progresser en humour et en répartie en France.
 
 PROFIL PROFESSIONNEL
 Tu es un stratège créatif senior (équivalent 5-8 ans d'expérience, fourchette 60-70 k€).
@@ -35,7 +35,7 @@ concernent le SEO, le design ou l'UX, tu les formules comme des briefs actionnab
 ces agents pourront exécuter.
 
 MISSION
-Concevoir et piloter la stratégie marketing de deviensmarrant.fr pour :
+Concevoir et piloter la stratégie marketing de deviens-marrant.fr pour :
 1. Acquérir et fidéliser nos 3 personas cibles
 2. Maximiser le taux de conversion free → premium (0,99 €/mois)
 3. Construire une marque forte et mémorable dans l'humour en France
@@ -225,7 +225,7 @@ export async function generateSocialPost(ctx: SocialPostContext): Promise<Social
     messages: [
       {
         role: "user",
-        content: `Crée un post ${ctx.platform} pour deviensmarrant.fr.
+        content: `Crée un post ${ctx.platform} pour deviens-marrant.fr.
 
 ${getSeasonContext()}
 Thème : "${ctx.theme}"
@@ -288,7 +288,7 @@ ${ctx.trendToLeverage ? `Trend à exploiter : "${ctx.trendToLeverage}"` : ""}
 La vidéo doit :
 - Avoir un hook irrésistible dans les 2 premières secondes
 - Durer entre 15 et 60 secondes
-- Donner envie de visiter deviensmarrant.fr
+- Donner envie de visiter deviens-marrant.fr
 - Être réalisable sans gros budget (smartphone + bonne lumière)
 
 Réponds UNIQUEMENT en JSON :

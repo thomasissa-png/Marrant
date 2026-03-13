@@ -223,7 +223,7 @@ export function ConseilsList() {
                   </div>
                   <div className="flex items-center gap-1">
                     <FavoriteButton contentType="TIP" contentId={tip.id} />
-                    <ShareButton title={`${tip.title} - deviensmarrant.fr`} text={tip.content} />
+                    <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>
                 </div>
                 <CardTitle>{tip.title}</CardTitle>

@@ -189,7 +189,7 @@ export default function AdminPage() {
       <div className="flex min-h-[60vh] items-center justify-center p-4">
         <div className="w-full max-w-sm rounded-lg border border-border bg-background-card p-8">
           <h1 className="mb-6 text-center font-display text-2xl font-bold text-text-primary">
-            Admin — deviensmarrant
+            Admin — deviens-marrant
           </h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <input
@@ -222,7 +222,7 @@ export default function AdminPage() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="font-display text-3xl font-bold text-text-primary">
-              Backoffice — deviensmarrant
+              Backoffice — deviens-marrant
             </h1>
             <p className="mt-1 text-text-muted">Vue d&apos;ensemble du projet et des agents</p>
           </div>

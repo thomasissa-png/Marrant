@@ -1,4 +1,4 @@
-# Plan de tests — deviensmarrant.fr
+# Plan de tests — deviens-marrant.fr
 
 ## Stack de tests
 

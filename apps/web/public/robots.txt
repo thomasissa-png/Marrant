@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://deviensmarrant.fr/sitemap.xml
+Sitemap: https://deviens-marrant.fr/sitemap.xml

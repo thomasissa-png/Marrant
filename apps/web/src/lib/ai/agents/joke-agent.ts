@@ -33,7 +33,7 @@ interface JokeAgentContext {
 export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
   const persona = PERSONAS[ctx.persona];
 
-  const systemPrompt = `Tu es l'Agent Blagues de deviensmarrant.fr — un expert en humour francophone.
+  const systemPrompt = `Tu es l'Agent Blagues de deviens-marrant.fr — un expert en humour francophone.
 
 TON RÔLE : Créer UNE blague originale par jour, adaptée au public cible du site.
 
@@ -132,7 +132,7 @@ export async function generateJokeMonthlyPlan(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
-    system: `Tu es le planificateur de l'Agent Blagues de deviensmarrant.fr.
+    system: `Tu es le planificateur de l'Agent Blagues de deviens-marrant.fr.
 
 Tu dois créer un plan de contenu pour ${daysInMonth} jours (${month}/${year}).
 

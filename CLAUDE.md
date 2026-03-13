@@ -1,4 +1,4 @@
-# Marrant — deviensmarrant.fr
+# Marrant — deviens-marrant.fr
 
 ## Règles de développement
 

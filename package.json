@@ -1,5 +1,5 @@
 {
-  "name": "deviensmarrant-monorepo",
+  "name": "deviens-marrant-monorepo",
   "private": true,
   "scripts": {
     "postinstall": "bash -c 'cd /home/runner/workspace/apps/web && npm install && npx prisma generate'",

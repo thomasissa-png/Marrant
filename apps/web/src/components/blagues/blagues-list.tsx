@@ -190,7 +190,7 @@ export function BlaguesList() {
                   </div>
                   <div className="flex items-center gap-1">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
-                    <ShareButton title="Blague - deviensmarrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
+                    <ShareButton title="Blague - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
                 </div>
                 <p className="text-text-primary">{joke.content}</p>

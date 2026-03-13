@@ -12,7 +12,7 @@ export default function CGUPage() {
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
-          <p>Les présentes CGU régissent l&apos;utilisation de la plateforme deviensmarrant.fr, accessible à l&apos;adresse https://deviensmarrant.fr, dédiée à l&apos;apprentissage de l&apos;humour et de la répartie.</p>
+          <p>Les présentes CGU régissent l&apos;utilisation de la plateforme deviens-marrant.fr, accessible à l&apos;adresse https://deviens-marrant.fr, dédiée à l&apos;apprentissage de l&apos;humour et de la répartie.</p>
           <p className="mt-2">En accédant au site ou en créant un compte, vous acceptez sans réserve les présentes conditions.</p>
         </section>
         <section>
@@ -37,7 +37,7 @@ export default function CGUPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">6. Droit de rétractation</h2>
           <p>Conformément à la Directive européenne 2011/83/UE et au Code de la consommation français, vous disposez d&apos;un délai de 14 jours à compter de la souscription pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
-          <p className="mt-2">Pour exercer ce droit, adressez votre demande à contact@deviensmarrant.fr. Le remboursement sera effectué dans un délai de 14 jours suivant la réception de la demande.</p>
+          <p className="mt-2">Pour exercer ce droit, adressez votre demande à contact@deviens-marrant.fr. Le remboursement sera effectué dans un délai de 14 jours suivant la réception de la demande.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>

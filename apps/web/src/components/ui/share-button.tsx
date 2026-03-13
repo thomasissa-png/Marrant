@@ -28,7 +28,7 @@ export function ShareButton({ title, text, className }: ShareButtonProps) {
         // User cancelled
       }
     } else {
-      await navigator.clipboard.writeText(`${text}\n\n— deviensmarrant.fr`);
+      await navigator.clipboard.writeText(`${text}\n\n— deviens-marrant.fr`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }

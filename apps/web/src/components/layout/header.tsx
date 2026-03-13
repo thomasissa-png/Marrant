@@ -46,7 +46,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <span className="font-display text-xl font-bold text-gradient">
-              deviensmarrant
+              deviens-marrant
             </span>
           </Link>
 

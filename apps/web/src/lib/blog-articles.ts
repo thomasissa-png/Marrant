@@ -46,7 +46,7 @@ Prends la remarque et pousse-la à l'extrême. "T'es toujours fatigué" devient 
 
 Le secret, c'est de pratiquer. Commence par une ou deux techniques, utilise-les dans des situations à faible enjeu (avec des amis, en famille), puis élargis petit à petit. La répartie, c'est comme un muscle : plus tu l'entraines, plus elle devient naturelle.
 
-Tu veux aller plus loin ? Sur deviensmarrant.fr, on a des exercices interactifs pour pratiquer chaque technique avec des mises en situation concrètes. Essaie gratuitement et tu verras la différence en quelques jours.`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a des exercices interactifs pour pratiquer chaque technique avec des mises en situation concrètes. Essaie gratuitement et tu verras la différence en quelques jours.`,
     date: "2026-03-10",
     readingTime: "5 min",
     category: "REPARTIE",
@@ -80,7 +80,7 @@ Commence petit. Fais des observations drôles en privé, dans ta tête. Ensuite,
 
 L'erreur classique, c'est de vouloir être hilare dès le premier essai. L'humour, c'est un marathon, pas un sprint. Chaque vanne qui tombe à plat est une leçon. Chaque sourire arraché est une victoire.
 
-Sur deviensmarrant.fr, on a conçu des parcours progressifs pour développer ton humour étape par étape, avec des exercices concrets et un suivi de ta progression. Teste gratuitement et découvre ton potentiel comique.`,
+Sur deviens-marrant.fr, on a conçu des parcours progressifs pour développer ton humour étape par étape, avec des exercices concrets et un suivi de ta progression. Teste gratuitement et découvre ton potentiel comique.`,
     date: "2026-03-05",
     readingTime: "4 min",
     category: "OBSERVATION",
@@ -116,7 +116,7 @@ Comment pratiquer
 
 Commence par observer. Regarde des spectacles de stand-up et chronométre les pauses. Note quand les rires arrivent par rapport aux silences. Ensuite, dans tes conversations, force-toi à attendre avant de répondre. Résiste à l'envie de combler le silence. Tu seras surpris de l'effet.
 
-Envie de travailler ton timing avec des exercices interactifs ? Sur deviensmarrant.fr, chaque conseil vient avec une mise en situation pour t'entrainer. Essaie gratuitement, ça prend 5 minutes par jour.`,
+Envie de travailler ton timing avec des exercices interactifs ? Sur deviens-marrant.fr, chaque conseil vient avec une mise en situation pour t'entrainer. Essaie gratuitement, ça prend 5 minutes par jour.`,
     date: "2026-02-28",
     readingTime: "4 min",
     category: "TIMING",
@@ -152,7 +152,7 @@ Le plan d'action
 
 Choisis une erreur que tu fais souvent. Une seule. Et pendant une semaine, concentre-toi uniquement sur celle-là. La semaine suivante, passe à la suivante. En un mois, tu auras corrigé les erreurs les plus courantes et tes blagues auront beaucoup plus d'impact.
 
-Tu veux des exercices pratiques pour travailler chaque point ? Sur deviensmarrant.fr, on a des mises en situation pour chaque type d'erreur. Essaie gratuitement et progresse à ton rythme.`,
+Tu veux des exercices pratiques pour travailler chaque point ? Sur deviens-marrant.fr, on a des mises en situation pour chaque type d'erreur. Essaie gratuitement et progresse à ton rythme.`,
     date: "2026-02-20",
     readingTime: "5 min",
     category: "STORYTELLING",
@@ -196,7 +196,7 @@ Entre amis : "Mon sens de l'orientation est tellement mauvais que Google Maps m'
 
 En rendez-vous : "Je te préviens, je suis très nul pour choisir au restaurant. Ma dernière commande aventureuse, c'était un menu enfant."
 
-L'autodérision est un muscle qui se développe. Commence par des petites remarques en terrain connu (amis proches, famille), puis élargis progressivement. Sur deviensmarrant.fr, tu trouveras des exercices guidés pour développer ton autodérision sans tomber dans les pièges. Essaie gratuitement et découvre cette arme secrète.`,
+L'autodérision est un muscle qui se développe. Commence par des petites remarques en terrain connu (amis proches, famille), puis élargis progressivement. Sur deviens-marrant.fr, tu trouveras des exercices guidés pour développer ton autodérision sans tomber dans les pièges. Essaie gratuitement et découvre cette arme secrète.`,
     date: "2026-02-15",
     readingTime: "4 min",
     category: "AUTODERISION",
