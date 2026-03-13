@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
+import Script from "next/script";
 import { SessionProvider } from "@/components/providers/session-provider";
 import "@/styles/globals.css";
 
@@ -75,6 +76,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <SessionProvider>{children}</SessionProvider>
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          />
+        )}
       </body>
     </html>
   );
