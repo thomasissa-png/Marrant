@@ -51,10 +51,12 @@ export async function GET(request: NextRequest) {
         orderBy: { id: "asc" },
       });
 
-      const offset = seed % Math.max(allVideos.length, 1);
+      const count = allVideos.length;
+      const offset = seed % Math.max(count, 1);
+      const stride = Math.max(1, Math.floor(count / FREE_LIMIT));
       const rotated = [];
-      for (let i = 0; i < Math.min(FREE_LIMIT, allVideos.length); i++) {
-        rotated.push(allVideos[(offset + i) % allVideos.length]);
+      for (let i = 0; i < Math.min(FREE_LIMIT, count); i++) {
+        rotated.push(allVideos[(offset + i * stride) % count]);
       }
 
       return NextResponse.json({

@@ -58,11 +58,20 @@ export function BlaguesList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
+
+  // Éviter le flash du skeleton si le fetch est rapide
+  useEffect(() => {
+    if (isLoading && jokes.length === 0) {
+      const timer = setTimeout(() => setShowSkeleton(true), 300);
+      return () => clearTimeout(timer);
+    }
+    setShowSkeleton(false);
+  }, [isLoading, jokes.length]);
 
   const fetchJokes = useCallback(async () => {
     setIsLoading(true);
@@ -86,7 +95,6 @@ export function BlaguesList() {
       setError(true);
     } finally {
       setIsLoading(false);
-      setIsInitialLoad(false);
     }
   }, [category, page, searchQuery]);
 
@@ -135,7 +143,7 @@ export function BlaguesList() {
             Les filtres par catégorie sont réservés aux membres
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les blagues classées par catégorie pour trouver exactement ce que tu cherches.
+            Tu as accès à 20 blagues{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par catégorie pour trouver la blague parfaite.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">
@@ -148,7 +156,7 @@ export function BlaguesList() {
           message="Les blagues se sont perdues en chemin."
           onRetry={fetchJokes}
         />
-      ) : isLoading && isInitialLoad ? (
+      ) : showSkeleton ? (
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -213,8 +221,8 @@ export function BlaguesList() {
         </div>
       )}
 
-      {/* Upsell Premium */}
-      {limited && (
+      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
+      {limited && category === "" && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
             Tu as accès à 20 blagues + la blague du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}

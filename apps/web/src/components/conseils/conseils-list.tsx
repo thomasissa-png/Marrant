@@ -68,7 +68,7 @@ export function ConseilsList() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
@@ -76,6 +76,15 @@ export function ConseilsList() {
   const { status } = useSession();
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
+
+  // Éviter le flash du skeleton si le fetch est rapide
+  useEffect(() => {
+    if (isLoading && tips.length === 0) {
+      const timer = setTimeout(() => setShowSkeleton(true), 300);
+      return () => clearTimeout(timer);
+    }
+    setShowSkeleton(false);
+  }, [isLoading, tips.length]);
 
   const fetchTips = useCallback(async () => {
     setIsLoading(true);
@@ -100,7 +109,6 @@ export function ConseilsList() {
       setError(true);
     } finally {
       setIsLoading(false);
-      setIsInitialLoad(false);
     }
   }, [difficulty, category, page, searchQuery]);
 
@@ -167,7 +175,7 @@ export function ConseilsList() {
             Les filtres sont réservés aux membres
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque tous les conseils avec filtres par niveau et catégorie pour progresser à ton rythme.
+            Tu as accès à 5 conseils{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout avec filtres par niveau et catégorie pour progresser à ton rythme.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">
@@ -180,7 +188,7 @@ export function ConseilsList() {
           message="Les conseils se font désirer... comme une bonne chute."
           onRetry={fetchTips}
         />
-      ) : isLoading && isInitialLoad ? (
+      ) : showSkeleton ? (
         <div className="grid gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -255,8 +263,8 @@ export function ConseilsList() {
         </div>
       )}
 
-      {/* Upsell Premium */}
-      {limited && (
+      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
+      {limited && category === "" && difficulty === "" && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
             Tu as accès à 5 conseils + le conseil du jour{totalAvailable > 0 ? `, ${totalAvailable}+ t'attendent !` : " !"}

@@ -67,10 +67,19 @@ export function VideosGrid() {
   const [difficulty, setDifficulty] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
+
+  // Éviter le flash du skeleton si le fetch est rapide
+  useEffect(() => {
+    if (isLoading && videos.length === 0) {
+      const timer = setTimeout(() => setShowSkeleton(true), 300);
+      return () => clearTimeout(timer);
+    }
+    setShowSkeleton(false);
+  }, [isLoading, videos.length]);
 
   const fetchVideos = useCallback(async () => {
     setIsLoading(true);
@@ -94,7 +103,6 @@ export function VideosGrid() {
       setError(true);
     } finally {
       setIsLoading(false);
-      setIsInitialLoad(false);
     }
   }, [difficulty, page, searchQuery]);
 
@@ -128,7 +136,7 @@ export function VideosGrid() {
             Les filtres par niveau sont réservés aux membres
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les vidéos analysées et filtre par niveau pour progresser étape par étape.
+            Tu as accès à 10 vidéos{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par niveau pour progresser étape par étape.
           </p>
           <Link href="/register">
             <Button variant="primary" size="lg" className="mt-4">
@@ -138,7 +146,7 @@ export function VideosGrid() {
         </div>
       ) : error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
-      ) : isLoading && isInitialLoad ? (
+      ) : showSkeleton ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -211,8 +219,8 @@ export function VideosGrid() {
         </div>
       )}
 
-      {/* Upsell Premium */}
-      {limited && (
+      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
+      {limited && difficulty === "" && (
         <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="text-lg font-semibold text-text-primary">
             Tu as accès à 10 vidéos + la vidéo du jour{totalAvailable > 0 ? `, ${totalAvailable}+ disponibles !` : " !"}

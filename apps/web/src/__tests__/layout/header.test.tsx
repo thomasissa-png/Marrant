@@ -31,7 +31,7 @@ describe("Header", () => {
 
   it("renders logo linking to home", () => {
     render(<Header />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("renders navigation items including Parcours", () => {

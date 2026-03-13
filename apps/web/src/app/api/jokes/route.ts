@@ -55,11 +55,13 @@ export async function GET(request: NextRequest) {
         orderBy: { id: "asc" },
       });
 
-      // Rotation quotidienne : sélectionner FREE_LIMIT blagues à partir d'un offset qui change chaque jour
-      const offset = seed % Math.max(allJokes.length, 1);
+      // Rotation quotidienne avec stride pour garantir la diversité des catégories
+      const count = allJokes.length;
+      const offset = seed % Math.max(count, 1);
+      const stride = Math.max(1, Math.floor(count / FREE_LIMIT));
       const rotated = [];
-      for (let i = 0; i < Math.min(FREE_LIMIT, allJokes.length); i++) {
-        rotated.push(allJokes[(offset + i) % allJokes.length]);
+      for (let i = 0; i < Math.min(FREE_LIMIT, count); i++) {
+        rotated.push(allJokes[(offset + i * stride) % count]);
       }
 
       return NextResponse.json({
