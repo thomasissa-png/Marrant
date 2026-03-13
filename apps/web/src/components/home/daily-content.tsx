@@ -30,6 +30,8 @@ interface Video {
   duration: string;
   category: string;
   technique: string;
+  learnings: string[];
+  exercise: string | null;
 }
 
 interface DailyData {
@@ -203,6 +205,25 @@ export function DailyContent() {
                   <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
                   <p className="text-xs text-text-secondary">{data.video.channelName}</p>
                 </div>
+                {data.video.learnings && data.video.learnings.length > 0 && (
+                  <div className="rounded-lg bg-background-elevated p-3">
+                    <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
+                    <ul className="mt-1.5 space-y-1">
+                      {data.video.learnings.map((learning, i) => (
+                        <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                          {learning}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {data.video.exercise && (
+                  <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
+                    <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
+                    <p className="mt-1 text-xs text-text-secondary">{data.video.exercise}</p>
+                  </div>
+                )}
               </div>
             ) : (
               <p className="text-text-secondary">L&apos;humoriste du jour est en coulisses. À demain !</p>

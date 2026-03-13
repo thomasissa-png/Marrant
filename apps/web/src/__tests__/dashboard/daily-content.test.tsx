@@ -26,6 +26,8 @@ const mockDailyData = {
     duration: "PT12M30S",
     category: "TIMING",
     technique: "Pause dramatique",
+    learnings: ["Maîtriser la pause avant la chute", "Varier le rythme de parole"],
+    exercise: "Raconte une blague en variant les pauses ce soir.",
   },
 };
 
@@ -211,6 +213,39 @@ describe("DailyContent", () => {
       expect(screen.getByText("Le timing parfait")).toBeInTheDocument();
       expect(screen.queryByText("Exemple concret")).not.toBeInTheDocument();
       expect(screen.queryByText("Exercice du jour")).not.toBeInTheDocument();
+    });
+  });
+
+  it("shows video learnings", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
+      expect(screen.getByText("Maîtriser la pause avant la chute")).toBeInTheDocument();
+      expect(screen.getByText("Varier le rythme de parole")).toBeInTheDocument();
+    });
+  });
+
+  it("shows video exercise", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
+      expect(screen.getByText("Raconte une blague en variant les pauses ce soir.")).toBeInTheDocument();
+    });
+  });
+
+  it("hides video learnings/exercise when not available", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockDailyData,
+        video: { ...mockDailyData.video, learnings: [], exercise: null },
+      }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Les secrets du timing comique")).toBeInTheDocument();
+      expect(screen.queryByText("Ce que tu vas apprendre")).not.toBeInTheDocument();
+      expect(screen.queryByText("Exercice pratique")).not.toBeInTheDocument();
     });
   });
 
