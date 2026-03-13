@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
+import { FeatureCards } from "@/components/home/feature-cards";
 import { PremiumCta } from "@/components/home/premium-cta";
 import { HomeCta } from "@/components/home/home-cta";
 import Link from "next/link";
@@ -15,59 +15,8 @@ export default function HomePage() {
       {/* Contenu du jour (dynamique) */}
       <DailyContent />
 
-      {/* Sections principales */}
-      <section className="grid gap-6 py-12 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Blagues prêtes à sortir</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-text-secondary">
-              Des centaines de blagues classées par catégorie : école, boulot, couple,
-              soirées. Tu trouveras toujours la bonne blague au bon moment.
-            </p>
-            <Link href="/blagues">
-              <Button variant="ghost" size="sm">
-                Explorer les blagues →
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Techniques de répartie</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-text-secondary">
-              Timing, répartie, storytelling. Chaque conseil vient avec un
-              exemple concret et un exercice à tester dans la journée.
-            </p>
-            <Link href="/conseils">
-              <Button variant="ghost" size="sm">
-                Progresser →
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Vidéos stand-up analysées</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-text-secondary">
-              Comprends ce qui fait rire chez les meilleurs humoristes français.
-              Chaque vidéo est décryptée avec la technique utilisée.
-            </p>
-            <Link href="/videos">
-              <Button variant="ghost" size="sm">
-                Regarder →
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </section>
+      {/* Sections principales — blagues, conseils, vidéos */}
+      <FeatureCards />
 
       {/* Section "Tu te reconnais ?" — les 3 personas avec lien parcours */}
       <section className="py-12">
