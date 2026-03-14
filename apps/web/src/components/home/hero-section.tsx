@@ -11,9 +11,9 @@ export function HeroSection() {
   return (
     <section className="py-12 text-center md:py-20">
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-        Comment devenir{" "}
+        Deviens la personne{" "}
         <span className="text-gradient">drôle</span>
-        {" "}et avoir de la répartie
+        {" "}du groupe.
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
