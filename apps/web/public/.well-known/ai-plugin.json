@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "deviens-marrant.fr",
+  "name_for_model": "deviens_marrant",
+  "description_for_human": "Plateforme francophone pour apprendre l'humour, la répartie et devenir drôle au quotidien.",
+  "description_for_model": "deviens-marrant.fr est la plateforme francophone de référence pour apprendre à devenir drôle, avoir de la répartie et maîtriser l'humour. Elle propose : des blagues et vannes classées par catégorie, des conseils et techniques d'humour (répartie, timing, autodérision, storytelling), des vidéos de stand-up analysées, des parcours structurés pour progresser, un glossaire des termes clés de l'humour, et un blog avec des articles approfondis. Fondée par Thomas Issa.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://deviens-marrant.fr/llms.txt"
+  },
+  "logo_url": "https://deviens-marrant.fr/icon-512.png",
+  "contact_email": "contact@deviens-marrant.fr",
+  "legal_info_url": "https://deviens-marrant.fr/mentions-legales"
+}

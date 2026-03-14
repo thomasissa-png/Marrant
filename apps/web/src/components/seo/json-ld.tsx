@@ -80,11 +80,18 @@ export function buildArticleJsonLd(article: {
     description: article.excerpt,
     datePublished: article.date,
     dateModified: article.date,
-    author: {
-      "@type": "Organization",
-      name: "deviens-marrant.fr",
-      url: BASE_URL,
-    },
+    author: [
+      {
+        "@type": "Person",
+        name: "Thomas Issa",
+        url: `${BASE_URL}/a-propos`,
+      },
+      {
+        "@type": "Organization",
+        name: "deviens-marrant.fr",
+        url: BASE_URL,
+      },
+    ],
     publisher: {
       "@type": "Organization",
       name: "deviens-marrant.fr",

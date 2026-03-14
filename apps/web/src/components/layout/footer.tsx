@@ -7,6 +7,7 @@ const footerLinks = {
     { href: "/videos", label: "Vidéos stand-up" },
     { href: "/parcours", label: "Parcours" },
     { href: "/blog", label: "Blog" },
+    { href: "/glossaire", label: "Glossaire" },
     { href: "/#offres", label: "Nos offres" },
   ],
   legal: [

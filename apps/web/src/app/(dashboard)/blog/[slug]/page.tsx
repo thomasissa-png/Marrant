@@ -144,7 +144,9 @@ export default async function BlogArticlePage({
       <h1 className="font-display text-3xl font-bold md:text-4xl">
         {article.title}
       </h1>
-      <div className="mt-3 flex items-center gap-2 text-sm text-text-muted">
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
+        <span>Par Thomas Issa</span>
+        <span>·</span>
         <span>{article.date}</span>
         <span>·</span>
         <span>{article.readingTime} de lecture</span>
