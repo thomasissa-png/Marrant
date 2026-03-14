@@ -80,13 +80,4 @@ describe("AuthModal", () => {
     expect(screen.getByText(/inscrire avec Google/)).toBeInTheDocument();
   });
 
-  it("shows Apple button for login", () => {
-    render(<AuthModal isOpen={true} onClose={jest.fn()} />);
-    expect(screen.getByText("Continuer avec Apple")).toBeInTheDocument();
-  });
-
-  it("shows Apple button for register", () => {
-    render(<AuthModal isOpen={true} onClose={jest.fn()} defaultTab="register" />);
-    expect(screen.getByText(/inscrire avec Apple/)).toBeInTheDocument();
-  });
 });

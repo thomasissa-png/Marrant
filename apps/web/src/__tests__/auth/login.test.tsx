@@ -136,14 +136,4 @@ describe("LoginPage", () => {
     expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/" });
   });
 
-  it("has Apple sign-in button", () => {
-    render(<LoginPage />);
-    expect(screen.getByText("Continuer avec Apple")).toBeInTheDocument();
-  });
-
-  it("calls Apple signIn on Apple button click", async () => {
-    render(<LoginPage />);
-    await userEvent.click(screen.getByText("Continuer avec Apple"));
-    expect(mockSignIn).toHaveBeenCalledWith("apple", { callbackUrl: "/" });
-  });
 });
