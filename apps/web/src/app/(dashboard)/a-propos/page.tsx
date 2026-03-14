@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "deviens-marrant.fr",
     "plateforme humour francophone",
     "apprendre humour en ligne",
-    "Thomas Issa humour",
+    "Alex Durand humour",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/a-propos" },
 };
@@ -107,7 +107,7 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">L&apos;équipe</h2>
           <p className="mt-3 text-text-secondary">
-            deviens-marrant.fr est fondé par Thomas Issa, passionné d&apos;humour
+            deviens-marrant.fr est fondé par Alex Durand, passionné d&apos;humour
             et convaincu que le rire est le meilleur outil de connexion sociale.
             L&apos;équipe combine expertise en pédagogie, en stand-up et en
             technologie pour créer la meilleure expérience d&apos;apprentissage
