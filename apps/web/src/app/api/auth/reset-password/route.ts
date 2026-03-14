@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     await prisma.user.update({
       where: { email: verificationToken.identifier },
-      data: { passwordHash },
+      data: { passwordHash, passwordChangedAt: new Date() },
     });
 
     // Supprimer le token utilisé

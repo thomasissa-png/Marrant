@@ -59,8 +59,9 @@ model User {
   name          String?
   emailVerified DateTime?
   image         String?
-  passwordHash  String?
-  plan          Plan      @default(FREE)
+  passwordHash      String?
+  passwordChangedAt DateTime?
+  plan              Plan      @default(FREE)
   level         UserLevel @default(NOVICE)
   xp            Int       @default(0)
   streak        Int       @default(0)

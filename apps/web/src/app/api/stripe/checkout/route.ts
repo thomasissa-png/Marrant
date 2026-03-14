@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createCheckoutSession } from "@/lib/stripe";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST() {
   try {
@@ -15,6 +16,15 @@ export async function POST() {
     }
 
     const userId = (session.user as { id: string }).id;
+
+    // Rate limit : 5 créations de checkout par utilisateur par heure
+    const rl = rateLimit(`checkout:${userId}`, { maxRequests: 5, windowMs: 3600_000 });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie plus tard." },
+        { status: 429 }
+      );
+    }
     const checkoutUrl = await createCheckoutSession(userId, session.user.email);
 
     if (!checkoutUrl) {

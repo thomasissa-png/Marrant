@@ -117,9 +117,26 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
+        token.iat = Math.floor(Date.now() / 1000);
         // Mettre à jour le streak à chaque connexion
         await updateStreak(user.id);
       }
+
+      // Invalider le token si le mot de passe a été changé après l'émission
+      if (token.sub && token.iat) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+          select: { passwordChangedAt: true },
+        });
+        if (dbUser?.passwordChangedAt) {
+          const changedAtSec = Math.floor(dbUser.passwordChangedAt.getTime() / 1000);
+          if (changedAtSec > (token.iat as number)) {
+            // Mot de passe changé après l'émission du token — session invalide
+            return { ...token, sub: undefined };
+          }
+        }
+      }
+
       return token;
     },
   },
