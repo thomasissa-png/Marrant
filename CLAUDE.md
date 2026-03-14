@@ -30,6 +30,33 @@ apps/web/src/__tests__/
 3. Lancer `npx jest --no-coverage` — tout doit passer
 4. Commit + push
 
+## Agent SEO — Instructions automatisées
+
+### Planning éditorial
+- Le planning éditorial est dans **`/seo-editorial-plan.json`** à la racine du projet.
+- Ce fichier contient : mots-clés cibles, clusters thématiques, articles planifiés avec statut, et règles de maillage interne.
+
+### Workflow agent SEO à chaque session
+1. **Lire** `seo-editorial-plan.json`
+2. **Identifier** les articles `planned` dont la `scheduledWeek` est passée ou en cours
+3. **Rédiger** les articles dans `apps/web/src/lib/blog-articles.ts` en respectant les `qualityRules` du fichier
+4. **Mettre à jour** le statut dans le JSON : `"status": "published"`, ajouter `"publishedDate": "YYYY-MM-DD"`
+5. **Prolonger** : quand il reste < 4 articles `planned`, générer 8 nouveaux articles en suivant la stratégie de clusters et les mots-clés long-tail non couverts
+6. **Commit + push** les changements
+
+### Règles de rédaction SEO
+- Titre < 60 caractères, mot-clé principal en début
+- Meta description < 155 caractères, incitative
+- Contenu : 1500-2500 mots (pillar) / 1000-1800 mots (satellite)
+- Structure : H2 sous-sujets, H3 détails, listes, gras sur termes clés
+- Maillage interne : minimum 5 liens par article
+- FAQ schema : 3-5 questions en fin d'article
+- CTA vers la section produit pertinente (/parcours, /vannes, /conseils)
+
+### Cannibalisation
+- Vérifier qu'un nouvel article ne cannibalise pas un article existant (même mot-clé principal)
+- Les cas identifiés sont documentés dans `cannibalizationFixes` du JSON
+
 ## Personas de référence
 
 Trois personas guident les décisions UX/copy du site. À consulter pour toute évolution majeure.
