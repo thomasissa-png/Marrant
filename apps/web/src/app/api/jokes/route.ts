@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { getDayOfYear, todayUTC } from "@/lib/ai/date-utils";
+import { selectSlidingFreeItems } from "@/lib/free-content";
 
 const FREE_LIMIT = 20;
 
@@ -45,24 +45,13 @@ export async function GET(request: NextRequest) {
       // Ignorer les filtres catégorie/type en free (catégories bloquées)
       const total = await prisma.joke.count({ where: { isActive: true } });
 
-      // Sélection déterministe basée sur le jour — change tous les jours
-      const dayOfYear = getDayOfYear(todayUTC());
-      const seed = dayOfYear * 7919; // Nombre premier pour dispersion
-
-      // Récupérer toutes les blagues actives et faire la rotation côté serveur
+      // Fenêtre glissante : 1 blague remplacée par jour au lieu de tout changer
       const allJokes = await prisma.joke.findMany({
         where: { isActive: true },
         orderBy: { id: "asc" },
       });
 
-      // Rotation quotidienne avec stride pour garantir la diversité des catégories
-      const count = allJokes.length;
-      const offset = seed % Math.max(count, 1);
-      const stride = Math.max(1, Math.floor(count / FREE_LIMIT));
-      const rotated = [];
-      for (let i = 0; i < Math.min(FREE_LIMIT, count); i++) {
-        rotated.push(allJokes[(offset + i * stride) % count]);
-      }
+      const rotated = selectSlidingFreeItems(allJokes, FREE_LIMIT, 7919);
 
       return NextResponse.json({
         jokes: rotated,

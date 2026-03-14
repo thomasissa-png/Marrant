@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { getDayOfYear, todayUTC } from "@/lib/ai/date-utils";
+import { selectSlidingFreeItems } from "@/lib/free-content";
 
 const FREE_LIMIT = 10;
 
@@ -43,21 +43,13 @@ export async function GET(request: NextRequest) {
     if (!isPremium) {
       const total = await prisma.video.count({ where: { isActive: true } });
 
-      const dayOfYear = getDayOfYear(todayUTC());
-      const seed = dayOfYear * 5381;
-
+      // Fenêtre glissante : 1 vidéo remplacée par jour au lieu de tout changer
       const allVideos = await prisma.video.findMany({
         where: { isActive: true },
         orderBy: { id: "asc" },
       });
 
-      const count = allVideos.length;
-      const offset = seed % Math.max(count, 1);
-      const stride = Math.max(1, Math.floor(count / FREE_LIMIT));
-      const rotated = [];
-      for (let i = 0; i < Math.min(FREE_LIMIT, count); i++) {
-        rotated.push(allVideos[(offset + i * stride) % count]);
-      }
+      const rotated = selectSlidingFreeItems(allVideos, FREE_LIMIT, 5381);
 
       return NextResponse.json({
         videos: rotated,
