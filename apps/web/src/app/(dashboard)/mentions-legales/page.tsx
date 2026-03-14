@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
+  description: "Mentions légales du site deviens-marrant.fr : éditeur, hébergeur, propriété intellectuelle et responsabilité.",
 };
 
 export default function MentionsLegalesPage() {

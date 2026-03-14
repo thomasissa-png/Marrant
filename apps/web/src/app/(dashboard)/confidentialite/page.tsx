@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
+  description: "Politique de confidentialité de deviens-marrant.fr : collecte, utilisation et protection de vos données personnelles.",
 };
 
 export default function ConfidentialitePage() {
