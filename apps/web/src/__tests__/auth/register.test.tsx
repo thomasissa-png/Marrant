@@ -139,4 +139,15 @@ describe("RegisterPage", () => {
     await userEvent.click(screen.getByText("S'inscrire avec Google"));
     expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding" });
   });
+
+  it("has Apple sign-up button", () => {
+    render(<RegisterPage />);
+    expect(screen.getByText("S'inscrire avec Apple")).toBeInTheDocument();
+  });
+
+  it("calls Apple signIn with onboarding callback", async () => {
+    render(<RegisterPage />);
+    await userEvent.click(screen.getByText("S'inscrire avec Apple"));
+    expect(mockSignIn).toHaveBeenCalledWith("apple", { callbackUrl: "/onboarding" });
+  });
 });
