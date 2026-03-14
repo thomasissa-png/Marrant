@@ -26,6 +26,7 @@ interface TipAgentContext {
   plannedTheme: string;
   recentTips: Array<{ title: string; category: string; difficulty: string }>;
   monthlyPlanSummary: string;
+  otherAgentsCategories?: { joke: string; video: string };
 }
 
 export async function generateDailyTip(ctx: TipAgentContext): Promise<GeneratedTip> {
@@ -51,6 +52,10 @@ DIRECTIVE TONALITÉ (Agent Marketing) :
 - Exercices : ${TONALITY_BRIEF.tipGuidelines.exercises}
 - Exemples : ${TONALITY_BRIEF.tipGuidelines.examples}
 - INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
+
+COORDINATION INTER-AGENTS — DIVERSITÉ QUOTIDIENNE :
+Aujourd'hui, la vanne porte sur "${ctx.otherAgentsCategories?.joke ?? "?"}" et la vidéo sur "${ctx.otherAgentsCategories?.video ?? "?"}".
+Ton conseil DOIT aborder un angle DIFFÉRENT pour que l'utilisateur découvre 3 sujets distincts dans sa journée.
 
 RÈGLES STRICTES :
 1. Le conseil doit être PRATIQUE — testable immédiatement

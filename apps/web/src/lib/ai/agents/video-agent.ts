@@ -29,6 +29,7 @@ interface VideoAgentContext {
   }>;
   recentVideoIds: string[];
   monthlyPlanSummary: string;
+  otherAgentsCategories?: { joke: string; tip: string };
 }
 
 /**
@@ -76,10 +77,15 @@ DIRECTIVE TONALITÉ (Agent Marketing) :
 - Descriptions : ${TONALITY_BRIEF.videoGuidelines.descriptions}
 - Techniques : ${TONALITY_BRIEF.videoGuidelines.techniques}
 
+COORDINATION INTER-AGENTS — DIVERSITÉ QUOTIDIENNE :
+Aujourd'hui, la vanne porte sur "${ctx.otherAgentsCategories?.joke ?? "?"}" et le conseil sur "${ctx.otherAgentsCategories?.tip ?? "?"}".
+La vidéo DOIT aborder un angle DIFFÉRENT pour que l'utilisateur découvre 3 sujets distincts dans sa journée.
+
 RÈGLES :
 1. Privilégie la catégorie "${ctx.plannedCategory}" si possible
 2. Adapte au niveau du persona (${persona.tipDifficulty})
 3. Si aucune vidéo ne correspond exactement, choisis la plus pertinente pour le thème
+4. ÉVITE de choisir une vidéo dont la catégorie est identique à la vanne ou au conseil du jour
 
 Réponds UNIQUEMENT en JSON :
 {"videoId": "ID_EXACT_DE_LA_VIDEO", "reason": "Pourquoi cette vidéo"}`;

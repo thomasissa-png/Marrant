@@ -83,15 +83,27 @@ export async function publishDailyContent(
     }),
   ]);
 
+  // Contexte inter-agents : chaque agent connaît les catégories des autres pour le jour
+  const jokeCategory = jokePlanEntry?.category ?? "SITUATION";
+  const tipCategory = tipPlanEntry?.category ?? "TIMING";
+  const videoCategory = videoPlanEntry?.category ?? "OBSERVATION";
+
+  const crossAgentContext = {
+    jokeCategory,
+    tipCategory,
+    videoCategory,
+  };
+
   // === EXÉCUTER LES 3 AGENTS EN PARALLÈLE ===
   const [jokeResult, tipResult, videoResult] = await Promise.allSettled([
     // Agent Blagues
     generateDailyJoke({
       persona,
-      plannedCategory: jokePlanEntry?.category ?? "SITUATION",
+      plannedCategory: jokeCategory,
       plannedTheme: jokePlanEntry?.theme ?? "Humour du quotidien",
       recentJokes,
       monthlyPlanSummary: jokePlanSummary,
+      otherAgentsCategories: { tip: tipCategory, video: videoCategory },
     }).then(async (jokeData) => {
       const joke = await prisma.joke.create({
         data: {
@@ -109,10 +121,11 @@ export async function publishDailyContent(
     // Agent Conseils
     generateDailyTip({
       persona,
-      plannedCategory: tipPlanEntry?.category ?? "TIMING",
+      plannedCategory: tipCategory,
       plannedTheme: tipPlanEntry?.theme ?? "Technique d'humour",
       recentTips,
       monthlyPlanSummary: tipPlanSummary,
+      otherAgentsCategories: { joke: jokeCategory, video: videoCategory },
     }).then(async (tipData) => {
       const tip = await prisma.tip.create({
         data: {
@@ -142,13 +155,14 @@ export async function publishDailyContent(
 
       const videoSelection = await selectDailyVideo({
         persona,
-        plannedCategory: videoPlanEntry?.category ?? "TIMING",
+        plannedCategory: videoCategory,
         plannedTheme: videoPlanEntry?.theme ?? "Technique stand-up",
         availableVideos: allVideos,
         recentVideoIds: recentVideoIds
           .map((r) => r.videoId)
           .filter((id): id is string => id !== null),
         monthlyPlanSummary: videoPlanSummary,
+        otherAgentsCategories: { joke: jokeCategory, tip: tipCategory },
       });
 
       const selected = allVideos.find((v) => v.id === videoSelection.videoId);

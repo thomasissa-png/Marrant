@@ -28,6 +28,7 @@ interface JokeAgentContext {
   plannedTheme: string;
   recentJokes: Array<{ content: string; category: string; type: string }>;
   monthlyPlanSummary: string;
+  otherAgentsCategories?: { tip: string; video: string };
 }
 
 export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
@@ -52,6 +53,10 @@ DIRECTIVE TONALITÉ (Agent Marketing) :
 - ${TONALITY_BRIEF.jokeGuidelines.avoidTypes}
 - ${TONALITY_BRIEF.jokeGuidelines.freshness}
 - INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
+
+COORDINATION INTER-AGENTS — DIVERSITÉ QUOTIDIENNE :
+Aujourd'hui, le conseil porte sur "${ctx.otherAgentsCategories?.tip ?? "?"}" et la vidéo sur "${ctx.otherAgentsCategories?.video ?? "?"}".
+Ta vanne DOIT aborder un angle DIFFÉRENT pour que l'utilisateur découvre 3 sujets distincts dans sa journée.
 
 RÈGLES STRICTES :
 1. La vanne doit être ORIGINALE — jamais une vanne connue ni un calembour éculé

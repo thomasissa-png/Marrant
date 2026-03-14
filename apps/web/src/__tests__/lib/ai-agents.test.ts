@@ -1,5 +1,5 @@
 import { getPersonaForDay, PERSONAS } from "@/lib/ai/personas";
-import { validateMonthlyPlan } from "@/lib/ai/plan-validator";
+import { validateMonthlyPlan, harmonizeCrossAgentPlans } from "@/lib/ai/plan-validator";
 
 // Mock the Anthropic SDK
 jest.mock("@anthropic-ai/sdk", () => {
@@ -172,6 +172,111 @@ describe("Plan Validator", () => {
 
     const result = validateMonthlyPlan(raw, 1, validCategories, getPersonaForDay);
     expect(result[0].theme).toBe("Contenu du jour 1");
+  });
+});
+
+describe("Cross-Agent Plan Harmonization", () => {
+  const tipCategories = ["TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE", "STORYTELLING", "ABSURDE", "JEUX_DE_MOTS"] as const;
+
+  function makePlan(categories: string[]): Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }> {
+    return categories.map((category, i) => ({
+      dayOfMonth: i + 1,
+      category,
+      theme: `Thème jour ${i + 1}`,
+      targetPersona: getPersonaForDay(i + 1),
+    }));
+  }
+
+  it("resolves shared category conflicts between joke and tip", () => {
+    const jokePlan = makePlan(["AUTODERISION", "BOULOT", "ECOLE"]);
+    const tipPlan = makePlan(["AUTODERISION", "TIMING", "OBSERVATION"]);
+    const videoPlan = makePlan(["TIMING", "OBSERVATION", "STORYTELLING"]);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Jour 1 : joke=AUTODERISION, tip devrait avoir changé (plus AUTODERISION)
+    expect(tipPlan[0].category).not.toBe("AUTODERISION");
+    expect(tipCategories).toContain(tipPlan[0].category);
+  });
+
+  it("resolves shared category conflicts between joke and video", () => {
+    const jokePlan = makePlan(["ABSURDE", "BOULOT", "ECOLE"]);
+    const tipPlan = makePlan(["TIMING", "OBSERVATION", "REPARTIE"]);
+    const videoPlan = makePlan(["ABSURDE", "OBSERVATION", "STORYTELLING"]);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Jour 1 : joke=ABSURDE, video devrait avoir changé
+    expect(videoPlan[0].category).not.toBe("ABSURDE");
+    expect(tipCategories).toContain(videoPlan[0].category);
+  });
+
+  it("resolves tip vs video same category (same enum space)", () => {
+    const jokePlan = makePlan(["BOULOT", "ECOLE", "GAMING"]);
+    const tipPlan = makePlan(["TIMING", "OBSERVATION", "REPARTIE"]);
+    const videoPlan = makePlan(["TIMING", "OBSERVATION", "REPARTIE"]);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Chaque jour : tip ≠ video
+    for (let i = 0; i < 3; i++) {
+      expect(tipPlan[i].category).not.toBe(videoPlan[i].category);
+    }
+  });
+
+  it("keeps joke category unchanged (priority)", () => {
+    const jokePlan = makePlan(["AUTODERISION"]);
+    const tipPlan = makePlan(["AUTODERISION"]);
+    const videoPlan = makePlan(["AUTODERISION"]);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Joke garde sa catégorie, tip et video changent
+    expect(jokePlan[0].category).toBe("AUTODERISION");
+    expect(tipPlan[0].category).not.toBe("AUTODERISION");
+    expect(videoPlan[0].category).not.toBe("AUTODERISION");
+    // Tip et video doivent aussi être différents entre eux
+    expect(tipPlan[0].category).not.toBe(videoPlan[0].category);
+  });
+
+  it("handles non-shared joke categories gracefully (no conflict)", () => {
+    const jokePlan = makePlan(["BOULOT", "ECOLE", "GAMING"]);
+    const tipPlan = makePlan(["TIMING", "OBSERVATION", "REPARTIE"]);
+    const videoPlan = makePlan(["STORYTELLING", "ABSURDE", "JEUX_DE_MOTS"]);
+
+    const tipBefore = tipPlan.map((e) => e.category);
+    const videoBefore = videoPlan.map((e) => e.category);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Rien ne devrait changer — pas de conflit
+    expect(tipPlan.map((e) => e.category)).toEqual(tipBefore);
+    expect(videoPlan.map((e) => e.category)).toEqual(videoBefore);
+  });
+
+  it("ensures all 3 categories are different each day when possible", () => {
+    // 31 jours avec des conflits potentiels
+    const days = 31;
+    const jokeCategories = Array.from({ length: days }, (_, i) =>
+      ["AUTODERISION", "ABSURDE", "JEUX_DE_MOTS", "BOULOT", "ECOLE", "GAMING", "SITUATION"][i % 7]
+    );
+    const tipCats = Array.from({ length: days }, (_, i) =>
+      ["AUTODERISION", "TIMING", "OBSERVATION", "REPARTIE", "STORYTELLING", "ABSURDE", "JEUX_DE_MOTS"][i % 7]
+    );
+    const videoCats = Array.from({ length: days }, (_, i) =>
+      ["AUTODERISION", "TIMING", "OBSERVATION", "REPARTIE", "STORYTELLING", "ABSURDE", "JEUX_DE_MOTS"][i % 7]
+    );
+
+    const jokePlan = makePlan(jokeCategories);
+    const tipPlan = makePlan(tipCats);
+    const videoPlan = makePlan(videoCats);
+
+    harmonizeCrossAgentPlans(jokePlan, tipPlan, videoPlan, tipCategories);
+
+    // Tip et video ne doivent jamais être identiques
+    for (let i = 0; i < days; i++) {
+      expect(tipPlan[i].category).not.toBe(videoPlan[i].category);
+    }
   });
 });
 
