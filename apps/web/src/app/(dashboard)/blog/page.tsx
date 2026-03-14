@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
+  buildItemListJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -88,6 +89,15 @@ export default async function BlogPage() {
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           { name: "Blog", url: "https://deviens-marrant.fr/blog" },
         ])}
+      />
+      <JsonLd
+        data={buildItemListJsonLd(
+          allArticles.map((article, index) => ({
+            name: article.title,
+            url: `https://deviens-marrant.fr/blog/${article.slug}`,
+            position: index + 1,
+          }))
+        )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>

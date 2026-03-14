@@ -107,6 +107,49 @@ export function buildBreadcrumbJsonLd(
   };
 }
 
+export function buildItemListJsonLd(
+  items: { name: string; url: string; position: number }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item) => ({
+      "@type": "ListItem",
+      position: item.position,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}
+
+export function buildVideoObjectJsonLd(video: {
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+  contentUrl: string;
+  embedUrl: string;
+  duration?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.name,
+    description: video.description,
+    thumbnailUrl: video.thumbnailUrl,
+    uploadDate: video.uploadDate,
+    contentUrl: video.contentUrl,
+    embedUrl: video.embedUrl,
+    ...(video.duration && { duration: video.duration }),
+    publisher: {
+      "@type": "Organization",
+      name: "deviens-marrant.fr",
+      url: BASE_URL,
+    },
+    inLanguage: "fr-FR",
+  };
+}
+
 export function buildCourseJsonLd(course: {
   name: string;
   description: string;

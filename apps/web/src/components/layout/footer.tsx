@@ -10,6 +10,7 @@ const footerLinks = {
     { href: "/#offres", label: "Nos offres" },
   ],
   legal: [
+    { href: "/a-propos", label: "À propos" },
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
