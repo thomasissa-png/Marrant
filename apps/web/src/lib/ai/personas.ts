@@ -43,6 +43,22 @@ export function getPersonaForDay(dayOfMonth: number): PersonaKey {
 }
 
 /**
+ * Retourne la difficulté du conseil pour un persona et un jour donnés.
+ * Marc alterne entre INTERMEDIAIRE (semaines impaires) et EXPERT (semaines paires)
+ * pour couvrir plus de niveaux sur le cycle de 3 jours.
+ *
+ * Cycle résultant : Yanis=DEBUTANT, Sophie=INTERMEDIAIRE, Marc=INTERMEDIAIRE/EXPERT
+ */
+export function getDifficultyForDay(personaKey: PersonaKey, dayOfMonth: number): string {
+  const persona = PERSONAS[personaKey];
+  if (personaKey !== "MARC") return persona.tipDifficulty;
+
+  // Marc alterne par semaine : semaines 1,3 = INTERMEDIAIRE, semaines 2,4 = EXPERT
+  const weekOfMonth = Math.ceil(dayOfMonth / 7);
+  return weekOfMonth % 2 === 1 ? "INTERMEDIAIRE" : "EXPERT";
+}
+
+/**
  * Génère la section "personas en rotation" pour les prompts de planification.
  * Source unique de vérité — évite la divergence entre prompts et code.
  */

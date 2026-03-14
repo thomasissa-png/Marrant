@@ -49,7 +49,12 @@ export async function GET(request: NextRequest) {
         orderBy: { id: "asc" },
       });
 
-      const rotated = selectSlidingFreeItems(allVideos, FREE_LIMIT, 5381);
+      const rotated = selectSlidingFreeItems(
+        allVideos,
+        FREE_LIMIT,
+        5381,
+        (video) => video.category
+      );
 
       return NextResponse.json({
         videos: rotated,

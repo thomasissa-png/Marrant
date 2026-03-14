@@ -88,12 +88,6 @@ export async function publishDailyContent(
   const tipCategory = tipPlanEntry?.category ?? "TIMING";
   const videoCategory = videoPlanEntry?.category ?? "OBSERVATION";
 
-  const crossAgentContext = {
-    jokeCategory,
-    tipCategory,
-    videoCategory,
-  };
-
   // === EXÉCUTER LES 3 AGENTS EN PARALLÈLE ===
   const [jokeResult, tipResult, videoResult] = await Promise.allSettled([
     // Agent Blagues
@@ -126,6 +120,7 @@ export async function publishDailyContent(
       recentTips,
       monthlyPlanSummary: tipPlanSummary,
       otherAgentsCategories: { joke: jokeCategory, video: videoCategory },
+      dayOfMonth,
     }).then(async (tipData) => {
       const tip = await prisma.tip.create({
         data: {
@@ -195,40 +190,77 @@ export async function publishDailyContent(
     result.errors.push(`Vidéo: ${videoResult.reason instanceof Error ? videoResult.reason.message : String(videoResult.reason)}`);
   }
 
-  // Fallback : contenu existant déterministe basé sur dayOfYear (cohérent avec /api/daily)
+  // Fallback coordonné : évite les catégories déjà prises par les agents qui ont réussi
   const dayOfYear = getDayOfYear(today);
+  const usedCategories = new Set<string>();
+
+  if (result.joke) usedCategories.add(result.joke.category);
+  if (result.tip) usedCategories.add(result.tip.category);
 
   if (!jokeId) {
-    const jokeCount = await prisma.joke.count({ where: { isActive: true } });
-    if (jokeCount > 0) {
-      const fallbackJoke = await prisma.joke.findFirst({
+    // Essayer d'abord un fallback qui évite les catégories déjà utilisées
+    const fallbackJoke = await prisma.joke.findFirst({
+      where: {
+        isActive: true,
+        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+      },
+      orderBy: { id: "asc" },
+      skip: dayOfYear % Math.max(1, await prisma.joke.count({ where: { isActive: true } })),
+    });
+    if (fallbackJoke) {
+      jokeId = fallbackJoke.id;
+      usedCategories.add(fallbackJoke.category);
+    } else {
+      // Fallback sans filtre catégorie si aucun résultat
+      const anyJoke = await prisma.joke.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
-        skip: dayOfYear % jokeCount,
+        skip: dayOfYear % Math.max(1, await prisma.joke.count({ where: { isActive: true } })),
       });
-      if (fallbackJoke) jokeId = fallbackJoke.id;
+      if (anyJoke) jokeId = anyJoke.id;
     }
   }
   if (!tipId) {
     const tipCount = await prisma.tip.count({ where: { isActive: true } });
-    if (tipCount > 0) {
-      const fallbackTip = await prisma.tip.findFirst({
+    const fallbackTip = await prisma.tip.findFirst({
+      where: {
+        isActive: true,
+        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+      },
+      orderBy: { id: "asc" },
+      skip: dayOfYear % Math.max(1, tipCount),
+    });
+    if (fallbackTip) {
+      tipId = fallbackTip.id;
+      usedCategories.add(fallbackTip.category);
+    } else {
+      const anyTip = await prisma.tip.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
-        skip: dayOfYear % tipCount,
+        skip: dayOfYear % Math.max(1, tipCount),
       });
-      if (fallbackTip) tipId = fallbackTip.id;
+      if (anyTip) tipId = anyTip.id;
     }
   }
   if (!videoId) {
     const videoCount = await prisma.video.count({ where: { isActive: true } });
-    if (videoCount > 0) {
-      const fallbackVideo = await prisma.video.findFirst({
+    const fallbackVideo = await prisma.video.findFirst({
+      where: {
+        isActive: true,
+        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+      },
+      orderBy: { id: "asc" },
+      skip: dayOfYear % Math.max(1, videoCount),
+    });
+    if (fallbackVideo) {
+      videoId = fallbackVideo.id;
+    } else {
+      const anyVideo = await prisma.video.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
-        skip: dayOfYear % videoCount,
+        skip: dayOfYear % Math.max(1, videoCount),
       });
-      if (fallbackVideo) videoId = fallbackVideo.id;
+      if (anyVideo) videoId = anyVideo.id;
     }
   }
 

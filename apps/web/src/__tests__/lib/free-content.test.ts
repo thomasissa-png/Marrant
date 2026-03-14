@@ -16,6 +16,26 @@ function makeItems(count: number) {
   return Array.from({ length: count }, (_, i) => ({ id: i + 1, name: `Item ${i + 1}` }));
 }
 
+// Génère des items avec catégories (simulant un catalogue réel)
+const CATEGORIES = ["BOULOT", "ECOLE", "GAMING", "AUTODERISION", "ABSURDE", "COUPLE", "DATING"];
+function makeItemsWithCategories(count: number) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i + 1,
+    name: `Item ${i + 1}`,
+    category: CATEGORIES[i % CATEGORIES.length],
+  }));
+}
+
+// Items avec distribution déséquilibrée (ex: beaucoup de BOULOT en début de catalogue)
+function makeSkewedItems(count: number) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i + 1,
+    name: `Item ${i + 1}`,
+    // 60% BOULOT, 20% ECOLE, 20% GAMING
+    category: i < count * 0.6 ? "BOULOT" : i < count * 0.8 ? "ECOLE" : "GAMING",
+  }));
+}
+
 // Fixe le jour simulé (epoch day)
 function setEpochDay(day: number) {
   mockTodayUTC.mockReturnValue(new Date(day * 1000 * 60 * 60 * 24));
@@ -151,5 +171,54 @@ describe("selectSlidingFreeItems", () => {
     // Au minimum, 0 item de day1 devrait subsister (tous les slots ont été remplacés)
     // Note : les collisions linéaires peuvent causer quelques chevauchements aléatoires
     expect(common.length).toBeLessThanOrEqual(freeLimit);
+  });
+
+  // === Tests diversité catégories (getCategoryKey) ===
+
+  it("avec getCategoryKey, limite la domination d'une seule catégorie", () => {
+    setEpochDay(600);
+    const items = makeSkewedItems(100); // 60% BOULOT
+    const freeLimit = 20;
+    const maxPerCategory = Math.ceil(freeLimit / 3); // ~7
+
+    const result = selectSlidingFreeItems(items, freeLimit, PRIME, (item) => item.category);
+
+    // Compter les catégories
+    const counts = new Map<string, number>();
+    for (const item of result) {
+      counts.set(item.category, (counts.get(item.category) ?? 0) + 1);
+    }
+
+    // Aucune catégorie ne doit dépasser maxPerCategory
+    for (const [, count] of counts) {
+      expect(count).toBeLessThanOrEqual(maxPerCategory);
+    }
+  });
+
+  it("avec getCategoryKey, retourne toujours freeLimit items", () => {
+    setEpochDay(700);
+    const items = makeItemsWithCategories(100);
+    const result = selectSlidingFreeItems(items, 20, PRIME, (item) => item.category);
+    expect(result).toHaveLength(20);
+    expect(new Set(result.map((r) => r.id)).size).toBe(20);
+  });
+
+  it("sans getCategoryKey, ne filtre pas par catégorie (rétro-compatible)", () => {
+    setEpochDay(800);
+    const items = makeItems(100);
+    const result = selectSlidingFreeItems(items, 20, PRIME);
+    expect(result).toHaveLength(20);
+  });
+
+  it("getCategoryKey assure la diversité même avec catalogue déséquilibré", () => {
+    setEpochDay(900);
+    const items = makeSkewedItems(50); // 60% BOULOT
+    const freeLimit = 10;
+
+    const result = selectSlidingFreeItems(items, freeLimit, PRIME, (item) => item.category);
+    const categories = new Set(result.map((r) => r.category));
+
+    // Au moins 2 catégories différentes (idéalement les 3 : BOULOT, ECOLE, GAMING)
+    expect(categories.size).toBeGreaterThanOrEqual(2);
   });
 });

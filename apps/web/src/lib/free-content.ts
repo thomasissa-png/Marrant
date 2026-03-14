@@ -18,15 +18,20 @@ function getEpochDay(date: Date): number {
  * Avec FREE_LIMIT = 5 conseils, le set se renouvelle en 5 jours.
  * Avec FREE_LIMIT = 10 vidéos, le set se renouvelle en 10 jours.
  *
+ * Si `getCategoryKey` est fourni, la résolution de collisions favorise
+ * les catégories sous-représentées pour garantir la diversité.
+ *
  * @param items - Tous les items actifs, triés par id asc
  * @param freeLimit - Nombre d'items gratuits à montrer
  * @param prime - Nombre premier pour la dispersion (unique par type de contenu)
+ * @param getCategoryKey - Optionnel : extracteur de catégorie pour la diversité
  * @returns Les items sélectionnés pour aujourd'hui
  */
 export function selectSlidingFreeItems<T>(
   items: T[],
   freeLimit: number,
-  prime: number
+  prime: number,
+  getCategoryKey?: (item: T) => string
 ): T[] {
   const count = items.length;
   if (count === 0) return [];
@@ -35,6 +40,7 @@ export function selectSlidingFreeItems<T>(
   const epochDay = getEpochDay(todayUTC());
   const selected: T[] = [];
   const seen = new Set<number>();
+  const categoryCounts = new Map<string, number>();
 
   // Itérer du plus ancien (freeLimit-1 jours en arrière) au plus récent (aujourd'hui)
   // Chaque slot a un "jour d'attribution" fixe — seul slot 0 change demain
@@ -50,8 +56,37 @@ export function selectSlidingFreeItems<T>(
       idx = (idx + 1) % count;
       attempts++;
     }
+
+    // Diversité catégories : si on a déjà trop d'items de cette catégorie,
+    // chercher un item d'une catégorie sous-représentée
+    if (getCategoryKey && selected.length >= 3) {
+      const candidateCategory = getCategoryKey(items[idx]);
+      const maxPerCategory = Math.ceil(freeLimit / 3); // Max ~33% par catégorie
+
+      if ((categoryCounts.get(candidateCategory) ?? 0) >= maxPerCategory) {
+        // Chercher un item d'une catégorie moins représentée
+        let betterIdx = idx;
+        let found = false;
+        for (let j = 1; j < count && !found; j++) {
+          const altIdx = (idx + j) % count;
+          if (seen.has(altIdx)) continue;
+          const altCategory = getCategoryKey(items[altIdx]);
+          if ((categoryCounts.get(altCategory) ?? 0) < maxPerCategory) {
+            betterIdx = altIdx;
+            found = true;
+          }
+        }
+        idx = betterIdx;
+      }
+    }
+
     seen.add(idx);
     selected.push(items[idx]);
+
+    if (getCategoryKey) {
+      const cat = getCategoryKey(items[idx]);
+      categoryCounts.set(cat, (categoryCounts.get(cat) ?? 0) + 1);
+    }
   }
 
   return selected;

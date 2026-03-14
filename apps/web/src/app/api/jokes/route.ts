@@ -51,7 +51,12 @@ export async function GET(request: NextRequest) {
         orderBy: { id: "asc" },
       });
 
-      const rotated = selectSlidingFreeItems(allJokes, FREE_LIMIT, 7919);
+      const rotated = selectSlidingFreeItems(
+        allJokes,
+        FREE_LIMIT,
+        7919,
+        (joke) => joke.category
+      );
 
       return NextResponse.json({
         jokes: rotated,

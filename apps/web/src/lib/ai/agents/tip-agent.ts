@@ -1,6 +1,6 @@
 import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
-import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
+import { getPersonaForDay, getDifficultyForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
 import { TONALITY_BRIEF } from "./marketing-agent";
 
@@ -27,10 +27,14 @@ interface TipAgentContext {
   recentTips: Array<{ title: string; category: string; difficulty: string }>;
   monthlyPlanSummary: string;
   otherAgentsCategories?: { joke: string; video: string };
+  dayOfMonth?: number;
 }
 
 export async function generateDailyTip(ctx: TipAgentContext): Promise<GeneratedTip> {
   const persona = PERSONAS[ctx.persona];
+  const difficulty = ctx.dayOfMonth
+    ? getDifficultyForDay(ctx.persona, ctx.dayOfMonth)
+    : persona.tipDifficulty;
 
   const systemPrompt = `Tu es l'Agent Conseils de deviens-marrant.fr — un coach en humour et répartie avec 20 ans d'expérience.
 
@@ -40,7 +44,7 @@ PERSONA CIBLE AUJOURD'HUI : ${persona.name} (${persona.age} ans)
 - Profil : ${persona.description}
 - Centres d'intérêt : ${persona.interests.join(", ")}
 - Ton attendu : ${persona.tone}
-- Niveau recommandé : ${persona.tipDifficulty}
+- Niveau recommandé : ${difficulty}
 
 CATÉGORIES VALIDES : ${TIP_CATEGORIES.join(", ")}
 DIFFICULTÉS VALIDES : ${TIP_DIFFICULTIES.join(", ")}
@@ -62,7 +66,7 @@ RÈGLES STRICTES :
 2. L'exemple doit être CONCRET et adapté à la vie de ${persona.name}
 3. L'exercice doit être un défi réalisable dans la journée (pas un devoir)
 4. La catégorie DOIT être "${ctx.plannedCategory}"
-5. La difficulté doit correspondre au persona (${persona.tipDifficulty})
+5. La difficulté doit être "${difficulty}"
 6. Le titre doit être percutant et donner envie de lire
 7. Le contenu fait 120-180 mots, précis, jamais généraliste
 
@@ -78,7 +82,7 @@ Réponds UNIQUEMENT en JSON valide :
   "title": "Titre percutant (5-8 mots)",
   "content": "Explication détaillée (150-200 mots)",
   "category": "${ctx.plannedCategory}",
-  "difficulty": "${persona.tipDifficulty}",
+  "difficulty": "${difficulty}",
   "example": "Exemple concret adapté à ${persona.name}",
   "exercise": "Exercice pratique pour aujourd'hui"
 }`;
@@ -113,7 +117,7 @@ Crée un conseil qui aide ${persona.name} à progresser concrètement aujourd'hu
     parsed.category = ctx.plannedCategory;
   }
   if (!TIP_DIFFICULTIES.includes(parsed.difficulty as (typeof TIP_DIFFICULTIES)[number])) {
-    parsed.difficulty = persona.tipDifficulty;
+    parsed.difficulty = difficulty;
   }
 
   // Tronquer si excessivement long

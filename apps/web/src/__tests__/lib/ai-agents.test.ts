@@ -1,4 +1,4 @@
-import { getPersonaForDay, PERSONAS } from "@/lib/ai/personas";
+import { getPersonaForDay, getDifficultyForDay, PERSONAS } from "@/lib/ai/personas";
 import { validateMonthlyPlan, harmonizeCrossAgentPlans } from "@/lib/ai/plan-validator";
 
 // Mock the Anthropic SDK
@@ -96,6 +96,32 @@ describe("Personas", () => {
     expect(PERSONAS.MARC.jokeCategories).toContain("COUPLE");
     expect(PERSONAS.MARC.jokeCategories).toContain("PARENTS");
     expect(PERSONAS.MARC.tipDifficulty).toBe("INTERMEDIAIRE");
+  });
+
+  it("getDifficultyForDay returns DEBUTANT for Yanis always", () => {
+    expect(getDifficultyForDay("YANIS", 1)).toBe("DEBUTANT");
+    expect(getDifficultyForDay("YANIS", 15)).toBe("DEBUTANT");
+    expect(getDifficultyForDay("YANIS", 31)).toBe("DEBUTANT");
+  });
+
+  it("getDifficultyForDay returns INTERMEDIAIRE for Sophie always", () => {
+    expect(getDifficultyForDay("SOPHIE", 2)).toBe("INTERMEDIAIRE");
+    expect(getDifficultyForDay("SOPHIE", 20)).toBe("INTERMEDIAIRE");
+  });
+
+  it("getDifficultyForDay alternates Marc between INTERMEDIAIRE and EXPERT", () => {
+    // Semaine 1 (jours 1-7) = INTERMEDIAIRE
+    expect(getDifficultyForDay("MARC", 3)).toBe("INTERMEDIAIRE");
+    expect(getDifficultyForDay("MARC", 6)).toBe("INTERMEDIAIRE");
+    // Semaine 2 (jours 8-14) = EXPERT
+    expect(getDifficultyForDay("MARC", 9)).toBe("EXPERT");
+    expect(getDifficultyForDay("MARC", 12)).toBe("EXPERT");
+    // Semaine 3 (jours 15-21) = INTERMEDIAIRE
+    expect(getDifficultyForDay("MARC", 15)).toBe("INTERMEDIAIRE");
+    expect(getDifficultyForDay("MARC", 18)).toBe("INTERMEDIAIRE");
+    // Semaine 4 (jours 22-28) = EXPERT
+    expect(getDifficultyForDay("MARC", 24)).toBe("EXPERT");
+    expect(getDifficultyForDay("MARC", 27)).toBe("EXPERT");
   });
 });
 
