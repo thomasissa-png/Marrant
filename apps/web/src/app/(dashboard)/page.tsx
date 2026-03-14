@@ -7,7 +7,31 @@ import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
 import { PremiumCta } from "@/components/home/premium-cta";
 import { HomeCta } from "@/components/home/home-cta";
+import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import Link from "next/link";
+
+const homepageFaqs = [
+  {
+    question: "Comment devenir drôle quand on n'est pas drôle ?",
+    answer:
+      "L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Avec des exercices progressifs (vannes à mémoriser, techniques de répartie, analyse de stand-up), tu peux devenir plus drôle en quelques semaines. Nos parcours structurés te guident pas à pas.",
+  },
+  {
+    question: "Comment avoir de la répartie rapidement ?",
+    answer:
+      "La répartie repose sur des techniques précises : accuser réception, rebondir sur un mot-clé, retourner la situation. En pratiquant 5-10 minutes par jour avec nos exercices, tu peux voir une vraie différence en 2 à 4 semaines.",
+  },
+  {
+    question: "Est-ce que je peux apprendre à être drôle en ligne ?",
+    answer:
+      "Oui, deviens-marrant.fr est une plateforme en ligne avec des vannes classées par catégorie, des conseils d'humour avec exercices concrets, des vidéos de stand-up analysées et des parcours structurés. Tu progresses à ton rythme depuis chez toi.",
+  },
+  {
+    question: "Combien coûte deviens-marrant.fr ?",
+    answer:
+      "L'accès complet coûte 0,99 €/mois (prix de lancement). Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
+  },
+];
 
 export const metadata: Metadata = {
   title: "Deviens drôle et améliore ta répartie | deviens-marrant.fr",
@@ -20,6 +44,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={buildFaqJsonLd(homepageFaqs)} />
+
       {/* Hero section */}
       <HeroSection />
 

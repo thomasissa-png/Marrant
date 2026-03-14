@@ -175,7 +175,7 @@ export function ParcoursContent() {
       {/* Hero section */}
       <div className="mb-12 text-center">
         <h1 className="font-display text-4xl font-bold">
-          Parcours structurés
+          Parcours pour devenir drôle et maîtriser la répartie
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary">
           Choisis ton parcours et progresse semaine après semaine. Chaque

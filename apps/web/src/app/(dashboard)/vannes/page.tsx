@@ -8,9 +8,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vannes et blagues drôles classées par catégorie — soirée, boulot, couple",
+  title: "Vannes et blagues drôles classées par catégorie",
   description:
-    "Des centaines de vannes drôles à ressortir en soirée, à la machine à café ou entre amis. Classées par catégorie (boulot, couple, école, soirées), avec la chute cachée. Deviens la personne drôle du groupe avec des vannes courtes et mémorisables.",
+    "Des centaines de vannes drôles à ressortir en soirée, au boulot ou entre amis. Classées par catégorie, chute cachée. Deviens la personne drôle du groupe.",
   alternates: { canonical: "https://deviens-marrant.fr/vannes" },
 };
 
@@ -44,6 +44,25 @@ export default function VannesPage() {
       <Suspense fallback={null}>
         <VannesList />
       </Suspense>
+
+      {/* Cross-linking SEO */}
+      <nav className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">Apprends les techniques pour avoir de la répartie et placer tes vannes au bon moment.</p>
+          </Link>
+          <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
+            <p className="mt-1 text-xs text-text-secondary">Regarde comment les pros construisent leurs blagues et apprends leurs techniques.</p>
+          </Link>
+          <Link href="/blog" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Blog humour</h3>
+            <p className="mt-1 text-xs text-text-secondary">Guides complets pour devenir drôle, avoir de la répartie et développer ton humour.</p>
+          </Link>
+        </div>
+      </nav>
     </>
   );
 }

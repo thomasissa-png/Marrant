@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title:
     "Vidéos stand-up analysées — apprends l'humour des meilleurs humoristes",
   description:
-    "Apprends à devenir drôle en regardant les meilleurs humoristes français : Gad Elmaleh, Blanche Gardin, Florence Foresti, Fary, Paul Mirabel. Chaque vidéo est annotée avec la technique d'humour utilisée (timing, répartie, autodérision, storytelling).",
+    "Apprends l'humour avec Gad Elmaleh, Blanche Gardin, Foresti, Fary et Mirabel. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
   alternates: { canonical: "https://deviens-marrant.fr/videos" },
 };
 
@@ -45,6 +45,25 @@ export default function VideosPage() {
       <Suspense fallback={null}>
         <VideosGrid />
       </Suspense>
+
+      {/* Cross-linking SEO */}
+      <nav className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
+            <p className="mt-1 text-xs text-text-secondary">Des centaines de vannes classées par catégorie, prêtes à ressortir.</p>
+          </Link>
+          <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">Techniques concrètes pour avoir de la répartie et devenir plus drôle.</p>
+          </Link>
+          <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
+            <p className="mt-1 text-xs text-text-secondary">Deviens drôle pas à pas avec des parcours de 3 à 6 semaines.</p>
+          </Link>
+        </div>
+      </nav>
     </>
   );
 }

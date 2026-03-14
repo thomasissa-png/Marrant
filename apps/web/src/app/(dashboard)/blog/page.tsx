@@ -11,9 +11,9 @@ import {
 
 export const metadata: Metadata = {
   title:
-    "Blog humour — comment devenir drôle, avoir de la répartie et faire rire",
+    "Blog humour — comment devenir drôle et avoir de la répartie",
   description:
-    "Articles et guides complets pour apprendre à devenir drôle, avoir de la répartie et développer son sens de l'humour. Techniques d'humoristes, exercices concrets, conseils pour timides et débutants. Deviens marrant pas à pas.",
+    "Articles et guides pour devenir drôle, avoir de la répartie et développer son humour. Techniques d'humoristes, exercices concrets, conseils débutants.",
   alternates: { canonical: "https://deviens-marrant.fr/blog" },
 };
 
