@@ -48,10 +48,9 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      // En production, envoyer un email avec le lien
-      // Pour le MVP, le token est loggé côté serveur
-      const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
-      console.log(`[Auth] Reset password link for ${user.email}: ${resetUrl}`);
+      // TODO: Envoyer un email avec le lien de réinitialisation
+      // resetUrl: ${NEXTAUTH_URL}/reset-password?token=${token}&email=${email}
+      // Pour l'instant le token est stocké en DB et validé via /api/auth/reset-password
     }
 
     return NextResponse.json({

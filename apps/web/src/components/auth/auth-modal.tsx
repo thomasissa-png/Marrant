@@ -54,12 +54,14 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
 
       if (result?.error) {
         setError("Email ou mot de passe incorrect.");
+        setPassword("");
       } else {
         onClose();
         router.refresh();
       }
     } catch {
       setError("Une erreur est survenue. Réessaie.");
+      setPassword("");
     } finally {
       setIsLoading(false);
     }

@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { verify } from "@/lib/password";
+import { rateLimit } from "@/lib/rate-limit";
 
 async function updateStreak(userId: string): Promise<void> {
   try {
@@ -75,8 +76,16 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        const email = credentials.email.toLowerCase().trim();
+
+        // Rate limit : 10 tentatives par email par 15 minutes
+        const rl = rateLimit(`login:${email}`, { maxRequests: 10, windowMs: 15 * 60_000 });
+        if (!rl.allowed) {
+          return null;
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
 
         if (!user || !user.passwordHash) {

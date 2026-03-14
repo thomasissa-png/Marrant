@@ -30,12 +30,14 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError("Email ou mot de passe incorrect.");
+        setPassword("");
       } else {
         router.push("/");
         router.refresh();
       }
     } catch {
       setError("Une erreur est survenue. Réessaie.");
+      setPassword("");
     } finally {
       setIsLoading(false);
     }

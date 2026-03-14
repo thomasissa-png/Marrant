@@ -13,7 +13,7 @@ export default withAuth(
         const path = req.nextUrl.pathname;
 
         // Routes protégées nécessitant une session
-        const protectedPaths = ["/profil", "/favoris"];
+        const protectedPaths = ["/profil", "/favoris", "/onboarding"];
         if (protectedPaths.some((p) => path.startsWith(p))) {
           return !!token;
         }
@@ -26,5 +26,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/profil/:path*", "/favoris/:path*"],
+  matcher: ["/profil/:path*", "/favoris/:path*", "/onboarding/:path*"],
 };
