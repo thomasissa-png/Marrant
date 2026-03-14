@@ -21,11 +21,6 @@ export const organizationJsonLd = {
     "@type": "Person",
     name: "Thomas Issa",
   },
-  sameAs: [
-    "https://www.tiktok.com/@deviensmarrant",
-    "https://www.instagram.com/deviensmarrant",
-    "https://x.com/deviensmarrant",
-  ],
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@deviens-marrant.fr",
