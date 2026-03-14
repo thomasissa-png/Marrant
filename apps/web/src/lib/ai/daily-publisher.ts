@@ -202,7 +202,7 @@ export async function publishDailyContent(
     const fallbackJoke = await prisma.joke.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, await prisma.joke.count({ where: { isActive: true } })),
@@ -225,7 +225,7 @@ export async function publishDailyContent(
     const fallbackTip = await prisma.tip.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, tipCount),
@@ -247,7 +247,7 @@ export async function publishDailyContent(
     const fallbackVideo = await prisma.video.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: [...usedCategories] as never } } : {}),
+        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, videoCount),
