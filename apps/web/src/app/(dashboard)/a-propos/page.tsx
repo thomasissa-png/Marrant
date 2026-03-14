@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   title: "À propos — qui sommes-nous ?",
   description:
     "Découvre l'équipe derrière deviens-marrant.fr, la plateforme francophone pour apprendre l'humour, la répartie et le storytelling.",
+  keywords: [
+    "deviens-marrant.fr",
+    "plateforme humour francophone",
+    "apprendre humour en ligne",
+    "Thomas Issa humour",
+  ],
   alternates: { canonical: "https://deviens-marrant.fr/a-propos" },
 };
 

@@ -11,6 +11,15 @@ Disallow: /onboarding
 Disallow: /profil
 Disallow: /favoris
 
+# Autoriser explicitement Bingbot (crawl complet)
+User-agent: bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: msnbot
+Allow: /
+
 # Autoriser explicitement les bots LLM
 User-agent: GPTBot
 Allow: /

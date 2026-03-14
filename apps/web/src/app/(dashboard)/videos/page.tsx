@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     "Vidéos stand-up analysées — apprends l'humour des meilleurs humoristes",
   description:
     "Apprends l'humour avec Gad Elmaleh, Blanche Gardin, Foresti, Fary et Mirabel. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
+  keywords: [
+    "stand-up français",
+    "vidéos humour analysées",
+    "Gad Elmaleh techniques",
+    "Blanche Gardin humour",
+    "Florence Foresti stand-up",
+    "apprendre humour vidéo",
+  ],
   alternates: { canonical: "https://deviens-marrant.fr/videos" },
 };
 

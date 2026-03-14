@@ -17,6 +17,15 @@ export const organizationJsonLd = {
   logo: `${BASE_URL}/icon-512.png`,
   description:
     "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.",
+  founder: {
+    "@type": "Person",
+    name: "Thomas Issa",
+  },
+  sameAs: [
+    "https://www.tiktok.com/@deviensmarrant",
+    "https://www.instagram.com/deviensmarrant",
+    "https://x.com/deviensmarrant",
+  ],
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@deviens-marrant.fr",
@@ -33,6 +42,14 @@ export const websiteJsonLd = {
   description:
     "Apprends à devenir drôle, à avoir de la répartie et à faire rire ton entourage. Blagues, techniques, vidéos stand-up et parcours personnalisés.",
   inLanguage: "fr-FR",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${BASE_URL}/vannes?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export function buildFaqJsonLd(

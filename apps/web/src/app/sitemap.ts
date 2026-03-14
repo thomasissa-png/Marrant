@@ -6,18 +6,23 @@ export const revalidate = 3600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
 
+  // Pages dynamiques : lastModified = maintenant (contenu frais quotidien)
+  // Pages statiques : lastModified = date fixe (évite signal trompeur pour Bing)
+  const now = new Date();
+  const lastDeploy = new Date("2026-03-14");
+
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    { url: `${baseUrl}/vannes`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/conseils`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/videos`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/parcours`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/a-propos`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/register`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/mentions-legales`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/cgu`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/confidentialite`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.1 },
+    { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${baseUrl}/vannes`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/conseils`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/videos`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/parcours`, lastModified: lastDeploy, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/register`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/mentions-legales`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/cgu`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/confidentialite`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
   ];
 
   // Articles statiques

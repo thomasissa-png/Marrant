@@ -11,6 +11,15 @@ export const metadata: Metadata = {
   title: "Conseils humour et répartie — techniques pour devenir drôle",
   description:
     "Comment avoir de la répartie et devenir plus drôle au quotidien. Techniques concrètes avec exemples et exercices. Répartie, storytelling, autodérision.",
+  keywords: [
+    "avoir de la répartie",
+    "comment avoir de la répartie",
+    "techniques de répartie",
+    "conseils humour",
+    "exercices répartie",
+    "autodérision",
+    "storytelling humour",
+  ],
   alternates: { canonical: "https://deviens-marrant.fr/conseils" },
 };
 

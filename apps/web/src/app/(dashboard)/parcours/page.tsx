@@ -13,6 +13,14 @@ export const metadata: Metadata = {
     "Parcours humour — deviens drôle et développe ta répartie pas à pas",
   description:
     "Parcours structurés pour devenir drôle et avoir de la répartie. Machine à Café (3 sem.), Répartie (4 sem.), Confiance (6 sem.). Progresse à ton rythme.",
+  keywords: [
+    "cours humour en ligne",
+    "parcours répartie",
+    "formation humour",
+    "exercices humour débutant",
+    "apprendre humour pas à pas",
+    "devenir drôle en ligne",
+  ],
   alternates: { canonical: "https://deviens-marrant.fr/parcours" },
 };
 

@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "Vannes et blagues drôles classées par catégorie",
   description:
     "Des centaines de vannes drôles à ressortir en soirée, au boulot ou entre amis. Classées par catégorie, chute cachée. Deviens la personne drôle du groupe.",
+  keywords: [
+    "vanne drôle",
+    "blague du jour",
+    "vanne du jour",
+    "blagues courtes",
+    "vannes à ressortir",
+    "blagues entre amis",
+  ],
   alternates: { canonical: "https://deviens-marrant.fr/vannes" },
 };
 
