@@ -55,55 +55,55 @@ export async function POST(
       });
     }
 
-    // Upsert le progress avec le nouveau step
-    const progress = await prisma.userPathProgress.upsert({
-      where: { userId_learningPathId: { userId, learningPathId: params.id } },
-      create: {
-        userId,
-        learningPathId: params.id,
-        currentStep: stepOrder,
-        completedSteps: [stepOrder],
-      },
-      update: {
-        currentStep: stepOrder,
-        completedSteps: { push: stepOrder },
-      },
-    });
-
-    // Award XP atomiquement
-    await prisma.user.update({
-      where: { id: userId },
-      data: { xp: { increment: 20 } },
-    });
-
-    let xpGained = 20;
-
-    // Vérifier si tous les steps sont complétés
-    const path = await prisma.learningPath.findUnique({
-      where: { id: params.id },
-      include: { steps: true },
-    });
-
-    let pathCompleted = false;
-    if (path && progress.completedSteps.length >= path.steps.length) {
-      pathCompleted = true;
-      await prisma.userPathProgress.update({
-        where: { id: progress.id },
-        data: { completedAt: new Date() },
+    // Upsert le progress + increment XP dans une transaction
+    const result = await prisma.$transaction(async (tx) => {
+      const progress = await tx.userPathProgress.upsert({
+        where: { userId_learningPathId: { userId, learningPathId: params.id } },
+        create: {
+          userId,
+          learningPathId: params.id,
+          currentStep: stepOrder,
+          completedSteps: [stepOrder],
+        },
+        update: {
+          currentStep: stepOrder,
+          completedSteps: { push: stepOrder },
+        },
       });
-      // Bonus XP pour complétion du parcours
-      await prisma.user.update({
+
+      // Award XP atomiquement
+      await tx.user.update({
         where: { id: userId },
-        data: { xp: { increment: 100 } },
+        data: { xp: { increment: 20 } },
       });
-      xpGained += 100;
-    }
 
-    return NextResponse.json({
-      progress,
-      xpGained,
-      pathCompleted,
+      let xpGained = 20;
+
+      // Vérifier si tous les steps sont complétés
+      const path = await tx.learningPath.findUnique({
+        where: { id: params.id },
+        include: { steps: true },
+      });
+
+      let pathCompleted = false;
+      if (path && progress.completedSteps.length >= path.steps.length) {
+        pathCompleted = true;
+        await tx.userPathProgress.update({
+          where: { id: progress.id },
+          data: { completedAt: new Date() },
+        });
+        // Bonus XP pour complétion du parcours
+        await tx.user.update({
+          where: { id: userId },
+          data: { xp: { increment: 100 } },
+        });
+        xpGained += 100;
+      }
+
+      return { progress, xpGained, pathCompleted };
     });
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[API /parcours/progress POST]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

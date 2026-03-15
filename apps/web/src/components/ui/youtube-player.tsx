@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Image from "next/image";
 
 interface YouTubePlayerProps {
   youtubeId: string;
@@ -39,9 +40,11 @@ export function YouTubePlayer({ youtubeId, title }: YouTubePlayerProps) {
       aria-label={`Lire la vidéo : ${title}`}
     >
       {/* Thumbnail YouTube */}
-      <img
+      <Image
         src={`https://i.ytimg.com/vi/${encodeURIComponent(youtubeId)}/hqdefault.jpg`}
-        alt=""
+        alt={title}
+        width={480}
+        height={360}
         className="absolute inset-0 h-full w-full object-cover"
         loading="lazy"
       />

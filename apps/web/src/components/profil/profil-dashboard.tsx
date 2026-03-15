@@ -44,6 +44,24 @@ export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isPortalLoading, setIsPortalLoading] = useState(false);
+
+  const handlePortal = async () => {
+    setIsPortalLoading(true);
+    try {
+      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        toast("Erreur lors de l'accès au portail", "error");
+      }
+    } catch {
+      toast("Connexion perdue, réessaie", "error");
+    } finally {
+      setIsPortalLoading(false);
+    }
+  };
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -231,9 +249,20 @@ export function ProfilDashboard() {
         </CardHeader>
         <CardContent>
           {user.plan === "PREMIUM" ? (
-            <p className="text-sm text-text-secondary">
-              Tu profites de l&apos;accès illimité à tous les contenus et de la progression personnalisée.
-            </p>
+            <div>
+              <p className="text-sm text-text-secondary">
+                Tu profites de l&apos;accès illimité à tous les contenus et de la progression personnalisée.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-4"
+                onClick={handlePortal}
+                disabled={isPortalLoading}
+              >
+                {isPortalLoading ? "Redirection..." : "Gérer mon abonnement"}
+              </Button>
+            </div>
           ) : (
             <>
               <p className="mb-4 text-sm text-text-secondary">

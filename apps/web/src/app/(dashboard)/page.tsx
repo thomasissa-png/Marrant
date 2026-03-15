@@ -5,8 +5,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
-import { PremiumCta } from "@/components/home/premium-cta";
-import { HomeCta } from "@/components/home/home-cta";
+import dynamic from "next/dynamic";
+const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
+const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import Link from "next/link";
 

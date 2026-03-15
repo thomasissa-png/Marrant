@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const INDEXNOW_KEY = "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6";
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? "";
 const HOST = "deviens-marrant.fr";
 
 /**
