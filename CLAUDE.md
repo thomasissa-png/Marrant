@@ -78,3 +78,46 @@ Trois personas guident les décisions UX/copy du site. À consulter pour toute �
 - **Objectif principal** : Redevenir drôle et à l'aise socialement, retrouver confiance en ses interactions.
 - **Besoins** : Parcours structurés, progression mesurable, variété de contenus (blagues + conseils + vidéos), ton bienveillant sans infantiliser.
 - **Points de friction** : Contenu uniquement orienté « ados/étudiants », manque de profondeur dans les parcours, absence de recommandations personnalisées.
+
+## Historique des audits
+
+### Audit SEO + Sécurité + UX — 15 mars 2026
+Branche : `claude/seo-audit-optimization-EU7uv`
+
+#### Sécurité (7 fixes)
+- `auth.ts` : Retrait `allowDangerousEmailAccountLinking`, JWT maxAge 30j
+- `register/route.ts` : Password minimum 12 caractères (était 8)
+- `indexnow/route.ts` : Clé IndexNow via `process.env.INDEXNOW_KEY`
+- `next.config.js` : Headers CSP + HSTS ajoutés
+- `globals.css` : `prefers-reduced-motion: reduce` pour accessibilité
+
+#### Base de données (4 fixes)
+- `schema.prisma` : Model `WebhookEvent` (dédup Stripe persistante), index `JokeLike.jokeId`, `onDelete: Cascade` sur DailyContent
+- `parcours/[id]/progress/route.ts` : `$transaction()` pour XP atomique
+
+#### Stripe & Achat (6 fixes)
+- Nouveau endpoint `/api/stripe/portal` (portail client Stripe)
+- `profil-dashboard.tsx` : Bouton "Gérer mon abonnement"
+- `webhook/route.ts` : Dédup via DB (plus de Map in-memory), events `invoice.payment_succeeded` + `charge.refunded`
+- `stripe.ts` : Prix depuis `STRIPE_PRICE_ID` env var
+- `premium-cta.tsx` : Tableau comparatif FREE vs PREMIUM
+
+#### Frontend & Accessibilité (5 fixes)
+- `youtube-player.tsx` : Thumbnail via `next/image` + alt text
+- `page.tsx` (home) : Lazy-load `PremiumCta` + `HomeCta` via `dynamic()`
+- Forms auth : `aria-describedby` + `aria-invalid` sur tous les champs
+- `register/page.tsx` : Validation Zod côté client
+- `next.config.js` : 3 redirects 301 anti-cannibalisation SEO
+
+#### UX & Contenu (5 fixes)
+- `humor-quiz.tsx` : Persistance résultat quiz dans localStorage
+- Limites gratuites augmentées : blagues 50, conseils 15, vidéos 25, favoris 50
+- Nouvelle page `/retractation` (obligation légale, directive 2011/83/UE)
+- `footer.tsx` : Lien rétractation ajouté
+- `premium-cta.tsx` : Mention "Sans engagement" + lien rétractation
+
+#### Tests pre-existants en échec (non liés à l'audit)
+- `blog.test.tsx` et `parcours-list.test.tsx` — à corriger séparément
+
+#### Limites gratuites actuelles
+- Blagues : 50, Conseils : 15, Vidéos : 25, Favoris max : 50
