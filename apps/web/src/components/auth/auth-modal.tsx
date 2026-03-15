@@ -174,7 +174,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
           {tab === "login" ? (
             <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               {error && (
-                <p className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
+                <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                   {error}
                 </p>
               )}
@@ -190,6 +190,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
+                  aria-describedby={error ? "login-error" : undefined}
+                  aria-invalid={!!error}
                 />
               </div>
               <div>
@@ -206,6 +208,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                     required
                     autoComplete="current-password"
                     className="pr-10"
+                    aria-describedby={error ? "login-error" : undefined}
+                    aria-invalid={!!error}
                   />
                   {PasswordToggle}
                 </div>
@@ -226,7 +230,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
           ) : (
             <form className="flex flex-col gap-4" onSubmit={handleRegister}>
               {error && (
-                <p className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
+                <p id="register-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                   {error}
                 </p>
               )}
@@ -242,6 +246,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                   onChange={(e) => setName(e.target.value)}
                   required
                   autoComplete="given-name"
+                  aria-describedby={error ? "register-error" : undefined}
+                  aria-invalid={!!error}
                 />
               </div>
               <div>
@@ -256,6 +262,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
+                  aria-describedby={error ? "register-error" : undefined}
+                  aria-invalid={!!error}
                 />
               </div>
               <div>
@@ -273,10 +281,12 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                     minLength={8}
                     autoComplete="new-password"
                     className="pr-10"
+                    aria-describedby={error ? "register-error" : "modal-reg-password-hint"}
+                    aria-invalid={!!error}
                   />
                   {PasswordToggle}
                 </div>
-                <p className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
+                <p id="modal-reg-password-hint" className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
               </div>
               <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
                 {isLoading ? "Création..." : "Créer mon compte"}

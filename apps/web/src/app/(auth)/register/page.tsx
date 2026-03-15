@@ -13,14 +13,41 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const validateForm = (): boolean => {
+    const errors: { name?: string; email?: string; password?: string } = {};
+
+    if (!name.trim()) {
+      errors.name = "Le prénom est requis.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      errors.email = "L'adresse email n'est pas valide.";
+    }
+
+    if (password.length < 12) {
+      errors.password = "Le mot de passe doit contenir au moins 12 caractères.";
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
     setIsLoading(true);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/auth/register", {

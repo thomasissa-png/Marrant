@@ -4,18 +4,6 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import Stripe from "stripe";
 
-// Déduplication en mémoire — empêche le traitement en double d'un même événement
-const processedEvents = new Map<string, number>();
-const DEDUP_TTL_MS = 5 * 60 * 1000; // 5 minutes
-
-// Nettoyage périodique
-setInterval(() => {
-  const now = Date.now();
-  processedEvents.forEach((ts, key) => {
-    if (now - ts > DEDUP_TTL_MS) processedEvents.delete(key);
-  });
-}, 60 * 1000);
-
 export async function POST(request: NextRequest) {
   const body = await request.text();
   const headersList = headers();
@@ -38,11 +26,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Signature invalide" }, { status: 400 });
   }
 
-  // Déduplication : ignorer les événements déjà traités
-  if (processedEvents.has(event.id)) {
+  // Déduplication via Prisma — ignorer les événements déjà traités
+  const existing = await prisma.webhookEvent.findUnique({ where: { id: event.id } });
+  if (existing) {
     return NextResponse.json({ received: true, deduplicated: true });
   }
-  processedEvents.set(event.id, Date.now());
+  await prisma.webhookEvent.create({ data: { id: event.id } });
 
   try {
     switch (event.type) {
@@ -51,9 +40,15 @@ export async function POST(request: NextRequest) {
         const userId = session.metadata?.userId;
         if (!userId) break;
 
-        const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string
-        );
+        let subscription: Stripe.Subscription;
+        try {
+          subscription = await stripe.subscriptions.retrieve(
+            session.subscription as string
+          );
+        } catch (error) {
+          console.error(`[Stripe] Erreur récupération subscription pour user ${userId}:`, error);
+          break;
+        }
 
         // Mettre à jour le user en PREMIUM
         await prisma.user.update({
@@ -152,6 +147,42 @@ export async function POST(request: NextRequest) {
             data: { status: "PAST_DUE" },
           });
           console.log(`[Stripe] Payment failed for user ${sub.userId}`);
+        }
+        break;
+      }
+
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const sub = await prisma.subscription.findUnique({
+          where: { stripeCustomerId: invoice.customer as string },
+        });
+
+        if (sub) {
+          await prisma.subscription.update({
+            where: { id: sub.id },
+            data: { status: "ACTIVE" },
+          });
+          console.log(`[Stripe] Payment succeeded for user ${sub.userId}`);
+        }
+        break;
+      }
+
+      case "charge.refunded": {
+        const charge = event.data.object as Stripe.Charge;
+        const sub = await prisma.subscription.findUnique({
+          where: { stripeCustomerId: charge.customer as string },
+        });
+
+        if (sub) {
+          await prisma.subscription.update({
+            where: { id: sub.id },
+            data: { status: "CANCELED", plan: "FREE" },
+          });
+          await prisma.user.update({
+            where: { id: sub.userId },
+            data: { plan: "FREE" },
+          });
+          console.log(`[Stripe] Charge refunded, user ${sub.userId} downgraded to FREE`);
         }
         break;
       }

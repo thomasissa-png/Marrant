@@ -61,7 +61,7 @@ export default function LoginPage() {
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {error && (
-              <p className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
+              <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
               </p>
             )}
@@ -77,6 +77,8 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
+                aria-describedby={error ? "login-error" : undefined}
+                aria-invalid={!!error}
               />
             </div>
             <div>
@@ -93,6 +95,8 @@ export default function LoginPage() {
                   required
                   autoComplete="current-password"
                   className="pr-10"
+                  aria-describedby={error ? "login-error" : undefined}
+                  aria-invalid={!!error}
                 />
                 <button
                   type="button"
