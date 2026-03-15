@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ShareButton } from "@/components/ui/share-button";
+import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 
 interface Joke {
@@ -119,23 +121,32 @@ export function DailyContent() {
               )}
             </div>
             {data.joke ? (
-              <div className="min-h-[120px]">
-                <p className="text-base leading-relaxed text-text-primary">{data.joke.content}</p>
-                {showPunchline ? (
-                  <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-primary animate-fade-in">
-                    {data.joke.punchline}
-                  </p>
-                ) : (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    className="mt-4"
-                    onClick={() => setShowPunchline(true)}
-                  >
-                    Révéler la chute
-                  </Button>
-                )}
-              </div>
+              <>
+                <div className="min-h-[120px]">
+                  <p className="text-base leading-relaxed text-text-primary">{data.joke.content}</p>
+                  {showPunchline ? (
+                    <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-primary animate-fade-in">
+                      {data.joke.punchline}
+                    </p>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="mt-4"
+                      onClick={() => setShowPunchline(true)}
+                    >
+                      Révéler la chute
+                    </Button>
+                  )}
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                  <ShareButton
+                    title="Vanne du jour — deviens-marrant.fr"
+                    text={`${data.joke.content}\n${data.joke.punchline}`}
+                  />
+                  <FavoriteButton contentType="JOKE" contentId={data.joke.id} />
+                </div>
+              </>
             ) : (
               <p className="text-text-secondary">Même l&apos;humour prend un jour off. Reviens demain pour ta dose !</p>
             )}
@@ -156,24 +167,33 @@ export function DailyContent() {
               )}
             </div>
             {data.tip ? (
-              <div className="space-y-3">
-                <h3 className="text-base font-bold text-text-primary">
-                  {data.tip.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-text-secondary">{data.tip.content}</p>
-                {data.tip.example && (
-                  <div className="rounded-lg bg-background-elevated p-3">
-                    <p className="text-xs font-semibold text-text-primary">Exemple concret</p>
-                    <p className="mt-1 text-xs text-text-secondary">{data.tip.example}</p>
-                  </div>
-                )}
-                {data.tip.exercise && (
-                  <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                    <p className="text-xs font-semibold text-accent-primary">Exercice du jour</p>
-                    <p className="mt-1 text-xs text-text-secondary">{data.tip.exercise}</p>
-                  </div>
-                )}
-              </div>
+              <>
+                <div className="space-y-3">
+                  <h3 className="text-base font-bold text-text-primary">
+                    {data.tip.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">{data.tip.content}</p>
+                  {data.tip.example && (
+                    <div className="rounded-lg bg-background-elevated p-3">
+                      <p className="text-xs font-semibold text-text-primary">Exemple concret</p>
+                      <p className="mt-1 text-xs text-text-secondary">{data.tip.example}</p>
+                    </div>
+                  )}
+                  {data.tip.exercise && (
+                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
+                      <p className="text-xs font-semibold text-accent-primary">Exercice du jour</p>
+                      <p className="mt-1 text-xs text-text-secondary">{data.tip.exercise}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                  <ShareButton
+                    title="Conseil du jour — deviens-marrant.fr"
+                    text={`${data.tip.title}\n${data.tip.content}`}
+                  />
+                  <FavoriteButton contentType="TIP" contentId={data.tip.id} />
+                </div>
+              </>
             ) : (
               <p className="text-text-secondary">Le prof d&apos;humour est en pause café. Ça revient demain.</p>
             )}
@@ -200,34 +220,43 @@ export function DailyContent() {
               )}
             </div>
             {data.video ? (
-              <div className="space-y-3">
-                <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
-                  <p className="text-xs text-text-secondary">{data.video.channelName}</p>
-                </div>
-                {data.video.learnings && data.video.learnings.length > 0 && (
-                  <div className="rounded-lg bg-background-elevated p-3">
-                    <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
-                    <ul className="mt-1.5 space-y-1">
-                      {data.video.learnings.map((learning, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
-                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
-                          {learning}
-                        </li>
-                      ))}
-                    </ul>
+              <>
+                <div className="space-y-3">
+                  <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                    <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
                   </div>
-                )}
-                {data.video.exercise && (
-                  <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                    <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
-                    <p className="mt-1 text-xs text-text-secondary">{data.video.exercise}</p>
+                  <div>
+                    <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
+                    <p className="text-xs text-text-secondary">{data.video.channelName}</p>
                   </div>
-                )}
-              </div>
+                  {data.video.learnings && data.video.learnings.length > 0 && (
+                    <div className="rounded-lg bg-background-elevated p-3">
+                      <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
+                      <ul className="mt-1.5 space-y-1">
+                        {data.video.learnings.map((learning, i) => (
+                          <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                            <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                            {learning}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {data.video.exercise && (
+                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
+                      <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
+                      <p className="mt-1 text-xs text-text-secondary">{data.video.exercise}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                  <ShareButton
+                    title="Vidéo du jour — deviens-marrant.fr"
+                    text={`${data.video.title} — ${data.video.channelName}`}
+                  />
+                  <FavoriteButton contentType="VIDEO" contentId={data.video.id} />
+                </div>
+              </>
             ) : (
               <p className="text-text-secondary">L&apos;humoriste du jour est en coulisses. À demain !</p>
             )}

@@ -2,6 +2,29 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DailyContent } from "@/components/home/daily-content";
 
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn().mockReturnValue({ status: "authenticated" }),
+}));
+
+jest.mock("@/stores/favorites-store", () => ({
+  useFavoritesStore: () => ({
+    isFavorite: jest.fn().mockReturnValue(false),
+    addFavorite: jest.fn(),
+    removeFavorite: jest.fn(),
+    getFavoriteId: jest.fn().mockReturnValue(null),
+  }),
+}));
+
+jest.mock("@/stores/user-store", () => ({
+  useUserStore: jest.fn((selector: (s: Record<string, unknown>) => unknown) =>
+    selector({ user: { plan: "PREMIUM" } })
+  ),
+}));
+
+jest.mock("@/components/ui/toast", () => ({
+  toast: jest.fn(),
+}));
+
 const mockDailyData = {
   joke: {
     id: "j1",
@@ -254,5 +277,34 @@ describe("DailyContent", () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith("/api/daily");
     });
+  });
+
+  it("shows share buttons for joke, tip and video", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      const shareButtons = screen.getAllByLabelText("Partager");
+      expect(shareButtons).toHaveLength(3);
+    });
+  });
+
+  it("shows favorite buttons for joke, tip and video", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      const favButtons = screen.getAllByLabelText("Ajouter aux favoris");
+      expect(favButtons).toHaveLength(3);
+    });
+  });
+
+  it("does not show share/favorite buttons when content is null", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ joke: null, tip: null, video: null }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Même l'humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
+    });
+    expect(screen.queryByLabelText("Partager")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Ajouter aux favoris")).not.toBeInTheDocument();
   });
 });
