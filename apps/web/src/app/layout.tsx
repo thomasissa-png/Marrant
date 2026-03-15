@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/session-provider";
 import {
@@ -8,18 +7,6 @@ import {
   websiteJsonLd,
 } from "@/components/seo/json-ld";
 import "@/styles/globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -108,9 +95,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="fr">
       <head>
         <meta name="theme-color" content="#0D0D0D" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
