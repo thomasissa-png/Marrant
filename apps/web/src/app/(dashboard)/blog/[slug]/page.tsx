@@ -104,8 +104,9 @@ export default async function BlogArticlePage({
   const paragraphs = article.content.split("\n\n");
 
   // Trouver des articles similaires pour le cross-linking
-  const relatedArticles = blogArticles
+  const relatedArticles = [...blogArticles]
     .filter((a) => a.slug !== article.slug)
+    .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 3);
 
   return (

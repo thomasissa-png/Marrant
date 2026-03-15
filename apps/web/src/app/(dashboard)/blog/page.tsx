@@ -80,11 +80,14 @@ async function getAllArticles() {
 
   // Dédupliquer par slug (DB a priorité)
   const seen = new Set<string>();
-  return allArticles.filter((a) => {
+  const unique = allArticles.filter((a) => {
     if (seen.has(a.slug)) return false;
     seen.add(a.slug);
     return true;
   });
+
+  // Trier du plus récent au plus ancien
+  return unique.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export default async function BlogPage() {
