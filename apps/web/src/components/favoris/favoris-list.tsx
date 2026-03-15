@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useFavoritesStore } from "@/stores/favorites-store";
+import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
@@ -20,6 +21,7 @@ const TABS: { value: TabFilter; label: string }[] = [
 export function FavorisList() {
   const { status } = useSession();
   const { favorites, isLoading, fetchFavorites, removeFavorite } = useFavoritesStore();
+  const user = useUserStore((s) => s.user);
   const [activeTab, setActiveTab] = useState<TabFilter>("ALL");
 
   useEffect(() => {
@@ -41,6 +43,29 @@ export function FavorisList() {
           <Link href="/login" className="mt-4">
             <Button variant="primary" size="sm">
               Se connecter
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (user?.plan !== "PREMIUM") {
+    return (
+      <Card>
+        <CardContent className="flex flex-col items-center py-12 text-center">
+          <span className="text-4xl" role="img" aria-label="étoile">
+            ⭐
+          </span>
+          <p className="mt-4 text-lg font-medium text-text-primary">
+            Les favoris sont r&#233;serv&#233;s aux membres Premium
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Passe &#224; l&apos;offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
+          </p>
+          <Link href="/#offres" className="mt-4">
+            <Button variant="primary" size="sm">
+              D&#233;couvrir l&apos;offre Premium
             </Button>
           </Link>
         </CardContent>

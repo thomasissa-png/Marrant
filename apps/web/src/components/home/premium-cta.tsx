@@ -83,14 +83,9 @@ export function PremiumCta() {
               <td className="px-4 py-3 text-center text-text-muted">Limit&eacute;</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Complet</td>
             </tr>
-            <tr className="border-b border-border">
-              <td className="px-4 py-3 font-medium">IA Coach</td>
-              <td className="px-4 py-3 text-center text-text-muted">Non</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Oui</td>
-            </tr>
             <tr>
               <td className="px-4 py-3 font-medium">Favoris</td>
-              <td className="px-4 py-3 text-center text-text-muted">50 max</td>
+              <td className="px-4 py-3 text-center text-text-muted">Non</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
             </tr>
           </tbody>

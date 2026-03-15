@@ -2,6 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useFavoritesStore } from "@/stores/favorites-store";
+import { useUserStore } from "@/stores/user-store";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 interface FavoriteButtonProps {
@@ -13,8 +15,10 @@ interface FavoriteButtonProps {
 export function FavoriteButton({ contentType, contentId, className }: FavoriteButtonProps) {
   const { status } = useSession();
   const { isFavorite, addFavorite, removeFavorite, getFavoriteId } = useFavoritesStore();
+  const user = useUserStore((s) => s.user);
 
   if (status !== "authenticated") return null;
+  if (user?.plan !== "PREMIUM") return null;
 
   const isFav = isFavorite(contentType, contentId);
   const favId = getFavoriteId(contentType, contentId);

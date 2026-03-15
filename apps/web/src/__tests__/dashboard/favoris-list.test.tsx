@@ -13,8 +13,13 @@ jest.mock("@/stores/favorites-store", () => ({
   useFavoritesStore: jest.fn(),
 }));
 
+jest.mock("@/stores/user-store", () => ({
+  useUserStore: jest.fn(),
+}));
+
 const { useSession } = require("next-auth/react");
 const { useFavoritesStore } = require("@/stores/favorites-store");
+const { useUserStore } = require("@/stores/user-store");
 
 const mockFavorites = [
   {
@@ -56,6 +61,9 @@ describe("FavorisList", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useSession.mockReturnValue({ status: "authenticated" });
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "PREMIUM" } })
+    );
     useFavoritesStore.mockReturnValue({
       favorites: mockFavorites,
       isLoading: false,
@@ -69,6 +77,15 @@ describe("FavorisList", () => {
     render(<FavorisList />);
     expect(screen.getByRole("img", { name: "cadenas" })).toBeInTheDocument();
     expect(screen.getByText(/Connecte-toi pour retrouver tes p/)).toBeInTheDocument();
+  });
+
+  it("shows premium upsell for free users", () => {
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "FREE" } })
+    );
+    render(<FavorisList />);
+    expect(screen.getByText(/réservés aux membres Premium/)).toBeInTheDocument();
+    expect(screen.getByText(/Découvrir l'offre Premium/)).toBeInTheDocument();
   });
 
   it("renders tab filters", () => {

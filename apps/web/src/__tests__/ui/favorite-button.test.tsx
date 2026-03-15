@@ -20,18 +20,40 @@ jest.mock("@/stores/favorites-store", () => ({
   }),
 }));
 
+jest.mock("@/stores/user-store", () => ({
+  useUserStore: jest.fn(),
+}));
+
+jest.mock("@/components/ui/toast", () => ({
+  toast: jest.fn(),
+}));
+
 const { useSession } = require("next-auth/react");
+const { useUserStore } = require("@/stores/user-store");
 
 describe("FavoriteButton", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useSession.mockReturnValue({ status: "authenticated" });
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "PREMIUM" } })
+    );
     mockIsFavorite.mockReturnValue(false);
     mockGetFavoriteId.mockReturnValue(null);
   });
 
   it("returns null when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
+    const { container } = render(
+      <FavoriteButton contentType="JOKE" contentId="1" />
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("returns null when user is not premium", () => {
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "FREE" } })
+    );
     const { container } = render(
       <FavoriteButton contentType="JOKE" contentId="1" />
     );
