@@ -64,6 +64,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -114,12 +115,17 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.sub = user.id;
         token.iat = Math.floor(Date.now() / 1000);
         // Mettre à jour le streak à chaque connexion
         await updateStreak(user.id);
+      }
+
+      // Pour Google OAuth : s'assurer que token.sub pointe vers l'ID DB
+      if (account?.provider === "google" && user) {
+        token.sub = user.id;
       }
 
       // Invalider le token si le mot de passe a été changé après l'émission
