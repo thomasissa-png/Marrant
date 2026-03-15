@@ -44,6 +44,13 @@ interface VideoSeed {
 }
 
 async function main() {
+  // Protection : ne jamais exécuter le seed destructif en production
+  if (process.env.NODE_ENV === "production") {
+    console.log("⚠️  Seed bloqué en production pour protéger les données utilisateur (votes, favoris).");
+    console.log("   Utilisez NODE_ENV=development pour forcer le seed.");
+    process.exit(0);
+  }
+
   console.log("Début du seeding...");
 
   const [jokeCount, tipCount, videoCount] = await Promise.all([
@@ -52,50 +59,62 @@ async function main() {
     prisma.video.count(),
   ]);
 
-  // BLAGUES — re-seed si le count ne correspond pas au fichier seed
+  // BLAGUES — upsert pour préserver les relations (JokeLike, favoris)
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
   if (jokeCount !== jokes.length) {
-    // Nettoyer les dépendances avant de supprimer
-    if (jokeCount > 0) {
-      await prisma.dailyContent.deleteMany({});
-      await prisma.joke.deleteMany({});
-      console.log(`${jokeCount} anciennes blagues supprimées`);
+    // Identifier les blagues existantes par contenu pour éviter les doublons
+    const existingJokes = await prisma.joke.findMany({ select: { id: true, content: true } });
+    const existingByContent = new Map(existingJokes.map((j) => [j.content, j.id]));
+
+    let created = 0;
+    let skipped = 0;
+    for (const joke of jokes) {
+      if (existingByContent.has(joke.content)) {
+        skipped++;
+        continue;
+      }
+      await prisma.joke.create({
+        data: {
+          content: joke.content,
+          punchline: joke.punchline,
+          category: joke.category as never,
+          maturityLevel: joke.maturityLevel,
+          type: joke.type as never,
+        },
+      });
+      created++;
     }
-    await prisma.joke.createMany({
-      data: jokes.map((joke) => ({
-        content: joke.content,
-        punchline: joke.punchline,
-        category: joke.category as never,
-        maturityLevel: joke.maturityLevel,
-        type: joke.type as never,
-      })),
-    });
-    console.log(`${jokes.length} blagues importées`);
+    console.log(`Blagues : ${created} ajoutées, ${skipped} déjà présentes`);
   } else {
     console.log(`Blagues à jour (${jokeCount}), ignoré`);
   }
 
-  // CONSEILS — re-seed si le count ne correspond pas au fichier seed
+  // CONSEILS — upsert pour préserver les relations (favoris, parcours)
   const tips = loadSeedData<TipSeed>("conseils-seed.json");
   if (tipCount !== tips.length) {
-    // Nettoyer les dépendances avant de supprimer
-    if (tipCount > 0) {
-      await prisma.dailyContent.deleteMany({});
-      await prisma.learningPathStep.deleteMany({});
-      await prisma.tip.deleteMany({});
-      console.log(`${tipCount} anciens conseils supprimés`);
+    const existingTips = await prisma.tip.findMany({ select: { id: true, title: true } });
+    const existingByTitle = new Map(existingTips.map((t) => [t.title, t.id]));
+
+    let created = 0;
+    let skipped = 0;
+    for (const tip of tips) {
+      if (existingByTitle.has(tip.title)) {
+        skipped++;
+        continue;
+      }
+      await prisma.tip.create({
+        data: {
+          title: tip.title,
+          content: tip.content,
+          category: tip.category as never,
+          difficulty: tip.difficulty as never,
+          example: tip.example,
+          exercise: tip.exercise,
+        },
+      });
+      created++;
     }
-    await prisma.tip.createMany({
-      data: tips.map((tip) => ({
-        title: tip.title,
-        content: tip.content,
-        category: tip.category as never,
-        difficulty: tip.difficulty as never,
-        example: tip.example,
-        exercise: tip.exercise,
-      })),
-    });
-    console.log(`${tips.length} conseils importés`);
+    console.log(`Conseils : ${created} ajoutés, ${skipped} déjà présents`);
   } else {
     console.log(`Conseils à jour (${tipCount}), ignoré`);
   }
