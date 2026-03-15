@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
@@ -25,6 +25,21 @@ export function ReactionButtons({
   const [dislikes, setDislikes] = useState(initialDislikes);
   const [userReaction, setUserReaction] = useState<boolean | null>(initialUserReaction);
   const [isShaking, setIsShaking] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/jokes/${jokeId}/like`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && !cancelled) {
+          setLikes(data.likes);
+          setDislikes(data.dislikes);
+          if (data.userReaction !== undefined) setUserReaction(data.userReaction);
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [jokeId]);
 
   const triggerShake = () => {
     setIsShaking(true);

@@ -13,6 +13,30 @@ jest.mock("@/components/ui/toast", () => ({
 const { useSession } = require("next-auth/react");
 const { toast } = require("@/components/ui/toast");
 
+// Helper: mock fetch to handle GET (mount) then POST (click)
+function mockFetchSequence(
+  getResponse: { likes: number; dislikes: number; userReaction: boolean | null },
+  postResponse?: { ok: boolean; data?: Record<string, unknown> }
+) {
+  (global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+    if (!options || options.method !== "POST") {
+      // GET request (mount)
+      return Promise.resolve({
+        ok: true,
+        json: async () => getResponse,
+      });
+    }
+    // POST request (click)
+    if (postResponse) {
+      return Promise.resolve({
+        ok: postResponse.ok,
+        json: async () => postResponse.data ?? {},
+      });
+    }
+    return Promise.resolve({ ok: false });
+  });
+}
+
 describe("ReactionButtons", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20,25 +44,42 @@ describe("ReactionButtons", () => {
     global.fetch = jest.fn();
   });
 
-  it("renders like and dislike buttons", () => {
+  it("renders like and dislike buttons", async () => {
+    mockFetchSequence({ likes: 0, dislikes: 0, userReaction: null });
     render(<ReactionButtons jokeId="j1" />);
-    expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
-    expect(screen.getByLabelText("0 pas terrible")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+      expect(screen.getByLabelText("0 pas terrible")).toBeInTheDocument();
+    });
   });
 
-  it("displays initial counts", () => {
+  it("fetches and displays counts from API on mount", async () => {
+    mockFetchSequence({ likes: 12, dislikes: 3, userReaction: null });
+    render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("12 hilarant")).toBeInTheDocument();
+      expect(screen.getByLabelText("3 pas terrible")).toBeInTheDocument();
+    });
+  });
+
+  it("displays initial counts before fetch resolves", () => {
+    (global.fetch as jest.Mock).mockReturnValue(new Promise(() => {})); // never resolves
     render(<ReactionButtons jokeId="j1" initialLikes={5} initialDislikes={3} />);
     expect(screen.getByLabelText("5 hilarant")).toBeInTheDocument();
     expect(screen.getByLabelText("3 pas terrible")).toBeInTheDocument();
   });
 
   it("increments likes on created action", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
-      ok: true,
-      json: async () => ({ action: "created" }),
+    mockFetchSequence(
+      { likes: 2, dislikes: 0, userReaction: null },
+      { ok: true, data: { action: "created" } }
+    );
+
+    render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("2 hilarant")).toBeInTheDocument();
     });
 
-    render(<ReactionButtons jokeId="j1" initialLikes={2} />);
     await userEvent.click(screen.getByLabelText("2 hilarant"));
 
     await waitFor(() => {
@@ -47,12 +88,16 @@ describe("ReactionButtons", () => {
   });
 
   it("decrements likes on removed action", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
-      ok: true,
-      json: async () => ({ action: "removed" }),
+    mockFetchSequence(
+      { likes: 5, dislikes: 0, userReaction: true },
+      { ok: true, data: { action: "removed" } }
+    );
+
+    render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("5 hilarant")).toBeInTheDocument();
     });
 
-    render(<ReactionButtons jokeId="j1" initialLikes={5} initialUserReaction={true} />);
     await userEvent.click(screen.getByLabelText("5 hilarant"));
 
     await waitFor(() => {
@@ -61,12 +106,16 @@ describe("ReactionButtons", () => {
   });
 
   it("posts to correct API endpoint", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
-      ok: true,
-      json: async () => ({ action: "created" }),
-    });
+    mockFetchSequence(
+      { likes: 0, dislikes: 0, userReaction: null },
+      { ok: true, data: { action: "created" } }
+    );
 
     render(<ReactionButtons jokeId="joke-123" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    });
+
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     expect(global.fetch).toHaveBeenCalledWith("/api/jokes/joke-123/like", {
@@ -77,12 +126,16 @@ describe("ReactionButtons", () => {
   });
 
   it("sends isLike false for dislike", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
-      ok: true,
-      json: async () => ({ action: "created" }),
-    });
+    mockFetchSequence(
+      { likes: 0, dislikes: 0, userReaction: null },
+      { ok: true, data: { action: "created" } }
+    );
 
     render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 pas terrible")).toBeInTheDocument();
+    });
+
     await userEvent.click(screen.getByLabelText("0 pas terrible"));
 
     expect(global.fetch).toHaveBeenCalledWith("/api/jokes/j1/like", {
@@ -93,9 +146,16 @@ describe("ReactionButtons", () => {
   });
 
   it("shows toast on API error", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
+    mockFetchSequence(
+      { likes: 0, dislikes: 0, userReaction: null },
+      { ok: false }
+    );
 
     render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    });
+
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     await waitFor(() => {
@@ -104,9 +164,25 @@ describe("ReactionButtons", () => {
   });
 
   it("shows toast on network error", async () => {
-    (global.fetch as jest.Mock).mockRejectedValue(new Error("Network"));
+    let callCount = 0;
+    (global.fetch as jest.Mock).mockImplementation(() => {
+      callCount++;
+      if (callCount === 1) {
+        // GET on mount
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ likes: 0, dislikes: 0, userReaction: null }),
+        });
+      }
+      // POST throws
+      return Promise.reject(new Error("Network"));
+    });
 
     render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    });
+
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     await waitFor(() => {
@@ -116,8 +192,15 @@ describe("ReactionButtons", () => {
 
   it("does nothing when unauthenticated", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
+    mockFetchSequence({ likes: 0, dislikes: 0, userReaction: null });
 
     render(<ReactionButtons jokeId="j1" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    });
+
+    // Reset mock to track only POST calls
+    (global.fetch as jest.Mock).mockClear();
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     expect(global.fetch).not.toHaveBeenCalled();
