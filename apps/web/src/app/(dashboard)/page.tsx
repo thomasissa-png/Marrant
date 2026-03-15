@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
+const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import Link from "next/link";
 
@@ -127,149 +125,8 @@ export default function HomePage() {
       {/* CTA Offres — abonnement d'abord, coaching en dessous */}
       <PremiumCta />
 
-      {/* Prochainement — fonctionnalités à venir pour les abonnés */}
-      <section className="py-16">
-        <div className="mb-4 flex items-center justify-center gap-3">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-primary/30" />
-          <Badge variant="premium">Abonnés</Badge>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-accent-primary/30" />
-        </div>
-        <h2 className="font-display mb-3 text-center text-3xl font-bold md:text-4xl">
-          Prochainement
-        </h2>
-        <p className="mx-auto mb-10 max-w-2xl text-center text-text-secondary">
-          On bosse dur pour te proposer encore plus de contenu et d&apos;outils
-          pour devenir la personne la plus drôle de ton entourage.
-        </p>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* WhatsApp quotidien */}
-          <Card className="relative overflow-hidden border-accent-primary/20 bg-gradient-to-br from-background-card to-accent-primary/5">
-            <CardHeader>
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-accent-primary"
-                    aria-hidden="true"
-                  >
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg>
-                </div>
-                <Badge variant="primary">Bientôt</Badge>
-              </div>
-              <CardTitle>Vannes, vidéos et conseils du jour par WhatsApp</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Reçois chaque jour ta dose d&apos;humour directement sur WhatsApp
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          {/* Nouveaux parcours */}
-          <Card className="relative overflow-hidden border-accent-primary/20 bg-gradient-to-br from-background-card to-accent-secondary/5">
-            <CardHeader>
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-secondary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-accent-secondary"
-                    aria-hidden="true"
-                  >
-                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-                  </svg>
-                </div>
-                <Badge variant="primary">Bientôt</Badge>
-              </div>
-              <CardTitle>De nouveaux parcours</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Des parcours encore plus poussés pour maîtriser l&apos;art de la
-                répartie et du storytelling
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          {/* Communauté */}
-          <Card className="relative overflow-hidden border-accent-primary/20 bg-gradient-to-br from-background-card to-accent-primary/5">
-            <CardHeader>
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-accent-primary"
-                    aria-hidden="true"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
-                </div>
-                <Badge variant="primary">Bientôt</Badge>
-              </div>
-              <CardTitle>Une communauté</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Échange avec d&apos;autres passionnés d&apos;humour, partage tes
-                meilleures vannes et progresse ensemble
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          {/* Et bien plus encore */}
-          <Card className="relative overflow-hidden border-accent-primary/20 bg-gradient-to-br from-background-card to-accent-secondary/5">
-            <CardHeader>
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-secondary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-accent-secondary"
-                    aria-hidden="true"
-                  >
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
-                </div>
-                <Badge variant="primary">Bientôt</Badge>
-              </div>
-              <CardTitle>Et bien plus encore...</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                On te prépare plein de surprises pour t&apos;aider à devenir
-                encore plus drôle
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      {/* Prochainement — fonctionnalités à venir avec votes */}
+      <UpcomingFeatures />
     </>
   );
 }

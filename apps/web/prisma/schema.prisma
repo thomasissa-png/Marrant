@@ -78,6 +78,7 @@ model User {
   subscription Subscription?
   jokeLikes    JokeLike[]
   pathProgress  UserPathProgress[]
+  featureVotes  FeatureVote[]
 
   @@index([email])
 }
@@ -421,6 +422,22 @@ enum SubscriptionStatus {
   PAST_DUE
   CANCELED
   TRIALING
+}
+
+// ==========================================
+// VOTES FONCTIONNALITÉS À VENIR
+// ==========================================
+
+model FeatureVote {
+  id          String   @id @default(cuid())
+  userId      String
+  featureSlug String   // ex: "whatsapp", "communaute", "nouveaux-parcours"
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, featureSlug])
+  @@index([featureSlug])
 }
 
 // ==========================================
