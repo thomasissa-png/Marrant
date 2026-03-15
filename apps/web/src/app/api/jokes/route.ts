@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { selectSlidingFreeItems } from "@/lib/free-content";
 
-const FREE_LIMIT = 20;
+const FREE_LIMIT = 50;
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({

@@ -65,17 +65,17 @@ export function PremiumCta() {
           <tbody className="text-text-primary">
             <tr className="border-b border-border">
               <td className="px-4 py-3 font-medium">Vannes</td>
-              <td className="px-4 py-3 text-center text-text-muted">20</td>
+              <td className="px-4 py-3 text-center text-text-muted">50</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
             </tr>
             <tr className="border-b border-border">
               <td className="px-4 py-3 font-medium">Conseils</td>
-              <td className="px-4 py-3 text-center text-text-muted">5</td>
+              <td className="px-4 py-3 text-center text-text-muted">15</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
             </tr>
             <tr className="border-b border-border">
               <td className="px-4 py-3 font-medium">Vid&eacute;os</td>
-              <td className="px-4 py-3 text-center text-text-muted">10</td>
+              <td className="px-4 py-3 text-center text-text-muted">25</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
             </tr>
             <tr className="border-b border-border">
@@ -90,7 +90,7 @@ export function PremiumCta() {
             </tr>
             <tr>
               <td className="px-4 py-3 font-medium">Favoris</td>
-              <td className="px-4 py-3 text-center text-text-muted">20 max</td>
+              <td className="px-4 py-3 text-center text-text-muted">50 max</td>
               <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
             </tr>
           </tbody>
@@ -120,15 +120,15 @@ export function PremiumCta() {
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vannes</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 20)</span>
+                <span><strong>Toutes les vannes</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 50)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 5)</span>
+                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 15)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 10)</span>
+                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 25)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>

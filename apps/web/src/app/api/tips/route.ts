@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { selectSlidingFreeItems } from "@/lib/free-content";
 
-const FREE_LIMIT = 5;
+const FREE_LIMIT = 15;
 
 const querySchema = z.object({
   category: z.string().optional(),
