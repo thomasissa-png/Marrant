@@ -50,14 +50,23 @@ describe("FavoriteButton", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("returns null when user is not premium", () => {
+  it("renders button for free users", () => {
     useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
       selector({ user: { plan: "FREE" } })
     );
-    const { container } = render(
-      <FavoriteButton contentType="JOKE" contentId="1" />
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    expect(screen.getByLabelText("Ajouter aux favoris")).toBeInTheDocument();
+  });
+
+  it("shows toast when free user clicks favorite", async () => {
+    const { toast: mockToast } = require("@/components/ui/toast");
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "FREE" } })
     );
-    expect(container.firstChild).toBeNull();
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris"));
+    expect(mockToast).toHaveBeenCalledWith("Les favoris sont réservés aux membres Premium", "info");
+    expect(mockAddFavorite).not.toHaveBeenCalled();
   });
 
   it("renders button when authenticated", () => {

@@ -18,13 +18,17 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
   const user = useUserStore((s) => s.user);
 
   if (status !== "authenticated") return null;
-  if (user?.plan !== "PREMIUM") return null;
 
-  const isFav = isFavorite(contentType, contentId);
-  const favId = getFavoriteId(contentType, contentId);
+  const isPremium = user?.plan === "PREMIUM";
+  const isFav = isPremium ? isFavorite(contentType, contentId) : false;
+  const favId = isPremium ? getFavoriteId(contentType, contentId) : null;
 
   const handleClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isPremium) {
+      toast("Les favoris sont réservés aux membres Premium", "info");
+      return;
+    }
     if (isFav && favId) {
       await removeFavorite(favId);
     } else {

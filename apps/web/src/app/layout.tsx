@@ -40,6 +40,14 @@ export const metadata: Metadata = {
     "retrouver confiance en soi",
   ],
   authors: [{ name: "deviens-marrant.fr" }],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   manifest: "/manifest.json",
   metadataBase: new URL("https://deviens-marrant.fr"),
   alternates: {
@@ -101,9 +109,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <JsonLd data={organizationJsonLd} />
