@@ -99,7 +99,7 @@ export default function RegisterPage() {
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {error && (
-              <p className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
+              <p id="register-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
               </p>
             )}
@@ -115,7 +115,12 @@ export default function RegisterPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 autoComplete="given-name"
+                aria-describedby={fieldErrors.name ? "name-error" : undefined}
+                aria-invalid={!!fieldErrors.name}
               />
+              {fieldErrors.name && (
+                <p id="name-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.name}</p>
+              )}
             </div>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
@@ -129,7 +134,12 @@ export default function RegisterPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
+                aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                aria-invalid={!!fieldErrors.email}
               />
+              {fieldErrors.email && (
+                <p id="email-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.email}</p>
+              )}
             </div>
             <div>
               <label htmlFor="password" className="mb-1 block text-sm text-text-secondary">
@@ -139,13 +149,15 @@ export default function RegisterPage() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Min. 8 caractères"
+                  placeholder="Min. 12 caractères"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={8}
+                  minLength={12}
                   autoComplete="new-password"
                   className="pr-10"
+                  aria-describedby={fieldErrors.password ? "password-error" : "password-hint"}
+                  aria-invalid={!!fieldErrors.password}
                 />
                 <button
                   type="button"
@@ -165,7 +177,10 @@ export default function RegisterPage() {
                   )}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
+              <p id="password-hint" className="mt-1 text-xs text-text-muted">Au moins 12 caractères</p>
+              {fieldErrors.password && (
+                <p id="password-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.password}</p>
+              )}
             </div>
             <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
               {isLoading ? "Création..." : "Créer mon compte"}

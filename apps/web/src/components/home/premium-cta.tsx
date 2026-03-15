@@ -52,6 +52,54 @@ export function PremiumCta() {
         </p>
       </div>
 
+      {/* Tableau comparatif FREE vs PREMIUM */}
+      <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-border bg-background-card">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="px-4 py-3 font-medium text-text-secondary"></th>
+              <th className="px-4 py-3 text-center font-medium text-text-secondary">Gratuit</th>
+              <th className="px-4 py-3 text-center font-semibold text-accent-primary">Premium 0,99&euro;/mois</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-primary">
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 font-medium">Vannes</td>
+              <td className="px-4 py-3 text-center text-text-muted">20</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 font-medium">Conseils</td>
+              <td className="px-4 py-3 text-center text-text-muted">5</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 font-medium">Vid&eacute;os</td>
+              <td className="px-4 py-3 text-center text-text-muted">10</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 font-medium">Parcours</td>
+              <td className="px-4 py-3 text-center text-text-muted">Limit&eacute;</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Complet</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 font-medium">IA Coach</td>
+              <td className="px-4 py-3 text-center text-text-muted">Non</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Oui</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-medium">Favoris</td>
+              <td className="px-4 py-3 text-center text-text-muted">20 max</td>
+              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-text-muted">
+        Sans engagement &middot; Annulable &agrave; tout moment
+      </p>
+
       <div className="mt-10 flex flex-col gap-6 max-w-xl mx-auto">
         {/* Offre 1 — Accès complet */}
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-8 shadow-lg shadow-accent-primary/10">
