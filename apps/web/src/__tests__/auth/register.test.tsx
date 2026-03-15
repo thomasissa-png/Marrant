@@ -45,7 +45,7 @@ describe("RegisterPage", () => {
 
   it("shows password minimum length hint", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Au moins 8 caractères")).toBeInTheDocument();
+    expect(screen.getByText("Au moins 12 caractères")).toBeInTheDocument();
   });
 
   it("toggles password visibility", async () => {
@@ -68,21 +68,21 @@ describe("RegisterPage", () => {
 
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password123" }),
+        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password1234545" }),
       });
     });
 
     await waitFor(() => {
       expect(mockSignIn).toHaveBeenCalledWith("credentials", {
         email: "jean@test.fr",
-        password: "password123",
+        password: "password1234545",
         redirect: false,
       });
     });
@@ -98,7 +98,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
@@ -115,7 +115,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
@@ -128,7 +128,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     expect(screen.getByText("Création...")).toBeInTheDocument();

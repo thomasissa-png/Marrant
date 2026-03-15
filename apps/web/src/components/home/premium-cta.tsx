@@ -116,6 +116,12 @@ export function PremiumCta() {
             <p className="mt-1 text-sm text-accent-primary font-medium">
               Prix de lancement, ce tarif ne durera pas
             </p>
+            <p className="mt-1 text-xs text-text-muted">
+              Sans engagement, annulable &agrave; tout moment &middot;{" "}
+              <Link href="/retractation" className="underline hover:text-text-secondary">
+                Droit de r&eacute;tractation
+              </Link>
+            </p>
 
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">

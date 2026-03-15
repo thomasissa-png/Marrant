@@ -15,6 +15,7 @@ const footerLinks = {
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
+    { href: "/retractation", label: "Rétractation" },
   ],
 };
 

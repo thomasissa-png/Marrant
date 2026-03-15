@@ -58,19 +58,19 @@ describe("USER_LEVELS", () => {
 
 describe("FREE_LIMITS", () => {
   it("has correct joke limit", () => {
-    expect(FREE_LIMITS.JOKES).toBe(20);
+    expect(FREE_LIMITS.JOKES).toBe(50);
   });
 
   it("has correct tips limit", () => {
-    expect(FREE_LIMITS.TIPS).toBe(5);
+    expect(FREE_LIMITS.TIPS).toBe(15);
   });
 
   it("has correct videos limit", () => {
-    expect(FREE_LIMITS.VIDEOS).toBe(10);
+    expect(FREE_LIMITS.VIDEOS).toBe(25);
   });
 
   it("has correct favorites limit", () => {
-    expect(FREE_LIMITS.MAX_FAVORITES).toBe(20);
+    expect(FREE_LIMITS.MAX_FAVORITES).toBe(50);
   });
 });
 

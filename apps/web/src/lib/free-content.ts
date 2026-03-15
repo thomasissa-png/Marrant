@@ -14,9 +14,9 @@ function getEpochDay(date: Date): number {
  * Chaque jour, seul le plus ancien élément est remplacé par un nouveau.
  * Résultat : rotation douce (1 item/jour) au lieu de tout changer d'un coup.
  *
- * Avec FREE_LIMIT = 20 blagues, le set complet se renouvelle en 20 jours.
- * Avec FREE_LIMIT = 5 conseils, le set se renouvelle en 5 jours.
- * Avec FREE_LIMIT = 10 vidéos, le set se renouvelle en 10 jours.
+ * Avec FREE_LIMIT = 50 blagues, le set complet se renouvelle en 50 jours.
+ * Avec FREE_LIMIT = 15 conseils, le set se renouvelle en 15 jours.
+ * Avec FREE_LIMIT = 25 vidéos, le set se renouvelle en 25 jours.
  *
  * Si `getCategoryKey` est fourni, la résolution de collisions favorise
  * les catégories sous-représentées pour garantir la diversité.
