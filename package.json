@@ -2,9 +2,9 @@
   "name": "deviens-marrant-monorepo",
   "private": true,
   "scripts": {
-    "postinstall": "bash -c 'cd /home/runner/workspace/apps/web && npm install && npx prisma generate'",
-    "build": "bash -c 'cd /home/runner/workspace/apps/web && npx prisma db push && bash scripts/seed.sh && npm run build && cp -r /home/runner/workspace/apps/web/public /home/runner/workspace/apps/web/.next/standalone/public && cp -r /home/runner/workspace/apps/web/.next/static /home/runner/workspace/apps/web/.next/standalone/.next/static'",
-    "start": "bash -c 'cd /home/runner/workspace/apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js'"
+    "postinstall": "cd apps/web && npm install && npx prisma generate",
+    "build": "cd apps/web && npx prisma db push && bash scripts/seed.sh && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
+    "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
   },
   "devDependencies": {
     "prisma": "6.19.2"
