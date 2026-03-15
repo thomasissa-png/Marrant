@@ -34,7 +34,7 @@ export default function MentionsLegalesPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Crédits</h2>
           <p>Design et développement : équipe deviens-marrant</p>
-          <p>Typographies : Inter (Google Fonts), Syne (Google Fonts)</p>
+          <p>Typographies : Inter (Google Fonts), Plus Jakarta Sans (Google Fonts)</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Contact</h2>
