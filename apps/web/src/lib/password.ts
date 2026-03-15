@@ -1,12 +1,18 @@
 import { randomBytes, scrypt, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-
-const scryptAsync = promisify(scrypt);
 
 // N=32768 (2^15), r=8, p=1 — renforcé vs défaut Node.js (N=16384)
 // maxmem relevé pour supporter N élevé (128 * N * r = 32 Mo)
 const SCRYPT_OPTIONS = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 const KEY_LENGTH = 64;
+
+function scryptAsync(password: string, salt: string, keylen: number, options: object): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    scrypt(password, salt, keylen, options, (err, derivedKey) => {
+      if (err) reject(err);
+      else resolve(derivedKey);
+    });
+  });
+}
 
 /**
  * Hash un mot de passe avec scrypt (async, ne bloque pas l'event loop)
