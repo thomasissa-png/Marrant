@@ -34,30 +34,33 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
       role="dialog"
       aria-modal="true"
     >
-      <div
-        ref={contentRef}
-        className={cn(
-          "relative mx-4 w-full max-w-md animate-scale-in",
-          className
-        )}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-background-elevated text-text-secondary transition-colors hover:bg-background-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-          aria-label="Fermer"
+      {/* Wrapper flex avec padding vertical pour garantir une zone tappable autour de la modal */}
+      <div className="flex min-h-full items-center justify-center px-4 py-8">
+        <div
+          ref={contentRef}
+          className={cn(
+            "relative w-full max-w-md animate-scale-in",
+            className
+          )}
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        {children}
+          <button
+            onClick={onClose}
+            className="absolute -top-3 -right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background-card text-text-secondary shadow-lg transition-colors hover:bg-background-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:top-3 md:right-3"
+            aria-label="Fermer"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          {children}
+        </div>
       </div>
     </div>
   );
