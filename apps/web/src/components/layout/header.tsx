@@ -22,19 +22,11 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authModalTab, setAuthModalTab] = useState<"login" | "register">("login");
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
 
-  const openLogin = () => {
-    setAuthModalTab("login");
-    setAuthModalOpen(true);
-    setIsMenuOpen(false);
-  };
-
   const openRegister = () => {
-    setAuthModalTab("register");
     setAuthModalOpen(true);
     setIsMenuOpen(false);
   };
@@ -93,14 +85,9 @@ export function Header() {
                 </Button>
               </>
             ) : (
-              <>
-                <Button variant="ghost" size="sm" onClick={openLogin}>
-                  Connexion
-                </Button>
-                <Button variant="primary" size="sm" onClick={openRegister}>
-                  Commencer
-                </Button>
-              </>
+              <Button variant="primary" size="sm" onClick={openRegister}>
+                Commencer
+              </Button>
             )}
           </div>
 
@@ -183,14 +170,9 @@ export function Header() {
                   </Button>
                 </>
               ) : (
-                <>
-                  <Button variant="ghost" size="sm" className="w-full" onClick={openLogin}>
-                    Connexion
-                  </Button>
-                  <Button variant="primary" size="sm" className="w-full" onClick={openRegister}>
-                    Commencer
-                  </Button>
-                </>
+                <Button variant="primary" size="sm" className="w-full" onClick={openRegister}>
+                  Commencer
+                </Button>
               )}
             </div>
           </nav>
@@ -201,7 +183,7 @@ export function Header() {
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
-        defaultTab={authModalTab}
+        defaultTab="register"
       />
     </>
   );

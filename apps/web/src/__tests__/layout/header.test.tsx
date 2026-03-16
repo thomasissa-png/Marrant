@@ -44,9 +44,8 @@ describe("Header", () => {
     expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
   });
 
-  it("shows Connexion and Commencer CTA when unauthenticated", () => {
+  it("shows Commencer CTA when unauthenticated", () => {
     render(<Header />);
-    expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
   });
 
