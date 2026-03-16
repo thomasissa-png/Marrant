@@ -116,6 +116,20 @@ Branche : `claude/seo-audit-optimization-EU7uv`
 - `footer.tsx` : Lien rétractation ajouté
 - `premium-cta.tsx` : Mention "Sans engagement" + lien rétractation
 
+#### Favicon (16 mars 2026)
+- `favicon.ico` créé (multi-size 16+32+48px) — Google+Bing
+- `favicon.png` régénéré à 48x48 (min Google SERP, était 32x32)
+- `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` régénérés depuis SVG source
+- `layout.tsx` : favicon.ico déclaré en premier + `rel="shortcut icon"` pour Bing + icon-512 ajouté
+- `manifest.json` : taille favicon corrigée 32→48
+
+#### Modal portal fix (16 mars 2026)
+- `modal.tsx` : `createPortal(…, document.body)` — corrige le PremiumModal qui s'affichait inline dans les Cards au lieu d'en popup (cause : `animate-stagger-in` avec `transform` casse `position: fixed`)
+- Impact : toutes les pages avec FavoriteButton (vannes, conseils, vidéos, daily-content)
+
+#### Teasers variés vannes (16 mars 2026)
+- `vannes-list.tsx` : 8 phrases de teaser en rotation au lieu du texte unique "Tape pour la chute"
+
 #### Tests pre-existants en échec (non liés à l'audit)
 - `blog.test.tsx` et `parcours-list.test.tsx` — à corriger séparément
 
