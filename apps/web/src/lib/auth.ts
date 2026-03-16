@@ -124,10 +124,11 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token.sub && session.user) {
         (session.user as { id: string }).id = token.sub;
+        (session.user as { plan?: string }).plan = (token.plan as string) ?? "FREE";
       }
       return session;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
       if (user) {
         token.sub = user.id;
         token.iat = Math.floor(Date.now() / 1000);
@@ -140,13 +141,14 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id;
       }
 
-      // Rafraîchir le plan et vérifier le mot de passe (toutes les 5 minutes max)
+      // Rafraîchir le plan : immédiat si session.update() appelé, sinon toutes les 5 min
+      const forceRefresh = trigger === "update";
       if (token.sub && token.iat) {
         const now = Math.floor(Date.now() / 1000);
         const lastRefresh = (token.planRefreshedAt as number) ?? 0;
         const REFRESH_INTERVAL = 5 * 60; // 5 minutes
 
-        if (now - lastRefresh > REFRESH_INTERVAL) {
+        if (forceRefresh || now - lastRefresh > REFRESH_INTERVAL) {
           const dbUser = await prisma.user.findUnique({
             where: { id: token.sub },
             select: { plan: true, passwordChangedAt: true },

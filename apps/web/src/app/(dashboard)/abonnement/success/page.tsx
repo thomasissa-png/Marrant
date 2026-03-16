@@ -17,28 +17,25 @@ export default function SubscriptionSuccessPage() {
     if (ready) return;
 
     const timer = setTimeout(async () => {
-      // Force session refresh to get updated plan from JWT
-      await update();
-
-      // Check if plan is now PREMIUM by fetching session
-      const res = await fetch("/api/auth/session");
-      const session = await res.json();
-      const userId = session?.user?.id;
-
-      if (userId) {
-        // Check subscription status directly
+      try {
+        // Vérifier le plan directement en DB (pas via JWT cache)
         const subRes = await fetch("/api/stripe/status");
         if (subRes.ok) {
           const data = await subRes.json();
           if (data.plan === "PREMIUM") {
+            // Forcer le rafraîchissement de la session JWT
+            await update();
             setReady(true);
             return;
           }
         }
+      } catch {
+        // Erreur réseau — on réessaie
       }
 
       if (attempts >= MAX_ATTEMPTS) {
-        // Timeout — redirect anyway, next page load will pick up the plan
+        // Timeout — forcer le refresh de session quand même
+        await update();
         setReady(true);
         return;
       }
