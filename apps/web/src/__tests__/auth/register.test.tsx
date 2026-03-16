@@ -13,7 +13,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("next-auth/react", () => ({
-  signIn: (...args: unknown[]) => mockSignIn(...args),
+  signIn: (...args) => mockSignIn(...args),
 }));
 
 describe("RegisterPage", () => {
