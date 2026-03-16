@@ -36,9 +36,25 @@ export async function POST() {
 
     return NextResponse.json({ url: checkoutUrl });
   } catch (error) {
-    console.error("[API /stripe/checkout]", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("[API /stripe/checkout]", message, error);
+
+    // Messages d'erreur explicites selon le type
+    if (message.includes("No such price") || message.includes("price")) {
+      return NextResponse.json(
+        { error: "Configuration Stripe incomplète : STRIPE_PREMIUM_PRICE_ID manquant ou invalide" },
+        { status: 500 }
+      );
+    }
+    if (message.includes("Invalid API Key") || message.includes("api_key")) {
+      return NextResponse.json(
+        { error: "Configuration Stripe incomplète : STRIPE_SECRET_KEY manquant ou invalide" },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Erreur serveur" },
+      { error: "Erreur lors de la création du paiement. Réessaie ou contacte le support." },
       { status: 500 }
     );
   }

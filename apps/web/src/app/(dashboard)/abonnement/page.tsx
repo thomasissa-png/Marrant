@@ -19,11 +19,12 @@ export default function AbonnementPage() {
     setIsCheckoutLoading(true);
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
-      if (res.ok) {
-        const data = await res.json();
+      const data = await res.json();
+      if (res.ok && data.url) {
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de la création du paiement", "error");
+        console.error("[Checkout]", data.error);
+        toast(data.error || "Erreur lors de la création du paiement", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");

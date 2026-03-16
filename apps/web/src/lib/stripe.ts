@@ -33,36 +33,45 @@ export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CEN
 async function getOrCreateStripeCustomer(
   userId: string,
   customerEmail: string
-): Promise<string> {
-  // Vérifier si l'utilisateur a déjà un customer Stripe via sa subscription
-  const { prisma } = await import("@/lib/prisma");
+): Promise<string | null> {
+  try {
+    // Vérifier si l'utilisateur a déjà un customer Stripe via sa subscription
+    const { prisma } = await import("@/lib/prisma");
 
-  const subscription = await prisma.subscription.findUnique({
-    where: { userId },
-    select: { stripeCustomerId: true },
-  });
+    const subscription = await prisma.subscription.findUnique({
+      where: { userId },
+      select: { stripeCustomerId: true },
+    });
 
-  if (subscription?.stripeCustomerId) {
-    return subscription.stripeCustomerId;
+    if (subscription?.stripeCustomerId) {
+      return subscription.stripeCustomerId;
+    }
+  } catch {
+    // Pas de subscription en DB — on continue
   }
 
-  // Chercher un customer Stripe existant par email
-  const existingCustomers = await stripe.customers.list({
-    email: customerEmail,
-    limit: 1,
-  });
+  try {
+    // Chercher un customer Stripe existant par email
+    const existingCustomers = await stripe.customers.list({
+      email: customerEmail,
+      limit: 1,
+    });
 
-  if (existingCustomers.data.length > 0) {
-    return existingCustomers.data[0].id;
+    if (existingCustomers.data.length > 0) {
+      return existingCustomers.data[0].id;
+    }
+
+    // Créer un nouveau customer Stripe
+    const customer = await stripe.customers.create({
+      email: customerEmail,
+      metadata: { userId },
+    });
+
+    return customer.id;
+  } catch (err) {
+    console.error("[Stripe] Erreur getOrCreateStripeCustomer:", err);
+    return null;
   }
-
-  // Créer un nouveau customer Stripe
-  const customer = await stripe.customers.create({
-    email: customerEmail,
-    metadata: { userId },
-  });
-
-  return customer.id;
 }
 
 /**
@@ -74,10 +83,16 @@ export async function createCheckoutSession(
 ): Promise<string> {
   const customerId = await getOrCreateStripeCustomer(userId, customerEmail);
 
+  // Si on a un customer Stripe existant, on l'utilise directement.
+  // Sinon, on fallback sur customer_email (Stripe créera le customer automatiquement).
+  const customerParams = customerId
+    ? { customer: customerId }
+    : { customer_email: customerEmail };
+
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
-    customer: customerId,
+    ...customerParams,
     line_items: [
       {
         price: PREMIUM_PRICE_ID,
