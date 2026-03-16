@@ -24,18 +24,6 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Vérifier que c'est bien lundi (jour de publication SEO)
-    const parisDay = new Date().toLocaleString("en-US", {
-      timeZone: "Europe/Paris",
-      weekday: "long",
-    });
-    if (parisDay !== "Monday") {
-      return NextResponse.json({
-        skipped: true,
-        reason: `Pas lundi (c'est ${parisDay}). Publication SEO uniquement le lundi.`,
-      });
-    }
-
     console.log("[Cron SEO] Démarrage du job hebdomadaire...");
 
     // Phase 1 : Mettre à jour le calendrier éditorial
