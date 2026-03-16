@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Video {
   id: string;
@@ -69,7 +69,8 @@ export function VideosGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
-  const router = useRouter();
+  const [limited, setLimited] = useState(false);
+  const [upgradeMessage, setUpgradeMessage] = useState("");
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -89,14 +90,12 @@ export function VideosGrid() {
 
     try {
       const res = await fetch(`/api/videos?${params}`);
-      if (res.status === 403) {
-        router.push("/abonnement");
-        return;
-      }
       if (res.ok) {
         const data = await res.json();
         setVideos(data.videos);
         setPagination(data.pagination);
+        setLimited(data.limited ?? false);
+        setUpgradeMessage(data.upgradeMessage ?? "");
       } else {
         setError(true);
       }
@@ -203,6 +202,21 @@ export function VideosGrid() {
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Bannière upgrade FREE */}
+      {limited && upgradeMessage && (
+        <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
+          <p className="font-semibold text-text-primary">{upgradeMessage}</p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Accède à tout le catalogue dès 0,99 &euro;/mois
+          </p>
+          <Link href="/abonnement">
+            <Button variant="primary" size="sm" className="mt-3">
+              Voir l&apos;offre
+            </Button>
+          </Link>
         </div>
       )}
 

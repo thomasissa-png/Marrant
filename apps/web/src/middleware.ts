@@ -1,8 +1,8 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-// Routes qui nécessitent un abonnement PREMIUM actif
-const PREMIUM_PATHS = ["/vannes", "/conseils", "/videos", "/parcours", "/favoris"];
+// Routes PREMIUM-only (pas de version gratuite)
+const PREMIUM_ONLY_PATHS = ["/favoris"];
 
 export default withAuth(
   function middleware(req) {
@@ -14,9 +14,9 @@ export default withAuth(
       return NextResponse.redirect(new URL("/vannes", req.url));
     }
 
-    // Utilisateur FREE qui tente d'accéder au contenu → rediriger vers /abonnement
-    const isContentPath = PREMIUM_PATHS.some((p) => path.startsWith(p));
-    if (isContentPath && token?.plan !== "PREMIUM") {
+    // Favoris : PREMIUM uniquement
+    const isPremiumOnly = PREMIUM_ONLY_PATHS.some((p) => path.startsWith(p));
+    if (isPremiumOnly && token?.plan !== "PREMIUM") {
       return NextResponse.redirect(new URL("/abonnement", req.url));
     }
 
@@ -27,22 +27,19 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
 
-        // Routes protégées nécessitant une session
-        const protectedPaths = [
+        // Routes nécessitant une session (authentification)
+        const authRequiredPaths = [
           "/profil",
           "/favoris",
           "/onboarding",
           "/abonnement",
-          "/vannes",
-          "/conseils",
-          "/videos",
-          "/parcours",
         ];
-        if (protectedPaths.some((p) => path.startsWith(p))) {
+        if (authRequiredPaths.some((p) => path.startsWith(p))) {
           return !!token;
         }
 
-        // Toutes les autres routes sont publiques
+        // Les routes contenu (vannes, conseils, vidéos, parcours) sont publiques
+        // L'accès limité FREE est géré côté API, pas côté middleware
         return true;
       },
     },

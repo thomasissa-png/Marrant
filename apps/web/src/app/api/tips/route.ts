@@ -36,13 +36,8 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Abonnement requis pour accéder au contenu
-    if (!isPremium) {
-      return NextResponse.json(
-        { error: "Abonnement requis pour accéder aux conseils", code: "SUBSCRIPTION_REQUIRED" },
-        { status: 403 }
-      );
-    }
+    // Limites gratuites : 15 conseils max pour les FREE
+    const FREE_TIP_LIMIT = 15;
 
     const where = {
       isActive: true,
@@ -56,25 +51,43 @@ export async function GET(request: NextRequest) {
       }),
     };
 
-    const [tips, total] = await Promise.all([
-      prisma.tip.findMany({
-        where,
-        skip: (query.page - 1) * query.limit,
-        take: query.limit,
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.tip.count({ where }),
-    ]);
+    const total = await prisma.tip.count({ where });
+
+    // FREE : limiter le total accessible
+    const accessibleTotal = isPremium ? total : Math.min(total, FREE_TIP_LIMIT);
+    const effectiveLimit = Math.min(query.limit, accessibleTotal - (query.page - 1) * query.limit);
+
+    if (effectiveLimit <= 0 && !isPremium) {
+      return NextResponse.json({
+        tips: [],
+        pagination: {
+          page: query.page,
+          limit: query.limit,
+          total: accessibleTotal,
+          totalPages: Math.ceil(accessibleTotal / query.limit),
+        },
+        limited: true,
+        upgradeMessage: "Abonne-toi pour accéder à tous les conseils",
+      });
+    }
+
+    const tips = await prisma.tip.findMany({
+      where,
+      skip: (query.page - 1) * query.limit,
+      take: isPremium ? query.limit : Math.max(0, effectiveLimit),
+      orderBy: { createdAt: "desc" },
+    });
 
     return NextResponse.json({
       tips,
       pagination: {
         page: query.page,
         limit: query.limit,
-        total,
-        totalPages: Math.ceil(total / query.limit),
+        total: accessibleTotal,
+        totalPages: Math.ceil(accessibleTotal / query.limit),
       },
-      limited: false,
+      limited: !isPremium,
+      ...((!isPremium && total > FREE_TIP_LIMIT) ? { upgradeMessage: `${total - FREE_TIP_LIMIT} conseils supplémentaires avec l'abonnement` } : {}),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

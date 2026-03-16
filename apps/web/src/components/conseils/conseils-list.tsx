@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Tip {
   id: string;
@@ -72,9 +72,10 @@ export function ConseilsList() {
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const { status } = useSession();
-  const router = useRouter();
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
+  const [limited, setLimited] = useState(false);
+  const [upgradeMessage, setUpgradeMessage] = useState("");
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -95,14 +96,12 @@ export function ConseilsList() {
 
     try {
       const res = await fetch(`/api/tips?${params}`);
-      if (res.status === 403) {
-        router.push("/abonnement");
-        return;
-      }
       if (res.ok) {
         const data = await res.json();
         setTips(data.tips);
         setPagination(data.pagination);
+        setLimited(data.limited ?? false);
+        setUpgradeMessage(data.upgradeMessage ?? "");
       } else {
         setError(true);
       }
@@ -245,6 +244,21 @@ export function ConseilsList() {
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Bannière upgrade FREE */}
+      {limited && upgradeMessage && (
+        <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
+          <p className="font-semibold text-text-primary">{upgradeMessage}</p>
+          <p className="mt-1 text-sm text-text-secondary">
+            Accède à tout le catalogue dès 0,99 &euro;/mois
+          </p>
+          <Link href="/abonnement">
+            <Button variant="primary" size="sm" className="mt-3">
+              Voir l&apos;offre
+            </Button>
+          </Link>
         </div>
       )}
 

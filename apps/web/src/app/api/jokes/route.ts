@@ -37,13 +37,8 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Abonnement requis pour accéder au contenu
-    if (!isPremium) {
-      return NextResponse.json(
-        { error: "Abonnement requis pour accéder aux vannes", code: "SUBSCRIPTION_REQUIRED" },
-        { status: 403 }
-      );
-    }
+    // Limites gratuites : 50 blagues max pour les FREE
+    const FREE_JOKE_LIMIT = 50;
 
     const where = {
       isActive: true,
@@ -57,25 +52,43 @@ export async function GET(request: NextRequest) {
       }),
     };
 
-    const [jokes, total] = await Promise.all([
-      prisma.joke.findMany({
-        where,
-        skip: (query.page - 1) * query.limit,
-        take: query.limit,
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.joke.count({ where }),
-    ]);
+    const total = await prisma.joke.count({ where });
+
+    // FREE : limiter le total accessible
+    const accessibleTotal = isPremium ? total : Math.min(total, FREE_JOKE_LIMIT);
+    const effectiveLimit = Math.min(query.limit, accessibleTotal - (query.page - 1) * query.limit);
+
+    if (effectiveLimit <= 0 && !isPremium) {
+      return NextResponse.json({
+        jokes: [],
+        pagination: {
+          page: query.page,
+          limit: query.limit,
+          total: accessibleTotal,
+          totalPages: Math.ceil(accessibleTotal / query.limit),
+        },
+        limited: true,
+        upgradeMessage: "Abonne-toi pour accéder à toutes les vannes",
+      });
+    }
+
+    const jokes = await prisma.joke.findMany({
+      where,
+      skip: (query.page - 1) * query.limit,
+      take: isPremium ? query.limit : Math.max(0, effectiveLimit),
+      orderBy: { createdAt: "desc" },
+    });
 
     return NextResponse.json({
       jokes,
       pagination: {
         page: query.page,
         limit: query.limit,
-        total,
-        totalPages: Math.ceil(total / query.limit),
+        total: accessibleTotal,
+        totalPages: Math.ceil(accessibleTotal / query.limit),
       },
-      limited: false,
+      limited: !isPremium,
+      ...((!isPremium && total > FREE_JOKE_LIMIT) ? { upgradeMessage: `${total - FREE_JOKE_LIMIT} vannes supplémentaires avec l'abonnement` } : {}),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
