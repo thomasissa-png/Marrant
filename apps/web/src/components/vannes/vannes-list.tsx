@@ -130,21 +130,38 @@ export function VannesList() {
 
   return (
     <>
-      {/* Filtres catégories avec ARIA */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
-        {CATEGORIES.map((cat) => (
-          <Button
-            key={cat.value}
-            variant={category === cat.value ? "primary" : "ghost"}
-            size="sm"
-            role="tab"
-            aria-selected={category === cat.value}
-            onClick={() => handleCategoryChange(cat.value)}
-          >
-            {cat.label}
-          </Button>
-        ))}
-      </div>
+      {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
+      {limited ? (
+        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
+          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
+            {CATEGORIES.slice(0, 5).map((cat) => (
+              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
+                {cat.label}
+              </span>
+            ))}
+            <span className="text-sm text-text-muted">...</span>
+          </div>
+          <p className="mt-2 text-xs text-text-muted">
+            Filtres par catégorie disponibles avec l&apos;abonnement&nbsp;
+            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+          </p>
+        </div>
+      ) : (
+        <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
+          {CATEGORIES.map((cat) => (
+            <Button
+              key={cat.value}
+              variant={category === cat.value ? "primary" : "ghost"}
+              size="sm"
+              role="tab"
+              aria-selected={category === cat.value}
+              onClick={() => handleCategoryChange(cat.value)}
+            >
+              {cat.label}
+            </Button>
+          ))}
+        </div>
+      )}
 
       {error ? (
         <ErrorState

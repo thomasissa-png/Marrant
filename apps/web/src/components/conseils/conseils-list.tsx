@@ -135,37 +135,61 @@ export function ConseilsList() {
 
   return (
     <>
-      {/* Filtres niveaux */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
-        {DIFFICULTIES.map((d) => (
-          <Button
-            key={d.value}
-            variant={difficulty === d.value ? "secondary" : "ghost"}
-            size="sm"
-            role="tab"
-            aria-selected={difficulty === d.value}
-            onClick={() => { setDifficulty(d.value); setPage(1); }}
-          >
-            {d.label}
-          </Button>
-        ))}
-      </div>
+      {/* Filtres niveaux + catégories — PREMIUM uniquement */}
+      {limited ? (
+        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
+          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
+            {DIFFICULTIES.slice(1).map((d) => (
+              <span key={d.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
+                {d.label}
+              </span>
+            ))}
+            <span className="mx-1 text-text-muted">·</span>
+            {CATEGORIES.slice(1, 4).map((cat) => (
+              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
+                {cat.label}
+              </span>
+            ))}
+            <span className="text-sm text-text-muted">...</span>
+          </div>
+          <p className="mt-2 text-xs text-text-muted">
+            Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
+            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+            {DIFFICULTIES.map((d) => (
+              <Button
+                key={d.value}
+                variant={difficulty === d.value ? "secondary" : "ghost"}
+                size="sm"
+                role="tab"
+                aria-selected={difficulty === d.value}
+                onClick={() => { setDifficulty(d.value); setPage(1); }}
+              >
+                {d.label}
+              </Button>
+            ))}
+          </div>
 
-      {/* Filtres catégories */}
-      <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
-        {CATEGORIES.map((cat) => (
-          <Button
-            key={cat.value}
-            variant={category === cat.value ? "primary" : "ghost"}
-            size="sm"
-            role="tab"
-            aria-selected={category === cat.value}
-            onClick={() => { setCategory(cat.value); setPage(1); }}
-          >
-            {cat.label}
-          </Button>
-        ))}
-      </div>
+          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
+            {CATEGORIES.map((cat) => (
+              <Button
+                key={cat.value}
+                variant={category === cat.value ? "primary" : "ghost"}
+                size="sm"
+                role="tab"
+                aria-selected={category === cat.value}
+                onClick={() => { setCategory(cat.value); setPage(1); }}
+              >
+                {cat.label}
+              </Button>
+            ))}
+          </div>
+        </>
+      )}
 
       {error ? (
         <ErrorState

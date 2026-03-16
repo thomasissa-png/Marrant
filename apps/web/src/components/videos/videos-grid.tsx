@@ -112,21 +112,37 @@ export function VideosGrid() {
 
   return (
     <>
-      {/* Filtres */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
-        {DIFFICULTIES.map((d) => (
-          <Button
-            key={d.value}
-            variant={difficulty === d.value ? "secondary" : "ghost"}
-            size="sm"
-            role="tab"
-            aria-selected={difficulty === d.value}
-            onClick={() => { setDifficulty(d.value); setPage(1); }}
-          >
-            {d.label}
-          </Button>
-        ))}
-      </div>
+      {/* Filtres — PREMIUM uniquement */}
+      {limited ? (
+        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
+          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
+            {DIFFICULTIES.slice(1).map((d) => (
+              <span key={d.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
+                {d.label}
+              </span>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-text-muted">
+            Filtres par niveau disponibles avec l&apos;abonnement&nbsp;
+            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+          </p>
+        </div>
+      ) : (
+        <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+          {DIFFICULTIES.map((d) => (
+            <Button
+              key={d.value}
+              variant={difficulty === d.value ? "secondary" : "ghost"}
+              size="sm"
+              role="tab"
+              aria-selected={difficulty === d.value}
+              onClick={() => { setDifficulty(d.value); setPage(1); }}
+            >
+              {d.label}
+            </Button>
+          ))}
+        </div>
+      )}
 
       {error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
