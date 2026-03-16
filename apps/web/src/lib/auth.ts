@@ -60,10 +60,22 @@ async function updateStreak(userId: string): Promise<void> {
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as NextAuthOptions["adapter"],
+  // Logger pour diagnostiquer les erreurs OAuth en production
+  logger: {
+    error(code, metadata) {
+      console.error("[NextAuth][Error]", code, JSON.stringify(metadata, null, 2));
+    },
+    warn(code) {
+      console.warn("[NextAuth][Warn]", code);
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      // Permettre la liaison d'un compte Google à un compte existant (même email)
+      // Sécurisé car Google vérifie l'email — pas de risque d'usurpation
+      allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -144,6 +156,17 @@ export const authOptions: NextAuthOptions = {
       }
 
       return token;
+    },
+  },
+  events: {
+    async signIn({ user, account }) {
+      console.log(`[NextAuth][Event] signIn — provider=${account?.provider} userId=${user.id}`);
+    },
+    async createUser({ user }) {
+      console.log(`[NextAuth][Event] createUser — userId=${user.id} email=${user.email}`);
+    },
+    async linkAccount({ user, account }) {
+      console.log(`[NextAuth][Event] linkAccount — provider=${account.provider} userId=${user.id}`);
     },
   },
   pages: {
