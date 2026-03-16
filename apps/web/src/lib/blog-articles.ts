@@ -288,25 +288,25 @@ La répartie n'est pas un don inné. C'est un muscle cognitif. Les personnes qui
 
 **Technique 4 : La fausse naïveté.** Fais semblant de ne pas comprendre : "Ah bon ? Qu'est-ce que tu veux dire exactement ?" L'autre est obligé d'expliquer sa pique, ce qui la rend ridicule. En bonus, ça te donne du temps.
 
-Technique 5 : Le redirect absurde. Change totalement de sujet de façon inattendue. Remarque sur ta coiffure ? "Merci, et sinon t'as vu le prix des avocats en ce moment ?" L'absurdité crée le rire et montre que la remarque ne t'atteint pas.
+**Technique 5 : Le redirect absurde.** Change totalement de sujet de façon inattendue. Remarque sur ta coiffure ? "Merci, et sinon t'as vu le prix des avocats en ce moment ?" L'absurdité crée le rire et montre que la remarque ne t'atteint pas.
 
-Technique 6 : L'autodérision stratégique. Pousse la critique jusqu'à l'absurde toi-même. "T'es toujours fatigué" → "Fatigué ? Je suis au-delà de la fatigue. Mon dernier rêve, c'était un PowerPoint." Tu coupes l'herbe sous le pied de l'autre.
+**Technique 6 : L'autodérision stratégique.** Pousse la critique jusqu'à l'absurde toi-même. "T'es toujours fatigué" → "Fatigué ? Je suis au-delà de la fatigue. Mon dernier rêve, c'était un PowerPoint." Tu coupes l'herbe sous le pied de l'autre.
 
-Technique 7 : La question piège. Réponds à une remarque par une question qui met l'autre face à son absurdité. "T'es bizarre quand même" → "Bizarre par rapport à quoi ? À la normalité ? Et c'est quoi la normalité ?" Ça fait réfléchir et rire en même temps.
+**Technique 7 : La question piège.** Réponds à une remarque par une question qui met l'autre face à son absurdité. "T'es bizarre quand même" → "Bizarre par rapport à quoi ? À la normalité ? Et c'est quoi la normalité ?" Ça fait réfléchir et rire en même temps.
 
-Technique 8 : Le compliment détourné. Transforme l'attaque en pseudo-compliment. "Tu parles trop" → "Ah, tu as remarqué ! Je savais que mon charisme finirait par se voir." L'inattendu du compliment crée le rire.
+**Technique 8 : Le compliment détourné.** Transforme l'attaque en pseudo-compliment. "Tu parles trop" → "Ah, tu as remarqué ! Je savais que mon charisme finirait par se voir." L'inattendu du compliment crée le rire.
 
-Technique 9 : Le miroir. Répète exactement ce que l'autre vient de dire, mais avec un ton complètement différent (amusé, théâtral, chuchoté). L'effet comique est immédiat et ça désarme l'autre.
+**Technique 9 : Le miroir.** Répète exactement ce que l'autre vient de dire, mais avec un ton complètement différent (amusé, théâtral, chuchoté). L'effet comique est immédiat et ça désarme l'autre.
 
-Technique 10 : Le silence souriant. Parfois, la meilleure répartie, c'est pas de réponse du tout. Un sourire confiant, un regard amusé, et le silence. Ça montre que la remarque ne mérite même pas une réponse. C'est dévastateur.
+**Technique 10 : Le silence souriant.** Parfois, la meilleure répartie, c'est pas de réponse du tout. Un sourire confiant, un regard amusé, et le silence. Ça montre que la remarque ne mérite même pas une réponse. C'est dévastateur.
 
 ## Comment pratiquer la répartie au quotidien
 
-Exercice 1 : Le journal de répartie. Chaque soir, note une situation où tu aurais voulu avoir de la répartie. Écris 3 réponses possibles en utilisant 3 techniques différentes. En quelques semaines, ces réponses te viendront de plus en plus vite en temps réel.
+**Exercice 1 : Le journal de répartie.** Chaque soir, note une situation où tu aurais voulu avoir de la répartie. Écris 3 réponses possibles en utilisant 3 techniques différentes. En quelques semaines, ces réponses te viendront de plus en plus vite en temps réel.
 
-Exercice 2 : Le ping-pong verbal. Avec un ami complice, faites des sessions de 5 minutes où vous vous envoyez des remarques et devez répondre en moins de 5 secondes. Pas besoin d'être brillant, l'objectif est la rapidité.
+**Exercice 2 : Le ping-pong verbal.** Avec un ami complice, faites des sessions de 5 minutes où vous vous envoyez des remarques et devez répondre en moins de 5 secondes. Pas besoin d'être brillant, l'objectif est la rapidité.
 
-Exercice 3 : L'analyse de pros. Regarde des interviews d'humoristes et analyse comment ils répondent aux questions piège des journalistes. Quelles techniques utilisent-ils ? **Gad Elmaleh**, par exemple, utilise énormément l'accusé de réception suivi d'un redirect.
+**Exercice 3 : L'analyse de pros.** Regarde des interviews d'humoristes et analyse comment ils répondent aux questions piège des journalistes. Quelles techniques utilisent-ils ? **Gad Elmaleh**, par exemple, utilise énormément l'accusé de réception suivi d'un redirect.
 
 ## La répartie pour les timides
 
@@ -316,7 +316,7 @@ Si tu es introverti ou timide, la répartie peut sembler intimidante. Mais c'est
 
 Attention au piège : la répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger, même quand la remarque de départ était piquante. L'objectif, c'est que tout le monde rie — y compris la personne qui t'a lancé la remarque. Si ta réponse blesse l'autre, c'est pas de la répartie, c'est de la méchanceté.
 
-Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un parcours Répartie de 4 semaines avec des exercices interactifs, des mises en situation et un suivi de ta progression. C'est conçu spécialement pour les personnes qui veulent développer cette compétence pas à pas, sans pression. **Rejoins-nous dès 0,99 €/mois.**`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours](/parcours) Répartie de 4 semaines avec des exercices interactifs, des mises en situation et un suivi de ta progression. C'est conçu spécialement pour les personnes qui veulent développer cette compétence pas à pas, sans pression. **Rejoins-nous dès 0,99 €/mois.**`,
     date: "2026-03-12",
     readingTime: "8 min",
     category: "REPARTIE",
@@ -336,19 +336,19 @@ Et la bonne nouvelle ? Cet état d'esprit se cultive. Comme la forme physique ou
 
 ## Les 4 habitudes des personnes marrantes
 
-Habitude 1 : Elles observent tout. Les personnes marrantes sont des éponges. Elles remarquent les détails que personne ne voit. Le collègue qui fait toujours le même geste bizarre en réunion. L'absurdité d'une règle au bureau. Le décalage entre ce que les gens disent et ce qu'ils font. Cette observation constante est leur matière première.
+**Habitude 1 : Elles observent tout.** Les personnes marrantes sont des éponges. Elles remarquent les détails que personne ne voit. Le collègue qui fait toujours le même geste bizarre en réunion. L'absurdité d'une règle au bureau. Le décalage entre ce que les gens disent et ce qu'ils font. Cette observation constante est leur matière première.
 
 Comment développer cette habitude : pendant une semaine, note chaque jour 3 choses bizarres, absurdes ou contradictoires que tu observes. Pas besoin qu'elles soient drôles. L'exercice, c'est juste d'entraîner ton œil à voir ce que les autres ignorent.
 
-Habitude 2 : Elles reformulent. Les personnes marrantes prennent une situation banale et la présentent sous un angle inattendu. "La réunion de ce matin" devient "45 minutes de ma vie que je ne récupérerai jamais, sacrifiées sur l'autel du reporting trimestriel." Même information, emballage différent.
+**Habitude 2 : Elles reformulent.** Les personnes marrantes prennent une situation banale et la présentent sous un angle inattendu. "La réunion de ce matin" devient "45 minutes de ma vie que je ne récupérerai jamais, sacrifiées sur l'autel du reporting trimestriel." Même information, emballage différent.
 
 Comment développer cette habitude : prends un événement banal de ta journée et essaie de le raconter de 3 façons différentes. La version neutre, la version dramatique et la version absurde. La version absurde est souvent la plus drôle.
 
-Habitude 3 : Elles ne se prennent pas au sérieux. L'autodérision est le trait commun de toutes les personnes marrantes. Elles assument leurs défauts avec humour. Elles se moquent d'elles-mêmes avant que les autres ne le fassent. Et ça les rend immédiatement sympathiques et accessibles. **Blanche Gardin** en a fait un art : elle transforme ses galères les plus intimes en matière comique, et le public l'adore pour ça. **Fary** fait pareil avec ses observations sur sa propre culture et ses contradictions — c'est drôle parce que c'est vrai et assumé.
+**Habitude 3 : Elles ne se prennent pas au sérieux.** L'autodérision est le trait commun de toutes les personnes marrantes. Elles assument leurs défauts avec humour. Elles se moquent d'elles-mêmes avant que les autres ne le fassent. Et ça les rend immédiatement sympathiques et accessibles. **Blanche Gardin** en a fait un art : elle transforme ses galères les plus intimes en matière comique, et le public l'adore pour ça. **Fary** fait pareil avec ses observations sur sa propre culture et ses contradictions — c'est drôle parce que c'est vrai et assumé.
 
 Comment développer cette habitude : identifie 2-3 défauts légers chez toi (sens de l'orientation catastrophique, incapacité à cuisiner, retard chronique) et prépare des vannes dessus. La prochaine fois qu'on te fait remarquer un de ces défauts, tu auras ta réponse prête.
 
-Habitude 4 : Elles dosent. Les personnes marrantes ne sont pas "on" en permanence. Elles sentent quand c'est le bon moment et quand ce ne l'est pas. Elles savent que l'humour constant fatigue, et que le silence rend les prochaines saillies encore plus impactantes.
+**Habitude 4 : Elles dosent.** Les personnes marrantes ne sont pas "on" en permanence. Elles sentent quand c'est le bon moment et quand ce ne l'est pas. Elles savent que l'humour constant fatigue, et que le silence rend les prochaines saillies encore plus impactantes.
 
 ## Devenir marrant quand on est introverti
 
@@ -364,13 +364,13 @@ Après une séparation, un deuil ou une période de stress intense, l'humour est
 
 ## Le plan d'action pour devenir marrant en 6 semaines
 
-Semaines 1-2 : Observer et noter. 3 observations par jour. Pas de pression pour être drôle.
+**Semaines 1-2 : Observer et noter.** 3 observations par jour. Pas de pression pour être drôle.
 
-Semaines 3-4 : Reformuler et partager. Transforme tes meilleures observations en formulations drôles. Partage-les avec des amis proches.
+**Semaines 3-4 : Reformuler et partager.** Transforme tes meilleures observations en formulations drôles. Partage-les avec des amis proches.
 
-Semaines 5-6 : Intégrer et élargir. Utilise tes observations et reformulations dans des contextes plus larges (bureau, soirées, réseaux sociaux). Note ce qui marche.
+**Semaines 5-6 : Intégrer et élargir.** Utilise tes observations et reformulations dans des contextes plus larges (bureau, soirées, réseaux sociaux). Note ce qui marche.
 
-Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le Parcours Confiance (6 semaines). Des vannes à mémoriser, des techniques à pratiquer, des vidéos de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. **Rejoins-nous dès 0,99 €/mois.**`,
+Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le [Parcours](/parcours) Confiance (6 semaines). Des [vannes](/vannes) à mémoriser, des techniques à pratiquer, des [vidéos](/videos) de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. **Rejoins-nous dès 0,99 €/mois.**`,
     date: "2026-03-11",
     readingTime: "7 min",
     category: "GUIDE",
@@ -426,7 +426,7 @@ Si tu es étudiant et que tu veux être plus drôle en soirée ou en coloc, comm
 
 Tu n'as pas besoin d'appliquer les 8 habitudes dès demain. Choisis-en 2 et intègre-les pendant 2 semaines. Puis ajoute-en 2 autres. En un mois, tu auras transformé tes conversations quotidiennes. Les gens autour de toi le remarqueront, et ce cercle vertueux (plus de rires → plus de confiance → plus d'humour) s'enclenchera naturellement.
 
-Pour accélérer ta progression, deviens-marrant.fr te propose des vannes à mémoriser, des techniques de répartie avec exercices, et des vidéos de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). **Rejoins-nous dès 0,99 €/mois** et deviens plus drôle, un jour à la fois.`,
+Pour accélérer ta progression, deviens-marrant.fr te propose des [vannes](/vannes) à mémoriser, des techniques de répartie avec exercices, et des [vidéos](/videos) de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). **Rejoins-nous dès 0,99 €/mois** et deviens plus drôle, un jour à la fois.`,
     date: "2026-03-09",
     readingTime: "6 min",
     category: "GUIDE",
@@ -460,11 +460,11 @@ Exercice concret : chaque jour, envoie à un ami un message qui reformule un év
 
 Avant de créer ton propre humour, commence par emprunter celui des autres. Mémorise 3 à 5 vannes courtes et universelles. Pas des blagues de comptoir interminables. Des one-liners, des observations drôles, des retours rapides. C'est ton filet de sécurité. Quand la conversation s'y prête, tu en sors une. Et le rire des autres te donne confiance pour la suite.
 
-Exercice concret : va sur la section Vannes de deviens-marrant.fr, choisis 5 vannes qui te font vraiment rire, et mémorise-les. Teste-les avec un ami cette semaine.
+Exercice concret : va sur la section [Vannes](/vannes) de deviens-marrant.fr, choisis 5 vannes qui te font vraiment rire, et mémorise-les. Teste-les avec un ami cette semaine.
 
 ## Étape 4 : Apprends une seule technique de répartie
 
-Pas 10 techniques, une seule. L'accusé de réception : quand quelqu'un te lance une remarque, réponds "Intéressant" avec un sourire. Ces 2-3 secondes te donnent le temps de trouver ta réponse. C'est simple, c'est universel, et ça marche dans 100 % des situations. Une fois que cette technique est automatique, tu en apprendras d'autres.
+Pas 10 techniques, une seule. **L'accusé de réception** : quand quelqu'un te lance une remarque, réponds "Intéressant" avec un sourire. Ces 2-3 secondes te donnent le temps de trouver ta réponse. C'est simple, c'est universel, et ça marche dans 100 % des situations. Une fois que cette technique est automatique, tu en apprendras d'autres.
 
 ## Étape 5 : Accepte la courbe d'apprentissage
 
@@ -476,19 +476,19 @@ Ne te compare pas aux gens qui sont drôles depuis 20 ans. Compare-toi à toi-m�
 
 ## Le plan de démarrage sur 2 semaines
 
-Jours 1-3 : Observer et noter. 2 observations absurdes par jour. Pas besoin qu'elles soient drôles.
+**Jours 1-3 : Observer et noter.** 2 observations absurdes par jour. Pas besoin qu'elles soient drôles.
 
-Jours 4-7 : Écrire et reformuler. Prends tes observations et reformule-les par écrit. Envoie la meilleure à un ami chaque jour.
+**Jours 4-7 : Écrire et reformuler.** Prends tes observations et reformule-les par écrit. Envoie la meilleure à un ami chaque jour.
 
-Jours 8-10 : Mémoriser. Choisis 5 vannes courtes sur deviens-marrant.fr et apprends-les par cœur.
+**Jours 8-10 : Mémoriser.** Choisis 5 [vannes](/vannes) courtes sur deviens-marrant.fr et apprends-les par cœur.
 
-Jours 11-14 : Tester. Ressors une blague en conversation. Utilise l'accusé de réception quand on te chambre. Note comment tu te sens.
+**Jours 11-14 : Tester.** Ressors une blague en conversation. Utilise **l'accusé de réception** quand on te chambre. Note comment tu te sens.
 
 ## Apprendre à être drôle quand on est timide
 
 Si tu es timide, tu as un super-pouvoir que tu ignores : les gens s'attendent pas à ce que tu sois drôle. Donc quand tu lâches une réplique bien placée, l'effet de surprise est doublé. La personne silencieuse qui sort une pépite de temps en temps fait souvent beaucoup plus rire que le bavard qui mitraille. Utilise ta discrétion comme un atout.
 
-Sur deviens-marrant.fr, on a conçu des parcours spécialement pour les débutants et les personnes timides. Le Parcours Répartie (4 semaines) te guide pas à pas, avec des exercices que tu peux pratiquer seul avant de les tester en situation réelle. Gagne des XP, maintiens ton streak, et regarde ta confiance grandir semaine après semaine. **Rejoins-nous dès 0,99 €/mois.**`,
+Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) spécialement pour les débutants et les personnes timides. Le [Parcours](/parcours) Répartie (4 semaines) te guide pas à pas, avec des exercices que tu peux pratiquer seul avant de les tester en situation réelle. Gagne des XP, maintiens ton streak, et regarde ta confiance grandir semaine après semaine. **Rejoins-nous dès 0,99 €/mois.**`,
     date: "2026-03-08",
     readingTime: "7 min",
     category: "GUIDE",
