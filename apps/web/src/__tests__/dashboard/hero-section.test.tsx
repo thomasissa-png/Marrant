@@ -24,7 +24,7 @@ describe("HeroSection", () => {
   it("shows social proof counter", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/5 000\+ membres/)).toBeInTheDocument();
+    expect(screen.getByText(/1 500\+ membres/)).toBeInTheDocument();
   });
 
   it("shows use-case tags for all 3 personas plus XP/streak", () => {

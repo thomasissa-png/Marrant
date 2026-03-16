@@ -57,7 +57,7 @@ export default function AProposPage() {
             On s&apos;appuie sur les techniques des meilleurs humoristes
             français (Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary, Paul
             Mirabel), les principes de la psychologie positive et des exercices
-            concrets testés par notre communauté de 5 000+ membres.
+            concrets testés par notre communauté de 1 500+ membres.
           </p>
         </section>
 
@@ -133,7 +133,7 @@ export default function AProposPage() {
             Prêt à devenir plus drôle ?
           </p>
           <p className="mt-2 text-text-secondary">
-            Rejoins 5 000+ membres qui progressent en humour chaque jour.
+            Rejoins 1 500+ membres qui progressent en humour chaque jour.
           </p>
           <Link href="/register" className="mt-4 inline-block">
             <Button variant="primary" size="lg">

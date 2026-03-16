@@ -210,7 +210,7 @@ export function PremiumCta() {
 
       {/* Social proof */}
       <p className="mt-8 text-center text-sm text-text-muted">
-        Déjà 5 000+ inscrits — et toi ?
+        Déjà 1 500+ inscrits — et toi ?
       </p>
 
       {/* FAQ */}

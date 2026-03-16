@@ -24,7 +24,7 @@ export function HeroSection() {
 
       {/* Social proof */}
       <p className="mt-6 text-sm font-medium text-accent-primary">
-        Rejoins 5 000+ membres qui progressent en humour chaque jour
+        Rejoins 1 500+ membres qui progressent en humour chaque jour
       </p>
 
       {/* Situations concrètes = les 3 personas se reconnaissent */}
