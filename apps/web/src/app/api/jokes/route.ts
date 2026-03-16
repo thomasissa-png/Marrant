@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
       where,
       skip: (query.page - 1) * query.limit,
       take: isPremium ? query.limit : Math.max(0, effectiveLimit),
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ createdAt: "desc" }, { id: "asc" }],
     });
 
     return NextResponse.json({
