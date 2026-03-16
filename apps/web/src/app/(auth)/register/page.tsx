@@ -71,7 +71,7 @@ export default function RegisterPage() {
       if (result?.error) {
         router.push("/login");
       } else {
-        router.push("/onboarding");
+        router.push("/abonnement");
         router.refresh();
       }
     } catch {
@@ -82,7 +82,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/onboarding" });
+    signIn("google", { callbackUrl: "/abonnement" });
   };
 
   return (

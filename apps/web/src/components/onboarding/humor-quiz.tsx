@@ -161,8 +161,8 @@ export function HumorQuiz() {
             Quiz complet&eacute; le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
           </p>
           <div className="mt-6 flex flex-col gap-3">
-            <Button variant="primary" size="lg" onClick={() => router.push(existingResult.path)}>
-              Voir mon profil
+            <Button variant="primary" size="lg" onClick={() => router.push("/abonnement")}>
+              Continuer
             </Button>
             <Button variant="ghost" size="sm" onClick={handleRetakeQuiz}>
               Refaire le quiz
@@ -183,11 +183,8 @@ export function HumorQuiz() {
           </h2>
           <p className="mt-2 text-text-secondary">{result.description}</p>
           <div className="mt-6 flex flex-col gap-3">
-            <Button variant="primary" size="lg" onClick={() => router.push(result.path)}>
+            <Button variant="primary" size="lg" onClick={() => router.push("/abonnement")}>
               C&apos;est parti !
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => router.push("/")}>
-              Explorer librement
             </Button>
           </div>
         </CardContent>

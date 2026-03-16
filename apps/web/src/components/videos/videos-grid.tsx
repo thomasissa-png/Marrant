@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { useRouter } from "next/navigation";
 
 interface Video {
   id: string;
@@ -69,9 +69,7 @@ export function VideosGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
-  const [limited, setLimited] = useState(false);
-  const [totalAvailable, setTotalAvailable] = useState(0);
-  const [premiumOpen, setPremiumOpen] = useState(false);
+  const router = useRouter();
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -91,12 +89,14 @@ export function VideosGrid() {
 
     try {
       const res = await fetch(`/api/videos?${params}`);
+      if (res.status === 403) {
+        router.push("/abonnement");
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setVideos(data.videos);
         setPagination(data.pagination);
-        setLimited(data.limited ?? false);
-        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -129,21 +129,7 @@ export function VideosGrid() {
         ))}
       </div>
 
-      {/* CTA filtres pour les utilisateurs gratuits */}
-      {limited && difficulty !== "" ? (
-        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
-          <p className="text-2xl" aria-hidden="true">🔒</p>
-          <p className="mt-3 text-lg font-semibold text-text-primary">
-            Les filtres par niveau sont réservés aux membres
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Tu as accès à 10 vidéos{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par niveau pour progresser étape par étape.
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      ) : error ? (
+      {error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
       ) : showSkeleton ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -220,25 +206,8 @@ export function VideosGrid() {
         </div>
       )}
 
-      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
-      {limited && difficulty === "" && (
-        <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 10 vidéos + la vidéo du jour{totalAvailable > 0 ? `, ${totalAvailable}+ disponibles !` : " !"}
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois (prix de lancement).
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      )}
-
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
-
       {/* Pagination */}
-      {!limited && pagination && pagination.totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
           <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Précédent

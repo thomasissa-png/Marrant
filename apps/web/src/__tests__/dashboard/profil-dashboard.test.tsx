@@ -91,9 +91,9 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText("Gratuit")).toBeInTheDocument();
   });
 
-  it("shows upgrade button for FREE plan", () => {
+  it("shows subscribe button for FREE plan", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Débloquer tout à 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("S'abonner à 0,99 €/mois")).toBeInTheDocument();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {
@@ -113,7 +113,7 @@ describe("ProfilDashboard", () => {
       fetchUser: mockFetchUser,
     });
     render(<ProfilDashboard />);
-    expect(screen.getByText(/accès illimité à tous les contenus/)).toBeInTheDocument();
+    expect(screen.getByText(/accès complet à tous les contenus/)).toBeInTheDocument();
   });
 
   it("shows progress section", () => {

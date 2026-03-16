@@ -2,8 +2,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ConseilsList } from "@/components/conseils/conseils-list";
 
+const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({ push: mockPush }),
 }));
 
 jest.mock("next-auth/react", () => ({

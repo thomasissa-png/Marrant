@@ -52,44 +52,37 @@ export function PremiumCta() {
         </p>
       </div>
 
-      {/* Tableau comparatif FREE vs PREMIUM */}
-      <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-border bg-background-card">
-        <table className="w-full text-left text-sm">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="px-4 py-3 font-medium text-text-secondary"></th>
-              <th className="px-4 py-3 text-center font-medium text-text-secondary">Gratuit</th>
-              <th className="px-4 py-3 text-center font-semibold text-accent-primary">Premium 0,99&euro;/mois</th>
-            </tr>
-          </thead>
-          <tbody className="text-text-primary">
-            <tr className="border-b border-border">
-              <td className="px-4 py-3 font-medium">Vannes</td>
-              <td className="px-4 py-3 text-center text-text-muted">50</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
-            </tr>
-            <tr className="border-b border-border">
-              <td className="px-4 py-3 font-medium">Conseils</td>
-              <td className="px-4 py-3 text-center text-text-muted">15</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
-            </tr>
-            <tr className="border-b border-border">
-              <td className="px-4 py-3 font-medium">Vid&eacute;os</td>
-              <td className="px-4 py-3 text-center text-text-muted">25</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
-            </tr>
-            <tr className="border-b border-border">
-              <td className="px-4 py-3 font-medium">Parcours</td>
-              <td className="px-4 py-3 text-center text-text-muted">Limit&eacute;</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Complet</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 font-medium">Favoris</td>
-              <td className="px-4 py-3 text-center text-text-muted">Non</td>
-              <td className="px-4 py-3 text-center font-semibold text-accent-primary">Illimit&eacute;</td>
-            </tr>
-          </tbody>
-        </table>
+      {/* Ce que tu obtiens */}
+      <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-border bg-background-card p-6">
+        <h3 className="mb-4 text-center font-semibold text-text-primary">
+          Tout est inclus pour 0,99 &euro;/mois
+        </h3>
+        <ul className="grid gap-3 sm:grid-cols-2 text-sm text-text-secondary">
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Toutes les vannes</strong> class&eacute;es par cat&eacute;gorie</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Tous les conseils</strong> + exemples + exercices</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Toutes les vid&eacute;os</strong> stand-up analys&eacute;es</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Parcours structur&eacute;s</strong> de progression</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Favoris illimit&eacute;s</strong></span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-0.5 text-success">&#10003;</span>
+            <span><strong>Contenu quotidien</strong> renouvel&eacute;</span>
+          </li>
+        </ul>
       </div>
       <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-text-muted">
         Sans engagement &middot; Annulable &agrave; tout moment

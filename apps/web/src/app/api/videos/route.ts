@@ -3,10 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { selectSlidingFreeItems, insertDailyFirst } from "@/lib/free-content";
-import { todayUTC } from "@/lib/ai/date-utils";
-
-const FREE_LIMIT = 25;
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -40,37 +36,12 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // FREE / anonyme : fenêtre glissante + daily en premier
+    // Abonnement requis pour accéder au contenu
     if (!isPremium) {
-      const total = await prisma.video.count({ where: { isActive: true } });
-
-      const allVideos = await prisma.video.findMany({
-        where: { isActive: true },
-        orderBy: { id: "asc" },
-      });
-
-      // Fenêtre glissante : avance de 1 par jour
-      const sliding = selectSlidingFreeItems(allVideos, FREE_LIMIT);
-
-      // Insérer la vidéo du jour en première position
-      const daily = await prisma.dailyContent.findUnique({
-        where: { date: todayUTC() },
-        select: { videoId: true },
-      });
-
-      const rotated = insertDailyFirst(
-        sliding,
-        daily?.videoId,
-        (video) => video.id,
-        FREE_LIMIT
+      return NextResponse.json(
+        { error: "Abonnement requis pour accéder aux vidéos", code: "SUBSCRIPTION_REQUIRED" },
+        { status: 403 }
       );
-
-      return NextResponse.json({
-        videos: rotated,
-        pagination: { page: 1, limit: FREE_LIMIT, total: rotated.length, totalPages: 1 },
-        limited: true,
-        totalAvailable: total,
-      });
     }
 
     const where = {

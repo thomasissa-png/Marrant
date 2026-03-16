@@ -251,7 +251,7 @@ export function ProfilDashboard() {
           {user.plan === "PREMIUM" ? (
             <div>
               <p className="text-sm text-text-secondary">
-                Tu profites de l&apos;accès illimité à tous les contenus et de la progression personnalisée.
+                Tu profites de l&apos;accès complet à tous les contenus et de la progression personnalisée.
               </p>
               <Button
                 variant="outline"
@@ -266,9 +266,8 @@ export function ProfilDashboard() {
           ) : (
             <>
               <p className="mb-4 text-sm text-text-secondary">
-                Débloque l&apos;accès à toutes les vannes, tous les conseils,
-                toutes les vidéos analysées et le contenu quotidien, le tout pour
-                seulement 0,99 €/mois. Prix de lancement, profites-en.
+                Ton abonnement n&apos;est pas actif. Abonne-toi pour accéder
+                à tout le contenu.
               </p>
               <Button
                 variant="secondary"
@@ -276,7 +275,7 @@ export function ProfilDashboard() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "Redirection..." : "Débloquer tout à 0,99 €/mois"}
+                {isCheckoutLoading ? "Redirection..." : "S'abonner à 0,99 €/mois"}
               </Button>
             </>
           )}

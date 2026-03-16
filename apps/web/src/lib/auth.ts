@@ -140,12 +140,16 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id;
       }
 
-      // Invalider le token si le mot de passe a été changé après l'émission
+      // Rafraîchir le plan et vérifier le mot de passe
       if (token.sub && token.iat) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.sub },
-          select: { passwordChangedAt: true },
+          select: { plan: true, passwordChangedAt: true },
         });
+
+        // Toujours mettre à jour le plan dans le token
+        token.plan = dbUser?.plan ?? "FREE";
+
         if (dbUser?.passwordChangedAt) {
           const changedAtSec = Math.floor(dbUser.passwordChangedAt.getTime() / 1000);
           if (changedAtSec > (token.iat as number)) {

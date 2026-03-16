@@ -88,7 +88,7 @@ describe("RegisterPage", () => {
     });
   });
 
-  it("redirects to /onboarding on success", async () => {
+  it("redirects to /abonnement on success", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({}),
@@ -102,7 +102,7 @@ describe("RegisterPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/onboarding");
+      expect(mockPush).toHaveBeenCalledWith("/abonnement");
     });
   });
 
@@ -137,7 +137,7 @@ describe("RegisterPage", () => {
   it("calls Google signIn with onboarding callback", async () => {
     render(<RegisterPage />);
     await userEvent.click(screen.getByText("S'inscrire avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/abonnement" });
   });
 
 });

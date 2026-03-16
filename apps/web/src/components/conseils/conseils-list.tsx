@@ -10,9 +10,9 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useUserStore } from "@/stores/user-store";
-import { PremiumModal } from "@/components/premium/premium-modal";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Tip {
   id: string;
@@ -71,10 +71,8 @@ export function ConseilsList() {
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const [limited, setLimited] = useState(false);
-  const [totalAvailable, setTotalAvailable] = useState(0);
-  const [premiumOpen, setPremiumOpen] = useState(false);
   const { status } = useSession();
+  const router = useRouter();
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
 
@@ -97,12 +95,14 @@ export function ConseilsList() {
 
     try {
       const res = await fetch(`/api/tips?${params}`);
+      if (res.status === 403) {
+        router.push("/abonnement");
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setTips(data.tips);
         setPagination(data.pagination);
-        setLimited(data.limited ?? false);
-        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -168,21 +168,7 @@ export function ConseilsList() {
         ))}
       </div>
 
-      {/* CTA filtres pour les utilisateurs gratuits */}
-      {limited && (category !== "" || difficulty !== "") ? (
-        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
-          <p className="text-2xl" aria-hidden="true">🔒</p>
-          <p className="mt-3 text-lg font-semibold text-text-primary">
-            Les filtres sont réservés aux membres
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Tu as accès à 5 conseils{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout avec filtres par niveau et catégorie pour progresser à ton rythme.
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      ) : error ? (
+      {error ? (
         <ErrorState
           message="Les conseils se font désirer... comme une bonne chute."
           onRetry={fetchTips}
@@ -262,25 +248,8 @@ export function ConseilsList() {
         </div>
       )}
 
-      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
-      {limited && category === "" && difficulty === "" && (
-        <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 5 conseils + le conseil du jour{totalAvailable > 0 ? `, ${totalAvailable}+ t'attendent !` : " !"}
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois (prix de lancement).
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      )}
-
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
-
       {/* Pagination */}
-      {!limited && pagination && pagination.totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
           <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Précédent

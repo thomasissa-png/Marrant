@@ -106,7 +106,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
         ) : (
           <Link href="/register" className="mt-6 block" onClick={onClose}>
             <Button variant="primary" size="lg" className="w-full">
-              Commencer à 0,99 €/mois
+              Cr&eacute;er un compte pour commencer
             </Button>
           </Link>
         )}

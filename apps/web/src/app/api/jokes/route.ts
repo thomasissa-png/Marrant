@@ -3,10 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { selectSlidingFreeItems, insertDailyFirst } from "@/lib/free-content";
-import { todayUTC } from "@/lib/ai/date-utils";
-
-const FREE_LIMIT = 50;
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -41,37 +37,12 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // FREE / anonyme : fenêtre glissante + daily en premier
+    // Abonnement requis pour accéder au contenu
     if (!isPremium) {
-      const total = await prisma.joke.count({ where: { isActive: true } });
-
-      const allJokes = await prisma.joke.findMany({
-        where: { isActive: true },
-        orderBy: { id: "asc" },
-      });
-
-      // Fenêtre glissante : avance de 1 par jour
-      const sliding = selectSlidingFreeItems(allJokes, FREE_LIMIT);
-
-      // Insérer la blague du jour en première position
-      const daily = await prisma.dailyContent.findUnique({
-        where: { date: todayUTC() },
-        select: { jokeId: true },
-      });
-
-      const rotated = insertDailyFirst(
-        sliding,
-        daily?.jokeId,
-        (joke) => joke.id,
-        FREE_LIMIT
+      return NextResponse.json(
+        { error: "Abonnement requis pour accéder aux vannes", code: "SUBSCRIPTION_REQUIRED" },
+        { status: 403 }
       );
-
-      return NextResponse.json({
-        jokes: rotated,
-        pagination: { page: 1, limit: FREE_LIMIT, total: rotated.length, totalPages: 1 },
-        limited: true,
-        totalAvailable: total,
-      });
     }
 
     const where = {

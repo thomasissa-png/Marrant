@@ -43,8 +43,8 @@ export async function createCheckoutSession(
         quantity: 1,
       },
     ],
-    success_url: `${process.env.NEXTAUTH_URL}/profil?upgrade=success`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/profil?upgrade=cancel`,
+    success_url: `${process.env.NEXTAUTH_URL}/vannes?upgrade=success`,
+    cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel`,
     metadata: {
       userId,
     },

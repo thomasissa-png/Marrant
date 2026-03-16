@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { useRouter } from "next/navigation";
 
 interface Joke {
   id: string;
@@ -64,6 +64,7 @@ const PUNCHLINE_TEASERS = [
 export function VannesList() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
+  const router = useRouter();
   const [jokes, setJokes] = useState<Joke[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [category, setCategory] = useState("");
@@ -71,9 +72,6 @@ export function VannesList() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
-  const [limited, setLimited] = useState(false);
-  const [totalAvailable, setTotalAvailable] = useState(0);
-  const [premiumOpen, setPremiumOpen] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   // Éviter le flash du skeleton si le fetch est rapide
@@ -94,12 +92,14 @@ export function VannesList() {
 
     try {
       const res = await fetch(`/api/jokes?${params}`);
+      if (res.status === 403) {
+        router.push("/abonnement");
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setJokes(data.jokes);
         setPagination(data.pagination);
-        setLimited(data.limited ?? false);
-        if (data.totalAvailable) setTotalAvailable(data.totalAvailable);
       } else {
         setError(true);
       }
@@ -147,21 +147,7 @@ export function VannesList() {
         ))}
       </div>
 
-      {/* CTA catégorie pour les utilisateurs gratuits */}
-      {limited && category !== "" ? (
-        <div className="rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-8 text-center">
-          <p className="text-2xl" aria-hidden="true">🔒</p>
-          <p className="mt-3 text-lg font-semibold text-text-primary">
-            Les filtres par catégorie sont réservés aux membres
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Tu as accès à 20 vannes{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par catégorie pour trouver la vanne parfaite.
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      ) : error ? (
+      {error ? (
         <ErrorState
           message="Les vannes se sont perdues en chemin."
           onRetry={fetchJokes}
@@ -231,25 +217,8 @@ export function VannesList() {
         </div>
       )}
 
-      {/* Upsell Premium — masqué si le CTA filtre est déjà visible */}
-      {limited && category === "" && (
-        <div className="mt-8 rounded-2xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="text-lg font-semibold text-text-primary">
-            Tu as accès à 20 vannes + la vanne du jour{totalAvailable > 0 ? `, il y en a ${totalAvailable}+ !` : " !"}
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Débloque toutes les vannes, classées par catégorie, pour seulement 0,99 €/mois (prix de lancement).
-          </p>
-          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
-            Débloquer tout à 0,99 €/mois
-          </Button>
-        </div>
-      )}
-
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
-
       {/* Pagination */}
-      {!limited && pagination && pagination.totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
           <Button
             variant="ghost"
