@@ -1,4 +1,4 @@
-import { cn, formatDateFr, USER_LEVELS, FREE_LIMITS } from "@/lib/utils";
+import { cn, formatDateFr, USER_LEVELS } from "@/lib/utils";
 
 describe("cn — fusion de classes Tailwind", () => {
   it("fusionne des classes simples", () => {
@@ -48,20 +48,3 @@ describe("USER_LEVELS — niveaux utilisateur", () => {
   });
 });
 
-describe("FREE_LIMITS — limites plan gratuit", () => {
-  it("autorise 50 blagues", () => {
-    expect(FREE_LIMITS.JOKES).toBe(50);
-  });
-
-  it("autorise 15 conseils", () => {
-    expect(FREE_LIMITS.TIPS).toBe(15);
-  });
-
-  it("autorise 25 vidéos", () => {
-    expect(FREE_LIMITS.VIDEOS).toBe(25);
-  });
-
-  it("limite à 50 favoris", () => {
-    expect(FREE_LIMITS.MAX_FAVORITES).toBe(50);
-  });
-});

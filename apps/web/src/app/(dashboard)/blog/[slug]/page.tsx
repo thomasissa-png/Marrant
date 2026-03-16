@@ -198,7 +198,7 @@ export default async function BlogArticlePage({
         </p>
         <Link href="/register" className="mt-4 inline-block">
           <Button variant="primary" size="lg">
-            Essaie gratuitement
+            Commencer à 0,99 €/mois
           </Button>
         </Link>
       </div>

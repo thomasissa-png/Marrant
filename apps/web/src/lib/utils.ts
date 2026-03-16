@@ -20,16 +20,6 @@ export const USER_LEVELS = {
 } as const;
 
 /**
- * Limites du plan gratuit
- */
-export const FREE_LIMITS = {
-  JOKES: 50,
-  TIPS: 15,
-  VIDEOS: 25,
-  MAX_FAVORITES: 50,
-} as const;
-
-/**
  * Formate une date en français
  */
 export function formatDateFr(date: Date): string {

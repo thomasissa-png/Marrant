@@ -96,7 +96,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
         switchTab("login");
       } else {
         onClose();
-        router.push("/onboarding");
+        router.push("/abonnement");
         router.refresh();
       }
     } catch {
@@ -107,7 +107,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: tab === "register" ? "/onboarding" : "/" });
+    signIn("google", { callbackUrl: "/vannes" });
   };
 
   const handleClose = () => {

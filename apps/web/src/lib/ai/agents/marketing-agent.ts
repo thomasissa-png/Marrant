@@ -70,7 +70,7 @@ POSITIONNEMENT & MARCHÉ
 
 FUNNEL DE CROISSANCE (AARRR)
 - Acquisition : vidéos courtes virales, SEO, bouche-à-oreille → visiteur
-- Activation : quiz d'onboarding, vanne du jour gratuite → utilisateur engagé
+- Activation : quiz d'onboarding, aperçu du contenu → inscription + abonnement
 - Rétention : streaks, XP, contenu quotidien personnalisé → utilisateur régulier
 - Revenu : conversion free → premium (0,99 €/mois), coaching (99 €/session)
 - Referral : partage de vannes, "défis humour" entre amis → viralité organique

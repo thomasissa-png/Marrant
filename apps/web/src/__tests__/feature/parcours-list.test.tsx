@@ -33,9 +33,9 @@ describe("ParcoursPage — Parcours structurés", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the free first week info", () => {
+  it("shows the subscription info", () => {
     expect(
-      screen.getByText(/Semaine 1 offerte sur chaque parcours/)
+      screen.getByText(/Accès complet avec ton abonnement/)
     ).toBeInTheDocument();
   });
 
@@ -75,8 +75,8 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getByText(/retrouver ma légèreté/)).toBeInTheDocument();
   });
 
-  it("renders free trial CTA buttons for each parcours", () => {
-    const buttons = screen.getAllByText("Essaie le premier module gratuitement");
+  it("renders CTA buttons for each parcours", () => {
+    const buttons = screen.getAllByText("Commencer ce parcours");
     expect(buttons).toHaveLength(3);
     buttons.forEach((btn) => {
       expect(btn.tagName).toBe("BUTTON");
@@ -84,16 +84,15 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("opens auth modal when CTA button is clicked", async () => {
-    const buttons = screen.getAllByText("Essaie le premier module gratuitement");
+    const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
     // AuthModal should open with register tab
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByText("Inscription")).toBeInTheDocument();
   });
 
-  it("marks first module as GRATUIT on each parcours", () => {
-    const gratuitBadges = screen.getAllByText("GRATUIT");
-    expect(gratuitBadges).toHaveLength(3);
+  it("does not show GRATUIT badges", () => {
+    expect(screen.queryByText("GRATUIT")).not.toBeInTheDocument();
   });
 
   it("shows XP rewards on modules", () => {

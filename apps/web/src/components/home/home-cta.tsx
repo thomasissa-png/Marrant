@@ -30,9 +30,9 @@ export function HomeCta() {
               Commencer à 0,99 €/mois
             </Button>
           </Link>
-          <Link href="/vannes">
+          <Link href="/register">
             <Button variant="outline" size="lg">
-              Voir les vannes gratuites
+              Découvrir la plateforme
             </Button>
           </Link>
         </div>

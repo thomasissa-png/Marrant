@@ -48,7 +48,7 @@ Le secret, c'est de pratiquer. Commence par une ou deux techniques, utilise-les 
 
 Ces techniques marchent dans toutes les situations. Tu es étudiant et tu restes muet quand tes potes te chambrent en soirée ? L'accusé de réception et le redirect absurde vont devenir tes meilleurs alliés. Tu veux avoir de la conversation à la machine à café au bureau ? Le rebond sur mot-clé transforme n'importe quelle remarque banale en moment drôle. Tu traverses une période difficile et tu veux retrouver ta légèreté dans tes interactions ? L'autodérision et le miroir sont des techniques douces qui permettent de renouer avec l'humour sans forcer.
 
-Tu veux aller plus loin ? Sur deviens-marrant.fr, on a des exercices interactifs pour pratiquer chaque technique avec des mises en situation concrètes. Essaie gratuitement et tu verras la différence en quelques jours.`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a des exercices interactifs pour pratiquer chaque technique avec des mises en situation concrètes. Rejoins-nous dès 0,99 €/mois et tu verras la différence en quelques jours.`,
     date: "2026-03-10",
     readingTime: "5 min",
     category: "REPARTIE",
@@ -84,7 +84,7 @@ L'erreur classique, c'est de vouloir être hilare dès le premier essai. L'humou
 
 Et ça fonctionne pour tout le monde. Si tu es étudiant timide qui galère à prendre la parole en TD ou en soirée, l'observation est ton meilleur point d'entrée : note ce que tu remarques, sans pression. Si tu cherches à alimenter tes conversations au bureau ou à l'afterwork, la structure setup/punchline va transformer tes anecdotes de pause déjeuner. Et si tu traverses une période où tu as perdu ta légèreté, la pratique progressive te permet de retrouver ton humour à ton rythme, sans te forcer. Paul Mirabel, Fary, Panayotis Pascot — ces humoristes de la nouvelle génération prouvent chaque jour que l'humour se construit et s'affine avec le temps.
 
-Sur deviens-marrant.fr, on a conçu des parcours progressifs pour développer ton humour étape par étape, avec des exercices concrets et un suivi de ta progression. Teste gratuitement et découvre ton potentiel comique.`,
+Sur deviens-marrant.fr, on a conçu des parcours progressifs pour développer ton humour étape par étape, avec des exercices concrets et un suivi de ta progression. Rejoins-nous dès 0,99 €/mois et découvre ton potentiel comique.`,
     date: "2026-03-05",
     readingTime: "4 min",
     category: "OBSERVATION",
@@ -124,7 +124,7 @@ Comment pratiquer
 
 Commence par observer. Regarde des spectacles de stand-up et chronométre les pauses. Note quand les rires arrivent par rapport aux silences. Ensuite, dans tes conversations, force-toi à attendre avant de répondre. Résiste à l'envie de combler le silence. Tu seras surpris de l'effet.
 
-Envie de travailler ton timing avec des exercices interactifs ? Sur deviens-marrant.fr, chaque conseil vient avec une mise en situation pour t'entrainer. Essaie gratuitement, ça prend 5 minutes par jour.`,
+Envie de travailler ton timing avec des exercices interactifs ? Sur deviens-marrant.fr, chaque conseil vient avec une mise en situation pour t'entrainer. Rejoins-nous dès 0,99 €/mois, ça prend 5 minutes par jour.`,
     date: "2026-02-28",
     readingTime: "4 min",
     category: "TIMING",
@@ -164,7 +164,7 @@ Le plan d'action
 
 Choisis une erreur que tu fais souvent. Une seule. Et pendant une semaine, concentre-toi uniquement sur celle-là. La semaine suivante, passe à la suivante. En un mois, tu auras corrigé les erreurs les plus courantes et tes blagues auront beaucoup plus d'impact.
 
-Tu veux des exercices pratiques pour travailler chaque point ? Sur deviens-marrant.fr, on a des mises en situation pour chaque type d'erreur. Essaie gratuitement et progresse à ton rythme.`,
+Tu veux des exercices pratiques pour travailler chaque point ? Sur deviens-marrant.fr, on a des mises en situation pour chaque type d'erreur. Rejoins-nous dès 0,99 €/mois et progresse à ton rythme.`,
     date: "2026-02-20",
     readingTime: "5 min",
     category: "STORYTELLING",
@@ -208,7 +208,7 @@ Entre amis : "Mon sens de l'orientation est tellement mauvais que Google Maps m'
 
 En rendez-vous : "Je te préviens, je suis très nul pour choisir au restaurant. Ma dernière commande aventureuse, c'était un menu enfant."
 
-L'autodérision est un muscle qui se développe. Commence par des petites remarques en terrain connu (amis proches, famille), puis élargis progressivement. Sur deviens-marrant.fr, tu trouveras des exercices guidés pour développer ton autodérision sans tomber dans les pièges. Essaie gratuitement et découvre cette arme secrète.`,
+L'autodérision est un muscle qui se développe. Commence par des petites remarques en terrain connu (amis proches, famille), puis élargis progressivement. Sur deviens-marrant.fr, tu trouveras des exercices guidés pour développer ton autodérision sans tomber dans les pièges. Rejoins-nous dès 0,99 €/mois et découvre cette arme secrète.`,
     date: "2026-02-15",
     readingTime: "4 min",
     category: "AUTODERISION",
@@ -258,7 +258,7 @@ Le rôle de la confiance en soi
 
 Il y a un cercle vertueux entre humour et confiance. Plus tu fais rire, plus tu as confiance. Plus tu as confiance, plus tu oses. Plus tu oses, plus tu fais rire. Le déclencheur ? Accepter que les premières tentatives seront imparfaites. Et c'est OK. Personne ne te jugera pour une blague qui tombe à plat, tant que tu ne la forces pas.
 
-Sur deviens-marrant.fr, on a conçu des parcours progressifs qui te guident pas à pas dans ce processus. Des vannes à mémoriser, des techniques de répartie à pratiquer, des vidéos de pros à analyser, et un système de progression (XP + streaks) pour rester motivé. Commence gratuitement et deviens la personne drôle du groupe.`,
+Sur deviens-marrant.fr, on a conçu des parcours progressifs qui te guident pas à pas dans ce processus. Des vannes à mémoriser, des techniques de répartie à pratiquer, des vidéos de pros à analyser, et un système de progression (XP + streaks) pour rester motivé. Rejoins-nous dès 0,99 €/mois et deviens la personne drôle du groupe.`,
     date: "2026-03-13",
     readingTime: "7 min",
     category: "GUIDE",
@@ -316,7 +316,7 @@ La répartie n'est pas de l'agressivité
 
 Attention au piège : la répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger, même quand la remarque de départ était piquante. L'objectif, c'est que tout le monde rie — y compris la personne qui t'a lancé la remarque. Si ta réponse blesse l'autre, c'est pas de la répartie, c'est de la méchanceté.
 
-Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un parcours Répartie de 4 semaines avec des exercices interactifs, des mises en situation et un suivi de ta progression. C'est conçu spécialement pour les personnes qui veulent développer cette compétence pas à pas, sans pression. Essaie gratuitement.`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un parcours Répartie de 4 semaines avec des exercices interactifs, des mises en situation et un suivi de ta progression. C'est conçu spécialement pour les personnes qui veulent développer cette compétence pas à pas, sans pression. Rejoins-nous dès 0,99 €/mois.`,
     date: "2026-03-12",
     readingTime: "8 min",
     category: "REPARTIE",
@@ -370,7 +370,7 @@ Semaines 3-4 : Reformuler et partager. Transforme tes meilleures observations en
 
 Semaines 5-6 : Intégrer et élargir. Utilise tes observations et reformulations dans des contextes plus larges (bureau, soirées, réseaux sociaux). Note ce qui marche.
 
-Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le Parcours Confiance (6 semaines). Des vannes à mémoriser, des techniques à pratiquer, des vidéos de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. Essaie gratuitement.`,
+Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le Parcours Confiance (6 semaines). Des vannes à mémoriser, des techniques à pratiquer, des vidéos de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. Rejoins-nous dès 0,99 €/mois.`,
     date: "2026-03-11",
     readingTime: "7 min",
     category: "GUIDE",
@@ -426,7 +426,7 @@ Mettre tout ça ensemble
 
 Tu n'as pas besoin d'appliquer les 8 habitudes dès demain. Choisis-en 2 et intègre-les pendant 2 semaines. Puis ajoute-en 2 autres. En un mois, tu auras transformé tes conversations quotidiennes. Les gens autour de toi le remarqueront, et ce cercle vertueux (plus de rires → plus de confiance → plus d'humour) s'enclenchera naturellement.
 
-Pour accélérer ta progression, deviens-marrant.fr te propose des vannes à mémoriser, des techniques de répartie avec exercices, et des vidéos de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). Commence gratuitement et deviens plus drôle, un jour à la fois.`,
+Pour accélérer ta progression, deviens-marrant.fr te propose des vannes à mémoriser, des techniques de répartie avec exercices, et des vidéos de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). Rejoins-nous dès 0,99 €/mois et deviens plus drôle, un jour à la fois.`,
     date: "2026-03-09",
     readingTime: "6 min",
     category: "GUIDE",
@@ -488,7 +488,7 @@ Apprendre à être drôle quand on est timide
 
 Si tu es timide, tu as un super-pouvoir que tu ignores : les gens s'attendent pas à ce que tu sois drôle. Donc quand tu lâches une réplique bien placée, l'effet de surprise est doublé. La personne silencieuse qui sort une pépite de temps en temps fait souvent beaucoup plus rire que le bavard qui mitraille. Utilise ta discrétion comme un atout.
 
-Sur deviens-marrant.fr, on a conçu des parcours spécialement pour les débutants et les personnes timides. Le Parcours Répartie (4 semaines) te guide pas à pas, avec des exercices que tu peux pratiquer seul avant de les tester en situation réelle. Gagne des XP, maintiens ton streak, et regarde ta confiance grandir semaine après semaine. Commence gratuitement.`,
+Sur deviens-marrant.fr, on a conçu des parcours spécialement pour les débutants et les personnes timides. Le Parcours Répartie (4 semaines) te guide pas à pas, avec des exercices que tu peux pratiquer seul avant de les tester en situation réelle. Gagne des XP, maintiens ton streak, et regarde ta confiance grandir semaine après semaine. Rejoins-nous dès 0,99 €/mois.`,
     date: "2026-03-08",
     readingTime: "7 min",
     category: "GUIDE",

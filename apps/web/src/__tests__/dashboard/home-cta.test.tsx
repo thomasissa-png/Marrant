@@ -17,7 +17,7 @@ describe("HomeCta", () => {
     render(<HomeCta />);
     expect(screen.getByText(/Prêt à devenir plus drôle/)).toBeInTheDocument();
     expect(screen.getByText(/Commencer à 0,99 €\/mois/)).toBeInTheDocument();
-    expect(screen.getByText("Voir les vannes gratuites")).toBeInTheDocument();
+    expect(screen.getByText("Découvrir la plateforme")).toBeInTheDocument();
   });
 
   it("shows dynamic content counts", () => {
@@ -40,10 +40,10 @@ describe("HomeCta", () => {
     expect(screen.getByText(/Commencer à 0,99 €\/mois/).closest("a")).toHaveAttribute("href", "/register");
   });
 
-  it("links to /vannes for free content", () => {
+  it("links to /register for platform discovery", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
+    expect(screen.getByText("Découvrir la plateforme").closest("a")).toHaveAttribute("href", "/register");
   });
 
   it("renders nothing when authenticated", () => {

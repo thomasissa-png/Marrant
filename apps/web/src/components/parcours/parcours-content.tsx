@@ -186,7 +186,7 @@ export function ParcoursContent() {
           Gagne des XP à chaque module, maintiens ton streak et suis ta progression
         </p>
         <p className="mt-2 text-sm text-text-secondary">
-          Semaine 1 offerte sur chaque parcours
+          Accès complet avec ton abonnement à 0,99 €/mois
         </p>
       </div>
 
@@ -250,11 +250,6 @@ export function ParcoursContent() {
                             <span className="font-medium text-text-primary">
                               {m.title}
                             </span>
-                            {m.free && (
-                              <Badge variant="primary" className="text-[10px]">
-                                GRATUIT
-                              </Badge>
-                            )}
                           </div>
                           <p className="mt-1 text-sm text-text-secondary">
                             {m.detail}
@@ -275,7 +270,7 @@ export function ParcoursContent() {
                     className="w-full sm:w-auto"
                     onClick={handleCta}
                   >
-                    Essaie le premier module gratuitement
+                    Commencer ce parcours
                   </Button>
                 </div>
               </CardContent>

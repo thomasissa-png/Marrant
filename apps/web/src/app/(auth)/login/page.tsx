@@ -32,7 +32,7 @@ export default function LoginPage() {
         setError("Email ou mot de passe incorrect.");
         setPassword("");
       } else {
-        router.push("/");
+        router.push("/vannes");
         router.refresh();
       }
     } catch {
@@ -44,7 +44,7 @@ export default function LoginPage() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/vannes" });
   };
 
   return (

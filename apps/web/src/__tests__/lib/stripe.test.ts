@@ -11,8 +11,20 @@ jest.mock("stripe", () => {
         create: jest.fn().mockResolvedValue({ url: "https://billing.stripe.com/portal-456" }),
       },
     },
+    customers: {
+      list: jest.fn().mockResolvedValue({ data: [] }),
+      create: jest.fn().mockResolvedValue({ id: "cus_new_123" }),
+    },
   }));
 });
+
+jest.mock("@/lib/prisma", () => ({
+  prisma: {
+    subscription: {
+      findUnique: jest.fn().mockResolvedValue(null),
+    },
+  },
+}));
 
 import { stripe, PREMIUM_PRICE_ID, PREMIUM_PRICE_CENTS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
 
@@ -36,12 +48,12 @@ describe("createCheckoutSession", () => {
     expect(url).toBe("https://checkout.stripe.com/session-123");
   });
 
-  it("calls stripe.checkout.sessions.create with correct params", async () => {
+  it("calls stripe.checkout.sessions.create with customer ID", async () => {
     await createCheckoutSession("user-1", "test@test.fr");
     expect(stripe.checkout.sessions.create).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: "subscription",
-        customer_email: "test@test.fr",
+        customer: "cus_new_123",
         metadata: { userId: "user-1" },
       })
     );

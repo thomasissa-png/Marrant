@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
 import { publishDailyContent } from "@/lib/ai/daily-publisher";
@@ -12,6 +14,29 @@ let isGenerating = false;
 
 export async function GET() {
   try {
+    // Vérifier l'authentification et l'abonnement
+    const session = await getServerSession(authOptions);
+    const userId = (session?.user as { id?: string })?.id;
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Authentification requise", code: "AUTH_REQUIRED" },
+        { status: 401 }
+      );
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true },
+    });
+
+    if (user?.plan !== "PREMIUM") {
+      return NextResponse.json(
+        { error: "Abonnement requis pour accéder au contenu du jour", code: "SUBSCRIPTION_REQUIRED" },
+        { status: 403 }
+      );
+    }
+
     const today = todayUTC();
 
     // Chercher le contenu du jour configuré

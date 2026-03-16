@@ -140,21 +140,27 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id;
       }
 
-      // Rafraîchir le plan et vérifier le mot de passe
+      // Rafraîchir le plan et vérifier le mot de passe (toutes les 5 minutes max)
       if (token.sub && token.iat) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.sub },
-          select: { plan: true, passwordChangedAt: true },
-        });
+        const now = Math.floor(Date.now() / 1000);
+        const lastRefresh = (token.planRefreshedAt as number) ?? 0;
+        const REFRESH_INTERVAL = 5 * 60; // 5 minutes
 
-        // Toujours mettre à jour le plan dans le token
-        token.plan = dbUser?.plan ?? "FREE";
+        if (now - lastRefresh > REFRESH_INTERVAL) {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.sub },
+            select: { plan: true, passwordChangedAt: true },
+          });
 
-        if (dbUser?.passwordChangedAt) {
-          const changedAtSec = Math.floor(dbUser.passwordChangedAt.getTime() / 1000);
-          if (changedAtSec > (token.iat as number)) {
-            // Mot de passe changé après l'émission du token — session invalide
-            return { ...token, sub: undefined };
+          token.plan = dbUser?.plan ?? "FREE";
+          token.planRefreshedAt = now;
+
+          if (dbUser?.passwordChangedAt) {
+            const changedAtSec = Math.floor(dbUser.passwordChangedAt.getTime() / 1000);
+            if (changedAtSec > (token.iat as number)) {
+              // Mot de passe changé après l'émission du token — session invalide
+              return { ...token, sub: undefined };
+            }
           }
         }
       }

@@ -1,4 +1,4 @@
-import { cn, USER_LEVELS, FREE_LIMITS, formatDateFr } from "@/lib/utils";
+import { cn, USER_LEVELS, formatDateFr } from "@/lib/utils";
 
 describe("cn", () => {
   it("merges class names", () => {
@@ -56,23 +56,6 @@ describe("USER_LEVELS", () => {
   });
 });
 
-describe("FREE_LIMITS", () => {
-  it("has correct joke limit", () => {
-    expect(FREE_LIMITS.JOKES).toBe(50);
-  });
-
-  it("has correct tips limit", () => {
-    expect(FREE_LIMITS.TIPS).toBe(15);
-  });
-
-  it("has correct videos limit", () => {
-    expect(FREE_LIMITS.VIDEOS).toBe(25);
-  });
-
-  it("has correct favorites limit", () => {
-    expect(FREE_LIMITS.MAX_FAVORITES).toBe(50);
-  });
-});
 
 describe("formatDateFr", () => {
   it("formats a date in French", () => {

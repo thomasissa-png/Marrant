@@ -80,7 +80,7 @@ describe("LoginPage", () => {
     });
   });
 
-  it("redirects to home on success", async () => {
+  it("redirects to /vannes on success", async () => {
     mockSignIn.mockResolvedValue({ error: null });
     render(<LoginPage />);
 
@@ -89,7 +89,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/");
+      expect(mockPush).toHaveBeenCalledWith("/vannes");
     });
   });
 
@@ -133,7 +133,7 @@ describe("LoginPage", () => {
   it("calls Google signIn on Google button click", async () => {
     render(<LoginPage />);
     await userEvent.click(screen.getByText("Continuer avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
   });
 
 });

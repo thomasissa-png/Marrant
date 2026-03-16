@@ -188,8 +188,8 @@ describe("BlogArticlePage — article detail", () => {
     expect(
       screen.getByText("Envie de passer à l'action ?")
     ).toBeInTheDocument();
-    expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
-    const ctaLink = screen.getByText("Essaie gratuitement").closest("a");
+    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
+    const ctaLink = screen.getByText("Commencer à 0,99 €/mois").closest("a");
     expect(ctaLink).toHaveAttribute("href", "/register");
   });
 
