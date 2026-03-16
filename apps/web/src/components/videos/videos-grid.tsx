@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import Link from "next/link";
+import { PremiumModal } from "@/components/premium/premium-modal";
 
 interface Video {
   id: string;
@@ -71,6 +71,7 @@ export function VideosGrid() {
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
+  const [premiumOpen, setPremiumOpen] = useState(false);
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -138,11 +139,9 @@ export function VideosGrid() {
           <p className="mt-1 text-sm text-text-secondary">
             Tu as accès à 10 vidéos{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par niveau pour progresser étape par étape.
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       ) : error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
@@ -230,13 +229,13 @@ export function VideosGrid() {
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les vidéos de stand-up analysées pour seulement 0,99 €/mois (prix de lancement).
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       )}
+
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
       {/* Pagination */}
       {!limited && pagination && pagination.totalPages > 1 && (

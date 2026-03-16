@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-import Link from "next/link";
+import { PremiumModal } from "@/components/premium/premium-modal";
 
 interface Joke {
   id: string;
@@ -62,6 +62,7 @@ export function VannesList() {
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
+  const [premiumOpen, setPremiumOpen] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   // Éviter le flash du skeleton si le fetch est rapide
@@ -145,11 +146,9 @@ export function VannesList() {
           <p className="mt-1 text-sm text-text-secondary">
             Tu as accès à 20 vannes{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout et filtre par catégorie pour trouver la vanne parfaite.
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       ) : error ? (
         <ErrorState
@@ -230,13 +229,13 @@ export function VannesList() {
           <p className="mt-1 text-sm text-text-secondary">
             Débloque toutes les vannes, classées par catégorie, pour seulement 0,99 €/mois (prix de lancement).
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       )}
+
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
       {/* Pagination */}
       {!limited && pagination && pagination.totalPages > 1 && (

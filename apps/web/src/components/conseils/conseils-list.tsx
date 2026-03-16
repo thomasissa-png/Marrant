@@ -9,8 +9,8 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-import Link from "next/link";
 import { useUserStore } from "@/stores/user-store";
+import { PremiumModal } from "@/components/premium/premium-modal";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
 
@@ -73,6 +73,7 @@ export function ConseilsList() {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
   const [totalAvailable, setTotalAvailable] = useState(0);
+  const [premiumOpen, setPremiumOpen] = useState(false);
   const { status } = useSession();
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
@@ -177,11 +178,9 @@ export function ConseilsList() {
           <p className="mt-1 text-sm text-text-secondary">
             Tu as accès à 5 conseils{totalAvailable > 0 ? ` sur ${totalAvailable}+` : ""}. Débloque tout avec filtres par niveau et catégorie pour progresser à ton rythme.
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       ) : error ? (
         <ErrorState
@@ -272,13 +271,13 @@ export function ConseilsList() {
           <p className="mt-1 text-sm text-text-secondary">
             Débloque tous les conseils, exemples et exercices pour seulement 0,99 €/mois (prix de lancement).
           </p>
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="mt-4">
-              Débloquer tout à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" className="mt-4" onClick={() => setPremiumOpen(true)}>
+            Débloquer tout à 0,99 €/mois
+          </Button>
         </div>
       )}
+
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
       {/* Pagination */}
       {!limited && pagination && pagination.totalPages > 1 && (
