@@ -19,19 +19,6 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Vérifier qu'il est bien 7h heure française (Europe/Paris)
-    const parisHour = new Date().toLocaleString("en-US", {
-      timeZone: "Europe/Paris",
-      hour: "numeric",
-      hour12: false,
-    });
-    if (parseInt(parisHour, 10) !== 7) {
-      return NextResponse.json({
-        skipped: true,
-        reason: `Pas encore 7h à Paris (il est ${parisHour}h)`,
-      });
-    }
-
     const now = new Date();
     const month = now.getUTCMonth() + 1;
     const year = now.getUTCFullYear();

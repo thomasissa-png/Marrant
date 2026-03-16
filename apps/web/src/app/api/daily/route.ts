@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
+import { publishDailyContent } from "@/lib/ai/daily-publisher";
+import { generateMonthlyPlans } from "@/lib/ai/content-planner";
+
+/**
+ * Verrou en mémoire pour éviter de lancer plusieurs générations simultanées.
+ * Persiste tant que le process Node.js tourne (parfait pour Replit).
+ */
+let isGenerating = false;
 
 export async function GET() {
   try {
@@ -23,6 +31,28 @@ export async function GET() {
         tip: dailyContent.tip,
         video: dailyContent.video,
       });
+    }
+
+    // Pas de contenu pour aujourd'hui — lancer la génération en arrière-plan (non bloquant)
+    if (!isGenerating) {
+      isGenerating = true;
+      const month = today.getUTCMonth() + 1;
+      const year = today.getUTCFullYear();
+
+      // Fire-and-forget : le visiteur reçoit le fallback immédiatement,
+      // le prochain visiteur (ou refresh) aura le vrai contenu.
+      (async () => {
+        try {
+          console.log("[daily-auto] Génération automatique du contenu du jour…");
+          await generateMonthlyPlans(month, year);
+          await publishDailyContent(today);
+          console.log("[daily-auto] Contenu du jour généré avec succès.");
+        } catch (err) {
+          console.error("[daily-auto] Échec de la génération :", err);
+        } finally {
+          isGenerating = false;
+        }
+      })();
     }
 
     // Fallback : contenu déterministe basé sur le jour de l'année
