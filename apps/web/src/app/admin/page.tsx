@@ -80,7 +80,7 @@ export default function AdminPage() {
   const [userSearch, setUserSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
-  const getAuthHeader = useCallback(() => {
+  const getAuthHeader = useCallback((): Record<string, string> => {
     const storedPass = sessionStorage.getItem("admin_pass");
     return storedPass ? { Authorization: `Bearer ${storedPass}` } : {};
   }, []);
