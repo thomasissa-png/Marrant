@@ -6,8 +6,10 @@ const mockPush = jest.fn();
 const mockRefresh = jest.fn();
 const mockSignIn = jest.fn();
 
+const mockSearchParams = new URLSearchParams();
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: mockRefresh }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 jest.mock("next-auth/react", () => ({

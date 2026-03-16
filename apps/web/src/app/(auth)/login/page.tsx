@@ -3,10 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "Un compte existe déjà avec cet email. Connecte-toi avec ton mot de passe.",
+  OAuthCallback: "Erreur lors de la connexion avec Google. Réessaie.",
+  OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
+  Default: "Une erreur est survenue lors de la connexion.",
+};
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,6 +22,9 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,6 +70,11 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {oauthMessage && (
+              <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
+                {oauthMessage}
+              </p>
+            )}
             {error && (
               <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}

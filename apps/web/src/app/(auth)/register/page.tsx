@@ -3,10 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "Un compte existe déjà avec cet email. Connecte-toi plutôt.",
+  OAuthCallback: "Erreur lors de l'inscription avec Google. Réessaie.",
+  OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
+  Default: "Une erreur est survenue. Réessaie.",
+};
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -17,6 +24,9 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
 
   const validateForm = (): boolean => {
     const errors: { name?: string; email?: string; password?: string } = {};
@@ -82,7 +92,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/abonnement" });
+    signIn("google", { callbackUrl: "/vannes" });
   };
 
   return (
@@ -98,6 +108,11 @@ export default function RegisterPage() {
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {oauthMessage && (
+              <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
+                {oauthMessage}
+              </p>
+            )}
             {error && (
               <p id="register-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
