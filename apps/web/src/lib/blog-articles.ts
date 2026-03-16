@@ -238,25 +238,25 @@ Spoiler : elles ne le sont pas. Ce que tu perçois comme du "talent naturel" est
 
 ## Un plan d'action concret sur 30 jours
 
-Semaine 1 : L'observation. Note chaque jour une situation bizarre, contradictoire ou absurde. Ne cherche pas à être drôle, cherche juste à observer. Le matin dans les transports, à la machine à café, dans la queue du supermarché.
+**Semaine 1 : L'observation.** Note chaque jour une situation bizarre, contradictoire ou absurde. Ne cherche pas à être drôle, cherche juste à observer. Le matin dans les transports, à la machine à café, dans la queue du supermarché.
 
-Semaine 2 : La reformulation. Prends tes observations de la semaine 1 et essaie de les reformuler de façon drôle. Cherche l'angle inattendu. Écris 3 versions de chaque observation et garde la meilleure.
+**Semaine 2 : La reformulation.** Prends tes observations de la semaine 1 et essaie de les reformuler de façon drôle. Cherche l'angle inattendu. Écris 3 versions de chaque observation et garde la meilleure.
 
-Semaine 3 : Le test. Partage tes meilleures trouvailles avec un ami proche. Note ses réactions. Ce qui fait sourire, ce qui fait rire, ce qui tombe à plat. Pas de jugement, juste des données.
+**Semaine 3 : Le test.** Partage tes meilleures trouvailles avec un ami proche. Note ses réactions. Ce qui fait sourire, ce qui fait rire, ce qui tombe à plat. Pas de jugement, juste des données.
 
-Semaine 4 : L'expansion. Utilise ce qui a marché en semaine 3 dans des contextes plus larges. En réunion, en soirée, sur les réseaux sociaux. Tu as maintenant un petit répertoire testé et approuvé.
+**Semaine 4 : L'expansion.** Utilise ce qui a marché en semaine 3 dans des contextes plus larges. En réunion, en soirée, sur les réseaux sociaux. Tu as maintenant un petit répertoire testé et approuvé.
 
 ## Les erreurs qui empêchent de devenir drôle
 
-L'erreur numéro 1 : attendre d'être "prêt". Tu ne seras jamais prêt. Lance-toi. Les premières vannes tomberont à plat, et c'est normal. Même les pros ont un taux de réussite de 60-70 %. L'important, c'est de s'entraîner.
+**L'erreur numéro 1 : attendre d'être "prêt".** Tu ne seras jamais prêt. Lance-toi. Les premières vannes tomberont à plat, et c'est normal. Même les pros ont un taux de réussite de 60-70 %. L'important, c'est de s'entraîner.
 
-L'erreur numéro 2 : copier les autres. Regarder des humoristes pour comprendre les mécanismes, oui. Répéter leurs vannes, non. L'humour le plus efficace est personnel et authentique. Trouve TA voix.
+**L'erreur numéro 2 : copier les autres.** Regarder des humoristes pour comprendre les mécanismes, oui. Répéter leurs vannes, non. L'humour le plus efficace est personnel et authentique. Trouve TA voix.
 
-L'erreur numéro 3 : forcer. L'humour forcé se sent à des kilomètres. Si une blague ne vient pas naturellement dans la conversation, ne la force pas. Les gens drôles ne sont pas "on" en permanence. Ils choisissent leurs moments.
+**L'erreur numéro 3 : forcer.** L'humour forcé se sent à des kilomètres. Si une blague ne vient pas naturellement dans la conversation, ne la force pas. Les gens drôles ne sont pas "on" en permanence. Ils choisissent leurs moments.
 
 ## Le rôle de la confiance en soi
 
-Il y a un cercle vertueux entre humour et confiance. Plus tu fais rire, plus tu as confiance. Plus tu as confiance, plus tu oses. Plus tu oses, plus tu fais rire. Le déclencheur ? Accepter que les premières tentatives seront imparfaites. Et c'est OK. Personne ne te jugera pour une blague qui tombe à plat, tant que tu ne la forces pas.
+Il y a un **cercle vertueux** entre humour et confiance. Plus tu fais rire, plus tu as confiance. Plus tu as confiance, plus tu oses. Plus tu oses, plus tu fais rire. Le déclencheur ? Accepter que les premières tentatives seront imparfaites. Et c'est OK. Personne ne te jugera pour une blague qui tombe à plat, tant que tu ne la forces pas.
 
 Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à mémoriser, des techniques de répartie à pratiquer, des [vidéos](/videos) de pros à analyser, et un système de progression (XP + streaks) pour rester motivé. **Rejoins-nous dès 0,99 €/mois** et deviens la personne drôle du groupe.`,
     date: "2026-03-13",
