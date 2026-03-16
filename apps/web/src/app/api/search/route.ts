@@ -88,9 +88,9 @@ export async function GET(request: NextRequest) {
     ]);
 
     // Appliquer la même fenêtre glissante que les routes /api/jokes, /api/tips, /api/videos
-    const freeJokes = selectSlidingFreeItems(allJokes, 20, 7919, (j) => j.category);
-    const freeTips = selectSlidingFreeItems(allTips, 5, 6871, (t) => t.category);
-    const freeVideos = selectSlidingFreeItems(allVideos, 10, 5381, (v) => v.category);
+    const freeJokes = selectSlidingFreeItems(allJokes, 20);
+    const freeTips = selectSlidingFreeItems(allTips, 5);
+    const freeVideos = selectSlidingFreeItems(allVideos, 10);
 
     // Filtrer par la recherche dans le set gratuit uniquement
     const qLower = q.toLowerCase();

@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { selectSlidingFreeItems } from "@/lib/free-content";
+import { selectSlidingFreeItems, insertDailyFirst } from "@/lib/free-content";
+import { todayUTC } from "@/lib/ai/date-utils";
 
 const FREE_LIMIT = 50;
 
@@ -40,22 +41,29 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // FREE / anonyme : rotation quotidienne aléatoire, catégories bloquées
+    // FREE / anonyme : fenêtre glissante + daily en premier
     if (!isPremium) {
-      // Ignorer les filtres catégorie/type en free (catégories bloquées)
       const total = await prisma.joke.count({ where: { isActive: true } });
 
-      // Fenêtre glissante : 1 blague remplacée par jour au lieu de tout changer
       const allJokes = await prisma.joke.findMany({
         where: { isActive: true },
         orderBy: { id: "asc" },
       });
 
-      const rotated = selectSlidingFreeItems(
-        allJokes,
-        FREE_LIMIT,
-        7919,
-        (joke) => joke.category
+      // Fenêtre glissante : avance de 1 par jour
+      const sliding = selectSlidingFreeItems(allJokes, FREE_LIMIT);
+
+      // Insérer la blague du jour en première position
+      const daily = await prisma.dailyContent.findUnique({
+        where: { date: todayUTC() },
+        select: { jokeId: true },
+      });
+
+      const rotated = insertDailyFirst(
+        sliding,
+        daily?.jokeId,
+        (joke) => joke.id,
+        FREE_LIMIT
       );
 
       return NextResponse.json({

@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { selectSlidingFreeItems } from "@/lib/free-content";
+import { selectSlidingFreeItems, insertDailyFirst } from "@/lib/free-content";
+import { todayUTC } from "@/lib/ai/date-utils";
 
 const FREE_LIMIT = 15;
 
@@ -39,21 +40,29 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // FREE / anonyme : rotation quotidienne, catégories bloquées
+    // FREE / anonyme : fenêtre glissante + daily en premier
     if (!isPremium) {
       const total = await prisma.tip.count({ where: { isActive: true } });
 
-      // Fenêtre glissante : 1 conseil remplacé par jour au lieu de tout changer
       const allTips = await prisma.tip.findMany({
         where: { isActive: true },
         orderBy: { id: "asc" },
       });
 
-      const rotated = selectSlidingFreeItems(
-        allTips,
-        FREE_LIMIT,
-        6871,
-        (tip) => tip.category
+      // Fenêtre glissante : avance de 1 par jour
+      const sliding = selectSlidingFreeItems(allTips, FREE_LIMIT);
+
+      // Insérer le conseil du jour en première position
+      const daily = await prisma.dailyContent.findUnique({
+        where: { date: todayUTC() },
+        select: { tipId: true },
+      });
+
+      const rotated = insertDailyFirst(
+        sliding,
+        daily?.tipId,
+        (tip) => tip.id,
+        FREE_LIMIT
       );
 
       return NextResponse.json({

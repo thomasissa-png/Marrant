@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { selectSlidingFreeItems } from "@/lib/free-content";
+import { selectSlidingFreeItems, insertDailyFirst } from "@/lib/free-content";
+import { todayUTC } from "@/lib/ai/date-utils";
 
 const FREE_LIMIT = 25;
 
@@ -39,21 +40,29 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // FREE / anonyme : rotation quotidienne, catégories bloquées
+    // FREE / anonyme : fenêtre glissante + daily en premier
     if (!isPremium) {
       const total = await prisma.video.count({ where: { isActive: true } });
 
-      // Fenêtre glissante : 1 vidéo remplacée par jour au lieu de tout changer
       const allVideos = await prisma.video.findMany({
         where: { isActive: true },
         orderBy: { id: "asc" },
       });
 
-      const rotated = selectSlidingFreeItems(
-        allVideos,
-        FREE_LIMIT,
-        5381,
-        (video) => video.category
+      // Fenêtre glissante : avance de 1 par jour
+      const sliding = selectSlidingFreeItems(allVideos, FREE_LIMIT);
+
+      // Insérer la vidéo du jour en première position
+      const daily = await prisma.dailyContent.findUnique({
+        where: { date: todayUTC() },
+        select: { videoId: true },
+      });
+
+      const rotated = insertDailyFirst(
+        sliding,
+        daily?.videoId,
+        (video) => video.id,
+        FREE_LIMIT
       );
 
       return NextResponse.json({
