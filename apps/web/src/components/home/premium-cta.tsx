@@ -193,7 +193,7 @@ export function PremiumCta() {
           </ul>
 
           <a
-            href="https://cal.com/deviens-marrant/coaching-humour"
+            href="https://calendly.com/contact-deviens-marrant/45min"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 block"
