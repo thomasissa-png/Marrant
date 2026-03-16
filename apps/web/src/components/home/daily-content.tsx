@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
+import { ReactionButtons } from "@/components/ui/reaction-buttons";
 
 interface Joke {
   id: string;
@@ -140,6 +141,7 @@ export function DailyContent() {
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-2">
+                  <ReactionButtons jokeId={data.joke.id} />
                   <ShareButton
                     title="Vanne du jour — deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
