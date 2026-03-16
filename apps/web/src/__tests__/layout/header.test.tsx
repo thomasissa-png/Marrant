@@ -49,14 +49,14 @@ describe("Header", () => {
     expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
   });
 
-  it("shows Favoris, Profil, Déconnexion when authenticated", () => {
+  it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {
     useSession.mockReturnValue({
       data: { user: { name: "Jean" } },
       status: "authenticated",
     });
     render(<Header />);
-    expect(screen.getAllByText("Favoris").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Jean").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("Favoris").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("Mon profil").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Déconnexion").length).toBeGreaterThan(0);
   });
 

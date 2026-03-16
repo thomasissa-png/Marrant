@@ -66,14 +66,18 @@ export function Header() {
           <div className="hidden items-center gap-3 md:flex">
             {isAuthenticated ? (
               <>
-                <Link href="/favoris">
-                  <Button variant="ghost" size="sm">
-                    Favoris
+                <Link href="/favoris" aria-label="Favoris">
+                  <Button variant="ghost" size="sm" aria-label="Favoris">
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
                   </Button>
                 </Link>
-                <Link href="/profil">
-                  <Button variant="ghost" size="sm">
-                    {session?.user?.name ?? "Profil"}
+                <Link href="/profil" aria-label="Mon profil">
+                  <Button variant="ghost" size="sm" aria-label="Mon profil">
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
                   </Button>
                 </Link>
                 <Button
@@ -160,10 +164,20 @@ export function Header() {
               {isAuthenticated ? (
                 <>
                   <Link href="/favoris" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full">Favoris</Button>
+                    <Button variant="ghost" size="sm" className="w-full justify-start gap-2">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                      Favoris
+                    </Button>
                   </Link>
                   <Link href="/profil" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full">Profil</Button>
+                    <Button variant="ghost" size="sm" className="w-full justify-start gap-2">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      Mon profil
+                    </Button>
                   </Link>
                   <Button variant="ghost" size="sm" className="w-full" onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}>
                     Déconnexion
