@@ -162,14 +162,16 @@ RÈGLES DE RÉDACTION :
 - SEO : Le mot-clé principal doit apparaître naturellement dans l'intro, 2-3 sous-titres, et la conclusion
 - Personas : Référencer les situations des 3 personas (étudiant timide, jeune active au bureau, adulte en reconstruction)
 - Références : Citer des humoristes français (Jamel Debbouze, Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary, Paul Mirabel)
-- Format : Texte brut avec paragraphes séparés par des doubles retours à la ligne. Pas de markdown (#, *, etc.)
-- Les sous-titres sont des lignes de texte seules (sans # ni mise en forme)
+- Format : Markdown avec paragraphes séparés par des doubles retours à la ligne
+- Les sous-titres de sections utilisent ## (h2), les sous-sous-titres ### (h3)
+- Utiliser **gras** pour les termes clés, noms d'humoristes (première mention), et conseils importants
+- Liens internes en markdown : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
 - Chaque section doit avoir un contenu actionnable (pas juste de la théorie)
 - Terminer par un CTA naturel vers deviens-marrant.fr
 
 INTERDICTIONS :
 - Pas de ton corporate ou académique
-- Pas de listes à puces (intègre les points dans le texte narratif)
+- Pas de listes à puces sauf si vraiment pertinent (préférer le texte narratif)
 - Pas d'emojis
 - Pas de "dans cet article, nous allons voir..."
 - Pas de plagiat — contenu 100% original`,

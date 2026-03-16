@@ -10,6 +10,7 @@ import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
 } from "@/components/seo/json-ld";
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 
 export const revalidate = 3600;
 
@@ -101,8 +102,6 @@ export default async function BlogArticlePage({
     notFound();
   }
 
-  const paragraphs = article.content.split("\n\n");
-
   // Trouver des articles similaires pour le cross-linking
   const relatedArticles = [...blogArticles]
     .filter((a) => a.slug !== article.slug)
@@ -153,11 +152,7 @@ export default async function BlogArticlePage({
         <span>{article.readingTime} de lecture</span>
       </div>
 
-      <div className="mt-8 space-y-4 text-text-secondary leading-relaxed">
-        {paragraphs.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-      </div>
+      <MarkdownRenderer content={article.content} className="mt-8" />
 
       {/* Articles similaires */}
       {relatedArticles.length > 0 && (
