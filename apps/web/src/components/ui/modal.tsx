@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
 interface ModalProps {
@@ -31,7 +32,9 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
 
   if (!isOpen) return null;
 
-  return (
+  // Portal vers document.body pour échapper aux parents avec transform/will-change
+  // qui cassent le position:fixed (ex: animate-stagger-in sur les Cards)
+  return createPortal(
     <div
       ref={overlayRef}
       className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in"
@@ -62,6 +65,7 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
