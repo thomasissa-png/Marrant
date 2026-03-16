@@ -64,7 +64,9 @@ describe("VannesList", () => {
   it("shows punchline hint", async () => {
     render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getAllByText("Tape pour la chute (promis, ça vaut le coup)")).toHaveLength(2);
+      // Les teasers varient par index — vérifier qu'il y a 2 hints (1 par vanne non révélée)
+      expect(screen.getByText("Clique pour la chute")).toBeInTheDocument();
+      expect(screen.getByText("La chute va te surprendre")).toBeInTheDocument();
     });
   });
 

@@ -50,6 +50,17 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
 );
 
+const PUNCHLINE_TEASERS = [
+  "Clique pour la chute",
+  "La chute va te surprendre",
+  "Celle-là, tu vas la ressortir",
+  "Attention, chute en approche",
+  "Tu la sens venir ?",
+  "Le meilleur arrive...",
+  "À toi de jouer",
+  "Ça pique, prépare-toi",
+];
+
 export function VannesList() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
@@ -211,7 +222,7 @@ export function VannesList() {
                 )}
                 {!revealedIds.has(joke.id) && (
                   <p className="mt-3 text-sm text-text-muted">
-                    Tape pour la chute (promis, ça vaut le coup)
+                    {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
                   </p>
                 )}
               </CardContent>
