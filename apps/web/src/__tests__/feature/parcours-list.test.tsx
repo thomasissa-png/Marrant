@@ -74,7 +74,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("shows testimonials for each parcours", () => {
     expect(screen.getByText(/muette à la machine à café/)).toBeInTheDocument();
     expect(screen.getByText(/meilleures répliques/)).toBeInTheDocument();
-    expect(screen.getByText(/retrouver ma légèreté/)).toBeInTheDocument();
+    expect(screen.getByText(/Ce parcours m'a aidé à retrouver/)).toBeInTheDocument();
   });
 
   it("renders CTA buttons for each parcours", () => {
@@ -88,13 +88,17 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("opens auth modal when CTA button is clicked", async () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    // AuthModal should open with register tab
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByText("Inscription")).toBeInTheDocument();
   });
 
-  it("does not show GRATUIT badges", () => {
-    expect(screen.queryByText("GRATUIT")).not.toBeInTheDocument();
+  it("shows Essai gratuit badges on free modules", () => {
+    const badges = screen.getAllByText("Essai gratuit");
+    expect(badges).toHaveLength(3); // One per parcours (Semaine 1)
+  });
+
+  it("shows exercise format descriptions", () => {
+    expect(screen.getAllByText(/Format :/).length).toBeGreaterThanOrEqual(3);
   });
 
   it("shows XP rewards on modules", () => {
@@ -104,11 +108,11 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   it("shows weekly modules for Parcours Répartie", () => {
     expect(screen.getByText("Les bases de la répartie")).toBeInTheDocument();
-    expect(screen.getByText("Le timing et les silences")).toBeInTheDocument();
+    expect(screen.getByText(/Le rythme et les silences/)).toBeInTheDocument();
     expect(
-      screen.getByText("L'autodérision comme arme secrète")
+      screen.getByText(/Retourner les piques avec le sourire/)
     ).toBeInTheDocument();
-    expect(screen.getByText("Répartie avancée")).toBeInTheDocument();
+    expect(screen.getByText(/Répartie avancée et improvisation/)).toBeInTheDocument();
   });
 
   it("shows weekly modules for Parcours Machine à Café", () => {
@@ -116,7 +120,7 @@ describe("ParcoursPage — Parcours structurés", () => {
       screen.getByText("Vannes courtes et mémorisables")
     ).toBeInTheDocument();
     expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
-    expect(screen.getByText("Anecdotes et storytelling")).toBeInTheDocument();
+    expect(screen.getByText(/Raconter une anecdote captivante/)).toBeInTheDocument();
   });
 
   it("shows weekly modules for Parcours Confiance", () => {
@@ -124,17 +128,17 @@ describe("ParcoursPage — Parcours structurés", () => {
       screen.getByText("Redécouvrir ce qui te fait rire")
     ).toBeInTheDocument();
     expect(
-      screen.getByText("L'autodérision bienveillante")
+      screen.getByText(/Rire de soi avec bienveillance/)
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Techniques de storytelling")
+      screen.getByText(/L'art de l'observation comique/)
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Répartie et conversations")
+      screen.getByText(/Être à l'aise en groupe/)
     ).toBeInTheDocument();
-    expect(screen.getByText("Humour avancé")).toBeInTheDocument();
+    expect(screen.getByText(/Les registres avancés/)).toBeInTheDocument();
     expect(
-      screen.getByText("Développer son style personnel")
+      screen.getByText(/Affirmer ton style personnel/)
     ).toBeInTheDocument();
   });
 
@@ -161,14 +165,30 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("uses 🌱 emoji for Parcours Confiance", () => {
-    expect(screen.getByText("🌱")).toBeInTheDocument();
+    expect(screen.getAllByText("🌱").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders orientation quiz", () => {
+    expect(screen.getByText("Quel parcours est fait pour toi ?")).toBeInTheDocument();
+    expect(screen.getByText(/Dans quelle situation/)).toBeInTheDocument();
+  });
+
+  it("orientation quiz recommends a parcours after answering", async () => {
+    // Answer both questions
+    await userEvent.click(screen.getByText(/Au boulot, en réunion/));
+    await userEvent.click(screen.getByText(/Je manque de blagues/));
+    expect(screen.getByText("On te recommande :")).toBeInTheDocument();
+    expect(screen.getByText("Voir ce parcours")).toBeInTheDocument();
   });
 });
 
 describe("ParcoursPage — authenticated user", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    // Override useSession for authenticated state
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: async () => ({ paths: [] }),
+    });
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
       data: { user: { name: "Test" } },
       status: "authenticated",
@@ -177,12 +197,13 @@ describe("ParcoursPage — authenticated user", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    (global.fetch as jest.Mock).mockRestore?.();
   });
 
-  it("navigates to /parcours when authenticated user clicks CTA", async () => {
+  it("navigates to /parcours/[slug] when authenticated user clicks CTA", async () => {
     render(<ParcoursPage />);
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(mockPush).toHaveBeenCalledWith("/parcours");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
   });
 });

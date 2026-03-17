@@ -220,44 +220,34 @@ async function main() {
 
     const learningPaths = [
       {
-        title: "Les bases de l'humour",
+        title: "Parcours Machine à Café",
         description:
-          "Maîtrise les fondamentaux : timing, structure de la blague, et punchline. Le parcours parfait pour débuter.",
-        slug: "bases-humour",
-        duration: "2 semaines",
+          "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
+        slug: "machine-a-cafe",
+        duration: "3 semaines",
         difficulty: "DEBUTANT" as const,
-        icon: "🌱",
+        icon: "☕",
         order: 1,
       },
       {
-        title: "Roi de la répartie",
+        title: "Parcours Répartie",
         description:
-          "Apprends à répondre du tac au tac avec style. Ne te fais plus jamais clouer le bec.",
-        slug: "roi-repartie",
-        duration: "3 semaines",
+          "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression.",
+        slug: "repartie",
+        duration: "4 semaines",
         difficulty: "INTERMEDIAIRE" as const,
         icon: "⚡",
         order: 2,
       },
       {
-        title: "Maître du storytelling",
+        title: "Parcours Confiance",
         description:
-          "Raconte des histoires captivantes qui font rire aux larmes. L'art de tenir ton audience en haleine.",
-        slug: "maitre-storytelling",
-        duration: "4 semaines",
-        difficulty: "INTERMEDIAIRE" as const,
-        icon: "📖",
-        order: 3,
-      },
-      {
-        title: "Stand-up : du concept à la scène",
-        description:
-          "Crée ton propre set de stand-up de A à Z. Pour ceux qui veulent monter sur scène.",
-        slug: "standup-scene",
+          "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
+        slug: "confiance",
         duration: "6 semaines",
         difficulty: "EXPERT" as const,
-        icon: "🎤",
-        order: 4,
+        icon: "🌱",
+        order: 3,
       },
     ];
 
