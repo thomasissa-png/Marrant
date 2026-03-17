@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BlogContent } from "@/components/blog/blog-content";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import {
@@ -101,8 +102,6 @@ export default async function BlogArticlePage({
     notFound();
   }
 
-  const paragraphs = article.content.split("\n\n");
-
   // Trouver des articles similaires pour le cross-linking
   const relatedArticles = [...blogArticles]
     .filter((a) => a.slug !== article.slug)
@@ -153,11 +152,7 @@ export default async function BlogArticlePage({
         <span>{article.readingTime} de lecture</span>
       </div>
 
-      <div className="mt-8 space-y-4 text-text-secondary leading-relaxed">
-        {paragraphs.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-      </div>
+      <BlogContent content={article.content} />
 
       {/* Articles similaires */}
       {relatedArticles.length > 0 && (
