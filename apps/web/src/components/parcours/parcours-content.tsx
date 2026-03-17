@@ -342,9 +342,13 @@ export function ParcoursContent() {
             }
             setUserProgress(result);
           })
-          .catch(() => {});
+          .catch((err) => {
+            console.error("[ParcoursContent] Erreur chargement progression:", err);
+          });
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("[ParcoursContent] Erreur chargement parcours:", err);
+      });
   }, [status]);
 
   const handleCta = (slug: string) => {

@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -14,6 +15,19 @@ export async function GET(
     }
 
     const userId = (session.user as { id: string }).id;
+
+    // Vérifier que le parcours existe
+    const path = await prisma.learningPath.findUnique({
+      where: { id: params.id, isActive: true },
+      select: { id: true },
+    });
+
+    if (!path) {
+      return NextResponse.json(
+        { error: "Parcours introuvable" },
+        { status: 404 }
+      );
+    }
 
     const progress = await prisma.userPathProgress.findUnique({
       where: { userId_learningPathId: { userId, learningPathId: params.id } },
@@ -33,30 +47,84 @@ export async function POST(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user || !("id" in session.user)) {
-      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Authentification requise" },
+        { status: 401 }
+      );
     }
 
     const userId = (session.user as { id: string }).id;
-    const { stepOrder } = await request.json();
 
-    // Vérifier si le step a déjà été complété
-    const existingProgress = await prisma.userPathProgress.findUnique({
-      where: { userId_learningPathId: { userId, learningPathId: params.id } },
+    // Rate limiting : max 10 completions par minute par utilisateur
+    const rl = rateLimit(`progress:${userId}`, {
+      maxRequests: 10,
+      windowMs: 60_000,
     });
-
-    const alreadyCompleted = existingProgress?.completedSteps.includes(stepOrder) ?? false;
-
-    if (alreadyCompleted) {
-      return NextResponse.json({
-        progress: existingProgress,
-        xpGained: 0,
-        pathCompleted: false,
-        message: "Step déjà complété",
-      });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie dans une minute." },
+        { status: 429 }
+      );
     }
 
-    // Upsert le progress + increment XP dans une transaction
+    // Valider le body
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Corps de requête invalide" },
+        { status: 400 }
+      );
+    }
+
+    const stepOrder =
+      typeof body === "object" &&
+      body !== null &&
+      "stepOrder" in body &&
+      typeof (body as Record<string, unknown>).stepOrder === "number"
+        ? (body as { stepOrder: number }).stepOrder
+        : null;
+
+    if (stepOrder === null || !Number.isInteger(stepOrder) || stepOrder < 1) {
+      return NextResponse.json(
+        { error: "stepOrder doit être un entier positif" },
+        { status: 400 }
+      );
+    }
+
+    // Tout dans la transaction pour éviter les race conditions
     const result = await prisma.$transaction(async (tx) => {
+      // Vérifier que le parcours existe et récupérer ses steps
+      const path = await tx.learningPath.findUnique({
+        where: { id: params.id, isActive: true },
+        include: { steps: { select: { order: true } } },
+      });
+
+      if (!path) {
+        return { error: "Parcours introuvable", status: 404 } as const;
+      }
+
+      // Vérifier que le stepOrder correspond à un vrai step
+      const validStepOrders = path.steps.map((s) => s.order);
+      if (!validStepOrders.includes(stepOrder)) {
+        return { error: "Étape invalide", status: 400 } as const;
+      }
+
+      // Vérifier si le step a déjà été complété
+      const existingProgress = await tx.userPathProgress.findUnique({
+        where: { userId_learningPathId: { userId, learningPathId: params.id } },
+      });
+
+      if (existingProgress?.completedSteps.includes(stepOrder)) {
+        return {
+          progress: existingProgress,
+          xpGained: 0,
+          pathCompleted: !!existingProgress.completedAt,
+        };
+      }
+
+      // Upsert le progress
       const progress = await tx.userPathProgress.upsert({
         where: { userId_learningPathId: { userId, learningPathId: params.id } },
         create: {
@@ -80,13 +148,8 @@ export async function POST(
       let xpGained = 20;
 
       // Vérifier si tous les steps sont complétés
-      const path = await tx.learningPath.findUnique({
-        where: { id: params.id },
-        include: { steps: true },
-      });
-
       let pathCompleted = false;
-      if (path && progress.completedSteps.length >= path.steps.length) {
+      if (progress.completedSteps.length >= path.steps.length) {
         pathCompleted = true;
         await tx.userPathProgress.update({
           where: { id: progress.id },
@@ -102,6 +165,14 @@ export async function POST(
 
       return { progress, xpGained, pathCompleted };
     });
+
+    // Gérer les erreurs retournées par la transaction
+    if ("error" in result && "status" in result) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: result.status }
+      );
+    }
 
     return NextResponse.json(result);
   } catch (error) {

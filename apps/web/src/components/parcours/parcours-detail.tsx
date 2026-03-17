@@ -51,20 +51,27 @@ export function ParcoursDetail({ slug }: { slug: string }) {
   const [path, setPath] = useState<PathData | null>(null);
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const [completing, setCompleting] = useState<number | null>(null);
+  const [completionError, setCompletionError] = useState<string | null>(null);
   const [xpGained, setXpGained] = useState<{ step: number; xp: number } | null>(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const { status } = useSession();
 
   useEffect(() => {
-    fetch(`/api/parcours/by-slug/${slug}`)
+    fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data) {
           setPath(data.path);
           setProgress(data.userProgress);
+        } else {
+          setFetchError(true);
         }
+      })
+      .catch(() => {
+        setFetchError(true);
       })
       .finally(() => setIsLoading(false));
   }, [slug]);
@@ -76,6 +83,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
     }
 
     setCompleting(stepOrder);
+    setCompletionError(null);
     try {
       const res = await fetch(`/api/parcours/${path.id}/progress`, {
         method: "POST",
@@ -90,7 +98,13 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           setXpGained({ step: stepOrder, xp: data.xpGained });
           setTimeout(() => setXpGained(null), 3000);
         }
+      } else if (res.status === 429) {
+        setCompletionError("Trop de tentatives. Attends un moment.");
+      } else {
+        setCompletionError("Impossible de valider cette étape. Réessaie.");
       }
+    } catch {
+      setCompletionError("Erreur réseau. Vérifie ta connexion et réessaie.");
     } finally {
       setCompleting(null);
     }
@@ -111,12 +125,14 @@ export function ParcoursDetail({ slug }: { slug: string }) {
     );
   }
 
-  if (!path) {
+  if (!path || fetchError) {
     return (
       <Card>
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
-            Parcours introuvable.{" "}
+            {fetchError
+              ? "Impossible de charger ce parcours. Réessaie plus tard."
+              : "Parcours introuvable."}{" "}
             <Link href="/parcours" className="text-accent-primary hover:underline">
               Voir tous les parcours
             </Link>
@@ -178,8 +194,18 @@ export function ParcoursDetail({ slug }: { slug: string }) {
         </CardContent>
       </Card>
 
+      {/* Completion error banner */}
+      {completionError && (
+        <div
+          className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error"
+          role="alert"
+        >
+          {completionError}
+        </div>
+      )}
+
       {/* Steps */}
-      <div className="space-y-4">
+      <div className="space-y-4" role="list" aria-label="Étapes du parcours">
         {path.steps.map((step) => {
           const isCompleted = completedSteps.includes(step.order);
           const isExpanded = expandedStep === step.order;
@@ -189,6 +215,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           return (
             <Card
               key={step.id}
+              role="listitem"
               className={
                 isCompleted
                   ? "border-accent-primary/30 bg-accent-primary/5"
@@ -196,10 +223,20 @@ export function ParcoursDetail({ slug }: { slug: string }) {
               }
             >
               <CardHeader
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
+                aria-label={`Étape ${step.order} : ${step.tip.title}${isCompleted ? " — complétée" : ""}`}
                 className="cursor-pointer"
                 onClick={() =>
                   setExpandedStep(isExpanded ? null : step.order)
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedStep(isExpanded ? null : step.order);
+                  }
+                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -209,6 +246,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                           ? "bg-accent-primary text-white"
                           : "bg-background-elevated text-text-muted"
                       }`}
+                      aria-hidden="true"
                     >
                       {isCompleted ? (
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -240,6 +278,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                     strokeWidth={2}
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -292,11 +331,14 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                         </div>
                       )}
 
-                      {xpGained?.step === step.order && (
-                        <p className="text-center text-sm font-bold text-accent-primary animate-scale-in">
-                          +{xpGained.xp} XP gagné{xpGained.xp >= 100 ? "s ! Parcours terminé !" : "s !"}
-                        </p>
-                      )}
+                      {/* XP notification — accessible via aria-live */}
+                      <div aria-live="polite" aria-atomic="true">
+                        {xpGained?.step === step.order && (
+                          <p className="text-center text-sm font-bold text-accent-primary animate-scale-in">
+                            +{xpGained.xp} XP gagné{xpGained.xp >= 100 ? "s ! Parcours terminé !" : "s !"}
+                          </p>
+                        )}
+                      </div>
 
                       {!isCompleted && status === "authenticated" && (
                         <Button
