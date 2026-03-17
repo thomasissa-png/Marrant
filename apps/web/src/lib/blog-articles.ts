@@ -6,6 +6,7 @@ export interface BlogArticle {
   date: string;
   readingTime: string;
   category: string;
+  faqs?: { question: string; answer: string }[];
 }
 
 export const blogArticles: BlogArticle[] = [
@@ -52,6 +53,11 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a des exercices interactifs
     date: "2026-03-10",
     readingTime: "5 min",
     category: "REPARTIE",
+    faqs: [
+      { question: "Comment avoir de la répartie rapidement ?", answer: "La technique la plus rapide est l'accusé de réception : répondre « Intéressant » ou « Pas faux » pour gagner 2-3 secondes, puis rebondir sur un mot-clé de la phrase. Avec de la pratique, ça devient automatique en quelques semaines." },
+      { question: "Est-ce que la répartie s'apprend ?", answer: "Oui, la répartie repose sur des techniques précises (miroir, redirect, fausse naïveté) qui se travaillent comme un muscle. Les humoristes pros comme Jamel Debbouze ou Florence Foresti les ont perfectionnées au fil des années." },
+      { question: "Comment répondre à une pique sans être méchant ?", answer: "Utilisez le retournement de situation ou l'escalade comique : prenez la remarque et poussez-la à l'absurde. Ça désamorce l'attaque par le rire sans créer de conflit." },
+    ],
   },
   {
     slug: "apprendre-etre-drole",
@@ -88,6 +94,11 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs pour d
     date: "2026-03-05",
     readingTime: "4 min",
     category: "OBSERVATION",
+    faqs: [
+      { question: "Peut-on vraiment apprendre à être drôle ?", answer: "Oui. L'humour repose sur des mécanismes cognitifs (détection d'incongruité, résolution de tension, timing) que le cerveau peut apprendre à maîtriser. Des études scientifiques montrent qu'un entraînement de 8 semaines améliore significativement la capacité à faire rire." },
+      { question: "Quels sont les 3 piliers de l'humour ?", answer: "L'observation (repérer les absurdités du quotidien), la structure (setup + punchline), et la pratique régulière. Ces trois compétences se développent avec des exercices concrets." },
+      { question: "Comment devenir drôle quand on est introverti ?", answer: "L'introversion est un atout : vous observez plus et parlez moins, ce qui rend vos interventions plus marquantes. Commencez par l'observation et l'écriture avant de passer à l'oral." },
+    ],
   },
   {
     slug: "timing-humour",
@@ -128,6 +139,11 @@ Envie de travailler ton timing avec des exercices interactifs ? Sur deviens-marr
     date: "2026-02-28",
     readingTime: "4 min",
     category: "TIMING",
+    faqs: [
+      { question: "C'est quoi le timing en humour ?", answer: "Le timing est l'art de dire le bon mot au bon moment. C'est le silence avant la punchline, la pause qui crée la tension, et le choix du moment idéal pour intervenir dans une conversation." },
+      { question: "Comment améliorer son timing comique ?", answer: "Appliquez la règle des 3 secondes : attendez 3 secondes après que quelqu'un a fini de parler avant de placer votre réplique. Regardez des spectacles de stand-up et chronométrez les pauses des humoristes." },
+      { question: "Pourquoi mes blagues tombent à plat ?", answer: "Le problème est souvent le timing, pas la blague. Évitez de débiter votre blague trop vite. Marquez une pause avant la chute, baissez le volume, puis délivrez la punchline avec un changement de rythme." },
+    ],
   },
   {
     slug: "erreurs-blagues",
@@ -168,6 +184,11 @@ Tu veux des exercices pratiques pour travailler chaque point ? Sur deviens-marra
     date: "2026-02-20",
     readingTime: "5 min",
     category: "STORYTELLING",
+    faqs: [
+      { question: "Quelles sont les erreurs les plus courantes quand on raconte une blague ?", answer: "Les 5 erreurs principales : expliquer la chute, mal choisir le moment, raconter une blague trop longue, ne pas assumer la livraison, et négliger la réaction du public. Corriger une seule erreur par semaine suffit pour progresser." },
+      { question: "Comment savoir si c'est le bon moment pour une blague ?", answer: "Observez l'ambiance : si les gens sont détendus et rient déjà, c'est le moment. Si la conversation est sérieuse ou tendue, attendez un changement de ton naturel." },
+      { question: "Pourquoi ne faut-il jamais expliquer une blague ?", answer: "Expliquer une blague tue l'effet de surprise qui déclenche le rire. Si personne ne rit, passez à autre chose avec le sourire. La confiance dans la livraison est plus importante que la blague elle-même." },
+    ],
   },
   {
     slug: "autoderision-interactions",
@@ -212,6 +233,11 @@ L'autodérision est un muscle qui se développe. Commence par des petites remarq
     date: "2026-02-15",
     readingTime: "4 min",
     category: "AUTODERISION",
+    faqs: [
+      { question: "C'est quoi l'autodérision ?", answer: "L'autodérision consiste à rire de soi-même de façon contrôlée. C'est pointer un défaut mineur avec humour pour créer de la sympathie et de la connivence, sans se dévaloriser." },
+      { question: "Comment faire de l'autodérision sans se rabaisser ?", answer: "La règle d'or : visez les défauts mineurs (retard, maladresse, sens de l'orientation), jamais les insécurités profondes. Le ton doit être complice, pas victimisant." },
+      { question: "Pourquoi l'autodérision fonctionne-t-elle aussi bien ?", answer: "L'autodérision désarme les tensions, rend accessible et sympathique. Elle signale une intelligence émotionnelle forte et une confiance en soi paradoxale : seuls les gens à l'aise avec eux-mêmes peuvent rire d'eux-mêmes." },
+    ],
   },
   {
     slug: "comment-devenir-drole",
@@ -262,6 +288,11 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     date: "2026-03-13",
     readingTime: "7 min",
     category: "GUIDE",
+    faqs: [
+      { question: "Comment devenir drôle rapidement ?", answer: "Commencez par consommer de l'humour chaque jour (stand-up, podcasts), observez les absurdités du quotidien et mémorisez 5 vannes courtes. En 2 à 4 semaines de pratique régulière, vous verrez une vraie différence." },
+      { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour est une compétence, pas un talent inné. Il repose sur l'observation, la structure et la pratique — trois piliers que n'importe qui peut développer avec les bons exercices." },
+      { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout : les gens ne s'attendent pas à ce que vous soyez drôle, donc l'effet de surprise est doublé. Commencez par l'humour écrit (messages, réseaux sociaux), puis passez à l'oral progressivement." },
+    ],
   },
   {
     slug: "comment-avoir-de-la-repartie",
@@ -320,179 +351,14 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours](/parcours) 
     date: "2026-03-12",
     readingTime: "8 min",
     category: "REPARTIE",
+    faqs: [
+      { question: "Comment avoir de la répartie quand on est timide ?", answer: "La répartie n'exige pas d'être extraverti. Les techniques comme l'accusé de réception, la fausse naïveté ou le questionnement socratique sont particulièrement adaptées aux personnes réservées car elles donnent du temps pour formuler une réponse." },
+      { question: "Comment répondre quand on se fait chambrer ?", answer: "Trois options efficaces : rebondir sur un mot-clé de la remarque, retourner la question vers l'autre, ou pousser la remarque à l'absurde (escalade comique). L'essentiel est de rester calme et de sourire." },
+      { question: "Combien de temps faut-il pour développer sa répartie ?", answer: "Avec une pratique quotidienne de 5-10 minutes (exercices, mises en situation), la plupart des gens constatent une amélioration en 2 à 4 semaines. La clé est la régularité, pas l'intensité." },
+    ],
   },
-  {
-    slug: "devenir-marrant",
-    title: "Devenir marrant : pourquoi c'est à la portée de tout le monde",
-    excerpt:
-      "Tu penses que les gens marrants sont nés comme ça ? Faux. Être marrant, c'est un ensemble de compétences qui se développent. Voici comment.",
-    content: `"Lui, il est marrant." On l'a tous dit en parlant de quelqu'un. Ce pote qui détend n'importe quelle ambiance. Ce collègue qui fait rire toute la table à chaque déjeuner. Cette personne qui a toujours le bon mot au bon moment. Et toi, tu te demandes : "Pourquoi pas moi ?" La réponse est simple : rien ne t'en empêche.
-
-## Être marrant vs être drôle : la différence qui change tout
-
-Être "drôle", c'est faire rire avec une blague. Être "marrant", c'est plus profond. C'est une énergie, une façon d'être. La personne marrante ne raconte pas forcément des vannes. Elle a un regard amusé sur le monde, elle reformule les situations banales de façon inattendue, elle crée une atmosphère légère autour d'elle. C'est un état d'esprit, pas une performance.
-
-Et la bonne nouvelle ? Cet état d'esprit se cultive. Comme la forme physique ou la culture générale, devenir marrant demande de la pratique régulière, pas un talent spécial.
-
-## Les 4 habitudes des personnes marrantes
-
-**Habitude 1 : Elles observent tout.** Les personnes marrantes sont des éponges. Elles remarquent les détails que personne ne voit. Le collègue qui fait toujours le même geste bizarre en réunion. L'absurdité d'une règle au bureau. Le décalage entre ce que les gens disent et ce qu'ils font. Cette observation constante est leur matière première.
-
-Comment développer cette habitude : pendant une semaine, note chaque jour 3 choses bizarres, absurdes ou contradictoires que tu observes. Pas besoin qu'elles soient drôles. L'exercice, c'est juste d'entraîner ton œil à voir ce que les autres ignorent.
-
-**Habitude 2 : Elles reformulent.** Les personnes marrantes prennent une situation banale et la présentent sous un angle inattendu. "La réunion de ce matin" devient "45 minutes de ma vie que je ne récupérerai jamais, sacrifiées sur l'autel du reporting trimestriel." Même information, emballage différent.
-
-Comment développer cette habitude : prends un événement banal de ta journée et essaie de le raconter de 3 façons différentes. La version neutre, la version dramatique et la version absurde. La version absurde est souvent la plus drôle.
-
-**Habitude 3 : Elles ne se prennent pas au sérieux.** L'autodérision est le trait commun de toutes les personnes marrantes. Elles assument leurs défauts avec humour. Elles se moquent d'elles-mêmes avant que les autres ne le fassent. Et ça les rend immédiatement sympathiques et accessibles. **Blanche Gardin** en a fait un art : elle transforme ses galères les plus intimes en matière comique, et le public l'adore pour ça. **Fary** fait pareil avec ses observations sur sa propre culture et ses contradictions — c'est drôle parce que c'est vrai et assumé.
-
-Comment développer cette habitude : identifie 2-3 défauts légers chez toi (sens de l'orientation catastrophique, incapacité à cuisiner, retard chronique) et prépare des vannes dessus. La prochaine fois qu'on te fait remarquer un de ces défauts, tu auras ta réponse prête.
-
-**Habitude 4 : Elles dosent.** Les personnes marrantes ne sont pas "on" en permanence. Elles sentent quand c'est le bon moment et quand ce ne l'est pas. Elles savent que l'humour constant fatigue, et que le silence rend les prochaines saillies encore plus impactantes.
-
-## Devenir marrant quand on est introverti
-
-Être introverti et être marrant ne sont absolument pas incompatibles. Beaucoup de grands humoristes sont introvertis dans la vie — **Panayotis Pascot** en est un exemple frappant : calme et réservé en interview, dévastateur sur scène. L'introversion te donne même un avantage : tu observes plus, tu réfléchis plus, et quand tu parles, les gens écoutent. La personne silencieuse qui lâche une pépite de temps en temps fait souvent plus rire que le bavard qui mitraille. **Roman Frayssinet** construit tout son humour sur l'observation silencieuse du quotidien — et ça cartonne.
-
-## Devenir marrant au bureau
-
-La machine à café, les réunions, le déjeuner — ce sont tes terrains d'entraînement. Commence par des observations sur la vie de bureau. Les gens adorent rire de leur quotidien professionnel parce que ça crée de la complicité. "Est-ce que quelqu'un comprend vraiment à quoi sert cette réunion, ou on fait tous semblant ?" — ce genre d'observation honnête et légère, ça crée immédiatement du lien.
-
-## Devenir marrant après une période difficile
-
-Après une séparation, un deuil ou une période de stress intense, l'humour est souvent la première chose qu'on perd. Et c'est normal. Mais retrouver sa légèreté est un acte de reconstruction puissant. Commence doucement. Regarde des comédies, écoute des podcasts drôles, entoure-toi de personnes positives. L'humour reviendra naturellement, comme un muscle qui se réveille après un long repos.
-
-## Le plan d'action pour devenir marrant en 6 semaines
-
-**Semaines 1-2 : Observer et noter.** 3 observations par jour. Pas de pression pour être drôle.
-
-**Semaines 3-4 : Reformuler et partager.** Transforme tes meilleures observations en formulations drôles. Partage-les avec des amis proches.
-
-**Semaines 5-6 : Intégrer et élargir.** Utilise tes observations et reformulations dans des contextes plus larges (bureau, soirées, réseaux sociaux). Note ce qui marche.
-
-Sur deviens-marrant.fr, on propose exactement ce type de progression structurée avec le [Parcours](/parcours) Confiance (6 semaines). Des [vannes](/vannes) à mémoriser, des techniques à pratiquer, des [vidéos](/videos) de pros à analyser, et un suivi de ta progression avec des XP et des streaks. Deviens la personne marrante du groupe, à ton rythme. **Rejoins-nous dès 0,99 €/mois.**`,
-    date: "2026-03-11",
-    readingTime: "7 min",
-    category: "GUIDE",
-  },
-  {
-    slug: "devenir-plus-drole",
-    title: "Comment devenir plus drôle au quotidien : 8 habitudes simples",
-    excerpt:
-      "Tu fais parfois sourire mais tu voudrais faire franchement rire ? Voici 8 habitudes simples à adopter pour devenir progressivement plus drôle dans ta vie de tous les jours.",
-    content: `Tu n'es pas "pas drôle". Tu fais sourire de temps en temps, tu as tes moments, mais tu voudrais que ces moments soient plus fréquents. Tu voudrais passer de "il est sympa" à "il est vraiment drôle". C'est un objectif très atteignable, et il ne demande pas de transformation radicale — juste quelques habitudes quotidiennes.
-
-## Pourquoi "plus drôle" est plus réaliste que "drôle"
-
-Le piège, c'est de viser la perfection comique. Tu n'as pas besoin de devenir humoriste professionnel. Tu as besoin de rendre tes conversations 20 % plus drôles. Et 20 %, ça se fait avec des petits ajustements, pas avec une refonte complète de ta personnalité.
-
-## Habitude 1 : Consomme de l'humour chaque jour
-
-On devient ce qu'on consomme. Si tu ne regardes que des drames et des documentaires, ton cerveau n'est pas en "mode humour". Intègre 15 minutes de contenu drôle par jour : un sketch de **Paul Mirabel** ou **Fary**, un podcast humoristique, des vidéos de **Blanche Gardin** ou **Florence Foresti**. Ton cerveau va progressivement adopter les patterns de l'humour — la surprise, le décalage, le timing. C'est comme ça que les humoristes se forment eux-mêmes : **Gad Elmaleh** regardait des heures de Jerry Seinfeld, **Roman Frayssinet** épluchait les sketchs de **Pierre Desproges**.
-
-## Habitude 2 : Le carnet d'observations drôles
-
-Aie un endroit (note sur ton téléphone) où tu notes les situations drôles que tu observes au quotidien. Le collègue qui dit "on va faire court" et parle pendant 45 minutes. La file d'attente à la boulangerie qui ressemble à une scène de film. Tu développes ainsi ton "radar à humour". En quelques semaines, tu verras du potentiel comique partout.
-
-## Habitude 3 : Reformule au lieu de raconter
-
-Au lieu de dire "J'ai eu une réunion ennuyeuse", essaie "J'ai survécu à 2 heures de PowerPoint, je devrais recevoir une médaille." Même information, mais la reformulation ajoute de l'humour. C'est la technique la plus simple et la plus efficace pour devenir plus drôle au quotidien. Tu ne changes pas le fond, tu changes la forme.
-
-## Habitude 4 : Pratique la règle du "oui, et..."
-
-C'est la règle d'or de l'improvisation théâtrale. Quand quelqu'un dit quelque chose, au lieu de bloquer, tu enchéris. "Il fait froid aujourd'hui" → "Oui, et je suis à peu près sûr que mes orteils ont fait sécession." Tu construis sur ce que l'autre a dit au lieu de couper la dynamique.
-
-## Habitude 5 : Maîtrise 5 vannes par cœur
-
-Pas 50, pas 100. Juste 5 vannes courtes, adaptées à des situations courantes, que tu peux ressortir à tout moment. Une pour le bureau, une pour les dîners, une passe-partout, une sur toi-même, une sur l'actualité (à renouveler). Comme un musicien qui a ses morceaux de référence, avoir un petit répertoire prêt te donne de la confiance.
-
-## Habitude 6 : Travaille tes réactions
-
-L'humour, c'est pas seulement ce que tu inities. C'est aussi comment tu réagis. Quand quelqu'un raconte quelque chose, entraîne-toi à trouver l'angle drôle dans ta réponse. Pas à chaque fois — ça serait épuisant — mais une fois sur trois ou quatre. C'est la répartie conversationnelle, et elle se développe avec la pratique.
-
-## Habitude 7 : Ose le silence
-
-Les gens les plus drôles ne parlent pas tout le temps. Ils observent, ils écoutent, et quand ils parlent, c'est pour dire quelque chose qui a de l'impact. Le silence crée l'espace pour que ta prochaine remarque ait plus de poids. C'est contre-intuitif, mais parler moins te rend souvent plus drôle.
-
-## Habitude 8 : Accepte les échecs
-
-Chaque blague qui tombe à plat est une donnée. Pas un drame, une donnée. Les stand-uppers professionnels testent 100 blagues pour en garder 10. Ton taux de réussite sera meilleur parce que tu as l'avantage du contexte conversationnel, mais l'échec fait partie du processus. La personne qui n'échoue jamais est celle qui n'essaie jamais.
-
-## Ces habitudes s'adaptent à ta situation
-
-Si tu es étudiant et que tu veux être plus drôle en soirée ou en coloc, commence par les habitudes 1 et 5 : consomme de l'humour chaque jour et mémorise 5 blagues. Tu auras toujours quelque chose à sortir. Si tu es au bureau et que tu veux briller à la machine à café ou en réunion, les habitudes 2 et 3 sont tes meilleures alliées : observe les absurdités du quotidien professionnel et reformule-les. Et si tu traverses une période où tu as perdu ta légèreté — après une séparation, un changement de vie, un passage à vide — l'habitude 8 est la plus importante : accepte que les premiers essais seront imparfaits, et donne-toi le droit de réapprendre à être drôle à ton rythme.
-
-## Mettre tout ça ensemble
-
-Tu n'as pas besoin d'appliquer les 8 habitudes dès demain. Choisis-en 2 et intègre-les pendant 2 semaines. Puis ajoute-en 2 autres. En un mois, tu auras transformé tes conversations quotidiennes. Les gens autour de toi le remarqueront, et ce cercle vertueux (plus de rires → plus de confiance → plus d'humour) s'enclenchera naturellement.
-
-Pour accélérer ta progression, deviens-marrant.fr te propose des [vannes](/vannes) à mémoriser, des techniques de répartie avec exercices, et des [vidéos](/videos) de stand-up analysées. Le tout avec un système de progression qui te motive (XP et streaks). **Rejoins-nous dès 0,99 €/mois** et deviens plus drôle, un jour à la fois.`,
-    date: "2026-03-09",
-    readingTime: "6 min",
-    category: "GUIDE",
-  },
-  {
-    slug: "apprendre-a-etre-drole",
-    title: "Apprendre à être drôle : par où commencer quand on part de zéro",
-    excerpt:
-      "Tu te trouves pas drôle du tout et tu ne sais pas par où commencer ? Cet article est ton point de départ. Pas de prérequis, pas de talent nécessaire.",
-    content: `"Je ne suis pas drôle." Si tu as déjà prononcé cette phrase, cet article est écrit pour toi. Pas pour le gars qui fait déjà rire mais veut s'améliorer. Pour toi, qui pars de zéro (ou qui penses partir de zéro). Spoiler : tu ne pars pas vraiment de zéro. Tu as déjà un sens de l'humour — il est juste en sommeil.
-
-## Pourquoi tu penses ne pas être drôle
-
-La plupart des gens qui se décrivent comme "pas drôles" ont en fait un bon sens de l'humour... dans leur tête. Ils pensent des trucs drôles mais ne les disent pas. Ils trouvent des répliques parfaites mais les gardent pour eux. Pourquoi ? La peur du jugement. La peur du silence gêné. La peur que les autres ne rient pas.
-
-Le premier pas pour apprendre à être drôle, c'est pas d'apprendre des blagues. C'est de comprendre que cette peur est normale, universelle, et surmontable. Même les humoristes professionnels ont peur avant de monter sur scène. **Paul Mirabel** a raconté qu'il tremblait avant ses premiers passages au Jamel Comedy Club. **Blanche Gardin** avoue avoir le trac à chaque spectacle. **Fary**, malgré son aisance apparente, a mis des années à trouver son style. La différence, c'est qu'ils montent quand même.
-
-## Étape 1 : Réapprends à observer
-
-L'humour commence par l'observation. Pas l'observation "je regarde le monde", l'observation "je remarque ce que les autres ignorent". Le panneau d'affichage qui contredit le précédent. Le collègue qui envoie un email de 3 paragraphes pour dire "OK". Le chat qui te fixe comme s'il planifiait un coup d'état.
-
-Exercice concret : pendant 7 jours, note sur ton téléphone au moins 2 choses absurdes, bizarres ou contradictoires que tu observes dans ta journée. Ne te censure pas. Même les observations "pas drôles" comptent. Tu entraînes ton œil, pas ton public.
-
-## Étape 2 : Commence par l'écrit
-
-Si tu as peur de parler, commence par écrire. Envoie un message drôle à un ami. Commente une story avec une observation amusante. Écris tes reformulations drôles dans tes notes. L'écrit te donne du temps. Tu peux réfléchir, éditer, peaufiner. C'est un terrain d'entraînement sans pression.
-
-Exercice concret : chaque jour, envoie à un ami un message qui reformule un événement banal de façon drôle. "Ma réunion de ce matin, c'était comme un épisode de série que personne n'a demandé — long, sans intrigue et avec un cliffhanger qui n'intéresse personne."
-
-## Étape 3 : Mémorise quelques classiques
-
-Avant de créer ton propre humour, commence par emprunter celui des autres. Mémorise 3 à 5 vannes courtes et universelles. Pas des blagues de comptoir interminables. Des one-liners, des observations drôles, des retours rapides. C'est ton filet de sécurité. Quand la conversation s'y prête, tu en sors une. Et le rire des autres te donne confiance pour la suite.
-
-Exercice concret : va sur la section [Vannes](/vannes) de deviens-marrant.fr, choisis 5 vannes qui te font vraiment rire, et mémorise-les. Teste-les avec un ami cette semaine.
-
-## Étape 4 : Apprends une seule technique de répartie
-
-Pas 10 techniques, une seule. **L'accusé de réception** : quand quelqu'un te lance une remarque, réponds "Intéressant" avec un sourire. Ces 2-3 secondes te donnent le temps de trouver ta réponse. C'est simple, c'est universel, et ça marche dans 100 % des situations. Une fois que cette technique est automatique, tu en apprendras d'autres.
-
-## Étape 5 : Accepte la courbe d'apprentissage
-
-Apprendre à être drôle, c'est comme apprendre à nager. Les premiers cours sont maladroits et inconfortables. Tu bois la tasse. Mais un jour, tu flottes. Et là, ça devient naturel. Le plus dur, c'est de commencer et de persévérer pendant les premières semaines. Après, l'effet boule de neige se met en place.
-
-## Le piège de la comparaison
-
-Ne te compare pas aux gens qui sont drôles depuis 20 ans. Compare-toi à toi-même d'il y a une semaine. Tu as fait rire un collègue avec une observation ? Victoire. Tu as osé une blague qui a fait sourire ? Victoire. Chaque micro-progrès compte. **Panayotis Pascot** a commencé par des vidéos YouTube timides avant de remplir des salles. **Pierre Croce** faisait des sketchs dans sa chambre avant de devenir une référence. Tout le monde commence quelque part.
-
-## Le plan de démarrage sur 2 semaines
-
-**Jours 1-3 : Observer et noter.** 2 observations absurdes par jour. Pas besoin qu'elles soient drôles.
-
-**Jours 4-7 : Écrire et reformuler.** Prends tes observations et reformule-les par écrit. Envoie la meilleure à un ami chaque jour.
-
-**Jours 8-10 : Mémoriser.** Choisis 5 [vannes](/vannes) courtes sur deviens-marrant.fr et apprends-les par cœur.
-
-**Jours 11-14 : Tester.** Ressors une blague en conversation. Utilise **l'accusé de réception** quand on te chambre. Note comment tu te sens.
-
-## Apprendre à être drôle quand on est timide
-
-Si tu es timide, tu as un super-pouvoir que tu ignores : les gens s'attendent pas à ce que tu sois drôle. Donc quand tu lâches une réplique bien placée, l'effet de surprise est doublé. La personne silencieuse qui sort une pépite de temps en temps fait souvent beaucoup plus rire que le bavard qui mitraille. Utilise ta discrétion comme un atout.
-
-Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) spécialement pour les débutants et les personnes timides. Le [Parcours](/parcours) Répartie (4 semaines) te guide pas à pas, avec des exercices que tu peux pratiquer seul avant de les tester en situation réelle. Gagne des XP, maintiens ton streak, et regarde ta confiance grandir semaine après semaine. **Rejoins-nous dès 0,99 €/mois.**`,
-    date: "2026-03-08",
-    readingTime: "7 min",
-    category: "GUIDE",
-  },
+  // Articles "devenir-marrant", "devenir-plus-drole" et "apprendre-a-etre-drole"
+  // retirés pour anti-cannibalisation — 301 redirects dans next.config.js
 ];
 
 export function getArticleBySlug(slug: string): BlogArticle | undefined {

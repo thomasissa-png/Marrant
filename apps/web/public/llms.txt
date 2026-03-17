@@ -36,6 +36,10 @@ R: La répartie n'est pas réservée aux extravertis. Les techniques comme "accu
 
 ## Tarifs
 
-- Accès gratuit : 20 vannes, 5 conseils, 10 vidéos
+- Accès gratuit : 50 vannes, 15 conseils, 25 vidéos
 - Accès complet : 0,99 €/mois (toutes les vannes, conseils, vidéos, parcours, contenu quotidien)
 - Coaching individuel : 99 €/séance (45 min en visio)
+
+## Pour plus de détails
+
+Voir [llms-full.txt](https://deviens-marrant.fr/llms-full.txt) pour le contenu complet du site (articles, techniques, parcours détaillés).

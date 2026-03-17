@@ -9,6 +9,7 @@ import {
   JsonLd,
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 
@@ -21,7 +22,7 @@ export function generateStaticParams() {
 }
 
 async function findArticle(slug: string) {
-  // Chercher d'abord dans les articles statiques
+  // Chercher d'abord dans les articles statiques (inclut faqs)
   const staticArticle = getArticleBySlug(slug);
   if (staticArticle) return staticArticle;
 
@@ -74,14 +75,6 @@ export async function generateMetadata({
       locale: "fr_FR",
       publishedTime: article.date,
       authors: ["deviens-marrant.fr"],
-      images: [
-        {
-          url: "/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: article.title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -111,6 +104,9 @@ export default async function BlogArticlePage({
   return (
     <article className="mx-auto max-w-3xl py-8">
       <JsonLd data={buildArticleJsonLd(article)} />
+      {"faqs" in article && article.faqs && article.faqs.length > 0 && (
+        <JsonLd data={buildFaqJsonLd(article.faqs)} />
+      )}
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
@@ -153,6 +149,23 @@ export default async function BlogArticlePage({
       </div>
 
       <MarkdownRenderer content={article.content} className="mt-8" />
+
+      {/* FAQ Schema */}
+      {"faqs" in article && article.faqs && article.faqs.length > 0 && (
+        <section className="mt-12 border-t border-border pt-8">
+          <h2 className="font-display text-xl font-bold text-text-primary">
+            Questions fréquentes
+          </h2>
+          <dl className="mt-4 space-y-4">
+            {article.faqs.map((faq, i) => (
+              <div key={i} className="rounded-lg border border-border bg-background-card p-4">
+                <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+                <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       {/* Articles similaires */}
       {relatedArticles.length > 0 && (

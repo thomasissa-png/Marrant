@@ -95,10 +95,34 @@ Oui. Pas de frais cachés, pas de reconduction surprise. Annulation en 1 clic de
 **Je suis timide, c'est pour moi ?**
 Surtout pour les timides. La majorité des membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.
 
+## Tarifs et limites
+
+- Accès gratuit : 50 vannes, 15 conseils, 25 vidéos, jusqu'à 50 favoris
+- Accès Premium : 0,99 €/mois — sans engagement, annulation en 1 clic
+- Coaching individuel : 99 €/séance (45 min en visio)
+
+## Pages légales
+
+- Mentions légales : https://deviens-marrant.fr/mentions
+- Conditions générales : https://deviens-marrant.fr/cgu
+- Politique de confidentialité : https://deviens-marrant.fr/confidentialite
+- Droit de rétractation : https://deviens-marrant.fr/retractation
+
+## Plan du site complet
+
+- https://deviens-marrant.fr/ (accueil + contenu du jour)
+- https://deviens-marrant.fr/vannes
+- https://deviens-marrant.fr/conseils
+- https://deviens-marrant.fr/videos
+- https://deviens-marrant.fr/parcours
+- https://deviens-marrant.fr/blog
+- https://deviens-marrant.fr/glossaire
+- https://deviens-marrant.fr/a-propos
+- https://deviens-marrant.fr/abonnement
+- https://deviens-marrant.fr/sitemap.xml
+
 ## Informations techniques
 
 - URL : https://deviens-marrant.fr
 - Langue : Français (fr-FR)
 - Contact : contact@deviens-marrant.fr
-- Tarif accès complet : 0,99 €/mois
-- Tarif coaching : 99 €/séance
