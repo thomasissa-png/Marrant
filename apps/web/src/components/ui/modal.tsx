@@ -39,7 +39,9 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
       ref={overlayRef}
       className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
-        if (e.target === overlayRef.current) onClose();
+        if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
+          onClose();
+        }
       }}
       role="dialog"
       aria-modal="true"
@@ -55,7 +57,7 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
         >
           <button
             onClick={onClose}
-            className="absolute -top-3 -right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background-card text-text-secondary shadow-lg transition-colors hover:bg-background-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:top-3 md:right-3"
+            className="absolute top-2 right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background-card text-text-secondary shadow-lg transition-colors hover:bg-background-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:top-3 md:right-3"
             aria-label="Fermer"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
