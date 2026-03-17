@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const parcours = [
@@ -161,10 +162,11 @@ const parcours = [
 export function ParcoursContent() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const { status } = useSession();
+  const router = useRouter();
 
   const handleCta = () => {
     if (status === "authenticated") {
-      // Already logged in — could navigate to parcours detail in the future
+      router.push("/parcours");
       return;
     }
     setAuthModalOpen(true);
@@ -283,6 +285,7 @@ export function ParcoursContent() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         defaultTab="register"
+        callbackUrl="/parcours"
       />
     </>
   );

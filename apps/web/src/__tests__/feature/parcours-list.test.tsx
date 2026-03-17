@@ -12,13 +12,15 @@ jest.mock("@/components/home/faq-section", () => ({
   FaqSection: () => <div data-testid="faq-section" />,
 }));
 
+const mockPush = jest.fn();
+
 jest.mock("next-auth/react", () => ({
   useSession: () => ({ data: null, status: "unauthenticated" }),
   signIn: jest.fn(),
 }));
 
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
+  useRouter: () => ({ push: mockPush, refresh: jest.fn() }),
 }));
 
 describe("ParcoursPage — Parcours structurés", () => {
@@ -27,7 +29,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("renders the hero section with title and description", () => {
-    expect(screen.getByText("Parcours structurés")).toBeInTheDocument();
+    expect(screen.getByText(/Parcours pour devenir drôle/)).toBeInTheDocument();
     expect(
       screen.getByText(/Choisis ton parcours et progresse semaine après semaine/)
     ).toBeInTheDocument();
@@ -160,5 +162,27 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   it("uses 🌱 emoji for Parcours Confiance", () => {
     expect(screen.getByText("🌱")).toBeInTheDocument();
+  });
+});
+
+describe("ParcoursPage — authenticated user", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Override useSession for authenticated state
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test" } },
+      status: "authenticated",
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("navigates to /parcours when authenticated user clicks CTA", async () => {
+    render(<ParcoursPage />);
+    const buttons = screen.getAllByText("Commencer ce parcours");
+    await userEvent.click(buttons[0]);
+    expect(mockPush).toHaveBeenCalledWith("/parcours");
   });
 });

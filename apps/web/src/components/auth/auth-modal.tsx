@@ -15,9 +15,10 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultTab?: AuthTab;
+  callbackUrl?: string;
 }
 
-export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }: AuthModalProps) {
   const [tab, setTab] = useState<AuthTab>(defaultTab);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -107,7 +108,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/vannes" });
+    signIn("google", { callbackUrl: callbackUrl || "/vannes" });
   };
 
   const handleClose = () => {

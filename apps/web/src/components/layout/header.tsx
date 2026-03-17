@@ -198,6 +198,7 @@ export function Header() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         defaultTab="register"
+        callbackUrl={pathname}
       />
     </>
   );

@@ -33,6 +33,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
+  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +51,7 @@ function LoginForm() {
         setError("Email ou mot de passe incorrect.");
         setPassword("");
       } else {
-        router.push("/vannes");
+        router.push(callbackUrl);
         router.refresh();
       }
     } catch {
@@ -62,7 +63,7 @@ function LoginForm() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/vannes" });
+    signIn("google", { callbackUrl });
   };
 
   return (

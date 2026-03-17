@@ -82,7 +82,7 @@ describe("LoginPage", () => {
     });
   });
 
-  it("redirects to /vannes on success", async () => {
+  it("redirects to /vannes by default on success", async () => {
     mockSignIn.mockResolvedValue({ error: null });
     render(<LoginPage />);
 
@@ -93,6 +93,21 @@ describe("LoginPage", () => {
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith("/vannes");
     });
+  });
+
+  it("redirects to callbackUrl from search params on success", async () => {
+    mockSearchParams.set("callbackUrl", "/parcours");
+    mockSignIn.mockResolvedValue({ error: null });
+    render(<LoginPage />);
+
+    await userEvent.type(screen.getByLabelText("Email"), "test@test.fr");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "pass1234");
+    await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/parcours");
+    });
+    mockSearchParams.delete("callbackUrl");
   });
 
   it("shows error on invalid credentials", async () => {
@@ -132,10 +147,18 @@ describe("LoginPage", () => {
     expect(screen.getByText("Connexion...")).toBeInTheDocument();
   });
 
-  it("calls Google signIn on Google button click", async () => {
+  it("calls Google signIn with default /vannes callbackUrl", async () => {
     render(<LoginPage />);
     await userEvent.click(screen.getByText("Continuer avec Google"));
     expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
+  });
+
+  it("calls Google signIn with callbackUrl from search params", async () => {
+    mockSearchParams.set("callbackUrl", "/conseils");
+    render(<LoginPage />);
+    await userEvent.click(screen.getByText("Continuer avec Google"));
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/conseils" });
+    mockSearchParams.delete("callbackUrl");
   });
 
 });

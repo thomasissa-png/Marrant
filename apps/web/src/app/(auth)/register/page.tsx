@@ -35,6 +35,7 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
+  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
 
   const validateForm = (): boolean => {
     const errors: { name?: string; email?: string; password?: string } = {};
@@ -100,7 +101,7 @@ function RegisterForm() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/vannes" });
+    signIn("google", { callbackUrl });
   };
 
   return (
