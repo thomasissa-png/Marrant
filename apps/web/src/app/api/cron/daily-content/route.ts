@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { publishDailyContent } from "@/lib/ai/daily-publisher";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Cron job quotidien — déclenché à 5h et 6h UTC pour garantir 7h heure française.
  * (5h UTC = 7h CEST en été, 6h UTC = 7h CET en hiver)

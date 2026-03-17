@@ -4,6 +4,8 @@ import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
 import { publishDailyContent } from "@/lib/ai/daily-publisher";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Verrou en mémoire pour éviter de lancer plusieurs générations simultanées.
  * Persiste tant que le process Node.js tourne (parfait pour Replit).

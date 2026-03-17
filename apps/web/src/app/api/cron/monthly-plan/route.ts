@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Cron job mensuel — déclenché le 28 de chaque mois.
  * Pré-génère les plans de contenu du mois suivant.
