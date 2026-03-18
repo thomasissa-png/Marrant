@@ -83,7 +83,7 @@ function RegisterForm() {
         if (data.details && Array.isArray(data.details)) {
           const errors: { name?: string; email?: string; password?: string } = {};
           for (const detail of data.details) {
-            const field = detail.path?.[0];
+            const field = String(detail.path?.[0]);
             if (field === "name" || field === "email" || field === "password") {
               errors[field] = detail.message;
             }
