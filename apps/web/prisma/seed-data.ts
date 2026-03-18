@@ -134,6 +134,25 @@ async function main() {
       created++;
     }
     console.log(`Conseils : ${created} ajoutés, ${skipped} déjà présents`);
+
+    // Désactiver les conseils seed qui ne sont plus dans le fichier (retirés lors d'un audit qualité)
+    // Ne touche PAS aux conseils générés par l'IA (generatedByAI = true)
+    const seedTitles = new Set(tips.map((t) => t.title));
+    const seedTipsToDeactivate = await prisma.tip.findMany({
+      where: {
+        generatedByAI: false,
+        isActive: true,
+        title: { notIn: Array.from(seedTitles) },
+      },
+      select: { id: true, title: true },
+    });
+    if (seedTipsToDeactivate.length > 0) {
+      await prisma.tip.updateMany({
+        where: { id: { in: seedTipsToDeactivate.map((t) => t.id) } },
+        data: { isActive: false },
+      });
+      console.log(`Conseils désactivés (retirés du seed) : ${seedTipsToDeactivate.length}`);
+    }
   } else {
     console.log(`Conseils à jour (${tipCount}), ignoré`);
   }
