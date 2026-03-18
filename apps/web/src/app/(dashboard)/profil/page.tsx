@@ -18,6 +18,9 @@ export default function ProfilPage({
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           Mon profil
         </h1>
+        <p className="mt-2 text-text-secondary">
+          Ta progression, tes stats, ton parcours vers la l&#233;gende.
+        </p>
       </div>
 
       {searchParams.upgrade && <UpgradeToast status={searchParams.upgrade} />}

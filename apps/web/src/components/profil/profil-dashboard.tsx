@@ -164,6 +164,15 @@ export function ProfilDashboard() {
             showPercentage
             variant="gradient"
           />
+          <p className="mt-2 text-xs text-text-muted">
+            {progress.value >= progress.max
+              ? "Tu as atteint le sommet, légende !"
+              : progress.value / progress.max >= 0.75
+                ? "Tu y es presque, dernier effort !"
+                : progress.value / progress.max >= 0.25
+                  ? "Bien joué, continue comme ça !"
+                  : "Tu démarres fort, continue !"}
+          </p>
         </CardContent>
       </Card>
 
@@ -183,7 +192,7 @@ export function ProfilDashboard() {
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
             <div>
               <p className="text-2xl font-bold text-accent-primary">
                 {user.stats.jokesRead}
@@ -197,10 +206,16 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Conseils terminés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-text-primary">
-                {user.stats.videosWatched}
+              <p className="text-2xl font-bold text-accent-primary">
+                {user.stats.totalFavorites}
               </p>
-              <p className="text-xs text-text-muted">Vidéos vues</p>
+              <p className="text-xs text-text-muted">Favoris sauvegardés</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-accent-secondary">
+                {user.stats.pathsCompleted}
+              </p>
+              <p className="text-xs text-text-muted">Parcours terminés</p>
             </div>
           </div>
         </CardContent>
@@ -274,7 +289,7 @@ export function ProfilDashboard() {
           <CardTitle>Prochaine étape</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
@@ -295,7 +310,17 @@ export function ProfilDashboard() {
                 </div>
               </Link>
             )}
-            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && (
+            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
+              <Link href="/parcours" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-primary">Lance-toi dans un parcours</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Tu as les bases ! Choisis un parcours structuré pour progresser étape par étape.
+                  </p>
+                </div>
+              </Link>
+            )}
+            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
@@ -330,8 +355,8 @@ export function ProfilDashboard() {
         <CardContent>
           {user.plan === "PREMIUM" ? (
             <div>
-              <p className="text-sm text-text-secondary">
-                Tu profites de l&apos;accès complet à tous les contenus et de la progression personnalisée.
+              <p className="text-sm text-text-primary">
+                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres avancés et les parcours complets.
               </p>
               <Button
                 variant="outline"
@@ -345,9 +370,11 @@ export function ProfilDashboard() {
             </div>
           ) : (
             <>
-              <p className="mb-4 text-sm text-text-secondary">
-                Ton abonnement n&apos;est pas actif. Abonne-toi pour accéder
-                à tout le contenu.
+              <p className="mb-2 text-sm text-text-primary">
+                Passe Premium pour débloquer tout le catalogue, les filtres avancés et les parcours complets.
+              </p>
+              <p className="mb-4 text-xs text-text-muted">
+                Sans engagement &middot; Annulable à tout moment
               </p>
               <Button
                 variant="secondary"

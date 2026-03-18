@@ -46,7 +46,8 @@ export async function GET(request: NextRequest) {
       ...(query.q && {
         OR: [
           { title: { contains: query.q, mode: "insensitive" as const } },
-          { comedian: { contains: query.q, mode: "insensitive" as const } },
+          { channelName: { contains: query.q, mode: "insensitive" as const } },
+          { description: { contains: query.q, mode: "insensitive" as const } },
         ],
       }),
     };

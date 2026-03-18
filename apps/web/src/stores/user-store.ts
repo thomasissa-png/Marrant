@@ -16,6 +16,7 @@ interface UserProfile {
     tipsCompleted: number;
     videosWatched: number;
     totalFavorites: number;
+    pathsCompleted: number;
   };
 }
 
