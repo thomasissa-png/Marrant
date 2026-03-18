@@ -31,7 +31,7 @@ const faqs = [
   {
     question: "0,99 \u20AC/mois, c\u2019est vraiment tout ? Pas de frais cachés ?",
     answer:
-      "C\u2019est le prix de lancement, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Et tu peux commencer sans carte bancaire.",
+      "C\u2019est le prix de lancement, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
   },
   {
     question:

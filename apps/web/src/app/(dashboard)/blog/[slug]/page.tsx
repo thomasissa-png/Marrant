@@ -141,7 +141,7 @@ export default async function BlogArticlePage({
         {article.title}
       </h1>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
-        <span>Par Alex Durand</span>
+        <span>Par l&apos;équipe deviens-marrant</span>
         <span>·</span>
         <span>{article.date}</span>
         <span>·</span>

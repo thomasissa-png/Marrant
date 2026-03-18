@@ -30,8 +30,8 @@ function ResetPasswordContent() {
     e.preventDefault();
     setError("");
 
-    if (password.length < 8) {
-      setError("Le mot de passe doit faire au moins 8 caractères");
+    if (password.length < 12) {
+      setError("Le mot de passe doit contenir au moins 12 caractères");
       return;
     }
 
@@ -89,7 +89,7 @@ function ResetPasswordContent() {
           <CardTitle>Nouveau mot de passe</CardTitle>
           <CardDescription>
             {success
-              ? "Mot de passe mis à jour avec succes !"
+              ? "Mot de passe mis à jour avec succès !"
               : "Choisis un nouveau mot de passe."}
           </CardDescription>
         </CardHeader>
@@ -114,11 +114,11 @@ function ResetPasswordContent() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Minimum 8 caractères"
+                  placeholder="Min. 12 caractères"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={8}
+                  minLength={12}
                 />
               </div>
               <div>
@@ -132,7 +132,7 @@ function ResetPasswordContent() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  minLength={8}
+                  minLength={12}
                 />
               </div>
               {error && (

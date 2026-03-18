@@ -18,7 +18,7 @@ export default function MentionsLegalesPage() {
           <p>Siège social : Paris, France</p>
           <p>RCS : en cours d&apos;immatriculation</p>
           <p>Email : contact@deviens-marrant.fr</p>
-          <p>Directeur de publication : Alex Durand</p>
+          <p>Directeur de publication : Thomas Issa</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Hébergement</h2>

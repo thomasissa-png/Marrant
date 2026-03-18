@@ -46,7 +46,7 @@ describe("FaqSection", () => {
 
   it("mentions trust reassurances in answers", () => {
     expect(screen.getByText(/annules en 1 clic/)).toBeInTheDocument();
-    expect(screen.getByText(/sans carte bancaire/)).toBeInTheDocument();
+    expect(screen.getByText(/Paiement sécurisé par Stripe/)).toBeInTheDocument();
   });
 
   it("renders details elements for each FAQ", () => {
