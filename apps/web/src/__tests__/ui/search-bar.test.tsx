@@ -24,14 +24,19 @@ describe("SearchBar", () => {
     jest.useRealTimers();
   });
 
-  it("renders search input with placeholder", () => {
+  it("renders search input with combobox role and placeholder", () => {
     render(<SearchBar />);
-    expect(screen.getByPlaceholderText("Cherche une vanne, une technique...")).toBeInTheDocument();
+    const input = screen.getByRole("combobox");
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute("aria-label", "Rechercher");
+    expect(input).toHaveAttribute("placeholder", "Rechercher...");
+    expect(input).toHaveAttribute("aria-expanded", "false");
+    expect(input).toHaveAttribute("aria-autocomplete", "list");
   });
 
   it("does not fetch for queries shorter than 2 characters", async () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
+    const input = screen.getByRole("combobox");
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "a");
     jest.advanceTimersByTime(500);
     expect(global.fetch).not.toHaveBeenCalled();
@@ -44,7 +49,7 @@ describe("SearchBar", () => {
     });
 
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
+    const input = screen.getByRole("combobox");
 
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "bl");
 
@@ -53,24 +58,24 @@ describe("SearchBar", () => {
     });
   });
 
-  it("shows type labels: Vanne, Conseil, Vidéo", async () => {
+  it("shows results grouped by type with section headers", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({ results: mockResults }),
     });
 
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Cherche une vanne, une technique...");
+    const input = screen.getByRole("combobox");
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(input, "test");
 
     await waitFor(() => {
-      expect(screen.getByText("Vanne")).toBeInTheDocument();
-      expect(screen.getByText("Conseil")).toBeInTheDocument();
-      expect(screen.getByText("Vidéo")).toBeInTheDocument();
+      expect(screen.getByText("Vannes (1)")).toBeInTheDocument();
+      expect(screen.getByText("Conseils (1)")).toBeInTheDocument();
+      expect(screen.getByText("Vidéos (1)")).toBeInTheDocument();
     });
   });
 
-  it("displays result titles", async () => {
+  it("shows 'Voir' links for each type group", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({ results: mockResults }),
@@ -78,7 +83,26 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
+      screen.getByRole("combobox"),
+      "test"
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Voir vannes")).toBeInTheDocument();
+      expect(screen.getByText("Voir conseils")).toBeInTheDocument();
+      expect(screen.getByText("Voir vidéos")).toBeInTheDocument();
+    });
+  });
+
+  it("displays result titles and previews", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: mockResults }),
+    });
+
+    render(<SearchBar />);
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
+      screen.getByRole("combobox"),
       "test"
     );
 
@@ -89,7 +113,7 @@ describe("SearchBar", () => {
     });
   });
 
-  it("shows no results message when empty", async () => {
+  it("shows no results message with suggestions when empty", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({ results: [] }),
@@ -97,12 +121,15 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
+      screen.getByRole("combobox"),
       "xyz"
     );
 
     await waitFor(() => {
       expect(screen.getByText(/Rien trouvé/)).toBeInTheDocument();
+      // Should show suggestion buttons
+      expect(screen.getByText("timing")).toBeInTheDocument();
+      expect(screen.getByText("répartie")).toBeInTheDocument();
     });
   });
 
@@ -114,7 +141,7 @@ describe("SearchBar", () => {
 
     render(<SearchBar />);
     await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-      screen.getByPlaceholderText("Cherche une vanne, une technique..."),
+      screen.getByRole("combobox"),
       "blague"
     );
 
@@ -127,6 +154,114 @@ describe("SearchBar", () => {
     );
 
     expect(mockPush).toHaveBeenCalledWith("/vannes?q=blague");
+  });
+
+  it("shows suggestions on focus when no query", async () => {
+    render(<SearchBar />);
+    const input = screen.getByRole("combobox");
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(input);
+
+    expect(screen.getByText("Suggestions")).toBeInTheDocument();
+    expect(screen.getByText("timing")).toBeInTheDocument();
+    expect(screen.getByText("storytelling")).toBeInTheDocument();
+  });
+
+  it("fills query when clicking a suggestion", async () => {
+    render(<SearchBar />);
+    const input = screen.getByRole("combobox");
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(input);
+
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
+      screen.getByText("timing")
+    );
+
+    expect(input).toHaveValue("timing");
+  });
+
+  it("supports keyboard navigation with ArrowDown/Up and Enter", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [mockResults[0]] }),
+    });
+
+    render(<SearchBar />);
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const input = screen.getByRole("combobox");
+
+    await user.type(input, "blague");
+
+    await waitFor(() => {
+      expect(screen.getByText("Vanne drôle")).toBeInTheDocument();
+    });
+
+    // ArrowDown to select first result
+    await user.keyboard("{ArrowDown}");
+    const firstOption = screen.getByText("Vanne drôle").closest("[role='option']");
+    expect(firstOption).toHaveAttribute("aria-selected", "true");
+
+    // Enter to navigate
+    await user.keyboard("{Enter}");
+    expect(mockPush).toHaveBeenCalledWith("/vannes?q=blague");
+  });
+
+  it("closes dropdown on Escape", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: mockResults }),
+    });
+
+    render(<SearchBar />);
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    await user.type(screen.getByRole("combobox"), "test");
+
+    await waitFor(() => {
+      expect(screen.getByText("Vanne drôle")).toBeInTheDocument();
+    });
+
+    await user.keyboard("{Escape}");
+    expect(screen.queryByText("Vanne drôle")).not.toBeInTheDocument();
+  });
+
+  it("has listbox role on results dropdown", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: mockResults }),
+    });
+
+    render(<SearchBar />);
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
+      screen.getByRole("combobox"),
+      "test"
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole("listbox")).toBeInTheDocument();
+    });
+  });
+
+  it("calls onNavigate callback when selecting a result", async () => {
+    const onNavigate = jest.fn();
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [mockResults[0]] }),
+    });
+
+    render(<SearchBar onNavigate={onNavigate} />);
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
+      screen.getByRole("combobox"),
+      "test"
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Vanne drôle")).toBeInTheDocument();
+    });
+
+    await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
+      screen.getByText("Vanne drôle")
+    );
+
+    expect(onNavigate).toHaveBeenCalled();
   });
 
   it("merges custom className", () => {

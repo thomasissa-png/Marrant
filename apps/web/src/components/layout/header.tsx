@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -26,10 +26,18 @@ export function Header() {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
 
+  // Close mobile search/menu on route change
+  useEffect(() => {
+    setIsMobileSearchOpen(false);
+    setIsMenuOpen(false);
+  }, [pathname]);
+
   const openRegister = () => {
     setAuthModalOpen(true);
     setIsMenuOpen(false);
   };
+
+  const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
   return (
     <>
@@ -60,7 +68,7 @@ export function Header() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-64 md:block" />
+          <SearchBar className="hidden w-64 md:block" onNavigate={closeMobileSearch} />
 
           {/* Actions desktop */}
           <div className="hidden items-center gap-3 md:flex">
@@ -134,7 +142,7 @@ export function Header() {
         {/* Overlay recherche mobile */}
         {isMobileSearchOpen && (
           <div className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
-            <SearchBar className="w-full" />
+            <SearchBar className="w-full" onNavigate={closeMobileSearch} />
           </div>
         )}
 
