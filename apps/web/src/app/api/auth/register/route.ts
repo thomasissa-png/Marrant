@@ -9,7 +9,7 @@ const registerSchema = z.object({
   email: z.string().email("Email invalide"),
   password: z
     .string()
-    .min(12, "Le mot de passe doit faire au moins 12 caractères"),
+    .min(8, "Le mot de passe doit faire au moins 8 caractères"),
 });
 
 export async function POST(request: NextRequest) {

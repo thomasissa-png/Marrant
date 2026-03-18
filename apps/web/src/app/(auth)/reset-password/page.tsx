@@ -30,8 +30,8 @@ function ResetPasswordContent() {
     e.preventDefault();
     setError("");
 
-    if (password.length < 12) {
-      setError("Le mot de passe doit contenir au moins 12 caractères");
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères");
       return;
     }
 
@@ -114,11 +114,11 @@ function ResetPasswordContent() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Min. 12 caractères"
+                  placeholder="Min. 8 caractères"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={12}
+                  minLength={8}
                 />
               </div>
               <div>
@@ -132,7 +132,7 @@ function ResetPasswordContent() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  minLength={12}
+                  minLength={8}
                 />
               </div>
               {error && (

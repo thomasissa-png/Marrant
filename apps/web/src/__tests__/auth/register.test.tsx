@@ -47,7 +47,7 @@ describe("RegisterPage", () => {
 
   it("shows password minimum length hint", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Au moins 12 caractères")).toBeInTheDocument();
+    expect(screen.getByText("Au moins 8 caractères")).toBeInTheDocument();
   });
 
   it("toggles password visibility", async () => {

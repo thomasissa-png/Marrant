@@ -42,6 +42,8 @@ function RegisterForm() {
 
     if (!name.trim()) {
       errors.name = "Le prénom est requis.";
+    } else if (name.trim().length < 2) {
+      errors.name = "Le prénom doit faire au moins 2 caractères.";
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,8 +51,8 @@ function RegisterForm() {
       errors.email = "L'adresse email n'est pas valide.";
     }
 
-    if (password.length < 12) {
-      errors.password = "Le mot de passe doit contenir au moins 12 caractères.";
+    if (password.length < 8) {
+      errors.password = "Le mot de passe doit contenir au moins 8 caractères.";
     }
 
     setFieldErrors(errors);
@@ -77,6 +79,20 @@ function RegisterForm() {
 
       if (!res.ok) {
         const data = await res.json();
+        // Show specific field errors from Zod validation if available
+        if (data.details && Array.isArray(data.details)) {
+          const errors: { name?: string; email?: string; password?: string } = {};
+          for (const detail of data.details) {
+            const field = detail.path?.[0];
+            if (field === "name" || field === "email" || field === "password") {
+              errors[field] = detail.message;
+            }
+          }
+          if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
+            return;
+          }
+        }
         setError(data.error ?? "Erreur lors de l'inscription.");
         return;
       }
@@ -173,11 +189,11 @@ function RegisterForm() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Min. 12 caractères"
+                  placeholder="Min. 8 caractères"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={12}
+                  minLength={8}
                   autoComplete="new-password"
                   className="pr-10"
                   aria-describedby={fieldErrors.password ? "password-error" : "password-hint"}
@@ -201,7 +217,7 @@ function RegisterForm() {
                   )}
                 </button>
               </div>
-              <p id="password-hint" className="mt-1 text-xs text-text-muted">Au moins 12 caractères</p>
+              <p id="password-hint" className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
               {fieldErrors.password && (
                 <p id="password-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.password}</p>
               )}
