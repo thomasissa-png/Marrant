@@ -256,6 +256,14 @@ export function ParcoursDetail({ slug }: { slug: string }) {
         if (data) {
           setPath(data.path);
           setProgress(data.userProgress);
+          // Auto-expand the first incomplete step
+          const completed = data.userProgress?.completedSteps ?? [];
+          const firstIncomplete = data.path.steps.find(
+            (s: Step) => !completed.includes(s.order)
+          );
+          if (firstIncomplete) {
+            setExpandedStep(firstIncomplete.order);
+          }
         } else {
           setFetchError(true);
         }
@@ -287,6 +295,11 @@ export function ParcoursDetail({ slug }: { slug: string }) {
         if (data.xpGained > 0) {
           setXpGained({ step: stepOrder, xp: data.xpGained });
           setTimeout(() => setXpGained(null), 3000);
+        }
+        // Auto-expand the next step after completion
+        const nextStep = path.steps.find((s) => s.order > stepOrder);
+        if (nextStep) {
+          setTimeout(() => setExpandedStep(nextStep.order), 500);
         }
       } else if (res.status === 429) {
         setCompletionError("Trop de tentatives. Attends un moment.");
@@ -409,7 +422,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
 
       {/* Steps */}
       <div className="space-y-4" role="list" aria-label="Étapes du parcours">
-        {path.steps.map((step) => {
+        {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
           const isExpanded = expandedStep === step.order;
           const isPremiumLocked =
@@ -418,6 +431,13 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           const hasQuiz = step.quiz && step.quiz.length > 0;
           const isQuizDone = quizDone.has(step.order);
 
+          // Sequential locking: step N requires steps 1..N-1 completed
+          const previousStepsCompleted = stepIndex === 0
+            || path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
+          const isSequentiallyLocked = !previousStepsCompleted && !isCompleted;
+          // Can this step be expanded?
+          const canExpand = !isSequentiallyLocked;
+
           return (
             <Card
               key={step.id}
@@ -425,19 +445,23 @@ export function ParcoursDetail({ slug }: { slug: string }) {
               className={
                 isCompleted
                   ? "border-accent-primary/30 bg-accent-primary/5"
-                  : ""
+                  : isSequentiallyLocked
+                    ? "opacity-60"
+                    : ""
               }
             >
               <CardHeader
-                role="button"
-                tabIndex={0}
-                aria-expanded={isExpanded}
-                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? " — complétée" : ""}`}
-                className="cursor-pointer"
-                onClick={() =>
-                  setExpandedStep(isExpanded ? null : step.order)
-                }
+                role={canExpand ? "button" : undefined}
+                tabIndex={canExpand ? 0 : undefined}
+                aria-expanded={canExpand ? isExpanded : undefined}
+                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? " — complétée" : isSequentiallyLocked ? " — verrouillée" : ""}`}
+                className={canExpand ? "cursor-pointer" : "cursor-default"}
+                onClick={() => {
+                  if (!canExpand) return;
+                  setExpandedStep(isExpanded ? null : step.order);
+                }}
                 onKeyDown={(e) => {
+                  if (!canExpand) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setExpandedStep(isExpanded ? null : step.order);
@@ -450,7 +474,9 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                         isCompleted
                           ? "bg-accent-primary text-white"
-                          : "bg-background-elevated text-text-muted"
+                          : isSequentiallyLocked
+                            ? "bg-background-elevated text-text-muted/50"
+                            : "bg-background-elevated text-text-muted"
                       }`}
                       aria-hidden="true"
                     >
@@ -458,43 +484,55 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
+                      ) : isSequentiallyLocked ? (
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
                       ) : (
                         step.order
                       )}
                     </div>
                     <div>
-                      <CardTitle className="text-base">
+                      <CardTitle className={`text-base ${isSequentiallyLocked ? "text-text-muted" : ""}`}>
                         {step.moduleTitle ?? step.tip.title}
                       </CardTitle>
                       <div className="mt-1 flex items-center gap-2">
-                        <span className="text-xs text-accent-primary">
+                        <span className={`text-xs ${isSequentiallyLocked ? "text-text-muted" : "text-accent-primary"}`}>
                           +{stepXp} XP
                         </span>
-                        {step.free && (
+                        {(step.free || step.order === 1) && (
                           <Badge variant="primary">Essai gratuit</Badge>
                         )}
-                        {step.order === 1 && !step.free && (
-                          <Badge variant="primary">Essai gratuit</Badge>
+                        {isSequentiallyLocked && (
+                          <span className="text-xs text-text-muted">
+                            Termine l&apos;étape {step.order - 1} pour débloquer
+                          </span>
                         )}
                       </div>
                     </div>
                   </div>
-                  <svg
-                    className={`h-5 w-5 shrink-0 text-text-muted transition-transform ${
-                      isExpanded ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+                  {canExpand ? (
+                    <svg
+                      className={`h-5 w-5 shrink-0 text-text-muted transition-transform ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5 shrink-0 text-text-muted/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  )}
                 </div>
               </CardHeader>
 
-              {isExpanded && (
+              {isExpanded && canExpand && (
                 <CardContent className="pt-0">
                   {isPremiumLocked ? (
                     <div className="rounded-lg bg-background-elevated p-4 text-center">
@@ -607,8 +645,8 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                       )}
 
                       {hasQuiz && isQuizDone && !isCompleted && (
-                        <p className="text-center text-sm text-accent-primary">
-                          Quiz terminé
+                        <p className="text-center text-sm font-medium text-accent-primary">
+                          Quiz terminé — tu peux valider l&apos;étape
                         </p>
                       )}
 
@@ -621,7 +659,18 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                         )}
                       </div>
 
-                      {!isCompleted && status === "authenticated" && !isSeedFallback && (
+                      {/* Quiz required: show disabled button if quiz not done */}
+                      {!isCompleted && status === "authenticated" && !isSeedFallback && hasQuiz && !isQuizDone && (
+                        <Button
+                          variant="primary"
+                          className="w-full opacity-50 cursor-not-allowed"
+                          disabled
+                        >
+                          Termine le quiz pour valider cette étape
+                        </Button>
+                      )}
+
+                      {!isCompleted && status === "authenticated" && !isSeedFallback && (!hasQuiz || isQuizDone) && (
                         <Button
                           variant="primary"
                           className="w-full"

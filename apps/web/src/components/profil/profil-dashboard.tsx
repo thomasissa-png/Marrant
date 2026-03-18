@@ -40,11 +40,21 @@ function getXpProgress(xp: number, currentLevel: string) {
   };
 }
 
+interface ParcoursProgress {
+  slug: string;
+  title: string;
+  icon: string;
+  completedSteps: number;
+  totalSteps: number;
+  completedAt: string | null;
+}
+
 export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isPortalLoading, setIsPortalLoading] = useState(false);
+  const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
 
   const handlePortal = async () => {
     setIsPortalLoading(true);
@@ -83,6 +93,14 @@ export function ProfilDashboard() {
   useEffect(() => {
     if (status === "authenticated") {
       fetchUser();
+      fetch("/api/user/progress")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.parcours) {
+            setParcoursProgress(data.parcours);
+          }
+        })
+        .catch(() => {});
     }
   }, [status, fetchUser]);
 
@@ -185,6 +203,68 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Vidéos vues</p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Parcours en cours */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Mes parcours</CardTitle>
+            <Link href="/parcours">
+              <Button variant="ghost" size="sm">
+                Voir tout
+              </Button>
+            </Link>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {parcoursProgress.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-border p-6 text-center">
+              <p className="text-sm text-text-secondary">
+                Tu n&apos;as pas encore commencé de parcours.
+              </p>
+              <Link href="/parcours">
+                <Button variant="primary" size="sm" className="mt-3">
+                  Découvrir les parcours
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {parcoursProgress.map((p) => {
+                const pct = p.totalSteps > 0 ? Math.round((p.completedSteps / p.totalSteps) * 100) : 0;
+                const isDone = p.completedAt !== null;
+                return (
+                  <Link
+                    key={p.slug}
+                    href={`/parcours/${p.slug}`}
+                    className="block group"
+                  >
+                    <div className={`rounded-lg border p-4 transition-colors ${isDone ? "border-accent-primary/30 bg-accent-primary/5" : "border-border group-hover:border-accent-primary"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{p.icon}</span>
+                          <span className="font-medium text-text-primary text-sm">{p.title}</span>
+                        </div>
+                        {isDone ? (
+                          <Badge variant="primary">Terminé</Badge>
+                        ) : (
+                          <span className="text-xs text-text-muted">{p.completedSteps}/{p.totalSteps} étapes</span>
+                        )}
+                      </div>
+                      <ProgressBar
+                        value={p.completedSteps}
+                        max={p.totalSteps}
+                        variant={isDone ? "gradient" : "default"}
+                      />
+                      <p className="mt-1 text-xs text-text-muted text-right">{pct}%</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 

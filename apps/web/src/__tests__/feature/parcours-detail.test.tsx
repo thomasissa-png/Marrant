@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 
@@ -119,7 +119,6 @@ afterEach(() => {
 describe("ParcoursDetail — enriched content", () => {
   it("renders loading skeleton then shows parcours title", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    // Title is inside an h1 which also contains the icon span
     await waitFor(() => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
@@ -171,61 +170,40 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("expands step 1 and shows rich content", async () => {
+  it("auto-expands first incomplete step and shows rich content", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 should auto-expand (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     });
-
-    // Click to expand step 1
-    const stepHeader = screen.getByRole("button", {
-      name: /Étape 1/,
-    });
-    await userEvent.click(stepHeader);
-
-    // Should show "why" section
-    expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
-
-    // Should show module detail
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
     expect(screen.getByText(/retenir et placer des one-liners/)).toBeInTheDocument();
-
-    // Should show format
     expect(screen.getByText(/Format :/)).toBeInTheDocument();
-
-    // Should show tip content
     expect(screen.getByText("Le conseil")).toBeInTheDocument();
-
-    // Should show example
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
-
-    // Should show exercise
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
   });
 
   it("shows joke teaser with link to /vannes", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     expect(screen.getByText(/3 vannes sélectionnées/)).toBeInTheDocument();
     expect(screen.getByText("Découvre-les dans le catalogue")).toBeInTheDocument();
   });
 
   it("shows video cards with thumbnails", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Les relations amoureuses")).toBeInTheDocument();
     expect(screen.getByText("One-liners enchaînés.")).toBeInTheDocument();
@@ -233,13 +211,11 @@ describe("ParcoursDetail — enriched content", () => {
 
   it("shows quiz and allows answering", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
     expect(screen.getByText("Quelle est la clé d'une bonne vanne ?")).toBeInTheDocument();
 
@@ -261,15 +237,18 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows premium lock on step 2 for unauthenticated users", async () => {
+  it("shows sequential lock on step 2 when step 1 is not completed", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByRole("button", { name: /Étape 2/ }));
+    // Step 2 should show lock indicator
+    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
 
-    expect(screen.getByText(/Abonne-toi pour accéder/)).toBeInTheDocument();
+    // Step 2 header should NOT be expandable (no role=button)
+    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
+    expect(step2Header).toBeInTheDocument();
   });
 
   it("shows error state on fetch failure", async () => {
@@ -346,17 +325,95 @@ describe("ParcoursDetail — seed fallback", () => {
     });
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Expand step 1
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
     // Should NOT show "Marquer comme terminé" button
+    await waitFor(() => {
+      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+    });
+    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+  });
+});
+
+describe("ParcoursDetail — quiz gate", () => {
+  it("requires quiz completion before step can be validated", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test" } },
+      status: "authenticated",
+    });
+
+    // Use a non-seed path ID so complete button shows
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        path: {
+          ...mockPathData.path,
+          id: "db-path-123",
+        },
+        userProgress: { completedSteps: [], currentStep: 0, completedAt: null },
+      }),
+    });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands, quiz is shown, button should be disabled
+    await waitFor(() => {
+      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+    });
+
+    // The button should say "Termine le quiz"
+    expect(screen.getByText("Termine le quiz pour valider cette étape")).toBeInTheDocument();
     expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
 
-    // Should show fallback message
-    expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+    // Complete the quiz
+    await userEvent.click(screen.getByText("La surprise de la chute"));
+    await userEvent.click(screen.getByText("Voir le résultat"));
+    await userEvent.click(screen.getByText("Continuer"));
+
+    // Now the complete button should appear
+    await waitFor(() => {
+      expect(screen.getByText("Marquer comme terminé")).toBeInTheDocument();
+    });
+  });
+});
+
+describe("ParcoursDetail — sequential unlock for authenticated users", () => {
+  it("unlocks step 2 when step 1 is completed", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test" } },
+      status: "authenticated",
+    });
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockPathData,
+        path: { ...mockPathData.path, id: "db-path-123" },
+        userProgress: {
+          completedSteps: [1],
+          currentStep: 1,
+          completedAt: null,
+        },
+      }),
+    });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 2 auto-expands (first incomplete step)
+    await waitFor(() => {
+      expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
+    });
+
+    // Step 2 should NOT show lock message (step 1 is completed)
+    expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
+
+    // Step 2 content should be accessible
+    await waitFor(() => {
+      expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
+    });
   });
 });

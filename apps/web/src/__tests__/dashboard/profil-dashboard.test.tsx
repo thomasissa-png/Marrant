@@ -33,12 +33,20 @@ const mockUser = {
 describe("ProfilDashboard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ parcours: [] }),
+    });
     useSession.mockReturnValue({ status: "authenticated" });
     useUserStore.mockReturnValue({
       user: mockUser,
       isLoading: false,
       fetchUser: mockFetchUser,
     });
+  });
+
+  afterEach(() => {
+    (global.fetch as jest.Mock).mockRestore?.();
   });
 
   it("shows lock and login button when unauthenticated", () => {

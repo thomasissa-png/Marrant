@@ -508,49 +508,34 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     });
   });
 
-  it("expands free step 1 and sees full rich content", async () => {
+  it("auto-expands step 1 and sees full rich content", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    // Why section
-    expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
-
-    // Module detail
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
     expect(screen.getByText(/retenir et placer des one-liners/)).toBeInTheDocument();
-
-    // Format
     expect(screen.getByText(/Format :/)).toBeInTheDocument();
-
-    // Conseil
     expect(screen.getByText("Le conseil")).toBeInTheDocument();
     expect(screen.getByText(/Apprends les one-liners/)).toBeInTheDocument();
-
-    // Exemple
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
     expect(screen.getByText(/patron m'a dit/)).toBeInTheDocument();
-
-    // Exercise
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
     expect(screen.getByText(/DÉFI SOPHIE/)).toBeInTheDocument();
   });
 
-  it("sees 5 joke teasers and 2 videos on step 1", async () => {
+  it("sees 5 joke teasers and 2 videos on step 1 (auto-expanded)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
-
     expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Roman Frayssinet")).toBeInTheDocument();
@@ -558,13 +543,11 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
   it("completes quiz on step 1 with correct answers", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
+      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
     expect(screen.getByText("Quiz 1/2")).toBeInTheDocument();
 
     // Answer Q1 correctly
@@ -601,15 +584,17 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
   it("seed fallback: no 'Marquer comme terminé' button, shows fallback message", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
     // Seed fallback path → no complete button
+    await waitFor(() => {
+      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+    });
     expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
-    expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
   });
 });
 
@@ -658,28 +643,24 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
     });
   });
 
-  it("expands step 1 and sees Fary + Paul Mirabel videos", async () => {
+  it("auto-expands step 1 and sees Fary + Paul Mirabel videos", async () => {
     render(<ParcoursDetail slug="repartie" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Les bases de la répartie")).toBeInTheDocument();
+      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     expect(screen.getByText("Fary")).toBeInTheDocument();
     expect(screen.getByText("Paul Mirabel")).toBeInTheDocument();
   });
 
-  it("sees why section relevant to Yanis", async () => {
+  it("sees why section relevant to Yanis (auto-expanded)", async () => {
     render(<ParcoursDetail slug="repartie" />);
+
+    // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Les bases de la répartie")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     expect(screen.getByText(/Yanis reste muet/)).toBeInTheDocument();
   });
 
@@ -758,16 +739,13 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     });
   });
 
-  it("can expand step 1 (free) and sees Marc-focused content", async () => {
+  it("auto-expands step 1 (free) and sees Marc-focused content", async () => {
     render(<ParcoursDetail slug="confiance" />);
+
+    // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Redécouvrir ce qui te fait rire")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     });
-
-    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
-
-    // Rich content visible
-    expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
     expect(screen.getByText(/Marc a perdu contact/)).toBeInTheDocument();
 
     // Videos
@@ -786,26 +764,32 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Connecte-toi pour valider cette étape")).toBeInTheDocument();
   });
 
-  it("sees premium lock on steps 2-6 (unauthenticated)", async () => {
+  it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("Rire de soi avec bienveillance")).toBeInTheDocument();
     });
 
-    // Expand step 2
-    await userEvent.click(screen.getByRole("button", { name: /Étape 2/ }));
-    expect(screen.getByText(/Abonne-toi pour accéder/)).toBeInTheDocument();
+    // Steps 2-6 are sequentially locked (step 1 not completed)
+    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
+
+    // Step 2 header should NOT be expandable (no role=button)
+    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
+    expect(step2Header).toBeInTheDocument();
   });
 
-  it("cannot expand steps 3-6 without lock message", async () => {
+  it("steps 3-6 are sequentially locked and cannot be expanded", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("L'art de l'observation comique")).toBeInTheDocument();
     });
 
-    // Expand step 3 → locked
-    await userEvent.click(screen.getByRole("button", { name: /Étape 3/ }));
-    expect(screen.getByText(/Abonne-toi pour accéder/)).toBeInTheDocument();
+    // Step 3 should show lock message
+    expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
+
+    // Step 3 header should NOT be a button
+    const step3Header = screen.getByLabelText(/Étape 3.*verrouillée/);
+    expect(step3Header).toBeInTheDocument();
   });
 
   it("sees cross-recommendation to Machine à Café", async () => {
