@@ -15,7 +15,7 @@
     "category": "AUTODERISION",
     "difficulty": "DEBUTANT",
     "example": "\"Je suis tellement mauvais en cuisine que mon détecteur de fumée me sert de minuteur.\"",
-    "exercise": "Écris 3 phrases d'auto-dérision sur des sujets légers (ta cuisine, ton sens de l'orientation, ton style vestimentaire). Teste-les sur un ami."
+    "exercise": "DÉFI MIROIR : écris 3 phrases d'auto-dérision sur des sujets légers (ta cuisine, ton sens de l'orientation, ton style vestimentaire). Teste-les sur un ami."
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Vous avez remarqué qu'on vérifie toujours l'heure sur son téléphone, et 3 secondes après on doit revérifier parce qu'on a regardé sans regarder ?\"",
-    "exercise": "ANALYSE VIDÉO : Regarde un sketch de Vérino ou Roman Frayssinet. Note les 5 observations du quotidien qu'il utilise. Puis pendant une journée, note dans ton téléphone 10 petites absurdités que TU observes. Le soir, transforme les 3 meilleures en début de blague."
+    "exercise": "DÉFI CARNET : aNALYSE VIDÉO : Regarde un sketch de Vérino ou Roman Frayssinet. Note les 5 observations du quotidien qu'il utilise. Puis pendant une journée, note dans ton téléphone 10 petites absurdités que TU observes. Le soir, transforme les 3 meilleures en début de blague."
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
     "example": "Quelqu'un dit : \"T'es toujours en retard !\" → \"C'est pas que je suis en retard, c'est que vous êtes tous en avance sur mon emploi du temps.\"",
-    "exercise": "CHRONO RÉPARTIE : Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma en moins de 5 secondes : accuse réception → rebondis → retourne. Chronomètre-toi. L'objectif : descendre sous les 3 secondes à la fin de la semaine."
+    "exercise": "DÉFI TIRS RAPIDES : cHRONO RÉPARTIE : Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma en moins de 5 secondes : accuse réception → rebondis → retourne. Chronomètre-toi. L'objectif : descendre sous les 3 secondes à la fin de la semaine."
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@
     "category": "STORYTELLING",
     "difficulty": "EXPERT",
     "example": "\"L'autre jour au supermarché, je cherchais les avocats. J'ai demandé à un employé, il m'a dirigé vers le rayon fruits. J'ai dit : 'Non, je cherche un avocat pour mon divorce.' L'employé m'a regardé et m'a dit : 'Rayon 7, entre les couteaux et les valises.'\"",
-    "exercise": "Écris une anecdote vraie de ta vie (max 1 minute). Change la fin par quelque chose d'inattendu et absurde. Teste les deux versions sur des amis."
+    "exercise": "DÉFI ANECDOTE : écris une anecdote vraie de ta vie (max 1 minute). Change la fin par quelque chose d'inattendu et absurde. Teste les deux versions sur des amis."
   },
   {
     "id": 6,
@@ -60,7 +60,7 @@
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
     "example": "À quelqu'un qui mange lentement : \"Tu sais, la patience c'est un plat qui se mange... ah non, ça c'est la vengeance. Toi tu manges juste lentement.\"",
-    "exercise": "Prends 5 expressions courantes ('c'est la fin des haricots', 'avoir la pêche') et invente pour chacune une situation où l'expression reprendrait son sens littéral."
+    "exercise": "DÉFI DOUBLE SENS : prends 5 expressions courantes ('c'est la fin des haricots', 'avoir la pêche') et invente pour chacune une situation où l'expression reprendrait son sens littéral."
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@
     "category": "ABSURDE",
     "difficulty": "DEBUTANT",
     "example": "\"J'ai appelé mon poisson rouge 'Wifi' parce que quand il disparaît, personne ne travaille à la maison.\"",
-    "exercise": "Prends 3 situations quotidiennes (aller au supermarché, prendre le métro, un rendez-vous chez le médecin) et ajoute un élément complètement absurde dans chacune. Raconte-les avec le plus grand sérieux."
+    "exercise": "DÉFI ABSURDE : prends 3 situations quotidiennes (aller au supermarché, prendre le métro, un rendez-vous chez le médecin) et ajoute un élément complètement absurde dans chacune. Raconte-les avec le plus grand sérieux."
   },
   {
     "id": 9,
@@ -96,7 +96,7 @@
     "category": "AUTODERISION",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"J'ai essayé de faire du pain pendant le confinement. Résultat : j'ai inventé un nouveau matériau de construction.\"",
-    "exercise": "Pense à ton dernier échec cuisant. Écris-le en 3 versions : 1) factuelle, 2) légèrement dramatisée, 3) totalement épique. Raconte la version 3 ce soir."
+    "exercise": "DÉFI ÉCHEC DRÔLE : pense à ton dernier échec cuisant. Écris-le en 3 versions : 1) factuelle, 2) légèrement dramatisée, 3) totalement épique. Raconte la version 3 ce soir."
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Imagine un monde où ce sont les restaurants qui te notent. 'Client moyen, a mis 45 minutes à choisir, note : 2 étoiles.'\"",
-    "exercise": "Prends 5 situations sociales normales (commander au restaurant, aller chez le médecin, un entretien d'embauche) et inverse les rôles. Lequel est le plus drôle ?"
+    "exercise": "DÉFI INVERSION : prends 5 situations sociales normales (commander au restaurant, aller chez le médecin, un entretien d'embauche) et inverse les rôles. Lequel est le plus drôle ?"
   },
   {
     "id": 14,
@@ -114,7 +114,7 @@
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Ce weekend j'ai fait du rangement : j'ai trié mes chaussettes, organisé ma bibliothèque, négocié un traité de paix avec les araignées du plafond, et déposé une motion de censure contre le frigo.\"",
-    "exercise": "EN GROUPE : Lancez un jeu à table — quelqu'un commence une phrase, chacun ajoute un élément de plus en plus absurde. Ex : 'Pour être en forme, je fais du sport...' → '...je mange équilibré...' → '...je négocie avec mon reflet...' → '...je fais un TED talk à mes plantes'. Le dernier à faire rire marque un point."
+    "exercise": "DÉFI ESCALADE : eN GROUPE : Lancez un jeu à table — quelqu'un commence une phrase, chacun ajoute un élément de plus en plus absurde. Ex : 'Pour être en forme, je fais du sport...' → '...je mange équilibré...' → '...je négocie avec mon reflet...' → '...je fais un TED talk à mes plantes'. Le dernier à faire rire marque un point."
   },
   {
     "id": 15,
@@ -123,7 +123,7 @@
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "Avec des collègues → humour observationnel sur le bureau. Avec des amis proches → auto-dérision et absurde. En famille → jeux de mots et situations.",
-    "exercise": "Cette semaine, fais la même blague à 3 groupes différents (amis, famille, collègues). Note les réactions. Adapte le ton et le vocabulaire à chaque groupe."
+    "exercise": "DÉFI CAMÉLÉON : cette semaine, fais la même blague à 3 groupes différents (amis, famille, collègues). Note les réactions. Adapte le ton et le vocabulaire à chaque groupe."
   },
   {
     "id": 17,
@@ -132,7 +132,7 @@
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Mon banquier m'a dit que mon compte était remarquable. Apparemment, c'est pas un compliment.\"",
-    "exercise": "Prends 5 mots qui ont plusieurs sens (note, courant, marcher, tomber, sortir) et construis une phrase où le double sens crée un effet comique."
+    "exercise": "DÉFI SOUS-ENTENDU : prends 5 mots qui ont plusieurs sens (note, courant, marcher, tomber, sortir) et construis une phrase où le double sens crée un effet comique."
   },
   {
     "id": 18,
@@ -141,7 +141,7 @@
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Raconter une histoire avec ta mère → prends un ton concerné et dramatique. Avec ton pote → accélère le débit et ajoute des 'genre' et 'tu vois'.",
-    "exercise": "EN DUO : Raconte la même anecdote à un ami en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Change juste ta voix et ton rythme — pas besoin d'être un grand imitateur. Demande-lui lequel était le plus drôle et pourquoi."
+    "exercise": "DÉFI PERSONNAGE : eN DUO : Raconte la même anecdote à un ami en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Change juste ta voix et ton rythme — pas besoin d'être un grand imitateur. Demande-lui lequel était le plus drôle et pourquoi."
   },
   {
     "id": 20,
@@ -150,7 +150,7 @@
     "category": "TIMING",
     "difficulty": "EXPERT",
     "example": "\"Mon ex m'a dit qu'il me trouvait changé. J'ai répondu... enfin, j'ai rien répondu. Mais dans ma tête...\" (laisser en suspens)",
-    "exercise": "Raconte 3 anecdotes à un ami mais arrête-toi AVANT la fin. Laisse un silence de 3 secondes. Observe s'il rit — s'il rit, c'est que le non-dit fonctionne."
+    "exercise": "DÉFI NON-DIT : raconte 3 anecdotes à un ami mais arrête-toi AVANT la fin. Laisse un silence de 3 secondes. Observe s'il rit — s'il rit, c'est que le non-dit fonctionne."
   },
   {
     "id": 22,
@@ -159,7 +159,7 @@
     "category": "REPARTIE",
     "difficulty": "DEBUTANT",
     "example": "Quelqu'un renverse son verre → Au lieu de se moquer : \"T'inquiète, la table avait soif aussi.\"",
-    "exercise": "La prochaine fois que quelqu'un fait une gaffe, trouve un commentaire drôle qui dédramatise SANS se moquer de la personne. Bonus : fais rire la personne elle-même."
+    "exercise": "DÉFI BIENVEILLANCE : la prochaine fois que quelqu'un fait une gaffe, trouve un commentaire drôle qui dédramatise SANS se moquer de la personne. Bonus : fais rire la personne elle-même."
   },
   {
     "id": 23,
@@ -168,7 +168,7 @@
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Contexte : \"Mardi, rendez-vous Tinder.\" Montée : \"Elle arrive, on parle, ça se passe bien, elle me dit qu'elle adore les gens spontanés.\" Chute : \"Alors spontanément, j'ai renversé mon café sur elle.\"",
-    "exercise": "ENREGISTRE-TOI : Reprends 3 anecdotes de ta vie. Filme-toi en respectant strictement les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
+    "exercise": "DÉFI 3 ACTES : eNREGISTRE-TOI : Reprends 3 anecdotes de ta vie. Filme-toi en respectant strictement les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
   },
   {
     "id": 24,
@@ -186,7 +186,7 @@
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
     "example": "Au restaurant chic : \"Excusez-moi, le 'tartare de bœuf assaisonné aux herbes aromatiques de Provence', c'est de la viande crue avec du persil ?\"",
-    "exercise": "La prochaine fois que quelqu'un utilise du jargon (au boulot, en société), pose une question faussement naïve qui ramène les choses à leur plus simple expression."
+    "exercise": "DÉFI NAÏF : la prochaine fois que quelqu'un utilise du jargon (au boulot, en société), pose une question faussement naïve qui ramène les choses à leur plus simple expression."
   },
   {
     "id": 27,
@@ -213,7 +213,7 @@
     "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"T'es vraiment beau aujourd'hui !\" → \"Je sais, je me suis regardé ce matin et je me suis envoyé un like.\"",
-    "exercise": "Prépare 5 réponses drôles aux compliments courants ('tu es drôle', 'tu es beau', 'tu es intelligent'). Utilise-les la prochaine fois."
+    "exercise": "DÉFI COMPLIMENT : prépare 5 réponses drôles aux compliments courants ('tu es drôle', 'tu es beau', 'tu es intelligent'). Utilise-les la prochaine fois."
   },
   {
     "id": 30,
@@ -231,7 +231,7 @@
     "category": "REPARTIE",
     "difficulty": "EXPERT",
     "example": "Blague qui tombe à plat → \"Bon, celle-là je la remets au four, elle est pas assez cuite.\" ou \"C'était un test pour voir qui avait le sens de l'humour. Apparemment personne.\"",
-    "exercise": "Volontairement, raconte une blague nulle à un groupe. Quand elle tombe à plat, enchaîne avec un commentaire méta sur l'échec. L'objectif : que le commentaire fasse plus rire que la blague."
+    "exercise": "DÉFI REBOND : volontairement, raconte une blague nulle à un groupe. Quand elle tombe à plat, enchaîne avec un commentaire méta sur l'échec. L'objectif : que le commentaire fasse plus rire que la blague."
   },
   {
     "id": 32,
@@ -240,7 +240,7 @@
     "category": "STORYTELLING",
     "difficulty": "INTERMEDIAIRE",
     "example": "Au lieu de 'le prof était sévère' → 'Le prof nous regardait comme un général qui inspecte ses troupes avant la bataille de Normandie.'",
-    "exercise": "Prends une anecdote récente avec au moins 3 personnes. Réécris-la en donnant à chaque personne un archétype exagéré. Raconte-la ce soir."
+    "exercise": "DÉFI PERSONNAGE EXAGÉRÉ : prends une anecdote récente avec au moins 3 personnes. Réécris-la en donnant à chaque personne un archétype exagéré. Raconte-la ce soir."
   },
   {
     "id": 33,
@@ -249,7 +249,7 @@
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "\"Pourquoi les gens qui conduisent lentement sont toujours devant toi, et les gens pressés toujours derrière toi ? C'est comme si l'univers avait un algorithme pour maximiser ta frustration.\"",
-    "exercise": "Formule 10 questions rhétoriques drôles sur des absurdités du quotidien. Teste-les dans tes conversations de la semaine."
+    "exercise": "DÉFI RHÉTORIQUE : formule 10 questions rhétoriques drôles sur des absurdités du quotidien. Teste-les dans tes conversations de la semaine."
   },
   {
     "id": 36,
@@ -258,7 +258,7 @@
     "category": "STORYTELLING",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"À Londres, j'ai commandé 'un café'. Le barista m'a posé 47 questions. En France, le serveur te pose une seule question : 'Quoi ?'\"",
-    "exercise": "Pense à ta dernière expérience 'culturellement confuse' (voyage, restaurant étranger, conversation avec quelqu'un d'un autre pays). Raconte-la en étant le personnage naïf de l'histoire."
+    "exercise": "DÉFI INCONNU : pense à ta dernière expérience 'culturellement confuse' (voyage, restaurant étranger, conversation avec quelqu'un d'un autre pays). Raconte-la en étant le personnage naïf de l'histoire."
   },
   {
     "id": 37,
@@ -267,7 +267,7 @@
     "category": "TIMING",
     "difficulty": "EXPERT",
     "example": "Dis très rapidement : \"J'ai vendu mon aspirateur, il prenait la poussière.\" Puis silence total, regard fixe, pendant 4 secondes.",
-    "exercise": "Choisis 5 one-liners courts. Entraîne-toi à les dire très vite, presque comme si tu pensais à voix haute, puis maintiens un silence total de 4-5 secondes après."
+    "exercise": "DÉFI PAUSE INVERSÉE : choisis 5 one-liners courts. Entraîne-toi à les dire très vite, presque comme si tu pensais à voix haute, puis maintiens un silence total de 4-5 secondes après."
   },
   {
     "id": 38,
@@ -276,7 +276,7 @@
     "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Alors, t'as une copine ?\" → \"J'ai un cactus. C'est pareil mais ça demande moins d'arrosage.\"",
-    "exercise": "Prépare des réponses de redirection pour les 5 questions gênantes les plus fréquentes de ta vie (salaire, couple, poids, études, avenir). Utilise-les cette semaine."
+    "exercise": "DÉFI REDIRECTION : prépare des réponses de redirection pour les 5 questions gênantes les plus fréquentes de ta vie (salaire, couple, poids, études, avenir). Utilise-les cette semaine."
   },
   {
     "id": 39,
@@ -285,7 +285,7 @@
     "category": "STORYTELLING",
     "difficulty": "EXPERT",
     "example": "\"L'autre jour je suis allé chez Ikea — au fait vous savez qu'Ikea ça veut dire 'tu trouveras jamais la sortie' en suédois ? — bref, j'y suis allé pour acheter une étagère et j'en suis ressorti marié, avec un chariot et un hot-dog.\"",
-    "exercise": "Prends une de tes anecdotes favorites. Ajoute une digression drôle au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire principale. Entraîne-toi à gérer les deux niveaux."
+    "exercise": "DÉFI TIROIRS : prends une de tes anecdotes favorites. Ajoute une digression drôle au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire principale. Entraîne-toi à gérer les deux niveaux."
   },
   {
     "id": 40,
@@ -294,7 +294,7 @@
     "category": "AUTODERISION",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"J'ai fait un check à quelqu'un qui voulait me serrer la main. On a négocié un compromis : le fist bump. C'était le moment le plus diplomatique de ma semaine.\"",
-    "exercise": "Note tes 3 derniers moments de malaise social. Réécris chacun en détaillant tes pensées internes du moment. Le monologue interne est presque toujours plus drôle que l'action."
+    "exercise": "DÉFI SOCIAL : note tes 3 derniers moments de malaise social. Réécris chacun en détaillant tes pensées internes du moment. Le monologue interne est presque toujours plus drôle que l'action."
   },
   {
     "id": 41,
@@ -303,7 +303,7 @@
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Et si les GPS étaient passifs-agressifs ? 'Recalcul en cours. Encore. Comme d'habitude. Non non, c'est bien, tourne à gauche si tu veux.'\"",
-    "exercise": "Écris 10 'Et si...' absurdes. Développe les 3 plus drôles en mini-scénarios de 3-4 phrases. Partage le meilleur sur les réseaux."
+    "exercise": "DÉFI ET SI : écris 10 'Et si...' absurdes. Développe les 3 plus drôles en mini-scénarios de 3-4 phrases. Partage le meilleur sur les réseaux."
   },
   {
     "id": 42,
@@ -321,7 +321,7 @@
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Je suis pas paresseux, je suis en mode économie d'énergie.\"",
-    "exercise": "Écris 10 one-liners. Réduis chacun au strict minimum de mots (supprime les adverbes, les adjectifs non essentiels). Le one-liner parfait tient en moins de 15 mots."
+    "exercise": "DÉFI ONE-LINER : écris 10 one-liners. Réduis chacun au strict minimum de mots (supprime les adverbes, les adjectifs non essentiels). Le one-liner parfait tient en moins de 15 mots."
   },
   {
     "id": 44,
@@ -330,7 +330,7 @@
     "category": "OBSERVATION",
     "difficulty": "EXPERT",
     "example": "Tu remarques que tout le monde se plaint du boulot → c'est le moment pour une blague sur le travail. Le groupe parle de vacances → pars sur l'humour de voyage.",
-    "exercise": "Lors de ta prochaine soirée, passe les 10 premières minutes à observer sans faire de blague. Note mentalement l'humeur, les sujets, les personnalités. Puis lance ta première blague calibrée. Compare le résultat avec tes blagues habituelles."
+    "exercise": "DÉFI LECTURE DU GROUPE : lors de ta prochaine soirée, passe les 10 premières minutes à observer sans faire de blague. Note mentalement l'humeur, les sujets, les personnalités. Puis lance ta première blague calibrée. Compare le résultat avec tes blagues habituelles."
   },
   {
     "id": 45,
@@ -348,7 +348,7 @@
     "category": "OBSERVATION",
     "difficulty": "EXPERT",
     "example": "Demande à 3 amis : \"Quand est-ce que tu me trouves le plus drôle ?\" Leurs réponses te révéleront ton style naturel.",
-    "exercise": "Fais un auto-audit : note tes 10 dernières blagues qui ont fait rire. Classe-les par catégorie. Le pattern qui émerge, c'est ton style naturel. Concentre-toi dessus pendant un mois."
+    "exercise": "DÉFI STYLE : fais un auto-audit : note tes 10 dernières blagues qui ont fait rire. Classe-les par catégorie. Le pattern qui émerge, c'est ton style naturel. Concentre-toi dessus pendant un mois."
   },
   {
     "id": 51,
@@ -357,7 +357,7 @@
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "\"Encore une réunion de 45 minutes pour décider qu'on fera une autre réunion. On devrait avoir des réunions pour décider si la réunion vaut le coup d'être une réunion.\"",
-    "exercise": "CARNET DE BUREAU (1 semaine) : Note chaque jour une absurdité de ton lieu de travail (jargon, process, comportement). Le vendredi, relis tes notes et transforme la meilleure en observation drôle. Teste-la à la machine à café lundi."
+    "exercise": "DÉFI CARNET DE BUREAU (1 semaine) : Note chaque jour une absurdité de ton lieu de travail (jargon, process, comportement). Le vendredi, relis tes notes et transforme la meilleure en observation drôle. Teste-la à la machine à café lundi."
   },
   {
     "id": 52,
@@ -366,7 +366,7 @@
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "Le manager dit 'pensez out of the box' → \"D'accord, mais on pourrait d'abord définir la box ? Parce que j'ai l'impression qu'on est même pas dans la même pièce.\"",
-    "exercise": "BINGO RÉUNION : Lors de ta prochaine réunion, note mentalement les clichés corporate qui tombent (synergies, best practices, on est alignés, je rebondis). Après la réunion, raconte le bingo à un collègue complice. Bonus : prépare 2 commentaires drôles calibrés pour la prochaine fois."
+    "exercise": "DÉFI BINGO RÉUNION : Lors de ta prochaine réunion, note mentalement les clichés corporate qui tombent (synergies, best practices, on est alignés, je rebondis). Après la réunion, raconte le bingo à un collègue complice. Bonus : prépare 2 commentaires drôles calibrés pour la prochaine fois."
   },
   {
     "id": 53,
@@ -384,7 +384,7 @@
     "category": "REPARTIE",
     "difficulty": "DEBUTANT",
     "example": "Pique générique → \"Venant de quelqu'un qui [observation drôle], ça me touche.\" | Remarque sur ton physique → \"Je sais, j'ai hésité entre ça et être parfait, mais parfait c'était complet.\" | Question gênante → \"Excellente question. Suivante.\"",
-    "exercise": "ARSENAL DE POCHE : Écris et mémorise 5 réponses passe-partout pour les situations les plus courantes : la pique amicale, la question gênante, le compliment bizarre, la remarque sur ton retard, la blague qui tombe à plat. Répète-les à voix haute 3 fois. Utilises-en au moins 2 cette semaine."
+    "exercise": "DÉFI SCRIPTS : aRSENAL DE POCHE : Écris et mémorise 5 réponses passe-partout pour les situations les plus courantes : la pique amicale, la question gênante, le compliment bizarre, la remarque sur ton retard, la blague qui tombe à plat. Répète-les à voix haute 3 fois. Utilises-en au moins 2 cette semaine."
   },
   {
     "id": 55,
@@ -393,7 +393,7 @@
     "category": "REPARTIE",
     "difficulty": "DEBUTANT",
     "example": "\"T'as quelqu'un ?\" → \"J'ai un cactus. C'est pareil mais ça demande moins d'arrosage.\" | \"Tu gagnes combien ?\" → \"Assez pour payer mon Netflix, pas assez pour la thérapie qu'il me faudrait.\" | \"T'as maigri ?\" → \"Non, j'ai juste changé de miroir.\"",
-    "exercise": "PRÉPARATION DÎNER DE FAMILLE : Identifie les 5 questions gênantes que ta famille/tes amis te posent systématiquement. Prépare pour chacune une réponse drôle et bienveillante qui esquive élégamment. Teste-les au prochain repas de famille."
+    "exercise": "DÉFI RÉPONSE GÊNANTE : pRÉPARATION DÎNER DE FAMILLE : Identifie les 5 questions gênantes que ta famille/tes amis te posent systématiquement. Prépare pour chacune une réponse drôle et bienveillante qui esquive élégamment. Teste-les au prochain repas de famille."
   },
   {
     "id": 56,
@@ -420,7 +420,7 @@
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "Tes amis débattent bruyamment sur le meilleur kebab du quartier. Toi, après 5 minutes de silence : \"On dirait un conseil municipal sur un sujet de défense nationale.\" Une phrase, maximum d'impact.",
-    "exercise": "PROCHAINE SOIRÉE : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles."
+    "exercise": "DÉFI INTÉGRATION : pROCHAINE SOIRÉE : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles."
   },
   {
     "id": 60,

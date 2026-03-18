@@ -171,6 +171,29 @@ AVANT DE RÉPONDRE : relis ton conseil et demande-toi "est-ce que ${persona.name
   parsed.example = parsed.example.trim().slice(0, 1000);
   parsed.exercise = parsed.exercise.trim().slice(0, 1000);
 
+  // Validation Test du Coach : format exercice "DÉFI [NOM]"
+  if (!parsed.exercise.startsWith("DÉFI")) {
+    console.warn(
+      `[Agent Conseils] Exercice ne commence pas par "DÉFI [NOM]" — qualité dégradée: "${parsed.exercise.slice(0, 50)}..."`
+    );
+  }
+
+  // Validation : l'exemple doit contenir du dialogue ou du contexte concret (guillemets, tirets)
+  const hasDialogue = /[«»"""]/.test(parsed.example) || /→/.test(parsed.example) || parsed.example.includes(" : ");
+  if (!hasDialogue) {
+    console.warn(
+      `[Agent Conseils] Exemple sans dialogue ni contexte concret — qualité dégradée`
+    );
+  }
+
+  // Validation : le contenu ne doit pas être trop court (filler) ni trop générique
+  const contentWords = parsed.content.split(/\s+/).length;
+  if (contentWords < 60) {
+    console.warn(
+      `[Agent Conseils] Contenu trop court (${contentWords} mots, min 60) — qualité dégradée`
+    );
+  }
+
   return parsed;
 }
 
