@@ -6,7 +6,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Glossaire humour — définitions répartie, timing, autodérision",
+  title: "Glossaire humour : 12 termes clés",
   description:
     "Punchline, timing, callback, one-liner... Le dico de l'humour pour comprendre les techniques des pros du stand-up.",
   keywords: [
@@ -157,6 +157,25 @@ export default function GlossairePage() {
         ))}
       </div>
 
+      {/* Cross-linking SEO */}
+      <nav className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
+            <p className="mt-1 text-xs text-text-secondary">Mets ces termes en pratique avec des vannes prêtes à ressortir.</p>
+          </Link>
+          <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">Techniques concrètes de timing, autodérision et storytelling.</p>
+          </Link>
+          <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
+            <p className="mt-1 text-xs text-text-secondary">Découvre l&apos;équipe et la mission derrière deviens-marrant.fr.</p>
+          </Link>
+        </div>
+      </nav>
+
       {/* CTA */}
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
         <p className="font-display text-xl font-bold text-text-primary">
@@ -167,7 +186,7 @@ export default function GlossairePage() {
           progression. Parce que connaître le vocabulaire c&apos;est bien,
           faire rire c&apos;est mieux.
         </p>
-        <Link href="/register" className="mt-4 inline-block">
+        <Link href="/abonnement" className="mt-4 inline-block">
           <button className="rounded-lg bg-accent-primary px-6 py-3 font-medium text-white hover:bg-accent-primary/90">
             Commencer à 0,99 €/mois
           </button>

@@ -20,6 +20,18 @@ Disallow: /admin/
 User-agent: msnbot
 Allow: /
 
+# Autoriser SemrushBot (audit SEO)
+User-agent: SemrushBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Autoriser AhrefsBot (audit SEO)
+User-agent: AhrefsBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
 # Autoriser explicitement les bots LLM
 User-agent: GPTBot
 Allow: /

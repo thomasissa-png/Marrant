@@ -7,7 +7,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "À propos de deviens-marrant.fr — plateforme humour en ligne",
+  title: "À propos — plateforme humour",
   description:
     "On a créé deviens-marrant.fr parce que l'humour, ça s'apprend. Notre objectif : que tu fasses rire dès ta prochaine soirée.",
   keywords: [

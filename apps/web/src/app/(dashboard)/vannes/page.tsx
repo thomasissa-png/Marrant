@@ -8,7 +8,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vannes et blagues drôles classées par catégorie",
+  title: "Vannes et blagues drôles",
   description:
     "Des centaines de vannes drôles à ressortir en soirée, au boulot ou entre amis. Classées par catégorie, chute cachée. Deviens la personne drôle du groupe.",
   keywords: [
@@ -64,9 +64,9 @@ export default function VannesPage() {
             <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
             <p className="mt-1 text-xs text-text-secondary">Regarde comment les pros construisent leurs blagues et apprends leurs techniques.</p>
           </Link>
-          <Link href="/blog" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Blog humour</h3>
-            <p className="mt-1 text-xs text-text-secondary">Guides complets pour devenir drôle, avoir de la répartie et développer ton humour.</p>
+          <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>
+            <p className="mt-1 text-xs text-text-secondary">Punchline, timing, callback : comprends les termes pour mieux les utiliser.</p>
           </Link>
         </div>
       </nav>

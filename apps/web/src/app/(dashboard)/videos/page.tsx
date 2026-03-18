@@ -8,7 +8,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vidéos stand-up analysées — apprends l'humour des pros",
+  title: "Vidéos stand-up analysées",
   description:
     "Apprends l'humour avec Fary, Paul Mirabel, Blanche Gardin et Roman Frayssinet. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
   keywords: [

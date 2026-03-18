@@ -93,20 +93,40 @@ describe("buildBreadcrumbJsonLd", () => {
 });
 
 describe("buildCourseJsonLd", () => {
-  it("builds valid Course schema with pricing", () => {
+  it("builds valid Course schema with pricing and ISO 8601 duration", () => {
     const course = {
       name: "Parcours Répartie",
       description: "Développe ta répartie en 4 semaines",
       duration: "4 semaines",
+      slug: "repartie",
+      difficulty: "INTERMEDIAIRE",
+      stepsCount: 4,
     };
     const result = buildCourseJsonLd(course);
     expect(result["@type"]).toBe("Course");
     expect(result.name).toBe("Parcours Répartie");
     expect(result.provider.name).toBe("deviens-marrant.fr");
+    expect(result.provider.logo).toContain("icon-512.png");
     expect(result.hasCourseInstance.courseMode).toBe("online");
-    expect(result.hasCourseInstance.courseWorkload).toBe("4 semaines");
+    expect(result.hasCourseInstance.courseWorkload).toBe("P4W");
+    expect(result.url).toContain("/parcours/repartie");
+    expect(result.educationalLevel).toBe("Intermediate");
+    expect(result.numberOfLessons).toBe(4);
     expect(result.offers.price).toBe("0.99");
     expect(result.offers.priceCurrency).toBe("EUR");
+    expect(result.offers.url).toContain("/abonnement");
     expect(result.inLanguage).toBe("fr-FR");
+  });
+
+  it("handles missing optional properties", () => {
+    const result = buildCourseJsonLd({
+      name: "Test",
+      description: "Desc",
+      duration: "3 semaines",
+    });
+    expect(result.hasCourseInstance.courseWorkload).toBe("P3W");
+    expect(result.educationalLevel).toBe("Beginner");
+    expect(result.url).toBeUndefined();
+    expect(result.numberOfLessons).toBeUndefined();
   });
 });

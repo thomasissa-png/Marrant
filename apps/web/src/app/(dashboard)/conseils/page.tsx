@@ -8,7 +8,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Conseils humour et répartie — techniques pour être drôle",
+  title: "Conseils humour et répartie",
   description:
     "66 techniques concrètes pour avoir de la répartie et faire rire au quotidien. Avec exemples, dialogues et un défi à tester dès aujourd'hui.",
   keywords: [

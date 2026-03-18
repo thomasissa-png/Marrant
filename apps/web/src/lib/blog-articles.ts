@@ -12,7 +12,7 @@ export interface BlogArticle {
 export const blogArticles: BlogArticle[] = [
   {
     slug: "comment-devenir-drole",
-    title: "Comment devenir drôle : le guide complet pour développer son humour",
+    title: "Comment devenir drôle : le guide",
     excerpt:
       "\"Être drôle, c'est inné.\" Faux. La science et les humoristes prouvent le contraire. Voici la méthode complète pour développer ton sens de l'humour, avec des exercices concrets.",
     content: `"Soit t'es drôle, soit tu l'es pas." On a tous un oncle qui dit ça. Généralement, c'est le même oncle qui raconte la même blague sur les blondes depuis 2003. Lui, il est "né drôle", paraît-il. Spoiler : **l'humour est une compétence**, pas un chromosome. Et comme toute compétence, elle s'apprend.
@@ -101,7 +101,7 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
   },
   {
     slug: "comment-avoir-de-la-repartie",
-    title: "Comment avoir de la répartie : 10 techniques qui marchent vraiment",
+    title: "Répartie : 10 techniques efficaces",
     excerpt:
       "Tu restes planté quand on te chambre ? Tu trouves la réplique parfaite 2 heures trop tard ? Voici 10 techniques concrètes pour ne plus jamais rester muet.",
     content: `Tu connais ce moment. Quelqu'un te lance une remarque. Ton cerveau fait l'écran bleu de Windows. Bouche ouverte. Rien ne sort. Et puis, évidemment, la réplique PARFAITE te vient sous la douche, 2 heures plus tard. Comme si ton cerveau avait un délai de livraison.
@@ -187,7 +187,7 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/
   },
   {
     slug: "timing-humour",
-    title: "Le timing en humour : pourquoi c'est plus important que la blague",
+    title: "Timing humour : plus fort que la blague",
     excerpt:
       "La même blague peut faire un tabac ou tomber à plat. La différence ? Le timing. Analyse d'un art invisible avec des techniques de pros.",
     content: `Tu as déjà raconté une blague que tu trouvais excellente, et... rien. Le silence. Pas un sourire. Même pas un "ah ouais". Puis un pote raconte EXACTEMENT la même chose 10 minutes plus tard, et tout le monde explose. Tu te dis "mais WTF". Je vais te dire WTF : le problème, c'était pas ta blague. C'était ton **timing**.
@@ -263,7 +263,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
   },
   {
     slug: "erreurs-blagues",
-    title: "5 erreurs qui tuent tes blagues (et comment les éviter)",
+    title: "5 erreurs qui tuent tes blagues",
     excerpt:
       "Tu racontes une blague et personne ne rit ? Tu fais sûrement une de ces 5 erreurs. Diagnostic et solutions concrètes.",
     content: `Tu racontes une blague. Tu arrives à la chute. Et... rien. Le silence. Pas le silence de "je cherche de l'air parce que j'ai trop ri", non. Le silence de "quelqu'un a un sujet de conversation de rechange ?". Si ça t'arrive souvent, c'est probablement pas un problème de blague. **C'est un problème de livraison.** Et ça se corrige.
@@ -323,7 +323,7 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
   },
   {
     slug: "autoderision-interactions",
-    title: "Comment l'autodérision peut transformer tes interactions sociales",
+    title: "Autodérision : transforme tes interactions",
     excerpt:
       "L'autodérision est un super-pouvoir social. Elle désarme, crée de la complicité et montre ta confiance. Mais il y a un piège énorme.",
     content: `L'autodérision, c'est un super-pouvoir. C'est aussi un piège mortel. Et la différence entre les deux tient en un truc : **le ton**. Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te rend pathétique. Bienvenue dans le guide qui va t'apprendre à rire de toi sans te démolir.

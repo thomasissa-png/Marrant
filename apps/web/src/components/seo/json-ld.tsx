@@ -169,10 +169,30 @@ export function buildVideoObjectJsonLd(video: {
   };
 }
 
+// Map human-readable duration to ISO 8601
+function toIso8601Duration(duration: string): string {
+  const match = duration.match(/(\d+)\s*semaine/i);
+  if (match) return `P${match[1]}W`;
+  return duration;
+}
+
+// Map difficulty to schema.org educationalLevel
+function toEducationalLevel(difficulty?: string): string {
+  switch (difficulty) {
+    case "DEBUTANT": return "Beginner";
+    case "INTERMEDIAIRE": return "Intermediate";
+    case "EXPERT": return "Advanced";
+    default: return "Beginner";
+  }
+}
+
 export function buildCourseJsonLd(course: {
   name: string;
   description: string;
   duration: string;
+  slug?: string;
+  difficulty?: string;
+  stepsCount?: number;
 }) {
   return {
     "@context": "https://schema.org",
@@ -183,12 +203,16 @@ export function buildCourseJsonLd(course: {
       "@type": "Organization",
       name: "deviens-marrant.fr",
       url: BASE_URL,
+      logo: `${BASE_URL}/icon-512.png`,
     },
+    ...(course.slug && { url: `${BASE_URL}/parcours/${course.slug}` }),
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "online",
-      courseWorkload: course.duration,
+      courseWorkload: toIso8601Duration(course.duration),
     },
+    educationalLevel: toEducationalLevel(course.difficulty),
+    ...(course.stepsCount && { numberOfLessons: course.stepsCount }),
     inLanguage: "fr-FR",
     isAccessibleForFree: false,
     offers: {
@@ -196,6 +220,7 @@ export function buildCourseJsonLd(course: {
       price: "0.99",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/abonnement`,
     },
   };
 }

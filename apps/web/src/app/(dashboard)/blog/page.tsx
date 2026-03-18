@@ -11,8 +11,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title:
-    "Blog humour — comment devenir drôle et avoir de la répartie",
+  title: "Blog humour — guides et techniques",
   description:
     "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés par 3 coachs.",
   keywords: [
@@ -152,6 +151,25 @@ export default async function BlogPage() {
           </Link>
         ))}
       </div>
+
+      {/* Cross-linking SEO */}
+      <nav className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>
+            <p className="mt-1 text-xs text-text-secondary">Répartie, timing, punchline : les termes clés expliqués simplement.</p>
+          </Link>
+          <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
+            <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets.</p>
+          </Link>
+          <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
+            <p className="mt-1 text-xs text-text-secondary">Notre mission : prouver que l&apos;humour s&apos;apprend.</p>
+          </Link>
+        </div>
+      </nav>
     </>
   );
 }
