@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.text();
-  const headersList = headers();
+  const headersList = await headers();
   const sig = headersList.get("stripe-signature");
 
   if (!sig) {
@@ -98,8 +98,15 @@ export async function POST(request: NextRequest) {
 
           const newStatus = statusMap[subscription.status] ?? "INACTIVE";
           const shouldDowngrade = ["canceled", "unpaid"].includes(subscription.status);
+          const shouldUpgrade = subscription.status === "active";
 
           // Transaction atomique : subscription + user.plan
+          const planUpdate = shouldDowngrade
+            ? { plan: "FREE" as const }
+            : shouldUpgrade
+              ? { plan: "PREMIUM" as const }
+              : null;
+
           await prisma.$transaction([
             prisma.subscription.update({
               where: { id: sub.id },
@@ -108,16 +115,18 @@ export async function POST(request: NextRequest) {
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
               },
             }),
-            ...(shouldDowngrade
+            ...(planUpdate
               ? [prisma.user.update({
                   where: { id: sub.userId },
-                  data: { plan: "FREE" },
+                  data: planUpdate,
                 })]
               : []),
           ]);
 
           if (shouldDowngrade) {
             console.log(`[Stripe] User ${sub.userId} downgraded to FREE`);
+          } else if (shouldUpgrade) {
+            console.log(`[Stripe] User ${sub.userId} upgraded to PREMIUM`);
           }
         }
         break;
@@ -158,11 +167,17 @@ export async function POST(request: NextRequest) {
           });
 
           if (sub) {
-            await prisma.subscription.update({
-              where: { id: sub.id },
-              data: { status: "PAST_DUE" },
-            });
-            console.log(`[Stripe] Payment failed for user ${sub.userId}`);
+            await prisma.$transaction([
+              prisma.subscription.update({
+                where: { id: sub.id },
+                data: { status: "PAST_DUE" },
+              }),
+              prisma.user.update({
+                where: { id: sub.userId },
+                data: { plan: "FREE" },
+              }),
+            ]);
+            console.log(`[Stripe] Payment failed for user ${sub.userId}, downgraded to FREE`);
           }
         }
         break;
