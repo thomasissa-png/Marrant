@@ -7,6 +7,8 @@ import {
   validateJoke,
   validateTip,
   validateVideoSelection,
+  directorRewriteJoke,
+  directorRewriteTip,
   type JokeToValidate,
   type TipToValidate,
   type VideoSelectionToValidate,
@@ -115,6 +117,7 @@ export async function publishDailyContent(
 
       let jokeData = await generateDailyJoke(jokeCtx);
       let validation: ValidationResult | null = null;
+      let directorTookOver = false;
 
       for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
         try {
@@ -130,7 +133,16 @@ export async function publishDailyContent(
         }
 
         if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          console.warn(`[Director] Vanne non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          // 3 échecs → le directeur réécrit lui-même
+          console.log(`[Director] Vanne rejetée ${MAX_VALIDATION_ATTEMPTS}x — le directeur réécrit`);
+          try {
+            const rewritten = await directorRewriteJoke(jokeData as JokeToValidate, validation, persona);
+            jokeData = { ...jokeData, ...rewritten };
+            directorTookOver = true;
+            console.log("[Director] Vanne réécrite par le directeur — publication");
+          } catch (err) {
+            console.warn("[Director] Réécriture vanne échouée — publication de la dernière version:", err);
+          }
           break;
         }
 
@@ -182,7 +194,15 @@ export async function publishDailyContent(
         }
 
         if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          console.warn(`[Director] Conseil non validé après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          // 3 échecs → le directeur réécrit lui-même
+          console.log(`[Director] Conseil rejeté ${MAX_VALIDATION_ATTEMPTS}x — le directeur réécrit`);
+          try {
+            const rewritten = await directorRewriteTip(tipData as TipToValidate, validation, persona);
+            tipData = { ...tipData, ...rewritten };
+            console.log("[Director] Conseil réécrit par le directeur — publication");
+          } catch (err) {
+            console.warn("[Director] Réécriture conseil échouée — publication de la dernière version:", err);
+          }
           break;
         }
 

@@ -1071,6 +1071,9 @@ describe("Stand-Up Director Agent", () => {
   let validateTip: typeof import("@/lib/ai/agents/standup-director-agent").validateTip;
   let validateVideoSelection: typeof import("@/lib/ai/agents/standup-director-agent").validateVideoSelection;
   let validateBlogArticle: typeof import("@/lib/ai/agents/standup-director-agent").validateBlogArticle;
+  let directorRewriteJoke: typeof import("@/lib/ai/agents/standup-director-agent").directorRewriteJoke;
+  let directorRewriteTip: typeof import("@/lib/ai/agents/standup-director-agent").directorRewriteTip;
+  let directorRewriteBlogArticle: typeof import("@/lib/ai/agents/standup-director-agent").directorRewriteBlogArticle;
   let generateEditorialVision: typeof import("@/lib/ai/agents/standup-director-agent").generateEditorialVision;
   let reviewContentBatch: typeof import("@/lib/ai/agents/standup-director-agent").reviewContentBatch;
   let mockAnthropicCreate: jest.Mock;
@@ -1087,6 +1090,9 @@ describe("Stand-Up Director Agent", () => {
     validateTip = mod.validateTip;
     validateVideoSelection = mod.validateVideoSelection;
     validateBlogArticle = mod.validateBlogArticle;
+    directorRewriteJoke = mod.directorRewriteJoke;
+    directorRewriteTip = mod.directorRewriteTip;
+    directorRewriteBlogArticle = mod.directorRewriteBlogArticle;
     generateEditorialVision = mod.generateEditorialVision;
     reviewContentBatch = mod.reviewContentBatch;
   });
@@ -1521,6 +1527,151 @@ describe("Stand-Up Director Agent", () => {
     ).rejects.toThrow();
   });
 
+  it("director rewrites a failed joke", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Mon coloc me dit qu'il fait le ménage",
+            punchline: "Il a bougé ses chaussettes de la table au canapé",
+            category: "SITUATION",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const rewritten = await directorRewriteJoke(
+      {
+        content: "Un stylo dit à un crayon",
+        punchline: "Tu manques de pointe mais ta répartie est bien taillée",
+        category: "JEUX_DE_MOTS",
+        type: "CLASSIQUE",
+        maturityLevel: 1,
+      },
+      {
+        verdict: "REJECTED",
+        score: 2,
+        strengths: [],
+        issues: ["Objet qui parle", "Punchline trop longue"],
+        revision: "Situation réelle de coloc",
+        directorNote: "Pas au niveau.",
+      },
+      "YANIS",
+    );
+
+    expect(rewritten.content).toBeTruthy();
+    expect(rewritten.punchline).toBeTruthy();
+    expect(rewritten.content).not.toBe("Un stylo dit à un crayon");
+  });
+
+  it("director rewrites a failed tip", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Le callback surprise",
+            content: "Le callback consiste à reprendre un élément mentionné plus tôt dans la conversation et à le ramener quand personne ne s'y attend. C'est une technique utilisée par tous les grands stand-uppers.",
+            category: "TIMING",
+            difficulty: "DEBUTANT",
+            example: "Tu parles de ta coloc qui oublie tout → 10 min plus tard : « C'est comme ma coloc, elle a oublié de fermer la porte. Ah non, c'est moi. »",
+            exercise: "DÉFI CALLBACK : Dans ta prochaine conversation, note un détail marrant et ramène-le 5 minutes plus tard.",
+          }),
+        },
+      ],
+    });
+
+    const rewritten = await directorRewriteTip(
+      {
+        title: "Sois drôle",
+        content: "Essaie d'être drôle dans tes conversations.",
+        category: "TIMING",
+        difficulty: "DEBUTANT",
+        example: "Dis un truc drôle.",
+        exercise: "Sois plus drôle cette semaine.",
+      },
+      {
+        verdict: "REJECTED",
+        score: 1,
+        strengths: [],
+        issues: ["Trop générique", "Pas d'exemple concret", "Exercice irréaliste"],
+        directorNote: "Vide de contenu.",
+      },
+      "YANIS",
+    );
+
+    expect(rewritten.title).toBeTruthy();
+    expect(rewritten.title).not.toBe("Sois drôle");
+    expect(rewritten.exercise).toContain("DÉFI");
+  });
+
+  it("director rewrites a failed blog article", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Comment avoir de la répartie : guide pratique",
+            excerpt: "Tu restes muet quand on te chambre ? Les techniques des pros.",
+            content: "Un long article réécrit avec humour et SEO...",
+            category: "REPARTIE",
+          }),
+        },
+      ],
+    });
+
+    const rewritten = await directorRewriteBlogArticle(
+      {
+        title: "La répartie",
+        slug: "la-repartie",
+        excerpt: "Un article sur la répartie.",
+        content: "Blabla générique sans humour ni exemples concrets...",
+        category: "GUIDE",
+        targetKeyword: "comment avoir de la répartie",
+      },
+      {
+        verdict: "REJECTED",
+        score: 3,
+        strengths: [],
+        issues: ["Pas drôle", "Pas de liens internes", "Mot-clé absent des sous-titres"],
+        revision: "Ajouter humour, exemples de Paul Mirabel, liens internes",
+        directorNote: "Pas au niveau du site n°1.",
+      },
+    );
+
+    expect(rewritten.title).toBeTruthy();
+    expect(rewritten.content).toBeTruthy();
+    expect(rewritten.title).not.toBe("La répartie");
+  });
+
+  it("director rewrite throws on empty content", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "",
+            punchline: "",
+            category: "BOULOT",
+            type: "CLASSIQUE",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    await expect(
+      directorRewriteJoke(
+        { content: "Setup", punchline: "Punch", category: "BOULOT", type: "CLASSIQUE", maturityLevel: 1 },
+        { verdict: "REJECTED", score: 2, strengths: [], issues: ["Nul"], directorNote: "Nul" },
+        "SOPHIE",
+      ),
+    ).rejects.toThrow("contenu vide");
+  });
+
   it("throws on empty batch review", async () => {
     mockAnthropicCreate.mockResolvedValue({
       content: [
@@ -1546,6 +1697,7 @@ describe("Stand-Up Director Agent", () => {
 
 describe("Director integration — validation retry loop", () => {
   let validateJoke: typeof import("@/lib/ai/agents/standup-director-agent").validateJoke;
+  let directorRewriteJoke: typeof import("@/lib/ai/agents/standup-director-agent").directorRewriteJoke;
   let generateDailyJoke: typeof import("@/lib/ai/agents/joke-agent").generateDailyJoke;
   let mockAnthropicCreate: jest.Mock;
 
@@ -1558,6 +1710,7 @@ describe("Director integration — validation retry loop", () => {
     }));
     const directorMod = await import("@/lib/ai/agents/standup-director-agent");
     validateJoke = directorMod.validateJoke;
+    directorRewriteJoke = directorMod.directorRewriteJoke;
     const jokeMod = await import("@/lib/ai/agents/joke-agent");
     generateDailyJoke = jokeMod.generateDailyJoke;
   });
@@ -1702,6 +1855,91 @@ describe("Director integration — validation retry loop", () => {
 
     // Total: 4 API calls (generate + reject + re-generate + approve)
     expect(mockAnthropicCreate).toHaveBeenCalledTimes(4);
+  });
+
+  it("3 failures trigger director rewrite as last resort", async () => {
+    const badJokeJson = JSON.stringify({
+      content: "Un objet dit à un autre",
+      punchline: "Blablabla",
+      category: "JEUX_DE_MOTS",
+      type: "CLASSIQUE",
+      maturityLevel: 1,
+    });
+
+    const rejectedJson = JSON.stringify({
+      verdict: "REJECTED",
+      score: 2,
+      strengths: [],
+      issues: ["Objet qui parle"],
+      revision: "Fais une vanne relatable",
+      directorNote: "Nul.",
+    });
+
+    const directorRewriteJson = JSON.stringify({
+      content: "Mon coloc a nettoyé la cuisine",
+      punchline: "En fait il a juste déplacé la vaisselle sale",
+      category: "SITUATION",
+      type: "ONE_LINER",
+      maturityLevel: 1,
+    });
+
+    // Call 1: generate bad joke
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: badJokeJson }],
+    });
+    // Call 2: validate → REJECTED
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: rejectedJson }],
+    });
+    // Call 3: re-generate (still bad)
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: badJokeJson }],
+    });
+    // Call 4: validate → REJECTED
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: rejectedJson }],
+    });
+    // Call 5: re-generate (still bad)
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: badJokeJson }],
+    });
+    // Call 6: validate → REJECTED (3rd time)
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: rejectedJson }],
+    });
+    // Call 7: director rewrite
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: directorRewriteJson }],
+    });
+
+    // Simulate the full pipeline manually
+    const jokeCtx = {
+      persona: "YANIS" as const,
+      plannedCategory: "JEUX_DE_MOTS",
+      plannedTheme: "Test",
+      recentJokes: [] as Array<{ content: string; category: string; type: string }>,
+      monthlyPlanSummary: "",
+    };
+
+    let jokeData = await generateDailyJoke(jokeCtx);
+    let lastValidation = null;
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      lastValidation = await validateJoke(jokeData, "YANIS");
+      if (lastValidation.verdict === "APPROVED") break;
+      if (attempt === 3) {
+        // Director takes over
+        jokeData = await directorRewriteJoke(jokeData, lastValidation, "YANIS");
+        break;
+      }
+      jokeData = await generateDailyJoke(jokeCtx);
+    }
+
+    // Final result is the director's rewrite
+    expect(jokeData.content).toBe("Mon coloc a nettoyé la cuisine");
+    expect(jokeData.punchline).toBe("En fait il a juste déplacé la vaisselle sale");
+    // 7 API calls total: generate + reject + re-generate + reject + re-generate + reject + director-rewrite
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(7);
   });
 
   it("validation gracefully handles API errors without blocking publication", async () => {

@@ -2,6 +2,7 @@ import { callWithRetry, extractJson, getResponseText } from "../client";
 import { prisma } from "@/lib/prisma";
 import {
   validateBlogArticle,
+  directorRewriteBlogArticle,
   type BlogArticleToValidate,
   type ValidationResult,
 } from "./standup-director-agent";
@@ -334,7 +335,30 @@ export async function publishWeeklyArticle(): Promise<{
       }
 
       if (attempt === MAX_ARTICLE_VALIDATION_ATTEMPTS) {
-        console.warn(`[Director] Article non validé après ${MAX_ARTICLE_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+        // 3 échecs → le directeur réécrit lui-même
+        console.log(`[Director] Article rejeté ${MAX_ARTICLE_VALIDATION_ATTEMPTS}x — le directeur réécrit`);
+        try {
+          const toValidate: BlogArticleToValidate = {
+            title: article.title,
+            slug: article.slug,
+            excerpt: article.excerpt,
+            content: article.content,
+            category: article.category,
+            targetKeyword: article.targetKeyword,
+          };
+          const rewritten = await directorRewriteBlogArticle(toValidate, validation);
+          article = {
+            ...article,
+            title: rewritten.title,
+            excerpt: rewritten.excerpt,
+            content: rewritten.content,
+            category: rewritten.category,
+            metaTitle: rewritten.title.slice(0, 60),
+          };
+          console.log("[Director] Article réécrit par le directeur — publication");
+        } catch (err) {
+          console.warn("[Director] Réécriture article échouée — publication de la dernière version:", err);
+        }
         break;
       }
 

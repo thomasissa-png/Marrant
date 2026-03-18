@@ -637,3 +637,202 @@ function parseValidationResult(text: string): ValidationResult {
 
   return parsed;
 }
+
+// ─── Réécriture par le Directeur — dernier recours après 3 échecs ─
+
+/**
+ * Le Directeur réécrit lui-même une vanne qui a échoué 3 fois la validation.
+ * Il reçoit la dernière version + tous les retours de validation pour produire
+ * une version publiable.
+ */
+export async function directorRewriteJoke(
+  failedJoke: JokeToValidate,
+  lastValidation: ValidationResult,
+  persona: PersonaKey,
+): Promise<JokeToValidate> {
+  const p = PERSONAS[persona];
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 600,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `RÉÉCRITURE DIRECTEUR — La vanne a échoué 3 validations.
+C'est à TOI de la réécrire pour qu'elle soit publiable.
+
+DERNIÈRE VERSION (rejetée) :
+Setup : "${failedJoke.content}"
+Punchline : "${failedJoke.punchline}"
+Catégorie : ${failedJoke.category} | Type : ${failedJoke.type}
+
+PROBLÈMES IDENTIFIÉS :
+${lastValidation.issues.map(i => `- ${i}`).join("\n")}
+${lastValidation.revision ? `\nSUGGESTION PRÉCÉDENTE : ${lastValidation.revision}` : ""}
+
+PERSONA CIBLE : ${p.name} (${p.age} ans) — ${p.description}
+Intérêts : ${p.interests.join(", ")}
+
+MISSION : Réécris cette vanne en corrigeant TOUS les problèmes.
+Tu es le directeur artistique — montre l'exemple. Produis une vanne que ${p.name} peut sortir ce soir.
+
+Réponds en JSON :
+{
+  "content": "Setup réécrit",
+  "punchline": "Punchline réécrite",
+  "category": "${failedJoke.category}",
+  "type": "${failedJoke.type}",
+  "maturityLevel": ${failedJoke.maturityLevel}
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const parsed = extractJson<JokeToValidate>(text);
+
+  if (!parsed.content?.trim() || !parsed.punchline?.trim()) {
+    throw new Error("Stand-Up Director : réécriture vanne — contenu vide");
+  }
+
+  parsed.content = parsed.content.trim().slice(0, 1000);
+  parsed.punchline = parsed.punchline.trim().slice(0, 500);
+
+  return parsed;
+}
+
+/**
+ * Le Directeur réécrit lui-même un conseil qui a échoué 3 fois la validation.
+ */
+export async function directorRewriteTip(
+  failedTip: TipToValidate,
+  lastValidation: ValidationResult,
+  persona: PersonaKey,
+): Promise<TipToValidate> {
+  const p = PERSONAS[persona];
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1500,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `RÉÉCRITURE DIRECTEUR — Le conseil a échoué 3 validations.
+C'est à TOI de le réécrire pour qu'il soit publiable.
+
+DERNIÈRE VERSION (rejetée) :
+Titre : "${failedTip.title}"
+Contenu : "${failedTip.content}"
+Exemple : "${failedTip.example}"
+Exercice : "${failedTip.exercise}"
+Catégorie : ${failedTip.category} | Difficulté : ${failedTip.difficulty}
+
+PROBLÈMES IDENTIFIÉS :
+${lastValidation.issues.map(i => `- ${i}`).join("\n")}
+${lastValidation.revision ? `\nSUGGESTION PRÉCÉDENTE : ${lastValidation.revision}` : ""}
+
+PERSONA CIBLE : ${p.name} (${p.age} ans) — ${p.description}
+Intérêts : ${p.interests.join(", ")}
+
+MISSION : Réécris ce conseil en corrigeant TOUS les problèmes.
+Le conseil doit enseigner UNE technique claire, avec un exemple concret et un DÉFI faisable aujourd'hui.
+
+Réponds en JSON :
+{
+  "title": "Titre réécrit (5-8 mots)",
+  "content": "Contenu réécrit (120-180 mots, zéro filler)",
+  "category": "${failedTip.category}",
+  "difficulty": "${failedTip.difficulty}",
+  "example": "Exemple réécrit avec dialogue concret",
+  "exercise": "DÉFI [NOM] : exercice réécrit, faisable aujourd'hui"
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const parsed = extractJson<TipToValidate>(text);
+
+  if (!parsed.title?.trim() || !parsed.content?.trim() || !parsed.example?.trim() || !parsed.exercise?.trim()) {
+    throw new Error("Stand-Up Director : réécriture conseil — champs vides");
+  }
+
+  parsed.title = parsed.title.trim().slice(0, 200);
+  parsed.content = parsed.content.trim().slice(0, 2000);
+  parsed.example = parsed.example.trim().slice(0, 1000);
+  parsed.exercise = parsed.exercise.trim().slice(0, 1000);
+
+  return parsed;
+}
+
+/**
+ * Le Directeur réécrit lui-même un article de blog qui a échoué 3 fois la validation.
+ * Retourne uniquement les champs modifiables (pas le slug/keyword).
+ */
+export async function directorRewriteBlogArticle(
+  failedArticle: BlogArticleToValidate,
+  lastValidation: ValidationResult,
+): Promise<{ title: string; excerpt: string; content: string; category: string }> {
+  const truncatedContent = failedArticle.content.slice(0, 4000);
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 8000,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `RÉÉCRITURE DIRECTEUR — L'article a échoué 3 validations.
+C'est à TOI de le réécrire pour qu'il soit publiable.
+
+ARTICLE REJETÉ :
+Titre : "${failedArticle.title}"
+Mot-clé cible : "${failedArticle.targetKeyword}"
+Catégorie : ${failedArticle.category}
+Extrait : "${failedArticle.excerpt}"
+
+Début du contenu rejeté :
+"""
+${truncatedContent}
+"""
+
+PROBLÈMES IDENTIFIÉS :
+${lastValidation.issues.map(i => `- ${i}`).join("\n")}
+${lastValidation.revision ? `\nCORRECTIONS DEMANDÉES : ${lastValidation.revision}` : ""}
+
+MISSION : Réécris cet article en corrigeant TOUS les problèmes.
+Rappels :
+- Minimum 3 traits d'humour / vannes originales
+- Refs modernes (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin)
+- Au moins 2 personas touchés
+- Mot-clé "${failedArticle.targetKeyword}" intégré naturellement (intro, 2-3 H2, conclusion)
+- Au moins 5 liens internes (/vannes, /parcours, /conseils, /videos)
+- 1500-2500 mots
+- Structure claire H2/H3, listes, gras, FAQ en fin
+
+Réponds en JSON :
+{
+  "title": "Titre réécrit (< 60 chars, contient le mot-clé)",
+  "excerpt": "Extrait réécrit (150 chars max)",
+  "content": "Article complet réécrit (1500-2500 mots)",
+  "category": "${failedArticle.category}"
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const parsed = extractJson<{ title: string; excerpt: string; content: string; category: string }>(text);
+
+  if (!parsed.title?.trim() || !parsed.content?.trim()) {
+    throw new Error("Stand-Up Director : réécriture article — contenu vide");
+  }
+
+  parsed.title = parsed.title.trim().slice(0, 200);
+  parsed.excerpt = (parsed.excerpt ?? "").trim().slice(0, 200);
+  parsed.content = parsed.content.trim();
+
+  return parsed;
+}
