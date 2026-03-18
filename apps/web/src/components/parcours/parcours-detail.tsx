@@ -9,6 +9,19 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import Link from "next/link";
 
+interface VideoRef {
+  youtubeId: string;
+  artist: string;
+  title: string;
+  why: string;
+}
+
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
+
 interface Step {
   id: string;
   order: number;
@@ -22,6 +35,16 @@ interface Step {
     example: string;
     exercise: string;
   };
+  // Rich content from seed
+  moduleTitle?: string;
+  moduleDetail?: string;
+  moduleFormat?: string;
+  moduleXp?: number;
+  why?: string;
+  free?: boolean;
+  jokeIds?: number[];
+  videos?: VideoRef[];
+  quiz?: QuizQuestion[];
 }
 
 interface PathData {
@@ -33,6 +56,10 @@ interface PathData {
   difficulty: string;
   icon: string;
   steps: Step[];
+  nextParcours?: string | null;
+  nextParcoursReason?: string | null;
+  personaTagline?: string | null;
+  testimonial?: string | null;
 }
 
 interface UserProgress {
@@ -47,6 +74,168 @@ const DIFFICULTY_LABELS: Record<string, string> = {
   EXPERT: "Expert",
 };
 
+// ==============================
+// Mini-quiz component
+// ==============================
+
+function StepQuiz({
+  quiz,
+  onComplete,
+}: {
+  quiz: QuizQuestion[];
+  onComplete: () => void;
+}) {
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  const q = quiz[currentQ];
+
+  const handleAnswer = (index: number) => {
+    if (showResult) return;
+    setSelected(index);
+    setShowResult(true);
+    if (index === q.correctIndex) {
+      setScore((s) => s + 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentQ < quiz.length - 1) {
+      setCurrentQ((c) => c + 1);
+      setSelected(null);
+      setShowResult(false);
+    } else {
+      setFinished(true);
+    }
+  };
+
+  if (finished) {
+    const allCorrect = score === quiz.length;
+    return (
+      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center">
+        <p className="font-display text-lg font-bold">
+          {allCorrect ? "Parfait !" : `${score}/${quiz.length} bonnes réponses`}
+        </p>
+        <p className="mt-1 text-sm text-text-secondary">
+          {allCorrect
+            ? "Tu maîtrises ce module. Tu peux valider l'étape."
+            : "Pas grave, l'important c'est de pratiquer. Tu peux valider l'étape."}
+        </p>
+        <Button variant="primary" size="sm" className="mt-3" onClick={onComplete}>
+          Continuer
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <Badge variant="secondary">
+          Quiz {currentQ + 1}/{quiz.length}
+        </Badge>
+      </div>
+      <p className="font-medium text-text-primary">{q.question}</p>
+      <div className="space-y-2">
+        {q.options.map((opt, i) => {
+          let className =
+            "w-full rounded-lg border p-3 text-left text-sm transition-all";
+          if (showResult) {
+            if (i === q.correctIndex) {
+              className += " border-green-500 bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400";
+            } else if (i === selected && i !== q.correctIndex) {
+              className += " border-red-400 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400";
+            } else {
+              className += " border-border bg-background-card text-text-muted";
+            }
+          } else {
+            className +=
+              " border-border bg-background-card hover:border-accent-primary hover:bg-background-elevated cursor-pointer";
+          }
+          return (
+            <button key={i} className={className} onClick={() => handleAnswer(i)}>
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+      {showResult && (
+        <div className="flex justify-end">
+          <Button variant="primary" size="sm" onClick={handleNext}>
+            {currentQ < quiz.length - 1 ? "Question suivante" : "Voir le résultat"}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ==============================
+// Video card component
+// ==============================
+
+function VideoCard({ video }: { video: VideoRef }) {
+  return (
+    <div className="overflow-hidden rounded-lg border border-border">
+      <div className="relative aspect-video bg-background-elevated">
+        <img
+          src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
+          alt={`${video.artist} — ${video.title}`}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+        <a
+          href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/40"
+          aria-label={`Regarder ${video.title} de ${video.artist} sur YouTube`}
+        >
+          <svg className="h-12 w-12 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </a>
+      </div>
+      <div className="p-3">
+        <p className="text-sm font-medium text-text-primary">{video.artist}</p>
+        <p className="text-xs text-text-secondary">{video.title}</p>
+        <p className="mt-1 text-xs text-text-muted italic">{video.why}</p>
+      </div>
+    </div>
+  );
+}
+
+// ==============================
+// Joke teaser component
+// ==============================
+
+function JokeTeaser({ jokeIds }: { jokeIds: number[] }) {
+  if (!jokeIds.length) return null;
+  return (
+    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+      <h4 className="mb-2 text-sm font-semibold text-text-primary">
+        Vannes à pratiquer
+      </h4>
+      <p className="text-sm text-text-secondary">
+        {jokeIds.length} vannes sélectionnées pour ce module.{" "}
+        <Link
+          href="/vannes"
+          className="text-accent-primary hover:underline"
+        >
+          Découvre-les dans le catalogue
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+// ==============================
+// Main component
+// ==============================
+
 export function ParcoursDetail({ slug }: { slug: string }) {
   const [path, setPath] = useState<PathData | null>(null);
   const [progress, setProgress] = useState<UserProgress | null>(null);
@@ -56,6 +245,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
   const [completing, setCompleting] = useState<number | null>(null);
   const [completionError, setCompletionError] = useState<string | null>(null);
   const [xpGained, setXpGained] = useState<{ step: number; xp: number } | null>(null);
+  const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const { status } = useSession();
 
@@ -145,6 +335,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
   const completedSteps = progress?.completedSteps ?? [];
   const totalSteps = path.steps.length;
   const isPathCompleted = progress?.completedAt !== null && progress?.completedAt !== undefined;
+  const totalXp = path.steps.reduce((sum, s) => sum + (s.moduleXp ?? 20), 0);
 
   return (
     <>
@@ -171,6 +362,16 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           </div>
         </div>
         <p className="mt-4 text-text-secondary">{path.description}</p>
+        {path.personaTagline && (
+          <p className="mt-2 text-sm font-medium text-accent-primary">
+            {path.personaTagline}
+          </p>
+        )}
+        {path.testimonial && (
+          <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+            {path.testimonial}
+          </p>
+        )}
       </div>
 
       {/* Progress */}
@@ -183,7 +384,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                 : `${completedSteps.length}/${totalSteps} étapes complétées`}
             </span>
             <span className="font-medium text-accent-primary">
-              +{totalSteps * 20 + 100} XP au total
+              {totalXp} XP au total
             </span>
           </div>
           <ProgressBar
@@ -211,6 +412,9 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           const isExpanded = expandedStep === step.order;
           const isPremiumLocked =
             status !== "authenticated" && step.order > 1;
+          const stepXp = step.moduleXp ?? 20;
+          const hasQuiz = step.quiz && step.quiz.length > 0;
+          const isQuizDone = quizDone.has(step.order);
 
           return (
             <Card
@@ -226,7 +430,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                 role="button"
                 tabIndex={0}
                 aria-expanded={isExpanded}
-                aria-label={`Étape ${step.order} : ${step.tip.title}${isCompleted ? " — complétée" : ""}`}
+                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? " — complétée" : ""}`}
                 className="cursor-pointer"
                 onClick={() =>
                   setExpandedStep(isExpanded ? null : step.order)
@@ -258,14 +462,17 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                     </div>
                     <div>
                       <CardTitle className="text-base">
-                        {step.tip.title}
+                        {step.moduleTitle ?? step.tip.title}
                       </CardTitle>
                       <div className="mt-1 flex items-center gap-2">
                         <span className="text-xs text-accent-primary">
-                          +20 XP
+                          +{stepXp} XP
                         </span>
-                        {step.order === 1 && (
-                          <Badge variant="secondary">Essai gratuit</Badge>
+                        {step.free && (
+                          <Badge variant="primary">Essai gratuit</Badge>
+                        )}
+                        {step.order === 1 && !step.free && (
+                          <Badge variant="primary">Essai gratuit</Badge>
                         )}
                       </div>
                     </div>
@@ -299,15 +506,47 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                       </Link>
                     </div>
                   ) : (
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="mb-1 text-sm font-semibold text-text-primary">
-                          Le conseil
-                        </h4>
-                        <p className="text-sm text-text-secondary">
-                          {step.tip.content}
-                        </p>
-                      </div>
+                    <div className="space-y-5">
+                      {/* Why this step */}
+                      {step.why && (
+                        <div className="rounded-lg bg-background-elevated p-3">
+                          <p className="text-sm font-medium text-accent-primary">
+                            Pourquoi ce module ?
+                          </p>
+                          <p className="mt-1 text-sm text-text-secondary">
+                            {step.why}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Module detail */}
+                      {step.moduleDetail && (
+                        <div>
+                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
+                            Ce que tu vas apprendre
+                          </h4>
+                          <p className="text-sm text-text-secondary">
+                            {step.moduleDetail}
+                          </p>
+                          {step.moduleFormat && (
+                            <p className="mt-2 text-xs text-text-muted">
+                              Format : {step.moduleFormat}
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Tip content (from DB) */}
+                      {step.tip.content && (
+                        <div>
+                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
+                            Le conseil
+                          </h4>
+                          <p className="text-sm text-text-secondary">
+                            {step.tip.content}
+                          </p>
+                        </div>
+                      )}
 
                       {step.tip.example && (
                         <div>
@@ -329,6 +568,46 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                             {step.tip.exercise}
                           </p>
                         </div>
+                      )}
+
+                      {/* Jokes teaser */}
+                      {step.jokeIds && step.jokeIds.length > 0 && (
+                        <JokeTeaser jokeIds={step.jokeIds} />
+                      )}
+
+                      {/* Videos */}
+                      {step.videos && step.videos.length > 0 && (
+                        <div>
+                          <h4 className="mb-2 text-sm font-semibold text-text-primary">
+                            Vidéos à regarder
+                          </h4>
+                          <div className="grid gap-3 sm:grid-cols-2">
+                            {step.videos.map((v) => (
+                              <VideoCard key={v.youtubeId} video={v} />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Quiz */}
+                      {hasQuiz && !isQuizDone && !isCompleted && (
+                        <div>
+                          <h4 className="mb-2 text-sm font-semibold text-text-primary">
+                            Teste tes connaissances
+                          </h4>
+                          <StepQuiz
+                            quiz={step.quiz!}
+                            onComplete={() =>
+                              setQuizDone((prev) => new Set(prev).add(step.order))
+                            }
+                          />
+                        </div>
+                      )}
+
+                      {hasQuiz && isQuizDone && !isCompleted && (
+                        <p className="text-center text-sm text-accent-primary">
+                          Quiz terminé
+                        </p>
                       )}
 
                       {/* XP notification — accessible via aria-live */}
@@ -376,6 +655,54 @@ export function ParcoursDetail({ slug }: { slug: string }) {
           );
         })}
       </div>
+
+      {/* End of parcours CTA */}
+      {isPathCompleted && (
+        <Card className="mt-8 border-accent-primary/30 bg-accent-primary/5">
+          <CardContent className="py-8 text-center">
+            <p className="font-display text-2xl font-bold">
+              Bravo, tu as terminé le {path.title} !
+            </p>
+            <p className="mx-auto mt-2 max-w-md text-text-secondary">
+              {totalXp} XP gagnés. Tu as développé de nouvelles compétences. Continue sur ta lancée !
+            </p>
+            {path.nextParcours && (
+              <div className="mt-6">
+                <p className="text-sm text-text-secondary">
+                  {path.nextParcoursReason}
+                </p>
+                <Link href={`/parcours/${path.nextParcours}`}>
+                  <Button variant="primary" size="lg" className="mt-3">
+                    Passer au parcours suivant
+                  </Button>
+                </Link>
+              </div>
+            )}
+            {!path.nextParcours && (
+              <Link href="/parcours">
+                <Button variant="primary" size="lg" className="mt-4">
+                  Voir tous les parcours
+                </Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Cross-recommendation for non-completed */}
+      {!isPathCompleted && path.nextParcours && (
+        <div className="mt-8 rounded-lg border border-border p-4 text-center">
+          <p className="text-sm text-text-muted">
+            Envie d&apos;aller plus loin ?{" "}
+            <Link
+              href={`/parcours/${path.nextParcours}`}
+              className="text-accent-primary hover:underline"
+            >
+              Découvre le parcours suivant
+            </Link>
+          </p>
+        </div>
+      )}
 
       <AuthModal
         isOpen={authModalOpen}

@@ -3,8 +3,8 @@ import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/page";
 
 jest.mock("@/components/ui/progress-bar", () => ({
-  ProgressBar: ({ value, max }: { value: number; max: number }) => (
-    <div data-testid="progress-bar" data-value={value} data-max={max} />
+  ProgressBar: (props: Record<string, unknown>) => (
+    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} />
   ),
 }));
 

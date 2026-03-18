@@ -4,8 +4,45 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
 
+interface SeedStep {
+  week: number;
+  tipTitle: string;
+  dayNumber: number;
+  why: string;
+  moduleTitle: string;
+  moduleDetail: string;
+  moduleFormat: string;
+  moduleXp: number;
+  free: boolean;
+  jokeIds?: number[];
+  videos?: { youtubeId: string; artist: string; title: string; why: string }[];
+  quiz?: { question: string; options: string[]; correctIndex: number }[];
+}
+
+interface SeedParcours {
+  slug: string;
+  title: string;
+  description: string;
+  duration: string;
+  timePerWeek?: string;
+  difficulty: string;
+  difficultyLabel?: string;
+  icon: string;
+  order: number;
+  persona?: string;
+  personaTagline?: string;
+  testimonial?: string;
+  nextParcours?: string;
+  nextParcoursReason?: string;
+  steps: SeedStep[];
+}
+
+function getSeedForSlug(slug: string): SeedParcours | undefined {
+  return (parcoursSeed as SeedParcours[]).find((p) => p.slug === slug);
+}
+
 function buildFallbackFromSeed(slug: string) {
-  const seed = parcoursSeed.find((p) => p.slug === slug);
+  const seed = getSeedForSlug(slug);
   if (!seed) return null;
 
   return {
@@ -26,10 +63,57 @@ function buildFallbackFromSeed(slug: string) {
         content: s.moduleDetail,
         category: "GENERAL",
         difficulty: seed.difficulty,
-        example: s.moduleFormat,
-        exercise: s.why,
+        example: "",
+        exercise: "",
       },
+      // Rich content from seed
+      moduleTitle: s.moduleTitle,
+      moduleDetail: s.moduleDetail,
+      moduleFormat: s.moduleFormat,
+      moduleXp: s.moduleXp,
+      why: s.why,
+      free: s.free,
+      jokeIds: s.jokeIds ?? [],
+      videos: s.videos ?? [],
+      quiz: s.quiz ?? [],
     })),
+    // Parcours-level enrichments
+    nextParcours: seed.nextParcours ?? null,
+    nextParcoursReason: seed.nextParcoursReason ?? null,
+    personaTagline: seed.personaTagline ?? null,
+    testimonial: seed.testimonial ?? null,
+  };
+}
+
+function enrichPathWithSeed(path: Record<string, unknown>, slug: string) {
+  const seed = getSeedForSlug(slug);
+  if (!seed) return path;
+
+  const steps = path.steps as Array<Record<string, unknown>>;
+  const enrichedSteps = steps.map((step, i) => {
+    const seedStep = seed.steps[i];
+    if (!seedStep) return step;
+    return {
+      ...step,
+      moduleTitle: seedStep.moduleTitle,
+      moduleDetail: seedStep.moduleDetail,
+      moduleFormat: seedStep.moduleFormat,
+      moduleXp: seedStep.moduleXp,
+      why: seedStep.why,
+      free: seedStep.free,
+      jokeIds: seedStep.jokeIds ?? [],
+      videos: seedStep.videos ?? [],
+      quiz: seedStep.quiz ?? [],
+    };
+  });
+
+  return {
+    ...path,
+    steps: enrichedSteps,
+    nextParcours: seed.nextParcours ?? null,
+    nextParcoursReason: seed.nextParcoursReason ?? null,
+    personaTagline: seed.personaTagline ?? null,
+    testimonial: seed.testimonial ?? null,
   };
 }
 
@@ -72,6 +156,12 @@ export async function GET(
       );
     }
 
+    // Enrich DB path with seed data (vannes, videos, quiz, etc.)
+    const enrichedPath = enrichPathWithSeed(
+      path as unknown as Record<string, unknown>,
+      params.slug
+    );
+
     // Fetch user progress if authenticated
     let userProgress = null;
     const session = await getServerSession(authOptions);
@@ -85,7 +175,7 @@ export async function GET(
       });
     }
 
-    return NextResponse.json({ path, userProgress });
+    return NextResponse.json({ path: enrichedPath, userProgress });
   } catch (error) {
     console.error("[API /parcours/by-slug]", error);
     // Fallback to seed data on DB error too
