@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
-import parcoursSeed from "../../../../../../../docs/content/parcours-seed.json";
+import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
 
 // Get the moduleXp from seed for a given parcours step
 function getStepXpFromSeed(pathSlug: string | null, stepOrder: number): number {
