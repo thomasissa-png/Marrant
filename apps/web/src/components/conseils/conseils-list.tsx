@@ -245,17 +245,17 @@ export function ConseilsList() {
                 <CardTitle>{tip.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-text-secondary">{tip.content}</p>
+                <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-primary">Exemple</p>
-                      <p className="text-sm text-text-primary">{tip.example}</p>
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
                     </div>
-                    <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase text-accent-secondary">Exercice</p>
-                      <p className="text-sm text-text-primary">{tip.exercise}</p>
+                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
                     </div>
                   </div>
                 )}

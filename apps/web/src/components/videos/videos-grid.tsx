@@ -217,7 +217,7 @@ export function VideosGrid() {
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-base font-semibold text-text-primary line-clamp-2">
+                  <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">
                     {video.title}
                   </h3>
                   <div className="flex shrink-0 items-center gap-1">
@@ -232,13 +232,13 @@ export function VideosGrid() {
                     <Badge variant="default">{video.technique}</Badge>
                   )}
                 </div>
-                <p className="mt-2 text-xs text-text-muted line-clamp-2">{video.description}</p>
+                <p className="mt-2 text-sm text-text-muted line-clamp-2">{video.description}</p>
                 {video.learnings && video.learnings.length > 0 && (
-                  <div className="mt-3 rounded-lg bg-background-elevated p-3">
-                    <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
-                    <ul className="mt-1.5 space-y-1">
+                  <div className="mt-3 rounded-lg bg-background-elevated p-4">
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
+                    <ul className="mt-1.5 space-y-1.5">
                       {video.learnings.map((learning, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                        <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                           <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
                           {learning}
                         </li>
@@ -247,9 +247,9 @@ export function VideosGrid() {
                   </div>
                 )}
                 {video.exercise && (
-                  <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                    <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
-                    <p className="mt-1 text-xs text-text-secondary">{video.exercise}</p>
+                  <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                    <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                   </div>
                 )}
               </CardContent>

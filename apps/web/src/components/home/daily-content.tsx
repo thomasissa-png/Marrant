@@ -43,25 +43,44 @@ interface DailyData {
   video: Video | null;
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
+// Labels alignés avec le regroupement des filtres vannes + conseils/vidéos
+const JOKE_CATEGORY_LABELS: Record<string, string> = {
   AUTODERISION: "Auto-dérision",
-  SITUATION: "Situation",
+  SITUATION: "Vie quotidienne",
   ABSURDE: "Absurde",
-  OBSERVATIONNEL: "Observationnel",
+  OBSERVATIONNEL: "Vie quotidienne",
   JEUX_DE_MOTS: "Jeux de mots",
-  CULTUREL: "Culturel",
-  COUPLE: "Couple",
-  BOULOT: "Boulot",
-  ECOLE: "École",
-  GAMING: "Gaming",
-  RESEAUX_SOCIAUX: "Réseaux sociaux",
-  DATING: "Dating",
-  SOIREES: "Soirées",
-  PARENTS: "Parents",
+  CULTUREL: "Vie quotidienne",
+  COUPLE: "Couple & Dating",
+  BOULOT: "Boulot & Collègues",
+  ECOLE: "École & Études",
+  GAMING: "Digital & Gaming",
+  RESEAUX_SOCIAUX: "Digital & Gaming",
+  DATING: "Couple & Dating",
+  SOIREES: "Soirées & Apéro",
+  PARENTS: "Famille",
+};
+
+const TIP_VIDEO_CATEGORY_LABELS: Record<string, string> = {
   TIMING: "Timing",
+  AUTODERISION: "Auto-dérision",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",
+  ABSURDE: "Absurde",
+  JEUX_DE_MOTS: "Jeux de mots",
+};
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  DEBUTANT: "Débutant",
+  INTERMEDIAIRE: "Intermédiaire",
+  EXPERT: "Expert",
+};
+
+const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
+  DEBUTANT: "secondary",
+  INTERMEDIAIRE: "primary",
+  EXPERT: "error",
 };
 
 export function DailyContent() {
@@ -109,7 +128,6 @@ export function DailyContent() {
       <div className="grid gap-6 md:grid-cols-3">
         {/* Vanne du jour */}
         <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
-          {/* Top accent bar */}
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
             <div className="mb-4 flex items-center gap-2">
@@ -117,7 +135,7 @@ export function DailyContent() {
               <Badge variant="primary">Vanne du jour</Badge>
               {data.joke && (
                 <Badge variant="default">
-                  {CATEGORY_LABELS[data.joke.category] ?? data.joke.category}
+                  {JOKE_CATEGORY_LABELS[data.joke.category] ?? data.joke.category}
                 </Badge>
               )}
             </div>
@@ -159,32 +177,37 @@ export function DailyContent() {
         <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
           <div className="p-6">
-            <div className="mb-4 flex items-center gap-2">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">💡</span>
               <Badge variant="secondary">Conseil du jour</Badge>
               {data.tip && (
-                <Badge variant="default">
-                  {CATEGORY_LABELS[data.tip.category] ?? data.tip.category}
-                </Badge>
+                <>
+                  <Badge variant={DIFFICULTY_VARIANT[data.tip.difficulty] ?? "default"}>
+                    {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
+                  </Badge>
+                  <Badge variant="default">
+                    {TIP_VIDEO_CATEGORY_LABELS[data.tip.category] ?? data.tip.category}
+                  </Badge>
+                </>
               )}
             </div>
             {data.tip ? (
               <>
-                <div className="space-y-3">
-                  <h3 className="text-base font-bold text-text-primary">
+                <div className="space-y-4">
+                  <h3 className="font-display text-lg font-bold text-text-primary">
                     {data.tip.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-secondary">{data.tip.content}</p>
+                  <p className="text-sm leading-relaxed text-text-primary">{data.tip.content}</p>
                   {data.tip.example && (
-                    <div className="rounded-lg bg-background-elevated p-3">
-                      <p className="text-xs font-semibold text-text-primary">Exemple concret</p>
-                      <p className="mt-1 text-xs text-text-secondary">{data.tip.example}</p>
+                    <div className="rounded-lg bg-background-elevated p-4">
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple concret</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.example}</p>
                     </div>
                   )}
                   {data.tip.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                      <p className="text-xs font-semibold text-accent-primary">Exercice du jour</p>
-                      <p className="mt-1 text-xs text-text-secondary">{data.tip.exercise}</p>
+                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice du jour</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.exercise}</p>
                     </div>
                   )}
                 </div>
@@ -206,16 +229,16 @@ export function DailyContent() {
         <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
           <div className="p-6">
-            <div className="mb-4 flex items-center gap-2">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">🎬</span>
               <Badge variant="default">Vidéo du jour</Badge>
               {data.video && (
                 <>
                   <Badge variant="secondary">
-                    {CATEGORY_LABELS[data.video.category] ?? data.video.category}
+                    {TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category}
                   </Badge>
                   {data.video.technique &&
-                    data.video.technique.toLowerCase() !== (CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
+                    data.video.technique.toLowerCase() !== (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
                     <Badge variant="primary">{data.video.technique}</Badge>
                   )}
                 </>
@@ -223,20 +246,20 @@ export function DailyContent() {
             </div>
             {data.video ? (
               <>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
                     <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
-                    <p className="text-xs text-text-secondary">{data.video.channelName}</p>
+                    <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
+                    <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
-                    <div className="rounded-lg bg-background-elevated p-3">
-                      <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
-                      <ul className="mt-1.5 space-y-1">
+                    <div className="rounded-lg bg-background-elevated p-4">
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
+                      <ul className="mt-1.5 space-y-1.5">
                         {data.video.learnings.map((learning, i) => (
-                          <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                          <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                             <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
                             {learning}
                           </li>
@@ -245,9 +268,9 @@ export function DailyContent() {
                     </div>
                   )}
                   {data.video.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                      <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
-                      <p className="mt-1 text-xs text-text-secondary">{data.video.exercise}</p>
+                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{data.video.exercise}</p>
                     </div>
                   )}
                 </div>
