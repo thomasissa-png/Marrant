@@ -34,7 +34,7 @@ const homepageFaqs = [
 
 export const metadata: Metadata = {
   title: "Deviens drôle et améliore ta répartie | deviens-marrant.fr",
-  description: "Blagues, conseils d'humour, vidéos de stand-up analysées et parcours structurés pour devenir plus drôle au quotidien. Rejoins la communauté francophone de l'humour.",
+  description: "Blagues, conseils d'humour, vidéos de stand-up analysées et parcours structurés pour devenir plus drôle au quotidien. Rejoins la communauté de l'humour.",
   keywords: [
     "comment devenir drôle",
     "devenir drôle",

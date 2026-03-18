@@ -7,9 +7,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "À propos — qui sommes-nous ?",
+  title: "À propos de deviens-marrant.fr — plateforme humour en ligne",
   description:
-    "Découvre l'équipe derrière deviens-marrant.fr, la plateforme francophone pour apprendre l'humour, la répartie et le storytelling.",
+    "L'équipe derrière deviens-marrant.fr, la plateforme francophone pour apprendre l'humour et la répartie. Notre mission, nos valeurs, notre approche.",
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",

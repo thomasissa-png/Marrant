@@ -9,8 +9,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title:
-    "Parcours humour — deviens drôle et développe ta répartie pas à pas",
+  title: "Parcours humour — deviens drôle et développe ta répartie",
   description:
     "Parcours structurés pour devenir drôle et avoir de la répartie. Machine à Café (3 sem.), Répartie (4 sem.), Confiance (6 sem.). Progresse à ton rythme.",
   keywords: [
