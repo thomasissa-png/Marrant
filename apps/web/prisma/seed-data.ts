@@ -247,6 +247,18 @@ async function main() {
   }
 
   // PARCOURS D'APPRENTISSAGE — recréer si vide ou si les steps ont été nettoyées
+  // Utilise parcours-seed.json pour une curation par thème et persona (pas par index)
+  interface PathSeed {
+    slug: string;
+    title: string;
+    description: string;
+    duration: string;
+    difficulty: string;
+    icon: string;
+    order: number;
+    steps: Array<{ week: number; tipTitle: string; dayNumber: number }>;
+  }
+
   const pathCount = await prisma.learningPath.count();
   const stepCount = await prisma.learningPathStep.count();
   if (pathCount === 0 || stepCount === 0) {
@@ -256,72 +268,59 @@ async function main() {
       await prisma.learningPath.deleteMany({});
     }
 
-    const learningPaths = [
-      {
-        title: "Parcours Machine à Café",
-        description:
-          "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
-        slug: "machine-a-cafe",
-        duration: "3 semaines",
-        difficulty: "DEBUTANT" as const,
-        icon: "☕",
-        order: 1,
-      },
-      {
-        title: "Parcours Répartie",
-        description:
-          "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression.",
-        slug: "repartie",
-        duration: "4 semaines",
-        difficulty: "INTERMEDIAIRE" as const,
-        icon: "⚡",
-        order: 2,
-      },
-      {
-        title: "Parcours Confiance",
-        description:
-          "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
-        slug: "confiance",
-        duration: "6 semaines",
-        difficulty: "EXPERT" as const,
-        icon: "🌱",
-        order: 3,
-      },
-    ];
+    const parcoursSeed = loadSeedData<PathSeed>("parcours-seed.json");
 
-    const seededTips = await prisma.tip.findMany({
-      orderBy: { createdAt: "asc" },
+    // Charger tous les tips pour matcher par titre
+    const allTips = await prisma.tip.findMany({
+      where: { isActive: true },
+      select: { id: true, title: true },
     });
-    let createdPaths = 0;
+    const tipByTitle = new Map(allTips.map((t) => [t.title, t.id]));
 
-    for (const pathData of learningPaths) {
+    let createdPaths = 0;
+    let createdSteps = 0;
+    let missingTips: string[] = [];
+
+    for (const pathData of parcoursSeed) {
       const path = await prisma.learningPath.create({
         data: {
           title: pathData.title,
           description: pathData.description,
           slug: pathData.slug,
           duration: pathData.duration,
-          difficulty: pathData.difficulty,
+          difficulty: pathData.difficulty as never,
           icon: pathData.icon,
           order: pathData.order,
         },
       });
 
-      const stepsCount = Math.min(5, seededTips.length);
       const stepsData = [];
-      for (let i = 0; i < stepsCount; i++) {
-        const tipIndex = ((pathData.order - 1) * 5 + i) % seededTips.length;
+      for (const step of pathData.steps) {
+        const tipId = tipByTitle.get(step.tipTitle);
+        if (!tipId) {
+          missingTips.push(`[${pathData.slug}] Semaine ${step.week}: "${step.tipTitle}"`);
+          continue;
+        }
         stepsData.push({
           learningPathId: path.id,
-          tipId: seededTips[tipIndex].id,
-          order: i + 1,
-          dayNumber: (i + 1) * (pathData.order <= 2 ? 2 : 3),
+          tipId,
+          order: step.week,
+          dayNumber: step.dayNumber,
         });
       }
-      await prisma.learningPathStep.createMany({ data: stepsData });
+
+      if (stepsData.length > 0) {
+        await prisma.learningPathStep.createMany({ data: stepsData });
+        createdSteps += stepsData.length;
+      }
       createdPaths++;
     }
-    console.log(`${createdPaths} parcours d'apprentissage créés`);
+
+    console.log(`${createdPaths} parcours créés avec ${createdSteps} étapes curatées`);
+    if (missingTips.length > 0) {
+      console.warn(`⚠️  ${missingTips.length} tip(s) introuvable(s) pour les parcours :`);
+      missingTips.forEach((t) => console.warn(`   ${t}`));
+    }
   } else {
     console.log(`Parcours déjà présents (${pathCount}), ignoré`);
   }

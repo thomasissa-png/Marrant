@@ -1,0 +1,116 @@
+[
+  {
+    "slug": "machine-a-cafe",
+    "title": "Parcours Machine à Café",
+    "description": "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
+    "duration": "3 semaines",
+    "difficulty": "DEBUTANT",
+    "icon": "☕",
+    "order": 1,
+    "persona": "Sophie (26 ans, jeune active)",
+    "steps": [
+      {
+        "week": 1,
+        "tipTitle": "L'humour à la machine à café",
+        "dayNumber": 3,
+        "why": "Le terrain de jeu de Sophie : la pause café. Ce conseil donne les codes exacts pour placer une vanne entre deux réunions."
+      },
+      {
+        "week": 2,
+        "tipTitle": "Lire le tempo du groupe : savoir quand c'est ton tour",
+        "dayNumber": 10,
+        "why": "Sophie sait quoi dire mais pas QUAND. Ce conseil lui apprend à lire le groupe et saisir le bon moment."
+      },
+      {
+        "week": 3,
+        "tipTitle": "La règle des détails spécifiques : ce qui rend une histoire vivante",
+        "dayNumber": 17,
+        "why": "Sophie passe de la vanne courte au storytelling. Les détails spécifiques transforment ses anecdotes de weekend en moments de rire collectif."
+      }
+    ]
+  },
+  {
+    "slug": "repartie",
+    "title": "Parcours Répartie",
+    "description": "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression.",
+    "duration": "4 semaines",
+    "difficulty": "INTERMEDIAIRE",
+    "icon": "⚡",
+    "order": 2,
+    "persona": "Yanis (20 ans, étudiant)",
+    "steps": [
+      {
+        "week": 1,
+        "tipTitle": "La répartie bienveillante",
+        "dayNumber": 3,
+        "why": "Les bases pour Yanis : rebondir sans agresser. La répartie bienveillante s'affirme sans créer de conflit — parfait pour un timide qui débute."
+      },
+      {
+        "week": 2,
+        "tipTitle": "Le silence après le rire : savoir ne pas enchaîner",
+        "dayNumber": 10,
+        "why": "Yanis a tendance à combler les silences par panique. Ce conseil lui apprend que le silence APRÈS une bonne réplique est sa meilleure arme."
+      },
+      {
+        "week": 3,
+        "tipTitle": "Répondre aux chambrages entre potes sans rester muet",
+        "dayNumber": 17,
+        "why": "Le cœur du parcours : Yanis apprend la technique en 3 temps (accepter → exagérer → retourner) pour ne plus être la cible facile entre potes."
+      },
+      {
+        "week": 4,
+        "tipTitle": "Savoir rebondir sur un raté",
+        "dayNumber": 24,
+        "why": "Le niveau avancé : quand la vanne tombe à plat, Yanis sait comment transformer l'échec en deuxième chance comique. C'est ça, la vraie répartie."
+      }
+    ]
+  },
+  {
+    "slug": "confiance",
+    "title": "Parcours Confiance",
+    "description": "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
+    "duration": "6 semaines",
+    "difficulty": "EXPERT",
+    "icon": "🌱",
+    "order": 3,
+    "persona": "Marc (34 ans, récemment séparé)",
+    "steps": [
+      {
+        "week": 1,
+        "tipTitle": "Retrouver sa voix drôle après une pause sociale",
+        "dayNumber": 3,
+        "why": "Marc a perdu confiance. Ce conseil commence en douceur : micro-vannes au quotidien, zéro pression, juste observer et commenter."
+      },
+      {
+        "week": 2,
+        "tipTitle": "Le pouvoir de l'auto-dérision",
+        "dayNumber": 10,
+        "why": "Marc apprend à rire de lui-même avec bienveillance. L'autodérision est l'outil #1 pour reconstruire la confiance — rire de soi montre qu'on s'accepte."
+      },
+      {
+        "week": 3,
+        "tipTitle": "L'humour de trentenaire : tes références sont tes armes",
+        "dayNumber": 17,
+        "why": "Marc découvre que son vécu (MSN, K7, avant/après Internet) est une mine d'or. Ses références générationnelles sont un avantage, pas un handicap."
+      },
+      {
+        "week": 4,
+        "tipTitle": "Trouver sa place dans un groupe qui rit",
+        "dayNumber": 24,
+        "why": "Marc passe de l'observation à la participation. Ce conseil donne des techniques concrètes pour s'intégrer dans un groupe sans forcer."
+      },
+      {
+        "week": 5,
+        "tipTitle": "Le décalage de registre",
+        "dayNumber": 31,
+        "why": "Marc explore un registre avancé : utiliser un ton inattendu pour surprendre. Le décalage entre le sujet et le ton est une technique de stand-up pro."
+      },
+      {
+        "week": 6,
+        "tipTitle": "Développer son style personnel",
+        "dayNumber": 38,
+        "why": "Le sommet du parcours : Marc identifie ce qui marche pour LUI, crée son répertoire personnel et ancre ses nouvelles habitudes. Il repart avec son propre style."
+      }
+    ]
+  }
+]
