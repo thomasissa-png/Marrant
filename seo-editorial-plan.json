@@ -1,20 +1,26 @@
 {
   "_meta": {
-    "version": "1.0",
+    "version": "2.0",
     "created": "2026-03-14",
-    "lastUpdated": "2026-03-14",
+    "lastUpdated": "2026-03-18",
     "description": "Planning éditorial SEO automatisé pour deviens-marrant.fr. Ce fichier est lu et mis à jour par l'agent SEO à chaque session.",
     "instructions": {
-      "agent": "À chaque session, l'agent SEO doit : 1) Lire ce fichier. 2) Identifier les articles 'planned' dont la scheduledWeek est passée ou en cours. 3) Rédiger et publier ces articles dans blog-articles.ts. 4) Passer leur statut à 'published' avec la date. 5) Si toutes les semaines sont couvertes, prolonger le planning de 4 semaines supplémentaires en suivant la stratégie de clusters. 6) Sauvegarder ce fichier mis à jour.",
+      "agent": "À chaque session, l'agent SEO doit : 1) Lire ce fichier. 2) Identifier les articles 'planned' dont la scheduledWeek est passée ou en cours. 3) Rédiger et publier ces articles dans la base BlogArticle. 4) Passer leur statut à 'published' avec la date. 5) Si toutes les semaines sont couvertes, prolonger le planning de 4 semaines supplémentaires en suivant la stratégie de clusters. 6) Sauvegarder ce fichier mis à jour.",
       "autoExtend": "Quand il reste moins de 4 articles en statut 'planned', générer automatiquement 8 nouveaux articles en suivant les clusters thématiques et les mots-clés long-tail non encore couverts.",
       "qualityRules": [
         "Titre < 60 caractères, mot-clé principal en début",
         "Excerpt/meta description < 155 caractères, incitatif",
         "Contenu : 1500-2500 mots pour pillar pages, 1000-1800 pour satellites",
-        "Structure : H2 pour sous-sujets, H3 pour détails, listes, gras sur termes clés",
-        "Maillage interne : minimum 5 liens par article (vers articles + /vannes, /conseils, /videos, /parcours, /glossaire)",
+        "Structure : H2 pour sous-sujets, H3 pour détails, gras sur termes clés",
+        "Maillage interne : minimum 5 liens par article (vers articles + /vannes, /conseils, /videos, /parcours)",
         "FAQ schema : 3-5 questions en fin d'article pour Rich Snippets",
-        "CTA vers la section produit la plus pertinente"
+        "CTA vers la section produit la plus pertinente",
+        "OBLIGATOIRE : Minimum 3 traits d'humour / vannes par article — le blog est la DÉMO du produit",
+        "OBLIGATOIRE : Maximum 1 mention de Jamel, Gad ou Foresti par article — priorité aux refs post-2020",
+        "OBLIGATOIRE : Humoristes modernes à citer en priorité : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Inès Reg",
+        "OBLIGATOIRE : Chaque technique doit avoir un EXEMPLE DRÔLE concret, pas juste une explication théorique",
+        "INTERDIT : Articles 100% listicles — varier les formats (storytelling, analyse, mythbusting, portrait, guide)",
+        "INTERDIT : Cannibaliser un article existant — vérifier les slugs et mots-clés avant de rédiger"
       ]
     }
   },
@@ -62,18 +68,29 @@
     {
       "id": "apprendre-humour",
       "name": "Apprendre à devenir drôle",
-      "pillarSlug": "guide-devenir-drole-2026",
+      "pillarSlug": "comment-devenir-drole",
+      "pillarStatus": "published",
       "targetKeywords": ["devenir drôle", "apprendre à être drôle", "comment devenir drôle"],
-      "satellites": ["repartie-debutant-5-etapes", "humour-quotidien-8-habitudes", "exercices-developper-humour", "devenir-drole-30-jours", "pourquoi-blagues-marchent-pas"],
+      "satellites": ["humour-quotidien-8-habitudes", "exercices-developper-humour", "devenir-drole-30-jours", "pourquoi-blagues-marchent-pas"],
       "linkedPages": ["/parcours", "/conseils"]
     },
     {
       "id": "techniques-repartie",
       "name": "Techniques de répartie",
-      "pillarSlug": "avoir-repartie-10-techniques",
+      "pillarSlug": "comment-avoir-de-la-repartie",
+      "pillarStatus": "published",
       "targetKeywords": ["avoir de la répartie", "techniques répartie", "répartie débutant"],
-      "satellites": ["timing-humour-ralentir", "autoderision-rire-de-soi", "storytelling-drole-5-structures", "raconter-blague-sans-massacrer", "repartie-soiree-anti-malaise", "timidite-et-humour"],
-      "linkedPages": ["/conseils", "/glossaire"]
+      "satellites": ["repartie-debutant-5-etapes", "repartie-soiree-anti-malaise", "timidite-et-humour"],
+      "linkedPages": ["/conseils", "/parcours"]
+    },
+    {
+      "id": "techniques-delivery",
+      "name": "Techniques de livraison",
+      "pillarSlug": "timing-humour",
+      "pillarStatus": "published",
+      "targetKeywords": ["timing humour", "raconter blague", "erreurs blagues"],
+      "satellites": ["timing-humour-ralentir", "raconter-blague-sans-massacrer", "storytelling-drole-5-structures"],
+      "linkedPages": ["/conseils", "/videos"]
     },
     {
       "id": "types-humour",
@@ -81,7 +98,7 @@
       "pillarSlug": "5-types-humour-lequel-pour-toi",
       "targetKeywords": ["types humour", "humour noir", "jeux de mots"],
       "satellites": ["humour-noir-utiliser-sans-blesser", "jeux-de-mots-technique-3-etapes", "humour-self-deprecating", "comment-humoristes-creent-blagues"],
-      "linkedPages": ["/vannes", "/glossaire"]
+      "linkedPages": ["/vannes", "/videos"]
     },
     {
       "id": "humour-contexte",
@@ -97,56 +114,24 @@
       "pillarSlug": "meilleurs-standup-francais-analyses",
       "targetKeywords": ["stand-up français", "humoriste français", "analyse humour"],
       "satellites": ["glossaire-humour-20-termes", "ressources-progresser-humour"],
-      "linkedPages": ["/videos", "/glossaire"]
+      "linkedPages": ["/videos"]
     }
   ],
 
   "existingArticles": [
-    { "slug": "techniques-repartie", "status": "published", "date": "2026-03-08", "cluster": "techniques-repartie" },
-    { "slug": "apprendre-etre-drole", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour", "note": "Cannibalisation potentielle avec apprendre-a-etre-drole" },
-    { "slug": "timing-humour", "status": "published", "date": "2026-03-08", "cluster": "techniques-repartie" },
-    { "slug": "erreurs-blagues", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour" },
-    { "slug": "autoderision-interactions", "status": "published", "date": "2026-03-08", "cluster": "techniques-repartie" },
-    { "slug": "comment-devenir-drole", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour", "note": "Cannibalisation potentielle avec devenir-marrant et devenir-plus-drole" },
-    { "slug": "comment-avoir-de-la-repartie", "status": "published", "date": "2026-03-08", "cluster": "techniques-repartie" },
-    { "slug": "devenir-marrant", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour", "note": "Cannibalisation" },
-    { "slug": "devenir-plus-drole", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour", "note": "Cannibalisation" },
-    { "slug": "apprendre-a-etre-drole", "status": "published", "date": "2026-03-08", "cluster": "apprendre-humour", "note": "Cannibalisation" }
+    { "slug": "comment-devenir-drole", "status": "published", "date": "2026-03-13", "cluster": "apprendre-humour", "type": "pillar", "note": "Pillar fusionné — absorbe apprendre-etre-drole" },
+    { "slug": "comment-avoir-de-la-repartie", "status": "published", "date": "2026-03-12", "cluster": "techniques-repartie", "type": "pillar", "note": "Pillar fusionné — absorbe techniques-repartie" },
+    { "slug": "timing-humour", "status": "published", "date": "2026-02-28", "cluster": "techniques-delivery", "type": "pillar" },
+    { "slug": "erreurs-blagues", "status": "published", "date": "2026-02-20", "cluster": "apprendre-humour", "type": "satellite" },
+    { "slug": "autoderision-interactions", "status": "published", "date": "2026-02-15", "cluster": "techniques-repartie", "type": "satellite" },
+    { "slug": "techniques-repartie", "status": "redirected", "redirectTo": "comment-avoir-de-la-repartie", "note": "301 redirect — fusionné dans le pillar" },
+    { "slug": "apprendre-etre-drole", "status": "redirected", "redirectTo": "comment-devenir-drole", "note": "301 redirect — fusionné dans le pillar" },
+    { "slug": "devenir-marrant", "status": "redirected", "redirectTo": "comment-devenir-drole" },
+    { "slug": "devenir-plus-drole", "status": "redirected", "redirectTo": "comment-devenir-drole" },
+    { "slug": "apprendre-a-etre-drole", "status": "redirected", "redirectTo": "comment-devenir-drole" }
   ],
 
   "plannedArticles": [
-    {
-      "id": 1,
-      "slug": "guide-devenir-drole-2026",
-      "title": "Devenir drôle : le guide complet 2026",
-      "excerpt": "Méthode pas à pas pour apprendre à être drôle, de débutant à confirmé. Techniques, exercices et progression.",
-      "keywordPrimary": "devenir drôle",
-      "keywordSecondary": "apprendre humour",
-      "cluster": "apprendre-humour",
-      "type": "pillar",
-      "persona": "Marc",
-      "category": "GUIDE",
-      "scheduledWeek": 1,
-      "status": "planned",
-      "internalLinks": ["/parcours", "/conseils", "/vannes"],
-      "wordCountTarget": 2200
-    },
-    {
-      "id": 2,
-      "slug": "avoir-repartie-10-techniques",
-      "title": "Avoir de la répartie : 10 techniques",
-      "excerpt": "10 techniques concrètes pour ne plus jamais rester muet. Répartie, rebond, autodérision : tout est là.",
-      "keywordPrimary": "avoir de la répartie",
-      "keywordSecondary": "technique répartie",
-      "cluster": "techniques-repartie",
-      "type": "pillar",
-      "persona": "Yanis",
-      "category": "REPARTIE",
-      "scheduledWeek": 1,
-      "status": "planned",
-      "internalLinks": ["/conseils", "/glossaire", "/parcours"],
-      "wordCountTarget": 2200
-    },
     {
       "id": 3,
       "slug": "repartie-debutant-5-etapes",
@@ -160,8 +145,9 @@
       "category": "GUIDE",
       "scheduledWeek": 2,
       "status": "planned",
-      "internalLinks": ["/conseils", "/parcours", "/glossaire"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/conseils", "/parcours", "/blog/comment-avoir-de-la-repartie"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format storytelling : suivre un personnage fictif (étudiant) sur 5 étapes de progression"
     },
     {
       "id": 4,
@@ -176,8 +162,9 @@
       "category": "HABITUDES",
       "scheduledWeek": 2,
       "status": "planned",
-      "internalLinks": ["/vannes", "/conseils", "/blog/techniques-repartie"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/vannes", "/conseils", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format mythbusting : chaque habitude casse un mythe courant sur l'humour"
     },
     {
       "id": 5,
@@ -192,8 +179,9 @@
       "category": "ANALYSE",
       "scheduledWeek": 3,
       "status": "planned",
-      "internalLinks": ["/vannes", "/glossaire", "/videos"],
-      "wordCountTarget": 2000
+      "internalLinks": ["/vannes", "/videos", "/blog/autoderision-interactions"],
+      "wordCountTarget": 2000,
+      "formatNote": "Format quiz interactif : pour chaque type, un mini-test 'est-ce que ça te correspond ?' avec exemples de pros"
     },
     {
       "id": 6,
@@ -205,17 +193,18 @@
       "cluster": "types-humour",
       "type": "satellite",
       "persona": "Marc",
-      "category": "PRATIQUE",
+      "category": "ANALYSE",
       "scheduledWeek": 3,
       "status": "planned",
-      "internalLinks": ["/vannes", "/glossaire"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/vannes", "/blog/5-types-humour-lequel-pour-toi"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format analyse : décortiquer 3 sketches (Blanche Gardin, Pierre Desproges, Waly Dia) — bon/mauvais humour noir"
     },
     {
       "id": 7,
       "slug": "jeux-de-mots-technique-3-etapes",
       "title": "Jeux de mots : la technique en 3 étapes",
-      "excerpt": "Homophones, polysémie, paronymie : 3 étapes pour créer des jeux de mots qui font mouche à coup sûr.",
+      "excerpt": "Homophones, polysémie, paronymie : 3 étapes pour créer des jeux de mots qui font mouche.",
       "keywordPrimary": "jeux de mots",
       "keywordSecondary": "blagues jeux de mots",
       "cluster": "types-humour",
@@ -224,8 +213,9 @@
       "category": "PRATIQUE",
       "scheduledWeek": 4,
       "status": "planned",
-      "internalLinks": ["/vannes", "/glossaire", "/conseils"],
-      "wordCountTarget": 1400
+      "internalLinks": ["/vannes", "/conseils", "/blog/5-types-humour-lequel-pour-toi"],
+      "wordCountTarget": 1400,
+      "formatNote": "Format atelier : créer un jeu de mots ensemble, étape par étape, avec des exemples ratés puis réussis"
     },
     {
       "id": 8,
@@ -240,8 +230,9 @@
       "category": "PRATIQUE",
       "scheduledWeek": 4,
       "status": "planned",
-      "internalLinks": ["/conseils", "/parcours", "/vannes"],
-      "wordCountTarget": 1800
+      "internalLinks": ["/conseils", "/parcours", "/vannes", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format challenge : chaque exercice est un défi avec difficulté croissante, résultat attendu et témoignage fictif"
     },
     {
       "id": 9,
@@ -250,14 +241,15 @@
       "excerpt": "Le silence avant la punchline vaut de l'or. Comment maîtriser le timing pour faire rire à coup sûr.",
       "keywordPrimary": "timing humour",
       "keywordSecondary": "pause punchline",
-      "cluster": "techniques-repartie",
+      "cluster": "techniques-delivery",
       "type": "satellite",
       "persona": "Sophie",
       "category": "TIMING",
       "scheduledWeek": 5,
       "status": "planned",
-      "internalLinks": ["/conseils", "/videos", "/glossaire"],
-      "wordCountTarget": 1400
+      "internalLinks": ["/conseils", "/videos", "/blog/timing-humour"],
+      "wordCountTarget": 1400,
+      "formatNote": "Format analyse vidéo : décortiquer 3 moments de Roman Frayssinet et Blanche Gardin seconde par seconde"
     },
     {
       "id": 10,
@@ -266,65 +258,52 @@
       "excerpt": "Setup, escalade, punchline : la structure d'une blague réussie et les erreurs qui tuent l'effet.",
       "keywordPrimary": "raconter blague",
       "keywordSecondary": "structure blague",
-      "cluster": "techniques-repartie",
+      "cluster": "techniques-delivery",
       "type": "satellite",
       "persona": "Sophie",
       "category": "STORYTELLING",
       "scheduledWeek": 5,
       "status": "planned",
-      "internalLinks": ["/vannes", "/conseils", "/glossaire"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/vannes", "/conseils", "/blog/erreurs-blagues"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format before/after : prendre 3 blagues ratées et les transformer étape par étape en blagues réussies"
     },
     {
       "id": 11,
-      "slug": "autoderision-rire-de-soi",
-      "title": "Autodérision : devenir drôle en riant de soi",
-      "excerpt": "L'autodérision est l'arme secrète de l'humour. Comment s'en servir sans perdre confiance en soi.",
-      "keywordPrimary": "autodérision",
-      "keywordSecondary": "humour soi-même",
-      "cluster": "techniques-repartie",
-      "type": "satellite",
-      "persona": "Yanis",
-      "category": "PSYCHOLOGIE",
-      "scheduledWeek": 6,
-      "status": "planned",
-      "internalLinks": ["/conseils", "/parcours", "/glossaire"],
-      "wordCountTarget": 1500
-    },
-    {
-      "id": 12,
       "slug": "storytelling-drole-5-structures",
       "title": "Storytelling drôle : 5 structures efficaces",
       "excerpt": "Escalade, surprise, exagération : 5 structures narratives pour raconter des histoires qui font rire.",
       "keywordPrimary": "storytelling humour",
       "keywordSecondary": "raconter histoire drôle",
-      "cluster": "techniques-repartie",
+      "cluster": "techniques-delivery",
       "type": "satellite",
       "persona": "Marc",
       "category": "STORYTELLING",
       "scheduledWeek": 6,
       "status": "planned",
       "internalLinks": ["/videos", "/conseils", "/blog/raconter-blague-sans-massacrer"],
-      "wordCountTarget": 1600
+      "wordCountTarget": 1600,
+      "formatNote": "Format portrait : une structure = un humoriste qui l'utilise (Paul Mirabel=escalade, Fary=surprise, etc.)"
     },
     {
-      "id": 13,
+      "id": 12,
       "slug": "timidite-et-humour",
       "title": "Timidité et humour : 5 clés pour oser",
       "excerpt": "Introverti ne veut pas dire pas drôle. 5 clés pour utiliser ta sensibilité comme force comique.",
       "keywordPrimary": "humour timidité",
       "keywordSecondary": "répartie timide",
-      "cluster": "humour-contexte",
+      "cluster": "techniques-repartie",
       "type": "satellite",
       "persona": "Yanis",
       "category": "PSYCHOLOGIE",
       "scheduledWeek": 7,
       "status": "planned",
-      "internalLinks": ["/parcours", "/conseils", "/blog/repartie-debutant-5-etapes"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/parcours", "/conseils", "/blog/comment-avoir-de-la-repartie"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format témoignage : écrire comme si le persona Yanis racontait son parcours — 1ère personne déguisée"
     },
     {
-      "id": 14,
+      "id": 13,
       "slug": "blagues-travail-faire-rire-pro",
       "title": "Blagues au travail : faire rire sans déraper",
       "excerpt": "Machine à café, réunion, afterwork : comment placer une blague au bureau sans risquer ta réputation.",
@@ -336,11 +315,12 @@
       "category": "CONTEXTE",
       "scheduledWeek": 7,
       "status": "planned",
-      "internalLinks": ["/vannes", "/conseils", "/blog/humour-quotidien-8-habitudes"],
-      "wordCountTarget": 1800
+      "internalLinks": ["/vannes", "/conseils", "/blog/timing-humour"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format guide de survie : style ironique, comme un guide touristique de la jungle corporate"
     },
     {
-      "id": 15,
+      "id": 14,
       "slug": "repartie-soiree-anti-malaise",
       "title": "Répartie en soirée : techniques anti-malaise",
       "excerpt": "Comment briser la glace, rebondir sur une moquerie et devenir celui qu'on veut à côté de soi.",
@@ -352,11 +332,12 @@
       "category": "CONTEXTE",
       "scheduledWeek": 8,
       "status": "planned",
-      "internalLinks": ["/vannes", "/parcours", "/blog/avoir-repartie-10-techniques"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/vannes", "/parcours", "/blog/comment-avoir-de-la-repartie"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format scénario : 5 situations de soirée galère → diagnostic → technique → exemple réussi"
     },
     {
-      "id": 16,
+      "id": 15,
       "slug": "humour-apres-rupture",
       "title": "Humour après une rupture : retrouver le rire",
       "excerpt": "Comment l'humour aide à reconstruire sa confiance après une séparation. Étapes et exercices concrets.",
@@ -368,27 +349,29 @@
       "category": "PSYCHOLOGIE",
       "scheduledWeek": 8,
       "status": "planned",
-      "internalLinks": ["/parcours", "/conseils", "/blog/autoderision-rire-de-soi"],
-      "wordCountTarget": 1600
+      "internalLinks": ["/parcours", "/conseils", "/blog/autoderision-interactions"],
+      "wordCountTarget": 1600,
+      "formatNote": "Format récit : ton bienveillant, citer Panayotis Pascot (vulnérabilité), éviter le ton 'développement personnel' cliché"
     },
     {
-      "id": 17,
+      "id": 16,
       "slug": "pourquoi-blagues-marchent-pas",
       "title": "Pourquoi tes blagues ne marchent pas : 7 raisons",
-      "excerpt": "Timing cassé, setup trop long, contexte raté : les 7 erreurs qui tuent tes blagues (et comment les corriger).",
+      "excerpt": "Timing cassé, setup trop long, public raté : les 7 erreurs qui tuent tes blagues (et comment corriger).",
       "keywordPrimary": "blagues ne marchent pas",
       "keywordSecondary": "erreurs blagues",
       "cluster": "apprendre-humour",
       "type": "satellite",
       "persona": "Tous",
-      "category": "ERREURS",
+      "category": "GUIDE",
       "scheduledWeek": 9,
       "status": "planned",
-      "internalLinks": ["/conseils", "/vannes", "/blog/raconter-blague-sans-massacrer"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/conseils", "/vannes", "/blog/erreurs-blagues"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format avant/après : chaque erreur illustrée par la même blague racontée mal puis bien"
     },
     {
-      "id": 18,
+      "id": 17,
       "slug": "blagues-courtes-vs-longues",
       "title": "Blagues courtes ou longues : que choisir ?",
       "excerpt": "One-liner ou storytelling ? Avantages, contextes et techniques pour choisir le bon format de blague.",
@@ -400,11 +383,12 @@
       "category": "ANALYSE",
       "scheduledWeek": 9,
       "status": "planned",
-      "internalLinks": ["/vannes", "/glossaire", "/blog/storytelling-drole-5-structures"],
-      "wordCountTarget": 1400
+      "internalLinks": ["/vannes", "/blog/storytelling-drole-5-structures"],
+      "wordCountTarget": 1400,
+      "formatNote": "Format duel : structure en 'rounds' comme un match, avec scoring drôle à la fin"
     },
     {
-      "id": 19,
+      "id": 18,
       "slug": "humour-self-deprecating",
       "title": "Humour self-deprecating : quand ça marche",
       "excerpt": "Se moquer de soi peut être brillant ou pathétique. La frontière fine entre autodérision et abandon.",
@@ -416,27 +400,29 @@
       "category": "ANALYSE",
       "scheduledWeek": 10,
       "status": "planned",
-      "internalLinks": ["/glossaire", "/conseils", "/blog/autoderision-rire-de-soi"],
-      "wordCountTarget": 1500
+      "internalLinks": ["/conseils", "/blog/autoderision-interactions"],
+      "wordCountTarget": 1500,
+      "formatNote": "Format comparaison : Blanche Gardin (autodérision qui marche) vs exemples anonymes (auto-sabotage)"
     },
     {
-      "id": 20,
+      "id": 19,
       "slug": "comment-humoristes-creent-blagues",
       "title": "Comment les humoristes créent leurs blagues",
-      "excerpt": "Observation, absurde, timing : le processus créatif décortiqué chez Coluche, Foresti et les autres.",
+      "excerpt": "De l'observation au spectacle : le processus créatif décortiqué chez les pros du stand-up français.",
       "keywordPrimary": "créer blagues",
       "keywordSecondary": "technique blague humoriste",
-      "cluster": "types-humour",
+      "cluster": "analyse-pedagogie",
       "type": "satellite",
       "persona": "Marc",
       "category": "ANALYSE",
       "scheduledWeek": 10,
       "status": "planned",
-      "internalLinks": ["/videos", "/glossaire", "/blog/storytelling-drole-5-structures"],
-      "wordCountTarget": 1800
+      "internalLinks": ["/videos", "/blog/storytelling-drole-5-structures"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format portrait : profiler 4 humoristes modernes (Paul Mirabel, Fary, Roman Frayssinet, Waly Dia) — leur processus créatif"
     },
     {
-      "id": 21,
+      "id": 20,
       "slug": "devenir-drole-30-jours",
       "title": "Devenir drôle en 30 jours : la roadmap",
       "excerpt": "Un plan jour par jour pour progresser en humour. Observation, pratique, feedback : tout est structuré.",
@@ -448,11 +434,12 @@
       "category": "ROADMAP",
       "scheduledWeek": 11,
       "status": "planned",
-      "internalLinks": ["/parcours", "/conseils", "/blog/guide-devenir-drole-2026"],
-      "wordCountTarget": 2000
+      "internalLinks": ["/parcours", "/conseils", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 2000,
+      "formatNote": "Format journal de bord : jour par jour, comme un carnet de route avec anecdotes et observations"
     },
     {
-      "id": 22,
+      "id": 21,
       "slug": "glossaire-humour-20-termes",
       "title": "Glossaire humour : 20 termes à connaître",
       "excerpt": "Punchline, callback, running gag, setup : les 20 mots de l'humour expliqués avec des exemples concrets.",
@@ -464,14 +451,15 @@
       "category": "GLOSSAIRE",
       "scheduledWeek": 11,
       "status": "planned",
-      "internalLinks": ["/glossaire", "/blog/avoir-repartie-10-techniques", "/conseils"],
-      "wordCountTarget": 1800
+      "internalLinks": ["/blog/comment-avoir-de-la-repartie", "/blog/timing-humour", "/conseils"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format dictionnaire drôle : chaque définition contient elle-même un exemple d'humour"
     },
     {
-      "id": 23,
+      "id": 22,
       "slug": "meilleurs-standup-francais-analyses",
       "title": "5 stand-up français décortiqués technique par technique",
-      "excerpt": "Jamel, Foresti, Gad : on analyse les techniques qui font rire des millions. Applicable à ton quotidien.",
+      "excerpt": "Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia : on décortique ce qui les rend géniaux.",
       "keywordPrimary": "stand-up français",
       "keywordSecondary": "analyse humoriste",
       "cluster": "analyse-pedagogie",
@@ -480,11 +468,12 @@
       "category": "ANALYSE",
       "scheduledWeek": 12,
       "status": "planned",
-      "internalLinks": ["/videos", "/glossaire", "/blog/comment-humoristes-creent-blagues"],
-      "wordCountTarget": 2200
+      "internalLinks": ["/videos", "/blog/comment-humoristes-creent-blagues"],
+      "wordCountTarget": 2200,
+      "formatNote": "Format masterclass : chaque humoriste = 1 technique signature analysée avec timestamps de vidéos"
     },
     {
-      "id": 24,
+      "id": 23,
       "slug": "ressources-progresser-humour",
       "title": "Ressources pour progresser en humour",
       "excerpt": "Livres, podcasts, chaînes YouTube, stand-up : la sélection ultime pour devenir drôle en autodidacte.",
@@ -496,8 +485,9 @@
       "category": "RESSOURCES",
       "scheduledWeek": 12,
       "status": "planned",
-      "internalLinks": ["/videos", "/parcours", "/blog/guide-devenir-drole-2026"],
-      "wordCountTarget": 1600
+      "internalLinks": ["/videos", "/parcours", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 1600,
+      "formatNote": "Format curated list : noter chaque ressource sur 5, avec un commentaire personnel drôle"
     }
   ],
 
@@ -505,9 +495,16 @@
     {
       "issue": "Articles multiples ciblant 'devenir drôle' / 'apprendre à être drôle'",
       "affectedSlugs": ["comment-devenir-drole", "devenir-marrant", "devenir-plus-drole", "apprendre-etre-drole", "apprendre-a-etre-drole"],
-      "recommendation": "Fusionner en un seul pillar article (guide-devenir-drole-2026) et rediriger les anciens slugs ou les différencier avec des angles uniques",
+      "action": "Fusionné en un seul pillar (comment-devenir-drole). Tous les anciens slugs redirigés en 301.",
       "priority": "high",
-      "status": "pending"
+      "status": "resolved"
+    },
+    {
+      "issue": "Articles multiples ciblant 'répartie' / 'techniques répartie'",
+      "affectedSlugs": ["techniques-repartie", "comment-avoir-de-la-repartie"],
+      "action": "Fusionné en un seul pillar (comment-avoir-de-la-repartie). Ancien slug redirigé en 301.",
+      "priority": "high",
+      "status": "resolved"
     }
   ],
 
@@ -519,6 +516,20 @@
       "Yanis": "CTA vers /parcours (Parcours Répartie)",
       "Sophie": "CTA vers /vannes (blagues filtrées par contexte)",
       "Marc": "CTA vers /parcours (Parcours Confiance)"
+    }
+  },
+
+  "humoristQuotas": {
+    "_note": "Limites de citations par article pour éviter la répétition et moderniser les références",
+    "legacy": {
+      "maxPerArticle": 1,
+      "names": ["Jamel Debbouze", "Gad Elmaleh", "Florence Foresti", "Kev Adams"],
+      "note": "Max 1 mention par article — ces refs sont connues mais datées pour nos personas"
+    },
+    "priority": {
+      "minPerArticle": 2,
+      "names": ["Paul Mirabel", "Fary", "Roman Frayssinet", "Blanche Gardin", "Waly Dia", "Panayotis Pascot", "Inès Reg"],
+      "note": "Au moins 2 de ces humoristes par article — c'est la génération de nos personas"
     }
   }
 }

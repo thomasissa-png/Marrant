@@ -2,10 +2,11 @@ import { callWithRetry, extractJson, getResponseText } from "../client";
 import { prisma } from "@/lib/prisma";
 
 /**
- * Agent SEO — Génère des articles de blog optimisés pour le référencement.
- * Fonctionne en 2 phases :
- * 1. Planification : analyse les mots-clés manquants et planifie le calendrier
- * 2. Rédaction : génère un article complet optimisé SEO
+ * Agent SEO Blog — Génère des articles de blog optimisés SEO
+ * qui sont DRÔLES, CONCRETS et MODERNES.
+ *
+ * Règle #1 : Le blog est la DÉMO du produit. Un article sur l'humour
+ * qui n'est pas drôle, c'est un restaurant qui n'a pas de nourriture.
  */
 
 // Mots-clés cibles prioritaires, regroupés par intention de recherche
@@ -97,17 +98,19 @@ export async function planNextArticle(): Promise<ArticlePlan | null> {
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1500,
-    system: `Tu es un expert SEO francophone spécialisé dans le domaine de l'humour et du développement personnel. Tu planifies des articles de blog pour deviens-marrant.fr, une plateforme qui enseigne l'humour, la répartie et le storytelling.
+    system: `Tu es un directeur éditorial expert en SEO et en humour. Tu planifies des articles de blog pour deviens-marrant.fr, une plateforme qui enseigne l'humour, la répartie et le storytelling.
 
-Ton objectif : identifier le mot-clé le plus stratégique pour le prochain article et proposer un plan optimisé pour le référencement Google et les LLM (ChatGPT, Perplexity, Claude).
+Ton objectif : identifier le mot-clé le plus stratégique pour le prochain article.
 
-Règles :
-- L'article doit cibler un mot-clé pas encore couvert ou insuffisamment couvert
-- Le titre doit contenir le mot-clé principal naturellement
-- Le slug doit être court et contenir le mot-clé (en minuscules, sans accents, tirets)
+RÈGLES IMPÉRATIVES :
+- L'article doit cibler un mot-clé PAS ENCORE couvert
+- VÉRIFIER qu'aucun article existant n'a le même sujet (anti-cannibalisation)
+- Le titre doit contenir le mot-clé principal naturellement, < 60 caractères
+- Le slug doit être court et contenir le mot-clé (minuscules, sans accents, tirets)
 - L'article doit viser une position 0 (featured snippet) sur Google
-- Le contenu doit être actionnable, avec des exemples concrets et des exercices
-- Adapter le ton aux 3 personas : Yanis (20 ans, étudiant timide), Sophie (26 ans, jeune active), Marc (34 ans, en reconstruction)`,
+- Le contenu doit être actionnable avec des exercices concrets
+- Adapter aux 3 personas : Yanis (20 ans, étudiant timide), Sophie (26 ans, jeune active), Marc (34 ans, en reconstruction)
+- VARIER les formats : pas que des listicles ! Storytelling, analyse de pros, mythbusting, portrait, guide pratique, journal de bord, scénario`,
     messages: [
       {
         role: "user",
@@ -125,11 +128,11 @@ Choisis LE mot-clé le plus stratégique à cibler maintenant (celui qui n'est p
 Réponds UNIQUEMENT en JSON :
 {
   "targetKeyword": "le mot-clé principal ciblé",
-  "title": "Titre optimisé SEO (max 65 caractères, contient le mot-clé)",
+  "title": "Titre optimisé SEO (max 60 caractères, contient le mot-clé)",
   "slug": "slug-de-l-article",
-  "category": "GUIDE|REPARTIE|TIMING|STORYTELLING|OBSERVATION|AUTODERISION",
-  "outline": "Plan détaillé de l'article en 6-8 sections",
-  "notes": "Justification du choix de ce mot-clé"
+  "category": "GUIDE|REPARTIE|TIMING|STORYTELLING|OBSERVATION|AUTODERISION|ANALYSE|CONTEXTE|PSYCHOLOGIE",
+  "outline": "Plan détaillé en 6-8 sections avec le FORMAT de l'article (storytelling, analyse, mythbusting, portrait, guide, journal, scénario — PAS listicle si les 2 derniers articles étaient des listicles)",
+  "notes": "Justification du choix de ce mot-clé + vérification anti-cannibalisation"
 }`,
       },
     ],
@@ -153,28 +156,71 @@ export async function generateArticle(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 8000,
-    system: `Tu es un rédacteur SEO expert et un passionné d'humour. Tu rédiges des articles de blog pour deviens-marrant.fr.
+    system: `Tu es un rédacteur de génie qui écrit pour deviens-marrant.fr. Tu es à la croisée d'un expert SEO, d'un auteur de stand-up et d'un coach d'humour.
 
-RÈGLES DE RÉDACTION :
-- Longueur : 2000-3000 mots
-- Ton : complice, bienveillant, tutoiement, exemples concrets du quotidien
-- Structure : Introduction accrocheuse → Sections avec sous-titres → Exercices pratiques → CTA vers deviens-marrant.fr
-- SEO : Le mot-clé principal doit apparaître naturellement dans l'intro, 2-3 sous-titres, et la conclusion
-- Personas : Référencer les situations des 3 personas (étudiant timide, jeune active au bureau, adulte en reconstruction)
-- Références : Citer des humoristes français (Jamel Debbouze, Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary, Paul Mirabel)
-- Format : Markdown avec paragraphes séparés par des doubles retours à la ligne
-- Les sous-titres de sections utilisent ## (h2), les sous-sous-titres ### (h3)
-- Utiliser **gras** pour les termes clés, noms d'humoristes (première mention), et conseils importants
-- Liens internes en markdown : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
-- Chaque section doit avoir un contenu actionnable (pas juste de la théorie)
-- Terminer par un CTA naturel vers deviens-marrant.fr
+═══════════════════════════════════════
+RÈGLE #1 — LE BLOG EST LA DÉMO DU PRODUIT
+═══════════════════════════════════════
+
+Un article sur l'humour qui n'est pas drôle, c'est un restaurant qui n'a pas de nourriture.
+Chaque article DOIT contenir au minimum :
+- 3 traits d'humour ou vannes originales (pas des blagues Carambar)
+- Des exemples DRÔLES et concrets (pas "Si on te dit X, réponds Y" — un vrai dialogue funny)
+- Un ton qui fait sourire dès l'intro — le lecteur doit savoir en 3 phrases qu'il est sur un site d'humour
+
+═══════════════════════════════════════
+RÉFÉRENCES HUMORISTES
+═══════════════════════════════════════
+
+PRIORITÉ (citer au moins 2 par article) :
+- Paul Mirabel (escalade comique, naturel, Bercy)
+- Fary (surprise, pivot, énergie, réf pop culture)
+- Roman Frayssinet (observation chirurgicale, timing)
+- Blanche Gardin (autodérision puissante, silences)
+- Waly Dia (efficacité, punchlines chirurgicales)
+- Panayotis Pascot (vulnérabilité, storytelling)
+- Inès Reg (énergie, authenticité, social media)
+
+LIMITÉ (max 1 mention par article) :
+- Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adams
+→ Connus mais datés pour nos personas (20-34 ans)
+
+═══════════════════════════════════════
+PERSONAS — Adapte le ton et les exemples
+═══════════════════════════════════════
+
+- YANIS (20 ans) : étudiant timide, soirées, coloc, TD, BDE. Ton : encourageant, complice, "c'est normal de galérer"
+- SOPHIE (26 ans) : jeune active, machine à café, afterwork, réunions. Ton : efficace, situations pro relatable
+- MARC (34 ans) : séparé, reconstruction, retrouver sa légèreté. Ton : bienveillant sans infantiliser
+
+Chaque article doit toucher au moins 2 personas avec des exemples concrets de LEUR vie.
+
+═══════════════════════════════════════
+RÈGLES DE RÉDACTION
+═══════════════════════════════════════
+
+FORMAT :
+- Longueur : 1500-2500 mots
+- Ton : complice, tutoiement, drôle, concret
+- Structure : Intro qui accroche par l'humour → Sections avec sous-titres → Exercices → CTA
+- Markdown : ## pour sections, ### pour sous-sections, **gras** pour termes clés
+- Liens internes : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
+
+SEO :
+- Mot-clé principal dans l'intro, 2-3 sous-titres, et la conclusion
+- Paragraphes séparés par doubles retours à la ligne
 
 INTERDICTIONS :
-- Pas de ton corporate ou académique
-- Pas de listes à puces sauf si vraiment pertinent (préférer le texte narratif)
-- Pas d'emojis
+- Pas de ton corporate, académique ou LinkedIn
 - Pas de "dans cet article, nous allons voir..."
-- Pas de plagiat — contenu 100% original`,
+- Pas d'emojis
+- Pas de listicle générique (varier les formats : storytelling, analyse, portrait, scénario, mythbusting)
+- Pas de copier-coller d'un autre article du site
+- JAMAIS expliquer l'humour sans le démontrer — chaque technique doit avoir un EXEMPLE DRÔLE
+
+TEST FINAL avant de répondre :
+Relis ton article et demande-toi : "Est-ce que quelqu'un qui lit ça SOURIT au moins 3 fois ?"
+Si non, réécris les passages trop secs.`,
     messages: [
       {
         role: "user",
@@ -185,17 +231,19 @@ Titre : "${plan.title}"
 Catégorie : ${plan.category}
 Plan : ${plan.outline}
 
+RAPPEL : Le blog est la DÉMO du produit. Sois DRÔLE. Utilise des refs modernes (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin). Chaque technique = un exemple concret et funny.
+
 Réponds UNIQUEMENT en JSON :
 {
   "title": "${plan.title}",
   "slug": "${plan.slug}",
-  "excerpt": "Résumé accrocheur de 150-200 caractères qui donne envie de cliquer (contient le mot-clé)",
-  "content": "Contenu complet de l'article (2000-3000 mots, paragraphes séparés par \\n\\n)",
+  "excerpt": "Résumé accrocheur de 150 caractères max qui donne envie de cliquer (contient le mot-clé)",
+  "content": "Contenu complet de l'article (1500-2500 mots, paragraphes séparés par \\n\\n, minimum 3 traits d'humour)",
   "category": "${plan.category}",
   "readingTime": "X min",
   "targetKeyword": "${plan.targetKeyword}",
   "metaTitle": "Titre SEO optimisé (max 60 caractères, contient le mot-clé)",
-  "metaDescription": "Description meta de 150-160 caractères, contient le mot-clé, incite au clic"
+  "metaDescription": "Description meta de 150-155 caractères, contient le mot-clé, incite au clic"
 }`,
       },
     ],
@@ -238,14 +286,23 @@ export async function publishWeeklyArticle(): Promise<{
       };
     }
 
-    // 3. Générer l'article
+    // 3. Vérifier aussi dans les articles statiques
+    const { blogArticles } = await import("@/lib/blog-articles");
+    if (blogArticles.some((a) => a.slug === plan.slug)) {
+      return {
+        success: false,
+        error: `Article statique avec le slug "${plan.slug}" existe déjà`,
+      };
+    }
+
+    // 4. Générer l'article
     console.log("[SEO Agent] Phase 2 : Rédaction...");
     const article = await generateArticle(plan);
     if (!article) {
       return { success: false, error: "Impossible de générer l'article" };
     }
 
-    // 4. Publier en base
+    // 5. Publier en base
     const now = new Date();
     const dbArticle = await prisma.blogArticle.create({
       data: {
@@ -264,7 +321,7 @@ export async function publishWeeklyArticle(): Promise<{
       },
     });
 
-    // 5. Mettre à jour le calendrier SEO
+    // 6. Mettre à jour le calendrier SEO
     const weekNumber = getISOWeekNumber(now);
     const year = now.getFullYear();
 

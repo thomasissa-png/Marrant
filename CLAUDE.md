@@ -268,3 +268,28 @@ Branche : `claude/fix-login-redirect-navigation-XCsj1`
 - Règle permanente ajoutée au CLAUDE.md : nouvelles vidéos = chaînes sous-représentées
 - Agent vidéo (`video-agent.ts`) : critère 4 renforcé avec objectif <25% par chaîne
 - Critère 6 ajouté : enrichissement obligatoire via chaînes sous-représentées
+
+### Audit qualité blog — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Articles statiques (blog-articles.ts) — 7 → 5 articles (fusions anti-cannibalisation)
+- **2 fusions** : `techniques-repartie` absorbé dans `comment-avoir-de-la-repartie` | `apprendre-etre-drole` absorbé dans `comment-devenir-drole`
+- **5 articles réécrits de zéro** : humour injecté (min 3 vannes/article), refs modernisées, exemples drôles concrets
+- **Catégorie corrigée** : `erreurs-blagues` passe de STORYTELLING à GUIDE
+- **Refs modernisées** : priorité Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot | Jamel/Gad/Foresti limités à 1 mention max
+- **4 redirects 301** ajoutés dans `next.config.js` pour les slugs fusionnés
+
+#### Agent SEO blog (seo-blog-agent.ts) — brief réécrit niveau stand-up
+- Règle #1 "Le blog est la DÉMO du produit" — minimum 3 traits d'humour par article
+- Quotas humoristes : prioritaires (min 2/article) vs legacy (max 1/article)
+- Anti-cannibalisation : vérification slug statique + DB avant publication
+- Variation de formats obligatoire : pas de listicle si les 2 derniers en étaient
+- Test final intégré : "est-ce que le lecteur sourit au moins 3 fois ?"
+
+#### Planning éditorial (seo-editorial-plan.json) — v2.0
+- Cannibalisation résolue : 2 paires fusionnées, statut "resolved"
+- Quality rules enrichies : humour obligatoire, refs modernes, formats variés, anti-cannibalisation
+- `humoristQuotas` ajouté : legacy (max 1) vs priority (min 2) par article
+- `formatNote` ajouté sur chaque article planifié pour varier les formats
+- Cluster `techniques-delivery` ajouté (timing + erreurs + storytelling)
+- Article pillar stand-up modernisé : Paul Mirabel/Fary/Blanche Gardin/Roman Frayssinet au lieu de Jamel/Gad/Foresti

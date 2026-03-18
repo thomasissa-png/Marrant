@@ -39,7 +39,18 @@ const nextConfig = {
       },
       {
         source: "/blog/apprendre-a-etre-drole",
-        destination: "/blog/apprendre-etre-drole",
+        destination: "/blog/comment-devenir-drole",
+        permanent: true,
+      },
+      // Fusions anti-cannibalisation — 18 mars 2026
+      {
+        source: "/blog/apprendre-etre-drole",
+        destination: "/blog/comment-devenir-drole",
+        permanent: true,
+      },
+      {
+        source: "/blog/techniques-repartie",
+        destination: "/blog/comment-avoir-de-la-repartie",
         permanent: true,
       },
     ];
