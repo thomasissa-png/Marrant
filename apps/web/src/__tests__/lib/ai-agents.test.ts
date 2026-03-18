@@ -1066,6 +1066,484 @@ describe("Persona rotation helpers", () => {
   });
 });
 
+describe("Stand-Up Director Agent", () => {
+  let validateJoke: typeof import("@/lib/ai/agents/standup-director-agent").validateJoke;
+  let validateTip: typeof import("@/lib/ai/agents/standup-director-agent").validateTip;
+  let validateVideoSelection: typeof import("@/lib/ai/agents/standup-director-agent").validateVideoSelection;
+  let validateBlogArticle: typeof import("@/lib/ai/agents/standup-director-agent").validateBlogArticle;
+  let generateEditorialVision: typeof import("@/lib/ai/agents/standup-director-agent").generateEditorialVision;
+  let reviewContentBatch: typeof import("@/lib/ai/agents/standup-director-agent").reviewContentBatch;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    validateJoke = mod.validateJoke;
+    validateTip = mod.validateTip;
+    validateVideoSelection = mod.validateVideoSelection;
+    validateBlogArticle = mod.validateBlogArticle;
+    generateEditorialVision = mod.generateEditorialVision;
+    reviewContentBatch = mod.reviewContentBatch;
+  });
+
+  it("validates a joke and returns APPROVED", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 8,
+            strengths: ["Twist net", "Relatable"],
+            issues: [],
+            directorNote: "Bonne vanne, publiable.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateJoke(
+      {
+        content: "J'ai dit à mon pote que j'arrivais dans 5 minutes.",
+        punchline: "J'étais encore en pyjama.",
+        category: "SITUATION",
+        type: "ONE_LINER",
+        maturityLevel: 1,
+      },
+      "SOPHIE",
+    );
+
+    expect(result.verdict).toBe("APPROVED");
+    expect(result.score).toBe(8);
+    expect(result.strengths.length).toBeGreaterThan(0);
+    expect(result.directorNote).toBeTruthy();
+  });
+
+  it("validates a joke and returns REJECTED", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "REJECTED",
+            score: 2,
+            strengths: [],
+            issues: ["Objet qui parle", "Format Carambar"],
+            directorNote: "Pas au niveau.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateJoke(
+      {
+        content: "Un stylo dit à un crayon :",
+        punchline: "Tu manques de pointe.",
+        category: "JEUX_DE_MOTS",
+        type: "CLASSIQUE",
+        maturityLevel: 1,
+      },
+      "YANIS",
+    );
+
+    expect(result.verdict).toBe("REJECTED");
+    expect(result.score).toBeLessThanOrEqual(3);
+    expect(result.issues.length).toBeGreaterThan(0);
+  });
+
+  it("validates a tip and returns NEEDS_REVISION with suggestions", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "NEEDS_REVISION",
+            score: 5,
+            strengths: ["Bonne technique identifiée"],
+            issues: ["Exemple pas assez concret"],
+            revision: "Ajouter un dialogue concret dans l'exemple",
+            directorNote: "L'idée est bonne, l'exécution peut être meilleure.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateTip(
+      {
+        title: "Le silence après le rire",
+        content: "Quand tu fais rire, ne parle pas. Laisse le silence faire son travail. C'est une technique de pro utilisée par tous les grands stand-uppers. Le silence amplifie le rire naturellement.",
+        category: "TIMING",
+        difficulty: "DEBUTANT",
+        example: "Après une vanne, tais-toi pendant 5 secondes.",
+        exercise: "DÉFI SILENCE : La prochaine fois que tu fais rire, impose-toi 5 secondes de silence.",
+      },
+      "YANIS",
+    );
+
+    expect(result.verdict).toBe("NEEDS_REVISION");
+    expect(result.revision).toBeTruthy();
+    expect(result.score).toBeGreaterThanOrEqual(4);
+    expect(result.score).toBeLessThanOrEqual(6);
+  });
+
+  it("validates a video selection", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 7,
+            strengths: ["Bonne pertinence pédagogique", "Chaîne sous-représentée"],
+            issues: [],
+            directorNote: "Bon choix pour Marc.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateVideoSelection(
+      {
+        videoId: "v1",
+        videoTitle: "L'art du storytelling",
+        channelName: "Stand-up FR",
+        category: "STORYTELLING",
+        technique: "Narration",
+        reason: "Illustre parfaitement la progression narrative pour Marc",
+      },
+      "MARC",
+    );
+
+    expect(result.verdict).toBe("APPROVED");
+    expect(result.score).toBeGreaterThanOrEqual(6);
+  });
+
+  it("validates a blog article", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 8,
+            strengths: ["Drôle", "Refs modernes", "SEO optimisé"],
+            issues: [],
+            directorNote: "Article au niveau du site n°1.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateBlogArticle({
+      title: "Comment avoir de la répartie : 7 techniques de stand-upper",
+      slug: "comment-avoir-de-la-repartie",
+      excerpt: "Tu restes muet quand on te chambre ? Voici les techniques des pros.",
+      content: "Un long article avec du contenu drôle et instructif...",
+      category: "REPARTIE",
+      targetKeyword: "comment avoir de la répartie",
+    });
+
+    expect(result.verdict).toBe("APPROVED");
+    expect(result.score).toBeGreaterThanOrEqual(7);
+  });
+
+  it("generates an editorial vision for a month", async () => {
+    const mockVision = {
+      month: "avril 2026",
+      themeOfTheMonth: "Le renouveau printanier de l'humour",
+      weeklyThemes: [
+        {
+          week: 1,
+          theme: "Sortir de sa zone de confort",
+          focusPersona: "YANIS",
+          jokeDirection: "Vannes sur les premiers pas",
+          tipDirection: "Techniques pour oser",
+          videoDirection: "Vidéos de débutants qui réussissent",
+          blogDirection: "Article sur les premiers open mics",
+        },
+        {
+          week: 2,
+          theme: "L'humour au travail",
+          focusPersona: "SOPHIE",
+          jokeDirection: "Vannes bureau",
+          tipDirection: "Répartie en réunion",
+          videoDirection: "Analyse timing pro",
+          blogDirection: "Guide machine à café",
+        },
+      ],
+      qualityPriorities: ["Exigence punchline", "Diversité formats"],
+      standupReferences: ["Paul Mirabel", "Fary", "Roman Frayssinet"],
+      directorManifesto: "Ce mois-ci, on monte le niveau.",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockVision) }],
+    });
+
+    const vision = await generateEditorialVision(4, 2026);
+
+    expect(vision.themeOfTheMonth).toBeTruthy();
+    expect(vision.weeklyThemes.length).toBeGreaterThan(0);
+    expect(vision.weeklyThemes[0].focusPersona).toBe("YANIS");
+    expect(vision.qualityPriorities.length).toBeGreaterThan(0);
+    expect(vision.directorManifesto).toBeTruthy();
+  });
+
+  it("throws on missing editorial vision fields", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            month: "avril 2026",
+            themeOfTheMonth: "",
+            weeklyThemes: [],
+            qualityPriorities: [],
+            standupReferences: [],
+            directorManifesto: "",
+          }),
+        },
+      ],
+    });
+
+    await expect(generateEditorialVision(4, 2026)).rejects.toThrow("thème du mois manquant");
+  });
+
+  it("reviews a content batch", async () => {
+    const mockReview = {
+      date: "2026-03-18",
+      overallScore: 7,
+      coherenceScore: 8,
+      diversityScore: 7,
+      items: [
+        { type: "JOKE", verdict: "APPROVED", score: 8, note: "Bonne vanne" },
+        { type: "TIP", verdict: "APPROVED", score: 7, note: "Conseil solide" },
+        { type: "VIDEO", verdict: "NEEDS_REVISION", score: 5, note: "Chaîne surreprésentée" },
+      ],
+      directorFeedback: "Bonne journée dans l'ensemble, revoir la sélection vidéo.",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockReview) }],
+    });
+
+    const result = await reviewContentBatch(
+      [
+        {
+          type: "JOKE",
+          persona: "SOPHIE",
+          content: {
+            content: "Setup",
+            punchline: "Punchline",
+            category: "BOULOT",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          },
+        },
+        {
+          type: "TIP",
+          persona: "SOPHIE",
+          content: {
+            title: "Titre",
+            content: "Contenu",
+            category: "TIMING",
+            difficulty: "INTERMEDIAIRE",
+            example: "Exemple",
+            exercise: "DÉFI : exercice",
+          },
+        },
+        {
+          type: "VIDEO",
+          persona: "SOPHIE",
+          content: {
+            videoId: "v1",
+            videoTitle: "Vidéo",
+            channelName: "Montreux Comedy",
+            category: "STORYTELLING",
+            technique: "Narration",
+            reason: "Pertinent",
+          },
+        },
+      ],
+      "2026-03-18",
+    );
+
+    expect(result.overallScore).toBeGreaterThanOrEqual(1);
+    expect(result.overallScore).toBeLessThanOrEqual(10);
+    expect(result.items).toHaveLength(3);
+    expect(result.items[0].verdict).toBe("APPROVED");
+    expect(result.items[2].verdict).toBe("NEEDS_REVISION");
+    expect(result.directorFeedback).toBeTruthy();
+  });
+
+  it("corrects invalid verdict in validation result", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "INVALID_VERDICT",
+            score: 5,
+            strengths: [],
+            issues: [],
+            directorNote: "Test",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateJoke(
+      {
+        content: "Setup",
+        punchline: "Punchline",
+        category: "BOULOT",
+        type: "CLASSIQUE",
+        maturityLevel: 1,
+      },
+      "SOPHIE",
+    );
+
+    expect(result.verdict).toBe("NEEDS_REVISION"); // fallback
+  });
+
+  it("clamps invalid score to default", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 99,
+            strengths: [],
+            issues: [],
+            directorNote: "Test",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateJoke(
+      {
+        content: "Setup",
+        punchline: "Punchline",
+        category: "BOULOT",
+        type: "CLASSIQUE",
+        maturityLevel: 1,
+      },
+      "SOPHIE",
+    );
+
+    expect(result.score).toBe(5); // clamped to default
+  });
+
+  it("enforces verdict/score coherence — high score cannot be REJECTED", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "REJECTED",
+            score: 8,
+            strengths: ["Tout est bien"],
+            issues: [],
+            directorNote: "Incohérent",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateJoke(
+      {
+        content: "Setup",
+        punchline: "Punchline",
+        category: "BOULOT",
+        type: "CLASSIQUE",
+        maturityLevel: 1,
+      },
+      "SOPHIE",
+    );
+
+    expect(result.verdict).toBe("APPROVED"); // corrected: score 8 cannot be REJECTED
+  });
+
+  it("enforces verdict/score coherence — low score cannot be APPROVED", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 2,
+            strengths: [],
+            issues: ["Tout est mauvais"],
+            directorNote: "Incohérent",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateTip(
+      {
+        title: "Titre",
+        content: "Contenu du conseil assez long pour passer la validation des soixante mots minimum requis par l'agent conseils quand il génère un nouveau conseil quotidien",
+        category: "TIMING",
+        difficulty: "DEBUTANT",
+        example: "Exemple concret",
+        exercise: "DÉFI TEST : faire quelque chose",
+      },
+      "YANIS",
+    );
+
+    expect(result.verdict).toBe("NEEDS_REVISION"); // corrected: score 2 cannot be APPROVED
+  });
+
+  it("throws on invalid JSON response", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: "pas du json valide" }],
+    });
+
+    await expect(
+      validateJoke(
+        {
+          content: "Setup",
+          punchline: "Punchline",
+          category: "BOULOT",
+          type: "CLASSIQUE",
+          maturityLevel: 1,
+        },
+        "MARC",
+      ),
+    ).rejects.toThrow();
+  });
+
+  it("throws on empty batch review", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            date: "2026-03-18",
+            overallScore: 7,
+            coherenceScore: 8,
+            diversityScore: 7,
+            items: [],
+            directorFeedback: "Rien à valider",
+          }),
+        },
+      ],
+    });
+
+    await expect(
+      reviewContentBatch([], "2026-03-18"),
+    ).rejects.toThrow("revue de batch vide");
+  });
+});
+
 describe("Date utilities", () => {
   it("todayUTC returns midnight UTC", () => {
     const { todayUTC } = require("@/lib/ai/date-utils");
