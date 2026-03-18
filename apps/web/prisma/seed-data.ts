@@ -85,6 +85,25 @@ async function main() {
       created++;
     }
     console.log(`Blagues : ${created} ajoutées, ${skipped} déjà présentes`);
+
+    // Désactiver les vannes seed qui ne sont plus dans le fichier (retirées lors d'un audit qualité)
+    // Ne touche PAS aux vannes générées par l'IA (generatedByAI = true)
+    const seedContents = new Set(jokes.map((j) => j.content));
+    const seedJokesToDeactivate = await prisma.joke.findMany({
+      where: {
+        generatedByAI: false,
+        isActive: true,
+        content: { notIn: Array.from(seedContents) },
+      },
+      select: { id: true, content: true },
+    });
+    if (seedJokesToDeactivate.length > 0) {
+      await prisma.joke.updateMany({
+        where: { id: { in: seedJokesToDeactivate.map((j) => j.id) } },
+        data: { isActive: false },
+      });
+      console.log(`Blagues désactivées (retirées du seed) : ${seedJokesToDeactivate.length}`);
+    }
   } else {
     console.log(`Blagues à jour (${jokeCount}), ignoré`);
   }

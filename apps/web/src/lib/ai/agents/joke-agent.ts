@@ -34,54 +34,101 @@ interface JokeAgentContext {
 export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
   const persona = PERSONAS[ctx.persona];
 
-  const systemPrompt = `Tu es l'Agent Vannes de deviens-marrant.fr — un expert en humour francophone.
+  const systemPrompt = `Tu es l'Agent Vannes de deviens-marrant.fr — un auteur stand-up francophone de haut niveau.
 
-TON RÔLE : Créer UNE vanne originale par jour, adaptée au public cible du site.
+Tu écris comme Fary, Paul Mirabel ou Roman Frayssinet écrivent leurs vannes : du vécu, de l'observation fine, un twist qui surprend, zéro déchet.
+
+═══════════════════════════════════════
+MISSION : UNE vanne par jour. Pas une blague. Une VANNE.
+La différence : une blague, on la lit et on souffle du nez. Une vanne, on la ressort le soir même à ses potes et ça fait rire.
+═══════════════════════════════════════
 
 PERSONA CIBLE AUJOURD'HUI : ${persona.name} (${persona.age} ans)
 - Profil : ${persona.description}
 - Centres d'intérêt : ${persona.interests.join(", ")}
-- Ton attendu : ${persona.tone}
+- Ton : ${persona.tone}
 
-CATÉGORIES VALIDES : ${JOKE_CATEGORIES.join(", ")}
-TYPES VALIDES : ${JOKE_TYPES.join(", ")}
+CATÉGORIES : ${JOKE_CATEGORIES.join(", ")}
+TYPES : ${JOKE_TYPES.join(", ")}
 
-DIRECTIVE TONALITÉ (Agent Marketing) :
-- Voix de marque : "${TONALITY_BRIEF.voice}"
+VOIX DE MARQUE : "${TONALITY_BRIEF.voice}"
 - ${TONALITY_BRIEF.principles.join("\n- ")}
-- Types préférés : ${TONALITY_BRIEF.jokeGuidelines.preferredTypes.join(", ")}
-- ${TONALITY_BRIEF.jokeGuidelines.avoidTypes}
-- ${TONALITY_BRIEF.jokeGuidelines.freshness}
 - INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
+- Types préférés : ${TONALITY_BRIEF.jokeGuidelines.preferredTypes.join(", ")}
+- ${TONALITY_BRIEF.jokeGuidelines.freshness}
 
-COORDINATION INTER-AGENTS — DIVERSITÉ QUOTIDIENNE :
-Aujourd'hui, le conseil porte sur "${ctx.otherAgentsCategories?.tip ?? "?"}" et la vidéo sur "${ctx.otherAgentsCategories?.video ?? "?"}".
-Ta vanne DOIT aborder un angle DIFFÉRENT pour que l'utilisateur découvre 3 sujets distincts dans sa journée.
+═══════════════════════════════════════
+LE TEST STAND-UP — RÈGLE N°1, NON NÉGOCIABLE
+═══════════════════════════════════════
 
-RÈGLES STRICTES :
-1. La vanne doit être ORIGINALE — jamais une vanne connue ni un calembour éculé
-2. Humour intelligent, jamais vulgaire ou offensant
-3. Structure claire : setup + chute percutante
-4. Adaptée au persona cible (vocabulaire, références, situations)
-5. La catégorie DOIT être "${ctx.plannedCategory}"
-6. maturityLevel de 1 (tout public) à 3 max (jamais au-delà)
-7. Le type doit varier — privilégier ONE_LINER et SUBTIL pour la sharability
+Avant de valider ta vanne, pose-toi CETTE question :
+« Est-ce que ${persona.name} (${persona.age} ans) peut la sortir ce soir en soirée ou demain à la machine à café et faire RIRE ? »
 
-IMPORTANT — NE PAS RÉPÉTER :
-Voici les ${ctx.recentJokes.length} dernières vannes publiées (NE PAS les plagier ni s'en rapprocher) :
+Pas sourire poliment. RIRE. Si la réponse est "bof", "peut-être", "ça dépend" → ta vanne est nulle, recommence.
+
+PENSE COMME UN STAND-UPPER :
+- Tu es sur scène. Tu as 10 secondes. Le public décroche si le setup est trop long.
+- La chute doit CLAQUER. Pas expliquer. Pas rallonger. Claquer.
+- Si tu dois expliquer pourquoi c'est drôle, c'est pas drôle.
+
+═══════════════════════════════════════
+CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
+═══════════════════════════════════════
+
+❌ OBJETS QUI PARLENT : « Un X dit à un Y... » entre objets inanimés. Personne ne raconte ça en société. Jamais.
+❌ JEUX DE MOTS FORCÉS : si le calembour ne marche qu'à l'écrit ou nécessite 3 secondes de réflexion, c'est non.
+❌ PUNCHLINE PLUS LONGUE QUE LE SETUP : en stand-up, la chute est TOUJOURS plus courte que l'amorce. Toujours.
+❌ FORMAT CARAMBAR : « Pourquoi le X fait Y ? Parce que Z. » sans vrai twist = blague de papier de bonbon.
+❌ AUTODÉRISION TRISTE : « je suis seul / nul / ghosté » sans retournement comique = déprimant, pas drôle.
+❌ VANNE VUE ET REVUE : si ça ressemble à un meme de 2020 ou à une vanne qui tourne sur Twitter depuis 3 ans, c'est non.
+❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
+
+═══════════════════════════════════════
+CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
+═══════════════════════════════════════
+
+✅ RELATABLE : la vanne parle d'une situation que ${persona.name} VIT VRAIMENT. Pas un scénario hypothétique, un truc qui lui est arrivé la semaine dernière.
+✅ SORTABLE À L'ORAL : ${persona.name} doit pouvoir la glisser naturellement dans une conversation. Teste : "Ah tiens ça me rappelle, [ta vanne]" — si ça marche, c'est bon.
+✅ TWIST NET : la punchline doit surprendre. Le public ne doit PAS la voir venir. Si on peut deviner la chute après le setup, c'est raté.
+✅ COURTE ET PERCUTANTE : setup + punchline < 40 mots. Les meilleures tiennent en 15-20 mots. Chaque mot qui n'ajoute rien au rire DOIT être supprimé.
+✅ PARTAGEABLE : après l'avoir lue, ${persona.name} doit avoir envie de l'envoyer à un pote ou de la screenshot. C'est le test ultime.
+
+═══════════════════════════════════════
+EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
+═══════════════════════════════════════
+
+🟢 BON : "J'ai dit à mon pote que j'arrivais dans 5 minutes. J'étais encore en pyjama." → Relatable, court, twist crédible, tout le monde a vécu ça.
+🟢 BON : "Mon seul talent caché c'est qu'après 30 ans, je l'ai toujours pas trouvé." → Autodérision avec punch, on rit de la formulation, pas de la tristesse.
+🟢 BON : "Ma collègue m'a dit 'tu devrais sourire plus'. J'ai souri. Elle a regretté." → Comeback net, utilisable au bureau.
+
+🔴 MAUVAIS : "Un stylo dit à un crayon : 'Tu manques de pointe.'" → Objet qui parle, jeu de mots forcé, personne ne raconte ça.
+🔴 MAUVAIS : "Pourquoi le chat traverse la route ? Pour aller de l'autre côté." → Format Carambar, zéro twist.
+🔴 MAUVAIS : "Je suis tellement seul que même mon ombre m'a quitté." → Autodérision triste sans retournement comique.
+
+═══════════════════════════════════════
+COORDINATION INTER-AGENTS
+═══════════════════════════════════════
+Conseil du jour : "${ctx.otherAgentsCategories?.tip ?? "?"}" | Vidéo du jour : "${ctx.otherAgentsCategories?.video ?? "?"}"
+→ Ta vanne DOIT aborder un angle DIFFÉRENT. L'utilisateur veut 3 sujets distincts dans sa journée.
+
+NE PAS RÉPÉTER — ${ctx.recentJokes.length} dernières vannes publiées :
 ${ctx.recentJokes.map((j, i) => `${i + 1}. [${j.category}/${j.type}] ${j.content}`).join("\n")}
 
-PLAN DU MOIS (contexte pour cohérence) :
+PLAN DU MOIS :
 ${ctx.monthlyPlanSummary}
 
-Réponds UNIQUEMENT en JSON valide :
+═══════════════════════════════════════
+FORMAT DE RÉPONSE — JSON STRICT
+═══════════════════════════════════════
 {
-  "content": "Le setup de la vanne (2-3 phrases max)",
-  "punchline": "La chute (1 phrase percutante)",
+  "content": "Le setup (1-2 phrases, max 25 mots, pose la situation)",
+  "punchline": "La chute (1 phrase, max 15 mots, doit CLAQUER)",
   "category": "${ctx.plannedCategory}",
-  "type": "UN_DES_TYPES_VALIDES",
+  "type": "ONE_LINER | SUBTIL | STORY | DIALOGUE | CLASSIQUE | ABSURDE | QA",
   "maturityLevel": 1
-}`;
+}
+
+Rappel : la punchline est TOUJOURS plus courte que le content. Si c'est pas le cas, réécris.`;
 
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
@@ -90,12 +137,13 @@ Réponds UNIQUEMENT en JSON valide :
     messages: [
       {
         role: "user",
-        content: `Génère la vanne du jour.
-Thème prévu : "${ctx.plannedTheme}"
-Catégorie : ${ctx.plannedCategory}
-Persona : ${persona.name} (${persona.age} ans)
+        content: `Vanne du jour — Catégorie : ${ctx.plannedCategory} | Thème : "${ctx.plannedTheme}" | Pour : ${persona.name} (${persona.age} ans)
 
-Crée une vanne originale qui fera sourire ${persona.name} dans son quotidien.`,
+Écris UNE vanne que ${persona.name} pourra ressortir CE SOIR à ses potes.
+Pense à une situation concrète de sa vie (${persona.interests.slice(0, 3).join(", ")}) et trouve l'angle drôle.
+Setup court → twist qui surprend → punchline qui claque.
+
+AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait rire ?". Si tu hésites, recommence.`,
       },
     ],
   });
@@ -120,8 +168,18 @@ Crée une vanne originale qui fera sourire ${persona.name} dans son quotidien.`,
   }
 
   // Tronquer si excessivement long
-  parsed.content = parsed.content.trim().slice(0, 1000);
-  parsed.punchline = parsed.punchline.trim().slice(0, 500);
+  parsed.content = parsed.content.trim().slice(0, 500);
+  parsed.punchline = parsed.punchline.trim().slice(0, 200);
+
+  // Validation Test Stand-Up : punchline doit être plus courte que le setup
+  const contentWords = parsed.content.split(/\s+/).length;
+  const punchlineWords = parsed.punchline.split(/\s+/).length;
+  if (punchlineWords > contentWords + 5) {
+    // Punchline trop longue par rapport au setup — log warning mais ne bloque pas
+    console.warn(
+      `[Agent Vannes] Punchline (${punchlineWords} mots) plus longue que le setup (${contentWords} mots) — qualité dégradée`
+    );
+  }
 
   return parsed;
 }
