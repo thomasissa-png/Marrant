@@ -269,6 +269,7 @@ export default function AdminPage() {
             onSearchInputChange={setSearchInput}
             onSearch={() => setUserSearch(searchInput)}
             onPageChange={(p) => fetchUsers(p)}
+            onSyncUser={syncUserPlan}
           />
         )}
       </div>
@@ -357,6 +358,7 @@ function UsersTab({
   onSearchInputChange,
   onSearch,
   onPageChange,
+  onSyncUser,
 }: {
   users: AdminUser[];
   pagination: Pagination | null;
@@ -369,6 +371,7 @@ function UsersTab({
   onSearchInputChange: (v: string) => void;
   onSearch: () => void;
   onPageChange: (page: number) => void;
+  onSyncUser: (userId: string) => void;
 }) {
   return (
     <div className="space-y-4">
@@ -456,7 +459,7 @@ function UsersTab({
               </tr>
             ) : (
               users.map((user) => (
-                <UserRow key={user.id} user={user} onSync={syncUserPlan} />
+                <UserRow key={user.id} user={user} onSync={onSyncUser} />
               ))
             )}
           </tbody>
