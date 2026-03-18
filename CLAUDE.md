@@ -167,3 +167,30 @@ Branche : `claude/seo-audit-optimization-EU7uv`
 
 #### Limites gratuites actuelles
 - Blagues : 50, Conseils : 15, Vidéos : 25, Favoris max : 50
+
+### Audit qualité vannes — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Catalogue vannes (blagues-seed.json) — 320 → 289 vannes
+- **58 vannes supprimées** : 19 objets qui parlent, 6 doublons conceptuels, 33 vannes faibles
+- **27 nouvelles vannes** ajoutées (absurde situationnel, vrais jeux de mots, comebacks, observations)
+- **5 punchlines raccourcies** (trop longues par rapport au setup)
+- **10 vannes recatégorisées** (étaient mal classées en JEUX_DE_MOTS au lieu de leur vraie catégorie)
+- Chaque vanne restante passe le Test Stand-Up : « je la sors ce soir en soirée ? »
+
+#### Agent IA vannes (joke-agent.ts) — brief réécrit niveau stand-up pro
+- System prompt réécrit de zéro avec la posture d'un auteur stand-up (Fary, Paul Mirabel, Roman Frayssinet)
+- Test Stand-Up intégré au prompt avec exemples concrets bon/mauvais
+- 7 critères de rejet automatique + 5 critères de qualité obligatoires
+- User prompt renforcé : l'IA doit se relire et valider « est-ce que ça fait rire ? » avant de répondre
+- Validation programmatique : warning si punchline plus longue que le setup
+
+#### Seed script (seed-data.ts) — désactivation automatique
+- Les vannes seed retirées du fichier JSON sont automatiquement désactivées (`isActive: false`) au prochain seed
+- Protège les vannes générées par l'IA (`generatedByAI: true` non touchées)
+- Préserve les favoris et likes existants (pas de suppression, juste désactivation)
+
+#### Règle qualité permanente ajoutée au CLAUDE.md
+- Section « Contrôle qualité vannes — Le Test Stand-Up » avec critères de rejet et de qualité
+- Workflow obligatoire pour tout ajout/modification de vanne
+- S'applique au catalogue seed ET aux futures vannes générées par l'IA
