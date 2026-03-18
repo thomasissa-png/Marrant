@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
+import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
 
 export const metadata: Metadata = {
   title: "Abonnement — 0,99 €/mois",
@@ -12,5 +14,10 @@ export default function AbonnementLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
+      {children}
+    </>
+  );
 }

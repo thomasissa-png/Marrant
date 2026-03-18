@@ -10,6 +10,7 @@ jest.mock("@/components/ui/progress-bar", () => ({
 
 jest.mock("@/components/home/faq-section", () => ({
   FaqSection: () => <div data-testid="faq-section" />,
+  faqs: [{ question: "Test?", answer: "Test answer" }],
 }));
 
 const mockPush = jest.fn();

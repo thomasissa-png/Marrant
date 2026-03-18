@@ -6,7 +6,9 @@ import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
+  buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
 
 export const metadata: Metadata = {
   title: "Parcours humour — deviens drôle",
@@ -81,6 +83,8 @@ export default function ParcoursPage() {
         </p>
       </div>
       <ParcoursContent />
+
+      <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">

@@ -54,8 +54,8 @@ describe("FaqSection", () => {
     expect(details).toHaveLength(8);
   });
 
-  it("renders JSON-LD structured data for FAQ", () => {
+  it("does not render JSON-LD (handled at page level to avoid duplicates)", () => {
     const jsonLd = document.querySelector('[data-testid="json-ld"]');
-    expect(jsonLd).toBeInTheDocument();
+    expect(jsonLd).not.toBeInTheDocument();
   });
 });

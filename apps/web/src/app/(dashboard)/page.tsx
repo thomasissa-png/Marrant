@@ -7,6 +7,7 @@ const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m 
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
+import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
 import Link from "next/link";
 
 const homepageFaqs = [
@@ -32,6 +33,9 @@ const homepageFaqs = [
   },
 ];
 
+// Fusionner toutes les FAQs de la page en un seul schéma (évite "Duplicate FAQPage")
+const allFaqs = [...homepageFaqs, ...faqSectionFaqs];
+
 export const metadata: Metadata = {
   title: "Deviens drôle et améliore ta répartie | deviens-marrant.fr",
   description: "Tu veux être la personne drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. 289 vannes, 66 conseils, 89 vidéos.",
@@ -52,7 +56,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <JsonLd data={buildFaqJsonLd(homepageFaqs)} />
+      <JsonLd data={buildFaqJsonLd(allFaqs)} />
 
       {/* Hero section */}
       <HeroSection />

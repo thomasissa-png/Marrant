@@ -1,8 +1,6 @@
 "use client";
 
-import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
-
-const faqs = [
+export const faqs = [
   {
     question: "Est-ce que je peux vraiment apprendre à être drôle ?",
     answer:
@@ -49,7 +47,6 @@ const faqs = [
 export function FaqSection() {
   return (
     <div className="mx-auto max-w-2xl">
-      <JsonLd data={buildFaqJsonLd(faqs)} />
       <h2 className="font-display mb-8 text-center text-2xl font-bold text-text-primary">
         Questions fréquentes
       </h2>
