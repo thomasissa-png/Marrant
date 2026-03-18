@@ -14,7 +14,7 @@ export default function FavorisPage() {
           Mes favoris
         </h1>
         <p className="mt-2 text-text-secondary">
-          Tous tes éléments sauvegardés au même endroit.
+          Tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s, pr&#234;ts &#224; ressortir.
         </p>
       </div>
 

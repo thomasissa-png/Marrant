@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
+import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { useUserStore } from "@/stores/user-store";
@@ -224,7 +225,7 @@ export function FavorisList() {
           >
             {tab.label}
             {counts[tab.value] > 0 && (
-              <span className="ml-1.5 rounded-full bg-white/20 px-1.5 text-xs">
+              <span className={`ml-1.5 rounded-full px-1.5 text-xs ${activeTab === tab.value ? "bg-white/20" : "bg-accent-primary/20 text-accent-primary"}`}>
                 {counts[tab.value]}
               </span>
             )}
@@ -302,9 +303,12 @@ export function FavorisList() {
                     </div>
                     <p className="text-text-primary">{joke.content}</p>
                     {isRevealed ? (
-                      <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
-                        {joke.punchline}
-                      </p>
+                      <>
+                        <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
+                          {joke.punchline}
+                        </p>
+                        <ReactionButtons jokeId={fav.jokeId ?? ""} className="mt-3" />
+                      </>
                     ) : (
                       <p className="mt-3 text-sm text-text-muted">
                         Clique pour la chute
@@ -356,17 +360,17 @@ export function FavorisList() {
                     <CardTitle>{tip.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-text-secondary">{tip.content}</p>
+                    <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
 
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
                         <div className="rounded-lg bg-background-elevated p-4">
-                          <p className="mb-1 text-xs font-semibold uppercase text-accent-primary">Exemple</p>
-                          <p className="text-sm text-text-primary">{tip.example}</p>
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
                         </div>
-                        <div className="rounded-lg bg-background-elevated p-4">
-                          <p className="mb-1 text-xs font-semibold uppercase text-accent-secondary">Exercice</p>
-                          <p className="text-sm text-text-primary">{tip.exercise}</p>
+                        <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
                         </div>
                       </div>
                     ) : (
@@ -413,17 +417,17 @@ export function FavorisList() {
                     <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                       <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                     </div>
-                    <h3 className="text-base font-semibold text-text-primary">
+                    <h3 className="font-display text-base font-bold text-text-primary">
                       {video.title}
                     </h3>
                     <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>
-                    <p className="mt-2 text-xs text-text-muted line-clamp-2">{video.description}</p>
+                    <p className="mt-2 text-sm text-text-muted line-clamp-2">{video.description}</p>
                     {video.learnings && video.learnings.length > 0 && (
-                      <div className="mt-3 rounded-lg bg-background-elevated p-3">
-                        <p className="text-xs font-semibold text-text-primary">Ce que tu vas apprendre</p>
-                        <ul className="mt-1.5 space-y-1">
+                      <div className="mt-3 rounded-lg bg-background-elevated p-4">
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
+                        <ul className="mt-1.5 space-y-1.5">
                           {video.learnings.map((learning, i) => (
-                            <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
+                            <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                               <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
                               {learning}
                             </li>
@@ -432,9 +436,9 @@ export function FavorisList() {
                       </div>
                     )}
                     {video.exercise && (
-                      <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3">
-                        <p className="text-xs font-semibold text-accent-primary">Exercice pratique</p>
-                        <p className="mt-1 text-xs text-text-secondary">{video.exercise}</p>
+                      <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                        <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                       </div>
                     )}
                   </CardContent>

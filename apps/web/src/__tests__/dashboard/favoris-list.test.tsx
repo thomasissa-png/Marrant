@@ -60,6 +60,11 @@ const mockFavorites = [
 describe("FavorisList", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Mock fetch for ReactionButtons which fetches like status on mount
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ liked: false, disliked: false, likes: 0, dislikes: 0 }),
+    });
     useSession.mockReturnValue({ status: "authenticated" });
     useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
       selector({ user: { plan: "PREMIUM" } })
