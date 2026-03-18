@@ -7,7 +7,7 @@ const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m 
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
-import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
+import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import Link from "next/link";
 
 const homepageFaqs = [

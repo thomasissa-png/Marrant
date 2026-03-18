@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
-import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
+import { faqs as faqSectionFaqs } from "@/lib/faqs";
 
 export const metadata: Metadata = {
   title: "Abonnement — 0,99 €/mois",

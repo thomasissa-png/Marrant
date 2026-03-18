@@ -256,7 +256,7 @@ export function ProfilDashboard() {
                       <ProgressBar
                         value={p.completedSteps}
                         max={p.totalSteps}
-                        variant={isDone ? "gradient" : "default"}
+                        variant={isDone ? "gradient" : "primary"}
                       />
                       <p className="mt-1 text-xs text-text-muted text-right">{pct}%</p>
                     </div>

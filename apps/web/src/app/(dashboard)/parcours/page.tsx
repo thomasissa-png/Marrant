@@ -8,7 +8,7 @@ import {
   buildCourseJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
-import { faqs as faqSectionFaqs } from "@/components/home/faq-section";
+import { faqs as faqSectionFaqs } from "@/lib/faqs";
 
 export const metadata: Metadata = {
   title: "Parcours humour — deviens drôle",
