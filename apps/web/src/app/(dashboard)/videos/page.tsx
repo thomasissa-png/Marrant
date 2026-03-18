@@ -42,11 +42,10 @@ export default function VideosPage() {
           Apprends à être drôle avec les meilleurs humoristes
         </h1>
         <p className="mt-2 text-text-secondary">
-          Regarde comment Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet et
-          Waly Dia construisent leurs blagues et leurs punchlines. Chaque
-          vidéo est annotée avec la technique utilisée — timing, autodérision,
-          observation, storytelling. Le meilleur moyen de devenir drôle, c&apos;est
-          d&apos;apprendre des pros.
+          Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia — on
+          décortique leurs meilleurs passages. Chaque vidéo est annotée avec la
+          technique utilisée : timing, autodérision, observation, storytelling.
+          Tu regardes, tu comprends le mécanisme, tu le reproduis.
         </p>
       </div>
 

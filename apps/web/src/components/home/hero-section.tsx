@@ -17,9 +17,8 @@ export function HeroSection() {
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
-        à café ? Tu voudrais retrouver ta légèreté ? Des vannes, des techniques
-        de répartie et des conseils de pros pour progresser en humour,
-        à ton rythme.
+        à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les
+        techniques et les exercices. Toi, tu ramènes ta motivation.
       </p>
 
       {/* Social proof */}
@@ -39,7 +38,7 @@ export function HeroSection() {
           Retrouver confiance en soi
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Gagner des XP et maintenir ton streak
+          Progresser chaque jour
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Vannes prêtes à ressortir

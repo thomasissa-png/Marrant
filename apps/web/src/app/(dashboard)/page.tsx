@@ -92,9 +92,9 @@ export default function HomePage() {
               &quot;Je reste muet quand on me chambre&quot;
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Tu as 20 ans et tu aimerais avoir de la répartie avec tes potes
-              sans rester planté là ? On t&apos;apprend les bases avec des
-              exercices simples et encourageants. Gagne des XP chaque jour et suis ta progression.
+              Tu aimerais avoir de la répartie avec tes potes sans rester
+              planté là ? On t&apos;apprend les bases avec des exercices simples
+              et encourageants. Gagne des XP chaque jour et suis ta progression.
             </p>
             <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Parcours Répartie · 4 semaines →

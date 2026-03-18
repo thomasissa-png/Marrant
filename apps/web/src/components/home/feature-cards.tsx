@@ -32,7 +32,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ vidéos de stand-up décryptées` : "Vidéos stand-up décryptées",
     description:
-      "Les meilleurs extraits d'humoristes français, analysés technique par technique. Apprends en regardant les pros.",
+      "Les meilleurs extraits d'humoristes français, analysés technique par technique. Regarde les pros. Vole leurs techniques.",
     cta: "Regarder les vidéos",
     href: "/videos",
     variant: "primary" as const,

@@ -41,11 +41,10 @@ export default function VannesPage() {
           Vannes drôles à ressortir en toute occasion
         </h1>
         <p className="mt-2 text-text-secondary">
-          Des centaines de vannes classées par catégorie — boulot, couple,
-          soirées, école, gaming — à ressortir entre potes, à la machine à
-          café ou en dîner. Clique pour révéler la chute et sauvegarde tes
-          préférées. C&apos;est le premier pas pour devenir plus drôle au
-          quotidien.
+          Boulot, couple, soirées, école, gaming — trouve la vanne parfaite
+          pour chaque situation. Clique pour révéler la chute, sauvegarde tes
+          préférées, et ressors-les ce soir. La théorie, c&apos;est bien.
+          Avoir une vanne prête, c&apos;est mieux.
         </p>
       </div>
 

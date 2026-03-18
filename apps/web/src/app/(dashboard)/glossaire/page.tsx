@@ -127,9 +127,10 @@ export default function GlossairePage() {
           Glossaire humour : les termes à connaître pour devenir drôle
         </h1>
         <p className="mt-2 text-text-secondary">
-          Répartie, timing, autodérision, punchline... Tous les termes clés
-          de l&apos;humour expliqués simplement. Le vocabulaire indispensable
-          pour comprendre les techniques et progresser.
+          Répartie, timing, autodérision, punchline... Les termes clés de
+          l&apos;humour expliqués simplement, avec des exemples concrets.
+          Le vocabulaire pour comprendre les techniques — et surtout les
+          utiliser.
         </p>
       </div>
 
@@ -163,7 +164,8 @@ export default function GlossairePage() {
         </p>
         <p className="mt-2 text-text-secondary">
           Des exercices concrets, des parcours pas à pas, et un système de
-          progression pour devenir drôle au quotidien.
+          progression. Parce que connaître le vocabulaire c&apos;est bien,
+          faire rire c&apos;est mieux.
         </p>
         <Link href="/register" className="mt-4 inline-block">
           <button className="rounded-lg bg-accent-primary px-6 py-3 font-medium text-white hover:bg-accent-primary/90">

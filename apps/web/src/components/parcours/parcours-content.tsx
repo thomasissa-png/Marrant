@@ -224,9 +224,9 @@ export function ParcoursContent() {
           Parcours pour devenir drôle et maîtriser la répartie
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary">
-          Choisis ton parcours et progresse semaine après semaine. Chaque
-          programme est conçu pour t&apos;amener d&apos;un niveau à l&apos;autre
-          avec des exercices concrets et des conseils pratiques.
+          Choisis ton parcours et progresse semaine après semaine. Pas de
+          cours magistral : des exercices concrets, des défis quotidiens, et
+          des résultats que ton entourage remarquera avant toi.
         </p>
         <p className="mt-3 text-sm font-medium text-accent-primary">
           Gagne des XP à chaque module, maintiens ton streak et suis ta progression

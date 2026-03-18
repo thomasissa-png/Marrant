@@ -66,9 +66,9 @@ const FEATURES: Feature[] = [
   },
   {
     slug: "surprises",
-    title: "Et bien plus encore...",
+    title: "Générateur de répartie",
     description:
-      "On te prépare plein de surprises pour t\u2019aider à devenir encore plus drôle",
+      "Décris la situation, on te génère 3 répliques possibles. Ton coach de poche pour ne plus jamais rester muet",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -161,8 +161,7 @@ export function UpcomingFeatures() {
         Prochainement
       </h2>
       <p className="mx-auto mb-2 max-w-2xl text-center text-text-secondary">
-        On bosse dur pour te proposer encore plus de contenu et d&apos;outils
-        pour devenir la personne la plus drôle de ton entourage.
+        On prépare la suite pour te rendre encore plus redoutable en société.
       </p>
       <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-text-muted">
         Vote pour la fonctionnalité que tu veux voir arriver en premier !

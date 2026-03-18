@@ -120,11 +120,11 @@ export default async function BlogPage() {
           Comment devenir drôle : guides et techniques d&apos;humour
         </h1>
         <p className="mt-2 text-text-secondary">
-          Articles complets pour apprendre à devenir drôle, avoir de la
-          répartie et développer ton sens de l&apos;humour. Des techniques
-          d&apos;humoristes pros, des exercices concrets et des guides pas à
-          pas, que tu sois débutant, timide ou en quête de nouvelles
-          inspirations.
+          Guides pratiques pour devenir drôle, avoir de la répartie et
+          développer ton humour. Des techniques volées aux meilleurs
+          humoristes, des exercices testables immédiatement, et zéro blabla.
+          Si tu lis un article et que tu ne souris pas au moins une fois,
+          on a raté notre job.
         </p>
       </div>
 

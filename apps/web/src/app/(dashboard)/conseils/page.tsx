@@ -42,11 +42,11 @@ export default function ConseilsPage() {
           Comment avoir de la répartie et devenir plus drôle
         </h1>
         <p className="mt-2 text-text-secondary">
-          Apprends les techniques de répartie, de timing et de storytelling
-          utilisées par les meilleurs humoristes français. Chaque conseil vient
-          avec un exemple concret et un exercice à tester dès aujourd&apos;hui.
-          Que tu sois timide et débutant ou confirmé qui veut affiner son jeu,
-          progresse à ton rythme vers un humour plus naturel.
+          Répartie, timing, storytelling — les techniques des meilleurs
+          humoristes français, expliquées comme si on était à la même table.
+          Chaque conseil vient avec un exemple concret et un défi à tester
+          aujourd&apos;hui. Pas de théorie creuse : tu lis, tu testes, tu
+          progresses.
         </p>
       </div>
 

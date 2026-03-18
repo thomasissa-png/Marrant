@@ -15,10 +15,10 @@ describe("HeroSection", () => {
     expect(screen.getByText(/du groupe/)).toBeInTheDocument();
   });
 
-  it("shows description with répartie", () => {
+  it("shows description with motivation hook", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/techniques de répartie/)).toBeInTheDocument();
+    expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
   });
 
   it("shows social proof counter", () => {
@@ -27,13 +27,13 @@ describe("HeroSection", () => {
     expect(screen.getByText(/1 500\+ membres/)).toBeInTheDocument();
   });
 
-  it("shows use-case tags for all 3 personas plus XP/streak", () => {
+  it("shows use-case tags for all 3 personas", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
     expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
     expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
-    expect(screen.getByText(/XP.*streak/)).toBeInTheDocument();
+    expect(screen.getByText("Progresser chaque jour")).toBeInTheDocument();
     expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
   });
 

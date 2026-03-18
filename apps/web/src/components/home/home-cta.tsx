@@ -22,7 +22,7 @@ export function HomeCta() {
           Prêt à devenir plus drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour moins d&apos;un café par mois. Gagne des XP, maintiens ton streak et progresse chaque jour.
+          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — le tout pour moins qu&apos;un café par mois. Ton futur toi drôle te remerciera.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/register">
@@ -30,9 +30,9 @@ export function HomeCta() {
               Commencer à 0,99 €/mois
             </Button>
           </Link>
-          <Link href="/register">
+          <Link href="/vannes">
             <Button variant="outline" size="lg">
-              Découvrir la plateforme
+              Voir les vannes gratuites
             </Button>
           </Link>
         </div>

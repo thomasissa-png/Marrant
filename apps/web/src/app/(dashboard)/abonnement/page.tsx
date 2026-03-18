@@ -43,8 +43,8 @@ export default function AbonnementPage() {
           Active ton accès pour commencer
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Ton compte est créé ! Abonne-toi pour accéder à tout le contenu
-          et commencer ta progression.
+          Ton compte est créé ! Plus qu&apos;un clic pour accéder à tout
+          le catalogue et commencer à devenir la personne drôle du groupe.
         </p>
       </div>
 

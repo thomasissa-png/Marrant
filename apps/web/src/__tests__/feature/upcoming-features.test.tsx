@@ -55,7 +55,7 @@ describe("UpcomingFeatures", () => {
       expect(screen.getByText("Vannes, vidéos et conseils du jour par WhatsApp")).toBeInTheDocument();
       expect(screen.getByText("De nouveaux parcours")).toBeInTheDocument();
       expect(screen.getByText("Une communauté")).toBeInTheDocument();
-      expect(screen.getByText("Et bien plus encore...")).toBeInTheDocument();
+      expect(screen.getByText("Générateur de répartie")).toBeInTheDocument();
     });
   });
 

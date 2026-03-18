@@ -42,7 +42,8 @@ export default function AProposPage() {
           deviens-marrant.fr est la première plateforme francophone dédiée à
           l&apos;apprentissage de l&apos;humour, de la répartie et du
           storytelling. Notre mission : prouver que l&apos;humour n&apos;est pas
-          un talent inné, mais une compétence qui se travaille.
+          un don réservé à quelques élus, mais un muscle que tout le monde
+          peut entraîner.
         </p>
 
         <section className="mt-10">
@@ -107,11 +108,10 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">L&apos;équipe</h2>
           <p className="mt-3 text-text-secondary">
-            deviens-marrant.fr est fondé par une équipe de passionnés d&apos;humour,
-            convaincus que le rire est le meilleur outil de connexion sociale.
-            On combine expertise en pédagogie, en stand-up et en
-            technologie pour créer la meilleure expérience d&apos;apprentissage
-            de l&apos;humour en ligne.
+            deviens-marrant.fr est fondé par des gens qui ont un jour été les
+            moins drôles de leur groupe — et qui ont décidé que ça suffisait.
+            On combine pédagogie, culture stand-up et technologie pour créer
+            la meilleure expérience d&apos;apprentissage de l&apos;humour en ligne.
           </p>
         </section>
 
@@ -133,7 +133,8 @@ export default function AProposPage() {
             Prêt à devenir plus drôle ?
           </p>
           <p className="mt-2 text-text-secondary">
-            Rejoins 1 500+ membres qui progressent en humour chaque jour.
+            Rejoins les membres qui progressent en humour chaque jour.
+            Ton futur toi drôle t&apos;attend.
           </p>
           <Link href="/register" className="mt-4 inline-block">
             <Button variant="primary" size="lg">
