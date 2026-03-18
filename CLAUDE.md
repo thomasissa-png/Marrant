@@ -194,3 +194,37 @@ Branche : `claude/fix-login-redirect-navigation-XCsj1`
 - Section « Contrôle qualité vannes — Le Test Stand-Up » avec critères de rejet et de qualité
 - Workflow obligatoire pour tout ajout/modification de vanne
 - S'applique au catalogue seed ET aux futures vannes générées par l'IA
+
+### Audit qualité conseils — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Catalogue conseils (conseils-seed.json) — 60 → 66 conseils
+- **12 supprimés** : doublons autodérision/storytelling, filler, exemple avouant être nul (ID 35)
+- **9 corrigés** : exemples faibles, contenu vague, déconnexion titre/contenu
+- **18 nouveaux** : 5 TIMING, 4 Marc-focused, 3 Sophie pro, 4 Yanis, 2 transversaux
+- **34 exercices** standardisés au format "DÉFI [NOM] : ..." (66/66)
+- TIMING renforcé de 5 → 10 | Marc passe de 0 → 4 conseils dédiés
+
+#### Agent IA conseils (tip-agent.ts) — brief réécrit niveau coach stand-up
+- Posture coach d'impro (atelier > amphi)
+- Test du Coach : "est-ce que le persona peut l'appliquer AUJOURD'HUI ?"
+- 6 critères de rejet + 5 critères de qualité + exemples bon/mauvais
+- Validation programmatique : format DÉFI, dialogue dans l'exemple, contenu min 60 mots
+
+#### Seed script (seed-data.ts)
+- Désactivation automatique des conseils retirés du seed (`isActive: false`)
+- Protège les conseils IA (`generatedByAI: true` non touchés)
+
+### Audit qualité vidéos — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Catalogue vidéos (videos-seed.json) — 89 vidéos
+- **84 exercices** standardisés au format "DÉFI [NOM] : ..." (89/89)
+- **8 descriptions** génériques réécrites (contexte spécifique au lieu de "excellent exemple")
+- **8 techniques** standardisées (variantes ramenées aux 7 catégories)
+- Note : Montreux Comedy = 36% du catalogue, à rééquilibrer progressivement
+
+#### Agent IA vidéos (video-agent.ts) — brief réécrit niveau directeur artistique
+- 5 critères de sélection hiérarchisés : pédagogie > niveau > diversité > chaîne > catégorie
+- Critère de diversité de chaîne intégré
+- User prompt : "ce qui fait le plus progresser" plutôt que "le plus drôle"
