@@ -30,6 +30,38 @@ apps/web/src/__tests__/
 3. Lancer `npx jest --no-coverage` — tout doit passer
 4. Commit + push
 
+## Contrôle qualité vannes — Le Test Stand-Up
+
+### Règle absolue
+**Chaque vanne du catalogue DOIT passer ce test avant d'être ajoutée ou conservée :**
+
+> « Est-ce que je peux la sortir ce soir en soirée / demain à la machine à café et faire rire ? »
+
+Si la réponse est non, la vanne n'a rien à faire sur le site.
+
+### Critères de rejet automatique
+- **Objets qui parlent** : « Un X dit à un Y... » entre objets inanimés (fourchette/couteau, miroir/miroir, stylo/crayon). Personne ne sort ça en société.
+- **Jeux de mots forcés** : si le calembour ne fonctionne qu'à l'écrit ou nécessite 3 secondes de réflexion, c'est non.
+- **Punchline plus longue que le setup** : en stand-up, la chute doit être plus courte que l'amorce. Si la punchline fait 30+ mots, la raccourcir ou la couper.
+- **Doublons conceptuels** : vérifier qu'aucune vanne existante n'utilise déjà le même concept/comparaison (ex : « X c'est comme le Wi-Fi »).
+- **Blagues enfantines / Carambar** : format Q&A basique type « Pourquoi le X fait Y ? Parce que Z. » sans twist réel.
+- **Autodérision triste sans punch** : « je suis seul / nul / ghosté » sans retournement comique = pas drôle, juste déprimant.
+
+### Critères de qualité
+- **Relatable** : la vanne parle d'une situation que nos personas vivent vraiment (coloc, boulot, date, soirée, famille).
+- **Sortable à l'oral** : on doit pouvoir la raconter naturellement dans une conversation, sans intro artificielle.
+- **Twist net** : la punchline doit surprendre. Si on la voit venir, c'est raté.
+- **Courte et percutante** : setup + punchline < 40 mots idéalement. Les meilleures tiennent en 20 mots.
+- **Persona-check** : vérifier que la vanne sert au moins un de nos 3 personas (Yanis 20 ans / Sophie 26 ans / Marc 34 ans).
+
+### Workflow ajout/modification de vannes
+1. Écrire la vanne
+2. Appliquer le test stand-up (« je la sors ce soir ? »)
+3. Vérifier les critères de rejet (pas d'objets qui parlent, pas de doublon, punchline courte)
+4. Vérifier qu'au moins un persona peut l'utiliser dans sa vie
+5. Vérifier qu'aucune vanne existante n'a le même concept
+6. Ajouter au fichier `docs/content/blagues-seed.json`
+
 ## Agent SEO — Instructions automatisées
 
 ### Planning éditorial
