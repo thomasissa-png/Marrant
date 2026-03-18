@@ -1693,6 +1693,174 @@ describe("Stand-Up Director Agent", () => {
       reviewContentBatch([], "2026-03-18"),
     ).rejects.toThrow("revue de batch vide");
   });
+
+  // ─── Tests auditSiteContent ───────────────────────────────────
+
+  it("audits site content and returns results per section", async () => {
+    let auditSiteContent: typeof import("@/lib/ai/agents/standup-director-agent").auditSiteContent;
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    auditSiteContent = mod.auditSiteContent;
+
+    const mockAudit = {
+      date: "2026-03-18",
+      overallScore: 7,
+      totalPages: 2,
+      totalSections: 3,
+      results: [
+        {
+          pageName: "Homepage",
+          section: "Hero heading",
+          verdict: "APPROVED",
+          score: 9,
+          currentText: "Deviens la personne drôle du groupe.",
+          suggestedText: "Deviens la personne drôle du groupe.",
+          issues: [],
+          directorNote: "Accrocheur et direct.",
+        },
+        {
+          pageName: "Vidéos",
+          section: "Description",
+          verdict: "NEEDS_REVISION",
+          score: 5,
+          currentText: "Regarde comment Gad Elmaleh...",
+          suggestedText: "Regarde comment Fary, Paul Mirabel...",
+          issues: ["Références humoristes datées en première position"],
+          directorNote: "Moderniser les refs.",
+        },
+        {
+          pageName: "À propos",
+          section: "Mission",
+          verdict: "NEEDS_REVISION",
+          score: 6,
+          currentText: "On s'appuie sur Gad Elmaleh...",
+          suggestedText: "On s'appuie sur Fary, Paul Mirabel...",
+          issues: ["Humoristes legacy en premier"],
+          directorNote: "Inverser l'ordre des refs.",
+        },
+      ],
+      priorityFixes: [
+        "Moderniser les références humoristes sur toutes les pages",
+        "Ajouter plus d'humour dans les textes statiques",
+      ],
+      directorSummary: "Le site a une bonne base mais les références sont datées.",
+    };
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(mockAudit) }],
+    });
+
+    const result = await auditSiteContent([
+      {
+        pageName: "Homepage",
+        section: "Hero heading",
+        currentText: "Deviens la personne drôle du groupe.",
+        context: "Titre principal de la page d'accueil",
+      },
+      {
+        pageName: "Vidéos",
+        section: "Description",
+        currentText: "Regarde comment Gad Elmaleh...",
+        context: "Description sous le titre de la page vidéos",
+      },
+      {
+        pageName: "À propos",
+        section: "Mission",
+        currentText: "On s'appuie sur Gad Elmaleh...",
+        context: "Paragraphe mission de la page à propos",
+      },
+    ]);
+
+    expect(result.overallScore).toBeGreaterThanOrEqual(1);
+    expect(result.overallScore).toBeLessThanOrEqual(10);
+    expect(result.results).toHaveLength(3);
+    expect(result.results[0].verdict).toBe("APPROVED");
+    expect(result.results[1].verdict).toBe("NEEDS_REVISION");
+    expect(result.results[1].issues.length).toBeGreaterThan(0);
+    expect(result.priorityFixes.length).toBeGreaterThan(0);
+    expect(result.directorSummary).toBeTruthy();
+  });
+
+  it("audit throws on empty results", async () => {
+    let auditSiteContent: typeof import("@/lib/ai/agents/standup-director-agent").auditSiteContent;
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    auditSiteContent = mod.auditSiteContent;
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            date: "2026-03-18",
+            overallScore: 5,
+            totalPages: 1,
+            totalSections: 1,
+            results: [],
+            priorityFixes: [],
+            directorSummary: "Rien",
+          }),
+        },
+      ],
+    });
+
+    await expect(
+      auditSiteContent([
+        {
+          pageName: "Test",
+          section: "Test",
+          currentText: "Test",
+          context: "Test",
+        },
+      ]),
+    ).rejects.toThrow("résultats vides");
+  });
+
+  it("audit corrects invalid verdicts and scores", async () => {
+    let auditSiteContent: typeof import("@/lib/ai/agents/standup-director-agent").auditSiteContent;
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    auditSiteContent = mod.auditSiteContent;
+
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            date: "2026-03-18",
+            overallScore: 99,
+            totalPages: 1,
+            totalSections: 1,
+            results: [
+              {
+                pageName: "Test",
+                section: "Test",
+                verdict: "INVALID",
+                score: -5,
+                currentText: "Test",
+                suggestedText: "Test amélioré",
+                issues: [],
+                directorNote: "Note",
+              },
+            ],
+            priorityFixes: [],
+            directorSummary: "",
+          }),
+        },
+      ],
+    });
+
+    const result = await auditSiteContent([
+      {
+        pageName: "Test",
+        section: "Test",
+        currentText: "Test",
+        context: "Test",
+      },
+    ]);
+
+    expect(result.overallScore).toBe(5); // clamped
+    expect(result.results[0].verdict).toBe("NEEDS_REVISION"); // fallback
+    expect(result.results[0].score).toBe(5); // clamped
+    expect(result.directorSummary).toBe("Audit complété."); // fallback
+  });
 });
 
 describe("Director integration — validation retry loop", () => {

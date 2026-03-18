@@ -18,7 +18,37 @@ import { TONALITY_BRIEF } from "./marketing-agent";
 
 // ─── Types de validation ──────────────────────────────────────────
 
-export type ContentType = "JOKE" | "TIP" | "VIDEO" | "BLOG";
+export type ContentType = "JOKE" | "TIP" | "VIDEO" | "BLOG" | "SITE_COPY";
+
+// ─── Type pour l'audit du contenu statique du site ──────────────
+
+export interface SiteCopyToAudit {
+  pageName: string;
+  section: string;
+  currentText: string;
+  context: string; // description du rôle de ce texte (hero, CTA, description, etc.)
+}
+
+export interface SiteCopyAuditResult {
+  pageName: string;
+  section: string;
+  verdict: ValidationVerdict;
+  score: number;
+  currentText: string;
+  suggestedText: string;
+  issues: string[];
+  directorNote: string;
+}
+
+export interface FullSiteAuditResult {
+  date: string;
+  overallScore: number;
+  totalPages: number;
+  totalSections: number;
+  results: SiteCopyAuditResult[];
+  priorityFixes: string[];
+  directorSummary: string;
+}
 
 export type ValidationVerdict = "APPROVED" | "NEEDS_REVISION" | "REJECTED";
 
@@ -833,6 +863,153 @@ Réponds en JSON :
   parsed.title = parsed.title.trim().slice(0, 200);
   parsed.excerpt = (parsed.excerpt ?? "").trim().slice(0, 200);
   parsed.content = parsed.content.trim();
+
+  return parsed;
+}
+
+// ─── Audit du contenu statique du site ──────────────────────────
+//
+// Audite les textes visibles par les visiteurs : headings, descriptions,
+// CTAs, marketing copy, FAQ, glossaire, etc. Applique les 5 tests
+// universels + les standards de la marque.
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Audite une liste de textes statiques du site (headings, descriptions,
+ * CTAs, etc.) et retourne des suggestions d'amélioration.
+ *
+ * Usage typique : passer tous les textes user-facing d'une ou plusieurs
+ * pages pour obtenir un rapport complet du Directeur Artistique.
+ */
+export async function auditSiteContent(
+  copies: SiteCopyToAudit[],
+): Promise<FullSiteAuditResult> {
+  const copyDescriptions = copies
+    .map(
+      (c, i) =>
+        `${i + 1}. [${c.pageName}] — ${c.section}
+   Contexte : ${c.context}
+   Texte actuel :
+   """
+   ${c.currentText.slice(0, 500)}
+   """`,
+    )
+    .join("\n\n");
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 8000,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `AUDIT CONTENU STATIQUE DU SITE — Tout ce que les visiteurs voient
+
+Tu audites les textes VISIBLES par les visiteurs de deviens-marrant.fr.
+Ce sont les textes qui font la première impression. Ils doivent incarner
+la voix de la marque, servir les 3 personas et être au niveau du site n°1.
+
+VOICI LES TEXTES À AUDITER :
+
+${copyDescriptions}
+
+CRITÈRES D'AUDIT — CHAQUE TEXTE DOIT :
+
+1. VOIX DE MARQUE : tutoiement, ton complice, jamais corporate ni condescendant
+2. PERSONAS : au moins un des 3 personas (Yanis/Sophie/Marc) doit se reconnaître
+3. HUMOUR : le site est dédié à l'humour — les textes doivent refléter ça (sans forcer)
+4. CONCRET : pas de promesses vagues — des résultats tangibles
+5. MODERNE : références actuelles (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin > Gad, Foresti, Jamel)
+6. SEO : mots-clés naturellement intégrés dans les headings et descriptions
+7. CTA CLAIR : chaque page doit pousser vers une action (s'inscrire, explorer, commencer un parcours)
+8. COHÉRENCE : les textes entre pages doivent être cohérents (mêmes promesses, mêmes chiffres)
+
+RÉFÉRENCES HUMORISTES — RÈGLE NON NÉGOCIABLE :
+- Prioritaires (toujours en premier) : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia
+- Legacy (max 1 mention, jamais en première position) : Gad Elmaleh, Florence Foresti, Jamel Debbouze
+
+ANTI-PATTERNS À DÉTECTER :
+- Texte trop long ou trop formel pour le ton du site
+- Références d'humoristes datées en position principale
+- Promesses génériques ("des centaines de...") sans spécificité
+- Manque d'humour dans un site... d'humour
+- Incohérence entre pages (chiffres différents, promesses contradictoires)
+- Persona oublié (un des 3 n'est jamais adressé)
+
+Pour chaque texte, donne :
+- Un verdict (APPROVED / NEEDS_REVISION / REJECTED)
+- Un score (1-10)
+- Les problèmes identifiés
+- Une suggestion de réécriture si score < 8
+
+Réponds en JSON :
+{
+  "date": "${new Date().toISOString().slice(0, 10)}",
+  "overallScore": 1-10,
+  "totalPages": ${new Set(copies.map((c) => c.pageName)).size},
+  "totalSections": ${copies.length},
+  "results": [
+    {
+      "pageName": "...",
+      "section": "...",
+      "verdict": "APPROVED|NEEDS_REVISION|REJECTED",
+      "score": 1-10,
+      "currentText": "Début du texte actuel...",
+      "suggestedText": "Réécriture suggérée (si score < 8, sinon identique)",
+      "issues": ["Problème 1", "Problème 2"],
+      "directorNote": "Avis en 1-2 phrases"
+    }
+  ],
+  "priorityFixes": ["Les 3-5 corrections les plus urgentes"],
+  "directorSummary": "Résumé global : forces du site, faiblesses, recommandations"
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const parsed = extractJson<FullSiteAuditResult>(text);
+
+  // Validation basique
+  if (!Array.isArray(parsed.results) || parsed.results.length === 0) {
+    throw new Error("Stand-Up Director : audit site — résultats vides");
+  }
+  if (
+    typeof parsed.overallScore !== "number" ||
+    parsed.overallScore < 1 ||
+    parsed.overallScore > 10
+  ) {
+    parsed.overallScore = 5;
+  }
+
+  // Valider les verdicts individuels
+  const validVerdicts: ValidationVerdict[] = [
+    "APPROVED",
+    "NEEDS_REVISION",
+    "REJECTED",
+  ];
+  for (const result of parsed.results) {
+    if (!validVerdicts.includes(result.verdict)) {
+      result.verdict = "NEEDS_REVISION";
+    }
+    if (
+      typeof result.score !== "number" ||
+      result.score < 1 ||
+      result.score > 10
+    ) {
+      result.score = 5;
+    }
+    if (!Array.isArray(result.issues)) {
+      result.issues = [];
+    }
+  }
+
+  if (!Array.isArray(parsed.priorityFixes)) {
+    parsed.priorityFixes = [];
+  }
+  if (!parsed.directorSummary?.trim()) {
+    parsed.directorSummary = "Audit complété.";
+  }
 
   return parsed;
 }

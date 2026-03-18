@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "deviens-marrant.fr",
     "plateforme humour francophone",
     "apprendre humour en ligne",
-    "Alex Durand humour",
+    "formation stand-up français",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/a-propos" },
 };
@@ -55,8 +55,8 @@ export default function AProposPage() {
           </p>
           <p className="mt-3 text-text-secondary">
             On s&apos;appuie sur les techniques des meilleurs humoristes
-            français (Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary, Paul
-            Mirabel), les principes de la psychologie positive et des exercices
+            français (Fary, Paul Mirabel, Roman Frayssinet, Blanche Gardin, Waly
+            Dia), les principes de la psychologie positive et des exercices
             concrets testés par notre communauté de 1 500+ membres.
           </p>
         </section>
@@ -107,9 +107,9 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">L&apos;équipe</h2>
           <p className="mt-3 text-text-secondary">
-            deviens-marrant.fr est fondé par Alex Durand, passionné d&apos;humour
-            et convaincu que le rire est le meilleur outil de connexion sociale.
-            L&apos;équipe combine expertise en pédagogie, en stand-up et en
+            deviens-marrant.fr est fondé par une équipe de passionnés d&apos;humour,
+            convaincus que le rire est le meilleur outil de connexion sociale.
+            On combine expertise en pédagogie, en stand-up et en
             technologie pour créer la meilleure expérience d&apos;apprentissage
             de l&apos;humour en ligne.
           </p>

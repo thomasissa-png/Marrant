@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title:
     "Vidéos stand-up analysées — apprends l'humour des meilleurs humoristes",
   description:
-    "Apprends l'humour avec Gad Elmaleh, Blanche Gardin, Foresti, Fary et Mirabel. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
+    "Apprends l'humour avec Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet et Waly Dia. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
   keywords: [
     "stand-up français",
     "vidéos humour analysées",
-    "Gad Elmaleh techniques",
+    "Paul Mirabel techniques",
     "Blanche Gardin humour",
-    "Florence Foresti stand-up",
+    "Fary stand-up",
     "apprendre humour vidéo",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/videos" },
@@ -42,8 +42,8 @@ export default function VideosPage() {
           Apprends à être drôle avec les meilleurs humoristes
         </h1>
         <p className="mt-2 text-text-secondary">
-          Regarde comment Gad Elmaleh, Florence Foresti, Blanche Gardin, Fary et
-          Paul Mirabel construisent leurs blagues et leurs punchlines. Chaque
+          Regarde comment Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet et
+          Waly Dia construisent leurs blagues et leurs punchlines. Chaque
           vidéo est annotée avec la technique utilisée — timing, autodérision,
           observation, storytelling. Le meilleur moyen de devenir drôle, c&apos;est
           d&apos;apprendre des pros.

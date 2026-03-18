@@ -66,7 +66,7 @@ const glossary = [
   {
     term: "Observationnel",
     definition:
-      "Style d'humour basé sur l'observation du quotidien. L'humoriste décrit des situations que tout le monde vit mais que personne ne formule. Seinfeld, Florence Foresti et Gad Elmaleh sont des maîtres de l'humour observationnel.",
+      "Style d'humour basé sur l'observation du quotidien. L'humoriste décrit des situations que tout le monde vit mais que personne ne formule. Roman Frayssinet, Fary et Blanche Gardin sont des maîtres de l'humour observationnel en France.",
     related: "/videos",
     relatedLabel: "Vidéos observationnelles",
   },
@@ -87,7 +87,7 @@ const glossary = [
   {
     term: "Escalade comique",
     definition:
-      "Technique de répartie où l'on surenchérit sur une remarque en l'exagérant de manière absurde. Au lieu de nier ou de se justifier, on pousse le propos encore plus loin pour créer un effet comique. Gad Elmaleh l'utilise en spectacle.",
+      "Technique de répartie où l'on surenchérit sur une remarque en l'exagérant de manière absurde. Au lieu de nier ou de se justifier, on pousse le propos encore plus loin pour créer un effet comique. Fary et Paul Mirabel l'utilisent régulièrement en spectacle.",
     related: "/blog",
     relatedLabel: "7 techniques de répartie",
   },
