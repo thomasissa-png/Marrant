@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Un compte existe déjà avec cet email. Connecte-toi plutôt.",
+  OAuthAccountNotLinked: "Tu as déjà un compte ! Utilise 'Continuer avec Google' sur la page connexion.",
   OAuthCallback: "Erreur lors de l'inscription avec Google. Réessaie.",
   OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
   Default: "Une erreur est survenue. Réessaie.",

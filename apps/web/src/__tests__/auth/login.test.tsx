@@ -161,4 +161,28 @@ describe("LoginPage", () => {
     mockSearchParams.delete("callbackUrl");
   });
 
+  it("auto-retries Google sign-in on OAuthAccountNotLinked error", async () => {
+    sessionStorage.clear();
+    mockSearchParams.set("error", "OAuthAccountNotLinked");
+    render(<LoginPage />);
+
+    await waitFor(() => {
+      expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
+    });
+    mockSearchParams.delete("error");
+    sessionStorage.clear();
+  });
+
+  it("shows fallback message if OAuthAccountNotLinked auto-retry already failed", () => {
+    sessionStorage.setItem("oauth-auto-retry", "1");
+    mockSearchParams.set("error", "OAuthAccountNotLinked");
+    render(<LoginPage />);
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Tu as déjà un compte"
+    );
+    mockSearchParams.delete("error");
+    sessionStorage.clear();
+  });
+
 });

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Un compte existe déjà avec cet email. Connecte-toi avec ton mot de passe.",
+  OAuthAccountNotLinked: "Tu as déjà un compte. Clique 'Continuer avec Google' ci-dessous.",
   OAuthCallback: "Erreur lors de la connexion avec Google. Réessaie.",
   OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
   Default: "Une erreur est survenue lors de la connexion.",
@@ -32,8 +32,32 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
-  const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
   const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+  const autoRetried = useRef(false);
+  const [autoRetrying, setAutoRetrying] = useState(false);
+
+  // Auto-retry Google sign-in when OAuthAccountNotLinked (account exists, just connect)
+  useEffect(() => {
+    if (oauthError === "OAuthAccountNotLinked" && !autoRetried.current) {
+      const alreadyRetried = sessionStorage.getItem("oauth-auto-retry");
+      if (!alreadyRetried) {
+        autoRetried.current = true;
+        setAutoRetrying(true);
+        sessionStorage.setItem("oauth-auto-retry", "1");
+        signIn("google", { callbackUrl });
+        return;
+      }
+      // Cleanup after second failure (prevent permanent loop)
+      sessionStorage.removeItem("oauth-auto-retry");
+    } else if (!oauthError) {
+      // Clear retry flag on successful navigation to login without error
+      sessionStorage.removeItem("oauth-auto-retry");
+    }
+  }, [oauthError, callbackUrl]);
+
+  const oauthMessage = oauthError && !autoRetrying
+    ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default)
+    : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
