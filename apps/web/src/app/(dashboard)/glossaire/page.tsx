@@ -8,7 +8,7 @@ import {
 export const metadata: Metadata = {
   title: "Glossaire humour — définitions répartie, timing, autodérision",
   description:
-    "Définitions des termes clés de l'humour : répartie, timing, autodérision, storytelling, punchline, one-liner. Le vocabulaire pour devenir drôle.",
+    "Punchline, timing, callback, one-liner... Le dico de l'humour pour comprendre les techniques des pros du stand-up.",
   keywords: [
     "définition répartie",
     "qu'est-ce que la répartie",

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title:
     "Blog humour — comment devenir drôle et avoir de la répartie",
   description:
-    "Articles et guides pour devenir drôle, avoir de la répartie et développer son humour. Techniques d'humoristes, exercices concrets, conseils débutants.",
+    "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés par 3 coachs.",
   keywords: [
     "blog humour",
     "guide répartie",

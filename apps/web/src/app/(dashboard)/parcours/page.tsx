@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "Parcours humour — deviens drôle et développe ta répartie",
   description:
-    "Parcours structurés pour devenir drôle et avoir de la répartie. Machine à Café (3 sem.), Répartie (4 sem.), Confiance (6 sem.). Progresse à ton rythme.",
+    "3 parcours pour devenir drôle : Machine à Café (3 sem.), Répartie (4 sem.), Confiance (6 sem.). 15 min/semaine suffisent.",
   keywords: [
     "cours humour en ligne",
     "parcours répartie",

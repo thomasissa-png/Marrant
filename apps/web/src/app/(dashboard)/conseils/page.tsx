@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Conseils humour et répartie — techniques pour être drôle",
   description:
-    "Comment avoir de la répartie et devenir plus drôle au quotidien. Techniques concrètes avec exemples et exercices. Répartie, storytelling, autodérision.",
+    "66 techniques concrètes pour avoir de la répartie et faire rire au quotidien. Avec exemples, dialogues et un défi à tester dès aujourd'hui.",
   keywords: [
     "avoir de la répartie",
     "comment avoir de la répartie",

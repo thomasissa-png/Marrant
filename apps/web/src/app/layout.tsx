@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | deviens-marrant.fr",
   },
   description:
-    "Apprends à devenir drôle et à avoir de la répartie. Vannes, techniques de pros, vidéos stand-up analysées et parcours personnalisés pour progresser en humour à ton rythme.",
+    "La plateforme pour devenir drôle, avoir de la répartie et faire rire ton entourage. Vannes, techniques de pro et parcours pas à pas.",
   keywords: [
     "devenir drôle",
     "comment devenir drôle",

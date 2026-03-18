@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "À propos de deviens-marrant.fr — plateforme humour en ligne",
   description:
-    "L'équipe derrière deviens-marrant.fr, la plateforme francophone pour apprendre l'humour et la répartie. Notre mission, nos valeurs, notre approche.",
+    "On a créé deviens-marrant.fr parce que l'humour, ça s'apprend. Notre objectif : que tu fasses rire dès ta prochaine soirée.",
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",
