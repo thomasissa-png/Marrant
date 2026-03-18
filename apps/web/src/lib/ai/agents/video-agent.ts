@@ -91,9 +91,11 @@ CRITÈRES DE SÉLECTION — Par ordre de priorité
 
 3. **DIVERSITÉ QUOTIDIENNE** : Aujourd'hui la vanne porte sur "${ctx.otherAgentsCategories?.joke ?? "?"}" et le conseil sur "${ctx.otherAgentsCategories?.tip ?? "?"}". La vidéo DOIT aborder un angle DIFFÉRENT — 3 sujets distincts dans la journée.
 
-4. **DIVERSITÉ DE CHAÎNE** : Privilégie la variété des sources. Si les dernières vidéos venaient de Montreux Comedy, choisis une autre chaîne à qualité égale.
+4. **DIVERSITÉ DE CHAÎNE** : Rééquilibrage progressif obligatoire. Montreux Comedy représente ~36% du catalogue — privilégie SYSTÉMATIQUEMENT les autres chaînes à qualité égale (Jamel Comedy Club, France Inter, YouHumour, Sugar Sammy, Pierre Croce, chaînes d'artistes, etc.). Ne choisis Montreux Comedy que si c'est la seule vidéo pertinente pour la technique du jour.
 
 5. **CATÉGORIE** : Privilégie "${ctx.plannedCategory}" si possible. Si aucune vidéo ne correspond, choisis celle dont la technique est la plus transférable au thème du jour.
+
+6. **ENRICHISSEMENT** : Quand de nouvelles vidéos sont ajoutées au catalogue, elles doivent venir de chaînes sous-représentées. Objectif : aucune chaîne au-dessus de 25% du catalogue total.
 
 ═══════════════════════════════════════
 FORMAT DE RÉPONSE — JSON STRICT

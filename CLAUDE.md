@@ -62,6 +62,24 @@ Si la réponse est non, la vanne n'a rien à faire sur le site.
 5. Vérifier qu'aucune vanne existante n'a le même concept
 6. Ajouter au fichier `docs/content/blagues-seed.json`
 
+## Diversité du catalogue vidéos — Règle permanente
+
+### État actuel (mars 2026)
+- Montreux Comedy = ~36% du catalogue (32/89 vidéos)
+- Objectif : aucune chaîne au-dessus de 25% du catalogue total
+
+### Règle de rééquilibrage progressif
+- **Ne PAS supprimer** les vidéos Montreux existantes (contenu de qualité)
+- **Chaque nouvelle vidéo ajoutée** doit venir d'une chaîne sous-représentée
+- Chaînes à privilégier : chaînes d'artistes (Blanche Gardin, Paul Mirabel, Roman Frayssinet...), Jamel Comedy Club, France Inter, YouHumour, Campus Comedy Tour, Tarmac, chaînes individuelles
+- L'agent vidéo (`video-agent.ts`) applique cette règle en critère 4 de sélection
+
+### Workflow ajout de vidéos
+1. Vérifier que le youtubeId existe et que la vidéo est accessible
+2. Privilégier une chaîne sous-représentée dans le catalogue
+3. Rédiger description, learnings et exercice au format standard
+4. Ajouter au fichier `docs/content/videos-seed.json`
+
 ## Agent SEO — Instructions automatisées
 
 ### Planning éditorial
@@ -228,3 +246,25 @@ Branche : `claude/fix-login-redirect-navigation-XCsj1`
 - 5 critères de sélection hiérarchisés : pédagogie > niveau > diversité > chaîne > catégorie
 - Critère de diversité de chaîne intégré
 - User prompt : "ce qui fait le plus progresser" plutôt que "le plus drôle"
+
+### Audit qualité parcours — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Parcours-seed.json — source unique créée puis enrichie
+- **Fichier créé** : `docs/content/parcours-seed.json` — source unique de vérité pour les 3 parcours
+- **Curation par persona** : chaque step mappe un conseil spécifique au persona (Sophie→café/timing, Yanis→répartie/chambrages, Marc→confiance/style)
+- **Alignement steps/semaines** : Machine à Café 3 steps (3 sem), Répartie 4 steps (4 sem), Confiance 6 steps (6 sem)
+- **Enrichissement marketing** : moduleTitle, moduleDetail, moduleFormat, moduleXp, testimonial, personaTagline intégrés dans le seed
+- **Seed-data.ts** : matching par titre de conseil (plus par index) pour lier les bons tips aux bons parcours
+
+#### parcours-content.tsx — refactoring source unique
+- **Import direct** de `parcours-seed.json` — plus de données hardcodées dans le composant
+- Les modules, XP, descriptions, testimonials viennent tous du seed
+- Le composant transforme le seed en données d'affichage via `.map()`
+- 24 tests passent sans modification
+
+#### Diversité vidéos — règle de rééquilibrage progressif
+- Montreux Comedy à 36% — contenu de qualité, conservé intégralement
+- Règle permanente ajoutée au CLAUDE.md : nouvelles vidéos = chaînes sous-représentées
+- Agent vidéo (`video-agent.ts`) : critère 4 renforcé avec objectif <25% par chaîne
+- Critère 6 ajouté : enrichissement obligatoire via chaînes sous-représentées

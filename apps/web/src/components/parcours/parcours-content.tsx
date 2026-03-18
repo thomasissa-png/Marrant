@@ -8,172 +8,28 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
-const parcours = [
-  {
-    emoji: "☕",
-    slug: "machine-a-cafe",
-    title: "Parcours Machine à Café",
-    duration: "3 semaines",
-    timePerWeek: "15 min/semaine",
-    difficulty: "DEBUTANT → INTERMEDIAIRE",
-    persona: "Idéal si tu travailles en équipe et veux briller à la pause, en réunion ou en afterwork",
-    description:
-      "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques pour captiver tes collègues.",
-    testimonial:
-      "« Avant je restais muette à la machine à café. Maintenant c'est moi qu'on vient voir pour la vanne du jour. »",
-    modules: [
-      {
-        week: "Semaine 1",
-        title: "Vannes courtes et mémorisables",
-        detail:
-          "Apprends à retenir et placer des one-liners et jeux de mots qui font mouche. Tu repars avec 10 vannes prêtes à l'emploi, testées pour la pause café et les réunions.",
-        format: "5 vannes à mémoriser + 2 quiz de mise en situation",
-        xp: 50,
-        free: true,
-      },
-      {
-        week: "Semaine 2",
-        title: "L'art du timing social",
-        detail:
-          "Quand placer ta blague en réunion, comment lire le groupe à la machine à café et sentir le bon moment en afterwork. La différence entre un flop et un éclat de rire, c'est souvent 3 secondes.",
-        format: "3 exercices de lecture de groupe + 1 scénario interactif",
-        xp: 75,
-        free: false,
-      },
-      {
-        week: "Semaine 3",
-        title: "Raconter une anecdote captivante",
-        detail:
-          "Transforme tes histoires de boulot et de weekend en anecdotes qui font rire. Structure, détails, chute : les 3 ingrédients d'une bonne histoire à raconter entre collègues.",
-        format: "Template d'anecdote + 2 exercices de réécriture",
-        xp: 100,
-        free: false,
-      },
-    ],
-  },
-  {
-    emoji: "⚡",
-    slug: "repartie",
-    title: "Parcours Répartie",
-    duration: "4 semaines",
-    timePerWeek: "20 min/semaine",
-    difficulty: "DEBUTANT → INTERMEDIAIRE",
-    persona: "Pour toi si tu es étudiant, en soirée, en coloc ou en TD, et que tu veux t'affirmer",
-    description:
-      "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression — même si tu es timide.",
-    testimonial:
-      "« Mes potes n'en reviennent pas. En soirée, c'est moi qui ai les meilleures répliques maintenant. »",
-    modules: [
-      {
-        week: "Semaine 1",
-        title: "Les bases de la répartie",
-        detail:
-          "Rebondir sur une remarque, accuser réception, reformuler avec humour. Les 3 réflexes de base qui te permettent de ne plus rester muet — en TD, en soirée ou en coloc. C'est normal d'être timide au début, on y va progressivement.",
-        format: "3 techniques à pratiquer + 5 situations de soirée simulées",
-        xp: 50,
-        free: true,
-      },
-      {
-        week: "Semaine 2",
-        title: "Le rythme et les silences",
-        detail:
-          "Apprends à utiliser les pauses, le regard et le rythme. Un bon silence avant ta réplique vaut mieux que 10 mots précipités. La clé pour que tes potes écoutent quand tu parles.",
-        format: "4 exercices de rythme + 1 vidéo d'analyse",
-        xp: 75,
-        free: false,
-      },
-      {
-        week: "Semaine 3",
-        title: "Retourner les piques avec le sourire",
-        detail:
-          "Quand un pote te chambre en soirée ou qu'on te lance une pique en TD : apprends à retourner la situation avec humour, sans agressivité. Tu désarmes et tu marques des points.",
-        format: "6 scénarios de chambrages + réponses guidées",
-        xp: 100,
-        free: false,
-      },
-      {
-        week: "Semaine 4",
-        title: "Répartie avancée et improvisation",
-        detail:
-          "Improviser, rebondir sur l'inattendu, trouver la réplique parfaite en moins de 2 secondes. Tu es prêt pour toutes les situations — BDE, coloc, soirée, premier rendez-vous.",
-        format: "3 exercices d'impro chronométrés + quiz final",
-        xp: 150,
-        free: false,
-      },
-    ],
-  },
-  {
-    emoji: "🌱",
-    slug: "confiance",
-    title: "Parcours Confiance",
-    duration: "6 semaines",
-    timePerWeek: "20 min/semaine",
-    difficulty: "DEBUTANT → EXPERT",
-    persona: "Parfait si tu veux renouer avec l'humour et retrouver ta légèreté après une période difficile",
-    description:
-      "Un parcours complet et bienveillant pour retrouver le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, observation, registres avancés : tu explores tout à ton rythme et tu trouves ton propre style.",
-    testimonial:
-      "« Après ma séparation, j'avais perdu mon humour. Ce parcours m'a aidé à retrouver ma légèreté, étape par étape. »",
-    modules: [
-      {
-        week: "Semaine 1",
-        title: "Redécouvrir ce qui te fait rire",
-        detail:
-          "Observer le quotidien avec un oeil comique, noter ce qui te fait sourire, comprendre ton humour. Le point de départ pour reconstruire ta confiance, sans pression.",
-        format: "Journal d'observation comique + 3 exercices de notation",
-        xp: 50,
-        free: true,
-      },
-      {
-        week: "Semaine 2",
-        title: "Rire de soi avec bienveillance",
-        detail:
-          "L'autodérision bienveillante : transformer un moment gênant en anecdote drôle sans se dévaloriser. Tu apprends à rire de toi tout en te respectant — c'est un équilibre subtil et puissant.",
-        format: "2 exercices de réécriture + 1 template d'anecdote personnelle",
-        xp: 75,
-        free: false,
-      },
-      {
-        week: "Semaine 3",
-        title: "L'art de l'observation comique",
-        detail:
-          "Repérer le détail absurde dans une situation banale, le décalage dans une conversation, l'ironie du quotidien. Tu développes un regard neuf qui alimente tes conversations en dîners et sorties entre amis.",
-        format: "5 exercices d'observation + carnet de notes comiques",
-        xp: 100,
-        free: false,
-      },
-      {
-        week: "Semaine 4",
-        title: "Être à l'aise en groupe",
-        detail:
-          "Participer aux conversations avec légèreté, rebondir sur les remarques, ne plus être spectateur. Des techniques concrètes pour les dîners entre amis, les apéros et les nouvelles rencontres.",
-        format: "4 mises en situation + techniques d'entrée en conversation",
-        xp: 125,
-        free: false,
-      },
-      {
-        week: "Semaine 5",
-        title: "Les registres avancés",
-        detail:
-          "Absurde, ironie, second degré : explore les registres qui correspondent à ta personnalité. Chacun a un style — à toi de trouver celui qui te ressemble.",
-        format: "Quiz de style humoristique + 3 exercices par registre",
-        xp: 150,
-        free: false,
-      },
-      {
-        week: "Semaine 6",
-        title: "Affirmer ton style personnel",
-        detail:
-          "Identifier ce qui marche pour toi, créer ton propre répertoire, ancrer tes nouvelles habitudes. Tu repars avec un kit d'humour personnalisé, adapté à ta vie sociale.",
-        format: "Bilan de personnalité comique + répertoire personnalisé",
-        xp: 200,
-        free: false,
-      },
-    ],
-  },
-];
+// Build display data from seed — single source of truth
+const parcours = parcoursSeed.map((p) => ({
+  emoji: p.icon,
+  slug: p.slug,
+  title: p.title,
+  duration: p.duration,
+  timePerWeek: p.timePerWeek,
+  difficulty: p.difficultyLabel,
+  persona: p.personaTagline,
+  description: p.description,
+  testimonial: p.testimonial,
+  modules: p.steps.map((s) => ({
+    week: `Semaine ${s.week}`,
+    title: s.moduleTitle,
+    detail: s.moduleDetail,
+    format: s.moduleFormat,
+    xp: s.moduleXp,
+    free: s.free,
+  })),
+}));
 
 // ==============================
 // Mini quiz d'orientation parcours

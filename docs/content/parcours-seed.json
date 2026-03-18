@@ -2,114 +2,191 @@
   {
     "slug": "machine-a-cafe",
     "title": "Parcours Machine à Café",
-    "description": "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques de storytelling pour captiver ton audience.",
+    "description": "Tu veux avoir des anecdotes et vannes à ressortir au bon moment ? En 3 semaines, tu auras un arsenal de vannes courtes, le bon timing pour les placer, et des techniques pour captiver tes collègues.",
     "duration": "3 semaines",
+    "timePerWeek": "15 min/semaine",
     "difficulty": "DEBUTANT",
+    "difficultyLabel": "DEBUTANT → INTERMEDIAIRE",
     "icon": "☕",
     "order": 1,
     "persona": "Sophie (26 ans, jeune active)",
+    "personaTagline": "Idéal si tu travailles en équipe et veux briller à la pause, en réunion ou en afterwork",
+    "testimonial": "« Avant je restais muette à la machine à café. Maintenant c'est moi qu'on vient voir pour la vanne du jour. »",
     "steps": [
       {
         "week": 1,
         "tipTitle": "L'humour à la machine à café",
         "dayNumber": 3,
-        "why": "Le terrain de jeu de Sophie : la pause café. Ce conseil donne les codes exacts pour placer une vanne entre deux réunions."
+        "why": "Le terrain de jeu de Sophie : la pause café. Ce conseil donne les codes exacts pour placer une vanne entre deux réunions.",
+        "moduleTitle": "Vannes courtes et mémorisables",
+        "moduleDetail": "Apprends à retenir et placer des one-liners et jeux de mots qui font mouche. Tu repars avec 10 vannes prêtes à l'emploi, testées pour la pause café et les réunions.",
+        "moduleFormat": "5 vannes à mémoriser + 2 quiz de mise en situation",
+        "moduleXp": 50,
+        "free": true
       },
       {
         "week": 2,
         "tipTitle": "Lire le tempo du groupe : savoir quand c'est ton tour",
         "dayNumber": 10,
-        "why": "Sophie sait quoi dire mais pas QUAND. Ce conseil lui apprend à lire le groupe et saisir le bon moment."
+        "why": "Sophie sait quoi dire mais pas QUAND. Ce conseil lui apprend à lire le groupe et saisir le bon moment.",
+        "moduleTitle": "L'art du timing social",
+        "moduleDetail": "Quand placer ta blague en réunion, comment lire le groupe à la machine à café et sentir le bon moment en afterwork. La différence entre un flop et un éclat de rire, c'est souvent 3 secondes.",
+        "moduleFormat": "3 exercices de lecture de groupe + 1 scénario interactif",
+        "moduleXp": 75,
+        "free": false
       },
       {
         "week": 3,
         "tipTitle": "La règle des détails spécifiques : ce qui rend une histoire vivante",
         "dayNumber": 17,
-        "why": "Sophie passe de la vanne courte au storytelling. Les détails spécifiques transforment ses anecdotes de weekend en moments de rire collectif."
+        "why": "Sophie passe de la vanne courte au storytelling. Les détails spécifiques transforment ses anecdotes de weekend en moments de rire collectif.",
+        "moduleTitle": "Raconter une anecdote captivante",
+        "moduleDetail": "Transforme tes histoires de boulot et de weekend en anecdotes qui font rire. Structure, détails, chute : les 3 ingrédients d'une bonne histoire à raconter entre collègues.",
+        "moduleFormat": "Template d'anecdote + 2 exercices de réécriture",
+        "moduleXp": 100,
+        "free": false
       }
     ]
   },
   {
     "slug": "repartie",
     "title": "Parcours Répartie",
-    "description": "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression.",
+    "description": "Tu veux savoir quoi répondre du tac au tac sans rester muet ? En 4 semaines, tu passes de celui qui cherche ses mots à celui qui a toujours la bonne réplique. Exercices progressifs, zéro pression — même si tu es timide.",
     "duration": "4 semaines",
+    "timePerWeek": "20 min/semaine",
     "difficulty": "INTERMEDIAIRE",
+    "difficultyLabel": "DEBUTANT → INTERMEDIAIRE",
     "icon": "⚡",
     "order": 2,
     "persona": "Yanis (20 ans, étudiant)",
+    "personaTagline": "Pour toi si tu es étudiant, en soirée, en coloc ou en TD, et que tu veux t'affirmer",
+    "testimonial": "« Mes potes n'en reviennent pas. En soirée, c'est moi qui ai les meilleures répliques maintenant. »",
     "steps": [
       {
         "week": 1,
         "tipTitle": "La répartie bienveillante",
         "dayNumber": 3,
-        "why": "Les bases pour Yanis : rebondir sans agresser. La répartie bienveillante s'affirme sans créer de conflit — parfait pour un timide qui débute."
+        "why": "Les bases pour Yanis : rebondir sans agresser. La répartie bienveillante s'affirme sans créer de conflit — parfait pour un timide qui débute.",
+        "moduleTitle": "Les bases de la répartie",
+        "moduleDetail": "Rebondir sur une remarque, accuser réception, reformuler avec humour. Les 3 réflexes de base qui te permettent de ne plus rester muet — en TD, en soirée ou en coloc. C'est normal d'être timide au début, on y va progressivement.",
+        "moduleFormat": "3 techniques à pratiquer + 5 situations de soirée simulées",
+        "moduleXp": 50,
+        "free": true
       },
       {
         "week": 2,
         "tipTitle": "Le silence après le rire : savoir ne pas enchaîner",
         "dayNumber": 10,
-        "why": "Yanis a tendance à combler les silences par panique. Ce conseil lui apprend que le silence APRÈS une bonne réplique est sa meilleure arme."
+        "why": "Yanis a tendance à combler les silences par panique. Ce conseil lui apprend que le silence APRÈS une bonne réplique est sa meilleure arme.",
+        "moduleTitle": "Le rythme et les silences",
+        "moduleDetail": "Apprends à utiliser les pauses, le regard et le rythme. Un bon silence avant ta réplique vaut mieux que 10 mots précipités. La clé pour que tes potes écoutent quand tu parles.",
+        "moduleFormat": "4 exercices de rythme + 1 vidéo d'analyse",
+        "moduleXp": 75,
+        "free": false
       },
       {
         "week": 3,
         "tipTitle": "Répondre aux chambrages entre potes sans rester muet",
         "dayNumber": 17,
-        "why": "Le cœur du parcours : Yanis apprend la technique en 3 temps (accepter → exagérer → retourner) pour ne plus être la cible facile entre potes."
+        "why": "Le cœur du parcours : Yanis apprend la technique en 3 temps (accepter → exagérer → retourner) pour ne plus être la cible facile entre potes.",
+        "moduleTitle": "Retourner les piques avec le sourire",
+        "moduleDetail": "Quand un pote te chambre en soirée ou qu'on te lance une pique en TD : apprends à retourner la situation avec humour, sans agressivité. Tu désarmes et tu marques des points.",
+        "moduleFormat": "6 scénarios de chambrages + réponses guidées",
+        "moduleXp": 100,
+        "free": false
       },
       {
         "week": 4,
         "tipTitle": "Savoir rebondir sur un raté",
         "dayNumber": 24,
-        "why": "Le niveau avancé : quand la vanne tombe à plat, Yanis sait comment transformer l'échec en deuxième chance comique. C'est ça, la vraie répartie."
+        "why": "Le niveau avancé : quand la vanne tombe à plat, Yanis sait comment transformer l'échec en deuxième chance comique. C'est ça, la vraie répartie.",
+        "moduleTitle": "Répartie avancée et improvisation",
+        "moduleDetail": "Improviser, rebondir sur l'inattendu, trouver la réplique parfaite en moins de 2 secondes. Tu es prêt pour toutes les situations — BDE, coloc, soirée, premier rendez-vous.",
+        "moduleFormat": "3 exercices d'impro chronométrés + quiz final",
+        "moduleXp": 150,
+        "free": false
       }
     ]
   },
   {
     "slug": "confiance",
     "title": "Parcours Confiance",
-    "description": "Un parcours complet pour renouer avec le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, storytelling, autodérision : tu explores tout et tu trouves ton style.",
+    "description": "Un parcours complet et bienveillant pour retrouver le rire et te sentir à l'aise dans toutes tes interactions. Vannes, répartie, observation, registres avancés : tu explores tout à ton rythme et tu trouves ton propre style.",
     "duration": "6 semaines",
+    "timePerWeek": "20 min/semaine",
     "difficulty": "EXPERT",
+    "difficultyLabel": "DEBUTANT → EXPERT",
     "icon": "🌱",
     "order": 3,
     "persona": "Marc (34 ans, récemment séparé)",
+    "personaTagline": "Parfait si tu veux renouer avec l'humour et retrouver ta légèreté après une période difficile",
+    "testimonial": "« Après ma séparation, j'avais perdu mon humour. Ce parcours m'a aidé à retrouver ma légèreté, étape par étape. »",
     "steps": [
       {
         "week": 1,
         "tipTitle": "Retrouver sa voix drôle après une pause sociale",
         "dayNumber": 3,
-        "why": "Marc a perdu confiance. Ce conseil commence en douceur : micro-vannes au quotidien, zéro pression, juste observer et commenter."
+        "why": "Marc a perdu confiance. Ce conseil commence en douceur : micro-vannes au quotidien, zéro pression, juste observer et commenter.",
+        "moduleTitle": "Redécouvrir ce qui te fait rire",
+        "moduleDetail": "Observer le quotidien avec un oeil comique, noter ce qui te fait sourire, comprendre ton humour. Le point de départ pour reconstruire ta confiance, sans pression.",
+        "moduleFormat": "Journal d'observation comique + 3 exercices de notation",
+        "moduleXp": 50,
+        "free": true
       },
       {
         "week": 2,
         "tipTitle": "Le pouvoir de l'auto-dérision",
         "dayNumber": 10,
-        "why": "Marc apprend à rire de lui-même avec bienveillance. L'autodérision est l'outil #1 pour reconstruire la confiance — rire de soi montre qu'on s'accepte."
+        "why": "Marc apprend à rire de lui-même avec bienveillance. L'autodérision est l'outil #1 pour reconstruire la confiance — rire de soi montre qu'on s'accepte.",
+        "moduleTitle": "Rire de soi avec bienveillance",
+        "moduleDetail": "L'autodérision bienveillante : transformer un moment gênant en anecdote drôle sans se dévaloriser. Tu apprends à rire de toi tout en te respectant — c'est un équilibre subtil et puissant.",
+        "moduleFormat": "2 exercices de réécriture + 1 template d'anecdote personnelle",
+        "moduleXp": 75,
+        "free": false
       },
       {
         "week": 3,
         "tipTitle": "L'humour de trentenaire : tes références sont tes armes",
         "dayNumber": 17,
-        "why": "Marc découvre que son vécu (MSN, K7, avant/après Internet) est une mine d'or. Ses références générationnelles sont un avantage, pas un handicap."
+        "why": "Marc découvre que son vécu (MSN, K7, avant/après Internet) est une mine d'or. Ses références générationnelles sont un avantage, pas un handicap.",
+        "moduleTitle": "L'art de l'observation comique",
+        "moduleDetail": "Repérer le détail absurde dans une situation banale, le décalage dans une conversation, l'ironie du quotidien. Tu développes un regard neuf qui alimente tes conversations en dîners et sorties entre amis.",
+        "moduleFormat": "5 exercices d'observation + carnet de notes comiques",
+        "moduleXp": 100,
+        "free": false
       },
       {
         "week": 4,
         "tipTitle": "Trouver sa place dans un groupe qui rit",
         "dayNumber": 24,
-        "why": "Marc passe de l'observation à la participation. Ce conseil donne des techniques concrètes pour s'intégrer dans un groupe sans forcer."
+        "why": "Marc passe de l'observation à la participation. Ce conseil donne des techniques concrètes pour s'intégrer dans un groupe sans forcer.",
+        "moduleTitle": "Être à l'aise en groupe",
+        "moduleDetail": "Participer aux conversations avec légèreté, rebondir sur les remarques, ne plus être spectateur. Des techniques concrètes pour les dîners entre amis, les apéros et les nouvelles rencontres.",
+        "moduleFormat": "4 mises en situation + techniques d'entrée en conversation",
+        "moduleXp": 125,
+        "free": false
       },
       {
         "week": 5,
         "tipTitle": "Le décalage de registre",
         "dayNumber": 31,
-        "why": "Marc explore un registre avancé : utiliser un ton inattendu pour surprendre. Le décalage entre le sujet et le ton est une technique de stand-up pro."
+        "why": "Marc explore un registre avancé : utiliser un ton inattendu pour surprendre. Le décalage entre le sujet et le ton est une technique de stand-up pro.",
+        "moduleTitle": "Les registres avancés",
+        "moduleDetail": "Absurde, ironie, second degré : explore les registres qui correspondent à ta personnalité. Chacun a un style — à toi de trouver celui qui te ressemble.",
+        "moduleFormat": "Quiz de style humoristique + 3 exercices par registre",
+        "moduleXp": 150,
+        "free": false
       },
       {
         "week": 6,
         "tipTitle": "Développer son style personnel",
         "dayNumber": 38,
-        "why": "Le sommet du parcours : Marc identifie ce qui marche pour LUI, crée son répertoire personnel et ancre ses nouvelles habitudes. Il repart avec son propre style."
+        "why": "Le sommet du parcours : Marc identifie ce qui marche pour LUI, crée son répertoire personnel et ancre ses nouvelles habitudes. Il repart avec son propre style.",
+        "moduleTitle": "Affirmer ton style personnel",
+        "moduleDetail": "Identifier ce qui marche pour toi, créer ton propre répertoire, ancrer tes nouvelles habitudes. Tu repars avec un kit d'humour personnalisé, adapté à ta vie sociale.",
+        "moduleFormat": "Bilan de personnalité comique + répertoire personnalisé",
+        "moduleXp": 200,
+        "free": false
       }
     ]
   }
