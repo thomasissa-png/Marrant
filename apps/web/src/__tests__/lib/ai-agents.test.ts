@@ -1544,6 +1544,199 @@ describe("Stand-Up Director Agent", () => {
   });
 });
 
+describe("Director integration — validation retry loop", () => {
+  let validateJoke: typeof import("@/lib/ai/agents/standup-director-agent").validateJoke;
+  let generateDailyJoke: typeof import("@/lib/ai/agents/joke-agent").generateDailyJoke;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const directorMod = await import("@/lib/ai/agents/standup-director-agent");
+    validateJoke = directorMod.validateJoke;
+    const jokeMod = await import("@/lib/ai/agents/joke-agent");
+    generateDailyJoke = jokeMod.generateDailyJoke;
+  });
+
+  it("generate-validate loop: APPROVED on first attempt stops retrying", async () => {
+    // 1st call: joke generation
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup drôle",
+            punchline: "Chute percutante",
+            category: "BOULOT",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Réunion",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // 2nd call: director validation → APPROVED
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 8,
+            strengths: ["Bon twist"],
+            issues: [],
+            directorNote: "Validé.",
+          }),
+        },
+      ],
+    });
+
+    const validation = await validateJoke(joke, "SOPHIE");
+    expect(validation.verdict).toBe("APPROVED");
+    // Only 2 API calls total (generate + validate)
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(2);
+  });
+
+  it("generate-validate loop: REJECTED triggers re-generation with feedback", async () => {
+    // 1st call: joke generation (bad)
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Un stylo dit à un crayon",
+            punchline: "Tu manques de pointe",
+            category: "JEUX_DE_MOTS",
+            type: "CLASSIQUE",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const badJoke = await generateDailyJoke({
+      persona: "YANIS",
+      plannedCategory: "JEUX_DE_MOTS",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // 2nd call: director → REJECTED
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "REJECTED",
+            score: 2,
+            strengths: [],
+            issues: ["Objet qui parle", "Format Carambar"],
+            revision: "Faire une vanne sur une situation réelle de cours",
+            directorNote: "Pas au niveau.",
+          }),
+        },
+      ],
+    });
+
+    const validation = await validateJoke(badJoke, "YANIS");
+    expect(validation.verdict).toBe("REJECTED");
+    expect(validation.issues).toContain("Objet qui parle");
+
+    // 3rd call: joke re-generation with feedback in theme
+    const feedbackTheme = `Test — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}. SUGGESTION: ${validation.revision}`;
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Le prof demande si quelqu'un a des questions",
+            punchline: "Yanis lève la main et demande l'heure",
+            category: "ECOLE",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const betterJoke = await generateDailyJoke({
+      persona: "YANIS",
+      plannedCategory: "ECOLE",
+      plannedTheme: feedbackTheme,
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // 4th call: director → APPROVED
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 7,
+            strengths: ["Relatable", "Situation réelle"],
+            issues: [],
+            directorNote: "Bien mieux.",
+          }),
+        },
+      ],
+    });
+
+    const validation2 = await validateJoke(betterJoke, "YANIS");
+    expect(validation2.verdict).toBe("APPROVED");
+    expect(validation2.score).toBeGreaterThanOrEqual(7);
+
+    // Total: 4 API calls (generate + reject + re-generate + approve)
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(4);
+  });
+
+  it("validation gracefully handles API errors without blocking publication", async () => {
+    // Generate a joke
+    mockAnthropicCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Punchline",
+            category: "BOULOT",
+            type: "CLASSIQUE",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // Validation call throws (API error)
+    mockAnthropicCreate.mockRejectedValueOnce(new Error("API timeout"));
+
+    // The validation should throw, which the daily-publisher catches and publishes anyway
+    await expect(validateJoke(joke, "SOPHIE")).rejects.toThrow();
+  });
+});
+
 describe("Date utilities", () => {
   it("todayUTC returns midnight UTC", () => {
     const { todayUTC } = require("@/lib/ai/date-utils");

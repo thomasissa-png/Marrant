@@ -3,10 +3,22 @@ import { prisma } from "@/lib/prisma";
 import { generateDailyJoke } from "./agents/joke-agent";
 import { generateDailyTip } from "./agents/tip-agent";
 import { selectDailyVideo } from "./agents/video-agent";
+import {
+  validateJoke,
+  validateTip,
+  validateVideoSelection,
+  type JokeToValidate,
+  type TipToValidate,
+  type VideoSelectionToValidate,
+  type ValidationResult,
+} from "./agents/standup-director-agent";
 import { getPlanSummary } from "./content-planner";
 import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
+
+/** Nombre max de tentatives generate → validate → retry par contenu */
+const MAX_VALIDATION_ATTEMPTS = 3;
 
 interface PublishResult {
   date: string;
@@ -88,17 +100,46 @@ export async function publishDailyContent(
   const tipCategory = tipPlanEntry?.category ?? "TIMING";
   const videoCategory = videoPlanEntry?.category ?? "OBSERVATION";
 
-  // === EXÉCUTER LES 3 AGENTS EN PARALLÈLE ===
+  // === EXÉCUTER LES 3 AGENTS EN PARALLÈLE AVEC VALIDATION DIRECTEUR ===
   const [jokeResult, tipResult, videoResult] = await Promise.allSettled([
-    // Agent Blagues
-    generateDailyJoke({
-      persona,
-      plannedCategory: jokeCategory,
-      plannedTheme: jokePlanEntry?.theme ?? "Humour du quotidien",
-      recentJokes,
-      monthlyPlanSummary: jokePlanSummary,
-      otherAgentsCategories: { tip: tipCategory, video: videoCategory },
-    }).then(async (jokeData) => {
+    // Agent Blagues — generate → validate → retry
+    (async () => {
+      const jokeCtx = {
+        persona,
+        plannedCategory: jokeCategory,
+        plannedTheme: jokePlanEntry?.theme ?? "Humour du quotidien",
+        recentJokes,
+        monthlyPlanSummary: jokePlanSummary,
+        otherAgentsCategories: { tip: tipCategory, video: videoCategory },
+      };
+
+      let jokeData = await generateDailyJoke(jokeCtx);
+      let validation: ValidationResult | null = null;
+
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+        try {
+          validation = await validateJoke(jokeData as JokeToValidate, persona);
+        } catch (err) {
+          console.warn(`[Director] Validation vanne échouée (attempt ${attempt}):`, err);
+          break; // Si la validation crash, on publie le contenu tel quel
+        }
+
+        if (validation.verdict === "APPROVED") {
+          console.log(`[Director] Vanne validée (score ${validation.score}/10, attempt ${attempt})`);
+          break;
+        }
+
+        if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Vanne non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          break;
+        }
+
+        // Re-générer en passant le feedback du directeur dans le thème
+        console.log(`[Director] Vanne rejetée (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        const feedbackTheme = `${jokeCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
+        jokeData = await generateDailyJoke({ ...jokeCtx, plannedTheme: feedbackTheme });
+      }
+
       const joke = await prisma.joke.create({
         data: {
           content: jokeData.content,
@@ -110,18 +151,46 @@ export async function publishDailyContent(
         },
       });
       return { id: joke.id, category: joke.category };
-    }),
+    })(),
 
-    // Agent Conseils
-    generateDailyTip({
-      persona,
-      plannedCategory: tipCategory,
-      plannedTheme: tipPlanEntry?.theme ?? "Technique d'humour",
-      recentTips,
-      monthlyPlanSummary: tipPlanSummary,
-      otherAgentsCategories: { joke: jokeCategory, video: videoCategory },
-      dayOfMonth,
-    }).then(async (tipData) => {
+    // Agent Conseils — generate → validate → retry
+    (async () => {
+      const tipCtx = {
+        persona,
+        plannedCategory: tipCategory,
+        plannedTheme: tipPlanEntry?.theme ?? "Technique d'humour",
+        recentTips,
+        monthlyPlanSummary: tipPlanSummary,
+        otherAgentsCategories: { joke: jokeCategory, video: videoCategory },
+        dayOfMonth,
+      };
+
+      let tipData = await generateDailyTip(tipCtx);
+      let validation: ValidationResult | null = null;
+
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+        try {
+          validation = await validateTip(tipData as TipToValidate, persona);
+        } catch (err) {
+          console.warn(`[Director] Validation conseil échouée (attempt ${attempt}):`, err);
+          break;
+        }
+
+        if (validation.verdict === "APPROVED") {
+          console.log(`[Director] Conseil validé (score ${validation.score}/10, attempt ${attempt})`);
+          break;
+        }
+
+        if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Conseil non validé après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          break;
+        }
+
+        console.log(`[Director] Conseil rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        const feedbackTheme = `${tipCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
+        tipData = await generateDailyTip({ ...tipCtx, plannedTheme: feedbackTheme });
+      }
+
       const tip = await prisma.tip.create({
         data: {
           title: tipData.title,
@@ -134,9 +203,9 @@ export async function publishDailyContent(
         },
       });
       return { id: tip.id, category: tip.category };
-    }),
+    })(),
 
-    // Agent Vidéos
+    // Agent Vidéos — select → validate → retry with different selection
     (async () => {
       const allVideos = await prisma.video.findMany({
         where: { isActive: true },
@@ -148,7 +217,7 @@ export async function publishDailyContent(
 
       if (allVideos.length === 0) return null;
 
-      const videoSelection = await selectDailyVideo({
+      const videoCtx = {
         persona,
         plannedCategory: videoCategory,
         plannedTheme: videoPlanEntry?.theme ?? "Technique stand-up",
@@ -158,10 +227,48 @@ export async function publishDailyContent(
           .filter((id): id is string => id !== null),
         monthlyPlanSummary: videoPlanSummary,
         otherAgentsCategories: { joke: jokeCategory, tip: tipCategory },
-      });
+      };
 
-      const selected = allVideos.find((v) => v.id === videoSelection.videoId);
-      return selected ? { id: selected.id, title: selected.title } : null;
+      let videoSelection = await selectDailyVideo(videoCtx);
+      let selectedVideo = allVideos.find((v) => v.id === videoSelection.videoId);
+
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+        if (!selectedVideo) break;
+
+        let validation: ValidationResult;
+        try {
+          const toValidate: VideoSelectionToValidate = {
+            videoId: selectedVideo.id,
+            videoTitle: selectedVideo.title,
+            channelName: selectedVideo.channelName,
+            category: selectedVideo.category,
+            technique: selectedVideo.technique,
+            reason: videoSelection.reason,
+          };
+          validation = await validateVideoSelection(toValidate, persona);
+        } catch (err) {
+          console.warn(`[Director] Validation vidéo échouée (attempt ${attempt}):`, err);
+          break;
+        }
+
+        if (validation.verdict === "APPROVED") {
+          console.log(`[Director] Vidéo validée (score ${validation.score}/10, attempt ${attempt})`);
+          break;
+        }
+
+        if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Vidéo non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          break;
+        }
+
+        // Exclure la vidéo rejetée et re-sélectionner
+        console.log(`[Director] Vidéo rejetée (score ${validation.score}/10) — re-sélection (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        const excludedIds = [...videoCtx.recentVideoIds, selectedVideo.id];
+        videoSelection = await selectDailyVideo({ ...videoCtx, recentVideoIds: excludedIds });
+        selectedVideo = allVideos.find((v) => v.id === videoSelection.videoId);
+      }
+
+      return selectedVideo ? { id: selectedVideo.id, title: selectedVideo.title } : null;
     })(),
   ]);
 

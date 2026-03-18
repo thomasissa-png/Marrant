@@ -379,19 +379,28 @@ Début du contenu (à évaluer) :
 ${truncatedContent}
 """
 
-CRITÈRES SPÉCIFIQUES BLOG :
+CRITÈRES QUALITÉ CONTENU :
 - L'article contient-il au minimum 3 traits d'humour / vannes ORIGINALES ?
 - Le lecteur SOURIT-il au moins 3 fois ? (le blog est la DÉMO du produit)
 - Les références sont-elles modernes ? (Paul Mirabel, Fary, Roman Frayssinet > Jamel, Gad, Foresti)
 - Au moins 2 personas sont-ils touchés avec des exemples concrets de LEUR vie ?
-- Le mot-clé est-il naturellement intégré (intro, 2-3 sous-titres, conclusion) ?
-- Y a-t-il des liens internes vers /vannes, /parcours, /conseils, /videos ?
 - Le format est-il varié (pas un énième listicle) ?
 - L'article enseigne-t-il quelque chose de CONCRET et ACTIONNABLE ?
 - Est-ce au niveau d'un article de LEADER DU MARCHÉ ?
 
+CRITÈRES SEO — NON NÉGOCIABLES POUR LE N°1 :
+- Le mot-clé "${article.targetKeyword}" est-il présent dans : l'intro (1er paragraphe), au moins 2-3 sous-titres H2/H3, et la conclusion ?
+- Le titre fait-il moins de 60 caractères et contient-il le mot-clé naturellement ?
+- L'extrait/meta description fait-il 150-155 caractères et incite-t-il au clic ?
+- Y a-t-il au moins 5 liens internes vers /vannes, /parcours, /conseils, /videos, ou d'autres articles ?
+- La structure utilise-t-elle des H2 et H3 clairs (pas de mur de texte) ?
+- Y a-t-il des listes à puces, du gras sur les termes clés, et des FAQ en fin d'article (schema FAQ) ?
+- Le contenu fait-il entre 1500 et 2500 mots ? (ni trop court pour le SEO, ni trop long pour le lecteur)
+- Le mot-clé n'est-il PAS sur-optimisé ? (pas de keyword stuffing — intégration naturelle)
+
 ANTI-CANNIBALISATION :
-- Le slug/titre ne cannibalise-t-il pas un article existant ?
+- Le slug/titre ne cannibalise-t-il pas un article existant du site ?
+- Le mot-clé principal est-il distinct des articles déjà publiés ?
 
 VERDICT :
 - APPROVED (score ≥ 7) : publiable, drôle ET instructif, au niveau n°1

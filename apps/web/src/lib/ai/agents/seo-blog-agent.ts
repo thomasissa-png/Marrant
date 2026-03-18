@@ -1,5 +1,13 @@
 import { callWithRetry, extractJson, getResponseText } from "../client";
 import { prisma } from "@/lib/prisma";
+import {
+  validateBlogArticle,
+  type BlogArticleToValidate,
+  type ValidationResult,
+} from "./standup-director-agent";
+
+/** Nombre max de tentatives generate → validate → retry pour un article */
+const MAX_ARTICLE_VALIDATION_ATTEMPTS = 3;
 
 /**
  * Agent SEO Blog — Génère des articles de blog optimisés SEO
@@ -295,11 +303,52 @@ export async function publishWeeklyArticle(): Promise<{
       };
     }
 
-    // 4. Générer l'article
+    // 4. Générer l'article + validation par le Stand-Up Director
     console.log("[SEO Agent] Phase 2 : Rédaction...");
-    const article = await generateArticle(plan);
+    let article = await generateArticle(plan);
     if (!article) {
       return { success: false, error: "Impossible de générer l'article" };
+    }
+
+    // 4b. Boucle de validation Stand-Up Director
+    for (let attempt = 1; attempt <= MAX_ARTICLE_VALIDATION_ATTEMPTS; attempt++) {
+      let validation: ValidationResult;
+      try {
+        const toValidate: BlogArticleToValidate = {
+          title: article.title,
+          slug: article.slug,
+          excerpt: article.excerpt,
+          content: article.content,
+          category: article.category,
+          targetKeyword: article.targetKeyword,
+        };
+        validation = await validateBlogArticle(toValidate);
+      } catch (err) {
+        console.warn(`[Director] Validation article échouée (attempt ${attempt}):`, err);
+        break; // Si la validation crash, on publie tel quel
+      }
+
+      if (validation.verdict === "APPROVED") {
+        console.log(`[Director] Article validé (score ${validation.score}/10, attempt ${attempt})`);
+        break;
+      }
+
+      if (attempt === MAX_ARTICLE_VALIDATION_ATTEMPTS) {
+        console.warn(`[Director] Article non validé après ${MAX_ARTICLE_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+        break;
+      }
+
+      // Re-générer avec le feedback du directeur intégré dans le plan
+      console.log(`[Director] Article rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_ARTICLE_VALIDATION_ATTEMPTS})`);
+      const feedbackOutline = `${plan.outline}\n\n--- FEEDBACK DIRECTEUR ARTISTIQUE ---\nProblèmes: ${validation.issues.join(". ")}\n${validation.revision ? `Corrections demandées: ${validation.revision}` : ""}`;
+      const enrichedPlan = { ...plan, outline: feedbackOutline };
+      const retryArticle = await generateArticle(enrichedPlan);
+      if (retryArticle) {
+        article = retryArticle;
+      } else {
+        console.warn("[Director] Re-génération échouée — publication de la version précédente");
+        break;
+      }
     }
 
     // 5. Publier en base
