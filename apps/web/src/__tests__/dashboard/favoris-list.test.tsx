@@ -29,7 +29,7 @@ const mockFavorites = [
     tipId: null,
     videoId: null,
     createdAt: "2024-01-01",
-    joke: { content: "Une vanne drôle" },
+    joke: { content: "Une vanne drôle", punchline: "Et la chute qui tue", category: "ABSURDE", type: "ONE_LINER" },
     tip: null,
     video: null,
   },
@@ -41,7 +41,7 @@ const mockFavorites = [
     videoId: null,
     createdAt: "2024-01-02",
     joke: null,
-    tip: { title: "Un super conseil" },
+    tip: { title: "Un super conseil", content: "Le contenu du conseil", category: "TIMING", difficulty: "DEBUTANT", example: "Exemple concret", exercise: "DÉFI TIMING : fais ceci" },
     video: null,
   },
   {
@@ -53,7 +53,7 @@ const mockFavorites = [
     createdAt: "2024-01-03",
     joke: null,
     tip: null,
-    video: { title: "Vidéo stand-up" },
+    video: { youtubeId: "abc123", title: "Vidéo stand-up", channelName: "ComedyFR", category: "OBSERVATION", difficulty: "INTERMEDIAIRE", description: "Masterclass", technique: "Callback", learnings: ["Observer le timing"], exercise: "Regarde et note" },
   },
 ];
 
@@ -88,12 +88,13 @@ describe("FavorisList", () => {
     expect(screen.getByText(/Découvrir l'offre Premium/)).toBeInTheDocument();
   });
 
-  it("renders tab filters", () => {
+  it("renders tab filters with ARIA", () => {
     render(<FavorisList />);
-    expect(screen.getByText("Tout")).toBeInTheDocument();
-    expect(screen.getByText("Vannes")).toBeInTheDocument();
-    expect(screen.getByText("Conseils")).toBeInTheDocument();
-    expect(screen.getByText("Vidéos")).toBeInTheDocument();
+    expect(screen.getByRole("tablist", { name: "Type de favoris" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Tout/ })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Vannes/ })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Conseils/ })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Vidéos/ })).toBeInTheDocument();
   });
 
   it("shows all favorites by default", () => {
@@ -112,7 +113,7 @@ describe("FavorisList", () => {
 
   it("filters by JOKE tab", async () => {
     render(<FavorisList />);
-    await userEvent.click(screen.getByText("Vannes"));
+    await userEvent.click(screen.getByRole("tab", { name: /Vannes/ }));
     expect(screen.getByText("Une vanne drôle")).toBeInTheDocument();
     expect(screen.queryByText("Un super conseil")).not.toBeInTheDocument();
     expect(screen.queryByText("Vidéo stand-up")).not.toBeInTheDocument();
@@ -120,14 +121,14 @@ describe("FavorisList", () => {
 
   it("filters by TIP tab", async () => {
     render(<FavorisList />);
-    await userEvent.click(screen.getByText("Conseils"));
+    await userEvent.click(screen.getByRole("tab", { name: /Conseils/ }));
     expect(screen.queryByText("Une vanne drôle")).not.toBeInTheDocument();
     expect(screen.getByText("Un super conseil")).toBeInTheDocument();
   });
 
   it("filters by VIDEO tab", async () => {
     render(<FavorisList />);
-    await userEvent.click(screen.getByText("Vidéos"));
+    await userEvent.click(screen.getByRole("tab", { name: /Vidéos/ }));
     expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
     expect(screen.queryByText("Une vanne drôle")).not.toBeInTheDocument();
   });
@@ -145,7 +146,47 @@ describe("FavorisList", () => {
     expect(mockRemoveFavorite).toHaveBeenCalledWith("f1");
   });
 
-  it("shows empty state when no favorites", () => {
+  // Bug fix: contextual empty state per tab
+  it("shows contextual empty state for vannes tab", async () => {
+    useFavoritesStore.mockReturnValue({
+      favorites: [mockFavorites[1]], // Only a TIP, no jokes
+      isLoading: false,
+      fetchFavorites: mockFetchFavorites,
+      removeFavorite: mockRemoveFavorite,
+    });
+    render(<FavorisList />);
+    await userEvent.click(screen.getByRole("tab", { name: /Vannes/ }));
+    expect(screen.getByText("Pas encore de vanne en favoris")).toBeInTheDocument();
+    expect(screen.getByText("Parcourir les vannes")).toBeInTheDocument();
+  });
+
+  it("shows contextual empty state for conseils tab", async () => {
+    useFavoritesStore.mockReturnValue({
+      favorites: [mockFavorites[0]], // Only a JOKE, no tips
+      isLoading: false,
+      fetchFavorites: mockFetchFavorites,
+      removeFavorite: mockRemoveFavorite,
+    });
+    render(<FavorisList />);
+    await userEvent.click(screen.getByRole("tab", { name: /Conseils/ }));
+    expect(screen.getByText("Pas encore de conseil en favoris")).toBeInTheDocument();
+    expect(screen.getByText("Découvrir les conseils")).toBeInTheDocument();
+  });
+
+  it("shows contextual empty state for vidéos tab", async () => {
+    useFavoritesStore.mockReturnValue({
+      favorites: [mockFavorites[0]], // Only a JOKE, no videos
+      isLoading: false,
+      fetchFavorites: mockFetchFavorites,
+      removeFavorite: mockRemoveFavorite,
+    });
+    render(<FavorisList />);
+    await userEvent.click(screen.getByRole("tab", { name: /Vidéos/ }));
+    expect(screen.getByText("Pas encore de vidéo en favoris")).toBeInTheDocument();
+    expect(screen.getByText("Explorer les vidéos")).toBeInTheDocument();
+  });
+
+  it("shows generic empty state on Tout tab", () => {
     useFavoritesStore.mockReturnValue({
       favorites: [],
       isLoading: false,
@@ -153,8 +194,39 @@ describe("FavorisList", () => {
       removeFavorite: mockRemoveFavorite,
     });
     render(<FavorisList />);
-    expect(screen.getByRole("img", { name: "favoris" })).toBeInTheDocument();
-    expect(screen.getByText(/coffre-fort à vannes est vide/)).toBeInTheDocument();
+    expect(screen.getByText("Aucun favori pour l'instant")).toBeInTheDocument();
+  });
+
+  // Bug fix: joke punchline reveal
+  it("reveals joke punchline on click", async () => {
+    render(<FavorisList />);
+    expect(screen.getByText("Une vanne drôle")).toBeInTheDocument();
+    expect(screen.queryByText("Et la chute qui tue")).not.toBeInTheDocument();
+    expect(screen.getByText("Clique pour la chute")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Une vanne drôle"));
+    expect(screen.getByText("Et la chute qui tue")).toBeInTheDocument();
+  });
+
+  // Bug fix: tip content expansion
+  it("shows tip content and expands on click", async () => {
+    render(<FavorisList />);
+    expect(screen.getByText("Le contenu du conseil")).toBeInTheDocument();
+    expect(screen.queryByText("Exemple concret")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Un super conseil"));
+    expect(screen.getByText("Exemple concret")).toBeInTheDocument();
+    expect(screen.getByText("DÉFI TIMING : fais ceci")).toBeInTheDocument();
+  });
+
+  // Bug fix: video player and details
+  it("shows video player and details", () => {
+    render(<FavorisList />);
+    expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
+    expect(screen.getByText("ComedyFR")).toBeInTheDocument();
+    expect(screen.getByText("Observer le timing")).toBeInTheDocument();
+    expect(screen.getByText("Regarde et note")).toBeInTheDocument();
+    expect(screen.getByLabelText("Lire la vidéo : Vidéo stand-up")).toBeInTheDocument();
   });
 
   it("shows loading skeleton", () => {
@@ -171,5 +243,22 @@ describe("FavorisList", () => {
   it("fetches favorites on mount when authenticated", () => {
     render(<FavorisList />);
     expect(mockFetchFavorites).toHaveBeenCalled();
+  });
+
+  it("shows share buttons for each favorite type", () => {
+    render(<FavorisList />);
+    const shareButtons = screen.getAllByLabelText("Partager");
+    expect(shareButtons).toHaveLength(3);
+  });
+
+  it("shows category badges on joke cards", () => {
+    render(<FavorisList />);
+    expect(screen.getByText("Absurde")).toBeInTheDocument();
+  });
+
+  it("shows difficulty and category badges on tip cards", () => {
+    render(<FavorisList />);
+    expect(screen.getByText("Débutant")).toBeInTheDocument();
+    expect(screen.getByText("Timing")).toBeInTheDocument();
   });
 });
