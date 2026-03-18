@@ -129,6 +129,120 @@ Trois personas guident les décisions UX/copy du site. À consulter pour toute �
 - **Besoins** : Parcours structurés, progression mesurable, variété de contenus (blagues + conseils + vidéos), ton bienveillant sans infantiliser.
 - **Points de friction** : Contenu uniquement orienté « ados/étudiants », manque de profondeur dans les parcours, absence de recommandations personnalisées.
 
+## Agent Stand-Up Director — Directeur Artistique (standup-director-agent.ts)
+
+### Rôle et mission
+Le Stand-Up Director est le **gardien qualité de TOUS les contenus** du site. Aucun contenu (vanne, conseil, vidéo, article blog) n'est publié sans son approbation. Il incarne la double mission :
+1. **Site n°1 du stand-up français** — chaque contenu au niveau d'un showcase professionnel
+2. **Plateforme de formation au stand-up n°1 en France** — chaque conseil/vidéo enseigne quelque chose de concret et mesurable
+
+### 5 tests universels appliqués à TOUT contenu
+1. **Test du Pote** : "Tu enverrais ça à ton meilleur pote ?"
+2. **Test du Concret** : "Après ça, je sais exactement quoi faire"
+3. **Test du Doublon** : "Ça existe déjà sous une autre forme ?"
+4. **Test du Persona** : "Yanis, Sophie ou Marc est servi ?"
+5. **Test de la Barre** : "C'est au niveau du leader du marché ?"
+
+### Pipeline de validation (intégré dans les crons)
+```
+Tentative 1:  Agent génère → Directeur valide → REJETÉ ❌
+                                                  ↓ feedback injecté dans le prompt
+Tentative 2:  Agent re-génère → Directeur valide → REJETÉ ❌
+                                                  ↓ feedback injecté dans le prompt
+Tentative 3:  Agent re-génère → Directeur valide → REJETÉ ❌
+                                                  ↓
+              LE DIRECTEUR PREND LA MAIN
+              → Reçoit la dernière version + tous les problèmes identifiés
+              → Réécrit lui-même le contenu (directorRewrite*)
+              → Publication ✅
+```
+
+### Fonctions disponibles
+| Fonction | Rôle |
+|---|---|
+| `validateJoke(joke, persona)` | Valide une vanne (twist, punchline, persona, ton) |
+| `validateTip(tip, persona)` | Valide un conseil (actionnable, défi, technique) |
+| `validateVideoSelection(video, persona)` | Valide une sélection vidéo (pédagogie, diversité chaîne) |
+| `validateBlogArticle(article)` | Valide un article (humour, SEO, refs modernes, liens internes) |
+| `directorRewriteJoke(joke, validation, persona)` | Réécrit une vanne après 3 échecs |
+| `directorRewriteTip(tip, validation, persona)` | Réécrit un conseil après 3 échecs |
+| `directorRewriteBlogArticle(article, validation)` | Réécrit un article après 3 échecs |
+| `generateEditorialVision(month, year)` | Vision éditoriale mensuelle pour tous les agents |
+| `reviewContentBatch(items, date)` | Revue quotidienne de cohérence/diversité |
+
+### Verdicts
+- **APPROVED** (score ≥ 7) : publiable en l'état
+- **NEEDS_REVISION** (score 4-6) : l'idée est bonne, suggestion de réécriture fournie
+- **REJECTED** (score ≤ 3) : ne passe pas le test, recommencer de zéro
+
+### Intégration dans les pipelines existants
+- **daily-publisher.ts** : les 3 agents (vannes, conseils, vidéos) passent par la validation du directeur avant DB save. Si 3 échecs, le directeur réécrit.
+- **seo-blog-agent.ts** : `publishWeeklyArticle()` valide l'article par le directeur entre génération et publication DB. Si 3 échecs, le directeur réécrit.
+- **Crons inchangés** : `/api/cron/daily-content` (5h-6h UTC) et `/api/cron/weekly-seo` (lundi 9h UTC) appellent les mêmes fonctions — la validation est transparente.
+- **Sécurité** : si l'API de validation crash, le contenu est publié tel quel (jamais de blocage).
+
+### Références humoristes (barre de qualité)
+Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg
+Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adams
+
+### Critères SEO blog (non négociables)
+- Mot-clé dans intro, 2-3 H2/H3, conclusion
+- Titre < 60 chars, meta 150-155 chars
+- Min 5 liens internes (/vannes, /parcours, /conseils, /videos)
+- FAQ schema 3-5 questions en fin d'article
+- 1500-2500 mots, pas de keyword stuffing
+- Anti-cannibalisation vérifié avant publication
+
+## Architecture des agents IA
+
+### Vue d'ensemble
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    CRONS (déclencheurs)                      │
+│  Quotidien 5h-6h UTC    │  Mensuel 28     │  Lundi 9h UTC  │
+│  /cron/daily-content     │  /cron/monthly  │  /cron/weekly-seo │
+└──────────┬───────────────┴────────────────┬─────────────────┘
+           ▼                                ▼
+┌─────────────────────┐        ┌─────────────────────────┐
+│  daily-publisher.ts │        │  seo-blog-agent.ts      │
+│  Orchestrateur      │        │  Pipeline blog          │
+└──────────┬──────────┘        └──────────┬──────────────┘
+           ▼                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                STAND-UP DIRECTOR (validation)               │
+│  validate* → APPROVED ? publish : retry (max 3)            │
+│  3 échecs → directorRewrite* → publish                     │
+└──────────┬──────────────────────────────────┬───────────────┘
+           ▼                                  ▼
+┌──────────────────────────┐   ┌──────────────────────────┐
+│  Agents de contenu       │   │  Agent SEO Blog          │
+│  joke-agent.ts           │   │  planNextArticle()       │
+│  tip-agent.ts            │   │  generateArticle()       │
+│  video-agent.ts          │   │  publishWeeklyArticle()  │
+└──────────────────────────┘   └──────────────────────────┘
+```
+
+### Coordination inter-agents
+- **Rotation personas** : Jour 1,4,7→YANIS | Jour 2,5,8→SOPHIE | Jour 3,6,9→MARC (fichier `personas.ts`)
+- **Diversité quotidienne** : chaque agent reçoit les catégories des 2 autres pour éviter les doublons
+- **Plans mensuels** : `content-planner.ts` génère 3 plans (vannes/conseils/vidéos) harmonisés via `plan-validator.ts`
+- **Tonalité unique** : `TONALITY_BRIEF` dans `marketing-agent.ts` est la source de vérité partagée
+
+### Fichiers clés
+| Fichier | Rôle |
+|---|---|
+| `lib/ai/agents/standup-director-agent.ts` | Directeur artistique — validation + réécriture |
+| `lib/ai/agents/joke-agent.ts` | Génération de vannes quotidiennes |
+| `lib/ai/agents/tip-agent.ts` | Génération de conseils quotidiens |
+| `lib/ai/agents/video-agent.ts` | Sélection de vidéos quotidiennes |
+| `lib/ai/agents/seo-blog-agent.ts` | Génération d'articles blog SEO |
+| `lib/ai/agents/marketing-agent.ts` | Creative Strategist + TONALITY_BRIEF |
+| `lib/ai/daily-publisher.ts` | Orchestrateur contenu quotidien |
+| `lib/ai/content-planner.ts` | Planification mensuelle |
+| `lib/ai/plan-validator.ts` | Harmonisation inter-agents |
+| `lib/ai/personas.ts` | Définition des 3 personas + rotation |
+| `lib/ai/client.ts` | Client Anthropic partagé + retry |
+
 ## Historique des audits
 
 ### Audit SEO + Sécurité + UX — 15 mars 2026
@@ -293,3 +407,34 @@ Branche : `claude/fix-login-redirect-navigation-XCsj1`
 - `formatNote` ajouté sur chaque article planifié pour varier les formats
 - Cluster `techniques-delivery` ajouté (timing + erreurs + storytelling)
 - Article pillar stand-up modernisé : Paul Mirabel/Fary/Blanche Gardin/Roman Frayssinet au lieu de Jamel/Gad/Foresti
+
+### Création Stand-Up Director Agent — 18 mars 2026
+Branche : `claude/fix-login-redirect-navigation-XCsj1`
+
+#### Agent Stand-Up Director (standup-director-agent.ts) — créé de zéro
+- **Directeur artistique** : gardien qualité de tous les contenus du site
+- **Double mission** : site n°1 du stand-up français + plateforme de formation n°1
+- **6 fonctions de validation** : validateJoke, validateTip, validateVideoSelection, validateBlogArticle, generateEditorialVision, reviewContentBatch
+- **3 fonctions de réécriture** : directorRewriteJoke, directorRewriteTip, directorRewriteBlogArticle
+- **5 tests universels** : Test du Pote, Test du Concret, Test du Doublon, Test du Persona, Test de la Barre
+- **Verdicts** : APPROVED (≥7), NEEDS_REVISION (4-6), REJECTED (≤3) avec cohérence verdict/score
+
+#### Intégration dans les pipelines (daily-publisher.ts + seo-blog-agent.ts)
+- **Boucle generate→validate→retry** (max 3 tentatives) intégrée dans `publishDailyContent()` et `publishWeeklyArticle()`
+- **Après 3 échecs** : le directeur réécrit lui-même le contenu et le publie
+- **Graceful fallback** : si l'API de validation/réécriture crash, le contenu est publié tel quel
+- **Vannes** : generateDailyJoke → validateJoke → REJECTED? → re-generate avec feedback → 3x? → directorRewriteJoke → save
+- **Conseils** : generateDailyTip → validateTip → REJECTED? → re-generate avec feedback → 3x? → directorRewriteTip → save
+- **Vidéos** : selectDailyVideo → validateVideoSelection → REJECTED? → exclure vidéo + re-select → 3x? → publish last
+- **Blog** : generateArticle → validateBlogArticle → REJECTED? → re-generate avec feedback → 3x? → directorRewriteBlogArticle → save
+
+#### Critères SEO blog renforcés dans la validation directeur
+- Mot-clé dans intro, 2-3 H2/H3, conclusion
+- Titre < 60 chars, meta 150-155 chars, min 5 liens internes
+- FAQ schema, structure H2/H3, 1500-2500 mots, anti-keyword-stuffing
+- Anti-cannibalisation vérifié
+
+#### Tests — 80 tests passent dans ai-agents.test.ts
+- 17 tests Stand-Up Director (validation, réécriture, edge cases)
+- 4 tests intégration pipeline (approve, reject, 3-failure-rewrite, API-error)
+- Aucune régression sur les 59 tests pré-existants
