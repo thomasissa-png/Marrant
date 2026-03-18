@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
 import { randomBytes } from "crypto";
+import { sendPasswordResetEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,9 +49,12 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      // TODO: Envoyer un email avec le lien de réinitialisation
-      // resetUrl: ${NEXTAUTH_URL}/reset-password?token=${token}&email=${email}
-      // Pour l'instant le token est stocké en DB et validé via /api/auth/reset-password
+      const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
+      try {
+        await sendPasswordResetEmail(user.email, resetUrl);
+      } catch (err) {
+        console.error("[API /auth/forgot-password] Erreur envoi email:", err);
+      }
     }
 
     return NextResponse.json({
