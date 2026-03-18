@@ -134,6 +134,17 @@ export const authOptions: NextAuthOptions = {
         token.iat = Math.floor(Date.now() / 1000);
         // Mettre à jour le streak à chaque connexion
         await updateStreak(user.id);
+        // Charger le plan immédiatement à la connexion (évite le fallback "FREE")
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { plan: true },
+          });
+          token.plan = dbUser?.plan ?? "FREE";
+          token.planRefreshedAt = Math.floor(Date.now() / 1000);
+        } catch (error) {
+          console.error("[Auth] Erreur chargement plan à la connexion:", error);
+        }
       }
 
       // Pour Google OAuth : s'assurer que token.sub pointe vers l'ID DB
@@ -154,7 +165,26 @@ export const authOptions: NextAuthOptions = {
             select: { plan: true, passwordChangedAt: true },
           });
 
-          token.plan = dbUser?.plan ?? "FREE";
+          let plan = dbUser?.plan ?? "FREE";
+
+          // Filet de sécurité : si le plan est FREE mais qu'une subscription ACTIVE existe,
+          // corriger le plan en DB (cas où le webhook Stripe a échoué)
+          if (plan === "FREE") {
+            const activeSub = await prisma.subscription.findUnique({
+              where: { userId: token.sub },
+              select: { status: true },
+            });
+            if (activeSub?.status === "ACTIVE") {
+              await prisma.user.update({
+                where: { id: token.sub },
+                data: { plan: "PREMIUM" },
+              });
+              plan = "PREMIUM";
+              console.log(`[Auth] Auto-fix: user ${token.sub} upgraded to PREMIUM (active subscription found)`);
+            }
+          }
+
+          token.plan = plan;
           token.planRefreshedAt = now;
 
           if (dbUser?.passwordChangedAt) {

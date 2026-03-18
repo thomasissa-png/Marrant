@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 
-type AuthTab = "login" | "register";
+type AuthTab = "login" | "register" | "forgot-password";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -26,6 +25,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotSuccess, setForgotSuccess] = useState(false);
   const router = useRouter();
 
   const resetForm = () => {
@@ -34,6 +34,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
     setName("");
     setError("");
     setShowPassword(false);
+    setForgotSuccess(false);
   };
 
   const switchTab = (newTab: AuthTab) => {
@@ -107,6 +108,31 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        setForgotSuccess(true);
+      } else {
+        const data = await res.json();
+        setError(data.error || "Une erreur est survenue");
+      }
+    } catch {
+      setError("Connexion perdue, réessaie");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleGoogle = () => {
     signIn("google", { callbackUrl: callbackUrl || "/vannes" });
   };
@@ -144,35 +170,85 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
             deviens-marrant.fr
           </span>
           {/* Tabs */}
-          <div className="mt-4 flex rounded-lg bg-background-elevated p-1" role="tablist">
-            <button
-              role="tab"
-              aria-selected={tab === "login"}
-              className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                tab === "login"
-                  ? "bg-accent-primary text-white"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
-              onClick={() => switchTab("login")}
-            >
-              Connexion
-            </button>
-            <button
-              role="tab"
-              aria-selected={tab === "register"}
-              className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                tab === "register"
-                  ? "bg-accent-primary text-white"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
-              onClick={() => switchTab("register")}
-            >
-              Inscription
-            </button>
-          </div>
+          {tab === "forgot-password" ? (
+            <p className="mt-4 text-sm font-medium text-text-primary">Mot de passe oublié</p>
+          ) : (
+            <div className="mt-4 flex rounded-lg bg-background-elevated p-1" role="tablist">
+              <button
+                role="tab"
+                aria-selected={tab === "login"}
+                className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  tab === "login"
+                    ? "bg-accent-primary text-white"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
+                onClick={() => switchTab("login")}
+              >
+                Connexion
+              </button>
+              <button
+                role="tab"
+                aria-selected={tab === "register"}
+                className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  tab === "register"
+                    ? "bg-accent-primary text-white"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
+                onClick={() => switchTab("register")}
+              >
+                Inscription
+              </button>
+            </div>
+          )}
         </CardHeader>
         <CardContent>
-          {tab === "login" ? (
+          {tab === "forgot-password" ? (
+            <div className="flex flex-col gap-4">
+              {forgotSuccess ? (
+                <div className="text-center">
+                  <p className="mb-4 text-sm text-success">
+                    Si un compte existe avec cet email, tu recevras un lien sous quelques minutes.
+                  </p>
+                  <button type="button" className="text-sm text-accent-primary hover:underline" onClick={() => switchTab("login")}>
+                    Retour à la connexion
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm text-text-secondary">
+                    Entre ton email et on t&apos;envoie un lien de réinitialisation.
+                  </p>
+                  <form className="flex flex-col gap-4" onSubmit={handleForgotPassword}>
+                    <div>
+                      <label htmlFor="modal-forgot-email" className="mb-1 block text-sm text-text-secondary">
+                        Email
+                      </label>
+                      <Input
+                        id="modal-forgot-email"
+                        type="email"
+                        placeholder="ton@email.fr"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        autoComplete="email"
+                      />
+                    </div>
+                    {error && (
+                      <p className="text-sm text-error" role="alert">{error}</p>
+                    )}
+                    <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
+                      {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
+                    </Button>
+                  </form>
+                  <div className="text-center text-sm text-text-secondary">
+                    <button type="button" className="text-accent-primary hover:underline" onClick={() => switchTab("login")}>
+                      Retour à la connexion
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : tab === "login" ? (
             <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               {error && (
                 <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
@@ -223,9 +299,9 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
                 Continuer avec Google
               </Button>
               <div className="text-center text-sm text-text-secondary">
-                <Link href="/forgot-password" className="text-accent-primary hover:underline" onClick={handleClose}>
+                <button type="button" className="text-accent-primary hover:underline" onClick={() => switchTab("forgot-password")}>
                   Mot de passe oublié ?
-                </Link>
+                </button>
               </div>
             </form>
           ) : (

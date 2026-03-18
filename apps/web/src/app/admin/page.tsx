@@ -143,6 +143,25 @@ export default function AdminPage() {
     }
   }, [userFilter, userSort, userSearch, getAuthHeader]);
 
+  const syncUserPlan = useCallback(async (userId: string) => {
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "PATCH",
+        headers: { ...getAuthHeader(), "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message || `Plan: ${data.plan}`);
+        fetchUsers(pagination?.page ?? 1);
+      } else {
+        alert(data.error || "Erreur sync");
+      }
+    } catch {
+      alert("Erreur de connexion");
+    }
+  }, [getAuthHeader, fetchUsers, pagination]);
+
   useEffect(() => {
     if (sessionStorage.getItem("admin_auth") === "true") {
       setIsAuthenticated(true);
@@ -419,24 +438,25 @@ function UsersTab({
               <th className="px-4 py-3 text-left font-semibold text-text-primary">Inscription</th>
               <th className="px-4 py-3 text-left font-semibold text-text-primary">Dernière activité</th>
               <th className="px-4 py-3 text-left font-semibold text-text-primary">Fin période</th>
+              <th className="px-4 py-3 text-left font-semibold text-text-primary"></th>
             </tr>
           </thead>
           <tbody>
             {loading && users.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-text-muted">
+                <td colSpan={10} className="px-4 py-12 text-center text-text-muted">
                   Chargement...
                 </td>
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-text-muted">
+                <td colSpan={10} className="px-4 py-12 text-center text-text-muted">
                   Aucun utilisateur trouvé
                 </td>
               </tr>
             ) : (
               users.map((user) => (
-                <UserRow key={user.id} user={user} />
+                <UserRow key={user.id} user={user} onSync={syncUserPlan} />
               ))
             )}
           </tbody>
@@ -503,7 +523,7 @@ function KpiCard({
   );
 }
 
-function UserRow({ user }: { user: AdminUser }) {
+function UserRow({ user, onSync }: { user: AdminUser; onSync: (userId: string) => void }) {
   const planBadge = user.plan === "PREMIUM"
     ? "bg-accent-primary/20 text-accent-primary"
     : "bg-background-elevated text-text-muted";
@@ -576,6 +596,16 @@ function UserRow({ user }: { user: AdminUser }) {
         {user.subscription?.currentPeriodEnd
           ? formatDate(user.subscription.currentPeriodEnd)
           : "—"}
+      </td>
+      <td className="px-4 py-3">
+        <button
+          type="button"
+          onClick={() => onSync(user.id)}
+          className="rounded px-2 py-1 text-xs text-accent-primary hover:bg-accent-primary/10 transition-colors"
+          title="Synchroniser le plan avec Stripe"
+        >
+          Sync
+        </button>
       </td>
     </tr>
   );
