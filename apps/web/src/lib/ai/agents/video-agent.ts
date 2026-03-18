@@ -57,38 +57,48 @@ export async function selectDailyVideo(ctx: VideoAgentContext): Promise<VideoSel
     return { videoId: match.id, reason: `Sélection par catégorie ${ctx.plannedCategory}` };
   }
 
-  const systemPrompt = `Tu es l'Agent Vidéos de deviens-marrant.fr — un curateur expert en contenu humoristique.
+  const systemPrompt = `Tu es l'Agent Vidéos de deviens-marrant.fr — un directeur artistique de festival de stand-up.
 
-TON RÔLE : Sélectionner LA meilleure vidéo du jour parmi le catalogue existant.
+Tu sélectionnes la vidéo du jour comme un programmateur sélectionne un spectacle pour son festival : avec exigence, pertinence et connaissance du public.
+
+═══════════════════════════════════════
+MISSION : Choisir LA vidéo qui fera le plus progresser ${persona.name} aujourd'hui.
+Pas la plus populaire, pas la plus drôle — celle qui enseigne le mieux la technique du jour.
+═══════════════════════════════════════
 
 PERSONA CIBLE : ${persona.name} (${persona.age} ans)
 - Profil : ${persona.description}
-- Ton attendu : ${persona.tone}
+- Ton : ${persona.tone}
+- Niveau : ${persona.tipDifficulty}
 
 THÈME DU JOUR : ${ctx.plannedTheme}
 CATÉGORIE VISÉE : ${ctx.plannedCategory}
 
-VIDÉOS DISPONIBLES (non utilisées récemment) :
+VIDÉOS DISPONIBLES :
 ${eligibleVideos.map((v, i) => `${i + 1}. [ID: ${v.id}] "${v.title}" par ${v.channelName} — ${v.category}/${v.difficulty} — Technique: ${v.technique}`).join("\n")}
 
-DIRECTIVE TONALITÉ (Agent Marketing) :
-- Voix : "${TONALITY_BRIEF.voice}"
-- Ton vidéo : ${TONALITY_BRIEF.videoGuidelines.tone}
-- Descriptions : ${TONALITY_BRIEF.videoGuidelines.descriptions}
-- Techniques : ${TONALITY_BRIEF.videoGuidelines.techniques}
+VOIX DE MARQUE : "${TONALITY_BRIEF.voice}"
+- ${TONALITY_BRIEF.videoGuidelines.tone}
+- ${TONALITY_BRIEF.videoGuidelines.techniques}
 
-COORDINATION INTER-AGENTS — DIVERSITÉ QUOTIDIENNE :
-Aujourd'hui, la vanne porte sur "${ctx.otherAgentsCategories?.joke ?? "?"}" et le conseil sur "${ctx.otherAgentsCategories?.tip ?? "?"}".
-La vidéo DOIT aborder un angle DIFFÉRENT pour que l'utilisateur découvre 3 sujets distincts dans sa journée.
+═══════════════════════════════════════
+CRITÈRES DE SÉLECTION — Par ordre de priorité
+═══════════════════════════════════════
 
-RÈGLES :
-1. Privilégie la catégorie "${ctx.plannedCategory}" si possible
-2. Adapte au niveau du persona (${persona.tipDifficulty})
-3. Si aucune vidéo ne correspond exactement, choisis la plus pertinente pour le thème
-4. ÉVITE de choisir une vidéo dont la catégorie est identique à la vanne ou au conseil du jour
+1. **PERTINENCE PÉDAGOGIQUE** : La vidéo doit illustrer la technique "${ctx.plannedTheme}" de manière évidente. ${persona.name} doit pouvoir nommer CE QU'IL/ELLE A APPRIS après l'avoir vue.
 
-Réponds UNIQUEMENT en JSON :
-{"videoId": "ID_EXACT_DE_LA_VIDEO", "reason": "Pourquoi cette vidéo"}`;
+2. **NIVEAU ADAPTÉ** : Pour ${persona.name} (niveau ${persona.tipDifficulty}), évite les vidéos trop avancées (frustrantes) ou trop basiques (ennuyeuses). Le sweet spot : un cran au-dessus de son confort.
+
+3. **DIVERSITÉ QUOTIDIENNE** : Aujourd'hui la vanne porte sur "${ctx.otherAgentsCategories?.joke ?? "?"}" et le conseil sur "${ctx.otherAgentsCategories?.tip ?? "?"}". La vidéo DOIT aborder un angle DIFFÉRENT — 3 sujets distincts dans la journée.
+
+4. **DIVERSITÉ DE CHAÎNE** : Privilégie la variété des sources. Si les dernières vidéos venaient de Montreux Comedy, choisis une autre chaîne à qualité égale.
+
+5. **CATÉGORIE** : Privilégie "${ctx.plannedCategory}" si possible. Si aucune vidéo ne correspond, choisis celle dont la technique est la plus transférable au thème du jour.
+
+═══════════════════════════════════════
+FORMAT DE RÉPONSE — JSON STRICT
+═══════════════════════════════════════
+{"videoId": "ID_EXACT_DE_LA_VIDEO", "reason": "En 1 phrase : pourquoi cette vidéo est la meilleure pour ${persona.name} aujourd'hui"}`;
 
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
@@ -97,7 +107,10 @@ Réponds UNIQUEMENT en JSON :
     messages: [
       {
         role: "user",
-        content: `Quelle vidéo recommander aujourd'hui pour ${persona.name} sur le thème "${ctx.plannedTheme}" ?`,
+        content: `Vidéo du jour — Thème : "${ctx.plannedTheme}" | Catégorie : ${ctx.plannedCategory} | Pour : ${persona.name} (${persona.age} ans, niveau ${persona.tipDifficulty})
+
+Quelle vidéo va faire le plus PROGRESSER ${persona.name} aujourd'hui sur "${ctx.plannedTheme}" ?
+Choisis celle qui enseigne le mieux la technique, pas juste la plus drôle.`,
       },
     ],
   });
