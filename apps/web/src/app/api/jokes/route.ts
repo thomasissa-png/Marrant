@@ -40,9 +40,16 @@ export async function GET(request: NextRequest) {
     // Limites gratuites : 50 blagues max pour les FREE
     const FREE_JOKE_LIMIT = 50;
 
+    // Support comma-separated categories for grouped filters (e.g. "COUPLE,DATING")
+    const categoryFilter = query.category
+      ? query.category.includes(",")
+        ? { category: { in: query.category.split(",") } as never }
+        : { category: query.category as never }
+      : {};
+
     const where = {
       isActive: true,
-      ...(query.category && { category: query.category as never }),
+      ...categoryFilter,
       ...(query.type && { type: query.type as never }),
       ...(query.q && {
         OR: [

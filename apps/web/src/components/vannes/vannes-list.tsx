@@ -28,27 +28,41 @@ interface Pagination {
   totalPages: number;
 }
 
+// Filtres regroupés par contexte d'usage (où tu sors la vanne)
+// Les groupes fusionnent les catégories DB proches pour simplifier le choix
 const CATEGORIES = [
   { value: "", label: "Toutes" },
+  // Par contexte — où tu la sors
+  { value: "SITUATION,OBSERVATIONNEL,CULTUREL", label: "Vie quotidienne" },
+  { value: "BOULOT", label: "Boulot & Collègues" },
+  { value: "COUPLE,DATING", label: "Couple & Dating" },
+  { value: "SOIREES", label: "Soirées & Apéro" },
+  { value: "ECOLE", label: "École & Études" },
+  { value: "PARENTS", label: "Famille" },
+  { value: "RESEAUX_SOCIAUX,GAMING", label: "Digital & Gaming" },
+  // Par style — comment elle marche
   { value: "AUTODERISION", label: "Auto-dérision" },
-  { value: "SITUATION", label: "Situation" },
   { value: "ABSURDE", label: "Absurde" },
-  { value: "OBSERVATIONNEL", label: "Observationnel" },
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
-  { value: "CULTUREL", label: "Culturel" },
-  { value: "COUPLE", label: "Couple" },
-  { value: "BOULOT", label: "Boulot" },
-  { value: "ECOLE", label: "École" },
-  { value: "GAMING", label: "Gaming" },
-  { value: "RESEAUX_SOCIAUX", label: "Réseaux sociaux" },
-  { value: "DATING", label: "Dating" },
-  { value: "SOIREES", label: "Soirées" },
-  { value: "PARENTS", label: "Parents" },
 ];
 
-const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
-  CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
-);
+// Labels pour les badges individuels sur chaque carte (DB enum → label lisible)
+const CATEGORY_LABELS: Record<string, string> = {
+  AUTODERISION: "Auto-dérision",
+  SITUATION: "Vie quotidienne",
+  ABSURDE: "Absurde",
+  OBSERVATIONNEL: "Vie quotidienne",
+  JEUX_DE_MOTS: "Jeux de mots",
+  CULTUREL: "Vie quotidienne",
+  COUPLE: "Couple & Dating",
+  BOULOT: "Boulot & Collègues",
+  ECOLE: "École & Études",
+  GAMING: "Digital & Gaming",
+  RESEAUX_SOCIAUX: "Digital & Gaming",
+  DATING: "Couple & Dating",
+  SOIREES: "Soirées & Apéro",
+  PARENTS: "Famille",
+};
 
 const PUNCHLINE_TEASERS = [
   "Clique pour la chute",

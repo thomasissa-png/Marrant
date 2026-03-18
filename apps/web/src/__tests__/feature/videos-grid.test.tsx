@@ -88,7 +88,8 @@ describe("VideosGrid", () => {
   it("shows category and technique badges", async () => {
     render(<VideosGrid />);
     await waitFor(() => {
-      expect(screen.getByText("Timing")).toBeInTheDocument();
+      // "Timing" appears as both a filter tab and a badge on the card
+      expect(screen.getAllByText("Timing").length).toBeGreaterThanOrEqual(2);
       expect(screen.getByText("Callback")).toBeInTheDocument();
     });
   });
@@ -148,5 +149,25 @@ describe("VideosGrid", () => {
     });
     await userEvent.click(screen.getByRole("tab", { name: "Expert" }));
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("difficulty=EXPERT"));
+  });
+
+  it("renders category filter tabs", async () => {
+    render(<VideosGrid />);
+    await waitFor(() => {
+      expect(screen.getByRole("tablist", { name: "Catégories de vidéos" })).toBeInTheDocument();
+    });
+    expect(screen.getByRole("tab", { name: "Toutes" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Timing" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Répartie" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Storytelling" })).toBeInTheDocument();
+  });
+
+  it("filters by category", async () => {
+    render(<VideosGrid />);
+    await waitFor(() => {
+      expect(screen.getByText("Stand-up hilarant")).toBeInTheDocument();
+    });
+    await userEvent.click(screen.getByRole("tab", { name: "Répartie" }));
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("category=REPARTIE"));
   });
 });

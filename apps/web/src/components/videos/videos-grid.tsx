@@ -59,12 +59,24 @@ function formatDuration(iso: string): string {
   return `${h}${m}:${s}`;
 }
 
+const CATEGORIES = [
+  { value: "", label: "Toutes" },
+  { value: "TIMING", label: "Timing" },
+  { value: "AUTODERISION", label: "Auto-dérision" },
+  { value: "OBSERVATION", label: "Observation" },
+  { value: "REPARTIE", label: "Répartie" },
+  { value: "STORYTELLING", label: "Storytelling" },
+  { value: "ABSURDE", label: "Absurde" },
+  { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
+];
+
 export function VideosGrid() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const [videos, setVideos] = useState<Video[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [difficulty, setDifficulty] = useState("");
+  const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
@@ -86,6 +98,7 @@ export function VideosGrid() {
     setError(false);
     const params = new URLSearchParams({ page: String(page), limit: "12" });
     if (difficulty) params.set("difficulty", difficulty);
+    if (category) params.set("category", category);
     if (searchQuery) params.set("q", searchQuery);
 
     try {
@@ -104,7 +117,7 @@ export function VideosGrid() {
     } finally {
       setIsLoading(false);
     }
-  }, [difficulty, page, searchQuery]);
+  }, [difficulty, category, page, searchQuery]);
 
   useEffect(() => {
     fetchVideos();
@@ -112,7 +125,7 @@ export function VideosGrid() {
 
   return (
     <>
-      {/* Filtres — PREMIUM uniquement */}
+      {/* Filtres niveau + catégorie — PREMIUM uniquement */}
       {limited ? (
         <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
           <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
@@ -121,27 +134,51 @@ export function VideosGrid() {
                 {d.label}
               </span>
             ))}
+            <span className="mx-1 text-text-muted">·</span>
+            {CATEGORIES.slice(1, 4).map((cat) => (
+              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
+                {cat.label}
+              </span>
+            ))}
+            <span className="text-sm text-text-muted">...</span>
           </div>
           <p className="mt-2 text-xs text-text-muted">
-            Filtres par niveau disponibles avec l&apos;abonnement&nbsp;
+            Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
             <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
-        <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
-          {DIFFICULTIES.map((d) => (
-            <Button
-              key={d.value}
-              variant={difficulty === d.value ? "secondary" : "ghost"}
-              size="sm"
-              role="tab"
-              aria-selected={difficulty === d.value}
-              onClick={() => { setDifficulty(d.value); setPage(1); }}
-            >
-              {d.label}
-            </Button>
-          ))}
-        </div>
+        <>
+          <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+            {DIFFICULTIES.map((d) => (
+              <Button
+                key={d.value}
+                variant={difficulty === d.value ? "secondary" : "ghost"}
+                size="sm"
+                role="tab"
+                aria-selected={difficulty === d.value}
+                onClick={() => { setDifficulty(d.value); setPage(1); }}
+              >
+                {d.label}
+              </Button>
+            ))}
+          </div>
+
+          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vidéos">
+            {CATEGORIES.map((cat) => (
+              <Button
+                key={cat.value}
+                variant={category === cat.value ? "primary" : "ghost"}
+                size="sm"
+                role="tab"
+                aria-selected={category === cat.value}
+                onClick={() => { setCategory(cat.value); setPage(1); }}
+              >
+                {cat.label}
+              </Button>
+            ))}
+          </div>
+        </>
       )}
 
       {error ? (

@@ -44,7 +44,9 @@ describe("VannesList", () => {
     });
     expect(screen.getByRole("tab", { name: "Toutes" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Absurde" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Situation" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Vie quotidienne" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Couple & Dating" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Digital & Gaming" })).toBeInTheDocument();
   });
 
   it("shows aria-selected on active category", async () => {
@@ -85,8 +87,9 @@ describe("VannesList", () => {
   it("shows category badge labels", async () => {
     render(<VannesList />);
     await waitFor(() => {
+      // ABSURDE → "Absurde", SITUATION → "Vie quotidienne" (grouped label)
       expect(screen.getByText("Absurde")).toBeInTheDocument();
-      expect(screen.getByText("Situation")).toBeInTheDocument();
+      expect(screen.getByText("Vie quotidienne")).toBeInTheDocument();
     });
   });
 
@@ -110,7 +113,7 @@ describe("VannesList", () => {
     });
   });
 
-  it("changes category on filter click", async () => {
+  it("changes category on filter click (single)", async () => {
     render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
@@ -118,6 +121,16 @@ describe("VannesList", () => {
 
     await userEvent.click(screen.getByRole("tab", { name: "Absurde" }));
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("category=ABSURDE"));
+  });
+
+  it("sends grouped categories for merged filters", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole("tab", { name: "Couple & Dating" }));
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("category=COUPLE%2CDATING"));
   });
 
   it("does not show pagination when only 1 page", async () => {
