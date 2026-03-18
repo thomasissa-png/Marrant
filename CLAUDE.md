@@ -1,5 +1,11 @@
 # Marrant — deviens-marrant.fr
 
+## Environnement
+
+- **Hébergement** : Replit (PAS Vercel). Ne jamais mentionner Vercel.
+- **Variables d'environnement** : se configurent dans l'onglet **Secrets** de Replit (icône cadenas).
+- **Email transactionnel** : Resend (`RESEND_API_KEY` dans Secrets Replit). Variable optionnelle `EMAIL_FROM` pour personnaliser l'expéditeur (défaut : `Deviens Marrant <noreply@deviens-marrant.fr>`). Le domaine doit être vérifié dans le dashboard Resend.
+
 ## Règles de développement
 
 ### Tests obligatoires avant chaque commit
