@@ -1,42 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function SubscriptionSuccessPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { update } = useSession();
   const [attempts, setAttempts] = useState(0);
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState(false);
   const MAX_ATTEMPTS = 15;
 
-  useEffect(() => {
-    if (ready) return;
+  const sessionId = searchParams.get("session_id");
 
-    const timer = setTimeout(async () => {
+  const activate = useCallback(async () => {
+    // 1. Vérifier d'abord si le webhook a déjà activé le plan (rapide)
+    try {
+      const statusRes = await fetch("/api/stripe/status");
+      if (statusRes.ok) {
+        const data = await statusRes.json();
+        if (data.plan === "PREMIUM") {
+          await update();
+          setReady(true);
+          return;
+        }
+      }
+    } catch {
+      // Erreur réseau — on continue avec la vérification directe
+    }
+
+    // 2. Si le webhook n'a pas encore traité, vérifier directement via Stripe
+    if (sessionId) {
       try {
-        // Vérifier le plan directement en DB (pas via JWT cache)
-        const subRes = await fetch("/api/stripe/status");
-        if (subRes.ok) {
-          const data = await subRes.json();
+        const verifyRes = await fetch("/api/stripe/verify-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        });
+
+        if (verifyRes.ok) {
+          const data = await verifyRes.json();
           if (data.plan === "PREMIUM") {
-            // Forcer le rafraîchissement de la session JWT
             await update();
             setReady(true);
             return;
           }
         }
       } catch {
-        // Erreur réseau — on réessaie
+        // Erreur — on réessaie au prochain tick
       }
+    }
+  }, [sessionId, update]);
+
+  useEffect(() => {
+    if (ready) return;
+
+    const timer = setTimeout(async () => {
+      await activate();
 
       if (attempts >= MAX_ATTEMPTS) {
-        // Timeout — forcer le refresh de session quand même
-        await update();
-        setReady(true);
+        // Timeout — le paiement est peut-être en cours de traitement côté Stripe
+        setError(true);
         return;
       }
 
@@ -44,7 +72,7 @@ export default function SubscriptionSuccessPage() {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [attempts, ready, update]);
+  }, [attempts, ready, activate]);
 
   useEffect(() => {
     if (ready) {
@@ -63,20 +91,32 @@ export default function SubscriptionSuccessPage() {
           <p className="mt-2 text-text-secondary">
             Activation de ton abonnement en cours...
           </p>
-          <div className="mt-6 flex justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-primary border-t-transparent" />
-          </div>
-          {attempts >= MAX_ATTEMPTS && (
+          {!error && (
+            <div className="mt-6 flex justify-center">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-primary border-t-transparent" />
+            </div>
+          )}
+          {error && (
             <div className="mt-4">
               <p className="text-sm text-text-muted">
-                L&apos;activation prend plus de temps que prévu.
+                L&apos;activation prend plus de temps que prévu. Ton paiement a bien été reçu — ton accès sera activé dans quelques instants.
               </p>
               <Button
                 variant="primary"
-                className="mt-2"
+                className="mt-3"
+                onClick={async () => {
+                  setError(false);
+                  setAttempts(0);
+                }}
+              >
+                Réessayer
+              </Button>
+              <Button
+                variant="ghost"
+                className="mt-2 block w-full"
                 onClick={() => router.push("/vannes")}
               >
-                Continuer quand même
+                Continuer vers le site
               </Button>
             </div>
           )}
