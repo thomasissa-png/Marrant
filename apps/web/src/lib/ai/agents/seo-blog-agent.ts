@@ -31,6 +31,15 @@ const TARGET_KEYWORDS = [
   "apprendre à être drôle",
   "comment faire rire",
   "être drôle en société",
+  // Requêtes douleur — forte intention de conversion
+  "je ne suis pas drôle",
+  "je ne sais jamais quoi répondre",
+  "comment répondre aux moqueries",
+  "comment répondre quand on se moque de moi",
+  "ne plus rester muet en groupe",
+  "retrouver confiance après rupture",
+  "avoir de la conversation au travail",
+  "être drôle à la machine à café",
   // Requêtes longue traîne liées aux personas
   "avoir de la répartie quand on est timide",
   "comment être drôle à la machine à café",
@@ -42,16 +51,19 @@ const TARGET_KEYWORDS = [
   "comment raconter une blague sans la rater",
   "exercices pour devenir plus drôle",
   "développer son sens de l'humour",
+  // Requêtes praticien — apprendre des pros
+  "techniques stand-up vie quotidienne",
+  "techniques humoristes à appliquer",
+  "méthodes humour des pros",
+  "comment briser la glace avec humour",
+  "avoir confiance en soi grâce à l'humour",
   // Requêtes connexes
   "techniques de storytelling humour",
   "comment improviser des blagues",
   "les différents types d'humour",
   "comment être plus à l'aise en société",
-  "comment briser la glace avec humour",
-  "avoir confiance en soi grâce à l'humour",
   "comment être le mec drôle du groupe",
   "apprendre la répartie",
-  "cours d'humour en ligne",
   "progression humour débutant",
 ];
 

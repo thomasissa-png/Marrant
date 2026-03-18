@@ -428,6 +428,12 @@ CRITÈRES SEO — NON NÉGOCIABLES POUR LE N°1 :
 - Le contenu fait-il entre 1500 et 2500 mots ? (ni trop court pour le SEO, ni trop long pour le lecteur)
 - Le mot-clé n'est-il PAS sur-optimisé ? (pas de keyword stuffing — intégration naturelle)
 
+CRITÈRES CONVERSION — LE BLOG DOIT VENDRE :
+- L'article a-t-il un CTA clair vers /parcours, /vannes ou /conseils ?
+- Si c'est un article "douleur" (timidité, moqueries, muet, rupture) : valide-t-il l'émotion AVANT de proposer des solutions ?
+- Si c'est un article "apprendre des pros" : chaque technique est-elle ACTIONNABLE aujourd'hui (pas juste de l'analyse passive) ?
+- L'article ne contient-il PAS de liens sortants vers YouTube ou des concurrents ?
+
 ANTI-CANNIBALISATION :
 - Le slug/titre ne cannibalise-t-il pas un article existant du site ?
 - Le mot-clé principal est-il distinct des articles déjà publiés ?
