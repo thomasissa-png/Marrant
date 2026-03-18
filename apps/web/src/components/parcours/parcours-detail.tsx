@@ -336,6 +336,8 @@ export function ParcoursDetail({ slug }: { slug: string }) {
   const totalSteps = path.steps.length;
   const isPathCompleted = progress?.completedAt !== null && progress?.completedAt !== undefined;
   const totalXp = path.steps.reduce((sum, s) => sum + (s.moduleXp ?? 20), 0);
+  // Detect seed fallback (not in DB) — cannot track progress
+  const isSeedFallback = path.id.startsWith("seed-");
 
   return (
     <>
@@ -619,7 +621,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                         )}
                       </div>
 
-                      {!isCompleted && status === "authenticated" && (
+                      {!isCompleted && status === "authenticated" && !isSeedFallback && (
                         <Button
                           variant="primary"
                           className="w-full"
@@ -630,6 +632,12 @@ export function ParcoursDetail({ slug }: { slug: string }) {
                             ? "Validation..."
                             : "Marquer comme terminé"}
                         </Button>
+                      )}
+
+                      {!isCompleted && status === "authenticated" && isSeedFallback && (
+                        <p className="text-center text-sm text-text-muted">
+                          La progression sera disponible prochainement.
+                        </p>
                       )}
 
                       {isCompleted && (

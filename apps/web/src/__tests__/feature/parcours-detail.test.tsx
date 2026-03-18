@@ -320,3 +320,43 @@ describe("ParcoursDetail — completed parcours CTA", () => {
     });
   });
 });
+
+describe("ParcoursDetail — seed fallback", () => {
+  it("shows fallback message instead of complete button when path is seed-based", async () => {
+    const seedFallbackData = {
+      path: {
+        ...mockPathData.path,
+        id: "seed-machine-a-cafe",
+        steps: mockPathData.path.steps.map((s, i) => ({
+          ...s,
+          id: `seed-step-${i + 1}`,
+        })),
+      },
+      userProgress: null,
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => seedFallbackData,
+    });
+
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test" } },
+      status: "authenticated",
+    });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
+    });
+
+    // Expand step 1
+    await userEvent.click(screen.getByRole("button", { name: /Étape 1/ }));
+
+    // Should NOT show "Marquer comme terminé" button
+    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+
+    // Should show fallback message
+    expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+  });
+});

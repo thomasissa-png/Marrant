@@ -259,70 +259,89 @@ async function main() {
     steps: Array<{ week: number; tipTitle: string; dayNumber: number }>;
   }
 
-  const pathCount = await prisma.learningPath.count();
-  const stepCount = await prisma.learningPathStep.count();
-  if (pathCount === 0 || stepCount === 0) {
-    // Nettoyer avant de recréer
-    if (pathCount > 0) {
-      await prisma.learningPathStep.deleteMany({});
-      await prisma.learningPath.deleteMany({});
-    }
+  const parcoursSeed = loadSeedData<PathSeed>("parcours-seed.json");
 
-    const parcoursSeed = loadSeedData<PathSeed>("parcours-seed.json");
+  // Charger tous les tips pour matcher par titre
+  const allTips = await prisma.tip.findMany({
+    where: { isActive: true },
+    select: { id: true, title: true },
+  });
+  const tipByTitle = new Map(allTips.map((t) => [t.title, t.id]));
 
-    // Charger tous les tips pour matcher par titre
-    const allTips = await prisma.tip.findMany({
-      where: { isActive: true },
-      select: { id: true, title: true },
+  let upsertedPaths = 0;
+  let upsertedSteps = 0;
+  let missingTips: string[] = [];
+  const seedSlugs = new Set(parcoursSeed.map((p) => p.slug));
+
+  for (const pathData of parcoursSeed) {
+    // Upsert le parcours (créer ou mettre à jour)
+    const path = await prisma.learningPath.upsert({
+      where: { slug: pathData.slug },
+      create: {
+        title: pathData.title,
+        description: pathData.description,
+        slug: pathData.slug,
+        duration: pathData.duration,
+        difficulty: pathData.difficulty as never,
+        icon: pathData.icon,
+        order: pathData.order,
+        isActive: true,
+      },
+      update: {
+        title: pathData.title,
+        description: pathData.description,
+        duration: pathData.duration,
+        difficulty: pathData.difficulty as never,
+        icon: pathData.icon,
+        order: pathData.order,
+        isActive: true,
+      },
     });
-    const tipByTitle = new Map(allTips.map((t) => [t.title, t.id]));
 
-    let createdPaths = 0;
-    let createdSteps = 0;
-    let missingTips: string[] = [];
+    // Supprimer les steps existants pour ce parcours et recréer
+    // (permet la mise à jour incrémentale des steps)
+    await prisma.learningPathStep.deleteMany({
+      where: { learningPathId: path.id },
+    });
 
-    for (const pathData of parcoursSeed) {
-      const path = await prisma.learningPath.create({
-        data: {
-          title: pathData.title,
-          description: pathData.description,
-          slug: pathData.slug,
-          duration: pathData.duration,
-          difficulty: pathData.difficulty as never,
-          icon: pathData.icon,
-          order: pathData.order,
-        },
+    const stepsData = [];
+    for (const step of pathData.steps) {
+      const tipId = tipByTitle.get(step.tipTitle);
+      if (!tipId) {
+        missingTips.push(`[${pathData.slug}] Semaine ${step.week}: "${step.tipTitle}"`);
+        continue;
+      }
+      stepsData.push({
+        learningPathId: path.id,
+        tipId,
+        order: step.week,
+        dayNumber: step.dayNumber,
       });
-
-      const stepsData = [];
-      for (const step of pathData.steps) {
-        const tipId = tipByTitle.get(step.tipTitle);
-        if (!tipId) {
-          missingTips.push(`[${pathData.slug}] Semaine ${step.week}: "${step.tipTitle}"`);
-          continue;
-        }
-        stepsData.push({
-          learningPathId: path.id,
-          tipId,
-          order: step.week,
-          dayNumber: step.dayNumber,
-        });
-      }
-
-      if (stepsData.length > 0) {
-        await prisma.learningPathStep.createMany({ data: stepsData });
-        createdSteps += stepsData.length;
-      }
-      createdPaths++;
     }
 
-    console.log(`${createdPaths} parcours créés avec ${createdSteps} étapes curatées`);
-    if (missingTips.length > 0) {
-      console.warn(`⚠️  ${missingTips.length} tip(s) introuvable(s) pour les parcours :`);
-      missingTips.forEach((t) => console.warn(`   ${t}`));
+    if (stepsData.length > 0) {
+      await prisma.learningPathStep.createMany({ data: stepsData });
+      upsertedSteps += stepsData.length;
     }
-  } else {
-    console.log(`Parcours déjà présents (${pathCount}), ignoré`);
+    upsertedPaths++;
+  }
+
+  // Désactiver les parcours qui ne sont plus dans le seed
+  const deactivated = await prisma.learningPath.updateMany({
+    where: {
+      slug: { notIn: Array.from(seedSlugs) },
+      isActive: true,
+    },
+    data: { isActive: false },
+  });
+
+  console.log(`${upsertedPaths} parcours upsertés avec ${upsertedSteps} étapes curatées`);
+  if (deactivated.count > 0) {
+    console.log(`${deactivated.count} parcours désactivés (retirés du seed)`);
+  }
+  if (missingTips.length > 0) {
+    console.warn(`⚠️  ${missingTips.length} tip(s) introuvable(s) pour les parcours :`);
+    missingTips.forEach((t) => console.warn(`   ${t}`));
   }
 
   console.log("Seeding terminé !");

@@ -90,8 +90,11 @@ function enrichPathWithSeed(path: Record<string, unknown>, slug: string) {
   if (!seed) return path;
 
   const steps = path.steps as Array<Record<string, unknown>>;
-  const enrichedSteps = steps.map((step, i) => {
-    const seedStep = seed.steps[i];
+  // Build a map of seed steps by week for reliable matching (not by index)
+  const seedStepByWeek = new Map(seed.steps.map((s) => [s.week, s]));
+  const enrichedSteps = steps.map((step) => {
+    const stepOrder = step.order as number;
+    const seedStep = seedStepByWeek.get(stepOrder);
     if (!seedStep) return step;
     return {
       ...step,

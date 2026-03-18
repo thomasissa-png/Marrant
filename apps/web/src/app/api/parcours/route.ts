@@ -16,17 +16,8 @@ export async function GET() {
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { plan: true },
-    });
-
-    if (user?.plan !== "PREMIUM") {
-      return NextResponse.json(
-        { error: "Abonnement requis pour accéder aux parcours", code: "SUBSCRIPTION_REQUIRED" },
-        { status: 403 }
-      );
-    }
+    // Les parcours sont accessibles à tous les utilisateurs authentifiés (FREE + PREMIUM)
+    // Le contenu détaillé est public (SEO), la progression nécessite juste d'être connecté
 
     const paths = await prisma.learningPath.findMany({
       where: { isActive: true },

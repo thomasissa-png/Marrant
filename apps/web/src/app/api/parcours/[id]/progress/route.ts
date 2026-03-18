@@ -3,6 +3,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import parcoursSeed from "../../../../../../../docs/content/parcours-seed.json";
+
+// Get the moduleXp from seed for a given parcours step
+function getStepXpFromSeed(pathSlug: string | null, stepOrder: number): number {
+  if (!pathSlug) return 20;
+  const seed = parcoursSeed.find((p) => p.slug === pathSlug);
+  if (!seed) return 20;
+  const seedStep = seed.steps.find((s) => s.week === stepOrder);
+  return seedStep?.moduleXp ?? 20;
+}
 
 export async function GET(
   _request: NextRequest,
@@ -98,7 +108,11 @@ export async function POST(
       // Vérifier que le parcours existe et récupérer ses steps
       const path = await tx.learningPath.findUnique({
         where: { id: params.id, isActive: true },
-        include: { steps: { select: { order: true } } },
+        select: {
+          id: true,
+          slug: true,
+          steps: { select: { order: true } },
+        },
       });
 
       if (!path) {
@@ -110,6 +124,9 @@ export async function POST(
       if (!validStepOrders.includes(stepOrder)) {
         return { error: "Étape invalide", status: 400 } as const;
       }
+
+      // Get XP from seed (or fallback to 20)
+      const stepXp = getStepXpFromSeed(path.slug, stepOrder);
 
       // Vérifier si le step a déjà été complété
       const existingProgress = await tx.userPathProgress.findUnique({
@@ -139,13 +156,13 @@ export async function POST(
         },
       });
 
-      // Award XP atomiquement
+      // Award XP atomiquement (valeur du seed)
       await tx.user.update({
         where: { id: userId },
-        data: { xp: { increment: 20 } },
+        data: { xp: { increment: stepXp } },
       });
 
-      let xpGained = 20;
+      let xpGained = stepXp;
 
       // Vérifier si tous les steps sont complétés
       let pathCompleted = false;

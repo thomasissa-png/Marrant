@@ -237,7 +237,7 @@ model LearningPathStep {
   dayNumber       Int          // Jour dans le parcours
 
   learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
-  tip          Tip          @relation(fields: [tipId], references: [id])
+  tip          Tip          @relation(fields: [tipId], references: [id], onDelete: Cascade)
 
   @@unique([learningPathId, order])
   @@index([learningPathId])
