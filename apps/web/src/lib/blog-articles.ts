@@ -787,6 +787,128 @@ Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédié
       { question: "Comment placer un jeu de mots en conversation ?", answer: "Un seul à la fois, au bon moment (transition naturelle dans la conversation). Ne l'annonce jamais ('j'ai un jeu de mots') et ne l'explique jamais après. S'il ne fait pas rire, souris et passe à autre chose." },
     ],
   },
+  {
+    slug: "exercices-developper-humour",
+    title: "10 exercices pour développer ton humour",
+    excerpt:
+      "10 exercices progressifs de 5 à 20 min pour muscler ton sens de l'humour. Du débutant au confirmé.",
+    content: `Tu veux devenir plus drôle mais tu ne sais pas par où commencer ? C'est normal. Personne ne t'apprend l'humour à l'école. On t'apprend les maths, l'histoire, la conjugaison du subjonctif — mais faire rire les gens ? Débrouille-toi. Voici 10 exercices concrets, classés par difficulté, pour muscler ton sens de l'humour comme un vrai muscle.
+
+## Niveau débutant (5 min/jour)
+
+### Exercice 1 : Le radar à absurdités
+
+**Durée :** 5 minutes passives par jour
+**Le principe :** Active ton radar. Chaque jour, repère UNE situation absurde autour de toi et note-la dans ton téléphone.
+
+Le mec qui tient la porte pour quelqu'un à 15 mètres, forçant l'autre à courir. Le mail "urgent" envoyé un vendredi à 18h47. La réunion qui commence par "on va essayer de faire court" et qui dure 2 heures.
+
+**Roman Frayssinet** a dit que 80% de son matériel vient de ce qu'il observe dans la vie quotidienne. Son téléphone est rempli de notes. Deviens un collecteur d'absurdités.
+
+**Résultat attendu :** Après 2 semaines, tu remarques des trucs que tu ignorais avant. C'est la base de tout — comme expliqué dans notre guide [Comment devenir drôle](/blog/comment-devenir-drole).
+
+### Exercice 2 : La reformulation x3
+
+**Durée :** 5 minutes
+**Le principe :** Prends une phrase banale et écris 3 façons drôles de dire la même chose.
+
+"J'ai pas dormi" →
+1. "Mon oreiller et moi, on a rompu"
+2. "J'ai passé la nuit à compter les moutons. Ils ont fui au 47e"
+3. "Mon lit est devenu une zone de non-sommeil"
+
+L'objectif : forcer ton cerveau à chercher l'angle drôle. Au début c'est laborieux, après 10 jours ça devient un réflexe.
+
+### Exercice 3 : L'exagération calibrée
+
+**Durée :** 5 minutes
+**Le principe :** Prends un fait réel et pousse-le à l'extrême.
+
+"Il fait chaud" → "Il fait tellement chaud que mon déodorant a rendu sa démission."
+"J'ai faim" → "J'ai tellement faim que j'ai commencé à négocier avec une plante."
+
+**Paul Mirabel** est le roi de l'escalade : il part du réel et monte, monte, monte jusqu'à l'absurde total. C'est cet exercice qu'il fait naturellement. Entraîne-toi avec nos [vannes](/vannes) comme modèle.
+
+## Niveau intermédiaire (10 min/jour)
+
+### Exercice 4 : Le ping-pong verbal
+
+**Durée :** 10 minutes avec un pote
+**Le principe :** Vous vous envoyez des répliques à tour de rôle. L'un lance une affirmation, l'autre doit répondre en moins de 5 secondes. Pas besoin d'être brillant — l'objectif c'est la vitesse.
+
+"Tu manges encore ?" → "Oui, c'est mon métier à temps partiel" → "Tu devrais demander une augmentation" → "J'ai essayé, le frigo a dit non"
+
+C'est exactement ce qu'on détaille dans nos [techniques de répartie](/blog/comment-avoir-de-la-repartie). La rapidité se développe avec la pratique.
+
+### Exercice 5 : Le journal de répartie
+
+**Durée :** 10 minutes le soir
+**Le principe :** Repense à ta journée. Identifie UN moment où tu aurais voulu répondre quelque chose de drôle. Écris 3 réponses possibles avec 3 techniques différentes (rebond, retournement, absurde).
+
+Situation : quelqu'un dit "T'es toujours en retard"
+- Rebond : "Toujours ? Non, l'autre fois j'étais pile à l'heure. C'était un samedi."
+- Retournement : "Et toi, t'es toujours là à me chronométrer ?"
+- Absurde : "En retard par rapport à quoi ? Au temps ? Le temps c'est relatif, Einstein l'a dit."
+
+**Panayotis Pascot** a raconté qu'il notait tout — les vannes ratées, les répliques qu'il aurait voulu sortir. C'est l'analyse qui fait la progression.
+
+### Exercice 6 : Le compliment absurde
+
+**Durée :** 1 minute, plusieurs fois par jour
+**Le principe :** Fais un compliment tellement exagéré qu'il devient drôle. À la machine à café, au collègue, au serveur.
+
+"Ce café est tellement bon que je vais écrire un roman dessus."
+"Ton choix de chaussettes aujourd'hui est une déclaration artistique."
+
+**Fary** utilise des compliments absurdes en interview pour créer de la complicité. C'est sans risque, toujours positif, et ça fait sourire. Consulte nos [conseils](/conseils) pour plus de techniques de brise-glace.
+
+### Exercice 7 : L'analyse de sketch
+
+**Durée :** 15 minutes
+**Le principe :** Regarde 5 minutes d'un sketch d'un humoriste. Mets en pause après chaque rire. Note : c'est quoi la technique ? Setup ? Punchline ? Timing ? Callback ?
+
+Nos [vidéos](/videos) de pros sont analysées technique par technique — c'est l'exercice déjà fait pour toi. Mais le faire toi-même avec du nouveau matériel te rend meilleur.
+
+**Blanche Gardin** est parfaite pour cet exercice : ses sketches sont des masterclass de timing et de construction. Chaque silence, chaque mot est calculé.
+
+## Niveau avancé (15-20 min/jour)
+
+### Exercice 8 : L'écriture de bit
+
+**Durée :** 15 minutes
+**Le principe :** Écris un mini-sketch de 30 secondes sur un sujet du quotidien. Structure : observation → setup → punchline → tag (bonus).
+
+Sujet : les messages vocaux
+"Les messages vocaux, c'est le coup de fil non consenti. La personne t'appelle sans t'appeler. Tu dois écouter 3 minutes de sa vie sans pouvoir l'interrompre. C'est un podcast, mais en moins bien produit et en plus long."
+
+### Exercice 9 : Le callback en conversation
+
+**Durée :** toute la journée (1 tentative minimum)
+**Le principe :** Pendant une conversation, repère un truc drôle dit plus tôt. Fais-y référence 15-30 minutes plus tard. C'est une technique de stand-up que **Waly Dia** maîtrise à la perfection — et ça marche aussi bien au bureau qu'en soirée.
+
+### Exercice 10 : Le one-man-show de 2 minutes
+
+**Durée :** 20 minutes (15 de préparation, 5 de test)
+**Le principe :** Raconte une anecdote de ta semaine à un ami en appliquant tout ce que tu as appris : observation, exagération, setup/punchline, timing, callback. L'objectif : le faire rire au moins 2 fois en 2 minutes.
+
+## Le plan de progression
+
+- **Semaine 1-2 :** Exercices 1-3 (radar, reformulation, exagération)
+- **Semaine 3-4 :** Ajoute les exercices 4-6 (ping-pong, journal, compliments)
+- **Semaine 5-6 :** Ajoute 7-8 (analyse, écriture)
+- **Semaine 7+ :** Exercices 9-10 en continu (callback, anecdotes)
+
+Pour structurer ta progression, nos [parcours](/parcours) te guident semaine par semaine avec des exercices calibrés pour chaque persona. **0,99 EUR/mois** — l'investissement le plus drôle de ta vie.`,
+    date: "2026-03-10",
+    readingTime: "7 min",
+    category: "PRATIQUE",
+    faqs: [
+      { question: "Comment développer son sens de l'humour avec des exercices ?", answer: "Commencez par des exercices passifs (noter une absurdité par jour) puis progressez vers des exercices actifs (reformulation x3, ping-pong verbal, journal de répartie). 5 minutes par jour suffisent pour les premiers résultats en 2 semaines." },
+      { question: "Quel est l'exercice le plus efficace pour devenir drôle ?", answer: "Le journal de répartie : chaque soir, identifiez un moment de la journée et écrivez 3 réponses drôles avec 3 techniques différentes. Ça développe la rapidité d'esprit et le vocabulaire comique." },
+      { question: "Combien de temps par jour faut-il consacrer ?", answer: "5 minutes pour les débutants, 10-15 pour les intermédiaires. La régularité est plus importante que la durée. 5 minutes par jour pendant 30 jours battent 2 heures une fois par mois." },
+      { question: "Peut-on s'entraîner seul à être drôle ?", answer: "Oui, pour 7 exercices sur 10 (radar, reformulation, exagération, journal, analyse, écriture, callback). Le ping-pong verbal et le one-man-show nécessitent un partenaire." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
