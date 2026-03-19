@@ -57,10 +57,10 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
         >
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background-card text-text-secondary shadow-lg transition-colors hover:bg-background-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:top-3 md:right-3"
+            className="absolute -top-3 -right-3 z-20 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/20 bg-black/70 text-white shadow-xl backdrop-blur-sm transition-all hover:bg-black/90 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:-top-4 md:-right-4 md:h-11 md:w-11"
             aria-label="Fermer"
           >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
