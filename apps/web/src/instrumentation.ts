@@ -189,7 +189,7 @@ export async function register() {
 
   /**
    * Job 5 : Publication des posts sociaux approuvés
-   * Publie sur Twitter les posts APPROVED dont l'heure est passée.
+   * Publie sur Twitter et LinkedIn les posts APPROVED dont l'heure est passée.
    */
   const runPublishSocialJob = async () => {
     try {
@@ -197,8 +197,13 @@ export async function register() {
       const { postTweet, postThread, isTwitterConfigured } = await import(
         "@/lib/social/twitter-client"
       );
+      const { postLinkedIn, isLinkedInConfigured } = await import(
+        "@/lib/social/linkedin-client"
+      );
 
-      if (!isTwitterConfigured()) return;
+      const twitterReady = isTwitterConfigured();
+      const linkedInReady = isLinkedInConfigured();
+      if (!twitterReady && !linkedInReady) return;
 
       const now = new Date();
       const posts = await prisma.socialPost.findMany({
@@ -212,26 +217,35 @@ export async function register() {
       let published = 0;
       for (const post of posts) {
         try {
-          if (post.platform !== "TWITTER") {
+          if (post.platform === "TWITTER") {
+            if (!twitterReady) continue;
+            let externalId: string;
+            if (post.format === "THREAD" && post.threadParts.length > 0) {
+              externalId = await postThread(post.threadParts);
+            } else {
+              externalId = await postTweet(post.content);
+            }
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
+            });
+            published++;
+          } else if (post.platform === "LINKEDIN") {
+            if (!linkedInReady) continue;
+            const externalId = await postLinkedIn(post.content);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
+            });
+            published++;
+          } else {
+            // Threads, Instagram — phase 3
             await prisma.socialPost.update({
               where: { id: post.id },
               data: { status: "FAILED" },
             });
             continue;
           }
-
-          let externalId: string;
-          if (post.format === "THREAD" && post.threadParts.length > 0) {
-            externalId = await postThread(post.threadParts);
-          } else {
-            externalId = await postTweet(post.content);
-          }
-
-          await prisma.socialPost.update({
-            where: { id: post.id },
-            data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
-          });
-          published++;
 
           // Pause 1s entre les posts pour les rate limits
           await new Promise((resolve) => setTimeout(resolve, 1000));

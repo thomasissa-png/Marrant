@@ -90,6 +90,28 @@ ${TONALITY_BRIEF.doNot.map((d) => `- ${d}`).join("\n")}
    - PAS de "like si tu es d'accord"
 7. Émojis : max 2 par post, jamais en ouverture, jamais 📣🔥💯
 
+═══ LINKEDIN — ANGLE PRO (PAS CORPORATE) ═══
+LinkedIn = angle communication/leadership PAR l'humour.
+- Ton : professionnel mais jamais corporate. Tu parles comme un collègue cool, pas comme un influenceur LinkedIn.
+- Cibles : Sophie (machine à café, réunions, afterwork) + Marc (leadership, confiance, networking)
+- Max 1300 caractères. Sauts de ligne pour aérer.
+- Structure : hook → observation pro → technique concrète → exemple → CTA subtil
+- JAMAIS de : "agree?" / "thoughts?" / broetry (1 mot par ligne) / faux storytelling "il y a 3 ans j'étais..."
+- Les hashtags LinkedIn sont ok (3-5 pertinents)
+
+Exemple BON LinkedIn :
+"L'humour en réunion, c'est pas « être le clown ».
+
+C'est savoir placer UNE phrase au bon moment pour détendre 12 personnes stressées.
+
+Paul Mirabel appelle ça le « silence actif » : tu attends que le malaise s'installe... puis tu le nommes.
+
+En réunion ça donne : long silence → « ...on est d'accord que personne comprend le slide 7 ? »
+
+Rires. Tension cassée. Et tout le monde t'écoute mieux après.
+
+50+ techniques comme celle-ci sur deviens-marrant.fr"
+
 ═══ FORMAT SIGNATURE : "TECHNIQUE DU JOUR" ═══
 Structure : [Hook accrocheur ≤ 5 mots] → [Humoriste + technique concrète] → [Comment TU l'utilises ce soir] → [CTA subtil]
 
@@ -128,7 +150,8 @@ Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti`;
  * Génère les posts sociaux du jour.
  * Appelé par le cron /api/cron/daily-social à 4h UTC.
  *
- * Phase 1 : Twitter uniquement (2-3 posts/jour)
+ * Phase 1 : Twitter (2-3 posts/jour)
+ * Phase 2 : + LinkedIn (1 post/jour, angle pro Sophie/Marc)
  */
 export async function generateDailySocialPosts(
   dayOfMonth: number,
@@ -163,6 +186,22 @@ function getDailyPlan(
   persona: PersonaKey,
 ): DailyPostPlan[] {
   const p = PERSONAS[persona];
+
+  // LinkedIn : angle pro, cible Sophie (machine à café, afterwork) et Marc (leadership, confiance)
+  // 1 post LinkedIn par jour en semaine, 0 le weekend
+  const linkedInThemes: Record<PersonaKey, string> = {
+    SOPHIE: `Communication & humour au travail — machine à café, réunions, afterwork — angle ${p.name}`,
+    MARC: `Leadership & charisme par l'humour — confiance, prise de parole, networking — angle ${p.name}`,
+    YANIS: `Prise de parole & aisance sociale — entretiens, présentations, networking étudiant — angle ${p.name}`,
+  };
+
+  const linkedInPost: DailyPostPlan = {
+    format: "POST",
+    theme: linkedInThemes[persona],
+    platform: "LINKEDIN",
+    sourceType: "TIP",
+  };
+
   const plans: Record<number, DailyPostPlan[]> = {
     1: [
       // Lundi
@@ -178,6 +217,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      linkedInPost,
     ],
     2: [
       // Mardi
@@ -193,6 +233,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      linkedInPost,
     ],
     3: [
       // Mercredi
@@ -208,6 +249,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
+      linkedInPost,
     ],
     4: [
       // Jeudi
@@ -223,6 +265,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      linkedInPost,
     ],
     5: [
       // Vendredi
@@ -238,9 +281,10 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      linkedInPost,
     ],
     6: [
-      // Samedi
+      // Samedi — pas de LinkedIn le weekend
       {
         format: "THREAD",
         theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir"`,
@@ -249,7 +293,7 @@ function getDailyPlan(
       },
     ],
     0: [
-      // Dimanche
+      // Dimanche — pas de LinkedIn le weekend
       {
         format: "TWEET",
         theme: `Vanne légère dimanche — observation relatable, ton détendu`,

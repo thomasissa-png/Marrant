@@ -5,6 +5,10 @@ import {
   postThread,
   isTwitterConfigured,
 } from "@/lib/social/twitter-client";
+import {
+  postLinkedIn,
+  isLinkedInConfigured,
+} from "@/lib/social/linkedin-client";
 
 /**
  * CRON — Publication des posts sociaux approuvés.
@@ -90,9 +94,36 @@ export async function GET(req: Request) {
             status: "published",
             externalId,
           });
+        } else if (post.platform === "LINKEDIN") {
+          if (!isLinkedInConfigured()) {
+            results.push({
+              id: post.id,
+              platform: post.platform,
+              status: "skipped",
+              error: "LinkedIn API non configurée",
+            });
+            continue;
+          }
+
+          const externalId = await postLinkedIn(post.content);
+
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: {
+              status: "PUBLISHED",
+              publishedAt: new Date(),
+              externalId,
+            },
+          });
+
+          results.push({
+            id: post.id,
+            platform: post.platform,
+            status: "published",
+            externalId,
+          });
         } else {
-          // Threads, LinkedIn, Instagram — à implémenter en phases 2-3
-          // Mark as FAILED to avoid infinite re-processing every 30 min
+          // Threads, Instagram — à implémenter en phase 3
           await prisma.socialPost.update({
             where: { id: post.id },
             data: { status: "FAILED" },
