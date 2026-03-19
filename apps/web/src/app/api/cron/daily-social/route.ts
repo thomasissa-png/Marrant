@@ -11,11 +11,10 @@ import { getPersonaForDay } from "@/lib/ai/personas";
  * Déclenché à 4h UTC par Replit Cron.
  *
  * Pipeline :
- * 1. Génère 2-3 posts via social-media-agent
- * 2. Chaque post passe par la validation du Stand-Up Director
- * 3. Sauvegarde en DB avec status PENDING
- * 4. L'admin valide via /admin/social
- * 5. Le cron publish-social publie les APPROVED
+ * 1. Génère 2-3 posts Twitter + 1 LinkedIn via social-media-agent
+ * 2. Chaque post passe par la validation du Stand-Up Director (auto-approve)
+ * 3. Sauvegarde en DB avec status APPROVED (publication automatique)
+ * 4. Le cron publish-social publie aux horaires schedulés
  */
 export async function GET(req: Request) {
   // Vérification du cron secret
@@ -60,7 +59,7 @@ export async function GET(req: Request) {
     const saved = [];
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i];
-      const scheduledAt = getOptimalScheduleTime(persona, i);
+      const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "THREADS" | "LINKEDIN" | "INSTAGRAM");
 
       const dbPost = await prisma.socialPost.create({
         data: {
@@ -74,6 +73,8 @@ export async function GET(req: Request) {
           sourceType: post.sourceType || null,
           sourceId: post.sourceId || null,
           threadParts: post.threadParts || [],
+          directorScore: post.directorScore ?? null,
+          directorNote: post.directorNote ?? null,
           status: "APPROVED",
           scheduledAt,
         },

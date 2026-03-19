@@ -6,7 +6,7 @@
 //
 // Secrets Replit nécessaires :
 //   LINKEDIN_ACCESS_TOKEN  — Bearer token (scope: w_member_social, r_liteprofile)
-//   LINKEDIN_PERSON_ID     — URN de la personne (ex: "urn:li:person:AbCdEf")
+//   LINKEDIN_PERSON_ID     — ID ou URN (ex: "AbCdEf" ou "urn:li:person:AbCdEf")
 //
 // API docs : https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
 // ───────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ const MAX_POST_LENGTH = 3000; // LinkedIn limite les posts à 3000 caractères
 
 interface LinkedInConfig {
   accessToken: string;
-  personId: string;
+  personUrn: string;
 }
 
 function getConfig(): LinkedInConfig {
@@ -29,7 +29,12 @@ function getConfig(): LinkedInConfig {
     );
   }
 
-  return { accessToken, personId };
+  // Normalise le personId en URN complet
+  const personUrn = personId.startsWith("urn:li:")
+    ? personId
+    : `urn:li:person:${personId}`;
+
+  return { accessToken, personUrn };
 }
 
 // ─── Types ──────────────────────────────────────────────────────
@@ -44,6 +49,30 @@ export interface LinkedInMetrics {
   comments: number;
   shares: number;
   clicks: number;
+}
+
+// ─── Helpers ────────────────────────────────────────────────────
+
+function handleErrorResponse(status: number, body: string): never {
+  if (status === 401) {
+    throw new Error(
+      `LinkedIn token expiré (401). Les tokens LinkedIn expirent après 60 jours. Régénère LINKEDIN_ACCESS_TOKEN dans les Secrets Replit.`,
+    );
+  }
+  throw new Error(`LinkedIn API error ${status}: ${body}`);
+}
+
+function parsePostId(response: Response): string | null {
+  return response.headers.get("X-RestLi-Id");
+}
+
+async function parsePostIdFallback(response: Response): Promise<string> {
+  try {
+    const data = (await response.json()) as LinkedInPostResponse;
+    return data.id || "unknown";
+  } catch {
+    return "unknown";
+  }
 }
 
 // ─── API Calls ──────────────────────────────────────────────────
@@ -61,7 +90,6 @@ export async function postLinkedIn(text: string): Promise<string> {
 
   const config = getConfig();
 
-  // LinkedIn API v2 — UGC Posts (recommandé pour les nouvelles intégrations)
   const response = await fetch(`${API_BASE}/ugcPosts`, {
     method: "POST",
     headers: {
@@ -70,13 +98,11 @@ export async function postLinkedIn(text: string): Promise<string> {
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
-      author: config.personId,
+      author: config.personUrn,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
-          shareCommentary: {
-            text,
-          },
+          shareCommentary: { text },
           shareMediaCategory: "NONE",
         },
       },
@@ -88,16 +114,12 @@ export async function postLinkedIn(text: string): Promise<string> {
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`LinkedIn API error ${response.status}: ${error}`);
+    handleErrorResponse(response.status, error);
   }
 
-  // LinkedIn renvoie le header X-RestLi-Id avec l'ID du post
-  const postId = response.headers.get("X-RestLi-Id");
+  const postId = parsePostId(response);
   if (postId) return postId;
-
-  // Fallback : essayer de parser le body
-  const data = (await response.json()) as LinkedInPostResponse;
-  return data.id || "unknown";
+  return parsePostIdFallback(response);
 }
 
 /**
@@ -126,7 +148,7 @@ export async function postLinkedInWithLink(
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
-      author: config.personId,
+      author: config.personUrn,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
@@ -150,20 +172,16 @@ export async function postLinkedInWithLink(
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`LinkedIn API error ${response.status}: ${error}`);
+    handleErrorResponse(response.status, error);
   }
 
-  const postId = response.headers.get("X-RestLi-Id");
+  const postId = parsePostId(response);
   if (postId) return postId;
-
-  const data = (await response.json()) as LinkedInPostResponse;
-  return data.id || "unknown";
+  return parsePostIdFallback(response);
 }
 
 /**
  * Récupère les métriques d'un post LinkedIn.
- * Nécessite les scopes r_organization_social ou r_1st_connections_size.
- * Note : les analytics individuelles sont limitées sur l'API LinkedIn.
  */
 export async function getLinkedInMetrics(
   postUrn: string,
@@ -182,18 +200,20 @@ export async function getLinkedInMetrics(
   });
 
   if (!response.ok) {
-    // Analytics might not be available — return zeroes
+    if (response.status === 401) {
+      console.error("[LinkedIn] Token expiré (401) — régénérer LINKEDIN_ACCESS_TOKEN");
+    }
     return { impressions: 0, likes: 0, comments: 0, shares: 0, clicks: 0 };
   }
 
   const data = await response.json();
 
   return {
-    impressions: 0, // Pas dispo via socialActions, nécessite organizationPageStatistics
+    impressions: 0,
     likes: data.likesSummary?.totalLikes ?? 0,
     comments: data.commentsSummary?.totalFirstLevelComments ?? 0,
-    shares: 0, // Pas directement dispo
-    clicks: 0, // Nécessite accès élevé
+    shares: 0,
+    clicks: 0,
   };
 }
 

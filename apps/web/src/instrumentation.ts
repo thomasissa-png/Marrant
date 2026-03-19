@@ -130,7 +130,7 @@ export async function register() {
 
   /**
    * Job 4 : Génération quotidienne des posts sociaux
-   * Génère 2-3 posts Twitter (status PENDING) pour validation admin.
+   * Génère 2-3 posts Twitter + 1 LinkedIn (status PENDING) pour validation admin.
    */
   const runDailySocialJob = async () => {
     try {
@@ -162,7 +162,7 @@ export async function register() {
 
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
-        const scheduledAt = getOptimalScheduleTime(persona, i);
+        const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "THREADS" | "LINKEDIN" | "INSTAGRAM");
         await prisma.socialPost.create({
           data: {
             platform: post.platform,
@@ -175,6 +175,8 @@ export async function register() {
             sourceType: post.sourceType || null,
             sourceId: post.sourceId || null,
             threadParts: post.threadParts || [],
+            directorScore: post.directorScore ?? null,
+            directorNote: post.directorNote ?? null,
             status: "APPROVED",
             scheduledAt,
           },
@@ -252,10 +254,34 @@ export async function register() {
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
           console.error(`[scheduler:publish] Erreur post ${post.id}:`, errMsg);
-          await prisma.socialPost.update({
-            where: { id: post.id },
-            data: { status: "FAILED" },
-          });
+
+          const isPermanent = errMsg.includes("401") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré");
+
+          if (isPermanent) {
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "FAILED" },
+            });
+          } else {
+            const retryCount = (post.directorNote?.match(/\[retry:(\d+)\]/)?.[1] ?? "0");
+            const count = parseInt(retryCount, 10) + 1;
+
+            if (count >= 3) {
+              await prisma.socialPost.update({
+                where: { id: post.id },
+                data: { status: "FAILED" },
+              });
+            } else {
+              const retryAt = new Date(Date.now() + 30 * 60 * 1000);
+              await prisma.socialPost.update({
+                where: { id: post.id },
+                data: {
+                  scheduledAt: retryAt,
+                  directorNote: `${post.directorNote || ""}[retry:${count}] ${errMsg}`.trim(),
+                },
+              });
+            }
+          }
         }
       }
 
@@ -268,7 +294,70 @@ export async function register() {
   };
 
   /**
-   * Orchestrateur : exécute les 5 jobs séquentiellement.
+   * Job 6 : Récupération des métriques des posts sociaux publiés.
+   * Met à jour impressions, likes, retweets, replies, clicks (7 derniers jours).
+   */
+  const runSocialAnalyticsJob = async () => {
+    try {
+      const { prisma } = await import("@/lib/prisma");
+      const { getTweetMetrics, isTwitterConfigured } = await import(
+        "@/lib/social/twitter-client"
+      );
+      const { getLinkedInMetrics, isLinkedInConfigured } = await import(
+        "@/lib/social/linkedin-client"
+      );
+
+      const twitterReady = isTwitterConfigured();
+      const linkedInReady = isLinkedInConfigured();
+      if (!twitterReady && !linkedInReady) return;
+
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      const posts = await prisma.socialPost.findMany({
+        where: {
+          status: "PUBLISHED",
+          publishedAt: { gte: sevenDaysAgo },
+          externalId: { not: null },
+        },
+        take: 50,
+      });
+
+      if (posts.length === 0) return;
+
+      let updated = 0;
+      for (const post of posts) {
+        if (!post.externalId || post.externalId === "unknown") continue;
+        try {
+          if (post.platform === "TWITTER" && twitterReady) {
+            const m = await getTweetMetrics(post.externalId);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { impressions: m.impressions, likes: m.likes, retweets: m.retweets, replies: m.replies, clicks: m.urlClicks },
+            });
+            updated++;
+          } else if (post.platform === "LINKEDIN" && linkedInReady) {
+            const m = await getLinkedInMetrics(post.externalId);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { impressions: m.impressions, likes: m.likes, replies: m.comments, retweets: m.shares, clicks: m.clicks },
+            });
+            updated++;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        } catch (err) {
+          console.error(`[scheduler:analytics] Erreur metrics ${post.id}:`, err);
+        }
+      }
+
+      if (updated > 0) {
+        console.log(`[scheduler:analytics] ${updated} posts mis à jour.`);
+      }
+    } catch (err) {
+      console.error("[scheduler:analytics] Échec récupération métriques :", err);
+    }
+  };
+
+  /**
+   * Orchestrateur : exécute les 6 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    */
   const runAllJobs = async () => {
@@ -277,6 +366,7 @@ export async function register() {
     await runMonthlyPlanJob();
     await runDailySocialJob();
     await runPublishSocialJob();
+    await runSocialAnalyticsJob();
   };
 
   // Premier check 30 secondes après le démarrage

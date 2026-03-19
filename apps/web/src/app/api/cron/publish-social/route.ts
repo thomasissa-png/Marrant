@@ -147,10 +147,36 @@ export async function GET(req: Request) {
           errMsg,
         );
 
-        await prisma.socialPost.update({
-          where: { id: post.id },
-          data: { status: "FAILED" },
-        });
+        // Erreur permanente (auth, validation) → FAILED direct
+        const isPermanent = errMsg.includes("401") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré");
+
+        if (isPermanent) {
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { status: "FAILED" },
+          });
+        } else {
+          // Erreur temporaire (réseau, rate limit) → repousser de 30 min pour retry au prochain cron
+          const retryAt = new Date(Date.now() + 30 * 60 * 1000);
+          const retryCount = (post.directorNote?.match(/\[retry:(\d+)\]/)?.[1] ?? "0");
+          const count = parseInt(retryCount, 10) + 1;
+
+          if (count >= 3) {
+            // 3 tentatives échouées → FAILED définitif
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "FAILED" },
+            });
+          } else {
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: {
+                scheduledAt: retryAt,
+                directorNote: `${post.directorNote || ""}[retry:${count}] ${errMsg}`.trim(),
+              },
+            });
+          }
+        }
 
         results.push({
           id: post.id,

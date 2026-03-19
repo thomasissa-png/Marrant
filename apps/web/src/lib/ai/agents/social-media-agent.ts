@@ -45,6 +45,8 @@ export interface GeneratedSocialPost {
   targetPersona: PersonaKey;
   sourceType?: "JOKE" | "TIP" | "VIDEO" | "BLOG" | "ORIGINAL";
   sourceId?: string;
+  directorScore?: number;
+  directorNote?: string;
 }
 
 interface DailyPostPlan {
@@ -450,7 +452,11 @@ async function validateAndRefinePost(
       console.log(
         `[Director] Post social validé (score ${validation.score}/10, attempt ${attempt})`,
       );
-      return currentPost;
+      return {
+        ...currentPost,
+        directorScore: validation.score,
+        directorNote: validation.directorNote,
+      };
     }
 
     if (attempt === MAX_VALIDATION_ATTEMPTS) {
@@ -542,11 +548,13 @@ Réponds en JSON :
 // ─── Helpers ────────────────────────────────────────────────────
 
 /**
- * Calcule l'heure de publication optimale pour un persona.
+ * Calcule l'heure de publication optimale pour un persona + plateforme.
+ * LinkedIn a ses propres horaires (contexte pro, heures de bureau).
  */
 export function getOptimalScheduleTime(
   persona: PersonaKey,
   postIndex: number,
+  platform?: SocialPlatform,
 ): Date {
   const now = new Date();
   const today = new Date(
@@ -555,13 +563,21 @@ export function getOptimalScheduleTime(
     now.getDate(),
   );
 
-  // Horaires optimaux par persona (en heures UTC)
-  const schedules: Record<PersonaKey, number[]> = {
+  // Horaires Twitter par persona (en heures UTC)
+  const twitterSchedules: Record<PersonaKey, number[]> = {
     YANIS: [19, 21], // 21h-23h Paris (UTC+2)
     SOPHIE: [7, 11], // 9h + 13h Paris
     MARC: [6, 18], // 8h + 20h Paris
   };
 
+  // Horaires LinkedIn par persona — contexte pro, heures de bureau
+  const linkedInSchedules: Record<PersonaKey, number[]> = {
+    YANIS: [8, 12], // 10h + 14h Paris (pause cours, networking)
+    SOPHIE: [6, 10], // 8h + 12h Paris (trajet matin, pause déj)
+    MARC: [5, 16], // 7h + 18h Paris (matin calme, fin de journée)
+  };
+
+  const schedules = platform === "LINKEDIN" ? linkedInSchedules : twitterSchedules;
   const hours = schedules[persona];
   const hour = hours[postIndex % hours.length];
 
