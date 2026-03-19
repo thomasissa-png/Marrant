@@ -114,15 +114,15 @@ export function PremiumCta() {
             <ul className="mt-6 space-y-3 text-sm text-text-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vannes</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 50)</span>
+                <span><strong>Toutes les vannes</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 10)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 15)</span>
+                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 3)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 25)</span>
+                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 3)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>

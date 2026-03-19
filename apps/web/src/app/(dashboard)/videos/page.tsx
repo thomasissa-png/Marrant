@@ -5,6 +5,7 @@ import { VideosGrid } from "@/components/videos/videos-grid";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -22,6 +23,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://deviens-marrant.fr/videos" },
 };
 
+const videosFaqs = [
+  {
+    question: "Comment apprendre l'humour en regardant des vidéos de stand-up ?",
+    answer:
+      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu comprends le mécanisme comique, puis tu fais l'exercice proposé pour le reproduire dans ta vie. C'est la différence entre regarder du tennis et prendre des cours de tennis.",
+  },
+  {
+    question: "Quels humoristes sont analysés sur deviens-marrant.fr ?",
+    answer:
+      "On décortique les meilleurs passages de Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg, et bien d'autres. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
+  },
+  {
+    question: "C'est quoi la différence avec juste regarder YouTube ?",
+    answer:
+      "YouTube te montre des humoristes. Nous, on t'apprend leurs techniques. Chaque vidéo est analysée avec les points clés à retenir (learnings) et un exercice concret à tester aujourd'hui (DÉFI). Avec le système de streaks et d'XP, tu gardes la motivation sur la durée.",
+  },
+];
+
 export default function VideosPage() {
   return (
     <>
@@ -31,6 +50,7 @@ export default function VideosPage() {
           { name: "Vidéos", url: "https://deviens-marrant.fr/videos" },
         ])}
       />
+      <JsonLd data={buildFaqJsonLd(videosFaqs)} />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
@@ -51,6 +71,19 @@ export default function VideosPage() {
       <Suspense fallback={null}>
         <VideosGrid />
       </Suspense>
+
+      {/* FAQ SEO */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
+        <dl className="space-y-4">
+          {videosFaqs.map((faq, i) => (
+            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
+              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">

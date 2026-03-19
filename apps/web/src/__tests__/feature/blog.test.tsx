@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 const notFoundError = new Error("NEXT_NOT_FOUND");
 
@@ -24,48 +24,58 @@ jest.mock("@/components/seo/json-ld", () => ({
     "@type": "Article",
     headline: article.title,
   }),
+  buildFaqJsonLd: (faqs: { question: string; answer: string }[]) => ({
+    "@type": "FAQPage",
+    mainEntity: faqs,
+  }),
+  buildItemListJsonLd: (items: { name: string; url: string; position: number }[]) => ({
+    "@type": "ItemList",
+    itemListElement: items,
+  }),
 }));
 
 const mockArticlesData = [
   {
-    slug: "techniques-repartie",
-    title: "7 techniques de répartie qui marchent vraiment",
-    excerpt: "Tu restes muet quand on te lance une pique ?",
+    slug: "comment-devenir-drole",
+    title: "Comment devenir drôle : le guide",
+    excerpt:
+      "\"Être drôle, c'est inné.\" Faux. La science et les humoristes prouvent le contraire.",
     content: "Premier paragraphe.\n\nDeuxième paragraphe.",
     date: "2026-03-10",
-    readingTime: "5 min",
-    category: "REPARTIE",
+    readingTime: "12 min",
+    category: "GUIDE",
   },
   {
-    slug: "apprendre-etre-drole",
-    title: "Peut-on vraiment apprendre à être drôle ?",
-    excerpt: "Être drôle, c'est inné. Faux.",
+    slug: "comment-avoir-de-la-repartie",
+    title: "Comment avoir de la répartie : techniques",
+    excerpt: "Tu restes muet quand on te lance une pique ?",
     content: "Contenu de l'article.",
     date: "2026-03-05",
-    readingTime: "4 min",
-    category: "OBSERVATION",
+    readingTime: "10 min",
+    category: "REPARTIE",
   },
 ];
 
 jest.mock("@/lib/blog-articles", () => {
   const articles = [
     {
-      slug: "techniques-repartie",
-      title: "7 techniques de répartie qui marchent vraiment",
-      excerpt: "Tu restes muet quand on te lance une pique ?",
+      slug: "comment-devenir-drole",
+      title: "Comment devenir drôle : le guide",
+      excerpt:
+        "\"Être drôle, c'est inné.\" Faux. La science et les humoristes prouvent le contraire.",
       content: "Premier paragraphe.\n\nDeuxième paragraphe.",
       date: "2026-03-10",
-      readingTime: "5 min",
-      category: "REPARTIE",
+      readingTime: "12 min",
+      category: "GUIDE",
     },
     {
-      slug: "apprendre-etre-drole",
-      title: "Peut-on vraiment apprendre à être drôle ?",
-      excerpt: "Être drôle, c'est inné. Faux.",
+      slug: "comment-avoir-de-la-repartie",
+      title: "Comment avoir de la répartie : techniques",
+      excerpt: "Tu restes muet quand on te lance une pique ?",
       content: "Contenu de l'article.",
       date: "2026-03-05",
-      readingTime: "4 min",
-      category: "OBSERVATION",
+      readingTime: "10 min",
+      category: "REPARTIE",
     },
   ];
   return {
@@ -106,22 +116,22 @@ describe("BlogPage — listing", () => {
 
   it("renders the page description", () => {
     expect(
-      screen.getByText(/Articles complets pour apprendre à devenir drôle/)
+      screen.getByText(/Guides pratiques pour devenir drôle/)
     ).toBeInTheDocument();
   });
 
   it("renders article cards with titles", () => {
     expect(
-      screen.getByText("7 techniques de répartie qui marchent vraiment")
+      screen.getByText("Comment devenir drôle : le guide")
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Peut-on vraiment apprendre à être drôle ?")
+      screen.getByText("Comment avoir de la répartie : techniques")
     ).toBeInTheDocument();
   });
 
   it("renders category badges", () => {
+    expect(screen.getByText("GUIDE")).toBeInTheDocument();
     expect(screen.getByText("REPARTIE")).toBeInTheDocument();
-    expect(screen.getByText("OBSERVATION")).toBeInTheDocument();
   });
 
   it("renders excerpts", () => {
@@ -132,14 +142,14 @@ describe("BlogPage — listing", () => {
 
   it("renders dates and reading times", () => {
     expect(screen.getByText("2026-03-10")).toBeInTheDocument();
-    expect(screen.getByText("5 min de lecture")).toBeInTheDocument();
+    expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 
   it("renders links to article pages", () => {
     const links = screen.getAllByRole("link");
     const hrefs = links.map((l) => l.getAttribute("href"));
-    expect(hrefs).toContain("/blog/techniques-repartie");
-    expect(hrefs).toContain("/blog/apprendre-etre-drole");
+    expect(hrefs).toContain("/blog/comment-devenir-drole");
+    expect(hrefs).toContain("/blog/comment-avoir-de-la-repartie");
   });
 
   it("renders breadcrumb navigation", () => {
@@ -157,23 +167,23 @@ describe("BlogPage — listing", () => {
 describe("BlogArticlePage — article detail", () => {
   it("renders article content and metadata", async () => {
     const Page = await BlogArticlePage({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
     render(Page);
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "7 techniques de répartie qui marchent vraiment",
+        name: "Comment devenir drôle : le guide",
       })
     ).toBeInTheDocument();
-    expect(screen.getAllByText("REPARTIE").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("2026-03-10")).toBeInTheDocument();
-    expect(screen.getByText("5 min de lecture")).toBeInTheDocument();
+    expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 
   it("renders content paragraphs", async () => {
     const Page = await BlogArticlePage({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
     render(Page);
     expect(screen.getByText("Premier paragraphe.")).toBeInTheDocument();
@@ -182,7 +192,7 @@ describe("BlogArticlePage — article detail", () => {
 
   it("renders CTA section with link to register", async () => {
     const Page = await BlogArticlePage({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
     render(Page);
     expect(
@@ -195,7 +205,7 @@ describe("BlogArticlePage — article detail", () => {
 
   it("renders breadcrumb navigation", async () => {
     const Page = await BlogArticlePage({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
     render(Page);
     const breadcrumb = screen.getByLabelText("Fil d'Ariane");
@@ -204,7 +214,7 @@ describe("BlogArticlePage — article detail", () => {
 
   it("renders related articles section", async () => {
     const Page = await BlogArticlePage({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
     render(Page);
     expect(
@@ -227,17 +237,17 @@ describe("BlogArticlePage — static generation", () => {
   it("generateStaticParams returns all slugs", () => {
     const params = generateStaticParams();
     expect(params).toEqual([
-      { slug: "techniques-repartie" },
-      { slug: "apprendre-etre-drole" },
+      { slug: "comment-devenir-drole" },
+      { slug: "comment-avoir-de-la-repartie" },
     ]);
   });
 
   it("generateMetadata returns article title and description", async () => {
     const metadata = await generateMetadata({
-      params: { slug: "techniques-repartie" },
+      params: { slug: "comment-devenir-drole" },
     });
-    expect(metadata.title).toContain("7 techniques de répartie");
-    expect(metadata.description).toContain("Tu restes muet");
+    expect(metadata.title).toContain("Comment devenir drôle");
+    expect(metadata.description).toContain("Être drôle");
   });
 
   it("generateMetadata returns fallback for invalid slug", async () => {

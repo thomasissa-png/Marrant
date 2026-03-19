@@ -5,6 +5,7 @@ import { ConseilsList } from "@/components/conseils/conseils-list";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -23,6 +24,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://deviens-marrant.fr/conseils" },
 };
 
+const conseilsFaqs = [
+  {
+    question: "C'est quoi la répartie exactement ?",
+    answer:
+      "La répartie, c'est la capacité à répondre rapidement et avec à-propos, souvent avec humour, à une remarque ou une situation. Elle repose sur des techniques précises comme l'accusé de réception, le rebond sur mot-clé, ou le retournement. Ces techniques s'apprennent et se perfectionnent avec la pratique.",
+  },
+  {
+    question: "Combien de temps faut-il pour avoir de la répartie ?",
+    answer:
+      "Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure 4 semaines et te donne des exercices concrets à tester chaque jour. L'important, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine.",
+  },
+  {
+    question: "Comment avoir de la répartie sans être méchant ?",
+    answer:
+      "La vraie répartie, ce n'est pas écraser l'autre. C'est créer un moment drôle et léger, même quand la remarque de départ était piquante. L'objectif, c'est que tout le monde rie — y compris la personne qui t'a lancé la pique. Des techniques comme l'autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
+  },
+];
+
 export default function ConseilsPage() {
   return (
     <>
@@ -32,6 +51,7 @@ export default function ConseilsPage() {
           { name: "Conseils", url: "https://deviens-marrant.fr/conseils" },
         ])}
       />
+      <JsonLd data={buildFaqJsonLd(conseilsFaqs)} />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
@@ -53,6 +73,19 @@ export default function ConseilsPage() {
       <Suspense fallback={null}>
         <ConseilsList />
       </Suspense>
+
+      {/* FAQ SEO */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
+        <dl className="space-y-4">
+          {conseilsFaqs.map((faq, i) => (
+            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
+              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">

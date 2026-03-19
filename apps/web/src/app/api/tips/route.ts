@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Limites gratuites : 15 conseils max pour les FREE
-    const FREE_TIP_LIMIT = 15;
+    // Limites gratuites : 3 conseils max pour les FREE
+    const FREE_TIP_LIMIT = 3;
 
     const where = {
       isActive: true,

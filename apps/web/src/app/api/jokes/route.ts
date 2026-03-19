@@ -37,8 +37,8 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Limites gratuites : 50 blagues max pour les FREE
-    const FREE_JOKE_LIMIT = 50;
+    // Limites gratuites : 10 blagues max pour les FREE
+    const FREE_JOKE_LIMIT = 10;
 
     // Support comma-separated categories for grouped filters (e.g. "COUPLE,DATING")
     const categoryFilter = query.category

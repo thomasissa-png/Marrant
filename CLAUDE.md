@@ -304,7 +304,7 @@ Branche : `claude/seo-audit-optimization-EU7uv`
 - `blog.test.tsx` et `parcours-list.test.tsx` — à corriger séparément
 
 #### Limites gratuites actuelles
-- Blagues : 50, Conseils : 15, Vidéos : 25, Favoris max : 50
+- Blagues : 10, Conseils : 3, Vidéos : 3, Favoris : Premium uniquement + contenu du jour renouvelé quotidiennement
 
 ### Audit qualité vannes — 18 mars 2026
 Branche : `claude/fix-login-redirect-navigation-XCsj1`

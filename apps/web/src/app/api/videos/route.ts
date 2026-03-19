@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Limites gratuites : 25 vidéos max pour les FREE
-    const FREE_VIDEO_LIMIT = 25;
+    // Limites gratuites : 3 vidéos max pour les FREE
+    const FREE_VIDEO_LIMIT = 3;
 
     const where = {
       isActive: true,

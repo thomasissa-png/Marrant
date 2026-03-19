@@ -13,7 +13,7 @@ export default function ConfidentialitePage() {
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Responsable du traitement</h2>
-          <p>Le responsable du traitement des données est deviens-marrant SAS, joignable à l&apos;adresse privacy@deviens-marrant.fr.</p>
+          <p>Le responsable du traitement des données est deviens-marrant SAS, joignable à l&apos;adresse contact@deviens-marrant.fr.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">2. Données collectées</h2>
@@ -64,7 +64,7 @@ export default function ConfidentialitePage() {
             <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
             <li><strong>Droit d&apos;opposition</strong> : vous opposer au traitement de vos données</li>
           </ul>
-          <p className="mt-2">Pour exercer ces droits : privacy@deviens-marrant.fr. Vous pouvez également adresser une réclamation à la CNIL (cnil.fr).</p>
+          <p className="mt-2">Pour exercer ces droits : contact@deviens-marrant.fr. Vous pouvez également adresser une réclamation à la CNIL (cnil.fr).</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Transferts de données</h2>

@@ -19,7 +19,7 @@ export const organizationJsonLd = {
     "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.",
   founder: {
     "@type": "Person",
-    name: "Thomas Issa",
+    name: "Alex Durand",
   },
   contactPoint: {
     "@type": "ContactPoint",
@@ -83,7 +83,7 @@ export function buildArticleJsonLd(article: {
     author: [
       {
         "@type": "Person",
-        name: "Thomas Issa",
+        name: "Alex Durand",
         url: `${BASE_URL}/a-propos`,
       },
       {

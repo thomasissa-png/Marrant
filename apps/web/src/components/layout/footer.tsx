@@ -8,7 +8,7 @@ const footerLinks = {
     { href: "/parcours", label: "Parcours" },
     { href: "/blog", label: "Blog" },
     { href: "/glossaire", label: "Glossaire" },
-    { href: "/#offres", label: "Nos offres" },
+    { href: "/abonnement", label: "Nos offres" },
   ],
   legal: [
     { href: "/a-propos", label: "À propos" },

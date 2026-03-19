@@ -155,8 +155,8 @@ describe("Cohérence inter-agents", () => {
   it("FREE_LIMITS définit des limites raisonnables", () => {
     const FREE_LIMITS = {
       JOKES: 10,
-      TIPS: 5,
-      VIDEOS: 5,
+      TIPS: 3,
+      VIDEOS: 3,
       MAX_FAVORITES: 20,
     };
 

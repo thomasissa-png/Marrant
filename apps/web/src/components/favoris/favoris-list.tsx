@@ -185,7 +185,7 @@ export function FavorisList() {
           <p className="mt-1 text-sm text-text-secondary">
             Passe &#224; l&apos;offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
           </p>
-          <Link href="/#offres" className="mt-4">
+          <Link href="/abonnement" className="mt-4">
             <Button variant="primary" size="sm">
               D&#233;couvrir l&apos;offre Premium
             </Button>
