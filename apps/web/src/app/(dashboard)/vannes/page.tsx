@@ -6,12 +6,13 @@ import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
+  buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "289 vannes drôles à ressortir ce soir",
+  title: "290+ vannes drôles à ressortir ce soir",
   description:
-    "289 vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.",
+    "290+ vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.",
   keywords: [
     "blague drôle",
     "blagues courtes",
@@ -53,6 +54,18 @@ export default function VannesPage() {
         ])}
       />
       <JsonLd data={buildFaqJsonLd(vannesFaqs)} />
+      <JsonLd
+        data={buildCollectionPageJsonLd({
+          name: "290+ vannes drôles à ressortir ce soir",
+          description: "290+ vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute.",
+          url: "https://deviens-marrant.fr/vannes",
+          numberOfItems: 290,
+          relatedArticles: [
+            { title: "Comment devenir drôle : le guide complet", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "5 erreurs qui tuent tes blagues", url: "https://deviens-marrant.fr/blog/erreurs-blagues" },
+          ],
+        })}
+      />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
@@ -109,7 +122,7 @@ export default function VannesPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">66 techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
+            <p className="mt-1 text-xs text-text-secondary">60+ techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>

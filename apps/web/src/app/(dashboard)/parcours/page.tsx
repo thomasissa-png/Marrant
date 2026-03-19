@@ -96,7 +96,7 @@ export default function ParcoursPage() {
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">66 techniques concrètes avec exemples et exercices.</p>
+            <p className="mt-1 text-xs text-text-secondary">60+ techniques concrètes avec exemples et exercices.</p>
           </Link>
           <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>

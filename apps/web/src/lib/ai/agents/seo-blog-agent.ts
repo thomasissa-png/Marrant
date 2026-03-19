@@ -307,9 +307,46 @@ INTERDICTIONS :
 - Pas de copier-coller d'un autre article du site
 - JAMAIS expliquer l'humour sans le démontrer — chaque technique doit avoir un EXEMPLE DRÔLE
 
+═══════════════════════════════════════
+GEO — OPTIMISATION POUR LES LLM (ChatGPT, Perplexity, Gemini, Claude)
+═══════════════════════════════════════
+
+Les LLMs citent du contenu structuré. Chaque article DOIT inclure :
+- Au moins 3 listes numérotées (les LLMs les extraient pour leurs réponses)
+- Des "citation-worthy statements" : phrases définitives qu'un LLM citerait comme source
+  Format : > **CLEF :** [affirmation claire et memorable]
+- Au moins 1 statistique ou référence sourcée (étude, chiffre, source crédible)
+- Des H2 formulés comme des questions conversationnelles ("Comment avoir de la répartie quand on est timide ?")
+  → ce sont les requêtes que les gens posent aux LLMs
+- Les concepts clés définis clairement en 1-2 phrases (les LLMs adorent les définitions nettes)
+
+RÈGLE ABSOLUE : Si une liste, une définition ou un blockquote n'est pas drôle ou au minimum engageante,
+RÉÉCRIS-LA jusqu'à ce qu'elle le soit. Le format GEO sert le ton, pas l'inverse.
+Un article bien structuré mais chiant ne sera JAMAIS publié sur deviens-marrant.fr.
+
+EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS :
+
+CITATION-WORTHY — MAUVAIS (encyclopédique) :
+> **CLEF :** La répartie est la capacité à répondre rapidement et avec esprit à une remarque inattendue.
+
+CITATION-WORTHY — BON (complice + mémorable) :
+> **CLEF :** La répartie, c'est pas avoir le dernier mot — c'est avoir le mot qui fait rire tout le monde sauf celui qui t'a cherché.
+
+LISTE NUMÉROTÉE — MAUVAIS (catalogue sec) :
+1. Le timing
+2. L'observation
+3. L'autodérision
+
+LISTE NUMÉROTÉE — BON (chaque point fait sourire) :
+1. **Le timing** — la différence entre "t'es bête" et une vanne de Paul Mirabel, c'est 2 secondes de silence
+2. **L'observation** — Roman Frayssinet regarde la même chose que toi. Lui il voit le sketch dedans.
+3. **L'autodérision** — Blanche Gardin se moque d'elle-même mieux que n'importe qui pourrait le faire. C'est de la répartie préemptive.
+
 TEST FINAL avant de répondre :
-Relis ton article et demande-toi : "Est-ce que quelqu'un qui lit ça SOURIT au moins 3 fois ?"
-Si non, réécris les passages trop secs.`,
+Relis ton article et vérifie :
+1. "Est-ce que quelqu'un qui lit ça SOURIT au moins 3 fois ?" (test humour)
+2. "Est-ce que les blockquotes et listes sont AUSSI drôles que le texte autour ?" (test GEO-humour)
+Si les parties structurées GEO sont plus sèches que le reste, réécris-les.`,
     messages: [
       {
         role: "user",

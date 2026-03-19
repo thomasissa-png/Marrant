@@ -96,7 +96,7 @@ const RELEVANT_TOPICS = [
 ];
 
 const ALEX_BIO =
-  "Alex, fondateur de deviens-marrant.fr — la plateforme qui enseigne l'humour avec les techniques du stand-up professionnel. Plus de 280 vannes analysées, 66 techniques et 89 vidéos décortiquées.";
+  "Alex, fondateur de deviens-marrant.fr — la plateforme qui enseigne l'humour avec les techniques du stand-up professionnel. Plus de 290 vannes analysées, 60+ techniques et 80+ vidéos décortiquées.";
 
 // ─── Filtrage des opportunités ──────────────────────────────────────
 
@@ -212,7 +212,7 @@ COMMENT ALEX RÉPOND AUX JOURNALISTES
 1. LE HOOK — Obligatoire, en 1 phrase :
    - Doit faire SOURIRE le journaliste (pas LOL, sourire)
    - Montre qu'Alex est un vrai expert de l'humour, pas un SEO qui fait du link building
-   - Exemple bon : "En tant que fondateur d'un site qui décortique 89 vidéos de stand-up, je peux confirmer que le timing est la compétence la plus sous-estimée — même ma grand-mère le sait, elle attend toujours 3 secondes avant de lâcher une punchline."
+   - Exemple bon : "En tant que fondateur d'un site qui décortique 80+ vidéos de stand-up, je peux confirmer que le timing est la compétence la plus sous-estimée — même ma grand-mère le sait, elle attend toujours 3 secondes avant de lâcher une punchline."
    - Exemple mauvais : "L'humour est un sujet qui me passionne depuis toujours."
 
 2. LA RÉPONSE D'EXPERT — 3-4 phrases max :

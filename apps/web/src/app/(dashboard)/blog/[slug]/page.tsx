@@ -11,6 +11,7 @@ import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
   buildHowToJsonLd,
+  authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
@@ -143,6 +144,7 @@ export default async function BlogArticlePage({
   return (
     <article className="mx-auto max-w-3xl py-8">
       <JsonLd data={buildArticleJsonLd(article)} />
+      <JsonLd data={authorPersonJsonLd} />
       {"faqs" in article && article.faqs && article.faqs.length > 0 && (
         <JsonLd data={buildFaqJsonLd(article.faqs)} />
       )}

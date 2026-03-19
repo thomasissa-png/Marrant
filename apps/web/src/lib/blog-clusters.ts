@@ -39,7 +39,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "humour-contexte",
     name: "Humour en contexte",
     pillarSlug: "blagues-travail-faire-rire-pro",
-    satelliteSlugs: ["repartie-soiree-anti-malaise", "humour-apres-rupture", "blagues-courtes-vs-longues", "conversation-machine-a-cafe"],
+    satelliteSlugs: ["humour-apres-rupture", "blagues-courtes-vs-longues"],
   },
   {
     id: "apprendre-des-pros",

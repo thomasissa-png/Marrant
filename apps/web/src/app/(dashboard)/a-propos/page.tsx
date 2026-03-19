@@ -5,6 +5,7 @@ import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
+  authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default function AProposPage() {
         ])}
       />
       <JsonLd data={buildFaqJsonLd(aboutFaqs)} />
+      <JsonLd data={authorPersonJsonLd} />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>

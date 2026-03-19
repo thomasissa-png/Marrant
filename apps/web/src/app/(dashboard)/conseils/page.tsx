@@ -6,12 +6,13 @@ import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
+  buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "66 techniques de répartie + exercices",
+  title: "60+ techniques de répartie + exercices",
   description:
-    "66 techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.",
+    "60+ techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.",
   keywords: [
     "avoir de la répartie",
     "comment avoir de la répartie",
@@ -53,6 +54,18 @@ export default function ConseilsPage() {
         ])}
       />
       <JsonLd data={buildFaqJsonLd(conseilsFaqs)} />
+      <JsonLd
+        data={buildCollectionPageJsonLd({
+          name: "60+ techniques de répartie + exercices",
+          description: "60+ techniques de répartie avec exemples, dialogues et un défi à tester ce soir.",
+          url: "https://deviens-marrant.fr/conseils",
+          numberOfItems: 60,
+          relatedArticles: [
+            { title: "Comment avoir de la répartie", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
+            { title: "Répartie débutant : 5 étapes", url: "https://deviens-marrant.fr/blog/repartie-debutant-5-etapes" },
+          ],
+        })}
+      />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
@@ -93,7 +106,7 @@ export default function ConseilsPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
         <div className="space-y-3 text-sm text-text-secondary">
           <p>
-            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos 66 conseils couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
+            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos 60+ conseils couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
           </p>
           <p>
             Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> — le guide complet avec plan d&apos;action sur 30 jours.
@@ -109,7 +122,7 @@ export default function ConseilsPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">289 vannes drôles</h3>
+            <h3 className="text-sm font-semibold text-text-primary">290+ vannes drôles</h3>
             <p className="mt-1 text-xs text-text-secondary">Des vannes testées et classées par situation, prêtes à ressortir.</p>
           </Link>
           <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">

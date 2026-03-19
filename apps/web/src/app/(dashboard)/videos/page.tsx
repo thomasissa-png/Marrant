@@ -6,12 +6,13 @@ import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
+  buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
   title: "Stand-up analysé : Fary, Mirabel & co.",
   description:
-    "89 vidéos de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.",
+    "80+ vidéos de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.",
   keywords: [
     "stand-up français",
     "vidéos humour analysées",
@@ -53,6 +54,18 @@ export default function VideosPage() {
         ])}
       />
       <JsonLd data={buildFaqJsonLd(videosFaqs)} />
+      <JsonLd
+        data={buildCollectionPageJsonLd({
+          name: "Stand-up analysé : Fary, Mirabel & co.",
+          description: "80+ vidéos de stand-up décortiquées. Chaque technique annotée + un défi concret.",
+          url: "https://deviens-marrant.fr/videos",
+          numberOfItems: 80,
+          relatedArticles: [
+            { title: "Techniques de stand-up pour la vie sociale", url: "https://deviens-marrant.fr/blog/timing-humour" },
+            { title: "Comment devenir drôle", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+          ],
+        })}
+      />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
@@ -108,11 +121,11 @@ export default function VideosPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">289 vannes drôles</h3>
+            <h3 className="text-sm font-semibold text-text-primary">290+ vannes drôles</h3>
             <p className="mt-1 text-xs text-text-secondary">Mets en pratique ce que tu apprends — des vannes prêtes à ressortir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">66 techniques de répartie</h3>
+            <h3 className="text-sm font-semibold text-text-primary">60+ techniques de répartie</h3>
             <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, adaptées à ta vie quotidienne.</p>
           </Link>
           <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">

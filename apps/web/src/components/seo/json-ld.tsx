@@ -9,6 +9,63 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 
 const BASE_URL = "https://deviens-marrant.fr";
 
+/**
+ * Person schema for author — improves E-E-A-T signals for LLMs (GEO).
+ * LLMs (ChatGPT, Perplexity, Claude) use Person schema to attribute expertise.
+ */
+export const authorPersonJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Alex Durand",
+  url: `${BASE_URL}/a-propos`,
+  jobTitle: "Fondateur & Coach d'humour",
+  knowsAbout: [
+    "Stand-up comedy",
+    "Écriture comique",
+    "Techniques de répartie",
+    "Psychologie de l'humour",
+    "Humour français contemporain",
+    "Formation à l'humour",
+  ],
+  worksFor: {
+    "@type": "Organization",
+    name: "deviens-marrant.fr",
+    url: BASE_URL,
+  },
+};
+
+/**
+ * CollectionPage schema builder — helps LLMs recognize catalog pages.
+ */
+export function buildCollectionPageJsonLd(collection: {
+  name: string;
+  description: string;
+  url: string;
+  numberOfItems: number;
+  relatedArticles?: { title: string; url: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: collection.name,
+    description: collection.description,
+    url: collection.url,
+    inLanguage: "fr-FR",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: collection.numberOfItems,
+    },
+    ...(collection.relatedArticles &&
+      collection.relatedArticles.length > 0 && {
+        hasPart: collection.relatedArticles.map((a) => ({
+          "@type": "Article",
+          headline: a.title,
+          url: a.url,
+        })),
+      }),
+  };
+}
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
