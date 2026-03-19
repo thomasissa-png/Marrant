@@ -9,6 +9,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
+import { PremiumModal } from "@/components/premium/premium-modal";
 import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
@@ -76,6 +77,8 @@ export function ConseilsList() {
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState("");
+  const [premiumOpen, setPremiumOpen] = useState(false);
+  const [totalReal, setTotalReal] = useState(0);
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -102,6 +105,7 @@ export function ConseilsList() {
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
         setUpgradeMessage(data.upgradeMessage ?? "");
+        setTotalReal(data.totalReal ?? 0);
       } else {
         setError(true);
       }
@@ -271,6 +275,45 @@ export function ConseilsList() {
         </div>
       )}
 
+      {/* Cartes verrouillées pour FREE users */}
+      {limited && tips.length > 0 && (
+        <div className="mt-4 grid gap-4">
+          {Array.from({ length: Math.min(3, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
+            <Card
+              key={`locked-${i}`}
+              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
+              onClick={() => setPremiumOpen(true)}
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
+              aria-label="Contenu premium — cliquer pour débloquer"
+            >
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Badge variant="default" className="opacity-50">Niveau</Badge>
+                  <Badge variant="default" className="opacity-50">Catégorie</Badge>
+                </div>
+                <div className="mt-2 h-5 w-3/5 rounded bg-text-muted/10" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="h-4 w-full rounded bg-text-muted/10" />
+                  <div className="h-4 w-4/5 rounded bg-text-muted/10" />
+                  <div className="h-4 w-2/3 rounded bg-text-muted/10" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
       {/* Bannière upgrade FREE */}
       {limited && upgradeMessage && (
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
@@ -285,6 +328,9 @@ export function ConseilsList() {
           </Link>
         </div>
       )}
+
+      {/* Premium Modal */}
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (

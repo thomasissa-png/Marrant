@@ -30,6 +30,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [searchLimited, setSearchLimited] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -61,6 +62,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
         if (res.ok) {
           const data = await res.json();
           setResults(data.results);
+          setSearchLimited(data.limited ?? false);
           setIsOpen(true);
           setActiveIndex(-1);
         }
@@ -247,6 +249,13 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
               </div>
             );
           })}
+          {searchLimited && (
+            <div className="border-t border-border px-4 py-2.5">
+              <p className="text-center text-xs text-text-muted">
+                Résultats limités — <a href="/abonnement" className="font-medium text-accent-primary hover:underline">passe en Premium</a> pour tout voir
+              </p>
+            </div>
+          )}
         </div>
       )}
 

@@ -4,7 +4,7 @@ import { RetractationForm } from "@/components/retractation/retractation-form";
 export const metadata: Metadata = {
   title: "Droit de rétractation",
   description: "Exercez votre droit de rétractation sous 14 jours conformément à la directive 2011/83/UE. Formulaire de demande de remboursement deviens-marrant.fr.",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export default function RetractationPage() {

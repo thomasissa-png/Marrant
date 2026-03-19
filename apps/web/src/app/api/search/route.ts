@@ -64,7 +64,8 @@ export async function GET(request: NextRequest) {
     ]);
 
     return NextResponse.json({
-      results: formatResults(jokes, tips, videos).slice(0, 10),
+      results: formatResults(jokes, tips, videos, isPremium).slice(0, 10),
+      limited: !isPremium,
     });
   } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
@@ -74,14 +75,15 @@ export async function GET(request: NextRequest) {
 function formatResults(
   jokes: Array<{ id: string; content: string; punchline: string }>,
   tips: Array<{ id: string; title: string; content: string }>,
-  videos: Array<{ id: string; title: string; channelName: string }>
+  videos: Array<{ id: string; title: string; channelName: string }>,
+  isPremium: boolean
 ) {
   return [
     ...jokes.map((j) => ({
       id: j.id,
       type: "JOKE" as const,
       title: j.content.slice(0, 80),
-      preview: j.punchline.slice(0, 60),
+      preview: isPremium ? j.punchline.slice(0, 60) : "Abonne-toi pour voir la chute",
     })),
     ...tips.map((t) => ({
       id: t.id,

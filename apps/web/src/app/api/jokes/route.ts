@@ -75,6 +75,7 @@ export async function GET(request: NextRequest) {
           totalPages: Math.ceil(accessibleTotal / query.limit),
         },
         limited: true,
+        totalReal: total,
         upgradeMessage: "Abonne-toi pour accéder à toutes les vannes",
       });
     }
@@ -95,6 +96,7 @@ export async function GET(request: NextRequest) {
         totalPages: Math.ceil(accessibleTotal / query.limit),
       },
       limited: !isPremium,
+      totalReal: total,
       ...((!isPremium && total > FREE_JOKE_LIMIT) ? { upgradeMessage: `${total - FREE_JOKE_LIMIT} vannes supplémentaires avec l'abonnement` } : {}),
     });
   } catch (error) {

@@ -16,6 +16,9 @@ User-agent: bingbot
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /onboarding
+Disallow: /profil
+Disallow: /favoris
 
 User-agent: msnbot
 Allow: /

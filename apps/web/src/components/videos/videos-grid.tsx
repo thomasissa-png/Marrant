@@ -10,6 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
+import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
 
 interface Video {
@@ -83,6 +84,8 @@ export function VideosGrid() {
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState("");
+  const [premiumOpen, setPremiumOpen] = useState(false);
+  const [totalReal, setTotalReal] = useState(0);
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -109,6 +112,7 @@ export function VideosGrid() {
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
         setUpgradeMessage(data.upgradeMessage ?? "");
+        setTotalReal(data.totalReal ?? 0);
       } else {
         setError(true);
       }
@@ -258,6 +262,36 @@ export function VideosGrid() {
         </div>
       )}
 
+      {/* Cartes verrouillées pour FREE users */}
+      {limited && videos.length > 0 && (
+        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: Math.min(3, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
+            <Card
+              key={`locked-${i}`}
+              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
+              onClick={() => setPremiumOpen(true)}
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
+              aria-label="Contenu premium — cliquer pour débloquer"
+            >
+              <CardContent className="pt-4">
+                <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
+                <div className="h-4 w-3/4 rounded bg-text-muted/10" />
+                <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />
+                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
       {/* Bannière upgrade FREE */}
       {limited && upgradeMessage && (
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
@@ -272,6 +306,9 @@ export function VideosGrid() {
           </Link>
         </div>
       )}
+
+      {/* Premium Modal */}
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
