@@ -13,7 +13,7 @@ import {
   buildHowToJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
-import { getRelatedSlugs, getNextInCluster, getPrevInCluster, getClusterForSlug } from "@/lib/blog-clusters";
+import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
 
 export const revalidate = 3600;
 
@@ -99,9 +99,6 @@ export default async function BlogArticlePage({
     notFound();
   }
 
-  // Cluster-based related articles
-  const clusterRelatedSlugs = getRelatedSlugs(article.slug);
-
   // Merge static + DB articles for lookup
   let allAvailableArticles: { slug: string; title: string; category: string; readingTime: string; date: string }[] = blogArticles.map((a) => ({
     slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime, date: a.date,
@@ -121,21 +118,27 @@ export default async function BlogArticlePage({
     }
   } catch {}
 
-  // Prefer cluster articles, then fill with recent articles
+  // Cluster-based related articles (with category fallback for DB articles)
+  const cluster = resolveCluster(article.slug, article.category);
+  const clusterRelatedSlugs = getRelatedSlugs(article.slug, article.category);
+
+  // Prefer cluster articles, then fill with same-category articles, then recent
   const clusterArticles = clusterRelatedSlugs
     .map((s) => allAvailableArticles.find((a) => a.slug === s))
     .filter(Boolean) as typeof allAvailableArticles;
-  const otherArticles = allAvailableArticles
-    .filter((a) => a.slug !== article.slug && !clusterRelatedSlugs.includes(a.slug))
+  const sameCategoryArticles = allAvailableArticles
+    .filter((a) => a.slug !== article.slug && a.category === article.category && !clusterRelatedSlugs.includes(a.slug))
     .sort((a, b) => b.date.localeCompare(a.date));
-  const relatedArticles = [...clusterArticles, ...otherArticles].slice(0, 3);
+  const otherArticles = allAvailableArticles
+    .filter((a) => a.slug !== article.slug && a.category !== article.category && !clusterRelatedSlugs.includes(a.slug))
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const relatedArticles = [...clusterArticles, ...sameCategoryArticles, ...otherArticles].slice(0, 3);
 
-  // Next/prev in cluster
+  // Next/prev in cluster (only for pre-registered slugs — sequential nav)
   const nextSlug = getNextInCluster(article.slug);
   const prevSlug = getPrevInCluster(article.slug);
   const nextArticle = nextSlug ? allAvailableArticles.find((a) => a.slug === nextSlug) : null;
   const prevArticle = prevSlug ? allAvailableArticles.find((a) => a.slug === prevSlug) : null;
-  const cluster = getClusterForSlug(article.slug);
 
   return (
     <article className="mx-auto max-w-3xl py-8">

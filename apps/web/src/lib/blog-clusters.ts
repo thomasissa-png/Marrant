@@ -68,6 +68,27 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
 ];
 
 /**
+ * Category → cluster fallback mapping.
+ * Used when a DB article's slug isn't pre-registered in BLOG_CLUSTERS.
+ */
+const CATEGORY_TO_CLUSTER: Record<string, string> = {
+  GUIDE: "apprendre-humour",
+  PRATIQUE: "apprendre-humour",
+  ROADMAP: "apprendre-humour",
+  HABITUDES: "apprendre-humour",
+  OBSERVATION: "apprendre-humour",
+  REPARTIE: "techniques-repartie",
+  AUTODERISION: "techniques-repartie",
+  TIMING: "techniques-delivery",
+  STORYTELLING: "techniques-delivery",
+  ANALYSE: "apprendre-des-pros",
+  CONTEXTE: "humour-contexte",
+  PSYCHOLOGIE: "douleurs-personas",
+  TEMOIGNAGE: "douleurs-personas",
+  CATALOGUE: "fort-volume",
+};
+
+/**
  * Find the cluster for a given article slug.
  */
 export function getClusterForSlug(slug: string): ClusterInfo | undefined {
@@ -77,10 +98,30 @@ export function getClusterForSlug(slug: string): ClusterInfo | undefined {
 }
 
 /**
+ * Find the best cluster for a DB article that isn't in any pre-defined cluster.
+ * Falls back to category-based matching.
+ */
+export function getClusterForCategory(category: string): ClusterInfo | undefined {
+  const clusterId = CATEGORY_TO_CLUSTER[category];
+  if (!clusterId) return undefined;
+  return BLOG_CLUSTERS.find((c) => c.id === clusterId);
+}
+
+/**
+ * Resolve cluster for an article: first by slug, then by category fallback.
+ */
+export function resolveCluster(
+  slug: string,
+  category?: string,
+): ClusterInfo | undefined {
+  return getClusterForSlug(slug) || (category ? getClusterForCategory(category) : undefined);
+}
+
+/**
  * Get related article slugs for a given slug (same cluster, excluding self).
  */
-export function getRelatedSlugs(slug: string): string[] {
-  const cluster = getClusterForSlug(slug);
+export function getRelatedSlugs(slug: string, category?: string): string[] {
+  const cluster = resolveCluster(slug, category);
   if (!cluster) return [];
   const allSlugs = [cluster.pillarSlug, ...cluster.satelliteSlugs];
   return allSlugs.filter((s) => s !== slug);

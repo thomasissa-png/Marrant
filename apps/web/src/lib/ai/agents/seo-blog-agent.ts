@@ -190,21 +190,52 @@ Réponds UNIQUEMENT en JSON :
 export async function generateArticle(
   plan: ArticlePlan,
 ): Promise<GeneratedArticle | null> {
-  // Build cross-linking context for the agent
+  // Build cross-linking context from ALL published articles (static + DB)
   const { blogArticles: staticArticles } = await import("@/lib/blog-articles");
+
+  // Merge static + DB articles into a single lookup
+  const allArticles: { slug: string; title: string }[] = staticArticles.map((a) => ({
+    slug: a.slug,
+    title: a.title,
+  }));
+  try {
+    const dbArticles = await prisma.blogArticle.findMany({
+      where: { isPublished: true },
+      select: { slug: true, title: true },
+    });
+    const seen = new Set(allArticles.map((a) => a.slug));
+    for (const a of dbArticles) {
+      if (!seen.has(a.slug)) {
+        allArticles.push({ slug: a.slug, title: a.title });
+      }
+    }
+  } catch {
+    // DB pas dispo — on continue avec les articles statiques seuls
+  }
+
   let crossLinkContext = "";
   const cluster = getClusterForSlug(plan.slug);
   if (cluster) {
     const relatedSlugs = getRelatedSlugs(plan.slug);
     const existingRelated = relatedSlugs
       .map((s) => {
-        const article = staticArticles.find((a) => a.slug === s);
+        const article = allArticles.find((a) => a.slug === s);
         return article ? `- [${article.title}](/blog/${article.slug})` : null;
       })
       .filter(Boolean);
     if (existingRelated.length > 0) {
       crossLinkContext = `\n\nARTICLES DU MÊME CLUSTER à lier (ajoute au moins 2 liens vers ces articles dans le corps du texte) :\n${existingRelated.join("\n")}`;
     }
+  }
+
+  // Also provide other recent articles for cross-cluster linking
+  const otherArticles = allArticles
+    .filter((a) => a.slug !== plan.slug)
+    .slice(0, 20)
+    .map((a) => `- [${a.title}](/blog/${a.slug})`)
+    .join("\n");
+  if (otherArticles) {
+    crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
   }
 
   const response = await callWithRetry({
@@ -478,7 +509,20 @@ export async function publishWeeklyArticle(): Promise<{
     if (wordCount < 1000) {
       console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${wordCount} words (minimum: 1000)`);
     }
-    console.log(`[SEO Check] Article "${dbArticle.slug}": ${wordCount} words, ${linkCount} internal links${hasFaqHint ? ", FAQ detected" : ""}`);
+
+    // Check cluster membership — warn if article is orphaned
+    const articleCluster = getClusterForSlug(dbArticle.slug);
+    if (!articleCluster) {
+      console.warn(`[Maillage] Article "${dbArticle.slug}" n'est dans aucun cluster pré-défini. Le maillage utilisera le fallback par catégorie (${dbArticle.category}). Pensez à l'ajouter dans BLOG_CLUSTERS pour une navigation optimale.`);
+    }
+
+    // Count blog-to-blog links specifically (not just product page links)
+    const blogLinkCount = (dbArticle.content.match(/\]\(\/blog\//g) || []).length;
+    if (blogLinkCount < 2) {
+      console.warn(`[Maillage] Article "${dbArticle.slug}" n'a que ${blogLinkCount} lien(s) vers d'autres articles de blog (minimum recommandé: 2)`);
+    }
+
+    console.log(`[SEO Check] Article "${dbArticle.slug}": ${wordCount} words, ${linkCount} internal links (dont ${blogLinkCount} blog-to-blog)${hasFaqHint ? ", FAQ detected" : ""}${articleCluster ? `, cluster: ${articleCluster.id}` : ", ORPHELIN (fallback catégorie)"}`);
 
     // 6. Mettre à jour le calendrier SEO
     const weekNumber = getISOWeekNumber(now);
