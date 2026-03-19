@@ -14,7 +14,7 @@ import { ToastProvider } from "@/components/ui/toast";
 describe("ErrorState — composant d'erreur réutilisable", () => {
   it("affiche le message par défaut", () => {
     render(<ErrorState />);
-    expect(screen.getByText(/quelque chose s'est mal passé/i)).toBeInTheDocument();
+    expect(screen.getByText(/on a raté notre entrée/i)).toBeInTheDocument();
   });
 
   it("affiche un message personnalisé", () => {

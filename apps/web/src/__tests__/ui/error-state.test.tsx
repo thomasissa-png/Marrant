@@ -10,7 +10,7 @@ describe("ErrorState", () => {
 
   it("shows default message", () => {
     render(<ErrorState />);
-    expect(screen.getByText("Oups, quelque chose s'est mal passé.")).toBeInTheDocument();
+    expect(screen.getByText("Oups, on a raté notre entrée.")).toBeInTheDocument();
   });
 
   it("shows custom message", () => {
@@ -21,7 +21,7 @@ describe("ErrorState", () => {
   it("shows supportive message", () => {
     render(<ErrorState />);
     expect(
-      screen.getByText("Pas de panique, même les meilleurs humoristes ratent des blagues.")
+      screen.getByText("Pas de panique, même les meilleurs humoristes ratent des vannes.")
     ).toBeInTheDocument();
   });
 

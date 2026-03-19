@@ -20,22 +20,67 @@ jest.mock("@/stores/favorites-store", () => ({
   }),
 }));
 
+jest.mock("@/stores/user-store", () => ({
+  useUserStore: jest.fn(),
+}));
+
+jest.mock("@/components/ui/toast", () => ({
+  toast: jest.fn(),
+}));
+
+// Mock PremiumModal pour éviter les dépendances (useContentStats, fetch, etc.)
+jest.mock("@/components/premium/premium-modal", () => ({
+  PremiumModal: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
+    isOpen ? (
+      <div data-testid="premium-modal">
+        <button onClick={onClose}>Fermer</button>
+      </div>
+    ) : null,
+}));
+
 const { useSession } = require("next-auth/react");
+const { useUserStore } = require("@/stores/user-store");
 
 describe("FavoriteButton", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useSession.mockReturnValue({ status: "authenticated" });
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "PREMIUM" } })
+    );
     mockIsFavorite.mockReturnValue(false);
     mockGetFavoriteId.mockReturnValue(null);
   });
 
-  it("returns null when unauthenticated", () => {
+  it("renders button when unauthenticated (shows for everyone)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
-    const { container } = render(
-      <FavoriteButton contentType="JOKE" contentId="1" />
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    expect(screen.getByLabelText("Ajouter aux favoris")).toBeInTheDocument();
+  });
+
+  it("opens premium modal when unauthenticated user clicks", async () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris"));
+    expect(screen.getByTestId("premium-modal")).toBeInTheDocument();
+  });
+
+  it("renders button for free users", () => {
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "FREE" } })
     );
-    expect(container.firstChild).toBeNull();
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    expect(screen.getByLabelText("Ajouter aux favoris")).toBeInTheDocument();
+  });
+
+  it("opens premium modal when free user clicks favorite", async () => {
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) =>
+      selector({ user: { plan: "FREE" } })
+    );
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris"));
+    expect(screen.getByTestId("premium-modal")).toBeInTheDocument();
+    expect(mockAddFavorite).not.toHaveBeenCalled();
   });
 
   it("renders button when authenticated", () => {
@@ -69,5 +114,14 @@ describe("FavoriteButton", () => {
     mockGetFavoriteId.mockReturnValue("fav-1");
     render(<FavoriteButton contentType="JOKE" contentId="1" />);
     expect(screen.getByLabelText("Retirer des favoris")).toHaveClass("scale-110");
+  });
+
+  it("closes premium modal when close is clicked", async () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<FavoriteButton contentType="JOKE" contentId="1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris"));
+    expect(screen.getByTestId("premium-modal")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("Fermer"));
+    expect(screen.queryByTestId("premium-modal")).not.toBeInTheDocument();
   });
 });

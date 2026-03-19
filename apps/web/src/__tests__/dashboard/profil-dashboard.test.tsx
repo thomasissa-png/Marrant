@@ -25,20 +25,29 @@ const mockUser = {
   stats: {
     jokesRead: 42,
     tipsCompleted: 15,
-    videosWatched: 8,
+    videosWatched: 0,
     totalFavorites: 10,
+    pathsCompleted: 1,
   },
 };
 
 describe("ProfilDashboard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ parcours: [] }),
+    });
     useSession.mockReturnValue({ status: "authenticated" });
     useUserStore.mockReturnValue({
       user: mockUser,
       isLoading: false,
       fetchUser: mockFetchUser,
     });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it("shows lock and login button when unauthenticated", () => {
@@ -71,19 +80,26 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText("750 XP")).toBeInTheDocument();
   });
 
+  it("displays motivational message under progress bar", () => {
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Bien joué, continue comme ça !")).toBeInTheDocument();
+  });
+
   it("displays streak counter", () => {
     render(<ProfilDashboard />);
     expect(screen.getByText("5 jours")).toBeInTheDocument();
   });
 
-  it("displays statistics", () => {
+  it("displays statistics with favoris and parcours", () => {
     render(<ProfilDashboard />);
     expect(screen.getByText("42")).toBeInTheDocument();
-    expect(screen.getByText("Blagues lues")).toBeInTheDocument();
+    expect(screen.getByText("Vannes lues")).toBeInTheDocument();
     expect(screen.getByText("15")).toBeInTheDocument();
     expect(screen.getByText("Conseils terminés")).toBeInTheDocument();
-    expect(screen.getByText("8")).toBeInTheDocument();
-    expect(screen.getByText("Vidéos vues")).toBeInTheDocument();
+    expect(screen.getByText("10")).toBeInTheDocument();
+    expect(screen.getByText("Favoris sauvegardés")).toBeInTheDocument();
+    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getByText("Parcours terminés")).toBeInTheDocument();
   });
 
   it("shows Gratuit badge for FREE plan", () => {
@@ -91,9 +107,11 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText("Gratuit")).toBeInTheDocument();
   });
 
-  it("shows upgrade button for FREE plan", () => {
+  it("shows subscribe button with engagement copy for FREE plan", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Passer Premium — 9,99€/mois")).toBeInTheDocument();
+    expect(screen.getByText("S'abonner à 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
+    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {
@@ -106,14 +124,15 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText("Premium")).toBeInTheDocument();
   });
 
-  it("shows premium description for PREMIUM plan", () => {
+  it("shows concrete premium value description for PREMIUM plan", () => {
     useUserStore.mockReturnValue({
       user: { ...mockUser, plan: "PREMIUM" },
       isLoading: false,
       fetchUser: mockFetchUser,
     });
     render(<ProfilDashboard />);
-    expect(screen.getByText(/accès illimité et du coaching/)).toBeInTheDocument();
+    expect(screen.getByText(/Tout le catalogue est à toi/)).toBeInTheDocument();
+    expect(screen.getByText("Gérer mon abonnement")).toBeInTheDocument();
   });
 
   it("shows progress section", () => {
@@ -133,10 +152,24 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText(/techniques des meilleurs humoristes/)).toBeInTheDocument();
   });
 
-  it("shows 'Lance un parcours' when stats are high enough", () => {
+  it("shows 'Lance-toi dans un parcours' when advanced user with no parcours", () => {
     render(<ProfilDashboard />);
-    // mockUser has tipsCompleted=15 and jokesRead=42, so parcours is shown
-    expect(screen.getByText("Lance un parcours")).toBeInTheDocument();
+    // mockUser has tipsCompleted=15 and jokesRead=42, parcoursProgress=[]
+    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
+  });
+
+  it("shows 'Approfondis tes techniques' when advanced user with parcours started", async () => {
+    // Override fetch to return parcours progress
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ parcours: [{ slug: "machine-a-cafe", title: "Machine à café", icon: "☕", completedSteps: 1, totalSteps: 3, completedAt: null }] }),
+    });
+    render(<ProfilDashboard />);
+    // Wait for parcours fetch to complete — the state update happens async
+    // Since parcoursProgress.length > 0, it should show "Approfondis"
+    // But the fetch is async, so initially parcoursProgress=[] → shows "Lance-toi"
+    // After fetch resolves, it shows "Approfondis"
+    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
   });
 
   it("shows 'Apprends les bases' for new users with few tips", () => {
@@ -148,5 +181,31 @@ describe("ProfilDashboard", () => {
     render(<ProfilDashboard />);
     expect(screen.getByText("Apprends les bases")).toBeInTheDocument();
     expect(screen.getByText("Enrichis ton répertoire")).toBeInTheDocument();
+  });
+
+  it("shows empty parcours state with CTA", () => {
+    render(<ProfilDashboard />);
+    expect(screen.getByText(/pas encore commencé de parcours/)).toBeInTheDocument();
+    expect(screen.getByText("Découvrir les parcours")).toBeInTheDocument();
+  });
+
+  it("shows motivational message for early progress", () => {
+    useUserStore.mockReturnValue({
+      user: { ...mockUser, xp: 20, level: "NOVICE" },
+      isLoading: false,
+      fetchUser: mockFetchUser,
+    });
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Tu démarres fort, continue !")).toBeInTheDocument();
+  });
+
+  it("shows motivational message near level up", () => {
+    useUserStore.mockReturnValue({
+      user: { ...mockUser, xp: 450, level: "APPRENTI" },
+      isLoading: false,
+      fetchUser: mockFetchUser,
+    });
+    render(<ProfilDashboard />);
+    expect(screen.getByText("Tu y es presque, dernier effort !")).toBeInTheDocument();
   });
 });

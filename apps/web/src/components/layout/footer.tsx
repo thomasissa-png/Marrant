@@ -2,14 +2,20 @@ import Link from "next/link";
 
 const footerLinks = {
   produit: [
-    { href: "/blagues", label: "Blagues" },
+    { href: "/vannes", label: "Vannes" },
     { href: "/conseils", label: "Conseils" },
     { href: "/videos", label: "Vidéos stand-up" },
+    { href: "/parcours", label: "Parcours" },
+    { href: "/blog", label: "Blog" },
+    { href: "/glossaire", label: "Glossaire" },
+    { href: "/abonnement", label: "Nos offres" },
   ],
   legal: [
+    { href: "/a-propos", label: "À propos" },
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
+    { href: "/retractation", label: "Rétractation" },
   ],
 };
 
@@ -21,12 +27,16 @@ export function Footer() {
           {/* Marque */}
           <div>
             <span className="font-display text-lg font-bold text-gradient">
-              deviensmarrant
+              deviens-marrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              La plateforme francophone pour progresser en humour et en
-              répartie.
+              Ton coach humour perso. Vannes, répartie et techniques
+              de pro pour briller en société.
             </p>
+            <p className="mt-3 text-sm text-text-muted">
+              contact@deviens-marrant.fr
+            </p>
+
           </div>
 
           {/* Liens produit */}
@@ -69,8 +79,8 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
-          &copy; {new Date().getFullYear()} deviensmarrant.fr — Tous droits
-          réservés
+          &copy; {new Date().getFullYear()} deviens-marrant.fr · Fait avec
+          humour (et un peu de café)
         </div>
       </div>
     </footer>

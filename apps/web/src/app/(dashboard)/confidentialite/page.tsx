@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
+  description: "Politique de confidentialité de deviens-marrant.fr : collecte, utilisation et protection de vos données personnelles.",
 };
 
 export default function ConfidentialitePage() {
@@ -12,7 +13,7 @@ export default function ConfidentialitePage() {
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Responsable du traitement</h2>
-          <p>Le responsable du traitement des données est deviensmarrant SAS, joignable à l&apos;adresse privacy@deviensmarrant.fr.</p>
+          <p>Le responsable du traitement des données est deviens-marrant SAS, joignable à l&apos;adresse contact@deviens-marrant.fr.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">2. Données collectées</h2>
@@ -30,7 +31,7 @@ export default function ConfidentialitePage() {
           <p>Vos données sont utilisées pour :</p>
           <ul className="mt-2 list-disc pl-6 space-y-1">
             <li>Gérer votre compte et votre authentification</li>
-            <li>Personnaliser votre expérience (recommandations, coaching IA)</li>
+            <li>Personnaliser votre expérience (recommandations de contenu)</li>
             <li>Suivre votre progression dans l&apos;apprentissage de l&apos;humour</li>
             <li>Améliorer nos services grâce aux statistiques d&apos;utilisation anonymisées</li>
             <li>Gérer les abonnements et la facturation</li>
@@ -63,7 +64,7 @@ export default function ConfidentialitePage() {
             <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
             <li><strong>Droit d&apos;opposition</strong> : vous opposer au traitement de vos données</li>
           </ul>
-          <p className="mt-2">Pour exercer ces droits : privacy@deviensmarrant.fr. Vous pouvez également adresser une réclamation à la CNIL (cnil.fr).</p>
+          <p className="mt-2">Pour exercer ces droits : contact@deviens-marrant.fr. Vous pouvez également adresser une réclamation à la CNIL (cnil.fr).</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Transferts de données</h2>

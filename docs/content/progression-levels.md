@@ -1,4 +1,4 @@
-# Système de progression — deviensmarrant.fr
+# Système de progression — deviens-marrant.fr
 
 ## Niveaux utilisateur
 

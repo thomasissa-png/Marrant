@@ -31,32 +31,32 @@ describe("Header", () => {
 
   it("renders logo linking to home", () => {
     render(<Header />);
-    expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
-  it("renders navigation items", () => {
+  it("renders navigation items including Parcours", () => {
     render(<Header />);
     expect(screen.getByText("Accueil")).toBeInTheDocument();
-    expect(screen.getByText("Blagues")).toBeInTheDocument();
+    expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
-    expect(screen.getByText("Parcours")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
+    expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
   });
 
-  it("shows Connexion and Commencer when unauthenticated", () => {
+  it("shows Commencer CTA when unauthenticated", () => {
     render(<Header />);
-    expect(screen.getAllByText("Connexion").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
   });
 
-  it("shows Favoris, Profil, Déconnexion when authenticated", () => {
+  it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {
     useSession.mockReturnValue({
       data: { user: { name: "Jean" } },
       status: "authenticated",
     });
     render(<Header />);
-    expect(screen.getAllByText("Favoris").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Jean").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("Favoris").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("Mon profil").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Déconnexion").length).toBeGreaterThan(0);
   });
 
@@ -85,10 +85,10 @@ describe("Header", () => {
   });
 
   it("highlights current path in navigation", () => {
-    usePathname.mockReturnValue("/blagues");
+    usePathname.mockReturnValue("/vannes");
     render(<Header />);
-    const blaguesLinks = screen.getAllByText("Blagues");
-    const desktopLink = blaguesLinks[0];
+    const vannesLinks = screen.getAllByText("Vannes");
+    const desktopLink = vannesLinks[0];
     expect(desktopLink).toHaveClass("text-accent-primary");
   });
 

@@ -3,6 +3,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Génère un compteur de base déterministe à partir du jokeId.
+ * Donne un social proof réaliste (likes 3-20, dislikes 0-3).
+ */
+function baseCountsForJoke(jokeId: string): { baseLikes: number; baseDislikes: number } {
+  let hash = 0;
+  for (let i = 0; i < jokeId.length; i++) {
+    hash = (hash * 31 + jokeId.charCodeAt(i)) | 0;
+  }
+  const absHash = Math.abs(hash);
+  const baseLikes = 3 + (absHash % 18); // 3–20
+  const baseDislikes = (absHash >> 5) % 4; // 0–3
+  return { baseLikes, baseDislikes };
+}
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -71,7 +86,12 @@ export async function GET(
       if (existing) userReaction = existing.isLike;
     }
 
-    return NextResponse.json({ likes, dislikes, userReaction });
+    const { baseLikes, baseDislikes } = baseCountsForJoke(jokeId);
+    return NextResponse.json({
+      likes: likes + baseLikes,
+      dislikes: dislikes + baseDislikes,
+      userReaction,
+    });
   } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }

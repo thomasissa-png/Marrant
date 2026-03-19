@@ -1,4 +1,4 @@
-// Schéma Prisma — deviensmarrant.fr
+// Schéma Prisma — deviens-marrant.fr
 // Base de données PostgreSQL
 
 generator client {
@@ -59,8 +59,9 @@ model User {
   name          String?
   emailVerified DateTime?
   image         String?
-  passwordHash  String?
-  plan          Plan      @default(FREE)
+  passwordHash      String?
+  passwordChangedAt DateTime?
+  plan              Plan      @default(FREE)
   level         UserLevel @default(NOVICE)
   xp            Int       @default(0)
   streak        Int       @default(0)
@@ -77,6 +78,7 @@ model User {
   subscription Subscription?
   jokeLikes    JokeLike[]
   pathProgress  UserPathProgress[]
+  featureVotes  FeatureVote[]
 
   @@index([email])
 }
@@ -108,6 +110,8 @@ model Joke {
   isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+  generatedByAI Boolean       @default(false)
 
   // Relations
   dailyContents DailyContent[]
@@ -156,6 +160,7 @@ model JokeLike {
   joke Joke @relation(fields: [jokeId], references: [id], onDelete: Cascade)
 
   @@unique([userId, jokeId])
+  @@index([jokeId])
 }
 
 // ==========================================
@@ -170,9 +175,10 @@ model Tip {
   difficulty TipDifficulty
   example    String        @db.Text
   exercise   String        @db.Text
-  isActive   Boolean       @default(true)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  isActive      Boolean       @default(true)
+  generatedByAI Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   // Relations
   dailyContents DailyContent[]
@@ -231,7 +237,7 @@ model LearningPathStep {
   dayNumber       Int          // Jour dans le parcours
 
   learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
-  tip          Tip          @relation(fields: [tipId], references: [id])
+  tip          Tip          @relation(fields: [tipId], references: [id], onDelete: Cascade)
 
   @@unique([learningPathId, order])
   @@index([learningPathId])
@@ -267,12 +273,17 @@ model Video {
   difficulty  TipDifficulty   // Même niveaux que les conseils
   description String          @db.Text
   technique   String          // Technique humoristique principale
+  learnings   String[]        // Points clés à retenir de la vidéo
+  exercise    String?         @db.Text  // Exercice pratique lié à la vidéo
   isActive    Boolean         @default(true)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
+  generatedByAI Boolean         @default(false)
+
   // Relations
-  favorites UserFavorite[]
+  dailyContents DailyContent[]
+  favorites     UserFavorite[]
 
   @@index([category])
   @@index([difficulty])
@@ -284,15 +295,70 @@ model Video {
 // ==========================================
 
 model DailyContent {
-  id     String   @id @default(cuid())
-  date   DateTime @unique @db.Date
-  jokeId String
-  tipId  String
+  id      String   @id @default(cuid())
+  date    DateTime @unique @db.Date
+  jokeId  String
+  tipId   String
+  videoId String?
 
-  joke Joke @relation(fields: [jokeId], references: [id])
-  tip  Tip  @relation(fields: [tipId], references: [id])
+  joke  Joke   @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  tip   Tip    @relation(fields: [tipId], references: [id], onDelete: Cascade)
+  video Video? @relation(fields: [videoId], references: [id])
 
   @@index([date])
+}
+
+// ==========================================
+// PLAN DE CONTENU MENSUEL (agents IA)
+// ==========================================
+
+model ContentPlan {
+  id          String          @id @default(cuid())
+  agentType   ContentAgentType
+  month       Int             // 1-12
+  year        Int
+  entries     ContentPlanEntry[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@unique([agentType, month, year])
+}
+
+model ContentPlanEntry {
+  id            String         @id @default(cuid())
+  planId        String
+  dayOfMonth    Int            // 1-31
+  category      String         // catégorie prévue
+  theme         String         // thème/sujet prévu
+  targetPersona String         // YANIS | SOPHIE | MARC
+  status        PlanEntryStatus @default(PLANNED)
+  contentId     String?        // ID du contenu créé (joke/tip/video)
+  createdAt     DateTime       @default(now())
+
+  plan ContentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, dayOfMonth])
+  @@index([planId])
+  @@index([status])
+}
+
+enum ContentAgentType {
+  JOKE
+  TIP
+  VIDEO
+  SEO_BLOG
+}
+
+enum SeoEntryStatus {
+  PLANNED
+  PUBLISHED
+  SKIPPED
+}
+
+enum PlanEntryStatus {
+  PLANNED
+  PUBLISHED
+  SKIPPED
 }
 
 // ==========================================
@@ -343,10 +409,75 @@ model Subscription {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model WebhookEvent {
+  id          String   @id
+  processedAt DateTime @default(now())
+
+  @@index([processedAt])
+}
+
 enum SubscriptionStatus {
   ACTIVE
   INACTIVE
   PAST_DUE
   CANCELED
   TRIALING
+}
+
+// ==========================================
+// VOTES FONCTIONNALITÉS À VENIR
+// ==========================================
+
+model FeatureVote {
+  id          String   @id @default(cuid())
+  userId      String
+  featureSlug String   // ex: "whatsapp", "communaute", "nouveaux-parcours"
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, featureSlug])
+  @@index([featureSlug])
+}
+
+// ==========================================
+// BLOG (Agent SEO)
+// ==========================================
+
+model BlogArticle {
+  id          String            @id @default(cuid())
+  slug        String            @unique
+  title       String
+  excerpt     String            @db.Text
+  content     String            @db.Text
+  category    String
+  readingTime String
+  targetKeyword String          // mot-clé principal ciblé
+  metaTitle   String?           // title SEO custom si différent du titre
+  metaDescription String?       @db.Text
+  isPublished Boolean           @default(false)
+  publishedAt DateTime?
+  generatedByAI Boolean         @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([isPublished])
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+model SeoCalendar {
+  id            String          @id @default(cuid())
+  weekNumber    Int             // 1-52
+  year          Int
+  targetKeyword String          // mot-clé cible pour cet article
+  articleTitle  String?         // titre planifié
+  status        SeoEntryStatus  @default(PLANNED)
+  articleId     String?         // ID de l'article créé
+  notes         String?         @db.Text // notes de l'agent sur le choix
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([weekNumber, year])
+  @@index([status])
 }

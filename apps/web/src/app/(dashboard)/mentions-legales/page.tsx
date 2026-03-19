@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
+  description: "Mentions légales du site deviens-marrant.fr : éditeur, hébergeur, propriété intellectuelle et responsabilité.",
 };
 
 export default function MentionsLegalesPage() {
@@ -12,12 +13,12 @@ export default function MentionsLegalesPage() {
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Éditeur du site</h2>
-          <p>deviensmarrant.fr est édité par la société deviensmarrant SAS.</p>
+          <p>deviens-marrant.fr est édité par la société deviens-marrant SAS.</p>
           <p>Capital social : 1 000 €</p>
           <p>Siège social : Paris, France</p>
           <p>RCS : en cours d&apos;immatriculation</p>
-          <p>Email : contact@deviensmarrant.fr</p>
-          <p>Directeur de publication : Thomas Issa</p>
+          <p>Email : contact@deviens-marrant.fr</p>
+          <p>Directeur de publication : Alex Durand</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Hébergement</h2>
@@ -32,12 +33,12 @@ export default function MentionsLegalesPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Crédits</h2>
-          <p>Design et développement : équipe deviensmarrant</p>
-          <p>Typographies : Inter (Google Fonts), Syne (Google Fonts)</p>
+          <p>Design et développement : équipe deviens-marrant</p>
+          <p>Typographies : Inter (Google Fonts), Plus Jakarta Sans (Google Fonts)</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Contact</h2>
-          <p>Pour toute question ou réclamation : contact@deviensmarrant.fr</p>
+          <p>Pour toute question ou réclamation : contact@deviens-marrant.fr</p>
         </section>
       </div>
     </>

@@ -1,57 +1,96 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import Script from "next/script";
 import { SessionProvider } from "@/components/providers/session-provider";
+import {
+  JsonLd,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/components/seo/json-ld";
 import "@/styles/globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
-    default: "deviensmarrant.fr — Apprends à être drôle",
-    template: "%s | deviensmarrant.fr",
+    default:
+      "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
+    template: "%s | deviens-marrant.fr",
   },
   description:
-    "La plateforme francophone pour progresser en humour et en répartie. Blagues, conseils de pros, vidéos stand-up et coaching IA personnalisé.",
+    "La plateforme pour devenir drôle, avoir de la répartie et faire rire ton entourage. Vannes, techniques de pro et parcours pas à pas.",
   keywords: [
     "devenir drôle",
-    "apprendre l'humour",
-    "progresser en répartie",
+    "comment devenir drôle",
+    "apprendre à être drôle",
+    "devenir marrant",
+    "comment devenir marrant",
+    "avoir de la répartie",
+    "comment avoir de la répartie",
+    "devenir plus drôle",
+    "comment faire rire",
+    "être drôle en société",
+    "développer son humour",
+    "techniques de répartie",
+    "vanne du jour",
     "blague du jour",
     "stand-up français",
     "conseils humour",
     "cours humour en ligne",
-    "apprendre le stand-up",
+    "exercices humour débutant",
+    "avoir de la conversation",
+    "être drôle à la machine à café",
+    "retrouver confiance en soi",
   ],
-  authors: [{ name: "deviensmarrant.fr" }],
+  authors: [{ name: "deviens-marrant.fr" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   manifest: "/manifest.json",
+  metadataBase: new URL("https://deviens-marrant.fr"),
+  alternates: {
+    canonical: "https://deviens-marrant.fr",
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://deviensmarrant.fr",
-    siteName: "deviensmarrant.fr",
-    title: "deviensmarrant.fr — Apprends à être drôle",
+    url: "https://deviens-marrant.fr",
+    siteName: "deviens-marrant.fr",
+    title:
+      "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
-      "La plateforme francophone pour progresser en humour et en répartie.",
+      "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour. Blagues, techniques de pro, vidéos stand-up analysées et parcours pas à pas.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "deviens-marrant.fr — Apprends à devenir drôle et à avoir de la répartie",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "deviensmarrant.fr — Apprends à être drôle",
+    title:
+      "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
-      "La plateforme francophone pour progresser en humour et en répartie.",
+      "Apprends à devenir drôle, à avoir de la répartie et à faire rire. Blagues, techniques de pro et parcours personnalisés.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   other: {
     "apple-mobile-web-app-capable": "yes",
@@ -66,15 +105,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="fr">
       <head>
         <meta name="theme-color" content="#0D0D0D" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
+        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={websiteJsonLd} />
         <SessionProvider>{children}</SessionProvider>
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          />
+        )}
       </body>
     </html>
   );

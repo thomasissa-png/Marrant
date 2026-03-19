@@ -1,4 +1,4 @@
-# Parcours utilisateur — deviensmarrant.fr
+# Parcours utilisateur — deviens-marrant.fr
 
 ## 1. Découverte → Inscription
 1. L'utilisateur arrive sur la homepage
@@ -39,10 +39,10 @@
 
 ## Parcours par persona
 
-### Yanis (17 ans — répartie & confiance)
+### Yanis (20 ans — répartie & confiance)
 1. Arrive sur la home → voit "Confiance en soi" et "Répartie au quotidien" dans les tags
 2. Clique "Découvrir mon profil humour" → Quiz
-3. Sélectionne « Avoir de la répartie » → « Entre potes / au lycée » → « Mes blagues tombent à plat »
+3. Sélectionne « Avoir de la répartie » → « Entre potes / en soirée étudiante » → « Mes blagues tombent à plat »
 4. Résultat : "Le Novice Prometteur" → orienté vers /parcours débutant
 5. Consulte les conseils de répartie → gagne ses premiers XP
 6. Revient chaque jour → streak qui grandit, confiance qui monte

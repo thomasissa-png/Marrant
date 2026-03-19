@@ -7,7 +7,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  message = "Oups, quelque chose s'est mal passé.",
+  message = "Oups, on a raté notre entrée.",
   onRetry,
 }: ErrorStateProps) {
   return (
@@ -18,7 +18,7 @@ export function ErrorState({
         </span>
         <p className="mt-4 text-lg font-medium text-text-primary">{message}</p>
         <p className="mt-2 text-sm text-text-secondary">
-          Pas de panique, même les meilleurs humoristes ratent des blagues.
+          Pas de panique, même les meilleurs humoristes ratent des vannes.
         </p>
         {onRetry && (
           <Button variant="primary" size="sm" className="mt-4" onClick={onRetry}>

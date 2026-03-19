@@ -4,7 +4,7 @@ export function HomeScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>deviensmarrant</Text>
+        <Text style={styles.title}>deviens-marrant</Text>
       </View>
 
       {/* Blague du jour */}

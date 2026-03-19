@@ -16,7 +16,7 @@ const buttonVariants = cva(
         outline:
           "border border-border text-text-primary hover:bg-background-elevated hover:border-border-hover focus-visible:ring-accent-primary",
         danger:
-          "bg-error text-white hover:bg-red-600 focus-visible:ring-error",
+          "bg-error text-white hover:bg-error/90 focus-visible:ring-error",
       },
       size: {
         sm: "h-8 px-3 text-sm",

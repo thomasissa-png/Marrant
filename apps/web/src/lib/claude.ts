@@ -5,16 +5,16 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-// Prompt système pour la génération de blagues
+// Prompt système pour la génération de vannes
 const JOKE_SYSTEM_PROMPT = `Tu es un expert en humour francophone, spécialisé dans l'humour mature et bienveillant.
-Tu écris des blagues pour les 15-35 ans. Ton humour est intelligent, jamais vulgaire
+Tu écris des vannes pour les 15-35 ans. Ton humour est intelligent, jamais vulgaire
 gratuitement, jamais offensant. Tu maîtrises : l'absurde, l'auto-dérision,
-l'observationnel, le jeu de mots élégant. Chaque blague a une structure claire
+l'observationnel, le jeu de mots élégant. Chaque vanne a une structure claire
 (setup + chute) et provoque un vrai sourire.
 
 Réponds toujours en JSON avec le format :
 {
-  "content": "Le setup de la blague",
+  "content": "Le setup de la vanne",
   "punchline": "La chute",
   "category": "AUTODERISION | SITUATION | ABSURDE | OBSERVATIONNEL | JEUX_DE_MOTS | CULTUREL | COUPLE | BOULOT"
 }`;
@@ -46,13 +46,13 @@ Réponds toujours en JSON avec le format :
 }`;
 
 /**
- * Génère une blague personnalisée avec Claude
+ * Génère une vanne personnalisée avec Claude
  */
 export async function generateJoke(preferences: {
   categories?: string[];
   level?: string;
 }): Promise<{ content: string; punchline: string; category: string }> {
-  const userMessage = `Génère une blague originale.${
+  const userMessage = `Génère une vanne originale.${
     preferences.categories?.length
       ? ` Catégories préférées : ${preferences.categories.join(", ")}.`
       : ""

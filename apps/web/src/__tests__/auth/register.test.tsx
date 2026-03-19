@@ -6,12 +6,14 @@ const mockPush = jest.fn();
 const mockRefresh = jest.fn();
 const mockSignIn = jest.fn();
 
+const mockSearchParams = new URLSearchParams();
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: mockRefresh }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 jest.mock("next-auth/react", () => ({
-  signIn: (...args: unknown[]) => mockSignIn(...args),
+  signIn: (...args) => mockSignIn(...args),
 }));
 
 describe("RegisterPage", () => {
@@ -68,27 +70,27 @@ describe("RegisterPage", () => {
 
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password123" }),
+        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password1234545" }),
       });
     });
 
     await waitFor(() => {
       expect(mockSignIn).toHaveBeenCalledWith("credentials", {
         email: "jean@test.fr",
-        password: "password123",
+        password: "password1234545",
         redirect: false,
       });
     });
   });
 
-  it("redirects to /onboarding on success", async () => {
+  it("redirects to /abonnement on success", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({}),
@@ -98,11 +100,11 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/onboarding");
+      expect(mockPush).toHaveBeenCalledWith("/abonnement");
     });
   });
 
@@ -115,7 +117,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
@@ -128,7 +130,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
     await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
-    await userEvent.type(screen.getByLabelText("Mot de passe"), "password123");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     expect(screen.getByText("Création...")).toBeInTheDocument();
@@ -137,6 +139,7 @@ describe("RegisterPage", () => {
   it("calls Google signIn with onboarding callback", async () => {
     render(<RegisterPage />);
     await userEvent.click(screen.getByText("S'inscrire avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
   });
+
 });

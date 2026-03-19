@@ -1,26 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "Tu as déjà un compte ! Utilise 'Continuer avec Google' sur la page connexion.",
+  OAuthCallback: "Erreur lors de l'inscription avec Google. Réessaie.",
+  OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
+  Default: "Une erreur est survenue. Réessaie.",
+};
+
 export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+
+function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
+  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+
+  const validateForm = (): boolean => {
+    const errors: { name?: string; email?: string; password?: string } = {};
+
+    if (!name.trim()) {
+      errors.name = "Le prénom est requis.";
+    } else if (name.trim().length < 2) {
+      errors.name = "Le prénom doit faire au moins 2 caractères.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      errors.email = "L'adresse email n'est pas valide.";
+    }
+
+    if (password.length < 8) {
+      errors.password = "Le mot de passe doit contenir au moins 8 caractères.";
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
     setIsLoading(true);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -31,6 +79,20 @@ export default function RegisterPage() {
 
       if (!res.ok) {
         const data = await res.json();
+        // Show specific field errors from Zod validation if available
+        if (data.details && Array.isArray(data.details)) {
+          const errors: { name?: string; email?: string; password?: string } = {};
+          for (const detail of data.details) {
+            const field = String(detail.path?.[0]);
+            if (field === "name" || field === "email" || field === "password") {
+              errors[field] = detail.message;
+            }
+          }
+          if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
+            return;
+          }
+        }
         setError(data.error ?? "Erreur lors de l'inscription.");
         return;
       }
@@ -44,7 +106,7 @@ export default function RegisterPage() {
       if (result?.error) {
         router.push("/login");
       } else {
-        router.push("/onboarding");
+        router.push("/abonnement");
         router.refresh();
       }
     } catch {
@@ -55,7 +117,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/onboarding" });
+    signIn("google", { callbackUrl });
   };
 
   return (
@@ -64,15 +126,20 @@ export default function RegisterPage() {
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
             <span className="font-display text-2xl font-bold text-gradient">
-              deviensmarrant
+              deviens-marrant
             </span>
           </Link>
           <CardTitle>Créer un compte</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {oauthMessage && (
+              <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
+                {oauthMessage}
+              </p>
+            )}
             {error && (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400" role="alert">
+              <p id="register-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
               </p>
             )}
@@ -88,7 +155,12 @@ export default function RegisterPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 autoComplete="given-name"
+                aria-describedby={fieldErrors.name ? "name-error" : undefined}
+                aria-invalid={!!fieldErrors.name}
               />
+              {fieldErrors.name && (
+                <p id="name-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.name}</p>
+              )}
             </div>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
@@ -102,7 +174,12 @@ export default function RegisterPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
+                aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                aria-invalid={!!fieldErrors.email}
               />
+              {fieldErrors.email && (
+                <p id="email-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.email}</p>
+              )}
             </div>
             <div>
               <label htmlFor="password" className="mb-1 block text-sm text-text-secondary">
@@ -119,6 +196,8 @@ export default function RegisterPage() {
                   minLength={8}
                   autoComplete="new-password"
                   className="pr-10"
+                  aria-describedby={fieldErrors.password ? "password-error" : "password-hint"}
+                  aria-invalid={!!fieldErrors.password}
                 />
                 <button
                   type="button"
@@ -138,12 +217,16 @@ export default function RegisterPage() {
                   )}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
+              <p id="password-hint" className="mt-1 text-xs text-text-muted">Au moins 8 caractères</p>
+              {fieldErrors.password && (
+                <p id="password-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.password}</p>
+              )}
             </div>
             <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
               {isLoading ? "Création..." : "Créer mon compte"}
             </Button>
             <Button type="button" variant="outline" className="w-full" onClick={handleGoogle}>
+              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               S&apos;inscrire avec Google
             </Button>
           </form>

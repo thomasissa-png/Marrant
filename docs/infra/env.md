@@ -1,11 +1,11 @@
-# Variables d'environnement — deviensmarrant.fr
+# Variables d'environnement — deviens-marrant.fr
 
 ## Requises
 
 | Variable | Description | Exemple |
 |----------|-------------|---------|
-| `DATABASE_URL` | URL de connexion PostgreSQL | `postgresql://user:pass@host:5432/deviensmarrant` |
-| `NEXTAUTH_URL` | URL du site (base) | `https://deviensmarrant.fr` |
+| `DATABASE_URL` | URL de connexion PostgreSQL | `postgresql://user:pass@host:5432/deviens-marrant` |
+| `NEXTAUTH_URL` | URL du site (base) | `https://deviens-marrant.fr` |
 | `NEXTAUTH_SECRET` | Secret pour signer les JWT | (générer avec `openssl rand -base64 32`) |
 
 ## Authentification Google OAuth

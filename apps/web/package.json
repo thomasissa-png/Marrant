@@ -1,12 +1,12 @@
 {
-  "name": "deviensmarrant-web",
+  "name": "deviens-marrant-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 5000",
-    "setup": "npm install && npx prisma generate && npx prisma db push && tsx prisma/seed.ts",
+    "setup": "npm install && npx prisma generate && npx prisma db push && npx prisma db seed",
     "lint": "next lint",
     "test": "jest",
     "test:ci": "jest --bail --passWithNoTests",
@@ -15,7 +15,7 @@
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:seed": "npx prisma db seed",
     "db:studio": "prisma studio"
   },
   "dependencies": {
@@ -39,11 +39,15 @@
     "next-auth": "^4.24.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "resend": "^6.9.4",
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1",
     "zustand": "^5.0.3"
+  },
+  "prisma": {
+    "seed": "bash scripts/seed.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",

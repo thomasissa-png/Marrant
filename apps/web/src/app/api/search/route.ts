@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
@@ -8,7 +10,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ results: [] });
     }
 
-    const searchTerm = `%${q}%`;
+    // Vérifier le plan de l'utilisateur
+    const session = await getServerSession(authOptions);
+    const userId = (session?.user as { id?: string })?.id;
+    let isPremium = false;
+
+    if (userId) {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { plan: true },
+      });
+      isPremium = user?.plan === "PREMIUM";
+    }
+
+    // Résultats limités pour FREE (3 par type), complets pour PREMIUM (5 par type)
+    const resultLimit = isPremium ? 5 : 3;
 
     const [jokes, tips, videos] = await Promise.all([
       prisma.joke.findMany({
@@ -19,7 +35,7 @@ export async function GET(request: NextRequest) {
             { punchline: { contains: q, mode: "insensitive" } },
           ],
         },
-        take: 5,
+        take: resultLimit,
         select: { id: true, content: true, punchline: true },
       }),
       prisma.tip.findMany({
@@ -30,7 +46,7 @@ export async function GET(request: NextRequest) {
             { content: { contains: q, mode: "insensitive" } },
           ],
         },
-        take: 5,
+        take: resultLimit,
         select: { id: true, title: true, content: true },
       }),
       prisma.video.findMany({
@@ -42,34 +58,44 @@ export async function GET(request: NextRequest) {
             { technique: { contains: q, mode: "insensitive" } },
           ],
         },
-        take: 5,
+        take: resultLimit,
         select: { id: true, title: true, channelName: true },
       }),
     ]);
 
-    const results = [
-      ...jokes.map((j) => ({
-        id: j.id,
-        type: "JOKE" as const,
-        title: j.content.slice(0, 80),
-        preview: j.punchline.slice(0, 60),
-      })),
-      ...tips.map((t) => ({
-        id: t.id,
-        type: "TIP" as const,
-        title: t.title,
-        preview: t.content.slice(0, 60),
-      })),
-      ...videos.map((v) => ({
-        id: v.id,
-        type: "VIDEO" as const,
-        title: v.title,
-        preview: v.channelName,
-      })),
-    ];
-
-    return NextResponse.json({ results: results.slice(0, 10) });
+    return NextResponse.json({
+      results: formatResults(jokes, tips, videos, isPremium).slice(0, 10),
+      limited: !isPremium,
+    });
   } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
+}
+
+function formatResults(
+  jokes: Array<{ id: string; content: string; punchline: string }>,
+  tips: Array<{ id: string; title: string; content: string }>,
+  videos: Array<{ id: string; title: string; channelName: string }>,
+  isPremium: boolean
+) {
+  return [
+    ...jokes.map((j) => ({
+      id: j.id,
+      type: "JOKE" as const,
+      title: j.content.slice(0, 80),
+      preview: isPremium ? j.punchline.slice(0, 60) : "Abonne-toi pour voir la chute",
+    })),
+    ...tips.map((t) => ({
+      id: t.id,
+      type: "TIP" as const,
+      title: t.title,
+      preview: t.content.slice(0, 60),
+    })),
+    ...videos.map((v) => ({
+      id: v.id,
+      type: "VIDEO" as const,
+      title: v.title,
+      preview: v.channelName,
+    })),
+  ];
 }

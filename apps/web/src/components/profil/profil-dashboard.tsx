@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { StreakCounter } from "@/components/ui/streak-counter";
 import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 import Link from "next/link";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
@@ -39,13 +40,67 @@ function getXpProgress(xp: number, currentLevel: string) {
   };
 }
 
+interface ParcoursProgress {
+  slug: string;
+  title: string;
+  icon: string;
+  completedSteps: number;
+  totalSteps: number;
+  completedAt: string | null;
+}
+
 export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isPortalLoading, setIsPortalLoading] = useState(false);
+  const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
+
+  const handlePortal = async () => {
+    setIsPortalLoading(true);
+    try {
+      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        toast("Erreur lors de l'accès au portail", "error");
+      }
+    } catch {
+      toast("Connexion perdue, réessaie", "error");
+    } finally {
+      setIsPortalLoading(false);
+    }
+  };
+
+  const handleCheckout = async () => {
+    setIsCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        toast("Erreur lors de la création du paiement", "error");
+      }
+    } catch {
+      toast("Connexion perdue, réessaie", "error");
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (status === "authenticated") {
       fetchUser();
+      fetch("/api/user/progress")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.parcours) {
+            setParcoursProgress(data.parcours);
+          }
+        })
+        .catch(() => {});
     }
   }, [status, fetchUser]);
 
@@ -109,6 +164,15 @@ export function ProfilDashboard() {
             showPercentage
             variant="gradient"
           />
+          <p className="mt-2 text-xs text-text-muted">
+            {progress.value >= progress.max
+              ? "Tu as atteint le sommet, légende !"
+              : progress.value / progress.max >= 0.75
+                ? "Tu y es presque, dernier effort !"
+                : progress.value / progress.max >= 0.25
+                  ? "Bien joué, continue comme ça !"
+                  : "Tu démarres fort, continue !"}
+          </p>
         </CardContent>
       </Card>
 
@@ -128,12 +192,12 @@ export function ProfilDashboard() {
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
             <div>
               <p className="text-2xl font-bold text-accent-primary">
                 {user.stats.jokesRead}
               </p>
-              <p className="text-xs text-text-muted">Blagues lues</p>
+              <p className="text-xs text-text-muted">Vannes lues</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-accent-secondary">
@@ -142,12 +206,80 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Conseils terminés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-text-primary">
-                {user.stats.videosWatched}
+              <p className="text-2xl font-bold text-accent-primary">
+                {user.stats.totalFavorites}
               </p>
-              <p className="text-xs text-text-muted">Vidéos vues</p>
+              <p className="text-xs text-text-muted">Favoris sauvegardés</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-accent-secondary">
+                {user.stats.pathsCompleted}
+              </p>
+              <p className="text-xs text-text-muted">Parcours terminés</p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Parcours en cours */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Mes parcours</CardTitle>
+            <Link href="/parcours">
+              <Button variant="ghost" size="sm">
+                Voir tout
+              </Button>
+            </Link>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {parcoursProgress.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-border p-6 text-center">
+              <p className="text-sm text-text-secondary">
+                Tu n&apos;as pas encore commencé de parcours.
+              </p>
+              <Link href="/parcours">
+                <Button variant="primary" size="sm" className="mt-3">
+                  Découvrir les parcours
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {parcoursProgress.map((p) => {
+                const pct = p.totalSteps > 0 ? Math.round((p.completedSteps / p.totalSteps) * 100) : 0;
+                const isDone = p.completedAt !== null;
+                return (
+                  <Link
+                    key={p.slug}
+                    href={`/parcours/${p.slug}`}
+                    className="block group"
+                  >
+                    <div className={`rounded-lg border p-4 transition-colors ${isDone ? "border-accent-primary/30 bg-accent-primary/5" : "border-border group-hover:border-accent-primary"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{p.icon}</span>
+                          <span className="font-medium text-text-primary text-sm">{p.title}</span>
+                        </div>
+                        {isDone ? (
+                          <Badge variant="primary">Terminé</Badge>
+                        ) : (
+                          <span className="text-xs text-text-muted">{p.completedSteps}/{p.totalSteps} étapes</span>
+                        )}
+                      </div>
+                      <ProgressBar
+                        value={p.completedSteps}
+                        max={p.totalSteps}
+                        variant={isDone ? "gradient" : "primary"}
+                      />
+                      <p className="mt-1 text-xs text-text-muted text-right">{pct}%</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -157,33 +289,43 @@ export function ProfilDashboard() {
           <CardTitle>Prochaine étape</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Commence par les conseils de répartie et de timing — les fondamentaux pour être à l&apos;aise.
+                    Commence par les conseils de répartie et de timing, les fondamentaux pour être à l&apos;aise.
                   </p>
                 </div>
               </Link>
             )}
             {user.stats.jokesRead < 10 && (
-              <Link href="/blagues" className="group">
+              <Link href="/vannes" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Lis des blagues par catégorie et sauvegarde celles que tu veux ressortir.
+                    Lis des vannes par catégorie et sauvegarde celles que tu veux ressortir.
                   </p>
                 </div>
               </Link>
             )}
-            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && (
+            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
               <Link href="/parcours" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Lance un parcours</p>
+                  <p className="font-semibold text-accent-primary">Lance-toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases — suis un parcours structuré pour passer au niveau supérieur.
+                    Tu as les bases ! Choisis un parcours structuré pour progresser étape par étape.
+                  </p>
+                </div>
+              </Link>
+            )}
+            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
+              <Link href="/conseils" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Tu as les bases, explore les conseils avancés pour affiner ton humour.
                   </p>
                 </div>
               </Link>
@@ -212,18 +354,35 @@ export function ProfilDashboard() {
         </CardHeader>
         <CardContent>
           {user.plan === "PREMIUM" ? (
-            <p className="text-sm text-text-secondary">
-              Tu profites de l&apos;accès illimité et du coaching IA personnalisé.
-            </p>
+            <div>
+              <p className="text-sm text-text-primary">
+                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres avancés et les parcours complets.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-4"
+                onClick={handlePortal}
+                disabled={isPortalLoading}
+              >
+                {isPortalLoading ? "Redirection..." : "Gérer mon abonnement"}
+              </Button>
+            </div>
           ) : (
             <>
-              <p className="mb-4 text-sm text-text-secondary">
-                Passe en Premium pour débloquer l&apos;accès illimité et le
-                coaching IA — génère des blagues sur mesure, reçois des
-                conseils personnalisés et entraîne ta répartie.
+              <p className="mb-2 text-sm text-text-primary">
+                Passe Premium pour débloquer tout le catalogue, les filtres avancés et les parcours complets.
               </p>
-              <Button variant="secondary" size="sm">
-                Passer Premium — 9,99€/mois
+              <p className="mb-4 text-xs text-text-muted">
+                Sans engagement &middot; Annulable à tout moment
+              </p>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
+              >
+                {isCheckoutLoading ? "Redirection..." : "S'abonner à 0,99 €/mois"}
               </Button>
             </>
           )}

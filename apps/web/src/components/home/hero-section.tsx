@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export function HeroSection() {
   const { status } = useSession();
@@ -11,68 +10,64 @@ export function HeroSection() {
 
   return (
     <section className="py-12 text-center md:py-20">
-      <Badge variant="primary" className="mb-4">
-        Nouveau : coaching IA personnalisé
-      </Badge>
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-        Deviens{" "}
+        Deviens la personne{" "}
         <span className="text-gradient">drôle</span>
-        {" "}et{" "}
-        <span className="text-gradient">percutant</span>
-        <br />
-        pour de vrai.
+        {" "}du groupe.
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
-        Blagues à ressortir, techniques de répartie, conseils de pros et
-        coaching IA — progresse en humour à ton rythme, que ce soit entre
-        potes, au boulot ou dans la vie de tous les jours.
+        Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
+        à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les
+        techniques et les exercices. Toi, tu ramènes ta motivation.
       </p>
 
-      {/* Use cases concrets */}
-      <div className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-3">
+      {/* Social proof */}
+      <p className="mt-6 text-sm font-medium text-accent-primary">
+        Rejoins 1 500+ membres qui progressent en humour chaque jour
+      </p>
+
+      {/* Situations concrètes = les 3 personas se reconnaissent */}
+      <div className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-3">
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Répartie au quotidien
+          Avoir de la répartie
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Blagues machine à café
+          Briller à la machine à café
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Confiance en soi
+          Retrouver confiance en soi
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Progression structurée
+          Progresser chaque jour
+        </span>
+        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+          Vannes prêtes à ressortir
         </span>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-4">
-        {isAuthenticated ? (
-          <>
-            <Link href="/parcours">
-              <Button variant="primary" size="lg">
-                Mes parcours
-              </Button>
-            </Link>
-            <Link href="/blagues">
-              <Button variant="outline" size="lg">
-                Explorer les blagues
-              </Button>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href="/onboarding">
-              <Button variant="primary" size="lg">
-                Découvrir mon profil humour
-              </Button>
-            </Link>
-            <Link href="/blagues">
-              <Button variant="outline" size="lg">
-                Voir les blagues
-              </Button>
-            </Link>
-          </>
-        )}
-      </div>
+      {/* CTA only for authenticated users — non-auth CTA is below feature cards */}
+      {isAuthenticated ? (
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link href="/vannes">
+            <Button variant="primary" size="lg">
+              Explorer les vannes
+            </Button>
+          </Link>
+          <Link href="/conseils">
+            <Button variant="outline" size="lg">
+              Voir les conseils
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <Link href="/register">
+            <Button variant="primary" size="lg">
+              Commencer à 0,99 €/mois
+            </Button>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

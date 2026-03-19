@@ -1,20 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "Tu as déjà un compte. Clique 'Continuer avec Google' ci-dessous.",
+  OAuthCallback: "Erreur lors de la connexion avec Google. Réessaie.",
+  OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
+  Default: "Une erreur est survenue lors de la connexion.",
+};
+
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+  const autoRetried = useRef(false);
+  const [autoRetrying, setAutoRetrying] = useState(false);
+
+  // Auto-retry Google sign-in when OAuthAccountNotLinked (account exists, just connect)
+  useEffect(() => {
+    if (oauthError === "OAuthAccountNotLinked" && !autoRetried.current) {
+      const alreadyRetried = sessionStorage.getItem("oauth-auto-retry");
+      if (!alreadyRetried) {
+        autoRetried.current = true;
+        setAutoRetrying(true);
+        sessionStorage.setItem("oauth-auto-retry", "1");
+        signIn("google", { callbackUrl });
+        return;
+      }
+      // Cleanup after second failure (prevent permanent loop)
+      sessionStorage.removeItem("oauth-auto-retry");
+    } else if (!oauthError) {
+      // Clear retry flag on successful navigation to login without error
+      sessionStorage.removeItem("oauth-auto-retry");
+    }
+  }, [oauthError, callbackUrl]);
+
+  const oauthMessage = oauthError && !autoRetrying
+    ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default)
+    : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,19 +73,21 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError("Email ou mot de passe incorrect.");
+        setPassword("");
       } else {
-        router.push("/");
+        router.push(callbackUrl);
         router.refresh();
       }
     } catch {
       setError("Une erreur est survenue. Réessaie.");
+      setPassword("");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl });
   };
 
   return (
@@ -51,15 +96,20 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
             <span className="font-display text-2xl font-bold text-gradient">
-              deviensmarrant
+              deviens-marrant
             </span>
           </Link>
           <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {oauthMessage && (
+              <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
+                {oauthMessage}
+              </p>
+            )}
             {error && (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400" role="alert">
+              <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
               </p>
             )}
@@ -75,6 +125,8 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
+                aria-describedby={error ? "login-error" : undefined}
+                aria-invalid={!!error}
               />
             </div>
             <div>
@@ -91,6 +143,8 @@ export default function LoginPage() {
                   required
                   autoComplete="current-password"
                   className="pr-10"
+                  aria-describedby={error ? "login-error" : undefined}
+                  aria-invalid={!!error}
                 />
                 <button
                   type="button"
@@ -115,6 +169,7 @@ export default function LoginPage() {
               {isLoading ? "Connexion..." : "Se connecter"}
             </Button>
             <Button type="button" variant="outline" className="w-full" onClick={handleGoogle}>
+              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               Continuer avec Google
             </Button>
           </form>

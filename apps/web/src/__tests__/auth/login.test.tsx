@@ -6,12 +6,14 @@ const mockPush = jest.fn();
 const mockRefresh = jest.fn();
 const mockSignIn = jest.fn();
 
+const mockSearchParams = new URLSearchParams();
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: mockRefresh }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 jest.mock("next-auth/react", () => ({
-  signIn: (...args: unknown[]) => mockSignIn(...args),
+  signIn: (...args) => mockSignIn(...args),
 }));
 
 describe("LoginPage", () => {
@@ -28,7 +30,7 @@ describe("LoginPage", () => {
 
   it("renders logo linking to home", () => {
     render(<LoginPage />);
-    expect(screen.getByText("deviensmarrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
   });
 
   it("has submit button", () => {
@@ -80,7 +82,7 @@ describe("LoginPage", () => {
     });
   });
 
-  it("redirects to home on success", async () => {
+  it("redirects to /vannes by default on success", async () => {
     mockSignIn.mockResolvedValue({ error: null });
     render(<LoginPage />);
 
@@ -89,8 +91,23 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/");
+      expect(mockPush).toHaveBeenCalledWith("/vannes");
     });
+  });
+
+  it("redirects to callbackUrl from search params on success", async () => {
+    mockSearchParams.set("callbackUrl", "/parcours");
+    mockSignIn.mockResolvedValue({ error: null });
+    render(<LoginPage />);
+
+    await userEvent.type(screen.getByLabelText("Email"), "test@test.fr");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "pass1234");
+    await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/parcours");
+    });
+    mockSearchParams.delete("callbackUrl");
   });
 
   it("shows error on invalid credentials", async () => {
@@ -130,9 +147,42 @@ describe("LoginPage", () => {
     expect(screen.getByText("Connexion...")).toBeInTheDocument();
   });
 
-  it("calls Google signIn on Google button click", async () => {
+  it("calls Google signIn with default /vannes callbackUrl", async () => {
     render(<LoginPage />);
     await userEvent.click(screen.getByText("Continuer avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
   });
+
+  it("calls Google signIn with callbackUrl from search params", async () => {
+    mockSearchParams.set("callbackUrl", "/conseils");
+    render(<LoginPage />);
+    await userEvent.click(screen.getByText("Continuer avec Google"));
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/conseils" });
+    mockSearchParams.delete("callbackUrl");
+  });
+
+  it("auto-retries Google sign-in on OAuthAccountNotLinked error", async () => {
+    sessionStorage.clear();
+    mockSearchParams.set("error", "OAuthAccountNotLinked");
+    render(<LoginPage />);
+
+    await waitFor(() => {
+      expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
+    });
+    mockSearchParams.delete("error");
+    sessionStorage.clear();
+  });
+
+  it("shows fallback message if OAuthAccountNotLinked auto-retry already failed", () => {
+    sessionStorage.setItem("oauth-auto-retry", "1");
+    mockSearchParams.set("error", "OAuthAccountNotLinked");
+    render(<LoginPage />);
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Tu as déjà un compte"
+    );
+    mockSearchParams.delete("error");
+    sessionStorage.clear();
+  });
+
 });

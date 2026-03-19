@@ -8,67 +8,57 @@ jest.mock("next-auth/react", () => ({
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows badge text", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText("Nouveau : coaching IA personnalisé")).toBeInTheDocument();
-  });
-
-  it("shows main heading with drôle and percutant", () => {
+  it("shows main heading with drôle", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("drôle")).toBeInTheDocument();
-    expect(screen.getByText("percutant")).toBeInTheDocument();
-    expect(screen.getByText(/pour de vrai/)).toBeInTheDocument();
+    expect(screen.getByText(/du groupe/)).toBeInTheDocument();
   });
 
-  it("shows description with répartie", () => {
+  it("shows description with motivation hook", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/techniques de répartie/)).toBeInTheDocument();
+    expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
   });
 
-  it("shows use-case tags", () => {
+  it("shows social proof counter", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Répartie au quotidien")).toBeInTheDocument();
-    expect(screen.getByText("Blagues machine à café")).toBeInTheDocument();
-    expect(screen.getByText("Confiance en soi")).toBeInTheDocument();
-    expect(screen.getByText("Progression structurée")).toBeInTheDocument();
+    expect(screen.getByText(/1 500\+ membres/)).toBeInTheDocument();
   });
 
-  it("shows unauthenticated buttons", () => {
+  it("shows use-case tags for all 3 personas", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Découvrir mon profil humour")).toBeInTheDocument();
-    expect(screen.getByText("Voir les blagues")).toBeInTheDocument();
+    expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
+    expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
+    expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
+    expect(screen.getByText("Progresser chaque jour")).toBeInTheDocument();
+    expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
+  });
+
+  it("shows CTA when unauthenticated", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
   });
 
   it("shows authenticated buttons", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Mes parcours")).toBeInTheDocument();
-    expect(screen.getByText("Explorer les blagues")).toBeInTheDocument();
+    expect(screen.getByText("Explorer les vannes")).toBeInTheDocument();
+    expect(screen.getByText("Voir les conseils")).toBeInTheDocument();
   });
 
-  it("links to /onboarding when unauthenticated", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText("Découvrir mon profil humour").closest("a")).toHaveAttribute(
-      "href",
-      "/onboarding"
-    );
-  });
-
-  it("links to /parcours when authenticated", () => {
+  it("links to /vannes when authenticated", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Mes parcours").closest("a")).toHaveAttribute("href", "/parcours");
+    expect(screen.getByText("Explorer les vannes").closest("a")).toHaveAttribute("href", "/vannes");
   });
 
-  it("links to /blagues for both states", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
+  it("links to /conseils when authenticated", () => {
+    useSession.mockReturnValue({ status: "authenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Voir les blagues").closest("a")).toHaveAttribute("href", "/blagues");
+    expect(screen.getByText("Voir les conseils").closest("a")).toHaveAttribute("href", "/conseils");
   });
 });

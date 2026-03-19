@@ -1,4 +1,4 @@
-# Plan de tests — deviensmarrant.fr
+# Plan de tests — deviens-marrant.fr
 
 ## Stack de tests
 
@@ -47,8 +47,8 @@
 
 Chaque persona a des parcours critiques à couvrir par les tests :
 
-### Yanis (17 ans — répartie & confiance)
-- [x] Quiz onboarding : sélection « Avoir de la répartie » + « Entre potes / au lycée »
+### Yanis (20 ans — répartie & confiance)
+- [x] Quiz onboarding : sélection « Avoir de la répartie » + « Entre potes / en soirée étudiante »
 - [x] HeroSection : affichage tags « Répartie au quotidien », « Confiance en soi »
 - [x] Profil : recommandation « Apprends les bases » quand tipsCompleted < 3
 - [ ] Parcours : accès au parcours débutant depuis la recommandation profil

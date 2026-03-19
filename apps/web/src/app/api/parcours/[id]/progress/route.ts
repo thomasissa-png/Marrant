@@ -2,9 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { rateLimit } from "@/lib/rate-limit";
+import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
+
+// Get the moduleXp from seed for a given parcours step
+function getStepXpFromSeed(pathSlug: string | null, stepOrder: number): number {
+  if (!pathSlug) return 20;
+  const seed = parcoursSeed.find((p) => p.slug === pathSlug);
+  if (!seed) return 20;
+  const seedStep = seed.steps.find((s) => s.week === stepOrder);
+  return seedStep?.moduleXp ?? 20;
+}
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -14,6 +25,19 @@ export async function GET(
     }
 
     const userId = (session.user as { id: string }).id;
+
+    // Vérifier que le parcours existe
+    const path = await prisma.learningPath.findUnique({
+      where: { id: params.id, isActive: true },
+      select: { id: true },
+    });
+
+    if (!path) {
+      return NextResponse.json(
+        { error: "Parcours introuvable" },
+        { status: 404 }
+      );
+    }
 
     const progress = await prisma.userPathProgress.findUnique({
       where: { userId_learningPathId: { userId, learningPathId: params.id } },
@@ -33,77 +57,141 @@ export async function POST(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user || !("id" in session.user)) {
-      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Authentification requise" },
+        { status: 401 }
+      );
     }
 
     const userId = (session.user as { id: string }).id;
-    const { stepOrder } = await request.json();
 
-    // Vérifier si le step a déjà été complété
-    const existingProgress = await prisma.userPathProgress.findUnique({
-      where: { userId_learningPathId: { userId, learningPathId: params.id } },
+    // Rate limiting : max 10 completions par minute par utilisateur
+    const rl = rateLimit(`progress:${userId}`, {
+      maxRequests: 10,
+      windowMs: 60_000,
     });
-
-    const alreadyCompleted = existingProgress?.completedSteps.includes(stepOrder) ?? false;
-
-    if (alreadyCompleted) {
-      return NextResponse.json({
-        progress: existingProgress,
-        xpGained: 0,
-        pathCompleted: false,
-        message: "Step déjà complété",
-      });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie dans une minute." },
+        { status: 429 }
+      );
     }
 
-    // Upsert le progress avec le nouveau step
-    const progress = await prisma.userPathProgress.upsert({
-      where: { userId_learningPathId: { userId, learningPathId: params.id } },
-      create: {
-        userId,
-        learningPathId: params.id,
-        currentStep: stepOrder,
-        completedSteps: [stepOrder],
-      },
-      update: {
-        currentStep: stepOrder,
-        completedSteps: { push: stepOrder },
-      },
-    });
+    // Valider le body
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Corps de requête invalide" },
+        { status: 400 }
+      );
+    }
 
-    // Award XP atomiquement
-    await prisma.user.update({
-      where: { id: userId },
-      data: { xp: { increment: 20 } },
-    });
+    const stepOrder =
+      typeof body === "object" &&
+      body !== null &&
+      "stepOrder" in body &&
+      typeof (body as Record<string, unknown>).stepOrder === "number"
+        ? (body as { stepOrder: number }).stepOrder
+        : null;
 
-    let xpGained = 20;
+    if (stepOrder === null || !Number.isInteger(stepOrder) || stepOrder < 1) {
+      return NextResponse.json(
+        { error: "stepOrder doit être un entier positif" },
+        { status: 400 }
+      );
+    }
 
-    // Vérifier si tous les steps sont complétés
-    const path = await prisma.learningPath.findUnique({
-      where: { id: params.id },
-      include: { steps: true },
-    });
-
-    let pathCompleted = false;
-    if (path && progress.completedSteps.length >= path.steps.length) {
-      pathCompleted = true;
-      await prisma.userPathProgress.update({
-        where: { id: progress.id },
-        data: { completedAt: new Date() },
+    // Tout dans la transaction pour éviter les race conditions
+    const result = await prisma.$transaction(async (tx) => {
+      // Vérifier que le parcours existe et récupérer ses steps
+      const path = await tx.learningPath.findUnique({
+        where: { id: params.id, isActive: true },
+        select: {
+          id: true,
+          slug: true,
+          steps: { select: { order: true } },
+        },
       });
-      // Bonus XP pour complétion du parcours
-      await prisma.user.update({
+
+      if (!path) {
+        return { error: "Parcours introuvable", status: 404 } as const;
+      }
+
+      // Vérifier que le stepOrder correspond à un vrai step
+      const validStepOrders = path.steps.map((s) => s.order);
+      if (!validStepOrders.includes(stepOrder)) {
+        return { error: "Étape invalide", status: 400 } as const;
+      }
+
+      // Get XP from seed (or fallback to 20)
+      const stepXp = getStepXpFromSeed(path.slug, stepOrder);
+
+      // Vérifier si le step a déjà été complété
+      const existingProgress = await tx.userPathProgress.findUnique({
+        where: { userId_learningPathId: { userId, learningPathId: params.id } },
+      });
+
+      if (existingProgress?.completedSteps.includes(stepOrder)) {
+        return {
+          progress: existingProgress,
+          xpGained: 0,
+          pathCompleted: !!existingProgress.completedAt,
+        };
+      }
+
+      // Upsert le progress
+      const progress = await tx.userPathProgress.upsert({
+        where: { userId_learningPathId: { userId, learningPathId: params.id } },
+        create: {
+          userId,
+          learningPathId: params.id,
+          currentStep: stepOrder,
+          completedSteps: [stepOrder],
+        },
+        update: {
+          currentStep: stepOrder,
+          completedSteps: { push: stepOrder },
+        },
+      });
+
+      // Award XP atomiquement (valeur du seed)
+      await tx.user.update({
         where: { id: userId },
-        data: { xp: { increment: 100 } },
+        data: { xp: { increment: stepXp } },
       });
-      xpGained += 100;
+
+      let xpGained = stepXp;
+
+      // Vérifier si tous les steps sont complétés
+      let pathCompleted = false;
+      if (progress.completedSteps.length >= path.steps.length) {
+        pathCompleted = true;
+        await tx.userPathProgress.update({
+          where: { id: progress.id },
+          data: { completedAt: new Date() },
+        });
+        // Bonus XP pour complétion du parcours
+        await tx.user.update({
+          where: { id: userId },
+          data: { xp: { increment: 100 } },
+        });
+        xpGained += 100;
+      }
+
+      return { progress, xpGained, pathCompleted };
+    });
+
+    // Gérer les erreurs retournées par la transaction
+    if ("error" in result && "status" in result) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: result.status }
+      );
     }
 
-    return NextResponse.json({
-      progress,
-      xpGained,
-      pathCompleted,
-    });
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[API /parcours/progress POST]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

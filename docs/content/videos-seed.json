@@ -1,332 +1,1619 @@
 [
   {
     "id": 1,
-    "youtubeId": "F_LkEMkfzkE",
-    "title": "Gad Elmaleh - L'accent américain",
-    "channelName": "Gad Elmaleh",
-    "duration": "PT6M30S",
+    "youtubeId": "brlY_DMoaRk",
+    "title": "Roman Frayssinet - L'intelligence des animaux",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M12S",
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
-    "description": "Gad Elmaleh décortique l'accent américain avec une précision hilarante. Il imite les sonorités et les tics de langage des Américains parlant français. Un excellent exemple d'observation fine transformée en comédie accessible à tous.",
-    "technique": "Observation"
+    "description": "Regarde pour apprendre la TECHNIQUE DU FAUX NAÏF. Roman Frayssinet décrit les animaux avec un sérieux scientifique absurde qui transforme chaque observation banale en moment comique. Le sketch parfait pour comprendre comment un regard décalé sur le quotidien crée le rire.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DU FAUX NAÏF : décris un comportement banal avec le vocabulaire d'un documentaire animalier — le décalage entre le ton sérieux et le sujet absurde génère le rire automatiquement",
+      "TECHNIQUE DE L'ÉVIDENCE CACHÉE : pointe un truc que tout le monde observe mais que personne ne formule — plus c'est universel et spécifique, plus le public se reconnaît",
+      "TECHNIQUE DU MIROIR ANIMAL : compare un comportement humain à celui d'un animal pour révéler son absurdité — 'les humains font X exactement comme les pigeons font Y'",
+      "TECHNIQUE DE LA PRÉCISION VOCABULAIRE : utilise un mot technique ou soutenu pour décrire un truc trivial — 'l'intelligence stratégique du chat face à sa gamelle' est plus drôle que 'le chat mange'"
+    ],
+    "exercise": "DÉFI FAUX NAÏF : Observe ton chat, un pigeon ou un collègue pendant 5 minutes. Décris 3 de ses comportements comme David Attenborough décrirait un animal rare. Lis tes descriptions à voix haute. Si tu souris au ton décalé, c'est que la technique marche. Teste la meilleure sur un ami."
   },
   {
     "id": 2,
-    "youtubeId": "TBQz9sJJ_gM",
-    "title": "Florence Foresti - Les enfants",
-    "channelName": "Florence Foresti",
-    "duration": "PT5M15S",
-    "category": "AUTODERISION",
+    "youtubeId": "rldvVgHQSvo",
+    "title": "Vérino - Le distributeur de baguettes",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M30S",
+    "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
-    "description": "Florence Foresti parle de la maternité et des enfants avec une honnêteté désarmante. Elle brise les tabous sur le quotidien parental avec un humour incisif. Parfait pour comprendre comment l'auto-dérision crée la complicité avec le public.",
-    "technique": "Auto-dérision"
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'OBJET SACRÉ. Vérino prend un distributeur de baguettes — un truc que personne ne remarque — et en fait 7 minutes de comédie. Il montre comment transformer n'importe quel objet banal en source de matière en le regardant comme un étranger.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : regarde un objet du quotidien comme si tu le voyais pour la première fois — la baguette, le caddie, le portique de métro deviennent absurdes quand tu les décris sans habitude",
+      "TECHNIQUE DE L'ANCRAGE CULTUREL : cible une habitude typiquement française que tout le monde partage — plus c'est spécifique à la culture, plus la connivence avec le public est forte",
+      "TECHNIQUE DU DÉCALAGE MODERNITÉ/TRADITION : mets en parallèle un objet moderne et une habitude ancienne — le distributeur automatique vs la baguette artisanale, le comique naît du contraste",
+      "TECHNIQUE DE LA COMPLICITÉ DOUCE : moque-toi gentiment de ta propre culture plutôt que de celle des autres — l'autodérision collective crée un 'nous' avec le public"
+    ],
+    "exercise": "DÉFI QUOTIDIEN : Pendant 3 jours, note chaque soir un objet ou une habitude que tu as vu(e) et que tu trouves absurde. Le 4e jour, choisis le meilleur et raconte-le à un ami comme si tu étais un étranger qui découvre la France. Observe sa réaction."
   },
   {
     "id": 3,
-    "youtubeId": "v62b1TRaAHI",
-    "title": "Jamel Debbouze - Le lion",
-    "channelName": "Jamel Comedy Club",
-    "duration": "PT4M45S",
-    "category": "STORYTELLING",
-    "difficulty": "DEBUTANT",
-    "description": "Jamel Debbouze raconte une histoire de lion avec son talent de conteur légendaire. Chaque détail est amplifié pour créer une montée en puissance comique irrésistible. Une leçon de storytelling où le charisme porte le récit.",
-    "technique": "Storytelling"
+    "youtubeId": "57KJEtKDf2U",
+    "title": "Fary - Neymar",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M45S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DU PARALLÈLE POP CULTURE. Fary prend Neymar et le football comme point d'entrée pour des observations sociales plus profondes. Il montre comment utiliser une référence que tout le monde connaît pour faire passer des idées originales.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DU POINT D'ENTRÉE POP : utilise une référence connue de tous (célébrité, série, sport) comme porte d'entrée vers une observation plus profonde — le public accroche sur le familier",
+      "TECHNIQUE DU PARALLÈLE UNIVERS : compare deux mondes différents (sport et quotidien) pour créer des analogies inattendues — 'Neymar fait X, nous au bureau on fait Y'",
+      "TECHNIQUE DE L'IMITATION CIBLÉE : n'imite pas la personne en entier, isole UN tic ou UN comportement et pousse-le à l'extrême — la précision bat la caricature globale",
+      "TECHNIQUE DE L'IRONIE AFFECTUEUSE : moque-toi d'un sujet que tu aimes — Fary se moque du foot PARCE QU'il est fan, et ça se sent, ce qui rend l'humour bienveillant"
+    ],
+    "exercise": "DÉFI POP CULTURE : Choisis une célébrité que tout le monde connaît. Isole 3 de ses tics ou habitudes. Pour chacun, écris une phrase qui les transpose dans ta vie quotidienne. Ex : 'Neymar qui roule par terre, c'est moi quand mon réveil sonne.' Teste la meilleure sur un ami."
   },
   {
     "id": 4,
-    "youtubeId": "hJ8rI-_BGDY",
-    "title": "Fary - Stand-up hexagone",
-    "channelName": "Fary",
-    "duration": "PT7M20S",
+    "youtubeId": "t7fgrrRVyaU",
+    "title": "Élodie Poux - Survivre en école maternelle",
+    "channelName": "Montreux Comedy",
+    "duration": "PT9M15S",
     "category": "OBSERVATION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Fary analyse les particularités de la France et des Français avec un regard acéré et moderne. Son énergie scénique et ses punchlines rapides maintiennent un rythme effréné. Démontre comment subvertir les clichés culturels avec intelligence.",
-    "technique": "Observation"
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'ETHNOLOGUE. Élodie Poux observe l'école maternelle comme une anthropologue étudierait une tribu — avec distance et faux sérieux. Elle montre comment transformer un lieu familier en terrain d'observation comique.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ETHNOLOGUE : observe un lieu familier (bureau, école, transport) comme un chercheur qui découvre une civilisation — la distance crée le décalage comique",
+      "TECHNIQUE DE LA MICRO-OBSERVATION : ne décris pas 'l'école' en général, décris LE moment précis où un enfant fait un truc absurde — le détail ultra-spécifique est plus drôle que la généralité",
+      "TECHNIQUE DE LA VÉRITÉ UNIVERSELLE : cible un comportement que 100% de ton public a vécu — quand tout le monde hoche la tête, le rire suit automatiquement",
+      "TECHNIQUE DE L'ÉNERGIE PHYSIQUE : raconte avec le corps, pas seulement les mots — imiter la démarche d'un enfant de 4 ans vaut mille descriptions"
+    ],
+    "exercise": "DÉFI ETHNOLOGUE : Demain, observe un lieu que tu fréquentes (bureau, cantine, salle de sport) pendant 10 minutes comme si tu voyais cet endroit pour la première fois. Note 5 comportements absurdes. Raconte le meilleur à un ami ce soir comme un documentaire. Succès = il dit 'c'est trop ça'."
   },
   {
     "id": 5,
-    "youtubeId": "uZy5fGhOXnM",
-    "title": "Blanche Gardin - Les femmes",
-    "channelName": "Blanche Gardin",
-    "duration": "PT8M10S",
-    "category": "AUTODERISION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Blanche Gardin aborde la condition féminine avec sa franchise brutale caractéristique. Elle pousse chaque observation jusqu'à sa conclusion la plus inconfortable, transformant le malaise en éclats de rire. Masterclass d'honnêteté radicale sur scène.",
-    "technique": "Auto-dérision"
+    "youtubeId": "3v8Y4C9Q5hE",
+    "title": "Kev Adams - Du côté de chez vous",
+    "channelName": "Kev Adams",
+    "duration": "PT5M20S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU PORTRAIT DE QUARTIER. Kev Adams capte les codes d'un environnement (la banlieue) avec une précision bienveillante qui évite la caricature. Il montre comment observer SON propre milieu et en faire du matériel sans se moquer.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DU PORTRAIT BIENVEILLANT : observe ton propre environnement de l'intérieur — la crédibilité vient du vécu, pas du jugement extérieur",
+      "TECHNIQUE DU CODE PARTAGÉ : identifie les rituels et expressions propres à ton groupe (famille, boulot, quartier) — les codes internes font rire ceux qui les reconnaissent",
+      "TECHNIQUE DE L'ÉNERGIE DE RÉCIT : l'enthousiasme du narrateur est contagieux — si tu t'amuses en racontant, le public s'amuse en écoutant, même si l'histoire est banale",
+      "TECHNIQUE DE LA SPÉCIFICITÉ LOCALE : 'le kebab en bas de chez moi' est plus drôle que 'un fast-food' — nomme les lieux, les marques, les noms, le concret ancre le rire"
+    ],
+    "exercise": "DÉFI QUARTIER : Décris ton quartier/bureau/fac en 5 phrases comme si tu le présentais à un touriste. Chaque phrase doit contenir un détail ultra-spécifique (nom de rue, commerce, habitude locale). Teste sur quelqu'un qui connaît l'endroit — succès = 'c'est exactement ça'."
   },
   {
     "id": 6,
-    "youtubeId": "zAO6EjGaxKY",
-    "title": "Paul Mirabel - Le succès",
-    "channelName": "Paul Mirabel",
-    "duration": "PT6M50S",
-    "category": "STORYTELLING",
-    "difficulty": "DEBUTANT",
-    "description": "Paul Mirabel raconte son rapport au succès avec une vulnérabilité touchante et drôle. Sa structure narrative est impeccable, chaque anecdote plantant des graines pour des callbacks futurs. Idéal pour étudier la construction d'un numéro comique.",
-    "technique": "Callback"
-  },
-  {
-    "id": 7,
-    "youtubeId": "Mz-4m_dPafc",
-    "title": "Roman Frayssinet - Les réseaux sociaux",
-    "channelName": "Roman Frayssinet",
-    "duration": "PT5M40S",
-    "category": "ABSURDE",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Roman Frayssinet déconstruit notre rapport aux réseaux sociaux avec son absurde existentiel signature. Ses observations philosophiques deviennent hilarantes par leur précision chirurgicale. Un ton unique qui mêle mélancolie et humour décalé.",
-    "technique": "Absurde"
-  },
-  {
-    "id": 8,
-    "youtubeId": "CqFxPU8TkJo",
-    "title": "Kev Adams - Le lycée",
-    "channelName": "Kev Adams",
-    "duration": "PT6M15S",
-    "category": "OBSERVATION",
-    "difficulty": "DEBUTANT",
-    "description": "Kev Adams caricature avec énergie les différents types de professeurs et les situations du lycée. Son approche accessible et grand public génère une identification immédiate. Montre comment l'humour générationnel crée la connivence.",
-    "technique": "Caricature"
-  },
-  {
-    "id": 9,
-    "youtubeId": "YQ_1DJGufGA",
-    "title": "Waly Dia - Les parents africains",
-    "channelName": "Waly Dia",
-    "duration": "PT5M55S",
-    "category": "STORYTELLING",
-    "difficulty": "DEBUTANT",
-    "description": "Waly Dia raconte les particularités de l'éducation africaine avec tendresse et humour. Il transforme des anecdotes familiales en moments universellement drôles. Excellent exemple de storytelling ancré dans l'expérience personnelle.",
-    "technique": "Storytelling"
-  },
-  {
-    "id": 10,
-    "youtubeId": "9i_CUz3b-Jc",
-    "title": "Panayotis Pascot - Coming out",
-    "channelName": "Panayotis Pascot",
-    "duration": "PT7M30S",
-    "category": "AUTODERISION",
-    "difficulty": "EXPERT",
-    "description": "Panayotis Pascot aborde son coming out avec une sensibilité rare mêlée d'humour. Il trouve le comique dans l'émotion sincère sans jamais tomber dans le pathos. Leçon d'équilibre entre rire et émotion, démontrant la puissance de la vulnérabilité sur scène.",
-    "technique": "Auto-dérision"
-  },
-  {
-    "id": 11,
-    "youtubeId": "nZ-FV3L8D2E",
-    "title": "Ahmed Sylla - Le permis de conduire",
-    "channelName": "Ahmed Sylla",
-    "duration": "PT5M20S",
-    "category": "STORYTELLING",
-    "difficulty": "DEBUTANT",
-    "description": "Ahmed Sylla raconte les péripéties de son passage du permis de conduire avec une énergie contagieuse. Chaque étape de l'histoire monte en intensité comique. Un récit parfaitement construit où le timing des punchlines est impeccable.",
-    "technique": "Timing"
-  },
-  {
-    "id": 12,
-    "youtubeId": "3vWKjslZdNE",
-    "title": "Haroun - L'école",
-    "channelName": "Haroun",
-    "duration": "PT6M40S",
-    "category": "OBSERVATION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Haroun observe le système scolaire français avec un regard à la fois tendre et acéré. Ses observations précises sur les professeurs et les élèves résonnent avec le vécu de chacun. Démontre comment la justesse de l'observation génère le rire.",
-    "technique": "Observation"
-  },
-  {
-    "id": 13,
-    "youtubeId": "RLFptsICnko",
-    "title": "Redouanne Harjane - Les voisins",
-    "channelName": "Redouanne Harjane",
+    "youtubeId": "tj6qta_9PaM",
+    "title": "Anne Roumanoff - Carmen et la crise",
+    "channelName": "Anne Roumanoff Officiel",
     "duration": "PT4M50S",
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
-    "description": "Redouanne Harjane décrit les relations de voisinage avec une exagération maîtrisée. Il amplifie les petites tensions quotidiennes jusqu'à l'absurde. Parfait pour comprendre comment transformer le banal en matériau comique explosif.",
-    "technique": "Exagération"
+    "description": "Regarde pour apprendre la TECHNIQUE DU PERSONNAGE CANDIDE. Anne Roumanoff incarne une Française ordinaire qui subit l'absurdité de la crise économique avec un aplomb comique. Elle montre comment un personnage naïf face à un système absurde génère le rire automatiquement.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DU PERSONNAGE CANDIDE : crée un personnage qui prend tout au premier degré face à une situation absurde — l'innocence du personnage amplifie l'absurdité du système",
+      "TECHNIQUE DU SUJET CASSE-GUEULE : prends un sujet sérieux (économie, politique) et aborde-le par le quotidien — 'l'inflation c'est quand ton caddie fait le même prix mais pèse moins'",
+      "TECHNIQUE DU TIMING CONVERSATIONNEL : raconte comme si tu parlais à une copine — le naturel du ton fait oublier que c'est un numéro écrit et rodé",
+      "TECHNIQUE DE L'INCARNATION RÉALISTE : joue le personnage à 100% — pas de clin d'œil au public, pas de méta, tu ES le personnage et sa logique est la tienne"
+    ],
+    "exercise": "DÉFI ACTU : Ouvre ton fil d'actu. Prends le premier sujet sérieux (inflation, IA, climat). Écris 3 phrases qui ramènent ce sujet à ton quotidien. Ex : 'L'inflation, c'est quand ton kebab coûte le prix d'un restaurant.' Teste la meilleure sur un ami."
+  },
+  {
+    "id": 7,
+    "youtubeId": "4wxWv241V3g",
+    "title": "Blanche Gardin - La télévision / Réfugiés climatiques",
+    "channelName": "Montreux Comedy",
+    "duration": "PT10M30S",
+    "category": "AUTODERISION",
+    "difficulty": "EXPERT",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'AUDACE CALCULÉE. Blanche Gardin va là où personne n'ose aller, mais avec une intelligence d'écriture qui transforme le malaise en rire. Ce sketch montre comment aborder des sujets tabous avec une franchise clinique qui force le respect.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DE L'AUDACE CALCULÉE : ose un sujet que personne n'aborde, mais prépare chaque mot — le courage sans craft c'est juste de la provocation",
+      "TECHNIQUE DU SILENCE POST-AUDACE : après une vanne risquée, laisse un silence — le public a besoin de 2 secondes pour décider s'il a le droit de rire",
+      "TECHNIQUE DE LA FRANCHISE CLINIQUE : décris une situation choquante avec le détachement d'un médecin — le contraste entre l'émotion du sujet et la froideur du ton crée le malaise comique",
+      "TECHNIQUE DE L'AUTO-INCLUSION : moque-toi d'un groupe dont tu fais partie — 'nous les Blancs', 'nous les nantis' — l'auto-inclusion légitime la critique"
+    ],
+    "exercise": "DÉFI MIROIR : Chaque matin pendant 1 semaine, dis une phrase d'auto-dérision devant ton miroir avec un ton calme et détaché (comme Blanche Gardin). Le but : trouver le ton juste entre humour et gravité. Tu sauras que c'est bon quand tu te feras sourire toi-même."
+  },
+  {
+    "id": 8,
+    "youtubeId": "RYjfe8OSRFw",
+    "title": "Paul Mirabel - Je me suis fait racketter",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M45S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU GÊNANT ASSUMÉ. Paul Mirabel raconte un racket qu'il a subi et transforme sa honte en punchlines. Il montre comment raconter un moment humiliant en prenant le contrôle de la narration — celui qui raconte sa honte en premier ne peut plus être humilié.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU GÊNANT ASSUMÉ : raconte ton moment le plus honteux AVANT que quelqu'un d'autre le fasse — tu reprends le pouvoir sur l'histoire",
+      "TECHNIQUE DU CALLBACK PERSONNEL : plante un détail embarrassant tôt dans l'histoire, puis reviens-y en punchline — le public récompense la construction",
+      "TECHNIQUE DE LA VULNÉRABILITÉ COMIQUE : montre ta faiblesse (peur, honte, incompétence) avec un ton décalé — le public rit parce qu'il se reconnaît, pas parce qu'il te juge",
+      "TECHNIQUE DU RYTHME MILLENNIAL : phrases courtes, pauses fréquentes, ton de conversation — comme si tu racontais l'histoire à un pote et pas à 2000 personnes"
+    ],
+    "exercise": "DÉFI GÊNANT ASSUMÉ : Envoie un vocal de 30 secondes à un ami de confiance où tu racontes un moment honteux de ta semaine en mode comique. Règle : exagère ta propre réaction, pas les faits. Si l'ami répond en riant ou en racontant le sien → tu as trouvé le ton."
+  },
+  {
+    "id": 9,
+    "youtubeId": "F5WiaMalDSc",
+    "title": "Baptiste Lecaplain - La timidité",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M20S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU MONOLOGUE INTÉRIEUR. Baptiste Lecaplain met en scène sa timidité en nous faisant entendre ce qui se passe dans sa tête pendant une interaction sociale. Il montre comment le décalage entre pensée interne et comportement externe génère le rire.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU MONOLOGUE INTÉRIEUR : raconte ce que tu PENSES pendant une situation sociale, pas ce que tu DIS — le décalage entre les deux est automatiquement drôle",
+      "TECHNIQUE DU 'DANS MA TÊTE' : utilise la formule 'et là dans ma tête je me dis...' pour basculer du récit externe au monologue interne — le public entre dans ta tête",
+      "TECHNIQUE DE LA TIMIDITÉ RELATABLE : décris les micro-paniques que tout le monde vit (dire 'bonne journée' à un serveur le soir) — plus c'est spécifique, plus c'est universel",
+      "TECHNIQUE DE L'ANTI-HÉROS ATTACHANT : montre-toi comme le personnage le moins cool de ta propre histoire — le public t'adopte parce qu'il se reconnaît"
+    ],
+    "exercise": "DÉFI ÉCOUTE : Réécoute ce sketch en notant chaque fois que Baptiste dit 'et là dans ma tête je me dis...'. Compte le nombre de fois. Puis essaie toi-même : la prochaine fois qu'une situation te stresse, note ton monologue intérieur MOT POUR MOT. C'est ton matériau brut."
+  },
+  {
+    "id": 10,
+    "youtubeId": "Rre1afUQKW0",
+    "title": "Fadily Camara - La confiance en soi",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M30S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'ÉNERGIE BRUTE. Fadily Camara transforme son manque de confiance en torrent d'énergie comique. Elle montre qu'assumer ses failles à voix haute — avec le bon timing et la bonne intensité — les transforme en force scénique.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DE L'ÉNERGIE COMPENSATOIRE : compense un manque de confiance par un surplus d'énergie — l'enthousiasme masque la vulnérabilité tout en la rendant attachante",
+      "TECHNIQUE DU RETOURNEMENT DE FAILLE : prends ton plus gros complexe et présente-le comme un super-pouvoir — 'je suis grosse et ça me donne une présence que vous avez pas'",
+      "TECHNIQUE DE LA SURENCHÈRE ASSUMÉE : au lieu de minimiser un défaut, pousse-le à l'extrême — l'excès rend le propos comique au lieu de pathétique",
+      "TECHNIQUE DU CONTRASTE TON/SUJET : parle d'un sujet douloureux (confiance, image de soi) avec un ton de victoire — le décalage émotionnel surprend le public"
+    ],
+    "exercise": "DÉFI ÉNERGIE : Envoie un vocal de 45 secondes à un ami où tu racontes un complexe que tu as, mais avec l'énergie de quelqu'un qui vient de gagner au loto. Pas de tristesse, juste de l'enthousiasme. Si l'ami est surpris puis rit → la technique fonctionne."
+  },
+  {
+    "id": 11,
+    "youtubeId": "YY4M7TQTrXE",
+    "title": "Fadily Camara - Les complexes",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M15S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DU RETOURNEMENT DE CONSEIL. Fadily Camara prend les injonctions bien-être ('aime-toi', 'sois toi-même') et les dynamite en montrant leur absurdité au quotidien. Elle montre comment le décalage entre le conseil idéal et la réalité véc̣ue est une mine d'or comique.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT DE CONSEIL : prends un conseil bien-être ou développement perso et confronte-le à la réalité — 'aime-toi tel que tu es → ok mais mon miroir est pas d'accord'",
+      "TECHNIQUE DE LA VÉRITÉ QUI PIQUE : dis tout haut ce que tout le monde pense tout bas face aux injonctions sociales — le soulagement collectif provoque le rire",
+      "TECHNIQUE DU PERSONNAGE QUI ESSAYE : incarne quelqu'un qui essaye sincèrement de suivre le conseil... et échoue — l'échec sincère est plus drôle que la moquerie distante",
+      "TECHNIQUE DE L'ACCUMULATION D'ÉCHECS : liste 3 tentatives de suivre le même conseil, chacune pire que la précédente — l'escalade crée le rythme comique"
+    ],
+    "exercise": "DÉFI ANTI-CONSEIL : Prends le dernier conseil bien-être que tu as vu (sur Insta, TikTok, un magazine). Réécris-le en version honnête. Ex : 'Levez-vous à 5h' → 'Soyez fatigué ET productif, la combo gagnante.' Envoie-le à un ami."
+  },
+  {
+    "id": 12,
+    "youtubeId": "jgNSu968qD4",
+    "title": "Anne Roumanoff - La chirurgie esthétique",
+    "channelName": "Anne Roumanoff Officiel",
+    "duration": "PT4M30S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU RETOURNEMENT DE TENDANCE. Anne Roumanoff prend la chirurgie esthétique et retourne chaque argument 'pour' en argument comique 'contre'. Elle montre comment disséquer une tendance sociale en pointant ses contradictions internes.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT D'ARGUMENT : prends chaque argument 'pour' un phénomène et montre son absurdité — 'la chirurgie pour paraître naturel' est un oxymore comique en soi",
+      "TECHNIQUE DE LA QUESTION NAÏVE : pose une question évidente que personne ne pose — 'mais si tout le monde fait le même nez, comment on se reconnaît ?'",
+      "TECHNIQUE DE L'OBSERVATION GENRÉE : cible un comportement spécifique à un genre, une génération ou un milieu — la spécificité du groupe crée la reconnaissance",
+      "TECHNIQUE DU NATUREL TRAVAILLÉ : un ton 'comme si je parlais à ma copine' cache des heures d'écriture — le naturel est l'illusion la plus travaillée du stand-up"
+    ],
+    "exercise": "DÉFI RETOURNEMENT : Écris 3 phrases sur un défaut que tu as, en transformant chacun en avantage. Ex : 'Je suis petit → j'ai plus de place en avion que vous.' Garde celle qui te fait le plus sourire et teste-la la prochaine fois qu'on te chambre."
+  },
+  {
+    "id": 13,
+    "youtubeId": "uEj_jmlANXE",
+    "title": "Djimo - J'aurais kiffé être une tortue",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M50S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'ARGUMENT ABSURDE. Djimo rêve d'être une tortue et défend cette position avec une logique imparable. Il montre comment choisir une idée ridicule et la défendre si sérieusement que le public finit par y croire.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : choisis une idée absurde et défends-la comme si ta vie en dépendait — plus tu es sérieux, plus c'est drôle",
+      "TECHNIQUE DE L'ARGUMENT IMPARABLE : donne des arguments vrais pour une conclusion fausse — 'les tortues vivent 200 ans' est un fait, 'donc je veux être une tortue' est absurde, mais ça suit logiquement",
+      "TECHNIQUE DE LA LISTE PROGRESSIVE : chaque nouvel argument pour ton idée absurde doit être plus convaincant que le précédent — le public bascule de 'n'importe quoi' à 'il a pas tort'",
+      "TECHNIQUE DU CONTEUR PASSIONNÉ : raconte avec enthousiasme, pas avec détachement — l'absurde marche quand le narrateur y CROIT"
+    ],
+    "exercise": "DÉFI SUSPENSE : Filme-toi pendant 2 minutes en argumentant pourquoi ta vie serait mieux si tu étais un animal improbable (un flamant rose, un paresseux, un ornithorynque). Regarde la vidéo : les moments où tu ris de toi-même sont les meilleurs."
   },
   {
     "id": 14,
-    "youtubeId": "X0fB62MExC8",
-    "title": "Laura Laune - La provocation",
-    "channelName": "Laura Laune",
-    "duration": "PT7M15S",
-    "category": "ABSURDE",
-    "difficulty": "EXPERT",
-    "description": "Laura Laune repousse les limites de l'humour avec une provocation calculée et un sens de l'absurde dévastateur. Elle transforme le malaise du public en rire libérateur. Étude avancée de la transgression maîtrisée comme outil comique.",
-    "technique": "Absurde"
+    "youtubeId": "v-ySkBGAXLI",
+    "title": "Thomas Ngijol - Le voisin",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M40S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'ESCALADE DE VOISINAGE. Thomas Ngijol prend une simple relation de voisinage et la fait escalader jusqu'à l'absurde. Il montre comment une situation banale (le voisin) peut devenir épique quand chaque étape ajoute un niveau de conflit.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DE L'ESCALADE : pars d'une situation banale et ajoute un problème à chaque phrase — le banal → l'agaçant → l'absurde → le dément",
+      "TECHNIQUE DU PERSONNAGE INVISIBLE : raconte les actions d'un personnage absent (le voisin) en ne montrant que TES réactions — le public imagine pire que ce que tu pourrais montrer",
+      "TECHNIQUE DE L'ACCUMULATION QUOTIDIENNE : liste les micro-agressions du quotidien une par une — la 3ème fait sourire, la 5ème fait rire, la 8ème fait exploser",
+      "TECHNIQUE DU SEUIL : identifie le moment exact où 'c'est bon je tolère' bascule vers 'non mais là c'est trop' — ce point de rupture est toujours comique"
+    ],
+    "exercise": "DÉFI ESCALADE : raconte une anecdote de voisinage (bruit, odeurs, rencontre dans l'escalier). Joue les deux rôles en changeant de voix. Exagère les réactions de ton voisin x3. Chronomètre : 1 minute max. L'objectif : que l'auditeur visualise la scène."
   },
   {
     "id": 15,
-    "youtubeId": "9LMr5XTgeyI",
-    "title": "Verino - Les trentenaires",
-    "channelName": "Verino",
-    "duration": "PT6M25S",
-    "category": "OBSERVATION",
+    "youtubeId": "PrQTbXOz2iU",
+    "title": "Laura Domenge - La vie de couple",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M10S",
+    "category": "STORYTELLING",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Verino capture les angoisses et les contradictions de la trentaine avec une lucidité hilarante. Son humour d'observation touche par sa justesse et son universalité. Montre comment cibler une tranche d'âge pour créer un effet miroir comique.",
-    "technique": "Observation"
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'INTIME UNIVERSEL. Laura Domenge prend les micro-conflits de couple (qui fait quoi, qui a dit quoi) et les transforme en épopées que tout le monde reconnaît. Elle montre comment les détails les plus privés deviennent les plus collectifs.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DE L'INTIME UNIVERSEL : raconte un conflit de couple ultra-spécifique — plus c'est précis et personnel, plus le public se reconnaît (paradoxe de la spécificité)",
+      "TECHNIQUE DE LA GUERRE DOMESTIQUE : transforme un micro-conflit (qui fait la vaisselle) en récit épique avec vocabulaire militaire — le décalage entre l'enjeu réel et le ton dramatique fait rire",
+      "TECHNIQUE DES DEUX VERSIONS : raconte la même scène du point de vue des deux personnes — le public voit les deux perspectives et rit de l'absurdité du malentendu",
+      "TECHNIQUE DU DIALOGUE RECONSTRUIT : ne résume pas une conversation, rejoue-la avec les voix — 'et là elle m'a dit...' avec l'intonation exacte plonge le public dans la scène"
+    ],
+    "exercise": "DÉFI ABSURDE : Avec un(e) ami(e), jouez à 'la dispute du couple' : choisissez un sujet absurde (qui a fini le PQ, le bon réglage du thermostat) et improvisez une dispute de 2 minutes comme si c'était la fin du monde. Alternez les rôles."
   },
   {
     "id": 16,
-    "youtubeId": "VJ3-ZhTeDuw",
-    "title": "Inès Reg - La vie de couple",
-    "channelName": "Inès Reg",
-    "duration": "PT5M35S",
-    "category": "OBSERVATION",
-    "difficulty": "DEBUTANT",
-    "description": "Inès Reg dépeint les absurdités de la vie de couple avec une énergie explosive et communicative. Son style direct et sans filtre provoque des fous rires instantanés. Illustre comment l'authenticité brute devient un atout comique majeur.",
-    "technique": "Exagération"
-  },
-  {
-    "id": 17,
-    "youtubeId": "IhGsIROEMsY",
-    "title": "Artus - Les sportifs",
-    "channelName": "Artus",
-    "duration": "PT5M45S",
-    "category": "ABSURDE",
-    "difficulty": "DEBUTANT",
-    "description": "Artus parodie le monde du sport avec un sens du physique et du mime exceptionnel. Ses imitations de sportifs poussées à l'extrême provoquent des rires en cascade. Démonstration brillante du comique gestuel et de la caricature corporelle.",
-    "technique": "Caricature"
-  },
-  {
-    "id": 18,
-    "youtubeId": "AJZhIHNHr1A",
-    "title": "Bérengère Krief - Les applis de rencontre",
-    "channelName": "Bérengère Krief",
-    "duration": "PT6M10S",
-    "category": "OBSERVATION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Bérengère Krief dissèque le monde des applications de rencontre avec un humour mordant. Elle met en scène les situations absurdes des rendez-vous en ligne avec une précision chirurgicale. Excellent exercice d'humour de reconnaissance générationnelle.",
-    "technique": "Observation"
-  },
-  {
-    "id": 19,
-    "youtubeId": "rVcPvWkG9mQ",
-    "title": "Guillaume Meurice - La politique",
-    "channelName": "Guillaume Meurice",
-    "duration": "PT7M5S",
-    "category": "REPARTIE",
-    "difficulty": "EXPERT",
-    "description": "Guillaume Meurice déconstruit le discours politique avec une ironie redoutable et des réparties cinglantes. Son approche satirique mêle intelligence et accessibilité. Montre comment l'humour peut être un outil de critique sociale efficace.",
-    "technique": "Répartie"
-  },
-  {
-    "id": 20,
-    "youtubeId": "Aq95DnQ5EmY",
-    "title": "Nora Hamzawi - L'anxiété",
-    "channelName": "Nora Hamzawi",
-    "duration": "PT5M50S",
-    "category": "AUTODERISION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Nora Hamzawi transforme son anxiété chronique en matériau comique avec une finesse remarquable. Ses formules ciselées captent parfaitement les angoisses modernes. Démontre comment la névrose assumée devient un ressort comique puissant.",
-    "technique": "Auto-dérision"
-  },
-  {
-    "id": 21,
-    "youtubeId": "Oq4hn-KAqGM",
-    "title": "Thomas VDB - La technologie",
-    "channelName": "Thomas VDB",
-    "duration": "PT6M35S",
-    "category": "OBSERVATION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Thomas VDB analyse notre dépendance à la technologie avec un regard à la fois geek et critique. Il pousse chaque situation technologique vers l'absurde avec méthode. Illustre comment le décalage entre l'humain et la machine génère le comique.",
-    "technique": "Observation"
-  },
-  {
-    "id": 22,
-    "youtubeId": "V3p91iEn-U4",
-    "title": "Pierre Croce - Les influenceurs",
-    "channelName": "Pierre Croce",
-    "duration": "PT5M25S",
-    "category": "OBSERVATION",
-    "difficulty": "DEBUTANT",
-    "description": "Pierre Croce, lui-même issu du web, parodie le monde des influenceurs avec un ton naturel et conversationnel. Son approche mi-complice mi-critique rend l'humour accessible à tous. Parfait pour étudier l'humour référentiel lié à la culture internet.",
-    "technique": "Observation"
-  },
-  {
-    "id": 23,
-    "youtubeId": "0TRtE53Gw_A",
-    "title": "Lamine Lezghad - Le Ramadan",
-    "channelName": "Lamine Lezghad",
+    "youtubeId": "0FmK8RA_hnE",
+    "title": "Nordine Ganso - La première fois",
+    "channelName": "Tarmac Comedy",
     "duration": "PT6M20S",
     "category": "STORYTELLING",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Lamine Lezghad raconte les péripéties du Ramadan avec un humour bon enfant et des anecdotes savoureuses. Il crée un pont entre les cultures en rendant l'expérience universellement drôle. Montre comment le storytelling culturel transcende les frontières.",
-    "technique": "Storytelling"
+    "description": "Regarde pour apprendre la TECHNIQUE DU SOUVENIR AMPLIFIÉ. Nordine Ganso raconte sa 'première fois' en transformant chaque détail gênant en moment épique. Il montre comment l'honnêteté brute sur un moment intime crée un lien immédiat avec le public.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU SOUVENIR AMPLIFIÉ : prends un souvenir gênant et amplifie chaque sensation — la nervosité devient de la panique, l'erreur devient une catastrophe, l'échec devient légendaire",
+      "TECHNIQUE DU PERSONNAGE PASSÉ : parle de ton toi du passé à la 3ème personne — 'et là le petit Nordine de 15 ans, il fait quoi ?' crée de la distance comique",
+      "TECHNIQUE DU SLOW MOTION : ralentis le récit au moment clé — décris chaque seconde de la scène gênante comme si le temps s'arrêtait, le public souffre et rit en même temps",
+      "TECHNIQUE DE L'INNOCENCE PERDUE : raconte un moment où tu as découvert que le monde n'était pas comme tu croyais — la déception naïve est universellement drôle"
+    ],
+    "exercise": "DÉFI PERSONNAGE : Raconte un souvenir gênant à un ami, mais en 2 versions : d'abord factuelle (30 sec), puis en incarnant un personnage exagéré — le narrateur dramatique, le mec trop calme, ou le parano. Compare les réactions."
+  },
+  {
+    "id": 17,
+    "youtubeId": "qvgM5npfcdM",
+    "title": "Haroun - Spécial Élections",
+    "channelName": "Haroun",
+    "duration": "PT58M00S",
+    "category": "STORYTELLING",
+    "difficulty": "EXPERT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU STAND-UP ENGAGÉ. Haroun mélange actualité politique et anecdotes personnelles avec une construction millimétrique. Il montre comment parler de sujets sérieux (élections, société) en gardant le public en haleine et en riant.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU CHEVAL DE TROIE : glisse une opinion dans une blague — le public rit d'abord, réfléchit ensuite, c'est l'ordre inverse de la tribune et c'est pour ça que ça marche",
+      "TECHNIQUE DE L'ANECDOTE-PREUVE : illustre chaque idée politique par une anecdote personnelle — 'l'autre jour au bureau de vote...' est plus puissant que 'la démocratie c'est...'",
+      "TECHNIQUE DE LA GALERIE DE PORTRAITS : dans un spectacle long, alterne entre sujets lourds et sujets légers — le public a besoin de respirer entre deux observations acides",
+      "TECHNIQUE DE L'ENGAGEMENT SANS PRÊCHE : donne ton avis par tes observations, pas par tes conclusions — le public arrive à la conclusion tout seul et se sent intelligent"
+    ],
+    "exercise": "DÉFI GALÈRE : Écris un message de 3 phrases sur un truc qui t'énerve en ce moment (transports, boulot, voisins). Chaque phrase doit monter d'un cran dans l'exagération. Envoie-le dans un groupe. Si quelqu'un répond 'tellement vrai' → tu as ta matière de stand-up.",
+    "recommendedTimestamp": "8:30-18:00"
+  },
+  {
+    "id": 18,
+    "youtubeId": "egM-wlaobjo",
+    "title": "Artus - Le commissariat du 18ème",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M15S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'ABSURDE PHYSIQUE. Artus incarne un personnage au commissariat et pousse chaque interaction dans l'absurde total avec un jeu de corps démesuré. Il montre que 50% de l'humour absurde passe par le physique, pas les mots.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE L'ABSURDE PHYSIQUE : quand le texte est absurde, le corps doit l'être aussi — Artus ne dit pas juste des trucs fous, il les VIT physiquement sur scène",
+      "TECHNIQUE DU PERSONNAGE À 100% : une fois dans le personnage, ne sors jamais — chaque réaction, chaque regard, chaque geste doit être celui du personnage, pas de l'acteur",
+      "TECHNIQUE DE L'ESCALADE SITUATIONNELLE : pars d'une situation normale (aller au commissariat) et fais dérailler chaque étape — l'absurde marche mieux quand le point de départ est réaliste",
+      "TECHNIQUE DE LA RÉACTION DÉCALÉE : fais réagir ton personnage de façon inappropriée à chaque événement — la policière dit un truc grave, tu ris, le décalage crée le malaise comique"
+    ],
+    "exercise": "DÉFI ACCENT : invente un personnage qui fait un métier sérieux (policier, médecin, prof) mais qui applique les règles de manière totalement absurde. Écris 5 situations et joue-les devant ton miroir en gardant un sérieux total. Ex : un policier qui verbalise les gens qui ne sourient pas."
+  },
+  {
+    "id": 19,
+    "youtubeId": "zC7ff6w7x-Y",
+    "title": "Fary - Le legging",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M00S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'OBJET SIGNATURE. Le sketch du legging a lancé la carrière de Fary et dépassé le million de vues. Il montre comment prendre un seul objet banal et construire 8 minutes d'observations imparables dessus — la preuve qu'une bonne idée suffit.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE L'OBJET UNIQUE : ne parle que d'UN objet pendant tout le sketch — la contrainte force l'approfondissement et empêche de survoler",
+      "TECHNIQUE DE L'ANGLE SOCIOLOGIQUE : derrière un objet banal (le legging), montre ce qu'il dit de la société — un vêtement n'est jamais juste un vêtement, c'est un code social",
+      "TECHNIQUE DU STYLE RECONNAISSABLE : le débit, le vocabulaire, les références de Fary sont uniques — trouve TON phrasé, pas une copie du phrasé d'un autre",
+      "TECHNIQUE DU SUJET VIRAL : un sujet que tout le monde a un avis dessus (le legging, le sushi, le CrossFit) = engagement garanti, parce que chacun a sa propre expérience"
+    ],
+    "exercise": "DÉFI SIGNATURE : Prends un objet que tu portes ou utilises tous les jours (tes baskets, ton sac, tes écouteurs). Écris 5 observations drôles dessus en 5 minutes. Chrono. La contrainte de temps force la créativité."
+  },
+  {
+    "id": 20,
+    "youtubeId": "mFKUThh26oU",
+    "title": "Max Bird - Les effets de l'alcool",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M50S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DU PROF COOL. Max Bird explique les effets de l'alcool avec des faits scientifiques vrais... et des conclusions absurdes. Il montre comment le format 'je t'apprends un truc' peut devenir comique quand la vulgarisation dérape vers l'absurde.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DU PROF COOL : donne une vraie information (fait scientifique, stat) puis pousse la conclusion jusqu'à l'absurde — le public apprend ET rit",
+      "TECHNIQUE DU DÉCALAGE ÉDUCATIF : utilise le ton et le vocabulaire d'un cours pour un sujet trivial — 'la bière contient des glucides, donc techniquement c'est un repas'",
+      "TECHNIQUE DE L'AUTORITÉ DÉTOURNÉE : commence par poser ta crédibilité ('les études montrent que...') puis dérape — la chute est plus forte quand le setup était sérieux",
+      "TECHNIQUE DE LA COMPLICITÉ INTELLECTUELLE : fais rire le public sur un jeu de logique — il se sent intelligent de comprendre le raisonnement absurde, et ça renforce le lien"
+    ],
+    "exercise": "DÉFI PROF COOL : Explique un truc que tu maîtrises (ton métier, ton hobby, ta matière préférée) à quelqu'un qui n'y connaît rien — mais fais-le comme si c'était un sketch. 2 minutes max. Si la personne rit ET comprend, t'as trouvé ton style."
+  },
+  {
+    "id": 21,
+    "youtubeId": "agciwdzBH3w",
+    "title": "Bun Hay Mean - Le Chinois marrant",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M30S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'AUTODÉRISION IDENTITAIRE. Bun Hay Mean retourne les clichés sur les Asiatiques en les assumant, les exagérant, puis les dynamitant. Il montre comment reprendre le pouvoir sur les stéréotypes en étant le premier à en rire.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE L'AUTODÉRISION IDENTITAIRE : aborde les clichés sur ton propre groupe AVANT les autres — celui qui nomme le stéréotype en premier contrôle la narration",
+      "TECHNIQUE DU OUI-ET : au lieu de nier un cliché, accepte-le et pousse-le à l'absurde — 'oui je suis chinois, et d'ailleurs...' désarme le public et ouvre la porte au vrai propos",
+      "TECHNIQUE DU RENVERSEMENT : utilise le stéréotype comme point de départ pour montrer son absurdité — l'humour détruit le préjugé mieux qu'un discours",
+      "TECHNIQUE DE L'INCLUSION PAR LE RIRE : quand tu fais rire les gens SUR un stéréotype, tu les amènes à réfléchir APRÈS le rire — c'est plus puissant que la culpabilisation"
+    ],
+    "exercise": "DÉFI PHYSIQUE : liste 3 clichés que tu entends souvent sur toi (ton métier, ta ville, ton âge). Pour chacun, écris un retournement absurde qui transforme le cliché en compliment déguisé. Ex : 'On dit que les comptables sont ennuyeux. C'est faux. On est fascinants. La preuve : tu as du mal à détacher tes yeux de mon tableur Excel'."
+  },
+  {
+    "id": 22,
+    "youtubeId": "fQW5AJG-Qj0",
+    "title": "Alex Ramirès - Les clichés sur les gays",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M30S",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DU DOUBLE SENS INTÉGRÉ. Alex Ramirès ne fait pas des jeux de mots isolés — il les tisse dans un récit fluide où chaque phrase a deux lectures. Il montre comment le double sens peut être subtil et narratif, pas juste un calembour de comptoir.",
+    "technique": "Jeux de mots",
+    "learnings": [
+      "TECHNIQUE DU DOUBLE SENS NARRATIF : intègre le jeu de mots dans une histoire fluide — le public capte le double sens sans que tu le soulignes, et c'est ça qui le rend subtil",
+      "TECHNIQUE DU JEU DE MOTS SURPRISE : place le calembour là où le public ne l'attend pas — au milieu d'une phrase sérieuse, pas en punchline — l'effet surprise multiplie l'impact",
+      "TECHNIQUE DE L'AMBIGUÏTÉ CONSTRUITE : écris des phrases qui fonctionnent littéralement ET au second degré — les deux lectures doivent avoir du sens indépendamment",
+      "TECHNIQUE DU FIL ROUGE VERBAL : choisis un champ lexical et tiens-le tout au long du sketch — le public commence à chercher les doubles sens et se récompense quand il les trouve"
+    ],
+    "exercise": "DÉFI DOUBLE SENS : Écris 5 phrases sur ton travail ou tes études qui ont un double sens involontaire. Ex : 'Mon chef m'a pris à part' / 'J'ai rendu un rapport explosif'. Garde les 3 meilleures et glisse-en une en conversation demain."
+  },
+  {
+    "id": 23,
+    "youtubeId": "Pae2AMnmUVA",
+    "title": "Paul Taylor - Franglais",
+    "channelName": "Paul Taylor",
+    "duration": "PT62M00S",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DU PONT LINGUISTIQUE. Paul Taylor vit entre le français et l'anglais et transforme ce décalage en matière comique pure. Il montre comment les différences de langue révèlent les différences de culture — et les deux sont hilarantes.",
+    "technique": "Jeux de mots",
+    "learnings": [
+      "TECHNIQUE DU PONT LINGUISTIQUE : compare deux langues mot à mot pour révéler les absurdités de chacune — 'en français on dit X, en anglais ça donne Y, et c'est n'importe quoi'",
+      "TECHNIQUE DE LA TRADUCTION LITTÉRALE : traduis une expression idiomatique mot à mot — 'il pleut des cordes' → 'it's raining ropes' montre l'absurdité cachée dans les langues",
+      "TECHNIQUE DU REGARD ÉTRANGER : décris les habitudes d'une culture avec les yeux de l'autre — le français vu par un Anglais (et vice versa) révèle des absurdités invisibles de l'intérieur",
+      "TECHNIQUE DE L'IMITATION D'ACCENT : l'accent est un raccourci comique immédiat — mais il fonctionne seulement si c'est affectueux, pas moqueur, et si tu t'inclus dans la moquerie"
+    ],
+    "exercise": "DÉFI RÉFÉRENCE : Prends 3 expressions françaises (poser un lapin, avoir le cafard, se prendre un râteau). Pour chacune, imagine la version littérale et décris-la comme si tu la voyais vraiment. Raconte ta préférée à quelqu'un.",
+    "recommendedTimestamp": "5:00-15:00"
   },
   {
     "id": 24,
-    "youtubeId": "PX6e7yVnNsQ",
-    "title": "Nordine Ganso - La banlieue",
-    "channelName": "Nordine Ganso",
-    "duration": "PT5M15S",
-    "category": "STORYTELLING",
+    "youtubeId": "afFehefVWxk",
+    "title": "Karim Duval - Génération Y",
+    "channelName": "Rire et Chansons",
+    "duration": "PT6M10S",
+    "category": "JEUX_DE_MOTS",
     "difficulty": "DEBUTANT",
-    "description": "Nordine Ganso transforme le quotidien de la banlieue en récits épiques et hilarants. Son énergie narrative embarque le public dans chaque histoire. Excellent exemple de conte urbain où le charisme amplifie le texte.",
-    "technique": "Storytelling"
+    "description": "Regarde pour apprendre la TECHNIQUE DU DÉTOURNEMENT DE JARGON. Karim Duval prend le vocabulaire des millennials et des startups et le traduit en langage de tous les jours pour en révéler l'absurdité. Il montre comment le jargon d'une tribu est du matériel comique en or.",
+    "technique": "Jeux de mots",
+    "learnings": [
+      "TECHNIQUE DU DÉTOURNEMENT DE JARGON : prends un mot de jargon (corporate, tech, gen Z) et explique-le littéralement — 'un kickoff meeting, c'est une réunion pour décider de faire une réunion'",
+      "TECHNIQUE DU SOCIOLOGUE POP : étudie ta propre génération avec la distance d'un chercheur — 'nous les millennials on fait X parce que Y' est plus drôle que juste 'on fait X'",
+      "TECHNIQUE DE LA COMPARAISON GÉNÉRATIONNELLE : oppose le même concept vu par deux générations — 'pour mes parents, un CDI c'est la sécurité, pour moi c'est une menace'",
+      "TECHNIQUE DE L'AUTODÉRISION DE TRIBU : moque-toi du groupe auquel tu appartiens — la légitimité du moqueur vient de son appartenance"
+    ],
+    "exercise": "DÉFI JEU DE MOTS : Prends 5 mots anglais que tu utilises au boulot (meeting, deadline, brainstorm). Traduis-les littéralement en français et utilise la version française dans une phrase absurde. Teste la meilleure sur un collègue."
   },
   {
     "id": 25,
-    "youtubeId": "WFxARBmmzKY",
-    "title": "Sugar Sammy - Le français",
-    "channelName": "Sugar Sammy",
-    "duration": "PT7M40S",
-    "category": "REPARTIE",
+    "youtubeId": "K-oIyXvLUeg",
+    "title": "Jason Brokerss - Le mariage",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M25S",
+    "category": "TIMING",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Sugar Sammy, humoriste québécois, joue sur les différences entre le français de France et du Québec avec une répartie vive. Ses interactions avec le public sont électrisantes. Démontre comment le bilinguisme et le multiculturalisme deviennent des outils comiques.",
-    "technique": "Répartie"
+    "description": "Regarde pour apprendre la TECHNIQUE DE LA PAUSE MILLIMÉTRÉE. Jason Brokerss place ses pauses avec une précision chirurgicale — chaque silence a une fonction (suspense, impact, respiration). Ce sketch montre que le timing n'est pas du talent inné mais une mécanique apprenante.",
+    "technique": "Timing",
+    "learnings": [
+      "TECHNIQUE DE LA PAUSE D'IMPACT : place 2 secondes de silence AVANT ta punchline, pas après — le silence crée l'attente, la punchline la libère",
+      "TECHNIQUE DU RYTHME EN DENTS DE SCIE : alterne phrases rapides (buildup d'énergie) et pauses longues (relâchement) — le contraste de rythme maintient l'attention",
+      "TECHNIQUE DU REGARD-PAUSE : pendant un silence, fixe un point précis dans le public — le regard donne un sens au silence (conspirateur, accusateur, innocent)",
+      "TECHNIQUE DE LA NON-RÉACTION : après ta meilleure vanne, ne bouge pas, ne souris pas — le visage neutre + le silence = le public comprend que c'est voulu et rit plus fort"
+    ],
+    "exercise": "DÉFI PAUSE : Raconte une blague que tu connais à un ami. La 1ère fois, raconte-la vite. La 2ème fois, marque 3 secondes de silence avant la chute. Demande quelle version était la plus drôle. La réponse te dit tout sur le timing."
   },
   {
     "id": 26,
-    "youtubeId": "aEKLsPfYt9I",
-    "title": "Djimo - Les frères et sœurs",
-    "channelName": "Djimo",
-    "duration": "PT5M30S",
-    "category": "STORYTELLING",
+    "youtubeId": "GKJKPlf6EqA",
+    "title": "Paul Séré - Les relations amoureuses",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M15S",
+    "category": "TIMING",
     "difficulty": "DEBUTANT",
-    "description": "Djimo raconte les rivalités fraternelles avec une tendresse hilarante. Il capture les dynamiques familiales avec des anecdotes où chacun se reconnaît. Un storytelling efficace basé sur l'expérience universelle de la fratrie.",
-    "technique": "Storytelling"
+    "description": "Regarde pour apprendre la TECHNIQUE DU ONE-LINER ENCHAÎNÉ. Paul Séré enchaîne les observations sur les relations amoureuses en mode mitraillette — chaque phrase est une mini-vanne complète. Il montre comment le format one-liner à débit rapide crée un rythme addictif.",
+    "technique": "Timing",
+    "learnings": [
+      "TECHNIQUE DU ONE-LINER ENCHAÎNÉ : chaque phrase est un setup + punchline complet — le public n'a pas le temps de décrocher, un rire chasse l'autre",
+      "TECHNIQUE DU DÉBIT RAPIDE : enchaîne 3-4 vannes courtes sans respiration — la vitesse empêche le public de réfléchir et le maintient dans le rire réflexe",
+      "TECHNIQUE DU SUJET FIL ROUGE : tous tes one-liners portent sur le même thème — la cohérence thématique donne l'impression d'un arc narratif même sans histoire",
+      "TECHNIQUE DE L'OBSERVATION COMPRESSÉE : dis en 10 mots ce que d'autres diraient en 30 — chaque mot inutile coupé augmente l'impact de la punchline"
+    ],
+    "exercise": "DÉFI RALENTI : raconte un rendez-vous amoureux (réel ou inventé). Identifie le moment le plus drôle ou gênant. Juste avant ce moment, arrête-toi, regarde ton auditoire (ou ton miroir), compte 3 secondes dans ta tête, puis lâche la chute. Répète 3 fois en variant la durée de la pause."
   },
   {
     "id": 27,
-    "youtubeId": "JK_hTAG5G-Q",
-    "title": "Fadily Camara - La confiance en soi",
-    "channelName": "Fadily Camara",
-    "duration": "PT6M45S",
-    "category": "AUTODERISION",
-    "difficulty": "INTERMEDIAIRE",
-    "description": "Fadily Camara explore le thème de la confiance en soi avec une auto-dérision joyeuse et communicative. Elle transforme ses insécurités en moments de communion avec le public. Montre comment la vulnérabilité crée la connexion et le rire.",
-    "technique": "Auto-dérision"
+    "youtubeId": "lw0hwSg87qk",
+    "title": "Félix Dhjan - Le quotidien",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M00S",
+    "category": "TIMING",
+    "difficulty": "DEBUTANT",
+    "description": "Regarde pour apprendre la TECHNIQUE DU RYTHME QUOTIDIEN. Félix Dhjan transforme les micro-moments de la vie quotidienne (le réveil, le trajet, la douche) en sketches en découpant chaque seconde avec un rythme musical. Il montre que le quotidien est drôle quand tu le racontes au bon tempo.",
+    "technique": "Timing",
+    "learnings": [
+      "TECHNIQUE DU DÉCOUPAGE TEMPOREL : raconte une action banale seconde par seconde — 'le réveil sonne, tu ouvres un œil, tu refermes, tu négoces' — le détail temporel crée le rythme",
+      "TECHNIQUE DE LA MUSICALITÉ : pense tes phrases comme des mesures musicales — court-court-court-LONG crée un rythme naturel que le cerveau du public attend et récompense",
+      "TECHNIQUE DE L'IDENTIFICATION IMMÉDIATE : commence par un moment que 100% du public a vécu (le réveil du lundi) — l'identification crée un 'oui exactement' qui ouvre au rire",
+      "TECHNIQUE DE LA CHORÉGRAPHIE VOCALE : varie le volume, la vitesse et le ton dans la même phrase — chuchoter puis crier surprend le public et ponctue le texte comme de la musique"
+    ],
+    "exercise": "DÉFI RYTHME : Écris 3 phrases courtes sur ta matinée (ex : 'Réveil 7h. Café froid. Bus raté.'). Puis une version longue de la même matinée. Lis les deux à voix haute. La version courte claque plus — c'est ça le rythme comique."
   },
   {
     "id": 28,
-    "youtubeId": "UiLpjGIvnPE",
-    "title": "Jarry - L'hôpital",
-    "channelName": "Jarry",
-    "duration": "PT7M10S",
-    "category": "ABSURDE",
+    "youtubeId": "qdqIc-uzdbA",
+    "title": "Haroun - L'impro et la répartie",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M45S",
+    "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Jarry transforme une visite à l'hôpital en aventure absurde et délirante. Son énergie débordante et ses mimiques expressives amplifient chaque situation. Démonstration magistrale de l'exagération comme moteur comique.",
-    "technique": "Exagération"
+    "description": "Regarde pour apprendre la TECHNIQUE DE L'IMPRO STRUCTURÉE. Haroun semble improviser mais chaque interaction avec le public est en réalité guidée par des techniques de rebond précises. Il montre que la répartie n'est pas du talent brut mais un jeu de patterns appris.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND EN 3 TEMPS : écoute → reformule → retourne. 'Tu fais quoi dans la vie ?' → 'Ah comptable ?' → 'Du coup tu comptes les rires ce soir, y en a combien ?'",
+      "TECHNIQUE DU OUI-ET IMPRO : ne refuse jamais la proposition du public, accepte-la et pousse-la — 'tu es pompier ? Et tu viens éteindre mon spectacle, c'est ça ?'",
+      "TECHNIQUE DU FILET DE SÉCURITÉ : prépare 5-6 répliques génériques qui marchent quel que soit le sujet — 'c'est beau ce que tu fais', 'non mais on en reparle après', etc.",
+      "TECHNIQUE DE L'ÉCOUTE ACTIVE : la meilleure répartie vient de l'écoute, pas de la préparation — réécoute ce que la personne a dit et trouve le mot le plus drôle dedans"
+    ],
+    "exercise": "DÉFI RÉPARTIE : En soirée, lancez le jeu 'La répartie en 5 secondes' : quelqu'un fait une affirmation, les autres ont 5 secondes pour répondre avec une vanne. Pas de méchanceté, juste de la vitesse. Le plus drôle gagne. Faites 10 tours minimum."
   },
   {
     "id": 29,
-    "youtubeId": "WnbvIf2QJao",
-    "title": "Max Bird - L'évolution",
-    "channelName": "Max Bird",
-    "duration": "PT8M5S",
-    "category": "JEUX_DE_MOTS",
+    "youtubeId": "m30qZa8p_Js",
+    "title": "Marina Rollman - Les relations sociales",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M20S",
+    "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Max Bird vulgarise la théorie de l'évolution avec un humour intelligent truffé de jeux de mots. Il allie pédagogie et comédie avec une aisance remarquable. Illustre comment le savoir devient drôle quand il est porté par des formules bien trouvées.",
-    "technique": "Jeux de mots"
+    "description": "Regarde pour apprendre la TECHNIQUE DU RETOURNEMENT DE CLICHÉ. Marina Rollman identifie les clichés sociaux (politesse, conventions, small talk) et les retourne en montrant l'absurdité cachée derrière chaque norme. Elle montre comment la normalité est le terrain comique le plus riche.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT DE NORME : prends une convention sociale ('ça va ? — ça va') et montre ce qu'elle cache vraiment — le public rit de la vérité derrière le masque",
+      "TECHNIQUE DE LA QUESTION INTERDITE : pose la question que personne n'ose poser dans une situation sociale — 'pourquoi on fait semblant de se connaître alors qu'on s'est vus une fois ?'",
+      "TECHNIQUE DE L'ANTHROPOLOGUE SOCIAL : observe les rituels sociaux (bise, small talk, au revoir) avec la distance d'un scientifique — la normalité devient étrange quand tu la décris",
+      "TECHNIQUE DE L'IRONIE DOUCE : ne moque pas les gens, moque les SITUATIONS — l'ironie bienveillante crée de la complicité, l'ironie méchante crée de la gêne"
+    ],
+    "exercise": "DÉFI PUBLIC : Regarde ce sketch de Marina Rollman. Note chaque fois qu'elle retourne un cliché. Pour chaque retournement, écris ta propre version sur un cliché de ta vie. Teste le meilleur en conversation cette semaine."
   },
   {
     "id": 30,
-    "youtubeId": "7kbIWJIuX5k",
-    "title": "Tareek - Le mariage",
-    "channelName": "Tareek",
-    "duration": "PT5M55S",
+    "youtubeId": "4t9a0To2ygo",
+    "title": "Marina Rollman - Les enterrements de vie",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M40S",
+    "category": "REPARTIE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Regarde pour apprendre la TECHNIQUE DE LA PROVOCATION CONTRÔLÉE. Marina Rollman aborde les enterrements de vie en pointant les contradictions entre ce qu'on fait et ce qu'on pense. Elle montre comment transformer un rituel social en terrain de stand-up en disant ce que tout le monde pense.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU RITUEL DÉCRYPTÉ : prends un événement social (enterrement de vie, pot de départ, baby shower) et liste les non-dits — 'on fait tous semblant que c'est fun'",
+      "TECHNIQUE DE L'OBSERVATION PARTICIPANTE : ne moque pas le rituel de l'extérieur, montre que tu y as participé et que TU AUSSI tu as joué le jeu — la complicité légitime la critique",
+      "TECHNIQUE DU CONSENSUS INAVOUÉ : commence par 'on est tous d'accord que...' suivi d'une vérité que personne n'ose dire — le soulagement collectif provoque le rire",
+      "TECHNIQUE DE LA DESCRIPTION SANS JUGEMENT : décris la scène factuellement ('et là on met des accessoires phalliques sur la mariée') — le simple fait de décrire ce qu'on fait suffit à montrer l'absurdité"
+    ],
+    "exercise": "DÉFI PROVOC : Au prochain pot de bureau ou anniversaire, glisse UNE observation décalée sur le rituel ('On se dit qu'on va pas rester longtemps, et pourtant me voilà à ma 3ème part de gâteau'). Observe si les gens rient ou acquiescent — les deux comptent."
+  },
+  {
+    "id": 31,
+    "youtubeId": "tpIOLzv11qo",
+    "title": "Djimo - Quand il croise Carl Lewis",
+    "channelName": "Clique TV - Canal+",
+    "duration": "PT4M30S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Djimo raconte sa rencontre surréaliste avec Carl Lewis dans un aéroport, et ce qui aurait pu être une anecdote banale devient une épopée comique. Sa technique : le détail ultra-spécifique. Chaque description (le regard, le couloir, l'attente) plante la scène comme un film. C'est du storytelling de compétition.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : les rencontres improbables avec des célébrités sont un terreau parfait pour le storytelling",
+      "TECHNIQUE DE L'ESCALADE : comment amplifier les émotions réelles (stress, excitation) pour un effet comique",
+      "TECHNIQUE DU PERSONNAGE : le décalage entre l'attente et la réalité est le moteur de toute bonne histoire drôle",
+      "TECHNIQUE DU TWIST : raconter une histoire vraie avec des exagérations stratégiques la rend plus drôle sans la rendre mensongère"
+    ],
+    "exercise": "DÉFI ANECDOTE : Raconte à un ami une rencontre inattendue que tu as eue (un inconnu bizarre, un ancien prof, un ex). Mais ajoute 3 détails ultra-spécifiques (lieu, heure, vêtement). Les détails font la différence entre 'ok' et 'j'y étais'."
+  },
+  {
+    "id": 32,
+    "youtubeId": "fnu6fRa-BN4",
+    "title": "Samia Orosemane - Les accents africains",
+    "channelName": "Jamel Comedy Club",
+    "duration": "PT5M10S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Samia Orosemane raconte des histoires de famille avec une authenticité et un talent d'imitation qui rendent son storytelling vivant et universel. Ses personnages sonnent vrai car elle les connaît de l'intérieur.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : raconter ses propres traditions avec humour invite les autres à partager les leurs",
+      "TECHNIQUE DE L'ESCALADE : l'imitation des membres de sa famille avec tendresse crée un humour fédérateur",
+      "TECHNIQUE DU PERSONNAGE : les phrases typiques des parents et grands-parents sont des punchlines prêtes à l'emploi",
+      "TECHNIQUE DU TWIST : le storytelling multiculturel est universel car chacun a des parents avec des habitudes uniques"
+    ],
+    "exercise": "DÉFI SITUATION : Note 3 phrases que tes parents répètent tout le temps. Pour chacune, fais l'imitation devant un ami. Si l'ami reconnaît le parent → ton imitation est bonne. Si l'ami rit → ta vanne est bonne. Les deux = bingo."
+  },
+  {
+    "id": 33,
+    "youtubeId": "GO-E-pgBqa8",
+    "title": "Noman Hosni - Stand-up au Montreux Comedy",
+    "channelName": "Montreux Comedy",
+    "duration": "PT55M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Noman Hosni enchaîne les observations sur la vie quotidienne avec un sens du détail chirurgical et un jeu de scène physique. Ce qui distingue son gala : l'accumulation — chaque vanne en appelle une autre, construisant un rythme qui embarque le public sans le lâcher.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : un gala complet nécessite de varier les thèmes tout en gardant un fil conducteur",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : l'observation du quotidien est la base du stand-up — regarder ce que personne ne verbalise",
+      "TECHNIQUE DU CONTRASTE : la structure d'un set de stand-up alterne les pics d'énergie et les moments plus posés",
+      "TECHNIQUE DE L'ANCRAGE : regarder un gala complet permet de comprendre la construction globale d'un spectacle"
+    ],
+    "exercise": "DÉFI EXAGÉRATION : Regarde ce gala en entier. Pour 3 segments, note : le sujet + la technique utilisée + ta vanne personnelle sur le même sujet. Le but : t'entraîner à analyser ET produire.",
+    "recommendedTimestamp": "3:00-14:00"
+  },
+  {
+    "id": 34,
+    "youtubeId": "u41ujNodvnM",
+    "title": "Kyan Khojandi - Pulsions (spectacle complet)",
+    "channelName": "Kyan Khojandi",
+    "duration": "PT72M00S",
+    "category": "AUTODERISION",
+    "difficulty": "EXPERT",
+    "description": "Kyan Khojandi livre son spectacle complet 'Pulsions' gratuitement sur YouTube. Un exercice d'auto-dérision profond où il explore ses pulsions, ses contradictions et ses névroses avec une honnêteté rare et un humour décapant.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : un spectacle complet en auto-dérision nécessite de doser les moments de vulnérabilité et de force",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : que les névroses et contradictions internes sont une matière première inépuisable",
+      "TECHNIQUE DE L'ASSOMPTION : l'honnêteté radicale sur soi-même crée une intimité unique avec le public",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : un spectacle complet permet de travailler les transitions entre sujets : observe comment Kyan passe d'un thème à l'autre sans que tu t'en rendes compte"
+    ],
+    "exercise": "DÉFI AUTHENTICITÉ : Écris 3 de tes contradictions (ex : 'je milite pour l'écologie mais je prends des bains de 45 minutes'). Pour chacune, formule-la en une phrase qui fait sourire. La meilleure = ton futur matériel de stand-up.",
+    "recommendedTimestamp": "4:00-16:00"
+  },
+  {
+    "id": 35,
+    "youtubeId": "zGT7TX66JFQ",
+    "title": "Jason Brokerss - Snapchat",
+    "channelName": "Campus Comedy Tour",
+    "duration": "PT5M40S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Jason Brokerss décortique Snapchat et les réseaux sociaux avec l'énergie d'un mec qui a passé trop de temps sur son téléphone — et qui le sait. Ce qui rend le sketch percutant : des observations ultra-précises sur des comportements que tout le monde a mais que personne n'avoue. L'effet miroir est immédiat.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : pousser une habitude numérique à son extrême logique révèle son absurdité naturelle",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : les réseaux sociaux sont un terrain de jeu comique universel car tout le monde les utilise",
+      "TECHNIQUE DU FAUX SÉRIEUX : l'humour tech fonctionne quand il reste ancré dans l'expérience quotidienne de chacun",
+      "TECHNIQUE DU DÉCALAGE : le format court (stories, snaps) se prête naturellement au format court du stand-up"
+    ],
+    "exercise": "DÉFI RÉSEAUX : Ouvre Instagram ou TikTok. Scroll pendant 2 minutes et note 3 comportements absurdes que tu observes (filtres, poses, légendes). Écris un commentaire drôle pour chacun — pas méchant, juste lucide. Partage le meilleur avec un ami."
+  },
+  {
+    "id": 36,
+    "youtubeId": "6RnIUcFonik",
+    "title": "Yacine Belhousse - Les Québécoises",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M20S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Yacine Belhousse compile les meilleures punchlines entendues lors de son passage au Québec. Il observe les différences culturelles entre la France et le Québec avec un regard à la fois tendre et acéré, dans un sketch anthologique.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : les différences culturelles entre pays francophones sont une mine d'or comique",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : compiler de vraies punchlines entendues dans la vie réelle donne un matériau authentique",
+      "TECHNIQUE DU CONTRASTE : le regard de l'étranger sur une culture permet de pointer des évidences que les locaux ne voient plus",
+      "TECHNIQUE DE L'ANCRAGE : l'observation interculturelle fonctionne car chaque spectateur se sent 'initié' à un savoir"
+    ],
+    "exercise": "DÉFI COUPLE : Raconte à un ami ta pire expérience de décalage culturel (voyage, coloc étranger, plat exotique). Exagère ta propre réaction. La clé : tu te moques de TOI face à la différence, pas de l'autre culture."
+  },
+  {
+    "id": 37,
+    "youtubeId": "TWGNkUX8wbk",
+    "title": "Kyan Khojandi & Navo - Le Rêve",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M00S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Le duo Kyan Khojandi & Navo (créateurs de Bref et Bloqués) livrent un sketch complice où l'absurde naît de la conversation entre deux amis. Leur complicité sur scène transforme des situations banales en délires surréalistes.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : l'humour à deux repose sur la complicité et la capacité à rebondir sur l'autre",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : l'absurde naît souvent d'une logique poussée à l'extrême dans une conversation normale",
+      "TECHNIQUE DU FAUX SÉRIEUX : le duo comique fonctionne avec un 'rationnel' et un 'délirant' qui se nourrissent l'un l'autre",
+      "TECHNIQUE DU DÉCALAGE : la dynamique de groupe (ping-pong verbal) crée un rythme que le solo ne peut pas atteindre"
+    ],
+    "exercise": "DÉFI SOLO : avec un ami, lancez un sujet banal (les courses, le ménage). L'un reste logique, l'autre pousse chaque idée vers l'absurde. Alternez les rôles après 2 minutes. La règle : toujours dire 'oui et...' plutôt que 'non mais...'."
+  },
+  {
+    "id": 38,
+    "youtubeId": "CWPFF2ld9jI",
+    "title": "François Guédon - La consanguinité",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M10S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "François Guédon prend un sujet que personne n'oserait toucher — la consanguinité — et en fait un sketch qui a dépassé le million de vues en quelques jours. La preuve qu'oser un sujet tabou avec intelligence et bienveillance peut créer un moment de stand-up mémorable. Tout est dans l'angle d'attaque.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : les sujets tabous deviennent comiques quand ils sont traités avec intelligence et distance",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : françois Guédon montre que les jeunes talents peuvent percer en osant des sujets que les installés évitent",
+      "TECHNIQUE DU FAUX SÉRIEUX : l'humour noir fonctionne quand le public sent que l'humoriste ne pense pas réellement ce qu'il dit",
+      "TECHNIQUE DU DÉCALAGE : le format 'Mon Premier Montreux' prouve que la fraîcheur peut être un avantage sur l'expérience"
+    ],
+    "exercise": "DÉFI TABOU : Écris 3 angles drôles sur un sujet que tu n'oserais jamais aborder en public. Pour chacun, demande-toi : 'est-ce que je me moque d'un comportement (ok) ou d'une personne (pas ok) ?' Garde ceux qui passent le test."
+  },
+  {
+    "id": 39,
+    "youtubeId": "itrLXrwG18c",
+    "title": "Aymeric Lompret - On n'est pas toujours obligé d'être heureux",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M30S",
+    "category": "OBSERVATION",
+    "difficulty": "EXPERT",
+    "description": "Aymeric Lompret questionne l'injonction au bonheur avec un regard acide et sincère. Son style engagé mêle observation sociale et positions tranchées, dans un stand-up qui fait rire ET réfléchir.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : remettre en question les évidences sociales ('sois heureux', 'positive') est un angle comique puissant",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : le stand-up engagé fonctionne quand l'émotion est sincère, pas quand c'est un calcul",
+      "TECHNIQUE DU CONTRASTE : aymeric Lompret montre que l'humour peut être un outil de résistance aux injonctions sociales",
+      "TECHNIQUE DE L'ANCRAGE : le ton 'légèrement énervé' crée une énergie que le public ressent et partage"
+    ],
+    "exercise": "DÉFI COMPARAISON : Pendant 5 jours, note chaque soir une injonction sociale que tu as entendue ('Souris !', 'Ça va aller', 'Relativise'). Le 6e jour, écris pour chacune une réponse honnête et drôle. La sincérité est ta meilleure alliée."
+  },
+  {
+    "id": 40,
+    "youtubeId": "sjsdIlrotXY",
+    "title": "Mehdi Bousaidan - Les sports de pauvre",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M45S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Mehdi Bousaidan classe les sports en 'sports de riche' et 'sports de pauvre' avec une logique absurde mais implacable. Le sketch fonctionne parce qu'il dit tout haut ce que tout le monde observe sans formuler — la hiérarchie sociale invisible du sport.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : classer les choses en catégories inattendues (sports de pauvre vs sports de riche) est un angle comique",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : les comparaisons entre deux mondes créent automatiquement du comique de décalage",
+      "TECHNIQUE DU CONTRASTE : l'accent québécois ajoute une couche de charme et de surprise pour le public européen",
+      "TECHNIQUE DE L'ANCRAGE : observer les codes sociaux à travers le sport révèle les absurdités de classe"
+    ],
+    "exercise": "DÉFI ABSURDE DU QUOTIDIEN : Classe les restaurants de ta ville en 3 catégories absurdes (ex : 'ceux où tu payes le décor', 'ceux où le serveur te tutoie', 'ceux avec la télé au-dessus du bar'). Raconte ta classification à un pote comme si c'était une thèse."
+  },
+  {
+    "id": 41,
+    "youtubeId": "yx1EJngHCac",
+    "title": "Alexandre Astier & François Rollin - 30 ans de Montreux Comedy",
+    "channelName": "Montreux Comedy",
+    "duration": "PT12M00S",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "EXPERT",
+    "description": "Alexandre Astier (Kaamelott) et François Rollin (Professeur Rollin) célèbrent les 30 ans du Montreux Comedy dans un numéro complice mêlant culture, jeux de mots et improvisation. Un moment de bravoure intellectuelle et comique.",
+    "technique": "Jeux de mots",
+    "learnings": [
+      "TECHNIQUE DU DOUBLE SENS : alexandre Astier excelle dans l'humour référencé qui récompense la culture du spectateur",
+      "TECHNIQUE DU DÉTOURNEMENT : le duo maître-élève (Rollin-Astier) crée une dynamique comique riche en jeux de mots",
+      "TECHNIQUE DE LA SONORITÉ : les références culturelles deviennent drôles quand elles sont détournées de manière inattendue",
+      "TECHNIQUE DE L'AMBIGUÏTÉ : l'improvisation verbale de haut niveau repose sur un vocabulaire riche et une vivacité d'esprit"
+    ],
+    "exercise": "DÉFI CALEMBOUR : Prends un film ou une série que tu as vu récemment. Résume-le en 3 phrases en détournant les noms/concepts (ex : 'Game of Thrones : des gens qui meurent et un gars qui sait rien'). Envoie tes résumés dans un groupe."
+  },
+  {
+    "id": 42,
+    "youtubeId": "da21Xp8hGYY",
+    "title": "Doully - Qu'est-ce qu'elle a ma voix ?",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M30S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Doully transforme ce qui pourrait être un complexe (sa voix particulière) en force comique absolue. Elle prouve que nos singularités sont nos meilleurs atouts en humour et que l'auto-dérision positive est irrésistible.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : transformer une particularité physique en atout comique est la forme ultime d'auto-dérision",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : qu'assumer ce qui nous rend unique crée un personnage de scène mémorable",
+      "TECHNIQUE DE L'ASSOMPTION : anticiper les pensées du public ('je sais ce que vous pensez') puis les verbaliser crée un sentiment de complicité instantané",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : une voix, un physique ou un tic deviennent des outils quand on les utilise au lieu de les subir"
+    ],
+    "exercise": "DÉFI NAÏF : identifie une de tes particularités que les gens remarquent (ta voix, ton rire, ta démarche, un tic). Écris 3 vannes qui en jouent avec fierté plutôt que gêne. La règle : toi seul(e) as le droit de te moquer de toi-même, et tu le fais avec un sourire."
+  },
+  {
+    "id": 43,
+    "youtubeId": "5yaEdgAz8Is",
+    "title": "Ben - Le Tilapia",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M00S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Ben (du Jamel Comedy Club) transforme un simple poisson — le tilapia — en prétexte pour un numéro de construction comique impeccable. Chaque couche d'argument s'empile avec une logique absurde mais imparable. Le sketch idéal pour comprendre comment bâtir une escalade comique jusqu'à la chute parfaite.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : l'absurde fonctionne mieux quand le raisonnement est logiquement irréprochable",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : choisir un sujet anodin (un poisson) et le traiter avec un sérieux excessif crée un décalage imparable",
+      "TECHNIQUE DU FAUX SÉRIEUX : que l'accumulation de faits vrais dans une logique folle est plus drôle que l'invention pure",
+      "TECHNIQUE DU DÉCALAGE : la montée en puissance du délire doit être progressive pour ne pas perdre le public"
+    ],
+    "exercise": "DÉFI CONSTRUCTION : Prends un aliment banal (la courgette, le surimi, le pain de mie). En 5 minutes chrono, accumule le maximum d'arguments absurdes pour prouver que c'est le meilleur aliment au monde. Enregistre-toi. Réécoute. Garde les 3 meilleurs."
+  },
+  {
+    "id": 44,
+    "youtubeId": "RoBBdJLzPqw",
+    "title": "Tania Dutel - Séance chez l'esthéticienne",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M30S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Tania Dutel raconte sa séance chez l'esthéticienne avec un sens du détail gênant-mais-drôle qui rend chaque spectateur complice. Sa force : raconter l'intime sans pudeur, avec une naïveté calculée qui fait mouche.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : les situations corporelles gênantes (esthéticienne, médecin) sont universellement drôles",
+      "TECHNIQUE DE L'ESCALADE : tania Dutel montre que la candeur apparente est un outil de storytelling très efficace",
+      "TECHNIQUE DU PERSONNAGE : raconter ce qu'on pense vraiment dans un moment social codifié crée un contraste hilarant",
+      "TECHNIQUE DU TWIST : les détails physiques et sensoriels rendent le récit vivant et immersif"
+    ],
+    "exercise": "DÉFI EMPATHIE : Raconte ta dernière visite chez le médecin/dentiste/coiffeur à un ami. Fais parler les deux personnages (toi + le pro) en exagérant le décalage entre ce qu'on dit et ce qu'on pense. Le dialogue est la clé."
+  },
+  {
+    "id": 45,
+    "youtubeId": "Za2F_8DX9Dc",
+    "title": "Akim Omiri - Les féministes",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M45S",
+    "category": "REPARTIE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Akim Omiri s'attaque au féminisme avec un positionnement malin : ni pour, ni contre, mais observateur amusé des contradictions de chacun. Ce qui rend le sketch efficace : il fait rire les deux camps en pointant les absurdités partagées. Un exemple de comment naviguer un sujet clivant par l'humour sans prendre parti.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND : aborder des sujets sensibles nécessite une répartie prête pour les objections du public",
+      "TECHNIQUE DE LA REDIRECTION : le positionnement 'je me moque de moi-même en premier' désamorce les critiques",
+      "TECHNIQUE DU RETOURNEMENT : anticiper les réactions du public et y répondre en temps réel montre une vraie maîtrise",
+      "TECHNIQUE DE LA NEUTRALITÉ : l'humour sur les sujets de société fonctionne quand il questionne sans juger"
+    ],
+    "exercise": "DÉFI RETOURNEMENT : Prends un sujet qui divise (le véganisme, le sport, les réveils à 5h). Écris 2 vannes : une pour, une contre. La vanne la plus drôle gagne, quelle que soit ton opinion. C'est ça la neutralité comique."
+  },
+  {
+    "id": 46,
+    "youtubeId": "b0sxUyrE1Cs",
+    "title": "Thomas Wiesel & Kyan Khojandi - Petites blagues entre amis",
+    "channelName": "Montreux Comedy",
+    "duration": "PT9M00S",
     "category": "TIMING",
     "difficulty": "INTERMEDIAIRE",
-    "description": "Tareek décortique les rituels du mariage avec un timing comique impeccable. Ses pauses calculées et ses accélérations soudaines rythment le numéro à la perfection. Excellent exemple de maîtrise du tempo en stand-up.",
-    "technique": "Timing"
+    "description": "Thomas Wiesel et Kyan Khojandi se lancent des petites blagues avec un timing et une complicité qui montrent l'importance du rythme dans l'échange comique. Un duo où chaque silence compte autant que chaque mot.",
+    "technique": "Timing",
+    "learnings": [
+      "TECHNIQUE DE LA PAUSE : le timing à deux repose sur l'écoute : savoir quand parler et quand laisser l'autre briller",
+      "TECHNIQUE DU RYTHME : les silences entre les blagues permettent au public de savourer et d'anticiper",
+      "TECHNIQUE DU SILENCE : le ping-pong comique crée un rythme addictif quand les deux partenaires sont synchronisés",
+      "TECHNIQUE DU CALLBACK : la complicité visible entre les humoristes génère un plaisir supplémentaire pour le public"
+    ],
+    "exercise": "DÉFI TIMING LONG : avec un ami, jouez au 'ping-pong de blagues' : chacun dit une vanne à tour de rôle sur le même thème. La règle : attendre 3 secondes après le rire avant d'enchaîner. C'est la pause qui donne le rythme. 5 échanges minimum."
+  },
+  {
+    "id": 47,
+    "youtubeId": "cl-fIl6hjTw",
+    "title": "Jason Brokerss - Le mariage (Montreux)",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M00S",
+    "category": "STORYTELLING",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Jason Brokerss revient sur le thème du mariage dans cette version Montreux, avec un storytelling enrichi et un jeu de scène plus abouti. Comparer les deux versions (JCC et Montreux) montre l'évolution d'un artiste.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : un même sujet peut être traité différemment selon la scène et le public",
+      "TECHNIQUE DE L'ESCALADE : la version Montreux montre l'évolution : plus de détails, meilleur timing, jeu de scène affiné",
+      "TECHNIQUE DU PERSONNAGE : comparer deux versions d'un même sketch enseigne le processus de réécriture et d'amélioration",
+      "TECHNIQUE DU TWIST : le mariage est un thème inépuisable car les rituels sociaux sont riches en absurdités"
+    ],
+    "exercise": "DÉFI STORYTELLING : Prends une histoire que tu racontes souvent. Version 1 : raconte-la en 1 minute. Version 2 : en 3 minutes avec personnages, dialogues et détails sensoriels. Demande à un ami laquelle est meilleure. La réponse te surprendra."
+  },
+  {
+    "id": 48,
+    "youtubeId": "WGCAhqQz1I0",
+    "title": "Dena - Lesbienne Iranienne",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M15S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Dena transforme sa double identité (lesbienne et iranienne) en matériau comique puissant. Elle joue avec les clichés et stéréotypes de manière frontale, montrant que l'humour est le meilleur outil pour déconstruire les préjugés.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : nommer frontalement ce qui vous rend 'différent' désamorce immédiatement les malaises",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : l'intersectionnalité (cumul d'identités) multiplie les angles comiques possibles",
+      "TECHNIQUE DE L'ASSOMPTION : que l'auto-dérision identitaire est plus efficace que la revendication militante",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : le public rit plus librement quand c'est la personne concernée qui fait la blague"
+    ],
+    "exercise": "DÉFI ONE-MAN-SHOW : Liste 3 aspects de ton identité (origine, métier, passion bizarre). Pour chacun, écris la vanne que les gens ATTENDENT... puis celle qu'ils n'attendent PAS. C'est la deuxième qui te rend unique."
+  },
+  {
+    "id": 49,
+    "youtubeId": "ztKRY4eNUTA",
+    "title": "Lisa Delmoitiez - J'ai pas confiance en moi et j'ai raison",
+    "channelName": "La Relève Montreux Comedy",
+    "duration": "PT6M00S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Lisa Delmoitiez, jeune talent de La Relève Montreux Comedy, transforme son manque de confiance en spectacle hilarant. Son titre seul est une leçon : assumer ses faiblesses avec humour est la meilleure preuve de force.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : le titre du sketch est déjà une punchline — c'est un modèle de branding comique",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : transformer un défaut en argument logique ('j'ai pas confiance et j'ai raison') retourne le script",
+      "TECHNIQUE DE L'ASSOMPTION : les jeunes talents de La Relève montrent que le manque d'expérience peut devenir un sujet",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : le public timide s'identifie immédiatement et se sent représenté et compris"
+    ],
+    "exercise": "DÉFI GALERIE : Prends un de tes défauts et ajoute 'et j'ai raison'. Ex : 'Je suis nul en cuisine et j'ai raison — pourquoi cuisiner quand Uber Eats existe ?' Écris-en 5. Garde les 2 qui feraient rire ta mère."
+  },
+  {
+    "id": 50,
+    "youtubeId": "UrLkh-Ne0nM",
+    "title": "Chris Esquerre - Muté (spectacle complet)",
+    "channelName": "Chris Esquerre",
+    "duration": "PT65M00S",
+    "category": "ABSURDE",
+    "difficulty": "EXPERT",
+    "description": "Chris Esquerre, chroniqueur culte de France Inter, livre son spectacle 'Muté' gratuitement sur YouTube. Son humour absurde et pince-sans-rire pousse la logique du non-sens à un niveau rarement atteint dans le stand-up français.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : l'absurde 'pince-sans-rire' (deadpan) est le style le plus difficile mais aussi le plus distinctif",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : chris Esquerre montre que le format chronique (France Inter) se transpose parfaitement en spectacle",
+      "TECHNIQUE DU FAUX SÉRIEUX : le non-sens total fonctionne quand le performeur garde un sérieux absolu",
+      "TECHNIQUE DU DÉCALAGE : un spectacle complet en absurde nécessite des variations d'intensité pour ne pas épuiser le public"
+    ],
+    "exercise": "DÉFI PINCE-SANS-RIRE : écris une chronique de 1 minute sur un sujet sérieux (la météo, l'économie) en n'utilisant que des faits faux mais présentés avec un sérieux total. Lis-la à voix haute avec le ton le plus neutre possible. Plus tu es sérieux, plus c'est drôle.",
+    "recommendedTimestamp": "2:00-12:00"
+  },
+  {
+    "id": 51,
+    "youtubeId": "_Gru82H__ZM",
+    "title": "Thomas Wiesel - Toulouse (dernier show)",
+    "channelName": "Thomas Wiesel",
+    "duration": "PT70M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Thomas Wiesel, humoriste suisse incontournable, livre un spectacle complet avec son regard extérieur sur la France et ses habitudes. Sa position d'outsider francophone lui donne un angle d'observation unique.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : le regard de l'étranger sur une culture est un angle d'observation naturellement comique",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : thomas Wiesel montre que la Suisse est un point de vue idéal pour observer les excès français",
+      "TECHNIQUE DU CONTRASTE : comparer le même sujet traité par un Suisse et un Français révèle les angles morts culturels de chacun",
+      "TECHNIQUE DE L'ANCRAGE : l'observation fonctionne mieux quand elle vient d'un regard sincèrement étonné"
+    ],
+    "exercise": "DÉFI DÉTOURNEMENT : joue le rôle d'un étranger qui découvre ton quotidien. Décris 5 habitudes que tu as (le café le matin, la bise, le pain quotidien) comme si tu les voyais pour la première fois. L'étonnement sincère révèle l'absurde caché dans le normal.",
+    "recommendedTimestamp": "5:00-18:00"
+  },
+  {
+    "id": 52,
+    "youtubeId": "HBJBxuIs6g0",
+    "title": "Pierre-Emmanuel Barré - Pfff (au Zénith)",
+    "channelName": "Pierre-Emmanuel Barré",
+    "duration": "PT85M00S",
+    "category": "REPARTIE",
+    "difficulty": "EXPERT",
+    "description": "Pierre-Emmanuel Barré, chroniqueur culte viré de France Inter pour ses positions tranchées, livre un spectacle au Zénith où la répartie politique et l'insolence sont érigées en art. Un modèle de stand-up engagé et percutant.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND : la répartie politique nécessite une connaissance approfondie des dossiers pour être crédible",
+      "TECHNIQUE DE LA REDIRECTION : pierre-Emmanuel Barré montre que l'insolence est une forme de courage comique",
+      "TECHNIQUE DU RETOURNEMENT : le format 'conférence' permet d'alterner arguments sérieux et punchlines dévastatrices",
+      "TECHNIQUE DE LA NEUTRALITÉ : le spectacle engagé fonctionne quand le public sent que l'humoriste paie le prix de ses opinions"
+    ],
+    "exercise": "DÉFI CLICHÉ : Écris une 'chronique' de 2 minutes sur un sujet d'actu qui t'agace. Règle : chaque phrase doit alterner entre un fait réel et un commentaire drôle. Enregistre-toi et réécoute. Coupe tout ce qui n'ajoute pas de rire.",
+    "recommendedTimestamp": "3:00-15:00"
+  },
+  {
+    "id": 53,
+    "youtubeId": "OMkHT3fRQJY",
+    "title": "Haroun - Internet etc.",
+    "channelName": "Haroun",
+    "duration": "PT55M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Haroun observe le monde numérique et ses absurdités dans ce spectacle complet offert sur YouTube. Son écriture ciselée et son regard critique sur Internet en font une référence du stand-up intelligent.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : observer Internet et les réseaux sociaux offre un matériau comique inépuisable et universel",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : que la satire du numérique fonctionne car tout le monde est à la fois victime et coupable",
+      "TECHNIQUE DU CONTRASTE : le format spectacle complet permet de creuser un thème en profondeur avec des angles variés",
+      "TECHNIQUE DE L'ANCRAGE : l'écriture ciselée (chaque mot compte) distingue le stand-up 'intelligent' du stand-up 'bavard'"
+    ],
+    "exercise": "DÉFI INCARNATION : ouvre ton historique de recherche Google ou tes derniers messages. Identifie 3 comportements absurdes que tu as eus en ligne (scroller pendant 2h, stalker un ex, acheter un truc inutile à 3h du matin). Raconte-les avec le ton d'un documentaire animalier.",
+    "recommendedTimestamp": "2:00-14:00"
+  },
+  {
+    "id": 54,
+    "youtubeId": "cZB0NO0jnz0",
+    "title": "Roman Frayssinet - Alors (spectacle complet)",
+    "channelName": "Clique TV",
+    "duration": "PT60M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Roman Frayssinet livre 'Alors', un spectacle complet capté par Clique TV. Sa capacité à transformer n'importe quel sujet en matériau comique brillant, avec un style à la fois nonchalant et ultra-travaillé, confirme son statut de talent d'observation.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : roman Frayssinet prouve que le style nonchalant cache un travail d'écriture minutieux",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : la capacité à rendre drôle N'IMPORTE QUEL sujet est la marque des grands observateurs",
+      "TECHNIQUE DU CONTRASTE : un spectacle complet montre comment enchaîner les thèmes avec des transitions fluides",
+      "TECHNIQUE DE L'ANCRAGE : le style 'je réfléchis à voix haute' crée une intimité rare entre l'humoriste et le public"
+    ],
+    "exercise": "DÉFI NONCHALANCE : Enregistre-toi (audio) en racontant une anecdote de ta semaine. Écoute, identifie les moments où tu forces. Réenregistre en étant MOINS expressif, plus nonchalant. Paradoxalement, moins tu en fais, plus c'est drôle. Compare les deux versions.",
+    "recommendedTimestamp": "4:00-16:00"
+  },
+  {
+    "id": 55,
+    "youtubeId": "0CFdBNtFPbE",
+    "title": "Adib Alkhalidey - Je t'aime (spectacle complet)",
+    "channelName": "Adib Alkhalidey",
+    "duration": "PT68M00S",
+    "category": "STORYTELLING",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Adib Alkhalidey, référence de l'humour québécois, livre un spectacle touchant et drôle sur les relations humaines. Son storytelling mêle vulnérabilité et punchlines dans un style qui rappelle les meilleurs stand-ups anglo-saxons.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : le storytelling émotionnel (parler d'amour avec humour) touche un public large",
+      "TECHNIQUE DE L'ESCALADE : que le stand-up québécois a un rythme et une énergie différents du français",
+      "TECHNIQUE DU PERSONNAGE : alterner moments touchants et punchlines crée un rollercoaster émotionnel addictif",
+      "TECHNIQUE DU TWIST : le titre 'Je t'aime' est un choix audacieux qui crée une attente que le spectacle dépasse"
+    ],
+    "exercise": "DÉFI AUTO-ANALYSE : raconte en 2 minutes un moment émouvant que tu as vécu (déclaration, retrouvailles, départ). Insère 2 détails absurdes dans le récit. L'objectif : faire rire ET toucher. Le grand humour fait les deux.",
+    "recommendedTimestamp": "6:00-18:00"
+  },
+  {
+    "id": 56,
+    "youtubeId": "GFS3p1Z8IiE",
+    "title": "David Azencot - Inflammable (à l'Européen)",
+    "channelName": "TéléParis",
+    "duration": "PT65M00S",
+    "category": "STORYTELLING",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "David Azencot livre son spectacle 'Inflammable' capté à l'Européen. Son humour autobiographique mêle anecdotes familiales, observations de la vie parisienne et réflexions sur l'identité, dans un style chaleureux et généreux.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : le storytelling autobiographique est la forme la plus authentique de stand-up",
+      "TECHNIQUE DE L'ESCALADE : david Azencot montre que les anecdotes familiales sont un matériau inépuisable",
+      "TECHNIQUE DU PERSONNAGE : la captation professionnelle dans une salle intime (l'Européen) donne une proximité rare",
+      "TECHNIQUE DU TWIST : le storytelling familial fonctionne quand les personnages secondaires (parents, oncles) sont aussi vivants que le narrateur"
+    ],
+    "exercise": "DÉFI ABSURDE LOGIQUE : Prends une anecdote familiale (Noël, vacances, mariage). Raconte-la comme un documentaire animalier : 'Et c'est à ce moment que l'oncle Bernard, dans son habitat naturel, déclenche le débat politique annuel.' Teste sur un membre de ta famille.",
+    "recommendedTimestamp": "4:00-16:00"
+  },
+  {
+    "id": 57,
+    "youtubeId": "6lHjXqelKGo",
+    "title": "Gad Elmaleh - Décalages (spectacle complet 1997)",
+    "channelName": "Gad Elmaleh",
+    "duration": "PT75M00S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Le spectacle fondateur de Gad Elmaleh, celui qui a tout lancé. 'Décalages' est une leçon d'observation et de comédie physique, avec des personnages devenus cultes (La Vie, le camping, le portable). Un classique absolu du stand-up français.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : gad Elmaleh a inventé un style qui mêle observation, mime et comédie physique",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : les personnages récurrents ('La Vie') donnent une colonne vertébrale au spectacle",
+      "TECHNIQUE DU CONTRASTE : la comédie physique transcende les barrières linguistiques et touchent un public plus large",
+      "TECHNIQUE DE L'ANCRAGE : ce spectacle de 1997 reste drôle aujourd'hui : les grands classiques résistent au temps"
+    ],
+    "exercise": "DÉFI VULNÉRABILITÉ : Prends un objet tech (smartphone, écouteurs, trottinette). Écris 3 phrases où tu lui parles comme à un être humain — avec reproche, tendresse ou déception. Ex : 'Mon téléphone me connaît mieux que mes amis. Normal, il a accès à mon historique.'",
+    "recommendedTimestamp": "2:00-14:00"
+  },
+  {
+    "id": 58,
+    "youtubeId": "XwG5Ie10rEg",
+    "title": "Fellag - Petits chocs des civilisations",
+    "channelName": "Fellag",
+    "duration": "PT90M00S",
+    "category": "OBSERVATION",
+    "difficulty": "EXPERT",
+    "description": "Fellag, monument de l'humour francophone, observe les chocs culturels entre l'Algérie et la France avec une finesse et une profondeur uniques. Son spectacle est à la fois une leçon d'humour et une leçon d'humanité.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : l'humour interculturel est le plus fédérateur car il célèbre les différences au lieu de les opposer",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : 50 ans d'expérience et de finesse dans chaque phrase ciselée",
+      "TECHNIQUE DU CONTRASTE : les 'petits chocs' du quotidien sont plus parlants que les grands discours sur le vivre-ensemble",
+      "TECHNIQUE DE L'ANCRAGE : le spectacle d'observation culturelle nécessite un vécu authentique dans les deux cultures"
+    ],
+    "exercise": "DÉFI DÉCALAGE : Raconte un choc culturel que tu as vécu (voyage, rencontre, déménagement) en exagérant ta propre confusion. 3 versions : factuelle, exagérée, complètement absurde. La version 2 est généralement la plus drôle.",
+    "recommendedTimestamp": "5:00-17:00"
+  },
+  {
+    "id": 59,
+    "youtubeId": "CdRedv9PM40",
+    "title": "Fabrice Éboué - Plus rien à perdre (spectacle complet)",
+    "channelName": "Fabrice Éboué",
+    "duration": "PT80M00S",
+    "category": "AUTODERISION",
+    "difficulty": "EXPERT",
+    "description": "Fabrice Éboué livre un spectacle sans filtre où l'auto-dérision et le politiquement incorrect se mêlent dans un cocktail explosif. 'Plus rien à perdre' est un spectacle pour public averti qui repousse les limites du stand-up français.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : le titre 'Plus rien à perdre' libère l'humoriste de toute autocensure — c'est un positionnement fort",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : l'humour sans filtre fonctionne quand il est intelligent et que l'humoriste rit aussi de lui-même",
+      "TECHNIQUE DE L'ASSOMPTION : fabrice Éboué montre que le politiquement incorrect est un art qui demande de la finesse, pas de la brutalité",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : un spectacle complet 'limite' nécessite des moments de respiration où le public peut souffler"
+    ],
+    "exercise": "DÉFI MICRO-OBSERVATION : écris une vanne que tu trouves 'limite'. Identifie pourquoi elle fonctionne (ou pas). La règle : si la cible de la blague rit aussi, c'est réussi. Si seul toi tu ris, il faut réécrire. Demande l'avis de 3 personnes différentes.",
+    "recommendedTimestamp": "3:00-15:00"
+  },
+  {
+    "id": 60,
+    "youtubeId": "-LlW0io5w30",
+    "title": "Laura Laune & Guillaume Bats - Le sexisme",
+    "channelName": "Montreux Comedy",
+    "duration": "PT9M00S",
+    "category": "ABSURDE",
+    "difficulty": "EXPERT",
+    "description": "Laura Laune et Guillaume Bats abordent le sexisme avec un humour noir décapant. Ce duo ose aller là où personne ne va, dans un registre trash et absurde qui repousse les limites du stand-up francophone.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : l'humour noir sur des sujets tabous nécessite un duo qui se fait confiance aveuglément",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : laura Laune et Guillaume Bats montrent que le second degré total est un style qui ne tolère pas la demi-mesure",
+      "TECHNIQUE DU FAUX SÉRIEUX : le duo permet de distribuer les rôles : l'un provoque, l'autre renchérit ou tempère",
+      "TECHNIQUE DU DÉCALAGE : le public du Montreux Comedy est préparé à l'audace, ce qui permet d'aller plus loin"
+    ],
+    "exercise": "DÉFI PROVOC LIGHT : avec un ami complice, choisissez un sujet de société (la galanterie, le sport genré, les tâches ménagères). Écrivez chacun 3 vannes dessus. Ensuite, enchaînez-les en ping-pong. La règle : jamais méchant, toujours absurde."
+  },
+  {
+    "id": 61,
+    "youtubeId": "B1ooaLzgFlY",
+    "title": "Bérengère Krief - Filles et Garçons",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M00S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Bérengère Krief met en scène les différences hommes-femmes sans tomber dans le cliché, en ancrant chaque observation dans une situation tellement précise que tout le monde s'y retrouve. Sa technique : le parallèle systématique, un comportement féminin vs masculin, même situation.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : observer les différences hommes/femmes est un terrain comique universel et inépuisable",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : bérengère Krief excelle dans les détails que tout le monde reconnaît mais que personne ne verbalise",
+      "TECHNIQUE DU CONTRASTE : l'énergie et l'enthousiasme de la performance rendent les observations encore plus percutantes",
+      "TECHNIQUE DE L'ANCRAGE : les mimiques et le jeu corporel enrichissent considérablement l'observation verbale"
+    ],
+    "exercise": "DÉFI AUTODÉRISION : Note 3 différences homme/femme que tu observes cette semaine (pas des clichés, des trucs VRAIS que tu vis). Pour chacune, écris la version drôle. Teste la meilleure au dîner."
+  },
+  {
+    "id": 62,
+    "youtubeId": "JuB6-b0fhLE",
+    "title": "Panayotis Pascot - Amsterdam et le Kem's",
+    "channelName": "Panayotis Pascot",
+    "duration": "PT6M30S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Panayotis Pascot raconte une histoire impliquant Amsterdam et un jeu de cartes avec un talent narratif qui captive dès les premières secondes. Sa fraîcheur et son naturel en font un conteur de la nouvelle génération particulièrement attachant.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : panayotis Pascot représente la nouvelle génération du stand-up : authentique et sans filtre",
+      "TECHNIQUE DE L'ESCALADE : mêler voyage et anecdotes crée un cadre narratif qui transporte le public",
+      "TECHNIQUE DU PERSONNAGE : le storytelling fonctionne mieux quand le conteur semble revivre l'histoire en temps réel",
+      "TECHNIQUE DU TWIST : les jeux et activités de groupe sont un terreau riche en situations comiques"
+    ],
+    "exercise": "DÉFI ÉNERGIE : raconte un souvenir de voyage ou de soirée entre amis qui a mal tourné (ou bien tourné de manière inattendue). Commence par planter le décor (lieu, ambiance). Ajoute un détail sensoriel (odeur, son). La chute doit surprendre même toi."
+  },
+  {
+    "id": 63,
+    "youtubeId": "R1yqN11ln_g",
+    "title": "Sugar Sammy - Médecins au Québec",
+    "channelName": "Sugar Sammy",
+    "duration": "PT4M45S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Sugar Sammy observe le système de santé québécois avec l'œil aiguisé d'un humoriste international. Son bilinguisme (français/anglais) et son humour multiculturel lui permettent de toucher un public très large.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : l'humour multiculturel permet de toucher plusieurs publics avec les mêmes observations",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : observer les systèmes (santé, éducation, administration) est plus fédérateur que critiquer les individus",
+      "TECHNIQUE DU CONTRASTE : sugar Sammy montre que le bilinguisme est un super-pouvoir comique",
+      "TECHNIQUE DE L'ANCRAGE : l'observation comparative entre pays crée naturellement du comique de contraste"
+    ],
+    "exercise": "DÉFI IMPRO PRO : compare deux systèmes que tu connais (santé France vs un autre pays, école publique vs privée, ville vs campagne). Note 3 différences absurdes. Présente-les comme un guide touristique ultra-sérieux."
+  },
+  {
+    "id": 64,
+    "youtubeId": "JtU_EB5i2Mk",
+    "title": "Sugar Sammy - L'andrologue",
+    "channelName": "Sugar Sammy",
+    "duration": "PT5M30S",
+    "category": "STORYTELLING",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Sugar Sammy raconte une visite chez l'andrologue avec un mélange de gêne exagérée et de punchlines chirurgicales. Son talent pour l'improvisation et l'interaction avec le public transparaît dans chaque détail de son récit.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : les histoires médicales gênantes sont universellement drôles car tout le monde en a vécu",
+      "TECHNIQUE DE L'ESCALADE : l'exagération stratégique de la gêne amplifie le comique sans dénaturer l'histoire",
+      "TECHNIQUE DU PERSONNAGE : sugar Sammy intègre souvent le public dans ses récits, ce qui les rend uniques à chaque show",
+      "TECHNIQUE DU TWIST : le vocabulaire médical technique dans un contexte comique crée un décalage irrésistible"
+    ],
+    "exercise": "DÉFI REGISTRE : raconte une visite chez un professionnel de santé (dentiste, ophtalmo, kiné) qui a été gênante ou absurde. Intègre le dialogue exact (ou inventé) avec le praticien. Le contraste entre le sérieux médical et ta panique intérieure fait le travail."
+  },
+  {
+    "id": 65,
+    "youtubeId": "t2MsC6I9t5U",
+    "title": "Sugar Sammy - La procureure et l'immigrant",
+    "channelName": "Sugar Sammy",
+    "duration": "PT5M00S",
+    "category": "REPARTIE",
+    "difficulty": "EXPERT",
+    "description": "Sugar Sammy, immigrant indien au Québec, retourne les stéréotypes sur l'immigration avec une répartie cinglante et une intelligence comique redoutable. Il montre comment l'humour peut être une arme contre les préjugés.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND : la répartie la plus efficace utilise l'intelligence plutôt que l'agressivité",
+      "TECHNIQUE DE LA REDIRECTION : retourner un stéréotype en force est un acte de répartie et de résistance à la fois",
+      "TECHNIQUE DU RETOURNEMENT : sugar Sammy montre que l'humour sur l'immigration fonctionne quand c'est l'immigrant qui fait les blagues",
+      "TECHNIQUE DE LA NEUTRALITÉ : la répartie préparée (avoir des réponses prêtes pour les clichés courants) est aussi valable que l'improvisation"
+    ],
+    "exercise": "DÉFI IRONIE : Écris 3 stéréotypes qu'on te colle (à cause de ton métier, âge, origine, passion). Pour chacun, écris la réponse qui ACCEPTE le stéréotype et le pousse à l'absurde. Ex : 'Oui je suis développeur, je vis dans le noir et je parle aux machines.'"
+  },
+  {
+    "id": 66,
+    "youtubeId": "TDmd7JRlxFc",
+    "title": "Florence Foresti - Le styliste (Boys Boys Boys)",
+    "channelName": "CANAL+",
+    "duration": "PT6M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Florence Foresti, reine de l'humour français, décortique l'univers de la mode avec un sketch où elle incarne un styliste dans son spectacle 'Boys Boys Boys'. Sa capacité à créer des personnages mémorables et à observer les codes de la mode en font une masterclass de comédie.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : florence Foresti excelle dans la transformation physique et vocale pour incarner des personnages",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : observer un milieu (ici la mode) de l'intérieur avec un regard extérieur crée un comique de décalage",
+      "TECHNIQUE DU CONTRASTE : les personnages de sketch réussis sont des caricatures justes — exagérés mais reconnaissables",
+      "TECHNIQUE DE L'ANCRAGE : le spectacle CANAL+ montre qu'un bon sketch peut fonctionner aussi bien sur scène qu'à la télé"
+    ],
+    "exercise": "DÉFI TRANSFO : Prends le jargon de ton métier (5 mots). Traduis-le en langage courant de manière littérale et absurde. Ex : 'scaler le product' → 'mettre le produit sur une échelle'. Teste sur un collègue — s'il rit, tu tiens un bon filon."
+  },
+  {
+    "id": 67,
+    "youtubeId": "UbaqKoflh_A",
+    "title": "Ahmed Sylla - La théorie du genre",
+    "channelName": "YouHumour",
+    "duration": "PT5M30S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Ahmed Sylla prend le sujet miné de la théorie du genre et trouve l'angle qui fait rire tout le monde : celui du mec paumé qui essaye sincèrement de comprendre. En choisissant la posture du candide plutôt que du militant, il désamorce la tension et libère le rire.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : aborder un sujet de société polémique par l'angle du quotidien le rend accessible à tous",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : ahmed Sylla montre que l'énergie physique peut porter un propos même quand le sujet est complexe",
+      "TECHNIQUE DU CONTRASTE : l'humour populaire ne signifie pas simpliste — c'est rendre le complexe simple sans le dénaturer",
+      "TECHNIQUE DE L'ANCRAGE : jouer sur les codes masculins/féminins est un terrain comique universel et intemporel"
+    ],
+    "exercise": "DÉFI SLOW COMEDY : Prends un sujet de société qui fait débat. Au lieu de donner ton avis, liste 3 observations que TOUT LE MONDE reconnaît, sans prendre parti. Commence par 'le truc c'est que...' et décris ce que tu vois. L'observation neutre est plus drôle que l'opinion."
+  },
+  {
+    "id": 68,
+    "youtubeId": "U80fwIfPC4M",
+    "title": "Dany Boon - Le culturiste",
+    "channelName": "Dany Boon",
+    "duration": "PT7M00S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Dany Boon, légende du one-man-show français, incarne un culturiste avec un jeu physique hilarant. Ce sketch classique montre la puissance de la comédie physique et la capacité de Boon à transformer son corps en instrument comique.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : dany Boon est le maître de la comédie physique en France — chaque geste est millimétré",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : incarner un personnage par le corps plutôt que par les mots est une technique puissante",
+      "TECHNIQUE DU FAUX SÉRIEUX : l'absurde naît du contraste entre le sérieux du culturiste et les situations banales",
+      "TECHNIQUE DU DÉCALAGE : les sketches classiques restent drôles des décennies plus tard quand le jeu physique est bon"
+    ],
+    "exercise": "DÉFI ÉPIQUE : Lève-toi et imite 3 types de personnes par leur démarche seulement (le mec pressé, le touriste perdu, le sportif au parc). Filme-toi 10 secondes chacun. La physicalité est le raccourci le plus rapide vers le rire."
+  },
+  {
+    "id": 69,
+    "youtubeId": "R5ophuvAqho",
+    "title": "Claudia Tagbo - Les athlètes",
+    "channelName": "YouHumour",
+    "duration": "PT5M00S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Claudia Tagbo observe le monde des athlètes avec son énergie légendaire et son talent d'imitation. Sa capacité à mimer les sportifs avec précision et à en tirer un humour universel fait de ce sketch un modèle d'observation comique physique.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : claudia Tagbo montre que l'imitation physique (mimer un athlète) est universellement drôle",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : l'énergie sur scène est contagieuse — si l'humoriste s'éclate, le public aussi",
+      "TECHNIQUE DU CONTRASTE : observer les tics et rituels des sportifs (avant un match, après un but) offre un matériau riche",
+      "TECHNIQUE DE L'ANCRAGE : le sport est un sujet fédérateur car tout le monde reconnaît les comportements décrits"
+    ],
+    "exercise": "DÉFI CRINGE : Regarde un match ou une compétition sportive ce weekend. Note 3 gestes rituels absurdes des sportifs (célébrations, tics, superstitions). Pour chacun, imagine l'équivalent dans ta vie quotidienne et raconte-le à un ami."
+  },
+  {
+    "id": 70,
+    "youtubeId": "OR-1TUobxk8",
+    "title": "Paul Mirabel & Gad Elmaleh - Conseils d'ami",
+    "channelName": "La Relève Montreux Comedy",
+    "duration": "PT8M00S",
+    "category": "TIMING",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Paul Mirabel et Gad Elmaleh se retrouvent sur la scène de La Relève Montreux Comedy pour un échange intergénérationnel. La rencontre entre la nouvelle star et la légende offre un moment unique de complicité et de transmission.",
+    "technique": "Timing",
+    "learnings": [
+      "TECHNIQUE DE LA PAUSE : la rencontre entre deux générations d'humoristes crée une dynamique comique unique",
+      "TECHNIQUE DU RYTHME : paul Mirabel et Gad Elmaleh montrent que le respect mutuel n'empêche pas les vannes",
+      "TECHNIQUE DU SILENCE : le format 'duo improvisé' révèle le talent brut : impossible de se cacher derrière un texte",
+      "TECHNIQUE DU CALLBACK : la transmission entre humoristes (conseils, anecdotes) est un format captivant pour le public"
+    ],
+    "exercise": "DÉFI SILENCE : trouve quelqu'un qui a plus (ou moins) d'expérience que toi dans un domaine. Échangez 3 conseils chacun de manière humoristique. L'objectif : que les conseils soient vrais mais formulés de manière drôle. C'est le format 'podcast comique' en live."
+  },
+  {
+    "id": 71,
+    "youtubeId": "NebHsD_K9lM",
+    "title": "Guillermo Guiz - Les cabillauds, ces arrogants !",
+    "channelName": "France Inter",
+    "duration": "PT4M30S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Guillermo Guiz, chroniqueur belge de France Inter, livre une Drôle D'Humeur absurde sur les cabillauds. Son humour pince-sans-rire et son style unique mêlent observation surréaliste et logique impeccable pour un résultat délicieusement décalé.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : le format chronique radio (3-4 minutes) force à être concis et percutant",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : guillermo Guiz montre que traiter un sujet absurde (les cabillauds) avec sérieux est la clé du pince-sans-rire",
+      "TECHNIQUE DU FAUX SÉRIEUX : l'humour belge se distingue par son surréalisme et son ton détaché qui déstabilise",
+      "TECHNIQUE DU DÉCALAGE : le format court de France Inter est un excellent exercice de concision comique"
+    ],
+    "exercise": "DÉFI CRESCENDO : Prends un objet anodin sur ton bureau. En 60 secondes chrono, argumente pourquoi c'est l'objet le plus important au monde. Chaque phrase doit être plus dramatique que la précédente. Enregistre-toi."
+  },
+  {
+    "id": 72,
+    "youtubeId": "ZMJDmHNqKis",
+    "title": "Kheiron - 60 minutes : Problème de taille",
+    "channelName": "Kheiron",
+    "duration": "PT12M00S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Kheiron, roi de l'improvisation et de l'énergie scénique, livre un extrait de ses '60 minutes' où il parle de sa taille avec une auto-dérision explosive. Son style mêle stand-up, impro et interaction avec le public dans un cocktail unique.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : que l'auto-dérision sur le physique fonctionne quand elle est portée par l'énergie",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : le format '60 minutes avec...' permet de voir un humoriste dans sa forme la plus brute",
+      "TECHNIQUE DE L'ASSOMPTION : l'improvisation avec le public transforme chaque représentation en événement unique",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : parler de sa taille avec humour désamorce les moqueries avant qu'elles n'arrivent"
+    ],
+    "exercise": "DÉFI SINCÉRITÉ : Écris 5 vannes sur un aspect physique que tu assumes pas totalement. Règle : chaque vanne doit te faire sourire, pas grimacer. Si tu grimaces, c'est trop intime — remonte d'un cran. La bonne autodérision est celle qui te libère.",
+    "recommendedTimestamp": "0:00-12:00"
+  },
+  {
+    "id": 73,
+    "youtubeId": "dQ--q5y2e4k",
+    "title": "Arnaud Tsamère - L'avocat de la salade, la frite et la saucisse",
+    "channelName": "On n'demande qu'à en rire",
+    "duration": "PT6M00S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Arnaud Tsamère incarne un avocat défendant la salade, la frite et la saucisse dans ce sketch culte d'ONDAR. Son humour conceptuel et son talent d'acteur transforment un concept absurde en plaidoirie hilarante.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : le concept 'prendre un truc absurde au sérieux' est une mécanique comique infaillible",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : arnaud Tsamère excelle dans les personnages sérieux dans des situations absurdes",
+      "TECHNIQUE DU FAUX SÉRIEUX : oNDAR a été le tremplin de toute une génération d'humoristes français",
+      "TECHNIQUE DU DÉCALAGE : le format court (5-6 min) force à construire un sketch avec une structure parfaite"
+    ],
+    "exercise": "DÉFI QUOTIDIEN : invente un procès absurde : un objet du quotidien est accusé d'un crime (le réveil est accusé de nuisances sonores, le wifi de séquestration). Écris le plaidoyer de la défense en 1 minute. Garde un ton d'avocat sérieux du début à la fin."
+  },
+  {
+    "id": 74,
+    "youtubeId": "57Ip2k3us_8",
+    "title": "Thomas VDB - Bitcoin, JPEG et blockchain",
+    "channelName": "France Inter",
+    "duration": "PT4M30S",
+    "category": "JEUX_DE_MOTS",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Thomas VDB s'attaque au Bitcoin et à la blockchain avec la lucidité d'un mec qui n'y comprend rien — et qui sait que 90% du public non plus. Son arme : détourner le jargon tech en langage de tous les jours pour en révéler l'absurdité.",
+    "technique": "Jeux de mots",
+    "learnings": [
+      "TECHNIQUE DU DOUBLE SENS : expliquer un concept complexe (crypto, blockchain) avec humour le rend accessible à tous",
+      "TECHNIQUE DU DÉTOURNEMENT : thomas VDB montre que le format chronique radio est idéal pour tester du matériel court",
+      "TECHNIQUE DE LA SONORITÉ : les jeux de mots sur le jargon technique créent un double niveau de lecture apprécié",
+      "TECHNIQUE DE L'AMBIGUÏTÉ : l'humour vulgarisateur est un créneau rare et très demandé"
+    ],
+    "exercise": "DÉFI SONORITÉ : Prends 3 mots de jargon tech ou pro (blockchain, KPI, synergy). Explique chacun à un ami comme si tu parlais à un enfant de 5 ans. La simplification forcée révèle l'absurdité du jargon — et c'est là que le rire est."
+  },
+  {
+    "id": 75,
+    "youtubeId": "QGqA4va99rw",
+    "title": "Pierre Croce - Ce qu'on rêverait d'entendre dans l'avion",
+    "channelName": "Pierre Croce",
+    "duration": "PT2M30S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Pierre Croce imagine les annonces qu'on rêverait d'entendre dans un avion, et chaque proposition est plus absurde que la précédente. La force du sketch : une structure de liste qui permet de tester 10 vannes en 5 minutes — l'exercice parfait pour comprendre le format du one-liner à répétition.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : le format court (2-3 min) de Pierre Croce est adapté à l'ère du scroll et de l'attention limitée",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : imaginer l'inverse de la réalité ('ce qu'on rêverait d'entendre' vs ce qu'on entend) est un angle simple et efficace",
+      "TECHNIQUE DU CONTRASTE : l'humour YouTube a ses propres codes : rythme rapide, punchlines fréquentes, format court",
+      "TECHNIQUE DE L'ANCRAGE : les situations universelles (avion, transport) touchent le plus large public possible"
+    ],
+    "exercise": "DÉFI VLOG : Imagine 5 annonces qu'on rêverait d'entendre dans un lieu public (métro, supermarché, salle d'attente). Écris-les et lis-les à voix haute avec le ton d'un vrai message d'enceinte. Envoie les meilleures à un ami."
+  },
+  {
+    "id": 76,
+    "youtubeId": "_bwxPjiGPOM",
+    "title": "Laura Laune - Finale France's Got Talent 2017",
+    "channelName": "France's Got Talent",
+    "duration": "PT8M00S",
+    "category": "ABSURDE",
+    "difficulty": "EXPERT",
+    "description": "Laura Laune, humoriste belge à l'humour noir radical, remporte La France a un Incroyable Talent 2017 avec un sketch qui a divisé la France. Son audace et son style trash-poétique ont repoussé les limites de ce qu'on peut faire en humour à la télévision.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : laura Laune prouve que l'humour noir radical peut conquérir même un concours grand public",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : gagner un concours TV en faisant le CONTRAIRE de ce qui est attendu est un coup de génie",
+      "TECHNIQUE DU FAUX SÉRIEUX : l'humour belge trash-poétique est un style distinct qui n'existe nulle part ailleurs",
+      "TECHNIQUE DU DÉCALAGE : diviser le public est parfois plus mémorable que plaire à tout le monde"
+    ],
+    "exercise": "DÉFI CHOC : écris un sketch de 1 minute sur un sujet mignon (les chatons, les bébés, Noël) mais avec un twist noir à la fin. La règle : le début doit être sincèrement mignon, le retournement doit surprendre. C'est l'exercice le plus dur : doser le contraste."
+  },
+  {
+    "id": 77,
+    "youtubeId": "DK7ASNHnKm4",
+    "title": "Guillermo Guiz - Pas de sentiments au fast-food",
+    "channelName": "France Inter",
+    "duration": "PT4M30S",
+    "category": "ABSURDE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Guillermo Guiz explore l'univers du fast-food avec sa philosophie absurde dans cette chronique France Inter. Son regard surréaliste belge transforme un McDo en sujet de réflexion existentielle hilarante.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : philosophiser sur un sujet trivial (le fast-food) est la base de l'humour absurde belge",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : guillermo Guiz montre que la régularité (chronique hebdomadaire) forge un style distinctif",
+      "TECHNIQUE DU FAUX SÉRIEUX : le titre 'Pas de sentiments au fast-food' est déjà une mini-blague qui donne envie d'écouter",
+      "TECHNIQUE DU DÉCALAGE : écrire une chronique par semaine est le meilleur entraînement pour un humoriste"
+    ],
+    "exercise": "DÉFI SUBTILITÉ : écris une réflexion philosophique de 1 minute sur un lieu banal (la laverie, le parking, la salle d'attente). Pose une question existentielle sérieuse ('Pourquoi met-on de la musique dans les ascenseurs ?') et développe une théorie absurde mais logique."
+  },
+  {
+    "id": 78,
+    "youtubeId": "Fw14PLdtSyA",
+    "title": "Nora Hamzawi - Les chagrins d'amour (chronique France Inter)",
+    "channelName": "France Inter",
+    "duration": "PT4M00S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Nora Hamzawi, chroniqueuse culte de France Inter, dissèque les chagrins d'amour avec sa lucidité et son auto-dérision signature. Son style introspectif et mordant résonne particulièrement avec les trentenaires en quête de sens.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : nora Hamzawi montre que l'introspection à voix haute est une forme puissante d'auto-dérision",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : le format chronique radio force à la concision : chaque mot doit porter",
+      "TECHNIQUE DE L'ASSOMPTION : parler de chagrins d'amour avec ironie plutôt qu'avec pathos touche un public plus large",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : son style 'névrosée lucide' crée un personnage de chroniqueuse immédiatement identifiable"
+    ],
+    "exercise": "DÉFI CONTEUR : Raconte ta dernière déception (amoureuse, pro, culinaire) en 2 versions : ton dramatique (1 minute) puis ton comique (1 minute). La deuxième version utilise les mêmes faits mais change le REGARD. C'est le regard qui fait le comique."
+  },
+  {
+    "id": 79,
+    "youtubeId": "FM1rtYhkSjE",
+    "title": "Lamine Lezghad - Le recruteur raciste",
+    "channelName": "YouHumour",
+    "duration": "PT5M00S",
+    "category": "REPARTIE",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Lamine Lezghad incarne un recruteur ouvertement raciste avec un naturel glaçant qui rend la scène à la fois inconfortable et hilarante. Le sketch montre comment l'incarnation d'un personnage détestable peut servir de miroir comique à la société — l'humour comme arme de dénonciation.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND : incarner le 'méchant' (ici le recruteur raciste) pour le ridiculiser est une technique de satire efficace",
+      "TECHNIQUE DE LA REDIRECTION : lamine Lezghad montre que jouer un personnage détestable avec conviction le rend encore plus ridicule",
+      "TECHNIQUE DU RETOURNEMENT : l'humour sur le racisme fonctionne quand c'est le raciste qui est la cible, pas la victime",
+      "TECHNIQUE DE LA NEUTRALITÉ : le sketch à personnage permet d'aborder des sujets graves sans être moralisateur"
+    ],
+    "exercise": "DÉFI QUESTION : invente un personnage avec un défaut social (le snob, le mansplainer, le complotiste). Incarne-le pendant 1 minute avec une conviction totale. Le public doit rire DU personnage, pas avec lui. Le piège : ne jamais approuver réellement les propos."
+  },
+  {
+    "id": 80,
+    "youtubeId": "eYhWcDdI3rM",
+    "title": "Jonathan Cohen - Serge le Mytho (Bloqués)",
+    "channelName": "Bloqués",
+    "duration": "PT3M00S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Jonathan Cohen incarne Serge le Mytho dans la série 'Bloqués' de Canal+, un personnage culte qui ment de manière outrageusement absurde. Ce format court web a révolutionné l'humour digital français.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : jonathan Cohen a créé un personnage culte (Serge le Mytho) reconnaissable en 2 secondes",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : le format ultra-court (3 min) de Bloqués a défini l'humour web français",
+      "TECHNIQUE DU FAUX SÉRIEUX : un personnage qui ment de manière absurde fait rire car tout le monde connaît un mytho",
+      "TECHNIQUE DU DÉCALAGE : la récurrence (même personnage, situations différentes) crée un running gag addictif"
+    ],
+    "exercise": "DÉFI ABSURDE PUR : invente un personnage qui a UN tic narratif (il exagère tout, il minimise tout, il ramène tout à lui). Place-le dans 3 situations différentes (au café, chez le médecin, en réunion). Le tic doit rester constant. C'est la cohérence du personnage qui fait rire."
+  },
+  {
+    "id": 81,
+    "youtubeId": "jKhIOyk9kdU",
+    "title": "Pierre Croce - Tester Tinder avec un enfant",
+    "channelName": "Pierre Croce",
+    "duration": "PT3M00S",
+    "category": "ABSURDE",
+    "difficulty": "DEBUTANT",
+    "description": "Pierre Croce teste Tinder avec un enfant dans une vidéo qui mêle candeur et absurde. Le regard innocent d'un enfant sur l'appli de rencontres révèle toute l'absurdité de nos comportements digitaux avec une fraîcheur désarmante.",
+    "technique": "Absurde",
+    "learnings": [
+      "TECHNIQUE DE LA LOGIQUE ABSURDE : confronter un regard innocent (enfant) à un monde d'adultes (Tinder) est automatiquement drôle",
+      "TECHNIQUE DE L'ENGAGEMENT TOTAL : pierre Croce montre que le format 'expérience sociale' est un terreau riche pour l'humour YouTube",
+      "TECHNIQUE DU FAUX SÉRIEUX : les enfants disent tout haut ce que les adultes pensent tout bas — c'est une forme de vérité comique",
+      "TECHNIQUE DU DÉCALAGE : le concept simple et clair ('Tinder avec un enfant') se comprend en 1 seconde — clé du viral"
+    ],
+    "exercise": "DÉFI NATUREL : imagine qu'un enfant de 8 ans découvre une de tes habitudes d'adulte (café le matin, réunions Zoom, binge-watching). Écris 5 questions qu'il poserait et tes réponses embarrassées. Le regard candide sur nos habitudes révèle leur absurdité."
+  },
+  {
+    "id": 82,
+    "youtubeId": "vpdrKdWY838",
+    "title": "Lilia Benchabane - Sa vie est un blind test",
+    "channelName": "Tarmac",
+    "duration": "PT9M30S",
+    "category": "REPARTIE",
+    "difficulty": "DEBUTANT",
+    "description": "Lilia Benchabane, humoriste albinos et malvoyante, transforme les réactions maladroites des gens face à son handicap en matière comique. Elle montre comment répondre avec humour et assurance aux questions gênantes, un vrai cours de répartie par l'exemple.",
+    "technique": "Répartie",
+    "learnings": [
+      "TECHNIQUE DU REBOND : transformer une différence perçue comme un handicap en super-pouvoir comique désarme l'interlocuteur",
+      "TECHNIQUE DE LA REDIRECTION : lilia répond aux remarques gênantes par des punchlines préparées — la répartie se travaille en amont",
+      "TECHNIQUE DU RETOURNEMENT : prendre les devants sur ce que les gens pensent tout bas enlève leur pouvoir de gêne",
+      "TECHNIQUE DE LA NEUTRALITÉ : l'humour sur soi-même met l'autre à l'aise et crée une connexion immédiate"
+    ],
+    "exercise": "DÉFI COMEBACK : Écris 3 chambrages que tu reçois souvent (sur ta taille, ton métier, ton célibat). Pour chacun, prépare une réponse qui accepte puis retourne. Ex : 'T'es toujours célibataire ?' → 'Oui, par choix. Pas le mien, mais par choix quand même.' Mémorise ta meilleure."
+  },
+  {
+    "id": 83,
+    "youtubeId": "y7M7tn6ObfY",
+    "title": "Fanny Ruwet - Je ne serais pas une bonne mère",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M15S",
+    "category": "AUTODERISION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Fanny Ruwet liste méthodiquement toutes les raisons pour lesquelles elle serait une mauvaise mère, et chaque argument est plus précis et plus drôle que le précédent. Son approche : assumer un 'défaut' si fort qu'il devient une qualité comique. L'autodérision poussée à son paroxysme.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : assumer un choix de vie 'à contre-courant' avec humour le rend plus percutant qu'un long discours",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : l'accumulation de détails absurdes pour renforcer sa démonstration comique",
+      "TECHNIQUE DE L'ASSOMPTION : aborder un sujet socialement sensible (maternité) par l'humour crée un espace de parole libre",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : l'écriture précise et ciselée de chaque phrase maximise l'impact de l'autodérision"
+    ],
+    "exercise": "DÉFI ASSUMER : Écris 3 choses que ton entourage te reproche (pas d'enfants, pas marié, pas de CDI). Pour chacune, écris la version 'et j'ai raison' avec un argument absurde mais logique. Celle qui te fait le plus rire = ton matériel."
+  },
+  {
+    "id": 84,
+    "youtubeId": "JRJJwIdpL00",
+    "title": "Constance - Le rendez-vous coquin",
+    "channelName": "YouHumour",
+    "duration": "PT6M00S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Constance raconte un rendez-vous coquin qui dérape avec une franchise frontale et un sens du détail qui met tout le monde mal à l'aise — avant de les faire exploser de rire. Sa technique : le storytelling intime sans filtre, où la vulnérabilité devient la source du comique.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : que raconter ses pires moments avec enthousiasme les rend hilarants",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : le rythme rapide et l'énergie physique transforment la gêne en spectacle",
+      "TECHNIQUE DE L'ASSOMPTION : partager ses échecs amoureux sans filtre crée une complicité immédiate avec le public",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : l'autodérision sur la séduction fonctionne universellement car tout le monde a vécu des moments gênants"
+    ],
+    "exercise": "DÉFI VÉCU : eN DUO : Raconte à un ami ton pire rendez-vous ou ta pire tentative de séduction. Règle du jeu : tu dois raconter SANS te justifier, avec le maximum d'énergie, comme si c'était la meilleure histoire du monde. Ton ami fait pareil ensuite."
+  },
+  {
+    "id": 85,
+    "youtubeId": "WiOtrTASZWU",
+    "title": "Blanche Gardin - La vie éternelle",
+    "channelName": "Comédie+",
+    "duration": "PT8M45S",
+    "category": "OBSERVATION",
+    "difficulty": "EXPERT",
+    "description": "Blanche Gardin aborde la mort et la vie éternelle — sujets que personne n'ose toucher — et en fait un numéro de 15 minutes qui oscille entre malaise et fou rire. Sa marque de fabrique : aller là où ça fait mal avec une franchise clinique qui force le respect.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : blanche Gardin prouve qu'on peut aborder des sujets graves (la mort) tout en faisant hurler de rire",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : chaque phrase est construite comme un micro-twist : setup neutre, chute inattendue",
+      "TECHNIQUE DU CONTRASTE : le ton faussement détaché sur des sujets intimes crée un décalage qui amplifie l'humour",
+      "TECHNIQUE DE L'ANCRAGE : mélanger références intellectuelles et langage cru est sa signature — le contraste fait rire"
+    ],
+    "exercise": "DÉFI OBSERVATION SOCIÉTALE : aNALYSE VIDÉO : Regarde ce sketch et note 3 moments où Blanche change de ton (du sérieux au cru, du philosophique au trivial). Pour chaque changement, identifie l'effet sur le rire du public. Essaie d'appliquer un changement de ton similaire dans une anecdote que tu racontes souvent."
+  },
+  {
+    "id": 86,
+    "youtubeId": "Ps3UNPLpmKc",
+    "title": "Karim Duval - Élever son enfant en mode start-up",
+    "channelName": "Karim Duval",
+    "duration": "PT7M00S",
+    "category": "OBSERVATION",
+    "difficulty": "INTERMEDIAIRE",
+    "description": "Karim Duval applique le jargon corporate et start-up à l'éducation de ses enfants. Un sketch qui parle directement à tous ceux qui travaillent en entreprise et subissent le vocabulaire managérial au quotidien. Parfait pour alimenter les conversations à la machine à café.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : transposer le vocabulaire d'un univers (start-up) dans un autre (parentalité) crée un comique immédiat",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : le jargon corporate est une mine d'or comique car tout le monde le subit sans oser s'en moquer",
+      "TECHNIQUE DU CONTRASTE : que l'humour 'vie pro' est un terrain sous-exploité en stand-up français",
+      "TECHNIQUE DE L'ANCRAGE : accumuler les termes techniques dans un contexte inadapté crée un crescendo comique"
+    ],
+    "exercise": "DÉFI TRANSPOSITION : mACHINE À CAFÉ : Prends 5 termes de ton travail (KPI, deadline, synergies, best practices, scalable) et utilise-les pour décrire une activité du quotidien (faire les courses, promener le chien, organiser un dîner). Teste la meilleure sur un collègue lundi."
+  },
+  {
+    "id": 87,
+    "youtubeId": "XrWYDgHAy6c",
+    "title": "Quentin Ratieuville - Handicapé, et alors ?",
+    "channelName": "Montreux Comedy",
+    "duration": "PT8M00S",
+    "category": "STORYTELLING",
+    "difficulty": "DEBUTANT",
+    "description": "Quentin Ratieuville parle de son handicap avec une franchise et un humour qui ont conquis 800 000 spectateurs sur YouTube. Il transforme un sujet délicat en matière comique universelle, prouvant que l'authenticité radicale est la meilleure arme humoristique.",
+    "technique": "Storytelling",
+    "learnings": [
+      "TECHNIQUE DU DÉTAIL SPÉCIFIQUE : parler sans détour d'un sujet tabou libère le public et l'autorise à rire",
+      "TECHNIQUE DE L'ESCALADE : que le vécu personnel, même difficile, est la matière première la plus puissante du stand-up",
+      "TECHNIQUE DU PERSONNAGE : anticiper les pensées du public ('je sais que vous vous demandez...') désamorce la gêne",
+      "TECHNIQUE DU TWIST : l'humour sur soi crée un lien de confiance immédiat avec l'audience"
+    ],
+    "exercise": "DÉFI PERSONNEL : Raconte une expérience perso difficile à un ami de confiance — mais UNIQUEMENT en mode comique. Règle : tu as le droit de rire de ce que tu as RESSENTI, pas de minimiser ce qui s'est passé. Le comique vient de ta réaction, pas de la situation."
+  },
+  {
+    "id": 88,
+    "youtubeId": "JmF7CXVoIz0",
+    "title": "Ahmed Sparrow - Piétons vs Automobilistes",
+    "channelName": "Montreux Comedy",
+    "duration": "PT7M30S",
+    "category": "OBSERVATION",
+    "difficulty": "DEBUTANT",
+    "description": "Ahmed Sparrow oppose les comportements des piétons et des automobilistes avec une énergie physique débordante. Il joue les deux rôles et fait vivre chaque situation, transformant des scènes de rue banales en moments d'humour irrésistibles.",
+    "technique": "Observation",
+    "learnings": [
+      "TECHNIQUE DE L'ŒIL NEUF : jouer physiquement les personnages de ses observations multiplie l'impact comique",
+      "TECHNIQUE DE LA SPÉCIFICITÉ : opposer deux groupes (piétons vs automobilistes) crée une structure comique simple et efficace",
+      "TECHNIQUE DU CONTRASTE : les situations de la vie quotidienne (traverser la rue) parlent à 100% du public",
+      "TECHNIQUE DE L'ANCRAGE : l'énergie physique sur scène (gestuelle, déplacements) peut remplacer des heures d'écriture"
+    ],
+    "exercise": "DÉFI MIME : eN GROUPE : Choisis un conflit du quotidien (piétons vs cyclistes, fumeurs vs non-fumeurs, lève-tôt vs couche-tard). Joue les deux personnages devant tes amis en changeant de position physique à chaque changement de rôle. 2 minutes max."
+  },
+  {
+    "id": 89,
+    "youtubeId": "Mw2zHEaBPDs",
+    "title": "Doully - La sobriété",
+    "channelName": "Montreux Comedy",
+    "duration": "PT6M30S",
+    "category": "AUTODERISION",
+    "difficulty": "DEBUTANT",
+    "description": "Doully aborde la sobriété et les soirées sans alcool avec un regard frais et sans jugement. Elle montre que les choix de vie alternatifs sont une source inépuisable d'humour quand on les assume pleinement.",
+    "technique": "Auto-dérision",
+    "learnings": [
+      "TECHNIQUE DU RETOURNEMENT : assumer un choix 'différent' (ne pas boire) ouvre un terrain comique que peu exploitent",
+      "TECHNIQUE DE LA VULNÉRABILITÉ : le regard des autres sur elle comme moteur comique — leurs réactions deviennent le sketch",
+      "TECHNIQUE DE L'ASSOMPTION : décrire les soirées du point de vue du sobre crée un décalage comique naturel",
+      "TECHNIQUE DE L'EXAGÉRATION DE SOI : l'authenticité dans le stand-up crée plus de connexion que les blagues 'universelles'"
+    ],
+    "exercise": "DÉFI SOCIAL : À ta prochaine soirée, observe les comportements des gens comme si tu étais un anthropologue. Note mentalement 3 moments absurdes. Le lendemain, raconte-les à quelqu'un qui n'était pas là, en les présentant comme une 'expérience de terrain'."
   }
 ]

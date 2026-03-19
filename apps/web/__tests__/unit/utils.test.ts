@@ -1,4 +1,4 @@
-import { cn, formatDateFr, USER_LEVELS, FREE_LIMITS } from "@/lib/utils";
+import { cn, formatDateFr, USER_LEVELS } from "@/lib/utils";
 
 describe("cn — fusion de classes Tailwind", () => {
   it("fusionne des classes simples", () => {
@@ -48,16 +48,3 @@ describe("USER_LEVELS — niveaux utilisateur", () => {
   });
 });
 
-describe("FREE_LIMITS — limites plan gratuit", () => {
-  it("autorise 10 blagues par jour", () => {
-    expect(FREE_LIMITS.JOKES_PER_DAY).toBe(10);
-  });
-
-  it("autorise 5 conseils par jour", () => {
-    expect(FREE_LIMITS.TIPS_PER_DAY).toBe(5);
-  });
-
-  it("limite à 20 favoris", () => {
-    expect(FREE_LIMITS.MAX_FAVORITES).toBe(20);
-  });
-});

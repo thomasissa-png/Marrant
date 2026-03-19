@@ -44,6 +44,19 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = (session.user as { id: string }).id;
+
+    // Favoris réservés aux Premium
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true },
+    });
+    if (user?.plan !== "PREMIUM") {
+      return NextResponse.json(
+        { error: "Les favoris sont réservés aux membres Premium" },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const { contentType, contentId } = addFavoriteSchema.parse(body);
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "deviensmarrant",
-    "slug": "deviensmarrant",
+    "name": "deviens-marrant",
+    "slug": "deviens-marrant",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,13 +12,13 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fr.deviensmarrant.app"
+      "bundleIdentifier": "fr.deviens-marrant.app"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#0D0D0D"
       },
-      "package": "fr.deviensmarrant.app"
+      "package": "fr.deviens-marrant.app"
     },
     "extra": {
       "eas": {

@@ -1,0 +1,15 @@
+{
+  "name": "deviens-marrant-monorepo",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd apps/web && npm install && npx prisma generate",
+    "build": "cd apps/web && npx prisma db push && bash scripts/seed.sh && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
+    "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
+  },
+  "devDependencies": {
+    "prisma": "6.19.2"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.2"
+  }
+}

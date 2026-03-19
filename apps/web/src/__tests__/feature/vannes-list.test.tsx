@@ -1,6 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { BlaguesList } from "@/components/blagues/blagues-list";
+import { VannesList } from "@/components/vannes/vannes-list";
+
+const mockPush = jest.fn();
+jest.mock("next/navigation", () => ({
+  useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({ push: mockPush }),
+}));
 
 jest.mock("next-auth/react", () => ({
   useSession: () => ({ status: "unauthenticated" }),
@@ -16,11 +22,11 @@ jest.mock("@/stores/favorites-store", () => ({
 }));
 
 const mockJokes = [
-  { id: "1", content: "Setup blague 1", punchline: "Chute 1", category: "ABSURDE", type: "ONESHOT", maturityLevel: 1 },
-  { id: "2", content: "Setup blague 2", punchline: "Chute 2", category: "SITUATION", type: "DIALOGUE", maturityLevel: 2 },
+  { id: "1", content: "Setup vanne 1", punchline: "Chute 1", category: "ABSURDE", type: "ONESHOT", maturityLevel: 1 },
+  { id: "2", content: "Setup vanne 2", punchline: "Chute 2", category: "SITUATION", type: "DIALOGUE", maturityLevel: 2 },
 ];
 
-describe("BlaguesList", () => {
+describe("VannesList", () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -32,17 +38,19 @@ describe("BlaguesList", () => {
   });
 
   it("renders category filter tabs", async () => {
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByRole("tablist", { name: "Catégories de blagues" })).toBeInTheDocument();
+      expect(screen.getByRole("tablist", { name: "Catégories de vannes" })).toBeInTheDocument();
     });
     expect(screen.getByRole("tab", { name: "Toutes" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Absurde" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Situation" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Vie quotidienne" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Couple & Dating" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Digital & Gaming" })).toBeInTheDocument();
   });
 
   it("shows aria-selected on active category", async () => {
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByRole("tab", { name: "Toutes" })).toHaveAttribute("aria-selected", "true");
     });
@@ -50,43 +58,46 @@ describe("BlaguesList", () => {
   });
 
   it("fetches and displays jokes", async () => {
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Setup blague 1")).toBeInTheDocument();
-      expect(screen.getByText("Setup blague 2")).toBeInTheDocument();
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+      expect(screen.getByText("Setup vanne 2")).toBeInTheDocument();
     });
   });
 
-  it("shows 'Clique pour révéler la chute' hint", async () => {
-    render(<BlaguesList />);
+  it("shows punchline hint", async () => {
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getAllByText("Clique pour révéler la chute")).toHaveLength(2);
+      // Les teasers varient par index — vérifier qu'il y a 2 hints (1 par vanne non révélée)
+      expect(screen.getByText("Clique pour la chute")).toBeInTheDocument();
+      expect(screen.getByText("La chute va te surprendre")).toBeInTheDocument();
     });
   });
 
   it("reveals punchline on card click", async () => {
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Setup blague 1")).toBeInTheDocument();
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByText("Setup blague 1"));
+    await userEvent.click(screen.getByText("Setup vanne 1"));
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
   });
 
   it("shows category badge labels", async () => {
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
+      // ABSURDE → "Absurde", SITUATION → "Vie quotidienne" (grouped label)
       expect(screen.getByText("Absurde")).toBeInTheDocument();
-      expect(screen.getByText("Situation")).toBeInTheDocument();
+      expect(screen.getByText("Vie quotidienne")).toBeInTheDocument();
     });
   });
 
   it("shows error state on fetch failure", async () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("Network"));
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Impossible de charger les blagues.")).toBeInTheDocument();
+      expect(screen.getByText("Les vannes se sont perdues en chemin.")).toBeInTheDocument();
     });
     expect(screen.getByText("Réessayer")).toBeInTheDocument();
   });
@@ -96,26 +107,36 @@ describe("BlaguesList", () => {
       ok: true,
       json: async () => ({ jokes: [], pagination: { page: 1, limit: 12, total: 0, totalPages: 0 } }),
     });
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Aucune blague dans cette catégorie")).toBeInTheDocument();
+      expect(screen.getByText("Rien ici... c'est aussi vide que mon frigo un dimanche soir")).toBeInTheDocument();
     });
   });
 
-  it("changes category on filter click", async () => {
-    render(<BlaguesList />);
+  it("changes category on filter click (single)", async () => {
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Setup blague 1")).toBeInTheDocument();
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
 
     await userEvent.click(screen.getByRole("tab", { name: "Absurde" }));
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("category=ABSURDE"));
   });
 
-  it("does not show pagination when only 1 page", async () => {
-    render(<BlaguesList />);
+  it("sends grouped categories for merged filters", async () => {
+    render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Setup blague 1")).toBeInTheDocument();
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByRole("tab", { name: "Couple & Dating" }));
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("category=COUPLE%2CDATING"));
+  });
+
+  it("does not show pagination when only 1 page", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
     expect(screen.queryByText("Précédent")).not.toBeInTheDocument();
   });
@@ -128,7 +149,7 @@ describe("BlaguesList", () => {
         pagination: { page: 1, limit: 12, total: 30, totalPages: 3 },
       }),
     });
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Précédent")).toBeInTheDocument();
       expect(screen.getByText("Suivant")).toBeInTheDocument();
@@ -144,7 +165,7 @@ describe("BlaguesList", () => {
         pagination: { page: 1, limit: 12, total: 30, totalPages: 3 },
       }),
     });
-    render(<BlaguesList />);
+    render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Précédent")).toBeDisabled();
     });
