@@ -234,6 +234,26 @@ export function buildHowToJsonLd(howTo: {
   };
 }
 
+export function buildDefinedTermListJsonLd(
+  terms: { term: string; definition: string; url: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: "Glossaire humour",
+    description:
+      "Les 12 termes clés de l'humour expliqués : répartie, timing, punchline, callback et plus.",
+    url: `${BASE_URL}/glossaire`,
+    hasDefinedTerm: terms.map((t) => ({
+      "@type": "DefinedTerm",
+      name: t.term,
+      description: t.definition,
+      url: t.url,
+      inDefinedTermSet: `${BASE_URL}/glossaire`,
+    })),
+  };
+}
+
 export function buildCourseJsonLd(course: {
   name: string;
   description: string;

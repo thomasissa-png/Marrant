@@ -29,6 +29,8 @@ Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repo
 
 Une étude du *Journal of Positive Psychology* a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire. 8 semaines. C'est moins que le temps qu'il faut pour apprendre à faire un créneau.
 
+> **À retenir :** L'humour n'est pas un talent inné — c'est une compétence cognitive qui repose sur l'observation, la surprise et le timing. Des études scientifiques montrent qu'un entraînement structuré de 8 semaines améliore significativement la capacité à faire rire, quel que soit le niveau de départ.
+
 ## Les 5 piliers de l'humour (et comment les bosser)
 
 ### Pilier 1 : L'observation — Voir ce que les autres ignorent
@@ -109,6 +111,8 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     content: `Tu connais ce moment. Quelqu'un te lance une remarque. Ton cerveau fait l'écran bleu de Windows. Bouche ouverte. Rien ne sort. Et puis, évidemment, la réplique PARFAITE te vient sous la douche, 2 heures plus tard. Comme si ton cerveau avait un délai de livraison.
 
 Bonne nouvelle : **la répartie, ça s'apprend**. Ce n'est pas un don mystique réservé aux animateurs TV et aux humoristes. C'est un ensemble de réflexes qu'on peut entraîner. Voici 10 techniques qui fonctionnent vraiment, testées en soirée, en réunion et à la machine à café.
+
+> **À retenir :** La répartie est un ensemble de réflexes verbaux qui s'entraînent comme un muscle. Les 3 techniques les plus efficaces pour débuter : l'accusé de réception (gagner du temps), le rebond sur mot-clé (utiliser les mots de l'autre) et le retournement (renvoyer la remarque). Avec 5 minutes de pratique quotidienne, la plupart des gens progressent en 2 à 4 semaines.
 
 ## Technique 1 : L'accusé de réception
 
@@ -202,6 +206,8 @@ Le timing, c'est le "quand" et le "comment" de l'humour. C'est la différence en
 
 C'est ce suspense microscopique qui déclenche le rire. Le timing n'est qu'un des piliers pour [devenir drôle](/blog/comment-devenir-drole), mais c'est peut-être le plus sous-estimé.
 
+> **À retenir :** Le timing en humour, c'est l'art du silence et du rythme. Une pause de 2 à 3 secondes avant la punchline crée la tension nécessaire au rire. En conversation, attendre 3 secondes avant de répondre donne l'impression de spontanéité et améliore la qualité de chaque intervention.
+
 ## La règle des 3 secondes
 
 En conversation, quand tu veux placer une remarque drôle : **attends 3 secondes** après que la personne a fini de parler.
@@ -272,6 +278,8 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
       "Tu racontes une blague et personne ne rit ? Tu fais sûrement une de ces 5 erreurs classiques. Diagnostic et solutions pour ne plus jamais tuer l'ambiance.",
     content: `Tu racontes une blague. Tu arrives à la chute. Et... rien. Le silence. Pas le silence de "je cherche de l'air parce que j'ai trop ri", non. Le silence de "quelqu'un a un sujet de conversation de rechange ?". Si ça t'arrive souvent, c'est probablement pas un problème de blague. **C'est un problème de livraison.** Et ça se corrige.
 
+> **À retenir :** Quand une blague tombe à plat, le problème est rarement le contenu — c'est la livraison. Les 5 erreurs les plus courantes : expliquer la chute, un setup trop long, se tromper de public, manquer d'engagement et ignorer les signaux sociaux du groupe. Corrigez-les une par une, une semaine chacune.
+
 ## Erreur 1 : Expliquer la blague
 
 C'est le crime numéro 1 contre l'humour. Tu fais ta blague, il y a un flottement, tu paniques : "Non mais tu vois, c'est drôle parce que..." STOP. Tu viens de commettre un meurtre comique. Expliquer une blague, c'est comme disséquer un papillon : techniquement intéressant, mais le papillon est mort.
@@ -331,6 +339,8 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
     excerpt:
       "L'autodérision est un super-pouvoir social. Elle désarme, crée de la complicité et montre ta confiance. Mais il y a un piège énorme que 90% des gens font.",
     content: `L'autodérision, c'est un super-pouvoir. C'est aussi un piège mortel. Et la différence entre les deux tient en un truc : **le ton**. Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te rend pathétique. Bienvenue dans le guide qui va t'apprendre à rire de toi sans te démolir.
+
+> **À retenir :** L'autodérision est un signal de confiance, pas de faiblesse. Elle fonctionne quand elle cible des défauts mineurs (sens de l'orientation, goûts musicaux) avec le sourire. Les 3 règles : viser les défauts qui ne blessent pas, sourire en les énonçant, et doser (un trait d'esprit par conversation, pas à chaque phrase).
 
 ## Pourquoi l'autodérision est une arme nucléaire
 
@@ -402,6 +412,8 @@ L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur devien
     content: `Lucas a 20 ans. En soirée, il est celui qui rit aux blagues des autres, hoche la tête, et dit "ah ouais grave" toutes les 30 secondes. Quand on le chambre, son cerveau fait le bruit d'un modem 56k. Sa meilleure répartie à ce jour : "euh... toi-même."
 
 On va suivre Lucas sur 5 étapes. Pas des étapes théoriques de livre de développement personnel. Des étapes concrètes, testées, avec des résultats visibles en quelques jours.
+
+> **À retenir :** Pour développer sa répartie en partant de zéro, il faut d'abord arrêter de chercher la réplique parfaite. Mémorisez 3 phrases passe-partout comme filet de sécurité, pratiquez l'écoute active pour repérer les mots-clés, et entraînez-vous dans des situations à faible enjeu avant de passer aux situations réelles.
 
 ## Étape 1 : Arrête d'essayer d'être drôle
 
@@ -477,6 +489,8 @@ Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semai
     excerpt:
       "8 habitudes pour être plus drôle au quotidien. Machine à café, soirées, dîners : l'humour devient un réflexe. Pas besoin d'être extraverti.",
     content: `"L'humour, c'est un talent." Mythe. "Faut être extraverti." Mythe. "C'est réservé aux gens qui ont confiance en eux." Mythe aussi. L'humour, c'est une habitude. Et comme toute habitude, ça se construit brique par brique. Voici 8 habitudes simples qui vont transformer tes journées — pas en sketch de stand-up, mais en moments où tu te surprendras à faire sourire les gens.
+
+> **À retenir :** Devenir drôle au quotidien, ça commence par 3 habitudes simples : noter une absurdité par jour dans un carnet, reformuler les phrases banales de façon décalée, et pratiquer le compliment absurde. En 30 jours de pratique régulière, l'humour devient un réflexe naturel.
 
 ## Habitude 1 : Le carnet d'absurdités
 
@@ -563,6 +577,8 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     excerpt:
       "Absurde, autodérision, jeux de mots, observationnel ou noir ? Découvre ton type d'humour et comment le développer pour être drôle à ta manière.",
     content: `Tu connais ce moment où quelqu'un sort une blague et tu te dis "ça, c'est MON type d'humour" ? Ce sentiment de reconnaissance, c'est parce que l'humour n'est pas un bloc monolithique. Il y a des familles, des styles, des tempéraments comiques. Et trouver le tien, c'est la clé pour être drôle sans forcer.
+
+> **À retenir :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types — trouvez votre dominante et développez-la.
 
 ## Type 1 : L'observationnel — "C'est tellement vrai"
 
@@ -651,6 +667,8 @@ L'humour noir joue avec l'inconfort pour créer du rire. Il aborde des sujets gr
 - Se moquer des victimes
 - Choquer pour choquer sans punchline
 
+> **À retenir :** L'humour noir réussi vise toujours vers le haut (le pouvoir, le système, soi-même) et jamais vers le bas (les personnes vulnérables). Ses 3 règles : la cible c'est toi ou le système, le contexte détermine tout, et la punchline doit justifier la transgression.
+
 **Blanche Gardin** est la référence absolue de l'humour noir français réussi. Quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance — elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible. C'est l'un des [5 types d'humour](/blog/5-types-humour-lequel-pour-toi) les plus puissants, mais aussi le plus risqué.
 
 ## Les 3 règles de l'humour noir réussi
@@ -718,6 +736,8 @@ Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment
     excerpt:
       "Homophones, polysémie, paronymie : 3 étapes pour des jeux de mots qui font mouche. Ton oncle en fait des mauvais. Voici comment faire des bons.",
     content: `Les jeux de mots, c'est l'humour le plus détesté et le plus utilisé de France. Ton oncle en fait des mauvais. Les publicitaires en font des moyens. Et **Fary** en fait des géniaux. La différence ? La technique. Un bon jeu de mots n'est pas un accident — c'est de l'ingénierie linguistique déguisée en blague.
+
+> **À retenir :** Un bon jeu de mots se construit en 3 étapes : trouver un mot à double sens (homophone ou polysémie), construire un setup qui oriente vers le premier sens, puis révéler le second sens en punchline. La clé : le setup doit tromper l'auditeur pour que la surprise fonctionne.
 
 ## Pourquoi 90% des jeux de mots sont nuls
 
@@ -793,6 +813,8 @@ Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédié
     excerpt:
       "10 exercices de 5 à 20 min pour muscler ton humour. Du débutant au confirmé. Rien de théorique : tu lis, tu fais, tu progresses.",
     content: `Tu veux devenir plus drôle mais tu ne sais pas par où commencer ? C'est normal. Personne ne t'apprend l'humour à l'école. On t'apprend les maths, l'histoire, la conjugaison du subjonctif — mais faire rire les gens ? Débrouille-toi. Voici 10 exercices concrets, classés par difficulté, pour muscler ton sens de l'humour comme un vrai muscle.
+
+> **À retenir :** L'humour se développe avec des exercices progressifs : commence par observer (5 min/jour), puis reformule des phrases banales de façon décalée (10 min), et teste tes trouvailles en situation réelle (15 min). La répétition quotidienne fait toute la différence — comme pour n'importe quel skill.
 
 ## Niveau débutant (5 min/jour)
 

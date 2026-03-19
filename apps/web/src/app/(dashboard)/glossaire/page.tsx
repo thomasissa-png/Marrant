@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
+  buildDefinedTermListJsonLd,
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -115,6 +116,15 @@ export default function GlossairePage() {
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           { name: "Glossaire", url: "https://deviens-marrant.fr/glossaire" },
         ])}
+      />
+      <JsonLd
+        data={buildDefinedTermListJsonLd(
+          glossary.map((item) => ({
+            term: item.term,
+            definition: item.definition,
+            url: `https://deviens-marrant.fr/glossaire#${item.term.toLowerCase().replace(/\s+/g, "-")}`,
+          })),
+        )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>

@@ -76,7 +76,9 @@ export async function generateMetadata({
       siteName: "deviens-marrant.fr",
       locale: "fr_FR",
       publishedTime: article.date,
-      authors: ["deviens-marrant.fr"],
+      modifiedTime: article.date,
+      authors: ["https://deviens-marrant.fr/a-propos"],
+      section: article.category,
     },
     twitter: {
       card: "summary_large_image",
@@ -187,7 +189,7 @@ export default async function BlogArticlePage({
         {article.title}
       </h1>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
-        <span>Par l&apos;équipe deviens-marrant</span>
+        <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-primary">Alex Durand</Link></span>
         <span>·</span>
         <span>{article.date}</span>
         <span>·</span>
