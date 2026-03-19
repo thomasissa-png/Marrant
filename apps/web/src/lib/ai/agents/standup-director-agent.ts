@@ -1055,37 +1055,73 @@ ${post.threadParts?.length ? `Thread (${post.threadParts.length} parties) :\n${p
 CTA : "${post.cta}"
 Hashtags : ${post.hashtags.join(", ")}
 
-═══ 7 CRITÈRES DE VALIDATION SOCIAL (TOUS obligatoires) ═══
+═══ 10 CRITÈRES DE VALIDATION SOCIAL (TOUS obligatoires) ═══
 
 1. HOOK TEST (poids x2) :
-   Les 5 premiers mots arrêtent le scroll ?
-   → "Fary ne répond JAMAIS" = ✅ scroll-stopping
-   → "Astuce humour du jour !" = ❌ générique
-   → Le hook fait-il ≤ 5 mots ?
+   Les 5 premiers mots créent-ils une TENSION (contradiction, spécificité bizarre, interpellation directe) ?
+   → "Fary ne répond JAMAIS" = ✅ contradiction = scroll-stopping
+   → "La technique du silence de 3 secondes" = ✅ spécificité bizarre
+   → "Astuce humour du jour !" = ❌ description plate = REJETÉ
+   → "Petit thread sur..." = ❌ aucune tension = REJETÉ
+   → Le hook fait-il ≤ 5 mots ? S'il dépasse = NEEDS_REVISION
 
-2. STANDALONE TEST :
+2. ANTI-IA TEST (poids x3 — LE PLUS IMPORTANT) :
+   Le post pourrait-il avoir été écrit par ChatGPT ? Si OUI = REJETÉ IMMÉDIAT.
+   Red flags automatiques (1 seul = REJETÉ) :
+   - "Dans un monde où..." / "Il est important de..." / "Force est de constater..."
+   - "N'hésitez pas à..." / "Découvrez comment..." / "Saviez-vous que..."
+   - "En conclusion" / "Pour résumer" / "Par ailleurs" / "De plus" / "En outre"
+   - Adverbes creux : "véritablement", "réellement", "absolument", "littéralement"
+   - Formulations passives : "il peut être observé que", "il convient de souligner"
+   - Vocabulaire robot : "pertinent", "optimiser", "impactant", "paradigme", "levier"
+   - Questions rhétoriques creuses : "Mais alors, qu'est-ce que l'humour ?"
+   - Listes à puces dans un tweet
+   Le post doit sonner comme un HUMAIN qui tape sur son téléphone — phrases incomplètes, parenthèses, tirets, mots familiers, détails spécifiques.
+
+3. COPYWRITING TEST (poids x2) :
+   Le post a-t-il un RYTHME de stand-up ?
+   → Phrases courtes. Ruptures de ton. Setup → twist.
+   → Pas de paragraphes lisses de 3 lignes sans surprise
+   → Au moins UN trait d'humour (vanne, observation drôle, autodérision)
+   → Si le post est 100% sérieux/informatif = NEEDS_REVISION minimum
+
+4. STANDALONE TEST :
    Quelqu'un qui ne connaît PAS deviens-marrant.fr comprend et apprécie ce post ?
+   → Le post fonctionne seul dans un feed, sans contexte
 
-3. SHARE TEST (poids x2) :
+5. SHARE TEST (poids x2) :
    "${p.name} envoie ça à son/sa meilleur(e) pote en 2 secondes" ?
+   → Pas "intéressant" — DRÔLE, SURPRENANT, ou UTILE AU POINT D'ENVOYER
 
-4. BRAND TEST :
-   Ton complice, mature, jamais corporate ? Max 2 émojis ?
+6. CTA TEST :
+   Le CTA est-il INVISIBLE ? On ne doit pas sentir qu'on vend un truc.
+   → BON : "50+ techniques → deviens-marrant.fr" / simplement le lien, sec
+   → MAUVAIS : "Découvrez plus sur notre site !" / "N'hésitez pas à visiter..." / "Suivez-nous !"
+   → Si le CTA a un point d'exclamation ou du vocabulaire marketing = NEEDS_REVISION
 
-5. ANTI-GENERIC TEST :
-   Un compte lambda pourrait poster EXACTEMENT ça ?
+7. BRAND TEST :
+   Ton complice, mature, jamais corporate ? Max 2 émojis, jamais en ouverture ?
+   → Le post sonne comme "le pote drôle et bienveillant" — pas comme un CM, pas comme un prof
+
+8. ANTI-GENERIC TEST :
+   Un compte lambda / un bot pourrait poster EXACTEMENT ça ?
    → Si oui = REJETÉ. Interdits : "Complète cette vanne", "Note de 1 à 10", "Tag un ami", "Like si..."
+   → Le post a-t-il notre ADN unique (techniques de stand-up + humour + progression) ?
 
-6. PLATFORM-NATIVE TEST :
-   Le format exploite les codes de ${post.platform} ?
+9. PLATFORM-NATIVE TEST :
+   Le format exploite les codes SPÉCIFIQUES de ${post.platform} ?
+   → Twitter : max 280 chars, punchline sèche, pas de hashtags dans le corps
+   → LinkedIn : sauts de ligne, première phrase choc seule, max 1300 chars, PAS de broetry, PAS de "agree?", PAS de faux storytelling "Il y a 3 ans..."
+   → Thread : chaque tweet autonome ET donne envie du suivant, dernier = CTA
 
-7. PERSONA TEST :
-   ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
+10. PERSONA TEST :
+    ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
+    → Le sujet, le ton et le vocabulaire correspondent à son quotidien
 
 VERDICT :
-- APPROVED (score ≥ 7) : publiable, distinctif, shareable
-- NEEDS_REVISION (score 4-6) : hook ou format à retravailler
-- REJECTED (score ≤ 3) : générique, engagement bait, ou hors-marque
+- APPROVED (score ≥ 7) : humain, drôle, distinctif, shareable, anti-IA validé
+- NEEDS_REVISION (score 4-6) : l'idée est bonne mais le ton/hook/CTA à retravailler
+- REJECTED (score ≤ 3) : sent l'IA, générique, engagement bait, ou hors-marque
 
 Réponds en JSON :
 {
@@ -1121,7 +1157,7 @@ export async function directorRewriteSocialPost(
       {
         role: "user",
         content: `RÉÉCRITURE DIRECTEUR — Le post social a échoué 3 validations.
-C'est à TOI de le réécrire.
+C'est à TOI de le réécrire. Tu es un auteur de stand-up, pas un CM. Écris comme un HUMAIN.
 
 POST REJETÉ (${failedPost.platform} — ${failedPost.format}) :
 Hook : "${failedPost.hook}"
@@ -1134,12 +1170,21 @@ ${lastValidation.revision ? `\nSUGGESTION : ${lastValidation.revision}` : ""}
 
 PERSONA : ${p.name} (${p.age} ans) — ${p.description}
 
+═══ CONTRAINTES DE RÉÉCRITURE ═══
+1. ANTI-IA : aucun mot/formulation qui sent ChatGPT ("découvrez", "n'hésitez pas", "il est important", "en conclusion", adverbes creux, transitions lisses)
+2. HUMOUR : au moins UN trait drôle (observation, autodérision, vanne, twist)
+3. HOOK : ≤ 5 mots, crée une TENSION (contradiction, spécificité bizarre, interpellation)
+4. CTA : invisible, humain, pas de marketing language, pas de point d'exclamation
+5. RYTHME : phrases courtes, ruptures de ton, comme à l'oral — pas de paragraphes lisses
+6. PLATEFORME : ${failedPost.platform === "LINKEDIN" ? "max 1300 chars, sauts de ligne, première phrase seule et choc, PAS de broetry/guru/agree?" : failedPost.platform === "TWITTER" ? "max 280 chars, punchline sèche, pas de hashtags dans le corps" : "adapté aux codes de la plateforme"}
+7. Le post doit pouvoir être envoyé par ${p.name} à son meilleur pote
+
 Réponds en JSON :
 {
-  "hook": "Hook réécrit (≤ 5 mots)",
-  "content": "Post complet réécrit",
+  "hook": "Hook réécrit (≤ 5 mots, tension)",
+  "content": "Post complet réécrit (HUMAIN, drôle, stand-up tone)",
   ${failedPost.format === "THREAD" ? '"threadParts": ["Tweet 1", "..."],' : ""}
-  "cta": "CTA subtil",
+  "cta": "CTA invisible et humain",
   "hashtags": ["2-4 hashtags"]
 }`,
       },
