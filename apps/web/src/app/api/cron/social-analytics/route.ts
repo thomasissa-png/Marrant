@@ -8,6 +8,10 @@ import {
   getLinkedInMetrics,
   isLinkedInConfigured,
 } from "@/lib/social/linkedin-client";
+import {
+  getInstagramMetrics,
+  isInstagramConfigured,
+} from "@/lib/social/instagram-client";
 
 /**
  * CRON — Récupération des métriques des posts sociaux.
@@ -46,6 +50,7 @@ export async function GET(req: Request) {
 
     const twitterReady = isTwitterConfigured();
     const linkedInReady = isLinkedInConfigured();
+    const instagramReady = isInstagramConfigured();
 
     let updated = 0;
     let errors = 0;
@@ -77,6 +82,19 @@ export async function GET(req: Request) {
               replies: metrics.comments,
               retweets: metrics.shares,
               clicks: metrics.clicks,
+            },
+          });
+          updated++;
+        } else if (post.platform === "INSTAGRAM" && instagramReady) {
+          const metrics = await getInstagramMetrics(post.externalId);
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: {
+              impressions: metrics.impressions,
+              likes: metrics.likes,
+              replies: metrics.comments,
+              retweets: metrics.shares,
+              clicks: metrics.saves,
             },
           });
           updated++;

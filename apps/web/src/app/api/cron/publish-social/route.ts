@@ -9,6 +9,19 @@ import {
   postLinkedIn,
   isLinkedInConfigured,
 } from "@/lib/social/linkedin-client";
+import {
+  postImage,
+  postCarousel,
+  isInstagramConfigured,
+} from "@/lib/social/instagram-client";
+
+/** Retourne l'URL publique du site (Meta doit pouvoir accéder aux images). */
+function getBaseUrl(): string {
+  // En prod sur Replit, NEXT_PUBLIC_SITE_URL ou REPLIT_DEV_DOMAIN
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.REPLIT_DEV_DOMAIN) return `https://${process.env.REPLIT_DEV_DOMAIN}`;
+  return `http://localhost:${process.env.PORT || "3000"}`;
+}
 
 /**
  * CRON — Publication des posts sociaux approuvés.
@@ -122,13 +135,54 @@ export async function GET(req: Request) {
             status: "published",
             externalId,
           });
-        } else {
-          // Threads, Instagram — à implémenter en phase 3
+        } else if (post.platform === "INSTAGRAM") {
+          if (!isInstagramConfigured()) {
+            results.push({
+              id: post.id,
+              platform: post.platform,
+              status: "skipped",
+              error: "Instagram API non configurée",
+            });
+            continue;
+          }
+
+          // Générer les images via l'API interne
+          const baseUrl = getBaseUrl();
+          let externalId: string;
+
+          if (
+            post.format === "CAROUSEL" &&
+            post.threadParts.length >= 2
+          ) {
+            // Carousel : générer une image par slide
+            const imageUrls = post.threadParts.map(
+              (_, i) =>
+                `${baseUrl}/api/social/image?postId=${post.id}&slide=${i}`,
+            );
+            externalId = await postCarousel(imageUrls, post.content);
+          } else {
+            // Image unique
+            const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
+            externalId = await postImage(imageUrl, post.content);
+          }
+
           await prisma.socialPost.update({
             where: { id: post.id },
-            data: { status: "FAILED" },
+            data: {
+              status: "PUBLISHED",
+              publishedAt: new Date(),
+              externalId,
+            },
           });
 
+          results.push({
+            id: post.id,
+            platform: post.platform,
+            status: "published",
+            externalId,
+          });
+        } else {
+          // Threads — à implémenter
           results.push({
             id: post.id,
             platform: post.platform,

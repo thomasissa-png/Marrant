@@ -202,10 +202,14 @@ export async function register() {
       const { postLinkedIn, isLinkedInConfigured } = await import(
         "@/lib/social/linkedin-client"
       );
+      const { postImage, postCarousel, isInstagramConfigured } = await import(
+        "@/lib/social/instagram-client"
+      );
 
       const twitterReady = isTwitterConfigured();
       const linkedInReady = isLinkedInConfigured();
-      if (!twitterReady && !linkedInReady) return;
+      const instagramReady = isInstagramConfigured();
+      if (!twitterReady && !linkedInReady && !instagramReady) return;
 
       const now = new Date();
       const posts = await prisma.socialPost.findMany({
@@ -240,12 +244,33 @@ export async function register() {
               data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
             });
             published++;
-          } else {
-            // Threads, Instagram — phase 3
+          } else if (post.platform === "INSTAGRAM") {
+            if (!instagramReady) continue;
+
+            const baseUrl =
+              process.env.NEXT_PUBLIC_SITE_URL ||
+              (process.env.REPLIT_DEV_DOMAIN
+                ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+                : `http://localhost:${process.env.PORT || "3000"}`);
+
+            let externalId: string;
+            if (post.format === "CAROUSEL" && post.threadParts.length >= 2) {
+              const imageUrls = post.threadParts.map(
+                (_, i) => `${baseUrl}/api/social/image?postId=${post.id}&slide=${i}`,
+              );
+              externalId = await postCarousel(imageUrls, post.content);
+            } else {
+              const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
+              externalId = await postImage(imageUrl, post.content);
+            }
+
             await prisma.socialPost.update({
               where: { id: post.id },
-              data: { status: "FAILED" },
+              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
             });
+            published++;
+          } else {
+            // Threads — à implémenter
             continue;
           }
 
@@ -306,10 +331,14 @@ export async function register() {
       const { getLinkedInMetrics, isLinkedInConfigured } = await import(
         "@/lib/social/linkedin-client"
       );
+      const { getInstagramMetrics, isInstagramConfigured } = await import(
+        "@/lib/social/instagram-client"
+      );
 
       const twitterReady = isTwitterConfigured();
       const linkedInReady = isLinkedInConfigured();
-      if (!twitterReady && !linkedInReady) return;
+      const instagramReady = isInstagramConfigured();
+      if (!twitterReady && !linkedInReady && !instagramReady) return;
 
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
       const posts = await prisma.socialPost.findMany({
@@ -339,6 +368,13 @@ export async function register() {
             await prisma.socialPost.update({
               where: { id: post.id },
               data: { impressions: m.impressions, likes: m.likes, replies: m.comments, retweets: m.shares, clicks: m.clicks },
+            });
+            updated++;
+          } else if (post.platform === "INSTAGRAM" && instagramReady) {
+            const m = await getInstagramMetrics(post.externalId);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { impressions: m.impressions, likes: m.likes, replies: m.comments, retweets: m.shares, clicks: m.saves },
             });
             updated++;
           }
