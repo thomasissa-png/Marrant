@@ -466,6 +466,67 @@ model BlogArticle {
   @@index([publishedAt])
 }
 
+// ==========================================
+// SOCIAL MEDIA (Agent Social)
+// ==========================================
+
+model SocialPost {
+  id              String              @id @default(cuid())
+  platform        SocialPlatform
+  format          SocialFormat
+  content         String              @db.Text
+  hook            String              // Les 5-10 premiers mots (scroll-stopping)
+  cta             String?             // Call to action de fin
+  hashtags        String[]
+  targetPersona   String              // YANIS | SOPHIE | MARC
+  sourceType      String?             // JOKE | TIP | VIDEO | BLOG | ORIGINAL
+  sourceId        String?             // ID du contenu source (jokeId, tipId, etc.)
+  threadParts     String[]            @default([]) // Pour les threads Twitter multi-tweets
+  status          SocialPostStatus    @default(PENDING)
+  directorScore   Int?                // Score de validation du directeur (1-10)
+  directorNote    String?             @db.Text
+  scheduledAt     DateTime            // Heure de publication prévue
+  publishedAt     DateTime?
+  externalId      String?             // ID du post sur la plateforme (tweet ID, etc.)
+  // Analytics (remplies par le cron social-analytics)
+  impressions     Int                 @default(0)
+  likes           Int                 @default(0)
+  retweets        Int                 @default(0)
+  replies         Int                 @default(0)
+  clicks          Int                 @default(0)
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([status])
+  @@index([platform])
+  @@index([scheduledAt])
+  @@index([publishedAt])
+}
+
+enum SocialPlatform {
+  TWITTER
+  THREADS
+  LINKEDIN
+  INSTAGRAM
+}
+
+enum SocialFormat {
+  TWEET
+  THREAD
+  CAROUSEL
+  POST
+  QUOTE_ANALYSIS
+  TECHNIQUE_DU_JOUR
+}
+
+enum SocialPostStatus {
+  PENDING     // Généré, en attente de validation
+  APPROVED    // Validé par l'admin, prêt à publier
+  PUBLISHED   // Publié sur la plateforme
+  REJECTED    // Rejeté par l'admin
+  FAILED      // Erreur de publication
+}
+
 model SeoCalendar {
   id            String          @id @default(cuid())
   weekNumber    Int             // 1-52

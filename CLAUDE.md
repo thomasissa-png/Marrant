@@ -249,6 +249,99 @@ Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adam
 | `lib/ai/personas.ts` | Définition des 3 personas + rotation |
 | `lib/ai/client.ts` | Client Anthropic partagé + retry |
 
+## Stratégie Social Media — Plan v2 (validé par le Directeur Artistique, 19 mars 2026)
+
+### Principe fondateur
+Chaque post est une **micro-performance de stand-up**. Pas un extrait du catalogue. Pas un engagement bait. Une micro-performance.
+
+### Architecture pipeline
+```
+CRON /api/cron/daily-social (4h UTC)
+  → social-media-agent.ts (génération social-native)
+  → Stand-Up Director validateSocialPost() (7 critères social-spécifiques)
+  → DB SocialPost (status: PENDING)
+  → /admin/social (dashboard validation 1-clic)
+  → CRON /api/cron/publish-social (toutes les 30 min, publie les APPROVED)
+  → CRON /api/cron/social-analytics (1x/jour, pull metrics → feedback loop)
+```
+
+### Phases de déploiement
+- **Phase 1** (Sem 1-2) : Twitter/X + Threads — texte pur, 100% auto
+- **Phase 2** (Sem 3-4) : LinkedIn — angle pro Sophie/Marc
+- **Phase 3** (Sem 5-8) : Instagram — visuels avec charte + satori
+
+### 4 formats signature Twitter (PAS d'engagement bait)
+1. **Technique du Jour** : "[Humoriste] + [technique] + comment TU l'utilises ce soir" (1x/jour)
+2. **Vanne Réécrite Social** : réécriture social-native, hook en 5 mots (1x/jour)
+3. **Thread Décryptage** : 5-7 tweets décortiquant une technique (2x/semaine)
+4. **Quote Analyse** : citation humoriste + micro-analyse technique (3x/semaine)
+
+### Ce qu'on ne fait JAMAIS
+- "Complète cette vanne..."
+- "Note de 1 à 10"
+- "Tag un ami qui..."
+- Tout format qu'un compte générique à 500 followers ferait
+- Copier-coller du catalogue sans réécriture social-native
+
+### validateSocialPost() — 7 critères du Directeur
+1. **Hook test** (poids x2) : les 5 premiers mots arrêtent le scroll ?
+2. **Standalone test** : compréhensible sans connaître le site ?
+3. **Share test** (poids x2) : "j'envoie ça à mon pote" ?
+4. **Brand test** : ton complice, mature, jamais corporate ?
+5. **Anti-generic test** : un compte lambda pourrait poster ça ? → Si oui, REJETÉ
+6. **Platform-native test** : exploite les codes de la plateforme ?
+7. **Persona test** : Yanis/Sophie/Marc scrolle et s'arrête ?
+
+### Brief social-media-agent (social-native, PAS fork du joke-agent)
+- Ton plus punchy que le site (chaque mot compte, 0 filler)
+- Plus "entre nous" (comme un DM à un pote)
+- Plus spontané (pas de structure conseil → exemple → exercice)
+- Hook en ≤ 5 mots obligatoire
+- Zéro lien dans les 3 premières lignes (algo pénalise)
+- CTA subtil en fin ("plus de techniques → lien en bio")
+
+### Charte visuelle Instagram (Phase 3)
+- Fond principal : noir/très sombre (se démarque dans le feed)
+- Accent : violet/gradient du site (accent-primary)
+- Texte : blanc cassé, punchlines en italique + taille 1.5x
+- 4 templates reconnaissables : Technique du Jour, La Vanne, Décryptage, Le Défi
+- Règle : reconnaissable en < 1 seconde dans un feed
+
+### Horaires de publication par persona
+- Yanis : 21h-23h (scrolle le soir)
+- Sophie : 8h-9h + 12h-13h (trajet + pause déj)
+- Marc : 7h-8h + 20h-21h (matin calme + soirée)
+
+### Stratégie de croissance 0 → 10K
+1. **Format signature "Technique du Jour"** : USP = décortiquer des techniques de stand-up de manière actionnable
+2. **Quotes/Reposts d'humoristes** : réagir à l'actualité stand-up, visibilité organique
+3. **Cross-pollination site ↔ social** : contenu quotidien → post auto, blog → thread auto
+4. **Threads viraux hebdomadaires** : format qui génère le plus de follows organiques
+
+### Fichiers clés
+| Fichier | Rôle |
+|---|---|
+| `lib/ai/agents/social-media-agent.ts` | Agent dédié social-native |
+| `lib/ai/agents/standup-director-agent.ts` | + `validateSocialPost()` + `directorRewriteSocialPost()` |
+| `lib/social/twitter-client.ts` | Client Twitter API v2 |
+| `lib/social/threads-client.ts` | Client Threads API (cross-post) |
+| `lib/social/linkedin-client.ts` | Client LinkedIn API (phase 2) |
+| `lib/social/instagram-client.ts` | Client Meta Graph API (phase 3) |
+| `lib/social/image-generator.ts` | Génération visuels via satori (phase 3) |
+| `lib/social/templates/*.tsx` | Templates JSX charte visuelle (phase 3) |
+| `app/admin/social/page.tsx` | Dashboard validation 1-clic |
+| `app/api/cron/daily-social/route.ts` | Cron génération quotidienne |
+| `app/api/cron/publish-social/route.ts` | Cron publication |
+| `app/api/cron/social-analytics/route.ts` | Cron pull metrics |
+| `social-editorial-plan.json` | Planning éditorial social |
+
+### Secrets Replit nécessaires
+```
+TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET
+INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ID (phase 3)
+LINKEDIN_ACCESS_TOKEN (phase 2)
+```
+
 ## Historique des audits
 
 ### Audit SEO + Sécurité + UX — 15 mars 2026

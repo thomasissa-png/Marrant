@@ -1019,3 +1019,144 @@ Réponds en JSON :
 
   return parsed;
 }
+
+// ─── Types pour validation social media ─────────────────────────
+
+export interface SocialPostToValidate {
+  platform: string;
+  format: string;
+  hook: string;
+  content: string;
+  threadParts?: string[];
+  cta: string;
+  hashtags: string[];
+}
+
+// ─── Validation d'un post social ────────────────────────────────
+
+export async function validateSocialPost(
+  post: SocialPostToValidate,
+  persona: PersonaKey,
+): Promise<ValidationResult> {
+  const p = PERSONAS[persona];
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1000,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `VALIDATION POST SOCIAL — ${post.platform} (${post.format}) pour ${p.name} (${p.age} ans)
+
+Hook : "${post.hook}"
+Contenu : "${post.content}"
+${post.threadParts?.length ? `Thread (${post.threadParts.length} parties) :\n${post.threadParts.map((t, i) => `  ${i + 1}. "${t}"`).join("\n")}` : ""}
+CTA : "${post.cta}"
+Hashtags : ${post.hashtags.join(", ")}
+
+═══ 7 CRITÈRES DE VALIDATION SOCIAL (TOUS obligatoires) ═══
+
+1. HOOK TEST (poids x2) :
+   Les 5 premiers mots arrêtent le scroll ?
+   → "Fary ne répond JAMAIS" = ✅ scroll-stopping
+   → "Astuce humour du jour !" = ❌ générique
+   → Le hook fait-il ≤ 5 mots ?
+
+2. STANDALONE TEST :
+   Quelqu'un qui ne connaît PAS deviens-marrant.fr comprend et apprécie ce post ?
+
+3. SHARE TEST (poids x2) :
+   "${p.name} envoie ça à son/sa meilleur(e) pote en 2 secondes" ?
+
+4. BRAND TEST :
+   Ton complice, mature, jamais corporate ? Max 2 émojis ?
+
+5. ANTI-GENERIC TEST :
+   Un compte lambda pourrait poster EXACTEMENT ça ?
+   → Si oui = REJETÉ. Interdits : "Complète cette vanne", "Note de 1 à 10", "Tag un ami", "Like si..."
+
+6. PLATFORM-NATIVE TEST :
+   Le format exploite les codes de ${post.platform} ?
+
+7. PERSONA TEST :
+   ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
+
+VERDICT :
+- APPROVED (score ≥ 7) : publiable, distinctif, shareable
+- NEEDS_REVISION (score 4-6) : hook ou format à retravailler
+- REJECTED (score ≤ 3) : générique, engagement bait, ou hors-marque
+
+Réponds en JSON :
+{
+  "verdict": "APPROVED|NEEDS_REVISION|REJECTED",
+  "score": 1-10,
+  "strengths": ["Ce qui marche"],
+  "issues": ["Ce qui ne va pas"],
+  "revision": "Si NEEDS_REVISION : ta version améliorée",
+  "directorNote": "Ton avis en 1-2 phrases"
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  return parseValidationResult(text);
+}
+
+// ─── Réécriture d'un post social par le Directeur ───────────────
+
+export async function directorRewriteSocialPost(
+  failedPost: SocialPostToValidate,
+  lastValidation: ValidationResult,
+  persona: PersonaKey,
+): Promise<{ hook: string; content: string; threadParts?: string[]; cta: string; hashtags: string[] }> {
+  const p = PERSONAS[persona];
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: failedPost.format === "THREAD" ? 2000 : 800,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `RÉÉCRITURE DIRECTEUR — Le post social a échoué 3 validations.
+C'est à TOI de le réécrire.
+
+POST REJETÉ (${failedPost.platform} — ${failedPost.format}) :
+Hook : "${failedPost.hook}"
+Contenu : "${failedPost.content}"
+${failedPost.threadParts?.length ? `Thread :\n${failedPost.threadParts.map((t, i) => `  ${i + 1}. "${t}"`).join("\n")}` : ""}
+
+PROBLÈMES :
+${lastValidation.issues.map((i) => `- ${i}`).join("\n")}
+${lastValidation.revision ? `\nSUGGESTION : ${lastValidation.revision}` : ""}
+
+PERSONA : ${p.name} (${p.age} ans) — ${p.description}
+
+Réponds en JSON :
+{
+  "hook": "Hook réécrit (≤ 5 mots)",
+  "content": "Post complet réécrit",
+  ${failedPost.format === "THREAD" ? '"threadParts": ["Tweet 1", "..."],' : ""}
+  "cta": "CTA subtil",
+  "hashtags": ["2-4 hashtags"]
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const parsed = extractJson<{ hook: string; content: string; threadParts?: string[]; cta: string; hashtags: string[] }>(text);
+
+  if (!parsed.hook?.trim() || !parsed.content?.trim()) {
+    throw new Error("Stand-Up Director : réécriture social post — contenu vide");
+  }
+
+  parsed.hook = parsed.hook.trim().slice(0, 200);
+  parsed.content = parsed.content.trim().slice(0, 3000);
+  parsed.cta = (parsed.cta ?? "").trim().slice(0, 200);
+  if (!Array.isArray(parsed.hashtags)) parsed.hashtags = [];
+
+  return parsed;
+}
