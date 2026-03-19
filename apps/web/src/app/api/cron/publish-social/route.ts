@@ -92,6 +92,12 @@ export async function GET(req: Request) {
           });
         } else {
           // Threads, LinkedIn, Instagram — à implémenter en phases 2-3
+          // Mark as FAILED to avoid infinite re-processing every 30 min
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { status: "FAILED" },
+          });
+
           results.push({
             id: post.id,
             platform: post.platform,

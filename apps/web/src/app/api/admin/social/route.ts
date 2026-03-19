@@ -1,20 +1,35 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 /**
  * GET /api/admin/social — Liste les posts sociaux (avec filtres).
  * POST /api/admin/social — Actions en batch (approve, reject).
  */
-export async function GET(req: Request) {
-  const session = await getServerSession();
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-  }
 
-  // Simple admin check — email whitelist
-  const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim());
-  if (!adminEmails.includes(session.user.email)) {
+function getAdminEmails(): string[] {
+  const raw = process.env.ADMIN_EMAILS || "";
+  return raw
+    .split(",")
+    .map((e) => e.trim())
+    .filter((e) => e.length > 0);
+}
+
+async function verifyAdmin(): Promise<{ email: string } | null> {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) return null;
+
+  const adminEmails = getAdminEmails();
+  if (adminEmails.length === 0) return null; // No admins configured
+  if (!adminEmails.includes(session.user.email)) return null;
+
+  return { email: session.user.email };
+}
+
+export async function GET(req: Request) {
+  const admin = await verifyAdmin();
+  if (!admin) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 
@@ -46,13 +61,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession();
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-  }
-
-  const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim());
-  if (!adminEmails.includes(session.user.email)) {
+  const admin = await verifyAdmin();
+  if (!admin) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 
@@ -60,7 +70,6 @@ export async function POST(req: Request) {
   const { action, postIds, postId, content } = body;
 
   if (action === "approve_all") {
-    // Approve all PENDING posts
     const result = await prisma.socialPost.updateMany({
       where: { status: "PENDING" },
       data: { status: "APPROVED" },
@@ -83,8 +92,12 @@ export async function POST(req: Request) {
   }
 
   if (action === "reject" && postIds?.length) {
+    // Only reject PENDING or APPROVED posts — never retroactively reject PUBLISHED
     const result = await prisma.socialPost.updateMany({
-      where: { id: { in: postIds } },
+      where: {
+        id: { in: postIds },
+        status: { in: ["PENDING", "APPROVED"] },
+      },
       data: { status: "REJECTED" },
     });
     return NextResponse.json({
