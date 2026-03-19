@@ -990,6 +990,103 @@ Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercic
       { question: "Quelle est la durée idéale d'une pause en conversation ?", answer: "1-2 secondes avant la punchline, 2-3 secondes après. Sur scène, les pauses peuvent aller jusqu'à 5 secondes, mais en conversation ce serait trop long et gênant." },
     ],
   },
+  {
+    slug: "raconter-blague-sans-massacrer",
+    title: "Raconter une blague sans la massacrer",
+    excerpt:
+      "Setup, escalade, punchline : la structure d'une blague réussie et les erreurs qui tuent l'effet.",
+    content: `"ATTENDS ATTENDS j'ai une blague. Alors en fait... non attends, j'ai oublié un truc. Bon, en gros y'a un mec... enfin c'est pas vraiment un mec c'est plutôt... bref. La chute c'est qu'il dit 'pas de moutarde'. Ah merde j'ai oublié de dire qu'il était au restaurant."
+
+On a tous un ami comme ça. Peut-être que c'est toi. Pas de jugement — on va corriger ça.
+
+## Anatomie d'une blague : la structure setup/punchline
+
+Toute blague, du one-liner au sketch de 10 minutes, suit la même structure : **setup** (tu poses le décor) → **punchline** (tu renverses les attentes).
+
+Le setup crée une image dans le cerveau de l'auditeur. La punchline détruit cette image et en installe une autre, complètement inattendue. Le décalage entre les deux = le rire.
+
+**Fary** résume ça parfaitement : "Tu emmènes les gens dans une direction, et tu tournes." Simple sur le papier. Diabolique à exécuter. Mais ça s'apprend — et c'est ce qu'on fait dans nos [conseils](/conseils) de structure comique.
+
+## Before/After #1 : La blague trop longue
+
+**AVANT (ratée) :**
+"Alors hier j'étais au supermarché, tu sais le Carrefour à côté de chez moi, pas le City hein le grand, et j'étais au rayon fromage, enfin pas vraiment au rayon fromage parce que j'étais entre le fromage et la charcuterie, et y'avait un mec devant moi qui hésitait depuis genre 5 minutes, et au bout d'un moment il se retourne et il me dit 'vous recommandez quoi ?' et j'ai répondu 'un psy'."
+
+Problème : le setup fait 65 mots. La punchline en fait 2. Le ratio est inversé.
+
+**APRÈS (corrigée) :**
+"Un mec au rayon fromage, ça fait 5 minutes qu'il hésite. Il se retourne vers moi : 'Vous recommandez quoi ?' J'ai dit : 'Un psy.'"
+
+23 mots. Même blague. 10x plus drôle. Pourquoi ? Parce que le cerveau n'a pas le temps de décrocher. C'est la différence entre un [bon et un mauvais timing](/blog/timing-humour).
+
+**Waly Dia** est un modèle d'efficacité : setup minimal, punchline chirurgicale. Chaque mot compte. Si tu peux retirer un mot sans perdre le sens, retire-le.
+
+## Before/After #2 : La blague prévisible
+
+**AVANT (ratée) :**
+"Je suis allé courir ce matin. J'ai tenu 5 minutes. Après j'étais fatigué."
+
+Problème : la chute est exactement ce qu'on attend. "Il a couru, il était fatigué." Zéro surprise, zéro rire.
+
+**APRÈS (corrigée) :**
+"Je suis allé courir ce matin. J'ai tenu 5 minutes. Mon corps m'a envoyé un mail de rupture."
+
+Même setup, mais la chute bifurque vers l'inattendu. La personnification du corps crée une image absurde — et c'est là que le rire naît.
+
+**Paul Mirabel** fait ça constamment : il te fait croire que tu sais où il va, et il atterrit ailleurs. Le virage est plus important que la destination.
+
+## Before/After #3 : La blague mal livrée
+
+**AVANT (ratée) :**
+(Marmonné, yeux baissés, débit rapide)
+"Mon-chat-est-tellement-gros-qu'il-a-son-propre-code-postal."
+
+**APRÈS (corrigée) :**
+(Contact visuel, pause avant la chute, ton confiant)
+"Mon chat est tellement gros... [pause, regard] ...qu'il a son propre code postal."
+
+Même mots. Résultat complètement différent. La livraison change TOUT. Si tu veux creuser cet aspect, notre article sur les [5 erreurs qui tuent tes blagues](/blog/erreurs-blagues) détaille chaque piège.
+
+## La règle des 3C
+
+Chaque blague que tu racontes doit passer le test des 3C :
+
+**Court.** Le setup doit être le plus court possible. Si tu peux dire la même chose en moins de mots, fais-le. Le public a une fenêtre d'attention de 15-20 secondes max.
+
+**Clair.** Le public doit comprendre le contexte en UNE phrase. Si tu dois dire "tu connais Thomas ? Le cousin du frère de..." c'est trop compliqué. Remplace par "Un pote à moi..." et c'est réglé.
+
+**Crédible** (jusqu'à la chute). Le setup doit sembler réel. Plus le setup est crédible, plus la punchline surprend. "J'étais au supermarché" = crédible. "J'étais sur Mars" = tu as déjà perdu le public (sauf si l'absurde EST ta punchline).
+
+## Les 5 erreurs fatales
+
+1. **Annoncer la blague.** "J'AI UNE BLAGUE !" → Tu viens de mettre la barre tellement haut que même **Blanche Gardin** aurait la pression.
+2. **Le setup fleuve.** Plus de 2 phrases de contexte = tu as perdu ton public.
+3. **Spoiler la punchline.** "C'est l'histoire d'un mec qui va chez le psy — ah tu vas voir c'est trop drôle." Tu viens de tuer le suspense.
+4. **Expliquer après.** "Tu l'as ? C'est parce que..." La blague est morte. Enterre-la dignement.
+5. **Rire avant la chute.** Si TU ris avant d'avoir fini, le public décroche. Tiens jusqu'au bout. Regarde nos [vidéos](/videos) de pros — aucun ne rit avant la fin.
+
+## Exercice : transforme ta blague
+
+Prends une blague que tu connais (ou une anecdote). Applique :
+1. Raccourcis le setup à 2 phrases max
+2. Vérifie que la punchline est INATTENDUE (pas la suite logique)
+3. Marque une pause avant la chute
+4. Dis la punchline plus lentement et plus bas
+5. Tais-toi après
+
+Teste-la ce soir. Note les réactions. Ajuste. C'est exactement le processus des pros.
+
+Nos [parcours](/parcours) incluent des exercices de structure comique avec feedback. Le catalogue de [vannes](/vannes) te donne des modèles de setup/punchline bien construits. **0,99 EUR/mois** — pour ne plus jamais massacrer une blague.`,
+    date: "2026-03-08",
+    readingTime: "6 min",
+    category: "STORYTELLING",
+    faqs: [
+      { question: "Comment bien raconter une blague ?", answer: "Trois clés : un setup court (2 phrases max), une punchline inattendue (pas la suite logique), et une livraison maîtrisée (pause avant la chute, ton confiant, silence après). La règle des 3C : Court, Clair, Crédible." },
+      { question: "Pourquoi mes blagues tombent à plat ?", answer: "Les causes les plus fréquentes : setup trop long (le public décroche), punchline prévisible (pas de surprise), ou mauvaise livraison (débit trop rapide, pas de pause, explication après la chute)." },
+      { question: "Comment raccourcir une blague sans perdre le sens ?", answer: "Supprimez tout détail qui n'est pas nécessaire à la compréhension de la punchline. Si vous pouvez retirer un mot ou une phrase sans que la chute perde son sens, retirez-le. Le ratio idéal : setup court, punchline percutante." },
+      { question: "Faut-il s'entraîner à raconter des blagues ?", answer: "Oui. L'humour est un muscle. Racontez la même blague à 3 personnes différentes en ajustant à chaque fois. Notez ce qui marche. Les meilleurs humoristes testent leurs vannes des dizaines de fois avant de les garder." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
