@@ -1984,7 +1984,7 @@ describe("Director integration — validation retry loop", () => {
           type: "text",
           text: JSON.stringify({
             content: "Le prof demande si quelqu'un a des questions",
-            punchline: "Yanis lève la main et demande l'heure",
+            punchline: "Un gars au fond lève la main et demande l'heure",
             category: "ECOLE",
             type: "ONE_LINER",
             maturityLevel: 1,

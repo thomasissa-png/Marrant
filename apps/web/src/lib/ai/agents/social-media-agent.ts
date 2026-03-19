@@ -100,6 +100,7 @@ ${TONALITY_BRIEF.principles.map((p) => `- ${p}`).join("\n")}
 
 INTERDIT :
 ${TONALITY_BRIEF.doNot.map((d) => `- ${d}`).join("\n")}
+- JAMAIS mentionner les personas internes (Yanis, Sophie, Marc) — ce sont des outils internes, invisibles pour le public
 
 ═══ HOOKS — L'ART DES 5 PREMIERS MOTS ═══
 Le hook est TOUT. 90% des gens scrollent en 0,3 seconde. Ton hook doit créer une TENSION immédiate.

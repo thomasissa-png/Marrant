@@ -306,6 +306,7 @@ INTERDICTIONS :
 - Pas de listicle générique (varier les formats : storytelling, analyse, portrait, scénario, mythbusting)
 - Pas de copier-coller d'un autre article du site
 - JAMAIS expliquer l'humour sans le démontrer — chaque technique doit avoir un EXEMPLE DRÔLE
+- JAMAIS mentionner les personas internes par leur prénom (Yanis, Sophie, Marc). Ce sont des outils de conception INTERNES invisibles pour le visiteur. Utilise le "tu" direct ou des descriptions de situation ("au bureau", "en soirée", "quand tu reprends confiance").
 
 ═══════════════════════════════════════
 GEO — OPTIMISATION POUR LES LLM (ChatGPT, Perplexity, Gemini, Claude)

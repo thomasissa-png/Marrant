@@ -514,7 +514,7 @@ L'humour du quotidien, c'est rarement une blague formatée. C'est une façon de 
 
 Le compliment absurde est la forme d'humour la plus universellement appréciée. "Tu gères tellement le café que tu devrais postuler chez Nespresso." "Ton Excel est si beau que j'ai failli l'encadrer." C'est drôle, c'est positif, et personne ne peut le prendre mal.
 
-À la machine à café, Sophie pourrait dire à son collègue : "Ton choix de mug est incroyable. C'est le genre de décision qui change une carrière." Sourire garanti.
+À la machine à café, tu pourrais dire à ton collègue : "Ton choix de mug est incroyable. C'est le genre de décision qui change une carrière." Sourire garanti.
 
 ## Habitude 4 : L'observation partagée
 
@@ -711,7 +711,7 @@ En conversation quotidienne, l'humour noir doit rester léger. Pas besoin de par
 
 "Comment va ton régime ?" → "Je l'ai enterré ce matin. La cérémonie était sobre. Il y avait un croissant." C'est "noir" dans le sens où tu parles d'enterrement, mais c'est tellement bénin que ça passe partout.
 
-Pour Sophie au bureau : "Cette réunion était tellement longue que j'ai commencé à rédiger mon testament." Léger, professionnel, relatable. Exactement ce qu'on enseigne dans nos [conseils](/conseils) de contexte.
+Au bureau, ça donne : "Cette réunion était tellement longue que j'ai commencé à rédiger mon testament." Léger, professionnel, relatable. Exactement ce qu'on enseigne dans nos [conseils](/conseils) de contexte.
 
 ## Le test avant de la sortir
 
@@ -1175,7 +1175,7 @@ En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute un
 **13. "Mon médecin m'a dit de manger équilibré. Alors je mets du Nutella des deux côtés de la tartine."**
 → *Quand on parle de bouffe ou de régime.* La fausse logique fait le boulot.
 
-Yanis, Sophie, Marc — [nos parcours](/parcours) sont calibrés pour chaque profil. Tu bosses les techniques qui correspondent à ta vraie vie.
+Que tu sois étudiant, jeune actif ou en pleine reconstruction — [nos parcours](/parcours) sont calibrés pour chaque profil. Tu bosses les techniques qui correspondent à ta vraie vie.
 
 ---
 
@@ -1216,7 +1216,7 @@ Panayotis Pascot a montré que la vulnérabilité pouvait être une force comiqu
 → *Quand quelqu'un te pousse à sortir.* Fonctionne aussi en réponse aux "alors, tu as rencontré quelqu'un ?".
 
 **22. "J'ai recommencé à dîner avec des gens. Le niveau de conversation a baissé depuis que je parlais plus qu'à mon chat. Mais je progresse."**
-→ *Quand tu retrouves un cercle social.* Marc qui reprend confiance, un dîner à la fois.
+→ *Quand tu retrouves un cercle social.* Reprendre confiance, un dîner à la fois.
 
 Si tu veux structurer ta progression, [nos parcours](/parcours) incluent le Parcours Confiance — 6 semaines pour retrouver ta légèreté.
 
@@ -1378,7 +1378,7 @@ Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas
 
 **16.** « Mon collègue met "envoyé depuis mon iPhone" en signature. T'as pas besoin de te justifier. On sait tous que t'es pas au bureau. »
 
-Sophie, si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
+Si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
 
 ---
 

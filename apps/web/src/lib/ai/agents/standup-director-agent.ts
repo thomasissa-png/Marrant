@@ -272,7 +272,11 @@ Réponds en JSON :
   });
 
   const text = getResponseText(response);
-  return parseValidationResult(text);
+  const result = parseValidationResult(text);
+
+  // Guard programmatique : rejet auto si persona interne dans le contenu
+  const jokeText = `${joke.content} ${joke.punchline}`;
+  return guardAgainstPersonaLeak(jokeText, result);
 }
 
 // ─── Validation d'un conseil ─────────────────────────────────────
@@ -328,7 +332,11 @@ Réponds en JSON :
   });
 
   const text = getResponseText(response);
-  return parseValidationResult(text);
+  const result = parseValidationResult(text);
+
+  // Guard programmatique : rejet auto si persona interne dans le contenu
+  const tipText = `${tip.title} ${tip.content} ${tip.example || ""} ${tip.exercise || ""}`;
+  return guardAgainstPersonaLeak(tipText, result);
 }
 
 // ─── Validation d'une sélection vidéo ────────────────────────────
@@ -438,6 +446,13 @@ ANTI-CANNIBALISATION :
 - Le slug/titre ne cannibalise-t-il pas un article existant du site ?
 - Le mot-clé principal est-il distinct des articles déjà publiés ?
 
+INTERDICTION ABSOLUE — PERSONAS INTERNES :
+- L'article NE DOIT JAMAIS mentionner les noms de personas internes : "Yanis", "Sophie", "Marc".
+- Ces personas sont des outils de conception INTERNES, pas du contenu visible.
+- Un visiteur qui lit "Sophie au bureau" ou "Yanis en soirée" ne comprend rien — c'est comme montrer les coulisses au public.
+- À la place, utiliser le "tu" direct ou des descriptions génériques ("au bureau", "en soirée", "quand tu reprends confiance").
+- Si le contenu mentionne un de ces prénoms dans un contexte persona → REJECTED automatiquement.
+
 VERDICT :
 - APPROVED (score ≥ 7) : publiable, drôle ET instructif, au niveau n°1
 - NEEDS_REVISION (score 4-6) : le fond est bon mais il manque de l'humour, des exemples concrets, ou des liens internes
@@ -457,7 +472,10 @@ Réponds en JSON :
   });
 
   const text = getResponseText(response);
-  return parseValidationResult(text);
+  const result = parseValidationResult(text);
+
+  // Guard programmatique : rejet auto si persona interne dans le contenu
+  return guardAgainstPersonaLeak(article.content, result);
 }
 
 // ─── Vision éditoriale mensuelle ─────────────────────────────────
@@ -672,6 +690,34 @@ function parseValidationResult(text: string): ValidationResult {
   }
 
   return parsed;
+}
+
+// ─── Guard : personas internes ne doivent JAMAIS apparaître dans le contenu public ─
+
+const INTERNAL_PERSONA_NAMES = /\b(Yanis|Sophie|Marc)\b/;
+
+/**
+ * Vérifie qu'un contenu public ne mentionne pas les personas internes.
+ * Retourne le résultat modifié avec REJECTED si détecté.
+ */
+export function guardAgainstPersonaLeak(
+  content: string,
+  result: ValidationResult,
+): ValidationResult {
+  const match = content.match(INTERNAL_PERSONA_NAMES);
+  if (match) {
+    return {
+      ...result,
+      verdict: "REJECTED",
+      score: Math.min(result.score, 2),
+      issues: [
+        ...result.issues,
+        `PERSONA LEAK : le prénom interne "${match[0]}" apparaît dans le contenu public. Les personas (Yanis/Sophie/Marc) sont des outils internes invisibles pour les visiteurs. Utiliser "tu" ou une description de situation à la place.`,
+      ],
+      directorNote: `Rejet automatique : persona interne "${match[0]}" détecté dans le contenu. Réécrire sans mention de prénoms internes.`,
+    };
+  }
+  return result;
 }
 
 // ─── Réécriture par le Directeur — dernier recours après 3 échecs ─

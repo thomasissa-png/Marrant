@@ -136,6 +136,13 @@ Si la réponse est non, la vanne n'a rien à faire sur le site.
 
 Trois personas guident les décisions UX/copy du site. À consulter pour toute évolution majeure.
 
+### RÈGLE ABSOLUE — Personas = outils INTERNES uniquement
+- Les noms "Yanis", "Sophie", "Marc" ne doivent **JAMAIS apparaître dans le contenu public** (articles, vannes, conseils, posts social, pages du site).
+- Un visiteur qui lit "Sophie au bureau" ou "Yanis en soirée" ne comprend rien — c'est comme montrer les coulisses au public.
+- **À la place** : utiliser le "tu" direct ou des descriptions de situation ("au bureau", "en soirée", "quand tu reprends confiance", "que tu sois étudiant ou jeune actif").
+- **Validation programmatique** : `guardAgainstPersonaLeak()` dans `standup-director-agent.ts` rejette automatiquement tout contenu contenant un prénom de persona.
+- Les personas sont utilisés **uniquement** dans les prompts système des agents (pour guider le ton et les thématiques), jamais dans le contenu généré.
+
 ### Yanis — 20 ans, étudiant
 - **Profil** : Étudiant introverti, manque de confiance en lui, veut progresser en répartie pour s'affirmer en soirées, en coloc et avec ses potes.
 - **Objectif principal** : Avoir de la répartie — savoir quoi répondre du tac au tac sans rester muet.
