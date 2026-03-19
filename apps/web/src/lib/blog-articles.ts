@@ -50,13 +50,13 @@ Exemple qui marche : "J'ai essayé le yoga. Mon corps m'a envoyé une lettre de 
 
 ### Pilier 3 : Le timing — Le silence qui vaut de l'or
 
-Regarde un sketch de **Blanche Gardin** au ralenti. Compte les secondes de silence avant chaque chute. Ce silence crée de la tension. Le rire, c'est la libération de cette tension. Sans le silence, pas de tension, pas de rire.
+Regarde un sketch de **Blanche Gardin** au ralenti. Compte les secondes de silence avant chaque chute. Ce silence crée de la tension. Le rire, c'est la libération de cette tension. Sans le silence, pas de tension, pas de rire. Si tu veux creuser ce sujet en profondeur, notre article [Timing humour : plus fort que la blague](/blog/timing-humour) détaille les techniques des pros.
 
 Un bon timing, ça veut dire : résister à l'envie de combler le vide. La plupart des gens débitent leur blague comme un communiqué de presse. Ralentis. Pose ta phrase. Laisse le silence faire le travail.
 
 ### Pilier 4 : L'autodérision — Rire de soi sans se démolir
 
-**Panayotis Pascot** est un maître de l'autodérision positive. Il parle de ses galères, de ses maladresses, de ses moments gênants — mais toujours avec un recul bienveillant. Tu ris AVEC lui, pas de lui.
+**Panayotis Pascot** est un maître de l'autodérision positive. Il parle de ses galères, de ses maladresses, de ses moments gênants — mais toujours avec un recul bienveillant. Tu ris AVEC lui, pas de lui. On a écrit un guide complet sur le sujet : [Autodérision : transforme tes interactions](/blog/autoderision-interactions).
 
 La règle : plaisante sur des trucs mineurs (ton sens de l'orientation, ta relation avec la technologie, tes goûts musicaux douteux). Jamais sur des blessures profondes. L'autodérision, c'est montrer qu'on s'assume, pas qu'on se détruit.
 
@@ -77,6 +77,8 @@ Tu ne deviendras pas drôle en lisant des articles. (Oui, celui-ci inclus. C'est
 **Semaine 4 — Élargir.** Utilise ce qui a marché en semaine 3 dans des contextes plus larges. En réunion, en soirée, dans un groupe WhatsApp. Tu as maintenant un petit répertoire testé et approuvé.
 
 ## Les 3 erreurs qui empêchent de devenir drôle
+
+On a détaillé les pièges les plus courants dans notre article [5 erreurs qui tuent tes blagues](/blog/erreurs-blagues) — mais voici les trois erreurs de fond qui bloquent la progression.
 
 **Attendre d'être "prêt".** Tu ne seras jamais prêt. Les pros ont un taux de réussite de 60-70%. Si tu attends la vanne parfaite, tu attendras longtemps. Lance-toi.
 
@@ -156,7 +158,7 @@ Répète exactement ce que l'autre vient de dire, mais avec un ton complètement
 
 ## Technique 10 : Le silence souriant
 
-Parfois, la meilleure répartie, c'est pas de réponse. Un sourire confiant. Un regard amusé. Et le silence. **Blanche Gardin** peut tenir un silence de 5 secondes face au public — et la salle rit avant même qu'elle ait dit un mot. Le silence dit : "Ta remarque ne mérite même pas que je dépense des mots."
+Parfois, la meilleure répartie, c'est pas de réponse. Un sourire confiant. Un regard amusé. Et le silence. **Blanche Gardin** peut tenir un silence de 5 secondes face au public — et la salle rit avant même qu'elle ait dit un mot. Le silence dit : "Ta remarque ne mérite même pas que je dépense des mots." Le timing de ce silence est tout un art — on en parle en détail dans [Timing humour : plus fort que la blague](/blog/timing-humour).
 
 ## Comment s'entraîner au quotidien
 
@@ -164,11 +166,11 @@ Parfois, la meilleure répartie, c'est pas de réponse. Un sourire confiant. Un 
 
 **Le ping-pong verbal.** Avec un pote, faites des sessions de 5 minutes : vous vous envoyez des remarques et devez répondre en moins de 5 secondes. Pas besoin d'être brillant — l'objectif, c'est la vitesse.
 
-**L'analyse de pros.** Regarde des interviews de **Fary**, **Panayotis Pascot** ou **Waly Dia** et note comment ils gèrent les questions pièges. Quelles techniques utilisent-ils ?
+**L'analyse de pros.** Regarde des interviews de **Fary**, **Panayotis Pascot** ou **Waly Dia** et note comment ils gèrent les questions pièges. Quelles techniques utilisent-ils ? Nos [vidéos](/videos) de pros analysées technique par technique sont un bon point de départ.
 
 ## La répartie pour les timides
 
-Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice — parce que quand elles parlent, tout le monde écoute.
+Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice — parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides : elle casse la glace sans forcer.
 
 ## Un dernier truc important
 
@@ -198,7 +200,7 @@ Le timing, c'est le "quand" et le "comment" de l'humour. C'est la différence en
 
 **Roman Frayssinet** est probablement le meilleur exemple de timing en stand-up français actuel. Regarde un de ses sketches au ralenti. Tu verras qu'il y a des silences de 3-4 secondes avant certaines chutes. Des moments où il REGARDE le public, laisse la tension monter, et lâche sa punchline pile au moment où le cerveau de tout le monde est en "mais il va dire quoi ??"
 
-C'est ce suspense microscopique qui déclenche le rire.
+C'est ce suspense microscopique qui déclenche le rire. Le timing n'est qu'un des piliers pour [devenir drôle](/blog/comment-devenir-drole), mais c'est peut-être le plus sous-estimé.
 
 ## La règle des 3 secondes
 
@@ -243,6 +245,8 @@ Les MAUVAIS moments :
 - Quand le manager finit une phrase et attend une réponse sérieuse
 - Quand tu es le seul à trouver que c'est le bon moment (spoiler : c'est pas le bon moment)
 
+Se tromper de moment fait partie des [5 erreurs qui tuent tes blagues](/blog/erreurs-blagues) — l'erreur 5 détaille exactement comment lire les signaux du groupe.
+
 ## Comment bosser son timing
 
 **Exercice 1 : L'analyse au ralenti.** Regarde un sketch de Roman Frayssinet, Blanche Gardin ou Fary avec un chronomètre. Mesure les silences avant les punchlines. Note les changements de rythme. Tu vas voir des patterns.
@@ -251,7 +255,7 @@ Les MAUVAIS moments :
 
 **Exercice 3 : Le silence volontaire.** Quand tu racontes une histoire, marque une pause AVANT la chute. Regarde ton interlocuteur. Laisse le silence. Puis lâche la punchline. C'est contre-intuitif, mais essaie une fois et tu seras converti.
 
-Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. **0,99 EUR/mois**, 5 minutes par jour — et tu ne raconteras plus jamais une blague trop tôt (ni trop tard).`,
+Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. Nos [parcours](/parcours) progressifs intègrent des exercices de timing dès la première semaine, et notre catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner. **0,99 EUR/mois**, 5 minutes par jour — et tu ne raconteras plus jamais une blague trop tôt (ni trop tard).`,
     date: "2026-02-28",
     readingTime: "5 min",
     category: "TIMING",
@@ -294,7 +298,7 @@ Le test : avant de sortir ta blague, demande-toi "est-ce que cette personne va C
 
 ## Erreur 4 : Le manque d'engagement
 
-Tu marmonnes ta blague les yeux rivés sur tes chaussures, avec un demi-sourire gêné qui dit "pardon d'exister". Personne ne va rire. Pas parce que ta blague est nulle, mais parce que TOI tu n'y crois pas. L'engagement, c'est la confiance avec laquelle tu livres ta réplique.
+Tu marmonnes ta blague les yeux rivés sur tes chaussures, avec un demi-sourire gêné qui dit "pardon d'exister". Personne ne va rire. Pas parce que ta blague est nulle, mais parce que TOI tu n'y crois pas. L'engagement, c'est la confiance avec laquelle tu livres ta réplique. Regarde nos [vidéos](/videos) de pros pour voir comment ils s'engagent physiquement dans chaque vanne.
 
 Regarde les yeux. Assume. Même si la blague est moyenne, la conviction dans la livraison peut la sauver. À l'inverse, la meilleure vanne du monde livrée sans énergie tombera à plat.
 
@@ -302,16 +306,16 @@ Regarde les yeux. Assume. Même si la blague est moyenne, la conviction dans la 
 
 ## Erreur 5 : Ignorer les signaux du groupe
 
-Tu as ta blague prête. Tu attends ton moment. SAUF QUE le groupe est en train de parler de la grand-mère de Thomas qui est malade. Et toi tu balances ta vanne sur les pigeons. Le timing social, c'est pas optionnel — c'est la BASE.
+Tu as ta blague prête. Tu attends ton moment. SAUF QUE le groupe est en train de parler de la grand-mère de Thomas qui est malade. Et toi tu balances ta vanne sur les pigeons. Le timing social, c'est pas optionnel — c'est la BASE. On a écrit un article entier sur le sujet : [Timing humour : plus fort que la blague](/blog/timing-humour).
 
 Les signaux verts (go) : rires, énergie montante, transitions entre sujets, silences légers et détendus.
 Les signaux rouges (pas maintenant) : voix basses, sujet sérieux, quelqu'un qui se confie, ton manager qui fait sa face de "j'attends une vraie réponse".
 
 ## Le plan de rattrapage
 
-Choisis UNE erreur que tu fais souvent. **Une seule.** Pendant une semaine, concentre-toi uniquement sur celle-là. La semaine suivante, passe à la suivante. En un mois, tu auras corrigé tes erreurs de livraison les plus courantes — et tes blagues auront beaucoup plus d'impact.
+Choisis UNE erreur que tu fais souvent. **Une seule.** Pendant une semaine, concentre-toi uniquement sur celle-là. La semaine suivante, passe à la suivante. En un mois, tu auras corrigé tes erreurs de livraison les plus courantes — et tes blagues auront beaucoup plus d'impact. Si tu veux une méthode complète pour progresser, notre guide [Comment devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers de l'humour.
 
-Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **0,99 EUR/mois** — l'investissement le plus rentable depuis que tu as arrêté de raconter des blagues Carambar.`,
+Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [parcours](/parcours) progressifs t'accompagnent semaine par semaine pour corriger ces erreurs. Nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **0,99 EUR/mois** — l'investissement le plus rentable depuis que tu as arrêté de raconter des blagues Carambar.`,
     date: "2026-02-20",
     readingTime: "5 min",
     category: "GUIDE",
@@ -344,7 +348,7 @@ Et voilà le piège. Il y a un gouffre entre rire de soi et se démolir.
 
 **Auto-sabotage** : "De toute façon, je suis nul. Je rate tout ce que je fais." (Tu te détruis devant les gens, tu cherches qu'on te console. Ce n'est pas drôle, c'est triste.)
 
-La différence ? L'intention. L'autodérision vise le rire et la connexion. L'auto-sabotage vise (inconsciemment) la pitié. Et les gens sentent la différence en 0,3 seconde.
+La différence ? L'intention. L'autodérision vise le rire et la connexion. L'auto-sabotage vise (inconsciemment) la pitié. Et les gens sentent la différence en 0,3 seconde. C'est d'ailleurs une des [5 erreurs qui tuent tes blagues](/blog/erreurs-blagues) : le manque d'engagement et de confiance dans la livraison.
 
 ## Les 3 règles d'or
 
@@ -370,7 +374,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 **Entre amis** : "Mon chat a plus de vie sociale que moi. Il reçoit des visites, il a des rendez-vous réguliers chez le véto, il a même un carnet de vaccinations — moi j'ai même pas de dentiste." Tu transformes un constat banal en observation absurde.
 
-**En date** : "Je te préviens, je suis désastreux pour choisir au restaurant. Ma dernière 'commande aventureuse', c'était un plat pour enfant. J'ai pas regretté." L'honnêteté décalée, c'est 10x plus séduisant que le mec qui essaie d'avoir l'air parfait.
+**En date** : "Je te préviens, je suis désastreux pour choisir au restaurant. Ma dernière 'commande aventureuse', c'était un plat pour enfant. J'ai pas regretté." L'honnêteté décalée, c'est 10x plus séduisant que le mec qui essaie d'avoir l'air parfait. Et si tu combines autodérision + [répartie](/blog/comment-avoir-de-la-repartie), tu deviens imbattable en conversation.
 
 ## Comment s'entraîner à l'autodérision
 
@@ -380,7 +384,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 **Étape 3 :** Teste la meilleure avec des proches. Si tu souris en la disant et qu'ils rient, c'est validé. Si tu as l'air triste en la disant, retravaille le ton.
 
-L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur deviens-marrant.fr, le [parcours Confiance](/parcours) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. **0,99 EUR/mois** — investis dans la compétence qui rend TOUT le monde plus sympathique.`,
+L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur deviens-marrant.fr, le [parcours Confiance](/parcours) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **0,99 EUR/mois** — investis dans la compétence qui rend TOUT le monde plus sympathique.`,
     date: "2026-02-15",
     readingTime: "5 min",
     category: "AUTODERISION",

@@ -94,6 +94,13 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
+jest.mock("@/lib/blog-clusters", () => ({
+  getRelatedSlugs: () => [],
+  getNextInCluster: () => null,
+  getPrevInCluster: () => null,
+  getClusterForSlug: () => undefined,
+}));
+
 import BlogPage from "@/app/(dashboard)/blog/page";
 import BlogArticlePage, {
   generateStaticParams,
@@ -102,7 +109,7 @@ import BlogArticlePage, {
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
-    const BlogPageResolved = await BlogPage();
+    const BlogPageResolved = await BlogPage({ searchParams: {} });
     render(BlogPageResolved);
   });
 
@@ -130,8 +137,8 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders category badges", () => {
-    expect(screen.getByText("GUIDE")).toBeInTheDocument();
-    expect(screen.getByText("REPARTIE")).toBeInTheDocument();
+    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("REPARTIE").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders excerpts", () => {

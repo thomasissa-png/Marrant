@@ -186,6 +186,32 @@ function toEducationalLevel(difficulty?: string): string {
   }
 }
 
+export function buildProductJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "deviens-marrant.fr Premium",
+    description:
+      "Accès complet : vannes, conseils, vidéos stand-up analysées, parcours structurés et contenu quotidien pour devenir drôle.",
+    brand: {
+      "@type": "Brand",
+      name: "deviens-marrant.fr",
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0.99",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/abonnement`,
+      priceValidUntil: "2026-12-31",
+      seller: {
+        "@type": "Organization",
+        name: "deviens-marrant.fr",
+      },
+    },
+  };
+}
+
 export function buildCourseJsonLd(course: {
   name: string;
   description: string;

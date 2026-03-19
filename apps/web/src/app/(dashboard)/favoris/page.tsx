@@ -4,6 +4,7 @@ import { FavorisList } from "@/components/favoris/favoris-list";
 export const metadata: Metadata = {
   title: "Mes favoris",
   description: "Retrouve toutes tes blagues, conseils et vidéos sauvegardés.",
+  robots: { index: false, follow: true },
 };
 
 export default function FavorisPage() {

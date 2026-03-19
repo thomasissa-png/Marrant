@@ -12,6 +12,7 @@ import {
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { getRelatedSlugs, getNextInCluster, getPrevInCluster, getClusterForSlug } from "@/lib/blog-clusters";
 
 export const revalidate = 3600;
 
@@ -95,11 +96,43 @@ export default async function BlogArticlePage({
     notFound();
   }
 
-  // Trouver des articles similaires pour le cross-linking
-  const relatedArticles = [...blogArticles]
-    .filter((a) => a.slug !== article.slug)
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 3);
+  // Cluster-based related articles
+  const clusterRelatedSlugs = getRelatedSlugs(article.slug);
+
+  // Merge static + DB articles for lookup
+  let allAvailableArticles: { slug: string; title: string; category: string; readingTime: string; date: string }[] = blogArticles.map((a) => ({
+    slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime, date: a.date,
+  }));
+  try {
+    const dbArticles = await prisma.blogArticle.findMany({
+      where: { isPublished: true },
+      select: { slug: true, title: true, category: true, readingTime: true, publishedAt: true },
+    });
+    const dbMapped = dbArticles.map((a) => ({
+      slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime,
+      date: a.publishedAt ? a.publishedAt.toISOString().split("T")[0] : "",
+    }));
+    const seen = new Set(allAvailableArticles.map((a) => a.slug));
+    for (const a of dbMapped) {
+      if (!seen.has(a.slug)) allAvailableArticles.push(a);
+    }
+  } catch {}
+
+  // Prefer cluster articles, then fill with recent articles
+  const clusterArticles = clusterRelatedSlugs
+    .map((s) => allAvailableArticles.find((a) => a.slug === s))
+    .filter(Boolean) as typeof allAvailableArticles;
+  const otherArticles = allAvailableArticles
+    .filter((a) => a.slug !== article.slug && !clusterRelatedSlugs.includes(a.slug))
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const relatedArticles = [...clusterArticles, ...otherArticles].slice(0, 3);
+
+  // Next/prev in cluster
+  const nextSlug = getNextInCluster(article.slug);
+  const prevSlug = getPrevInCluster(article.slug);
+  const nextArticle = nextSlug ? allAvailableArticles.find((a) => a.slug === nextSlug) : null;
+  const prevArticle = prevSlug ? allAvailableArticles.find((a) => a.slug === prevSlug) : null;
+  const cluster = getClusterForSlug(article.slug);
 
   return (
     <article className="mx-auto max-w-3xl py-8">
@@ -165,6 +198,39 @@ export default async function BlogArticlePage({
             ))}
           </dl>
         </section>
+      )}
+
+      {/* Navigation dans le cluster */}
+      {cluster && (nextArticle || prevArticle) && (
+        <nav className="mt-12 border-t border-border pt-8" aria-label="Navigation dans le cluster">
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-text-muted">
+            {cluster.name}
+          </p>
+          <div className="flex gap-4">
+            {prevArticle && (
+              <Link
+                href={`/blog/${prevArticle.slug}`}
+                className="flex-1 rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+              >
+                <span className="text-xs text-text-muted">Précédent</span>
+                <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
+                  {prevArticle.title}
+                </p>
+              </Link>
+            )}
+            {nextArticle && (
+              <Link
+                href={`/blog/${nextArticle.slug}`}
+                className="flex-1 rounded-lg border border-border bg-background-card p-4 text-right transition-colors hover:border-accent-primary/40"
+              >
+                <span className="text-xs text-text-muted">Suivant</span>
+                <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
+                  {nextArticle.title}
+                </p>
+              </Link>
+            )}
+          </div>
+        </nav>
       )}
 
       {/* Articles similaires */}

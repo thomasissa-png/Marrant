@@ -6,6 +6,7 @@ import {
   organizationJsonLd,
   websiteJsonLd,
 } from "@/components/seo/json-ld";
+import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -117,6 +118,7 @@ export default function RootLayout({
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
         <SessionProvider>{children}</SessionProvider>
+        <WebVitalsReporter />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <Script
             defer

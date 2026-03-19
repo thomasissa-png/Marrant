@@ -6,6 +6,7 @@ import {
   type BlogArticleToValidate,
   type ValidationResult,
 } from "./standup-director-agent";
+import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
 
 /** Nombre max de tentatives generate → validate → retry pour un article */
 const MAX_ARTICLE_VALIDATION_ATTEMPTS = 3;
@@ -174,6 +175,23 @@ Réponds UNIQUEMENT en JSON :
 export async function generateArticle(
   plan: ArticlePlan,
 ): Promise<GeneratedArticle | null> {
+  // Build cross-linking context for the agent
+  const { blogArticles: staticArticles } = await import("@/lib/blog-articles");
+  let crossLinkContext = "";
+  const cluster = getClusterForSlug(plan.slug);
+  if (cluster) {
+    const relatedSlugs = getRelatedSlugs(plan.slug);
+    const existingRelated = relatedSlugs
+      .map((s) => {
+        const article = staticArticles.find((a) => a.slug === s);
+        return article ? `- [${article.title}](/blog/${article.slug})` : null;
+      })
+      .filter(Boolean);
+    if (existingRelated.length > 0) {
+      crossLinkContext = `\n\nARTICLES DU MÊME CLUSTER à lier (ajoute au moins 2 liens vers ces articles dans le corps du texte) :\n${existingRelated.join("\n")}`;
+    }
+  }
+
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 8000,
@@ -225,7 +243,10 @@ FORMAT :
 - Ton : complice, tutoiement, drôle, concret
 - Structure : Intro qui accroche par l'humour → Sections avec sous-titres → Exercices → CTA
 - Markdown : ## pour sections, ### pour sous-sections, **gras** pour termes clés
-- Liens internes : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
+- Liens internes : minimum 5 liens par article
+  - Pages produit : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
+  - Articles du même cluster : liens vers les articles liés fournis dans le prompt (au moins 2)
+  - Les liens doivent être répartis dans le corps du texte, PAS uniquement dans le CTA final
 
 SEO :
 - Mot-clé principal dans l'intro, 2-3 sous-titres, et la conclusion
@@ -252,7 +273,7 @@ Titre : "${plan.title}"
 Catégorie : ${plan.category}
 Plan : ${plan.outline}
 
-RAPPEL : Le blog est la DÉMO du produit. Sois DRÔLE. Utilise des refs modernes (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin). Chaque technique = un exemple concret et funny.
+RAPPEL : Le blog est la DÉMO du produit. Sois DRÔLE. Utilise des refs modernes (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin). Chaque technique = un exemple concret et funny.${crossLinkContext}
 
 Réponds UNIQUEMENT en JSON :
 {
@@ -405,6 +426,18 @@ export async function publishWeeklyArticle(): Promise<{
         generatedByAI: true,
       },
     });
+
+    // Post-publication SEO checks
+    const linkCount = (dbArticle.content.match(/\]\(\//g) || []).length;
+    const wordCount = dbArticle.content.split(/\s+/).length;
+    const hasFaqHint = dbArticle.content.includes("##") && dbArticle.content.includes("?");
+    if (linkCount < 5) {
+      console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${linkCount} internal links (minimum: 5)`);
+    }
+    if (wordCount < 1000) {
+      console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${wordCount} words (minimum: 1000)`);
+    }
+    console.log(`[SEO Check] Article "${dbArticle.slug}": ${wordCount} words, ${linkCount} internal links${hasFaqHint ? ", FAQ detected" : ""}`);
 
     // 6. Mettre à jour le calendrier SEO
     const weekNumber = getISOWeekNumber(now);

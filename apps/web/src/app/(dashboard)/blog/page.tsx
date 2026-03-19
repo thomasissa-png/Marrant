@@ -89,8 +89,21 @@ async function getAllArticles() {
   return unique.sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
   const allArticles = await getAllArticles();
+  const selectedCategory = searchParams.category;
+
+  // Extract unique categories
+  const categories = [...new Set(allArticles.map((a) => a.category))].sort();
+
+  // Filter if category is selected
+  const filteredArticles = selectedCategory
+    ? allArticles.filter((a) => a.category === selectedCategory)
+    : allArticles;
 
   return (
     <>
@@ -102,7 +115,7 @@ export default async function BlogPage() {
       />
       <JsonLd
         data={buildItemListJsonLd(
-          allArticles.map((article, index) => ({
+          filteredArticles.map((article, index) => ({
             name: article.title,
             url: `https://deviens-marrant.fr/blog/${article.slug}`,
             position: index + 1,
@@ -127,8 +140,35 @@ export default async function BlogPage() {
         </p>
       </div>
 
+      {/* Category filter */}
+      <div className="mb-6 flex flex-wrap gap-2">
+        <Link
+          href="/blog"
+          className={`rounded-full px-3 py-1 text-sm transition-colors ${
+            !selectedCategory
+              ? "bg-accent-primary text-white"
+              : "bg-background-elevated text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          Tous
+        </Link>
+        {categories.map((cat) => (
+          <Link
+            key={cat}
+            href={`/blog?category=${cat}`}
+            className={`rounded-full px-3 py-1 text-sm transition-colors ${
+              selectedCategory === cat
+                ? "bg-accent-primary text-white"
+                : "bg-background-elevated text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            {cat}
+          </Link>
+        ))}
+      </div>
+
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {allArticles.map((article) => (
+        {filteredArticles.map((article) => (
           <Link key={article.slug} href={`/blog/${article.slug}`}>
             <Card className="h-full transition-shadow hover:shadow-md">
               <CardContent className="flex h-full flex-col p-5">
@@ -151,6 +191,12 @@ export default async function BlogPage() {
           </Link>
         ))}
       </div>
+
+      {filteredArticles.length === 0 && (
+        <p className="py-12 text-center text-text-muted">
+          Aucun article dans cette catégorie pour le moment.
+        </p>
+      )}
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
