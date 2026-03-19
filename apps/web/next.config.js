@@ -8,7 +8,7 @@ const nextConfig = {
     if (isServer) {
       // Ne pas bundler les modules Node.js natifs côté serveur
       config.externals = config.externals || [];
-      config.externals.push("crypto");
+      config.externals.push("crypto", "@resvg/resvg-js");
     }
     return config;
   },
