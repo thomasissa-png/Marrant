@@ -99,6 +99,8 @@ jest.mock("@/lib/blog-clusters", () => ({
   getNextInCluster: () => null,
   getPrevInCluster: () => null,
   getClusterForSlug: () => undefined,
+  getClusterForCategory: () => undefined,
+  resolveCluster: () => undefined,
 }));
 
 import BlogPage from "@/app/(dashboard)/blog/page";
