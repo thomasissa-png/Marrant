@@ -392,6 +392,122 @@ LINKEDIN_ACCESS_TOKEN, LINKEDIN_ORGANIZATION_ID (phase 2 — page entreprise dev
 
 **Point de blocage actuel** : config du token Instagram (étapes 3-4). À reprendre.
 
+## GEO — Generative Engine Optimization (optimisation pour LLM)
+
+### Score actuel : 78/100 → objectif 90/100
+
+### Stratégie GEO
+Les LLM (ChatGPT, Perplexity, Gemini, Claude) sont un canal d'acquisition majeur. Le contenu du site doit être **structuré pour être cité** par les IA génératives.
+
+### Optimisations déployées (19 mars 2026)
+- **Person schema auteur** (`authorPersonJsonLd`) : injecté sur `/blog/[slug]` et `/a-propos` — E-E-A-T pour LLM
+- **CollectionPage schema** : injecté sur `/vannes`, `/conseils`, `/videos` — LLMs identifient les catalogues
+- **Instructions GEO dans l'agent SEO** : listes numérotées, citation-worthy statements, contre-exemples bon/mauvais
+- **robots.txt** : tous les bots LLM explicitement autorisés (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, etc.)
+
+### Règles GEO pour les articles blog
+- Au moins 3 listes numérotées par article (LLMs extraient les listes pour leurs réponses)
+- Des "citation-worthy statements" : `> **CLEF :** [affirmation mémorable]`
+- Au moins 1 statistique/référence sourcée
+- H2 formulés comme des questions conversationnelles
+- Concepts clés définis clairement en 1-2 phrases
+- **RÈGLE ABSOLUE** : le GEO ne doit JAMAIS tuer l'humour — listes et blockquotes doivent être drôles
+
+### Schemas JSON-LD déployés
+| Schema | Pages | Fichier |
+|---|---|---|
+| Organization | Toutes (root layout) | `json-ld.tsx` |
+| WebSite + SearchAction | Toutes (root layout) | `json-ld.tsx` |
+| Person (auteur) | `/blog/[slug]`, `/a-propos` | `json-ld.tsx` |
+| Article | `/blog/[slug]` | `json-ld.tsx` |
+| FAQPage | `/blog/[slug]`, `/vannes`, `/conseils`, `/videos`, `/a-propos`, homepage | `json-ld.tsx` |
+| HowTo | `/blog/[slug]` (GUIDE/PRATIQUE/ROADMAP) | `json-ld.tsx` |
+| BreadcrumbList | Toutes les pages | `json-ld.tsx` |
+| CollectionPage | `/vannes`, `/conseils`, `/videos` | `json-ld.tsx` |
+| Course | `/parcours`, `/parcours/[slug]` | `json-ld.tsx` |
+| DefinedTermSet | `/glossaire` | `json-ld.tsx` |
+| Product | `/abonnement` | `json-ld.tsx` |
+
+### Prochaines optimisations GEO (backlog)
+- [ ] Reformater les 5 articles pillar avec listes numérotées + définitions encadrées
+- [ ] Ajouter rel="next"/rel="prev" sur pagination
+- [ ] Créer articles "People Also Ask" manquants
+
+## Architecture des clusters blog — Règles
+
+### Membership unique
+- **Chaque slug n'appartient qu'à UN seul cluster** (pas de shared slugs)
+- Les articles transversaux doivent être classés par **intention primaire**
+- Fichier : `apps/web/src/lib/blog-clusters.ts`
+
+### 9 clusters
+| Cluster | Pillar | Satellites |
+|---|---|---|
+| apprendre-humour | comment-devenir-drole | 5 |
+| techniques-repartie | comment-avoir-de-la-repartie | 4 |
+| techniques-delivery | timing-humour | 3 |
+| types-humour | 5-types-humour-lequel-pour-toi | 3 |
+| humour-contexte | blagues-travail-faire-rire-pro | 2 |
+| apprendre-des-pros | techniques-standup-vie-sociale | 3 |
+| douleurs-personas | je-suis-pas-drole-comment-changer | 5 |
+| fort-volume | meilleures-blagues-droles-2026 | 5 |
+| saisonnier | blagues-fetes-noel-nouvel-an | 2 |
+
+### Fallback par catégorie
+- `CATEGORY_TO_CLUSTER` mappe 15 catégories (dont SAISONNIER) vers les clusters
+- `resolveCluster(slug, category?)` : slug d'abord, puis fallback par catégorie
+
+## Compteurs d'affichage — Règle d'arrondi
+
+### Règle
+- Les compteurs affichés sont **arrondis à la dizaine inférieure** : 294 → 290+, 71 → 70+, 89 → 80+
+- `roundToTen()` dans `hooks/use-content-stats.ts` centralise l'arrondi pour les composants dynamiques
+- Les compteurs hardcodés (meta titles, descriptions, schemas) suivent la même règle
+- **Incrémenter** uniquement quand le seuil de la dizaine suivante est atteint
+
+### Compteurs actuels (mars 2026)
+- Vannes : **290+** (289 réelles)
+- Conseils : **60+** (66 réels)
+- Vidéos : **80+** (89 réelles)
+
+## Agent HARO — Backlinks presse automatisés
+
+### Rôle
+L'agent HARO génère des réponses d'expert au nom d'Alex pour obtenir des **backlinks de presse** (HARO, Connectively, SourceBottle, Qwoted, JournalRequest).
+
+### Pipeline
+```
+Source opportunités → POST /api/cron/haro
+  → filterRelevantOpportunities() (96 sujets pertinents)
+  → generateHaroResponse() (hook drôle + réponse expert)
+  → Score < 5 ? → skip
+  → Score ≥ 5 ? → sendHaroDraftForReview() → email à alex@deviens-marrant.fr
+  → Alex copie-colle et envoie au journaliste
+```
+
+### Fichiers clés
+| Fichier | Rôle |
+|---|---|
+| `lib/ai/agents/haro-agent.ts` | Agent génération + filtrage + envoi |
+| `app/api/cron/haro/route.ts` | Endpoint POST (webhook) + GET (statut) |
+
+### Automatisation actuelle
+- **Filtrage automatique** : 96 topics pertinents (humour, communication, confiance, dating, networking, etc.)
+- **Génération automatique** : hook drôle + réponse expert 3-4 phrases + bio Alex
+- **Score de pertinence** : 1-10, seuls les ≥5 sont envoyés
+- **Email automatique** : draft envoyé à alex@deviens-marrant.fr via Resend
+
+### Ce qui reste MANUEL
+- **Source des opportunités** : pas de scraping automatique (HARO a fermé, Connectively nécessite un scraper ou Zapier)
+- **Envoi final** : Alex copie-colle la réponse et l'envoie (pas d'envoi direct au journaliste)
+
+### Secrets Replit nécessaires
+```
+CRON_SECRET (auth du cron)
+RESEND_API_KEY (envoi email)
+EMAIL_FROM (optionnel, défaut: noreply@deviens-marrant.fr)
+```
+
 ## Historique des audits
 
 ### Audit SEO + Sécurité + UX — 15 mars 2026
@@ -587,3 +703,25 @@ Branche : `claude/fix-login-redirect-navigation-XCsj1`
 - 17 tests Stand-Up Director (validation, réécriture, edge cases)
 - 4 tests intégration pipeline (approve, reject, 3-failure-rewrite, API-error)
 - Aucune régression sur les 59 tests pré-existants
+
+### Audit GEO + Maillage + Compteurs — 19 mars 2026
+Branche : `claude/seo-keyword-analysis-idfz3`
+
+#### GEO (Generative Engine Optimization) — Score 78/100
+- **Person schema auteur** ajouté sur `/blog/[slug]` et `/a-propos` (jobTitle: "Fondateur & Coach d'humour")
+- **CollectionPage schema** ajouté sur `/vannes`, `/conseils`, `/videos` avec `relatedArticles`
+- **Instructions GEO** dans le prompt de `seo-blog-agent.ts` : listes numérotées, citation-worthy statements, contre-exemples bon/mauvais
+- Validé par le Stand-Up Director (3/4 APPROVED, 1 NEEDS_REVISION corrigé)
+
+#### Fix clusters blog (blog-clusters.ts)
+- **SAISONNIER** ajouté à `CATEGORY_TO_CLUSTER` (manquait — articles saisonniers étaient orphelins)
+- **Shared slugs** corrigés : `repartie-soiree-anti-malaise` et `conversation-machine-a-cafe` retirés de `humour-contexte` (gardés dans leur cluster primaire)
+- **Mock test** mis à jour : `resolveCluster` + `getClusterForCategory` ajoutés au mock `blog.test.tsx`
+
+#### Compteurs arrondis
+- `roundToTen()` centralisé dans `hooks/use-content-stats.ts`
+- Hardcoded harmonisé : 289→290+, 66→60+, 89→80+ dans meta titles, descriptions, schemas, pages cross-ref
+- Fichiers impactés : vannes, conseils, videos, page d'accueil, abonnement, parcours, haro-agent
+
+#### Tests
+- 826 tests passent (60 suites, 0 échec)
