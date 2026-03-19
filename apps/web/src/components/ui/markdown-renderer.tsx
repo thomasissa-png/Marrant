@@ -86,7 +86,7 @@ function renderMarkdown(content: string): string {
 
     // Regular paragraph
     htmlParts.push(
-      `<p class="text-text-secondary">${inlineMarkdown(block.replace(/\n/g, "<br/>"))}</p>`
+      `<p class="text-text-secondary">${inlineMarkdown(block).replace(/\n/g, "<br/>")}</p>`
     );
     i++;
   }
