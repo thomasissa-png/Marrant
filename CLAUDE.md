@@ -1,5 +1,40 @@
 # Marrant — deviens-marrant.fr
 
+## PRIORITÉ PROCHAINE SESSION — Articles blog à écrire
+
+### Contexte
+Le fichier `seo-editorial-plan.json` marque 8 articles comme "published" (semaines 2-5) mais le contenu n'a PAS été écrit dans `apps/web/src/lib/blog-articles.ts`. Le fichier a actuellement 5 articles. Il faut en ajouter 8.
+
+### Les 4 articles du batch 2 sont PRÊTS
+Les articles 5-8 ont été rédigés par un agent et validés. Leur contenu complet est disponible dans le transcript de l'agent : `/tmp/claude-0/-home-user-Marrant/a2b009e1-39f4-435c-97b1-43abe608b03b/tasks/a0e1ac3aac9ecc2e1.output`. Si ce fichier n'existe plus, les rédiger à nouveau (voir specs ci-dessous).
+
+### Articles à écrire (faire UN PAR UN, pas en batch)
+1. `repartie-debutant-5-etapes` — "Répartie débutant : 5 étapes simples" (GUIDE, Yanis, week 2, ~1500 mots, format storytelling)
+2. `humour-quotidien-8-habitudes` — "Humour au quotidien : 8 habitudes simples" (HABITUDES, Sophie, week 2, ~1500 mots, format mythbusting)
+3. `5-types-humour-lequel-pour-toi` — "Les 5 types d'humour : trouve le tien" (ANALYSE, Marc, week 3, PILLAR ~2000 mots, format quiz)
+4. `humour-noir-utiliser-sans-blesser` — "Humour noir : l'utiliser sans blesser" (ANALYSE, Marc, week 3, ~1500 mots, format analyse sketches)
+5. `jeux-de-mots-technique-3-etapes` — "Jeux de mots : la technique en 3 étapes" (PRATIQUE, Sophie, week 4, ~1400 mots, format atelier)
+6. `exercices-developper-humour` — "10 exercices pour développer ton humour" (PRATIQUE, Yanis, week 4, ~1800 mots, format challenge)
+7. `timing-humour-ralentir` — "Timing en humour : pourquoi ralentir" (TIMING, Sophie, week 5, ~1400 mots, satellite de timing-humour)
+8. `raconter-blague-sans-massacrer` — "Raconter une blague sans la massacrer" (STORYTELLING, Sophie, week 5, ~1500 mots, format before/after)
+
+### Workflow pour chaque article
+1. Écrire le contenu dans `blog-articles.ts` (ajouter AVANT le commentaire `// Articles "devenir-marrant"...`)
+2. Passer par le Stand-Up Director (5 tests : Pote, Concret, Doublon, Persona, Barre)
+3. Commit + push immédiatement après chaque article validé
+
+### Règles qualité (rappel)
+- Ton "pote drôle" en français
+- Min 3 moments d'humour / vannes par article
+- Min 2 refs humoristes modernes (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Inès Reg)
+- Max 1 mention Jamel/Gad/Foresti
+- Min 5 liens internes (/vannes, /conseils, /videos, /parcours, /blog/autre-article)
+- 3-5 FAQs en fin d'article
+- CTA vers /parcours, /vannes ou /conseils
+- Pas de cannibalisation (vérifier slugs existants)
+
+---
+
 ## Environnement
 
 - **Hébergement** : Replit (PAS Vercel). Ne jamais mentionner Vercel.
