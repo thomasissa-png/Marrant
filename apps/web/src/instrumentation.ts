@@ -175,7 +175,7 @@ export async function register() {
             sourceType: post.sourceType || null,
             sourceId: post.sourceId || null,
             threadParts: post.threadParts || [],
-            status: "PENDING",
+            status: "APPROVED",
             scheduledAt,
           },
         });

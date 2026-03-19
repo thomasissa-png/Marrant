@@ -74,7 +74,7 @@ export async function GET(req: Request) {
           sourceType: post.sourceType || null,
           sourceId: post.sourceId || null,
           threadParts: post.threadParts || [],
-          status: "PENDING",
+          status: "APPROVED",
           scheduledAt,
         },
       });
