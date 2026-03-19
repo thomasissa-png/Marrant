@@ -4,6 +4,14 @@ const nextConfig = {
   experimental: {
     instrumentationHook: true,
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Ne pas bundler les modules Node.js natifs côté serveur
+      config.externals = config.externals || [];
+      config.externals.push("crypto");
+    }
+    return config;
+  },
   async headers() {
     return [
       {
