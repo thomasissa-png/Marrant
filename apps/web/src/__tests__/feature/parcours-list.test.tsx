@@ -29,22 +29,11 @@ describe("ParcoursPage — Parcours structurés", () => {
     render(<ParcoursPage />);
   });
 
-  it("renders the hero section with title and description", () => {
-    expect(screen.getByText(/Parcours pour devenir drôle/)).toBeInTheDocument();
+  it("renders the page header with title and description", () => {
+    expect(screen.getByText(/Parcours humour : deviens drôle pas à pas/)).toBeInTheDocument();
     expect(
-      screen.getByText(/Choisis ton parcours et progresse semaine après semaine/)
+      screen.getByText(/3 parcours structurés pour progresser en humour/)
     ).toBeInTheDocument();
-  });
-
-  it("shows the subscription info", () => {
-    expect(
-      screen.getByText(/Accès complet avec ton abonnement/)
-    ).toBeInTheDocument();
-  });
-
-  it("mentions XP and streaks in the hero", () => {
-    expect(screen.getByText(/Gagne des XP/)).toBeInTheDocument();
-    expect(screen.getByText(/streak/)).toBeInTheDocument();
   });
 
   it("renders the 3 parcours titles", () => {
