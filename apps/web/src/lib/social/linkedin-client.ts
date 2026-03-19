@@ -1,14 +1,16 @@
 // ───────────────────────────────────────────────────────────────────
 // LinkedIn API Client — deviens-marrant.fr
 //
-// Gère : publication de posts texte, récupération analytics.
+// Gère : publication de posts texte sur la PAGE ENTREPRISE,
+//        récupération analytics.
 // Auth : OAuth 2.0 Bearer Token (3-legged flow, token obtenu manuellement).
 //
 // Secrets Replit nécessaires :
-//   LINKEDIN_ACCESS_TOKEN  — Bearer token (scope: w_member_social, r_liteprofile)
-//   LINKEDIN_PERSON_ID     — ID ou URN (ex: "AbCdEf" ou "urn:li:person:AbCdEf")
+//   LINKEDIN_ACCESS_TOKEN    — Bearer token (scopes: w_organization_social, r_organization_social)
+//   LINKEDIN_ORGANIZATION_ID — ID numérique de la page entreprise (ex: "123456789")
 //
-// API docs : https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
+// Page entreprise : https://www.linkedin.com/company/deviens-marrant
+// API docs : https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/ugc-post-api
 // ───────────────────────────────────────────────────────────────────
 
 const API_BASE = "https://api.linkedin.com/v2";
@@ -16,25 +18,25 @@ const MAX_POST_LENGTH = 3000; // LinkedIn limite les posts à 3000 caractères
 
 interface LinkedInConfig {
   accessToken: string;
-  personUrn: string;
+  authorUrn: string;
 }
 
 function getConfig(): LinkedInConfig {
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
-  const personId = process.env.LINKEDIN_PERSON_ID;
+  const orgId = process.env.LINKEDIN_ORGANIZATION_ID;
 
-  if (!accessToken || !personId) {
+  if (!accessToken || !orgId) {
     throw new Error(
-      "LinkedIn API credentials manquantes. Configure LINKEDIN_ACCESS_TOKEN et LINKEDIN_PERSON_ID dans les Secrets Replit.",
+      "LinkedIn API credentials manquantes. Configure LINKEDIN_ACCESS_TOKEN et LINKEDIN_ORGANIZATION_ID dans les Secrets Replit.",
     );
   }
 
-  // Normalise le personId en URN complet
-  const personUrn = personId.startsWith("urn:li:")
-    ? personId
-    : `urn:li:person:${personId}`;
+  // URN page entreprise
+  const authorUrn = orgId.startsWith("urn:li:")
+    ? orgId
+    : `urn:li:organization:${orgId}`;
 
-  return { accessToken, personUrn };
+  return { accessToken, authorUrn };
 }
 
 // ─── Types ──────────────────────────────────────────────────────
@@ -98,7 +100,7 @@ export async function postLinkedIn(text: string): Promise<string> {
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
-      author: config.personUrn,
+      author: config.authorUrn,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
@@ -148,7 +150,7 @@ export async function postLinkedInWithLink(
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
-      author: config.personUrn,
+      author: config.authorUrn,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
@@ -223,6 +225,6 @@ export async function getLinkedInMetrics(
 export function isLinkedInConfigured(): boolean {
   return !!(
     process.env.LINKEDIN_ACCESS_TOKEN &&
-    process.env.LINKEDIN_PERSON_ID
+    process.env.LINKEDIN_ORGANIZATION_ID
   );
 }
