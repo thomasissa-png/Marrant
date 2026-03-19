@@ -103,9 +103,9 @@ Si la réponse est non, la vanne n'a rien à faire sur le site.
 7. **Commit + push** les changements
 
 ### Rythme de publication
-- **Objectif** : 3-4 articles/semaine minimum pendant les 3 prochains mois
+- **Objectif** : 3-4 articles/semaine avec **standard qualité MAXIMAL** à chaque article (pas de compromis volume/qualité — si le standard n'est pas atteint, on ne publie PAS)
 - **Priorité** : clusters douleurs-personas + fort-volume (conversion + acquisition)
-- **Saisonnier** : publier 2-3 semaines AVANT l'événement (Noël en décembre, Saint-Valentin en février, rentrée en août)
+- **Saisonnier** : publier 2-3 semaines AVANT l'événement (Noël sem ~49, Saint-Valentin sem ~5, rentrée sem ~34)
 
 ### Règles de rédaction SEO
 - Titre < 60 caractères, mot-clé principal en début

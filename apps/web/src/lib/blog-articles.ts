@@ -1138,20 +1138,20 @@ En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute un
 **8. "J'ai une mémoire incroyable. Je me souviens de chaque moment gênant de ma vie. En boucle. À 3h du mat."**
 → *Quand quelqu'un dit "t'as une bonne mémoire".* L'escalade crée le décalage.
 
-**9. "Mon type ? Quelqu'un qui me répond en moins de 24h. La barre est basse mais le limbo continue."**
-→ *Quand on parle de dating en groupe.* La métaphore du limbo est visuelle et inattendue.
+**9. "J'ai mis 'spontané' sur mon profil. En vrai, j'ai besoin de 48h de préavis et d'un plan B."**
+→ *Quand on parle de dating en groupe.* Le contraste entre l'image et la réalité crée le rire.
 
 **10. "Je suis bilingue : je parle français et mauvaises décisions."**
 → *Après avoir fait un truc un peu con.* Timing : juste après l'action, pas avant.
 
-**11. "Mon plan de carrière c'est d'attendre que mon chat devienne viral."**
-→ *Quand quelqu'un te demande ce que tu fais dans la vie.*
+**11. "J'ai commencé une série hier. J'en suis à la saison 3. Quelqu'un devrait vérifier si je suis en vie."**
+→ *Quand quelqu'un te demande ce que tu fais dans la vie.* L'escalade temporelle est la clé.
 
 **12. "Être adulte c'est dire 'on se fait un truc bientôt' et ne jamais se revoir."**
 → *Quand tu retrouves quelqu'un que t'as pas vu depuis longtemps.* Universel, tout le monde hoche la tête.
 
-**13. "Ma personnalité c'est 30% memes et 70% fatigue."**
-→ *En mode présentation décontractée.* Simple, efficace, relatable.
+**13. "Mon médecin m'a dit de manger équilibré. Alors je mets du Nutella des deux côtés de la tartine."**
+→ *Quand on parle de bouffe ou de régime.* La fausse logique fait le boulot.
 
 Yanis, Sophie, Marc — [nos parcours](/parcours) sont calibrés pour chaque profil. Tu bosses les techniques qui correspondent à ta vraie vie.
 
@@ -1183,6 +1183,23 @@ Pour transformer ces phrases en vraie répartie, [l'art de la répartie s'appren
 
 ---
 
+## Phrases drôles pour se reconstruire socialement
+
+Panayotis Pascot a montré que la vulnérabilité pouvait être une force comique. Quand tu reprends ta vie sociale après un passage à vide — rupture, déménagement, perte de confiance — l'humour est ton meilleur allié. Pas besoin de faire le clown, juste de montrer que t'as du recul.
+
+**19b. "J'ai repris les soirées après 6 mois d'hibernation. Mon small talk est rouillé mais ma tolérance à l'alcool aussi, donc ça s'équilibre."**
+→ *Premier apéro avec des potes après une longue absence.* L'autodérision dédramatise le retour.
+
+**19c. "On me dit 'faut se remettre en selle'. J'ai même pas de vélo. J'ai même pas de selle. Mais merci le conseil."**
+→ *Quand quelqu'un te pousse à sortir.* Fonctionne aussi en réponse aux "alors, tu as rencontré quelqu'un ?".
+
+**19d. "J'ai recommencé à dîner avec des gens. Le niveau de conversation a baissé depuis que je parlais plus qu'à mon chat. Mais je progresse."**
+→ *Quand tu retrouves un cercle social.* Marc qui reprend confiance, un dîner à la fois.
+
+Si tu veux structurer ta progression, [nos parcours](/parcours) incluent le Parcours Confiance — 6 semaines pour retrouver ta légèreté.
+
+---
+
 ## Phrases drôles par WhatsApp et SMS
 
 Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "le rythme c'est la ponctuation et le retour à la ligne." Pas de ton de voix pour t'aider, donc la construction doit être chirurgicale.
@@ -1193,14 +1210,14 @@ Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "l
 **21. "Mon téléphone a 3% de batterie et je choisis de les utiliser pour t'écrire. C'est pratiquement une déclaration."**
 → *Quand tu veux montrer que tu penses à quelqu'un.* Drôle ET flatteur.
 
-**22. "J'ai googlé mes symptômes. Apparemment j'ai soit un rhume soit 48h à vivre. Je te tiens au courant."**
-→ *Quand t'es malade et qu'on te demande des nouvelles.*
+**22. "Je suis en PLS depuis ce matin. PLS = Position Latérale de Scrolling."**
+→ *Quand on te demande comment tu vas.* La redéfinition d'acronyme est un format qui marche toujours.
 
 **23. "Alerte : j'ai cuisiné ce soir. Aucun pompier n'a été appelé. Jour historique."**
 → *Story ou message groupé.*
 
-**24. "Je viens de refuser une sortie pour rester chez moi. Mon canapé et moi on a officialisé."**
-→ *Quand on te propose un truc et que tu déclines.*
+**24. "Mon historique de recherche Google est le seul qui me connaît vraiment. Et il me juge pas. Enfin je crois."**
+→ *Quand on parle de vie privée ou de réseaux.* La personnification de Google crée le décalage.
 
 ---
 
@@ -1319,7 +1336,7 @@ Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la
 
 Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas assez, t'es le collègue invisible.
 
-**9.** « Mon réveil sonne à 7h. Mon corps se lève à 7h. Mon âme arrive au bureau vers 10h30. »
+**9.** « J'arrive au bureau, mon collègue me dit "t'as l'air en forme". Frère, j'ai dormi 4h et mon petit-déj c'était de l'espoir. Mais merci. »
 *→ Marmonne ça en fixant ton café.*
 
 **10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a demandé à ChatGPT ?". L'évolution, c'est beau. »
@@ -1347,9 +1364,9 @@ Sophie, si tu veux [devenir la personne qu'on attend à la machine à café](/co
 
 Fary l'a dit : « la drague, c'est du stand-up devant une seule personne qui peut partir ».
 
-**17.** « Mon profil Hinge dit "cherche quelqu'un pour annuler des plans ensemble". C'est le truc le plus honnête que j'ai jamais écrit. »
+**17.** « J'ai mis "aventurier" sur mon profil. Mon aventure la plus récente, c'est d'avoir goûté un nouveau plat au resto au lieu de reprendre le même depuis 3 ans. »
 
-**18.** « On m'a demandé quel était mon type. J'ai dit "quelqu'un qui répond dans les 24 heures". Apparemment c'est pas un type, c'est un miracle. »
+**18.** « On m'a dit "sois naturel sur les dates". Mon naturel c'est rester chez moi en chaussettes. C'est ça que tu veux que je montre ? »
 
 **19.** « Première chose que je regarde chez quelqu'un ? La vitesse de réponse aux messages. Tes yeux, c'est le deuxième critère. »
 
@@ -1415,15 +1432,15 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **42.** « Mon temps d'écran cette semaine : 7h par jour. C'est plus un téléphone, c'est un emploi à temps partiel. Et il me paye pas. »
 
-**43.** « J'ai mis une alarme pour boire de l'eau. L'alarme sonne, je la snooze. Je procrastine de l'hydratation. Ma vie est un sketch. »
+**43.** « J'ai envoyé un message vocal de 2 minutes. La personne a répondu "ok". J'ai vécu toutes les étapes du deuil en 2 secondes. »
 
-**44.** « Le "vu" sans réponse, c'est l'équivalent numérique de quelqu'un qui te regarde dans les yeux et qui ferme sa porte. »
+**44.** « Mon pote m'envoie un lien YouTube de 45 minutes en disant "c'est court". On a pas la même définition de court. Ni de pote, visiblement. »
 
 ---
 
 ## Les pépites inclassables
 
-**45.** « J'ai googlé mes symptômes. Apparemment je suis mort depuis 2019 mais personne m'a prévenu. »
+**45.** « J'ai demandé à l'IA de me faire un compliment. Elle a dit "tu poses des questions intéressantes". Même les robots me friendzonent. »
 
 **46.** « Je fais pas la sieste. Je fais une "micro-session de récupération cognitive". Ça passe mieux en réunion. »
 
@@ -1433,7 +1450,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **49.** « Y a des gens qui courent le matin pour le plaisir. Moi je cours le matin quand le bus est en avance. C'est la seule cardio honnête. »
 
-**50.** « On me dit "sors de ta zone de confort". Ma zone de confort c'est mon canapé. Littéralement. Et il est très bien. »
+**50.** « On me dit "il faut savoir se vendre". J'ai essayé. Mon prix de départ c'était un CDI. Personne a enchéri. »
 
 ---
 
@@ -1463,7 +1480,7 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
       { question: "Comment trouver des blagues drôles à raconter ?", answer: "L'observation de ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille. Les humoristes comme Fary ou Paul Mirabel ne font que mettre en mots ce qu'on pense tout bas." },
       { question: "Comment devenir plus drôle au quotidien ?", answer: "C'est un entraînement, pas un talent inné. Commence par sortir une vanne par jour dans une situation safe (entre potes, en famille). Analyse ce qui marche et ce qui tombe à plat." },
       { question: "C'est quoi une bonne blague drôle courte ?", answer: "Une bonne blague courte a trois qualités : un setup relatable (tout le monde se reconnaît), un twist qu'on voit pas venir, et une punchline plus courte que l'amorce. Les meilleures tiennent en 15-20 mots." },
-      { question: "Est-ce que l'humour s'apprend vraiment ?", answer: "Oui. Chaque humoriste que tu admires a commencé par être nul. Blanche Gardin a mis des années avant de trouver son style. L'humour c'est comme un instrument : sans pratique tu joues faux." },
+      { question: "Comment adapter une blague à son public ?", answer: "La même blague ne marche pas partout. En famille, reste sur de l'autodérision légère. Entre potes, tu peux pousser plus loin. Au bureau, évite les sujets clivants. La clé : observe ton public 5 minutes avant de te lancer, et choisis la vanne qui colle au niveau d'énergie du groupe." },
       { question: "Quelles sont les erreurs à éviter quand on raconte une blague ?", answer: "Les trois pires : rire avant la punchline (tu tues la surprise), donner trop de contexte (tu perds l'attention), et forcer une blague qui tombe à plat en la réexpliquant." },
     ],
   },
