@@ -71,9 +71,14 @@ function generateOAuthSignature(
 
 function buildAuthHeader(
   method: string,
-  url: string,
+  fullUrl: string,
   config: TwitterConfig,
 ): string {
+  // OAuth 1.0a requires query params to be separated from the base URL
+  // and included in the signature base string alongside OAuth params
+  const urlObj = new URL(fullUrl);
+  const baseUrl = `${urlObj.origin}${urlObj.pathname}`;
+
   const oauthParams: Record<string, string> = {
     oauth_consumer_key: config.apiKey,
     oauth_nonce: crypto.randomBytes(16).toString("hex"),
@@ -83,7 +88,13 @@ function buildAuthHeader(
     oauth_version: "1.0",
   };
 
-  const signature = generateOAuthSignature(method, url, oauthParams, config);
+  // Merge query params into the signature params (OAuth 1.0a spec)
+  const allParams: Record<string, string> = { ...oauthParams };
+  urlObj.searchParams.forEach((value, key) => {
+    allParams[key] = value;
+  });
+
+  const signature = generateOAuthSignature(method, baseUrl, allParams, config);
   oauthParams["oauth_signature"] = signature;
 
   const headerParts = Object.keys(oauthParams)
@@ -111,11 +122,18 @@ export interface TweetMetrics {
   urlClicks: number;
 }
 
+const MAX_TWEET_LENGTH = 280;
+
 /**
  * Publie un tweet simple.
  * @returns L'ID du tweet publié.
  */
 export async function postTweet(text: string): Promise<string> {
+  if (text.length > MAX_TWEET_LENGTH) {
+    throw new Error(
+      `Tweet trop long (${text.length}/${MAX_TWEET_LENGTH} caractères). Tronque ou reformule.`,
+    );
+  }
   const config = getConfig();
   const url = `${API_BASE}/tweets`;
   const authHeader = buildAuthHeader("POST", url, config);
@@ -145,6 +163,11 @@ export async function postReply(
   text: string,
   replyToId: string,
 ): Promise<string> {
+  if (text.length > MAX_TWEET_LENGTH) {
+    throw new Error(
+      `Reply trop long (${text.length}/${MAX_TWEET_LENGTH} caractères).`,
+    );
+  }
   const config = getConfig();
   const url = `${API_BASE}/tweets`;
   const authHeader = buildAuthHeader("POST", url, config);
@@ -201,7 +224,8 @@ export async function getTweetMetrics(
   tweetId: string,
 ): Promise<TweetMetrics> {
   const config = getConfig();
-  const url = `${API_BASE}/tweets/${tweetId}?tweet.fields=public_metrics,non_public_metrics`;
+  // Only request public_metrics — non_public_metrics requires elevated API access
+  const url = `${API_BASE}/tweets/${tweetId}?tweet.fields=public_metrics`;
   const authHeader = buildAuthHeader("GET", url, config);
 
   const response = await fetch(url, {
@@ -218,14 +242,13 @@ export async function getTweetMetrics(
 
   const data = await response.json();
   const pub = data.data?.public_metrics || {};
-  const nonPub = data.data?.non_public_metrics || {};
 
   return {
-    impressions: nonPub.impression_count ?? pub.impression_count ?? 0,
+    impressions: pub.impression_count ?? 0,
     likes: pub.like_count ?? 0,
     retweets: pub.retweet_count ?? 0,
     replies: pub.reply_count ?? 0,
-    urlClicks: nonPub.url_link_clicks ?? 0,
+    urlClicks: 0, // Requires elevated API access — not available on free tier
   };
 }
 

@@ -378,7 +378,7 @@ async function validateAndRefinePost(
   let currentPost = post;
 
   for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
-    let validation: ValidationResult;
+    let validation: ValidationResult | null = null;
 
     try {
       const toValidate: SocialPostToValidate = {
@@ -399,6 +399,8 @@ async function validateAndRefinePost(
       // If validation crashes, publish as-is (graceful fallback)
       break;
     }
+
+    if (!validation) break; // Validation failed to return a result
 
     if (validation.verdict === "APPROVED") {
       console.log(
