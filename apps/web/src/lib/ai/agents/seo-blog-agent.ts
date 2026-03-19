@@ -228,10 +228,11 @@ export async function generateArticle(
     }
   }
 
-  // Also provide other recent articles for cross-cluster linking
+  // Also provide other published articles for cross-cluster linking (exclude already-linked cluster articles)
+  const clusterSlugs = new Set(cluster ? [cluster.pillarSlug, ...cluster.satelliteSlugs] : []);
   const otherArticles = allArticles
-    .filter((a) => a.slug !== plan.slug)
-    .slice(0, 20)
+    .filter((a) => a.slug !== plan.slug && !clusterSlugs.has(a.slug))
+    .slice(0, 15)
     .map((a) => `- [${a.title}](/blog/${a.slug})`)
     .join("\n");
   if (otherArticles) {

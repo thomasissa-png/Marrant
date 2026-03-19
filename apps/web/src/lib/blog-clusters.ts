@@ -86,6 +86,7 @@ const CATEGORY_TO_CLUSTER: Record<string, string> = {
   PSYCHOLOGIE: "douleurs-personas",
   TEMOIGNAGE: "douleurs-personas",
   CATALOGUE: "fort-volume",
+  SAISONNIER: "saisonnier",
 };
 
 /**
