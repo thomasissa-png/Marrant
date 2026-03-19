@@ -5,10 +5,12 @@
  * Vérifie toutes les 15 minutes si les contenus planifiés existent
  * et les génère automatiquement sinon.
  *
- * 3 jobs gérés :
+ * 5 jobs gérés :
  * 1. Contenu quotidien (blague + conseil + vidéo) — tous les jours
  * 2. Article blog SEO — une fois par semaine (lundi)
  * 3. Plans mensuels — le 28 du mois (pré-génère le mois suivant)
+ * 4. Posts sociaux quotidiens — tous les jours (génération PENDING)
+ * 5. Publication posts sociaux — toutes les 15 min (publie les APPROVED)
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
@@ -127,13 +129,140 @@ export async function register() {
   };
 
   /**
-   * Orchestrateur : exécute les 3 jobs séquentiellement.
+   * Job 4 : Génération quotidienne des posts sociaux
+   * Génère 2-3 posts Twitter (status PENDING) pour validation admin.
+   */
+  const runDailySocialJob = async () => {
+    try {
+      const { prisma } = await import("@/lib/prisma");
+      const { generateDailySocialPosts, getOptimalScheduleTime } = await import(
+        "@/lib/ai/agents/social-media-agent"
+      );
+      const { getPersonaForDay } = await import("@/lib/ai/personas");
+
+      const today = new Date();
+      const dayOfMonth = today.getDate();
+
+      // Check if posts already generated today
+      const startOfDay = new Date(today);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const endOfDay = new Date(today);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      const existingCount = await prisma.socialPost.count({
+        where: { createdAt: { gte: startOfDay, lte: endOfDay } },
+      });
+
+      if (existingCount > 0) return;
+
+      const persona = getPersonaForDay(dayOfMonth);
+      console.log(`[scheduler:social] Génération posts jour ${dayOfMonth} — persona ${persona}…`);
+
+      const posts = await generateDailySocialPosts(dayOfMonth);
+
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        const scheduledAt = getOptimalScheduleTime(persona, i);
+        await prisma.socialPost.create({
+          data: {
+            platform: post.platform,
+            format: post.format,
+            hook: post.hook,
+            content: post.content,
+            cta: post.cta || "",
+            hashtags: post.hashtags || [],
+            targetPersona: post.targetPersona,
+            sourceType: post.sourceType || null,
+            sourceId: post.sourceId || null,
+            threadParts: post.threadParts || [],
+            status: "PENDING",
+            scheduledAt,
+          },
+        });
+      }
+
+      console.log(`[scheduler:social] ${posts.length} posts générés (PENDING).`);
+    } catch (err) {
+      console.error("[scheduler:social] Échec génération :", err);
+    }
+  };
+
+  /**
+   * Job 5 : Publication des posts sociaux approuvés
+   * Publie sur Twitter les posts APPROVED dont l'heure est passée.
+   */
+  const runPublishSocialJob = async () => {
+    try {
+      const { prisma } = await import("@/lib/prisma");
+      const { postTweet, postThread, isTwitterConfigured } = await import(
+        "@/lib/social/twitter-client"
+      );
+
+      if (!isTwitterConfigured()) return;
+
+      const now = new Date();
+      const posts = await prisma.socialPost.findMany({
+        where: { status: "APPROVED", scheduledAt: { lte: now } },
+        orderBy: { scheduledAt: "asc" },
+        take: 10,
+      });
+
+      if (posts.length === 0) return;
+
+      let published = 0;
+      for (const post of posts) {
+        try {
+          if (post.platform !== "TWITTER") {
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "FAILED" },
+            });
+            continue;
+          }
+
+          let externalId: string;
+          if (post.format === "THREAD" && post.threadParts.length > 0) {
+            externalId = await postThread(post.threadParts);
+          } else {
+            externalId = await postTweet(post.content);
+          }
+
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
+          });
+          published++;
+
+          // Pause 1s entre les posts pour les rate limits
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (error) {
+          const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
+          console.error(`[scheduler:publish] Erreur post ${post.id}:`, errMsg);
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { status: "FAILED" },
+          });
+        }
+      }
+
+      if (published > 0) {
+        console.log(`[scheduler:publish] ${published}/${posts.length} posts publiés.`);
+      }
+    } catch (err) {
+      console.error("[scheduler:publish] Échec publication :", err);
+    }
+  };
+
+  /**
+   * Orchestrateur : exécute les 5 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    */
   const runAllJobs = async () => {
     await runDailyContentJob();
     await runWeeklySeoJob();
     await runMonthlyPlanJob();
+    await runDailySocialJob();
+    await runPublishSocialJob();
   };
 
   // Premier check 30 secondes après le démarrage
@@ -143,5 +272,5 @@ export async function register() {
     setInterval(runAllJobs, INTERVAL_MS);
   }, 30_000);
 
-  console.log("[scheduler] Initialisé — daily + SEO blog + monthly plans (check toutes les 15 min).");
+  console.log("[scheduler] Initialisé — daily + SEO blog + monthly plans + social media (check toutes les 15 min).");
 }
