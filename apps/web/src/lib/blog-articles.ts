@@ -1096,7 +1096,7 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
 
 Bonne nouvelle : les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste un **arsenal de phrases prêtes à dégainer**. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.
 
-Cet article, c'est ton chargeur. 30 phrases drôles, classées par situation, avec le contexte exact et le timing pour les placer. Tu n'as plus qu'à viser.
+Cet article, c'est ton chargeur. Plus de 30 phrases drôles, classées par situation, avec le contexte exact et le timing pour les placer. Tu n'as plus qu'à viser.
 
 Et si tu veux un catalogue encore plus large, [nos vannes sont classées par catégorie](/vannes) pour que tu trouves la bonne en 10 secondes.
 
@@ -1187,13 +1187,13 @@ Pour transformer ces phrases en vraie répartie, [l'art de la répartie s'appren
 
 Panayotis Pascot a montré que la vulnérabilité pouvait être une force comique. Quand tu reprends ta vie sociale après un passage à vide — rupture, déménagement, perte de confiance — l'humour est ton meilleur allié. Pas besoin de faire le clown, juste de montrer que t'as du recul.
 
-**19b. "J'ai repris les soirées après 6 mois d'hibernation. Mon small talk est rouillé mais ma tolérance à l'alcool aussi, donc ça s'équilibre."**
+**20. "J'ai repris les soirées après 6 mois d'hibernation. Mon small talk est rouillé mais ma tolérance à l'alcool aussi, donc ça s'équilibre."**
 → *Premier apéro avec des potes après une longue absence.* L'autodérision dédramatise le retour.
 
-**19c. "On me dit 'faut se remettre en selle'. J'ai même pas de vélo. J'ai même pas de selle. Mais merci le conseil."**
+**21. "On me dit 'faut se remettre en selle'. J'ai même pas de vélo. J'ai même pas de selle. Mais merci le conseil."**
 → *Quand quelqu'un te pousse à sortir.* Fonctionne aussi en réponse aux "alors, tu as rencontré quelqu'un ?".
 
-**19d. "J'ai recommencé à dîner avec des gens. Le niveau de conversation a baissé depuis que je parlais plus qu'à mon chat. Mais je progresse."**
+**22. "J'ai recommencé à dîner avec des gens. Le niveau de conversation a baissé depuis que je parlais plus qu'à mon chat. Mais je progresse."**
 → *Quand tu retrouves un cercle social.* Marc qui reprend confiance, un dîner à la fois.
 
 Si tu veux structurer ta progression, [nos parcours](/parcours) incluent le Parcours Confiance — 6 semaines pour retrouver ta légèreté.
@@ -1204,41 +1204,41 @@ Si tu veux structurer ta progression, [nos parcours](/parcours) incluent le Parc
 
 Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "le rythme c'est la ponctuation et le retour à la ligne." Pas de ton de voix pour t'aider, donc la construction doit être chirurgicale.
 
-**20. "Je suis pas mort, je suis juste en mode avion social."**
+**23. "Je suis pas mort, je suis juste en mode avion social."**
 → *Quand tu réponds après 3 jours de silence radio.* Envoie-la seule, sans "désolé".
 
-**21. "Mon téléphone a 3% de batterie et je choisis de les utiliser pour t'écrire. C'est pratiquement une déclaration."**
+**24. "Mon téléphone a 3% de batterie et je choisis de les utiliser pour t'écrire. C'est pratiquement une déclaration."**
 → *Quand tu veux montrer que tu penses à quelqu'un.* Drôle ET flatteur.
 
-**22. "Je suis en PLS depuis ce matin. PLS = Position Latérale de Scrolling."**
+**25. "Je suis en PLS depuis ce matin. PLS = Position Latérale de Scrolling."**
 → *Quand on te demande comment tu vas.* La redéfinition d'acronyme est un format qui marche toujours.
 
-**23. "Alerte : j'ai cuisiné ce soir. Aucun pompier n'a été appelé. Jour historique."**
+**26. "Alerte : j'ai cuisiné ce soir. Aucun pompier n'a été appelé. Jour historique."**
 → *Story ou message groupé.*
 
-**24. "Mon historique de recherche Google est le seul qui me connaît vraiment. Et il me juge pas. Enfin je crois."**
+**27. "Mon historique de recherche Google est le seul qui me connaît vraiment. Et il me juge pas. Enfin je crois."**
 → *Quand on parle de vie privée ou de réseaux.* La personnification de Google crée le décalage.
 
 ---
 
 ## Phrases drôles pour les réunions
 
-**25. "Je n'ai pas d'avis, mais je l'ai avec conviction."**
+**28. "Je n'ai pas d'avis, mais je l'ai avec conviction."**
 → *Quand on te demande ton avis sur un sujet dont tu ne sais rien.* Ton sérieux. C'est le contraste qui fait rire.
 
-**26. "Ce meeting aurait pu être un mail. Ce mail aurait pu être un emoji pouce."**
+**29. "Ce meeting aurait pu être un mail. Ce mail aurait pu être un emoji pouce."**
 → *À la fin d'une réunion qui a trop duré.* Attends que le sujet soit clos.
 
-**27. "Je suis en mode brainstorm. Pour l'instant c'est surtout le storm, le brain arrive."**
+**30. "Je suis en mode brainstorm. Pour l'instant c'est surtout le storm, le brain arrive."**
 → *Quand on te met la pression pour des idées.* L'autodérision pro est safe et universelle.
 
-**28. "Mon KPI préféré c'est l'heure du déjeuner."**
+**31. "Mon KPI préféré c'est l'heure du déjeuner."**
 → *En small talk avant une réunion.* Court, punchy, tout le monde se reconnaît.
 
-**29. "J'ai mis 'proactif' sur mon CV. En vrai je suis réactif. Et encore, quand on me relance."**
+**32. "J'ai mis 'proactif' sur mon CV. En vrai je suis réactif. Et encore, quand on me relance."**
 → *Entre collègues proches, pas devant le N+2.*
 
-**30. "Si le travail c'est la santé, alors les congés c'est de la médecine préventive."**
+**33. "Si le travail c'est la santé, alors les congés c'est de la médecine préventive."**
 → *Quand quelqu'un parle de vacances.*
 
 ---
@@ -1304,8 +1304,8 @@ Comme le dit Paul Mirabel : l'humour c'est pas un don, c'est un muscle. Cet arti
 
 La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu, souvent un verre à la main, et le seuil de tolérance au n'importe quoi est au plus bas. C'est là que tu peux prendre des risques.
 
-**1.** « J'ai téléchargé une app de méditation. Ça fait trois mois. Mon niveau de stress principal, c'est de pas avoir ouvert l'app de méditation. »
-*→ Ton blasé, comme un constat médical. Micro-pause après "trois mois".*
+**1.** « J'ai mis mon réveil 30 minutes plus tôt pour "avoir du temps pour moi le matin". Le temps pour moi c'est appuyer sur snooze 6 fois. Techniquement, c'est un choix. »
+*→ Ton blasé, comme un constat médical. La chute "techniquement c'est un choix" doit tomber comme une justification absurde.*
 
 **2.** « Mon colocataire met des Post-it partout pour s'organiser. Il a mis un Post-it pour se rappeler d'acheter des Post-it. J'ai plus de coloc, j'ai un bug informatique. »
 *→ Accélère sur la dernière phrase, comme une conclusion évidente.*
@@ -1319,8 +1319,8 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 **5.** « Ma mère m'a dit "sois toi-même". Mon banquier m'a dit "sois quelqu'un d'autre". Je sais plus qui croire, mais un des deux a mon RIB. »
 *→ Joue la fausse hésitation, comme si tu pesais le pour et le contre.*
 
-**6.** « J'ai essayé la salle de sport en janvier. En février, la salle et moi on était en couple libre. En mars, c'est ghosting total. »
-*→ Raconte ça comme une histoire d'amour tragique. Plus c'est solennel, plus c'est drôle.*
+**6.** « J'ai acheté un carnet pour écrire mes objectifs. Premier objectif : acheter un stylo. Ça fait 3 semaines. Le carnet et moi, on avance pas au même rythme. »
+*→ Raconte ça comme une saga en plusieurs tomes. Plus c'est solennel, plus c'est drôle.*
 
 **7.** « Tu sais que t'es adulte quand ton truc préféré le vendredi soir c'est l'annulation d'un plan. »
 *→ En soupirant, comme un aveu qu'on fait à contrecœur.*
@@ -1428,7 +1428,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **40.** « J'ai 47 onglets ouverts. C'est pas du multitasking, c'est de l'anxiété avec du Wi-Fi. »
 
-**41.** « Netflix me demande "vous regardez toujours ?". Oui Netflix. Et je te demande pas de me juger. On a tous nos problèmes. »
+**41.** « J'ai 14 conversations ouvertes et je réponds à aucune. C'est pas de l'antisocialité, c'est du multitasking émotionnel. »
 
 **42.** « Mon temps d'écran cette semaine : 7h par jour. C'est plus un téléphone, c'est un emploi à temps partiel. Et il me paye pas. »
 
