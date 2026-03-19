@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { prisma } from "@/lib/prisma";
 import { blogArticles } from "@/lib/blog-articles";
 
@@ -91,7 +93,8 @@ async function auditInternalLinks() {
 async function reconcilePlanWithDB() {
   let editorialPlan: { plannedArticles?: { slug: string; status: string; publishedDate?: string }[] } = {};
   try {
-    editorialPlan = await import("@/../seo-editorial-plan.json");
+    const planPath = join(process.cwd(), "../../seo-editorial-plan.json");
+    editorialPlan = JSON.parse(readFileSync(planPath, "utf-8"));
   } catch {
     return { error: "Could not load seo-editorial-plan.json" };
   }
