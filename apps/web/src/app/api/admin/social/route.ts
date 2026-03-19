@@ -1,44 +1,32 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 /**
  * GET /api/admin/social — Liste les posts sociaux (avec filtres).
  * POST /api/admin/social — Actions en batch (approve, reject).
+ *
+ * Auth : Bearer ADMIN_PASSWORD (même pattern que /api/admin/stats et /api/admin/users).
  */
 
-function getAdminEmails(): string[] {
-  const raw = process.env.ADMIN_EMAILS || "";
-  return raw
-    .split(",")
-    .map((e) => e.trim())
-    .filter((e) => e.length > 0);
+function verifyAdmin(request: NextRequest): boolean {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) return false;
+  const auth = request.headers.get("authorization");
+  return auth === `Bearer ${adminPassword}`;
 }
 
-async function verifyAdmin(): Promise<{ email: string } | null> {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return null;
-
-  const adminEmails = getAdminEmails();
-  if (adminEmails.length === 0) return null; // No admins configured
-  if (!adminEmails.includes(session.user.email)) return null;
-
-  return { email: session.user.email };
-}
-
-export async function GET(req: Request) {
-  const admin = await verifyAdmin();
-  if (!admin) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+export async function GET(request: NextRequest) {
+  if (!verifyAdmin(request)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
-  const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status") || "PENDING";
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get("status");
   const platform = searchParams.get("platform");
   const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
 
-  const where: Record<string, unknown> = { status };
+  const where: Record<string, unknown> = {};
+  if (status && status !== "ALL") where.status = status;
   if (platform) where.platform = platform;
 
   const posts = await prisma.socialPost.findMany({
@@ -60,13 +48,12 @@ export async function GET(req: Request) {
   return NextResponse.json({ posts, statusCounts });
 }
 
-export async function POST(req: Request) {
-  const admin = await verifyAdmin();
-  if (!admin) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+export async function POST(request: NextRequest) {
+  if (!verifyAdmin(request)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
-  const body = await req.json();
+  const body = await request.json();
   const { action, postIds, postId, content } = body;
 
   if (action === "approve_all") {
