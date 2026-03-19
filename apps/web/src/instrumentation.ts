@@ -357,7 +357,57 @@ export async function register() {
   };
 
   /**
-   * Orchestrateur : exécute les 6 jobs séquentiellement.
+   * Job 7 : Audit SEO hebdomadaire (mercredi)
+   * Vérifie le maillage interne et réconcilie le plan éditorial avec la DB.
+   */
+  const runSeoAuditJob = async () => {
+    try {
+      const now = new Date();
+      // Ne lancer que le mercredi (3)
+      if (now.getUTCDay() !== 3) return;
+
+      const PORT = process.env.PORT || "3000";
+      const secret = process.env.CRON_SECRET;
+      if (!secret) return;
+
+      const res = await fetch(`http://localhost:${PORT}/api/cron/seo-audit`, {
+        headers: { Authorization: `Bearer ${secret}` },
+      });
+      if (res.ok) {
+        console.log("[scheduler:seo-audit] Audit SEO hebdomadaire exécuté.");
+      }
+    } catch (err) {
+      console.error("[scheduler:seo-audit] Échec :", err);
+    }
+  };
+
+  /**
+   * Job 8 : Rapport SEO mensuel (1er du mois)
+   * Génère un rapport complet de l'état SEO du site.
+   */
+  const runSeoReportJob = async () => {
+    try {
+      const now = new Date();
+      // Ne lancer que le 1er du mois
+      if (now.getUTCDate() !== 1) return;
+
+      const PORT = process.env.PORT || "3000";
+      const secret = process.env.CRON_SECRET;
+      if (!secret) return;
+
+      const res = await fetch(`http://localhost:${PORT}/api/cron/seo-report`, {
+        headers: { Authorization: `Bearer ${secret}` },
+      });
+      if (res.ok) {
+        console.log("[scheduler:seo-report] Rapport SEO mensuel généré.");
+      }
+    } catch (err) {
+      console.error("[scheduler:seo-report] Échec :", err);
+    }
+  };
+
+  /**
+   * Orchestrateur : exécute les 8 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    */
   const runAllJobs = async () => {
@@ -367,6 +417,8 @@ export async function register() {
     await runDailySocialJob();
     await runPublishSocialJob();
     await runSocialAnalyticsJob();
+    await runSeoAuditJob();
+    await runSeoReportJob();
   };
 
   // Premier check 30 secondes après le démarrage
@@ -376,5 +428,5 @@ export async function register() {
     setInterval(runAllJobs, INTERVAL_MS);
   }, 30_000);
 
-  console.log("[scheduler] Initialisé — daily + SEO blog + monthly plans + social media (check toutes les 15 min).");
+  console.log("[scheduler] Initialisé — 8 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report) — check toutes les 15 min.");
 }
