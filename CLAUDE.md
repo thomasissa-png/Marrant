@@ -268,7 +268,7 @@ CRON /api/cron/daily-social (4h UTC)
 ### Phases de déploiement
 - **Phase 1** (Sem 1-2) : Twitter/X + Threads — texte pur, 100% auto
 - **Phase 2** (Sem 3-4) : LinkedIn — angle pro Sophie/Marc
-- **Phase 3** (Sem 5-8) : Instagram — visuels avec charte + satori
+- **Phase 3** (Sem 5-8) : Instagram — **EN HOLD** (config API Meta en cours, reprendre setup)
 
 ### 4 formats signature Twitter (PAS d'engagement bait)
 1. **Technique du Jour** : "[Humoriste] + [technique] + comment TU l'utilises ce soir" (1x/jour)
@@ -338,9 +338,40 @@ CRON /api/cron/daily-social (4h UTC)
 ### Secrets Replit nécessaires
 ```
 TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET
-INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ID (phase 3)
+INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ID (phase 3 — EN HOLD)
 LINKEDIN_ACCESS_TOKEN, LINKEDIN_ORGANIZATION_ID (phase 2 — page entreprise deviens-marrant)
 ```
+
+### Setup Instagram — Guide complet (à reprendre quand phase 3 débloquée)
+
+**Prérequis** :
+1. Page Facebook "Deviens Marrant" créée et publiée
+2. Compte Instagram `@deviensmarrant` passé en mode Business
+3. Compte Instagram lié à la Page Facebook (Paramètres IG → Compte → Pages liées)
+
+**Étapes API Meta** :
+1. **Créer une App Meta** sur developers.facebook.com (type "Business", nom "Deviens Marrant")
+2. **Ajouter le produit** "Instagram Graph API" dans le dashboard de l'app
+3. **Graph API Explorer** (developers.facebook.com/tools/explorer/) :
+   - Sélectionner l'app "Deviens Marrant" + "Token d'utilisateur"
+   - Permissions : `pages_show_list`, `pages_read_engagement`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_insights`, `business_management`
+   - Générer le token → popup Facebook → autoriser
+4. **Convertir en long-lived token (60 jours)** :
+   ```
+   curl "https://graph.facebook.com/v19.0/oauth/access_token?grant_type=fb_exchange_token&client_id=APP_ID&client_secret=APP_SECRET&fb_exchange_token=SHORT_TOKEN"
+   ```
+   - APP_ID et APP_SECRET : Dashboard app → Paramètres → Général
+5. **Récupérer INSTAGRAM_BUSINESS_ID** :
+   ```
+   # Trouver l'ID de la Page Facebook
+   curl "https://graph.facebook.com/v19.0/me/accounts?access_token=LONG_TOKEN"
+   # Récupérer l'IG Business ID lié à cette Page
+   curl "https://graph.facebook.com/v19.0/PAGE_ID?fields=instagram_business_account&access_token=LONG_TOKEN"
+   ```
+6. **Ajouter dans Replit Secrets** : `INSTAGRAM_ACCESS_TOKEN` + `INSTAGRAM_BUSINESS_ID`
+7. **Renouvellement** : token expire après 60 jours, relancer l'étape 4 avec le token actuel
+
+**Point de blocage actuel** : config du token Instagram (étapes 3-4). À reprendre.
 
 ## Historique des audits
 
