@@ -1270,6 +1270,203 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
       { question: "Est-ce que l'humour s'apprend vraiment ?", answer: "L'humour s'apprend à 100%. Les humoristes comme Paul Mirabel ou Roman Frayssinet écrivent, testent et réécrivent leurs vannes des dizaines de fois. Commencer par mémoriser des phrases drôles et les placer au bon moment, c'est exactement comme ça que les pros ont débuté." },
     ],
   },
+  {
+    slug: "meilleures-blagues-droles-2026",
+    title: "50 blagues drôles à ressortir en 2026",
+    excerpt:
+      "Les 50 meilleures blagues courtes, testées et approuvées. Classées par situation : soirée, boulot, date, famille.",
+    content: `Tu connais ce moment où quelqu'un sort une **blague drôle** pile au bon moment, tout le monde explose, et toi tu penses « pourquoi c'est jamais moi » ? Cet article, c'est ton armurerie. 50 vannes triées sur le volet, classées par situation — parce qu'une blague de soirée à 23h et une blague à la machine à café un lundi matin, c'est pas le même sport.
+
+Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
+
+Comme le dit Paul Mirabel : l'humour c'est pas un don, c'est un muscle. Cet article, c'est ta salle de sport. Et si tu veux t'entraîner quotidiennement avec des vannes fraîches, notre [catalogue de vannes](/vannes) se renouvelle chaque jour.
+
+---
+
+## Les vannes de soirée (celles qui marchent à partir de 22h)
+
+La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu, souvent un verre à la main, et le seuil de tolérance au n'importe quoi est au plus bas. C'est là que tu peux prendre des risques.
+
+**1.** « J'ai téléchargé une app de méditation. Ça fait trois mois. Mon niveau de stress principal, c'est de pas avoir ouvert l'app de méditation. »
+*→ Ton blasé, comme un constat médical. Micro-pause après "trois mois".*
+
+**2.** « Mon colocataire met des Post-it partout pour s'organiser. Il a mis un Post-it pour se rappeler d'acheter des Post-it. J'ai plus de coloc, j'ai un bug informatique. »
+*→ Accélère sur la dernière phrase, comme une conclusion évidente.*
+
+**3.** « Les gens qui disent "l'argent ne fait pas le bonheur" ont manifestement jamais commandé un Uber quand il pleut à 2h du mat. »
+*→ Fais semblant d'être philosophe au début, puis ton terre-à-terre sur la fin.*
+
+**4.** « Je suis allé à un escape game avec mes potes. On a mis 58 minutes à sortir. On met le même temps à choisir un resto sur le groupe WhatsApp. »
+*→ La comparaison doit arriver comme une révélation triste.*
+
+**5.** « Ma mère m'a dit "sois toi-même". Mon banquier m'a dit "sois quelqu'un d'autre". Je sais plus qui croire, mais un des deux a mon RIB. »
+*→ Joue la fausse hésitation, comme si tu pesais le pour et le contre.*
+
+**6.** « J'ai essayé la salle de sport en janvier. En février, la salle et moi on était en couple libre. En mars, c'est ghosting total. »
+*→ Raconte ça comme une histoire d'amour tragique. Plus c'est solennel, plus c'est drôle.*
+
+**7.** « Tu sais que t'es adulte quand ton truc préféré le vendredi soir c'est l'annulation d'un plan. »
+*→ En soupirant, comme un aveu qu'on fait à contrecœur.*
+
+**8.** « J'ai un pote qui dit "je bois socialement". Frère, t'es sociable sept jours sur sept. »
+*→ Le "Frère" doit claquer — c'est le pivot de la vanne.*
+
+Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Roman Frayssinet est un monstre à ça.
+
+---
+
+## Les vannes machine à café (le lundi matin est un sport de combat)
+
+Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas assez, t'es le collègue invisible.
+
+**9.** « Mon réveil sonne à 7h. Mon corps se lève à 7h. Mon âme arrive au bureau vers 10h30. »
+*→ Marmonne ça en fixant ton café.*
+
+**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a demandé à ChatGPT ?". L'évolution, c'est beau. »
+*→ Prends un ton admiratif, façon documentaire animalier.*
+
+**11.** « Mon manager dit qu'il a une politique de "porte ouverte". Techniquement, une porte ouverte sur un open space c'est juste… un mur en moins. »
+*→ Fais semblant de réfléchir à la logique, comme si tu venais de réaliser l'absurdité.*
+
+**12.** « J'ai un collègue qui commence chaque mail par "j'espère que tu vas bien". Frère, tu m'envoies un Excel à 8h02. Tu espères rien du tout. »
+
+**13.** « La machine à café du bureau fait un bruit qui ressemble exactement à mon moral le lundi. Un genre de gargouillis résigné. »
+
+**14.** « On m'a dit "habille-toi pour le poste que tu veux". Je suis venu en pyjama. Je veux être au lit. »
+*→ Deadpan total. Zéro sourire.*
+
+**15.** « Le flex office c'est comme les chaises musicales, sauf que personne rigole et le prix c'est un câble HDMI qui marche. »
+
+**16.** « Mon collègue met "envoyé depuis mon iPhone" en signature. T'as pas besoin de te justifier. On sait tous que t'es pas au bureau. »
+
+Sophie, si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
+
+---
+
+## Les vannes de date (détendre un moment gênant)
+
+Fary l'a dit : « la drague, c'est du stand-up devant une seule personne qui peut partir ».
+
+**17.** « Mon profil Hinge dit "cherche quelqu'un pour annuler des plans ensemble". C'est le truc le plus honnête que j'ai jamais écrit. »
+
+**18.** « On m'a demandé quel était mon type. J'ai dit "quelqu'un qui répond dans les 24 heures". Apparemment c'est pas un type, c'est un miracle. »
+
+**19.** « Première chose que je regarde chez quelqu'un ? La vitesse de réponse aux messages. Tes yeux, c'est le deuxième critère. »
+
+**20.** « Les applis de rencontre, c'est comme le menu d'un resto trop grand. Trop de choix, tu finis par prendre la même chose qu'à chaque fois. »
+
+**21.** « Premier date, la personne me dit "je suis un livre ouvert". On était au dessert et j'avais toujours pas passé la préface. »
+
+**22.** « Ma pire date ? Le gars m'a montré ses stats Strava pendant l'apéro. Ses splits au kilomètre. Je voulais un mojito, pas un débriefing sportif. »
+
+**23.** « J'ai un pote qui dit "je cherche pas, ça viendra". Ça fait 4 ans. C'est plus de la patience, c'est un cold case. »
+
+**24.** « Le "on se fait un truc ce week-end ?" des applis de rencontre c'est le "on déjeune ensemble !" du boulot. Ça arrivera jamais et tout le monde le sait. »
+
+---
+
+## Les vannes en famille (niveau expert)
+
+Blanche Gardin dit que la famille c'est « un groupe WhatsApp qu'on a pas choisi de rejoindre ».
+
+**25.** « Ma mère m'envoie des vocaux de 4 minutes. Pas un message vocal — un podcast. Prochain épisode : pourquoi je mets pas de manteau. »
+
+**26.** « Mon père utilise Google comme si c'était son psy. Il tape des questions entières : "pourquoi mon fils m'appelle jamais". Papa, c'est un moteur de recherche, pas une thérapie. »
+
+**27.** « Ma grand-mère m'a demandé ce que c'est un influenceur. J'ai dit "c'est quelqu'un qui montre ce qu'il mange". Elle a dit "ah, comme tante Martine sur WhatsApp". Elle a pas tort. »
+
+**28.** « En repas de famille, y a toujours un oncle qui dit "de mon temps…". De ton temps, y avait un seul shampoing et il servait aussi pour le chien. »
+
+**29.** « Ma mère quand je mange pas assez : "t'as pas faim ?". Ma mère quand je me ressers : "t'as pas DÉJÀ faim ?". Y a pas de bonne réponse. C'est un escape game sans sortie. »
+
+**30.** « Le groupe WhatsApp de la famille, c'est 10% d'infos utiles et 90% de mon père qui envoie des photos de couchers de soleil sans légende. »
+
+---
+
+## Les vannes entre potes (le labo d'essai)
+
+Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur scène.
+
+**31.** « Mon pote me dit "on fait un truc chill ce soir". Chill pour lui c'est 4 bars, 2 clubs et un kebab à 5h du mat. On a pas le même dictionnaire. »
+
+**32.** « J'ai un ami qui répond "je vais voir" à toutes les invitations. Il a jamais vu. Il vit dans un monde parallèle où il est toujours en train de voir. »
+
+**33.** « Le mec qui met 3h à répondre mais qui est "en ligne" en permanence. T'es pas occupé, t'es sur une autre conversation. Je suis ta saison 2, il regarde la saison 1. »
+
+**34.** « Un pote m'a dit qu'il faisait un "digital detox". Je l'ai vu poster une story de sa digital detox 20 minutes après. »
+
+**35.** « On a un groupe WhatsApp qui s'appelle "Orga soirée". On a toujours pas choisi le bar. Le groupe est devenu un monument historique. »
+
+**36.** « Mon meilleur pote me connaît tellement bien qu'il finit mes phrases. Le problème c'est qu'il les finit mieux que moi. C'est vexant. »
+
+**37.** « On dit "c'est l'intention qui compte". Ça, c'est un truc inventé par quelqu'un qui offre des bougies chaque Noël. »
+
+**38.** « Y a deux types de potes : ceux qui te disent "t'es beau" avant de sortir, et ceux qui te disent la vérité. Garde les deux, mais écoute les deuxièmes. »
+
+---
+
+## Les vannes WhatsApp / réseaux
+
+**39.** « "Tu fais quoi ?" Le message le plus stressant de la langue française. La vraie question c'est jamais ce que tu fais, c'est ce que tu VAS faire. Pour eux. »
+
+**40.** « J'ai 47 onglets ouverts. C'est pas du multitasking, c'est de l'anxiété avec du Wi-Fi. »
+
+**41.** « Netflix me demande "vous regardez toujours ?". Oui Netflix. Et je te demande pas de me juger. On a tous nos problèmes. »
+
+**42.** « Mon temps d'écran cette semaine : 7h par jour. C'est plus un téléphone, c'est un emploi à temps partiel. Et il me paye pas. »
+
+**43.** « J'ai mis une alarme pour boire de l'eau. L'alarme sonne, je la snooze. Je procrastine de l'hydratation. Ma vie est un sketch. »
+
+**44.** « Le "vu" sans réponse, c'est l'équivalent numérique de quelqu'un qui te regarde dans les yeux et qui ferme sa porte. »
+
+---
+
+## Les pépites inclassables
+
+**45.** « J'ai googlé mes symptômes. Apparemment je suis mort depuis 2019 mais personne m'a prévenu. »
+
+**46.** « Je fais pas la sieste. Je fais une "micro-session de récupération cognitive". Ça passe mieux en réunion. »
+
+**47.** « Mon niveau en cuisine c'est : l'alarme incendie est mon minuteur. »
+
+**48.** « J'ai essayé d'être matinal pendant une semaine. Résultat : je suis pas matinal, je suis juste fatigué plus tôt. »
+
+**49.** « Y a des gens qui courent le matin pour le plaisir. Moi je cours le matin quand le bus est en avance. C'est la seule cardio honnête. »
+
+**50.** « On me dit "sors de ta zone de confort". Ma zone de confort c'est mon canapé. Littéralement. Et il est très bien. »
+
+---
+
+## Comment bien raconter une **blague drôle**
+
+Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le mec drôle du mec qui « connaît des blagues ».
+
+**Le timing, c'est sacré.** Roman Frayssinet peut faire rire avec un silence de 3 secondes. Toi aussi. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
+
+**Le contexte fait la vanne.** La blague sur le flex office, tu la sors au bureau, pas en boîte.
+
+**Ne rigole pas avant ta punchline.** C'est l'erreur n°1. On détaille toutes les erreurs dans [Comment raconter une blague sans la massacrer](/blog/raconter-blague-sans-massacrer).
+
+**Adapte, n'apprends pas par cœur.** Change les prénoms, adapte les situations à ta vie.
+
+Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
+
+→ **[Découvrir nos vannes du jour](/vannes)** — classées par catégorie, chute cachée, renouvelées quotidiennement.
+
+→ **[Nos conseils d'humour](/conseils)** — les techniques de timing et de répartie des pros.
+
+→ **[Comment devenir drôle](/blog/comment-devenir-drole)** — le guide complet avec plan d'action sur 30 jours.`,
+    date: "2026-03-19",
+    readingTime: "8 min",
+    category: "CATALOGUE",
+    faqs: [
+      { question: "Comment trouver des blagues drôles à raconter ?", answer: "L'observation de ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille. Les humoristes comme Fary ou Paul Mirabel ne font que mettre en mots ce qu'on pense tout bas." },
+      { question: "Comment devenir plus drôle au quotidien ?", answer: "C'est un entraînement, pas un talent inné. Commence par sortir une vanne par jour dans une situation safe (entre potes, en famille). Analyse ce qui marche et ce qui tombe à plat." },
+      { question: "C'est quoi une bonne blague drôle courte ?", answer: "Une bonne blague courte a trois qualités : un setup relatable (tout le monde se reconnaît), un twist qu'on voit pas venir, et une punchline plus courte que l'amorce. Les meilleures tiennent en 15-20 mots." },
+      { question: "Est-ce que l'humour s'apprend vraiment ?", answer: "Oui. Chaque humoriste que tu admires a commencé par être nul. Blanche Gardin a mis des années avant de trouver son style. L'humour c'est comme un instrument : sans pratique tu joues faux." },
+      { question: "Quelles sont les erreurs à éviter quand on raconte une blague ?", answer: "Les trois pires : rire avant la punchline (tu tues la surprise), donner trop de contexte (tu perds l'attention), et forcer une blague qui tombe à plat en la réexpliquant." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 

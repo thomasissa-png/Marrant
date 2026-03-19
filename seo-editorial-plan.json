@@ -670,7 +670,8 @@
       "persona": "Tous",
       "category": "CATALOGUE",
       "scheduledWeek": 6,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-19",
       "internalLinks": ["/vannes", "/conseils", "/blog/raconter-blague-sans-massacrer", "/blog/erreurs-blagues", "/blog/comment-devenir-drole"],
       "wordCountTarget": 2000,
       "formatNote": "Format showcase : chaque blague avec contexte d'utilisation + tips de delivery. Pas un simple copier-coller du catalogue — valeur ajoutée sur le COMMENT les raconter. Cible le mot-clé 'blague drôle' (~50K recherches/mois). Validation directeur stand-up obligatoire sur chaque vanne."
@@ -687,7 +688,8 @@
       "persona": "Sophie",
       "category": "CATALOGUE",
       "scheduledWeek": 6,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-19",
       "internalLinks": ["/vannes", "/conseils", "/blog/comment-avoir-de-la-repartie", "/blog/conversation-machine-a-cafe", "/blog/humour-quotidien-8-habitudes"],
       "wordCountTarget": 1800,
       "formatNote": "Format situation : chaque phrase avec le contexte exact où l'utiliser (machine à café, date, afterwork, famille). Cibler 'phrase drôle' (~5K) et 'citation drôle' (~5K). Chaque phrase doit passer le Test Stand-Up."
