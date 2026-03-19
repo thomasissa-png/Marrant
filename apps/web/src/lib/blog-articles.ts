@@ -712,6 +712,81 @@ Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment
       { question: "L'humour noir est-il adapté au travail ?", answer: "En version très légère uniquement : métaphores exagérées sur le quotidien pro ('Cette réunion était tellement longue que j'ai commencé à rédiger mon testament'). Évitez les sujets réellement sensibles et la hiérarchie directe." },
     ],
   },
+  {
+    slug: "jeux-de-mots-technique-3-etapes",
+    title: "Jeux de mots : la technique en 3 étapes",
+    excerpt:
+      "Homophones, polysémie, paronymie : 3 étapes pour créer des jeux de mots qui font mouche.",
+    content: `Les jeux de mots, c'est l'humour le plus détesté et le plus utilisé de France. Ton oncle en fait des mauvais. Les publicitaires en font des moyens. Et **Fary** en fait des géniaux. La différence ? La technique. Un bon jeu de mots n'est pas un accident — c'est de l'ingénierie linguistique déguisée en blague.
+
+## Pourquoi 90% des jeux de mots sont nuls
+
+Parce qu'ils reposent sur le calembour le plus évident possible. "Tu connais l'histoire du mec qui a perdu la boule ? Il jouait aux quilles." C'est techniquement un jeu de mots. C'est techniquement de l'humour. Et c'est techniquement insupportable.
+
+Le problème, c'est la prévisibilité. Si ton cerveau voit le double sens arriver à 3 kilomètres, il n'y a pas de surprise. Et sans surprise, pas de rire. C'est la même mécanique que pour [tous les types d'humour](/blog/5-types-humour-lequel-pour-toi) : le rire naît du décalage entre ce qu'on attend et ce qu'on reçoit.
+
+## Étape 1 : Trouve le mot à double sens
+
+Tout bon jeu de mots commence par un mot qui a au moins deux significations. Trois techniques pour les trouver :
+
+**L'homophone** : deux mots qui sonnent pareil mais ont un sens différent. "Mer" et "mère". "Compte" et "conte". "Vers" et "verre" et "vert".
+
+**La polysémie** : un seul mot avec plusieurs sens. "Avocat" (le fruit et le métier). "Canard" (l'animal et le journal). "Marche" (l'escalier et la promenade).
+
+**La paronymie** : deux mots qui se ressemblent presque. "Frapper" et "friper". "Fumer" et "fumer" (au sens culinaire).
+
+**Exercice :** Prends 5 mots de ton quotidien (café, bureau, souris, patron, match) et note TOUS les sens possibles. "Souris" : l'animal, l'informatique, le verbe sourire. Tu viens de trouver 3 pistes pour un jeu de mots.
+
+## Étape 2 : Construis le setup trompeur
+
+Le secret d'un bon jeu de mots, c'est que le setup pointe vers un sens, et la punchline révèle l'autre. Le cerveau de l'auditeur doit être mené sur une fausse piste.
+
+Mauvais setup : "L'avocat est bon." (Trop court, pas de fausse piste.)
+Bon setup : "Mon avocat m'a coûté 3 euros. C'est scandaleux pour un fruit, mais franchement il m'a sorti d'un sacré pétrin."
+
+Le bon setup crée un contexte qui oriente le cerveau vers UN sens. La punchline bascule vers l'autre. C'est du [timing](/blog/timing-humour) linguistique.
+
+**Paul Mirabel** utilise parfois des jeux de mots dans ses escalades — mais toujours noyés dans une histoire. Le jeu de mots n'est jamais le but, c'est un bonus qui arrive par surprise.
+
+## Étape 3 : Teste et raccourcis
+
+Un jeu de mots doit être court. Plus il est long, plus le double sens est visible de loin. La règle : si tu peux couper un mot du setup sans perdre le sens, coupe-le.
+
+**Avant :** "Je suis allé voir un match de tennis hier, et c'est là que j'ai réalisé que mon service était vraiment nul." (Trop long, on voit venir.)
+**Après :** "Mon service est nul. Au tennis et au restaurant." (Court. Net. Double sens instantané.)
+
+**Fary** est redoutable pour ça : ses punchlines font rarement plus de 10 mots. Chaque syllabe compte. C'est aussi un bon exercice pour les [vannes](/vannes) courtes à sortir en conversation.
+
+## Atelier : créons un jeu de mots ensemble
+
+Mot choisi : **"courant"**
+- Sens 1 : l'électricité
+- Sens 2 : au courant (informé)
+- Sens 3 : courant d'air
+
+Setup qui oriente vers le sens 2 : "Je suis au courant de tout ce qui se passe au bureau."
+Punchline qui bascule vers le sens 1 : "Surtout quand quelqu'un touche à la machine à café et que ça disjoncte."
+
+C'est pas un chef-d'œuvre, mais c'est la mécanique. Et avec de la pratique, tes jeux de mots deviendront plus naturels et plus percutants. Nos [conseils](/conseils) de livraison t'aident à les placer au bon moment.
+
+## Les erreurs à éviter
+
+1. **Le jeu de mots expliqué.** Si tu dois dire "tu l'as ? c'est parce que...", c'est raté. Un jeu de mots qui a besoin d'explication, c'est comme une blague qui a besoin d'un PowerPoint.
+2. **L'accumulation.** Un jeu de mots en conversation, c'est parfait. Trois d'affilée, tu deviens le mec pénible. Dose.
+3. **Le calembour forcé.** Si tu dois déformer un mot pour que ça marche, c'est pas un jeu de mots, c'est de la torture linguistique.
+
+**Blanche Gardin** évite les jeux de mots classiques mais utilise les double sens sémantiques : elle dit des phrases qui ont un sens littéral innocent et un sous-texte dévastateur. C'est du jeu de mots évolué.
+
+Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédiée aux jeux de mots. Les [parcours](/parcours) incluent des exercices de créativité verbale. Et nos [vidéos](/videos) analysent les techniques de double sens des pros. **0,99 EUR/mois** — pour passer du calembour de tonton au jeu de mots qui fait mouche.`,
+    date: "2026-03-11",
+    readingTime: "5 min",
+    category: "PRATIQUE",
+    faqs: [
+      { question: "Comment faire un bon jeu de mots ?", answer: "Trois étapes : trouver un mot à double sens (homophone, polysémie), construire un setup qui oriente vers un sens, et révéler l'autre sens en punchline. La clé : le setup doit tromper l'auditeur." },
+      { question: "Pourquoi la plupart des jeux de mots ne font pas rire ?", answer: "Parce qu'ils sont trop prévisibles. Si le double sens est visible dès le début, il n'y a pas de surprise. Un bon jeu de mots cache le deuxième sens jusqu'à la punchline." },
+      { question: "Comment placer un jeu de mots en conversation ?", answer: "Un seul à la fois, au bon moment (transition naturelle dans la conversation). Ne l'annonce jamais ('j'ai un jeu de mots') et ne l'explique jamais après. S'il ne fait pas rire, souris et passe à autre chose." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
