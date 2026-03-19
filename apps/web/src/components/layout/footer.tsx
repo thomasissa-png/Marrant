@@ -8,6 +8,8 @@ const footerLinks = {
     { href: "/parcours", label: "Parcours" },
     { href: "/blog", label: "Blog" },
     { href: "/glossaire", label: "Glossaire" },
+    { href: "/quiz-humour", label: "Quiz humour" },
+    { href: "/anatomie-vanne", label: "Anatomie d'une vanne" },
     { href: "/abonnement", label: "Nos offres" },
   ],
   legal: [

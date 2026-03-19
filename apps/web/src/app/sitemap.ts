@@ -29,6 +29,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/confidentialite`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/retractation`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/register`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];
 
   // Articles statiques
