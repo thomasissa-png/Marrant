@@ -394,7 +394,324 @@ L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur devien
       { question: "Pourquoi l'autodérision fonctionne-t-elle aussi bien ?", answer: "Elle désarme les tensions, rend accessible et crée de la connexion instantanée. C'est paradoxal : montrer ses failles avec humour est perçu comme un signal de force et de confiance en soi, pas de faiblesse." },
     ],
   },
-  // Articles "devenir-marrant", "devenir-plus-drole", "apprendre-a-etre-drole", "techniques-repartie"
+  {
+    slug: "repartie-debutant-5-etapes",
+    title: "Répartie débutant : 5 étapes simples",
+    excerpt:
+      "Tu pars de zéro en répartie ? 5 étapes progressives pour débloquer ta tchatche sans forcer.",
+    content: `Lucas a 20 ans. En soirée, il est celui qui rit aux blagues des autres, hoche la tête, et dit "ah ouais grave" toutes les 30 secondes. Quand on le chambre, son cerveau fait le bruit d'un modem 56k. Sa meilleure répartie à ce jour : "euh... toi-même."
+
+On va suivre Lucas sur 5 étapes. Pas des étapes théoriques de livre de développement personnel. Des étapes concrètes, testées, avec des résultats visibles en quelques jours.
+
+## Étape 1 : Arrête d'essayer d'être drôle
+
+Contre-intuitif, non ? Mais le premier réflexe de quelqu'un qui veut avoir de la répartie, c'est de chercher LA réplique parfaite. Résultat : paralysie. Le cerveau cherche le bon mot pendant 45 secondes, et quand il le trouve, tout le monde parle d'autre chose.
+
+**Paul Mirabel** a dit en interview qu'à ses débuts, il ne cherchait pas à être drôle — il cherchait à être honnête. L'humour venait après, naturellement. C'est la même chose en conversation.
+
+Lucas a commencé par ça : au lieu de chercher la vanne, il a commencé à dire ce qu'il pensait vraiment. "C'est quand même bizarre que tu dises ça." Simple. Honnête. Et étrangement efficace.
+
+**Exercice :** Pendant 3 jours, en conversation, dis exactement ce que tu penses sans filtrer (dans les limites du respect, évidemment). Note les réactions. Tu vas voir : l'honnêteté surprend, et la surprise, c'est le moteur de l'humour.
+
+## Étape 2 : Le filet de sécurité — 3 phrases prêtes
+
+Avoir 3 réponses universelles en poche, c'est comme avoir un extincteur : tu espères ne pas en avoir besoin, mais quand le feu part, tu es content de l'avoir.
+
+Les 3 phrases de Lucas :
+- **"Intéressant"** (dit avec un demi-sourire) — l'accusé de réception ultime. Donne 3 secondes de réflexion.
+- **"Tu me connais tellement bien"** (ironique) — retourne n'importe quelle remarque.
+- **"C'est noté, je transmets"** (ton neutre) — désamorce avec absurdité.
+
+**Fary** utilise des phrases filet de sécurité tout le temps en interview. Quand un journaliste pose une question gênante, il a toujours un "c'est une excellente question" qui lui achète 5 secondes. Ce sont nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) en version concentrée.
+
+**Exercice :** Choisis 3 phrases qui te ressemblent. Mémorise-les. Utilise-en au moins une par jour cette semaine. Le but n'est pas d'être brillant — c'est de ne plus rester muet.
+
+## Étape 3 : L'écoute active — Ton arme secrète
+
+90% des gens en conversation n'écoutent pas — ils attendent leur tour de parler. Du coup, ils ratent toutes les ouvertures. L'écoute active, c'est attraper un mot ou un détail dans ce que l'autre dit et rebondir dessus.
+
+Quelqu'un dit "J'ai passé un week-end horrible". La plupart des gens : "Ah mince." Lucas version améliorée : "Horrible comment ? Horrible genre tu t'es ennuyé, ou horrible genre tu as survécu à un truc ?" La question ouvre la conversation ET montre que tu écoutes.
+
+**Roman Frayssinet** fait ça sur scène : il attrape un mot du public et construit dessus. Ce n'est pas du génie — c'est de l'écoute active avec un twist. Regarde ses [vidéos](/videos) analysées sur le site pour voir comment il fait.
+
+**Exercice :** Dans ta prochaine conversation, repère UN mot intéressant dans ce que l'autre dit. Rebondis dessus avec une question ou un commentaire. C'est le début du "rebond sur mot-clé" qu'on détaille dans nos [conseils](/conseils).
+
+## Étape 4 : La pratique basse pression
+
+Lucas a fait l'erreur de tester sa répartie en soirée de 50 personnes. Mauvaise idée. C'est comme apprendre à nager en traversant la Manche.
+
+La bonne approche : commence par des conversations à faible enjeu. Le boulanger. Le collègue à la machine à café. Le serveur. Les gens que tu ne reverras peut-être jamais. Zéro pression, 100% terrain d'entraînement.
+
+**Waly Dia** raconte qu'il testait ses vannes dans des salles de 10 personnes avant de monter sur les grandes scènes. Même principe : tu ne fais pas tes gammes devant 10 000 personnes.
+
+**Exercice :** Cette semaine, place une de tes 3 phrases filet dans une conversation à basse pression. Avec le boulanger, le livreur, un collègue que tu croises aux toilettes. Note ce qui marche.
+
+## Étape 5 : L'analyse post-match
+
+Après chaque conversation un peu riche, Lucas prend 30 secondes pour se poser 3 questions :
+1. J'aurais pu répondre quoi à [moment X] ?
+2. Qu'est-ce qui a bien marché ?
+3. Qu'est-ce que j'aurais fait différemment ?
+
+C'est exactement ce que font les pros. **Panayotis Pascot** a raconté qu'il notait ses vannes ratées pour comprendre pourquoi elles ne marchaient pas. L'analyse, c'est ce qui transforme l'expérience en compétence.
+
+**Exercice :** Ce soir, repense à une conversation et écris 3 réponses alternatives à un moment où tu es resté silencieux. En 3 semaines de ce rituel, tes réponses commenceront à venir en temps réel.
+
+## Le résultat de Lucas après 3 semaines
+
+Lucas n'est pas devenu un humoriste. Mais il n'est plus "celui qui dit rien". Il intervient plus souvent, ses interventions sont mieux calibrées, et — le plus important — il ne flippe plus quand quelqu'un le chambre. Son secret ? Pas du talent. De la méthode.
+
+Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semaine après semaine avec des exercices comme ceux de Lucas. Et le catalogue de [vannes](/vannes) te donne du matériel concret pour t'entraîner. **0,99 EUR/mois** — le prix d'un croissant pour ne plus jamais rester muet en soirée.`,
+    date: "2026-03-15",
+    readingTime: "6 min",
+    category: "GUIDE",
+    faqs: [
+      { question: "Comment avoir de la répartie quand on débute ?", answer: "Commencez par 3 phrases filet de sécurité (ex: 'Intéressant', 'C'est noté'), pratiquez l'écoute active pour rebondir sur les mots des autres, et entraînez-vous dans des conversations à basse pression (boulanger, collègue). Les résultats arrivent en 2-3 semaines." },
+      { question: "Faut-il être drôle pour avoir de la répartie ?", answer: "Non. La répartie, c'est répondre avec à-propos, pas forcément avec humour. L'honnêteté surprenante et les questions bien placées sont souvent plus efficaces qu'une vanne." },
+      { question: "Combien de temps pour développer sa répartie ?", answer: "Avec une pratique quotidienne de 5 minutes (3 phrases filet, écoute active, analyse post-conversation), la plupart des gens constatent une amélioration notable en 2 à 4 semaines." },
+    ],
+  },
+  {
+    slug: "humour-quotidien-8-habitudes",
+    title: "Humour au quotidien : 8 habitudes simples",
+    excerpt:
+      "8 habitudes pour intégrer l'humour dans ta vie de tous les jours. Machine à café, soirées, dîners.",
+    content: `"L'humour, c'est un talent." Mythe. "Faut être extraverti." Mythe. "C'est réservé aux gens qui ont confiance en eux." Mythe aussi. L'humour, c'est une habitude. Et comme toute habitude, ça se construit brique par brique. Voici 8 habitudes simples qui vont transformer tes journées — pas en sketch de stand-up, mais en moments où tu te surprendras à faire sourire les gens.
+
+## Habitude 1 : Le carnet d'absurdités
+
+**Mythe cassé : "Les gens drôles improvisent tout."**
+
+Faux. **Roman Frayssinet** note tout. Ses observations dans le métro, les phrases bizarres entendues au supermarché, les situations absurdes du quotidien. Son téléphone est un cimetière de notes vocales. Et ses meilleurs sketches viennent de ces notes.
+
+L'habitude : chaque jour, note UNE chose absurde que tu as observée. Le mail pro qui commence par "Suite à notre échange téléphonique" alors que vous ne vous êtes jamais appelés. Le mec qui dit "bon appétit" à quelqu'un qui boit un café. Après 30 jours, tu as 30 observations. Et au moins 10 potentiellement drôles.
+
+## Habitude 2 : La reformulation décalée
+
+**Mythe cassé : "Être drôle = faire des blagues."**
+
+L'humour du quotidien, c'est rarement une blague formatée. C'est une façon de dire les choses. Au lieu de "j'ai mal dormi", essaie "mon lit m'a clairement ghosté cette nuit". Au lieu de "je suis en retard", "le temps et moi, on a une relation compliquée".
+
+**Paul Mirabel** est le roi de la reformulation. Il prend une situation banale — aller chez le médecin, manger au resto — et la décrit avec des mots tellement inattendus que tu ris de ta propre vie. C'est l'art de voir le quotidien autrement, et ça s'apprend avec nos [conseils](/conseils) d'observation.
+
+## Habitude 3 : Le compliment absurde
+
+**Mythe cassé : "L'humour, ça divise."**
+
+Le compliment absurde est la forme d'humour la plus universellement appréciée. "Tu gères tellement le café que tu devrais postuler chez Nespresso." "Ton Excel est si beau que j'ai failli l'encadrer." C'est drôle, c'est positif, et personne ne peut le prendre mal.
+
+À la machine à café, Sophie pourrait dire à son collègue : "Ton choix de mug est incroyable. C'est le genre de décision qui change une carrière." Sourire garanti.
+
+## Habitude 4 : L'observation partagée
+
+**Mythe cassé : "Faut avoir du matériel préparé."**
+
+L'observation partagée, c'est pointer un truc que tout le monde voit mais que personne ne dit. En réunion : "C'est la quatrième fois qu'on dit 'on va aller à l'essentiel' et on n'y est toujours pas." En soirée : "On est tous à regarder nos téléphones côte à côte. C'est ça le métavers ?"
+
+**Fary** utilise beaucoup cette technique. Il ne dit pas des trucs drôles — il dit des trucs VRAIS de façon drôle. Et le vrai, ça résonne. Consulte notre catalogue de [vannes](/vannes) pour des exemples d'observation partagée à ressortir.
+
+## Habitude 5 : Le "et si" quotidien
+
+**Mythe cassé : "La créativité, c'est inné."**
+
+Chaque jour, prends une situation banale et pousse-la à l'absurde. "Et si les réunions avaient un arbitre qui siffle les hors-sujets ?" "Et si les mails professionnels étaient honnêtes — 'Cher collègue, je m'en fiche complètement mais voici ma réponse' ?"
+
+Ce muscle créatif, c'est celui que tous les humoristes entraînent. **Blanche Gardin** part souvent d'un "et si" pour construire ses sketches : "Et si on arrêtait de faire semblant d'aimer Noël ?" C'est la genèse de l'humour.
+
+## Habitude 6 : L'autodérision dosée
+
+**Mythe cassé : "Les gens drôles sont sûrs d'eux."**
+
+L'[autodérision](/blog/autoderision-interactions) est paradoxalement un signe de confiance. Un trait d'humour sur soi par jour, c'est le dosage parfait. "J'ai essayé de faire du sport ce matin. Mon corps a déposé une motion de censure." Ça te rend accessible et sympathique.
+
+**Panayotis Pascot** en a fait sa marque de fabrique : parler de ses galères avec recul et bienveillance. Le piège : ne pas tomber dans l'auto-sabotage. Un trait d'esprit, pas un festival de l'auto-flagellation.
+
+## Habitude 7 : Le callback
+
+**Mythe cassé : "Les meilleures vannes sont spontanées."**
+
+Le callback, c'est reprendre un truc dit plus tôt dans la conversation. Quelqu'un a dit "je déteste les lundis" il y a 20 minutes ? Quand un problème arrive plus tard : "Voilà. Lundi." C'est une technique de stand-up que **Waly Dia** utilise dans chaque spectacle — et elle marche aussi bien au bureau qu'en soirée.
+
+Le callback montre que tu écoutes et que tu fais des connexions. C'est du [timing](/blog/timing-humour) + de la mémoire. Et nos [vidéos](/videos) de pros décortiquent cette technique en détail.
+
+## Habitude 8 : La fin de journée drôle
+
+**Mythe cassé : "L'humour, c'est pour les extravertis."**
+
+Chaque soir, repense à ta journée et reformule UN moment de façon drôle. Pas besoin de le partager — juste de le penser. "Ma journée en un mot ? Tableur." Ce rituel entraîne ton cerveau à chercher l'angle drôle automatiquement.
+
+Au bout de 30 jours, tu ne "chercheras" plus l'humour — il viendra tout seul, comme un réflexe. C'est exactement le processus décrit dans notre guide [Comment devenir drôle](/blog/comment-devenir-drole).
+
+## Le plan de démarrage
+
+Pas besoin d'adopter les 8 habitudes d'un coup. Commence par les habitudes 1 (carnet) et 2 (reformulation). Après une semaine, ajoute la 3 (compliment absurde) et la 7 (callback). En un mois, tu as un nouveau câblage mental.
+
+Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **0,99 EUR/mois** — le prix de devenir la personne qu'on veut à sa table.`,
+    date: "2026-03-14",
+    readingTime: "6 min",
+    category: "HABITUDES",
+    faqs: [
+      { question: "Comment intégrer l'humour dans son quotidien ?", answer: "Commencez par 2 habitudes simples : noter une absurdité par jour (carnet) et reformuler une phrase banale de façon décalée. En une semaine, vous verrez la différence dans vos interactions." },
+      { question: "Faut-il être extraverti pour être drôle ?", answer: "Non. L'humour du quotidien, c'est une habitude mentale, pas un trait de personnalité. Les introvertis ont souvent un sens de l'observation plus aiguisé, ce qui est le premier ingrédient de l'humour." },
+      { question: "Quelle est l'habitude la plus facile pour commencer ?", answer: "Le carnet d'absurdités : notez chaque jour une situation absurde observée. C'est passif, sans pression sociale, et ça entraîne votre radar comique en arrière-plan." },
+      { question: "Combien de temps pour que ça devienne naturel ?", answer: "Environ 30 jours de pratique quotidienne. Le cerveau commence à chercher l'angle drôle automatiquement, comme un réflexe. C'est le même processus que pour apprendre une langue." },
+    ],
+  },
+  {
+    slug: "5-types-humour-lequel-pour-toi",
+    title: "Les 5 types d'humour : trouve le tien",
+    excerpt:
+      "Absurde, autodérision, jeux de mots, observationnel ou noir ? Découvre quel type d'humour te correspond.",
+    content: `Tu connais ce moment où quelqu'un sort une blague et tu te dis "ça, c'est MON type d'humour" ? Ce sentiment de reconnaissance, c'est parce que l'humour n'est pas un bloc monolithique. Il y a des familles, des styles, des tempéraments comiques. Et trouver le tien, c'est la clé pour être drôle sans forcer.
+
+## Type 1 : L'observationnel — "C'est tellement vrai"
+
+C'est l'humour qui décrit la réalité avec une précision chirurgicale. Tu ne dis rien de faux — tu dis juste un truc que tout le monde pense mais que personne ne formule.
+
+**Roman Frayssinet** est le maître absolu de l'observationnel français. Quand il parle des gens dans le métro qui font semblant de ne pas voir la personne à côté d'eux, tu ris parce que c'est TOI. Quand il décrit les messages vocaux de 7 minutes de ta mère, tu ris parce que c'est EXACTEMENT ça.
+
+**Est-ce ton type ?** Tu remarques des trucs que les autres ignorent. Tu dis souvent "nan mais c'est vrai quoi". Les gens te disent "t'as tellement raison" avant de rire.
+
+**Le test :** Décris ta journée d'hier à un ami en pointant 3 absurdités que tu as vécues. Si ça le fait sourire, l'observationnel est ton terrain.
+
+## Type 2 : L'autodérision — "Je suis un désastre (et j'assume)"
+
+L'[autodérision](/blog/autoderision-interactions), c'est transformer ses failles en matériel comique. Pas pour se détruire — pour créer de la connexion. C'est montrer qu'on s'assume assez pour rire de soi.
+
+**Panayotis Pascot** incarne l'autodérision bienveillante. Il parle de ses maladresses, de ses échecs amoureux, de ses moments gênants — mais avec un recul qui dit "regarde, j'ai survécu et maintenant c'est drôle". **Blanche Gardin** pousse l'autodérision encore plus loin, avec une honnêteté radicale qui fait rire et réfléchir.
+
+**Est-ce ton type ?** Tu es à l'aise avec tes défauts (les petits, pas les blessures profondes). Tu dis souvent "je suis nul en..." avec le sourire. Les gens rient AVEC toi, pas de toi.
+
+**Le test :** Raconte ton pire rendez-vous galant ou ta pire gaffe professionnelle à quelqu'un. Si tu souris en le racontant et que l'autre rit, c'est ton type.
+
+## Type 3 : L'absurde — "Ça n'a aucun sens (et c'est ça qui est drôle)"
+
+L'absurde, c'est le décalage total entre ce qu'on attend et ce qui arrive. C'est le non sequitur, le changement de registre brutal, la logique qui déraille.
+
+**Paul Mirabel** utilise beaucoup l'absurde dans ses escalades. Il part d'une situation normale et la pousse tellement loin que tu atterris dans une dimension parallèle. "Mon médecin m'a dit de faire du sport. J'ai pris rendez-vous chez un autre médecin." L'absurde, c'est la liberté totale.
+
+**Est-ce ton type ?** Tes amis te disent souvent "t'es bizarre mais drôle". Tu fais des connexions que personne ne voit venir. Tu aimes les réponses qui n'ont rien à voir avec la question.
+
+**Le test :** La prochaine fois qu'on te pose une question banale ("ça va ?"), réponds avec un truc complètement décalé ("Ça va, mais mes plantes me jugent"). Si ça fait rire, bienvenue dans l'absurde.
+
+## Type 4 : Les jeux de mots — "Tu l'as ? Tu l'as ?"
+
+Les jeux de mots, c'est l'humour intellectuel par excellence. Homophones, polysémie, détournements — ton cerveau fait un double sens et la surprise déclenche le rire.
+
+**Fary** glisse des jeux de mots dans ses punchlines avec une fluidité déconcertante. Le truc, c'est que les bons jeux de mots sont courts et percutants — pas le calembour de tonton qui nécessite 3 minutes d'explication.
+
+**Est-ce ton type ?** Tu joues avec les mots naturellement. Tu repères les doubles sens dans les phrases des autres. Tu as déjà fait rire quelqu'un en changeant UN mot dans une phrase.
+
+**Le test :** Prends 3 expressions courantes et détourne-les. "Qui vivra verra" → "Qui vivra, Vera. C'est une prophétie sur une meuf qui s'appelle Vera." Si tes proches rigolent (ou soupirent avec un sourire), c'est validé.
+
+## Type 5 : L'humour noir — "Trop loin ? Pas assez loin."
+
+L'humour noir joue avec les tabous, l'inconfort et les sujets graves. C'est de la dynamite comique — puissant mais dangereux si mal dosé. On a un article entier sur [comment l'utiliser sans blesser](/blog/humour-noir-utiliser-sans-blesser).
+
+**Blanche Gardin** est probablement la référence française ultime de l'humour noir maîtrisé. Elle parle de la mort, de la dépression, des relations toxiques — et tu ris parce qu'elle touche une vérité que personne n'ose formuler. **Waly Dia** manie aussi le second degré avec une précision redoutable.
+
+**Est-ce ton type ?** Tu ris dans les moments où tu "ne devrais pas". Tu trouves du drôle dans les situations sombres. Tu aimes le second degré et tu sais le doser.
+
+**Le test :** Si tu peux rire de tes propres galères 2 semaines après les avoir vécues, tu as le tempérament pour l'humour noir. Mais attention : le contexte est TOUT. Ce qui marche avec tes potes ne marche pas avec ta grand-mère.
+
+## Les hybrides — Le vrai secret
+
+La réalité, c'est que la plupart des gens drôles ne sont pas "un type". Ils sont des hybrides. **Paul Mirabel** mélange observationnel + absurde + escalade. **Fary** combine observationnel + jeux de mots + énergie. **Roman Frayssinet** fait de l'observationnel avec une touche d'absurde. Regarde nos [vidéos](/videos) analysées pour identifier les combinaisons de chaque pro.
+
+Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d'un second type. Un observationnel qui ajoute de l'absurde, c'est redoutable. Un autodérisif qui ajoute des jeux de mots, c'est irrésistible.
+
+## Comment trouver ton type
+
+1. **Relis tes derniers fous rires.** Qu'est-ce qui t'a fait rire ? Un meme absurde ? Une observation d'un pote ? Un jeu de mots ?
+2. **Demande à tes proches.** "Quand je te fais rire, c'est comment ?" La réponse révèle ton type naturel.
+3. **Teste.** Pendant une semaine, essaie un type par jour. Note celui qui te vient le plus naturellement.
+
+Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t'accompagnent avec des exercices adaptés. Et notre catalogue de [vannes](/vannes) te permet de voir chaque type en action. Nos [conseils](/conseils) de pros t'aident à affiner ton style. **0,99 EUR/mois** — pour trouver ta voix comique et la développer.`,
+    date: "2026-03-17",
+    readingTime: "8 min",
+    category: "ANALYSE",
+    faqs: [
+      { question: "Quels sont les différents types d'humour ?", answer: "Les 5 grands types : observationnel (décrire la réalité avec précision), autodérision (rire de soi avec bienveillance), absurde (décalage et non-sens), jeux de mots (double sens et détournements), et humour noir (jouer avec les tabous)." },
+      { question: "Comment savoir quel type d'humour me correspond ?", answer: "Analysez ce qui vous fait rire (memes absurdes ? observations ? jeux de mots ?), demandez à vos proches quand vous les faites rire, et testez chaque type pendant une semaine pour voir lequel vient naturellement." },
+      { question: "Peut-on avoir plusieurs types d'humour ?", answer: "Oui, et c'est même recommandé. Les meilleurs humoristes sont des hybrides : Paul Mirabel mélange observationnel et absurde, Fary combine observationnel et jeux de mots. Identifiez votre type dominant puis enrichissez-le." },
+      { question: "Quel type d'humour est le plus facile à apprendre ?", answer: "L'observationnel est le plus accessible : il suffit de décrire ce que tout le monde vit mais que personne ne formule. C'est aussi le type le plus universel — tout le monde peut s'identifier à une bonne observation." },
+    ],
+  },
+  {
+    slug: "humour-noir-utiliser-sans-blesser",
+    title: "Humour noir : l'utiliser sans blesser",
+    excerpt:
+      "L'humour noir, c'est un art. Limites, contexte et exemples pour manier le second degré avec finesse.",
+    content: `L'humour noir, c'est comme la nitroglycérine : entre de bonnes mains, c'est spectaculaire. Entre de mauvaises mains, ça fait des dégâts. Et la différence entre les deux tient souvent à un seul paramètre : le contexte.
+
+## Ce qu'est l'humour noir (et ce qu'il n'est pas)
+
+L'humour noir joue avec l'inconfort pour créer du rire. Il aborde des sujets graves — la mort, la souffrance, les tabous — pour en extraire une vérité qui surprend. Ce n'est PAS :
+- Être méchant et dire "c'est de l'humour" après
+- Se moquer des victimes
+- Choquer pour choquer sans punchline
+
+**Blanche Gardin** est la référence absolue de l'humour noir français réussi. Quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance — elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible. C'est l'un des [5 types d'humour](/blog/5-types-humour-lequel-pour-toi) les plus puissants, mais aussi le plus risqué.
+
+## Les 3 règles de l'humour noir réussi
+
+### Règle 1 : La cible, c'est toi (ou le système)
+
+L'humour noir qui marche vise vers le haut, pas vers le bas. Tu te moques du pouvoir, du système, de l'absurdité de la vie, ou de toi-même. JAMAIS des personnes vulnérables.
+
+**Waly Dia** fait de l'humour noir sur le racisme qu'il vit — mais la cible, c'est le racisme, pas les victimes. **Blanche Gardin** fait de l'humour noir sur la dépression — mais elle parle de SA dépression, pas de celle des autres. La direction de la moquerie fait toute la différence. C'est un principe fondamental de l'[autodérision](/blog/autoderision-interactions).
+
+### Règle 2 : Le contexte est ROI
+
+La même blague noire peut être hilarante entre potes proches et catastrophique au dîner de famille. Le contexte détermine tout :
+
+**Feu vert :** Entre amis proches qui partagent les mêmes codes, en petit comité, quand l'ambiance est déjà détendue.
+**Feu rouge :** Avec des inconnus, en grand groupe, quand quelqu'un vit le sujet en ce moment, au travail avec la hiérarchie.
+
+**Fary** a expliqué en interview qu'il adapte constamment son niveau d'humour noir selon la salle. Même spectacle, même texte, mais le dosage change. C'est du [timing](/blog/timing-humour) social appliqué à l'humour noir.
+
+### Règle 3 : La punchline justifie la transgression
+
+Si tu vas dans le noir, la chute doit valoir le voyage. Un setup inconfortable sans punchline brillante, c'est juste... inconfortable. La punchline doit être tellement surprenante ou vraie qu'elle fait oublier l'inconfort du setup.
+
+**Paul Mirabel** utilise parfois l'humour noir dans ses escalades : il part d'un sujet léger, monte progressivement vers le sombre, et la chute est tellement inattendue que tu ris de surprise. La construction est millimétrée.
+
+## 3 sketches décortiqués
+
+### Sketch 1 : Blanche Gardin sur la thérapie (BON humour noir)
+Elle parle de ses années de thérapie avec une franchise terrifiante. "Mon psy m'a dit que j'avais fait des progrès. J'ai répondu que lui aussi devrait en faire — ça fait 8 ans qu'il me supporte." La cible : elle-même ET le système thérapeutique. Personne n'est blessé. Tout le monde rit.
+
+### Sketch 2 : Waly Dia sur les clichés racistes (BON humour noir)
+Il reprend les clichés racistes qu'on lui sort et les pousse à l'absurde : "On m'a dit 'retourne dans ton pays'. J'ai répondu 'je suis de Créteil, tu veux que je retourne à Créteil ?'" La cible : le racisme et son absurdité. La victime reprend le pouvoir par le rire.
+
+### Sketch 3 : Quand ça ne marche PAS (MAUVAIS humour noir)
+"Blague" sur un sujet grave qui vise les victimes, pas de punchline, juste le choc. C'est pas de l'humour noir — c'est de la provocation sans talent. Si après ta blague il y a un silence gêné et pas un rire, c'est que tu as cassé la règle 1 ou 3.
+
+## Le dosage en conversation
+
+En conversation quotidienne, l'humour noir doit rester léger. Pas besoin de parler de la mort — un simple décalage suffit.
+
+"Comment va ton régime ?" → "Je l'ai enterré ce matin. La cérémonie était sobre. Il y avait un croissant." C'est "noir" dans le sens où tu parles d'enterrement, mais c'est tellement bénin que ça passe partout.
+
+Pour Sophie au bureau : "Cette réunion était tellement longue que j'ai commencé à rédiger mon testament." Léger, professionnel, relatable. Exactement ce qu'on enseigne dans nos [conseils](/conseils) de contexte.
+
+## Le test avant de la sortir
+
+Avant chaque blague noire, pose-toi 3 questions :
+1. **La cible ?** C'est moi ou le système ? (Oui = go. C'est quelqu'un de vulnérable ? Stop.)
+2. **Le contexte ?** Les gens présents partagent mes codes ? (Oui = go. Inconnus ou hiérarchie = safe only.)
+3. **La punchline ?** Elle est assez forte pour justifier le setup ? (Oui = go. Bof = réécris.)
+
+Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant — nos [parcours](/parcours) t'apprennent à le doser, et nos [vannes](/vannes) classées par style te donnent des exemples de second degré réussi. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **0,99 EUR/mois** — pour maîtriser l'art du second degré.`,
+    date: "2026-03-16",
+    readingTime: "6 min",
+    category: "ANALYSE",
+    faqs: [
+      { question: "Comment faire de l'humour noir sans blesser ?", answer: "Trois règles : visez vers le haut (vous-même, le système, l'absurdité de la vie — jamais les personnes vulnérables), adaptez au contexte (amis proches oui, grand groupe d'inconnus non), et assurez-vous que la punchline justifie le sujet sensible." },
+      { question: "Quelle est la différence entre humour noir et méchanceté ?", answer: "L'humour noir fait rire de l'absurdité d'une situation grave. La méchanceté fait mal à quelqu'un en se cachant derrière 'c'est une blague'. La différence : la cible (système vs personne) et la punchline (surprenante vs inexistante)." },
+      { question: "L'humour noir est-il adapté au travail ?", answer: "En version très légère uniquement : métaphores exagérées sur le quotidien pro ('Cette réunion était tellement longue que j'ai commencé à rédiger mon testament'). Évitez les sujets réellement sensibles et la hiérarchie directe." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
