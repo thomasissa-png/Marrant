@@ -1,12 +1,15 @@
 {
   "_meta": {
-    "version": "3.0",
+    "version": "4.0",
     "created": "2026-03-14",
-    "lastUpdated": "2026-03-18",
+    "lastUpdated": "2026-03-19",
     "description": "Planning éditorial SEO automatisé pour deviens-marrant.fr. Ce fichier est lu et mis à jour par l'agent SEO à chaque session.",
     "instructions": {
-      "agent": "À chaque session, l'agent SEO doit : 1) Lire ce fichier. 2) Identifier les articles 'planned' dont la scheduledWeek est passée ou en cours. 3) Rédiger et publier ces articles dans la base BlogArticle. 4) Passer leur statut à 'published' avec la date. 5) Si toutes les semaines sont couvertes, prolonger le planning de 4 semaines supplémentaires en suivant la stratégie de clusters. 6) Sauvegarder ce fichier mis à jour.",
+      "agent": "À chaque session, l'agent SEO doit : 1) Lire ce fichier. 2) Identifier les articles 'planned' dont la scheduledWeek est passée ou en cours. 3) Rédiger et publier ces articles dans la base BlogArticle. 4) Passer leur statut à 'published' avec la date. 5) Si toutes les semaines sont couvertes, prolonger le planning de 4 semaines supplémentaires en suivant la stratégie de clusters. 6) Sauvegarder ce fichier mis à jour. 7) CHAQUE ARTICLE doit passer par validateBlogArticle() du Stand-Up Director avant publication.",
       "autoExtend": "Quand il reste moins de 4 articles en statut 'planned', générer automatiquement 8 nouveaux articles en suivant les clusters thématiques et les mots-clés long-tail non encore couverts.",
+      "publicationRhythm": "OBJECTIF : 3-4 articles/semaine minimum pendant les 3 prochains mois pour construire l'autorité topique. Priorité aux clusters 'douleurs-personas' et 'fort-volume' qui convertissent le mieux.",
+      "seasonalContent": "Prévoir des articles liés à l'actualité stand-up (festivals, nouveaux spectacles, événements) et aux moments clés de l'année (rentrée, fêtes, Saint-Valentin, fin d'année). Ces articles doivent être publiés 2-3 semaines AVANT l'événement pour capter le trafic de recherche montant.",
+      "standupDirectorValidation": "OBLIGATOIRE : Chaque article généré doit être soumis à validateBlogArticle() du Stand-Up Director. Si verdict REJECTED (score ≤ 3), régénérer avec le feedback. Après 3 échecs, le directeur réécrit via directorRewriteBlogArticle().",
       "qualityRules": [
         "Titre < 60 caractères, mot-clé principal en début",
         "Excerpt/meta description < 155 caractères, incitatif",
@@ -53,6 +56,16 @@
       "punchline",
       "stand-up français"
     ],
+    "highVolume": [
+      "blague drôle",
+      "blague courte",
+      "phrase drôle",
+      "citation drôle",
+      "jeu de mots drôle",
+      "humour noir blague",
+      "comment faire rire une fille",
+      "comment faire rire un homme"
+    ],
     "longTail": [
       "comment devenir drôle quand on est introverti",
       "comment avoir de la répartie au travail",
@@ -72,6 +85,15 @@
       "je suis pas drôle comment changer",
       "comment ne plus rester muet en groupe",
       "être drôle à la machine à café"
+    ],
+    "seasonal": [
+      "blague nouvel an",
+      "blague saint valentin",
+      "humour rentrée",
+      "blague noël drôle",
+      "blague été vacances",
+      "humour fête des pères",
+      "blague halloween"
     ]
   },
 
@@ -134,6 +156,24 @@
       "targetKeywords": ["je ne suis pas drôle", "pas drôle comment changer", "jamais quoi répondre"],
       "satellites": ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "conversation-machine-a-cafe", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
       "linkedPages": ["/parcours", "/conseils", "/vannes"]
+    },
+    {
+      "id": "fort-volume",
+      "name": "Mots-clés fort volume (acquisition)",
+      "pillarSlug": "meilleures-blagues-droles-2026",
+      "targetKeywords": ["blague drôle", "blague courte", "phrase drôle", "citation drôle", "faire rire"],
+      "satellites": ["phrases-droles-conversations", "comment-faire-rire-une-fille", "comment-faire-rire-ses-amis", "creer-ses-propres-blagues"],
+      "linkedPages": ["/vannes", "/conseils", "/parcours"],
+      "_note": "Cluster d'acquisition : mots-clés à fort volume pour attirer du trafic top-of-funnel et rediriger vers les pages produit"
+    },
+    {
+      "id": "saisonnier",
+      "name": "Contenu saisonnier (pics de trafic)",
+      "pillarSlug": null,
+      "targetKeywords": ["blague noël", "blague saint valentin", "humour rentrée", "blague nouvel an"],
+      "satellites": ["blagues-fetes-noel-nouvel-an", "humour-saint-valentin", "humour-rentree-glace-brisee"],
+      "linkedPages": ["/vannes", "/conseils"],
+      "_note": "Pas de pillar — articles indépendants publiés 2-3 semaines avant l'événement pour capter le trafic montant"
     }
   ],
 
@@ -617,6 +657,142 @@
       "internalLinks": ["/parcours", "/conseils", "/blog/timidite-et-humour", "/blog/jamais-quoi-repondre-techniques", "/blog/repartie-soiree-anti-malaise"],
       "wordCountTarget": 1500,
       "formatNote": "Format progressif : de l'observateur silencieux au participant actif en 5 étapes. Chaque étape = micro-défi réaliste. CTA vers Parcours Répartie."
+    },
+    {
+      "id": 30,
+      "slug": "meilleures-blagues-droles-2026",
+      "title": "50 blagues drôles à ressortir en 2026",
+      "excerpt": "Les 50 meilleures blagues courtes, testées et approuvées. Classées par situation : soirée, boulot, date, famille.",
+      "keywordPrimary": "blague drôle",
+      "keywordSecondary": "blagues courtes drôles",
+      "cluster": "apprendre-humour",
+      "type": "satellite",
+      "persona": "Tous",
+      "category": "CATALOGUE",
+      "scheduledWeek": 6,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/blog/raconter-blague-sans-massacrer", "/blog/erreurs-blagues", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 2000,
+      "formatNote": "Format showcase : chaque blague avec contexte d'utilisation + tips de delivery. Pas un simple copier-coller du catalogue — valeur ajoutée sur le COMMENT les raconter. Cible le mot-clé 'blague drôle' (~50K recherches/mois). Validation directeur stand-up obligatoire sur chaque vanne."
+    },
+    {
+      "id": 31,
+      "slug": "phrases-droles-conversations",
+      "title": "30 phrases drôles pour tes conversations",
+      "excerpt": "Phrases d'accroche, répliques, punchlines : 30 phrases drôles prêtes à l'emploi pour briller en société.",
+      "keywordPrimary": "phrase drôle",
+      "keywordSecondary": "citation drôle",
+      "cluster": "humour-contexte",
+      "type": "satellite",
+      "persona": "Sophie",
+      "category": "CATALOGUE",
+      "scheduledWeek": 6,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/blog/comment-avoir-de-la-repartie", "/blog/conversation-machine-a-cafe", "/blog/humour-quotidien-8-habitudes"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format situation : chaque phrase avec le contexte exact où l'utiliser (machine à café, date, afterwork, famille). Cibler 'phrase drôle' (~5K) et 'citation drôle' (~5K). Chaque phrase doit passer le Test Stand-Up."
+    },
+    {
+      "id": 32,
+      "slug": "comment-faire-rire-une-fille",
+      "title": "Comment faire rire une fille : 7 techniques",
+      "excerpt": "Faire rire une fille, ce n'est pas sortir ta meilleure blague. C'est créer une connexion. 7 techniques testées.",
+      "keywordPrimary": "comment faire rire une fille",
+      "keywordSecondary": "faire rire fille drague",
+      "cluster": "humour-contexte",
+      "type": "satellite",
+      "persona": "Yanis",
+      "category": "CONTEXTE",
+      "scheduledWeek": 9,
+      "status": "planned",
+      "internalLinks": ["/conseils", "/parcours", "/blog/comment-avoir-de-la-repartie", "/blog/autoderision-interactions", "/blog/timing-humour"],
+      "wordCountTarget": 1600,
+      "formatNote": "Format guide respectueux : PAS de 'techniques de drague', mais comprendre comment l'humour crée de la connexion authentique. Citer Fary et Paul Mirabel sur le charme naturel. Anti-PUA, pro-authenticité. CTA vers Parcours Répartie."
+    },
+    {
+      "id": 33,
+      "slug": "blagues-fetes-noel-nouvel-an",
+      "title": "Blagues de fêtes : Noël et Nouvel An sans malaise",
+      "excerpt": "Repas de famille, soirée du 31, cadeaux : les vannes qui marchent pendant les fêtes (et celles à éviter).",
+      "keywordPrimary": "blague noël drôle",
+      "keywordSecondary": "blague nouvel an",
+      "cluster": "humour-contexte",
+      "type": "satellite",
+      "persona": "Tous",
+      "category": "SAISONNIER",
+      "scheduledWeek": 40,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/blog/erreurs-blagues", "/blog/raconter-blague-sans-massacrer", "/blog/comment-devenir-drole"],
+      "wordCountTarget": 1500,
+      "formatNote": "SAISONNIER — publier début décembre. Format survie familiale avec humour : oncle relou, belle-mère, cousin complotiste. Vannes validées par le directeur stand-up."
+    },
+    {
+      "id": 34,
+      "slug": "humour-saint-valentin",
+      "title": "Humour Saint-Valentin : faire rire son couple",
+      "excerpt": "Saint-Valentin kitsch ou drôle ? Comment utiliser l'humour pour un 14 février mémorable (pour les bonnes raisons).",
+      "keywordPrimary": "blague saint valentin",
+      "keywordSecondary": "humour couple",
+      "cluster": "humour-contexte",
+      "type": "satellite",
+      "persona": "Marc",
+      "category": "SAISONNIER",
+      "scheduledWeek": 48,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/blog/autoderision-interactions", "/blog/comment-faire-rire-une-fille", "/blog/timing-humour"],
+      "wordCountTarget": 1400,
+      "formatNote": "SAISONNIER — publier début février. Ton complice, pas niais. Citer des humoristes sur le couple (Blanche Gardin, Fary). Vannes couple validées par le directeur."
+    },
+    {
+      "id": 35,
+      "slug": "humour-rentree-glace-brisee",
+      "title": "Rentrée : briser la glace avec humour",
+      "excerpt": "Nouveau bureau, nouvelle classe, nouveaux collègues : comment utiliser l'humour pour te faire adopter en 5 min.",
+      "keywordPrimary": "humour rentrée",
+      "keywordSecondary": "briser la glace humour",
+      "cluster": "humour-contexte",
+      "type": "satellite",
+      "persona": "Sophie",
+      "category": "SAISONNIER",
+      "scheduledWeek": 24,
+      "status": "planned",
+      "internalLinks": ["/conseils", "/parcours", "/blog/blagues-travail-faire-rire-pro", "/blog/conversation-machine-a-cafe", "/blog/comment-avoir-de-la-repartie"],
+      "wordCountTarget": 1500,
+      "formatNote": "SAISONNIER — publier fin août. Format 'premier jour' : 5 situations de rentrée (nouveau job, nouvelle classe, nouvel appart) avec icebreakers testés. CTA vers Parcours Machine à Café."
+    },
+    {
+      "id": 36,
+      "slug": "comment-faire-rire-ses-amis",
+      "title": "Comment faire rire ses amis : le guide complet",
+      "excerpt": "Tes potes te trouvent 'sympa mais pas drôle' ? 8 techniques pour devenir celui qu'on veut à sa table.",
+      "keywordPrimary": "comment faire rire ses amis",
+      "keywordSecondary": "être drôle entre amis",
+      "cluster": "apprendre-humour",
+      "type": "satellite",
+      "persona": "Yanis",
+      "category": "GUIDE",
+      "scheduledWeek": 9,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/parcours", "/blog/comment-devenir-drole", "/blog/repartie-soiree-anti-malaise"],
+      "wordCountTarget": 1600,
+      "formatNote": "Format guide Yanis : ton pote qui te file les bonnes astuces. 8 techniques groupées par contexte (WhatsApp, soirée, voyage, sport). CTA vers Parcours Répartie."
+    },
+    {
+      "id": 37,
+      "slug": "creer-ses-propres-blagues",
+      "title": "Créer ses propres blagues : la méthode en 5 étapes",
+      "excerpt": "Arrête de recycler les blagues des autres. Voici comment créer tes propres vannes avec la méthode des pros.",
+      "keywordPrimary": "comment créer ses propres blagues",
+      "keywordSecondary": "écrire ses blagues",
+      "cluster": "apprendre-des-pros",
+      "type": "satellite",
+      "persona": "Marc",
+      "category": "PRATIQUE",
+      "scheduledWeek": 10,
+      "status": "planned",
+      "internalLinks": ["/vannes", "/conseils", "/blog/comment-devenir-drole", "/blog/exercices-developper-humour", "/blog/storytelling-drole-5-structures"],
+      "wordCountTarget": 1800,
+      "formatNote": "Format atelier créatif : 5 étapes (observation → association → twist → test → affinage) avec exercice à chaque étape. Citer Paul Mirabel et Fary sur leur processus créatif. CTA vers Parcours Confiance."
     }
   ],
 

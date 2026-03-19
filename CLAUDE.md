@@ -89,29 +89,48 @@ Si la réponse est non, la vanne n'a rien à faire sur le site.
 ## Agent SEO — Instructions automatisées
 
 ### Planning éditorial
-- Le planning éditorial est dans **`/seo-editorial-plan.json`** à la racine du projet.
-- Ce fichier contient : mots-clés cibles, clusters thématiques, articles planifiés avec statut, et règles de maillage interne.
+- Le planning éditorial est dans **`/seo-editorial-plan.json`** (v4.0) à la racine du projet.
+- Ce fichier contient : mots-clés cibles (primary + secondary + highVolume + longTail + seasonal), 9 clusters thématiques, articles planifiés avec statut, et règles de maillage interne.
+- **9 clusters** : apprendre-humour, techniques-repartie, techniques-delivery, types-humour, humour-contexte, apprendre-des-pros, douleurs-personas, **fort-volume** (acquisition), **saisonnier** (pics de trafic)
 
 ### Workflow agent SEO à chaque session
 1. **Lire** `seo-editorial-plan.json`
 2. **Identifier** les articles `planned` dont la `scheduledWeek` est passée ou en cours
 3. **Rédiger** les articles dans `apps/web/src/lib/blog-articles.ts` en respectant les `qualityRules` du fichier
-4. **Mettre à jour** le statut dans le JSON : `"status": "published"`, ajouter `"publishedDate": "YYYY-MM-DD"`
-5. **Prolonger** : quand il reste < 4 articles `planned`, générer 8 nouveaux articles en suivant la stratégie de clusters et les mots-clés long-tail non couverts
-6. **Commit + push** les changements
+4. **Valider** chaque article via `validateBlogArticle()` du Stand-Up Director avant publication. Si rejeté 3x, le directeur réécrit via `directorRewriteBlogArticle()`
+5. **Mettre à jour** le statut dans le JSON : `"status": "published"`, ajouter `"publishedDate": "YYYY-MM-DD"`
+6. **Prolonger** : quand il reste < 4 articles `planned`, générer 8 nouveaux articles en suivant la stratégie de clusters et les mots-clés long-tail non couverts
+7. **Commit + push** les changements
+
+### Rythme de publication
+- **Objectif** : 3-4 articles/semaine minimum pendant les 3 prochains mois
+- **Priorité** : clusters douleurs-personas + fort-volume (conversion + acquisition)
+- **Saisonnier** : publier 2-3 semaines AVANT l'événement (Noël en décembre, Saint-Valentin en février, rentrée en août)
 
 ### Règles de rédaction SEO
 - Titre < 60 caractères, mot-clé principal en début
-- Meta description < 155 caractères, incitative
+- Meta description < 155 caractères, incitative — **validation programmatique** (tronquée automatiquement si trop longue)
 - Contenu : 1500-2500 mots (pillar) / 1000-1800 mots (satellite)
 - Structure : H2 sous-sujets, H3 détails, listes, gras sur termes clés
 - Maillage interne : minimum 5 liens par article
 - FAQ schema : 3-5 questions en fin d'article
 - CTA vers la section produit pertinente (/parcours, /vannes, /conseils)
+- **Schema HowTo** : automatiquement injecté pour les articles GUIDE, PRATIQUE, ROADMAP (Rich Snippets avec étapes dans les SERP)
 
 ### Cannibalisation
-- Vérifier qu'un nouvel article ne cannibalise pas un article existant (même mot-clé principal)
+- Vérifier qu'un nouvel article ne cannibalise pas un article existant (même **slug** ET même **mot-clé principal**)
+- Vérification programmatique en DB + articles statiques dans `seo-blog-agent.ts`
 - Les cas identifiés sont documentés dans `cannibalizationFixes` du JSON
+
+### Maillage bidirectionnel pages produit ↔ blog
+- Les pages `/vannes`, `/conseils`, `/videos` incluent des sections SEO textuelles avec liens vers les articles de blog piliers
+- Les articles de blog lient vers les pages produit (minimum 5 liens internes)
+- Les liens sont contextuels, pas juste en CTA final
+
+### Performance SEO
+- **Fonts self-hosted** via `next/font/google` (Inter + Plus Jakarta Sans) — plus de render-blocking Google Fonts
+- **CSP simplifié** : plus de dépendance externe pour fonts.googleapis.com/fonts.gstatic.com
+- **Sitemap dynamique** : lastModified via `BUILD_DATE` env var (plus de date hardcodée)
 
 ## Personas de référence
 

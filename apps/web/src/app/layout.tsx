@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/session-provider";
 import {
@@ -8,6 +9,19 @@ import {
 } from "@/components/seo/json-ld";
 import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
 import "@/styles/globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -106,13 +120,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${inter.variable} ${plusJakarta.variable}`}>
       <head>
         <meta name="theme-color" content="#0D0D0D" />
         <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <JsonLd data={organizationJsonLd} />

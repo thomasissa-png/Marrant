@@ -53,6 +53,18 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     pillarSlug: "je-suis-pas-drole-comment-changer",
     satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "conversation-machine-a-cafe", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },
+  {
+    id: "fort-volume",
+    name: "Mots-clés fort volume (acquisition)",
+    pillarSlug: "meilleures-blagues-droles-2026",
+    satelliteSlugs: ["phrases-droles-conversations", "comment-faire-rire-une-fille", "comment-faire-rire-ses-amis", "creer-ses-propres-blagues"],
+  },
+  {
+    id: "saisonnier",
+    name: "Contenu saisonnier (pics de trafic)",
+    pillarSlug: "blagues-fetes-noel-nouvel-an",
+    satelliteSlugs: ["humour-saint-valentin", "humour-rentree-glace-brisee"],
+  },
 ];
 
 /**

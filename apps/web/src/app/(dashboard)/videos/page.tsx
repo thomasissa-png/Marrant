@@ -9,9 +9,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vidéos stand-up analysées",
+  title: "Vidéos stand-up analysées | Fary, Mirabel, Blanche Gardin",
   description:
-    "Apprends l'humour avec Fary, Paul Mirabel, Blanche Gardin et Roman Frayssinet. Chaque vidéo annotée : timing, répartie, autodérision, storytelling.",
+    "89 vidéos de stand-up décortiquées : Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet. Technique annotée + exercice concret par vidéo.",
   keywords: [
     "stand-up français",
     "vidéos humour analysées",
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     "Blanche Gardin humour",
     "Fary stand-up",
     "apprendre humour vidéo",
+    "Roman Frayssinet",
+    "Waly Dia stand-up",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/videos" },
 };
@@ -85,21 +87,37 @@ export default function VideosPage() {
         </dl>
       </section>
 
+      {/* Contenu SEO — methode pedagogique */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
+        <div className="space-y-3 text-sm text-text-secondary">
+          <p>
+            La différence entre regarder du stand-up sur YouTube et apprendre le stand-up, c&apos;est <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
+          </p>
+          <p>
+            Après chaque vidéo, un <strong className="text-text-primary">DÉFI concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">tu deviens drôle</Link> — pas en regardant, en faisant.
+          </p>
+          <p>
+            Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
+          </p>
+        </div>
+      </section>
+
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Des centaines de vannes classées par catégorie, prêtes à ressortir.</p>
+            <h3 className="text-sm font-semibold text-text-primary">289 vannes drôles</h3>
+            <p className="mt-1 text-xs text-text-secondary">Mets en pratique ce que tu apprends — des vannes prêtes à ressortir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">Techniques concrètes pour avoir de la répartie et devenir plus drôle.</p>
+            <h3 className="text-sm font-semibold text-text-primary">66 techniques de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, adaptées à ta vie quotidienne.</p>
           </Link>
-          <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
-            <p className="mt-1 text-xs text-text-secondary">Deviens drôle pas à pas avec des parcours de 3 à 6 semaines.</p>
+          <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">5 erreurs qui tuent tes blagues</h3>
+            <p className="mt-1 text-xs text-text-secondary">Les erreurs classiques et comment les éviter pour faire mouche.</p>
           </Link>
         </div>
       </nav>

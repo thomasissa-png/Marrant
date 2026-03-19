@@ -7,9 +7,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
 
   // Pages dynamiques : lastModified = maintenant (contenu frais quotidien)
-  // Pages statiques : lastModified = date fixe (évite signal trompeur pour Bing)
+  // Pages statiques : lastModified = date du build (évite signal trompeur pour Bing)
   const now = new Date();
-  const lastDeploy = new Date("2026-03-18");
+  const lastDeploy = new Date(process.env.BUILD_DATE || new Date().toISOString().split("T")[0]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1 },

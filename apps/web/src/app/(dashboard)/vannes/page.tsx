@@ -9,16 +9,18 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vannes et blagues drôles",
+  title: "Blagues drôles à ressortir ce soir | 289 vannes testées",
   description:
-    "Des centaines de vannes drôles à ressortir en soirée, au boulot ou entre amis. Classées par catégorie, chute cachée. Deviens la personne drôle du groupe.",
+    "289 vannes drôles classées par situation : soirée, boulot, couple, école. Chute cachée, filtre par catégorie. Testées avec le Test Stand-Up.",
   keywords: [
+    "blague drôle",
+    "blagues courtes",
     "vanne drôle",
     "blague du jour",
-    "vanne du jour",
-    "blagues courtes",
     "vannes à ressortir",
     "blagues entre amis",
+    "blague courte drôle",
+    "phrase drôle",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/vannes" },
 };
@@ -85,21 +87,37 @@ export default function VannesPage() {
         </dl>
       </section>
 
+      {/* Contenu SEO — pourquoi nos vannes */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
+        <div className="space-y-3 text-sm text-text-secondary">
+          <p>
+            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir en soirée et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas d&apos;objets qui parlent, pas de jeux de mots qui nécessitent un doctorat en linguistique.
+          </p>
+          <p>
+            Nos vannes sont classées par situation — <strong className="text-text-primary">boulot, couple, soirée, potes</strong> — pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
+          </p>
+          <p>
+            Tu veux aller plus loin ? Apprends à <Link href="/blog/raconter-blague-sans-massacrer" className="text-accent-primary hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-primary hover:underline">5 erreurs qui tuent tes blagues</Link>.
+          </p>
+        </div>
+      </section>
+
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">Apprends les techniques pour avoir de la répartie et placer tes vannes au bon moment.</p>
+            <h3 className="text-sm font-semibold text-text-primary">Techniques de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">66 techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
-            <p className="mt-1 text-xs text-text-secondary">Regarde comment les pros construisent leurs blagues et apprends leurs techniques.</p>
+            <p className="mt-1 text-xs text-text-secondary">Regarde comment Fary et Paul Mirabel construisent leurs blagues.</p>
           </Link>
-          <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>
-            <p className="mt-1 text-xs text-text-secondary">Punchline, timing, callback : comprends les termes pour mieux les utiliser.</p>
+          <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">Timing : le secret des pros</h3>
+            <p className="mt-1 text-xs text-text-secondary">Le silence avant la punchline vaut de l&apos;or. Maîtrise le timing.</p>
           </Link>
         </div>
       </nav>

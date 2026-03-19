@@ -36,8 +36,8 @@ const config: Config = {
         warning: "#F59E0B",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "0.75rem",

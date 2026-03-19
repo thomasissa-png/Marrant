@@ -212,6 +212,28 @@ export function buildProductJsonLd() {
   };
 }
 
+export function buildHowToJsonLd(howTo: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string }[];
+  totalTime?: string; // ISO 8601 duration, e.g. "PT30M"
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: howTo.name,
+    description: howTo.description,
+    ...(howTo.totalTime && { totalTime: howTo.totalTime }),
+    step: howTo.steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+    })),
+    inLanguage: "fr-FR",
+  };
+}
+
 export function buildCourseJsonLd(course: {
   name: string;
   description: string;

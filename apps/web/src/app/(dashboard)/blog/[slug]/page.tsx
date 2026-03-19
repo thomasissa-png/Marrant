@@ -10,6 +10,7 @@ import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
+  buildHowToJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, getClusterForSlug } from "@/lib/blog-clusters";
@@ -140,6 +141,18 @@ export default async function BlogArticlePage({
       {"faqs" in article && article.faqs && article.faqs.length > 0 && (
         <JsonLd data={buildFaqJsonLd(article.faqs)} />
       )}
+      {/* HowTo schema pour les articles tutoriels — Rich Snippets avec étapes dans les SERP */}
+      {["GUIDE", "PRATIQUE", "ROADMAP"].includes(article.category) && (() => {
+        const h2Matches = article.content.match(/^## (.+)$/gm);
+        if (h2Matches && h2Matches.length >= 3) {
+          const steps = h2Matches.slice(0, 8).map((h2: string) => {
+            const name = h2.replace(/^## /, "").replace(/\*\*/g, "");
+            return { name, text: name };
+          });
+          return <JsonLd data={buildHowToJsonLd({ name: article.title, description: article.excerpt, steps })} />;
+        }
+        return null;
+      })()}
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },

@@ -66,6 +66,21 @@ const TARGET_KEYWORDS = [
   "comment être le mec drôle du groupe",
   "apprendre la répartie",
   "progression humour débutant",
+  // Mots-clés fort volume (acquisition top-of-funnel)
+  "blague drôle",
+  "blague courte",
+  "phrase drôle",
+  "citation drôle",
+  "jeu de mots drôle",
+  "humour noir blague",
+  "comment faire rire une fille",
+  "comment faire rire un homme",
+  // Mots-clés saisonniers (pics de trafic)
+  "blague noël drôle",
+  "blague saint valentin",
+  "humour rentrée",
+  "blague nouvel an",
+  "briser la glace humour",
 ];
 
 interface ArticlePlan {
@@ -406,6 +421,32 @@ export async function publishWeeklyArticle(): Promise<{
         console.warn("[Director] Re-génération échouée — publication de la version précédente");
         break;
       }
+    }
+
+    // 4c. Validation programmatique des meta (truncate si trop long)
+    if (article.metaDescription && article.metaDescription.length > 155) {
+      article = { ...article, metaDescription: article.metaDescription.slice(0, 152) + "..." };
+      console.warn(`[SEO Check] Meta description tronquée à 155 chars`);
+    }
+    if (article.metaTitle && article.metaTitle.length > 60) {
+      article = { ...article, metaTitle: article.metaTitle.slice(0, 57) + "..." };
+      console.warn(`[SEO Check] Meta title tronqué à 60 chars`);
+    }
+    if (article.excerpt && article.excerpt.length > 155) {
+      article = { ...article, excerpt: article.excerpt.slice(0, 152) + "..." };
+      console.warn(`[SEO Check] Excerpt tronqué à 155 chars`);
+    }
+
+    // 4d. Anti-cannibalisation par mot-clé (en plus du slug)
+    const existingByKeyword = await prisma.blogArticle.findFirst({
+      where: { targetKeyword: article.targetKeyword, isPublished: true },
+    });
+    if (existingByKeyword) {
+      console.warn(`[SEO Check] Mot-clé "${article.targetKeyword}" déjà ciblé par "${existingByKeyword.slug}" — risque de cannibalisation`);
+      return {
+        success: false,
+        error: `Mot-clé "${article.targetKeyword}" déjà ciblé par l'article "${existingByKeyword.slug}"`,
+      };
     }
 
     // 5. Publier en base

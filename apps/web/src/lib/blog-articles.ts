@@ -1087,6 +1087,189 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
       { question: "Faut-il s'entraîner à raconter des blagues ?", answer: "Oui. L'humour est un muscle. Racontez la même blague à 3 personnes différentes en ajustant à chaque fois. Notez ce qui marche. Les meilleurs humoristes testent leurs vannes des dizaines de fois avant de les garder." },
     ],
   },
+  {
+    slug: "phrases-droles-conversations",
+    title: "30 phrases drôles pour tes conversations",
+    excerpt:
+      "Phrases d'accroche, répliques, punchlines : 30 phrases drôles prêtes à l'emploi pour briller en société.",
+    content: `Tu connais ce moment où quelqu'un sort LA **phrase drôle** parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
+
+Bonne nouvelle : les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste un **arsenal de phrases prêtes à dégainer**. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.
+
+Cet article, c'est ton chargeur. 30 phrases drôles, classées par situation, avec le contexte exact et le timing pour les placer. Tu n'as plus qu'à viser.
+
+Et si tu veux un catalogue encore plus large, [nos vannes sont classées par catégorie](/vannes) pour que tu trouves la bonne en 10 secondes.
+
+---
+
+## Phrases drôles pour la machine à café (le stand-up du bureau)
+
+La machine à café, c'est le open mic du monde professionnel. Ton public est captif (il attend son expresso), l'ambiance est détendue, et la barre est basse — ce qui veut dire que la moindre **phrase drôle** bien placée te fait passer pour le Fary du 3e étage.
+
+**1. "Je suis pas en retard, je suis en décalage horaire émotionnel."**
+→ *Quand tu arrives à 9h20 et que quelqu'un te regarde.* Place-la en marchant, sans t'arrêter. L'assurance fait tout.
+
+**2. "Ce café a le même goût que mes perspectives de carrière : amer et tiède."**
+→ *Devant la machine, en fixant ton gobelet.* Fonctionne encore mieux un lundi.
+
+**3. "J'ai lu mon horoscope ce matin, il disait 'restez chez vous'. J'aurais dû écouter."**
+→ *En réponse à "ça va ?" quand visiblement ça ne va pas.* Le contraste entre le sérieux de ta voix et l'absurdité fait le travail.
+
+**4. "Je suis au régime. Je ne mange que de la nourriture qui me rend triste. Donc en gros, la cantine."**
+→ *Quand quelqu'un parle du déjeuner.* Le twist sur "la cantine" doit arriver vite, pas de pause.
+
+**5. "Mon week-end ? J'ai rangé un tiroir. Le tiroir de ma vie était plein aussi, mais ça c'est pour la thérapie."**
+→ *Classique du lundi matin.* L'escalade absurde vers la thérapie est la clé.
+
+**6. "Je pense que ma boîte mail me ghoste. J'envoie des trucs, personne ne répond."**
+→ *Quand quelqu'un se plaint des mails.* Enchaîne immédiatement après sa plainte, comme si c'était une évidence.
+
+Pour plus de techniques sur [comment meubler une conversation au bureau](/blog/conversation-machine-a-cafe), on a un article entier là-dessus.
+
+---
+
+## Phrases drôles pour les soirées
+
+En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute une histoire de 45 secondes avec de la musique à fond. Roman Frayssinet l'a bien compris — ses meilleures punchlines tiennent en une phrase et frappent comme un shot de tequila.
+
+**7. "Je suis venu en Uber. Enfin, c'est mon anxiété sociale qui conduit, moi je suis passager."**
+→ *En arrivant à une soirée.* Brise-glace parfait pour les timides — l'autodérision avec un twist.
+
+**8. "J'ai une mémoire incroyable. Je me souviens de chaque moment gênant de ma vie. En boucle. À 3h du mat."**
+→ *Quand quelqu'un dit "t'as une bonne mémoire".* L'escalade crée le décalage.
+
+**9. "Mon type ? Quelqu'un qui me répond en moins de 24h. La barre est basse mais le limbo continue."**
+→ *Quand on parle de dating en groupe.* La métaphore du limbo est visuelle et inattendue.
+
+**10. "Je suis bilingue : je parle français et mauvaises décisions."**
+→ *Après avoir fait un truc un peu con.* Timing : juste après l'action, pas avant.
+
+**11. "Mon plan de carrière c'est d'attendre que mon chat devienne viral."**
+→ *Quand quelqu'un te demande ce que tu fais dans la vie.*
+
+**12. "Être adulte c'est dire 'on se fait un truc bientôt' et ne jamais se revoir."**
+→ *Quand tu retrouves quelqu'un que t'as pas vu depuis longtemps.* Universel, tout le monde hoche la tête.
+
+**13. "Ma personnalité c'est 30% memes et 70% fatigue."**
+→ *En mode présentation décontractée.* Simple, efficace, relatable.
+
+Yanis, Sophie, Marc — [nos parcours](/parcours) sont calibrés pour chaque profil. Tu bosses les techniques qui correspondent à ta vraie vie.
+
+---
+
+## Phrases drôles pour un date
+
+Blanche Gardin a prouvé qu'on peut être cash, drôle et séduisant en même temps. La clé sur un date : l'autodérision maîtrisée. Tu te moques de toi, mais avec suffisamment d'assurance pour montrer que t'es bien dans tes baskets.
+
+**14. "Je te préviens, je suis beaucoup plus drôle par message. En vrai c'est une version bêta."**
+→ *Dans les 5 premières minutes.* Désamorce la pression et montre que t'as du recul.
+
+**15. "Mon dernier date Tinder m'a dit que j'étais 'intéressant'. C'est le 'bien' des compliments."**
+→ *Quand le sujet des dates précédents arrive.* Ton léger, comme si c'était une anecdote amusante.
+
+**16. "Je suis le genre de personne qui prépare des sujets de conversation dans le métro en venant. Et là je suis en hors-piste complet."**
+→ *Quand il y a un silence.* L'honnêteté absurde crée de la complicité. Fary fait ça en permanence sur scène.
+
+**17. "Si on me demande comment on s'est rencontrés, je raconte qu'on s'est battus pour le dernier avocat au supermarché."**
+→ *Quand le date se passe bien.* Projette un futur tout en étant absurde.
+
+**18. "Je cuisine super bien. Enfin, je commande super bien. C'est un talent aussi."**
+→ *Quand on parle de bouffe.* Le retournement rapide est la clé — pas de pause entre les deux phrases.
+
+**19. "Mon green flag à moi c'est que j'ai un plan Netflix ET un plan B dans la vie. Les deux sont du canapé, mais c'est un plan."**
+→ *Quand la conversation tourne autour des qualités/défauts.*
+
+Pour transformer ces phrases en vraie répartie, [l'art de la répartie s'apprend](/blog/comment-avoir-de-la-repartie) — on t'explique la mécanique derrière les gens qui ont "toujours le bon mot".
+
+---
+
+## Phrases drôles par WhatsApp et SMS
+
+Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "le rythme c'est la ponctuation et le retour à la ligne." Pas de ton de voix pour t'aider, donc la construction doit être chirurgicale.
+
+**20. "Je suis pas mort, je suis juste en mode avion social."**
+→ *Quand tu réponds après 3 jours de silence radio.* Envoie-la seule, sans "désolé".
+
+**21. "Mon téléphone a 3% de batterie et je choisis de les utiliser pour t'écrire. C'est pratiquement une déclaration."**
+→ *Quand tu veux montrer que tu penses à quelqu'un.* Drôle ET flatteur.
+
+**22. "J'ai googlé mes symptômes. Apparemment j'ai soit un rhume soit 48h à vivre. Je te tiens au courant."**
+→ *Quand t'es malade et qu'on te demande des nouvelles.*
+
+**23. "Alerte : j'ai cuisiné ce soir. Aucun pompier n'a été appelé. Jour historique."**
+→ *Story ou message groupé.*
+
+**24. "Je viens de refuser une sortie pour rester chez moi. Mon canapé et moi on a officialisé."**
+→ *Quand on te propose un truc et que tu déclines.*
+
+---
+
+## Phrases drôles pour les réunions
+
+**25. "Je n'ai pas d'avis, mais je l'ai avec conviction."**
+→ *Quand on te demande ton avis sur un sujet dont tu ne sais rien.* Ton sérieux. C'est le contraste qui fait rire.
+
+**26. "Ce meeting aurait pu être un mail. Ce mail aurait pu être un emoji pouce."**
+→ *À la fin d'une réunion qui a trop duré.* Attends que le sujet soit clos.
+
+**27. "Je suis en mode brainstorm. Pour l'instant c'est surtout le storm, le brain arrive."**
+→ *Quand on te met la pression pour des idées.* L'autodérision pro est safe et universelle.
+
+**28. "Mon KPI préféré c'est l'heure du déjeuner."**
+→ *En small talk avant une réunion.* Court, punchy, tout le monde se reconnaît.
+
+**29. "J'ai mis 'proactif' sur mon CV. En vrai je suis réactif. Et encore, quand on me relance."**
+→ *Entre collègues proches, pas devant le N+2.*
+
+**30. "Si le travail c'est la santé, alors les congés c'est de la médecine préventive."**
+→ *Quand quelqu'un parle de vacances.*
+
+---
+
+## L'art de la **phrase drôle** : pourquoi certaines marchent
+
+Les 30 phrases au-dessus ont un point commun : elles sont **courtes** (moins de 25 mots), elles parlent de **situations universelles**, et la chute arrive **là où on ne l'attend pas**.
+
+C'est exactement ce que Roman Frayssinet fait sur scène : il part d'un truc banal et tourne à un endroit imprévisible. La mécanique :
+
+1. **Setup familier** — ton interlocuteur hoche la tête ("oui, je connais ça")
+2. **Twist inattendu** — le cerveau est surpris, le rire est un réflexe
+
+La bonne nouvelle, c'est que [la répartie, ça s'apprend](/blog/comment-avoir-de-la-repartie). Et le [timing aussi](/blog/humour-quotidien-8-habitudes) — avoir la bonne phrase ne suffit pas, il faut savoir **quand** la placer.
+
+Trois erreurs qui tuent une bonne phrase :
+- **Trop de contexte avant** : tout le monde a décroché avant la chute.
+- **Rire avant la chute** : tu spoiles le twist.
+- **La répéter** : une phrase drôle, c'est un one-shot.
+
+Nos [conseils humour](/conseils) te donnent les techniques derrière ces phrases — pas juste le "quoi dire" mais le "comment le dire".
+
+---
+
+## Mémorise 5, pas 30
+
+Dernier conseil de Fary : "T'as pas besoin de 200 vannes. T'as besoin de 5 que tu maîtrises les yeux fermés."
+
+Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette semaine.
+
+La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que TU sors avec assurance.
+
+→ [Explore nos 300+ vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
+
+→ [Découvre nos conseils d'humour](/conseils) — les techniques de timing, de répartie et de storytelling des pros du stand-up.
+
+→ [Choisis ton parcours](/parcours) — 3 à 6 semaines pour devenir la personne drôle de ton groupe.`,
+    date: "2026-03-19",
+    readingTime: "7 min",
+    category: "CATALOGUE",
+    faqs: [
+      { question: "Comment trouver des phrases drôles à sortir en conversation ?", answer: "Le plus efficace : note les phrases qui te font rire dans la vraie vie (séries, potes, réseaux sociaux), puis adapte-les à tes situations. Avoir 5-10 phrases prêtes pour les contextes récurrents (machine à café, soirée, date) suffit largement. L'important n'est pas la quantité, c'est de les sortir naturellement." },
+      { question: "Comment être drôle sans avoir l'air de forcer ?", answer: "La règle d'or : ne ris jamais de ta propre blague avant la chute, et choisis des phrases qui correspondent à ta personnalité. Teste d'abord avec des proches, et si ça sort naturellement, c'est la bonne. L'autodérision légère est le format le plus safe pour commencer." },
+      { question: "Quelles sont les meilleures phrases drôles pour briser la glace ?", answer: "Les meilleures phrases brise-glace sont courtes (moins de 15 mots), parlent d'une situation universelle, et contiennent un twist inattendu. L'autodérision maîtrisée fonctionne dans 90% des contextes sociaux." },
+      { question: "Comment avoir de la répartie avec des phrases toutes faites ?", answer: "Les phrases toutes faites sont un point de départ. L'idée est de les mémoriser puis de les adapter au contexte. Avec la pratique, ton cerveau crée ses propres variantes spontanément. C'est comme en musique : on apprend des morceaux existants avant d'improviser." },
+      { question: "Est-ce que l'humour s'apprend vraiment ?", answer: "L'humour s'apprend à 100%. Les humoristes comme Paul Mirabel ou Roman Frayssinet écrivent, testent et réécrivent leurs vannes des dizaines de fois. Commencer par mémoriser des phrases drôles et les placer au bon moment, c'est exactement comme ça que les pros ont débuté." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 

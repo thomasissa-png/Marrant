@@ -9,9 +9,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Conseils humour et répartie",
+  title: "Répartie : 66 techniques concrètes avec exercices",
   description:
-    "66 techniques concrètes pour avoir de la répartie et faire rire au quotidien. Avec exemples, dialogues et un défi à tester dès aujourd'hui.",
+    "66 techniques de répartie et d'humour avec exemples concrets, dialogues et un défi à tester aujourd'hui. Timing, autodérision, storytelling.",
   keywords: [
     "avoir de la répartie",
     "comment avoir de la répartie",
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     "exercices répartie",
     "autodérision",
     "storytelling humour",
+    "répartie au travail",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/conseils" },
 };
@@ -87,21 +88,37 @@ export default function ConseilsPage() {
         </dl>
       </section>
 
+      {/* Contenu SEO — approfondir avec le blog */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
+        <div className="space-y-3 text-sm text-text-secondary">
+          <p>
+            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos 66 conseils couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
+          </p>
+          <p>
+            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> — le guide complet avec plan d&apos;action sur 30 jours.
+          </p>
+          <p>
+            Et pour maîtriser le silence qui fait exploser une punchline, plonge dans notre article sur le <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>.
+          </p>
+        </div>
+      </section>
+
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Des centaines de vannes classées par catégorie à ressortir en soirée ou au boulot.</p>
+            <h3 className="text-sm font-semibold text-text-primary">289 vannes drôles</h3>
+            <p className="mt-1 text-xs text-text-secondary">Des vannes testées et classées par situation, prêtes à ressortir.</p>
           </Link>
           <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
-            <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets et des XP à gagner.</p>
+            <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets et des XP.</p>
           </Link>
-          <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
-            <p className="mt-1 text-xs text-text-secondary">Apprends les techniques des meilleurs humoristes français en vidéo.</p>
+          <Link href="/blog/autoderision-interactions" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <h3 className="text-sm font-semibold text-text-primary">L&apos;autodérision qui marche</h3>
+            <p className="mt-1 text-xs text-text-secondary">Rire de soi sans se démolir — le guide pour transformer tes interactions.</p>
           </Link>
         </div>
       </nav>
