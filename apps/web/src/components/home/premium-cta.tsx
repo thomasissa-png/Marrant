@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { FaqSection } from "@/components/home/faq-section";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 export function PremiumCta() {
   const { status } = useSession();
@@ -16,6 +17,7 @@ export function PremiumCta() {
   const stats = useContentStats();
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -149,11 +151,14 @@ export function PremiumCta() {
                 {isCheckoutLoading ? "Redirection..." : "Passer à l'offre complète"}
               </Button>
             ) : (
-              <Link href="/register" className="mt-8 block">
-                <Button variant="primary" size="lg" className="w-full">
-                  Commencer à 0,99 €/mois
-                </Button>
-              </Link>
+              <Button
+                variant="primary"
+                size="lg"
+                className="mt-8 w-full"
+                onClick={() => setShowAuth(true)}
+              >
+                Commencer à 0,99 €/mois
+              </Button>
             )}
           </div>
         </div>
@@ -217,6 +222,12 @@ export function PremiumCta() {
       <div className="mt-16">
         <FaqSection />
       </div>
+
+      <AuthModal
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        defaultTab="register"
+      />
     </section>
   );
 }

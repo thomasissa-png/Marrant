@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#0D0D0D"/>
+      <stop offset="100%" stop-color="#1a0a2e"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="bar-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#6D28D9" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#6D28D9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1128" height="191" fill="url(#bg-grad)"/>
+
+  <!-- Ambient glow effects -->
+  <circle cx="500" cy="80" r="200" fill="url(#glow1)"/>
+  <circle cx="900" cy="130" r="160" fill="url(#glow2)"/>
+
+  <!-- Brand name -->
+  <text x="564" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">deviens-marrant.fr</text>
+
+  <!-- Tagline — "drôle" en gradient accent -->
+  <text x="564" y="110" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="500" fill="#FFFFFF" text-anchor="middle">Deviens <tspan fill="url(#accent-grad)" font-weight="700">drôle</tspan>. Pour de vrai.</text>
+
+  <!-- Pillars -->
+  <text x="564" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#9A9A9A" text-anchor="middle" letter-spacing="3">VANNES  ·  TECHNIQUES  ·  STAND-UP  ·  PARCOURS</text>
+
+  <!-- Bottom accent bar -->
+  <rect x="226" y="188" width="676" height="3" rx="1.5" fill="url(#bar-grad)"/>
+</svg>

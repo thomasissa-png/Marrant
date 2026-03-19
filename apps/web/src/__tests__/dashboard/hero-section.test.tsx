@@ -3,6 +3,12 @@ import { HeroSection } from "@/components/home/hero-section";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
+  signIn: jest.fn(),
+}));
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn(), back: jest.fn() }),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 const { useSession } = require("next-auth/react");

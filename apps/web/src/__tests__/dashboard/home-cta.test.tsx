@@ -3,6 +3,12 @@ import { HomeCta } from "@/components/home/home-cta";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
+  signIn: jest.fn(),
+}));
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn(), back: jest.fn() }),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 jest.mock("@/hooks/use-content-stats", () => ({
@@ -33,10 +39,11 @@ describe("HomeCta", () => {
     expect(screen.getByText(/ton futur toi drôle/i)).toBeInTheDocument();
   });
 
-  it("links to /register", () => {
+  it("CTA opens auth modal (button, not link to /register)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    expect(screen.getByText(/Commencer à 0,99 €\/mois/).closest("a")).toHaveAttribute("href", "/register");
+    const cta = screen.getByText(/Commencer à 0,99 €\/mois/);
+    expect(cta.closest("button")).toBeTruthy();
   });
 
   it("links to /vannes for free content", () => {

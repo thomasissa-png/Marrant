@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
+  const [showAuth, setShowAuth] = useState(false);
 
   return (
     <section className="py-12 text-center md:py-20">
@@ -89,13 +92,17 @@ export function HeroSection() {
         </div>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-2">
-          <Link href="/register">
-            <Button variant="primary" size="lg">
-              Commencer à 0,99 €/mois
-            </Button>
-          </Link>
+          <Button variant="primary" size="lg" onClick={() => setShowAuth(true)}>
+            Commencer à 0,99 €/mois
+          </Button>
         </div>
       )}
+
+      <AuthModal
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        defaultTab="register"
+      />
     </section>
   );
 }
