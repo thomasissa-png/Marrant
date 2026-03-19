@@ -181,7 +181,7 @@ export async function GET(request: Request) {
       affected.push({
         slug: article.slug,
         title: article.title,
-        matches: [...new Set(matches)],
+        matches: Array.from(new Set(matches)),
       });
     }
   }
