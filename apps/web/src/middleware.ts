@@ -32,7 +32,6 @@ export default withAuth(
           "/profil",
           "/favoris",
           "/onboarding",
-          "/abonnement",
         ];
         if (authRequiredPaths.some((p) => path.startsWith(p))) {
           return !!token;
