@@ -7,7 +7,8 @@
     "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
   },
   "devDependencies": {
-    "prisma": "6.19.2"
+    "prisma": "6.19.2",
+    "sharp": "^0.34.5"
   },
   "dependencies": {
     "@prisma/client": "6.19.2"

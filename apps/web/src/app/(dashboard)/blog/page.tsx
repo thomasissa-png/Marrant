@@ -98,7 +98,7 @@ export default async function BlogPage({
   const selectedCategory = searchParams.category;
 
   // Extract unique categories
-  const categories = [...new Set(allArticles.map((a) => a.category))].sort();
+  const categories = Array.from(new Set(allArticles.map((a) => a.category))).sort();
 
   // Filter if category is selected
   const filteredArticles = selectedCategory
