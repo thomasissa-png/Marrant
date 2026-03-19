@@ -909,6 +909,87 @@ Pour structurer ta progression, nos [parcours](/parcours) te guident semaine par
       { question: "Peut-on s'entraîner seul à être drôle ?", answer: "Oui, pour 7 exercices sur 10 (radar, reformulation, exagération, journal, analyse, écriture, callback). Le ping-pong verbal et le one-man-show nécessitent un partenaire." },
     ],
   },
+  {
+    slug: "timing-humour-ralentir",
+    title: "Timing en humour : pourquoi ralentir",
+    excerpt:
+      "Le silence avant la punchline vaut de l'or. Comment maîtriser le timing pour faire rire à coup sûr.",
+    content: `Tu connais ce truc horrible où tu racontes une blague, t'arrives à la chute, et... rien ? Le silence. Pas celui qui précède un éclat de rire. Le silence de mort. Celui qui dit "il a fini ? On peut changer de sujet ?" Le problème, 9 fois sur 10, c'est pas ta blague. C'est ta vitesse.
+
+## Le paradoxe du timing : plus tu ralentis, plus c'est drôle
+
+C'est contre-intuitif. Quand on est nerveux, on accélère. On veut arriver à la chute le plus vite possible, comme si le rire était un bus qu'on allait rater. Sauf que l'humour, c'est le contraire : c'est le bus qu'il faut laisser arriver.
+
+Regarde **Roman Frayssinet** sur scène. Chronomètre en main, tu peux mesurer des silences de 3 à 5 secondes avant ses punchlines. Trois secondes, ça paraît rien à l'écrit. En live, c'est une éternité. Et c'est exactement cette éternité qui crée la tension nécessaire au rire. C'est un art qu'on explore en profondeur dans [Timing humour : plus fort que la blague](/blog/timing-humour).
+
+## Analyse seconde par seconde : Roman Frayssinet
+
+Prenons un de ses bits classiques sur les groupes WhatsApp.
+
+**Seconde 0-8 : Le setup.** Il décrit la situation — le groupe qui envoie 47 messages en 10 minutes. Ton normal, débit conversationnel. Le public hoche la tête : "oui, c'est vrai."
+
+**Seconde 8-10 : Le ralentissement.** Il baisse le volume. Le débit passe de 120 mots/minute à 60. Le public sent que quelque chose arrive.
+
+**Seconde 10-12 : Le silence.** DEUX secondes de rien. Il regarde le public. Le cerveau de 500 personnes est en mode "mais il va dire quoi ??"
+
+**Seconde 12-13 : La punchline.** Délivrée plus bas, plus lente, plus directe. BOOM. Rire.
+
+Le silence n'est pas un accident. C'est l'arme. Sans lui, la même punchline déclenche un sourire. Avec lui, elle déclenche un éclat de rire. C'est comme la différence entre lancer une balle et armer un lance-pierre : l'élastique tiré, c'est le silence.
+
+## Analyse seconde par seconde : Blanche Gardin
+
+**Blanche Gardin** utilise un timing radicalement différent mais tout aussi redoutable.
+
+**Son arme :** le silence APRÈS la punchline. Elle dit un truc dévastateur, puis elle reste immobile. Pas de sourire. Pas de mouvement. Juste un regard qui dit "oui, j'ai dit ça." Et le public, qui n'était pas sûr d'avoir le droit de rire, explose.
+
+C'est ce qu'on appelle le "hold" — tenir le silence après la chute au lieu de le combler. Les débutants font l'inverse : ils enchaînent immédiatement, tuant le rire avant qu'il naisse. Nos [vidéos](/videos) analysent cette technique chez plusieurs pros.
+
+## Les 3 erreurs de timing les plus courantes
+
+### Erreur 1 : Le débit TGV
+
+Tu racontes ta blague comme si tu lisais les conditions générales de vente à voix haute. Personne ne peut suivre, personne ne peut anticiper, personne ne rit. Ralentir de 30% change tout — c'est l'une des [5 erreurs qui tuent tes blagues](/blog/erreurs-blagues).
+
+### Erreur 2 : La punchline noyée
+
+Tu arrives à la chute avec le même ton et la même vitesse que le setup. Le cerveau de ton public ne comprend pas que c'est la punchline. Marque un changement : pause + changement de ton. C'est le signal "attention, voilà le drôle."
+
+### Erreur 3 : Le remplissage post-chute
+
+La punchline est sortie. Quelqu'un commence à sourire. Et toi : "Non mais tu vois, c'est drôle parce que..." STOP. Tu viens de tuer ton propre rire. Après la chute, silence. Laisse le rire venir. Si tu veux aller plus loin, nos [conseils](/conseils) de livraison détaillent chaque erreur.
+
+## Exercice : La micro-pause forcée
+
+Cette semaine, à chaque fois que tu veux dire quelque chose de drôle en conversation :
+
+1. **Dis le setup** normalement.
+2. **Marque une pause** de 2 secondes (compte "mille-un, mille-deux" dans ta tête).
+3. **Baisse le ton** d'un cran.
+4. **Lâche la punchline.**
+5. **Tais-toi.** Quoi qu'il arrive.
+
+Les 3 premières fois, c'est TRÈS inconfortable. Tu vas vouloir combler le silence. Résiste. À la 4e fois, tu sentiras la différence dans les réactions.
+
+## Le timing en conversation vs sur scène
+
+Sur scène, les silences peuvent durer 5 secondes. En conversation, c'est trop. Le timing conversationnel est plus subtil :
+
+- **Pause avant la punchline :** 1-2 secondes (pas plus)
+- **Changement de ton :** léger, pas théâtral
+- **Silence après :** 2-3 secondes max avant de reprendre
+
+**Waly Dia** est un excellent modèle de timing conversationnel — ses interviews sont pleines de micro-pauses naturelles qui donnent du poids à ses répliques. **Fary** utilise le contraste : débit rapide dans le setup, freinage brutal avant la chute.
+
+Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercices de timing dès la première semaine. Le catalogue de [vannes](/vannes) te donne du matériel testé sur lequel pratiquer. **0,99 EUR/mois** — pour que tes blagues atterrissent toujours au bon moment.`,
+    date: "2026-03-09",
+    readingTime: "5 min",
+    category: "TIMING",
+    faqs: [
+      { question: "Pourquoi le timing est-il si important en humour ?", answer: "Le timing crée la tension nécessaire au rire. Sans pause avant la punchline, le cerveau ne peut pas construire l'attente. Le silence est l'arme secrète : il transforme un sourire en éclat de rire." },
+      { question: "Comment améliorer son timing comique en conversation ?", answer: "Exercice de la micro-pause : avant chaque punchline, comptez 'mille-un, mille-deux' silencieusement, baissez le ton, puis lâchez la chute. En 4-5 essais, le réflexe se met en place." },
+      { question: "Quelle est la durée idéale d'une pause en conversation ?", answer: "1-2 secondes avant la punchline, 2-3 secondes après. Sur scène, les pauses peuvent aller jusqu'à 5 secondes, mais en conversation ce serait trop long et gênant." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
