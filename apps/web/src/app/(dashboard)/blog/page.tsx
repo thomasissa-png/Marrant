@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Blog humour — guides et techniques",
   description:
-    "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés par 3 coachs.",
+    "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés. Si tu souris pas, on a raté notre job.",
   keywords: [
     "blog humour",
     "guide répartie",

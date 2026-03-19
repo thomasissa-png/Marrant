@@ -26,7 +26,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: {
     default:
-      "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
+      "Devenir drôle et avoir de la répartie | deviens-marrant.fr",
     template: "%s | deviens-marrant.fr",
   },
   description:

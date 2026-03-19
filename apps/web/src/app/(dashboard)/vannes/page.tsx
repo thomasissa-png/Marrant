@@ -9,9 +9,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Blagues drôles à ressortir ce soir | 289 vannes testées",
+  title: "289 vannes drôles à ressortir ce soir",
   description:
-    "289 vannes drôles classées par situation : soirée, boulot, couple, école. Chute cachée, filtre par catégorie. Testées avec le Test Stand-Up.",
+    "289 vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.",
   keywords: [
     "blague drôle",
     "blagues courtes",

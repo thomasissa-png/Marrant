@@ -11,9 +11,9 @@ import {
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 
 export const metadata: Metadata = {
-  title: "Parcours humour — deviens drôle",
+  title: "Cours humour en ligne : deviens drôle",
   description:
-    "3 parcours pour devenir drôle : Machine à Café (3 sem.), Répartie (4 sem.), Confiance (6 sem.). 15 min/semaine suffisent.",
+    "3 parcours pour devenir drôle : Machine à Café, Répartie, Confiance. 15 min/semaine, exercices concrets, XP à gagner. Tu t'inscris, tu progresses.",
   keywords: [
     "cours humour en ligne",
     "parcours répartie",

@@ -7,9 +7,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "À propos — plateforme humour",
+  title: "L'humour s'apprend — notre mission",
   description:
-    "On a créé deviens-marrant.fr parce que l'humour, ça s'apprend. Notre objectif : que tu fasses rire dès ta prochaine soirée.",
+    "L'humour, ça s'apprend. On a créé deviens-marrant.fr pour le prouver : vannes, techniques de répartie, vidéos analysées. Objectif : que tu fasses rire ce soir.",
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",

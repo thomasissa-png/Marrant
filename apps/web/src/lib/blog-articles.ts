@@ -14,7 +14,7 @@ export const blogArticles: BlogArticle[] = [
     slug: "comment-devenir-drole",
     title: "Comment devenir drôle : le guide",
     excerpt:
-      "\"Être drôle, c'est inné.\" Faux. La science et les humoristes prouvent le contraire. Voici la méthode complète pour développer ton sens de l'humour, avec des exercices concrets.",
+      "\"Être drôle, c'est inné.\" Faux. La science et les pros prouvent le contraire. La méthode pour développer ton humour, avec exercices concrets.",
     content: `"Soit t'es drôle, soit tu l'es pas." On a tous un oncle qui dit ça. Généralement, c'est le même oncle qui raconte la même blague sur les blondes depuis 2003. Lui, il est "né drôle", paraît-il. Spoiler : **l'humour est une compétence**, pas un chromosome. Et comme toute compétence, elle s'apprend.
 
 ## Le mythe du "talent naturel" (et pourquoi c'est des conneries)
@@ -189,9 +189,9 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/
   },
   {
     slug: "timing-humour",
-    title: "Timing humour : plus fort que la blague",
+    title: "Timing humour : le secret de la blague",
     excerpt:
-      "La même blague peut faire un tabac ou tomber à plat. La différence ? Le timing. Analyse d'un art invisible avec des techniques de pros.",
+      "La même blague peut faire un tabac ou tomber à plat. La différence ? Le timing. Analyse d'un art invisible avec les techniques de Frayssinet et Blanche Gardin.",
     content: `Tu as déjà raconté une blague que tu trouvais excellente, et... rien. Le silence. Pas un sourire. Même pas un "ah ouais". Puis un pote raconte EXACTEMENT la même chose 10 minutes plus tard, et tout le monde explose. Tu te dis "mais WTF". Je vais te dire WTF : le problème, c'était pas ta blague. C'était ton **timing**.
 
 ## Le timing, cet art invisible
@@ -269,7 +269,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
     slug: "erreurs-blagues",
     title: "5 erreurs qui tuent tes blagues",
     excerpt:
-      "Tu racontes une blague et personne ne rit ? Tu fais sûrement une de ces 5 erreurs. Diagnostic et solutions concrètes.",
+      "Tu racontes une blague et personne ne rit ? Tu fais sûrement une de ces 5 erreurs classiques. Diagnostic et solutions pour ne plus jamais tuer l'ambiance.",
     content: `Tu racontes une blague. Tu arrives à la chute. Et... rien. Le silence. Pas le silence de "je cherche de l'air parce que j'ai trop ri", non. Le silence de "quelqu'un a un sujet de conversation de rechange ?". Si ça t'arrive souvent, c'est probablement pas un problème de blague. **C'est un problème de livraison.** Et ça se corrige.
 
 ## Erreur 1 : Expliquer la blague
@@ -327,9 +327,9 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
   },
   {
     slug: "autoderision-interactions",
-    title: "Autodérision : transforme tes interactions",
+    title: "Autodérision : le guide pratique",
     excerpt:
-      "L'autodérision est un super-pouvoir social. Elle désarme, crée de la complicité et montre ta confiance. Mais il y a un piège énorme.",
+      "L'autodérision est un super-pouvoir social. Elle désarme, crée de la complicité et montre ta confiance. Mais il y a un piège énorme que 90% des gens font.",
     content: `L'autodérision, c'est un super-pouvoir. C'est aussi un piège mortel. Et la différence entre les deux tient en un truc : **le ton**. Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te rend pathétique. Bienvenue dans le guide qui va t'apprendre à rire de toi sans te démolir.
 
 ## Pourquoi l'autodérision est une arme nucléaire
@@ -398,7 +398,7 @@ L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur devien
     slug: "repartie-debutant-5-etapes",
     title: "Répartie débutant : 5 étapes simples",
     excerpt:
-      "Tu pars de zéro en répartie ? 5 étapes progressives pour débloquer ta tchatche sans forcer.",
+      "Tu pars de zéro en répartie ? 5 étapes progressives pour débloquer ta tchatche sans forcer. De \"euh... toi-même\" à des réponses qui claquent.",
     content: `Lucas a 20 ans. En soirée, il est celui qui rit aux blagues des autres, hoche la tête, et dit "ah ouais grave" toutes les 30 secondes. Quand on le chambre, son cerveau fait le bruit d'un modem 56k. Sa meilleure répartie à ce jour : "euh... toi-même."
 
 On va suivre Lucas sur 5 étapes. Pas des étapes théoriques de livre de développement personnel. Des étapes concrètes, testées, avec des résultats visibles en quelques jours.
@@ -473,9 +473,9 @@ Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semai
   },
   {
     slug: "humour-quotidien-8-habitudes",
-    title: "Humour au quotidien : 8 habitudes simples",
+    title: "Humour quotidien : 8 habitudes simples",
     excerpt:
-      "8 habitudes pour intégrer l'humour dans ta vie de tous les jours. Machine à café, soirées, dîners.",
+      "8 habitudes pour être plus drôle au quotidien. Machine à café, soirées, dîners : l'humour devient un réflexe. Pas besoin d'être extraverti.",
     content: `"L'humour, c'est un talent." Mythe. "Faut être extraverti." Mythe. "C'est réservé aux gens qui ont confiance en eux." Mythe aussi. L'humour, c'est une habitude. Et comme toute habitude, ça se construit brique par brique. Voici 8 habitudes simples qui vont transformer tes journées — pas en sketch de stand-up, mais en moments où tu te surprendras à faire sourire les gens.
 
 ## Habitude 1 : Le carnet d'absurdités
@@ -561,7 +561,7 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     slug: "5-types-humour-lequel-pour-toi",
     title: "Les 5 types d'humour : trouve le tien",
     excerpt:
-      "Absurde, autodérision, jeux de mots, observationnel ou noir ? Découvre quel type d'humour te correspond.",
+      "Absurde, autodérision, jeux de mots, observationnel ou noir ? Découvre ton type d'humour et comment le développer pour être drôle à ta manière.",
     content: `Tu connais ce moment où quelqu'un sort une blague et tu te dis "ça, c'est MON type d'humour" ? Ce sentiment de reconnaissance, c'est parce que l'humour n'est pas un bloc monolithique. Il y a des familles, des styles, des tempéraments comiques. Et trouver le tien, c'est la clé pour être drôle sans forcer.
 
 ## Type 1 : L'observationnel — "C'est tellement vrai"
@@ -641,7 +641,7 @@ Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t
     slug: "humour-noir-utiliser-sans-blesser",
     title: "Humour noir : l'utiliser sans blesser",
     excerpt:
-      "L'humour noir, c'est un art. Limites, contexte et exemples pour manier le second degré avec finesse.",
+      "L'humour noir, c'est un art. Limites, contexte et exemples concrets pour manier le second degré avec finesse. La ligne entre \"génie\" et \"malaise\" est fine.",
     content: `L'humour noir, c'est comme la nitroglycérine : entre de bonnes mains, c'est spectaculaire. Entre de mauvaises mains, ça fait des dégâts. Et la différence entre les deux tient souvent à un seul paramètre : le contexte.
 
 ## Ce qu'est l'humour noir (et ce qu'il n'est pas)
@@ -714,9 +714,9 @@ Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment
   },
   {
     slug: "jeux-de-mots-technique-3-etapes",
-    title: "Jeux de mots : la technique en 3 étapes",
+    title: "Jeux de mots : technique en 3 étapes",
     excerpt:
-      "Homophones, polysémie, paronymie : 3 étapes pour créer des jeux de mots qui font mouche.",
+      "Homophones, polysémie, paronymie : 3 étapes pour des jeux de mots qui font mouche. Ton oncle en fait des mauvais. Voici comment faire des bons.",
     content: `Les jeux de mots, c'est l'humour le plus détesté et le plus utilisé de France. Ton oncle en fait des mauvais. Les publicitaires en font des moyens. Et **Fary** en fait des géniaux. La différence ? La technique. Un bon jeu de mots n'est pas un accident — c'est de l'ingénierie linguistique déguisée en blague.
 
 ## Pourquoi 90% des jeux de mots sont nuls
@@ -791,7 +791,7 @@ Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédié
     slug: "exercices-developper-humour",
     title: "10 exercices pour développer ton humour",
     excerpt:
-      "10 exercices progressifs de 5 à 20 min pour muscler ton sens de l'humour. Du débutant au confirmé.",
+      "10 exercices de 5 à 20 min pour muscler ton humour. Du débutant au confirmé. Rien de théorique : tu lis, tu fais, tu progresses.",
     content: `Tu veux devenir plus drôle mais tu ne sais pas par où commencer ? C'est normal. Personne ne t'apprend l'humour à l'école. On t'apprend les maths, l'histoire, la conjugaison du subjonctif — mais faire rire les gens ? Débrouille-toi. Voici 10 exercices concrets, classés par difficulté, pour muscler ton sens de l'humour comme un vrai muscle.
 
 ## Niveau débutant (5 min/jour)
@@ -913,7 +913,7 @@ Pour structurer ta progression, nos [parcours](/parcours) te guident semaine par
     slug: "timing-humour-ralentir",
     title: "Timing en humour : pourquoi ralentir",
     excerpt:
-      "Le silence avant la punchline vaut de l'or. Comment maîtriser le timing pour faire rire à coup sûr.",
+      "Le silence avant la punchline vaut de l'or. Pourquoi ralentir fait plus rire que débiter. Techniques de timing avec exemples concrets de pros.",
     content: `Tu connais ce truc horrible où tu racontes une blague, t'arrives à la chute, et... rien ? Le silence. Pas celui qui précède un éclat de rire. Le silence de mort. Celui qui dit "il a fini ? On peut changer de sujet ?" Le problème, 9 fois sur 10, c'est pas ta blague. C'est ta vitesse.
 
 ## Le paradoxe du timing : plus tu ralentis, plus c'est drôle
@@ -994,7 +994,7 @@ Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercic
     slug: "raconter-blague-sans-massacrer",
     title: "Raconter une blague sans la massacrer",
     excerpt:
-      "Setup, escalade, punchline : la structure d'une blague réussie et les erreurs qui tuent l'effet.",
+      "Setup, escalade, punchline : la structure d'une blague réussie et les erreurs qui tuent l'effet. Tu sauras enfin pourquoi tes blagues tombent à plat.",
     content: `"ATTENDS ATTENDS j'ai une blague. Alors en fait... non attends, j'ai oublié un truc. Bon, en gros y'a un mec... enfin c'est pas vraiment un mec c'est plutôt... bref. La chute c'est qu'il dit 'pas de moutarde'. Ah merde j'ai oublié de dire qu'il était au restaurant."
 
 On a tous un ami comme ça. Peut-être que c'est toi. Pas de jugement — on va corriger ça.
@@ -1089,9 +1089,9 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
   },
   {
     slug: "phrases-droles-conversations",
-    title: "30 phrases drôles pour tes conversations",
+    title: "30 phrases drôles prêtes à ressortir",
     excerpt:
-      "Phrases d'accroche, répliques, punchlines : 30 phrases drôles prêtes à l'emploi pour briller en société.",
+      "Phrases d'accroche, répliques, punchlines : 30+ phrases drôles prêtes à l'emploi. Machine à café, soirée, date : tu auras toujours un truc à dire.",
     content: `Tu connais ce moment où quelqu'un sort LA **phrase drôle** parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
 
 Bonne nouvelle : les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste un **arsenal de phrases prêtes à dégainer**. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.
@@ -1291,7 +1291,7 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
     slug: "meilleures-blagues-droles-2026",
     title: "50 blagues drôles à ressortir en 2026",
     excerpt:
-      "Les 50 meilleures blagues courtes, testées et approuvées. Classées par situation : soirée, boulot, date, famille.",
+      "Les 50 meilleures blagues courtes de 2026, testées et approuvées. Soirée, boulot, date, famille : la bonne vanne pour chaque situation.",
     content: `Tu connais ce moment où quelqu'un sort une **blague drôle** pile au bon moment, tout le monde explose, et toi tu penses « pourquoi c'est jamais moi » ? Cet article, c'est ton armurerie. 50 vannes triées sur le volet, classées par situation — parce qu'une blague de soirée à 23h et une blague à la machine à café un lundi matin, c'est pas le même sport.
 
 Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.

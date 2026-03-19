@@ -5,7 +5,7 @@ import { faqs as faqSectionFaqs } from "@/lib/faqs";
 export const metadata: Metadata = {
   title: "Abonnement Premium — 0,99 €/mois",
   description:
-    "Accède à toutes les vannes, conseils, vidéos et parcours pour devenir drôle. Sans engagement, annulable à tout moment.",
+    "289 vannes, 66 conseils, 89 vidéos analysées, 3 parcours : tout pour devenir drôle à 0,99 €/mois. Sans engagement, tu annules quand tu veux.",
   alternates: {
     canonical: "https://deviens-marrant.fr/abonnement",
   },

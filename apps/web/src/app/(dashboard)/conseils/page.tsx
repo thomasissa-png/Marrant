@@ -9,9 +9,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Répartie : 66 techniques concrètes avec exercices",
+  title: "66 techniques de répartie + exercices",
   description:
-    "66 techniques de répartie et d'humour avec exemples concrets, dialogues et un défi à tester aujourd'hui. Timing, autodérision, storytelling.",
+    "66 techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.",
   keywords: [
     "avoir de la répartie",
     "comment avoir de la répartie",

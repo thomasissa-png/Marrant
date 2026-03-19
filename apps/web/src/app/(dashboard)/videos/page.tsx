@@ -9,9 +9,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Vidéos stand-up analysées | Fary, Mirabel, Blanche Gardin",
+  title: "Stand-up analysé : Fary, Mirabel & co.",
   description:
-    "89 vidéos de stand-up décortiquées : Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet. Technique annotée + exercice concret par vidéo.",
+    "89 vidéos de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.",
   keywords: [
     "stand-up français",
     "vidéos humour analysées",
