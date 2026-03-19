@@ -1484,6 +1484,213 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
       { question: "Quelles sont les erreurs à éviter quand on raconte une blague ?", answer: "Les trois pires : rire avant la punchline (tu tues la surprise), donner trop de contexte (tu perds l'attention), et forcer une blague qui tombe à plat en la réexpliquant." },
     ],
   },
+  {
+    slug: "comment-faire-rire-une-fille",
+    title: "Comment faire rire une fille : 7 techniques",
+    excerpt:
+      "Faire rire une fille, c'est pas sortir ta meilleure blague. C'est créer une connexion. 7 techniques testées, zéro drague lourde.",
+    content: `Tu veux faire rire une fille. Cool. Mais si ton plan c'est de sortir "Tu connais la différence entre..." suivi d'un jeu de mots douteux, assieds-toi, on va parler.
+
+**Faire rire quelqu'un, c'est créer une connexion.** Pas une performance. Pas un numéro. Une connexion. Et la bonne nouvelle, c'est que les techniques qui marchent en humour marchent aussi en conversation — que ce soit un date, une soirée, ou un message à 23h.
+
+## Comment faire rire une fille avec l'autodérision
+
+**Fary** l'a dit mieux que personne : "L'autodérision, c'est montrer qu'on est assez confiant pour rire de soi." C'est le contraire du mec qui essaie d'impressionner.
+
+Raconte un truc où tu passes pour un idiot. Mais un idiot attachant.
+
+**Ce qui marche :** "J'ai voulu faire le mec qui connaît les vins au resto. J'ai dit 'il est charpenté'. C'était une bière." → Tu montres que tu t'assumes.
+
+**Ce qui ne marche pas :** "Je suis tellement nul que personne ne veut de moi." → Ça fait pas rire. Ça fait fuir.
+
+La nuance ? L'autodérision drôle montre de la confiance. L'autodérision triste cherche de la pitié. On a un [guide complet sur l'autodérision bien dosée](/blog/autoderision-interactions).
+
+## 2. L'observation partagée — "Tu vois le truc aussi ?"
+
+**Roman Frayssinet** est le roi de ça. Il décrit un truc que tout le monde vit et personne ne verbalise. En conversation, c'est pareil : pointe un truc absurde que vous vivez ENSEMBLE, en ce moment.
+
+En soirée : "Tu vois le mec là-bas qui danse comme si son corps recevait le Wi-Fi par intermittence ?"
+
+En date : "C'est moi ou le serveur nous regarde comme si on allait partir sans payer ?"
+
+Le truc clé : tu ne racontes pas une blague. Tu partages un regard. Et partager un regard, c'est 10 fois plus intime que réciter un sketch.
+
+## 3. L'effet de surprise — Le virage que personne voit venir
+
+Le cerveau adore être surpris. Tu commences une phrase dans une direction, et tu tournes.
+
+"Tu sais, quand je t'ai vue, je me suis dit 'elle a l'air sympa'... et après t'as parlé de ta collection de cactus et j'ai su que c'était plus profond que ça."
+
+**Paul Mirabel** utilise ça en permanence : setup normal → pivot absurde → punchline au mauvais endroit. Le secret c'est que le virage doit être net. Pas "ah et du coup haha non en fait", mais un VRAI changement de direction. Notre article sur le [timing](/blog/timing-humour) détaille cette mécanique.
+
+## Faire rire une fille en prouvant que tu écoutes
+
+Reprends un truc qu'elle a dit il y a 20 minutes et replace-le dans un nouveau contexte. C'est un callback — la technique préférée de **Blanche Gardin** en spectacle.
+
+Elle mentionne qu'elle a peur des pigeons. 20 minutes plus tard, devant un parc : "Bon, on traverse ou tu veux un gilet pare-pigeons ?"
+
+Pourquoi ça marche ? Parce que ça prouve que tu écoutes. Et ça, c'est plus rare que tu ne crois. 90% des gens attendent juste leur tour pour parler. Toi, tu RECYCLES ce qu'on te dit pour en faire quelque chose de drôle. C'est une déclaration d'attention.
+
+## 5. L'exagération stratégique — Le curseur poussé à fond
+
+Prends un détail et monte-le à 11/10. Pas un mensonge — une amplification comique.
+
+Elle dit qu'elle aime le fromage ? "OK donc en gros si on va au resto et que le plateau de fromages arrive, je te perds pour le reste de la soirée. Je deviens le deuxième choix après un comté 18 mois."
+
+**Waly Dia** fait ça tout le temps : il prend un détail anodin de la vie et construit un univers absurde autour. L'astuce : une seule exagération suffit. Si tu en empiles trois, ça devient du bruit.
+
+## 6. Le silence qui parle — Ne pas tout remplir
+
+La plupart des mecs parlent trop. Par nervosité, par envie de combler le vide, par peur du silence. Le silence, c'est une arme.
+
+Regarde **Panayotis Pascot** en interview. Il laisse des blancs. Ces blancs créent de la tension, et la phrase d'après en est 10 fois plus drôle.
+
+En pratique : après ta punchline, ne rajoute rien. Pas de "haha tu vois ce que je veux dire ?". Pose ta vanne et laisse-la respirer. Le rire vient dans le silence.
+
+## La vraie technique pour faire rire une fille : être toi
+
+Paradoxe : les gens les plus drôles ne sont pas ceux qui ESSAIENT d'être drôles. **Inès Reg** est devenue virale en étant juste elle-même, sans filtre, sans calcul.
+
+Les meilleurs moments d'humour en date ou en soirée, c'est quand tu DIS un truc que tu PENSES vraiment, avec un angle légèrement décalé. C'est pas un numéro. C'est toi, mais avec le filtre "tiens, c'est absurde quand on y pense".
+
+Si tu forces, ça se sent. Si tu t'amuses sincèrement, c'est contagieux.
+
+## Ce qu'il faut éviter (le guide anti-malaise)
+
+- **La blague récitée** : "Alors c'est l'histoire de..." → Tu passes en mode spectacle. Elle passe en mode public. La dynamique est morte.
+- **L'humour méchant** : Chambrer quelqu'un d'autre pour faire rire → Ça marche sur le moment, mais ça donne l'image d'un mec qui casse pour exister. Pas ouf.
+- **Le mec qui rit à ses propres blagues** : Si tu es le seul à rire, c'est un monologue, pas de l'humour.
+- **L'insistance** : Ta vanne tombe à plat ? NEXT. Passe à autre chose. L'humour, c'est pas un combat, c'est une danse.
+
+## Faire rire une fille : la connexion avant la performance
+
+Tu n'es pas sur scène. Tu es avec quelqu'un. L'objectif, c'est pas qu'elle pense "il est drôle". C'est qu'elle pense "je me sens bien avec lui". Le rire est un MOYEN, pas une fin.
+
+Les mecs les plus drôles que je connais ne sont pas ceux qui sortent les meilleures vannes. Ce sont ceux qui créent un espace où tout le monde se sent assez à l'aise pour rire. **Faire rire une fille**, au fond, c'est lui montrer que tu es à l'aise avec toi-même — et ça, c'est contagieux.
+
+Si tu veux travailler ta répartie en général, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) sont un bon point de départ. Et si tu veux un programme complet, le [Parcours Répartie](/parcours) te guide semaine par semaine.
+
+→ **[Nos vannes du jour](/vannes)** — des vannes testées que tu peux adapter à n'importe quelle conversation.
+
+→ **[Nos conseils d'humour](/conseils)** — timing, répartie, autodérision : les techniques des pros en format actionnable.
+
+→ **[Comment devenir drôle](/blog/comment-devenir-drole)** — le guide complet si tu veux reprendre les bases.`,
+    date: "2026-03-19",
+    readingTime: "7 min",
+    category: "CONTEXTE",
+    faqs: [
+      { question: "Comment faire rire une fille sans être lourd ?", answer: "Oublie les blagues formatées et les vannes apprises par cœur. Privilégie l'autodérision calibrée (rire de toi sans te dévaloriser), l'observation partagée (pointer un truc absurde que vous vivez ensemble) et le callback (reprendre un truc qu'elle a dit plus tôt dans un nouveau contexte). L'humour naturel crée plus de connexion que n'importe quelle blague récitée." },
+      { question: "Est-ce que l'humour est important pour séduire ?", answer: "L'humour n'est pas un outil de séduction, c'est un marqueur de confiance et d'intelligence sociale. Quand tu fais rire quelqu'un, tu montres que tu es à l'aise, que tu écoutes et que tu sais lire une situation. C'est cette aisance qui attire, pas la blague elle-même." },
+      { question: "Comment être drôle en date sans forcer ?", answer: "Sois attentif plutôt que performeur. Les meilleures vannes en date viennent de ce qui se passe EN TEMPS RÉEL : un serveur maladroit, un détail absurde, un point commun inattendu. L'authenticité bat toujours la préparation." },
+      { question: "Quels types d'humour plaisent le plus ?", answer: "L'autodérision positive (tu ris de toi sans te démolir), l'observation fine (tu mets des mots sur ce que tout le monde voit) et l'absurde léger (tu exagères un détail). Évite l'humour méchant (chambrer les autres), l'humour vulgaire gratuit et les blagues récitées format 'c'est l'histoire de'." },
+    ],
+  },
+  {
+    slug: "comment-faire-rire-un-homme",
+    title: "Comment faire rire un homme : 6 techniques",
+    excerpt:
+      "Faire rire un mec, c'est pas jouer les clowns. C'est le surprendre là où il s'y attend pas. 6 techniques testées, 0 cliché genré.",
+    content: `Il y a un mythe tenace : c'est aux mecs d'être drôles. Les filles, elles, sont censées rire. C'est un truc qui date d'une époque où on pensait aussi que la Terre était plate et que LinkedIn était un réseau professionnel (spoiler pour le deuxième : toujours pas).
+
+**Les femmes les plus charismatiques que tu connais sont drôles.** Et pas drôles "pour une fille" — juste drôles. Point. Regarde **Blanche Gardin**, **Inès Reg**, Florence Foresti : elles font rire n'importe qui. Parce que **faire rire un homme**, ça repose sur les mêmes mécanismes que faire rire n'importe qui. L'humour n'a pas de genre. Il a des techniques.
+
+## Faire rire un homme avec le chambrage bienveillant
+
+La plupart des mecs communiquent par chambrages. C'est leur langage d'amitié. Si tu sais le parler, tu es dans le cercle intérieur en 5 minutes.
+
+**Ce qui marche :** Il te dit qu'il fait du sport ? "Ah oui, tu fais du sport... genre tu marches jusqu'à la boulangerie le dimanche ?" → C'est taquin, c'est léger, c'est exactement ce qu'un pote lui dirait.
+
+**Ce qui ne marche pas :** Des chambrages sur des sujets sensibles (physique, travail, famille). Tu le connais pas assez pour aller là.
+
+**Fary** parle souvent de ça : le chambrage, c'est du lien social. Plus tu chambre quelqu'un, plus ça veut dire que tu l'apprécies. Mais il faut le bon calibre.
+
+## 2. L'humour décalé — Dire le truc que personne attendait
+
+Les mecs s'attendent à certaines réactions. Tu casses le script, tu gagnes le rire.
+
+Lui : "Je suis un peu bordélique."
+Toi : "Bordélique genre 'créatif' ou bordélique genre 'la science étudie ton appart' ?"
+
+**Paul Mirabel** a construit toute sa carrière sur le décalage. Ses réponses ne sont JAMAIS celles qu'on attend. En conversation, c'est pareil : la surprise est la mère du rire.
+
+## 3. Les références partagées — Le ciment du rire complice
+
+Films, séries, memes, moments vécus ensemble. Les références partagées créent un langage privé qui fait rire parce qu'il y a un contexte que vous seuls comprenez.
+
+"On dirait le moment dans The Office où Michael dit 'that's what she said' sauf que TOI tu le fais vraiment."
+
+Ce type d'humour est imbattable parce qu'il est exclusif. Personne d'autre ne peut faire cette blague. C'est votre truc.
+
+## 4. L'autodérision cool — Pas fragile, juste lucide
+
+L'autodérision fonctionne dans les deux sens. Mais la nuance est importante.
+
+**Version qui marche :** "J'ai essayé de monter un meuble IKEA. J'ai fini avec 7 vis en trop et un truc qui ressemble vaguement à une étagère si tu penches la tête." → C'est drôle, c'est relatable.
+
+**Version qui fait fuir :** "Je suis tellement nulle en tout, personne ne voudrait de moi." → Alarme générale.
+
+**Panayotis Pascot** le dit bien : l'autodérision drôle, c'est "j'ai merdé et c'est hilarant". Pas "j'ai merdé et je suis une merde". On détaille la différence dans notre guide sur [l'autodérision bien dosée](/blog/autoderision-interactions).
+
+## Comment faire rire un homme avec l'observation
+
+Les mecs adorent quand quelqu'un verbalise un truc que tout le monde a remarqué mais que personne n'ose dire.
+
+En soirée : "Le DJ joue du reggaeton comme si c'était une urgence médicale."
+Au resto : "Le serveur nous ignore tellement qu'on pourrait braquer la caisse et il remarquerait pas."
+
+**Roman Frayssinet** fait ça mieux que personne. Il DÉCRIT la réalité avec une précision tellement chirurgicale que c'est drôle juste par la justesse du propos. Pas besoin de blague. Juste de bien regarder et de bien dire.
+
+## 6. Le timing de la punchline — Dire moins, pas plus
+
+La plupart des gens noient leur humour dans les mots. La phrase drôle, c'est souvent la phrase la plus courte.
+
+Lui : (long monologue sur un plan foireux)
+Toi, après un silence : "Non."
+
+Ce "non" fait plus rire qu'un paragraphe. Parce que le timing est parfait. **Blanche Gardin** utilise des silences de 3-4 secondes avant certaines punchlines. Ces silences créent l'attente, et l'attente crée le rire. Notre article sur le [timing en humour](/blog/timing-humour) explique cette mécanique en détail.
+
+## L'exercice du jour : ton humour en 3 situations
+
+Avant de lire la suite, essaie ça aujourd'hui :
+
+1. **Au boulot / en cours** : observe un truc absurde et verbalise-le à voix haute devant quelqu'un. "C'est moi ou la machine à café fait un bruit de moteur de Formule 1 depuis ce matin ?"
+2. **Par message** : réponds à un ami avec un callback. Il t'a parlé de son chien qui mange tout ? Trois heures plus tard, envoie "ton chien a mangé mon message aussi ou il a juste du retard ?"
+3. **En soirée / date** : fais un chambrage léger dans les 10 premières minutes. Le calibre : ce qu'un bon pote dirait.
+
+Note mentalement ce qui a fait sourire et ce qui est tombé à plat. C'est de la R&D comique. Tu fais exactement ce que **Paul Mirabel** faisait dans ses premiers open mics : tu testes.
+
+## Les erreurs qui tuent l'ambiance
+
+- **Se retenir d'être drôle** : Le pire truc, c'est de penser "non, je vais pas dire ça". Si c'est drôle dans ta tête et que c'est pas méchant, DIS-LE.
+- **Jouer les cruches** : Faire semblant de pas comprendre pour "être mignonne" → c'est l'inverse de drôle, c'est du sabotage de ta propre intelligence.
+- **Rire de TOUT** : Si tu ris à chaque truc qu'il dit, ton rire ne veut plus rien dire. Le rire sélectif a plus de valeur.
+- **Copier son humour** : Trouve ton style. Si lui fait de l'absurde et que toi tu fais de l'observation acérée, c'est COMPLÉMENTAIRE. C'est pas un concours du même style.
+
+## Faire rire un homme : ta signature, pas un rôle
+
+L'erreur serait de croire que **faire rire un homme** nécessite un mode d'emploi différent de faire rire n'importe quel humain. Les mécanismes sont les mêmes : surprise, timing, observation, authenticité.
+
+Ce qui change, c'est le contexte. En date, le chambrage léger crée de la complicité. Entre amis, les références partagées solidifient le groupe. Au travail, l'observation fine te rend mémorable.
+
+**Waly Dia** dit un truc juste : "Les gens drôles ne sont pas ceux qui font rire, ce sont ceux avec qui on se sent assez à l'aise pour rire." C'est exactement ça. **Comment faire rire un homme** se résume à ça : crée un climat où le rire est naturel, pas une performance. Et ton humour deviendra ta signature — pas un rôle que tu joues.
+
+Si tu veux développer ton propre style d'humour, notre guide [Comment devenir drôle](/blog/comment-devenir-drole) t'accompagne étape par étape. Et pour la répartie, nos [10 techniques efficaces](/blog/comment-avoir-de-la-repartie) te donnent des réflexes concrets.
+
+→ **[Nos vannes du jour](/vannes)** — des vannes testées que tu peux adapter et ressortir ce soir.
+
+→ **[Nos techniques de répartie](/conseils)** — timing, repartie, autodérision : les outils des pros.
+
+→ **[Les 5 types d'humour](/blog/5-types-humour-lequel-pour-toi)** — trouve quel style te correspond le mieux.`,
+    date: "2026-03-19",
+    readingTime: "6 min",
+    category: "CONTEXTE",
+    faqs: [
+      { question: "Comment faire rire un homme facilement ?", answer: "Le chambrage bienveillant est la voie royale : les mecs communiquent naturellement par taquineries. Un tacle affectueux sur un détail anodin crée de la complicité instantanée. L'observation décalée marche aussi très bien : pointe un truc absurde que personne n'ose dire." },
+      { question: "Les hommes aiment les femmes drôles ?", answer: "Oui, et les études le confirment : l'humour est un marqueur d'intelligence sociale et de confiance en soi. Les hommes apprécient les femmes qui les font rire parce que ça crée une dynamique de complicité, pas de performance. Blanche Gardin, Inès Reg, Florence Foresti : elles font rire tout le monde." },
+      { question: "Comment être drôle en tant que femme ?", answer: "De la même façon qu'en tant qu'humain : observation, surprise, timing, autodérision calibrée. L'erreur serait de croire qu'il faut un 'humour féminin' différent. Les mécanismes du rire sont universels. Trouve ton style (absurde, observationnel, taquin) et assume-le." },
+      { question: "Quel humour plaît aux hommes ?", answer: "L'humour qui surprend. Les mecs s'attendent à certaines réactions — si tu casses le script avec une réponse décalée, tu gagnes le rire. Le chambrage calibré, l'observation assassine et le timing (savoir quand NE PAS parler) sont les trois outils les plus efficaces." },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 

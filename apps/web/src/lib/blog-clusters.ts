@@ -57,7 +57,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "fort-volume",
     name: "Mots-clés fort volume (acquisition)",
     pillarSlug: "meilleures-blagues-droles-2026",
-    satelliteSlugs: ["phrases-droles-conversations", "comment-faire-rire-une-fille", "comment-faire-rire-ses-amis", "creer-ses-propres-blagues"],
+    satelliteSlugs: ["phrases-droles-conversations", "comment-faire-rire-une-fille", "comment-faire-rire-un-homme", "comment-faire-rire-ses-amis", "creer-ses-propres-blagues"],
   },
   {
     id: "saisonnier",
