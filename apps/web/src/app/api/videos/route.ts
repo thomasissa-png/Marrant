@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
         // La vidéo du jour n'est pas dans la page (filtres ou pagination)
         // La chercher et l'ajouter en premier
         const dailyVideo = await prisma.video.findFirst({
-          where: { id: dailyVideoId, isActive: true, ...where },
+          where: { ...where, id: dailyVideoId },
         });
         if (dailyVideo) {
           videos.unshift(dailyVideo);
