@@ -481,9 +481,12 @@ function getDailyPlan(
   };
 
   // Yanis : remplacer LinkedIn par un 3ème tweet (Le Défi) les jours Yanis
+  // + refs culturelles gen Z (memes, TikTok, Netflix, rap FR, gaming)
+  const yanisGenZRefs = ["memes/TikTok", "Netflix/séries", "rap FR/musique", "gaming/stream", "dating apps"];
+  const yanisRefDuJour = yanisGenZRefs[dayOfWeek % yanisGenZRefs.length];
   const yanisExtraTweet: DailyPostPlan = {
     format: "TWEET",
-    theme: `Le Défi — challenge humour à tester ce soir en soirée/coloc, ton provocateur et complice`,
+    theme: `Le Défi — challenge humour à tester ce soir en soirée/coloc, ton provocateur et complice, ref culturelle ${yanisRefDuJour}`,
     platform: "TWITTER",
     sourceType: "ORIGINAL",
   };
@@ -502,7 +505,7 @@ function getDailyPlan(
   // Yanis : plus de "La Vanne" et "Le Défi" (il veut des vannes, pas des cours)
   // Marc : plus de "La Vanne" et "Le Défi" (il veut rigoler, pas se développer)
   const instagramThemes: Record<PersonaKey, string> = {
-    YANIS: `Contexte soirée, coloc, potes — vanne percutante ou défi drôle pour ${p.name}`,
+    YANIS: `Contexte soirée, coloc, potes — vanne percutante ou défi drôle, refs gen Z (${yanisRefDuJour}) pour ${p.name}`,
     SOPHIE: `Contexte bureau, afterwork, dîner entre amis — visuel pro et drôle pour ${p.name}`,
     MARC: `Come-back humour, retrouver sa vanne, redevenir drôle — vanne ou défi pour ${p.name}`,
   };
@@ -541,13 +544,18 @@ function getDailyPlan(
       // Lundi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique de stand-up pour ${p.name} — début de semaine, besoin d'énergie`,
+        theme: persona === "YANIS"
+          ? `Technique de stand-up pour ${p.name} — début de semaine, ref culturelle gen Z (${yanisRefDuJour}), besoin d'énergie`
+          : `Technique de stand-up pour ${p.name} — début de semaine, besoin d'énergie`,
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
+        // Sophie : priorité Vanne Réécrite Social (prête à ressortir telle quelle)
         format: "TWEET",
-        theme: `Vanne courte liée à ${p.interests[0]} — format micro-performance`,
+        theme: persona === "SOPHIE"
+          ? `Vanne Réécrite Social — une vanne prête à ressortir mot pour mot à la machine à café demain matin, contexte ${p.interests[0]}`
+          : `Vanne courte liée à ${p.interests[0]} — format micro-performance`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
@@ -564,7 +572,9 @@ function getDailyPlan(
       },
       {
         format: "TWEET",
-        theme: `Vanne observationnelle sur ${p.interests[1]}`,
+        theme: persona === "SOPHIE"
+          ? `Vanne Réécrite Social — observation bureau/afterwork prête à ressortir, contexte ${p.interests[1]}`
+          : `Vanne observationnelle sur ${p.interests[1]}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
@@ -585,6 +595,13 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
+      // 🃏 Wild card #1 — slot réactif : actu stand-up, trend du moment, réaction à chaud
+      {
+        format: "TWEET",
+        theme: `WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, polémique, événement, trend — ton spontané "t'as vu ça ?!"`,
+        platform: "TWITTER",
+        sourceType: "ORIGINAL",
+      },
       linkedInOrExtra,
       instagramPost(3),
     ],
@@ -598,10 +615,23 @@ function getDailyPlan(
       },
       {
         format: "TWEET",
-        theme: `Vanne situation quotidienne ${p.name}`,
+        theme: persona === "SOPHIE"
+          ? `Vanne Réécrite Social — situation quotidienne bureau/transports prête à ressortir verbatim`
+          : `Vanne situation quotidienne ${p.name}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      // Marc : 1 tweet/semaine dédié au dating (premier date après 8 ans, ne pas être le mec gênant)
+      ...(persona === "MARC"
+        ? [
+            {
+              format: "TWEET" as SocialFormat,
+              theme: `Dating après une séparation — premier date après 8 ans, comment ne pas être le mec gênant, faire rire sans forcer, la vanne qui détend l'atmosphère`,
+              platform: "TWITTER" as SocialPlatform,
+              sourceType: "ORIGINAL",
+            },
+          ]
+        : []),
       linkedInOrExtra,
       instagramPost(4),
     ],
@@ -615,7 +645,9 @@ function getDailyPlan(
       },
       {
         format: "TWEET",
-        theme: `Vanne weekend — léger, shareable, contexte soirée`,
+        theme: persona === "SOPHIE"
+          ? `Vanne Réécrite Social — la vanne du weekend prête à sortir en afterwork/dîner entre amis ce soir`
+          : `Vanne weekend — léger, shareable, contexte soirée`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
@@ -632,6 +664,13 @@ function getDailyPlan(
         theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir"`,
         platform: "TWITTER",
         sourceType: "BLOG",
+      },
+      // 🃏 Wild card #2 — slot réactif : meme du moment, trend Twitter, réaction show Netflix/YouTube
+      {
+        format: "TWEET",
+        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent — ton "je viens de voir ça"`,
+        platform: "TWITTER",
+        sourceType: "ORIGINAL",
       },
     ],
     0: [
@@ -700,15 +739,15 @@ function getSchedulingHint(
   // Twitter/Threads — persona-based scheduling context with slot awareness
   const personaHints: Record<PersonaKey, string[]> = {
     YANIS: [
-      "Ce post sera lu en soirée, ton scroll du soir — contexte détendu, mode loisir",
+      "Ce post sera lu en soirée, ton scroll du soir — contexte détendu, mode loisir, refs gen Z bienvenues (memes, TikTok, séries, rap FR)",
     ],
     SOPHIE: [
       "Ce post sera lu le matin (trajet/pause café) — court, percutant, facilement mémorisable",
       "Ce post sera lu en pause déj — contexte détente, anecdote à ressortir à la machine à café",
     ],
     MARC: [
-      "Ce post sera lu tôt le matin — ton calme, réflexif, inspirant",
-      "Ce post sera lu en soirée — contexte reconstruction, motivation douce",
+      "Ce post sera lu tôt le matin — ton calme, réflexif, actionnable (un truc à tester aujourd'hui)",
+      "Ce post sera lu en soirée — contexte come-back, une technique concrète à appliquer demain",
     ],
   };
 

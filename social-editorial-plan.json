@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-03-21",
+  "lastUpdated": "2026-03-22",
   "strategy": {
     "mission": "Chaque post est une micro-performance de stand-up. Pas un extrait du catalogue. Pas un engagement bait.",
     "growthTarget": "0 → 10K followers en 6 mois",
@@ -25,9 +25,10 @@
   },
   "platforms": {
     "TWITTER": {
-      "postsPerDay": "2-3",
+      "postsPerDay": "2-4",
       "threadsPerWeek": 2,
-      "formats": ["TWEET", "THREAD", "QUOTE_ANALYSIS"],
+      "wildCardsPerWeek": 2,
+      "formats": ["TWEET", "THREAD", "QUOTE_ANALYSIS", "WILD_CARD"],
       "charLimit": 280,
       "rules": [
         "Hook ≤ 5 mots obligatoire",
@@ -38,7 +39,8 @@
       "bestPractices": [
         "Ratio 80% valeur / 20% promo",
         "Répondre aux comptes d'humoristes (visibilité organique)",
-        "Réagir à l'actualité stand-up dans les 2h"
+        "Réagir à l'actualité stand-up dans les 2h",
+        "2 wild cards/semaine (mercredi + samedi) pour réactivité actu/trends"
       ]
     },
     "LINKEDIN": {
@@ -101,13 +103,13 @@
     },
     {
       "day": "Mercredi",
-      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)"],
+      "twitter": ["Technique du Jour (matin)", "Thread Décryptage (soir)", "🃏 Wild Card réactif (actu stand-up)"],
       "linkedin": ["Post storytelling/anecdote pro"],
       "instagram": ["Image Technique du Jour"]
     },
     {
       "day": "Jeudi",
-      "twitter": ["Quote Analyse (matin)", "Thread Décryptage (soir)"],
+      "twitter": ["Quote Analyse (matin)", "Vanne situation (soir)", "Marc: tweet dating (si jour Marc)"],
       "linkedin": [],
       "instagram": ["Carousel Décryptage"]
     },
@@ -119,7 +121,7 @@
     },
     {
       "day": "Samedi",
-      "twitter": ["Vanne Réécrite Social (midi)", "Quote Analyse (soir)"],
+      "twitter": ["Thread viral (midi)", "🃏 Wild Card réactif (meme/trend/show)"],
       "linkedin": [],
       "instagram": ["Image La Vanne ou Le Défi"]
     },
@@ -284,23 +286,38 @@
   },
   "schedulingByPersona": {
     "YANIS": {
-      "description": "Scrolle le soir après les cours/soirées",
+      "description": "Scrolle le soir après les cours/soirées — refs gen Z (memes, TikTok, Netflix, rap FR, gaming)",
       "twitter": [19, 21],
       "linkedin": [18, 20],
-      "instagram": [18, 20]
+      "instagram": [18, 20],
+      "genZRefs": ["memes/TikTok", "Netflix/séries", "rap FR/musique", "gaming/stream", "dating apps"]
     },
     "SOPHIE": {
-      "description": "Trajet matin + pause déjeuner",
+      "description": "Trajet matin + pause déjeuner — priorité Vanne Réécrite Social (prête à ressortir verbatim)",
       "twitter": [7, 11],
       "linkedin": [6, 10],
-      "instagram": [10, 17]
+      "instagram": [10, 17],
+      "priorityFormat": "VANNE_REECRITE_SOCIAL"
     },
     "MARC": {
-      "description": "Matin calme + soirée",
+      "description": "Matin calme + soirée — ton actionnable (pas inspirant), 1 tweet dating/semaine (jeudi)",
       "twitter": [6, 18],
       "linkedin": [7, 19],
-      "instagram": [6, 19]
+      "instagram": [6, 19],
+      "datingTweetDay": "jeudi"
     }
+  },
+  "directorDirectives_v2": {
+    "date": "2026-03-22",
+    "previousScore": "8.4/10",
+    "targetScore": "9.5/10",
+    "implemented": [
+      "Wild cards : 2 slots/semaine (mercredi + samedi) pour réactivité actu stand-up/trends",
+      "Marc dating : 1 tweet/semaine (jeudi) contexte premier date après séparation",
+      "Marc hints : 'inspirant' → 'actionnable' — ton concret, pas dev perso",
+      "Yanis gen Z : refs culturelles rotatives (memes/TikTok, Netflix/séries, rap FR, gaming, dating apps) dans thèmes + scheduling hints",
+      "Sophie : priorité Vanne Réécrite Social sur TOUS les tweets JOKE — vannes prêtes à ressortir verbatim"
+    ]
   },
   "feedbackLoop": {
     "description": "Les top posts (score ≥ 8/10) des 14 derniers jours sont injectés dans le prompt de génération",
