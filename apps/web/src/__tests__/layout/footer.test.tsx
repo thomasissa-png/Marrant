@@ -71,4 +71,18 @@ describe("Footer", () => {
       "/confidentialite"
     );
   });
+
+  it("renders social media links with correct hrefs", () => {
+    render(<Footer />);
+    const twitterLink = screen.getByLabelText("Twitter / X");
+    expect(twitterLink).toHaveAttribute("href", "https://x.com/deviensmarrant");
+    expect(twitterLink).toHaveAttribute("target", "_blank");
+
+    const linkedinLink = screen.getByLabelText("LinkedIn");
+    expect(linkedinLink).toHaveAttribute("href", "https://www.linkedin.com/company/deviens-marrant");
+
+    const instagramLink = screen.getByLabelText("Instagram");
+    expect(instagramLink).toHaveAttribute("href", "https://www.instagram.com/deviensmarrant/");
+    expect(instagramLink).toHaveAttribute("target", "_blank");
+  });
 });
