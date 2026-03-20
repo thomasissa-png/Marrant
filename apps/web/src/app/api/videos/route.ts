@@ -73,12 +73,41 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    // Récupérer la vidéo du jour pour la placer en premier (comme vannes et conseils)
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const dailyContent = await prisma.dailyContent.findUnique({
+      where: { date: today },
+      select: { videoId: true },
+    });
+    const dailyVideoId = dailyContent?.videoId ?? null;
+
     const videos = await prisma.video.findMany({
       where,
       skip: (query.page - 1) * query.limit,
       take: isPremium ? query.limit : Math.max(0, effectiveLimit),
       orderBy: [{ createdAt: "desc" }, { id: "asc" }],
     });
+
+    // Placer la vidéo du jour en premier sur la page 1
+    if (dailyVideoId && query.page === 1) {
+      const dailyIdx = videos.findIndex((v) => v.id === dailyVideoId);
+      if (dailyIdx > 0) {
+        // La vidéo du jour est dans la liste mais pas en premier → la remonter
+        const [daily] = videos.splice(dailyIdx, 1);
+        videos.unshift(daily);
+      } else if (dailyIdx === -1) {
+        // La vidéo du jour n'est pas dans la page (filtres ou pagination)
+        // La chercher et l'ajouter en premier
+        const dailyVideo = await prisma.video.findFirst({
+          where: { id: dailyVideoId, isActive: true, ...where },
+        });
+        if (dailyVideo) {
+          videos.unshift(dailyVideo);
+          videos.pop(); // Garder la même taille de page
+        }
+      }
+    }
 
     return NextResponse.json({
       videos,
