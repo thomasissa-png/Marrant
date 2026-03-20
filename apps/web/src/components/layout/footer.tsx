@@ -66,7 +66,7 @@ export function Footer() {
               de pro pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
-              contact@deviens-marrant.fr
+              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-primary">contact@deviens-marrant.fr</a>
             </p>
 
             {/* Social links */}
