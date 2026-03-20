@@ -236,31 +236,30 @@ export async function createBufferImagePost(
 
 /**
  * Publie un thread Twitter via Buffer.
- * Buffer ne supporte pas nativement les threads, donc on publie le premier tweet
- * et on ajoute une note que les tweets suivants seront dans les réponses.
+ * Chaque partie est publiée comme un tweet séparé, espacé de 2 min.
  *
- * Pour un vrai thread, on concatène les parties avec des séparateurs.
- * Alternative : publier chaque partie séparément avec un délai.
+ * Note plan gratuit Buffer : 10 posts schedulés/channel max.
+ * Les threads sont publiés en quasi-immédiat (dueAt = maintenant + 1-2 min par partie)
+ * pour ne pas monopoliser les slots de scheduling.
+ * Le paramètre dueAt est ignoré pour les threads — ils partent immédiatement.
  *
  * @returns L'ID du premier post Buffer.
  */
 export async function createBufferThread(
   parts: string[],
-  dueAt?: Date,
+  _dueAt?: Date,
 ): Promise<string> {
   if (parts.length === 0) {
     throw new Error("Thread vide — au moins 1 tweet requis");
   }
 
-  // Pour les threads, on publie la première partie via Buffer
-  // Les threads Twitter natifs ne sont pas supportés par Buffer API
-  // On publie donc chaque partie comme un tweet séparé, espacé de 2 minutes
-  const firstId = await createBufferPost("TWITTER", parts[0], dueAt);
-
-  const baseTime = dueAt ? dueAt.getTime() : Date.now() + 5 * 60 * 1000;
+  // Publication quasi-immédiate : 1 min dans le futur + 2 min entre chaque partie
+  // Libère les slots de scheduling rapidement (important pour plan gratuit Buffer)
+  const baseTime = Date.now() + 60 * 1000; // +1 min
+  const firstId = await createBufferPost("TWITTER", parts[0], new Date(baseTime));
 
   for (let i = 1; i < parts.length; i++) {
-    const partDueAt = new Date(baseTime + i * 2 * 60 * 1000); // +2 min entre chaque
+    const partDueAt = new Date(baseTime + i * 2 * 60 * 1000);
     await createBufferPost("TWITTER", parts[i], partDueAt);
   }
 
