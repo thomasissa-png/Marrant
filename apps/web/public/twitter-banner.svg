@@ -27,8 +27,8 @@
   <circle cx="300" cy="400" r="250" fill="url(#glow2)"/>
 
   <!-- Main headline -->
-  <text x="750" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-1">Deviens la personne la plus drôle</text>
-  <text x="750" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" fill="url(#accent-grad)" text-anchor="middle" letter-spacing="-1">du groupe.</text>
+  <text x="750" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" text-anchor="middle" letter-spacing="-1"><tspan fill="#FFFFFF">Deviens la personne </tspan><tspan fill="url(#accent-grad)">la plus drôle</tspan></text>
+  <text x="750" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-1">du groupe.</text>
 
   <!-- Subtitle: 3 pillars -->
   <text x="750" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#B3B3B3" text-anchor="middle" letter-spacing="4">VANNES  ·  TECHNIQUES  ·  PARCOURS</text>

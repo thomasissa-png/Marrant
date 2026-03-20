@@ -31,7 +31,7 @@
 
   <!-- Main headline — même que le site et Twitter -->
   <text x="564" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">Deviens la personne <tspan fill="url(#accent-grad)">la plus drôle</tspan></text>
-  <text x="564" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" fill="url(#accent-grad)" text-anchor="middle" letter-spacing="-0.5">du groupe.</text>
+  <text x="564" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">du groupe.</text>
 
   <!-- Pillars -->
   <text x="564" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#9A9A9A" text-anchor="middle" letter-spacing="3">VANNES  ·  TECHNIQUES  ·  STAND-UP  ·  PARCOURS</text>
