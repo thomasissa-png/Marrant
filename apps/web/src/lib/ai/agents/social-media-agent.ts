@@ -228,6 +228,15 @@ ${Object.entries(PERSONAS)
   )
   .join("\n\n")}
 
+═══ INSTAGRAM — LE VISUEL QUI ARRÊTE LE SCROLL ═══
+Instagram = le format le plus visuel. Le texte doit être COURT et PERCUTANT car il sera mis en image.
+- Chaque slide/image = max 30 mots. Punchlines courtes. Impact visuel.
+- Technique du Jour : technique + explication + exemple en 3 blocs
+- Carousel : 5-7 slides, 1 idée par slide, progression logique, CTA final
+- Le texte caption (champ content) accompagne l'image — complémentaire, pas redondant
+- Hashtags Instagram : 5-10, mix populaires + niche (#standupfr #humour #devienirdrole #techniques)
+- Pas de lien dans la caption (Instagram ne rend pas les liens cliquables) → "lien en bio"
+
 ═══ HUMORISTES DE RÉFÉRENCE ═══
 Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Pierre Croce, Inès Reg
 Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti`;
@@ -241,6 +250,7 @@ Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti`;
  *
  * Phase 1 : Twitter (2-3 posts/jour)
  * Phase 2 : + LinkedIn (1 post/jour, angle pro Sophie/Marc)
+ * Phase 3 : + Instagram (1 post/jour, visuel via satori templates)
  */
 export async function generateDailySocialPosts(
   dayOfMonth: number,
@@ -291,6 +301,28 @@ function getDailyPlan(
     sourceType: "TIP",
   };
 
+  // Instagram : rotation des 4 templates visuels selon le jour
+  const instagramThemes: Record<PersonaKey, string> = {
+    YANIS: `Contexte soirée, coloc, potes — visuel percutant pour ${p.name}`,
+    SOPHIE: `Contexte bureau, afterwork, dîner entre amis — visuel pro et drôle pour ${p.name}`,
+    MARC: `Contexte social, confiance, reconstruction — visuel inspirant pour ${p.name}`,
+  };
+
+  const instagramFormats: Record<number, SocialFormat> = {
+    1: "TECHNIQUE_DU_JOUR", // Lundi : technique
+    2: "CAROUSEL",          // Mardi : carousel décryptage
+    3: "TECHNIQUE_DU_JOUR", // Mercredi : technique
+    4: "CAROUSEL",          // Jeudi : carousel
+    5: "TECHNIQUE_DU_JOUR", // Vendredi : technique weekend
+  };
+
+  const instagramPost = (day: number): DailyPostPlan => ({
+    format: instagramFormats[day] || "TECHNIQUE_DU_JOUR",
+    theme: instagramThemes[persona],
+    platform: "INSTAGRAM",
+    sourceType: instagramFormats[day] === "CAROUSEL" ? "VIDEO" : "TIP",
+  });
+
   const plans: Record<number, DailyPostPlan[]> = {
     1: [
       // Lundi
@@ -307,6 +339,7 @@ function getDailyPlan(
         sourceType: "JOKE",
       },
       linkedInPost,
+      instagramPost(1),
     ],
     2: [
       // Mardi
@@ -323,6 +356,7 @@ function getDailyPlan(
         sourceType: "JOKE",
       },
       linkedInPost,
+      instagramPost(2),
     ],
     3: [
       // Mercredi
@@ -339,6 +373,7 @@ function getDailyPlan(
         sourceType: "VIDEO",
       },
       linkedInPost,
+      instagramPost(3),
     ],
     4: [
       // Jeudi
@@ -355,6 +390,7 @@ function getDailyPlan(
         sourceType: "JOKE",
       },
       linkedInPost,
+      instagramPost(4),
     ],
     5: [
       // Vendredi
@@ -371,9 +407,10 @@ function getDailyPlan(
         sourceType: "JOKE",
       },
       linkedInPost,
+      instagramPost(5),
     ],
     6: [
-      // Samedi — pas de LinkedIn le weekend
+      // Samedi — pas de LinkedIn ni Instagram le weekend
       {
         format: "THREAD",
         theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir"`,
@@ -382,7 +419,7 @@ function getDailyPlan(
       },
     ],
     0: [
-      // Dimanche — pas de LinkedIn le weekend
+      // Dimanche — pas de LinkedIn ni Instagram le weekend
       {
         format: "TWEET",
         theme: `Vanne légère dimanche — observation relatable, ton détendu`,
@@ -688,7 +725,17 @@ export function getOptimalScheduleTime(
     MARC: [5, 16], // 7h + 18h Paris (matin calme, fin de journée)
   };
 
-  const schedules = platform === "LINKEDIN" ? linkedInSchedules : twitterSchedules;
+  // Horaires Instagram par persona — pics engagement visuels
+  const instagramSchedules: Record<PersonaKey, number[]> = {
+    YANIS: [18, 20], // 20h-22h Paris (scroll du soir)
+    SOPHIE: [10, 17], // 12h + 19h Paris (pause déj, after-work)
+    MARC: [6, 19], // 8h + 21h Paris (matin calme, soirée)
+  };
+
+  const schedules =
+    platform === "LINKEDIN" ? linkedInSchedules :
+    platform === "INSTAGRAM" ? instagramSchedules :
+    twitterSchedules;
   const hours = schedules[persona];
   const hour = hours[postIndex % hours.length];
 

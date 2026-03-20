@@ -498,9 +498,9 @@ export interface LeDefiProps {
 }
 
 const PERSONA_LABELS: Record<string, string> = {
-  YANIS: "Pour toi, Yanis",
-  SOPHIE: "Pour toi, Sophie",
-  MARC: "Pour toi, Marc",
+  YANIS: "Pour toi, en soirée",
+  SOPHIE: "Pour toi, au bureau",
+  MARC: "Pour toi, au quotidien",
 };
 
 export function LeDefi({ challenge, context, persona }: LeDefiProps) {
