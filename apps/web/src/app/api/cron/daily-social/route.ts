@@ -17,10 +17,13 @@ import { getPersonaForDay } from "@/lib/ai/personas";
  * 4. Le cron publish-social publie aux horaires schedulés
  */
 export async function GET(req: Request) {
-  // Vérification du cron secret
+  // Vérification du cron secret (header Bearer OU query param pour compatibilité)
   const { searchParams } = new URL(req.url);
-  const secret = searchParams.get("secret");
-  if (secret !== process.env.CRON_SECRET) {
+  const cronSecret = process.env.CRON_SECRET;
+  const authHeader = req.headers.get("authorization");
+  const querySecret = searchParams.get("secret");
+
+  if (!cronSecret || (authHeader !== `Bearer ${cronSecret}` && querySecret !== cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
