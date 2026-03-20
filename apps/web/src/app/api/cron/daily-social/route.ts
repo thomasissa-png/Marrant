@@ -33,7 +33,8 @@ export async function GET(req: Request) {
       `[DailySocial] Génération posts pour jour ${dayOfMonth} — persona ${persona}`,
     );
 
-    // Check if posts already generated today
+    // Check if usable posts already generated today (skip REJECTED/FAILED)
+    const force = searchParams.get("force") === "true";
     const startOfDay = new Date(today);
     startOfDay.setUTCHours(0, 0, 0, 0);
     const endOfDay = new Date(today);
@@ -42,12 +43,13 @@ export async function GET(req: Request) {
     const existingCount = await prisma.socialPost.count({
       where: {
         createdAt: { gte: startOfDay, lte: endOfDay },
+        status: { in: ["PENDING", "APPROVED", "PUBLISHED"] },
       },
     });
 
-    if (existingCount > 0) {
+    if (existingCount > 0 && !force) {
       return NextResponse.json({
-        message: `Posts déjà générés aujourd'hui (${existingCount} posts)`,
+        message: `Posts déjà générés aujourd'hui (${existingCount} posts). Ajouter &force=true pour régénérer.`,
         skipped: true,
       });
     }
