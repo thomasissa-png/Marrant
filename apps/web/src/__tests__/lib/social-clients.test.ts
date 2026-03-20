@@ -232,6 +232,65 @@ describe("buffer-client", () => {
       expect(body.query).toContain("images");
       expect(body.query).toContain("deviens-marrant.fr");
     });
+
+    it("inclut firstComment pour les hashtags Instagram", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            createPost: {
+              post: {
+                id: "buffer-ig-fc",
+                text: "Post avec hashtags",
+                assets: [{ id: "asset-1", mimeType: "image/png" }],
+              },
+            },
+          },
+        }),
+      });
+
+      const { createBufferImagePost } = require("@/lib/social/buffer-client");
+      const id = await createBufferImagePost(
+        "INSTAGRAM",
+        "Post avec hashtags",
+        "https://deviens-marrant.fr/api/social/image?postId=456",
+        undefined,
+        "#standup #humour #comedy",
+      );
+
+      expect(id).toBe("buffer-ig-fc");
+
+      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      expect(body.query).toContain("firstComment");
+      expect(body.query).toContain("#standup #humour #comedy");
+    });
+
+    it("n'inclut pas firstComment quand non fourni", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            createPost: {
+              post: {
+                id: "buffer-ig-no-fc",
+                text: "Sans hashtags",
+                assets: [],
+              },
+            },
+          },
+        }),
+      });
+
+      const { createBufferImagePost } = require("@/lib/social/buffer-client");
+      await createBufferImagePost(
+        "INSTAGRAM",
+        "Sans hashtags",
+        "https://deviens-marrant.fr/api/social/image?postId=789",
+      );
+
+      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      expect(body.query).not.toContain("firstComment");
+    });
   });
 
   describe("createBufferThread", () => {

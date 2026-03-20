@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-03-20",
+  "lastUpdated": "2026-03-21",
   "strategy": {
     "mission": "Chaque post est une micro-performance de stand-up. Pas un extrait du catalogue. Pas un engagement bait.",
     "growthTarget": "0 → 10K followers en 6 mois",
@@ -42,16 +42,19 @@
       ]
     },
     "LINKEDIN": {
-      "postsPerDay": 1,
+      "postsPerDay": "1 (Sophie/Marc uniquement — PAS Yanis, il n'est pas sur LinkedIn)",
       "formats": ["POST"],
       "charLimit": 1300,
       "rules": [
-        "Angle pro : techniques de communication, prise de parole, leadership par l'humour",
+        "Sophie : la vanne exacte à sortir en réunion, le timing à la machine à café",
+        "Marc : come-back humour, retrouver sa vanne, redevenir le mec drôle",
+        "Vendredi Sophie : angle social hors boulot (afterwork, soirée entre amis)",
         "Ton plus mature que Twitter, mais jamais corporate",
         "Storytelling > bullet points",
         "Hook en première ligne (visible avant 'voir plus')"
       ],
-      "targetPersonas": ["SOPHIE", "MARC"]
+      "targetPersonas": ["SOPHIE", "MARC"],
+      "yanisStrategy": "Pas de LinkedIn — remplacé par un 3ème tweet (Le Défi) les jours Yanis"
     },
     "INSTAGRAM": {
       "postsPerDay": 1,
@@ -66,9 +69,11 @@
       },
       "rules": [
         "Image générée via satori (templates JSX)",
-        "Caption courte (max 300 chars), hashtags en commentaire",
+        "Caption courte (max 300 chars), hashtags en PREMIER COMMENTAIRE (via Buffer firstComment)",
         "Pas de lien dans le caption (non cliquable)",
-        "CTA → lien en bio"
+        "CTA → lien en bio",
+        "Yanis/Marc : plus de La Vanne et Le Défi (ils veulent rigoler, pas des cours)",
+        "Sophie : mix Technique + Carousel (elle veut apprendre ET des vannes)"
       ],
       "weeklySchedule": {
         "monday": "TECHNIQUE_DU_JOUR",
@@ -77,7 +82,7 @@
         "thursday": "CAROUSEL (Décryptage)",
         "friday": "TECHNIQUE_DU_JOUR",
         "saturday": "LA_VANNE ou LE_DEFI",
-        "sunday": "Repos ou repost best-of"
+        "sunday": "Marc uniquement (scrolle seul le dimanche soir) — Technique du Jour"
       }
     }
   },
@@ -120,9 +125,9 @@
     },
     {
       "day": "Dimanche",
-      "twitter": ["Best-of de la semaine ou Quote Analyse"],
+      "twitter": ["Vanne légère (tous personas)", "Marc : micro-technique du dimanche soir"],
       "linkedin": [],
-      "instagram": ["Repos ou repost"]
+      "instagram": ["Marc : Technique du Jour (come-back humour dimanche soir)"]
     }
   ],
   "monthlyThemes": {
@@ -296,6 +301,13 @@
       "linkedin": [7, 19],
       "instagram": [6, 19]
     }
+  },
+  "feedbackLoop": {
+    "description": "Les top posts (score ≥ 8/10) des 14 derniers jours sont injectés dans le prompt de génération",
+    "source": "DB SocialPost, directorScore ≥ 8, status PUBLISHED",
+    "maxExamples": 5,
+    "injection": "System prompt — section PATTERNS GAGNANTS, après le brief social",
+    "rule": "S'inspirer de l'énergie et des patterns, JAMAIS copier-coller"
   },
   "directorValidation": {
     "criteria": [

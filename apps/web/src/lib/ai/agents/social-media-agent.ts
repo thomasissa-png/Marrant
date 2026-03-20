@@ -370,6 +370,59 @@ function hasCriticalIssue(issues: string[]): boolean {
   return issues.some((issue) => issue.startsWith("CRITIQUE"));
 }
 
+// ─── Feedback loop — Patterns gagnants ──────────────────────────
+
+/**
+ * Récupère les top posts publiés des 14 derniers jours (score ≥ 8/10).
+ * Utilisé pour injecter les patterns gagnants dans le prompt de génération.
+ * Graceful : retourne un string vide si la DB est inaccessible.
+ */
+async function getWinningPatterns(): Promise<string> {
+  try {
+    // Import dynamique pour éviter la dépendance circulaire au top-level
+    const { prisma } = await import("@/lib/prisma");
+
+    const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+
+    const topPosts = await prisma.socialPost.findMany({
+      where: {
+        status: "PUBLISHED",
+        publishedAt: { gte: fourteenDaysAgo },
+        directorScore: { gte: 8 },
+      },
+      orderBy: { directorScore: "desc" },
+      take: 5,
+      select: {
+        platform: true,
+        format: true,
+        hook: true,
+        content: true,
+        targetPersona: true,
+        directorScore: true,
+        directorNote: true,
+      },
+    });
+
+    if (topPosts.length === 0) return "";
+
+    const examples = topPosts
+      .map(
+        (p, i) =>
+          `${i + 1}. [${p.platform}/${p.format}] Score ${p.directorScore}/10 — Hook: "${p.hook}"\n   ${p.content.slice(0, 120)}${p.content.length > 120 ? "..." : ""}${p.directorNote ? `\n   Note directeur: ${p.directorNote}` : ""}`,
+      )
+      .join("\n");
+
+    return `\n═══ PATTERNS GAGNANTS (top posts des 14 derniers jours, score ≥ 8/10) ═══
+Inspire-toi de ces patterns qui ont fonctionné — même énergie, pas de copier-coller :
+${examples}
+`;
+  } catch {
+    // DB inaccessible ou erreur → pas de feedback, on continue sans
+    console.warn("[SocialAgent] Feedback loop: impossible de charger les patterns gagnants");
+    return "";
+  }
+}
+
 // ─── Génération des posts quotidiens ────────────────────────────
 
 /**
@@ -377,7 +430,7 @@ function hasCriticalIssue(issues: string[]): boolean {
  * Appelé par le cron /api/cron/daily-social à 4h UTC.
  *
  * Phase 1 : Twitter (2-3 posts/jour)
- * Phase 2 : + LinkedIn (1 post/jour, angle pro Sophie/Marc)
+ * Phase 2 : + LinkedIn (1 post/jour, angle pro Sophie/Marc — PAS Yanis)
  * Phase 3 : + Instagram (1 post/jour, visuel via satori templates)
  */
 export async function generateDailySocialPosts(
@@ -386,13 +439,16 @@ export async function generateDailySocialPosts(
   const persona = getPersonaForDay(dayOfMonth);
   const dayOfWeek = new Date().getDay(); // 0=dimanche
 
+  // Feedback loop : récupérer les patterns gagnants pour enrichir le prompt
+  const winningPatterns = await getWinningPatterns();
+
   // Plan de la journée selon le jour de la semaine
   const plan = getDailyPlan(dayOfWeek, persona);
   const posts: GeneratedSocialPost[] = [];
 
   for (const entry of plan) {
     try {
-      const post = await generateSinglePost(entry, persona);
+      const post = await generateSinglePost(entry, persona, winningPatterns);
       // Director validation pipeline
       const validated = await validateAndRefinePost(post, persona);
       posts.push(validated);
@@ -414,12 +470,22 @@ function getDailyPlan(
 ): DailyPostPlan[] {
   const p = PERSONAS[persona];
 
-  // LinkedIn : angle pro, cible Sophie (machine à café, afterwork) et Marc (leadership, confiance)
-  // 1 post LinkedIn par jour en semaine, 0 le weekend
+  // LinkedIn : angle pro, cible Sophie et Marc uniquement
+  // Yanis (20 ans) n'est PAS sur LinkedIn → pas de post LinkedIn les jours Yanis
+  // Sophie : machine à café, réunions, afterwork (lundi/mercredi = bureau, vendredi = social hors boulot)
+  // Marc : come-back humour, retrouver sa vanne, redevenir le mec drôle (PAS du dev perso)
   const linkedInThemes: Record<PersonaKey, string> = {
-    SOPHIE: `Communication & humour au travail — machine à café, réunions, afterwork — angle ${p.name}`,
-    MARC: `Leadership & charisme par l'humour — confiance, prise de parole, networking — angle ${p.name}`,
-    YANIS: `Prise de parole & aisance sociale — entretiens, présentations, networking étudiant — angle ${p.name}`,
+    SOPHIE: `Communication & humour au travail — la vanne exacte à sortir en réunion, le timing à la machine à café, l'anecdote qui tue en afterwork — angle ${p.name}`,
+    MARC: `Le come-back du père drôle — retrouver sa vanne après une période difficile, redevenir le mec marrant en soirée, reconquérir par l'humour — angle ${p.name}`,
+    YANIS: "", // Yanis n'est pas sur LinkedIn — ce thème ne sera jamais utilisé
+  };
+
+  // Yanis : remplacer LinkedIn par un 3ème tweet (Le Défi) les jours Yanis
+  const yanisExtraTweet: DailyPostPlan = {
+    format: "TWEET",
+    theme: `Le Défi — challenge humour à tester ce soir en soirée/coloc, ton provocateur et complice`,
+    platform: "TWITTER",
+    sourceType: "ORIGINAL",
   };
 
   const linkedInPost: DailyPostPlan = {
@@ -429,20 +495,39 @@ function getDailyPlan(
     sourceType: "TIP",
   };
 
+  // LinkedIn ou tweet de remplacement selon le persona
+  const linkedInOrExtra = persona === "YANIS" ? yanisExtraTweet : linkedInPost;
+
   // Instagram : rotation des 4 templates visuels selon le jour
+  // Yanis : plus de "La Vanne" et "Le Défi" (il veut des vannes, pas des cours)
+  // Marc : plus de "La Vanne" et "Le Défi" (il veut rigoler, pas se développer)
   const instagramThemes: Record<PersonaKey, string> = {
-    YANIS: `Contexte soirée, coloc, potes — visuel percutant pour ${p.name}`,
+    YANIS: `Contexte soirée, coloc, potes — vanne percutante ou défi drôle pour ${p.name}`,
     SOPHIE: `Contexte bureau, afterwork, dîner entre amis — visuel pro et drôle pour ${p.name}`,
-    MARC: `Contexte social, confiance, reconstruction — visuel inspirant pour ${p.name}`,
+    MARC: `Come-back humour, retrouver sa vanne, redevenir drôle — vanne ou défi pour ${p.name}`,
   };
 
-  const instagramFormats: Record<number, SocialFormat> = {
+  // Formats Instagram par jour — adapté au persona
+  // Sophie : mix Technique + Carousel (elle veut apprendre ET des vannes)
+  // Yanis/Marc : plus de La Vanne et Le Défi (ils veulent rigoler)
+  const instagramFormatsDefault: Record<number, SocialFormat> = {
     1: "TECHNIQUE_DU_JOUR", // Lundi : technique
     2: "CAROUSEL",          // Mardi : carousel décryptage
     3: "TECHNIQUE_DU_JOUR", // Mercredi : technique
     4: "CAROUSEL",          // Jeudi : carousel
     5: "TECHNIQUE_DU_JOUR", // Vendredi : technique weekend
   };
+
+  // Yanis et Marc : remplacer certaines Techniques par La Vanne / Le Défi
+  const instagramFormatsYaniMarc: Record<number, SocialFormat> = {
+    1: "TECHNIQUE_DU_JOUR", // Lundi : technique (garder 1 technique)
+    2: "CAROUSEL",          // Mardi : carousel décryptage
+    3: "TECHNIQUE_DU_JOUR", // Mercredi : La Vanne (format TECHNIQUE_DU_JOUR = template La Vanne via le thème)
+    4: "CAROUSEL",          // Jeudi : carousel
+    5: "TECHNIQUE_DU_JOUR", // Vendredi : Le Défi weekend
+  };
+
+  const instagramFormats = persona === "SOPHIE" ? instagramFormatsDefault : instagramFormatsYaniMarc;
 
   const instagramPost = (day: number): DailyPostPlan => ({
     format: instagramFormats[day] || "TECHNIQUE_DU_JOUR",
@@ -466,7 +551,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      linkedInOrExtra, // Sophie/Marc: LinkedIn | Yanis: 3ème tweet (Le Défi)
       instagramPost(1),
     ],
     2: [
@@ -483,7 +568,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      linkedInOrExtra,
       instagramPost(2),
     ],
     3: [
@@ -500,7 +585,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
-      linkedInPost,
+      linkedInOrExtra,
       instagramPost(3),
     ],
     4: [
@@ -517,11 +602,11 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      linkedInOrExtra,
       instagramPost(4),
     ],
     5: [
-      // Vendredi
+      // Vendredi — LinkedIn Sophie: "technique du weekend" (social hors boulot)
       {
         format: "TECHNIQUE_DU_JOUR",
         theme: `Technique à tester ce weekend — contexte soirée/social`,
@@ -534,7 +619,10 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      // Vendredi : Sophie LinkedIn = angle social hors boulot (pas bureau)
+      persona === "SOPHIE"
+        ? { format: "POST" as SocialFormat, theme: `Humour en soirée, dîner entre amis, afterwork — la technique sociale du weekend — angle ${p.name}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" }
+        : linkedInOrExtra,
       instagramPost(5),
     ],
     6: [
@@ -547,13 +635,30 @@ function getDailyPlan(
       },
     ],
     0: [
-      // Dimanche — pas de LinkedIn ni Instagram le weekend
+      // Dimanche — créneau Marc le soir (scrolle seul le dimanche soir)
       {
         format: "TWEET",
         theme: `Vanne légère dimanche — observation relatable, ton détendu`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
+      // Dimanche soir : Marc scrolle seul → tweet + Instagram pour la rétention
+      ...(persona === "MARC"
+        ? [
+            {
+              format: "TWEET" as SocialFormat,
+              theme: `Micro-technique du dimanche soir — courte, bienveillante, "essaie ça demain matin"`,
+              platform: "TWITTER" as SocialPlatform,
+              sourceType: "TIP",
+            },
+            {
+              format: "TECHNIQUE_DU_JOUR" as SocialFormat,
+              theme: `Come-back humour dimanche soir — retrouver sa vanne pour attaquer la semaine`,
+              platform: "INSTAGRAM" as SocialPlatform,
+              sourceType: "TIP",
+            },
+          ]
+        : []),
     ],
   };
 
@@ -616,6 +721,7 @@ function getSchedulingHint(
 async function generateSinglePost(
   plan: DailyPostPlan,
   persona: PersonaKey,
+  winningPatterns: string = "",
 ): Promise<GeneratedSocialPost> {
   const p = PERSONAS[persona];
 
@@ -624,7 +730,7 @@ async function generateSinglePost(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: plan.format === "THREAD" ? 2000 : 800,
-    system: buildSocialBrief(),
+    system: buildSocialBrief() + winningPatterns,
     messages: [
       {
         role: "user",

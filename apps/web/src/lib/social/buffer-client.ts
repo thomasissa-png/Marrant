@@ -190,6 +190,7 @@ export async function createBufferImagePost(
   text: string,
   imageUrl: string,
   dueAt?: Date,
+  firstComment?: string,
 ): Promise<string> {
   const channelId = getChannelId(platform);
 
@@ -197,6 +198,11 @@ export async function createBufferImagePost(
   const minFuture = new Date(Date.now() + 2 * 60 * 1000);
   const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
   const dueAtStr = effectiveDueAt.toISOString();
+
+  // Instagram first comment : hashtags en commentaire (meilleur pour l'algo)
+  const firstCommentBlock = firstComment
+    ? `firstComment: ${JSON.stringify(firstComment)},`
+    : "";
 
   const query = `
     mutation CreateImagePost {
@@ -206,6 +212,7 @@ export async function createBufferImagePost(
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}",
+        ${firstCommentBlock}
         assets: {
           images: [{ url: ${JSON.stringify(imageUrl)} }]
         }
