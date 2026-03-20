@@ -717,3 +717,30 @@ Branche : `claude/seo-keyword-analysis-idfz3`
 
 #### Tests
 - 826 tests passent (60 suites, 0 échec)
+
+### Audit directeur stand-up v2 — Directives 9.5/10 (22 mars 2026)
+Branche : `claude/fix-social-media-posting-5nltR`
+
+#### 5 directives implémentées dans social-media-agent.ts (getDailyPlan + getSchedulingHint)
+- **Wild cards** : 2 slots réactifs/semaine (mercredi + samedi) — tweets "WILD CARD" pour réagir à l'actu stand-up, trends, memes, shows
+- **Marc dating** : 1 tweet dédié le jeudi quand persona MARC — "premier date après 8 ans, comment ne pas être le mec gênant"
+- **Marc hints** : "inspirant" → "actionnable (un truc à tester aujourd'hui)" / "reconstruction, motivation douce" → "come-back, une technique concrète à appliquer demain"
+- **Yanis gen Z** : rotation de refs culturelles (`memes/TikTok`, `Netflix/séries`, `rap FR/musique`, `gaming/stream`, `dating apps`) injectées dans thèmes tweets, Instagram et scheduling hints via `yanisGenZRefs`
+- **Sophie Vanne Réécrite Social** : tous les tweets JOKE de Sophie reformulés "Vanne Réécrite Social — prête à ressortir mot pour mot" avec contexte adapté (machine à café, afterwork, dîner)
+
+#### Fix sécurité tonalité — fallback validation directeur (22 mars 2026)
+- **Problème** : si l'API du Stand-Up Director crash pendant la validation, les posts étaient sauvés `APPROVED` et publiés automatiquement sans validation tonalité
+- **Fix** : ajout flag `directorValidated: boolean` sur `GeneratedSocialPost`
+- 4 chemins de fallback corrigés dans `validateAndRefinePost()` : tout crash → `directorValidated: false`
+- `daily-social/route.ts` : `directorValidated === false` → `status: "PENDING"` + `directorNote: "⚠️ review manuelle requise"`
+- Seuls les posts explicitement APPROVED par le directeur (score ≥ 7) ou réécrits par lui sont publiés automatiquement
+- Les posts non validés apparaissent dans `/admin/social` pour review manuelle
+
+#### Planning éditorial (social-editorial-plan.json) — v2 mis à jour
+- `directorDirectives_v2` documentant les 5 changements, objectif 9.5/10
+- `wildCardsPerWeek: 2` ajouté à la config Twitter
+- `schedulingByPersona` enrichi : Yanis `genZRefs`, Sophie `priorityFormat: VANNE_REECRITE_SOCIAL`, Marc `datingTweetDay: jeudi`
+- Weekly schedule mis à jour (mercredi/samedi wild cards, jeudi Marc dating)
+
+#### Tests
+- 915/915 tests passent après les deux commits
