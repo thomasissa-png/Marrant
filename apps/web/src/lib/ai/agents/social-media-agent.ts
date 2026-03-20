@@ -50,6 +50,8 @@ export interface GeneratedSocialPost {
   sourceId?: string;
   directorScore?: number;
   directorNote?: string;
+  /** false si la validation directeur a crashé — le post doit passer en PENDING */
+  directorValidated?: boolean;
 }
 
 interface DailyPostPlan {
@@ -939,8 +941,8 @@ async function validateAndRefinePost(
         `[Director] Validation social post échouée (attempt ${attempt}):`,
         err,
       );
-      // If validation crashes, publish as-is (graceful fallback)
-      break;
+      // Validation crash → marquer comme non validé pour forcer PENDING en DB
+      return { ...currentPost, directorValidated: false };
     }
 
     if (!validation) break; // Validation failed to return a result
@@ -953,6 +955,7 @@ async function validateAndRefinePost(
         ...currentPost,
         directorScore: validation.score,
         directorNote: validation.directorNote,
+        directorValidated: true,
       };
     }
 
@@ -976,13 +979,13 @@ async function validateAndRefinePost(
           validation,
           persona,
         );
-        return { ...currentPost, ...rewritten };
+        return { ...currentPost, ...rewritten, directorValidated: true };
       } catch (err) {
         console.warn(
-          "[Director] Réécriture social post échouée — publication de la dernière version:",
+          "[Director] Réécriture social post échouée — forçage PENDING:",
           err,
         );
-        return currentPost;
+        return { ...currentPost, directorValidated: false };
       }
     }
 
@@ -1037,11 +1040,13 @@ Réponds en JSON :
         `[SocialAgent] Re-génération échouée (attempt ${attempt}):`,
         err,
       );
-      break;
+      // Re-génération crash → non validé, forcer PENDING
+      return { ...currentPost, directorValidated: false };
     }
   }
 
-  return currentPost;
+  // Si on sort de la boucle sans APPROVED (ne devrait pas arriver)
+  return { ...currentPost, directorValidated: false };
 }
 
 // ─── Helpers ────────────────────────────────────────────────────

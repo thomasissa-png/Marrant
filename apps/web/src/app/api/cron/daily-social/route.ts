@@ -14,8 +14,8 @@ import { getPersonaForDay } from "@/lib/ai/personas";
  * 1. Génère 2-3 posts Twitter + 1 LinkedIn + 1 Instagram via social-media-agent
  * 2. Chaque post passe par la validation du Stand-Up Director (3 tentatives max, réécriture si échec)
  * 3. Validation programmatique (hook ≤5 mots, char limits, guard persona, anti-engagement-bait)
- * 4. Sauvegarde en DB avec status APPROVED (déjà validé par le directeur)
- * 5. Le cron publish-social publie aux horaires schedulés via Buffer
+ * 4. Sauvegarde en DB : APPROVED si validé par le directeur, PENDING sinon (validation crash → review manuelle)
+ * 5. Le cron publish-social publie aux horaires schedulés via Buffer (APPROVED uniquement)
  */
 export async function GET(req: Request) {
   // Vérification du cron secret (header Bearer OU query param pour compatibilité)
@@ -80,8 +80,11 @@ export async function GET(req: Request) {
           sourceId: post.sourceId || null,
           threadParts: post.threadParts || [],
           directorScore: post.directorScore ?? null,
-          directorNote: post.directorNote ?? null,
-          status: "APPROVED",
+          directorNote: post.directorValidated === false
+            ? "⚠️ Validation directeur échouée — review manuelle requise"
+            : (post.directorNote ?? null),
+          // APPROVED seulement si le directeur a validé — sinon PENDING pour review manuelle
+          status: post.directorValidated === false ? "PENDING" : "APPROVED",
           scheduledAt,
         },
       });
@@ -94,12 +97,15 @@ export async function GET(req: Request) {
       });
     }
 
+    const approvedCount = posts.filter((p) => p.directorValidated !== false).length;
+    const pendingCount = posts.filter((p) => p.directorValidated === false).length;
+
     console.log(
-      `[DailySocial] ${saved.length} posts générés, validés par le directeur, et prêts à publier`,
+      `[DailySocial] ${saved.length} posts générés — ${approvedCount} validés, ${pendingCount} en attente de review`,
     );
 
     return NextResponse.json({
-      message: `${saved.length} posts générés`,
+      message: `${saved.length} posts générés (${approvedCount} validés, ${pendingCount} en review manuelle)`,
       posts: saved,
     });
   } catch (error) {
