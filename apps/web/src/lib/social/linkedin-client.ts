@@ -5,16 +5,20 @@
 //        récupération analytics.
 // Auth : OAuth 2.0 Bearer Token (3-legged flow, token obtenu manuellement).
 //
+// API : Posts API (v2) — remplace l'ancienne UGC Post API (dépréciée).
+// Docs : https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api
+//
 // Secrets Replit nécessaires :
 //   LINKEDIN_ACCESS_TOKEN    — Bearer token (scopes: w_organization_social, r_organization_social)
 //   LINKEDIN_ORGANIZATION_ID — ID numérique de la page entreprise (ex: "123456789")
 //
 // Page entreprise : https://www.linkedin.com/company/deviens-marrant
-// API docs : https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/ugc-post-api
 // ───────────────────────────────────────────────────────────────────
 
-const API_BASE = "https://api.linkedin.com/v2";
-const MAX_POST_LENGTH = 3000; // LinkedIn limite les posts à 3000 caractères
+const REST_BASE = "https://api.linkedin.com/rest";
+const V2_BASE = "https://api.linkedin.com/v2";
+const LINKEDIN_VERSION = "202401";
+const MAX_POST_LENGTH = 3000;
 
 interface LinkedInConfig {
   accessToken: string;
@@ -41,10 +45,6 @@ function getConfig(): LinkedInConfig {
 
 // ─── Types ──────────────────────────────────────────────────────
 
-interface LinkedInPostResponse {
-  id: string; // URN du post (ex: "urn:li:share:123456789")
-}
-
 export interface LinkedInMetrics {
   impressions: number;
   likes: number;
@@ -61,16 +61,22 @@ function handleErrorResponse(status: number, body: string): never {
       `LinkedIn token expiré (401). Les tokens LinkedIn expirent après 60 jours. Régénère LINKEDIN_ACCESS_TOKEN dans les Secrets Replit.`,
     );
   }
+  if (status === 403) {
+    throw new Error(
+      `LinkedIn accès refusé (403). Vérifie que le token a les scopes w_organization_social et r_organization_social, et que LINKEDIN_ORGANIZATION_ID est correct. Détails : ${body}`,
+    );
+  }
   throw new Error(`LinkedIn API error ${status}: ${body}`);
 }
 
 function parsePostId(response: Response): string | null {
-  return response.headers.get("X-RestLi-Id");
+  // La nouvelle Posts API retourne l'ID dans le header x-restli-id
+  return response.headers.get("x-restli-id") || response.headers.get("X-RestLi-Id");
 }
 
 async function parsePostIdFallback(response: Response): Promise<string> {
   try {
-    const data = (await response.json()) as LinkedInPostResponse;
+    const data = await response.json();
     return data.id || "unknown";
   } catch {
     return "unknown";
@@ -80,7 +86,7 @@ async function parsePostIdFallback(response: Response): Promise<string> {
 // ─── API Calls ──────────────────────────────────────────────────
 
 /**
- * Publie un post texte sur LinkedIn.
+ * Publie un post texte sur LinkedIn via la Posts API (v2).
  * @returns L'URN du post publié (ex: "urn:li:share:123456789").
  */
 export async function postLinkedIn(text: string): Promise<string> {
@@ -92,25 +98,24 @@ export async function postLinkedIn(text: string): Promise<string> {
 
   const config = getConfig();
 
-  const response = await fetch(`${API_BASE}/ugcPosts`, {
+  const response = await fetch(`${REST_BASE}/posts`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${config.accessToken}`,
       "Content-Type": "application/json",
+      "LinkedIn-Version": LINKEDIN_VERSION,
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
       author: config.authorUrn,
+      commentary: text,
+      visibility: "PUBLIC",
+      distribution: {
+        feedDistribution: "MAIN_FEED",
+        targetEntities: [],
+        thirdPartyDistributionChannels: [],
+      },
       lifecycleState: "PUBLISHED",
-      specificContent: {
-        "com.linkedin.ugc.ShareContent": {
-          shareCommentary: { text },
-          shareMediaCategory: "NONE",
-        },
-      },
-      visibility: {
-        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-      },
     }),
   });
 
@@ -142,33 +147,31 @@ export async function postLinkedInWithLink(
 
   const config = getConfig();
 
-  const response = await fetch(`${API_BASE}/ugcPosts`, {
+  const response = await fetch(`${REST_BASE}/posts`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${config.accessToken}`,
       "Content-Type": "application/json",
+      "LinkedIn-Version": LINKEDIN_VERSION,
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
       author: config.authorUrn,
-      lifecycleState: "PUBLISHED",
-      specificContent: {
-        "com.linkedin.ugc.ShareContent": {
-          shareCommentary: { text },
-          shareMediaCategory: "ARTICLE",
-          media: [
-            {
-              status: "READY",
-              originalUrl: articleUrl,
-              title: title ? { text: title } : undefined,
-              description: description ? { text: description } : undefined,
-            },
-          ],
+      commentary: text,
+      visibility: "PUBLIC",
+      distribution: {
+        feedDistribution: "MAIN_FEED",
+        targetEntities: [],
+        thirdPartyDistributionChannels: [],
+      },
+      content: {
+        article: {
+          source: articleUrl,
+          title: title || undefined,
+          description: description || undefined,
         },
       },
-      visibility: {
-        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-      },
+      lifecycleState: "PUBLISHED",
     }),
   });
 
@@ -191,7 +194,7 @@ export async function getLinkedInMetrics(
   const config = getConfig();
 
   const encodedUrn = encodeURIComponent(postUrn);
-  const url = `${API_BASE}/socialActions/${encodedUrn}`;
+  const url = `${V2_BASE}/socialActions/${encodedUrn}`;
 
   const response = await fetch(url, {
     method: "GET",

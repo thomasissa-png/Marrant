@@ -201,8 +201,8 @@ export async function GET(req: Request) {
           errMsg,
         );
 
-        // Erreur permanente (auth, validation) → FAILED direct
-        const isPermanent = errMsg.includes("401") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré");
+        // Erreur permanente (auth, validation, permissions) → FAILED direct
+        const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré");
 
         if (isPermanent) {
           await prisma.socialPost.update({
