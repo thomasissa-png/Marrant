@@ -1,5 +1,5 @@
 /**
- * Tests — Twitter & LinkedIn Social Clients
+ * Tests — Buffer Social Client (remplace Twitter/LinkedIn/Instagram directs)
  */
 
 // ─── Mocks ───────────────────────────────────────────────────────
@@ -7,31 +7,20 @@
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
-// Mock crypto for OAuth signature
-jest.mock("crypto", () => ({
-  randomBytes: jest.fn().mockReturnValue({
-    toString: () => "abcdef1234567890abcdef1234567890",
-  }),
-  createHmac: jest.fn().mockReturnValue({
-    update: jest.fn().mockReturnValue({
-      digest: () => "mock-signature-base64",
-    }),
-  }),
-}));
+// ─── Buffer Client Tests ────────────────────────────────────────
 
-// ─── Twitter Client Tests ──────────────────────────────────────
-
-describe("twitter-client", () => {
+describe("buffer-client", () => {
   const ENV_BACKUP = process.env;
 
   beforeEach(() => {
     jest.resetModules();
     process.env = {
       ...ENV_BACKUP,
-      TWITTER_API_KEY: "test-api-key",
-      TWITTER_API_SECRET: "test-api-secret",
-      TWITTER_ACCESS_TOKEN: "test-access-token",
-      TWITTER_ACCESS_SECRET: "test-access-secret",
+      BUFFER_ACCESS_TOKEN: "test-buffer-token",
+      BUFFER_ORGANIZATION_ID: "org-123",
+      BUFFER_CHANNEL_TWITTER: "ch-twitter-456",
+      BUFFER_CHANNEL_LINKEDIN: "ch-linkedin-789",
+      BUFFER_CHANNEL_INSTAGRAM: "ch-instagram-012",
     };
     mockFetch.mockReset();
   });
@@ -40,349 +29,305 @@ describe("twitter-client", () => {
     process.env = ENV_BACKUP;
   });
 
-  describe("isTwitterConfigured", () => {
-    it("retourne true quand les 4 secrets sont présents", () => {
-      const { isTwitterConfigured } = require("@/lib/social/twitter-client");
-      expect(isTwitterConfigured()).toBe(true);
+  describe("isBufferConfigured", () => {
+    it("retourne true quand token et org ID sont présents", () => {
+      const { isBufferConfigured } = require("@/lib/social/buffer-client");
+      expect(isBufferConfigured()).toBe(true);
     });
 
-    it("retourne false quand TWITTER_ACCESS_SECRET manque", () => {
-      delete process.env.TWITTER_ACCESS_SECRET;
-      const { isTwitterConfigured } = require("@/lib/social/twitter-client");
-      expect(isTwitterConfigured()).toBe(false);
+    it("retourne false quand BUFFER_ACCESS_TOKEN manque", () => {
+      delete process.env.BUFFER_ACCESS_TOKEN;
+      const { isBufferConfigured } = require("@/lib/social/buffer-client");
+      expect(isBufferConfigured()).toBe(false);
     });
 
-    it("retourne false quand TWITTER_API_KEY manque", () => {
-      delete process.env.TWITTER_API_KEY;
-      const { isTwitterConfigured } = require("@/lib/social/twitter-client");
-      expect(isTwitterConfigured()).toBe(false);
+    it("retourne false quand BUFFER_ORGANIZATION_ID manque", () => {
+      delete process.env.BUFFER_ORGANIZATION_ID;
+      const { isBufferConfigured } = require("@/lib/social/buffer-client");
+      expect(isBufferConfigured()).toBe(false);
     });
   });
 
-  describe("postTweet", () => {
-    it("publie un tweet et retourne l'ID", async () => {
+  describe("isChannelConfigured", () => {
+    it("retourne true pour TWITTER quand le channel est configuré", () => {
+      const { isChannelConfigured } = require("@/lib/social/buffer-client");
+      expect(isChannelConfigured("TWITTER")).toBe(true);
+    });
+
+    it("retourne true pour LINKEDIN quand le channel est configuré", () => {
+      const { isChannelConfigured } = require("@/lib/social/buffer-client");
+      expect(isChannelConfigured("LINKEDIN")).toBe(true);
+    });
+
+    it("retourne true pour INSTAGRAM quand le channel est configuré", () => {
+      const { isChannelConfigured } = require("@/lib/social/buffer-client");
+      expect(isChannelConfigured("INSTAGRAM")).toBe(true);
+    });
+
+    it("retourne false quand le channel manque", () => {
+      delete process.env.BUFFER_CHANNEL_TWITTER;
+      const { isChannelConfigured } = require("@/lib/social/buffer-client");
+      expect(isChannelConfigured("TWITTER")).toBe(false);
+    });
+  });
+
+  describe("createBufferPost", () => {
+    it("envoie un post texte Twitter via GraphQL", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ data: { id: "tweet-123", text: "Hello" } }),
+        json: async () => ({
+          data: {
+            createPost: {
+              post: { id: "buffer-post-123", text: "Hello Twitter!" },
+            },
+          },
+        }),
       });
 
-      const { postTweet } = require("@/lib/social/twitter-client");
-      const id = await postTweet("Hello world");
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      const id = await createBufferPost("TWITTER", "Hello Twitter!", new Date("2026-03-20T12:00:00Z"));
 
-      expect(id).toBe("tweet-123");
+      expect(id).toBe("buffer-post-123");
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.twitter.com/2/tweets",
+        "https://api.buffer.com",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
+            Authorization: "Bearer test-buffer-token",
             "Content-Type": "application/json",
           }),
-          body: JSON.stringify({ text: "Hello world" }),
         }),
+      );
+
+      // Vérifie que le body contient la mutation GraphQL avec le bon channelId
+      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      expect(body.query).toContain("ch-twitter-456");
+      expect(body.query).toContain("Hello Twitter!");
+    });
+
+    it("envoie un post LinkedIn via GraphQL", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            createPost: {
+              post: { id: "buffer-li-456", text: "Hello LinkedIn!" },
+            },
+          },
+        }),
+      });
+
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      const id = await createBufferPost("LINKEDIN", "Hello LinkedIn!");
+
+      expect(id).toBe("buffer-li-456");
+
+      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      expect(body.query).toContain("ch-linkedin-789");
+    });
+
+    it("throw quand le channel n'est pas configuré", async () => {
+      delete process.env.BUFFER_CHANNEL_TWITTER;
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "Channel Buffer non configuré pour TWITTER",
       );
     });
 
-    it("rejette un tweet de plus de 280 caractères", async () => {
-      const { postTweet } = require("@/lib/social/twitter-client");
-      const longText = "x".repeat(281);
-      await expect(postTweet(longText)).rejects.toThrow("trop long");
+    it("throw quand les credentials manquent", async () => {
+      delete process.env.BUFFER_ACCESS_TOKEN;
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "credentials manquantes",
+      );
     });
 
-    it("throw sur erreur API", async () => {
+    it("throw sur erreur 401 (token invalide)", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        text: async () => "Unauthorized",
+      });
+
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "token invalide (401)",
+      );
+    });
+
+    it("throw sur erreur 403 (permissions)", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 403,
         text: async () => "Forbidden",
       });
 
-      const { postTweet } = require("@/lib/social/twitter-client");
-      await expect(postTweet("test")).rejects.toThrow("Twitter API error 403");
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "accès refusé (403)",
+      );
     });
 
-    it("throw quand les credentials manquent", async () => {
-      delete process.env.TWITTER_API_KEY;
-      const { postTweet } = require("@/lib/social/twitter-client");
-      await expect(postTweet("test")).rejects.toThrow("credentials manquantes");
-    });
-  });
-
-  describe("postThread", () => {
-    it("publie un thread de 3 tweets", async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ data: { id: "tweet-1", text: "Part 1" } }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ data: { id: "tweet-2", text: "Part 2" } }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ data: { id: "tweet-3", text: "Part 3" } }),
-        });
-
-      const { postThread } = require("@/lib/social/twitter-client");
-      const firstId = await postThread(["Part 1", "Part 2", "Part 3"]);
-
-      expect(firstId).toBe("tweet-1");
-      expect(mockFetch).toHaveBeenCalledTimes(3);
-
-      // Les 2e et 3e appels doivent inclure reply.in_reply_to_tweet_id
-      const secondCallBody = JSON.parse(mockFetch.mock.calls[1][1].body);
-      expect(secondCallBody.reply).toEqual({ in_reply_to_tweet_id: "tweet-1" });
-
-      const thirdCallBody = JSON.parse(mockFetch.mock.calls[2][1].body);
-      expect(thirdCallBody.reply).toEqual({ in_reply_to_tweet_id: "tweet-2" });
-    });
-
-    it("rejette un thread vide", async () => {
-      const { postThread } = require("@/lib/social/twitter-client");
-      await expect(postThread([])).rejects.toThrow("Thread vide");
-    });
-  });
-
-  describe("getTweetMetrics", () => {
-    it("retourne les métriques d'un tweet", async () => {
+    it("throw sur MutationError dans la réponse GraphQL", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           data: {
-            public_metrics: {
-              impression_count: 1000,
-              like_count: 50,
-              retweet_count: 10,
-              reply_count: 5,
+            createPost: {
+              message: "Post content too long for this channel",
             },
           },
         }),
       });
 
-      const { getTweetMetrics } = require("@/lib/social/twitter-client");
-      const metrics = await getTweetMetrics("tweet-123");
-
-      expect(metrics).toEqual({
-        impressions: 1000,
-        likes: 50,
-        retweets: 10,
-        replies: 5,
-        urlClicks: 0,
-      });
-    });
-
-    it("throw sur erreur API metrics", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 401,
-        text: async () => "Unauthorized",
-      });
-
-      const { getTweetMetrics } = require("@/lib/social/twitter-client");
-      await expect(getTweetMetrics("tweet-123")).rejects.toThrow("401");
-    });
-  });
-});
-
-// ─── LinkedIn Client Tests ──────────────────────────────────────
-
-describe("linkedin-client", () => {
-  const ENV_BACKUP = process.env;
-
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = {
-      ...ENV_BACKUP,
-      LINKEDIN_ACCESS_TOKEN: "test-linkedin-token",
-      LINKEDIN_ORGANIZATION_ID: "987654321",
-    };
-    mockFetch.mockReset();
-  });
-
-  afterAll(() => {
-    process.env = ENV_BACKUP;
-  });
-
-  describe("isLinkedInConfigured", () => {
-    it("retourne true quand les 2 secrets sont présents", () => {
-      const { isLinkedInConfigured } = require("@/lib/social/linkedin-client");
-      expect(isLinkedInConfigured()).toBe(true);
-    });
-
-    it("retourne false quand LINKEDIN_ACCESS_TOKEN manque", () => {
-      delete process.env.LINKEDIN_ACCESS_TOKEN;
-      const { isLinkedInConfigured } = require("@/lib/social/linkedin-client");
-      expect(isLinkedInConfigured()).toBe(false);
-    });
-
-    it("retourne false quand LINKEDIN_ORGANIZATION_ID manque", () => {
-      delete process.env.LINKEDIN_ORGANIZATION_ID;
-      const { isLinkedInConfigured } = require("@/lib/social/linkedin-client");
-      expect(isLinkedInConfigured()).toBe(false);
-    });
-  });
-
-  describe("postLinkedIn", () => {
-    it("publie un post texte via la nouvelle Posts API", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        headers: new Map([["x-restli-id", "urn:li:share:123"]]),
-        json: async () => ({ id: "urn:li:share:123" }),
-      });
-
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      const id = await postLinkedIn("Test post LinkedIn");
-
-      expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.linkedin.com/rest/posts",
-        expect.objectContaining({
-          method: "POST",
-          headers: expect.objectContaining({
-            Authorization: "Bearer test-linkedin-token",
-            "LinkedIn-Version": "202401",
-            "Content-Type": "application/json",
-          }),
-        }),
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "Post content too long",
       );
-
-      // Vérifie le body de la nouvelle Posts API
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
-      expect(body.author).toBe("urn:li:organization:987654321");
-      expect(body.commentary).toBe("Test post LinkedIn");
-      expect(body.visibility).toBe("PUBLIC");
-      expect(body.distribution).toBeDefined();
-      expect(body.lifecycleState).toBe("PUBLISHED");
-      // Vérifie qu'on n'utilise plus l'ancien format UGC
-      expect(body.specificContent).toBeUndefined();
     });
 
-    it("rejette un post de plus de 3000 caractères", async () => {
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      const longText = "x".repeat(3001);
-      await expect(postLinkedIn(longText)).rejects.toThrow("trop long");
-    });
-
-    it("throw sur erreur 401 (token expiré)", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 401,
-        text: async () => "Unauthorized",
-      });
-
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      await expect(postLinkedIn("test")).rejects.toThrow("token expiré");
-    });
-
-    it("throw sur erreur 403 avec message diagnostic", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 403,
-        text: async () => "Not enough permissions",
-      });
-
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      await expect(postLinkedIn("test")).rejects.toThrow("accès refusé (403)");
-    });
-
-    it("throw quand les credentials manquent", async () => {
-      delete process.env.LINKEDIN_ACCESS_TOKEN;
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      await expect(postLinkedIn("test")).rejects.toThrow("credentials manquantes");
-    });
-
-    it("construit l'URN automatiquement depuis l'ID numérique", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        headers: new Map([["x-restli-id", "urn:li:share:456"]]),
-        json: async () => ({ id: "urn:li:share:456" }),
-      });
-
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      await postLinkedIn("Test");
-
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
-      expect(body.author).toBe("urn:li:organization:987654321");
-    });
-
-    it("accepte un URN complet comme LINKEDIN_ORGANIZATION_ID", async () => {
-      process.env.LINKEDIN_ORGANIZATION_ID = "urn:li:organization:111222333";
-
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        headers: new Map([["x-restli-id", "urn:li:share:789"]]),
-        json: async () => ({ id: "urn:li:share:789" }),
-      });
-
-      const { postLinkedIn } = require("@/lib/social/linkedin-client");
-      await postLinkedIn("Test URN");
-
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
-      expect(body.author).toBe("urn:li:organization:111222333");
-    });
-  });
-
-  describe("postLinkedInWithLink", () => {
-    it("publie un post avec lien article via la nouvelle Posts API", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        headers: new Map([["x-restli-id", "urn:li:share:link-post"]]),
-        json: async () => ({ id: "urn:li:share:link-post" }),
-      });
-
-      const { postLinkedInWithLink } = require("@/lib/social/linkedin-client");
-      await postLinkedInWithLink(
-        "Check this article!",
-        "https://deviens-marrant.fr/blog/test",
-        "Mon titre",
-        "Ma description",
-      );
-
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
-      expect(body.content.article.source).toBe("https://deviens-marrant.fr/blog/test");
-      expect(body.content.article.title).toBe("Mon titre");
-      expect(body.content.article.description).toBe("Ma description");
-      // Vérifie qu'on n'utilise plus l'ancien format UGC
-      expect(body.specificContent).toBeUndefined();
-    });
-  });
-
-  describe("getLinkedInMetrics", () => {
-    it("retourne les métriques d'un post", async () => {
+    it("throw sur erreurs GraphQL dans la réponse", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
-          likesSummary: { totalLikes: 25 },
-          commentsSummary: { totalFirstLevelComments: 3 },
+          errors: [{ message: "Invalid channel ID" }],
         }),
       });
 
-      const { getLinkedInMetrics } = require("@/lib/social/linkedin-client");
-      const metrics = await getLinkedInMetrics("urn:li:share:123");
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
+        "Invalid channel ID",
+      );
+    });
+  });
 
-      expect(metrics).toEqual({
-        impressions: 0,
-        likes: 25,
-        comments: 3,
-        shares: 0,
-        clicks: 0,
+  describe("createBufferImagePost", () => {
+    it("envoie un post avec image pour Instagram", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            createPost: {
+              post: {
+                id: "buffer-ig-789",
+                text: "Instagram post",
+                assets: [{ id: "asset-1", mimeType: "image/png" }],
+              },
+            },
+          },
+        }),
       });
+
+      const { createBufferImagePost } = require("@/lib/social/buffer-client");
+      const id = await createBufferImagePost(
+        "INSTAGRAM",
+        "Instagram post",
+        "https://deviens-marrant.fr/api/social/image?postId=123",
+      );
+
+      expect(id).toBe("buffer-ig-789");
+
+      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      expect(body.query).toContain("ch-instagram-012");
+      expect(body.query).toContain("images");
+      expect(body.query).toContain("deviens-marrant.fr");
+    });
+  });
+
+  describe("createBufferThread", () => {
+    it("publie chaque partie du thread séparément", async () => {
+      // 3 tweets = 3 appels API
+      mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: { createPost: { post: { id: "thread-1", text: "Part 1" } } },
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: { createPost: { post: { id: "thread-2", text: "Part 2" } } },
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: { createPost: { post: { id: "thread-3", text: "Part 3" } } },
+          }),
+        });
+
+      const { createBufferThread } = require("@/lib/social/buffer-client");
+      const firstId = await createBufferThread(["Part 1", "Part 2", "Part 3"]);
+
+      expect(firstId).toBe("thread-1");
+      expect(mockFetch).toHaveBeenCalledTimes(3);
     });
 
-    it("retourne des zéros sur erreur API", async () => {
+    it("rejette un thread vide", async () => {
+      const { createBufferThread } = require("@/lib/social/buffer-client");
+      await expect(createBufferThread([])).rejects.toThrow("Thread vide");
+    });
+  });
+
+  describe("getBufferChannels", () => {
+    it("retourne la liste des channels", async () => {
       mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 500,
+        ok: true,
+        json: async () => ({
+          data: {
+            channels: [
+              {
+                id: "ch-1",
+                name: "deviens-marrant",
+                displayName: "Deviens Marrant",
+                service: "twitter",
+                avatar: "https://...",
+                isQueuePaused: false,
+              },
+              {
+                id: "ch-2",
+                name: "deviens-marrant-linkedin",
+                displayName: "Deviens Marrant",
+                service: "linkedin",
+                avatar: "https://...",
+                isQueuePaused: false,
+              },
+            ],
+          },
+        }),
       });
 
-      const { getLinkedInMetrics } = require("@/lib/social/linkedin-client");
-      const metrics = await getLinkedInMetrics("urn:li:share:123");
+      const { getBufferChannels } = require("@/lib/social/buffer-client");
+      const channels = await getBufferChannels();
 
-      expect(metrics).toEqual({
-        impressions: 0,
-        likes: 0,
-        comments: 0,
-        shares: 0,
-        clicks: 0,
+      expect(channels).toHaveLength(2);
+      expect(channels[0].service).toBe("twitter");
+      expect(channels[1].service).toBe("linkedin");
+    });
+  });
+
+  describe("getBufferScheduledPosts", () => {
+    it("retourne les posts en attente de publication", async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            posts: {
+              edges: [
+                { node: { id: "p1", text: "Post 1", createdAt: "2026-03-20" } },
+                { node: { id: "p2", text: "Post 2", createdAt: "2026-03-20" } },
+              ],
+            },
+          },
+        }),
       });
+
+      const { getBufferScheduledPosts } = require("@/lib/social/buffer-client");
+      const posts = await getBufferScheduledPosts();
+
+      expect(posts).toHaveLength(2);
+      expect(posts[0].id).toBe("p1");
     });
   });
 });

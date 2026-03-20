@@ -349,55 +349,40 @@ CRON /api/cron/daily-social (4h UTC)
 |---|---|
 | `lib/ai/agents/social-media-agent.ts` | Agent dédié social-native |
 | `lib/ai/agents/standup-director-agent.ts` | + `validateSocialPost()` + `directorRewriteSocialPost()` |
-| `lib/social/twitter-client.ts` | Client Twitter API v2 |
-| `lib/social/threads-client.ts` | Client Threads API (cross-post) |
-| `lib/social/linkedin-client.ts` | Client LinkedIn API (phase 2) |
-| `lib/social/instagram-client.ts` | Client Meta Graph API (phase 3) |
-| `lib/social/image-generator.ts` | Génération visuels via satori (phase 3) |
-| `lib/social/templates/*.tsx` | Templates JSX charte visuelle (phase 3) |
+| `lib/social/buffer-client.ts` | Client Buffer GraphQL API (publie sur toutes les plateformes) |
+| `lib/social/twitter-client.ts` | (legacy) Client Twitter API v2 — remplacé par Buffer |
+| `lib/social/linkedin-client.ts` | (legacy) Client LinkedIn Posts API — remplacé par Buffer |
+| `lib/social/instagram-client.ts` | (legacy) Client Meta Graph API — remplacé par Buffer |
+| `lib/social/image-generator.ts` | Génération visuels via satori (Instagram) |
+| `lib/social/templates/*.tsx` | Templates JSX charte visuelle (Instagram) |
 | `app/admin/social/page.tsx` | Dashboard validation 1-clic |
 | `app/api/cron/daily-social/route.ts` | Cron génération quotidienne |
-| `app/api/cron/publish-social/route.ts` | Cron publication |
-| `app/api/cron/social-analytics/route.ts` | Cron pull metrics |
+| `app/api/cron/publish-social/route.ts` | Cron publication via Buffer |
+| `app/api/cron/social-analytics/route.ts` | Cron suivi + nettoyage (analytics via dashboard Buffer) |
 | `social-editorial-plan.json` | Planning éditorial social |
+
+### Publication via Buffer (mars 2026)
+La publication sur Twitter, LinkedIn et Instagram passe par **Buffer** (GraphQL API).
+Buffer gère les connexions OAuth, le scheduling et la publication effective.
+- Plus besoin de gérer les tokens Twitter/LinkedIn/Instagram directement
+- Analytics détaillées dans le dashboard Buffer (https://publish.buffer.com)
+- Un seul token API à maintenir
 
 ### Secrets Replit nécessaires
 ```
-TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET
-INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ID (phase 3 — EN HOLD)
-LINKEDIN_ACCESS_TOKEN, LINKEDIN_ORGANIZATION_ID (phase 2 — page entreprise deviens-marrant)
+BUFFER_ACCESS_TOKEN       — Token API Buffer (Settings > API dans Buffer)
+BUFFER_ORGANIZATION_ID    — ID de l'organisation Buffer
+BUFFER_CHANNEL_TWITTER    — Channel ID du profil Twitter dans Buffer
+BUFFER_CHANNEL_LINKEDIN   — Channel ID de la page LinkedIn dans Buffer
+BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram dans Buffer (optionnel)
 ```
 
-### Setup Instagram — Guide complet (à reprendre quand phase 3 débloquée)
-
-**Prérequis** :
-1. Page Facebook "Deviens Marrant" créée et publiée
-2. Compte Instagram `@deviensmarrant` passé en mode Business
-3. Compte Instagram lié à la Page Facebook (Paramètres IG → Compte → Pages liées)
-
-**Étapes API Meta** :
-1. **Créer une App Meta** sur developers.facebook.com (type "Business", nom "Deviens Marrant")
-2. **Ajouter le produit** "Instagram Graph API" dans le dashboard de l'app
-3. **Graph API Explorer** (developers.facebook.com/tools/explorer/) :
-   - Sélectionner l'app "Deviens Marrant" + "Token d'utilisateur"
-   - Permissions : `pages_show_list`, `pages_read_engagement`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_insights`, `business_management`
-   - Générer le token → popup Facebook → autoriser
-4. **Convertir en long-lived token (60 jours)** :
-   ```
-   curl "https://graph.facebook.com/v19.0/oauth/access_token?grant_type=fb_exchange_token&client_id=APP_ID&client_secret=APP_SECRET&fb_exchange_token=SHORT_TOKEN"
-   ```
-   - APP_ID et APP_SECRET : Dashboard app → Paramètres → Général
-5. **Récupérer INSTAGRAM_BUSINESS_ID** :
-   ```
-   # Trouver l'ID de la Page Facebook
-   curl "https://graph.facebook.com/v19.0/me/accounts?access_token=LONG_TOKEN"
-   # Récupérer l'IG Business ID lié à cette Page
-   curl "https://graph.facebook.com/v19.0/PAGE_ID?fields=instagram_business_account&access_token=LONG_TOKEN"
-   ```
-6. **Ajouter dans Replit Secrets** : `INSTAGRAM_ACCESS_TOKEN` + `INSTAGRAM_BUSINESS_ID`
-7. **Renouvellement** : token expire après 60 jours, relancer l'étape 4 avec le token actuel
-
-**Point de blocage actuel** : config du token Instagram (étapes 3-4). À reprendre.
+### Setup Buffer — Guide
+1. Créer un compte sur https://buffer.com (plan Essentials ~6$/mois)
+2. Connecter les profils : Twitter, LinkedIn (page entreprise), Instagram
+3. **Settings > API** : générer un API token → `BUFFER_ACCESS_TOKEN`
+4. Pour récupérer les Channel IDs : appeler l'endpoint GET `/api/admin/buffer-channels?secret=CRON_SECRET` ou utiliser la query GraphQL `GetChannels` avec l'Organization ID
+5. Ajouter les 5 secrets dans Replit (onglet Secrets)
 
 ## GEO — Generative Engine Optimization (optimisation pour LLM)
 

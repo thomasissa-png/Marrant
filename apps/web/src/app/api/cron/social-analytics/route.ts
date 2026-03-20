@@ -1,24 +1,21 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import {
-  getTweetMetrics,
-  isTwitterConfigured,
-} from "@/lib/social/twitter-client";
-import {
-  getLinkedInMetrics,
-  isLinkedInConfigured,
-} from "@/lib/social/linkedin-client";
-import {
-  getInstagramMetrics,
-  isInstagramConfigured,
-} from "@/lib/social/instagram-client";
+  isBufferConfigured,
+  getBufferScheduledPosts,
+} from "@/lib/social/buffer-client";
 
 /**
- * CRON — Récupération des métriques des posts sociaux.
+ * CRON — Suivi des posts sociaux et nettoyage.
  * Tourne 1x/jour via Replit Cron.
  *
- * Met à jour impressions, likes, retweets, replies, clicks
- * pour tous les posts publiés dans les 7 derniers jours.
+ * Avec Buffer, les analytics détaillées (impressions, likes, etc.)
+ * sont consultables directement dans le dashboard Buffer.
+ *
+ * Ce cron fait :
+ * 1. Vérifie l'état de la queue Buffer (posts schedulés)
+ * 2. Marque les posts APPROVED vieux de +48h comme FAILED (stuck)
+ * 3. Retourne un résumé pour monitoring
  */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -29,100 +26,71 @@ export async function GET(req: Request) {
 
   try {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
 
-    // Récupérer les posts publiés récemment avec un externalId
-    const posts = await prisma.socialPost.findMany({
-      where: {
-        status: "PUBLISHED",
-        publishedAt: { gte: sevenDaysAgo },
-        externalId: { not: null },
-      },
-      orderBy: { publishedAt: "desc" },
-      take: 50,
-    });
+    // Stats des posts récents
+    const [published, failed, pending, stuck] = await Promise.all([
+      prisma.socialPost.count({
+        where: { status: "PUBLISHED", publishedAt: { gte: sevenDaysAgo } },
+      }),
+      prisma.socialPost.count({
+        where: { status: "FAILED", createdAt: { gte: sevenDaysAgo } },
+      }),
+      prisma.socialPost.count({
+        where: { status: "APPROVED" },
+      }),
+      // Posts APPROVED depuis +48h = probablement stuck
+      prisma.socialPost.count({
+        where: {
+          status: "APPROVED",
+          scheduledAt: { lte: fortyEightHoursAgo },
+        },
+      }),
+    ]);
 
-    if (posts.length === 0) {
-      return NextResponse.json({
-        message: "Aucun post publié récent à analyser",
-        updated: 0,
+    // Marquer les posts stuck comme FAILED
+    let cleaned = 0;
+    if (stuck > 0) {
+      const result = await prisma.socialPost.updateMany({
+        where: {
+          status: "APPROVED",
+          scheduledAt: { lte: fortyEightHoursAgo },
+        },
+        data: { status: "FAILED" },
       });
+      cleaned = result.count;
+      console.log(`[SocialAnalytics] ${cleaned} posts stuck marqués FAILED`);
     }
 
-    const twitterReady = isTwitterConfigured();
-    const linkedInReady = isLinkedInConfigured();
-    const instagramReady = isInstagramConfigured();
-
-    let updated = 0;
-    let errors = 0;
-
-    for (const post of posts) {
-      if (!post.externalId || post.externalId === "unknown") continue;
-
+    // Vérifier la queue Buffer
+    let bufferQueue = 0;
+    if (isBufferConfigured()) {
       try {
-        if (post.platform === "TWITTER" && twitterReady) {
-          const metrics = await getTweetMetrics(post.externalId);
-          await prisma.socialPost.update({
-            where: { id: post.id },
-            data: {
-              impressions: metrics.impressions,
-              likes: metrics.likes,
-              retweets: metrics.retweets,
-              replies: metrics.replies,
-              clicks: metrics.urlClicks,
-            },
-          });
-          updated++;
-        } else if (post.platform === "LINKEDIN" && linkedInReady) {
-          const metrics = await getLinkedInMetrics(post.externalId);
-          await prisma.socialPost.update({
-            where: { id: post.id },
-            data: {
-              impressions: metrics.impressions,
-              likes: metrics.likes,
-              replies: metrics.comments,
-              retweets: metrics.shares,
-              clicks: metrics.clicks,
-            },
-          });
-          updated++;
-        } else if (post.platform === "INSTAGRAM" && instagramReady) {
-          const metrics = await getInstagramMetrics(post.externalId);
-          await prisma.socialPost.update({
-            where: { id: post.id },
-            data: {
-              impressions: metrics.impressions,
-              likes: metrics.likes,
-              replies: metrics.comments,
-              retweets: metrics.shares,
-              clicks: metrics.saves,
-            },
-          });
-          updated++;
-        }
-
-        // Pause entre les appels API pour éviter le rate limiting
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      } catch (error) {
-        const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
-        console.error(`[SocialAnalytics] Erreur metrics ${post.id}:`, errMsg);
-        errors++;
+        const scheduled = await getBufferScheduledPosts();
+        bufferQueue = scheduled.length;
+      } catch (err) {
+        console.error("[SocialAnalytics] Erreur lecture queue Buffer:", err);
       }
     }
 
-    console.log(
-      `[SocialAnalytics] ${updated}/${posts.length} posts mis à jour, ${errors} erreurs`,
-    );
+    const summary = {
+      period: "7 derniers jours",
+      published,
+      failed,
+      pendingApproval: pending,
+      stuckCleaned: cleaned,
+      bufferQueue,
+      bufferConfigured: isBufferConfigured(),
+      note: "Analytics détaillées (impressions, likes, etc.) disponibles dans le dashboard Buffer : https://publish.buffer.com",
+    };
 
-    return NextResponse.json({
-      message: `${updated} posts mis à jour`,
-      total: posts.length,
-      updated,
-      errors,
-    });
+    console.log("[SocialAnalytics]", JSON.stringify(summary));
+
+    return NextResponse.json(summary);
   } catch (error) {
     console.error("[SocialAnalytics] Erreur:", error);
     return NextResponse.json(
-      { error: "Erreur lors de la récupération des métriques" },
+      { error: "Erreur lors du suivi analytics" },
       { status: 500 },
     );
   }
