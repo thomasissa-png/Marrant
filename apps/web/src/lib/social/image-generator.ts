@@ -12,6 +12,8 @@ import {
   type LeDefiProps,
 } from "./templates/instagram-templates";
 import { createElement } from "react";
+import { readFile } from "fs/promises";
+import { join } from "path";
 
 // ───────────────────────────────────────────────────────────────────
 // Image Generator — satori JSX → SVG → PNG
@@ -19,8 +21,10 @@ import { createElement } from "react";
 // Génère des images 1080×1080 pour Instagram à partir des templates
 // JSX. Utilise satori (SVG) + resvg-js (PNG).
 //
-// Fonts : Inter (Regular + Bold + ExtraBold) chargées depuis Google
-// Fonts CDN au premier appel, puis mises en cache en mémoire.
+// Fonts : Inter (Regular + Bold + ExtraBold) chargées depuis le
+// filesystem local (public/fonts/) au premier appel, avec fallback
+// CDN si les fichiers locaux sont absents. Cache mémoire après
+// premier chargement.
 // ───────────────────────────────────────────────────────────────────
 
 const SIZE = 1080;
@@ -28,17 +32,46 @@ const SIZE = 1080;
 /** Font buffers (cached in memory after first load) */
 let fontsLoaded: Awaited<ReturnType<typeof loadFonts>> | null = null;
 
+/** CDN fallback URLs — one per weight (correct per-weight URLs) */
+const CDN_URLS: Record<number, string> = {
+  400: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKv0.woff",
+  700: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ujIw2boKoduKv0.woff",
+  800: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50tjIw2boKoduKv0.woff",
+};
+
 async function loadFonts() {
   const weights = [
-    { weight: 400, name: "Inter Regular" },
-    { weight: 700, name: "Inter Bold" },
-    { weight: 800, name: "Inter ExtraBold" },
+    { weight: 400, name: "Inter Regular", file: "Inter-Regular.woff2" },
+    { weight: 700, name: "Inter Bold", file: "Inter-Bold.woff2" },
+    { weight: 800, name: "Inter ExtraBold", file: "Inter-ExtraBold.woff2" },
   ] as const;
 
   const fonts = await Promise.all(
-    weights.map(async ({ weight, name }) => {
-      const url = `https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKv0.woff`;
+    weights.map(async ({ weight, name, file }) => {
+      // 1. Try loading from local filesystem first
       try {
+        const fontPath = join(process.cwd(), "public", "fonts", file);
+        const buffer = await readFile(fontPath);
+        console.log(`[image-gen] ${name} chargée depuis ${fontPath}`);
+        return {
+          name: "Inter",
+          data: buffer.buffer.slice(
+            buffer.byteOffset,
+            buffer.byteOffset + buffer.byteLength,
+          ),
+          weight: weight as 400 | 700 | 800,
+          style: "normal" as const,
+        };
+      } catch {
+        // Local file not found, fall through to CDN
+      }
+
+      // 2. Fallback: fetch from CDN
+      const url = CDN_URLS[weight];
+      try {
+        console.warn(
+          `[image-gen] ${name} introuvable localement, fallback CDN...`,
+        );
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Font fetch failed: ${res.status}`);
         const buffer = await res.arrayBuffer();

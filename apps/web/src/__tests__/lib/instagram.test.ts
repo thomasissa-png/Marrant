@@ -8,6 +8,11 @@
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
+// Mock fs/promises — readFile returns a fake font buffer (local fonts self-hosted)
+jest.mock("fs/promises", () => ({
+  readFile: jest.fn().mockResolvedValue(Buffer.alloc(100)),
+}));
+
 // Mock satori
 jest.mock("satori", () => {
   return jest.fn().mockResolvedValue("<svg>mock</svg>");
@@ -285,7 +290,7 @@ describe("image-generator", () => {
 
     const buffers = await generateDecryptageCarousel(slides);
     expect(buffers).toHaveLength(3);
-    buffers.forEach((buf: Buffer) => expect(Buffer.isBuffer(buf)).toBe(true));
+    buffers.forEach((buf) => expect(Buffer.isBuffer(buf)).toBe(true));
   });
 
   it("generateLeDefi retourne un Buffer PNG", async () => {

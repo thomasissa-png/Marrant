@@ -147,7 +147,7 @@ export async function createBufferPost(
     mutation CreatePost {
       createPost(input: {
         text: ${JSON.stringify(text)},
-        channelId: "${channelId}",
+        channelId: ${JSON.stringify(channelId)},
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}"
@@ -202,7 +202,7 @@ export async function createBufferImagePost(
     mutation CreateImagePost {
       createPost(input: {
         text: ${JSON.stringify(text)},
-        channelId: "${channelId}",
+        channelId: ${JSON.stringify(channelId)},
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}",
@@ -282,7 +282,7 @@ export async function getBufferChannels(): Promise<BufferChannel[]> {
   const query = `
     query GetChannels {
       channels(input: {
-        organizationId: "${config.organizationId}"
+        organizationId: ${JSON.stringify(config.organizationId)}
       }) {
         id
         name
@@ -310,7 +310,7 @@ export async function getBufferScheduledPosts(): Promise<
     query GetScheduledPosts {
       posts(
         input: {
-          organizationId: "${config.organizationId}",
+          organizationId: ${JSON.stringify(config.organizationId)},
           sort: [{ field: dueAt, direction: asc }],
           filter: { status: [scheduled] }
         }

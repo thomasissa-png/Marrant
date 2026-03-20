@@ -11,10 +11,11 @@ import { getPersonaForDay } from "@/lib/ai/personas";
  * Déclenché à 4h UTC par Replit Cron.
  *
  * Pipeline :
- * 1. Génère 2-3 posts Twitter + 1 LinkedIn via social-media-agent
- * 2. Chaque post passe par la validation du Stand-Up Director (auto-approve)
- * 3. Sauvegarde en DB avec status APPROVED (publication automatique)
- * 4. Le cron publish-social publie aux horaires schedulés
+ * 1. Génère 2-3 posts Twitter + 1 LinkedIn + 1 Instagram via social-media-agent
+ * 2. Chaque post passe par la validation du Stand-Up Director (3 tentatives max, réécriture si échec)
+ * 3. Validation programmatique (hook ≤5 mots, char limits, guard persona, anti-engagement-bait)
+ * 4. Sauvegarde en DB avec status APPROVED (déjà validé par le directeur)
+ * 5. Le cron publish-social publie aux horaires schedulés via Buffer
  */
 export async function GET(req: Request) {
   // Vérification du cron secret (header Bearer OU query param pour compatibilité)
@@ -94,7 +95,7 @@ export async function GET(req: Request) {
     }
 
     console.log(
-      `[DailySocial] ${saved.length} posts générés et en attente de validation`,
+      `[DailySocial] ${saved.length} posts générés, validés par le directeur, et prêts à publier`,
     );
 
     return NextResponse.json({

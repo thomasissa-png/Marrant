@@ -622,7 +622,10 @@ function SocialTab({
 
         {pendingIds.length > 0 && (
           <button
-            onClick={() => onAction("approve", pendingIds)}
+            onClick={() => {
+              if (!window.confirm(`Approuver ${pendingIds.length} posts en attente ?`)) return;
+              onAction("approve", pendingIds);
+            }}
             className="rounded-lg bg-success/20 px-3 py-2 text-sm font-medium text-success transition-colors hover:bg-success/30"
           >
             Approuver tout ({pendingIds.length})
@@ -681,6 +684,13 @@ function SocialPostCard({
   onApprove: () => void;
   onReject: () => void;
 }) {
+  const platformLabels: Record<string, string> = {
+    TWITTER: "Twitter/X",
+    LINKEDIN: "LinkedIn",
+    INSTAGRAM: "Instagram",
+    THREADS: "Threads",
+  };
+
   const statusStyles: Record<string, string> = {
     PENDING: "bg-yellow-500/20 text-yellow-500",
     APPROVED: "bg-blue-400/20 text-blue-400",
@@ -707,7 +717,7 @@ function SocialPostCard({
           {post.status}
         </span>
         <span className="rounded-full bg-background-elevated px-2 py-0.5 text-xs font-medium text-text-muted">
-          {post.platform}
+          {platformLabels[post.platform] || post.platform}
         </span>
         <span className="rounded-full bg-background-elevated px-2 py-0.5 text-xs font-medium text-text-muted">
           {formatLabels[post.format] || post.format}
@@ -747,6 +757,18 @@ function SocialPostCard({
         <p className="whitespace-pre-wrap text-sm text-text-secondary">{post.content}</p>
       )}
 
+      {/* Instagram image preview */}
+      {post.platform === "INSTAGRAM" && post.id && (
+        <div style={{ marginTop: 12 }}>
+          <img
+            src={`/api/social/image?postId=${post.id}`}
+            alt="Preview Instagram"
+            style={{ width: 200, height: 200, borderRadius: 8, objectFit: "cover" }}
+            loading="lazy"
+          />
+        </div>
+      )}
+
       {/* CTA */}
       {post.cta && (
         <p className="mt-2 text-xs italic text-text-muted">CTA: {post.cta}</p>
@@ -781,7 +803,10 @@ function SocialPostCard({
             </button>
           )}
           <button
-            onClick={onReject}
+            onClick={() => {
+              if (!window.confirm("Rejeter ce post ?")) return;
+              onReject();
+            }}
             className="rounded-md bg-error/20 px-3 py-1.5 text-xs font-medium text-error transition-colors hover:bg-error/30"
           >
             Rejeter

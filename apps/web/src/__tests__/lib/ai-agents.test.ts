@@ -2162,3 +2162,160 @@ describe("Date utilities", () => {
     expect(getDayOfYear(new Date(Date.UTC(2026, 11, 31)))).toBe(365);
   });
 });
+
+// ─── validatePostConstraints ────────────────────────────────────
+
+describe("validatePostConstraints", () => {
+  let validatePostConstraints: (post: any) => string[];
+
+  beforeAll(async () => {
+    const mod = await import("@/lib/ai/agents/social-media-agent");
+    validatePostConstraints = mod.validatePostConstraints;
+  });
+
+  const validPost = {
+    platform: "TWITTER" as const,
+    format: "TWEET" as const,
+    hook: "Fary ne répond JAMAIS",
+    content: "Un post court et percutant.",
+    cta: "50+ techniques → deviens-marrant.fr",
+    hashtags: ["#humour"],
+    targetPersona: "YANIS" as const,
+    sourceType: "ORIGINAL" as const,
+  };
+
+  it("returns empty array for a valid post", () => {
+    const issues = validatePostConstraints(validPost);
+    expect(issues).toEqual([]);
+  });
+
+  it("detects hook with more than 5 words", () => {
+    const post = { ...validPost, hook: "Ceci est un hook beaucoup trop long" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Hook trop long"))).toBe(true);
+  });
+
+  it("detects tweet exceeding 280 chars", () => {
+    const post = { ...validPost, content: "a".repeat(281) };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Tweet trop long"))).toBe(true);
+  });
+
+  it("detects thread tweet parts exceeding 280 chars", () => {
+    const post = {
+      ...validPost,
+      format: "THREAD" as const,
+      threadParts: ["ok", "a".repeat(300), "ok", "ok", "ok"],
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Thread tweet 2 trop long"))).toBe(true);
+  });
+
+  it("detects LinkedIn post exceeding 1300 chars", () => {
+    const post = {
+      ...validPost,
+      platform: "LINKEDIN" as const,
+      format: "POST" as const,
+      content: "a".repeat(1301),
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Post LinkedIn trop long"))).toBe(true);
+  });
+
+  it("detects Instagram carousel slides exceeding 150 chars", () => {
+    const post = {
+      ...validPost,
+      platform: "INSTAGRAM" as const,
+      format: "CAROUSEL" as const,
+      threadParts: ["short", "a".repeat(160), "short", "short", "short"],
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Carousel slide 2 trop longue"))).toBe(true);
+  });
+
+  it("detects persona leak in content (case-insensitive)", () => {
+    const post = { ...validPost, content: "Sophie adore cette technique" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("CRITIQUE") && i.includes("sophie"))).toBe(true);
+  });
+
+  it("detects persona leak in hook", () => {
+    const post = { ...validPost, hook: "Yanis test ça" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("CRITIQUE") && i.includes("yanis"))).toBe(true);
+  });
+
+  it("detects persona leak in cta", () => {
+    const post = { ...validPost, cta: "Comme Marc, teste ça" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("CRITIQUE") && i.includes("marc"))).toBe(true);
+  });
+
+  it("detects forbidden CTA patterns", () => {
+    const post = { ...validPost, cta: "Découvrez nos techniques" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("CTA interdit"))).toBe(true);
+  });
+
+  it("detects exclamation mark in CTA", () => {
+    const post = { ...validPost, cta: "Allez voir le site!" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("point d'exclamation"))).toBe(true);
+  });
+
+  it("detects engagement bait patterns", () => {
+    const post = { ...validPost, content: "Tag un ami qui fait ça" };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Engagement bait"))).toBe(true);
+  });
+
+  it("detects thread with fewer than 5 parts", () => {
+    const post = {
+      ...validPost,
+      format: "THREAD" as const,
+      threadParts: ["1", "2", "3"],
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Thread trop court"))).toBe(true);
+  });
+
+  it("detects thread with more than 7 parts", () => {
+    const post = {
+      ...validPost,
+      format: "THREAD" as const,
+      threadParts: ["1", "2", "3", "4", "5", "6", "7", "8"],
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Thread trop long"))).toBe(true);
+  });
+
+  it("detects thread without threadParts", () => {
+    const post = {
+      ...validPost,
+      format: "THREAD" as const,
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.some((i: string) => i.includes("Thread sans threadParts"))).toBe(true);
+  });
+
+  it("accepts valid thread with 5-7 parts", () => {
+    const post = {
+      ...validPost,
+      format: "THREAD" as const,
+      threadParts: ["1", "2", "3", "4", "5", "6"],
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.filter((i: string) => i.includes("Thread"))).toEqual([]);
+  });
+
+  it("accumulates multiple issues", () => {
+    const post = {
+      ...validPost,
+      hook: "Ce hook est beaucoup beaucoup trop long",
+      content: "Tag un ami qui fait comme Sophie",
+      cta: "Découvrez notre site!",
+    };
+    const issues = validatePostConstraints(post);
+    expect(issues.length).toBeGreaterThanOrEqual(4); // hook + engagement bait + persona + CTA forbidden + CTA exclamation
+  });
+});

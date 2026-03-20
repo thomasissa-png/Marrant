@@ -138,10 +138,11 @@ export async function GET(req: Request) {
         } else {
           // Erreur temporaire (réseau, rate limit) → repousser de 30 min pour retry au prochain cron
           const retryAt = new Date(Date.now() + 30 * 60 * 1000);
-          const retryCount = (post.directorNote?.match(/\[retry:(\d+)\]/)?.[1] ?? "0");
-          const count = parseInt(retryCount, 10) + 1;
+          // Track retries via sourceId field (not directorNote — that's for human-readable feedback)
+          const currentRetries = parseInt(post.sourceId?.match(/^retry:(\d+)$/)?.[1] ?? "0", 10);
+          const newRetryCount = currentRetries + 1;
 
-          if (count >= 3) {
+          if (newRetryCount >= 3) {
             await prisma.socialPost.update({
               where: { id: post.id },
               data: { status: "FAILED" },
@@ -151,7 +152,7 @@ export async function GET(req: Request) {
               where: { id: post.id },
               data: {
                 scheduledAt: retryAt,
-                directorNote: `${post.directorNote || ""}[retry:${count}] ${errMsg}`.trim(),
+                sourceId: `retry:${newRetryCount}`,
               },
             });
           }

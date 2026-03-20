@@ -1,0 +1,314 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-03-20",
+  "strategy": {
+    "mission": "Chaque post est une micro-performance de stand-up. Pas un extrait du catalogue. Pas un engagement bait.",
+    "growthTarget": "0 → 10K followers en 6 mois",
+    "usp": "Décortiquer des techniques de stand-up de manière actionnable",
+    "contentPillars": [
+      "Technique du Jour — USP principal, éducatif + drôle",
+      "Vanne Réécrite Social — réécriture social-native du catalogue",
+      "Thread Décryptage — analyse approfondie d'une technique",
+      "Quote Analyse — citation humoriste + micro-analyse"
+    ],
+    "brandVoice": {
+      "tone": "Complice, punchy, entre potes — comme un DM à ton meilleur pote",
+      "register": "Tu, jamais vous. Direct, jamais corporate.",
+      "humor": "Minimum 1 trait d'humour par post. Si c'est pas drôle, c'est pas publié.",
+      "spontaneity": "Plus spontané que le site — pas de structure conseil → exemple → exercice"
+    },
+    "phases": {
+      "phase1": { "weeks": "1-2", "platforms": ["TWITTER"], "status": "completed" },
+      "phase2": { "weeks": "3-4", "platforms": ["TWITTER", "LINKEDIN"], "status": "completed" },
+      "phase3": { "weeks": "5-8", "platforms": ["TWITTER", "LINKEDIN", "INSTAGRAM"], "status": "active" }
+    }
+  },
+  "platforms": {
+    "TWITTER": {
+      "postsPerDay": "2-3",
+      "threadsPerWeek": 2,
+      "formats": ["TWEET", "THREAD", "QUOTE_ANALYSIS"],
+      "charLimit": 280,
+      "rules": [
+        "Hook ≤ 5 mots obligatoire",
+        "Zéro lien dans les 3 premières lignes",
+        "CTA subtil en fin uniquement",
+        "Pas de hashtag dans le corps — max 1 en fin de tweet"
+      ],
+      "bestPractices": [
+        "Ratio 80% valeur / 20% promo",
+        "Répondre aux comptes d'humoristes (visibilité organique)",
+        "Réagir à l'actualité stand-up dans les 2h"
+      ]
+    },
+    "LINKEDIN": {
+      "postsPerDay": 1,
+      "formats": ["POST"],
+      "charLimit": 1300,
+      "rules": [
+        "Angle pro : techniques de communication, prise de parole, leadership par l'humour",
+        "Ton plus mature que Twitter, mais jamais corporate",
+        "Storytelling > bullet points",
+        "Hook en première ligne (visible avant 'voir plus')"
+      ],
+      "targetPersonas": ["SOPHIE", "MARC"]
+    },
+    "INSTAGRAM": {
+      "postsPerDay": 1,
+      "formats": ["IMAGE", "CAROUSEL"],
+      "imageSize": "1080x1080",
+      "templates": ["TECHNIQUE_DU_JOUR", "LA_VANNE", "DECRYPTAGE", "LE_DEFI"],
+      "charteVisuelle": {
+        "fond": "Noir/très sombre",
+        "accent": "Violet/gradient (accent-primary du site)",
+        "texte": "Blanc cassé, punchlines en italique taille 1.5x",
+        "regle": "Reconnaissable en < 1 seconde dans un feed"
+      },
+      "rules": [
+        "Image générée via satori (templates JSX)",
+        "Caption courte (max 300 chars), hashtags en commentaire",
+        "Pas de lien dans le caption (non cliquable)",
+        "CTA → lien en bio"
+      ],
+      "weeklySchedule": {
+        "monday": "TECHNIQUE_DU_JOUR",
+        "tuesday": "CAROUSEL (Décryptage)",
+        "wednesday": "TECHNIQUE_DU_JOUR",
+        "thursday": "CAROUSEL (Décryptage)",
+        "friday": "TECHNIQUE_DU_JOUR",
+        "saturday": "LA_VANNE ou LE_DEFI",
+        "sunday": "Repos ou repost best-of"
+      }
+    }
+  },
+  "weeklySchedule": [
+    {
+      "day": "Lundi",
+      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)"],
+      "linkedin": ["Post technique communication/humour au travail"],
+      "instagram": ["Image Technique du Jour"]
+    },
+    {
+      "day": "Mardi",
+      "twitter": ["Quote Analyse (matin)", "Thread Décryptage (soir)"],
+      "linkedin": [],
+      "instagram": ["Carousel Décryptage (5-7 slides)"]
+    },
+    {
+      "day": "Mercredi",
+      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)"],
+      "linkedin": ["Post storytelling/anecdote pro"],
+      "instagram": ["Image Technique du Jour"]
+    },
+    {
+      "day": "Jeudi",
+      "twitter": ["Quote Analyse (matin)", "Thread Décryptage (soir)"],
+      "linkedin": [],
+      "instagram": ["Carousel Décryptage"]
+    },
+    {
+      "day": "Vendredi",
+      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)", "Quote Analyse (bonus)"],
+      "linkedin": ["Post 'La technique du week-end'"],
+      "instagram": ["Image Technique du Jour"]
+    },
+    {
+      "day": "Samedi",
+      "twitter": ["Vanne Réécrite Social (midi)", "Quote Analyse (soir)"],
+      "linkedin": [],
+      "instagram": ["Image La Vanne ou Le Défi"]
+    },
+    {
+      "day": "Dimanche",
+      "twitter": ["Best-of de la semaine ou Quote Analyse"],
+      "linkedin": [],
+      "instagram": ["Repos ou repost"]
+    }
+  ],
+  "monthlyThemes": {
+    "janvier": {
+      "theme": "Nouvelles résolutions humour",
+      "angle": "Commencer l'année en faisant rire",
+      "events": ["Rentrée", "Dry January (angle humour)"]
+    },
+    "février": {
+      "theme": "Humour & séduction",
+      "angle": "Faire rire en date, la répartie en couple",
+      "events": ["Saint-Valentin (sem ~5-6)"]
+    },
+    "mars": {
+      "theme": "Prise de parole",
+      "angle": "Oser parler en public, réunions, présentations",
+      "events": ["Printemps des poètes"]
+    },
+    "avril": {
+      "theme": "Poisson d'avril & absurde",
+      "angle": "L'art du bluff, du troll bienveillant, humour absurde",
+      "events": ["1er avril"]
+    },
+    "mai": {
+      "theme": "Humour social & afterwork",
+      "angle": "Machine à café, ponts, apéros",
+      "events": ["Ponts de mai", "Fête des mères"]
+    },
+    "juin": {
+      "theme": "Festival season",
+      "angle": "Festivals d'humour, soirées d'été, open mics",
+      "events": ["Fête de la musique", "Début festivals"]
+    },
+    "juillet": {
+      "theme": "Humour de vacances",
+      "angle": "Faire rire en voyage, en famille, entre amis",
+      "events": ["Festivals d'Avignon/Montreux"]
+    },
+    "août": {
+      "theme": "Best-of & révisions",
+      "angle": "Récap des meilleures techniques, préparation rentrée",
+      "events": ["Été"]
+    },
+    "septembre": {
+      "theme": "Rentrée humour",
+      "angle": "Nouveau départ, nouveaux collègues, nouvelles blagues",
+      "events": ["Rentrée scolaire/pro (sem ~36)"]
+    },
+    "octobre": {
+      "theme": "Humour noir & Halloween",
+      "angle": "Second degré, ironie, dark humor maîtrisé",
+      "events": ["Halloween"]
+    },
+    "novembre": {
+      "theme": "Storytelling & stand-up",
+      "angle": "Raconter des histoires drôles, structurer ses anecdotes",
+      "events": ["Movember"]
+    },
+    "décembre": {
+      "theme": "Humour de fêtes",
+      "angle": "Blagues de Noël, repas de famille, réveillon",
+      "events": ["Noël (sem ~51)", "Réveillon"]
+    }
+  },
+  "kpis": {
+    "30days": {
+      "followers": { "twitter": 500, "linkedin": 200, "instagram": 300 },
+      "avgEngagementRate": "3%",
+      "postsPublished": 60,
+      "threadsPublished": 8,
+      "topPostImpressions": 5000
+    },
+    "90days": {
+      "followers": { "twitter": 2000, "linkedin": 800, "instagram": 1500 },
+      "avgEngagementRate": "4%",
+      "postsPublished": 180,
+      "threadsPublished": 24,
+      "topPostImpressions": 20000,
+      "websiteClicksFromSocial": 500
+    },
+    "180days": {
+      "followers": { "twitter": 5000, "linkedin": 2000, "instagram": 4000 },
+      "avgEngagementRate": "5%",
+      "postsPublished": 360,
+      "threadsPublished": 48,
+      "topPostImpressions": 50000,
+      "websiteClicksFromSocial": 2000,
+      "conversionRate": "2%"
+    }
+  },
+  "contentRules": {
+    "always": [
+      "Chaque post = micro-performance de stand-up",
+      "Hook ≤ 5 mots qui arrêtent le scroll",
+      "Au moins 1 trait d'humour par post",
+      "CTA subtil en fin ('plus de techniques → lien en bio')",
+      "Ton complice, comme un DM à un pote",
+      "Standalone : compréhensible sans connaître le site",
+      "Share test : 'j'envoie ça à mon pote ?'",
+      "Anti-generic : un compte lambda ne pourrait PAS poster ça"
+    ],
+    "never": [
+      "'Complète cette vanne...'",
+      "'Note de 1 à 10'",
+      "'Tag un ami qui...'",
+      "'Like si...'",
+      "Tout format engagement bait",
+      "Copier-coller du catalogue sans réécriture social-native",
+      "Lien dans les 3 premières lignes",
+      "Ton corporate, vouvoiement, 'Découvrez', 'N'hésitez pas'",
+      "Point d'exclamation dans le CTA",
+      "Noms de personas (Yanis, Sophie, Marc) dans le contenu public"
+    ]
+  },
+  "hashtagStrategy": {
+    "twitter": {
+      "maxPerTweet": 1,
+      "placement": "Fin du tweet uniquement",
+      "primary": ["#StandUp", "#Humour", "#Repartie"],
+      "secondary": ["#DeviensDrole", "#TechniqueDuJour"]
+    },
+    "linkedin": {
+      "maxPerPost": 3,
+      "placement": "Fin du post, après le CTA",
+      "primary": ["#PriseDeParole", "#Communication", "#Leadership"],
+      "secondary": ["#Humour", "#SoftSkills"]
+    },
+    "instagram": {
+      "maxInCaption": 0,
+      "maxInComment": 15,
+      "placement": "Premier commentaire uniquement",
+      "primary": ["#standup", "#humour", "#comedy", "#standupfr", "#repartie"],
+      "secondary": ["#deviensdrolefr", "#techniquedujour", "#humourfr", "#blague", "#comediefr"],
+      "niche": ["#apprendrelhumour", "#coursdhumour", "#standupcomedy", "#openmic"]
+    }
+  },
+  "crossPollination": {
+    "siteToSocial": [
+      "Nouvelle vanne du jour → tweet reformulé social-native (pas copier-coller)",
+      "Nouveau conseil → thread Twitter 5-7 tweets + post LinkedIn adapté",
+      "Nouvel article blog → thread résumé + carousel Instagram",
+      "Nouvelle vidéo → quote analyse tweet + mini-review LinkedIn"
+    ],
+    "socialToSite": [
+      "Thread viral → article blog étendu",
+      "Post LinkedIn performant → nouveau conseil dans le catalogue",
+      "Feedback commentaires → ajustement des exercices/parcours"
+    ],
+    "rules": [
+      "JAMAIS de copier-coller entre plateformes — toujours adapter au format natif",
+      "Délai minimum 24h entre publication site et reprise social",
+      "Chaque reprise ajoute de la valeur (angle différent, contexte, anecdote)"
+    ]
+  },
+  "schedulingByPersona": {
+    "YANIS": {
+      "description": "Scrolle le soir après les cours/soirées",
+      "twitter": [19, 21],
+      "linkedin": [18, 20],
+      "instagram": [18, 20]
+    },
+    "SOPHIE": {
+      "description": "Trajet matin + pause déjeuner",
+      "twitter": [7, 11],
+      "linkedin": [6, 10],
+      "instagram": [10, 17]
+    },
+    "MARC": {
+      "description": "Matin calme + soirée",
+      "twitter": [6, 18],
+      "linkedin": [7, 19],
+      "instagram": [6, 19]
+    }
+  },
+  "directorValidation": {
+    "criteria": [
+      { "name": "Hook test", "weight": 2, "description": "Les 5 premiers mots arrêtent le scroll ?" },
+      { "name": "Standalone test", "weight": 1, "description": "Compréhensible sans connaître le site ?" },
+      { "name": "Share test", "weight": 2, "description": "'J'envoie ça à mon pote' ?" },
+      { "name": "Brand test", "weight": 1, "description": "Ton complice, mature, jamais corporate ?" },
+      { "name": "Anti-generic test", "weight": 1, "description": "Un compte lambda pourrait poster ça ? Si oui, REJETÉ" },
+      { "name": "Platform-native test", "weight": 1, "description": "Exploite les codes de la plateforme ?" },
+      { "name": "Persona test", "weight": 1, "description": "Le persona scrolle et s'arrête ?" }
+    ],
+    "minScore": 7,
+    "maxRetries": 3,
+    "failureAction": "Le directeur réécrit lui-même le post"
+  }
+}

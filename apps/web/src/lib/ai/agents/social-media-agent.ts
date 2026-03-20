@@ -1,18 +1,21 @@
 import { callWithRetry, extractJson, getResponseText } from "../client";
-import { PERSONAS, type PersonaKey, getPersonaForDay } from "../personas";
+import { PERSONAS, getPersonaForDay } from "../personas";
+import type { PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
 import {
   validateSocialPost,
   directorRewriteSocialPost,
-  type SocialPostToValidate,
-  type ValidationResult,
 } from "./standup-director-agent";
+import type { SocialPostToValidate, ValidationResult } from "./standup-director-agent";
 
 // ───────────────────────────────────────────────────────────────────
 // Agent Social Media — Community Manager de deviens-marrant.fr
 //
-// Rôle : générer du contenu social-native pour Twitter, Threads,
+// Rôle : générer du contenu social-native pour Twitter,
 // LinkedIn et Instagram. Chaque post est une micro-performance.
+//
+// Note : Threads est dans l'enum Prisma mais PAS généré (pas de support Buffer).
+// Ne pas ajouter de posts Threads sans implémentation du client.
 //
 // Ce n'est PAS un fork du joke-agent. Le ton est plus punchy,
 // plus "entre nous", plus spontané. Hook en ≤ 5 mots obligatoire.
@@ -54,6 +57,7 @@ interface DailyPostPlan {
   theme: string;
   platform: SocialPlatform;
   sourceType?: string;
+  schedulingHint?: string;
 }
 
 // ─── System Prompt — Social-Native Brief ────────────────────────
@@ -240,6 +244,130 @@ Instagram = le format le plus visuel. Le texte doit être COURT et PERCUTANT car
 ═══ HUMORISTES DE RÉFÉRENCE ═══
 Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Pierre Croce, Inès Reg
 Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti`;
+}
+
+// ─── Validation programmatique des contraintes ──────────────────
+
+const PERSONA_NAMES = ["yanis", "sophie", "marc"];
+const FORBIDDEN_CTA_PATTERNS = ["découvrez", "n'hésitez pas", "visitez"];
+const ENGAGEMENT_BAIT_PATTERNS = [
+  "complète cette",
+  "note de 1 à 10",
+  "tag un ami",
+  "like si",
+];
+
+/**
+ * Validates a generated post against hard constraints.
+ * Returns an array of issue strings (empty = valid).
+ */
+export function validatePostConstraints(
+  post: GeneratedSocialPost,
+): string[] {
+  const issues: string[] = [];
+
+  // 1. Hook word count — must be ≤ 5 words
+  const hookWords = post.hook.trim().split(/\s+/).filter(Boolean);
+  if (hookWords.length > 5) {
+    issues.push(
+      `Hook trop long : ${hookWords.length} mots (max 5). Hook : "${post.hook}"`,
+    );
+  }
+
+  // 2. Character limits per platform/format
+  if (post.platform === "TWITTER") {
+    if (post.format === "TWEET" && post.content.length > 280) {
+      issues.push(
+        `Tweet trop long : ${post.content.length} chars (max 280)`,
+      );
+    }
+    if (post.format === "THREAD" && post.threadParts) {
+      post.threadParts.forEach((part, i) => {
+        if (part.length > 280) {
+          issues.push(
+            `Thread tweet ${i + 1} trop long : ${part.length} chars (max 280)`,
+          );
+        }
+      });
+    }
+  }
+  if (post.platform === "LINKEDIN" && post.content.length > 1300) {
+    issues.push(
+      `Post LinkedIn trop long : ${post.content.length} chars (max 1300)`,
+    );
+  }
+  if (
+    post.platform === "INSTAGRAM" &&
+    post.format === "CAROUSEL" &&
+    post.threadParts
+  ) {
+    post.threadParts.forEach((part, i) => {
+      if (part.length > 150) {
+        issues.push(
+          `Carousel slide ${i + 1} trop longue : ${part.length} chars (max 150)`,
+        );
+      }
+    });
+  }
+
+  // 3. Persona guard — internal names must NEVER appear in public content
+  const allText = `${post.content} ${post.hook} ${post.cta}`.toLowerCase();
+  for (const name of PERSONA_NAMES) {
+    if (allText.includes(name)) {
+      issues.push(
+        `CRITIQUE — Persona leak détecté : "${name}" trouvé dans le contenu public`,
+      );
+    }
+  }
+
+  // 4. CTA check — no marketing language or exclamation marks
+  const ctaLower = post.cta.toLowerCase();
+  for (const pattern of FORBIDDEN_CTA_PATTERNS) {
+    if (ctaLower.includes(pattern)) {
+      issues.push(
+        `CTA interdit : contient "${pattern}". CTA : "${post.cta}"`,
+      );
+    }
+  }
+  if (post.cta.includes("!")) {
+    issues.push(
+      `CTA contient un point d'exclamation (interdit). CTA : "${post.cta}"`,
+    );
+  }
+
+  // 5. Engagement bait check
+  const contentLower = post.content.toLowerCase();
+  for (const pattern of ENGAGEMENT_BAIT_PATTERNS) {
+    if (contentLower.includes(pattern)) {
+      issues.push(
+        `Engagement bait détecté : "${pattern}" dans le contenu`,
+      );
+    }
+  }
+
+  // 6. Thread parts validation — THREAD format must have 5-7 parts
+  if (post.format === "THREAD") {
+    if (!post.threadParts || post.threadParts.length === 0) {
+      issues.push("Thread sans threadParts — le champ est obligatoire");
+    } else if (post.threadParts.length < 5) {
+      issues.push(
+        `Thread trop court : ${post.threadParts.length} tweets (min 5)`,
+      );
+    } else if (post.threadParts.length > 7) {
+      issues.push(
+        `Thread trop long : ${post.threadParts.length} tweets (max 7)`,
+      );
+    }
+  }
+
+  return issues;
+}
+
+/**
+ * Check if any issue is a critical persona leak.
+ */
+function hasCriticalIssue(issues: string[]): boolean {
+  return issues.some((issue) => issue.startsWith("CRITIQUE"));
 }
 
 // ─── Génération des posts quotidiens ────────────────────────────
@@ -429,7 +557,58 @@ function getDailyPlan(
     ],
   };
 
-  return plans[dayOfWeek] || plans[1];
+  const result = plans[dayOfWeek] || plans[1];
+
+  // Ajouter les scheduling hints basés sur le persona, la plateforme et le créneau horaire
+  let twitterIndex = 0;
+  return result.map((entry) => {
+    const isTwitterLike = entry.platform === "TWITTER" || entry.platform === "THREADS";
+    const hint = getSchedulingHint(entry.platform, persona, isTwitterLike ? twitterIndex : 0);
+    if (isTwitterLike) twitterIndex++;
+    return { ...entry, schedulingHint: hint };
+  });
+}
+
+/**
+ * Retourne un hint de contexte de lecture basé sur la plateforme, le persona
+ * et le créneau horaire (slotIndex pour les plateformes à créneaux multiples).
+ * Ce hint est injecté dans le prompt de génération pour adapter le ton.
+ *
+ * Créneaux Twitter par persona :
+ * - YANIS : soirée (21h-23h)
+ * - SOPHIE : slot 0 = matin (9h), slot 1 = pause déj (13h)
+ * - MARC : slot 0 = matin (8h), slot 1 = soirée (20h)
+ */
+function getSchedulingHint(
+  platform: SocialPlatform,
+  persona: PersonaKey,
+  slotIndex: number = 0,
+): string {
+  // Platform-specific hints override persona-based hints
+  if (platform === "LINKEDIN") {
+    return "Contexte professionnel — heure de bureau, ton collègue brillant";
+  }
+  if (platform === "INSTAGRAM") {
+    return "Visuel-first — doit arrêter le scroll en <1 seconde";
+  }
+
+  // Twitter/Threads — persona-based scheduling context with slot awareness
+  const personaHints: Record<PersonaKey, string[]> = {
+    YANIS: [
+      "Ce post sera lu en soirée, ton scroll du soir — contexte détendu, mode loisir",
+    ],
+    SOPHIE: [
+      "Ce post sera lu le matin (trajet/pause café) — court, percutant, facilement mémorisable",
+      "Ce post sera lu en pause déj — contexte détente, anecdote à ressortir à la machine à café",
+    ],
+    MARC: [
+      "Ce post sera lu tôt le matin — ton calme, réflexif, inspirant",
+      "Ce post sera lu en soirée — contexte reconstruction, motivation douce",
+    ],
+  };
+
+  const hints = personaHints[persona];
+  return hints[Math.min(slotIndex, hints.length - 1)];
 }
 
 // ─── Génération d'un post unique ────────────────────────────────
@@ -454,6 +633,7 @@ async function generateSinglePost(
 Persona cible : ${p.name} (${p.age} ans — ${p.description})
 Intérêts : ${p.interests.join(", ")}
 Thème : "${plan.theme}"
+${plan.schedulingHint ? `Contexte de lecture : "${plan.schedulingHint}"` : ""}
 
 ${formatInstructions}
 
@@ -485,7 +665,24 @@ Réponds en JSON :
   });
 
   const text = getResponseText(response);
-  return extractJson<GeneratedSocialPost>(text);
+  const post = extractJson<GeneratedSocialPost>(text);
+
+  // Programmatic validation of hard constraints
+  const issues = validatePostConstraints(post);
+  if (issues.length > 0) {
+    issues.forEach((issue) =>
+      console.warn(`[SocialAgent] Contrainte: ${issue}`),
+    );
+
+    // Critical issues (persona leak) → throw to trigger regeneration
+    if (hasCriticalIssue(issues)) {
+      throw new Error(
+        `[SocialAgent] Post rejeté — persona leak détecté: ${issues.filter((i) => i.startsWith("CRITIQUE")).join("; ")}`,
+      );
+    }
+  }
+
+  return post;
 }
 
 function getFormatInstructions(
@@ -570,6 +767,15 @@ async function validateAndRefinePost(
   let currentPost = post;
 
   for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+    // Pre-check programmatic constraints before burning a director API call
+    const constraintIssues = validatePostConstraints(currentPost);
+    if (constraintIssues.length > 0) {
+      console.warn(
+        `[SocialAgent] Contraintes non respectées avant validation directeur (attempt ${attempt}):`,
+        constraintIssues,
+      );
+    }
+
     let validation: ValidationResult | null = null;
 
     try {

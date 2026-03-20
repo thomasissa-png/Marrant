@@ -14,6 +14,10 @@
 //   3. Publier le container (POST /{ig-user-id}/media_publish)
 // ───────────────────────────────────────────────────────────────────
 
+// ⚠️  DEPRECATED — Remplacé par buffer-client.ts (mars 2026)
+// Ce fichier est conservé comme fallback mais ne doit PAS être utilisé
+// pour de nouvelles fonctionnalités. Toute publication passe par Buffer.
+
 const GRAPH_API = "https://graph.facebook.com/v19.0";
 
 interface InstagramConfig {

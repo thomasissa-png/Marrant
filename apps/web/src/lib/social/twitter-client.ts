@@ -11,6 +11,10 @@ import crypto from "crypto";
 //   TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET
 // ───────────────────────────────────────────────────────────────────
 
+// ⚠️  DEPRECATED — Remplacé par buffer-client.ts (mars 2026)
+// Ce fichier est conservé comme fallback mais ne doit PAS être utilisé
+// pour de nouvelles fonctionnalités. Toute publication passe par Buffer.
+
 const API_BASE = "https://api.twitter.com/2";
 
 interface TwitterConfig {

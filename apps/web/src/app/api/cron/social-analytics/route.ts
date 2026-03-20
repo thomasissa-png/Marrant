@@ -15,7 +15,9 @@ import {
  * Ce cron fait :
  * 1. Vérifie l'état de la queue Buffer (posts schedulés)
  * 2. Marque les posts APPROVED vieux de +48h comme FAILED (stuck)
- * 3. Retourne un résumé pour monitoring
+ * 3. Calcule les performances par plateforme, format et persona (7j)
+ * 4. Identifie les top 3 posts par directorScore (7j)
+ * 5. Retourne un résumé complet pour monitoring
  */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -76,6 +78,88 @@ export async function GET(req: Request) {
       }
     }
 
+    // ─── Performance par plateforme (7 derniers jours, posts publiés) ───
+    const recentPublished = { status: "PUBLISHED" as const, publishedAt: { gte: sevenDaysAgo } };
+
+    const byPlatformRaw = await prisma.socialPost.groupBy({
+      by: ["platform"],
+      where: recentPublished,
+      _count: { id: true },
+      _avg: { directorScore: true },
+    });
+
+    const byPlatform = byPlatformRaw.map((row) => ({
+      platform: row.platform,
+      count: row._count.id,
+      avgDirectorScore: row._avg.directorScore
+        ? Math.round(row._avg.directorScore * 10) / 10
+        : null,
+    }));
+
+    // ─── Performance par format (7 derniers jours) ───
+    const byFormatRaw = await prisma.socialPost.groupBy({
+      by: ["format"],
+      where: recentPublished,
+      _count: { id: true },
+      _avg: { directorScore: true },
+    });
+
+    const byFormat = byFormatRaw.map((row) => ({
+      format: row.format,
+      count: row._count.id,
+      avgDirectorScore: row._avg.directorScore
+        ? Math.round(row._avg.directorScore * 10) / 10
+        : null,
+    }));
+
+    // ─── Performance par persona (7 derniers jours) ───
+    const byPersonaRaw = await prisma.socialPost.groupBy({
+      by: ["targetPersona"],
+      where: recentPublished,
+      _count: { id: true },
+      _avg: { directorScore: true },
+    });
+
+    const byPersona = byPersonaRaw.map((row) => ({
+      persona: row.targetPersona,
+      count: row._count.id,
+      avgDirectorScore: row._avg.directorScore
+        ? Math.round(row._avg.directorScore * 10) / 10
+        : null,
+    }));
+
+    // ─── Top 3 posts par directorScore (7 derniers jours) ───
+    const topPosts = await prisma.socialPost.findMany({
+      where: {
+        ...recentPublished,
+        directorScore: { not: null },
+      },
+      orderBy: { directorScore: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        platform: true,
+        format: true,
+        hook: true,
+        directorScore: true,
+      },
+    });
+
+    // ─── Distribution des formats (7 derniers jours, tous statuts) ───
+    const formatDistributionRaw = await prisma.socialPost.groupBy({
+      by: ["format"],
+      where: { createdAt: { gte: sevenDaysAgo } },
+      _count: { id: true },
+    });
+
+    const formatDistribution = formatDistributionRaw.reduce(
+      (acc, row) => {
+        acc[row.format] = row._count.id;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
     const summary = {
       period: "7 derniers jours",
       published,
@@ -84,6 +168,11 @@ export async function GET(req: Request) {
       stuckCleaned: cleaned,
       bufferQueue,
       bufferConfigured: isBufferConfigured(),
+      byPlatform,
+      byFormat,
+      byPersona,
+      topPosts,
+      formatDistribution,
       note: "Analytics détaillées (impressions, likes, etc.) disponibles dans le dashboard Buffer : https://publish.buffer.com",
     };
 

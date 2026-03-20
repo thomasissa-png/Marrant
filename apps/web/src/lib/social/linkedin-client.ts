@@ -15,6 +15,10 @@
 // Page entreprise : https://www.linkedin.com/company/deviens-marrant
 // ───────────────────────────────────────────────────────────────────
 
+// ⚠️  DEPRECATED — Remplacé par buffer-client.ts (mars 2026)
+// Ce fichier est conservé comme fallback mais ne doit PAS être utilisé
+// pour de nouvelles fonctionnalités. Toute publication passe par Buffer.
+
 const REST_BASE = "https://api.linkedin.com/rest";
 const V2_BASE = "https://api.linkedin.com/v2";
 const LINKEDIN_VERSION = "202401";
