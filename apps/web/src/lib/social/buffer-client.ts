@@ -146,7 +146,7 @@ export async function createBufferPost(
         text: ${JSON.stringify(text)},
         channelId: "${channelId}",
         schedulingType: automatic,
-        mode: customSchedule,
+        mode: customScheduled,
         dueAt: "${dueAtStr}"
       }) {
         ... on PostActionSuccess {
@@ -198,7 +198,7 @@ export async function createBufferImagePost(
         text: ${JSON.stringify(text)},
         channelId: "${channelId}",
         schedulingType: automatic,
-        mode: customSchedule,
+        mode: customScheduled,
         dueAt: "${dueAtStr}",
         assets: {
           images: [{ url: ${JSON.stringify(imageUrl)} }]
