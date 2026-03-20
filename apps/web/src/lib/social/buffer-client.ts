@@ -138,7 +138,10 @@ export async function createBufferPost(
 ): Promise<string> {
   const channelId = getChannelId(platform);
 
-  const dueAtStr = dueAt ? dueAt.toISOString() : new Date(Date.now() + 5 * 60 * 1000).toISOString();
+  // Si dueAt est dans le passé, publier dans 2 min (Buffer refuse les dates passées)
+  const minFuture = new Date(Date.now() + 2 * 60 * 1000);
+  const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
+  const dueAtStr = effectiveDueAt.toISOString();
 
   const query = `
     mutation CreatePost {
@@ -190,7 +193,10 @@ export async function createBufferImagePost(
 ): Promise<string> {
   const channelId = getChannelId(platform);
 
-  const dueAtStr = dueAt ? dueAt.toISOString() : new Date(Date.now() + 5 * 60 * 1000).toISOString();
+  // Si dueAt est dans le passé, publier dans 2 min (Buffer refuse les dates passées)
+  const minFuture = new Date(Date.now() + 2 * 60 * 1000);
+  const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
+  const dueAtStr = effectiveDueAt.toISOString();
 
   const query = `
     mutation CreateImagePost {
