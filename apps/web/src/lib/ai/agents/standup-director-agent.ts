@@ -1140,14 +1140,16 @@ Hashtags : ${post.hashtags.join(", ")}
    → Pas "intéressant" — DRÔLE, SURPRENANT, ou UTILE AU POINT D'ENVOYER
 
 6. CTA TEST :
-   Le CTA est-il INVISIBLE ? On ne doit pas sentir qu'on vend un truc.
-   → BON : "50+ techniques → deviens-marrant.fr" / simplement le lien, sec
-   → MAUVAIS : "Découvrez plus sur notre site !" / "N'hésitez pas à visiter..." / "Suivez-nous !"
+   Le CTA est-il INVISIBLE ou ABSENT ? On ne doit pas sentir qu'on vend un truc.
+   → RÈGLE : max 1 post sur 5 doit contenir un lien vers le site. Si le champ CTA est vide (""), c'est NORMAL et VOULU.
+   → Si le CTA est présent : BON = "50+ techniques → deviens-marrant.fr" / simplement le lien, sec. MAUVAIS = "Découvrez plus sur notre site !" / "N'hésitez pas à visiter..." / "Suivez-nous !"
    → Si le CTA a un point d'exclamation ou du vocabulaire marketing = NEEDS_REVISION
 
-7. BRAND TEST :
+7. VOIX & BRAND TEST :
    Ton complice, mature, jamais corporate ? Max 2 émojis, jamais en ouverture ?
    → Le post sonne comme "le pote drôle et bienveillant" — pas comme un CM, pas comme un prof
+   → VOIX ÉQUIPE : on parle au "on" (l'équipe), JAMAIS au "je" (un individu). "on a compilé" ✅ / "j'ai compilé" ❌ / "on fait notre pub" ✅ / "je fais ma pub" ❌
+   → Si le post utilise "je" pour parler de la marque/du site = NEEDS_REVISION
 
 8. ANTI-GENERIC TEST :
    Un compte lambda / un bot pourrait poster EXACTEMENT ça ?
@@ -1220,10 +1222,11 @@ PERSONA : ${p.name} (${p.age} ans) — ${p.description}
 1. ANTI-IA : aucun mot/formulation qui sent ChatGPT ("découvrez", "n'hésitez pas", "il est important", "en conclusion", adverbes creux, transitions lisses)
 2. HUMOUR : au moins UN trait drôle (observation, autodérision, vanne, twist)
 3. HOOK : ≤ 5 mots, crée une TENSION (contradiction, spécificité bizarre, interpellation)
-4. CTA : invisible, humain, pas de marketing language, pas de point d'exclamation
+4. CTA : invisible et humain SI présent — sinon le champ cta doit être vide (""). Max 1 post sur 5 avec un lien vers le site. Pas de marketing language, pas de point d'exclamation
 5. RYTHME : phrases courtes, ruptures de ton, comme à l'oral — pas de paragraphes lisses
 6. PLATEFORME : ${failedPost.platform === "LINKEDIN" ? "max 1300 chars, sauts de ligne, première phrase seule et choc, PAS de broetry/guru/agree?" : failedPost.platform === "TWITTER" ? "max 280 chars, punchline sèche, pas de hashtags dans le corps" : "adapté aux codes de la plateforme"}
 7. Le post doit pouvoir être envoyé par ${p.name} à son meilleur pote
+8. VOIX ÉQUIPE : on parle au "on" (l'équipe), JAMAIS au "je" (un individu). "on a compilé" ✅ / "j'ai compilé" ❌
 
 Réponds en JSON :
 {

@@ -685,7 +685,7 @@ function getDailyPlan(
       instagramPost(5),
     ],
     6: [
-      // Samedi — pas de LinkedIn ni Instagram le weekend
+      // Samedi — pas de LinkedIn le weekend (marketing agent), Instagram oui (plan éditorial)
       {
         format: "THREAD",
         theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir"`,
@@ -698,6 +698,17 @@ function getDailyPlan(
         theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent — ton "on vient de voir ça"`,
         platform: "TWITTER",
         sourceType: "ORIGINAL",
+      },
+      // Instagram samedi — vanne percutante ou défi drôle (format visuel weekend)
+      {
+        format: "TECHNIQUE_DU_JOUR" as SocialFormat,
+        theme: persona === "YANIS"
+          ? `La Vanne ou Le Défi weekend — vanne percutante ou challenge humour à tester ce soir, refs gen Z (${yanisRefDuJour})`
+          : persona === "SOPHIE"
+            ? `La Vanne weekend — observation drôle à ressortir en soirée/dîner ce soir`
+            : `La Vanne ou Le Défi — retrouver sa vanne pour le weekend, défi concret pour ce soir`,
+        platform: "INSTAGRAM" as SocialPlatform,
+        sourceType: "JOKE",
       },
     ],
     0: [
