@@ -190,26 +190,22 @@ export async function register() {
   };
 
   /**
-   * Job 5 : Publication des posts sociaux approuvés
-   * Publie sur Twitter et LinkedIn les posts APPROVED dont l'heure est passée.
+   * Job 5 : Publication des posts sociaux approuvés via Buffer
+   * Publie les posts APPROVED dont l'heure est passée en passant par Buffer.
    */
   const runPublishSocialJob = async () => {
     try {
       const { prisma } = await import("@/lib/prisma");
-      const { postTweet, postThread, isTwitterConfigured } = await import(
-        "@/lib/social/twitter-client"
-      );
-      const { postLinkedIn, isLinkedInConfigured } = await import(
-        "@/lib/social/linkedin-client"
-      );
-      const { postImage, postCarousel, isInstagramConfigured } = await import(
-        "@/lib/social/instagram-client"
-      );
+      const {
+        createBufferPost,
+        createBufferThread,
+        createBufferImagePost,
+        isBufferConfigured,
+        isChannelConfigured,
+      } = await import("@/lib/social/buffer-client");
+      type BufferPlatform = import("@/lib/social/buffer-client").BufferPlatform;
 
-      const twitterReady = isTwitterConfigured();
-      const linkedInReady = isLinkedInConfigured();
-      const instagramReady = isInstagramConfigured();
-      if (!twitterReady && !linkedInReady && !instagramReady) return;
+      if (!isBufferConfigured()) return;
 
       const now = new Date();
       const posts = await prisma.socialPost.findMany({
@@ -223,64 +219,40 @@ export async function register() {
       let published = 0;
       for (const post of posts) {
         try {
-          if (post.platform === "TWITTER") {
-            if (!twitterReady) continue;
-            let externalId: string;
-            if (post.format === "THREAD" && post.threadParts.length > 0) {
-              externalId = await postThread(post.threadParts);
-            } else {
-              externalId = await postTweet(post.content);
-            }
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
-            });
-            published++;
-          } else if (post.platform === "LINKEDIN") {
-            if (!linkedInReady) continue;
-            const externalId = await postLinkedIn(post.content);
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
-            });
-            published++;
-          } else if (post.platform === "INSTAGRAM") {
-            if (!instagramReady) continue;
+          const platform = post.platform as BufferPlatform;
 
+          if (!isChannelConfigured(platform)) continue;
+
+          let externalId: string;
+
+          if (platform === "TWITTER" && post.format === "THREAD" && post.threadParts.length > 0) {
+            externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
+          } else if (platform === "INSTAGRAM") {
             const baseUrl =
               process.env.NEXT_PUBLIC_SITE_URL ||
               (process.env.REPLIT_DEV_DOMAIN
                 ? `https://${process.env.REPLIT_DEV_DOMAIN}`
                 : `http://localhost:${process.env.PORT || "3000"}`);
-
-            let externalId: string;
-            if (post.format === "CAROUSEL" && post.threadParts.length >= 2) {
-              const imageUrls = post.threadParts.map(
-                (_, i) => `${baseUrl}/api/social/image?postId=${post.id}&slide=${i}`,
-              );
-              externalId = await postCarousel(imageUrls, post.content);
-            } else {
-              const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
-              externalId = await postImage(imageUrl, post.content);
-            }
-
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
-            });
-            published++;
+            const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
+            const firstComment = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
+            externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, firstComment);
           } else {
-            // Threads — à implémenter
-            continue;
+            externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined);
           }
 
-          // Pause 1s entre les posts pour les rate limits
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { status: "PUBLISHED", publishedAt: new Date(), externalId },
+          });
+          published++;
+
+          // Pause 500ms entre les posts pour les rate limits
+          await new Promise((resolve) => setTimeout(resolve, 500));
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
           console.error(`[scheduler:publish] Erreur post ${post.id}:`, errMsg);
 
-          const isPermanent = errMsg.includes("401") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré");
+          const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
 
           if (isPermanent) {
             await prisma.socialPost.update({
@@ -288,10 +260,10 @@ export async function register() {
               data: { status: "FAILED" },
             });
           } else {
-            const retryCount = (post.directorNote?.match(/\[retry:(\d+)\]/)?.[1] ?? "0");
-            const count = parseInt(retryCount, 10) + 1;
+            const currentRetries = parseInt(post.sourceId?.match(/^retry:(\d+)$/)?.[1] ?? "0", 10);
+            const newRetryCount = currentRetries + 1;
 
-            if (count >= 3) {
+            if (newRetryCount >= 3) {
               await prisma.socialPost.update({
                 where: { id: post.id },
                 data: { status: "FAILED" },
@@ -302,7 +274,7 @@ export async function register() {
                 where: { id: post.id },
                 data: {
                   scheduledAt: retryAt,
-                  directorNote: `${post.directorNote || ""}[retry:${count}] ${errMsg}`.trim(),
+                  sourceId: `retry:${newRetryCount}`,
                 },
               });
             }
@@ -311,7 +283,7 @@ export async function register() {
       }
 
       if (published > 0) {
-        console.log(`[scheduler:publish] ${published}/${posts.length} posts publiés.`);
+        console.log(`[scheduler:publish] ${published}/${posts.length} posts publiés via Buffer.`);
       }
     } catch (err) {
       console.error("[scheduler:publish] Échec publication :", err);
@@ -319,76 +291,27 @@ export async function register() {
   };
 
   /**
-   * Job 6 : Récupération des métriques des posts sociaux publiés.
-   * Met à jour impressions, likes, retweets, replies, clicks (7 derniers jours).
+   * Job 6 : Suivi et nettoyage des posts sociaux
+   * Appelle le cron endpoint /api/cron/social-analytics qui gère :
+   * - Nettoyage des posts stuck (APPROVED > 48h → FAILED)
+   * - Stats par plateforme/format/persona
+   * - Vérification queue Buffer
+   * Analytics détaillées disponibles dans le dashboard Buffer.
    */
   const runSocialAnalyticsJob = async () => {
     try {
-      const { prisma } = await import("@/lib/prisma");
-      const { getTweetMetrics, isTwitterConfigured } = await import(
-        "@/lib/social/twitter-client"
-      );
-      const { getLinkedInMetrics, isLinkedInConfigured } = await import(
-        "@/lib/social/linkedin-client"
-      );
-      const { getInstagramMetrics, isInstagramConfigured } = await import(
-        "@/lib/social/instagram-client"
-      );
+      const PORT = process.env.PORT || "3000";
+      const secret = process.env.CRON_SECRET;
+      if (!secret) return;
 
-      const twitterReady = isTwitterConfigured();
-      const linkedInReady = isLinkedInConfigured();
-      const instagramReady = isInstagramConfigured();
-      if (!twitterReady && !linkedInReady && !instagramReady) return;
-
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      const posts = await prisma.socialPost.findMany({
-        where: {
-          status: "PUBLISHED",
-          publishedAt: { gte: sevenDaysAgo },
-          externalId: { not: null },
-        },
-        take: 50,
+      const res = await fetch(`http://localhost:${PORT}/api/cron/social-analytics`, {
+        headers: { Authorization: `Bearer ${secret}` },
       });
-
-      if (posts.length === 0) return;
-
-      let updated = 0;
-      for (const post of posts) {
-        if (!post.externalId || post.externalId === "unknown") continue;
-        try {
-          if (post.platform === "TWITTER" && twitterReady) {
-            const m = await getTweetMetrics(post.externalId);
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { impressions: m.impressions, likes: m.likes, retweets: m.retweets, replies: m.replies, clicks: m.urlClicks },
-            });
-            updated++;
-          } else if (post.platform === "LINKEDIN" && linkedInReady) {
-            const m = await getLinkedInMetrics(post.externalId);
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { impressions: m.impressions, likes: m.likes, replies: m.comments, retweets: m.shares, clicks: m.clicks },
-            });
-            updated++;
-          } else if (post.platform === "INSTAGRAM" && instagramReady) {
-            const m = await getInstagramMetrics(post.externalId);
-            await prisma.socialPost.update({
-              where: { id: post.id },
-              data: { impressions: m.impressions, likes: m.likes, replies: m.comments, retweets: m.shares, clicks: m.saves },
-            });
-            updated++;
-          }
-          await new Promise((resolve) => setTimeout(resolve, 500));
-        } catch (err) {
-          console.error(`[scheduler:analytics] Erreur metrics ${post.id}:`, err);
-        }
-      }
-
-      if (updated > 0) {
-        console.log(`[scheduler:analytics] ${updated} posts mis à jour.`);
+      if (res.ok) {
+        console.log("[scheduler:analytics] Suivi social exécuté.");
       }
     } catch (err) {
-      console.error("[scheduler:analytics] Échec récupération métriques :", err);
+      console.error("[scheduler:analytics] Échec :", err);
     }
   };
 
