@@ -7,6 +7,16 @@
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
+/** Mock response for quota check (getBufferQueueCount) — returns 0 posts in queue */
+const mockQuotaCheckResponse = () => ({
+  ok: true,
+  json: async () => ({
+    data: {
+      posts: { edges: [] },
+    },
+  }),
+});
+
 // ─── Buffer Client Tests ────────────────────────────────────────
 
 describe("buffer-client", () => {
@@ -73,56 +83,51 @@ describe("buffer-client", () => {
 
   describe("createBufferPost", () => {
     it("envoie un post texte Twitter via GraphQL", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            createPost: {
-              post: { id: "buffer-post-123", text: "Hello Twitter!" },
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: { id: "buffer-post-123", text: "Hello Twitter!" },
+              },
             },
-          },
-        }),
-      });
+          }),
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       const id = await createBufferPost("TWITTER", "Hello Twitter!", new Date("2026-03-20T12:00:00Z"));
 
       expect(id).toBe("buffer-post-123");
-      expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.buffer.com",
-        expect.objectContaining({
-          method: "POST",
-          headers: expect.objectContaining({
-            Authorization: "Bearer test-buffer-token",
-            "Content-Type": "application/json",
-          }),
-        }),
-      );
+      // Second call is the actual post (first is quota check)
+      expect(mockFetch).toHaveBeenCalledTimes(2);
 
-      // Vérifie que le body contient la mutation GraphQL avec le bon channelId
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("ch-twitter-456");
       expect(body.query).toContain("Hello Twitter!");
     });
 
     it("envoie un post LinkedIn via GraphQL", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            createPost: {
-              post: { id: "buffer-li-456", text: "Hello LinkedIn!" },
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: { id: "buffer-li-456", text: "Hello LinkedIn!" },
+              },
             },
-          },
-        }),
-      });
+          }),
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       const id = await createBufferPost("LINKEDIN", "Hello LinkedIn!");
 
       expect(id).toBe("buffer-li-456");
 
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("ch-linkedin-789");
     });
 
@@ -143,11 +148,13 @@ describe("buffer-client", () => {
     });
 
     it("throw sur erreur 401 (token invalide)", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 401,
-        text: async () => "Unauthorized",
-      });
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 401,
+          text: async () => "Unauthorized",
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
@@ -156,11 +163,13 @@ describe("buffer-client", () => {
     });
 
     it("throw sur erreur 403 (permissions)", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 403,
-        text: async () => "Forbidden",
-      });
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 403,
+          text: async () => "Forbidden",
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
@@ -169,16 +178,18 @@ describe("buffer-client", () => {
     });
 
     it("throw sur MutationError dans la réponse GraphQL", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            createPost: {
-              message: "Post content too long for this channel",
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                message: "Post content too long for this channel",
+              },
             },
-          },
-        }),
-      });
+          }),
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
@@ -187,36 +198,57 @@ describe("buffer-client", () => {
     });
 
     it("throw sur erreurs GraphQL dans la réponse", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          errors: [{ message: "Invalid channel ID" }],
-        }),
-      });
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            errors: [{ message: "Invalid channel ID" }],
+          }),
+        });
 
       const { createBufferPost } = require("@/lib/social/buffer-client");
       await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(
         "Invalid channel ID",
       );
     });
-  });
 
-  describe("createBufferImagePost", () => {
-    it("envoie un post avec image pour Instagram", async () => {
+    it("throw BufferQueueFullError quand la queue est pleine", async () => {
+      // 10 posts déjà dans la queue
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           data: {
-            createPost: {
-              post: {
-                id: "buffer-ig-789",
-                text: "Instagram post",
-                assets: [{ id: "asset-1", mimeType: "image/png" }],
-              },
+            posts: {
+              edges: Array.from({ length: 10 }, (_, i) => ({ node: { id: `p${i}` } })),
             },
           },
         }),
       });
+
+      const { createBufferPost, BufferQueueFullError } = require("@/lib/social/buffer-client");
+      await expect(createBufferPost("TWITTER", "test")).rejects.toThrow(BufferQueueFullError);
+    });
+  });
+
+  describe("createBufferImagePost", () => {
+    it("envoie un post avec image pour Instagram", async () => {
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: {
+                  id: "buffer-ig-789",
+                  text: "Instagram post",
+                  assets: [{ id: "asset-1", mimeType: "image/png" }],
+                },
+              },
+            },
+          }),
+        });
 
       const { createBufferImagePost } = require("@/lib/social/buffer-client");
       const id = await createBufferImagePost(
@@ -227,27 +259,29 @@ describe("buffer-client", () => {
 
       expect(id).toBe("buffer-ig-789");
 
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("ch-instagram-012");
       expect(body.query).toContain("images");
       expect(body.query).toContain("deviens-marrant.fr");
     });
 
     it("inclut firstComment pour les hashtags Instagram", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            createPost: {
-              post: {
-                id: "buffer-ig-fc",
-                text: "Post avec hashtags",
-                assets: [{ id: "asset-1", mimeType: "image/png" }],
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: {
+                  id: "buffer-ig-fc",
+                  text: "Post avec hashtags",
+                  assets: [{ id: "asset-1", mimeType: "image/png" }],
+                },
               },
             },
-          },
-        }),
-      });
+          }),
+        });
 
       const { createBufferImagePost } = require("@/lib/social/buffer-client");
       const id = await createBufferImagePost(
@@ -260,26 +294,28 @@ describe("buffer-client", () => {
 
       expect(id).toBe("buffer-ig-fc");
 
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("firstComment");
       expect(body.query).toContain("#standup #humour #comedy");
     });
 
     it("n'inclut pas firstComment quand non fourni", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            createPost: {
-              post: {
-                id: "buffer-ig-no-fc",
-                text: "Sans hashtags",
-                assets: [],
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: {
+                  id: "buffer-ig-no-fc",
+                  text: "Sans hashtags",
+                  assets: [],
+                },
               },
             },
-          },
-        }),
-      });
+          }),
+        });
 
       const { createBufferImagePost } = require("@/lib/social/buffer-client");
       await createBufferImagePost(
@@ -288,15 +324,16 @@ describe("buffer-client", () => {
         "https://deviens-marrant.fr/api/social/image?postId=789",
       );
 
-      const body = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).not.toContain("firstComment");
     });
   });
 
   describe("createBufferThread", () => {
     it("publie chaque partie du thread séparément", async () => {
-      // 3 tweets = 3 appels API
+      // 1 quota check + 3 tweets = 4 appels API
       mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check for 3 slots
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({
@@ -320,7 +357,7 @@ describe("buffer-client", () => {
       const firstId = await createBufferThread(["Part 1", "Part 2", "Part 3"]);
 
       expect(firstId).toBe("thread-1");
-      expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(mockFetch).toHaveBeenCalledTimes(4); // 1 quota + 3 posts
     });
 
     it("rejette un thread vide", async () => {

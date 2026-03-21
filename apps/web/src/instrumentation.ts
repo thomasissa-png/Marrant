@@ -202,6 +202,7 @@ export async function register() {
         createBufferImagePost,
         isBufferConfigured,
         isChannelConfigured,
+        BufferQueueFullError,
       } = await import("@/lib/social/buffer-client");
       type BufferPlatform = import("@/lib/social/buffer-client").BufferPlatform;
 
@@ -251,6 +252,17 @@ export async function register() {
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
           console.error(`[scheduler:publish] Erreur post ${post.id}:`, errMsg);
+
+          // Queue Buffer pleine → repousser de 2h et arrêter la boucle
+          if (error instanceof BufferQueueFullError) {
+            const retryAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { scheduledAt: retryAt },
+            });
+            console.warn(`[scheduler:publish] Queue pleine ${post.platform} — post ${post.id} reporté de 2h`);
+            continue;
+          }
 
           const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
 

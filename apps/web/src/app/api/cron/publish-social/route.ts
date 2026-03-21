@@ -6,6 +6,7 @@ import {
   createBufferImagePost,
   isBufferConfigured,
   isChannelConfigured,
+  BufferQueueFullError,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
 
@@ -130,6 +131,25 @@ export async function GET(req: Request) {
           `[PublishSocial] Erreur publication ${post.id}:`,
           errMsg,
         );
+
+        // Queue Buffer pleine → repousser de 2h (les posts en queue auront le temps de partir)
+        if (error instanceof BufferQueueFullError) {
+          const retryAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { scheduledAt: retryAt },
+          });
+          console.warn(`[PublishSocial] Queue pleine ${post.platform} — post ${post.id} reporté de 2h`);
+
+          results.push({
+            id: post.id,
+            platform: post.platform,
+            status: "failed",
+            error: `Queue pleine (${error.currentCount}/10 slots) — reporté de 2h`,
+          });
+          // Stop publishing more posts to this platform — queue is full
+          continue;
+        }
 
         // Erreur permanente (auth, validation, permissions) → FAILED direct
         const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");

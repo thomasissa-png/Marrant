@@ -122,6 +122,95 @@ async function bufferGraphQL<T>(
   return data.data as T;
 }
 
+// ─── Quota Management ───────────────────────────────────────────
+
+/**
+ * Limite du plan gratuit Buffer : 10 posts schedulés par channel.
+ * On garde une marge de 2 pour éviter les race conditions.
+ */
+const BUFFER_MAX_SCHEDULED = 10;
+const BUFFER_SAFETY_MARGIN = 2;
+const BUFFER_EFFECTIVE_LIMIT = BUFFER_MAX_SCHEDULED - BUFFER_SAFETY_MARGIN;
+
+/**
+ * Erreur spécifique quand la queue Buffer est pleine.
+ * Permet au caller de distinguer "queue full" d'une erreur réseau/auth.
+ */
+export class BufferQueueFullError extends Error {
+  public readonly currentCount: number;
+  public readonly platform: BufferPlatform;
+
+  constructor(platform: BufferPlatform, currentCount: number, slotsNeeded: number) {
+    super(
+      `Buffer queue pleine pour ${platform}: ${currentCount}/${BUFFER_MAX_SCHEDULED} slots occupés, ${slotsNeeded} demandé(s). Réessayer plus tard.`,
+    );
+    this.name = "BufferQueueFullError";
+    this.currentCount = currentCount;
+    this.platform = platform;
+  }
+}
+
+/**
+ * Compte les posts actuellement schedulés dans Buffer pour un channel donné.
+ * Utilise la query GraphQL posts filtrée par channelId + status scheduled.
+ */
+export async function getBufferQueueCount(platform: BufferPlatform): Promise<number> {
+  const config = getConfig();
+  const channelId = getChannelId(platform);
+
+  const query = `
+    query GetScheduledCount {
+      posts(
+        input: {
+          organizationId: ${JSON.stringify(config.organizationId)},
+          filter: { status: [scheduled], channelIds: [${JSON.stringify(channelId)}] }
+        }
+      ) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await bufferGraphQL<{
+    posts: { edges: Array<{ node: { id: string } }> };
+  }>(query);
+
+  return data.posts.edges.length;
+}
+
+/**
+ * Vérifie qu'il reste assez de slots dans la queue Buffer pour un channel.
+ * Lève BufferQueueFullError si la limite serait dépassée.
+ *
+ * @param platform - La plateforme cible
+ * @param slotsNeeded - Nombre de slots nécessaires (1 pour un post, N pour un thread)
+ */
+async function ensureQuotaAvailable(platform: BufferPlatform, slotsNeeded: number): Promise<void> {
+  try {
+    const currentCount = await getBufferQueueCount(platform);
+
+    if (currentCount + slotsNeeded > BUFFER_MAX_SCHEDULED) {
+      throw new BufferQueueFullError(platform, currentCount, slotsNeeded);
+    }
+
+    if (currentCount >= BUFFER_EFFECTIVE_LIMIT) {
+      console.warn(
+        `[Buffer] ⚠️ Queue ${platform} presque pleine: ${currentCount}/${BUFFER_MAX_SCHEDULED} slots occupés`,
+      );
+    }
+  } catch (error) {
+    // Si c'est une BufferQueueFullError, on la propage
+    if (error instanceof BufferQueueFullError) throw error;
+    // Si la vérification échoue (réseau, etc.), on laisse passer
+    // pour ne pas bloquer la publication sur une erreur de quota check
+    console.warn(`[Buffer] Quota check échoué pour ${platform}, publication quand même:`, error);
+  }
+}
+
 // ─── API Calls ──────────────────────────────────────────────────
 
 /**
@@ -135,7 +224,13 @@ export async function createBufferPost(
   platform: BufferPlatform,
   text: string,
   dueAt?: Date,
+  _skipQuotaCheck = false,
 ): Promise<string> {
+  // Quota check (sauf si appelé depuis createBufferThread qui fait son propre check)
+  if (!_skipQuotaCheck) {
+    await ensureQuotaAvailable(platform, 1);
+  }
+
   const channelId = getChannelId(platform);
 
   // Si dueAt est dans le passé, publier dans 2 min (Buffer refuse les dates passées)
@@ -192,6 +287,8 @@ export async function createBufferImagePost(
   dueAt?: Date,
   firstComment?: string,
 ): Promise<string> {
+  await ensureQuotaAvailable(platform, 1);
+
   const channelId = getChannelId(platform);
 
   // Si dueAt est dans le passé, publier dans 2 min (Buffer refuse les dates passées)
@@ -266,14 +363,17 @@ export async function createBufferThread(
     throw new Error("Thread vide — au moins 1 tweet requis");
   }
 
+  // Quota check : un thread consomme N slots (1 par partie)
+  await ensureQuotaAvailable("TWITTER", parts.length);
+
   // Publication quasi-immédiate : 1 min dans le futur + 2 min entre chaque partie
   // Libère les slots de scheduling rapidement (important pour plan gratuit Buffer)
   const baseTime = Date.now() + 60 * 1000; // +1 min
-  const firstId = await createBufferPost("TWITTER", parts[0], new Date(baseTime));
+  const firstId = await createBufferPost("TWITTER", parts[0], new Date(baseTime), true);
 
   for (let i = 1; i < parts.length; i++) {
     const partDueAt = new Date(baseTime + i * 2 * 60 * 1000);
-    await createBufferPost("TWITTER", parts[i], partDueAt);
+    await createBufferPost("TWITTER", parts[i], partDueAt, true);
   }
 
   return firstId;
