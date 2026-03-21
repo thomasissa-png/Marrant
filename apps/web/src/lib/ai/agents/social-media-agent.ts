@@ -60,6 +60,8 @@ interface DailyPostPlan {
   platform: SocialPlatform;
   sourceType?: string;
   schedulingHint?: string;
+  /** Si true, le post peut inclure un lien vers le site. Max 1 post sur 5 avec lien. */
+  withSiteLink?: boolean;
 }
 
 // ─── System Prompt — Social-Native Brief ────────────────────────
@@ -98,7 +100,7 @@ CE QUI FAIT HUMAIN :
 - Des parenthèses (parce qu'on pense tout haut)
 - Des tirets — pour casser le rythme — comme à l'oral
 - Des mots familiers : "le truc", "genre", "en vrai", "le délire"
-- De l'autodérision : "bon, j'ai testé, c'était gênant, mais ça a marché"
+- De l'autodérision : "bon, on a testé, c'était gênant, mais ça a marché"
 - Des détails spécifiques : pas "une situation embarrassante" mais "le silence de 4 secondes après ta vanne ratée au repas de Noël"
 
 ═══ VOIX DE MARQUE ═══
@@ -123,14 +125,22 @@ Hooks INTERDITS (= scroll immédiat) :
 - "Top 5 des..." (listicle vu 10 000 fois)
 - Tout hook qui pourrait être le titre d'un article de blog corporate
 
-═══ CTA — INVISIBLE OU RIEN ═══
+═══ CTA — RARE ET INVISIBLE ═══
 Le CTA ne doit JAMAIS ressembler à du marketing. C'est la dernière phrase d'un pote qui te file un bon plan.
 
-BON CTA (on dirait un humain) :
+RÈGLE CLÉ : max 1 post sur 5 avec un lien vers le site. Les 4 autres = ZÉRO lien, ZÉRO mention du site.
+Les posts sans lien performent mieux (algo + crédibilité). On est là pour apporter de la valeur, pas pour spammer.
+Quand il n'y a pas de CTA lien, le post se termine par la punchline ou une phrase de fermeture drôle. Point.
+
+BON CTA (quand c'est le 1 post sur 5 avec lien) :
 - "50+ techniques comme celle-ci → deviens-marrant.fr"
-- "Le reste est sur deviens-marrant.fr (ouais je fais ma pub)"
-- "J'ai compilé 50 techniques du genre. Devine où."
+- "Le reste est sur deviens-marrant.fr (ouais on fait notre pub)"
+- "On a compilé 50 techniques du genre. Devine où."
 - Simplement le lien, sans phrase. Sec.
+
+BON POST SANS CTA (les 4 autres sur 5) :
+- Le post se termine par la punchline. Pas de lien. Pas de "retrouvez". Rien.
+- Un post drôle qui n'essaie pas de vendre quoi que ce soit = plus de partages
 
 MAUVAIS CTA (on dirait un bot) :
 - "Découvrez plus de techniques sur notre site !"
@@ -138,6 +148,15 @@ MAUVAIS CTA (on dirait un bot) :
 - "N'hésitez pas à visiter..."
 - "Suivez-nous pour plus de contenu !"
 - Tout CTA avec un point d'exclamation
+- Mettre un lien dans CHAQUE post (spam → unfollow)
+
+═══ VOIX — ON EST UNE ÉQUIPE ═══
+On parle toujours au "on" (l'équipe), JAMAIS au "je" (un individu).
+On est une équipe de passionnés de stand-up, pas un mec seul derrière un écran.
+- "on a compilé" PAS "j'ai compilé"
+- "on fait notre pub" PAS "je fais ma pub"
+- "chez nous" PAS "chez moi"
+- Le tutoiement reste pour s'adresser au lecteur : "tu" / "toi"
 
 ═══ RÈGLES NON NÉGOCIABLES ═══
 1. Hook en ≤ 5 mots — crée une tension, pas une description
@@ -186,9 +205,7 @@ Paul Mirabel appelle ça le « silence actif » : tu attends que le malaise s'in
 
 En réunion ça donne : long silence → « ...on est d'accord que personne comprend le slide 7 ? »
 
-Rires. Tension cassée. Et tout le monde t'écoute mieux après.
-
-50+ techniques comme celle-ci sur deviens-marrant.fr"
+Rires. Tension cassée. Et tout le monde t'écoute mieux après."
 
 Exemple MAUVAIS LinkedIn (REJETÉ) :
 "🎯 L'humour est un outil puissant en entreprise.
@@ -209,9 +226,7 @@ Et toute la salle se retourne contre l'attaquant.
 
 Technique : le miroir comique.
 
-Essaie ce soir : quelqu'un te chambre → répète sa phrase mot pour mot, plus lentement. Regarde sa tête.
-
-50+ techniques comme celle-ci → deviens-marrant.fr"
+Essaie ce soir : quelqu'un te chambre → répète sa phrase mot pour mot, plus lentement. Regarde sa tête."
 
 Exemple MAUVAIS (REJETÉ) :
 "📣 Astuce humour du jour !
@@ -347,7 +362,17 @@ export function validatePostConstraints(
     }
   }
 
-  // 6. Thread parts validation — THREAD format must have 5-7 parts
+  // 6. Voice check — "on" (team) not "je" (individual) when speaking about the brand
+  const jePatterns = [/\bje fais\b/i, /\bj'ai compilé\b/i, /\bje compile\b/i, /\bchez moi\b/i, /\bmon site\b/i, /\bma pub\b/i];
+  for (const pattern of jePatterns) {
+    if (pattern.test(post.content) || pattern.test(post.cta)) {
+      issues.push(
+        `Voix "je" détectée (utiliser "on" — on est une équipe). Pattern : ${pattern}`,
+      );
+    }
+  }
+
+  // 7. Thread parts validation — THREAD format must have 5-7 parts
   if (post.format === "THREAD") {
     if (!post.threadParts || post.threadParts.length === 0) {
       issues.push("Thread sans threadParts — le champ est obligatoire");
@@ -670,7 +695,7 @@ function getDailyPlan(
       // 🃏 Wild card #2 — slot réactif : meme du moment, trend Twitter, réaction show Netflix/YouTube
       {
         format: "TWEET",
-        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent — ton "je viens de voir ça"`,
+        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent — ton "on vient de voir ça"`,
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
@@ -705,9 +730,19 @@ function getDailyPlan(
 
   const result = plans[dayOfWeek] || plans[1];
 
+  // Max 1 post par jour avec un lien vers le site (le premier TECHNIQUE_DU_JOUR ou THREAD)
+  let siteLinkAssigned = false;
+  const withLinks = result.map((entry) => {
+    if (!siteLinkAssigned && (entry.format === "TECHNIQUE_DU_JOUR" || entry.format === "THREAD")) {
+      siteLinkAssigned = true;
+      return { ...entry, withSiteLink: true };
+    }
+    return { ...entry, withSiteLink: false };
+  });
+
   // Ajouter les scheduling hints basés sur le persona, la plateforme et le créneau horaire
   let twitterIndex = 0;
-  return result.map((entry) => {
+  return withLinks.map((entry) => {
     const isTwitterLike = entry.platform === "TWITTER" || entry.platform === "THREADS";
     const hint = getSchedulingHint(entry.platform, persona, isTwitterLike ? twitterIndex : 0);
     if (isTwitterLike) twitterIndex++;
@@ -781,8 +816,12 @@ Persona cible : ${p.name} (${p.age} ans — ${p.description})
 Intérêts : ${p.interests.join(", ")}
 Thème : "${plan.theme}"
 ${plan.schedulingHint ? `Contexte de lecture : "${plan.schedulingHint}"` : ""}
+${plan.withSiteLink ? `⚡ CE POST peut inclure un lien vers deviens-marrant.fr en fin de post (CTA subtil, humain, pas marketing).` : `⚡ CE POST ne doit PAS contenir de lien vers le site. Pas de "deviens-marrant.fr", pas de "lien en bio", pas de CTA commercial. Le post se termine par la punchline ou une phrase de fermeture drôle. Le champ "cta" doit être vide ("").`}
 
 ${formatInstructions}
+
+═══ VOIX ═══
+On parle au "on" (l'équipe), JAMAIS au "je". On est une équipe, pas un individu.
 
 ═══ CHECKLIST AVANT DE RÉPONDRE ═══
 1. Relis ton post à voix haute. Ça sonne comme un HUMAIN ou comme ChatGPT ?
@@ -791,18 +830,18 @@ ${formatInstructions}
    → Si c'est 100% sérieux, ajoute de l'humour
 3. Le hook crée une TENSION en ≤ 5 mots ? (contradiction, spécificité, interpellation)
    → Si c'est descriptif ("Astuce du jour", "Thread sur...") → recommence le hook
-4. Le CTA est INVISIBLE ? Pas de marketing language, pas de point d'exclamation ?
-   → "50+ techniques → deviens-marrant.fr" ✅ / "Découvrez notre site !" ❌
+4. ${plan.withSiteLink ? `Le CTA est INVISIBLE ? Pas de marketing language, pas de point d'exclamation ?` : `PAS DE LIEN dans ce post. Le champ "cta" doit être vide ("").`}
 5. ${p.name} envoie ça à son/sa meilleur(e) pote ? Pas "intéressant" — DRÔLE ou UTILE AU POINT D'ENVOYER ?
+6. Tu utilises "on" et JAMAIS "je" quand tu parles de l'équipe/du site ?
 
 Réponds en JSON :
 {
   "platform": "${plan.platform}",
   "format": "${plan.format}",
   "hook": "Les 5 premiers mots (TENSION, pas description)",
-  "content": "Le post complet (HUMAIN, drôle, stand-up tone)",
+  "content": "Le post complet (HUMAIN, drôle, stand-up tone, voix 'on')",
   ${plan.format === "THREAD" ? '"threadParts": ["Tweet 1", "Tweet 2", "Tweet 3", "..."],' : ""}
-  "cta": "CTA invisible et humain (pas de marketing)",
+  "cta": "${plan.withSiteLink ? "CTA invisible et humain avec lien (pas de marketing)" : ""}",
   "hashtags": ["2-4 hashtags pertinents, pas génériques"],
   "targetPersona": "${persona}",
   "sourceType": "${plan.sourceType || "ORIGINAL"}"
