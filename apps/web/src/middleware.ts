@@ -46,14 +46,14 @@ export default withAuth(
 );
 
 export const config = {
+  // Only match routes that actually need auth/premium checks.
+  // Product pages (/vannes, /conseils, /videos, /parcours) are PUBLIC —
+  // keeping them here causes issues with search engine crawlers (Bingbot)
+  // because withAuth wraps the request even when authorized() returns true.
   matcher: [
     "/profil/:path*",
     "/favoris/:path*",
     "/onboarding/:path*",
     "/abonnement/:path*",
-    "/vannes/:path*",
-    "/conseils/:path*",
-    "/videos/:path*",
-    "/parcours/:path*",
   ],
 };
