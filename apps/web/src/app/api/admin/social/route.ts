@@ -80,12 +80,17 @@ export async function POST(request: NextRequest) {
   }
 
   if (action === "approve" && postIds?.length) {
+    // Manual admin approval — set score to 9 so publish-social gate accepts them
     const result = await prisma.socialPost.updateMany({
       where: { id: { in: postIds }, status: "PENDING" },
-      data: { status: "APPROVED" },
+      data: {
+        status: "APPROVED",
+        directorScore: 9,
+        directorNote: "✅ Approuvé manuellement par l'admin",
+      },
     });
     return NextResponse.json({
-      message: `${result.count} posts approuvés`,
+      message: `${result.count} posts approuvés (validation manuelle)`,
       count: result.count,
     });
   }

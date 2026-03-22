@@ -83,9 +83,13 @@ export async function GET(req: Request) {
           directorScore: post.directorScore ?? null,
           directorNote: post.directorValidated !== true
             ? "⚠️ Validation directeur échouée — review manuelle requise"
-            : (post.directorNote ?? null),
-          // APPROVED seulement si le directeur a explicitement validé (true) — sinon PENDING
-          status: post.directorValidated !== true ? "PENDING" : "APPROVED",
+            : (post.directorScore ?? 0) < 9
+              ? `⚠️ Score ${post.directorScore}/10 < 9 — review manuelle requise`
+              : (post.directorNote ?? null),
+          // APPROVED seulement si le directeur a validé ET score >= 9 — sinon PENDING
+          status: post.directorValidated === true && (post.directorScore ?? 0) >= 9
+            ? "APPROVED"
+            : "PENDING",
           scheduledAt,
         },
       });
