@@ -60,6 +60,17 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
 );
 
+const TIP_TEASERS = [
+  "Clique pour l\u2019exemple et le défi",
+  "Un exercice t\u2019attend là-dessous",
+  "Le défi est juste en dessous",
+  "Ouvre, y\u2019a un défi pour toi",
+  "L\u2019exemple concret est caché ici",
+  "Teste-toi avec le défi",
+  "Vas-y, le défi t\u2019attend",
+  "Un truc à tester aujourd\u2019hui",
+];
+
 export function ConseilsList() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
@@ -266,7 +277,7 @@ export function ConseilsList() {
 
                 {!expandedIds.has(tip.id) && (
                   <p className="mt-2 text-xs text-text-muted">
-                    Clique pour l&apos;exemple et le défi
+                    {TIP_TEASERS[index % TIP_TEASERS.length]}
                   </p>
                 )}
               </CardContent>
