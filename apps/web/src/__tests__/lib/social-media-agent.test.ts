@@ -415,6 +415,58 @@ describe("social-media-agent", () => {
       const issues = validatePostConstraints(post);
       expect(issues.some((i) => i.includes("Thread"))).toBe(false);
     });
+
+    // --- Anti-generic dialogue format ---
+
+    it("rejette un dialogue reconstitué avec 2+ patterns (Moi/Mon pote)", () => {
+      const post = makePost({
+        content: 'Moi : « Pourquoi tu fais ça ? » Mon pote : « Parce que »',
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+      expect(issues.some((i) => i.includes("dialogue reconstitué"))).toBe(true);
+    });
+
+    it("rejette un dialogue Prof/Moi avec astérisques", () => {
+      const post = makePost({
+        content: 'Prof : « Éteignez vos téléphones » Moi : *éteint mon téléphone*',
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+    });
+
+    it("rejette un dialogue Ma coloc/Elle", () => {
+      const post = makePost({
+        content: 'Ma coloc : « J\'ai faim » Elle : « Ah oui trop »',
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+    });
+
+    it("rejette un dialogue Aussi moi/Moi", () => {
+      const post = makePost({
+        content: 'Moi : « ok » Aussi moi : le lendemain, j\'ai rien fait',
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+    });
+
+    it("ne rejette PAS un contenu avec un seul pattern dialogue", () => {
+      // Un seul "Moi :" n'est pas forcément un dialogue reconstitué
+      const post = makePost({
+        content: 'Moi : « je teste la technique du miroir » et ça marche.',
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("dialogue reconstitué"))).toBe(false);
+    });
+
+    it("ne rejette PAS un contenu qui parle de technique stand-up", () => {
+      const post = makePost({
+        content: "Fary ne répond JAMAIS à une attaque. Il la répète. Lentement.",
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("dialogue reconstitué"))).toBe(false);
+    });
   });
 
   // ─── Tests getOptimalScheduleTime() ─────────────────────────────

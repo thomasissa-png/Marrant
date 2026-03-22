@@ -1104,7 +1104,7 @@ describe("Stand-Up Director Agent", () => {
           type: "text",
           text: JSON.stringify({
             verdict: "APPROVED",
-            score: 8,
+            score: 9,
             strengths: ["Twist net", "Relatable"],
             issues: [],
             directorNote: "Bonne vanne, publiable.",
@@ -1125,7 +1125,7 @@ describe("Stand-Up Director Agent", () => {
     );
 
     expect(result.verdict).toBe("APPROVED");
-    expect(result.score).toBe(8);
+    expect(result.score).toBe(9);
     expect(result.strengths.length).toBeGreaterThan(0);
     expect(result.directorNote).toBeTruthy();
   });
@@ -1191,10 +1191,9 @@ describe("Stand-Up Director Agent", () => {
       "YANIS",
     );
 
-    expect(result.verdict).toBe("NEEDS_REVISION");
+    expect(result.verdict).toBe("REJECTED"); // score 5 < 7 → REJECTED with new thresholds
     expect(result.revision).toBeTruthy();
-    expect(result.score).toBeGreaterThanOrEqual(4);
-    expect(result.score).toBeLessThanOrEqual(6);
+    expect(result.score).toBe(5);
   });
 
   it("validates a video selection", async () => {
@@ -1204,7 +1203,7 @@ describe("Stand-Up Director Agent", () => {
           type: "text",
           text: JSON.stringify({
             verdict: "APPROVED",
-            score: 7,
+            score: 9,
             strengths: ["Bonne pertinence pédagogique", "Chaîne sous-représentée"],
             issues: [],
             directorNote: "Bon choix pour Marc.",
@@ -1226,7 +1225,7 @@ describe("Stand-Up Director Agent", () => {
     );
 
     expect(result.verdict).toBe("APPROVED");
-    expect(result.score).toBeGreaterThanOrEqual(6);
+    expect(result.score).toBeGreaterThanOrEqual(9);
   });
 
   it("validates a blog article", async () => {
@@ -1236,7 +1235,7 @@ describe("Stand-Up Director Agent", () => {
           type: "text",
           text: JSON.stringify({
             verdict: "APPROVED",
-            score: 8,
+            score: 9,
             strengths: ["Drôle", "Refs modernes", "SEO optimisé"],
             issues: [],
             directorNote: "Article au niveau du site n°1.",
@@ -1255,7 +1254,7 @@ describe("Stand-Up Director Agent", () => {
     });
 
     expect(result.verdict).toBe("APPROVED");
-    expect(result.score).toBeGreaterThanOrEqual(7);
+    expect(result.score).toBeGreaterThanOrEqual(9);
   });
 
   it("generates an editorial vision for a month", async () => {
@@ -1414,7 +1413,7 @@ describe("Stand-Up Director Agent", () => {
       "SOPHIE",
     );
 
-    expect(result.verdict).toBe("NEEDS_REVISION"); // fallback
+    expect(result.verdict).toBe("REJECTED"); // score 5 → REJECTED (threshold now 7 for NEEDS_REVISION)
   });
 
   it("clamps invalid score to default", async () => {
@@ -1474,7 +1473,7 @@ describe("Stand-Up Director Agent", () => {
       "SOPHIE",
     );
 
-    expect(result.verdict).toBe("APPROVED"); // corrected: score 8 cannot be REJECTED
+    expect(result.verdict).toBe("NEEDS_REVISION"); // corrected: score 8 → NEEDS_REVISION (threshold now 9)
   });
 
   it("enforces verdict/score coherence — low score cannot be APPROVED", async () => {
@@ -1505,7 +1504,7 @@ describe("Stand-Up Director Agent", () => {
       "YANIS",
     );
 
-    expect(result.verdict).toBe("NEEDS_REVISION"); // corrected: score 2 cannot be APPROVED
+    expect(result.verdict).toBe("REJECTED"); // corrected: score 2 → REJECTED (threshold now 7 for NEEDS_REVISION)
   });
 
   it("throws on invalid JSON response", async () => {
@@ -1915,7 +1914,7 @@ describe("Director integration — validation retry loop", () => {
           type: "text",
           text: JSON.stringify({
             verdict: "APPROVED",
-            score: 8,
+            score: 9,
             strengths: ["Bon twist"],
             issues: [],
             directorNote: "Validé.",
@@ -2008,7 +2007,7 @@ describe("Director integration — validation retry loop", () => {
           type: "text",
           text: JSON.stringify({
             verdict: "APPROVED",
-            score: 7,
+            score: 9,
             strengths: ["Relatable", "Situation réelle"],
             issues: [],
             directorNote: "Bien mieux.",
@@ -2019,7 +2018,7 @@ describe("Director integration — validation retry loop", () => {
 
     const validation2 = await validateJoke(betterJoke, "YANIS");
     expect(validation2.verdict).toBe("APPROVED");
-    expect(validation2.score).toBeGreaterThanOrEqual(7);
+    expect(validation2.score).toBeGreaterThanOrEqual(9);
 
     // Total: 4 API calls (generate + reject + re-generate + approve)
     expect(mockAnthropicCreate).toHaveBeenCalledTimes(4);
