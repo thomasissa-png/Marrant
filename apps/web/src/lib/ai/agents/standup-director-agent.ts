@@ -254,9 +254,9 @@ CRITÈRES SPÉCIFIQUES VANNES :
 - Pas d'objets qui parlent, pas de format Carambar, pas d'autodérision triste sans punch
 
 VERDICT :
-- APPROVED (score ≥ 7) : publiable en l'état, au niveau du site n°1
-- NEEDS_REVISION (score 4-6) : l'idée est bonne mais l'exécution peut être meilleure — propose une réécriture
-- REJECTED (score ≤ 3) : ne passe pas le test stand-up, recommencer de zéro
+- APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1, fait RIRE à voix haute
+- NEEDS_REVISION (score 7-8) : l'idée est bonne mais l'exécution peut être meilleure — propose une réécriture
+- REJECTED (score ≤ 6) : ne passe pas le test stand-up, recommencer de zéro
 
 Réponds en JSON :
 {
@@ -314,9 +314,9 @@ CRITÈRES SPÉCIFIQUES CONSEILS :
 - Le conseil sert-il la mission "plateforme de formation n°1" ?
 
 VERDICT :
-- APPROVED (score ≥ 7) : publiable, enseigne vraiment quelque chose
-- NEEDS_REVISION (score 4-6) : la technique est bonne mais l'exécution manque de punch — propose des corrections
-- REJECTED (score ≤ 3) : trop générique, pas actionnable, ou doublon
+- APPROVED (score ≥ 9) : excellence — publiable, enseigne vraiment quelque chose, niveau coach pro
+- NEEDS_REVISION (score 7-8) : la technique est bonne mais l'exécution manque de punch — propose des corrections
+- REJECTED (score ≤ 6) : trop générique, pas actionnable, ou doublon
 
 Réponds en JSON :
 {
@@ -368,9 +368,9 @@ CRITÈRES SPÉCIFIQUES VIDÉOS :
 - Cette vidéo fait-elle progresser ${p.name} ou c'est juste du divertissement ?
 
 VERDICT :
-- APPROVED (score ≥ 6) : bonne sélection pédagogique
-- NEEDS_REVISION (score 4-5) : vidéo acceptable mais la raison ou la catégorie pourrait être mieux justifiée
-- REJECTED (score ≤ 3) : mauvais match persona/technique ou chaîne surreprésentée
+- APPROVED (score ≥ 9) : excellence — sélection pédagogique parfaite, la vidéo fait progresser le persona
+- NEEDS_REVISION (score 7-8) : vidéo acceptable mais la raison ou la catégorie pourrait être mieux justifiée
+- REJECTED (score ≤ 6) : mauvais match persona/technique ou chaîne surreprésentée
 
 Réponds en JSON :
 {
@@ -454,9 +454,9 @@ INTERDICTION ABSOLUE — PERSONAS INTERNES :
 - Si le contenu mentionne un de ces prénoms dans un contexte persona → REJECTED automatiquement.
 
 VERDICT :
-- APPROVED (score ≥ 7) : publiable, drôle ET instructif, au niveau n°1
-- NEEDS_REVISION (score 4-6) : le fond est bon mais il manque de l'humour, des exemples concrets, ou des liens internes
-- REJECTED (score ≤ 3) : pas drôle, trop générique, ou cannibalise un article existant
+- APPROVED (score ≥ 9) : excellence — publiable, drôle ET instructif, au niveau n°1, le lecteur sourit 3+ fois
+- NEEDS_REVISION (score 7-8) : le fond est bon mais il manque de l'humour, des exemples concrets, ou des liens internes
+- REJECTED (score ≤ 6) : pas drôle, trop générique, ou cannibalise un article existant
 
 Réponds en JSON :
 {
@@ -681,12 +681,13 @@ function parseValidationResult(text: string): ValidationResult {
     parsed.directorNote = "Évaluation complétée.";
   }
 
-  // Cohérence verdict/score
-  if (parsed.score >= 7 && parsed.verdict === "REJECTED") {
+  // Cohérence verdict/score — seuil universel 9/10
+  if (parsed.score >= 9) {
     parsed.verdict = "APPROVED";
-  }
-  if (parsed.score <= 3 && parsed.verdict === "APPROVED") {
+  } else if (parsed.score >= 7) {
     parsed.verdict = "NEEDS_REVISION";
+  } else {
+    parsed.verdict = "REJECTED";
   }
 
   return parsed;

@@ -152,6 +152,13 @@ export async function publishDailyContent(
         jokeData = await generateDailyJoke({ ...jokeCtx, plannedTheme: feedbackTheme });
       }
 
+      // Gate: ne publier que si score >= 9 ou si le directeur a réécrit
+      const jokeScore = validation?.score ?? 0;
+      if (!directorTookOver && validation?.verdict !== "APPROVED" && jokeScore < 9) {
+        console.warn(`[Director] Vanne non publiée — score ${jokeScore}/10 < 9 (verdict: ${validation?.verdict ?? "CRASH"})`);
+        throw new Error(`Vanne rejetée par le directeur (score ${jokeScore}/10)`);
+      }
+
       const joke = await prisma.joke.create({
         data: {
           content: jokeData.content,
@@ -179,6 +186,7 @@ export async function publishDailyContent(
 
       let tipData = await generateDailyTip(tipCtx);
       let validation: ValidationResult | null = null;
+      let directorTookOverTip = false;
 
       for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
         try {
@@ -199,6 +207,7 @@ export async function publishDailyContent(
           try {
             const rewritten = await directorRewriteTip(tipData as TipToValidate, validation, persona);
             tipData = { ...tipData, ...rewritten };
+            directorTookOverTip = true;
             console.log("[Director] Conseil réécrit par le directeur — publication");
           } catch (err) {
             console.warn("[Director] Réécriture conseil échouée — publication de la dernière version:", err);
@@ -209,6 +218,13 @@ export async function publishDailyContent(
         console.log(`[Director] Conseil rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
         const feedbackTheme = `${tipCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
         tipData = await generateDailyTip({ ...tipCtx, plannedTheme: feedbackTheme });
+      }
+
+      // Gate: ne publier que si score >= 9 ou si le directeur a réécrit
+      const tipScore = validation?.score ?? 0;
+      if (!directorTookOverTip && validation?.verdict !== "APPROVED" && tipScore < 9) {
+        console.warn(`[Director] Conseil non publié — score ${tipScore}/10 < 9 (verdict: ${validation?.verdict ?? "CRASH"})`);
+        throw new Error(`Conseil rejeté par le directeur (score ${tipScore}/10)`);
       }
 
       const tip = await prisma.tip.create({
@@ -251,11 +267,11 @@ export async function publishDailyContent(
 
       let videoSelection = await selectDailyVideo(videoCtx);
       let selectedVideo = allVideos.find((v) => v.id === videoSelection.videoId);
+      let videoValidation: ValidationResult | null = null;
 
       for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
         if (!selectedVideo) break;
 
-        let validation: ValidationResult;
         try {
           const toValidate: VideoSelectionToValidate = {
             videoId: selectedVideo.id,
@@ -265,27 +281,34 @@ export async function publishDailyContent(
             technique: selectedVideo.technique,
             reason: videoSelection.reason,
           };
-          validation = await validateVideoSelection(toValidate, persona);
+          videoValidation = await validateVideoSelection(toValidate, persona);
         } catch (err) {
           console.warn(`[Director] Validation vidéo échouée (attempt ${attempt}):`, err);
           break;
         }
 
-        if (validation.verdict === "APPROVED") {
-          console.log(`[Director] Vidéo validée (score ${validation.score}/10, attempt ${attempt})`);
+        if (videoValidation.verdict === "APPROVED") {
+          console.log(`[Director] Vidéo validée (score ${videoValidation.score}/10, attempt ${attempt})`);
           break;
         }
 
         if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          console.warn(`[Director] Vidéo non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives — publication avec dernier résultat (score ${validation.score}/10)`);
+          console.warn(`[Director] Vidéo non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives (score ${videoValidation.score}/10)`);
           break;
         }
 
         // Exclure la vidéo rejetée et re-sélectionner
-        console.log(`[Director] Vidéo rejetée (score ${validation.score}/10) — re-sélection (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        console.log(`[Director] Vidéo rejetée (score ${videoValidation.score}/10) — re-sélection (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
         const excludedIds = [...videoCtx.recentVideoIds, selectedVideo.id];
         videoSelection = await selectDailyVideo({ ...videoCtx, recentVideoIds: excludedIds });
         selectedVideo = allVideos.find((v) => v.id === videoSelection.videoId);
+      }
+
+      // Gate: ne publier que si score >= 9
+      const videoScore = videoValidation?.score ?? 0;
+      if (videoValidation?.verdict !== "APPROVED" && videoScore < 9) {
+        console.warn(`[Director] Vidéo non publiée — score ${videoScore}/10 < 9 (verdict: ${videoValidation?.verdict ?? "CRASH"})`);
+        return null;
       }
 
       return selectedVideo ? { id: selectedVideo.id, title: selectedVideo.title } : null;

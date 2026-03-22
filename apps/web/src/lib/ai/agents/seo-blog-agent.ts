@@ -430,8 +430,9 @@ export async function publishWeeklyArticle(): Promise<{
     }
 
     // 4b. Boucle de validation Stand-Up Director
+    let articleValidation: ValidationResult | null = null;
+    let directorTookOverArticle = false;
     for (let attempt = 1; attempt <= MAX_ARTICLE_VALIDATION_ATTEMPTS; attempt++) {
-      let validation: ValidationResult;
       try {
         const toValidate: BlogArticleToValidate = {
           title: article.title,
@@ -441,14 +442,14 @@ export async function publishWeeklyArticle(): Promise<{
           category: article.category,
           targetKeyword: article.targetKeyword,
         };
-        validation = await validateBlogArticle(toValidate);
+        articleValidation = await validateBlogArticle(toValidate);
       } catch (err) {
         console.warn(`[Director] Validation article échouée (attempt ${attempt}):`, err);
-        break; // Si la validation crash, on publie tel quel
+        break;
       }
 
-      if (validation.verdict === "APPROVED") {
-        console.log(`[Director] Article validé (score ${validation.score}/10, attempt ${attempt})`);
+      if (articleValidation.verdict === "APPROVED") {
+        console.log(`[Director] Article validé (score ${articleValidation.score}/10, attempt ${attempt})`);
         break;
       }
 
@@ -464,7 +465,7 @@ export async function publishWeeklyArticle(): Promise<{
             category: article.category,
             targetKeyword: article.targetKeyword,
           };
-          const rewritten = await directorRewriteBlogArticle(toValidate, validation);
+          const rewritten = await directorRewriteBlogArticle(toValidate, articleValidation);
           article = {
             ...article,
             title: rewritten.title,
@@ -473,24 +474,35 @@ export async function publishWeeklyArticle(): Promise<{
             category: rewritten.category,
             metaTitle: rewritten.title.slice(0, 60),
           };
+          directorTookOverArticle = true;
           console.log("[Director] Article réécrit par le directeur — publication");
         } catch (err) {
-          console.warn("[Director] Réécriture article échouée — publication de la dernière version:", err);
+          console.warn("[Director] Réécriture article échouée — publication bloquée:", err);
         }
         break;
       }
 
       // Re-générer avec le feedback du directeur intégré dans le plan
-      console.log(`[Director] Article rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_ARTICLE_VALIDATION_ATTEMPTS})`);
-      const feedbackOutline = `${plan.outline}\n\n--- FEEDBACK DIRECTEUR ARTISTIQUE ---\nProblèmes: ${validation.issues.join(". ")}\n${validation.revision ? `Corrections demandées: ${validation.revision}` : ""}`;
+      console.log(`[Director] Article rejeté (score ${articleValidation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_ARTICLE_VALIDATION_ATTEMPTS})`);
+      const feedbackOutline = `${plan.outline}\n\n--- FEEDBACK DIRECTEUR ARTISTIQUE ---\nProblèmes: ${articleValidation.issues.join(". ")}\n${articleValidation.revision ? `Corrections demandées: ${articleValidation.revision}` : ""}`;
       const enrichedPlan = { ...plan, outline: feedbackOutline };
       const retryArticle = await generateArticle(enrichedPlan);
       if (retryArticle) {
         article = retryArticle;
       } else {
-        console.warn("[Director] Re-génération échouée — publication de la version précédente");
+        console.warn("[Director] Re-génération échouée — publication bloquée");
         break;
       }
+    }
+
+    // Gate: ne publier que si score >= 9 ou si le directeur a réécrit
+    const articleScore = articleValidation?.score ?? 0;
+    if (!directorTookOverArticle && articleValidation?.verdict !== "APPROVED" && articleScore < 9) {
+      console.warn(`[Director] Article non publié — score ${articleScore}/10 < 9 (verdict: ${articleValidation?.verdict ?? "CRASH"})`);
+      return {
+        success: false,
+        error: `Article rejeté par le directeur (score ${articleScore}/10 < 9)`,
+      };
     }
 
     // 4c. Validation programmatique des meta (truncate si trop long)
