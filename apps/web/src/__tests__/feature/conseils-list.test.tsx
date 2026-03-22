@@ -109,7 +109,7 @@ describe("ConseilsList", () => {
   it("shows hint before expanding", async () => {
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getAllByText(/Ouvre pour l.exemple et le d.fi du jour/)).toHaveLength(2);
+      expect(screen.getAllByText(/Clique pour l.exemple et le d.fi/)).toHaveLength(2);
     });
   });
 

@@ -266,7 +266,7 @@ export function ConseilsList() {
 
                 {!expandedIds.has(tip.id) && (
                   <p className="mt-2 text-xs text-text-muted">
-                    Ouvre pour l&apos;exemple et le défi du jour
+                    Clique pour l&apos;exemple et le défi
                   </p>
                 )}
               </CardContent>
