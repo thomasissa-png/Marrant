@@ -7,6 +7,8 @@
     "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
   },
   "devDependencies": {
+    "@swc/core": "^1.15.21",
+    "@swc/jest": "^0.2.39",
     "jest-environment-jsdom": "^30.3.0",
     "prisma": "6.19.2",
     "sharp": "^0.34.5"
