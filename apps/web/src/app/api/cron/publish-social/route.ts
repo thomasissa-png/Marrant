@@ -156,7 +156,7 @@ export async function GET(req: Request) {
           console.warn(`[PublishSocial] Queue pleine ${post.platform} — post ${post.id} reporté de 2h`);
 
           // Mark this platform as full — skip remaining posts for it
-          queueFullPlatforms.add(platform);
+          queueFullPlatforms.add(post.platform as BufferPlatform);
 
           results.push({
             id: post.id,
