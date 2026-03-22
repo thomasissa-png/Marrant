@@ -63,8 +63,8 @@ export async function GET(request: Request) {
     const articleResult = await publishWeeklyArticle();
 
     // Phase 3 : Notifier Bing via IndexNow si un article a été publié
-    if (articleResult?.slug) {
-      await notifyIndexNow(articleResult.slug);
+    if (articleResult?.article?.slug) {
+      await notifyIndexNow(articleResult.article.slug);
     }
 
     return NextResponse.json({
