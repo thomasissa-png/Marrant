@@ -44,7 +44,7 @@ export default function AbonnementPage() {
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
           Ton compte est créé ! Plus qu&apos;un clic pour accéder à tout
-          le catalogue et commencer à devenir la personne drôle du groupe.
+          le catalogue et commencer à devenir la personne la plus drôle du groupe.
         </p>
       </div>
 

@@ -38,7 +38,7 @@ const allFaqs = [...homepageFaqs, ...faqSectionFaqs];
 
 export const metadata: Metadata = {
   title: "Deviens drôle et améliore ta répartie | deviens-marrant.fr",
-  description: "Tu veux être la personne drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. 290+ vannes, 60+ conseils, 80+ vidéos.",
+  description: "Tu veux être la personne la plus drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. 290+ vannes, 60+ conseils, 80+ vidéos.",
   keywords: [
     "comment devenir drôle",
     "devenir drôle",

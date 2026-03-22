@@ -15,7 +15,7 @@ export function HeroSection() {
     <section className="py-12 text-center md:py-20">
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
         Deviens la personne{" "}
-        <span className="text-gradient">drôle</span>
+        <span className="text-gradient">la plus drôle</span>
         {" "}du groupe.
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">

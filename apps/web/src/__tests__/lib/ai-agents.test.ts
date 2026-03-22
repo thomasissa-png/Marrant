@@ -1712,8 +1712,8 @@ describe("Stand-Up Director Agent", () => {
           section: "Hero heading",
           verdict: "APPROVED",
           score: 9,
-          currentText: "Deviens la personne drôle du groupe.",
-          suggestedText: "Deviens la personne drôle du groupe.",
+          currentText: "Deviens la personne la plus drôle du groupe.",
+          suggestedText: "Deviens la personne la plus drôle du groupe.",
           issues: [],
           directorNote: "Accrocheur et direct.",
         },
@@ -1753,7 +1753,7 @@ describe("Stand-Up Director Agent", () => {
       {
         pageName: "Homepage",
         section: "Hero heading",
-        currentText: "Deviens la personne drôle du groupe.",
+        currentText: "Deviens la personne la plus drôle du groupe.",
         context: "Titre principal de la page d'accueil",
       },
       {

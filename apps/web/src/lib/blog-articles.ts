@@ -1297,7 +1297,7 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
 
 → [Découvre nos conseils d'humour](/conseils) — les techniques de timing, de répartie et de storytelling des pros du stand-up.
 
-→ [Choisis ton parcours](/parcours) — 3 à 6 semaines pour devenir la personne drôle de ton groupe.`,
+→ [Choisis ton parcours](/parcours) — 3 à 6 semaines pour devenir la personne la plus drôle de ton groupe.`,
     date: "2026-03-19",
     readingTime: "7 min",
     category: "CATALOGUE",

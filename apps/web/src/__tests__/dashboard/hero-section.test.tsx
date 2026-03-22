@@ -14,10 +14,10 @@ jest.mock("next/navigation", () => ({
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows main heading with drôle", () => {
+  it("shows main heading with la plus drôle", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("drôle")).toBeInTheDocument();
+    expect(screen.getByText("la plus drôle")).toBeInTheDocument();
     expect(screen.getByText(/du groupe/)).toBeInTheDocument();
   });
 
