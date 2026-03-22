@@ -61,18 +61,31 @@ export default function AdminSocialPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [adminPassword, setAdminPassword] = useState("");
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  // Auth headers for admin API
+  const authHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${adminPassword}`,
+  };
 
   const fetchPosts = useCallback(async () => {
+    if (!adminPassword) return;
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/admin/social?status=${activeTab}`);
+      const res = await fetch(`/api/admin/social?status=${activeTab}`, {
+        headers: { Authorization: `Bearer ${adminPassword}` },
+      });
       if (!res.ok) {
-        if (res.status === 403) {
-          toast("Accès admin requis", "error");
+        if (res.status === 401) {
+          setIsAuthed(false);
+          toast("Mot de passe admin incorrect", "error");
           return;
         }
         throw new Error("Erreur chargement");
       }
+      setIsAuthed(true);
       const data = await res.json();
       setPosts(data.posts);
       setStatusCounts(data.statusCounts);
@@ -81,7 +94,7 @@ export default function AdminSocialPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab]);
+  }, [activeTab, adminPassword]);
 
   useEffect(() => {
     fetchPosts();
@@ -95,7 +108,7 @@ export default function AdminSocialPage() {
     try {
       const res = await fetch("/api/admin/social", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders,
         body: JSON.stringify({ action, postIds }),
       });
       const data = await res.json();
@@ -128,6 +141,39 @@ export default function AdminSocialPage() {
     { status: "PUBLISHED", label: "Publiés" },
     { status: "REJECTED", label: "Rejetés" },
   ];
+
+  // Login form if not authed
+  if (!isAuthed) {
+    return (
+      <div className="mx-auto max-w-md py-20">
+        <Card>
+          <CardHeader>
+            <CardTitle>Admin Social Media</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                fetchPosts();
+              }}
+              className="space-y-4"
+            >
+              <input
+                type="password"
+                placeholder="Mot de passe admin"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                className="w-full rounded-lg border border-border bg-background-elevated px-4 py-2 text-sm"
+              />
+              <Button variant="primary" type="submit" className="w-full">
+                Connexion
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-4xl py-8">

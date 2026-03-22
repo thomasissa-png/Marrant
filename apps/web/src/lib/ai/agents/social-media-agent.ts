@@ -1146,5 +1146,11 @@ export function getOptimalScheduleTime(
   const hour = hours[postIndex % hours.length];
 
   today.setUTCHours(hour, Math.floor(Math.random() * 15), 0, 0);
+
+  // If the scheduled time is in the past, push to tomorrow
+  if (today.getTime() < Date.now()) {
+    today.setUTCDate(today.getUTCDate() + 1);
+  }
+
   return today;
 }

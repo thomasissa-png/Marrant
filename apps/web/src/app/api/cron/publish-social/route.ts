@@ -72,9 +72,23 @@ export async function GET(req: Request) {
       error?: string;
     }> = [];
 
+    // Track platforms with full queues to skip them
+    const queueFullPlatforms = new Set<BufferPlatform>();
+
     for (const post of posts) {
       try {
         const platform = post.platform as BufferPlatform;
+
+        // Skip platforms with full queues (detected earlier in this run)
+        if (queueFullPlatforms.has(platform)) {
+          results.push({
+            id: post.id,
+            platform: post.platform,
+            status: "skipped",
+            error: `Queue ${platform} pleine — skippé`,
+          });
+          continue;
+        }
 
         // Vérifier que le channel est configuré pour cette plateforme
         if (!isChannelConfigured(platform)) {
@@ -141,18 +155,21 @@ export async function GET(req: Request) {
           });
           console.warn(`[PublishSocial] Queue pleine ${post.platform} — post ${post.id} reporté de 2h`);
 
+          // Mark this platform as full — skip remaining posts for it
+          queueFullPlatforms.add(platform);
+
           results.push({
             id: post.id,
             platform: post.platform,
             status: "failed",
             error: `Queue pleine (${error.currentCount}/10 slots) — reporté de 2h`,
           });
-          // Stop publishing more posts to this platform — queue is full
           continue;
         }
 
         // Erreur permanente (auth, validation, permissions) → FAILED direct
-        const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
+        // Match HTTP status codes at word boundaries to avoid false positives like "4010"
+        const isPermanent = /\b(401|403|400)\b/.test(errMsg) || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
 
         if (isPermanent) {
           await prisma.socialPost.update({
@@ -162,8 +179,9 @@ export async function GET(req: Request) {
         } else {
           // Erreur temporaire (réseau, rate limit) → repousser de 30 min pour retry au prochain cron
           const retryAt = new Date(Date.now() + 30 * 60 * 1000);
-          // Track retries via sourceId field (not directorNote — that's for human-readable feedback)
-          const currentRetries = parseInt(post.sourceId?.match(/^retry:(\d+)$/)?.[1] ?? "0", 10);
+          // Track retries via directorNote suffix (preserve sourceId for content tracking)
+          const retryMatch = post.directorNote?.match(/\[retry:(\d+)\]$/);
+          const currentRetries = retryMatch ? parseInt(retryMatch[1], 10) : 0;
           const newRetryCount = currentRetries + 1;
 
           if (newRetryCount >= 3) {
@@ -172,11 +190,14 @@ export async function GET(req: Request) {
               data: { status: "FAILED" },
             });
           } else {
+            const retryNote = post.directorNote
+              ? post.directorNote.replace(/\s*\[retry:\d+\]$/, "") + ` [retry:${newRetryCount}]`
+              : `[retry:${newRetryCount}]`;
             await prisma.socialPost.update({
               where: { id: post.id },
               data: {
                 scheduledAt: retryAt,
-                sourceId: `retry:${newRetryCount}`,
+                directorNote: retryNote,
               },
             });
           }

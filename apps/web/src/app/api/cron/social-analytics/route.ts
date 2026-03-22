@@ -44,11 +44,12 @@ export async function GET(req: Request) {
       prisma.socialPost.count({
         where: { status: "APPROVED" },
       }),
-      // Posts APPROVED depuis +48h = probablement stuck
+      // Posts APPROVED dont le scheduledAt est passé depuis +48h ET créés il y a +48h = stuck
       prisma.socialPost.count({
         where: {
           status: "APPROVED",
           scheduledAt: { lte: fortyEightHoursAgo },
+          createdAt: { lte: fortyEightHoursAgo },
         },
       }),
     ]);
@@ -60,6 +61,7 @@ export async function GET(req: Request) {
         where: {
           status: "APPROVED",
           scheduledAt: { lte: fortyEightHoursAgo },
+          createdAt: { lte: fortyEightHoursAgo },
         },
         data: { status: "FAILED" },
       });

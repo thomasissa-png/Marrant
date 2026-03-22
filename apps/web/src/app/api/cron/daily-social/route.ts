@@ -30,30 +30,31 @@ export async function GET(req: Request) {
 
   try {
     const today = new Date();
-    const dayOfMonth = today.getDate();
+    const dayOfMonth = today.getUTCDate();
     const persona = getPersonaForDay(dayOfMonth);
 
     console.log(
       `[DailySocial] Génération posts pour jour ${dayOfMonth} — persona ${persona}`,
     );
 
-    // Check if usable posts already generated today (skip REJECTED/FAILED)
+    // Check if posts already generated AND validated today
+    // Only APPROVED or PUBLISHED count — PENDING posts (failed validation, stuck) shouldn't block regeneration
     const force = searchParams.get("force") === "true";
     const startOfDay = new Date(today);
     startOfDay.setUTCHours(0, 0, 0, 0);
     const endOfDay = new Date(today);
     endOfDay.setUTCHours(23, 59, 59, 999);
 
-    const existingCount = await prisma.socialPost.count({
+    const existingApproved = await prisma.socialPost.count({
       where: {
         createdAt: { gte: startOfDay, lte: endOfDay },
-        status: { in: ["PENDING", "APPROVED", "PUBLISHED"] },
+        status: { in: ["APPROVED", "PUBLISHED"] },
       },
     });
 
-    if (existingCount > 0 && !force) {
+    if (existingApproved > 0 && !force) {
       return NextResponse.json({
-        message: `Posts déjà générés aujourd'hui (${existingCount} posts). Ajouter &force=true pour régénérer.`,
+        message: `Posts déjà générés et validés aujourd'hui (${existingApproved} posts APPROVED/PUBLISHED). Ajouter &force=true pour régénérer.`,
         skipped: true,
       });
     }
@@ -80,11 +81,11 @@ export async function GET(req: Request) {
           sourceId: post.sourceId || null,
           threadParts: post.threadParts || [],
           directorScore: post.directorScore ?? null,
-          directorNote: post.directorValidated === false
+          directorNote: post.directorValidated !== true
             ? "⚠️ Validation directeur échouée — review manuelle requise"
             : (post.directorNote ?? null),
-          // APPROVED seulement si le directeur a validé — sinon PENDING pour review manuelle
-          status: post.directorValidated === false ? "PENDING" : "APPROVED",
+          // APPROVED seulement si le directeur a explicitement validé (true) — sinon PENDING
+          status: post.directorValidated !== true ? "PENDING" : "APPROVED",
           scheduledAt,
         },
       });
@@ -97,8 +98,8 @@ export async function GET(req: Request) {
       });
     }
 
-    const approvedCount = posts.filter((p) => p.directorValidated !== false).length;
-    const pendingCount = posts.filter((p) => p.directorValidated === false).length;
+    const approvedCount = posts.filter((p) => p.directorValidated === true).length;
+    const pendingCount = posts.filter((p) => p.directorValidated !== true).length;
 
     console.log(
       `[DailySocial] ${saved.length} posts générés — ${approvedCount} validés, ${pendingCount} en attente de review`,

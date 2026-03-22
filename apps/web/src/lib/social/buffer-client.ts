@@ -193,13 +193,13 @@ async function ensureQuotaAvailable(platform: BufferPlatform, slotsNeeded: numbe
   try {
     const currentCount = await getBufferQueueCount(platform);
 
-    if (currentCount + slotsNeeded > BUFFER_MAX_SCHEDULED) {
+    if (currentCount + slotsNeeded > BUFFER_EFFECTIVE_LIMIT) {
       throw new BufferQueueFullError(platform, currentCount, slotsNeeded);
     }
 
-    if (currentCount >= BUFFER_EFFECTIVE_LIMIT) {
+    if (currentCount >= BUFFER_EFFECTIVE_LIMIT - 1) {
       console.warn(
-        `[Buffer] ⚠️ Queue ${platform} presque pleine: ${currentCount}/${BUFFER_MAX_SCHEDULED} slots occupés`,
+        `[Buffer] ⚠️ Queue ${platform} presque pleine: ${currentCount}/${BUFFER_MAX_SCHEDULED} slots occupés (limite effective: ${BUFFER_EFFECTIVE_LIMIT})`,
       );
     }
   } catch (error) {
