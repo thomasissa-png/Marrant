@@ -21,6 +21,35 @@ interface Stats {
   paths: number;
   favorites: number;
   totalXp: number;
+  socialPendingCount: number;
+  socialFailedCount: number;
+  socialPendingPosts: {
+    id: string;
+    platform: string;
+    format: string;
+    hook: string;
+    content: string;
+    directorScore: number | null;
+    directorNote: string | null;
+    status: string;
+    createdAt: string;
+  }[];
+  dailyContentMissing: {
+    joke: boolean;
+    tip: boolean;
+    video: boolean;
+    noDailyContent: boolean;
+  };
+  blogAlert: {
+    missing: boolean;
+    message?: string;
+    lastArticle?: {
+      id: string;
+      title: string;
+      slug: string;
+      publishedAt: string;
+    };
+  };
 }
 
 interface UserSubscription {
@@ -378,8 +407,123 @@ function DashboardTab({
 
   if (!stats) return null;
 
+  const hasSocialAlerts = stats.socialPendingCount > 0 || stats.socialFailedCount > 0;
+  const hasDailyAlert = stats.dailyContentMissing.noDailyContent ||
+    stats.dailyContentMissing.joke || stats.dailyContentMissing.tip || stats.dailyContentMissing.video;
+  const hasBlogAlert = stats.blogAlert.missing;
+  const hasAnyAlert = hasSocialAlerts || hasDailyAlert || hasBlogAlert;
+
   return (
     <div className="space-y-6">
+      {/* Content quality alerts */}
+      {hasAnyAlert && (
+        <div className="space-y-3">
+          <h2 className="font-display text-lg font-bold text-error">Alertes contenu</h2>
+
+          {/* Daily content missing */}
+          {hasDailyAlert && (
+            <div className="rounded-lg border border-error/30 bg-error/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">&#9888;</span>
+                <div>
+                  <p className="font-semibold text-error">
+                    Contenu quotidien manquant aujourd&apos;hui
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    {stats.dailyContentMissing.noDailyContent
+                      ? "Aucun contenu du jour n'a été généré. Le cron daily-content a probablement échoué (contenu rejeté par le directeur artistique, score < 9/10)."
+                      : `Contenu partiel — manquant : ${[
+                          stats.dailyContentMissing.joke && "vanne",
+                          stats.dailyContentMissing.tip && "conseil",
+                          stats.dailyContentMissing.video && "vidéo",
+                        ].filter(Boolean).join(", ")}. Le directeur artistique a rejeté ce contenu (score < 9/10).`
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Blog article missing */}
+          {hasBlogAlert && (
+            <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">&#9203;</span>
+                <div>
+                  <p className="font-semibold text-yellow-500">
+                    Aucun article blog cette semaine
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    {stats.blogAlert.message} — le cron weekly-seo a peut-être rejeté l&apos;article (score directeur &lt; 9/10).
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Social failed */}
+          {stats.socialFailedCount > 0 && (
+            <div className="rounded-lg border border-error/30 bg-error/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">&#9888;</span>
+                <div>
+                  <p className="font-semibold text-error">
+                    {stats.socialFailedCount} post{stats.socialFailedCount > 1 ? "s" : ""} social en erreur
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Des posts n&apos;ont pas pu être publiés. Vérifiez l&apos;onglet Social Media pour les détails.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Social pending */}
+          {stats.socialPendingCount > 0 && (
+            <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">&#9203;</span>
+                <div>
+                  <p className="font-semibold text-yellow-500">
+                    {stats.socialPendingCount} post{stats.socialPendingCount > 1 ? "s" : ""} social en attente
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Ces posts n&apos;ont pas atteint le score minimum de 9/10 du directeur artistique ou nécessitent une review manuelle.
+                  </p>
+                  {stats.socialPendingPosts.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {stats.socialPendingPosts.slice(0, 5).map((post) => (
+                        <div
+                          key={post.id}
+                          className="rounded border border-border bg-background-card px-3 py-2 text-sm"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${
+                              post.status === "FAILED" ? "bg-error/20 text-error" : "bg-yellow-500/20 text-yellow-500"
+                            }`}>
+                              {post.status}
+                            </span>
+                            <span className="text-xs text-text-muted">{post.platform}</span>
+                            <span className="text-xs text-text-muted">{post.format}</span>
+                            {post.directorScore != null && (
+                              <span className="text-xs text-text-muted">Score: {post.directorScore}/10</span>
+                            )}
+                          </div>
+                          <p className="mt-1 truncate text-text-secondary">{post.hook || post.content.slice(0, 80)}</p>
+                          {post.directorNote && (
+                            <p className="mt-1 text-xs italic text-text-muted">{post.directorNote}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* KPIs principaux */}
       <div className="flex items-center justify-between">
         <h2 className="font-display text-lg font-bold text-text-primary">KPIs Business</h2>

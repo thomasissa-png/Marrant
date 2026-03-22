@@ -32,6 +32,11 @@ export async function GET(request: NextRequest) {
       paths,
       favorites,
       totalXp,
+      socialPendingCount,
+      socialFailedCount,
+      socialPendingPosts,
+      todayDailyContent,
+      recentBlogArticle,
     ] = await Promise.all([
       prisma.user.count(),
       prisma.user.count({ where: { plan: "PREMIUM" } }),
@@ -47,6 +52,54 @@ export async function GET(request: NextRequest) {
       prisma.learningPath.count(),
       prisma.userFavorite.count(),
       prisma.user.aggregate({ _sum: { xp: true } }),
+      // Content quality alerts — Social
+      prisma.socialPost.count({ where: { status: "PENDING" } }),
+      prisma.socialPost.count({ where: { status: "FAILED" } }),
+      prisma.socialPost.findMany({
+        where: { status: { in: ["PENDING", "FAILED"] } },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        select: {
+          id: true,
+          platform: true,
+          format: true,
+          hook: true,
+          content: true,
+          directorScore: true,
+          directorNote: true,
+          status: true,
+          createdAt: true,
+        },
+      }),
+      // Content quality alerts — Daily content (joke + tip + video)
+      prisma.dailyContent.findFirst({
+        where: {
+          date: {
+            gte: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+            lt: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
+          },
+        },
+        select: {
+          id: true,
+          jokeId: true,
+          tipId: true,
+          videoId: true,
+        },
+      }),
+      // Content quality alerts — Blog (last article in 7 days)
+      prisma.blogArticle.findFirst({
+        where: {
+          isPublished: true,
+          publishedAt: { gte: sevenDaysAgo },
+        },
+        orderBy: { publishedAt: "desc" },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          publishedAt: true,
+        },
+      }),
     ]);
 
     const conversionRate = totalUsers > 0
@@ -77,6 +130,21 @@ export async function GET(request: NextRequest) {
       favorites,
       // Engagement
       totalXp: totalXp._sum.xp ?? 0,
+      // Content quality alerts
+      socialPendingCount,
+      socialFailedCount,
+      socialPendingPosts,
+      // Daily content alerts
+      dailyContentMissing: {
+        joke: !todayDailyContent?.jokeId,
+        tip: !todayDailyContent?.tipId,
+        video: !todayDailyContent?.videoId,
+        noDailyContent: !todayDailyContent,
+      },
+      // Blog alerts
+      blogAlert: !recentBlogArticle
+        ? { missing: true, message: "Aucun article blog publié depuis 7 jours" }
+        : { missing: false, lastArticle: recentBlogArticle },
     });
   } catch {
     return NextResponse.json(
