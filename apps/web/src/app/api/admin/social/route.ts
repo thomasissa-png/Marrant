@@ -57,13 +57,25 @@ export async function POST(request: NextRequest) {
   const { action, postIds, postId, content } = body;
 
   if (action === "approve_all") {
+    // Only approve PENDING posts that the director actually validated (score >= 9)
+    // Posts without director validation or with low scores must be reviewed individually
     const result = await prisma.socialPost.updateMany({
-      where: { status: "PENDING" },
+      where: {
+        status: "PENDING",
+        directorScore: { gte: 9 },
+      },
       data: { status: "APPROVED" },
     });
+
+    // Count how many PENDING posts were NOT approved (low score or no score)
+    const remainingPending = await prisma.socialPost.count({
+      where: { status: "PENDING" },
+    });
+
     return NextResponse.json({
-      message: `${result.count} posts approuvés`,
+      message: `${result.count} posts approuvés (score directeur ≥ 9)${remainingPending > 0 ? ` — ${remainingPending} posts en attente de review manuelle (score < 9)` : ""}`,
       count: result.count,
+      remainingPending,
     });
   }
 

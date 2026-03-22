@@ -1166,10 +1166,16 @@ Hashtags : ${post.hashtags.join(", ")}
     ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
     → Le sujet, le ton et le vocabulaire correspondent à son quotidien
 
-VERDICT :
-- APPROVED (score ≥ 7) : humain, drôle, distinctif, shareable, anti-IA validé
-- NEEDS_REVISION (score 4-6) : l'idée est bonne mais le ton/hook/CTA à retravailler
-- REJECTED (score ≤ 3) : sent l'IA, générique, engagement bait, ou hors-marque
+VERDICT — BARRE HAUTE (on ne publie que l'excellence) :
+- APPROVED (score ≥ 9) : micro-performance de stand-up, shareable immédiatement, indistinguable d'un post d'humoriste pro
+- NEEDS_REVISION (score 7-8) : le potentiel est là mais il manque le twist, le hook, ou la spécificité — propose une réécriture
+- REJECTED (score ≤ 6) : générique, sent l'IA, format dialogue/anecdote fictive, engagement bait, ou hors-marque
+
+CRITÈRES DE REJET AUTOMATIQUE (score ≤ 3, REJECTED immédiat) :
+- Format "dialogue reconstitué" : "Moi : ... / Mon pote : ..." ou "Prof : ... / Moi : ..." — c'est le format le plus saturé de Twitter, n'importe quel compte à 500 followers le fait
+- Anecdote fictive de coloc/bureau sans technique de stand-up — on n'est pas un compte humour générique
+- Aucun lien avec le stand-up, les techniques d'humour, ou la progression — le post ne sert pas la marque
+- Punchline prévisible — si on voit la chute arriver, c'est raté
 
 Réponds en JSON :
 {
@@ -1185,7 +1191,42 @@ Réponds en JSON :
   });
 
   const text = getResponseText(response);
-  return parseValidationResult(text);
+  return parseSocialValidationResult(text);
+}
+
+/**
+ * Parseur spécifique pour la validation social media.
+ * Seuils plus élevés : APPROVED ≥ 9, NEEDS_REVISION 7-8, REJECTED ≤ 6.
+ */
+function parseSocialValidationResult(text: string): ValidationResult {
+  const parsed = extractJson<ValidationResult>(text);
+
+  const validVerdicts: ValidationVerdict[] = ["APPROVED", "NEEDS_REVISION", "REJECTED"];
+  if (!validVerdicts.includes(parsed.verdict)) {
+    parsed.verdict = "NEEDS_REVISION";
+  }
+
+  if (typeof parsed.score !== "number" || parsed.score < 1 || parsed.score > 10) {
+    parsed.score = 5;
+  }
+
+  if (!Array.isArray(parsed.strengths)) parsed.strengths = [];
+  if (!Array.isArray(parsed.issues)) parsed.issues = [];
+
+  if (!parsed.directorNote?.trim()) {
+    parsed.directorNote = "Évaluation complétée.";
+  }
+
+  // Cohérence verdict/score — seuils social (≥9 = APPROVED, 7-8 = NEEDS_REVISION, ≤6 = REJECTED)
+  if (parsed.score >= 9) {
+    parsed.verdict = "APPROVED";
+  } else if (parsed.score >= 7) {
+    parsed.verdict = "NEEDS_REVISION";
+  } else {
+    parsed.verdict = "REJECTED";
+  }
+
+  return parsed;
 }
 
 // ─── Réécriture d'un post social par le Directeur ───────────────

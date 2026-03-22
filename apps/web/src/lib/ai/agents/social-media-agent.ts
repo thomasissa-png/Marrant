@@ -372,7 +372,28 @@ export function validatePostConstraints(
     }
   }
 
-  // 7. Thread parts validation — THREAD format must have 5-7 parts
+  // 7. Anti-generic format check — reject reconstructed dialogue tweets
+  // These are the most saturated format on Twitter FR ("Moi : ... / Mon pote : ...")
+  const DIALOGUE_PATTERNS = [
+    /\bmoi\s*:\s*[«"]/i,
+    /\bmon pote\s*:\s*[«"]/i,
+    /\bma coloc\s*:\s*[«"]/i,
+    /\belle\s*:\s*[«"]/i,
+    /\blui\s*:\s*[«"]/i,
+    /\bprof\s*:\s*[«"]/i,
+    /\bmoi\s*:\s*\*/i,  // "Moi : *action*"
+    /\baussi moi\s*:/i,
+  ];
+  const dialogueMatches = DIALOGUE_PATTERNS.filter(
+    (p) => p.test(post.content),
+  );
+  if (dialogueMatches.length >= 2) {
+    issues.push(
+      `CRITIQUE — Format "dialogue reconstitué" détecté (${dialogueMatches.length} patterns). Ce format est générique et interdit — un compte lambda à 500 followers le fait.`,
+    );
+  }
+
+  // 8. Thread parts validation — THREAD format must have 5-7 parts
   if (post.format === "THREAD") {
     if (!post.threadParts || post.threadParts.length === 0) {
       issues.push("Thread sans threadParts — le champ est obligatoire");
