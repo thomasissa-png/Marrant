@@ -51,7 +51,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "douleurs-personas",
     name: "Douleurs et situations concrètes",
     pillarSlug: "je-suis-pas-drole-comment-changer",
-    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "conversation-machine-a-cafe", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
+    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },
   {
     id: "fort-volume",

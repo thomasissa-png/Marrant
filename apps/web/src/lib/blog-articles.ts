@@ -1146,7 +1146,7 @@ La machine à café, c'est le open mic du monde professionnel. Ton public est ca
 **6. "Je pense que ma boîte mail me ghoste. J'envoie des trucs, personne ne répond."**
 → *Quand quelqu'un se plaint des mails.* Enchaîne immédiatement après sa plainte, comme si c'était une évidence.
 
-Pour plus de techniques sur [comment meubler une conversation au bureau](/blog/conversation-machine-a-cafe), on a un article entier là-dessus.
+Pour plus de techniques sur [comment avoir de la répartie au travail](/blog/comment-avoir-de-la-repartie), on a un article entier là-dessus.
 
 ---
 
