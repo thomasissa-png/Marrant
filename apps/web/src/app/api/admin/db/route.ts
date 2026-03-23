@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
     }, { status: 400 });
   }
 
-  const prismaModel = prisma[ALLOWED_MODELS[modelName]] as Record<string, CallableFunction>;
+  const prismaModel = prisma[ALLOWED_MODELS[modelName]] as unknown as Record<string, CallableFunction>;
   const where = safeJsonParse(searchParams.get("where")) || {};
   const select = safeJsonParse(searchParams.get("select"));
   const orderBy = safeJsonParse(searchParams.get("orderBy"));
@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
     }, { status: 403 });
   }
 
-  const prismaModel = prisma[ALLOWED_MODELS[modelName]] as Record<string, CallableFunction>;
+  const prismaModel = prisma[ALLOWED_MODELS[modelName]] as unknown as Record<string, CallableFunction>;
 
   try {
     if (action === "update") {
