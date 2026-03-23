@@ -124,7 +124,7 @@ export async function publishDailyContent(
           validation = await validateJoke(jokeData as JokeToValidate, persona);
         } catch (err) {
           console.warn(`[Director] Validation vanne échouée (attempt ${attempt}):`, err);
-          break; // Si la validation crash, on publie le contenu tel quel
+          continue; // Retenter la validation au prochain attempt
         }
 
         if (validation.verdict === "APPROVED") {
@@ -193,7 +193,7 @@ export async function publishDailyContent(
           validation = await validateTip(tipData as TipToValidate, persona);
         } catch (err) {
           console.warn(`[Director] Validation conseil échouée (attempt ${attempt}):`, err);
-          break;
+          continue; // Retenter la validation au prochain attempt
         }
 
         if (validation.verdict === "APPROVED") {
@@ -284,7 +284,7 @@ export async function publishDailyContent(
           videoValidation = await validateVideoSelection(toValidate, persona);
         } catch (err) {
           console.warn(`[Director] Validation vidéo échouée (attempt ${attempt}):`, err);
-          break;
+          continue; // Retenter la validation au prochain attempt
         }
 
         if (videoValidation.verdict === "APPROVED") {

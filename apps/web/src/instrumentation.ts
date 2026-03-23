@@ -176,8 +176,14 @@ export async function register() {
             sourceId: post.sourceId || null,
             threadParts: post.threadParts || [],
             directorScore: post.directorScore ?? null,
-            directorNote: post.directorNote ?? null,
-            status: "APPROVED",
+            directorNote: post.directorValidated !== true
+              ? "⚠️ Validation directeur échouée — review manuelle requise"
+              : (post.directorScore ?? 0) < 9
+                ? `⚠️ Score ${post.directorScore}/10 < 9 — review manuelle requise`
+                : (post.directorNote ?? null),
+            status: post.directorValidated === true && (post.directorScore ?? 0) >= 9
+              ? "APPROVED"
+              : "PENDING",
             scheduledAt,
           },
         });
@@ -209,10 +215,26 @@ export async function register() {
       if (!isBufferConfigured()) return;
 
       const now = new Date();
+      // Double-check directorScore >= 9 (belt and suspenders — même logique que publish-social cron)
       const posts = await prisma.socialPost.findMany({
-        where: { status: "APPROVED", scheduledAt: { lte: now } },
+        where: { status: "APPROVED", scheduledAt: { lte: now }, directorScore: { gte: 9 } },
         orderBy: { scheduledAt: "asc" },
         take: 10,
+      });
+
+      // Demote any APPROVED posts with low/null scores back to PENDING
+      await prisma.socialPost.updateMany({
+        where: {
+          status: "APPROVED",
+          OR: [
+            { directorScore: { lt: 9 } },
+            { directorScore: null },
+          ],
+        },
+        data: {
+          status: "PENDING",
+          directorNote: "⚠️ Rétrogradé APPROVED→PENDING — score directeur < 9/10",
+        },
       });
 
       if (posts.length === 0) return;
