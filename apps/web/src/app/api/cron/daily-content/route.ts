@@ -48,13 +48,17 @@ async function notifyIndexNow(urls: string[]): Promise<{ submitted: number; stat
  * 3. Notifie Bing via IndexNow que les pages produit ont du contenu frais
  */
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
+  const querySecret = searchParams.get("secret");
 
   // Refuser l'accès si CRON_SECRET n'est pas configuré ou si le token est invalide
-  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret || (authHeader !== `Bearer ${cronSecret}` && querySecret !== cronSecret)) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
+
+  const force = searchParams.get("force") === "true";
 
   try {
     const now = new Date();
@@ -64,8 +68,8 @@ export async function GET(request: Request) {
     // S'assurer que le plan du mois existe
     const planResults = await generateMonthlyPlans(month, year);
 
-    // Publier le contenu du jour
-    const publishResult = await publishDailyContent();
+    // Publier le contenu du jour (force = supprime l'existant et régénère)
+    const publishResult = await publishDailyContent(undefined, { force });
 
     // Notifier Bing via IndexNow (fire-and-forget, ne bloque pas le cron)
     const indexNowResult = await notifyIndexNow(PRODUCT_PAGES);

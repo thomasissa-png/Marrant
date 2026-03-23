@@ -34,9 +34,13 @@ interface PublishResult {
  * Publie le contenu du jour en orchestrant les 3 agents EN PARALLÈLE.
  * Idempotent : ne publie pas si le contenu existe déjà pour cette date.
  * Gère la race condition via try/catch sur la contrainte unique.
+ *
+ * @param targetDate — date cible (défaut : aujourd'hui UTC)
+ * @param force — si true, supprime le DailyContent existant et régénère
  */
 export async function publishDailyContent(
-  targetDate?: Date
+  targetDate?: Date,
+  options?: { force?: boolean },
 ): Promise<PublishResult> {
   const today = targetDate ?? todayUTC();
   const dayOfMonth = today.getUTCDate();
@@ -56,7 +60,12 @@ export async function publishDailyContent(
     where: { date: today },
   });
 
-  if (existing) {
+  if (existing && options?.force) {
+    // Force mode : supprimer l'entrée DailyContent existante pour régénérer
+    // Les vannes/conseils IA liés restent en DB (historique) mais ne sont plus affichés comme "du jour"
+    await prisma.dailyContent.delete({ where: { date: today } });
+    console.log(`[DailyPublisher] Force mode — DailyContent du ${today.toISOString().slice(0, 10)} supprimé, régénération en cours`);
+  } else if (existing) {
     return {
       ...result,
       errors: ["Contenu déjà publié pour cette date"],
