@@ -2327,7 +2327,7 @@ describe("Video Discovery Agent", () => {
 
     expect(WATCHED_CHANNELS.length).toBeGreaterThan(0);
     for (const channel of WATCHED_CHANNELS) {
-      expect(channel.channelId).toBeTruthy();
+      expect(channel.searchQuery).toBeTruthy();
       expect(channel.name).toBeTruthy();
       expect(["high", "medium", "low"]).toContain(channel.priority);
     }

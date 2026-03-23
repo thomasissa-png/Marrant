@@ -3,7 +3,6 @@ import { TONALITY_BRIEF } from "./marketing-agent";
 import type { YouTubeVideoDetails } from "../../youtube";
 import {
   searchVideos,
-  getChannelVideos,
   getMultipleVideoDetails,
 } from "../../youtube";
 
@@ -15,60 +14,64 @@ import {
 // puis les soumettre à la validation du Stand-Up Director.
 //
 // Pipeline :
-//   1. Surveiller les chaînes favorites (watchlist)
-//   2. Chercher par mots-clés stand-up FR
-//   3. Filtrer les doublons et vidéos non pertinentes
-//   4. Enrichir via IA (description, learnings, exercice)
-//   5. Validation par le Stand-Up Director
-//   6. Sauvegarde en DB
+//   1. Chercher des vidéos par nom d'artiste/chaîne + mots-clés stand-up
+//   2. Filtrer les doublons et vidéos non pertinentes
+//   3. Enrichir via IA (description, learnings, exercice)
+//   4. Validation par le Stand-Up Director
+//   5. Sauvegarde en DB
+//
+// NOTE : On utilise la recherche par nom (pas les channel IDs) pour
+// éviter les IDs incorrects et couvrir les vidéos des artistes
+// publiées sur d'autres chaînes (festivals, émissions, etc.).
 // ───────────────────────────────────────────────────────────────────
 
-// ─── Watchlist de chaînes à surveiller ──────────────────────────
+// ─── Watchlist d'artistes et chaînes à surveiller ────────────────
 
 export interface WatchedChannel {
-  channelId: string;
   name: string;
+  searchQuery: string; // Requête YouTube pour trouver des vidéos de cet artiste/chaîne
   priority: "high" | "medium" | "low";
 }
 
 /**
- * Chaînes favorites à surveiller pour de nouvelles vidéos.
- * Priorité donnée aux chaînes sous-représentées dans le catalogue.
+ * Artistes et chaînes à surveiller pour de nouvelles vidéos.
+ * Priorité donnée aux artistes sous-représentés dans le catalogue.
+ *
+ * searchQuery : on cherche par nom + "stand-up" ou "humour" pour
+ * avoir des résultats pertinents sans dépendre d'un channel ID.
  */
 export const WATCHED_CHANNELS: WatchedChannel[] = [
-  // Artistes prioritaires — chaînes sous-représentées
-  { channelId: "UCkMtL9Nf4bMCIVs_aocYBbQ", name: "Paul Mirabel", priority: "high" },
-  { channelId: "UCKeEZy9IZfiuRHsBJGNOX8w", name: "Fary", priority: "high" },
-  { channelId: "UCijTbAN4tY18hBxzaFgK6YA", name: "Roman Frayssinet", priority: "high" },
-  { channelId: "UCFjMNR73-OTVzRoN_Fb1oew", name: "Blanche Gardin", priority: "high" },
-  { channelId: "UCVOMgFi4pvJFAEFUIg6Uhow", name: "Pierre Croce", priority: "high" },
+  // Artistes prioritaires — sous-représentés ou absents du catalogue actuel
+  { name: "Paul Mirabel", searchQuery: "Paul Mirabel stand-up", priority: "high" },
+  { name: "Fary", searchQuery: "Fary stand-up humour", priority: "high" },
+  { name: "Roman Frayssinet", searchQuery: "Roman Frayssinet stand-up", priority: "high" },
+  { name: "Blanche Gardin", searchQuery: "Blanche Gardin stand-up", priority: "high" },
+  { name: "Pierre Croce", searchQuery: "Pierre Croce humour", priority: "high" },
+  { name: "Waly Dia", searchQuery: "Waly Dia stand-up", priority: "high" },
+  { name: "Panayotis Pascot", searchQuery: "Panayotis Pascot stand-up", priority: "high" },
 
-  // Émissions et festivals — variété
-  { channelId: "UCpKizUvhpG1gpdHkC5uT2TA", name: "Jamel Comedy Club", priority: "high" },
-  { channelId: "UC0MRdaoetj_hnJLBUyrNYuA", name: "France Inter", priority: "medium" },
-  { channelId: "UCORGvol9PSR12oBeJtijpXA", name: "YouHumour", priority: "high" },
-  { channelId: "UCPJJPsYQmbcqYF-qbNpxxIQ", name: "Campus Comedy Tour", priority: "medium" },
-  { channelId: "UCm0AvPAWEBcJt9TvxgkfSwg", name: "Tarmac", priority: "medium" },
+  // Chaînes et émissions — déjà présentes mais à rééquilibrer
+  { name: "Jamel Comedy Club", searchQuery: "Jamel Comedy Club", priority: "medium" },
+  { name: "YouHumour", searchQuery: "YouHumour stand-up", priority: "high" },
+  { name: "France Inter humour", searchQuery: "France Inter stand-up humour", priority: "medium" },
+  { name: "Campus Comedy Tour", searchQuery: "Campus Comedy Tour stand-up", priority: "medium" },
+  { name: "Tarmac", searchQuery: "Tarmac Comedy stand-up", priority: "medium" },
 
   // Artistes individuels
-  { channelId: "UC_Hkqe0af1sR0IVCfhLnHOA", name: "Waly Dia", priority: "medium" },
-  { channelId: "UCY0jVXmMqDuHbIGLshxefKA", name: "Panayotis Pascot", priority: "medium" },
-  { channelId: "UCz-bWuaGfo2eFPDmy2C6ceg", name: "Inès Reg", priority: "medium" },
-  { channelId: "UCJM-X9sJLT3XKNF5tJ_YXnQ", name: "Sugar Sammy", priority: "low" },
-  { channelId: "UCXW0h2ZPmU6Dz8L9FNnaWFQ", name: "Nordine Ganso", priority: "medium" },
+  { name: "Inès Reg", searchQuery: "Inès Reg stand-up humour", priority: "medium" },
+  { name: "Nordine Ganso", searchQuery: "Nordine Ganso stand-up", priority: "medium" },
+  { name: "Haroun", searchQuery: "Haroun stand-up humour", priority: "medium" },
+  { name: "Sugar Sammy", searchQuery: "Sugar Sammy français", priority: "low" },
 ];
 
-// ─── Mots-clés de recherche stand-up FR ──────────────────────────
+// ─── Mots-clés de recherche stand-up FR (complémentaires) ────────
 
 const SEARCH_QUERIES = [
-  "stand-up français 2026",
+  "stand-up français nouveau",
   "one man show français humour",
-  "sketch humour français",
-  "technique stand-up comédie",
-  "humoriste français spectacle",
-  "stand-up comedy France",
-  "monologue humour français",
-  "spectacle humour 2026",
+  "sketch humour français scène",
+  "humoriste français spectacle complet",
+  "stand-up comedy France scène",
   "nouvelle scène humour français",
   "comédie stand-up francophone",
 ];
@@ -109,8 +112,11 @@ export interface DiscoveryResult {
 // ─── Découverte de vidéos candidates ─────────────────────────────
 
 /**
- * Découvre des vidéos candidates depuis les chaînes surveillées
- * et les recherches par mots-clés.
+ * Découvre des vidéos candidates en cherchant par nom d'artiste/chaîne
+ * puis en complétant avec des recherches par mots-clés stand-up.
+ *
+ * Utilise searchVideos() (YouTube Search API) avec le nom de l'artiste
+ * dans la requête — pas besoin de connaître les channel IDs.
  */
 export async function discoverCandidateVideos(
   existingYoutubeIds: string[],
@@ -129,7 +135,7 @@ export async function discoverCandidateVideos(
   const seenIds = new Set<string>();
   const candidates: YouTubeVideoDetails[] = [];
 
-  // 1. Chercher dans les chaînes surveillées (priorité haute d'abord)
+  // 1. Chercher par nom d'artiste/chaîne (priorité haute d'abord)
   const sortedChannels = [...WATCHED_CHANNELS].sort((a, b) => {
     const order = { high: 0, medium: 1, low: 2 };
     return order[a.priority] - order[b.priority];
@@ -139,12 +145,13 @@ export async function discoverCandidateVideos(
     if (candidates.length >= targetCount) break;
 
     try {
-      const videos = await getChannelVideos(channel.channelId, {
-        maxResults: 10,
+      const results = await searchVideos(channel.searchQuery, {
+        maxResults: 5,
         publishedAfter: publishedAfterISO,
+        videoDuration: "medium", // 4-20 min
       });
 
-      const newVideoIds = videos
+      const newVideoIds = results
         .filter((v) => !existingSet.has(v.videoId) && !seenIds.has(v.videoId))
         .map((v) => v.videoId);
 
@@ -157,11 +164,11 @@ export async function discoverCandidateVideos(
         candidates.push(...details);
       }
     } catch (err) {
-      console.error(`Erreur chaîne ${channel.name}:`, err);
+      console.error(`Erreur recherche ${channel.name}:`, err);
     }
   }
 
-  // 2. Compléter avec des recherches par mots-clés si pas assez
+  // 2. Compléter avec des recherches par mots-clés génériques si pas assez
   if (candidates.length < targetCount) {
     const shuffledQueries = [...SEARCH_QUERIES].sort(() => Math.random() - 0.5);
 
@@ -172,7 +179,7 @@ export async function discoverCandidateVideos(
         const results = await searchVideos(query, {
           maxResults: 10,
           publishedAfter: publishedAfterISO,
-          videoDuration: "medium", // 4-20 min — bonne durée pour du stand-up
+          videoDuration: "medium",
         });
 
         const newVideoIds = results
