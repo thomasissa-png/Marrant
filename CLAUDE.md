@@ -744,3 +744,118 @@ Branche : `claude/fix-social-media-posting-5nltR`
 
 #### Tests
 - 915/915 tests passent après les deux commits
+
+## Référence rapide — Interaction avec la base de données
+
+### ORM & Config
+- **ORM** : Prisma v6.2.0, PostgreSQL
+- **Schema** : `prisma/schema.prisma` (+ copie dans `apps/web/prisma/schema.prisma`)
+- **Client singleton** : `apps/web/src/lib/prisma.ts`
+- **DATABASE_URL** : dans Secrets Replit
+
+### Modèles principaux
+| Modèle | Champs clés | Notes |
+|---|---|---|
+| `Joke` | content, punchline, category (13 enums), maturityLevel, type (7 enums), isActive, generatedByAI | Unique sur content (logique seed) |
+| `Tip` | title, content, category (7 enums), difficulty, example, exercise, isActive, generatedByAI | |
+| `Video` | youtubeId (unique), title, channelName, duration, category, difficulty, description, technique, learnings[], exercise, isActive, generatedByAI | |
+| `DailyContent` | date (unique), jokeId, tipId, videoId | Rotation quotidienne |
+| `SocialPost` | platform, format, content, hook, cta, hashtags[], targetPersona, status (PENDING/APPROVED/PUBLISHED/REJECTED/FAILED), directorScore, scheduledAt, publishedAt, externalId, analytics | |
+| `BlogArticle` | slug (unique), title, excerpt, content, category, readingTime, targetKeyword, metaTitle, metaDescription, isPublished, publishedAt, generatedByAI | |
+| `LearningPath` | title, slug (unique), duration, difficulty, icon, order, isActive | Steps via `LearningPathStep` |
+| `User` | plan (FREE/PREMIUM), level, xp, streak | Auth via NextAuth |
+| `UserFavorite` | userId, contentType, jokeId/tipId/videoId | |
+| `ContentPlan` | agentType, month, year | Entries via `ContentPlanEntry` |
+
+### 5 méthodes d'interaction DB
+
+#### 1. API Admin (`/api/admin/db`) — CRUD direct
+```
+# Lire des vannes
+GET /api/admin/db?secret=ADMIN_PASSWORD&model=Joke&action=query&where={"isActive":true,"category":"ABSURDE"}&take=10
+
+# Modifier une vanne
+POST /api/admin/db
+Authorization: Bearer {ADMIN_PASSWORD}
+{"action":"update","model":"Joke","where":{"id":"clx123"},"data":{"content":"Nouveau texte","isActive":false}}
+
+# Créer un contenu
+POST /api/admin/db
+{"action":"update","model":"Joke","data":{"content":"...","punchline":"...","category":"ABSURDE"}}
+```
+Modèles autorisés : Joke, Tip, Video, DailyContent, SocialPost, BlogArticle, ContentPlan, LearningPath, LearningPathStep, User (read-only), Subscription (read-only), UserFavorite (read-only).
+
+#### 2. Seed files + `npm run db:seed`
+- Éditer les JSON dans `docs/content/` (blagues-seed.json, conseils-seed.json, videos-seed.json, parcours-seed.json)
+- Lancer `npm run db:seed` (ou `npx prisma db seed`)
+- Le seed **désactive** (`isActive: false`) les entrées supprimées du JSON (préserve les favoris/likes)
+- Le seed **protège** les contenus IA (`generatedByAI: true` non touchés)
+- Script : `apps/web/scripts/seed.sh` → compile `prisma/seed-data.ts` via esbuild
+
+#### 3. Crons automatisés (`/api/cron/*`)
+| Cron | Horaire | Action |
+|---|---|---|
+| `/cron/daily-content?secret=CRON_SECRET` | 5h-6h UTC | Génère vanne + conseil + vidéo du jour (force=true pour regénérer) |
+| `/cron/weekly-seo?secret=CRON_SECRET` | Lundi 9h UTC | Publie un article blog SEO |
+| `/cron/daily-social?secret=CRON_SECRET` | 4h UTC | Génère les posts sociaux |
+| `/cron/publish-social?secret=CRON_SECRET` | Toutes les 30 min | Publie les posts APPROVED via Buffer |
+| `/cron/social-analytics?secret=CRON_SECRET` | 1x/jour | Pull metrics + nettoyage |
+| `/cron/monthly-plan?secret=CRON_SECRET` | 28 du mois | Plans mensuels pour tous les agents |
+
+#### 4. Admin Social (`/api/admin/social`)
+```
+# Voir les posts en attente
+GET /api/admin/social?secret=ADMIN_PASSWORD&status=PENDING
+
+# Approuver un post
+POST /api/admin/social {"action":"approve","postIds":["clx456"]}
+
+# Rejeter
+POST /api/admin/social {"action":"reject","postIds":["clx789"],"reason":"Pas assez punchy"}
+
+# Approuver en masse (score ≥ 9 uniquement)
+POST /api/admin/social {"action":"approve_all"}
+```
+
+#### 5. Code Prisma direct (dans les API routes/agents)
+```typescript
+import { prisma } from "@/lib/prisma";
+
+// Lire
+const jokes = await prisma.joke.findMany({ where: { isActive: true }, take: 10 });
+
+// Créer
+await prisma.joke.create({ data: { content: "...", punchline: "...", category: "ABSURDE" } });
+
+// Modifier
+await prisma.joke.update({ where: { id: "clx..." }, data: { isActive: false } });
+
+// Supprimer
+await prisma.joke.delete({ where: { id: "clx..." } });
+
+// Transaction atomique
+await prisma.$transaction(async (tx) => { ... });
+```
+
+### Chemins essentiels
+| Item | Chemin |
+|---|---|
+| Schema Prisma | `prisma/schema.prisma` |
+| Client Prisma | `apps/web/src/lib/prisma.ts` |
+| Seed TS | `apps/web/prisma/seed-data.ts` |
+| Seed JSON vannes | `docs/content/blagues-seed.json` |
+| Seed JSON conseils | `docs/content/conseils-seed.json` |
+| Seed JSON vidéos | `docs/content/videos-seed.json` |
+| Seed JSON parcours | `docs/content/parcours-seed.json` |
+| Admin DB route | `apps/web/src/app/api/admin/db/route.ts` |
+| Admin Social route | `apps/web/src/app/api/admin/social/route.ts` |
+| Daily Publisher | `apps/web/src/lib/ai/daily-publisher.ts` |
+| Articles statiques blog | `apps/web/src/lib/blog-articles.ts` |
+| Clusters blog | `apps/web/src/lib/blog-clusters.ts` |
+
+### Corrections de contenu en session
+Pour corriger du contenu (vannes, conseils, vidéos, articles, posts sociaux) :
+1. **Via seed** : modifier le JSON correspondant dans `docs/content/` → `npm run db:seed`
+2. **Via API admin** : `POST /api/admin/db` avec action update/delete sur le modèle
+3. **Via code** : éditer directement les fichiers source (blog-articles.ts pour les articles statiques, seed JSON pour le catalogue)
+4. **Désactiver sans supprimer** : `{"action":"update","model":"Joke","where":{"id":"..."},"data":{"isActive":false}}`
