@@ -693,6 +693,97 @@ function parseValidationResult(text: string): ValidationResult {
   return parsed;
 }
 
+// ─── Validation d'une nouvelle vidéo découverte ─────────────────
+
+export interface NewVideoToValidate {
+  youtubeId: string;
+  title: string;
+  channelName: string;
+  duration: string;
+  category: string;
+  difficulty: string;
+  description: string;
+  technique: string;
+  learnings: string[];
+  exercise: string;
+}
+
+/**
+ * Valide une nouvelle vidéo découverte automatiquement avant ajout au catalogue.
+ * Critères plus stricts que validateVideoSelection : on valide le contenu enrichi
+ * (description, learnings, exercice) en plus de la pertinence pédagogique.
+ */
+export async function validateNewVideo(
+  video: NewVideoToValidate,
+  channelDistribution: Record<string, number>,
+  totalCatalogSize: number,
+): Promise<ValidationResult> {
+  const channelPct = channelDistribution[video.channelName]
+    ? Math.round((channelDistribution[video.channelName] / totalCatalogSize) * 100)
+    : 0;
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1000,
+    system: buildDirectorIdentity(),
+    messages: [
+      {
+        role: "user",
+        content: `VALIDATION NOUVELLE VIDÉO — Ajout au catalogue permanent
+
+Vidéo : "${video.title}" par ${video.channelName}
+YouTube ID : ${video.youtubeId} | Durée : ${video.duration}
+Catégorie : ${video.category} | Difficulté : ${video.difficulty}
+Technique : ${video.technique}
+
+Description enrichie :
+"${video.description}"
+
+Learnings (${video.learnings.length}) :
+${video.learnings.map((l, i) => `${i + 1}. ${l}`).join("\n")}
+
+Exercice :
+"${video.exercise}"
+
+DIVERSITÉ DE CHAÎNE :
+${video.channelName} représente actuellement ${channelPct}% du catalogue (${channelDistribution[video.channelName] ?? 0}/${totalCatalogSize} vidéos).
+Règle : aucune chaîne au-dessus de 25%.
+
+CRITÈRES SPÉCIFIQUES — AJOUT CATALOGUE :
+1. La vidéo est-elle du VRAI stand-up ou humour pédagogique ? (pas un vlog, podcast, compilation)
+2. La description commence-t-elle par "Regarde pour apprendre..." et nomme-t-elle une TECHNIQUE précise ?
+3. Les learnings nomment-ils des TECHNIQUES en MAJUSCULES reproductibles ?
+4. L'exercice suit-il le format "DÉFI [NOM] : ..." et est-il faisable AUJOURD'HUI ?
+5. La catégorie et difficulté sont-elles correctes ?
+6. La chaîne contribue-t-elle à la DIVERSITÉ du catalogue ? (${channelPct}% actuellement)
+7. Cette vidéo apporte-t-elle quelque chose de NOUVEAU au catalogue ? (pas de doublon de technique)
+
+VERDICT :
+- APPROVED (score ≥ 7) : vidéo enrichie de qualité, prête pour le catalogue
+- NEEDS_REVISION (score 4-6) : l'enrichissement peut être amélioré — propose des corrections
+- REJECTED (score ≤ 3) : vidéo non pertinente ou chaîne surreprésentée
+
+Réponds en JSON :
+{
+  "verdict": "APPROVED|NEEDS_REVISION|REJECTED",
+  "score": 1-10,
+  "strengths": ["Ce qui marche"],
+  "issues": ["Ce qui ne va pas"],
+  "revision": "Si NEEDS_REVISION : corrections de la description/learnings/exercice",
+  "directorNote": "Ton avis en 1-2 phrases"
+}`,
+      },
+    ],
+  });
+
+  const text = getResponseText(response);
+  const result = parseValidationResult(text);
+
+  // Guard : rejet si persona leak dans le contenu enrichi
+  const fullText = `${video.description} ${video.learnings.join(" ")} ${video.exercise}`;
+  return guardAgainstPersonaLeak(fullText, result);
+}
+
 // ─── Guard : personas internes ne doivent JAMAIS apparaître dans le contenu public ─
 
 const INTERNAL_PERSONA_NAMES = /\b(Yanis|Sophie|Marc)\b/;

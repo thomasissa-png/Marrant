@@ -2318,3 +2318,230 @@ describe("validatePostConstraints", () => {
     expect(issues.length).toBeGreaterThanOrEqual(4); // hook + engagement bait + persona + CTA forbidden + CTA exclamation
   });
 });
+
+// ─── Video Discovery Agent Tests ────────────────────────────────
+
+describe("Video Discovery Agent", () => {
+  it("exports WATCHED_CHANNELS with required fields", async () => {
+    const { WATCHED_CHANNELS } = await import("@/lib/ai/agents/video-discovery-agent");
+
+    expect(WATCHED_CHANNELS.length).toBeGreaterThan(0);
+    for (const channel of WATCHED_CHANNELS) {
+      expect(channel.channelId).toBeTruthy();
+      expect(channel.name).toBeTruthy();
+      expect(["high", "medium", "low"]).toContain(channel.priority);
+    }
+  });
+
+  it("has high priority channels for diversity", async () => {
+    const { WATCHED_CHANNELS } = await import("@/lib/ai/agents/video-discovery-agent");
+
+    const highPriority = WATCHED_CHANNELS.filter((c) => c.priority === "high");
+    expect(highPriority.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("includes key stand-up channels", async () => {
+    const { WATCHED_CHANNELS } = await import("@/lib/ai/agents/video-discovery-agent");
+
+    const channelNames = WATCHED_CHANNELS.map((c) => c.name);
+    expect(channelNames).toContain("Paul Mirabel");
+    expect(channelNames).toContain("Fary");
+    expect(channelNames).toContain("Jamel Comedy Club");
+    expect(channelNames).toContain("YouHumour");
+  });
+});
+
+// ─── Stand-Up Director — validateNewVideo Tests ──────────────────
+
+describe("Stand-Up Director — validateNewVideo", () => {
+  let validateNewVideo: typeof import("@/lib/ai/agents/standup-director-agent").validateNewVideo;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    validateNewVideo = mod.validateNewVideo;
+  });
+
+  const sampleVideo = {
+    youtubeId: "abc123",
+    title: "Roman Frayssinet - Les gens qui courent",
+    channelName: "YouHumour",
+    duration: "PT7M30S",
+    category: "OBSERVATION",
+    difficulty: "DEBUTANT",
+    description: "Regarde pour apprendre la TECHNIQUE DE L'OBSERVATION ABSURDE. Roman Frayssinet décortique les gens qui courent avec un regard chirurgical.",
+    technique: "Observation",
+    learnings: [
+      "TECHNIQUE DE L'OBSERVATION ABSURDE : prendre un comportement normal et le décrire comme si c'était bizarre",
+      "TECHNIQUE DU RALENTI : étirer un détail insignifiant pour en faire un moment comique",
+    ],
+    exercise: "DÉFI OBSERVATION : Choisis un comportement quotidien (les gens dans le métro, à la cantine) et décris-le comme un anthropologue extraterrestre.",
+  };
+
+  it("validates a new video and returns APPROVED", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 9,
+            strengths: ["Bonne pédagogie", "Chaîne sous-représentée"],
+            issues: [],
+            directorNote: "Ajout pertinent au catalogue.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateNewVideo(
+      sampleVideo,
+      { "Montreux Comedy": 32, "YouHumour": 5 },
+      89,
+    );
+
+    expect(result.verdict).toBe("APPROVED");
+    expect(result.score).toBeGreaterThanOrEqual(9);
+  });
+
+  it("rejects video from over-represented channel", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "REJECTED",
+            score: 3,
+            strengths: [],
+            issues: ["Chaîne surreprésentée à 36%"],
+            directorNote: "Montreux Comedy déjà trop représenté.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateNewVideo(
+      { ...sampleVideo, channelName: "Montreux Comedy" },
+      { "Montreux Comedy": 32 },
+      89,
+    );
+
+    expect(result.verdict).toBe("REJECTED");
+    expect(result.score).toBeLessThanOrEqual(3);
+  });
+
+  it("rejects video with persona leak in enrichment", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 8,
+            strengths: ["Bonne qualité"],
+            issues: [],
+            directorNote: "OK",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateNewVideo(
+      {
+        ...sampleVideo,
+        description: "Sophie peut apprendre cette technique au bureau.",
+      },
+      { "YouHumour": 5 },
+      89,
+    );
+
+    expect(result.verdict).toBe("REJECTED");
+    expect(result.issues.some((i) => i.includes("PERSONA LEAK"))).toBe(true);
+  });
+
+  it("returns NEEDS_REVISION for mid-score video", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "NEEDS_REVISION",
+            score: 7,
+            strengths: ["Bonne vidéo"],
+            issues: ["Description trop vague"],
+            revision: "Ajouter le nom de la technique dans la description",
+            directorNote: "À retravailler.",
+          }),
+        },
+      ],
+    });
+
+    const result = await validateNewVideo(
+      sampleVideo,
+      { "YouHumour": 5 },
+      89,
+    );
+
+    expect(result.verdict).toBe("NEEDS_REVISION");
+    expect(result.score).toBeGreaterThanOrEqual(7);
+    expect(result.score).toBeLessThanOrEqual(8);
+  });
+});
+
+// ─── YouTube Client Tests ────────────────────────────────────────
+
+describe("YouTube Client — new functions", () => {
+  it("exports searchVideos function", async () => {
+    const youtube = await import("@/lib/youtube");
+    expect(typeof youtube.searchVideos).toBe("function");
+  });
+
+  it("exports getChannelVideos function", async () => {
+    const youtube = await import("@/lib/youtube");
+    expect(typeof youtube.getChannelVideos).toBe("function");
+  });
+
+  it("exports getMultipleVideoDetails function", async () => {
+    const youtube = await import("@/lib/youtube");
+    expect(typeof youtube.getMultipleVideoDetails).toBe("function");
+  });
+
+  it("searchVideos returns empty array without API key", async () => {
+    const originalKey = process.env.YOUTUBE_API_KEY;
+    delete process.env.YOUTUBE_API_KEY;
+
+    const { searchVideos } = await import("@/lib/youtube");
+    const results = await searchVideos("test");
+    expect(results).toEqual([]);
+
+    if (originalKey) process.env.YOUTUBE_API_KEY = originalKey;
+  });
+
+  it("getChannelVideos returns empty array without API key", async () => {
+    const originalKey = process.env.YOUTUBE_API_KEY;
+    delete process.env.YOUTUBE_API_KEY;
+
+    const { getChannelVideos } = await import("@/lib/youtube");
+    const results = await getChannelVideos("UC123");
+    expect(results).toEqual([]);
+
+    if (originalKey) process.env.YOUTUBE_API_KEY = originalKey;
+  });
+
+  it("getMultipleVideoDetails returns empty array without API key", async () => {
+    const originalKey = process.env.YOUTUBE_API_KEY;
+    delete process.env.YOUTUBE_API_KEY;
+
+    const { getMultipleVideoDetails } = await import("@/lib/youtube");
+    const results = await getMultipleVideoDetails(["abc"]);
+    expect(results).toEqual([]);
+
+    if (originalKey) process.env.YOUTUBE_API_KEY = originalKey;
+  });
+});

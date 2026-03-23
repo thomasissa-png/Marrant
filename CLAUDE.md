@@ -80,11 +80,47 @@ Si la réponse est non, la vanne n'a rien à faire sur le site.
 - Chaînes à privilégier : chaînes d'artistes (Blanche Gardin, Paul Mirabel, Roman Frayssinet...), Jamel Comedy Club, France Inter, YouHumour, Campus Comedy Tour, Tarmac, chaînes individuelles
 - L'agent vidéo (`video-agent.ts`) applique cette règle en critère 4 de sélection
 
-### Workflow ajout de vidéos
+### Workflow ajout de vidéos (manuel)
 1. Vérifier que le youtubeId existe et que la vidéo est accessible
 2. Privilégier une chaîne sous-représentée dans le catalogue
 3. Rédiger description, learnings et exercice au format standard
 4. Ajouter au fichier `docs/content/videos-seed.json`
+
+### Découverte automatique mensuelle — Pipeline `monthly-videos`
+Le cron `/api/cron/monthly-videos` découvre et ajoute automatiquement **10 nouvelles vidéos** chaque mois.
+
+#### Architecture pipeline
+```
+CRON /api/cron/monthly-videos (1er du mois)
+  → video-discovery-agent.ts
+    1. Surveillance chaînes (WATCHED_CHANNELS — 15 chaînes prioritaires)
+    2. Recherche par mots-clés stand-up FR (YouTube Data API)
+    3. Filtrage IA (pertinence stand-up, diversité chaîne, durée)
+    4. Enrichissement IA (description pédagogique, learnings, exercice)
+  → Stand-Up Director validateNewVideo() (score ≥ 7 → ajout catalogue)
+  → DB Video (generatedByAI: true)
+```
+
+#### Chaînes surveillées (WATCHED_CHANNELS)
+- **Haute priorité** : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Pierre Croce, Jamel Comedy Club, YouHumour
+- **Moyenne priorité** : France Inter, Campus Comedy Tour, Tarmac, Waly Dia, Panayotis Pascot, Inès Reg, Nordine Ganso
+- **Basse priorité** : Sugar Sammy
+
+Les Channel IDs sont dans `video-discovery-agent.ts`. Ajouter de nouvelles chaînes en éditant `WATCHED_CHANNELS`.
+
+#### Fichiers clés
+| Fichier | Rôle |
+|---|---|
+| `lib/ai/agents/video-discovery-agent.ts` | Découverte, filtrage et enrichissement |
+| `lib/youtube.ts` | `searchVideos()`, `getChannelVideos()`, `getMultipleVideoDetails()` |
+| `lib/ai/agents/standup-director-agent.ts` | `validateNewVideo()` — validation avant ajout |
+| `app/api/cron/monthly-videos/route.ts` | Endpoint cron mensuel |
+
+#### Secrets Replit nécessaires
+```
+YOUTUBE_API_KEY    — Clé API YouTube Data v3 (obligatoire)
+CRON_SECRET        — Auth du cron (existant)
+```
 
 ## Agent SEO — Instructions automatisées
 
@@ -267,6 +303,7 @@ Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adam
 | `lib/ai/agents/joke-agent.ts` | Génération de vannes quotidiennes |
 | `lib/ai/agents/tip-agent.ts` | Génération de conseils quotidiens |
 | `lib/ai/agents/video-agent.ts` | Sélection de vidéos quotidiennes |
+| `lib/ai/agents/video-discovery-agent.ts` | Découverte mensuelle + enrichissement de nouvelles vidéos |
 | `lib/ai/agents/seo-blog-agent.ts` | Génération d'articles blog SEO |
 | `lib/ai/agents/marketing-agent.ts` | Creative Strategist + TONALITY_BRIEF |
 | `lib/ai/daily-publisher.ts` | Orchestrateur contenu quotidien |
@@ -801,6 +838,7 @@ Modèles autorisés : Joke, Tip, Video, DailyContent, SocialPost, BlogArticle, C
 | `/cron/publish-social?secret=CRON_SECRET` | Toutes les 30 min | Publie les posts APPROVED via Buffer |
 | `/cron/social-analytics?secret=CRON_SECRET` | 1x/jour | Pull metrics + nettoyage |
 | `/cron/monthly-plan?secret=CRON_SECRET` | 28 du mois | Plans mensuels pour tous les agents |
+| `/cron/monthly-videos?secret=CRON_SECRET` | 1er du mois | Découvre et ajoute 10 nouvelles vidéos au catalogue |
 
 #### 4. Admin Social (`/api/admin/social`)
 ```
