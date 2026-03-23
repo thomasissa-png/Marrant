@@ -87,11 +87,23 @@ export async function GET(req: Request) {
         }
         const currentTotal = totalCatalogSize + savedVideos.length;
 
-        const validation = await validateNewVideo(
-          video,
-          currentDistribution,
-          currentTotal,
-        );
+        // Validation par le Stand-Up Director — graceful fallback si l'API crash
+        let validation;
+        try {
+          validation = await validateNewVideo(
+            video,
+            currentDistribution,
+            currentTotal,
+          );
+        } catch (validationErr) {
+          // Si la validation crash, on skip la vidéo (pas de publication sans validation)
+          console.error(`Validation crash pour "${video.title}":`, validationErr);
+          rejectedVideos.push({
+            title: video.title,
+            reason: "Validation indisponible — vidéo skippée par sécurité",
+          });
+          continue;
+        }
 
         if (validation.verdict === "REJECTED") {
           rejectedVideos.push({
@@ -101,11 +113,14 @@ export async function GET(req: Request) {
           continue;
         }
 
-        // Si NEEDS_REVISION, on utilise la suggestion du directeur si disponible
+        // Si NEEDS_REVISION, on ré-enrichit avec le feedback du directeur
         let finalVideo = video;
         if (validation.verdict === "NEEDS_REVISION" && validation.revision) {
-          // On tente un ré-enrichissement avec le feedback
-          finalVideo = applyRevisionHints(video, validation);
+          const reEnriched = await reEnrichWithFeedback(video, validation.revision);
+          if (reEnriched) {
+            finalVideo = reEnriched;
+          }
+          // Si le ré-enrichissement échoue, on garde la version originale
         }
 
         // Sauvegarder en DB
@@ -132,14 +147,15 @@ export async function GET(req: Request) {
           channelName: saved.channelName,
         });
       } catch (err) {
-        // Doublon ou erreur DB — skip
-        const errorMsg = err instanceof Error ? err.message : String(err);
-        if (errorMsg.includes("Unique constraint")) {
+        // Doublon (Prisma P2002) ou erreur DB — skip
+        const isPrismaError = err && typeof err === "object" && "code" in err;
+        if (isPrismaError && (err as { code: string }).code === "P2002") {
           rejectedVideos.push({
             title: video.title,
             reason: "Déjà dans le catalogue (doublon youtubeId)",
           });
         } else {
+          const errorMsg = err instanceof Error ? err.message : String(err);
           console.error(`Erreur sauvegarde vidéo "${video.title}":`, err);
           rejectedVideos.push({
             title: video.title,
@@ -173,14 +189,69 @@ export async function GET(req: Request) {
 }
 
 /**
- * Applique les suggestions de révision du directeur au contenu enrichi.
- * Ne modifie que les champs textuels, pas les métadonnées.
+ * Ré-enrichit une vidéo en intégrant le feedback du directeur.
+ * Appelle enrichVideo() une seconde fois n'est pas possible (pas de vidéo YouTube à re-analyser),
+ * donc on applique les corrections textuelles du directeur directement.
  */
-function applyRevisionHints(
+async function reEnrichWithFeedback(
   video: DiscoveredVideo,
-  validation: { revision?: string },
-): DiscoveredVideo {
-  // Le directeur fournit des hints textuels — on les intègre si pertinent
-  // mais on garde la structure de base intacte
-  return { ...video };
+  directorFeedback: string,
+): Promise<DiscoveredVideo | null> {
+  try {
+    // Import dynamique pour éviter les dépendances circulaires
+    const { callWithRetry, extractJson, getResponseText } = await import("@/lib/ai/client");
+
+    const response = await callWithRetry({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1500,
+      system: `Tu es l'Agent Vidéos de deviens-marrant.fr. Le Stand-Up Director a validé cette vidéo avec des corrections à apporter. Applique ses corrections.`,
+      messages: [
+        {
+          role: "user",
+          content: `Corrige l'enrichissement de cette vidéo selon le feedback du directeur :
+
+VIDÉO : "${video.title}" par ${video.channelName}
+CATÉGORIE : ${video.category} | DIFFICULTÉ : ${video.difficulty}
+
+CONTENU ACTUEL :
+- Description : "${video.description}"
+- Technique : ${video.technique}
+- Learnings : ${video.learnings.map((l, i) => `${i + 1}. ${l}`).join("\n")}
+- Exercice : "${video.exercise}"
+
+FEEDBACK DU DIRECTEUR :
+"${directorFeedback}"
+
+Applique les corrections demandées. Garde le format exact :
+{
+  "description": "Description corrigée (commence par 'Regarde pour apprendre...')",
+  "technique": "Technique (un mot-clé)",
+  "learnings": ["TECHNIQUE EN MAJUSCULES : explication (2-4 items)"],
+  "exercise": "DÉFI [NOM] : exercice concret"
+}`,
+        },
+      ],
+    });
+
+    const text = getResponseText(response);
+    const corrections = extractJson<{
+      description: string;
+      technique: string;
+      learnings: string[];
+      exercise: string;
+    }>(text);
+
+    return {
+      ...video,
+      description: corrections.description?.trim() || video.description,
+      technique: corrections.technique?.trim() || video.technique,
+      learnings: Array.isArray(corrections.learnings) && corrections.learnings.length > 0
+        ? corrections.learnings.map((l) => l.trim())
+        : video.learnings,
+      exercise: corrections.exercise?.trim() || video.exercise,
+    };
+  } catch (err) {
+    console.error(`Ré-enrichissement échoué pour "${video.title}":`, err);
+    return null;
+  }
 }

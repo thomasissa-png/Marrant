@@ -327,11 +327,17 @@ Réponds en JSON STRICT :
     // Valider la catégorie
     const category = VIDEO_CATEGORIES.includes(enrichment.category as VideoCategory)
       ? (enrichment.category as VideoCategory)
-      : "OBSERVATION";
+      : (() => {
+          console.warn(`Catégorie invalide "${enrichment.category}" pour ${video.id} — fallback OBSERVATION`);
+          return "OBSERVATION" as VideoCategory;
+        })();
 
     const difficulty = VIDEO_DIFFICULTIES.includes(enrichment.difficulty as VideoDifficulty)
       ? (enrichment.difficulty as VideoDifficulty)
-      : "INTERMEDIAIRE";
+      : (() => {
+          console.warn(`Difficulté invalide "${enrichment.difficulty}" pour ${video.id} — fallback INTERMEDIAIRE`);
+          return "INTERMEDIAIRE" as VideoDifficulty;
+        })();
 
     if (!enrichment.description?.trim() || !enrichment.technique?.trim() || !enrichment.exercise?.trim()) {
       console.error(`Enrichissement incomplet pour ${video.id}`);
