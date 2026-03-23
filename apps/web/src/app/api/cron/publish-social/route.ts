@@ -10,6 +10,52 @@ import {
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
 
+/**
+ * Découpe un texte trop long en tweets de ≤ 280 chars.
+ * Coupe sur les sauts de ligne doubles, puis les phrases, puis les espaces.
+ */
+function splitIntoTweetThread(text: string): string[] {
+  const MAX = 280;
+  if (text.length <= MAX) return [text];
+
+  const parts: string[] = [];
+  // Essayer de couper sur les doubles sauts de ligne d'abord
+  const paragraphs = text.split(/\n\n+/).filter(Boolean);
+
+  let current = "";
+  for (const para of paragraphs) {
+    if (current && (current + "\n\n" + para).length > MAX) {
+      parts.push(current.trim());
+      current = para;
+    } else {
+      current = current ? current + "\n\n" + para : para;
+    }
+  }
+  if (current.trim()) parts.push(current.trim());
+
+  // Si un morceau dépasse encore 280, couper sur les phrases
+  const result: string[] = [];
+  for (const part of parts) {
+    if (part.length <= MAX) {
+      result.push(part);
+      continue;
+    }
+    const sentences = part.split(/(?<=[.!?])\s+/);
+    let chunk = "";
+    for (const sentence of sentences) {
+      if (chunk && (chunk + " " + sentence).length > MAX) {
+        result.push(chunk.trim());
+        chunk = sentence;
+      } else {
+        chunk = chunk ? chunk + " " + sentence : sentence;
+      }
+    }
+    if (chunk.trim()) result.push(chunk.trim());
+  }
+
+  return result;
+}
+
 /** Retourne l'URL publique du site (pour les images Instagram). */
 function getBaseUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
@@ -123,6 +169,11 @@ export async function GET(req: Request) {
         if (platform === "TWITTER" && post.format === "THREAD" && post.threadParts.length > 0) {
           // Thread Twitter : publie chaque partie avec 2 min d'écart
           externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
+        } else if (platform === "TWITTER" && post.content.length > 280) {
+          // Safety net : tweet trop long → auto-split en thread
+          console.warn(`[PublishSocial] Tweet ${post.id} trop long (${post.content.length} chars) — auto-split en thread`);
+          const parts = splitIntoTweetThread(post.content);
+          externalId = await createBufferThread(parts, post.scheduledAt || undefined);
         } else if (platform === "INSTAGRAM") {
           // Instagram : post avec image générée + hashtags en premier commentaire
           const baseUrl = getBaseUrl();

@@ -290,9 +290,11 @@ export function validatePostConstraints(
 
   // 2. Character limits per platform/format
   if (post.platform === "TWITTER") {
-    if (post.format === "TWEET" && post.content.length > 280) {
+    // Tous les formats Twitter single-tweet doivent respecter 280 chars
+    const singleTweetFormats = ["TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
+    if (singleTweetFormats.includes(post.format) && post.content.length > 280) {
       issues.push(
-        `Tweet trop long : ${post.content.length} chars (max 280)`,
+        `Tweet trop long : ${post.content.length} chars (max 280). Format: ${post.format}`,
       );
     }
     if (post.format === "THREAD" && post.threadParts) {
@@ -1144,24 +1146,25 @@ export function getOptimalScheduleTime(
   );
 
   // Horaires Twitter par persona (en heures UTC)
+  // Note : Paris = UTC+1 (hiver, oct-mars) / UTC+2 (été, mars-oct)
   const twitterSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [19, 21], // 21h-23h Paris (UTC+2)
-    SOPHIE: [7, 11], // 9h + 13h Paris
-    MARC: [6, 18], // 8h + 20h Paris
+    YANIS: [19, 21], // ~21h-23h Paris
+    SOPHIE: [7, 11], // ~8h-9h + 12h-13h Paris
+    MARC: [6, 18], // ~7h-8h + 19h-20h Paris
   };
 
   // Horaires LinkedIn par persona — contexte pro, heures de bureau
   const linkedInSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [8, 12], // 10h + 14h Paris (pause cours, networking)
-    SOPHIE: [6, 10], // 8h + 12h Paris (trajet matin, pause déj)
-    MARC: [5, 16], // 7h + 18h Paris (matin calme, fin de journée)
+    YANIS: [8, 12], // ~9h-10h + 13h-14h Paris
+    SOPHIE: [6, 10], // ~7h-8h + 11h-12h Paris
+    MARC: [5, 16], // ~6h-7h + 17h-18h Paris
   };
 
   // Horaires Instagram par persona — pics engagement visuels
   const instagramSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [18, 20], // 20h-22h Paris (scroll du soir)
-    SOPHIE: [10, 17], // 12h + 19h Paris (pause déj, after-work)
-    MARC: [6, 19], // 8h + 21h Paris (matin calme, soirée)
+    YANIS: [18, 20], // ~19h-22h Paris
+    SOPHIE: [10, 17], // ~11h-12h + 18h-19h Paris
+    MARC: [6, 19], // ~7h-8h + 20h-21h Paris
   };
 
   const schedules =
