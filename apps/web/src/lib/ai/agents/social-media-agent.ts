@@ -14,9 +14,6 @@ import type { SocialPostToValidate, ValidationResult } from "./standup-director-
 // Rôle : générer du contenu social-native pour Twitter,
 // LinkedIn et Instagram. Chaque post est une micro-performance.
 //
-// Note : Threads est dans l'enum Prisma mais PAS généré (pas de support Buffer).
-// Ne pas ajouter de posts Threads sans implémentation du client.
-//
 // Ce n'est PAS un fork du joke-agent. Le ton est plus punchy,
 // plus "entre nous", plus spontané. Hook en ≤ 5 mots obligatoire.
 //
@@ -27,7 +24,7 @@ const MAX_VALIDATION_ATTEMPTS = 3;
 
 // ─── Types ──────────────────────────────────────────────────────
 
-export type SocialPlatform = "TWITTER" | "THREADS" | "LINKEDIN" | "INSTAGRAM";
+export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
 
 export type SocialFormat =
   | "TWEET"
@@ -775,7 +772,7 @@ function getDailyPlan(
   // Ajouter les scheduling hints basés sur le persona, la plateforme et le créneau horaire
   let twitterIndex = 0;
   return withLinks.map((entry) => {
-    const isTwitterLike = entry.platform === "TWITTER" || entry.platform === "THREADS";
+    const isTwitterLike = entry.platform === "TWITTER";
     const hint = getSchedulingHint(entry.platform, persona, isTwitterLike ? twitterIndex : 0);
     if (isTwitterLike) twitterIndex++;
     return { ...entry, schedulingHint: hint };

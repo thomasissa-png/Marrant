@@ -162,7 +162,7 @@ export async function register() {
 
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
-        const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "THREADS" | "LINKEDIN" | "INSTAGRAM");
+        const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "LINKEDIN" | "INSTAGRAM");
         await prisma.socialPost.create({
           data: {
             platform: post.platform,

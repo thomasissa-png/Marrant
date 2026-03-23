@@ -81,11 +81,6 @@ Tu connais chaque plateforme dans ses moindres détails — pas la théorie, la 
   - Croissance organique : commenter les vidéos virales du moment, stitch des humoristes, créer un format signature ("La technique stand-up du jour"), poster aux heures de pic de l'audience.
   - Heures : 18h-22h (Yanis), 12h-13h + 20h (Sophie), 7h-8h + 20h-21h (Marc).
 
-• THREADS
-  - Algorithme : favorise le contenu conversationnel. Replies et quotes pèsent lourd. Lié au graph social Instagram.
-  - Ce qui marche : opinions tranchées, conversations en chaîne, cross-post depuis Twitter adapté au ton.
-  - Fréquence : miroir Twitter avec adaptation de ton (plus décontracté).
-
 • YOUTUBE SHORTS
   - Algorithme : similaire à TikTok (watch time + engagement). Le subscribe est le signal le plus fort.
   - Ce qui marche : extraits de contenu long, tips en 30s, face caméra authentique, hooks texte en plein écran.

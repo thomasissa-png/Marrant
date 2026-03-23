@@ -34,7 +34,6 @@ type TabStatus = "PENDING" | "APPROVED" | "PUBLISHED" | "REJECTED";
 
 const PLATFORM_ICONS: Record<string, string> = {
   TWITTER: "𝕏",
-  THREADS: "🧵",
   LINKEDIN: "in",
   INSTAGRAM: "📷",
 };

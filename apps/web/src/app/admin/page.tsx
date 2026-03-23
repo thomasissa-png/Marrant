@@ -832,7 +832,6 @@ function SocialPostCard({
     TWITTER: "Twitter/X",
     LINKEDIN: "LinkedIn",
     INSTAGRAM: "Instagram",
-    THREADS: "Threads",
   };
 
   const statusStyles: Record<string, string> = {
