@@ -41,14 +41,14 @@ const CDN_URLS: Record<number, string> = {
 
 async function loadFonts() {
   const weights = [
-    { weight: 400, name: "Inter Regular", file: "Inter-Regular.woff2" },
-    { weight: 700, name: "Inter Bold", file: "Inter-Bold.woff2" },
-    { weight: 800, name: "Inter ExtraBold", file: "Inter-ExtraBold.woff2" },
+    { weight: 400, name: "Inter Regular", file: "Inter-Regular.ttf" },
+    { weight: 700, name: "Inter Bold", file: "Inter-Bold.ttf" },
+    { weight: 800, name: "Inter ExtraBold", file: "Inter-ExtraBold.ttf" },
   ] as const;
 
   const fonts = await Promise.all(
     weights.map(async ({ weight, name, file }) => {
-      // 1. Try loading from local filesystem first
+      // 1. Try loading TTF from local filesystem (WOFF2 not supported by satori)
       try {
         const fontPath = join(process.cwd(), "public", "fonts", file);
         const buffer = await readFile(fontPath);
@@ -63,14 +63,14 @@ async function loadFonts() {
           style: "normal" as const,
         };
       } catch {
-        // Local file not found, fall through to CDN
+        // Local TTF not found, fall through to CDN
       }
 
-      // 2. Fallback: fetch from CDN
+      // 2. Fallback: fetch WOFF from CDN (supported by satori)
       const url = CDN_URLS[weight];
       try {
         console.warn(
-          `[image-gen] ${name} introuvable localement, fallback CDN...`,
+          `[image-gen] ${name} TTF introuvable localement, fallback CDN WOFF...`,
         );
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Font fetch failed: ${res.status}`);
