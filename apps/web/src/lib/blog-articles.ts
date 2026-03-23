@@ -1293,7 +1293,7 @@ Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette 
 
 La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que TU sors avec assurance.
 
-→ [Explore nos 300+ vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
+→ [Explore nos 290+ vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
 
 → [Découvre nos conseils d'humour](/conseils) — les techniques de timing, de répartie et de storytelling des pros du stand-up.
 
