@@ -166,7 +166,7 @@ export async function GET(req: Request) {
 
         let externalId: string;
 
-        if (platform === "TWITTER" && post.format === "THREAD" && post.threadParts.length > 0) {
+        if (platform === "TWITTER" && post.format === "THREAD" && (post.threadParts?.length ?? 0) > 0) {
           // Thread Twitter : publie chaque partie avec 2 min d'écart
           externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
         } else if (platform === "TWITTER" && post.content.length > 280) {
@@ -178,7 +178,7 @@ export async function GET(req: Request) {
           // Instagram : post avec image générée + hashtags en fin de texte
           const baseUrl = getBaseUrl();
           const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
-          const hashtags = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
+          const hashtags = (post.hashtags?.length ?? 0) > 0 ? post.hashtags.join(" ") : undefined;
           externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
         } else {
           // Tweet simple ou post LinkedIn : texte pur
@@ -233,8 +233,16 @@ export async function GET(req: Request) {
         }
 
         // Erreur permanente (auth, validation, permissions) → FAILED direct
-        // Match HTTP status codes at word boundaries to avoid false positives like "4010"
-        const isPermanent = /\b(401|403|400)\b/.test(errMsg) || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
+        const isPermanent =
+          /\b(401|403|400)\b/.test(errMsg) ||
+          errMsg.includes("trop long") ||
+          errMsg.includes("expiré") ||
+          errMsg.includes("invalide") ||
+          errMsg.includes("invalid") ||
+          errMsg.includes("unauthorized") ||
+          errMsg.includes("forbidden") ||
+          errMsg.includes("not found") ||
+          errMsg.includes("MutationError");
 
         if (isPermanent) {
           await prisma.socialPost.update({
