@@ -283,7 +283,9 @@ export default function AdminSocialPage() {
                         type="checkbox"
                         checked={selectedIds.has(post.id)}
                         onChange={() => toggleSelect(post.id)}
-                        className="h-4 w-4 rounded border-border"
+                        disabled={(post.directorScore ?? 0) < 9}
+                        title={(post.directorScore ?? 0) < 9 ? "Score < 9 — non approuvable" : undefined}
+                        className="h-4 w-4 rounded border-border disabled:opacity-30"
                       />
                     )}
                     <span className="text-lg">
@@ -299,8 +301,8 @@ export default function AdminSocialPage() {
                     >
                       {post.targetPersona}
                     </span>
-                    {post.directorScore && (
-                      <span className="text-xs text-text-muted">
+                    {post.directorScore != null && (
+                      <span className={`text-xs font-medium ${post.directorScore >= 9 ? "text-green-400" : "text-red-400"}`}>
                         Score: {post.directorScore}/10
                       </span>
                     )}
@@ -376,23 +378,30 @@ export default function AdminSocialPage() {
 
                 {/* Individual actions */}
                 {activeTab === "PENDING" && (
-                  <div className="mt-3 flex gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => handleAction("approve", [post.id])}
-                      disabled={actionLoading}
-                    >
-                      Approuver
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleAction("reject", [post.id])}
-                      disabled={actionLoading}
-                    >
-                      Rejeter
-                    </Button>
+                  <div className="mt-3 flex flex-col gap-2">
+                    {(post.directorScore ?? 0) < 9 && (
+                      <p className="text-xs font-medium text-red-400">
+                        Score {post.directorScore ?? "?"}/10 — trop bas pour approuver. Le pipeline automatique gère les retries.
+                      </p>
+                    )}
+                    <div className="flex gap-2">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleAction("approve", [post.id])}
+                        disabled={actionLoading || (post.directorScore ?? 0) < 9}
+                      >
+                        Approuver
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleAction("reject", [post.id])}
+                        disabled={actionLoading}
+                      >
+                        Rejeter
+                      </Button>
+                    </div>
                   </div>
                 )}
 

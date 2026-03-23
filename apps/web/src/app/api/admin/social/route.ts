@@ -80,12 +80,34 @@ export async function POST(request: NextRequest) {
   }
 
   if (action === "approve" && postIds?.length) {
-    // Manual admin approval — set score to 9 so publish-social gate accepts them
+    // Only allow manual approval for posts that already have directorScore >= 9
+    // Posts with lower scores must be edited first (action "edit"), then re-approved
+    const lowScorePosts = await prisma.socialPost.count({
+      where: {
+        id: { in: postIds },
+        status: "PENDING",
+        OR: [
+          { directorScore: { lt: 9 } },
+          { directorScore: null },
+        ],
+      },
+    });
+
+    if (lowScorePosts > 0) {
+      return NextResponse.json({
+        error: `${lowScorePosts} post(s) ont un score directeur < 9/10. Modifiez le contenu (action "edit") avant d'approuver, ou rejetez-les.`,
+        lowScoreCount: lowScorePosts,
+      }, { status: 422 });
+    }
+
     const result = await prisma.socialPost.updateMany({
-      where: { id: { in: postIds }, status: "PENDING" },
+      where: {
+        id: { in: postIds },
+        status: "PENDING",
+        directorScore: { gte: 9 },
+      },
       data: {
         status: "APPROVED",
-        directorScore: 9,
         directorNote: "✅ Approuvé manuellement par l'admin",
       },
     });
