@@ -29,9 +29,18 @@ export async function GET(request: NextRequest) {
   if (status && status !== "ALL") where.status = status;
   if (platform) where.platform = platform;
 
+  // Par défaut, masquer les posts passés sauf pour PUBLISHED (historique)
+  // et REJECTED. Le param ?all=true montre tout.
+  const showAll = searchParams.get("all") === "true";
+  if (!showAll && status !== "PUBLISHED" && status !== "REJECTED") {
+    const now = new Date();
+    now.setUTCHours(0, 0, 0, 0); // début de la journée
+    where.scheduledAt = { gte: now };
+  }
+
   const posts = await prisma.socialPost.findMany({
     where,
-    orderBy: { scheduledAt: "asc" },
+    orderBy: { scheduledAt: "desc" },
     take: limit,
   });
 

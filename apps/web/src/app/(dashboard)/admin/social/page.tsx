@@ -62,6 +62,7 @@ export default function AdminSocialPage() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [adminPassword, setAdminPassword] = useState("");
   const [isAuthed, setIsAuthed] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
   // Auth headers for admin API
   const authHeaders = {
@@ -73,7 +74,7 @@ export default function AdminSocialPage() {
     if (!adminPassword) return;
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/admin/social?status=${activeTab}`, {
+      const res = await fetch(`/api/admin/social?status=${activeTab}${showAll ? "&all=true" : ""}`, {
         headers: { Authorization: `Bearer ${adminPassword}` },
       });
       if (!res.ok) {
@@ -93,7 +94,7 @@ export default function AdminSocialPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, adminPassword]);
+  }, [activeTab, adminPassword, showAll]);
 
   useEffect(() => {
     fetchPosts();
@@ -204,6 +205,21 @@ export default function AdminSocialPage() {
           </button>
         ))}
       </div>
+
+      {/* Toggle show past posts */}
+      {activeTab !== "PUBLISHED" && activeTab !== "REJECTED" && (
+        <div className="mb-4">
+          <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showAll}
+              onChange={(e) => setShowAll(e.target.checked)}
+              className="h-4 w-4 rounded border-border"
+            />
+            Afficher les posts passés
+          </label>
+        </div>
+      )}
 
       {/* Batch actions for PENDING */}
       {activeTab === "PENDING" && posts.length > 0 && (
