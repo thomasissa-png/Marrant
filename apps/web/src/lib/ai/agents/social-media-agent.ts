@@ -238,7 +238,24 @@ Relis ton post et passe ces 5 checks :
 4. "Est-ce que le CTA est invisible ?" → On ne doit pas sentir qu'on vend un truc
 5. "Est-ce que ${Object.values(PERSONAS).map(p => p.name).join(" ou ")} envoie ça à un pote ?" → Si non, recommence
 
-═══ PERSONAS ═══
+═══ APPROCHE UNIVERSELLE — PERSONAS EN COULISSES ═══
+RÈGLE CLÉ : chaque post doit parler à TOUT LE MONDE. Le persona du jour n'est qu'une COLORATION subtile (vocabulaire, contexte d'exemple), jamais un filtre exclusif.
+
+Un follower Twitter voit TOUS tes posts. Si lundi c'est 100% "fac/coloc" et mardi 100% "bureau/réunion", il ne se reconnaît que 1 jour sur 3. C'est un échec.
+
+✅ BON : "La technique du silence — tu attends 3 secondes après ta vanne. Que ce soit en soirée, en réunion ou au repas de famille, le silence fait le boulot."
+→ Universel. Tout le monde se projette.
+
+❌ MAUVAIS : "Yanis, étudiant introverti, peut utiliser cette technique en soirée entre potes."
+→ Exclusif. 2/3 des followers décrochent.
+
+COMMENT UTILISER LE PERSONA DU JOUR :
+- Le SUJET est toujours universel (une technique, une observation, une vanne)
+- Le CONTEXTE D'EXEMPLE peut s'inspirer du persona (si Sophie → un exemple bureau, si Yanis → un exemple soirée), mais c'est UN exemple parmi d'autres
+- Le TON peut légèrement varier : plus punchy/gen Z les jours Yanis, plus pro/smart les jours Sophie, plus profond/bienveillant les jours Marc
+- JAMAIS de contenu qui exclut : pas de "quand tu es étudiant" ou "au bureau" comme sujet principal
+
+═══ PERSONAS (coloration, pas ciblage) ═══
 ${Object.entries(PERSONAS)
   .map(
     ([, p]) =>
@@ -482,6 +499,7 @@ ${examples}
  */
 export async function generateDailySocialPosts(
   dayOfMonth: number,
+  trendingContext?: string,
 ): Promise<GeneratedSocialPost[]> {
   const persona = getPersonaForDay(dayOfMonth);
   const dayOfWeek = new Date().getDay(); // 0=dimanche
@@ -491,6 +509,15 @@ export async function generateDailySocialPosts(
 
   // Plan de la journée selon le jour de la semaine
   const plan = getDailyPlan(dayOfWeek, persona);
+
+  // Injecter le contexte d'actualité dans les WILD CARD
+  if (trendingContext) {
+    for (const entry of plan) {
+      if (entry.theme.includes("WILD CARD")) {
+        entry.theme = `WILD CARD — ACTU DU JOUR : ${trendingContext} — réagis à ça avec ton angle stand-up, spontané, drôle`;
+      }
+    }
+  }
   const posts: GeneratedSocialPost[] = [];
 
   for (const entry of plan) {
@@ -517,71 +544,37 @@ function getDailyPlan(
 ): DailyPostPlan[] {
   const p = PERSONAS[persona];
 
-  // LinkedIn : angle pro, cible Sophie et Marc uniquement
-  // Yanis (20 ans) n'est PAS sur LinkedIn → pas de post LinkedIn les jours Yanis
-  // Sophie : machine à café, réunions, afterwork (lundi/mercredi = bureau, vendredi = social hors boulot)
-  // Marc : come-back humour, retrouver sa vanne, redevenir le mec drôle (PAS du dev perso)
-  const linkedInThemes: Record<PersonaKey, string> = {
-    SOPHIE: `Communication & humour au travail — la vanne exacte à sortir en réunion, le timing à la machine à café, l'anecdote qui tue en afterwork — angle ${p.name}`,
-    MARC: `Le come-back du père drôle — retrouver sa vanne après une période difficile, redevenir le mec marrant en soirée, reconquérir par l'humour — angle ${p.name}`,
-    YANIS: "", // Yanis n'est pas sur LinkedIn — ce thème ne sera jamais utilisé
-  };
+  // ── Thèmes UNIVERSELS avec coloration persona ──
+  // Le sujet parle à tout le monde, le persona n'influence que le ton et UN exemple
 
-  // Yanis : remplacer LinkedIn par un 3ème tweet (Le Défi) les jours Yanis
-  // + refs culturelles gen Z (memes, TikTok, Netflix, rap FR, gaming)
-  const yanisGenZRefs = ["memes/TikTok", "Netflix/séries", "rap FR/musique", "gaming/stream", "dating apps"];
-  const yanisRefDuJour = yanisGenZRefs[dayOfWeek % yanisGenZRefs.length];
-  const yanisExtraTweet: DailyPostPlan = {
-    format: "TWEET",
-    theme: `Le Défi — challenge humour à tester ce soir en soirée/coloc, ton provocateur et complice, ref culturelle ${yanisRefDuJour}`,
-    platform: "TWITTER",
-    sourceType: "ORIGINAL",
+  // Coloration légère : vocabulaire et ton du persona du jour
+  const personaFlavor: Record<PersonaKey, string> = {
+    YANIS: "ton punchy/gen Z, exemples variés (soirée, coloc, dating, boulot…)",
+    SOPHIE: "ton smart/complice, exemples variés (bureau, soirée, dîner, transports…)",
+    MARC: "ton bienveillant/profond, exemples variés (soirée, dating, famille, boulot…)",
   };
+  const flavor = personaFlavor[persona];
 
+  // LinkedIn : toujours publié (angle pro universel, pas segmenté par persona)
   const linkedInPost: DailyPostPlan = {
     format: "POST",
-    theme: linkedInThemes[persona],
+    theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
     platform: "LINKEDIN",
     sourceType: "TIP",
   };
 
-  // LinkedIn ou tweet de remplacement selon le persona
-  const linkedInOrExtra = persona === "YANIS" ? yanisExtraTweet : linkedInPost;
-
-  // Instagram : rotation des 4 templates visuels selon le jour
-  // Yanis : plus de "La Vanne" et "Le Défi" (il veut des vannes, pas des cours)
-  // Marc : plus de "La Vanne" et "Le Défi" (il veut rigoler, pas se développer)
-  const instagramThemes: Record<PersonaKey, string> = {
-    YANIS: `Contexte soirée, coloc, potes — vanne percutante ou défi drôle, refs gen Z (${yanisRefDuJour}) pour ${p.name}`,
-    SOPHIE: `Contexte bureau, afterwork, dîner entre amis — visuel pro et drôle pour ${p.name}`,
-    MARC: `Come-back humour, retrouver sa vanne, redevenir drôle — vanne ou défi pour ${p.name}`,
+  // Instagram : thème universel, formats par jour
+  const instagramFormats: Record<number, SocialFormat> = {
+    1: "TECHNIQUE_DU_JOUR",
+    2: "CAROUSEL",
+    3: "TECHNIQUE_DU_JOUR",
+    4: "CAROUSEL",
+    5: "TECHNIQUE_DU_JOUR",
   };
-
-  // Formats Instagram par jour — adapté au persona
-  // Sophie : mix Technique + Carousel (elle veut apprendre ET des vannes)
-  // Yanis/Marc : plus de La Vanne et Le Défi (ils veulent rigoler)
-  const instagramFormatsDefault: Record<number, SocialFormat> = {
-    1: "TECHNIQUE_DU_JOUR", // Lundi : technique
-    2: "CAROUSEL",          // Mardi : carousel décryptage
-    3: "TECHNIQUE_DU_JOUR", // Mercredi : technique
-    4: "CAROUSEL",          // Jeudi : carousel
-    5: "TECHNIQUE_DU_JOUR", // Vendredi : technique weekend
-  };
-
-  // Yanis et Marc : remplacer certaines Techniques par La Vanne / Le Défi
-  const instagramFormatsYaniMarc: Record<number, SocialFormat> = {
-    1: "TECHNIQUE_DU_JOUR", // Lundi : technique (garder 1 technique)
-    2: "CAROUSEL",          // Mardi : carousel décryptage
-    3: "TECHNIQUE_DU_JOUR", // Mercredi : La Vanne (format TECHNIQUE_DU_JOUR = template La Vanne via le thème)
-    4: "CAROUSEL",          // Jeudi : carousel
-    5: "TECHNIQUE_DU_JOUR", // Vendredi : Le Défi weekend
-  };
-
-  const instagramFormats = persona === "SOPHIE" ? instagramFormatsDefault : instagramFormatsYaniMarc;
 
   const instagramPost = (day: number): DailyPostPlan => ({
     format: instagramFormats[day] || "TECHNIQUE_DU_JOUR",
-    theme: instagramThemes[persona],
+    theme: `Technique ou vanne universelle — visuel percutant, ${flavor}`,
     platform: "INSTAGRAM",
     sourceType: instagramFormats[day] === "CAROUSEL" ? "VIDEO" : "TIP",
   });
@@ -591,171 +584,130 @@ function getDailyPlan(
       // Lundi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: persona === "YANIS"
-          ? `Technique de stand-up pour ${p.name} — début de semaine, ref culturelle gen Z (${yanisRefDuJour}), besoin d'énergie`
-          : `Technique de stand-up pour ${p.name} — début de semaine, besoin d'énergie`,
+        theme: `Technique de stand-up universelle — début de semaine, énergie, ${flavor}`,
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
-        // Sophie : priorité Vanne Réécrite Social (prête à ressortir telle quelle)
         format: "TWEET",
-        theme: persona === "SOPHIE"
-          ? `Vanne Réécrite Social — une vanne prête à ressortir mot pour mot à la machine à café demain matin, contexte ${p.interests[0]}`
-          : `Vanne courte liée à ${p.interests[0]} — format micro-performance`,
+        theme: `Vanne courte universelle — situation que tout le monde vit, ${flavor}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInOrExtra, // Sophie/Marc: LinkedIn | Yanis: 3ème tweet (Le Défi)
+      linkedInPost,
       instagramPost(1),
     ],
     2: [
       // Mardi
       {
         format: "QUOTE_ANALYSIS",
-        theme: `Analyse d'une technique d'un humoriste prioritaire`,
+        theme: `Analyse d'une technique d'un humoriste prioritaire — universelle`,
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
       {
         format: "TWEET",
-        theme: persona === "SOPHIE"
-          ? `Vanne Réécrite Social — observation bureau/afterwork prête à ressortir, contexte ${p.interests[1]}`
-          : `Vanne observationnelle sur ${p.interests[1]}`,
+        theme: `Vanne observationnelle universelle — moment relatable, ${flavor}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInOrExtra,
+      linkedInPost,
       instagramPost(2),
     ],
     3: [
       // Mercredi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique de répartie / timing — milieu de semaine`,
+        theme: `Technique de répartie / timing — universelle, milieu de semaine`,
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
         format: "THREAD",
-        theme: `Thread décryptage : 3-5 techniques d'un humoriste dans un set précis`,
+        theme: `Thread décryptage : 3-5 techniques d'un humoriste dans un set précis — universel`,
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
-      // 🃏 Wild card #1 — slot réactif : actu stand-up, trend du moment, réaction à chaud
+      // Wild card #1 — slot réactif
       {
         format: "TWEET",
-        theme: `WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, polémique, événement, trend — ton spontané "t'as vu ça ?!"`,
+        theme: `WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, spectacle, trend — ton spontané, ${flavor}`,
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
-      linkedInOrExtra,
+      linkedInPost,
       instagramPost(3),
     ],
     4: [
       // Jeudi
       {
         format: "QUOTE_ANALYSIS",
-        theme: `Citation + analyse technique — humoriste moderne`,
+        theme: `Citation + analyse technique — humoriste moderne, universelle`,
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
       {
         format: "TWEET",
-        theme: persona === "SOPHIE"
-          ? `Vanne Réécrite Social — situation quotidienne bureau/transports prête à ressortir verbatim`
-          : `Vanne situation quotidienne ${p.name}`,
+        theme: `Vanne situation quotidienne universelle — moment que tout le monde vit, ${flavor}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      // Marc : 1 tweet/semaine dédié au dating (premier date après 8 ans, ne pas être le mec gênant)
-      ...(persona === "MARC"
-        ? [
-            {
-              format: "TWEET" as SocialFormat,
-              theme: `Dating après une séparation — premier date après 8 ans, comment ne pas être le mec gênant, faire rire sans forcer, la vanne qui détend l'atmosphère`,
-              platform: "TWITTER" as SocialPlatform,
-              sourceType: "ORIGINAL",
-            },
-          ]
-        : []),
-      linkedInOrExtra,
+      linkedInPost,
       instagramPost(4),
     ],
     5: [
-      // Vendredi — LinkedIn Sophie: "technique du weekend" (social hors boulot)
+      // Vendredi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique à tester ce weekend — contexte soirée/social`,
+        theme: `Technique à tester ce weekend — contexte soirée/social, universelle, ${flavor}`,
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
         format: "TWEET",
-        theme: persona === "SOPHIE"
-          ? `Vanne Réécrite Social — la vanne du weekend prête à sortir en afterwork/dîner entre amis ce soir`
-          : `Vanne weekend — léger, shareable, contexte soirée`,
+        theme: `Vanne weekend universelle — léger, shareable, ${flavor}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      // Vendredi : Sophie LinkedIn = angle social hors boulot (pas bureau)
-      persona === "SOPHIE"
-        ? { format: "POST" as SocialFormat, theme: `Humour en soirée, dîner entre amis, afterwork — la technique sociale du weekend — angle ${p.name}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" }
-        : linkedInOrExtra,
+      { format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" },
       instagramPost(5),
     ],
     6: [
-      // Samedi — pas de LinkedIn le weekend (marketing agent), Instagram oui (plan éditorial)
+      // Samedi — pas de LinkedIn
       {
         format: "THREAD",
-        theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir"`,
+        theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir" — universel`,
         platform: "TWITTER",
         sourceType: "BLOG",
       },
-      // 🃏 Wild card #2 — slot réactif : meme du moment, trend Twitter, réaction show Netflix/YouTube
+      // Wild card #2 — slot réactif
       {
         format: "TWEET",
-        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent — ton "on vient de voir ça"`,
+        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent, ${flavor}`,
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
-      // Instagram samedi — vanne percutante ou défi drôle (format visuel weekend)
       {
         format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-        theme: persona === "YANIS"
-          ? `La Vanne ou Le Défi weekend — vanne percutante ou challenge humour à tester ce soir, refs gen Z (${yanisRefDuJour})`
-          : persona === "SOPHIE"
-            ? `La Vanne weekend — observation drôle à ressortir en soirée/dîner ce soir`
-            : `La Vanne ou Le Défi — retrouver sa vanne pour le weekend, défi concret pour ce soir`,
+        theme: `Vanne ou défi weekend — universel, percutant, ${flavor}`,
         platform: "INSTAGRAM" as SocialPlatform,
         sourceType: "JOKE",
       },
     ],
     0: [
-      // Dimanche — créneau Marc le soir (scrolle seul le dimanche soir)
+      // Dimanche
       {
         format: "TWEET",
-        theme: `Vanne légère dimanche — observation relatable, ton détendu`,
+        theme: `Vanne légère dimanche — observation universelle relatable, ${flavor}`,
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      // Dimanche soir : Marc scrolle seul → tweet + Instagram pour la rétention
-      ...(persona === "MARC"
-        ? [
-            {
-              format: "TWEET" as SocialFormat,
-              theme: `Micro-technique du dimanche soir — courte, bienveillante, "essaie ça demain matin"`,
-              platform: "TWITTER" as SocialPlatform,
-              sourceType: "TIP",
-            },
-            {
-              format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-              theme: `Come-back humour dimanche soir — retrouver sa vanne pour attaquer la semaine`,
-              platform: "INSTAGRAM" as SocialPlatform,
-              sourceType: "TIP",
-            },
-          ]
-        : []),
+      {
+        format: "TWEET" as SocialFormat,
+        theme: `Micro-technique du dimanche soir — courte, universelle, "essaie ça demain matin", ${flavor}`,
+        platform: "TWITTER" as SocialPlatform,
+        sourceType: "TIP",
+      },
     ],
   };
 
@@ -804,18 +756,18 @@ function getSchedulingHint(
     return "Visuel-first — doit arrêter le scroll en <1 seconde";
   }
 
-  // Twitter/Threads — persona-based scheduling context with slot awareness
+  // Twitter/Threads — scheduling context based on time of day (universal, not persona-segmented)
   const personaHints: Record<PersonaKey, string[]> = {
     YANIS: [
-      "Ce post sera lu en soirée, ton scroll du soir — contexte détendu, mode loisir, refs gen Z bienvenues (memes, TikTok, séries, rap FR)",
+      "Ce post sera lu en soirée — contexte détendu, mode loisir, ton léger et punchy",
     ],
     SOPHIE: [
-      "Ce post sera lu le matin (trajet/pause café) — court, percutant, facilement mémorisable",
-      "Ce post sera lu en pause déj — contexte détente, anecdote à ressortir à la machine à café",
+      "Ce post sera lu le matin — court, percutant, facilement mémorisable",
+      "Ce post sera lu en pause déj — contexte détente, anecdote à ressortir",
     ],
     MARC: [
-      "Ce post sera lu tôt le matin — ton calme, réflexif, actionnable (un truc à tester aujourd'hui)",
-      "Ce post sera lu en soirée — contexte come-back, une technique concrète à appliquer demain",
+      "Ce post sera lu tôt le matin — ton calme, actionnable (un truc à tester aujourd'hui)",
+      "Ce post sera lu en soirée — une technique concrète à appliquer demain",
     ],
   };
 
@@ -843,8 +795,10 @@ async function generateSinglePost(
         role: "user",
         content: `Crée un post ${plan.platform} au format ${plan.format}.
 
-Persona cible : ${p.name} (${p.age} ans — ${p.description})
-Intérêts : ${p.interests.join(", ")}
+IMPORTANT — CONTENU UNIVERSEL : ce post doit parler à TOUT LE MONDE (20 ans comme 35 ans, étudiant comme salarié). Le persona ci-dessous n'est qu'une COLORATION pour le ton et UN exemple de contexte parmi d'autres.
+
+Coloration persona du jour : ${p.name} (${p.age} ans — ${p.description})
+→ Utilise ce persona pour le TON (${p.tone}) et pour colorer UN des exemples, mais le sujet reste universel.
 Thème : "${plan.theme}"
 ${plan.schedulingHint ? `Contexte de lecture : "${plan.schedulingHint}"` : ""}
 ${plan.withSiteLink ? `⚡ CE POST peut inclure un lien vers deviens-marrant.fr en fin de post (CTA subtil, humain, pas marketing).` : `⚡ CE POST ne doit PAS contenir de lien vers le site. Pas de "deviens-marrant.fr", pas de "lien en bio", pas de CTA commercial. Le post se termine par la punchline ou une phrase de fermeture drôle. Le champ "cta" doit être vide ("").`}
@@ -862,7 +816,7 @@ On parle au "on" (l'équipe), JAMAIS au "je". On est une équipe, pas un individ
 3. Le hook crée une TENSION en ≤ 5 mots ? (contradiction, spécificité, interpellation)
    → Si c'est descriptif ("Astuce du jour", "Thread sur...") → recommence le hook
 4. ${plan.withSiteLink ? `Le CTA est INVISIBLE ? Pas de marketing language, pas de point d'exclamation ?` : `PAS DE LIEN dans ce post. Le champ "cta" doit être vide ("").`}
-5. ${p.name} envoie ça à son/sa meilleur(e) pote ? Pas "intéressant" — DRÔLE ou UTILE AU POINT D'ENVOYER ?
+5. Ce post parle à TOUT LE MONDE ? Pas juste aux étudiants ou aux salariés ? → Si c'est trop segmenté, élargis
 6. Tu utilises "on" et JAMAIS "je" quand tu parles de l'équipe/du site ?
 
 Réponds en JSON :

@@ -36,7 +36,10 @@ export async function GET(req: Request) {
     });
 
     if (!post) {
-      return NextResponse.json({ error: "Post introuvable" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Post introuvable", postId, hint: "Vérifiez que le postId existe dans la base de données de cet environnement" },
+        { status: 404 },
+      );
     }
 
     let png: Buffer;

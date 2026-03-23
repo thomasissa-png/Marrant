@@ -59,8 +59,15 @@ export async function GET(req: Request) {
       });
     }
 
+    // Contexte d'actualité optionnel — injecté dans les WILD CARD
+    // Usage : ?trending=Blanche+Gardin+nouveau+spectacle+annoncé
+    const trendingContext = searchParams.get("trending") || undefined;
+    if (trendingContext) {
+      console.log(`[DailySocial] Contexte trending injecté : "${trendingContext}"`);
+    }
+
     // Generate posts
-    const posts = await generateDailySocialPosts(dayOfMonth);
+    const posts = await generateDailySocialPosts(dayOfMonth, trendingContext);
 
     // Save to DB as PENDING
     const saved = [];
