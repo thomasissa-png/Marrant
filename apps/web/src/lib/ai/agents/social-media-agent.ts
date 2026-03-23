@@ -563,13 +563,15 @@ function getDailyPlan(
     sourceType: "TIP",
   };
 
-  // Instagram : thème universel, formats par jour
+  // Instagram : thème universel, formats par jour (0=dim, 6=sam)
   const instagramFormats: Record<number, SocialFormat> = {
+    0: "TECHNIQUE_DU_JOUR",
     1: "TECHNIQUE_DU_JOUR",
     2: "CAROUSEL",
     3: "TECHNIQUE_DU_JOUR",
     4: "CAROUSEL",
     5: "TECHNIQUE_DU_JOUR",
+    6: "TECHNIQUE_DU_JOUR",
   };
 
   const instagramPost = (day: number): DailyPostPlan => ({
@@ -706,6 +708,12 @@ function getDailyPlan(
         format: "TWEET" as SocialFormat,
         theme: `Micro-technique du dimanche soir — courte, universelle, "essaie ça demain matin", ${flavor}`,
         platform: "TWITTER" as SocialPlatform,
+        sourceType: "TIP",
+      },
+      {
+        format: "TECHNIQUE_DU_JOUR" as SocialFormat,
+        theme: `Technique ou vanne du dimanche — cool, universelle, visuel percutant, ${flavor}`,
+        platform: "INSTAGRAM" as SocialPlatform,
         sourceType: "TIP",
       },
     ],
