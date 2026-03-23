@@ -285,7 +285,7 @@ export async function createBufferImagePost(
   text: string,
   imageUrl: string,
   dueAt?: Date,
-  firstComment?: string,
+  hashtags?: string,
 ): Promise<string> {
   await ensureQuotaAvailable(platform, 1);
 
@@ -296,20 +296,17 @@ export async function createBufferImagePost(
   const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
   const dueAtStr = effectiveDueAt.toISOString();
 
-  // Instagram first comment : hashtags en commentaire (meilleur pour l'algo)
-  const firstCommentBlock = firstComment
-    ? `firstComment: ${JSON.stringify(firstComment)},`
-    : "";
+  // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
+  const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
   const query = `
     mutation CreateImagePost {
       createPost(input: {
-        text: ${JSON.stringify(text)},
+        text: ${JSON.stringify(fullText)},
         channelId: ${JSON.stringify(channelId)},
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}",
-        ${firstCommentBlock}
         assets: {
           images: [{ url: ${JSON.stringify(imageUrl)} }]
         }

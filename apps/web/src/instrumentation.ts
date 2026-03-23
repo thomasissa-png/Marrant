@@ -257,8 +257,8 @@ export async function register() {
                 ? `https://${process.env.REPLIT_DEV_DOMAIN}`
                 : `http://localhost:${process.env.PORT || "3000"}`);
             const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
-            const firstComment = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
-            externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, firstComment);
+            const hashtags = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
+            externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
           } else {
             externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined);
           }

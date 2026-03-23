@@ -265,7 +265,7 @@ describe("buffer-client", () => {
       expect(body.query).toContain("deviens-marrant.fr");
     });
 
-    it("inclut firstComment pour les hashtags Instagram", async () => {
+    it("ajoute les hashtags en fin de texte pour Instagram", async () => {
       mockFetch
         .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
         .mockResolvedValueOnce({
@@ -275,7 +275,7 @@ describe("buffer-client", () => {
               createPost: {
                 post: {
                   id: "buffer-ig-fc",
-                  text: "Post avec hashtags",
+                  text: "Post avec hashtags\n\n#standup #humour #comedy",
                   assets: [{ id: "asset-1", mimeType: "image/png" }],
                 },
               },
@@ -295,11 +295,12 @@ describe("buffer-client", () => {
       expect(id).toBe("buffer-ig-fc");
 
       const body = JSON.parse(mockFetch.mock.calls[1][1].body);
-      expect(body.query).toContain("firstComment");
+      // Hashtags should be in the text, not as firstComment
+      expect(body.query).not.toContain("firstComment");
       expect(body.query).toContain("#standup #humour #comedy");
     });
 
-    it("n'inclut pas firstComment quand non fourni", async () => {
+    it("n'ajoute pas de hashtags quand non fournis", async () => {
       mockFetch
         .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
         .mockResolvedValueOnce({

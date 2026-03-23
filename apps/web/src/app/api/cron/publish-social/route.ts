@@ -175,14 +175,11 @@ export async function GET(req: Request) {
           const parts = splitIntoTweetThread(post.content);
           externalId = await createBufferThread(parts, post.scheduledAt || undefined);
         } else if (platform === "INSTAGRAM") {
-          // Instagram : post avec image générée + hashtags en premier commentaire
+          // Instagram : post avec image générée + hashtags en fin de texte
           const baseUrl = getBaseUrl();
           const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
-          // Hashtags en premier commentaire (meilleur pour l'algo Instagram)
-          const firstComment = post.hashtags.length > 0
-            ? post.hashtags.join(" ")
-            : undefined;
-          externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, firstComment);
+          const hashtags = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
+          externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
         } else {
           // Tweet simple ou post LinkedIn : texte pur
           externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined);
