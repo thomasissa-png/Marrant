@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   authors: [{ name: "deviens-marrant.fr" }],
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      // favicon.ico is auto-served by Next.js from src/app/favicon.ico
       { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.png", type: "image/png", sizes: "48x48" },
       { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
@@ -123,7 +123,6 @@ export default function RootLayout({
     <html lang="fr" className={`${inter.variable} ${plusJakarta.variable}`}>
       <head>
         <meta name="theme-color" content="#0D0D0D" />
-        <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <JsonLd data={organizationJsonLd} />
