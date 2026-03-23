@@ -59,32 +59,46 @@ async function main() {
     prisma.video.count(),
   ]);
 
-  // BLAGUES — upsert pour préserver les relations (JokeLike, favoris)
+  // BLAGUES — upsert par contenu pour préserver les relations (JokeLike, favoris)
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
-  if (jokeCount !== jokes.length) {
-    // Identifier les blagues existantes par contenu pour éviter les doublons
-    const existingJokes = await prisma.joke.findMany({ select: { id: true, content: true } });
+  {
+    const existingJokes = await prisma.joke.findMany({
+      where: { generatedByAI: false },
+      select: { id: true, content: true },
+    });
     const existingByContent = new Map(existingJokes.map((j) => [j.content, j.id]));
 
     let created = 0;
-    let skipped = 0;
+    let updated = 0;
     for (const joke of jokes) {
-      if (existingByContent.has(joke.content)) {
-        skipped++;
-        continue;
+      const existingId = existingByContent.get(joke.content);
+      if (existingId) {
+        // Mettre à jour la punchline, catégorie, type, niveau si modifiés
+        await prisma.joke.update({
+          where: { id: existingId },
+          data: {
+            punchline: joke.punchline,
+            category: joke.category as never,
+            maturityLevel: joke.maturityLevel,
+            type: joke.type as never,
+            isActive: true,
+          },
+        });
+        updated++;
+      } else {
+        await prisma.joke.create({
+          data: {
+            content: joke.content,
+            punchline: joke.punchline,
+            category: joke.category as never,
+            maturityLevel: joke.maturityLevel,
+            type: joke.type as never,
+          },
+        });
+        created++;
       }
-      await prisma.joke.create({
-        data: {
-          content: joke.content,
-          punchline: joke.punchline,
-          category: joke.category as never,
-          maturityLevel: joke.maturityLevel,
-          type: joke.type as never,
-        },
-      });
-      created++;
     }
-    console.log(`Blagues : ${created} ajoutées, ${skipped} déjà présentes`);
+    console.log(`Blagues : ${created} ajoutées, ${updated} mises à jour`);
 
     // Désactiver les vannes seed qui ne sont plus dans le fichier (retirées lors d'un audit qualité)
     // Ne touche PAS aux vannes générées par l'IA (generatedByAI = true)
@@ -104,36 +118,50 @@ async function main() {
       });
       console.log(`Blagues désactivées (retirées du seed) : ${seedJokesToDeactivate.length}`);
     }
-  } else {
-    console.log(`Blagues à jour (${jokeCount}), ignoré`);
   }
 
-  // CONSEILS — upsert pour préserver les relations (favoris, parcours)
+  // CONSEILS — upsert par titre pour préserver les relations (favoris, parcours)
   const tips = loadSeedData<TipSeed>("conseils-seed.json");
-  if (tipCount !== tips.length) {
-    const existingTips = await prisma.tip.findMany({ select: { id: true, title: true } });
+  {
+    const existingTips = await prisma.tip.findMany({
+      where: { generatedByAI: false },
+      select: { id: true, title: true },
+    });
     const existingByTitle = new Map(existingTips.map((t) => [t.title, t.id]));
 
     let created = 0;
-    let skipped = 0;
+    let updated = 0;
     for (const tip of tips) {
-      if (existingByTitle.has(tip.title)) {
-        skipped++;
-        continue;
+      const existingId = existingByTitle.get(tip.title);
+      if (existingId) {
+        // Mettre à jour le contenu, exemple, exercice, catégorie, difficulté si modifiés
+        await prisma.tip.update({
+          where: { id: existingId },
+          data: {
+            content: tip.content,
+            category: tip.category as never,
+            difficulty: tip.difficulty as never,
+            example: tip.example,
+            exercise: tip.exercise,
+            isActive: true,
+          },
+        });
+        updated++;
+      } else {
+        await prisma.tip.create({
+          data: {
+            title: tip.title,
+            content: tip.content,
+            category: tip.category as never,
+            difficulty: tip.difficulty as never,
+            example: tip.example,
+            exercise: tip.exercise,
+          },
+        });
+        created++;
       }
-      await prisma.tip.create({
-        data: {
-          title: tip.title,
-          content: tip.content,
-          category: tip.category as never,
-          difficulty: tip.difficulty as never,
-          example: tip.example,
-          exercise: tip.exercise,
-        },
-      });
-      created++;
     }
-    console.log(`Conseils : ${created} ajoutés, ${skipped} déjà présents`);
+    console.log(`Conseils : ${created} ajoutés, ${updated} mis à jour`);
 
     // Désactiver les conseils seed qui ne sont plus dans le fichier (retirés lors d'un audit qualité)
     // Ne touche PAS aux conseils générés par l'IA (generatedByAI = true)
@@ -153,8 +181,6 @@ async function main() {
       });
       console.log(`Conseils désactivés (retirés du seed) : ${seedTipsToDeactivate.length}`);
     }
-  } else {
-    console.log(`Conseils à jour (${tipCount}), ignoré`);
   }
 
   // VIDÉOS — upsert pour mettre à jour IDs YouTube, learnings, exercices
