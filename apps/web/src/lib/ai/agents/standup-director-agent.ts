@@ -395,7 +395,8 @@ export async function validateBlogArticle(
   article: BlogArticleToValidate,
 ): Promise<ValidationResult> {
   // Tronquer le contenu pour rester dans les limites du prompt
-  const truncatedContent = article.content.slice(0, 6000);
+  // 12000 chars couvre ~85% d'un article de 2000 mots (FAQ, CTA, liens internes inclus)
+  const truncatedContent = article.content.slice(0, 12000);
 
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",

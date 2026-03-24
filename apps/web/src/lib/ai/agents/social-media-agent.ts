@@ -641,19 +641,27 @@ function getDailyPlan(
       instagramPost(3),
     ],
     4: [
-      // Jeudi
+      // Jeudi — Marc dating tweet si persona MARC
       {
         format: "QUOTE_ANALYSIS",
         theme: `Citation + analyse technique — humoriste moderne, universelle`,
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
-      {
-        format: "TWEET",
-        theme: `Vanne situation quotidienne universelle — moment que tout le monde vit, ${flavor}`,
-        platform: "TWITTER",
-        sourceType: "JOKE",
-      },
+      persona === "MARC"
+        ? {
+            format: "TWEET" as const,
+            theme: `Marc dating — premier rendez-vous après une longue relation, comment ne pas être le mec gênant. Technique concrète à tester aujourd'hui, pas juste de l'inspiration. ${flavor}`,
+            platform: "TWITTER" as const,
+            sourceType: "ORIGINAL" as const,
+            schedulingHint: "Marc dating — actionnable, un truc à tester aujourd'hui, pas de motivation douce",
+          }
+        : {
+            format: "TWEET" as const,
+            theme: `Vanne situation quotidienne universelle — moment que tout le monde vit, ${flavor}`,
+            platform: "TWITTER" as const,
+            sourceType: "JOKE" as const,
+          },
       linkedInPost,
       instagramPost(4),
     ],
@@ -1092,8 +1100,27 @@ Réponds en JSON :
 // ─── Helpers ────────────────────────────────────────────────────
 
 /**
+ * Retourne l'offset UTC de Paris pour une date donnée.
+ * UTC+1 en hiver (dernier dimanche d'octobre → dernier dimanche de mars)
+ * UTC+2 en été (dernier dimanche de mars → dernier dimanche d'octobre)
+ */
+function getParisUtcOffset(date: Date): number {
+  const year = date.getFullYear();
+  // Dernier dimanche de mars
+  const marchLast = new Date(Date.UTC(year, 2, 31));
+  marchLast.setUTCDate(marchLast.getUTCDate() - marchLast.getUTCDay());
+  marchLast.setUTCHours(1, 0, 0, 0); // Changement à 2h → 3h (1h UTC)
+  // Dernier dimanche d'octobre
+  const octLast = new Date(Date.UTC(year, 9, 31));
+  octLast.setUTCDate(octLast.getUTCDate() - octLast.getUTCDay());
+  octLast.setUTCHours(1, 0, 0, 0); // Changement à 3h → 2h (1h UTC)
+  return date.getTime() >= marchLast.getTime() && date.getTime() < octLast.getTime() ? 2 : 1;
+}
+
+/**
  * Calcule l'heure de publication optimale pour un persona + plateforme.
- * LinkedIn a ses propres horaires (contexte pro, heures de bureau).
+ * Les horaires sont exprimés en heure locale Paris, convertis dynamiquement en UTC
+ * pour gérer automatiquement le changement heure été/hiver.
  */
 export function getOptimalScheduleTime(
   persona: PersonaKey,
@@ -1107,36 +1134,36 @@ export function getOptimalScheduleTime(
     now.getDate(),
   );
 
-  // Horaires Twitter par persona (en heures UTC)
-  // Note : Paris = UTC+1 (hiver, oct-mars) / UTC+2 (été, mars-oct)
-  const twitterSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [19, 21], // ~21h-23h Paris
-    SOPHIE: [7, 11], // ~8h-9h + 12h-13h Paris
-    MARC: [6, 18], // ~7h-8h + 19h-20h Paris
+  const parisOffset = getParisUtcOffset(today);
+
+  // Horaires par persona en HEURE LOCALE PARIS
+  const twitterSchedulesParis: Record<PersonaKey, number[]> = {
+    YANIS: [21, 23], // 21h-23h Paris
+    SOPHIE: [8, 12], // 8h-9h + 12h-13h Paris
+    MARC: [7, 20], // 7h-8h + 20h-21h Paris
   };
 
-  // Horaires LinkedIn par persona — contexte pro, heures de bureau
-  const linkedInSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [8, 12], // ~9h-10h + 13h-14h Paris
-    SOPHIE: [6, 10], // ~7h-8h + 11h-12h Paris
-    MARC: [5, 16], // ~6h-7h + 17h-18h Paris
+  const linkedInSchedulesParis: Record<PersonaKey, number[]> = {
+    YANIS: [9, 13], // 9h-10h + 13h-14h Paris
+    SOPHIE: [7, 11], // 7h-8h + 11h-12h Paris
+    MARC: [6, 17], // 6h-7h + 17h-18h Paris
   };
 
-  // Horaires Instagram par persona — pics engagement visuels
-  const instagramSchedules: Record<PersonaKey, number[]> = {
-    YANIS: [18, 20], // ~19h-22h Paris
-    SOPHIE: [10, 17], // ~11h-12h + 18h-19h Paris
-    MARC: [6, 19], // ~7h-8h + 20h-21h Paris
+  const instagramSchedulesParis: Record<PersonaKey, number[]> = {
+    YANIS: [19, 21], // 19h-22h Paris
+    SOPHIE: [11, 18], // 11h-12h + 18h-19h Paris
+    MARC: [7, 20], // 7h-8h + 20h-21h Paris
   };
 
   const schedules =
-    platform === "LINKEDIN" ? linkedInSchedules :
-    platform === "INSTAGRAM" ? instagramSchedules :
-    twitterSchedules;
+    platform === "LINKEDIN" ? linkedInSchedulesParis :
+    platform === "INSTAGRAM" ? instagramSchedulesParis :
+    twitterSchedulesParis;
   const hours = schedules[persona];
-  const hour = hours[postIndex % hours.length];
+  const parisHour = hours[postIndex % hours.length];
+  const utcHour = parisHour - parisOffset;
 
-  today.setUTCHours(hour, Math.floor(Math.random() * 15), 0, 0);
+  today.setUTCHours(utcHour, Math.floor(Math.random() * 15), 0, 0);
 
   // If the scheduled time is in the past, push to tomorrow
   if (today.getTime() < Date.now()) {

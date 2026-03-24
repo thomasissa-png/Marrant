@@ -239,9 +239,9 @@ Tentative 3:  Agent re-génère → Directeur valide → REJETÉ ❌
 | `reviewContentBatch(items, date)` | Revue quotidienne de cohérence/diversité |
 
 ### Verdicts
-- **APPROVED** (score ≥ 7) : publiable en l'état
-- **NEEDS_REVISION** (score 4-6) : l'idée est bonne, suggestion de réécriture fournie
-- **REJECTED** (score ≤ 3) : ne passe pas le test, recommencer de zéro
+- **APPROVED** (score ≥ 9) : publiable en l'état — au niveau du site n°1
+- **NEEDS_REVISION** (score 7-8) : l'idée est bonne, suggestion de réécriture fournie
+- **REJECTED** (score ≤ 6) : ne passe pas le test, recommencer de zéro
 
 ### Intégration dans les pipelines existants
 - **daily-publisher.ts** : les 3 agents (vannes, conseils, vidéos) passent par la validation du directeur avant DB save. Si 3 échecs, le directeur réécrit.
@@ -770,7 +770,7 @@ Branche : `claude/fix-social-media-posting-5nltR`
 - **Fix** : ajout flag `directorValidated: boolean` sur `GeneratedSocialPost`
 - 4 chemins de fallback corrigés dans `validateAndRefinePost()` : tout crash → `directorValidated: false`
 - `daily-social/route.ts` : `directorValidated === false` → `status: "PENDING"` + `directorNote: "⚠️ review manuelle requise"`
-- Seuls les posts explicitement APPROVED par le directeur (score ≥ 7) ou réécrits par lui sont publiés automatiquement
+- Seuls les posts explicitement APPROVED par le directeur (score ≥ 9) ou réécrits par lui sont publiés automatiquement
 - Les posts non validés apparaissent dans `/admin/social` pour review manuelle
 
 #### Planning éditorial (social-editorial-plan.json) — v2 mis à jour

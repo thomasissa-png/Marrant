@@ -402,6 +402,19 @@ export async function publishWeeklyArticle(): Promise<{
     }
     console.log(`[SEO Agent] Mot-clé ciblé : "${plan.targetKeyword}"`);
 
+    // 1b. Guard d'idempotence — vérifier qu'aucun article n'a été publié cette semaine
+    const weekNumber = getISOWeekNumber(new Date());
+    const year = new Date().getFullYear();
+    const thisWeekCalendar = await prisma.seoCalendar.findUnique({
+      where: { weekNumber_year: { weekNumber, year } },
+    });
+    if (thisWeekCalendar?.status === "PUBLISHED") {
+      return {
+        success: false,
+        error: `Article déjà publié cette semaine (sem ${weekNumber}/${year} — "${thisWeekCalendar.articleTitle}")`,
+      };
+    }
+
     // 2. Vérifier que l'article n'existe pas déjà
     const existing = await prisma.blogArticle.findUnique({
       where: { slug: plan.slug },
@@ -531,6 +544,24 @@ export async function publishWeeklyArticle(): Promise<{
       };
     }
 
+    // 4e. Gate SEO programmatique — bloquer si qualité insuffisante
+    const prePubLinkCount = (article.content.match(/\]\(\//g) || []).length;
+    const prePubWordCount = article.content.split(/\s+/).length;
+    if (prePubLinkCount < 5) {
+      console.warn(`[SEO Gate] Article "${article.slug}" n'a que ${prePubLinkCount} liens internes (min: 5) — publication bloquée`);
+      return {
+        success: false,
+        error: `Article rejeté : seulement ${prePubLinkCount} liens internes (minimum 5)`,
+      };
+    }
+    if (prePubWordCount < 1000) {
+      console.warn(`[SEO Gate] Article "${article.slug}" n'a que ${prePubWordCount} mots (min: 1000) — publication bloquée`);
+      return {
+        success: false,
+        error: `Article rejeté : seulement ${prePubWordCount} mots (minimum 1000)`,
+      };
+    }
+
     // 5. Publier en base
     const now = new Date();
     const dbArticle = await prisma.blogArticle.create({
@@ -576,14 +607,14 @@ export async function publishWeeklyArticle(): Promise<{
     console.log(`[SEO Check] Article "${dbArticle.slug}": ${wordCount} words, ${linkCount} internal links (dont ${blogLinkCount} blog-to-blog)${hasFaqHint ? ", FAQ detected" : ""}${articleCluster ? `, cluster: ${articleCluster.id}` : ", ORPHELIN (fallback catégorie)"}`);
 
     // 6. Mettre à jour le calendrier SEO
-    const weekNumber = getISOWeekNumber(now);
-    const year = now.getFullYear();
+    const pubWeekNumber = getISOWeekNumber(now);
+    const pubYear = now.getFullYear();
 
     await prisma.seoCalendar.upsert({
-      where: { weekNumber_year: { weekNumber, year } },
+      where: { weekNumber_year: { weekNumber: pubWeekNumber, year: pubYear } },
       create: {
-        weekNumber,
-        year,
+        weekNumber: pubWeekNumber,
+        year: pubYear,
         targetKeyword: article.targetKeyword,
         articleTitle: article.title,
         status: "PUBLISHED",

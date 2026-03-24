@@ -41,7 +41,7 @@ async function notifyIndexNow(slug: string): Promise<void> {
  * 4. Met à jour le calendrier avec le statut PUBLISHED
  * 5. Notifie Bing via IndexNow
  *
- * L'agent est idempotent : si un article a déjà été publié cette semaine, il skip.
+ * L'agent est idempotent : si un article a déjà été publié cette semaine (vérifié via SeoCalendar), il skip.
  */
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
