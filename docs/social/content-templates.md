@@ -258,16 +258,16 @@ T'as déjà été le seul silencieux à la machine à café pendant 3 minutes ?
 
 Pas parce que t'as rien à dire.
 Parce que t'as rien préparé.
-(Et que "beau temps aujourd'hui" c'est techniquement une phrase, mais c'est pas une conversation.)
+(Et que "beau temps aujourd'hui" c'est techniquement une phrase, mais c'est pas une conversation. C'est de la météo.)
 
 Le truc que font les gens drôles au bureau, c'est pas d'avoir de l'humour spontané.
 C'est d'avoir 3-4 vannes courtes en stock, prêtes à sortir sur n'importe quel sujet bateau.
-La météo, le café, la réunion du matin.
+La météo, le café, la réunion du matin qui aurait pu être un email.
 
 Comment tu construis ton stock en 10 minutes :
 — Choisis 3 situations qui se répètent chaque semaine au boulot
 — Pour chaque situation, écris 1 observation légèrement absurde
-— Teste en déjeunant avec un collègue
+— Teste en déjeunant avec un collègue (il n'a pas le choix, il est piégé à table)
 
 Résultat : tu deviens "le collègue sympa" sans avoir dit 50 mots.
 
@@ -386,17 +386,17 @@ Ce que ça t'apprend sur {COMPÉTENCE_PRO_OU_SOCIALE} :
 
 ```
 "Je suis pas pessimiste. Je suis réaliste avec de l'humour."
-— Blanche Gardin, interview Télérama 2023
+— Blanche Gardin (attribuée à, source : interview Télérama 2023 — à vérifier avant publication)
 
 Cette phrase est un piège parfait.
 Elle commence par nier quelque chose (pessimiste), puis elle redéfinit les termes.
 L'humour de Gardin fonctionne toujours comme ça : elle prend un mot qu'on lui colle et elle le retourne.
-(Ce qui au passage est la chose la plus joyeuse qu'on puisse faire avec une critique.)
+(Ce qui au passage est la chose la plus joyeuse qu'on puisse faire avec une critique. Et aussi la plus gratifiante.)
 
 Ce que ça t'apprend en réunion :
 Quand quelqu'un te critique, commence par valider partiellement.
 "T'as raison, je suis pas rapide. Je suis méthodique."
-Ça désarme sans confronter.
+Ça désarme sans confronter. Et ça laisse ton interlocuteur avec le léger sentiment d'avoir eu tort d'avoir raison.
 ```
 
 ---
@@ -624,13 +624,15 @@ Les accroches ci-dessous sont des formules réutilisables. Chaque formule est ac
 
 ### Accroches Twitter (3 formules)
 
-**Accroche T-A1 : L'affirmation contre-intuitive**
-Structure : `[Chose attendue] ? Non. [Vérité surprenante].`
+**Accroche T-A1 : L'affirmation contre-intuitive avec exemple d'humoriste**
+Structure : `[Humoriste] [fait X]. Pas parce que [raison attendue]. Parce que [vraie raison].`
+
+Ce format se distingue du Hook 1 (voir Partie 5) : là où Hook 1 joue sur la contradiction abstraite, T-A1 ancre toujours le paradoxe dans un humoriste précis — c'est la démonstration par l'exemple, pas la déclaration générale.
 
 Exemples :
-- "Être drôle spontanément ? Non. Être drôle avec un stock préparé."
-- "Roman Frayssinet improvise ? Non. Il a juste répété 200 fois pour que ça ressemble à de l'impro."
-- "La répartie c'est inné ? Non. C'est une technique. Et ça s'entraîne."
+- "Fary a l'air de ne rien préparer. C'est l'illusion la plus travaillée du stand-up français."
+- "Paul Mirabel semble parler à son pote en coulisses. Il a répété ce truc 300 fois."
+- "Roman Frayssinet hésite avant de parler. C'est pas du stress. C'est de la technique."
 
 **Accroche T-A2 : Le chiffre ou la durée précise**
 Structure : `[Durée/chiffre précis] pour [résultat].`
@@ -711,14 +713,16 @@ Ces 5 structures fonctionnent sur Twitter, LinkedIn et Instagram. Elles sont tir
 
 ### Hook 1 — Le Paradoxe du Pote Drôle
 
-**Structure :** `[Qualité attendue] ? Non. [Vérité sous-jacente que personne ne dit].`
+**Structure :** `[Croyance universelle sur l'humour]. [Vérité contraire en 1 phrase nette].`
 
 Pourquoi ça marche : crée un décalage cognitif immédiat. Le cerveau a une attente, tu la déjoues. Le lecteur doit lire la suite pour comprendre.
 
+À distinguer de l'Accroche T-A1 (Partie 4) : ici, pas d'humoriste nommé — la contradiction est posée comme une vérité universelle. Le hook est plus court, plus brutal. T-A1 illustre le paradoxe avec un exemple concret d'humoriste ; Hook 1 l'énonce comme une loi.
+
 Exemples appliqués à Deviens-marrant.fr :
-- "Être drôle naturellement ? Non. Être drôle avec de la préparation invisible."
-- "La répartie, c'est inné ? Non. C'est une technique. Comme le vélo."
-- "Fary improvise ? Non. Il a répété 300 fois pour que ça ressemble à de l'impro."
+- "L'humour spontané n'existe pas. Il y a juste des gens qui ont bien préparé."
+- "La répartie, c'est inné ? Non. C'est le résultat de 200 situations mal gérées."
+- "Les gens drôles ne sont pas plus intelligents. Ils observent juste ce que tu ignores."
 
 ---
 
@@ -800,6 +804,12 @@ Exemples appliqués à Deviens-marrant.fr :
 - [x] Les hooks des 5 structures universelles respectent la contrainte "5 mots max"
 - [x] Les templates Instagram incluent la note "en hold Phase 3" pour éviter toute confusion opérationnelle
 - [x] Le vocabulaire de marque est appliqué ("vanne" et non "blague", "technique" et non "méthode", "progresser" et non "apprendre")
+- [x] Zéro engagement bait dans les exemples et les structures (I3 vérifié — "Tu as 24h. Go." en légende, "Essaie ce soir. Reviens demain." en slide)
+- [x] Hook 1 (Partie 5) et Accroche T-A1 (Partie 4) différenciés clairement — logique propre à chacun, exemples non redondants
+- [x] Exemples L1 et L3 font sourire au moins une fois — humour intégré naturellement (pas ajouté en force)
+- [x] T2 et I2 : situations sociales dans l'ADN de la marque (soirée, répartie) — zéro sport/flemme générique
+- [x] L3 : critère de vérification de source présent dans la checklist ET dans l'exemple rédigé (modèle "attribuée à")
+- [x] Accents vérifiés sur l'ensemble du fichier — aucune faute résiduelle détectée
 
 ---
 
