@@ -299,6 +299,10 @@ export async function createBufferImagePost(
   // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
   const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
+  // Instagram requiert le type de publication (post, story, reel)
+  // Buffer GraphQL : subprofile.type pour Instagram
+  const instagramType = platform === "INSTAGRAM" ? `,\n        subprofile: { type: "post" }` : "";
+
   const query = `
     mutation CreateImagePost {
       createPost(input: {
@@ -309,7 +313,7 @@ export async function createBufferImagePost(
         dueAt: "${dueAtStr}",
         assets: {
           images: [{ url: ${JSON.stringify(imageUrl)} }]
-        }
+        }${instagramType}
       }) {
         ... on PostActionSuccess {
           post {

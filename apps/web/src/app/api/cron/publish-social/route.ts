@@ -209,8 +209,10 @@ export async function GET(req: Request) {
         if (platform === "TWITTER" && post.format === "THREAD" && (post.threadParts?.length ?? 0) > 0) {
           // Thread Twitter : publie chaque partie avec 2 min d'écart
           externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
-        } else if (platform === "TWITTER" && post.content.length > 280) {
+        } else if (platform === "TWITTER" && post.content.length > 270) {
           // Safety net : tweet trop long → auto-split en thread
+          // Marge de sécurité à 270 (pas 280) car Twitter compte certains caractères
+          // spéciaux (emojis, accents composés) différemment
           console.warn(`[PublishSocial] Tweet ${post.id} trop long (${post.content.length} chars) — auto-split en thread`);
           const parts = splitIntoTweetThread(post.content);
           externalId = await createBufferThread(parts, post.scheduledAt || undefined);

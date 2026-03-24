@@ -53,7 +53,7 @@ export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
 export type SocialFormat =
   | "TWEET"
   | "THREAD"
-  | "CAROUSEL"
+  // CAROUSEL retiré — Buffer API ne supporte pas les carousels Instagram
   | "POST"
   | "QUOTE_ANALYSIS"
   | "TECHNIQUE_DU_JOUR";
@@ -427,7 +427,21 @@ export function validatePostConstraints(
     );
   }
 
-  // 8. Thread parts validation — THREAD format must have 5-7 parts
+  // 8. CAROUSEL interdit — Buffer API ne supporte pas les carousels Instagram
+  if (post.format === "CAROUSEL") {
+    issues.push(
+      "CRITIQUE — Format CAROUSEL interdit. Buffer ne supporte pas les carousels Instagram. Utiliser TECHNIQUE_DU_JOUR ou QUOTE_ANALYSIS.",
+    );
+  }
+
+  // 9. Tweet trop long — max 270 chars (marge sécurité pour encodage Twitter)
+  if (post.platform === "TWITTER" && post.format !== "THREAD" && post.content.length > 270) {
+    issues.push(
+      `Tweet trop long : ${post.content.length} chars (max 270). Raccourcir le contenu.`,
+    );
+  }
+
+  // 10. Thread parts validation — THREAD format must have 5-7 parts
   if (post.format === "THREAD") {
     if (!post.threadParts || post.threadParts.length === 0) {
       issues.push("Thread sans threadParts — le champ est obligatoire");

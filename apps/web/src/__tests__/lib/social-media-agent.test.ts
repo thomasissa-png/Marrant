@@ -114,19 +114,19 @@ describe("social-media-agent", () => {
 
     // --- Limite caractères Twitter TWEET ---
 
-    it("accepte un tweet de 280 caractères exactement", () => {
-      const content = "a".repeat(280);
+    it("accepte un tweet de 270 caractères exactement", () => {
+      const content = "a".repeat(270);
       const post = makePost({ platform: "TWITTER", format: "TWEET", content });
       const issues = validatePostConstraints(post);
       expect(issues).toEqual([]);
     });
 
-    it("rejette un tweet de 281 caractères", () => {
-      const content = "a".repeat(281);
+    it("rejette un tweet de 271 caractères (marge sécurité encodage Twitter)", () => {
+      const content = "a".repeat(271);
       const post = makePost({ platform: "TWITTER", format: "TWEET", content });
       const issues = validatePostConstraints(post);
       expect(issues.some((i) => i.includes("Tweet trop long"))).toBe(true);
-      expect(issues.some((i) => i.includes("281 chars"))).toBe(true);
+      expect(issues.some((i) => i.includes("271 chars"))).toBe(true);
     });
 
     it("ne rejette pas un contenu long si la plateforme n'est pas Twitter", () => {
