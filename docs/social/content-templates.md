@@ -102,12 +102,13 @@ Quand quelqu'un dit un truc discutable, tu réponds juste "attends, donc tu pens
 #### Exemple rédigé
 
 ```
-Mon rapport avec le sport du matin :
+J'ai dit "à demain" à quelqu'un en soirée.
 
-Je mets le réveil à 6h30 pour aller courir.
-Je l'éteins à 6h30 en me félicitant d'avoir essayé.
+On s'est jamais recroisés.
+Ça fait 4 mois.
+On vit dans la même ville.
 
-À ressortir à la machine à café sans modifier un mot.
+À ressortir en afterwork sans modifier un mot.
 
 → 290+ vannes au catalogue (lien en bio)
 ```
@@ -203,7 +204,7 @@ Comment tu l'appliques demain à la machine à café :
 1. Tu sors ta vanne.
 2. Tu fermes la bouche.
 3. Tu regardes la personne avec un air légèrement satisfait.
-C'est tout. Chronométre : 3 secondes de silence. Pas plus, pas moins.
+C'est tout. Chronomètre : 3 secondes de silence. Pas plus, pas moins.
 
 Tweet 7 :
 Le silence est une technique, pas un manque de confiance.
@@ -257,6 +258,7 @@ T'as déjà été le seul silencieux à la machine à café pendant 3 minutes ?
 
 Pas parce que t'as rien à dire.
 Parce que t'as rien préparé.
+(Et que "beau temps aujourd'hui" c'est techniquement une phrase, mais c'est pas une conversation.)
 
 Le truc que font les gens drôles au bureau, c'est pas d'avoir de l'humour spontané.
 C'est d'avoir 3-4 vannes courtes en stock, prêtes à sortir sur n'importe quel sujet bateau.
@@ -372,6 +374,14 @@ Ce que ça t'apprend sur {COMPÉTENCE_PRO_OU_SOCIALE} :
 **Longueur cible :** 80-120 mots
 **Ton :** analytique mais accessible — jamais "universitaire"
 
+#### Critères de qualité avant publication
+
+- [ ] **Vérification de la source** : retrouver le lien vidéo ou l'article exact de la citation. Si introuvable, reformuler en "attribuée à [Humoriste]" ou choisir une autre citation vérifiable — jamais citer de mémoire sans source.
+- [ ] La citation est d'un humoriste de la liste prioritaire (Mirabel, Fary, Frayssinet, Gardin, Waly Dia, Pascot, Croce, Reg)
+- [ ] L'analyse explique la technique, pas juste ce que la phrase veut dire
+- [ ] L'application est concrète et directement transposable en situation pro ou sociale
+- [ ] Le post fait sourire au moins une fois — c'est un compte d'humour, pas un compte de citations
+
 #### Exemple rédigé
 
 ```
@@ -381,11 +391,12 @@ Ce que ça t'apprend sur {COMPÉTENCE_PRO_OU_SOCIALE} :
 Cette phrase est un piège parfait.
 Elle commence par nier quelque chose (pessimiste), puis elle redéfinit les termes.
 L'humour de Gardin fonctionne toujours comme ça : elle prend un mot qu'on lui colle et elle le retourne.
+(Ce qui au passage est la chose la plus joyeuse qu'on puisse faire avec une critique.)
 
 Ce que ça t'apprend en réunion :
 Quand quelqu'un te critique, commence par valider partiellement.
-"T'as raison, je suis pas rapide. Je suis methodique."
-Ça desarme sans confronter.
+"T'as raison, je suis pas rapide. Je suis méthodique."
+Ça désarme sans confronter.
 ```
 
 ---
@@ -515,19 +526,20 @@ Voilà comment construire ton stock de vannes en 10 minutes.
 ```
 [FOND SOMBRE]
 
-Mon niveau de motivation au sport :
-je mets mes baskets, je les regarde,
-on se respecte mutuellement,
-et je rentre.
+En soirée, quelqu'un dit "t'es trop discret".
 
-*C'est ça, une relation saine.*
+C'est un compliment ou une menace ?
+Parce que j'hésite entre dire merci
+et commencer à parler très fort.
+
+*Socialement, je suis au stade intermédiaire.*
 
 — @deviens_marrant
 ```
 
 **Légende :**
 ```
-Mon niveau de motivation au sport.
+"T'es trop discret."
 
 À ressortir ce soir, mot pour mot.
 
@@ -553,7 +565,7 @@ DÉFI DU JOUR
 SLIDE 2 (optionnel) :
 "Voilà comment :"
 [3 étapes max]
-"Dis-nous dans les commentaires 👇"
+"Essaie ce soir. Reviens demain pour le suivant."
 ```
 
 **Légende du post :**
@@ -675,13 +687,13 @@ Exemples :
 - "Ils préparent leurs vannes."
 - "Le silence, c'est une technique."
 - "T'es drôle. T'as juste peur."
-- "La répartie s'entraîne en 10 min."
+- "La répartie, ça s'entraîne."
 
 **Accroche I-A2 : La question-miroir (fait piquer)**
 Exemples :
 - "T'as raté ta vanne ce soir ?"
 - "Encore muet quand tout le monde rit ?"
-- "Tu l'as pas sorti, la répartie ?"
+- "Ta répartie arrive toujours trop tard ?"
 
 **Accroche I-A3 : Le chiffre sur fond sombre**
 Exemples :
