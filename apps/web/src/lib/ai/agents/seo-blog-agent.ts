@@ -7,6 +7,8 @@ import {
   type ValidationResult,
 } from "./standup-director-agent";
 import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 /** Nombre max de tentatives generate → validate → retry pour un article */
 const MAX_ARTICLE_VALIDATION_ATTEMPTS = 3;
@@ -102,6 +104,78 @@ interface GeneratedArticle {
   targetKeyword: string;
   metaTitle: string;
   metaDescription: string;
+}
+
+/**
+ * Lit le seo-editorial-plan.json et retourne les articles planifiés pour la semaine courante
+ * (ou en retard). Priorité : articles en retard d'abord, puis semaine courante.
+ */
+function getScheduledArticlesFromPlan(currentWeek: number): ArticlePlan[] {
+  try {
+    // Résolution du chemin vers le plan éditorial (racine du projet)
+    const planPath = resolve(process.cwd(), "seo-editorial-plan.json");
+    const plan = JSON.parse(readFileSync(planPath, "utf-8"));
+
+    if (!plan.plannedArticles || !Array.isArray(plan.plannedArticles)) return [];
+
+    // Trouver les articles "planned" dont la scheduledWeek est passée ou en cours
+    const overdueOrCurrent = plan.plannedArticles
+      .filter(
+        (a: { status: string; scheduledWeek: number }) =>
+          a.status === "planned" && a.scheduledWeek <= currentWeek
+      )
+      // Les plus en retard d'abord
+      .sort((a: { scheduledWeek: number }, b: { scheduledWeek: number }) =>
+        a.scheduledWeek - b.scheduledWeek
+      );
+
+    return overdueOrCurrent.map(
+      (a: {
+        keywordPrimary: string;
+        title: string;
+        slug: string;
+        category: string;
+        formatNote?: string;
+        internalLinks?: string[];
+        cluster?: string;
+        scheduledWeek: number;
+        persona?: string;
+      }) => ({
+        targetKeyword: a.keywordPrimary,
+        title: a.title,
+        slug: a.slug,
+        category: a.category,
+        outline: (a.formatNote ?? "") +
+          (a.internalLinks?.length
+            ? `\n\nLiens internes obligatoires: ${a.internalLinks.join(", ")}`
+            : ""),
+        notes: `Article planifié semaine ${a.scheduledWeek}, cluster ${a.cluster ?? "N/A"}, persona ${a.persona ?? "Tous"}`,
+      })
+    );
+  } catch (err) {
+    console.warn("[SEO Agent] Impossible de lire seo-editorial-plan.json:", err);
+    return [];
+  }
+}
+
+/**
+ * Met à jour le statut d'un article dans seo-editorial-plan.json.
+ */
+function updateEditorialPlanStatus(slug: string, publishedDate: string): void {
+  try {
+    const planPath = resolve(process.cwd(), "seo-editorial-plan.json");
+    const plan = JSON.parse(readFileSync(planPath, "utf-8"));
+    const article = plan.plannedArticles?.find((a: { slug: string }) => a.slug === slug);
+    if (article) {
+      article.status = "published";
+      article.publishedDate = publishedDate;
+      const { writeFileSync } = require("fs");
+      writeFileSync(planPath, JSON.stringify(plan, null, 2) + "\n", "utf-8");
+      console.log(`[SEO Agent] Plan éditorial mis à jour: "${slug}" → published`);
+    }
+  } catch (err) {
+    console.warn("[SEO Agent] Impossible de mettre à jour seo-editorial-plan.json:", err);
+  }
 }
 
 /**
@@ -394,9 +468,20 @@ export async function publishWeeklyArticle(): Promise<{
   error?: string;
 }> {
   try {
-    // 1. Planifier
-    console.log("[SEO Agent] Phase 1 : Planification...");
-    const plan = await planNextArticle();
+    // 1. Vérifier d'abord le planning éditorial pour les articles en retard ou de cette semaine
+    const currentWeek = getISOWeekNumber(new Date());
+    const scheduledArticles = getScheduledArticlesFromPlan(currentWeek);
+    let plan: ArticlePlan | null = null;
+
+    if (scheduledArticles.length > 0) {
+      plan = scheduledArticles[0]; // Le plus en retard d'abord
+      console.log(`[SEO Agent] Article planifié trouvé dans le plan éditorial : "${plan.title}" (slug: ${plan.slug})`);
+    } else {
+      // Pas d'article planifié → fallback sur la génération IA
+      console.log("[SEO Agent] Aucun article planifié — génération IA...");
+      plan = await planNextArticle();
+    }
+
     if (!plan) {
       return { success: false, error: "Impossible de planifier l'article" };
     }
@@ -597,6 +682,9 @@ export async function publishWeeklyArticle(): Promise<{
         notes: plan.notes,
       },
     });
+
+    // Mettre à jour le statut dans le planning éditorial JSON
+    updateEditorialPlanStatus(article.slug, now.toISOString().split("T")[0]);
 
     console.log(`[SEO Agent] Article publié : "${article.title}"`);
 
