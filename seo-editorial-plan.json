@@ -381,7 +381,8 @@
       "persona": "Sophie",
       "category": "CONTEXTE",
       "scheduledWeek": 7,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-24",
       "internalLinks": ["/vannes", "/conseils", "/blog/timing-humour"],
       "wordCountTarget": 1800,
       "formatNote": "Format guide de survie : style ironique, comme un guide touristique de la jungle corporate"
@@ -568,7 +569,8 @@
       "persona": "Tous",
       "category": "PSYCHOLOGIE",
       "scheduledWeek": 6,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-24",
       "internalLinks": ["/parcours", "/conseils", "/vannes", "/blog/comment-devenir-drole", "/blog/timidite-et-humour"],
       "wordCountTarget": 2000,
       "formatNote": "Format mythbusting empathique : commencer par valider la douleur ('je comprends, j'étais pareil'), puis déconstruire les croyances limitantes une par une avec des preuves et exercices. Ton complice, jamais condescendant."
@@ -585,7 +587,8 @@
       "persona": "Yanis",
       "category": "REPARTIE",
       "scheduledWeek": 6,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-24",
       "internalLinks": ["/parcours", "/conseils", "/blog/comment-avoir-de-la-repartie", "/blog/repartie-soiree-anti-malaise", "/blog/repartie-debutant-5-etapes"],
       "wordCountTarget": 1500,
       "formatNote": "Format scénario : 6 situations réelles (lycée, soirée, boulot, famille, date, réseaux) → moquerie concrète → mauvaise réaction → technique → bonne réaction. CTA vers Parcours Répartie."
@@ -602,7 +605,8 @@
       "persona": "Yanis",
       "category": "REPARTIE",
       "scheduledWeek": 7,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-24",
       "internalLinks": ["/parcours", "/conseils", "/blog/comment-avoir-de-la-repartie", "/blog/timidite-et-humour", "/blog/repartie-debutant-5-etapes"],
       "wordCountTarget": 1500,
       "formatNote": "Format diagnostic : identifier POURQUOI tu restes muet (peur du jugement, manque de vocabulaire, trop dans ta tête) puis technique adaptée à chaque cause. Ton Yanis — pas de jargon psy."
