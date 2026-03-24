@@ -103,6 +103,10 @@
 | @reviewer | 24/03/2026 | docs/reviews/cross-review-report-social.md | GO avec réserves — 1 contradiction BLOQUANTE (statut Instagram ambigu entre social-strategy.md, CLAUDE.md et social-editorial-plan.json), 2 MAJEURES (jours Thread Décryptage mardi+vendredi vs mardi+mercredi ; seuil directeur 7 vs 9 entre JSON et code), 5 angles morts dont protocole de crise absent et taux de conversion 2% non sourcé | Revue croisée demandée par l'utilisateur. Lecture complète des 5 documents + code social-media-agent.ts et standup-director-agent.ts. Le fond est solide — corrections cosmétiques uniquement. Seuil directeur : le code (standup-director-agent.ts) est source de vérité à 9 ; la documentation est à corriger. Statut Instagram : décision Alex requise avant correction documentaire. |
 | @orchestrator | 24/03/2026 | 4 articles blog + GEO strategy + GEO optimization 5 pillar | Articles : je-suis-pas-drole-comment-changer (pillar douleurs), repondre-moqueries-avec-humour (satellite), blagues-travail-faire-rire-pro (pillar contexte), jamais-quoi-repondre-techniques (satellite). GEO : docs/geo/geo-strategy.md cree, 5 pillar existants reformates (H2 questions, definitions, listes numerotees, blockquotes CLEF). Planning editorial mis a jour (4 articles publies). | Priorite douleurs-personas car cluster le plus convertissant (haute intention). GEO non-destructif : ajout d'elements sans reecriture du contenu existant (deja audite). 18 articles restent en backlog pour sessions suivantes. Score GEO estime passe de 78 a ~82/100 avec les optimisations pillar. |
 | @reviewer | 24/03/2026 | docs/reviews/social-publish-review.md | GO avec reserves. 1 BLOQUANT : instrumentation.ts doublon publish-social non aligne (pas de safety net 270 chars, pas de approvedBy admin). 1 MAJEUR : double verification 280/270 dans validatePostConstraints. CAROUSEL fantome dans 5 fichiers. Fixes principaux (publish-social + buffer-client + social-media-agent) corrects et bien places. | instrumentation.ts contient un scheduler parallele qui appelle les memes fonctions Buffer mais sans les gardes-fous du cron HTTP. C'est le seul vecteur de regression reel. Les fixes Instagram sont dans buffer-client.ts (couche partagee) donc couvrent les deux chemins. |
+| @fullstack | 24/03/2026 | Fix social publish pipeline (3 commits) | Twitter 270 chars safety net + auto-split thread ; Instagram subprofile type "post" dans Buffer mutation ; instrumentation.ts aligné avec publish-social (approvedBy, imageUrl, directorNote retry, MutationError) ; CAROUSEL cast as string après suppression du type ; double check 280/270 unifié | Twitter rejetait les tweets >280 chars (limite encodage réelle ~270 avec emojis). Instagram renvoyait "Incomplete consume steps" car Buffer exige subprofile.type pour les images IG. instrumentation.ts était un doublon dangereux sans les gardes-fous — aligné plutôt que supprimé car il sert de fallback si le cron HTTP échoue. |
+| @fullstack | 24/03/2026 | Fix deploy + auth (4 commits) | Prisma revert 6.19→6.2 ; @replit/object-storage import dynamique + webpack externals ; robots.txt doublon supprimé ; eslint-disable TS→generiques | Prisma 6.19 cassait le build (incompatibilité adapter). Object-storage absent côté client = crash SSR. robots.txt dans /public prenait précédence sur la route dynamique (404 Google). |
+| @fullstack | 24/03/2026 | Instagram Object Storage + activation (2 commits) | Pré-génération images satori→Replit Object Storage ; activation Instagram via Buffer single-image (pas de carousel) | Object Storage évite la dépendance au runtime pour servir les images Instagram. Carousel exclu car Buffer API ne le supporte pas (limitation documentée). |
+| @fullstack | 24/03/2026 | Email alerting social pipeline (2 commits) | Alertes email Resend pour expiration token Buffer et échecs publication | Monitoring proactif — sans alertes, un token expiré = publications silencieusement en échec pendant des jours. |
 
 ---
 
@@ -131,6 +135,23 @@
 - **Humoristes de référence (barre qualité)** : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg
 - **Fondateur** : Alex — coach d'humour, fondateur solo + agents IA autonomes
 - **Email transactionnel** : Resend (domaine vérifié deviens-marrant.fr)
+
+## Mémo de reprise — dernière session
+
+- **Date de clôture** : 24/03/2026
+- **Résumé** : Session dense couvrant social media (stratégie + templates + fixes pipeline Twitter/Instagram + activation Instagram + email alerting), SEO (4 nouveaux articles blog + GEO optimization 5 pillar), et stabilisation technique (Prisma revert, Object Storage, robots.txt, instrumentation.ts sync). Le reviewer a identifié et corrigé une contradiction bloquante (doublon publish dans instrumentation.ts). 953/958 tests passent.
+- **Travaux en cours** :
+  - 18 articles blog restants en backlog (lots 2-7 dans orchestration-plan.md) — prochaine priorité : lot 2 (storytelling-drole, timidite-et-humour, conversation-machine-a-cafe)
+  - Score GEO ~82/100, objectif 90 — les articles restants doivent être GEO-optimisés à la publication
+  - Code mort CAROUSEL dans 5 fichiers (generate-post-image.ts, admin/social/page.tsx, prompt format, marketing-agent.ts) — cleanup basse priorité
+- **Prochaines actions recommandées** :
+  1. **@seo** : Produire lot 2 articles (storytelling-drole-5-structures, timidite-et-humour, conversation-machine-a-cafe) — cluster douleurs-personas le plus convertissant
+  2. **@fullstack** : Nettoyer les références CAROUSEL fantôme dans le codebase (5 fichiers identifiés par reviewer)
+  3. **@geo** : Reformater les nouveaux articles avec listes numérotées + définitions encadrées pour progresser vers score 90
+- **Blockers** : Aucun bloqueur technique. Décision Alex en attente : statut exact Instagram (Phase 3 active vs hold — contradiction doc signalée par reviewer dans cross-review-report-social.md)
+- **Commande de reprise suggérée** : `@orchestrator Reprends le plan SEO/GEO sprint. Phase 1-2 terminées, Phase 3 terminée. Produis le lot 2 d'articles (storytelling-drole-5-structures, timidite-et-humour, conversation-machine-a-cafe) et nettoie les refs CAROUSEL mortes.`
+
+---
 
 ## Hypothèses à valider
 

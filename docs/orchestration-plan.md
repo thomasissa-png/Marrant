@@ -38,9 +38,9 @@ Lourde -- 2 agents principaux (@seo, @geo), 3 phases, 22 articles a produire au 
   - `meilleures-blagues-droles-2026` : definition, H2 questions, blockquote CLEF -- OK
 
 ### Phase 3 -- Verification + tests + commit
-- Statut : EN COURS
-- Tests : npx jest --no-coverage a lancer
-- Commit + push
+- Statut : TERMINE
+- Tests : 953/958 pass (5 echecs = DST scheduling pre-existants, non lies)
+- Commits pushes sur branche claude/install-gradient-agents-1P6U4
 
 ### Articles restants (backlog pour prochaines sessions)
 - Lot 2 (priorite haute) : storytelling-drole-5-structures, timidite-et-humour, conversation-machine-a-cafe
