@@ -12,19 +12,19 @@ Chaque post est une **micro-performance de stand-up**. Pas un extrait du catalog
 
 Le social media de Deviens-marrant.fr est une **démo permanente du produit** : si les gens rient et apprennent quelque chose en lisant nos posts, ils comprennent exactement ce qu'ils trouvent sur le site.
 
-Tout contenu passe la validation du **Stand-Up Director** (7 critères social-spécifiques, score ≥ 7 = publication automatique). Voir CLAUDE.md pour le détail des critères.
+Tout contenu passe la validation du **Stand-Up Director** (7 critères social-spécifiques, score ≥ 9 = publication automatique). Voir CLAUDE.md pour le détail des critères.
 
 ---
 
 ## 1. Plateformes prioritaires
 
-### Décision : Twitter/X en premier, LinkedIn en second, Instagram en hold
+### Décision : Twitter/X, LinkedIn et Instagram — les 3 en simultané
 
-On ne fait pas tout en même temps. Les ressources sont 100% IA (solo fondateur, zéro équipe créative), le contenu est généré automatiquement, et chaque plateforme a des codes différents. Voici pourquoi ces 3 plateformes et dans cet ordre.
+Le pipeline est 100% automatisé (agents IA + Buffer). Aucune intervention humaine n'est requise. Les 3 plateformes tournent en parallèle dès le jour 1. Chaque plateforme a ses codes différents, mais l'agent social génère du contenu natif pour chacune.
 
 ---
 
-### Twitter/X — Plateforme #1 (Phase 1, semaines 1-2)
+### Twitter/X — Plateforme principale
 
 **Pourquoi cette plateforme :**
 Twitter est le réseau du stand-up français. Les humoristes (Fary, Roman Frayssinet, Panayotis Pascot, Blanche Gardin, Pierre Croce) y sont actifs, leur audience aussi. C'est là que se passe la culture de la vanne courte, du thread technique, de la réaction à chaud à l'actu. C'est le terrain naturel de notre positionnement "technique du stand-up décortiquée".
@@ -41,7 +41,7 @@ Yanis (20 ans, étudiant) est sur Twitter le soir entre 21h et 23h — scrolle, 
 
 ---
 
-### LinkedIn — Plateforme #2 (Phase 2, semaines 3-4)
+### LinkedIn — Plateforme secondaire
 
 **Pourquoi cette plateforme :**
 Sophie (26 ans, jeune active) est sur LinkedIn chaque matin pendant son trajet (8h-9h) et à la pause déj (12h-13h). Marc (34 ans) l'utilise aussi pour le networking. L'angle LinkedIn est différent de Twitter : pas la vanne brute, mais l'humour au service de la performance pro — "comment ne pas être le seul muet à la machine à café", "les techniques de stand-up qui changent une réunion", "pourquoi les gens drôles avancent plus vite dans leur carrière".
@@ -58,19 +58,19 @@ Sophie en priorité (humour au bureau, timing des blagues en réunion, icebreake
 
 ---
 
-### Instagram — Plateforme #3 (Phase 3, semaines 5-8, EN HOLD)
+### Instagram — Plateforme tertiaire (activation dès que l'API Meta est configurée dans Buffer)
 
 **Pourquoi cette plateforme :**
-Instagram est le terrain de Yanis (Reels, Stories, découverte). C'est la plateforme de croissance la plus rapide pour atteindre les 18-25 ans. Mais elle impose des contraintes techniques spécifiques : les Reels performent, les posts statiques moins — et produire des Reels de qualité requiert une production vidéo manuelle incompatible avec la contrainte "100% automatisé".
+Instagram est le terrain de Yanis (Reels, Stories, découverte). C'est la plateforme de croissance la plus rapide pour atteindre les 18-25 ans. Les carrousels texte (format natif qui ne requiert pas de tournage vidéo) performent bien et sont 100% automatisables.
 
-**Pourquoi en hold :**
-La config API Meta est en cours (voir CLAUDE.md). La génération automatique de visuels via satori est prête (templates charte visuelle : Technique du Jour, La Vanne, Décryptage, Le Défi — fond sombre, accent violet, texte blanc cassé). Instagram passe en actif dès que l'API Meta est configurée dans Buffer.
+**Statut technique :**
+La génération automatique de visuels via satori est prête (templates charte visuelle : Technique du Jour, La Vanne, Décryptage, Le Défi — fond sombre, accent violet, texte blanc cassé). La config API Meta dans Buffer est le seul bloquant technique. Dès qu'elle est configurée, Instagram tourne en parallèle avec Twitter et LinkedIn sans aucune intervention.
 
 **Quel persona est le plus servi :**
-Yanis principalement. Les carrousels texte (format natif Instagram qui ne requiert pas de tournage vidéo) peuvent performer si le hook visuel est fort.
+Yanis principalement. Les carrousels texte peuvent performer si le hook visuel est fort.
 
-**Objectif spécifique (à activer en Phase 3) :**
-- Atteindre 1 500 followers en 2 mois après activation
+**Objectif spécifique :**
+- Atteindre 1 500 followers en 2 mois après activation API
 - Taux d'engagement cible : 4-8% (benchmark comptes humour FR : 5-10%)
 - Format prioritaire : carrousels texte + posts statiques (satori), zéro Reel manuel
 
@@ -116,7 +116,7 @@ Tout le contenu tourne autour de ces 4 axes, directement liés au produit :
 - Emojis minimalistes (1-2 max, jamais en début de phrase)
 - CTA vers le site : naturel, jamais agressif
 
-**Instagram (Phase 3) :**
+**Instagram :**
 - Le visuel porte le hook — le texte de la légende est secondaire
 - Premier slide = hook visuel fort (fond sombre, 5 mots max en grand)
 - Ton encore plus décontracté que Twitter
@@ -176,7 +176,7 @@ Tous ces formats sont générés par `social-media-agent.ts` et validés par le 
 
 ---
 
-### Instagram — 3 formats (à activer Phase 3)
+### Instagram — 3 formats (actifs dès config API Meta dans Buffer)
 
 **Format 1 — Carrousel Technique** (3 posts/semaine)
 - 5-7 slides générés via satori
@@ -227,7 +227,7 @@ Note : Technique du Jour et Vanne Réécrite Social sont le même slot — l'age
 
 LinkedIn pénalise la sur-publication. 4 posts/semaine est le seuil optimal pour la portée organique sans fatigue d'audience dans la niche "humour + développement personnel".
 
-### Instagram — Volume Phase 3 (à activer)
+### Instagram — Volume (actif dès config API Meta)
 
 | Format | Fréquence | Volume hebdo |
 |---|---|---|
@@ -278,7 +278,7 @@ On mesure ce qui conduit à l'objectif business : **1 000€ MRR à 6 mois**. Le
 
 Note : le taux d'engagement LinkedIn cible (4-6%) est volontairement ambitieux. C'est réalisable parce que notre contenu est divertissant dans un feed dominé par du contenu corporatif banal — l'effet de contraste joue en notre faveur.
 
-### Instagram — KPIs (Phase 3)
+### Instagram — KPIs
 
 | Métrique | Benchmark comptes humour FR | Objectif 2 mois post-activation | Objectif 4 mois post-activation |
 |---|---|---|---|
@@ -339,7 +339,7 @@ Commenter intelligemment les posts des humoristes de référence (Fary, Paul Mir
 |---|---|---|
 | Buffer | Publication sur Twitter, LinkedIn, Instagram | Plan Essentials (~6€/mois) |
 | social-media-agent.ts | Génération des posts (social-native) | `lib/ai/agents/` |
-| standup-director-agent.ts | Validation qualité (7 critères, score ≥ 7) | `lib/ai/agents/` |
+| standup-director-agent.ts | Validation qualité (7 critères, score ≥ 9) | `lib/ai/agents/` |
 | /admin/social | Dashboard validation manuelle 1-clic | URL admin interne |
 | Buffer Analytics | Métriques engagement, reach, clics | Dashboard Buffer |
 | Umami | Trafic site depuis social | Dashboard Umami |
@@ -351,7 +351,7 @@ Commenter intelligemment les posts des humoristes de référence (Fary, Paul Mir
   → social-media-agent.ts génère les posts du jour (Technique du Jour, Vanne Réécrite Social, Quote Analyse)
   → Stand-Up Director validateSocialPost() applique les 7 critères
       Score ≥ 7 → status: APPROVED, directorValidated: true
-      Score < 7 → retry (max 3 tentatives avec feedback injecté)
+      Score < 9 → retry (max 3 tentatives avec feedback injecté)
       3 échecs → directorRewriteSocialPost() → status: APPROVED
       API directeur down → status: PENDING, directorValidated: false → review manuelle requise
   → DB SocialPost
@@ -395,7 +395,7 @@ BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram (optionnel — Phas
 | `lib/social/buffer-client.ts` | Client Buffer GraphQL API |
 | `lib/social/image-generator.ts` | Génération visuels via satori |
 | `lib/social/templates/*.tsx` | Templates JSX Instagram |
-| `app/admin/social/page.tsx` | Dashboard validation admin |
+| `app/admin/page.tsx` (tab Social) | Dashboard validation admin |
 | `app/api/cron/daily-social/route.ts` | Cron génération quotidienne |
 | `app/api/cron/publish-social/route.ts` | Cron publication via Buffer |
 | `app/api/cron/social-analytics/route.ts` | Cron métriques + nettoyage |
@@ -405,7 +405,7 @@ BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram (optionnel — Phas
 
 ## Auto-évaluation — Checklist livrable
 
-- [x] Les plateformes recommandées sont limitées à 3 (Twitter prioritaire, LinkedIn secondaire, Instagram en hold) avec justification par audience et type B2C
+- [x] Les 3 plateformes (Twitter, LinkedIn, Instagram) tournent en simultané — tout est automatisé, zéro intervention humaine
 - [x] Le rythme de publication est réaliste avec les ressources documentées (100% automatisé, Buffer, solo fondateur)
 - [x] Le ton par plateforme est cohérent avec le brand voice (complice, punchy, tutoiement) tout en étant adapté au format natif de chaque réseau
 - [x] Les métriques de performance par plateforme sont définies avec des seuils cibles (taux d'engagement, followers, clics)
@@ -419,7 +419,7 @@ BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram (optionnel — Phas
 - `/home/user/Marrant/docs/social/social-strategy.md` (ce fichier)
 
 **Décisions prises :**
-- **Plateformes** : Twitter/X en phase 1, LinkedIn en phase 2, Instagram en phase 3 (hold)
+- **Plateformes** : Twitter/X + LinkedIn + Instagram en simultané (Instagram dès config API Meta)
 - **Ratio contenu** : 70% divertissant+éducatif / 20% inspirant / 10% promotionnel
 - **Formats Twitter** : Technique du Jour, Vanne Réécrite Social, Thread Décryptage, Quote Analyse + Wild Cards
 - **Formats LinkedIn** : Post Situation Pro (3/semaine) + Thread Développement jeudi (1/semaine)
@@ -428,7 +428,7 @@ BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram (optionnel — Phas
 - **Stratégie** : organique pure, 0€ pub, 5 leviers de croissance identifiés
 
 **Points d'attention :**
-- Les posts Instagram nécessitent la finalisation de la config API Meta dans Buffer avant activation
+- Les posts Instagram démarrent dès que la config API Meta dans Buffer est finalisée — le pipeline est prêt
 - Le format LinkedIn doit exploiter l'effet de contraste (contenu drôle dans un feed corporatif) — le @copywriter peut affiner les hooks LinkedIn spécifiquement
 - Les Wild Cards (mercredi + samedi sur Twitter) nécessitent une veille actu stand-up FR — aujourd'hui manuel, potentiellement automatisable avec WebSearch dans social-media-agent.ts
-- Le Stand-Up Director est le garde-fou qualité : tout post avec score < 7 est retravaillé avant publication
+- Le Stand-Up Director est le garde-fou qualité : tout post avec score < 9 est retravaillé ou passe en review manuelle dans /admin
