@@ -202,22 +202,20 @@ describe("Admin Social route.ts — code integrity", () => {
     }
   });
 
-  it("vérifie les posts score < 9 avant d'approuver", async () => {
+  it("protège les posts approuvés manuellement via approvedBy: admin", async () => {
     const fs = require("fs");
     const routeSource = fs.readFileSync(
       require("path").resolve(__dirname, "../../app/api/admin/social/route.ts"),
       "utf-8",
     );
 
-    // Le bloc approve doit contenir une vérification count avec directorScore lt: 9
-    // Capture tout le bloc approve jusqu'au prochain "if (action ==="
+    // Le bloc approve doit contenir approvedBy: "admin" pour protéger contre la rétrogradation
     const approveBlock = routeSource.match(
       /if \(action === "approve" && postIds\?\.length\)([\s\S]*?)(?=\n  if \(action ===)/,
     );
 
     expect(approveBlock).not.toBeNull();
-    expect(approveBlock![1]).toContain("directorScore");
-    expect(approveBlock![1]).toContain("lt: 9");
-    expect(approveBlock![1]).toContain("status: 422");
+    expect(approveBlock![1]).toContain("approvedBy");
+    expect(approveBlock![1]).toContain("admin");
   });
 });

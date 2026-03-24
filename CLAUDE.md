@@ -331,7 +331,7 @@ CRON /api/cron/daily-social (4h UTC)
 ### Phases de déploiement
 - **Phase 1** (Sem 1-2) : Twitter/X + Threads — texte pur, 100% auto
 - **Phase 2** (Sem 3-4) : LinkedIn — angle pro Sophie/Marc
-- **Phase 3** (Sem 5-8) : Instagram — **EN HOLD** (config API Meta en cours, reprendre setup)
+- **Phase 3** (Sem 5-8) : Instagram — **ACTIF** (publication via Buffer, single-image uniquement — pas de carousel API)
 
 ### 4 formats signature Twitter (PAS d'engagement bait)
 1. **Technique du Jour** : "[Humoriste] + [technique] + comment TU l'utilises ce soir" (1x/jour)
@@ -367,7 +367,7 @@ CRON /api/cron/daily-social (4h UTC)
 - Fond principal : noir/très sombre (se démarque dans le feed)
 - Accent : violet/gradient du site (accent-primary)
 - Texte : blanc cassé, punchlines en italique + taille 1.5x
-- 4 templates reconnaissables : Technique du Jour, La Vanne, Décryptage, Le Défi
+- 3 templates reconnaissables : Technique du Jour, La Vanne, Le Défi (pas de carousel — limitation Buffer API)
 - Règle : reconnaissable en < 1 seconde dans un feed
 
 ### Horaires de publication par persona

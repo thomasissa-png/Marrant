@@ -2221,15 +2221,14 @@ describe("validatePostConstraints", () => {
     expect(issues.some((i: string) => i.includes("Post LinkedIn trop long"))).toBe(true);
   });
 
-  it("detects Instagram carousel slides exceeding 150 chars", () => {
+  it("detects Instagram caption exceeding 2200 chars", () => {
     const post = {
       ...validPost,
       platform: "INSTAGRAM" as const,
-      format: "CAROUSEL" as const,
-      threadParts: ["short", "a".repeat(160), "short", "short", "short"],
+      content: "a".repeat(2201),
     };
     const issues = validatePostConstraints(post);
-    expect(issues.some((i: string) => i.includes("Carousel slide 2 trop longue"))).toBe(true);
+    expect(issues.some((i: string) => i.includes("Caption Instagram trop longue"))).toBe(true);
   });
 
   it("detects persona leak in content (case-insensitive)", () => {

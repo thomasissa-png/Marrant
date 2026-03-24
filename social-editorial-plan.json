@@ -60,9 +60,11 @@
     },
     "INSTAGRAM": {
       "postsPerDay": 1,
-      "formats": ["IMAGE", "CAROUSEL"],
+      "formats": ["IMAGE"],
+      "carouselSupport": false,
+      "carouselNote": "Buffer API ne supporte pas les carousels Instagram — uniquement single-image posts",
       "imageSize": "1080x1080",
-      "templates": ["TECHNIQUE_DU_JOUR", "LA_VANNE", "DECRYPTAGE", "LE_DEFI"],
+      "templates": ["TECHNIQUE_DU_JOUR", "LA_VANNE", "LE_DEFI"],
       "charteVisuelle": {
         "fond": "Noir/très sombre",
         "accent": "Violet/gradient (accent-primary du site)",
@@ -70,22 +72,24 @@
         "regle": "Reconnaissable en < 1 seconde dans un feed"
       },
       "rules": [
-        "Image générée via satori (templates JSX)",
-        "Caption courte (max 300 chars), hashtags en PREMIER COMMENTAIRE (via Buffer firstComment)",
+        "Image générée via satori (templates JSX) — 1 image par post",
+        "Caption max 2200 chars, hashtags en fin de caption",
         "Pas de lien dans le caption (non cliquable)",
         "CTA → lien en bio",
+        "Alternance TECHNIQUE_DU_JOUR (lun/mer/ven/sam/dim) et QUOTE_ANALYSIS/La Vanne (mar/jeu)",
         "Yanis/Marc : plus de La Vanne et Le Défi (ils veulent rigoler, pas des cours)",
-        "Sophie : mix Technique + Carousel (elle veut apprendre ET des vannes)"
+        "Sophie : mix Technique + La Vanne (elle veut apprendre ET des vannes)"
       ],
       "weeklySchedule": {
         "monday": "TECHNIQUE_DU_JOUR",
-        "tuesday": "CAROUSEL (Décryptage)",
+        "tuesday": "QUOTE_ANALYSIS (La Vanne)",
         "wednesday": "TECHNIQUE_DU_JOUR",
-        "thursday": "CAROUSEL (Décryptage)",
+        "thursday": "QUOTE_ANALYSIS (La Vanne)",
         "friday": "TECHNIQUE_DU_JOUR",
-        "saturday": "LA_VANNE ou LE_DEFI",
-        "sunday": "Marc uniquement (scrolle seul le dimanche soir) — Technique du Jour"
-      }
+        "saturday": "TECHNIQUE_DU_JOUR (La Vanne ou Le Défi)",
+        "sunday": "TECHNIQUE_DU_JOUR (dimanche soir cool)"
+      },
+      "activatedAt": "2026-03-24"
     }
   },
   "weeklySchedule": [
@@ -99,7 +103,7 @@
       "day": "Mardi",
       "twitter": ["Quote Analyse (matin)", "Thread Décryptage (soir)"],
       "linkedin": [],
-      "instagram": ["Carousel Décryptage (5-7 slides)"]
+      "instagram": ["Image La Vanne (citation + punchline)"]
     },
     {
       "day": "Mercredi",
@@ -111,7 +115,7 @@
       "day": "Jeudi",
       "twitter": ["Quote Analyse (matin)", "Vanne situation (soir)", "Marc: tweet dating (si jour Marc)"],
       "linkedin": [],
-      "instagram": ["Carousel Décryptage"]
+      "instagram": ["Image La Vanne (citation + punchline)"]
     },
     {
       "day": "Vendredi",
@@ -129,7 +133,7 @@
       "day": "Dimanche",
       "twitter": ["Vanne légère (tous personas)", "Marc : micro-technique du dimanche soir"],
       "linkedin": [],
-      "instagram": ["Marc : Technique du Jour (come-back humour dimanche soir)"]
+      "instagram": ["Image Technique du Jour (dimanche soir cool)"]
     }
   ],
   "monthlyThemes": {

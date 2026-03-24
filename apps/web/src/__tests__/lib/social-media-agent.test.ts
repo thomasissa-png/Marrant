@@ -190,37 +190,25 @@ describe("social-media-agent", () => {
       expect(issues.some((i) => i.includes("Thread tweet 2 trop long"))).toBe(true);
     });
 
-    // --- Carousel slides (Instagram) ---
+    // --- Instagram caption length ---
 
-    it("accepte des carousel slides de 150 chars chacune", () => {
+    it("accepte une caption Instagram de 2200 chars", () => {
       const post = makePost({
         platform: "INSTAGRAM",
-        format: "CAROUSEL",
-        threadParts: [
-          "a".repeat(150),
-          "b".repeat(150),
-          "c".repeat(150),
-          "d".repeat(150),
-          "e".repeat(150),
-        ],
+        content: "a".repeat(2200),
       });
       const issues = validatePostConstraints(post);
-      expect(issues.some((i) => i.includes("Carousel slide"))).toBe(false);
+      expect(issues.some((i) => i.includes("Caption Instagram"))).toBe(false);
     });
 
-    it("rejette une carousel slide qui dépasse 150 chars", () => {
+    it("rejette une caption Instagram qui dépasse 2200 chars", () => {
       const post = makePost({
         platform: "INSTAGRAM",
-        format: "CAROUSEL",
-        threadParts: [
-          "ok",
-          "a".repeat(151), // trop longue
-          "ok aussi",
-        ],
+        content: "a".repeat(2201),
       });
       const issues = validatePostConstraints(post);
-      expect(issues.some((i) => i.includes("Carousel slide 2 trop longue"))).toBe(true);
-      expect(issues.some((i) => i.includes("151 chars"))).toBe(true);
+      expect(issues.some((i) => i.includes("Caption Instagram trop longue"))).toBe(true);
+      expect(issues.some((i) => i.includes("2201 chars"))).toBe(true);
     });
 
     // --- Persona guard (CRITIQUE) ---

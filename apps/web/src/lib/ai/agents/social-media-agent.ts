@@ -289,12 +289,14 @@ ${Object.entries(PERSONAS)
 
 ═══ INSTAGRAM — LE VISUEL QUI ARRÊTE LE SCROLL ═══
 Instagram = le format le plus visuel. Le texte doit être COURT et PERCUTANT car il sera mis en image.
-- Chaque slide/image = max 30 mots. Punchlines courtes. Impact visuel.
-- Technique du Jour : technique + explication + exemple en 3 blocs
-- Carousel : 5-7 slides, 1 idée par slide, progression logique, CTA final
+- Chaque image = max 30 mots. Punchlines courtes. Impact visuel.
+- TECHNIQUE_DU_JOUR : technique + explication + exemple en 3 blocs visuels
+- QUOTE_ANALYSIS (La Vanne) : citation + punchline en gros, analyse en caption
+- PAS de carousel (limitation API Buffer) — uniquement des posts single-image
 - Le texte caption (champ content) accompagne l'image — complémentaire, pas redondant
-- Hashtags Instagram : 5-10, mix populaires + niche (#standupfr #humour #devienirdrole #techniques)
+- Hashtags Instagram : 5-10, mix populaires + niche (#standupfr #humour #devenirdrole #techniques)
 - Pas de lien dans la caption (Instagram ne rend pas les liens cliquables) → "lien en bio"
+- Caption max 2200 chars (limite Instagram)
 
 ═══ HUMORISTES DE RÉFÉRENCE ═══
 Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Pierre Croce, Inès Reg
@@ -353,18 +355,10 @@ export function validatePostConstraints(
       `Post LinkedIn trop long : ${post.content.length} chars (max 1300)`,
     );
   }
-  if (
-    post.platform === "INSTAGRAM" &&
-    post.format === "CAROUSEL" &&
-    post.threadParts
-  ) {
-    post.threadParts.forEach((part, i) => {
-      if (part.length > 150) {
-        issues.push(
-          `Carousel slide ${i + 1} trop longue : ${part.length} chars (max 150)`,
-        );
-      }
-    });
+  if (post.platform === "INSTAGRAM" && post.content.length > 2200) {
+    issues.push(
+      `Caption Instagram trop longue : ${post.content.length} chars (max 2200)`,
+    );
   }
 
   // 3. Persona guard — internal names must NEVER appear in public content
@@ -600,21 +594,26 @@ function getDailyPlan(
   };
 
   // Instagram : thème universel, formats par jour (0=dim, 6=sam)
+  // Note : pas de CAROUSEL — Buffer API ne supporte pas les carousels Instagram.
+  // On alterne TECHNIQUE_DU_JOUR (lundi/mercredi/vendredi/samedi/dimanche)
+  // et QUOTE_ANALYSIS = "La Vanne" (mardi/jeudi) pour varier les visuels.
   const instagramFormats: Record<number, SocialFormat> = {
     0: "TECHNIQUE_DU_JOUR",
     1: "TECHNIQUE_DU_JOUR",
-    2: "CAROUSEL",
+    2: "QUOTE_ANALYSIS",
     3: "TECHNIQUE_DU_JOUR",
-    4: "CAROUSEL",
+    4: "QUOTE_ANALYSIS",
     5: "TECHNIQUE_DU_JOUR",
     6: "TECHNIQUE_DU_JOUR",
   };
 
   const instagramPost = (day: number): DailyPostPlan => ({
     format: instagramFormats[day] || "TECHNIQUE_DU_JOUR",
-    theme: `Technique ou vanne universelle — visuel percutant, ${flavor}`,
+    theme: instagramFormats[day] === "QUOTE_ANALYSIS"
+      ? `Vanne ou citation humoriste — visuel percutant, punchline qui arrête le scroll, ${flavor}`
+      : `Technique ou vanne universelle — visuel percutant, ${flavor}`,
     platform: "INSTAGRAM",
-    sourceType: instagramFormats[day] === "CAROUSEL" ? "VIDEO" : "TIP",
+    sourceType: instagramFormats[day] === "QUOTE_ANALYSIS" ? "JOKE" : "TIP",
   });
 
   // ── Helpers pour enrichir les thèmes selon le persona ──
