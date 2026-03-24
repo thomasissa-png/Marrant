@@ -11,8 +11,7 @@
 
 // Import dynamique pour éviter un crash si le module n'est pas disponible
 // (standalone build ou environnement hors Replit)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let storageClient: any = null;
+let storageClient: any = null; // eslint-disable-line
 
 /**
  * Initialise le client Object Storage (singleton).
@@ -23,8 +22,7 @@ function getClient(): any {
 
   try {
     // Import dynamique — ne crashe pas si @replit/object-storage n'est pas installé
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { Client } = require("@replit/object-storage");
+    const { Client } = require("@replit/object-storage"); // eslint-disable-line
     storageClient = new Client();
     return storageClient;
   } catch (error) {
