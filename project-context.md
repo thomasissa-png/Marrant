@@ -97,6 +97,7 @@
 | Audit GEO+Maillage | 19/03/2026 | Person schema, CollectionPage, GEO instructions, compteurs arrondis | Score GEO 78/100, Person schema auteur, robots.txt LLM-friendly | Canal LLM = acquisition future majeure — structurer le contenu pour être cité par les IA |
 | Audit directeur v2 | 22/03/2026 | Wild cards, Marc dating, Yanis gen Z refs, Sophie Vanne Réécrite | 5 directives social, fallback validation sécurisé | Tonalité social doit être social-native, pas copie du site — et sécurité si API directeur down |
 | Orchestrator | 24/03/2026 | project-context.md | Rédaction complète avec données CLAUDE.md + TONALITY_BRIEF + stack package.json | Premier setup Gradient Agents — project-context.md indispensable pour que tous les agents aient le contexte |
+| @social | 24/03/2026 | docs/social/social-strategy.md | Twitter prioritaire (Phase 1), LinkedIn secondaire (Phase 2), Instagram en hold (Phase 3) ; 4 formats signature Twitter ; ratio 70/20/10 ; pipeline 100% automatisé via Buffer ; 5 leviers organique ; KPIs par plateforme avec objectifs 3 et 6 mois | B2C mixte (Yanis 20 ans = Twitter/Instagram, Sophie 26 ans = LinkedIn/Twitter, Marc 34 ans = LinkedIn/Twitter). Instagram en hold car API Meta non finalisée — inutile de définir un rythme sans infrastructure. Zéro budget pub = organique pur avec levier "technique stand-up décortiquée" comme USP différenciante. Pas de TikTok retenu : contenu 100% automatisé texte + image est difficilement adapté au format Reels TikTok natif. |
 
 ---
 
