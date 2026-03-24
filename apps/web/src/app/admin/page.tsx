@@ -1271,7 +1271,7 @@ function PlanningTab({
                       </td>
                       <td className="px-3 py-2 text-xs">{post.platform}</td>
                       <td className="px-3 py-2 text-xs text-text-muted">{post.format}</td>
-                      <td className="max-w-[200px] truncate px-3 py-2" title={post.hook}>{post.hook ?? "—"}</td>
+                      <td className="max-w-[200px] truncate px-3 py-2" title={post.hook ?? undefined}>{post.hook ?? "—"}</td>
                       <td className="px-3 py-2 text-xs text-text-muted">{post.targetPersona}</td>
                       <td className="px-3 py-2 text-center font-mono text-xs">
                         {post.directorScore != null ? `${post.directorScore}/10` : "—"}
