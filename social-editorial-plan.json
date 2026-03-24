@@ -103,7 +103,7 @@
     },
     {
       "day": "Mercredi",
-      "twitter": ["Technique du Jour (matin)", "Thread Décryptage (soir)", "🃏 Wild Card réactif (actu stand-up)"],
+      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)", "🃏 Wild Card réactif (actu stand-up)"],
       "linkedin": ["Post storytelling/anecdote pro"],
       "instagram": ["Image Technique du Jour"]
     },
@@ -115,7 +115,7 @@
     },
     {
       "day": "Vendredi",
-      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)", "Quote Analyse (bonus)"],
+      "twitter": ["Technique du Jour (matin)", "Thread Décryptage (soir)", "Quote Analyse (bonus)"],
       "linkedin": ["Post 'La technique du week-end'"],
       "instagram": ["Image Technique du Jour"]
     },
@@ -336,7 +336,7 @@
       { "name": "Platform-native test", "weight": 1, "description": "Exploite les codes de la plateforme ?" },
       { "name": "Persona test", "weight": 1, "description": "Le persona scrolle et s'arrête ?" }
     ],
-    "minScore": 7,
+    "minScore": 9,
     "maxRetries": 3,
     "failureAction": "Le directeur réécrit lui-même le post"
   }

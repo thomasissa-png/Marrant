@@ -350,7 +350,7 @@ Commenter intelligemment les posts des humoristes de référence (Fary, Paul Mir
 04h00 UTC — CRON /api/cron/daily-social
   → social-media-agent.ts génère les posts du jour (Technique du Jour, Vanne Réécrite Social, Quote Analyse)
   → Stand-Up Director validateSocialPost() applique les 7 critères
-      Score ≥ 7 → status: APPROVED, directorValidated: true
+      Score ≥ 9 → status: APPROVED, directorValidated: true
       Score < 9 → retry (max 3 tentatives avec feedback injecté)
       3 échecs → directorRewriteSocialPost() → status: APPROVED
       API directeur down → status: PENDING, directorValidated: false → review manuelle requise
