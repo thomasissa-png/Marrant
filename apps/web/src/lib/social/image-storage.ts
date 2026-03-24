@@ -9,18 +9,22 @@
 // et le pipeline utilise l'URL dynamique /api/social/image.
 // ───────────────────────────────────────────────────────────────────
 
-import { Client } from "@replit/object-storage";
-
-let storageClient: Client | null = null;
+// Import dynamique pour éviter un crash si le module n'est pas disponible
+// (standalone build ou environnement hors Replit)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let storageClient: any = null;
 
 /**
  * Initialise le client Object Storage (singleton).
  * Retourne null si l'environnement ne supporte pas Object Storage.
  */
-function getClient(): Client | null {
+function getClient(): any {
   if (storageClient) return storageClient;
 
   try {
+    // Import dynamique — ne crashe pas si @replit/object-storage n'est pas installé
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Client } = require("@replit/object-storage");
     storageClient = new Client();
     return storageClient;
   } catch (error) {
