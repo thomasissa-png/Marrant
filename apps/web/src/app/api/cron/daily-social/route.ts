@@ -5,6 +5,7 @@ import {
   getOptimalScheduleTime,
 } from "@/lib/ai/agents/social-media-agent";
 import { getPersonaForDay } from "@/lib/ai/personas";
+import { sendAdminAlert } from "@/lib/email";
 
 /**
  * CRON — Génération quotidienne des posts sociaux.
@@ -116,12 +117,43 @@ export async function GET(req: Request) {
       `[DailySocial] ${saved.length} posts générés — ${approvedCount} validés, ${pendingCount} en attente de review`,
     );
 
+    // Alerte si aucun post approuve automatiquement
+    if (approvedCount === 0 && saved.length > 0) {
+      try {
+        await sendAdminAlert(
+          "Pipeline social — 0 posts approuves",
+          `<p><strong>${saved.length} posts generes</strong> mais <strong>aucun n'a ete approuve</strong> par le Stand-Up Director.</p>
+          <p>Tous les posts sont en attente de review manuelle dans le dashboard admin.</p>
+          <ul>
+            <li>Persona du jour : <strong>${persona}</strong></li>
+            <li>Posts en PENDING : <strong>${pendingCount}</strong></li>
+          </ul>
+          <p>Verifie les scores du directeur et approuve manuellement si necessaire.</p>`,
+        );
+      } catch (_) {
+        // Silencieux — ne pas crasher le cron pour un email
+      }
+    }
+
     return NextResponse.json({
       message: `${saved.length} posts générés (${approvedCount} validés, ${pendingCount} en review manuelle)`,
       posts: saved,
     });
   } catch (error) {
     console.error("[DailySocial] Erreur:", error);
+
+    // Alerte sur erreur critique du pipeline
+    try {
+      await sendAdminAlert(
+        "Pipeline social — erreur critique generation",
+        `<p>Le cron <code>daily-social</code> a plante.</p>
+        <p><strong>Erreur :</strong> ${error instanceof Error ? error.message : "Erreur inconnue"}</p>
+        <p>Aucun post n'a ete genere aujourd'hui. Verifie les logs et relance manuellement si necessaire.</p>`,
+      );
+    } catch (_) {
+      // Silencieux
+    }
+
     return NextResponse.json(
       { error: "Erreur lors de la génération des posts" },
       { status: 500 },
