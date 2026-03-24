@@ -333,11 +333,12 @@ export function validatePostConstraints(
 
   // 2. Character limits per platform/format
   if (post.platform === "TWITTER") {
-    // Tous les formats Twitter single-tweet doivent respecter 280 chars
+    // Tous les formats Twitter single-tweet doivent respecter 270 chars
+    // (marge 10 chars pour encodage emojis/accents que Twitter compte différemment)
     const singleTweetFormats = ["TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
-    if (singleTweetFormats.includes(post.format) && post.content.length > 280) {
+    if (singleTweetFormats.includes(post.format) && post.content.length > 270) {
       issues.push(
-        `Tweet trop long : ${post.content.length} chars (max 280). Format: ${post.format}`,
+        `Tweet trop long : ${post.content.length} chars (max 270). Format: ${post.format}`,
       );
     }
     if (post.format === "THREAD" && post.threadParts) {
@@ -427,21 +428,15 @@ export function validatePostConstraints(
     );
   }
 
-  // 8. CAROUSEL interdit — Buffer API ne supporte pas les carousels Instagram
-  if (post.format === "CAROUSEL") {
+  // 8. CAROUSEL interdit — retiré du type SocialFormat, garde programmatique ici
+  // pour les anciens posts en DB qui pourraient encore avoir ce format
+  if ((post.format as string) === "CAROUSEL") {
     issues.push(
       "CRITIQUE — Format CAROUSEL interdit. Buffer ne supporte pas les carousels Instagram. Utiliser TECHNIQUE_DU_JOUR ou QUOTE_ANALYSIS.",
     );
   }
 
-  // 9. Tweet trop long — max 270 chars (marge sécurité pour encodage Twitter)
-  if (post.platform === "TWITTER" && post.format !== "THREAD" && post.content.length > 270) {
-    issues.push(
-      `Tweet trop long : ${post.content.length} chars (max 270). Raccourcir le contenu.`,
-    );
-  }
-
-  // 10. Thread parts validation — THREAD format must have 5-7 parts
+  // 9. Thread parts validation — THREAD format must have 5-7 parts
   if (post.format === "THREAD") {
     if (!post.threadParts || post.threadParts.length === 0) {
       issues.push("Thread sans threadParts — le champ est obligatoire");
@@ -1004,8 +999,8 @@ ${platform === "LINKEDIN" ? `- Première phrase SEULE, choc — elle doit suffir
 - Max 280 caractères
 - Setup → punchline, rythme parlé`}`;
 
-    case "CAROUSEL":
-      return `FORMAT : CAROUSEL INSTAGRAM (5-7 slides)
+    case "CAROUSEL" as string:
+      return `FORMAT : CAROUSEL INSTAGRAM (5-7 slides) — DEPRECATED, ne pas utiliser
 - Slide 1 = titre accrocheur (hook visuel)
 - Slides 2-5 = contenu (1 idée par slide, phrases courtes)
 - Slide 6 = récap / takeaway

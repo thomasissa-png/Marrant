@@ -215,17 +215,26 @@ export async function register() {
       if (!isBufferConfigured()) return;
 
       const now = new Date();
-      // Double-check directorScore >= 9 (belt and suspenders — même logique que publish-social cron)
+      // Même logique que publish-social cron : approvedBy OR directorScore >= 9
       const posts = await prisma.socialPost.findMany({
-        where: { status: "APPROVED", scheduledAt: { lte: now }, directorScore: { gte: 9 } },
+        where: {
+          status: "APPROVED",
+          scheduledAt: { lte: now },
+          OR: [
+            { approvedBy: { not: null } },
+            { directorScore: { gte: 9 } },
+          ],
+        },
         orderBy: { scheduledAt: "asc" },
         take: 10,
       });
 
       // Demote any APPROVED posts with low/null scores back to PENDING
+      // SAUF les posts approuvés manuellement par l'admin (approvedBy != null)
       await prisma.socialPost.updateMany({
         where: {
           status: "APPROVED",
+          approvedBy: null,
           OR: [
             { directorScore: { lt: 9 } },
             { directorScore: null },
@@ -239,24 +248,69 @@ export async function register() {
 
       if (posts.length === 0) return;
 
+      // Helper pour découper tweets trop longs en thread
+      function splitIntoTweetThread(text: string): string[] {
+        const MAX = 280;
+        if (text.length <= MAX) return [text];
+        const parts: string[] = [];
+        const paragraphs = text.split(/\n\n+/).filter(Boolean);
+        let current = "";
+        for (const para of paragraphs) {
+          if (current && (current + "\n\n" + para).length > MAX) {
+            parts.push(current.trim());
+            current = para;
+          } else {
+            current = current ? current + "\n\n" + para : para;
+          }
+        }
+        if (current.trim()) parts.push(current.trim());
+        const result: string[] = [];
+        for (const part of parts) {
+          if (part.length <= MAX) { result.push(part); continue; }
+          const sentences = part.split(/(?<=[.!?])\s+/);
+          let chunk = "";
+          for (const sentence of sentences) {
+            if (chunk && (chunk + " " + sentence).length > MAX) {
+              result.push(chunk.trim());
+              chunk = sentence;
+            } else {
+              chunk = chunk ? chunk + " " + sentence : sentence;
+            }
+          }
+          if (chunk.trim()) result.push(chunk.trim());
+        }
+        return result;
+      }
+
+      function getBaseUrl(): string {
+        if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+        if (process.env.REPLIT_DEV_DOMAIN) return `https://${process.env.REPLIT_DEV_DOMAIN}`;
+        return `http://localhost:${process.env.PORT || "3000"}`;
+      }
+
       let published = 0;
+      const queueFullPlatforms = new Set<string>();
       for (const post of posts) {
         try {
           const platform = post.platform as BufferPlatform;
 
+          if (queueFullPlatforms.has(platform)) continue;
           if (!isChannelConfigured(platform)) continue;
 
           let externalId: string;
 
           if (platform === "TWITTER" && post.format === "THREAD" && post.threadParts.length > 0) {
             externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
+          } else if (platform === "TWITTER" && post.content.length > 270) {
+            // Safety net : tweet trop long → auto-split en thread
+            console.warn(`[scheduler:publish] Tweet ${post.id} trop long (${post.content.length} chars) — auto-split`);
+            const parts = splitIntoTweetThread(post.content);
+            externalId = await createBufferThread(parts, post.scheduledAt || undefined);
           } else if (platform === "INSTAGRAM") {
-            const baseUrl =
-              process.env.NEXT_PUBLIC_SITE_URL ||
-              (process.env.REPLIT_DEV_DOMAIN
-                ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-                : `http://localhost:${process.env.PORT || "3000"}`);
-            const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
+            // Utilise l'image Object Storage si disponible, sinon fallback URL dynamique
+            const imageUrl = post.imageUrl
+              ? post.imageUrl
+              : `${getBaseUrl()}/api/social/image?postId=${post.id}`;
             const hashtags = post.hashtags.length > 0 ? post.hashtags.join(" ") : undefined;
             externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
           } else {
@@ -275,18 +329,29 @@ export async function register() {
           const errMsg = error instanceof Error ? error.message : "Erreur inconnue";
           console.error(`[scheduler:publish] Erreur post ${post.id}:`, errMsg);
 
-          // Queue Buffer pleine → repousser de 2h et arrêter la boucle
+          // Queue Buffer pleine → repousser de 2h et skip cette plateforme
           if (error instanceof BufferQueueFullError) {
             const retryAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
             await prisma.socialPost.update({
               where: { id: post.id },
               data: { scheduledAt: retryAt },
             });
+            queueFullPlatforms.add(post.platform);
             console.warn(`[scheduler:publish] Queue pleine ${post.platform} — post ${post.id} reporté de 2h`);
             continue;
           }
 
-          const isPermanent = errMsg.includes("401") || errMsg.includes("403") || errMsg.includes("400") || errMsg.includes("trop long") || errMsg.includes("expiré") || errMsg.includes("invalide");
+          // Cohérent avec publish-social/route.ts
+          const isPermanent =
+            /\b(401|403|400)\b/.test(errMsg) ||
+            errMsg.includes("trop long") ||
+            errMsg.includes("expiré") ||
+            errMsg.includes("invalide") ||
+            errMsg.includes("invalid") ||
+            errMsg.includes("unauthorized") ||
+            errMsg.includes("forbidden") ||
+            errMsg.includes("not found") ||
+            errMsg.includes("MutationError");
 
           if (isPermanent) {
             await prisma.socialPost.update({
@@ -294,7 +359,8 @@ export async function register() {
               data: { status: "FAILED" },
             });
           } else {
-            const currentRetries = parseInt(post.sourceId?.match(/^retry:(\d+)$/)?.[1] ?? "0", 10);
+            const retryMatch = post.directorNote?.match(/\[retry:(\d+)\]$/);
+            const currentRetries = retryMatch ? parseInt(retryMatch[1], 10) : 0;
             const newRetryCount = currentRetries + 1;
 
             if (newRetryCount >= 3) {
@@ -303,12 +369,15 @@ export async function register() {
                 data: { status: "FAILED" },
               });
             } else {
+              const retryNote = post.directorNote
+                ? post.directorNote.replace(/\s*\[retry:\d+\]$/, "") + ` [retry:${newRetryCount}]`
+                : `[retry:${newRetryCount}]`;
               const retryAt = new Date(Date.now() + 30 * 60 * 1000);
               await prisma.socialPost.update({
                 where: { id: post.id },
                 data: {
                   scheduledAt: retryAt,
-                  sourceId: `retry:${newRetryCount}`,
+                  directorNote: retryNote,
                 },
               });
             }
