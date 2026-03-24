@@ -63,8 +63,12 @@ export async function generateMetadata({
   if (!article) {
     return { title: "Article introuvable" };
   }
+  // Template adds " | deviens-marrant.fr" (21 chars) — keep title ≤ 39 chars for total ≤ 60
+  const seoTitle = article.title.length > 39
+    ? article.title.slice(0, 36) + "..."
+    : article.title;
   return {
-    title: article.title,
+    title: seoTitle,
     description: article.excerpt,
     alternates: {
       canonical: `https://deviens-marrant.fr/blog/${article.slug}`,

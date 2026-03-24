@@ -129,7 +129,7 @@ function RegisterForm() {
               deviens-marrant
             </span>
           </Link>
-          <CardTitle>Créer un compte</CardTitle>
+          <h1 className="font-display text-lg font-bold text-text-primary">Créer un compte</h1>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

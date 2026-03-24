@@ -99,7 +99,7 @@ function LoginForm() {
               deviens-marrant
             </span>
           </Link>
-          <CardTitle>Connexion</CardTitle>
+          <h1 className="font-display text-lg font-bold text-text-primary">Connexion</h1>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

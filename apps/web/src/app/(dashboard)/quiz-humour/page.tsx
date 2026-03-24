@@ -7,7 +7,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Quel type d'humour es-tu ? Le quiz en 12 questions",
+  title: "Quiz : quel type d'humour es-tu ?",
   description:
     "Découvre ton profil humour en 2 minutes : Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Quiz gratuit inspiré des techniques du stand-up.",
   keywords: [
