@@ -98,6 +98,10 @@ export async function GET(req: Request) {
           status: post.directorValidated === true && (post.directorScore ?? 0) >= 9
             ? "APPROVED"
             : "PENDING",
+          // Marquer l'origine de l'approbation pour proteger contre la retrogradation
+          approvedBy: post.directorValidated === true && (post.directorScore ?? 0) >= 9
+            ? "director"
+            : null,
           scheduledAt,
         },
       });

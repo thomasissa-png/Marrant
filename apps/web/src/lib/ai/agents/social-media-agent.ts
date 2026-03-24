@@ -22,6 +22,30 @@ import type { SocialPostToValidate, ValidationResult } from "./standup-director-
 
 const MAX_VALIDATION_ATTEMPTS = 3;
 
+// ─── Yanis Gen Z refs — rotation quotidienne ────────────────────
+const YANIS_GEN_Z_REFS = [
+  "memes/TikTok",
+  "Netflix/séries",
+  "rap FR/musique",
+  "gaming/stream",
+  "dating apps",
+] as const;
+
+function getYanisGenZRef(dayOfMonth: number): string {
+  return YANIS_GEN_Z_REFS[dayOfMonth % YANIS_GEN_Z_REFS.length];
+}
+
+// ─── Sophie Vanne Réécrite Social — rotation contexte ───────────
+const SOPHIE_VANNE_CONTEXTS = [
+  "machine à café",
+  "afterwork",
+  "dîner entre amis",
+] as const;
+
+function getSophieVanneContext(dayOfMonth: number): string {
+  return SOPHIE_VANNE_CONTEXTS[dayOfMonth % SOPHIE_VANNE_CONTEXTS.length];
+}
+
 // ─── Types ──────────────────────────────────────────────────────
 
 export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
@@ -555,12 +579,24 @@ function getDailyPlan(
   };
   const flavor = personaFlavor[persona];
 
-  // LinkedIn : toujours publié (angle pro universel, pas segmenté par persona)
-  const linkedInPost: DailyPostPlan = {
-    format: "POST",
-    theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
-    platform: "LINKEDIN",
-    sourceType: "TIP",
+  // LinkedIn : publié SAUF les jours Yanis (pas de Yanis sur LinkedIn — stratégie Phase 2)
+  // Quand Yanis, on remplace par un 3ème tweet "Le Défi"
+  const linkedInPost: DailyPostPlan | null =
+    persona === "YANIS"
+      ? null
+      : {
+          format: "POST",
+          theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
+          platform: "LINKEDIN",
+          sourceType: "TIP",
+        };
+
+  // Tweet de remplacement pour Yanis quand LinkedIn est supprimé
+  const yanisReplacementTweet: DailyPostPlan = {
+    format: "TWEET",
+    theme: `Le Défi — défi concret à tester aujourd'hui, ton punchy gen Z, ref culturelle ${getYanisGenZRef(new Date().getDate())}, ${flavor}`,
+    platform: "TWITTER",
+    sourceType: "ORIGINAL",
   };
 
   // Instagram : thème universel, formats par jour (0=dim, 6=sam)
@@ -581,70 +617,91 @@ function getDailyPlan(
     sourceType: instagramFormats[day] === "CAROUSEL" ? "VIDEO" : "TIP",
   });
 
+  // ── Helpers pour enrichir les thèmes selon le persona ──
+  const dayOfMonth = new Date().getDate();
+
+  // Sophie JOKE → "Vanne Réécrite Social" avec contexte d'usage
+  function sophieJokeTheme(): string {
+    if (persona !== "SOPHIE") {
+      return `Vanne courte universelle — situation que tout le monde vit, ${flavor}`;
+    }
+    const ctx = getSophieVanneContext(dayOfMonth);
+    return `Vanne Réécrite Social — prête à ressortir mot pour mot en contexte "${ctx}". Reformule une vanne pour qu'elle soit naturelle à l'oral, comme si Sophie la sortait à la ${ctx}. ${flavor}`;
+  }
+
+  // Yanis → injecte une ref gen Z dans le thème
+  function withYanisRef(theme: string): string {
+    if (persona !== "YANIS") return theme;
+    const ref = getYanisGenZRef(dayOfMonth);
+    return `${theme} — intègre une ref culturelle gen Z (${ref}) si pertinent`;
+  }
+
   const plans: Record<number, DailyPostPlan[]> = {
     1: [
       // Lundi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique de stand-up universelle — début de semaine, énergie, ${flavor}`,
+        theme: withYanisRef(`Technique de stand-up universelle — début de semaine, énergie, ${flavor}`),
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
         format: "TWEET",
-        theme: `Vanne courte universelle — situation que tout le monde vit, ${flavor}`,
+        theme: withYanisRef(sophieJokeTheme()),
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
       instagramPost(1),
     ],
     2: [
       // Mardi
       {
         format: "QUOTE_ANALYSIS",
-        theme: `Analyse d'une technique d'un humoriste prioritaire — universelle`,
+        theme: withYanisRef(`Analyse d'une technique d'un humoriste prioritaire — universelle`),
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
       {
         format: "TWEET",
-        theme: `Vanne observationnelle universelle — moment relatable, ${flavor}`,
+        theme: withYanisRef(persona === "SOPHIE"
+          ? `Vanne Réécrite Social — prête à ressortir mot pour mot en contexte "${getSophieVanneContext(dayOfMonth)}". Vanne observationnelle reformulée pour l'oral. ${flavor}`
+          : `Vanne observationnelle universelle — moment relatable, ${flavor}`),
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      linkedInPost,
+      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
       instagramPost(2),
     ],
     3: [
       // Mercredi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique de répartie / timing — universelle, milieu de semaine`,
+        theme: withYanisRef(`Technique de répartie / timing — universelle, milieu de semaine`),
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
         format: "THREAD",
-        theme: `Thread décryptage : 3-5 techniques d'un humoriste dans un set précis — universel`,
+        theme: withYanisRef(`Thread décryptage : 3-5 techniques d'un humoriste dans un set précis — universel`),
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
       // Wild card #1 — slot réactif
       {
         format: "TWEET",
-        theme: `WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, spectacle, trend — ton spontané, ${flavor}`,
+        theme: withYanisRef(`WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, spectacle, trend — ton spontané, ${flavor}`),
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
-      linkedInPost,
+      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
       instagramPost(3),
     ],
     4: [
       // Jeudi — Marc dating tweet si persona MARC
       {
         format: "QUOTE_ANALYSIS",
-        theme: `Citation + analyse technique — humoriste moderne, universelle`,
+        theme: withYanisRef(`Citation + analyse technique — humoriste moderne, universelle`),
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
@@ -658,48 +715,51 @@ function getDailyPlan(
           }
         : {
             format: "TWEET" as const,
-            theme: `Vanne situation quotidienne universelle — moment que tout le monde vit, ${flavor}`,
+            theme: withYanisRef(sophieJokeTheme()),
             platform: "TWITTER" as const,
             sourceType: "JOKE" as const,
           },
-      linkedInPost,
+      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
       instagramPost(4),
     ],
     5: [
       // Vendredi
       {
         format: "TECHNIQUE_DU_JOUR",
-        theme: `Technique à tester ce weekend — contexte soirée/social, universelle, ${flavor}`,
+        theme: withYanisRef(`Technique à tester ce weekend — contexte soirée/social, universelle, ${flavor}`),
         platform: "TWITTER",
         sourceType: "TIP",
       },
       {
         format: "TWEET",
-        theme: `Vanne weekend universelle — léger, shareable, ${flavor}`,
+        theme: withYanisRef(sophieJokeTheme()),
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      { format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" },
+      // Vendredi : LinkedIn spécial weekend (sauf Yanis)
+      ...(persona === "YANIS"
+        ? [yanisReplacementTweet]
+        : [{ format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" }]),
       instagramPost(5),
     ],
     6: [
       // Samedi — pas de LinkedIn
       {
         format: "THREAD",
-        theme: `Thread viral : "X techniques de stand-up que tu peux utiliser ce soir" — universel`,
+        theme: withYanisRef(`Thread viral : "X techniques de stand-up que tu peux utiliser ce soir" — universel`),
         platform: "TWITTER",
         sourceType: "BLOG",
       },
       // Wild card #2 — slot réactif
       {
         format: "TWEET",
-        theme: `WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent, ${flavor}`,
+        theme: withYanisRef(`WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent, ${flavor}`),
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
       {
         format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-        theme: `Vanne ou défi weekend — universel, percutant, ${flavor}`,
+        theme: withYanisRef(`Vanne ou défi weekend — universel, percutant, ${flavor}`),
         platform: "INSTAGRAM" as SocialPlatform,
         sourceType: "JOKE",
       },
@@ -708,19 +768,19 @@ function getDailyPlan(
       // Dimanche
       {
         format: "TWEET",
-        theme: `Vanne légère dimanche — observation universelle relatable, ${flavor}`,
+        theme: withYanisRef(sophieJokeTheme()),
         platform: "TWITTER",
         sourceType: "JOKE",
       },
       {
         format: "TWEET" as SocialFormat,
-        theme: `Micro-technique du dimanche soir — courte, universelle, "essaie ça demain matin", ${flavor}`,
+        theme: withYanisRef(`Micro-technique du dimanche soir — courte, universelle, "essaie ça demain matin", ${flavor}`),
         platform: "TWITTER" as SocialPlatform,
         sourceType: "TIP",
       },
       {
         format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-        theme: `Technique ou vanne du dimanche — cool, universelle, visuel percutant, ${flavor}`,
+        theme: withYanisRef(`Technique ou vanne du dimanche — cool, universelle, visuel percutant, ${flavor}`),
         platform: "INSTAGRAM" as SocialPlatform,
         sourceType: "TIP",
       },

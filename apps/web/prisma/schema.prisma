@@ -485,6 +485,7 @@ model SocialPost {
   status          SocialPostStatus    @default(PENDING)
   directorScore   Int?                // Score de validation du directeur (1-10)
   directorNote    String?             @db.Text
+  approvedBy      String?             // "admin" si approuvé manuellement, "director" si auto (score >= 9), null si pas encore approuvé
   scheduledAt     DateTime            // Heure de publication prévue
   publishedAt     DateTime?
   externalId      String?             // ID du post sur la plateforme (tweet ID, etc.)

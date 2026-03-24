@@ -73,7 +73,10 @@ export async function POST(request: NextRequest) {
         status: "PENDING",
         directorScore: { gte: 9 },
       },
-      data: { status: "APPROVED" },
+      data: {
+        status: "APPROVED",
+        approvedBy: "admin",
+      },
     });
 
     // Count how many PENDING posts were NOT approved (low score or no score)
@@ -89,39 +92,22 @@ export async function POST(request: NextRequest) {
   }
 
   if (action === "approve" && postIds?.length) {
-    // Only allow manual approval for posts that already have directorScore >= 9
-    // Posts with lower scores must be edited first (action "edit"), then re-approved
-    const lowScorePosts = await prisma.socialPost.count({
-      where: {
-        id: { in: postIds },
-        status: "PENDING",
-        OR: [
-          { directorScore: { lt: 9 } },
-          { directorScore: null },
-        ],
-      },
-    });
-
-    if (lowScorePosts > 0) {
-      return NextResponse.json({
-        error: `${lowScorePosts} post(s) ont un score directeur < 9/10. Modifiez le contenu (action "edit") avant d'approuver, ou rejetez-les.`,
-        lowScoreCount: lowScorePosts,
-      }, { status: 422 });
-    }
-
+    // L'admin peut approuver n'importe quel post PENDING, meme avec un score < 9.
+    // Le champ approvedBy: "admin" protege ces posts contre la retrogradation
+    // par le cron publish-social (qui ne retrograde que les posts sans approvedBy).
     const result = await prisma.socialPost.updateMany({
       where: {
         id: { in: postIds },
         status: "PENDING",
-        directorScore: { gte: 9 },
       },
       data: {
         status: "APPROVED",
-        directorNote: "✅ Approuvé manuellement par l'admin",
+        approvedBy: "admin",
+        directorNote: "Approuve manuellement par l'admin",
       },
     });
     return NextResponse.json({
-      message: `${result.count} posts approuvés (validation manuelle)`,
+      message: `${result.count} posts approuves (validation manuelle)`,
       count: result.count,
     });
   }

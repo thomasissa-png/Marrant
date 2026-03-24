@@ -127,22 +127,28 @@ export async function GET(req: Request) {
 
     const now = new Date();
 
-    // Fetch approved posts ready to publish — double-check directorScore >= 9
-    // Belt and suspenders: even if a post got APPROVED via admin, don't publish below 9/10
+    // Fetch approved posts ready to publish
+    // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
+    // Posts approuves automatiquement (approvedBy null) doivent avoir directorScore >= 9.
     const posts = await prisma.socialPost.findMany({
       where: {
         status: "APPROVED",
         scheduledAt: { lte: now },
-        directorScore: { gte: 9 },
+        OR: [
+          { approvedBy: { not: null } },
+          { directorScore: { gte: 9 } },
+        ],
       },
       orderBy: { scheduledAt: "asc" },
       take: 10,
     });
 
     // Demote any APPROVED posts with low/null scores back to PENDING
+    // SAUF les posts approuves manuellement par l'admin (approvedBy != null)
     await prisma.socialPost.updateMany({
       where: {
         status: "APPROVED",
+        approvedBy: null,
         OR: [
           { directorScore: { lt: 9 } },
           { directorScore: null },
@@ -150,7 +156,7 @@ export async function GET(req: Request) {
       },
       data: {
         status: "PENDING",
-        directorNote: "⚠️ Rétrogradé APPROVED→PENDING — score directeur < 9/10",
+        directorNote: "Retrograde APPROVED->PENDING — score directeur < 9/10",
       },
     });
 
