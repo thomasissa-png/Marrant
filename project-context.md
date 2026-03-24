@@ -53,7 +53,7 @@
 - **Budget IA mensuel (tokens)** : Inclus dans infra Replit — à monitorer si le volume augmente
 - **Volume d'usage IA prévu** : ~10-20 requêtes IA/jour (3 contenus quotidiens + validation directeur + social posts + hebdo SEO)
 - **Latence IA cible** : Pas de contrainte temps réel — les générations sont des crons batch (5h-6h UTC quotidien, lundi 9h UTC hebdo)
-- **Outils d'analytics** : Aucun en place — à recommander
+- **Outils d'analytics** : Umami (self-hosted/cloud) — tracking en place et fonctionnel
 
 ---
 
@@ -68,7 +68,7 @@
 ## Contraintes
 - **Budget mensuel infrastructure** : Pas de contrainte — piloté par Replit
 - **Budget mensuel acquisition** : 0€ pour l'instant — acquisition 100% organique (SEO, social media, GEO)
-- **Budget analytics** : À recommander
+- **Budget analytics** : Umami (gratuit self-hosted ou plan cloud)
 - **Timeline de lancement** : Déjà lancé — le site est en production
 - **Contraintes légales ou sectorielles** : E-commerce standard (CGU, mentions légales, droit de rétractation — page /retractation déjà en place). RGPD applicable (utilisateurs UE). Page de politique de confidentialité nécessaire. EU AI Act potentiellement applicable (contenu généré par IA vendu dans un abonnement).
 - **Ressources disponibles** : [x] Solo — 1 fondateur (Alex) + agents IA autonomes
@@ -78,7 +78,7 @@
 ## Existant (projets en place uniquement)
 - **URL du site actuel** : https://deviens-marrant.fr/
 - **Comptes sociaux existants** : LinkedIn, Twitter/X, Instagram — tous à 0 abonné, viennent d'être créés. Publication automatisée via Buffer (pipeline daily-social).
-- **Outils analytics en place** : Aucun
+- **Outils analytics en place** : Umami (tracking web) + back-office admin (suivi abonnés)
 - **Contenu existant** : Catalogue riche — 289 vannes (13 catégories), 66 conseils (7 catégories), 89 vidéos analysées pédagogiquement, 3 parcours d'apprentissage (Machine à Café, Répartie, Confiance), 5+ articles blog SEO, pipeline social media automatisé, quiz d'humour, contenu quotidien renouvelé automatiquement
 - **Historique SEO** : Domaine indexé depuis début 2026. Trafic approximatif inconnu (pas d'analytics). Sitemap dynamique en place, robots.txt optimisé (LLM bots autorisés), schemas JSON-LD complets (Organization, Article, FAQPage, HowTo, Course, etc.), score GEO estimé 78/100.
 
