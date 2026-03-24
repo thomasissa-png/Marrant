@@ -6,9 +6,11 @@ import {
   createBufferImagePost,
   isBufferConfigured,
   isChannelConfigured,
+  getBufferChannels,
   BufferQueueFullError,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
+import { sendAdminAlert } from "@/lib/email";
 
 /**
  * Découpe un texte trop long en tweets de ≤ 280 chars.
@@ -89,6 +91,38 @@ export async function GET(req: Request) {
       return NextResponse.json({
         error: "Buffer non configuré. Ajoute BUFFER_ACCESS_TOKEN et BUFFER_ORGANIZATION_ID dans les Secrets Replit.",
       }, { status: 500 });
+    }
+
+    // Test de validité du token Buffer avant de publier
+    try {
+      await getBufferChannels();
+    } catch (tokenError) {
+      const errMsg = tokenError instanceof Error ? tokenError.message : "Erreur inconnue";
+      const isAuthError = /\b(401|403|unauthorized|forbidden|expired|expiré)\b/i.test(errMsg);
+
+      if (isAuthError) {
+        console.error("[PublishSocial] Token Buffer invalide ou expiré:", errMsg);
+        try {
+          await sendAdminAlert(
+            "Token Buffer expire — publication impossible",
+            `<p>Le token Buffer est <strong>invalide ou expire</strong>. Aucun post ne peut etre publie.</p>
+            <p><strong>Erreur :</strong> ${errMsg}</p>
+            <p><strong>Action requise :</strong></p>
+            <ol>
+              <li>Va dans <a href="https://buffer.com/app/account">Buffer Settings > API</a></li>
+              <li>Genere un nouveau token</li>
+              <li>Mets a jour <code>BUFFER_ACCESS_TOKEN</code> dans les Secrets Replit</li>
+            </ol>`,
+          );
+        } catch (_) {
+          // Silencieux
+        }
+        return NextResponse.json({
+          error: "Token Buffer invalide ou expiré. Renouvelle-le dans les Secrets Replit.",
+        }, { status: 401 });
+      }
+      // Erreur non-auth (réseau, etc.) — on continue quand même, les posts individuels gèreront l'erreur
+      console.warn("[PublishSocial] Échec test Buffer (non-auth), on continue:", errMsg);
     }
 
     const now = new Date();
@@ -286,9 +320,29 @@ export async function GET(req: Request) {
     }
 
     const published = results.filter((r) => r.status === "published").length;
+    const failed = results.filter((r) => r.status === "failed").length;
     console.log(
       `[PublishSocial] ${published}/${posts.length} posts envoyés à Buffer`,
     );
+
+    // Alerte si tous les posts ont echoue
+    if (published === 0 && failed > 0) {
+      const failedErrors = results
+        .filter((r) => r.status === "failed")
+        .map((r) => `<li><strong>${r.platform}</strong> (${r.id}) : ${r.error || "erreur inconnue"}</li>`)
+        .join("");
+
+      try {
+        await sendAdminAlert(
+          "Publication social — echec Buffer",
+          `<p><strong>${failed} posts</strong> ont echoue a la publication. Aucun post n'a ete publie.</p>
+          <ul>${failedErrors}</ul>
+          <p>Verifie la configuration Buffer et les logs du cron.</p>`,
+        );
+      } catch (_) {
+        // Silencieux
+      }
+    }
 
     return NextResponse.json({
       message: `${published} posts envoyés à Buffer`,
@@ -296,6 +350,18 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("[PublishSocial] Erreur:", error);
+
+    // Alerte sur erreur critique
+    try {
+      await sendAdminAlert(
+        "Publication social — erreur critique",
+        `<p>Le cron <code>publish-social</code> a plante.</p>
+        <p><strong>Erreur :</strong> ${error instanceof Error ? error.message : "Erreur inconnue"}</p>`,
+      );
+    } catch (_) {
+      // Silencieux
+    }
+
     return NextResponse.json(
       { error: "Erreur lors de la publication" },
       { status: 500 },
