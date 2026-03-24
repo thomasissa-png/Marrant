@@ -109,6 +109,74 @@ interface SocialStatusCounts {
   [key: string]: number;
 }
 
+// ─── Planning Types ─────────────────────────────────────────────
+
+interface PlanningBlogArticle {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  type: string;
+  scheduledWeek: number;
+  status: string;
+  publishedDate?: string;
+  cluster?: string;
+}
+
+interface PlanningSocialPost {
+  id: string;
+  platform: string;
+  format: string;
+  hook: string | null;
+  targetPersona: string;
+  status: string;
+  directorScore: number | null;
+  scheduledAt: string | null;
+  publishedAt: string | null;
+  createdAt: string;
+}
+
+interface PlanningDailyContent {
+  date: string;
+  joke: { id: string; category: string; preview: string } | null;
+  tip: { id: string; title: string; category: string } | null;
+  video: { id: string; title: string; channel: string } | null;
+}
+
+interface PlanningSeoCalendarEntry {
+  weekNumber: number;
+  year: number;
+  targetKeyword: string;
+  articleTitle: string | null;
+  status: string;
+}
+
+interface PlanningContentPlanEntry {
+  dayOfMonth: number;
+  category: string;
+  theme: string;
+  status: string;
+}
+
+interface PlanningContentPlan {
+  agentType: string;
+  month: number;
+  year: number;
+  entries: PlanningContentPlanEntry[];
+}
+
+interface PlanningData {
+  currentWeek: number;
+  blogPlan: PlanningBlogArticle[];
+  blogStats: { total: number; published: number; planned: number; overdue: number };
+  socialPosts: PlanningSocialPost[];
+  socialStats: { total: number; pending: number; approved: number; published: number; failed: number };
+  dailyContent: PlanningDailyContent[];
+  hasTodayContent: boolean;
+  seoCalendar: PlanningSeoCalendarEntry[];
+  contentPlans: PlanningContentPlan[];
+}
+
 type TabId = "dashboard" | "users" | "social" | "planning";
 type UserFilter = "all" | "premium" | "free";
 type UserSort = "recent" | "oldest" | "xp" | "streak";
@@ -142,8 +210,7 @@ export default function AdminPage() {
   const [socialFilter, setSocialFilter] = useState<SocialFilter>("ALL");
 
   // Planning
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [planningData, setPlanningData] = useState<any>(null);
+  const [planningData, setPlanningData] = useState<PlanningData | null>(null);
   const [planningLoading, setPlanningLoading] = useState(false);
 
   const getAuthHeader = useCallback((): Record<string, string> => {
@@ -995,8 +1062,7 @@ function PlanningTab({
   loading,
   onRefresh,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
+  data: PlanningData | null;
   loading: boolean;
   onRefresh: () => void;
 }) {
@@ -1102,8 +1168,7 @@ function PlanningTab({
                     </tr>
                   </thead>
                   <tbody>
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {data.seoCalendar.map((entry: any, i: number) => (
+                    {data.seoCalendar.map((entry: PlanningSeoCalendarEntry, i: number) => (
                       <tr key={i} className={`border-b border-border/50 ${entry.weekNumber === data.currentWeek ? "bg-accent-primary/5" : ""}`}>
                         <td className="px-3 py-2 font-mono text-xs">
                           S{entry.weekNumber}
@@ -1141,8 +1206,7 @@ function PlanningTab({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {(data.blogPlan ?? []).map((article: any) => {
+                  {(data.blogPlan ?? []).map((article: PlanningBlogArticle) => {
                     const isOverdue = article.status === "planned" && article.scheduledWeek < data.currentWeek;
                     return (
                       <tr key={article.id} className={`border-b border-border/50 ${isOverdue ? "bg-error/5" : article.scheduledWeek === data.currentWeek ? "bg-accent-primary/5" : ""}`}>
@@ -1196,8 +1260,7 @@ function PlanningTab({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {(data.socialPosts ?? []).map((post: any) => (
+                  {(data.socialPosts ?? []).map((post: PlanningSocialPost) => (
                     <tr key={post.id} className="border-b border-border/50">
                       <td className="whitespace-nowrap px-3 py-2 font-mono text-xs text-text-muted">
                         {post.scheduledAt
@@ -1246,8 +1309,7 @@ function PlanningTab({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {(data.dailyContent ?? []).map((day: any) => (
+                  {(data.dailyContent ?? []).map((day: PlanningDailyContent) => (
                     <tr key={day.date} className={`border-b border-border/50 ${day.date === new Date().toISOString().split("T")[0] ? "bg-accent-primary/5" : ""}`}>
                       <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">
                         {new Date(day.date).toLocaleDateString("fr-FR", { weekday: "short", day: "2-digit", month: "short" })}
@@ -1290,15 +1352,13 @@ function PlanningTab({
           {data.contentPlans?.length > 0 && (
             <div className="rounded-lg border border-border bg-background-card p-4">
               <h4 className="mb-3 text-sm font-semibold text-text-secondary">Plans mensuels agents</h4>
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {data.contentPlans.map((plan: any, i: number) => (
+              {data.contentPlans.map((plan: PlanningContentPlan, i: number) => (
                 <div key={i} className="mb-4 last:mb-0">
                   <p className="mb-2 text-xs font-medium text-text-primary">
                     {plan.agentType} — {["Jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"][plan.month]}/{plan.year}
                   </p>
                   <div className="flex flex-wrap gap-1">
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {plan.entries.map((entry: any, j: number) => (
+                    {plan.entries.map((entry: PlanningContentPlanEntry, j: number) => (
                       <span
                         key={j}
                         className={`rounded px-1.5 py-0.5 text-xs ${
