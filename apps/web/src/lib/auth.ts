@@ -85,6 +85,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.warn("[Auth][authorize] Missing email or password");
           return null;
         }
 
@@ -93,26 +94,42 @@ export const authOptions: NextAuthOptions = {
         // Rate limit : 10 tentatives par email par 15 minutes
         const rl = rateLimit(`login:${email}`, { maxRequests: 10, windowMs: 15 * 60_000 });
         if (!rl.allowed) {
+          console.warn(`[Auth][authorize] Rate limited: ${email}`);
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
 
-        if (!user || !user.passwordHash) {
+          if (!user) {
+            console.warn(`[Auth][authorize] User not found: ${email}`);
+            return null;
+          }
+
+          if (!user.passwordHash) {
+            console.warn(`[Auth][authorize] No passwordHash for: ${email} (OAuth-only account?)`);
+            return null;
+          }
+
+          const isValid = await verify(credentials.password, user.passwordHash);
+          if (!isValid) {
+            console.warn(`[Auth][authorize] Invalid password for: ${email}`);
+            return null;
+          }
+
+          console.log(`[Auth][authorize] Success: ${email}`);
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          };
+        } catch (error) {
+          console.error(`[Auth][authorize] DB/crypto error for ${email}:`, error);
           return null;
         }
-
-        const isValid = await verify(credentials.password, user.passwordHash);
-        if (!isValid) return null;
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-        };
       },
     }),
   ],
