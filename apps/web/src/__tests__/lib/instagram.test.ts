@@ -327,3 +327,131 @@ describe("instagram-templates", () => {
     expect(COLORS.textSecondary).toBe("#B3B3B3");
   });
 });
+
+// ─── Generate Post Image (shared logic) Tests ──────────────────
+
+describe("generate-post-image", () => {
+  it("génère une image TECHNIQUE_DU_JOUR depuis les données d'un post", async () => {
+    const { generatePostImage } = require("@/lib/social/generate-post-image");
+    const buf = await generatePostImage({
+      format: "TECHNIQUE_DU_JOUR",
+      hook: "Le Callback",
+      content: "Le Callback\nReprendre un élément mentionné plus tôt.",
+      targetPersona: "YANIS",
+      threadParts: [],
+    });
+    expect(Buffer.isBuffer(buf)).toBe(true);
+    expect(buf.length).toBeGreaterThan(0);
+  });
+
+  it("génère une image QUOTE_ANALYSIS", async () => {
+    const { generatePostImage } = require("@/lib/social/generate-post-image");
+    const buf = await generatePostImage({
+      format: "QUOTE_ANALYSIS",
+      hook: "Mon ex m'a dit",
+      content: "Mon ex m'a dit que je ne l'écoutais jamais.\n\nDu moins c'est ce que je crois.",
+      targetPersona: "SOPHIE",
+      threadParts: [],
+    });
+    expect(Buffer.isBuffer(buf)).toBe(true);
+  });
+
+  it("génère une image CAROUSEL pour une slide donnée", async () => {
+    const { generatePostImage } = require("@/lib/social/generate-post-image");
+    const buf = await generatePostImage({
+      format: "CAROUSEL",
+      hook: "3 techniques",
+      content: "Thread décryptage",
+      targetPersona: "MARC",
+      threadParts: ["Intro. Le setup complet", "Étape 1. Premier point", "Récap. Résumé final"],
+    }, 1);
+    expect(Buffer.isBuffer(buf)).toBe(true);
+  });
+
+  it("génère une image par défaut (Le Défi) pour un POST", async () => {
+    const { generatePostImage } = require("@/lib/social/generate-post-image");
+    const buf = await generatePostImage({
+      format: "POST",
+      hook: "Place une vanne",
+      content: "Place une vanne en réunion demain matin.",
+      targetPersona: "SOPHIE",
+      threadParts: [],
+    });
+    expect(Buffer.isBuffer(buf)).toBe(true);
+  });
+});
+
+// ─── Image Storage Tests ────────────────────────────────────────
+
+describe("image-storage", () => {
+  const mockUploadFromBytes = jest.fn().mockResolvedValue(undefined);
+  const mockDownloadAsBytes = jest.fn().mockResolvedValue({ ok: true, value: new Uint8Array([137, 80, 78, 71]) });
+  const mockDelete = jest.fn().mockResolvedValue(undefined);
+
+  beforeEach(() => {
+    jest.resetModules();
+    mockUploadFromBytes.mockClear();
+    mockDownloadAsBytes.mockClear();
+    mockDelete.mockClear();
+
+    jest.mock("@replit/object-storage", () => ({
+      Client: jest.fn().mockImplementation(() => ({
+        uploadFromBytes: mockUploadFromBytes,
+        downloadAsBytes: mockDownloadAsBytes,
+        delete: mockDelete,
+      })),
+    }));
+
+    process.env.NEXT_PUBLIC_SITE_URL = "https://deviens-marrant.fr";
+  });
+
+  afterEach(() => {
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+  });
+
+  it("uploadPostImage upload et retourne une URL", async () => {
+    const { uploadPostImage } = require("@/lib/social/image-storage");
+    const url = await uploadPostImage("post123", Buffer.from("fake-png"));
+    expect(mockUploadFromBytes).toHaveBeenCalledWith("social-images/post123.png", expect.any(Buffer));
+    expect(url).toContain("/api/social/stored-image?key=");
+    expect(url).toContain("post123.png");
+  });
+
+  it("uploadPostImage avec slide ajoute le suffixe _slideN", async () => {
+    const { uploadPostImage } = require("@/lib/social/image-storage");
+    const url = await uploadPostImage("post456", Buffer.from("fake"), 2);
+    expect(mockUploadFromBytes).toHaveBeenCalledWith("social-images/post456_slide2.png", expect.any(Buffer));
+  });
+
+  it("getStoredImage retourne un Buffer si l'image existe", async () => {
+    const { getStoredImage } = require("@/lib/social/image-storage");
+    const buf = await getStoredImage("social-images/post123.png");
+    expect(buf).not.toBeNull();
+    expect(Buffer.isBuffer(buf)).toBe(true);
+  });
+
+  it("getStoredImage retourne null si l'image n'existe pas", async () => {
+    mockDownloadAsBytes.mockResolvedValueOnce({ ok: false });
+    const { getStoredImage } = require("@/lib/social/image-storage");
+    const buf = await getStoredImage("social-images/nonexistent.png");
+    expect(buf).toBeNull();
+  });
+
+  it("deletePostImage appelle delete avec la bonne clé", async () => {
+    const { deletePostImage } = require("@/lib/social/image-storage");
+    await deletePostImage("post789");
+    expect(mockDelete).toHaveBeenCalledWith("social-images/post789.png");
+  });
+
+  it("uploadPostImage retourne null si Object Storage n'est pas disponible", async () => {
+    jest.resetModules();
+    jest.mock("@replit/object-storage", () => ({
+      Client: jest.fn().mockImplementation(() => {
+        throw new Error("Not available");
+      }),
+    }));
+    const { uploadPostImage } = require("@/lib/social/image-storage");
+    const url = await uploadPostImage("post999", Buffer.from("fake"));
+    expect(url).toBeNull();
+  });
+});

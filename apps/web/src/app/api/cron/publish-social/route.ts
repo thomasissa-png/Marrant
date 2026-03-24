@@ -215,9 +215,14 @@ export async function GET(req: Request) {
           const parts = splitIntoTweetThread(post.content);
           externalId = await createBufferThread(parts, post.scheduledAt || undefined);
         } else if (platform === "INSTAGRAM") {
-          // Instagram : post avec image générée + hashtags en fin de texte
-          const baseUrl = getBaseUrl();
-          const imageUrl = `${baseUrl}/api/social/image?postId=${post.id}`;
+          // Instagram : utilise l'image pré-générée (Object Storage) si disponible,
+          // sinon fallback sur la génération à la volée (URL dynamique)
+          const imageUrl = post.imageUrl
+            ? post.imageUrl
+            : `${getBaseUrl()}/api/social/image?postId=${post.id}`;
+          if (!post.imageUrl) {
+            console.warn(`[PublishSocial] Post ${post.id} sans image Object Storage — fallback URL dynamique`);
+          }
           const hashtags = (post.hashtags?.length ?? 0) > 0 ? post.hashtags.join(" ") : undefined;
           externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
         } else {

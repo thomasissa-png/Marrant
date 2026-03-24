@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import {
-  generateTechniqueDuJour,
-  generateLaVanne,
-  generateDecryptageSlide,
-  generateLeDefi,
-} from "@/lib/social/image-generator";
+import { generatePostImage } from "@/lib/social/generate-post-image";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +8,7 @@ export const dynamic = "force-dynamic";
  * GET /api/social/image?postId=xxx&slide=0
  *
  * Génère un PNG 1080×1080 à partir d'un SocialPost.
- * Utilisé par Meta Graph API pour récupérer les images Instagram.
+ * Utilisé comme fallback si l'image Object Storage n'est pas disponible.
  *
  * Le template est choisi en fonction du format du post :
  * - TECHNIQUE_DU_JOUR → template "Technique du Jour"
@@ -42,78 +37,18 @@ export async function GET(req: Request) {
       );
     }
 
-    let png: Buffer;
-
-    switch (post.format) {
-      case "TECHNIQUE_DU_JOUR": {
-        // Parse content: first line = technique name, rest = description
-        const lines = post.content.split("\n").filter(Boolean);
-        png = await generateTechniqueDuJour({
-          technique: post.hook || lines[0] || "Technique",
-          description: lines.slice(1).join(" ").slice(0, 200),
-          example: lines.length > 2 ? lines[2] : undefined,
-        });
-        break;
-      }
-
-      case "QUOTE_ANALYSIS": {
-        // Parse: hook = setup-like quote, content has the analysis
-        const parts = post.content.split("\n\n").filter(Boolean);
-        png = await generateLaVanne({
-          setup: parts[0] || post.hook,
-          punchline: parts[1] || parts[0] || post.hook,
-          category: "Analyse",
-        });
-        break;
-      }
-
-      case "CAROUSEL": {
-        // Each slide from threadParts
-        const slides = post.threadParts;
-        if (slideIndex < 0 || slideIndex >= slides.length) {
-          return NextResponse.json(
-            { error: `Slide ${slideIndex} hors limites (0-${slides.length - 1})` },
-            { status: 400 },
-          );
-        }
-
-        const totalSlides = slides.length;
-        const isFirst = slideIndex === 0;
-        const isLast = slideIndex === totalSlides - 1;
-
-        // Parse slide: first sentence = title, rest = content
-        const slideText = slides[slideIndex];
-        const dotIndex = slideText.indexOf(".");
-        const title =
-          dotIndex > 0 && dotIndex < 60
-            ? slideText.slice(0, dotIndex + 1)
-            : slideText.slice(0, 50);
-        const content =
-          dotIndex > 0 && dotIndex < 60
-            ? slideText.slice(dotIndex + 1).trim()
-            : slideText;
-
-        png = await generateDecryptageSlide({
-          slideNumber: slideIndex + 1,
-          totalSlides,
-          title,
-          content,
-          isFirstSlide: isFirst,
-          isLastSlide: isLast,
-        });
-        break;
-      }
-
-      default: {
-        // POST, TWEET → "Le Défi" template
-        png = await generateLeDefi({
-          challenge: post.hook || post.content.slice(0, 80),
-          context: post.content.slice(0, 200),
-          persona: (post.targetPersona as "YANIS" | "SOPHIE" | "MARC") || "YANIS",
-        });
-        break;
+    // Validate carousel slide index
+    if (post.format === "CAROUSEL") {
+      const slides = post.threadParts;
+      if (slideIndex < 0 || slideIndex >= slides.length) {
+        return NextResponse.json(
+          { error: `Slide ${slideIndex} hors limites (0-${slides.length - 1})` },
+          { status: 400 },
+        );
       }
     }
+
+    const png = await generatePostImage(post, slideIndex);
 
     return new NextResponse(new Uint8Array(png), {
       headers: {

@@ -489,6 +489,7 @@ model SocialPost {
   scheduledAt     DateTime            // Heure de publication prévue
   publishedAt     DateTime?
   externalId      String?             // ID du post sur la plateforme (tweet ID, etc.)
+  imageUrl        String?             // URL Replit Object Storage pour images Instagram (pré-générées)
   // Analytics (remplies par le cron social-analytics)
   impressions     Int                 @default(0)
   likes           Int                 @default(0)

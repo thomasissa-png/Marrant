@@ -6,6 +6,8 @@ import {
 } from "@/lib/ai/agents/social-media-agent";
 import { getPersonaForDay } from "@/lib/ai/personas";
 import { sendAdminAlert } from "@/lib/email";
+import { generatePostImage } from "@/lib/social/generate-post-image";
+import { uploadPostImage } from "@/lib/social/image-storage";
 
 /**
  * CRON — Génération quotidienne des posts sociaux.
@@ -105,6 +107,37 @@ export async function GET(req: Request) {
           scheduledAt,
         },
       });
+
+      // Pré-générer et uploader l'image pour les posts Instagram
+      if (post.platform === "INSTAGRAM") {
+        try {
+          const pngBuffer = await generatePostImage({
+            format: post.format,
+            hook: post.hook,
+            content: post.content,
+            targetPersona: post.targetPersona,
+            threadParts: post.threadParts || [],
+          });
+
+          const imageUrl = await uploadPostImage(dbPost.id, pngBuffer);
+
+          if (imageUrl) {
+            await prisma.socialPost.update({
+              where: { id: dbPost.id },
+              data: { imageUrl },
+            });
+            console.log(`[DailySocial] Image Instagram pré-générée et uploadée: ${imageUrl}`);
+          } else {
+            console.warn(`[DailySocial] Image Instagram non uploadée pour ${dbPost.id} — fallback URL dynamique`);
+          }
+        } catch (imgError) {
+          console.error(
+            `[DailySocial] Erreur pré-génération image pour ${dbPost.id}:`,
+            imgError instanceof Error ? imgError.message : imgError,
+          );
+          // Non-bloquant : le publish-social utilisera le fallback URL dynamique
+        }
+      }
 
       saved.push({
         id: dbPost.id,
