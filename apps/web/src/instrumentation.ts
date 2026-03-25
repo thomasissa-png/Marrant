@@ -163,7 +163,8 @@ export async function register() {
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
         const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "LINKEDIN" | "INSTAGRAM");
-        await prisma.socialPost.create({
+        const isDirectorApproved = post.directorValidated === true && (post.directorScore ?? 0) >= 9;
+        const dbPost = await prisma.socialPost.create({
           data: {
             platform: post.platform,
             format: post.format,
@@ -181,15 +182,40 @@ export async function register() {
               : (post.directorScore ?? 0) < 9
                 ? `⚠️ Score ${post.directorScore}/10 < 9 — review manuelle requise`
                 : (post.directorNote ?? null),
-            status: post.directorValidated === true && (post.directorScore ?? 0) >= 9
-              ? "APPROVED"
-              : "PENDING",
+            approvedBy: isDirectorApproved ? "director" : null,
+            status: isDirectorApproved ? "APPROVED" : "PENDING",
             scheduledAt,
           },
         });
+
+        // Pré-générer et uploader l'image pour les posts Instagram
+        if (post.platform === "INSTAGRAM") {
+          try {
+            const { generatePostImage } = await import("@/lib/social/generate-post-image");
+            const { uploadPostImage } = await import("@/lib/social/image-storage");
+            const pngBuffer = await generatePostImage({
+              format: post.format,
+              hook: post.hook,
+              content: post.content,
+              targetPersona: post.targetPersona,
+              threadParts: post.threadParts || [],
+            });
+            const imageUrl = await uploadPostImage(dbPost.id, pngBuffer);
+            if (imageUrl) {
+              await prisma.socialPost.update({
+                where: { id: dbPost.id },
+                data: { imageUrl },
+              });
+              console.log(`[scheduler:social] Image Instagram pré-générée: ${imageUrl}`);
+            }
+          } catch (imgErr) {
+            console.error("[scheduler:social] Erreur pré-génération image Instagram:", imgErr);
+            // Continue sans image — le fallback URL dynamique sera utilisé à la publication
+          }
+        }
       }
 
-      console.log(`[scheduler:social] ${posts.length} posts générés (PENDING).`);
+      console.log(`[scheduler:social] ${posts.length} posts générés.`);
     } catch (err) {
       console.error("[scheduler:social] Échec génération :", err);
     }
@@ -248,6 +274,14 @@ export async function register() {
 
       if (posts.length === 0) return;
 
+      // Limiter à 1 post par plateforme par run (espacement minimum ~30 min)
+      const seenPlatforms = new Set<string>();
+      const postsToPublish = posts.filter(post => {
+        if (seenPlatforms.has(post.platform)) return false;
+        seenPlatforms.add(post.platform);
+        return true;
+      });
+
       // Helper pour découper tweets trop longs en thread
       function splitIntoTweetThread(text: string): string[] {
         const MAX = 280;
@@ -290,7 +324,7 @@ export async function register() {
 
       let published = 0;
       const queueFullPlatforms = new Set<string>();
-      for (const post of posts) {
+      for (const post of postsToPublish) {
         try {
           const platform = post.platform as BufferPlatform;
 
