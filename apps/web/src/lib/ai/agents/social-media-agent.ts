@@ -53,7 +53,6 @@ export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
 export type SocialFormat =
   | "TWEET"
   | "THREAD"
-  // CAROUSEL retiré — Buffer API ne supporte pas les carousels Instagram
   | "POST"
   | "QUOTE_ANALYSIS"
   | "TECHNIQUE_DU_JOUR";
@@ -428,15 +427,7 @@ export function validatePostConstraints(
     );
   }
 
-  // 8. CAROUSEL interdit — retiré du type SocialFormat, garde programmatique ici
-  // pour les anciens posts en DB qui pourraient encore avoir ce format
-  if ((post.format as string) === "CAROUSEL") {
-    issues.push(
-      "CRITIQUE — Format CAROUSEL interdit. Buffer ne supporte pas les carousels Instagram. Utiliser TECHNIQUE_DU_JOUR ou QUOTE_ANALYSIS.",
-    );
-  }
-
-  // 9. Thread parts validation — THREAD format must have 5-7 parts
+  // 8. Thread parts validation — THREAD format must have 5-7 parts
   if (post.format === "THREAD") {
     if (!post.threadParts || post.threadParts.length === 0) {
       issues.push("Thread sans threadParts — le champ est obligatoire");
@@ -998,15 +989,6 @@ ${platform === "LINKEDIN" ? `- Première phrase SEULE, choc — elle doit suffir
 - Les hashtags en FIN de post (3-5 max), jamais dans le texte` : `- Ton décontracté, stand-up style
 - Max 280 caractères
 - Setup → punchline, rythme parlé`}`;
-
-    case "CAROUSEL" as string:
-      return `FORMAT : CAROUSEL INSTAGRAM (5-7 slides) — DEPRECATED, ne pas utiliser
-- Slide 1 = titre accrocheur (hook visuel)
-- Slides 2-5 = contenu (1 idée par slide, phrases courtes)
-- Slide 6 = récap / takeaway
-- Slide 7 = CTA
-- Chaque slide = max 30 mots
-- Le texte de chaque slide va dans "threadParts"`;
 
     default:
       return "";

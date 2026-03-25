@@ -356,18 +356,6 @@ describe("generate-post-image", () => {
     expect(Buffer.isBuffer(buf)).toBe(true);
   });
 
-  it("génère une image CAROUSEL pour une slide donnée", async () => {
-    const { generatePostImage } = require("@/lib/social/generate-post-image");
-    const buf = await generatePostImage({
-      format: "CAROUSEL",
-      hook: "3 techniques",
-      content: "Thread décryptage",
-      targetPersona: "MARC",
-      threadParts: ["Intro. Le setup complet", "Étape 1. Premier point", "Récap. Résumé final"],
-    }, 1);
-    expect(Buffer.isBuffer(buf)).toBe(true);
-  });
-
   it("génère une image par défaut (Le Défi) pour un POST", async () => {
     const { generatePostImage } = require("@/lib/social/generate-post-image");
     const buf = await generatePostImage({

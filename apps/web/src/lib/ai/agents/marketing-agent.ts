@@ -202,7 +202,7 @@ RÈGLES DE RÉPONSE :
 
 export interface SocialPost {
   platform: "TIKTOK" | "INSTAGRAM" | "TWITTER" | "YOUTUBE_SHORTS";
-  format: "REEL" | "STORY" | "CAROUSEL" | "POST" | "THREAD";
+  format: "REEL" | "STORY" | "POST" | "THREAD";
   targetPersona: PersonaKey;
   hook: string;
   content: string;
@@ -319,7 +319,7 @@ ${ctx.recentPosts?.length ? `\nPosts récents (ne pas répéter) :\n${ctx.recent
 Réponds UNIQUEMENT en JSON :
 {
   "platform": "${ctx.platform}",
-  "format": "REEL|STORY|CAROUSEL|POST|THREAD",
+  "format": "REEL|STORY|POST|THREAD",
   "targetPersona": "${ctx.targetPersona}",
   "hook": "Accroche qui arrête le scroll (max 10 mots)",
   "content": "Corps du post (adapté au format)",

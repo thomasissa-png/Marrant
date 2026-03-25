@@ -13,7 +13,6 @@ export const dynamic = "force-dynamic";
  * Le template est choisi en fonction du format du post :
  * - TECHNIQUE_DU_JOUR → template "Technique du Jour"
  * - QUOTE_ANALYSIS → template "La Vanne"
- * - CAROUSEL → template "Décryptage" (slide index requis)
  * - POST / TWEET → template "Le Défi"
  */
 export async function GET(req: Request) {
@@ -35,17 +34,6 @@ export async function GET(req: Request) {
         { error: "Post introuvable", postId, hint: "Vérifiez que le postId existe dans la base de données de cet environnement" },
         { status: 404 },
       );
-    }
-
-    // Validate carousel slide index
-    if (post.format === "CAROUSEL") {
-      const slides = post.threadParts;
-      if (slideIndex < 0 || slideIndex >= slides.length) {
-        return NextResponse.json(
-          { error: `Slide ${slideIndex} hors limites (0-${slides.length - 1})` },
-          { status: 400 },
-        );
-      }
     }
 
     const png = await generatePostImage(post, slideIndex);

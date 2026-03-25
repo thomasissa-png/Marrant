@@ -51,31 +51,6 @@ export async function generatePostImage(
       });
     }
 
-    case "CAROUSEL": {
-      const slides = post.threadParts;
-      const idx = Math.max(0, Math.min(slide, slides.length - 1));
-      const totalSlides = slides.length;
-      const slideText = slides[idx] || "";
-      const dotIndex = slideText.indexOf(".");
-      const title =
-        dotIndex > 0 && dotIndex < 60
-          ? slideText.slice(0, dotIndex + 1)
-          : slideText.slice(0, 50);
-      const content =
-        dotIndex > 0 && dotIndex < 60
-          ? slideText.slice(dotIndex + 1).trim()
-          : slideText;
-
-      return generateDecryptageSlide({
-        slideNumber: idx + 1,
-        totalSlides,
-        title,
-        content,
-        isFirstSlide: idx === 0,
-        isLastSlide: idx === totalSlides - 1,
-      });
-    }
-
     default: {
       return generateLeDefi({
         challenge: post.hook || post.content.slice(0, 80),

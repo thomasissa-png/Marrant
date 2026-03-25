@@ -41,7 +41,6 @@ const PLATFORM_ICONS: Record<string, string> = {
 const FORMAT_LABELS: Record<string, string> = {
   TWEET: "Tweet",
   THREAD: "Thread",
-  CAROUSEL: "Carousel",
   POST: "Post",
   QUOTE_ANALYSIS: "Quote Analyse",
   TECHNIQUE_DU_JOUR: "Technique du Jour",
