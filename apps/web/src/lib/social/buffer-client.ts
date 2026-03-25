@@ -302,7 +302,7 @@ export async function createBufferImagePost(
   // Instagram requiert le type de publication (post, story, reel)
   // Buffer GraphQL : metadata.instagram.type (NOT subprofile — that field doesn't exist)
   const metadataBlock = platform === "INSTAGRAM"
-    ? `,\n        metadata: { instagram: { type: "post" } }`
+    ? `,\n        metadata: { instagram: { type: post } }`
     : "";
 
   const query = `
