@@ -364,8 +364,9 @@
       "persona": "Yanis",
       "category": "PSYCHOLOGIE",
       "scheduledWeek": 7,
-      "status": "planned",
-      "internalLinks": ["/parcours", "/conseils", "/blog/comment-avoir-de-la-repartie"],
+      "status": "published",
+      "publishedDate": "2026-03-25",
+      "internalLinks": ["/parcours", "/conseils", "/blog/comment-avoir-de-la-repartie", "/blog/repartie-debutant-5-etapes", "/blog/comment-devenir-drole"],
       "wordCountTarget": 1500,
       "formatNote": "Format témoignage : écrire comme si le persona Yanis racontait son parcours — 1ère personne déguisée"
     },

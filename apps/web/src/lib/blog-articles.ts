@@ -2272,6 +2272,190 @@ Notre [Parcours Répartie](/parcours) structure exactement cette progression sem
       { question: "Comment répondre quand quelqu'un te pose une question et que tu ne sais pas quoi dire ?", answer: "Utilise le rebond sur le dernier mot : reprends un mot de la question et construis dessus. 'Les Vosges ? C'est quoi, un week-end ou une expédition ?' Tu n'as pas besoin d'être drôle — juste de relancer. Autre option : retourne la question ('Bonne question. Toi t'en penses quoi ?')." },
     ],
   },
+  {
+    slug: "timidite-et-humour",
+    title: "Timidité et humour : 5 clés pour oser",
+    excerpt:
+      "Introverti ne veut pas dire pas drôle. 5 clés pour utiliser ta sensibilité comme force comique.",
+    content: `Pendant des années, tu t'es convaincu que l'humour était pour les autres. Les extravertis. Les gens qui prennent naturellement la parole, qui ont une réplique dans chaque poche, qui entrent dans une pièce et DEVIENNENT la pièce.
+
+Toi ? Tu observes. Tu écoutes. Et la nuit, sous la douche, tu réalises que tu aurais pu placer le truc LE PLUS DRÔLE du siècle si seulement quelqu'un avait attendu 48 heures ta réponse.
+
+Ce texte, c'est pour toi. Pas pour te dire "sois extraverti". Pour te dire que **ta timidité est déjà une compétence comique** — elle est juste mal employée.
+
+> **CLEF :** La timidité n'est pas l'opposé de l'humour. C'est souvent son meilleur carburant. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise — l'ingrédient n°1 du rire. **Panayotis Pascot** a construit toute sa carrière sur sa vulnérabilité. **Paul Mirabel** a commencé dans des salles de 20 personnes avec une timidité maladive. Ce que tu vis maintenant est le début de quelque chose.
+
+## Tu n'es pas "pas drôle". Tu es juste mal équipé.
+
+Voilà la différence entre un introverti drôle et un introverti qui se tait : pas le talent. L'équipement. Des réflexes. Des techniques. Un plan.
+
+Sans plan, le timide observe une absurdité, la trouve drôle intérieurement, et la garde pour lui. Avec les bonnes clés, cette même observation devient une réplique que tout le monde cite encore le lendemain matin.
+
+Les 5 clés qui suivent ont été construites pour toi : chacune part de là où tu en es, pas de là où tu "devrais" être.
+
+---
+
+## Clé 1 : L'observation silencieuse est un super-pouvoir
+
+Les extravertis parlent beaucoup et observent peu. Toi c'est l'inverse.
+
+Et dans l'humour, **observer est la compétence n°1**.
+
+**Roman Frayssinet** — un des humoristes les plus précis du stand-up français — est connu pour une chose : il voit des trucs que personne d'autre ne verbalise. La façon dont quelqu'un regarde son téléphone au restaurant. Le micro-malaise d'une réunion Zoom quand deux personnes commencent à parler en même temps. Les petites absurdités que tout le monde vit et personne ne pointe.
+
+C'est exactement ce que tu fais déjà. Tu remarques. Tu analyses. Tu retiens.
+
+La seule chose qui te manque, c'est de sortir ces observations au bon moment.
+
+> **CLEF :** Les introvertis ont un radar à absurdités naturellement calibré. Chaque observation que tu gardes pour toi est une vanne en attente d'être lâchée.
+
+**Exercice concret — le carnet d'observations :**
+1. Pendant une semaine, note chaque jour UNE observation absurde sur ta vie (coloc, cours, transports, réseaux)
+2. Formule-la en une phrase, comme si tu l'envoyais à un pote par message
+3. Relis le vendredi — tu verras que 3 ou 4 de ces observations sont objectivement drôles
+
+Le simple fait de formuler à l'écrit entraîne ton cerveau à trouver l'angle comique. C'est la même mécanique que les [techniques de storytelling](/blog/comment-devenir-drole) — tu apprends à extraire la substance drôle d'un fait réel.
+
+---
+
+## Clé 2 : L'humour écrit d'abord — ta zone d'entraînement
+
+La scène de soirée te terrorise ? Parfait. Tu n'as pas besoin d'elle au début.
+
+**L'humour écrit — messages, groupes WhatsApp, réponses Instagram — c'est ton terrain d'entraînement idéal.** Tu as le temps de formuler. Tu peux relire avant d'envoyer. Tu peux corriger. Et si ça tombe à plat, tu n'as pas à gérer 12 visages qui te regardent.
+
+C'est exactement comme ça que **Panayotis Pascot** décrit ses débuts : "J'écrivais des trucs, je testais par messages, je voyais ce qui faisait réagir." L'écrit comme brouillon avant l'oral. L'écrit comme sécurité filet.
+
+**Les 3 formats d'entraînement écrits classés du plus safe au moins safe :**
+
+1. **Messages à un ami proche** (risque zéro — si c'est nul, vous rigolerez de comment c'est nul)
+2. **Groupe WhatsApp de proches** (public légèrement plus large, mais encore bienveillant)
+3. **Réponse à un post/story de quelqu'un** (semi-public — bon pour tester l'effet sur des gens qui te connaissent moins)
+
+**Exercice concret — le test message :**
+Ce soir, prends UNE de tes observations de la clé 1 et envoie-la à un pote. Pas avec "tu trouves ça drôle ?" — juste l'observation, naturellement. Note sa réaction. Si c'est un emoji rire, tu as une vanne. Si c'est "ok..." tu as une donnée.
+
+Tu fais de la R&D comique. [Roman Frayssinet](/blog/comment-avoir-de-la-repartie) teste ses sketches en conversation avant de les mettre sur scène. Tu fais exactement la même chose.
+
+---
+
+## Clé 3 : L'effet de surprise — quand un timide parle, tout le monde écoute
+
+Voici un truc que tu ne réalises probablement pas : **quand tu parles en groupe, les gens t'écoutent vraiment**.
+
+Pas parce que tu es particulièrement éloquent. Parce que tu parles peu. Et quand quelqu'un qui parle peu ouvre la bouche, l'attention se concentre naturellement. Le cerveau humain est câblé pour ça — la rareté crée de la valeur.
+
+C'est l'**effet de surprise du timide** : une réplique que sortirait l'extraverti de service passerait inaperçue. La même réplique dans ta bouche fait exploser la table. Parce que personne ne l'attendait.
+
+**Paul Mirabel** joue beaucoup sur ce ressort : il installe une énergie calme, presque hésitante, et PAF — la punchline arrive là où personne ne la voyait venir. Le contraste entre l'énergie posée et le contenu de la vanne CRÉE le rire. Tu as ce contraste en stock sans même y penser.
+
+> **CLEF :** Ton silence habituel est un setup permanent. Chaque fois que tu parles, tu lâches une punchline dans une pièce pleine de tension accumulée. Exploite ça.
+
+**Exercice concret — la réplique en fin de conversation :**
+La semaine prochaine, en groupe, attends qu'un sujet soit "presque clos" et glisse ta réplique à ce moment-là. Pas en coupant la parole. En fin de respiration naturelle. La vanne arrivera dans un silence partiel — l'effet sera 3 fois plus fort.
+
+---
+
+## Clé 4 : L'autodérision légère — ta timidité devient matière comique
+
+Ta timidité t'a sûrement causé des moments embarrassants. Des blancs gênants. Des situations où tu aurais voulu disparaître.
+
+**Ces moments-là sont de l'or comique.**
+
+L'autodérision, c'est prendre du recul sur tes propres galères et les raconter avec un sourire. Pas de la pitié. Pas de la dépréciation. Du recul bienveillant.
+
+**Panayotis Pascot** est la référence absolue en France sur ce sujet. Il parle de ses angoisses, de ses moments de doute, de sa vulnérabilité — et tu ris AVEC lui parce qu'il a transformé sa douleur en observation drôle sur la condition humaine. Tu ne l'as jamais entendu dire "je suis nul". Il dit "voilà l'absurdité de ma situation" et tu te reconnais dedans.
+
+La différence est cruciale :
+
+**Autodérision triste (à éviter) :** "Je suis tellement timide que je parle à personne en soirée. C'est pathétique."
+→ Ni drôle, ni fun, ni actionnable. C'est de l'apitoiement, pas de l'humour.
+
+**Autodérision drôle (à cultiver) :** "Je suis tellement timide qu'en soirée je planifie mes trajets pour éviter les zones de contact humain. J'ai un plan d'évacuation mentale pour chaque pièce."
+→ Même réalité. Mais la précision + l'exagération + le recul transforment le tout en vanne.
+
+**Exercice concret — le retournement :**
+Prends un moment gênant récent lié à ta timidité. Écris-le en une phrase factuelle. Maintenant pousse l'exagération à 200% — comme si tu le racontais à un pote pour le faire rire. La version exagérée est probablement drôle. Garde-la.
+
+---
+
+## Clé 5 : La progression par paliers — du petit groupe au grand groupe
+
+Tu n'as pas à commencer en soirée de 30 personnes. Personne ne fait ça.
+
+La progression en humour pour les introvertis suit une courbe précise :
+
+1. **Solo → 1 personne de confiance** (pas de risque, pas de jugement collectif)
+2. **Petit groupe bienveillant (3-5 personnes)** — famille proche, amis de longue date
+3. **Groupe intermédiaire (5-10 personnes)** — collègues devenus proches, groupe de cours
+4. **Groupe large (10+ personnes)** — soirée, fête, événement
+
+Chaque palier est un niveau à débloquer. Tu ne passes au suivant que quand le précédent est confortable. Pas avant.
+
+C'est exactement la progression de notre [Parcours Répartie](/parcours) sur deviens-marrant.fr : 4 semaines structurées pour passer de "je sais jamais quoi dire" à "je gère". Chaque semaine = un palier.
+
+**Les erreurs à éviter dans la progression :**
+- **Sauter les paliers** : vouloir briller en groupe de 20 avant d'être à l'aise en groupe de 5 = se planter et se décourager inutilement
+- **Attendre d'être "prêt"** : tu ne seras jamais "prêt". Le palier 1, c'est maintenant, ce soir, avec la première personne que tu vois
+- **Se juger sur un résultat** : si une vanne tombe à plat au palier 2, c'est une donnée, pas un verdict sur ta personnalité
+
+> **CLEF :** Les meilleurs humoristes français ont tous commencé par faire rire un ami, puis 5 amis, puis une petite salle. **Paul Mirabel** n'est pas arrivé à Bercy d'un seul bond. Il a fait des dizaines de paliers intermédiaires. Ton palier 1 est ce soir.
+
+**Exercice final — le plan des 2 semaines :**
+
+Semaine 1 :
+- Clé 2 : envoie 1 observation drôle par message à un ami proche, chaque jour
+- Clé 4 : écris 3 versions exagérées d'un moment gênant de ta semaine
+
+Semaine 2 :
+- Clé 3 : en groupe de 3-5 personnes, place 1 réplique en fin de conversation (pas d'interruption — attends le silence)
+- Clé 1 : note 7 observations en 7 jours — relis le dimanche et envoie la meilleure à un pote
+
+---
+
+## La vérité sur la timidité et l'humour
+
+Il n'y a pas de "type drôle" et de "type pas drôle". Il y a des gens qui ont des réflexes et des techniques, et des gens qui ne les ont pas encore.
+
+La timidité ne t'interdit pas l'humour. Elle te donne une palette différente — plus subtile, plus précise, souvent plus mémorable. Le rire qu'on arrache par surprise dure plus longtemps que le rire qu'on achète avec du bruit.
+
+Tu n'as pas besoin de changer de personnalité. Tu as besoin de 5 clés, d'un plan, et d'un premier exercice ce soir.
+
+Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers universels (observation, surprise, timing, autodérision, pratique). Et les [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent des réflexes verbaux pour ne plus rester muet.
+
+Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme — palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. **0,99 EUR/mois** — le prix d'une réplique ratée en moins.`,
+    date: "2026-03-25",
+    readingTime: "7 min",
+    category: "PSYCHOLOGIE",
+    faqs: [
+      {
+        question: "Est-ce qu'on peut être drôle quand on est timide ?",
+        answer:
+          "Oui — et la timidité est souvent un atout. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise quand ils interviennent. Panayotis Pascot et Paul Mirabel ont tous les deux commencé en introvertis maladroits. La timidité n'empêche pas l'humour — elle demande juste des techniques adaptées.",
+      },
+      {
+        question: "Comment développer son humour quand on est introverti ?",
+        answer:
+          "Commencez par l'humour écrit (messages, WhatsApp) — zone d'entraînement sans pression sociale. Notez chaque jour une observation absurde. Testez-la par message avec un ami proche. Quand ça marche à l'écrit, transposez à l'oral en petit groupe. La progression par paliers (1 personne → 5 personnes → groupe large) est la méthode la plus efficace pour les introvertis.",
+      },
+      {
+        question:
+          "Pourquoi un timide qui parle peu est-il plus drôle quand il s'exprime ?",
+        answer:
+          "Parce que la rareté crée de la valeur. Quand quelqu'un qui parle peu ouvre la bouche, l'attention se concentre. La punchline arrive dans un silence naturel — ce qui multiplie son impact. C'est ce que les pros appellent l'effet de surprise : le contraste entre l'énergie calme et le contenu de la vanne crée le rire.",
+      },
+      {
+        question: "Comment transformer sa timidité en humour ?",
+        answer:
+          "L'autodérision légère est la technique clé : prenez un moment embarrassant lié à votre timidité et poussez l'exagération à 200%. Pas de l'apitoiement ('c'est pathétique'), mais du recul bienveillant ('j'ai un plan d'évacuation mental pour chaque pièce en soirée'). La même réalité, racontée avec précision et distance, devient de l'humour observationnel.",
+      },
+      {
+        question: "Par où commencer pour oser faire rire quand on est timide ?",
+        answer:
+          "Commencez par le palier 0 : envoyez une vanne par message à un seul ami de confiance. Pas de risque social, pas de regard, juste du texte. Si ça fait rire, notez-le. Si ça tombe à plat, c'est une donnée, pas un verdict. En une semaine de messages, vous aurez votre premier répertoire de blagues personnelles qui fonctionnent — prêt à tester en conversation.",
+      },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
