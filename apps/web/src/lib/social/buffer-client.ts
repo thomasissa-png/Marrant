@@ -300,8 +300,10 @@ export async function createBufferImagePost(
   const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
   // Instagram requiert le type de publication (post, story, reel)
-  // Buffer GraphQL : subprofile.type pour Instagram
-  const instagramType = platform === "INSTAGRAM" ? `,\n        subprofile: { type: "post" }` : "";
+  // Buffer GraphQL : metadata.instagram.type (NOT subprofile — that field doesn't exist)
+  const metadataBlock = platform === "INSTAGRAM"
+    ? `,\n        metadata: { instagram: { type: "post" } }`
+    : "";
 
   const query = `
     mutation CreateImagePost {
@@ -313,7 +315,7 @@ export async function createBufferImagePost(
         dueAt: "${dueAtStr}",
         assets: {
           images: [{ url: ${JSON.stringify(imageUrl)} }]
-        }${instagramType}
+        }${metadataBlock}
       }) {
         ... on PostActionSuccess {
           post {
