@@ -2456,6 +2456,214 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
       },
     ],
   },
+  {
+    slug: "storytelling-drole-5-structures",
+    title: "Storytelling drôle : 5 structures efficaces",
+    excerpt:
+      "Escalade, surprise, exagération : 5 structures narratives pour raconter des histoires qui font rire. Avec les techniques de Paul Mirabel, Fary et Waly Dia.",
+    content: `Tu connais ce moment où quelqu'un raconte une histoire et tu te demandes pourquoi c'est drôle — alors que toi, exactement la même histoire, tu l'aurais racontée et personne n'aurait ri ?
+
+Ce n'est pas une question de talent. C'est une question de **structure**.
+
+Les meilleurs humoristes ne "sont" pas drôles. Ils utilisent des structures narratives précises qui transforment n'importe quelle anecdote banale en histoire qui fait rire. **Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia** — chacun a ses signatures. Et ces signatures, elles s'apprennent.
+
+Voici les 5 structures à maîtriser, une par humoriste, avec des exercices pour les appliquer dès ce soir.
+
+> **CLEF :** Le storytelling humour n'est pas une question d'inspiration — c'est de l'architecture narrative. Maîtriser 2 ou 3 structures suffit pour transformer n'importe quelle anecdote ordinaire en histoire qui fait rire. La structure fait 70% du travail, le contenu fait 30%.
+
+## Qu'est-ce qui rend une histoire drôle ?
+
+Avant les 5 structures, voici la mécanique de base que toutes partagent.
+
+Une histoire drôle crée une **tension** puis la **libère de façon inattendue**. Le cerveau de ton auditeur s'attend à aller dans une direction — et toi, tu l'emmènes ailleurs. Plus le virage est inattendu, plus le rire est fort.
+
+Les 3 ingrédients universels du storytelling humour :
+1. **Le setup** — tu poses le décor, tu crées une attente
+2. **La tension** — tu montes vers quelque chose que le cerveau anticipe
+3. **La chute** — tu livres une résolution que personne n'attendait
+
+La différence entre les 5 structures ci-dessous, c'est la façon dont elles construisent cette tension et la libèrent.
+
+Si tu veux creuser les bases de la construction comique, notre article [Comment bien raconter une blague](/blog/raconter-blague-sans-massacrer) couvre les fondamentaux. Pour le timing dans la livraison, voir [Timing humour : plus fort que la blague](/blog/timing-humour).
+
+## Comment l'escalade peut transformer une anecdote banale ?
+
+### La structure : Paul Mirabel
+
+L'escalade, c'est partir d'une observation banale et monter progressivement en intensité jusqu'à un absurde total. Chaque cran est plus exagéré que le précédent. Le rire vient de la montée elle-même autant que de la chute.
+
+**Paul Mirabel** en est le maître absolu. Il prend un truc ordinaire — une relation avec ses parents, une expérience en supermarché, un trajet en transport — et il monte, monte, monte jusqu'à ce que la réalité soit complètement distordue.
+
+### L'escalade en pratique
+
+La mécanique est simple : 3 crans d'intensité croissante.
+
+**Cran 1 (réaliste) :** "Mon boss envoie des emails le dimanche soir."
+**Cran 2 (légèrement exagéré) :** "Le dimanche à 23h. Avec 'URGENT' dans l'objet."
+**Cran 3 (absurde total) :** "Tellement que j'ai commencé à dormir avec mon téléphone allumé. Je suis devenu l'assistante de mon propre sommeil."
+
+Chaque étape est plus inattendue que la précédente. Et chaque étape crée une attente pour la suivante. Le public rit deux fois : en voyant chaque cran, et à la chute finale.
+
+> **À retenir :** L'escalade marche sur TOUTES les situations frustrantes : transports, boulot, applications, famille. Si tu trouves une situation énervante, tu as déjà le matériau brut. Il te reste juste à monter les crans.
+
+**DÉFI ESCALADE :** Prends une situation agaçante de ta semaine. Décris-la en 3 crans d'intensité croissante. Le troisième doit être 3 fois plus exagéré que le premier. Teste-la ce soir.
+
+## Pourquoi le pivot produit la surprise la plus forte ?
+
+### La structure : Fary
+
+Le pivot, c'est une construction en deux temps : un setup qui oriente le cerveau dans une direction évidente, puis un virage brutal vers quelque chose de complètement inattendu.
+
+**Fary** en est le spécialiste. Il commence une histoire de façon tellement banale, tellement "tu sais où ça va", que quand la chute arrive dans une direction radicalement différente — l'effet est maximal.
+
+La règle d'or du pivot : **le setup doit convaincre le cerveau qu'il a deviné la fin**. Parce que quand le cerveau "sait" déjà où ça va, il relâche sa garde. Et c'est là que tu frappes.
+
+### Le pivot en pratique
+
+**Setup (direction A, très prévisible) :** "J'ai voulu changer mon alimentation. J'ai fait des courses healthy, des légumes, du quinoa..."
+**Pivot (direction B, inattendu) :** "...et là j'ai réalisé que j'avais dépensé 60 euros pour manger triste."
+
+Version ultra-courte :
+**Setup :** "J'ai essayé la méditation. C'était censé me calmer."
+**Pivot :** "Ça m'a donné le temps de lister tout ce qui me stresse. Je recommande pas."
+
+Deux phrases. Double effet. La clé : le setup doit être crédible et diriger vers la conclusion évidente. Plus le cerveau est convaincu, plus le virage fait mal (dans le bon sens).
+
+**DÉFI PIVOT :** Pense à une situation où le résultat était l'inverse de ce qu'on attendait. Écris un setup qui oriente vers le résultat "normal". Puis livre le vrai résultat — celui que personne n'anticipe.
+
+## L'exagération contrôlée : comment zoomer sur le détail qui révèle tout ?
+
+### La structure : Roman Frayssinet
+
+L'exagération contrôlée, c'est zoomer sur un détail minuscule jusqu'à ce qu'il devienne énorme. Pas une exagération aléatoire — une exagération chirurgicale sur LE détail précis qui concentre toute l'absurdité d'une situation.
+
+**Roman Frayssinet** observe un comportement humain, isole le détail le plus révélateur, et le pousse à l'extrême logique. Son humour n'est jamais agressif — c'est de l'observation ultra-précise, pas de la caricature.
+
+La clé : **choisir le BON détail**. L'exagération du détail qui révèle quelque chose de vrai sur la situation — pas n'importe quelle exagération.
+
+### L'exagération contrôlée en pratique
+
+**Observation banale :** "Les gens se lèvent tôt pour faire du sport."
+**Détail précis à zoomer :** Le masochisme de se réveiller 2h avant l'heure normale pour souffrir.
+**Exagération contrôlée :** "Y a des gens qui se lèvent à 6h du matin pour courir. Volontairement. Ils mettent leur réveil PLUS TÔT pour avoir le temps de souffrir avant d'aller souffrir au bureau."
+
+L'exagération est contrôlée parce qu'elle reste **reconnaissable**. Tu exagères, mais la cible dit "ah ouais, c'est exactement ça". Si personne ne se reconnaît, tu as trop exagéré — ou tu as choisi le mauvais détail.
+
+**DÉFI EXAGÉRATION :** Observe un comportement courant autour de toi. Isole LE détail le plus absurde. Pousse ce détail à son extrême logique — pas n'importe quelle exagération, celle qui révèle l'absurdité sous-jacente.
+
+Pour voir des exemples de cette technique en action, nos [vidéos](/videos) de stand-up analysées pédagogiquement décortiquent les meilleurs moments d'observation des pros.
+
+## Comment le callback crée-t-il une complicité inattendue ?
+
+### La structure : Blanche Gardin
+
+Le callback, c'est mentionner un élément en début de récit — apparemment anodin — et y revenir à la fin de façon inattendue. Le rire vient du double effet : la surprise du retour + la satisfaction de retrouver quelque chose qu'on avait "oublié".
+
+**Blanche Gardin** excelle dans les callbacks sur plusieurs minutes. Elle pose une info en passant, tu l'oublies, elle te la balance 10 minutes plus tard. L'effet est dévastateur parce que tu ne l'as pas vu venir — mais rétrospectivement, tu réalises que le signe était là depuis le début.
+
+Le callback crée un **sentiment de complicité**. Le public a l'impression d'avoir participé à la construction de la blague sans le savoir. C'est le truc le plus satisfaisant à ressentir dans une audience — et le plus impressionnant à produire.
+
+### Le callback en pratique
+
+**Pose un élément en ouverture :**
+"J'avais un entretien d'embauche ce matin. J'ai mis ma meilleure chemise. Repassée. Comme un adulte."
+
+**Raconte ton histoire** (l'entretien, ce qui s'est passé, peu importe)
+
+**Ramène l'élément en chute :**
+"...et là je rentre chez moi, je me regarde dans le miroir, et je réalise que la chemise repassée était à l'envers depuis le début. Adulte confirmé."
+
+Le callback marche aussi sur des anecdotes courtes de 30 secondes — pas besoin d'un long récit.
+
+**DÉFI CALLBACK :** La prochaine fois que tu racontes une anecdote, pose UN détail apparemment sans importance en début. Trouve une façon de le ramener en chute. Même si ça prend 3 secondes — l'effet de boucle fonctionne à toutes les tailles.
+
+Pour affiner la construction de tes histoires, les [conseils](/conseils) de storytelling sur le site couvrent la technique du setup/punchline en détail.
+
+## Pourquoi le récit en boucle est-il si puissant pour l'autodérision ?
+
+### La structure : Waly Dia
+
+Le récit en boucle, c'est une histoire qui revient exactement à son point de départ — mais différemment. On part d'une situation A, on traverse des péripéties, et on revient à la situation A... transformée. Le rire vient du contraste entre l'intention de départ et l'arrivée réelle.
+
+**Waly Dia** maîtrise cette structure pour des récits qui parlent de transformation personnelle — souvent avec de l'autodérision. Tu pars d'une version de toi-même avec une belle intention, tu vis des trucs, et tu reviens exactement au même endroit mais avec un regard différent.
+
+La boucle crée un **sentiment de résolution** qui renforce la chute. Le cerveau aime les structures fermées — et quand elles se ferment de façon inattendue, ça fait rire.
+
+### La boucle en pratique
+
+**Point de départ :** "Il y a 6 mois, j'ai décidé de changer de vie. J'allais devenir quelqu'un d'organisé. J'ai acheté un agenda."
+
+**Péripéties :** Applications de productivité, planning semaine par semaine, levé à 6h "pour être efficace"...
+
+**Retour à la case départ :** "Aujourd'hui, j'ai un agenda. Il est vierge. Mais il est très beau. Et je suis en paix avec ça."
+
+La situation est la même (toujours pas organisé), mais la personne a changé son rapport à la situation. C'est ça, la boucle : tu reviens au même endroit mais tu ne vois plus la même chose. Et dans cet écart entre l'intention et la réalité, il y a toujours de l'humour.
+
+**DÉFI BOUCLE :** Pense à une résolution que tu as prise et que tu n'as pas tenue — ou que tu as tenue de façon complètement inattendue. Structure ça en boucle : l'intention de départ, les péripéties (ce qui s'est vraiment passé), l'état d'esprit maintenant. Le truc drôle est dans l'écart entre l'intention et la réalité.
+
+## Comment progresser : un plan sur 5 semaines
+
+Les pros ne choisissent pas UNE structure — ils les combinent. Mais pour progresser, commence par maîtriser une structure à la fois :
+
+1. **Semaine 1 — L'escalade** : Prends une anecdote de ta semaine et monte-la en 3 crans d'intensité croissante.
+2. **Semaine 2 — Le pivot** : Écris 3 setups dont tu retournes la chute attendue.
+3. **Semaine 3 — L'exagération contrôlée** : Trouve le détail révélateur dans une observation quotidienne et pousse-le à l'extrême.
+4. **Semaine 4 — Le callback** : Pose un élément en ouverture dans une vraie conversation et ramène-le en chute.
+5. **Semaine 5 — La boucle** : Raconte une de tes "résolutions ratées" en structure boucle.
+
+À partir de la semaine 6, tu commenceras à combiner naturellement. Une histoire peut avoir un setup de boucle + une escalade au milieu + un callback en chute. C'est là que le storytelling humour devient vraiment fluide.
+
+> **CLEF :** Les 5 structures ne sont pas des formules rigides — ce sont des schémas narratifs que tu intègres jusqu'à ce qu'ils deviennent des réflexes. Comme les gammes au piano : tu les travailles séparément, et un jour tu joues sans y penser.
+
+## Le piège à éviter : forcer la structure
+
+La structure doit être **invisible**. Si ton auditeur sent que tu "appliques une technique", c'est raté.
+
+Les 3 signes que tu forces trop la structure :
+1. Ton setup dure plus de 30 secondes sans rien de drôle en lui-même
+2. Tu dois expliquer ta chute après l'avoir livrée ("tu comprends, parce que...")
+3. Tu places un callback mais l'élément initial était trop insignifiant pour que personne s'en souvienne
+
+Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle même sans la chute — et la chute qui la transforme rétrospectivement.
+
+Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle même sans la chute — et la chute qui la transforme rétrospectivement.
+
+**Roman Frayssinet** passe des minutes à décrire un comportement humain avant de livrer la punchline. Ce n'est pas du remplissage — c'est la construction de la complicité. L'observation est drôle EN ELLE-MÊME. La punchline est un bonus.
+
+Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Les [parcours](/parcours) incluent un module storytelling avec exercices progressifs. Et pour voir les 5 structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques de chaque humoriste. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
+
+**0,99 EUR/mois** — pour ne plus jamais raconter une histoire qui tombe à plat.`,
+    date: "2026-03-25",
+    readingTime: "8 min",
+    category: "STORYTELLING",
+    faqs: [
+      {
+        question: "C'est quoi le storytelling humour ?",
+        answer:
+          "Le storytelling humour, c'est l'art de structurer une anecdote pour provoquer le rire. Contrairement à une blague classique (setup/punchline court), le storytelling humour construit une tension narrative sur plusieurs phrases ou minutes avant de la libérer de façon inattendue. Les 5 structures principales : l'escalade (Paul Mirabel), le pivot/surprise (Fary), l'exagération contrôlée (Roman Frayssinet), le callback (Blanche Gardin) et la boucle (Waly Dia).",
+      },
+      {
+        question: "Comment raconter une histoire drôle ?",
+        answer:
+          "En 4 étapes : 1) Choisis une anecdote avec un élément absurde ou inattendu. 2) Construis un setup court qui oriente le cerveau de l'auditeur vers une direction prévisible. 3) Livre une chute qui part dans une direction inattendue. 4) Arrête-toi après la chute — ne réexplique jamais. La structure fait 70% du travail, le contenu 30%.",
+      },
+      {
+        question: "Quelle est la différence entre une blague et une histoire drôle ?",
+        answer:
+          "Une blague est courte (setup + punchline en 1-2 phrases). Une histoire drôle prend le temps de créer une situation, des personnages, une tension — et la chute arrive après un vrai mini-récit. L'avantage de l'histoire : elle est plus mémorable, plus personnelle, et plus adaptable à n'importe quel contexte social. Personne ne réclame un rappel pour une blague. Tout le monde partage une bonne histoire.",
+      },
+      {
+        question: "Comment utiliser le callback dans une conversation ?",
+        answer:
+          "Pose un détail en passant en début de conversation. Continue normalement. Quand l'occasion se présente, ramène ce détail de façon inattendue pour clore la boucle. Le callback marche même sur des micro-histoires de 30 secondes. L'effet de boucle fonctionne à toutes les tailles — et il crée systématiquement un sentiment de complicité avec l'autre.",
+      },
+      {
+        question: "Comment s'entraîner au storytelling humour ?",
+        answer:
+          "L'approche progressive en 5 semaines : semaine 1 = escalade (monte une anecdote en 3 crans), semaine 2 = pivot (retourne la chute attendue), semaine 3 = exagération contrôlée (isole le détail révélateur), semaine 4 = callback (pose un élément en ouverture et ramène-le en chute), semaine 5 = boucle (raconte une résolution ratée). En 6 semaines, tu combines naturellement.",
+      },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
