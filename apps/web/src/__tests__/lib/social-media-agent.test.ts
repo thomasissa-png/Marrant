@@ -380,6 +380,40 @@ describe("social-media-agent", () => {
       expect(issues.some((i) => i.includes("8 tweets"))).toBe(true);
     });
 
+    // --- Persona leak dans threadParts ---
+
+    it("rejette un thread avec persona leak dans threadParts", () => {
+      const post = makePost({
+        format: "THREAD",
+        threadParts: [
+          "Fary détruit un relou",
+          "Il REMERCIE au lieu d'agresser",
+          "Variantes pour Yanis : depuis tes 0 match Tinder",
+          "3 secondes de pause",
+          "On a trouvé 43 réparties",
+        ],
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+      expect(issues.some((i) => i.includes("yanis"))).toBe(true);
+    });
+
+    it("rejette un thread avec persona leak Sophie dans threadParts", () => {
+      const post = makePost({
+        format: "THREAD",
+        threadParts: [
+          "Technique du jour",
+          "Sophie au bureau utilise ça",
+          "Résultat garanti",
+          "Test ce soir",
+          "Fin du thread",
+        ],
+      });
+      const issues = validatePostConstraints(post);
+      expect(issues.some((i) => i.includes("CRITIQUE"))).toBe(true);
+      expect(issues.some((i) => i.includes("sophie"))).toBe(true);
+    });
+
     // --- Post entièrement valide ---
 
     it("retourne un tableau vide pour un post valide", () => {

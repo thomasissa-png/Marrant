@@ -362,7 +362,8 @@ export function validatePostConstraints(
   }
 
   // 3. Persona guard — internal names must NEVER appear in public content
-  const allText = `${post.content} ${post.hook} ${post.cta}`.toLowerCase();
+  const threadText = post.threadParts ? post.threadParts.join(" ") : "";
+  const allText = `${post.content} ${post.hook} ${post.cta} ${threadText}`.toLowerCase();
   for (const name of PERSONA_NAMES) {
     if (allText.includes(name)) {
       issues.push(
@@ -440,7 +441,37 @@ export function validatePostConstraints(
         `Thread trop long : ${post.threadParts.length} tweets (max 7)`,
       );
     }
+
+    // Validate each thread part
+    if (post.threadParts && post.threadParts.length > 0) {
+      for (let i = 0; i < post.threadParts.length; i++) {
+        const part = post.threadParts[i];
+        // Character limit per tweet (280 chars max, 270 safe)
+        if (part.length > 280) {
+          issues.push(
+            `Thread part ${i + 1}/${post.threadParts.length} trop long : ${part.length} chars (max 280)`,
+          );
+        }
+        // Persona leak check on each thread part
+        if (/\b(Yanis|Sophie|Marc)\b/.test(part)) {
+          const leakedName = part.match(/\b(Yanis|Sophie|Marc)\b/)?.[0];
+          issues.push(
+            `CRITIQUE — Persona leak dans thread part ${i + 1} : "${leakedName}" détecté. Les personas internes ne doivent JAMAIS apparaître dans le contenu public.`,
+          );
+        }
+        // Engagement bait check on thread parts
+        const partLower = part.toLowerCase();
+        for (const pattern of ENGAGEMENT_BAIT_PATTERNS) {
+          if (partLower.includes(pattern)) {
+            issues.push(
+              `Engagement bait dans thread part ${i + 1} : "${pattern}"`,
+            );
+          }
+        }
+      }
+    }
   }
+
 
   return issues;
 }
