@@ -2421,7 +2421,7 @@ La timidité ne t'interdit pas l'humour. Elle te donne une palette différente �
 
 Tu n'as pas besoin de changer de personnalité. Tu as besoin de 5 clés, d'un plan, et d'un premier exercice ce soir.
 
-Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers universels (observation, surprise, timing, autodérision, pratique). Et les [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent des réflexes verbaux pour ne plus rester muet.
+Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers universels (observation, surprise, timing, autodérision, pratique). Les [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent des réflexes verbaux pour ne plus rester muet. Et si tu pars vraiment de zéro, le guide [Répartie débutant : 5 étapes simples](/blog/repartie-debutant-5-etapes) est fait pour toi.
 
 Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme — palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. **0,99 EUR/mois** — le prix d'une réplique ratée en moins.`,
     date: "2026-03-25",
@@ -2460,7 +2460,7 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
     slug: "storytelling-drole-5-structures",
     title: "Storytelling drôle : 5 structures efficaces",
     excerpt:
-      "Escalade, surprise, exagération : 5 structures narratives pour raconter des histoires qui font rire. Avec les techniques de Paul Mirabel, Fary et Waly Dia.",
+      "Escalade, surprise, exagération : 5 structures narratives pour raconter des histoires qui font rire.",
     content: `Tu connais ce moment où quelqu'un raconte une histoire et tu te demandes pourquoi c'est drôle — alors que toi, exactement la même histoire, tu l'aurais racontée et personne n'aurait ri ?
 
 Ce n'est pas une question de talent. C'est une question de **structure**.
@@ -2626,8 +2626,6 @@ Les 3 signes que tu forces trop la structure :
 
 Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle même sans la chute — et la chute qui la transforme rétrospectivement.
 
-Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle même sans la chute — et la chute qui la transforme rétrospectivement.
-
 **Roman Frayssinet** passe des minutes à décrire un comportement humain avant de livrer la punchline. Ce n'est pas du remplissage — c'est la construction de la complicité. L'observation est drôle EN ELLE-MÊME. La punchline est un bonus.
 
 Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Les [parcours](/parcours) incluent un module storytelling avec exercices progressifs. Et pour voir les 5 structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques de chaque humoriste. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
@@ -2661,6 +2659,171 @@ Pour te constituer une base de structures testées, le catalogue de [vannes](/va
         question: "Comment s'entraîner au storytelling humour ?",
         answer:
           "L'approche progressive en 5 semaines : semaine 1 = escalade (monte une anecdote en 3 crans), semaine 2 = pivot (retourne la chute attendue), semaine 3 = exagération contrôlée (isole le détail révélateur), semaine 4 = callback (pose un élément en ouverture et ramène-le en chute), semaine 5 = boucle (raconte une résolution ratée). En 6 semaines, tu combines naturellement.",
+      },
+    ],
+  },
+  {
+    slug: "conversation-machine-a-cafe",
+    title: "Machine à café : avoir de la conversation",
+    excerpt:
+      "Le silence gênant à la machine à café, c'est fini. 5 situations concrètes avec phrase d'accroche, relance et sortie élégante.",
+    content: `Tu arrives. La machine couine. Tu attends ton café. Et là, à 30 centimètres de toi, un collègue. Ni l'un ni l'autre ne parle. On fixe la machine comme si c'était un art contemporain. Le bruit du café qui coule devient soudainement fascinant.
+
+Bonne nouvelle : **avoir de la conversation au travail, ça s'apprend**. Ce n'est pas un don réservé aux animateurs radio et aux commerciaux hyperactifs. C'est un répertoire de phrases testées, de techniques de relance et de sorties élégantes. Ce guide couvre les 5 situations machine à café les plus courantes — avec exactement ce que tu peux dire, mot pour mot.
+
+> **CLEF :** La conversation au travail ne repose pas sur l'inspiration du moment — elle repose sur des amorces préparées qui donnent l'illusion de la spontanéité. Comme les meilleurs humoristes, les gens qui "parlent facilement" ont simplement plus de matériel en stock.
+
+## Le lundi matin — comment briser la glace avec un zombie
+
+Le lundi matin, les gens ne sont pas des collègues. Ce sont des êtres à moitié endormis qui avancent vers la caféine comme des zombies vers les cerveaux. Et toi tu es là, en pleine forme (ou pas), à chercher quelque chose à dire.
+
+**Le problème :** "Bon lundi !" c'est pire que le silence. Personne n'a envie d'un lundi et tout le monde le sait.
+
+**La phrase d'accroche :**
+> "Je suis encore en mode week-end, j'ai mis 5 minutes à trouver mon badge."
+
+Tu valides l'état mental de l'autre. Tu ne demandes pas "ça va ?", tu constates quelque chose d'universel. **Roman Frayssinet** dirait que l'observation précise d'une réalité partagée, c'est la base de toute connexion comique.
+
+**La relance :** L'autre dit "Ouais, moi j'ai oublié que c'était lundi" ? Tu construis dessus : "C'est ça le vrai choc du lundi — se souvenir que le vendredi était il y a 2 jours. Deux jours. C'est injuste."
+
+**La sortie élégante :** "Bon, courage à toi. On survit toujours au lundi, paraît-il."
+
+L'erreur à ne pas faire : poser des questions sur le week-end de quelqu'un qu'on connaît à peine. Si la réponse est "pas grand-chose", c'est la mort de la conversation.
+
+## Le nouveau collègue — l'intégrer sans être awkward
+
+Le nouveau vient d'arriver. Tout le monde l'accueille avec un "Bienvenue !" ultra-formel et retourne immédiatement à son écran. Tu le croises à la machine à café 3 jours après.
+
+**Le problème :** "T'es bien installé ?" c'est la question RH. Et la question RH tue la vraie conversation.
+
+**La phrase d'accroche :**
+> "T'as déjà trouvé où est la bonne machine ? Celle du 2ème étage fait un café potable, l'autre c'est de l'eau chaude teintée."
+
+Tu lui donnes une info utile avec une légère exagération comique. Tu te positionnes en guide, pas en interrogateur.
+
+**La relance :** "Je te fais la visite non officielle alors. Le frigo au 3ème, personne ne touche aux yaourts du fond — c'est un pacte implicite depuis 2019. On ne sait pas pourquoi, on respecte juste."
+
+**La sortie élégante :** "Bonne intégration, t'as l'air de survivre — c'est déjà ça."
+
+Pour aller plus loin sur l'humour au travail, notre article sur les [blagues au boulot](/blog/blagues-travail-faire-rire-pro) détaille les codes à respecter dans un contexte pro.
+
+## Face au boss — l'humour hiérarchique et ses règles
+
+Ton N+1 arrive à la machine. Ton cerveau fait un calcul rapide : "Je sers l'ambiance ou je la fuis ?"
+
+> **CLEF :** L'humour avec le boss n'est pas de l'humour de défi — c'est de l'humour d'alliance. On ne se moque pas d'une décision de l'entreprise, on observe ensemble une absurdité partagée.
+
+**Ce qu'on ne fait pas :** plaisanter sur les process, les réunions inutiles ou le budget. Même si c'est vrai. Même si le boss te semble accessible.
+
+**La phrase d'accroche :** "Je recharge les batteries avant la réunion de 14h."
+
+**La relance :** Il dit "Ah oui, ça va être chargé" ? "J'ai préparé mes questions. Enfin, j'ai préparé à avoir l'air d'écouter."
+
+L'autodérision sur soi, jamais sur le contexte professionnel. **Panayotis Pascot** l'applique en scène avec précision : rire de soi = signal de confiance. Rire des autres = signal d'insécurité.
+
+**La sortie élégante :** "Bon, bonne réunion. Je prends des notes en vrai, promis."
+
+**Les limites non négociables :**
+1. Jamais de politique d'entreprise
+2. Jamais de critique d'un autre collègue
+3. Jamais d'humour sur les clients
+4. Toujours à visage découvert — pas de sous-entendu qu'on "doit" expliquer
+
+## Le crush du 3ème étage — flirter subtilement à la machine à café
+
+La machine à café est l'un des meilleurs endroits pour créer une connexion. Neutre, court, sans pression. Pas de dîner, pas d'afterwork forcé. Juste 90 secondes.
+
+**La règle :** créer de la chaleur et de la complicité, sans que ce soit lisible comme du flirt appuyé.
+
+**La phrase d'accroche :**
+> "T'as aussi remarqué que cette machine fait un son bizarre depuis mardi ? Ou c'est juste moi ?"
+
+Tu partages une observation. "Ou c'est juste moi" est une micro-autodérision qui te rend accessible. C'est une technique que n'importe quel [conseil de répartie](/conseils) te donnera : commence par une observation partagée, pas par un compliment.
+
+**La relance :** "Parfait, on est deux maintenant. Je me sens moins fou. On pourra témoigner si elle lâche un jour."
+
+Un petit "on" implicite. Pas de déclaration, juste une alliance sur quelque chose d'absurde.
+
+**La sortie élégante :** "Bon, café validé. À la prochaine inspection de la machine."
+
+Tu as créé un bout de complicité sur rien. La prochaine fois, vous avez un "truc" en commun. C'est exactement comme ça que les connexions se construisent.
+
+> **À noter :** La complicité se construit sur des observations partagées, pas sur des compliments. Les gens qui flirtent le mieux en contexte pro créent d'abord de la connexion, pas de l'attraction directe.
+
+## Le silence gênant entre inconnus — la technique du sauvetage
+
+Tu ne connais pas cette personne. Elle ne te connaît pas. Vous attendez tous les deux. Le silence dure. Et puis c'est carrément gênant.
+
+**La technique du sauvetage en 3 temps :**
+1. **Observer** quelque chose dans l'environnement immédiat
+2. **Commenter avec une légère exagération** qui invite à sourire
+3. **Laisser le silence faire le reste** — ne pas enchaîner immédiatement
+
+**3 phrases d'accroche qui marchent :**
+- "Cette machine a un son vraiment particulier. Je suis pas sûr que le café soit une priorité pour elle."
+- "La vaisselle dans l'évier, c'est une œuvre collective depuis combien de temps ? Je demande pour un ami."
+- "Lundi déguisé en jeudi, ou c'est ma perception ?"
+
+Soit l'autre sourit et répond — tu as une conversation. Soit l'autre sourit et ne répond pas — tu as quand même brisé le malaise.
+
+**La sortie élégante :** "À la prochaine session machine à café."
+
+Une petite référence à ce qui vient de se passer. Tu nommes implicitement le moment. C'est ce que font les pros : ils transforment un instant anodin en "notre petite blague".
+
+## Les 5 règles universelles de la conversation machine à café
+
+1. **Observer, pas interroger.** "T'as vu que..." marche 10x mieux que "Tu vas bien ?". L'observation crée de la complicité, la question crée de la pression.
+2. **Exagérer légèrement.** Une observation précise + une légère exagération = humour. C'est la mécanique de base de l'humour observationnel.
+3. **L'autodérision courte.** "Je suis encore en mode week-end" ou "ou c'est juste moi ?" — une micro-autodérision par échange suffit.
+4. **La sortie en 10 secondes.** Une bonne conversation machine à café dure entre 60 et 90 secondes. Pars sur une note positive, pas quand ça s'essouffle.
+5. **Mémoriser 3 phrases.** Tu n'improvises pas à 8h30 avec ton premier café. Avoir 3 phrases testées en stock, c'est la vraie différence.
+
+> **CLEF :** Les gens qui semblent "naturellement à l'aise" à la machine à café n'improvisent pas — ils ont un répertoire rodé. Mémoriser 3 phrases d'accroche par situation, c'est 80% du travail.
+
+## Les phrases à bannir définitivement
+
+- **"Ça va ?"** — Question rhétorique. Tout le monde répond "ça va et toi". Information transmise : zéro.
+- **"Bon lundi !"** — Mensonge collectif. Personne ne croit en ça.
+- **"T'as passé un bon week-end ?"** — Si la réponse est "bof", c'est la mort de la conversation.
+- **Les blagues préparées.** "Attends, j'ai une blague pour toi" à la machine à café — c'est le niveau 1 de l'école de commerce. Évite.
+- **Les commentaires négatifs sur le boulot.** "Encore une journée de merde" — même si c'est vrai, ça plombe tout le monde.
+
+Pour développer ton humour au quotidien, notre article [8 habitudes pour un humour du quotidien](/blog/humour-quotidien-8-habitudes) détaille comment entraîner ton regard au fil des semaines.
+
+## Par où commencer cette semaine ?
+
+1. **Lundi :** Teste la phrase du zombie ("encore en mode week-end"). Un collègue.
+2. **Mardi :** Observe quelque chose à la machine et commente avec légère exagération.
+3. **Mercredi :** Utilise une sortie élégante après 90 secondes de conversation.
+4. **Jeudi :** Note ce qui a marché. Garde les phrases gagnantes.
+5. **Vendredi :** Tu as un mini-répertoire testé. Réutilise-le la semaine suivante.
+
+En 5 jours, tu sais ce qui marche avec tes collègues. Et la semaine d'après, c'est automatique.
+
+Notre [Parcours Machine à Café](/parcours) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. **0,99 EUR/mois** — le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
+    date: "2026-03-25",
+    readingTime: "7 min",
+    category: "CONTEXTE",
+    faqs: [
+      {
+        question: "Comment avoir de la conversation au travail quand on est timide ?",
+        answer:
+          "Commence par observer plutôt qu'interroger : 'T'as vu que cette machine fait un drôle de son ?' marche 10x mieux que 'Tu vas bien ?'. L'observation crée de la complicité sans pression. Mémorise 2-3 phrases d'accroche testées — tu n'as pas besoin d'improviser à 8h30.",
+      },
+      {
+        question: "Que dire à la machine à café pour briser le silence ?",
+        answer:
+          "Commente quelque chose dans l'environnement immédiat avec une légère exagération : 'Cette machine a un son vraiment particulier, je suis pas sûr que le café soit une priorité pour elle.' L'absurde léger brise toujours la glace sans mettre de pression.",
+      },
+      {
+        question: "Comment faire de l'humour avec son boss ?",
+        answer:
+          "L'humour hiérarchique repose sur une règle : observer ensemble une absurdité partagée, jamais critiquer. L'autodérision sur soi (pas sur les process ou les décisions) est toujours sûre. 'Je recharge les batteries avant la réunion de 14h' — tu parles de toi, pas du contexte pro.",
+      },
+      {
+        question: "Combien de temps doit durer une conversation machine à café ?",
+        answer:
+          "Entre 60 et 90 secondes, c'est l'idéal. Partir sur une note positive avant que ça s'essouffle, c'est la clé. Une sortie élégante ('Bon courage à toi', 'À la prochaine inspection de la machine') te laisse dans l'esprit de l'autre comme quelqu'un de naturel.",
       },
     ],
   },

@@ -347,7 +347,8 @@
       "persona": "Marc",
       "category": "STORYTELLING",
       "scheduledWeek": 6,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-25",
       "internalLinks": ["/videos", "/conseils", "/blog/raconter-blague-sans-massacrer"],
       "wordCountTarget": 1600,
       "formatNote": "Format portrait : une structure = un humoriste qui l'utilise (Paul Mirabel=escalade, Fary=surprise, etc.)"
@@ -624,7 +625,8 @@
       "persona": "Sophie",
       "category": "CONTEXTE",
       "scheduledWeek": 7,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-03-25",
       "internalLinks": ["/parcours", "/vannes", "/conseils", "/blog/blagues-travail-faire-rire-pro", "/blog/humour-quotidien-8-habitudes"],
       "wordCountTarget": 1500,
       "formatNote": "Format guide de survie Sophie : 5 situations machine à café (lundi matin, nouveau collègue, boss, crush, silence gênant) → phrase d'accroche + relance + sortie élégante. CTA vers Parcours Machine à Café."
