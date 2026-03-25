@@ -64,6 +64,18 @@ import {
 
 // ─── Helper ─────────────────────────────────────────────────────
 
+/** Calcule l'offset UTC de Paris pour une date (même logique que dans social-media-agent.ts) */
+function getParisOffsetForTest(date: Date): number {
+  const year = date.getFullYear();
+  const marchLast = new Date(Date.UTC(year, 2, 31));
+  marchLast.setUTCDate(marchLast.getUTCDate() - marchLast.getUTCDay());
+  marchLast.setUTCHours(1, 0, 0, 0);
+  const octLast = new Date(Date.UTC(year, 9, 31));
+  octLast.setUTCDate(octLast.getUTCDate() - octLast.getUTCDay());
+  octLast.setUTCHours(1, 0, 0, 0);
+  return date.getTime() >= marchLast.getTime() && date.getTime() < octLast.getTime() ? 2 : 1;
+}
+
 /** Crée un post valide par défaut — toutes les contraintes respectées */
 function makePost(overrides = {}) {
   return {
@@ -470,58 +482,81 @@ describe("social-media-agent", () => {
       expect(date.getTime()).not.toBeNaN();
     });
 
-    // --- YANIS + TWITTER : soirée (19 ou 21 UTC) ---
+    // --- YANIS + TWITTER : après-midi + soirée [13, 17, 21, 23] Paris ---
+    // L'offset UTC dépend de la date du test (hiver=UTC+1, été=UTC+2)
 
-    it("programme YANIS+TWITTER index 0 à 19h UTC", () => {
+    it("programme YANIS+TWITTER index 0 à 13h Paris", () => {
       const date = getOptimalScheduleTime("YANIS", 0, "TWITTER");
-      expect(date.getUTCHours()).toBe(19);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(13 - offset);
     });
 
-    it("programme YANIS+TWITTER index 1 à 21h UTC", () => {
+    it("programme YANIS+TWITTER index 1 à 17h Paris", () => {
       const date = getOptimalScheduleTime("YANIS", 1, "TWITTER");
-      expect(date.getUTCHours()).toBe(21);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(17 - offset);
     });
 
-    it("cycle YANIS+TWITTER : index 2 revient à 19h UTC", () => {
+    it("programme YANIS+TWITTER index 2 à 21h Paris", () => {
       const date = getOptimalScheduleTime("YANIS", 2, "TWITTER");
-      expect(date.getUTCHours()).toBe(19);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(21 - offset);
     });
 
-    // --- SOPHIE + LINKEDIN : matin (6 ou 10 UTC) ---
+    it("programme YANIS+TWITTER index 3 à 23h Paris", () => {
+      const date = getOptimalScheduleTime("YANIS", 3, "TWITTER");
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(23 - offset);
+    });
 
-    it("programme SOPHIE+LINKEDIN index 0 à 6h UTC", () => {
+    it("cycle YANIS+TWITTER : index 4 revient à 13h Paris", () => {
+      const date = getOptimalScheduleTime("YANIS", 4, "TWITTER");
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(13 - offset);
+    });
+
+    // --- SOPHIE + LINKEDIN : matin [7, 11] Paris ---
+
+    it("programme SOPHIE+LINKEDIN index 0 à 7h Paris", () => {
       const date = getOptimalScheduleTime("SOPHIE", 0, "LINKEDIN");
-      expect(date.getUTCHours()).toBe(6);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(7 - offset);
     });
 
-    it("programme SOPHIE+LINKEDIN index 1 à 10h UTC", () => {
+    it("programme SOPHIE+LINKEDIN index 1 à 11h Paris", () => {
       const date = getOptimalScheduleTime("SOPHIE", 1, "LINKEDIN");
-      expect(date.getUTCHours()).toBe(10);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(11 - offset);
     });
 
-    // --- MARC + INSTAGRAM : 6 ou 19 UTC ---
+    // --- MARC + INSTAGRAM : [7, 20] Paris ---
 
-    it("programme MARC+INSTAGRAM index 0 à 6h UTC", () => {
+    it("programme MARC+INSTAGRAM index 0 à 7h Paris", () => {
       const date = getOptimalScheduleTime("MARC", 0, "INSTAGRAM");
-      expect(date.getUTCHours()).toBe(6);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(7 - offset);
     });
 
-    it("programme MARC+INSTAGRAM index 1 à 19h UTC", () => {
+    it("programme MARC+INSTAGRAM index 1 à 20h Paris", () => {
       const date = getOptimalScheduleTime("MARC", 1, "INSTAGRAM");
-      expect(date.getUTCHours()).toBe(19);
+      const offset = getParisOffsetForTest(date);
+      expect(date.getUTCHours()).toBe(20 - offset);
     });
 
     // --- Sans plateforme spécifiée, utilise les horaires Twitter ---
 
     it("utilise les horaires Twitter par défaut (pas de plateforme)", () => {
       const date = getOptimalScheduleTime("SOPHIE", 0);
-      // SOPHIE Twitter = [7, 11]
-      expect(date.getUTCHours()).toBe(7);
+      const offset = getParisOffsetForTest(date);
+      // SOPHIE Twitter = [8, 12, 18] → index 0 = 8h Paris
+      expect(date.getUTCHours()).toBe(8 - offset);
     });
 
-    it("MARC sans plateforme = horaires Twitter [6, 18]", () => {
+    it("MARC sans plateforme = horaires Twitter [7, 12, 20]", () => {
       const date = getOptimalScheduleTime("MARC", 1);
-      expect(date.getUTCHours()).toBe(18);
+      const offset = getParisOffsetForTest(date);
+      // index 1 = 12h Paris
+      expect(date.getUTCHours()).toBe(12 - offset);
     });
 
     // --- Les minutes sont entre 0 et 14 (randomisées) ---

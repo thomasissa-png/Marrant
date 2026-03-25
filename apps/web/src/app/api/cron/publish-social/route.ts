@@ -175,10 +175,19 @@ export async function GET(req: Request) {
       error?: string;
     }> = [];
 
+    // Limiter à 1 post par plateforme par run du cron (espacement minimum 30 min)
+    // Les posts restants restent APPROVED et seront publiés au prochain run
+    const seenPlatforms = new Set<string>();
+    const postsToPublish = posts.filter(post => {
+      if (seenPlatforms.has(post.platform)) return false;
+      seenPlatforms.add(post.platform);
+      return true;
+    });
+
     // Track platforms with full queues to skip them
     const queueFullPlatforms = new Set<BufferPlatform>();
 
-    for (const post of posts) {
+    for (const post of postsToPublish) {
       try {
         const platform = post.platform as BufferPlatform;
 
@@ -334,8 +343,9 @@ export async function GET(req: Request) {
 
     const published = results.filter((r) => r.status === "published").length;
     const failed = results.filter((r) => r.status === "failed").length;
+    const deferred = posts.length - postsToPublish.length;
     console.log(
-      `[PublishSocial] ${published}/${posts.length} posts envoyés à Buffer`,
+      `[PublishSocial] ${published}/${postsToPublish.length} posts envoyés à Buffer (${deferred} différés au prochain run)`,
     );
 
     // Alerte si tous les posts ont echoue

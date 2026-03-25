@@ -1187,18 +1187,21 @@ export function getOptimalScheduleTime(
   const parisOffset = getParisUtcOffset(today);
 
   // Horaires par persona en HEURE LOCALE PARIS
+  // Twitter : 3-4 créneaux espacés d'au moins 2h pour couvrir 2-3 posts/jour
   const twitterSchedulesParis: Record<PersonaKey, number[]> = {
-    YANIS: [21, 23], // 21h-23h Paris
-    SOPHIE: [8, 12], // 8h-9h + 12h-13h Paris
-    MARC: [7, 20], // 7h-8h + 20h-21h Paris
+    YANIS: [13, 17, 21, 23], // après-midi + soirée, 4 slots
+    SOPHIE: [8, 12, 18], // matin + midi + soir, 3 slots
+    MARC: [7, 12, 20], // matin + midi + soir, 3 slots
   };
 
+  // LinkedIn : 1 post/jour max, 2 créneaux suffisent
   const linkedInSchedulesParis: Record<PersonaKey, number[]> = {
     YANIS: [9, 13], // 9h-10h + 13h-14h Paris
     SOPHIE: [7, 11], // 7h-8h + 11h-12h Paris
     MARC: [6, 17], // 6h-7h + 17h-18h Paris
   };
 
+  // Instagram : 1 post/jour max, 2 créneaux suffisent
   const instagramSchedulesParis: Record<PersonaKey, number[]> = {
     YANIS: [19, 21], // 19h-22h Paris
     SOPHIE: [11, 18], // 11h-12h + 18h-19h Paris
