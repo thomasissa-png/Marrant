@@ -42,10 +42,24 @@ Lourde -- 2 agents principaux (@seo, @geo), 3 phases, 22 articles a produire au 
 - Tests : 953/958 pass (5 echecs = DST scheduling pre-existants, non lies)
 - Commits pushes sur branche claude/install-gradient-agents-1P6U4
 
+### Phase 4 -- Lot 2 articles SEO + cleanup CAROUSEL + fixes social
+- Agents : @seo (articles), @fullstack (cleanup + fixes), @reviewer (audit Instagram)
+- Statut : TERMINE
+- Livrables recus :
+  - Article `storytelling-drole-5-structures` (satellite techniques-delivery, ~2100 mots) -- OK (paragraphe dupliqué corrigé, excerpt tronqué)
+  - Article `timidite-et-humour` (satellite techniques-repartie, ~1500 mots) -- OK (lien repartie-debutant ajouté)
+  - Article `conversation-machine-a-cafe` (satellite douleurs-personas, ~1650 mots) -- OK
+  - Cleanup CAROUSEL (6 fichiers nettoyés) -- OK
+  - Fix espacement posts sociaux (3-4 slots Twitter, 1 post/plateforme/run) -- OK
+  - Fix Instagram pipeline (metadata.instagram.type, pré-gen images, approvedBy) -- OK
+  - Fix persona leak threadParts -- OK
+  - Fix build next.config.js (3 problèmes) -- OK
+  - seo-editorial-plan.json mis a jour (3 articles passes en "published") -- OK
+- Tests : 960/961 pass (1 échec timezone pré-existant)
+
 ### Articles restants (backlog pour prochaines sessions)
-- Lot 2 (priorite haute) : storytelling-drole-5-structures, timidite-et-humour, conversation-machine-a-cafe
-- Lot 3 : repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture, rester-muet-en-groupe
-- Lot 4 : pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues, humour-self-deprecating
+- Lot 3 (priorite haute) : repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture
+- Lot 4 : rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues
 - Lot 5 : processus-creatif-humoristes-applique, devenir-drole-30-jours, voler-techniques-standup-soiree
 - Lot 6 : techniques-standup-vie-sociale (pillar), parcours-humour-30-jours-retour
 - Lot 7 : comment-faire-rire-ses-amis, creer-ses-propres-blagues
