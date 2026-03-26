@@ -115,6 +115,7 @@
 | @fullstack | 26/03/2026 | Fix Instagram pipeline (3 commits) | buffer-client.ts : subprofile→metadata.instagram.type (enum post, pas string). instrumentation.ts : pré-génération images Instagram + approvedBy "director". | subprofile n'existe pas dans l'API Buffer GraphQL (erreur 400). instrumentation.ts ne pré-générait pas les images = Buffer ne pouvait pas les télécharger si Repl dort. approvedBy manquant = posts rétrogradés en PENDING par la logique de demotion. |
 | @fullstack | 26/03/2026 | Fix persona leak threadParts (social-media-agent.ts) | threadParts inclus dans persona guard (check 3). Validation par-tweet : char limit, persona leak, engagement bait. 2 tests ajoutés. | Thread "Fary détruit un relou" contenait "Variantes pour Yanis" dans tweet 3/5 — fuite persona non détectée car threadParts exclu du check. Fix = inclusion dans allText + validation détaillée par partie. |
 | @fullstack | 26/03/2026 | Fix build next.config.js (3 problèmes) | typescript.ignoreBuildErrors:true ; externals callback function (commonjs2) pour scoped packages ; modules Node natifs (querystring, fs, fs/promises, path) externalisés. | Build Replit cassait sur : erreurs TS mineures (null vs undefined), @replit/object-storage en syntaxe string (JS invalide), querystring non trouvé par webpack. Callback function = seule syntaxe correcte pour scoped packages webpack. |
+| @seo | 26/03/2026 | 3 articles blog lot 3 dans blog-articles.ts : repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture. Mise à jour seo-editorial-plan.json (3 articles published + confiance-humour ajouté comme id 23). Mise à jour blog-clusters.ts (repartie-soiree déplacé techniques-repartie→humour-contexte ; humour-apres-rupture ajouté à douleurs-personas). | Cluster humour-contexte retenu pour repartie-soiree-anti-malaise car contenu = situation sociale, pas technique pure. humour-apres-rupture et confiance-humour-apres-rupture dans douleurs-personas car douleur Marc = cluster le plus convertissant. Membership unique respecté (un slug = un cluster). |
 
 ---
 
@@ -147,18 +148,17 @@
 ## Mémo de reprise — dernière session
 
 - **Date de clôture** : 26/03/2026
-- **Résumé** : Session couvrant 3 volets : (1) SEO lot 2 terminé — 3 articles publiés (storytelling-drole, timidite-et-humour, conversation-machine-a-cafe) avec validation Director manuelle, (2) Social fixes majeurs — espacement posts (3-4 slots Twitter, 1 post/plateforme/run), pipeline Instagram réparé (metadata.instagram.type, pré-gen images, approvedBy), persona leak threadParts corrigé, (3) Stabilisation build — CAROUSEL cleanup 6 fichiers, next.config.js 3 fixes (TS errors, scoped externals, Node natifs). 960/961 tests passent. 13 commits pushés.
+- **Résumé** : Session couvrant 2 volets : (1) SEO lot 3 terminé — 3 articles publiés (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture). Blog-clusters.ts mis à jour (membership unique respecté). seo-editorial-plan.json mis à jour (3 articles published, confiance-humour ajouté id 23). (2) État stable du build et du pipeline social suite aux fixes de la session précédente.
 - **Travaux en cours** :
-  - 15 articles blog restants en backlog (lots 3-7 dans orchestration-plan.md) — prochaine priorité : lot 3 (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture)
-  - Score GEO ~82/100, objectif 90 — les nouveaux articles sont GEO-optimisés à la rédaction
-  - CAROUSEL cleanup terminé
+  - 12 articles blog restants en backlog (lots 4-7) — prochaine priorité : lot 4 (blagues-courtes-vs-longues, repartie-debutant-5-etapes-manquant, pourquoi-blagues-marchent-pas)
+  - Score GEO ~82/100, objectif 90 — nouveaux articles GEO-optimisés à la rédaction (listes numérotées, CLEF blockquotes, H2 questions)
   - **Risque Instagram** : URLs images dépendantes du Repl actif (routes Next.js). Fix long terme nécessaire : CDN externe ou URLs Object Storage directes
 - **Prochaines actions recommandées** :
-  1. **@seo** : Produire lot 3 articles (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture) — cluster douleurs-personas + humour-contexte
+  1. **@seo** : Produire lot 4 articles — clusters apprendre-humour + humour-contexte (pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues, humour-quotidien-8-habitudes restants)
   2. **@infrastructure** : Résoudre le risque URLs images Instagram — migrer vers URLs Object Storage directes ou CDN externe (Cloudflare R2 gratuit) pour que Buffer accède aux images même quand le Repl dort
   3. **@fullstack** : Vérifier que `BUFFER_CHANNEL_INSTAGRAM` est configuré dans Secrets Replit et qu'un post Instagram passe effectivement (test end-to-end)
 - **Blockers** : Vérification manuelle requise côté Replit : (1) secret BUFFER_CHANNEL_INSTAGRAM présent ? (2) Repl "Always On" activé ? Sans ça, Instagram reste cassé malgré les fixes code.
-- **Commande de reprise suggérée** : `@orchestrator Reprends le plan SEO/GEO sprint. Phase 4 terminée (lot 2 articles + social fixes). Produis le lot 3 d'articles (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture) et résous le risque URLs images Instagram (CDN ou Object Storage direct).`
+- **Commande de reprise suggérée** : `@seo Produis le lot 4 d'articles blog : pourquoi-blagues-marchent-pas (cluster apprendre-humour), blagues-courtes-vs-longues (cluster humour-contexte), et un troisième article du backlog. Consulte seo-editorial-plan.json pour les specs.`
 
 ---
 

@@ -2983,6 +2983,314 @@ Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur c
       },
     ],
   },
+  {
+    slug: "humour-apres-rupture",
+    title: "Humour après une rupture : retrouver le rire",
+    excerpt:
+      "Après une séparation, l'humour disparaît. Comment il revient — et comment l'accélérer sans forcer.",
+    content: `Il y a un moment précis où tu réalises que ta rupture est "finie". Pas juridiquement, pas émotionnellement — comiquement. C'est quand tu peux en parler à quelqu'un et que vous riez tous les deux. Pas un rire gêné. Un vrai rire.
+
+Ce moment peut prendre 3 semaines. Ou 18 mois. Mais il finit par arriver. Et le but de cet article, c'est de t'aider à l'atteindre — sans forcer, sans simuler, sans nier que c'est dur.
+
+## Pourquoi l'humour disparaît après une rupture ?
+
+Parce que l'humour nécessite du recul. Et juste après une séparation, le recul, c'est physiquement impossible.
+
+**Panayotis Pascot** parle dans son spectacle de la difficulté de transformer ses expériences douloureuses en matière comique. Sa conclusion : "ça ne devient drôle qu'une fois que ça ne fait plus mal de la même façon." Ce n'est pas une question de temps fixe — c'est une question de traitement.
+
+Ce qui bloque l'humour après une rupture, c'est souvent l'une de ces trois choses :
+
+1. **La rancœur active** — tu es encore en mode reconstruction défensive. L'humour demande de la vulnérabilité, et tu n'en as plus en stock.
+2. **L'image de toi** — si la rupture a touché ta confiance en toi, te moquer de la situation revient à te moquer de toi dans ton moment le plus vulnérable. Ça ne marche pas encore.
+3. **Le "trop tôt"** — rire d'une douleur trop fraîche ressemble à une trahison envers toi-même. C'est le cerveau qui protège.
+
+Ces trois blocages sont normaux. Et ils se débloquent dans cet ordre.
+
+> **CLEF :** L'humour ne revient pas "d'un coup" après une rupture. Il revient progressivement, par petites touches — d'abord avec tes amis proches, puis dans des cercles plus larges. Le forcer avant d'être prêt produit un humour défensif qui sonne faux. Accélérer le processus, c'est travailler le recul, pas pratiquer les vannes.
+
+## Étape 1 : Valider ce qui est réellement drôle dans ton histoire
+
+Il y a des choses objectivement absurdes dans chaque rupture. Pas dans la douleur — dans les détails.
+
+La playlist Spotify qu'il avait créée pour "les moments romantiques" et qui s'appelait "Musique 2" avec 3 chansons. La façon dont tu as découvert que c'était fini. L'heure à laquelle tu as envoyé le message qui a tout déclenché. Le restaurant où vous étiez allés "pour parler" et où vous avez commandé un plateau de fromages comme si c'était un dîner d'affaires.
+
+**L'exercice :** Prends une feuille. Écris 5 détails absurdes de ta relation ou de ta rupture. Pas les moments douloureux. Les moments où, avec du recul, tu peux voir l'absurdité.
+
+Pas pour les raconter tout de suite. Juste pour les nommer. Le simple fait de les nommer commence à créer la distance nécessaire.
+
+**Pourquoi ça marche :** Le cerveau ne peut pas tenir simultanément "c'est douloureux" et "c'est absurde" à propos du même souvenir. Travailler l'absurdité d'une situation, c'est littéralement modifier sa valence émotionnelle.
+
+## Étape 2 : Recommencer à rire d'autre chose d'abord
+
+L'erreur courante : essayer de trouver l'humour dans la rupture avant d'avoir retrouvé l'humour en général.
+
+C'est comme essayer de courir avant de remarcher. Recommence par des choses faciles.
+
+**3 pratiques concrètes pour "recharger" le rire :**
+
+1. **Regarde 20 minutes d'un spectacle de stand-up** que tu n'as pas encore vu. Pas pour analyser — juste pour rire. **Roman Frayssinet**, **Blanche Gardin**, **Fary** — les trois ont des heures de matériel sur des sujets qui n'ont rien à voir avec ta vie. C'est parfait. Sur notre page [vidéos](/videos), on a sélectionné les meilleurs spectacles analysés pédagogiquement.
+2. **Partage quelque chose de drôle avec quelqu'un.** Un mème, une vanne, une observation. L'humour partagé produit de l'ocytocine — c'est biochimiquement un antidépresseur.
+3. **Fais un truc légèrement absurde.** Commander quelque chose d'inhabituel. Parler à quelqu'un qu'on ne connaît pas. Commenter tout seul un truc que tu vois. L'absurde du quotidien est la première marche.
+
+> **À retenir :** Retrouver l'humour après une rupture commence par retrouver l'humour sur des choses sans enjeu. Puis, progressivement, cette capacité s'étend.
+
+## Étape 3 : L'autodérision comme outil de reconstruction
+
+À un moment, tu pourras commencer à parler de ta rupture. Pas pour expliquer, pas pour accuser — mais avec ce léger détachement qui signale que tu traverses la chose plutôt que tu la subis.
+
+**La différence entre autodérision de reconstruction et autodérision douloureuse :**
+
+- **Douloureuse :** "Je suis nul en relation, j'ai encore tout raté, c'est logique que ça se soit terminé comme ça." (Tu te démolis — ce n'est pas de l'humour, c'est de l'auto-punition.)
+- **Reconstruction :** "J'ai eu la rupture la plus administrative de l'histoire — par message, à 14h37 un mardi. Le timing suggère que j'étais son activité de pause déjeuner." (Tu observes avec distance — tu prends le recul sur la situation, pas sur ta valeur.)
+
+**Waly Dia** dit quelque chose d'important sur la différence entre se moquer de ses galères et se détruire : "L'autodérision, c'est quand tu peux te voir de l'extérieur. Pas quand tu te martyrises en public."
+
+La frontière, c'est : est-ce que tu ris *du contexte* ou est-ce que tu ris *de toi* de façon qui te diminue ? Notre article [Autodérision : transforme tes interactions](/blog/autoderision-interactions) détaille exactement comment tenir cette frontière.
+
+## Étape 4 : Raconter l'histoire avec du recul
+
+Il y a une étape spécifique dans le processus de deuil sentimental où ton histoire devient une histoire que tu peux raconter. Pas une confession. Une anecdote.
+
+Ce glissement, c'est quand tu passes de "je raconte ce qui m'est arrivé" à "je raconte une histoire qui m'est arrivée".
+
+**Les 3 signes que tu es prêt à raconter :**
+1. Tu peux la raconter en moins de 3 minutes sans que ta voix change.
+2. Tu peux choisir le détail drôle plutôt que le détail douloureux pour illustrer.
+3. Tu peux interrompre le récit si quelqu'un change de sujet sans que ça te dérange.
+
+**La structure de l'anecdote-rupture qui marche :**
+- **Setup court** (une phrase sur le contexte) : "On était ensemble depuis 2 ans."
+- **Le détail absurde** (sans drama) : "La rupture s'est passée par un message de 4 mots. Un record d'efficacité."
+- **La chute qui montre le recul** : "Rétrospectivement, ça résumait assez bien le style de communication de la relation."
+
+Trois phrases. C'est suffisant. Tu n'as pas à tout raconter pour que la salle (ou ton interlocuteur) comprenne que tu t'en es sorti.
+
+## Étape 5 : Utiliser la rupture comme matière première
+
+C'est l'étape finale — et la plus optionnelle. Il n'est pas obligatoire de "raconter sa rupture" pour être drôle.
+
+Mais si tu veux : quelques grandes ruptures ont donné des spectacles entiers. **Panayotis Pascot** a fait de sa vulnérabilité sa marque de fabrique. Pas parce qu'il raconte ses histoires — mais parce qu'il les transforme en observations universelles sur ce que tout le monde ressent.
+
+La clé : ce n'est pas "mon histoire" que tu racontes. C'est *la* situation que vous avez tous vécue d'une façon ou d'une autre, que tu illustres avec ton exemple.
+
+"J'ai vécu une rupture" → pas très universel.
+"Tu sais ce moment où tu regardes l'appartement vide et tu réalises que l'autre avait pris tout le sel ?" → tout le monde a un équivalent de ce moment.
+
+Le particulier devient universel quand tu creuses assez loin dans le détail précis.
+
+## Un mot sur le "forçage"
+
+Il y a une pression implicite sociale pour aller bien vite, faire des blagues sur ça, montrer qu'on s'en fout. Résister à cette pression, c'est plus intelligent.
+
+**Le faux rire après une rupture se reconnaît à :**
+- Il cherche à impressionner ("regardez comme je m'en fous")
+- Il minimise une douleur réelle
+- Il ne te fait pas toi-même sourire quand tu le répètes seul
+
+**Le vrai recul comique, lui :**
+- Te fait sourire *à toi* en y pensant
+- Ne cherche pas d'approbation
+- Est *spécifique* — il porte sur un détail précis, pas sur une généralisation
+
+La progression vers le vrai recul, ça se travaille. Nos [parcours](/parcours) de développement de l'humour sont conçus exactement pour ça — reconstruire sa légèreté de façon structurée, progressive, sans forcer. Le [Parcours Confiance](/parcours) en particulier est fait pour les moments de reconstruction personnelle.
+
+## Les étapes en résumé
+
+1. **Valider les absurdités de la situation** (pas les douleurs — les détails drôles)
+2. **Recommencer à rire d'autre chose** avant d'essayer de rire de ça
+3. **Pratiquer l'autodérision de recul** (observer le contexte, pas se démolir)
+4. **Raconter l'histoire** quand les 3 signes de maturité sont là
+5. **Transformer le particulier en universel** si tu veux aller plus loin
+
+Retrouver son humour après une rupture n'est pas une performance. C'est un indicateur. Quand le rire revient naturellement, c'est que quelque chose a changé en toi — pas dans ta situation extérieure.`,
+    date: "2026-03-26",
+    readingTime: "8 min",
+    category: "PSYCHOLOGIE",
+    faqs: [
+      {
+        question: "Combien de temps avant de retrouver son humour après une rupture ?",
+        answer:
+          "Il n'y a pas de délai fixe — cela dépend de la profondeur de la blessure et du travail de recul. Le signe que tu es prêt : tu peux raconter l'histoire en moins de 3 minutes sans que ta voix change, et tu peux choisir le détail drôle plutôt que le détail douloureux. Forcer avant ce stade produit un humour défensif qui sonne faux.",
+      },
+      {
+        question: "Comment retrouver son humour sans forcer ou simuler ?",
+        answer:
+          "Commence par rire d'autre chose — spectacles de stand-up, mèmes, observations du quotidien. L'humour se recharge par la pratique sur des sujets sans enjeu. Progressivement, cette capacité s'étend. Ne commence pas par ta rupture — commence par retrouver le rire en général.",
+      },
+      {
+        question: "L'autodérision sur sa rupture peut-elle aider à guérir ?",
+        answer:
+          "Oui, mais à une condition : l'autodérision de recul (observer le contexte avec distance) est différente de l'auto-punition (se démolir). 'La rupture s'est passée par un message de 4 mots — un record d'efficacité' = recul. 'Je méritais que ça finisse comme ça' = auto-punition. La différence est cruciale.",
+      },
+      {
+        question: "Comment parler de sa rupture avec humour sans paraître défensif ?",
+        answer:
+          "Structure en 3 temps : un setup court (une phrase de contexte), un détail absurde (sans drama), et une chute qui montre le recul. Reste spécifique — un détail précis est plus efficace qu'une généralisation. Et limite-toi à 3 phrases : tu n'as pas à tout raconter pour montrer que tu t'en es sorti.",
+      },
+    ],
+  },
+  {
+    slug: "confiance-humour-apres-rupture",
+    title: "Reprendre confiance grâce à l'humour",
+    excerpt:
+      "L'humour comme outil de reconstruction — pas juste pour faire rire, mais pour retrouver qui tu es.",
+    content: `Si tu traverses une période difficile — rupture, période creuse, reconstruction — tu as probablement entendu le conseil : "essaie de rire un peu, ça ira mieux."
+
+C'est vrai. Et c'est aussi une façon très efficace de ne rien dire d'utile.
+
+Ce guide, c'est la version opérationnelle. Pas "riez, les amis". Mais : voilà les mécanismes, voilà les étapes, voilà ce que tu peux faire aujourd'hui.
+
+## Pourquoi l'humour reconstruit la confiance en soi ?
+
+Il y a un paradoxe au cœur de la confiance en soi : on pense qu'il faut la retrouver *pour* redevenir drôle. C'est souvent l'inverse — **redevenir drôle aide à reconstruire la confiance**.
+
+Voici pourquoi :
+
+**L'humour crée de la distance.** Rire d'une situation, c'est se placer légèrement au-dessus d'elle. C'est prouver à ton cerveau que tu n'es pas *dans* la situation — tu l'*observes*. Cette position d'observateur est exactement celle qu'on appelle "avoir du recul", et elle réduit l'intensité de la douleur.
+
+**L'humour crée de la connexion.** Faire rire quelqu'un — même juste sourire — génère une micro-validation sociale. Pas besoin de l'approbation de masse. Un collègue qui sourit à ta remarque, un ami qui rigole de ton observation. Chaque micro-validation recalibre doucement la perception que tu as de toi-même dans les interactions sociales.
+
+**L'humour crée de la maîtrise.** Transformer un événement difficile en anecdote racontable, c'est reprendre le contrôle de ta propre histoire. Tu n'es plus la personne à qui c'est arrivé — tu es la personne qui raconte ce qui s'est passé.
+
+> **CLEF :** L'humour ne masque pas la douleur — il crée une position d'observateur qui réduit son intensité. Chaque fois que tu transformes une situation difficile en matière racontable, tu reprends la main sur ton récit. C'est un des mécanismes les plus documentés du résilience psychologique.
+
+## Étape 1 : Identifier ce qui a changé dans ton humour
+
+Avant une période difficile, tu avais un humour. Après, il a changé de forme. La première étape, c'est de comprendre *comment* — pas de le juger.
+
+**Les 4 façons dont l'humour se transforme après une crise :**
+
+1. **Il disparaît complètement.** Rien n'est drôle. Tu regardes les autres rire et tu es extérieur à ça. C'est normal — le cerveau en mode survie n'alloue pas de ressources au rire.
+2. **Il devient défensif.** Tu fais des blagues sur tout — y compris sur toi — de façon compulsive. C'est une armure, pas de la joie.
+3. **Il devient amer.** Le cynisme remplace l'humour. Les observations sont justes mais elles ne font pas rire — elles piquent.
+4. **Il devient plus profond.** Certaines personnes ressortent d'une crise avec un humour plus mature, plus nuancé. Ça arrive — mais rarement sans traverser d'abord l'une des trois phases précédentes.
+
+**L'exercice de diagnostic :** Pense à la dernière fois que tu as rit vraiment. Pas poli, pas forcé — vraiment. C'était quand ? Avec qui ? De quoi ? Cette mémoire te donne une baseline. Elle te dit où ton humour est encore accessible.
+
+## Étape 2 : Recommencer par ce qui ne coûte rien
+
+Le problème des conseils du type "sois drôle, ça ira mieux" c'est qu'ils demandent déjà d'être en état de faire quelque chose. Ce n'est pas le bon point de départ.
+
+Le bon point de départ, c'est la consommation passive avant la production active.
+
+**La roadmap basse intensité :**
+
+**Semaine 1 — Observer sans produire :**
+- 20 minutes de stand-up par soir. **Fary**, **Roman Frayssinet** ou **Blanche Gardin** — choisis selon ton état d'esprit. Notre page [vidéos](/videos) regroupe les meilleurs spectacles analysés.
+- Note mentalement (pas besoin d'écrire) ce qui te fait sourire. Juste remarquer.
+- Objectif : retrouver le contact avec le rire. Pas faire rire.
+
+**Semaine 2 — Partager des trucs drôles :**
+- Envoie 1 mème ou 1 vidéo drôle par jour à quelqu'un. N'importe qui.
+- L'humour partagé crée une connexion. Et la connexion est l'un des meilleurs antidotes à l'isolement émotionnel.
+- Objectif : être le passeur, pas le créateur.
+
+**Semaine 3 — Remarquer des absurdités du quotidien :**
+- Note 1 truc absurde par jour. Par message vocal, sur un carnet, peu importe.
+- "Quelqu'un a mis un Post-it sur la machine à café pour dire 'merci de laisser propre'. La machine est beige crade depuis 2019."
+- Objectif : réactiver le regard d'observateur.
+
+**Semaine 4 — Faire une remarque à voix haute :**
+- Une remarque par jour, en contexte naturel. Machine à café, trajet, repas.
+- Pas forcément drôle. Juste observation légère et légèrement décalée.
+- Objectif : reprendre l'habitude de verbaliser ton regard.
+
+> **À retenir :** La reconstruction de l'humour suit une courbe de faible résistance vers la haute résistance. Consommer avant de produire. Partager avant de créer. Observer avant de raconter.
+
+## Étape 3 : Utiliser l'autodérision de façon chirurgicale
+
+L'autodérision est l'outil de reconstruction de confiance le plus puissant et le plus mal utilisé.
+
+Mal utilisée : elle amplifie la douleur. Bien utilisée : elle signale que tu es suffisamment en recul pour voir ta propre situation avec distance. Ce signal — que tu t'envoies à toi-même autant qu'au groupe — est un vrai marqueur de reconstruction.
+
+**La distinction cruciale — les 3 niveaux :**
+
+1. **Auto-punition déguisée** (à éviter) : "Je suis nul, je méritais ce qui m'est arrivé, c'est logique que personne ne me choisisse." → Ce n'est pas de l'humour, c'est une douleur habillée en blague. Elle enfonce, elle ne reconstruit pas.
+
+2. **Armure défensive** (transitoire, pas durable) : Rire de tout, même ce qui fait vraiment mal, de façon compulsive. Ça peut aider à passer une période mais ce n'est pas de la confiance — c'est de l'évitement.
+
+3. **Autodérision de recul** (celle qu'on cherche) : Observer le *contexte* avec distance. "J'ai passé 3 mois à analyser une relation de 6 mois. Mon ratio temps-d'analyse sur temps-de-relation est assez impressionnant." → Tu vois la situation de l'extérieur. Tu n'es plus dedans.
+
+**Waly Dia** utilise systématiquement ce troisième niveau dans ses spectacles — il parle de ses expériences difficiles avec une précision d'entomologiste. Pas pour minimiser, mais pour montrer qu'il les a traversées et qu'il peut maintenant les cartographier.
+
+Notre article [Autodérision : transforme tes interactions](/blog/autoderision-interactions) détaille les techniques pour tenir cette frontière entre les 3 niveaux.
+
+## Étape 4 : Les interactions sociales comme terrain d'entraînement
+
+La confiance en soi en contexte social ne se reconstruit pas en isolation. Elle se reconstruit dans les interactions — mais des interactions à faible enjeu d'abord.
+
+**Le principe de la sécurité progressive :**
+
+Commence par les contextes où tu te sens déjà un peu à l'aise. Ne commence pas par une soirée avec des inconnus si ça te semble insurmontable.
+
+**La progression recommandée :**
+
+1. **Les interactions à 1 :** un ami proche, quelqu'un de confiance. Tu peux rater. Il n'y a pas de conséquence.
+2. **Les micro-interactions de contexte** (caissier, collègue de passage, café du coin). 30 secondes. Observation légère. Aucune pression.
+3. **Les petits groupes de connaissances.** 3-4 personnes que tu connais à moitié. Objectif : une remarque drôle par soirée, pas dix.
+4. **Les contextes plus larges.** Soirées, nouvelles rencontres — quand les étapes 1-3 sont stabilisées.
+
+Chaque interaction réussie — même micro — recalibre la confiance. Ce n'est pas un processus spectaculaire. C'est une accumulation.
+
+**Les [conseils](/conseils) de répartie** sur deviens-marrant.fr sont organisés par niveau de difficulté — du plus simple au plus avancé. C'est exactement cette progression que le site est conçu à soutenir.
+
+## Étape 5 : Construire un répertoire personnel
+
+À un moment dans la reconstruction, tu cesses d'improviser et tu commences à construire. C'est le signe que tu es passé du mode "survie" au mode "construction".
+
+Un répertoire, c'est simplement un ensemble de formulations que tu as testées et qui fonctionnent. Pas des blagues mémorisées — des *angles* sur ta propre vie que tu as trouvés avec du recul.
+
+**Comment construire ton répertoire post-rupture :**
+
+1. **Identifie 2-3 situations de ta vie récente que tu peux raconter avec distance.** Pas forcément liées à ta rupture — juste des moments où tu vois l'absurde avec recul.
+2. **Rédige-les en version courte.** Setup en une phrase, détail absurde, chute légère. Maximum 3 phrases.
+3. **Teste avec quelqu'un de confiance.** Note la réaction — pas pour valider ton humour, mais pour comprendre comment l'histoire "atterrit".
+4. **Affine et garde les versions qui marchent.** C'est ta matière.
+
+Nos [vannes](/vannes) du catalogue sont aussi une ressource — pas à répéter mot pour mot, mais à utiliser comme modèles de construction. Voir comment une vanne est structurée aide à comprendre comment construire la tienne.
+
+## La confiance qui revient
+
+La confiance en soi qui revient après une période difficile n'est pas identique à celle d'avant. Elle est généralement plus stable — moins dépendante de l'approbation externe, plus ancrée dans une connaissance de soi.
+
+L'humour joue un rôle dans ce processus de façon non linéaire. Certains jours, rien n'est drôle. D'autres jours, tu vois l'absurde partout. C'est normal.
+
+Ce qui indique que ça avance : les jours où l'absurde est visible sont de plus en plus nombreux. Et les moments où tu fais sourire quelqu'un — même à une personne, même brièvement — commencent à te surprendre positivement plutôt qu'à te laisser indifférent.
+
+Ce retour de plaisir dans les interactions sociales est un indicateur fiable. Pas parfait, pas linéaire — mais fiable.
+
+Notre [Parcours Confiance](/parcours) sur deviens-marrant.fr est conçu spécifiquement pour cette reconstruction — 6 semaines de progression structurée, de l'observation à la pratique en groupe. C'est ce genre d'accompagnement structuré que les livres et les conseils généraux ne peuvent pas remplacer.`,
+    date: "2026-03-26",
+    readingTime: "8 min",
+    category: "PSYCHOLOGIE",
+    faqs: [
+      {
+        question: "Comment l'humour aide-t-il à retrouver confiance en soi après une rupture ?",
+        answer:
+          "L'humour crée trois effets : de la distance (observer la situation plutôt que la subir), de la connexion (faire sourire quelqu'un génère une micro-validation sociale) et de la maîtrise (transformer un événement difficile en anecdote racontable, c'est reprendre le contrôle de sa propre histoire). Ces trois effets combinés recalibrent progressivement la confiance.",
+      },
+      {
+        question: "Par où commencer pour retrouver son humour après une période difficile ?",
+        answer:
+          "Commence par la consommation avant la production : 20 minutes de stand-up par soir, partager 1 mème par jour, noter 1 observation absurde du quotidien. Ne commence pas par essayer de faire rire — commence par retrouver le contact avec le rire. La production vient après.",
+      },
+      {
+        question: "Quelle est la différence entre autodérision saine et auto-punition déguisée ?",
+        answer:
+          "L'autodérision saine observe le *contexte* avec distance : 'Mon ratio temps-d'analyse sur temps-de-relation est assez impressionnant.' L'auto-punition parle de ta *valeur* : 'Je méritais que ça finisse comme ça.' Si ta blague te diminue en tant que personne, ce n'est pas de l'humour — c'est de la douleur habillée en blague.",
+      },
+      {
+        question: "Comment reconstruire sa confiance en soirée ou dans les interactions sociales ?",
+        answer:
+          "Progression par contextes à faible enjeu d'abord : 1 ami de confiance, puis micro-interactions de 30 secondes (caissier, collègue), puis petits groupes de connaissances. L'objectif dans chaque contexte est minime : une observation légère, pas dix blagues. Chaque micro-interaction réussie recalibre la confiance par accumulation.",
+      },
+      {
+        question: "Faut-il parler de sa rupture avec humour pour reconstruire sa confiance ?",
+        answer:
+          "Non — c'est une étape optionnelle. La reconstruction de la confiance par l'humour ne passe pas nécessairement par raconter sa rupture. Elle peut passer par des observations drôles du quotidien, des anecdotes sans lien avec la séparation. La rupture devient matière racontable quand le recul est là naturellement, pas avant.",
+      },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 

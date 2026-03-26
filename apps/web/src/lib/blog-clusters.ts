@@ -21,7 +21,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "techniques-repartie",
     name: "Techniques de répartie",
     pillarSlug: "comment-avoir-de-la-repartie",
-    satelliteSlugs: ["repartie-debutant-5-etapes", "repartie-soiree-anti-malaise", "timidite-et-humour", "autoderision-interactions"],
+    satelliteSlugs: ["repartie-debutant-5-etapes", "timidite-et-humour", "autoderision-interactions"],
   },
   {
     id: "techniques-delivery",
@@ -39,7 +39,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "humour-contexte",
     name: "Humour en contexte",
     pillarSlug: "blagues-travail-faire-rire-pro",
-    satelliteSlugs: ["humour-apres-rupture", "blagues-courtes-vs-longues"],
+    satelliteSlugs: ["repartie-soiree-anti-malaise", "blagues-courtes-vs-longues"],
   },
   {
     id: "apprendre-des-pros",
@@ -51,7 +51,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "douleurs-personas",
     name: "Douleurs et situations concrètes",
     pillarSlug: "je-suis-pas-drole-comment-changer",
-    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
+    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "humour-apres-rupture", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },
   {
     id: "fort-volume",
