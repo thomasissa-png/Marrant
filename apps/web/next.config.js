@@ -23,6 +23,7 @@ const nextConfig = {
         "path",
         "@resvg/resvg-js",
         "@replit/object-storage",
+        "@google-cloud/storage",
       ]);
 
       config.externals = config.externals || [];
