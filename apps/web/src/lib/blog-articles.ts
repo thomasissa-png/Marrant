@@ -2827,6 +2827,162 @@ Notre [Parcours Machine à Café](/parcours) sur deviens-marrant.fr est construi
       },
     ],
   },
+  {
+    slug: "repartie-soiree-anti-malaise",
+    title: "Répartie en soirée : guide anti-malaise",
+    excerpt:
+      "Soirée gênante, vanne qui tombe à plat, moquerie inattendue : 5 situations réelles avec les techniques pour t'en sortir.",
+    content: `Il y a un moment dans chaque soirée où l'ambiance bascule. Soit tu saisis l'opportunité et tu deviens mémorable. Soit tu ris trop fort d'une blague que t'as pas comprise, tu dis "ouais non, c'est marrant ça" en fixant ton verre, et tu passes le reste de la nuit en mode fantôme.
+
+Ce guide, c'est pour le deuxième cas. Parce qu'on a tous vécu les deux.
+
+## Pourquoi la répartie en soirée est si difficile à maîtriser ?
+
+La répartie en soirée, ce n'est pas juste avoir des vannes prêtes. C'est gérer la **pression sociale en temps réel** — avec du bruit, de l'alcool, des gens que tu connais à moitié, et l'impression que tout le monde te regarde.
+
+**Panayotis Pascot** explique dans un de ses spectacles que la peur du jugement est le plus grand tueur de répartie. Pas le manque d'idées. Le manque d'audace pour les sortir. Et ce n'est pas une question de confiance en soi innée — c'est une compétence.
+
+> **CLEF :** La répartie en soirée ne requiert pas de génie — elle requiert d'avoir 3-4 réponses types rodées pour les situations qui reviennent toujours. Improviser, c'est 20% du travail. Préparer, c'est 80%.
+
+Les 5 situations qui suivent sont celles qui reviennent dans presque chaque soirée. Pour chacune : le diagnostic (pourquoi ça bloque), la technique (ce qui marche), et l'exemple (une phrase que tu peux sortir ce soir).
+
+## Situation 1 : Ta vanne tombe complètement à plat
+
+**Le diagnostic :** Silence. Deux ou trois sourires polis. Quelqu'un change le sujet. Tu veux disparaître sous la table.
+
+C'est la peur de tout le monde. Et c'est aussi ce qui arrive aux meilleurs. **Fary** a passé des années d'open mic à se planter devant 20 personnes. La différence entre lui et quelqu'un qui arrête, c'est la façon de gérer le plat.
+
+**La technique — le rebond autodérisoire :**
+
+Ne justifie pas. Ne répète pas. Retourne la situation contre toi avec un timing sec.
+
+**L'exemple :**
+- Vanne plantée → silence → tu attends 2 secondes → "OK, j'annule mon spectacle."
+- Ou : "Bon. Dans ma tête c'était hilarant. On va s'en tenir à ça."
+- Ou : "Je vous demande de rester à l'écoute, il est possible que le génie arrive plus tard dans la soirée."
+
+**Pourquoi ça marche :** Tu transformes le moment gênant en second degré sur toi. Le groupe rit du *situation*, pas de toi. Et toi, tu montres que tu gères — ce qui est infiniment plus impressionnant qu'une bonne vanne.
+
+> **CLEF :** La façon dont tu gères une vanne qui tombe à plat en dit plus sur toi qu'une bonne vanne. Maîtriser l'auto-récupération, c'est le vrai niveau supérieur de la répartie.
+
+## Situation 2 : On se moque de toi devant tout le groupe
+
+**Le diagnostic :** Quelqu'un te sort une vanne sur ton job, ton jean, ton ex, ou n'importe quoi. Tout le monde attend ta réaction. Là, tu as deux options : te fermer, ou transformer l'attaque en point.
+
+**La technique — le retournement de judo :**
+
+Ne défends pas, n'attaque pas en retour. Utilise l'énergie de la moquerie pour aller encore plus loin dans l'autodérision.
+
+Exemple : tu arrives en retard → quelqu'un dit "Ah, le roi du timing !" → tu réponds "Je suis sur un fuseau horaire différent. C'est exprès, pour l'exclusivité de mes apparitions."
+
+**3 formules qui fonctionnent pour presque toutes les moqueries :**
+1. "C'est vrai. Et je revendique ça complètement."
+2. "Ouais, j'avais vu que c'était raté mais j'ai décidé de continuer quand même."
+3. "Tu viens de résumer parfaitement pourquoi [ma mère / mes collègues / l'humanité] me supporte à peine."
+
+**L'erreur à éviter :** répondre avec une contre-attaque directe ("Et toi tu fais quoi dans la vie ?"). Ça crée de la tension, pas du rire. Le judo de la répartie, c'est d'amplifier la moquerie jusqu'à ce qu'elle devienne absurde — et donc drôle.
+
+Pour développer ce réflexe, notre article [Répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) détaille les mécanismes pas à pas.
+
+## Situation 3 : Tu rejoins un groupe déjà lancé — et tu ne sais pas comment t'insérer
+
+**Le diagnostic :** La conversation est déjà en cours. Il y a une énergie. Tu es debout avec ton verre, tu souris vaguement, et tu attends une "ouverture" qui ne vient pas.
+
+**La technique — l'observation ponctuelle :**
+
+Tu n'as pas besoin d'une entrée dramatique. Une observation courte sur ce qui vient d'être dit suffit à t'ancrer dans le groupe.
+
+**La règle des 30 secondes :** écoute pendant 30 secondes avant de parler. Puis formule une observation sur un détail précis de ce qui a été dit.
+
+**Les exemples :**
+- Si le groupe parle d'un film : "J'ai regardé exactement 20 minutes avant de décider que ma vie était mieux sans ça."
+- Si le groupe parle de boulot : "Apparemment tout le monde souffre de la même façon. C'est réconfortant."
+- Si le groupe rit d'une histoire et que tu n'as pas tout suivi : "J'ai pas tout entendu mais au vu des réactions, je sens que ça mérite d'être redemandé."
+
+**Pourquoi ça marche :** Tu montres que tu écoutes et que tu as un point de vue. C'est tout ce qu'on demande pour entrer dans un groupe.
+
+Pour aller plus loin sur les techniques d'insertion sociale, nos [conseils de répartie](/conseils) proposent des exercices concrets à tester avant la prochaine soirée.
+
+## Situation 4 : Il y a un malaise généralisé — sujet glissant, blague ratée de quelqu'un d'autre
+
+**Le diagnostic :** Quelqu'un vient de sortir une blague douteuse. Ou un sujet délicat a été abordé. L'ambiance s'est plombée. Tout le monde regarde ailleurs.
+
+**La technique — le pivot absurde :**
+
+Ne commente pas la blague. Ne la valide pas, ne la condamne pas. Pivot vers quelque chose de totalement hors sujet avec un rythme sec.
+
+**L'exemple :**
+Malaise → pause → "Bon. Qui a faim ? Parce que moi j'ai besoin d'une transition alimentaire là."
+
+Ou : "Je propose qu'on parle de la météo comme toutes les personnes normales."
+
+Ou (version plus balèze) : "Bien. Je pense qu'on peut tous s'accorder pour passer à un autre sujet sans en parler de façon formelle."
+
+**Roman Frayssinet** utilise souvent ce type de pivot dans ses spectacles — transformer le malaise en méta-commentaire absurde sur le malaise lui-même. La technique, c'est de nommer l'inconfort de façon tellement décalée que ça le dédramatise.
+
+## Situation 5 : La soirée s'essoufle et tu veux finir sur une bonne note
+
+**Le diagnostic :** Il est tard. Les conversations se rarécifient. Les gens commencent à checker leur téléphone. La soirée est en train de mourir de sa belle mort.
+
+**La technique — la sortie mémorable :**
+
+Si tu pars à ce moment-là avec une réplique qui colle, tu es la dernière image positive que les gens emportent.
+
+**Les formules de sortie qui fonctionnent :**
+1. **L'auto-légende :** "Bon, je pars avant de gâcher l'image parfaite que vous avez de moi." (Autodérision + conscience de soi = sympathique)
+2. **La promesse absurde :** "Je reviens l'année prochaine avec du meilleur matériel."
+3. **La sortie méta :** "J'avais prévu de partir en mode mystérieux à 23h. Je suis à 23h04 donc l'effet est un peu raté mais l'intention était là."
+
+**La règle d'or :** ne pas traîner les adieux. Partir vite après la réplique. Le comique, c'est aussi le timing de la sortie.
+
+> **CLEF :** La soirée se souvient des premières et dernières impressions. Une entrée oubliable et une sortie mémorable, c'est déjà une victoire. Travaille ta sortie autant que tes vannes.
+
+## Les 5 principes de la répartie en soirée
+
+1. **Prépare 3 réponses-types pour les situations récurrentes.** La vanne plantée, la moquerie, le malaise — elles reviennent dans chaque soirée. Avoir une réponse rodée, c'est ne pas avoir à improviser sous pression.
+2. **L'autodérision est toujours sûre.** Elle ne blesse personne, elle te rend accessible, et elle transforme chaque situation difficile en matériau comique.
+3. **La pause vaut de l'or.** Deux secondes de silence avant une réplique font 3x plus d'effet que la même réplique lancée tout de suite. Notre article [Timing en humour](/blog/timing-humour) détaille exactement comment utiliser ce silence.
+4. **Ne justifie jamais une vanne.** Une explication tue le rire. Si ça ne passe pas, pivot ou autodérision — jamais d'explication.
+5. **La cohérence de ton > la qualité des vannes.** Quelqu'un qui garde son calme et son sens de l'humour dans toutes les situations est bien plus impressionnant que quelqu'un qui place 2 blagues hilarantes puis se ferme pendant une heure.
+
+## Par où commencer ?
+
+1. **Choisis une situation parmi les 5 et mémorise la réplique correspondante.** Une seule — pas cinq. Tu la sors ce soir.
+2. **Travaille la pause.** Après une vanne, attends 2 secondes avant de parler. C'est contre-intuitif mais c'est le changement le plus visible.
+3. **Prépare ta sortie avant d'arriver.** Avoir une phrase de sortie prête transforme la fin de soirée en micro-performance.
+
+Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne 290+ formules adaptées aux contextes sociaux. C'est le type de matériau qu'on utilise pour se construire un répertoire. Pas du théorique — du concret.`,
+    date: "2026-03-26",
+    readingTime: "7 min",
+    category: "CONTEXTE",
+    faqs: [
+      {
+        question: "Comment réagir quand ma vanne tombe à plat en soirée ?",
+        answer:
+          "L'autodérision sèche est ta meilleure arme : attends 2 secondes, puis sors 'OK, j'annule mon spectacle' ou 'Dans ma tête c'était hilarant, on va s'en tenir à ça'. Ne justifie jamais, ne répète pas. Transformer le moment gênant en matériau comique sur toi, c'est le vrai niveau supérieur.",
+      },
+      {
+        question: "Comment répondre aux moqueries sans paraître défensif ?",
+        answer:
+          "La technique du judo de répartie : amplifier la moquerie jusqu'à l'absurde plutôt que défendre. 'C'est vrai. Et je revendique ça complètement.' ou 'Ouais, j'avais vu que c'était raté mais j'ai continué quand même.' — ça transforme l'attaque en autodérision et crée du rire.",
+      },
+      {
+        question: "Comment intégrer un groupe de conversation déjà lancé ?",
+        answer:
+          "Écoute 30 secondes, puis formule une observation sur un détail précis de ce qui vient d'être dit. Pas besoin d'une entrée dramatique — une remarque courte et décalée suffit. 'J'ai pas tout entendu mais au vu des réactions, ça mérite d'être redemandé.'",
+      },
+      {
+        question: "Comment désamorcer un malaise dans un groupe ?",
+        answer:
+          "Le pivot absurde : ignore le sujet gênant et passe à autre chose avec un rythme sec. 'Bien. Qui a faim ? Parce que j'ai besoin d'une transition alimentaire là.' ou 'Je propose qu'on parle de la météo comme toutes les personnes normales.' — nommer le malaise de façon décalée le dédramatise.",
+      },
+      {
+        question: "Comment partir d'une soirée sur une bonne note ?",
+        answer:
+          "Prépare une sortie avant d'arriver — c'est l'une des techniques les plus sous-estimées. 'Je pars avant de gâcher l'image parfaite que vous avez de moi' ou 'Je reviens l'année prochaine avec du meilleur matériel'. Pars vite après la réplique : le timing de la sortie fait partie de l'effet.",
+      },
+    ],
+  },
   // fusionnés ou redirigés — 301 redirects dans next.config.js
 ];
 
