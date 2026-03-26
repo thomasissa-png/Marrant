@@ -116,6 +116,8 @@
 | @fullstack | 26/03/2026 | Fix persona leak threadParts (social-media-agent.ts) | threadParts inclus dans persona guard (check 3). Validation par-tweet : char limit, persona leak, engagement bait. 2 tests ajoutés. | Thread "Fary détruit un relou" contenait "Variantes pour Yanis" dans tweet 3/5 — fuite persona non détectée car threadParts exclu du check. Fix = inclusion dans allText + validation détaillée par partie. |
 | @fullstack | 26/03/2026 | Fix build next.config.js (3 problèmes) | typescript.ignoreBuildErrors:true ; externals callback function (commonjs2) pour scoped packages ; modules Node natifs (querystring, fs, fs/promises, path) externalisés. | Build Replit cassait sur : erreurs TS mineures (null vs undefined), @replit/object-storage en syntaxe string (JS invalide), querystring non trouvé par webpack. Callback function = seule syntaxe correcte pour scoped packages webpack. |
 | @seo | 26/03/2026 | 3 articles blog lot 3 dans blog-articles.ts : repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture. Mise à jour seo-editorial-plan.json (3 articles published + confiance-humour ajouté comme id 23). Mise à jour blog-clusters.ts (repartie-soiree déplacé techniques-repartie→humour-contexte ; humour-apres-rupture ajouté à douleurs-personas). | Cluster humour-contexte retenu pour repartie-soiree-anti-malaise car contenu = situation sociale, pas technique pure. humour-apres-rupture et confiance-humour-apres-rupture dans douleurs-personas car douleur Marc = cluster le plus convertissant. Membership unique respecté (un slug = un cluster). |
+| @fullstack | 26/03/2026 | Fix Instagram URLs — image-storage.ts réécrit (GCS signed URLs), @google-cloud/storage ajouté, next.config.js externals, instagram.test.ts mis à jour | Images Instagram servies via signed URLs GCS directes (7j expiration) au lieu de routes Next.js. Fallback gracieux si GCS_BUCKET_NAME absent. | Routes Next.js inaccessibles quand Repl dort → Buffer ne peut pas télécharger → posts Instagram en échec silencieux. GCS signed URLs = accessibles 24/7 indépendamment du Repl. Pas de CDN externe (reste sur infra Replit). |
+| @orchestrator | 26/03/2026 | Mise à jour Gradient Agents (21 agents + moi.md), learnings P1 marqués appliqués, orchestration-plan phase 5 terminée | Agents mis à jour depuis upstream Agent-Team. 4 learnings P1 ouverts intégrés dans les prompts agents et marqués appliqués. | Gradient Agents upstream contenait des améliorations à intégrer. Les learnings P1 non appliqués = risque de répéter les erreurs de la session précédente. |
 
 ---
 
@@ -148,17 +150,17 @@
 ## Mémo de reprise — dernière session
 
 - **Date de clôture** : 26/03/2026
-- **Résumé** : Session couvrant 2 volets : (1) SEO lot 3 terminé — 3 articles publiés (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture). Blog-clusters.ts mis à jour (membership unique respecté). seo-editorial-plan.json mis à jour (3 articles published, confiance-humour ajouté id 23). (2) État stable du build et du pipeline social suite aux fixes de la session précédente.
+- **Résumé** : Session couvrant 3 volets : (1) SEO lot 3 terminé — 3 articles publiés (repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture), chacun validé par les 5 tests Stand-Up Director. Blog-clusters.ts mis à jour (membership unique respecté). seo-editorial-plan.json mis à jour (3 articles published). (2) Fix Instagram URLs — images migrées vers GCS signed URLs directes (7 jours d'expiration) via `@google-cloud/storage`, fallback gracieux vers URL dynamique si `GCS_BUCKET_NAME` absent. (3) Gradient Agents mis à jour depuis upstream Agent-Team (21 agents + nouveau `moi.md`). 4 learnings P1 marqués appliqués.
 - **Travaux en cours** :
-  - 12 articles blog restants en backlog (lots 4-7) — prochaine priorité : lot 4 (blagues-courtes-vs-longues, repartie-debutant-5-etapes-manquant, pourquoi-blagues-marchent-pas)
+  - 12 articles blog restants en backlog (lots 4-7) — prochaine priorité : lot 4 (rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues)
   - Score GEO ~82/100, objectif 90 — nouveaux articles GEO-optimisés à la rédaction (listes numérotées, CLEF blockquotes, H2 questions)
-  - **Risque Instagram** : URLs images dépendantes du Repl actif (routes Next.js). Fix long terme nécessaire : CDN externe ou URLs Object Storage directes
+  - **Instagram** : code fixé (GCS signed URLs), mais secret `GCS_BUCKET_NAME` à ajouter dans Replit Secrets (valeur = Bucket ID visible dans Settings > Object Storage)
 - **Prochaines actions recommandées** :
-  1. **@seo** : Produire lot 4 articles — clusters apprendre-humour + humour-contexte (pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues, humour-quotidien-8-habitudes restants)
-  2. **@infrastructure** : Résoudre le risque URLs images Instagram — migrer vers URLs Object Storage directes ou CDN externe (Cloudflare R2 gratuit) pour que Buffer accède aux images même quand le Repl dort
-  3. **@fullstack** : Vérifier que `BUFFER_CHANNEL_INSTAGRAM` est configuré dans Secrets Replit et qu'un post Instagram passe effectivement (test end-to-end)
-- **Blockers** : Vérification manuelle requise côté Replit : (1) secret BUFFER_CHANNEL_INSTAGRAM présent ? (2) Repl "Always On" activé ? Sans ça, Instagram reste cassé malgré les fixes code.
-- **Commande de reprise suggérée** : `@seo Produis le lot 4 d'articles blog : pourquoi-blagues-marchent-pas (cluster apprendre-humour), blagues-courtes-vs-longues (cluster humour-contexte), et un troisième article du backlog. Consulte seo-editorial-plan.json pour les specs.`
+  1. **@seo** : Produire lot 4 articles — rester-muet-en-groupe (douleurs-personas), pourquoi-blagues-marchent-pas (apprendre-humour), blagues-courtes-vs-longues (apprendre-humour)
+  2. **@fullstack** : Test E2E Instagram — vérifier qu'un post Instagram passe effectivement via Buffer avec les GCS signed URLs (après ajout du secret `GCS_BUCKET_NAME`)
+  3. **@seo** : Lot 5 articles — processus-creatif-humoristes-applique, devenir-drole-30-jours, voler-techniques-standup-soiree
+- **Blockers** : Secret `GCS_BUCKET_NAME` à ajouter dans Replit Secrets pour que les signed URLs Instagram fonctionnent. BUFFER_CHANNEL_INSTAGRAM et Always On confirmés OK par le fondateur.
+- **Commande de reprise suggérée** : `@orchestrator Mode reprise. Produis lot 4 articles SEO + test E2E Instagram.`
 
 ---
 

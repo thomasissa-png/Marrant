@@ -57,9 +57,23 @@ Lourde -- 2 agents principaux (@seo, @geo), 3 phases, 22 articles a produire au 
   - seo-editorial-plan.json mis a jour (3 articles passes en "published") -- OK
 - Tests : 960/961 pass (1 échec timezone pré-existant)
 
+### Phase 5 -- Lot 3 articles SEO + fix Instagram URLs
+- Agents : @seo (articles), @fullstack (Instagram GCS signed URLs)
+- Statut : TERMINE
+- Livrables recus :
+  - Article `repartie-soiree-anti-malaise` (satellite humour-contexte, persona Yanis, ~1500 mots) -- OK
+  - Article `humour-apres-rupture` (satellite douleurs-personas, persona Marc, ~1500 mots) -- OK
+  - Article `confiance-humour-apres-rupture` (satellite douleurs-personas, persona Marc, ~1500 mots) -- OK
+  - Fix image-storage.ts : GCS signed URLs (7j) au lieu de routes Next.js -- OK
+  - @google-cloud/storage ajoute, next.config.js externals, tests mis a jour -- OK
+  - seo-editorial-plan.json mis a jour (3 articles passes en "published") -- OK
+  - blog-clusters.ts mis a jour (repartie-soiree vers humour-contexte, humour-apres-rupture vers douleurs-personas) -- OK
+  - 4 learnings P1 marques appliques dans lessons-learned.md -- OK
+- Tests : 962/963 pass (1 echec timezone pre-existant)
+- Validation Director : 5 tests appliques manuellement sur chaque article
+
 ### Articles restants (backlog pour prochaines sessions)
-- Lot 3 (priorite haute) : repartie-soiree-anti-malaise, humour-apres-rupture, confiance-humour-apres-rupture
-- Lot 4 : rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues
+- Lot 4 (priorite haute) : rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues
 - Lot 5 : processus-creatif-humoristes-applique, devenir-drole-30-jours, voler-techniques-standup-soiree
 - Lot 6 : techniques-standup-vie-sociale (pillar), parcours-humour-30-jours-retour
 - Lot 7 : comment-faire-rire-ses-amis, creer-ses-propres-blagues
