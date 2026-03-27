@@ -9,11 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { FaqSection } from "@/components/home/faq-section";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 export default function AbonnementPage() {
   const { status } = useSession();
   const stats = useContentStats();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -125,11 +127,14 @@ export default function AbonnementPage() {
                 : "S'abonner \u00e0 0,99 \u20ac/mois"}
             </Button>
           ) : (
-            <Link href="/register" className="mt-8 block">
-              <Button variant="primary" size="lg" className="w-full">
-                Cr&eacute;er un compte pour commencer
-              </Button>
-            </Link>
+            <Button
+              variant="primary"
+              size="lg"
+              className="mt-8 w-full"
+              onClick={() => setIsAuthModalOpen(true)}
+            >
+              Cr&eacute;er un compte pour commencer
+            </Button>
           )}
 
           <p className="mt-3 text-center text-xs text-text-muted">
@@ -160,6 +165,13 @@ export default function AbonnementPage() {
       <div className="mt-12">
         <FaqSection />
       </div>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultTab="register"
+        callbackUrl="/abonnement"
+      />
     </div>
   );
 }

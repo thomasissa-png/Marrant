@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { AuthCta } from "@/components/auth/auth-cta";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -203,11 +204,9 @@ export default function AProposPage() {
             Rejoins les membres qui progressent en humour chaque jour.
             Ton futur toi drôle t&apos;attend.
           </p>
-          <Link href="/register" className="mt-4 inline-block">
-            <Button variant="primary" size="lg">
-              Commencer à 0,99 €/mois
-            </Button>
-          </Link>
+          <div className="mt-4 inline-block">
+            <AuthCta label="Commencer à 0,99 €/mois" />
+          </div>
         </div>
       </div>
     </>

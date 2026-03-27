@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AuthCta } from "@/components/auth/auth-cta";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import {
@@ -294,11 +295,9 @@ export default async function BlogArticlePage({
           Des exercices concrets, des parcours pas à pas, et un système de
           progression qui te motive chaque jour.
         </p>
-        <Link href="/register" className="mt-4 inline-block">
-          <Button variant="primary" size="lg">
-            Commencer à 0,99 €/mois
-          </Button>
-        </Link>
+        <div className="mt-4 inline-block">
+          <AuthCta label="Commencer à 0,99 €/mois" />
+        </div>
       </div>
     </article>
   );

@@ -12,6 +12,11 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
 
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn(() => ({ data: null, status: "unauthenticated" })),
+  SessionProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 // Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};

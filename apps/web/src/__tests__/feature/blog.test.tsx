@@ -2,10 +2,17 @@ import { render, screen } from "@testing-library/react";
 
 const notFoundError = new Error("NEXT_NOT_FOUND");
 
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn(() => ({ data: null, status: "unauthenticated" })),
+  SessionProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 jest.mock("next/navigation", () => ({
   notFound: jest.fn(() => {
     throw notFoundError;
   }),
+  useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 const { notFound } = require("next/navigation");
@@ -199,7 +206,7 @@ describe("BlogArticlePage — article detail", () => {
     expect(screen.getByText("Deuxième paragraphe.")).toBeInTheDocument();
   });
 
-  it("renders CTA section with link to register", async () => {
+  it("renders CTA section with auth button", async () => {
     const Page = await BlogArticlePage({
       params: { slug: "comment-devenir-drole" },
     });
@@ -208,8 +215,6 @@ describe("BlogArticlePage — article detail", () => {
       screen.getByText("Envie de passer à l'action ?")
     ).toBeInTheDocument();
     expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
-    const ctaLink = screen.getByText("Commencer à 0,99 €/mois").closest("a");
-    expect(ctaLink).toHaveAttribute("href", "/register");
   });
 
   it("renders breadcrumb navigation", async () => {

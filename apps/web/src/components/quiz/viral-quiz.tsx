@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { AuthCta } from "@/components/auth/auth-cta";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -91,11 +92,12 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             </Button>
           </Link>
 
-          <Link href="/register" className="w-full">
-            <Button variant="secondary" size="lg" className="w-full">
-              Crée ton compte gratuit
-            </Button>
-          </Link>
+          <AuthCta
+            label="Crée ton compte gratuit"
+            variant="secondary"
+            size="lg"
+            className="w-full"
+          />
         </div>
       </CardContent>
     </Card>

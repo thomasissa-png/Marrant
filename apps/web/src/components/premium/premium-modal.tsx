@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 interface PremiumModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
   const { status } = useSession();
   const stats = useContentStats();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -104,11 +106,17 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
             {isCheckoutLoading ? "Redirection..." : "Passer à l'offre complète"}
           </Button>
         ) : (
-          <Link href="/register" className="mt-6 block" onClick={onClose}>
-            <Button variant="primary" size="lg" className="w-full">
-              Cr&eacute;er un compte pour commencer
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            size="lg"
+            className="mt-6 w-full"
+            onClick={() => {
+              onClose();
+              setIsAuthModalOpen(true);
+            }}
+          >
+            Cr&eacute;er un compte pour commencer
+          </Button>
         )}
 
         <p className="mt-3 text-center text-xs text-text-muted">
@@ -122,6 +130,13 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
           </Link>
         </p>
       </div>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultTab="register"
+        callbackUrl="/abonnement"
+      />
     </Modal>
   );
 }
