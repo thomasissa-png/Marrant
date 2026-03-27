@@ -6,21 +6,33 @@ export const revalidate = 3600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
 
-  // Pages dynamiques : lastModified = maintenant (contenu frais quotidien)
-  // Pages statiques : lastModified = date du build (évite signal trompeur pour Bing)
-  const now = new Date();
-  const lastDeploy = new Date(process.env.BUILD_DATE || new Date().toISOString().split("T")[0]);
+  // lastModified doit etre stable — Bing penalise les dates qui changent a chaque crawl.
+  // Utiliser BUILD_DATE pour les pages structurelles, date DB reelle pour le contenu dynamique.
+  const lastDeploy = new Date(process.env.BUILD_DATE || "2026-03-27");
+
+  // Pour les pages a contenu quotidien, on query la date du dernier DailyContent
+  let lastContentDate = lastDeploy;
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    const lastDaily = await prisma.dailyContent.findFirst({
+      orderBy: { date: "desc" },
+      select: { date: true },
+    });
+    if (lastDaily?.date) lastContentDate = lastDaily.date;
+  } catch {
+    // DB pas dispo — fallback sur lastDeploy
+  }
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
-    { url: `${baseUrl}/vannes`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/conseils`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/videos`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: baseUrl, lastModified: lastContentDate, changeFrequency: "daily", priority: 1 },
+    { url: `${baseUrl}/vannes`, lastModified: lastContentDate, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/conseils`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/videos`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/parcours`, lastModified: lastDeploy, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/parcours/machine-a-cafe`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/parcours/repartie`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/parcours/confiance`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/blog`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/abonnement`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/glossaire`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
@@ -28,7 +40,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/cgu`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/confidentialite`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/retractation`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/register`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];

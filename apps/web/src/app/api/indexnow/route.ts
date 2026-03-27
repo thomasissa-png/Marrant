@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? "35cc97ed505a4ae89d8470d259fc5662";
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
+if (!INDEXNOW_KEY) {
+  console.warn("[IndexNow] INDEXNOW_KEY not set in environment — IndexNow submissions will fail");
+}
 const HOST = "deviens-marrant.fr";
 
 /**
@@ -12,6 +15,13 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const urls: string[] = body.urls;
+
+    if (!INDEXNOW_KEY) {
+      return NextResponse.json(
+        { error: "INDEXNOW_KEY not configured" },
+        { status: 503 }
+      );
+    }
 
     if (!urls || !Array.isArray(urls) || urls.length === 0) {
       return NextResponse.json(

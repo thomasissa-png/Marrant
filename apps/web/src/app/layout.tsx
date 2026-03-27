@@ -67,9 +67,6 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   metadataBase: new URL("https://deviens-marrant.fr"),
-  alternates: {
-    canonical: "https://deviens-marrant.fr",
-  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
@@ -106,6 +103,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  other: {
+    "bingbot": "index, follow, max-image-preview:large, max-snippet:-1",
   },
   other: {
     "apple-mobile-web-app-capable": "yes",
