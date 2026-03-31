@@ -375,15 +375,12 @@ describe("image-storage", () => {
   const mockUploadFromBytes = jest.fn().mockResolvedValue(undefined);
   const mockDownloadAsBytes = jest.fn().mockResolvedValue({ ok: true, value: new Uint8Array([137, 80, 78, 71]) });
   const mockDelete = jest.fn().mockResolvedValue(undefined);
-  const mockGetSignedUrl = jest.fn().mockResolvedValue(["https://storage.googleapis.com/bucket/social-images/post123.png?X-Goog-Signature=abc"]);
 
   beforeEach(() => {
     jest.resetModules();
     mockUploadFromBytes.mockClear();
     mockDownloadAsBytes.mockClear();
     mockDelete.mockClear();
-    mockGetSignedUrl.mockClear();
-    mockGetSignedUrl.mockResolvedValue(["https://storage.googleapis.com/bucket/social-images/post123.png?X-Goog-Signature=abc"]);
 
     jest.mock("@replit/object-storage", () => ({
       Client: jest.fn().mockImplementation(() => ({
@@ -393,47 +390,18 @@ describe("image-storage", () => {
       })),
     }));
 
-    jest.mock("@google-cloud/storage", () => ({
-      Storage: jest.fn().mockImplementation(() => ({
-        bucket: () => ({
-          file: () => ({
-            getSignedUrl: mockGetSignedUrl,
-          }),
-        }),
-      })),
-    }));
-
     process.env.NEXT_PUBLIC_SITE_URL = "https://deviens-marrant.fr";
-    process.env.GCS_BUCKET_NAME = "replit-objstore-test-bucket";
   });
 
   afterEach(() => {
     delete process.env.NEXT_PUBLIC_SITE_URL;
-    delete process.env.GCS_BUCKET_NAME;
   });
 
-  it("uploadPostImage upload et retourne une signed URL GCS", async () => {
+  it("uploadPostImage upload et retourne une URL via stored-image route", async () => {
     const { uploadPostImage } = require("@/lib/social/image-storage");
     const url = await uploadPostImage("post123", Buffer.from("fake-png"));
     expect(mockUploadFromBytes).toHaveBeenCalledWith("social-images/post123.png", expect.any(Buffer));
-    expect(url).toContain("storage.googleapis.com");
-    expect(url).toContain("X-Goog-Signature");
-  });
-
-  it("uploadPostImage fallback URL dynamique si GCS_BUCKET_NAME absent", async () => {
-    delete process.env.GCS_BUCKET_NAME;
-    const { uploadPostImage } = require("@/lib/social/image-storage");
-    const url = await uploadPostImage("post123", Buffer.from("fake-png"));
-    expect(mockUploadFromBytes).toHaveBeenCalledWith("social-images/post123.png", expect.any(Buffer));
-    expect(url).toContain("/api/social/stored-image?key=");
-    expect(url).toContain("post123.png");
-  });
-
-  it("uploadPostImage fallback URL dynamique si signed URL echoue", async () => {
-    mockGetSignedUrl.mockRejectedValueOnce(new Error("GCS auth failed"));
-    const { uploadPostImage } = require("@/lib/social/image-storage");
-    const url = await uploadPostImage("post123", Buffer.from("fake-png"));
-    expect(url).toContain("/api/social/stored-image?key=");
+    expect(url).toBe("https://deviens-marrant.fr/api/social/stored-image?key=social-images%2Fpost123.png");
   });
 
   it("uploadPostImage avec slide ajoute le suffixe _slideN", async () => {
