@@ -1198,7 +1198,7 @@ Hashtags : ${post.hashtags.join(", ")}
 
 1. HOOK TEST (poids x2) :
    Les 5 premiers mots créent-ils une TENSION (contradiction, spécificité bizarre, interpellation directe) ?
-   → "Fary ne répond JAMAIS" = ✅ contradiction = scroll-stopping
+   → "Waly Dia parle PLUS FORT" = ✅ contradiction = scroll-stopping
    → "La technique du silence de 3 secondes" = ✅ spécificité bizarre
    → "Astuce humour du jour !" = ❌ description plate = REJETÉ
    → "Petit thread sur..." = ❌ aucune tension = REJETÉ
@@ -1258,6 +1258,12 @@ Hashtags : ${post.hashtags.join(", ")}
 10. PERSONA TEST :
     ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
     → Le sujet, le ton et le vocabulaire correspondent à son quotidien
+
+11. DIVERSITÉ HUMORISTES TEST :
+    Si le post cite un humoriste, est-ce TOUJOURS le même (Fary, Paul Mirabel, Blanche Gardin) ?
+    → On a 8 humoristes prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg
+    → Si le post cite un humoriste qui revient trop souvent (plus de 2 posts consécutifs avec le même) = NEEDS_REVISION
+    → Vérifier que Roman Frayssinet, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg ne sont pas systématiquement ignorés
 
 VERDICT — BARRE HAUTE (on ne publie que l'excellence) :
 - APPROVED (score ≥ 9) : micro-performance de stand-up, shareable immédiatement, indistinguable d'un post d'humoriste pro

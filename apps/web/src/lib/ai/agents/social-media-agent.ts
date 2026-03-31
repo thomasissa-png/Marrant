@@ -46,6 +46,26 @@ function getSophieVanneContext(dayOfMonth: number): string {
   return SOPHIE_VANNE_CONTEXTS[dayOfMonth % SOPHIE_VANNE_CONTEXTS.length];
 }
 
+// ─── Rotation humoristes — diversité obligatoire ─────────────────
+const HUMORISTES_ROTATION = [
+  { name: "Paul Mirabel", style: "autodérision de timide, escalade absurde, silences gênants assumés" },
+  { name: "Fary", style: "miroir comique, répétition lente, retournement d'attaque" },
+  { name: "Roman Frayssinet", style: "observation quotidienne poussée à l'absurde, naïveté feinte" },
+  { name: "Blanche Gardin", style: "franchise brutale, malaise assumé, vérités que personne n'ose dire" },
+  { name: "Waly Dia", style: "storytelling du quotidien, punchlines en cascade, énergie contagieuse" },
+  { name: "Panayotis Pascot", style: "vulnérabilité comme force, sincérité désarmante, humour tendre" },
+  { name: "Pierre Croce", style: "humour digital natif, décalage visuel, absurde millennial" },
+  { name: "Inès Reg", style: "énergie explosive, personnages du quotidien, autodérision physique" },
+] as const;
+
+function getHumoristeOfDay(dayOfMonth: number): typeof HUMORISTES_ROTATION[number] {
+  return HUMORISTES_ROTATION[dayOfMonth % HUMORISTES_ROTATION.length];
+}
+
+function getSecondaryHumoriste(dayOfMonth: number): typeof HUMORISTES_ROTATION[number] {
+  return HUMORISTES_ROTATION[(dayOfMonth + 3) % HUMORISTES_ROTATION.length];
+}
+
 // ─── Types ──────────────────────────────────────────────────────
 
 export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
@@ -134,7 +154,7 @@ ${TONALITY_BRIEF.doNot.map((d) => `- ${d}`).join("\n")}
 Le hook est TOUT. 90% des gens scrollent en 0,3 seconde. Ton hook doit créer une TENSION immédiate.
 
 3 techniques de hook qui marchent :
-1. CONTRADICTION : "Fary ne répond JAMAIS" (le cerveau veut comprendre pourquoi)
+1. CONTRADICTION : "Waly Dia parle PLUS FORT quand personne écoute" (le cerveau veut comprendre pourquoi)
 2. SPÉCIFICITÉ BIZARRE : "La technique du silence de 3 secondes" (assez précis pour intriguer)
 3. INTERPELLATION DIRECTE : "Ta dernière vanne a tué personne" (ça pique, on continue)
 
@@ -221,9 +241,9 @@ Exemple BON LinkedIn :
 
 C'est savoir placer UNE phrase au bon moment pour détendre 12 personnes stressées.
 
-Paul Mirabel appelle ça le « silence actif » : tu attends que le malaise s'installe... puis tu le nommes.
+Panayotis Pascot fait un truc que personne ose : il dit tout haut ce que tout le monde pense tout bas.
 
-En réunion ça donne : long silence → « ...on est d'accord que personne comprend le slide 7 ? »
+En réunion ça donne : silence gêné → « ...on est d'accord que personne comprend le slide 7 ? »
 
 Rires. Tension cassée. Et tout le monde t'écoute mieux après."
 
@@ -240,13 +260,13 @@ Découvrez comment l'humour peut transformer vos réunions ! 🚀
 Structure : [Hook qui crée une tension ≤ 5 mots] → [Humoriste + ce qu'il fait de SPÉCIFIQUE] → [Comment TU l'utilises CE SOIR, pas "un jour"] → [CTA humain]
 
 Exemple BON :
-"Fary ne répond JAMAIS à une attaque.
-Il la répète. Lentement. Avec un sourire.
-Et toute la salle se retourne contre l'attaquant.
+"Roman Frayssinet observe un truc que PERSONNE remarque.
+Il décrit le mec qui dit 'bon !' avant de se lever d'une chaise.
+Et tout le monde se reconnaît.
 
-Technique : le miroir comique.
+Technique : l'observation micro.
 
-Essaie ce soir : quelqu'un te chambre → répète sa phrase mot pour mot, plus lentement. Regarde sa tête."
+Essaie ce soir : décris un geste que tout le monde fait sans y penser. Genre le 'pffff' avant de répondre au téléphone."
 
 Exemple MAUVAIS (REJETÉ) :
 "📣 Astuce humour du jour !
@@ -297,9 +317,17 @@ Instagram = le format le plus visuel. Le texte doit être COURT et PERCUTANT car
 - Pas de lien dans la caption (Instagram ne rend pas les liens cliquables) → "lien en bio"
 - Caption max 2200 chars (limite Instagram)
 
-═══ HUMORISTES DE RÉFÉRENCE ═══
-Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Pierre Croce, Inès Reg
-Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti`;
+═══ HUMORISTES DE RÉFÉRENCE — ROTATION OBLIGATOIRE ═══
+Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg
+Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti
+
+⚠️ RÈGLE DE DIVERSITÉ ABSOLUE :
+- Humoriste principal du jour : ${getHumoristeOfDay(new Date().getDate()).name} (style : ${getHumoristeOfDay(new Date().getDate()).style})
+- Humoriste secondaire du jour : ${getSecondaryHumoriste(new Date().getDate()).name} (style : ${getSecondaryHumoriste(new Date().getDate()).style})
+- Tu DOIS citer au moins l'humoriste principal dans tes posts du jour
+- Tu NE DOIS PAS citer un humoriste qui n'est pas dans la liste du jour, SAUF pour un post Thread Décryptage
+- Si tu te surprends à écrire "Fary" ou "Paul Mirabel" alors que ce n'est pas l'humoriste du jour → STOP, remplace
+- L'objectif : chaque humoriste de la liste doit apparaître au moins 1 fois par semaine`;
 }
 
 // ─── Validation programmatique des contraintes ──────────────────
@@ -688,7 +716,7 @@ function getDailyPlan(
       // Mardi
       {
         format: "QUOTE_ANALYSIS",
-        theme: withYanisRef(`Analyse d'une technique d'un humoriste prioritaire — universelle`),
+        theme: withYanisRef(`Analyse d'une technique de ${getHumoristeOfDay(dayOfMonth).name} (${getHumoristeOfDay(dayOfMonth).style}) — universelle`),
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
@@ -731,7 +759,7 @@ function getDailyPlan(
       // Jeudi — Marc dating tweet si persona MARC
       {
         format: "QUOTE_ANALYSIS",
-        theme: withYanisRef(`Citation + analyse technique — humoriste moderne, universelle`),
+        theme: withYanisRef(`Citation + analyse technique de ${getSecondaryHumoriste(dayOfMonth).name} (${getSecondaryHumoriste(dayOfMonth).style}) — universelle`),
         platform: "TWITTER",
         sourceType: "VIDEO",
       },
@@ -970,7 +998,7 @@ function getFormatInstructions(
     case "TECHNIQUE_DU_JOUR":
       return `FORMAT : TECHNIQUE DU JOUR
 - Hook qui crée une tension (≤ 5 mots) — PAS "Technique du jour"
-- Nomme un humoriste prioritaire + ce qu'il/elle fait de SPÉCIFIQUE (pas "utilise le silence" mais "attend 3 secondes en fixant le premier rang")
+- Utilise l'humoriste du jour (voir section ROTATION OBLIGATOIRE) + ce qu'il/elle fait de SPÉCIFIQUE (pas "utilise le silence" mais "attend 3 secondes en fixant le premier rang")
 - La technique en 2-3 lignes, écrite comme à l'oral — pas un cours
 - Un exemple d'application CE SOIR avec un contexte précis (pas "dans une conversation" mais "à la machine à café demain matin")
 - CTA humain en dernière ligne (pas "découvrez", juste le lien ou une phrase sèche)
