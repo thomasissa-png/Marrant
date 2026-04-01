@@ -288,6 +288,28 @@ export async function GET(req: Request) {
           continue;
         }
 
+        // Rate limit Buffer (429) → repousser de 6h (fenêtre Buffer = 24h)
+        const isRateLimit = /\b429\b/.test(errMsg) || errMsg.includes("RATE_LIMIT");
+        if (isRateLimit) {
+          const retryAt = new Date(Date.now() + 6 * 60 * 60 * 1000);
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: { scheduledAt: retryAt },
+          });
+          console.warn(`[PublishSocial] Rate limit ${post.platform} — post ${post.id} reporté de 6h`);
+
+          // Skip remaining posts for this platform
+          queueFullPlatforms.add(post.platform as BufferPlatform);
+
+          results.push({
+            id: post.id,
+            platform: post.platform,
+            status: "failed",
+            error: `Rate limit 429 — reporté de 6h`,
+          });
+          continue;
+        }
+
         // Erreur permanente (auth, validation, permissions) → FAILED direct
         const isPermanent =
           /\b(401|403|400)\b/.test(errMsg) ||
