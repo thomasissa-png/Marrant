@@ -4,7 +4,7 @@ import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
 export const dynamic = "force-dynamic";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? "35cc97ed505a4ae89d8470d259fc5662";
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
 const HOST = "deviens-marrant.fr";
 
 /** Pages produit à notifier après publication de contenu frais. */
@@ -20,6 +20,10 @@ const PRODUCT_PAGES = [
  * Fire-and-forget : ne bloque jamais le cron en cas d'erreur.
  */
 async function notifyIndexNow(urls: string[]): Promise<{ submitted: number; status: number } | null> {
+  if (!INDEXNOW_KEY) {
+    console.warn("[IndexNow] INDEXNOW_KEY absent — soumission ignorée");
+    return null;
+  }
   try {
     const response = await fetch("https://api.indexnow.org/indexnow", {
       method: "POST",
@@ -31,7 +35,8 @@ async function notifyIndexNow(urls: string[]): Promise<{ submitted: number; stat
         urlList: urls,
       }),
     });
-    console.log(`[IndexNow] ${urls.length} URLs soumises — status ${response.status}`);
+    const body = await response.text();
+    console.log(`[IndexNow] ${urls.length} URLs soumises — status ${response.status} — response: ${body}`);
     return { submitted: urls.length, status: response.status };
   } catch (err) {
     console.warn("[IndexNow] Erreur (non bloquante):", err);

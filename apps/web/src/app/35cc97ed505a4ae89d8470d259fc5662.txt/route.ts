@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-const INDEXNOW_KEY =
-  process.env.INDEXNOW_KEY ?? "35cc97ed505a4ae89d8470d259fc5662";
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? "";
 
 /**
  * Serves the IndexNow key at /{key}.txt (alternate verification URL).

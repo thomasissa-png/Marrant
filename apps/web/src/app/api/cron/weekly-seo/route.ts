@@ -4,11 +4,15 @@ import {
   updateSeoCalendar,
 } from "@/lib/ai/agents/seo-blog-agent";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? "35cc97ed505a4ae89d8470d259fc5662";
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
 const HOST = "deviens-marrant.fr";
 
 /** Notifie Bing via IndexNow qu'un nouvel article a été publié. */
 async function notifyIndexNow(slug: string): Promise<void> {
+  if (!INDEXNOW_KEY) {
+    console.warn("[IndexNow] INDEXNOW_KEY absent — soumission ignorée");
+    return;
+  }
   try {
     const urls = [
       `https://${HOST}/blog/${slug}`,
@@ -25,7 +29,8 @@ async function notifyIndexNow(slug: string): Promise<void> {
         urlList: urls,
       }),
     });
-    console.log(`[IndexNow] Article ${slug} soumis — status ${response.status}`);
+    const body = await response.text();
+    console.log(`[IndexNow] Article ${slug} soumis — status ${response.status} — response: ${body}`);
   } catch (err) {
     console.warn("[IndexNow] Erreur (non bloquante):", err);
   }
