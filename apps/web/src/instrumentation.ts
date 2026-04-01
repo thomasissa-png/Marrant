@@ -168,10 +168,6 @@ export async function register() {
       console.error("[scheduler:publish] Échec publication :", err);
     }
   };
-    } catch (err) {
-      console.error("[scheduler:publish] Échec publication :", err);
-    }
-  };
 
   /**
    * Job 6 : Suivi et nettoyage des posts sociaux
