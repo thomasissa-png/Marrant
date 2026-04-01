@@ -106,8 +106,6 @@ export const metadata: Metadata = {
   },
   other: {
     "bingbot": "index, follow, max-image-preview:large, max-snippet:-1",
-  },
-  other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
     "mobile-web-app-capable": "yes",
