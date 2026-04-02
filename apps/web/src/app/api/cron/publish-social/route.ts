@@ -288,15 +288,15 @@ export async function GET(req: Request) {
           continue;
         }
 
-        // Rate limit Buffer (429) → repousser de 6h (fenêtre Buffer = 24h)
+        // Rate limit Buffer (429) → repousser de 12h (fenêtre Buffer = 24h)
         const isRateLimit = /\b429\b/.test(errMsg) || errMsg.includes("RATE_LIMIT");
         if (isRateLimit) {
-          const retryAt = new Date(Date.now() + 6 * 60 * 60 * 1000);
+          const retryAt = new Date(Date.now() + 12 * 60 * 60 * 1000);
           await prisma.socialPost.update({
             where: { id: post.id },
             data: { scheduledAt: retryAt },
           });
-          console.warn(`[PublishSocial] Rate limit ${post.platform} — post ${post.id} reporté de 6h`);
+          console.warn(`[PublishSocial] Rate limit ${post.platform} — post ${post.id} reporté de 12h`);
 
           // Skip remaining posts for this platform
           queueFullPlatforms.add(post.platform as BufferPlatform);
@@ -305,7 +305,7 @@ export async function GET(req: Request) {
             id: post.id,
             platform: post.platform,
             status: "failed",
-            error: `Rate limit 429 — reporté de 6h`,
+            error: `Rate limit 429 — reporté de 12h`,
           });
           continue;
         }
@@ -370,8 +370,12 @@ export async function GET(req: Request) {
       `[PublishSocial] ${published}/${postsToPublish.length} posts envoyés à Buffer (${deferred} différés au prochain run)`,
     );
 
-    // Alerte si tous les posts ont echoue
-    if (published === 0 && failed > 0) {
+    // Alerte si tous les posts ont echoue — SAUF si c'est uniquement du rate limit (bruit inutile)
+    const rateLimitOnly = results
+      .filter((r) => r.status === "failed")
+      .every((r) => r.error?.includes("Rate limit") || r.error?.includes("429"));
+
+    if (published === 0 && failed > 0 && !rateLimitOnly) {
       const failedErrors = results
         .filter((r) => r.status === "failed")
         .map((r) => `<li><strong>${r.platform}</strong> (${r.id}) : ${r.error || "erreur inconnue"}</li>`)
