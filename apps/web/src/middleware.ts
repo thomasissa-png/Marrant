@@ -56,10 +56,10 @@ export default function middleware(req: NextRequest) {
   // Redirection www → non-www (301 permanente, SEO-friendly)
   // Préserve le path complet et les query params
   if (hostname.startsWith("www.")) {
-    const nonWwwHost = hostname.slice(4);
     const url = new URL(req.url);
-    url.host = nonWwwHost;
-    return NextResponse.redirect(url, 301);
+    // Construire l'URL canonique sans port interne (Replit expose :5904 en interne)
+    const canonicalUrl = `https://deviens-marrant.fr${url.pathname}${url.search}`;
+    return NextResponse.redirect(canonicalUrl, 301);
   }
 
   // Déléguer à withAuth uniquement pour les routes qui en ont besoin
