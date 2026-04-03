@@ -40,26 +40,42 @@ export async function GET(req: Request) {
       `[DailySocial] Génération posts pour jour ${dayOfMonth} — persona ${persona}`,
     );
 
-    // Check if posts already generated AND validated today
-    // Only APPROVED or PUBLISHED count — PENDING posts (failed validation, stuck) shouldn't block regeneration
+    // Check if posts already generated for each platform today
+    // Vérification PAR PLATEFORME — un batch Twitter ne doit pas bloquer LinkedIn/Instagram
     const force = searchParams.get("force") === "true";
     const startOfDay = new Date(today);
     startOfDay.setUTCHours(0, 0, 0, 0);
     const endOfDay = new Date(today);
     endOfDay.setUTCHours(23, 59, 59, 999);
 
-    const existingApproved = await prisma.socialPost.count({
-      where: {
-        createdAt: { gte: startOfDay, lte: endOfDay },
-        status: { in: ["APPROVED", "PUBLISHED"] },
-      },
-    });
-
-    if (existingApproved > 0 && !force) {
-      return NextResponse.json({
-        message: `Posts déjà générés et validés aujourd'hui (${existingApproved} posts APPROVED/PUBLISHED). Ajouter &force=true pour régénérer.`,
-        skipped: true,
+    if (!force) {
+      const existingByPlatform = await prisma.socialPost.groupBy({
+        by: ["platform"],
+        where: {
+          createdAt: { gte: startOfDay, lte: endOfDay },
+          status: { in: ["APPROVED", "PUBLISHED", "PENDING"] },
+        },
+        _count: true,
       });
+
+      const platformsWithPosts = new Set(existingByPlatform.map((g) => g.platform));
+      const allPlatformsCovered = ["TWITTER", "LINKEDIN", "INSTAGRAM"].every(
+        (p) => platformsWithPosts.has(p),
+      );
+
+      if (allPlatformsCovered) {
+        const counts = existingByPlatform.map((g) => `${g.platform}: ${g._count}`).join(", ");
+        return NextResponse.json({
+          message: `Posts déjà générés pour toutes les plateformes aujourd'hui (${counts}). Ajouter &force=true pour régénérer.`,
+          skipped: true,
+        });
+      }
+
+      if (platformsWithPosts.size > 0) {
+        console.log(
+          `[DailySocial] Posts existants pour: ${[...platformsWithPosts].join(", ")} — génération complète pour couvrir les plateformes manquantes`,
+        );
+      }
     }
 
     // Contexte d'actualité optionnel — injecté dans les WILD CARD
