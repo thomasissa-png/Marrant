@@ -1244,9 +1244,17 @@ describe("Stand-Up Director Agent", () => {
       ],
     });
 
-    // Contenu assez long pour passer les gates (min 1000 mots, 5 liens internes, FAQ)
+    // Contenu conforme à toutes les gates blog (min 1500 mots, 8 liens, 3 H2, FAQ, listes, CLEF)
     const fakeContent = "Comment avoir de la répartie ? C'est la question que tout le monde se pose. " +
-      "Découvre les techniques des pros du stand-up. /vannes /conseils /videos /parcours /blog/timing-humour " +
+      "Découvre les techniques des pros du stand-up pour ne plus jamais rester muet. " +
+      "/vannes /conseils /videos /parcours /blog/timing-humour /abonnement /a-propos /glossaire " +
+      "\n\n## Comment développer ta répartie au quotidien ?\n\n" +
+      "1. Observe les situations drôles autour de toi\n2. Note les répliques qui te font rire\n3. Entraîne-toi à reformuler\n\n" +
+      "> **CLEF :** La répartie n'est pas un talent inné — c'est un muscle qui se travaille chaque jour.\n\n" +
+      "## Quelles techniques utilisent les humoristes ?\n\n" +
+      "1. Le pivot — changer de direction au dernier moment\n2. L'exagération — pousser le curseur à fond\n3. Le callback — rappeler un élément précédent\n\n" +
+      "## Pourquoi la plupart des gens n'osent pas répondre ?\n\n" +
+      "1. La peur du jugement\n2. Le manque de pratique\n3. L'absence de modèles\n\n" +
       "## FAQ - Questions fréquentes\n\n### Comment progresser en répartie ?\nEn pratiquant chaque jour. " +
       Array(200).fill("Contenu pertinent sur la répartie et l'humour au quotidien avec des exemples concrets.").join(" ");
     const result = await validateBlogArticle({
@@ -1255,7 +1263,7 @@ describe("Stand-Up Director Agent", () => {
       excerpt: "Tu restes muet quand on te chambre ? Voici les techniques des pros.",
       content: fakeContent,
       category: "REPARTIE",
-      targetKeyword: "comment avoir de la répartie",
+      targetKeyword: "répartie",
     });
 
     expect(result.verdict).toBe("APPROVED");
