@@ -127,13 +127,34 @@ export async function GET(req: Request) {
 
     const now = new Date();
 
-    // Fetch approved posts ready to publish
+    // ── Circuit breaker par plateforme ──────────────────────────────
+    // Si un post a échoué avec 429 sur une plateforme dans les dernières 24h,
+    // on bloque TOUTE la plateforme pour éviter de re-taper dans le rate limit.
+    const cooldownWindow = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const recentRateLimits = await prisma.socialPost.findMany({
+      where: {
+        status: "FAILED",
+        updatedAt: { gte: cooldownWindow },
+        directorNote: { contains: "429" },
+      },
+      select: { platform: true },
+      distinct: ["platform"],
+    });
+    const blockedPlatforms = new Set(recentRateLimits.map((p) => p.platform));
+
+    if (blockedPlatforms.size > 0) {
+      console.log(`[PublishSocial] Circuit breaker actif — plateformes bloquées 24h : ${[...blockedPlatforms].join(", ")}`);
+    }
+
+    // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
     // Posts approuves automatiquement (approvedBy null) doivent avoir directorScore >= 9.
     const posts = await prisma.socialPost.findMany({
       where: {
         status: "APPROVED",
         scheduledAt: { lte: now },
+        // Circuit breaker : exclure les plateformes en cooldown 429
+        ...(blockedPlatforms.size > 0 ? { platform: { notIn: [...blockedPlatforms] } } : {}),
         OR: [
           { approvedBy: { not: null } },
           { directorScore: { gte: 9 } },
@@ -288,24 +309,28 @@ export async function GET(req: Request) {
           continue;
         }
 
-        // Rate limit Buffer (429) → repousser de 12h (fenêtre Buffer = 24h)
+        // Rate limit Buffer (429) → FAILED + circuit breaker bloque la plateforme 24h
+        // Le post reste FAILED — le cron daily-social en générera un nouveau demain.
+        // On ne reporte PAS car ça crée une boucle infinie (retry → 429 → retry → 429).
         const isRateLimit = /\b429\b/.test(errMsg) || errMsg.includes("RATE_LIMIT");
         if (isRateLimit) {
-          const retryAt = new Date(Date.now() + 12 * 60 * 60 * 1000);
           await prisma.socialPost.update({
             where: { id: post.id },
-            data: { scheduledAt: retryAt },
+            data: {
+              status: "FAILED",
+              directorNote: `429 rate limit ${post.platform} — circuit breaker 24h activé`,
+            },
           });
-          console.warn(`[PublishSocial] Rate limit ${post.platform} — post ${post.id} reporté de 12h`);
+          console.warn(`[PublishSocial] Rate limit 429 ${post.platform} — post ${post.id} FAILED, circuit breaker activé`);
 
-          // Skip remaining posts for this platform
+          // Skip ALL remaining posts for this platform in this run
           queueFullPlatforms.add(post.platform as BufferPlatform);
 
           results.push({
             id: post.id,
             platform: post.platform,
             status: "failed",
-            error: `Rate limit 429 — reporté de 12h`,
+            error: `Rate limit 429 — circuit breaker 24h activé`,
           });
           continue;
         }
