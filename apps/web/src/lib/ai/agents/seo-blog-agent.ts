@@ -290,13 +290,17 @@ FORMAT :
 - Ton : complice, tutoiement, drôle, concret
 - Structure : Intro qui accroche par l'humour → Sections avec sous-titres → Exercices → CTA
 - Markdown : ## pour sections, ### pour sous-sections, **gras** pour termes clés
-- Liens internes : minimum 5 liens par article
-  - Pages produit : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos)
+- Liens internes : minimum 8 liens par article (gate programmatique — rejet si < 8)
+  - Pages produit : [vannes](/vannes), [parcours](/parcours), [conseils](/conseils), [vidéos](/videos), [abonnement](/abonnement), [glossaire](/glossaire)
   - Articles du même cluster : liens vers les articles liés fournis dans le prompt (au moins 2)
   - Les liens doivent être répartis dans le corps du texte, PAS uniquement dans le CTA final
 
-SEO :
-- Mot-clé principal dans l'intro, 2-3 sous-titres, et la conclusion
+SEO — NON NÉGOCIABLE (gates programmatiques — rejet automatique si non respecté) :
+- Mot-clé principal OBLIGATOIRE dans le titre ET dans les 500 premiers caractères (intro)
+- Minimum 3 sous-titres H2 (##), dont au moins 1 formulé en question (GEO — les LLMs indexent les questions)
+- Minimum 3 listes numérotées distinctes (1. 2. 3.) — les LLMs les extraient pour leurs réponses
+- Minimum 1 blockquote citation-worthy : > **CLEF :** [affirmation mémorable]
+- Minimum 8 liens internes répartis dans le texte : /vannes, /conseils, /videos, /parcours, /blog/[slug], /abonnement, /a-propos, /glossaire
 - Paragraphes séparés par doubles retours à la ligne
 
 INTERDICTIONS :
@@ -549,11 +553,11 @@ export async function publishWeeklyArticle(): Promise<{
     // 4e. Gate SEO programmatique — bloquer si qualité insuffisante
     const prePubLinkCount = (article.content.match(/\]\(\//g) || []).length;
     const prePubWordCount = article.content.split(/\s+/).length;
-    if (prePubLinkCount < 5) {
-      console.warn(`[SEO Gate] Article "${article.slug}" n'a que ${prePubLinkCount} liens internes (min: 5) — publication bloquée`);
+    if (prePubLinkCount < 8) {
+      console.warn(`[SEO Gate] Article "${article.slug}" n'a que ${prePubLinkCount} liens internes (min: 8) — publication bloquée`);
       return {
         success: false,
-        error: `Article rejeté : seulement ${prePubLinkCount} liens internes (minimum 5)`,
+        error: `Article rejeté : seulement ${prePubLinkCount} liens internes (minimum 8)`,
       };
     }
     if (prePubWordCount < 1000) {
@@ -587,8 +591,8 @@ export async function publishWeeklyArticle(): Promise<{
     const linkCount = (dbArticle.content.match(/\]\(\//g) || []).length;
     const wordCount = dbArticle.content.split(/\s+/).length;
     const hasFaqHint = dbArticle.content.includes("##") && dbArticle.content.includes("?");
-    if (linkCount < 5) {
-      console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${linkCount} internal links (minimum: 5)`);
+    if (linkCount < 8) {
+      console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${linkCount} internal links (minimum: 8)`);
     }
     if (wordCount < 1000) {
       console.warn(`[SEO Check] Article "${dbArticle.slug}" has only ${wordCount} words (minimum: 1000)`);

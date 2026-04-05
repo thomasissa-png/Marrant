@@ -173,7 +173,17 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
 /**
  * Gates pour les articles blog.
  */
-export function runBlogGates(article: { title: string; excerpt: string; content: string; slug: string }): GateResult[] {
+export function runBlogGates(article: {
+  title: string;
+  excerpt: string;
+  content: string;
+  slug: string;
+  category?: string;
+  targetKeyword?: string;
+  existingSlugs?: string[];
+  recentArticleSlugs?: string[];
+  plannedSlugs?: string[];
+}): GateResult[] {
   const results: GateResult[] = [];
   const fullText = `${article.title} ${article.excerpt} ${article.content}`;
   const contentLower = fullText.toLowerCase();
@@ -200,12 +210,12 @@ export function runBlogGates(article: { title: string; excerpt: string; content:
     reason: article.excerpt.length > 155 ? `${article.excerpt.length} chars (max 155)` : "OK",
   });
 
-  // G-B4 — Minimum 5 liens internes
-  const internalLinks = (article.content.match(/\/(vannes|conseils|videos|parcours|blog\/[a-z])/g) || []).length;
+  // G-B4 — Minimum 8 liens internes (augmenté de 5)
+  const internalLinks = (article.content.match(/\/(vannes|conseils|videos|parcours|blog\/[a-z]|abonnement|a-propos|glossaire)/g) || []).length;
   results.push({
-    gate: "G-B4 Min 5 liens internes",
-    pass: internalLinks >= 5,
-    reason: internalLinks < 5 ? `${internalLinks} liens internes (min 5)` : "OK",
+    gate: "G-B4 Min 8 liens internes",
+    pass: internalLinks >= 8,
+    reason: internalLinks < 8 ? `${internalLinks} liens internes (min 8)` : "OK",
   });
 
   // G-B5 — Minimum 1500 mots
@@ -239,6 +249,130 @@ export function runBlogGates(article: { title: string; excerpt: string; content:
     pass: !vousPattern.test(contentLower),
     reason: vousPattern.test(contentLower) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
   });
+
+  // ─── Gates SEO (G-B9 à G-B18) ────────────────────────────────────
+
+  // G-B9 — Mot-clé dans le titre (BLOQUANT)
+  if (article.targetKeyword) {
+    const kwLower = article.targetKeyword.toLowerCase();
+    const titleLower = article.title.toLowerCase();
+    const kwWords = kwLower.split(/\s+/).filter((w) => w.length > 3);
+    const matchingWords = kwWords.filter((w) => titleLower.includes(w));
+    const hasKw = kwWords.length === 0 || matchingWords.length >= Math.ceil(kwWords.length * 0.6);
+    results.push({
+      gate: "G-B9 Mot-clé dans titre (BLOQUANT)",
+      pass: hasKw,
+      reason: !hasKw
+        ? `Mot-clé "${article.targetKeyword}" absent du titre — mots trouvés : ${matchingWords.join(", ") || "aucun"} sur ${kwWords.join(", ")}`
+        : "OK",
+    });
+  }
+
+  // G-B10 — Mot-clé dans l'intro (REQUIS)
+  if (article.targetKeyword) {
+    const kwLower = article.targetKeyword.toLowerCase();
+    const intro = article.content.slice(0, 500).toLowerCase();
+    const kwWords = kwLower.split(/\s+/).filter((w) => w.length > 3);
+    const matchingWords = kwWords.filter((w) => intro.includes(w));
+    const hasKwIntro = kwWords.length === 0 || matchingWords.length >= Math.ceil(kwWords.length * 0.6);
+    results.push({
+      gate: "G-B10 Mot-clé dans intro",
+      pass: hasKwIntro,
+      reason: !hasKwIntro
+        ? `Mot-clé "${article.targetKeyword}" absent des 500 premiers caractères`
+        : "OK",
+    });
+  }
+
+  // G-B11 — Minimum 3 H2 (BLOQUANT)
+  const h2Count = (article.content.match(/^## /gm) || []).length;
+  results.push({
+    gate: "G-B11 Min 3 H2 (BLOQUANT)",
+    pass: h2Count >= 3,
+    reason: h2Count < 3 ? `${h2Count} H2 détectés (min 3)` : "OK",
+  });
+
+  // G-B12 — Au moins 1 H2 formulé en question (REQUIS — GEO)
+  const h2Lines = article.content.match(/^## .+$/gm) || [];
+  const h2Questions = h2Lines.filter((line) => line.includes("?"));
+  results.push({
+    gate: "G-B12 H2 en question (GEO)",
+    pass: h2Questions.length >= 1,
+    reason: h2Questions.length < 1
+      ? "Aucun H2 formulé en question — les LLMs indexent les questions conversationnelles"
+      : "OK",
+  });
+
+  // G-B13 — Minimum 3 listes numérotées (REQUIS — GEO)
+  // Détection : un bloc de liste numérotée commence par "1. " et contient au moins "2. "
+  const numberedListBlocks = article.content.split(/\n\n+/).filter((block) => {
+    return /^1\. /m.test(block) && /^2\. /m.test(block);
+  });
+  results.push({
+    gate: "G-B13 Min 3 listes numérotées (GEO)",
+    pass: numberedListBlocks.length >= 3,
+    reason: numberedListBlocks.length < 3
+      ? `${numberedListBlocks.length} liste(s) numérotée(s) (min 3) — les LLMs extraient les listes pour leurs réponses`
+      : "OK",
+  });
+
+  // G-B14 — Minimum 1 blockquote CLEF (REQUIS — GEO)
+  const hasClefBlock = /> \*\*CLEF/m.test(article.content);
+  results.push({
+    gate: "G-B14 Blockquote CLEF (GEO)",
+    pass: hasClefBlock,
+    reason: !hasClefBlock
+      ? 'Aucun blockquote > **CLEF :** détecté — ajouter au moins 1 citation-worthy statement'
+      : "OK",
+  });
+
+  // G-B15 — Anti-cannibalisation (BLOQUANT)
+  if (article.existingSlugs && article.existingSlugs.length > 0) {
+    const isDuplicate = article.existingSlugs.includes(article.slug);
+    results.push({
+      gate: "G-B15 Anti-cannibalisation (BLOQUANT)",
+      pass: !isDuplicate,
+      reason: isDuplicate
+        ? `Slug "${article.slug}" existe déjà — cannibalisation détectée`
+        : "OK",
+    });
+  }
+
+  // G-B17 — Sujet différent des 3 derniers articles (REQUIS)
+  if (article.recentArticleSlugs && article.recentArticleSlugs.length > 0) {
+    const currentWords = new Set(article.slug.split("-").filter((w) => w.length > 3));
+    let tooSimilar = false;
+    let similarSlug = "";
+    for (const recentSlug of article.recentArticleSlugs) {
+      const recentWords = recentSlug.split("-").filter((w) => w.length > 3);
+      const overlap = recentWords.filter((w) => currentWords.has(w));
+      // Si plus de 50% des mots significatifs sont communs, c'est trop similaire
+      if (recentWords.length > 0 && overlap.length / recentWords.length > 0.5) {
+        tooSimilar = true;
+        similarSlug = recentSlug;
+        break;
+      }
+    }
+    results.push({
+      gate: "G-B17 Diversité thématique",
+      pass: !tooSimilar,
+      reason: tooSimilar
+        ? `Slug "${article.slug}" trop similaire au récent "${similarSlug}" — varier les sujets`
+        : "OK",
+    });
+  }
+
+  // G-B18 — Slug dans le planning éditorial (REQUIS)
+  if (article.plannedSlugs && article.plannedSlugs.length > 0) {
+    const isPlanned = article.plannedSlugs.includes(article.slug);
+    results.push({
+      gate: "G-B18 Slug dans le planning",
+      pass: isPlanned,
+      reason: !isPlanned
+        ? `Slug "${article.slug}" absent du planning éditorial — article hors plan`
+        : "OK",
+    });
+  }
 
   return results;
 }
@@ -340,6 +474,10 @@ export interface BlogArticleToValidate {
   content: string;
   category: string;
   targetKeyword: string;
+  // Champs SEO optionnels (rétrocompatibilité)
+  existingSlugs?: string[];       // slugs déjà publiés (anti-cannibalisation)
+  recentArticleSlugs?: string[];  // les 3 derniers articles publiés (diversité)
+  plannedSlugs?: string[];        // slugs du planning éditorial
 }
 
 export interface EditorialVision {
@@ -710,7 +848,7 @@ CRITÈRES SEO — NON NÉGOCIABLES POUR LE N°1 :
 - Le mot-clé "${article.targetKeyword}" est-il présent dans : l'intro (1er paragraphe), au moins 2-3 sous-titres H2/H3, et la conclusion ?
 - Le titre fait-il moins de 60 caractères et contient-il le mot-clé naturellement ?
 - L'extrait/meta description fait-il 150-155 caractères et incite-t-il au clic ?
-- Y a-t-il au moins 5 liens internes vers /vannes, /parcours, /conseils, /videos, ou d'autres articles ?
+- Y a-t-il au moins 8 liens internes vers /vannes, /parcours, /conseils, /videos, /abonnement, /a-propos, /glossaire, ou d'autres articles /blog/ ?
 - La structure utilise-t-elle des H2 et H3 clairs (pas de mur de texte) ?
 - Y a-t-il des listes à puces, du gras sur les termes clés, et des FAQ en fin d'article (schema FAQ) ?
 - Le contenu fait-il entre 1500 et 2500 mots ? (ni trop court pour le SEO, ni trop long pour le lecteur)
