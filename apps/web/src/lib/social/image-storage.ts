@@ -32,29 +32,11 @@ function getClient(): any {
 
 /**
  * Construit l'URL publique de l'image via la route /api/social/stored-image.
- * Le Repl doit être "Always On" pour que Buffer puisse y accéder.
+ * Utilise le domaine de production en priorité.
  */
-function buildImageUrl(key: string): string | null {
-  // 1. URL du site custom (production)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (siteUrl) {
-    return `${siteUrl.replace(/\/$/, "")}/api/social/stored-image?key=${encodeURIComponent(key)}`;
-  }
-
-  // 2. Domaine dev Replit
-  const devDomain = process.env.REPLIT_DEV_DOMAIN;
-  if (devDomain) {
-    return `https://${devDomain}/api/social/stored-image?key=${encodeURIComponent(key)}`;
-  }
-
-  // 3. Slug + owner Replit (legacy)
-  const replSlug = process.env.REPL_SLUG || "";
-  const replOwner = process.env.REPL_OWNER || "";
-  if (replSlug && replOwner) {
-    return `https://${replSlug}.${replOwner}.repl.co/api/social/stored-image?key=${encodeURIComponent(key)}`;
-  }
-
-  return null;
+function buildImageUrl(key: string): string {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://deviens-marrant.fr";
+  return `${siteUrl.replace(/\/$/, "")}/api/social/stored-image?key=${encodeURIComponent(key)}`;
 }
 
 /**
@@ -81,13 +63,8 @@ export async function uploadPostImage(
     await client.uploadFromBytes(key, pngBuffer);
 
     const imageUrl = buildImageUrl(key);
-    if (imageUrl) {
-      console.log(`[image-storage] Image uploadée: ${key} → ${imageUrl}`);
-      return imageUrl;
-    }
-
-    console.warn("[image-storage] Aucune URL disponible (NEXT_PUBLIC_SITE_URL ou REPLIT_DEV_DOMAIN manquant)");
-    return null;
+    console.log(`[image-storage] Image uploadée: ${key} → ${imageUrl}`);
+    return imageUrl;
   } catch (error) {
     console.error(
       `[image-storage] Erreur upload ${key}:`,

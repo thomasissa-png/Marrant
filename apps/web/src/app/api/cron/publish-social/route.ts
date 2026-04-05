@@ -60,9 +60,7 @@ function splitIntoTweetThread(text: string): string[] {
 
 /** Retourne l'URL publique du site (pour les images Instagram). */
 function getBaseUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.REPLIT_DEV_DOMAIN) return `https://${process.env.REPLIT_DEV_DOMAIN}`;
-  return `http://localhost:${process.env.PORT || "3000"}`;
+  return process.env.NEXT_PUBLIC_SITE_URL || "https://deviens-marrant.fr";
 }
 
 /**
