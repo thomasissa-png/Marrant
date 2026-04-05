@@ -1418,12 +1418,151 @@ export interface SocialPostToValidate {
   hashtags: string[];
 }
 
+// ─── Gates programmatiques pour posts sociaux ───────────────────
+
+/**
+ * Gates pour les posts social media.
+ */
+export function runSocialGates(post: SocialPostToValidate): GateResult[] {
+  const results: GateResult[] = [];
+  const allText = `${post.hook} ${post.content} ${post.cta} ${(post.threadParts || []).join(" ")}`;
+  const allTextLower = allText.toLowerCase();
+
+  // G-S1 — Pas de persona leak
+  const personaPattern = /\b(yanis|sophie|marc)\b/i;
+  results.push({
+    gate: "G-S1 Pas de persona leak",
+    pass: !personaPattern.test(allTextLower),
+    reason: personaPattern.test(allTextLower) ? "Persona interne détecté dans le post" : "OK",
+  });
+
+  // G-S2 — Hook ≤ 8 mots (souple mais pas illimité)
+  const hookWords = post.hook.trim().split(/\s+/).length;
+  results.push({
+    gate: "G-S2 Hook ≤ 8 mots",
+    pass: hookWords <= 8,
+    reason: hookWords > 8 ? `Hook fait ${hookWords} mots (max 8)` : "OK",
+  });
+
+  // G-S3 — Pas de red flags IA
+  const iaRedFlags = [
+    "dans un monde où",
+    "il est important de",
+    "force est de constater",
+    "n'hésitez pas à",
+    "découvrez comment",
+    "saviez-vous que",
+    "en conclusion",
+    "pour résumer",
+    "par ailleurs",
+    "il convient de",
+    "il peut être observé",
+    "en outre",
+    "à cet égard",
+  ];
+  const foundFlag = iaRedFlags.find((flag) => allTextLower.includes(flag));
+  results.push({
+    gate: "G-S3 Anti-IA (red flags)",
+    pass: !foundFlag,
+    reason: foundFlag ? `Red flag IA détecté : "${foundFlag}"` : "OK",
+  });
+
+  // G-S4 — Pas d'engagement bait
+  const engagementBait = [
+    "complète cette",
+    "note de 1 à 10",
+    "tag un ami",
+    "like si",
+    "partage si",
+    "repost si",
+    "agree?",
+    "thoughts?",
+    "let that sink in",
+    "read that again",
+  ];
+  const foundBait = engagementBait.find((bait) => allTextLower.includes(bait));
+  results.push({
+    gate: "G-S4 Anti-engagement bait",
+    pass: !foundBait,
+    reason: foundBait ? `Engagement bait détecté : "${foundBait}"` : "OK",
+  });
+
+  // G-S5 — Limites de caractères par plateforme
+  const platformLimits: Record<string, number> = {
+    TWITTER: 280,
+    LINKEDIN: 1300,
+    INSTAGRAM: 2200,
+  };
+  const limit = platformLimits[post.platform] || 2200;
+  // Pour les threads Twitter, chaque partie doit être < 280
+  if (post.platform === "TWITTER" && post.threadParts && post.threadParts.length > 0) {
+    const tooLong = post.threadParts.find((t) => t.length > 280);
+    results.push({
+      gate: "G-S5 Char limit (thread)",
+      pass: !tooLong,
+      reason: tooLong ? `Thread part dépasse 280 chars (${tooLong.length})` : "OK",
+    });
+  } else {
+    results.push({
+      gate: `G-S5 Char limit (${post.platform})`,
+      pass: post.content.length <= limit,
+      reason: post.content.length > limit
+        ? `${post.content.length} chars (max ${limit})`
+        : "OK",
+    });
+  }
+
+  // G-S6 — CTA pas de vocabulaire marketing
+  if (post.cta && post.cta.trim().length > 0) {
+    const marketingCta = [
+      "découvrez",
+      "n'hésitez pas",
+      "visitez",
+      "suivez-nous",
+      "abonnez-vous",
+      "cliquez ici",
+    ];
+    const foundMarketing = marketingCta.find((m) => post.cta.toLowerCase().includes(m));
+    results.push({
+      gate: "G-S6 CTA non-marketing",
+      pass: !foundMarketing,
+      reason: foundMarketing ? `CTA marketing détecté : "${foundMarketing}"` : "OK",
+    });
+  }
+
+  // G-S7 — Max 2 emojis
+  const emojiCount = (allText.match(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu) || []).length;
+  results.push({
+    gate: "G-S7 Max 2 emojis",
+    pass: emojiCount <= 2,
+    reason: emojiCount > 2 ? `${emojiCount} emojis (max 2)` : "OK",
+  });
+
+  // G-S8 — Pas de "je" pour la marque (doit être "on")
+  const jePattern = /\bj['']ai (compilé|créé|lancé|écrit|fait|préparé|développé)\b/i;
+  results.push({
+    gate: "G-S8 Voix équipe (on, pas je)",
+    pass: !jePattern.test(allText),
+    reason: jePattern.test(allText) ? "Utilise 'je' au lieu de 'on' pour parler de la marque" : "OK",
+  });
+
+  return results;
+}
+
 // ─── Validation d'un post social ────────────────────────────────
 
 export async function validateSocialPost(
   post: SocialPostToValidate,
   persona: PersonaKey,
 ): Promise<ValidationResult> {
+  // ── Gates programmatiques (binaires, pas de LLM) ──
+  const gates = runSocialGates(post);
+  const gateReject = applyGates(gates, "SOCIAL");
+  if (gateReject) {
+    console.log(`[Director] Post social rejeté par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
+    return gateReject;
+  }
+
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
