@@ -1182,10 +1182,10 @@ describe("Stand-Up Director Agent", () => {
     const result = await validateTip(
       {
         title: "Le silence après le rire",
-        content: "Quand tu fais rire, ne parle pas. Laisse le silence faire son travail. C'est une technique de pro utilisée par tous les grands stand-uppers. Le silence amplifie le rire naturellement.",
+        content: "Quand tu fais rire, ne parle pas. Laisse le silence faire son travail. C'est une technique de pro utilisée par tous les grands stand-uppers. Le silence amplifie le rire naturellement. En stand-up, les meilleurs comiques laissent toujours un temps après la punchline. Paul Mirabel le fait systématiquement dans ses spectacles. Le public a besoin de ce moment pour digérer la vanne et laisser le rire monter. Si tu enchaînes trop vite, tu écrases ton propre effet. C'est contre-intuitif mais le silence est ton allié numéro un pour être plus drôle.",
         category: "TIMING",
         difficulty: "DEBUTANT",
-        example: "Après une vanne, tais-toi pendant 5 secondes.",
+        example: "Tu lances ta vanne : « Mon seul talent caché c'est qu'après 30 ans, je l'ai toujours pas trouvé. » — silence 5 secondes. Le rire monte tout seul.",
         exercise: "DÉFI SILENCE : La prochaine fois que tu fais rire, impose-toi 5 secondes de silence.",
       },
       "YANIS",
@@ -1244,11 +1244,16 @@ describe("Stand-Up Director Agent", () => {
       ],
     });
 
+    // Contenu assez long pour passer les gates (min 1000 mots, 5 liens internes, FAQ)
+    const fakeContent = "Comment avoir de la répartie ? C'est la question que tout le monde se pose. " +
+      "Découvre les techniques des pros du stand-up. /vannes /conseils /videos /parcours /blog/timing-humour " +
+      "## FAQ - Questions fréquentes\n\n### Comment progresser en répartie ?\nEn pratiquant chaque jour. " +
+      Array(200).fill("Contenu pertinent sur la répartie et l'humour au quotidien avec des exemples concrets.").join(" ");
     const result = await validateBlogArticle({
-      title: "Comment avoir de la répartie : 7 techniques de stand-upper",
+      title: "Répartie : 7 techniques de stand-upper",
       slug: "comment-avoir-de-la-repartie",
       excerpt: "Tu restes muet quand on te chambre ? Voici les techniques des pros.",
-      content: "Un long article avec du contenu drôle et instructif...",
+      content: fakeContent,
       category: "REPARTIE",
       targetKeyword: "comment avoir de la répartie",
     });
@@ -1954,36 +1959,21 @@ describe("Director integration — validation retry loop", () => {
       monthlyPlanSummary: "",
     });
 
-    // 2nd call: director → REJECTED
-    mockAnthropicCreate.mockResolvedValueOnce({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify({
-            verdict: "REJECTED",
-            score: 2,
-            strengths: [],
-            issues: ["Objet qui parle", "Format Carambar"],
-            revision: "Faire une vanne sur une situation réelle de cours",
-            directorNote: "Pas au niveau.",
-          }),
-        },
-      ],
-    });
-
+    // Gate programmatique rejette AVANT le LLM (objets qui parlent) — pas d'appel API
     const validation = await validateJoke(badJoke, "YANIS");
     expect(validation.verdict).toBe("REJECTED");
-    expect(validation.issues).toContain("Objet qui parle");
+    expect(validation.score).toBe(0);
+    expect(validation.issues.some((i: string) => i.includes("objets qui parlent") || i.includes("Objet"))).toBe(true);
 
-    // 3rd call: joke re-generation with feedback in theme
-    const feedbackTheme = `Test — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}. SUGGESTION: ${validation.revision}`;
+    // 2nd call (was 3rd): joke re-generation with feedback in theme
+    const feedbackTheme = `Test — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}. SUGGESTION: Faire une vanne sur une situation réelle`;
     mockAnthropicCreate.mockResolvedValueOnce({
       content: [
         {
           type: "text",
           text: JSON.stringify({
-            content: "Le prof demande si quelqu'un a des questions",
-            punchline: "Un gars au fond lève la main et demande l'heure",
+            content: "Mon pote révise ses maths depuis 3 heures.",
+            punchline: "Même sa calculatrice a rendu son tablier.",
             category: "ECOLE",
             type: "ONE_LINER",
             maturityLevel: 1,
@@ -2020,8 +2010,9 @@ describe("Director integration — validation retry loop", () => {
     expect(validation2.verdict).toBe("APPROVED");
     expect(validation2.score).toBeGreaterThanOrEqual(9);
 
-    // Total: 4 API calls (generate + reject + re-generate + approve)
-    expect(mockAnthropicCreate).toHaveBeenCalledTimes(4);
+    // Total: 3 API calls (generate + re-generate + approve)
+    // Gate programmatique a rejeté la 1re vanne SANS appel API
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(3);
   });
 
   it("3 failures trigger director rewrite as last resort", async () => {

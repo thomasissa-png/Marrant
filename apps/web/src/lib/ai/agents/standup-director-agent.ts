@@ -9,12 +9,226 @@ import { TONALITY_BRIEF } from "./marketing-agent";
 // Chaque vanne, conseil, sélection vidéo et article de blog
 // DOIT passer par sa validation avant publication.
 //
+// Architecture de validation : 2 niveaux
+// 1. GATES PROGRAMMATIQUES — checks binaires (PASS/FAIL), pas de LLM
+//    → Exécutés AVANT la validation IA. 1 FAIL = rejet immédiat.
+// 2. VALIDATION IA — le directeur évalue la qualité artistique
+//    → Exécutée seulement si toutes les gates passent.
+//
 // Vision : faire de deviens-marrant.fr le site n°1 du stand-up
 // français ET la plateforme de formation au stand-up n°1 en France.
-//
-// Hiérarchie : supervise les agents Vannes, Conseils, Vidéos et
-// Blog SEO. Travaille en pair avec l'Agent Marketing.
 // ───────────────────────────────────────────────────────────────────
+
+// ─── GATES PROGRAMMATIQUES — Checks binaires non-négociables ─────
+
+interface GateResult {
+  gate: string;
+  pass: boolean;
+  reason: string;
+}
+
+/**
+ * Gates pour les vannes — chaque gate est un check binaire.
+ * 1 FAIL = rejet automatique, pas besoin de passer par le LLM.
+ */
+export function runJokeGates(joke: JokeToValidate): GateResult[] {
+  const results: GateResult[] = [];
+  const content = joke.content.trim();
+  const punchline = joke.punchline.trim();
+  const fullText = `${content} ${punchline}`.toLowerCase();
+
+  // G-J1 — Punchline non vide
+  results.push({
+    gate: "G-J1 Punchline existe",
+    pass: punchline.length >= 3,
+    reason: punchline.length < 3 ? "Punchline vide ou trop courte" : "OK",
+  });
+
+  // G-J2 — Punchline plus courte que le setup
+  const setupWords = content.split(/\s+/).length;
+  const punchWords = punchline.split(/\s+/).length;
+  results.push({
+    gate: "G-J2 Punchline < Setup",
+    pass: punchWords <= setupWords,
+    reason: punchWords > setupWords
+      ? `Punchline (${punchWords} mots) plus longue que setup (${setupWords} mots)`
+      : "OK",
+  });
+
+  // G-J3 — Pas d'objets qui parlent
+  const objetPattern = /(?:un |une |le |la |l')(?:stylo|crayon|fourchette|couteau|miroir|chaise|table|porte|mur|frigo|micro-ondes|télé)\s+(?:dit|demande|répond|murmure|crie|chuchote)/i;
+  results.push({
+    gate: "G-J3 Pas d'objets qui parlent",
+    pass: !objetPattern.test(fullText),
+    reason: objetPattern.test(fullText) ? "Objet inanimé qui parle détecté" : "OK",
+  });
+
+  // G-J4 — Pas de persona leak
+  const personaPattern = /\b(yanis|sophie|marc)\b/i;
+  results.push({
+    gate: "G-J4 Pas de persona leak",
+    pass: !personaPattern.test(fullText),
+    reason: personaPattern.test(fullText) ? `Persona interne détecté` : "OK",
+  });
+
+  // G-J5 — Longueur totale < 60 mots
+  const totalWords = fullText.split(/\s+/).length;
+  results.push({
+    gate: "G-J5 Longueur < 60 mots",
+    pass: totalWords <= 60,
+    reason: totalWords > 60 ? `${totalWords} mots (max 60)` : "OK",
+  });
+
+  // G-J6 — Punchline ≠ constat (heuristique)
+  // Si la punchline commence par un pronom + verbe passé simple/imparfait
+  // et ne contient aucun mot de twist (comme, genre, en fait, finalement, tellement, carrément)
+  const twistMarkers = /comme|genre|en fait|finalement|tellement|carrément|sauf que|mais|du coup.*pas|jamais|toujours|même pas|déjà/i;
+  const pureConstat = /^(il|elle|c'|ça|j'|je|ils|on)\s+(était|avait|a |est |étai)/i;
+  const isConstat = pureConstat.test(punchline) && !twistMarkers.test(punchline);
+  results.push({
+    gate: "G-J6 Punchline ≠ constat",
+    pass: !isConstat,
+    reason: isConstat
+      ? "La punchline ressemble à un constat/explication, pas à un twist comique"
+      : "OK",
+  });
+
+  // G-J7 — Pas de format Carambar (Q&A basique sans twist)
+  const carambarPattern = /^(pourquoi|comment|qu['']est[- ]ce que?|quel|quelle)\s/i;
+  const isQA = carambarPattern.test(content) && !twistMarkers.test(punchline);
+  results.push({
+    gate: "G-J7 Pas de format Carambar",
+    pass: !isQA,
+    reason: isQA ? "Format Q&A basique sans twist (type Carambar)" : "OK",
+  });
+
+  return results;
+}
+
+/**
+ * Gates pour les conseils.
+ */
+export function runTipGates(tip: TipToValidate): GateResult[] {
+  const results: GateResult[] = [];
+  const fullText = `${tip.title} ${tip.content} ${tip.example} ${tip.exercise}`.toLowerCase();
+
+  // G-T1 — Pas de persona leak
+  const personaPattern = /\b(yanis|sophie|marc)\b/i;
+  results.push({
+    gate: "G-T1 Pas de persona leak",
+    pass: !personaPattern.test(fullText),
+    reason: personaPattern.test(fullText) ? "Persona interne détecté" : "OK",
+  });
+
+  // G-T2 — Exercice au format DÉFI
+  results.push({
+    gate: "G-T2 Format DÉFI",
+    pass: /défi/i.test(tip.exercise),
+    reason: !/défi/i.test(tip.exercise) ? "L'exercice ne commence pas par DÉFI" : "OK",
+  });
+
+  // G-T3 — Contenu minimum 60 mots
+  const contentWords = tip.content.split(/\s+/).length;
+  results.push({
+    gate: "G-T3 Contenu ≥ 60 mots",
+    pass: contentWords >= 60,
+    reason: contentWords < 60 ? `${contentWords} mots (min 60)` : "OK",
+  });
+
+  // G-T4 — Exemple contient du dialogue
+  const hasDialogue = /[«»"""'']|— |:\s/.test(tip.example);
+  results.push({
+    gate: "G-T4 Exemple avec dialogue",
+    pass: hasDialogue,
+    reason: !hasDialogue ? "L'exemple ne contient pas de dialogue concret" : "OK",
+  });
+
+  return results;
+}
+
+/**
+ * Gates pour les articles blog.
+ */
+export function runBlogGates(article: { title: string; excerpt: string; content: string; slug: string }): GateResult[] {
+  const results: GateResult[] = [];
+  const fullText = `${article.title} ${article.excerpt} ${article.content}`;
+  const contentLower = fullText.toLowerCase();
+
+  // G-B1 — Pas de persona leak
+  const personaPattern = /\b(yanis|sophie|marc)\b/i;
+  results.push({
+    gate: "G-B1 Pas de persona leak",
+    pass: !personaPattern.test(contentLower),
+    reason: personaPattern.test(contentLower) ? "Persona interne détecté" : "OK",
+  });
+
+  // G-B2 — Titre < 60 chars
+  results.push({
+    gate: "G-B2 Titre < 60 chars",
+    pass: article.title.length <= 60,
+    reason: article.title.length > 60 ? `${article.title.length} chars (max 60)` : "OK",
+  });
+
+  // G-B3 — Excerpt < 155 chars
+  results.push({
+    gate: "G-B3 Excerpt < 155 chars",
+    pass: article.excerpt.length <= 155,
+    reason: article.excerpt.length > 155 ? `${article.excerpt.length} chars (max 155)` : "OK",
+  });
+
+  // G-B4 — Minimum 5 liens internes
+  const internalLinks = (article.content.match(/\/(vannes|conseils|videos|parcours|blog\/[a-z])/g) || []).length;
+  results.push({
+    gate: "G-B4 Min 5 liens internes",
+    pass: internalLinks >= 5,
+    reason: internalLinks < 5 ? `${internalLinks} liens internes (min 5)` : "OK",
+  });
+
+  // G-B5 — Minimum 1000 mots
+  const wordCount = article.content.split(/\s+/).length;
+  results.push({
+    gate: "G-B5 Min 1000 mots",
+    pass: wordCount >= 1000,
+    reason: wordCount < 1000 ? `${wordCount} mots (min 1000)` : "OK",
+  });
+
+  // G-B6 — FAQ presente
+  const hasFaq = /faq|questions?\s+(fréquentes|courantes)|##.*\?/i.test(article.content);
+  results.push({
+    gate: "G-B6 FAQ présente",
+    pass: hasFaq,
+    reason: !hasFaq ? "Pas de section FAQ détectée" : "OK",
+  });
+
+  // G-B7 — Pas de refs legacy en excès (Jamel, Gad, Foresti, Kev Adams max 1)
+  const legacyRefs = (contentLower.match(/jamel|gad elmaleh|foresti|kev adams/g) || []).length;
+  results.push({
+    gate: "G-B7 Refs legacy ≤ 1",
+    pass: legacyRefs <= 1,
+    reason: legacyRefs > 1 ? `${legacyRefs} refs legacy (max 1)` : "OK",
+  });
+
+  return results;
+}
+
+/**
+ * Applique les gates programmatiques et rejette automatiquement si 1+ FAIL.
+ * Retourne null si toutes les gates passent (→ continuer vers validation IA).
+ * Retourne un ValidationResult REJECTED si 1+ gate échoue.
+ */
+function applyGates(gates: GateResult[], contentType: string): ValidationResult | null {
+  const failed = gates.filter((g) => !g.pass);
+
+  if (failed.length === 0) return null; // toutes les gates passent
+
+  return {
+    verdict: "REJECTED",
+    score: 0,
+    strengths: [],
+    issues: failed.map((g) => `❌ ${g.gate} — ${g.reason}`),
+    directorNote: `Rejet automatique par ${failed.length} gate(s) programmatique(s) [${contentType}]. Pas besoin de validation IA — les critères de base ne sont pas remplis.`,
+  };
+}
 
 // ─── Types de validation ──────────────────────────────────────────
 
@@ -228,6 +442,14 @@ export async function validateJoke(
   joke: JokeToValidate,
   persona: PersonaKey,
 ): Promise<ValidationResult> {
+  // ── Gates programmatiques (binaires, pas de LLM) ──
+  const gates = runJokeGates(joke);
+  const gateReject = applyGates(gates, "JOKE");
+  if (gateReject) {
+    console.log(`[Director] Vanne rejetée par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
+    return gateReject;
+  }
+
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
@@ -294,6 +516,14 @@ export async function validateTip(
   tip: TipToValidate,
   persona: PersonaKey,
 ): Promise<ValidationResult> {
+  // ── Gates programmatiques (binaires, pas de LLM) ──
+  const gates = runTipGates(tip);
+  const gateReject = applyGates(gates, "TIP");
+  if (gateReject) {
+    console.log(`[Director] Conseil rejeté par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
+    return gateReject;
+  }
+
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
@@ -403,6 +633,14 @@ Réponds en JSON :
 export async function validateBlogArticle(
   article: BlogArticleToValidate,
 ): Promise<ValidationResult> {
+  // ── Gates programmatiques (binaires, pas de LLM) ──
+  const gates = runBlogGates(article);
+  const gateReject = applyGates(gates, "BLOG");
+  if (gateReject) {
+    console.log(`[Director] Article rejeté par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
+    return gateReject;
+  }
+
   // Tronquer le contenu pour rester dans les limites du prompt
   // 12000 chars couvre ~85% d'un article de 2000 mots (FAQ, CTA, liens internes inclus)
   const truncatedContent = article.content.slice(0, 12000);
