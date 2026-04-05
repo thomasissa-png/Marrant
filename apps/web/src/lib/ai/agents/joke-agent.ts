@@ -82,6 +82,8 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ❌ AUTODÉRISION TRISTE : « je suis seul / nul / ghosté » sans retournement comique = déprimant, pas drôle.
 ❌ VANNE VUE ET REVUE : si ça ressemble à un meme de 2020 ou à une vanne qui tourne sur Twitter depuis 3 ans, c'est non.
 ❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
+❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous êtes", réécris en "t'es" ou "tu es".
+❌ VULGARITÉ : JAMAIS de gros mots (putain, merde, bordel, etc.). On est drôle SANS être vulgaire.
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis

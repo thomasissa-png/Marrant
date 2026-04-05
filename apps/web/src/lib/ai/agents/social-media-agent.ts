@@ -211,6 +211,9 @@ On est une équipe de passionnés de stand-up, pas un mec seul derrière un écr
    - PAS de "like si tu es d'accord"
 7. Émojis : max 2 par post, jamais en ouverture, jamais 📣🔥💯
 8. Chaque post DOIT contenir au moins UN trait d'humour (vanne, observation drôle, auto-dérision)
+9. TUTOIEMENT OBLIGATOIRE : "tu" / "ton" / "ta" — JAMAIS "vous" / "votre" / "vos". Le site tutoie TOUJOURS.
+10. ZÉRO VULGARITÉ : pas de putain, merde, bordel, etc. On est drôle SANS être vulgaire.
+11. PAS DE DIALOGUE RECONSTITUÉ : "Moi : ... / Mon pote : ..." = format générique interdit. Un compte lambda fait ça.
 
 ═══ TWITTER — LE SET DE 280 CARACTÈRES ═══
 Twitter = micro-set de stand-up. Setup → punchline. Rien de plus.

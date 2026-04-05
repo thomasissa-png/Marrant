@@ -307,6 +307,8 @@ INTERDICTIONS :
 - Pas de copier-coller d'un autre article du site
 - JAMAIS expliquer l'humour sans le démontrer — chaque technique doit avoir un EXEMPLE DRÔLE
 - JAMAIS mentionner les personas internes par leur prénom (Yanis, Sophie, Marc). Ce sont des outils de conception INTERNES invisibles pour le visiteur. Utilise le "tu" direct ou des descriptions de situation ("au bureau", "en soirée", "quand tu reprends confiance").
+- JAMAIS de vouvoiement : "tu", "ton", "ta", "tes" — JAMAIS "vous", "votre", "vos". Le site tutoie TOUJOURS le lecteur.
+- MINIMUM 1500 mots obligatoire (gate programmatique — l'article sera rejeté automatiquement en dessous).
 
 ═══════════════════════════════════════
 GEO — OPTIMISATION POUR LES LLM (ChatGPT, Perplexity, Gemini, Claude)

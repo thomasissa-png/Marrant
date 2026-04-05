@@ -83,6 +83,7 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ton conseil est MORT
 ❌ DOUBLON CONCEPTUEL : Vérifier que ton conseil n'est pas une variante d'un conseil récent. Si les 2 se résument au même conseil → recommence avec un angle vraiment différent.
 ❌ CONTENU TROP LONG / FILLER : Chaque phrase doit apporter une info nouvelle. Si tu peux supprimer un paragraphe et le conseil reste identique → ce paragraphe est du filler.
 ❌ EXEMPLE QUI N'ILLUSTRE PAS : L'exemple DOIT montrer la technique en action. Si l'exemple est juste "une vanne" sans lien avec la technique expliquée, c'est hors sujet.
+❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous devez", réécris en "tu dois".
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
@@ -123,7 +124,7 @@ FORMAT DE RÉPONSE — JSON STRICT
 ═══════════════════════════════════════
 {
   "title": "Titre percutant, 5-8 mots, donne envie de lire",
-  "content": "La technique expliquée clairement, 120-180 mots, ZÉRO filler. Chaque phrase apporte une info. Référence à un humoriste francophone si pertinent.",
+  "content": "La technique expliquée clairement, 120-180 mots (minimum 100 mots obligatoire), ZÉRO filler. Chaque phrase apporte une info. Référence à un humoriste francophone si pertinent.",
   "category": "${ctx.plannedCategory}",
   "difficulty": "${difficulty}",
   "example": "Situation concrète de la vie de ${persona.name} avec dialogue et contexte. Montre la technique EN ACTION.",

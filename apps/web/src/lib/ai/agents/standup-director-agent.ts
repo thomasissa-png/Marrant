@@ -82,7 +82,7 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
   // G-J6 — Punchline ≠ constat (heuristique)
   // Si la punchline commence par un pronom + verbe passé simple/imparfait
   // et ne contient aucun mot de twist (comme, genre, en fait, finalement, tellement, carrément)
-  const twistMarkers = /comme|genre|en fait|finalement|tellement|carrément|sauf que|mais|du coup.*pas|jamais|toujours|même pas|déjà/i;
+  const twistMarkers = /comme|genre|en fait|finalement|tellement|carrément|sauf que|mais|du coup.*pas|jamais|toujours|même pas|déjà|encore|quand même|de toute façon|personne|rien|tout le monde|même|depuis|trop|plus jamais|la seule|le seul/i;
   const pureConstat = /^(il|elle|c'|ça|j'|je|ils|on)\s+(était|avait|a |est |étai)/i;
   const isConstat = pureConstat.test(punchline) && !twistMarkers.test(punchline);
   results.push({
@@ -100,6 +100,22 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
     gate: "G-J7 Pas de format Carambar",
     pass: !isQA,
     reason: isQA ? "Format Q&A basique sans twist (type Carambar)" : "OK",
+  });
+
+  // G-J8 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
+  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  results.push({
+    gate: "G-J8 Tutoiement obligatoire",
+    pass: !vousPattern.test(fullText),
+    reason: vousPattern.test(fullText) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
+  });
+
+  // G-J9 — Pas de vulgarité
+  const vulgarPattern = /\b(putain|merde|bordel|connard|connasse|enculé|nique|baiser|foutre|chiotte|salaud|pétasse|enfoiré)\b/i;
+  results.push({
+    gate: "G-J9 Anti-vulgarité",
+    pass: !vulgarPattern.test(fullText),
+    reason: vulgarPattern.test(fullText) ? "Vulgarité détectée — contenu non publiable" : "OK",
   });
 
   return results;
@@ -127,12 +143,12 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
     reason: !/défi/i.test(tip.exercise) ? "L'exercice ne commence pas par DÉFI" : "OK",
   });
 
-  // G-T3 — Contenu minimum 60 mots
+  // G-T3 — Contenu minimum 100 mots
   const contentWords = tip.content.split(/\s+/).length;
   results.push({
-    gate: "G-T3 Contenu ≥ 60 mots",
-    pass: contentWords >= 60,
-    reason: contentWords < 60 ? `${contentWords} mots (min 60)` : "OK",
+    gate: "G-T3 Contenu ≥ 100 mots",
+    pass: contentWords >= 100,
+    reason: contentWords < 100 ? `${contentWords} mots (min 100)` : "OK",
   });
 
   // G-T4 — Exemple contient du dialogue
@@ -141,6 +157,14 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
     gate: "G-T4 Exemple avec dialogue",
     pass: hasDialogue,
     reason: !hasDialogue ? "L'exemple ne contient pas de dialogue concret" : "OK",
+  });
+
+  // G-T5 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
+  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  results.push({
+    gate: "G-T5 Tutoiement obligatoire",
+    pass: !vousPattern.test(fullText),
+    reason: vousPattern.test(fullText) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
   });
 
   return results;
@@ -184,12 +208,12 @@ export function runBlogGates(article: { title: string; excerpt: string; content:
     reason: internalLinks < 5 ? `${internalLinks} liens internes (min 5)` : "OK",
   });
 
-  // G-B5 — Minimum 1000 mots
+  // G-B5 — Minimum 1500 mots
   const wordCount = article.content.split(/\s+/).length;
   results.push({
-    gate: "G-B5 Min 1000 mots",
-    pass: wordCount >= 1000,
-    reason: wordCount < 1000 ? `${wordCount} mots (min 1000)` : "OK",
+    gate: "G-B5 Min 1500 mots",
+    pass: wordCount >= 1500,
+    reason: wordCount < 1500 ? `${wordCount} mots (min 1500)` : "OK",
   });
 
   // G-B6 — FAQ presente
@@ -206,6 +230,14 @@ export function runBlogGates(article: { title: string; excerpt: string; content:
     gate: "G-B7 Refs legacy ≤ 1",
     pass: legacyRefs <= 1,
     reason: legacyRefs > 1 ? `${legacyRefs} refs legacy (max 1)` : "OK",
+  });
+
+  // G-B8 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
+  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  results.push({
+    gate: "G-B8 Tutoiement obligatoire",
+    pass: !vousPattern.test(contentLower),
+    reason: vousPattern.test(contentLower) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
   });
 
   return results;
@@ -1436,12 +1468,12 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     reason: personaPattern.test(allTextLower) ? "Persona interne détecté dans le post" : "OK",
   });
 
-  // G-S2 — Hook ≤ 8 mots (souple mais pas illimité)
+  // G-S2 — Hook ≤ 5 mots
   const hookWords = post.hook.trim().split(/\s+/).length;
   results.push({
-    gate: "G-S2 Hook ≤ 8 mots",
-    pass: hookWords <= 8,
-    reason: hookWords > 8 ? `Hook fait ${hookWords} mots (max 8)` : "OK",
+    gate: "G-S2 Hook ≤ 5 mots",
+    pass: hookWords <= 5,
+    reason: hookWords > 5 ? `Hook fait ${hookWords} mots (max 5)` : "OK",
   });
 
   // G-S3 — Pas de red flags IA
@@ -1459,6 +1491,13 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     "il peut être observé",
     "en outre",
     "à cet égard",
+    "spoiler :",
+    "et devinez quoi",
+    "petite astuce",
+    "résultat ?",
+    "c'est simple.",
+    "vraiment utile",
+    "petit thread",
   ];
   const foundFlag = iaRedFlags.find((flag) => allTextLower.includes(flag));
   results.push({
@@ -1501,6 +1540,16 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
       gate: "G-S5 Char limit (thread)",
       pass: !tooLong,
       reason: tooLong ? `Thread part dépasse 280 chars (${tooLong.length})` : "OK",
+    });
+  } else if (post.platform === "TWITTER") {
+    // Pour les tweets simples, le hook + content sont publiés ensemble
+    const fullTweetLength = `${post.hook} ${post.content}`.length;
+    results.push({
+      gate: `G-S5 Char limit (TWITTER hook+content)`,
+      pass: fullTweetLength <= limit,
+      reason: fullTweetLength > limit
+        ? `Hook+content = ${fullTweetLength} chars (max ${limit})`
+        : "OK",
     });
   } else {
     results.push({
@@ -1545,6 +1594,51 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     pass: !jePattern.test(allText),
     reason: jePattern.test(allText) ? "Utilise 'je' au lieu de 'on' pour parler de la marque" : "OK",
   });
+
+  // G-S9 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
+  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  results.push({
+    gate: "G-S9 Tutoiement obligatoire",
+    pass: !vousPattern.test(allTextLower),
+    reason: vousPattern.test(allTextLower) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
+  });
+
+  // G-S10 — Pas de vulgarité
+  const vulgarPattern = /\b(putain|merde|bordel|connard|connasse|enculé|nique|baiser|foutre|chiotte|salaud|pétasse|enfoiré)\b/i;
+  results.push({
+    gate: "G-S10 Anti-vulgarité",
+    pass: !vulgarPattern.test(allTextLower),
+    reason: vulgarPattern.test(allTextLower) ? "Vulgarité détectée — contenu non publiable" : "OK",
+  });
+
+  // G-S11 — Pas de dialogue reconstitué ("Moi : ..." / "Mon pote : ...")
+  const dialoguePattern = /^(moi|mon pote|ma pote|le prof|la prof|mon boss|ma boss|lui|elle)\s*:/im;
+  results.push({
+    gate: "G-S11 Anti-dialogue reconstitué",
+    pass: !dialoguePattern.test(post.content),
+    reason: dialoguePattern.test(post.content) ? "Format dialogue reconstitué détecté — trop générique" : "OK",
+  });
+
+  // G-S12 — Pas de lien dans les 3 premières lignes (Twitter — algo pénalise)
+  if (post.platform === "TWITTER" && !post.threadParts?.length) {
+    const firstLines = post.content.split("\n").slice(0, 3).join(" ");
+    const hasLink = /https?:\/\/|deviens-marrant\.fr/i.test(firstLines);
+    results.push({
+      gate: "G-S12 Pas de lien premières lignes",
+      pass: !hasLink,
+      reason: hasLink ? "Lien détecté dans les 3 premières lignes — algo pénalise" : "OK",
+    });
+  }
+
+  // G-S13 — Pas de hashtags dans le corps du tweet (signal bot)
+  if (post.platform === "TWITTER") {
+    const hasHashtagInBody = /#\w+/.test(post.content);
+    results.push({
+      gate: "G-S13 Pas de hashtags dans tweet",
+      pass: !hasHashtagInBody,
+      reason: hasHashtagInBody ? "Hashtag dans le corps du tweet — signal bot" : "OK",
+    });
+  }
 
   return results;
 }
