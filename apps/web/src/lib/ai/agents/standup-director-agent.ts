@@ -253,6 +253,15 @@ CRITÈRES SPÉCIFIQUES VANNES :
 - Est-ce que ça respecte le ton de la marque (jamais vulgaire, jamais forcé) ?
 - Pas d'objets qui parlent, pas de format Carambar, pas d'autodérision triste sans punch
 
+TEST CRITIQUE — PUNCHLINE OU CONSTAT ?
+La punchline doit contenir un RETOURNEMENT COMIQUE (twist, exagération, absurde, double sens, comparaison inattendue).
+Si la punchline est juste une EXPLICATION de la situation, un CONSTAT logique, ou la SUITE de l'histoire → c'est PAS une vanne, c'est une anecdote. Score max 5.
+Exemples :
+- ❌ "J'ai attendu le bus 20 min sous la pluie. Il était à l'arrêt d'en face." → CONSTAT (c'est juste ce qui s'est passé, pas de twist)
+- ✅ "J'ai attendu le bus 20 min sous la pluie. Le bus m'a vu et il a accéléré." → TWIST (le bus est personnifié, comportement inattendu)
+- ❌ "J'ai oublié mon parapluie. Il pleuvait." → CONSTAT
+- ✅ "J'ai oublié mon parapluie. Mon karma non." → TWIST (personnification abstraite)
+
 VERDICT :
 - APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1, fait RIRE à voix haute
 - NEEDS_REVISION (score 7-8) : l'idée est bonne mais l'exécution peut être meilleure — propose une réécriture

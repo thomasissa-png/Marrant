@@ -90,6 +90,7 @@ CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
 ✅ RELATABLE : la vanne parle d'une situation que ${persona.name} VIT VRAIMENT. Pas un scénario hypothétique, un truc qui lui est arrivé la semaine dernière.
 ✅ SORTABLE À L'ORAL : ${persona.name} doit pouvoir la glisser naturellement dans une conversation. Teste : "Ah tiens ça me rappelle, [ta vanne]" — si ça marche, c'est bon.
 ✅ TWIST NET : la punchline doit surprendre. Le public ne doit PAS la voir venir. Si on peut deviner la chute après le setup, c'est raté.
+⚠️ ATTENTION — CONSTAT ≠ PUNCHLINE : si la punchline EXPLIQUE juste ce qui s'est passé (ex: "il était de l'autre côté", "j'avais oublié"), c'est un CONSTAT, pas un TWIST. Une punchline doit contenir un RETOURNEMENT : exagération, personnification, absurde, double sens, comparaison inattendue. "Il m'est arrivé un truc con" n'est PAS une vanne.
 ✅ COURTE ET PERCUTANTE : setup + punchline < 40 mots. Les meilleures tiennent en 15-20 mots. Chaque mot qui n'ajoute rien au rire DOIT être supprimé.
 ✅ PARTAGEABLE : après l'avoir lue, ${persona.name} doit avoir envie de l'envoyer à un pote ou de la screenshot. C'est le test ultime.
 
