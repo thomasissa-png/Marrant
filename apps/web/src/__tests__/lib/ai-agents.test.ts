@@ -1182,7 +1182,7 @@ describe("Stand-Up Director Agent", () => {
     const result = await validateTip(
       {
         title: "Le silence après le rire",
-        content: "Quand tu fais rire, ne parle pas. Laisse le silence faire son travail. C'est une technique de pro utilisée par tous les grands stand-uppers. Le silence amplifie le rire naturellement. En stand-up, les meilleurs comiques laissent toujours un temps après la punchline. Paul Mirabel le fait systématiquement dans ses spectacles. Le public a besoin de ce moment pour digérer la vanne et laisser le rire monter. Si tu enchaînes trop vite, tu écrases ton propre effet. C'est contre-intuitif mais le silence est ton allié numéro un pour être plus drôle.",
+        content: "Quand tu fais rire, ne parle pas. Laisse le silence faire son travail. C'est une technique de pro utilisée par tous les grands stand-uppers. Le silence amplifie le rire naturellement. En stand-up, les meilleurs comiques laissent toujours un temps après la punchline. Paul Mirabel le fait systématiquement dans ses spectacles. Le public a besoin de ce moment pour digérer la vanne et laisser le rire monter. Si tu enchaînes trop vite, tu écrases ton propre effet. C'est contre-intuitif mais le silence est ton allié numéro un pour être plus drôle. Essaie ce soir en soirée : balance ta meilleure vanne et résiste à l'envie de parler après.",
         category: "TIMING",
         difficulty: "DEBUTANT",
         example: "Tu lances ta vanne : « Mon seul talent caché c'est qu'après 30 ans, je l'ai toujours pas trouvé. » — silence 5 secondes. Le rire monte tout seul.",
