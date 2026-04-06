@@ -69,6 +69,23 @@ export async function GET(req: Request) {
       console.log(`[SocialAnalytics] ${cleaned} posts stuck marqués FAILED`);
     }
 
+    // TTL 48h sur les posts PENDING (review manuelle jamais faite)
+    // Un post PENDING de +48h n'a plus de valeur — son scheduledAt est dans le passé
+    // et il pollue le dashboard admin.
+    const expiredPending = await prisma.socialPost.updateMany({
+      where: {
+        status: "PENDING",
+        createdAt: { lte: fortyEightHoursAgo },
+      },
+      data: {
+        status: "FAILED",
+        directorNote: "Expiré — PENDING depuis +48h sans review manuelle",
+      },
+    });
+    if (expiredPending.count > 0) {
+      console.log(`[SocialAnalytics] ${expiredPending.count} posts PENDING expirés (TTL 48h)`);
+    }
+
     // Vérifier la queue Buffer
     let bufferQueue = 0;
     if (isBufferConfigured()) {

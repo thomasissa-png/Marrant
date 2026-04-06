@@ -113,7 +113,10 @@ export async function GET(req: Request) {
     const saved = [];
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i];
-      const scheduledAt = getOptimalScheduleTime(persona, i, post.platform as "TWITTER" | "LINKEDIN" | "INSTAGRAM");
+      // Utiliser le persona-cible du post (pas le persona du batch) pour le scheduling
+      // Instagram cible Yanis (21h-23h) même si le jour est MARC/SOPHIE
+      const postPersona = (post.targetPersona as "YANIS" | "SOPHIE" | "MARC") || persona;
+      const scheduledAt = getOptimalScheduleTime(postPersona, i, post.platform as "TWITTER" | "LINKEDIN" | "INSTAGRAM");
 
       const dbPost = await prisma.socialPost.create({
         data: {
@@ -190,6 +193,27 @@ export async function GET(req: Request) {
     console.log(
       `[DailySocial] ${saved.length} posts générés — ${approvedCount} validés, ${pendingCount} en attente de review`,
     );
+
+    // Alerte si une plateforme entière est absente après génération
+    // (l'agent a crash silencieusement sur cette plateforme)
+    const generatedPlatforms = new Set(saved.map((p) => p.platform));
+    const allCoveredNow = new Set([...platformsAlreadyCovered, ...generatedPlatforms]);
+    const missingPlatforms = ["TWITTER", "LINKEDIN", "INSTAGRAM"].filter(
+      (p) => !allCoveredNow.has(p),
+    );
+    if (missingPlatforms.length > 0) {
+      try {
+        await sendAdminAlert(
+          `Pipeline social — plateforme(s) absente(s) : ${missingPlatforms.join(", ")}`,
+          `<p><strong>${missingPlatforms.length} plateforme(s) sans post aujourd'hui</strong> : ${missingPlatforms.join(", ")}</p>
+          <p>L'agent IA a probablement crashé silencieusement sur ces plateformes (timeout, API error, etc.).</p>
+          <p>Vérifier les logs Replit et relancer manuellement si nécessaire :</p>
+          <p><code>GET /api/cron/daily-social?secret=CRON_SECRET&force=true</code></p>`,
+        );
+      } catch (_) {
+        // Silencieux
+      }
+    }
 
     // Alerte si aucun post approuve automatiquement
     if (approvedCount === 0 && saved.length > 0) {
