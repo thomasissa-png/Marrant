@@ -41,12 +41,14 @@ export async function GET(req: Request) {
     );
 
     // Check if posts already generated for each platform today
-    // Vérification PAR PLATEFORME — un batch Twitter ne doit pas bloquer LinkedIn/Instagram
+    // Vérification PAR PLATEFORME — on ne régénère QUE les plateformes manquantes
     const force = searchParams.get("force") === "true";
     const startOfDay = new Date(today);
     startOfDay.setUTCHours(0, 0, 0, 0);
     const endOfDay = new Date(today);
     endOfDay.setUTCHours(23, 59, 59, 999);
+
+    let platformsAlreadyCovered = new Set<string>();
 
     if (!force) {
       const existingByPlatform = await prisma.socialPost.groupBy({
@@ -58,9 +60,9 @@ export async function GET(req: Request) {
         _count: true,
       });
 
-      const platformsWithPosts = new Set(existingByPlatform.map((g) => g.platform));
+      platformsAlreadyCovered = new Set(existingByPlatform.map((g) => g.platform));
       const allPlatformsCovered = ["TWITTER", "LINKEDIN", "INSTAGRAM"].every(
-        (p) => platformsWithPosts.has(p),
+        (p) => platformsAlreadyCovered.has(p),
       );
 
       if (allPlatformsCovered) {
@@ -71,9 +73,12 @@ export async function GET(req: Request) {
         });
       }
 
-      if (platformsWithPosts.size > 0) {
+      if (platformsAlreadyCovered.size > 0) {
+        const missing = ["TWITTER", "LINKEDIN", "INSTAGRAM"].filter(
+          (p) => !platformsAlreadyCovered.has(p),
+        );
         console.log(
-          `[DailySocial] Posts existants pour: ${[...platformsWithPosts].join(", ")} — génération complète pour couvrir les plateformes manquantes`,
+          `[DailySocial] Posts existants pour: ${[...platformsAlreadyCovered].join(", ")} — génération UNIQUEMENT pour: ${missing.join(", ")}`,
         );
       }
     }
@@ -86,7 +91,23 @@ export async function GET(req: Request) {
     }
 
     // Generate posts
-    const posts = await generateDailySocialPosts(dayOfMonth, trendingContext);
+    const allPosts = await generateDailySocialPosts(dayOfMonth, trendingContext);
+
+    // Filter out platforms that already have posts today (anti-doublon)
+    const posts = allPosts.filter((p) => !platformsAlreadyCovered.has(p.platform));
+
+    if (posts.length === 0) {
+      return NextResponse.json({
+        message: `Aucun post à créer — toutes les plateformes manquantes ont été filtrées`,
+        skipped: true,
+      });
+    }
+
+    if (posts.length < allPosts.length) {
+      console.log(
+        `[DailySocial] ${allPosts.length - posts.length} posts filtrés (plateformes déjà couvertes) — ${posts.length} à créer`,
+      );
+    }
 
     // Save to DB as PENDING
     const saved = [];
