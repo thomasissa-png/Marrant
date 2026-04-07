@@ -250,6 +250,10 @@ export function buildProductJsonLd() {
     name: "deviens-marrant.fr Premium",
     description:
       "Accès complet : vannes, conseils, vidéos stand-up analysées, parcours structurés et contenu quotidien pour devenir drôle.",
+    image: [
+      `${BASE_URL}/og-image.png`,
+      `${BASE_URL}/icon-512.png`,
+    ],
     brand: {
       "@type": "Brand",
       name: "deviens-marrant.fr",
@@ -261,6 +265,7 @@ export function buildProductJsonLd() {
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,
       priceValidUntil: "2026-12-31",
+      category: "Subscription",
       seller: {
         "@type": "Organization",
         name: "deviens-marrant.fr",
@@ -337,7 +342,8 @@ export function buildCourseJsonLd(course: {
       courseWorkload: toIso8601Duration(course.duration),
     },
     educationalLevel: toEducationalLevel(course.difficulty),
-    ...(course.stepsCount && { numberOfLessons: course.stepsCount }),
+    // numberOfLessons n'existe pas dans Schema.org Course → utiliser numberOfCredits ou hasPart
+    // Le plus simple et valide : ne rien mettre, l'info est déjà dans la description
     inLanguage: "fr-FR",
     isAccessibleForFree: false,
     offers: {
@@ -346,6 +352,7 @@ export function buildCourseJsonLd(course: {
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,
+      category: "Paid",
     },
   };
 }

@@ -111,9 +111,10 @@ describe("buildCourseJsonLd", () => {
     expect(result.hasCourseInstance.courseWorkload).toBe("P4W");
     expect(result.url).toContain("/parcours/repartie");
     expect(result.educationalLevel).toBe("Intermediate");
-    expect(result.numberOfLessons).toBe(4);
+    // numberOfLessons retiré : non reconnu par Schema.org Course
     expect(result.offers.price).toBe("0.99");
     expect(result.offers.priceCurrency).toBe("EUR");
+    expect(result.offers.category).toBe("Paid");
     expect(result.offers.url).toContain("/abonnement");
     expect(result.inLanguage).toBe("fr-FR");
   });

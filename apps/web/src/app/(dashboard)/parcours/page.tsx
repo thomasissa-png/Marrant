@@ -82,6 +82,38 @@ export default function ParcoursPage() {
           des XP à gagner.
         </p>
       </div>
+      {/* Liens SSR vers les parcours individuels — visibles par les crawlers
+          (ParcoursContent est un Client Component qui charge les data dynamiquement) */}
+      <ul className="mb-8 grid gap-3 sm:grid-cols-3">
+        <li>
+          <Link
+            href="/parcours/machine-a-cafe"
+            className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+          >
+            <h2 className="text-base font-semibold text-text-primary">Machine à Café</h2>
+            <p className="mt-1 text-xs text-text-secondary">3 semaines pour avoir des blagues à ressortir au bureau et en afterwork.</p>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/parcours/repartie"
+            className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+          >
+            <h2 className="text-base font-semibold text-text-primary">Répartie</h2>
+            <p className="mt-1 text-xs text-text-secondary">4 semaines pour développer ta répartie et ne plus jamais rester muet.</p>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/parcours/confiance"
+            className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+          >
+            <h2 className="text-base font-semibold text-text-primary">Confiance</h2>
+            <p className="mt-1 text-xs text-text-secondary">6 semaines pour retrouver confiance grâce à l&apos;humour après une période difficile.</p>
+          </Link>
+        </li>
+      </ul>
+
       <ParcoursContent />
 
       <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
