@@ -82,9 +82,11 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
   // G-J6 — Punchline ≠ constat (heuristique)
   // Si la punchline commence par un pronom + verbe passé simple/imparfait
   // et ne contient aucun mot de twist (comme, genre, en fait, finalement, tellement, carrément)
-  const twistMarkers = /comme|genre|en fait|finalement|tellement|carrément|sauf que|mais|du coup.*pas|jamais|toujours|même pas|déjà|encore|quand même|de toute façon|personne|rien|tout le monde|même|depuis|trop|plus jamais|la seule|le seul/i;
+  const twistMarkers = /comme|genre|en fait|finalement|tellement|carrément|sauf que|mais|du coup.*pas|jamais|toujours|même pas|déjà|encore|quand même|de toute façon|personne|rien|tout le monde|même|depuis|trop|plus jamais|la seule|le seul|exactement|bizarrement|forcément|évidemment|logiquement|naturellement|sans surprise|bien sûr|évidemment pas|c'est ça|littéralement|encore une fois/i;
   const pureConstat = /^(il|elle|c'|ça|j'|je|ils|on)\s+(était|avait|a |est |étai)/i;
-  const isConstat = pureConstat.test(punchline) && !twistMarkers.test(punchline);
+  // Règle de dégagement : punchline ≤ 6 mots = présumée twist absurde
+  const isShortAbsurd = punchWords <= 6;
+  const isConstat = pureConstat.test(punchline) && !twistMarkers.test(punchline) && !isShortAbsurd;
   results.push({
     gate: "G-J6 Punchline ≠ constat",
     pass: !isConstat,
@@ -103,19 +105,20 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
   });
 
   // G-J8 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
-  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  // Lookbehind exclut les contextes de citation/dialogue
+  const vousPattern = /(?<![:«"'—\-]\s{0,10})\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez|serez|aurez)|votre\s+\w+|vos\s+\w+)\b/i;
   results.push({
     gate: "G-J8 Tutoiement obligatoire",
     pass: !vousPattern.test(fullText),
     reason: vousPattern.test(fullText) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
   });
 
-  // G-J9 — Pas de vulgarité
-  const vulgarPattern = /\b(putain|merde|bordel|connard|connasse|enculé|nique|baiser|foutre|chiotte|salaud|pétasse|enfoiré)\b/i;
+  // G-J9 — Pas d'insulte directe (interjections naturelles autorisées)
+  const vulgarPattern = /\b(connard|connasse|enculé|enculée|nique\s+(ta|sa|leur|la)|baiser\s+(toi|vous)|chiotte|salaud|pétasse|enfoiré|ta\s+gueule)\b/i;
   results.push({
     gate: "G-J9 Anti-vulgarité",
     pass: !vulgarPattern.test(fullText),
-    reason: vulgarPattern.test(fullText) ? "Vulgarité détectée — contenu non publiable" : "OK",
+    reason: vulgarPattern.test(fullText) ? "Insulte directe détectée" : "OK",
   });
 
   return results;
@@ -160,7 +163,8 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
   });
 
   // G-T5 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
-  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  // Lookbehind exclut les contextes de citation/dialogue
+  const vousPattern = /(?<![:«"'—\-]\s{0,10})\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez|serez|aurez)|votre\s+\w+|vos\s+\w+)\b/i;
   results.push({
     gate: "G-T5 Tutoiement obligatoire",
     pass: !vousPattern.test(fullText),
@@ -243,7 +247,8 @@ export function runBlogGates(article: {
   });
 
   // G-B8 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
-  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  // Lookbehind exclut les contextes de citation/dialogue
+  const vousPattern = /(?<![:«"'—\-]\s{0,10})\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez|serez|aurez)|votre\s+\w+|vos\s+\w+)\b/i;
   results.push({
     gate: "G-B8 Tutoiement obligatoire",
     pass: !vousPattern.test(contentLower),
@@ -1711,12 +1716,20 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     });
   }
 
-  // G-S7 — Max 2 emojis
+  // G-S7 — Limite emojis par plateforme
   const emojiCount = (allText.match(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu) || []).length;
+  const emojiLimits: Record<string, number> = {
+    TWITTER: 2,
+    LINKEDIN: 5,
+    INSTAGRAM: 10,
+  };
+  const emojiLimit = emojiLimits[post.platform] ?? 3;
   results.push({
-    gate: "G-S7 Max 2 emojis",
-    pass: emojiCount <= 2,
-    reason: emojiCount > 2 ? `${emojiCount} emojis (max 2)` : "OK",
+    gate: "G-S7 Limite emojis plateforme",
+    pass: emojiCount <= emojiLimit,
+    reason: emojiCount > emojiLimit
+      ? `${emojiCount} emojis (max ${emojiLimit} sur ${post.platform})`
+      : "OK",
   });
 
   // G-S8 — Pas de "je" pour la marque (doit être "on")
@@ -1728,19 +1741,20 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
   });
 
   // G-S9 — Pas de vouvoiement (le site utilise TOUJOURS le "tu")
-  const vousPattern = /\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez)|votre\b|vos\b)/i;
+  // Lookbehind exclut les contextes de citation/dialogue
+  const vousPattern = /(?<![:«"'—\-]\s{0,10})\b(vous\s+(êtes|avez|devez|pouvez|devriez|pourriez|allez|venez|faites|voulez|pensez|trouvez|savez|croyez|aimez|serez|aurez)|votre\s+\w+|vos\s+\w+)\b/i;
   results.push({
     gate: "G-S9 Tutoiement obligatoire",
     pass: !vousPattern.test(allTextLower),
     reason: vousPattern.test(allTextLower) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
   });
 
-  // G-S10 — Pas de vulgarité
-  const vulgarPattern = /\b(putain|merde|bordel|connard|connasse|enculé|nique|baiser|foutre|chiotte|salaud|pétasse|enfoiré)\b/i;
+  // G-S10 — Pas d'insulte directe (interjections naturelles autorisées)
+  const vulgarPattern = /\b(connard|connasse|enculé|enculée|nique\s+(ta|sa|leur|la)|baiser\s+(toi|vous)|chiotte|salaud|pétasse|enfoiré|ta\s+gueule)\b/i;
   results.push({
     gate: "G-S10 Anti-vulgarité",
     pass: !vulgarPattern.test(allTextLower),
-    reason: vulgarPattern.test(allTextLower) ? "Vulgarité détectée — contenu non publiable" : "OK",
+    reason: vulgarPattern.test(allTextLower) ? "Insulte directe détectée" : "OK",
   });
 
   // G-S11 — Pas de dialogue reconstitué ("Moi : ..." / "Mon pote : ...")
