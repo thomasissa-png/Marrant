@@ -1665,31 +1665,25 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
   });
 
   // G-S5 — Limites de caractères par plateforme
+  // Twitter : marge de sécurité à 270 (Twitter compte les emojis/accents composés
+  // différemment de JS .length, donc on garde 10 chars de marge)
   const platformLimits: Record<string, number> = {
-    TWITTER: 280,
+    TWITTER: 270,
     LINKEDIN: 1300,
     INSTAGRAM: 2200,
   };
   const limit = platformLimits[post.platform] || 2200;
-  // Pour les threads Twitter, chaque partie doit être < 280
+  // Pour les threads Twitter, chaque partie doit être < 270 (marge)
   if (post.platform === "TWITTER" && post.threadParts && post.threadParts.length > 0) {
-    const tooLong = post.threadParts.find((t) => t.length > 280);
+    const tooLong = post.threadParts.find((t) => t.length > 270);
     results.push({
       gate: "G-S5 Char limit (thread)",
       pass: !tooLong,
-      reason: tooLong ? `Thread part dépasse 280 chars (${tooLong.length})` : "OK",
-    });
-  } else if (post.platform === "TWITTER") {
-    // Pour les tweets simples, le hook + content sont publiés ensemble
-    const fullTweetLength = `${post.hook} ${post.content}`.length;
-    results.push({
-      gate: `G-S5 Char limit (TWITTER hook+content)`,
-      pass: fullTweetLength <= limit,
-      reason: fullTweetLength > limit
-        ? `Hook+content = ${fullTweetLength} chars (max ${limit})`
-        : "OK",
+      reason: tooLong ? `Thread part dépasse 270 chars (${tooLong.length})` : "OK",
     });
   } else {
+    // SEUL post.content est publié à Buffer (le hook est un metadata interne).
+    // On vérifie donc UNIQUEMENT post.content.length contre la limite de la plateforme.
     results.push({
       gate: `G-S5 Char limit (${post.platform})`,
       pass: post.content.length <= limit,
