@@ -132,17 +132,59 @@ export async function register() {
   };
 
   /**
-   * Job 4 : Génération quotidienne des posts sociaux — DÉSACTIVÉ
+   * Job 4 : Génération quotidienne des posts sociaux — TIME-GATED
    *
-   * Le scheduler interne tournait toutes les 15 min et causait des duplications
-   * même avec le check per-platform. La génération est désormais assurée
-   * UNIQUEMENT par le cron externe Replit à 4h UTC (1 fois/jour).
+   * Déclenche UNIQUEMENT dans la fenêtre 4h-5h UTC (1x/jour).
+   * + Catch-up d'urgence entre 6h-23h si aucun post Twitter n'existe
+   *   pour la journée (fallback si le run de 4h UTC a échoué).
    *
-   * Ne PAS réactiver sans ajouter un lock distribué ou une idempotence forte.
+   * L'idempotence est garantie par :
+   *   - Time gate : exclut 95% des runs (15 min = 96 runs/jour → 4-5 éligibles)
+   *   - HARD LOCK dans le cron HTTP (limites par plateforme + jour)
+   *   - Filtre quantitatif (ne génère que ce qui manque)
    */
   const runDailySocialJob = async () => {
-    // Intentionnellement désactivé — voir commentaire ci-dessus
-    return;
+    try {
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+
+      // Fenêtre principale : 4h-5h UTC (slot officiel)
+      const isMainWindow = utcHour === 4;
+
+      // Fenêtre de catch-up : 6h-23h UTC
+      // Ne déclenche que si AUCUN post Twitter aujourd'hui (panne totale du run de 4h)
+      const isCatchupWindow = utcHour >= 6 && utcHour <= 23;
+
+      if (!isMainWindow && !isCatchupWindow) return;
+
+      // Pour le catch-up, on vérifie d'abord qu'il manque vraiment des posts
+      if (isCatchupWindow) {
+        const { prisma } = await import("@/lib/prisma");
+        const startOfDay = new Date(now);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        const twitterPostsToday = await prisma.socialPost.count({
+          where: {
+            platform: "TWITTER",
+            createdAt: { gte: startOfDay },
+          },
+        });
+
+        if (twitterPostsToday > 0) return; // le run de 4h a marché, pas besoin de catch-up
+        console.warn("[scheduler:social] Catch-up activé — 0 post Twitter aujourd'hui à l'heure UTC " + utcHour);
+      }
+
+      const PORT = process.env.PORT || "3000";
+      const secret = process.env.CRON_SECRET;
+      if (!secret) return;
+
+      const res = await fetch(`http://localhost:${PORT}/api/cron/daily-social?secret=${secret}`);
+      if (res.ok) {
+        console.log(`[scheduler:social] Daily-social trigger (${isMainWindow ? "main 4h UTC" : "catch-up " + utcHour + "h"}).`);
+      }
+    } catch (err) {
+      console.error("[scheduler:social] Échec génération :", err);
+    }
   };
 
   /**

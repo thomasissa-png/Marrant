@@ -623,6 +623,7 @@ function getDailyPlan(
   persona: PersonaKey,
 ): DailyPostPlan[] {
   const p = PERSONAS[persona];
+  const isYanis = persona === "YANIS";
 
   // ── Thèmes UNIVERSELS avec coloration persona ──
   // Le sujet parle à tout le monde, le persona n'influence que le ton et UN exemple
@@ -635,25 +636,40 @@ function getDailyPlan(
   };
   const flavor = personaFlavor[persona];
 
-  // LinkedIn : publié SAUF les jours Yanis (pas de Yanis sur LinkedIn — stratégie Phase 2)
+  // LinkedIn : publié UNIQUEMENT les jours Lun/Mer/Ven (aligné social-editorial-plan.json)
+  // Jamais sur Yanis (stratégie Phase 2), jamais Mar/Jeu/Sam/Dim
   // Quand Yanis, on remplace par un 3ème tweet "Le Défi"
-  const linkedInPost: DailyPostPlan | null =
-    persona === "YANIS"
-      ? null
-      : {
-          format: "POST",
-          theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
-          platform: "LINKEDIN",
-          sourceType: "TIP",
-        };
+  const shouldHaveLinkedIn = !isYanis && [1, 3, 5].includes(dayOfWeek);
+  const linkedInPost: DailyPostPlan | null = shouldHaveLinkedIn
+    ? {
+        format: "POST",
+        theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
+        platform: "LINKEDIN",
+        sourceType: "TIP",
+      }
+    : null;
 
-  // Tweet de remplacement pour Yanis quand LinkedIn est supprimé
+  // Tweet de remplacement pour Yanis quand LinkedIn est supprimé (ton gen Z)
   const yanisReplacementTweet: DailyPostPlan = {
     format: "TWEET",
     theme: `Le Défi — défi concret à tester aujourd'hui, ton punchy gen Z, ref culturelle ${getYanisGenZRef(new Date().getDate())}, ${flavor}`,
     platform: "TWITTER",
     sourceType: "ORIGINAL",
   };
+
+  // Tweet de remplacement générique (non-Yanis) pour les jours sans LinkedIn (Mar/Jeu)
+  // Remplace le LinkedIn dans le plan éditorial aligné JSON.
+  const bonusTweet: DailyPostPlan = {
+    format: "TWEET",
+    theme: `Tweet bonus — observation drôle ou technique de répartie courte, ton spontané, ${flavor}`,
+    platform: "TWITTER",
+    sourceType: "ORIGINAL",
+  };
+
+  // Helper : retourne soit le LinkedIn (si disponible), soit un tweet de remplacement
+  // - Si Yanis → yanisReplacementTweet (ton gen Z)
+  // - Sinon → bonusTweet (ton neutre)
+  const linkedInOrFallback: DailyPostPlan = linkedInPost ?? (isYanis ? yanisReplacementTweet : bonusTweet);
 
   // Instagram : thème universel, formats par jour (0=dim, 6=sam)
   // Note : pas de CAROUSEL — Buffer API ne supporte pas les carousels Instagram.
@@ -712,7 +728,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
+      linkedInOrFallback,
       instagramPost(1),
     ],
     2: [
@@ -731,7 +747,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
+      linkedInOrFallback,
       instagramPost(2),
     ],
     3: [
@@ -755,7 +771,7 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "ORIGINAL",
       },
-      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
+      linkedInOrFallback,
       instagramPost(3),
     ],
     4: [
@@ -780,7 +796,7 @@ function getDailyPlan(
             platform: "TWITTER" as const,
             sourceType: "JOKE" as const,
           },
-      ...(linkedInPost ? [linkedInPost] : [yanisReplacementTweet]),
+      linkedInOrFallback,
       instagramPost(4),
     ],
     5: [
@@ -797,10 +813,10 @@ function getDailyPlan(
         platform: "TWITTER",
         sourceType: "JOKE",
       },
-      // Vendredi : LinkedIn spécial weekend (sauf Yanis)
-      ...(persona === "YANIS"
+      // Vendredi : LinkedIn "La technique du week-end" (sauf Yanis)
+      ...(isYanis
         ? [yanisReplacementTweet]
-        : [{ format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" }]),
+        : [{ format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" as const }]),
       instagramPost(5),
     ],
     6: [

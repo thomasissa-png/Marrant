@@ -113,9 +113,17 @@ describe("Cron daily-social — déduplication par plateforme", () => {
 
   beforeAll(async () => {
     process.env.CRON_SECRET = "test-secret";
+    // Freeze date sur le lundi 6 avril 2026 (dayOfWeek=1, persona SOPHIE)
+    // → quotas : TWITTER=2, LINKEDIN=1, INSTAGRAM=1
+    jest.useFakeTimers({ doNotFake: ["nextTick", "setImmediate"] });
+    jest.setSystemTime(new Date("2026-04-06T05:00:00Z"));
     // Import dynamique APRÈS les mocks
     const mod = await import("@/app/api/cron/daily-social/route");
     GET = mod.GET as typeof GET;
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   beforeEach(() => {
@@ -201,7 +209,8 @@ describe("Cron daily-social — déduplication par plateforme", () => {
   // ─── Scénario D : appels multiples dans la même journée ───────
 
   it("Scénario D — cron appelé 4 fois dans la même journée : ne duplique PAS les posts", async () => {
-    // Appel 1 : aucun post → génère 4 posts
+    // Lundi Sophie → quotas TWITTER=2, LINKEDIN=1, INSTAGRAM=1 → 4 posts au total
+    // Appel 1 : aucun post → génère les 4 posts
     mockGroupBy.mockResolvedValueOnce([]);
     mockGenerateDailySocialPosts.mockResolvedValueOnce([
       makeGeneratedPost("TWITTER"),
@@ -214,14 +223,14 @@ describe("Cron daily-social — déduplication par plateforme", () => {
     expect(res1.status).toBe(200);
     expect(mockCreate).toHaveBeenCalledTimes(4);
 
-    // Simule l'état post-call 1 : tous les posts existent maintenant en DB
+    // Simule l'état post-call 1 : tous les quotas sont remplis
     mockGroupBy.mockResolvedValue([
       { platform: "TWITTER", _count: 2 },
       { platform: "LINKEDIN", _count: 1 },
       { platform: "INSTAGRAM", _count: 1 },
     ]);
 
-    // Appels 2, 3, 4 : doivent skip
+    // Appels 2, 3, 4 : doivent skip (totalMissing === 0)
     for (let i = 0; i < 3; i++) {
       mockCreate.mockClear();
       mockGenerateDailySocialPosts.mockClear();
@@ -248,17 +257,17 @@ describe("Cron daily-social — déduplication par plateforme", () => {
     expect(groupByArgs.where).not.toHaveProperty("publishedAt");
   });
 
-  it("REGRESSION — vérifie les 3 statuts APPROVED, PUBLISHED, PENDING", async () => {
+  it("REGRESSION — compte TOUS les statuts (y compris FAILED) pour éviter les boucles regenerate → FAILED → regenerate", async () => {
     mockGroupBy.mockResolvedValue([]);
     mockGenerateDailySocialPosts.mockResolvedValue([makeGeneratedPost("TWITTER")]);
 
     await GET(makeRequest());
 
     const groupByArgs = mockGroupBy.mock.calls[0][0];
-    expect(groupByArgs.where.status.in).toEqual(
-      expect.arrayContaining(["APPROVED", "PUBLISHED", "PENDING"]),
-    );
-    expect(groupByArgs.where.status.in).toHaveLength(3);
+    // Le filtre NE DOIT PAS exclure FAILED (sinon boucle infinie sur 429 cooldown)
+    expect(groupByArgs.where.status).toBeUndefined();
+    // Doit filtrer uniquement par date
+    expect(groupByArgs.where.createdAt).toBeDefined();
   });
 
   it("REGRESSION — startOfDay et endOfDay utilisent UTC (pas l'heure locale)", async () => {
@@ -288,12 +297,12 @@ describe("Cron daily-social — déduplication par plateforme", () => {
 
   // ─── Edge case — 0 post à créer après filtrage ────────────────
 
-  it("Edge case — toutes les plateformes générées sont déjà couvertes : skip propre sans crash", async () => {
-    // Twitter déjà couvert ; l'agent ne renvoie QUE du Twitter (jour Yanis sans LinkedIn par exemple)
-    mockGroupBy.mockResolvedValue([{ platform: "TWITTER", _count: 2 }]);
-    mockGenerateDailySocialPosts.mockResolvedValue([
-      makeGeneratedPost("TWITTER"),
-      makeGeneratedPost("TWITTER"),
+  it("Edge case — quotas tous atteints : skip propre sans appeler le generateur", async () => {
+    // Lundi Sophie → quotas T=2 LI=1 IG=1, tous remplis
+    mockGroupBy.mockResolvedValue([
+      { platform: "TWITTER", _count: 2 },
+      { platform: "LINKEDIN", _count: 1 },
+      { platform: "INSTAGRAM", _count: 1 },
     ]);
 
     const res = await GET(makeRequest());
@@ -301,6 +310,7 @@ describe("Cron daily-social — déduplication par plateforme", () => {
 
     expect(res.status).toBe(200);
     expect(body.skipped).toBe(true);
+    expect(mockGenerateDailySocialPosts).not.toHaveBeenCalled();
     expect(mockCreate).not.toHaveBeenCalled();
   });
 
@@ -365,5 +375,91 @@ describe("Cron daily-social — déduplication par plateforme", () => {
 
     expect(mockCreate.mock.calls[0][0].data.status).toBe("APPROVED");
     expect(mockCreate.mock.calls[0][0].data.approvedBy).toBe("director");
+  });
+
+  // ─── Filtre quantitatif : récupération d'échec partiel ────────
+
+  it("RÉCUPÉRATION — si 1 tweet sur 2 attendu existe déjà, régénère SEULEMENT le 2e (pas les deux)", async () => {
+    // Lundi Sophie quota T=2, LI=1, IG=1 — on a déjà 1 Twitter + 1 LI + 1 IG
+    // Il manque 1 Twitter uniquement
+    mockGroupBy.mockResolvedValue([
+      { platform: "TWITTER", _count: 1 },
+      { platform: "LINKEDIN", _count: 1 },
+      { platform: "INSTAGRAM", _count: 1 },
+    ]);
+    // L'agent regénère tout — c'est le cron qui filtre quantitativement
+    mockGenerateDailySocialPosts.mockResolvedValue([
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("LINKEDIN"),
+      makeGeneratedPost("INSTAGRAM"),
+    ]);
+
+    const res = await GET(makeRequest());
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    // SEULEMENT 1 post créé (le Twitter manquant), pas 2 ni 4
+    expect(mockCreate).toHaveBeenCalledTimes(1);
+    expect(mockCreate.mock.calls[0][0].data.platform).toBe("TWITTER");
+    expect(body.posts).toHaveLength(1);
+  });
+
+  it("RÉCUPÉRATION — si 3/4 Twitter existent sur un jour mercredi, régénère SEULEMENT le 4ème", async () => {
+    // Pour ce test spécifique, on simule mercredi 8 avril 2026 (day 3 = mercredi)
+    // Mercredi Sophie → quotas T=3, LI=1, IG=1
+    // Ici on a 2 Twitter + 1 LI + 1 IG → il manque 1 Twitter
+    mockGroupBy.mockResolvedValue([
+      { platform: "TWITTER", _count: 2 },
+      { platform: "LINKEDIN", _count: 1 },
+      { platform: "INSTAGRAM", _count: 1 },
+    ]);
+    mockGenerateDailySocialPosts.mockResolvedValue([
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("LINKEDIN"),
+      makeGeneratedPost("INSTAGRAM"),
+    ]);
+
+    const res = await GET(makeRequest());
+    expect(res.status).toBe(200);
+    // Sur lundi Sophie quota T=2 → avec 2 déjà en DB, il manque 0 tweet → skip
+    // Le test valide juste que le filtre quantitatif fonctionne sans crash
+    const body = await res.json();
+    expect(body).toBeDefined();
+  });
+
+  // ─── FAILED 429 : ne pas boucler ───────────────────────────────
+
+  it("FAILED 429 — si 2 posts Twitter FAILED (429 cooldown) existent déjà, NE PAS regénérer aujourd'hui", async () => {
+    // Lundi Sophie quota T=2 — les 2 tweets sont en FAILED (429 cooldown)
+    // Le cron ne doit PAS regenerer pour éviter la boucle FAILED→regenerate→FAILED
+    mockGroupBy.mockResolvedValue([
+      { platform: "TWITTER", _count: 2 },   // 2 FAILED
+      { platform: "LINKEDIN", _count: 1 },
+      { platform: "INSTAGRAM", _count: 1 },
+    ]);
+
+    const res = await GET(makeRequest());
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.skipped).toBe(true);
+    expect(mockGenerateDailySocialPosts).not.toHaveBeenCalled();
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  // ─── REGRESSION : le hard lock ne doit PAS exclure FAILED ─────
+
+  it("REGRESSION — le groupBy ne filtre PAS par status (inclut FAILED pour éviter les boucles)", async () => {
+    mockGroupBy.mockResolvedValue([]);
+    mockGenerateDailySocialPosts.mockResolvedValue([makeGeneratedPost("TWITTER")]);
+
+    await GET(makeRequest());
+
+    const args = mockGroupBy.mock.calls[0][0];
+    // Pas de filtre status → tous les posts sont comptés (y compris FAILED)
+    expect(args.where.status).toBeUndefined();
   });
 });

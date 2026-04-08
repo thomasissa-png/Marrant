@@ -40,74 +40,99 @@ export async function GET(req: Request) {
       `[DailySocial] Génération posts pour jour ${dayOfMonth} — persona ${persona}`,
     );
 
-    // Check if posts already generated for each platform today
-    // Vérification PAR PLATEFORME — on ne régénère QUE les plateformes manquantes
+    // ── Quotas PAR PLATEFORME ET PAR JOUR (source de vérité) ─────
+    // Calcul dynamique basé sur le jour de la semaine + persona.
+    // Les threads Twitter sont 1 DB row mais consomment 5-7 slots Buffer à la publication.
+    // Les jours avec thread limitent Twitter à 3 pour laisser de la marge Buffer.
+    //
+    // Plan éditorial (social-editorial-plan.json) :
+    //   Lun : 2 Twitter + 1 LI + 1 IG     |  Yanis : 3 Twitter + 1 IG
+    //   Mar : 2 Twitter + 0 LI + 1 IG     |  Yanis : 2 Twitter + 1 IG
+    //   Mer : 3 Twitter(+thread) + 1 LI + 1 IG  |  Yanis : 4 Twitter(+thread) + 1 IG
+    //   Jeu : 2 Twitter + 0 LI + 1 IG     |  Yanis : 2 Twitter + 1 IG
+    //   Ven : 2 Twitter + 1 LI + 1 IG     |  Yanis : 3 Twitter + 1 IG
+    //   Sam : 2 Twitter(+thread) + 0 LI + 1 IG
+    //   Dim : 2 Twitter + 0 LI + 1 IG
+    const dayOfWeek = today.getUTCDay(); // 0=dim, 1=lun, ..., 6=sam
+    const isYanis = persona === "YANIS";
+    const hasThreadDay = dayOfWeek === 3 || dayOfWeek === 6; // Mercredi ou samedi
+
+    // Max Twitter par jour — compte 1 thread comme 1 (DB row)
+    // Jour thread = 3 (Yanis mercredi = 4 car thread + 3 autres)
+    const getMaxTwitter = (): number => {
+      if (dayOfWeek === 3) return isYanis ? 4 : 3; // Mercredi
+      if (dayOfWeek === 6) return 2;               // Samedi : 1 thread + 1 wild
+      if (dayOfWeek === 0) return 2;               // Dimanche
+      // Lun/Mar/Jeu/Ven
+      return isYanis ? 3 : 2;
+    };
+
+    // LinkedIn : 1 les jours Lun/Mer/Ven non-Yanis, 0 sinon (aligné JSON plan)
+    const getMaxLinkedIn = (): number => {
+      if (isYanis) return 0;
+      if ([1, 3, 5].includes(dayOfWeek)) return 1; // Lundi, Mercredi, Vendredi
+      return 0; // Mar, Jeu, Sam, Dim
+    };
+
+    const quotas: Record<string, number> = {
+      TWITTER: getMaxTwitter(),
+      LINKEDIN: getMaxLinkedIn(),
+      INSTAGRAM: 1,
+    };
+
     const force = searchParams.get("force") === "true";
     const startOfDay = new Date(today);
     startOfDay.setUTCHours(0, 0, 0, 0);
     const endOfDay = new Date(today);
     endOfDay.setUTCHours(23, 59, 59, 999);
 
-    let platformsAlreadyCovered = new Set<string>();
+    // missing[platform] = quota - nombre déjà en DB (incl. FAILED pour éviter les boucles)
+    const missing: Record<string, number> = { TWITTER: 0, LINKEDIN: 0, INSTAGRAM: 0 };
 
     if (!force) {
-      // ── HARD LOCK anti-duplication ──────────────────────────────────
-      // Seuils MAX par plateforme et par jour (tous statuts confondus).
-      // Si UNE plateforme a atteint son max → skip TOUT (même les autres).
-      // C'est une double protection contre les appels multiples.
-      const MAX_POSTS_PER_PLATFORM_PER_DAY: Record<string, number> = {
-        TWITTER: 4,
-        LINKEDIN: 1,
-        INSTAGRAM: 1,
-      };
-
+      // Comptage PAR PLATEFORME — inclut TOUS les statuts (APPROVED, PUBLISHED, PENDING, FAILED, REJECTED)
+      // pour ne pas regénérer à l'infini si un post a échoué.
+      // Les posts PENDING rejetés par l'admin ou les FAILED comptent dans le total — si l'admin veut
+      // relancer une génération, il utilise &force=true.
       const existingByPlatform = await prisma.socialPost.groupBy({
         by: ["platform"],
-        where: {
-          createdAt: { gte: startOfDay, lte: endOfDay },
-          status: { in: ["APPROVED", "PUBLISHED", "PENDING"] },
-        },
+        where: { createdAt: { gte: startOfDay, lte: endOfDay } },
         _count: true,
       });
 
       const countMap = new Map(existingByPlatform.map((g) => [g.platform, g._count]));
 
-      // Hard lock : si une plateforme est au max, skip total
-      const anyPlatformMaxed = Object.entries(MAX_POSTS_PER_PLATFORM_PER_DAY).some(
-        ([platform, max]) => (countMap.get(platform) || 0) >= max,
-      );
+      // Calcul quantitatif : il manque `quota - count` posts par plateforme
+      for (const platform of Object.keys(quotas)) {
+        const count = countMap.get(platform) || 0;
+        const quota = quotas[platform];
+        missing[platform] = Math.max(0, quota - count);
+      }
 
-      if (anyPlatformMaxed) {
+      const totalMissing = Object.values(missing).reduce((a, b) => a + b, 0);
+
+      if (totalMissing === 0) {
         const counts = [...countMap.entries()].map(([p, c]) => `${p}: ${c}`).join(", ") || "aucun";
-        console.warn(`[DailySocial] HARD LOCK activé — max atteint : ${counts}`);
+        const quotasStr = Object.entries(quotas).map(([p, q]) => `${p}: ${q}`).join(", ");
+        console.log(`[DailySocial] Tous les quotas sont atteints (${counts}) — quotas=${quotasStr}. Skip.`);
         return NextResponse.json({
-          message: `HARD LOCK : limite quotidienne atteinte (${counts})`,
+          message: `Quotas atteints aujourd'hui (${counts})`,
           skipped: true,
-          hardLock: true,
+          quotas,
+          existing: Object.fromEntries(countMap),
         });
       }
 
-      platformsAlreadyCovered = new Set(existingByPlatform.map((g) => g.platform));
-      const allPlatformsCovered = ["TWITTER", "LINKEDIN", "INSTAGRAM"].every(
-        (p) => platformsAlreadyCovered.has(p),
-      );
-
-      if (allPlatformsCovered) {
-        const counts = existingByPlatform.map((g) => `${g.platform}: ${g._count}`).join(", ");
-        return NextResponse.json({
-          message: `Posts déjà générés pour toutes les plateformes aujourd'hui (${counts}). Ajouter &force=true pour régénérer.`,
-          skipped: true,
-        });
-      }
-
-      if (platformsAlreadyCovered.size > 0) {
-        const missing = ["TWITTER", "LINKEDIN", "INSTAGRAM"].filter(
-          (p) => !platformsAlreadyCovered.has(p),
-        );
-        console.log(
-          `[DailySocial] Posts existants pour: ${[...platformsAlreadyCovered].join(", ")} — génération UNIQUEMENT pour: ${missing.join(", ")}`,
-        );
-      }
+      const missingStr = Object.entries(missing)
+        .filter(([, n]) => n > 0)
+        .map(([p, n]) => `${p}: ${n}`)
+        .join(", ");
+      console.log(`[DailySocial] Manque à générer : ${missingStr} (quotas=${JSON.stringify(quotas)})`);
+    } else {
+      // Force mode : pas de check, on veut TOUT regenerer
+      missing.TWITTER = quotas.TWITTER;
+      missing.LINKEDIN = quotas.LINKEDIN;
+      missing.INSTAGRAM = quotas.INSTAGRAM;
     }
 
     // Contexte d'actualité optionnel — injecté dans les WILD CARD
@@ -120,19 +145,29 @@ export async function GET(req: Request) {
     // Generate posts
     const allPosts = await generateDailySocialPosts(dayOfMonth, trendingContext);
 
-    // Filter out platforms that already have posts today (anti-doublon)
-    const posts = allPosts.filter((p) => !platformsAlreadyCovered.has(p.platform));
+    // FILTRE QUANTITATIF : on prend au plus `missing[platform]` posts par plateforme
+    // (remplace l'ancien filtre binaire qui ne permettait pas la récupération d'échec partiel)
+    const takenByPlatform: Record<string, number> = { TWITTER: 0, LINKEDIN: 0, INSTAGRAM: 0 };
+    const posts = [];
+    for (const post of allPosts) {
+      const platform = post.platform;
+      if ((takenByPlatform[platform] || 0) < (missing[platform] || 0)) {
+        posts.push(post);
+        takenByPlatform[platform] = (takenByPlatform[platform] || 0) + 1;
+      }
+    }
 
     if (posts.length === 0) {
       return NextResponse.json({
-        message: `Aucun post à créer — toutes les plateformes manquantes ont été filtrées`,
+        message: `Aucun post à créer — les quotas sont déjà atteints ou la génération n'a rien produit`,
         skipped: true,
+        missing,
       });
     }
 
     if (posts.length < allPosts.length) {
       console.log(
-        `[DailySocial] ${allPosts.length - posts.length} posts filtrés (plateformes déjà couvertes) — ${posts.length} à créer`,
+        `[DailySocial] ${allPosts.length - posts.length} posts filtrés (quotas atteints) — ${posts.length} à créer`,
       );
     }
 
@@ -221,13 +256,13 @@ export async function GET(req: Request) {
       `[DailySocial] ${saved.length} posts générés — ${approvedCount} validés, ${pendingCount} en attente de review`,
     );
 
-    // Alerte si une plateforme entière est absente après génération
-    // (l'agent a crash silencieusement sur cette plateforme)
+    // Alerte si une plateforme attendue n'a rien généré
+    // (l'agent a crash silencieusement, ou le quota est 0 pour ce jour)
     const generatedPlatforms = new Set(saved.map((p) => p.platform));
-    const allCoveredNow = new Set([...platformsAlreadyCovered, ...generatedPlatforms]);
-    const missingPlatforms = ["TWITTER", "LINKEDIN", "INSTAGRAM"].filter(
-      (p) => !allCoveredNow.has(p),
-    );
+    // Une plateforme est "manquante" si son quota > 0 mais rien n'a été généré pour elle
+    const missingPlatforms = Object.entries(quotas)
+      .filter(([platform, quota]) => quota > 0 && !generatedPlatforms.has(platform) && (missing[platform] || 0) > 0)
+      .map(([platform]) => platform);
     if (missingPlatforms.length > 0) {
       try {
         await sendAdminAlert(
