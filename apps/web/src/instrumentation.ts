@@ -157,21 +157,35 @@ export async function register() {
 
       if (!isMainWindow && !isCatchupWindow) return;
 
-      // Pour le catch-up, on vérifie d'abord qu'il manque vraiment des posts
+      // Pour le catch-up, on vérifie si les quotas sont atteints aujourd'hui.
+      // Déclenche si DÉFICIT (pas seulement count=0) pour rattraper les échecs partiels.
       if (isCatchupWindow) {
         const { prisma } = await import("@/lib/prisma");
         const startOfDay = new Date(now);
         startOfDay.setUTCHours(0, 0, 0, 0);
 
-        const twitterPostsToday = await prisma.socialPost.count({
-          where: {
-            platform: "TWITTER",
-            createdAt: { gte: startOfDay },
-          },
-        });
+        // Quotas minimaux attendus pour aujourd'hui (approximation conservatrice)
+        // On veut rattraper si MOINS de 2 Twitter OU 0 Instagram
+        const dayOfWeek = now.getUTCDay();
+        const minExpectedTwitter = (dayOfWeek === 0) ? 2 : 2; // au moins 2 tweets tous les jours
+        const minExpectedInstagram = 1;
 
-        if (twitterPostsToday > 0) return; // le run de 4h a marché, pas besoin de catch-up
-        console.warn("[scheduler:social] Catch-up activé — 0 post Twitter aujourd'hui à l'heure UTC " + utcHour);
+        const countsByPlatform = await prisma.socialPost.groupBy({
+          by: ["platform"],
+          where: { createdAt: { gte: startOfDay } },
+          _count: true,
+        });
+        const countMap = new Map(countsByPlatform.map((g) => [g.platform, g._count]));
+        const twitterCount = countMap.get("TWITTER") || 0;
+        const instagramCount = countMap.get("INSTAGRAM") || 0;
+
+        // Pas de déficit → skip le catch-up
+        if (twitterCount >= minExpectedTwitter && instagramCount >= minExpectedInstagram) {
+          return;
+        }
+        console.warn(
+          `[scheduler:social] Catch-up activé ${utcHour}h UTC — déficit : Twitter ${twitterCount}/${minExpectedTwitter}, Instagram ${instagramCount}/${minExpectedInstagram}`,
+        );
       }
 
       const PORT = process.env.PORT || "3000";

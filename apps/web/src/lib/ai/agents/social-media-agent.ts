@@ -582,7 +582,7 @@ export async function generateDailySocialPosts(
   trendingContext?: string,
 ): Promise<GeneratedSocialPost[]> {
   const persona = getPersonaForDay(dayOfMonth);
-  const dayOfWeek = new Date().getDay(); // 0=dimanche
+  const dayOfWeek = new Date().getUTCDay(); // 0=dimanche — UTC pour alignement cron
 
   // Feedback loop : récupérer les patterns gagnants pour enrichir le prompt
   const winningPatterns = await getWinningPatterns();

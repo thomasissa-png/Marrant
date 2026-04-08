@@ -43,8 +43,9 @@ jest.mock("@/lib/ai/agents/social-media-agent", () => ({
   getOptimalScheduleTime: mockGetOptimalScheduleTime,
 }));
 
+const mockGetPersonaForDay = jest.fn().mockReturnValue("SOPHIE");
 jest.mock("@/lib/ai/personas", () => ({
-  getPersonaForDay: jest.fn().mockReturnValue("SOPHIE"),
+  getPersonaForDay: (...args: unknown[]) => mockGetPersonaForDay(...args),
 }));
 
 jest.mock("@/lib/email", () => ({
@@ -405,29 +406,90 @@ describe("Cron daily-social — déduplication par plateforme", () => {
     expect(body.posts).toHaveLength(1);
   });
 
-  it("RÉCUPÉRATION — si 3/4 Twitter existent sur un jour mercredi, régénère SEULEMENT le 4ème", async () => {
-    // Pour ce test spécifique, on simule mercredi 8 avril 2026 (day 3 = mercredi)
-    // Mercredi Sophie → quotas T=3, LI=1, IG=1
-    // Ici on a 2 Twitter + 1 LI + 1 IG → il manque 1 Twitter
+  it("MERCREDI YANIS — quota T=4 : avec 3 Twitter existants, régénère le 4ème", async () => {
+    // Fake date : mercredi 8 avril 2026 (UTCDay === 3)
+    // Persona Yanis → quotas T=4 (jour thread avec replacement)
+    jest.setSystemTime(new Date("2026-04-08T05:00:00Z"));
+    mockGetPersonaForDay.mockReturnValueOnce("YANIS");
+
+    // 3 Twitter déjà en DB, 1 IG → il manque 1 Twitter (quota T=4)
     mockGroupBy.mockResolvedValue([
-      { platform: "TWITTER", _count: 2 },
-      { platform: "LINKEDIN", _count: 1 },
+      { platform: "TWITTER", _count: 3 },
       { platform: "INSTAGRAM", _count: 1 },
     ]);
     mockGenerateDailySocialPosts.mockResolvedValue([
       makeGeneratedPost("TWITTER"),
       makeGeneratedPost("TWITTER"),
       makeGeneratedPost("TWITTER"),
-      makeGeneratedPost("LINKEDIN"),
+      makeGeneratedPost("TWITTER"),
       makeGeneratedPost("INSTAGRAM"),
     ]);
 
     const res = await GET(makeRequest());
-    expect(res.status).toBe(200);
-    // Sur lundi Sophie quota T=2 → avec 2 déjà en DB, il manque 0 tweet → skip
-    // Le test valide juste que le filtre quantitatif fonctionne sans crash
     const body = await res.json();
-    expect(body).toBeDefined();
+
+    expect(res.status).toBe(200);
+    // Il manque 1 Twitter → 1 seul post créé
+    expect(mockCreate).toHaveBeenCalledTimes(1);
+    expect(mockCreate.mock.calls[0][0].data.platform).toBe("TWITTER");
+    expect(body.posts).toHaveLength(1);
+
+    // Restore fake date to Monday for subsequent tests
+    jest.setSystemTime(new Date("2026-04-06T05:00:00Z"));
+  });
+
+  it("MERCREDI YANIS — DB vide, génère les 4 tweets + 1 instagram (pas de LinkedIn)", async () => {
+    // Fake date : mercredi 8 avril 2026 UTC
+    jest.setSystemTime(new Date("2026-04-08T05:00:00Z"));
+    mockGetPersonaForDay.mockReturnValueOnce("YANIS");
+
+    mockGroupBy.mockResolvedValue([]); // DB vide
+    mockGenerateDailySocialPosts.mockResolvedValue([
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("INSTAGRAM"),
+      // Note : même si l'agent renvoie du LinkedIn par erreur, le cron doit filtrer (quota=0)
+      makeGeneratedPost("LINKEDIN"),
+    ]);
+
+    const res = await GET(makeRequest());
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    // 4 tweets + 1 IG = 5 posts (pas de LinkedIn sur Yanis)
+    expect(mockCreate).toHaveBeenCalledTimes(5);
+    const platforms = mockCreate.mock.calls.map((c) => c[0].data.platform).sort();
+    expect(platforms).toEqual(["INSTAGRAM", "TWITTER", "TWITTER", "TWITTER", "TWITTER"]);
+    expect(body.posts).toHaveLength(5);
+
+    jest.setSystemTime(new Date("2026-04-06T05:00:00Z"));
+  });
+
+  it("MARDI SOPHIE — pas de LinkedIn (aligné JSON plan)", async () => {
+    // Fake date : mardi 7 avril 2026 UTC
+    jest.setSystemTime(new Date("2026-04-07T05:00:00Z"));
+    mockGetPersonaForDay.mockReturnValueOnce("SOPHIE");
+
+    mockGroupBy.mockResolvedValue([]);
+    mockGenerateDailySocialPosts.mockResolvedValue([
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("TWITTER"),
+      makeGeneratedPost("INSTAGRAM"),
+      // Si l'agent renvoie du LinkedIn par erreur un mardi, le cron doit filtrer
+      makeGeneratedPost("LINKEDIN"),
+    ]);
+
+    const res = await GET(makeRequest());
+
+    expect(res.status).toBe(200);
+    // 2 tweets + 1 IG = 3 posts (mardi = pas de LinkedIn)
+    expect(mockCreate).toHaveBeenCalledTimes(3);
+    const platforms = mockCreate.mock.calls.map((c) => c[0].data.platform).sort();
+    expect(platforms).toEqual(["INSTAGRAM", "TWITTER", "TWITTER"]);
+
+    jest.setSystemTime(new Date("2026-04-06T05:00:00Z"));
   });
 
   // ─── FAILED 429 : ne pas boucler ───────────────────────────────
