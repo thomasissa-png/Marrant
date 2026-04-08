@@ -299,10 +299,13 @@ export async function createBufferImagePost(
   // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
   const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
-  // Instagram requiert le type de publication (post, story, reel)
-  // Buffer GraphQL : metadata.instagram.type (NOT subprofile — that field doesn't exist)
+  // Instagram requiert :
+  //   - type : post, story, ou reel (enum GraphQL)
+  //   - shouldShareToFeed : Boolean! REQUIRED par Buffer API
+  //     (indique si le post apparait dans le feed principal — true pour un post standard)
+  // Buffer GraphQL : metadata.instagram (NOT subprofile — ce champ n'existe pas)
   const metadataBlock = platform === "INSTAGRAM"
-    ? `,\n        metadata: { instagram: { type: post } }`
+    ? `,\n        metadata: { instagram: { type: post, shouldShareToFeed: true } }`
     : "";
 
   const query = `
