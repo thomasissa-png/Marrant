@@ -132,22 +132,17 @@ export async function register() {
   };
 
   /**
-   * Job 4 : Génération quotidienne des posts sociaux
-   * Délègue au cron HTTP /api/cron/daily-social pour éviter les doublons.
+   * Job 4 : Génération quotidienne des posts sociaux — DÉSACTIVÉ
+   *
+   * Le scheduler interne tournait toutes les 15 min et causait des duplications
+   * même avec le check per-platform. La génération est désormais assurée
+   * UNIQUEMENT par le cron externe Replit à 4h UTC (1 fois/jour).
+   *
+   * Ne PAS réactiver sans ajouter un lock distribué ou une idempotence forte.
    */
   const runDailySocialJob = async () => {
-    try {
-      const PORT = process.env.PORT || "3000";
-      const secret = process.env.CRON_SECRET;
-      if (!secret) return;
-
-      const res = await fetch(`http://localhost:${PORT}/api/cron/daily-social?secret=${secret}`);
-      if (res.ok) {
-        console.log("[scheduler:social] Posts sociaux générés via cron HTTP.");
-      }
-    } catch (err) {
-      console.error("[scheduler:social] Échec génération :", err);
-    }
+    // Intentionnellement désactivé — voir commentaire ci-dessus
+    return;
   };
 
   /**

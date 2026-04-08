@@ -51,6 +51,16 @@ export async function GET(req: Request) {
     let platformsAlreadyCovered = new Set<string>();
 
     if (!force) {
+      // ── HARD LOCK anti-duplication ──────────────────────────────────
+      // Seuils MAX par plateforme et par jour (tous statuts confondus).
+      // Si UNE plateforme a atteint son max → skip TOUT (même les autres).
+      // C'est une double protection contre les appels multiples.
+      const MAX_POSTS_PER_PLATFORM_PER_DAY: Record<string, number> = {
+        TWITTER: 4,
+        LINKEDIN: 1,
+        INSTAGRAM: 1,
+      };
+
       const existingByPlatform = await prisma.socialPost.groupBy({
         by: ["platform"],
         where: {
@@ -59,6 +69,23 @@ export async function GET(req: Request) {
         },
         _count: true,
       });
+
+      const countMap = new Map(existingByPlatform.map((g) => [g.platform, g._count]));
+
+      // Hard lock : si une plateforme est au max, skip total
+      const anyPlatformMaxed = Object.entries(MAX_POSTS_PER_PLATFORM_PER_DAY).some(
+        ([platform, max]) => (countMap.get(platform) || 0) >= max,
+      );
+
+      if (anyPlatformMaxed) {
+        const counts = [...countMap.entries()].map(([p, c]) => `${p}: ${c}`).join(", ") || "aucun";
+        console.warn(`[DailySocial] HARD LOCK activé — max atteint : ${counts}`);
+        return NextResponse.json({
+          message: `HARD LOCK : limite quotidienne atteinte (${counts})`,
+          skipped: true,
+          hardLock: true,
+        });
+      }
 
       platformsAlreadyCovered = new Set(existingByPlatform.map((g) => g.platform));
       const allPlatformsCovered = ["TWITTER", "LINKEDIN", "INSTAGRAM"].every(
