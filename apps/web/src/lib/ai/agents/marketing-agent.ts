@@ -1,4 +1,11 @@
-import { buildCachedSystemBlock, callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
+import {
+  buildCachedSystemBlock,
+  callWithRetry,
+  extractJson,
+  extractJsonArray,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { buildPersonaRotationPrompt } from "../personas";
 
@@ -311,7 +318,7 @@ export async function generateSocialPost(ctx: SocialPostContext): Promise<Social
   const persona = PERSONAS[ctx.targetPersona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -365,7 +372,7 @@ export async function generateShortVideoScript(ctx: ShortVideoContext): Promise<
   const persona = PERSONAS[ctx.targetPersona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1500,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -430,7 +437,7 @@ export async function generateCampaignBrief(ctx: CampaignContext): Promise<Campa
     .join("\n");
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 3000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -498,7 +505,7 @@ interface CopyAuditContext {
 
 export async function auditAndRecommendCopy(ctx: CopyAuditContext): Promise<CopyRecommendation[]> {
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 2000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -548,7 +555,7 @@ export async function generateEmailSequence(ctx: EmailContext): Promise<EmailSeq
   const persona = PERSONAS[ctx.targetPersona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 3000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -613,7 +620,7 @@ export async function generateSocialMonthlyPlan(
   postsPerWeek: number
 ): Promise<SocialMonthlyPlan> {
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 4000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
@@ -698,7 +705,7 @@ export async function generateSubAgentDirectives(ctx: DirectiveContext): Promise
   const agentList = ctx.agents.map((a) => agentDescriptions[a]).join("\n- ");
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 3000,
     system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [

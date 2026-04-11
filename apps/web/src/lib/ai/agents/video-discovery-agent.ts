@@ -1,4 +1,10 @@
-import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
+import {
+  callWithRetry,
+  extractJson,
+  extractJsonArray,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { TONALITY_BRIEF } from "./marketing-agent";
 import type { YouTubeVideoDetails } from "../../youtube";
 import {
@@ -227,7 +233,7 @@ export async function filterRelevantVideos(
   ).join("\n");
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 2000,
     system: `Tu es le filtre qualité de deviens-marrant.fr pour la sélection de vidéos pédagogiques de stand-up/humour.
 
@@ -274,7 +280,7 @@ export async function enrichVideo(
 ): Promise<DiscoveredVideo | null> {
   try {
     const response = await callWithRetry({
-      model: "claude-sonnet-4-20250514",
+      model: SONNET_MODEL,
       max_tokens: 1500,
       system: `Tu es l'Agent Vidéos de deviens-marrant.fr — tu enrichis des vidéos YouTube de stand-up pour en faire du matériel pédagogique.
 

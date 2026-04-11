@@ -19,8 +19,22 @@ import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
 
-/** Nombre max de tentatives generate → validate → retry par contenu */
-const MAX_VALIDATION_ATTEMPTS = 3;
+/**
+ * Nombre max de tentatives generate → validate → retry par contenu.
+ *
+ * Historique des valeurs :
+ *   - v1 (mars 2026)  : 3 tentatives → en pratique 90% des contenus passent
+ *     au 1er essai. Les 3 tentatives consomment du token à vide.
+ *   - v2 (avril 2026) : 1 tentative + fallback `directorRewrite*` immédiat.
+ *     Gain : ~66% de tokens économisés sur les contenus courts (vanne,
+ *     conseil, vidéo) sans impact qualité — le directeur réécrit en
+ *     dernier recours donc le contenu publié reste au niveau attendu.
+ *
+ * Note : valeur distincte de `MAX_ARTICLE_VALIDATION_ATTEMPTS` (seo-blog) car
+ * les articles long-form valent la peine d'une 2e passe (coût de rewrite
+ * beaucoup plus élevé).
+ */
+const MAX_VALIDATION_ATTEMPTS_SHORT = 1;
 
 interface PublishResult {
   date: string;
@@ -129,13 +143,13 @@ export async function publishDailyContent(
       let directorTookOver = false;
 
       let validationCrashCount = 0;
-      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
         try {
           validation = await validateJoke(jokeData as JokeToValidate, persona);
         } catch (err) {
           validationCrashCount++;
-          console.warn(`[Director] Validation vanne crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS}):`, err);
-          if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Validation vanne crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS_SHORT}):`, err);
+          if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
             console.warn(`[Director] Validation vanne impossible — ${validationCrashCount} crash(s) API consécutifs`);
           }
           continue;
@@ -146,9 +160,9 @@ export async function publishDailyContent(
           break;
         }
 
-        if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          // 3 échecs → le directeur réécrit lui-même
-          console.log(`[Director] Vanne rejetée ${MAX_VALIDATION_ATTEMPTS}x — le directeur réécrit`);
+        if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
+          // Échec max → le directeur réécrit lui-même
+          console.log(`[Director] Vanne rejetée ${MAX_VALIDATION_ATTEMPTS_SHORT}x — le directeur réécrit`);
           try {
             const rewritten = await directorRewriteJoke(jokeData as JokeToValidate, validation, persona);
             jokeData = { ...jokeData, ...rewritten };
@@ -161,7 +175,7 @@ export async function publishDailyContent(
         }
 
         // Re-générer en passant le feedback du directeur dans le thème
-        console.log(`[Director] Vanne rejetée (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        console.log(`[Director] Vanne rejetée (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS_SHORT})`);
         const feedbackTheme = `${jokeCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
         jokeData = await generateDailyJoke({ ...jokeCtx, plannedTheme: feedbackTheme });
       }
@@ -204,13 +218,13 @@ export async function publishDailyContent(
       let directorTookOverTip = false;
 
       let tipValidationCrashCount = 0;
-      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
         try {
           validation = await validateTip(tipData as TipToValidate, persona);
         } catch (err) {
           tipValidationCrashCount++;
-          console.warn(`[Director] Validation conseil crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS}):`, err);
-          if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Validation conseil crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS_SHORT}):`, err);
+          if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
             console.warn(`[Director] Validation conseil impossible — ${tipValidationCrashCount} crash(s) API consécutifs`);
           }
           continue;
@@ -221,9 +235,9 @@ export async function publishDailyContent(
           break;
         }
 
-        if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          // 3 échecs → le directeur réécrit lui-même
-          console.log(`[Director] Conseil rejeté ${MAX_VALIDATION_ATTEMPTS}x — le directeur réécrit`);
+        if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
+          // Échec max → le directeur réécrit lui-même
+          console.log(`[Director] Conseil rejeté ${MAX_VALIDATION_ATTEMPTS_SHORT}x — le directeur réécrit`);
           try {
             const rewritten = await directorRewriteTip(tipData as TipToValidate, validation, persona);
             tipData = { ...tipData, ...rewritten };
@@ -235,7 +249,7 @@ export async function publishDailyContent(
           break;
         }
 
-        console.log(`[Director] Conseil rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        console.log(`[Director] Conseil rejeté (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS_SHORT})`);
         const feedbackTheme = `${tipCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
         tipData = await generateDailyTip({ ...tipCtx, plannedTheme: feedbackTheme });
       }
@@ -291,7 +305,7 @@ export async function publishDailyContent(
       let videoValidation: ValidationResult | null = null;
 
       let videoValidationCrashCount = 0;
-      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+      for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
         if (!selectedVideo) break;
 
         try {
@@ -306,8 +320,8 @@ export async function publishDailyContent(
           videoValidation = await validateVideoSelection(toValidate, persona);
         } catch (err) {
           videoValidationCrashCount++;
-          console.warn(`[Director] Validation vidéo crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS}):`, err);
-          if (attempt === MAX_VALIDATION_ATTEMPTS) {
+          console.warn(`[Director] Validation vidéo crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS_SHORT}):`, err);
+          if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
             console.warn(`[Director] Validation vidéo impossible — ${videoValidationCrashCount} crash(s) API consécutifs`);
           }
           continue;
@@ -318,13 +332,13 @@ export async function publishDailyContent(
           break;
         }
 
-        if (attempt === MAX_VALIDATION_ATTEMPTS) {
-          console.warn(`[Director] Vidéo non validée après ${MAX_VALIDATION_ATTEMPTS} tentatives (score ${videoValidation.score}/10)`);
+        if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
+          console.warn(`[Director] Vidéo non validée après ${MAX_VALIDATION_ATTEMPTS_SHORT} tentatives (score ${videoValidation.score}/10)`);
           break;
         }
 
         // Exclure la vidéo rejetée et re-sélectionner
-        console.log(`[Director] Vidéo rejetée (score ${videoValidation.score}/10) — re-sélection (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS})`);
+        console.log(`[Director] Vidéo rejetée (score ${videoValidation.score}/10) — re-sélection (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS_SHORT})`);
         const excludedIds = [...videoCtx.recentVideoIds, selectedVideo.id];
         videoSelection = await selectDailyVideo({ ...videoCtx, recentVideoIds: excludedIds });
         selectedVideo = allVideos.find((v) => v.id === videoSelection.videoId);

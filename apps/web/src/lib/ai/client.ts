@@ -7,6 +7,25 @@ export const anthropic = new Anthropic({
 });
 
 /**
+ * Modèle Sonnet centralisé — source de vérité pour TOUS les agents.
+ *
+ * Pointer ici le dernier Sonnet stable utilisé en prod. Modifier cette
+ * constante migre d'un coup tous les agents qui l'importent (au lieu de
+ * chasser les `"claude-sonnet-4-20250514"` hardcodés dans chaque fichier).
+ *
+ * Note migration Sonnet 4.6 (avril 2026) : le modèle a été annoncé mais
+ * la convention de versioning finale n'est pas confirmée cote Anthropic
+ * au moment du commit. On reste volontairement sur Sonnet 4 stable tant
+ * que l'ID date n'est pas gravé — le fondateur mettra a jour cette
+ * constante d'un seul coup le jour J.
+ *
+ * Usage :
+ *   import { SONNET_MODEL } from "@/lib/ai/client";
+ *   await callWithRetry({ model: SONNET_MODEL, ... });
+ */
+export const SONNET_MODEL = "claude-sonnet-4-20250514";
+
+/**
  * Métadonnées d'instrumentation attachées à un appel LLM.
  * Passer cet objet à `callWithRetry` pour que le coût de l'appel soit
  * enregistré dans `LlmUsageLog` avec le nom de l'agent et de la fonction

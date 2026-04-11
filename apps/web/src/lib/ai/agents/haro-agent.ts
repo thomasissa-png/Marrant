@@ -1,4 +1,9 @@
-import { callWithRetry, extractJson, getResponseText } from "../client";
+import {
+  callWithRetry,
+  extractJson,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { TONALITY_BRIEF } from "./marketing-agent";
 
 // ───────────────────────────────────────────────────────────────────
@@ -121,7 +126,7 @@ export async function generateHaroResponse(
   opportunity: HaroOpportunity,
 ): Promise<HaroResponse> {
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1500,
     system: buildHaroSystemPrompt(),
     messages: [

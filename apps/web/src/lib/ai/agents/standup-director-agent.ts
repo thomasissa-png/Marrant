@@ -1,4 +1,10 @@
-import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
+import {
+  buildCachedSystemBlock,
+  callWithRetry,
+  extractJson,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
 
@@ -643,11 +649,26 @@ const DIRECTOR_IDENTITY_CACHED_BLOCK = buildCachedSystemBlock(buildDirectorIdent
 // Activation A/B test manuelle par le fondateur après 24-48h de baseline.
 const ENABLE_HAIKU_VALIDATION = process.env.ENABLE_HAIKU_VALIDATION === "true";
 
+// Feature flag OFF par défaut — désactive les fonctions de batch review
+// (`reviewContentBatch` + `auditSiteContent`) qui ne sont appelées nulle
+// part en production au moment où cet audit a été fait (avril 2026) :
+// elles sont utilisées uniquement dans les tests et par des scripts admin
+// ponctuels. Les laisser "armées" en prod ferait sauter l'alerte coût si
+// un futur dev les appelle par mégarde dans un cron.
+//
+// Si besoin d'appeler ces fonctions en prod : définir
+// `ENABLE_REVIEW_BATCH=true` en env var. Les tests dédiés définissent
+// cette var avant `import` pour rester verts.
+const ENABLE_REVIEW_BATCH = process.env.ENABLE_REVIEW_BATCH === "true";
+
 // IDs modèles Anthropic utilisés pour la validation directeur.
 // Le SONNET_VALIDATION_MODEL est gardé local pour l'instant — une future
 // refactor pourra l'exporter depuis `client.ts` pour alignement global.
 const HAIKU_VALIDATION_MODEL = "claude-haiku-4-5-20251001";
-const SONNET_VALIDATION_MODEL = "claude-sonnet-4-20250514";
+// Alias local pour clarté — pointe vers la constante globale SONNET_MODEL.
+// Si le fondateur migre Sonnet 4 → 4.6, il change `SONNET_MODEL` dans
+// `client.ts` et toutes les validations suivent automatiquement.
+const SONNET_VALIDATION_MODEL = SONNET_MODEL;
 
 // Seuils borderline : si Haiku retourne un score dans [MIN, MAX] inclus,
 // on re-valide avec Sonnet pour décision finale. En dehors de cette plage,
@@ -1026,7 +1047,7 @@ export async function generateEditorialVision(
   ];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 3000,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1093,6 +1114,16 @@ export async function reviewContentBatch(
   items: ContentBatchItem[],
   date: string,
 ): Promise<BatchReviewResult> {
+  // Garde-fou coût : cette fonction consomme ~1500 tokens output par batch
+  // et n'est appelée nulle part en prod (avril 2026). Si un nouveau cron
+  // l'invoque par erreur sans avoir activé le flag, on fail fast plutôt
+  // que de dépenser des tokens en silence.
+  if (!ENABLE_REVIEW_BATCH) {
+    throw new Error(
+      "reviewContentBatch désactivé par feature flag — définir ENABLE_REVIEW_BATCH=true pour activer",
+    );
+  }
+
   const itemDescriptions = items.map((item, i) => {
     const p = PERSONAS[item.persona];
     let desc = `${i + 1}. [${item.type}] Pour ${p.name} (${p.age} ans)\n`;
@@ -1123,7 +1154,7 @@ export async function reviewContentBatch(
   }).join("\n\n");
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1500,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1259,7 +1290,7 @@ export async function validateNewVideo(
     : 0;
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1000,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1363,7 +1394,7 @@ export async function directorRewriteJoke(
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 600,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1423,7 +1454,7 @@ export async function directorRewriteTip(
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1500,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1488,7 +1519,7 @@ export async function directorRewriteBlogArticle(
   const truncatedContent = failedArticle.content.slice(0, 4000);
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 8000,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -1564,6 +1595,15 @@ Réponds en JSON :
 export async function auditSiteContent(
   copies: SiteCopyToAudit[],
 ): Promise<FullSiteAuditResult> {
+  // Garde-fou coût : cette fonction consomme jusqu'à 8000 tokens output par
+  // audit et n'est appelée qu'à la main. Si un futur script l'invoque en
+  // prod sans avoir activé le flag, on préfère crash que dépenser à vide.
+  if (!ENABLE_REVIEW_BATCH) {
+    throw new Error(
+      "auditSiteContent désactivé par feature flag — définir ENABLE_REVIEW_BATCH=true pour activer",
+    );
+  }
+
   const copyDescriptions = copies
     .map(
       (c, i) =>
@@ -1577,7 +1617,7 @@ export async function auditSiteContent(
     .join("\n\n");
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 8000,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
@@ -2085,7 +2125,7 @@ export async function directorRewriteSocialPost(
   const p = PERSONAS[persona];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: failedPost.format === "THREAD" ? 2000 : 800,
     system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [

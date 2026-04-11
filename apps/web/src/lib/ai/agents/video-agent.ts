@@ -1,4 +1,10 @@
-import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
+import {
+  callWithRetry,
+  extractJson,
+  extractJsonArray,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
@@ -103,7 +109,7 @@ FORMAT DE RÉPONSE — JSON STRICT
 {"videoId": "ID_EXACT_DE_LA_VIDEO", "reason": "En 1 phrase : pourquoi cette vidéo est la meilleure pour ${persona.name} aujourd'hui"}`;
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 300,
     system: systemPrompt,
     messages: [
@@ -139,7 +145,7 @@ export async function generateVideoMonthlyPlan(
   daysInMonth: number
 ): Promise<Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>> {
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 4000,
     system: `Tu es le planificateur de l'Agent Vidéos de deviens-marrant.fr.
 

@@ -1,4 +1,11 @@
-import { buildCachedSystemBlock, callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
+import {
+  buildCachedSystemBlock,
+  callWithRetry,
+  extractJson,
+  extractJsonArray,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, getDifficultyForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
@@ -148,7 +155,7 @@ DIFFICULTÉ PLANIFIÉE : ${difficulty}
 (Utilise ces valeurs dans les champs "category" et "difficulty" du JSON de réponse.)`;
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1200,
     system: [TIP_STABLE_CACHED_BLOCK, { type: "text" as const, text: variableContext }],
     messages: [
@@ -221,7 +228,7 @@ export async function generateTipMonthlyPlan(
   daysInMonth: number
 ): Promise<Array<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>> {
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 4000,
     system: `Tu es le planificateur de l'Agent Conseils de deviens-marrant.fr.
 

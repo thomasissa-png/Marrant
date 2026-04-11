@@ -1080,6 +1080,9 @@ describe("Stand-Up Director Agent", () => {
 
   beforeEach(async () => {
     jest.resetModules();
+    // Activer le feature flag AVANT import — sinon reviewContentBatch est
+    // desactive par garde-fou cout (commit 6 des optim cost avril 2026).
+    process.env.ENABLE_REVIEW_BATCH = "true";
     const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
@@ -1095,6 +1098,10 @@ describe("Stand-Up Director Agent", () => {
     directorRewriteBlogArticle = mod.directorRewriteBlogArticle;
     generateEditorialVision = mod.generateEditorialVision;
     reviewContentBatch = mod.reviewContentBatch;
+  });
+
+  afterEach(() => {
+    delete process.env.ENABLE_REVIEW_BATCH;
   });
 
   it("validates a joke and returns APPROVED", async () => {

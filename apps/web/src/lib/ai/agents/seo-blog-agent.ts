@@ -1,4 +1,10 @@
-import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
+import {
+  buildCachedSystemBlock,
+  callWithRetry,
+  extractJson,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { prisma } from "@/lib/prisma";
 import {
   validateBlogArticle,
@@ -8,8 +14,16 @@ import {
 } from "./standup-director-agent";
 import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
 
-/** Nombre max de tentatives generate → validate → retry pour un article */
-const MAX_ARTICLE_VALIDATION_ATTEMPTS = 3;
+/**
+ * Nombre max de tentatives generate → validate → retry pour un article.
+ *
+ * Valeur 2 (avril 2026) : les articles long-form sont chers a generer
+ * (~4k tokens output) donc une 2e passe est justifiee. Si la 2e passe
+ * echoue aussi, le fallback `directorRewriteBlogArticle` prend la main.
+ * Valeur anterieure : 3 — ramenee a 2 car en pratique un article qui
+ * passe pas au 2e essai ne passera pas au 3e non plus.
+ */
+const MAX_ARTICLE_VALIDATION_ATTEMPTS = 2;
 
 /**
  * Agent SEO Blog — Génère des articles de blog optimisés SEO
@@ -133,7 +147,7 @@ export async function planNextArticle(): Promise<ArticlePlan | null> {
   const plannedKeywords = plannedEntries.map((e) => e.targetKeyword);
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1500,
     system: `Tu es un directeur éditorial expert en SEO et en humour. Tu planifies des articles de blog pour deviens-marrant.fr, une plateforme qui enseigne l'humour, la répartie et le storytelling.
 
@@ -358,9 +372,14 @@ export async function generateArticle(
     crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
   }
 
+  // max_tokens 5000 (avril 2026, ex-8000) : en pratique les articles
+  // generes font 2500-4000 tokens (1500-2500 mots FR). Le budget 8000
+  // etait un gaspillage — Anthropic facture le max_tokens reserve meme
+  // si le modele n'ecrit que 3000 tokens (sur certains providers). 5000
+  // laisse une marge confortable sans sur-provisionner.
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 8000,
+    model: SONNET_MODEL,
+    max_tokens: 5000,
     system: [GENERATE_ARTICLE_CACHED_BLOCK],
     messages: [
       {

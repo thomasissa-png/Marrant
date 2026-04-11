@@ -1,4 +1,10 @@
-import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
+import {
+  buildCachedSystemBlock,
+  callWithRetry,
+  extractJson,
+  getResponseText,
+  SONNET_MODEL,
+} from "../client";
 import { PERSONAS, getPersonaForDay } from "../personas";
 import type { PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
@@ -20,7 +26,15 @@ import type { SocialPostToValidate, ValidationResult } from "./standup-director-
 // Pipeline : generate → Director validate → DB pending → admin approve → publish
 // ───────────────────────────────────────────────────────────────────
 
-const MAX_VALIDATION_ATTEMPTS = 3;
+/**
+ * Nombre max de tentatives generate → validate → retry pour un post social.
+ *
+ * Valeur 1 (avril 2026, ex-3) : les posts sociaux sont courts (~500 tokens)
+ * donc la re-génération coûte peu, mais en pratique 90% passent au 1er essai.
+ * Les retries à vide consomment du token sans bénéfice. En cas d'échec, le
+ * fallback `directorRewriteSocialPost` prend la main directement.
+ */
+const MAX_VALIDATION_ATTEMPTS_SHORT = 1;
 
 // ─── Yanis Gen Z refs — rotation quotidienne ────────────────────
 const YANIS_GEN_Z_REFS = [
@@ -958,7 +972,7 @@ async function generateSinglePost(
     : [SOCIAL_BRIEF_CACHED_BLOCK];
 
   const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: plan.format === "THREAD" ? 2000 : 800,
     system: systemBlocks,
     messages: [
@@ -1099,7 +1113,7 @@ async function validateAndRefinePost(
 ): Promise<GeneratedSocialPost> {
   let currentPost = post;
 
-  for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS; attempt++) {
+  for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
     // Pre-check programmatic constraints before burning a director API call
     const constraintIssues = validatePostConstraints(currentPost);
     if (constraintIssues.length > 0) {
@@ -1145,10 +1159,10 @@ async function validateAndRefinePost(
       };
     }
 
-    if (attempt === MAX_VALIDATION_ATTEMPTS) {
+    if (attempt === MAX_VALIDATION_ATTEMPTS_SHORT) {
       // 3 échecs → le directeur réécrit
       console.log(
-        `[Director] Post social rejeté ${MAX_VALIDATION_ATTEMPTS}x — le directeur réécrit`,
+        `[Director] Post social rejeté ${MAX_VALIDATION_ATTEMPTS_SHORT}x — le directeur réécrit`,
       );
       try {
         const toValidate: SocialPostToValidate = {
@@ -1171,7 +1185,7 @@ async function validateAndRefinePost(
           ...currentPost,
           ...rewritten,
           directorScore: 9,
-          directorNote: `Réécrit par le directeur après ${MAX_VALIDATION_ATTEMPTS} échecs`,
+          directorNote: `Réécrit par le directeur après ${MAX_VALIDATION_ATTEMPTS_SHORT} échecs`,
           directorValidated: true,
         };
       } catch (err) {
@@ -1190,7 +1204,7 @@ async function validateAndRefinePost(
 
     try {
       const feedbackResponse = await callWithRetry({
-        model: "claude-sonnet-4-20250514",
+        model: SONNET_MODEL,
         max_tokens: currentPost.format === "THREAD" ? 2000 : 800,
         system: [SOCIAL_BRIEF_CACHED_BLOCK],
         messages: [
