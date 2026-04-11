@@ -675,7 +675,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateJoke" });
 
   const text = getResponseText(response);
   const result = parseValidationResult(text);
@@ -743,7 +743,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateTip" });
 
   const text = getResponseText(response);
   const result = parseValidationResult(text);
@@ -797,7 +797,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateVideoSelection" });
 
   const text = getResponseText(response);
   return parseValidationResult(text);
@@ -892,7 +892,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateBlogArticle" });
 
   const text = getResponseText(response);
   const result = parseValidationResult(text);
@@ -955,7 +955,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "generateEditorialVision" });
 
   const text = getResponseText(response);
   const parsed = extractJson<EditorialVision>(text);
@@ -1046,7 +1046,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "reviewContentBatch" });
 
   const text = getResponseText(response);
   const parsed = extractJson<BatchReviewResult>(text);
@@ -1197,7 +1197,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateNewVideo" });
 
   const text = getResponseText(response);
   const result = parseValidationResult(text);
@@ -1284,7 +1284,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "directorRewriteJoke" });
 
   const text = getResponseText(response);
   const parsed = extractJson<JokeToValidate>(text);
@@ -1347,7 +1347,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "directorRewriteTip" });
 
   const text = getResponseText(response);
   const parsed = extractJson<TipToValidate>(text);
@@ -1418,7 +1418,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "directorRewriteBlogArticle" });
 
   const text = getResponseText(response);
   const parsed = extractJson<{ title: string; excerpt: string; content: string; category: string }>(text);
@@ -1532,7 +1532,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "auditSiteContent" });
 
   const text = getResponseText(response);
   const parsed = extractJson<FullSiteAuditResult>(text);
@@ -1913,7 +1913,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "validateSocialPost" });
 
   const text = getResponseText(response);
   return parseSocialValidationResult(text);
@@ -2004,7 +2004,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "standup-director-agent", fn: "directorRewriteSocialPost" });
 
   const text = getResponseText(response);
   const parsed = extractJson<{ hook: string; content: string; threadParts?: string[]; cta: string; hashtags: string[] }>(text);

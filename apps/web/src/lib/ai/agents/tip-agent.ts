@@ -148,7 +148,7 @@ UNE technique → UN exemple concret avec dialogue → UN défi motivant.
 AVANT DE RÉPONDRE : relis ton conseil et demande-toi "est-ce que ${persona.name} sait exactement quoi faire après avoir lu ça ?". Si tu hésites, recommence.`,
       },
     ],
-  });
+  }, 2, { agent: "tip-agent", fn: "generateDailyTip" });
 
   const text = getResponseText(response);
   const parsed = extractJson<GeneratedTip>(text);
@@ -230,7 +230,7 @@ Réponds UNIQUEMENT en JSON — un tableau de ${daysInMonth} objets :
         content: `Génère le plan de conseils pour ${month}/${year} (${daysInMonth} jours).`,
       },
     ],
-  });
+  }, 2, { agent: "tip-agent", fn: "generateTipMonthlyPlan" });
 
   const text = getResponseText(response);
   const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);

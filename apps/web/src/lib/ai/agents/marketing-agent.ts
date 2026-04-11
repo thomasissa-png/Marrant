@@ -330,7 +330,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateSocialPost" });
 
   const text = getResponseText(response);
   const parsed = extractJson<SocialPost>(text);
@@ -391,7 +391,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateShortVideoScript" });
 
   const text = getResponseText(response);
   const parsed = extractJson<ShortVideoScript>(text);
@@ -464,7 +464,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateCampaignBrief" });
 
   const text = getResponseText(response);
   const parsed = extractJson<CampaignBrief>(text);
@@ -521,7 +521,7 @@ Réponds UNIQUEMENT en JSON — un tableau :
 }]`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "auditAndRecommendCopy" });
 
   const text = getResponseText(response);
   return extractJsonArray<CopyRecommendation>(text);
@@ -577,7 +577,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateEmailSequence" });
 
   const text = getResponseText(response);
   return extractJson<EmailSequence>(text);
@@ -644,7 +644,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateSocialMonthlyPlan" });
 
   const text = getResponseText(response);
   return extractJson<SocialMonthlyPlan>(text);
@@ -736,7 +736,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "marketing-agent", fn: "generateSubAgentDirectives" });
 
   const text = getResponseText(response);
   return extractJson<StrategicDirective>(text);

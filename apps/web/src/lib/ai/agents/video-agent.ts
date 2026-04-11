@@ -115,7 +115,7 @@ Quelle vidéo va faire le plus PROGRESSER ${persona.name} aujourd'hui sur "${ctx
 Choisis celle qui enseigne le mieux la technique, pas juste la plus drôle.`,
       },
     ],
-  });
+  }, 2, { agent: "video-agent", fn: "selectDailyVideo" });
 
   const text = getResponseText(response);
   const parsed = extractJson<VideoSelection>(text);
@@ -165,7 +165,7 @@ Réponds UNIQUEMENT en JSON :
         content: `Génère le plan vidéo pour ${month}/${year} (${daysInMonth} jours).`,
       },
     ],
-  });
+  }, 2, { agent: "video-agent", fn: "generateVideoMonthlyPlan" });
 
   const text = getResponseText(response);
   const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);

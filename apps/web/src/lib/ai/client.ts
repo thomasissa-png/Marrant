@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { logLLMUsage, extractUsage } from "./usage-log";
 
 // Client Anthropic partagé — singleton pour tous les agents
 export const anthropic = new Anthropic({
@@ -6,18 +7,54 @@ export const anthropic = new Anthropic({
 });
 
 /**
- * Appel à l'API Anthropic avec retry et backoff exponentiel.
+ * Métadonnées d'instrumentation attachées à un appel LLM.
+ * Passer cet objet à `callWithRetry` pour que le coût de l'appel soit
+ * enregistré dans `LlmUsageLog` avec le nom de l'agent et de la fonction
+ * appelante (utilisé pour l'agrégation par `/api/admin/llm-usage`).
+ */
+export interface CallMeta {
+  agent: string;
+  fn: string;
+}
+
+/**
+ * Appel à l'API Anthropic avec retry, backoff exponentiel et logging tokens.
+ *
  * Retente jusqu'à 3 fois en cas d'erreur réseau, 5xx ou 429 (rate limit).
+ *
+ * Si `meta` est fourni, chaque appel (réussi OU échoué) est enregistré dans
+ * `LlmUsageLog` avec les tokens facturés et le coût USD calculé. Le logging
+ * est **silent-fail** : une erreur d'écriture DB ne bloquera pas le pipeline.
+ *
+ * Rétro-compatible : `meta` est optionnel — les call sites existants sans
+ * instrumentation continuent de fonctionner (sans logging).
  */
 export async function callWithRetry(
   params: Anthropic.MessageCreateParamsNonStreaming,
-  maxRetries = 2
+  maxRetries = 2,
+  meta?: CallMeta,
 ): Promise<Anthropic.Message> {
   let lastError: unknown;
+  const startedAt = Date.now();
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      return await anthropic.messages.create(params);
+      const response = await anthropic.messages.create(params);
+
+      // Logging succès : on capture les tokens facturés (input/output + cache).
+      // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
+      if (meta) {
+        void logLLMUsage({
+          agent: meta.agent,
+          fn: meta.fn,
+          model: params.model,
+          usage: extractUsage(response),
+          durationMs: Date.now() - startedAt,
+          success: true,
+        });
+      }
+
+      return response;
     } catch (error) {
       lastError = error;
 
@@ -30,6 +67,21 @@ export async function callWithRetry(
       const jitter = Math.random() * 500;
       await new Promise((resolve) => setTimeout(resolve, baseDelay + jitter));
     }
+  }
+
+  // Logging échec : si meta fourni, on enregistre un row success=false pour
+  // tracker les retries coûteux (avec message d'erreur). Ces rows n'ont pas
+  // de tokens car l'appel n'a jamais abouti.
+  if (meta) {
+    void logLLMUsage({
+      agent: meta.agent,
+      fn: meta.fn,
+      model: params.model,
+      usage: { input_tokens: 0, output_tokens: 0 },
+      durationMs: Date.now() - startedAt,
+      success: false,
+      errorMessage: lastError instanceof Error ? lastError.message : String(lastError),
+    });
   }
 
   throw lastError;

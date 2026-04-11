@@ -149,7 +149,7 @@ Setup court → twist qui surprend → punchline qui claque.
 AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait rire ?". Si tu hésites, recommence.`,
       },
     ],
-  });
+  }, 2, { agent: "joke-agent", fn: "generateDailyJoke" });
 
   const text = getResponseText(response);
   const parsed = extractJson<GeneratedJoke>(text);
@@ -219,7 +219,7 @@ Réponds UNIQUEMENT en JSON — un tableau de ${daysInMonth} objets :
         content: `Génère le plan de vannes pour ${month}/${year} (${daysInMonth} jours).`,
       },
     ],
-  });
+  }, 2, { agent: "joke-agent", fn: "generateJokeMonthlyPlan" });
 
   const text = getResponseText(response);
   const raw = extractJsonArray<{ dayOfMonth: number; category: string; theme: string; targetPersona: string }>(text);

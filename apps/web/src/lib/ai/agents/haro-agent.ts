@@ -148,7 +148,7 @@ Réponds en JSON avec cette structure exacte :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "haro-agent", fn: "generateHaroResponse" });
 
   const text = getResponseText(response);
   const parsed = extractJson<{

@@ -986,7 +986,7 @@ Réponds en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "social-media-agent", fn: "generateSocialPost" });
 
   const text = getResponseText(response);
   const post = extractJson<GeneratedSocialPost>(text);
@@ -1207,7 +1207,7 @@ Réponds en JSON :
 }`,
           },
         ],
-      });
+      }, 2, { agent: "social-media-agent", fn: "validateAndRefinePost" });
 
       const text = getResponseText(feedbackResponse);
       currentPost = extractJson<GeneratedSocialPost>(text);

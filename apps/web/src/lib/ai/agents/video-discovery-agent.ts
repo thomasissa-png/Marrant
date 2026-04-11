@@ -256,7 +256,7 @@ Réponds en JSON — un tableau des vidéos RETENUES :
 Ne garde que les vidéos vraiment pertinentes. Mieux vaut en garder 5 excellentes que 15 moyennes.`,
       },
     ],
-  });
+  }, 2, { agent: "video-discovery-agent", fn: "filterRelevantVideos" });
 
   const text = getResponseText(response);
   return extractJsonArray<{ videoId: string; title: string; channelName: string; duration: string; relevanceReason: string }>(text);
@@ -312,7 +312,7 @@ Réponds en JSON STRICT :
 }`,
         },
       ],
-    });
+    }, 2, { agent: "video-discovery-agent", fn: "enrichVideo" });
 
     const text = getResponseText(response);
     const enrichment = extractJson<{

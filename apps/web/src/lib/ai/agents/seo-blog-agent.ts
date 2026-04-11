@@ -173,7 +173,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "seo-blog-agent", fn: "planNextArticle" });
 
   const text = getResponseText(response);
   try {
@@ -380,7 +380,7 @@ Réponds UNIQUEMENT en JSON :
 }`,
       },
     ],
-  });
+  }, 2, { agent: "seo-blog-agent", fn: "generateArticle" });
 
   const text = getResponseText(response);
   try {

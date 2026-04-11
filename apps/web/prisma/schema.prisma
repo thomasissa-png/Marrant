@@ -563,3 +563,29 @@ model JobLock {
 
   @@index([expiresAt])
 }
+
+/// Log de consommation LLM Anthropic — instrumentation coût par appel.
+/// Un row par appel réussi ou échoué à `callWithRetry`.
+/// Permet d'agréger le coût par agent/fonction/jour pour piloter les optimisations.
+///
+/// Écriture silent-fail : si la DB est inaccessible, `logLLMUsage` log console
+/// et continue — ne JAMAIS bloquer le pipeline de génération sur une erreur d'instrumentation.
+model LlmUsageLog {
+  id                  String   @id @default(cuid())
+  agent               String   // ex: "joke-agent", "standup-director"
+  fn                  String   // ex: "generateDailyJoke", "validateJoke"
+  model               String   // ex: "claude-sonnet-4-20250514"
+  inputTokens         Int
+  outputTokens        Int
+  cacheReadTokens     Int      @default(0)
+  cacheCreationTokens Int      @default(0)
+  costUsd             Float
+  durationMs          Int?
+  success             Boolean  @default(true)
+  errorMessage        String?  @db.Text
+  createdAt           DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([agent, fn])
+  @@index([createdAt, agent])
+}
