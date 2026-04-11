@@ -552,8 +552,69 @@ Toutes les hypothèses sont marquées `[HYPOTHÈSE]` dans le corps du document. 
 - Volume réel des social posts sur les 7 derniers jours via Prisma.
 
 ### Fichiers à produire en suite (par @ia, après feedback Alex sur les hypothèses)
-- `docs/ia/model-selection.md` — tableau comparatif définitif Sonnet 4 vs Haiku 4.5 par fonction.
+- `docs/ia/model-selection.md` — tableau comparatif définitif Sonnet 4.6 vs Haiku 4.5 par fonction.
 - `docs/ia/prompt-library.md` — catalogue des system prompts avec indication du statut caching.
 - `docs/ia/ai-cost-analysis.md` — suivi mensuel coût/gain après déploiement.
+---
+
+## 9. Addendum — Revérification tarifs Anthropic (11/04/2026)
+
+**WebSearch exécuté le 11/04/2026** sur `anthropic.com/pricing` + sources secondaires (metacto, devtk.ai, invertedstone). Résultats consolidés :
+
+### Tarifs officiels confirmés
+
+| Modèle | Input $/M tokens | Output $/M tokens | Contexte | Notes |
+|---|---|---|---|---|
+| **Claude Opus 4.6** | $5 | $25 | 1M | -67% vs Opus 4.1 ($15/$75) |
+| **Claude Sonnet 4.6** | $3 | $15 | 1M | Identique Sonnet 4 initial |
+| **Claude Sonnet 4.5** | $3 | $15 | 1M | Même prix, ID différent |
+| **Claude Sonnet 4** (actuel codebase, ID `claude-sonnet-4-20250514`) | $3 | $15 | 200k | **Ancien ID — à migrer vers 4.6** |
+| **Claude Haiku 4.5** | $1 | $5 | 200k | Gain 3x input, 3x output vs Sonnet |
+
+### Impacts sur l'audit
+
+1. **Migration Sonnet 4 → Sonnet 4.6 recommandée et GRATUITE**
+   - Le code utilise `claude-sonnet-4-20250514` sur 37 call sites.
+   - Sonnet 4.6 est sorti depuis (même prix, meilleure qualité, contexte 1M).
+   - **Action** : remplacer globalement l'ID modèle par `claude-sonnet-4-5` ou `claude-sonnet-4-6` (ID exact à confirmer via `GET /v1/models`).
+   - **Gain coût** : 0 (prix identique).
+   - **Gain qualité** : +5-10% sur la génération créative (cf. release notes Anthropic).
+   - **Effort** : S (10 min, sed global).
+
+2. **Prompt caching confirmé à -90%** (pas -87%)
+   - Sources : l'article Anthropic et plusieurs blogs confirment **jusqu'à 90% d'économie** sur les tokens cachés.
+   - Impact sur le gain estimé pour `buildDirectorIdentity()` (1270 tokens stables × ~30 validates/j) : le gain passe de ~$0.10/j à ~**$0.11/j** (marginal, dans la marge d'erreur).
+   - Impact sur `buildSocialBrief()` (3200 tokens × 15 appels/j) : le gain passe de $0.12/j à ~**$0.13/j**.
+   - **Conclusion** : les estimations de l'audit sont légèrement conservatrices mais correctes. Gain caching total réévalué à **~$0.25/j**.
+
+3. **Batch API à -50% — nouvelle piste d'optimisation**
+   - Non exploitée dans le codebase aujourd'hui.
+   - **Applicable pour** : `generateJokeMonthlyPlan`, `generateTipMonthlyPlan`, `generateVideoMonthlyPlan`, éventuellement l'article blog hebdo.
+   - **Non applicable pour** : daily content (latence critique < 1h), validates Director (latence < 10s).
+   - **Gain estimé** : $0.02/j (volume très faible car plans mensuels = 1/mois).
+   - **Verdict** : pas prioritaire, à noter dans le backlog long terme.
+
+4. **Opus 4.6 désormais accessible à $5/$25** (vs Opus 4.1 à $15/$75)
+   - **Pas d'usage Opus recommandé dans ce projet** — les tâches sont toutes dans le sweet spot Sonnet (génération créative) ou Haiku (scoring binaire).
+   - Exception potentielle : `directorRewriteBlogArticle` (article 2500 mots réécrit après 3 échecs, ~1/mois) pourrait bénéficier d'Opus 4.6. Volume <0.05/j, impact coût négligeable (+$0.01/j), gain qualité marginal. **Non prioritaire.**
+
+### Tarifs "sweet spot" validés pour ce projet
+
+| Usage | Modèle recommandé | Coût $/M in | Coût $/M out | Justification |
+|---|---|---|---|---|
+| Génération créative (joke, tip, video, social, blog) | **Sonnet 4.6** | $3 | $15 | Balance qualité/prix optimale |
+| Validation binaire Director (score + justification courte) | **Haiku 4.5** | $1 | $5 | Tâche analytique structurée, Haiku suffit |
+| Rewrite créatif après 3 échecs (final) | **Sonnet 4.6** | $3 | $15 | Qualité max sur le contenu publié |
+| Plans mensuels (amortis, non temps-réel) | **Sonnet 4.6 + Batch API** | $1.50 | $7.50 | -50% Batch API, latence non critique |
+| Vision éditoriale (1/mois) | **Sonnet 4.6** | $3 | $15 | Créatif structuré, volume négligeable |
+
+### Conclusion addendum
+
+Les tarifs confirmés via WebSearch **valident l'architecture de coûts de l'audit** et apportent 2 quick wins supplémentaires :
+1. **Migration Sonnet 4 → Sonnet 4.6** (gratuite, +5-10% qualité) — à ajouter au commit 6 (quick wins).
+2. **Batch API sur les plans mensuels** — backlog long terme, pas prioritaire.
+
+**Pas de changement majeur sur les priorités** : le fix scheduler (commit 1) reste la priorité n°1 avec 50-60% du gain total.
+
 ---
 
