@@ -1,4 +1,4 @@
-import { callWithRetry, extractJson, getResponseText } from "../client";
+import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
 
@@ -611,6 +611,13 @@ Quel que soit le type de contenu, ces 5 critères s'appliquent TOUJOURS :
    → Pas au niveau d'un blog perso. Au niveau du LEADER DU MARCHÉ.`;
 }
 
+// Bloc system caché — construit une seule fois au chargement du module, puis
+// réutilisé sur les 13 call sites du directeur. Taille ~1278 tokens (au-dessus
+// du seuil Anthropic de 1024 tokens pour Sonnet/Opus), 100% stable entre
+// appels, éligible au prompt caching `cache_control: ephemeral`.
+// Gain estimé : -90% sur les tokens input du directeur, ~$0.10/jour.
+const DIRECTOR_IDENTITY_CACHED_BLOCK = buildCachedSystemBlock(buildDirectorIdentity());
+
 // ─── Validation d'une vanne ──────────────────────────────────────
 
 export async function validateJoke(
@@ -630,7 +637,7 @@ export async function validateJoke(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -704,7 +711,7 @@ export async function validateTip(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -764,7 +771,7 @@ export async function validateVideoSelection(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 800,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -823,7 +830,7 @@ export async function validateBlogArticle(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1200,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -915,7 +922,7 @@ export async function generateEditorialVision(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 3000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1012,7 +1019,7 @@ export async function reviewContentBatch(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1500,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1148,7 +1155,7 @@ export async function validateNewVideo(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1252,7 +1259,7 @@ export async function directorRewriteJoke(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 600,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1312,7 +1319,7 @@ export async function directorRewriteTip(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1500,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1377,7 +1384,7 @@ export async function directorRewriteBlogArticle(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 8000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1466,7 +1473,7 @@ export async function auditSiteContent(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 8000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1808,7 +1815,7 @@ export async function validateSocialPost(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1000,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -1966,7 +1973,7 @@ export async function directorRewriteSocialPost(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: failedPost.format === "THREAD" ? 2000 : 800,
-    system: buildDirectorIdentity(),
+    system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
     messages: [
       {
         role: "user",

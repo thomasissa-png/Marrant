@@ -1,4 +1,4 @@
-import { callWithRetry, extractJson, getResponseText } from "../client";
+import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
 import { PERSONAS, getPersonaForDay } from "../personas";
 import type { PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
@@ -332,6 +332,17 @@ Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti
 - Si tu te surprends à écrire "Fary" ou "Paul Mirabel" alors que ce n'est pas l'humoriste du jour → STOP, remplace
 - L'objectif : chaque humoriste de la liste doit apparaître au moins 1 fois par semaine`;
 }
+
+// Bloc system caché — construit une seule fois au chargement du module, puis
+// réutilisé sur les 2 call sites (generation + retry feedback). Taille ~3200
+// tokens (bien au-dessus du seuil Anthropic de 1024 tokens pour Sonnet/Opus),
+// éligible au prompt caching `cache_control: ephemeral`.
+// Note : `buildSocialBrief()` contient `new Date().getDate()` (rotation humoriste
+// quotidienne). Le module est rechargé à chaque run du cron quotidien (4h UTC),
+// donc la date est fraîche à chaque exécution et le cache est réutilisé sur
+// l'ensemble des posts générés dans la même run (15+ appels).
+// Gain estimé : -90% sur les tokens input du social-media-agent.
+const SOCIAL_BRIEF_CACHED_BLOCK = buildCachedSystemBlock(buildSocialBrief());
 
 // ─── Validation programmatique des contraintes ──────────────────
 
@@ -939,10 +950,17 @@ async function generateSinglePost(
 
   const formatInstructions = getFormatInstructions(plan.format, plan.platform);
 
+  // System prompt : bloc stable caché en premier, puis bloc variable
+  // (winningPatterns) non caché. Si winningPatterns est vide, on passe
+  // uniquement le bloc caché.
+  const systemBlocks = winningPatterns
+    ? [SOCIAL_BRIEF_CACHED_BLOCK, { type: "text" as const, text: winningPatterns }]
+    : [SOCIAL_BRIEF_CACHED_BLOCK];
+
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: plan.format === "THREAD" ? 2000 : 800,
-    system: buildSocialBrief() + winningPatterns,
+    system: systemBlocks,
     messages: [
       {
         role: "user",
@@ -1174,7 +1192,7 @@ async function validateAndRefinePost(
       const feedbackResponse = await callWithRetry({
         model: "claude-sonnet-4-20250514",
         max_tokens: currentPost.format === "THREAD" ? 2000 : 800,
-        system: buildSocialBrief(),
+        system: [SOCIAL_BRIEF_CACHED_BLOCK],
         messages: [
           {
             role: "user",

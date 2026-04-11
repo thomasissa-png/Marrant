@@ -18,6 +18,33 @@ export interface CallMeta {
 }
 
 /**
+ * Construit un bloc `system` cacheable pour l'API Anthropic.
+ *
+ * Usage : wrapper un prompt STABLE (identité agent, règles métier, exemples
+ * qui ne changent jamais d'un appel à l'autre) pour bénéficier du prompt
+ * caching Anthropic (jusqu'à -90% sur les tokens input facturés).
+ *
+ * **Règles d'or** :
+ * 1. Ne cacher QUE le contenu qui ne varie pas entre appels. Tout ce qui est
+ *    variable (persona du jour, contexte, items récents) doit rester dans un
+ *    deuxième bloc non caché OU dans `messages`.
+ * 2. Le bloc caché doit être au MOINS 1024 tokens (Sonnet/Opus) ou
+ *    2048 tokens (Haiku), sinon Anthropic n'applique pas le cache.
+ * 3. L'ordre compte : le bloc caché doit être EN PREMIER dans le tableau.
+ *
+ * Exemple :
+ * ```ts
+ * system: [
+ *   buildCachedSystemBlock(buildAgentIdentity()), // stable, ~1500 tokens
+ *   { type: "text", text: dynamicContext },        // variable, non caché
+ * ]
+ * ```
+ */
+export function buildCachedSystemBlock(text: string): Anthropic.TextBlockParam {
+  return { type: "text", text, cache_control: { type: "ephemeral" } };
+}
+
+/**
  * Appel à l'API Anthropic avec retry, backoff exponentiel et logging tokens.
  *
  * Retente jusqu'à 3 fois en cas d'erreur réseau, 5xx ou 429 (rate limit).
