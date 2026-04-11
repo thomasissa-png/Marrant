@@ -544,3 +544,22 @@ model SeoCalendar {
   @@unique([weekNumber, year])
   @@index([status])
 }
+
+// ==========================================
+// INFRASTRUCTURE — Scheduler locks & observabilité LLM
+// ==========================================
+
+/// Verrou anti-concurrent pour les jobs schedulés (instrumentation.ts).
+/// Permet d'éviter que deux instances (scheduler interne + cron HTTP)
+/// lancent le même pipeline en parallèle. TTL automatique via `expiresAt`
+/// pour que les locks orphelins (process crash) soient réacquérables.
+///
+/// jobKey format : "<job-name>-<YYYY-MM-DD>" (daily) ou "<job-name>-<YYYY>-W<nn>" (weekly).
+model JobLock {
+  id         String   @id @default(cuid())
+  jobKey     String   @unique
+  acquiredAt DateTime @default(now())
+  expiresAt  DateTime
+
+  @@index([expiresAt])
+}

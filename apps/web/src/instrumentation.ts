@@ -21,74 +21,143 @@ export async function register() {
   const INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
 
   /**
-   * Job 1 : Contenu quotidien
-   * Vérifie si le contenu du jour existe, sinon génère le plan + contenu.
+   * Job 1 : Contenu quotidien — TIME-GATED
+   *
+   * Fenêtre principale : 5h-6h UTC (slot officiel du cron daily-content).
+   * Catch-up conditionnel : 7h-22h UTC uniquement si aucun contenu n'existe pour le jour.
+   * Bloqué totalement en dehors (0h-4h UTC et 23h UTC) pour éviter les runs parasites.
+   *
+   * Avant ce fix : `setInterval` tous les 15 min sans time gate = jusqu'à 20 runs
+   * parasites entre 0h et 5h UTC (cause principale du surcoût LLM observé).
+   *
+   * Sécurité anti-concurrent via `JobLock` (upsert atomique, TTL 10 min).
    */
   const runDailyContentJob = async () => {
     try {
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+
+      // Fenêtre principale : 5h-6h UTC (slot officiel cron)
+      const isMainWindow = utcHour === 5;
+      // Fenêtre catch-up : 7h-22h UTC (fallback si le slot principal a échoué)
+      const isCatchupWindow = utcHour >= 7 && utcHour <= 22;
+
+      if (!isMainWindow && !isCatchupWindow) return;
+
       const { prisma } = await import("@/lib/prisma");
       const { todayUTC } = await import("@/lib/ai/date-utils");
       const { publishDailyContent } = await import("@/lib/ai/daily-publisher");
       const { generateMonthlyPlans } = await import("@/lib/ai/content-planner");
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
 
       const today = todayUTC();
 
+      // Guard DB : si le contenu du jour existe déjà, on ne refait rien
+      // (c'est la ligne de défense principale, AVANT tout appel LLM).
       const existing = await prisma.dailyContent.findUnique({
         where: { date: today },
       });
-
       if (existing) return;
 
-      console.log("[scheduler:daily] Contenu du jour absent — génération…");
+      // En catch-up : on ne lance QUE si le contenu manque réellement
+      // (déjà checké ci-dessus), et uniquement si aucune autre instance
+      // n'a pris le lock.
+      const lockKey = buildJobLockKey("daily-content", today);
+      const lockAcquired = await tryAcquireLock(lockKey, 10 * 60 * 1000);
+      if (!lockAcquired) {
+        // Une autre instance (cron HTTP ou autre worker) est en cours — on skip
+        return;
+      }
 
-      const month = today.getUTCMonth() + 1;
-      const year = today.getUTCFullYear();
+      try {
+        console.log(
+          `[scheduler:daily] Contenu du jour absent — génération (${isMainWindow ? "main 5h UTC" : `catch-up ${utcHour}h`})…`,
+        );
 
-      await generateMonthlyPlans(month, year);
-      await publishDailyContent(today);
+        const month = today.getUTCMonth() + 1;
+        const year = today.getUTCFullYear();
 
-      console.log("[scheduler:daily] Contenu du jour généré avec succès.");
+        await generateMonthlyPlans(month, year);
+        await publishDailyContent(today);
+
+        console.log("[scheduler:daily] Contenu du jour généré avec succès.");
+      } finally {
+        await releaseLock(lockKey);
+      }
     } catch (err) {
       console.error("[scheduler:daily] Échec :", err);
     }
   };
 
   /**
-   * Job 2 : Article blog SEO hebdomadaire
-   * Vérifie si un article a déjà été publié cette semaine, sinon en génère un.
+   * Job 2 : Article blog SEO hebdomadaire — TIME-GATED
+   *
+   * Fenêtre principale : lundi 9h-11h UTC (slot officiel du cron weekly-seo).
+   * Catch-up conditionnel : mardi + mercredi (toute la journée UTC) si l'article
+   * de la semaine n'a pas encore été publié.
+   * Bloqué totalement du jeudi au dimanche et en dehors du lundi 9-11h.
+   *
+   * Avant ce fix : un lundi matin entre 0h et 9h UTC, le scheduler lançait
+   * `publishWeeklyArticle` jusqu'à 36 fois avant que le cron HTTP ne réussisse
+   * à écrire l'article en DB. Worst case observé : ~$14 gaspillés sur un seul lundi.
+   *
+   * Sécurité anti-concurrent via `JobLock` (TTL 20 min — la génération d'un
+   * article de 2500 mots + validation Director peut prendre 3-5 minutes).
    */
   const runWeeklySeoJob = async () => {
     try {
+      const now = new Date();
+      const dayOfWeek = now.getUTCDay(); // 0=dimanche, 1=lundi, ..., 6=samedi
+      const utcHour = now.getUTCHours();
+
+      // Fenêtre principale : lundi 9h-11h UTC
+      const isMainWindow = dayOfWeek === 1 && utcHour >= 9 && utcHour < 11;
+      // Fenêtre catch-up : mardi (2) ou mercredi (3), toute la journée
+      const isCatchupWindow = dayOfWeek === 2 || dayOfWeek === 3;
+
+      if (!isMainWindow && !isCatchupWindow) return;
+
       const { prisma } = await import("@/lib/prisma");
       const { publishWeeklyArticle, updateSeoCalendar } = await import(
         "@/lib/ai/agents/seo-blog-agent"
       );
-
-      const now = new Date();
+      const { tryAcquireLock, releaseLock, buildWeeklyJobLockKey } = await import("@/lib/job-lock");
 
       // Déterminer le lundi de cette semaine (début de semaine ISO)
-      const dayOfWeek = now.getUTCDay(); // 0=dimanche, 1=lundi, ...
-      const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      // À ce stade, dayOfWeek est forcément 1, 2 ou 3 (main + catch-up)
+      // → formule simple `1 - dayOfWeek` (0, -1, -2)
+      const diffToMonday = 1 - dayOfWeek;
       const monday = new Date(now);
       monday.setUTCDate(now.getUTCDate() + diffToMonday);
       monday.setUTCHours(0, 0, 0, 0);
 
-      // Vérifier si un article a été publié depuis lundi
+      // Guard DB : si un article a déjà été publié cette semaine, skip.
       const articleThisWeek = await prisma.blogArticle.findFirst({
         where: {
           generatedByAI: true,
           publishedAt: { gte: monday },
         },
       });
-
       if (articleThisWeek) return;
 
-      console.log("[scheduler:seo] Pas d'article blog cette semaine — génération…");
+      // Lock anti-concurrent : TTL 20 min (génération article = 3-5 min
+      // + validation directeur + retry éventuel).
+      const lockKey = buildWeeklyJobLockKey("weekly-seo", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 20 * 60 * 1000);
+      if (!lockAcquired) return;
 
-      await updateSeoCalendar();
-      await publishWeeklyArticle();
+      try {
+        console.log(
+          `[scheduler:seo] Pas d'article blog cette semaine — génération (${isMainWindow ? "main lundi" : `catch-up jour ${dayOfWeek}`})…`,
+        );
 
-      console.log("[scheduler:seo] Article blog SEO publié avec succès.");
+        await updateSeoCalendar();
+        await publishWeeklyArticle();
+
+        console.log("[scheduler:seo] Article blog SEO publié avec succès.");
+      } finally {
+        await releaseLock(lockKey);
+      }
     } catch (err) {
       console.error("[scheduler:seo] Échec :", err);
     }
