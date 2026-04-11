@@ -126,6 +126,9 @@
 | @seo | 05/04/2026 | docs/reviews/gates-audit-seo.md — Audit SEO des 8 gates programmatiques `runBlogGates` | Note globale 5,5/10. 6 gates SEO manquantes identifiées : G-B9 mot-clé dans titre (BLOQUANT), G-B10 mot-clé dans intro (BLOQUANT), G-B11 min 3 H2 (BLOQUANT), G-B12 HowTo eligible conditionnel (REQUIS), G-B13 GEO min 3 listes numérotées (REQUIS), G-B14 GEO blockquote CLEF (REQUIS), G-B15 anti-cannibalisation slug (BLOQUANT). 3 faux positifs documentés (G-B3 mobile 155→150, G-B4 sous-comptage liens, G-B8 discours indirect). | Gates actuelles protègent le ton et la forme mais pas le SEO on-page critique. G-B9 et G-B11 sont les corrections les plus urgentes car directement liées aux signaux de pertinence primaires de Google et Bing (title tag + structure heading). G-B13 aligne les gates avec la stratégie GEO explicite du projet (objectif LLM citations). Signature de runBlogGates doit être étendue (category, targetKeyword, existingSlugs) pour activer G-B9/G-B10/G-B12/G-B15. |
 | @seo | 07/04/2026 | docs/seo/bing-audit-complet.md — Audit complet Bing Webmaster Guidelines (20 vérifications live) | 3 blocages identifiés : (1) Bing Webmaster Tools jamais configuré = pas de diagnostic, pas de soumission directe de sitemap. (2) Page /blog renvoie `private, no-cache, no-store` à cause de `searchParams` dans les props du composant — annule `revalidate = 3600`. (3) INDEXNOW_KEY potentiellement absent de Replit Secrets. Statut : 2 pages indexées sur 49 dans le sitemap. | BWT non configuré = cause principale. Sans BWT, Bing crawle le site avec un budget minimal de nouveau domaine et aucun canal de diagnostic. /blog non-cacheable = Bingbot ne peut pas assigner de score de fraîcheur à la page la plus stratégique du site. searchParams dans les props = comportement Next.js 14 App Router documenté mais non anticipé. Fix : (1) configurer BWT + soumettre sitemap, (2) passer le filtre catégorie /blog en client-side pour débloquer ISR, (3) vérifier INDEXNOW_KEY dans Secrets Replit. |
 | @orchestrator | 07/04/2026 | Cloture session 07/04 — 13 bugs critiques fixés + 45 gates programmatiques + audit Bing live + auth modal généralisé + stratégie backlinks. ~30 commits, 975/975 tests | Bugs majeurs : middleware www :5904, GCS signed URLs impossibles sur Replit, doubles posts crons, compteur global daily-social, boucle régénération, Buffer 429 retry loop (circuit breaker 24h), Prisma pool 5→15, layout double `other`, IndexNow keys, Instagram REPLIT_DEV_DOMAIN, /blog cache-control, parcours orphelins, schemas.org. Gates : architecture 2-niveaux (binaires d'abord, IA ensuite), audit croisé 4 agents → 10 calibrations corrigées. | Session de stabilisation post-incidents en cascade. Le pattern dominant : "amateurisme" et erreurs de conception silencieuses (`ignoreBuildErrors: true` masque les bugs logiques, `req.url` contient le port interne sur Replit, `searchParams` force le dynamic rendering). Conclusion : pour tout bug en prod, vérifier en LIVE via WebFetch/curl avant de blamer une cause externe (DNS, plan payant, propagation). |
+| @fullstack | 08/04/2026 | Fix Instagram Buffer GraphQL : `shouldShareToFeed: true` ajouté dans `metadata.instagram` (buffer-client.ts) | Tous les posts Instagram échouaient en 400 avec `Field "InstagramPostMetadataInput.shouldShareToFeed" of required type "Boolean!" was not provided`. Champ requis manquant depuis le début du pipeline IG. | Buffer GraphQL exige plusieurs champs dont `shouldShareToFeed`. Bug latent non détecté car erreur silencieuse dans logs. Fix de 2 lignes mais bloquait 100% des posts IG. |
+| @fullstack + @qa | 08/04/2026 | Refacto complet pipeline daily-social : time gate, filtre quantitatif, quotas dynamiques, alignement plan JSON, 11 risques @qa traités | (1) `instrumentation.ts` : time gate `utcHour === 4` + catch-up conditionnel 6h-23h sur déficit. (2) `daily-social/route.ts` : filtre QUANTITATIF (`missing[p] = quota - count`) remplace filtre binaire ; quotas dynamiques par jour/persona ; compte TOUS statuts (anti-boucle 429). (3) `social-media-agent.ts` : LinkedIn aligné JSON (Lun/Mer/Ven only), helper `linkedInOrFallback`, `getUTCDay()` au lieu de `getDay()`. (4) Tests : 981/981 dont 2 nouveaux MERCREDI YANIS et MARDI SOPHIE no-LinkedIn. | Refacto demandé par le fondateur ("pas de petites corrections à la volée"). Audit @qa avant ET après le refacto : 11 risques structurels identifiés au départ, 9 résolus + 1 partiellement (race condition intra-heure) + 1 fixé en suite. 4 P1 bugs trouvés DANS le refacto par le 2e audit @qa, tous fixés. Pattern : refacto + audit + corrections immédiates = pipeline beaucoup plus robuste qu'une succession de patchs. |
+| @orchestrator | 08/04/2026 | **DÉCOUVERTE CRITIQUE** : la branche `claude/update-gradient-agents-GzubQ` n'est PAS mergée dans `master`. Replit déploie depuis master = code d'il y a 2 semaines. **Tous les fixes du 1er au 8 avril sont invisibles en production.** | `git show master:apps/web/src/instrumentation.ts` montre le code original sans time gate, sans délégation HTTP, sans filtre per-platform. Tous les commits depuis `d93e03f` (1er avril) sont uniquement sur la branche feature. | **Le PIRE bug de la session** : 5 itérations de "Replit dit que mon fix ne marche pas", l'orchestrateur a insisté que c'était un problème d'outil. En réalité c'était un problème de branche jamais mergée. Aucun check `git show master vs HEAD` au premier signalement. **Action obligatoire fondateur** : merger la branche dans master + déployer master sur Replit. Sans ce merge, RIEN n'est en prod. |
 
 ---
 
@@ -157,26 +160,41 @@
 
 ## Mémo de reprise — dernière session
 
-- **Date de clôture** : 07/04/2026
-- **Résumé** : Session intensive de stabilisation pipeline social + qualité contenu + SEO Bing.
-  **(1) 13 bugs critiques corrigés** : middleware www `:5904`, GCS signed URLs impossibles sur Replit (rollback), doubles posts (instrumentation.ts ↔ crons HTTP), compteur global daily-social (LinkedIn 0 posts pendant 5j), boucle régénération daily-social (21 posts accumulés), Buffer 429 retry loop (circuit breaker 24h ajouté), Prisma pool timeout (5→15 connexions), layout.tsx double clé `other` (bingbot meta jamais rendu), IndexNow clés hardcodées mismatch, vannes sans punchline passant la validation, Instagram URLs vers REPLIT_DEV_DOMAIN, /blog cache-control no-cache (searchParams Server Component), parcours individuels orphelins dans sitemap.
-  **(2) 45 gates programmatiques Stand-Up Director** : 9 vannes + 5 conseils + 18 blog (incl. SEO) + 13 social. Architecture 2-niveaux : gates binaires d'abord, validation IA ensuite. Audit croisé par 4 agents (director, copywriter, social, seo) → 10 corrections de calibration appliquées.
-  **(3) Auth modal généralisé** : composant `<AuthCta>` créé, remplacement de tous les `<Link href="/register">` dans 5 endroits (/abonnement, blog, a-propos, quiz, PremiumModal).
-  **(4) SEO Bing** : audit live complet (20 vérifications), 3 schemas Schema.org corrigés (Product image, Course numberOfLessons + Offer.category), parcours orphelins fixés en SSR. Bing Webmaster Tools : importé via Google Search Console, pas besoin de meta tag, soumission sitemap requise manuellement.
-  **(5) Stratégie backlinks automatisée** livrée dans `docs/seo/backlink-strategy.md` (6 canaux, quick wins 3h pour 6-10 backlinks DA 40-90).
-  **975 tests passent. ~30 commits poussés sur `claude/update-gradient-agents-GzubQ`.**
-- **Travaux en cours** :
-  - **Bing toujours pas indexé** — fixes techniques tous appliqués, blocker restant = soumission manuelle BWT + acquisition backlinks externes
-  - **Plan gratuit Buffer** : 10 slots/channel — code calibré correctement, ne JAMAIS suggérer upgrade (préférence fondateur)
-  - **Neon DB cold start** : Pool Prisma à 15/30s, mais retry sur erreur connexion à ajouter (P1 ouvert)
-  - 12 articles blog restants en backlog (lots 4-7) — non-prioritaire vs stabilisation pipeline
+- **Date de clôture** : 08/04/2026
+- **Résumé** : Session de stabilisation profonde du pipeline social après découverte d'un **bug structurel critique** : tous les fixes des sessions précédentes étaient sur la branche `claude/update-gradient-agents-GzubQ` mais **JAMAIS mergés dans `master`**. Replit déploie depuis `master` → 2 semaines de fixes invisibles en production.
+  **(1) Fix Instagram Buffer GraphQL** : champ `shouldShareToFeed: true` manquant dans `metadata.instagram` → tous les posts IG échouaient en 400. Ajouté.
+  **(2) Refacto complet pipeline daily-social** :
+    - Time gate `utcHour === 4` dans `instrumentation.ts` (avant : 96 runs/jour sans garde-fou)
+    - Catch-up conditionnel 6h-23h UTC sur déficit Twitter ou Instagram (filet de sécurité)
+    - Filtre QUANTITATIF (`missing[platform] = quota - count`) remplace le filtre binaire défaillant
+    - Quotas dynamiques par jour/persona alignés au JSON plan
+    - LinkedIn aligné sur JSON (Lun/Mer/Ven seulement, plus de Mar/Jeu)
+    - Compte TOUS les statuts (y compris FAILED) pour éviter la boucle 429
+    - Helper `linkedInOrFallback` pour les jours sans LinkedIn (bonusTweet ou yanisReplacementTweet)
+  **(3) Audit @qa complet du refacto** : 11 risques identifiés, 9 résolus, 1 partiellement (race intra-heure), 1 fixé en suite (test Yanis mercredi).
+  **(4) 4 P1 bugs identifiés par @qa et corrigés** : B1 desync UTC `getDay()`/`getUTCDay()`, B2 catch-up trop strict, B3 test "mercredi" inopérant, B4 zero test Yanis mercredi 4 tweets.
+  **(5) 17 nouveaux learnings** dont 4 P0 ouverts (insistance fondateur = signal P0, vérifier branche AVANT diagnostic, fondateur insiste sur refacto vs patchs).
+  **981/981 tests passent. 4 commits poussés sur `claude/update-gradient-agents-GzubQ`.**
+- **🔴 BLOCKER CRITIQUE** : La branche `claude/update-gradient-agents-GzubQ` n'est **PAS MERGÉE dans `master`**. Replit déploie depuis `master` qui contient du code d'il y a 2 semaines (sans time gate, sans filtre quantitatif, sans fix Instagram, sans gates programmatiques). **Tout ce qui a été fait depuis le 1er avril est invisible en production.**
+- **Action #1 OBLIGATOIRE — fondateur (5 min)** : merger `claude/update-gradient-agents-GzubQ` dans `master` puis déployer master sur Replit. Sans cette action, **rien n'est en prod**, même les fixes vieux de 2 semaines.
+  ```bash
+  git checkout master
+  git merge claude/update-gradient-agents-GzubQ
+  git push origin master
+  # Puis déployer master sur Replit
+  ```
+- **Travaux en cours après merge** :
+  - **Race condition intra-heure** (B5 P1) : run 4h00 qui dépasse 15 min → run 4h15 voit DB vide → duplique. Mitigation à ajouter : table `social_post_daily_lock` avec PK unique sur la date.
+  - **Bing toujours pas indexé** — fixes techniques tous appliqués (mais pas déployés), blocker = soumission manuelle BWT + acquisition backlinks
+  - **Neon DB cold start** : Pool Prisma 15/30s en place, retry sur erreur connexion à ajouter
 - **Prochaines actions recommandées** :
-  1. **@fondateur** (manuel, 15 min) : Bing Webmaster Tools → Submit sitemap `https://deviens-marrant.fr/sitemap.xml` + URL Inspection sur 10 pages prioritaires (/, /vannes, /conseils, /blog, /parcours, 5 articles pillar)
-  2. **@fondateur** (manuel, 3h) : Soumissions plateformes produit BetaList + Uneed + There's An AI For That + FuturePedia + Microlaunch + StartupBase pour 6-10 backlinks dofollow gratuits (cf `docs/seo/backlink-strategy.md`)
-  3. **@fullstack** : Ajouter retry Prisma sur erreur connexion (3 tentatives, 5s backoff) pour absorber le cold start Neon
-  4. **@seo** : Lot 4 articles SEO (rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues) — quand le pipeline est stable
-- **Blockers** : Aucun bug technique restant. Le seul blocker = autorité du domaine (3 mois, 0 backlinks externes) → Bing crawl minimal tant qu'il n'y a pas de signaux d'autorité.
-- **Commande de reprise suggérée** : `@orchestrator Mode reprise. Vérifie l'état Bing après les soumissions manuelles + ajoute le retry Prisma pour Neon cold start.`
+  1. **@fondateur (URGENT, 5 min)** : merger la branche dans master + déployer
+  2. **@fondateur (manuel, 15 min)** : Bing Webmaster Tools → Submit sitemap + URL Inspection 10 pages
+  3. **@fondateur (manuel, 3h)** : Soumissions plateformes produit (BetaList, Uneed, FuturePedia, etc.) pour 6-10 backlinks
+  4. **@fullstack** : Ajouter table `social_post_daily_lock` pour éliminer la race condition intra-heure
+  5. **@seo** : Lot 4 articles SEO (rester-muet-en-groupe, pourquoi-blagues-marchent-pas, blagues-courtes-vs-longues)
+- **Blockers** : Le merge `claude/update-gradient-agents-GzubQ` → `master` est le SEUL blocker bloquant tout le reste.
+- **Commande de reprise suggérée** : `@orchestrator Mode reprise. Vérifie d'abord que la branche feature est mergée dans master. Sinon, c'est ça la priorité absolue avant tout audit.`
 
 ---
 
