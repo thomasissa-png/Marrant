@@ -1,4 +1,4 @@
-import { callWithRetry, extractJson, getResponseText } from "../client";
+import { buildCachedSystemBlock, callWithRetry, extractJson, getResponseText } from "../client";
 import { prisma } from "@/lib/prisma";
 import {
   validateBlogArticle,
@@ -184,65 +184,11 @@ Réponds UNIQUEMENT en JSON :
   }
 }
 
-/**
- * Phase 2 : Rédaction — Génère l'article complet à partir du plan.
- */
-export async function generateArticle(
-  plan: ArticlePlan,
-): Promise<GeneratedArticle | null> {
-  // Build cross-linking context from ALL published articles (static + DB)
-  const { blogArticles: staticArticles } = await import("@/lib/blog-articles");
-
-  // Merge static + DB articles into a single lookup
-  const allArticles: { slug: string; title: string }[] = staticArticles.map((a) => ({
-    slug: a.slug,
-    title: a.title,
-  }));
-  try {
-    const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
-      select: { slug: true, title: true },
-    });
-    const seen = new Set(allArticles.map((a) => a.slug));
-    for (const a of dbArticles) {
-      if (!seen.has(a.slug)) {
-        allArticles.push({ slug: a.slug, title: a.title });
-      }
-    }
-  } catch {
-    // DB pas dispo — on continue avec les articles statiques seuls
-  }
-
-  let crossLinkContext = "";
-  const cluster = getClusterForSlug(plan.slug);
-  if (cluster) {
-    const relatedSlugs = getRelatedSlugs(plan.slug);
-    const existingRelated = relatedSlugs
-      .map((s) => {
-        const article = allArticles.find((a) => a.slug === s);
-        return article ? `- [${article.title}](/blog/${article.slug})` : null;
-      })
-      .filter(Boolean);
-    if (existingRelated.length > 0) {
-      crossLinkContext = `\n\nARTICLES DU MÊME CLUSTER à lier (ajoute au moins 2 liens vers ces articles dans le corps du texte) :\n${existingRelated.join("\n")}`;
-    }
-  }
-
-  // Also provide other published articles for cross-cluster linking (exclude already-linked cluster articles)
-  const clusterSlugs = new Set(cluster ? [cluster.pillarSlug, ...cluster.satelliteSlugs] : []);
-  const otherArticles = allArticles
-    .filter((a) => a.slug !== plan.slug && !clusterSlugs.has(a.slug))
-    .slice(0, 15)
-    .map((a) => `- [${a.title}](/blog/${a.slug})`)
-    .join("\n");
-  if (otherArticles) {
-    crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
-  }
-
-  const response = await callWithRetry({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 8000,
-    system: `Tu es un rédacteur de génie qui écrit pour deviens-marrant.fr. Tu es à la croisée d'un expert SEO, d'un auteur de stand-up et d'un coach d'humour.
+// System prompt stable pour la génération d'articles SEO. 100% statique (zéro
+// interpolation), ~1600 tokens — au-dessus du seuil Anthropic de 1024 tokens
+// pour Sonnet/Opus. Éligible au prompt caching `cache_control: ephemeral`.
+// Gain estimé : -90% sur les tokens input de generateArticle (1 appel/semaine).
+const GENERATE_ARTICLE_SYSTEM = `Tu es un rédacteur de génie qui écrit pour deviens-marrant.fr. Tu es à la croisée d'un expert SEO, d'un auteur de stand-up et d'un coach d'humour.
 
 ═══════════════════════════════════════
 RÈGLE #1 — LE BLOG EST LA DÉMO DU PRODUIT
@@ -353,7 +299,69 @@ TEST FINAL avant de répondre :
 Relis ton article et vérifie :
 1. "Est-ce que quelqu'un qui lit ça SOURIT au moins 3 fois ?" (test humour)
 2. "Est-ce que les blockquotes et listes sont AUSSI drôles que le texte autour ?" (test GEO-humour)
-Si les parties structurées GEO sont plus sèches que le reste, réécris-les.`,
+Si les parties structurées GEO sont plus sèches que le reste, réécris-les.`;
+
+const GENERATE_ARTICLE_CACHED_BLOCK = buildCachedSystemBlock(GENERATE_ARTICLE_SYSTEM);
+
+/**
+ * Phase 2 : Rédaction — Génère l'article complet à partir du plan.
+ */
+export async function generateArticle(
+  plan: ArticlePlan,
+): Promise<GeneratedArticle | null> {
+  // Build cross-linking context from ALL published articles (static + DB)
+  const { blogArticles: staticArticles } = await import("@/lib/blog-articles");
+
+  // Merge static + DB articles into a single lookup
+  const allArticles: { slug: string; title: string }[] = staticArticles.map((a) => ({
+    slug: a.slug,
+    title: a.title,
+  }));
+  try {
+    const dbArticles = await prisma.blogArticle.findMany({
+      where: { isPublished: true },
+      select: { slug: true, title: true },
+    });
+    const seen = new Set(allArticles.map((a) => a.slug));
+    for (const a of dbArticles) {
+      if (!seen.has(a.slug)) {
+        allArticles.push({ slug: a.slug, title: a.title });
+      }
+    }
+  } catch {
+    // DB pas dispo — on continue avec les articles statiques seuls
+  }
+
+  let crossLinkContext = "";
+  const cluster = getClusterForSlug(plan.slug);
+  if (cluster) {
+    const relatedSlugs = getRelatedSlugs(plan.slug);
+    const existingRelated = relatedSlugs
+      .map((s) => {
+        const article = allArticles.find((a) => a.slug === s);
+        return article ? `- [${article.title}](/blog/${article.slug})` : null;
+      })
+      .filter(Boolean);
+    if (existingRelated.length > 0) {
+      crossLinkContext = `\n\nARTICLES DU MÊME CLUSTER à lier (ajoute au moins 2 liens vers ces articles dans le corps du texte) :\n${existingRelated.join("\n")}`;
+    }
+  }
+
+  // Also provide other published articles for cross-cluster linking (exclude already-linked cluster articles)
+  const clusterSlugs = new Set(cluster ? [cluster.pillarSlug, ...cluster.satelliteSlugs] : []);
+  const otherArticles = allArticles
+    .filter((a) => a.slug !== plan.slug && !clusterSlugs.has(a.slug))
+    .slice(0, 15)
+    .map((a) => `- [${a.title}](/blog/${a.slug})`)
+    .join("\n");
+  if (otherArticles) {
+    crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
+  }
+
+  const response = await callWithRetry({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 8000,
+    system: [GENERATE_ARTICLE_CACHED_BLOCK],
     messages: [
       {
         role: "user",

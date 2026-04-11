@@ -1,4 +1,4 @@
-import { callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
+import { buildCachedSystemBlock, callWithRetry, extractJson, extractJsonArray, getResponseText } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { buildPersonaRotationPrompt } from "../personas";
 
@@ -198,6 +198,14 @@ RÈGLES DE RÉPONSE :
 5. Penser mobile-first (notre audience est majoritairement mobile)
 6. Favoriser les formats courts et partageables`;
 
+// Bloc system caché — construit une seule fois au chargement du module, puis
+// réutilisé sur les 7 call sites du marketing agent. Taille ~3400 tokens
+// (bien au-dessus du seuil Anthropic de 1024 tokens pour Sonnet/Opus), 100%
+// stable entre appels (personas sont des constantes statiques), éligible au
+// prompt caching `cache_control: ephemeral`.
+// Gain estimé : -90% sur les tokens input du marketing agent.
+const MARKETING_SYSTEM_CACHED_BLOCK = buildCachedSystemBlock(FULL_SYSTEM);
+
 // ─── Types ──────────────────────────────────────────────────────
 
 export interface SocialPost {
@@ -305,7 +313,7 @@ export async function generateSocialPost(ctx: SocialPostContext): Promise<Social
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -359,7 +367,7 @@ export async function generateShortVideoScript(ctx: ShortVideoContext): Promise<
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1500,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -424,7 +432,7 @@ export async function generateCampaignBrief(ctx: CampaignContext): Promise<Campa
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 3000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -492,7 +500,7 @@ export async function auditAndRecommendCopy(ctx: CopyAuditContext): Promise<Copy
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 2000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -542,7 +550,7 @@ export async function generateEmailSequence(ctx: EmailContext): Promise<EmailSeq
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 3000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -607,7 +615,7 @@ export async function generateSocialMonthlyPlan(
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 4000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",
@@ -692,7 +700,7 @@ export async function generateSubAgentDirectives(ctx: DirectiveContext): Promise
   const response = await callWithRetry({
     model: "claude-sonnet-4-20250514",
     max_tokens: 3000,
-    system: FULL_SYSTEM,
+    system: [MARKETING_SYSTEM_CACHED_BLOCK],
     messages: [
       {
         role: "user",

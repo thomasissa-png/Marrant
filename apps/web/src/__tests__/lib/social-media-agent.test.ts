@@ -14,6 +14,11 @@ jest.mock("@/lib/ai/client", () => ({
   callWithRetry: jest.fn(),
   extractJson: jest.fn(),
   getResponseText: jest.fn(),
+  buildCachedSystemBlock: jest.fn((text: string) => ({
+    type: "text",
+    text,
+    cache_control: { type: "ephemeral" },
+  })),
 }));
 
 jest.mock("@/lib/ai/agents/marketing-agent", () => ({

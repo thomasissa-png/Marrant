@@ -2543,3 +2543,145 @@ describe("YouTube Client — new functions", () => {
     if (originalKey) process.env.YOUTUBE_API_KEY = originalKey;
   });
 });
+
+// ───────────────────────────────────────────────────────────────────
+// Prompt Caching — Vérification que les agents envoient un bloc system
+// cacheable en premier (cache_control: ephemeral) sur les appels
+// Anthropic. Gain attendu : -90% tokens input sur les blocs stables.
+// ───────────────────────────────────────────────────────────────────
+
+describe("Prompt Caching — cache_control sur les blocs stables", () => {
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+  });
+
+  it("buildCachedSystemBlock produit un TextBlockParam avec cache_control ephemeral", async () => {
+    const { buildCachedSystemBlock } = await import("@/lib/ai/client");
+    const block = buildCachedSystemBlock("stable prompt content");
+
+    expect(block.type).toBe("text");
+    expect(block.text).toBe("stable prompt content");
+    expect(block.cache_control).toEqual({ type: "ephemeral" });
+  });
+
+  it("joke-agent envoie un bloc system caché en premier lors de generateDailyJoke", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Chute",
+            category: "BOULOT",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const { generateDailyJoke } = await import("@/lib/ai/agents/joke-agent");
+    await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Réunion",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
+    const callArgs = mockAnthropicCreate.mock.calls[0][0];
+
+    // system doit être un array (format TextBlockParam[])
+    expect(Array.isArray(callArgs.system)).toBe(true);
+    expect(callArgs.system.length).toBeGreaterThanOrEqual(1);
+
+    // Premier bloc = stable, caché
+    const firstBlock = callArgs.system[0];
+    expect(firstBlock.type).toBe("text");
+    expect(firstBlock.cache_control).toEqual({ type: "ephemeral" });
+    // Le bloc stable doit contenir le test stand-up (partie invariante)
+    expect(firstBlock.text).toContain("LE TEST STAND-UP");
+  });
+
+  it("tip-agent envoie un bloc system caché en premier lors de generateDailyTip", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Le silence qui tue",
+            content: "Un conseil concret qui fait plus de soixante mots pour passer la validation programmatique du minimum de soixante mots dans le contenu. Technique claire et actionnable.",
+            category: "TIMING",
+            difficulty: "DEBUTANT",
+            example: "Tu dis ta vanne → les gens rient → tu te tais → le rire se prolonge.",
+            exercise: "DÉFI SILENCE : attends 5 secondes après chaque rire.",
+          }),
+        },
+      ],
+    });
+
+    const { generateDailyTip } = await import("@/lib/ai/agents/tip-agent");
+    await generateDailyTip({
+      persona: "YANIS",
+      plannedCategory: "TIMING",
+      plannedTheme: "Le silence",
+      recentTips: [],
+      monthlyPlanSummary: "",
+    });
+
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
+    const callArgs = mockAnthropicCreate.mock.calls[0][0];
+
+    expect(Array.isArray(callArgs.system)).toBe(true);
+    const firstBlock = callArgs.system[0];
+    expect(firstBlock.type).toBe("text");
+    expect(firstBlock.cache_control).toEqual({ type: "ephemeral" });
+    expect(firstBlock.text).toContain("LE TEST DU COACH");
+  });
+
+  it("standup-director envoie un bloc system caché en premier lors de validateJoke", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            verdict: "APPROVED",
+            score: 9,
+            issues: [],
+            directorNote: "OK",
+          }),
+        },
+      ],
+    });
+
+    const { validateJoke } = await import("@/lib/ai/agents/standup-director-agent");
+    await validateJoke(
+      {
+        content: "Ma collègue m'a dit tellement de fois que j'étais en retard.",
+        punchline: "Je suis arrivé pile à l'heure, elle s'est sentie bizarre.",
+        category: "BOULOT",
+        type: "ONE_LINER",
+        maturityLevel: 1,
+      },
+      "SOPHIE",
+    );
+
+    expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
+    const callArgs = mockAnthropicCreate.mock.calls[0][0];
+
+    expect(Array.isArray(callArgs.system)).toBe(true);
+    const firstBlock = callArgs.system[0];
+    expect(firstBlock.type).toBe("text");
+    expect(firstBlock.cache_control).toEqual({ type: "ephemeral" });
+    // L'identité du directeur contient son rôle de directeur artistique
+    expect(firstBlock.text).toContain("DIRECTEUR ARTISTIQUE");
+  });
+});
