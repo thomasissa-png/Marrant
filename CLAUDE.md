@@ -411,7 +411,7 @@ BUFFER_ACCESS_TOKEN       — Token API Buffer (Settings > API dans Buffer)
 BUFFER_ORGANIZATION_ID    — ID de l'organisation Buffer
 BUFFER_CHANNEL_TWITTER    — Channel ID du profil Twitter dans Buffer
 BUFFER_CHANNEL_LINKEDIN   — Channel ID de la page LinkedIn dans Buffer
-BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram dans Buffer (optionnel)
+BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram dans Buffer (REQUIS pour publier sur Instagram)
 ```
 
 ### Setup Buffer — Guide
