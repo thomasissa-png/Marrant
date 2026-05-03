@@ -47,3 +47,6 @@ prisma/migrations/
 
 # Misc
 *.log
+
+# Gradient Agents — local rollback backups
+.claude/agents/.backup/
