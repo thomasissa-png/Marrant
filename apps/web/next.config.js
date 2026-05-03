@@ -1,7 +1,22 @@
 /** @type {import('next').NextConfig} */
+// Build target conditionnel :
+//   - BUILD_TARGET=mobile → export statique (apps/web/out) consommé par Capacitor
+//   - sinon → standalone server (Replit)
+const isMobileBuild = process.env.BUILD_TARGET === "mobile";
+
 const nextConfig = {
-  output: "standalone",
-  trailingSlash: false,
+  output: isMobileBuild ? "export" : "standalone",
+  trailingSlash: isMobileBuild ? true : false,
+  // En export statique, les routes dynamiques ont besoin de generateStaticParams
+  // Les API routes ne sont PAS embarquées en export — elles sont appelées depuis le webview
+  // vers https://deviens-marrant.fr (helper apiBase()).
+  images: {
+    unoptimized: isMobileBuild,
+    remotePatterns: [
+      { protocol: "https", hostname: "img.youtube.com" },
+      { protocol: "https", hostname: "i.ytimg.com" },
+    ],
+  },
   typescript: {
     // Required: TS errors are caught by CI lint, not the build step
     ignoreBuildErrors: true,
@@ -36,24 +51,33 @@ const nextConfig = {
     }
     return config;
   },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
-          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube.com https://checkout.stripe.com; object-src 'none'; base-uri 'self'" },
-        ],
-      },
-    ];
-  },
-  async redirects() {
-    return [
+  // headers() et redirects() sont indisponibles en mode export statique (mobile).
+  // En mode mobile, le serveur Next n'est pas lancé — pas besoin de ces helpers côté webview.
+  ...(isMobileBuild
+    ? {}
+    : {
+        async headers() {
+          return [
+            {
+              source: "/(.*)",
+              headers: [
+                { key: "X-Content-Type-Options", value: "nosniff" },
+                { key: "X-Frame-Options", value: "DENY" },
+                { key: "X-XSS-Protection", value: "1; mode=block" },
+                { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+                { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+                { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+                { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube.com https://checkout.stripe.com; object-src 'none'; base-uri 'self'" },
+              ],
+            },
+          ];
+        },
+      }),
+  ...(isMobileBuild
+    ? {}
+    : {
+        async redirects() {
+          return [
       {
         source: "/blagues",
         destination: "/vannes",
@@ -85,20 +109,9 @@ const nextConfig = {
         destination: "/blog/comment-avoir-de-la-repartie",
         permanent: true,
       },
-    ];
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "img.youtube.com",
-      },
-      {
-        protocol: "https",
-        hostname: "i.ytimg.com",
-      },
-    ],
-  },
+          ];
+        },
+      }),
 };
 
 module.exports = nextConfig;

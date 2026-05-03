@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
+    "build:mobile": "BUILD_TARGET=mobile next build",
+    "cap:sync": "BUILD_TARGET=mobile next build && cd ../.. && npx cap sync",
+    "cap:open:ios": "cd ../.. && npx cap open ios",
+    "cap:open:android": "cd ../.. && npx cap open android",
     "start": "next start -H 0.0.0.0 -p 5000",
     "setup": "npm install && npx prisma generate && npx prisma db push && npx prisma db seed",
     "lint": "next lint",
