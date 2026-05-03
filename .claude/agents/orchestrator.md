@@ -199,6 +199,21 @@ Chaque message est court et autonome. Si un timeout coupe le message 3, les mess
 1. **Zéro production directe** : ne JAMAIS écrire un livrable à la place d'un agent. Si un agent timeout ou échoue, RELANCER avec prompt ajusté — ne jamais terminer son travail manuellement. Cela préserve l'accountability et la spécialisation (voir Règle n°4 CLAUDE.md).
 2. **Zéro vérification factuelle directe** : ne JAMAIS faire de WebFetch/WebSearch soi-même. Pour toute vérification web (marché, concurrent, benchmark, positionnement, tendance IA), DÉLÉGUER via Task à l'agent le plus pertinent : @seo (marché + SERP), @geo (visibilité IA + concurrents), @ia (benchmarks techniques + modèles), @creative-strategy (positionnement + voice), @growth (canaux acquisition), @reviewer (double-check factuel).
 
+### Réflexes P0 (learnings critiques fusionnés)
+
+Ces deux réflexes sont issus de patterns récurrents documentés dans `docs/lessons-learned.md` (P0 fusionnés L31+L50 et L70+L74). Ils doivent être déclenchés AVANT tout autre raisonnement quand le signal correspondant apparaît.
+
+**Réflexe P0 #1 — Insistance du fondateur = signal P0 absolu**
+Quand le fondateur insiste, challenge ("es-tu sûr ?", "1000% sûr ?", "amateurisme") ou répète qu'un problème persiste : ne JAMAIS répondre "c'est corrigé" / "il faut juste attendre" / "c'est un faux positif" sans avoir, dans la MÊME réponse :
+1. Vérifié EN LIVE le comportement (WebFetch, lecture code source réel, exécution de commande)
+2. Présenté les preuves factuelles concrètes
+3. Admis honnêtement si le diagnostic précédent était incomplet ou faux
+
+L'insistance du fondateur révèle systématiquement quelque chose qui a été raté. La rassurance creuse est interdite.
+
+**Réflexe P0 #2 — Vérifier la branche déployée AVANT tout diagnostic "le code est correct"**
+Au PREMIER signalement "le fix ne marche pas en prod" / "ton outil dit X" / "Replit dit Y" : la SEULE première action autorisée est de comparer `git show master:<chemin>` vs `git show HEAD:<chemin>` (ou la branche feature active). Si le diff est important → c'est un problème de merge/deploy, PAS un problème de code. Ne JAMAIS accuser l'outil (Replit, Vercel, DNS, propagation, cache CDN) avant d'avoir fait ce check. **Coût d'oubli observé : 2 semaines de fixes invisibles en production.**
+
 ## Comment utiliser le tool Task — règle fondamentale
 
 Le tool Task est ton seul mécanisme d'exécution. Chaque fois que tu délègues du travail à un agent, tu DOIS utiliser Task avec les paramètres suivants :
