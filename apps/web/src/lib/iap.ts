@@ -39,11 +39,11 @@ async function ensureInit(userId?: string): Promise<void> {
   if (!isMobileNative()) {
     throw new Error("RevenueCat ne peut être initialisé qu'en mode native mobile");
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { Purchases, LOG_LEVEL } = require("@revenuecat/purchases-capacitor");
 
   const apiKey = (() => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line
     const { Capacitor } = require("@capacitor/core");
     const platform = Capacitor.getPlatform();
     if (platform === "ios") return process.env.NEXT_PUBLIC_REVENUECAT_API_KEY_IOS ?? "";
@@ -66,7 +66,7 @@ async function ensureInit(userId?: string): Promise<void> {
 export async function getOfferings(): Promise<IAPProduct[]> {
   if (!isMobileNative()) return [];
   await ensureInit();
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { Purchases } = require("@revenuecat/purchases-capacitor");
   const offerings = await Purchases.getOfferings();
   const current = offerings.current;
@@ -90,7 +90,7 @@ export async function purchasePackage(productIdentifier: string, userId?: string
     throw new Error("L'achat IAP n'est disponible que sur mobile");
   }
   await ensureInit(userId);
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { Purchases } = require("@revenuecat/purchases-capacitor");
   const offerings = await Purchases.getOfferings();
   const current = offerings.current;
@@ -111,7 +111,7 @@ export async function restorePurchases(userId?: string): Promise<IAPCustomerInfo
     throw new Error("Restore IAP indisponible en web");
   }
   await ensureInit(userId);
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { Purchases } = require("@revenuecat/purchases-capacitor");
   const result = await Purchases.restorePurchases();
   return mapCustomerInfo(result.customerInfo);
@@ -125,7 +125,7 @@ export async function getCustomerInfo(userId?: string): Promise<IAPCustomerInfo>
     return { isPremium: false, expirationDate: null, productIdentifier: null, managementURL: null };
   }
   await ensureInit(userId);
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { Purchases } = require("@revenuecat/purchases-capacitor");
   const result = await Purchases.getCustomerInfo();
   return mapCustomerInfo(result.customerInfo);

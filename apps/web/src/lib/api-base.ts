@@ -20,7 +20,7 @@ function detectNative(): boolean {
   }
   try {
     // Import dynamique pour éviter de casser le SSR / le build pure web
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line
     const { Capacitor } = require("@capacitor/core");
     cachedIsNative = Capacitor?.isNativePlatform?.() ?? false;
   } catch {

@@ -57,13 +57,13 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
 
     if (isMobileNative()) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        // eslint-disable-next-line
         const { PushNotifications } = require("@capacitor/push-notifications");
         const perm = await PushNotifications.requestPermissions();
         if (perm.receive === "granted") {
           await PushNotifications.register();
           PushNotifications.addListener("registration", async (t: { value: string }) => {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            // eslint-disable-next-line
             const { Capacitor } = require("@capacitor/core");
             const platform = Capacitor.getPlatform();
             await api("/api/push/register-token", {
@@ -96,7 +96,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-6xl mb-6">🎤</div>
           <h1 className="text-4xl font-bold mb-3">Tu vas devenir le pote drôle.</h1>
           <p className="text-lg text-gray-300 mb-8">
-            Vannes du jour, conseils stand-up, exos de répartie. Bref, t'es bien tombé.
+            Vannes du jour, conseils stand-up, exos de répartie. Bref, t&apos;es bien tombé.
           </p>
           <button
             onClick={() => setStep(2)}
@@ -110,7 +110,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
       {step === 2 && (
         <div className="max-w-md w-full">
           <div className="text-sm text-violet-300 mb-2">Question 1/2</div>
-          <h2 className="text-2xl font-bold mb-6">T'as quel âge en gros ?</h2>
+          <h2 className="text-2xl font-bold mb-6">T&apos;as quel âge en gros ?</h2>
           <div className="space-y-3 mb-8">
             {[
               { v: "u22", label: "Moins de 22 ans", emoji: "🎓" },
@@ -174,7 +174,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">🔔</div>
           <h2 className="text-3xl font-bold mb-3">{PERSONA_MESSAGES[persona]}</h2>
           <p className="text-gray-300 mb-8">
-            On t'envoie une vanne par jour à 9h. Pile au bon moment pour la sortir au boulot, en
+            On t&apos;envoie une vanne par jour à 9h. Pile au bon moment pour la sortir au boulot, en
             cours ou à la machine à café.
           </p>
           <button
@@ -197,7 +197,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">🎁</div>
           <h2 className="text-3xl font-bold mb-3">Première vanne offerte</h2>
           <p className="text-gray-300 mb-8">
-            On a sélectionné une vanne pile pour toi. Pas besoin de compte, c'est cadeau.
+            On a sélectionné une vanne pile pour toi. Pas besoin de compte, c&apos;est cadeau.
           </p>
           <button
             onClick={() => setStep(5)}
