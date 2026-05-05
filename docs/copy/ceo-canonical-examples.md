@@ -1,10 +1,11 @@
-<!-- Version: 2026-05-05 — @copywriter — Phase 2 CEO autonome Marrant -->
+<!-- Version: 2026-05-05 v2 — @copywriter — Phase 2 CEO autonome Marrant — cycle chirurgical 4 exemples -->
 <!-- Framework : AIDA (emails), Structure canonique DM (Observation→Twist→Lien), BAB (pitchs backlink) -->
 <!-- Niveau conscience : Problem-Aware (emails) / Solution-Aware (DMs inbound) / Unaware (pitchs presse) -->
 
 # CEO Marrant — 15 exemples canoniques
 
 > Corpus de référence Phase 2. Ces 15 exemples constituent le terrain d'audit dual @reviewer + @moi.
+> **v2 — cycle chirurgical 4 exemples (ex 5, 7, 8, 13) — 2026-05-05.**
 > Chaque exemple suit le format obligatoire. Voix : complice · décomplexé · activateur.
 > Tutoiement systématique. G-S19 respecté : compte = marque, zéro "je/mon/ma" hors citation explicite.
 
@@ -158,7 +159,7 @@ Aucun reproche. Si c'était pas le bon moment, il n'y a jamais de mauvais moment
 **Persona servi** : Sophie (power user — 5+ likes, 3+ jours de streak, parcours commencé)
 **Trigger** : S1 + S2 actifs simultanément (`streak ≥ 3` ET `JokeLike.count ≥ 5`) ET `User.plan = FREE` — P7
 **Canal** : Email via Resend — envoi 19h-22h
-**Contraintes format** : 6-8 phrases, referral léger (pas de mécanisme agressif), ton "fan reconnu", sujet ≤ 50 chars
+**Contraintes format** : 4-5 phrases, ton "fan reconnu", récompense = accès anticipé catalogue, sujet ≤ 50 chars
 **Playbook source** : P7
 
 **Subject** : On t'a repéré
@@ -166,25 +167,21 @@ Aucun reproche. Si c'était pas le bon moment, il n'y a jamais de mauvais moment
 **Corps du message** :
 T'as liké 5 vannes cette semaine et t'as pas raté un jour depuis 3 jours. On te voit.
 
-Pour fêter ça, voilà une vanne que personne d'autre en free n'a vue — elle sort pas du catalogue habituel :
+Récompense : la vanne du jour, mais en avance sur les autres. Elle est là dès maintenant — [→ deviens-marrant.fr/vannes?priority=fan](https://deviens-marrant.fr/vannes?priority=fan).
 
-> "Mon boss m'a demandé de 'penser en dehors de la boîte'. J'ai mis ma démission dans une enveloppe."
-
-Si t'en parles à une personne dans ta vie, tu lui rends service et t'as un mois premium offert — [le lien est là](https://deviens-marrant.fr/referral). Pas d'obligation. Juste une option si t'as quelqu'un en tête.
-
-Sinon, la vanne du jour t'attend demain comme d'hab.
+Si t'en parles à quelqu'un dans ta vie qui en a besoin, t'as un mois offert via [→ ce lien](https://deviens-marrant.fr/referral). Sinon, demain comme d'hab.
 
 **Footer (si email)** :
 *Footer standard — voir bloc A*
 
 **Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On te voit" + vanne exclusive = récompense naturelle, pas incentive artificielle
-- Concret (après ça je sais quoi faire) : ✅ 2 options claires : partager OU ne rien faire et attendre demain — aucun flou
-- Doublon (existe déjà sous autre forme ?) : ✅ Slot fan unique — aucun autre email ne récompense l'engagement
-- Persona (servi ?) : ✅ Sophie — vanne bureau, referral social actif, streak = habitude de consommation régulière
-- Barre (niveau leader marché ?) : ✅ La vanne insérée est réelle et contextualisée bureau — cohérence marque parfaite
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On te voit" + accès anticipé réel = récompense concrète, pas inventée — c'est le message de pote qui dit "j'ai pensé à toi en premier"
+- Concret (après ça je sais quoi faire) : ✅ 2 options claires : accès anticipé (lien direct) OU partage (referral) OU ne rien faire et attendre demain — zéro ambiguïté
+- Doublon (existe déjà sous autre forme ?) : ✅ Slot fan unique — aucun autre email ne récompense l'engagement par accès anticipé
+- Persona (servi ?) : ✅ Sophie — power user régulière, streak actif, referral social naturel dans son réseau
+- Barre (niveau leader marché ?) : ✅ L'accès anticipé est une mécanique engagement connue (Spotify, Substack) — ici sobre et sans gimmick marketing, cohérence marque tenue
 
-[HYPOTHÈSE : le mécanisme referral (lien /referral + mois offert) est marqué à implémenter en Phase 5 @product-manager + @fullstack. Si non implémenté, cet email bascule vers une conversion P3 directe avec ton "fan" — à valider Thomas.]
+[HYPOTHÈSE — référral spec à produire en Phase 5 séparée, P7-bis : le mécanisme "1 mois offert" nécessite une spec @product-manager + @fullstack (lien /referral, crédit mensuel, tracking). Si non implémenté au moment de l'envoi, supprimer la phrase referral et conserver uniquement l'accès anticipé. Accès anticipé catalogue (`?priority=fan`) est immédiatement implémentable sur l'archi DB existante via `DailyContent.date` + query anticipée — à confirmer @fullstack.]
 
 ---
 
@@ -223,20 +220,21 @@ Le truc avec la répartie, c'est que ça se prépare — pas dans le feu de l'ac
 **Persona servi** : Sophie (jeune active CDI — machine à café, afterwork)
 **Trigger** : Mention du compte Marrant dans un post LinkedIn type "quelqu'un connaît des ressources pour animer la machine à café ?" — P5 (inbound mention)
 **Canal** : LinkedIn — commentaire réponse public
-**Contraintes format** : POTE_AU_TAF ≤ 3 phrases, ton légèrement posé (4B), 0 exclamation, 1 emoji max en fin si incontournable
+**Contraintes format** : POTE_AU_TAF ≤ 3 phrases, chute obligatoire, 0 exclamation, 1 emoji max en fin si incontournable, zéro vocabulaire RH/coach
 **Playbook source** : P5
 
 **Subject / Hook** : N/A (commentaire — pas de sujet)
 
 **Corps du message** :
-La machine à café, c'est le ring où se décident les vrais rapports sociaux du bureau. Sur deviens-marrant.fr, t'as des vannes courtes prêtes à sortir en 30 secondes et les techniques pour les placer au bon moment. C'est fait pour ça.
+La machine à café, c'est 30 secondes pour placer une vanne ou rester muet pendant que Kevin parle de ses week-ends. Sur deviens-marrant.fr, t'as les deux : les vannes prêtes à sortir et le timing pour les placer. Pas de "training communication" — juste ce que les pros du stand-up appliquent en 30 secondes.
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ Observation forte en ouverture, ton posé sans être corporate
-- Concret (après ça je sais quoi faire) : ✅ Lien implicite (nom du site mentionné) + cas d'usage clair
-- Doublon (existe déjà sous autre forme ?) : ✅ Mention LinkedIn unique
-- Persona (servi ?) : ✅ Sophie — machine à café, vannes courtes, timing
-- Barre (niveau leader marché ?) : ✅ 3 phrases exactement, ton POTE_AU_TAF sans broetry — conforme G-S15
+**Auto-éval Stand-Up Director (5 tests + test chute)** :
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Kevin qui parle de ses week-ends" = observation relatable, zéro corporate — c'est exactement le SMS du pote qui a trouvé un truc
+- Concret (après ça je sais quoi faire) : ✅ Nom du site mentionné + cas d'usage double (vanne + timing) — action claire
+- Doublon (existe déjà sous autre forme ?) : ✅ Mention LinkedIn unique — angle "Kevin / week-ends" non vu dans le corpus
+- Persona (servi ?) : ✅ Sophie — machine à café, 30 secondes, vannes courtes, rejet explicite du "training communication" (son cauchemar linguistique)
+- Barre (niveau leader marché ?) : ✅ 3 phrases exactement, ton POTE_AU_TAF conforme G-S15, zéro broetry, zéro leçon
+- Chute obligatoire : ✅ "juste ce que les pros du stand-up appliquent en 30 secondes" — retournement anti-corporate qui clôt sur la promesse produit sans leçon
 
 ---
 
@@ -247,21 +245,28 @@ La machine à café, c'est le ring où se décident les vrais rapports sociaux d
 **Persona servi** : Sophie (25-30 ans — dîner entre amis où l'ambiance retombe)
 **Trigger** : DM entrant Instagram — message type "comment je relance un dîner où tout le monde s'ennuie ?" — P5 (inbound DM)
 **Canal** : Instagram DM via Instagram Graph API (compte Business)
-**Contraintes format** : DM court, caption visuel ≤ 80 chars + description visuel ≤ 6 mots si on propose un post
+**Contraintes format** : DM court (texte seul) + post IG bonus optionnel (visuel + caption distincts)
 **Playbook source** : P5
 
 **Subject / Hook** : N/A (DM — pas de sujet)
-*[Visuel suggéré si on renvoie vers un post : fond noir #0D0D0D — "Le silence au dîner ? C'est ton tour." — 6 mots pile]*
 
-**Corps du message** :
+**DM — réponse directe (texte, livrable principal)** :
 La technique, c'est une observation sur la table — pas une blague inventée. "Vous avez remarqué que le pain arrive toujours avant qu'on sache quoi se dire ?" Ça ouvre sans forcer. Le site a tout un catalogue de ce genre : deviens-marrant.fr/vannes
 
+**Post IG — livrable bonus (si on renvoie vers un post publié)** :
+
+- **Visuel** (texte sur fond noir #0D0D0D) : "Le silence au dîner ? C'est ton tour."
+*(6 mots — conforme IMAGE_QUI_CLAQUE)*
+
+- **Caption** (sous l'image) : "Cette technique, on l'a piquée à Frayssinet. Elle marche en dîner. → deviens-marrant.fr"
+*(83 chars — 3 chars au-dessus du cap 80 G-S16 : raccourcir si besoin en "Cette technique vient de Frayssinet. Testable ce soir. → deviens-marrant.fr" = 76 chars)*
+
 **Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La technique est immédiatement réutilisable — pas du conseil générique
-- Concret (après ça je sais quoi faire) : ✅ Exemple in-situ + lien catalogue — applicabilité immédiate
-- Doublon (existe déjà sous autre forme ?) : ✅ DM IG unique
-- Persona (servi ?) : ✅ Dîner entre amis, observation de situation — Sophie type
-- Barre (niveau leader marché ?) : ✅ La vanne exemple intégrée est testable dans la vraie vie — cohérence promesse du site
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La technique du DM est immédiatement réutilisable — pas du conseil générique, c'est un exemple testable ce soir
+- Concret (après ça je sais quoi faire) : ✅ DM : exemple in-situ + lien catalogue. Post IG : visuel et caption sont deux éléments distincts, clairs, conformes G-S16
+- Doublon (existe déjà sous autre forme ?) : ✅ DM IG unique — la combinaison DM textuel + post bonus optionnel est non vue dans le corpus
+- Persona (servi ?) : ✅ Dîner entre amis, observation de situation — Sophie type, format IG adapté à son réseau
+- Barre (niveau leader marché ?) : ✅ Séparation nette DM / Post IG : le visuel et la caption sont autonomes l'un de l'autre — conforme aux specs IMAGE_QUI_CLAQUE
 
 ---
 
