@@ -2324,6 +2324,56 @@ describe("validatePostConstraints", () => {
   });
 });
 
+// ─── Anti-régression Bug 2 hotfix P0 session 7 — runSocialGates G-S5 char limit
+describe("runSocialGates — G-S5 hard reject Twitter > 270 chars", () => {
+  let runSocialGates: any;
+
+  beforeAll(async () => {
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    runSocialGates = mod.runSocialGates;
+  });
+
+  const basePost = {
+    platform: "TWITTER" as const,
+    format: "TWEET" as const,
+    hook: "Fary répond JAMAIS",
+    content: "OK",
+    cta: "",
+    hashtags: [],
+    targetPersona: "YANIS" as const,
+    sourceType: "ORIGINAL" as const,
+  };
+
+  it("FAIL G-S5 quand un tweet dépasse 270 chars (marge sécurité)", () => {
+    const post = { ...basePost, content: "A".repeat(271) };
+    const gates = runSocialGates(post);
+    const g = gates.find((x: any) => x.gate.includes("G-S5"));
+    expect(g).toBeDefined();
+    expect(g.pass).toBe(false);
+    expect(g.reason).toMatch(/271/);
+  });
+
+  it("PASS G-S5 quand un tweet est exactement 270 chars", () => {
+    const post = { ...basePost, content: "A".repeat(270) };
+    const gates = runSocialGates(post);
+    const g = gates.find((x: any) => x.gate.includes("G-S5"));
+    expect(g.pass).toBe(true);
+  });
+
+  it("FAIL G-S5 quand une partie de thread Twitter dépasse 270 chars", () => {
+    const post = {
+      ...basePost,
+      format: "THREAD" as const,
+      content: "intro thread",
+      threadParts: ["court", "B".repeat(271), "fin"],
+    };
+    const gates = runSocialGates(post);
+    const g = gates.find((x: any) => x.gate.includes("G-S5"));
+    expect(g.pass).toBe(false);
+    expect(g.reason).toMatch(/271/);
+  });
+});
+
 // ─── Video Discovery Agent Tests ────────────────────────────────
 
 describe("Video Discovery Agent", () => {

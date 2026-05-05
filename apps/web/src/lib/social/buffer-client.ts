@@ -122,6 +122,52 @@ async function bufferGraphQL<T>(
   return data.data as T;
 }
 
+// ─── Hard Guards (anti-erreur Buffer 400) ──────────────────────
+
+/**
+ * Limites strictes par plateforme pour éviter les erreurs Buffer 400.
+ * - Twitter : 280 chars (hard limit Twitter API). Marge à 280 ici car la validation
+ *   métier (G-S5) est à 270 — ce guard est le dernier filet avant l'API.
+ * - LinkedIn : 1300 chars (limite recommandée pour visibilité algo)
+ * - Instagram : 2200 chars (hard limit Instagram caption)
+ */
+const PLATFORM_HARD_LIMITS: Record<BufferPlatform, number> = {
+  TWITTER: 280,
+  LINKEDIN: 1300,
+  INSTAGRAM: 2200,
+};
+
+/**
+ * Erreur spécifique quand le contenu dépasse la limite de la plateforme.
+ * Levée AVANT l'appel Buffer pour éviter les erreurs 400 cascade.
+ */
+export class BufferContentTooLongError extends Error {
+  public readonly platform: BufferPlatform;
+  public readonly contentLength: number;
+  public readonly limit: number;
+
+  constructor(platform: BufferPlatform, contentLength: number, limit: number) {
+    super(
+      `Contenu trop long pour ${platform} : ${contentLength} chars (max ${limit}). Le post doit être raccourci ou splitté en thread avant publication.`,
+    );
+    this.name = "BufferContentTooLongError";
+    this.platform = platform;
+    this.contentLength = contentLength;
+    this.limit = limit;
+  }
+}
+
+/**
+ * Vérifie que le contenu respecte la limite de caractères de la plateforme.
+ * Lève BufferContentTooLongError si dépassement (hard guard avant appel API).
+ */
+function ensureContentLength(platform: BufferPlatform, content: string): void {
+  const limit = PLATFORM_HARD_LIMITS[platform];
+  if (content.length > limit) {
+    throw new BufferContentTooLongError(platform, content.length, limit);
+  }
+}
+
 // ─── Quota Management ───────────────────────────────────────────
 
 /**
@@ -226,6 +272,10 @@ export async function createBufferPost(
   dueAt?: Date,
   _skipQuotaCheck = false,
 ): Promise<string> {
+  // ─── Hard guard taille (avant tout appel API) ───
+  // Évite la cascade Buffer 400 "post cannot exceed N characters"
+  ensureContentLength(platform, text);
+
   // Quota check (sauf si appelé depuis createBufferThread qui fait son propre check)
   if (!_skipQuotaCheck) {
     await ensureQuotaAvailable(platform, 1);
@@ -238,6 +288,13 @@ export async function createBufferPost(
   const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
   const dueAtStr = effectiveDueAt.toISOString();
 
+  // Instagram requiert le metadata shouldShareToFeed même pour un post texte
+  // (cas rare mais possible — si Instagram tombe sur ce path sans image, l'API
+  // Buffer rejette sans le metadata. Voir createBufferImagePost pour le cas standard).
+  const metadataBlock = platform === "INSTAGRAM"
+    ? `,\n        metadata: { instagram: { type: post, shouldShareToFeed: true } }`
+    : "";
+
   const query = `
     mutation CreatePost {
       createPost(input: {
@@ -245,7 +302,7 @@ export async function createBufferPost(
         channelId: ${JSON.stringify(channelId)},
         schedulingType: automatic,
         mode: customScheduled,
-        dueAt: "${dueAtStr}"
+        dueAt: "${dueAtStr}"${metadataBlock}
       }) {
         ... on PostActionSuccess {
           post {
@@ -287,6 +344,13 @@ export async function createBufferImagePost(
   dueAt?: Date,
   hashtags?: string,
 ): Promise<string> {
+  // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
+  const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
+
+  // ─── Hard guard taille (avant tout appel API) ───
+  // On vérifie le texte FINAL (avec hashtags) — c'est ce que Buffer recevra
+  ensureContentLength(platform, fullText);
+
   await ensureQuotaAvailable(platform, 1);
 
   const channelId = getChannelId(platform);
@@ -295,9 +359,6 @@ export async function createBufferImagePost(
   const minFuture = new Date(Date.now() + 2 * 60 * 1000);
   const effectiveDueAt = dueAt && dueAt > minFuture ? dueAt : minFuture;
   const dueAtStr = effectiveDueAt.toISOString();
-
-  // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
-  const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
   // Instagram requiert :
   //   - type : post, story, ou reel (enum GraphQL)
@@ -367,6 +428,19 @@ export async function createBufferThread(
 ): Promise<string> {
   if (parts.length === 0) {
     throw new Error("Thread vide — au moins 1 tweet requis");
+  }
+
+  // ─── Hard guard : chaque partie du thread doit respecter la limite Twitter ───
+  // (createBufferPost ferait le check par partie, mais on lève l'erreur en amont
+  // pour éviter de publier 2 parties valides puis échouer sur la 3ème)
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > PLATFORM_HARD_LIMITS.TWITTER) {
+      throw new BufferContentTooLongError(
+        "TWITTER",
+        parts[i].length,
+        PLATFORM_HARD_LIMITS.TWITTER,
+      );
+    }
   }
 
   // Quota check : un thread consomme N slots (1 par partie)

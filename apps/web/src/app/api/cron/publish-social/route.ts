@@ -8,6 +8,7 @@ import {
   isChannelConfigured,
   getBufferChannels,
   BufferQueueFullError,
+  BufferContentTooLongError,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
 import { sendAdminAlert } from "@/lib/email";

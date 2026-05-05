@@ -147,6 +147,90 @@ describe("buffer-client", () => {
       );
     });
 
+    // ─── Anti-régression Bug 1 : Instagram shouldShareToFeed (hotfix P0 session 7) ───
+    it("inclut shouldShareToFeed: true dans le payload Instagram (post texte)", async () => {
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse())
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: {
+                post: { id: "buffer-ig-text", text: "test ig" },
+              },
+            },
+          }),
+        });
+
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await createBufferPost("INSTAGRAM", "test ig");
+
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
+      expect(body.query).toContain("shouldShareToFeed: true");
+      expect(body.query).toContain("metadata: { instagram:");
+    });
+
+    it("n'inclut PAS metadata Instagram dans les payloads Twitter/LinkedIn", async () => {
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse())
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: { post: { id: "buffer-tw", text: "tw" } },
+            },
+          }),
+        });
+
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      await createBufferPost("TWITTER", "tw test");
+
+      const body = JSON.parse(mockFetch.mock.calls[1][1].body);
+      expect(body.query).not.toContain("shouldShareToFeed");
+      expect(body.query).not.toContain("metadata: { instagram:");
+    });
+
+    // ─── Anti-régression Bug 2 : Twitter 280 chars hard guard (hotfix P0 session 7) ───
+    it("throw BufferContentTooLongError AVANT l'appel Buffer si content Twitter > 280 chars", async () => {
+      const { createBufferPost, BufferContentTooLongError } = require("@/lib/social/buffer-client");
+      const tooLong = "A".repeat(281);
+
+      await expect(createBufferPost("TWITTER", tooLong)).rejects.toThrow(BufferContentTooLongError);
+      // Vérifie qu'AUCUN appel Buffer n'a été fait (pas même le quota check)
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("accepte un post Twitter exactement à 280 chars", async () => {
+      mockFetch
+        .mockResolvedValueOnce(mockQuotaCheckResponse())
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({
+            data: {
+              createPost: { post: { id: "buffer-tw-edge", text: "" } },
+            },
+          }),
+        });
+
+      const { createBufferPost } = require("@/lib/social/buffer-client");
+      const exactlyMax = "A".repeat(280);
+      await expect(createBufferPost("TWITTER", exactlyMax)).resolves.toBe("buffer-tw-edge");
+    });
+
+    it("throw BufferContentTooLongError pour LinkedIn > 1300 chars", async () => {
+      const { createBufferPost, BufferContentTooLongError } = require("@/lib/social/buffer-client");
+      const tooLong = "L".repeat(1301);
+      await expect(createBufferPost("LINKEDIN", tooLong)).rejects.toThrow(BufferContentTooLongError);
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("throw BufferContentTooLongError pour Instagram > 2200 chars", async () => {
+      const { createBufferPost, BufferContentTooLongError } = require("@/lib/social/buffer-client");
+      const tooLong = "I".repeat(2201);
+      await expect(createBufferPost("INSTAGRAM", tooLong)).rejects.toThrow(BufferContentTooLongError);
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
     it("throw sur erreur 401 (token invalide)", async () => {
       mockFetch
         .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check
