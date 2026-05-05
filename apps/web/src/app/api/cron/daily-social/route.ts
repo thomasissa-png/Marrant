@@ -43,7 +43,7 @@ export async function GET(req: Request) {
     // ── Quotas PAR PLATEFORME ET PAR JOUR (refonte s7) ─────
     // 1 format par plateforme, 1 post/jour/plateforme.
     // Yanis : pas de LinkedIn (slot supprimé).
-    // Plus de THREAD ni WILD_CARD ni QUOTE_ANALYSIS — un seul MINI_STANDUP/jour.
+    // Plus de THREAD ni QUOTE_ANALYSIS — un seul MINI_STANDUP/jour.
     //
     // Plan éditorial (social-editorial-plan.json v2.0-s7) :
     //   Tous jours : 1 Twitter + 1 LI + 1 IG  |  Yanis : 1 Twitter + 1 IG (pas de LI)

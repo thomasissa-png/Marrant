@@ -947,7 +947,6 @@ function SocialPostCard({
     TWEET: "Tweet (legacy)",
     THREAD: "Thread (legacy)",
     QUOTE_ANALYSIS: "Quote Analyse (legacy)",
-    WILD_CARD: "Wild Card (legacy)",
     POST: "Post (legacy)",
   };
 

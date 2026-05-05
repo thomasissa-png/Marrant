@@ -2207,7 +2207,7 @@ Hashtags : ${post.hashtags.join(", ")}
    → Twitter (MINI_STANDUP) : 1 single tweet ≤ 270 chars, punchline sèche, pas de thread, pas de hashtags dans le corps. Voix observateur (G-S19), pas de "je/mon/ma" hors citation.
    → LinkedIn (POTE_AU_TAF) : ≤ 3 phrases, scène pro vécue posée, ZÉRO leçon (G-S15), zéro vocabulaire coach (G-S17), zéro vie privée intime (G-S20). Voix "Ce moment où ton..." / "Le X qui..."
    → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 6 mots reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
-   → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, WILD_CARD, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
+   → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
 
 10. PERSONA TEST :
     ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?

@@ -49,7 +49,6 @@ const FORMAT_LABELS: Record<string, string> = {
   POST: "Post (legacy)",
   QUOTE_ANALYSIS: "Quote Analyse (legacy)",
   TECHNIQUE_DU_JOUR: "Technique du Jour (legacy)",
-  WILD_CARD: "Wild Card (legacy)",
 };
 
 const PERSONA_COLORS: Record<string, string> = {

@@ -145,10 +145,10 @@ export async function GET(req: Request) {
       console.log(`[PublishSocial] Circuit breaker actif — plateformes bloquées 24h : ${[...blockedPlatforms].join(", ")}`);
     }
 
-    // Refonte s7 : skip les formats deprecated (THREAD, QUOTE_ANALYSIS, WILD_CARD, TECHNIQUE_DU_JOUR)
+    // Refonte s7 : skip les formats deprecated (THREAD, QUOTE_ANALYSIS, TECHNIQUE_DU_JOUR)
     // Ces formats ne doivent plus être publiés — seulement MINI_STANDUP / POTE_AU_TAF / IMAGE_QUI_CLAQUE
     // (TWEET et POST sont conservés en alias legacy pour les posts admin manuels)
-    const DEPRECATED_FORMATS = ["THREAD", "QUOTE_ANALYSIS", "WILD_CARD", "TECHNIQUE_DU_JOUR"];
+    const DEPRECATED_FORMATS = ["THREAD", "QUOTE_ANALYSIS", "TECHNIQUE_DU_JOUR"];
 
     // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
@@ -178,7 +178,7 @@ export async function GET(req: Request) {
       },
       data: {
         status: "REJECTED",
-        directorNote: "Refonte s7 — format deprecated (THREAD/QUOTE_ANALYSIS/WILD_CARD/TECHNIQUE_DU_JOUR ne sont plus publiés)",
+        directorNote: "Refonte s7 — format deprecated (THREAD/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR ne sont plus publiés)",
       },
     });
     if (deprecatedRejected.count > 0) {

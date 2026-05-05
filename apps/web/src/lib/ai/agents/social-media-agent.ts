@@ -93,7 +93,7 @@ export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
  * - LINKEDIN → POTE_AU_TAF (vanne courte sur la vie de bureau, ≤ 3 phrases)
  * - INSTAGRAM → IMAGE_QUI_CLAQUE (punchline ≤ 6 mots sur fond noir, caption ≤ 80 chars)
  *
- * Anciens formats (TWEET/THREAD/POST/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR/WILD_CARD)
+ * Anciens formats (TWEET/THREAD/POST/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR)
  * conservés en alias pour rétro-compat tests + données legacy en DB.
  * La queue de publication (publish-social) skip les anciens formats deprecated.
  */
@@ -107,8 +107,7 @@ export type SocialFormat =
   | "THREAD"
   | "POST"
   | "QUOTE_ANALYSIS"
-  | "TECHNIQUE_DU_JOUR"
-  | "WILD_CARD";
+  | "TECHNIQUE_DU_JOUR";
 
 /**
  * Formats deprecated qui ne doivent plus être générés ni publiés.
@@ -117,7 +116,6 @@ export type SocialFormat =
 export const DEPRECATED_FORMATS: SocialFormat[] = [
   "THREAD",
   "QUOTE_ANALYSIS",
-  "WILD_CARD",
   "TECHNIQUE_DU_JOUR",
 ];
 
@@ -195,7 +193,7 @@ TEST DE LA VOIX (à appliquer avant de répondre) :
 | LinkedIn  | POTE_AU_TAF     | Une vanne courte sur ta journée de boulot, sans leçon | "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi." |
 | Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 6 mots en gros sur fond noir | Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social." |
 
-PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de WILD_CARD. PAS de TECHNIQUE_DU_JOUR.
+PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de TECHNIQUE_DU_JOUR.
 Le compte sert la marque par accumulation de bonnes vannes — pas par "showcase pédagogique".
 
 ═══ EXEMPLES CANONIQUES À IMITER ═══
@@ -486,7 +484,7 @@ export function validatePostConstraints(
   if (post.platform === "TWITTER") {
     // Tous les formats Twitter single-tweet doivent respecter 270 chars
     // (marge 10 chars pour encodage emojis/accents que Twitter compte différemment)
-    const singleTweetFormats = ["MINI_STANDUP", "TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
+    const singleTweetFormats = ["MINI_STANDUP", "TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS"];
     if (singleTweetFormats.includes(post.format) && post.content.length > 270) {
       issues.push(
         `Tweet trop long : ${post.content.length} chars (max 270). Format: ${post.format}`,
