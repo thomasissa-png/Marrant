@@ -76,7 +76,8 @@ function getHumoristeOfDay(dayOfMonth: number): typeof HUMORISTES_ROTATION[numbe
   return HUMORISTES_ROTATION[dayOfMonth % HUMORISTES_ROTATION.length];
 }
 
-function getSecondaryHumoriste(dayOfMonth: number): typeof HUMORISTES_ROTATION[number] {
+// Conservé pour usage futur (rotation humoriste secondaire) — refonte s7 ne l'utilise plus directement
+export function getSecondaryHumoriste(dayOfMonth: number): typeof HUMORISTES_ROTATION[number] {
   return HUMORISTES_ROTATION[(dayOfMonth + 3) % HUMORISTES_ROTATION.length];
 }
 
@@ -84,12 +85,50 @@ function getSecondaryHumoriste(dayOfMonth: number): typeof HUMORISTES_ROTATION[n
 
 export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
 
+/**
+ * Formats sociaux — refonte s7 (2026-05-05).
+ *
+ * Nouveau modèle : 1 format par plateforme.
+ * - TWITTER → MINI_STANDUP (single tweet, micro-set 30s)
+ * - LINKEDIN → POTE_AU_TAF (vanne courte sur la vie de bureau, ≤ 3 phrases)
+ * - INSTAGRAM → IMAGE_QUI_CLAQUE (punchline ≤ 6 mots sur fond noir, caption ≤ 80 chars)
+ *
+ * Anciens formats (TWEET/THREAD/POST/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR/WILD_CARD)
+ * conservés en alias pour rétro-compat tests + données legacy en DB.
+ * La queue de publication (publish-social) skip les anciens formats deprecated.
+ */
 export type SocialFormat =
+  // Nouveaux formats canoniques (1 par plateforme)
+  | "MINI_STANDUP"
+  | "POTE_AU_TAF"
+  | "IMAGE_QUI_CLAQUE"
+  // Legacy — rétro-compat tests + données existantes en DB (deprecated)
   | "TWEET"
   | "THREAD"
   | "POST"
   | "QUOTE_ANALYSIS"
-  | "TECHNIQUE_DU_JOUR";
+  | "TECHNIQUE_DU_JOUR"
+  | "WILD_CARD";
+
+/**
+ * Formats deprecated qui ne doivent plus être générés ni publiés.
+ * La queue publish-social les skip explicitement.
+ */
+export const DEPRECATED_FORMATS: SocialFormat[] = [
+  "THREAD",
+  "QUOTE_ANALYSIS",
+  "WILD_CARD",
+  "TECHNIQUE_DU_JOUR",
+];
+
+/**
+ * Format canonique par plateforme (refonte s7).
+ */
+export const PLATFORM_FORMAT: Record<SocialPlatform, SocialFormat> = {
+  TWITTER: "MINI_STANDUP",
+  LINKEDIN: "POTE_AU_TAF",
+  INSTAGRAM: "IMAGE_QUI_CLAQUE",
+};
 
 export interface GeneratedSocialPost {
   platform: SocialPlatform;
@@ -118,10 +157,138 @@ interface DailyPostPlan {
   withSiteLink?: boolean;
 }
 
-// ─── System Prompt — Social-Native Brief ────────────────────────
+// ─── System Prompt — Social-Native Brief (refonte s7) ───────────
 
 function buildSocialBrief(): string {
   return `Tu es le COMMUNITY MANAGER de deviens-marrant.fr — la plateforme n°1 pour progresser en humour et stand-up en France.
+
+═══ RÈGLE ABSOLUE DE VOIX (LIRE EN PREMIER, TOUJOURS) ═══
+
+Le compte @marrant n'est PAS une personne. C'est un SITE / une MARQUE.
+Il n'a ni coloc, ni boss, ni ex, ni famille, ni vacances, ni vie privée.
+
+Le narrateur est un OBSERVATEUR STAND-UP qui INTERPELLE le lecteur (Yanis/Sophie/Marc).
+Il observe le monde du lecteur, raconte ce que le lecteur vit — il ne se raconte JAMAIS.
+
+INTERDIT (rejet automatique G-S19, hors citation explicite entre guillemets) :
+- "Je", "J'", "j'ai", "Moi", "Mon", "Ma", "Mes", "Mien", "Mienne"
+- Toute structure qui implique une vie personnelle du compte ("ma coloc", "mon boss", "mon ex", "mes parents", "mes vacances")
+- "Aujourd'hui on parle de", "Voici notre vanne du jour", "Découvrez", "N'hésitez pas"
+
+VOICI LES 5 FORMATS DE VOIX VALIDES :
+1. **Observation universelle / coup de coude** : "Ce moment où tu...", "Quand ta...", "T'as remarqué que..."
+2. **Mise en scène impersonnelle** : "Le X qui...", "La Y qui..." (jamais "mon X")
+3. **Vanne du catalogue citée explicitement** : "Une vanne à recracher : '...'" (citation entre guillemets autorise la 1ère personne dedans)
+4. **Question rhétorique au lecteur** : "Pourquoi est-ce que...", "T'as déjà essayé de..."
+5. **Statement provocateur / observation acide** : "La vérité c'est que...", "Personne te le dit, mais...", "X% des gens..."
+
+TEST DE LA VOIX (à appliquer avant de répondre) :
+> "Ce post pourrait-il être posté tel quel par n'importe qui sur son compte perso ?"
+> - OUI → INVALIDE (rejet G-S19, recommence)
+> - NON, c'est clairement un observateur extérieur qui interpelle → VALIDE
+
+═══ 1 FORMAT PAR PLATEFORME (refonte s7 — 1 seul format autorisé) ═══
+
+| Plateforme | Format unique  | Promesse | Exemple canonique |
+|---|---|---|---|
+| Twitter   | MINI_STANDUP    | Une punchline de 30s, prête à recracher | "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau." |
+| LinkedIn  | POTE_AU_TAF     | Une vanne courte sur ta journée de boulot, sans leçon | "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi." |
+| Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 6 mots en gros sur fond noir | Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social." |
+
+PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de WILD_CARD. PAS de TECHNIQUE_DU_JOUR.
+Le compte sert la marque par accumulation de bonnes vannes — pas par "showcase pédagogique".
+
+═══ EXEMPLES CANONIQUES À IMITER ═══
+
+>>> TWITTER (Mini-Stand-Up) :
+
+[Yanis — observation universelle]
+"Quand ta coloc met une étiquette sur tout dans le frigo. / Sur le yaourt nature : 'yaourt nature'. / Au cas où tu doutes encore."
+
+[Sophie — vanne du catalogue citée]
+"Une vanne à recracher en réunion demain : / 'Ce graphique, même Excel l'a abandonné.' / Cadeau."
+
+[Marc — mise en scène impersonnelle]
+"Premier date depuis longtemps. / Tu demandes 'tu aimes quoi dans la vie'. / L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."
+
+>>> LINKEDIN (Le Pote au Taf) :
+
+[Sophie — observation universelle]
+"Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. / Tu sais déjà que t'as raté ton train. / Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
+
+[Marc — mise en scène impersonnelle]
+"Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. / Tu commences à penser que 'on' n'existe pas. / Que c'est un mythe RH inventé pour clore les meetings."
+
+[Manager — observation universelle, audience étendue]
+"Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. / Ça sauve 40 minutes de réunion gênée. / Plus que n'importe quel team-building."
+
+>>> INSTAGRAM (L'Image Qui Claque) :
+
+[Yanis — mise en scène impersonnelle]
+Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social."
+
+[Sophie — observation universelle]
+Visuel : "Réunion à 17h59. Nouveau sport olympique." | Caption : "Médaille d'or : faire semblant d'avoir noté."
+
+[Marc — statement provocateur]
+Visuel : "Les apéros à 34 ans : sport extrême." | Caption : "Dimanche : tu survis. Lundi : tu négocies avec ton foie."
+
+═══ TWITTER — MINI_STANDUP — fiche détaillée ═══
+- 1 single tweet, ≤ 270 chars (marge sécurité)
+- Soit 1 punchline originale (setup + chute), soit 1 vanne du catalogue REFORMULÉE social-native
+- Hook ≤ 5 mots qui crée une tension (contradiction, spécificité bizarre, interpellation)
+- Zéro hashtag dans le corps, zéro lien dans les 3 premières lignes
+- PAS de thread, pas de "🧵 1/7" — 1 tweet point.
+
+ANTI-PATTERNS (rejet automatique) :
+- Thread déguisé : si ça tient en plusieurs tweets, c'est pas le format
+- Listicle : "5 raisons", "Top 3", "Voici comment"
+- Engagement bait : "tag un ami", "complète", "note de 1 à 10"
+- Description plate en hook : "Astuce humour du jour", "Petit thread sur"
+- Quote vidée : citer un humoriste sans donner la vanne réelle
+
+═══ LINKEDIN — POTE_AU_TAF — fiche détaillée ═══
+- 2 à 3 phrases MAX. Si ça déborde, c'est pas le format.
+- 1 vanne ou observation drôle sur une situation pro RÉELLE (réunion, mail patron, calendrier surchargé, machine à café, slack 22h, PowerPoint)
+- PAS de structure "hook → leçon → CTA" — juste une vanne posée
+- Pas de saut de ligne entre chaque phrase (broetry interdit)
+- 1 hashtag max en fin
+- Tutoiement systématique
+- Pas de lien dans le post
+
+ANTI-PATTERNS (rejet automatique G-S15) :
+- Faux storytelling : "Il y a 3 ans, j'étais au fond du gouffre..." / "Plantage total en réunion : voici ce que j'ai appris"
+- Leçon-moralisatrice : "Le truc :", "La vraie leçon :", "Ce que j'en retiens :", "Spoiler :", "Plot twist :"
+- Broetry : 3+ sauts de ligne consécutifs
+- Vocabulaire coach (G-S17) : "leadership" (sauf déconstruit), "growth mindset", "scaler", "stack", "synergie", "paradigme", "disruption"
+- CTA pushy : "agree?", "thoughts?", "repost si...", emoji 🚀💡🎯 en début de ligne
+
+═══ INSTAGRAM — IMAGE_QUI_CLAQUE — fiche détaillée ═══
+- 1 image carrée 1080x1080 (template satori — charte violette respectée)
+- Punchline visuelle : MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Caption sous l'image : ≤ 80 chars (G-S16), ton "le pote qui te chambre"
+- L'image doit faire rire SEULE — la caption = clin d'œil ou 2e mini-vanne
+- Pas de carousel (limitation Buffer)
+- Pas de "tag un ami", "double-tap", "swipe pour" (G-S16)
+
+ANTI-PATTERNS :
+- Caption longue qui explique la blague → la blague doit être DANS l'image
+- Texte trop dense sur le visuel : 6 mots max, sinon c'est une diapo PowerPoint
+- Charte cassée : fond clair, accent autre que violet, typo non-italique sur la punchline
+
+═══ POSTURE NARRATEUR — pas un DM personnel, un coup de coude au lecteur ═══
+Tu n'écris PAS comme si tu envoyais un DM à un pote sur TA vie.
+Tu écris comme un STAND-UPPER qui fait un coup de coude au lecteur sur SA vie à LUI.
+Le compte parle AU lecteur, pas DE soi.
+
+Modèles de pensée : Paul Mirabel quand il dit "Vous, vous avez déjà...", Roman Frayssinet quand il décrit "le mec qui...", Blanche Gardin quand elle balance "Personne te le dit, mais...".
+
+═══ TON — STAND-UP SOCIAL ═══
+- Tu écris comme tu PARLES. Phrases courtes. Rythme parlé. Ruptures de ton.
+- Spontané, brut, direct — pas de phrases de transition ("d'ailleurs", "en effet", "c'est pourquoi")
+- Provocateur sans être offensant — tu piques la curiosité
+- Tutoiement systématique (oui même sur LinkedIn — c'est notre signature)
+- Tu assumes tes opinions — pas de "certains pensent que" ou "il est intéressant de noter"
 
 ═══ QUI TU ES ═══
 Tu es un AUTEUR DE STAND-UP qui écrit pour les réseaux. Tu penses en punchlines, en timing, en ruptures. Chaque post est un micro-set de 30 secondes : setup → twist → sortie.
@@ -229,66 +396,10 @@ On est une équipe de passionnés de stand-up, pas un mec seul derrière un écr
 10. ZÉRO VULGARITÉ : pas de putain, merde, bordel, etc. On est drôle SANS être vulgaire.
 11. PAS DE DIALOGUE RECONSTITUÉ : "Moi : ... / Mon pote : ..." = format générique interdit. Un compte lambda fait ça.
 
-═══ TWITTER — LE SET DE 280 CARACTÈRES ═══
-Twitter = micro-set de stand-up. Setup → punchline. Rien de plus.
-- Max 280 caractères. Chaque caractère est précieux.
-- Pas de hashtags dans le corps du tweet (les mettre en réponse si vraiment nécessaire)
-- Le tweet doit fonctionner SEUL dans un feed — pas de contexte nécessaire
-- Rythme : phrase courte. Phrase courte. Punchline.
-- Un tweet = UNE idée. Pas deux. UNE.
-
-═══ LINKEDIN — LE COLLÈGUE DRÔLE (PAS LE GURU) ═══
-LinkedIn = le collègue qui dit un truc brillant à la machine à café et que tout l'open space retient.
-- Ton : professionnel ET drôle. Tu parles comme un collègue qu'on écoute, pas comme un "thought leader".
-- Cibles : Sophie (machine à café, réunions, afterwork) + Marc (leadership, confiance, networking)
-- Max 1300 caractères. Sauts de ligne pour aérer.
-- Structure : hook provocateur → observation pro avec humour → technique concrète → exemple vécu → CTA discret
-- Commence par UNE phrase choc. Pas un paragraphe.
-
-JAMAIS de :
-- "agree?" / "thoughts?" / "repost if you..." (engagement bait LinkedIn)
-- Broetry (1. mot. par. ligne. pour. faire. profond.)
-- Faux storytelling "Il y a 3 ans j'étais au fond du gouffre..."
-- "J'ai appris X leçons en Y ans de Z" (LinkedIn bingo)
-- "Let that sink in." / "Read that again." (cringe)
-- Emoji en début de chaque ligne (🎯 🚀 💡 = red flag)
-
-Exemple BON LinkedIn :
-"L'humour en réunion, c'est pas « être le clown ».
-
-C'est savoir placer UNE phrase au bon moment pour détendre 12 personnes stressées.
-
-Panayotis Pascot fait un truc que personne ose : il dit tout haut ce que tout le monde pense tout bas.
-
-En réunion ça donne : silence gêné → « ...on est d'accord que personne comprend le slide 7 ? »
-
-Rires. Tension cassée. Et tout le monde t'écoute mieux après."
-
-Exemple MAUVAIS LinkedIn (REJETÉ) :
-"🎯 L'humour est un outil puissant en entreprise.
-
-Dans un monde professionnel de plus en plus exigeant, savoir faire rire ses collègues est devenu une compétence clé.
-
-Découvrez comment l'humour peut transformer vos réunions ! 🚀
-
-#leadership #humour #management"
-
-═══ FORMAT SIGNATURE : "TECHNIQUE DU JOUR" ═══
-Structure : [Hook qui crée une tension ≤ 5 mots] → [Humoriste + ce qu'il fait de SPÉCIFIQUE] → [Comment TU l'utilises CE SOIR, pas "un jour"] → [CTA humain]
-
-Exemple BON :
-"Roman Frayssinet observe un truc que PERSONNE remarque.
-Il décrit le mec qui dit 'bon !' avant de se lever d'une chaise.
-Et tout le monde se reconnaît.
-
-Technique : l'observation micro.
-
-Essaie ce soir : décris un geste que tout le monde fait sans y penser. Genre le 'pffff' avant de répondre au téléphone."
-
-Exemple MAUVAIS (REJETÉ) :
-"📣 Astuce humour du jour !
-Saviez-vous que les humoristes utilisent le silence ?
-👇 Dites-nous en commentaire votre technique préférée !"
+═══ RAPPEL — UN SEUL FORMAT PAR PLATEFORME ═══
+Twitter = MINI_STANDUP (single tweet, ≤ 270 chars). Pas de thread.
+LinkedIn = POTE_AU_TAF (≤ 3 phrases, vanne pro posée). Pas de leçon.
+Instagram = IMAGE_QUI_CLAQUE (visuel ≤ 6 mots + caption ≤ 80 chars). Pas de carousel.
 
 ═══ TEST FINAL AVANT CHAQUE POST ═══
 Relis ton post et passe ces 5 checks :
@@ -323,28 +434,13 @@ ${Object.entries(PERSONAS)
   )
   .join("\n\n")}
 
-═══ INSTAGRAM — LE VISUEL QUI ARRÊTE LE SCROLL ═══
-Instagram = le format le plus visuel. Le texte doit être COURT et PERCUTANT car il sera mis en image.
-- Chaque image = max 30 mots. Punchlines courtes. Impact visuel.
-- TECHNIQUE_DU_JOUR : technique + explication + exemple en 3 blocs visuels
-- QUOTE_ANALYSIS (La Vanne) : citation + punchline en gros, analyse en caption
-- PAS de carousel (limitation API Buffer) — uniquement des posts single-image
-- Le texte caption (champ content) accompagne l'image — complémentaire, pas redondant
-- Hashtags Instagram : 5-10, mix populaires + niche (#standupfr #humour #devenirdrole #techniques)
-- Pas de lien dans la caption (Instagram ne rend pas les liens cliquables) → "lien en bio"
-- Caption max 2200 chars (limite Instagram)
-
-═══ HUMORISTES DE RÉFÉRENCE — ROTATION OBLIGATOIRE ═══
+═══ HUMORISTES DE RÉFÉRENCE — UTILISATION OPTIONNELLE ═══
 Prioritaires : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg
 Legacy (max 1 mention) : Jamel Debbouze, Gad Elmaleh, Florence Foresti
 
-⚠️ RÈGLE DE DIVERSITÉ ABSOLUE :
-- Humoriste principal du jour : ${getHumoristeOfDay(new Date().getDate()).name} (style : ${getHumoristeOfDay(new Date().getDate()).style})
-- Humoriste secondaire du jour : ${getSecondaryHumoriste(new Date().getDate()).name} (style : ${getSecondaryHumoriste(new Date().getDate()).style})
-- Tu DOIS citer au moins l'humoriste principal dans tes posts du jour
-- Tu NE DOIS PAS citer un humoriste qui n'est pas dans la liste du jour, SAUF pour un post Thread Décryptage
-- Si tu te surprends à écrire "Fary" ou "Paul Mirabel" alors que ce n'est pas l'humoriste du jour → STOP, remplace
-- L'objectif : chaque humoriste de la liste doit apparaître au moins 1 fois par semaine`;
+Si tu cites un humoriste, tu DOIS donner sa vanne réelle ou un geste concret (G-S18) — pas juste "X est trop fort sur Y".
+Inspiration du jour (rotation, optionnelle) : ${getHumoristeOfDay(new Date().getDate()).name} (style : ${getHumoristeOfDay(new Date().getDate()).style})
+Mais : la majorité des posts canoniques de la refonte s7 ne citent AUCUN humoriste — la voix observateur fonctionne sans nom propre.`;
 }
 
 // Bloc system caché — construit une seule fois au chargement du module, puis
@@ -390,7 +486,7 @@ export function validatePostConstraints(
   if (post.platform === "TWITTER") {
     // Tous les formats Twitter single-tweet doivent respecter 270 chars
     // (marge 10 chars pour encodage emojis/accents que Twitter compte différemment)
-    const singleTweetFormats = ["TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
+    const singleTweetFormats = ["MINI_STANDUP", "TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
     if (singleTweetFormats.includes(post.format) && post.content.length > 270) {
       issues.push(
         `Tweet trop long : ${post.content.length} chars (max 270). Format: ${post.format}`,
@@ -415,6 +511,21 @@ export function validatePostConstraints(
     issues.push(
       `Caption Instagram trop longue : ${post.content.length} chars (max 2200)`,
     );
+  }
+  // IMAGE_QUI_CLAQUE : caption ≤ 80 chars (refonte s7)
+  if (post.format === "IMAGE_QUI_CLAQUE" && post.content.length > 80) {
+    issues.push(
+      `Caption IMAGE_QUI_CLAQUE trop longue : ${post.content.length} chars (max 80)`,
+    );
+  }
+  // POTE_AU_TAF : ≤ 3 phrases (refonte s7)
+  if (post.format === "POTE_AU_TAF") {
+    const sentenceCount = (post.content.match(/[.!?]+(?:\s|$)/g) || []).length;
+    if (sentenceCount > 3) {
+      issues.push(
+        `POTE_AU_TAF trop long : ${sentenceCount} phrases (max 3)`,
+      );
+    }
   }
 
   // 3. Persona guard — internal names must NEVER appear in public content
@@ -650,8 +761,12 @@ function getDailyPlan(
   const p = PERSONAS[persona];
   const isYanis = persona === "YANIS";
 
-  // ── Thèmes UNIVERSELS avec coloration persona ──
-  // Le sujet parle à tout le monde, le persona n'influence que le ton et UN exemple
+  // ── Refonte s7 : 1 format par plateforme, 3 posts/jour max (1 par plateforme) ──
+  // Twitter : MINI_STANDUP, tous les jours
+  // LinkedIn : POTE_AU_TAF, sauf jours Yanis (Yanis n'est pas sur LinkedIn)
+  // Instagram : IMAGE_QUI_CLAQUE, tous les jours
+  void p; // gardé pour future référence persona dans les thèmes
+  void dayOfWeek;
 
   // Coloration légère : vocabulaire et ton du persona du jour
   const personaFlavor: Record<PersonaKey, string> = {
@@ -661,240 +776,96 @@ function getDailyPlan(
   };
   const flavor = personaFlavor[persona];
 
-  // LinkedIn : publié UNIQUEMENT les jours Lun/Mer/Ven (aligné social-editorial-plan.json)
-  // Jamais sur Yanis (stratégie Phase 2), jamais Mar/Jeu/Sam/Dim
-  // Quand Yanis, on remplace par un 3ème tweet "Le Défi"
-  const shouldHaveLinkedIn = !isYanis && [1, 3, 5].includes(dayOfWeek);
-  const linkedInPost: DailyPostPlan | null = shouldHaveLinkedIn
-    ? {
-        format: "POST",
-        theme: `Humour & communication au travail — technique concrète applicable par tout le monde (coloration ${flavor})`,
-        platform: "LINKEDIN",
-        sourceType: "TIP",
-      }
-    : null;
-
-  // Tweet de remplacement pour Yanis quand LinkedIn est supprimé (ton gen Z)
-  const yanisReplacementTweet: DailyPostPlan = {
-    format: "TWEET",
-    theme: `Le Défi — défi concret à tester aujourd'hui, ton punchy gen Z, ref culturelle ${getYanisGenZRef(new Date().getDate())}, ${flavor}`,
-    platform: "TWITTER",
-    sourceType: "ORIGINAL",
-  };
-
-  // Tweet de remplacement générique (non-Yanis) pour les jours sans LinkedIn (Mar/Jeu)
-  // Remplace le LinkedIn dans le plan éditorial aligné JSON.
-  const bonusTweet: DailyPostPlan = {
-    format: "TWEET",
-    theme: `Tweet bonus — observation drôle ou technique de répartie courte, ton spontané, ${flavor}`,
-    platform: "TWITTER",
-    sourceType: "ORIGINAL",
-  };
-
-  // Helper : retourne soit le LinkedIn (si disponible), soit un tweet de remplacement
-  // - Si Yanis → yanisReplacementTweet (ton gen Z)
-  // - Sinon → bonusTweet (ton neutre)
-  const linkedInOrFallback: DailyPostPlan = linkedInPost ?? (isYanis ? yanisReplacementTweet : bonusTweet);
-
-  // Instagram : thème universel, formats par jour (0=dim, 6=sam)
-  // Note : pas de CAROUSEL — Buffer API ne supporte pas les carousels Instagram.
-  // On alterne TECHNIQUE_DU_JOUR (lundi/mercredi/vendredi/samedi/dimanche)
-  // et QUOTE_ANALYSIS = "La Vanne" (mardi/jeudi) pour varier les visuels.
-  const instagramFormats: Record<number, SocialFormat> = {
-    0: "TECHNIQUE_DU_JOUR",
-    1: "TECHNIQUE_DU_JOUR",
-    2: "QUOTE_ANALYSIS",
-    3: "TECHNIQUE_DU_JOUR",
-    4: "QUOTE_ANALYSIS",
-    5: "TECHNIQUE_DU_JOUR",
-    6: "TECHNIQUE_DU_JOUR",
-  };
-
-  const instagramPost = (day: number): DailyPostPlan => ({
-    format: instagramFormats[day] || "TECHNIQUE_DU_JOUR",
-    theme: instagramFormats[day] === "QUOTE_ANALYSIS"
-      ? `Vanne ou citation humoriste — visuel percutant, punchline qui arrête le scroll, ${flavor}`
-      : `Technique ou vanne universelle — visuel percutant, ${flavor}`,
-    platform: "INSTAGRAM",
-    sourceType: instagramFormats[day] === "QUOTE_ANALYSIS" ? "JOKE" : "TIP",
-  });
-
+  // LinkedIn : skip si persona = YANIS (Yanis n'est pas sur LinkedIn)
+  const shouldHaveLinkedIn = !isYanis;
   // ── Helpers pour enrichir les thèmes selon le persona ──
   const dayOfMonth = new Date().getDate();
 
-  // Sophie JOKE → "Vanne Réécrite Social" avec contexte d'usage
-  function sophieJokeTheme(): string {
+  // Sophie → vanne du catalogue citée explicitement avec contexte d'usage
+  function sophieVanneTheme(): string {
     if (persona !== "SOPHIE") {
-      return `Vanne courte universelle — situation que tout le monde vit, ${flavor}`;
+      return `Observation universelle — moment relatable que tout le monde vit, ${flavor}`;
     }
     const ctx = getSophieVanneContext(dayOfMonth);
-    return `Vanne Réécrite Social — prête à ressortir mot pour mot en contexte "${ctx}". Reformule une vanne pour qu'elle soit naturelle à l'oral, comme si Sophie la sortait à la ${ctx}. ${flavor}`;
+    return `Vanne du catalogue citée explicitement — voix "Une vanne à recracher en contexte ${ctx} : '...'". Hook ≤ 5 mots, ton outil prêt à l'emploi. ${flavor}`;
   }
 
-  // Yanis → injecte une ref gen Z dans le thème
+  // Yanis → injecte une ref gen Z optionnelle
   function withYanisRef(theme: string): string {
     if (persona !== "YANIS") return theme;
     const ref = getYanisGenZRef(dayOfMonth);
-    return `${theme} — intègre une ref culturelle gen Z (${ref}) si pertinent`;
+    return `${theme} — peut intégrer une ref culturelle gen Z (${ref}) si pertinent, sinon ignore`;
   }
 
-  const plans: Record<number, DailyPostPlan[]> = {
-    1: [
-      // Lundi
-      {
-        format: "TECHNIQUE_DU_JOUR",
-        theme: withYanisRef(`Technique de stand-up universelle — début de semaine, énergie, ${flavor}`),
-        platform: "TWITTER",
-        sourceType: "TIP",
-      },
-      {
-        format: "TWEET",
-        theme: withYanisRef(sophieJokeTheme()),
-        platform: "TWITTER",
-        sourceType: "JOKE",
-      },
-      linkedInOrFallback,
-      instagramPost(1),
-    ],
-    2: [
-      // Mardi
-      {
-        format: "QUOTE_ANALYSIS",
-        theme: withYanisRef(`Analyse d'une technique de ${getHumoristeOfDay(dayOfMonth).name} (${getHumoristeOfDay(dayOfMonth).style}) — universelle`),
-        platform: "TWITTER",
-        sourceType: "VIDEO",
-      },
-      {
-        format: "TWEET",
-        theme: withYanisRef(persona === "SOPHIE"
-          ? `Vanne Réécrite Social — prête à ressortir mot pour mot en contexte "${getSophieVanneContext(dayOfMonth)}". Vanne observationnelle reformulée pour l'oral. ${flavor}`
-          : `Vanne observationnelle universelle — moment relatable, ${flavor}`),
-        platform: "TWITTER",
-        sourceType: "JOKE",
-      },
-      linkedInOrFallback,
-      instagramPost(2),
-    ],
-    3: [
-      // Mercredi
-      {
-        format: "TECHNIQUE_DU_JOUR",
-        theme: withYanisRef(`Technique de répartie / timing — universelle, milieu de semaine`),
-        platform: "TWITTER",
-        sourceType: "TIP",
-      },
-      {
-        format: "THREAD",
-        theme: withYanisRef(`Thread décryptage : 3-5 techniques d'un humoriste dans un set précis — universel`),
-        platform: "TWITTER",
-        sourceType: "VIDEO",
-      },
-      // Wild card #1 — slot réactif
-      {
-        format: "TWEET",
-        theme: withYanisRef(`WILD CARD — Réaction à l'actu stand-up/humour du moment : buzz, spectacle, trend — ton spontané, ${flavor}`),
-        platform: "TWITTER",
-        sourceType: "ORIGINAL",
-      },
-      linkedInOrFallback,
-      instagramPost(3),
-    ],
-    4: [
-      // Jeudi — Marc dating tweet si persona MARC
-      {
-        format: "QUOTE_ANALYSIS",
-        theme: withYanisRef(`Citation + analyse technique de ${getSecondaryHumoriste(dayOfMonth).name} (${getSecondaryHumoriste(dayOfMonth).style}) — universelle`),
-        platform: "TWITTER",
-        sourceType: "VIDEO",
-      },
-      persona === "MARC"
-        ? {
-            format: "TWEET" as const,
-            theme: `Marc dating — premier rendez-vous après une longue relation, comment ne pas être le mec gênant. Technique concrète à tester aujourd'hui, pas juste de l'inspiration. ${flavor}`,
-            platform: "TWITTER" as const,
-            sourceType: "ORIGINAL" as const,
-            schedulingHint: "Marc dating — actionnable, un truc à tester aujourd'hui, pas de motivation douce",
-          }
-        : {
-            format: "TWEET" as const,
-            theme: withYanisRef(sophieJokeTheme()),
-            platform: "TWITTER" as const,
-            sourceType: "JOKE" as const,
-          },
-      linkedInOrFallback,
-      instagramPost(4),
-    ],
-    5: [
-      // Vendredi
-      {
-        format: "TECHNIQUE_DU_JOUR",
-        theme: withYanisRef(`Technique à tester ce weekend — contexte soirée/social, universelle, ${flavor}`),
-        platform: "TWITTER",
-        sourceType: "TIP",
-      },
-      {
-        format: "TWEET",
-        theme: withYanisRef(sophieJokeTheme()),
-        platform: "TWITTER",
-        sourceType: "JOKE",
-      },
-      // Vendredi : LinkedIn "La technique du week-end" (sauf Yanis)
-      ...(isYanis
-        ? [yanisReplacementTweet]
-        : [{ format: "POST" as SocialFormat, theme: `Humour social du weekend — technique applicable par tous, ${flavor}`, platform: "LINKEDIN" as SocialPlatform, sourceType: "TIP" as const }]),
-      instagramPost(5),
-    ],
-    6: [
-      // Samedi — pas de LinkedIn
-      {
-        format: "THREAD",
-        theme: withYanisRef(`Thread viral : "X techniques de stand-up que tu peux utiliser ce soir" — universel`),
-        platform: "TWITTER",
-        sourceType: "BLOG",
-      },
-      // Wild card #2 — slot réactif
-      {
-        format: "TWEET",
-        theme: withYanisRef(`WILD CARD — Meme/trend du moment détourné angle stand-up, ou réaction à un show/spectacle récent, ${flavor}`),
-        platform: "TWITTER",
-        sourceType: "ORIGINAL",
-      },
-      {
-        format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-        theme: withYanisRef(`Vanne ou défi weekend — universel, percutant, ${flavor}`),
-        platform: "INSTAGRAM" as SocialPlatform,
-        sourceType: "JOKE",
-      },
-    ],
-    0: [
-      // Dimanche
-      {
-        format: "TWEET",
-        theme: withYanisRef(sophieJokeTheme()),
-        platform: "TWITTER",
-        sourceType: "JOKE",
-      },
-      {
-        format: "TWEET" as SocialFormat,
-        theme: withYanisRef(`Micro-technique du dimanche soir — courte, universelle, "essaie ça demain matin", ${flavor}`),
-        platform: "TWITTER" as SocialPlatform,
-        sourceType: "TIP",
-      },
-      {
-        format: "TECHNIQUE_DU_JOUR" as SocialFormat,
-        theme: withYanisRef(`Technique ou vanne du dimanche — cool, universelle, visuel percutant, ${flavor}`),
-        platform: "INSTAGRAM" as SocialPlatform,
-        sourceType: "TIP",
-      },
-    ],
+  // ── Refonte s7 : 1 post par plateforme par jour, format unique ──
+  // Twitter MINI_STANDUP : observation universelle / mise en scène impersonnelle / vanne citée / question rhétorique / statement provocateur
+  // LinkedIn POTE_AU_TAF : scène pro vécue, 2-3 phrases, zéro leçon
+  // Instagram IMAGE_QUI_CLAQUE : punchline visuelle ≤ 6 mots + caption ≤ 80 chars
+
+  // Thème Twitter — varie selon persona pour éviter la répétition
+  let twitterTheme: string;
+  if (persona === "SOPHIE") {
+    twitterTheme = withYanisRef(sophieVanneTheme());
+  } else if (persona === "MARC") {
+    twitterTheme = `Mise en scène impersonnelle ou statement provocateur — scène de reconstruction sociale (premier date depuis longtemps, retrouvailles, conversation rouillée), 2-3 phrases denses, voix observateur. ${flavor}`;
+  } else {
+    twitterTheme = withYanisRef(`Observation universelle ou mise en scène impersonnelle — scène coloc/soirée/dating étudiante, voix "Quand ta..." ou "Le X qui...", chute absurde nette. ${flavor}`);
+  }
+
+  const twitterPost: DailyPostPlan = {
+    format: "MINI_STANDUP",
+    theme: twitterTheme,
+    platform: "TWITTER",
+    sourceType: persona === "SOPHIE" ? "JOKE" : "ORIGINAL",
   };
 
-  const result = plans[dayOfWeek] || plans[1];
+  // Thème LinkedIn — toujours scène pro
+  let linkedinTheme: string;
+  if (persona === "SOPHIE") {
+    linkedinTheme = `Scène pro Sophie — réunion, mail patron, calendrier surchargé, machine à café, slack 22h, PowerPoint. Voix "Ce moment où ton..." (observation universelle). 3 phrases, zéro leçon, twist final spécifique. ${flavor}`;
+  } else if (persona === "MARC") {
+    linkedinTheme = `Scène pro Marc — manager bienveillant, équipe, collègue qui dit "on en reparle", anti-team-building. Voix "Le X qui..." (mise en scène impersonnelle) ou "Tu sais que..." (observation universelle). 3 phrases, zéro leçon. ${flavor}`;
+  } else {
+    linkedinTheme = `(Yanis pas sur LinkedIn — ce post ne devrait pas exister)`;
+  }
 
-  // Max 1 post par jour avec un lien vers le site (le premier TECHNIQUE_DU_JOUR ou THREAD)
+  const linkedinPost: DailyPostPlan | null = shouldHaveLinkedIn
+    ? {
+        format: "POTE_AU_TAF",
+        theme: linkedinTheme,
+        platform: "LINKEDIN",
+        sourceType: "ORIGINAL",
+      }
+    : null;
+
+  // Thème Instagram — punchline visuelle ≤ 6 mots
+  let instagramTheme: string;
+  if (persona === "SOPHIE") {
+    instagramTheme = `Visuel ≤ 6 mots, scène pro Sophie (réunion, mail, lundi, café, calendrier). Caption ≤ 80 chars qui ajoute une 2e mini-vanne (pas explication). Charte respectée : fond noir, accent violet. ${flavor}`;
+  } else if (persona === "MARC") {
+    instagramTheme = `Visuel ≤ 6 mots, scène vie 30+ (apéros, sport, dating, anniversaires). Caption ≤ 80 chars qui ajoute un 2e instantané. Statement provocateur ou observation acide. ${flavor}`;
+  } else {
+    instagramTheme = withYanisRef(`Visuel ≤ 6 mots, scène soirée/coloc/social Yanis. Caption ≤ 80 chars qui chambre le lecteur ("Ça réchauffe. Mais faut un micro-ondes social."). Mise en scène impersonnelle. ${flavor}`);
+  }
+
+  const instagramPost: DailyPostPlan = {
+    format: "IMAGE_QUI_CLAQUE",
+    theme: instagramTheme,
+    platform: "INSTAGRAM",
+    sourceType: "ORIGINAL",
+  };
+
+  // Plan = 1 Twitter + (1 LinkedIn sauf Yanis) + 1 Instagram = 3 posts/jour max (2 si Yanis)
+  const result: DailyPostPlan[] = [twitterPost];
+  if (linkedinPost) result.push(linkedinPost);
+  result.push(instagramPost);
+
+  // Refonte s7 : 1 post sur 5 max avec lien vers le site (le premier MINI_STANDUP du jour si tirage 1/5)
+  // Sur 7 jours = 1-2 jours avec lien max. On utilise dayOfMonth % 5 === 0 pour 1 sur 5.
+  const siteLinkDay = new Date().getDate() % 5 === 0;
   let siteLinkAssigned = false;
   const withLinks = result.map((entry) => {
-    if (!siteLinkAssigned && (entry.format === "TECHNIQUE_DU_JOUR" || entry.format === "THREAD")) {
+    if (siteLinkDay && !siteLinkAssigned && entry.format === "MINI_STANDUP") {
       siteLinkAssigned = true;
       return { ...entry, withSiteLink: true };
     }
@@ -1046,6 +1017,48 @@ function getFormatInstructions(
   platform: SocialPlatform,
 ): string {
   switch (format) {
+    case "MINI_STANDUP":
+      return `FORMAT : MINI_STANDUP — Twitter (refonte s7)
+- 1 single tweet, max 270 chars (marge sécurité Twitter).
+- Soit 1 punchline originale (setup 1-2 lignes + chute 1 ligne), soit 1 vanne du catalogue REFORMULÉE social-native.
+- Hook ≤ 5 mots qui crée une TENSION (contradiction, spécificité bizarre, interpellation).
+- 1 des 5 voix : observation universelle / mise en scène impersonnelle / vanne du catalogue citée / question rhétorique / statement provocateur.
+- Zéro hashtag dans le corps. Zéro lien dans les 3 premières lignes.
+- PAS de thread déguisé. PAS de listicle. PAS de "Petit thread sur".
+- Voix narrateur : le compte parle AU lecteur, jamais DE soi (G-S19). Aucun "je / mon / ma / mes" hors citation entre guillemets.
+- Inspiration canonique :
+  • "Quand ta coloc met une étiquette sur tout dans le frigo. Sur le yaourt nature : 'yaourt nature'. Au cas où tu doutes encore."
+  • "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau."
+  • "Premier date depuis longtemps. Tu demandes 'tu aimes quoi dans la vie'. L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."`;
+
+    case "POTE_AU_TAF":
+      return `FORMAT : POTE_AU_TAF — LinkedIn (refonte s7)
+- 2 à 3 phrases MAX. Si ça déborde, c'est pas le format.
+- 1 vanne ou observation drôle sur une situation pro RÉELLE (réunion, mail patron, calendrier, machine à café, slack 22h, PowerPoint).
+- PAS de structure "hook → leçon → CTA" — juste une vanne posée.
+- Pas de saut de ligne entre chaque phrase (broetry interdit).
+- Tutoiement systématique. Pas de lien.
+- Voix narrateur : le compte parle AU lecteur (pote au taf), jamais DE soi. "Ce moment où ton..." / "Le X qui..." / "Tu sais que..."
+- INTERDIT (G-S15) : faux storytelling "Il y a 3 ans, j'étais...", marqueurs leçon "Le truc :", "La vraie leçon :", "Ce que j'en retiens :", "Spoiler :", "Plot twist :"
+- INTERDIT (G-S17) : vocabulaire coach (growth mindset, scaler, synergie, paradigme, disruption). "leadership" toléré uniquement si déconstruit dans la phrase.
+- Inspiration canonique :
+  • "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
+  • "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. Tu commences à penser que 'on' n'existe pas. Que c'est un mythe RH inventé pour clore les meetings."
+  • "Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. Ça sauve 40 minutes de réunion gênée. Plus que n'importe quel team-building."`;
+
+    case "IMAGE_QUI_CLAQUE":
+      return `FORMAT : IMAGE_QUI_CLAQUE — Instagram (refonte s7)
+- Champ "hook" = punchline visuelle qui sera mise en GROS sur l'image. MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Champ "content" = caption sous l'image. ≤ 80 caractères (G-S16). Ton "le pote qui te chambre".
+- L'image doit faire rire SEULE. La caption = clin d'œil ou 2e mini-vanne (pas explication).
+- Charte respectée : fond noir, accent violet, punchline italique. Reconnaissable en feed.
+- Voix narrateur : le compte chambre le lecteur, ne se raconte jamais. "T'es...", "Quand tu...", "Le X qui..."
+- INTERDIT (G-S16) : "tag un ami", "double-tap", "swipe pour", "clique sur le lien en bio". Caption > 80 chars.
+- Inspiration canonique :
+  • Visuel "En soirée, t'es le plat froid." | Caption "Ça réchauffe. Mais faut un micro-ondes social."
+  • Visuel "Réunion à 17h59. Nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
+  • Visuel "Les apéros à 34 ans : sport extrême." | Caption "Dimanche : tu survis. Lundi : tu négocies avec ton foie."`;
+
     case "TECHNIQUE_DU_JOUR":
       return `FORMAT : TECHNIQUE DU JOUR
 - Hook qui crée une tension (≤ 5 mots) — PAS "Technique du jour"

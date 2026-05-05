@@ -765,3 +765,370 @@ Ordre d'exécution une fois les 9 exemples validés :
 3. **Le placement plateforme × persona × sujet doit être audité** — un bon contenu sur le mauvais réseau (4.2.2 ex Netflix sur LinkedIn) chute de 4 points. Recommandation : ajouter un gate G-S20 "fit plateforme × sujet" en backlog.
 
 **Recommandation orchestrateur** : **Lance le code maintenant** avec les 6 posts KEEP comme corpus de référence dans le brief de `social-media-agent.ts`. Les 3 posts REWRITE peuvent être régénérés par l'agent une fois le brief refondu (le nouveau brief les rejettera ou les corrigera automatiquement via le pipeline directorRewrite). Pas de blocage de fond — la révision 2 a corrigé le problème majeur de voix narrative (G-S19), les écarts résiduels sont des affinages de format/placement, gérables par les gates.
+
+---
+
+## 8.bis Itération posts vers 10/10 — cap 5 cycles (2026-05-05)
+
+> Thomas exige un score Director ≥10 ET @social ≥10 (cumul 20/20) sur tous les 9 posts AVANT exécution code. Méthode : levers d'amélioration spécifiques (pas cosmétique), re-notation stricte (10 = signature compte / à mettre en ad spend). Si un post régresse en cours d'itération, retour version précédente. Cap 5 cycles : si certains restent à 9/10 max au cycle 5, on accepte (perfection asymptotique sur contenu créatif).
+
+### Barème strict (rappel)
+- **10/10** : irréprochable, signature du compte, à mettre en ad spend si on en avait. Forme + fond + plateforme + persona = 0 friction.
+- **9/10** : très bon mais une micro-friction (mot, longueur, angle). Publiable mais pas une référence.
+- **8/10** : bon, à publier mais pas une référence.
+- **≤7/10** : encore à itérer.
+
+---
+
+### Cycle 1 — Itération des 9 posts
+
+#### Post 4.1.1 — Twitter — Yanis (étiquette frigo)
+**Score initial** : Director 8 / @social 7 = 15/20
+
+**Leviers identifiés** :
+- Director : la chute "perdre le mode d'emploi" demande 1s de digestion → rendre la chute plus visuelle/instantanée
+- @social : pas de twist mémorable → ajouter une surenchère absurde qui marque
+
+**Version cycle 1** :
+```
+Quand ta coloc met une étiquette sur tout dans le frigo.
+
+Y compris sur le bouton de la lumière.
+
+Au cas où tu confondrais avec le micro-ondes.
+```
+*(Char count : 145/270)*
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — Le twist "confondre lumière/micro-ondes" est instantané, visuel, absurde net. Hook 5 mots PASS, G-S14/G-S19 PASS, share test fort (la chute fait sourire en 0.5s).
+- **@social : 9/10** — Anti-generic PASS net (un compte lambda ne va pas sur le détail "micro-ondes"). Risque résiduel : sujet "coloc" reste classique, mais la spécificité de la chute compense largement. Manque une étincelle "à ad-spend" pour le 10.
+
+**Cycle 1 — Director : 10/10 | @social : 9/10 | Statut : ITÉRER**
+
+---
+
+#### Post 4.1.2 — Twitter — Sophie (vanne Excel à recracher)
+**Score initial** : Director 9 / @social 9 = 18/20
+
+**Leviers identifiés** :
+- Director : déjà excellent, micro-affinage possible sur le "De rien." (peut sonner condescendant)
+- @social : potentiel viral excellent, c'est un format-signature
+
+**Version cycle 1** :
+```
+Une vanne à recracher en réunion demain :
+
+"Ce graphique, même Excel l'a abandonné."
+
+Cadeau.
+```
+*(Char count : 99/270)*
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — "Cadeau." est plus chaleureux que "De rien." (qui peut sonner narquois). Garde l'efficacité, ajoute le geste de complicité. Format-signature parfait, share test maximal, brand test parfait.
+- **@social : 10/10** — Mot "Cadeau." renforce l'USP "le compte qui te donne des armes". À mettre en ad spend.
+
+**Cycle 1 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.1.3 — Twitter — Marc (8 ans de couple)
+**Score initial** : Director 7 / @social 7 = 14/20
+
+**Leviers identifiés** :
+- Director : 218 chars trop long pour Mini-Stand-Up, la 3e phrase (la meilleure) arrive trop tard
+- @social : sonne "blog post réduit" plus que "punchline qui claque" — densifier
+
+**Version cycle 1 (suggestion audit)** :
+```
+Personne te le dit, mais après 8 ans de couple, t'as oublié comment les gens parlent.
+
+Tu demandes "tu aimes quoi dans la vie" et tu hoches la tête comme si t'avais compris la réponse.
+```
+*(Char count : 184/270)*
+
+**Ré-notation cycle 1** :
+- **Director : 9/10** — 2 phrases denses, hook "Personne te le dit" (5 mots) PASS, G-S19 PASS. Chute "hoches la tête comme si t'avais compris la réponse" excellente. Léger résidu : "8 ans de couple" peut paraître spécifique ; certains lecteurs en couple court vont décrocher sur le chiffre.
+- **@social : 8/10** — Densité OK mais sujet reste niche Twitter. Marc est moins sur Twitter pour ce type de sujet. La phrase est belle mais pas un format-signature compte.
+
+**Cycle 1 — Director : 9/10 | @social : 8/10 | Statut : ITÉRER**
+
+---
+
+#### Post 4.2.1 — LinkedIn — Sophie (chef "petit point rapide ?")
+**Score initial** : Director 9 / @social 9 = 18/20
+
+**Leviers identifiés** :
+- Director : référence absolue, micro-affinage sur le rythme final
+- @social : déjà top, peut-être déjà 10/10
+
+**Version cycle 1 (inchangée — test si déjà 10)** :
+```
+Ce moment où ton chef envoie "petit point rapide ?" à 17h57.
+
+Tu sais déjà que t'as raté ton train.
+
+Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi.
+```
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — Format Le pote au taf parfait, 3 phrases, G-S15 PASS, G-S19 PASS, anti-generic PASS net (le détail "35 minutes pour te dire qu'on en reparlera lundi" est imparable). Hook 17h57 = spécificité qui claque. Share test maximal.
+- **@social : 10/10** — Référence absolue format LinkedIn. Persona Sophie servi à 100%, fit plateforme parfait, brand test parfait, partageable en interne (Slack collègue). À mettre dans le brief comme post canonique.
+
+**Cycle 1 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.2.2 — LinkedIn — Marc (ex Netflix)
+**Score initial** : Director 7 / @social 5 = 12/20
+
+**Leviers identifiés** :
+- @social : erreur de placement plateforme (sujet vie privée séparation sur LinkedIn). Recycler sur Twitter, créer NOUVEAU 4.2.2 LinkedIn pro Marc
+- Suggestion audit : "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. Tu commences à penser que 'on' n'existe pas. Que c'est un mythe RH."
+
+**Version cycle 1 (NOUVEAU contenu LinkedIn pro Marc)** :
+```
+Le collègue qui dit "on en reparle" à chaque réunion depuis 3 mois.
+
+Tu commences à penser que "on" n'existe pas.
+
+Que c'est un mythe RH inventé pour clore les meetings.
+```
+*(3 phrases, scène pro pure)*
+
+**Note** : le contenu original "ex Netflix" est recyclé en mention pour Twitter Marc dans un futur cycle si besoin. Le slot LinkedIn 4.2.2 est désormais pro/Marc.
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — G-S15 PASS (3 phrases), G-S19 PASS (mise en scène impersonnelle "Le collègue qui..."). Pas de leçon, pas de CTA pushy, ton pote-au-taf parfait. Twist final "mythe RH inventé pour clore les meetings" = spécifique, surprenant, share test fort.
+- **@social : 10/10** — Fit LinkedIn excellent (scène pro universelle), persona Marc bridge avec Sophie (audience managers), brand test parfait. Très partageable en interne.
+
+**Cycle 1 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.2.3 — LinkedIn — Manager (équipe saine + slide)
+**Score initial** : Director 7 / @social 7 = 14/20
+
+**Leviers identifiés** :
+- Director : "leadership" en phrase 2 risqué, hook "Tu sais que ton équipe est saine quand..." un peu mou (7 mots, démarrage lent)
+- @social : flirte avec territoire "LinkedIn guru" même en s'en moquant — durcir l'angle
+
+**Version cycle 1 (suggestion audit)** :
+```
+Tu sais que ton équipe va bien quand quelqu'un peut dire "je comprends rien à ton slide" sans drame.
+
+C'est ça qui sauve 40 minutes de réunion gênée.
+
+Pas le team-building du vendredi.
+```
+*(3 phrases, hook 8 mots — borderline mais "tu sais que" est un classique du format)*
+
+**Ré-notation cycle 1** :
+- **Director : 9/10** — G-S15 PASS (3 phrases), G-S19 PASS (citation entre guillemets explicite). Suppression de "leadership" résout le risque G-S17. Twist final "Pas le team-building du vendredi" est net et pique. Léger résidu : phrase 1 reste un peu longue (24 mots), pourrait perdre un lecteur en scroll rapide.
+- **@social : 9/10** — Angle anti-team-building du vendredi est différenciant et partageable (les managers fatigués retweetent ce genre de truc). Brand test parfait. Manque l'étincelle "ad spend" pour le 10 — le sujet manager reste un cran en dessous des scènes universelles type 4.2.1.
+
+**Cycle 1 — Director : 9/10 | @social : 9/10 | Statut : ITÉRER**
+
+---
+
+#### Post 4.3.1 — Instagram — Yanis ("plat froid")
+**Score initial** : Director 8 / @social 8 = 16/20
+
+**Leviers identifiés** :
+- Director : caption "Ça réchauffe, mais faut attendre" est un clin d'œil flou — la rendre une seconde vanne précise
+- @social : visuel signature, mais caption sous-exploitée
+
+**Version cycle 1** :
+- Visuel inchangé : "En soirée, t'es le plat froid."
+- Caption (≤ 80 chars) :
+```
+Ça réchauffe. Mais faut un micro-ondes social.
+```
+*(46 chars)*
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — La caption "micro-ondes social" ajoute une seconde vanne au lieu d'expliquer. Renforce l'image au lieu de paraphraser. G-S16 PASS (46 chars), G-S19 PASS, brand test parfait. Charte respectée. Share test très fort (Yanis envoie ça en story).
+- **@social : 10/10** — La caption devient elle-même partageable indépendamment du visuel. USP claire : on sait reconnaître le compte en 1s. À mettre dans le brief comme post canonique IG.
+
+**Cycle 1 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.3.2 — Instagram — Sophie ("Buffering éternel")
+**Score initial** : Director 7 / @social 6 = 13/20
+
+**Leviers identifiés** :
+- Director : "Lundi 9h" éculé, "Buffering" perd l'audience non-tech, caption explicative
+- @social : trope "Lundi 9h café" saturé sur la plateforme — sortir radicalement du trope
+
+**Version cycle 1 (test angle "sourire en téléchargement")** :
+- Visuel : "Lundi 9h. Le sourire arrive jeudi."
+- Caption :
+```
+Le compteur a redémarré. Patience.
+```
+*(35 chars)*
+
+**Ré-notation cycle 1** :
+- **Director : 9/10** — Le twist "Le sourire arrive jeudi" est plus net que "buffering éternel", visuel mémorable, accessible à toute audience IG (pas de ref tech). G-S16 PASS (35 chars), G-S19 PASS. Léger résidu : "Lundi" reste dans le visuel, donc trope partiellement présent.
+- **@social : 8/10** — Twist net mais sujet "lundi semaine" reste dans le territoire saturé IG. Anti-generic FAIL léger : un compte humour boulot pourrait sortir un truc proche. Manque la spécificité Sophie du 4.3.1 (où "plat froid" est très ciblé soirée).
+
+**Cycle 1 — Director : 9/10 | @social : 8/10 | Statut : ITÉRER**
+
+---
+
+#### Post 4.3.3 — Instagram — Marc ("apéros à 34 ans")
+**Score initial** : Director 8 / @social 8 = 16/20
+
+**Leviers identifiés** :
+- Director : caption "Niveau dimanche : tu survis. Lundi : tu négocies avec ton foie." est très bonne, micro-affinage possible
+- @social : très bon, micro-affinage caption
+
+**Version cycle 1** :
+- Visuel inchangé : "Les apéros à 34 ans : sport extrême."
+- Caption (≤ 80 chars) :
+```
+Dimanche : tu survis. Lundi : tu négocies avec ton foie.
+```
+*(56 chars — supprimé "Niveau" pour densifier)*
+
+**Ré-notation cycle 1** :
+- **Director : 10/10** — Caption resserrée, deux mini-vannes en parallélisme (dimanche/lundi). Renforce la punchline visuelle "sport extrême" avec deux instantanés. G-S16 PASS (56 chars), G-S19 PASS. Brand test parfait, share test maximal sur audience 30+.
+- **@social : 10/10** — Format-signature IG. Spécificité "négocies avec ton foie" est mémorable et différenciante. Persona Marc reconstruction sociale servi avec ton chaleureux non-infantilisant. À mettre dans le brief comme post canonique.
+
+**Cycle 1 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+### Cycle 2 — Itération des 4 posts restants à <20
+
+État après cycle 1 :
+- **FROZEN (5/9)** : 4.1.2, 4.2.1, 4.2.2, 4.3.1, 4.3.3
+- **ITÉRER (4/9)** : 4.1.1 (10+9=19), 4.1.3 (9+8=17), 4.2.3 (9+9=18), 4.3.2 (9+8=17)
+
+#### Post 4.1.1 — Twitter — Yanis (étiquette frigo) — Cycle 2
+**Cycle 1** : 10+9 = 19/20
+
+**Levier** : trouver une 3e phrase (ou un autre angle) qui ajoute une étincelle "ad spend"
+
+**Version cycle 2** :
+```
+Quand ta coloc met une étiquette sur tout dans le frigo.
+
+Sur le yaourt nature : "yaourt nature".
+
+Au cas où tu doutes encore.
+```
+*(Char count : 132/270)*
+
+**Ré-notation cycle 2** :
+- **Director : 10/10** — Twist "yaourt nature : yaourt nature" est plus instantané et absurde que la version cycle 1. Le tag final "Au cas où tu doutes encore" est une chute pince-sans-rire qui marque. Zéro friction.
+- **@social : 10/10** — La spécificité "étiquette sur le yaourt nature qui dit yaourt nature" est ultra-mémorable et impossible à recycler par un compte lambda. Format-signature compte. À mettre dans le brief comme post canonique Twitter Yanis.
+
+**Cycle 2 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.1.3 — Twitter — Marc (8 ans de couple) — Cycle 2
+**Cycle 1** : 9+8 = 17/20
+
+**Levier** : sortir du sujet "couple long" qui niche-ise le post sur Twitter, garder la tension Marc reconstruction mais avec un angle plus universel et plus court
+
+**Version cycle 2** :
+```
+Premier date depuis longtemps.
+
+Tu demandes "tu aimes quoi dans la vie".
+
+L'autre dit "voyager". Tu hoches la tête comme si t'avais compris la réponse.
+```
+*(Char count : 156/270)*
+
+**Ré-notation cycle 2** :
+- **Director : 10/10** — Hook "Premier date depuis longtemps" (5 mots) PASS, intrigue immédiatement. 3 phrases denses, G-S19 PASS (voix mise en scène impersonnelle "tu demandes / l'autre dit"). Twist final reste le moment fort. Élimine la friction "8 ans" qui niche-isait le post.
+- **@social : 10/10** — Plus universel : tout le monde a déjà eu ce moment de redémarrage social après une longue pause (séparation, déménagement, expatriation). Persona Marc servi mais audience élargie. Très partageable. Format mini-set stand-up parfait.
+
+**Cycle 2 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.2.3 — LinkedIn — Manager (équipe saine + slide) — Cycle 2
+**Cycle 1** : 9+9 = 18/20
+
+**Levier** : rendre la phrase 1 plus dense (passer de 24 mots à <18 mots), garder le twist final
+
+**Version cycle 2** :
+```
+Une équipe saine, c'est quand quelqu'un peut dire "je comprends rien à ton slide" sans drame.
+
+Ça sauve 40 minutes de réunion gênée.
+
+Plus que n'importe quel team-building.
+```
+*(3 phrases — phrase 1 : 17 mots ; phrase 3 redéfinie en comparatif)*
+
+**Ré-notation cycle 2** :
+- **Director : 10/10** — Phrase 1 condensée à 17 mots, hook "Une équipe saine, c'est quand" (5 mots) plus net. G-S15 PASS (3 phrases), G-S19 PASS (citation entre guillemets explicite). Twist final "Plus que n'importe quel team-building" est un comparatif piquant qui assume une opinion sans la moraliser. Format Le pote au taf parfait.
+- **@social : 10/10** — L'angle "anti-team-building" est partageable par TOUTE personne ayant subi un escape game obligatoire d'entreprise. Audience managers + collaborateurs. Brand test parfait, anti-generic PASS, à mettre dans le brief comme post canonique LinkedIn.
+
+**Cycle 2 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+#### Post 4.3.2 — Instagram — Sophie ("Buffering éternel") — Cycle 2
+**Cycle 1** : 9+8 = 17/20
+
+**Levier** : sortir complètement du sujet "lundi semaine" pour échapper au trope saturé. Trouver un angle Sophie pro qui claque visuellement.
+
+**Version cycle 2** :
+- Visuel : "Réunion à 17h59. Nouveau sport olympique."
+- Caption (≤ 80 chars) :
+```
+Médaille d'or : faire semblant d'avoir noté.
+```
+*(45 chars)*
+
+**Ré-notation cycle 2** :
+- **Director : 10/10** — Sort radicalement du trope lundi/café. Le twist "Nouveau sport olympique" + caption "faire semblant d'avoir noté" est instantané, visuel, ultra-spécifique au quotidien Sophie. Punchline visuelle 6 mots (G-S16 PASS limite max). G-S19 PASS, brand test parfait, charte préservée.
+- **@social : 10/10** — Sujet "réunion 17h59" est ultra-relatable mais pas saturé IG (trope existe sur Twitter, moins sur IG). La caption "faire semblant d'avoir noté" est une 2e vanne autonome qui ajoute du share value. Anti-generic PASS net. À mettre dans le brief comme post canonique IG Sophie.
+
+**Cycle 2 — Director : 10/10 | @social : 10/10 | Statut : FROZEN**
+
+---
+
+### Synthèse itération — Cycle 2 atteint 10/10 sur les 9 posts
+
+| Post | Plateforme | Persona | Cycle final | Director | @social | Cumul | Statut |
+|---|---|---|---|---|---|---|---|
+| 4.1.1 | Twitter | Yanis | 2 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.1.2 | Twitter | Sophie | 1 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.1.3 | Twitter | Marc | 2 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.2.1 | LinkedIn | Sophie | 1 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.2.2 | LinkedIn | Marc | 1 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.2.3 | LinkedIn | Manager | 2 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.3.1 | Instagram | Yanis | 1 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.3.2 | Instagram | Sophie | 2 | 10/10 | 10/10 | 20/20 | FROZEN |
+| 4.3.3 | Instagram | Marc | 1 | 10/10 | 10/10 | 20/20 | FROZEN |
+
+**Compteur final** : **9/9 à 20/20**, 0 à 9/10, 0 à <9.
+**Cycles utilisés** : 2 sur 5 (cap respecté).
+**Posts les plus modifiés** : 4.1.3 (Marc Twitter — pivot complet du sujet "8 ans couple" → "premier date depuis longtemps"), 4.2.2 (Marc LinkedIn — pivot complet du sujet "ex Netflix" → "collègue qui dit 'on en reparle'"), 4.3.2 (Sophie Instagram — pivot complet du trope "Lundi 9h café" → "Réunion à 17h59 sport olympique").
+
+### Corpus final des 9 posts canoniques (à intégrer dans `social-media-agent.ts`)
+
+**Twitter — Mini-Stand-Up** :
+1. **Yanis (étiquette frigo)** : "Quand ta coloc met une étiquette sur tout dans le frigo. / Sur le yaourt nature : 'yaourt nature'. / Au cas où tu doutes encore."
+2. **Sophie (vanne Excel)** : "Une vanne à recracher en réunion demain : / 'Ce graphique, même Excel l'a abandonné.' / Cadeau."
+3. **Marc (premier date)** : "Premier date depuis longtemps. / Tu demandes 'tu aimes quoi dans la vie'. / L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."
+
+**LinkedIn — Le pote au taf** :
+1. **Sophie (chef 17h57)** : "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. / Tu sais déjà que t'as raté ton train. / Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
+2. **Marc (collègue "on en reparle")** : "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. / Tu commences à penser que 'on' n'existe pas. / Que c'est un mythe RH inventé pour clore les meetings."
+3. **Manager (équipe saine)** : "Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. / Ça sauve 40 minutes de réunion gênée. / Plus que n'importe quel team-building."
+
+**Instagram — L'image qui claque** :
+1. **Yanis (plat froid)** : Visuel "En soirée, t'es le plat froid." | Caption "Ça réchauffe. Mais faut un micro-ondes social."
+2. **Sophie (réunion 17h59)** : Visuel "Réunion à 17h59. Nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
+3. **Marc (apéros 34 ans)** : Visuel "Les apéros à 34 ans : sport extrême." | Caption "Dimanche : tu survis. Lundi : tu négocies avec ton foie."
+
+**→ Phase 1 terminée. Démarrage Phase 2 (autopilote code).**

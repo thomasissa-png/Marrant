@@ -39,11 +39,17 @@ const PLATFORM_ICONS: Record<string, string> = {
 };
 
 const FORMAT_LABELS: Record<string, string> = {
-  TWEET: "Tweet",
-  THREAD: "Thread",
-  POST: "Post",
-  QUOTE_ANALYSIS: "Quote Analyse",
-  TECHNIQUE_DU_JOUR: "Technique du Jour",
+  // Refonte s7 — formats canoniques
+  MINI_STANDUP: "Mini-Stand-Up",
+  POTE_AU_TAF: "Pote au Taf",
+  IMAGE_QUI_CLAQUE: "Image qui claque",
+  // Legacy (deprecated)
+  TWEET: "Tweet (legacy)",
+  THREAD: "Thread (legacy)",
+  POST: "Post (legacy)",
+  QUOTE_ANALYSIS: "Quote Analyse (legacy)",
+  TECHNIQUE_DU_JOUR: "Technique du Jour (legacy)",
+  WILD_CARD: "Wild Card (legacy)",
 };
 
 const PERSONA_COLORS: Record<string, string> = {

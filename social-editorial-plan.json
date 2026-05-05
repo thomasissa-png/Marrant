@@ -1,15 +1,15 @@
 {
-  "version": "1.0",
-  "lastUpdated": "2026-03-22",
+  "version": "2.0-s7",
+  "lastUpdated": "2026-05-05",
+  "refonteS7Note": "Refonte radicale : 1 format par plateforme, voix narrateur compte=marque (pas personne), 6 nouveaux gates G-S14 à G-S20.",
   "strategy": {
-    "mission": "Chaque post est une micro-performance de stand-up. Pas un extrait du catalogue. Pas un engagement bait.",
+    "mission": "Chaque post est une micro-performance de stand-up. Le compte parle AU lecteur, jamais DE soi.",
     "growthTarget": "0 → 10K followers en 6 mois",
-    "usp": "Décortiquer des techniques de stand-up de manière actionnable",
+    "usp": "Le compte qui te donne des armes pour demain — vannes prêtes à recracher, observations qui claquent",
     "contentPillars": [
-      "Technique du Jour — USP principal, éducatif + drôle",
-      "Vanne Réécrite Social — réécriture social-native du catalogue",
-      "Thread Décryptage — analyse approfondie d'une technique",
-      "Quote Analyse — citation humoriste + micro-analyse"
+      "MINI_STANDUP (Twitter) — micro-set de stand-up en 1 tweet ≤ 270 chars",
+      "POTE_AU_TAF (LinkedIn) — vanne courte sur la vie de bureau, ≤ 3 phrases, zéro leçon",
+      "IMAGE_QUI_CLAQUE (Instagram) — punchline ≤ 6 mots sur fond noir, caption ≤ 80 chars"
     ],
     "brandVoice": {
       "tone": "Complice, punchy, entre potes — comme un DM à ton meilleur pote",
@@ -25,46 +25,51 @@
   },
   "platforms": {
     "TWITTER": {
-      "postsPerDay": "2-4",
-      "threadsPerWeek": 2,
-      "wildCardsPerWeek": 2,
-      "formats": ["TWEET", "THREAD", "QUOTE_ANALYSIS", "WILD_CARD"],
-      "charLimit": 280,
+      "postsPerDay": 1,
+      "formats": ["MINI_STANDUP"],
+      "charLimit": 270,
+      "deprecated": ["TWEET (legacy alias)", "THREAD", "QUOTE_ANALYSIS", "WILD_CARD", "TECHNIQUE_DU_JOUR"],
       "rules": [
-        "Hook ≤ 5 mots obligatoire",
-        "Zéro lien dans les 3 premières lignes",
-        "CTA subtil en fin uniquement",
-        "Pas de hashtag dans le corps — max 1 en fin de tweet"
+        "1 single tweet, ≤ 270 chars (marge sécurité Twitter)",
+        "Hook ≤ 5 mots qui crée une tension (G-S2)",
+        "Voix narrateur compte=marque — aucun je/mon/ma hors citation (G-S19)",
+        "1 des 5 voix : observation universelle / mise en scène impersonnelle / vanne du catalogue citée / question rhétorique / statement provocateur",
+        "Zéro hashtag dans le corps (G-S13)",
+        "Zéro lien dans les 3 premières lignes (G-S12)",
+        "PAS de thread déguisé (G-S14)",
+        "PAS de listicle, PAS de 'Petit thread sur', PAS d'engagement bait (G-S4)"
       ],
-      "bestPractices": [
-        "Ratio 80% valeur / 20% promo",
-        "Répondre aux comptes d'humoristes (visibilité organique)",
-        "Réagir à l'actualité stand-up dans les 2h",
-        "2 wild cards/semaine (mercredi + samedi) pour réactivité actu/trends"
-      ]
+      "canonicalExample": "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau."
     },
     "LINKEDIN": {
       "postsPerDay": "1 (Sophie/Marc uniquement — PAS Yanis, il n'est pas sur LinkedIn)",
-      "formats": ["POST"],
+      "formats": ["POTE_AU_TAF"],
       "charLimit": 1300,
+      "deprecated": ["POST (legacy alias)"],
       "rules": [
-        "Sophie : la vanne exacte à sortir en réunion, le timing à la machine à café",
-        "Marc : come-back humour, retrouver sa vanne, redevenir le mec drôle",
-        "Vendredi Sophie : angle social hors boulot (afterwork, soirée entre amis)",
-        "Ton plus mature que Twitter, mais jamais corporate",
-        "Storytelling > bullet points",
-        "Hook en première ligne (visible avant 'voir plus')"
+        "≤ 3 phrases MAX (G-S15) — si ça déborde, c'est pas le format",
+        "1 vanne ou observation drôle sur une situation pro RÉELLE (réunion, mail patron, calendrier, machine à café, slack 22h, PowerPoint)",
+        "PAS de structure 'hook → leçon → CTA' — juste une vanne posée",
+        "Pas de saut de ligne entre chaque phrase (broetry interdit, G-S15)",
+        "Tutoiement systématique (G-S9)",
+        "Pas de lien dans le post",
+        "Voix narrateur compte=marque (G-S19)",
+        "INTERDIT (G-S15) : 'Le truc :', 'La vraie leçon :', 'Spoiler :', 'Plot twist', 'Il y a X ans, j'étais...'",
+        "INTERDIT (G-S17) : growth mindset, scaler, synergie, paradigme, disruption — 'leadership' toléré uniquement si déconstruit",
+        "INTERDIT (G-S20) : sujets vie privée intime (ex, séparation, dating intime) — recycler sur Twitter ou IG"
       ],
       "targetPersonas": ["SOPHIE", "MARC"],
-      "yanisStrategy": "Pas de LinkedIn — remplacé par un 3ème tweet (Le Défi) les jours Yanis"
+      "yanisStrategy": "Pas de LinkedIn — slot supprimé (vs ancien : Le Défi remplaçait)",
+      "canonicalExample": "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
     },
     "INSTAGRAM": {
       "postsPerDay": 1,
-      "formats": ["IMAGE"],
+      "formats": ["IMAGE_QUI_CLAQUE"],
       "carouselSupport": false,
       "carouselNote": "Buffer API ne supporte pas les carousels Instagram — uniquement single-image posts",
       "imageSize": "1080x1080",
-      "templates": ["TECHNIQUE_DU_JOUR", "LA_VANNE", "LE_DEFI"],
+      "templates": ["IMAGE_QUI_CLAQUE"],
+      "deprecated": ["TECHNIQUE_DU_JOUR", "LA_VANNE", "LE_DEFI"],
       "charteVisuelle": {
         "fond": "Noir/très sombre",
         "accent": "Violet/gradient (accent-primary du site)",
@@ -72,70 +77,68 @@
         "regle": "Reconnaissable en < 1 seconde dans un feed"
       },
       "rules": [
-        "Image générée via satori (templates JSX) — 1 image par post",
-        "Caption max 2200 chars, hashtags en fin de caption",
-        "Pas de lien dans le caption (non cliquable)",
-        "CTA → lien en bio",
-        "Alternance TECHNIQUE_DU_JOUR (lun/mer/ven/sam/dim) et QUOTE_ANALYSIS/La Vanne (mar/jeu)",
-        "Yanis/Marc : plus de La Vanne et Le Défi (ils veulent rigoler, pas des cours)",
-        "Sophie : mix Technique + La Vanne (elle veut apprendre ET des vannes)"
+        "Champ 'hook' = punchline visuelle MAX 6 mots, italique, fond noir + accent violet",
+        "Champ 'content' = caption ≤ 80 chars (G-S16) — ton 'le pote qui te chambre'",
+        "L'image doit faire rire SEULE — la caption = clin d'œil ou 2e mini-vanne (pas explication)",
+        "Voix narrateur compte=marque (G-S19) — 'T'es...', 'Quand tu...', jamais 'moi je'",
+        "INTERDIT (G-S16) : 'tag un ami', 'double-tap', 'swipe pour', 'clique sur le lien en bio'",
+        "Hashtags : 0 dans la caption, jusqu'à 15 en premier commentaire"
       ],
-      "weeklySchedule": {
-        "monday": "TECHNIQUE_DU_JOUR",
-        "tuesday": "QUOTE_ANALYSIS (La Vanne)",
-        "wednesday": "TECHNIQUE_DU_JOUR",
-        "thursday": "QUOTE_ANALYSIS (La Vanne)",
-        "friday": "TECHNIQUE_DU_JOUR",
-        "saturday": "TECHNIQUE_DU_JOUR (La Vanne ou Le Défi)",
-        "sunday": "TECHNIQUE_DU_JOUR (dimanche soir cool)"
-      },
-      "activatedAt": "2026-03-24"
+      "weeklySchedule": "Format unique tous les jours — IMAGE_QUI_CLAQUE",
+      "activatedAt": "2026-03-24",
+      "refondueLe": "2026-05-05 (s7)",
+      "canonicalExamples": [
+        "Visuel: 'En soirée, t'es le plat froid.' | Caption: 'Ça réchauffe. Mais faut un micro-ondes social.'",
+        "Visuel: 'Réunion à 17h59. Nouveau sport olympique.' | Caption: 'Médaille d'or : faire semblant d'avoir noté.'",
+        "Visuel: 'Les apéros à 34 ans : sport extrême.' | Caption: 'Dimanche : tu survis. Lundi : tu négocies avec ton foie.'"
+      ]
     }
   },
   "weeklySchedule": [
     {
       "day": "Lundi",
-      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)"],
-      "linkedin": ["Post technique communication/humour au travail"],
-      "instagram": ["Image Technique du Jour"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Mardi",
-      "twitter": ["Quote Analyse (matin)", "Thread Décryptage (soir)"],
-      "linkedin": [],
-      "instagram": ["Image La Vanne (citation + punchline)"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Mercredi",
-      "twitter": ["Technique du Jour (matin)", "Vanne Réécrite Social (soir)", "🃏 Wild Card réactif (actu stand-up)"],
-      "linkedin": ["Post storytelling/anecdote pro"],
-      "instagram": ["Image Technique du Jour"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Jeudi",
-      "twitter": ["Quote Analyse (matin)", "Vanne situation (soir)", "Marc: tweet dating (si jour Marc)"],
-      "linkedin": [],
-      "instagram": ["Image La Vanne (citation + punchline)"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Vendredi",
-      "twitter": ["Technique du Jour (matin)", "Thread Décryptage (soir)", "Quote Analyse (bonus)"],
-      "linkedin": ["Post 'La technique du week-end'"],
-      "instagram": ["Image Technique du Jour"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Samedi",
-      "twitter": ["Thread viral (midi)", "🃏 Wild Card réactif (meme/trend/show)"],
-      "linkedin": [],
-      "instagram": ["Image La Vanne ou Le Défi"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     },
     {
       "day": "Dimanche",
-      "twitter": ["Vanne légère (tous personas)", "Marc : micro-technique du dimanche soir"],
-      "linkedin": [],
-      "instagram": ["Image Technique du Jour (dimanche soir cool)"]
+      "twitter": ["MINI_STANDUP (1 post)"],
+      "linkedin": ["POTE_AU_TAF (1 post — sauf jour Yanis)"],
+      "instagram": ["IMAGE_QUI_CLAQUE (1 post)"]
     }
   ],
+  "weeklyScheduleNote": "Refonte s7 : 1 format unique par plateforme, 1 post/jour/plateforme. Plus de THREAD, QUOTE_ANALYSIS, WILD_CARD ou TECHNIQUE_DU_JOUR. Yanis : pas de LinkedIn (slot supprimé).",
   "monthlyThemes": {
     "janvier": {
       "theme": "Nouvelles résolutions humour",
@@ -339,6 +342,28 @@
       { "name": "Anti-generic test", "weight": 1, "description": "Un compte lambda pourrait poster ça ? Si oui, REJETÉ" },
       { "name": "Platform-native test", "weight": 1, "description": "Exploite les codes de la plateforme ?" },
       { "name": "Persona test", "weight": 1, "description": "Le persona scrolle et s'arrête ?" }
+    ],
+    "programmaticGates": [
+      "G-S1 Pas de persona leak (Yanis/Sophie/Marc dans contenu public)",
+      "G-S2 Hook ≤ 5 mots",
+      "G-S3 Anti-IA red flags (Dans un monde où, N'hésitez pas, Découvrez)",
+      "G-S4 Anti-engagement bait (tag un ami, note de 1 à 10)",
+      "G-S5 Char limit par plateforme (Twitter 270, LinkedIn 1300, Instagram 2200)",
+      "G-S6 CTA non-marketing",
+      "G-S7 Limite emojis (TW 2, LI 5, IG 10)",
+      "G-S8 Voix équipe (on, pas je)",
+      "G-S9 Tutoiement obligatoire",
+      "G-S10 Anti-vulgarité",
+      "G-S11 Anti-dialogue reconstitué",
+      "G-S12 Pas de lien dans les 3 premières lignes (Twitter)",
+      "G-S13 Pas de hashtags dans tweet",
+      "G-S14 TWITTER format MINI_STANDUP uniquement (refonte s7)",
+      "G-S15 LINKEDIN format POTE_AU_TAF — ≤ 3 phrases, pas de leçon, pas de broetry, pas de faux storytelling (refonte s7)",
+      "G-S16 INSTAGRAM caption ≤ 80 chars + anti-bait IG (refonte s7)",
+      "G-S17 Anti-corporate/coach (refonte s7)",
+      "G-S18 Référence humoriste avec contenu réel — pas de citation vidée (refonte s7)",
+      "G-S19 Anti-1ère-personne (compte = marque, pas personne) — règle absolue refonte s7",
+      "G-S20 Fit plateforme × sujet — vie privée intime interdite sur LinkedIn, ROI/KPI/OKR interdits sur Twitter (refonte s7)"
     ],
     "minScore": 9,
     "maxRetries": 3,

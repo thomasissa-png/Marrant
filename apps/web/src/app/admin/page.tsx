@@ -938,11 +938,17 @@ function SocialPostCard({
   };
 
   const formatLabels: Record<string, string> = {
-    TECHNIQUE_DU_JOUR: "Technique du Jour",
-    TWEET: "Tweet",
-    THREAD: "Thread",
-    QUOTE_ANALYSIS: "Quote Analyse",
-    POST: "Post",
+    // Refonte s7 — formats canoniques
+    MINI_STANDUP: "Mini-Stand-Up (TW)",
+    POTE_AU_TAF: "Pote au Taf (LI)",
+    IMAGE_QUI_CLAQUE: "Image qui claque (IG)",
+    // Legacy (deprecated)
+    TECHNIQUE_DU_JOUR: "Technique du Jour (legacy)",
+    TWEET: "Tweet (legacy)",
+    THREAD: "Thread (legacy)",
+    QUOTE_ANALYSIS: "Quote Analyse (legacy)",
+    WILD_CARD: "Wild Card (legacy)",
+    POST: "Post (legacy)",
   };
 
   const isThread = post.format === "THREAD" && post.threadParts.length > 0;

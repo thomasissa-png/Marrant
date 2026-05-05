@@ -145,6 +145,11 @@ export async function GET(req: Request) {
       console.log(`[PublishSocial] Circuit breaker actif — plateformes bloquées 24h : ${[...blockedPlatforms].join(", ")}`);
     }
 
+    // Refonte s7 : skip les formats deprecated (THREAD, QUOTE_ANALYSIS, WILD_CARD, TECHNIQUE_DU_JOUR)
+    // Ces formats ne doivent plus être publiés — seulement MINI_STANDUP / POTE_AU_TAF / IMAGE_QUI_CLAQUE
+    // (TWEET et POST sont conservés en alias legacy pour les posts admin manuels)
+    const DEPRECATED_FORMATS = ["THREAD", "QUOTE_ANALYSIS", "WILD_CARD", "TECHNIQUE_DU_JOUR"];
+
     // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
     // Posts approuves automatiquement (approvedBy null) doivent avoir directorScore >= 9.
@@ -152,6 +157,8 @@ export async function GET(req: Request) {
       where: {
         status: "APPROVED",
         scheduledAt: { lte: now },
+        // Refonte s7 : skip formats deprecated (legacy queue avant refonte)
+        format: { notIn: DEPRECATED_FORMATS },
         // Circuit breaker : exclure les plateformes en cooldown 429
         ...(blockedPlatforms.size > 0 ? { platform: { notIn: [...blockedPlatforms] } } : {}),
         OR: [
@@ -162,6 +169,21 @@ export async function GET(req: Request) {
       orderBy: { scheduledAt: "asc" },
       take: 10,
     });
+
+    // Si des posts deprecated étaient APPROVED, les rejeter une fois pour cleaner la queue
+    const deprecatedRejected = await prisma.socialPost.updateMany({
+      where: {
+        status: { in: ["APPROVED", "PENDING"] },
+        format: { in: DEPRECATED_FORMATS },
+      },
+      data: {
+        status: "REJECTED",
+        directorNote: "Refonte s7 — format deprecated (THREAD/QUOTE_ANALYSIS/WILD_CARD/TECHNIQUE_DU_JOUR ne sont plus publiés)",
+      },
+    });
+    if (deprecatedRejected.count > 0) {
+      console.log(`[PublishSocial] ${deprecatedRejected.count} posts deprecated (refonte s7) rejetés en queue`);
+    }
 
     // Demote any APPROVED posts with low/null scores back to PENDING
     // SAUF les posts approuves manuellement par l'admin (approvedBy != null)

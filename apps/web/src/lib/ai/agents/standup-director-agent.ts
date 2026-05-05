@@ -1939,6 +1939,179 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     });
   }
 
+  // ─── Gates refonte s7 (G-S14 à G-S20) ──────────────────────────
+
+  // G-S14 — TWITTER : Format MINI_STANDUP uniquement
+  // Refonte s7 : un seul format autorisé par plateforme.
+  if (post.platform === "TWITTER") {
+    const isThread = !!(post.threadParts && post.threadParts.length > 0);
+    // Formats Twitter autorisés : MINI_STANDUP (canonique) + TWEET (legacy alias)
+    const allowedTwitterFormats = ["MINI_STANDUP", "TWEET"];
+    const isAllowedFormat = allowedTwitterFormats.includes(post.format as string);
+    const fail = isThread || !isAllowedFormat;
+    results.push({
+      gate: "G-S14 TWITTER format Mini-Stand-Up uniquement",
+      pass: !fail,
+      reason: isThread
+        ? "Thread interdit (Mini-Stand-Up = 1 tweet)"
+        : !isAllowedFormat
+          ? `Format ${post.format} interdit sur Twitter (autorisé : MINI_STANDUP)`
+          : "OK",
+    });
+  }
+
+  // G-S15 — LINKEDIN : ≤ 3 phrases ET pas de leçon-moralisatrice / faux storytelling / broetry
+  if (post.platform === "LINKEDIN") {
+    const sentenceCount = (post.content.match(/[.!?]+(?:\s|$)/g) || []).length;
+    const lessonMarkers = [
+      "le truc :",
+      "la vraie leçon",
+      "ce que j'en retiens",
+      "spoiler :",
+      "plot twist",
+      "ça marche aussi",
+      "voici ce que j'ai appris",
+    ];
+    const lower = post.content.toLowerCase();
+    const hasLesson = lessonMarkers.find((m) => lower.includes(m));
+    const hasBroetry = /\n{3,}/.test(post.content);
+    const fakeStorytelling = /il y a \d+ ans?,? j['']?(é|e)tais/i.test(post.content);
+    const fail =
+      sentenceCount > 3 || !!hasLesson || hasBroetry || fakeStorytelling;
+    results.push({
+      gate: "G-S15 LINKEDIN format Le pote au taf",
+      pass: !fail,
+      reason:
+        sentenceCount > 3
+          ? `${sentenceCount} phrases (max 3)`
+          : hasLesson
+            ? `Marqueur leçon : "${hasLesson}"`
+            : hasBroetry
+              ? "Broetry détecté (3+ sauts de ligne)"
+              : fakeStorytelling
+                ? "Faux storytelling 'il y a X ans'"
+                : "OK",
+    });
+  }
+
+  // G-S16 — INSTAGRAM : Caption ≤ 80 chars ET pas d'engagement bait IG
+  if (post.platform === "INSTAGRAM") {
+    const captionTooLong = post.content.length > 80;
+    const igBait = [
+      "tag un ami",
+      "double-tap",
+      "double tap",
+      "swipe pour",
+      "clique sur le lien en bio",
+      "lien en bio !",
+    ];
+    const lower = post.content.toLowerCase();
+    const foundIgBait = igBait.find((b) => lower.includes(b));
+    const fail = captionTooLong || !!foundIgBait;
+    results.push({
+      gate: "G-S16 INSTAGRAM caption ≤ 80 + anti-bait",
+      pass: !fail,
+      reason: captionTooLong
+        ? `Caption ${post.content.length} chars (max 80)`
+        : foundIgBait
+          ? `Bait IG : "${foundIgBait}"`
+          : "OK",
+    });
+  }
+
+  // G-S17 — TOUS : Vocabulaire corporate / coach interdit
+  // Note : "leadership" toléré car peut être déconstruit. Si abus → resserrer.
+  const corporateWords = [
+    "growth mindset",
+    "scaler",
+    "synergie",
+    "synergies",
+    "paradigme",
+    "disruption",
+    "disruptif",
+    "actionable insight",
+    "value proposition",
+    "monétiser",
+  ];
+  const foundCorporate = corporateWords.find((w) => allTextLower.includes(w));
+  results.push({
+    gate: "G-S17 Anti-corporate/coach",
+    pass: !foundCorporate,
+    reason: foundCorporate ? `Mot corporate : "${foundCorporate}"` : "OK",
+  });
+
+  // G-S18 — TOUS : Référence humoriste avec contenu réel (pas de "X est trop fort sur Y")
+  const humoristes = [
+    "paul mirabel",
+    "fary",
+    "roman frayssinet",
+    "blanche gardin",
+    "waly dia",
+    "panayotis pascot",
+    "pierre croce",
+    "inès reg",
+    "ines reg",
+    "jamel",
+    "gad elmaleh",
+  ];
+  const mentioned = humoristes.find((h) => allTextLower.includes(h));
+  if (mentioned) {
+    const hasQuote = /["'«][^"'»]{8,}["'»]/.test(post.content);
+    const hasActionVerb = /(dit|fait|répète|décrit|observe|joue|raconte|balance)\s+/i.test(
+      post.content,
+    );
+    results.push({
+      gate: "G-S18 Humoriste avec contenu réel",
+      pass: hasQuote || hasActionVerb,
+      reason:
+        !hasQuote && !hasActionVerb
+          ? `Humoriste "${mentioned}" cité sans vanne ni geste précis`
+          : "OK",
+    });
+  }
+
+  // G-S19 — TOUS : Anti-première-personne (compte = marque, pas personne)
+  // Le compte parle AU lecteur, jamais DE soi.
+  // Exception : 1ère personne autorisée à l'intérieur de citations entre guillemets.
+  const contentSansCitations = post.content
+    .replace(/"[^"]*"/g, " ")
+    .replace(/«[^»]*»/g, " ")
+    .replace(/'[^']*'/g, " ")
+    .replace(/'[^']*'/g, " ");
+  const firstPersonRegex = /\b(je|j['']|moi|mon|ma|mes|mien|mienne)\b/i;
+  const foundFP = firstPersonRegex.exec(contentSansCitations);
+  results.push({
+    gate: "G-S19 Anti-1ère-personne (compte = marque)",
+    pass: !foundFP,
+    reason: foundFP ? `Mot 1ère personne hors citation : "${foundFP[0]}"` : "OK",
+  });
+
+  // G-S20 — Fit plateforme × sujet (anti-mismatch contextuel)
+  // LinkedIn ne devrait PAS parler de vie privée intime (ex, séparation, dating intime, parents).
+  // Twitter ne devrait PAS sonner ultra-pro-managérial (ROI, KPI, OKR).
+  if (post.platform === "LINKEDIN") {
+    const privateLifeMarkers = /\b(mon ex|mon ex-|ton ex|son ex|ma copine|mon copain|ma femme|mon mari|premier date|premier rendez-vous|ma rupture|ma séparation|tinder|bumble|hinge)\b/i;
+    const foundPrivate = privateLifeMarkers.exec(post.content);
+    if (foundPrivate) {
+      results.push({
+        gate: "G-S20 Fit plateforme × sujet",
+        pass: false,
+        reason: `Sujet vie privée intime sur LinkedIn : "${foundPrivate[0]}" — recycler sur Twitter ou IG`,
+      });
+    }
+  }
+  if (post.platform === "TWITTER") {
+    const ultraProMarkers = /\b(ROI|KPI|OKR|CAC|LTV|MRR|EBITDA|NPS)\b/;
+    const foundUltraPro = ultraProMarkers.exec(post.content);
+    if (foundUltraPro) {
+      results.push({
+        gate: "G-S20 Fit plateforme × sujet",
+        pass: false,
+        reason: `Sujet ultra-pro-managérial sur Twitter : "${foundUltraPro[0]}" — déplacer sur LinkedIn`,
+      });
+    }
+  }
+
   return results;
 }
 
@@ -2029,11 +2202,12 @@ Hashtags : ${post.hashtags.join(", ")}
    → Si oui = REJETÉ. Interdits : "Complète cette vanne", "Note de 1 à 10", "Tag un ami", "Like si..."
    → Le post a-t-il notre ADN unique (techniques de stand-up + humour + progression) ?
 
-9. PLATFORM-NATIVE TEST :
+9. PLATFORM-NATIVE TEST (refonte s7 — 1 format par plateforme) :
    Le format exploite les codes SPÉCIFIQUES de ${post.platform} ?
-   → Twitter : max 280 chars, punchline sèche, pas de hashtags dans le corps
-   → LinkedIn : sauts de ligne, première phrase choc seule, max 1300 chars, PAS de broetry, PAS de "agree?", PAS de faux storytelling "Il y a 3 ans..."
-   → Thread : chaque tweet autonome ET donne envie du suivant, dernier = CTA
+   → Twitter (MINI_STANDUP) : 1 single tweet ≤ 270 chars, punchline sèche, pas de thread, pas de hashtags dans le corps. Voix observateur (G-S19), pas de "je/mon/ma" hors citation.
+   → LinkedIn (POTE_AU_TAF) : ≤ 3 phrases, scène pro vécue posée, ZÉRO leçon (G-S15), zéro vocabulaire coach (G-S17), zéro vie privée intime (G-S20). Voix "Ce moment où ton..." / "Le X qui..."
+   → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 6 mots reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
+   → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, WILD_CARD, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
 
 10. PERSONA TEST :
     ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?

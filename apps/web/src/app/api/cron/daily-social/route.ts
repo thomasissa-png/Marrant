@@ -40,43 +40,20 @@ export async function GET(req: Request) {
       `[DailySocial] Génération posts pour jour ${dayOfMonth} — persona ${persona}`,
     );
 
-    // ── Quotas PAR PLATEFORME ET PAR JOUR (source de vérité) ─────
-    // Calcul dynamique basé sur le jour de la semaine + persona.
-    // Les threads Twitter sont 1 DB row mais consomment 5-7 slots Buffer à la publication.
-    // Les jours avec thread limitent Twitter à 3 pour laisser de la marge Buffer.
+    // ── Quotas PAR PLATEFORME ET PAR JOUR (refonte s7) ─────
+    // 1 format par plateforme, 1 post/jour/plateforme.
+    // Yanis : pas de LinkedIn (slot supprimé).
+    // Plus de THREAD ni WILD_CARD ni QUOTE_ANALYSIS — un seul MINI_STANDUP/jour.
     //
-    // Plan éditorial (social-editorial-plan.json) :
-    //   Lun : 2 Twitter + 1 LI + 1 IG     |  Yanis : 3 Twitter + 1 IG
-    //   Mar : 2 Twitter + 0 LI + 1 IG     |  Yanis : 2 Twitter + 1 IG
-    //   Mer : 3 Twitter(+thread) + 1 LI + 1 IG  |  Yanis : 4 Twitter(+thread) + 1 IG
-    //   Jeu : 2 Twitter + 0 LI + 1 IG     |  Yanis : 2 Twitter + 1 IG
-    //   Ven : 2 Twitter + 1 LI + 1 IG     |  Yanis : 3 Twitter + 1 IG
-    //   Sam : 2 Twitter(+thread) + 0 LI + 1 IG
-    //   Dim : 2 Twitter + 0 LI + 1 IG
+    // Plan éditorial (social-editorial-plan.json v2.0-s7) :
+    //   Tous jours : 1 Twitter + 1 LI + 1 IG  |  Yanis : 1 Twitter + 1 IG (pas de LI)
     const dayOfWeek = today.getUTCDay(); // 0=dim, 1=lun, ..., 6=sam
     const isYanis = persona === "YANIS";
-    const hasThreadDay = dayOfWeek === 3 || dayOfWeek === 6; // Mercredi ou samedi
-
-    // Max Twitter par jour — compte 1 thread comme 1 (DB row)
-    // Jour thread = 3 (Yanis mercredi = 4 car thread + 3 autres)
-    const getMaxTwitter = (): number => {
-      if (dayOfWeek === 3) return isYanis ? 4 : 3; // Mercredi
-      if (dayOfWeek === 6) return 2;               // Samedi : 1 thread + 1 wild
-      if (dayOfWeek === 0) return 2;               // Dimanche
-      // Lun/Mar/Jeu/Ven
-      return isYanis ? 3 : 2;
-    };
-
-    // LinkedIn : 1 les jours Lun/Mer/Ven non-Yanis, 0 sinon (aligné JSON plan)
-    const getMaxLinkedIn = (): number => {
-      if (isYanis) return 0;
-      if ([1, 3, 5].includes(dayOfWeek)) return 1; // Lundi, Mercredi, Vendredi
-      return 0; // Mar, Jeu, Sam, Dim
-    };
+    void dayOfWeek; // gardé pour future logique calendaire
 
     const quotas: Record<string, number> = {
-      TWITTER: getMaxTwitter(),
-      LINKEDIN: getMaxLinkedIn(),
+      TWITTER: 1,
+      LINKEDIN: isYanis ? 0 : 1,
       INSTAGRAM: 1,
     };
 

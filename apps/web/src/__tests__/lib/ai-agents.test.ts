@@ -2374,6 +2374,379 @@ describe("runSocialGates — G-S5 hard reject Twitter > 270 chars", () => {
   });
 });
 
+// ─── Refonte s7 — Tests anti-régression G-S14 à G-S20 ──────────
+describe("runSocialGates — refonte s7 (G-S14 à G-S20)", () => {
+  let runSocialGates: any;
+
+  beforeAll(async () => {
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    runSocialGates = mod.runSocialGates;
+  });
+
+  // ─── G-S14 — TWITTER format MINI_STANDUP uniquement ────────────
+  describe("G-S14 — TWITTER format Mini-Stand-Up uniquement", () => {
+    it("FAIL si Twitter avec threadParts (thread interdit)", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Test",
+        content: "OK",
+        threadParts: ["t1", "t2", "t3"],
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S14"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/Thread interdit/);
+    });
+
+    it("FAIL si Twitter avec format QUOTE_ANALYSIS", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "QUOTE_ANALYSIS" as const,
+        hook: "Test",
+        content: "OK",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S14"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/QUOTE_ANALYSIS interdit/);
+    });
+
+    it("PASS si Twitter avec format MINI_STANDUP", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Une vanne courte",
+        content: "Quand ta coloc met une étiquette sur tout. Sur le yaourt nature : 'yaourt nature'.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S14"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S15 — LINKEDIN format Le pote au taf ────────────────────
+  describe("G-S15 — LINKEDIN ≤ 3 phrases + anti-leçon", () => {
+    it("FAIL si plus de 3 phrases", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Phrase 1. Phrase 2. Phrase 3. Phrase 4.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S15"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/4 phrases/);
+    });
+
+    it("FAIL si contient marqueur leçon 'Le truc :'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Une observation. Le truc : il faut écouter.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S15"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/leçon/i);
+    });
+
+    it("FAIL si faux storytelling 'Il y a 3 ans, j'étais...'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Il y a 3 ans, j'étais au fond du gouffre.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S15"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/storytelling/i);
+    });
+
+    it("PASS sur post canonique 'petit point rapide à 17h57'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Ce moment où",
+        content: "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S15"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S16 — INSTAGRAM caption ≤ 80 chars + anti-bait IG ───────
+  describe("G-S16 — INSTAGRAM caption ≤ 80 + anti-bait", () => {
+    it("FAIL si caption > 80 chars", () => {
+      const post = {
+        platform: "INSTAGRAM" as const,
+        format: "IMAGE_QUI_CLAQUE" as const,
+        hook: "Punchline",
+        content: "x".repeat(120),
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S16"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/120 chars/);
+    });
+
+    it("FAIL si contient 'tag un ami'", () => {
+      const post = {
+        platform: "INSTAGRAM" as const,
+        format: "IMAGE_QUI_CLAQUE" as const,
+        hook: "Punchline",
+        content: "Tag un ami qui kiffe.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S16"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/tag un ami/i);
+    });
+
+    it("PASS sur caption canonique 'Ça réchauffe. Mais faut un micro-ondes social.'", () => {
+      const post = {
+        platform: "INSTAGRAM" as const,
+        format: "IMAGE_QUI_CLAQUE" as const,
+        hook: "En soirée, t'es le plat froid",
+        content: "Ça réchauffe. Mais faut un micro-ondes social.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S16"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S17 — Anti-corporate/coach ──────────────────────────────
+  describe("G-S17 — Anti-corporate/coach", () => {
+    it("FAIL si post contient 'growth mindset'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Le growth mindset c'est super.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S17"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/growth mindset/i);
+    });
+
+    it("FAIL si post contient 'synergie'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Une équipe en synergie.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S17"));
+      expect(g.pass).toBe(false);
+    });
+
+    it("PASS si vocabulaire normal", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Test",
+        content: "Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien'.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S17"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S18 — Référence humoriste avec contenu réel ─────────────
+  describe("G-S18 — Humoriste avec vanne ou geste précis", () => {
+    it("FAIL si humoriste cité sans vanne ni verbe d'action", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Paul Mirabel est top",
+        content: "Paul Mirabel est génial sur l'autodérision, vraiment.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S18"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/sans vanne/i);
+    });
+
+    it("PASS si humoriste cité avec verbe d'action concret", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Paul Mirabel dit",
+        content: "Paul Mirabel dit qu'il aime arriver en avance, comme ça il a le temps d'avoir peur.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S18"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S19 — Anti-1ère-personne (compte = marque) ──────────────
+  describe("G-S19 — Anti-1ère-personne (compte = marque, pas personne)", () => {
+    it("FAIL si 'ma coloc' hors citation", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Ma coloc",
+        content: "Ma coloc a refait le frigo.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/ma/i);
+    });
+
+    it("FAIL si 'mon boss' hors citation", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Mon boss",
+        content: "Mon boss m'a dit que j'étais irremplaçable.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(false);
+    });
+
+    it("FAIL si 'je' hors citation", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Premier date",
+        content: "Premier date depuis 8 ans. Je lui demande ce qu'elle aime.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(false);
+    });
+
+    it("PASS si 1ère personne dans citation entre guillemets", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Une vanne",
+        content: "Une vanne à recracher : \"Mon boss m'a dit que j'étais irremplaçable\". Cadeau.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(true);
+    });
+
+    it("PASS sur post canonique 'Quand ta coloc met une étiquette'", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Quand ta coloc",
+        content: "Quand ta coloc met une étiquette sur tout dans le frigo. Au cas où tu doutes encore.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(true);
+    });
+
+    it("PASS sur post canonique 'Le collègue qui dit on en reparle'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Le collègue qui dit",
+        content: "Le collègue qui dit \"on en reparle\" à chaque réunion depuis 3 mois. Tu commences à penser que \"on\" n'existe pas. Que c'est un mythe RH inventé pour clore les meetings.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S19"));
+      expect(g.pass).toBe(true);
+    });
+  });
+
+  // ─── G-S20 — Fit plateforme × sujet ────────────────────────────
+  describe("G-S20 — Fit plateforme × sujet", () => {
+    it("FAIL si LinkedIn parle de 'mon ex'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "L'ex Netflix",
+        content: "Quand ton ex appelle pour te dire qu'elle a gardé ton abonnement Netflix.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S20"));
+      expect(g).toBeDefined();
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/vie privée/i);
+    });
+
+    it("FAIL si LinkedIn parle de 'premier date'", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Premier date",
+        content: "Premier date après une longue relation.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S20"));
+      expect(g).toBeDefined();
+      expect(g.pass).toBe(false);
+    });
+
+    it("FAIL si Twitter parle de KPI/ROI/OKR", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Le KPI du jour",
+        content: "Le KPI sur ce trimestre c'est 12.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S20"));
+      expect(g).toBeDefined();
+      expect(g.pass).toBe(false);
+    });
+
+    it("PASS si LinkedIn parle de réunion/manager (sujet pro standard)", () => {
+      const post = {
+        platform: "LINKEDIN" as const,
+        format: "POTE_AU_TAF" as const,
+        hook: "Le collègue qui dit",
+        content: "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois.",
+        cta: "",
+        hashtags: [],
+      };
+      const allGates = runSocialGates(post);
+      const g = allGates.find((x: any) => x.gate.includes("G-S20"));
+      // G-S20 ne push de result QUE quand FAIL → si pas de FAIL, gate absent = OK
+      expect(g).toBeUndefined();
+    });
+  });
+});
+
 // ─── Video Discovery Agent Tests ────────────────────────────────
 
 describe("Video Discovery Agent", () => {

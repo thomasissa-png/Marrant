@@ -9,7 +9,6 @@
 import {
   generateTechniqueDuJour,
   generateLaVanne,
-  generateDecryptageSlide,
   generateLeDefi,
 } from "./image-generator";
 
@@ -32,8 +31,21 @@ export async function generatePostImage(
   post: PostData,
   slide = 0,
 ): Promise<Buffer> {
+  void slide;
   switch (post.format) {
+    case "IMAGE_QUI_CLAQUE": {
+      // Refonte s7 : punchline ≤ 6 mots en gros sur fond noir + accent violet.
+      // On reuse generateLaVanne pour son rendu visuel italique-grand-format
+      // mais on utilise UNIQUEMENT le hook comme punchline (caption = champ content séparé).
+      return generateLaVanne({
+        setup: "",
+        punchline: post.hook || post.content.slice(0, 60),
+        category: "",
+      });
+    }
+
     case "TECHNIQUE_DU_JOUR": {
+      // Legacy — conservé pour images existantes en DB
       const lines = post.content.split("\n").filter(Boolean);
       return generateTechniqueDuJour({
         technique: post.hook || lines[0] || "Technique",
@@ -43,6 +55,7 @@ export async function generatePostImage(
     }
 
     case "QUOTE_ANALYSIS": {
+      // Legacy — conservé pour images existantes en DB
       const parts = post.content.split("\n\n").filter(Boolean);
       return generateLaVanne({
         setup: parts[0] || post.hook,
