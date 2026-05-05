@@ -214,6 +214,16 @@ L'insistance du fondateur révèle systématiquement quelque chose qui a été r
 **Réflexe P0 #2 — Vérifier la branche déployée AVANT tout diagnostic "le code est correct"**
 Au PREMIER signalement "le fix ne marche pas en prod" / "ton outil dit X" / "Replit dit Y" : la SEULE première action autorisée est de comparer `git show master:<chemin>` vs `git show HEAD:<chemin>` (ou la branche feature active). Si le diff est important → c'est un problème de merge/deploy, PAS un problème de code. Ne JAMAIS accuser l'outil (Replit, Vercel, DNS, propagation, cache CDN) avant d'avoir fait ce check. **Coût d'oubli observé : 2 semaines de fixes invisibles en production.**
 
+**Réflexe P0 #3 — Audit dual + corpus canonique AVANT refonte de pipeline de génération**
+Quand la demande utilisateur déclenche une **refonte de pipeline de génération** (contenu social, copy, prompts LLM, brief agent producteur) : ne JAMAIS coder le brief / le pipeline directement. Suivre le pattern dual défini dans `_base-agent-protocol.md` section "Pattern d'itération qualité dual avant code (P0)" :
+1. Produire 5-10 exemples canoniques (cas persona × situations × formats)
+2. Audit dual /20 par 2 reviewers indépendants (gardien qualité du projet + agent domaine)
+3. Itérer jusqu'au plateau (cap : 5 cycles) ou 10/20 sur tous les exemples
+4. **Gate fondateur** sur le corpus final
+5. Phase 2 autopilote : code dérivé du corpus, pas de nouvelle gate
+
+**Coût d'oubli observé** : un pipeline codé directement reproduit les défauts à grande échelle (×100 sorties). ROI mesuré sur refonte social s7 : 9 posts 12-18/20 → 20/20 en 2 cycles avant code, défauts évités sur 100+ posts générés ensuite.
+
 ## Comment utiliser le tool Task — règle fondamentale
 
 Le tool Task est ton seul mécanisme d'exécution. Chaque fois que tu délègues du travail à un agent, tu DOIS utiliser Task avec les paramètres suivants :

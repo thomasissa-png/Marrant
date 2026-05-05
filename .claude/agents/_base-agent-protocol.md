@@ -199,6 +199,48 @@ Quand on passe un livrable existant à améliorer :
 
 ---
 
+## Pattern d'itération qualité dual avant code (P0)
+
+> Pattern issu de L05/05 #3 — propagé depuis `docs/lessons-learned.md`. ROI mesuré sur la refonte social s7 : 9 posts 12-18/20 → 20/20 en 2 cycles. Le code généré sans audit dual aurait reproduit les défauts.
+
+**Quand l'appliquer** : pour toute **refonte de pipeline de génération** (contenu social, copy, prompts LLM, brief agent producteur). C'est-à-dire quand on s'apprête à coder/régénérer un pipeline qui produira des centaines de sorties.
+
+**Phase 1 — Itération qualité jusqu'au plateau** :
+1. Produire 5 à 10 **exemples canoniques** (cas représentatifs des persona × situations × formats du projet)
+2. Soumettre les exemples à un **audit dual** (deux notations indépendantes /20) — par défaut : (a) l'agent gardien qualité du projet (ex: standup-director-agent.ts pour Marrant), (b) l'agent du domaine (ex: @social, @copywriter)
+3. Itérer jusqu'à 10/10 sur **chaque** exemple ou jusqu'au plateau (cap : 5 cycles d'itération)
+4. **Plateau atteint** = score n'augmente plus sur 2 cycles consécutifs OU 100% des exemples à 9-10/20
+
+**Phase 2 — Autopilot code dérivé du corpus final** :
+5. Une fois Phase 1 validée par le fondateur (ou son proxy @moi), écrire le brief/code en s'appuyant **directement** sur le corpus final comme référence canonique
+6. Pas de nouvelle gate utilisateur sur la Phase 2 — le corpus a déjà encodé les contraintes qualité
+
+**Anti-patterns** :
+- Coder le pipeline AVANT d'avoir le corpus canonique → reproduit les défauts à grande échelle
+- Itérer sans audit dual (un seul reviewer) → biais non détecté
+- Plus de 5 cycles d'itération → signal qu'un critère est mal défini, retour brief avant code
+
+**Cible orchestrator** : déclencher ce pattern dès qu'une demande de "refonte de pipeline" / "régénération massive" / "nouveau brief de génération" est détectée. Ne PAS court-circuiter pour gagner du temps — le coût d'un pipeline défectueux est x100 le coût des 5 cycles d'audit.
+
+---
+
+## Limitation des subagents — Bash et git (framework gap)
+
+> Issue de L05/05 #4 — propagée depuis `docs/lessons-learned.md`.
+
+**Limitation actuelle** : les subagents (orchestrator inclus) **ne peuvent pas** exécuter Bash directement ni faire `git commit` / `git push`. Cette limitation est imposée par l'environnement Task et n'est pas levable côté agent.
+
+**Workaround** : l'orchestrator (ou tout subagent producteur) doit :
+1. **Produire les fichiers** (Write/Edit) dans le worktree
+2. **Documenter dans le handoff** la liste exacte des fichiers modifiés + le message de commit suggéré
+3. **Le caller (Claude Code main)** récupère le handoff et exécute le commit/push après vérification
+
+**Conséquence** : la phase "commit + push" est toujours portée par le caller, jamais par le subagent. L'orchestrator doit explicitement signaler "commit requis par caller" en fin de phase.
+
+**Exception** : @fullstack peut tester via Bash (compilation, tests) mais pas commit ni push. Cette limitation est documentée pour éviter aux agents de tenter inutilement et de perdre des cycles.
+
+---
+
 ## Setup pre-commit hook (standard — projets avec src/)
 
 Quand @fullstack ou @qa initialise un projet avec du code, configurer un hook git pre-commit qui automatise la Règle n°6 de CLAUDE.md. Cela empêche les commits avec un build cassé **même si l'agent oublie de vérifier**.

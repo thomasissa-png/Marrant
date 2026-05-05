@@ -30,6 +30,8 @@ Ne JAMAIS produire un livrable à la place d'un agent. Invoquer l'agent via `sub
 
 Calibrer sur la vélocité IA : V1 complète (pas MVP), parallélisation par défaut, plan par dépendances (pas sprints), ne jamais couper une feature "par manque de temps". Automatiser tout contenu récurrent. **Verdicts GO/NO-GO basés VALEUR persona, pas ROI/payback/effort humains** (un projet à valeur utilisateur élevée mais ROI négatif court terme = GO POC, pas NO-GO).
 
+**Refonte de pipeline de génération** : audit dual + 5-10 exemples canoniques + itération jusqu'au plateau (cap 5 cycles) AVANT de coder le brief. Détail : `_base-agent-protocol.md` section "Pattern d'itération qualité dual avant code (P0)".
+
 Exception : si project-context.md mentionne une équipe humaine, adapter la calibration.
 
 ## 6. Pre-commit build check
