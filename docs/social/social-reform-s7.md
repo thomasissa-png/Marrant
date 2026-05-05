@@ -19,6 +19,58 @@ Audit des briefs actuels (`social-media-agent.ts` + `social-editorial-plan.json`
 
 ---
 
+## 1.bis — REVISION POST-FEEDBACK THOMAS (2026-05-05)
+
+**Pourquoi cette révision** : le doc S7 v1 avait une **erreur de voix narrative critique** dans les 9 exemples. Tous écrits à la 1ère personne ("Ma coloc", "Mon boss", "Mon ex", "Je", "Moi") comme si le compte @marrant était une personne avec une vie privée.
+
+**Le compte est un SITE / une MARQUE** — il n'a ni coloc, ni boss, ni ex. Le narrateur est un **observateur stand-up bienveillant** qui interpelle, observe, raconte le monde du lecteur — jamais qui se raconte.
+
+**Diagnostic des 9 anciens exemples** :
+- TW #1 "Ma coloc a refait le frigo" → INVALIDE ("ma" = compte personne)
+- TW #2 "Mon boss m'a dit..." → INVALIDE ("mon", "je", "me")
+- TW #3 "Premier date depuis 8 ans. Je lui demande..." → INVALIDE ("je")
+- LI #1 "Ce moment où ton chef..." → OK (tutoiement lecteur, à conserver)
+- LI #2 "Mon ex m'a appelé..." → INVALIDE ("mon", "je")
+- LI #3 "Tu sais que ton équipe..." → OK (tutoiement, à raffiner)
+- IG #1 "En soirée, moi je suis le plat froid" → INVALIDE ("moi je")
+- IG #2 "Lundi 9h, mon âme buffer" → INVALIDE ("mon")
+- IG #3 "34 ans, je redécouvre les apéros" → INVALIDE ("je")
+
+**Origine probable du défaut** : le brief actuel de `social-media-agent.ts` invite à un ton "DM à un pote" — l'agent l'interprète "le compte est un pote qui partage SA vie" au lieu de "le compte parle À un pote de SA vie À LUI (le lecteur)". À corriger dans le brief lors de la phase code.
+
+### Règle absolue de voix narrative
+
+> Le compte @marrant n'est PAS une personne. C'est un site/une marque qui parle AU lecteur (Yanis/Sophie/Marc) pour le faire rire et l'aider à progresser en humour. Le narrateur observe, interpelle, raconte le monde — jamais ne se raconte.
+
+**Mots/structures INTERDITS** dans tout post (TW/LI/IG), sauf citation explicite entre guillemets :
+- `Je`, `J'`, `j'ai`, `Moi`, `Mon`, `Ma`, `Mes`, `Mien`, `Mienne`
+- "Aujourd'hui on parle de", "Voici notre vanne du jour" (corporate prout-prout)
+- Toute construction qui implique une vie personnelle du compte (coloc, boss, ex, parents, vacances)
+
+### Les 5 formats de voix narrative valides
+
+| # | Format | Marqueurs typiques | Exemple |
+|---|---|---|---|
+| 1 | **Observation universelle / coup de coude** | "Ce moment où tu...", "Quand ta...", "T'as remarqué que..." | "Ce moment où ton boss te dit que t'es irremplaçable juste avant de te demander les heures sup gratos." |
+| 2 | **Mise en scène impersonnelle** | "Le X qui...", "La Y qui..." (pas "mon X") | "Le voisin qui te demande comment ça va à 7h du mat dans l'ascenseur. Il veut pas savoir. Tu veux pas répondre. C'est juste un rituel social." |
+| 3 | **Vanne du catalogue citée explicitement** | "Une vanne à recracher : '...'", marqueur de citation + guillemets | "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' De rien." |
+| 4 | **Question rhétorique au lecteur** | "Pourquoi est-ce que...", "T'as déjà essayé de...", "Comment expliquer que..." | "Pourquoi est-ce que la machine à café te demande si tu veux ton café 'fort' alors qu'elle le fait toujours pareil." |
+| 5 | **Statement provocateur / observation acide** | "La vérité c'est que...", "Personne te le dit, mais...", "X% des gens..." | "Personne te le dit, mais ton chat juge tes textos d'excuse." |
+
+### Test de la voix (à appliquer sur chaque post)
+
+> "Est-ce que ce post pourrait être posté tel quel par n'importe qui sur son compte perso ?"
+> - Si **OUI** → INVALIDE (le post sonne comme une personne, pas comme un compte marque)
+> - Si **NON, c'est clairement un observateur extérieur qui interpelle** → VALIDE
+
+### Conséquence pipeline
+
+- Les 9 exemples sont **regénérés** ci-dessous (section 4) avec la nouvelle voix
+- Un **nouveau gate G-S19** est ajouté à la spec Director (section 5) pour bloquer la 1ère personne hors citation
+- Le brief de `social-media-agent.ts` devra être réécrit lors de la phase code pour clarifier la posture narrateur (item ajouté section 6.1)
+
+---
+
 ## 2. Stratégie — 1 plateforme, 1 format, 1 promesse
 
 | Plateforme | Format unique | Promesse au lecteur | Persona dominant |
@@ -129,106 +181,115 @@ Règle commune aux 3 : **le post se suffit à lui-même**. Pas de "pour aller pl
 
 ---
 
-## 4. 9 exemples concrets — 3 par plateforme
+## 4. 9 exemples concrets — 3 par plateforme (RÉVISION 2 — voix narrateur compte marque)
+
+> Tous les exemples ci-dessous respectent la nouvelle règle : **le compte parle AU lecteur, pas DE soi**. Aucun "je / moi / mon / ma / mes" hors citation explicite entre guillemets.
 
 ### 4.1 Twitter
 
-#### Twitter — Exemple 1 (persona : Yanis, format : Mini-Stand-Up)
+#### Twitter — Exemple 1 (persona servi : Yanis, format : Mini-Stand-Up, voix : Observation universelle)
 
 ```
-Ma coloc a refait le frigo.
+Quand ta coloc met une étiquette sur tout dans le frigo.
 
-Elle a mis une étiquette sur tout. Y compris sur le bouton de la lumière.
+Y compris sur le bouton de la lumière.
 
-Au cas où je perde le mode d'emploi du frigo.
+Comme si t'allais perdre le mode d'emploi.
 ```
 
 **Décortiquage**
-- Hook : "Ma coloc a refait" (5 mots) — petit moment du quotidien étudiant, ça intrigue (refait quoi ?)
-- Punchline : l'étiquette sur le bouton de la lumière + la chute "au cas où je perde le mode d'emploi du frigo" = absurde maîtrisé
-- Persona servi : Yanis vit en coloc, scène ultra-relatable
-- Char count : 165/270
+- Voix : Observation universelle ("Quand ta...")
+- Hook : "Quand ta coloc met" (5 mots) — situation coloc, ça intrigue
+- Punchline : l'étiquette sur le bouton de la lumière + chute qui amplifie l'absurde
+- Persona servi : Yanis vit en coloc, scène ultra-relatable d'étudiant
+- Char count : 142/270
+- Test "compte perso ?" : NON (voix observateur, pas de "ma coloc à moi")
 
 ---
 
-#### Twitter — Exemple 2 (persona : Sophie, format : Mini-Stand-Up — vanne réécrite social)
+#### Twitter — Exemple 2 (persona servi : Sophie, format : Mini-Stand-Up, voix : Vanne du catalogue citée)
 
 ```
-Mon boss m'a dit "tu es irremplaçable".
+Une vanne à recracher en réunion demain :
 
-Je me suis sentie flattée.
+"Ce graphique, même Excel l'a abandonné."
 
-Jusqu'à ce que je comprenne que personne d'autre voulait le poste.
+De rien.
 ```
 
 **Décortiquage**
-- Hook : "Mon boss m'a dit" (5 mots) — promesse classique, on attend la chute
-- Punchline : retournement ("flattée" → "personne voulait le poste") = format Sophie classique
-- Persona servi : Sophie machine à café, situation pro qu'elle peut sortir verbatim demain
-- Char count : 152/270
-- **Origine** : vanne #7 du catalogue, **réécrite** en rythme tweet (3 phrases courtes au lieu d'1 setup + 1 chute, plus parlé)
+- Voix : Vanne du catalogue citée explicitement (marqueur "à recracher" + guillemets)
+- Hook : "Une vanne à recracher" (4 mots) — promesse claire, outil prêt à l'emploi
+- Punchline : réplique courte, prête à sortir verbatim en open space
+- Persona servi : Sophie machine à café / réunion, vanne qu'elle peut placer demain matin
+- Char count : 100/270
+- Test "compte perso ?" : NON (le compte donne un outil au lecteur, ne raconte pas SA réunion)
 
 ---
 
-#### Twitter — Exemple 3 (persona : Marc, format : Mini-Stand-Up)
+#### Twitter — Exemple 3 (persona servi : Marc, format : Mini-Stand-Up, voix : Statement provocateur)
 
 ```
-Premier date depuis 8 ans.
+Personne te le dit, mais après 8 ans de couple, t'as oublié comment les gens parlent.
 
-Je lui demande ce qu'elle aime dans la vie. Elle dit "voyager".
+Tu demandes "tu aimes quoi dans la vie".
 
-J'ai compris que j'avais oublié comment les gens parlent.
+Ça dit "voyager". Tu hoches la tête comme si t'avais compris.
 ```
 
 **Décortiquage**
-- Hook : "Premier date depuis 8 ans" (5 mots) — ultra-spécifique, signale Marc post-séparation, on veut savoir comment ça s'est passé
-- Punchline : observation sociale acide ("j'avais oublié comment les gens parlent") qui rit du cliché du dating tout en disant un truc vrai sur la rouille sociale
-- Persona servi : Marc reconstruction, scène dating qu'il vit vraiment
-- Char count : 168/270
+- Voix : Statement provocateur ("Personne te le dit, mais...")
+- Hook : "Personne te le dit, mais" (5 mots) — interpellation qui promet une vérité
+- Punchline : observation sociale acide sur la rouille relationnelle post-couple long
+- Persona servi : Marc reconstruction, dating après séparation longue
+- Char count : 218/270
+- Test "compte perso ?" : NON (le compte parle À Marc de SA situation, pas de la sienne)
 
 ---
 
 ### 4.2 LinkedIn
 
-#### LinkedIn — Exemple 1 (persona : Sophie, format : Le pote au taf)
+#### LinkedIn — Exemple 1 (persona servi : Sophie, format : Le pote au taf, voix : Observation universelle)
 
 ```
 Ce moment où ton chef envoie "petit point rapide ?" à 17h57.
 
-Tu sais déjà que tu vas rater ton train.
+Tu sais déjà que t'as raté ton train.
 
 Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi.
 ```
 
 **Décortiquage**
+- Voix : Observation universelle ("Ce moment où ton...")
 - Format : 3 phrases, observation pro pure, 0 leçon
 - Tonalité : tutoiement, ton "on est dans le même bateau"
-- Persona : Sophie en open space, scène vécue par 80% des CDI
-- **Test du DM** : tu pourrais l'envoyer à une collègue, elle rirait. Validé.
+- Persona servi : Sophie en open space, scène vécue par 80% des CDI
+- Test "compte perso ?" : NON (le compte décrit une situation universelle)
 - Anti-pattern check : pas de "le truc", pas de hook formel, pas de CTA, pas d'humoriste plaqué
 
 ---
 
-#### LinkedIn — Exemple 2 (persona : Marc, format : Le pote au taf)
+#### LinkedIn — Exemple 2 (persona servi : Marc, format : Le pote au taf, voix : Mise en scène impersonnelle)
 
 ```
-Mon ex m'a appelé pour me dire qu'elle avait gardé mon abonnement Netflix.
+L'ex qui appelle pour te dire qu'elle a gardé ton abonnement Netflix.
 
-J'ai dit "pas de souci".
+Tu dis "pas de souci".
 
-Puis j'ai changé le mot de passe et regardé toute la nouvelle saison de Casa de Papel pour rien, par principe.
+Puis tu changes le mot de passe et tu regardes la nouvelle saison de Casa de Papel pour rien, par principe.
 ```
 
 **Décortiquage**
-- Format : 3 phrases, anecdote post-séparation maniée à l'humour
-- Tonalité : Marc qui assume, autodérision sans pitié
-- Persona : Marc reconstruction, audience LI adulte qui peut s'y retrouver (séparation = sujet adulte)
-- **Test du DM** : tu pourrais l'envoyer à un pote en mode "mdr le délire" — pas un post leçon-de-vie
-- Anti-pattern check : pas de "j'ai appris X choses sur la séparation", pas de "voici 5 lessons learned", pas de leçon — juste une vanne posée
+- Voix : Mise en scène impersonnelle ("L'ex qui...", pas "mon ex")
+- Format : 3 phrases, scène posée, le lecteur s'y projette
+- Tonalité : autodérision sans pitié, mais c'est le LECTEUR qui assume — pas le compte
+- Persona servi : Marc reconstruction, audience LI adulte qui peut s'y retrouver
+- Test "compte perso ?" : NON (la scène est dépersonnalisée, le tutoiement vise le lecteur)
+- Anti-pattern check : pas de "j'ai appris X choses", pas de leçon — juste une vanne posée
 
 ---
 
-#### LinkedIn — Exemple 3 (audience LI étendue : "manager bienveillant", persona Sophie/Marc bridge)
+#### LinkedIn — Exemple 3 (audience étendue : "manager bienveillant", voix : Observation universelle)
 
 ```
 Tu sais que ton équipe est saine quand quelqu'un peut dire "je comprends rien à ton slide" sans que ce soit un drame.
@@ -239,45 +300,48 @@ Genre la phrase qui sauve 40 minutes de réunion gênée.
 ```
 
 **Décortiquage**
-- Format : 3 phrases, observation managériale qui passe par l'humour (pas l'inverse)
-- Tonalité : assume une opinion sans poser une leçon ("c'est pas du leadership, c'est juste de l'humour à temps") — **on désamorce le mot leadership en s'en moquant**
-- Persona : bridge Sophie/Marc, audience LI managers — sans tomber dans le LinkedIn-bingo
-- **Test du DM** : pourrait être un Slack message d'un manager cool à un autre
-- Anti-pattern check : on prononce "leadership" mais POUR le déconstruire, pas pour le célébrer — limite acceptée. À surveiller au gate Director.
+- Voix : Observation universelle ("Tu sais que ton équipe...")
+- Note : le "je comprends rien à ton slide" est entre guillemets = portion citée explicite, autorisée
+- Format : 3 phrases, observation managériale qui passe par l'humour
+- Tonalité : assume une opinion sans poser une leçon — désamorce "leadership" en s'en moquant
+- Persona servi : bridge Sophie/Marc, audience LI managers
+- Test "compte perso ?" : NON (le compte interpelle un manager, ne raconte pas SA réunion)
 
 ---
 
 ### 4.3 Instagram
 
-#### Instagram — Exemple 1 (persona : Yanis, format : L'image qui claque)
+#### Instagram — Exemple 1 (persona servi : Yanis, format : L'image qui claque, voix : Mise en scène impersonnelle)
 
 **Visuel (1080x1080)**
 - Fond : noir profond
 - Punchline en gros, blanc cassé, italique, centrée :
-  > **"En soirée, moi je suis le plat froid."**
+  > **"En soirée, t'es le plat froid."**
 - Filet violet (accent-primary) en bas de l'image
 - Logo discret bottom-right
 
 **Caption (≤ 80 chars)**
 ```
-Ça réchauffe, mais faut attendre. (mood Yanis, soirée, étudiant)
+Ça réchauffe, mais faut attendre.
 ```
-→ 65 chars
+→ 33 chars
 
 **Décortiquage**
-- Image fait rire seule (autodérision sociale)
+- Voix : Mise en scène impersonnelle qui interpelle le lecteur ("t'es", pas "moi je suis")
+- Image fait rire seule (autodérision sociale projetée sur le lecteur)
 - Caption = clin d'œil pote, pas explication
 - Reconnaissable < 1 sec : fond noir + violet + texte italique = signature
-- Persona : Yanis introverti en soirée, autodérision validée
+- Persona servi : Yanis introverti en soirée
+- Test "compte perso ?" : NON (le compte chambre le lecteur)
 
 ---
 
-#### Instagram — Exemple 2 (persona : Sophie, format : L'image qui claque)
+#### Instagram — Exemple 2 (persona servi : Sophie, format : L'image qui claque, voix : Observation universelle)
 
 **Visuel (1080x1080)**
 - Fond : noir profond, dégradé subtil violet en bas
 - Punchline en gros :
-  > **"Lundi 9h, mon âme buffer."**
+  > **"Lundi 9h. Buffering éternel."**
 - Filet violet en bas
 
 **Caption (≤ 80 chars)**
@@ -287,31 +351,34 @@ On charge à 12%. Faut un café et 3 vannes.
 → 43 chars
 
 **Décortiquage**
-- Punchline visuelle joue sur "buffer" (ref tech connue de tous) + image de l'âme qui charge
-- Caption complète sans expliquer
-- Persona : Sophie pause-café, vanne pour sortir au bureau lundi matin
-- Mood adulte cool, pas corporate
+- Voix : Observation universelle (état partagé "Lundi 9h", pas "mon âme")
+- Punchline visuelle joue sur "buffering" (ref tech) + état lundi matin universel
+- Caption au "on" inclusif (compte + lecteur, pas compte seul)
+- Persona servi : Sophie pause-café, vanne pour sortir au bureau lundi matin
+- Test "compte perso ?" : NON (état partagé universel, pas confession perso du compte)
 
 ---
 
-#### Instagram — Exemple 3 (persona : Marc, format : L'image qui claque)
+#### Instagram — Exemple 3 (persona servi : Marc, format : L'image qui claque, voix : Statement provocateur)
 
 **Visuel (1080x1080)**
 - Fond : noir profond
 - Punchline en gros :
-  > **"34 ans, je redécouvre les apéros."**
+  > **"Les apéros à 34 ans : sport extrême."**
 - Filet violet en bas
 
 **Caption (≤ 80 chars)**
 ```
-C'est comme le vélo. Tu tombes plus, ça fait plus mal.
+Niveau dimanche : tu survis. Lundi : tu négocies avec ton foie.
 ```
-→ 54 chars
+→ 63 chars
 
 **Décortiquage**
+- Voix : Statement provocateur (observation acide générationnelle)
 - Image fait sourire seule (Marc reconstruction sociale, ton tendre + drôle)
-- Caption ajoute une seconde vanne (mini one-two)
-- Persona : Marc reconstruction, ton chaleureux qui n'infantilise pas
+- Caption tutoie le lecteur ("tu survis", "tu négocies") — le compte ne se raconte pas
+- Persona servi : Marc reconstruction sociale, ton chaleureux qui n'infantilise pas
+- Test "compte perso ?" : NON (observation générationnelle universelle)
 - Charte respectée, identité de marque préservée
 
 ---
@@ -444,6 +511,41 @@ if (mentioned) {
 
 ---
 
+### G-S19 — TOUS : Anti-première-personne (compte = marque, pas personne)
+
+**Règle** : sur les 3 plateformes, refuser si le post contient en première personne (hors citation entre guillemets explicite) :
+`je`, `j'`, `moi`, `mon`, `ma`, `mes`, `mien`, `mienne`.
+
+**Justification** : le compte @marrant est un site/une marque, pas une personne. Il n'a ni coloc, ni boss, ni ex. Le narrateur observe et interpelle le lecteur — il ne se raconte jamais.
+
+**Exception unique** : si la 1ère personne apparaît à l'intérieur de guillemets `"..."` ou `«...»` ou `'...'` ET que la portion citée est introduite par un marqueur de citation (`"Une vanne à recracher : ..."`, `"Cette phrase de Y : ..."`, `"Ce que [persona] dirait : ..."`, etc.).
+
+**Pseudocode**
+```ts
+// Retire le contenu entre guillemets pour vérifier hors citation
+const contentSansCitations = post.content
+  .replace(/"[^"]*"/g, " ")
+  .replace(/«[^»]*»/g, " ")
+  .replace(/'[^']*'/g, " ");
+const firstPerson = /\b(je|j'|moi|mon|ma|mes|mien|mienne)\b/i;
+const found = firstPerson.exec(contentSansCitations);
+results.push({
+  gate: "G-S19 Anti-1ère-personne (compte = marque)",
+  pass: !found,
+  reason: found ? `Mot 1ère personne hors citation : "${found[0]}"` : "OK",
+});
+```
+
+**Tests anti-régression** :
+- Post `"Ma coloc a refait le frigo"` → FAIL (`"ma"` hors citation)
+- Post `"Mon boss m'a dit que..."` → FAIL (`"mon"` + `"m'"` hors citation)
+- Post `"Premier date depuis 8 ans. Je lui demande..."` → FAIL (`"je"` hors citation)
+- Post `"Une vanne pour demain : 'Mon boss m'a dit que j'étais irremplaçable'"` → PASS (citation explicite avec marqueur "vanne pour demain :")
+- Post `"Quand ta coloc met une étiquette sur tout"` → PASS (tutoiement lecteur, voix observateur)
+- Post `"L'ex qui appelle pour te dire qu'elle a gardé ton abonnement Netflix"` → PASS (mise en scène impersonnelle)
+
+---
+
 ## 6. Plan d'exécution code (post-validation Thomas)
 
 Ordre d'exécution une fois les 9 exemples validés :
@@ -451,14 +553,15 @@ Ordre d'exécution une fois les 9 exemples validés :
 ### 6.1 `apps/web/src/lib/ai/agents/social-media-agent.ts`
 
 - **Refactorer `buildSocialBrief()`** (lignes 123-300) : remplacer la grosse section "TWITTER / LINKEDIN / INSTAGRAM" par 3 sous-briefs courts un par plateforme, alignés sur les 3 fiches format ci-dessus.
+- **CRITIQUE — Réécrire la posture narrateur** dans le brief général : remplacer toute formulation "ton DM à un pote" / "comme si tu envoyais un message" par "le compte est un observateur stand-up qui INTERPELLE le lecteur (Yanis/Sophie/Marc) — il ne raconte JAMAIS sa propre vie". Lister explicitement les 5 formats de voix valides (Observation universelle / Mise en scène impersonnelle / Vanne citée / Question rhétorique / Statement provocateur). Lister les mots interdits (`je / j' / moi / mon / ma / mes`) hors citation.
 - **Supprimer** les sections "FORMAT SIGNATURE : TECHNIQUE DU JOUR" (~ligne 276) et "QUOTE_ANALYSIS" → il n'y a qu'UN format par plateforme.
 - **Mettre à jour `SocialFormat`** type (ligne 87-92) : remplacer `"TWEET" | "THREAD" | "POST" | "QUOTE_ANALYSIS" | "TECHNIQUE_DU_JOUR"` par `"MINI_STANDUP" | "POTE_AU_TAF" | "IMAGE_QUI_CLAQUE"`.
 - **Adapter `getDailyPlan()`** : 1 plan par plateforme par jour, format unique par plateforme.
 
 ### 6.2 `apps/web/src/lib/ai/agents/standup-director-agent.ts`
 
-- **Ajouter G-S14 à G-S18** dans `runSocialGates()` (lignes 1754-1943), à la suite des gates existants G-S1 à G-S13.
-- **Mettre à jour `validateSocialPost()`** prompt LLM (lignes 1969-1998) : retirer la mention "FORMAT" qui liste les 4 formats Twitter, citer le seul format autorisé par plateforme.
+- **Ajouter G-S14 à G-S19** (6 nouveaux gates, dont G-S19 anti-1ère-personne) dans `runSocialGates()` (lignes 1754-1943), à la suite des gates existants G-S1 à G-S13.
+- **Mettre à jour `validateSocialPost()`** prompt LLM (lignes 1969-1998) : retirer la mention "FORMAT" qui liste les 4 formats Twitter, citer le seul format autorisé par plateforme. Ajouter la règle de voix narrateur compte marque (G-S19) explicitement dans le prompt.
 
 ### 6.3 `social-editorial-plan.json`
 
@@ -466,7 +569,7 @@ Ordre d'exécution une fois les 9 exemples validés :
 - **Section `platforms.LINKEDIN`** : `formats: ["POTE_AU_TAF"]`. Mettre à jour les `rules` pour matcher la fiche format.
 - **Section `platforms.INSTAGRAM`** : `formats: ["IMAGE_QUI_CLAQUE"]` (un seul template). Mettre à jour `templates` en conséquence côté JSX.
 - **Section `weeklySchedule`** : simplifier — 1 post/jour par plateforme, plus de "Wild Card", plus de "Thread Décryptage".
-- **Section `directorValidation.criteria`** : ajouter les 5 nouveaux gates (G-S14 à G-S18) en référence.
+- **Section `directorValidation.criteria`** : ajouter les 6 nouveaux gates (G-S14 à G-S19) en référence, dont G-S19 anti-1ère-personne (compte = marque).
 
 ### 6.4 `apps/web/src/app/api/cron/daily-social/route.ts`
 
@@ -480,7 +583,7 @@ Ordre d'exécution une fois les 9 exemples validés :
 
 ### 6.6 Tests à ajouter (`apps/web/src/__tests__/`)
 
-- `runSocialGates.test.ts` : 1-2 tests anti-régression par nouveau gate (G-S14 à G-S18). Total : ~10 tests.
+- `runSocialGates.test.ts` : 1-2 tests anti-régression par nouveau gate (G-S14 à G-S19, soit 6 gates). Total : ~12 tests. Pour G-S19 spécifiquement : couvrir les 3 cas FAIL (mon/ma/je) + les 2 cas PASS (citation explicite + tutoiement lecteur).
 - Mettre à jour les tests existants qui utilisent les anciens noms de format (`TWEET`, `THREAD`, etc.) → erreurs de compilation à corriger.
 
 ### 6.7 Estimation effort
@@ -502,5 +605,9 @@ Ordre d'exécution une fois les 9 exemples validés :
 
 **3 questions à Thomas avant exécution code :**
 1. Tu valides les 3 formats (Mini-Stand-Up Twitter, Le pote au taf LinkedIn, L'image qui claque Instagram) ?
-2. Sur les 9 exemples, lesquels valident le test du Pote ? Si certains sont nuls, lesquels remplacer ?
-3. Les nouveaux gates G-S14 à G-S18 du Director te conviennent ou tu veux en ajouter/retirer ?
+2. Sur les 9 NOUVEAUX exemples (révision 2, voix compte marque), lesquels valident le test du Pote ? Si certains sont nuls, lesquels remplacer ?
+3. Les 6 nouveaux gates G-S14 à G-S19 du Director (dont G-S19 anti-1ère-personne) te conviennent ou tu veux en ajouter/retirer ?
+
+---
+
+**Révision 2 (post-feedback Thomas) — 2026-05-05** : Voix narrative refondue (compte = marque, pas personne). 9 nouveaux exemples. G-S19 ajouté. En attente nouvelle validation Thomas.
