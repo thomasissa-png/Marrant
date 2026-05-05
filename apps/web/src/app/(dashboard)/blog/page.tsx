@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import {
@@ -129,7 +130,9 @@ export default async function BlogPage() {
         </p>
       </div>
 
-      <BlogListClient articles={allArticles} categories={categories} />
+      <Suspense fallback={<div className="py-12 text-center text-text-secondary">Chargement des articles…</div>}>
+        <BlogListClient articles={allArticles} categories={categories} />
+      </Suspense>
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
