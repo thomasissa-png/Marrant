@@ -455,7 +455,8 @@
       "persona": "Tous",
       "category": "GUIDE",
       "scheduledWeek": 9,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-05-05",
       "internalLinks": ["/conseils", "/vannes", "/blog/erreurs-blagues"],
       "wordCountTarget": 1500,
       "formatNote": "Format avant/après : chaque erreur illustrée par la même blague racontée mal puis bien"
@@ -472,7 +473,8 @@
       "persona": "Sophie",
       "category": "ANALYSE",
       "scheduledWeek": 9,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-05-05",
       "internalLinks": ["/vannes", "/blog/storytelling-drole-5-structures"],
       "wordCountTarget": 1400,
       "formatNote": "Format duel : structure en 'rounds' comme un match, avec scoring drôle à la fin"
@@ -680,7 +682,8 @@
       "persona": "Yanis",
       "category": "PSYCHOLOGIE",
       "scheduledWeek": 8,
-      "status": "planned",
+      "status": "published",
+      "publishedDate": "2026-05-05",
       "internalLinks": ["/parcours", "/conseils", "/blog/timidite-et-humour", "/blog/jamais-quoi-repondre-techniques", "/blog/repartie-soiree-anti-malaise"],
       "wordCountTarget": 1500,
       "formatNote": "Format progressif : de l'observateur silencieux au participant actif en 5 étapes. Chaque étape = micro-défi réaliste. CTA vers Parcours Répartie."
