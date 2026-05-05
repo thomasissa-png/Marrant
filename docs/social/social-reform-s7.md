@@ -611,3 +611,157 @@ Ordre d'exécution une fois les 9 exemples validés :
 ---
 
 **Révision 2 (post-feedback Thomas) — 2026-05-05** : Voix narrative refondue (compte = marque, pas personne). 9 nouveaux exemples. G-S19 ajouté. En attente nouvelle validation Thomas.
+
+---
+
+## 8. Audit dual Director + @social — révision 2 (2026-05-05)
+
+> Audit réalisé par l'orchestrateur. Pour chaque post : 2 lentilles (Stand-Up Director + @social), notation /10 sans complaisance, verdict KEEP / REWRITE / DROP. Méthode : Director applique les 7 critères + 6 gates G-S14→G-S19. @social applique posture stratégique (acquisition, fit plateforme, risque concurrentiel, brand fit, viralité).
+
+### Post 4.1.1 — Twitter — Yanis (étiquette frigo)
+**Contenu** : "Quand ta coloc met une étiquette sur tout dans le frigo."
+
+**Stand-Up Director** : 8/10
+> Hook fort (5 mots, intrigue), G-S19 PASS (voix observateur), G-S14 PASS (single tweet, 142 chars), share test PASS (relatable coloc). Brand test OK, ton complice. Léger flottement sur le standalone : la chute "perdre le mode d'emploi" est bien mais demande 1s de digestion. Pas de FAIL critique.
+
+**@social** : 7/10
+> Bon fit Twitter (single punchline, voix observateur), persona Yanis bien servi (coloc étudiante). Risque concurrentiel modéré : un compte humour générique pourrait sortir une vanne similaire — la rupture en 3 lignes (setup-pivot-amplification) sauve le post. Potentiel viral correct, pas exceptionnel (pas de twist mémorable).
+
+**Verdict** : KEEP
+
+---
+
+### Post 4.1.2 — Twitter — Sophie (vanne Excel à recracher)
+**Contenu** : "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.'"
+
+**Stand-Up Director** : 9/10
+> Format signature parfait du compte : on donne un OUTIL au lecteur, pas une histoire. Hook 4 mots, G-S19 PASS (citation explicite avec marqueur "vanne à recracher"), G-S14 PASS, share test fort (Sophie l'envoie en DM à sa collègue ce soir), brand test PASS (le compte assume sa fonction d'outil). Anti-generic PASS — un compte lambda ne penserait pas à formaliser ainsi.
+
+**@social** : 9/10
+> Format différenciant et activable. Fit Twitter excellent. Persona Sophie servi à 100% (réunion, open space). Très partageable (on screenshot, on envoie à un collègue). USP claire : "le compte qui te donne des armes pour demain". À mettre dans le brief comme exemple de référence du format Mini-Stand-Up.
+
+**Verdict** : KEEP
+
+---
+
+### Post 4.1.3 — Twitter — Marc (8 ans de couple)
+**Contenu** : "Personne te le dit, mais après 8 ans de couple, t'as oublié comment les gens parlent."
+
+**Stand-Up Director** : 7/10
+> Hook fort (5 mots, intrigue acide). G-S19 PASS (voix statement provocateur). 218/270 chars — limite acceptable mais lourde pour un Mini-Stand-Up. La 3e phrase ("Tu hoches la tête comme si t'avais compris") est la meilleure mais arrive trop tard. Brand test PASS, share test moyen (Marc s'y reconnaît mais l'envoie pas forcément). Risque léger sur "complice vs apitoyant".
+
+**@social** : 7/10
+> Persona Marc bien servi mais audience Twitter sur ce thème est niche (Marc est moins sur Twitter que LinkedIn pour ce sujet). Fit plateforme correct mais pas optimal. Risque : sur Twitter, le post sonne plus "blog post réduit" que "punchline qui claque". Recommandation : raccourcir à 2 phrases pour gagner en impact (couper la phrase 2).
+
+**Verdict** : REWRITE
+**Suggestion** : "Personne te le dit, mais après 8 ans de couple, t'as oublié comment les gens parlent. Tu demandes 'tu aimes quoi dans la vie' et tu hoches la tête comme si t'avais compris la réponse." (2 phrases, ~180 chars, plus dense).
+
+---
+
+### Post 4.2.1 — LinkedIn — Sophie (chef "petit point rapide ?")
+**Contenu** : "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57."
+
+**Stand-Up Director** : 9/10
+> Format Le pote au taf parfait. 3 phrases, G-S15 PASS, G-S19 PASS (observation universelle "Ce moment où ton..."), zéro leçon, zéro CTA pushy, zéro vocabulaire coach (G-S17 PASS). Hook excellent (timing 17h57 = spécificité qui claque). Share test fort : tout le monde envoie ça à son collègue. Anti-generic PASS — le détail "35 minutes pour te dire qu'on en reparlera lundi" tue la copie générique.
+
+**@social** : 9/10
+> Référence absolue du format LinkedIn. Persona Sophie servi à 100%. Fit LinkedIn excellent (ton mature, scène pro universelle, zéro broetry). Brand test parfait. Très partageable en interne (Slack collègue). À mettre dans le brief comme post canonique.
+
+**Verdict** : KEEP
+
+---
+
+### Post 4.2.2 — LinkedIn — Marc (ex Netflix)
+**Contenu** : "L'ex qui appelle pour te dire qu'elle a gardé ton abonnement Netflix."
+
+**Stand-Up Director** : 7/10
+> Voix mise en scène impersonnelle correcte (G-S19 PASS via "L'ex qui...", "tu changes"). G-S15 PASS (3 phrases). Mais : sujet ex/séparation sur LinkedIn = friction brand. LinkedIn = audience pro, et même si Marc est la cible, partager publiquement un post sur l'ex de quelqu'un en LI feed est inconfortable pour le partageur. Share test faible (qui repartage ça depuis son compte pro ?). Brand test : ton bon mais contexte plateforme inadapté.
+
+**@social** : 5/10
+> Erreur stratégique de placement. LinkedIn = contexte pro, les sujets vie privée séparation/ex y sont mal venus pour un compte marque (≠ post personnel). Persona Marc reconstruction = vrai mais à servir sur Twitter/IG, pas LinkedIn. Risque concurrentiel inversé : un compte concurrent ne ferait pas cette erreur. Le post est bon en soi, mauvais sur cette plateforme.
+
+**Verdict** : REWRITE
+**Suggestion** : recycler ce contenu sur Twitter pour Marc, et remplacer ce slot LinkedIn par une scène pro Marc (ex : "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. Tu commences à penser que 'on' n'existe pas. Que c'est un mythe RH.")
+
+---
+
+### Post 4.2.3 — LinkedIn — Manager (équipe saine + slide)
+**Contenu** : "Tu sais que ton équipe est saine quand quelqu'un peut dire 'je comprends rien à ton slide'..."
+
+**Stand-Up Director** : 7/10
+> G-S19 PASS (citation entre guillemets explicite pour le "je"), G-S15 PASS (3 phrases). Mais le mot "leadership" en phrase 2 est risqué (G-S17 tolérant car déconstruit, mais limite). La phrase 3 ("Genre la phrase qui sauve 40 minutes...") sauve le post avec une chute concrète. Hook moyen ("Tu sais que ton équipe est saine quand..." — 7 mots, un peu mou). Share test correct chez les managers.
+
+**@social** : 7/10
+> Bon angle bridge Sophie/Marc (audience managers LinkedIn). Fit plateforme bon. Risque : ça flirte avec le territoire "LinkedIn guru" même en s'en moquant — les anti-LinkedIn-gurus partageront, les LinkedIn-gurus aussi (ce qui peut diluer la posture). Brand test correct mais pas mémorable. Pas un post signature.
+
+**Verdict** : KEEP (tangent — on garde mais pas comme top reference)
+
+---
+
+### Post 4.3.1 — Instagram — Yanis ("plat froid")
+**Contenu visuel** : "En soirée, t'es le plat froid." | **Caption** : "Ça réchauffe, mais faut attendre."
+
+**Stand-Up Director** : 8/10
+> Punchline visuelle 5 mots (G-S16 PASS, sous max 6). G-S19 PASS ("t'es" = tutoiement lecteur). Caption 33 chars (largement sous 80). Hook visuel fort — "En soirée, t'es le plat froid" arrête le scroll. Brand test PASS (charte respectée, fond noir + violet). Léger bémol : la caption "Ça réchauffe, mais faut attendre" est sympa mais ne renforce pas la punchline — c'est un clin d'œil, pas un upgrade.
+
+**@social** : 8/10
+> Fit Instagram excellent (visuel-first, reconnaissable < 1s). Persona Yanis introverti soirée servi parfaitement. Très partageable en story IG. Identité de marque reconnaissable. Risque concurrentiel faible — la signature visuelle (noir + violet + italique) est différenciante.
+
+**Verdict** : KEEP
+
+---
+
+### Post 4.3.2 — Instagram — Sophie ("Buffering éternel")
+**Contenu visuel** : "Lundi 9h. Buffering éternel." | **Caption** : "On charge à 12%. Faut un café et 3 vannes."
+
+**Stand-Up Director** : 7/10
+> Punchline visuelle 4 mots (G-S16 PASS). G-S19 PASS (observation universelle, "on" inclusif acceptable). Mais : "Buffering" est une ref tech qui peut perdre une partie de l'audience IG féminine 25-35 (Sophie inclut des profils non-tech). Hook moyen — "Lundi 9h" est éculé sur les réseaux. Le visuel a moins d'identité que le 4.3.1. Caption sympa mais encore un peu explicative.
+
+**@social** : 6/10
+> Fit IG correct mais pas exceptionnel. Risque concurrentiel élevé : "Lundi 9h + café + buffering" est un trope ultra-saturé sur Instagram (tous les comptes humour boulot l'ont fait). Anti-generic test FAIL partiel — un compte lambda à 500 followers pourrait poster ça. Persona Sophie servi mais sans angle différenciant.
+
+**Verdict** : REWRITE
+**Suggestion visuel** : "Lundi 9h. Le sourire arrive jeudi." (twist plus net, casse le trope) ou "Le sourire est en téléchargement." (image plus précise que "buffering"). Garder la charte visuelle.
+
+---
+
+### Post 4.3.3 — Instagram — Marc ("apéros à 34 ans")
+**Contenu visuel** : "Les apéros à 34 ans : sport extrême." | **Caption** : "Niveau dimanche : tu survis. Lundi : tu négocies avec ton foie."
+
+**Stand-Up Director** : 8/10
+> Punchline visuelle 6 mots (G-S16 PASS, à la limite max). G-S19 PASS ("tu survis", "tu négocies" tutoient le lecteur). Caption 63 chars (sous 80). Hook fort — "sport extrême" est un twist net qui surprend. Share test fort (les 30+ se reconnaissent et partagent). Brand test PASS. Caption renforce la punchline visuelle au lieu de l'expliquer = bon usage du format.
+
+**@social** : 8/10
+> Fit IG excellent. Persona Marc reconstruction sociale servi avec ton chaleureux non-infantilisant. Très partageable (story IG, DM à un pote 30+). Anti-generic PASS — la formulation "négocies avec ton foie" est spécifique et mémorable. Bon potentiel viral sur audience 30-40 ans.
+
+**Verdict** : KEEP
+
+---
+
+### Synthèse finale
+
+| Métrique | Valeur |
+|---|---|
+| **KEEP** | 6/9 (4.1.1, 4.1.2, 4.2.1, 4.2.3, 4.3.1, 4.3.3) |
+| **REWRITE** | 3/9 (4.1.3, 4.2.2, 4.3.2) |
+| **DROP** | 0/9 |
+| **Score moyen Director** | 7.8/10 |
+| **Score moyen @social** | 7.3/10 |
+| **Score cumul moyen** | 15.1/20 |
+
+**Top 3 (à mettre dans le brief comme posts canoniques de référence)** :
+1. **4.2.1** Sophie LinkedIn "petit point rapide à 17h57" — 18/20 (9+9). Référence absolue format Le pote au taf.
+2. **4.1.2** Sophie Twitter "vanne Excel à recracher" — 18/20 (9+9). Référence absolue format Mini-Stand-Up + USP "compte qui donne des armes".
+3. **4.3.3** Marc Instagram "apéros à 34 ans : sport extrême" — 16/20 (8+8). Référence format L'image qui claque.
+
+**Bottom 3 (à régénérer avant code ou après)** :
+1. **4.2.2** Marc LinkedIn "ex Netflix" — 12/20 (7+5). Erreur de placement plateforme (sujet vie privée sur LinkedIn). À recycler sur Twitter ou IG.
+2. **4.3.2** Sophie Instagram "Buffering éternel" — 13/20 (7+6). Trope saturé "Lundi 9h café". Anti-generic FAIL partiel. Twist à durcir.
+3. **4.1.3** Marc Twitter "8 ans de couple" — 14/20 (7+7). Trop long pour Twitter, à condenser à 2 phrases.
+
+**Patterns émergents** :
+1. **Le format "vanne à recracher" (Twitter) et "observation universelle" (LinkedIn) sont les plus forts** — ils servent l'USP différenciante du compte ("on te donne un outil"). Le format "statement provocateur" est plus risqué car flirte avec la longueur et la complaisance.
+2. **Instagram a un risque "trope saturé" sous-estimé** — les sujets pro/lundi/café sont déjà overloaded sur la plateforme. Pour IG, prioriser les angles spécifiques (sport extrême, plat froid) sur les angles génériques (buffering lundi).
+3. **Le placement plateforme × persona × sujet doit être audité** — un bon contenu sur le mauvais réseau (4.2.2 ex Netflix sur LinkedIn) chute de 4 points. Recommandation : ajouter un gate G-S20 "fit plateforme × sujet" en backlog.
+
+**Recommandation orchestrateur** : **Lance le code maintenant** avec les 6 posts KEEP comme corpus de référence dans le brief de `social-media-agent.ts`. Les 3 posts REWRITE peuvent être régénérés par l'agent une fois le brief refondu (le nouveau brief les rejettera ou les corrigera automatiquement via le pipeline directorRewrite). Pas de blocage de fond — la révision 2 a corrigé le problème majeur de voix narrative (G-S19), les écarts résiduels sont des affinages de format/placement, gérables par les gates.
