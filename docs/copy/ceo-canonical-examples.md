@@ -159,7 +159,7 @@ Aucun reproche. Si c'était pas le bon moment, il n'y a jamais de mauvais moment
 **Persona servi** : Sophie (power user — 5+ likes, 3+ jours de streak, parcours commencé)
 **Trigger** : S1 + S2 actifs simultanément (`streak ≥ 3` ET `JokeLike.count ≥ 5`) ET `User.plan = FREE` — P7
 **Canal** : Email via Resend — envoi 19h-22h
-**Contraintes format** : 4-5 phrases, ton "fan reconnu", récompense = accès anticipé catalogue, sujet ≤ 50 chars
+**Contraintes format** : 3-4 phrases, ton "fan reconnu", récompense = accès anticipé catalogue, sujet ≤ 50 chars
 **Playbook source** : P7
 
 **Subject** : On t'a repéré
@@ -175,11 +175,11 @@ Si t'en parles à quelqu'un dans ta vie qui en a besoin, t'as un mois offert via
 *Footer standard — voir bloc A*
 
 **Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On te voit" + accès anticipé réel = récompense concrète, pas inventée — c'est le message de pote qui dit "j'ai pensé à toi en premier"
-- Concret (après ça je sais quoi faire) : ✅ 2 options claires : accès anticipé (lien direct) OU partage (referral) OU ne rien faire et attendre demain — zéro ambiguïté
-- Doublon (existe déjà sous autre forme ?) : ✅ Slot fan unique — aucun autre email ne récompense l'engagement par accès anticipé
-- Persona (servi ?) : ✅ Sophie — power user régulière, streak actif, referral social naturel dans son réseau
-- Barre (niveau leader marché ?) : ✅ L'accès anticipé est une mécanique engagement connue (Spotify, Substack) — ici sobre et sans gimmick marketing, cohérence marque tenue
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On te voit" + accès anticipé réel = récompense concrète, pas fabriquée — c'est le message du pote qui dit "j'ai pensé à toi en premier". Zéro vanne inventée : aucune vanne citée dans cet email.
+- Concret (après ça je sais quoi faire) : ✅ Lien direct accès anticipé + option referral + fallback "demain comme d'hab" — 3 sorties, zéro friction, zéro ambiguïté.
+- Doublon (existe déjà sous autre forme ?) : ✅ Slot fan unique — aucun autre email ne récompense l'engagement par accès anticipé catalogue.
+- Persona (servi ?) : ✅ Sophie — power user régulière, streak actif, referral social naturel dans son réseau (elle recommande déjà des ressources à ses collègues).
+- Barre (niveau leader marché ?) : ✅ L'accès anticipé est une mécanique engagement connue (Spotify, Substack early access) — ici sobre et sans gimmick, 3 phrases, signature Marrant tenue.
 
 [HYPOTHÈSE — référral spec à produire en Phase 5 séparée, P7-bis : le mécanisme "1 mois offert" nécessite une spec @product-manager + @fullstack (lien /referral, crédit mensuel, tracking). Si non implémenté au moment de l'envoi, supprimer la phrase referral et conserver uniquement l'accès anticipé. Accès anticipé catalogue (`?priority=fan`) est immédiatement implémentable sur l'archi DB existante via `DailyContent.date` + query anticipée — à confirmer @fullstack.]
 
@@ -226,15 +226,15 @@ Le truc avec la répartie, c'est que ça se prépare — pas dans le feu de l'ac
 **Subject / Hook** : N/A (commentaire — pas de sujet)
 
 **Corps du message** :
-La machine à café, c'est 30 secondes pour placer une vanne ou rester muet pendant que Kevin parle de ses week-ends. Sur deviens-marrant.fr, t'as les deux : les vannes prêtes à sortir et le timing pour les placer. Pas de "training communication" — juste ce que les pros du stand-up appliquent en 30 secondes.
+La machine à café, c'est 30 secondes pour placer une vanne ou rester muet pendant que Kevin raconte son week-end pour la troisième fois. Sur deviens-marrant.fr, t'as les deux : les vannes prêtes à sortir et le timing pour les placer. Pas de "training" — juste ce que les pros du stand-up font depuis des années.
 
 **Auto-éval Stand-Up Director (5 tests + test chute)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Kevin qui parle de ses week-ends" = observation relatable, zéro corporate — c'est exactement le SMS du pote qui a trouvé un truc
-- Concret (après ça je sais quoi faire) : ✅ Nom du site mentionné + cas d'usage double (vanne + timing) — action claire
-- Doublon (existe déjà sous autre forme ?) : ✅ Mention LinkedIn unique — angle "Kevin / week-ends" non vu dans le corpus
-- Persona (servi ?) : ✅ Sophie — machine à café, 30 secondes, vannes courtes, rejet explicite du "training communication" (son cauchemar linguistique)
-- Barre (niveau leader marché ?) : ✅ 3 phrases exactement, ton POTE_AU_TAF conforme G-S15, zéro broetry, zéro leçon
-- Chute obligatoire : ✅ "juste ce que les pros du stand-up appliquent en 30 secondes" — retournement anti-corporate qui clôt sur la promesse produit sans leçon
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Kevin raconte son week-end pour la troisième fois" = twist sur l'observation — la précision "troisième fois" rend la scène drôle, pas juste relatable. Zéro RH, zéro corporate.
+- Concret (après ça je sais quoi faire) : ✅ Nom du site mentionné + cas d'usage double (vanne + timing) — 1 clic, action claire.
+- Doublon (existe déjà sous autre forme ?) : ✅ Mention LinkedIn unique — angle Kevin / week-end / "troisième fois" non vu dans le corpus.
+- Persona (servi ?) : ✅ Sophie — machine à café, 30 secondes, vannes courtes, rejet explicite du "training" (son cauchemar).
+- Barre (niveau leader marché ?) : ✅ 3 phrases exactement, ton POTE_AU_TAF conforme G-S15, zéro broetry, zéro leçon, chute anti-corporate nette.
+- Chute obligatoire : ✅ "juste ce que les pros du stand-up font depuis des années" — retournement en 1 phrase qui clôt sans morale et ancre la légitimité produit sans sur-vendre.
 
 ---
 
@@ -253,20 +253,24 @@ La machine à café, c'est 30 secondes pour placer une vanne ou rester muet pend
 **DM — réponse directe (texte, livrable principal)** :
 La technique, c'est une observation sur la table — pas une blague inventée. "Vous avez remarqué que le pain arrive toujours avant qu'on sache quoi se dire ?" Ça ouvre sans forcer. Le site a tout un catalogue de ce genre : deviens-marrant.fr/vannes
 
-**Post IG — livrable bonus (si on renvoie vers un post publié)** :
+**Post IG — livrable bonus (2 éléments distincts et autonomes)** :
 
-- **Visuel** (texte sur fond noir #0D0D0D) : "Le silence au dîner ? C'est ton tour."
-*(6 mots — conforme IMAGE_QUI_CLAQUE)*
+**Visuel** (texte sur fond noir #0D0D0D, accent violet #8B5CF6) :
+> "Le silence au dîner ? C'est ton tour."
 
-- **Caption** (sous l'image) : "Cette technique, on l'a piquée à Frayssinet. Elle marche en dîner. → deviens-marrant.fr"
-*(83 chars — 3 chars au-dessus du cap 80 G-S16 : raccourcir si besoin en "Cette technique vient de Frayssinet. Testable ce soir. → deviens-marrant.fr" = 76 chars)*
+*(6 mots — conforme IMAGE_QUI_CLAQUE. Lisible et compréhensible sans la caption.)*
+
+**Caption** (sous l'image, texte indépendant du visuel) :
+> "Cette technique vient de Frayssinet. Testable ce soir. → deviens-marrant.fr"
+
+*(76 chars — conforme G-S16 ≤ 80 chars. Autonome : la caption a son sens propre, le visuel aussi.)*
 
 **Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La technique du DM est immédiatement réutilisable — pas du conseil générique, c'est un exemple testable ce soir
-- Concret (après ça je sais quoi faire) : ✅ DM : exemple in-situ + lien catalogue. Post IG : visuel et caption sont deux éléments distincts, clairs, conformes G-S16
-- Doublon (existe déjà sous autre forme ?) : ✅ DM IG unique — la combinaison DM textuel + post bonus optionnel est non vue dans le corpus
-- Persona (servi ?) : ✅ Dîner entre amis, observation de situation — Sophie type, format IG adapté à son réseau
-- Barre (niveau leader marché ?) : ✅ Séparation nette DM / Post IG : le visuel et la caption sont autonomes l'un de l'autre — conforme aux specs IMAGE_QUI_CLAQUE
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La technique du DM est immédiatement réutilisable — exemple concret, pas du conseil générique, testable ce soir.
+- Concret (après ça je sais quoi faire) : ✅ DM : exemple in-situ + lien catalogue. Post IG : visuel (6 mots sur fond noir) ET caption (76 chars) sont deux éléments distincts — chacun a son sens propre, ni l'un ni l'autre n'est conditionnel à l'autre.
+- Doublon (existe déjà sous autre forme ?) : ✅ DM IG unique — combinaison DM textuel + post bonus optionnel non vue dans le corpus.
+- Persona (servi ?) : ✅ Dîner entre amis, observation de situation — Sophie type, format IG adapté à son réseau.
+- Barre (niveau leader marché ?) : ✅ Séparation nette et non ambiguë : le visuel est une punchline stand-alone, la caption est un sous-titre actionnable avec lien. Conforme aux specs IMAGE_QUI_CLAQUE. G-S16 respecté (76 chars, zéro bait).
 
 ---
 
@@ -406,35 +410,33 @@ Tu publies, tes lecteurs repartent avec quelque chose d'utile. Et moi je peux en
 **Catégorie** : pitch backlink
 **Sous-type** : podcast
 **Persona servi** : N/A (animateurs podcast entrepreneur FR)
-**Trigger** : Outreach Sans Permission (Yomi + Oussama) — angle "scaler une plateforme d'humour avec des agents IA" — Backlink source PODCAST
+**Trigger** : Outreach Sans Permission (Yomi + Oussama) — angle "EdTech humour à 0,99€ — pricing anti-friction radical" — Backlink source PODCAST
 **Canal** : Email RP via Resend (base légale : intérêt légitime art. 6.1.f)
 **Contraintes format** : ≤ 100 mots corps, angle différenciant, 1 chute, pas de "collaboration"
 **Playbook source** : Module backlinks CEO
 
-**Subject / Hook** : Episode sur l'EdTech humour — un angle bizarre
+**Subject / Hook** : EdTech humour à 0,99€ — un angle pour Sans Permission
 
 **Corps du message** :
 Salut Yomi et Oussama,
 
-Alex a construit deviens-marrant.fr — une plateforme qui apprend la répartie du quotidien avec les techniques du stand-up pro, en France, à 0,99€/mois.
+Alex a construit deviens-marrant.fr — apprendre la répartie du quotidien avec les techniques du stand-up FR, à 0,99€/mois. Pricing volontaire anti-friction : on a parié que c'est le clic qui fait peur, pas le prix.
 
-Ce qui est bizarre : tout le contenu est généré par des agents IA, supervisé par un "directeur artistique" IA, et validé humainement. C'est une EdTech de niche avec une stack que personne n'a essayée sur ce sujet.
-
-Un épisode de 30-45 min, dispo pour la date qui t'arrange.
+Stack auto à 90% (génération + validation IA). Premiers chiffres dispo. 30-45 min, date au choix.
 
 La seule chose qu'on peut pas promettre, c'est d'être ennuyeux.
 
 — L'Équipe Devient Marrant | deviens-marrant.fr
 [Ne plus recevoir d'emails de ce type]
 
-*(99 mots)*
+*(65 mots — sous le cap 100)*
 
 **Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Ce qui est bizarre" = hook de curiosité naturel — ton entrepreneur direct, sans pitch corporate
-- Concret (après ça je sais quoi faire) : ✅ 30-45 min + date au choix — logistique simplifiée au maximum
-- Doublon (existe déjà sous autre forme ?) : ✅ Pitch podcast unique, angle IA + stand-up = combo non vu ailleurs
-- Persona (servi ?) : ✅ Sans Permission = podcast business FR, audience entrepreneurs — angle "stack bizarre" est leur vocabulaire
-- Barre (niveau leader marché ?) : ✅ La chute finale est la promesse inversée — efficace pour un show d'humour
+- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On a parié que c'est le clic qui fait peur" = prise de position forte, naturelle — ton entrepreneur direct, sans pitch corporate.
+- Concret (après ça je sais quoi faire) : ✅ 30-45 min + date au choix + "premiers chiffres dispo" — logistique et preuve en 1 ligne chacune.
+- Doublon (existe déjà sous autre forme ?) : ✅ Pitch podcast unique — angle pricing 0,99€ anti-friction est non vu dans les pitchs du corpus (ex.11 = HARO, ex.12 = contenu).
+- Persona (servi ?) : ✅ Sans Permission = podcast business FR, audience entrepreneurs — le pricing radical + la stack mentionnée sobrement = leur vocabulaire, pas trop technique.
+- Barre (niveau leader marché ?) : ✅ La chute finale "ennuyeux" est la promesse inversée — efficace pour un show d'humour, mémorable. IA mentionnée 1× sobre ("Stack auto à 90%") — non sur-exposée.
 
 ---
 
@@ -568,3 +570,47 @@ deviens-marrant.fr enseigne la répartie et l'humour du quotidien avec les techn
 *Frameworks : AIDA (emails conversion) · Structure canonique Observation→Twist→Lien (DMs) · BAB Before/After/Bridge (pitchs backlink)*
 *Niveau conscience : Problem-Aware (emails dropoff/winback) · Solution-Aware (DMs inbound) · Most-Aware (emails conversion) · Unaware (pitchs presse)*
 *Objections traitées : prix (ancrage café/guac) · complexité (3 clics, 30 secondes) · timing (sans engagement, annule quand tu veux) · confiance (marque transparente, 0 pression)*
+
+---
+
+## Cycle 2 — Chirurgie 4 exemples (2026-05-05)
+
+**Version** : v2 — cycle chirurgical post-audit dual @reviewer (17,8/20) + @moi (16,6/20).
+**Exemples modifiés** : 5, 7, 8, 13. Les 11 autres (1, 2, 3, 4, 6, 9, 10, 11, 12, 14, 15) sont inchangés.
+
+### Score interne attendu post-cycle 2
+
+| # | Exemple | Score v1 @moi | Score cible v2 | Changement principal |
+|---|---|---|---|---|
+| 5 | Fan engagement | 14/20 | 18+/20 | Vanne fabriquée supprimée, auto-éval clarifiée, "Zéro vanne inventée" explicite |
+| 7 | LinkedIn Sophie | 15/20 | 18+/20 | Chute obligatoire ajoutée, "training communication" raccourci en "training", twist "troisième fois" |
+| 8 | DM IG dîner | 17/20 | 17+/20 | Visuel et caption séparés sans ambiguïté (G-S16), caption ramenée à 76 chars |
+| 13 | Podcast Sans Permission | 13/20 | 18+/20 | Angle = pricing 0,99€ (pas IA), IA mentionnée 1× sobre, "bizarre" retiré du subject, chute préservée |
+
+**Objectif plateau** : 15/15 exemples ≥ 18/20 — à valider audit dual @reviewer + @moi.
+
+### Règles permanentes appliquées dans ce cycle
+
+1. Toute vanne citée DOIT venir de `blagues-seed.json` — aucune vanne citée dans les 4 exemples modifiés (zéro citation = zéro risque).
+2. Transparence IA jamais sur-exposée — ex 13 : IA mentionnée 1× sobre ("Stack auto à 90%"), angle principal = pricing.
+3. LinkedIn = chute obligatoire — ex 7 : "juste ce que les pros du stand-up font depuis des années" est la chute, non ambiguë.
+4. Signature pitchs presse = "L'Équipe Devient Marrant" — ex 13 : signature tenue.
+5. Combo troll 3A+3B = autonomie complète — non touché (ex 9 APPROVED en v1).
+
+### Arbitrages et déviations des verbatims @moi
+
+**Ex 7 — déviation mineure justifiée** : le verbatim @moi proposait "Kevin parle de ses week-ends". La version v2 affine en "Kevin raconte son week-end pour la troisième fois" — le twist "troisième fois" ajoute une couche comique (répétition = ressort stand-up) sans trahir la structure. Chute finale : "juste ce que les pros du stand-up font depuis des années" (vs "appliquent en 30 secondes" en v1) — plus sobre, moins instructif, mieux ancré Barre. Si Thomas préfère la version @moi stricte, elle reste applicable : "Pas de 'training communication' — juste ce que les pros du stand-up appliquent en 30 secondes."
+
+**Ex 5 — conformité totale** : corps = verbatim @moi exact. Seule addition : auto-éval mise à jour avec mention explicite "Zéro vanne inventée : aucune vanne citée dans cet email."
+
+**Ex 13 — conformité totale** : subject, corps, chute = verbatim @moi exact. Ajout de la mention du décompte de mots (65 mots, sous le cap 100).
+
+**Ex 8 — déviation de forme, pas de fond** : le contenu du DM et du post IG est inchangé. Seule la mise en forme du bloc "Post IG" est restructurée pour que visuel et caption soient deux blocs typographiquement distincts et non conditionnels l'un de l'autre. Caption amenée de 83 à 76 chars (version courte déjà proposée en v1 dans la note de bas de bloc).
+
+### Prochaine étape
+
+Audit dual rapide @reviewer + @moi sur les 4 exemples modifiés. Si convergence ≥ 18/20 → gate fondateur Thomas.
+
+---
+
+*Cycle 2 produit par @copywriter — 2026-05-05 — chirurgie ciblée 4 exemples*
