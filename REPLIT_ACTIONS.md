@@ -3,6 +3,29 @@
 > Ce fichier liste toutes les actions manuelles à effectuer par Thomas pour finaliser la V1 mobile (iOS + Android).
 > Les livrables code et docs sont déjà produits dans le repo. Cette checklist couvre le "last mile" (comptes développeurs, certificats, premiers builds, submission).
 
+## Hook pre-commit (anti-récidive bugs enum Prisma)
+
+> Ajouté session 8 (commit eeb08f3) après 3 bugs P0 d'affilée sur l'enum `SocialFormat`.
+
+Le hook `.githooks/pre-commit` du repo vérifie 2 choses avant chaque commit :
+1. CLAUDE.md section Gradient ≤ 125L (existant)
+2. **Cohérence enums Prisma vs usages code** — exécute `scripts/check-prisma-enums.sh` si `schema.prisma` ou `apps/web/src/` modifiés
+
+Pour activer le hook (1 fois par poste local + sur Replit shell) :
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Sans cette commande, **le hook n'est PAS exécuté** et la protection est inactive. À faire AU PLUS VITE pour ne plus reproduire les bugs MINI_STANDUP / WILD_CARD.
+
+Pour tester manuellement à tout moment :
+```bash
+bash scripts/check-prisma-enums.sh
+```
+
+Si le hook bloque un commit légitime (nouvelle constante interne) → ajouter la valeur à WHITELIST dans `scripts/check-prisma-enums.sh`.
+
 ⚠️ **PRÉREQUIS BLOQUANT** : avant tout, vérifier que la branche `master` est à jour (Réflexe P0 #2).
 
 ```bash
