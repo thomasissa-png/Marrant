@@ -519,6 +519,9 @@ enum SocialFormat {
   POST
   QUOTE_ANALYSIS
   TECHNIQUE_DU_JOUR
+  MINI_STANDUP        // s7 : Twitter
+  POTE_AU_TAF         // s7 : LinkedIn
+  IMAGE_QUI_CLAQUE    // s7 : Instagram
 }
 
 enum SocialPostStatus {
