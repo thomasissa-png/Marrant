@@ -369,9 +369,9 @@ On charge à 12%. Faut un café et 3 vannes.
 
 **Caption (≤ 80 chars)**
 ```
-Niveau dimanche : tu survis. Lundi : tu négocies avec ton foie.
+Le lendemain, t'es en mode négociation avec ton foie. Faut ce qu'il faut.
 ```
-→ 63 chars
+→ 74 chars
 
 **Décortiquage**
 - Voix : Statement provocateur (observation acide générationnelle)
@@ -726,7 +726,7 @@ Ordre d'exécution une fois les 9 exemples validés :
 ---
 
 ### Post 4.3.3 — Instagram — Marc ("apéros à 34 ans")
-**Contenu visuel** : "Les apéros à 34 ans : sport extrême." | **Caption** : "Niveau dimanche : tu survis. Lundi : tu négocies avec ton foie."
+**Contenu visuel** : "Les apéros à 34 ans : sport extrême." | **Caption** : "Le lendemain, t'es en mode négociation avec ton foie. Faut ce qu'il faut."
 
 **Stand-Up Director** : 8/10
 > Punchline visuelle 6 mots (G-S16 PASS, à la limite max). G-S19 PASS ("tu survis", "tu négocies" tutoient le lecteur). Caption 63 chars (sous 80). Hook fort — "sport extrême" est un twist net qui surprend. Share test fort (les 30+ se reconnaissent et partagent). Brand test PASS. Caption renforce la punchline visuelle au lieu de l'expliquer = bon usage du format.
@@ -1128,7 +1128,7 @@ Médaille d'or : faire semblant d'avoir noté.
 
 **Instagram — L'image qui claque** :
 1. **Yanis (plat froid)** : Visuel "En soirée, t'es le plat froid." | Caption "Ça réchauffe. Mais faut un micro-ondes social."
-2. **Sophie (réunion 17h59)** : Visuel "Réunion à 17h59. Nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
-3. **Marc (apéros 34 ans)** : Visuel "Les apéros à 34 ans : sport extrême." | Caption "Dimanche : tu survis. Lundi : tu négocies avec ton foie."
+2. **Sophie (réunion 17h59)** : Visuel "Réunion à 17h59 : nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
+3. **Marc (apéros 34 ans)** : Visuel "Les apéros à 34 ans : sport extrême." | Caption "Le lendemain, t'es en mode négociation avec ton foie. Faut ce qu'il faut."
 
 **→ Phase 1 terminée. Démarrage Phase 2 (autopilote code).**
