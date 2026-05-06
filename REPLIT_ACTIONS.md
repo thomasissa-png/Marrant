@@ -754,3 +754,41 @@ Aucune action env / Secrets / cron à effectuer côté Replit.
 - [ ] `/admin/ceo` accessible avec ADMIN_PASSWORD
 - [ ] Kill-switch toggle fonctionnel (test ON → OFF → ON, vérifier `CeoConfig.enabled` en DB)
 - [ ] Phase 5.D (tests exhaustifs) à lancer ensuite
+
+## Hotfix s9 deploy bugs (07/05/2026 — TSC FAIL 30+ erreurs)
+
+Découvert lors du `npx tsc --noEmit` post-merge de la branche s9. Mix de :
+- Bugs Phase 5.A/B nouveaux (4) : casts SocialPlatform/SocialFormat, Prisma.InputJsonValue, union type outcome
+- Bugs latents Phase 5 mobile session 7 (3) : `PushToken` model jamais déclaré, `WebhookEvent.eventId` champ jamais ajouté, ces erreurs masquées par `next.config.js ignoreBuildErrors:true` en build (tsc --noEmit ne triche pas)
+- Configs (3) : tsconfig target trop bas (Set/Map iteration + regex `s` flag), `@types/jest` absent, `auth-cta` size "default" obsolète
+
+### Actions Replit après merge du commit hotfix
+
+```bash
+# 1. Re-installer (pour @types/jest ajouté)
+cd apps/web && npm install
+
+# 2. Re-générer le client Prisma (pour PushToken + WebhookEvent.eventId)
+npx prisma generate
+
+# 3. Appliquer la nouvelle migration (idempotente — peut être rejouée sans casser)
+npx prisma migrate deploy
+
+# 4. Pre-commit check obligatoire (Règle n°6 CLAUDE.md)
+npx tsc --noEmit && npx next lint && npm run build
+```
+
+### Migration `6_fix_pushtoken_webhookevent_schema/migration.sql`
+
+Idempotente :
+- `WebhookEvent` : ajout `eventId` UNIQUE + `provider` + `eventType` + `receivedAt` (backfill `eventId = id` pour rows existants)
+- `PushToken` : nouveau modèle (id, userId, token UNIQUE, platform, lastSeenAt, createdAt) + FK `User.id` ON DELETE CASCADE
+
+### Checklist hotfix done quand
+- [ ] `npm install` réussit (lock file mis à jour)
+- [ ] `npx prisma generate` régénère le client avec `pushToken` et `webhookEvent.eventId`
+- [ ] `npx prisma migrate deploy` applique migration 6 sans erreur
+- [ ] `npx tsc --noEmit` retourne 0 erreur
+- [ ] `npx next lint` passe (warnings OK, errors NOK)
+- [ ] `npm run build` réussit
+- [ ] Smoke test : POST `/api/cron/ceo-tick?force=true` → 200 + JSON success

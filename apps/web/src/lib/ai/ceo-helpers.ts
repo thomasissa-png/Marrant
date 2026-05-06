@@ -62,7 +62,15 @@ export interface RecordAuditInput {
   aiDecisionScore?: number;
   aiModel?: string;
   reasoning?: string;
-  outcome: "sent" | "rejected" | "draft" | "error" | "skipped";
+  outcome:
+    | "sent"
+    | "rejected"
+    | "draft"
+    | "error"
+    | "skipped"
+    | "received"
+    | "opt_out"
+    | "draft_human_review";
   errorMessage?: string;
 }
 

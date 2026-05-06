@@ -8,7 +8,7 @@ import { AuthModal } from "@/components/auth/auth-modal";
 interface AuthCtaProps {
   label?: string;
   callbackUrl?: string;
-  size?: "default" | "sm" | "lg";
+  size?: "md" | "sm" | "lg";
   variant?: "primary" | "secondary";
   className?: string;
   /** If authenticated, clicking runs this instead of opening modal */

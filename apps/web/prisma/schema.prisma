@@ -84,6 +84,7 @@ model User {
   pathProgress  UserPathProgress[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
+  pushTokens   PushToken[]
 
   @@index([email])
 }
@@ -415,10 +416,31 @@ model Subscription {
 }
 
 model WebhookEvent {
-  id          String   @id
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  provider    String?  // "stripe" | "revenuecat" | ...
+  eventType   String?  // type de l'event (ex: "INITIAL_PURCHASE")
+  receivedAt  DateTime @default(now())
   processedAt DateTime @default(now())
 
   @@index([processedAt])
+  @@index([provider, eventType])
+}
+
+/// Push notification tokens (FCM Android + APNs iOS) — Phase 5 mobile.
+/// Un user peut avoir plusieurs devices, mais un token est unique.
+model PushToken {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  platform   String   // "android" | "ios"
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([lastSeenAt])
+  @@index([platform])
 }
 
 enum SubscriptionStatus {

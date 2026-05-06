@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { SocialPlatform } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   generateDailySocialPosts,
@@ -80,7 +81,7 @@ export async function GET(req: Request) {
       const countMap = new Map(existingByPlatform.map((g) => [g.platform, g._count]));
 
       // Calcul quantitatif : il manque `quota - count` posts par plateforme
-      for (const platform of Object.keys(quotas)) {
+      for (const platform of Object.keys(quotas) as SocialPlatform[]) {
         const count = countMap.get(platform) || 0;
         const quota = quotas[platform];
         missing[platform] = Math.max(0, quota - count);
@@ -238,8 +239,8 @@ export async function GET(req: Request) {
     const generatedPlatforms = new Set(saved.map((p) => p.platform));
     // Une plateforme est "manquante" si son quota > 0 mais rien n'a été généré pour elle
     const missingPlatforms = Object.entries(quotas)
-      .filter(([platform, quota]) => quota > 0 && !generatedPlatforms.has(platform) && (missing[platform] || 0) > 0)
-      .map(([platform]) => platform);
+      .filter(([platform, quota]) => quota > 0 && !generatedPlatforms.has(platform as SocialPlatform) && (missing[platform] || 0) > 0)
+      .map(([platform]) => platform as SocialPlatform);
     if (missingPlatforms.length > 0) {
       try {
         await sendAdminAlert(

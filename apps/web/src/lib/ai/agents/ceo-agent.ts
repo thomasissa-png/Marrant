@@ -22,6 +22,7 @@
  *  7. Endpoint contestation art. 22 RGPD
  *  8. requiresHumanReview = true sur LinkedIn/Instagram (drafts permanents)
  */
+import { Prisma } from "@prisma/client";
 import type { CeoLead, CeoOutboundMessage, CeoOutboundChannel, CeoTask } from "@prisma/client";
 import { z } from "zod";
 import {
@@ -705,7 +706,7 @@ export async function runDailyTick(): Promise<{ status: string; processed: numbe
           data: {
             status: result.deferred ? "PENDING" : "DONE",
             completedAt: result.deferred ? null : new Date(),
-            result: result.payload,
+            result: result.payload as Prisma.InputJsonValue,
           },
         });
 

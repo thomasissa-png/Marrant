@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { SocialPlatform, SocialFormat } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   createBufferPost,
@@ -148,7 +149,7 @@ export async function GET(req: Request) {
     // Refonte s7 : skip les formats deprecated (THREAD, QUOTE_ANALYSIS, TECHNIQUE_DU_JOUR)
     // Ces formats ne doivent plus être publiés — seulement MINI_STANDUP / POTE_AU_TAF / IMAGE_QUI_CLAQUE
     // (TWEET et POST sont conservés en alias legacy pour les posts admin manuels)
-    const DEPRECATED_FORMATS = ["THREAD", "QUOTE_ANALYSIS", "TECHNIQUE_DU_JOUR"];
+    const DEPRECATED_FORMATS: SocialFormat[] = ["THREAD", "QUOTE_ANALYSIS", "TECHNIQUE_DU_JOUR"] as SocialFormat[];
 
     // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
@@ -160,7 +161,7 @@ export async function GET(req: Request) {
         // Refonte s7 : skip formats deprecated (legacy queue avant refonte)
         format: { notIn: DEPRECATED_FORMATS },
         // Circuit breaker : exclure les plateformes en cooldown 429
-        ...(blockedPlatforms.size > 0 ? { platform: { notIn: [...blockedPlatforms] } } : {}),
+        ...(blockedPlatforms.size > 0 ? { platform: { notIn: [...blockedPlatforms] as SocialPlatform[] } } : {}),
         OR: [
           { approvedBy: { not: null } },
           { directorScore: { gte: 9 } },
