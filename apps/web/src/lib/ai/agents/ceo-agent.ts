@@ -22,7 +22,7 @@
  *  7. Endpoint contestation art. 22 RGPD
  *  8. requiresHumanReview = true sur LinkedIn/Instagram (drafts permanents)
  */
-import type { CeoLead, CeoOutboundMessage, CeoOutboundChannel } from "@prisma/client";
+import type { CeoLead, CeoOutboundMessage, CeoOutboundChannel, CeoTask } from "@prisma/client";
 import { z } from "zod";
 import {
   buildCachedSystemBlock,
@@ -45,7 +45,12 @@ import {
   markCeoTouchpoint,
   recordAudit,
   releaseCeoLock,
+  setCeoMemory,
+  snapshotCeoKpis,
 } from "../ceo-helpers";
+import { validateCeoOutbound } from "./standup-director-agent";
+import { enforceEmailFooter } from "@/lib/email/ceo-email-footer";
+import { Resend } from "resend";
 
 // ─── Modèles + constantes ─────────────────────────────────────────────
 
@@ -325,13 +330,21 @@ Output JSON strict, pas de markdown.`;
   const requiresHumanReview =
     audience.channel === "DM_LINKEDIN" || audience.channel === "DM_INSTAGRAM";
 
+  // BLOQUANT @legal s9 — append footer CPCE L34-5 + RGPD AVANT validation
+  // Director (footer = partie intégrante du message, audit voix incluse).
+  // Uniquement sur EMAIL et BACKLINK_EMAIL (DMs sociaux : footer hors-format).
+  let finalBody = parsed.body;
+  if (audience.channel === "EMAIL" || audience.channel === "BACKLINK_EMAIL") {
+    finalBody = enforceEmailFooter(parsed.body, audience.recipient);
+  }
+
   const created = await prisma.ceoOutboundMessage.create({
     data: {
       channel: audience.channel,
       direction: "OUTBOUND",
       recipient: audience.recipient,
       subject: parsed.subject || null,
-      content: parsed.body,
+      content: finalBody,
       status: "PENDING",
       playbook,
       leadId: lead.id,
@@ -348,41 +361,53 @@ Output JSON strict, pas de markdown.`;
 // ─── 4. Validation Director (délégué au standup-director) ─────────────
 
 /**
- * Délègue la validation au Stand-Up Director — réuse pattern strict de
- * `validateSocialPost()`. Score ≥ 9 → APPROVED · 7-8 → NEEDS_REVISION · ≤ 6
- * → REJECTED. Si 3 rejets → `directorRewriteCeoMessage` (TODO Phase 5.B).
+ * Délègue la validation au Stand-Up Director (validateCeoOutbound — Phase 5.B).
  *
- * Cette fonction met à jour `directorScore` + `directorValidated` + `status`
- * sur le `CeoOutboundMessage` passé en argument.
+ * Pipeline :
+ *  1. Récupère le CeoOutboundMessage (subject, content, playbook, channel)
+ *  2. Appelle validateCeoOutbound() : gates G-CEO1/2/3/4 + dual-pass Haiku→Sonnet
+ *  3. Met à jour directorScore + directorValidated + directorNote + status
  *
- * TODO Phase 5.B : implémenter `validateCeoOutbound()` dans
- * `standup-director-agent.ts` (gate G-CEO1 anti-surveillance, G-CEO2 anti-FOMO,
- * G-CEO3 valeur éducative > conversion).
+ * Verdicts :
+ *  - APPROVED (≥9)        → status APPROVED, directorValidated=true
+ *  - NEEDS_REVISION (7-8) → status PENDING, directorValidated=false
+ *  - REJECTED (≤6)        → status REJECTED, directorValidated=false
  */
 export async function dualPassValidate(
   messageId: string,
-): Promise<{ approved: boolean; score: number; note: string }> {
+): Promise<{ approved: boolean; score: number; note: string; verdict: string }> {
   const message = await prisma.ceoOutboundMessage.findUnique({ where: { id: messageId } });
   if (!message) throw new Error(`CeoOutboundMessage ${messageId} introuvable`);
 
-  // Phase 5.A : placeholder — score conservateur 8 (NEEDS_REVISION) pour forcer
-  // tous les drafts en review humaine jusqu'à implémentation Director Phase 5.B.
-  // En production cette fonction appellera `validateCeoOutbound()` dans
-  // standup-director-agent.ts avec dual-pass Haiku→Sonnet.
-  const score = 8;
-  const note = "Phase 5.A placeholder — validation Director CEO à implémenter en Phase 5.B";
+  const validation = await validateCeoOutbound({
+    channel: message.channel,
+    subject: message.subject ?? undefined,
+    content: message.content,
+    playbook: message.playbook ?? undefined,
+    recipientHint: message.leadId ? `lead=${message.leadId}` : undefined,
+  });
+
+  let nextStatus: "APPROVED" | "PENDING" | "REJECTED";
+  if (validation.verdict === "APPROVED") nextStatus = "APPROVED";
+  else if (validation.verdict === "REJECTED") nextStatus = "REJECTED";
+  else nextStatus = "PENDING";
 
   await prisma.ceoOutboundMessage.update({
     where: { id: messageId },
     data: {
-      directorScore: score,
-      directorValidated: false, // false jusqu'à validation Director réelle
-      directorNote: note,
-      status: score >= 9 ? "APPROVED" : "PENDING",
+      directorScore: validation.score,
+      directorValidated: validation.verdict === "APPROVED",
+      directorNote: validation.directorNote.slice(0, 500),
+      status: nextStatus,
     },
   });
 
-  return { approved: score >= 9, score, note };
+  return {
+    approved: validation.verdict === "APPROVED",
+    score: validation.score,
+    note: validation.directorNote,
+    verdict: validation.verdict,
+  };
 }
 
 // ─── 5. Rédaction pitch backlink (migration haro-agent — Phase 5.B) ────
@@ -420,13 +445,21 @@ Output JSON strict.`;
   const text = getResponseText(response);
   const parsed = draftSchema.parse(extractJson<unknown>(text));
 
+  // BLOQUANT @legal s9 — footer aussi sur les pitchs presse (audit RGPD identique).
+  // Recipient = domaine (pas d'email connu) → utilise contact@<domain> placeholder
+  // pour la génération du token unsubscribe (le journaliste peut désinscrire ce contact).
+  const recipientForFooter = opportunity.journalistName
+    ? `${opportunity.journalistName.toLowerCase().replace(/\s+/g, ".")}@${opportunity.domain}`
+    : `contact@${opportunity.domain}`;
+  const finalBody = enforceEmailFooter(parsed.body, recipientForFooter);
+
   const created = await prisma.ceoOutboundMessage.create({
     data: {
       channel: "BACKLINK_EMAIL",
       direction: "OUTBOUND",
       recipient: opportunity.domain,
       subject: parsed.subject || `Sujet ${opportunity.category}`,
-      content: parsed.body,
+      content: finalBody,
       status: "PENDING",
       playbook: `backlink_${opportunity.source.toLowerCase()}`,
       utmSource: "ceo",
@@ -454,7 +487,9 @@ Output JSON strict.`;
  * Idempotent par CeoTask.id. Silent-fail sur erreurs individuelles (une task
  * en échec n'arrête pas les suivantes).
  *
- * TODO Phase 5.B : implémenter le routage par CeoTaskType (DRAFT_EMAIL → ...).
+ * Phase 5.B : router complet par CeoTaskType implémenté via `routeCeoTask`.
+ * Phase 5.B.2 (à venir) : DRAFT_DM_REPLY + DRAFT_PROACTIVE_COMMENT + SCORE_LEADS
+ * (intégrations APIs externes Twitter/Instagram/Resend Inbound + signaux Umami).
  */
 export async function runDailyTick(): Promise<{ status: string; processed: number; errors: number }> {
   // 1. Kill-switch
@@ -510,7 +545,7 @@ export async function runDailyTick(): Promise<{ status: string; processed: numbe
       take: cfg.maxActionsPerTick,
     });
 
-    // 5. Execute chaque task (TODO Phase 5.B : routage par type)
+    // 5. Execute chaque task — routage par CeoTaskType (Phase 5.B)
     for (const task of tasks) {
       try {
         await prisma.ceoTask.update({
@@ -518,13 +553,14 @@ export async function runDailyTick(): Promise<{ status: string; processed: numbe
           data: { status: "RUNNING", startedAt: new Date(), attempts: { increment: 1 } },
         });
 
-        // Phase 5.A : placeholder — chaque type sera implémenté en 5.B
+        const result = await routeCeoTask(task);
+
         await prisma.ceoTask.update({
           where: { id: task.id },
           data: {
-            status: "DONE",
-            completedAt: new Date(),
-            result: { phase: "5.A", note: "task router not yet implemented" },
+            status: result.deferred ? "PENDING" : "DONE",
+            completedAt: result.deferred ? null : new Date(),
+            result: result.payload,
           },
         });
 
@@ -563,8 +599,8 @@ export async function runDailyTick(): Promise<{ status: string; processed: numbe
  *
  * Modèle : Opus 4.7 (qualité > coût pour 1 appel/sem). Coût attendu ~0.16€/sem.
  *
- * TODO Phase 5.B : implémenter envoi Resend + agrégation KPIs depuis
- * CeoKpiSnapshot des 7 derniers jours.
+ * Phase 5.B : envoi Resend implémenté + agrégation KPIs depuis CeoKpiSnapshot.
+ * Si RESEND_API_KEY absent → rapport reste en mémoire (non-bloquant).
  */
 export async function runWeeklyReport(weekStartDate: Date): Promise<{ sent: boolean }> {
   if (!(await isCeoEnabled())) return { sent: false };
@@ -607,18 +643,419 @@ Ton sobre, factuel, zéro édito narratif. Output : markdown brut.`;
 
   const reportMarkdown = getResponseText(response);
 
-  // TODO Phase 5.B : envoyer via Resend à alex@deviens-marrant.fr
-  // Pour l'instant, on log + stocke dans CeoMemory pour relecture admin.
-  const { setCeoMemory } = await import("../ceo-helpers");
+  // Stockage en CeoMemory pour relecture admin (relisable même si email échoue)
   await setCeoMemory("weekly_report", `last_${weekStartDate.toISOString().slice(0, 10)}`, {
     weekStart: weekStartDate.toISOString(),
     markdown: reportMarkdown,
     generatedAt: new Date().toISOString(),
   });
 
-  console.log(`[ceo-weekly] Rapport généré ${weekStartDate.toISOString().slice(0, 10)} — ${reportMarkdown.length} chars`);
+  console.log(
+    `[ceo-weekly] Rapport généré ${weekStartDate.toISOString().slice(0, 10)} — ${reportMarkdown.length} chars`,
+  );
 
-  return { sent: false }; // false jusqu'à implémentation Resend Phase 5.B
+  // Envoi Resend à l'admin Thomas — non bloquant (rapport reste en mémoire)
+  const adminEmail = process.env.CEO_ADMIN_EMAIL ?? "alex@deviens-marrant.fr";
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) {
+    console.warn("[ceo-weekly] RESEND_API_KEY absent — rapport non envoyé (stocké en mémoire)");
+    return { sent: false };
+  }
+
+  // Calcul NS pour le sujet (dernier snapshot dispo)
+  const lastSnapshot = snapshots[snapshots.length - 1];
+  const nsScore = lastSnapshot
+    ? Math.round(lastSnapshot.northStarEngagement30d * 100)
+    : 0;
+  const dateLabel = weekStartDate.toISOString().slice(0, 10);
+
+  const htmlBody = markdownToBasicHtml(reportMarkdown);
+
+  try {
+    const resend = new Resend(resendKey);
+    await resend.emails.send({
+      from: process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-marrant.fr>",
+      to: adminEmail,
+      subject: `[CEO Hebdo] Semaine du ${dateLabel} — ${nsScore}% engagement`,
+      html: htmlBody,
+    });
+    await recordAudit({
+      action: "weekly_report_sent",
+      targetType: "system",
+      targetId: adminEmail,
+      channel: "email",
+      outcome: "sent",
+      reasoning: `ns=${nsScore}%`,
+      aiModel: CEO_OPUS_MODEL,
+    });
+    return { sent: true };
+  } catch (err) {
+    console.error("[ceo-weekly] Échec envoi Resend :", err);
+    await recordAudit({
+      action: "weekly_report_send_failed",
+      targetType: "system",
+      targetId: adminEmail,
+      channel: "email",
+      outcome: "error",
+      errorMessage: err instanceof Error ? err.message : String(err),
+    });
+    return { sent: false };
+  }
+}
+
+/**
+ * Convertit un markdown basique en HTML safe pour email.
+ * Pas de dépendance externe `marked` (évite +50KB bundle pour 1 usage).
+ * Couvre : ## headings, **bold**, _italic_, listes -, paragraphes, tables markdown simples, links.
+ */
+function markdownToBasicHtml(md: string): string {
+  // Échappe HTML d'abord
+  let html = md
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  // Tables markdown |---|---|
+  html = html.replace(
+    /^\|(.+)\|\s*\n\|(?:[-: ]+\|)+\s*\n((?:\|.*\|\s*\n?)+)/gm,
+    (_match, header: string, rows: string) => {
+      const headers = header.split("|").map((c) => c.trim()).filter(Boolean);
+      const headerRow = headers.map((h) => `<th style="padding:6px 12px;border-bottom:2px solid #ccc;text-align:left;">${h}</th>`).join("");
+      const bodyRows = rows
+        .trim()
+        .split("\n")
+        .map((line) => {
+          const cells = line.split("|").map((c) => c.trim()).filter((c, i, arr) => !(i === 0 && c === "") && !(i === arr.length - 1 && c === ""));
+          return `<tr>${cells.map((c) => `<td style="padding:6px 12px;border-bottom:1px solid #eee;">${c}</td>`).join("")}</tr>`;
+        })
+        .join("");
+      return `<table style="border-collapse:collapse;margin:12px 0;font-size:14px;"><thead><tr>${headerRow}</tr></thead><tbody>${bodyRows}</tbody></table>`;
+    },
+  );
+
+  // Headings ## ###
+  html = html.replace(/^### (.+)$/gm, '<h3 style="margin:16px 0 8px;">$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2 style="margin:24px 0 12px;color:#7c3aed;">$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1 style="margin:32px 0 16px;">$1</h1>');
+
+  // Bold + italic
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  html = html.replace(/_([^_]+)_/g, "<em>$1</em>");
+
+  // Liens [text](url)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#7c3aed;">$1</a>');
+
+  // Listes -
+  html = html.replace(/^(- .+(\n- .+)*)/gm, (block: string) => {
+    const items = block.split("\n").map((l) => l.replace(/^- /, "").trim()).filter(Boolean);
+    return `<ul style="margin:8px 0;padding-left:24px;">${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+  });
+
+  // Paragraphes (blocs séparés par double newline qui ne sont pas déjà du HTML)
+  html = html
+    .split(/\n\n+/)
+    .map((block) => (block.match(/^<(h\d|ul|table|p)/) ? block : `<p style="margin:8px 0;line-height:1.6;">${block}</p>`))
+    .join("\n");
+
+  return `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:680px;margin:0 auto;padding:24px;color:#1a1a1a;">
+${html}
+<hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+<p style="font-size:12px;color:#888;">Rapport généré automatiquement par L'Équipe Deviens Marrant.</p>
+</body></html>`;
+}
+
+// ─── 8. Task router (Phase 5.B) ───────────────────────────────────────
+
+/**
+ * Route une CeoTask vers le handler approprié selon son `type`.
+ *
+ * Retour :
+ *  - `payload` : objet stocké dans CeoTask.result (audit + debug)
+ *  - `deferred` : si true, la task reste PENDING (ex. integration Phase 5.B.2)
+ *
+ * Throw → propagé vers runDailyTick qui incrémente attempts (max 3).
+ */
+async function routeCeoTask(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown>; deferred?: boolean }> {
+  switch (task.type) {
+    case "DRAFT_EMAIL":
+    case "EXECUTE_SEND":
+      return handleOutboundEmail(task);
+    case "DRAFT_BACKLINK_PITCH":
+      return handleBacklinkPitch(task);
+    case "DRAFT_DM_REPLY":
+    case "DRAFT_PROACTIVE_COMMENT":
+      // Phase 5.B.2 — APIs Twitter v2 / Resend Inbound / Instagram Graph
+      console.log(`[ceo-tick] Task ${task.id} type=${task.type} deferred to Phase 5.B.2`);
+      return {
+        payload: { note: "Phase 5.B.2 pending — Twitter/Instagram/Resend Inbound APIs" },
+        deferred: true,
+      };
+    case "WEEKLY_REPORT":
+      return handleWeeklyReportTask(task);
+    case "KPI_SNAPSHOT":
+      return handleKpiRefreshTask(task);
+    case "SCORE_LEADS":
+      // Phase 5.B.2 — scoring leads automatique (besoin signaux Umami)
+      return {
+        payload: { note: "Phase 5.B.2 pending — lead scoring auto (Umami integration)" },
+        deferred: true,
+      };
+    default: {
+      const exhaustive: never = task.type;
+      throw new Error(`Unknown CeoTaskType: ${String(exhaustive)}`);
+    }
+  }
+}
+
+// ─── 9. Handlers individuels ──────────────────────────────────────────
+
+interface OutboundEmailPayload {
+  leadId: string;
+  playbook: PlaybookId;
+  recipient: string;
+  leadContext?: string;
+}
+
+/**
+ * Handler DRAFT_EMAIL / EXECUTE_SEND — génère le draft, valide Director,
+ * envoie via Resend si APPROVED + autoSendEmail config, sinon laisse en PENDING.
+ *
+ * Garde-fous appliqués :
+ *  - Frequency cap (segment A 2/mois ou B 1/mois)
+ *  - Dedup 24h hash content
+ *  - emailOptOut User check
+ *  - Validation Director G-CEO1/2/3/4 + dual-pass
+ *  - autoSendEmail config (false = draft seulement)
+ */
+async function handleOutboundEmail(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown> }> {
+  const payload = task.payload as unknown as OutboundEmailPayload;
+  if (!payload.leadId || !payload.playbook || !payload.recipient) {
+    throw new Error("Payload OUTBOUND_EMAIL incomplet (leadId/playbook/recipient requis)");
+  }
+
+  const lead = await prisma.ceoLead.findUnique({ where: { id: payload.leadId } });
+  if (!lead) throw new Error(`CeoLead ${payload.leadId} introuvable`);
+
+  // Opt-out check
+  if (lead.optOut) {
+    return { payload: { skipped: "lead_opt_out" } };
+  }
+  if (lead.email) {
+    const user = await prisma.user.findUnique({ where: { email: lead.email } });
+    if (user?.emailOptOut) {
+      return { payload: { skipped: "user_email_opt_out" } };
+    }
+  }
+
+  // Frequency cap (segment A par défaut — durci côté product-manager si besoin)
+  const freq = await applyFrequencyCap(lead.id, "A");
+  if (!freq.canSend) {
+    return { payload: { skipped: freq.reason ?? "frequency_cap" } };
+  }
+
+  // Compose draft
+  const message = await composeOutboundMessage(payload.playbook, lead, {
+    channel: "EMAIL",
+    recipient: payload.recipient,
+    leadContext: payload.leadContext,
+  });
+
+  // Dedup 24h
+  const dedup = await checkAndStoreDedup("EMAIL", payload.recipient, message.content);
+  if (dedup.isDuplicate) {
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "REJECTED", directorNote: "duplicate_24h" },
+    });
+    return { payload: { skipped: "duplicate_24h", messageId: message.id } };
+  }
+
+  // Validation Director
+  const validation = await dualPassValidate(message.id);
+  if (!validation.approved) {
+    await recordAudit({
+      action: "email_director_rejected",
+      targetType: "lead",
+      targetId: payload.recipient,
+      channel: "email",
+      aiDecisionScore: validation.score,
+      reasoning: validation.note.slice(0, 200),
+      outcome: "rejected",
+    });
+    return {
+      payload: {
+        messageId: message.id,
+        verdict: validation.verdict,
+        score: validation.score,
+        sent: false,
+      },
+    };
+  }
+
+  // Envoi conditionnel (autoSendEmail config + pas requiresHumanReview)
+  const cfg = await getCeoConfig();
+  const fresh = await prisma.ceoOutboundMessage.findUnique({ where: { id: message.id } });
+  if (!fresh) throw new Error("Message disparu après validation");
+  if (cfg?.dryRun || !cfg?.autoSendEmail || fresh.requiresHumanReview) {
+    return {
+      payload: {
+        messageId: message.id,
+        verdict: validation.verdict,
+        score: validation.score,
+        sent: false,
+        reason: cfg?.dryRun ? "dry_run" : !cfg?.autoSendEmail ? "auto_send_off" : "human_review",
+      },
+    };
+  }
+
+  // Resend send
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) {
+    throw new Error("RESEND_API_KEY absent — envoi email impossible");
+  }
+  const resend = new Resend(resendKey);
+  try {
+    const sent = await resend.emails.send({
+      from: process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-marrant.fr>",
+      to: payload.recipient,
+      subject: fresh.subject ?? "Un message de l'équipe Deviens Marrant",
+      html: fresh.content,
+    });
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "SENT", sentAt: new Date(), externalId: (sent as { data?: { id?: string } })?.data?.id ?? null },
+    });
+    if (lead.userId) await markCeoTouchpoint(lead.userId);
+    await prisma.ceoLead.update({
+      where: { id: lead.id },
+      data: { lastContactAt: new Date(), touchpoints: { increment: 1 }, lastPlaybook: payload.playbook },
+    });
+    await recordAudit({
+      action: "email_sent",
+      targetType: "lead",
+      targetId: payload.recipient,
+      channel: "email",
+      aiDecisionScore: validation.score,
+      outcome: "sent",
+      reasoning: `playbook=${payload.playbook}`,
+    });
+    return { payload: { messageId: message.id, sent: true } };
+  } catch (err) {
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "FAILED" },
+    });
+    throw err;
+  }
+}
+
+interface BacklinkPitchPayload {
+  opportunity: BacklinkOpportunity;
+}
+
+/**
+ * Handler DRAFT_BACKLINK_PITCH — génère le pitch presse/blog/podcast.
+ * `requiresHumanReview = true` systématique en Phase 5.A/5.B.
+ * Pas d'envoi auto Phase 5.B (Thomas valide chaque pitch manuellement).
+ */
+async function handleBacklinkPitch(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown> }> {
+  const payload = task.payload as unknown as BacklinkPitchPayload;
+  if (!payload.opportunity) {
+    throw new Error("Payload BACKLINK_PITCH incomplet (opportunity requis)");
+  }
+
+  const message = await draftBacklinkPitch(payload.opportunity);
+
+  // Dedup 24h sur (domain + content)
+  const dedup = await checkAndStoreDedup(
+    "BACKLINK_EMAIL",
+    payload.opportunity.domain,
+    message.content,
+  );
+  if (dedup.isDuplicate) {
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "REJECTED", directorNote: "duplicate_24h" },
+    });
+    return { payload: { skipped: "duplicate_24h", messageId: message.id } };
+  }
+
+  // Validation Director
+  const validation = await dualPassValidate(message.id);
+
+  // Trace dans CeoBacklink (pitch envoyé en draft)
+  await prisma.ceoBacklink
+    .create({
+      data: {
+        source: payload.opportunity.source,
+        domain: payload.opportunity.domain,
+        url: payload.opportunity.url ?? null,
+        anchorText: null,
+        relevanceScore: validation.score,
+        status: "PITCHED",
+        notes: `Pitch draft messageId=${message.id} score=${validation.score}`,
+      },
+    })
+    .catch((err) => console.warn("[handleBacklinkPitch] CeoBacklink insert échec :", err));
+
+  await recordAudit({
+    action: "backlink_pitched",
+    targetType: "blogger",
+    targetId: payload.opportunity.domain,
+    channel: "email",
+    aiDecisionScore: validation.score,
+    outcome: validation.approved ? "draft" : "rejected",
+    reasoning: `source=${payload.opportunity.source}`,
+  });
+
+  return {
+    payload: {
+      messageId: message.id,
+      verdict: validation.verdict,
+      score: validation.score,
+      sent: false, // backlinks toujours en review humaine Phase 5.B
+    },
+  };
+}
+
+/** Handler WEEKLY_REPORT — délègue à runWeeklyReport (lundi 9h UTC scheduling). */
+async function handleWeeklyReportTask(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown> }> {
+  // weekStartDate = lundi de la semaine en cours (UTC)
+  const now = new Date();
+  const dayOfWeek = now.getUTCDay(); // 0=dim, 1=lun, ..., 6=sam
+  const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const monday = new Date(now);
+  monday.setUTCDate(now.getUTCDate() - daysSinceMonday);
+  monday.setUTCHours(0, 0, 0, 0);
+
+  const result = await runWeeklyReport(monday);
+  return { payload: { taskId: task.id, sent: result.sent, weekStart: monday.toISOString().slice(0, 10) } };
+}
+
+/** Handler KPI_SNAPSHOT — délègue à snapshotCeoKpis (cron daily 5h UTC le préfère). */
+async function handleKpiRefreshTask(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown> }> {
+  const snapshot = await snapshotCeoKpis();
+  return {
+    payload: {
+      taskId: task.id,
+      snapshotId: snapshot.id,
+      date: snapshot.date.toISOString().slice(0, 10),
+      northStar: snapshot.northStarEngagement30d,
+    },
+  };
 }
 
 // ─── Exports utilitaires ──────────────────────────────────────────────

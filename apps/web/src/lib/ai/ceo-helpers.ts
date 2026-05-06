@@ -412,3 +412,170 @@ export async function getOrCreateLead(
     update: {}, // pas de changement si existe (le scoring met à jour ailleurs)
   });
 }
+
+// ─── Snapshot KPIs (cron daily 5h UTC) ────────────────────────────────
+
+/**
+ * Calcule les KPIs CEO sur 30j glissants et insère 1 row dans CeoKpiSnapshot.
+ *
+ * Cf docs/analytics/ceo-kpis-dashboard.md pour les définitions :
+ *  - North Star = (opens + replies + clicks) / total_sent
+ *  - 3 satellites : email reply rate, retour site 48h, open rate
+ *  - 6 KPIs ops : kill-switch triggers 24h, Director fail rate, drafts/auto-send,
+ *    cost/subscriber, conversions attribuées, sum DA backlinks
+ *
+ * Idempotent : upsert sur `date` UNIQUE (truncate UTC à 00:00).
+ *
+ * NB : `siteReturn48h` est marqué [HYPOTHÈSE 0.0] tant que le tracking Umami
+ * cross-session avec UTM ne croise pas les CeoOutboundMessage côté serveur
+ * (chantier Phase 5.B.2). On insère la valeur dispo en DB pour ne pas bloquer.
+ */
+export async function snapshotCeoKpis() {
+  const now = new Date();
+  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const since30d = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const since24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+  // ─── Outbound messages 30j (base North Star + reply rate + open rate)
+  const outboundAgg = await prisma.ceoOutboundMessage.aggregate({
+    where: {
+      direction: "OUTBOUND",
+      status: "SENT",
+      sentAt: { gte: since30d },
+    },
+    _count: { _all: true },
+    _sum: { opens: true, replies: true, clicks: true },
+  });
+  const totalSent = outboundAgg._count._all;
+  const sumOpens = outboundAgg._sum.opens ?? 0;
+  const sumReplies = outboundAgg._sum.replies ?? 0;
+  const sumClicks = outboundAgg._sum.clicks ?? 0;
+
+  const northStar = totalSent > 0 ? (sumOpens + sumReplies + sumClicks) / totalSent : 0;
+
+  // ─── Email-only stats (reply rate + open rate)
+  const emailAgg = await prisma.ceoOutboundMessage.aggregate({
+    where: {
+      direction: "OUTBOUND",
+      status: "SENT",
+      channel: "EMAIL",
+      sentAt: { gte: since30d },
+    },
+    _count: { _all: true },
+    _sum: { opens: true, replies: true },
+  });
+  const totalEmails = emailAgg._count._all;
+  const emailReplyRate = totalEmails > 0 ? (emailAgg._sum.replies ?? 0) / totalEmails : 0;
+  const emailOpenRate = totalEmails > 0 ? (emailAgg._sum.opens ?? 0) / totalEmails : 0;
+
+  // ─── Director fail rate 30j (drafts rejetés / drafts générés)
+  const draftsTotal = await prisma.ceoOutboundMessage.count({
+    where: { createdAt: { gte: since30d } },
+  });
+  const draftsRejected = await prisma.ceoOutboundMessage.count({
+    where: { createdAt: { gte: since30d }, status: "REJECTED" },
+  });
+  const directorFailRate = draftsTotal > 0 ? draftsRejected / draftsTotal : 0;
+
+  // ─── Drafts / auto-send ratio par canal 30j
+  const draftsByChannel = await prisma.ceoOutboundMessage.groupBy({
+    by: ["channel", "requiresHumanReview"],
+    where: { createdAt: { gte: since30d } },
+    _count: { _all: true },
+  });
+  const draftsAutoSendRatio: Record<string, number> = {};
+  const channelTotals: Record<string, number> = {};
+  const channelAuto: Record<string, number> = {};
+  for (const row of draftsByChannel) {
+    const ch = row.channel;
+    channelTotals[ch] = (channelTotals[ch] ?? 0) + row._count._all;
+    if (!row.requiresHumanReview) {
+      channelAuto[ch] = (channelAuto[ch] ?? 0) + row._count._all;
+    }
+  }
+  for (const ch of Object.keys(channelTotals)) {
+    draftsAutoSendRatio[ch] = channelTotals[ch] > 0 ? (channelAuto[ch] ?? 0) / channelTotals[ch] : 0;
+  }
+
+  // ─── Kill-switch triggers 24h (count audit logs action=tick_skip_killswitch)
+  const killSwitchTriggers24h = await prisma.ceoAuditLog.count({
+    where: {
+      timestamp: { gte: since24h },
+      action: { in: ["tick_skip_killswitch", "tick_skip_budget"] },
+    },
+  });
+
+  // ─── Conversions attribuées CEO — fenêtre attribution 7j (cf docs/product/ceo-agent-specs.md §11)
+  // Critère : Subscription créée dans les 7j ET User.lastCeoTouchpoint < 7j AVANT la création
+  const since7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const recentSubs = await prisma.subscription.findMany({
+    where: {
+      plan: "PREMIUM",
+      status: "ACTIVE",
+      createdAt: { gte: since7d },
+    },
+    select: { userId: true, createdAt: true },
+  });
+  let ceoAttributedConversions = 0;
+  for (const sub of recentSubs) {
+    const u = await prisma.user.findUnique({
+      where: { id: sub.userId },
+      select: { lastCeoTouchpoint: true },
+    });
+    if (u?.lastCeoTouchpoint && u.lastCeoTouchpoint <= sub.createdAt) {
+      const deltaMs = sub.createdAt.getTime() - u.lastCeoTouchpoint.getTime();
+      if (deltaMs <= 7 * 24 * 60 * 60 * 1000) ceoAttributedConversions++;
+    }
+  }
+
+  // ─── Coût par abonné acquis CEO (LlmUsageLog 30j / conversions)
+  const llmCost30d = await prisma.llmUsageLog.aggregate({
+    where: { agent: "ceo", createdAt: { gte: since30d } },
+    _sum: { costUsd: true },
+  });
+  const totalCostEur = (llmCost30d._sum.costUsd ?? 0) * 0.92;
+  const costPerAcquiredSubscriber =
+    ceoAttributedConversions > 0 ? totalCostEur / ceoAttributedConversions : null;
+
+  // ─── Backlinks DA sum (acquis = status ACQUIRED)
+  const backlinksAgg = await prisma.ceoBacklink.aggregate({
+    where: { status: "ACQUIRED" },
+    _sum: { da: true },
+  });
+  const backlinksDaSum = backlinksAgg._sum.da ?? 0;
+
+  // ─── Site return 48h (placeholder — tracking Umami cross-session Phase 5.B.2)
+  const siteReturn48h = 0; // [HYPOTHÈSE — à câbler Umami Phase 5.B.2]
+
+  // ─── Upsert (date unique)
+  const snapshot = await prisma.ceoKpiSnapshot.upsert({
+    where: { date: today },
+    create: {
+      date: today,
+      northStarEngagement30d: northStar,
+      emailReplyRate,
+      siteReturn48h,
+      emailOpenRate,
+      killSwitchTriggers24h,
+      directorFailRate,
+      draftsAutoSendRatio,
+      costPerAcquiredSubscriber,
+      ceoAttributedConversions,
+      backlinksDaSum,
+    },
+    update: {
+      northStarEngagement30d: northStar,
+      emailReplyRate,
+      siteReturn48h,
+      emailOpenRate,
+      killSwitchTriggers24h,
+      directorFailRate,
+      draftsAutoSendRatio,
+      costPerAcquiredSubscriber,
+      ceoAttributedConversions,
+      backlinksDaSum,
+    },
+  });
+
+  return snapshot;
+}

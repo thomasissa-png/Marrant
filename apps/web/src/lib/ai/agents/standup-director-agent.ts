@@ -2451,3 +2451,235 @@ Réponds en JSON :
 
   return parsed;
 }
+
+// ─── Validation CEO Outbound (Phase 5.B) ─────────────────────────
+//
+// Spécifique au CEO Agent : valide un message outbound (email, DM, pitch
+// presse) AVANT envoi. Réutilise le pattern dual-pass Haiku→Sonnet de
+// `validateSocialPost` mais avec 3 nouvelles gates programmatiques + un
+// prompt orienté voix Marrant unifiée v3 (pas voix social platform).
+//
+// Cf docs/founder-preferences.md s8 :
+//  - G-CEO1 : signature "L'Équipe Deviens Marrant" obligatoire (jamais "Alex")
+//  - G-CEO2 : zéro persona nominatif (Yanis/Sophie/Marc) — réutilise INTERNAL_PERSONA_NAMES
+//  - G-CEO3 : zéro mention IA (préférence permanente Thomas — règle non-négociable)
+
+export interface CeoOutboundToValidate {
+  channel: "EMAIL" | "DM_TWITTER" | "DM_LINKEDIN" | "DM_INSTAGRAM" | "COMMENT_TWITTER" | "BACKLINK_EMAIL";
+  subject?: string;
+  content: string;
+  playbook?: string; // P1-P7 ou "backlink_<source>"
+  recipientHint?: string; // contexte court (ex. "lead avec streak 7j")
+}
+
+/** G-CEO1 — Signature obligatoire "L'Équipe Deviens Marrant" sur EMAIL/BACKLINK_EMAIL. */
+const SIGNATURE_REQUIRED = /L'Équipe Deviens Marrant/i;
+/** G-CEO1 — signatures interdites (sécurité override). */
+const SIGNATURE_FORBIDDEN = /\b(Alex|Alexandre)\b\s*$/m;
+/** G-CEO3 — mention IA bannie (cf founder-preferences.md s8). */
+const AI_MENTIONS = /(\b(IA|intelligence artificielle|agent IA|LLM|GPT|Claude|ChatGPT|générée? par (?:un|une) (?:IA|intelligence|robot)|automatisation|bot)\b|propulsé par|powered by AI)/i;
+
+/**
+ * Gates programmatiques CEO outbound — checks binaires, pas de LLM.
+ * 1 FAIL = rejet automatique avant tout appel LLM.
+ */
+export function runCeoOutboundGates(message: CeoOutboundToValidate): GateResult[] {
+  const results: GateResult[] = [];
+  const fullText = `${message.subject ?? ""}\n${message.content}`;
+
+  // G-CEO1 — Signature "L'Équipe Deviens Marrant" obligatoire pour emails
+  // (DMs sociaux : signature optionnelle car limite caractères — 270/200/1300)
+  const isEmail = message.channel === "EMAIL" || message.channel === "BACKLINK_EMAIL";
+  const hasSignature = SIGNATURE_REQUIRED.test(fullText);
+  const hasForbiddenSig = SIGNATURE_FORBIDDEN.test(fullText);
+  results.push({
+    gate: "G-CEO1 Signature équipe",
+    pass: isEmail ? hasSignature && !hasForbiddenSig : !hasForbiddenSig,
+    reason: hasForbiddenSig
+      ? "Signature individuelle 'Alex/Alexandre' interdite — utiliser 'L'Équipe Deviens Marrant'"
+      : isEmail && !hasSignature
+        ? "Signature 'L'Équipe Deviens Marrant' absente sur email"
+        : "OK",
+  });
+
+  // G-CEO2 — Zéro persona nominatif (Yanis/Sophie/Marc)
+  const personaMatch = fullText.match(INTERNAL_PERSONA_NAMES);
+  results.push({
+    gate: "G-CEO2 Zéro persona nominatif",
+    pass: !personaMatch,
+    reason: personaMatch
+      ? `Persona interne "${personaMatch[0]}" leak dans message public`
+      : "OK",
+  });
+
+  // G-CEO3 — Zéro mention IA
+  const aiMatch = fullText.match(AI_MENTIONS);
+  results.push({
+    gate: "G-CEO3 Zéro mention IA",
+    pass: !aiMatch,
+    reason: aiMatch
+      ? `Mention IA détectée : "${aiMatch[0]}" — règle permanente fondateur s8`
+      : "OK",
+  });
+
+  // G-CEO4 — Pattern invitation ressource (DM/COMMENT/REPLY) : pas de "[→ lien]" inline
+  if (message.channel.startsWith("DM_") || message.channel === "COMMENT_TWITTER") {
+    const hasInlineLinkPattern = /\[\s*→\s*lien\s*\]|\[\s*lien\s*\]/i.test(message.content);
+    results.push({
+      gate: "G-CEO4 Pattern invitation ressource",
+      pass: !hasInlineLinkPattern,
+      reason: hasInlineLinkPattern
+        ? "Pattern '[→ lien]' inline interdit — utiliser 'On peut te partager X si tu as envie'"
+        : "OK",
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Valide un message outbound CEO (Phase 5.B).
+ *
+ * Pipeline :
+ *  1. Gates programmatiques (G-CEO1/2/3/4) — 1 fail = REJECTED immédiat
+ *  2. dualPassValidate Haiku 4.5 → Sonnet 4.6 sur borderline 5-7
+ *  3. guardAgainstPersonaLeak (filet final)
+ *
+ * Verdicts : APPROVED ≥ 9 / NEEDS_REVISION 7-8 / REJECTED ≤ 6.
+ */
+export async function validateCeoOutbound(
+  message: CeoOutboundToValidate,
+): Promise<ValidationResult> {
+  // ── Gates programmatiques ──
+  const gates = runCeoOutboundGates(message);
+  const gateReject = applyGates(gates, "CEO_OUTBOUND");
+  if (gateReject) {
+    console.log(
+      `[Director] Message CEO rejeté par gates: ${gates.filter((g) => !g.pass).map((g) => g.gate).join(", ")}`,
+    );
+    return gateReject;
+  }
+
+  const channelDescription = describeCeoChannel(message.channel);
+
+  const runValidation = async (model: string): Promise<ValidationResult> => {
+    const response = await callWithRetry(
+      {
+        model,
+        max_tokens: 1000,
+        system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
+        messages: [
+          {
+            role: "user",
+            content: `VALIDATION MESSAGE CEO — ${channelDescription}
+${message.playbook ? `Playbook : ${message.playbook}` : ""}
+${message.recipientHint ? `Contexte destinataire : ${message.recipientHint}` : ""}
+
+${message.subject ? `Sujet : "${message.subject}"\n` : ""}Contenu :
+"""
+${message.content}
+"""
+
+═══ 8 CRITÈRES DE VALIDATION CEO OUTBOUND ═══
+
+1. VOIX MARRANT UNIFIÉE v3 (poids x3 — LE PLUS IMPORTANT) :
+   Le message respecte-t-il les 3 étalons Thomas (DM Twitter / Email Welcome / Pitch HARO) ?
+   → Tutoiement systématique sauf HARO/presse FR (vouvoiement OK)
+   → Phrases construites et fluides — pas hachées en 2 mots (anti-staccato G-S21)
+   → Observation > prescription. Sobriété > saturation.
+   → Voix marque (G-S19) — pas de "je/mon/ma" hors observation explicite sur le lecteur
+
+2. ANTI-IA TEST (poids x3) :
+   Le message pourrait-il avoir été écrit par ChatGPT ?
+   Red flags : "Dans un monde où...", "Il est important de...", "N'hésitez pas à...",
+   "Découvrez comment", "En conclusion", "Saviez-vous que...", "véritablement",
+   "réellement", "absolument", "littéralement", "actionnable", "leverage", "pertinent"
+   → 1 occurrence = NEEDS_REVISION minimum, 2+ = REJECTED
+
+3. VALEUR ÉDUCATIVE > CONVERSION (poids x2 — pivot session 8) :
+   Le message délivre-t-il une valeur utile au destinataire MÊME s'il ne clique sur rien ?
+   → Si non = REJECTED (cf founder-preferences.md 06/05/2026 verbatim Thomas)
+   → Conseil concret, observation pédagogique, ou ouverture conversation > pitch produit
+
+4. PATTERN INVITATION RESSOURCE :
+   Si lien/ressource cité, utilise-t-il le pattern "On peut te partager X si tu as envie" ?
+   → Banni : "[→ lien]" inline, "Va voir [URL]", "Disponible sur deviens-marrant.fr"
+   → OK : "Si tu veux, on peut t'envoyer X" / lien naturel après demande explicite
+
+5. PRIX SANS ARGUMENTATION :
+   Si prix mentionné (0,99€), est-il cité 1× sobrement, jamais en hook ?
+   → "À ce niveau, l'argumentation crée plus de friction qu'elle n'en lève" (CEO_SYSTEM_PROMPT)
+   → Banni : "Pour seulement 0,99€...", "Moins cher qu'un café !", "Profite de ce prix unique"
+
+6. DOCTRINE TROLL (si reply à message provocateur) :
+   Le ton est-il détaché bienveillant ? Pas de riposte humour qui donne l'impression d'avoir été touché ?
+   → OK : silence assumé, "Pas de problème. Le catalogue est là si tu reviens."
+   → Banni : riposte qui se justifie ("Ah non, c'est gratuit. Compliqué.")
+
+7. NOM MARQUE :
+   "Deviens Marrant" toujours en entier, jamais "Marrant" tout court ?
+   → Domaine : "deviens-marrant.fr"
+   → Si "Marrant" sans "Deviens" en hook ou signature = NEEDS_REVISION
+
+8. CITATION VANNES :
+   Si vanne citée, vient-elle d'un ID lookupJoke ? Pas de fabrication ad-hoc ?
+   → Si la vanne semble inventée pour le message = REJECTED (règle permanente CEO #2)
+
+VERDICT — BARRE HAUTE :
+- APPROVED (score ≥ 9) : voix Marrant impeccable, valeur éducative claire, prêt à envoyer
+- NEEDS_REVISION (score 7-8) : potentiel mais 1-2 frictions de voix ou clarté — propose réécriture
+- REJECTED (score ≤ 6) : voix off-brand, mention IA détectée, pitch déguisé en valeur, ou red flags
+
+CRITÈRES DE REJET AUTOMATIQUE :
+- Hook surveillance type "T'as touché la limite de X" → REJECTED (pivot s8 — founder-preferences)
+- Argumentation prix > 1 phrase → REJECTED
+- Persona Yanis/Sophie/Marc nommément → REJECTED
+- Mention IA / IA générative / "agent IA" → REJECTED (règle permanente)
+- Signature "Alex" individuelle (au lieu de "L'Équipe Deviens Marrant") → REJECTED
+
+Réponds en JSON :
+{
+  "verdict": "APPROVED|NEEDS_REVISION|REJECTED",
+  "score": 1-10,
+  "strengths": ["Ce qui marche"],
+  "issues": ["Ce qui ne va pas"],
+  "revision": "Si NEEDS_REVISION : ta version améliorée",
+  "directorNote": "Ton avis en 1-2 phrases"
+}`,
+          },
+        ],
+      },
+      2,
+      { agent: "standup-director-agent", fn: "validateCeoOutbound" },
+    );
+    const text = getResponseText(response);
+    return parseSocialValidationResult(text);
+  };
+
+  const result = await dualPassValidate(
+    runValidation,
+    (r) => r.score,
+    "validateCeoOutbound",
+  );
+
+  // Filet final — guard persona leak (réutilise le check standard)
+  return guardAgainstPersonaLeak(message.content, result);
+}
+
+/** Helper — description humaine d'un canal pour le prompt LLM. */
+function describeCeoChannel(channel: CeoOutboundToValidate["channel"]): string {
+  switch (channel) {
+    case "EMAIL":
+      return "Email outbound (vouvoiement OK si pitch presse, sinon tutoiement)";
+    case "DM_TWITTER":
+      return "DM Twitter (≤270 chars, tutoiement, voix marque)";
+    case "DM_LINKEDIN":
+      return "DM LinkedIn (≤1300 chars, tutoiement, ton pote au taf)";
+    case "DM_INSTAGRAM":
+      return "DM Instagram (≤200 chars, tutoiement)";
+    case "COMMENT_TWITTER":
+      return "Commentaire Twitter public (≤270 chars, doctrine troll si reply)";
+    case "BACKLINK_EMAIL":
+      return "Pitch backlink presse/blog/podcast (vouvoiement HARO/presse, tutoiement blog/podcast)";
+  }
+}

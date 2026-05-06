@@ -516,3 +516,117 @@ Attendu : **1051/1051 tests passent** (Phase 5.A n'ajoute que des `describe.skip
 - [ ] 8 nouveaux Secrets Replit ajoutés (vides ok pour Phase 5.A — utilisés en 5.B)
 - [ ] Tests existants passent (1051/1051)
 - [ ] `runDailySocialJob` lancé une fois → `SocialPostDailyLock` insère 1 ligne (vérifier en console Neon : `SELECT * FROM "SocialPostDailyLock" ORDER BY "createdAt" DESC LIMIT 5;`)
+
+---
+
+## Phase 5.B — CEO Agent — Crons + Director CEO + Footer email + Rapport hebdo (session 10)
+
+### 1. Nouveaux Secrets Replit (BLOQUANTS — à ajouter avant déploiement)
+
+| Secret | Description | Valeur recommandée |
+|---|---|---|
+| `UNSUBSCRIBE_HMAC_SECRET` | Clé HMAC-SHA256 pour signer les tokens unsubscribe (≥ 32 chars). Si compromis : la rotation invalide tous les liens existants — à générer 1 fois et garder stable. | `openssl rand -hex 32` |
+| `ADRESSE_POSTALE` | Adresse postale identifiable pour conformité CPCE L34-5 (footer email obligatoire). Décision Thomas : adresse perso, domiciliation pro, ou formulation minimale type "France". | À trancher par Thomas |
+| `CEO_ADMIN_EMAIL` | Email destinataire rapport hebdo CEO (Opus 4.7 lundi) | `alex@deviens-marrant.fr` (par défaut) |
+| `NEXT_PUBLIC_BASE_URL` | URL base pour construire les liens unsubscribe (déjà existant probablement) | `https://deviens-marrant.fr` |
+
+**Sans `UNSUBSCRIBE_HMAC_SECRET` configuré** : `enforceEmailFooter()` throw → tout envoi email CEO échoue (BLOQUANT pré-S3 conforme audit @legal).
+
+### 2. Configurer les nouveaux crons Replit (Scheduled Deployments)
+
+| Cron | Fréquence | Endpoint | Header auth |
+|---|---|---|---|
+| `ceo-tick` | Toutes les heures | `GET https://deviens-marrant.fr/api/cron/ceo-tick` | `Authorization: Bearer $CRON_SECRET` |
+| `ceo-kpis-snapshot` | Toutes les heures | `GET https://deviens-marrant.fr/api/cron/ceo-kpis-snapshot` | `Authorization: Bearer $CRON_SECRET` |
+
+**Time gate côté code** :
+- `ceo-tick` ne s'exécute QUE entre 2h et 4h59 UTC (sinon retourne `skipped: out-of-window`)
+- `ceo-kpis-snapshot` ne s'exécute QUE à 5h UTC (sinon `skipped: out-of-window`)
+
+→ Sur Replit, configurer un cron horaire suffit (les autres heures retournent immédiatement, coût négligeable).
+
+**Pour tester manuellement (force exécution hors fenêtre)** :
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" "https://deviens-marrant.fr/api/cron/ceo-tick?force=true"
+curl -H "Authorization: Bearer $CRON_SECRET" "https://deviens-marrant.fr/api/cron/ceo-kpis-snapshot?force=true"
+```
+
+### 3. Endpoint manuel `/api/ceo/contest` (art. 22 RGPD)
+
+Pas de cron — endpoint admin manuel utilisable depuis le futur dashboard `/admin/ceo` (Phase 5.C) ou via curl :
+
+```bash
+curl -X POST https://deviens-marrant.fr/api/ceo/contest \
+  -H "Authorization: Bearer $ADMIN_PASSWORD" \
+  -H "Content-Type: application/json" \
+  -d '{"messageId":"<id>", "reason":"Ton trop directif sur le P3"}'
+```
+
+Effet : `CeoOutboundMessage.status = REJECTED`, audit log + blocage envoi.
+
+### 4. Tester le footer email + désinscription
+
+Après déploiement, vérifier que le pipeline complet fonctionne :
+
+```bash
+# 1. Lancer un tick CEO en force pour générer un draft email
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  "https://deviens-marrant.fr/api/cron/ceo-tick?force=true"
+
+# 2. Vérifier dans la DB que le footer est présent dans le content
+psql $DATABASE_URL -c "SELECT content FROM \"CeoOutboundMessage\" ORDER BY \"createdAt\" DESC LIMIT 1;" | grep "CEO_FOOTER_V1"
+
+# 3. Tester le lien unsubscribe (récupérer un token signé du draft)
+# Le token est dans le HTML : <a href=".../api/unsubscribe?token=XXX">
+curl -i "https://deviens-marrant.fr/api/unsubscribe?token=<token>"
+# Attendu : 200 + page HTML "Désinscription confirmée"
+```
+
+### 5. Vérifier conformité Audit @legal s9 (BLOQUANT pré-S3)
+
+- [ ] `enforceEmailFooter()` appelé dans `composeOutboundMessage()` AVANT `dualPassValidate()` (déjà câblé Phase 5.B)
+- [ ] Footer contient adresse postale identifiable (`ADRESSE_POSTALE` configuré)
+- [ ] Lien désinscription token signé HMAC valide
+- [ ] Mention "Tu reçois cet email parce que tu t'es inscrit·e..." (CPCE L34-5)
+- [ ] User.emailOptOut respecté dans `handleOutboundEmail` (skip envoi si true)
+- [ ] CeoLead.optOut + status OPT_OUT respectés
+
+### 6. HORS périmètre Phase 5.B (gardé pour 5.B.2 / 5.C / 5.D)
+
+À faire en Phase 5.B.2 :
+- [ ] Twitter v2 DM API (auth OAuth + send DM + Resend Inbound webhook)
+- [ ] Instagram Graph API (drafts permanents)
+- [ ] Suppression `haro-agent.ts` (migration des 96 topics + ALEX_BIO + templates → module backlinks CEO)
+- [ ] Remplacement scraping Connectively/SourceBottle par RSS/Zapier (recommandation @legal)
+- [ ] Lead scoring auto (signaux Umami + DB `User.streak`/`JokeLike`)
+
+À faire en Phase 5.C :
+- [ ] Dashboard React `/admin/ceo` (8 composants — cf docs/analytics/ceo-kpis-dashboard.md)
+- [ ] UI contest message (bouton "Contester" sur chaque draft)
+- [ ] UI kill-switch toggle
+
+À faire en Phase 5.D :
+- [ ] Tests Jest exhaustifs (cible 90% coverage `ceo-agent.ts`, `ceo-helpers.ts`, `ceo-email-footer.ts`)
+- [ ] Tests E2E pipeline complet (draft → validation → footer → send → unsubscribe)
+
+### 7. Pre-commit check (BLOQUANT — Règle n°6 CLAUDE.md)
+
+Sur Replit avant tout commit :
+
+```bash
+cd apps/web
+npx tsc --noEmit && npx next lint && npm run build
+```
+
+Si une commande échoue → corriger AVANT de commiter. Phase 5.B introduit 4 nouveaux fichiers + 3 modifs (ceo-agent.ts, ceo-helpers.ts, standup-director-agent.ts) — toute erreur TypeScript doit être traitée.
+
+### Checklist Phase 5.B — done quand :
+
+- [ ] 4 nouveaux Secrets Replit configurés (`UNSUBSCRIBE_HMAC_SECRET`, `ADRESSE_POSTALE`, `CEO_ADMIN_EMAIL`, `NEXT_PUBLIC_BASE_URL`)
+- [ ] 2 crons configurés sur Replit Scheduled Deployments (ceo-tick, ceo-kpis-snapshot)
+- [ ] `npx prisma migrate deploy` re-exécuté (rien de nouveau Phase 5.B mais idempotent OK)
+- [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS
+- [ ] Test manuel `?force=true` sur les 2 crons → réponses JSON success
+- [ ] Test manuel `/api/unsubscribe?token=...` → page HTML "Désinscription confirmée"
+- [ ] Test manuel `POST /api/ceo/contest` → 200 + audit log inséré
+- [ ] Vérifier en DB qu'un draft email contient bien le marker `CEO_FOOTER_V1`
