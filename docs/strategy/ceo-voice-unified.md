@@ -1,38 +1,34 @@
-# Voix CEO Marrant — Source de vérité unifiée
+# Voix CEO unifiée — Marrant / deviens-marrant.fr
 
-> Document fondateur. Produit après rejet du ceo-positioning.md v1 (audit Thomas, mai 2026).
-> Source : brand-voice.md + social-reform-s7.md + blog-articles.ts + ceo-canonical-examples.md.
-> Destinataire immédiat : @copywriter (15 exemples canoniques CEO).
-
----
-
-## 1. Qui est Marrant (la marque, pas les cibles)
-
-Marrant est un éditeur de stand-up, pas un coach. Pas une appli de développement personnel. Pas une équipe RH qui veut améliorer tes soft skills.
-
-Ce qu'on fait : on rassemble, on trie, on formule. Les meilleures vannes du stand-up français, les techniques qui expliquent pourquoi elles fonctionnent, les exercices pour les muscler — dans un format qui se consulte comme on ouvre YouTube, pas comme on s'inscrit à un cours du soir.
-
-La marque a un point de vue : l'humour est une compétence cognitive observable, démontable, entraînable. Ce n'est pas une opinion — c'est ce que la science et les pros prouvent. Mais on l'incarne plutôt qu'on l'argumente.
-
-La posture : un pote naturellement drôle qui te fait goûter, pas qui te convainc. Il ne vend pas l'idée de devenir drôle. Il te montre une vanne, et tu as envie de la ressortir ce soir. C'est ça, le produit.
-
-Ce qu'on n'a pas encore dit assez : Marrant n'est pas là pour divertir. On est là pour changer le regard que quelqu'un pose sur lui-même en société. C'est plus ambitieux, et c'est exactement pour ça qu'on le dit sans le crier.
+> Source de vérité pour @copywriter. Version fondée sur l'existant : brand-voice.md + doctrine s7 + joke-agent brief.
+> Produit après rejet des 5 emails canoniques Phase 1. Motifs : trying too hard, sur-segmentation persona, manque de raison de lire.
+> Dernière mise à jour : 2026-05-06
 
 ---
 
-## 2. Ce que Marrant veut inspirer
+## 1. Qui est Marrant (la marque, pas les personas)
 
-Au-delà de faire rire — ce que Marrant veut activer chez le lecteur :
+Marrant est un éditeur stand-up en ligne. Pas une appli de bien-être. Pas un coach. Pas une communauté. Un éditeur — comme Inrocks couvrait la musique, Marrant couvre l'humour, avec un catalogue, un regard éditorial, et l'ambition d'être la référence francophone du genre.
 
-**L'audace sociale.** Sortir une vanne là où tu te serais tu. Pas pour être "le comique de service", mais parce que tu sais que t'as quelque chose de bon, et que tu décides de le placer.
+La marque parle depuis la posture d'un auteur stand-up qui a fait ses recherches. Quelqu'un qui a regardé Fary au Bataclan, qui cite Frayssinet parce qu'il le connaît, pas pour impressionner. Quelqu'un qui sait que l'humour est une compétence qui s'entraîne — et qui a construit la plateforme pour prouver cette conviction.
 
-**Le regard décalé.** Après 6 mois sur Marrant, tu ne regardes plus un silence gêné en réunion comme un problème — tu le vois comme une opportunité. Tu remarques ce que les autres ignorent. C'est ça, le muscle qu'on entraîne.
+Ce que Marrant n'est pas : un accélérateur de charisme, un outil LinkedIn, une box de blagues. C'est un endroit où on s'entraîne à voir le monde de façon légèrement de travers — et à le dire à voix haute.
 
-**L'autonomie comique.** Le moment où tu n'as plus besoin de chercher la vanne — tu la fabriquer. Tu as intégré le mécanisme (observation → pivot → timing), pas juste mémorisé le résultat.
+La voix de Marrant est stable. Elle ne change pas selon le destinataire. Elle s'adapte en densité (plus court en DM, plus posé en email) mais jamais en nature. Un lecteur qui reçoit un email, voit un tweet, et lit un article doit entendre la même voix.
 
-Les humoristes que Marrant cite — Mirabel, Fary, Frayssinet, Gardin, Pascot, Reg — sont nos boussoles culturelles, pas nos cautions marketing. On les cite parce qu'ils incarnent des techniques précises : Frayssinet observe avec chirurgie, Gardin calibre ses silences, Mirabel construit ses setups comme des pièges. On s'en sert pour montrer quelque chose, jamais pour faire malin.
+---
 
-La promesse profonde : dans 6 mois, tu n'es pas "devenu drôle". Tu oses plus. Tu remarques plus. Tu as moins peur du silence après ta réplique. C'est discret, c'est concret, et c'est plus utile que n'importe quel cours de théâtre d'impro à 350€ le trimestre.
+## 2. Ce que Marrant veut INSPIRER
+
+Au-delà de faire rire : Marrant veut activer quelque chose de précis chez le lecteur.
+
+**La légèreté comme posture active.** Pas la désinvolture, pas le cynisme — la capacité à regarder une situation tendue et à trouver l'angle qui la dégonfle. C'est ça que Fary ou Blanche Gardin incarnent : ils ne fuient pas le malaise, ils le nomment. Marrant veut donner cet outil.
+
+**L'audace sociale.** Le lecteur qui consomme Marrant pendant 6 mois ne rit pas plus qu'avant. Il ose plus. Il sort la vanne qu'il gardait dans sa tête. Il répond à la pique de son chef. Il tient la conversation à la machine à café sans chercher ses mots. C'est la promesse profonde : moins d'hésitation sociale, pas plus de blagues connues par coeur.
+
+**Un regard décalé comme réflexe.** Pascot, Mirabel, Gardin ne cherchent pas le calembour — ils cherchent l'observation juste. Marrant entraîne cette façon de regarder. Pas "apprendre des blagues" — développer un filtre sur le monde. Ce filtre, une fois installé, ne disparaît pas.
+
+Ces humoristes ne sont pas des arguments d'autorité dans nos communications. Ce sont nos sources — on les cite quand c'est utile pour illustrer une technique réelle, jamais pour faire malin.
 
 ---
 
@@ -40,189 +36,165 @@ La promesse profonde : dans 6 mois, tu n'es pas "devenu drôle". Tu oses plus. T
 
 ### Registre
 
-Tutoiement systématique, sans exception. Oral soigné : phrases courtes, mais pas hachées. Pas d'argot ("c'est ouf" n'est jamais Marrant). Pas de langue formelle ("nous vous invitons à"). Le milieu, celui du pote qui a bien été élevé mais qui dit ce qu'il pense.
+Tutoiement systématique, toujours. Oral mais soigné : ni argot, ni langue formelle. Phrases courtes qui ne se précipitent pas. Une pensée = une phrase. Pas de virgules enchaînées pour paraître dense.
 
-### Tonalité fondamentale : observation > prescription
+### Tonalité fondamentale
 
-Ce qu'on fait : on constate, on pointe, on laisse le lecteur en tirer la conclusion.
-Ce qu'on ne fait pas : on n'intime pas, on ne prescrit pas, on n'injecte pas de leçon en fin de message.
+**Observation > prescription.** La marque regarde le monde et le dit. Elle ne donne pas de leçons. La différence :
 
-"T'as remarqué que les gens disent 'j'adore ton humour' mais ne se souviennent jamais de la vanne exacte." → Observation. Marrant.
-"Pour être drôle, tu dois d'abord observer ton environnement." → Prescription. Pas Marrant.
+- "Voilà 3 techniques pour être drôle en réunion" → prescription, à éviter
+- "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57 et tu sais déjà que t'as raté ton train." → observation, c'est Marrant
 
-L'humour vient de la justesse de l'observation, pas du calembour. Une phrase qui décrit exactement ce que tout le monde a vécu mais que personne n'avait formulé — c'est ça, une vanne Marrant.
+L'humour vient de l'observation juste, pas du calembour. Quand la marque fait rire, c'est parce qu'elle a nommé quelque chose que tout le monde ressent et que personne n'avait encore dit comme ça.
 
-### Structure type d'un message Marrant
+**Sobriété > saturation.** 1 trait drôle bien placé vaut 3 punchlines empilées. Quand tout est punchline, plus rien ne l'est. La voix Marrant sait s'arrêter.
 
-```
-Observation (1-2 phrases) — on pose le décor avec précision
-Pivot (1 phrase) — léger virage inattendu, pas une explosion
-Ouverture (1 phrase) — lien ou invitation, jamais pression
-```
+**Structure type d'un message Marrant :**
+1. Observation courte (1-2 phrases) — quelque chose de reconnaissable
+2. Twist court (1 phrase) — l'angle inattendu
+3. Ouverture/lien optionnel (1 phrase) — jamais forcé
 
-Pas de chute obligatoire à chaque ligne. Un message peut être drôle sans punchline explicite si l'observation est juste. La sobriété est un choix stylistique, pas un échec.
+Ce n'est pas une formule à appliquer mécaniquement. C'est une respiration : observation → surprise → espace.
 
-### Vocabulaire prescrit (extrait réel du brand-voice + posts validés)
+### Vocabulaire prescrit
 
-- "vanne" — jamais "blague" dans un contexte non-SEO
-- "sortir une vanne" — jamais "raconter une blague"
-- "avoir de la répartie" — jamais "être éloquent"
-- "progresser" — jamais "apprendre" ou "se former"
-- "en soirée", "à la machine à café" — les situations concrètes
-- "technique" — jamais "méthode" ou "protocole"
-- "parcours" — jamais "cours", "formation", "programme"
-- "étape" — jamais "module"
-- "se planter" — accepté, valorisé (les pros se plantent, c'est ça la R&D)
-- "De rien." (post une vanne citée) — signature Marrant validée
+| On dit | On ne dit pas |
+|---|---|
+| "vanne" | "blague" (sauf titre SEO) |
+| "progresser" | "apprendre" |
+| "parcours" | "formation", "programme" |
+| "sortir une vanne" | "raconter une blague" |
+| "avoir de la répartie" | "être éloquent" |
+| "en soirée", "à la machine à café" | "dans un contexte social" |
+| "technique" | "méthode" |
+| "étape" | "module" |
+| "s'entraîner" | "se former" |
+| "tac au tac" | "sur le vif" (trop journalistique) |
 
 ### Vocabulaire banni
 
-- "optimiser", "scaler", "leverager", "synergie", "growth mindset"
-- "coach", "mentor", "expert en", "spécialiste de"
-- "contenu", "newsletter" (dans les emails), "nos abonnés"
-- "on te voit", "t'as loupé", "tu mérites"
-- "formation", "cours", "module", "élève"
-- "rejoins la communauté", "notre équipe", "chez nous"
-- Tout ce qui commence par "Voici comment" ou "3 raisons pour"
-
-### Densité humour
-
-1 trait drôle bien placé vaut mieux que 3 punchlines saturées. Quand tout est punchline, plus rien ne l'est. La règle : si tu peux supprimer une chute et que le message tient, supprime-la. Garde-la seulement si son absence crée un vide.
+growth mindset · scaler · optimiser · leverage · synergies · actionnable · onboarder · parcours de transformation · développer son potentiel · sortir de sa zone de confort · booster sa confiance · être plus authentique · valeur ajoutée · impact · challenger ses habitudes
 
 ---
 
 ## 4. Extension au format CEO autonome
 
-### Le CEO n'est pas un nouveau personnage
+### La règle de base
 
-La voix CEO est Marrant qui s'adresse en direct — par email, DM, pitch. Même observation, même sobriété, même posture morale. Il ne porte pas un masque "fondateur" différent de la marque. S'il y a une tension entre ce qu'il écrit et ce que le site incarne, c'est la marque qui a raison.
+Le CEO n'est pas un nouveau personnage. C'est Marrant qui signe — même voix, même posture, même regard. Quand le fondateur envoie un email ou un DM, il n'incarne pas "une personnalité de marque distincte". Il incarne Marrant directement.
 
-La signature peut être "L'équipe Deviens Marrant" — mais la voix reste la même. [HYPOTHÈSE : en email, la signature "Alex" est prescrite par brand-voice.md. Si plusieurs membres d'équipe signent, convenir d'une convention unique et la documenter ici.]
+Conséquence : aucun email CEO ne doit sonner comme il a été briefé sur des personas. Il doit sonner comme quelqu'un qui a réfléchi à ce qu'il voulait dire, puis l'a dit.
 
-### Adaptations minimales par canal
+### Adaptations par canal (minimes)
 
-**Email** : un poil plus posé (lecture asynchrone, pas de scroll frénétique). Une observation, une action, un lien. Pas de "PS :", pas de post-scriptum ironique qui cherche la dernière chute — elle vient rarement bien là.
-
-**DM social** : encore plus court. Une phrase d'observation, une phrase d'invitation. Le DM n'est pas un email condensé.
-
-**Pitch presse / backlinks** : moins de vannes citées (pas zéro — une suffit si elle illustre quelque chose). Plus de spécifique : chiffres concrets du catalogue, étapes du parcours, un fait sur la pédagogie stand-up. La crédibilité vient du détail, pas de la promesse.
+- **Email** : un peu plus posé — lecture asynchrone, pas de pression de scroll. L'observation peut être légèrement plus longue. Le ton reste décontracté, jamais formel.
+- **DM social** : plus court, plus direct. 2-3 phrases maximum. La compression renforce l'impact.
+- **Pitch presse / backlink** : moins de vannes citées (pas zéro), mais l'humour peut surgir dans l'angle de la demande elle-même. Le journaliste doit avoir envie de lire la suite.
 
 ### Ce que le CEO ne fait pas
 
-Il ne vend pas Marrant en argumentant la valeur. À 0,99€/mois, argumenter est inutile et suspect. Il **incarne** Marrant : la conversion vient de l'envie de lire la suite, pas d'un CTA pressant.
+Il ne **vend pas** en argumentant la valeur (à 0,99€/mois, l'argumentation est absurde — le prix ne crée pas d'objection). Il **incarne** la voix. L'envie de s'abonner vient de l'envie de lire la suite.
 
-Il ne flatte pas le destinataire. "On te voit" sonne Big Brother. "T'as touché la limite" sonne système de surveillance. Une observation impartiale suffit : "Une semaine. Voilà ce qui s'est passé." Le lecteur reconnaît sa propre situation — ça, c'est de la proximité vraie.
+Il ne **flatte pas** le destinataire. Il fait observation impartiale : "Une semaine. Voilà ce qui s'est passé." — pas de surveillance, pas de complicité fabriquée.
 
-Il ne se mire pas dans son humour. Citer Frayssinet pour dire qu'on lui ressemble — c'est du name-dropping. Citer Frayssinet pour illustrer une technique d'observation précise — c'est pertinent. La différence : le premier sert le CEO, le second sert le lecteur.
+Il ne **cite pas** les humoristes pour faire malin. La citation utile : "Le timing, c'est la technique la moins enseignée et la plus décisive — on la retrouve dans les sets de Fary." Utilité > signal social.
 
----
+Il ne **construit pas de chutes à chaque ligne**. Un email qui enchaîne setup-punchline-setup-punchline ressemble à un exercice de style, pas à un message. La densité d'humour cible : 1 trait bien senti sur 4-5 phrases.
 
-## 5. Les 5 anti-patterns — verbatim et réécriture
+### Arbitrage tension s7 / voix CEO
 
-### Anti-pattern 1 — Surveillance déguisée en complicité
-
-**Verbatim banni** (email fan engagement, exemple 5) :
-> "T'as liké 5 vannes cette semaine et t'as pas raté un jour depuis 3 jours. On te voit."
-
-**Pourquoi ça rate** : "On te voit" transforme la marque en système de surveillance bienveillant. Le lecteur sent la mécanique comportementale — il ne se sent pas reconnu, il se sent profilé.
-
-**Réécriture** :
-> "Cinq vannes likées cette semaine. Si l'une d'elles a servi — en soirée, au bureau, en réponse — c'est là que ça compte."
+[HYPOTHÈSE] La doctrine s7 dit "le compte est une marque, anti-1ère-personne" — mais le CEO peut signer "Alex". Ces deux postures coexistent si on respecte cette règle : la 1ère personne est autorisée dans les formats CEO (email, DM signé) quand elle sert une observation sur le lecteur ou la marque, jamais pour raconter la vie personnelle de l'émetteur. "J'ai regardé les vannes que t'as likées" → OK (observation sur le lecteur). "J'ai vu Fary en concert hier" → NON (vie personnelle du compte, invalide s7).
 
 ---
+
+## 5. Les 5 anti-patterns — verbatim des emails rejetés
+
+### Anti-pattern 1 — Surveillance (Big Brother)
+
+**Verbatim banni** : "T'as liké 5 vannes cette semaine et t'as pas raté un jour depuis 3 jours. **On te voit.**"
+
+**Problème** : la marque signale qu'elle surveille le comportement et le formule comme une récompense. Le lecteur se sent pisté, pas reconnu.
+
+**Réécriture** : "5 vannes likées, 3 jours d'affilée. La vanne du jour est déjà là — t'arrives à temps." — le fait reste, la surveillance disparaît.
 
 ### Anti-pattern 2 — Name-dropping pour faire malin
 
-**Verbatim banni** (email welcome, exemple 1) :
-> "Roman Frayssinet attendrait 12 secondes avant de la sortir."
+**Verbatim banni** : "Roman Frayssinet attendrait 12 secondes avant de la sortir."
 
-**Pourquoi ça rate** : on entre dans la vie d'un humoriste pour légitimer la marque. Si Frayssinet lit ça, il n'a pas dit ça. Et si le lecteur ne connaît pas Frayssinet, c'est de l'opacité. On essaie de prouver qu'on est pote du milieu.
+**Problème** : on cite un humoriste non pour apprendre quelque chose, mais pour signaler qu'on est dans le milieu. Ça se voit. Ça sonne creux.
 
-**Réécriture** :
-> "La bonne vanne, c'est 80% de timing. La vanne du jour est là. Le 'quand la sortir' — c'est toi qui décides."
-
----
+**Réécriture** : ne pas citer du tout, ou citer pour illustrer une technique — "Le silence avant la punchline. 12 secondes. C'est la technique la plus décisive et la moins enseignée."
 
 ### Anti-pattern 3 — FOMO formule marketing
 
-**Verbatim banni** (email dropoff J+7, exemple 2) :
-> "T'as loupé une vanne parfaite."
+**Verbatim banni** : "T'as loupé une vanne parfaite." (subject line email Dropoff J+7)
 
-**Pourquoi ça rate** : structure identique à "Tu as manqué une offre exceptionnelle" de n'importe quelle relance e-commerce. Ça sonne Mailchimp, pas Marrant.
+**Problème** : c'est le subject line de 80% des relances e-commerce. Le lecteur reconnaît le pattern avant d'avoir fini de lire.
 
-**Réécriture** :
-> "Ça fait une semaine. La vanne de mardi est encore là si tu veux — celle sur la répartie en soirée."
-
----
+**Réécriture** : "La vanne de mardi était exactement celle qu'il fallait pour répondre tac au tac en soirée. Elle est encore là." — on décrit, on ne presse pas.
 
 ### Anti-pattern 4 — Calcul comportemental visible
 
-**Verbatim banni** (email winback, exemple 4) :
-> "Depuis que t'es parti, il y a eu 7 nouvelles vannes qui font mouche — dont une sur les réunions de famille que t'aurais gardée dans ta poche."
+**Verbatim banni** : "il y a eu 7 nouvelles vannes qui font mouche — dont une sur les réunions de famille que t'aurais gardée dans ta poche."
 
-**Pourquoi ça rate** : "dont une sur les réunions de famille" révèle la segmentation persona. Le lecteur sent qu'on a calculé sa catégorie (Marc = réunions de famille) et qu'on lui sert du contenu taillé pour lui faire revenir. L'intention est bonne, l'exécution est mécanique.
+**Problème** : "réunions de famille" révèle la mécanique de segmentation persona. Le lecteur sent la machine, même si l'observation est juste.
 
-**Réécriture** :
-> "Ça fait deux semaines. 7 nouvelles vannes depuis — dont une que t'aurais gardée pour ce week-end. Elle est encore là."
-
----
+**Réécriture** : "Depuis que t'es parti, une dizaine de vannes sont passées. Si tu veux savoir lesquelles tiennent à l'oral, elles sont là." — honnête, pas de ciblage visible.
 
 ### Anti-pattern 5 — Saturation de chutes
 
-**Verbatim banni** (email conversion J+14, exemple 3) :
-> "L'hésitation coûte plus cher que l'abonnement."
+**Verbatim banni** (pattern) : "T'as vu la limite — c'est le signe que t'es venue plus souvent qu'une fois. [...] L'hésitation coûte plus cher que l'abonnement."
 
-**Pourquoi ça rate** : en isolation, cette phrase est bonne. Le problème : cet email a déjà une observation d'ouverture qui joue sur la limite touchée, une ligne sur les vannes likées, et un ancrage prix. Finir par une punchline sur "l'hésitation" c'est la quatrième chute d'un email de 5 lignes. Quand tout pique, rien ne pique.
+**Problème** : deux punchlines dans 4 lignes. La deuxième annule la première. Le lecteur entre en mode "encore une formule" et les deux tombent à plat.
 
-**Réécriture** : supprimer la dernière phrase. Terminer sur le lien. La sobriété est la punchline.
-
----
-
-## 6. Trois phrases-pivot Marrant
-
-Ces trois phrases incarnent la voix. Avant de livrer un texte, la question est : "Mes phrases ressemblent-elles à ça ?"
-
-<!-- Source 1 : social-reform-s7.md, LinkedIn Exemple 1 — validé 20/20 par Thomas -->
-**"Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train."**
-
-<!-- Source 2 : blog-articles.ts, comment-devenir-drole — voix éditoriale validée -->
-**"Derrière chaque 'naturel', il y a un disque dur plein de vannes ratées. C'est rassurant, non ?"**
-
-<!-- Source 3 : social-reform-s7.md, Twitter Exemple 2 — validé 20/20 par Thomas -->
-**"Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' De rien."**
-
-Ce que ces trois phrases ont en commun : observation précise, pivot discret, zéro effort visible. C'est le style Marrant.
+**Réécriture** : choisir une seule punchline par email, la placer en fermeture. Le corps reste factuel et sobre — la chute arrive comme une vraie chute.
 
 ---
 
-## Handoff → @copywriter
+## 6. Les 3 phrases-pivot Marrant
 
-**Fichiers produits** :
-- `/home/user/Marrant/docs/strategy/ceo-voice-unified.md` (ce document)
+Ces phrases sont extraites de l'existant du projet. Quand un copywriter doute, il se demande : "Mon texte ressemble-t-il à ça ?"
 
-**Mission immédiate** :
-Produire les 15 exemples canoniques CEO — 5 emails + 5 DMs sociaux + 5 pitchs backlinks — en appliquant ce document comme seule référence de voix. Ne pas relire ceo-positioning.md v1.
+> **Phrase 1** : "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train."
+<!-- Source : docs/social/social-reform-s7.md — LinkedIn Exemple 1, validé 20/20 Thomas -->
 
-**Comment appliquer concrètement cette voix** :
+> **Phrase 2** : "Personne te le dit, mais après 8 ans de couple, t'as oublié comment les gens parlent. Tu demandes 'tu aimes quoi dans la vie'. Ça dit 'voyager'. Tu hoches la tête comme si t'avais compris."
+<!-- Source : docs/social/social-reform-s7.md — Twitter Exemple 3 Marc, validé 20/20 Thomas -->
 
-1. Chaque texte commence par une **observation**, jamais par une promesse ou un CTA.
-2. La **structure type** (section 3) s'applique email et DM. Pour le pitch presse : observation + fait concret + invitation, sans chute obligatoire.
-3. Vérifier chaque phrase contre les **5 anti-patterns** (section 5). Si une phrase ressemble à l'un des verbatims bannis, la réécrire ou la supprimer.
-4. Utiliser les **3 phrases-pivot** (section 6) comme étalon de ton. Pas de copie — d'inspiration de structure.
-5. **Densité** : max 1 trait drôle par message email, 1 twist par DM. Sur les 5 emails, les 5 DMs, les 5 pitchs : 15 textes, 15 moments drôles — pas 45.
+> **Phrase 3** : "La répartie se rouille vite. Les vannes, moins."
+<!-- Source : docs/copy/ceo-canonical-examples.md — clôture email Dropoff J+7 — seule ligne des 5 emails Phase 1 non flaggée "trying too hard" par Thomas -->
 
-**Tension signalée — voix s7 vs voix CEO** :
-
-La doctrine s7 pose "le compte = marque, jamais de 1ère personne". Les emails CEO peuvent signer "Alex" (prescrit par brand-voice.md section Email). Arbitrage retenu : le corps de l'email respecte la posture observateur (pas de "je" qui se raconte), mais la signature "Alex" est acceptable comme point de contact humain — elle n'implique pas une vie personnelle du compte. Le DM social reste lui 100% anti-1ère personne (G-S19 s'applique). En pitch presse, "Alex, fondateur de Deviens-marrant.fr" est valide en signature et bio — pas dans le corps du pitch.
-
-**Points d'attention** :
-- Ne jamais mentionner Yanis, Sophie, Marc dans le contenu livré
-- Sur les pitchs presse : 0 citation d'humoriste pour "faire autorité", 1 citation maximum si elle illustre une technique précise
-- La signature email reste "Alex" (brand-voice.md) — pas "L'équipe Deviens Marrant"
+**Ce que ces 3 phrases ont en commun :** observation concrète, pas de jeu de mots, punchline plus courte que le setup, on voit la situation sans qu'on nous l'explique. Zéro humoriste cité. Zéro injonction.
 
 ---
 
-*Critères de done vérifiés :*
-*□ Zéro mention Yanis / Sophie / Marc dans le document (section 5 cite les emails source sans les nommer dans la voix)*
-*□ Section 6 — 3 phrases-pivot avec source citée en commentaire HTML*
-*□ Section 5 — verbatim anti-patterns issus des 5 emails rejetés par Thomas*
+## Handoff @copywriter
+
+**Fichiers à lire avant de produire** : ce document + `docs/copy/brand-voice.md` (vocabulaire) + `docs/social/social-reform-s7.md` section 4 (9 posts canoniques validés par Thomas).
+
+**Mission prochaine étape** : produire 15 exemples canoniques CEO — réécriture de zéro, pas d'édition des versions rejetées.
+
+| Format | Volume | Instructions clés |
+|---|---|---|
+| Emails | 5 | 1 obs + 1 CTA sans pression + 1 punchline max en fermeture. Sujet < 50 chars. Signature "Alex". |
+| DMs sociaux | 5 | 2-3 phrases. Anti-1ère-personne sauf observation sur le lecteur. |
+| Pitchs backlinks | 5 | Ton factuel. Humour dans l'angle de la demande, pas dans des vannes citées. |
+
+**Anti-patterns à appliquer comme liste de rejet** : si l'une des formulations de la section 5 apparaît dans un draft, recommencer la phrase. Pas d'édition chirurgicale — si le ton est faux, il est faux dans toute la phrase.
+
+**Contrainte aucun-persona-visible** : la mécanique de segmentation ne doit pas se voir. On décrit des situations, pas des profils.
+
+---
+
+**Fichiers produits** : `/home/user/Marrant/docs/strategy/ceo-voice-unified.md`
+
+**Décisions prises** :
+- La voix CEO est une extension directe de la voix Marrant, pas un personnage distinct
+- [HYPOTHÈSE] Arbitrage s7 / voix CEO : 1ère personne autorisée dans formats signés si elle sert une observation sur le lecteur ou la marque, jamais pour raconter la vie de l'émetteur
+- La phrase-pivot 3 est la seule ligne des 5 emails Phase 1 conservée — elle sert d'ancrage
+- Name-dropping d'humoristes : interdit à visée "signal social", autorisé pour illustrer une technique réelle
+
+**Points d'attention pour @copywriter** :
+- Les 5 emails Phase 1 sont à réécrire de zéro — Thomas a rejeté l'ensemble, pas les détails
+- "On te voit" ne doit jamais revenir sous aucune forme
+- Niveau de densité humour cible : 1 trait bien senti par email, pas par phrase
