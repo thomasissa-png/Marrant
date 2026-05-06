@@ -51,6 +51,14 @@ import {
 import { validateCeoOutbound } from "./standup-director-agent";
 import { enforceEmailFooter } from "@/lib/email/ceo-email-footer";
 import { Resend } from "resend";
+import {
+  CEO_BACKLINK_TOPICS,
+  CEO_TEAM_BIO,
+  CEO_BACKLINK_TEMPLATES,
+  scoreBacklinkRelevance,
+  type BacklinkSource,
+} from "../ceo-backlinks";
+import { sendTwitterDmByHandle } from "@/lib/twitter/twitter-client";
 
 // ─── Modèles + constantes ─────────────────────────────────────────────
 
@@ -410,11 +418,12 @@ export async function dualPassValidate(
   };
 }
 
-// ─── 5. Rédaction pitch backlink (migration haro-agent — Phase 5.B) ────
+// ─── 5. Rédaction pitch backlink (Phase 5.B / 5.B.2) ──────────────────
 
 /**
- * TODO Phase 5.B : migrer haro-agent.ts (96 topics + ALEX_BIO + templates) ici.
- * Pour l'instant : signature + corps minimum qui produit un draft basique.
+ * Pitch backlink "opportunity-driven" — accepte une `BacklinkOpportunity`
+ * complète (objet structuré). Pour la version "topic-driven" (topic + source),
+ * voir `pitchToBacklinkOpportunity()` (Phase 5.B.2 — remplace haro-agent).
  */
 export async function draftBacklinkPitch(
   opportunity: BacklinkOpportunity,
@@ -470,6 +479,142 @@ Output JSON strict.`;
   });
 
   return created;
+}
+
+// ─── 5.bis Pitch backlink "topic-driven" (Phase 5.B.2) ────────────────
+
+/**
+ * Pitch backlink à partir d'un topic + source (HARO/CONNECTIVELY/SOURCEBOTTLE/RSS_FEED).
+ * Remplace l'ancien `haro-agent.ts` (supprimé Phase 5.B.2).
+ *
+ * Flow :
+ *  1. Vérifie pertinence topic (filtre CEO_BACKLINK_TOPICS)
+ *  2. Compose pitch via Sonnet 4.6 + cache (system + injection topics + template)
+ *  3. Footer email RGPD via enforceEmailFooter
+ *  4. Validation Director (channel=BACKLINK_EMAIL)
+ *  5. Insert CeoBacklink status=PITCHED + requiresHumanReview=true
+ *  6. Audit log
+ */
+export async function pitchToBacklinkOpportunity(
+  topic: string,
+  source: BacklinkSource,
+  opts?: { domain?: string; outlet?: string; journalistName?: string; deadline?: string },
+): Promise<{ messageId: string; backlinkId: string; verdict: string; score: number }> {
+  // 1. Pertinence
+  const relevance = scoreBacklinkRelevance({ query: topic });
+  if (relevance < 4) {
+    throw new Error(`Topic peu pertinent (score ${relevance}/10) : ${topic.slice(0, 80)}`);
+  }
+
+  const template = CEO_BACKLINK_TEMPLATES[source];
+  const domain = opts?.domain ?? "external-source.example";
+
+  // 2. Compose via Sonnet + cache
+  const userPrompt = `Pitch backlink — source ${source}.
+Sujet/question : ${topic}
+${opts?.outlet ? `Média : ${opts.outlet}` : ""}
+${opts?.journalistName ? `Contact : ${opts.journalistName}` : ""}
+${opts?.deadline ? `Deadline : ${opts.deadline}` : ""}
+
+Contraintes verbatim :
+- Ton : ${template.tone}
+- Max ${template.maxWords} mots
+- Structure : ${template.structure}
+- Mots BANNIS : ${template.bannedWords.join(", ")}
+- Bio fixe (à inclure en signature) : "${CEO_TEAM_BIO}"
+
+Topics pertinents Marrant (pour caler l'angle technique) : ${CEO_BACKLINK_TOPICS.slice(0, 30).join(", ")}…
+
+Exemple verbatim de pitch source ${source} (à NE PAS recopier — calibration de voix uniquement) :
+---
+${template.example}
+---
+
+Génère subject + body. Body inclut la bio en signature. Output JSON strict.`;
+
+  const response = await callWithRetry(
+    {
+      model: SONNET_MODEL,
+      max_tokens: 700,
+      system: [CEO_SYSTEM_CACHED_BLOCK],
+      messages: [{ role: "user", content: userPrompt }],
+    },
+    2,
+    { agent: "ceo", fn: "pitchToBacklinkOpportunity" },
+  );
+
+  const text = getResponseText(response);
+  const parsed = draftSchema.parse(extractJson<unknown>(text));
+
+  // 3. Footer email (audit @legal s9 — backlinks aussi)
+  const recipientForFooter = opts?.journalistName
+    ? `${opts.journalistName.toLowerCase().replace(/\s+/g, ".")}@${domain}`
+    : `contact@${domain}`;
+  const finalBody = enforceEmailFooter(parsed.body, recipientForFooter);
+
+  // 4. Persistance + validation Director
+  const message = await prisma.ceoOutboundMessage.create({
+    data: {
+      channel: "BACKLINK_EMAIL",
+      direction: "OUTBOUND",
+      recipient: domain,
+      subject: parsed.subject || `Sujet ${topic.slice(0, 40)}`,
+      content: finalBody,
+      status: "PENDING",
+      playbook: `backlink_${source.toLowerCase()}`,
+      utmSource: "ceo",
+      utmCampaign: `backlink_${source.toLowerCase()}`,
+      utmMedium: "email",
+      requiresHumanReview: true, // Phase 5.B : backlinks toujours en review
+    },
+  });
+
+  const validation = await dualPassValidate(message.id);
+
+  // 5. Insert CeoBacklink (map BacklinkSource → CeoBacklinkSource enum DB)
+  // Phase 5.B.2 : enum DB n'a que HARO/BLOGGER/PODCAST/DIRECTORY/EXCHANGE/ORGANIC
+  // → on mappe CONNECTIVELY/SOURCEBOTTLE/RSS_FEED vers HARO (presse-like) ou BLOGGER.
+  // Migration enum DB pour ajouter ces valeurs reportée à Phase 5.B.3 (non bloquant).
+  const dbSource: "HARO" | "BLOGGER" | "PODCAST" | "DIRECTORY" | "EXCHANGE" | "ORGANIC" =
+    source === "HARO" || source === "CONNECTIVELY" || source === "SOURCEBOTTLE"
+      ? "HARO"
+      : source === "RSS_FEED" || source === "BLOGGER"
+        ? "BLOGGER"
+        : source === "PODCAST"
+          ? "PODCAST"
+          : source === "DIRECTORY"
+            ? "DIRECTORY"
+            : "EXCHANGE";
+
+  const backlink = await prisma.ceoBacklink.create({
+    data: {
+      source: dbSource,
+      domain,
+      url: null,
+      anchorText: null,
+      relevanceScore: Math.max(relevance, validation.score),
+      status: "PITCHED",
+      notes: `pitchToBacklinkOpportunity originalSource=${source} messageId=${message.id} topic=${topic.slice(0, 80)}`,
+    },
+  });
+
+  // 6. Audit
+  await recordAudit({
+    action: "backlink_pitched",
+    targetType: "blogger",
+    targetId: domain,
+    channel: "email",
+    aiDecisionScore: validation.score,
+    outcome: validation.approved ? "draft" : "rejected",
+    reasoning: `source=${source} topic_relevance=${relevance}`,
+  });
+
+  return {
+    messageId: message.id,
+    backlinkId: backlink.id,
+    verdict: validation.verdict,
+    score: validation.score,
+  };
 }
 
 // ─── 6. Boucle principale — runDailyTick ──────────────────────────────
@@ -788,11 +933,12 @@ async function routeCeoTask(
     case "DRAFT_BACKLINK_PITCH":
       return handleBacklinkPitch(task);
     case "DRAFT_DM_REPLY":
+      return handleOutboundDm(task);
     case "DRAFT_PROACTIVE_COMMENT":
-      // Phase 5.B.2 — APIs Twitter v2 / Resend Inbound / Instagram Graph
-      console.log(`[ceo-tick] Task ${task.id} type=${task.type} deferred to Phase 5.B.2`);
+      // Phase 5.B.3 — Twitter v2 comment endpoint + Instagram Graph
+      console.log(`[ceo-tick] Task ${task.id} type=${task.type} deferred to Phase 5.B.3`);
       return {
-        payload: { note: "Phase 5.B.2 pending — Twitter/Instagram/Resend Inbound APIs" },
+        payload: { note: "Phase 5.B.3 pending — proactive comment APIs" },
         deferred: true,
       };
     case "WEEKLY_REPORT":
@@ -1056,6 +1202,173 @@ async function handleKpiRefreshTask(
       northStar: snapshot.northStarEngagement30d,
     },
   };
+}
+
+// ─── Handler DRAFT_DM_REPLY (Phase 5.B.2 — Twitter v2 DM live) ────────
+
+interface OutboundDmPayload {
+  leadId?: string;
+  channel: "DM_TWITTER" | "DM_LINKEDIN" | "DM_INSTAGRAM";
+  recipientHandle: string; // ex: "@thomas" pour Twitter
+  playbook: PlaybookId;
+  leadContext?: string;
+}
+
+/**
+ * Handler DRAFT_DM_REPLY — génère le draft DM, valide Director, envoie selon canal.
+ *
+ * Routage par canal :
+ *  - DM_TWITTER   → Twitter v2 API (Phase 5.B.2 LIVE)
+ *  - DM_LINKEDIN  → requiresHumanReview=true permanent (drafts seuls — risque ban)
+ *  - DM_INSTAGRAM → DEFERRED Phase 5.B.3 (Instagram Graph drafts permanents)
+ */
+async function handleOutboundDm(
+  task: CeoTask,
+): Promise<{ payload: Record<string, unknown>; deferred?: boolean }> {
+  const payload = task.payload as unknown as OutboundDmPayload;
+  if (!payload.channel || !payload.recipientHandle || !payload.playbook) {
+    throw new Error("Payload DM incomplet (channel/recipientHandle/playbook requis)");
+  }
+
+  // Lead optionnel (les DM peuvent répondre à des inbound non encore "leads")
+  let lead: CeoLead | null = null;
+  if (payload.leadId) {
+    lead = await prisma.ceoLead.findUnique({ where: { id: payload.leadId } });
+  }
+  if (!lead) {
+    // Crée un lead minimal pour traçabilité — `socialHandle` générique stocke
+    // le handle (préfixé canal pour disambiguation : "twitter:@thomas").
+    const sourceMap: Record<typeof payload.channel, string> = {
+      DM_TWITTER: "twitter_dm",
+      DM_LINKEDIN: "linkedin_dm",
+      DM_INSTAGRAM: "instagram_dm",
+    };
+    lead = await prisma.ceoLead.create({
+      data: {
+        socialHandle: `${payload.channel.toLowerCase().replace("dm_", "")}:${payload.recipientHandle}`,
+        status: "COLD",
+        source: sourceMap[payload.channel],
+        touchpoints: 0,
+      },
+    });
+  }
+
+  // Frequency cap (segment A par défaut)
+  const freq = await applyFrequencyCap(lead.id, "A");
+  if (!freq.canSend) {
+    return { payload: { skipped: freq.reason ?? "frequency_cap" } };
+  }
+
+  // Compose draft (channel = mapping payload → CeoOutboundChannel)
+  const message = await composeOutboundMessage(payload.playbook, lead, {
+    channel: payload.channel,
+    recipient: payload.recipientHandle,
+    leadContext: payload.leadContext,
+  });
+
+  // Dedup 24h
+  const dedup = await checkAndStoreDedup(payload.channel, payload.recipientHandle, message.content);
+  if (dedup.isDuplicate) {
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "REJECTED", directorNote: "duplicate_24h" },
+    });
+    return { payload: { skipped: "duplicate_24h", messageId: message.id } };
+  }
+
+  // Validation Director
+  const validation = await dualPassValidate(message.id);
+  if (!validation.approved) {
+    return { payload: { messageId: message.id, verdict: validation.verdict, score: validation.score, sent: false } };
+  }
+
+  // Routage par canal
+  if (payload.channel === "DM_INSTAGRAM") {
+    // Phase 5.B.3 — Instagram Graph drafts permanents
+    return {
+      payload: { messageId: message.id, channel: "DM_INSTAGRAM", deferred: "phase_5_b_3" },
+      deferred: true,
+    };
+  }
+
+  if (payload.channel === "DM_LINKEDIN") {
+    // LinkedIn : drafts permanents (requiresHumanReview=true forcé en compose)
+    await recordAudit({
+      action: "dm_drafted",
+      targetType: "lead",
+      targetId: payload.recipientHandle,
+      channel: "linkedin",
+      aiDecisionScore: validation.score,
+      outcome: "draft_human_review",
+      reasoning: `playbook=${payload.playbook}`,
+    });
+    return { payload: { messageId: message.id, channel: "DM_LINKEDIN", sent: false, reason: "human_review" } };
+  }
+
+  // DM_TWITTER : envoi live via Twitter v2 API
+  const cfg = await getCeoConfig();
+  const fresh = await prisma.ceoOutboundMessage.findUnique({ where: { id: message.id } });
+  if (!fresh) throw new Error("Message disparu après validation");
+  if (cfg?.dryRun || fresh.requiresHumanReview) {
+    return {
+      payload: {
+        messageId: message.id,
+        channel: "DM_TWITTER",
+        sent: false,
+        reason: cfg?.dryRun ? "dry_run" : "human_review",
+      },
+    };
+  }
+
+  const sendResult = await sendTwitterDmByHandle(payload.recipientHandle, fresh.content);
+
+  if (!sendResult.ok) {
+    // 429 → re-queue avec backoff (15 min)
+    if (sendResult.error === "rate_limit") {
+      const retryAt = new Date(Date.now() + (sendResult.retryAfterSeconds ?? 900) * 1000);
+      await prisma.ceoTask.update({
+        where: { id: task.id },
+        data: { status: "PENDING", scheduledFor: retryAt },
+      });
+      return { payload: { messageId: message.id, deferred: "rate_limit", retryAt: retryAt.toISOString() }, deferred: true };
+    }
+    // 401/403/404 → permanent fail
+    await prisma.ceoOutboundMessage.update({
+      where: { id: message.id },
+      data: { status: "FAILED", directorNote: `twitter_${sendResult.error}` },
+    });
+    await recordAudit({
+      action: "dm_send_failed",
+      targetType: "lead",
+      targetId: payload.recipientHandle,
+      channel: "twitter",
+      outcome: "error",
+      errorMessage: sendResult.errorMessage?.slice(0, 200),
+    });
+    return { payload: { messageId: message.id, sent: false, error: sendResult.error } };
+  }
+
+  // Succès Twitter DM
+  await prisma.ceoOutboundMessage.update({
+    where: { id: message.id },
+    data: { status: "SENT", sentAt: new Date(), externalId: sendResult.externalId ?? null },
+  });
+  if (lead.userId) await markCeoTouchpoint(lead.userId);
+  await prisma.ceoLead.update({
+    where: { id: lead.id },
+    data: { lastContactAt: new Date(), touchpoints: { increment: 1 }, lastPlaybook: payload.playbook },
+  });
+  await recordAudit({
+    action: "dm_sent",
+    targetType: "lead",
+    targetId: payload.recipientHandle,
+    channel: "twitter",
+    aiDecisionScore: validation.score,
+    outcome: "sent",
+    reasoning: `playbook=${payload.playbook} externalId=${sendResult.externalId ?? "n/a"}`,
+  });
+
+  return { payload: { messageId: message.id, sent: true, externalId: sendResult.externalId } };
 }
 
 // ─── Exports utilitaires ──────────────────────────────────────────────

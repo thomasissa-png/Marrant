@@ -630,3 +630,127 @@ Si une commande échoue → corriger AVANT de commiter. Phase 5.B introduit 4 no
 - [ ] Test manuel `/api/unsubscribe?token=...` → page HTML "Désinscription confirmée"
 - [ ] Test manuel `POST /api/ceo/contest` → 200 + audit log inséré
 - [ ] Vérifier en DB qu'un draft email contient bien le marker `CEO_FOOTER_V1`
+
+---
+
+## Phase 5.B.2 — APIs externes CEO (Twitter v2 DM + Resend Inbound + suppression haro-agent)
+
+> Livrée session 9 (3e sous-passe Phase 5). Couvre l'envoi LIVE de DMs Twitter
+> + la réception de replies email Resend + la migration haro-agent → ceo-backlinks.
+
+### 1. Nouveaux Replit Secrets (BLOQUANT)
+
+```
+TWITTER_BEARER_TOKEN=AAAA...      # OAuth 2.0 Bearer (lookup user OK, DM POST exige user-context)
+RESEND_WEBHOOK_SECRET=<32+ chars> # HMAC SHA-256 — généré via `openssl rand -hex 32`
+```
+
+**Note Twitter user-context (DM POST)** : le Bearer suffit pour `lookupTwitterUserId`, mais `POST /2/dm_conversations/...` exige OAuth 1.0a User Context en prod. Si Twitter retourne 401 sur le DM send, ajouter aussi :
+```
+TWITTER_API_KEY=...
+TWITTER_API_SECRET=...
+TWITTER_ACCESS_TOKEN=...
+TWITTER_ACCESS_SECRET=...
+```
+(Phase 5.B.3 — pour l'instant le Bearer reste le default, on log 401 et on traitera quand ça arrive.)
+
+### 2. Configuration webhook Resend Inbound
+
+Dashboard Resend → Webhooks :
+1. Endpoint : `https://deviens-marrant.fr/api/webhooks/resend-inbound`
+2. Events : `email.received` (inbound replies)
+3. Signing secret : utiliser la valeur mise dans `RESEND_WEBHOOK_SECRET`
+4. Test : Resend permet d'envoyer un payload test → vérifier 200 OK + entrée dans `CeoOutboundMessage` direction=`INBOUND_REPLY`
+
+Si Resend Inbound n'est pas activé sur le compte (pricing payant), reporter en Phase 5.B.3 — le code est prêt et inerte sans webhook envoyé.
+
+### 3. Suppression du cron HARO
+
+Replit Scheduled Deployments → Supprimer le cron `/api/cron/haro` (s'il existait). La route est supprimée du code (404 sinon). Le module `haro-agent.ts` est remplacé par `ceo-backlinks.ts` (96 topics + bio collective + 8 templates) et la fonction `pitchToBacklinkOpportunity()` exposée par `ceo-agent.ts`.
+
+### 4. Pre-commit check (BLOQUANT — Règle n°6 CLAUDE.md)
+
+```bash
+cd apps/web
+npx tsc --noEmit && npx next lint && npm run build
+```
+
+3 nouveaux fichiers Phase 5.B.2 :
+- `apps/web/src/lib/ai/ceo-backlinks.ts`
+- `apps/web/src/lib/twitter/twitter-client.ts`
+- `apps/web/src/app/api/webhooks/resend-inbound/route.ts`
+
+2 fichiers modifiés :
+- `apps/web/src/lib/ai/agents/ceo-agent.ts` (ajout `pitchToBacklinkOpportunity`, complétion `handleOutboundDm`, routage `DRAFT_DM_REPLY`)
+- `apps/web/src/__tests__/lib/ceo-backlinks.test.ts` (remplace `haro-agent.test.ts`)
+
+2 fichiers supprimés :
+- `apps/web/src/lib/ai/agents/haro-agent.ts`
+- `apps/web/src/app/api/cron/haro/route.ts`
+- `apps/web/src/__tests__/lib/haro-agent.test.ts`
+
+### 5. Checklist Phase 5.B.2 — done quand :
+
+- [ ] 2 nouveaux Secrets configurés (`TWITTER_BEARER_TOKEN`, `RESEND_WEBHOOK_SECRET`)
+- [ ] Webhook Resend configuré dashboard + test ping 200 OK
+- [ ] Cron `/api/cron/haro` supprimé de Replit Scheduled Deployments
+- [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS
+- [ ] Test manuel `POST /api/webhooks/resend-inbound` avec signature valide → entrée `CeoOutboundMessage direction=INBOUND_REPLY`
+- [ ] Test manuel reply contenant "stop" → `User.emailOptOut=true` + `CeoLead.status=OPT_OUT`
+- [ ] Tests Jest `ceo-backlinks.test.ts` PASS
+
+### Hors périmètre Phase 5.B.2 (reporté Phase 5.B.3) :
+
+- [ ] Instagram Graph API (drafts permanents)
+- [ ] Lead scoring auto (signaux Umami + User.streak/JokeLike)
+- [ ] Câblage `siteReturn48h` dans `snapshotCeoKpis` (Umami cross-session)
+- [ ] Routage IA des replies entrants (le webhook persiste seulement)
+- [ ] Twitter OAuth 1.0a User Context (si DM POST retourne 401 avec Bearer)
+- [ ] Remplacement scraping Connectively → RSS/Zapier (handoff manuel Thomas, hors code)
+
+---
+
+## Phase 5.C — Dashboard `/admin/ceo` (frontend)
+
+### Aucun nouveau Secret requis
+
+L'auth utilise le `ADMIN_PASSWORD` existant (mêmes Bearer headers que `/admin/social`).
+Aucune action env / Secrets / cron à effectuer côté Replit.
+
+### Vérification post-déploiement
+
+1. Aller sur `https://deviens-marrant.fr/admin/ceo`
+2. Login avec `ADMIN_PASSWORD`
+3. Vérifier que les 6 onglets se chargent : Tâches, Brouillons, Funnel 30j, KPIs, Backlinks, Audit
+4. Si vide partout → c'est normal tant que la Phase 5.B.2 backend n'a pas tourné (pas de tasks, pas de drafts, pas de snapshots KPI)
+5. Tester le toggle kill-switch (peut être OFF/ON sans risque tant que `dryRun=true` dans `CeoConfig`)
+
+### Fichiers ajoutés Phase 5.C (frontend uniquement) :
+
+- `apps/web/src/app/admin/ceo/page.tsx`
+- `apps/web/src/components/admin/ceo/types.ts`
+- `apps/web/src/components/admin/ceo/CeoHeader.tsx`
+- `apps/web/src/components/admin/ceo/CeoTasksList.tsx`
+- `apps/web/src/components/admin/ceo/CeoDraftsList.tsx`
+- `apps/web/src/components/admin/ceo/CeoFunnel.tsx`
+- `apps/web/src/components/admin/ceo/CeoKpiPanel.tsx`
+- `apps/web/src/components/admin/ceo/CeoBacklinksList.tsx`
+- `apps/web/src/components/admin/ceo/CeoAuditLog.tsx`
+- `apps/web/src/app/api/admin/ceo/_helpers.ts`
+- `apps/web/src/app/api/admin/ceo/data/route.ts`
+- `apps/web/src/app/api/admin/ceo/kill-switch/route.ts`
+- `apps/web/src/app/api/admin/ceo/run-task/route.ts`
+- `apps/web/src/app/api/admin/ceo/approve/route.ts`
+- `apps/web/src/app/api/admin/ceo/reject/route.ts`
+- `apps/web/src/app/api/admin/ceo/contest/route.ts`
+- `apps/web/src/__tests__/feature/CeoHeader.test.tsx`
+- `apps/web/src/__tests__/feature/CeoDraftsList.test.tsx`
+- `apps/web/src/__tests__/feature/CeoKpiPanel.test.tsx`
+
+### Checklist Phase 5.C — done quand :
+
+- [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS
+- [ ] Tests Jest `CeoHeader / CeoDraftsList / CeoKpiPanel` PASS
+- [ ] `/admin/ceo` accessible avec ADMIN_PASSWORD
+- [ ] Kill-switch toggle fonctionnel (test ON → OFF → ON, vérifier `CeoConfig.enabled` en DB)
+- [ ] Phase 5.D (tests exhaustifs) à lancer ensuite
