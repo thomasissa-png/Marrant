@@ -2112,7 +2112,103 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     }
   }
 
+  // G-S21 — Anti-staccato (style haché surjoué — "Court. Direct. Je clique.")
+  // La voix Deviens Marrant bannit le staccato : phrases courtes hachées en 2 mots.
+  // Cf. docs/strategy/ceo-voice-unified.md v3 — anti-pattern flag par Thomas (2 cycles).
+  // Cas autorisé : 1 chute finale courte précédée d'une phrase ≥ 8 mots.
+  const staccatoCheck = checkAntiStaccato(post.content);
+  if (!staccatoCheck.passed) {
+    results.push({
+      gate: "G-S21 Anti-staccato",
+      pass: false,
+      reason: staccatoCheck.reason || "Style staccato détecté — phrases hachées surjouées",
+    });
+  }
+
   return results;
+}
+
+/**
+ * G-S21 — Heuristique de détection du style staccato.
+ *
+ * Un texte est staccato si AU MOINS UNE des conditions est vraie :
+ * - 3+ phrases consécutives < 5 mots ("Court. Direct. Je clique.")
+ * - 2+ phrases consécutives ≤ 2 mots ("Direct. Net.")
+ * - Ratio phrases courtes (≤ 4 mots) / phrases totales > 50% (sur ≥ 4 phrases)
+ *
+ * Exception (chute finale autorisée) : si une seule phrase courte se trouve
+ * en fin de message ET la précédente fait ≥ 8 mots, ce n'est pas du staccato
+ * systémique mais une chute comique légitime.
+ *
+ * Exemple OK : "Roman Frayssinet attendrait 12 secondes avant de la sortir.
+ *               Toi, t'as juste à cliquer. Cadeau."
+ */
+export function checkAntiStaccato(text: string): { passed: boolean; reason?: string } {
+  // Split en phrases (par ., ?, !, …)
+  const sentences = text
+    .split(/[.!?…]+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+
+  // Pas assez de phrases pour parler de staccato
+  if (sentences.length < 3) return { passed: true };
+
+  // Compter mots par phrase
+  const wordCounts = sentences.map(s => s.split(/\s+/).filter(Boolean).length);
+
+  // Condition 1 : 3+ phrases consécutives < 5 mots
+  let consecutiveShort = 0;
+  let maxConsecutiveShort = 0;
+  for (let i = 0; i < wordCounts.length; i++) {
+    if (wordCounts[i] < 5) {
+      consecutiveShort++;
+      maxConsecutiveShort = Math.max(maxConsecutiveShort, consecutiveShort);
+    } else {
+      consecutiveShort = 0;
+    }
+  }
+
+  // Exception : 1 seule phrase courte en fin de message ET précédente ≥ 8 mots → chute autorisée
+  const lastIdx = sentences.length - 1;
+  const isFinalChute =
+    wordCounts[lastIdx] < 5 &&
+    lastIdx > 0 &&
+    wordCounts[lastIdx - 1] >= 8 &&
+    maxConsecutiveShort === 1;
+
+  if (maxConsecutiveShort >= 3 && !isFinalChute) {
+    return {
+      passed: false,
+      reason: `Staccato détecté : ${maxConsecutiveShort} phrases consécutives < 5 mots`,
+    };
+  }
+
+  // Condition 2 : 2+ phrases consécutives ≤ 2 mots
+  let consecutiveTiny = 0;
+  for (let i = 0; i < wordCounts.length; i++) {
+    if (wordCounts[i] <= 2) {
+      consecutiveTiny++;
+      if (consecutiveTiny >= 2) {
+        return {
+          passed: false,
+          reason: "Staccato extrême : 2+ phrases consécutives ≤ 2 mots",
+        };
+      }
+    } else {
+      consecutiveTiny = 0;
+    }
+  }
+
+  // Condition 3 : ratio phrases courtes > 50% (sur ≥ 4 phrases)
+  const shortCount = wordCounts.filter(w => w <= 4).length;
+  if (sentences.length >= 4 && shortCount / sentences.length > 0.5) {
+    return {
+      passed: false,
+      reason: "Plus de 50% de phrases courtes (≤ 4 mots) — style haché",
+    };
+  }
+
+  return { passed: true };
 }
 
 // ─── Validation d'un post social ────────────────────────────────

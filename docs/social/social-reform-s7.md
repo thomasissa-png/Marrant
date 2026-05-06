@@ -276,7 +276,7 @@ L'ex qui appelle pour te dire qu'elle a gardé ton abonnement Netflix.
 
 Tu dis "pas de souci".
 
-Puis tu changes le mot de passe et tu regardes la nouvelle saison de Casa de Papel pour rien, par principe.
+Puis tu changes le mot de passe et tu regardes la première chose qui tombe pour rien, par principe.
 ```
 
 **Décortiquage**
@@ -1081,7 +1081,7 @@ Plus que n'importe quel team-building.
 **Levier** : sortir complètement du sujet "lundi semaine" pour échapper au trope saturé. Trouver un angle Sophie pro qui claque visuellement.
 
 **Version cycle 2** :
-- Visuel : "Réunion à 17h59. Nouveau sport olympique."
+- Visuel : "Réunion à 17h59 : nouveau sport olympique."
 - Caption (≤ 80 chars) :
 ```
 Médaille d'or : faire semblant d'avoir noté.

@@ -2747,6 +2747,91 @@ describe("runSocialGates — refonte s7 (G-S14 à G-S20)", () => {
   });
 });
 
+// ─── G-S21 — Anti-staccato (style haché surjoué) ────────────────
+describe("runSocialGates — G-S21 Anti-staccato", () => {
+  let runSocialGates: any;
+  let checkAntiStaccato: any;
+
+  beforeAll(async () => {
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    runSocialGates = mod.runSocialGates;
+    checkAntiStaccato = mod.checkAntiStaccato;
+  });
+
+  describe("checkAntiStaccato — heuristique pure", () => {
+    it("PASS sur un texte fluide (phrases longues observation stand-up)", () => {
+      const text = "Les pros du stand-up cherchent l'observation juste, pas le mot juste. Quand tu remarques un détail précis, une réponse vient naturellement. Pascot appelle ça le silence de 2 secondes.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+
+    it("FAIL sur staccato systémique 'Court. Direct. Je clique. Bien.'", () => {
+      const text = "Court. Direct. Je clique. Bien.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/staccato|haché|courtes/i);
+    });
+
+    it("PASS sur chute finale courte isolée (précédée d'une phrase ≥ 8 mots)", () => {
+      const text = "Roman Frayssinet attendrait 12 secondes avant de la sortir. Toi, t'as juste à cliquer. Cadeau.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+
+    it("FAIL sur 2+ phrases consécutives ≤ 2 mots", () => {
+      const text = "On y va. Direct. Net. C'est plié.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/extrême|2 mots|consécutives/i);
+    });
+
+    it("FAIL sur ratio phrases courtes > 50%", () => {
+      const text = "Bien. Court. Net. Direct. Voilà. C'est posé maintenant.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/50%|courtes|haché/i);
+    });
+
+    it("PASS sur texte de 2 phrases (pas assez pour parler de staccato)", () => {
+      const text = "Court. Net.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+  });
+
+  describe("Intégration runSocialGates — G-S21", () => {
+    it("FAIL G-S21 quand le contenu est staccato systémique", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "La technique du jour",
+        content: "Court. Direct. Je clique. Bien.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S21"));
+      expect(g).toBeDefined();
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/staccato|haché|courtes/i);
+    });
+
+    it("PASS G-S21 quand le contenu est fluide (chute finale autorisée)", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Roman Frayssinet le ferait",
+        content: "Roman Frayssinet attendrait 12 secondes avant de la sortir. Toi, t'as juste à cliquer. Cadeau.",
+        cta: "",
+        hashtags: [],
+      };
+      const allGates = runSocialGates(post);
+      const g = allGates.find((x: any) => x.gate.includes("G-S21"));
+      // G-S21 ne push QUE quand FAIL → absent si OK
+      expect(g).toBeUndefined();
+    });
+  });
+});
+
 // ─── Video Discovery Agent Tests ────────────────────────────────
 
 describe("Video Discovery Agent", () => {
