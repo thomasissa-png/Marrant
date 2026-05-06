@@ -102,10 +102,10 @@ L'Équipe Deviens Marrant
 **Contraintes format** : 5 phrases max, mention premium en contexte factuel (jamais en hook), sujet ≤ 50 chars
 **Playbook source** : P3 — Conversion soft (refondé pivot session 8)
 
-**Subject** : 3 jours d'affilée, 5 vannes likées
+**Subject** : Quand tu reviens régulièrement
 
 **Corps du message** :
-3 jours d'affilée, 5 vannes likées. Voilà à quoi ressemble la régularité — et c'est elle qui fait vraiment progresser, pas les sessions longues espacées.
+Depuis une semaine, tu reviens régulièrement sur Deviens Marrant. C'est exactement ce qui fait progresser — la régularité, pas les sessions longues espacées.
 
 Les prochaines étapes naturelles depuis là où t'en es : les conseils sur le timing et les vidéos décryptées. Ce contenu est disponible en version premium, à 0,99€ par mois, sans engagement.
 
@@ -117,11 +117,12 @@ L'Équipe Deviens Marrant
 *Footer standard — voir bloc A*
 
 **Auto-éval** :
-- Conseils/Apprentissage > Vannes : ✅ Le hook est un signal de progression (streak + likes), pas la limite touchée. La valeur citée en contexte = conseils timing + vidéos décryptées
+- Conseils/Apprentissage > Vannes : ✅ Le hook est un constat de régularité (sans révéler le compteur exact), la valeur citée = conseils timing + vidéos décryptées
 - Style fluide (pas haché) : ✅ "c'est elle qui fait vraiment progresser, pas les sessions longues espacées" — observation complète, pas un fragment staccato
 - Pattern invitation ressource respecté : ✅ La limite premium apparaît en contexte factuel dans la 2e phrase — jamais comme hook émotionnel ou pression de vente
 - Pas de pub déguisée : ✅ Zéro "t'as touché la limite", zéro FOMO, zéro "offre limitée". Le prix est cité une fois, sobrement
-- Voix Deviens Marrant tenue (cohérence avec étalons) : ✅ Structure observation (fait DB) → insight pédagogique → invitation naturelle — identique aux 3 étalons
+- Voix Deviens Marrant tenue (cohérence avec étalons) : ✅ Structure observation (fait DB sans chiffre visible) → insight pédagogique → invitation naturelle — identique aux 3 étalons
+- Cycle 6 chirurgical (ex 3) : suppression du hook chiffré "3 jours d'affilée, 5 vannes likées" remplacé par "Depuis une semaine, tu reviens régulièrement" — mécanique de comptage non révélée au lecteur, conformément à reco @moi cycle 5 et arbitrage Thomas option B
 
 ---
 
