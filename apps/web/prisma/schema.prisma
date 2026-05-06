@@ -66,6 +66,10 @@ model User {
   xp            Int       @default(0)
   streak        Int       @default(0)
   lastActiveAt  DateTime?
+  // CEO Agent — fenêtre attribution conversion 7j (cf docs/product/ceo-agent-specs.md §11)
+  lastCeoTouchpoint DateTime?
+  // Si true, le CEO ne contacte JAMAIS cet utilisateur (vérif synchrone avant tout draft)
+  emailOptOut       Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -79,6 +83,7 @@ model User {
   jokeLikes    JokeLike[]
   pathProgress  UserPathProgress[]
   featureVotes  FeatureVote[]
+  ceoLead       CeoLead?
 
   @@index([email])
 }
@@ -591,4 +596,302 @@ model LlmUsageLog {
   @@index([createdAt])
   @@index([agent, fn])
   @@index([createdAt, agent])
+}
+
+/// Lock idempotent au jour près pour `runDailySocialJob`.
+/// Corrige P1 s08/04 race condition intra-heure : si le run de 4h UTC dépasse
+/// 15 min, le scheduler peut relancer un 2e run avant que le 1er termine ses
+/// INSERT SocialPost → duplication. Le lock garantit qu'un seul run/jour
+/// franchit la barrière, même en cas de fenêtre catch-up multiple.
+///
+/// Différent de `JobLock` (TTL court, lock par run) : ici PK unique par jour,
+/// pas de TTL — le lock vit la journée et est nettoyé par cron de purge.
+model SocialPostDailyLock {
+  id        String   @id @default(cuid())
+  dateUTC   String   @unique // format "YYYY-MM-DD" (UTC)
+  createdAt DateTime @default(now())
+}
+
+// ==========================================
+// CEO AGENT — Phase 5 (cf docs/product/ceo-agent-specs.md)
+// ==========================================
+
+/// Configuration runtime du CEO Agent — kill-switch, budget, toggles auto-send.
+/// Une seule ligne en DB (singleton). Toggle depuis `/admin/ceo`.
+model CeoConfig {
+  id                    String   @id @default(cuid())
+  enabled               Boolean  @default(false) // false = ceoTick return immédiat
+  dailyBudgetEur        Float    @default(2.0)
+  maxActionsPerTick     Int      @default(3)
+  autoSendEmail         Boolean  @default(false) // true à partir de S3
+  autoSendDm            Boolean  @default(false) // true à partir de S4
+  killSwitchReason      String?  // raison si enabled=false (audit CNIL)
+  socialOutboundEnabled Boolean  @default(false) // toggle mois 3+
+  dryRun                Boolean  @default(true)  // si true, tout en DRAFT (jamais envoyé)
+  updatedAt             DateTime @updatedAt
+}
+
+/// Task store persistant — cœur de l'agent. Un row = une action planifiée.
+model CeoTask {
+  id           String        @id @default(cuid())
+  type         CeoTaskType
+  status       CeoTaskStatus @default(PENDING)
+  payload      Json          // données contextuelles (leadId, playbookId, opportunityId, signal, etc.)
+  scheduledFor DateTime
+  attempts     Int           @default(0) // max 3, au-delà = FAILED
+  contestedAt  DateTime?     // art. 22 RGPD — contestation utilisateur
+  result       Json?         // résultat de l'exécution (messageId, errorCode, etc.)
+  errorMessage String?       @db.Text
+  createdAt    DateTime      @default(now())
+  startedAt    DateTime?
+  completedAt  DateTime?
+
+  @@index([status])
+  @@index([scheduledFor])
+  @@index([type])
+}
+
+/// Mémoire long-terme + court-terme de l'agent (clé/valeur, namespace par préfixe).
+/// Exemples de clés : "weekly_report:last_generated_at", "lead:<id>:last_signal", "global:top_playbook_30d"
+model CeoMemory {
+  id        String    @id @default(cuid())
+  namespace String    // ex: "global", "lead:<id>", "weekly_report"
+  key       String
+  value     Json
+  expiresAt DateTime? // TTL optionnel (mémoire court-terme)
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
+
+  @@unique([namespace, key])
+  @@index([namespace])
+  @@index([expiresAt])
+}
+
+/// CRM léger — leads identifiés et scorés.
+model CeoLead {
+  id             String        @id @default(cuid())
+  userId         String?       @unique
+  email          String?       // clair ici (champ protégé), hashé dans CeoAuditLog
+  socialHandle   String?
+  source         String        // "email_signup" | "twitter_dm" | "linkedin_mention" | "instagram_dm" | "haro_press"
+  score          Int           @default(0) // signaux S1-S12 → 0-50
+  signals        Json          @default("{}") // snapshot signaux actifs
+  status         CeoLeadStatus @default(COLD)
+  lastContactAt  DateTime?
+  lastPlaybook   String?       // dernier playbook utilisé (P1-P7)
+  touchpoints    Int           @default(0) // max 3 sur durée de vie free
+  optOut         Boolean       @default(false) // opposition art. 21 RGPD
+  history        Json          @default("[]") // tableau interactions CEO
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user     User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages CeoOutboundMessage[]
+
+  @@index([status])
+  @@index([score])
+  @@index([userId])
+}
+
+/// Messages outbound + inbound, tous canaux confondus.
+/// PII protégé : `recipient` clair ici, hashé dans CeoAuditLog.
+model CeoOutboundMessage {
+  id                  String              @id @default(cuid())
+  channel             CeoOutboundChannel
+  direction           CeoOutboundDirection @default(OUTBOUND)
+  recipient           String              // email ou handle social
+  subject             String?             // emails uniquement
+  content             String              @db.Text
+  status              CeoOutboundStatus   @default(PENDING)
+  directorScore       Int?                // score Stand-Up Director (0-10)
+  directorValidated   Boolean             @default(false)
+  directorNote        String?             @db.Text
+  playbook            String?             // P1-P7 ou "backlink_<source>"
+  // Patch HAUTE Phase 3 : passage S2→S3 critère "drafts validés sans correction"
+  requiresHumanReview Boolean             @default(false)
+  sentAt              DateTime?
+  opens               Int                 @default(0)
+  clicks              Int                 @default(0)
+  replies             Int                 @default(0)
+  repliedAt           DateTime?
+  externalId          String?             // ID Resend / Buffer / Twitter pour tracking
+  leadId              String?
+  // Patch HAUTE Phase 3 : tracking UTM pour attribution conversion (fenêtre 7j)
+  utmSource           String?             // "ceo"
+  utmCampaign         String?             // playbook ID (P1-P7) ou "backlink_haro" etc.
+  utmMedium           String?             // channel (email, twitter, linkedin, ig)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  lead CeoLead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([channel])
+  @@index([leadId])
+  @@index([sentAt]) // requêtes attribution rolling 7j
+  @@index([direction])
+}
+
+/// Snapshot quotidien des KPIs CEO (alimente dashboard `/admin/ceo`).
+/// Cron `/api/cron/ceo-kpis-snapshot` insère 1 ligne/jour à 5h UTC.
+model CeoKpiSnapshot {
+  id                        String   @id @default(cuid())
+  date                      DateTime @unique @db.Date
+  // North Star : (opens + replies + clicks) / total_sent sur 30j glissants
+  northStarEngagement30d    Float
+  // Satellites
+  emailReplyRate            Float
+  siteReturn48h             Float
+  emailOpenRate             Float
+  // Opérationnels
+  killSwitchTriggers24h     Int
+  directorFailRate          Float
+  draftsAutoSendRatio       Json     // { email: 0.8, twitter: 0.3, ... }
+  costPerAcquiredSubscriber Float?   // null si 0 conversion attribuée
+  ceoAttributedConversions  Int
+  backlinksDaSum            Int      // somme DA des backlinks acquis
+  createdAt                 DateTime @default(now())
+
+  @@index([date])
+}
+
+/// Backlinks — pitchs envoyés et acquisitions.
+model CeoBacklink {
+  id             String              @id @default(cuid())
+  source         CeoBacklinkSource
+  domain         String
+  url            String?
+  pageTitle      String?
+  anchorText     String?
+  da             Int?
+  daReportedBy   String?             // "moz_free" | "hypothese" | "gsc"
+  linkType       String?             // "dofollow" | "nofollow" | "unknown"
+  status         CeoBacklinkStatus   @default(PITCHED)
+  relevanceScore Int?                // 1-10, score filtrage CEO
+  pitchedAt      DateTime            @default(now())
+  repliedAt      DateTime?
+  acquiredAt     DateTime?
+  verifiedAt     DateTime?
+  notes          String?             @db.Text
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@index([status])
+  @@index([domain])
+  @@index([source])
+}
+
+/// Audit trail RGPD — rétention 3 ans obligatoire (CNIL art. 30).
+/// PII masqué : `targetIdHashed` = SHA256(email ou handle), JAMAIS de PII clair.
+model CeoAuditLog {
+  id              String   @id @default(cuid())
+  timestamp       DateTime @default(now())
+  action          String   // "email_sent" | "dm_replied" | "backlink_pitched" | "task_contested" | ...
+  targetType      String   // "user" | "journalist" | "blogger" | "lead"
+  targetIdHashed  String   // SHA256(email ou handle)
+  channel         String
+  aiDecisionScore Int?     // score Director ou Haiku triage
+  aiModel         String?  // "haiku-4.5" | "sonnet-4.6" | "opus-4.7"
+  reasoning       String?  @db.Text // raisonnement bref (1 phrase) — pas de PII
+  outcome         String   // "sent" | "rejected" | "draft" | "error" | "skipped"
+  errorMessage    String?  @db.Text
+  contestedAt     DateTime?
+
+  @@index([timestamp])
+  @@index([targetIdHashed])
+  @@index([action])
+}
+
+/// Déduplication anti-spam intra-canal — fenêtre 24h glissante.
+/// Hash = SHA256(channel + recipient + content_first_100chars).
+model CeoDedup {
+  id          String   @id @default(cuid())
+  contentHash String   @unique
+  channel     String
+  sentAt      DateTime @default(now())
+
+  @@index([contentHash])
+  @@index([sentAt])
+}
+
+/// Blacklist commentaires proactifs — humoristes pros, influenceurs >10k, journalistes.
+model CeoCommentBlacklist {
+  id        String   @id @default(cuid())
+  handle    String
+  platform  String   // "twitter" | "linkedin" | "instagram"
+  reason    String   // "humoriste_pro" | "influenceur_10k" | "journaliste"
+  createdAt DateTime @default(now())
+
+  @@unique([handle, platform])
+  @@index([platform])
+}
+
+// ─── Enums CEO ──────────────────────────────────────
+
+enum CeoTaskType {
+  SCORE_LEADS
+  DRAFT_EMAIL
+  DRAFT_DM_REPLY
+  DRAFT_PROACTIVE_COMMENT
+  DRAFT_BACKLINK_PITCH
+  EXECUTE_SEND
+  WEEKLY_REPORT
+  KPI_SNAPSHOT
+}
+
+enum CeoTaskStatus {
+  PENDING
+  RUNNING
+  DRAFT      // outbound généré, attend validation admin
+  APPROVED   // validé Director + (si S1/S2) admin
+  EXECUTING
+  DONE
+  FAILED
+}
+
+enum CeoLeadStatus {
+  COLD
+  PENDING_ACTION
+  IN_SEQUENCE
+  CONVERTED
+  OPT_OUT
+}
+
+enum CeoOutboundStatus {
+  PENDING
+  APPROVED
+  SENT
+  REJECTED
+  FAILED
+}
+
+enum CeoOutboundChannel {
+  EMAIL
+  DM_TWITTER
+  DM_LINKEDIN
+  DM_INSTAGRAM
+  COMMENT_TWITTER
+  BACKLINK_EMAIL
+}
+
+enum CeoOutboundDirection {
+  OUTBOUND
+  INBOUND
+}
+
+enum CeoBacklinkSource {
+  HARO
+  BLOGGER
+  PODCAST
+  DIRECTORY
+  EXCHANGE
+  ORGANIC
+}
+
+enum CeoBacklinkStatus {
+  PITCHED
+  REPLIED
+  ACQUIRED
+  REJECTED
+  EXPIRED
 }

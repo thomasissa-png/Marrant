@@ -412,3 +412,107 @@ Recommandation : utiliser **Play App Signing** (Google gère la clé de signing)
 - [ ] Premier build TestFlight + Play Console Internal validés
 - [ ] Sandbox IAP testé avec succès
 - [ ] Push notif testée (manuel + cron)
+
+---
+
+## Phase 5.A — CEO Agent — Couche données + agent core (session 10)
+
+> Migration Prisma + squelette agent posé. Cette section liste les actions manuelles Replit pour activer la base CEO en production.
+> Source : `docs/product/ceo-agent-specs.md` §2, `docs/ia/ceo-agent-architecture.md`, branche `claude/marrant-s10-ceo-implementation-*`.
+
+### 1. Migration Prisma — créer les 9 tables CEO + extensions User
+
+```bash
+# Sur Replit shell, après merge de la branche dans master :
+cd apps/web
+npx prisma generate
+npx prisma migrate deploy   # applique 5_add_ceo_tables/migration.sql
+```
+
+Tables créées :
+- `CeoConfig` (singleton kill-switch + budget + dryRun)
+- `CeoTask` (file de tâches PENDING/RUNNING/DONE/FAILED)
+- `CeoMemory` (clé/valeur namespace, mémoire long-terme + TTL court-terme)
+- `CeoLead` (CRM léger, score 0-50, status COLD→IN_SEQUENCE→CONVERTED)
+- `CeoOutboundMessage` (messages outbound + inbound, UTM tracking)
+- `CeoKpiSnapshot` (snapshot quotidien KPIs dashboard /admin/ceo)
+- `CeoBacklink` (pitchs + acquisitions backlinks 5 canaux)
+- `CeoAuditLog` (RGPD rétention 3 ans, PII hashé SHA256)
+- `CeoDedup` (anti-spam 24h, hash SHA256)
+- `CeoCommentBlacklist` (humoristes pros + influenceurs >10k + journalistes)
+- **+ `SocialPostDailyLock`** (P1 race condition s08/04 — 1 run social/jour)
+
+Colonnes ajoutées sur `User` :
+- `lastCeoTouchpoint TIMESTAMP(3)` (fenêtre attribution conversion 7j)
+- `emailOptOut BOOLEAN DEFAULT false` (CEO refuse cet utilisateur si true)
+
+Migration **idempotente** : utilise `IF NOT EXISTS` partout. Peut être rejouée sans effet secondaire.
+
+### 2. Seeder initial CeoConfig (kill-switch ON par défaut = SAFE)
+
+Avant le 1er tick CEO, insérer la ligne singleton de config. **Par défaut `enabled = false`** (fail-safe — l'agent ne fait RIEN tant que Thomas ne l'active pas explicitement) :
+
+```sql
+-- À exécuter une fois en console Neon ou via prisma studio
+INSERT INTO "CeoConfig" (
+  "id", "enabled", "dailyBudgetEur", "maxActionsPerTick",
+  "autoSendEmail", "autoSendDm", "socialOutboundEnabled", "dryRun", "updatedAt"
+) VALUES (
+  'ceo-config-singleton', false, 2.0, 3, false, false, false, true, NOW()
+)
+ON CONFLICT ("id") DO NOTHING;
+```
+
+### 3. Nouveaux Secrets Replit à ajouter (Phase 5.A — préparation 5.B)
+
+À mettre dès maintenant dans Replit Secrets (mais pas encore utilisés en Phase 5.A) :
+
+| Secret | Description | Source |
+|---|---|---|
+| `CEO_KILL_SWITCH_OVERRIDE` | (optionnel) String "true" pour forcer kill-switch même si DB activée | Manuel — dépannage urgence |
+| `CEO_ADMIN_EMAIL` | Email destinataire alertes budget + reporting hebdo | `alex@deviens-marrant.fr` |
+| `TWITTER_API_KEY` | OAuth dédié CEO (distinct de Buffer) | https://developer.twitter.com Phase 5.B |
+| `TWITTER_API_SECRET` | idem | idem |
+| `TWITTER_ACCESS_TOKEN` | idem | idem |
+| `TWITTER_ACCESS_SECRET` | idem | idem |
+| `INSTAGRAM_PAGE_ACCESS_TOKEN` | DMs inbound Business (fenêtre 24h) | Meta Business Suite Phase 5.B |
+| `RESEND_INBOUND_WEBHOOK_SECRET` | Validation HMAC webhook Resend Inbound | Resend dashboard Phase 5.B |
+
+**Important** : `TWITTER_*` du CEO doit être un **compte/app distinct** du Buffer daily-social pour éviter les rate limits croisés.
+
+### 4. Vérifier que les tests existants passent
+
+```bash
+cd apps/web
+npx jest --no-coverage
+```
+
+Attendu : **1051/1051 tests passent** (Phase 5.A n'ajoute que des `describe.skip` placeholders, zéro test fonctionnel — ceux-là arrivent en Phase 5.D).
+
+### 5. Préparation Phase 5.B (HORS périmètre Phase 5.A)
+
+À faire en Phase 5.B (prochaine sous-passe) :
+
+- [ ] Créer `/api/cron/ceo-tick` (toutes 2-4h)
+- [ ] Créer `/api/cron/ceo-kpis-snapshot` (daily 5h UTC)
+- [ ] Créer `/api/ceo/contest` (endpoint art. 22 RGPD)
+- [ ] Migrer `apps/web/src/lib/ai/agents/haro-agent.ts` (96 topics + ALEX_BIO + templates) vers le module backlinks de `ceo-agent.ts`
+- [ ] Supprimer `haro-agent.ts` + `apps/web/src/app/api/cron/haro/route.ts` après Grep d'orphelins
+- [ ] Implémenter `validateCeoOutbound()` dans `standup-director-agent.ts` (gate G-CEO1 anti-surveillance, G-CEO2 anti-FOMO, G-CEO3 valeur éducative > conversion)
+- [ ] Intégrations APIs : Twitter v2 DM, Resend Inbound webhook, Instagram Graph
+- [ ] Mettre à jour `enforceEmailFooter()` pour les emails CEO (footer opt-out RGPD obligatoire)
+- [ ] Implémentation Resend pour envoi rapport hebdo Thomas
+
+### 6. Préparation Phase 5.C / 5.D (HORS périmètre)
+
+- Phase 5.C : Dashboard React `/admin/ceo` (8 composants : timeline, file drafts, funnel, budget, KPIs sem, kill-switch toggle, audit log, leads scoring)
+- Phase 5.D : Tests Jest exhaustifs (cible 90% sur `ceo-agent.ts`, `ceo-helpers.ts`, `ceo-validate.ts`)
+
+### Checklist Phase 5.A — done quand :
+
+- [ ] Branche `claude/marrant-s10-ceo-implementation-*` mergée dans master
+- [ ] `npx prisma migrate deploy` exécuté avec succès sur Replit (vérifie 11 nouvelles tables + 2 colonnes User)
+- [ ] CeoConfig singleton inséré (kill-switch OFF par défaut)
+- [ ] 8 nouveaux Secrets Replit ajoutés (vides ok pour Phase 5.A — utilisés en 5.B)
+- [ ] Tests existants passent (1051/1051)
+- [ ] `runDailySocialJob` lancé une fois → `SocialPostDailyLock` insère 1 ligne (vérifier en console Neon : `SELECT * FROM "SocialPostDailyLock" ORDER BY "createdAt" DESC LIMIT 5;`)

@@ -226,6 +226,16 @@ export async function register() {
 
       if (!isMainWindow && !isCatchupWindow) return;
 
+      // P1 race condition lock applicatif (s08/04) — un seul run/jour franchit
+      // la barrière, même si le scheduler retente pendant la catch-up window.
+      // Cf docs/marrant/playbook.md + apps/web/src/lib/social-post-daily-lock.ts
+      const { tryAcquireSocialDailyLock } = await import("@/lib/social-post-daily-lock");
+      const lockAcquired = await tryAcquireSocialDailyLock(now);
+      if (!lockAcquired) {
+        console.log(`[scheduler:social] Lock journalier déjà détenu pour ${now.toISOString().slice(0, 10)} — skip`);
+        return;
+      }
+
       // Pour le catch-up, on vérifie si les quotas sont atteints aujourd'hui.
       // Déclenche si DÉFICIT (pas seulement count=0) pour rattraper les échecs partiels.
       if (isCatchupWindow) {
