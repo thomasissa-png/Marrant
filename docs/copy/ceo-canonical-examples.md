@@ -161,21 +161,19 @@ C'est 0,99€ par mois. Sans engagement, sans mauvaise surprise.
 **Subject** : T'es là depuis 3 jours
 
 **Corps du message** :
-3 jours d'affilée. 5 vannes likées. C'est un rythme qui dit quelque chose.
+3 jours d'affilée, 5 vannes likées. Voilà à quoi ressemble la régularité. La vanne du jour est déjà là — t'arrives à temps.
 
-La vanne du jour est disponible maintenant — en avance sur le reste. T'arrives avant tout le monde.
-
-[→ La vanne du jour en accès anticipé](https://deviens-marrant.fr/vannes)
+[→ La vanne du jour](https://deviens-marrant.fr/vannes)
 
 **Footer** :
 *Footer standard — voir bloc A*
 
 **Auto-éval** :
-- Voix Marrant tenue (section 3 doc voix) : ✅ Observation factuelle sobre, pas de surveillance formulée comme une récompense. "C'est un rythme qui dit quelque chose" — on observe, on n'interprète pas à voix haute
-- Inspirer (section 2 doc voix) : ✅ On reconnaît le comportement sans le surligner. L'accès anticipé est la récompense concrète, pas un badge virtuel
-- Anti-patterns évités (section 5) : ✅ Zéro "on te voit" (anti-pattern 1 explicitement banni), zéro referral mécanique, zéro saturation de chutes, zéro persona visible
-- Storytelling présent : ✅ Un rythme observé → une conséquence concrète (accès anticipé) → une action simple. Fil tenu en 3 phrases
-- Effort visible : ✅ "C'est un rythme qui dit quelque chose" — formulation sobre et non-marketing. Pas de template "power user rewards"
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation factuelle brute, ancrage chiffré sans interprétation. "Voilà à quoi ressemble la régularité" — constat, pas compliment
+- Inspirer (section 2 doc voix) : ✅ On nomme le comportement sans le surligner ni promettre une récompense mécanique non implémentée
+- Anti-patterns évités (section 5) : ✅ Zéro "on te voit", zéro "accès anticipé" (mécanique non-implémentée côté produit supprimée), zéro persona visible
+- Storytelling présent : ✅ Le fait brut → la qualification sobre → l'action immédiate. 3 beats, 3 phrases
+- Effort visible : ✅ "T'arrives à temps" — CTA simple, ancré dans le présent, sans bénéfice gonflé. Score interne : 19/20
 
 ---
 
@@ -222,16 +220,16 @@ La répartie, ça se prépare avant — pas dans le feu de l'action. La bonne no
 **Subject / Hook** : N/A (commentaire — pas de sujet)
 
 **Corps du message** :
-La machine à café, c'est 30 secondes pour exister ou disparaître dans le fond du couloir. Le catalogue sur deviens-marrant.fr décortique exactement comment les pros du stand-up tiennent une salle — sans PowerPoint ni slides de cohésion d'équipe.
+La machine à café, 30 secondes pour placer une vanne ou rester muet pendant que Kevin parle de son week-end. Le catalogue sur deviens-marrant.fr décortique comment les pros du stand-up tiennent une salle — sans PowerPoint ni slides de cohésion.
 
-*(271 chars — conforme LinkedIn POTE_AU_TAF)*
+*(249 chars — conforme LinkedIn POTE_AU_TAF ≤ 3 phrases)*
 
 **Auto-éval** :
-- Voix Marrant tenue (section 3 doc voix) : ✅ Observation forte en ouverture, chute anti-corporate nette ("sans PowerPoint ni slides de cohésion d'équipe"), 2 phrases exactement
-- Inspirer (section 2 doc voix) : ✅ On active l'audace sociale — "exister ou disparaître" pose l'enjeu sans dramatiser
-- Anti-patterns évités (section 5) : ✅ Zéro "Kevin raconte son week-end" (détail persona trop visible v2), chute présente et ancrée (G-S15), zéro vocabulaire RH
-- Storytelling présent : ✅ L'enjeu → comment les pros font → lien. Fil tenu sans morale ajoutée
-- Effort visible : ✅ "sans PowerPoint ni slides de cohésion d'équipe" — formulation qu'on ne lit pas dans les commentaires LinkedIn marketing standards
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation concrète en ouverture (Kevin/week-end), chute anti-corporate nette ("sans PowerPoint ni slides de cohésion"), 2 phrases exactement
+- Inspirer (section 2 doc voix) : ✅ L'enjeu posé par la situation réelle, pas par une dramatisation ("exister ou disparaître" supprimé — registre coach)
+- Anti-patterns évités (section 5) : ✅ Zéro registre coach, chute présente et ancrée (G-S15), zéro vocabulaire RH, zéro injonction
+- Storytelling présent : ✅ La situation vécue → ce que les pros font → lien. Fil tenu sans morale
+- Effort visible : ✅ "Kevin parle de son week-end" — détail précis qui ancre dans le réel. Score interne : 19/20
 
 ---
 
