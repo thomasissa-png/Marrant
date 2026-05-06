@@ -160,31 +160,47 @@
 ## Mémo de reprise — dernière session
 
 - **Date de clôture** : 06/05/2026
-- **Numéro de session** : 9 (clôturée — audit conformité gouvernance)
-- **Branche active** : `claude/marrant-s9-conformite-gouvernance-zwLbC`
-- **Résumé session 9** : Session courte de maintenance gouvernance déclenchée par un sanity check au démarrage signalant 3 violations apparentes (CLAUDE.md 986L vs cap 125, project-context.md 286L vs 250, _gates.md "absent"). Diagnostic : (a) CLAUDE.md utilisait le wrap `GRADIENT-AGENTS-START/END` → section gradient à 110L, hook pre-commit PASS — mais 876L de contenu Marrant-specific empilées hors marqueurs ; (b) `_gates.md` existait dans `.claude/agents/_gates.md` (sanity check cherchait à la racine, fausse alerte) ; (c) project-context.md débordait de 36L. Action : extraction `docs/marrant/playbook.md` (600L) + `docs/marrant/audits-history.md` (226L), CLAUDE.md slim 116L, project-context.md trim 286→250L (37 entrées sessions 1-4 archivées dans `project-context-archive.md` 54L), 2 nouveaux learnings s9 (P0 sanity-check markers + P1 maintenance gouvernance par orchestrator direct), commandement n°4 étendu (exception "maintenance gouvernance").
-- **Fichiers créés/modifiés session 9** : `CLAUDE.md` (986→116L), `docs/marrant/playbook.md` (NEW 600L), `docs/marrant/audits-history.md` (NEW 226L), `project-context.md` (286→250L), `project-context-archive.md` (NEW 54L), `docs/lessons-learned.md` (37→52L env., 2 entrées s9 ajoutées).
-- **Travaux en cours** : aucun. Toutes les actions s9 sont closes.
-- **Actions manuelles Thomas restantes (pré-session 10)** : reprises du mémo s8 ci-dessous, toujours valides :
-  1. **BLOCKER persistant Réflexe P0 #2** : default branch obsolète. Redéployer Replit depuis branche feature courante AVANT Phase 5 CEO.
-  2. **Activer pre-commit hook** : `git config core.hooksPath .githooks` (1× par poste local + Replit shell).
-  3. **Préparer comptes API Phase 5 CEO** : Twitter Developer, Instagram Graph (Business), Resend Inbound webhook + variables env Replit.
-  4. **Confirmer signature DPA** : Anthropic + Resend + Buffer (audit @legal Phase 5 obligatoire avant S3).
-  5. **Cleanup data DB session 7** toujours en attente (UPDATE SocialPost format='WILD_CARD' → REJECTED).
-  6. **Merger cette branche s9 dans master** + redéployer Replit pour que `docs/marrant/*` et CLAUDE.md slim soient visibles en prod.
+- **Numéro de session** : 9 (clôturée — gouvernance + Phase 5 CEO A→C)
+- **Branche active** : `claude/marrant-s9-conformite-gouvernance-zwLbC` (7 commits)
+- **Résumé session 9** : Session marathon en autopilot — démarrage par sanity check gouvernance → extension à toute la Phase 5 CEO (sauf Phase 5.D tests + 5.B.3 Instagram). 7 commits, ~9000 lignes nettes :
+  1. **Gouvernance (`996b216`)** : CLAUDE.md slim (986→116L) + extraction `docs/marrant/playbook.md` (600L) + `audits-history.md` (226L) + trim project-context (286→250L) + archive sessions 1-4 (`project-context-archive.md` 54L) + 2 lessons s9 (P0 sanity-check markers + P1 orchestrator direct gouvernance).
+  2. **@legal (`e8a33dc`)** : audit DPA pré-S3 (`docs/legal/ceo-dpa-audit-s3.md` 390L) — verdict GO CONDITIONNEL avec 13 actions Thomas (3 BLOQUANTS / 7 REQUIS / 3 RECOMMANDÉS). Recommandation forte : remplacer scraping Connectively par RSS/Zapier.
+  3. **Phase 5.A (`316aee3`)** : 11 modèles Prisma + ceo-agent.ts core (637L) + ceo-helpers.ts (414L) + fix P1 race condition s08/04 (SocialPostDailyLock) + 2 placeholders tests + REPLIT_ACTIONS.md +90L.
+  4. **Phase 5.B (`c90bbc3`)** : 3 crons HTTP (ceo-tick + kpis-snapshot + contest) + endpoint /unsubscribe + ceo-email-footer.ts HMAC-SHA256 + router runDailyTick complet + validateCeoOutbound() Director (gates G-CEO1/2/3/4) + envoi Resend hebdo + snapshotCeoKpis. **BLOQUANT @legal #3 enforceEmailFooter résolu**.
+  5. **Cross-review (`cde7430`)** : @reviewer dédié timeout → orchestrator audit direct (commandement n°4 étendu). Verdict GO Phase 5.B.2/5.C/5.D, 3 risques (MOYEN G-CEO3 faux positifs auto/bot, MINEURs token HMAC sans expiration + Haiku cache 1278<2048 min).
+  6. **Phase 5.B.2 (`4814128`)** : Twitter v2 DM (fetch natif, -400KB bundle) + Resend Inbound webhook (HMAC + opt-out detection 11 keywords) + suppression haro-agent.ts (migration 96 topics + bio collective vers ceo-backlinks.ts) + 8 templates par source.
+  7. **Phase 5.C (`6eaff5b`)** : dashboard `/admin/ceo` complet (page + 7 composants + types + 6 API routes admin + 3 tests Jest). Sparklines SVG natifs, voix Marrant, auth pattern /admin/social.
+- **Travaux en cours** : aucun. Phase 5.D (tests exhaustifs) + Phase 5.B.3 (Instagram Graph + lead scoring + Umami siteReturn48h + routage IA replies) **différées session 10** car prérequis = pre-commit check OK sur Replit + migration Prisma deploy + 12 nouveaux Secrets configurés.
+- **Actions manuelles Thomas restantes (pré-session 10)** :
+  1. **🔴 BLOCKER pré-Phase 5 prod** : merger `claude/marrant-s9-conformite-gouvernance-zwLbC` dans master + redéployer Replit. Sans ça, code Phase 5 invisible en prod.
+  2. **Pre-commit check sur Replit** (Règle n°6 CLAUDE.md) : `cd apps/web && npx tsc --noEmit && npx next lint && npm run build`. Délégué Thomas car node_modules absent localement. Si fail → corriger AVANT push prod.
+  3. **Migration Prisma deploy** : `cd apps/web && npx prisma generate && npx prisma migrate deploy` (applique `5_add_ceo_tables` — 11 modèles + 8 enums + 2 colonnes User).
+  4. **12 nouveaux Secrets Replit à configurer** :
+     - Phase 5.A (4) : `CEO_ADMIN_EMAIL`, `CEO_BUDGET_HARD_STOP_EUR=4`, `CEO_DRY_RUN=true` (au début), `ADRESSE_POSTALE_PLACEHOLDER` (décision Thomas)
+     - Phase 5.B (4) : `UNSUBSCRIBE_HMAC_SECRET` (`openssl rand -hex 32`), `NEXT_PUBLIC_BASE_URL`, autre déjà existants
+     - Phase 5.B.2 (2) : `TWITTER_BEARER_TOKEN`, `RESEND_WEBHOOK_SECRET`
+     - Phase 5.C (0) : auth admin existante
+  5. **Configurer 2 nouveaux crons Replit Scheduled Deployments** : `/api/cron/ceo-tick` (toutes heures, time gate 2-4h UTC interne), `/api/cron/ceo-kpis-snapshot` (toutes heures, time gate 5h UTC interne).
+  6. **Supprimer cron haro de Replit Scheduled Deployments** (cron HTTP supprimé Phase 5.B.2).
+  7. **Configurer webhook Resend dashboard** : endpoint `/api/webhooks/resend-inbound` + signing secret = `RESEND_WEBHOOK_SECRET`.
+  8. **Insérer ligne singleton `CeoConfig`** : kill-switch OFF par défaut (fail-safe), via API admin ou seeder.
+  9. **3 BLOQUANTS @legal s9 hors-code** : signer DPA Resend (`resend.com/legal/dpa`) / vérifier compte Anthropic plan commercial / vérifier DPA Replit `replit.com/dpa`.
+  10. **Activer pre-commit hook** : `git config core.hooksPath .githooks` (1× par poste).
+  11. **Cleanup data DB session 7 toujours en attente** : UPDATE SocialPost format='WILD_CARD' → REJECTED.
 - **Backlog session 10 (priorités)** :
-  1. **Phase 5 CEO implémentation @fullstack** (3-4h dédiées) : `ceo-agent.ts` + 8 migrations Prisma (CeoTask, CeoMemory, CeoLead, CeoBacklink, CeoConfig, CeoOutboundMessage, CeoKpiSnapshot, CeoAuditLog) + crons (`ceo-tick` 2-4h + `ceo-kpis-snapshot` daily 5h UTC) + intégrations APIs (Twitter v2 DM, Resend Inbound, LinkedIn/Instagram en drafts permanents) + suppression `haro-agent.ts` (migration des 96 topics + ALEX_BIO + templates) + dashboard React `/admin/ceo` (8 composants) + tests Jest.
-  2. **3 P1 ouverts session 08/04** (à corriger en Phase 5) : LinkedIn JSON conformité plan éditorial, race condition intra-heure (lock applicatif), Neon cold start retry Prisma.
-  3. **Audit @legal complet pré-S3** : DPA Anthropic/Resend/Buffer/Twitter/Meta + base légale outreach journalistes + scraping Connectively (RGPD).
-- **Nom de branche recommandé prochaine session** : `claude/marrant-s10-ceo-implementation-[suffix]`
+  1. **Phase 5.D tests Jest exhaustifs** (cible 90% coverage) — `ceo-agent.ts` (1072L), `ceo-helpers.ts` (581L), `ceo-email-footer.ts`, `ceo-backlinks.ts`, `twitter-client.ts`, route `resend-inbound`, 6 API routes admin, 6 composants restants. **Prérequis** : pre-commit check OK + migration deploy.
+  2. **Phase 5.B.3** (intégrations APIs résiduelles) : Instagram Graph drafts permanents, lead scoring auto (Umami + User.streak/JokeLike), câblage `siteReturn48h` snapshotCeoKpis, routage IA replies entrants, migration enum CeoBacklinkSource (ajout CONNECTIVELY/SOURCEBOTTLE/RSS_FEED), Twitter OAuth 1.0a User Context si DM POST 401 avec Bearer.
+  3. **Replacement scraping Connectively → RSS/Zapier** (recommandation @legal s9, handoff manuel Thomas).
+  4. **3 P1 ouverts session 08/04** : LinkedIn JSON conformité plan éditorial, ~~race condition intra-heure~~ (RÉSOLU Phase 5.A `SocialPostDailyLock`), Neon cold start retry Prisma. **2 P1 restants après s9.**
+- **Nom de branche recommandé prochaine session** : `claude/marrant-s10-phase5-tests-deploy-[suffix]` ou `claude/marrant-s10-phase5d-tests-[suffix]`.
 - **Commande de reprise suggérée pour session 10** :
   ```
-  @orchestrator Mode reprise. Sanity check anti-dérive (utiliser `sed -n '/GRADIENT-AGENTS-START/,/GRADIENT-AGENTS-END/p' CLAUDE.md | wc -l` pour le wrap). Lis project-context.md mémo session 9 + docs/marrant/playbook.md (règles spécifiques projet). PRIORITÉ ABSOLUE : Réflexe P0 #2 — vérifier que branche feature courante est déployée Replit. Si non déployé, c'est la priorité absolue. Sinon, lance Phase 5 CEO implémentation @fullstack à partir des 7 livrables Phase 0-4 (specs, architecture, KPIs, exemples canoniques, ceo.md). 3 P1 fullstack ouverts s08/04 à corriger en passant.
+  @orchestrator Mode reprise. Sanity check anti-dérive (markers : sed -n '/GRADIENT-AGENTS-START/,/GRADIENT-AGENTS-END/p' CLAUDE.md | wc -l). Lis project-context.md mémo session 9 + docs/marrant/playbook.md. PRIORITÉ ABSOLUE : vérifier que branche s9 est mergée master + déployée Replit + 11 actions Thomas (pre-commit check, migration deploy, 12 secrets, 2 crons, 3 DPA bloquants legal). Si tout OK, lance Phase 5.D tests exhaustifs Jest (cible 90% coverage). Sinon, fais d'abord les actions Thomas en parallèle des recommandations.
   ```
 - **PROPAGATION P0/P1 EN ATTENTE** (gate session 10) :
-  1. **3 P1 ouverts session 08/04** (LinkedIn JSON conformité, race condition intra-heure, Neon cold start retry) → corrections code en Phase 5 fullstack session 10.
+  1. **2 P1 ouverts session 08/04** (LinkedIn JSON conformité + Neon cold start retry) → Phase 5.D ou patch dédié session 10.
   2. **L05/05 #5 — Templates audit cron×quota + veille tech LLM** (P1 à-faire) → repo upstream Agent-Team (hors scope Marrant, manuel Thomas).
-  3. Règles s9 propagées : commandement n°4 (extension exception), commandement n°7 (clarification wrap markers), CLAUDE.md mince + playbook Marrant.
+  3. Règles s9 propagées : commandement n°4 (extension exception), commandement n°7 (clarification wrap markers), CLAUDE.md slim + playbook Marrant.
 
 ### Mémo session 8 (conservé pour mémoire)
 - **Branche** : `claude/add-sanity-check-7Wtc8` (36 commits)
