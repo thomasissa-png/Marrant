@@ -1,13 +1,14 @@
-<!-- Version: 2026-05-06 v3 — @copywriter — Refonte intégrale post-rejet Thomas — voix unifiée ceo-voice-unified.md -->
-<!-- Framework : Observation→Twist→Espace (emails + DMs) · factuel posé (pitchs backlink) -->
+<!-- Version: 2026-05-06 v4 — @copywriter — Refonte cycle 5 (dernier) — pivot valeur éducative acté Thomas 06/05/2026 -->
+<!-- Framework : Observation→Pratique→Invitation (emails + DMs) · factuel posé + angle expert (pitchs backlink) -->
 <!-- Niveau conscience : Problem-Aware (emails dropoff/winback) · Solution-Aware (DMs inbound) · Unaware (pitchs presse) -->
-<!-- Objections traitées : prix (ancrage concret) · complexité (1 action) · timing (sans engagement) · confiance (transparence, sans pression) -->
+<!-- Objections traitées : prix (contexte factuel) · complexité (1 action) · timing (sans engagement) · confiance (valeur avant conversion) -->
 
-# CEO Marrant — 15 exemples canoniques
+# CEO Deviens Marrant — 16 exemples canoniques (cycle 5)
 
-> Corpus v3 — refonte intégrale. Source de vérité voix : `docs/strategy/ceo-voice-unified.md`.
-> Tutoiement systématique. G-S19 respecté. Zéro persona nominatif. Signature email : "L'Équipe Devient Marrant".
-> Densité humour cible : 1 trait bien placé par message. Pas de chute à chaque ligne.
+> Corpus v4 — réécriture intégrale sur pivot valeur éducative. Source de vérité voix : `docs/strategy/ceo-voice-unified.md` v3.
+> Tutoiement systématique. G-S19 respecté. Zéro persona nominatif. Signature email : "L'Équipe Deviens Marrant".
+> Densité humour cible : 1 trait bien placé pour 4-5 phrases. Conseils/apprentissage comme axe de valeur prioritaire.
+> Étalons canoniques Thomas : Ex 1 (welcome) = étalon 2 verbatim · Ex 6 (DM répartie) = étalon 1 verbatim · Ex 11 (HARO) = étalon 3 verbatim.
 
 ---
 
