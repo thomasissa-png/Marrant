@@ -161,6 +161,7 @@
 |-------|------|----------|------------|-----------|----------------|----------|-------------|-------|
 | Orchestrator | 24/03/2026 | project-context.md | 5 | 5 | 5 | 4 | 5 | Tous les champs remplis. Concurrents basés sur hypothèse (pas de concurrent direct trouvé). Budget analytics à recommander. |
 | creative-strategy | 06/05/2026 | docs/strategy/ceo-voice-unified.md | 5 | 5 | 5 | 5 | 5 | Refondation voix CEO après rejet Phase 1. Fondée sur existant (brand-voice, s7, joke-agent). 5 anti-patterns verbatim, 3 phrases-pivot sourcées, arbitrage s7/CEO documenté. |
+| creative-strategy | 06/05/2026 | docs/strategy/ceo-agent-scope.md v2 + ceo-voice-unified.md v3 | 5 | 5 | 5 | 5 | 5 | Pivot "agent valeur éducative" acté. Mission refondée, KPIs révisés (North Star = engagement, MRR = conséquence), 7 playbooks revisités (P3 refondé, 6 conservés), Q12+Q13 documentés, "Deviens Marrant" uniformisé, reporting 4 sections + 1 obs pédagogique. |
 
 **Légende (échelle 1-5 alignée avec CLAUDE.md) :**
 - **Complétude** : 1 (sections manquantes) → 3 (sections principales couvertes) → 5 (tout rempli, rien à ajouter)

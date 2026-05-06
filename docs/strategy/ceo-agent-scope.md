@@ -1,39 +1,41 @@
-<!-- Version: 2026-05-05T22:00 — @orchestrator — Brief de cadrage CEO autonome (Phase 0) -->
+<!-- Version: 2026-05-06 — @creative-strategy — Pivot "agent valeur éducative" (session 8) -->
 
-# Brief de cadrage — CEO autonome Marrant
+# Brief de cadrage — CEO autonome Deviens Marrant
 
-> Document source de vérité pour la création de l'agent CEO autonome de Marrant.
+> Document source de vérité pour la création de l'agent CEO autonome de Deviens Marrant.
 > Lu en input par tous les agents de Phase 1+ (creative-strategy, growth, legal, seo, ia, product-manager, fullstack, infrastructure, qa, reviewer).
-> Toutes décisions ci-dessous validées par Thomas en session 8 (05/05/2026) sauf mention `[CHOIX UTILISATEUR]` où la reco orchestrator a été override.
+> Toutes décisions ci-dessous validées par Thomas en session 8 (05/05/2026 + 06/05/2026) sauf mention `[CHOIX UTILISATEUR]` où la reco orchestrator a été override.
 
 ## Mission de l'agent CEO
 
-> Convertir un maximum d'abonnés free en abonnés premium **0,99€/mois** en agissant en autonomie sur les canaux d'acquisition, de conversion et de visibilité (backlinks). Le CEO opère par **levée de friction** (pas démonstration de valeur) — à 0,99€, l'enjeu n'est pas de prouver que ça vaut le prix, c'est de déclencher l'action de souscription.
+> Délivrer de la valeur éducative en autonomie — sur les canaux email, social et presse — pour que chaque personne qui entre en contact avec Deviens Marrant reçoive quelque chose de concret et utile sur l'humour ou la répartie. La conversion en abonné premium est la **conséquence** de cette valeur délivrée, pas l'objectif direct de chaque message.
+
+**Ce que ce pivot change concrètement :** le CEO ne "déclenche" pas l'abonnement — il rend l'envie de continuer à lire si forte que l'abonnement devient logique. La différence n'est pas cosmétique : elle change le contenu de chaque message, la structure des playbooks, et les KPIs de succès.
 
 ## North Star et KPIs
 
-- **North Star** : MRR delta attribué au CEO (€/mois)
-- **Cible 6 mois** : contribuer à hauteur de 30% du North Star projet (1 000€ MRR → ~300€ MRR CEO → ~300 abonnés premium acquis)
-- **Cible 12 mois** : 30% du North Star projet (3 000€ MRR → ~900€ MRR CEO → ~900 abonnés)
+- **North Star** : valeur éducative délivrée mesurable — taux d'engagement sur les messages CEO (opens + replies + clics sur ressource proposée) sur 30 jours glissants
+- **MRR delta** : KPI de conséquence, suivi en parallèle mais non utilisé comme objectif direct des messages
+- **Cible 6 mois** : 300 abonnés premium — objectif business, pas objectif de chaque interaction
 - **3 satellites** :
-  - Conversion rate free→premium dans les 30j d'inscription
-  - Reply rate emails / response rate sociales
-  - Cost-per-acquired-subscriber (cap : < 0,99€ = 1 mois d'abonnement)
+  - Taux de réponse aux emails CEO (engagement actif > consommation passive)
+  - Taux de retour sur le site dans les 48h après un message CEO (valeur perçue → comportement)
+  - Taux d'ouverture des emails > 40% (benchmark signal de qualité perçue, pas de conversion forcée)
 - **KPI backlinks** : nombre de backlinks acquis/mois × DA estimé (via Google Search Console + DB interne `CeoBacklink`)
 
-## Profil et personnalité (validé Phase 0)
+## Profil et personnalité (validé Phase 0 + pivot session 8)
 
-5 traits, à affiner sur les 15 exemples canoniques de Phase 2 :
-1. **Complice** — pas commercial. Parle comme un pote qui partage des vannes.
-2. **Proactif sans être intrusif** — relance 1 fois max, sait se taire.
-3. **Drôle par défaut** — chaque DM/email a au moins 1 chute. Cohérence marque.
-4. **Expert humour** — utilise les références stand-up FR (Mirabel, Fary, Frayssinet, Gardin, Pascot).
-5. **Transparent sur sa nature** — se présente comme "l'équipe Marrant", pas humain isolé. À ré-arbitrer Phase 2 sur exemples réels.
+5 traits, calibrés sur les 3 étalons canoniques Thomas (voir `docs/strategy/ceo-voice-unified.md`) :
+1. **Éducatif avant tout** — chaque message apporte quelque chose de concret sur l'humour ou la répartie. Pas un pote qui "partage des vannes" — quelqu'un qui sait et qui montre.
+2. **Proactif sans être intrusif** — relance 1 fois max, sait se taire. Le silence est une posture, pas un manque.
+3. **Drôle par calibration, pas par obligation** — 1 trait bien senti par message, pas une chute par phrase. La densité cible : 1 trait drôle pour 4-5 phrases.
+4. **Expert humour avec sources** — cite les références stand-up FR (Mirabel, Fary, Frayssinet, Gardin, Pascot) pour illustrer une technique réelle, jamais pour faire malin.
+5. **Transparent sur sa nature** — signe "L'Équipe Deviens Marrant", pas humain isolé. Arbitrage Phase 2 si "agent IA" requis dans la signature selon @legal.
 
-**Voix narrative** : compte = marque (G-S19 anti-1ère-personne respecté), tutoiement systématique, **PAS** de ton corporate/coach/thought-leader. **PAS** de "panique financière encodée" (rejet explicite du pattern NanoCorp).
+**Voix narrative** : voir `docs/strategy/ceo-voice-unified.md` (source de vérité). Résumé : phrases construites et fluides, observation > prescription, invitation à la ressource sans pression, tutoiement systématique.
 
-**Phrase de mission v2 (calibrée 0,99€)** :
-> "Je suis le CEO autonome de Marrant et ma mission est de convertir chaque abonné free en abonné premium en lui prouvant que pour le prix d'un café par mois, il devient le pote drôle de sa table. Et de glaner les backlinks qui propulsent Marrant au sommet de Google."
+**Phrase de mission v3 (pivot valeur éducative)** :
+> "L'agent CEO de Deviens Marrant délivre de la valeur concrète sur l'humour et la répartie — en DM, en email, en pitch presse. L'abonnement vient quand le lecteur veut continuer à lire."
 
 ## Périmètre des canaux (Q1 + Q9)
 
@@ -46,7 +48,7 @@
 ### Social — Twitter/X, LinkedIn, Instagram
 - **DM Inbound** : répondre aux DMs reçus
 - **Commentaires sur nos posts** : répondre aux commentaires sous les posts daily-social
-- **Commentaires proactifs sur posts pertinents lambda** : sur des posts d'utilisateurs lambda (pas humoristes/influenceurs/journalistes — blacklist explicite) qui expriment une douleur que Marrant adresse. Mécanisme : monitoring keywords API → triage Haiku → draft Sonnet → validation Director → admin 1-clic. Rate limit : ≤ 5 commentaires/jour, délai > 1h post-publication (anti-stalking).
+- **Commentaires proactifs sur posts pertinents lambda** : sur des posts d'utilisateurs lambda (pas humoristes/influenceurs/journalistes — blacklist explicite) qui expriment une douleur que Deviens Marrant adresse. Mécanisme : monitoring keywords API → triage Haiku → draft Sonnet → validation Director → admin 1-clic. Rate limit : ≤ 5 commentaires/jour, délai > 1h post-publication (anti-stalking).
 - ❌ **Pas de DM outbound automatisé** (ban API + RGPD)
 - ❌ **Pas d'outbound sur posts d'humoristes/influenceurs** (anti-bot-detection, brand safety)
 
@@ -128,8 +130,12 @@ Reco orchestrator initiale : **ii. Outil** (`haro-agent.ts` reste indépendant, 
 ## Reporting (Q8 hebdomadaire)
 
 - **Format** : 1 email lundi 9h à `alex@deviens-marrant.fr`
-- **Contenu** : récap 7 derniers jours (actions prises par canal, KPIs delta, conversions premium attribuées, backlinks acquis, difficultés rencontrées, plan semaine N+1)
-- **Format inspiré NanoPilot** mais adapté : prose courte FR + 1 tableau KPIs + 3-5 highlights
+- **Structure** : rapport factuel sobre en 4 sections fixes :
+  1. **KPIs delta 7 jours** — tableau : actions par canal, taux engagement, taux retour site, backlinks acquis, MRR delta (conséquence)
+  2. **Ce qui a bien fonctionné** — 2-3 exemples concrets (message qui a généré une réponse, angle backlink qui a décroché une publication)
+  3. **Ce qui n'a pas fonctionné** — 1-2 observations factuelles, sans dramatiser
+  4. **1 observation pédagogique** — une chose apprise sur l'audience ou le contenu cette semaine (signal faible utile, pas de conclusion définitive)
+- **Ton** : sobre et factuel — pas d'édito narratif, pas de "cette semaine on a réalisé que...". Des faits, un apprentissage.
 - **Dashboard temps réel `/admin/ceo`** : disponible en complément (timeline actions, tasks ouvertes, budget jour, file drafts)
 
 ## Garde-fous techniques non-négociables
@@ -142,6 +148,22 @@ Reco orchestrator initiale : **ii. Outil** (`haro-agent.ts` reste indépendant, 
 6. Allowlist destinataires : utilisateurs ayant interagi 30 derniers jours OU subscribers free OU médias dans la liste FR humour
 7. PII masking dans les logs
 
+## Playbooks CEO — Statut post-pivot (session 8)
+
+Les 7 playbooks définis par @growth (`docs/growth/ceo-conversion-playbooks.md`) sont révisés selon le pivot valeur éducative. Chaque playbook est évalué sur : est-ce que le message délivre de la valeur en lui-même, indépendamment de la conversion ?
+
+| Playbook | Verdict | Révision requise |
+|---|---|---|
+| **P1 — Welcome free** | **CONSERVÉ** | L'étalon 2 (email welcome Thomas) est le modèle exact. Remplacer "vanne de bienvenue + action concrète" par la structure étalon 2 : insight éducative → ancrage pratique → invitation parcours sans pression. |
+| **P2 — Reactivation dropoff J+7** | **CONSERVÉ** | Déjà aligné : "L'objectif est de faire rire, pas de convertir." Maintenir. |
+| **P3 — Conversion soft** | **REFONDÉ** | Supprimer le trigger "tu viens de toucher la limite" comme accroche principale — c'est de la pression de vente déguisée. Nouveau déclencheur : moment de progression (streak, like, parcours avancé) → délivrer une insight pédagogique sur ce que l'abonné peut faire ensuite → invitation naturelle vers le premium. La limite peut apparaître comme contexte factuel en 1 ligne, jamais comme hook émotionnel. |
+| **P4 — Winback churner** | **CONSERVÉ** | Ton complice, chiffre de vannes passées, pas de réduction. Cohérent avec valeur éducative. |
+| **P5 — Inbound social DMs** | **CONSERVÉ** | Structure étalon 1 (DM Twitter) est le modèle. Insight concrète + invitation ressource en fin. |
+| **P6 — Commentaire proactif lambda** | **CONSERVÉ** | Observation drôle sur la douleur + positionnement Deviens Marrant comme solution. Déjà en mode valeur. |
+| **P7 — Referral fan** | **CONSERVÉ** | "Vanne exclusive non visible en free" = délivrance de valeur directe. Conserver. |
+
+**Règle commune à tous les playbooks** : chaque message doit passer le test "est-ce que ce message est utile même si le destinataire ne clique pas ?" Si non → réécrire.
+
 ## Plan d'orchestration
 
 ### Phase 0 — Cadrage (TERMINÉE)
@@ -150,8 +172,8 @@ Reco orchestrator initiale : **ii. Outil** (`haro-agent.ts` reste indépendant, 
 - [x] Brief de cadrage (ce document)
 
 ### Phase 1 — Stratégie business + cadre légal + audit SEO existant (PARALLÈLE — 4 agents)
-- @creative-strategy v2 : positionnement final + tone of voice CEO calibré 0,99€ (anti-friction) + segments prioritaires
-- @growth : funnel free→premium détaillé + scoring lead + 5-7 playbooks de conversion + LTV calc à 0,99€
+- @creative-strategy v2 : positionnement final + tone of voice CEO calibré valeur éducative + segments prioritaires (TERMINÉE — voir `ceo-voice-unified.md` v3)
+- @growth : funnel free→premium détaillé + scoring lead + playbooks valeur (P1-P7 révisés pivot session 8) + LTV calc à 0,99€
 - @legal : red lines RGPD/CNIL/ToS plateformes + DPA + base légale outbound + base légale outreach journalistes/blogueurs
 - @seo : audit `haro-agent.ts` existant pour migration + cibles backlinks prioritaires FR humour/EdTech + format pitch type + glossaire DA/DR
 
@@ -189,23 +211,24 @@ Audit dual /20 : Stand-Up Director + @reviewer. Itération jusqu'au plateau (cap
 | Q3 | Niveau d'autonomie | Phasage 1 mois (compressé) | Phasage 4 mois | **Oui — accéléré** |
 | Q4 | Budget LLM | ≤ 2€/jour | ≤ 2€/jour | Non |
 | Q5 | Garde-fous légaux | Suit reco "90% NanoCorp / 10% risque" | Idem | Non |
-| Q6 | KPI succès | MRR delta + 3 satellites (validé via défaut) | Identique | Non |
+| Q6 | KPI succès | Engagement actif (réponses, retour site 48h, open rate > 40%) — MRR delta en KPI conséquence | MRR delta en North Star | **Oui — pivot session 8** |
 | Q7 | Articulation social-media-agent | Reco @moi (option B) | Identique | Non |
-| Q8 | Scope CEO | BD strict + rapports hebdo | Identique | Non |
+| Q8 | Scope CEO | Valeur éducative + rapports hebdo sobres (4 sections, 1 obs pédagogique) | BD strict + rapports hebdo | **Oui — pivot session 8** |
 | Q9 | Périmètre backlinks | γ phasé (HARO + nouveaux canaux) | γ phasé | Non |
 | Q10 | Sort de haro-agent.ts | **iii. Remplacement (suppression)** | ii. Outil indépendant | **Oui** |
 | Q11 | Tracking backlinks | D — GSC + DB interne | D | Non |
 | Prix | Tarif premium | 0,99€/mois (anti-friction) | 9,99€ supposé | **Oui — change le math x10** |
+| Q12 | Pattern invitation ressource | Proposer sans orienter — "On peut te partager X si tu veux" (jamais "Il y a un article sur notre site") | Non défini | **Nouveau — session 8** |
+| Q13 | Doctrine troll | Détachement bienveillant — silence ou chaleur sans riposte. Pas "avoir le dernier mot par le rire". | Non défini | **Nouveau — session 8** |
 
 ---
 
-**Handoff → @creative-strategy v2 / @growth / @legal / @seo (Phase 1 parallèle)**
+**Handoff → @copywriter (Phase 2 — cycle 5 sur 15 exemples)**
 
 Lecture obligatoire avant production :
-- Ce document (`docs/strategy/ceo-agent-scope.md`)
+- Ce document (`docs/strategy/ceo-agent-scope.md`) — mission + playbooks révisés
+- `docs/strategy/ceo-voice-unified.md` v3 — source de vérité voix + 3 étalons canoniques Thomas
 - `docs/strategy/ceo-benchmark-nanocorp.md` (positionnement)
-- `docs/ia/ceo-architecture-benchmark.md` (architecture technique)
 - `project-context.md` (persona Yanis/Sophie/Marc, ton de marque, North Star)
-- `CLAUDE.md` sections "Personas", "Stratégie Social Media", "Agent HARO" (à supprimer mais à comprendre)
 
-Décision principale à respecter : **CEO opère par levée de friction (0,99€/mois), pas par démonstration de valeur**.
+Décision principale à respecter : **le CEO délivre de la valeur éducative — la conversion est la conséquence, jamais l'objectif du message. Chaque draft est calibré sur les 3 étalons canoniques Thomas, pas sur des références externes.**

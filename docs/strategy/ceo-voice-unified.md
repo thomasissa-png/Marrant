@@ -61,17 +61,17 @@ La voix de Deviens Marrant est stable. Elle ne change pas selon le destinataire.
 
 ---
 
-## 2. Ce que Marrant veut INSPIRER
+## 2. Ce que Deviens Marrant veut INSPIRER
 
-Au-delà de faire rire : Marrant veut activer quelque chose de précis chez le lecteur.
+Au-delà de faire rire : Deviens Marrant veut activer quelque chose de précis chez le lecteur.
 
-**La légèreté comme posture active.** Pas la désinvolture, pas le cynisme — la capacité à regarder une situation tendue et à trouver l'angle qui la dégonfle. C'est ça que Fary ou Blanche Gardin incarnent : ils ne fuient pas le malaise, ils le nomment. Marrant veut donner cet outil.
+**La légèreté comme posture active.** Pas la désinvolture, pas le cynisme — la capacité à regarder une situation tendue et à trouver l'angle qui la dégonfle. C'est ça que Fary ou Blanche Gardin incarnent : ils ne fuient pas le malaise, ils le nomment. C'est cet outil qu'on transmet.
 
-**L'audace sociale.** Le lecteur qui consomme Marrant pendant 6 mois ne rit pas plus qu'avant. Il ose plus. Il sort la vanne qu'il gardait dans sa tête. Il répond à la pique de son chef. Il tient la conversation à la machine à café sans chercher ses mots. C'est la promesse profonde : moins d'hésitation sociale, pas plus de blagues connues par coeur.
+**L'audace sociale.** Le lecteur de Deviens Marrant pendant 6 mois ne rit pas plus qu'avant — il ose plus. Il sort la vanne qu'il gardait dans sa tête. Il répond à la pique de son chef. Il tient la conversation à la machine à café sans chercher ses mots. La promesse profonde : moins d'hésitation sociale, pas plus de blagues mémorisées.
 
-**Un regard décalé comme réflexe.** Pascot, Mirabel, Gardin ne cherchent pas le calembour — ils cherchent l'observation juste. Marrant entraîne cette façon de regarder. Pas "apprendre des blagues" — développer un filtre sur le monde. Ce filtre, une fois installé, ne disparaît pas.
+**Un regard décalé comme réflexe.** Pascot, Mirabel, Gardin ne cherchent pas le calembour — ils cherchent l'observation juste. Deviens Marrant entraîne cette façon de regarder. Ce filtre, une fois installé, ne disparaît pas.
 
-Ces humoristes ne sont pas des arguments d'autorité dans nos communications. Ce sont nos sources — on les cite quand c'est utile pour illustrer une technique réelle, jamais pour faire malin.
+Ces humoristes ne sont pas des arguments d'autorité dans nos communications. Ce sont nos sources — on les cite pour illustrer une technique réelle, jamais pour faire malin.
 
 ---
 
@@ -92,11 +92,11 @@ Tutoiement systématique, toujours. Oral mais soigné : ni argot, ni langue form
 **Observation > prescription.** La marque regarde le monde et le dit. Elle ne donne pas de leçons. La différence :
 
 - "Voilà 3 techniques pour être drôle en réunion" → prescription, à éviter
-- "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57 et tu sais déjà que t'as raté ton train." → observation, c'est Marrant
+- "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57 et tu sais déjà que t'as raté ton train." → observation, c'est Deviens Marrant
 
 L'humour vient de l'observation juste, pas du calembour. Quand la marque fait rire, c'est parce qu'elle a nommé quelque chose que tout le monde ressent et que personne n'avait encore dit comme ça.
 
-**Sobriété > saturation.** 1 trait drôle bien placé vaut 3 punchlines empilées. Quand tout est punchline, plus rien ne l'est. La voix Marrant sait s'arrêter.
+**Sobriété > saturation.** 1 trait drôle bien placé vaut 3 punchlines empilées. Quand tout est punchline, plus rien ne l'est. La voix de Deviens Marrant sait s'arrêter.
 
 **Structure type d'un message Deviens Marrant :**
 1. Insight éducative (1-2 phrases) — quelque chose de concret sur l'humour ou la répartie
@@ -239,33 +239,18 @@ Ces phrases sont extraites de l'existant du projet. Quand un copywriter doute, i
 
 ---
 
-## Handoff @copywriter
+## 7. Handoff @copywriter — Cycle 5
 
-**Fichiers à lire avant de produire** : ce document + `docs/copy/brand-voice.md` (vocabulaire) + `docs/social/social-reform-s7.md` section 4 (9 posts canoniques validés par Thomas).
+**Fichiers à lire avant de produire** : ce document + `docs/strategy/ceo-agent-scope.md` v2 (mission révisée + playbooks) + `docs/copy/brand-voice.md` + `docs/social/social-reform-s7.md` section 4.
 
-**Mission prochaine étape** : produire 15 exemples canoniques CEO — réécriture de zéro, pas d'édition des versions rejetées.
+**Mission** : produire 15 exemples canoniques CEO calibrés sur les 3 étalons Thomas — réécriture de zéro, pas d'édition des versions rejetées cycles 1-4.
 
 | Format | Volume | Instructions clés |
 |---|---|---|
-| Emails | 5 | 1 obs + 1 CTA sans pression + 1 punchline max en fermeture. Sujet < 50 chars. Signature "Alex". |
-| DMs sociaux | 5 | 2-3 phrases. Anti-1ère-personne sauf observation sur le lecteur. |
-| Pitchs backlinks | 5 | Ton factuel. Humour dans l'angle de la demande, pas dans des vannes citées. |
+| Emails | 5 | 1 insight éducative + invitation sans pression + 1 punchline max en fermeture. Sujet < 50 chars. Signature "L'Équipe Deviens Marrant". |
+| DMs sociaux | 5 | 2-3 phrases. Structure étalon 1. Anti-1ère-personne sauf observation sur le lecteur. |
+| Pitchs backlinks | 5 | Structure étalon 3. Humour dans l'angle de la demande, pas dans des vannes citées. |
 
-**Anti-patterns à appliquer comme liste de rejet** : si l'une des formulations de la section 5 apparaît dans un draft, recommencer la phrase. Pas d'édition chirurgicale — si le ton est faux, il est faux dans toute la phrase.
+**Anti-patterns à appliquer comme liste de rejet** : si l'une des formulations de la section 5 apparaît dans un draft, recommencer la phrase — si le ton est faux, il est faux dans toute la phrase.
 
-**Contrainte aucun-persona-visible** : la mécanique de segmentation ne doit pas se voir. On décrit des situations, pas des profils.
-
----
-
-**Fichiers produits** : `/home/user/Marrant/docs/strategy/ceo-voice-unified.md`
-
-**Décisions prises** :
-- La voix CEO est une extension directe de la voix Marrant, pas un personnage distinct
-- [HYPOTHÈSE] Arbitrage s7 / voix CEO : 1ère personne autorisée dans formats signés si elle sert une observation sur le lecteur ou la marque, jamais pour raconter la vie de l'émetteur
-- La phrase-pivot 3 est la seule ligne des 5 emails Phase 1 conservée — elle sert d'ancrage
-- Name-dropping d'humoristes : interdit à visée "signal social", autorisé pour illustrer une technique réelle
-
-**Points d'attention pour @copywriter** :
-- Les 5 emails Phase 1 sont à réécrire de zéro — Thomas a rejeté l'ensemble, pas les détails
-- "On te voit" ne doit jamais revenir sous aucune forme
-- Niveau de densité humour cible : 1 trait bien senti par email, pas par phrase
+**Contrainte aucun-persona-visible** : décrire des situations, pas des profils.
