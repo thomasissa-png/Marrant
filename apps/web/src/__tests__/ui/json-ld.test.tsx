@@ -128,6 +128,6 @@ describe("buildCourseJsonLd", () => {
     expect(result.hasCourseInstance.courseWorkload).toBe("P3W");
     expect(result.educationalLevel).toBe("Beginner");
     expect(result.url).toBeUndefined();
-    expect(result.numberOfLessons).toBeUndefined();
+    expect((result as { numberOfLessons?: number }).numberOfLessons).toBeUndefined();
   });
 });

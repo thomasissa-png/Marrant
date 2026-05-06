@@ -53,7 +53,7 @@ async function setupDirectorWithFlag(
     process.env.ENABLE_HAIKU_VALIDATION = flag;
   }
 
-  const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+  const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
   const mockAnthropicCreate = jest.fn();
   Anthropic.mockImplementation(() => ({
     messages: { create: mockAnthropicCreate },

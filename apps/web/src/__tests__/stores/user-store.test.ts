@@ -27,7 +27,7 @@ describe("UserStore", () => {
         xp: 50,
         streak: 3,
         lastActiveAt: null,
-        stats: { jokesRead: 10, tipsCompleted: 5, videosWatched: 2, totalFavorites: 3 },
+        stats: { jokesRead: 10, tipsCompleted: 5, videosWatched: 2, totalFavorites: 3, pathsCompleted: 0 },
       };
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
@@ -63,7 +63,7 @@ describe("UserStore", () => {
       xp: 50,
       streak: 3,
       lastActiveAt: null,
-      stats: { jokesRead: 10, tipsCompleted: 5, videosWatched: 2, totalFavorites: 3 },
+      stats: { jokesRead: 10, tipsCompleted: 5, videosWatched: 2, totalFavorites: 3, pathsCompleted: 0 },
     };
 
     it("does nothing when no user", async () => {

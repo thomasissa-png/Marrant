@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Déduplication — ignorer les événements déjà traités
-  const existing = await prisma.webhookEvent.findUnique({ where: { id: event.id } });
+  const existing = await prisma.webhookEvent.findUnique({ where: { eventId: event.id } });
   if (existing) {
     return NextResponse.json({ received: true, deduplicated: true });
   }
@@ -253,7 +253,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Enregistrer l'événement APRÈS traitement réussi (pas avant)
-    await prisma.webhookEvent.create({ data: { id: event.id } });
+    await prisma.webhookEvent.create({
+      data: {
+        eventId: event.id,
+        provider: "stripe",
+        eventType: event.type,
+        receivedAt: new Date(),
+      },
+    });
 
     return NextResponse.json({ received: true });
   } catch (error) {
