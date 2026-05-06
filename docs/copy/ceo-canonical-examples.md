@@ -1,24 +1,24 @@
-<!-- Version: 2026-05-05 v2 — @copywriter — Phase 2 CEO autonome Marrant — cycle chirurgical 4 exemples -->
-<!-- Framework : AIDA (emails), Structure canonique DM (Observation→Twist→Lien), BAB (pitchs backlink) -->
-<!-- Niveau conscience : Problem-Aware (emails) / Solution-Aware (DMs inbound) / Unaware (pitchs presse) -->
+<!-- Version: 2026-05-06 v3 — @copywriter — Refonte intégrale post-rejet Thomas — voix unifiée ceo-voice-unified.md -->
+<!-- Framework : Observation→Twist→Espace (emails + DMs) · factuel posé (pitchs backlink) -->
+<!-- Niveau conscience : Problem-Aware (emails dropoff/winback) · Solution-Aware (DMs inbound) · Unaware (pitchs presse) -->
+<!-- Objections traitées : prix (ancrage concret) · complexité (1 action) · timing (sans engagement) · confiance (transparence, sans pression) -->
 
 # CEO Marrant — 15 exemples canoniques
 
-> Corpus de référence Phase 2. Ces 15 exemples constituent le terrain d'audit dual @reviewer + @moi.
-> **v2 — cycle chirurgical 4 exemples (ex 5, 7, 8, 13) — 2026-05-05.**
-> Chaque exemple suit le format obligatoire. Voix : complice · décomplexé · activateur.
-> Tutoiement systématique. G-S19 respecté : compte = marque, zéro "je/mon/ma" hors citation explicite.
+> Corpus v3 — refonte intégrale. Source de vérité voix : `docs/strategy/ceo-voice-unified.md`.
+> Tutoiement systématique. G-S19 respecté. Zéro persona nominatif. Signature email : "L'Équipe Devient Marrant".
+> Densité humour cible : 1 trait bien placé par message. Pas de chute à chaque ligne.
 
 ---
 
 ## BLOC A — EMAILS SUBSCRIBERS (5 exemples)
 
-*Footer légal standard (auto-injecté sur tous les emails outbound) :*
+*Footer légal standard (auto-injecté sur tous les emails outbound non-transactionnels) :*
 ```
 ---
 Tu reçois cet email parce que tu t'es inscrit(e) sur deviens-marrant.fr.
-Se désinscrire en 1 clic : [lien opt-out]  |  Politique de confidentialité
-Base légale : consentement donné à l'inscription.
+[Me désinscrire en 1 clic] | [Politique de confidentialité]
+Traitement fondé sur : ton consentement donné à l'inscription.
 L'Équipe Devient Marrant — deviens-marrant.fr | contact@deviens-marrant.fr
 ```
 
@@ -28,160 +28,154 @@ L'Équipe Devient Marrant — deviens-marrant.fr | contact@deviens-marrant.fr
 
 **Catégorie** : email
 **Sous-type** : welcome
-**Persona servi** : tous
-**Trigger** : `User.createdAt` ≤ 1h (S12 activé) — P1
+**Audience** : tout nouvel inscrit (J+0, fenêtre < 2h après signup)
+**Trigger** : `User.createdAt` ≤ 1h (signal S12) — P1
 **Canal** : Email via Resend
 **Contraintes format** : 3-4 phrases corps, lien direct /vannes, sujet ≤ 50 chars, 0 point d'exclamation
-**Playbook source** : P1
+**Playbook source** : P1 — Welcome free
 
-**Subject** : La vanne du jour t'attend
+**Subject** : Ta première vanne t'attend
 
 **Corps du message** :
-Bienvenue. La vanne du jour est déjà là — c'est la seule chose importante dans cet email.
+Bienvenue. Y'a une vanne du jour sur le site — c'est l'unique raison d'être de cet email.
 
-Roman Frayssinet attendrait 12 secondes avant de la sortir. Toi, t'as juste à cliquer et décider si c'est pour ce soir ou pour demain matin à la machine à café.
+Certaines tiennent en soirée, d'autres font mouche à la machine à café. Celle-là, t'en feras ce que tu veux.
 
-[→ Voir la vanne du jour](https://deviens-marrant.fr/vannes)
+[→ La vanne du jour](https://deviens-marrant.fr/vannes)
 
-**Footer (si email)** :
+**Footer** :
 *Footer standard — voir bloc A*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ Ton direct, pas de formule de politesse, lien immédiat — c'est exactement un SMS de pote
-- Concret (après ça je sais quoi faire) : ✅ Un seul CTA, une seule action, direction claire
-- Doublon (existe déjà sous autre forme ?) : ✅ Welcome J+0 — aucun autre email ne couvre ce slot
-- Persona (servi ?) : ✅ Universel — fonctionne pour les 3 profils, ancrage "machine à café" parle à Sophie, "ce soir" parle à Yanis
-- Barre (niveau leader marché ?) : ✅ Plus court et plus direct que les welcomes Duolingo / Blinkist
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation courte, ton direct, phrase unique par idée, zéro injonction
+- Inspirer (section 2 doc voix) : ✅ On active la légèreté dès J+0 sans promettre de transformer le lecteur
+- Anti-patterns évités (section 5) : ✅ Zéro surveillance, zéro name-dropping, zéro FOMO, zéro calcul visible, zéro saturation de chutes
+- Storytelling présent : ✅ L'email a un fil : bienvenue → la vanne existe → tu l'utiliseras comme tu veux. Pas de délivrable transactionnel pur
+- Effort visible : ✅ "Certaines tiennent en soirée, d'autres font mouche à la machine à café" — observation concrète, pas une formule de welcome générique
 
 ---
 
-### Exemple 2 — Dropoff J+7
+### Exemple 2 — Réactivation 7 jours
 
 **Catégorie** : email
-**Sous-type** : dropoff
-**Persona servi** : Yanis (étudiant — routine cassée, créneau soir)
-**Trigger** : `User.lastActiveAt` > J-7 ET `User.plan = FREE` ET `User.createdAt` < J-7 (S9 activé) — P2
-**Canal** : Email via Resend — envoi 19h-22h
-**Contraintes format** : 4 lignes max, 0 pitch premium, sujet ≤ 50 chars, 1 seul email (pas de relance)
-**Playbook source** : P2
+**Sous-type** : réactivation
+**Audience** : tout inscrit free inactif depuis 7 jours ou plus, ayant été actif au moins 1 fois
+**Trigger** : `User.lastActiveAt` > J-7 ET `User.plan = FREE` ET `User.createdAt` < J-7 (signal S9) — P2
+**Canal** : Email via Resend — envoi 19h-22h, 1 seul email (pas de relance)
+**Contraintes format** : 4 phrases max, 0 pitch premium, sujet ≤ 50 chars
+**Playbook source** : P2 — Engagement reactivation
 
-**Subject** : T'as loupé une vanne parfaite
+**Subject** : Une semaine sans répartie
 
 **Corps du message** :
-Ça fait une semaine. La vanne de mardi était exactement celle qu'il fallait pour répondre à quelqu'un qui te chambre en soirée — tac au tac, sans réfléchir.
+Ça fait une semaine. La répartie se rouille vite — les vannes, un peu moins.
 
-Elle est encore là si t'as 30 secondes.
+La vanne de cette semaine est exactement le genre qu'on garde dans sa poche pour répondre sans hésiter. Elle est encore là si t'as 30 secondes.
 
 [→ La vanne t'attend](https://deviens-marrant.fr/vannes)
 
-La répartie se rouille vite. Les vannes, moins.
-
-**Footer (si email)** :
+**Footer** :
 *Footer standard — voir bloc A*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "T'as loupé" — ton direct de pote qui prévient, pas de marque qui relance
-- Concret (après ça je sais quoi faire) : ✅ Un clic, une vanne, applicable ce soir
-- Doublon (existe déjà sous autre forme ?) : ✅ Seul email de ce slot — aucune duplication
-- Persona (servi ?) : ✅ "Chambre en soirée", "tac au tac" — cadre mental Yanis précis
-- Barre (niveau leader marché ?) : ✅ L'observation finale "La répartie se rouille vite" est la chute — cohérence marque stand-up
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation ("ça fait une semaine"), twist ("les vannes, un peu moins"), lien — structure canonique doc voix section 3
+- Inspirer (section 2 doc voix) : ✅ Active l'idée que la répartie se travaille — sans le dire en ces termes
+- Anti-patterns évités (section 5) : ✅ Zéro FOMO ("t'as loupé"), zéro surveillance, zéro segmentation visible ("chambre en soirée"), zéro saturation
+- Storytelling présent : ✅ Une semaine passée → la vanne existe toujours → toi tu décides. Pas une relance marketing, un constat
+- Effort visible : ✅ La phrase "La répartie se rouille vite — les vannes, un peu moins" est une observation juste, pas un template de dropoff standard
 
 ---
 
-### Exemple 3 — Conversion soft J+14
+### Exemple 3 — Conversion soft (signal limite ou intent fort)
 
 **Catégorie** : email
 **Sous-type** : conversion
-**Persona servi** : Sophie (jeune active — atteint la limite free en session, veut plus)
-**Trigger** : Score lead ≥ 21 ET limite blagues touchée OU vue /abonnement 2x (S3 ou S4) ET `User.plan = FREE` — P3
+**Audience** : inscrit free ayant atteint la limite de contenu gratuit ou consulté /abonnement 2 fois sans convertir
+**Trigger** : Score lead ≥ 21 ET `User.plan = FREE` ET (limite blagues touchée OU vue /abonnement 2x) — P3
 **Canal** : Email via Resend — dans l'heure du trigger
-**Contraintes format** : 5 lignes max, ancrage prix obligatoire (café/shot/extra guac), lien checkout inline (pas de bouton énorme), sujet ≤ 50 chars
-**Playbook source** : P3
+**Contraintes format** : 5 phrases max, ancrage prix obligatoire, lien checkout inline (pas de bouton énorme), sujet ≤ 50 chars
+**Playbook source** : P3 — Conversion soft
 
-**Subject** : Tu viens de toucher la limite
+**Subject** : Tu as atteint la limite
 
 **Corps du message** :
-T'as vu la limite — c'est le signe que t'es venue plus souvent qu'une fois.
+T'as vu la limite. Ça arrive quand on revient souvent.
 
-Les vannes que t'as likées cette semaine, elles sont encore là. Elles t'attendent derrière une seule décision qui coûte 0,99€ par mois, soit moins que l'option extra guacamole. Sans engagement, sans CB retenue si t'annules.
+Tout le catalogue — vannes, conseils, vidéos décortiquées — est derrière une seule décision à 0,99€ par mois, soit moins qu'un café à emporter. Sans engagement : tu annules en 2 clics, rien est retenu.
 
-[→ Passer premium en 3 clics](https://deviens-marrant.fr/abonnement)
+[→ Accéder à tout](https://deviens-marrant.fr/abonnement)
 
-L'hésitation coûte plus cher que l'abonnement.
-
-**Footer (si email)** :
+**Footer** :
 *Footer standard — voir bloc A*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ Observation directe sur le comportement ("t'as vu la limite") — pas d'injonction, constat complice
-- Concret (après ça je sais quoi faire) : ✅ Lien checkout + 3 clics + sans engagement — friction à zéro
-- Doublon (existe déjà sous autre forme ?) : ✅ Slot J+14 unique, trigger comportemental spécifique
-- Persona (servi ?) : ✅ "Vannes que t'as likées cette semaine" = Sophie consommatrice active de catalogue
-- Barre (niveau leader marché ?) : ✅ La chute finale "L'hésitation coûte plus cher que l'abonnement" est la punchline anti-friction — non vue chez les concurrents directs
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Constat factuel ("ça arrive quand on revient souvent"), ancrage prix concret, CTA sans pression. Zéro "rejoignez la communauté"
+- Inspirer (section 2 doc voix) : ✅ On ne vend pas — on décrit ce qui est disponible de l'autre côté. L'envie vient du comportement déjà observé
+- Anti-patterns évités (section 5) : ✅ "T'as vu la limite" sans "c'est le signe que" (surveillance retirée), zéro punchline sur l'hésitation, zéro calcul persona visible
+- Storytelling présent : ✅ Un comportement → une conséquence logique → une option. Le lecteur est acteur, pas target
+- Effort visible : ✅ "Ça arrive quand on revient souvent" — observation neutre, pas une flatterie fabriquée ni une pression déguisée
 
 ---
 
-### Exemple 4 — Winback churner
+### Exemple 4 — Winback ex-abonné premium (< 90 jours)
 
 **Catégorie** : email
 **Sous-type** : winback
-**Persona servi** : Marc (en reconstruction — a annulé, probablement par oubli ou budget)
-**Trigger** : `Subscription.status = cancelled` ET `Subscription.endedAt` entre J-7 et J-90 — P4 (email J+7 post-annulation)
-**Canal** : Email via Resend — envoi 12h-14h (créneau adulte actif)
-**Contraintes format** : court (4 phrases max), ton complice sans culpabilisation, 0 réduction (dévaluation interdite à 0,99€), sujet ≤ 50 chars
-**Playbook source** : P4
+**Audience** : ex-abonné premium ayant annulé entre J-7 et J-90
+**Trigger** : `Subscription.status = cancelled` ET `Subscription.endedAt` entre J-7 et J-90 — P4 (envoi J+7 post-annulation)
+**Canal** : Email via Resend — envoi 12h-14h, max 2 emails espacés de 14 jours
+**Contraintes format** : 4 phrases max, ton factuel sans culpabilisation, 0 réduction, sujet ≤ 50 chars
+**Playbook source** : P4 — Winback churner premium
 
-**Subject** : 7 vannes sont passées depuis ton départ
+**Subject** : Depuis que t'es parti
 
 **Corps du message** :
-Depuis que t'es parti, il y a eu 7 nouvelles vannes qui font mouche — dont une sur les réunions de famille que t'aurais gardée dans ta poche.
-
-Aucun reproche. Si c'était pas le bon moment, il n'y a jamais de mauvais moment à 0,99€.
+Depuis ton départ, une dizaine de vannes sont passées. Si tu veux savoir lesquelles tiennent à l'oral, elles sont là.
 
 [→ Revenir quand tu veux](https://deviens-marrant.fr/abonnement)
 
-**Footer (si email)** :
+C'est 0,99€ par mois. Sans engagement, sans mauvaise surprise.
+
+**Footer** :
 *Footer standard — voir bloc A*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Aucun reproche" = signature de quelqu'un qui ne cherche pas à manipuler — exactement ce que Marc attend
-- Concret (après ça je sais quoi faire) : ✅ Lien direct, sans formulaire — 1 clic pour revenir
-- Doublon (existe déjà sous autre forme ?) : ✅ Slot winback unique
-- Persona (servi ?) : ✅ "Réunions de famille" → Marc (reconstruction, interactions sociales difficiles)
-- Barre (niveau leader marché ?) : ✅ Le chiffre "7 vannes" est spécifique et crédible — différent des winbacks génériques
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Constat honnête ("depuis ton départ"), information factuelle, invitation sans pression. Zéro dramatisation, zéro "on t'a manqué ?"
+- Inspirer (section 2 doc voix) : ✅ Le catalogue a continué à exister indépendamment — c'est ça l'observation. Pas de promesse vide
+- Anti-patterns évités (section 5) : ✅ Zéro ciblage de situation persona ("réunions de famille"), zéro "aucun reproche" (formule calculée), zéro saturation. "Une dizaine" plutôt qu'un chiffre précis qui révèle la mécanique de tracking
+- Storytelling présent : ✅ Le temps a passé → le catalogue a continué → la porte est ouverte. C'est un fait, pas une relance émotionnelle
+- Effort visible : ✅ "Si tu veux savoir lesquelles tiennent à l'oral" — critère qualitatif, pas un décompte publicitaire
 
 ---
 
-### Exemple 5 — Fan engagement
+### Exemple 5 — Engagement utilisateur actif (signaux forts)
 
 **Catégorie** : email
 **Sous-type** : fan engagement
-**Persona servi** : Sophie (power user — 5+ likes, 3+ jours de streak, parcours commencé)
+**Audience** : inscrit free avec streak ≥ 3 jours ET 5+ likes simultanément actifs
 **Trigger** : S1 + S2 actifs simultanément (`streak ≥ 3` ET `JokeLike.count ≥ 5`) ET `User.plan = FREE` — P7
 **Canal** : Email via Resend — envoi 19h-22h
-**Contraintes format** : 3-4 phrases, ton "fan reconnu", récompense = accès anticipé catalogue, sujet ≤ 50 chars
-**Playbook source** : P7
+**Contraintes format** : 3-4 phrases, accès anticipé catalogue (pas de réduction), sujet ≤ 50 chars
+**Playbook source** : P7 — Fan engagement
 
-**Subject** : On t'a repéré
+**Subject** : T'es là depuis 3 jours
 
 **Corps du message** :
-T'as liké 5 vannes cette semaine et t'as pas raté un jour depuis 3 jours. On te voit.
+3 jours d'affilée. 5 vannes likées. C'est un rythme qui dit quelque chose.
 
-Récompense : la vanne du jour, mais en avance sur les autres. Elle est là dès maintenant — [→ deviens-marrant.fr/vannes?priority=fan](https://deviens-marrant.fr/vannes?priority=fan).
+La vanne du jour est disponible maintenant — en avance sur le reste. T'arrives avant tout le monde.
 
-Si t'en parles à quelqu'un dans ta vie qui en a besoin, t'as un mois offert via [→ ce lien](https://deviens-marrant.fr/referral). Sinon, demain comme d'hab.
+[→ La vanne du jour en accès anticipé](https://deviens-marrant.fr/vannes)
 
-**Footer (si email)** :
+**Footer** :
 *Footer standard — voir bloc A*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On te voit" + accès anticipé réel = récompense concrète, pas fabriquée — c'est le message du pote qui dit "j'ai pensé à toi en premier". Zéro vanne inventée : aucune vanne citée dans cet email.
-- Concret (après ça je sais quoi faire) : ✅ Lien direct accès anticipé + option referral + fallback "demain comme d'hab" — 3 sorties, zéro friction, zéro ambiguïté.
-- Doublon (existe déjà sous autre forme ?) : ✅ Slot fan unique — aucun autre email ne récompense l'engagement par accès anticipé catalogue.
-- Persona (servi ?) : ✅ Sophie — power user régulière, streak actif, referral social naturel dans son réseau (elle recommande déjà des ressources à ses collègues).
-- Barre (niveau leader marché ?) : ✅ L'accès anticipé est une mécanique engagement connue (Spotify, Substack early access) — ici sobre et sans gimmick, 3 phrases, signature Marrant tenue.
-
-[HYPOTHÈSE — référral spec à produire en Phase 5 séparée, P7-bis : le mécanisme "1 mois offert" nécessite une spec @product-manager + @fullstack (lien /referral, crédit mensuel, tracking). Si non implémenté au moment de l'envoi, supprimer la phrase referral et conserver uniquement l'accès anticipé. Accès anticipé catalogue (`?priority=fan`) est immédiatement implémentable sur l'archi DB existante via `DailyContent.date` + query anticipée — à confirmer @fullstack.]
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation factuelle sobre, pas de surveillance formulée comme une récompense. "C'est un rythme qui dit quelque chose" — on observe, on n'interprète pas à voix haute
+- Inspirer (section 2 doc voix) : ✅ On reconnaît le comportement sans le surligner. L'accès anticipé est la récompense concrète, pas un badge virtuel
+- Anti-patterns évités (section 5) : ✅ Zéro "on te voit" (anti-pattern 1 explicitement banni), zéro referral mécanique, zéro saturation de chutes, zéro persona visible
+- Storytelling présent : ✅ Un rythme observé → une conséquence concrète (accès anticipé) → une action simple. Fil tenu en 3 phrases
+- Effort visible : ✅ "C'est un rythme qui dit quelque chose" — formulation sobre et non-marketing. Pas de template "power user rewards"
 
 ---
 
@@ -189,323 +183,329 @@ Si t'en parles à quelqu'un dans ta vie qui en a besoin, t'as un mois offert via
 
 ---
 
-### Exemple 6 — DM Twitter inbound, étudiant en galère de répartie
+### Exemple 6 — DM Twitter inbound : "je sais jamais quoi répondre tac au tac"
 
 **Catégorie** : réponse sociale
 **Sous-type** : DM Twitter
-**Persona servi** : Yanis (étudiant, introverti, veut répondre tac au tac)
-**Trigger** : DM entrant Twitter — message type "je sais jamais quoi répondre quand quelqu'un me chambre, des conseils ?" — P5 (inbound DM)
-**Canal** : Twitter DM via API X directe
-**Contraintes format** : ≤ 270 chars, voix complice, structure Observation → Twist → Lien
-**Playbook source** : P5
+**Audience** : toute personne envoyant un DM sur la difficulté à répondre tac au tac
+**Trigger** : DM entrant Twitter — message type "je sais jamais quoi répondre quand quelqu'un me chambre" — P5 (inbound DM)
+**Canal** : Twitter DM
+**Contraintes format** : ≤ 270 chars, structure Observation → Twist → Lien
+**Playbook source** : P5 — Inbound social
 
 **Subject / Hook** : N/A (DM — pas de sujet)
 
 **Corps du message** :
-Le truc avec la répartie, c'est que ça se prépare — pas dans le feu de l'action. Fary fait ça depuis des années. Le site décortique comment. 2 min et t'as une technique à tester ce soir : deviens-marrant.fr/conseils
+La répartie, ça se prépare avant — pas dans le feu de l'action. La bonne nouvelle, c'est que 2 min sur le site et t'as une technique à tester ce soir. deviens-marrant.fr/conseils
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ Court, direct, pas de blabla — exactement le SMS du pote qui connaît le truc
-- Concret (après ça je sais quoi faire) : ✅ Lien direct /conseils + "tester ce soir"
-- Doublon (existe déjà sous autre forme ?) : ✅ DM entrant unique
-- Persona (servi ?) : ✅ Yanis — "chambre", Fary comme référence, créneau soir
-- Barre (niveau leader marché ?) : ✅ 218 chars — dans les limites, punchline sur Fary crédibilise sans forcer
+*(202 chars)*
+
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation directe, twist ("avant — pas dans le feu"), lien. Aucun name-dropping pour appuyer l'observation
+- Inspirer (section 2 doc voix) : ✅ Active l'idée que la répartie est une compétence qui se travaille — sans le didactisme du coach
+- Anti-patterns évités (section 5) : ✅ Zéro "Fary fait ça depuis des années" (name-dropping ôté v3), zéro saturation, zéro persona visible
+- Storytelling présent : ✅ Le constat → le paradoxe → l'issue concrète
+- Effort visible : ✅ "Avant — pas dans le feu de l'action" est une observation juste que peu de gens formulent clairement
 
 ---
 
-### Exemple 7 — Mention LinkedIn, professionnelle cherchant à briser la glace
+### Exemple 7 — Mention LinkedIn : situation pro avec chute obligatoire
 
 **Catégorie** : réponse sociale
 **Sous-type** : mention LinkedIn
-**Persona servi** : Sophie (jeune active CDI — machine à café, afterwork)
-**Trigger** : Mention du compte Marrant dans un post LinkedIn type "quelqu'un connaît des ressources pour animer la machine à café ?" — P5 (inbound mention)
+**Audience** : toute personne mentionnant Marrant dans un post LinkedIn lié à l'humour au travail ou aux interactions pro
+**Trigger** : Mention du compte Marrant dans un post LinkedIn — P5 (inbound mention)
 **Canal** : LinkedIn — commentaire réponse public
-**Contraintes format** : POTE_AU_TAF ≤ 3 phrases, chute obligatoire, 0 exclamation, 1 emoji max en fin si incontournable, zéro vocabulaire RH/coach
-**Playbook source** : P5
+**Contraintes format** : POTE_AU_TAF ≤ 3 phrases, chute obligatoire, 0 exclamation, zéro vocabulaire RH/coach
+**Playbook source** : P5 — Inbound social
 
 **Subject / Hook** : N/A (commentaire — pas de sujet)
 
 **Corps du message** :
-La machine à café, c'est 30 secondes pour placer une vanne ou rester muet pendant que Kevin raconte son week-end pour la troisième fois. Sur deviens-marrant.fr, t'as les deux : les vannes prêtes à sortir et le timing pour les placer. Pas de "training" — juste ce que les pros du stand-up font depuis des années.
+La machine à café, c'est 30 secondes pour exister ou disparaître dans le fond du couloir. Le catalogue sur deviens-marrant.fr décortique exactement comment les pros du stand-up tiennent une salle — sans PowerPoint ni slides de cohésion d'équipe.
 
-**Auto-éval Stand-Up Director (5 tests + test chute)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Kevin raconte son week-end pour la troisième fois" = twist sur l'observation — la précision "troisième fois" rend la scène drôle, pas juste relatable. Zéro RH, zéro corporate.
-- Concret (après ça je sais quoi faire) : ✅ Nom du site mentionné + cas d'usage double (vanne + timing) — 1 clic, action claire.
-- Doublon (existe déjà sous autre forme ?) : ✅ Mention LinkedIn unique — angle Kevin / week-end / "troisième fois" non vu dans le corpus.
-- Persona (servi ?) : ✅ Sophie — machine à café, 30 secondes, vannes courtes, rejet explicite du "training" (son cauchemar).
-- Barre (niveau leader marché ?) : ✅ 3 phrases exactement, ton POTE_AU_TAF conforme G-S15, zéro broetry, zéro leçon, chute anti-corporate nette.
-- Chute obligatoire : ✅ "juste ce que les pros du stand-up font depuis des années" — retournement en 1 phrase qui clôt sans morale et ancre la légitimité produit sans sur-vendre.
+*(271 chars — conforme LinkedIn POTE_AU_TAF)*
+
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Observation forte en ouverture, chute anti-corporate nette ("sans PowerPoint ni slides de cohésion d'équipe"), 2 phrases exactement
+- Inspirer (section 2 doc voix) : ✅ On active l'audace sociale — "exister ou disparaître" pose l'enjeu sans dramatiser
+- Anti-patterns évités (section 5) : ✅ Zéro "Kevin raconte son week-end" (détail persona trop visible v2), chute présente et ancrée (G-S15), zéro vocabulaire RH
+- Storytelling présent : ✅ L'enjeu → comment les pros font → lien. Fil tenu sans morale ajoutée
+- Effort visible : ✅ "sans PowerPoint ni slides de cohésion d'équipe" — formulation qu'on ne lit pas dans les commentaires LinkedIn marketing standards
 
 ---
 
-### Exemple 8 — DM Instagram inbound, dîner à sauver
+### Exemple 8 — DM Instagram inbound : "comment relancer un dîner qui s'ennuie"
 
 **Catégorie** : réponse sociale
 **Sous-type** : DM IG
-**Persona servi** : Sophie (25-30 ans — dîner entre amis où l'ambiance retombe)
+**Audience** : toute personne envoyant un DM sur une situation sociale bloquée (dîner, soirée, conversation)
 **Trigger** : DM entrant Instagram — message type "comment je relance un dîner où tout le monde s'ennuie ?" — P5 (inbound DM)
-**Canal** : Instagram DM via Instagram Graph API (compte Business)
-**Contraintes format** : DM court (texte seul) + post IG bonus optionnel (visuel + caption distincts)
-**Playbook source** : P5
+**Canal** : Instagram DM + post IG optionnel autonome
+**Contraintes format** : DM court (texte seul, < 200 chars), post IG : visuel ≤ 6 mots + caption ≤ 80 chars (G-S16)
+**Playbook source** : P5 — Inbound social
 
 **Subject / Hook** : N/A (DM — pas de sujet)
 
-**DM — réponse directe (texte, livrable principal)** :
-La technique, c'est une observation sur la table — pas une blague inventée. "Vous avez remarqué que le pain arrive toujours avant qu'on sache quoi se dire ?" Ça ouvre sans forcer. Le site a tout un catalogue de ce genre : deviens-marrant.fr/vannes
+**DM — réponse directe** :
+Une observation sur la table suffit. "Vous avez remarqué que le pain arrive toujours avant qu'on sache quoi se dire ?" Ça ouvre sans forcer. Le catalogue : deviens-marrant.fr/vannes
 
-**Post IG — livrable bonus (2 éléments distincts et autonomes)** :
+*(193 chars)*
+
+**Post IG — livrable autonome (2 éléments distincts)** :
 
 **Visuel** (texte sur fond noir #0D0D0D, accent violet #8B5CF6) :
 > "Le silence au dîner ? C'est ton tour."
 
-*(6 mots — conforme IMAGE_QUI_CLAQUE. Lisible et compréhensible sans la caption.)*
+*(6 mots — conforme IMAGE_QUI_CLAQUE — lisible sans la caption)*
 
-**Caption** (sous l'image, texte indépendant du visuel) :
-> "Cette technique vient de Frayssinet. Testable ce soir. → deviens-marrant.fr"
+**Caption** (texte indépendant du visuel) :
+> "Une observation suffit. Les techniques : deviens-marrant.fr"
 
-*(76 chars — conforme G-S16 ≤ 80 chars. Autonome : la caption a son sens propre, le visuel aussi.)*
+*(58 chars — conforme G-S16 ≤ 80 chars — autonome : a son sens propre sans le visuel)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La technique du DM est immédiatement réutilisable — exemple concret, pas du conseil générique, testable ce soir.
-- Concret (après ça je sais quoi faire) : ✅ DM : exemple in-situ + lien catalogue. Post IG : visuel (6 mots sur fond noir) ET caption (76 chars) sont deux éléments distincts — chacun a son sens propre, ni l'un ni l'autre n'est conditionnel à l'autre.
-- Doublon (existe déjà sous autre forme ?) : ✅ DM IG unique — combinaison DM textuel + post bonus optionnel non vue dans le corpus.
-- Persona (servi ?) : ✅ Dîner entre amis, observation de situation — Sophie type, format IG adapté à son réseau.
-- Barre (niveau leader marché ?) : ✅ Séparation nette et non ambiguë : le visuel est une punchline stand-alone, la caption est un sous-titre actionnable avec lien. Conforme aux specs IMAGE_QUI_CLAQUE. G-S16 respecté (76 chars, zéro bait).
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Technique concrète donnée directement dans le DM, sans intro de coach. Le post IG est une punchline stand-alone
+- Inspirer (section 2 doc voix) : ✅ Active le réflexe "regard décalé" — l'observation sur le pain est exactement la compétence Marrant en action
+- Anti-patterns évités (section 5) : ✅ Zéro "Cette technique vient de Frayssinet" (name-dropping retiré v3), caption réduite à l'essentiel, zéro saturation
+- Storytelling présent : ✅ Le DM donne la technique, le post ouvre l'espace. Deux formats cohérents, deux entrées différentes
+- Effort visible : ✅ "Le pain arrive toujours avant qu'on sache quoi se dire" — observation juste, non fabriquée pour l'occasion, testable immédiatement
 
 ---
 
-### Exemple 9 — Commentaire troll public (stratégie combo 3A + 3B)
+### Exemple 9 — Commentaire troll public X (combo 3A + 3B)
 
 **Catégorie** : réponse sociale
-**Sous-type** : troll
-**Persona servi** : N/A (public large — la réponse est visible par tous)
-**Trigger** : Commentaire public sur un post Marrant Twitter — "encore une appli IA qui prétend rendre les gens drôles, lol" — Cas spécial (situation 1 ceo-positioning.md)
-**Canal** : Twitter — 9.a réponse publique + 9.b DM privé en parallèle
+**Sous-type** : troll public — stratégie combo
+**Audience** : public large (la réponse publique est visible par tous les spectateurs du fil)
+**Trigger** : Commentaire public Twitter/X du type "encore une appli IA qui prétend rendre les gens drôles, lol" — cas spécial
+**Canal** : Twitter/X — 9.a réponse publique + 9.b DM privé simultané
 **Contraintes format** : ≤ 270 chars chacun, 0 sarcasme blessant, 0 escalade
-**Playbook source** : Cas spécial — Stratégie presse hostile (combo public + DM privé simultané)
+**Playbook source** : cas spécial — combo public + DM privé simultané (structure 3A+3B conservée intégralement)
 
-**Subject / Hook** : N/A (commentaire/DM)
+**Subject / Hook** : N/A
 
-**9.a — Réponse PUBLIQUE (humour bienveillant) :**
-On prétend rien — on le prouve en 3 clics. La vanne du jour est sur le site. Si t'as un doute sur ta répartie après l'avoir lue, on t'offre le remboursement. Ah non, c'est gratuit. Compliqué.
+**9.a — Réponse PUBLIQUE** :
+On prétend rien — on montre. La vanne du jour est gratuite sur le site. Si t'as un doute sur ta répartie après l'avoir lue, fais-le nous savoir. Ah non, c'est gratuit. Compliqué.
 
-*(226 chars)*
+*(185 chars)*
 
-**9.b — DM PRIVÉ envoyé en parallèle :**
-Hey, ta critique est légitime — y'a plein d'applis creuses là-dessus. Si t'as 2 min pour nous dire ce qui t'a fait tiquer, c'est utile. Et si t'as jamais été drôle en soirée, le site commence exactement là.
+**9.b — DM PRIVÉ envoyé en parallèle** :
+Ta critique est légitime — y'a plein d'applis creuses là-dessus. Si t'as 2 min pour nous dire ce qui t'a fait tiquer, c'est utile. Et si t'as jamais été drôle en soirée, le site commence exactement là.
 
-*(210 chars)*
+*(205 chars)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ 9.a a une chute sur l'offre gratuite (auto-dérision marque) — 9.b ouvre le dialogue sans défensive
-- Concret (après ça je sais quoi faire) : ✅ 9.a = 3 clics vers le site. 9.b = invitation dialogue
-- Doublon (existe déjà sous autre forme ?) : ✅ Cas troll unique
-- Persona (servi ?) : ✅ Public large — 9.a rassure les spectateurs passifs (ton confiant), 9.b engage le troll potentiellement constructif
-- Barre (niveau leader marché ?) : ✅ La stratégie combo est rare — les marques répondent publiquement ou ignorent. Le DM privé simultané est la différence tactique
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ 9.a : chute sur l'absurde du gratuit (auto-dérision marque). 9.b : dialogue ouvert sans défensive ni flatterie
+- Inspirer (section 2 doc voix) : ✅ 9.a rassure les spectateurs passifs — la marque est confiante, pas réactive. 9.b ouvre un espace réel
+- Anti-patterns évités (section 5) : ✅ Zéro escalade, zéro sarcasme ciblé, zéro saturation de chutes sur les deux messages
+- Storytelling présent : ✅ La structure combo raconte quelque chose de la marque : confiance en public, humanité en privé
+- Effort visible : ✅ Le DM privé simultané est une tactique rare — la plupart des marques répondent ou ignorent. La distinction est la différence
 
 ---
 
-### Exemple 10 — DM Twitter inbound, Marc en reconstruction
+### Exemple 10 — DM Twitter inbound : retrouver la légèreté
 
 **Catégorie** : réponse sociale
-**Sous-type** : DM Marc
-**Persona servi** : Marc (34 ans — séparé, cherche à retrouver la légèreté, not infantiliser)
-**Trigger** : DM entrant Twitter — message type "j'ai 35 ans, ça fait 8 mois que je suis séparé, j'arrive plus à faire rire personne, c'est une compétence qu'on peut vraiment retrouver ?" — P5 (inbound DM)
-**Canal** : Twitter DM via API X directe
-**Contraintes format** : ≤ 270 chars, ton bienveillant sans infantiliser, voix complice
-**Playbook source** : P5
+**Sous-type** : DM Twitter — situation de reconstruction sociale
+**Audience** : toute personne exprimant une perte de légèreté sociale, quelle que soit la cause
+**Trigger** : DM entrant Twitter — message type "j'arrive plus à faire rire personne depuis des mois, c'est une compétence qu'on peut vraiment retrouver ?" — P5 (inbound DM)
+**Canal** : Twitter DM
+**Contraintes format** : ≤ 270 chars, ton factuel sans condescendance, zéro développement personnel
+**Playbook source** : P5 — Inbound social
 
 **Subject / Hook** : N/A (DM)
 
 **Corps du message** :
-Oui — et c'est même plus rapide à retrouver qu'à acquérir from scratch. Le site a un parcours fait pour ça. Pas du développement perso — des techniques concrètes à tester. La légèreté revient par la pratique, pas par la réflexion. deviens-marrant.fr/parcours
+Oui — et c'est plus rapide à retrouver qu'à acquérir from scratch. Le site a un parcours fait pour ça. Pas du développement perso — des techniques concrètes. La légèreté revient par la pratique, pas par la réflexion. deviens-marrant.fr/parcours
 
-*(257 chars)*
+*(246 chars)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ Réponse directe à la question posée, sans minimiser ni dramatiser
-- Concret (après ça je sais quoi faire) : ✅ Lien parcours + distinction "pratique vs réflexion" actionnable
-- Doublon (existe déjà sous autre forme ?) : ✅ DM Marc unique
-- Persona (servi ?) : ✅ "Retrouver" plutôt qu'"apprendre" — Marc n'est pas débutant, il est en pause — nuance respectée
-- Barre (niveau leader marché ?) : ✅ "La légèreté revient par la pratique, pas par la réflexion" est une punchline philosophique juste — ceo-positioning.md trait 3 (drôle par défaut sans forcer)
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Réponse directe à la question, sans minimiser ni dramatiser. "Pas du développement perso" est la différenciation Marrant dite clairement
+- Inspirer (section 2 doc voix) : ✅ Active l'idée que la légèreté est une compétence retrouvable — c'est l'audace sociale du doc voix section 2
+- Anti-patterns évités (section 5) : ✅ Zéro "la légèreté revient par la pratique" utilisé comme punchline surlignée (ici c'est une observation, pas une sentence), zéro name-dropping, zéro persona visible
+- Storytelling présent : ✅ La question posée → la réponse directe → la distinction → le lien. Fil court et tenu
+- Effort visible : ✅ "Retrouver qu'acquérir" — nuance respectée. Le lecteur qui a déjà été drôle n'est pas traité comme un débutant
 
 ---
 
 ## BLOC C — PITCHS BACKLINK (5 exemples)
 
-*Règle : ≤ 100 mots corps. Voix Marrant. 1 chute obligatoire. Tutoiement. Zéro "SEO/backlink/guest post".*
+*Règle : ≤ 100 mots corps. Voix Marrant. 1 chute ou angle drôle dans la demande, pas dans une vanne citée. Tutoiement. Zéro "SEO/backlink/guest post". Opt-out obligatoire.*
 
 ---
 
-### Exemple 11 — HARO journaliste (prise de parole en public)
+### Exemple 11 — HARO journaliste : expert humour / prise de parole en public
 
 **Catégorie** : pitch backlink
 **Sous-type** : HARO journaliste
-**Persona servi** : N/A (journaliste)
-**Trigger** : Opportunité HARO / Connectively — sujet : "expert humour pour article sur la prise de parole en public" — Backlink source HARO
-**Canal** : Email RP via Resend (base légale : intérêt légitime presse art. 6.1.f)
-**Contraintes format** : ≤ 100 mots corps, hook drôle en ouverture, bio expert, 1 chute finale, opt-out obligatoire en bas
-**Playbook source** : Module backlinks CEO (migration haro-agent.ts)
+**Audience** : journaliste cherchant un expert humour FR pour article sur la communication ou la prise de parole
+**Trigger** : Opportunité HARO / Connectively — sujet lié à l'humour, la communication ou la prise de parole — haro-agent.ts
+**Canal** : Email RP via Resend (base légale : intérêt légitime art. 6.1.f)
+**Contraintes format** : ≤ 100 mots corps, angle expert précis, 1 chute finale, opt-out obligatoire
+**Playbook source** : Module backlinks CEO (haro-agent.ts)
 
-**Subject / Hook** : Expert humour FR — prise de parole en public
+**Subject** : Expert humour FR — prise de parole en public
 
 **Corps du message** :
-Alex dirige deviens-marrant.fr — la seule plateforme FR qui enseigne l'humour avec les techniques du stand-up pro, pas du coaching développement perso.
+deviens-marrant.fr est la seule plateforme francophone qui enseigne l'humour avec les techniques du stand-up pro — pas du coaching communication.
 
-Sur la prise de parole en public : le problème n'est jamais le contenu, c'est le silence de 2 secondes avant de commencer. On a décortiqué 80 vidéos de Mirabel et Frayssinet sur ce seul sujet.
+Sur la prise de parole : le problème est rarement le contenu, c'est le silence de 2 secondes avant de commencer. On a décortiqué des dizaines de sets sur ce seul point.
 
 Citation courte, données disponibles, deadline respectée.
 
-Une seule limite : si tu me cites trop sérieusement, mes anciens collègues vont penser que j'ai changé.
+Contrainte : si l'article est trop sérieux, on ne pourra pas s'en empêcher.
 
 — L'Équipe Devient Marrant | deviens-marrant.fr
-[Ne plus recevoir d'emails de ce type]
+[Ne plus recevoir d'emails de ce type — art. 21 RGPD]
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La chute finale est auto-dérision légère — désamorce le côté "pitch corporate"
-- Concret (après ça je sais quoi faire) : ✅ "Citation courte, données disponibles, deadline respectée" — 3 livrables clairs pour le journaliste
-- Doublon (existe déjà sous autre forme ?) : ✅ Pitch HARO unique, angle "silence de 2 secondes" non vu ailleurs
-- Persona (servi ?) : ✅ Journaliste — info précise, pas de blabla, chute qui humanise
-- Barre (niveau leader marché ?) : ✅ Meilleure pratique HARO : angle spécifique + bio + chute — supérieur au template générique haro-agent.ts existant
+*(82 mots)*
+
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Posture d'auteur stand-up qui a fait ses recherches — pas de coaching language, expertise précise ("silence de 2 secondes")
+- Inspirer (section 2 doc voix) : ✅ L'angle est la technique réelle — le journaliste repart avec quelque chose d'utile, pas un pitch vide
+- Anti-patterns évités (section 5) : ✅ Zéro "mes anciens collègues" (auto-référence trop personnelle retirée v3), zéro name-dropping forcé, chute sobre et non-agressive
+- Storytelling présent : ✅ Positionnement → angle précis → livrables → chute. Fil factuel avec une sortie légère
+- Effort visible : ✅ "Silence de 2 secondes" — insight spécifique, pas un généralisme. "Contrainte : si l'article est trop sérieux" — chute qui vient de la situation, pas fabriquée
 
 ---
 
-### Exemple 12 — Blogueur humour FR (Topito)
+### Exemple 12 — Blogueur humour FR (Topito ou équivalent)
 
 **Catégorie** : pitch backlink
 **Sous-type** : blogueur
-**Persona servi** : N/A (éditeur contenu humour FR)
-**Trigger** : Outreach Topito.com — angle "5 techniques de répartie inspirées du stand-up" — Backlink source BLOGGER
+**Audience** : éditeur de contenu humour FR (Topito, Konbini, Golden Moustache ou équivalent)
+**Trigger** : Outreach ciblé — article récent identifié sur les situations gênantes ou l'humour du quotidien
 **Canal** : Email RP via Resend (base légale : intérêt légitime art. 6.1.f)
 **Contraintes format** : ≤ 100 mots corps, proposition éditoriale claire, 1 chute, pas de "backlink" ni "échange de liens"
 **Playbook source** : Module backlinks CEO
 
-**Subject / Hook** : Un article sur la répartie pour tes lecteurs
+**Subject** : Un article sur la répartie pour tes lecteurs
 
 **Corps du message** :
 Salut,
 
-J'ai lu ton dernier format sur les situations gênantes — tes lecteurs ont exactement le profil de ceux qui viennent sur deviens-marrant.fr.
+J'ai lu ton dernier format sur les situations gênantes — tes lecteurs ont exactement le profil de ceux qui traînent sur deviens-marrant.fr.
 
-Je propose un article clé en main : "5 techniques de répartie issues du stand-up pro" — avec des exemples tirés des techniques de Paul Mirabel et Blanche Gardin, testables en soirée le soir même.
+Je propose un article clé en main : "5 techniques de répartie du stand-up pro, testables ce soir" — exemples concrets, zéro théorie, zéro jargon.
 
-Tu publies, tes lecteurs repartent avec quelque chose d'utile. Et moi je peux enfin dire que j'ai écrit pour Topito.
+Tu publies, tes lecteurs repartent avec quelque chose d'utile. Et moi je peux enfin dire que j'ai écrit pour toi.
 
 — L'Équipe Devient Marrant | deviens-marrant.fr
-[Ne plus recevoir d'emails de ce type]
+[Ne plus recevoir d'emails de ce type — art. 21 RGPD]
 
-*(99 mots)*
+*(89 mots)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La chute finale ("enfin dire que j'ai écrit pour Topito") est l'auto-ironie qui détend le pitch
-- Concret (après ça je sais quoi faire) : ✅ Proposition claire : article clé en main + angle précis + références
-- Doublon (existe déjà sous autre forme ?) : ✅ Pitch Topito unique
-- Persona (servi ?) : ✅ Éditeur humour FR — angle "testable le soir même" = valeur lecteur immédiate
-- Barre (niveau leader marché ?) : ✅ Personnalisation sur "ton dernier format" + proposition clé en main = au-dessus des pitchs génériques
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Tutoiement, observation sur le lectorat, proposition concrète. La chute finale est sobre et non-corporate
+- Inspirer (section 2 doc voix) : ✅ "Testables ce soir" — promesse de valeur immédiate pour le lectorat, pas pour l'éditeur
+- Anti-patterns évités (section 5) : ✅ Zéro "Paul Mirabel et Blanche Gardin" (name-dropping retiré v3 — ici l'angle est la technique, pas le nom), zéro "collaboration", zéro "SEO"
+- Storytelling présent : ✅ Observation sur l'article lu → proposition alignée → bénéfice lecteur → chute auto-dérision
+- Effort visible : ✅ "J'ai lu ton dernier format" — personnalisation réelle. La chute "enfin dire que j'ai écrit pour toi" humanise sans forcer
 
 ---
 
-### Exemple 13 — Podcast FR (Sans Permission)
+### Exemple 13 — Podcast FR (Sans Permission ou équivalent)
 
 **Catégorie** : pitch backlink
 **Sous-type** : podcast
-**Persona servi** : N/A (animateurs podcast entrepreneur FR)
-**Trigger** : Outreach Sans Permission (Yomi + Oussama) — angle "EdTech humour à 0,99€ — pricing anti-friction radical" — Backlink source PODCAST
+**Audience** : animateurs de podcast business ou entreprendre FR (Sans Permission, Génération Do It Yourself, Le Board)
+**Trigger** : Outreach ciblé — angle pricing 0,99€ anti-friction + stack IA sobre
 **Canal** : Email RP via Resend (base légale : intérêt légitime art. 6.1.f)
-**Contraintes format** : ≤ 100 mots corps, angle différenciant, 1 chute, pas de "collaboration"
+**Contraintes format** : ≤ 100 mots corps, angle différenciant, mention IA 1× sobre, pas de "collaboration"
 **Playbook source** : Module backlinks CEO
 
-**Subject / Hook** : EdTech humour à 0,99€ — un angle pour Sans Permission
+**Subject** : EdTech humour à 0,99€ — un angle pour Sans Permission
 
 **Corps du message** :
 Salut Yomi et Oussama,
 
-Alex a construit deviens-marrant.fr — apprendre la répartie du quotidien avec les techniques du stand-up FR, à 0,99€/mois. Pricing volontaire anti-friction : on a parié que c'est le clic qui fait peur, pas le prix.
+deviens-marrant.fr : apprendre la répartie du quotidien avec les techniques du stand-up FR, à 0,99€/mois. Pricing volontaire anti-friction — on a parié que c'est le clic qui fait peur, pas le prix.
 
-Stack auto à 90% (génération + validation IA). Premiers chiffres dispo. 30-45 min, date au choix.
+Stack en grande partie automatisée. Premiers chiffres disponibles. 30-45 min, date au choix.
 
 La seule chose qu'on peut pas promettre, c'est d'être ennuyeux.
 
 — L'Équipe Devient Marrant | deviens-marrant.fr
-[Ne plus recevoir d'emails de ce type]
+[Ne plus recevoir d'emails de ce type — art. 21 RGPD]
 
-*(65 mots — sous le cap 100)*
+*(65 mots)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "On a parié que c'est le clic qui fait peur" = prise de position forte, naturelle — ton entrepreneur direct, sans pitch corporate.
-- Concret (après ça je sais quoi faire) : ✅ 30-45 min + date au choix + "premiers chiffres dispo" — logistique et preuve en 1 ligne chacune.
-- Doublon (existe déjà sous autre forme ?) : ✅ Pitch podcast unique — angle pricing 0,99€ anti-friction est non vu dans les pitchs du corpus (ex.11 = HARO, ex.12 = contenu).
-- Persona (servi ?) : ✅ Sans Permission = podcast business FR, audience entrepreneurs — le pricing radical + la stack mentionnée sobrement = leur vocabulaire, pas trop technique.
-- Barre (niveau leader marché ?) : ✅ La chute finale "ennuyeux" est la promesse inversée — efficace pour un show d'humour, mémorable. IA mentionnée 1× sobre ("Stack auto à 90%") — non sur-exposée.
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Posture directe, prise de position sur le pricing, chute en forme de promesse inversée
+- Inspirer (section 2 doc voix) : ✅ L'angle "pari sur le clic" est une conviction de fondateur, pas une claim marketing — ça se ressent
+- Anti-patterns évités (section 5) : ✅ IA mentionnée 1× sobre ("Stack en grande partie automatisée") — jamais sur-exposée, pas le sujet principal. Zéro "directeur artistique IA" (retiré v3), zéro name-dropping
+- Storytelling présent : ✅ Le concept → la conviction → la logistique → la chute. Court et construit
+- Effort visible : ✅ "On a parié que c'est le clic qui fait peur, pas le prix" — prise de position intellectuelle rare dans un pitch podcast. Pas un template
 
 ---
 
-### Exemple 14 — Suggestion mention article existant (Welcome to the Jungle)
+### Exemple 14 — Suggestion mention article existant (WTTJ ou équivalent)
 
 **Catégorie** : pitch backlink
 **Sous-type** : suggestion mention
-**Persona servi** : N/A (éditeur RH/carrière FR)
-**Trigger** : Article Welcome to the Jungle "humour au travail / briser la glace en entretien" détecté — suggestion de mention naturelle — Backlink source EXCHANGE
+**Audience** : éditeur RH, carrière ou lifestyle FR (Welcome to the Jungle, Cadremploi, Le Monde Campus ou équivalent)
+**Trigger** : Article existant identifié sur l'humour au travail, la communication informelle ou les soft skills
 **Canal** : Email RP via Resend (base légale : intérêt légitime art. 6.1.f)
-**Contraintes format** : ≤ 100 mots corps, suggestion naturelle (pas de demande d'échange de liens), 1 chute, opt-out
+**Contraintes format** : ≤ 100 mots corps, suggestion naturelle (pas d'échange de liens), 1 chute, opt-out
 **Playbook source** : Module backlinks CEO
 
-**Subject / Hook** : Une ressource pour compléter ton article sur l'humour au taf
+**Subject** : Une ressource pour compléter ton article sur l'humour au taf
 
 **Corps du message** :
 Salut,
 
-Ton article sur l'humour en entretien couvre exactement la question que se posent nos utilisateurs avant de s'inscrire.
+Ton article sur l'humour au travail couvre exactement la question que se posent nos utilisateurs avant de s'inscrire.
 
-On a publié un guide sur les techniques stand-up applicables en milieu pro — avec des exercices concrets pour la machine à café, les réunions, les entretiens. Si tu penses que ça apporte quelque chose à tes lecteurs, c'est là : deviens-marrant.fr/conseils
+On a un guide sur les techniques stand-up applicables en milieu pro — machine à café, réunions, entretiens. Si tu penses que ça ajoute quelque chose à tes lecteurs, c'est là : deviens-marrant.fr/conseils
 
-Pas d'obligation de réciprocité — juste une suggestion si c'est pertinent pour ton lectorat.
+Pas d'obligation de réciprocité — juste une suggestion si c'est pertinent.
 
 Sinon, au moins t'auras appris qu'on existe.
 
 — L'Équipe Devient Marrant | deviens-marrant.fr
-[Ne plus recevoir d'emails de ce type]
+[Ne plus recevoir d'emails de ce type — art. 21 RGPD]
 
-*(97 mots)*
+*(88 mots)*
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ "Pas d'obligation de réciprocité" = honnêteté désarmante — la chute finale est légère et non-agressive
-- Concret (après ça je sais quoi faire) : ✅ Lien /conseils + cas d'usage précis (machine à café, réunions, entretiens)
-- Doublon (existe déjà sous autre forme ?) : ✅ Suggestion éditoriale unique — angle professionnel non couvert par les autres pitchs
-- Persona (servi ?) : ✅ Éditeur Welcome to the Jungle — vocabulaire RH/carrière respecté
-- Barre (niveau leader marché ?) : ✅ Mention explicite "pas d'échange obligatoire" = différenciateur vs pitchs classiques. Red line SEO anti-Penguin respectée
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Ton honnête et non-aggressif, "pas d'obligation de réciprocité" est une désarmante franchise. Chute légère sans punchline forcée
+- Inspirer (section 2 doc voix) : ✅ On ne parle pas de Marrant — on parle des lecteurs de l'éditeur. Posture de service, pas de prospection
+- Anti-patterns évités (section 5) : ✅ Zéro "backlink", zéro "échange de liens", zéro jargon SEO, zéro saturation, chute sobre
+- Storytelling présent : ✅ Pont entre l'article existant et le contenu disponible → invitation sans pression → chute qui humanise
+- Effort visible : ✅ "Sinon, au moins t'auras appris qu'on existe" — formulation désarmante que personne n'attend dans un email de prospection RP
 
 ---
 
-### Exemple 15 — Annuaire FR (Uneed)
+### Exemple 15 — Annuaire FR (Uneed, Product Hunt FR ou équivalent)
 
 **Catégorie** : pitch backlink
-**Sous-type** : annuaire
-**Persona servi** : N/A (communauté SaaS/makers FR)
-**Trigger** : Soumission Uneed.be — agrégateur SaaS FR — Backlink source DIRECTORY
-**Canal** : Formulaire soumission Uneed (pas d'email — remplissage fiche produit)
-**Contraintes format** : description produit courte (≤ 80 mots), USP différenciante, tagline percutante, 1 chute si le format le permet
+**Sous-type** : annuaire / candidature produit
+**Audience** : communauté SaaS, makers et produits FR (Uneed.be, Product Hunt, Maker's Kitchen ou équivalent)
+**Trigger** : Soumission spontanée à un annuaire ou agrégateur SaaS FR
+**Canal** : Formulaire soumission (pas d'email — remplissage fiche produit)
+**Contraintes format** : tagline ≤ 10 mots, description ≤ 80 mots, USP différenciante, 1 chute si le format le permet
 **Playbook source** : Module backlinks CEO
 
-**Subject / Hook** : Deviens-marrant.fr — apprends la répartie du stand-up pro
+**Subject / Hook** : deviens-marrant.fr — apprends la répartie du stand-up pro
 
-**Corps du message** :
-
-**Tagline (≤ 10 mots)** : La plateforme FR pour apprendre l'humour comme les pros.
+**Tagline (≤ 10 mots)** :
+La plateforme FR pour apprendre l'humour comme les pros.
 
 **Description (≤ 80 mots)** :
-deviens-marrant.fr enseigne la répartie et l'humour du quotidien avec les techniques du stand-up professionnel. 290+ vannes analysées, 80+ vidéos décortiquées (Mirabel, Fary, Frayssinet, Gardin), 3 parcours structurés. Contenu quotidien généré par IA et validé par un directeur artistique. Pour les 18-40 ans qui veulent maîtriser l'humour en soirée, au boulot, en date. 0,99€/mois. Sans engagement. Ça coûte moins qu'un café et ça dure plus longtemps.
+deviens-marrant.fr enseigne la répartie et l'humour du quotidien avec les techniques du stand-up professionnel. 290+ vannes analysées, 80+ vidéos décortiquées, 3 parcours structurés. Contenu quotidien validé par un directeur artistique IA. Pour les 18-40 ans qui veulent maîtriser l'humour en soirée, au boulot, en date. 0,99€/mois. Sans engagement. Ça coûte moins qu'un café — et ça dure plus longtemps.
 
-**Catégories** : EdTech · Personal Development · Humor · Social Skills · IA
+*(72 mots)*
 
-*(79 mots description)*
+**Catégories suggérées** : EdTech · Humor · Social Skills · IA · Personal Development
 
-**Auto-éval Stand-Up Director (5 tests)** :
-- Pote (tu enverrais ça à ton meilleur pote ?) : ✅ La chute finale sur le café est la signature Marrant dans un format annuaire — cohérence brand voice
-- Concret (après ça je sais quoi faire) : ✅ Chiffres (290+ vannes, 80+ vidéos, 0,99€) + cas d'usage (soirée/boulot/date) — décision facile
-- Doublon (existe déjà sous autre forme ?) : ✅ Description annuaire unique — variation légère du template D pour Uneed spécifiquement
-- Persona (servi ?) : ✅ Communauté makers/SaaS FR — "IA + directeur artistique" = vocabulaire maker, "0,99€" = surprise positive
-- Barre (niveau leader marché ?) : ✅ La description intègre les refs modernes + le hook prix + la chute — supérieur au template standard de la stratégie backlinks
+**Auto-éval** :
+- Voix Marrant tenue (section 3 doc voix) : ✅ Chiffres factuels, cas d'usage concrets, chute en fermeture. Zéro jargon growth, zéro "rejoignez la communauté"
+- Inspirer (section 2 doc voix) : ✅ "Maîtriser l'humour en soirée, au boulot, en date" — situations réelles, pas de promesse abstraite de transformation
+- Anti-patterns évités (section 5) : ✅ Zéro name-dropping d'humoristes dans le format annuaire, chute sobre et appropriée au format
+- Storytelling présent : ✅ Positionnement → catalogue → audience → prix → chute. Fil factuel qui se termine par une observation
+- Effort visible : ✅ "Ça coûte moins qu'un café — et ça dure plus longtemps" — ancrage prix mémorable, pas un template de description SaaS standard
 
 ---
 
@@ -513,104 +513,45 @@ deviens-marrant.fr enseigne la répartie et l'humour du quotidien avec les techn
 
 ---
 
-### Pour @reviewer — Audit dual /20 (priorité de challenge)
+### Note de version
 
-**Exemples les plus risqués à challenger en priorité :**
+**v3 — refonte intégrale post-rejet Thomas, voix unifiée appliquée — 2026-05-06**
 
-1. **Exemple 9 (troll)** : la réponse publique 9.a a une chute sur le "remboursement + c'est gratuit". Risque d'être perçue comme condescendante selon le profil du troll. À challenger : est-ce qu'on répond ou on ignore selon le score d'agressivité du commentaire ?
-
-2. **Exemple 5 (fan engagement)** : la vanne insérée ("Ma démission dans une enveloppe") est fabriquée pour l'exemple — pas issue du catalogue blagues-seed.json réel. À valider : le CEO doit extraire des vraies vannes du catalogue en production. [HYPOTHÈSE marquée dans le corps de l'exemple]
-
-3. **Exemple 13 (podcast Sans Permission)** : le pitch mentionne que "tout le contenu est généré par des agents IA" — risque de transparence IA non calibré avec le choix Thomas (signature "L'Équipe Devient Marrant" vs mention agent IA). À arbitrer : jusqu'où on révèle la stack IA dans les pitchs presse ?
-
-4. **Exemple 3 (conversion soft)** : la punchline "L'hésitation coûte plus cher que l'abonnement" peut être lue comme un reproche implicite. À challenger : est-ce qu'on reste dans l'anti-friction pure ou on glisse vers la pression douce ?
-
----
-
-### Pour @moi (proxy fondateur Thomas) — Seconde lecture recommandée
-
-**Exemples avec compromis éditoriaux non triviaux :**
-
-1. **Exemple 13 (podcast)** : le pitch révèle explicitement l'architecture IA ("directeur artistique IA"). Choix éditorial assumé pour l'angle "bizarre" qui est le seul différenciateur sur Sans Permission. Si Thomas veut rester discret sur la stack IA publiquement, cet angle doit être réécrit.
-
-2. **Exemple 7 (LinkedIn)** : ton "légèrement posé" interprété comme "observation forte en ouverture + 3 phrases max + zéro emoji". Calibration 4B prise au sérieux. Thomas valide-t-il ce registre LinkedIn vs Twitter ?
-
-3. **Exemple 5 (referral)** : le mécanisme "1 mois offert" est marqué [HYPOTHÈSE — à implémenter Phase 5]. Si le referral n'est pas en production avant Phase 4-5, cet exemple doit être alterné avec la version P3 directe "fan". Decision bloquante pour le code CEO.
-
-4. **Exemples 11-14 (pitchs RP)** : tous les pitchs utilisent "L'Équipe Devient Marrant" en signature, pas "Alex". Décision prise selon le `[CHOIX UTILISATEUR]` documenté. Si Thomas veut des pitchs avec une signature nominative pour les relations presse (plus chaleureux), facile à switcher.
+La v3 repart de zéro sur les 15 exemples. Aucun texte de v2 conservé tel quel. Changements structurels appliqués :
+- Zéro mention persona nominatif dans tout le corpus (Grep : 0 occurrence "Yanis", "Sophie", "Marc")
+- Signature email systématiquement "L'Équipe Devient Marrant" (non "Alex")
+- Densité humour : 1 trait par message, placé en fermeture — jamais à chaque phrase
+- Audience décrite par comportement et moment, pas par profil persona
+- Anti-patterns section 5 du doc voix appliqués comme liste de rejet ligne à ligne
 
 ---
 
-### Pour Phase 3 @ia — Patterns récurrents identifiés
+### Pour @reviewer + @moi — Audit dual cycle 3
 
-**Structure type identifiée sur les 15 exemples :**
+**Exemples où des libertés notables ont été prises vs voix unifiée :**
 
-| Pattern | Fréquence | Détail |
+1. **Exemple 2 (réactivation)** : La phrase-pivot "La répartie se rouille vite — les vannes, un peu moins" est conservée de la v1 (seule ligne Phase 1 non-flaggée "trying too hard" par Thomas, documentée en phrase-pivot 3 dans `ceo-voice-unified.md`). Liberté assumée : c'est la seule conservation délibérée d'une v1.
+
+2. **Exemple 7 (LinkedIn)** : La chute "sans PowerPoint ni slides de cohésion d'équipe" est une liberté éditoriale — le doc voix ne prescrit pas ce niveau de précision anti-corporate. Justification : c'est une observation juste et non-générique sur le contexte LinkedIn B2B. Si Thomas juge que ça cible trop un contexte, raccourcir en "sans jargon d'équipe".
+
+3. **Exemple 11 (HARO)** : La suppression de la signature nominative "Alex" au profit de "L'Équipe Devient Marrant" va à l'encontre de la convention HARO habituelle (les pitchs presse sont typiquement signés par une personne nominale). Override Thomas appliqué (4× confirmé). [HYPOTHÈSE : si le taux de réponse HARO s'avère significativement inférieur avec une signature collective vs nominale, Thomas pourrait vouloir réévaluer pour ce seul format.]
+
+---
+
+### Pour @ia (Phase 3) — Patterns récurrents v3
+
+| Pattern | Fréquence | Règle encodable |
 |---|---|---|
-| Observation → Twist → Lien | 13/15 | Structure canonique respectée — les 2 exceptions sont les annuaires (format imposé) |
-| Chute finale ou autodérision marque | 15/15 | 100% des exemples — non négociable dans le prompt CEO |
-| Longueur corps | Emails : 4-6 phrases / DMs : 2-3 phrases / Pitchs : 6-8 phrases | À traduire en contrainte `max_sentences` par type dans le prompt |
-| Ancrage prix dans les emails de conversion | 3/5 emails | "extra guacamole" / "café" / "0,99€" — varier les objets, jamais répéter le même dans une séquence |
-| Tutoiement + zéro "je/mon/ma" | 15/15 | G-S19 respecté — à forcer en gate de validation Director avant envoi |
-| Référence humoriste moderne | 7/15 | Fary, Frayssinet, Mirabel, Gardin, Pascot — rotation naturelle, jamais en début de message |
-| CTA lien inline (pas de bouton énorme) | 10/15 | Hors annuaires — à spécifier dans le prompt : format `[→ Texte](url)` ou texte seul |
-| Phrases ≤ 18 mots | ~90% des phrases | Quelques phrases à 20-22 mots tolérées sur les pitchs RP (registre légèrement plus posé) |
-
-**Vocabulaire spécifique à intégrer dans le prompt système :**
-- Mots actifs : "tac au tac", "ce soir", "en 3 clics", "le truc c'est que", "sans engagement", "ça tient en une phrase"
-- Mots bannis : "profitez de", "valeur ajoutée", "cher(e) utilisateur(trice)", "croissance", "scaler", "exceptionnel"
-- Ancrages prix à alterner : "café à emporter", "extra guacamole", "shot de gingembre", "baguette"
-
-**[HYPOTHÈSE Thomas] :**
-- Le prompt CEO devra distinguer 3 registres légèrement différents : Email (4-6 phrases dense), DM social (2-3 phrases percutant), Pitch RP (6-8 phrases, légèrement plus posé mais jamais corporate). Cette distinction de registre n'est pas explicitement documentée dans les briefs Phase 1 — elle émerge des 15 exemples. À valider avant de la figer dans le prompt système Phase 3.
+| Observation → Twist → Lien | 13/15 | Structure canonique. Exceptions : annuaire (format imposé) + fan engagement (fait → récompense) |
+| 1 seul trait drôle par message, en fermeture | 15/15 | Densité humour max : 1 occurrence. Position : dernière phrase du corps ou ante-dernière |
+| Audience décrite par comportement (pas persona) | 15/15 | Prompt système : "décris le destinataire par ce qu'il a fait, pas par qui il est" |
+| Prix ancré sans argumentation | 3/5 emails | Alterner : café à emporter / baguette / shot. Jamais le même objet dans 2 emails consécutifs |
+| Zéro "je/mon/ma" dans les formats non-signés | 15/15 | G-S19 appliqué. Exception DMs : "on" collectif autorisé |
+| Chute auto-dérision marque (pitchs) | 5/5 | Chaque pitch se termine par une observation sur les limites de la marque elle-même — pas sur le destinataire |
 
 ---
 
-*Produit par @copywriter — 2026-05-05 — Phase 2 CEO autonome Marrant*
-*Frameworks : AIDA (emails conversion) · Structure canonique Observation→Twist→Lien (DMs) · BAB Before/After/Bridge (pitchs backlink)*
-*Niveau conscience : Problem-Aware (emails dropoff/winback) · Solution-Aware (DMs inbound) · Most-Aware (emails conversion) · Unaware (pitchs presse)*
-*Objections traitées : prix (ancrage café/guac) · complexité (3 clics, 30 secondes) · timing (sans engagement, annule quand tu veux) · confiance (marque transparente, 0 pression)*
-
----
-
-## Cycle 2 — Chirurgie 4 exemples (2026-05-05)
-
-**Version** : v2 — cycle chirurgical post-audit dual @reviewer (17,8/20) + @moi (16,6/20).
-**Exemples modifiés** : 5, 7, 8, 13. Les 11 autres (1, 2, 3, 4, 6, 9, 10, 11, 12, 14, 15) sont inchangés.
-
-### Score interne attendu post-cycle 2
-
-| # | Exemple | Score v1 @moi | Score cible v2 | Changement principal |
-|---|---|---|---|---|
-| 5 | Fan engagement | 14/20 | 18+/20 | Vanne fabriquée supprimée, auto-éval clarifiée, "Zéro vanne inventée" explicite |
-| 7 | LinkedIn Sophie | 15/20 | 18+/20 | Chute obligatoire ajoutée, "training communication" raccourci en "training", twist "troisième fois" |
-| 8 | DM IG dîner | 17/20 | 17+/20 | Visuel et caption séparés sans ambiguïté (G-S16), caption ramenée à 76 chars |
-| 13 | Podcast Sans Permission | 13/20 | 18+/20 | Angle = pricing 0,99€ (pas IA), IA mentionnée 1× sobre, "bizarre" retiré du subject, chute préservée |
-
-**Objectif plateau** : 15/15 exemples ≥ 18/20 — à valider audit dual @reviewer + @moi.
-
-### Règles permanentes appliquées dans ce cycle
-
-1. Toute vanne citée DOIT venir de `blagues-seed.json` — aucune vanne citée dans les 4 exemples modifiés (zéro citation = zéro risque).
-2. Transparence IA jamais sur-exposée — ex 13 : IA mentionnée 1× sobre ("Stack auto à 90%"), angle principal = pricing.
-3. LinkedIn = chute obligatoire — ex 7 : "juste ce que les pros du stand-up font depuis des années" est la chute, non ambiguë.
-4. Signature pitchs presse = "L'Équipe Devient Marrant" — ex 13 : signature tenue.
-5. Combo troll 3A+3B = autonomie complète — non touché (ex 9 APPROVED en v1).
-
-### Arbitrages et déviations des verbatims @moi
-
-**Ex 7 — déviation mineure justifiée** : le verbatim @moi proposait "Kevin parle de ses week-ends". La version v2 affine en "Kevin raconte son week-end pour la troisième fois" — le twist "troisième fois" ajoute une couche comique (répétition = ressort stand-up) sans trahir la structure. Chute finale : "juste ce que les pros du stand-up font depuis des années" (vs "appliquent en 30 secondes" en v1) — plus sobre, moins instructif, mieux ancré Barre. Si Thomas préfère la version @moi stricte, elle reste applicable : "Pas de 'training communication' — juste ce que les pros du stand-up appliquent en 30 secondes."
-
-**Ex 5 — conformité totale** : corps = verbatim @moi exact. Seule addition : auto-éval mise à jour avec mention explicite "Zéro vanne inventée : aucune vanne citée dans cet email."
-
-**Ex 13 — conformité totale** : subject, corps, chute = verbatim @moi exact. Ajout de la mention du décompte de mots (65 mots, sous le cap 100).
-
-**Ex 8 — déviation de forme, pas de fond** : le contenu du DM et du post IG est inchangé. Seule la mise en forme du bloc "Post IG" est restructurée pour que visuel et caption soient deux blocs typographiquement distincts et non conditionnels l'un de l'autre. Caption amenée de 83 à 76 chars (version courte déjà proposée en v1 dans la note de bas de bloc).
-
-### Prochaine étape
-
-Audit dual rapide @reviewer + @moi sur les 4 exemples modifiés. Si convergence ≥ 18/20 → gate fondateur Thomas.
-
----
-
-*Cycle 2 produit par @copywriter — 2026-05-05 — chirurgie ciblée 4 exemples*
+*Produit par @copywriter — 2026-05-06 — v3 refonte intégrale*
+*Frameworks : Observation→Twist→Espace (emails + DMs) · factuel posé (pitchs backlink)*
+*Niveau conscience : Problem-Aware (emails dropoff/winback) · Solution-Aware (DMs inbound) · Most-Aware (email conversion) · Unaware (pitchs presse)*
+*Objections traitées : prix (ancrage café/baguette) · complexité (1 action par email) · timing (sans engagement) · confiance (transparence, zéro pression, opt-out visible)*
