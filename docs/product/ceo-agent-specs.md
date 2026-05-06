@@ -89,6 +89,7 @@ model CeoLead {
 model CeoOutboundMessage {
   id               String             @id @default(cuid())
   channel          CeoChannel
+  direction        CeoDirection       @default(OUTBOUND) // inbound | outbound
   recipient        String             // email ou handle social (hashé dans logs)
   subject          String?            // emails uniquement
   content          String             @db.Text
@@ -96,6 +97,8 @@ model CeoOutboundMessage {
   directorScore    Int?               // score Stand-Up Director (0-10)
   directorValidated Boolean           @default(false)
   playbook         String?            // P1-P7 ou "backlink_[type]"
+  // Patch HAUTE Phase 3 : flag pour critère passage S2→S3 (correction post-envoi)
+  requiresHumanReview Boolean          @default(false)
   sentAt           DateTime?
   opens            Int                @default(0)
   clicks           Int                @default(0)
@@ -103,12 +106,41 @@ model CeoOutboundMessage {
   repliedAt        DateTime?
   externalId       String?            // ID Resend ou Buffer pour tracking
   leadId           String?
+  // Patch HAUTE Phase 3 : tracking UTM pour attribution conversion (cf section 11)
+  utmSource        String?            // "ceo"
+  utmCampaign      String?            // playbook ID (P1-P7) ou "backlink_haro" etc.
+  utmMedium        String?            // channel (email, twitter, linkedin, ig)
 
   lead CeoLead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([channel])
   @@index([leadId])
+  @@index([sentAt])  // pour requêtes attribution 7j rolling
+}
+
+// Patch HAUTE Phase 3 : snapshot quotidien KPIs (alimente dashboard /admin/ceo)
+// Cron daily 5h UTC `/api/cron/ceo-kpis-snapshot` insère 1 ligne/jour
+model CeoKpiSnapshot {
+  id                       String   @id @default(cuid())
+  date                     DateTime @unique @db.Date
+  // North Star
+  northStarEngagement30d   Float    // (opens + replies + clicks) / total_sent
+  // Satellites
+  emailReplyRate           Float
+  siteReturn48h            Float
+  emailOpenRate            Float
+  // Opérationnels
+  killSwitchTriggers24h    Int
+  directorFailRate         Float
+  draftsAutoSendRatio      Json     // { email: 0.8, twitter: 0.3, ... }
+  costPerAcquiredSubscriber Float?  // null si 0 conversion attribuée
+  ceoAttributedConversions Int
+  backlinksDaSum           Int      // somme DA des backlinks acquis
+  // Métadonnées
+  createdAt                DateTime @default(now())
+
+  @@index([date])
 }
 
 // Backlinks — tracking pitchs + acquisitions
@@ -236,6 +268,19 @@ enum BacklinkStatus {
 
 ---
 
+### Extensions au modèle `User` existant (patch HAUTE Phase 3)
+
+```prisma
+model User {
+  // ... champs existants
+  lastCeoTouchpoint DateTime?  // dernière interaction CEO (envoi/réponse) — fenêtre attribution 7j
+  emailOptOut       Boolean    @default(false)  // si true, le CEO ne contacte jamais
+  // ... reste inchangé
+}
+```
+
+Mise à jour de `lastCeoTouchpoint` à chaque `CeoOutboundMessage.sentAt` (trigger middleware ou helper `markCeoTouchpoint(userId)`).
+
 ## 3. Fonctions principales — `ceo-agent.ts`
 
 ```typescript
@@ -319,6 +364,34 @@ async function weeklyReport(weekStartDate: Date): Promise<void>
 ```
 
 ---
+
+### Outils de support (patch HAUTE Phase 3 — non modélisés Phase 1)
+
+```typescript
+// Lecture catalogue vannes — règle 2 du prompt système (vanne citée DOIT venir
+// du seed). Sans cet outil, la règle est non-enforceable.
+async function lookupJoke(opts: {
+  category?: JokeCategory;
+  type?: JokeType;
+  maturityLevel?: number;
+  limit?: number;
+}): Promise<Joke[]>
+// Lit prisma.joke.findMany WHERE isActive=true selon filtres + ORDER BY random()
+// Renvoie 1-N vannes du catalogue réel — l'agent CEO cite UNIQUEMENT depuis cette source
+
+// Lecture ressources éducatives (conseils, vidéos décryptées, parcours, articles blog)
+// pour mention dans les emails et pitchs (cf règle "conseils > vannes")
+async function lookupResource(opts: {
+  type: "tip" | "video" | "path" | "blogArticle";
+  topic?: string;        // mots-clés sémantiques
+  limit?: number;
+}): Promise<Resource[]>
+// Lit prisma selon le type + match sémantique sur title/description
+// Renvoie URL relative + titre + résumé court — pour CTA contextuel "On peut te
+// partager X si tu as envie d'en savoir plus"
+```
+
+**Sécurité** : ces 2 outils sont en lecture seule, pas de mutation possible côté CEO.
 
 ## 4. Décisions autorisées vs non-autorisées
 
@@ -499,7 +572,7 @@ Contraintes @ia à intégrer dans le prompt : "Tu n'envoies jamais à une adress
 **Handoff → @data-analyst (Phase 3 — KPIs Prisma à instrumenter)**
 
 KPIs prioritaires dès J1 :
-- **Attribution CEO** : `CeoOutboundMessage.sentAt` → `Subscription.createdAt` dans fenêtre 72h (window attribution)
+- **Attribution CEO** : `CeoOutboundMessage.sentAt` → `Subscription.createdAt` dans fenêtre **7 jours** (validé Thomas Q-Phase3-1 le 06/05/2026 — la fenêtre reflète le cycle de décision réel à 0,99€). Tracking UTM auto-injecté sur tous les liens : `utm_source=ceo`, `utm_campaign=<playbookId>`, `utm_medium=<channel>`. Middleware sur `User.update()` qui change `User.plan = PREMIUM` ET `User.lastCeoTouchpoint < 7d` → log `CeoAuditLog.action = "conversion_attributed"`.
 - **North Star engagement** : `CeoOutboundMessage.opens + replies + clicks` / total envoyés, par canal et playbook, sur 30j glissants
 - **Budget LLM** : `LlmUsageLog WHERE agent = 'ceo'` sum daily + alerte > 2€
 - **Score lead distribution** : `CeoLead.score` buckets (0-10, 11-20, 21-35, 36-50) — santé du funnel
