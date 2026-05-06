@@ -90,3 +90,22 @@ Lourde -- 2 agents principaux (@seo, @geo), 3 phases, 22 articles a produire au 
 | 2 | Ordre articles | Douleurs-personas d'abord | Cluster le plus convertissant (haute intention) selon le planning editorial | @seo |
 | 3 | Lots de 4 articles max par session | Anti-timeout | Chaque article fait 1500-2500 mots, production par lot pour qualite maximale | @seo |
 | 4 | GEO : reformatage non-destructif | Ajout d'elements sans réécriture | On ajoute definitions, blockquotes, H2 questions SANS réécrire le contenu existant (deja audité et validé) | @geo |
+
+---
+
+## Phase 8 — Projet CEO autonome Deviens Marrant (session 8 — 06/05/2026)
+
+**Statut** : Phases 0-4 TERMINÉES. Phase 5 (implémentation code) DIFFÉRÉE session 9.
+
+**Plan d'orchestration spécifique** : voir `docs/strategy/ceo-agent-scope.md` v2 (source de vérité — mission, KPIs, périmètre canaux, phasage 4 semaines drafts→auto-send, garde-fous légaux).
+
+**Phases complétées session 8** :
+- **Phase 0** — Cadrage + benchmark NanoCorp dual (creative-strategy + ia) + reco @moi sur articulation social-media-agent
+- **Phase 1** — 4 agents parallèles : creative-strategy (positionnement initial), growth (7 playbooks + LTV), legal (red lines RGPD/CNIL/ToS), seo (35 cibles backlinks + audit migration haro-agent.ts)
+- **Phase 2** — Corpus canonique 16 exemples — **6 cycles d'itération** dont **2 rejets fondateur** + pivot stratégique majeur "agent valeur éducative" (pas agent conversion) + 3 étalons canoniques Thomas validés
+- **Phase 3** — Specs PM (628L) + Architecture IA (371L, prompt système 140L verbatim) + KPIs analytics (480L) + audit cohérence reviewer (135L) + 5 patches HAUTE @PM specs
+- **Phase 4** — `.claude/agents/ceo.md` (280L) — agent canonique de référence
+
+**Phase 5 (différée session 9)** : implémentation code par @fullstack — `ceo-agent.ts` + 6 migrations Prisma + 2 crons + intégrations APIs (Twitter/IG/Resend Inbound) + suppression `haro-agent.ts` + dashboard React + tests Jest. Audit @legal pré-S3 + audit @qa scénarios garde-fous. ~3-4h dédiées.
+
+**BLOCKER persistant** (s7+s8) : default branch `claude/init-project-setup-jcI9q` toujours obsolète. Tous fixes session 7 et 8 invisibles en prod tant que pas de redéploiement Replit. Réflexe P0 #2 actif.
