@@ -189,10 +189,14 @@
   10. **Activer pre-commit hook** : `git config core.hooksPath .githooks` (1× par poste).
   11. **Cleanup data DB session 7 toujours en attente** : UPDATE SocialPost format='WILD_CARD' → REJECTED.
 - **Backlog session 10 (priorités)** :
-  1. **Phase 5.D tests Jest exhaustifs** (cible 90% coverage) — `ceo-agent.ts` (1072L), `ceo-helpers.ts` (581L), `ceo-email-footer.ts`, `ceo-backlinks.ts`, `twitter-client.ts`, route `resend-inbound`, 6 API routes admin, 6 composants restants. **Prérequis** : pre-commit check OK + migration deploy.
-  2. **Phase 5.B.3** (intégrations APIs résiduelles) : Instagram Graph drafts permanents, lead scoring auto (Umami + User.streak/JokeLike), câblage `siteReturn48h` snapshotCeoKpis, routage IA replies entrants, migration enum CeoBacklinkSource (ajout CONNECTIVELY/SOURCEBOTTLE/RSS_FEED), Twitter OAuth 1.0a User Context si DM POST 401 avec Bearer.
-  3. **Replacement scraping Connectively → RSS/Zapier** (recommandation @legal s9, handoff manuel Thomas).
-  4. **3 P1 ouverts session 08/04** : LinkedIn JSON conformité plan éditorial, ~~race condition intra-heure~~ (RÉSOLU Phase 5.A `SocialPostDailyLock`), Neon cold start retry Prisma. **2 P1 restants après s9.**
+  1. **🔴 Bug P0 Buffer rate limit 24h prod** (découvert 06/05 logs) : `publish-social` a un circuit breaker correct (skip plateformes FAILED 429 sur 24h) MAIS `social-analytics/route.ts` appelle `getBufferScheduledPosts()` sans check → continue d'interroger Buffer même quand circuit breaker actif → relance la fenêtre 24h en boucle. **3 fixes** : (a) réduire fréquence cron `social-analytics` 15 min → 1-2h via Replit Scheduled Deployments, (b) ajouter cache 1h sur lecture queue Buffer dans `social-analytics/route.ts`, (c) ajouter check circuit breaker en début de `social-analytics` (réutiliser pattern `recentRateLimits` de `publish-social`). Court terme = attendre 24h reset Buffer auto. **Impact** : toutes publications Twitter/LI/IG coupées tant que rate limit actif.
+  2. **Phase 5.D tests Jest exhaustifs** (cible 90% coverage) — `ceo-agent.ts` (1072L), `ceo-helpers.ts` (581L), `ceo-email-footer.ts`, `ceo-backlinks.ts`, `twitter-client.ts`, route `resend-inbound`, 6 API routes admin, 6 composants restants. **Prérequis** : pre-commit check OK + migration deploy.
+  3. **Phase 5.B.3** (intégrations APIs résiduelles) : Instagram Graph drafts permanents, lead scoring auto (Umami + User.streak/JokeLike), câblage `siteReturn48h` snapshotCeoKpis, routage IA replies entrants, migration enum CeoBacklinkSource (ajout CONNECTIVELY/SOURCEBOTTLE/RSS_FEED), Twitter OAuth 1.0a User Context si DM POST 401 avec Bearer.
+  4. **Replacement scraping Connectively → RSS/Zapier** (recommandation @legal s9, handoff manuel Thomas).
+  5. **3 P1 ouverts session 08/04** : LinkedIn JSON conformité plan éditorial, ~~race condition intra-heure~~ (RÉSOLU Phase 5.A `SocialPostDailyLock`), Neon cold start retry Prisma. **2 P1 restants après s9.**
+  6. **Pre-commit hook étendu avec `tsc --noEmit`** (lesson learned cf7793c) : ajouter au `.githooks/pre-commit` pour bloquer les bugs latents avant commit. Sans ça, `next.config.js ignoreBuildErrors:true` masque les erreurs comme on a vu en s9.
+  7. **Migration `package.json#prisma` → `prisma.config.ts`** (warning Prisma 7) : 5 min, non bloquant.
+  8. **`npm audit fix`** : 12 vulns apps/web (6 low, 1 mod, 5 high) + 25 root. Auditer + fix non-breaking.
 - **Nom de branche recommandé prochaine session** : `claude/marrant-s10-phase5-tests-deploy-[suffix]` ou `claude/marrant-s10-phase5d-tests-[suffix]`.
 - **Commande de reprise suggérée pour session 10** :
   ```
