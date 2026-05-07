@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "cd apps/web && npm install && npx prisma generate",
-    "build": "cd apps/web && npx prisma migrate deploy && bash scripts/seed.sh && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
+    "build": "cd apps/web && bash scripts/seed.sh && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
     "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
   },
   "devDependencies": {
