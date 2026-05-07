@@ -55,18 +55,11 @@ export const metadata: Metadata = {
     "retrouver confiance en soi",
   ],
   authors: [{ name: "deviens-marrant.fr" }],
-  icons: {
-    icon: [
-      // favicon.ico is auto-served by Next.js from src/app/favicon.ico
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
-      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
-    ],
-    shortcut: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-  },
-  manifest: "/manifest.json",
+  // Icons + manifest auto-détectés par Next.js 14 via convention app-router :
+  //   app/favicon.ico, app/icon.png, app/icon1.png, app/icon2.png,
+  //   app/apple-icon.png, app/manifest.ts (route handler /manifest.webmanifest).
+  // Pas de balises manuelles — Next.js génère <link rel="icon">, <link rel="apple-touch-icon">,
+  // <link rel="manifest"> automatiquement (cf docs/marrant/playbook.md G31 favicon).
   metadataBase: new URL("https://deviens-marrant.fr"),
   openGraph: {
     type: "website",
