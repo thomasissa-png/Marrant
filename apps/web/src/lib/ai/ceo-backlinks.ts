@@ -18,7 +18,7 @@
  *  - `EXCHANGE`     : échanges de liens entre sites partenaires
  */
 
-// ─── Sujets pertinents (96 topics calibrés Marrant) ──────────────────────
+// ─── Sujets pertinents (94 topics calibrés Marrant) ──────────────────────
 
 /**
  * Liste des thèmes que l'agent CEO surveille pour proposer des pitchs.
@@ -197,7 +197,7 @@ export interface BacklinkOpportunityInput {
 }
 
 /**
- * Filtre les opportunités sur les 96 topics pertinents.
+ * Filtre les opportunités sur les 94 topics pertinents.
  * Retourne `true` si au moins 1 topic match (case-insensitive) dans
  * la concaténation `query + category + outlet`.
  */

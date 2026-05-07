@@ -25,7 +25,7 @@
 | 1 | `ceo-agent.ts` (router + draft + tick) | `apps/web/src/lib/ai/agents/ceo-agent.ts` | 1388 | **P0** | runDailyTick, routeCeoTask (5 handlers), triageOpportunity, composeOutboundMessage, dualPassValidate, draftBacklinkPitch, budget hard stop, dry-run, kill-switch, lock | ~80 | Anthropic SDK, Prisma, validateCeoOutbound, Resend, Twitter, footer |
 | 2 | `ceo-helpers.ts` | `apps/web/src/lib/ai/ceo-helpers.ts` | 589 | **P0** | lookupJoke, lookupResource, getCeoMemory/setCeoMemory, isCeoEnabled, applyFrequencyCap, checkAndStoreDedup, hashPii/maskPii, recordAudit, acquireCeoLock/releaseCeoLock, markCeoTouchpoint, getOrCreateLead, snapshotCeoKpis | ~55 | Prisma, crypto |
 | 3 | `ceo-email-footer.ts` | `apps/web/src/lib/email/ceo-email-footer.ts` | 162 | **P0** | generateUnsubscribeToken (HMAC-SHA256), verifyUnsubscribeToken, buildUnsubscribeUrl, enforceEmailFooter (HTML + text), idempotence (double appel) | ~25 | crypto, env vars |
-| 4 | `ceo-backlinks.ts` | `apps/web/src/lib/ai/ceo-backlinks.ts` | 235 | **P1** | CEO_BACKLINK_TOPICS (96), CEO_TEAM_BIO, CEO_BACKLINK_TEMPLATES (8 par source), isRelevantBacklinkOpportunity, scoreBacklinkRelevance | ~25 | Aucun (pure logic) |
+| 4 | `ceo-backlinks.ts` | `apps/web/src/lib/ai/ceo-backlinks.ts` | 235 | **P1** | CEO_BACKLINK_TOPICS (94), CEO_TEAM_BIO, CEO_BACKLINK_TEMPLATES (8 par source), isRelevantBacklinkOpportunity, scoreBacklinkRelevance | ~25 | Aucun (pure logic) |
 | 5 | `twitter-client.ts` | `apps/web/src/lib/social/twitter-client.ts` | 270 | **P1** | postTweet, postReply, postThread, getTweetMetrics, OAuth signature, isTwitterConfigured, fetch errors (401/403/429/500) | ~25 | global fetch, env vars |
 | 6 | `webhooks/resend-inbound/route.ts` | `apps/web/src/app/api/webhooks/resend-inbound/route.ts` | 232 | **P0** | verifyResendSignature (HMAC), detectOptOut (11 keywords FR/EN), POST happy/reject, GET healthcheck | ~30 | crypto, NextRequest, Prisma |
 | 7 | 6 API admin (`approve`, `reject`, `contest`, `data`, `kill-switch`, `run-task`) | `apps/web/src/app/api/admin/ceo/*` | ~600 cumulé | **P2** | auth (admin only), 401/403, validation payload, success path, error path, idempotence | ~36 (6/route) | Prisma, auth helper, ceo-agent |
@@ -197,7 +197,7 @@
 
 **Scénarios `ceo-backlinks.ts`** :
 
-14. **`CEO_BACKLINK_TOPICS`** : longueur exacte (96 d'après mémo s9), tous strings non vides, pas de doublons.
+14. **`CEO_BACKLINK_TOPICS`** : longueur exacte (94, vérifié s10 — discordance vs mémo s9 corrigée), tous strings non vides, pas de doublons.
 15. **`CEO_TEAM_BIO`** : non vide, conforme voix Marrant (pas de "je", "L'Équipe Deviens Marrant").
 16. **`CEO_BACKLINK_TEMPLATES`** : 8 templates par source (vérifier exhaustivité par source : SUBSTACK, MEDIUM, REDDIT, etc.).
 17. **`isRelevantBacklinkOpportunity(input)`** : matching keywords humour FR, score ≥ seuil → true.

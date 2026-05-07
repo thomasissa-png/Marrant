@@ -481,7 +481,7 @@ Source opportunités → POST /api/cron/haro
 - `app/api/cron/haro/route.ts` — Endpoint POST (webhook) + GET (statut)
 
 ### Automatisation
-- Filtrage automatique : 96 topics pertinents (humour, communication, confiance, dating, networking...)
+- Filtrage automatique : 94 topics pertinents (humour, communication, confiance, dating, networking...)
 - Génération : hook drôle + réponse expert 3-4 phrases + bio Alex
 - Score 1-10, seuls ≥ 5 sont envoyés
 - Email auto à alex@deviens-marrant.fr via Resend
