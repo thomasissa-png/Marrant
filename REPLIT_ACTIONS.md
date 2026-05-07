@@ -26,6 +26,36 @@ bash scripts/check-prisma-enums.sh
 
 Si le hook bloque un commit légitime (nouvelle constante interne) → ajouter la valeur à WHITELIST dans `scripts/check-prisma-enums.sh`.
 
+## Hotfix s10 (06/05/2026) — Bug Buffer rate limit 24h en boucle
+
+> P0 PROD ACTIF. Toutes publications Twitter/LinkedIn/Instagram coupées tant que le rate limit 429 reste actif. Bloque acquisition organique = bloque MRR.
+
+**Diagnostic** : `publish-social/route.ts` a un circuit breaker correct (skip plateformes FAILED 429 sur 24h via `recentRateLimits`), mais `social-analytics/route.ts` interrogeait Buffer SANS check circuit breaker → relance la fenêtre 24h en boucle à chaque exécution (toutes les 15 min côté Replit Scheduled Deployments).
+
+**Fixes appliqués (commit s10)** dans `apps/web/src/app/api/cron/social-analytics/route.ts` :
+1. **Time gate utcHour** : exécution effective uniquement aux heures paires (1× toutes les 2h). Bypass debug avec `?force=1`.
+2. **Cache module-level 60 min** sur `getBufferScheduledPosts()` — amortit la pression Buffer même si le cron est appelé toutes les 15 min.
+3. **Circuit breaker** : si TOUTES les plateformes (Twitter, LinkedIn, Instagram) sont en rate limit 24h (FAILED + `directorNote contains "429"`), on **NE LIT PAS** la queue Buffer. C'est le fix critique anti-boucle.
+
+**Action manuelle Thomas (Replit Console)** :
+
+Dans **Replit > Deployments > Scheduled Deployments**, réduire la fréquence du cron `social-analytics` :
+- **Avant** : toutes les 15 min (`*/15 * * * *`)
+- **Après** : toutes les 2h (`0 */2 * * *`)
+
+Raison : le time gate interne renvoie `skipped:true` aux heures impaires, mais on évite quand même les invocations inutiles (Replit facture chaque exécution autoscale).
+
+Le cron `publish-social` reste à sa fréquence actuelle (toutes les 30 min) — il n'est pas concerné par ce bug.
+
+**Validation** : 9 nouveaux tests Jest dans `apps/web/src/__tests__/api/cron/social-analytics.test.ts` couvrent les 3 fixes. Lancer :
+```bash
+cd apps/web && npx jest src/__tests__/api/cron/social-analytics.test.ts
+```
+
+---
+
+## Hook pre-commit (existant — rappel)
+
 ⚠️ **PRÉREQUIS BLOQUANT** : avant tout, vérifier que la branche `master` est à jour (Réflexe P0 #2).
 
 ```bash
