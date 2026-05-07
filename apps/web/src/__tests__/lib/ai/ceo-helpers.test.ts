@@ -32,36 +32,12 @@ jest.mock("@anthropic-ai/sdk", () => {
   }));
 });
 
-// Mock Prisma — factory inline (jest.mock est hoisté avant les const).
-// On expose les jest.fn() via require("@/lib/prisma") après mock pour les
-// manipuler dans les tests (mockResolvedValueOnce).
+// Mock Prisma — factory partagée (cf. helpers/ceo-prisma-mock.ts).
+// `jest.mock` étant hoisté avant les imports, on appelle la factory inline.
 jest.mock("@/lib/prisma", () => ({
-  prisma: {
-    joke: { findMany: jest.fn() },
-    tip: { findMany: jest.fn() },
-    video: { findMany: jest.fn() },
-    learningPath: { findMany: jest.fn() },
-    blogArticle: { findMany: jest.fn() },
-    ceoMemory: {
-      findUnique: jest.fn(),
-      upsert: jest.fn(),
-      delete: jest.fn(),
-    },
-    ceoConfig: { findFirst: jest.fn() },
-    ceoOutboundMessage: {
-      count: jest.fn(),
-      aggregate: jest.fn(),
-      groupBy: jest.fn(),
-    },
-    ceoDedup: { findFirst: jest.fn(), create: jest.fn() },
-    ceoAuditLog: { create: jest.fn(), count: jest.fn() },
-    user: { update: jest.fn(), findUnique: jest.fn() },
-    ceoLead: { upsert: jest.fn() },
-    subscription: { findMany: jest.fn() },
-    llmUsageLog: { aggregate: jest.fn() },
-    ceoBacklink: { aggregate: jest.fn() },
-    ceoKpiSnapshot: { upsert: jest.fn() },
-  },
+  prisma: (
+    jest.requireActual("@/__tests__/helpers/ceo-prisma-mock") as typeof import("@/__tests__/helpers/ceo-prisma-mock")
+  ).createCeoPrismaMock(),
 }));
 
 // Mock `@/lib/job-lock` — intégration testée, pas le helper sous-jacent (s8).
@@ -70,27 +46,9 @@ jest.mock("@/lib/job-lock", () => ({
   releaseLock: jest.fn(),
 }));
 
-// Réf typée vers les mocks (import dynamique post-jest.mock).
-// On utilise jest.requireMock pour éviter `require()` direct (lint).
-type PrismaMock = {
-  joke: { findMany: jest.Mock };
-  tip: { findMany: jest.Mock };
-  video: { findMany: jest.Mock };
-  learningPath: { findMany: jest.Mock };
-  blogArticle: { findMany: jest.Mock };
-  ceoMemory: { findUnique: jest.Mock; upsert: jest.Mock; delete: jest.Mock };
-  ceoConfig: { findFirst: jest.Mock };
-  ceoOutboundMessage: { count: jest.Mock; aggregate: jest.Mock; groupBy: jest.Mock };
-  ceoDedup: { findFirst: jest.Mock; create: jest.Mock };
-  ceoAuditLog: { create: jest.Mock; count: jest.Mock };
-  user: { update: jest.Mock; findUnique: jest.Mock };
-  ceoLead: { upsert: jest.Mock };
-  subscription: { findMany: jest.Mock };
-  llmUsageLog: { aggregate: jest.Mock };
-  ceoBacklink: { aggregate: jest.Mock };
-  ceoKpiSnapshot: { upsert: jest.Mock };
-};
-const { prisma: mockPrisma } = jest.requireMock("@/lib/prisma") as { prisma: PrismaMock };
+// Réf typée vers les mocks (factorisée — cf. helpers/ceo-prisma-mock.ts).
+import type { CeoPrismaMock } from "@/__tests__/helpers/ceo-prisma-mock";
+const { prisma: mockPrisma } = jest.requireMock("@/lib/prisma") as { prisma: CeoPrismaMock };
 const { tryAcquireLock: mockTryAcquireLock, releaseLock: mockReleaseLock } =
   jest.requireMock("@/lib/job-lock") as {
     tryAcquireLock: jest.Mock;
