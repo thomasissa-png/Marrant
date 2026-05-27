@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { generateDailyJoke } from "./agents/joke-agent";
+import { generateDailyJoke, generateJokeDecryptage, type JokeDecryptage } from "./agents/joke-agent";
 import { generateDailyTip } from "./agents/tip-agent";
 import { selectDailyVideo } from "./agents/video-agent";
 import {
@@ -167,6 +167,19 @@ export async function publishDailyContent(
             const rewritten = await directorRewriteJoke(jokeData as JokeToValidate, validation, persona);
             jokeData = { ...jokeData, ...rewritten };
             directorTookOver = true;
+            // La réécriture ne produit pas de décryptage — le contenu a changé,
+            // donc l'ancien décryptage ne colle plus. On le régénère.
+            try {
+              const decryptage = await generateJokeDecryptage({
+                content: jokeData.content,
+                punchline: jokeData.punchline,
+                category: jokeData.category,
+                type: jokeData.type,
+              });
+              jokeData = { ...jokeData, ...decryptage };
+            } catch (decErr) {
+              console.warn("[Director] Régénération décryptage post-réécriture échouée:", decErr);
+            }
             console.log("[Director] Vanne réécrite par le directeur — publication");
           } catch (err) {
             console.warn("[Director] Réécriture vanne échouée — publication de la dernière version:", err);
@@ -188,6 +201,7 @@ export async function publishDailyContent(
         throw new Error(`Vanne rejetée par le directeur (score ${jokeScore}/10)${crashInfo}`);
       }
 
+      const jokeDecryptage = jokeData as Partial<JokeDecryptage>;
       const joke = await prisma.joke.create({
         data: {
           content: jokeData.content,
@@ -196,6 +210,9 @@ export async function publishDailyContent(
           type: jokeData.type as Prisma.EnumJokeTypeFieldUpdateOperationsInput["set"] & string,
           maturityLevel: jokeData.maturityLevel,
           generatedByAI: true,
+          comedyTechnique: jokeDecryptage.comedyTechnique || null,
+          techniqueExplanation: jokeDecryptage.techniqueExplanation || null,
+          howToApply: jokeDecryptage.howToApply || null,
         },
       });
       return { id: joke.id, category: joke.category };

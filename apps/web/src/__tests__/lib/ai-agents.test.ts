@@ -332,6 +332,9 @@ describe("Joke Agent", () => {
             category: "BOULOT",
             type: "ONE_LINER",
             maturityLevel: 1,
+            comedyTechnique: "Le contraste de statut",
+            techniqueExplanation: "Tu opposes deux attitudes, le décalage crée le rire.",
+            howToApply: "Oppose ton comportement à celui d'un autre. Ex : 'lui médite, moi je panique.'",
           }),
         },
       ],
@@ -350,6 +353,39 @@ describe("Joke Agent", () => {
     expect(joke.category).toBe("BOULOT");
     expect(joke.type).toBe("ONE_LINER");
     expect(joke.maturityLevel).toBe(1);
+    expect(joke.comedyTechnique).toBe("Le contraste de statut");
+    expect(joke.techniqueExplanation).toContain("décalage");
+    expect(joke.howToApply).toContain("Oppose ton comportement");
+  });
+
+  it("returns empty décryptage fields when LLM omits them (back-fill safe)", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Chute",
+            category: "BOULOT",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // Champs absents → normalisés en chaîne vide (pas undefined) sans crash
+    expect(joke.comedyTechnique).toBe("");
+    expect(joke.techniqueExplanation).toBe("");
+    expect(joke.howToApply).toBe("");
   });
 
   it("falls back to planned category on invalid category", async () => {
@@ -502,6 +538,88 @@ describe("Joke Agent", () => {
     });
 
     expect(joke.type).toBe("CLASSIQUE");
+  });
+});
+
+describe("Joke Décryptage", () => {
+  let generateJokeDecryptage: typeof import("@/lib/ai/agents/joke-agent").generateJokeDecryptage;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const mod = await import("@/lib/ai/agents/joke-agent");
+    generateJokeDecryptage = mod.generateJokeDecryptage;
+  });
+
+  const sampleJoke = {
+    content: "Quelqu'un a commenté « premier » sous ma vidéo.",
+    punchline: "Il était aussi le dernier. Et le seul.",
+    category: "RESEAUX_SOCIAUX",
+    type: "ONE_LINER",
+  };
+
+  it("returns the expected décryptage structure", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "La triple chute (règle de 3)",
+            techniqueExplanation: "« Premier » sonne comme une vantardise, puis ça recadre vers le pathétique.",
+            howToApply: "Prends une fierté et démonte-la en 2 ajouts. Ex : 'J'ai eu 12 likes. Dont ma mère.'",
+          }),
+        },
+      ],
+    });
+
+    const d = await generateJokeDecryptage(sampleJoke);
+
+    expect(d.comedyTechnique).toBe("La triple chute (règle de 3)");
+    expect(d.techniqueExplanation).toContain("vantardise");
+    expect(d.howToApply).toContain("fierté");
+  });
+
+  it("throws when comedyTechnique or howToApply is empty", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "",
+            techniqueExplanation: "Une explication.",
+            howToApply: "",
+          }),
+        },
+      ],
+    });
+
+    await expect(generateJokeDecryptage(sampleJoke)).rejects.toThrow("décryptage incomplet");
+  });
+
+  it("truncates excessively long décryptage fields", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "T".repeat(500),
+            techniqueExplanation: "E".repeat(2000),
+            howToApply: "H".repeat(2000),
+          }),
+        },
+      ],
+    });
+
+    const d = await generateJokeDecryptage(sampleJoke);
+
+    expect(d.comedyTechnique.length).toBeLessThanOrEqual(200);
+    expect(d.techniqueExplanation.length).toBeLessThanOrEqual(800);
+    expect(d.howToApply.length).toBeLessThanOrEqual(800);
   });
 });
 
@@ -2101,8 +2219,8 @@ describe("Director integration — validation retry loop", () => {
       lastValidation = await validateJoke(jokeData, "YANIS");
       if (lastValidation.verdict === "APPROVED") break;
       if (attempt === 3) {
-        // Director takes over
-        jokeData = await directorRewriteJoke(jokeData, lastValidation, "YANIS");
+        // Director takes over — spread preserves les champs décryptage (comme daily-publisher)
+        jokeData = { ...jokeData, ...(await directorRewriteJoke(jokeData, lastValidation, "YANIS")) };
         break;
       }
       jokeData = await generateDailyJoke(jokeCtx);

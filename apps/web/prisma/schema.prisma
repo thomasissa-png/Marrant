@@ -119,6 +119,11 @@ model Joke {
 
   generatedByAI Boolean       @default(false)
 
+  // Décryptage pédagogique (nullable — back-fill Phase 1b sur les vannes existantes)
+  comedyTechnique      String? @db.Text // Nom court de la technique, ex "L'exagération temporelle"
+  techniqueExplanation String? @db.Text // 2-3 phrases : POURQUOI ça marche
+  howToApply           String? @db.Text // "À toi de jouer" : 1 consigne + 1 exemple
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
