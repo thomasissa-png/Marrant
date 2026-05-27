@@ -77,7 +77,7 @@ async function main() {
   // BLAGUES — upsert par contenu pour préserver les relations (JokeLike, favoris)
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
   {
-    // Décryptages pédagogiques pré-rédigés (289 entrées, indexées par content).
+    // Décryptages pédagogiques pré-rédigés (265 entrées, indexées par content).
     // Source bundlée au runtime : src/data/joke-decryptages.json — appliqués dès
     // le seed pour que les nouvelles installs aient le décryptage immédiatement
     // (le boot via applyJokeDecryptagesTask les applique aussi, par sécurité).

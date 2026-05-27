@@ -16,6 +16,7 @@
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import jokeDecryptages from "@/data/joke-decryptages.json";
+import weakJokes from "@/data/weak-jokes.json";
 
 /** Une entrée de décryptage pré-rédigé, matchée sur le `content` de la vanne. */
 interface JokeDecryptageEntry {
@@ -71,9 +72,9 @@ async function cleanupWildcardSocialPostsTask(): Promise<void> {
 }
 
 /**
- * Application INSTANTANÉE des décryptages pédagogiques pré-rédigés (289 vannes).
+ * Application INSTANTANÉE des décryptages pédagogiques pré-rédigés (265 vannes).
  *
- * Remplace l'ancien back-fill IA progressif (50/jour via Sonnet) : les 289
+ * Remplace l'ancien back-fill IA progressif (50/jour via Sonnet) : les 265
  * décryptages du catalogue sont rédigés à la main et bundlés dans
  * `src/data/joke-decryptages.json` (indexé par `content`). Au boot, on les
  * applique en UNE passe, SANS aucun appel LLM ni coût.
@@ -153,6 +154,50 @@ async function applyJokeDecryptagesTask(): Promise<void> {
 }
 
 /**
+ * Désactivation (soft delete) des vannes faibles flaggées par les rédacteurs.
+ *
+ * Décision fondateur (s10) : qualité > quantité. 24 vannes faibles (Carambar,
+ * clichés usés, chutes prévisibles) sont retirées du catalogue. La liste de
+ * référence est `src/data/weak-jokes.json` (24 `content` exacts = les setups),
+ * source unique bundlée au runtime.
+ *
+ * Soft delete : on passe `isActive = false` (JAMAIS de hard delete — le modèle
+ * Joke porte des relations favorites/likes/dailyContents dont les FK
+ * casseraient). Le catalogue filtre déjà sur `isActive`, donc les vannes
+ * disparaissent du front sans perdre l'historique.
+ *
+ * Garanties :
+ *  - Match par `content` : la DB prod utilise des CUID (pas l'id numérique du
+ *    seed), donc on cible le texte exact du setup — même clé que
+ *    applyJokeDecryptagesTask.
+ *  - Idempotent : `WHERE isActive: true` → une fois désactivées, les passes
+ *    suivantes ne touchent plus rien (0 update).
+ *  - Robuste : `withDbRetry` (cold start Neon) + try/catch global → ne bloque
+ *    JAMAIS le boot.
+ *  - SANS IA : pure lecture fichier statique + updateMany.
+ *
+ * Réversibilité : remettre `isActive = true` en DB (ou retirer le content de
+ * weak-jokes.json) suffit à réactiver une vanne.
+ */
+async function deactivateWeakJokesTask(): Promise<void> {
+  const contents = weakJokes as string[];
+
+  try {
+    const result = await withDbRetry(
+      () =>
+        prisma.joke.updateMany({
+          where: { content: { in: contents }, isActive: true },
+          data: { isActive: false },
+        }),
+      { label: "deactivate-weak-jokes:updateMany" },
+    );
+    console.log(`[startup] vannes faibles désactivées : ${result.count}`);
+  } catch (err) {
+    console.error("[startup] deactivateWeakJokes échoué (non bloquant) :", err);
+  }
+}
+
+/**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
  */
@@ -160,7 +205,8 @@ export async function runStartupTasks(): Promise<void> {
   await ensureCeoConfigTask();
   await cleanupWildcardSocialPostsTask();
   await applyJokeDecryptagesTask();
+  await deactivateWeakJokesTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
-export { applyJokeDecryptagesTask };
+export { applyJokeDecryptagesTask, deactivateWeakJokesTask };

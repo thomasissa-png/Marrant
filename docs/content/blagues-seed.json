@@ -72,14 +72,6 @@
     "type": "SUBTIL"
   },
   {
-    "id": 11,
-    "content": "C'est quoi la différence entre un bon et un mauvais chasseur ?",
-    "punchline": "Le mauvais chasseur, il tire. Le bon chasseur, il tire... mais c'est un bon chasseur.",
-    "category": "CULTUREL",
-    "maturityLevel": 1,
-    "type": "ABSURDE"
-  },
-  {
     "id": 12,
     "content": "Ma femme m'a dit : « Chéri, est-ce que tu m'écoutes ? »",
     "punchline": "J'ai trouvé ça bizarre comme façon de commencer une conversation.",
@@ -144,14 +136,6 @@
     "type": "SUBTIL"
   },
   {
-    "id": 24,
-    "content": "Un mec entre dans un bar et dit : « Tout le monde dehors, je suis claustrophobe ! »",
-    "punchline": "Le barman : « C'est un bar, pas un ascenseur. » — « Raison de plus, y'a pas de bouton d'urgence. »",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "ABSURDE"
-  },
-  {
     "id": 25,
     "content": "La SNCF annonce un retard de 45 minutes.",
     "punchline": "Les habitués sont soulagés : au moins aujourd'hui, c'est un retard raisonnable.",
@@ -198,14 +182,6 @@
     "category": "ABSURDE",
     "maturityLevel": 1,
     "type": "CLASSIQUE"
-  },
-  {
-    "id": 34,
-    "content": "Pourquoi les Français sont-ils les meilleurs en philo ?",
-    "punchline": "Parce qu'ils passent leur vie à répondre « ça dépend ».",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL"
   },
   {
     "id": 35,
@@ -260,14 +236,6 @@
     "content": "J'ai essayé le yoga pour me détendre.",
     "punchline": "J'ai fini bloqué en position lotus avec le chat assis sur ma tête.",
     "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
-    "id": 45,
-    "content": "Un Parisien et un Marseillais se disputent sur la météo.",
-    "punchline": "Le Parisien : « Il pleut. » Le Marseillais : « Oui mais chez nous, la pluie elle a l'accent. »",
-    "category": "CULTUREL",
     "maturityLevel": 1,
     "type": "CLASSIQUE"
   },
@@ -376,14 +344,6 @@
     "type": "ABSURDE"
   },
   {
-    "id": 62,
-    "content": "Rien ne unit plus les Français que...",
-    "punchline": "Râler ensemble contre la même chose, même s'ils ne sont pas d'accord sur pourquoi.",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL"
-  },
-  {
     "id": 63,
     "content": "Mon mec m'a demandé si je voulais un diamant ou un voyage.",
     "punchline": "J'ai choisi le voyage. Au moins, je peux en profiter sans me demander combien il a menti sur le prix.",
@@ -472,14 +432,6 @@
     "type": "SUBTIL"
   },
   {
-    "id": 77,
-    "content": "Deux atomes discutent. L'un dit : « Je crois que j'ai perdu un électron. »",
-    "punchline": "L'autre : « T'es sûr ? » — « Oui, je suis positif. »",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
     "id": 79,
     "content": "Le serveur au restaurant me demande : « Ça vous a plu ? »",
     "punchline": "Mon assiette est vide, mes yeux sont pleins de bonheur, et j'ai honte. C'est un oui.",
@@ -496,14 +448,6 @@
     "type": "SUBTIL"
   },
   {
-    "id": 82,
-    "content": "Mon ex m'a dit qu'elle avait besoin d'espace.",
-    "punchline": "Je l'ai inscrite à la NASA.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE"
-  },
-  {
     "id": 83,
     "content": "La machine à café du bureau est tombée en panne.",
     "punchline": "La productivité a chuté de 90%. Les 10% restants, c'est ceux qui avaient prévu un thermos.",
@@ -517,14 +461,6 @@
     "punchline": "Personne ne m'avait posé cette question avec autant de sincérité depuis longtemps.",
     "category": "SITUATION",
     "maturityLevel": 2,
-    "type": "SUBTIL"
-  },
-  {
-    "id": 85,
-    "content": "Un escalier mécanique tombe en panne.",
-    "punchline": "Pour information, ça s'appelle désormais un escalier.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
     "type": "SUBTIL"
   },
   {
@@ -606,14 +542,6 @@
     "category": "BOULOT",
     "maturityLevel": 2,
     "type": "CLASSIQUE"
-  },
-  {
-    "id": 100,
-    "content": "Mon correcteur automatique me connaît mieux que mes amis.",
-    "punchline": "Il sait que je veux écrire « fatigué » à chaque phrase.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
   },
   {
     "id": 101,
@@ -776,14 +704,6 @@
     "type": "CLASSIQUE"
   },
   {
-    "id": 126,
-    "content": "Le bruit le plus effrayant du monde...",
-    "punchline": "C'est celui de ton téléphone qui tombe sur le carrelage, écran vers le sol.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
     "id": 128,
     "content": "Le bac français, c'est l'épreuve où on te demande ton avis...",
     "punchline": "Mais où la seule bonne réponse, c'est l'avis du prof.",
@@ -920,27 +840,11 @@
     "type": "SUBTIL"
   },
   {
-    "id": 149,
-    "content": "Je suis le genre de personne qui vérifie trois fois si la porte est fermée.",
-    "punchline": "Et qui oublie ses clés à l'intérieur la quatrième fois.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
     "id": 150,
     "content": "J'ai voulu prendre un bain relaxant avec des bougies.",
     "punchline": "J'ai déclenché le détecteur de fumée, glissé dans la baignoire, et renversé le verre de vin. Très relaxant.",
     "category": "SITUATION",
     "maturityLevel": 2,
-    "type": "CLASSIQUE"
-  },
-  {
-    "id": 152,
-    "content": "L'art de la bise en France, c'est un sport à risque.",
-    "punchline": "Deux bises, trois bises, quatre bises... C'est le seul pays où dire bonjour peut devenir un combat.",
-    "category": "CULTUREL",
-    "maturityLevel": 1,
     "type": "CLASSIQUE"
   },
   {
@@ -1096,14 +1000,6 @@
     "type": "CLASSIQUE"
   },
   {
-    "id": 176,
-    "content": "Les Français ont un superpouvoir.",
-    "punchline": "Transformer n'importe quel sujet de conversation en débat sur la bouffe.",
-    "category": "CULTUREL",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
     "id": 177,
     "content": "Ma copine veut toujours avoir raison.",
     "punchline": "Un jour, elle a eu tort. On ne l'a jamais su : elle a effacé les preuves.",
@@ -1118,14 +1014,6 @@
     "category": "BOULOT",
     "maturityLevel": 3,
     "type": "SUBTIL"
-  },
-  {
-    "id": 180,
-    "content": "Pourquoi on dit toujours « dernier message » en fin de soirée ?",
-    "punchline": "Parce qu'il y en a toujours trente après.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE"
   },
   {
     "id": 181,
@@ -1224,14 +1112,6 @@
     "type": "SUBTIL"
   },
   {
-    "id": 195,
-    "content": "Mon coloc dit qu'il va « faire les courses ».",
-    "punchline": "Il revient avec des chips et de la bière. Techniquement, c'est pas faux.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
-  },
-  {
     "id": 196,
     "content": "La vie d'adulte, c'est être content quand l'aspirateur fonctionne bien.",
     "punchline": "Et déprimé quand le prix des courses augmente de 20 centimes.",
@@ -1312,14 +1192,6 @@
     "type": "DIALOGUE"
   },
   {
-    "id": 207,
-    "content": "Pourquoi les étudiants adorent les escaliers ?",
-    "punchline": "Parce que c'est la seule chose qu'ils montent cette année.",
-    "category": "ECOLE",
-    "maturityLevel": 2,
-    "type": "QA"
-  },
-  {
     "id": 208,
     "content": "La cantine de la fac propose un menu « équilibré ».",
     "punchline": "Équilibré entre immangeable et suspect.",
@@ -1382,14 +1254,6 @@
     "category": "ECOLE",
     "maturityLevel": 2,
     "type": "DIALOGUE"
-  },
-  {
-    "id": 216,
-    "content": "La rentrée, c'est comme un lundi.",
-    "punchline": "Mais un lundi qui dure 10 mois.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
   },
   {
     "id": 217,
@@ -1478,14 +1342,6 @@
     "category": "GAMING",
     "maturityLevel": 1,
     "type": "DIALOGUE"
-  },
-  {
-    "id": 232,
-    "content": "J'ai acheté un skin à 20 euros dans un jeu gratuit.",
-    "punchline": "L'économie, c'est pas mon truc.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
   },
   {
     "id": 233,
@@ -1654,14 +1510,6 @@
     "category": "DATING",
     "maturityLevel": 2,
     "type": "STORY"
-  },
-  {
-    "id": 262,
-    "content": "La bio Tinder parfaite :",
-    "punchline": "« Cherche quelqu'un qui rira à mes blagues. Niveau requis : très bas. »",
-    "category": "DATING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
   },
   {
     "id": 263,
@@ -2064,14 +1912,6 @@
     "type": "ONE_LINER"
   },
   {
-    "id": 317,
-    "content": "Ma mère a mis 4 minutes à écrire « ok ».",
-    "punchline": "Elle a hésité 3 minutes et envoyé « Ok. »",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY"
-  },
-  {
     "id": 318,
     "content": "Mon père a essayé de prendre une photo du coucher de soleil.",
     "punchline": "Il a activé le flash. Sur le soleil.",
@@ -2144,14 +1984,6 @@
     "type": "DIALOGUE"
   },
   {
-    "id": 327,
-    "content": "J'ai vu un mec courir après le bus.",
-    "punchline": "Le bus a gagné. Comme d'habitude.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "STORY"
-  },
-  {
     "id": 328,
     "content": "J'ai mis 45 minutes à choisir un film sur Netflix.",
     "punchline": "On a regardé les bandes-annonces et on s'est endormis.",
@@ -2166,30 +1998,6 @@
     "category": "JEUX_DE_MOTS",
     "maturityLevel": 1,
     "type": "STORY"
-  },
-  {
-    "id": 330,
-    "content": "Mon frère est devenu boulanger.",
-    "punchline": "Depuis, il pétrit d'angoisse.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
-  },
-  {
-    "id": 331,
-    "content": "Mon prof de maths est parti.",
-    "punchline": "Il avait trop de problèmes.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
-  },
-  {
-    "id": 332,
-    "content": "Mon ami jardinier a tout plaqué.",
-    "punchline": "Il en avait marre de se faire planter.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER"
   },
   {
     "id": 333,

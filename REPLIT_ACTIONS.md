@@ -19,13 +19,15 @@ Au déploiement Replit, la chaîne `[deployment].build` (`prisma db push` + `pri
 | **Schéma DB à jour** (tables, colonnes) | au build | `prisma db push` (déjà dans `.replit`) | `.replit` `[deployment].build` |
 | **Seed singleton `CeoConfig`** (FAIL-SAFE : `enabled=false`, `dryRun=true`) | au boot (~30 s) | `ensureCeoConfig()` idempotent + race-safe | `lib/startup-tasks.ts` → `lib/ai/ceo-helpers.ts` |
 | **Cleanup `SocialPost` WILD_CARD** (format obsolète → `REJECTED`) | au boot (~30 s) | `$executeRawUnsafe` UPDATE idempotent (cast `::text`) | `lib/startup-tasks.ts` + migration `8_cleanup_wildcard_socialpost` |
-| **Décryptage des 289 vannes** (pré-rédigé, SANS IA) | au boot (~30 s) | `applyJokeDecryptagesTask()` : applique les 3 champs depuis `src/data/joke-decryptages.json`, idempotent (ne touche que `comedyTechnique IS NULL`), `withDbRetry`, fail-safe | `lib/startup-tasks.ts` + `src/data/joke-decryptages.json` |
+| **Décryptage des 265 vannes** (pré-rédigé, SANS IA) | au boot (~30 s) | `applyJokeDecryptagesTask()` : applique les 3 champs depuis `src/data/joke-decryptages.json`, idempotent (ne touche que `comedyTechnique IS NULL`), `withDbRetry`, fail-safe | `lib/startup-tasks.ts` + `src/data/joke-decryptages.json` |
+| **Désactivation des 24 vannes faibles** (soft delete, SANS IA) | au boot (~30 s) | `deactivateWeakJokesTask()` : `updateMany` `isActive=false` sur les 24 `content` de `src/data/weak-jokes.json`, idempotent (ne touche que `isActive: true`), `withDbRetry`, fail-safe | `lib/startup-tasks.ts` + `src/data/weak-jokes.json` |
 | **CEO tick** (si activé) | scheduler, 2-4h UTC | time gate + lock + court-circuit kill-switch → fetch `/api/cron/ceo-tick` | `instrumentation.ts` job 9 |
 | **CEO KPIs snapshot** (si activé) | scheduler, 5h UTC | time gate + lock + court-circuit → `snapshotCeoKpis()` | `instrumentation.ts` job 10 |
 
 **Garanties** :
 - Le CEO démarre **désactivé** (aucun coût, aucune action). Thomas l'active quand il veut via le toggle `/admin/ceo` ou `POST /api/admin/ceo/kill-switch`.
-- Les **289 vannes sont décryptées INTÉGRALEMENT et INSTANTANÉMENT au boot**, en une passe, depuis le fichier pré-rédigé bundlé (`src/data/joke-decryptages.json`). **Zéro appel IA, zéro coût, zéro action manuelle.** Idempotent : une fois appliqué, les boots suivants ne touchent plus rien. (L'ancien back-fill IA progressif 50/jour a été retiré.)
+- Les **265 vannes sont décryptées INTÉGRALEMENT et INSTANTANÉMENT au boot**, en une passe, depuis le fichier pré-rédigé bundlé (`src/data/joke-decryptages.json`). **Zéro appel IA, zéro coût, zéro action manuelle.** Idempotent : une fois appliqué, les boots suivants ne touchent plus rien. (L'ancien back-fill IA progressif 50/jour a été retiré.)
+- Les **24 vannes faibles** flaggées par les rédacteurs (s10, décision fondateur qualité > quantité) sont **désactivées (soft delete) au boot** via `deactivateWeakJokesTask()` : `isActive=false` sur les vannes dont le `content` figure dans `src/data/weak-jokes.json`. Le catalogue filtre déjà sur `isActive` → elles disparaissent du front **sans perte d'historique** (favoris/likes préservés). Idempotent (`WHERE isActive: true`), fail-safe, sans IA. **Réversibilité** : remettre `isActive=true` en DB OU retirer le content de `weak-jokes.json`. Catalogue actif : 289 → **265 vannes**.
 - Les **nouvelles vannes quotidiennes** (générées par `generateDailyJoke`) reçoivent leur décryptage via l'IA **à la génération** — `generateJokeDecryptage` reste actif uniquement pour ce cas.
 - Toutes les tâches sont **fail-safe** : si la DB est froide (Neon cold start), elles loggent mais ne crashent pas le démarrage. Le boot suivant rattrape.
 - Triple verrou anti coûts (bug P0 s8) sur chaque job scheduler : **time gate horaire + `tryAcquireLock` + court-circuit kill-switch/vide**.
@@ -906,14 +908,15 @@ Idempotente :
 
 ---
 
-## Phase 1b — Vannes pédagogiques : décryptage des 289 vannes (session 10)
+## Phase 1b — Vannes pédagogiques : décryptage des 265 vannes (session 10)
 
 > Phase 1a (schéma `Joke.comedyTechnique/techniqueExplanation/howToApply` + agent `generateJokeDecryptage` + migration `7_add_joke_decryptage`) déjà livrée et mergée.
-> Phase 1b : affichage UI du décryptage dans le catalogue + **application automatique au boot** des 289 décryptages pré-rédigés.
+> Phase 1b : affichage UI du décryptage dans le catalogue + **application automatique au boot** des 265 décryptages pré-rédigés.
+> **Note s10 (retrait vannes faibles)** : le catalogue est passé de 289 → 265 vannes (24 vannes faibles désactivées en soft delete au boot via `deactivateWeakJokesTask`). Les compteurs de cette section reflètent désormais 265.
 
 ### Aucune action manuelle requise — c'est appliqué au boot
 
-Les 289 décryptages sont rédigés à la main et bundlés dans `apps/web/src/data/joke-decryptages.json`
+Les 265 décryptages sont rédigés à la main et bundlés dans `apps/web/src/data/joke-decryptages.json`
 (indexés par `content`). À chaque déploiement, ~30 s après le boot, `applyJokeDecryptagesTask()`
 (`lib/startup-tasks.ts`) applique les 3 champs (`comedyTechnique`, `techniqueExplanation`,
 `howToApply`) à toutes les vannes `comedyTechnique IS NULL`, **en une passe, SANS IA, SANS coût**.
@@ -921,7 +924,7 @@ Les 289 décryptages sont rédigés à la main et bundlés dans `apps/web/src/da
 - **Instantané** : le catalogue est décrypté intégralement dès le démarrage (pas de progressif 50/jour).
 - **Idempotent** : ne touche que les vannes null → relançable, 0 effet une fois appliqué.
 - **Robuste** : `withDbRetry` (cold start Neon) + try/catch global → ne bloque jamais le boot.
-- **Log attendu** : `[startup] décryptages appliqués : 289/289.`
+- **Log attendu** : `[startup] décryptages appliqués : 265/265.` puis `[startup] vannes faibles désactivées : 24` (au 1er boot post-déploiement ; 0 aux boots suivants car idempotent).
 
 > La migration `7_add_joke_decryptage` (3 colonnes nullable) est appliquée par `prisma db push`
 > au build. Le décryptage des données suit au boot.
@@ -956,7 +959,9 @@ la chute → un bloc "Pourquoi ça marche — [technique]" + "À toi de jouer" a
 ### Checklist Phase 1b — done quand :
 
 - [ ] Migration 7 appliquée (via `prisma db push` au build)
-- [ ] Au boot, log `[startup] décryptages appliqués : 289/289.`
+- [ ] Au boot, log `[startup] décryptages appliqués : 265/265.`
+- [ ] Au 1er boot post-déploiement, log `[startup] vannes faibles désactivées : 24` (puis 0 aux boots suivants)
 - [ ] `count(*) WHERE comedyTechnique IS NULL AND isActive` = 0
+- [ ] `count(*) WHERE isActive = true` = 265 (catalogue actif après retrait des 24 faibles)
 - [ ] Vérif visuelle catalogue (bloc décryptage affiché)
 - [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS

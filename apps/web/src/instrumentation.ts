@@ -18,7 +18,7 @@
  * 10. CEO KPIs snapshot — 5h UTC (court-circuit si CEO off)
  *
  * Note : le décryptage des vannes existantes N'EST PLUS un job scheduler IA.
- * Les 289 décryptages pré-rédigés sont appliqués INSTANTANÉMENT au boot
+ * Les 265 décryptages pré-rédigés sont appliqués INSTANTANÉMENT au boot
  * (sans IA) via `applyJokeDecryptagesTask` dans `runStartupTasks`. Les
  * NOUVELLES vannes quotidiennes reçoivent leur décryptage via l'IA à la
  * génération (generateDailyJoke).

@@ -14,6 +14,7 @@ const mockEnsureCeoConfig = jest.fn();
 const mockExecuteRawUnsafe = jest.fn();
 const mockJokeFindMany = jest.fn();
 const mockJokeUpdate = jest.fn();
+const mockJokeUpdateMany = jest.fn();
 
 jest.mock("@/lib/prisma", () => ({
   prisma: {
@@ -21,6 +22,7 @@ jest.mock("@/lib/prisma", () => ({
     joke: {
       findMany: (...args: unknown[]) => mockJokeFindMany(...args),
       update: (...args: unknown[]) => mockJokeUpdate(...args),
+      updateMany: (...args: unknown[]) => mockJokeUpdateMany(...args),
     },
   },
 }));
@@ -29,10 +31,16 @@ jest.mock("@/lib/ai/ceo-helpers", () => ({
   ensureCeoConfig: () => mockEnsureCeoConfig(),
 }));
 
-import { runStartupTasks, applyJokeDecryptagesTask } from "@/lib/startup-tasks";
+import {
+  runStartupTasks,
+  applyJokeDecryptagesTask,
+  deactivateWeakJokesTask,
+} from "@/lib/startup-tasks";
 import jokeDecryptages from "@/data/joke-decryptages.json";
+import weakJokes from "@/data/weak-jokes.json";
 
 const fileEntry = (jokeDecryptages as Array<{ content: string; comedyTechnique: string }>)[0];
+const weakContents = weakJokes as string[];
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -40,6 +48,7 @@ beforeEach(() => {
   mockExecuteRawUnsafe.mockResolvedValue(0);
   mockJokeFindMany.mockResolvedValue([]);
   mockJokeUpdate.mockResolvedValue({});
+  mockJokeUpdateMany.mockResolvedValue({ count: 0 });
   jest.spyOn(console, "log").mockImplementation(() => undefined);
   jest.spyOn(console, "error").mockImplementation(() => undefined);
 });
@@ -61,6 +70,8 @@ describe("runStartupTasks", () => {
     expect(mockJokeFindMany).toHaveBeenCalledWith(
       expect.objectContaining({ where: { comedyTechnique: null } }),
     );
+    // deactivateWeakJokesTask a désactivé les vannes faibles (soft delete).
+    expect(mockJokeUpdateMany).toHaveBeenCalledTimes(1);
   });
 
   it("cleanup idempotent : 0 ligne affectée ne lève aucune erreur", async () => {
@@ -141,5 +152,54 @@ describe("applyJokeDecryptagesTask", () => {
     mockJokeFindMany.mockResolvedValue([{ id: "cuid-1", content: fileEntry.content }]);
     mockJokeUpdate.mockRejectedValue(new Error("write conflict"));
     await expect(applyJokeDecryptagesTask()).resolves.toBeUndefined();
+  });
+});
+
+describe("deactivateWeakJokesTask", () => {
+  it("soft delete : cible les 24 contents faibles encore actifs (isActive false)", async () => {
+    mockJokeUpdateMany.mockResolvedValue({ count: 24 });
+
+    await deactivateWeakJokesTask();
+
+    expect(mockJokeUpdateMany).toHaveBeenCalledTimes(1);
+    expect(mockJokeUpdateMany).toHaveBeenCalledWith({
+      where: { content: { in: weakContents }, isActive: true },
+      data: { isActive: false },
+    });
+  });
+
+  it("match par content : utilise exactement la liste weak-jokes.json (24 entrées)", async () => {
+    await deactivateWeakJokesTask();
+
+    const arg = mockJokeUpdateMany.mock.calls[0][0] as {
+      where: { content: { in: string[] } };
+    };
+    expect(arg.where.content.in).toHaveLength(24);
+    // Source unique : pas de hardcode, on passe bien le fichier bundlé.
+    expect(arg.where.content.in).toEqual(weakContents);
+  });
+
+  it("jamais de hard delete : seul isActive passe à false", async () => {
+    await deactivateWeakJokesTask();
+
+    const arg = mockJokeUpdateMany.mock.calls[0][0] as { data: Record<string, unknown> };
+    expect(arg.data).toEqual({ isActive: false });
+  });
+
+  it("idempotent : 2e run sans vanne active matchée = 0 update (count 0)", async () => {
+    mockJokeUpdateMany.mockResolvedValueOnce({ count: 24 });
+    mockJokeUpdateMany.mockResolvedValueOnce({ count: 0 });
+
+    await deactivateWeakJokesTask(); // 1re passe : 24 désactivées
+    await deactivateWeakJokesTask(); // 2e passe : WHERE isActive:true ne matche plus rien
+
+    expect(mockJokeUpdateMany).toHaveBeenCalledTimes(2);
+    // La 2e passe renvoie count 0 — aucune erreur, idempotence garantie par le WHERE.
+    expect(mockJokeUpdateMany.mock.results[1].value).resolves.toEqual({ count: 0 });
+  });
+
+  it("non bloquant : une erreur DB ne fait pas crasher le boot", async () => {
+    mockJokeUpdateMany.mockRejectedValue(new Error("relation \"Joke\" does not exist"));
+    await expect(deactivateWeakJokesTask()).resolves.toBeUndefined();
   });
 });
