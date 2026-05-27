@@ -1,10 +1,13 @@
 /**
- * Tests — instrumentation.ts : jobs CEO + back-fill vannes (s10).
+ * Tests — instrumentation.ts : jobs CEO (s10).
  *
- * Couvre les 3 jobs ajoutés au scheduler interne :
+ * Couvre les 2 jobs CEO du scheduler interne :
  *  - runCeoTickJob       : time gate 2-4h UTC + court-circuit kill-switch + lock
  *  - runCeoKpisJob       : time gate 5h UTC + court-circuit kill-switch + lock
- *  - runJokeBackfillJob  : time gate 6h UTC + court-circuit si 0 vanne + lock
+ *
+ * Note s10 : le back-fill décryptage des vannes (ancien job 6h UTC IA) a été
+ * RETIRÉ du scheduler. Les décryptages pré-rédigés sont appliqués au boot via
+ * applyJokeDecryptagesTask (cf. startup-tasks.test.ts) — sans IA, instantané.
  *
  * Même approche que instrumentation.test.ts : on reproduit la logique time gate
  * exacte des jobs (non exportés) pour la tester sans exécuter `setInterval`.
@@ -15,8 +18,6 @@
 
 const mockEnsureCeoConfig = jest.fn();
 const mockSnapshotCeoKpis = jest.fn().mockResolvedValue(undefined);
-const mockBackfill = jest.fn().mockResolvedValue({ total: 50, success: 50, failed: 0 });
-const mockJokeCount = jest.fn();
 const mockTryAcquireLock = jest.fn();
 const mockReleaseLock = jest.fn().mockResolvedValue(undefined);
 const mockFetch = jest.fn();
@@ -26,26 +27,14 @@ jest.mock("@/lib/ai/ceo-helpers", () => ({
   snapshotCeoKpis: () => mockSnapshotCeoKpis(),
 }));
 
-jest.mock("@/lib/prisma", () => ({
-  prisma: {
-    joke: { count: (args: unknown) => mockJokeCount(args) },
-  },
-}));
-
 jest.mock("@/lib/job-lock", () => ({
   tryAcquireLock: (k: string, ttl: number) => mockTryAcquireLock(k, ttl),
   releaseLock: (k: string) => mockReleaseLock(k),
   buildJobLockKey: (name: string) => `${name}-key`,
 }));
 
-jest.mock("../../../scripts/backfill-joke-decryptage", () => ({
-  backfillJokeDecryptage: (opts: unknown) => mockBackfill(opts),
-}));
-
 import { ensureCeoConfig, snapshotCeoKpis } from "@/lib/ai/ceo-helpers";
-import { prisma } from "@/lib/prisma";
 import { tryAcquireLock, releaseLock, buildJobLockKey } from "@/lib/job-lock";
-import { backfillJokeDecryptage } from "../../../scripts/backfill-joke-decryptage";
 
 // ─── Réimplémentation fidèle des jobs (cf. instrumentation.ts) ───────
 
@@ -87,27 +76,9 @@ async function simulateRunCeoKpisJob() {
   }
 }
 
-async function simulateRunJokeBackfillJob() {
-  const now = new Date();
-  if (now.getUTCHours() !== 6) return;
-
-  const remaining = await prisma.joke.count({ where: { comedyTechnique: null } });
-  if (remaining === 0) return;
-
-  const lockKey = buildJobLockKey("scheduler-joke-backfill", now);
-  const lockAcquired = await tryAcquireLock(lockKey, 30 * 60 * 1000);
-  if (!lockAcquired) return;
-  try {
-    await backfillJokeDecryptage({ dryRun: false, limit: 50, delayMs: 400 });
-  } finally {
-    await releaseLock(lockKey);
-  }
-}
-
 beforeEach(() => {
   jest.clearAllMocks();
   mockReleaseLock.mockResolvedValue(undefined);
-  mockBackfill.mockResolvedValue({ total: 50, success: 50, failed: 0 });
   process.env.CRON_SECRET = "test-secret";
 });
 
@@ -192,43 +163,5 @@ describe("runCeoKpisJob — time gate 5h + kill-switch + lock", () => {
     await simulateRunCeoKpisJob();
     expect(mockSnapshotCeoKpis).toHaveBeenCalledTimes(1);
     expect(mockReleaseLock).toHaveBeenCalled();
-  });
-});
-
-describe("runJokeBackfillJob — time gate 6h + court-circuit vide + lock", () => {
-  it("NE FAIT RIEN à 5h UTC (hors fenêtre)", async () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-05-07T05:00:00Z"));
-    await simulateRunJokeBackfillJob();
-    expect(mockJokeCount).not.toHaveBeenCalled();
-    expect(mockBackfill).not.toHaveBeenCalled();
-  });
-
-  it("COURT-CIRCUITE si 0 vanne à traiter (pas de lock, pas d'appel)", async () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-05-07T06:00:00Z"));
-    mockJokeCount.mockResolvedValueOnce(0);
-    await simulateRunJokeBackfillJob();
-    expect(mockTryAcquireLock).not.toHaveBeenCalled();
-    expect(mockBackfill).not.toHaveBeenCalled();
-  });
-
-  it("APPELLE le back-fill avec limit=50 si des vannes restent", async () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-05-07T06:00:00Z"));
-    mockJokeCount.mockResolvedValueOnce(120);
-    mockTryAcquireLock.mockResolvedValueOnce(true);
-    await simulateRunJokeBackfillJob();
-    expect(mockBackfill).toHaveBeenCalledWith({ dryRun: false, limit: 50, delayMs: 400 });
-    expect(mockReleaseLock).toHaveBeenCalled();
-  });
-
-  it("SKIPPE l'appel back-fill si le lock est déjà détenu", async () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-05-07T06:00:00Z"));
-    mockJokeCount.mockResolvedValueOnce(120);
-    mockTryAcquireLock.mockResolvedValueOnce(false);
-    await simulateRunJokeBackfillJob();
-    expect(mockBackfill).not.toHaveBeenCalled();
   });
 });

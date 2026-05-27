@@ -16,7 +16,12 @@
  * 8. Rapport SEO — mensuel, délègue à /api/cron/seo-report
  * 9. CEO tick — 2h-4h UTC, délègue à /api/cron/ceo-tick (court-circuit si CEO off)
  * 10. CEO KPIs snapshot — 5h UTC (court-circuit si CEO off)
- * 11. Back-fill décryptage vannes — 6h UTC, 50/jour (court-circuit si 0 reliquat)
+ *
+ * Note : le décryptage des vannes existantes N'EST PLUS un job scheduler IA.
+ * Les 289 décryptages pré-rédigés sont appliqués INSTANTANÉMENT au boot
+ * (sans IA) via `applyJokeDecryptagesTask` dans `runStartupTasks`. Les
+ * NOUVELLES vannes quotidiennes reçoivent leur décryptage via l'IA à la
+ * génération (generateDailyJoke).
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
@@ -459,51 +464,12 @@ export async function register() {
   };
 
   /**
-   * Job 11 : Back-fill progressif du décryptage des vannes — TIME-GATED + LOCK
-   *
-   * Décrypte automatiquement les ~289 vannes existantes après un deploy, sans
-   * lancer le script manuel. 50 vannes/jour → catalogue complet en ~6 jours,
-   * coût lissé < 0,1€/jour (ménage l'API Anthropic + Neon free tier).
-   *
-   * Idempotent par nature : backfillJokeDecryptage ne traite QUE les vannes
-   * `comedyTechnique: null`. Quand tout est décrypté → 0 vanne → 0 coût.
-   *
-   * Court-circuit : on vérifie d'abord le COMPTE de vannes à traiter et on ne
-   * fait RIEN (ni lock, ni appel) s'il n'en reste aucune.
-   */
-  const runJokeBackfillJob = async () => {
-    try {
-      const now = new Date();
-      if (now.getUTCHours() !== 6) return;
-
-      const { prisma } = await import("@/lib/prisma");
-      // Court-circuit : aucune vanne à traiter → ne RIEN faire (0 coût).
-      const remaining = await prisma.joke.count({ where: { comedyTechnique: null } });
-      if (remaining === 0) return;
-
-      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
-      const lockKey = buildJobLockKey("scheduler-joke-backfill", now);
-      const lockAcquired = await tryAcquireLock(lockKey, 30 * 60 * 1000);
-      if (!lockAcquired) return;
-
-      try {
-        const { backfillJokeDecryptage } = await import("../scripts/backfill-joke-decryptage");
-        console.log(`[scheduler:joke-backfill] ${remaining} vanne(s) restante(s) — batch de 50…`);
-        const result = await backfillJokeDecryptage({ dryRun: false, limit: 50, delayMs: 400 });
-        console.log(
-          `[scheduler:joke-backfill] Batch terminé : ${result.success} succès, ${result.failed} échec(s).`,
-        );
-      } finally {
-        await releaseLock(lockKey);
-      }
-    } catch (err) {
-      console.error("[scheduler:joke-backfill] Échec :", err);
-    }
-  };
-
-  /**
-   * Orchestrateur : exécute les 11 jobs séquentiellement.
+   * Orchestrateur : exécute les 10 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
+   *
+   * Le décryptage des vannes existantes ne fait PLUS partie du scheduler :
+   * il est appliqué une fois au boot via `runStartupTasks`
+   * (applyJokeDecryptagesTask), sans IA, depuis le fichier pré-rédigé.
    */
   const runAllJobs = async () => {
     await runDailyContentJob();
@@ -516,7 +482,6 @@ export async function register() {
     await runSeoReportJob();
     await runCeoTickJob();
     await runCeoKpisJob();
-    await runJokeBackfillJob();
   };
 
   // Tâches de démarrage idempotentes (auto-seed CeoConfig + cleanup WILD_CARD).
@@ -540,5 +505,5 @@ export async function register() {
     });
   }, 30_000);
 
-  console.log("[scheduler] Initialisé — 11 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report + CEO tick + CEO KPIs + back-fill vannes) — check toutes les 15 min.");
+  console.log("[scheduler] Initialisé — 10 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report + CEO tick + CEO KPIs) — check toutes les 15 min.");
 }

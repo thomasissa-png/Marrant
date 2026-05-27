@@ -1,7 +1,7 @@
 # Actions Replit — Deviens-marrant.fr
 
 > **TL;DR (s10 — deploy auto-suffisant)** : la checklist web est passée de **11 étapes manuelles à 3**.
-> Tout ce qui pouvait être automatisé l'a été dans le code (auto-seed config, crons CEO via scheduler interne, back-fill vannes progressif, cleanup données). Détails ci-dessous.
+> Tout ce qui pouvait être automatisé l'a été dans le code (auto-seed config, crons CEO via scheduler interne, application instantanée des décryptages de vannes au boot, cleanup données). Détails ci-dessous.
 > La section "Setup MOBILE V1" plus bas reste une checklist distincte (comptes Apple/Google, builds natifs) non concernée par cette automatisation.
 
 ---
@@ -19,13 +19,14 @@ Au déploiement Replit, la chaîne `[deployment].build` (`prisma db push` + `pri
 | **Schéma DB à jour** (tables, colonnes) | au build | `prisma db push` (déjà dans `.replit`) | `.replit` `[deployment].build` |
 | **Seed singleton `CeoConfig`** (FAIL-SAFE : `enabled=false`, `dryRun=true`) | au boot (~30 s) | `ensureCeoConfig()` idempotent + race-safe | `lib/startup-tasks.ts` → `lib/ai/ceo-helpers.ts` |
 | **Cleanup `SocialPost` WILD_CARD** (format obsolète → `REJECTED`) | au boot (~30 s) | `$executeRawUnsafe` UPDATE idempotent (cast `::text`) | `lib/startup-tasks.ts` + migration `8_cleanup_wildcard_socialpost` |
+| **Décryptage des 289 vannes** (pré-rédigé, SANS IA) | au boot (~30 s) | `applyJokeDecryptagesTask()` : applique les 3 champs depuis `src/data/joke-decryptages.json`, idempotent (ne touche que `comedyTechnique IS NULL`), `withDbRetry`, fail-safe | `lib/startup-tasks.ts` + `src/data/joke-decryptages.json` |
 | **CEO tick** (si activé) | scheduler, 2-4h UTC | time gate + lock + court-circuit kill-switch → fetch `/api/cron/ceo-tick` | `instrumentation.ts` job 9 |
 | **CEO KPIs snapshot** (si activé) | scheduler, 5h UTC | time gate + lock + court-circuit → `snapshotCeoKpis()` | `instrumentation.ts` job 10 |
-| **Back-fill décryptage vannes** (50/jour) | scheduler, 6h UTC | time gate + lock + court-circuit si 0 reliquat → `backfillJokeDecryptage({limit:50})` | `instrumentation.ts` job 11 |
 
 **Garanties** :
 - Le CEO démarre **désactivé** (aucun coût, aucune action). Thomas l'active quand il veut via le toggle `/admin/ceo` ou `POST /api/admin/ceo/kill-switch`.
-- Les 289 vannes se décryptent **toutes seules en ~6 jours** (50/jour, < 0,1 €/jour). Quand tout est décrypté → le job ne fait plus rien (0 coût).
+- Les **289 vannes sont décryptées INTÉGRALEMENT et INSTANTANÉMENT au boot**, en une passe, depuis le fichier pré-rédigé bundlé (`src/data/joke-decryptages.json`). **Zéro appel IA, zéro coût, zéro action manuelle.** Idempotent : une fois appliqué, les boots suivants ne touchent plus rien. (L'ancien back-fill IA progressif 50/jour a été retiré.)
+- Les **nouvelles vannes quotidiennes** (générées par `generateDailyJoke`) reçoivent leur décryptage via l'IA **à la génération** — `generateJokeDecryptage` reste actif uniquement pour ce cas.
 - Toutes les tâches sont **fail-safe** : si la DB est froide (Neon cold start), elles loggent mais ne crashent pas le démarrage. Le boot suivant rattrape.
 - Triple verrou anti coûts (bug P0 s8) sur chaque job scheduler : **time gate horaire + `tryAcquireLock` + court-circuit kill-switch/vide**.
 
@@ -905,68 +906,57 @@ Idempotente :
 
 ---
 
-## Phase 1b — Vannes pédagogiques : back-fill décryptage des 289 vannes (session 10)
+## Phase 1b — Vannes pédagogiques : décryptage des 289 vannes (session 10)
 
 > Phase 1a (schéma `Joke.comedyTechnique/techniqueExplanation/howToApply` + agent `generateJokeDecryptage` + migration `7_add_joke_decryptage`) déjà livrée et mergée.
-> Phase 1b ajoute l'affichage UI du décryptage dans le catalogue + le script de back-fill des vannes existantes.
+> Phase 1b : affichage UI du décryptage dans le catalogue + **application automatique au boot** des 289 décryptages pré-rédigés.
 
-### 1. Appliquer la migration du décryptage (si pas déjà fait en Phase 1a)
+### Aucune action manuelle requise — c'est appliqué au boot
+
+Les 289 décryptages sont rédigés à la main et bundlés dans `apps/web/src/data/joke-decryptages.json`
+(indexés par `content`). À chaque déploiement, ~30 s après le boot, `applyJokeDecryptagesTask()`
+(`lib/startup-tasks.ts`) applique les 3 champs (`comedyTechnique`, `techniqueExplanation`,
+`howToApply`) à toutes les vannes `comedyTechnique IS NULL`, **en une passe, SANS IA, SANS coût**.
+
+- **Instantané** : le catalogue est décrypté intégralement dès le démarrage (pas de progressif 50/jour).
+- **Idempotent** : ne touche que les vannes null → relançable, 0 effet une fois appliqué.
+- **Robuste** : `withDbRetry` (cold start Neon) + try/catch global → ne bloque jamais le boot.
+- **Log attendu** : `[startup] décryptages appliqués : 289/289.`
+
+> La migration `7_add_joke_decryptage` (3 colonnes nullable) est appliquée par `prisma db push`
+> au build. Le décryptage des données suit au boot.
+
+### Nouvelles vannes quotidiennes (IA conservée)
+
+`generateJokeDecryptage` (Sonnet) reste actif **uniquement** pour les NOUVELLES vannes générées
+chaque jour par `generateDailyJoke` : elles reçoivent leur décryptage à la génération. Le catalogue
+existant, lui, n'appelle plus jamais l'IA.
+
+### Script manuel (optionnel, debug)
+
+`apps/web/scripts/backfill-joke-decryptage.ts` reste lançable à la main si besoin :
 
 ```bash
 cd apps/web
-npx prisma generate
-npx prisma migrate deploy   # applique 7_add_joke_decryptage (3 colonnes nullable @db.Text)
+npx tsx scripts/backfill-joke-decryptage.ts            # ré-applique depuis le fichier (SANS IA, défaut)
+npx tsx scripts/backfill-joke-decryptage.ts --dry-run  # log sans écrire
+npx tsx scripts/backfill-joke-decryptage.ts --ai       # fallback IA pour les vannes ABSENTES du fichier
 ```
 
-Idempotent : si la migration 7 est déjà appliquée, `migrate deploy` ne fait rien.
-
-### 2. Back-fill du décryptage (~289 vannes × Sonnet)
-
-Le script est `apps/web/scripts/backfill-joke-decryptage.ts`. Il ne traite QUE les vannes
-dont `comedyTechnique IS NULL` (idempotent — relançable sans doublon si interrompu).
-
-**Séquence recommandée (depuis `apps/web`)** :
+### Vérification
 
 ```bash
-# 1. Dry-run sur 5 vannes : log SANS écriture DB (valider que l'agent répond bien)
-npx tsx scripts/backfill-joke-decryptage.ts --dry-run --limit=5
-
-# 2. Run réel sur 5 vannes : écrit en DB, vérifie le résultat dans le catalogue
-npx tsx scripts/backfill-joke-decryptage.ts --limit=5
-
-# 3. Run complet sur tout le reliquat (~284 vannes restantes)
-npx tsx scripts/backfill-joke-decryptage.ts
-```
-
-Options : `--dry-run` (aucune écriture), `--limit=N` (N vannes max), `--delay=MS` (throttle, défaut 400ms).
-
-**Logs attendus** : `[backfill] 42/289 — "premier sous ma vidéo…" → "La triple chute"`.
-En fin : `[backfill] Terminé : X succès, Y échec(s) sur Z.`
-
-**Robustesse** : try/catch par vanne → un échec (décryptage incomplet renvoyé par l'agent)
-est loggé et n'interrompt PAS le batch. Relancer simplement le script reprend uniquement
-les vannes encore `NULL` (les échecs précédents).
-
-### 3. Coût estimé
-
-~289 appels Sonnet, prompt stable caché (max_tokens 600). Estimation **< 1 €** pour le run complet.
-Durée : ~289 × (latence Sonnet ~3-5s + delay 400ms) ≈ 20-25 min. Laisser tourner dans le shell Replit.
-
-### 4. Vérification post-back-fill
-
-```bash
-# Combien de vannes restent sans décryptage (idéalement 0, ou = nombre d'échecs)
-psql $DATABASE_URL -c "SELECT count(*) FROM \"Joke\" WHERE \"comedyTechnique\" IS NULL;"
+# Doit retourner 0 (toutes les vannes du catalogue sont décryptées)
+psql $DATABASE_URL -c "SELECT count(*) FROM \"Joke\" WHERE \"comedyTechnique\" IS NULL AND \"isActive\" = true;"
 ```
 
 Puis dans le catalogue `https://deviens-marrant.fr/vannes` : cliquer une vanne pour révéler
 la chute → un bloc "Pourquoi ça marche — [technique]" + "À toi de jouer" apparaît sous la chute.
-Les vannes non décryptées (échecs) affichent la chute SANS bloc (masquage propre, pas de cassure).
 
 ### Checklist Phase 1b — done quand :
 
-- [ ] Migration 7 appliquée (`migrate deploy`)
-- [ ] Dry-run `--limit=5` OK (logs cohérents, aucune écriture)
-- [ ] Run `--limit=5` OK + vérif visuelle catalogue (bloc décryptage affiché)
-- [ ] Run complet lancé, `count(*) WHERE comedyTechnique IS NULL` ≈ 0
+- [ ] Migration 7 appliquée (via `prisma db push` au build)
+- [ ] Au boot, log `[startup] décryptages appliqués : 289/289.`
+- [ ] `count(*) WHERE comedyTechnique IS NULL AND isActive` = 0
+- [ ] Vérif visuelle catalogue (bloc décryptage affiché)
 - [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS

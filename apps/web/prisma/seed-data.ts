@@ -10,6 +10,21 @@ function loadSeedData<T>(filename: string): T[] {
   return JSON.parse(raw) as T[];
 }
 
+// Charge un JSON depuis un chemin relatif à la racine du repo (différent de
+// docs/content). Utilisé pour le fichier de décryptages bundlé au runtime.
+function loadRepoJson<T>(relativePath: string): T[] {
+  const filePath = resolve(process.cwd(), "../..", relativePath);
+  const raw = readFileSync(filePath, "utf-8");
+  return JSON.parse(raw) as T[];
+}
+
+interface JokeDecryptageSeed {
+  content: string;
+  comedyTechnique: string;
+  techniqueExplanation: string;
+  howToApply: string;
+}
+
 interface JokeSeed {
   id: number;
   content: string;
@@ -62,6 +77,13 @@ async function main() {
   // BLAGUES — upsert par contenu pour préserver les relations (JokeLike, favoris)
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
   {
+    // Décryptages pédagogiques pré-rédigés (289 entrées, indexées par content).
+    // Source bundlée au runtime : src/data/joke-decryptages.json — appliqués dès
+    // le seed pour que les nouvelles installs aient le décryptage immédiatement
+    // (le boot via applyJokeDecryptagesTask les applique aussi, par sécurité).
+    const decryptages = loadRepoJson<JokeDecryptageSeed>("apps/web/src/data/joke-decryptages.json");
+    const decryptageByContent = new Map(decryptages.map((d) => [d.content, d]));
+
     const existingJokes = await prisma.joke.findMany({
       where: { generatedByAI: false },
       select: { id: true, content: true },
@@ -71,6 +93,7 @@ async function main() {
     let created = 0;
     let updated = 0;
     for (const joke of jokes) {
+      const dec = decryptageByContent.get(joke.content);
       const existingId = existingByContent.get(joke.content);
       if (existingId) {
         // Mettre à jour la punchline, catégorie, type, niveau si modifiés
@@ -82,6 +105,13 @@ async function main() {
             maturityLevel: joke.maturityLevel,
             type: joke.type as never,
             isActive: true,
+            ...(dec
+              ? {
+                  comedyTechnique: dec.comedyTechnique,
+                  techniqueExplanation: dec.techniqueExplanation,
+                  howToApply: dec.howToApply,
+                }
+              : {}),
           },
         });
         updated++;
@@ -93,6 +123,13 @@ async function main() {
             category: joke.category as never,
             maturityLevel: joke.maturityLevel,
             type: joke.type as never,
+            ...(dec
+              ? {
+                  comedyTechnique: dec.comedyTechnique,
+                  techniqueExplanation: dec.techniqueExplanation,
+                  howToApply: dec.howToApply,
+                }
+              : {}),
           },
         });
         created++;
