@@ -21,8 +21,7 @@
 // de tests qui déclarent aussi `mockFetch` (instagram.test.ts, social-clients.test.ts).
 
 const mockFetch = jest.fn();
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(global as any).fetch = mockFetch;
+(global as { fetch: unknown }).fetch = mockFetch;
 
 const mockFetchOk = (body: unknown) => ({
   ok: true,
