@@ -22,12 +22,6 @@ function makeReq(body: unknown, auth?: string) {
   });
 }
 
-// Le helper de base n'a pas ceoConfig.create — on l'ajoute inline si nécessaire.
-beforeAll(() => {
-  // @ts-expect-error — extension dynamique pour ce test
-  mockPrisma.ceoConfig.create = jest.fn();
-});
-
 describe("POST /api/admin/ceo/kill-switch", () => {
   const ORIGINAL_PASS = process.env.ADMIN_PASSWORD;
   let POST: (req: Request) => Promise<Response>;
@@ -45,7 +39,6 @@ describe("POST /api/admin/ceo/kill-switch", () => {
 
   beforeEach(() => {
     resetCeoPrismaMock(mockPrisma);
-    // @ts-expect-error — extension dynamique
     mockPrisma.ceoConfig.create.mockReset();
   });
 
@@ -131,7 +124,6 @@ describe("POST /api/admin/ceo/kill-switch", () => {
 
   it("200 sans config existante : create nouvelle config", async () => {
     mockPrisma.ceoConfig.findFirst.mockResolvedValueOnce(null);
-    // @ts-expect-error — extension
     mockPrisma.ceoConfig.create.mockResolvedValueOnce({
       id: "cfg-new",
       enabled: false,
@@ -145,7 +137,6 @@ describe("POST /api/admin/ceo/kill-switch", () => {
     );
     expect(res.status).toBe(200);
 
-    // @ts-expect-error
     expect(mockPrisma.ceoConfig.create).toHaveBeenCalledWith({
       data: { enabled: false, killSwitchReason: "Init kill" },
     });

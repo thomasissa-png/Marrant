@@ -31,7 +31,7 @@ export type CeoPrismaMock = {
 
   // CEO core
   ceoMemory: { findUnique: jest.Mock; upsert: jest.Mock; delete: jest.Mock };
-  ceoConfig: { findFirst: jest.Mock; upsert: jest.Mock; update: jest.Mock };
+  ceoConfig: { findFirst: jest.Mock; upsert: jest.Mock; update: jest.Mock; create: jest.Mock };
   ceoOutboundMessage: {
     create: jest.Mock;
     update: jest.Mock;
@@ -93,6 +93,7 @@ export function createCeoPrismaMock(): CeoPrismaMock {
       findFirst: jest.fn(),
       upsert: jest.fn(),
       update: jest.fn(),
+      create: jest.fn(),
     },
     ceoOutboundMessage: {
       create: jest.fn(),

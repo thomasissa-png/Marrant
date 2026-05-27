@@ -5,7 +5,7 @@
  * Vérifie toutes les 15 minutes si les contenus planifiés existent
  * et les génère automatiquement sinon.
  *
- * 8 jobs gérés — tous délèguent aux crons HTTP pour éviter les doublons :
+ * 11 jobs gérés — tous délèguent aux crons HTTP pour éviter les doublons :
  * 1. Contenu quotidien (blague + conseil + vidéo) — tous les jours
  * 2. Article blog SEO — une fois par semaine (lundi)
  * 3. Plans mensuels — le 28 du mois (pré-génère le mois suivant)
@@ -14,6 +14,9 @@
  * 6. Analytics social — délègue à /api/cron/social-analytics
  * 7. Audit SEO — mercredi, délègue à /api/cron/seo-audit
  * 8. Rapport SEO — mensuel, délègue à /api/cron/seo-report
+ * 9. CEO tick — 2h-4h UTC, délègue à /api/cron/ceo-tick (court-circuit si CEO off)
+ * 10. CEO KPIs snapshot — 5h UTC (court-circuit si CEO off)
+ * 11. Back-fill décryptage vannes — 6h UTC, 50/jour (court-circuit si 0 reliquat)
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
@@ -375,7 +378,131 @@ export async function register() {
   };
 
   /**
-   * Orchestrateur : exécute les 8 jobs séquentiellement.
+   * Job 9 : CEO tick quotidien — TIME-GATED + LOCK + KILL-SWITCH
+   *
+   * Fallback du cron HTTP /api/cron/ceo-tick quand Replit ne déclenche pas.
+   * Fenêtre 2h-4h UTC (identique au time gate interne de la route ceo-tick).
+   *
+   * Triple sécurité (NE JAMAIS retirer — bug P0 coûts x8 si scheduler sans gate) :
+   *  1. Court-circuit kill-switch AVANT toute acquisition de lock → 0 coût quand
+   *     le CEO est désactivé (défaut après deploy via ensureCeoConfig).
+   *  2. Lock scheduler dédié (tryAcquireLock) → un seul déclenchement/jour.
+   *  3. La route ceo-tick a SON propre lock interne (CEO_TICK_LOCK_KEY) +
+   *     runDailyTick re-check le kill-switch → idempotence garantie même si le
+   *     cron HTTP Replit tourne en parallèle.
+   */
+  const runCeoTickJob = async () => {
+    try {
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+
+      // Time gate : 2h-4h UTC (cohérent avec la route /api/cron/ceo-tick)
+      if (utcHour < 2 || utcHour > 4) return;
+
+      // Court-circuit kill-switch : si CEO désactivé, ne RIEN faire (0 coût,
+      // pas de lock, pas de fetch). Auto-seed le singleton si absent (fail-safe).
+      const { ensureCeoConfig } = await import("@/lib/ai/ceo-helpers");
+      const cfg = await ensureCeoConfig();
+      if (!cfg.enabled) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("scheduler-ceo-tick", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 15 * 60 * 1000);
+      if (!lockAcquired) return;
+
+      try {
+        const PORT = process.env.PORT || "3000";
+        const secret = process.env.CRON_SECRET;
+        if (!secret) return;
+
+        const res = await fetch(`http://127.0.0.1:${PORT}/api/cron/ceo-tick?secret=${secret}`, {
+          signal: AbortSignal.timeout(300_000),
+        });
+        if (res.ok) console.log(`[scheduler:ceo-tick] Tick déclenché (${utcHour}h UTC).`);
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:ceo-tick] Échec :", err);
+    }
+  };
+
+  /**
+   * Job 10 : Snapshot KPIs CEO quotidien — TIME-GATED + LOCK + KILL-SWITCH
+   *
+   * Fenêtre 5h UTC (1x/jour). Court-circuit si CEO désactivé.
+   * Appelle snapshotCeoKpis() directement (lecture/agrégation DB, pas de LLM).
+   */
+  const runCeoKpisJob = async () => {
+    try {
+      const now = new Date();
+      if (now.getUTCHours() !== 5) return;
+
+      const { ensureCeoConfig, snapshotCeoKpis } = await import("@/lib/ai/ceo-helpers");
+      const cfg = await ensureCeoConfig();
+      if (!cfg.enabled) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("scheduler-ceo-kpis", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 10 * 60 * 1000);
+      if (!lockAcquired) return;
+
+      try {
+        await snapshotCeoKpis();
+        console.log("[scheduler:ceo-kpis] Snapshot KPIs enregistré.");
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:ceo-kpis] Échec :", err);
+    }
+  };
+
+  /**
+   * Job 11 : Back-fill progressif du décryptage des vannes — TIME-GATED + LOCK
+   *
+   * Décrypte automatiquement les ~289 vannes existantes après un deploy, sans
+   * lancer le script manuel. 50 vannes/jour → catalogue complet en ~6 jours,
+   * coût lissé < 0,1€/jour (ménage l'API Anthropic + Neon free tier).
+   *
+   * Idempotent par nature : backfillJokeDecryptage ne traite QUE les vannes
+   * `comedyTechnique: null`. Quand tout est décrypté → 0 vanne → 0 coût.
+   *
+   * Court-circuit : on vérifie d'abord le COMPTE de vannes à traiter et on ne
+   * fait RIEN (ni lock, ni appel) s'il n'en reste aucune.
+   */
+  const runJokeBackfillJob = async () => {
+    try {
+      const now = new Date();
+      if (now.getUTCHours() !== 6) return;
+
+      const { prisma } = await import("@/lib/prisma");
+      // Court-circuit : aucune vanne à traiter → ne RIEN faire (0 coût).
+      const remaining = await prisma.joke.count({ where: { comedyTechnique: null } });
+      if (remaining === 0) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("scheduler-joke-backfill", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 30 * 60 * 1000);
+      if (!lockAcquired) return;
+
+      try {
+        const { backfillJokeDecryptage } = await import("../scripts/backfill-joke-decryptage");
+        console.log(`[scheduler:joke-backfill] ${remaining} vanne(s) restante(s) — batch de 50…`);
+        const result = await backfillJokeDecryptage({ dryRun: false, limit: 50, delayMs: 400 });
+        console.log(
+          `[scheduler:joke-backfill] Batch terminé : ${result.success} succès, ${result.failed} échec(s).`,
+        );
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:joke-backfill] Échec :", err);
+    }
+  };
+
+  /**
+   * Orchestrateur : exécute les 11 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    */
   const runAllJobs = async () => {
@@ -387,14 +514,31 @@ export async function register() {
     await runSocialAnalyticsJob();
     await runSeoAuditJob();
     await runSeoReportJob();
+    await runCeoTickJob();
+    await runCeoKpisJob();
+    await runJokeBackfillJob();
+  };
+
+  // Tâches de démarrage idempotentes (auto-seed CeoConfig + cleanup WILD_CARD).
+  // Exécutées une seule fois au boot — rattrapent ce que le build Replit
+  // (prisma db push, sans migrate deploy ni seed en prod) ne peut pas faire.
+  const runStartupOnce = async () => {
+    try {
+      const { runStartupTasks } = await import("@/lib/startup-tasks");
+      await runStartupTasks();
+    } catch (err) {
+      console.error("[startup] runStartupTasks échoué (non bloquant) :", err);
+    }
   };
 
   // Premier check 30 secondes après le démarrage
   setTimeout(() => {
-    runAllJobs();
-    // Puis toutes les 15 minutes
-    setInterval(runAllJobs, INTERVAL_MS);
+    runStartupOnce().finally(() => {
+      runAllJobs();
+      // Puis toutes les 15 minutes
+      setInterval(runAllJobs, INTERVAL_MS);
+    });
   }, 30_000);
 
-  console.log("[scheduler] Initialisé — 8 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report) — check toutes les 15 min.");
+  console.log("[scheduler] Initialisé — 11 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report + CEO tick + CEO KPIs + back-fill vannes) — check toutes les 15 min.");
 }

@@ -1,4 +1,72 @@
-# Actions Replit — Setup MOBILE V1
+# Actions Replit — Deviens-marrant.fr
+
+> **TL;DR (s10 — deploy auto-suffisant)** : la checklist web est passée de **11 étapes manuelles à 3**.
+> Tout ce qui pouvait être automatisé l'a été dans le code (auto-seed config, crons CEO via scheduler interne, back-fill vannes progressif, cleanup données). Détails ci-dessous.
+> La section "Setup MOBILE V1" plus bas reste une checklist distincte (comptes Apple/Google, builds natifs) non concernée par cette automatisation.
+
+---
+
+## ⭐ s10 — Déploiement web auto-suffisant : AUTO vs MANUEL
+
+> "Quand je déploie, tout se met à jour tout seul." Voici précisément ce qui se passe au 1er deploy, sans rien faire.
+
+### A. CE QUI EST DÉSORMAIS AUTOMATIQUE (zéro action)
+
+Au déploiement Replit, la chaîne `[deployment].build` (`prisma db push` + `prisma generate` + build) synchronise le **schéma** DB. Puis, **~30 s après le boot du serveur**, le scheduler interne (`apps/web/src/instrumentation.ts`) exécute des tâches de démarrage idempotentes, puis prend le relais des crons :
+
+| Tâche | Quand | Mécanisme | Fichier |
+|---|---|---|---|
+| **Schéma DB à jour** (tables, colonnes) | au build | `prisma db push` (déjà dans `.replit`) | `.replit` `[deployment].build` |
+| **Seed singleton `CeoConfig`** (FAIL-SAFE : `enabled=false`, `dryRun=true`) | au boot (~30 s) | `ensureCeoConfig()` idempotent + race-safe | `lib/startup-tasks.ts` → `lib/ai/ceo-helpers.ts` |
+| **Cleanup `SocialPost` WILD_CARD** (format obsolète → `REJECTED`) | au boot (~30 s) | `$executeRawUnsafe` UPDATE idempotent (cast `::text`) | `lib/startup-tasks.ts` + migration `8_cleanup_wildcard_socialpost` |
+| **CEO tick** (si activé) | scheduler, 2-4h UTC | time gate + lock + court-circuit kill-switch → fetch `/api/cron/ceo-tick` | `instrumentation.ts` job 9 |
+| **CEO KPIs snapshot** (si activé) | scheduler, 5h UTC | time gate + lock + court-circuit → `snapshotCeoKpis()` | `instrumentation.ts` job 10 |
+| **Back-fill décryptage vannes** (50/jour) | scheduler, 6h UTC | time gate + lock + court-circuit si 0 reliquat → `backfillJokeDecryptage({limit:50})` | `instrumentation.ts` job 11 |
+
+**Garanties** :
+- Le CEO démarre **désactivé** (aucun coût, aucune action). Thomas l'active quand il veut via le toggle `/admin/ceo` ou `POST /api/admin/ceo/kill-switch`.
+- Les 289 vannes se décryptent **toutes seules en ~6 jours** (50/jour, < 0,1 €/jour). Quand tout est décrypté → le job ne fait plus rien (0 coût).
+- Toutes les tâches sont **fail-safe** : si la DB est froide (Neon cold start), elles loggent mais ne crashent pas le démarrage. Le boot suivant rattrape.
+- Triple verrou anti coûts (bug P0 s8) sur chaque job scheduler : **time gate horaire + `tryAcquireLock` + court-circuit kill-switch/vide**.
+
+> **Note migrations versionnées** : le deploy Replit utilise `prisma db push` (pas `migrate deploy`), qui ne joue PAS les migrations de **données** (ex. `8_cleanup_wildcard`). C'est pourquoi le cleanup est aussi exécuté au boot via `startup-tasks.ts` (garanti + idempotent). Si tu préfères basculer sur `prisma migrate deploy` au build, c'est possible mais **risqué** (la DB a été initialisée via `db push`, pas via migrations → conflit de baseline `_prisma_migrations`). NE PAS changer sans test sur une DB jetable. Le contournement actuel (cleanup au boot) évite ce risque.
+
+### B. LE MINIMUM IRRÉDUCTIBLE MANUEL (~3 étapes)
+
+Ce qui ne PEUT PAS être dans le code (secrets, validations externes, action humaine) :
+
+**1. Merge + Deploy** (l'action elle-même)
+- Merge la branche dans `master`, clique **Deploy** sur Replit. Tout le reste s'enchaîne automatiquement (voir section A).
+
+**2. Secrets Replit** (à poser une fois — Replit > Secrets)
+Le code se **désactive proprement** si un secret manque (pas de crash). Liste minimale pour activer chaque feature :
+
+| Secret | Pour quoi | Comment l'obtenir |
+|---|---|---|
+| `DATABASE_URL` | DB (déjà posé) | Auto Replit PostgreSQL |
+| `CRON_SECRET` | scheduler ↔ crons HTTP | `openssl rand -hex 32` |
+| `ANTHROPIC_API_KEY` | génération contenu + CEO + vannes | console.anthropic.com |
+| `ADMIN_PASSWORD` | accès `/admin/*` (dont toggle CEO) | choisir une passphrase forte |
+| `RESEND_API_KEY` | emails (rapport hebdo CEO, inbound) | resend.com dashboard |
+| `UNSUBSCRIBE_HMAC_SECRET` | footer unsubscribe RGPD (sinon envoi email CEO bloqué) | `openssl rand -hex 32` |
+| `ADRESSE_POSTALE` | conformité CPCE footer email | décision Thomas |
+| `CEO_ADMIN_EMAIL` | destinataire rapport hebdo CEO | `alex@deviens-marrant.fr` |
+| `NEXT_PUBLIC_BASE_URL` | liens unsubscribe | `https://deviens-marrant.fr` |
+| `TWITTER_BEARER_TOKEN` | DM CEO (optionnel — se désactive si absent) | developer.twitter.com |
+| `RESEND_WEBHOOK_SECRET` | webhook Resend inbound (optionnel) | `openssl rand -hex 32` |
+| `BUFFER_*` | publication sociale (déjà posés probablement) | buffer.com |
+
+> Total ≈ 12 secrets, dont ~5 réellement bloquants pour le cœur web (DATABASE_URL, CRON_SECRET, ANTHROPIC_API_KEY, ADMIN_PASSWORD, RESEND_API_KEY). Les autres débloquent des features spécifiques (CEO email, DM, inbound).
+
+**3. Configs dashboard externes + légal** (one-shot, hors code)
+- **Webhook Resend Inbound** (si replies email CEO souhaités) : dashboard Resend → endpoint `https://deviens-marrant.fr/api/webhooks/resend-inbound`, secret = `RESEND_WEBHOOK_SECRET`.
+- **3 DPA légaux** (sous-traitants RGPD) : signer les Data Processing Agreements Anthropic, Resend, Neon (action juridique, pas technique).
+
+**C'est tout.** Plus besoin d'insérer la config CEO en SQL, ni de lancer le back-fill à la main, ni de configurer les crons CEO sur Replit Scheduled Deployments (le scheduler interne les couvre). Les sections historiques ci-dessous restent comme référence des phases passées.
+
+---
+
+## Actions Replit — Setup MOBILE V1
 
 > Ce fichier liste toutes les actions manuelles à effectuer par Thomas pour finaliser la V1 mobile (iOS + Android).
 > Les livrables code et docs sont déjà produits dans le repo. Cette checklist couvre le "last mile" (comptes développeurs, certificats, premiers builds, submission).

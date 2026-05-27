@@ -61,6 +61,7 @@ import {
   getCeoMemory,
   setCeoMemory,
   getCeoConfig,
+  ensureCeoConfig,
   isCeoEnabled,
   applyFrequencyCap,
   checkAndStoreDedup,
@@ -340,6 +341,58 @@ describe("getCeoConfig", () => {
     mockPrisma.ceoConfig.findFirst.mockResolvedValueOnce(null);
     const result = await getCeoConfig();
     expect(result).toBeNull();
+  });
+});
+
+// ─── ensureCeoConfig (auto-seed fail-safe) ───────────────────────────
+
+describe("ensureCeoConfig", () => {
+  it("retourne la config existante sans créer (idempotent)", async () => {
+    const existing = { id: "c1", enabled: true, dryRun: false };
+    mockPrisma.ceoConfig.findFirst.mockResolvedValueOnce(existing);
+
+    const result = await ensureCeoConfig();
+
+    expect(result).toBe(existing);
+    expect(mockPrisma.ceoConfig.create).not.toHaveBeenCalled();
+  });
+
+  it("crée le singleton FAIL-SAFE si aucune config (enabled=false, dryRun=true)", async () => {
+    mockPrisma.ceoConfig.findFirst.mockResolvedValueOnce(null);
+    const created = { id: "c-new", enabled: false, dryRun: true };
+    mockPrisma.ceoConfig.create.mockResolvedValueOnce(created);
+
+    const result = await ensureCeoConfig();
+
+    expect(result).toBe(created);
+    expect(mockPrisma.ceoConfig.create).toHaveBeenCalledTimes(1);
+    const arg = mockPrisma.ceoConfig.create.mock.calls[0][0];
+    expect(arg.data.enabled).toBe(false);
+    expect(arg.data.dryRun).toBe(true);
+    expect(arg.data.autoSendEmail).toBe(false);
+    expect(arg.data.autoSendDm).toBe(false);
+    expect(arg.data.socialOutboundEnabled).toBe(false);
+  });
+
+  it("gère la race condition : relit si le create échoue (autre worker)", async () => {
+    const fromOtherWorker = { id: "c-race", enabled: false, dryRun: true };
+    mockPrisma.ceoConfig.findFirst
+      .mockResolvedValueOnce(null) // 1er check : rien
+      .mockResolvedValueOnce(fromOtherWorker); // relecture après échec create
+    mockPrisma.ceoConfig.create.mockRejectedValueOnce(new Error("conflict"));
+
+    const result = await ensureCeoConfig();
+
+    expect(result).toBe(fromOtherWorker);
+  });
+
+  it("propage l'erreur si create échoue ET la relecture est vide", async () => {
+    mockPrisma.ceoConfig.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null);
+    mockPrisma.ceoConfig.create.mockRejectedValueOnce(new Error("db down"));
+
+    await expect(ensureCeoConfig()).rejects.toThrow("db down");
   });
 });
 

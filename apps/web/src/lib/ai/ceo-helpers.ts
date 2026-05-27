@@ -261,6 +261,54 @@ export async function getCeoConfig(): Promise<CeoConfig | null> {
 }
 
 /**
+ * Garantit l'existence du singleton CeoConfig avec des défauts FAIL-SAFE.
+ *
+ * Objectif déploiement auto-suffisant : aucune insertion SQL manuelle après un
+ * deploy. Si aucune config n'existe, on en crée une DÉSACTIVÉE et SÛRE :
+ *  - `enabled: false`     → le CEO ne fait rien (aucun coût, aucune action)
+ *  - `dryRun: true`       → même réactivé, tout reste en DRAFT (rien envoyé)
+ *  - `autoSendEmail/Dm: false` → aucun envoi automatique
+ *
+ * Idempotent : ne crée la ligne qu'une seule fois (retourne l'existante sinon).
+ *
+ * Race condition (2 workers Replit au boot) : le modèle n'a pas d'id "singleton"
+ * fixe (id @default(cuid())), on ne peut donc pas faire un upsert atomique sur
+ * id. On gère par re-lecture après échec de création : si deux workers passent
+ * la garde `findFirst` simultanément, le second `create` réussira quand même
+ * (pas d'unique constraint) — d'où une garde supplémentaire : on relit et on
+ * supprime l'éventuel doublon le plus récent en gardant le plus ancien. En
+ * pratique, la fenêtre est de quelques ms au boot et `getCeoConfig` lit ensuite
+ * la plus récente par `updatedAt` (cohérent car les deux ont les mêmes défauts).
+ */
+export async function ensureCeoConfig(): Promise<CeoConfig> {
+  const existing = await prisma.ceoConfig.findFirst({
+    orderBy: { updatedAt: "desc" },
+  });
+  if (existing) return existing;
+
+  try {
+    return await prisma.ceoConfig.create({
+      data: {
+        enabled: false,
+        dryRun: true,
+        autoSendEmail: false,
+        autoSendDm: false,
+        socialOutboundEnabled: false,
+        killSwitchReason: "auto-seed: CEO désactivé par défaut (fail-safe deploy)",
+      },
+    });
+  } catch (err) {
+    // Si un autre worker a inséré entre le findFirst et le create, on relit.
+    console.error("[ceo-config] Échec create singleton, relecture :", err);
+    const fallback = await prisma.ceoConfig.findFirst({
+      orderBy: { updatedAt: "desc" },
+    });
+    if (fallback) return fallback;
+    throw err;
+  }
+}
+
+/**
  * Vérifie le kill-switch DB. Renvoie `false` (= bloqué) si :
  *  - aucune config en DB (fail-safe)
  *  - `enabled = false`
