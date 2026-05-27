@@ -834,3 +834,71 @@ Idempotente :
 - [ ] `npx next lint` passe (warnings OK, errors NOK)
 - [ ] `npm run build` réussit
 - [ ] Smoke test : POST `/api/cron/ceo-tick?force=true` → 200 + JSON success
+
+---
+
+## Phase 1b — Vannes pédagogiques : back-fill décryptage des 289 vannes (session 10)
+
+> Phase 1a (schéma `Joke.comedyTechnique/techniqueExplanation/howToApply` + agent `generateJokeDecryptage` + migration `7_add_joke_decryptage`) déjà livrée et mergée.
+> Phase 1b ajoute l'affichage UI du décryptage dans le catalogue + le script de back-fill des vannes existantes.
+
+### 1. Appliquer la migration du décryptage (si pas déjà fait en Phase 1a)
+
+```bash
+cd apps/web
+npx prisma generate
+npx prisma migrate deploy   # applique 7_add_joke_decryptage (3 colonnes nullable @db.Text)
+```
+
+Idempotent : si la migration 7 est déjà appliquée, `migrate deploy` ne fait rien.
+
+### 2. Back-fill du décryptage (~289 vannes × Sonnet)
+
+Le script est `apps/web/scripts/backfill-joke-decryptage.ts`. Il ne traite QUE les vannes
+dont `comedyTechnique IS NULL` (idempotent — relançable sans doublon si interrompu).
+
+**Séquence recommandée (depuis `apps/web`)** :
+
+```bash
+# 1. Dry-run sur 5 vannes : log SANS écriture DB (valider que l'agent répond bien)
+npx tsx scripts/backfill-joke-decryptage.ts --dry-run --limit=5
+
+# 2. Run réel sur 5 vannes : écrit en DB, vérifie le résultat dans le catalogue
+npx tsx scripts/backfill-joke-decryptage.ts --limit=5
+
+# 3. Run complet sur tout le reliquat (~284 vannes restantes)
+npx tsx scripts/backfill-joke-decryptage.ts
+```
+
+Options : `--dry-run` (aucune écriture), `--limit=N` (N vannes max), `--delay=MS` (throttle, défaut 400ms).
+
+**Logs attendus** : `[backfill] 42/289 — "premier sous ma vidéo…" → "La triple chute"`.
+En fin : `[backfill] Terminé : X succès, Y échec(s) sur Z.`
+
+**Robustesse** : try/catch par vanne → un échec (décryptage incomplet renvoyé par l'agent)
+est loggé et n'interrompt PAS le batch. Relancer simplement le script reprend uniquement
+les vannes encore `NULL` (les échecs précédents).
+
+### 3. Coût estimé
+
+~289 appels Sonnet, prompt stable caché (max_tokens 600). Estimation **< 1 €** pour le run complet.
+Durée : ~289 × (latence Sonnet ~3-5s + delay 400ms) ≈ 20-25 min. Laisser tourner dans le shell Replit.
+
+### 4. Vérification post-back-fill
+
+```bash
+# Combien de vannes restent sans décryptage (idéalement 0, ou = nombre d'échecs)
+psql $DATABASE_URL -c "SELECT count(*) FROM \"Joke\" WHERE \"comedyTechnique\" IS NULL;"
+```
+
+Puis dans le catalogue `https://deviens-marrant.fr/vannes` : cliquer une vanne pour révéler
+la chute → un bloc "Pourquoi ça marche — [technique]" + "À toi de jouer" apparaît sous la chute.
+Les vannes non décryptées (échecs) affichent la chute SANS bloc (masquage propre, pas de cassure).
+
+### Checklist Phase 1b — done quand :
+
+- [ ] Migration 7 appliquée (`migrate deploy`)
+- [ ] Dry-run `--limit=5` OK (logs cohérents, aucune écriture)
+- [ ] Run `--limit=5` OK + vérif visuelle catalogue (bloc décryptage affiché)
+- [ ] Run complet lancé, `count(*) WHERE comedyTechnique IS NULL` ≈ 0
+- [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS

@@ -20,6 +20,10 @@ interface Joke {
   category: string;
   type: string;
   maturityLevel: number;
+  // Décryptage pédagogique (Phase 1b) — nullable tant que la vanne n'est pas back-fillée
+  comedyTechnique: string | null;
+  techniqueExplanation: string | null;
+  howToApply: string | null;
 }
 
 interface Pagination {
@@ -239,6 +243,36 @@ export function VannesList() {
                 )}
                 {revealedIds.has(joke.id) && (
                   <ReactionButtons jokeId={joke.id} className="mt-3" />
+                )}
+                {revealedIds.has(joke.id) && joke.comedyTechnique && (
+                  <div
+                    className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
+                      Pourquoi ça marche — {joke.comedyTechnique}
+                    </p>
+                    {joke.techniqueExplanation && (
+                      <p className="mt-2 text-sm text-text-secondary">
+                        {joke.techniqueExplanation}
+                      </p>
+                    )}
+                    {joke.howToApply && (
+                      <div className="mt-3 rounded-md border border-border bg-background-card p-3">
+                        <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                        <p className="mt-1 text-sm text-text-secondary">{joke.howToApply}</p>
+                      </div>
+                    )}
+                    <p className="mt-3 text-xs text-text-muted">
+                      Envie de comprendre la mécanique en profondeur ?{" "}
+                      <Link
+                        href="/anatomie-vanne"
+                        className="font-medium text-accent-primary hover:underline"
+                      >
+                        L&apos;anatomie d&apos;une vanne
+                      </Link>
+                    </p>
+                  </div>
                 )}
                 {!revealedIds.has(joke.id) && (
                   <p className="mt-3 text-sm text-text-muted">

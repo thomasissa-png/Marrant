@@ -22,8 +22,28 @@ jest.mock("@/stores/favorites-store", () => ({
 }));
 
 const mockJokes = [
-  { id: "1", content: "Setup vanne 1", punchline: "Chute 1", category: "ABSURDE", type: "ONESHOT", maturityLevel: 1 },
-  { id: "2", content: "Setup vanne 2", punchline: "Chute 2", category: "SITUATION", type: "DIALOGUE", maturityLevel: 2 },
+  {
+    id: "1",
+    content: "Setup vanne 1",
+    punchline: "Chute 1",
+    category: "ABSURDE",
+    type: "ONESHOT",
+    maturityLevel: 1,
+    comedyTechnique: "La triple chute",
+    techniqueExplanation: "On enchaîne trois retournements de plus en plus absurdes.",
+    howToApply: "Garde la chute la plus folle pour la fin.",
+  },
+  {
+    id: "2",
+    content: "Setup vanne 2",
+    punchline: "Chute 2",
+    category: "SITUATION",
+    type: "DIALOGUE",
+    maturityLevel: 2,
+    comedyTechnique: null,
+    techniqueExplanation: null,
+    howToApply: null,
+  },
 ];
 
 describe("VannesList", () => {
@@ -82,6 +102,38 @@ describe("VannesList", () => {
 
     await userEvent.click(screen.getByText("Setup vanne 1"));
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
+  });
+
+  it("shows décryptage block when revealed and fields exist", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+
+    // Avant révélation : pas de décryptage visible
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Setup vanne 1"));
+
+    expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
+    expect(screen.getByText("À toi de jouer")).toBeInTheDocument();
+    expect(
+      screen.getByText("On enchaîne trois retournements de plus en plus absurdes.")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Garde la chute la plus folle pour la fin.")).toBeInTheDocument();
+  });
+
+  it("hides décryptage block when fields are null (not yet back-filled)", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 2")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByText("Setup vanne 2"));
+
+    // Vanne 2 révélée (chute visible) mais SANS décryptage (champs null)
+    expect(screen.getByText("Chute 2")).toBeInTheDocument();
+    expect(screen.queryByText("À toi de jouer")).not.toBeInTheDocument();
   });
 
   it("shows category badge labels", async () => {
