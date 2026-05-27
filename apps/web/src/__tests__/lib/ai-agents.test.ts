@@ -2785,11 +2785,11 @@ describe("runSocialGates — G-S21 Anti-staccato", () => {
       expect(result.reason).toMatch(/extrême|2 mots|consécutives/i);
     });
 
-    it("FAIL sur ratio phrases courtes > 50%", () => {
+    it("FAIL sur enchaînement de phrases courtes hachées", () => {
       const text = "Bien. Court. Net. Direct. Voilà. C'est posé maintenant.";
       const result = checkAntiStaccato(text);
       expect(result.passed).toBe(false);
-      expect(result.reason).toMatch(/50%|courtes|haché/i);
+      expect(result.reason).toMatch(/staccato|consécutives|courtes|haché|50%/i);
     });
 
     it("PASS sur texte de 2 phrases (pas assez pour parler de staccato)", () => {
