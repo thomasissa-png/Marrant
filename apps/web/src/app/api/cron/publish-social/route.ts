@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { SocialPlatform, SocialFormat } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import {
   createBufferPost,
   createBufferThread,
@@ -131,15 +132,20 @@ export async function GET(req: Request) {
     // Si un post a échoué avec 429 sur une plateforme dans les dernières 24h,
     // on bloque TOUTE la plateforme pour éviter de re-taper dans le rate limit.
     const cooldownWindow = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-    const recentRateLimits = await prisma.socialPost.findMany({
-      where: {
-        status: "FAILED",
-        updatedAt: { gte: cooldownWindow },
-        directorNote: { contains: "429" },
-      },
-      select: { platform: true },
-      distinct: ["platform"],
-    });
+    // 1er appel Prisma du cron → retry sur cold start Neon (P1 s8).
+    const recentRateLimits = await withDbRetry(
+      () =>
+        prisma.socialPost.findMany({
+          where: {
+            status: "FAILED",
+            updatedAt: { gte: cooldownWindow },
+            directorNote: { contains: "429" },
+          },
+          select: { platform: true },
+          distinct: ["platform"],
+        }),
+      { label: "publish-social:recentRateLimits" },
+    );
     const blockedPlatforms = new Set(recentRateLimits.map((p) => p.platform));
 
     if (blockedPlatforms.size > 0) {

@@ -26,6 +26,18 @@ bash scripts/check-prisma-enums.sh
 
 Si le hook bloque un commit légitime (nouvelle constante interne) → ajouter la valeur à WHITELIST dans `scripts/check-prisma-enums.sh`.
 
+## Fix s10 — Retry Neon cold start (P1 ouvert depuis le 08/04)
+
+> P1 PROD : Neon free tier suspend le compute DB après ~5 min d'inactivité. Au réveil d'un cron sur DB froide, le 1er appel Prisma tapait avant la fin du wake (1-5s) → erreur `P1001 Can't reach database server` → le cron plantait et spammait une alerte email (~toutes les 3h).
+
+**Aucune action Replit requise.** Fix 100% code (Option A, budget 0€) :
+- Nouveau helper `apps/web/src/lib/db-retry.ts` (`withDbRetry`) : retry 3× backoff exponentiel (500ms → 1s → 2s) UNIQUEMENT sur erreurs de connexion (`P1001`, `Can't reach database server`, `Connection terminated`, `ECONNREFUSED`, `ETIMEDOUT`). Les autres erreurs (P2002, validation) sont re-throw immédiatement.
+- Wrappé sur le 1er appel Prisma des crons : `publish-social`, `social-analytics`, `daily-social`. `ceo-tick` déjà résilient (son `tryAcquireLock` est silent-fail, pas d'alerte).
+
+**Comportement attendu post-deploy** : plus d'alertes email "cron a planté" liées au cold start. Le 1er appel se réveille au retry (~500ms-1.5s) au lieu de planter. Une alerte ne reste émise QUE si la DB est réellement injoignable après 3 tentatives (panne légitime).
+
+**Si le spam persiste après deploy** (très improbable — wake Neon < 5s, budget retry ~1.5s mais pool_timeout=30s couvre la marge) : l'alternative est l'upgrade Neon (plan payant sans suspension du compute), **hors budget actuel**. À arbitrer avec Thomas seulement si le retry s'avère insuffisant en prod.
+
 ## Hotfix s10 (06/05/2026) — Bug Buffer rate limit 24h en boucle
 
 > P0 PROD ACTIF. Toutes publications Twitter/LinkedIn/Instagram coupées tant que le rate limit 429 reste actif. Bloque acquisition organique = bloque MRR.

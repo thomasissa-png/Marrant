@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { SocialPlatform } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import {
   isBufferConfigured,
   getBufferScheduledPosts,
@@ -82,15 +83,20 @@ export async function GET(req: Request) {
     // Réutilise le pattern de publish-social/route.ts. Si une plateforme a
     // pris un 429 dans les 24h, on ne ré-interroge PAS Buffer pour elle —
     // c'est ce qui relançait la fenêtre 24h en boucle.
-    const recentRateLimits = await prisma.socialPost.findMany({
-      where: {
-        status: "FAILED",
-        updatedAt: { gte: cooldownWindow },
-        directorNote: { contains: "429" },
-      },
-      select: { platform: true },
-      distinct: ["platform"],
-    });
+    // 1er appel Prisma du cron → retry sur cold start Neon (P1 s8).
+    const recentRateLimits = await withDbRetry(
+      () =>
+        prisma.socialPost.findMany({
+          where: {
+            status: "FAILED",
+            updatedAt: { gte: cooldownWindow },
+            directorNote: { contains: "429" },
+          },
+          select: { platform: true },
+          distinct: ["platform"],
+        }),
+      { label: "social-analytics:recentRateLimits" },
+    );
     const blockedPlatforms = new Set<SocialPlatform>(
       recentRateLimits.map((p) => p.platform),
     );

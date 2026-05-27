@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { SocialPlatform } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import {
   generateDailySocialPosts,
   getOptimalScheduleTime,
@@ -72,11 +73,16 @@ export async function GET(req: Request) {
       // pour ne pas regénérer à l'infini si un post a échoué.
       // Les posts PENDING rejetés par l'admin ou les FAILED comptent dans le total — si l'admin veut
       // relancer une génération, il utilise &force=true.
-      const existingByPlatform = await prisma.socialPost.groupBy({
-        by: ["platform"],
-        where: { createdAt: { gte: startOfDay, lte: endOfDay } },
-        _count: true,
-      });
+      // 1er appel Prisma du cron → retry sur cold start Neon (P1 s8).
+      const existingByPlatform = await withDbRetry(
+        () =>
+          prisma.socialPost.groupBy({
+            by: ["platform"],
+            where: { createdAt: { gte: startOfDay, lte: endOfDay } },
+            _count: true,
+          }),
+        { label: "daily-social:existingByPlatform" },
+      );
 
       const countMap = new Map(existingByPlatform.map((g) => [g.platform, g._count]));
 

@@ -974,14 +974,30 @@ describe("snapshotCeoKpis", () => {
     expect(call.create.siteReturn48h).toBe(0);
   });
 
-  it.skip("[TODO s10] retry Neon cold start — mitigation à implémenter Phase 5.E (P1 ouvert s8)", async () => {
-    // Sur Neon serverless, le 1er appel après inactivité peut prendre 4-5s
-    // (cold start). `snapshotCeoKpis` enchaîne ~10 requêtes Prisma en série :
-    // si la 1re timeout, tout le snapshot échoue.
-    // Mitigation à choisir Phase 5.E :
-    //   (a) Retry 3× avec backoff 5s sur la 1re aggregate(),
-    //   (b) Keep-alive 4min (cron ping /api/health DB).
-    // Test à activer une fois la mitigation choisie + implémentée.
+  it("[s10 résolu] retry Neon cold start — withDbRetry rejoue un P1001 sur le 1er appel Prisma", async () => {
+    // P1 résolu s10 (Option A) : le retry vit dans `@/lib/db-retry` (withDbRetry)
+    // et est appliqué au 1er appel Prisma des crons (publish-social, social-analytics,
+    // daily-social). La couverture unitaire complète du helper est dans
+    // `src/__tests__/lib/db-retry.test.ts` (16 tests : succès, retry 2×/3×, throw
+    // après maxAttempts, throw immédiat sur non-connexion, backoff).
+    //
+    // Ce test vérifie l'intégration sur le pattern réel : un 1er appel Prisma qui
+    // jette un P1001 (cold start) puis réussit au retry, sans perdre la donnée.
+    const { withDbRetry } = await import("@/lib/db-retry");
+    const coldStart = Object.assign(new Error("Can't reach database server"), {
+      code: "P1001",
+    });
+    mockPrisma.ceoConfig.findFirst
+      .mockRejectedValueOnce(coldStart)
+      .mockResolvedValueOnce({ enabled: true });
+
+    const result = await withDbRetry(
+      () => mockPrisma.ceoConfig.findFirst({ orderBy: { updatedAt: "desc" } }),
+      { baseMs: 1, label: "test:ceo-config" },
+    );
+
+    expect(result).toEqual({ enabled: true });
+    expect(mockPrisma.ceoConfig.findFirst).toHaveBeenCalledTimes(2);
   });
 });
 

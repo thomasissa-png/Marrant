@@ -44,7 +44,11 @@ export async function GET(request: Request) {
     });
   }
 
-  // Lock applicatif
+  // Lock applicatif. NB cold start Neon (P1 s8) : tryAcquireLock est déjà
+  // silent-fail (catch interne → retourne false sur erreur DB), donc un cold
+  // start ne spamme PAS d'alerte ici — il ferait au pire skipper un tick, que
+  // le run horaire suivant rattrape. Pas de withDbRetry nécessaire ici (il ne
+  // capterait rien : l'erreur ne remonte pas hors de tryAcquireLock).
   const lockAcquired = await tryAcquireLock(CEO_TICK_LOCK_KEY, CEO_TICK_LOCK_TTL_MS);
   if (!lockAcquired) {
     return NextResponse.json({
