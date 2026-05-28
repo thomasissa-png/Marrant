@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
@@ -13,6 +14,10 @@ interface Joke {
   content: string;
   punchline: string;
   category: string;
+  // Décryptage pédagogique (Phase 1b) — nullable tant que la vanne n'est pas back-fillée
+  comedyTechnique?: string | null;
+  techniqueExplanation?: string | null;
+  howToApply?: string | null;
 }
 
 interface Tip {
@@ -158,6 +163,33 @@ export function DailyContent() {
                     </Button>
                   )}
                 </div>
+                {showPunchline && data.joke.comedyTechnique && (
+                  <div className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
+                      Pourquoi ça marche — {data.joke.comedyTechnique}
+                    </p>
+                    {data.joke.techniqueExplanation && (
+                      <p className="mt-2 text-sm text-text-secondary">
+                        {data.joke.techniqueExplanation}
+                      </p>
+                    )}
+                    {data.joke.howToApply && (
+                      <div className="mt-3 rounded-md border border-border bg-background-card p-3">
+                        <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                        <p className="mt-1 text-sm text-text-secondary">{data.joke.howToApply}</p>
+                      </div>
+                    )}
+                    <p className="mt-3 text-xs text-text-muted">
+                      Envie de comprendre la mécanique en profondeur ?{" "}
+                      <Link
+                        href="/anatomie-vanne"
+                        className="font-medium text-accent-primary hover:underline"
+                      >
+                        L&apos;anatomie d&apos;une vanne
+                      </Link>
+                    </p>
+                  </div>
+                )}
                 <div className="mt-4 flex items-center gap-2">
                   <ReactionButtons jokeId={data.joke.id} />
                   <ShareButton

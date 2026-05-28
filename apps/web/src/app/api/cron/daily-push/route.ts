@@ -50,7 +50,13 @@ async function handle(req: NextRequest) {
 
   const joke = daily.joke;
   const setupPreview = joke.content.slice(0, 80);
-  const title = "La vanne du jour 😏";
+  // Enrichissement push avec la technique comique si dispo (Phase 1b — diffusion pédagogique)
+  // Format : "La vanne du jour — Triple chute 😏" pour pousser la valeur dès le push.
+  // Fallback si pas de comedyTechnique (vannes pas encore back-fillées) : titre standard.
+  const title = joke.comedyTechnique
+    ? `La vanne du jour — ${joke.comedyTechnique} 😏`
+    : "La vanne du jour 😏";
+  // Body = setup teaser. Le décryptage complet reste dans l'app (click sur le push).
   const body = setupPreview + (joke.content.length > 80 ? "…" : "");
   const deepLink = `deviensmarrant://vanne/${joke.id}`;
 
@@ -85,6 +91,7 @@ async function handle(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     jokeId: joke.id,
+    hasTechnique: Boolean(joke.comedyTechnique),
     sentFCM,
     sentAPNS,
     errors,

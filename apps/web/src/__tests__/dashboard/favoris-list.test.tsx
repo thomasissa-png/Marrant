@@ -29,7 +29,15 @@ const mockFavorites = [
     tipId: null,
     videoId: null,
     createdAt: "2024-01-01",
-    joke: { content: "Une vanne drôle", punchline: "Et la chute qui tue", category: "ABSURDE", type: "ONE_LINER" },
+    joke: {
+      content: "Une vanne drôle",
+      punchline: "Et la chute qui tue",
+      category: "ABSURDE",
+      type: "ONE_LINER",
+      comedyTechnique: "La rupture de registre",
+      techniqueExplanation: "On bascule d'un ton sérieux à un ton léger, l'écart crée le rire.",
+      howToApply: "Pose un cadre solennel, brise-le avec une chute triviale.",
+    },
     tip: null,
     video: null,
   },
@@ -265,5 +273,52 @@ describe("FavorisList", () => {
     render(<FavorisList />);
     expect(screen.getByText("Débutant")).toBeInTheDocument();
     expect(screen.getByText("Timing")).toBeInTheDocument();
+  });
+
+  // Phase 1b — propagation décryptage aux favoris
+  it("shows décryptage block on joke favorite when revealed", async () => {
+    render(<FavorisList />);
+    // Avant révélation : pas de décryptage visible
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Une vanne drôle"));
+
+    expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
+    expect(screen.getByText("À toi de jouer")).toBeInTheDocument();
+    expect(
+      screen.getByText("On bascule d'un ton sérieux à un ton léger, l'écart crée le rire.")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Pose un cadre solennel, brise-le avec une chute triviale.")
+    ).toBeInTheDocument();
+  });
+
+  it("hides décryptage block on joke favorite when comedyTechnique is null", async () => {
+    useFavoritesStore.mockReturnValue({
+      favorites: [
+        {
+          ...mockFavorites[0],
+          joke: {
+            content: "Vanne sans décryptage",
+            punchline: "Chute sans décryptage",
+            category: "ABSURDE",
+            type: "ONE_LINER",
+            comedyTechnique: null,
+            techniqueExplanation: null,
+            howToApply: null,
+          },
+        },
+      ],
+      isLoading: false,
+      fetchFavorites: mockFetchFavorites,
+      removeFavorite: mockRemoveFavorite,
+    });
+    render(<FavorisList />);
+    await userEvent.click(screen.getByText("Vanne sans décryptage"));
+
+    // Chute visible mais SANS bloc décryptage
+    expect(screen.getByText("Chute sans décryptage")).toBeInTheDocument();
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+    expect(screen.queryByText("À toi de jouer")).not.toBeInTheDocument();
   });
 });

@@ -31,6 +31,9 @@ const mockDailyData = {
     content: "Pourquoi les plongeurs plongent-ils toujours en arrière ?",
     punchline: "Parce que sinon ils tomberaient dans le bateau.",
     category: "ABSURDE",
+    comedyTechnique: "La logique absurde",
+    techniqueExplanation: "On applique une rigueur logique à une situation où elle n'a pas sa place — l'incongruité fait rire.",
+    howToApply: "Cherche un contexte courant et applique-lui une explication ultra-rationnelle mais hors-sujet.",
   },
   tip: {
     id: "t1",
@@ -293,6 +296,53 @@ describe("DailyContent", () => {
       const favButtons = screen.getAllByLabelText("Ajouter aux favoris");
       expect(favButtons).toHaveLength(3);
     });
+  });
+
+  it("shows décryptage block when joke is revealed and comedyTechnique exists", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Révéler la chute")).toBeInTheDocument();
+    });
+
+    // Avant révélation : pas de décryptage visible
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Révéler la chute"));
+
+    expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
+    expect(screen.getByText("À toi de jouer")).toBeInTheDocument();
+    expect(
+      screen.getByText(/On applique une rigueur logique/)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Cherche un contexte courant/)).toBeInTheDocument();
+  });
+
+  it("hides décryptage block when comedyTechnique is null (not yet back-filled)", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockDailyData,
+        joke: {
+          ...mockDailyData.joke,
+          comedyTechnique: null,
+          techniqueExplanation: null,
+          howToApply: null,
+        },
+      }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Révéler la chute")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByText("Révéler la chute"));
+
+    // Punchline visible mais SANS bloc décryptage
+    expect(
+      screen.getByText("Parce que sinon ils tomberaient dans le bateau.")
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+    expect(screen.queryByText("À toi de jouer")).not.toBeInTheDocument();
   });
 
   it("does not show share/favorite buttons when content is null", async () => {
