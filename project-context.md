@@ -206,6 +206,14 @@
   1. **P1 Neon cold start** → RÉSOLU s10 (`withDbRetry`). **P1 race condition** → RÉSOLU s9. Reste **P1 LinkedIn JSON conformité** (08/04) → session 11.
   2. **L05/05 #5 — Templates audit cron×quota + veille tech LLM** (P1 à-faire) → repo upstream Agent-Team (hors scope Marrant, manuel Thomas).
 
+### Mémo audit Bing s10 — 2026-05-30 (agent @seo)
+- **Livrable** : `docs/seo/bing-audit-s10.md`
+- **Verdict** : 3 causes combinées — (1) Bing Webmaster Tools non configuré + `msvalidate.01` absent de `layout.tsx` malgré audit avril ; (2) 0 backlink externe → budget crawl Bing minimal ; (3) si volume Google < 600/mois, le 0% Bing est statistiquement plausible (Bing ~3% marché FR × ~4% pages indexées = espérance < 1 visite).
+- **Fix d'avril confirmé appliqué** : `/blog` cache-control corrigé (`searchParams` retiré, `revalidate = 3600`). IndexNow code OK.
+- **Actions fondateur requises** : (1) Configurer BWT + récupérer clé `msvalidate.01` → transmettre à @fullstack ; (2) Vérifier `INDEXNOW_KEY` dans Replit Secrets ; (3) Refaire `site:deviens-marrant.fr` sur Bing pour baseline actuel ; (4) Vérifier referrers Umami bruts (cn.bing.com, m.bing.com).
+- **Action @fullstack** : ajouter `msvalidate.01` dans `apps/web/src/app/layout.tsx` une fois clé récupérée.
+- **Délai d'effet** : 2-3 semaines pour premières indexations supplémentaires. Bing restera canal secondaire (~3-5% du trafic max).
+
 ### Mémo session 9 (conservé pour mémoire)
 - **Branche** : `claude/marrant-s9-conformite-gouvernance-zwLbC` (7 commits + hotfixes)
 - **Résumé** : Sanity check gouvernance (CLAUDE.md 986→116L slim + extraction playbook/audits-history) → Phase 5 CEO A→C : 11 modèles Prisma + ceo-agent.ts core + crons (ceo-tick/kpis/contest) + ceo-email-footer HMAC + validateCeoOutbound (G-CEO1-4) + Twitter v2 DM + Resend Inbound + suppression haro-agent + dashboard `/admin/ceo`. Audit @legal DPA (GO conditionnel 13 actions). Phase 5.D + 5.B.3 différées s10. Hotfixes post-mémo : favicons G31, 41 erreurs TSC, build script Replit.
