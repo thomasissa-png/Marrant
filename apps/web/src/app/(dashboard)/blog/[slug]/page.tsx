@@ -16,6 +16,7 @@ import {
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
+import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
 
 export const revalidate = 3600;
 
@@ -44,6 +45,10 @@ async function findArticle(slug: string) {
         date: dbArticle.publishedAt
           ? dbArticle.publishedAt.toISOString().split("T")[0]
           : dbArticle.createdAt.toISOString().split("T")[0],
+        // Vrai updatedAt de la DB (colonne Prisma) — utilisé pour Article.dateModified
+        updatedAt: dbArticle.updatedAt
+          ? dbArticle.updatedAt.toISOString().split("T")[0]
+          : undefined,
         readingTime: dbArticle.readingTime,
         category: dbArticle.category,
       };
@@ -82,7 +87,7 @@ export async function generateMetadata({
       siteName: "deviens-marrant.fr",
       locale: "fr_FR",
       publishedTime: article.date,
-      modifiedTime: article.date,
+      modifiedTime: "updatedAt" in article && article.updatedAt ? article.updatedAt : article.date,
       authors: ["https://deviens-marrant.fr/a-propos"],
       section: article.category,
     },
@@ -285,6 +290,13 @@ export default async function BlogArticlePage({
           </div>
         </div>
       )}
+
+      {/* Maillage contextuel vers le parcours pertinent selon le cluster.
+          NE PAS FUSIONNER avec le CTA ci-dessous — un autre lot refond le CTA. */}
+      <BlogArticleParcoursMaillage
+        articleSlug={article.slug}
+        articleCategory={article.category}
+      />
 
       {/* CTA */}
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">

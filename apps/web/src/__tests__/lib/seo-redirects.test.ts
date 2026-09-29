@@ -5,7 +5,7 @@
  * `next.config.js` (CJS) parce que Next ne peut pas importer un module TS
  * dans sa config. Ce test empêche la dérive en comparant les deux sources.
  */
-import { SEO_REDIRECTS, UNPUBLISHED_STATIC_SLUGS, DB_LOSER_SLUGS } from "@/lib/seo-redirects";
+import { SEO_REDIRECTS, UNPUBLISHED_STATIC_SLUGS, DB_LOSER_SLUGS, hasRedirect } from "@/lib/seo-redirects";
 
 // Charge next.config.js (CJS) pour extraire son tableau redirects.
 // Le path est relatif à apps/web (jest cwd). On passe par un import CJS
@@ -124,6 +124,74 @@ describe("DB_LOSER_SLUGS", () => {
     const sources = new Set(SEO_REDIRECTS.map((r) => r.source));
     for (const slug of DB_LOSER_SLUGS) {
       expect(sources.has(`/blog/${slug}`)).toBe(true);
+    }
+  });
+});
+
+// ─── Lot 1 : slug pérenne + helpers ───
+describe("SEO_REDIRECTS", () => {
+  it("re-exporte les données CJS depuis seo-redirects.data.cjs (une seule source de vérité)", () => {
+    expect(Array.isArray(SEO_REDIRECTS)).toBe(true);
+    expect(SEO_REDIRECTS.length).toBeGreaterThan(0);
+  });
+
+  it("toutes les redirections sont permanentes (301) — préserve le PageRank", () => {
+    for (const redirect of SEO_REDIRECTS) {
+      expect(redirect.permanent).toBe(true);
+    }
+  });
+
+  it("chaque source commence par un slash", () => {
+    for (const redirect of SEO_REDIRECTS) {
+      expect(redirect.source.startsWith("/")).toBe(true);
+      expect(redirect.destination.startsWith("/")).toBe(true);
+    }
+  });
+
+  it("aucune source ne pointe vers elle-même", () => {
+    for (const redirect of SEO_REDIRECTS) {
+      expect(redirect.source).not.toBe(redirect.destination);
+    }
+  });
+
+  it("aucune boucle A → B → A", () => {
+    const map = new Map(SEO_REDIRECTS.map((r) => [r.source, r.destination]));
+    for (const redirect of SEO_REDIRECTS) {
+      const next = map.get(redirect.destination);
+      if (next) {
+        expect(next).not.toBe(redirect.source);
+      }
+    }
+  });
+
+  it("chaque source est unique (pas de conflit de règle)", () => {
+    const sources = SEO_REDIRECTS.map((r) => r.source);
+    const unique = new Set(sources);
+    expect(unique.size).toBe(sources.length);
+  });
+
+  it("slug daté 2026 → slug pérenne (fix session 11)", () => {
+    const dated = SEO_REDIRECTS.find(
+      (r) => r.source === "/blog/meilleures-blagues-droles-2026",
+    );
+    expect(dated).toBeDefined();
+    expect(dated?.destination).toBe("/blog/meilleures-blagues-droles");
+    expect(dated?.permanent).toBe(true);
+  });
+
+  it("hasRedirect() détecte les sources existantes (idempotence)", () => {
+    expect(hasRedirect("/blog/meilleures-blagues-droles-2026")).toBe(true);
+    expect(hasRedirect("/blog/slug-inexistant-xyz")).toBe(false);
+  });
+});
+
+describe("kind: rename — seules les vraies renommées touchent la base", () => {
+  it("seul le slug daté est un renommage ; aucune redirection de cannibalisation ne l'est", () => {
+    const renames = SEO_REDIRECTS.filter((r) => r.kind === "rename").map((r) => r.source);
+    expect(renames).toEqual(["/blog/meilleures-blagues-droles-2026"]);
+    for (const slug of DB_LOSER_SLUGS) {
+      const r = SEO_REDIRECTS.find((x) => x.source === `/blog/${slug}`);
+      expect(r?.kind).toBeUndefined();
     }
   });
 });

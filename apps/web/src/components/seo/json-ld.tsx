@@ -66,12 +66,35 @@ export function buildCollectionPageJsonLd(collection: {
   };
 }
 
+/**
+ * Profils sociaux officiels — alimentés via la variable d'environnement
+ * NEXT_PUBLIC_SOCIAL_PROFILES (URLs séparées par des virgules). Vide → sameAs
+ * n'est PAS émis (jamais d'URL inventée : cela crée des faux signaux E-A-T).
+ */
+function getSocialProfiles(): string[] {
+  const raw = process.env.NEXT_PUBLIC_SOCIAL_PROFILES;
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((u) => u.trim())
+    .filter((u) => u.length > 0 && /^https?:\/\//.test(u));
+}
+
+const socialProfiles = getSocialProfiles();
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "deviens-marrant.fr",
   url: BASE_URL,
-  logo: `${BASE_URL}/icon-512.png`,
+  // ImageObject complet (width + height requis par les Rich Results Google
+  // pour Organization.logo — sinon le logo est ignoré).
+  logo: {
+    "@type": "ImageObject",
+    url: `${BASE_URL}/icon-512.png`,
+    width: 512,
+    height: 512,
+  },
   description:
     "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.",
   founder: {
@@ -84,6 +107,7 @@ export const organizationJsonLd = {
     contactType: "customer service",
     availableLanguage: "French",
   },
+  ...(socialProfiles.length > 0 && { sameAs: socialProfiles }),
 };
 
 export const websiteJsonLd = {
@@ -125,6 +149,12 @@ export function buildArticleJsonLd(article: {
   title: string;
   excerpt: string;
   date: string;
+  /**
+   * ISO date de dernière modification. Doit refléter le vrai updatedAt de la
+   * source (colonne DB BlogArticle.updatedAt côté DB, champ updatedAt côté
+   * statique). Si absent → fallback sur date de publication.
+   */
+  updatedAt?: string;
   slug: string;
   readingTime: string;
   category: string;
@@ -136,7 +166,7 @@ export function buildArticleJsonLd(article: {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
-    dateModified: article.date,
+    dateModified: article.updatedAt || article.date,
     author: [
       {
         "@type": "Person",
@@ -155,13 +185,17 @@ export function buildArticleJsonLd(article: {
       logo: {
         "@type": "ImageObject",
         url: `${BASE_URL}/icon-512.png`,
+        width: 512,
+        height: 512,
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${BASE_URL}/blog/${article.slug}`,
     },
-    image: `${BASE_URL}/og-image.png`,
+    // Chaque article a son propre opengraph-image dynamique (/blog/[slug]/opengraph-image).
+    // /og-image.png retournait 404 en prod → on utilise l'OG dynamique par article.
+    image: `${BASE_URL}/blog/${article.slug}/opengraph-image`,
     articleSection: article.category,
     inLanguage: "fr-FR",
     wordCount: article.content.split(/\s+/).length,
@@ -250,8 +284,9 @@ export function buildProductJsonLd() {
     name: "deviens-marrant.fr Premium",
     description:
       "Accès complet : vannes, conseils, vidéos stand-up analysées, parcours structurés et contenu quotidien pour devenir drôle.",
+    // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
-      `${BASE_URL}/og-image.png`,
+      `${BASE_URL}/opengraph-image`,
       `${BASE_URL}/icon-512.png`,
     ],
     brand: {

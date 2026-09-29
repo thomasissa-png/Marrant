@@ -45,12 +45,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  // Articles statiques — exclure les slugs dépubliés (cannibalisation s11).
+  // Articles statiques — exclure les slugs dépubliés (cannibalisation s11) ;
+  // lastModified = vraie date de modif si dispo, sinon date de publication
+  // (évite d'écraser des lastmod réels par une date de build — pénalité Bing).
   const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles
     .filter((article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug))
     .map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
-      lastModified: new Date(article.date),
+      lastModified: new Date(article.updatedAt || article.date),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));
