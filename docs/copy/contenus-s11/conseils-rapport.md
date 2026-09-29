@@ -89,3 +89,72 @@
 | 76 | RÉÉCRIRE | « Ta copine sait que t'es là ? » : pique connue et un peu méchante |
 | 77 | RÉÉCRIRE | Chute « mardi prochain » confuse |
 | 78 | RÉÉCRIRE (même scène) | Chute « les Pépito aussi » plate |
+
+## 5 meilleurs avant / après
+
+| id | Avant | Après |
+|---|---|---|
+| 5 | « L'autre jour au supermarché, je cherchais les avocats. […] 'Non, je cherche un avocat pour mon divorce.' […] 'Rayon 7, entre les couteaux et les valises.' » | « Dimanche, je cherche mes clés partout. Je vide mon sac, je soulève les coussins, j'appelle ma mère pour savoir si elle les a vues. Elle habite à Lyon. Je finis par les retrouver dans le frigo, à côté du beurre. Le plus inquiétant, c'est que le beurre, lui, je l'ai jamais retrouvé. » |
+| 20 | « Mon ex m'a dit qu'il me trouvait changé. J'ai répondu... enfin, j'ai rien répondu. Mais dans ma tête... » | « J'ai montré mon premier tatouage à mon père. Il l'a regardé longtemps. Il a ouvert la bouche, il l'a refermée. Puis il m'a demandé si je voulais un café. » |
+| 33 | « Pourquoi les gens qui conduisent lentement sont toujours devant toi […] l'univers avait un algorithme pour maximiser ta frustration. » | « Pourquoi un simple « t'as deux minutes ? » suffit à faire défiler toute ta vie ? Personne a jamais été convoqué pour un compliment. » |
+| 36 | « À Londres, j'ai commandé 'un café'. Le barista m'a posé 47 questions. En France, le serveur te pose une seule question : 'Quoi ?' » | « À Londres, j'ai voulu commander un café en anglais. J'avais répété ma phrase tout le long de la file. Le barista m'a répondu en français. J'ai continué en anglais, par fierté. » |
+| 51 | « Encore une réunion de 45 minutes pour décider qu'on fera une autre réunion. […] » | « Ça fait des semaines que le mug « Meilleur collègue du monde » traîne dans l'évier. Personne le lave. Je crois que personne veut assumer le titre. » |
+
+## Chiffres signalés (Thomas tranche)
+
+**Chiffres qui disparaissent parce que la vanne qui les portait a été remplacée.** Même logique que la page n°1 validée, où « 10 % / 90 % » a été remplacé par « 1 274 en 3 ans ». Aucun chiffre de `content` ou d'`exercise` n'a été retiré.
+- 3 : « 3 secondes » (revérifier l'heure)
+- 36 : « 47 questions »
+- 51 : « réunion de 45 minutes »
+- 68 : « 3 plantes »
+- 77 : « réunion à 14h »
+
+Si Thomas veut les conserver, il suffit de reprendre l'ancien exemple.
+
+**Changements de forme, valeur inchangée :**
+- 65 : « 0.3 » devient « 0,3 » (virgule décimale).
+- 62 : « #1 » devient « numéro un ».
+- 24 : « Jour 1 / Jour 2 / Jour 3 » devient « aujourd'hui / demain / après-demain », selon la charte §5 (anti-scolaire). La durée « (3 jours) » est conservée.
+
+**Petits chiffres comiques ajoutés dans de nouvelles vannes** (détails de récit, pas des statistiques) :
+- 1 : « une heure »
+- 12 : « il y a trois ans »
+- 31 : « dans dix ans »
+- 33 : « deux minutes »
+
+**Statistiques douteuses conservées telles quelles :**
+- 1 : « 50% de l'humour passe par le non-verbal »
+- 9 : « 80% du travail »
+- 54 : « 80% des situations »
+- 71 : « 90% des gens »
+- 32 et 58 : « 10 fois plus »
+
+Aucune source n'est citée pour ces chiffres. Ils sont gardés conformément au [CHOIX UTILISATEUR].
+
+## Humoristes : affirmations à vérifier (toutes conservées)
+
+Aucune citation verbatim n'est attribuée à un humoriste, ni avant ni après. Seules des descriptions de technique sont présentes.
+
+- **26 : « Lilia Benchabane »**. Je ne peux confirmer ni l'identité de cette humoriste ni l'affirmation qui l'accompagne. C'est le point le plus à risque : à vérifier en priorité, ou à remplacer par un nom sûr.
+- **60** : « Panayotis Pascot note des observations chaque jour dans son téléphone ». C'est un fait biographique précis, invérifiable ici.
+- **6** (Élodie Poux et les callbacks), **31** (Tania Dutel et les rattrapages en live), **10** (Kev Adams parlant de sa mère), **61** (Kev Adams et ses apartés en interview) : affirmations plausibles, non vérifiées.
+- **23** : « Paul Mirabel suit cette structure religieusement dans chaque sketch » est devenu « Les histoires de Paul Mirabel suivent souvent cette mécanique à la lettre ». La généralisation absolue était invérifiable. C'est la seule affirmation modifiée : à valider par Thomas.
+- **3** : Seinfeld est conservé (la référence est exacte). L'audit proposait de le remplacer par un humoriste français ; non fait, en vertu de « améliorer, pas amputer ».
+- **Références « legacy »** conservées : Jamel (9, 18) et Florence Foresti (17, 24, 28). La règle s7 « zéro Jamel/Gad/Foresti » visait les articles de blog. Il faut décider si elle s'applique aussi aux conseils.
+
+## Points d'attention pour l'intégration (hors périmètre, aucun fichier modifié)
+
+- `docs/content/conseils-seed.json` n'est **pas** modifié. Il faut appliquer le JSONL au seed, puis à la base de prod. Les ids du seed ne correspondent pas aux CUID de prod : il faudra faire le rapprochement par `title`, comme pour les vannes.
+- La prod compte environ 400 conseils. Ce lot ne couvre que les 65 du seed ; les conseils générés au quotidien ne sont pas concernés.
+- `project-context.md` (historique des interventions) n'a pas été mis à jour, parce que la consigne interdisait de toucher un autre fichier. C'est à faire par l'orchestrateur.
+
+---
+**Handoff → @orchestrator**
+- Fichiers produits : `docs/copy/contenus-s11/conseils.jsonl` (65 lignes) et `docs/copy/contenus-s11/conseils-rapport.md`.
+- Décisions prises :
+  - Barre §3 appliquée sans complaisance : toute vanne connue ailleurs a été remplacée.
+  - Format « DÉFI [NOM] : » conservé (gate G-T2).
+  - Chaque exercice démarre aujourd'hui.
+  - Tutoiement, pas de « coach », pas de mention d'IA.
+- Points d'attention : décisions à obtenir de Thomas sur « Lilia Benchabane » (26), la reformulation Mirabel (23), les 5 chiffres d'anciennes vannes et les références legacy.
+---
