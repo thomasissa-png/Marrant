@@ -39,10 +39,9 @@ describe("FaqSection", () => {
     ).toBe(true);
   });
 
-  it("renders FAQ answers mentioning XP and streaks — sans statistique invérifiée", () => {
-    expect(screen.getByText(/streaks et d.XP/)).toBeInTheDocument();
-    expect(screen.queryByText(/50 XP par semaine/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/majorité de nos membres/)).not.toBeInTheDocument();
+  it("renders FAQ answers mentioning XP and streaks", () => {
+    expect(screen.getByText(/50 XP par semaine/)).toBeInTheDocument();
+    expect(screen.getByText(/streaks/)).toBeInTheDocument();
   });
 
   it("mentions trust reassurances in answers", () => {

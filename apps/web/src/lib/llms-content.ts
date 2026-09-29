@@ -2,10 +2,10 @@
  * Contenu éditorial stable de llms.txt / llms-full.txt (GEO).
  *
  * s11 : repris des anciens fichiers statiques `public/llms*.txt` (qui
- * masquaient les routes dynamiques) et nettoyé : plus d'études citées sans
- * source vérifiable, plus d'affirmation invérifiable sur les membres, plus de
- * liste d'articles figée (les routes listent désormais tous les articles
- * publiés), lien légal corrigé. Zéro mention d'IA.
+ * masquaient les routes dynamiques) : liste d'articles désormais dynamique,
+ * lien légal corrigé, tutoiement/neutre, zéro mention d'IA. Les chiffres et
+ * études de la FAQ sont conservés (choix fondateur 29/09/2026 : aucun
+ * chiffre retiré sans GO de Thomas — cf. docs/founder-preferences.md).
  */
 
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
@@ -41,7 +41,12 @@ export const LLMS_FAQ_SHORT: LlmsFaqEntry[] = [
 
 /** FAQ détaillée (llms-full.txt). */
 export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
-  ...LLMS_FAQ_SHORT,
+  {
+    question: "Peut-on vraiment apprendre à être drôle ?",
+    answer:
+      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, timing) que le cerveau peut apprendre. Une étude du Journal of Positive Psychology a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire.",
+  },
+  ...LLMS_FAQ_SHORT.slice(1),
   {
     question: "Comment être drôle à la machine à café ?",
     answer:
@@ -65,7 +70,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Je suis timide, c'est pour moi ?",
     answer:
-      "Oui. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.",
+      "Surtout pour les timides. La majorité des membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.",
   },
 ];
 
