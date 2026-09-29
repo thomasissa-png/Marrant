@@ -30,3 +30,12 @@
 
 ## Hors contenu
 19. **Mise à jour Gradient** : lancer `bash update.sh --all` puis `rm -f .claude/agents/moi.md .claude/agents/orchestrator-reference.md` (les modèles des agents sont déjà passés en 5.5 à la main).
+
+---
+
+## Réponses de Thomas (29/09/2026) et suites données
+- **1-3 (juridique)** : on laisse en l'état ([CHOIX UTILISATEUR]).
+- **4 (prix mobile)** : 0,99 €/mois appliqué (sera revu plus tard).
+- **5-11 (chiffres)** : « que ce soit juste » → corrigés sur les faits : Répartie = 4 semaines partout ; rythme = une étape par semaine (15-20 min) ; « résultats sous 2-3 semaines » retiré ; « 600+ vannes » (602 actives) ; 33 phrases ; push « chaque matin ». Coaching 99 € : offre bien présente sur la home → gardé. Compte gratuit (XP + étape 1) : à vérifier en prod.
+- **12-13 (études, citations)** : on laisse.
+- **19 (Gradient)** : fait — dernière version installée (le script local visait la branche `master` au lieu de `main`).
