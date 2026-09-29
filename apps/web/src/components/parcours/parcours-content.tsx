@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
+import { stripEmDashes } from "@/lib/em-dash";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 // Build display data from seed — single source of truth
@@ -233,15 +234,15 @@ export function ParcoursContent() {
           return (
             <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
               <CardHeader className="pb-2">
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <Badge variant="primary">{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
                   </span>
-                  <span className="text-sm text-text-muted">
-                    · {p.timePerWeek}
-                  </span>
-                  <span className="text-sm text-text-muted">· {totalXp} XP à gagner</span>
+                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
+                  <span className="text-sm text-text-muted">{p.timePerWeek}</span>
+                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
+                  <span className="text-sm text-text-muted">{totalXp} XP à gagner</span>
                 </div>
                 <CardTitle className="mt-3 text-2xl">
                   <span id={`parcours-title-${p.slug}`} tabIndex={-1} className="scroll-mt-24 focus:outline-none">
@@ -254,11 +255,11 @@ export function ParcoursContent() {
                 </p>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-text-secondary">{p.description}</p>
+                <p className="mb-4 text-text-secondary">{stripEmDashes(p.description)}</p>
 
                 {/* Testimonial */}
                 <p className="mb-6 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-                  {p.testimonial}
+                  {stripEmDashes(p.testimonial)}
                 </p>
 
                 {/* Progression : affichée seulement une fois le parcours commencé (T26) */}

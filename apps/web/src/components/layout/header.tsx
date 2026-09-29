@@ -54,22 +54,22 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="font-display text-xl font-bold text-gradient">
+          <Link href="/" className="flex shrink-0 items-center gap-2">
+            <span className="whitespace-nowrap font-display text-xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
           </Link>
 
           {/* Navigation desktop */}
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Navigation principale">
+          <nav className="hidden shrink-0 items-center gap-1 lg:flex" aria-label="Navigation principale">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                  "rounded-lg px-2 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -80,10 +80,10 @@ export function Header() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-64 md:block" onNavigate={closeMobileSearch} />
+          <SearchBar className="hidden w-44 lg:block xl:w-64" onNavigate={closeMobileSearch} />
 
           {/* Actions desktop */}
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
             {isAuthenticated ? (
               <>
                 <Link href="/favoris" aria-label="Favoris" title="Favoris">
@@ -116,7 +116,7 @@ export function Header() {
           </div>
 
           {/* Actions mobile */}
-          <div className="flex items-center gap-1 md:hidden">
+          <div className="flex items-center gap-1 lg:hidden">
             {/* Bouton recherche mobile */}
             <button
               className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
@@ -153,7 +153,7 @@ export function Header() {
 
         {/* Overlay recherche mobile */}
         {isMobileSearchOpen && (
-          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
+          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 lg:hidden animate-slide-up">
             <SearchBar className="w-full" onNavigate={closeMobileSearch} />
           </div>
         )}
@@ -161,7 +161,7 @@ export function Header() {
         {/* Menu mobile */}
         {isMenuOpen && (
           <nav
-            className="border-t border-border bg-background px-4 py-4 md:hidden animate-slide-up"
+            className="border-t border-border bg-background px-4 py-4 lg:hidden animate-slide-up"
             aria-label="Navigation mobile"
           >
             <div className="flex flex-col gap-2">

@@ -107,8 +107,8 @@ function RegisterForm() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
-            <span className="font-display text-2xl font-bold text-gradient">
-              deviens-marrant
+            <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
+              deviens-marrant.fr
             </span>
           </Link>
           <h1 className="font-display text-xl font-bold text-text-primary">Crée ton compte, ta première vanne t&apos;attend</h1>

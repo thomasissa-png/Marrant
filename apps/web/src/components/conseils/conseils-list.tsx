@@ -203,7 +203,7 @@ export function ConseilsList() {
           onRetry={fetchTips}
         />
       ) : showSkeleton ? (
-        <div className="grid gap-4">
+        <div className="grid max-w-4xl gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="py-6">
@@ -223,7 +223,7 @@ export function ConseilsList() {
           ctaHref="/conseils"
         />
       ) : (
-        <div className="grid gap-4" role="tabpanel">
+        <div className="grid max-w-4xl gap-4" role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
@@ -294,7 +294,7 @@ export function ConseilsList() {
 
       {/* Cartes verrouillées pour FREE users */}
       {limited && tips.length > 0 && (
-        <div className="mt-4 grid gap-4">
+        <div className="mt-4 grid max-w-4xl gap-4">
           {Array.from({ length: Math.min(3, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}

@@ -66,7 +66,7 @@ export function HeroSection() {
           <p className="text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
           <Link
             href="/vannes"
-            className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline-offset-4 hover:text-text-primary hover:underline"
+            className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
           >
             Voir les vannes gratuites
           </Link>
@@ -88,7 +88,7 @@ export function HeroSection() {
         {/* Pastilles descriptives (non cliquables), masquées en mobile : arbitrage Thomas s12 */}
         {HERO_EXTRA_TAGS.map((label) => (
           <li key={label} className="hidden sm:inline-block">
-            <span className="inline-block rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+            <span className="inline-block rounded-full bg-transparent px-3 py-1 text-sm text-text-muted">
               {label}
             </span>
           </li>

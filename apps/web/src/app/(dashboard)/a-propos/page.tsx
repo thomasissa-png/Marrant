@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
 import {
@@ -178,7 +179,7 @@ export default function AProposPage() {
             {aboutFaqs.map((faq, i) => (
               <div key={i} className="rounded-lg border border-border bg-background-card p-4">
                 <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-                <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+                <dd className="mt-2 text-sm text-text-secondary">{stripEmDashes(faq.answer)}</dd>
               </div>
             ))}
           </dl>

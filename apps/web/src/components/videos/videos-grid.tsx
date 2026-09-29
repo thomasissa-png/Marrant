@@ -220,7 +220,7 @@ export function VideosGrid() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 aspect-video rounded-lg bg-background-elevated" />
                 <div className="h-4 w-3/4 rounded bg-background-elevated" />
                 <div className="mt-2 h-3 w-1/2 rounded bg-background-elevated" />
@@ -245,7 +245,7 @@ export function VideosGrid() {
               className="flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="flex flex-1 flex-col pt-4">
+              <CardContent className="flex flex-1 flex-col pt-0">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
@@ -320,7 +320,7 @@ export function VideosGrid() {
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
               aria-label="Contenu premium : cliquer pour débloquer"
             >
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
                 <div className="h-4 w-3/4 rounded bg-text-muted/10" />
                 <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />

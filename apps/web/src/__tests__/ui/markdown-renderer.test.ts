@@ -1,6 +1,7 @@
 import { frenchQuotes, renderMarkdown } from "@/components/ui/markdown-renderer";
 import { frTypo } from "@/lib/fr-typo";
 import { blogArticles } from "@/lib/blog-articles";
+import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 
 const NBSP = String.fromCharCode(0xa0);
 
@@ -71,6 +72,17 @@ describe("frenchQuotes (guillemets au rendu)", () => {
     expect(frenchQuotes('Lis "ça" [ici](/blog?q="x") et `"code"`')).toBe(
       `Lis «${NBSP}ça${NBSP}» [ici](/blog?q="x") et \`"code"\``
     );
+  });
+
+  it("gère une citation dans une citation sans inverser les guillemets", () => {
+    expect(frenchQuotes('"Bref, il dit "pas de moutarde". Ah, au restaurant."')).toBe(
+      `«${NBSP}Bref, il dit “pas de moutarde”. Ah, au restaurant.${NBSP}»`
+    );
+    // Contenu réel (réécriture s11 appliquée en base au démarrage)
+    const rewrite = blogArticleRewrites.rewrites.find((r) => r.slug === "comment-raconter-une-blague-sans-la-rater");
+    const html = renderMarkdown(rewrite?.content?.split("\n\n")[0] ?? "");
+    expect(html).toContain("“pas de moutarde”");
+    expect(html).not.toMatch(/»\s*pas de moutarde/);
   });
 
   it("produit des attributs HTML intacts dans le rendu", () => {

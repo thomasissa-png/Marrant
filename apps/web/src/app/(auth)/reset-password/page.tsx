@@ -82,8 +82,8 @@ function ResetPasswordContent() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
-            <span className="font-display text-2xl font-bold text-gradient">
-              deviens-marrant
+            <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
+              deviens-marrant.fr
             </span>
           </Link>
           <CardTitle>Nouveau mot de passe</CardTitle>

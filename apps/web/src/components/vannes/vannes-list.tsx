@@ -260,7 +260,7 @@ export function VannesList() {
               style={{ animationDelay: `${index * 50}ms` }}
               onClick={() => togglePunchline(joke.id)}
             >
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Badge variant="primary">
@@ -369,7 +369,7 @@ export function VannesList() {
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
               aria-label="Contenu premium : cliquer pour débloquer"
             >
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 flex items-center gap-2">
                   <Badge variant="default" className="opacity-50">Catégorie</Badge>
                 </div>

@@ -8,7 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { getParcoursDifficultyLabel, withEmojiPresentation } from "@/lib/parcours-labels";
+import { frenchQuizQuotes, getParcoursDifficultyLabel, withEmojiPresentation } from "@/lib/parcours-labels";
+import { stripEmDashes } from "@/lib/em-dash";
+import { frTypo } from "@/lib/fr-typo";
 import Link from "next/link";
 
 interface VideoRef {
@@ -135,7 +137,7 @@ function StepQuiz({
           Quiz {currentQ + 1}/{quiz.length}
         </Badge>
       </div>
-      <p className="font-medium text-text-primary">{q.question}</p>
+      <p className="font-medium text-text-primary">{frTypo(frenchQuizQuotes(q.question))}</p>
       <div className="space-y-2">
         {q.options.map((opt, i) => {
           let className =
@@ -154,7 +156,7 @@ function StepQuiz({
           }
           return (
             <button key={i} className={className} onClick={() => handleAnswer(i)}>
-              {opt}
+              {frTypo(frenchQuizQuotes(stripEmDashes(opt)))}
             </button>
           );
         })}
@@ -184,7 +186,7 @@ function VideoCard({ video }: { video: VideoRef }) {
       <div className="p-3">
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>
         <p className="text-xs text-text-secondary">{video.title}</p>
-        <p className="mt-1 text-xs text-text-muted italic">{video.why}</p>
+        <p className="mt-1 text-xs text-text-muted italic">{frTypo(stripEmDashes(video.why))}</p>
       </div>
     </div>
   );
@@ -425,7 +427,7 @@ export function ParcoursDetail({
             </div>
           </div>
         </div>
-        <p className="mt-4 text-text-secondary">{path.description}</p>
+        <p className="mt-4 text-text-secondary">{stripEmDashes(path.description)}</p>
         {path.personaTagline && (
           <p className="mt-2 text-sm font-medium text-accent-link">
             {path.personaTagline}
@@ -433,7 +435,7 @@ export function ParcoursDetail({
         )}
         {path.testimonial && (
           <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-            {path.testimonial}
+            {stripEmDashes(path.testimonial)}
           </p>
         )}
       </div>
@@ -747,7 +749,7 @@ export function ParcoursDetail({
                       {status !== "authenticated" && step.order === 1 && (
                         <Button
                           variant="primary"
-                          className="w-full"
+                          className="h-auto min-h-10 w-full whitespace-normal py-2 leading-snug"
                           onClick={() => setAuthModalOpen(true)}
                         >
                           Crée ton compte gratuit pour valider l&apos;étape

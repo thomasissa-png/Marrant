@@ -103,7 +103,7 @@ export default function AnatomieVannePage() {
             Anatomie d&apos;une vanne
           </h1>
           <p className="mt-3 text-lg text-text-secondary">
-            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre&nbsp;?
+            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre&nbsp;?{" "}
             <br className="hidden sm:block" />
             Réponse en 3 parties, sans la moindre équation.
           </p>

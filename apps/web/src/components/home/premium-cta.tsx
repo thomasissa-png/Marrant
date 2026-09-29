@@ -138,9 +138,9 @@ export function PremiumCta() {
         {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 0,99 € (T08) */}
         <details className="group rounded-2xl border border-border bg-background-card">
           <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 p-6 sm:px-8 [&::-webkit-details-marker]:hidden">
-            <h3 className="text-lg font-semibold text-text-primary">Coaching individuel</h3>
-            <span className="flex items-center gap-2 text-text-muted">
-              <span className="text-lg font-bold text-text-primary">99 €</span>
+            <h3 className="min-w-0 text-lg font-semibold text-text-primary">Coaching individuel</h3>
+            <span className="flex shrink-0 items-center gap-2 whitespace-nowrap text-text-muted">
+              <span className="text-lg font-bold text-text-primary">99&nbsp;€</span>
               <span className="text-sm">/ séance</span>
               <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />

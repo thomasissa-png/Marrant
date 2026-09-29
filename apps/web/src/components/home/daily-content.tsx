@@ -137,7 +137,7 @@ export function DailyContent() {
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {[0, 1, 2].map((i) => (
             <div key={i} className="animate-pulse rounded-xl border border-border bg-background-card p-6">
               <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
@@ -156,13 +156,13 @@ export function DailyContent() {
       <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      {/* Mobile : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9) */}
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:items-start md:gap-6 md:overflow-visible md:px-0 md:pb-0">
+      {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9) */}
+      <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
         {/* Vanne du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 md:w-auto">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
-            <div className="mb-4 flex items-center gap-2">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">😂</span>
               <Badge variant="primary">Vanne du jour</Badge>
               {data.joke && (
@@ -233,7 +233,7 @@ export function DailyContent() {
         </div>
 
         {/* Conseil du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40 md:w-auto">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40 lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -291,7 +291,7 @@ export function DailyContent() {
         </div>
 
         {/* Vidéo du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 md:w-auto">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">

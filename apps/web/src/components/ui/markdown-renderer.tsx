@@ -28,6 +28,46 @@ const NBSP = String.fromCharCode(0xa0);
 const PROTECTED_RE = /(\]\([^)]*\)|`[^`]*`)/g;
 const PLACEHOLDER = String.fromCharCode(0);
 
+const OPEN_BEFORE = /[\s([{'’«\-]/;
+const CLOSE_AFTER = /[\s.,;:!?)\]…'’»\-]/;
+
+/**
+ * Citation dans une citation (« il dit "x". Ah… ») : sans ce passage, l'appariement
+ * séquentiel donne « … » x « … » (guillemets inversés). Chaque " est classé ouvrant
+ * ou fermant d'après ses voisins ; une pile rend le niveau 1 en « … » et le niveau 2
+ * en “…”. Renvoie null au moindre guillemet ambigu (repli sur l'appariement simple).
+ */
+function nestedQuotes(masked: string): string | null {
+  let depth = 0;
+  let maxDepth = 0;
+  let out = "";
+  for (let i = 0; i < masked.length; i++) {
+    const c = masked[i];
+    if (c !== '"') {
+      out += c;
+      continue;
+    }
+    const prev = i > 0 ? masked[i - 1] : undefined;
+    const next = i < masked.length - 1 ? masked[i + 1] : undefined;
+    const opens = (prev === undefined || OPEN_BEFORE.test(prev)) && next !== undefined && !/\s/.test(next);
+    const closes = prev !== undefined && !/\s/.test(prev) && (next === undefined || CLOSE_AFTER.test(next));
+    if (opens === closes) return null;
+    if (opens) {
+      if (depth >= 2) return null;
+      out += depth === 0 ? `«${NBSP}` : "“";
+      depth++;
+      maxDepth = Math.max(maxDepth, depth);
+    } else {
+      if (depth === 0) return null;
+      depth--;
+      out += depth === 0 ? `${NBSP}»` : "”";
+    }
+  }
+  // Pas d'imbrication : on laisse l'appariement simple (comportement historique).
+  if (depth !== 0 || maxDepth < 2) return null;
+  return out;
+}
+
 /**
  * Guillemets droits "…" rendus en « … » (espaces insécables intérieures), AU RENDU.
  * Uniquement si les guillemets du bloc forment des paires équilibrées ; les URL
@@ -42,7 +82,9 @@ export function frenchQuotes(text: string): string {
   });
   const count = (masked.match(/"/g) ?? []).length;
   if (count === 0 || count % 2 !== 0) return text;
-  const converted = masked.replace(/"([^"\n]+?)"/g, (_m, inner: string) => `«${NBSP}${inner.trim()}${NBSP}»`);
+  const converted =
+    nestedQuotes(masked) ??
+    masked.replace(/"([^"\n]+?)"/g, (_m, inner: string) => `«${NBSP}${inner.trim()}${NBSP}»`);
   if (converted.includes('"')) return text;
   return converted.replace(new RegExp(`${PLACEHOLDER}(\\d+)${PLACEHOLDER}`, "g"), (_m, i: string) => saved[Number(i)]);
 }

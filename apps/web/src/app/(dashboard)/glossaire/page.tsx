@@ -155,12 +155,12 @@ export default function GlossairePage() {
         aria-label="Glossaire"
         className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
       >
-        <ul className="flex snap-x gap-1 overflow-x-auto py-1">
+        <ul className="flex snap-x gap-0 overflow-x-auto py-1">
           {glossary.map((item) => (
             <li key={item.term} className="shrink-0 snap-start">
               <a
                 href={`#${termAnchor(item.term)}`}
-                className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-3 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
+                className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-2 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
               >
                 {item.term}
               </a>
@@ -169,7 +169,7 @@ export default function GlossairePage() {
         </ul>
       </nav>
 
-      <div className="space-y-6">
+      <div className="max-w-4xl space-y-6">
         {glossary.map((item) => (
           <section
             key={item.term}

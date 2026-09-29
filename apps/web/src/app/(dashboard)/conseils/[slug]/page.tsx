@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildTipSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
+import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -118,15 +119,18 @@ export default async function ConseilPage({
 
   let related: { id: string; title: string; category: string }[] = [];
   try {
-    related = await prisma.tip.findMany({
+    // Titres en double en base : un seul affiché, jamais le conseil courant (N12 s12)
+    const candidates = await prisma.tip.findMany({
       where: {
         isActive: true,
         category: tip.category,
         id: { not: tip.id },
       },
       select: { id: true, title: true, category: true },
-      take: 4,
+      take: 12,
     });
+    related = dedupeTipsByTitle([{ id: tip.id, title: tip.title, category: tip.category }, ...candidates])
+      .slice(1, 5);
   } catch {}
 
   // JSON-LD HowTo — le conseil est concrètement une "méthode à appliquer"

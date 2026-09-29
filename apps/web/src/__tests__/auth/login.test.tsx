@@ -30,7 +30,7 @@ describe("LoginPage", () => {
 
   it("renders logo linking to home", () => {
     render(<LoginPage />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("has submit button", () => {

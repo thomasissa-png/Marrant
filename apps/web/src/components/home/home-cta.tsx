@@ -15,8 +15,8 @@ export function HomeCta() {
   if (status === "authenticated") return null;
 
   const jokesLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
-  const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
-  const videosLabel = stats.videos > 0 ? `${stats.videos}+` : "Des";
+  const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
+  const videosLabel = stats.videos > 0 ? `${stats.videos}+` : "des";
 
   return (
     <section className="py-12 text-center md:py-16">
@@ -33,10 +33,10 @@ export function HomeCta() {
             <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
               Créer mon compte gratuit
             </Button>
-            <p className="text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
+            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
           <Link href="/vannes" className="w-full sm:w-auto">
-            <Button variant="outline" size="lg" className="w-full">
+            <Button variant="outline" size="lg" className="w-full whitespace-nowrap">
               Voir les vannes gratuites
             </Button>
           </Link>

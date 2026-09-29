@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { useContentStats } from "@/hooks/use-content-stats";
 
@@ -29,8 +30,16 @@ const features = [
   },
   {
     emoji: "🎬",
-    getTitle: (count: number) =>
-      count > 0 ? `${count}+ vidéos de stand-up décryptées` : "Vidéos stand-up décryptées",
+    getTitle: (count: number): ReactNode =>
+      count > 0 ? (
+        <>
+          {count}+ vidéos de <span className="whitespace-nowrap">stand-up</span> décryptées
+        </>
+      ) : (
+        <>
+          Vidéos <span className="whitespace-nowrap">stand-up</span> décryptées
+        </>
+      ),
     description:
       "Les meilleurs extraits d'humoristes français, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
     cta: "Regarder les vidéos",
@@ -67,8 +76,12 @@ export function FeatureCards() {
               <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                 {feature.description}
               </p>
-              <Link href={feature.href} className="mt-auto pt-5">
-                <Button variant={feature.variant} size="sm">
+              <Link href={feature.href} className="mt-auto self-start pt-5">
+                <Button
+                  variant={feature.variant}
+                  size="sm"
+                  className="h-auto min-h-8 whitespace-normal py-1.5 text-left leading-snug max-md:h-auto max-md:min-h-11"
+                >
                   {feature.cta} →
                 </Button>
               </Link>
