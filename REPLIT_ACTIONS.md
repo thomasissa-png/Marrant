@@ -1,5 +1,40 @@
 # Actions Replit — Deviens-marrant.fr
 
+## ⭐ s11 (29/09/2026) — Déploiement de la branche `claude/marrant-s10-session-recovery-CtZyw`
+
+> Contexte : la génération IA (vannes, conseils, blog, social, vidéos) était à l'arrêt depuis le 15/06/2026 — le modèle `claude-sonnet-4-20250514` a été retiré par Anthropic. Le code est migré sur **Claude Sonnet 5.5** (`claude-sonnet-5-5`) + **Opus 5.5** pour le rapport CEO, Haiku supprimé, SDK `@anthropic-ai/sdk` 0.129.
+
+### A. Automatique au déploiement (zéro action)
+| Quoi | Mécanisme |
+|---|---|
+| Table `NewsletterSubscriber` (+ enum) | `prisma db push` au build (déjà dans `.replit`) |
+| Corrections des articles de blog en base (tutoiement, citations, témoignages, staccato, mentions IA, années) | boot ~30 s : `fixPublishedBlogArticlesTask` (`src/data/blog-article-fixes.json`) |
+| Dépublication des 3 articles cannibalisés en base | boot : `depublishCannibalizedDbArticlesTask` |
+| Renommage du slug daté `meilleures-blagues-droles-2026` | boot : `convergeBlogSlugRedirectsTask` (+ redirection 308) |
+| Liens internes vers des URLs redirigées réécrits dans les articles en base | boot : `rewriteRedirectedBlogLinksTask` |
+| Décryptage IA des vannes anciennes sans décryptage (15 / boot) | boot : `backfillMissingJokeDecryptagesTask` (désactivable : `SKIP_JOKE_DECRYPTAGE_AI_BACKFILL=1`) |
+| 15 redirections 301/308 (cannibalisation, historique, slug daté) | `next.config.js` ← `src/lib/seo-redirects.data.cjs` |
+| Alerte email admin si l'IA tombe en panne (modèle retiré, clé, crédit) | `lib/ai/failure-alert.ts`, 1 alerte / type / 24 h |
+
+### B. Secrets Replit — tous OPTIONNELS (le code a des défauts sûrs)
+| Secret | Valeur | Effet |
+|---|---|---|
+| `ANTHROPIC_SONNET_MODEL` | *(vide)* → `claude-sonnet-5-5` | changer de modèle sans toucher au code (prochain retrait) |
+| `ANTHROPIC_OPUS_MODEL` | *(vide)* → `claude-opus-5-5` | idem pour le rapport hebdo CEO |
+| `ANTHROPIC_EFFORT` | *(vide)* → `low` | `low` / `medium` / `high` — qualité vs coût de toute la génération |
+| `NEXT_PUBLIC_BING_SITE_VERIFICATION` | clé `msvalidate.01` de Bing Webmaster Tools | débloque l'indexation Bing |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | clé Search Console (si pas déjà vérifié par DNS) | — |
+| `NEXT_PUBLIC_SOCIAL_PROFILES` | URLs des profils officiels séparées par des virgules | `sameAs` JSON-LD (entité de marque pour les IA) |
+| ⚠️ Secret à SUPPRIMER s'il existe | `ANTHROPIC_HAIKU_MODEL` | plus lu par le code |
+
+### C. Après le déploiement (5 min)
+1. `curl https://deviens-marrant.fr/api/health` → `checks.ai.sonnetModel = "claude-sonnet-5-5"`, `database.status = "up"`. `llmSuccess` passe à `ok` après la 1re génération (fenêtre 5h-6h UTC, ou catch-up 7h-22h UTC).
+2. Brancher UptimeRobot (gratuit) sur `/api/health`, mot-clé `"status":"ok"`, toutes les 5 min.
+3. Vérifier `https://deviens-marrant.fr/llms.txt` : doit lister les articles du blog (≈ 26).
+4. Soumettre le sitemap dans Google Search Console et Bing Webmaster Tools (≈ 1 100 nouvelles URLs /vannes, /conseils, /videos).
+
+---
+
 > **TL;DR (s10 — deploy auto-suffisant)** : la checklist web est passée de **11 étapes manuelles à 3**.
 > Tout ce qui pouvait être automatisé l'a été dans le code (auto-seed config, crons CEO via scheduler interne, application instantanée des décryptages de vannes au boot, cleanup données). Détails ci-dessous.
 > La section "Setup MOBILE V1" plus bas reste une checklist distincte (comptes Apple/Google, builds natifs) non concernée par cette automatisation.
