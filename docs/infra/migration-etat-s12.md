@@ -125,3 +125,17 @@ Compatibilité avec le `schema.prisma` de la branche : **0 colonne perdue**. La 
 - **Contrôle : 35/35 tables identiques** (nombre de lignes + md5 du contenu trié par clé primaire, calculé des deux côtés). 42 860 lignes. Aucune séquence (identifiants texte). `ANALYZE` passé.
 - Les 2 nouvelles tables (`DataPatch`, `NewsletterSubscriber`) sont vides : les tâches de démarrage de la branche s11 s'appliqueront au premier lancement sur Cloudflare.
 - À refaire au moment de la bascule (étape D) : la même copie, sur base cible vidée, pour récupérer les données écrites entre-temps sur Replit (inscriptions, usage IA, posts).
+
+## 8. Déploiement de test workers.dev (29/09/2026, accord explicite de Thomas)
+
+- URL : https://marrant.thomas-issa.workers.dev (aucune route, aucun domaine ; `X-Robots-Tag: noindex, nofollow` sur *.workers.dev ; crons programmés mais `CRON_ENABLED=false`).
+- Ressources créées avec `CLOUDFLARE_DM_TOKEN` : buckets R2 `marrant-next-cache` et `marrant-social-images` (Europe de l'Ouest), Hyperdrive `marrant-neon` (id `fab86e8a22204112961f483a20c261ee`, cache de requêtes désactivé) → Neon Francfort.
+- Secrets de test posés (valeurs neuves générées, jamais affichées) : `NEXTAUTH_SECRET`, `CRON_SECRET`, `ADMIN_PASSWORD`, `UNSUBSCRIBE_HMAC_SECRET`, `NEXTAUTH_URL`, `CRON_ORIGIN` ; `RESEND_API_KEY` provisoire. À remplacer à la session suivante par les vraies clés (Stripe test, Resend, Google, Anthropic) que Thomas a ajoutées à l'environnement.
+- Contrôles : pages principales 200 (mêmes 404 qu'en prod), `/api/health` → base `up` (Worker → Hyperdrive → Neon), API vannes/conseils/vidéos/contenu du jour servies depuis la copie. Sitemap : 43 URL contre 60 en prod (figé au build sans base, se régénère en 1 h).
+- **Bug corrigé** (commit `fix(cf)`) : les chunks JS des groupes de routes `(dashboard)` et segments `[slug]` partaient en boucle 307 (normalisation d'encodage de la couche assets) → page blanche « Application error » dans Chromium. Le Worker sert désormais `/_next/static/chunks/app/*` en suivant lui-même ces redirections (`run_worker_first`). 0 erreur console vérifiée sur 6 pages.
+- Build fait dans l'environnement Claude (TCP Postgres bloqué) : pages ISR figées avec données de repli jusqu'à revalidation. Pour la bascule, builder là où Neon est joignable ou accepter la revalidation.
+
+## 9. Constat sur la prod Replit (lecture seule, 29/09/2026)
+
+- Aucune vanne, aucun conseil ni post social générés depuis le **15/06/2026** ; dernier contenu du jour : 12/09/2026.
+- Cause : les agents IA appellent un modèle retiré (`claude-sonnet-4-2025…`) → **100 % d'erreurs 404** (~3 500 appels en 7 jours, 0 $ facturé). La branche s11 utilise les modèles actuels (vérifié via `/api/health` du Worker de test) : la bascule règle le problème. Pas de redéploiement Replit (décision fondateur du 29/09).
