@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
+import { buildVideoSlug } from "@/lib/catalogue-slug";
 
 interface Video {
   id: string;
@@ -256,6 +257,15 @@ export function VideosGrid() {
                     <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                   </div>
                 )}
+                <div className="mt-3 border-t border-border pt-2">
+                  <Link
+                    href={`/videos/${buildVideoSlug(video)}`}
+                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    aria-label="Ouvrir la page dédiée de cette vidéo"
+                  >
+                    Page dédiée &rarr;
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}

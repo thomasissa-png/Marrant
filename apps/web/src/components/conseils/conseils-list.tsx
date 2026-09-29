@@ -14,6 +14,7 @@ import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { buildTipSlug } from "@/lib/catalogue-slug";
 
 interface Tip {
   id: string;
@@ -280,6 +281,16 @@ export function ConseilsList() {
                     {TIP_TEASERS[index % TIP_TEASERS.length]}
                   </p>
                 )}
+                <div className="mt-3 border-t border-border pt-2">
+                  <Link
+                    href={`/conseils/${buildTipSlug(tip)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    aria-label="Ouvrir la page dédiée de ce conseil"
+                  >
+                    Page dédiée &rarr;
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
