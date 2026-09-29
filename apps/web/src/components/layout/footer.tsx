@@ -65,12 +65,12 @@ export function Footer() {
               Deviens drôle, un exercice à la fois. Vannes, répartie et techniques
               de stand-up pour briller en société.
             </p>
-            <p className="mt-3 text-sm text-text-muted">
-              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-link">contact@deviens-marrant.fr</a>
+            <p className="mt-2 text-sm text-text-muted">
+              <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent-link">contact@deviens-marrant.fr</a>
             </p>
 
-            {/* Social links */}
-            <div className="mt-4 flex items-center gap-3">
+            {/* Social links : zone de toucher 44 px (p-3 autour de l'icône 20 px), alignée sur le texte (T48) */}
+            <div className="-ml-3 mt-1 flex items-center">
               {socialLinks.map((social) => (
                 <a
                   key={social.href}
@@ -78,7 +78,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-text-muted transition-colors hover:text-accent-link"
+                  className="p-3 text-text-muted transition-colors hover:text-accent-link"
                 >
                   {social.icon}
                 </a>
@@ -91,12 +91,12 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="grid gap-2 lg:grid-cols-2 lg:gap-x-6">
+            <ul className="grid lg:grid-cols-2 lg:gap-x-6">
               {footerLinks.produit.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
                     {link.label}
                   </Link>
@@ -110,12 +110,12 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Légal
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
                     {link.label}
                   </Link>
