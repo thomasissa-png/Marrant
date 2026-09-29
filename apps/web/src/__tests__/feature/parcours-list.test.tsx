@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/page";
+import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -57,16 +58,21 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getByText("DEBUTANT \u2192 EXPERT")).toBeInTheDocument();
   });
 
+  // s11 : textes des parcours réécrits — les attentes sont dérivées du seed
+  // (source de vérité) pour ne pas figer la copy dans les tests.
+  const bodyText = () => (document.body.textContent ?? "").replace(/\s+/g, " ");
+  const norm = (t: string) => t.replace(/\s+/g, " ").trim();
+
   it("shows persona targeting text for each parcours", () => {
-    expect(screen.getByText(/Idéal si tu travailles en équipe/)).toBeInTheDocument();
-    expect(screen.getByText(/Pour toi si tu es étudiant/)).toBeInTheDocument();
-    expect(screen.getByText(/Parfait si tu veux renouer/)).toBeInTheDocument();
+    for (const p of parcoursSeed) {
+      expect(bodyText()).toContain(norm(p.personaTagline));
+    }
   });
 
   it("shows testimonials for each parcours", () => {
-    expect(screen.getByText(/muette à la machine à café/)).toBeInTheDocument();
-    expect(screen.getByText(/meilleures répliques/)).toBeInTheDocument();
-    expect(screen.getByText(/Ce parcours m'a aidé à retrouver/)).toBeInTheDocument();
+    for (const p of parcoursSeed) {
+      expect(bodyText()).toContain(norm(p.testimonial).slice(0, 40));
+    }
   });
 
   it("renders CTA buttons for each parcours", () => {
@@ -98,41 +104,15 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getAllByText("+75 XP").length).toBe(3);
   });
 
-  it("shows weekly modules for Parcours Répartie", () => {
-    expect(screen.getByText("Les bases de la répartie")).toBeInTheDocument();
-    expect(screen.getByText(/Le rythme et les silences/)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Retourner les piques avec le sourire/)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Répartie avancée et improvisation/)).toBeInTheDocument();
-  });
-
-  it("shows weekly modules for Parcours Machine à Café", () => {
-    expect(
-      screen.getByText("Vannes courtes et mémorisables")
-    ).toBeInTheDocument();
-    expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
-    expect(screen.getByText(/Raconter une anecdote captivante/)).toBeInTheDocument();
-  });
-
-  it("shows weekly modules for Parcours Confiance", () => {
-    expect(
-      screen.getByText("Redécouvrir ce qui te fait rire")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Rire de soi avec bienveillance/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/L'art de l'observation comique/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Être à l'aise en groupe/)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Les registres avancés/)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Affirmer ton style personnel/)
-    ).toBeInTheDocument();
-  });
+  it.each(["repartie", "machine-a-cafe", "confiance"])(
+    "shows weekly modules for parcours %s",
+    (slug) => {
+      const p = parcoursSeed.find((x) => x.slug === slug)!;
+      for (const step of p.steps) {
+        expect(bodyText()).toContain(norm(step.moduleTitle));
+      }
+    }
+  );
 
   it("shows progress bars", () => {
     const bars = screen.getAllByTestId("progress-bar");
