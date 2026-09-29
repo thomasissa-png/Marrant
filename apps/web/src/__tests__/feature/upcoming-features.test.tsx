@@ -10,6 +10,11 @@ jest.mock("@/components/ui/toast", () => ({
   toast: jest.fn(),
 }));
 
+jest.mock("@/components/auth/auth-modal", () => ({
+  AuthModal: ({ isOpen, defaultTab }: { isOpen: boolean; defaultTab?: string }) =>
+    isOpen ? <div data-testid="auth-modal" data-tab={defaultTab} /> : null,
+}));
+
 const { useSession } = require("next-auth/react");
 const { toast } = require("@/components/ui/toast");
 
@@ -125,7 +130,7 @@ describe("UpcomingFeatures", () => {
     });
   });
 
-  it("shows toast when unauthenticated user tries to vote", async () => {
+  it("opens the sign-up modal when an unauthenticated user tries to vote (s12 T10)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     mockFetch({
       counts: { whatsapp: 47, "nouveaux-parcours": 34, communaute: 62, surprises: 21 },
@@ -140,7 +145,8 @@ describe("UpcomingFeatures", () => {
 
     await userEvent.click(screen.getByLabelText("62 votes pour Une communauté"));
 
-    expect(toast).toHaveBeenCalledWith("Connecte-toi pour voter", "error");
+    expect(toast).not.toHaveBeenCalled();
+    expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-tab", "register");
   });
 
   it("rolls back on API error", async () => {

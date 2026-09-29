@@ -6,6 +6,13 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { AuthModal } from "@/components/auth/auth-modal";
 
+/** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02). */
+const HERO_PARCOURS_LINKS = [
+  { label: "Avoir de la répartie", href: "/parcours/repartie" },
+  { label: "Briller à la machine à café", href: "/parcours/machine-a-cafe" },
+  { label: "Reprendre confiance en toi", href: "/parcours/confiance" },
+] as const;
+
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -32,26 +39,8 @@ export function HeroSection() {
         Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour
       </p>
 
-      {/* Situations concrètes = les 3 personas se reconnaissent */}
-      <div className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-3">
-        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Avoir de la répartie
-        </span>
-        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Briller à la machine à café
-        </span>
-        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Reprendre confiance en toi
-        </span>
-        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Un petit exercice par jour
-        </span>
-        <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Vannes prêtes à ressortir
-        </span>
-      </div>
-
-      {/* CTA only for authenticated users — non-auth CTA is below feature cards */}
+      {/* CTA : connectés vers le catalogue ; anonymes vers l'inscription,
+          avec le chemin gratuit visible juste dessous (T03) */}
       {isAuthenticated ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link href="/vannes">
@@ -66,12 +55,32 @@ export function HeroSection() {
           </Link>
         </div>
       ) : (
-        <div className="mt-8 flex flex-col items-center gap-2">
-          <Button variant="primary" size="lg" onClick={() => setShowAuth(true)}>
+        <div className="mt-8 flex flex-col items-center gap-1">
+          <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
             Commencer à 0,99 €/mois
           </Button>
+          <Link
+            href="/vannes"
+            className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline-offset-4 hover:text-text-primary hover:underline"
+          >
+            Voir les vannes gratuites
+          </Link>
         </div>
       )}
+
+      {/* Situations concrètes = les 3 personas se reconnaissent, sous le CTA (spec UX §2.8) */}
+      <ul className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-3">
+        {HERO_PARCOURS_LINKS.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="inline-flex min-h-[44px] items-center rounded-full border border-border bg-background-elevated px-4 text-sm text-text-secondary transition-colors hover:border-accent-primary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
 
       <AuthModal
         isOpen={showAuth}

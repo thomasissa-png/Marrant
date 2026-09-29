@@ -33,20 +33,30 @@ describe("HeroSection", () => {
     expect(screen.getByText(/Rejoins 1\s500\+ membres/)).toBeInTheDocument();
   });
 
-  it("shows use-case tags for all 3 personas", () => {
+  it("links each persona tag to its parcours (s12 T02)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
-    expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
-    expect(screen.getByText("Reprendre confiance en toi")).toBeInTheDocument();
-    expect(screen.getByText("Un petit exercice par jour")).toBeInTheDocument();
-    expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
+    expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie");
+    expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
+    expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance");
+    // Les 2 pastilles qui doublonnaient « Trois outils » sont retirées.
+    expect(screen.queryByText("Un petit exercice par jour")).not.toBeInTheDocument();
+    expect(screen.queryByText("Vannes prêtes à ressortir")).not.toBeInTheDocument();
   });
 
-  it("shows CTA when unauthenticated", () => {
+  it("shows the H1 as two sentences, one per block (s12 T01)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    const h1 = screen.getByRole("heading", { level: 1 });
+    expect(h1.children).toHaveLength(2);
+    expect(h1.textContent).toBe("Tu parles et personne rit.On va arranger ça.");
+  });
+
+  it("shows CTA when unauthenticated, with the free path right below (s12 T03)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
   });
 
   it("shows authenticated buttons", () => {

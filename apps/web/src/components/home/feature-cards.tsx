@@ -45,7 +45,7 @@ export function FeatureCards() {
   const counts = [stats.jokes, stats.tips, stats.videos];
 
   return (
-    <section className="py-12">
+    <section className="py-12 md:py-16">
       <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Trois outils pour arrêter de rire{" "}
         <span className="text-gradient">par politesse</span>
@@ -54,10 +54,10 @@ export function FeatureCards() {
         {features.map((feature, i) => (
           <div
             key={feature.href}
-            className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40"
+            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40"
           >
             <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
-            <div className="p-6">
+            <div className="flex flex-1 flex-col p-6">
               <span className="text-3xl" aria-hidden="true">
                 {feature.emoji}
               </span>
@@ -67,8 +67,8 @@ export function FeatureCards() {
               <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                 {feature.description}
               </p>
-              <Link href={feature.href}>
-                <Button variant={feature.variant} size="sm" className="mt-5">
+              <Link href={feature.href} className="mt-auto pt-5">
+                <Button variant={feature.variant} size="sm">
                   {feature.cta} →
                 </Button>
               </Link>

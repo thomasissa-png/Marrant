@@ -104,6 +104,24 @@ describe("VannesList", () => {
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
   });
 
+  it("reveals punchline with the « Révéler la chute » button (s12 T16)", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getAllByRole("button", { name: "Révéler la chute" })[0]);
+    expect(screen.getByText("Chute 1")).toBeInTheDocument();
+  });
+
+  it("does not display raw joke type enums (s12 T13)", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("DIALOGUE")).not.toBeInTheDocument();
+  });
+
   it("shows décryptage block when revealed and fields exist", async () => {
     render(<VannesList />);
     await waitFor(() => {

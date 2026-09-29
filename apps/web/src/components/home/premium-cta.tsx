@@ -40,11 +40,8 @@ export function PremiumCta() {
   if (user?.plan === "PREMIUM") return null;
 
   return (
-    <section className="py-12" id="offres">
+    <section className="py-12 md:py-16" id="offres">
       <div className="text-center">
-        <Badge variant="primary" className="mb-4">
-          Prix de lancement
-        </Badge>
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           Deux façons de t&apos;y mettre
         </h2>
@@ -54,43 +51,8 @@ export function PremiumCta() {
         </p>
       </div>
 
-      {/* Ce que tu obtiens */}
-      <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-border bg-background-card p-6">
-        <h3 className="mb-4 text-center font-semibold text-text-primary">
-          Tout est inclus pour 0,99 &euro;/mois
-        </h3>
-        <ul className="grid gap-3 sm:grid-cols-2 text-sm text-text-secondary">
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Toutes les vannes</strong> class&eacute;es par cat&eacute;gorie</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Tous les conseils</strong> + exemples + exercices</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Toutes les vid&eacute;os</strong> stand-up analys&eacute;es</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Parcours structur&eacute;s</strong> de progression</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Favoris illimit&eacute;s</strong></span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">&#10003;</span>
-            <span><strong>Contenu quotidien</strong> renouvel&eacute;</span>
-          </li>
-        </ul>
-      </div>
-      <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-text-muted">
-        Sans engagement &middot; Annulable &agrave; tout moment
-      </p>
 
-      <div className="mt-10 flex flex-col gap-6 max-w-xl mx-auto">
+      <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-6">
         {/* Offre 1 — Accès complet */}
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-8 shadow-lg shadow-accent-primary/10">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
@@ -160,17 +122,27 @@ export function PremiumCta() {
                 Commencer à 0,99 €/mois
               </Button>
             )}
+            {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
+            <p className="mt-3 text-center text-sm text-text-secondary">
+              Déjà 1&nbsp;500+ inscrits — et toi ?
+            </p>
           </div>
         </div>
 
-        {/* Offre 2 — Appel coaching */}
-        <div className="rounded-2xl border border-border bg-background-card p-8">
-          <h3 className="text-lg font-semibold text-text-primary">Coaching individuel</h3>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-text-primary">99 €</span>
-            <span className="text-text-muted">/ séance</span>
-          </div>
-          <p className="mt-1 text-sm text-text-secondary">
+        {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 0,99 € (T08) */}
+        <details className="group rounded-2xl border border-border bg-background-card">
+          <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 p-6 sm:px-8 [&::-webkit-details-marker]:hidden">
+            <h3 className="text-lg font-semibold text-text-primary">Coaching individuel</h3>
+            <span className="flex items-center gap-2 text-text-muted">
+              <span className="text-lg font-bold text-text-primary">99 €</span>
+              <span className="text-sm">/ séance</span>
+              <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </summary>
+          <div className="px-6 pb-8 sm:px-8">
+          <p className="text-sm text-text-secondary">
             Un appel de 45 min avec un professionnel de l&apos;humour
           </p>
 
@@ -205,18 +177,18 @@ export function PremiumCta() {
           >
             <Button variant="outline" size="lg" className="w-full">
               Réserver un appel · 99 €
+              <svg className="ml-2 h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </Button>
           </a>
           <p className="mt-3 text-center text-xs text-text-muted">
             Pour toi si tu préfères qu&apos;on regarde ensemble, en direct, ce qui coince
           </p>
-        </div>
+          </div>
+        </details>
       </div>
 
-      {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
-      <p className="mt-8 text-center text-sm text-text-muted">
-        Déjà 1&nbsp;500+ inscrits — et toi ?
-      </p>
 
       {/* FAQ */}
       <div className="mt-16">

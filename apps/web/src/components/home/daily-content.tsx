@@ -88,6 +88,36 @@ const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
   EXPERT: "error",
 };
 
+/** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
+const DETAILS_SUMMARY =
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-primary [&::-webkit-details-marker]:hidden";
+
+function Chevron() {
+  return (
+    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+/**
+ * « TECHNIQUE DU PERSONNAGE CANDIDE : crée… » : titre en gras et en casse phrase,
+ * explication inchangée (design T12). Donnée non modifiée.
+ */
+function formatLearning(learning: string) {
+  const k = learning.indexOf(" : ");
+  if (k <= 0) return learning;
+  const raw = learning.slice(0, k);
+  // Casse phrase uniquement si le titre est tout en majuscules (préserve les noms propres).
+  const title = raw === raw.toUpperCase() ? raw.charAt(0) + raw.slice(1).toLowerCase() : raw;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{title}</strong>
+      {learning.slice(k)}
+    </>
+  );
+}
+
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
   const [showPunchline, setShowPunchline] = useState(false);
@@ -107,7 +137,7 @@ export function DailyContent() {
 
   if (isLoading) {
     return (
-      <section className="py-10">
+      <section className="py-12 md:py-16">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
@@ -126,13 +156,14 @@ export function DailyContent() {
   }
 
   return (
-    <section className="py-10">
+    <section className="py-12 md:py-16">
       <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      <div className="grid gap-6 md:grid-cols-3">
+      {/* Mobile : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9) */}
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:items-start md:gap-6 md:overflow-visible md:px-0 md:pb-0">
         {/* Vanne du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
             <div className="mb-4 flex items-center gap-2">
@@ -206,7 +237,7 @@ export function DailyContent() {
         </div>
 
         {/* Conseil du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40 md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -231,16 +262,22 @@ export function DailyContent() {
                   </h3>
                   <p className="text-sm leading-relaxed text-text-primary">{data.tip.content}</p>
                   {data.tip.example && (
-                    <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple concret</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.example}</p>
-                    </div>
+                    <details className="group/d rounded-lg bg-background-elevated">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exemple concret
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.tip.example}</p>
+                    </details>
                   )}
                   {data.tip.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice du jour</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.exercise}</p>
-                    </div>
+                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exercice du jour
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.tip.exercise}</p>
+                    </details>
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-2">
@@ -258,7 +295,7 @@ export function DailyContent() {
         </div>
 
         {/* Vidéo du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -287,23 +324,29 @@ export function DailyContent() {
                     <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
-                    <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
-                      <ul className="mt-1.5 space-y-1.5">
+                    <details className="group/d rounded-lg bg-background-elevated">
+                      <summary className={DETAILS_SUMMARY}>
+                        Ce que tu vas apprendre
+                        <Chevron />
+                      </summary>
+                      <ul className="space-y-1.5 px-4 pb-4">
                         {data.video.learnings.map((learning, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                             <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
-                            {learning}
+                            <span>{formatLearning(learning)}</span>
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </details>
                   )}
                   {data.video.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.video.exercise}</p>
-                    </div>
+                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exercice pratique
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.video.exercise}</p>
+                    </details>
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-2">

@@ -7,6 +7,7 @@ import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 interface Feature {
   slug: string;
@@ -85,6 +86,7 @@ export function UpcomingFeatures() {
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
   const [votingSlug, setVotingSlug] = useState<string | null>(null);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     fetch("/api/features/vote")
@@ -101,7 +103,8 @@ export function UpcomingFeatures() {
   const handleVote = useCallback(
     async (slug: string) => {
       if (status !== "authenticated") {
-        toast("Connecte-toi pour voter", "error");
+        // Anonyme : on ouvre directement l'inscription au lieu d'un toast d'erreur (T10).
+        setShowAuth(true);
         return;
       }
       if (votingSlug) return;
@@ -151,7 +154,7 @@ export function UpcomingFeatures() {
   );
 
   return (
-    <section className="py-16">
+    <section className="py-12 md:py-16">
       <div className="mb-4 flex items-center justify-center gap-3">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-primary/30" />
         <Badge variant="premium">Abonnés</Badge>
@@ -201,7 +204,7 @@ export function UpcomingFeatures() {
                   onClick={() => handleVote(feature.slug)}
                   disabled={votingSlug !== null}
                   className={cn(
-                    "mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                    "mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                     voted
                       ? "bg-accent-primary text-white"
                       : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary"
@@ -230,6 +233,8 @@ export function UpcomingFeatures() {
           );
         })}
       </div>
+
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} defaultTab="register" />
     </section>
   );
 }

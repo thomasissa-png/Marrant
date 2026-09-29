@@ -173,10 +173,13 @@ export function VannesList() {
               Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 0,99 €/mois : tout le catalogue, les filtres et les favoris.
             </p>
           </div>
-          <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
-            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" />
-            <Link href="/abonnement">
-              <Button variant="outline" size="sm">Tout débloquer</Button>
+          <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
+            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" className="w-full sm:w-auto" />
+            <Link
+              href="/abonnement"
+              className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-primary hover:underline"
+            >
+              Tout débloquer
             </Link>
           </div>
         </div>
@@ -184,18 +187,13 @@ export function VannesList() {
 
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {limited ? (
-        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
-          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
-            {CATEGORIES.slice(0, 5).map((cat) => (
-              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {cat.label}
-              </span>
-            ))}
-            <span className="text-sm text-text-muted">...</span>
-          </div>
-          <p className="mt-2 text-xs text-text-muted">
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
+          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="text-sm text-text-secondary">
             Filtres par catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-primary hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -246,11 +244,9 @@ export function VannesList() {
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
               style={{ animationDelay: `${index * 50}ms` }}
-              tabIndex={0}
               onClick={() => togglePunchline(joke.id)}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePunchline(joke.id); } }}
             >
               <CardContent className="pt-4">
                 <div className="mb-3 flex items-center justify-between">
@@ -258,7 +254,6 @@ export function VannesList() {
                     <Badge variant="primary">
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
-                    <Badge variant="default">{joke.type}</Badge>
                   </div>
                   <div className="flex items-center gap-1">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
@@ -267,7 +262,11 @@ export function VannesList() {
                 </div>
                 <p className="text-text-primary">{joke.content}</p>
                 {revealedIds.has(joke.id) && (
-                  <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
+                  <p
+                    id={`punchline-${joke.id}`}
+                    tabIndex={-1}
+                    className="mt-3 font-semibold text-accent-primary animate-fade-in focus:outline-none"
+                  >
                     {joke.punchline}
                   </p>
                 )}
@@ -305,15 +304,31 @@ export function VannesList() {
                   </div>
                 )}
                 {!revealedIds.has(joke.id) && (
-                  <p className="mt-3 text-sm text-text-muted">
-                    {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
-                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="min-h-[44px]"
+                      aria-expanded={false}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        togglePunchline(joke.id);
+                        // Le bouton disparaît : le focus passe à la chute révélée.
+                        requestAnimationFrame(() => document.getElementById(`punchline-${joke.id}`)?.focus());
+                      }}
+                    >
+                      Révéler la chute
+                    </Button>
+                    <p className="text-sm text-text-muted">
+                      {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
+                    </p>
+                  </div>
                 )}
                 <div className="mt-3 border-t border-border pt-2">
                   <Link
                     href={`/vannes/${buildJokeSlug(joke)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-primary hover:underline"
                     aria-label="Ouvrir la page dédiée de cette vanne"
                   >
                     Page dédiée &rarr;
@@ -366,11 +381,9 @@ export function VannesList() {
           <p className="mt-1 text-sm text-text-secondary">
             Accède à tout le catalogue dès 0,99 &euro;/mois
           </p>
-          <Link href="/abonnement">
-            <Button variant="primary" size="sm" className="mt-3">
-              Voir l&apos;offre
-            </Button>
-          </Link>
+          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
+            Voir l&apos;offre
+          </Button>
         </div>
       )}
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
+import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -95,16 +96,9 @@ export default async function VannesPage() {
       </Suspense>
 
       {/* FAQ SEO */}
+      {/* Accordéon fermé (passe UX s12, T19) : le contenu reste dans le DOM pour le SEO. */}
       <section className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="space-y-4">
-          {vannesFaqs.map((faq, i) => (
-            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
+        <FaqSection items={vannesFaqs} />
       </section>
 
       {/* Contenu SEO — pourquoi nos vannes */}
