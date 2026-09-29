@@ -48,7 +48,7 @@ describe("OnboardingFlow", () => {
     await waitFor(() => {
       expect(window.localStorage.getItem("detectedPersona")).toBe("YANIS");
     });
-    expect(screen.getByText(/Yo, on va te faire briller/i)).toBeInTheDocument();
+    expect(screen.getByText(/La prochaine réplique en soirée/i)).toBeInTheDocument();
   });
 
   it("détecte persona SOPHIE pour age 22-30 + goal convers", async () => {
@@ -62,7 +62,7 @@ describe("OnboardingFlow", () => {
     await waitFor(() => {
       expect(window.localStorage.getItem("detectedPersona")).toBe("SOPHIE");
     });
-    expect(screen.getByText(/machine à café d'anecdotes/i)).toBeInTheDocument();
+    expect(screen.getByText(/raconter pendant toute la pause café/i)).toBeInTheDocument();
   });
 
   it("détecte persona MARC pour age 30plus + goal reprise", async () => {
@@ -76,7 +76,7 @@ describe("OnboardingFlow", () => {
     await waitFor(() => {
       expect(window.localStorage.getItem("detectedPersona")).toBe("MARC");
     });
-    expect(screen.getByText(/retrouver ta légèreté/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ta légèreté n'est pas partie loin/i)).toBeInTheDocument();
   });
 
   it("propose Plus tard sur l'écran push", async () => {
@@ -104,7 +104,7 @@ describe("OnboardingFlow", () => {
     fireEvent.click(await screen.findByText(/Plus tard/));
     fireEvent.click(await screen.findByText("Découvrir"));
 
-    expect(await screen.findByText(/Garde tes favoris/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Garde tes XP et ton parcours/i)).toBeInTheDocument();
     expect(screen.getByText(/Créer mon compte/)).toBeInTheDocument();
     expect(screen.getByText(/Plus tard, laisse-moi explorer/)).toBeInTheDocument();
   });

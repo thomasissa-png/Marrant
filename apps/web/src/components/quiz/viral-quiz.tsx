@@ -44,7 +44,7 @@ function saveResult(profile: HumorProfileType): void {
 }
 
 function ResultCard({ profile }: { profile: HumorProfileResult }) {
-  const shareText = `Je suis "${profile.title}" (style ${profile.humoriste}) ! Et toi, quel type d'humour es-tu ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
+  const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
     <Card className="mx-auto max-w-lg animate-scale-in">
@@ -89,12 +89,12 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
 
           <Link href={profile.recommendedPath} className="w-full">
             <Button variant="primary" size="lg" className="w-full">
-              Progresse avec ton profil
+              Voir par où commencer
             </Button>
           </Link>
 
           <AuthCta
-            label="Crée ton compte gratuit pour ton parcours personnalisé"
+            label="Crée ton compte gratuit et commence un parcours"
             variant="secondary"
             size="lg"
             className="w-full"

@@ -25,84 +25,84 @@ const glossary = [
   {
     term: "Répartie",
     definition:
-      "Capacité à répondre rapidement et avec à-propos à une remarque, souvent avec humour. La répartie repose sur des techniques précises comme l'accusé de réception, le rebond sur mot-clé ou le retournement. Elle se travaille avec de la pratique régulière.",
+      "Capacité à répondre vite et juste à une remarque, souvent avec humour, pendant que la conversation est encore là (et pas le soir sous la douche). La répartie repose sur des techniques précises comme l'accusé de réception, le rebond sur mot-clé ou le retournement, et elle se travaille comme n'importe quel réflexe : en pratiquant souvent.",
     related: "/conseils",
     relatedLabel: "Techniques de répartie",
   },
   {
     term: "Timing",
     definition:
-      "Art de choisir le moment exact où placer une blague, une pause ou une punchline pour maximiser l'effet comique. Un bon timing inclut les silences, le rythme et la capacité à lire l'audience. C'est souvent la différence entre un éclat de rire et un flop.",
+      "Le choix du moment exact où placer une blague, une pause ou une punchline. Le timing, ce sont les silences, le rythme et la capacité à sentir la salle, que ce soit un comedy club ou un dîner entre amis. C'est souvent ce qui sépare un éclat de rire d'un « ah… d'accord ».",
     related: "/videos",
     relatedLabel: "Voir le timing en action",
   },
   {
     term: "Autodérision",
     definition:
-      "Technique d'humour qui consiste à rire de soi-même avec confiance. L'autodérision désarme l'interlocuteur et montre une sécurité émotionnelle. Ce n'est pas se dévaloriser, mais transformer ses faiblesses en source de rire partagé.",
+      "Technique d'humour qui consiste à rire de soi, sans se démolir. Bien dosée, elle désarme la personne en face et montre que tu es à l'aise avec toi-même. La nuance compte : tu ne te rabaisses pas, tu fais de tes petits défauts une blague que tout le monde peut partager, toi le premier.",
     related: "/conseils",
     relatedLabel: "Apprendre l'autodérision",
   },
   {
     term: "Punchline",
     definition:
-      "La chute d'une blague — la phrase finale qui déclenche le rire. Une bonne punchline est inattendue, concise et crée un décalage avec le setup (la mise en place). Les meilleurs humoristes travaillent leurs punchlines mot par mot.",
+      "La chute d'une blague : la phrase finale qui déclenche le rire. Une bonne punchline est inattendue, courte, et elle prend le setup (la mise en place) à contre-pied. Les meilleurs humoristes la travaillent mot par mot, parce qu'un seul mot de trop suffit à la dégonfler.",
     related: "/vannes",
     relatedLabel: "Exemples de punchlines",
   },
   {
     term: "Storytelling",
     definition:
-      "Art de raconter une histoire de manière captivante et drôle. En humour, le storytelling repose sur 3 ingrédients : une structure claire (situation → complication → chute), des détails sensoriels et un rythme qui maintient l'attention.",
+      "L'art de raconter une histoire drôle sans perdre personne en route. En humour, le storytelling repose sur 3 ingrédients : une structure claire (une situation, une complication, une chute), des détails précis qu'on peut presque voir, et un rythme qui donne envie d'entendre la suite.",
     related: "/parcours",
     relatedLabel: "Parcours storytelling",
   },
   {
     term: "One-liner",
     definition:
-      "Blague courte en une seule phrase, facile à retenir et à ressortir. Le one-liner est l’arme secrète en société : il ne demande pas de contexte et fonctionne dans toutes les situations. Idéal pour débuter.",
+      "Blague courte en une seule phrase, facile à retenir et à ressortir. Le one-liner est l’arme la plus légère à emporter en soirée : il ne demande pas de contexte et passe presque partout. C'est le format idéal pour débuter, parce que s'il ne prend pas, la conversation a déjà repris avant que quelqu'un le remarque.",
     related: "/vannes",
     relatedLabel: "Voir les one-liners",
   },
   {
     term: "Observationnel",
     definition:
-      "Style d'humour basé sur l'observation du quotidien. L'humoriste décrit des situations que tout le monde vit mais que personne ne formule. Roman Frayssinet, Fary et Blanche Gardin sont des maîtres de l'humour observationnel en France.",
+      "Style d'humour qui part de l'observation du quotidien : l'humoriste décrit ce que tout le monde vit sans jamais le dire à voix haute, et le public rit de se reconnaître. Roman Frayssinet, Fary et Blanche Gardin sont des maîtres de l'humour observationnel en France.",
     related: "/videos",
     relatedLabel: "Vidéos observationnelles",
   },
   {
     term: "Setup",
     definition:
-      "La mise en place d'une blague — la partie qui crée l'attente avant la punchline. Un bon setup oriente l'audience dans une direction pour que la chute crée un effet de surprise. Plus le setup est crédible, plus la punchline est drôle.",
+      "La mise en place d'une blague : la partie qui crée l'attente avant la punchline. Un bon setup emmène le public dans une direction pour que la chute l'envoie dans une autre. Plus le setup est crédible, plus la surprise est forte, et plus la punchline est drôle.",
     related: "/blog",
     relatedLabel: "Guide des techniques",
   },
   {
     term: "Callback",
     definition:
-      "Technique qui consiste à faire référence à une blague précédente plus tard dans la conversation. Le callback récompense l'audience attentive et crée un sentiment de complicité. Très utilisé en stand-up et en conversation de groupe.",
+      "Technique qui consiste à ressortir une blague déjà faite, plus tard dans la conversation. Le callback récompense ceux qui ont suivi et donne à tout le monde l'impression de partager une private joke, alors qu'elle est née pendant l'apéro. Très utilisé en stand-up comme entre potes.",
     related: "/conseils",
     relatedLabel: "Techniques avancées",
   },
   {
     term: "Escalade comique",
     definition:
-      "Technique de répartie où l'on surenchérit sur une remarque en l'exagérant de manière absurde. Au lieu de nier ou de se justifier, on pousse le propos encore plus loin pour créer un effet comique. Fary et Paul Mirabel l'utilisent régulièrement en spectacle.",
-    related: "/blog",
-    relatedLabel: "7 techniques de répartie",
+      "Technique de répartie où tu surenchéris sur une remarque en l'exagérant jusqu'à l'absurde. Au lieu de nier ou de te justifier, tu pousses le propos encore plus loin que la personne en face, qui se retrouve à devoir te retenir. Fary et Paul Mirabel l'utilisent régulièrement en spectacle.",
+    related: "/blog/comment-avoir-de-la-repartie",
+    relatedLabel: "10 techniques de répartie",
   },
   {
     term: "Accusé de réception",
     definition:
-      "Première technique de répartie : face à une remarque, on commence par accuser réception (« Intéressant », « Pas faux », « Bien vu ») pour gagner 2-3 secondes et formuler sa vraie réponse. Simple et redoutablement efficace.",
+      "Première technique de répartie : face à une remarque, tu commences par accuser réception (« Intéressant », « Pas faux », « Bien vu ») pour gagner 2-3 secondes et trouver ta vraie réponse. Vu de l'extérieur, tu as l'air de réfléchir calmement, alors qu'en dedans c'est la panique au standard.",
     related: "/conseils",
     relatedLabel: "Pratiquer la technique",
   },
   {
     term: "Rebond sur mot-clé",
     definition:
-      "Technique de répartie qui consiste à prendre un mot dans la phrase de l'interlocuteur et à construire sa réponse dessus. Exemple : « T'es toujours en retard » → rebond sur « toujours » : « Toujours ? La dernière fois j'étais à l'heure, c'est juste que personne ne m'a vu. »",
+      "Technique de répartie qui consiste à attraper un mot dans la phrase de l'autre et à construire ta réponse dessus. Exemple : « T'es jamais content », et tu rebondis sur « jamais » : « Si, une fois. Le serveur s'était trompé dans l'addition. En ma faveur. »",
     related: "/conseils",
     relatedLabel: "Exercices de rebond",
   },
@@ -137,10 +137,10 @@ export default function GlossairePage() {
           Glossaire humour : les termes à connaître pour devenir drôle
         </h1>
         <p className="mt-2 text-text-secondary">
-          Répartie, timing, autodérision, punchline... Les termes clés de
-          l&apos;humour expliqués simplement, avec des exemples concrets.
-          Le vocabulaire pour comprendre les techniques — et surtout les
-          utiliser.
+          Répartie, timing, autodérision, punchline… Les mots que les
+          humoristes utilisent entre eux, expliqués simplement et avec des
+          exemples concrets. Parce que savoir comment s&apos;appelle une
+          technique, c&apos;est déjà un peu savoir s&apos;en servir.
         </p>
       </div>
 
@@ -169,11 +169,11 @@ export default function GlossairePage() {
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <h2 className="font-display mb-4 text-xl font-bold">Passe de la théorie à la pratique</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Mets ces termes en pratique avec des vannes prêtes à ressortir.</p>
+            <p className="mt-1 text-xs text-text-secondary">Repère le setup, la punchline et le timing dans des vannes prêtes à ressortir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
@@ -181,7 +181,7 @@ export default function GlossairePage() {
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
-            <p className="mt-1 text-xs text-text-secondary">Découvre l&apos;équipe et la mission derrière deviens-marrant.fr.</p>
+            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l&apos;humour s&apos;apprend.</p>
           </Link>
         </div>
       </nav>
@@ -189,12 +189,12 @@ export default function GlossairePage() {
       {/* CTA */}
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
         <p className="font-display text-xl font-bold text-text-primary">
-          Prêt à mettre ces termes en pratique ?
+          Le vocabulaire, c&apos;est fait. Place aux rires.
         </p>
         <p className="mt-2 text-text-secondary">
-          Des exercices concrets, des parcours pas à pas, et un système de
-          progression. Parce que connaître le vocabulaire c&apos;est bien,
-          faire rire c&apos;est mieux.
+          Des exercices concrets, des parcours étape par étape et tes XP pour
+          voir le chemin parcouru. Connaître le mot « callback », c&apos;est
+          bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
         <Link href="/abonnement" className="mt-4 inline-block">
           <button className="rounded-lg bg-accent-primary px-6 py-3 font-medium text-white hover:bg-accent-primary/90">

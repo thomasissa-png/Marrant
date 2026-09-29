@@ -37,9 +37,9 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     humoriste: "Roman Frayssinet",
     emoji: "🔍",
     description:
-      "Tu repères les détails absurdes du quotidien que personne ne voit. Ton humour vient de l'observation chirurgicale — une phrase suffit pour faire mouche.",
-    strength: "Tes vannes sont toujours pertinentes parce qu'elles parlent de la vraie vie.",
-    tip: "Entraîne-toi à noter une observation drôle par jour dans ton téléphone. En 1 mois, tu auras un répertoire.",
+      "Tu remarques ce que tout le monde a sous les yeux sans jamais le voir : le collègue qui imprime un mail pour le relire, puis le scanne pour te le renvoyer, le groupe de messages qui s'appelle encore « Anniv de Julie », des années après la fête. Une phrase bien placée te suffit.",
+    strength: "Tes vannes tombent juste parce qu'elles parlent de choses que les autres ont vécues, mais jamais formulées.",
+    tip: "Note une observation drôle par jour dans ton téléphone. En 1 mois, tu as un stock que personne d'autre n'a.",
     color: "#22C55E",
     recommendedPath: "/conseils",
   },
@@ -49,9 +49,9 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     humoriste: "Paul Mirabel",
     emoji: "📖",
     description:
-      "Tu transformes la moindre anecdote en sketch. Ton secret : l'escalade comique et le naturel absolu. Les gens s'accrochent à tes histoires.",
-    strength: "Tu captives ton audience — quand tu racontes, personne ne regarde son téléphone.",
-    tip: "Structure tes anecdotes en 3 temps : situation normale → détail bizarre → chute inattendue.",
+      "Chez toi, un trajet en bus devient une épopée en trois actes. Tu fais monter la tension tranquillement, avec l'air de ne pas y toucher, et les autres attendent la suite.",
+    strength: "Quand tu racontes, les téléphones restent dans les poches, même celui qui vibre.",
+    tip: "Construis tes anecdotes en 3 temps : une situation banale, un détail qui cloche, puis une chute que personne n'a vue venir.",
     color: "#8B5CF6",
     recommendedPath: "/parcours",
   },
@@ -61,9 +61,9 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     humoriste: "Fary",
     emoji: "🌀",
     description:
-      "Tu surprends en permanence. Tes associations d'idées sont imprévisibles, tes pivots inattendus. Personne ne sait où tu vas — et c'est ça qui fait rire.",
-    strength: "Ton humour est impossible à copier. C'est 100% toi.",
-    tip: "Quand tu penses à une blague évidente, pousse-la un cran plus loin dans l'absurde. Le premier réflexe est rarement le plus drôle.",
+      "Tu relies des idées que personne n'aurait mises dans la même phrase, et tu le fais avec un sérieux total. Les autres ne savent jamais où tu vas, toi non plus parfois, et c'est exactement ce qui les fait rire.",
+    strength: "Ton humour est difficile à imiter : c'est 100% toi, et ça s'entend.",
+    tip: "Quand une blague évidente te vient, garde-la et pousse-la un cran plus loin dans l'absurde. Le premier réflexe est rarement le plus drôle.",
     color: "#EC4899",
     recommendedPath: "/videos",
   },
@@ -73,9 +73,9 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     humoriste: "Blanche Gardin",
     emoji: "💥",
     description:
-      "Peu de mots, maximum d'impact. Tu maîtrises les silences, l'autodérision et les chutes qui claquent. Chaque phrase compte.",
-    strength: "Tu fais rire en 10 mots là où d'autres en mettent 50.",
-    tip: "Relis chaque vanne et supprime les mots inutiles. La version la plus courte est presque toujours la meilleure.",
+      "Tu parles peu, mais quand tu parles, la table se tait une seconde avant de rire. Tu sais te servir d'un silence, rire de toi sans te démolir et couper ta phrase au bon mot.",
+    strength: "Tu fais rire en 10 mots là où d'autres en mettent 50, et chez eux, les mots en trop sont souvent des « en fait ».",
+    tip: "Relis chaque vanne et enlève tous les mots qui ne servent pas la chute. La version la plus courte est presque toujours la meilleure.",
     color: "#EF4444",
     recommendedPath: "/vannes",
   },
@@ -85,9 +85,9 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     humoriste: "Waly Dia",
     emoji: "😏",
     description:
-      "Tu as de la répartie à revendre. Tu rebondis sur tout, tu chambres avec bienveillance, et tu retournes n'importe quelle situation avec un sourire.",
-    strength: "En conversation, tu es inarrêtable. Tu fais rire sans même essayer.",
-    tip: "Travaille le 'oui, et...' de l'impro : au lieu de bloquer, rebondis toujours sur ce que l'autre dit.",
+      "Tu rebondis sur tout, tu chambres sans jamais viser en dessous de la ceinture, et la personne que tu taquines finit souvent par rire plus fort que les autres.",
+    strength: "En conversation, tu renvoies chaque balle, et on a toujours envie de t'en lancer une autre.",
+    tip: "Travaille le « oui, et… » de l'impro : au lieu de contredire, prends ce que l'autre vient de dire et emmène-le plus loin.",
     color: "#F59E0B",
     recommendedPath: "/conseils",
   },
@@ -98,7 +98,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: "En soirée, t'es plutôt...",
     options: [
       {
-        label: "Tu observes et tu places LA vanne au bon moment",
+        label: "Tu observes en silence, puis tu places la vanne au bon moment",
         emoji: "🎯",
         scores: { OBSERVATEUR: 3, PUNCHLINEUR: 1 },
       },
@@ -108,12 +108,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { STORYTELLER: 3, ABSURDE: 1 },
       },
       {
-        label: "Tu sors un truc tellement random que ça fait rire",
+        label: "Tu sors un truc tellement inattendu que tout le monde rit, toi compris",
         emoji: "🤯",
         scores: { ABSURDE: 3, TAQUIN: 1 },
       },
       {
-        label: "Tu chambres tout le monde avec amour",
+        label: "Tu chambres tout le monde, avec tendresse",
         emoji: "😏",
         scores: { TAQUIN: 3, OBSERVATEUR: 1 },
       },
@@ -128,17 +128,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { OBSERVATEUR: 3, STORYTELLER: 1 },
       },
       {
-        label: "Une histoire qui monte, qui monte... et BAM la chute",
+        label: "Une histoire qui monte, qui monte… jusqu'à la chute que personne n'attendait",
         emoji: "📈",
         scores: { STORYTELLER: 3, PUNCHLINEUR: 1 },
       },
       {
-        label: "Un truc tellement absurde que t'as pas le choix de rire",
+        label: "Un truc tellement absurde que tu ris avant d'avoir compris pourquoi",
         emoji: "🦄",
         scores: { ABSURDE: 3, TAQUIN: 1 },
       },
       {
-        label: "Une punchline courte et chirurgicale",
+        label: "Une punchline courte, sans un mot de trop",
         emoji: "⚡",
         scores: { PUNCHLINEUR: 3, OBSERVATEUR: 1 },
       },
@@ -148,7 +148,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: "Quand quelqu'un te chambre...",
     options: [
       {
-        label: "Tu notes mentalement le truc pour le ressortir plus tard",
+        label: "Tu encaisses, et tu gardes la réponse pour le bon moment",
         emoji: "📝",
         scores: { OBSERVATEUR: 2, PUNCHLINEUR: 2 },
       },
@@ -163,14 +163,14 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { ABSURDE: 3, STORYTELLER: 1 },
       },
       {
-        label: "Tu retournes la chambre en 2 secondes",
+        label: "Tu renvoies la pique à l'expéditeur en 2 secondes",
         emoji: "🪃",
         scores: { TAQUIN: 3, PUNCHLINEUR: 1 },
       },
     ],
   },
   {
-    question: "Ton humoriste préféré(e), c'est...",
+    question: "Si tu devais piquer le style d'un humoriste...",
     options: [
       {
         label: "Roman Frayssinet — simplicité et précision",
@@ -195,7 +195,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "À la machine à café, tu...",
+    question: "À la machine à café...",
     options: [
       {
         label: "Tu fais une remarque sur un truc absurde du bureau",
@@ -208,7 +208,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Tu inventes un scénario catastrophe délirant",
+        label: "Tu racontes à voix haute le chaos du bureau le jour où la machine lâchera",
         emoji: "🔥",
         scores: { ABSURDE: 3 },
       },
@@ -233,37 +233,37 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { STORYTELLER: 3, PUNCHLINEUR: 1 },
       },
       {
-        label: "Le moment WTF où tu t'y attendais pas du tout",
+        label: "Le moment où ça part dans une direction que tu n'avais pas vue venir",
         emoji: "😱",
         scores: { ABSURDE: 3 },
       },
       {
-        label: "La punchline — tu la ressors le lendemain",
+        label: "La punchline, que tu ressors dès le lendemain",
         emoji: "🗣️",
         scores: { TAQUIN: 2, PUNCHLINEUR: 2 },
       },
     ],
   },
   {
-    question: "Ton style de SMS / messages...",
+    question: "Par message, t'es plutôt...",
     options: [
       {
-        label: "Tu envoies des screenshots de trucs absurdes du quotidien",
+        label: "Captures d'écran de panneaux et d'étiquettes absurdes croisés dans la journée",
         emoji: "📸",
         scores: { OBSERVATEUR: 3 },
       },
       {
-        label: "Tu écris des pavés hilarants sur ta journée",
+        label: "Pavés sur ta journée, que tes potes lisent jusqu'au bout",
         emoji: "📱",
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Tes réponses sont tellement random que tes potes sont perdus",
+        label: "Réponses tellement à côté que tes potes relisent leur propre message",
         emoji: "🤪",
         scores: { ABSURDE: 3, TAQUIN: 1 },
       },
       {
-        label: "Tu réponds en une ligne qui fait mouche",
+        label: "Une ligne, pas plus, et elle suffit",
         emoji: "💬",
         scores: { PUNCHLINEUR: 3, TAQUIN: 1 },
       },
@@ -278,7 +278,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { OBSERVATEUR: 2, ABSURDE: 2 },
       },
       {
-        label: "Tu racontes ton stress comme si c'était un film catastrophe",
+        label: "Tu racontes ton stress comme la bande-annonce d'un film catastrophe",
         emoji: "🎥",
         scores: { STORYTELLER: 3, ABSURDE: 1 },
       },
@@ -288,14 +288,14 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { ABSURDE: 3 },
       },
       {
-        label: "Tu balances une vanne cynique parfaitement calibrée",
+        label: "Tu lâches une vanne pince-sans-rire, et la pression retombe",
         emoji: "🎯",
         scores: { PUNCHLINEUR: 3, TAQUIN: 1 },
       },
     ],
   },
   {
-    question: "En date / rendez-vous, tu mises sur...",
+    question: "En rencard, tu mises sur...",
     options: [
       {
         label: "Des remarques fines sur ce qui se passe autour de vous",
@@ -308,37 +308,37 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Des associations d'idées surprenantes qui la/le font décrocher",
+        label: "Des associations d'idées si inattendues qu'on en oublie son assiette",
         emoji: "🌈",
         scores: { ABSURDE: 3 },
       },
       {
-        label: "Du tac-au-tac et des répliques qui créent de la complicité",
+        label: "Du tac au tac, jusqu'à ce que vous ayez vos blagues à vous",
         emoji: "⚡",
         scores: { TAQUIN: 3, PUNCHLINEUR: 1 },
       },
     ],
   },
   {
-    question: "Tes potes diraient que tu es...",
+    question: "Tes potes diraient...",
     options: [
       {
-        label: "Le/la plus observateur(trice) du groupe",
+        label: "Qu'aucun détail ne t'échappe, même ceux qu'on aurait préféré cacher",
         emoji: "🦉",
         scores: { OBSERVATEUR: 3 },
       },
       {
-        label: "Celui/celle qui raconte les meilleures histoires",
+        label: "Que c'est toi qu'on appelle pour raconter la soirée à ceux qui n'étaient pas là",
         emoji: "🌟",
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Le/la plus imprévisible — on sait jamais ce que tu vas sortir",
+        label: "Qu'on ne sait jamais ce que tu vas sortir, et que c'est pour ça qu'on t'invite",
         emoji: "🎰",
         scores: { ABSURDE: 3 },
       },
       {
-        label: "Le/la roi/reine de la punchline — t'as toujours le dernier mot",
+        label: "Que tu as toujours le dernier mot, même dans le groupe de la famille",
         emoji: "👑",
         scores: { PUNCHLINEUR: 2, TAQUIN: 2 },
       },
@@ -358,7 +358,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Un concept complètement barré qui part en vrille",
+        label: "Une idée complètement barrée, défendue jusqu'au bout avec le plus grand sérieux",
         emoji: "💫",
         scores: { ABSURDE: 3 },
       },
@@ -370,7 +370,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Ton motto dans la vie, c'est...",
+    question: "Ta devise, ce serait...",
     options: [
       {
         label: "\"Le diable est dans les détails — et les vannes aussi\"",

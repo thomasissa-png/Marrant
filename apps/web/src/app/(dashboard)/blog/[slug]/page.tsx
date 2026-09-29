@@ -273,7 +273,7 @@ export default async function BlogArticlePage({
       {relatedArticles.length > 0 && (
         <div className="mt-12 border-t border-border pt-8">
           <h2 className="font-display text-xl font-bold text-text-primary">
-            Continue ta progression
+            À lire ensuite
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
             {relatedArticles.map((related) => (

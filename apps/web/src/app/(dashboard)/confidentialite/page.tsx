@@ -68,7 +68,7 @@ export default function ConfidentialitePage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Transferts de données</h2>
-          <p>Certaines données peuvent être transférées vers des sous-traitants situés en dehors de l&apos;Union Européenne (Replit, Stripe, Google pour OAuth). Ces transferts sont encadrés par des clauses contractuelles types approuvées par la Commission Européenne.</p>
+          <p>Certaines données peuvent être transférées vers des sous-traitants situés en dehors de l&apos;Union européenne (Replit, Stripe, Google pour OAuth). Ces transferts sont encadrés par des clauses contractuelles types approuvées par la Commission européenne.</p>
         </section>
       </div>
     </>

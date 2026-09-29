@@ -212,7 +212,7 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     expect(
-      screen.getByText("Envie de passer à l'action ?")
+      screen.getByText("Maintenant, reste à le dire à voix haute")
     ).toBeInTheDocument();
     // Double CTA — essai gratuit + premium (fix conversion s11 lot 2)
     expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
@@ -234,7 +234,7 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     expect(
-      screen.getByText("Continue ta progression")
+      screen.getByText("À lire ensuite")
     ).toBeInTheDocument();
   });
 

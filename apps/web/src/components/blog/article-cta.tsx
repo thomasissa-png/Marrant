@@ -29,11 +29,12 @@ export function ArticleCta({ freeCallbackUrl = "/onboarding" }: ArticleCtaProps)
   return (
     <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
       <p className="font-display text-xl font-bold text-text-primary">
-        Envie de passer à l&apos;action ?
+        Maintenant, reste à le dire à voix haute
       </p>
       <p className="mt-2 text-text-secondary">
-        Des exercices concrets, des parcours pas à pas, et un système de
-        progression qui te motive chaque jour.
+        Des exercices concrets, des parcours étape par étape et des XP pour
+        voir le chemin parcouru. Parce qu&apos;un article lu finit par
+        s&apos;oublier, alors qu&apos;un réflexe entraîné reste.
       </p>
 
       <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">

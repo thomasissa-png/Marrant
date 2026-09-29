@@ -9,14 +9,14 @@ export function HomeScreen() {
 
       {/* Blague du jour */}
       <View style={styles.card}>
-        <Text style={styles.badge}>Blague du jour</Text>
-        <Text style={styles.cardText}>Chargement...</Text>
+        <Text style={styles.badge}>Vanne du jour</Text>
+        <Text style={styles.cardText}>La vanne du jour s&apos;échauffe en coulisses…</Text>
       </View>
 
       {/* Conseil du jour */}
       <View style={styles.card}>
         <Text style={[styles.badge, styles.badgeOrange]}>Conseil du jour</Text>
-        <Text style={styles.cardText}>Chargement...</Text>
+        <Text style={styles.cardText}>Le conseil du jour finit son café…</Text>
       </View>
     </ScrollView>
   );
