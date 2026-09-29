@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s12 (29/09/2026) : passe visuelle @design (code front uniquement)
+
+> Aucune action Replit : aucun secret, aucune migration, aucune donnée modifiée. Déploiement prévu sur Cloudflare (branche `claude/marrant-s10-session-recovery-CtZyw`). Détail des correctifs : `docs/design/passe-visuelle-s12.md` (T1 à T12).
+> Commits `7906100` (titres équilibrés, insécables au rendu, moteur markdown : citations `>`, séparateurs `---`, listes après intro), `5ad5b42` (contrastes AA, token `accent-link`), `d35cf73` (largeurs de page, dates et catégories en français), `483d96a` (cartes alignées, emojis, puces vidéo). Texte des articles/vannes en base inchangé.
+
 ## ⭐ s11 (29/09/2026) — Déploiement de la branche `claude/marrant-s10-session-recovery-CtZyw`
 
 > Contexte : la génération IA (vannes, conseils, blog, social, vidéos) était à l'arrêt depuis le 15/06/2026 — le modèle `claude-sonnet-4-20250514` a été retiré par Anthropic. Le code est migré sur **Claude Sonnet 5.5** (`claude-sonnet-5-5`) + **Opus 5.5** pour le rapport CEO, Haiku supprimé, SDK `@anthropic-ai/sdk` 0.129.
