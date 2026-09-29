@@ -60,16 +60,33 @@ export async function GET() {
     // Fallback : contenu déterministe basé sur le jour de l'année
     const dayOfYear = getDayOfYear(today);
 
-    // Vanne du jour de repli : uniquement parmi les vannes décortiquées (la
-    // valeur du produit = « Pourquoi ça marche » + « À toi de jouer ») ;
-    // retour à toutes les vannes actives si aucune ne l'est encore.
-    const decryptedCount = await prisma.joke.count({
+    // Vanne du jour de repli :
+    //  1. On préfère les vannes décortiquées ET validées par la relecture s11
+    //     (copyVerdict GARDER ou REECRIRE — le décryptage est plein, la charte
+    //     s11 a été appliquée).
+    //  2. Si aucune n'est encore relue (transition), on garde le filtre
+    //     historique "au moins un décryptage".
+    //  3. En dernier recours, toutes les vannes actives (pré-décryptage).
+    const reviewedCount = await prisma.joke.count({
+      where: {
+        isActive: true,
+        comedyTechnique: { not: null },
+        copyVerdict: { in: ["GARDER", "REECRIRE"] },
+      },
+    });
+    const decryptedCount = reviewedCount > 0 ? reviewedCount : await prisma.joke.count({
       where: { isActive: true, comedyTechnique: { not: null } },
     });
     const jokeWhere =
-      decryptedCount > 0
-        ? { isActive: true, comedyTechnique: { not: null } }
-        : { isActive: true };
+      reviewedCount > 0
+        ? {
+            isActive: true,
+            comedyTechnique: { not: null },
+            copyVerdict: { in: ["GARDER", "REECRIRE"] },
+          }
+        : decryptedCount > 0
+          ? { isActive: true, comedyTechnique: { not: null } }
+          : { isActive: true };
 
     const [jokeCount, tipCount, videoCount] = await Promise.all([
       prisma.joke.count({ where: jokeWhere }),

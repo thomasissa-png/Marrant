@@ -464,6 +464,48 @@ export async function register() {
   };
 
   /**
+   * Job 11 : Relecture automatique du corpus (charte s11) — TIME-GATED + LOCK + KILL-SWITCH
+   *
+   * Passe quotidienne du Copy Review Agent : Sonnet relit un lot borné de
+   * vannes/conseils générés (generatedByAI=true) et applique la charte s11
+   * (GARDER / RÉÉCRIRE / RETIRER). Chaque réécriture est ensuite validée par
+   * le Stand-Up Director (score ≥ 8) avant d'écrire en DB. Réversibilité
+   * garantie via `originalContent` / `originalPunchline` / `originalTitle`.
+   *
+   * Fenêtre : 3h-4h UTC (créneau calme, hors slot daily-content à 5h).
+   * Kill-switch : `COPY_REVIEW_ENABLED=false` court-circuite avant lock.
+   * Lock : TTL 30 min (le batch de 25+25 items peut prendre plusieurs minutes).
+   * Batch : `COPY_REVIEW_BATCH` (défaut 25 vannes + 25 conseils).
+   *
+   * Idempotence : la sélection SQL filtre sur `copyReviewVersion` — seuls les
+   * items non relus pour la version courante (`COPY_REVIEW_VERSION`) passent.
+   */
+  const runCopyReviewJob = async () => {
+    try {
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+      if (utcHour !== 3 && utcHour !== 4) return;
+
+      const { isCopyReviewEnabled } = await import("@/lib/ai/copy-review-runner");
+      if (!isCopyReviewEnabled()) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("copy-review", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 30 * 60 * 1000);
+      if (!lockAcquired) return;
+
+      try {
+        const { runCopyReviewBatch } = await import("@/lib/ai/copy-review-runner");
+        await runCopyReviewBatch(now);
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:copy-review] Échec :", err);
+    }
+  };
+
+  /**
    * Orchestrateur : exécute les 10 jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    *
@@ -482,6 +524,7 @@ export async function register() {
     await runSeoReportJob();
     await runCeoTickJob();
     await runCeoKpisJob();
+    await runCopyReviewJob();
   };
 
   // Tâches de démarrage idempotentes (auto-seed CeoConfig + cleanup WILD_CARD).
@@ -505,5 +548,5 @@ export async function register() {
     });
   }, 30_000);
 
-  console.log("[scheduler] Initialisé — 10 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report + CEO tick + CEO KPIs) — check toutes les 15 min.");
+  console.log("[scheduler] Initialisé — 11 jobs (daily + SEO blog + monthly plans + social media + SEO audit + SEO report + CEO tick + CEO KPIs + copy review) — check toutes les 15 min.");
 }
