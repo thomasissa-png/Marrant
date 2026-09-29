@@ -82,8 +82,8 @@ export async function generateMetadata({
   const rawTitle = `${titlePrefix}${truncateAtWord(setup, TITLE_MAX - titlePrefix.length)}`;
   // Description : le début de la vanne (la chute reste sur la page) + la
   // promesse de la page (pourquoi ça marche + comment la replacer).
-  // « 300+ » conservé tel quel (choix fondateur : aucun chiffre remplacé sans GO) — cf. passe-finale-s11 §8.
-  const descSuffix = " La chute est sur la page, avec 300+ autres vannes par situation.";
+  // « 600+ » = nombre réel de vannes actives en prod (602 au 29/09/2026, GO Thomas : chiffres justes).
+  const descSuffix = " La chute est sur la page, avec 600+ autres vannes par situation.";
   const descPrefix = `Vanne ${label.toLowerCase()} à ressortir : `;
   const description = `${descPrefix}${truncateAtWord(setup, 160 - descPrefix.length - descSuffix.length)}${descSuffix}`;
 

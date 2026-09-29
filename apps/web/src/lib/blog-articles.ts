@@ -1318,7 +1318,7 @@ Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "l
 
 ## L'art de la **phrase drôle** : pourquoi certaines marchent
 
-Les 30 phrases au-dessus ont un point commun : elles sont **courtes** (moins de 25 mots), elles parlent de **situations universelles**, et la chute arrive **là où on ne l'attend pas**.
+Les 33 phrases au-dessus ont un point commun : elles sont **courtes** (moins de 25 mots), elles parlent de **situations universelles**, et la chute arrive **là où on ne l'attend pas**.
 
 C'est exactement ce que Roman Frayssinet fait sur scène : il part d'un truc banal et tourne à un endroit imprévisible. La mécanique :
 
@@ -3767,7 +3767,7 @@ Ces micro-retours alimentent la confiance. La confiance alimente la prise de par
 
 Que tu sois étudiant et que tu galères en soirée alors que tu sais être drôle en tête-à-tête — les techniques 1, 2 et 6 sont tes meilleures alliées. Que tu commences un nouveau job et que les conversations entre collègues te paraissent fermées — la technique du piggyback (5) et de la question idiote (4) ouvrent les portes. Ou que tu reprennes le fil social après une période difficile — le niveau 1 d'entraînement (micro-interactions) te remet en route sans pression.
 
-Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) — une progression de 30 jours pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 0,99 EUR/mois : moins cher qu'une bière, et nettement plus utile la prochaine fois que tu seras dans un groupe.`,
+Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) — une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 0,99 EUR/mois : moins cher qu'une bière, et nettement plus utile la prochaine fois que tu seras dans un groupe.`,
     date: "2026-05-05",
     updatedAt: "2026-09-29",
     readingTime: "10 min",

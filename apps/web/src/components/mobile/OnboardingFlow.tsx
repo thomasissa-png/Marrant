@@ -175,7 +175,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">🔔</div>
           <h2 className="text-3xl font-bold mb-3">{PERSONA_MESSAGES[persona]}</h2>
           <p className="text-gray-300 mb-8">
-            On t&apos;envoie une vanne par jour à 9h, le temps de la relire avant de la sortir au
+            On t&apos;envoie une vanne chaque matin, le temps de la relire avant de la sortir au
             boulot, en cours ou à la machine à café.
           </p>
           <button

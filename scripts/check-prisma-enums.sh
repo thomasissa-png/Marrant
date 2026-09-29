@@ -60,6 +60,14 @@ PRO HD 4K
 SEO GEO LTV CAC MRR ARR ROI KPI TTFB
 SPAN
 
+# Constantes internes (non-enum) — s10/s11 : verdicts copy-review, sources et
+# segments CEO backlinks, constantes SEO, mot-clé opt-out, env webhook, tâches boot
+REMOVE RETIRER REWRITE RSS_FEED SOURCEBOTTLE WARM STOP WILD_CARD
+SEO_REDIRECTS UNPUBLISHED_STATIC_SLUGS RESEND_WEBHOOK_SECRET
+# Faux positifs existants (commentaires, prompts, fixtures de test, codes d'erreur, marqueurs)
+AAAA BBBB ACTIF ADRESSE_POSTALE_PLACEHOLDER CEO_FOOTER_V1 CEO_OUTBOUND COACH CONNECTIVELY
+DB_LOSER_SLUGS ENGAGED GARDER HUMOUR INTERNAL KEEP P1001 RECEIVED REECRIRE
+
 # Codes erreurs Node.js (lib/ai/client.ts retry handler)
 ECONNREFUSED ECONNRESET EHOSTUNREACH ETIMEDOUT ENOTFOUND ECONNABORTED EPIPE
 

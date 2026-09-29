@@ -33,7 +33,7 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
     duration: "4 semaines",
     headline: "Ces techniques, entraîne-les dans un parcours guidé",
     bullets: [
-      "Un exercice concret par jour, 10 min max",
+      "Une étape par semaine, environ 20 minutes",
       "Des situations que tu connais : le chambrage entre potes, la pique en TD, le raté à rattraper",
       "Des XP à chaque étape validée, pour mesurer le chemin parcouru",
     ],
@@ -83,7 +83,7 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
     bullets: [
       "Du chambrage bienveillant à l'impro : tu vois vite dans quel registre tu es à l'aise",
       "Une étape par semaine, chacune un cran au-dessus de la précédente",
-      "Résultats visibles sous 2-3 semaines",
+      "4 étapes en 4 semaines, à ton rythme",
     ],
     cta: "Lancer le parcours",
   },
