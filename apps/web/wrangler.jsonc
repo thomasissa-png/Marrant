@@ -15,7 +15,10 @@
 	"preview_urls": true,
 	"assets": {
 		"directory": ".open-next/assets",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		// Chunks Next des groupes de routes « (dashboard) »/« (auth) » : passent par le
+		// Worker (cloudflare/worker.ts) pour éviter la boucle 307 %28 ↔ ( de la couche assets.
+		"run_worker_first": ["/_next/static/chunks/app/*"]
 	},
 	"services": [
 		{

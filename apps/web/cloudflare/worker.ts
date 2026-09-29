@@ -52,6 +52,27 @@ const handler = openNextHandler as OpenNextHandler;
 
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: ExecutionContextLike): Promise<Response> {
+    const url = new URL(request.url);
+    // Chunks des groupes de routes « (dashboard) » et des segments « [slug] » : la
+    // couche assets redirige (307) vers sa forme canonique d'encodage (%28 ↔ (,
+    // [ ↔ %5B), que certains navigateurs redemandent sous l'autre forme : boucle
+    // ERR_TOO_MANY_REDIRECTS et page blanche. On suit ces redirections côté Worker
+    // et on sert le fichier final directement (run_worker_first dans wrangler.jsonc).
+    if (url.pathname.startsWith("/_next/static/")) {
+      const assets = env.ASSETS as { fetch(req: Request): Promise<Response> } | undefined;
+      if (assets) {
+        const seen = new Set<string>();
+        let target = url.toString();
+        for (let hop = 0; hop < 4 && !seen.has(target); hop++) {
+          seen.add(target);
+          const res = await assets.fetch(new Request(target, { method: request.method, headers: request.headers }));
+          const location = res.status >= 300 && res.status < 400 ? res.headers.get("location") : null;
+          if (!location) return res;
+          target = new URL(location, target).toString();
+        }
+        return new Response("Not found", { status: 404 });
+      }
+    }
     const response = await handler.fetch(request, env, ctx);
     // Adresse de test *.workers.dev : jamais indexée (doublon SEO du domaine de prod).
     if (new URL(request.url).hostname.endsWith(".workers.dev")) {
