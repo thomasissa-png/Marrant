@@ -139,3 +139,10 @@ Compatibilité avec le `schema.prisma` de la branche : **0 colonne perdue**. La 
 
 - Aucune vanne, aucun conseil ni post social générés depuis le **15/06/2026** ; dernier contenu du jour : 12/09/2026.
 - Cause : les agents IA appellent un modèle retiré (`claude-sonnet-4-2025…`) → **100 % d'erreurs 404** (~3 500 appels en 7 jours, 0 $ facturé). La branche s11 utilise les modèles actuels (vérifié via `/api/health` du Worker de test) : la bascule règle le problème. Pas de redéploiement Replit (décision fondateur du 29/09).
+
+## 10. Étape C : zone Cloudflare (29/09/2026, accord explicite de Thomas)
+
+- Zone `deviens-marrant.fr` ajoutée (id `d650dd78a6786e01a67d50096137eb53`, offre Free, statut `pending` tant que les NS IONOS ne changent pas). Serveurs DNS attribués : **`johnny.ns.cloudflare.com`**, **`treasure.ns.cloudflare.com`**.
+- L'import automatique n'a rien trouvé : les 15 enregistrements ont été créés à la main depuis le DNS public (TTL 3600, **tous en DNS only**, A @ toujours vers Replit 34.111.179.208).
+- Contrôle : diff automatique zone Cloudflare ↔ DNS public = **identique (15/15)**, 0 enregistrement proxifié, DNSSEC désactivé des deux côtés.
+- Reste (GO Thomas) : remplacer chez IONOS les 4 serveurs `ui-dns` par les 2 serveurs Cloudflare. Sans effet visible (le site reste sur Replit, e-mails IONOS et Resend inchangés), propagation jusqu'à 48 h : à faire **avant** la bascule pour que celle-ci (étape D) se limite à changer l'enregistrement A @ / www dans Cloudflare (minutes, réversible).
