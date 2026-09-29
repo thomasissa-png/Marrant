@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { frTypo } from "@/lib/fr-typo";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { AuthModal } from "@/components/auth/auth-modal";
@@ -31,9 +32,9 @@ export function HeroSection() {
         <span className="block">On va arranger ça.</span>
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
-        Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
-        à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les
-        techniques et les exercices. Toi, tu ramènes ta motivation.
+        {frTypo(
+          "Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les techniques et les exercices. Toi, tu ramènes ta motivation.",
+        )}
       </p>
 
       {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}

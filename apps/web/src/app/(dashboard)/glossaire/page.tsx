@@ -7,6 +7,7 @@ import {
 } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/layout/page-header";
 import { frTypo } from "@/lib/fr-typo";
+import { buttonVariants } from "@/components/ui/button";
 
 /** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
 const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
@@ -220,10 +221,8 @@ export default function GlossairePage() {
           voir le chemin parcouru. Connaître le mot « callback », c&apos;est
           bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
-        <Link href="/abonnement" className="mt-4 inline-block">
-          <button className="rounded-lg bg-accent-primary px-6 py-3 font-medium text-white hover:bg-accent-primary/90">
-            Commencer à 0,99 €/mois
-          </button>
+        <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
+          Commencer à 0,99 €/mois
         </Link>
       </div>
     </>
