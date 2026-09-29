@@ -8,7 +8,7 @@ Une **blague drôle**, c'est une chute que personne n'a vue venir mais que tout 
 
 Parce que tu connais la scène : tu racontes une blague qui t'avait fait pleurer de rire la veille, et autour de la table, rien. Un pote fixe son verre, un autre te demande si c'est fini.
 
-Bienvenue dans le club des 90% de gens qui confondent "blague qui me fait rire" et "blague qui fait rire". La différence n'a rien de mystique. Quand Paul Mirabel fait rire une salle entière avec une phrase, ou quand une punchline de Fary se retrouve répétée partout le lendemain, ce n'est ni du hasard ni de la chance : ce sont ces critères, appliqués avec précision. On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.
+Bienvenue dans le club des 90% de gens qui confondent "blague qui me fait rire" et "blague qui fait rire". La différence n'a rien de mystique. Quand Paul Mirabel fait exploser Bercy avec une phrase, ou quand une punchline de Fary se retrouve répétée partout le lendemain, ce n'est ni du hasard ni de la chance : ce sont ces critères, appliqués avec précision. On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.
 
 ## MYTHE BRISÉ : "Une blague drôle doit être compliquée"
 

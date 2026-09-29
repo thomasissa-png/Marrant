@@ -189,3 +189,81 @@ Fichier : `docs/copy/rewrites-db-s11/etre-plus-a-l-aise-en-societe.md`
 - « toutes les trois secondes » (écoute) gardé.
 
 ---
+
+## 4. `techniques-humoristes-pros`
+
+Fichier : `docs/copy/rewrites-db-s11/techniques-humoristes-pros.md`
+
+Règle appliquée : **aucune citation verbatim attribuée sans certitude**. Chaque exemple attribué est remplacé par la description de la technique (« Le principe en pratique ») + un exemple original non attribué qui applique la même mécanique. Les mentions de style (« Gardin maîtrise le contraste », « Inès Reg vit ses histoires ») sont conservées, sans aucun verbatim.
+
+### 4.1 Vannes, répliques et exemples (liste exhaustive)
+
+| N° | Avant | Verdict (motif §3) | Après |
+|---|---|---|---|
+| 1 | Intro/excerpt : « Paul Mirabel remplit Bercy avec des histoires de machine à café » | RÉÉCRIRE — Bercy vérifié (Accor Arena, 10-11 avril 2026), mais « histoires de machine à café » non vérifié | « Paul Mirabel remplit Bercy avec sa timidité » (excerpt réécrit, < 155 caractères) |
+| 2 | Frayssinet « transformer l'observation d'un type qui mange un sandwich en sketch mémorable » | RÉÉCRIRE — sketch précis non vérifiable | « faire un sketch entier d'un détail que tu n'aurais même pas remarqué » |
+| 3 | « Spoiler alert » / « COMMENT être drôle » | RÉÉCRIRE — anglicisme + capitales | Supprimé / « ils savent précisément comment être drôles » |
+| 4 | Frayssinet sur « Je vais pas bien » vs « Je ne vais pas bien » → « 3 minutes d'analyse hilarante » | RÉÉCRIRE — passage de spectacle attribué non vérifiable → technique décrite (chiffre gardé) | « pars d'un micro-détail, par exemple une tournure de phrase que tout le monde utilise sans y penser… Un bon humoriste peut tirer 3 minutes d'une observation de ce genre. » |
+| 5 | « Mon patron termine ses mails par 'Bien à vous' mais me regarde comme si j'étais un post-it qu'il a oublié de jeter. » (+ « chiant ») | RÉÉCRIRE — l'exemple censé illustrer l'observation précise restait vague ; « chiant » limite | « Mon patron commence tous ses mails par "Petite question rapide". Aucune n'a jamais été petite. Ni rapide. » ; « pénible » |
+| 6 | CLEF « lunettes de grossissement » | RÉÉCRIRE — image bancale | « regarder ton quotidien à la loupe, jusqu'à ce qu'un détail parfaitement normal devienne franchement louche. » |
+| 7 | Métro : « comme si leur écran de veille était le dernier Goncourt » | GARDER — saluée par l'audit | Inchangé |
+| 8 | Fary : grand-mère qui cache de l'argent / « Contrairement à ma grand-mère, moi je cache rien... enfin sauf mes économies. » « La salle explose. » | RÉÉCRIRE — citation attribuée suspecte (audit e) → **citation retirée**, technique décrite (chiffre « 30 minutes » gardé) | « un détail glissé en début de spectacle peut revenir 30 minutes plus tard… La salle rit alors deux fois : une fois pour la vanne, une fois parce qu'elle s'en souvient. » |
+| 9 | « Alors ce brainstorming, ça ressemble plus à un braindrizzle non ? » | RÉÉCRIRE — calembour + anglicisme | « On fait un point rapide. » … une heure après : « Je propose qu'on fasse un point rapide sur le point rapide. » |
+| 10 | CLEF « créer des private jokes » | RÉÉCRIRE — anglicisme | « fabriquer une blague qui n'existe que pour les gens présents » |
+| 11 | Gardin « puis BAM — elle te sort… » | RÉÉCRIRE — staccato (FAIL audit d), correctif audit appliqué | « et en fin de phrase, elle te sort une conclusion que personne n'attendait » |
+| 12 | Gardin : « J'adore les enfants... les miens surtout. Les autres, je m'en fous un peu. » | RÉÉCRIRE — citation attribuée suspecte → **citation retirée** ; même mécanique, exemple original | « J'adore les enfants de mes potes. Je les adore encore plus à l'heure du coucher. » |
+| 13 | « cette vision change toutes les 3 minutes comme un kaléidoscope en panne » (+ « Ton version ») | RÉÉCRIRE — image illogique (un kaléidoscope en panne ne change plus) ; faute | « Elle change toutes les 3 minutes, mais elle est très claire. » ; « Ta version au boulot » |
+| 14 | « J'aime mon travail... surtout le vendredi soir quand je le quitte. » | RÉÉCRIRE — vanne connue | « J'adore mon boulot. Je le recommande à tout le monde, surtout à ceux qui voudraient me remplacer. » |
+| 15 | « Pour économiser l'eau, je prends des douches plus courtes. Du coup j'ai plus de temps pour faire la vaisselle. » | RÉÉCRIRE — la chute n'est ni logique ni absurde | « Pour dormir plus, je me couche plus tôt. Du coup, je commence à scroller plus tôt. » |
+| 16 | « Je suis quelqu'un de très organisé... mes procrastinations sont planifiées trois semaines à l'avance. » | GARDER — retournement net (points de suspension retirés) | « Je suis quelqu'un de très organisé. Mes procrastinations sont planifiées trois semaines à l'avance. » |
+| 17 | Pascot « a révolutionné l'autodérision en France » + « Je suis pas très grand... ils regardent d'abord à droite et à gauche… 'Ah tu étais là !' » | RÉÉCRIRE — superlatif invérifiable + citation attribuée suspecte → **citation retirée**, technique décrite, exemple original | « Je rougis tellement vite que mes potes s'en servent pour savoir si j'ai menti. » |
+| 18 | « Je suis perfectionniste... mes brouillons ont des brouillons. Mais au moins, quand c'est fini, c'est vraiment fini. » | RÉÉCRIRE — la 2e phrase dilue la chute | « Mon plus grand défaut ? Je suis perfectionniste. Mes brouillons ont des brouillons. » |
+| 19 | CLEF « ce que tu assumes déjà avec classe » | RÉÉCRIRE | « …un défaut que tu as déjà annoncé toi-même. La vanne est prise, et c'est toi qui l'as faite. » |
+| 20 | Mirabel « sur les gens qui gèrent leur vie » : « …je regarde, je stresse, je ferme. » / « Et trois semaines après : 'Ah merde, fallait que je réponde à ça !' » | RÉÉCRIRE — citation attribuée non vérifiable → **attribution retirée** ; « merde » ; chute criée | « Moi, je gère ma vie comme mes mails : j'ouvre, je stresse, je ferme. » / « Et trois semaines après, je réponds "Désolé pour le délai". » |
+| 21 | Coloc : « Hier il a cramé un plat surgelé. On peut cramer de la GLACE, j'ai découvert ça ! » | RÉÉCRIRE — capitales, chute qui s'explique | « Hier, son gratin était brûlé dessus et encore gelé au milieu. Il m'a dit : "C'est voulu." » |
+| 22 | Inès Reg « imite sa mère au téléphone… Son corps DEVIENT sa mère » | RÉÉCRIRE — scène précise non vérifiée + capitales | « quand elle joue un personnage… On ne l'entend pas imiter quelqu'un, on le voit arriver. » |
+| 23 | « il respirait comme Darth Vader après un jogging » | RÉÉCRIRE — référence usée (et nom anglais du personnage) | « il soufflait par le nez comme un taureau qui vient de lire mon rapport. » |
+| 24 | « spoiler : l'option 2 gagne à tous les coups » | RÉÉCRIRE — anglicisme | « Tu devines déjà laquelle gagne. » |
+| 25 | Waly Dia : « Mon père m'a dit : 'Fils, dans la vie, il faut toujours viser haut...' … Du coup moi je vise le plafond de ma chambre. Objectif atteint ! » | RÉÉCRIRE — citation attribuée suspecte → **citation retirée** ; chute + exclamation faibles | « Mon père m'a toujours dit : "Dans la vie, vise haut." [pause de 2 secondes…] ... C'était pour que je change l'ampoule du couloir. » (non attribuée) |
+| 26 | « Mon dentiste m'a dit que j'avais de belles dents... pour quelqu'un qui boit autant de café. Merci docteur, très motivant ! » | RÉÉCRIRE — même amorce que l'étalon A (dentiste), chute diluée par « Merci docteur » | « La boulangère m'a dit que j'avais bonne mine... [micro-pause, sourire en coin] ... par rapport à hier. » |
+| 27 | « J'adore les réunions qui finissent à l'heure... ça me laisse plus de temps pour me demander pourquoi on a fait cette réunion. » | RÉÉCRIRE — cliché « réunion inutile » | « J'adore les réunions qui finissent à l'heure. Je t'en parlerai le jour où j'en verrai une. » |
+| 28 | « Ah tiens, il/elle est devenu(e) drôle ! » / « Ah non, il/elle va encore essayer de faire rire... » | RÉÉCRIRE — lourd à lire | « Depuis quand t'es drôle, toi ? » / « Attention, blague en approche » |
+| 29 | CLEF FINALE instrument de musique | RÉÉCRIRE (léger) — ajout d'humour | « au début, ça sonne faux et tes voisins souffrent » |
+| 30 | « Paul Mirabel survivra très bien au fait que tu utilises ses techniques dans tes conversations. » | GARDER — resserré | « …ses techniques à la machine à café. » |
+| 31 | « Et qui sait ? Peut-être qu'un jour, c'est toi qu'on copiera. » / « Prêt à transformer tes interactions en spectacles miniatures ? » / « celui qui EST drôle » | RÉÉCRIRE — clichés + capitales | Supprimés ; « celui qui fait rire sans avoir l'air d'essayer » |
+
+**Bilan : 31 éléments · 3 gardés · 28 réécrits (90 %).**
+
+### 4.2 Défauts de prose traités (§5)
+
+- **Intro** : réponse directe citable (les 7 mécaniques nommées) en tête, puis la scène.
+- **Staccato** : « BAM » (FAIL audit) ; « Le secret, c'est pas d'être né drôle. C'est de savoir… » ; « Et aujourd'hui, on les décortique. » → phrases liées.
+- **Capitales** : « COMMENT », « DEVIENT », « SENT », « GLACE », « UN », « EST » supprimées.
+- **Anglicismes** : « Spoiler alert », « spoiler », « private jokes », « braindrizzle ».
+- **Superlatifs invérifiables** : « Pascot a révolutionné l'autodérision en France » → « a fait de ses failles… une matière comique » ; « Fary excelle dans le callback » → « c'est un classique du stand-up, et Fary en est un bon exemple » ; « Mirabel construit ses sketchs comme des escaliers » → « on retrouve cette mécanique chez Paul Mirabel comme chez la plupart des humoristes ».
+- **Promesse produit** : parcours « t'attendent pour passer de… » → « te font pratiquer étape par étape ».
+
+### 4.3 Chiffres et citations signalés
+
+- **Citations / verbatims retirés (5)** : Fary (grand-mère / économies), Blanche Gardin (« J'adore les enfants… les miens surtout »), Panayotis Pascot (« Je suis pas très grand… »), Waly Dia (« Fils, dans la vie, il faut toujours viser haut… »), Paul Mirabel (« je gère ma vie comme mes mails… »). Plus deux passages de spectacle décrits sans source : Frayssinet (« Je vais pas bien »), Inès Reg (imitation de sa mère). Techniques conservées et décrites à chaque fois.
+- **Chiffres gardés, à signaler** : « 3 minutes » d'analyse (désormais générique) ; « 30 minutes plus tard » (callback, désormais générique) ; « 2-3 secondes » de pause chez Waly Dia (non vérifié) ; « 50% » de l'art de raconter une blague (aucune source) ; « 3 mois » ; « une heure après » ; « 10-15 minutes » ; « 3 minutes » (client) ; « trois semaines » (×2) ; « pause de 2 secondes » ; « 3 micro-détails », « 3 angles », « règle de 3 », « 7 techniques », « 30 phrases », « 5 types », « 5 erreurs ».
+- **Fait vérifié** : Paul Mirabel à l'Accor Arena (Bercy) les 10 et 11 avril 2026 (sources : accorarena.com, humorix.fr). Conséquence pour l'article 1 : la mention « fait exploser Bercy » de la source était exacte ; je l'ai reformulée (« fait rire une salle entière avec une phrase ») avant de vérifier. Thomas peut la remettre s'il le souhaite.
+
+---
+
+## Synthèse du lot
+
+| Article | Éléments | Gardés | Réécrits / ajoutés | Citations retirées | Intro |
+|---|---|---|---|---|---|
+| blague-drole-7-criteres-pepite | 22 | 5 | 17 (77 %) | 4 (Frayssinet, Fary, Pascot, Waly Dia) | réponse directe ajoutée |
+| comment-raconter-une-blague-sans-la-rater | 26 | 4 | 18 + 4 ajouts (69 %) | 0 (celle du statique non reprise) | ouverture du statique + réponse directe |
+| etre-plus-a-l-aise-en-societe | 43 | 9 | 34 (79 %) | 1 (Frayssinet) + 1 maxime connue | réponse directe ajoutée |
+| techniques-humoristes-pros | 31 | 3 | 28 (90 %) | 5 verbatims + 2 passages décrits | réponse directe ajoutée |
+
+**Décisions à trancher par Thomas :**
+1. Citation Fary « cow-boys et Indiens » (article 1) gardée sur la foi de l'audit : à confirmer.
+2. Nouveaux détails comiques dans des vannes (pas des stats) : « quatre minutes » (art. 1), « cinq minutes / dix minutes » (art. 2).
+3. Chiffres douteux conservés : « 90% », « 0,3% », « 26 mots » (rendu vrai par le nouvel exemple), « dix fois plus de chances », « 50% », « 70/30 », « 2 mètres » (Waly Dia), règles des 3 secondes, 3-2-1, 4-7-8.
+4. Mentions de style d'humoristes conservées sans verbatim (Mirabel, Fary, Gardin, Frayssinet, Pascot, Waly Dia, Inès Reg) : invérifiables mais non citées.
+
+**Non touché** : aucun autre fichier du repo ; pas de commit ; brouillons v1 et sources intacts.
