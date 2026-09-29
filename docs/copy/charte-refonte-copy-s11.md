@@ -9,7 +9,8 @@
 1. **AUCUN CHIFFRE retiré, remplacé ou modifié sans GO de Thomas** ([CHOIX UTILISATEUR] 29/09/2026) : statistiques, études, durées, prix, compteurs, nombres de membres, XP… On garde tel quel. Si un chiffre semble faux, on le **signale dans le rapport** sans y toucher.
 2. **Zéro mention d'IA** dans le contenu (règle fondateur permanente) — y compris les vannes/exemples qui parlent de ChatGPT, d'assistants vocaux ou de « l'IA » : on les remplace par une autre idée (reco retenue).
 3. **Tutoiement** partout, voix « le pote drôle et bienveillant » : jamais corporate, scolaire, vulgaire, condescendant. Le site parle au lecteur (pas de « je » narratif de la marque — le « je » est réservé aux vannes).
-4. **Zéro invention** : pas de nouveau chiffre, pas de témoignage, pas de citation attribuée à une personne réelle sans certitude, pas de nouvelle étude.
+4. **Améliorer, pas amputer** ([CHOIX UTILISATEUR] 29/09/2026) : on ne SUPPRIME JAMAIS une stat, une étude, une citation, une année, un chiffre ou un bloc qui marche simplement parce qu'on a un doute. En cas de doute : on GARDE tel quel et on le SIGNALE dans le rapport — Thomas tranche. Les années dans les titres/guides (« 2026 »…) sont gardées (bonnes pour le SEO).
+4 bis. **Zéro invention** : on n'AJOUTE pas de nouveau chiffre, de nouveau témoignage, de nouvelle citation ou de nouvelle étude.
 5. **Zéro concurrent nommé.**
 6. **SEO préservé** : on ne change ni les slugs, ni les URLs, ni les mots-clés cibles, ni les liens internes existants (on peut en ajouter vers des pages existantes), ni la structure des FAQ (questions conservées, réponses réécrites).
 
