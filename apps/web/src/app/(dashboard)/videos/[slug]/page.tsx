@@ -1,0 +1,246 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
+import {
+  JsonLd,
+  buildBreadcrumbJsonLd,
+  buildVideoObjectJsonLd,
+} from "@/components/seo/json-ld";
+
+// ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
+export const revalidate = 86400;
+export const dynamicParams = true;
+
+const CATEGORY_LABELS: Record<string, string> = {
+  TIMING: "Timing",
+  AUTODERISION: "Auto-dérision",
+  OBSERVATION: "Observation",
+  REPARTIE: "Répartie",
+  STORYTELLING: "Storytelling",
+  ABSURDE: "Absurde",
+  JEUX_DE_MOTS: "Jeux de mots",
+};
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  DEBUTANT: "Débutant",
+  INTERMEDIAIRE: "Intermédiaire",
+  EXPERT: "Expert",
+};
+
+async function findVideoBySlug(slug: string) {
+  const shortId = parseShortIdFromSlug(slug);
+  if (!shortId) return null;
+  try {
+    const video = await prisma.video.findFirst({
+      where: { id: { startsWith: shortId }, isActive: true },
+      select: {
+        id: true,
+        title: true,
+        channelName: true,
+        youtubeId: true,
+        duration: true,
+        category: true,
+        difficulty: true,
+        description: true,
+        technique: true,
+        learnings: true,
+        exercise: true,
+        updatedAt: true,
+        createdAt: true,
+      },
+    });
+    return video;
+  } catch {
+    return null;
+  }
+}
+
+export function generateStaticParams() {
+  return [];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const video = await findVideoBySlug(params.slug);
+  if (!video) return { title: "Vidéo introuvable" };
+
+  const canonicalSlug = buildVideoSlug(video);
+  const seoTitle = video.title.length > 39 ? video.title.slice(0, 36) + "..." : video.title;
+  const desc = `${video.channelName} — ${video.description}`.slice(0, 155);
+
+  return {
+    title: seoTitle,
+    description: desc,
+    alternates: {
+      canonical: `https://deviens-marrant.fr/videos/${canonicalSlug}`,
+    },
+    openGraph: {
+      type: "video.other",
+      title: video.title,
+      description: desc,
+      url: `https://deviens-marrant.fr/videos/${canonicalSlug}`,
+      siteName: "deviens-marrant.fr",
+      locale: "fr_FR",
+      images: [
+        { url: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`, width: 1280, height: 720 },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: video.title,
+      description: desc,
+    },
+  };
+}
+
+export default async function VideoPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const video = await findVideoBySlug(params.slug);
+  if (!video) notFound();
+
+  const canonicalSlug = buildVideoSlug(video);
+  const url = `https://deviens-marrant.fr/videos/${canonicalSlug}`;
+  const categoryLabel = CATEGORY_LABELS[video.category] ?? video.category;
+  const difficultyLabel = DIFFICULTY_LABELS[video.difficulty] ?? video.difficulty;
+
+  let related: { id: string; title: string; channelName: string; youtubeId: string }[] = [];
+  try {
+    related = await prisma.video.findMany({
+      where: {
+        isActive: true,
+        category: video.category,
+        id: { not: video.id },
+      },
+      select: { id: true, title: true, channelName: true, youtubeId: true },
+      take: 4,
+    });
+  } catch {}
+
+  const videoJsonLd = buildVideoObjectJsonLd({
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`,
+    uploadDate: video.createdAt.toISOString(),
+    contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
+    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    duration: video.duration,
+  });
+
+  return (
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", url: "https://deviens-marrant.fr" },
+          { name: "Vidéos", url: "https://deviens-marrant.fr/videos" },
+          { name: video.title.slice(0, 60), url },
+        ])}
+      />
+      <JsonLd data={videoJsonLd} />
+
+      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <span className="mx-2">/</span>
+        <Link href="/videos" className="hover:text-text-primary">Vidéos</Link>
+        <span className="mx-2">/</span>
+        <span className="text-text-secondary">{categoryLabel}</span>
+      </nav>
+
+      <article className="mx-auto max-w-3xl">
+        <div className="mb-2 flex flex-wrap gap-2">
+          <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-primary">
+            {categoryLabel}
+          </span>
+          <span className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wider text-text-muted">
+            {difficultyLabel}
+          </span>
+          <span className="rounded-full border border-border px-3 py-1 text-xs text-text-muted">
+            {video.channelName}
+          </span>
+        </div>
+
+        <h1 className="font-display text-2xl font-bold md:text-3xl">{video.title}</h1>
+
+        <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-border bg-black">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+            title={video.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            className="h-full w-full"
+          />
+        </div>
+
+        <section className="mt-8">
+          <h2 className="font-display mb-2 text-lg font-bold">Ce qu&apos;elle montre</h2>
+          <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
+            {video.description}
+          </p>
+          <div className="mt-4 rounded-lg border border-border bg-background-card p-4">
+            <div className="text-xs uppercase tracking-wider text-text-muted">Technique principale</div>
+            <div className="mt-1 text-sm font-semibold text-text-primary">{video.technique}</div>
+          </div>
+        </section>
+
+        {/* Freemium : les learnings + exercice sont réservés aux inscrits.
+            Le titre, la vidéo (déjà publique sur YouTube) et la description restent
+            visibles pour SEO et VideoObject schema. */}
+        <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
+          <div className="mb-1 text-xs uppercase tracking-wider text-accent-primary">Analyse pédagogique complète</div>
+          <p className="text-sm text-text-primary">
+            Les points clés à retenir et l&apos;exercice pour appliquer la technique
+            sont accessibles gratuitement quand tu crées ton compte. Tu récupères
+            aussi ton contenu quotidien, tes favoris et 3 parcours structurés.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/register"
+              className="rounded-lg bg-accent-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-primary/90"
+            >
+              Créer un compte gratuit
+            </Link>
+            <Link
+              href="/videos"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary/40"
+            >
+              Voir toutes les vidéos
+            </Link>
+          </div>
+        </section>
+
+        {related.length > 0 && (
+          <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">
+            <h2 className="font-display mb-4 text-xl font-bold">Dans la même thématique</h2>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {related.slice(0, 4).map((r) => (
+                <li key={r.id}>
+                  <Link
+                    href={`/videos/${buildVideoSlug(r)}`}
+                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                  >
+                    <p className="text-sm font-semibold text-text-primary line-clamp-2">{r.title}</p>
+                    <p className="mt-1 text-xs text-text-muted">{r.channelName}</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        <nav className="mt-8 text-sm">
+          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-primary hover:underline">
+            &larr; Toutes les vidéos {categoryLabel.toLowerCase()}
+          </Link>
+        </nav>
+      </article>
+    </>
+  );
+}

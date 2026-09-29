@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogArticles } from "@/lib/blog-articles";
+import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 
 export const revalidate = 3600;
 
@@ -70,8 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Table pas encore migrée
   }
 
+  // Pages individuelles du catalogue (vannes, conseils, vidéos) — S11-lot5.
+  // Isolé dans son propre helper pour minimiser les conflits de merge.
+  const catalogueRoutes = await getCatalogueSitemapEntries();
+
   // Dédupliquer par URL
-  const allRoutes = [...staticRoutes, ...staticBlogRoutes, ...dbBlogRoutes];
+  const allRoutes = [...staticRoutes, ...staticBlogRoutes, ...dbBlogRoutes, ...catalogueRoutes];
   const seen = new Set<string>();
   return allRoutes.filter((route) => {
     if (seen.has(route.url)) return false;

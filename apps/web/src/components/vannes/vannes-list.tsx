@@ -12,6 +12,7 @@ import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
+import { buildJokeSlug } from "@/lib/catalogue-slug";
 
 interface Joke {
   id: string;
@@ -279,6 +280,16 @@ export function VannesList() {
                     {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
                   </p>
                 )}
+                <div className="mt-3 border-t border-border pt-2">
+                  <Link
+                    href={`/vannes/${buildJokeSlug(joke)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    aria-label="Ouvrir la page dédiée de cette vanne"
+                  >
+                    Page dédiée &rarr;
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
