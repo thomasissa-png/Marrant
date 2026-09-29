@@ -5,11 +5,13 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { useContentStats, MEMBERS_SOCIAL_PROOF_MIN } from "@/hooks/use-content-stats";
 
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
   const [showAuth, setShowAuth] = useState(false);
+  const { members } = useContentStats();
 
   return (
     <section className="py-12 text-center md:py-20">
@@ -26,7 +28,9 @@ export function HeroSection() {
 
       {/* Social proof */}
       <p className="mt-6 text-sm font-medium text-accent-primary">
-        Rejoins 1 500+ membres qui progressent en humour chaque jour
+        {members >= MEMBERS_SOCIAL_PROOF_MIN
+          ? `Rejoins ${members.toLocaleString("fr-FR")}+ membres qui progressent en humour chaque jour`
+          : "Rejoins celles et ceux qui progressent en humour chaque jour"}
       </p>
 
       {/* Situations concrètes = les 3 personas se reconnaissent */}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
+import { AuthCta } from "@/components/auth/auth-cta";
 import Link from "next/link";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 
@@ -81,9 +83,16 @@ const PUNCHLINE_TEASERS = [
   "Ça pique, prépare-toi",
 ];
 
+// Limite gratuite — source de vérité côté serveur : `FREE_JOKE_LIMIT` dans /api/jokes.
+// Dupliquée ici uniquement pour l'affichage. Toute modification doit être faite
+// en même temps que la valeur serveur (Grep FREE_JOKE_LIMIT).
+const FREE_JOKE_LIMIT_UI = 10;
+
 export function VannesList() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
+  const { status: sessionStatus } = useSession();
+  const isAnonymous = sessionStatus === "unauthenticated";
   const [jokes, setJokes] = useState<Joke[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [category, setCategory] = useState("");
@@ -153,6 +162,26 @@ export function VannesList() {
 
   return (
     <>
+      {/* Bandeau limite gratuite pour anonymes — clair et posé avant l'inscription */}
+      {isAnonymous && (
+        <div className="mb-6 flex flex-col gap-3 rounded-lg border border-accent-primary/30 bg-accent-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-text-primary">
+              Aperçu gratuit : {FREE_JOKE_LIMIT_UI} vannes accessibles sans compte.
+            </p>
+            <p className="text-xs text-text-secondary">
+              Crée ton compte gratuit pour débloquer les filtres et sauvegarder tes préférées, ou passe à l&apos;accès complet à 0,99 €/mois.
+            </p>
+          </div>
+          <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
+            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" />
+            <Link href="/abonnement">
+              <Button variant="outline" size="sm">Tout débloquer</Button>
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {limited ? (
         <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">

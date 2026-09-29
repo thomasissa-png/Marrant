@@ -922,3 +922,34 @@ enum CeoBacklinkStatus {
   REJECTED
   EXPIRED
 }
+
+// ==========================================
+// NEWSLETTER (capture email — RGPD, double opt-in)
+// ==========================================
+
+model NewsletterSubscriber {
+  id                  String                     @id @default(cuid())
+  email               String                     @unique
+  source              String? // ex : "blog:comment-devenir-drole", "quiz-humour"
+  status              NewsletterSubscriberStatus @default(PENDING)
+  consentText         String                     @db.Text // Texte de la case cochée (preuve RGPD)
+  consentAt           DateTime                   @default(now())
+  confirmationToken   String                     @unique
+  confirmedAt         DateTime?
+  unsubscribeToken    String                     @unique
+  unsubscribedAt      DateTime?
+  ipAddress           String?
+  userAgent           String?                    @db.Text
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+
+  @@index([status])
+  @@index([source])
+  @@index([createdAt])
+}
+
+enum NewsletterSubscriberStatus {
+  PENDING       // inscription enregistrée, en attente de confirmation double opt-in
+  CONFIRMED     // a cliqué sur le lien de confirmation
+  UNSUBSCRIBED  // s'est désabonné
+}

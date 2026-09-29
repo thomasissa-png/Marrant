@@ -17,6 +17,15 @@ export default function AbonnementPage() {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
+  const isAuthenticated = status === "authenticated";
+  const pageBadge = isAuthenticated ? "Plus qu'une étape" : "Prix de lancement";
+  const pageTitle = isAuthenticated
+    ? "Active ton accès pour commencer"
+    : "Crée ton compte, deviens drôle";
+  const pageSubtitle = isAuthenticated
+    ? "Ton compte est créé ! Plus qu'un clic pour accéder à tout le catalogue et commencer à devenir la personne la plus drôle du groupe."
+    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 0,99 €/mois.";
+
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
     try {
@@ -39,14 +48,13 @@ export default function AbonnementPage() {
     <div className="mx-auto max-w-2xl py-8">
       <div className="text-center">
         <Badge variant="primary" className="mb-4">
-          Plus qu&apos;une étape
+          {pageBadge}
         </Badge>
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-          Active ton accès pour commencer
+          {pageTitle}
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Ton compte est créé ! Plus qu&apos;un clic pour accéder à tout
-          le catalogue et commencer à devenir la personne la plus drôle du groupe.
+          {pageSubtitle}
         </p>
       </div>
 
@@ -114,7 +122,7 @@ export default function AbonnementPage() {
             </li>
           </ul>
 
-          {status === "authenticated" ? (
+          {isAuthenticated ? (
             <Button
               variant="primary"
               size="lg"
@@ -124,17 +132,22 @@ export default function AbonnementPage() {
             >
               {isCheckoutLoading
                 ? "Redirection vers le paiement..."
-                : "S'abonner \u00e0 0,99 \u20ac/mois"}
+                : "Active mon acc\u00e8s \u2014 0,99 \u20ac/mois"}
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              size="lg"
-              className="mt-8 w-full"
-              onClick={() => setIsAuthModalOpen(true)}
-            >
-              Cr&eacute;er un compte pour commencer
-            </Button>
+            <>
+              <Button
+                variant="primary"
+                size="lg"
+                className="mt-8 w-full"
+                onClick={() => setIsAuthModalOpen(true)}
+              >
+                Cr&eacute;e ton compte gratuit
+              </Button>
+              <p className="mt-3 text-center text-xs text-text-muted">
+                Commence gratuitement, tu passes premium quand tu veux.
+              </p>
+            </>
           )}
 
           <p className="mt-3 text-center text-xs text-text-muted">

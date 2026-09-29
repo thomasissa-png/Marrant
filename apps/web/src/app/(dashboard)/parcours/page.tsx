@@ -9,6 +9,7 @@ import {
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 
 export const metadata: Metadata = {
   title: "Cours humour en ligne : deviens drôle",
@@ -25,7 +26,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://deviens-marrant.fr/parcours" },
 };
 
-export default function ParcoursPage() {
+export default async function ParcoursPage() {
+  const stats = await getContentStatsRounded();
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <JsonLd
@@ -128,7 +130,7 @@ export default function ParcoursPage() {
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">60+ techniques concrètes avec exemples et exercices.</p>
+            <p className="mt-1 text-xs text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
           </Link>
           <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>

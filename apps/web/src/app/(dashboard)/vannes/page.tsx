@@ -8,23 +8,28 @@ import {
   buildFaqJsonLd,
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 
-export const metadata: Metadata = {
-  title: "290+ vannes drôles à ressortir ce soir",
-  description:
-    "290+ vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.",
-  keywords: [
-    "blague drôle",
-    "blagues courtes",
-    "vanne drôle",
-    "blague du jour",
-    "vannes à ressortir",
-    "blagues entre amis",
-    "blague courte drôle",
-    "phrase drôle",
-  ],
-  alternates: { canonical: "https://deviens-marrant.fr/vannes" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const stats = await getContentStatsRounded();
+  const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des centaines de vannes";
+  const prefixLower = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "des centaines de vannes";
+  return {
+    title: `${prefix} drôles à ressortir ce soir`,
+    description: `${prefixLower} testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.`,
+    keywords: [
+      "blague drôle",
+      "blagues courtes",
+      "vanne drôle",
+      "blague du jour",
+      "vannes à ressortir",
+      "blagues entre amis",
+      "blague courte drôle",
+      "phrase drôle",
+    ],
+    alternates: { canonical: "https://deviens-marrant.fr/vannes" },
+  };
+}
 
 const vannesFaqs = [
   {
@@ -44,7 +49,11 @@ const vannesFaqs = [
   },
 ];
 
-export default function VannesPage() {
+export default async function VannesPage() {
+  const stats = await getContentStatsRounded();
+  const jokeCount = stats.jokes > 0 ? stats.jokes : 200;
+  const jokeLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
+  const jokeLabelLower = stats.jokes > 0 ? `${stats.jokes}+` : "des centaines de";
   return (
     <>
       <JsonLd
@@ -56,10 +65,10 @@ export default function VannesPage() {
       <JsonLd data={buildFaqJsonLd(vannesFaqs)} />
       <JsonLd
         data={buildCollectionPageJsonLd({
-          name: "290+ vannes drôles à ressortir ce soir",
-          description: "290+ vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute.",
+          name: `${jokeLabel} vannes drôles à ressortir ce soir`,
+          description: `${jokeLabelLower} vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute.`,
           url: "https://deviens-marrant.fr/vannes",
-          numberOfItems: 290,
+          numberOfItems: jokeCount,
           relatedArticles: [
             { title: "Comment devenir drôle : le guide complet", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
             { title: "5 erreurs qui tuent tes blagues", url: "https://deviens-marrant.fr/blog/erreurs-blagues" },
@@ -122,7 +131,7 @@ export default function VannesPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">60+ techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
+            <p className="mt-1 text-xs text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>

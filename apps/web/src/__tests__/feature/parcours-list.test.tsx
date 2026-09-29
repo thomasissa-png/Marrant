@@ -25,8 +25,10 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe("ParcoursPage — Parcours structurés", () => {
-  beforeEach(() => {
-    render(<ParcoursPage />);
+  beforeEach(async () => {
+    // ParcoursPage est un async Server Component depuis s11 lot 2
+    const Page = await ParcoursPage();
+    render(Page);
   });
 
   it("renders the page header with title and description", () => {
@@ -191,7 +193,8 @@ describe("ParcoursPage — authenticated user", () => {
   });
 
   it("navigates to /parcours/[slug] when authenticated user clicks CTA", async () => {
-    render(<ParcoursPage />);
+    const Page = await ParcoursPage();
+    render(Page);
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");

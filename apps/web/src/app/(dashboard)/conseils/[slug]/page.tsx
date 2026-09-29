@@ -172,7 +172,7 @@ export default async function ConseilPage({
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-primary">À toi de jouer</div>
           <p className="text-sm text-text-primary">
             L&apos;exercice complet pour appliquer cette technique dès aujourd&apos;hui,
-            plus 60+ conseils progressifs, sont dans le parcours gratuit.
+            et des centaines d&apos;autres conseils progressifs, sont dans le parcours gratuit.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link

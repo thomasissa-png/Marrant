@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { AuthCta } from "@/components/auth/auth-cta";
+import { ArticleCta } from "@/components/blog/article-cta";
+import { NewsletterInline } from "@/components/newsletter/newsletter-inline";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import {
@@ -291,26 +291,17 @@ export default async function BlogArticlePage({
         </div>
       )}
 
-      {/* Maillage contextuel vers le parcours pertinent selon le cluster.
-          NE PAS FUSIONNER avec le CTA ci-dessous — un autre lot refond le CTA. */}
+      {/* Maillage contextuel vers le parcours pertinent selon le cluster. */}
       <BlogArticleParcoursMaillage
         articleSlug={article.slug}
         articleCategory={article.category}
       />
 
-      {/* CTA */}
-      <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
-        <p className="font-display text-xl font-bold text-text-primary">
-          Envie de passer à l&apos;action ?
-        </p>
-        <p className="mt-2 text-text-secondary">
-          Des exercices concrets, des parcours pas à pas, et un système de
-          progression qui te motive chaque jour.
-        </p>
-        <div className="mt-4 inline-block">
-          <AuthCta label="Commencer à 0,99 €/mois" />
-        </div>
-      </div>
+      {/* Capture newsletter — après lecture, avant CTA payant */}
+      <NewsletterInline source={`blog:${article.slug}`} className="mt-12" />
+
+      {/* CTA double (essai gratuit + premium) */}
+      <ArticleCta />
     </article>
   );
 }

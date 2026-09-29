@@ -70,7 +70,7 @@ export const CEO_BACKLINK_TOPICS: string[] = [
  * Utilisée en fin de pitch presse + footer email backlink.
  */
 export const CEO_TEAM_BIO =
-  "L'Équipe Deviens Marrant — deviens-marrant.fr est la plateforme francophone qui enseigne l'humour avec les techniques du stand-up professionnel. Plus de 290 vannes décortiquées, 60+ techniques répertoriées et 80+ vidéos analysées (Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia).";
+  "L'Équipe Deviens Marrant — deviens-marrant.fr est la plateforme francophone qui enseigne l'humour avec les techniques du stand-up professionnel. Des centaines de vannes décortiquées, des centaines de conseils et des dizaines de vidéos analysées (Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia).";
 
 // ─── Templates de pitch (voix unifiée v3) ────────────────────────────────
 

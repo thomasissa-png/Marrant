@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { resolvePostAuthRedirect } from "@/lib/safe-callback";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Clique 'Continuer avec Google' ci-dessous.",
@@ -32,7 +33,8 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
-  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+  // Sanitisation anti open-redirect + fallback vers /vannes pour la connexion classique.
+  const callbackUrl = resolvePostAuthRedirect(searchParams.get("callbackUrl"), "/vannes");
   const autoRetried = useRef(false);
   const [autoRetrying, setAutoRetrying] = useState(false);
 

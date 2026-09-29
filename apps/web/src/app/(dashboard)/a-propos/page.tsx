@@ -81,7 +81,7 @@ export default function AProposPage() {
             On s&apos;appuie sur les techniques des meilleurs humoristes
             français (Fary, Paul Mirabel, Roman Frayssinet, Blanche Gardin, Waly
             Dia), les principes de la psychologie positive et des exercices
-            concrets testés par notre communauté de 1 500+ membres.
+            concrets testés par notre communauté.
           </p>
         </section>
 
