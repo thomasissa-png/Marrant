@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
+    "build:cf": "MARRANT_BUILD_TARGET=cloudflare opennextjs-cloudflare build",
+    "preview:cf": "opennextjs-cloudflare preview",
+    "deploy:cf": "opennextjs-cloudflare deploy",
     "build:mobile": "BUILD_TARGET=mobile next build",
     "cap:sync": "BUILD_TARGET=mobile next build && cd ../.. && npx cap sync",
     "cap:open:ios": "cd ../.. && npx cap open ios",
@@ -25,6 +28,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",
     "@auth/prisma-adapter": "^2.7.0",
+    "@prisma/adapter-pg": "6.19.2",
     "@prisma/client": "^6.19.2",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
@@ -57,6 +61,7 @@
     "seed": "bash scripts/seed.sh"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.15.1",
     "@playwright/test": "^1.49.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -77,6 +82,7 @@
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "wrangler": "4.143.1"
   }
 }

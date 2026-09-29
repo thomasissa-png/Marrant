@@ -3,6 +3,9 @@
 //   - BUILD_TARGET=mobile → export statique (apps/web/out) consommé par Capacitor
 //   - sinon → standalone server (Replit)
 const isMobileBuild = process.env.BUILD_TARGET === "mobile";
+// Build Cloudflare Workers (OpenNext) : positionné par `npm run build:cf`.
+// Sans cette variable (Replit, mobile), la config ci-dessous est inchangée.
+const isCloudflareBuild = process.env.MARRANT_BUILD_TARGET === "cloudflare";
 
 // Redirections 301 centralisées — voir src/lib/seo-redirects.data.cjs
 // (format CommonJS — next.config.js n'est pas .ts, on ne peut pas require du .ts).
@@ -33,6 +36,12 @@ const nextConfig = {
   },
   experimental: {
     instrumentationHook: true,
+    // Build Cloudflare uniquement : OpenNext ne réécrit vers la variante
+    // `workerd` (client Prisma WebAssembly + driver adapter) que les paquets
+    // listés ici explicitement. Sans effet sur Replit (clé absente).
+    ...(isCloudflareBuild
+      ? { serverComponentsExternalPackages: ["@prisma/client", ".prisma/client"] }
+      : {}),
   },
   webpack: (config, { isServer, webpack }) => {
     if (isServer) {
@@ -49,6 +58,20 @@ const nextConfig = {
         "@resvg/resvg-js",
         "@replit/object-storage",
       ]);
+
+      // Cloudflare Workers : binaire natif resvg et SDK Replit inutilisables
+      // sous workerd → modules vides (false), jamais appelés sous Workers
+      // (image-generator bascule sur next/og, image-storage sur R2).
+      if (isCloudflareBuild) {
+        externalModules.delete("@resvg/resvg-js");
+        externalModules.delete("@replit/object-storage");
+        config.resolve = config.resolve || {};
+        config.resolve.alias = {
+          ...(config.resolve.alias || {}),
+          "@resvg/resvg-js": false,
+          "@replit/object-storage": false,
+        };
+      }
 
       config.externals = config.externals || [];
       config.externals.push(({ request }, callback) => {

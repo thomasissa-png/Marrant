@@ -1,0 +1,71 @@
+// Configuration Cloudflare Workers — deviens-marrant.fr (migration étape B, s12).
+// Adaptateur : @opennextjs/cloudflare 1.15.1 (dernière version compatible Next 14.2.35).
+// Runbook : docs/infra/cloudflare-runbook.md · Variables : docs/infra/cloudflare-env.md
+//
+// AUCUNE route ni domaine personnalisé ici : le Worker n'est servi que sur
+// *.workers.dev tant que la bascule DNS (étape D) n'a pas été validée par Thomas.
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "marrant",
+	// Worker custom : réexporte le fetch OpenNext + ajoute le handler `scheduled`.
+	"main": "cloudflare/worker.ts",
+	"compatibility_date": "2026-09-25",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"workers_dev": true,
+	"preview_urls": true,
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Auto-référence exigée par OpenNext (cache / revalidation). Le nom doit
+			// être identique à "name".
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "marrant"
+		}
+	],
+	"r2_buckets": [
+		{
+			// Cache incrémental Next (ISR / fetch cache). Créer le bucket avant le 1er déploiement.
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "marrant-next-cache"
+		},
+		{
+			// Images Instagram pré-générées (remplace Replit Object Storage sous Workers).
+			// Mêmes clés que sur Replit : social-images/<postId>.png
+			"binding": "SOCIAL_IMAGES",
+			"bucket_name": "marrant-social-images"
+		}
+	],
+	"hyperdrive": [
+		{
+			// Postgres Neon (Francfort) via Hyperdrive. Lu par src/lib/prisma-workers.ts.
+			// PLACEHOLDER : remplacer par l'id renvoyé par
+			// `wrangler hyperdrive create marrant-neon --connection-string=...` (voir runbook).
+			"binding": "HYPERDRIVE",
+			"id": "00000000000000000000000000000000"
+		}
+	],
+	"images": {
+		// Optimisation /_next/image via Cloudflare Images (sinon l'image d'origine est servie).
+		"binding": "IMAGES"
+	},
+	"vars": {
+		// Interrupteur des Cron Triggers (cloudflare/worker.ts). "false" pendant l'étape B
+		// (la prod Replit tourne encore : pas de publication/e-mail/génération en double).
+		// Passer à "true" au moment de la bascule DNS (étape D).
+		"CRON_ENABLED": "false"
+	},
+	"triggers": {
+		// Reproduction exacte du planificateur interne (src/instrumentation.ts) :
+		// tick toutes les 15 min qui exécute les 11 jobs dans le même ordre, avec
+		// les mêmes fenêtres horaires codées dans src/lib/scheduler/jobs.ts.
+		// + tâches de démarrage idempotentes 1×/jour (et à lancer à la main après
+		// chaque déploiement, voir runbook).
+		"crons": ["*/15 * * * *", "0 1 * * *"]
+	},
+	"observability": {
+		"enabled": true
+	}
+}

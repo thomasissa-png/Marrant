@@ -1,0 +1,5 @@
+
+# Cloudflare Workers (OpenNext / wrangler)
+.open-next/
+.wrangler/
+.dev.vars*
