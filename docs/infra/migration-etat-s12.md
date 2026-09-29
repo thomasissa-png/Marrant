@@ -33,11 +33,11 @@ Complète `migration-cloudflare-plan.md`. Aucune action sur le site en ligne, au
 - `postgres` : uniquement les tables internes Neon (`health_check`, `neon_migration.migration_id`, `lakebase_attributes`).
 - Conclusion : l'import Replit n'est pas dans la branche/base pointée par `NEON_DATABASE_URL` (import non terminé, fait sur une autre branche Neon, ou dans un autre projet).
 
-## 3. DNS : la capture fournie ne correspond pas à deviens-marrant.fr
+## 3. DNS deviens-marrant.fr (2e capture IONOS du 29/09 = conforme au DNS public)
 
 DNS public actuel (Google et Cloudflare DoH, 29/09/2026) :
 
-| Nom | Type | Valeur publique | Dans la capture ? |
+| Nom | Type | Valeur publique | 1re capture (autre domaine) |
 |---|---|---|---|
 | @ | NS | ns1117.ui-dns.org, ns1067.ui-dns.biz, ns1091.ui-dns.com, ns1101.ui-dns.de | - |
 | @ | A | **34.111.179.208** (Replit, `server: Google Frontend`, HTTP 200) | Non : capture = 217.160.0.10 (redirection IONOS) |
@@ -54,7 +54,7 @@ DNS public actuel (Google et Cloudflare DoH, 29/09/2026) :
 | send | TXT | `v=spf1 include:amazonses.com ~all` (Resend) | **Non** |
 | _dep_ws_mutex | TXT | inexistant (NXDOMAIN) | Non : présent dans la capture |
 
-Non vérifiés publiquement (garde-fou de session) : s2-ionos._domainkey, autodiscover, _domainconnect.
+2e capture IONOS : confirme A @ 34.111.179.208, `replit-verify`, `google-site-verification`, `resend._domainkey`, MX `send`, et ajoute `s2-ionos._domainkey` → s2.dkim.ionos.com, `autodiscover` → adsredir.ionos.info, `_domainconnect` → _domainconnect.ionos.com (spécifique IONOS, inutile sur Cloudflare). Hors cadre de la capture (bas de liste) mais publics : TXT `send` (SPF amazonses) et CNAME `www`, à vérifier à l'import.
 
 **DNSSEC : désactivé** (aucun enregistrement DS ni DNSKEY publié ; le champ de la demande était resté « [activé/désactivé] »). Rien à désactiver chez IONOS avant l'étape C.
 
@@ -62,8 +62,8 @@ Non vérifiés publiquement (garde-fou de session) : s2-ionos._domainkey, autodi
 
 1. **Neon** : relancer/terminer l'Import Data Assistant vers la branche `main`, base `neondb`, du projet pointé par `NEON_DATABASE_URL` (ou me donner l'URL de la branche où l'import a atterri). Claude recomptera les lignes par table.
 2. **Token Cloudflare** : éditer `CLOUDFLARE_DM_TOKEN` (ou en créer un nouveau) avec, sur le compte : Workers Scripts **Edit**, Workers Routes **Edit** (inclut le sous-domaine workers.dev), Hyperdrive **Edit**, Workers R2 Storage **Edit**, Account Settings **Read** ; et pour l'étape C : Zone **Edit** + DNS **Edit** (toutes les zones du compte, ou deviens-marrant.fr une fois ajoutée).
-3. **Offre Workers payante** : confirmer qu'elle est active (illisible avec ce token).
-4. **Capture DNS** : refaire la capture de la zone **deviens-marrant.fr** dans IONOS (celle fournie semble être celle d'un autre domaine). Le tableau ci-dessus sert de référence en attendant.
+3. ~~Offre Workers payante~~ : active (confirmé par Thomas le 29/09).
+4. ~~Capture DNS~~ : reçue (2e capture), conforme.
 5. **Autorisation étape C** : l'ajout de la zone sur Cloudflare a été bloqué par le garde-fou de la session Claude (changement DNS). Soit Thomas ajoute la zone lui-même (tableau de bord Cloudflare, « Add a site », offre Free, import automatique), soit il autorise explicitement cette action dans la session.
 
 ## 5. Étape C, déroulé préparé (sans effet visible)
