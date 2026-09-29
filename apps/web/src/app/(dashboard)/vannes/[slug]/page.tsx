@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import {
@@ -10,6 +8,7 @@ import {
   buildBreadcrumbJsonLd,
 } from "@/components/seo/json-ld";
 import { VanneShareRow } from "@/components/vannes/vanne-share-row";
+import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -113,16 +112,9 @@ export default async function VannePage({
   const joke = await findJokeBySlug(params.slug);
   if (!joke) notFound();
 
-  // Alignement freemium avec le catalogue :
-  //   - Catalogue : les utilisateurs authentifiés (FREE + PREMIUM) voient TOUT le décryptage
-  //     (comedyTechnique + techniqueExplanation + howToApply). Les non-connectés n'ont
-  //     accès qu'aux 10 premières vannes de la liste (limite volumétrique côté API).
-  //   - Page individuelle : SEO-exposée pour valeur et preuve → on affiche
-  //     "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) publiquement.
-  //     Le "À toi de jouer" (howToApply) reste derrière la même barrière que le
-  //     reste du catalogue : session requise. Pas de nouvelle règle premium-only.
-  const session = await getServerSession(authOptions);
-  const isAuthenticated = Boolean((session?.user as { id?: string } | undefined)?.id);
+  // Freemium aligné sur le catalogue : "Pourquoi ça marche" public (valeur SEO),
+  // "À toi de jouer" réservé aux membres connectés — géré côté client par
+  // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
   const categoryLabel = CATEGORY_LABELS[joke.category] ?? "Vanne";
@@ -223,24 +215,7 @@ export default async function VannePage({
                 {joke.techniqueExplanation}
               </p>
             )}
-            {isAuthenticated && joke.howToApply ? (
-              <div className="mt-3 rounded-md border border-border bg-background-card p-3">
-                <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
-                <p className="mt-1 text-sm text-text-secondary">{joke.howToApply}</p>
-              </div>
-            ) : joke.howToApply ? (
-              <div className="mt-3 rounded-md border border-dashed border-accent-primary/30 bg-background-card p-3">
-                <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
-                <p className="mt-1 text-sm text-text-secondary">
-                  L&apos;exercice d&apos;application (consigne + exemple concret à réutiliser)
-                  est réservé aux membres.{" "}
-                  <Link href="/register" className="font-medium text-accent-primary hover:underline">
-                    Crée ton compte gratuit
-                  </Link>{" "}
-                  pour le débloquer.
-                </p>
-              </div>
-            ) : null}
+            {joke.howToApply ? <HowToApplyGate howToApply={joke.howToApply} /> : null}
             <p className="mt-3 text-xs text-text-muted">
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link

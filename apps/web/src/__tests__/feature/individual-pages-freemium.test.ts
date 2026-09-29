@@ -49,12 +49,19 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/Pourquoi ça marche/);
     });
 
-    it("gate 'À toi de jouer' (howToApply) derrière la session — alignement catalogue", () => {
+    it("gate 'À toi de jouer' (howToApply) derrière la session — côté client, page restée en ISR", () => {
       expect(src).toMatch(/howToApply/);
-      expect(src).toMatch(/getServerSession/);
-      expect(src).toMatch(/isAuthenticated/);
-      // Le contenu de howToApply n'est rendu que si isAuthenticated est vrai
-      expect(src).toMatch(/isAuthenticated\s*&&\s*joke\.howToApply/);
+      expect(src).toMatch(/<HowToApplyGate howToApply=\{joke\.howToApply\}/);
+      // Lire la session côté serveur dans une page ISR = DYNAMIC_SERVER_USAGE (erreur 500)
+      expect(src).not.toMatch(/getServerSession/);
+      expect(src).not.toMatch(/cookies\(\)|headers\(\)/);
+      const gate = fs.readFileSync(
+        path.join(process.cwd(), "src/components/vannes/how-to-apply-gate.tsx"),
+        "utf8",
+      );
+      expect(gate).toMatch(/useSession\(\)/);
+      expect(gate).toMatch(/status === "authenticated"/);
+      expect(gate).toMatch(/Crée ton compte gratuit/);
     });
 
     it("ne mentionne pas l'IA dans les metadata ni le JSON-LD (règle fondateur)", () => {

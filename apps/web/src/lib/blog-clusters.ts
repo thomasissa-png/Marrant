@@ -27,19 +27,19 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "techniques-delivery",
     name: "Techniques de livraison",
     pillarSlug: "timing-humour",
-    satelliteSlugs: ["timing-humour-ralentir", "raconter-blague-sans-massacrer", "storytelling-drole-5-structures"],
+    satelliteSlugs: ["comment-raconter-une-blague-sans-la-rater", "storytelling-drole-5-structures"],
   },
   {
     id: "types-humour",
     name: "Types d'humour",
     pillarSlug: "5-types-humour-lequel-pour-toi",
-    satelliteSlugs: ["humour-noir-utiliser-sans-blesser", "jeux-de-mots-technique-3-etapes", "humour-self-deprecating"],
+    satelliteSlugs: ["humour-noir-utiliser-sans-blesser", "jeu-de-mots-drole-techniques-creer", "humour-self-deprecating"],
   },
   {
     id: "humour-contexte",
     name: "Humour en contexte",
     pillarSlug: "blagues-travail-faire-rire-pro",
-    satelliteSlugs: ["repartie-soiree-anti-malaise", "blagues-courtes-vs-longues"],
+    satelliteSlugs: ["repartie-soiree-anti-malaise", "blague-courte-arme-secrete-humour"],
   },
   {
     id: "apprendre-des-pros",
@@ -51,7 +51,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
     id: "douleurs-personas",
     name: "Douleurs et situations concrètes",
     pillarSlug: "je-suis-pas-drole-comment-changer",
-    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "humour-apres-rupture", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
+    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },
   {
     id: "fort-volume",

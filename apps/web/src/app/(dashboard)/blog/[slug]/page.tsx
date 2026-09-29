@@ -17,6 +17,7 @@ import {
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
 import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
+import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 
 export const revalidate = 3600;
 
@@ -111,12 +112,17 @@ export default async function BlogArticlePage({
   }
 
   // Merge static + DB articles for lookup
-  let allAvailableArticles: { slug: string; title: string; category: string; readingTime: string; date: string }[] = blogArticles.map((a) => ({
-    slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime, date: a.date,
-  }));
+  // Articles redirigés (fusion/cannibalisation/renommage) exclus : jamais de lien
+  // interne vers une URL qui redirige (liés, précédent/suivant).
+  const redirected = new Set<string>(REDIRECTED_BLOG_SLUGS);
+  let allAvailableArticles: { slug: string; title: string; category: string; readingTime: string; date: string }[] = blogArticles
+    .filter((a) => !redirected.has(a.slug))
+    .map((a) => ({
+      slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime, date: a.date,
+    }));
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, title: true, category: true, readingTime: true, publishedAt: true },
     });
     const dbMapped = dbArticles.map((a) => ({

@@ -354,6 +354,71 @@ async function depublishCannibalizedDbArticlesTask(): Promise<void> {
 }
 
 /**
+ * Réécrit, dans les articles de blog publiés en base, les liens internes qui
+ * pointent vers une URL redirigée (fusion, cannibalisation, renommage) pour
+ * qu'ils visent directement la destination finale : pas de saut de redirection
+ * pour les lecteurs ni pour les moteurs (budget de crawl, PageRank).
+ *
+ * Couvre les liens relatifs `/blog/x` et absolus `https://deviens-marrant.fr/blog/x`,
+ * uniquement quand le slug est suivi d'une fin de lien (`)`, `"`, `#`, `?`, espace
+ * ou fin de chaîne) — `/blog/x-suite` n'est jamais touché. Idempotent : une fois
+ * réécrit, le lien ne matche plus aucune source.
+ */
+async function rewriteRedirectedBlogLinksTask(): Promise<void> {
+  const { SEO_REDIRECTS } = await import("@/lib/seo-redirects");
+  const blogRedirects = SEO_REDIRECTS.filter(
+    (r) => r.source.startsWith("/blog/") && r.destination.startsWith("/blog/"),
+  );
+  if (blogRedirects.length === 0) return;
+
+  const escape = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const rules = blogRedirects.map((r) => ({
+    pattern: new RegExp(
+      `((?:https://deviens-marrant\\.fr)?)${escape(r.source)}(?=[)"'#?\\s]|$)`,
+      "g",
+    ),
+    destination: r.destination,
+  }));
+
+  try {
+    const articles = await withDbRetry(
+      () =>
+        prisma.blogArticle.findMany({
+          where: {
+            isPublished: true,
+            OR: blogRedirects.map((r) => ({ content: { contains: r.source } })),
+          },
+          select: { id: true, slug: true, content: true },
+        }),
+      { label: "rewrite-blog-links:findMany" },
+    );
+
+    let touched = 0;
+    for (const article of articles) {
+      let content = article.content;
+      for (const rule of rules) {
+        content = content.replace(rule.pattern, `$1${rule.destination}`);
+      }
+      if (content === article.content) continue;
+      await withDbRetry(
+        () =>
+          prisma.blogArticle.update({
+            where: { id: article.id },
+            data: { content, updatedAt: new Date() },
+          }),
+        { label: `rewrite-blog-links:update(${article.slug})` },
+      );
+      touched += 1;
+    }
+    if (touched > 0) {
+      console.log(`[startup] liens internes vers URLs redirigées réécrits : ${touched} article(s).`);
+    }
+  } catch (err) {
+    console.error("[startup] rewriteRedirectedBlogLinks échoué (non bloquant) :", err);
+  }
+}
+
+/**
  * Extension du back-fill décryptage : couvre TOUT le stock actif sans décryptage,
  * pas seulement les vannes du seed pré-rédigé.
  *
@@ -558,6 +623,7 @@ export async function runStartupTasks(): Promise<void> {
   await depublishCannibalizedDbArticlesTask();
   await backfillMissingJokeDecryptagesTask();
   await convergeBlogSlugRedirectsTask();
+  await rewriteRedirectedBlogLinksTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
@@ -568,4 +634,5 @@ export {
   depublishCannibalizedDbArticlesTask,
   backfillMissingJokeDecryptagesTask,
   convergeBlogSlugRedirectsTask,
+  rewriteRedirectedBlogLinksTask,
 };

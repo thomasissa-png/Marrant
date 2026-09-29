@@ -6,10 +6,8 @@
 //   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
 //   L'interactivité (progression, quiz, complétion) reste côté client.
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import {
   JsonLd,
@@ -244,21 +242,10 @@ async function fetchInitialData(slug: string) {
         slug,
       );
 
-      // Progression utilisateur si session serveur disponible
-      let initialProgress = null;
-      try {
-        const session = await getServerSession(authOptions);
-        const userId = (session?.user as { id?: string } | undefined)?.id;
-        if (userId) {
-          initialProgress = await prisma.userPathProgress.findUnique({
-            where: {
-              userId_learningPathId: { userId, learningPathId: dbPath.id },
-            },
-          });
-        }
-      } catch {
-        // Session indisponible côté serveur — le client refetch après hydratation.
-      }
+      // Page en ISR : pas de lecture de session serveur (cookies interdits en
+      // rendu statique). La progression utilisateur est chargée côté client
+      // après hydratation (parcours-detail refetch quand initialProgress est null).
+      const initialProgress = null;
 
       return { path: enriched, progress: initialProgress };
     }

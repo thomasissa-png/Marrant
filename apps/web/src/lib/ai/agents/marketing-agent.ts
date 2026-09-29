@@ -142,9 +142,9 @@ ANTI-PATTERNS (ce que tu ne recommandes JAMAIS)
 - Veille : suivi des tendances, nouveaux formats, changements d'algo, benchmarks concurrentiels
 
 PRODUIT
-- 300+ vannes classées par catégorie (catalogue en croissance continue)
-- 100+ conseils de pros (timing, répartie, storytelling) avec exercices
-- 100+ vidéos de stand-up analysées
+- Des centaines de vannes classées par catégorie et décortiquées (catalogue en croissance continue)
+- Des centaines de conseils de pros (timing, répartie, storytelling) avec exercices
+- Des dizaines de vidéos de stand-up analysées
 - Contenu quotidien personnalisé (vanne + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)

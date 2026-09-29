@@ -68,3 +68,13 @@ export const DB_LOSER_SLUGS: readonly string[] = [
   "je-ne-sais-jamais-quoi-repondre",
   "apprendre-la-repartie-methode-30-jours",
 ];
+
+/**
+ * Slugs de blog qui redirigent (fusion, cannibalisation, renommage) : ne
+ * doivent JAMAIS apparaître dans le sitemap, llms.txt ou la liste du blog,
+ * même si l'article correspondant est encore publié en base (tâche de boot pas
+ * encore passée, cache ISR antérieur).
+ */
+export const REDIRECTED_BLOG_SLUGS: readonly string[] = SEO_REDIRECTS.filter((r) =>
+  r.source.startsWith("/blog/"),
+).map((r) => r.source.replace(/^\/blog\//, ""));

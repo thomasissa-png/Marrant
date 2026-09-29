@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { blogArticles } from "@/lib/blog-articles";
-import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
+import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
+import { LLMS_FAQ_SHORT, LLMS_TARIFS, renderFaq } from "@/lib/llms-content";
 
 /**
  * llms.txt — carte de site condensée pour les crawlers LLM (GEO).
@@ -43,7 +44,7 @@ const RESOURCE_PAGES: ResourceEntry[] = [
   {
     path: "/quiz-humour",
     label: "Quiz humour",
-    summary: "Quiz pour identifier ton style d'humour dominant en 10 questions.",
+    summary: "Quiz pour identifier ton style d'humour dominant en 12 questions.",
   },
   {
     path: "/parcours/machine-a-cafe",
@@ -80,7 +81,7 @@ async function collectArticles(): Promise<ArticleEntry[]> {
   let dbEntries: ArticleEntry[] = [];
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, title: true, excerpt: true },
       orderBy: { publishedAt: "desc" },
     });
@@ -134,6 +135,9 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push(`- [Parcours](${BASE_URL}/parcours) : programmes structurés de 3 à 6 semaines.`);
   lines.push(`- [Blog](${BASE_URL}/blog) : articles de fond sur l'humour, la répartie et le développement personnel.`);
   lines.push("");
+  lines.push("## Questions fréquentes");
+  lines.push("");
+  lines.push(...renderFaq(LLMS_FAQ_SHORT));
   lines.push("## Pages ressources");
   lines.push("");
   for (const resource of RESOURCE_PAGES) {
@@ -148,9 +152,7 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push("");
   lines.push("## Tarifs");
   lines.push("");
-  lines.push("- Accès gratuit : 10 vannes, 3 conseils, 3 vidéos + contenu du jour renouvelé quotidiennement.");
-  lines.push("- Accès complet : 0,99 €/mois — toutes les vannes, conseils, vidéos, parcours et contenu quotidien.");
-  lines.push("- Coaching individuel : 99 €/séance (45 min en visio).");
+  for (const tarif of LLMS_TARIFS) lines.push(`- ${tarif}`);
   lines.push("");
   lines.push("## Pour plus de détails");
   lines.push("");

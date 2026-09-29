@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogArticles } from "@/lib/blog-articles";
-import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
+import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 
 export const revalidate = 3600;
@@ -63,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { prisma } = await import("@/lib/prisma");
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, publishedAt: true, updatedAt: true },
     });
     dbBlogRoutes = dbArticles.map((article) => ({

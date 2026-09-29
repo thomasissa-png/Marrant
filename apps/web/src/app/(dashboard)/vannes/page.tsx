@@ -120,7 +120,7 @@ export default async function VannesPage() {
             Nos vannes sont classées par situation — <strong className="text-text-primary">boulot, couple, soirée, potes</strong> — pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
           </p>
           <p>
-            Tu veux aller plus loin ? Apprends à <Link href="/blog/raconter-blague-sans-massacrer" className="text-accent-primary hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-primary hover:underline">5 erreurs qui tuent tes blagues</Link>.
+            Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-primary hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-primary hover:underline">5 erreurs qui tuent tes blagues</Link>.
           </p>
         </div>
       </section>

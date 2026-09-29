@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { blogArticles } from "@/lib/blog-articles";
-import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
+import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
+import {
+  LLMS_FAQ_FULL,
+  LLMS_FULL_INTRO,
+  LLMS_LEGAL_PAGES,
+  LLMS_TARIFS,
+  renderFaq,
+} from "@/lib/llms-content";
 
 /**
  * llms-full.txt — version étendue de llms.txt pour les crawlers LLM (GEO).
@@ -26,7 +33,7 @@ interface FullArticle {
 const RESOURCE_PAGES = [
   { path: "/glossaire", label: "Glossaire humour", summary: "12 termes clés de l'humour expliqués : répartie, timing, punchline, callback, tag, misdirection, deadpan, one-liner, autodérision, storytelling, absurde, observation." },
   { path: "/anatomie-vanne", label: "Anatomie d'une vanne", summary: "Structure setup + punchline décortiquée avec exemples concrets. Comment construire une vanne qui déclenche vraiment le rire." },
-  { path: "/quiz-humour", label: "Quiz humour", summary: "Quiz pour identifier ton style d'humour dominant en 10 questions (autodérision, absurde, observation, jeu de mots, timing…)." },
+  { path: "/quiz-humour", label: "Quiz humour", summary: "Quiz pour identifier ton style d'humour dominant en 12 questions (autodérision, absurde, observation, jeu de mots, timing…)." },
   { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: "Parcours débutant de 3 semaines pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork." },
   { path: "/parcours/repartie", label: "Parcours Répartie", summary: "Parcours intermédiaire de 4 semaines pour développer sa répartie avec des exercices concrets et ne plus rester muet." },
   { path: "/parcours/confiance", label: "Parcours Confiance", summary: "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif." },
@@ -47,7 +54,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
   let dbArticlesList: FullArticle[] = [];
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: {
         slug: true,
         title: true,
@@ -95,6 +102,19 @@ function renderLlmsFullTxt(articles: FullArticle[]): string {
   lines.push(`- ${articles.length} articles de blog`);
   lines.push(`- ${RESOURCE_PAGES.length} pages ressources et parcours`);
   lines.push("- Sections principales : vannes, conseils, vidéos, parcours, blog");
+  lines.push("");
+  lines.push(LLMS_FULL_INTRO);
+  lines.push("");
+  lines.push("## FAQ complète");
+  lines.push("");
+  lines.push(...renderFaq(LLMS_FAQ_FULL));
+  lines.push("## Tarifs et limites");
+  lines.push("");
+  for (const tarif of LLMS_TARIFS) lines.push(`- ${tarif}`);
+  lines.push("");
+  lines.push("## Pages légales");
+  lines.push("");
+  for (const page of LLMS_LEGAL_PAGES) lines.push(`- ${page.label} : ${BASE_URL}${page.path}`);
   lines.push("");
   lines.push("## Public cible");
   lines.push("");

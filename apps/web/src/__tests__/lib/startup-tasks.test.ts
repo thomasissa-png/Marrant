@@ -18,6 +18,7 @@ const mockJokeUpdateMany = jest.fn();
 const mockBlogArticleFindUnique = jest.fn();
 const mockBlogArticleUpdate = jest.fn();
 const mockBlogArticleUpdateMany = jest.fn();
+const mockBlogArticleFindMany = jest.fn();
 const mockGenerateJokeDecryptage = jest.fn();
 
 jest.mock("@/lib/prisma", () => ({
@@ -32,6 +33,7 @@ jest.mock("@/lib/prisma", () => ({
       findUnique: (...args: unknown[]) => mockBlogArticleFindUnique(...args),
       update: (...args: unknown[]) => mockBlogArticleUpdate(...args),
       updateMany: (...args: unknown[]) => mockBlogArticleUpdateMany(...args),
+      findMany: (...args: unknown[]) => mockBlogArticleFindMany(...args),
     },
   },
 }));
@@ -51,6 +53,7 @@ import {
   fixPublishedBlogArticlesTask,
   depublishCannibalizedDbArticlesTask,
   backfillMissingJokeDecryptagesTask,
+  rewriteRedirectedBlogLinksTask,
 } from "@/lib/startup-tasks";
 import jokeDecryptages from "@/data/joke-decryptages.json";
 import weakJokes from "@/data/weak-jokes.json";
@@ -70,6 +73,7 @@ beforeEach(() => {
   mockBlogArticleFindUnique.mockResolvedValue(null);
   mockBlogArticleUpdate.mockResolvedValue({});
   mockBlogArticleUpdateMany.mockResolvedValue({ count: 0 });
+  mockBlogArticleFindMany.mockResolvedValue([]);
   mockGenerateJokeDecryptage.mockResolvedValue({
     comedyTechnique: "Test technique",
     techniqueExplanation: "Explication test",
@@ -438,5 +442,53 @@ describe("backfillMissingJokeDecryptagesTask (s11 lot 3)", () => {
 
     expect(mockGenerateJokeDecryptage).not.toHaveBeenCalled();
     expect(mockJokeUpdate).not.toHaveBeenCalled();
+  });
+});
+
+
+describe("rewriteRedirectedBlogLinksTask (s11)", () => {
+  it("réécrit les liens relatifs et absolus vers la destination finale", async () => {
+    mockBlogArticleFindMany.mockResolvedValue([
+      {
+        id: "a1",
+        slug: "article-x",
+        content:
+          "Voir [ce guide](/blog/timing-humour-ralentir) et [celui-ci](https://deviens-marrant.fr/blog/blagues-courtes-vs-longues#intro).",
+      },
+    ]);
+
+    await rewriteRedirectedBlogLinksTask();
+
+    expect(mockBlogArticleUpdate).toHaveBeenCalledTimes(1);
+    const call = mockBlogArticleUpdate.mock.calls[0][0] as {
+      where: { id: string };
+      data: { content: string; updatedAt: Date };
+    };
+    expect(call.where.id).toBe("a1");
+    expect(call.data.content).toBe(
+      "Voir [ce guide](/blog/timing-humour) et [celui-ci](https://deviens-marrant.fr/blog/blague-courte-arme-secrete-humour#intro).",
+    );
+    expect(call.data.updatedAt).toBeInstanceOf(Date);
+  });
+
+  it("ne touche pas un slug plus long qui commence pareil", async () => {
+    mockBlogArticleFindMany.mockResolvedValue([
+      { id: "a2", slug: "y", content: "[lien](/blog/timing-humour-ralentir-encore-plus)" },
+    ]);
+    await rewriteRedirectedBlogLinksTask();
+    expect(mockBlogArticleUpdate).not.toHaveBeenCalled();
+  });
+
+  it("idempotent : aucun lien redirigé → aucune écriture", async () => {
+    mockBlogArticleFindMany.mockResolvedValue([
+      { id: "a3", slug: "z", content: "[ok](/blog/timing-humour)" },
+    ]);
+    await rewriteRedirectedBlogLinksTask();
+    expect(mockBlogArticleUpdate).not.toHaveBeenCalled();
+  });
+
+  it("fail-safe : une erreur DB ne remonte pas", async () => {
+    mockBlogArticleFindMany.mockRejectedValue(new Error("DB down"));
+    await expect(rewriteRedirectedBlogLinksTask()).resolves.toBeUndefined();
   });
 });

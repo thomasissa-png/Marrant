@@ -192,7 +192,7 @@ Parfois, la meilleure répartie, c'est pas de réponse. Un sourire confiant. Un 
 
 **Le journal de répartie.** Chaque soir, note une situation où tu aurais voulu avoir de la répartie. Écris 3 réponses avec 3 techniques différentes. En 3 semaines, ces réponses viendront de plus en plus vite en temps réel.
 
-**Le ping-pong verbal.** Avec un pote, faites des sessions de 5 minutes : vous vous envoyez des remarques et devez répondre en moins de 5 secondes. Pas besoin d'être brillant — l'objectif, c'est la vitesse.
+**Le ping-pong verbal.** Avec un pote, faites-vous des sessions de 5 minutes : vous vous envoyez des remarques et devez répondre en moins de 5 secondes. Pas besoin d'être brillant — l'objectif, c'est la vitesse.
 
 **L'analyse de pros.** Regarde des interviews de **Fary**, **Panayotis Pascot** ou **Waly Dia** et note comment ils gèrent les questions pièges. Quelles techniques utilisent-ils ? Nos [vidéos](/videos) de pros analysées technique par technique sont un bon point de départ.
 
@@ -295,8 +295,8 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
     category: "TIMING",
     faqs: [
       { question: "C'est quoi le timing en humour ?", answer: "Le timing est l'art de dire le bon mot au bon moment. C'est la combinaison du silence avant la punchline, du rythme de la narration, et du choix du moment social pour intervenir. C'est souvent plus important que la blague elle-même." },
-      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices : analysez les silences dans les sketches de pros (Roman Frayssinet, Blanche Gardin), pratiquez la règle des 3 secondes en conversation (attendre avant de répondre), et marquez des pauses volontaires avant vos chutes." },
-      { question: "Pourquoi mes blagues tombent à plat ?", answer: "Le problème est souvent le timing, pas la blague. Les erreurs classiques : parler trop vite, ne pas marquer de pause avant la chute, ou choisir le mauvais moment social pour intervenir. Le silence avant la punchline est votre meilleur allié." },
+      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices : analyse les silences dans les sketches de pros (Roman Frayssinet, Blanche Gardin), pratique la règle des 3 secondes en conversation (attendre avant de répondre), et marque des pauses volontaires avant tes chutes." },
+      { question: "Pourquoi mes blagues tombent à plat ?", answer: "Le problème est souvent le timing, pas la blague. Les erreurs classiques : parler trop vite, ne pas marquer de pause avant la chute, ou choisir le mauvais moment social pour intervenir. Le silence avant la punchline est ton meilleur allié." },
     ],
   },
   {
@@ -358,7 +358,7 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
     faqs: [
       { question: "Quelles sont les erreurs quand on raconte une blague ?", answer: "Les 5 erreurs principales : expliquer la chute après un silence, un setup trop long (plus de 2 phrases), ne pas adapter au public, manquer d'engagement dans la livraison, et ignorer les signaux sociaux du groupe." },
       { question: "Pourquoi ne faut-il jamais expliquer une blague ?", answer: "Expliquer une blague tue l'effet de surprise qui déclenche le rire. Si personne ne rit, la meilleure réponse est de sourire et passer à la suite avec confiance. Le cerveau a parfois besoin de quelques secondes pour 'capter' — laissez-lui le temps." },
-      { question: "Comment savoir si c'est le bon moment pour une blague ?", answer: "Observez les signaux du groupe : rires, énergie montante et transitions entre sujets sont des signaux verts. Voix basses, sujets sérieux et quelqu'un qui se confie sont des signaux rouges. Le timing social est aussi important que le contenu." },
+      { question: "Comment savoir si c'est le bon moment pour une blague ?", answer: "Observe les signaux du groupe : rires, énergie montante et transitions entre sujets sont des signaux verts. Voix basses, sujets sérieux et quelqu'un qui se confie sont des signaux rouges. Le timing social est aussi important que le contenu." },
     ],
   },
   {
@@ -441,7 +441,7 @@ L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur devien
 
 On va suivre Lucas sur 5 étapes. Pas des étapes théoriques de livre de développement personnel. Des étapes concrètes, testées, avec des résultats visibles en quelques jours.
 
-> **À retenir :** Pour développer sa répartie en partant de zéro, il faut d'abord arrêter de chercher la réplique parfaite. Mémorisez 3 phrases passe-partout comme filet de sécurité, pratiquez l'écoute active pour repérer les mots-clés, et entraînez-vous dans des situations à faible enjeu avant de passer aux situations réelles.
+> **À retenir :** Pour développer sa répartie en partant de zéro, il faut d'abord arrêter de chercher la réplique parfaite. Mémorise 3 phrases passe-partout comme filet de sécurité, pratique l'écoute active pour repérer les mots-clés, et entraîne-toi dans des situations à faible enjeu avant de passer aux situations réelles.
 
 ## Étape 1 : Arrête d'essayer d'être drôle
 
@@ -606,7 +606,7 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
       "Absurde, autodérision, jeux de mots, observationnel ou noir ? Découvre ton type d'humour et comment le développer pour être drôle à ta manière.",
     content: `Tu connais ce moment où quelqu'un sort une blague et tu te dis "ça, c'est MON type d'humour" ? Ce sentiment de reconnaissance, c'est parce que l'humour n'est pas un bloc monolithique. Il y a des familles, des styles, des tempéraments comiques. Et trouver le tien, c'est la clé pour être drôle sans forcer.
 
-> **À retenir :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types — trouvez votre dominante et développez-la.
+> **À retenir :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types — trouve ta dominante et développe-la.
 
 **Les 5 types d'humour en un coup d'oeil :**
 1. **L'observationnel** — décrire la réalité avec une précision qui fait rire (Roman Frayssinet)
@@ -764,7 +764,7 @@ Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment
     faqs: [
       { question: "Comment faire de l'humour noir sans blesser ?", answer: "Trois règles : vise vers le haut (toi-même, le système, l'absurdité de la vie — jamais les personnes vulnérables), adapte au contexte (amis proches oui, grand groupe d'inconnus non), et assure-toi que la punchline justifie le sujet sensible." },
       { question: "Quelle est la différence entre humour noir et méchanceté ?", answer: "L'humour noir fait rire de l'absurdité d'une situation grave. La méchanceté fait mal à quelqu'un en se cachant derrière 'c'est une blague'. La différence : la cible (système vs personne) et la punchline (surprenante vs inexistante)." },
-      { question: "L'humour noir est-il adapté au travail ?", answer: "En version très légère uniquement : métaphores exagérées sur le quotidien pro ('Cette réunion était tellement longue que j'ai commencé à rédiger mon testament'). Évitez les sujets réellement sensibles et la hiérarchie directe." },
+      { question: "L'humour noir est-il adapté au travail ?", answer: "En version très légère uniquement : métaphores exagérées sur le quotidien pro ('Cette réunion était tellement longue que j'ai commencé à rédiger mon testament'). Évite les sujets réellement sensibles et la hiérarchie directe." },
     ],
   },
   {
@@ -1045,7 +1045,7 @@ Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercic
     category: "TIMING",
     faqs: [
       { question: "Pourquoi le timing est-il si important en humour ?", answer: "Le timing crée la tension nécessaire au rire. Sans pause avant la punchline, le cerveau ne peut pas construire l'attente. Le silence est l'arme secrète : il transforme un sourire en éclat de rire." },
-      { question: "Comment améliorer son timing comique en conversation ?", answer: "Exercice de la micro-pause : avant chaque punchline, comptez 'mille-un, mille-deux' silencieusement, baissez le ton, puis lâchez la chute. En 4-5 essais, le réflexe se met en place." },
+      { question: "Comment améliorer son timing comique en conversation ?", answer: "Exercice de la micro-pause : avant chaque punchline, compte 'mille-un, mille-deux' silencieusement, baisse le ton, puis lâche la chute. En 4-5 essais, le réflexe se met en place." },
       { question: "Quelle est la durée idéale d'une pause en conversation ?", answer: "1-2 secondes avant la punchline, 2-3 secondes après. Sur scène, les pauses peuvent aller jusqu'à 5 secondes, mais en conversation ce serait trop long et gênant." },
     ],
   },
@@ -1502,7 +1502,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 ## Les pépites inclassables
 
-**45.** « J'ai demandé à l'IA de me faire un compliment. Elle a dit "tu poses des questions intéressantes". Même les robots me friendzonent. »
+**45.** « Je parle couramment trois langues : le français, le sarcasme et le silence gênant. »
 
 **46.** « Je fais pas la sieste. Je fais une "micro-session de récupération cognitive". Ça passe mieux en réunion. »
 
@@ -1526,7 +1526,7 @@ Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le
 
 **Le contexte fait la vanne.** La blague sur le flex office, tu la sors au bureau, pas en boîte.
 
-**Ne rigole pas avant ta punchline.** C'est l'erreur n°1. On détaille toutes les erreurs dans [Comment raconter une blague sans la massacrer](/blog/raconter-blague-sans-massacrer).
+**Ne rigole pas avant ta punchline.** C'est l'erreur n°1. On détaille toutes les erreurs dans [Comment raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater).
 
 **Adapte, n'apprends pas par cœur.** Change les prénoms, adapte les situations à ta vie.
 
@@ -2492,7 +2492,7 @@ Les 3 ingrédients universels du storytelling humour :
 
 La différence entre les 5 structures ci-dessous, c'est la façon dont elles construisent cette tension et la libèrent.
 
-Si tu veux creuser les bases de la construction comique, notre article [Comment bien raconter une blague](/blog/raconter-blague-sans-massacrer) couvre les fondamentaux. Pour le timing dans la livraison, voir [Timing humour : plus fort que la blague](/blog/timing-humour).
+Si tu veux creuser les bases de la construction comique, notre article [Comment bien raconter une blague](/blog/comment-raconter-une-blague-sans-la-rater) couvre les fondamentaux. Pour le timing dans la livraison, voir [Timing humour : plus fort que la blague](/blog/timing-humour).
 
 ## Comment l'escalade peut transformer une anecdote banale ?
 
@@ -3406,7 +3406,7 @@ Ensuite, choisis **une seule erreur à corriger par semaine**. Pas sept. Une. Si
 
 Que tu sois en train de redécouvrir l'humour entre potes après une période où tu n'avais plus le cœur — la raison 6 (l'énergie) est ta priorité, le ton revient avec la pratique. Que tu cherches à placer plus de vannes au boulot — les raisons 3 (public) et 7 (contexte) sont les plus importantes : un open space n'est pas une scène. Ou que tu galères en soirée à faire rire alors que tu en es capable en privé — la raison 1 (annoncer la blague) et la raison 2 (timing) sont 90% de ton problème.
 
-Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/raconter-blague-sans-massacrer). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blagues-courtes-vs-longues). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. **C'est 0,99 EUR/mois** — moins cher qu'une vanne qui rate.`,
+Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blague-courte-arme-secrete-humour). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. **C'est 0,99 EUR/mois** — moins cher qu'une vanne qui rate.`,
     date: "2026-05-05",
     readingTime: "8 min",
     category: "GUIDE",

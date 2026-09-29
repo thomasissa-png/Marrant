@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
-import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
+import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -41,7 +41,7 @@ async function getAllArticles() {
 
   try {
     dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: {
         slug: true,
         title: true,
