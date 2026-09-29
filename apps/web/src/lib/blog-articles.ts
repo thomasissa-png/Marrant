@@ -1358,11 +1358,11 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
     ],
   },
   {
-    // Slug pérenne (session 11) — la version datée redirige via seo-redirects.data.cjs
-    slug: "meilleures-blagues-droles",
+    // Slug historique CONSERVÉ : page n°1 en SEO (choix fondateur 29/09/2026 — ne jamais changer l'URL)
+    slug: "meilleures-blagues-droles-2026",
     title: "50 blagues drôles à ressortir en 2026",
     excerpt:
-      "50 vannes testées pour 2026, classées par situation. Soirée, bureau, date, famille, réseaux. La bonne vanne au bon moment — et cette fois c'est toi.",
+      "Les 50 meilleures blagues courtes de 2026, testées et approuvées. Soirée, boulot, date, famille : la bonne vanne pour chaque situation.",
     content: `Tu connais ce moment où quelqu'un sort une **blague drôle** pile au bon moment, tout le monde explose, et toi tu penses « pourquoi c'est jamais moi » ? Cet article, c'est ton armurerie. 50 vannes triées sur le volet, classées par situation — parce qu'une blague de soirée à 23h et une blague à la machine à café un lundi matin, c'est pas le même sport.
 
 Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
@@ -1412,8 +1412,8 @@ Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas
 **9.** « J'arrive au bureau, mon collègue me dit "t'as l'air en forme". Frère, j'ai dormi 4h et mon petit-déj c'était de l'espoir. Mais merci. »
 *→ Marmonne ça en fixant ton café.*
 
-**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a un template pour ça ?". Darwin aurait pas prévu ça. »
-*→ Prends un ton admiratif, façon documentaire animalier — la dernière phrase doit tomber comme une conclusion scientifique.*
+**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a un template ?". L'évolution, c'est beau. »
+*→ Prends un ton admiratif, façon documentaire animalier.*
 
 **11.** « Mon manager dit qu'il a une politique de "porte ouverte". Techniquement, une porte ouverte sur un open space c'est juste… un mur en moins. »
 *→ Fais semblant de réfléchir à la logique, comme si tu venais de réaliser l'absurdité.*
@@ -1501,7 +1501,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **40.** « J'ai 47 onglets ouverts. C'est pas du multitasking, c'est de l'anxiété avec du Wi-Fi. »
 
-**41.** « J'ai 14 conversations ouvertes et je réponds à aucune. C'est pas de la procrastination, c'est de la gestion de portefeuille humain. »
+**41.** « J'ai 14 conversations ouvertes et je réponds à aucune. C'est pas de l'antisocialité, c'est du multitasking émotionnel. »
 
 **42.** « Mon temps d'écran cette semaine : 7h par jour. C'est plus un téléphone, c'est un emploi à temps partiel. Et il me paye pas. »
 
@@ -1513,7 +1513,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 ## Les pépites inclassables
 
-**45.** « Je parle couramment trois langues : le français, le sarcasme et le silence gênant. »
+**45.** « Ma banque m'a écrit : "Merci pour votre fidélité, vous êtes un client précieux." Même ma banque me friendzone. »
 
 **46.** « Je fais pas la sieste. Je fais une "micro-session de récupération cognitive". Ça passe mieux en réunion. »
 
@@ -1553,11 +1553,11 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
     readingTime: "8 min",
     category: "CATALOGUE",
     faqs: [
-      { question: "Comment trouver des blagues drôles à raconter ?", answer: "Ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille, réseaux. Fary et Paul Mirabel ne font que mettre en mots ce qu'on pense tout bas. Commence à noter les absurdités de ta journée — tu as déjà du matériel." },
-      { question: "Comment devenir plus drôle au quotidien ?", answer: "C'est un entraînement, pas un don. Commence par ressortir une vanne par jour dans une situation safe (entre potes, en famille), note ce qui marche et ce qui tombe à plat, et ajuste. Au bout de quelques semaines, le réflexe s'installe." },
-      { question: "C'est quoi une bonne blague drôle courte ?", answer: "Un setup relatable (tout le monde se reconnaît), un twist qu'on ne voit pas venir, et une punchline plus courte que l'amorce. Les meilleures tiennent en 15-20 mots — pas une syllabe de plus." },
-      { question: "Comment adapter une blague à son public ?", answer: "La même vanne ne marche pas partout. En famille : autodérision légère. Entre potes : tu peux pousser plus loin. Au bureau : évite les sujets clivants. La méthode : observe le niveau d'énergie du groupe 5 minutes avant de te lancer, et choisis la vanne qui correspond à ce niveau-là." },
-      { question: "Quelles sont les erreurs à éviter quand on raconte une blague ?", answer: "Les trois classiques qui tuent une bonne vanne : rire avant ta punchline (tu tues la surprise toi-même), donner trop de contexte (le public a décroché avant la chute), et réexpliquer quand ça tombe à plat. Pour les deux dernières, la solution : sourire et passer à autre chose." },
+      { question: "Comment trouver des blagues drôles à raconter ?", answer: "L'observation de ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille. Les humoristes comme Fary ou Paul Mirabel ne font que mettre en mots ce qu'on pense tout bas." },
+      { question: "Comment devenir plus drôle au quotidien ?", answer: "C'est un entraînement, pas un talent inné. Commence par sortir une vanne par jour dans une situation safe (entre potes, en famille). Analyse ce qui marche et ce qui tombe à plat." },
+      { question: "C'est quoi une bonne blague drôle courte ?", answer: "Une bonne blague courte a trois qualités : un setup relatable (tout le monde se reconnaît), un twist qu'on voit pas venir, et une punchline plus courte que l'amorce. Les meilleures tiennent en 15-20 mots." },
+      { question: "Comment adapter une blague à son public ?", answer: "La même blague ne marche pas partout. En famille, reste sur de l'autodérision légère. Entre potes, tu peux pousser plus loin. Au bureau, évite les sujets clivants. La clé : observe ton public 5 minutes avant de te lancer, et choisis la vanne qui colle au niveau d'énergie du groupe." },
+      { question: "Quelles sont les erreurs à éviter quand on raconte une blague ?", answer: "Les trois pires : rire avant la punchline (tu tues la surprise), donner trop de contexte (tu perds l'attention), et forcer une blague qui tombe à plat en la réexpliquant." },
     ],
   },
   {

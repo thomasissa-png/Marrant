@@ -8,7 +8,8 @@
  * Règles :
  * - Toujours `permanent: true` (301) pour préserver le PageRank.
  * - Ne JAMAIS renommer un slug sans ajouter la redirection ici en même temps.
- * - Les slugs datés (ex. `-2026`) DOIVENT avoir une version pérenne + redirection.
+ * - Ne JAMAIS changer l'URL d'une page qui se positionne (ex. /blog/meilleures-blagues-droles-2026,
+ *   page n°1 en SEO — choix fondateur 29/09/2026), même si elle contient une année.
  * - `kind: "rename"` = même article sous un nouveau slug : la tâche de boot
  *   `convergeBlogSlugRedirectsTask` renomme alors l'entrée en base. Les autres
  *   redirections (fusions, cannibalisation) ne touchent JAMAIS au slug en base
@@ -25,9 +26,6 @@ const SEO_REDIRECTS = [
   { source: "/blog/apprendre-etre-drole", destination: "/blog/comment-devenir-drole", permanent: true },
   { source: "/blog/techniques-repartie", destination: "/blog/comment-avoir-de-la-repartie", permanent: true },
 
-  // Slug daté (session 11) — version pérenne pour éviter la dépréciation SEO annuelle.
-  // Le contenu vit désormais sous le slug pérenne ; l'URL datée redirige.
-  { source: "/blog/meilleures-blagues-droles-2026", destination: "/blog/meilleures-blagues-droles", permanent: true, kind: "rename" },
 
   // Cannibalisation s11 (audit SEO 29/09/2026, §3.3) — article perdant → article gardé.
   { source: "/blog/ne-plus-rester-muet-en-groupe", destination: "/blog/rester-muet-en-groupe", permanent: true, reason: "Cannibalisation s11 : rester-muet-en-groupe = pillar propre, sans témoignages fictifs." },

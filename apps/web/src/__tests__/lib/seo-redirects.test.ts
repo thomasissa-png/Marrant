@@ -170,25 +170,21 @@ describe("SEO_REDIRECTS", () => {
     expect(unique.size).toBe(sources.length);
   });
 
-  it("slug daté 2026 → slug pérenne (fix session 11)", () => {
-    const dated = SEO_REDIRECTS.find(
-      (r) => r.source === "/blog/meilleures-blagues-droles-2026",
-    );
-    expect(dated).toBeDefined();
-    expect(dated?.destination).toBe("/blog/meilleures-blagues-droles");
-    expect(dated?.permanent).toBe(true);
+  it("page n°1 SEO : /blog/meilleures-blagues-droles-2026 n'est JAMAIS redirigée (choix fondateur)", () => {
+    expect(hasRedirect("/blog/meilleures-blagues-droles-2026")).toBe(false);
+    expect(SEO_REDIRECTS.some((r) => r.destination === "/blog/meilleures-blagues-droles")).toBe(false);
   });
 
   it("hasRedirect() détecte les sources existantes (idempotence)", () => {
-    expect(hasRedirect("/blog/meilleures-blagues-droles-2026")).toBe(true);
+    expect(hasRedirect("/blog/timing-humour-ralentir")).toBe(true);
     expect(hasRedirect("/blog/slug-inexistant-xyz")).toBe(false);
   });
 });
 
 describe("kind: rename — seules les vraies renommées touchent la base", () => {
-  it("seul le slug daté est un renommage ; aucune redirection de cannibalisation ne l'est", () => {
+  it("aucun renommage actif ; aucune redirection de cannibalisation n'est un renommage", () => {
     const renames = SEO_REDIRECTS.filter((r) => r.kind === "rename").map((r) => r.source);
-    expect(renames).toEqual(["/blog/meilleures-blagues-droles-2026"]);
+    expect(renames).toEqual([]);
     for (const slug of DB_LOSER_SLUGS) {
       const r = SEO_REDIRECTS.find((x) => x.source === `/blog/${slug}`);
       expect(r?.kind).toBeUndefined();

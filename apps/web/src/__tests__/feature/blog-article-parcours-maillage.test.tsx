@@ -38,7 +38,7 @@ describe("BlogArticleParcoursMaillage", () => {
   it("suggère /parcours/machine-a-cafe pour le cluster fort-volume", () => {
     render(
       <BlogArticleParcoursMaillage
-        articleSlug="meilleures-blagues-droles"
+        articleSlug="meilleures-blagues-droles-2026"
         articleCategory="CATALOGUE"
       />,
     );
