@@ -15,6 +15,10 @@
 | Décryptage IA des vannes anciennes sans décryptage (15 / boot) | boot : `backfillMissingJokeDecryptagesTask` (désactivable : `SKIP_JOKE_DECRYPTAGE_AI_BACKFILL=1`) |
 | 15 redirections 301/308 (cannibalisation, historique, slug daté) | `next.config.js` ← `src/lib/seo-redirects.data.cjs` |
 | Alerte email admin si l'IA tombe en panne (modèle retiré, clé, crédit) | `lib/ai/failure-alert.ts`, 1 alerte / type / 24 h |
+| **Refonte copy** — vannes / conseils / vidéos / parcours du catalogue de base réécrits (favoris conservés : alias `previousContent` / `previousTitle`) | build : `scripts/seed.sh` (seed) |
+| **Refonte copy** — 9 articles de blog en base réécrits (une seule fois, marqueur `DataPatch`) | boot : `applyBlogArticleRewritesTask` |
+| **Refonte copy** — relecture automatique des vannes et conseils générés (25 + 25 / jour, 3h-4h UTC ; retrait seulement sur motif fermé, sinon GARDER ; originaux conservés) | scheduler : job copy-review |
+| Nouveaux champs `copyVerdict`, `copyReviewedAt`, `original*` (Joke, Tip) + table `DataPatch` | `prisma db push` au build (colonnes nullables, sans perte) |
 
 ### B. Secrets Replit — tous OPTIONNELS (le code a des défauts sûrs)
 | Secret | Valeur | Effet |
@@ -25,6 +29,9 @@
 | `NEXT_PUBLIC_BING_SITE_VERIFICATION` | clé `msvalidate.01` de Bing Webmaster Tools | débloque l'indexation Bing |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | clé Search Console (si pas déjà vérifié par DNS) | — |
 | `NEXT_PUBLIC_SOCIAL_PROFILES` | URLs des profils officiels séparées par des virgules | `sameAs` JSON-LD (entité de marque pour les IA) |
+| `COPY_REVIEW_ENABLED` | *(vide)* → actif | `false` pour suspendre la relecture automatique des contenus générés |
+| `COPY_REVIEW_BATCH` | *(vide)* → `25` | nombre de vannes ET de conseils relus par jour |
+| `COPY_REVIEW_VERSION` | *(vide)* → `1` | incrémenter pour relire tout le corpus après une évolution de la charte |
 | ⚠️ Secret à SUPPRIMER s'il existe | `ANTHROPIC_HAIKU_MODEL` | plus lu par le code |
 
 ### C. Après le déploiement (5 min)
