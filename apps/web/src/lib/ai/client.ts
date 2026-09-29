@@ -13,17 +13,29 @@ export const anthropic = new Anthropic({
  * constante migre d'un coup tous les agents qui l'importent (au lieu de
  * chasser les `"claude-sonnet-4-20250514"` hardcodés dans chaque fichier).
  *
- * Note migration Sonnet 4.6 (avril 2026) : le modèle a été annoncé mais
- * la convention de versioning finale n'est pas confirmée cote Anthropic
- * au moment du commit. On reste volontairement sur Sonnet 4 stable tant
- * que l'ID date n'est pas gravé — le fondateur mettra a jour cette
- * constante d'un seul coup le jour J.
+ * Incident s11 : `claude-sonnet-4-20250514` a été retiré par Anthropic le
+ * 15/06/2026 → toute la génération (vannes, conseils, blog, social, vidéos)
+ * échouait silencieusement depuis. Migré vers `claude-sonnet-4-6`
+ * (remplaçant officiel, même prix, aucune rupture d'API pour notre usage :
+ * pas de prefill, pas de temperature, pas de tool_choice forcé).
+ *
+ * Surcharge sans redéploiement de code : secret Replit `ANTHROPIC_SONNET_MODEL`
+ * (ex. au prochain retrait, cf. https://platform.claude.com/docs/en/about-claude/model-deprecations).
  *
  * Usage :
  *   import { SONNET_MODEL } from "@/lib/ai/client";
  *   await callWithRetry({ model: SONNET_MODEL, ... });
  */
-export const SONNET_MODEL = "claude-sonnet-4-20250514";
+export const SONNET_MODEL =
+  process.env.ANTHROPIC_SONNET_MODEL?.trim() || "claude-sonnet-4-6";
+
+/**
+ * Modèle Haiku centralisé (triage CEO, validation dual-pass Director).
+ * Snapshot `claude-haiku-4-5-20251001` : retrait annoncé "pas avant le
+ * 15/10/2026" → surcharge possible via le secret `ANTHROPIC_HAIKU_MODEL`.
+ */
+export const HAIKU_MODEL =
+  process.env.ANTHROPIC_HAIKU_MODEL?.trim() || "claude-haiku-4-5-20251001";
 
 /**
  * Métadonnées d'instrumentation attachées à un appel LLM.

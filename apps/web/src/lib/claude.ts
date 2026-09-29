@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { SONNET_MODEL } from "@/lib/ai/client";
 
 // Client Anthropic — singleton
 const anthropic = new Anthropic({
@@ -59,7 +60,7 @@ export async function generateJoke(preferences: {
   }${preferences.level ? ` Niveau : ${preferences.level}.` : ""}`;
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 500,
     system: JOKE_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
@@ -91,7 +92,7 @@ export async function generateTip(context: {
   }`;
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1000,
     system: TIP_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
@@ -111,7 +112,7 @@ export async function analyzeRepartee(
   responses: Array<{ text: string; technique: string; level: string }>;
 }> {
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: SONNET_MODEL,
     max_tokens: 1000,
     system: REPARTEE_SYSTEM_PROMPT,
     messages: [

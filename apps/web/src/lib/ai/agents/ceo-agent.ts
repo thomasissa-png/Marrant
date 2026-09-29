@@ -30,6 +30,7 @@ import {
   callWithRetry,
   extractJson,
   getResponseText,
+  HAIKU_MODEL,
   SONNET_MODEL,
 } from "../client";
 import { prisma } from "@/lib/prisma";
@@ -64,9 +65,9 @@ import { sendTwitterDmByHandle } from "@/lib/twitter/twitter-client";
 // ─── Modèles + constantes ─────────────────────────────────────────────
 
 /** Haiku 4.5 — utilisé pour triage (scoring binaire input court). */
-export const CEO_HAIKU_MODEL = "claude-haiku-4-5-20251001";
+export const CEO_HAIKU_MODEL = HAIKU_MODEL;
 
-/** Opus 4.7 — utilisé 1x/sem pour weekly report. */
+/** Opus 4.6 — utilisé 1x/sem pour weekly report. */
 export const CEO_OPUS_MODEL = "claude-opus-4-6";
 
 /** Caps anti-runaway. */

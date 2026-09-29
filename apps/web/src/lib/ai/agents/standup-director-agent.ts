@@ -3,6 +3,7 @@ import {
   callWithRetry,
   extractJson,
   getResponseText,
+  HAIKU_MODEL,
   SONNET_MODEL,
 } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
@@ -664,7 +665,7 @@ const ENABLE_REVIEW_BATCH = process.env.ENABLE_REVIEW_BATCH === "true";
 // IDs modèles Anthropic utilisés pour la validation directeur.
 // Le SONNET_VALIDATION_MODEL est gardé local pour l'instant — une future
 // refactor pourra l'exporter depuis `client.ts` pour alignement global.
-const HAIKU_VALIDATION_MODEL = "claude-haiku-4-5-20251001";
+const HAIKU_VALIDATION_MODEL = HAIKU_MODEL;
 // Alias local pour clarté — pointe vers la constante globale SONNET_MODEL.
 // Si le fondateur migre Sonnet 4 → 4.6, il change `SONNET_MODEL` dans
 // `client.ts` et toutes les validations suivent automatiquement.

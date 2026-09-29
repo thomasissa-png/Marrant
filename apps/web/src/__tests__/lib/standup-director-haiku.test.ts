@@ -129,7 +129,7 @@ describe("Stand-Up Director — feature flag ENABLE_HAIKU_VALIDATION", () => {
       expect(result.verdict).toBe("APPROVED");
       expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
       expect(mockAnthropicCreate.mock.calls[0][0].model).toBe(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-6",
       );
     });
 
@@ -151,7 +151,7 @@ describe("Stand-Up Director — feature flag ENABLE_HAIKU_VALIDATION", () => {
 
       expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
       expect(mockAnthropicCreate.mock.calls[0][0].model).toBe(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-6",
       );
     });
 
@@ -236,7 +236,7 @@ describe("Stand-Up Director — feature flag ENABLE_HAIKU_VALIDATION", () => {
         "claude-haiku-4-5-20251001",
       );
       expect(mockAnthropicCreate.mock.calls[1][0].model).toBe(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-6",
       );
     });
 
@@ -339,7 +339,7 @@ describe("Stand-Up Director — feature flag ENABLE_HAIKU_VALIDATION", () => {
       expect(result.verdict).toBe("APPROVED");
       expect(mockAnthropicCreate).toHaveBeenCalledTimes(1);
       expect(mockAnthropicCreate.mock.calls[0][0].model).toBe(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-6",
       );
     });
 
@@ -373,7 +373,7 @@ describe("Stand-Up Director — feature flag ENABLE_HAIKU_VALIDATION", () => {
         "claude-haiku-4-5-20251001",
       );
       expect(mockAnthropicCreate.mock.calls[1][0].model).toBe(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-6",
       );
     });
   });
