@@ -12,10 +12,10 @@
     "howToApply": "Donne-toi un conseil sage, puis montre comment tu l'appliques de travers. Ex : 'Mon coach m'a dit d'arrêter de me saboter. J'ai passé trois semaines à chercher la meilleure méthode pour le faire.'"
   },
   {
-    "content": "Un homme entre dans une bibliothèque et demande un livre sur le paranoia.",
-    "comedyTechnique": "Le décalage attente/réalité",
-    "techniqueExplanation": "On attend une réponse neutre de bibliothécaire. Au lieu de ça, elle joue le jeu du paranoïaque — et en chuchotant, elle valide sa peur plutôt que de la corriger. Le twist : c'est la personne censée être rationnelle qui bascule dans le délire.",
-    "howToApply": "Mets un personnage d'autorité qui devrait rassurer, mais qui fait l'inverse. Ex : 'J'ai appelé le médecin pour un rhume. Il a chuchoté : « Venez par la porte de derrière. »'"
+    "content": "J'ai demandé à la bibliothécaire un livre sur la paranoïa.",
+    "comedyTechnique": "L'asymétrie d'information",
+    "techniqueExplanation": "Le narrateur formule une demande neutre (un livre). La bibliothécaire, censée répondre calmement, agit comme si elle partageait la peur paranoïaque. Ce n'est pas le patient qui est paranoïaque — c'est le soignant. Ce renversement, raconté sans commentaire, laisse le lecteur décider si la bibliothécaire joue le jeu ou croit vraiment aux yeux dans le dos.",
+    "howToApply": "Choisis un personnage de 'raison' (médecin, prof, bibliothécaire) et fais-lui adopter les comportements de peur de ton personnage. Pas d'explication. Ex : 'J'ai demandé à mon médecin un truc contre le stress. Il a fermé les stores avant de répondre. Il a baissé la voix. J'ai eu encore plus de stress.'"
   },
   {
     "content": "Mon mot de passe c'est « incorrect ».",
@@ -130,12 +130,6 @@
     "comedyTechnique": "L'autodérision",
     "techniqueExplanation": "Le narrateur se glorifie d'une victoire — mais c'est une course entre deux versions de lui-même sur un rayon d'un mètre. La chute révèle que la seule compétition dans laquelle il excelle est celle qu'il a créée pour être sûr de ne pas perdre. L'ambition réduite à son minimum absolu est le coeur du rire.",
     "howToApply": "Revendique une performance, puis révèle que les seuls participants étaient toi et toi. Ex : 'Je suis le meilleur de ma promo pour ne pas répondre aux mails. Certes, je suis la seule personne de ma promo.'"
-  },
-  {
-    "content": "Un escargot entre dans un commissariat et dit : « On m'a agressé ! »",
-    "comedyTechnique": "Le décalage attente/réalité",
-    "techniqueExplanation": "L'escargot qui se plaint d'une agression trop rapide est une inversion parfaite : l'animal le plus lent du monde est victime d'une vitesse excessive. La structure policière donne une légitimité formelle à une absurdité totale. Le mot 'trop vite' dans la bouche d'un escargot est le pivot du rire.",
-    "howToApply": "Choisis un personnage défini par une caractéristique extrême, puis mets-le dans une situation qui contredit exactement cette caractéristique. Ex : 'Un poisson rouge témoigne devant le tribunal : « Tout s'est passé trop vite, j'ai oublié. »'"
   },
   {
     "content": "Ma copine me dit que je ne fais jamais attention aux détails.",
@@ -330,10 +324,10 @@
     "howToApply": "Réponds à une question banale par une auto-analyse intérieure honnête et légèrement embarrassante, puis résume en une courte phrase sèche. Ex : 'Le vendeur m'a demandé si j'avais besoin d'aide. Mon panier contenait déjà trois choses inutiles. C'était trop tard pour les deux.'"
   },
   {
-    "content": "J'ai dit à Alexa de me raconter une blague.",
-    "comedyTechnique": "L'autodérision",
-    "techniqueExplanation": "La vanne joue sur la transgression par l'outil supposé neutre. Alexa qui 'lit l'historique de recherches' au lieu d'une blague transforme l'assistant vocal en témoin incriminant. La blague ne dit pas ce que contient l'historique — et c'est précisément cette ellipse qui est drôle, parce que chaque auditeur projette sa propre version gênante.",
-    "howToApply": "Laisse un objet ou une app révéler quelque chose sur toi sans jamais préciser quoi — l'implicite fait le travail. Ex : 'Mon téléphone a généré un récapitulatif de mes recherches de l'année. Je l'ai immédiatement fermé.'"
+    "content": "Je cherchais quelque chose de drôle à regarder ce soir.",
+    "comedyTechnique": "L'autodérision par la découverte",
+    "techniqueExplanation": "Le narrateur cherche du divertissement externe, puis le trouve dans sa propre archive. La révélation que son passé est sa meilleure source de comédie dit deux choses : il était très différent en 2018, et il n'a plus rien de drôle à perdre. 'Ça valait tous les spectacles' est une hyperbole sincère — le rire est honnête, pas forcé.",
+    "howToApply": "Cherche quelque chose à l'extérieur, puis révèle que la meilleure version de ce que tu cherchais était en toi depuis longtemps (et que c'est embarrassant). Ex : 'Je cherchais un meme parfait pour envoyer à mon pote. J'ai retrouvé les memes que je lui envoyais en 2020. Il était en or. Nous l'étions.'"
   },
   {
     "content": "La machine à café du bureau est tombée en panne.",
@@ -924,10 +918,10 @@
     "howToApply": "Prends une citation célébre et fais-la dérailler vers ton problème quotidien avec un seul pivot. Ex : 'Descartes disait : « Je pense donc je suis. » Moi je procrastine donc je suis... en retard sur tout.'"
   },
   {
-    "content": "J'ai demandé à ChatGPT de faire mon devoir.",
-    "comedyTechnique": "L'autodérision",
-    "techniqueExplanation": "La vanne renverse la honte attendue (tricher avec l'IA) en fierté perverse (18/20). « La meilleure note que j'ai jamais pas méritée » est une formulation paradoxale qui fonctionne exactement parce qu'elle nomme l'arnaque sans en avoir honte. L'honnêteté totale sur la malhonnêteté, c'est désarmant.",
-    "howToApply": "Confesse une tricherie ou un raccourci avec une fierté assumée et un qualificatif paradoxal. Ex : 'J'ai fait relire ma lettre de motivation par l'IA. J'ai eu le poste. C'est ma plus belle réussite personnelle que j'ai jamais personnellement réussie.'"
+    "content": "Mon pote a fait mon exposé à ma place.",
+    "comedyTechnique": "L'euphémisme démasqué",
+    "techniqueExplanation": "'La meilleure note que j'ai jamais pas méritée' est l'aveu parfait d'une incompétence glorieuse. 'Jamais pas méritée' est une double négation qui confirme — pas nie — la triche. La fierté est réelle, la honte est absente. Ce qui fait rire, c'est la logique parfaitement assumée d'un exploit par délégation.",
+    "howToApply": "Revendique une réussite dont tu n'es pas l'auteur avec la même fierté que si tu l'étais, et laisse une formulation ambiguë trahir l'essentiel. Ex : 'Mon CV a été relu par quelqu'un. J'ai eu un entretien. C'est la meilleure candidature que j'ai jamais pas écrite.'"
   },
   {
     "content": "En amphi, y'a trois types d'étudiants :",
@@ -1106,8 +1100,8 @@
   {
     "content": "Quelqu'un a commenté « premier » sous ma vidéo.",
     "comedyTechnique": "La triple chute (règle de 3)",
-    "techniqueExplanation": "'Premier' sonne comme une vantardise. Les deux mots suivants recadrent vers le pathétique. Chaque terme aggrave le précédent. Le rire vient de l'escalade.",
-    "howToApply": "Prends une fierté et démonte-la en 2 ajouts qui montent. Ex : 'J'ai eu 12 likes. Dont ma mère. Et mon ancien moi sur un faux compte.'"
+    "techniqueExplanation": "Quelqu'un commente 'premier' comme un exploit : c'était censé être une fierté. La punchline ajoute deux révélations qui dégonflent l'exploit en remontant vers le pathétique : il était aussi 'le dernier' puis 'le seul'. Chaque ajout annule le précédent jusqu'à transformer la compétition imaginaire en solitude réelle. Le rire vient de l'escalade vers le vide.",
+    "howToApply": "Annonce une performance ou une victoire, puis révèle deux informations qui la dévalorisent progressivement. La dernière information doit effacer tout contexte de compétition. Ex : 'J'ai terminé premier de ma promo. En nombre d'absences. Dans la promo la plus petite de l'école. On était trois.'"
   },
   {
     "content": "Mon algorithme TikTok me connaît mieux que mes parents.",
@@ -1428,9 +1422,9 @@
     "howToApply": "Exploite les mots ou codes dont la signification change selon le contexte ou la génération. Montre la phrase résultante avec le faux sens appliqué — elle doit être à la fois absurde et presque logique. Ex : 'Mon grand-père pense que ASAP veut dire \"à savoir à présent\". Il gère une équipe. Ça se passe bien.'"
   },
   {
-    "content": "Mon père a découvert la fonctionnalité « transfert » sur WhatsApp.",
+    "content": "Mon père a trouvé le bouton 'transférer' sur WhatsApp.",
     "comedyTechnique": "L'exagération par le chiffre précis",
-    "techniqueExplanation": "La découverte d'une fonctionnalité banale (transférer un message) génère un flux quantifié : 15 'bonjour' animés par semaine. Le chiffre précis transforme l'anecdote en fait statistique. La description 'avec des papillons' est le détail qui crédibilise l'image et la rend parfaitement visuelle. L'excès est mesuré, pas vague.",
+    "techniqueExplanation": "La découverte d'une fonctionnalité banale (transférer un message) génère un flux quantifié : 15 'bonjour' animés avec des papillons par semaine. Le chiffre précis transforme l'anecdote en fait statistique. La description 'avec des papillons' est le détail qui crédibilise l'image et la rend parfaitement visuelle. L'excès est mesuré, pas vague.",
     "howToApply": "Donne un nombre exact pour qualifier l'excès — jamais 'beaucoup', toujours '15' ou '23'. Ajoute un détail visuel ou sensoriel qui ancre l'image. Ex : 'Depuis qu'elle a découvert les GIFs, ma tante m'en envoie 8 par jour. Principalement des chats. Parfois un coucher de soleil.'"
   },
   {
@@ -1482,10 +1476,10 @@
     "howToApply": "Construis une comparaison en deux temps — l'autre personne + toi — avec une brièveté maximale. Le silence après la punchline fait partie du gag. Ex : 'J'ai croisé mon ancien camarade de natation. Il participait à un triathlon. Moi j'attendais le bus.'"
   },
   {
-    "content": "J'ai dit à Siri de m'appeler un taxi.",
+    "content": "J'ai demandé à mon coloc de m'appeler un taxi.",
     "comedyTechnique": "La chute littérale",
-    "techniqueExplanation": "Siri exécute la demande à la lettre : 'appelle-moi un taxi' déclenche non pas l'action commandée mais la commande comprise comme une attribution de surnom. L'IA traite 'appeler' comme 'nommer'. Ce jeu sur le sens littéral vs. intentionnel de 'appeler' est un classique du jeu de mots mais ici incarné dans une interaction réelle et reconnaissable.",
-    "howToApply": "Prends une expression idiomatique ou une demande ambiguë et imagine que l'interlocuteur la prend au pied de la lettre. Montre la conséquence logique de cette lecture littérale. Ex : 'J'ai dit à mon assistant vocal de me réveiller en douceur. Il a mis du jazz. À 5h du mat.'"
+    "techniqueExplanation": "La demande 'appelle-moi un taxi' a deux lectures : appeler un taxi pour moi, ou me nommer 'un taxi'. Le coloc choisit la deuxième, et l'assume — ce qui transforme une erreur en position. La formule 'il assume' est la clé : il ne corrige pas, il s'installe dans l'absurde. Le rire vient de la résignation du narrateur face à cette lecture.",
+    "howToApply": "Prends une expression idiomatique ambiguë ('appelle-moi X', 'fais-en sorte que', 'rends-moi ça') et fais-la interpréter au sens le plus littéral possible. L'interlocuteur doit sembler convaincant dans son erreur. Ex : 'J'ai dit « fais comme chez toi » à mon invité. Il a réorganisé mes meubles. Logiquement.'"
   },
   {
     "content": "J'ai mis 45 minutes à choisir un film sur Netflix.",
@@ -1506,10 +1500,10 @@
     "howToApply": "Commence une liste de conséquences par des éléments anodins ou communs, puis glisse un élément choquant dans la même structure grammaticale, sans hausser le ton. Le calme du narrateur face à l'escalade fait tout. Ex : 'Il m'a dit que j'avais raté le stationnement, le créneau, et le passant. Dans cet ordre.'"
   },
   {
-    "content": "Mon coiffeur m'a dit que je perdais mes cheveux.",
-    "comedyTechnique": "La chute littérale",
-    "techniqueExplanation": "'Perdre ses cheveux' est une expression idiomatique pour la calvitie. La réponse 'Si tu les trouves, appelle-moi' traite l'expression comme une perte physique réelle d'objets égarés — comme si les cheveux s'étaient baladés quelque part et pouvaient être retrouvés. Ce glissement du figuré au littéral est la mécanique exacte du jeu de mots réussi.",
-    "howToApply": "Repère les expressions courantes qui utilisent un verbe au sens figuré (perdre, trouver, brûler, planter) et réponds comme si elles étaient prises au sens propre. La réponse doit avoir l'air sincèrement utile. Ex : 'Elle m'a dit que j'avais perdu la tête. Je lui ai demandé où elle l'avait vue pour la dernière fois.'"
+    "content": "Mon coiffeur m'a dit que j'avais une belle structure de crâne.",
+    "comedyTechnique": "L'euphémisme qui accuse",
+    "techniqueExplanation": "'Belle structure de crâne' est une forme de consolation professionnelle : le coiffeur n'a plus grand-chose à valoriser, alors il complimente l'os. La punchline n'explique pas — elle confirme. Le rire vient du soulagement gêné du client qui accepte ce compliment comme si c'en était un, et de l'honnêteté indirecte du coiffeur.",
+    "howToApply": "Quand il ne reste plus grand-chose à dire de positif sur quelque chose, trouve le dernier compliment disponible — souvent le plus basique ou le moins attendu. Ex : 'Le mécanicien m'a dit que ma voiture avait une structure solide. La carrosserie, les freins et le moteur étaient à changer. Mais la structure.'"
   },
   {
     "content": "BeReal me notifie toujours quand je fais rien.",

@@ -17,11 +17,12 @@
   },
   {
     "id": 3,
-    "content": "Un homme entre dans une bibliothèque et demande un livre sur le paranoia.",
-    "punchline": "La bibliothécaire chuchote : « Ils sont derrière vous. »",
+    "content": "J'ai demandé à la bibliothécaire un livre sur la paranoïa.",
+    "punchline": "Elle a baissé la voix. Regardé autour d'elle. Elle a dit : « Suivez-moi. »",
     "category": "ABSURDE",
     "maturityLevel": 1,
-    "type": "CLASSIQUE"
+    "type": "CLASSIQUE",
+    "previousContent": "Un homme entre dans une bibliothèque et demande un livre sur le paranoia."
   },
   {
     "id": 4,
@@ -172,14 +173,6 @@
     "content": "La seule course que je gagne régulièrement...",
     "punchline": "C'est celle entre mon réveil et le bouton snooze.",
     "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE"
-  },
-  {
-    "id": 33,
-    "content": "Un escargot entre dans un commissariat et dit : « On m'a agressé ! »",
-    "punchline": "Le policier demande : « Vous pouvez décrire l'agresseur ? » — « Non, tout est allé trop vite. »",
-    "category": "ABSURDE",
     "maturityLevel": 1,
     "type": "CLASSIQUE"
   },
@@ -441,11 +434,12 @@
   },
   {
     "id": 80,
-    "content": "J'ai dit à Alexa de me raconter une blague.",
-    "punchline": "Elle m'a lu mon historique de recherches.",
+    "content": "Je cherchais quelque chose de drôle à regarder ce soir.",
+    "punchline": "J'ai relu mes DMs de 2018. Ça valait tous les spectacles.",
     "category": "AUTODERISION",
     "maturityLevel": 3,
-    "type": "SUBTIL"
+    "type": "SUBTIL",
+    "previousContent": "J'ai dit à Alexa de me raconter une blague."
   },
   {
     "id": 83,
@@ -1202,7 +1196,7 @@
   {
     "id": 209,
     "content": "Mon pote révise la veille de l'examen et a 15.",
-    "punchline": "Moi je révise deux semaines et j'ai 8. La vie est un scam.",
+    "punchline": "Moi je révise deux semaines et j'ai 8. La vie, elle, révise rien du tout.",
     "category": "ECOLE",
     "maturityLevel": 1,
     "type": "STORY"
@@ -1233,8 +1227,9 @@
   },
   {
     "id": 213,
-    "content": "J'ai demandé à ChatGPT de faire mon devoir.",
+    "content": "Mon pote a fait mon exposé à ma place.",
     "punchline": "Le prof m'a mis 18. C'est la meilleure note que j'ai jamais pas méritée.",
+    "previousContent": "J'ai demandé à ChatGPT de faire mon devoir.",
     "category": "ECOLE",
     "maturityLevel": 1,
     "type": "STORY"
@@ -1905,8 +1900,9 @@
   },
   {
     "id": 316,
-    "content": "Mon père a découvert la fonctionnalité « transfert » sur WhatsApp.",
+    "content": "Mon père a trouvé le bouton 'transférer' sur WhatsApp.",
     "punchline": "Je reçois maintenant 15 « bonjour » animés avec des papillons par semaine.",
+    "previousContent": "Mon père a découvert la fonctionnalité « transfert » sur WhatsApp.",
     "category": "PARENTS",
     "maturityLevel": 1,
     "type": "ONE_LINER"
@@ -1977,8 +1973,9 @@
   },
   {
     "id": 326,
-    "content": "J'ai dit à Siri de m'appeler un taxi.",
-    "punchline": "Elle m'appelle « un taxi » maintenant.",
+    "content": "J'ai demandé à mon coloc de m'appeler un taxi.",
+    "punchline": "Il m'appelle « un taxi » depuis. Ça colle pas avec mon prénom mais il assume.",
+    "previousContent": "J'ai dit à Siri de m'appeler un taxi.",
     "category": "ABSURDE",
     "maturityLevel": 1,
     "type": "DIALOGUE"
@@ -2009,9 +2006,10 @@
   },
   {
     "id": 334,
-    "content": "Mon coiffeur m'a dit que je perdais mes cheveux.",
-    "punchline": "J'ai répondu : « Si tu les trouves, appelle-moi. »",
-    "category": "JEUX_DE_MOTS",
+    "content": "Mon coiffeur m'a dit que j'avais une belle structure de crâne.",
+    "punchline": "C'est le seul compliment qu'il lui restait à donner.",
+    "category": "AUTODERISION",
+    "previousContent": "Mon coiffeur m'a dit que je perdais mes cheveux.",
     "maturityLevel": 1,
     "type": "DIALOGUE"
   },
