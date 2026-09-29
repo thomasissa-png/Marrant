@@ -2,12 +2,12 @@ export const faqs = [
   {
     question: "Est-ce que je peux vraiment apprendre à être drôle ?",
     answer:
-      "Oui. L\u2019humour n\u2019est pas un talent inné, c\u2019est une compétence qui se travaille. La science le confirme : des chercheurs ont démontré qu\u2019un entraînement de 8 semaines à l\u2019humour améliorait significativement la capacité à faire rire. Comme un muscle, plus tu pratiques, plus tu progresses. Nos membres gagnent en moyenne 50 XP par semaine et voient une vraie différence en quelques jours.",
+      "Oui. L\u2019humour n\u2019est pas un talent inné, c\u2019est une compétence qui se travaille. Comme un muscle : l\u2019observation, la structure d\u2019une vanne et le timing s\u2019entraînent, et plus tu pratiques, plus tu progresses.",
   },
   {
     question: "Comment devenir drôle quand on est timide ou introverti ?",
     answer:
-      "Surtout pour toi. La majorité de nos membres se décrivent comme introvertis au départ. Être timide est même un avantage : les gens ne s\u2019attendent pas à ce que tu sois drôle, donc l\u2019effet de surprise est doublé. Les parcours sont conçus pour progresser à ton rythme, sans pression, avec des exercices que tu peux pratiquer seul avant de les tester en groupe.",
+      "Surtout pour toi. Être timide est même un avantage : les gens ne s\u2019attendent pas à ce que tu sois drôle, donc l\u2019effet de surprise est doublé. Les parcours sont conçus pour progresser à ton rythme, sans pression, avec des exercices que tu peux pratiquer seul avant de les tester en groupe.",
   },
   {
     question: "Combien de temps faut-il pour devenir plus drôle ?",

@@ -60,8 +60,19 @@ export async function GET() {
     // Fallback : contenu déterministe basé sur le jour de l'année
     const dayOfYear = getDayOfYear(today);
 
+    // Vanne du jour de repli : uniquement parmi les vannes décortiquées (la
+    // valeur du produit = « Pourquoi ça marche » + « À toi de jouer ») ;
+    // retour à toutes les vannes actives si aucune ne l'est encore.
+    const decryptedCount = await prisma.joke.count({
+      where: { isActive: true, comedyTechnique: { not: null } },
+    });
+    const jokeWhere =
+      decryptedCount > 0
+        ? { isActive: true, comedyTechnique: { not: null } }
+        : { isActive: true };
+
     const [jokeCount, tipCount, videoCount] = await Promise.all([
-      prisma.joke.count({ where: { isActive: true } }),
+      prisma.joke.count({ where: jokeWhere }),
       prisma.tip.count({ where: { isActive: true } }),
       prisma.video.count({ where: { isActive: true } }),
     ]);
@@ -75,7 +86,7 @@ export async function GET() {
 
     const [joke, tip, video] = await Promise.all([
       prisma.joke.findFirst({
-        where: { isActive: true },
+        where: jokeWhere,
         orderBy: { id: "asc" },
         skip: dayOfYear % jokeCount,
       }),
