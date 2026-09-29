@@ -105,14 +105,14 @@ describe("HumorQuiz", () => {
     expect(screen.getByText("La Future Star")).toBeInTheDocument();
   });
 
-  it("navigates to /abonnement on 'C'est parti !' click", async () => {
+  it("navigates to recommended path on 'Voir mon parcours' click (DEBUTANT → /conseils)", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
-    await userEvent.click(screen.getByText("C'est parti !"));
-    expect(mockPush).toHaveBeenCalledWith("/abonnement");
+    await userEvent.click(screen.getByText("Voir mon parcours"));
+    expect(mockPush).toHaveBeenCalledWith("/conseils");
   });
 
   it("shows INTERMEDIAIRE result", async () => {
@@ -167,11 +167,11 @@ describe("HumorQuiz", () => {
 
     render(<HumorQuiz />);
     expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
-    expect(screen.getByText("Continuer")).toBeInTheDocument();
+    expect(screen.getByText("Voir mon parcours")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
 
-  it("navigates to /abonnement on 'Continuer' click", async () => {
+  it("navigates to recommended path on 'Voir mon parcours' click (existing profile)", async () => {
     const profile = {
       objective: "REPARTIE",
       context: "social",
@@ -182,8 +182,8 @@ describe("HumorQuiz", () => {
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify(profile));
 
     render(<HumorQuiz />);
-    await userEvent.click(screen.getByText("Continuer"));
-    expect(mockPush).toHaveBeenCalledWith("/abonnement");
+    await userEvent.click(screen.getByText("Voir mon parcours"));
+    expect(mockPush).toHaveBeenCalledWith("/conseils");
   });
 
   it("shows quiz from scratch on 'Refaire le quiz' click", async () => {

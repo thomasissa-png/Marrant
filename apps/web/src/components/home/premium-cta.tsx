@@ -43,7 +43,7 @@ export function PremiumCta() {
     <section className="py-12" id="offres">
       <div className="text-center">
         <Badge variant="primary" className="mb-4">
-          Prix de lancement · Profites-en tant que c&apos;est dispo
+          Prix de lancement
         </Badge>
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           Choisis ta formule
@@ -104,7 +104,7 @@ export function PremiumCta() {
               <span className="text-text-muted">/ mois</span>
             </div>
             <p className="mt-1 text-sm text-accent-primary font-medium">
-              Prix de lancement, ce tarif ne durera pas
+              Prix de lancement
             </p>
             <p className="mt-1 text-xs text-text-muted">
               Sans engagement, annulable &agrave; tout moment &middot;{" "}
@@ -132,7 +132,7 @@ export function PremiumCta() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Nouveaux contenus chaque semaine</strong> générés par IA</span>
+                <span><strong>Nouveaux contenus chaque semaine</strong></span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-success">✓</span>

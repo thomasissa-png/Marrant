@@ -8,23 +8,27 @@ import {
   buildFaqJsonLd,
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 
-export const metadata: Metadata = {
-  title: "Stand-up analysé : Fary, Mirabel & co.",
-  description:
-    "80+ vidéos de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.",
-  keywords: [
-    "stand-up français",
-    "vidéos humour analysées",
-    "Paul Mirabel techniques",
-    "Blanche Gardin humour",
-    "Fary stand-up",
-    "apprendre humour vidéo",
-    "Roman Frayssinet",
-    "Waly Dia stand-up",
-  ],
-  alternates: { canonical: "https://deviens-marrant.fr/videos" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const stats = await getContentStatsRounded();
+  const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
+  return {
+    title: "Stand-up analysé : Fary, Mirabel & co.",
+    description: `${videos} de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.`,
+    keywords: [
+      "stand-up français",
+      "vidéos humour analysées",
+      "Paul Mirabel techniques",
+      "Blanche Gardin humour",
+      "Fary stand-up",
+      "apprendre humour vidéo",
+      "Roman Frayssinet",
+      "Waly Dia stand-up",
+    ],
+    alternates: { canonical: "https://deviens-marrant.fr/videos" },
+  };
+}
 
 const videosFaqs = [
   {
@@ -44,7 +48,10 @@ const videosFaqs = [
   },
 ];
 
-export default function VideosPage() {
+export default async function VideosPage() {
+  const stats = await getContentStatsRounded();
+  const videoCount = stats.videos > 0 ? stats.videos : 60;
+  const videoLabel = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return (
     <>
       <JsonLd
@@ -57,9 +64,9 @@ export default function VideosPage() {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: "Stand-up analysé : Fary, Mirabel & co.",
-          description: "80+ vidéos de stand-up décortiquées. Chaque technique annotée + un défi concret.",
+          description: `${videoLabel} de stand-up décortiquées. Chaque technique annotée + un défi concret.`,
           url: "https://deviens-marrant.fr/videos",
-          numberOfItems: 80,
+          numberOfItems: videoCount,
           relatedArticles: [
             { title: "Techniques de stand-up pour la vie sociale", url: "https://deviens-marrant.fr/blog/timing-humour" },
             { title: "Comment devenir drôle", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
@@ -121,11 +128,11 @@ export default function VideosPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">290+ vannes drôles</h3>
+            <h3 className="text-sm font-semibold text-text-primary">{stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de"} vannes drôles</h3>
             <p className="mt-1 text-xs text-text-secondary">Mets en pratique ce que tu apprends — des vannes prêtes à ressortir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">60+ techniques de répartie</h3>
+            <h3 className="text-sm font-semibold text-text-primary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques de répartie</h3>
             <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, adaptées à ta vie quotidienne.</p>
           </Link>
           <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">

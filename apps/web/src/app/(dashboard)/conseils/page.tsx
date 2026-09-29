@@ -8,23 +8,28 @@ import {
   buildFaqJsonLd,
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 
-export const metadata: Metadata = {
-  title: "60+ techniques de répartie + exercices",
-  description:
-    "60+ techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.",
-  keywords: [
-    "avoir de la répartie",
-    "comment avoir de la répartie",
-    "techniques de répartie",
-    "conseils humour",
-    "exercices répartie",
-    "autodérision",
-    "storytelling humour",
-    "répartie au travail",
-  ],
-  alternates: { canonical: "https://deviens-marrant.fr/conseils" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const stats = await getContentStatsRounded();
+  const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
+  const tipsLabelLower = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
+  return {
+    title: `${tipsLabel} techniques de répartie + exercices`,
+    description: `${tipsLabelLower} techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.`,
+    keywords: [
+      "avoir de la répartie",
+      "comment avoir de la répartie",
+      "techniques de répartie",
+      "conseils humour",
+      "exercices répartie",
+      "autodérision",
+      "storytelling humour",
+      "répartie au travail",
+    ],
+    alternates: { canonical: "https://deviens-marrant.fr/conseils" },
+  };
+}
 
 const conseilsFaqs = [
   {
@@ -44,7 +49,11 @@ const conseilsFaqs = [
   },
 ];
 
-export default function ConseilsPage() {
+export default async function ConseilsPage() {
+  const stats = await getContentStatsRounded();
+  const tipCount = stats.tips > 0 ? stats.tips : 50;
+  const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
+  const tipsLabelLower = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
   return (
     <>
       <JsonLd
@@ -56,10 +65,10 @@ export default function ConseilsPage() {
       <JsonLd data={buildFaqJsonLd(conseilsFaqs)} />
       <JsonLd
         data={buildCollectionPageJsonLd({
-          name: "60+ techniques de répartie + exercices",
-          description: "60+ techniques de répartie avec exemples, dialogues et un défi à tester ce soir.",
+          name: `${tipsLabel} techniques de répartie + exercices`,
+          description: `${tipsLabelLower} techniques de répartie avec exemples, dialogues et un défi à tester ce soir.`,
           url: "https://deviens-marrant.fr/conseils",
-          numberOfItems: 60,
+          numberOfItems: tipCount,
           relatedArticles: [
             { title: "Comment avoir de la répartie", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
             { title: "Répartie débutant : 5 étapes", url: "https://deviens-marrant.fr/blog/repartie-debutant-5-etapes" },
@@ -106,7 +115,7 @@ export default function ConseilsPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
         <div className="space-y-3 text-sm text-text-secondary">
           <p>
-            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos 60+ conseils couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
+            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
           </p>
           <p>
             Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> — le guide complet avec plan d&apos;action sur 30 jours.
@@ -122,7 +131,7 @@ export default function ConseilsPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">290+ vannes drôles</h3>
+            <h3 className="text-sm font-semibold text-text-primary">{stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de"} vannes drôles</h3>
             <p className="mt-1 text-xs text-text-secondary">Des vannes testées et classées par situation, prêtes à ressortir.</p>
           </Link>
           <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">

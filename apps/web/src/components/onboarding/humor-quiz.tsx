@@ -161,12 +161,19 @@ export function HumorQuiz() {
             Quiz complet&eacute; le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
           </p>
           <div className="mt-6 flex flex-col gap-3">
-            <Button variant="primary" size="lg" onClick={() => router.push("/abonnement")}>
-              Continuer
+            <Button variant="primary" size="lg" onClick={() => router.push(existingResult.path)}>
+              Voir mon parcours
             </Button>
             <Button variant="ghost" size="sm" onClick={handleRetakeQuiz}>
               Refaire le quiz
             </Button>
+            <button
+              type="button"
+              onClick={() => router.push("/abonnement")}
+              className="text-xs text-text-muted underline hover:text-text-secondary"
+            >
+              Tout débloquer à 0,99 €/mois
+            </button>
           </div>
         </CardContent>
       </Card>
@@ -183,9 +190,16 @@ export function HumorQuiz() {
           </h2>
           <p className="mt-2 text-text-secondary">{result.description}</p>
           <div className="mt-6 flex flex-col gap-3">
-            <Button variant="primary" size="lg" onClick={() => router.push("/abonnement")}>
-              C&apos;est parti !
+            <Button variant="primary" size="lg" onClick={() => router.push(result.path)}>
+              Voir mon parcours
             </Button>
+            <button
+              type="button"
+              onClick={() => router.push("/abonnement")}
+              className="text-xs text-text-muted underline hover:text-text-secondary"
+            >
+              Tout débloquer à 0,99 €/mois
+            </button>
           </div>
         </CardContent>
       </Card>

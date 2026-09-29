@@ -206,22 +206,24 @@ export function UpcomingFeatures() {
                       ? "bg-accent-primary text-white"
                       : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary"
                   )}
-                  aria-label={`${count} votes pour ${feature.title}`}
+                  aria-label={count >= 10 ? `${count} votes pour ${feature.title}` : `Voter pour ${feature.title}`}
                 >
                   <span>{voted ? "👍" : "👆"}</span>
                   <span>
                     {voted ? "Voté !" : "Je veux ça !"}
                   </span>
-                  <span
-                    className={cn(
-                      "ml-1 rounded-full px-2 py-0.5 text-xs",
-                      voted
-                        ? "bg-white/20 text-white"
-                        : "bg-accent-primary/10 text-accent-primary"
-                    )}
-                  >
-                    {count}
-                  </span>
+                  {count >= 10 && (
+                    <span
+                      className={cn(
+                        "ml-1 rounded-full px-2 py-0.5 text-xs",
+                        voted
+                          ? "bg-white/20 text-white"
+                          : "bg-accent-primary/10 text-accent-primary"
+                      )}
+                    >
+                      {count}
+                    </span>
+                  )}
                 </button>
               </CardContent>
             </Card>

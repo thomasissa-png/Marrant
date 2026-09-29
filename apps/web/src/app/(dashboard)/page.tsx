@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
@@ -36,10 +37,15 @@ const homepageFaqs = [
 // Fusionner toutes les FAQs de la page en un seul schéma (évite "Duplicate FAQPage")
 const allFaqs = [...homepageFaqs, ...faqSectionFaqs];
 
-export const metadata: Metadata = {
-  title: "Deviens drôle et améliore ta répartie",
-  description: "Tu veux être la personne la plus drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. 290+ vannes, 60+ conseils, 80+ vidéos.",
-  keywords: [
+export async function generateMetadata(): Promise<Metadata> {
+  const stats = await getContentStatsRounded();
+  const jokes = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "des centaines de vannes";
+  const tips = stats.tips > 0 ? `${stats.tips}+ conseils` : "des dizaines de conseils";
+  const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
+  return {
+    title: "Deviens drôle et améliore ta répartie",
+    description: `Tu veux être la personne la plus drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. ${jokes}, ${tips}, ${videos}.`,
+    keywords: [
     "comment devenir drôle",
     "devenir drôle",
     "avoir de la répartie",
@@ -47,11 +53,12 @@ export const metadata: Metadata = {
     "devenir marrant",
     "comment faire rire",
     "développer son humour",
-  ],
-  alternates: {
-    canonical: "https://deviens-marrant.fr",
-  },
-};
+    ],
+    alternates: {
+      canonical: "https://deviens-marrant.fr",
+    },
+  };
+}
 
 export default function HomePage() {
   return (

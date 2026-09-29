@@ -8,6 +8,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AuthCta } from "@/components/auth/auth-cta";
+import { NewsletterInline } from "@/components/newsletter/newsletter-inline";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -93,12 +94,20 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
           </Link>
 
           <AuthCta
-            label="Crée ton compte gratuit"
+            label="Crée ton compte gratuit pour ton parcours personnalisé"
             variant="secondary"
             size="lg"
             className="w-full"
+            callbackUrl={profile.recommendedPath}
           />
         </div>
+
+        <NewsletterInline
+          source="quiz-humour"
+          title="Ou reçois ta 1re technique par email"
+          subtitle="Une astuce d'humour par semaine, sans compte à créer."
+          className="mt-6"
+        />
       </CardContent>
     </Card>
   );

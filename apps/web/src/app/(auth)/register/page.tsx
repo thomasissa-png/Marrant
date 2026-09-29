@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { resolvePostAuthRedirect, sanitizeCallbackUrl } from "@/lib/safe-callback";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte ! Utilise 'Continuer avec Google' sur la page connexion.",
@@ -35,7 +36,14 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
-  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+  // Priorité au callbackUrl fourni (ex : "Continue → /parcours/repartie"),
+  // sinon on envoie vers l'onboarding pour éviter la boucle inscription → paiement direct.
+  const rawCallback = searchParams.get("callbackUrl");
+  const safeCallback = sanitizeCallbackUrl(rawCallback);
+  const postAuthTarget = resolvePostAuthRedirect(rawCallback, "/onboarding");
+  // Pour OAuth (Google) : NextAuth gère lui-même la redirection via callbackUrl.
+  // On préserve le callback safe s'il existe, sinon on cible /onboarding.
+  const oauthCallbackUrl = safeCallback ?? "/onboarding";
 
   const validateForm = (): boolean => {
     const errors: { name?: string; email?: string; password?: string } = {};
@@ -106,7 +114,7 @@ function RegisterForm() {
       if (result?.error) {
         router.push("/login");
       } else {
-        router.push("/abonnement");
+        router.push(postAuthTarget);
         router.refresh();
       }
     } catch {
@@ -117,7 +125,7 @@ function RegisterForm() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl });
+    signIn("google", { callbackUrl: oauthCallbackUrl });
   };
 
   return (
