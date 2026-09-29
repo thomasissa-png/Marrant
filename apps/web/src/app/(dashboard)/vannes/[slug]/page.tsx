@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import {
@@ -43,6 +45,9 @@ async function findJokeBySlug(slug: string) {
         punchline: true,
         category: true,
         type: true,
+        comedyTechnique: true,
+        techniqueExplanation: true,
+        howToApply: true,
         updatedAt: true,
         createdAt: true,
       },
@@ -107,6 +112,17 @@ export default async function VannePage({
 }) {
   const joke = await findJokeBySlug(params.slug);
   if (!joke) notFound();
+
+  // Alignement freemium avec le catalogue :
+  //   - Catalogue : les utilisateurs authentifiés (FREE + PREMIUM) voient TOUT le décryptage
+  //     (comedyTechnique + techniqueExplanation + howToApply). Les non-connectés n'ont
+  //     accès qu'aux 10 premières vannes de la liste (limite volumétrique côté API).
+  //   - Page individuelle : SEO-exposée pour valeur et preuve → on affiche
+  //     "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) publiquement.
+  //     Le "À toi de jouer" (howToApply) reste derrière la même barrière que le
+  //     reste du catalogue : session requise. Pas de nouvelle règle premium-only.
+  const session = await getServerSession(authOptions);
+  const isAuthenticated = Boolean((session?.user as { id?: string } | undefined)?.id);
 
   const canonicalSlug = buildJokeSlug(joke);
   const categoryLabel = CATEGORY_LABELS[joke.category] ?? "Vanne";
@@ -186,15 +202,69 @@ export default async function VannePage({
           punchline={joke.punchline}
         />
 
-        {/* Partie premium : le "À toi de jouer" — cohérent avec le freemium existant.
-            La vanne + la chute sont visibles (SEO / crawlers), l'application concrète est réservée. */}
-        <section className="mt-10 rounded-xl border border-border bg-background-card p-5">
+        {/* Décryptage pédagogique — cœur de la proposition de valeur.
+            "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
+            valeur SEO, preuve d'expertise, exposition pour les crawlers.
+            "À toi de jouer" (howToApply) reste derrière la même barrière que le
+            catalogue : session requise (freemium existant, pas de règle nouvelle). */}
+        {joke.comedyTechnique && (
+          <section
+            aria-labelledby="pourquoi-ca-marche"
+            className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
+              Pourquoi ça marche — {joke.comedyTechnique}
+            </p>
+            <h2 id="pourquoi-ca-marche" className="sr-only">
+              Pourquoi ça marche : {joke.comedyTechnique}
+            </h2>
+            {joke.techniqueExplanation && (
+              <p className="mt-2 text-sm text-text-secondary">
+                {joke.techniqueExplanation}
+              </p>
+            )}
+            {isAuthenticated && joke.howToApply ? (
+              <div className="mt-3 rounded-md border border-border bg-background-card p-3">
+                <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                <p className="mt-1 text-sm text-text-secondary">{joke.howToApply}</p>
+              </div>
+            ) : joke.howToApply ? (
+              <div className="mt-3 rounded-md border border-dashed border-accent-primary/30 bg-background-card p-3">
+                <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  L&apos;exercice d&apos;application (consigne + exemple concret à réutiliser)
+                  est réservé aux membres.{" "}
+                  <Link href="/register" className="font-medium text-accent-primary hover:underline">
+                    Crée ton compte gratuit
+                  </Link>{" "}
+                  pour le débloquer.
+                </p>
+              </div>
+            ) : null}
+            <p className="mt-3 text-xs text-text-muted">
+              Envie de comprendre la mécanique en profondeur ?{" "}
+              <Link
+                href="/anatomie-vanne"
+                className="font-medium text-accent-primary hover:underline"
+              >
+                L&apos;anatomie d&apos;une vanne
+              </Link>
+            </p>
+          </section>
+        )}
+
+        {/* Passerelle parcours — même approche que sur le catalogue, sans
+            re-monter un mur : c'est une invitation, pas un blocage. */}
+        <section className="mt-6 rounded-xl border border-border bg-background-card p-5">
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
-            Les exercices d&apos;application, les variantes et le décryptage complet
-            sont dans les <Link href="/parcours" className="text-accent-primary hover:underline">parcours Premium</Link>.
+            Les variantes et le parcours complet sont dans les{" "}
+            <Link href="/parcours" className="text-accent-primary hover:underline">
+              parcours Premium
+            </Link>
+            .
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link

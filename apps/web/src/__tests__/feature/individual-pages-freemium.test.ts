@@ -1,15 +1,18 @@
 /**
  * Vérifie la RÈGLE FREEMIUM des pages individuelles /vannes/[slug],
- * /conseils/[slug], /videos/[slug] introduites en s11-lot5.
+ * /conseils/[slug], /videos/[slug] introduites en s11-lot5, revue s11.
  *
- * Règle retenue (documentée dans le handoff lot 5) :
+ * Règle retenue (alignée sur le catalogue existant, PAS une règle nouvelle) :
  *   - Pages individuelles indexables : contenu SEO visible sans login
- *     (vanne + chute ; conseil + exemple ; vidéo + description + technique).
+ *     (vanne + chute + "Pourquoi ça marche" ; conseil + exemple ; vidéo + description + technique).
  *   - Le paywall existant sur les listes reste en place (10 vannes / 3 conseils / 3 vidéos).
  *   - Ce qui reste réservé côté "à toi de jouer" :
- *       - Vannes  : décryptage / variantes / parcours d'application (CTA Premium)
+ *       - Vannes  : "À toi de jouer" (howToApply) — même barrière que le catalogue
+ *                   (session requise), CTA compte gratuit + passerelle parcours Premium
  *       - Conseils: exercice concret d'application → CTA compte gratuit
  *       - Vidéos  : learnings pédagogiques + exercice → CTA compte gratuit
+ *   - "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
+ *     valeur SEO + preuve d'expertise pour les crawlers et visiteurs non connectés.
  *   - Aucune page pour les contenus inactifs (isActive=false) → 404.
  */
 
@@ -38,6 +41,26 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
     it("garde le CTA Premium (parcours) pour l'application concrète", () => {
       expect(src).toMatch(/Comment la ressortir/);
       expect(src).toMatch(/parcours/);
+    });
+
+    it("expose le décryptage pédagogique 'Pourquoi ça marche' publiquement (comedyTechnique + techniqueExplanation)", () => {
+      expect(src).toMatch(/comedyTechnique/);
+      expect(src).toMatch(/techniqueExplanation/);
+      expect(src).toMatch(/Pourquoi ça marche/);
+    });
+
+    it("gate 'À toi de jouer' (howToApply) derrière la session — alignement catalogue", () => {
+      expect(src).toMatch(/howToApply/);
+      expect(src).toMatch(/getServerSession/);
+      expect(src).toMatch(/isAuthenticated/);
+      // Le contenu de howToApply n'est rendu que si isAuthenticated est vrai
+      expect(src).toMatch(/isAuthenticated\s*&&\s*joke\.howToApply/);
+    });
+
+    it("ne mentionne pas l'IA dans les metadata ni le JSON-LD (règle fondateur)", () => {
+      expect(src).not.toMatch(/\bIA\b/);
+      expect(src).not.toMatch(/intelligence artificielle/i);
+      expect(src).not.toMatch(/générée? par IA/i);
     });
 
     it("retourne notFound() si joke absent", () => {
