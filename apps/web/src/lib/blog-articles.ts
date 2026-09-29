@@ -20,7 +20,7 @@ export const blogArticles: BlogArticle[] = [
     title: "Comment devenir drôle : le guide",
     excerpt:
       "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours.",
-    content: `> **En bref :** Devenir drôle est une compétence qui s'apprend, pas un talent inné. L'humour repose sur 3 mécanismes cognitifs — observation, surprise, timing — que n'importe qui peut développer. Un programme structuré de 8 semaines suffit à progresser significativement, quel que soit le niveau de départ.
+    content: `> **En bref :** Devenir drôle est une compétence qui s'apprend, pas un talent inné. L'humour s'appuie sur 3 leviers — observation, surprise, timing — que n'importe qui peut développer. Un programme structuré de 8 semaines suffit à progresser significativement, quel que soit le niveau de départ.
 
 "Soit t'es drôle, soit tu l'es pas." Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est "né drôle", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.
 
@@ -2374,7 +2374,7 @@ C'est exactement comme ça que **Panayotis Pascot** décrit ses débuts : "J'éc
 **Exercice concret — le test message :**
 Ce soir, prends une de tes observations de la clé 1 et envoie-la à un pote. Pas avec "tu trouves ça drôle ?" — juste l'observation, naturellement. Note sa réaction. Si c'est un emoji rire, tu as une vanne. Si c'est "ok..." tu as une donnée.
 
-Tu répètes, en somme. [Roman Frayssinet](/blog/comment-avoir-de-la-repartie) teste ses sketches en conversation avant de les mettre sur scène : tu fais exactement la même chose, en plus petit.
+Tu répètes, en somme. **Roman Frayssinet** teste ses sketches en conversation avant de les mettre sur scène : tu fais exactement la même chose, en plus petit. Et pour les répliques en direct, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) prennent le relais.
 
 ---
 

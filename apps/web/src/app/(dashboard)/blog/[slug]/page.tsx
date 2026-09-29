@@ -213,6 +213,15 @@ export default async function BlogArticlePage({
         <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-primary">Alex Durand</Link></span>
         <span>·</span>
         <span>{article.date}</span>
+        {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD). */}
+        {"updatedAt" in article && article.updatedAt && article.updatedAt !== article.date && (
+          <>
+            <span>·</span>
+            <span>
+              Mis à jour le <time dateTime={article.updatedAt}>{article.updatedAt}</time>
+            </span>
+          </>
+        )}
         <span>·</span>
         <span>{article.readingTime} de lecture</span>
       </div>

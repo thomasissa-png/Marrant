@@ -34,12 +34,12 @@ interface FullArticle {
 }
 
 const RESOURCE_PAGES = [
-  { path: "/glossaire", label: "Glossaire humour", summary: "12 termes clés de l'humour expliqués : répartie, timing, punchline, callback, tag, misdirection, deadpan, one-liner, autodérision, storytelling, absurde, observation." },
+  { path: "/glossaire", label: "Glossaire humour", summary: "12 termes clés de l'humour expliqués avec un exemple : répartie, timing, autodérision, punchline, storytelling, one-liner, observationnel, setup, callback, escalade comique, accusé de réception, rebond sur mot-clé." },
   { path: "/anatomie-vanne", label: "Anatomie d'une vanne", summary: "Structure setup + punchline décortiquée avec exemples concrets. Comment construire une vanne qui déclenche vraiment le rire." },
   { path: "/quiz-humour", label: "Quiz humour", summary: "Quiz pour identifier ton style d'humour dominant en 12 questions (autodérision, absurde, observation, jeu de mots, timing…)." },
-  { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: "Parcours débutant de 3 semaines pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork." },
-  { path: "/parcours/repartie", label: "Parcours Répartie", summary: "Parcours intermédiaire de 4 semaines pour développer sa répartie avec des exercices concrets et ne plus rester muet." },
-  { path: "/parcours/confiance", label: "Parcours Confiance", summary: "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif." },
+  { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: "Parcours débutant de 3 semaines (15 min par semaine) pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork." },
+  { path: "/parcours/repartie", label: "Parcours Répartie", summary: "Parcours intermédiaire de 4 semaines (20 min par semaine) pour développer sa répartie avec des exercices concrets et ne plus rester muet." },
+  { path: "/parcours/confiance", label: "Parcours Confiance", summary: "Parcours de 6 semaines (20 min par semaine) pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif." },
 ];
 
 interface CatalogueSample {
@@ -83,7 +83,8 @@ async function collectCatalogueSample(): Promise<CatalogueSample> {
 
 async function collectFullArticles(): Promise<FullArticle[]> {
   const staticArticles: FullArticle[] = blogArticles
-    .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug))
+    // Même filtre que sitemap.ts : ni dépubliés, ni slugs qui redirigent (301).
+    .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug) && !REDIRECTED_BLOG_SLUGS.includes(a.slug))
     .map((a) => ({
     slug: a.slug,
     title: a.title,

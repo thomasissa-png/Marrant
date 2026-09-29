@@ -10,14 +10,28 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 const BASE_URL = "https://deviens-marrant.fr";
 
 /**
+ * Identifiants d'entité stables (GEO / knowledge graph) : chaque bloc JSON-LD
+ * qui parle de la marque ou de l'auteur référence le MÊME @id, pour que les
+ * moteurs consolident une seule entité au lieu de N objets anonymes.
+ */
+export const ORGANIZATION_ID = `${BASE_URL}/#organization`;
+export const WEBSITE_ID = `${BASE_URL}/#website`;
+export const AUTHOR_ID = `${BASE_URL}/a-propos#alex-durand`;
+
+/**
  * Person schema for author — improves E-E-A-T signals for LLMs (GEO).
  * LLMs (ChatGPT, Perplexity, Claude) use Person schema to attribute expertise.
+ * Description alignée mot pour mot sur la page /a-propos (cohérence d'entité).
  */
 export const authorPersonJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": AUTHOR_ID,
   name: "Alex Durand",
   url: `${BASE_URL}/a-propos`,
+  mainEntityOfPage: `${BASE_URL}/a-propos`,
+  description:
+    "Fondateur de deviens-marrant.fr, passionné de stand-up et de pédagogie.",
   jobTitle: "Fondateur",
   knowsAbout: [
     "Stand-up comedy",
@@ -29,6 +43,7 @@ export const authorPersonJsonLd = {
   ],
   worksFor: {
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: "deviens-marrant.fr",
     url: BASE_URL,
   },
@@ -85,7 +100,11 @@ const socialProfiles = getSocialProfiles();
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": ORGANIZATION_ID,
   name: "deviens-marrant.fr",
+  // Nom de marque utilisé en signature (« L'Équipe Deviens Marrant ») et sur
+  // les réseaux : aide les moteurs à relier les deux graphies à la même entité.
+  alternateName: "Deviens Marrant",
   url: BASE_URL,
   // ImageObject complet (width + height requis par les Rich Results Google
   // pour Organization.logo — sinon le logo est ignoré).
@@ -99,6 +118,7 @@ export const organizationJsonLd = {
     "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.",
   founder: {
     "@type": "Person",
+    "@id": AUTHOR_ID,
     name: "Alex Durand",
   },
   contactPoint: {
@@ -113,8 +133,11 @@ export const organizationJsonLd = {
 export const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": WEBSITE_ID,
   name: "deviens-marrant.fr",
+  alternateName: "Deviens Marrant",
   url: BASE_URL,
+  publisher: { "@id": ORGANIZATION_ID },
   description:
     "Apprends à devenir drôle, à avoir de la répartie et à faire rire ton entourage. Blagues, techniques, vidéos stand-up et parcours personnalisés.",
   inLanguage: "fr-FR",
@@ -170,17 +193,20 @@ export function buildArticleJsonLd(article: {
     author: [
       {
         "@type": "Person",
+        "@id": AUTHOR_ID,
         name: "Alex Durand",
         url: `${BASE_URL}/a-propos`,
       },
       {
         "@type": "Organization",
+        "@id": ORGANIZATION_ID,
         name: "deviens-marrant.fr",
         url: BASE_URL,
       },
     ],
     publisher: {
       "@type": "Organization",
+      "@id": ORGANIZATION_ID,
       name: "deviens-marrant.fr",
       logo: {
         "@type": "ImageObject",

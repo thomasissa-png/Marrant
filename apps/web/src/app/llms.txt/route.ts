@@ -49,17 +49,17 @@ const RESOURCE_PAGES: ResourceEntry[] = [
   {
     path: "/parcours/machine-a-cafe",
     label: "Parcours Machine à Café",
-    summary: "3 semaines pour être drôle au bureau et en afterwork (débutant).",
+    summary: "3 semaines, 15 min par semaine, pour être drôle au bureau et en afterwork (débutant).",
   },
   {
     path: "/parcours/repartie",
     label: "Parcours Répartie",
-    summary: "4 semaines pour ne plus rester muet quand on te chambre (intermédiaire).",
+    summary: "4 semaines, 20 min par semaine, pour ne plus rester muet quand on te chambre (intermédiaire).",
   },
   {
     path: "/parcours/confiance",
     label: "Parcours Confiance",
-    summary: "6 semaines pour retrouver ta légèreté et ta confiance sociale par l'humour.",
+    summary: "6 semaines, 20 min par semaine, pour retrouver ta légèreté et ta confiance sociale par l'humour.",
   },
 ];
 
@@ -71,7 +71,8 @@ function truncate(text: string, max = 160): string {
 
 async function collectArticles(): Promise<ArticleEntry[]> {
   const staticEntries: ArticleEntry[] = blogArticles
-    .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug))
+    // Même filtre que sitemap.ts : ni dépubliés, ni slugs qui redirigent (301).
+    .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug) && !REDIRECTED_BLOG_SLUGS.includes(a.slug))
     .map((a) => ({
     slug: a.slug,
     title: a.title,
@@ -129,11 +130,13 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push("");
   lines.push("## Sections principales");
   lines.push("");
-  lines.push(`- [Vannes](${BASE_URL}/vannes) : catalogue de vannes classées par catégorie (boulot, couple, soirées, école, gaming…).`);
-  lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils) : techniques de répartie, timing, storytelling, autodérision avec exercices.`);
-  lines.push(`- [Vidéos stand-up](${BASE_URL}/videos) : extraits d'humoristes français analysés technique par technique.`);
-  lines.push(`- [Parcours](${BASE_URL}/parcours) : programmes structurés de 3 à 6 semaines.`);
-  lines.push(`- [Blog](${BASE_URL}/blog) : articles de fond sur l'humour, la répartie et le développement personnel.`);
+  // Format llmstxt.org : `- [nom](url): notes` (deux-points collé à la parenthèse,
+  // sinon les parseurs de référence n'extraient pas la description).
+  lines.push(`- [Vannes](${BASE_URL}/vannes): catalogue de 600+ vannes classées par catégorie (boulot, couple, soirées, école, gaming…).`);
+  lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils): techniques de répartie, timing, storytelling, autodérision avec exercices.`);
+  lines.push(`- [Vidéos stand-up](${BASE_URL}/videos): extraits d'humoristes français analysés technique par technique.`);
+  lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de 3 à 6 semaines (15 à 20 min par semaine selon le parcours).`);
+  lines.push(`- [Blog](${BASE_URL}/blog): articles de fond sur l'humour, la répartie et le développement personnel.`);
   lines.push("");
   lines.push("## Questions fréquentes");
   lines.push("");
@@ -141,13 +144,13 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push("## Pages ressources");
   lines.push("");
   for (const resource of RESOURCE_PAGES) {
-    lines.push(`- [${resource.label}](${BASE_URL}${resource.path}) : ${resource.summary}`);
+    lines.push(`- [${resource.label}](${BASE_URL}${resource.path}): ${resource.summary}`);
   }
   lines.push("");
   lines.push(`## Articles de blog (${articles.length})`);
   lines.push("");
   for (const article of articles) {
-    lines.push(`- [${article.title}](${BASE_URL}/blog/${article.slug}) : ${article.summary}`);
+    lines.push(`- [${article.title}](${BASE_URL}/blog/${article.slug}): ${article.summary}`);
   }
   lines.push("");
   lines.push("## Tarifs");

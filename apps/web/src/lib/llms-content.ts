@@ -44,7 +44,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Peut-on vraiment apprendre à être drôle ?",
     answer:
-      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, timing) que le cerveau peut apprendre. Une étude du Journal of Positive Psychology a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire.",
+      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, calibrage social) que le cerveau peut apprendre. Une étude du Journal of Positive Psychology a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire.",
   },
   ...LLMS_FAQ_SHORT.slice(1),
   {
@@ -89,7 +89,7 @@ L'humour repose sur trois piliers qui s'apprennent :
 ## Sections du site
 
 ### Vannes (${LLMS_BASE_URL}/vannes)
-Des centaines de vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (couple, boulot, école, soirées, dating…). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
+Plus de 600 vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (couple, boulot, école, soirées, dating…). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
 
 ### Conseils humour et répartie (${LLMS_BASE_URL}/conseils)
 Des centaines de techniques concrètes avec exemples et exercices :
@@ -103,9 +103,9 @@ Des centaines de techniques concrètes avec exemples et exercices :
 Extraits de stand-up français annotés avec la technique d'humour utilisée (timing, autodérision, observation, absurde, jeux de mots, storytelling).
 
 ### Parcours structurés (${LLMS_BASE_URL}/parcours)
-- **Machine à Café** (3 semaines) — avoir des vannes et anecdotes à ressortir au bureau et en afterwork
-- **Répartie** (4 semaines) — savoir quoi répondre quand on se fait chambrer
-- **Confiance** (6 semaines) — retrouver son humour et sa légèreté après une période difficile
+- **Machine à Café** (3 semaines, 15 min par semaine) — avoir des vannes et anecdotes à ressortir au bureau et en afterwork
+- **Répartie** (4 semaines, 20 min par semaine) — savoir quoi répondre quand on se fait chambrer
+- **Confiance** (6 semaines, 20 min par semaine) — retrouver son humour et sa légèreté après une période difficile
 
 ### Blog (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
