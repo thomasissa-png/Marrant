@@ -10,7 +10,7 @@ describe("Footer", () => {
   it("renders brand description", () => {
     render(<Footer />);
     expect(
-      screen.getByText(/coach humour perso/)
+      screen.getByText(/Deviens drôle, un exercice à la fois/)
     ).toBeInTheDocument();
   });
 

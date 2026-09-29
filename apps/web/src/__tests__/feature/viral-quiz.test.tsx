@@ -184,7 +184,7 @@ describe("ViralQuiz", () => {
       );
     }
     expect(screen.getByText("Ta force")).toBeInTheDocument();
-    expect(screen.getByText("Le conseil du coach")).toBeInTheDocument();
+    expect(screen.getByText("Le conseil pour progresser")).toBeInTheDocument();
   });
 });
 

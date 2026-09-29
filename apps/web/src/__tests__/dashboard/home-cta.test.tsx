@@ -36,7 +36,7 @@ describe("HomeCta", () => {
   it("mentions the value proposition", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    expect(screen.getByText(/ton futur toi drôle/i)).toBeInTheDocument();
+    expect(screen.getByText(/La seule chose que tu n.as pas encore essayée/i)).toBeInTheDocument();
   });
 
   it("CTA opens auth modal (button, not link to /register)", () => {

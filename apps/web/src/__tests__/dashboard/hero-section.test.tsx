@@ -11,20 +11,14 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-let mockMembers = 0;
-jest.mock("@/hooks/use-content-stats", () => ({
-  MEMBERS_SOCIAL_PROOF_MIN: 100,
-  useContentStats: () => ({ jokes: 600, tips: 400, videos: 80, members: mockMembers }),
-}));
-
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows main heading with la plus drôle", () => {
+  it("shows main heading (étalon D)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("la plus drôle")).toBeInTheDocument();
-    expect(screen.getByText(/du groupe/)).toBeInTheDocument();
+    expect(screen.getByText("personne rit")).toBeInTheDocument();
+    expect(screen.getByText(/On va arranger ça/)).toBeInTheDocument();
   });
 
   it("shows description with motivation hook", () => {
@@ -33,21 +27,10 @@ describe("HeroSection", () => {
     expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
   });
 
-  it("affiche le nombre RÉEL d'inscrits quand il est significatif (≥ 100)", () => {
-    mockMembers = 1200;
+  it("shows social proof « 1 500+ membres » (texte fixe validé fondateur)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Rejoins 1\s200\+ membres/)).toBeInTheDocument();
-    mockMembers = 0;
-  });
-
-  it("n'affiche aucun chiffre d'inscrits sous le seuil (pas de chiffre inventé)", () => {
-    mockMembers = 40;
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection />);
-    expect(screen.getByText(/Rejoins celles et ceux qui progressent/)).toBeInTheDocument();
-    expect(screen.queryByText(/\d\+ membres/)).not.toBeInTheDocument();
-    mockMembers = 0;
+    expect(screen.getByText(/Rejoins 1\s500\+ membres/)).toBeInTheDocument();
   });
 
   it("shows use-case tags for all 3 personas", () => {
