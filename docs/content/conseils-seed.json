@@ -2,11 +2,11 @@
   {
     "id": 1,
     "title": "La pause et le silence : tes meilleurs alliés",
-    "content": "Le timing est tout en humour. Quand tu fais une blague, marque une pause de 3 secondes avant la chute. Ce silence crée de l'anticipation et amplifie l'effet comique. Et en face-à-face, 50% de l'humour passe par le non-verbal : le regard fixe après une blague, le sourcil levé, le silence prolongé. Les stand-uppers appellent ça le 'beat'. Ne comble jamais le silence trop vite après une blague. Regarde comment Blanche Gardin laisse traîner ses silences — le public rit avant même la chute. Marina Rollman aussi maîtrise ces pauses qui en disent plus que les mots.",
+    "content": "Le timing, c'est la moitié du boulot. Quand tu sors une vanne, marque une pause de 3 secondes avant la chute. Ce silence crée l'anticipation et amplifie tout. Et en face-à-face, 50% de l'humour passe par le non-verbal : le regard fixe après la vanne, le sourcil levé, le silence prolongé. Les stand-uppers appellent ça le 'beat'. Ne comble jamais le silence trop vite. Regarde comment Blanche Gardin laisse traîner ses silences — le public rit avant même la chute. Marina Rollman aussi maîtrise ces pauses qui en disent plus que les mots.",
     "category": "TIMING",
     "difficulty": "DEBUTANT",
     "example": "\"J'ai essayé le yoga ce matin...\" (pause 3s, regard fixe sur ton interlocuteur) \"...j'ai réussi à toucher mes pieds...\" (sourcil levé, 2s) \"...parce que je suis tombé.\" (visage neutre, laisse le silence faire le travail)",
-    "exercise": "DÉFI MIROIR : Choisis une blague que tu connais bien. Raconte-la devant un miroir en comptant 3 secondes dans ta tête avant chaque chute. Garde un visage parfaitement neutre. Fais-le 5 fois, puis teste sur un ami en ajoutant le regard fixe après la chute."
+    "exercise": "DÉFI MIROIR : Choisis une vanne que tu connais bien. Raconte-la devant un miroir en comptant 3 secondes dans ta tête avant chaque chute. Garde un visage parfaitement neutre. Fais-le 5 fois, puis teste sur un ami en ajoutant le regard fixe après la chute."
   },
   {
     "id": 2,
@@ -20,11 +20,11 @@
   {
     "id": 3,
     "title": "L'observation du quotidien",
-    "content": "Les meilleures blagues viennent de l'observation de situations banales que tout le monde vit mais personne ne verbalise. Pourquoi on dit 'allô' au téléphone ? Pourquoi on appuie plus fort sur la télécommande quand les piles sont faibles ? Seinfeld a bâti sa carrière là-dessus. L'humour est partout, il faut juste apprendre à le voir et à le formuler de façon percutante.",
+    "content": "Les meilleures vannes viennent de l'observation de situations banales que tout le monde vit mais personne ne verbalise. Pourquoi on dit 'allô' au téléphone ? Pourquoi on appuie plus fort sur la télécommande quand les piles sont faibles ? Seinfeld a bâti sa carrière là-dessus. L'humour est partout, il faut juste apprendre à le voir et à le formuler de façon percutante.",
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
-    "example": "\"Vous avez remarqué qu'on vérifie toujours l'heure sur son téléphone, et 3 secondes après on doit revérifier parce qu'on a regardé sans regarder ?\"",
-    "exercise": "DÉFI CARNET : aNALYSE VIDÉO : Regarde un sketch de Vérino ou Roman Frayssinet. Note les 5 observations du quotidien qu'il utilise. Puis pendant une journée, note dans ton téléphone 10 petites absurdités que TU observes. Le soir, transforme les 3 meilleures en début de blague."
+    "example": "\"T'as remarqué qu'on vérifie toujours l'heure sur son téléphone, et 3 secondes après on doit revérifier parce qu'on a regardé sans vraiment regarder ?\"",
+    "exercise": "DÉFI ANALYSE : Regarde un sketch de Vérino ou Roman Frayssinet. Note les 5 observations du quotidien qu'il utilise. Puis pendant une journée, note dans ton téléphone 10 petites absurdités que TU observes. Le soir, transforme les 3 meilleures en début de vanne."
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "category": "REPARTIE",
     "difficulty": "INTERMEDIAIRE",
     "example": "Quelqu'un dit : \"T'es toujours en retard !\" → \"C'est pas que je suis en retard, c'est que vous êtes tous en avance sur mon emploi du temps.\"",
-    "exercise": "DÉFI TIRS RAPIDES : cHRONO RÉPARTIE : Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma en moins de 5 secondes : accuse réception → rebondis → retourne. Chronomètre-toi. L'objectif : descendre sous les 3 secondes à la fin de la semaine."
+    "exercise": "DÉFI CHRONO RÉPARTIE : Demande à un ami de te lancer 5 piques amicales. Pour chacune, applique le schéma en moins de 5 secondes : accuse réception → rebondis → retourne. Chronomètre-toi. L'objectif : descendre sous les 3 secondes à la fin de la semaine."
   },
   {
     "id": 5,
@@ -46,8 +46,10 @@
   },
   {
     "id": 6,
-    "title": "Le callback : faire revenir une blague au bon moment",
+    "title": "Le callback : faire revenir une vanne au bon moment",
+    "previousTitle": "Le callback : faire revenir une blague au bon moment",
     "content": "Le callback, c'est reprendre un élément mentionné plus tôt et y revenir au moment inattendu. Ça récompense l'attention du public et multiplie le rire. Version débutant : tu y reviens 2 minutes plus tard. Version pro : tu plantes une graine au début d'une soirée et tu la fais germer 30 minutes plus tard. Plus l'attente est longue, plus l'effet de surprise est fort. Élodie Poux est redoutable de callback dans ses spectacles — elle construit des fils rouges que le public a oubliés avant de les faire revenir avec un timing parfait.",
+
     "category": "TIMING",
     "difficulty": "EXPERT",
     "example": "En début de soirée : \"Mon GPS m'a dit de faire demi-tour.\" (...30 min plus tard, quelqu'un se trompe de chemin) \"Attends, toi aussi t'as mon GPS ?\" Le callback récompense ceux qui suivent depuis le début.",
@@ -114,16 +116,16 @@
     "category": "ABSURDE",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Ce weekend j'ai fait du rangement : j'ai trié mes chaussettes, organisé ma bibliothèque, négocié un traité de paix avec les araignées du plafond, et déposé une motion de censure contre le frigo.\"",
-    "exercise": "DÉFI ESCALADE : eN GROUPE : Lancez un jeu à table — quelqu'un commence une phrase, chacun ajoute un élément de plus en plus absurde. Ex : 'Pour être en forme, je fais du sport...' → '...je mange équilibré...' → '...je négocie avec mon reflet...' → '...je fais un TED talk à mes plantes'. Le dernier à faire rire marque un point."
+    "exercise": "DÉFI ESCALADE EN GROUPE : Lancez un jeu à table — quelqu'un commence une phrase, chacun ajoute un élément de plus en plus absurde. Ex : 'Pour être en forme, je fais du sport...' → '...je mange équilibré...' → '...je négocie avec mon reflet...' → '...je fais un TED talk à mes plantes'. Le dernier à faire rire marque un point."
   },
   {
     "id": 15,
     "title": "Adapter son humour à l'audience",
-    "content": "L'humour n'est pas universel. Ce qui fait rire tes potes ne marchera pas forcément avec tes collègues ou ta belle-famille. Un bon humoriste scanne toujours son public avant de se lancer. Observe les réactions aux premières blagues légères et ajuste. Marina Rollman adapte finement son registre selon le contexte — c'est ça, l'intelligence comique.",
+    "content": "L'humour n'est pas universel. Ce qui fait rire tes potes ne marchera pas forcément avec tes collègues ou ta belle-famille. Un bon humoriste scanne toujours son public avant de se lancer. Observe les réactions aux premières vannes légères et ajuste. Marina Rollman adapte finement son registre selon le contexte — c'est ça, l'intelligence comique.",
     "category": "OBSERVATION",
     "difficulty": "INTERMEDIAIRE",
     "example": "Avec des collègues → humour observationnel sur le bureau. Avec des amis proches → auto-dérision et absurde. En famille → jeux de mots et situations.",
-    "exercise": "DÉFI CAMÉLÉON : cette semaine, fais la même blague à 3 groupes différents (amis, famille, collègues). Note les réactions. Adapte le ton et le vocabulaire à chaque groupe."
+    "exercise": "DÉFI CAMÉLÉON : cette semaine, fais la même vanne à 3 groupes différents (amis, famille, collègues). Note les réactions. Adapte le ton et le vocabulaire à chaque groupe."
   },
   {
     "id": 17,
@@ -141,12 +143,12 @@
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Raconter une histoire avec ta mère → prends un ton concerné et dramatique. Avec ton pote → accélère le débit et ajoute des 'genre' et 'tu vois'.",
-    "exercise": "DÉFI PERSONNAGE : eN DUO : Raconte la même anecdote à un ami en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Change juste ta voix et ton rythme — pas besoin d'être un grand imitateur. Demande-lui lequel était le plus drôle et pourquoi."
+    "exercise": "DÉFI PERSONNAGE EN DUO : Raconte la même anecdote à un ami en incarnant 3 personnages différents : toi-même, ton boss, et un enfant de 5 ans. Change juste ta voix et ton rythme — pas besoin d'être un grand imitateur. Demande-lui lequel était le plus drôle et pourquoi."
   },
   {
     "id": 20,
     "title": "L'art du non-dit",
-    "content": "Parfois, ce que tu ne dis PAS est plus drôle que ce que tu dis. Laisser l'audience compléter la blague dans sa tête est une technique puissante. Tu plantes le contexte, tu amènes vers une conclusion évidente... et tu t'arrêtes juste avant. Le cerveau de l'autre fait le travail et rit de sa propre pensée. Blanche Gardin excelle dans ces pauses où tout est dit sans rien dire.",
+    "content": "Parfois, ce que tu ne dis PAS est plus drôle que ce que tu dis. Laisser l'audience compléter la vanne dans sa tête est une technique puissante. Tu plantes le contexte, tu amènes vers une conclusion évidente... et tu t'arrêtes juste avant. Le cerveau de l'autre fait le travail et rit de sa propre pensée. Blanche Gardin excelle dans ces pauses où tout est dit sans rien dire.",
     "category": "TIMING",
     "difficulty": "EXPERT",
     "example": "\"Mon ex m'a dit qu'il me trouvait changé. J'ai répondu... enfin, j'ai rien répondu. Mais dans ma tête...\" (laisser en suspens)",
@@ -168,7 +170,7 @@
     "category": "STORYTELLING",
     "difficulty": "DEBUTANT",
     "example": "Contexte : \"Mardi, rendez-vous Tinder.\" Montée : \"Elle arrive, on parle, ça se passe bien, elle me dit qu'elle adore les gens spontanés.\" Chute : \"Alors spontanément, j'ai renversé mon café sur elle.\"",
-    "exercise": "DÉFI 3 ACTES : eNREGISTRE-TOI : Reprends 3 anecdotes de ta vie. Filme-toi en respectant strictement les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
+    "exercise": "DÉFI 3 ACTES : Reprends 3 anecdotes de ta vie. Filme-toi en respectant les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
   },
   {
     "id": 24,
@@ -227,11 +229,11 @@
   {
     "id": 31,
     "title": "Savoir rebondir sur un raté",
-    "content": "Les meilleurs humoristes sont ceux qui gèrent le mieux les moments où rien ne se passe comme prévu. Ta blague tombe à plat ? Rebondis dessus. Un silence gênant ? Commente-le. Plus tu es à l'aise avec l'échec, plus tu es drôle. L'anti-fragilité comique, c'est quand les ratés te rendent encore plus drôle. Tania Dutel est la maîtresse du rattrapage en live — ses moments de flottement deviennent les meilleurs passages de ses spectacles.",
+    "content": "Les meilleurs humoristes sont ceux qui gèrent le mieux les moments où rien ne se passe comme prévu. Ta vanne tombe à plat ? Rebondis dessus. Un silence gênant ? Commente-le. Plus tu es à l'aise avec l'échec, plus tu es drôle. L'anti-fragilité comique, c'est quand les ratés te rendent encore plus drôle. Tania Dutel est la maîtresse du rattrapage en live — ses moments de flottement deviennent les meilleurs passages de ses spectacles.",
     "category": "REPARTIE",
     "difficulty": "EXPERT",
-    "example": "Blague qui tombe à plat → \"Bon, celle-là je la remets au four, elle est pas assez cuite.\" ou \"C'était un test pour voir qui avait le sens de l'humour. Apparemment personne.\"",
-    "exercise": "DÉFI REBOND : volontairement, raconte une blague nulle à un groupe. Quand elle tombe à plat, enchaîne avec un commentaire méta sur l'échec. L'objectif : que le commentaire fasse plus rire que la blague."
+    "example": "Vanne qui tombe à plat → \"Bon, celle-là je la remets au four, elle est pas assez cuite.\" ou \"C'était un test pour voir qui avait le sens de l'humour. Apparemment personne.\"",
+    "exercise": "DÉFI REBOND : Volontairement, sors une vanne nulle à un groupe. Quand elle tombe à plat, enchaîne avec un commentaire méta sur l'échec. L'objectif : que le commentaire fasse plus rire que la vanne elle-même."
   },
   {
     "id": 32,
@@ -245,7 +247,7 @@
   {
     "id": 33,
     "title": "Les questions rhétoriques drôles",
-    "content": "Poser une question à laquelle tout le monde connaît la réponse, mais la formuler de façon à créer un décalage, c'est une technique classique de stand-up. La question invite le public à réfléchir une seconde, ce qui prépare le terrain pour la chute. C'est une entrée en matière parfaite pour une blague ou un développement observationnel.",
+    "content": "Poser une question à laquelle tout le monde connaît la réponse, mais la formuler de façon à créer un décalage, c'est une technique classique de stand-up. La question invite le public à réfléchir une seconde, ce qui prépare le terrain pour la chute. C'est une entrée en matière parfaite pour une vanne ou un développement observationnel.",
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "\"Pourquoi les gens qui conduisent lentement sont toujours devant toi, et les gens pressés toujours derrière toi ? C'est comme si l'univers avait un algorithme pour maximiser ta frustration.\"",
@@ -263,7 +265,7 @@
   {
     "id": 37,
     "title": "La pause dramatique inversée",
-    "content": "Au lieu de la pause classique avant la chute, essaie la pause APRÈS la chute. Tu balances la punchline très vite, presque en la jetant, puis tu fais une longue pause. L'audience met un instant à processer, puis rit. Cette technique marche particulièrement bien avec les one-liners et les blagues très courtes. C'est plus avancé mais très efficace.",
+    "content": "Au lieu de la pause classique avant la chute, essaie la pause APRÈS la chute. Tu balances la punchline très vite, presque en la jetant, puis tu fais une longue pause. L'audience met un instant à processer, puis rit. Cette technique marche particulièrement bien avec les one-liners et les vannes très courtes. C'est plus avancé mais très efficace.",
     "category": "TIMING",
     "difficulty": "EXPERT",
     "example": "Dis très rapidement : \"J'ai vendu mon aspirateur, il prenait la poussière.\" Puis silence total, regard fixe, pendant 4 secondes.",
@@ -317,7 +319,7 @@
   {
     "id": 43,
     "title": "Le one-liner : l'art de la concision",
-    "content": "Un one-liner est une blague en une seule phrase. C'est la forme la plus pure d'humour : setup ET chute en une ligne. Pour y arriver, chaque mot doit être chirurgicalement choisi. Un bon one-liner peut être cité, partagé, et mémorisé. C'est l'équivalent humoristique d'un haïku. Construis-en un portfolio pour les sortir au bon moment.",
+    "content": "Un one-liner, c'est une vanne en une seule phrase. La forme la plus pure : setup ET chute en une ligne. Pour y arriver, chaque mot doit être chirurgicalement choisi. Un bon one-liner peut être cité, partagé, ressorti n'importe où. C'est l'équivalent humoristique d'un haïku. Construis-en un répertoire pour les sortir au bon moment.",
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
     "example": "\"Je suis pas paresseux, je suis en mode économie d'énergie.\"",
@@ -326,11 +328,11 @@
   {
     "id": 44,
     "title": "Lire le groupe avant de parler",
-    "content": "Avant de lancer une blague en groupe, prends 30 secondes pour lire l'ambiance. Les gens sont-ils détendus ou stressés ? Qui rit facilement ? Qui est sensible sur quels sujets ? Cette lecture sociale te permet d'adapter ta blague en temps réel et d'éviter les flops. C'est ce que font les stand-uppers quand ils 'chauffent' le public — ils le scannent.",
+    "content": "Avant de lancer une vanne en groupe, prends 30 secondes pour lire l'ambiance. Les gens sont-ils détendus ou stressés ? Qui rit facilement ? Qui est sensible sur quels sujets ? Cette lecture sociale te permet d'adapter ta vanne en temps réel et d'éviter les flops. C'est ce que font les stand-uppers quand ils 'chauffent' le public — ils le scannent.",
     "category": "OBSERVATION",
     "difficulty": "EXPERT",
-    "example": "Tu remarques que tout le monde se plaint du boulot → c'est le moment pour une blague sur le travail. Le groupe parle de vacances → pars sur l'humour de voyage.",
-    "exercise": "DÉFI LECTURE DU GROUPE : lors de ta prochaine soirée, passe les 10 premières minutes à observer sans faire de blague. Note mentalement l'humeur, les sujets, les personnalités. Puis lance ta première blague calibrée. Compare le résultat avec tes blagues habituelles."
+    "example": "Tu remarques que tout le monde se plaint du boulot → c'est le moment pour une vanne sur le travail. Le groupe parle de vacances → pars sur l'humour de voyage.",
+    "exercise": "DÉFI LECTURE DU GROUPE : lors de ta prochaine soirée, passe les 10 premières minutes à observer sans faire de vanne. Note mentalement l'humeur, les sujets, les personnalités. Puis lance ta première vanne calibrée. Compare le résultat avec tes vannes habituelles."
   },
   {
     "id": 45,
@@ -348,7 +350,7 @@
     "category": "OBSERVATION",
     "difficulty": "EXPERT",
     "example": "Demande à 3 amis : \"Quand est-ce que tu me trouves le plus drôle ?\" Leurs réponses te révéleront ton style naturel.",
-    "exercise": "DÉFI STYLE : fais un auto-audit : note tes 10 dernières blagues qui ont fait rire. Classe-les par catégorie. Le pattern qui émerge, c'est ton style naturel. Concentre-toi dessus pendant un mois."
+    "exercise": "DÉFI STYLE : fais un auto-audit : note tes 10 dernières vannes qui ont fait rire. Classe-les par catégorie. Le pattern qui émerge, c'est ton style naturel. Concentre-toi dessus pendant un mois."
   },
   {
     "id": 51,
@@ -384,7 +386,7 @@
     "category": "REPARTIE",
     "difficulty": "DEBUTANT",
     "example": "Pique générique → \"Venant de quelqu'un qui [observation drôle], ça me touche.\" | Remarque sur ton physique → \"Je sais, j'ai hésité entre ça et être parfait, mais parfait c'était complet.\" | Question gênante → \"Excellente question. Suivante.\"",
-    "exercise": "DÉFI SCRIPTS : aRSENAL DE POCHE : Écris et mémorise 5 réponses passe-partout pour les situations les plus courantes : la pique amicale, la question gênante, le compliment bizarre, la remarque sur ton retard, la blague qui tombe à plat. Répète-les à voix haute 3 fois. Utilises-en au moins 2 cette semaine."
+    "exercise": "DÉFI ARSENAL DE POCHE : Écris et mémorise 5 réponses passe-partout pour les situations les plus courantes : la pique amicale, la question gênante, le compliment bizarre, la remarque sur ton retard, la vanne qui tombe à plat. Répète-les à voix haute 3 fois. Utilises-en au moins 2 cette semaine."
   },
   {
     "id": 55,
@@ -393,7 +395,7 @@
     "category": "REPARTIE",
     "difficulty": "DEBUTANT",
     "example": "\"T'as quelqu'un ?\" → \"J'ai un cactus. C'est pareil mais ça demande moins d'arrosage.\" | \"Tu gagnes combien ?\" → \"Assez pour payer mon Netflix, pas assez pour la thérapie qu'il me faudrait.\" | \"T'as maigri ?\" → \"Non, j'ai juste changé de miroir.\"",
-    "exercise": "DÉFI RÉPONSE GÊNANTE : pRÉPARATION DÎNER DE FAMILLE : Identifie les 5 questions gênantes que ta famille/tes amis te posent systématiquement. Prépare pour chacune une réponse drôle et bienveillante qui esquive élégamment. Teste-les au prochain repas de famille."
+    "exercise": "DÉFI PRÉPARATION DÎNER DE FAMILLE : Identifie les 5 questions gênantes que ta famille/tes amis te posent systématiquement. Prépare pour chacune une réponse drôle et bienveillante qui esquive élégamment. Teste-les au prochain repas de famille."
   },
   {
     "id": 56,
@@ -411,7 +413,7 @@
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
     "example": "Tes amis débattent bruyamment sur le meilleur kebab du quartier. Toi, après 5 minutes de silence : \"On dirait un conseil municipal sur un sujet de défense nationale.\" Une phrase, maximum d'impact.",
-    "exercise": "DÉFI INTÉGRATION : Prochaine soirée : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles."
+    "exercise": "DÉFI INTÉGRATION : Prochaine soirée : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le lanceur de vannes, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles."
   },
   {
     "id": 60,
@@ -425,7 +427,7 @@
   {
     "id": 61,
     "title": "Le « ah au fait » : glisser une vanne en pleine conversation",
-    "content": "La meilleure façon de placer une vanne, c'est quand personne ne l'attend. La technique du « ah au fait » : tu attends un moment naturel dans la conversation, tu changes de sujet comme si de rien n'était, et tu places ta vanne comme une parenthèse. L'effet est dévastateur parce que le public n'a pas activé ses défenses « attention c'est une blague ». Regarde Kev Adams en interview — ses meilleures vannes arrivent toujours comme des apartés.",
+    "content": "La meilleure façon de placer une vanne, c'est quand personne ne l'attend. La technique du « ah au fait » : tu attends un moment naturel dans la conversation, tu changes de sujet comme si de rien n'était, et tu places ta vanne comme une parenthèse. L'effet est dévastateur parce que le public n'a pas activé ses défenses « attention c'est une vanne ». Regarde Kev Adams en interview — ses meilleures vannes arrivent toujours comme des apartés.",
     "category": "TIMING",
     "difficulty": "INTERMEDIAIRE",
     "example": "En plein dîner, quelqu'un parle de vacances. Tu écoutes, tu hoches la tête, puis entre deux bouchées : « Ah au fait, mon proprio m'a envoyé un message. Il augmente le loyer. Il a dit que c'était à cause de l'inflation. Mon appart a pas changé mais bon. » → Posé naturellement, pas forcé.",
@@ -446,13 +448,13 @@
     "content": "Dans un groupe, le rire a un rythme. Quelqu'un lance un sujet, les réactions s'enchaînent, puis il y a un micro-silence de 1-2 secondes. C'est TON moment. Si tu parles en même temps que le rire, tu te fais écraser. Si tu attends trop, le sujet change. Le sweet spot c'est juste après le pic de rire, quand le groupe reprend son souffle. C'est là que ta vanne a le plus d'espace.",
     "category": "TIMING",
     "difficulty": "DEBUTANT",
-    "example": "En soirée, quelqu'un fait une blague → tout le monde rit → 2 secondes de respiration → c'est là que tu places ton commentaire ou ton callback. Pas pendant le rire (personne t'entend), pas 30 secondes après (moment passé).",
+    "example": "En soirée, quelqu'un fait une vanne → tout le monde rit → 2 secondes de respiration → c'est là que tu places ton commentaire ou ton callback. Pas pendant le rire (personne t'entend), pas 30 secondes après (moment passé).",
     "exercise": "DÉFI RYTHME : À ta prochaine sortie en groupe, ne cherche pas à être drôle. Observe juste le rythme des conversations pendant 15 minutes. Repère les micro-silences après les rires. Compte-les. Le simple fait d'en être conscient change tout."
   },
   {
     "id": 64,
     "title": "Le silence après le rire : savoir ne pas enchaîner",
-    "content": "Erreur classique du débutant : quelqu'un rit de ta blague, et toi tu enchaînes immédiatement avec une autre. Résultat : tu dilues le premier rire et le deuxième tombe à plat. Les pros savent que le silence APRÈS un rire est aussi important que la vanne elle-même. Ce silence dit « je sais que c'était bon ». Blanche Gardin fait ça parfaitement — elle attend que le public se calme avant de reprendre.",
+    "content": "Erreur classique du débutant : quelqu'un rit de ta vanne, et toi tu enchaînes immédiatement avec une autre. Résultat : tu dilues le premier rire et le deuxième tombe à plat. Les pros savent que le silence APRÈS un rire est aussi important que la vanne elle-même. Ce silence dit « je sais que c'était bon ». Blanche Gardin fait ça parfaitement — elle attend que le public se calme avant de reprendre.",
     "category": "TIMING",
     "difficulty": "DEBUTANT",
     "example": "Tu places une vanne → les gens rient → TU NE DIS RIEN. Tu souris, tu bois une gorgée, tu attends. Le rire se prolonge naturellement. Si tu avais enchaîné, il se serait arrêté net.",
