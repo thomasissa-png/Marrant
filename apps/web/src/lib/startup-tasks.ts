@@ -22,6 +22,12 @@ import weakJokes from "@/data/weak-jokes.json";
 import blogArticleFixes from "@/data/blog-article-fixes.json";
 import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
+// Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
+// d'import relatif que `components/parcours/parcours-content.tsx`.
+import blaguesSeed from "../../../../docs/content/blagues-seed.json";
+import conseilsSeed from "../../../../docs/content/conseils-seed.json";
+import videosSeed from "../../../../docs/content/videos-seed.json";
+import parcoursSeed from "../../../../docs/content/parcours-seed.json";
 
 /** Une entrée de décryptage pré-rédigé, matchée sur le `content` de la vanne. */
 interface JokeDecryptageEntry {
@@ -796,6 +802,448 @@ async function convergeBlogSlugRedirectsTask(): Promise<void> {
   }
 }
 
+/*
+ * Application au boot de la refonte de contenu du catalogue (s11, passe 2).
+ * (Documentation de `applyCatalogueContentTask`, en fin de bloc.)
+ *
+ * Pourquoi au boot : toute la refonte vit dans les fichiers de seed
+ * (`docs/content/*-seed.json` + `src/data/joke-decryptages.json`), or
+ * `prisma/seed-data.ts` s'arrête en `NODE_ENV=production` (cas du build Replit,
+ * documenté s10). On NE lève PAS ce garde-fou : le seed recrée les étapes des
+ * parcours et désactive des contenus (risque pour la progression et les
+ * favoris des membres). Cette tâche n'applique donc QUE des textes :
+ *  - Vannes (`generatedByAI: false` uniquement) : match par `content` = nouveau
+ *    texte OU l'un des `previousContent` → `content`, `punchline` + décryptage
+ *    (`joke-decryptages.json`, indexé par le NOUVEAU content). Si le nouveau
+ *    texte existe déjà en base, l'alias n'est PAS renommé (pas de doublon).
+ *  - Conseils (`generatedByAI: false`) : match par `title` OU `previousTitle`
+ *    → `content`, `example`, `exercise` (+ `title` si match par alias).
+ *  - Vidéos : match par `youtubeId` → `description`, `technique`, `learnings`,
+ *    `exercise`. Les vidéos absentes du seed ne sont pas touchées.
+ *  - Parcours : match par `slug` → `description` seulement (titres et étapes
+ *    intacts).
+ *
+ * Garanties : jamais de création, suppression ni (dés)activation ; update
+ * seulement si le texte diffère ; lots de 50 ; `withDbRetry` + try/catch par
+ * section → ne bloque JAMAIS le boot. Marqueur `DataPatch`
+ * `catalogue-content:v<version>` écrit APRÈS succès complet des 4 sections
+ * (échec partiel → pas de marqueur → le boot suivant réessaie, sans risque
+ * puisque tout est idempotent).
+ */
+/**
+ * Version du patch catalogue. BUMP MANUEL (1 → 2…) après toute nouvelle
+ * réécriture des fichiers de seed : nouveau patchId → la tâche se rejoue une
+ * fois au boot suivant. Supprimer la ligne `DataPatch` a le même effet.
+ */
+const CATALOGUE_CONTENT_PATCH_VERSION = 1;
+const CATALOGUE_CONTENT_PATCH_ID = `catalogue-content:v${CATALOGUE_CONTENT_PATCH_VERSION}`;
+const CATALOGUE_PATCH_BATCH = 50;
+
+interface CatalogueJokeSeed {
+  content: string;
+  punchline: string;
+  previousContent?: string | string[];
+}
+interface CatalogueTipSeed {
+  title: string;
+  content: string;
+  example: string;
+  exercise: string;
+  previousTitle?: string | string[];
+}
+interface CatalogueVideoSeed {
+  youtubeId: string;
+  description: string;
+  technique: string;
+  learnings?: string[];
+  exercise?: string | null;
+}
+interface CatalogueParcoursSeed {
+  slug: string;
+  description: string;
+}
+
+interface CataloguePatchOp<T> {
+  id: string;
+  data: T;
+  renamed: boolean;
+}
+
+interface CatalogueSectionResult {
+  updated: number;
+  renamed: number;
+  unchanged: number;
+  missing: number;
+  aliasSkipped: number;
+}
+
+function toAliasList(value: string | string[] | undefined): string[] {
+  if (!value) return [];
+  return (Array.isArray(value) ? value : [value]).filter(
+    (a) => typeof a === "string" && a.length > 0,
+  );
+}
+
+async function runCatalogueOps<T>(
+  ops: CataloguePatchOp<T>[],
+  apply: (op: CataloguePatchOp<T>) => Promise<unknown>,
+  label: string,
+): Promise<void> {
+  for (let i = 0; i < ops.length; i += CATALOGUE_PATCH_BATCH) {
+    const slice = ops.slice(i, i + CATALOGUE_PATCH_BATCH);
+    await Promise.all(slice.map((op) => withDbRetry(() => apply(op), { label })));
+  }
+}
+
+function emptyCatalogueResult(): CatalogueSectionResult {
+  return { updated: 0, renamed: 0, unchanged: 0, missing: 0, aliasSkipped: 0 };
+}
+
+/**
+ * Choisit les lignes cibles d'une entrée seed : d'abord celles dont la clé vaut
+ * déjà le nouveau texte ; sinon la 1re ligne libre portant un alias (renommage).
+ * Une ligne n'est revendiquée qu'une fois (`claimed`) ; un alias égal à une clé
+ * du seed n'est jamais utilisé (il appartient à une autre entrée).
+ */
+function pickCatalogueTargets<R extends { id: string }>(
+  key: string,
+  aliases: string[],
+  byKey: Map<string, R[]>,
+  seedKeys: Set<string>,
+  claimed: Set<string>,
+  result: CatalogueSectionResult,
+): { rows: R[]; renamed: boolean } {
+  const free = (k: string) => (byKey.get(k) ?? []).filter((r) => !claimed.has(r.id));
+  const direct = free(key);
+  const usableAliases = aliases.filter((a) => a !== key && !seedKeys.has(a));
+  if (direct.length > 0) {
+    if (usableAliases.some((a) => free(a).length > 0)) result.aliasSkipped++;
+    return { rows: direct, renamed: false };
+  }
+  for (const alias of usableAliases) {
+    const candidate = free(alias)[0];
+    if (candidate) return { rows: [candidate], renamed: true };
+  }
+  return { rows: [], renamed: false };
+}
+
+function groupByKey<R>(rows: R[], key: (r: R) => string): Map<string, R[]> {
+  const map = new Map<string, R[]>();
+  for (const row of rows) {
+    const k = key(row);
+    const list = map.get(k);
+    if (list) list.push(row);
+    else map.set(k, [row]);
+  }
+  return map;
+}
+
+interface CatalogueJokeData {
+  content?: string;
+  punchline?: string;
+  comedyTechnique?: string;
+  techniqueExplanation?: string;
+  howToApply?: string;
+}
+
+async function patchCatalogueJokes(): Promise<CatalogueSectionResult> {
+  const result = emptyCatalogueResult();
+  const seed = (blaguesSeed as CatalogueJokeSeed[]).filter(
+    (j) => typeof j.content === "string" && j.content.length > 0,
+  );
+  const decByContent = new Map(
+    (jokeDecryptages as JokeDecryptageEntry[]).map((d) => [d.content, d]),
+  );
+  const rows = await withDbRetry(
+    () =>
+      prisma.joke.findMany({
+        where: { generatedByAI: false },
+        select: {
+          id: true,
+          content: true,
+          punchline: true,
+          comedyTechnique: true,
+          techniqueExplanation: true,
+          howToApply: true,
+        },
+      }),
+    { label: "catalogue-content:jokes:findMany" },
+  );
+  const byContent = groupByKey(rows, (r) => r.content);
+  const seedKeys = new Set(seed.map((j) => j.content));
+  const claimed = new Set<string>();
+  const ops: CataloguePatchOp<CatalogueJokeData>[] = [];
+
+  for (const joke of seed) {
+    const { rows: targets, renamed } = pickCatalogueTargets(
+      joke.content,
+      toAliasList(joke.previousContent),
+      byContent,
+      seedKeys,
+      claimed,
+      result,
+    );
+    if (targets.length === 0) {
+      result.missing++;
+      continue;
+    }
+    const dec = decByContent.get(joke.content);
+    for (const row of targets) {
+      claimed.add(row.id);
+      const data: CatalogueJokeData = {};
+      if (row.content !== joke.content) data.content = joke.content;
+      if (typeof joke.punchline === "string" && row.punchline !== joke.punchline) {
+        data.punchline = joke.punchline;
+      }
+      if (dec) {
+        if (row.comedyTechnique !== dec.comedyTechnique) data.comedyTechnique = dec.comedyTechnique;
+        if (row.techniqueExplanation !== dec.techniqueExplanation) {
+          data.techniqueExplanation = dec.techniqueExplanation;
+        }
+        if (row.howToApply !== dec.howToApply) data.howToApply = dec.howToApply;
+      }
+      if (Object.keys(data).length === 0) {
+        result.unchanged++;
+        continue;
+      }
+      ops.push({ id: row.id, data, renamed });
+    }
+  }
+
+  await runCatalogueOps(
+    ops,
+    (op) => prisma.joke.update({ where: { id: op.id }, data: op.data }),
+    "catalogue-content:jokes:update",
+  );
+  result.updated = ops.length;
+  result.renamed = ops.filter((op) => op.renamed).length;
+  return result;
+}
+
+interface CatalogueTipData {
+  title?: string;
+  content?: string;
+  example?: string;
+  exercise?: string;
+}
+
+async function patchCatalogueTips(): Promise<CatalogueSectionResult> {
+  const result = emptyCatalogueResult();
+  const seed = (conseilsSeed as CatalogueTipSeed[]).filter(
+    (t) => typeof t.title === "string" && t.title.length > 0,
+  );
+  const rows = await withDbRetry(
+    () =>
+      prisma.tip.findMany({
+        where: { generatedByAI: false },
+        select: { id: true, title: true, content: true, example: true, exercise: true },
+      }),
+    { label: "catalogue-content:tips:findMany" },
+  );
+  const byTitle = groupByKey(rows, (r) => r.title);
+  const seedKeys = new Set(seed.map((t) => t.title));
+  const claimed = new Set<string>();
+  const ops: CataloguePatchOp<CatalogueTipData>[] = [];
+
+  for (const tip of seed) {
+    const { rows: targets, renamed } = pickCatalogueTargets(
+      tip.title,
+      toAliasList(tip.previousTitle),
+      byTitle,
+      seedKeys,
+      claimed,
+      result,
+    );
+    if (targets.length === 0) {
+      result.missing++;
+      continue;
+    }
+    for (const row of targets) {
+      claimed.add(row.id);
+      const data: CatalogueTipData = {};
+      if (row.title !== tip.title) data.title = tip.title;
+      if (typeof tip.content === "string" && row.content !== tip.content) data.content = tip.content;
+      if (typeof tip.example === "string" && row.example !== tip.example) data.example = tip.example;
+      if (typeof tip.exercise === "string" && row.exercise !== tip.exercise) {
+        data.exercise = tip.exercise;
+      }
+      if (Object.keys(data).length === 0) {
+        result.unchanged++;
+        continue;
+      }
+      ops.push({ id: row.id, data, renamed });
+    }
+  }
+
+  await runCatalogueOps(
+    ops,
+    (op) => prisma.tip.update({ where: { id: op.id }, data: op.data }),
+    "catalogue-content:tips:update",
+  );
+  result.updated = ops.length;
+  result.renamed = ops.filter((op) => op.renamed).length;
+  return result;
+}
+
+interface CatalogueVideoData {
+  description?: string;
+  technique?: string;
+  learnings?: string[];
+  exercise?: string;
+}
+
+async function patchCatalogueVideos(): Promise<CatalogueSectionResult> {
+  const result = emptyCatalogueResult();
+  const seed = (videosSeed as CatalogueVideoSeed[]).filter(
+    (v) => typeof v.youtubeId === "string" && v.youtubeId.length > 0,
+  );
+  const rows = await withDbRetry(
+    () =>
+      prisma.video.findMany({
+        where: { youtubeId: { in: seed.map((v) => v.youtubeId) } },
+        select: { id: true, youtubeId: true, description: true, technique: true, learnings: true, exercise: true },
+      }),
+    { label: "catalogue-content:videos:findMany" },
+  );
+  const byYoutubeId = new Map(rows.map((r) => [r.youtubeId, r]));
+  const ops: CataloguePatchOp<CatalogueVideoData>[] = [];
+
+  for (const video of seed) {
+    const row = byYoutubeId.get(video.youtubeId);
+    if (!row) {
+      result.missing++;
+      continue;
+    }
+    const data: CatalogueVideoData = {};
+    if (typeof video.description === "string" && row.description !== video.description) {
+      data.description = video.description;
+    }
+    if (typeof video.technique === "string" && row.technique !== video.technique) {
+      data.technique = video.technique;
+    }
+    if (
+      Array.isArray(video.learnings) &&
+      JSON.stringify(row.learnings) !== JSON.stringify(video.learnings)
+    ) {
+      data.learnings = video.learnings;
+    }
+    if (typeof video.exercise === "string" && row.exercise !== video.exercise) {
+      data.exercise = video.exercise;
+    }
+    if (Object.keys(data).length === 0) {
+      result.unchanged++;
+      continue;
+    }
+    ops.push({ id: row.id, data, renamed: false });
+  }
+
+  await runCatalogueOps(
+    ops,
+    (op) => prisma.video.update({ where: { id: op.id }, data: op.data }),
+    "catalogue-content:videos:update",
+  );
+  result.updated = ops.length;
+  return result;
+}
+
+async function patchCatalogueParcours(): Promise<CatalogueSectionResult> {
+  const result = emptyCatalogueResult();
+  const seed = (parcoursSeed as CatalogueParcoursSeed[]).filter(
+    (p) => typeof p.slug === "string" && typeof p.description === "string",
+  );
+  const rows = await withDbRetry(
+    () =>
+      prisma.learningPath.findMany({
+        where: { slug: { in: seed.map((p) => p.slug) } },
+        select: { id: true, slug: true, description: true },
+      }),
+    { label: "catalogue-content:parcours:findMany" },
+  );
+  const bySlug = new Map(rows.map((r) => [r.slug, r]));
+  const ops: CataloguePatchOp<{ description: string }>[] = [];
+
+  for (const path of seed) {
+    const row = bySlug.get(path.slug);
+    if (!row) {
+      result.missing++;
+      continue;
+    }
+    if (row.description === path.description) {
+      result.unchanged++;
+      continue;
+    }
+    ops.push({ id: row.id, data: { description: path.description }, renamed: false });
+  }
+
+  await runCatalogueOps(
+    ops,
+    (op) => prisma.learningPath.update({ where: { id: op.id }, data: op.data }),
+    "catalogue-content:parcours:update",
+  );
+  result.updated = ops.length;
+  return result;
+}
+
+function formatCatalogueResult(name: string, r: CatalogueSectionResult): string {
+  const extras = [
+    r.renamed > 0 ? `${r.renamed} renommé(s)` : "",
+    `${r.unchanged} inchangé(s)`,
+    r.missing > 0 ? `${r.missing} absent(s) en base` : "",
+    r.aliasSkipped > 0 ? `${r.aliasSkipped} alias ignoré(s) (doublon évité)` : "",
+  ].filter(Boolean);
+  return `${name} ${r.updated} mis à jour (${extras.join(", ")})`;
+}
+
+async function applyCatalogueContentTask(): Promise<void> {
+  try {
+    const existing = await withDbRetry(
+      () => prisma.dataPatch.findUnique({ where: { patchId: CATALOGUE_CONTENT_PATCH_ID } }),
+      { label: "catalogue-content:check" },
+    );
+    if (existing) {
+      console.log(`[startup] catalogue ${CATALOGUE_CONTENT_PATCH_ID} déjà appliqué (skip).`);
+      return;
+    }
+
+    const sections: Array<[string, () => Promise<CatalogueSectionResult>]> = [
+      ["vannes", patchCatalogueJokes],
+      ["conseils", patchCatalogueTips],
+      ["vidéos", patchCatalogueVideos],
+      ["parcours", patchCatalogueParcours],
+    ];
+    const summaries: string[] = [];
+    let failed = 0;
+    for (const [name, run] of sections) {
+      try {
+        summaries.push(formatCatalogueResult(name, await run()));
+      } catch (err) {
+        failed++;
+        console.error(`[startup] catalogue : section ${name} échouée (non bloquant) :`, err);
+      }
+    }
+    const summary = summaries.join(" ; ");
+    console.log(`[startup] catalogue ${CATALOGUE_CONTENT_PATCH_ID} : ${summary}.`);
+
+    if (failed > 0) {
+      console.warn(
+        `[startup] catalogue : ${failed} section(s) en échec → marqueur NON écrit (réessai au prochain boot).`,
+      );
+      return;
+    }
+    await withDbRetry(
+      () =>
+        prisma.dataPatch.upsert({
+          where: { patchId: CATALOGUE_CONTENT_PATCH_ID },
+          create: { patchId: CATALOGUE_CONTENT_PATCH_ID, note: summary.slice(0, 2000) },
+          update: {},
+        }),
+      { label: "catalogue-content:mark" },
+    );
+  } catch (err) {
+    console.error("[startup] applyCatalogueContent échoué (non bloquant) :", err);
+  }
+}
+
 /**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
@@ -803,6 +1251,10 @@ async function convergeBlogSlugRedirectsTask(): Promise<void> {
 export async function runStartupTasks(): Promise<void> {
   await ensureCeoConfigTask();
   await cleanupWildcardSocialPostsTask();
+  // AVANT applyJokeDecryptagesTask : renomme les vannes (previousContent →
+  // nouveau content) pour que le match par content des décryptages porte
+  // ensuite sur les textes réécrits (même fichier source → aucune contradiction).
+  await applyCatalogueContentTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
   await fixPublishedBlogArticlesTask();
@@ -815,6 +1267,8 @@ export async function runStartupTasks(): Promise<void> {
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
 export {
+  applyCatalogueContentTask,
+  CATALOGUE_CONTENT_PATCH_ID,
   applyJokeDecryptagesTask,
   deactivateWeakJokesTask,
   fixPublishedBlogArticlesTask,
