@@ -52,10 +52,11 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getAllByText(/min\/semaine/).length).toBeGreaterThanOrEqual(3);
   });
 
-  it("shows difficulty badges", () => {
-    const intermediaire = screen.getAllByText("DEBUTANT \u2192 INTERMEDIAIRE");
+  it("shows difficulty badges with human labels (s12 T27)", () => {
+    const intermediaire = screen.getAllByText("Débutant → Intermédiaire");
     expect(intermediaire).toHaveLength(2);
-    expect(screen.getByText("DEBUTANT \u2192 EXPERT")).toBeInTheDocument();
+    expect(screen.getByText("Débutant → Expert")).toBeInTheDocument();
+    expect(screen.queryByText(/DEBUTANT/)).not.toBeInTheDocument();
   });
 
   // s11 : textes des parcours réécrits — les attentes sont dérivées du seed
@@ -114,15 +115,14 @@ describe("ParcoursPage — Parcours structurés", () => {
     }
   );
 
-  it("shows progress bars", () => {
-    const bars = screen.getAllByTestId("progress-bar");
-    expect(bars).toHaveLength(3);
+  it("hides empty progress bars before any step is done (s12 T26)", () => {
+    expect(screen.queryAllByTestId("progress-bar")).toHaveLength(0);
   });
 
   it("shows total XP to earn", () => {
-    expect(screen.getByText("225 XP à gagner")).toBeInTheDocument();
-    expect(screen.getByText("375 XP à gagner")).toBeInTheDocument();
-    expect(screen.getByText("700 XP à gagner")).toBeInTheDocument();
+    expect(screen.getByText(/225 XP à gagner/)).toBeInTheDocument();
+    expect(screen.getByText(/375 XP à gagner/)).toBeInTheDocument();
+    expect(screen.getByText(/700 XP à gagner/)).toBeInTheDocument();
   });
 
   it("renders the FAQ section", () => {
@@ -178,5 +178,20 @@ describe("ParcoursPage — authenticated user", () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
+  });
+
+  it("keeps programmes collapsed and opens the one the orientation quiz recommends (s12 T23/T24)", async () => {
+    const Page = await ParcoursPage();
+    render(Page);
+    const programme = (slug: string) =>
+      document.querySelector(`#parcours-${slug} details`) as HTMLDetailsElement;
+    expect(programme("repartie").open).toBe(false);
+
+    await userEvent.click(screen.getByText("En soirée, avec mes potes, en coloc"));
+    await userEvent.click(screen.getByText("Je ne sais pas quoi répondre sur le moment"));
+    await userEvent.click(screen.getByText("Voir ce parcours"));
+
+    expect(programme("repartie").open).toBe(true);
+    expect(programme("confiance").open).toBe(false);
   });
 });

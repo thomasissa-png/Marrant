@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { YouTubePlayer } from "@/components/ui/youtube-player";
+import { getParcoursDifficultyLabel, withEmojiPresentation } from "@/lib/parcours-labels";
 import Link from "next/link";
 
 interface VideoRef {
@@ -68,11 +70,6 @@ interface UserProgress {
   completedAt: string | null;
 }
 
-const DIFFICULTY_LABELS: Record<string, string> = {
-  DEBUTANT: "Débutant",
-  INTERMEDIAIRE: "Intermédiaire",
-  EXPERT: "Expert",
-};
 
 // ==============================
 // Mini-quiz component
@@ -145,9 +142,9 @@ function StepQuiz({
             "w-full rounded-lg border p-3 text-left text-sm transition-all";
           if (showResult) {
             if (i === q.correctIndex) {
-              className += " border-green-500 bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400";
+              className += " border-success bg-success/10 text-success";
             } else if (i === selected && i !== q.correctIndex) {
-              className += " border-red-400 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400";
+              className += " border-error bg-error/10 text-error";
             } else {
               className += " border-border bg-background-card text-text-muted";
             }
@@ -180,24 +177,9 @@ function StepQuiz({
 function VideoCard({ video }: { video: VideoRef }) {
   return (
     <div className="overflow-hidden rounded-lg border border-border">
+      {/* Lecteur intégré : on ne quitte plus le parcours au milieu d'une étape (T31) */}
       <div className="relative aspect-video bg-background-elevated">
-        <img
-          src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
-          alt={`${video.artist} — ${video.title}`}
-          className="h-full w-full object-cover"
-          loading="lazy"
-        />
-        <a
-          href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/40"
-          aria-label={`Regarder ${video.title} de ${video.artist} sur YouTube`}
-        >
-          <svg className="h-12 w-12 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </a>
+        <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} />
       </div>
       <div className="p-3">
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>
@@ -270,6 +252,27 @@ export function ParcoursDetail({
   const [completionError, setCompletionError] = useState<string | null>(null);
   const [xpGained, setXpGained] = useState<{ step: number; xp: number } | null>(null);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
+  const quizStorageKey = `parcours-quiz-done:${slug}`;
+
+  // T29 : les quiz réussis survivent à l'ouverture de la modale et à l'inscription
+  // (sessionStorage, par parcours), pour que l'étape soit validable au retour.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(quizStorageKey);
+      if (raw) setQuizDone(new Set(JSON.parse(raw) as number[]));
+    } catch {
+      // sessionStorage indisponible (navigation privée stricte) : on repart de zéro.
+    }
+  }, [quizStorageKey]);
+
+  useEffect(() => {
+    if (quizDone.size === 0) return;
+    try {
+      sessionStorage.setItem(quizStorageKey, JSON.stringify([...quizDone]));
+    } catch {
+      // Sans stockage, le quiz reste simplement à refaire.
+    }
+  }, [quizDone, quizStorageKey]);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const { status } = useSession();
 
@@ -411,12 +414,12 @@ export function ParcoursDetail({
         </nav>
 
         <div className="flex items-center gap-3">
-          <span className="text-4xl">{path.icon}</span>
+          <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
             <h1 className="font-display text-3xl font-bold">{path.title}</h1>
             <div className="mt-1 flex items-center gap-2">
               <Badge variant="primary">
-                {DIFFICULTY_LABELS[path.difficulty] ?? path.difficulty}
+                {getParcoursDifficultyLabel(slug, path.difficulty)}
               </Badge>
               <span className="text-sm text-text-muted">{path.duration}</span>
             </div>
@@ -438,7 +441,7 @@ export function ParcoursDetail({
       {/* Progress */}
       <Card className="mb-8">
         <CardContent className="py-4">
-          <div className="flex items-center justify-between text-sm">
+          <div className="mb-2 flex items-center justify-between text-sm">
             <span className="text-text-secondary">
               {isPathCompleted
                 ? "Parcours terminé !"
@@ -622,8 +625,8 @@ export function ParcoursDetail({
                         </div>
                       )}
 
-                      {/* Tip content (from DB) */}
-                      {step.tip.content && (
+                      {/* Tip content (from DB) : masqué s'il répète mot pour mot le bloc précédent (T28) */}
+                      {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
                         <div>
                           <h4 className="mb-1 text-sm font-semibold text-text-primary">
                             Le conseil

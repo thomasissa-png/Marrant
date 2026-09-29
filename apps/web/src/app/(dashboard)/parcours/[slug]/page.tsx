@@ -285,7 +285,7 @@ export default async function ParcoursDetailPage({
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="mx-auto max-w-3xl">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },

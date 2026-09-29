@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
+    <div className="mx-auto max-w-4xl">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },

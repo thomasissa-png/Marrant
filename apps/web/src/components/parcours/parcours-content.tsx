@@ -9,16 +9,17 @@ import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
+import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 // Build display data from seed — single source of truth
 const parcours = parcoursSeed.map((p) => ({
-  emoji: p.icon,
+  emoji: withEmojiPresentation(p.icon),
   slug: p.slug,
   title: p.title,
   duration: p.duration,
   timePerWeek: p.timePerWeek,
-  difficulty: p.difficultyLabel,
+  difficulty: formatDifficulty(p.difficultyLabel),
   persona: p.personaTagline,
   description: p.description,
   testimonial: p.testimonial,
@@ -57,7 +58,7 @@ const ORIENTATION_QUESTIONS = [
   },
 ];
 
-function OrientationQuiz() {
+function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) => void }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<QuizResult | null>(null);
@@ -87,7 +88,7 @@ function OrientationQuiz() {
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
           <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
-            <Button variant="primary" size="sm" onClick={() => { const el = document.getElementById(`parcours-${result.slug}`); el?.scrollIntoView({ behavior: "smooth" }); }}>
+            <Button variant="primary" size="sm" onClick={() => onShowParcours(result.slug)}>
               Voir ce parcours
             </Button>
             <Button variant="ghost" size="sm" onClick={handleReset}>
@@ -124,7 +125,7 @@ function OrientationQuiz() {
               onClick={() => handleAnswer(o.value)}
               className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background-card p-3 text-left text-sm font-medium transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"
             >
-              <span className="text-xl">{o.emoji}</span>
+              <span className="text-xl" aria-hidden="true">{withEmojiPresentation(o.emoji)}</span>
               {o.label}
             </button>
           ))}
@@ -144,6 +145,27 @@ export function ParcoursContent() {
   const { status } = useSession();
   const router = useRouter();
   const [userProgress, setUserProgress] = useState<Record<string, Record<string, number>>>({});
+  // Programmes repliés par défaut (T24) ; le quiz d'orientation ouvre celui qu'il conseille (T23).
+  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
+
+  const setProgrammeOpen = (slug: string, open: boolean) => {
+    setOpenSlugs((prev) => {
+      if (prev.has(slug) === open) return prev;
+      const next = new Set(prev);
+      if (open) next.add(slug);
+      else next.delete(slug);
+      return next;
+    });
+  };
+
+  const showParcours = (slug: string) => {
+    setProgrammeOpen(slug, true);
+    requestAnimationFrame(() => {
+      const title = document.getElementById(`parcours-title-${slug}`);
+      title?.scrollIntoView({ behavior: "smooth", block: "start" });
+      title?.focus({ preventScroll: true });
+    });
+  };
 
   // Fetch user progress from API when authenticated
   useEffect(() => {
@@ -195,10 +217,10 @@ export function ParcoursContent() {
     <>
       {/* Orientation quiz */}
       <div className="mb-10">
-        <h2 className="mb-4 text-center font-display text-xl font-bold">
+        <h2 className="mb-4 font-display text-xl font-bold">
           Quel parcours est fait pour toi ?
         </h2>
-        <OrientationQuiz />
+        <OrientationQuiz onShowParcours={showParcours} />
       </div>
 
       {/* Parcours cards */}
@@ -209,7 +231,7 @@ export function ParcoursContent() {
           const progressValue = prog ? prog.completed : 0;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
-            <Card key={p.title} className="p-6" id={`parcours-${p.slug}`}>
+            <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap items-center gap-3">
                   <Badge variant="primary">{p.difficulty}</Badge>
@@ -219,10 +241,13 @@ export function ParcoursContent() {
                   <span className="text-sm text-text-muted">
                     · {p.timePerWeek}
                   </span>
+                  <span className="text-sm text-text-muted">· {totalXp} XP à gagner</span>
                 </div>
                 <CardTitle className="mt-3 text-2xl">
-                  <span className="mr-2">{p.emoji}</span>
-                  {p.title}
+                  <span id={`parcours-title-${p.slug}`} tabIndex={-1} className="scroll-mt-24 focus:outline-none">
+                    <span className="mr-2" aria-hidden="true">{p.emoji}</span>
+                    {p.title}
+                  </span>
                 </CardTitle>
                 <p className="mt-1 text-sm font-medium text-accent-primary">
                   {p.persona}
@@ -236,35 +261,40 @@ export function ParcoursContent() {
                   {p.testimonial}
                 </p>
 
-                {/* Progress indicator */}
-                <div className="mb-6">
-                  <div className="mb-2 flex items-center justify-between text-xs text-text-muted">
-                    <span>
-                      {progressValue > 0
-                        ? `${progressValue}/${progressMax} étapes`
-                        : "Progression"}
-                    </span>
-                    <span>{totalXp} XP à gagner</span>
+                {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
+                {progressValue > 0 && (
+                  <div className="mb-6">
+                    <div className="mb-2 flex items-center justify-between text-xs text-text-muted">
+                      <span>{`${progressValue}/${progressMax} étapes`}</span>
+                      <span>{totalXp} XP à gagner</span>
+                    </div>
+                    <ProgressBar value={progressValue} max={progressMax} />
                   </div>
-                  <ProgressBar value={progressValue} max={progressMax} />
-                </div>
+                )}
 
-                {/* Weekly modules */}
-                <div className="mb-6 space-y-3">
-                  <h4 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+                {/* Programme replié par défaut (T24) */}
+                <details
+                  className="group mb-6"
+                  open={openSlugs.has(p.slug)}
+                  onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
+                >
+                  <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wide text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
                     Programme
-                  </h4>
-                  <ol className="space-y-2">
+                    <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <ol className="mt-3 space-y-2">
                     {p.modules.map((m) => (
                       <li
                         key={m.week}
-                        className="flex items-start gap-3 rounded-md bg-background-elevated p-3"
+                        className="flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3"
                       >
-                        <Badge variant="secondary" className="mt-0.5 shrink-0">
+                        <Badge variant="secondary" className="w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center">
                           {m.week}
                         </Badge>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium text-text-primary">
                               {m.title}
                             </span>
@@ -285,7 +315,7 @@ export function ParcoursContent() {
                       </li>
                     ))}
                   </ol>
-                </div>
+                </details>
 
                 <div className="flex flex-col gap-2">
                   <Button
