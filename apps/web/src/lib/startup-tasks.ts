@@ -198,6 +198,96 @@ async function deactivateWeakJokesTask(): Promise<void> {
 }
 
 /**
+ * Convergence DB des renommages de slug BlogArticle.
+ *
+ * Pourquoi ici et pas en migration SQL : les redirections vivent dans
+ * `src/lib/seo-redirects.data.cjs` (source unique consommée par
+ * next.config.js redirects()). Toute nouvelle redirection /blog/X → /blog/Y
+ * doit renommer l'entrée DB correspondante sans bloquer le boot si la DB
+ * est froide.
+ *
+ * Idempotent :
+ *  - Si l'article `source` existe et pas la `destination` → renomme (slug).
+ *  - Si les deux existent → laisse `destination` intact, désactive `source`
+ *    (`isPublished: false`). La 301 prend alors le relais côté HTTP.
+ *  - Si aucun n'existe → skip silencieux.
+ *  - Fail-safe : chaque erreur est loguée mais ne casse pas le boot.
+ *
+ * SANS IA : pure logique DB + fichier statique.
+ */
+async function convergeBlogSlugRedirectsTask(): Promise<void> {
+  // Import différé pour éviter le coût des redirects en test unitaire pur.
+  const { SEO_REDIRECTS } = await import("@/lib/seo-redirects");
+
+  const blogRedirects = SEO_REDIRECTS.filter(
+    (r) => r.source.startsWith("/blog/") && r.destination.startsWith("/blog/"),
+  );
+
+  let renamed = 0;
+  let deactivated = 0;
+
+  for (const redirect of blogRedirects) {
+    const sourceSlug = redirect.source.replace(/^\/blog\//, "");
+    const destinationSlug = redirect.destination.replace(/^\/blog\//, "");
+    if (sourceSlug === destinationSlug) continue;
+
+    try {
+      const [sourceArticle, destinationArticle] = await Promise.all([
+        withDbRetry(
+          () => prisma.blogArticle.findUnique({ where: { slug: sourceSlug } }),
+          { label: `blog-slug-converge:find(${sourceSlug})` },
+        ),
+        withDbRetry(
+          () =>
+            prisma.blogArticle.findUnique({
+              where: { slug: destinationSlug },
+            }),
+          { label: `blog-slug-converge:find(${destinationSlug})` },
+        ),
+      ]);
+
+      if (!sourceArticle) continue;
+
+      if (destinationArticle) {
+        if (sourceArticle.isPublished) {
+          await withDbRetry(
+            () =>
+              prisma.blogArticle.update({
+                where: { slug: sourceSlug },
+                data: { isPublished: false },
+              }),
+            { label: `blog-slug-converge:deactivate(${sourceSlug})` },
+          );
+          deactivated += 1;
+        }
+        continue;
+      }
+
+      await withDbRetry(
+        () =>
+          prisma.blogArticle.update({
+            where: { slug: sourceSlug },
+            data: { slug: destinationSlug },
+          }),
+        { label: `blog-slug-converge:rename(${sourceSlug})` },
+      );
+      renamed += 1;
+    } catch (err) {
+      console.error(
+        `[startup] convergeBlogSlug ${sourceSlug} → ${destinationSlug} échoué (non bloquant) :`,
+        err,
+      );
+    }
+  }
+
+  if (renamed > 0 || deactivated > 0) {
+    console.log(
+      `[startup] slugs blog convergés : ${renamed} renommés, ${deactivated} désactivés.`,
+    );
+  }
+}
+
+/**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
  */
@@ -206,7 +296,12 @@ export async function runStartupTasks(): Promise<void> {
   await cleanupWildcardSocialPostsTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
+  await convergeBlogSlugRedirectsTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
-export { applyJokeDecryptagesTask, deactivateWeakJokesTask };
+export {
+  applyJokeDecryptagesTask,
+  deactivateWeakJokesTask,
+  convergeBlogSlugRedirectsTask,
+};
