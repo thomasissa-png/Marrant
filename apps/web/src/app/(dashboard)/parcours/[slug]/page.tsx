@@ -1,11 +1,26 @@
+// Stratégie de rendu : ISR + SSR fallback.
+// - Les 3 parcours canoniques (machine-a-cafe, repartie, confiance) ont un
+//   generateStaticParams → rendu statique au build, revalidé chaque heure.
+// - Les parcours DB ajoutés dynamiquement passent en SSR (dynamicParams: true).
+// - Objectif SEO : Googlebot / Bingbot doivent recevoir le contenu du parcours
+//   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
+//   L'interactivité (progression, quiz, complétion) reste côté client.
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
 } from "@/components/seo/json-ld";
+import parcoursSeed from "../../../../../../../docs/content/parcours-seed.json";
+
+// Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
+export const revalidate = 3600;
+export const dynamicParams = true;
 
 const PARCOURS_META: Record<
   string,
@@ -37,12 +52,50 @@ const PARCOURS_META: Record<
   },
 };
 
+// ---- Types locaux (miroir de ParcoursDetail) --------------------------------
+
+interface SeedStep {
+  week: number;
+  tipTitle: string;
+  dayNumber: number;
+  why: string;
+  moduleTitle: string;
+  moduleDetail: string;
+  moduleFormat: string;
+  moduleXp: number;
+  free: boolean;
+  jokeIds?: number[];
+  videos?: { youtubeId: string; artist: string; title: string; why: string }[];
+  quiz?: { question: string; options: string[]; correctIndex: number }[];
+}
+
+interface SeedParcours {
+  slug: string;
+  title: string;
+  description: string;
+  duration: string;
+  difficulty: string;
+  icon: string;
+  nextParcours?: string;
+  nextParcoursReason?: string;
+  personaTagline?: string;
+  testimonial?: string;
+  steps: SeedStep[];
+}
+
+function getSeedForSlug(slug: string): SeedParcours | undefined {
+  return (parcoursSeed as SeedParcours[]).find((p) => p.slug === slug);
+}
+
+export function generateStaticParams() {
+  return Object.keys(PARCOURS_META).map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  // Utiliser les meta statiques si disponibles (évite un appel DB)
   const staticMeta = PARCOURS_META[params.slug];
 
   if (staticMeta) {
@@ -60,7 +113,6 @@ export async function generateMetadata({
     };
   }
 
-  // Fallback : fetch depuis la DB pour les parcours ajoutés dynamiquement
   const path = await prisma.learningPath
     .findUnique({
       where: { slug: params.slug },
@@ -84,19 +136,164 @@ export async function generateMetadata({
   };
 }
 
-export default function ParcoursDetailPage({
+// Reconstruit le PathData attendu par ParcoursDetail à partir du seed.
+function buildInitialPathFromSeed(slug: string) {
+  const seed = getSeedForSlug(slug);
+  if (!seed) return null;
+  return {
+    id: `seed-${seed.slug}`,
+    title: seed.title,
+    description: seed.description,
+    slug: seed.slug,
+    duration: seed.duration,
+    difficulty: seed.difficulty,
+    icon: seed.icon,
+    steps: seed.steps.map((s, i) => ({
+      id: `seed-step-${i + 1}`,
+      order: i + 1,
+      dayNumber: s.dayNumber,
+      tip: {
+        id: `seed-tip-${i + 1}`,
+        title: s.moduleTitle,
+        content: s.moduleDetail,
+        category: "GENERAL",
+        difficulty: seed.difficulty,
+        example: "",
+        exercise: "",
+      },
+      moduleTitle: s.moduleTitle,
+      moduleDetail: s.moduleDetail,
+      moduleFormat: s.moduleFormat,
+      moduleXp: s.moduleXp,
+      why: s.why,
+      free: s.free,
+      jokeIds: s.jokeIds ?? [],
+      videos: s.videos ?? [],
+      quiz: s.quiz ?? [],
+    })),
+    nextParcours: seed.nextParcours ?? null,
+    nextParcoursReason: seed.nextParcoursReason ?? null,
+    personaTagline: seed.personaTagline ?? null,
+    testimonial: seed.testimonial ?? null,
+  };
+}
+
+// Enrichit le PathData DB avec le seed (vannes, vidéos, quiz…).
+function enrichDbPathWithSeed(dbPath: Record<string, unknown>, slug: string) {
+  const seed = getSeedForSlug(slug);
+  if (!seed) return dbPath;
+
+  const steps = dbPath.steps as Array<Record<string, unknown>>;
+  const seedStepByWeek = new Map(seed.steps.map((s) => [s.week, s]));
+  const enrichedSteps = steps.map((step) => {
+    const stepOrder = step.order as number;
+    const seedStep = seedStepByWeek.get(stepOrder);
+    if (!seedStep) return step;
+    return {
+      ...step,
+      moduleTitle: seedStep.moduleTitle,
+      moduleDetail: seedStep.moduleDetail,
+      moduleFormat: seedStep.moduleFormat,
+      moduleXp: seedStep.moduleXp,
+      why: seedStep.why,
+      free: seedStep.free,
+      jokeIds: seedStep.jokeIds ?? [],
+      videos: seedStep.videos ?? [],
+      quiz: seedStep.quiz ?? [],
+    };
+  });
+
+  return {
+    ...dbPath,
+    steps: enrichedSteps,
+    nextParcours: seed.nextParcours ?? null,
+    nextParcoursReason: seed.nextParcoursReason ?? null,
+    personaTagline: seed.personaTagline ?? null,
+    testimonial: seed.testimonial ?? null,
+  };
+}
+
+async function fetchInitialData(slug: string) {
+  // 1. On tente la DB (pour récupérer l'id réel + suivi de progression)
+  try {
+    const dbPath = await prisma.learningPath.findUnique({
+      where: { slug, isActive: true },
+      include: {
+        steps: {
+          orderBy: { order: "asc" },
+          include: {
+            tip: {
+              select: {
+                id: true,
+                title: true,
+                content: true,
+                category: true,
+                difficulty: true,
+                example: true,
+                exercise: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (dbPath) {
+      const enriched = enrichDbPathWithSeed(
+        dbPath as unknown as Record<string, unknown>,
+        slug,
+      );
+
+      // Progression utilisateur si session serveur disponible
+      let initialProgress = null;
+      try {
+        const session = await getServerSession(authOptions);
+        const userId = (session?.user as { id?: string } | undefined)?.id;
+        if (userId) {
+          initialProgress = await prisma.userPathProgress.findUnique({
+            where: {
+              userId_learningPathId: { userId, learningPathId: dbPath.id },
+            },
+          });
+        }
+      } catch {
+        // Session indisponible côté serveur — le client refetch après hydratation.
+      }
+
+      return { path: enriched, progress: initialProgress };
+    }
+  } catch {
+    // DB indispo → fallback seed uniquement
+  }
+
+  // 2. Fallback seed (pas encore migré, ou parcours purement statique)
+  const seedPath = buildInitialPathFromSeed(slug);
+  if (!seedPath) return null;
+  return { path: seedPath, progress: null };
+}
+
+export default async function ParcoursDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const meta = PARCOURS_META[params.slug];
+  const initialData = await fetchInitialData(params.slug);
+
+  if (!initialData && !meta) {
+    notFound();
+  }
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
-          { name: meta?.title ?? "Parcours", url: `https://deviens-marrant.fr/parcours/${params.slug}` },
+          {
+            name: meta?.title ?? initialData?.path.title ?? "Parcours",
+            url: `https://deviens-marrant.fr/parcours/${params.slug}`,
+          },
         ])}
       />
       {meta && (
@@ -111,7 +308,19 @@ export default function ParcoursDetailPage({
           })}
         />
       )}
-      <ParcoursDetail slug={params.slug} />
+      <ParcoursDetail
+        slug={params.slug}
+        initialPath={
+          initialData?.path
+            ? (initialData.path as unknown as React.ComponentProps<typeof ParcoursDetail>["initialPath"])
+            : null
+        }
+        initialProgress={
+          initialData?.progress
+            ? (initialData.progress as unknown as React.ComponentProps<typeof ParcoursDetail>["initialProgress"])
+            : null
+        }
+      />
     </div>
   );
 }

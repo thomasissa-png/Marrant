@@ -236,12 +236,36 @@ function JokeTeaser({ jokeIds }: { jokeIds: number[] }) {
 // Main component
 // ==============================
 
-export function ParcoursDetail({ slug }: { slug: string }) {
-  const [path, setPath] = useState<PathData | null>(null);
-  const [progress, setProgress] = useState<UserProgress | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function ParcoursDetail({
+  slug,
+  initialPath = null,
+  initialProgress = null,
+}: {
+  slug: string;
+  /**
+   * Contenu du parcours pré-fetché côté serveur. Quand fourni, on rend
+   * immédiatement (SSR) sans skeleton — indispensable pour l'indexation SEO
+   * (Googlebot/Bingbot ne suivent pas nos fetch côté client).
+   */
+  initialPath?: PathData | null;
+  /**
+   * Progression utilisateur pré-fetchée côté serveur si la session existe.
+   * Sinon null → le client refetch côté navigateur (contexte auth complet).
+   */
+  initialProgress?: UserProgress | null;
+}) {
+  const [path, setPath] = useState<PathData | null>(initialPath);
+  const [progress, setProgress] = useState<UserProgress | null>(initialProgress);
+  // Pas de skeleton si on a déjà le contenu (SSR) — sinon on charge côté client.
+  const [isLoading, setIsLoading] = useState<boolean>(!initialPath);
   const [fetchError, setFetchError] = useState(false);
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
+  const [expandedStep, setExpandedStep] = useState<number | null>(() => {
+    if (!initialPath) return null;
+    const completed = initialProgress?.completedSteps ?? [];
+    return (
+      initialPath.steps.find((s) => !completed.includes(s.order))?.order ?? null
+    );
+  });
   const [completing, setCompleting] = useState<number | null>(null);
   const [completionError, setCompletionError] = useState<string | null>(null);
   const [xpGained, setXpGained] = useState<{ step: number; xp: number } | null>(null);
@@ -250,13 +274,35 @@ export function ParcoursDetail({ slug }: { slug: string }) {
   const { status } = useSession();
 
   useEffect(() => {
+    // Si le SSR nous a déjà donné le contenu, on skip le fetch initial —
+    // on refetch juste la progression côté client (dépend de la session).
+    if (initialPath) {
+      if (status !== "authenticated") return;
+      fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.userProgress) {
+            setProgress(data.userProgress);
+            const completed = data.userProgress.completedSteps ?? [];
+            const firstIncomplete = data.path.steps.find(
+              (s: Step) => !completed.includes(s.order)
+            );
+            if (firstIncomplete) setExpandedStep(firstIncomplete.order);
+          }
+        })
+        .catch(() => {
+          // Silencieux : le contenu est déjà rendu, seul l'état de progression n'est pas frais.
+        });
+      return;
+    }
+
+    // Fallback historique : pas de SSR → fetch complet côté client
     fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data) {
           setPath(data.path);
           setProgress(data.userProgress);
-          // Auto-expand the first incomplete step
           const completed = data.userProgress?.completedSteps ?? [];
           const firstIncomplete = data.path.steps.find(
             (s: Step) => !completed.includes(s.order)
@@ -272,7 +318,7 @@ export function ParcoursDetail({ slug }: { slug: string }) {
         setFetchError(true);
       })
       .finally(() => setIsLoading(false));
-  }, [slug]);
+  }, [slug, initialPath, status]);
 
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || status !== "authenticated") {
