@@ -1,4 +1,4 @@
-import { renderMarkdown } from "@/components/ui/markdown-renderer";
+import { frenchQuotes, renderMarkdown } from "@/components/ui/markdown-renderer";
 import { frTypo } from "@/lib/fr-typo";
 import { blogArticles } from "@/lib/blog-articles";
 
@@ -52,5 +52,31 @@ describe("renderMarkdown", () => {
       expect(html).not.toMatch(/>-{3,}/);
       expect(html).not.toMatch(/<br\/>(- |\d+\. )/);
     }
+  });
+});
+
+describe("frenchQuotes (guillemets au rendu)", () => {
+  it("convertit les paires équilibrées en « … » avec insécables", () => {
+    expect(frenchQuotes('Il dit "bonjour" puis "au revoir".')).toBe(
+      `Il dit «${NBSP}bonjour${NBSP}» puis «${NBSP}au revoir${NBSP}».`
+    );
+  });
+
+  it("laisse le texte intact si les guillemets ne sont pas équilibrés", () => {
+    expect(frenchQuotes('Un "seul guillemet')).toBe('Un "seul guillemet');
+    expect(frenchQuotes('"a" et "b')).toBe('"a" et "b');
+  });
+
+  it("ne touche ni aux URL de liens ni au code inline", () => {
+    expect(frenchQuotes('Lis "ça" [ici](/blog?q="x") et `"code"`')).toBe(
+      `Lis «${NBSP}ça${NBSP}» [ici](/blog?q="x") et \`"code"\``
+    );
+  });
+
+  it("produit des attributs HTML intacts dans le rendu", () => {
+    const html = renderMarkdown('Un [lien "cité"](/parcours) et "une vanne".');
+    expect(html).toContain('<a href="/parcours" class="text-accent-link hover:underline">');
+    expect(html).toContain(`lien «${NBSP}cité${NBSP}»`);
+    expect(html).toContain(`«${NBSP}une vanne${NBSP}»`);
   });
 });

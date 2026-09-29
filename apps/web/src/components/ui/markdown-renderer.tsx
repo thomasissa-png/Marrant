@@ -22,8 +22,33 @@ function escapeHtml(text: string): string {
     .replace(/>/g, "&gt;");
 }
 
+// Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
+const NBSP = String.fromCharCode(0xa0);
+// Segments protégés : cible des liens « ](url) » et code inline `…` (jamais modifiés).
+const PROTECTED_RE = /(\]\([^)]*\)|`[^`]*`)/g;
+const PLACEHOLDER = String.fromCharCode(0);
+
+/**
+ * Guillemets droits "…" rendus en « … » (espaces insécables intérieures), AU RENDU.
+ * Uniquement si les guillemets du bloc forment des paires équilibrées ; les URL
+ * de liens et le code inline sont masqués pendant la conversion. Texte stocké intact.
+ */
+export function frenchQuotes(text: string): string {
+  if (!text.includes('"')) return text;
+  const saved: string[] = [];
+  const masked = text.replace(PROTECTED_RE, (m) => {
+    saved.push(m);
+    return `${PLACEHOLDER}${saved.length - 1}${PLACEHOLDER}`;
+  });
+  const count = (masked.match(/"/g) ?? []).length;
+  if (count === 0 || count % 2 !== 0) return text;
+  const converted = masked.replace(/"([^"\n]+?)"/g, (_m, inner: string) => `«${NBSP}${inner.trim()}${NBSP}»`);
+  if (converted.includes('"')) return text;
+  return converted.replace(new RegExp(`${PLACEHOLDER}(\\d+)${PLACEHOLDER}`, "g"), (_m, i: string) => saved[Number(i)]);
+}
+
 function inlineMarkdown(text: string): string {
-  let result = escapeHtml(frTypo(text));
+  let result = escapeHtml(frTypo(frenchQuotes(text)));
   // Bold: **text**
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   // Italic: *text*
