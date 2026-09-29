@@ -761,7 +761,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
 
     // CTA to log in
-    expect(screen.getByText("Connecte-toi pour valider cette étape")).toBeInTheDocument();
+    expect(screen.getByText("Crée ton compte gratuit pour valider l'étape")).toBeInTheDocument();
   });
 
   it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {

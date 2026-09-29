@@ -57,10 +57,8 @@ export function PremiumCta() {
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-8 shadow-lg shadow-accent-primary/10">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
           <div className="relative">
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold text-text-primary">Accès complet</h3>
-              <Badge variant="primary">Populaire</Badge>
-            </div>
+            {/* Badge « Populaire » retiré : offre payante unique (reco validée par Thomas) */}
+            <h3 className="text-lg font-semibold text-text-primary">Accès complet</h3>
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-4xl font-bold text-text-primary">0,99 €</span>
               <span className="text-text-muted">/ mois</span>

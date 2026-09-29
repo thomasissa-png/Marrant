@@ -58,7 +58,8 @@ describe("HeroSection", () => {
   it("shows CTA when unauthenticated, with the free path right below (s12 T03)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Créer mon compte gratuit")).toBeInTheDocument();
+    expect(screen.getByText("Puis 0,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
     expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
   });
 

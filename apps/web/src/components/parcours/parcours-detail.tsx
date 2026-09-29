@@ -750,7 +750,7 @@ export function ParcoursDetail({
                           className="w-full"
                           onClick={() => setAuthModalOpen(true)}
                         >
-                          Connecte-toi pour valider cette étape
+                          Crée ton compte gratuit pour valider l&apos;étape
                         </Button>
                       )}
                     </div>

@@ -27,10 +27,14 @@ export function HomeCta() {
         <p className="mt-2 text-text-secondary">
           {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour moins qu&apos;un café par mois. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
-        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
-            Commencer à 0,99 €/mois
-          </Button>
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
+          {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
+          <div className="flex w-full flex-col items-center gap-1 sm:w-auto">
+            <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
+              Créer mon compte gratuit
+            </Button>
+            <p className="text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
+          </div>
           <Link href="/vannes" className="w-full sm:w-auto">
             <Button variant="outline" size="lg" className="w-full">
               Voir les vannes gratuites

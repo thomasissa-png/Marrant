@@ -22,7 +22,8 @@ describe("HomeCta", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
     expect(screen.getByText(/Tu crois avoir tout essayé pour être drôle/)).toBeInTheDocument();
-    expect(screen.getByText(/Commencer à 0,99 €\/mois/)).toBeInTheDocument();
+    expect(screen.getByText("Créer mon compte gratuit")).toBeInTheDocument();
+    expect(screen.getByText("Puis 0,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
     expect(screen.getByText("Voir les vannes gratuites")).toBeInTheDocument();
   });
 
@@ -42,7 +43,7 @@ describe("HomeCta", () => {
   it("CTA opens auth modal (button, not link to /register)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    const cta = screen.getByText(/Commencer à 0,99 €\/mois/);
+    const cta = screen.getByText("Créer mon compte gratuit");
     expect(cta.closest("button")).toBeTruthy();
   });
 

@@ -58,9 +58,11 @@ export function HeroSection() {
         </div>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
+          {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
           <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
-            Commencer à 0,99 €/mois
+            Créer mon compte gratuit
           </Button>
+          <p className="text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
           <Link
             href="/vannes"
             className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline-offset-4 hover:text-text-primary hover:underline"

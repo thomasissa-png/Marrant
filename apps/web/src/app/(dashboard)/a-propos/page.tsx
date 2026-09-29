@@ -207,8 +207,11 @@ export default function AProposPage() {
             Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour.
             La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
           </p>
-          <div className="mt-4 inline-block">
-            <AuthCta label="Commencer à 0,99 €/mois" />
+          {/* Ouvre l'inscription gratuite : libellé aligné sur l'accueil (reco T03 validée par Thomas).
+              Après inscription : onboarding (callback « / »), plus la page de paiement. */}
+          <div className="mt-4 inline-flex flex-col items-center gap-1">
+            <AuthCta label="Créer mon compte gratuit" callbackUrl="/" />
+            <p className="text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
         </div>
       </div>
