@@ -39,9 +39,12 @@ describe("HeroSection", () => {
     expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie");
     expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
     expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance");
-    // Les 2 pastilles qui doublonnaient « Trois outils » sont retirées.
-    expect(screen.queryByText("Un petit exercice par jour")).not.toBeInTheDocument();
-    expect(screen.queryByText("Vannes prêtes à ressortir")).not.toBeInTheDocument();
+    // Les 2 pastilles descriptives restent, non cliquables et masquées en mobile (arbitrage Thomas).
+    for (const label of ["Un petit exercice par jour", "Vannes prêtes à ressortir"]) {
+      const tag = screen.getByText(label);
+      expect(tag.closest("a")).toBeNull();
+      expect(tag.closest("li")).toHaveClass("hidden", "sm:inline-block");
+    }
   });
 
   it("shows the H1 as two sentences, one per block (s12 T01)", () => {

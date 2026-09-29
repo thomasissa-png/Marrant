@@ -24,7 +24,7 @@ const features = [
       "Timing, auto-dérision, storytelling : chaque technique arrive avec un exemple concret et un exercice à tester dès ce midi, à table.",
     cta: "Découvrir les techniques",
     href: "/conseils",
-    variant: "secondary" as const,
+    variant: "primary" as const,
     gradient: "from-accent-secondary to-accent-primary",
   },
   {

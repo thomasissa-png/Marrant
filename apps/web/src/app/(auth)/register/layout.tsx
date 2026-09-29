@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Inscription — Apprends à devenir drôle",
+  title: "Inscription : apprends à devenir drôle",
   description:
     "Crée ton compte sur deviens-marrant.fr et commence à progresser en humour dès 0,99 €/mois.",
   robots: { index: false, follow: false },

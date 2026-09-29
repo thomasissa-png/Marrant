@@ -13,6 +13,8 @@ const HERO_PARCOURS_LINKS = [
   { label: "Reprendre confiance en toi", href: "/parcours/confiance" },
 ] as const;
 
+const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
+
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -35,7 +37,7 @@ export function HeroSection() {
       </p>
 
       {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
-      <p className="mt-6 text-sm font-medium text-accent-primary">
+      <p className="mt-6 text-sm font-medium text-accent-link">
         Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour
       </p>
 
@@ -78,6 +80,14 @@ export function HeroSection() {
             >
               {item.label}
             </Link>
+          </li>
+        ))}
+        {/* Pastilles descriptives (non cliquables), masquées en mobile : arbitrage Thomas s12 */}
+        {HERO_EXTRA_TAGS.map((label) => (
+          <li key={label} className="hidden sm:inline-block">
+            <span className="inline-block rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
+              {label}
+            </span>
           </li>
         ))}
       </ul>

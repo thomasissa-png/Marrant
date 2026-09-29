@@ -83,7 +83,7 @@ export function NewsletterInline({
   return (
     <aside
       className={cn(
-        "rounded-xl border border-accent-primary/30 bg-accent-primary/5 p-6",
+        "rounded-xl border border-border bg-background-card p-6",
         className,
       )}
       aria-labelledby={`${emailId}-title`}
@@ -139,7 +139,7 @@ export function NewsletterInline({
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-border text-accent-primary focus:ring-accent-primary"
+              className="mt-1 h-4 w-4 rounded border-border accent-accent-primary focus:ring-accent-primary"
               aria-describedby={message ? messageId : undefined}
             />
             <label

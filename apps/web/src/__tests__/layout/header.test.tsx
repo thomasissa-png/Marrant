@@ -89,7 +89,14 @@ describe("Header", () => {
     render(<Header />);
     const vannesLinks = screen.getAllByText("Vannes");
     const desktopLink = vannesLinks[0];
-    expect(desktopLink).toHaveClass("text-accent-primary");
+    expect(desktopLink).toHaveClass("text-accent-link");
+  });
+
+  it("keeps the section tab active on sub-pages (s12 design)", () => {
+    usePathname.mockReturnValue("/blog/comment-devenir-drole");
+    render(<Header />);
+    expect(screen.getAllByText("Blog")[0]).toHaveClass("text-accent-link");
+    expect(screen.getAllByText("Accueil")[0]).not.toHaveClass("text-accent-link");
   });
 
   it("calls signOut with callbackUrl on Déconnexion click", async () => {

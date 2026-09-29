@@ -9,6 +9,12 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { cn } from "@/lib/utils";
 
+/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
+function isActivePath(pathname: string | null, href: string): boolean {
+  if (!pathname) return false;
+  return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+}
+
 const navItems = [
   { href: "/", label: "Accueil" },
   { href: "/vannes", label: "Vannes" },
@@ -25,6 +31,12 @@ export function Header() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
+
+  // T47 : à l'ouverture de la recherche mobile, le champ reçoit le focus (1 tap au lieu de 2)
+  useEffect(() => {
+    if (!isMobileSearchOpen) return;
+    document.querySelector<HTMLInputElement>("#mobile-search input")?.focus();
+  }, [isMobileSearchOpen]);
 
   // Close mobile search/menu on route change
   useEffect(() => {
@@ -58,8 +70,8 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                  pathname === item.href
-                    ? "bg-background-elevated text-accent-primary"
+                  isActivePath(pathname, item.href)
+                    ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
                 )}
               >
@@ -107,7 +119,7 @@ export function Header() {
           <div className="flex items-center gap-1 md:hidden">
             {/* Bouton recherche mobile */}
             <button
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
               aria-label="Rechercher"
             >
@@ -118,7 +130,7 @@ export function Header() {
 
             {/* Menu burger mobile */}
             <button
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMenuOpen(!isMenuOpen); setIsMobileSearchOpen(false); }}
               aria-label="Menu"
               aria-expanded={isMenuOpen}
@@ -141,7 +153,7 @@ export function Header() {
 
         {/* Overlay recherche mobile */}
         {isMobileSearchOpen && (
-          <div className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
+          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
             <SearchBar className="w-full" onNavigate={closeMobileSearch} />
           </div>
         )}
@@ -158,9 +170,9 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                    pathname === item.href
-                      ? "bg-background-elevated text-accent-primary"
+                    "rounded-lg px-3 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                    isActivePath(pathname, item.href)
+                      ? "bg-background-elevated text-accent-link"
                       : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
                   )}
                   onClick={() => setIsMenuOpen(false)}

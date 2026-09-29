@@ -92,7 +92,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
-    expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
+    expect(screen.getByText("En route vers la répartie")).toBeInTheDocument();
     expect(screen.getByText(/potentiel/)).toBeInTheDocument();
   });
 
@@ -102,7 +102,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Je veux aller encore plus loin"));
 
-    expect(screen.getByText("La Future Star")).toBeInTheDocument();
+    expect(screen.getByText("La future star")).toBeInTheDocument();
   });
 
   it("navigates to the recommended parcours (répartie + entre potes → /parcours/repartie)", async () => {
@@ -121,7 +121,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Parfois ça marche"));
 
-    expect(screen.getByText("Le Blagueur Affûté")).toBeInTheDocument();
+    expect(screen.getByText("Le blagueur affûté")).toBeInTheDocument();
   });
 
   it("shows AVANCE result", async () => {
@@ -130,7 +130,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Je fais rire souvent"));
 
-    expect(screen.getByText("Le Comique Naturel")).toBeInTheDocument();
+    expect(screen.getByText("Le comique naturel")).toBeInTheDocument();
   });
 
   // --- localStorage persistence tests ---
@@ -151,7 +151,7 @@ describe("HumorQuiz", () => {
     );
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       "humor-profile",
-      expect.stringContaining('"result":"En Route Vers la Répartie"')
+      expect.stringContaining('"result":"En route vers la répartie"')
     );
   });
 
@@ -166,7 +166,7 @@ describe("HumorQuiz", () => {
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify(profile));
 
     render(<HumorQuiz />);
-    expect(screen.getByText("En Route Vers la Répartie")).toBeInTheDocument();
+    expect(screen.getByText("En route vers la répartie")).toBeInTheDocument();
     expect(screen.getByText("Voir par où commencer")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
@@ -213,7 +213,7 @@ describe("HumorQuiz", () => {
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify(profile));
 
     render(<HumorQuiz />);
-    expect(screen.getByText("La Future Star")).toBeInTheDocument();
+    expect(screen.getByText("La future star")).toBeInTheDocument();
     expect(screen.getByText(/Quiz complété le/)).toBeInTheDocument();
   });
 

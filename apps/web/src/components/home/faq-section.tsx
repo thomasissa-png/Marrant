@@ -1,6 +1,7 @@
 "use client";
 
 import { faqs } from "@/lib/faqs";
+import { frTypo } from "@/lib/fr-typo";
 export { faqs };
 
 export interface FaqItem {
@@ -31,7 +32,7 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes" }: Fa
             className="group rounded-xl border border-border bg-background-card"
           >
             <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 p-4 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden">
-              {faq.question}
+              {frTypo(faq.question)}
               <svg
                 className="h-4 w-4 shrink-0 text-text-muted transition-transform group-open:rotate-180"
                 aria-hidden="true"

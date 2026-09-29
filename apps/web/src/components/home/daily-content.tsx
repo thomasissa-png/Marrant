@@ -8,6 +8,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
+import { splitLearning } from "@/lib/learning-format";
 
 interface Joke {
   id: string;
@@ -90,7 +91,7 @@ const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
 
 /** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
 const DETAILS_SUMMARY =
-  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-primary [&::-webkit-details-marker]:hidden";
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-link [&::-webkit-details-marker]:hidden";
 
 function Chevron() {
   return (
@@ -100,20 +101,14 @@ function Chevron() {
   );
 }
 
-/**
- * « TECHNIQUE DU PERSONNAGE CANDIDE : crée… » : titre en gras et en casse phrase,
- * explication inchangée (design T12). Donnée non modifiée.
- */
+/** Puce « TITRE : explication » : titre en gras (casse phrase), donnée non modifiée (design T12). */
 function formatLearning(learning: string) {
-  const k = learning.indexOf(" : ");
-  if (k <= 0) return learning;
-  const raw = learning.slice(0, k);
-  // Casse phrase uniquement si le titre est tout en majuscules (préserve les noms propres).
-  const title = raw === raw.toUpperCase() ? raw.charAt(0) + raw.slice(1).toLowerCase() : raw;
+  const parts = splitLearning(learning);
+  if (!parts) return learning;
   return (
     <>
-      <strong className="font-semibold text-text-primary">{title}</strong>
-      {learning.slice(k)}
+      <strong className="font-semibold text-text-primary">{parts.title}</strong>
+      {parts.rest}
     </>
   );
 }
@@ -180,7 +175,7 @@ export function DailyContent() {
                 <div className="min-h-[120px]">
                   <p className="text-base leading-relaxed text-text-primary">{data.joke.content}</p>
                   {showPunchline ? (
-                    <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-primary animate-fade-in">
+                    <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-link animate-fade-in">
                       {data.joke.punchline}
                     </p>
                   ) : (
@@ -196,8 +191,8 @@ export function DailyContent() {
                 </div>
                 {showPunchline && data.joke.comedyTechnique && (
                   <div className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
-                      Pourquoi ça marche — {data.joke.comedyTechnique}
+                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                      Pourquoi ça marche&nbsp;: {data.joke.comedyTechnique}
                     </p>
                     {data.joke.techniqueExplanation && (
                       <p className="mt-2 text-sm text-text-secondary">
@@ -214,7 +209,7 @@ export function DailyContent() {
                       Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
-                        className="font-medium text-accent-primary hover:underline"
+                        className="font-medium text-accent-link hover:underline"
                       >
                         L&apos;anatomie d&apos;une vanne
                       </Link>
@@ -224,7 +219,7 @@ export function DailyContent() {
                 <div className="mt-4 flex items-center gap-2">
                   <ReactionButtons jokeId={data.joke.id} />
                   <ShareButton
-                    title="Vanne du jour — deviens-marrant.fr"
+                    title="Vanne du jour · deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
                   />
                   <FavoriteButton contentType="JOKE" contentId={data.joke.id} />
@@ -282,7 +277,7 @@ export function DailyContent() {
                 </div>
                 <div className="mt-4 flex items-center gap-2">
                   <ShareButton
-                    title="Conseil du jour — deviens-marrant.fr"
+                    title="Conseil du jour · deviens-marrant.fr"
                     text={`${data.tip.title}\n${data.tip.content}`}
                   />
                   <FavoriteButton contentType="TIP" contentId={data.tip.id} />
@@ -330,9 +325,9 @@ export function DailyContent() {
                         <Chevron />
                       </summary>
                       <ul className="space-y-1.5 px-4 pb-4">
-                        {data.video.learnings.map((learning, i) => (
+                        {data.video.learnings.slice(0, 2).map((learning, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                            <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                            <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
                             <span>{formatLearning(learning)}</span>
                           </li>
                         ))}
@@ -351,8 +346,8 @@ export function DailyContent() {
                 </div>
                 <div className="mt-4 flex items-center gap-2">
                   <ShareButton
-                    title="Vidéo du jour — deviens-marrant.fr"
-                    text={`${data.video.title} — ${data.video.channelName}`}
+                    title="Vidéo du jour · deviens-marrant.fr"
+                    text={`${data.video.title} · ${data.video.channelName}`}
                   />
                   <FavoriteButton contentType="VIDEO" contentId={data.video.id} />
                 </div>

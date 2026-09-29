@@ -45,7 +45,7 @@ const ORIENTATION_QUESTIONS = [
     options: [
       { label: "Au boulot, en réunion, à la pause", value: "work", emoji: "☕" },
       { label: "En soirée, avec mes potes, en coloc", value: "social", emoji: "🎉" },
-      { label: "Partout — je veux retrouver ma légèreté", value: "global", emoji: "🌱" },
+      { label: "Partout, je veux retrouver ma légèreté", value: "global", emoji: "🌱" },
     ],
   },
   {
@@ -84,7 +84,7 @@ function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) =>
     return (
       <Card className="text-center">
         <CardContent className="py-6">
-          <p className="text-sm font-medium text-accent-primary">Ton point de départ :</p>
+          <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
           <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
@@ -249,7 +249,7 @@ export function ParcoursContent() {
                     {p.title}
                   </span>
                 </CardTitle>
-                <p className="mt-1 text-sm font-medium text-accent-primary">
+                <p className="mt-1 text-sm font-medium text-accent-link">
                   {p.persona}
                 </p>
               </CardHeader>
@@ -308,7 +308,7 @@ export function ParcoursContent() {
                           <p className="mt-1 text-xs text-text-muted">
                             Format : {m.format}
                           </p>
-                          <span className="mt-1 inline-block text-xs text-accent-primary">
+                          <span className="mt-1 inline-block text-xs text-accent-link">
                             +{m.xp} XP
                           </span>
                         </div>

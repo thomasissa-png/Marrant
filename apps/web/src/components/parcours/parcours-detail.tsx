@@ -205,7 +205,7 @@ function JokeTeaser({ jokeIds }: { jokeIds: number[] }) {
         {jokeIds.length} vannes sélectionnées pour ce module.{" "}
         <Link
           href="/vannes"
-          className="text-accent-primary hover:underline"
+          className="text-accent-link hover:underline"
         >
           Découvre-les dans le catalogue
         </Link>
@@ -385,7 +385,7 @@ export function ParcoursDetail({
             {fetchError
               ? "Ce parcours ne veut pas se charger pour l'instant. Réessaie un peu plus tard."
               : "Ce parcours n'existe pas, ou plus."}{" "}
-            <Link href="/parcours" className="text-accent-primary hover:underline">
+            <Link href="/parcours" className="text-accent-link hover:underline">
               Voir tous les parcours
             </Link>
           </p>
@@ -427,7 +427,7 @@ export function ParcoursDetail({
         </div>
         <p className="mt-4 text-text-secondary">{path.description}</p>
         {path.personaTagline && (
-          <p className="mt-2 text-sm font-medium text-accent-primary">
+          <p className="mt-2 text-sm font-medium text-accent-link">
             {path.personaTagline}
           </p>
         )}
@@ -447,7 +447,7 @@ export function ParcoursDetail({
                 ? "Parcours terminé !"
                 : `${completedSteps.length}/${totalSteps} étapes complétées`}
             </span>
-            <span className="font-medium text-accent-primary">
+            <span className="font-medium text-accent-link">
               {totalXp} XP au total
             </span>
           </div>
@@ -503,7 +503,7 @@ export function ParcoursDetail({
                 role={canExpand ? "button" : undefined}
                 tabIndex={canExpand ? 0 : undefined}
                 aria-expanded={canExpand ? isExpanded : undefined}
-                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? " — complétée" : isSequentiallyLocked ? " — verrouillée" : ""}`}
+                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? ", complétée" : isSequentiallyLocked ? ", verrouillée" : ""}`}
                 className={canExpand ? "cursor-pointer" : "cursor-default"}
                 onClick={() => {
                   if (!canExpand) return;
@@ -546,7 +546,7 @@ export function ParcoursDetail({
                         {step.moduleTitle ?? step.tip.title}
                       </CardTitle>
                       <div className="mt-1 flex items-center gap-2">
-                        <span className={`text-xs ${isSequentiallyLocked ? "text-text-muted" : "text-accent-primary"}`}>
+                        <span className={`text-xs ${isSequentiallyLocked ? "text-text-muted" : "text-accent-link"}`}>
                           +{stepXp} XP
                         </span>
                         {(step.free || step.order === 1) && (
@@ -590,7 +590,7 @@ export function ParcoursDetail({
                       </p>
                       <Link href="/abonnement">
                         <Button variant="primary" size="sm" className="mt-3">
-                          S&apos;abonner — 0,99 &euro;/mois
+                          S&apos;abonner · 0,99 &euro;/mois
                         </Button>
                       </Link>
                     </div>
@@ -599,7 +599,7 @@ export function ParcoursDetail({
                       {/* Why this step */}
                       {step.why && (
                         <div className="rounded-lg bg-background-elevated p-3">
-                          <p className="text-sm font-medium text-accent-primary">
+                          <p className="text-sm font-medium text-accent-link">
                             Pourquoi cette étape ?
                           </p>
                           <p className="mt-1 text-sm text-text-secondary">
@@ -694,7 +694,7 @@ export function ParcoursDetail({
                       )}
 
                       {hasQuiz && isQuizDone && !isCompleted && (
-                        <p className="text-center text-sm font-medium text-accent-primary">
+                        <p className="text-center text-sm font-medium text-accent-link">
                           Quiz bouclé, tu peux valider l&apos;étape
                         </p>
                       )}
@@ -702,7 +702,7 @@ export function ParcoursDetail({
                       {/* XP notification — accessible via aria-live */}
                       <div aria-live="polite" aria-atomic="true">
                         {xpGained?.step === step.order && (
-                          <p className="text-center text-sm font-bold text-accent-primary animate-scale-in">
+                          <p className="text-center text-sm font-bold text-accent-link animate-scale-in">
                             +{xpGained.xp} XP gagné{xpGained.xp >= 100 ? "s ! Parcours terminé !" : "s !"}
                           </p>
                         )}
@@ -739,7 +739,7 @@ export function ParcoursDetail({
                       )}
 
                       {isCompleted && (
-                        <p className="text-center text-sm font-medium text-accent-primary">
+                        <p className="text-center text-sm font-medium text-accent-link">
                           Étape validée
                         </p>
                       )}
@@ -802,7 +802,7 @@ export function ParcoursDetail({
             Tu y prends goût ?{" "}
             <Link
               href={`/parcours/${path.nextParcours}`}
-              className="text-accent-primary hover:underline"
+              className="text-accent-link hover:underline"
             >
               Jette un œil au parcours suivant
             </Link>

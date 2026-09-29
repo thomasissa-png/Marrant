@@ -72,6 +72,18 @@ const CATEGORY_LABELS: Record<string, string> = {
   PARENTS: "Famille",
 };
 
+// Libellés du type de vanne (enum JokeType) : arbitrage Thomas s12 pour STORY et QA,
+// les autres reprennent le mot de l'enum en casse normale (aucune valeur brute affichée).
+const JOKE_TYPE_LABELS: Record<string, string> = {
+  SUBTIL: "Subtil",
+  CLASSIQUE: "Classique",
+  ABSURDE: "Absurde",
+  ONE_LINER: "One-liner",
+  STORY: "Histoire",
+  DIALOGUE: "Dialogue",
+  QA: "Question / réponse",
+};
+
 const PUNCHLINE_TEASERS = [
   "Clique pour la chute",
   "Parie sur la chute, puis vérifie",
@@ -177,7 +189,7 @@ export function VannesList() {
             <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" className="w-full sm:w-auto" />
             <Link
               href="/abonnement"
-              className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-primary hover:underline"
+              className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline"
             >
               Tout débloquer
             </Link>
@@ -193,7 +205,7 @@ export function VannesList() {
           </svg>
           <p className="text-sm text-text-secondary">
             Filtres par catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -254,6 +266,11 @@ export function VannesList() {
                     <Badge variant="primary">
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
+                    {/* Type masqué s'il est inconnu ou s'il répète la catégorie (ex. Absurde / Absurde) */}
+                    {JOKE_TYPE_LABELS[joke.type] &&
+                      JOKE_TYPE_LABELS[joke.type] !== (CATEGORY_LABELS[joke.category] ?? joke.category) && (
+                        <Badge variant="default">{JOKE_TYPE_LABELS[joke.type]}</Badge>
+                      )}
                   </div>
                   <div className="flex items-center gap-1">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
@@ -265,7 +282,7 @@ export function VannesList() {
                   <p
                     id={`punchline-${joke.id}`}
                     tabIndex={-1}
-                    className="mt-3 font-semibold text-accent-primary animate-fade-in focus:outline-none"
+                    className="mt-3 font-semibold text-accent-link animate-fade-in focus:outline-none"
                   >
                     {joke.punchline}
                   </p>
@@ -278,8 +295,8 @@ export function VannesList() {
                     className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
-                      Pourquoi ça marche — {joke.comedyTechnique}
+                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                      Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
                     </p>
                     {joke.techniqueExplanation && (
                       <p className="mt-2 text-sm text-text-secondary">
@@ -296,7 +313,7 @@ export function VannesList() {
                       Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
-                        className="font-medium text-accent-primary hover:underline"
+                        className="font-medium text-accent-link hover:underline"
                       >
                         L&apos;anatomie d&apos;une vanne
                       </Link>
@@ -328,7 +345,7 @@ export function VannesList() {
                   <Link
                     href={`/vannes/${buildJokeSlug(joke)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-primary hover:underline"
+                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
                     aria-label="Ouvrir la page dédiée de cette vanne"
                   >
                     Page dédiée &rarr;
@@ -350,7 +367,7 @@ export function VannesList() {
               onClick={() => setPremiumOpen(true)}
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label="Contenu premium : cliquer pour débloquer"
             >
               <CardContent className="pt-4">
                 <div className="mb-3 flex items-center gap-2">
@@ -362,10 +379,10 @@ export function VannesList() {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
                   <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
                   </div>
                 </div>
               </CardContent>

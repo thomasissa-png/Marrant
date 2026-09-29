@@ -58,22 +58,22 @@ const QUESTIONS: QuizQuestion[] = [
 
 const RESULTS: Record<string, { title: string; description: string; emoji: string }> = {
   DEBUTANT: {
-    title: "En Route Vers la Répartie",
+    title: "En route vers la répartie",
     description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
     emoji: "🌱",
   },
   INTERMEDIAIRE: {
-    title: "Le Blagueur Affûté",
+    title: "Le blagueur affûté",
     description: "T'as déjà le sens de l'humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu'on écoute quand il prend la parole.",
     emoji: "🌿",
   },
   AVANCE: {
-    title: "Le Comique Naturel",
+    title: "Le comique naturel",
     description: "T'es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
     emoji: "🔥",
   },
   EXPERT: {
-    title: "La Future Star",
+    title: "La future star",
     description: "Tu vises haut, et on aime ça. On te met les meilleurs humoristes sous les yeux, démontés pièce par pièce : à toi de leur piquer leur mécanique.",
     emoji: "⭐",
   },
@@ -105,7 +105,7 @@ function RecommendedParcours({
 }) {
   return (
     <div className="mt-6 rounded-lg border border-border bg-background-elevated p-4 text-left">
-      <p className="text-sm font-medium text-accent-primary">Ton point de départ :</p>
+      <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
       <h3 className="mt-1 font-display text-lg font-bold text-text-primary">{recommendation.title}</h3>
       <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
       <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
@@ -226,7 +226,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
         level: existingProfile.level,
         objective: existingProfile.objective,
         context: existingProfile.context,
-        title: existingProfile.result,
+        title: (RESULTS[existingProfile.level] || RESULTS.DEBUTANT).title,
       },
       true,
     );

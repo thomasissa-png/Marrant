@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
               <p className="mb-4 text-sm text-success">
                 Si un compte existe avec cet email, tu recevras un lien sous quelques minutes.
               </p>
-              <Link href="/login" className="text-accent-primary hover:underline text-sm">
+              <Link href="/login" className="text-accent-link hover:underline text-sm">
                 Retour à la connexion
               </Link>
             </div>
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">
-                <Link href="/login" className="text-accent-primary hover:underline">
+                <Link href="/login" className="text-accent-link hover:underline">
                   Retour à la connexion
                 </Link>
               </div>
@@ -95,6 +95,13 @@ export default function ForgotPasswordPage() {
           )}
         </CardContent>
       </Card>
+      {/* T38 : repère de retour visible (pages plein écran sans header) */}
+      <Link
+        href="/"
+        className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
+      >
+        Retour à l&apos;accueil
+      </Link>
     </main>
   );
 }

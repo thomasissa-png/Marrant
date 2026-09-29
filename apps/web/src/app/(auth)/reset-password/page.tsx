@@ -68,7 +68,7 @@ function ResetPasswordContent() {
         <Card className="w-full max-w-md">
           <CardContent className="py-8 text-center">
             <p className="text-text-secondary">Ce lien est cassé ou incomplet. Pas de panique, on t&apos;en renvoie un.</p>
-            <Link href="/forgot-password" className="mt-4 inline-block text-accent-primary hover:underline text-sm">
+            <Link href="/forgot-password" className="mt-4 inline-block text-accent-link hover:underline text-sm">
               Demander un nouveau lien
             </Link>
           </CardContent>

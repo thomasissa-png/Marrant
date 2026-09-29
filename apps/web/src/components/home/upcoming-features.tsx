@@ -207,7 +207,7 @@ export function UpcomingFeatures() {
                     "mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                     voted
                       ? "bg-accent-primary text-white"
-                      : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary"
+                      : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-link"
                   )}
                   aria-label={count >= 10 ? `${count} votes pour ${feature.title}` : `Voter pour ${feature.title}`}
                 >
@@ -221,7 +221,7 @@ export function UpcomingFeatures() {
                         "ml-1 rounded-full px-2 py-0.5 text-xs",
                         voted
                           ? "bg-white/20 text-white"
-                          : "bg-accent-primary/10 text-accent-primary"
+                          : "bg-accent-primary/10 text-accent-link"
                       )}
                     >
                       {count}

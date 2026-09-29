@@ -65,7 +65,7 @@ export function PremiumCta() {
               <span className="text-4xl font-bold text-text-primary">0,99 €</span>
               <span className="text-text-muted">/ mois</span>
             </div>
-            <p className="mt-1 text-sm text-accent-primary font-medium">
+            <p className="mt-1 text-sm text-accent-link font-medium">
               Prix de lancement
             </p>
             <p className="mt-1 text-xs text-text-muted">
@@ -124,7 +124,7 @@ export function PremiumCta() {
             )}
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
-              Déjà 1&nbsp;500+ inscrits — et toi ?
+              Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?
             </p>
           </div>
         </div>

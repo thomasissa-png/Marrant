@@ -16,6 +16,12 @@ export default function AbonnementPage() {
   const stats = useContentStats();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  // Compte gratuit : onboarding ; accès complet : retour ici pour payer (voir getPostSignupRedirect).
+  const [authCallbackUrl, setAuthCallbackUrl] = useState<string | undefined>(undefined);
+  const openAuth = (callbackUrl: string | undefined) => {
+    setAuthCallbackUrl(callbackUrl);
+    setIsAuthModalOpen(true);
+  };
 
   const isAuthenticated = status === "authenticated";
   const pageBadge = isAuthenticated ? "Plus qu'une étape" : "Prix de lancement";
@@ -45,23 +51,49 @@ export default function AbonnementPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl py-8">
+    <div className="mx-auto max-w-2xl">
       <div className="text-center">
-        <Badge variant="primary" className="mb-4">
-          {pageBadge}
-        </Badge>
+        {/* Anonyme : « Prix de lancement » n'est affiché qu'une fois, sur la carte (doublon retiré) */}
+        {isAuthenticated && (
+          <Badge variant="primary" className="mb-4">
+            {pageBadge}
+          </Badge>
+        )}
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           {pageTitle}
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
+        <p className="mx-auto mt-3 max-w-xl text-balance text-lg text-text-secondary">
           {pageSubtitle}
         </p>
       </div>
 
+      {/* T45 : deux blocs lisibles pour l'anonyme, gratuit puis complet */}
+      {!isAuthenticated && (
+        <Card className="mt-10 p-0">
+          <CardContent className="p-5 sm:p-8">
+            <h2 className="text-lg font-semibold text-text-primary">Compte gratuit</h2>
+            <p className="mt-2 text-sm text-text-secondary">
+              10 vannes, 3 conseils, 3 vidéos, contenu du jour. Sans carte.
+            </p>
+            <Button
+              variant="outline"
+              size="lg"
+              className="mt-5 w-full"
+              onClick={() => openAuth(undefined)}
+            >
+              Cr&eacute;e ton compte gratuit
+            </Button>
+            <p className="mt-3 text-center text-xs text-text-muted">
+              Commence gratuitement, tu passes premium quand tu veux.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Offre principale */}
-      <Card className="mt-10 border-2 border-accent-primary shadow-lg shadow-accent-primary/10">
-        <CardContent className="p-8">
-          <div className="flex items-center gap-2">
+      <Card className={`${isAuthenticated ? "mt-10" : "mt-6"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10`}>
+        <CardContent className="p-5 sm:p-8">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-lg font-semibold text-text-primary">
               Accès complet
             </h2>
@@ -71,7 +103,7 @@ export default function AbonnementPage() {
             <span className="text-4xl font-bold text-text-primary">0,99 &euro;</span>
             <span className="text-text-muted">/ mois</span>
           </div>
-          <p className="mt-1 text-sm font-medium text-accent-primary">
+          <p className="mt-1 text-sm font-medium text-accent-link">
             Sans engagement, annulable &agrave; tout moment
           </p>
 
@@ -132,22 +164,17 @@ export default function AbonnementPage() {
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : "Active mon acc\u00e8s \u2014 0,99 \u20ac/mois"}
+                : "Active mon accès · 0,99 €/mois"}
             </Button>
           ) : (
-            <>
-              <Button
-                variant="primary"
-                size="lg"
-                className="mt-8 w-full"
-                onClick={() => setIsAuthModalOpen(true)}
-              >
-                Cr&eacute;e ton compte gratuit
-              </Button>
-              <p className="mt-3 text-center text-xs text-text-muted">
-                Commence gratuitement, tu passes premium quand tu veux.
-              </p>
-            </>
+            <Button
+              variant="primary"
+              size="lg"
+              className="mt-8 w-full"
+              onClick={() => openAuth("/abonnement")}
+            >
+              Commencer à 0,99 €/mois
+            </Button>
           )}
 
           <p className="mt-3 text-center text-xs text-text-muted">
@@ -183,7 +210,7 @@ export default function AbonnementPage() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         defaultTab="register"
-        callbackUrl="/abonnement"
+        callbackUrl={authCallbackUrl}
       />
     </div>
   );

@@ -93,7 +93,7 @@ function LoginForm() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
@@ -101,7 +101,7 @@ function LoginForm() {
               deviens-marrant
             </span>
           </Link>
-          <h1 className="font-display text-lg font-bold text-text-primary">Content de te revoir</h1>
+          <h1 className="font-display text-xl font-bold text-text-primary">Content de te revoir</h1>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -176,18 +176,25 @@ function LoginForm() {
             </Button>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/forgot-password" className="text-accent-primary hover:underline">
+            <Link href="/forgot-password" className="text-accent-link hover:underline">
               Mot de passe oublié ?
             </Link>
           </div>
           <div className="mt-2 text-center text-sm text-text-secondary">
             Pas de compte ?{" "}
-            <Link href="/register" className="text-accent-primary hover:underline">
+            <Link href="/register" className="text-accent-link hover:underline">
               Inscris-toi
             </Link>
           </div>
         </CardContent>
       </Card>
+      {/* T38 : repère de retour visible (pages plein écran sans header) */}
+      <Link
+        href="/"
+        className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
+      >
+        Retour à l&apos;accueil
+      </Link>
     </main>
   );
 }
