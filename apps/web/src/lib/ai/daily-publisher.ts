@@ -145,7 +145,9 @@ export async function publishDailyContent(
       let validationCrashCount = 0;
       for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
         try {
-          validation = await validateJoke(jokeData as JokeToValidate, persona);
+          validation = await validateJoke(jokeData as JokeToValidate, persona, {
+            recentSetups: recentJokes.map((j) => j.content),
+          });
         } catch (err) {
           validationCrashCount++;
           console.warn(`[Director] Validation vanne crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS_SHORT}):`, err);

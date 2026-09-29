@@ -86,6 +86,9 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ton conseil est MORT
 ❌ CONTENU TROP LONG / FILLER : Chaque phrase doit apporter une info nouvelle. Si tu peux supprimer un paragraphe et le conseil reste identique → ce paragraphe est du filler.
 ❌ EXEMPLE QUI N'ILLUSTRE PAS : L'exemple DOIT montrer la technique en action. Si l'exemple est juste "une vanne" sans lien avec la technique expliquée, c'est hors sujet.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous devez", réécris en "tu dois".
+❌ MENTION D'IA / D'ASSISTANT VOCAL : JAMAIS de ChatGPT, "l'IA", GPT, Claude, Alexa, Siri, Google Assistant, "un chatbot", "un assistant vocal". Règle fondateur permanente. Si l'exemple utilise une IA, remplace par un pote/collègue/parent.
+❌ TON SCOLAIRE : pas de "mémoriser" (dis "ressortir"), pas de "Semaine 1 / Jours 1-3" (dis "Étape 1"), pas de "leçon" (dis "technique"). On est dans un atelier, pas un amphi.
+❌ VOCABULAIRE "COACH" pour la marque : le site n'est PAS un "coach". Tu peux donner un conseil comme un pote qui a pratiqué, jamais te présenter comme "ton coach".
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
