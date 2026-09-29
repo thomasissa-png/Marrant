@@ -41,10 +41,10 @@
 	"hyperdrive": [
 		{
 			// Postgres Neon (Francfort) via Hyperdrive. Lu par src/lib/prisma-workers.ts.
-			// PLACEHOLDER : remplacer par l'id renvoyé par
-			// `wrangler hyperdrive create marrant-neon --connection-string=...` (voir runbook).
+			// Config « marrant-neon » créée le 29/09/2026 (cache de requêtes désactivé :
+			// lectures juste après écriture pour auth / Stripe).
 			"binding": "HYPERDRIVE",
-			"id": "00000000000000000000000000000000"
+			"id": "fab86e8a22204112961f483a20c261ee"
 		}
 	],
 	"images": {
