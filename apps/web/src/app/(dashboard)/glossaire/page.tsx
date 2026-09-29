@@ -8,6 +8,9 @@ import {
 import { PageHeader } from "@/components/layout/page-header";
 import { frTypo } from "@/lib/fr-typo";
 
+/** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
+const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
+
 export const metadata: Metadata = {
   title: "Glossaire humour : 12 termes clés",
   description:
@@ -124,7 +127,7 @@ export default function GlossairePage() {
           glossary.map((item) => ({
             term: item.term,
             definition: item.definition,
-            url: `https://deviens-marrant.fr/glossaire#${item.term.toLowerCase().replace(/\s+/g, "-")}`,
+            url: `https://deviens-marrant.fr/glossaire#${termAnchor(item.term)}`,
           })),
         )}
       />
@@ -146,12 +149,31 @@ export default function GlossairePage() {
         }
       />
 
+      {/* T49 : index collant des 12 termes (libellés = termes existants), sous le header sticky */}
+      <nav
+        aria-label="Glossaire"
+        className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
+      >
+        <ul className="flex snap-x gap-1 overflow-x-auto py-1">
+          {glossary.map((item) => (
+            <li key={item.term} className="shrink-0 snap-start">
+              <a
+                href={`#${termAnchor(item.term)}`}
+                className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-3 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
+              >
+                {item.term}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <div className="space-y-6">
         {glossary.map((item) => (
           <section
             key={item.term}
-            id={item.term.toLowerCase().replace(/\s+/g, "-")}
-            className="rounded-xl border border-border bg-background-card p-6"
+            id={termAnchor(item.term)}
+            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
               {item.term}
