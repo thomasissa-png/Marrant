@@ -5,20 +5,18 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { AuthModal } from "@/components/auth/auth-modal";
-import { useContentStats, MEMBERS_SOCIAL_PROOF_MIN } from "@/hooks/use-content-stats";
 
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
   const [showAuth, setShowAuth] = useState(false);
-  const { members } = useContentStats();
 
   return (
     <section className="py-12 text-center md:py-20">
       <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-        Deviens la personne{" "}
-        <span className="text-gradient">la plus drôle</span>
-        {" "}du groupe.
+        Tu parles et{" "}
+        <span className="text-gradient">personne rit</span>
+        {". "}On va arranger ça.
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine
@@ -26,11 +24,9 @@ export function HeroSection() {
         techniques et les exercices. Toi, tu ramènes ta motivation.
       </p>
 
-      {/* Social proof */}
+      {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
       <p className="mt-6 text-sm font-medium text-accent-primary">
-        {members >= MEMBERS_SOCIAL_PROOF_MIN
-          ? `Rejoins ${members.toLocaleString("fr-FR")}+ membres qui progressent en humour chaque jour`
-          : "Rejoins celles et ceux qui progressent en humour chaque jour"}
+        Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour
       </p>
 
       {/* Situations concrètes = les 3 personas se reconnaissent */}

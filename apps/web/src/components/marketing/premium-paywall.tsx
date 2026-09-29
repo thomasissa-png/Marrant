@@ -152,7 +152,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
   return (
     <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
       <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-      <p className="text-gray-300 mb-4">Accès illimité à tout le catalogue.</p>
+      <p className="text-gray-300 mb-4">Accès illimité à tout le catalogue : toutes les vannes, tous les conseils, tous les parcours.</p>
       <button
         onClick={handleStripeCheckout}
         disabled={loading}

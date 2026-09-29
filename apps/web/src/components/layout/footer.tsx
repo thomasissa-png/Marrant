@@ -62,8 +62,8 @@ export function Footer() {
               deviens-marrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              Ton coach humour perso. Vannes, répartie et techniques
-              de pro pour briller en société.
+              Deviens drôle, un exercice à la fois. Vannes, répartie et techniques
+              de stand-up pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
               <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-primary">contact@deviens-marrant.fr</a>

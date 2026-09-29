@@ -7,7 +7,7 @@ import { useUserStore } from "@/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
-import { useContentStats, MEMBERS_SOCIAL_PROOF_MIN } from "@/hooks/use-content-stats";
+import { useContentStats } from "@/hooks/use-content-stats";
 import { FaqSection } from "@/components/home/faq-section";
 import { AuthModal } from "@/components/auth/auth-modal";
 
@@ -213,12 +213,10 @@ export function PremiumCta() {
         </div>
       </div>
 
-      {/* Social proof — nombre réel d'inscrits, affiché seulement s'il est significatif */}
-      {stats.members >= MEMBERS_SOCIAL_PROOF_MIN && (
-        <p className="mt-8 text-center text-sm text-text-muted">
-          Déjà {stats.members.toLocaleString("fr-FR")}+ inscrits — et toi ?
-        </p>
-      )}
+      {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
+      <p className="mt-8 text-center text-sm text-text-muted">
+        Déjà 1&nbsp;500+ inscrits — et toi ?
+      </p>
 
       {/* FAQ */}
       <div className="mt-16">

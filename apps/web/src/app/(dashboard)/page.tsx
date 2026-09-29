@@ -15,7 +15,7 @@ const homepageFaqs = [
   {
     question: "Comment devenir drôle quand on n'est pas drôle ?",
     answer:
-      "L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Avec des exercices progressifs (vannes à mémoriser, techniques de répartie, analyse de stand-up), tu peux devenir plus drôle en quelques semaines. Nos parcours structurés te guident pas à pas.",
+      "L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Avec des exercices progressifs (vannes à ressortir, techniques de répartie, analyse de stand-up), tu peux devenir plus drôle en quelques semaines. Nos parcours structurés te guident pas à pas.",
   },
   {
     question: "Comment avoir de la répartie rapidement ?",
@@ -88,8 +88,8 @@ export default function HomePage() {
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis... tu voudrais avoir la
-              blague qui fait mouche au bon moment ? On te donne des blagues
-              courtes et mémorisables. Maintiens ton streak pour ne rien oublier.
+              vanne qui fait mouche au bon moment ? On te donne des vannes
+              courtes, prêtes à ressortir. Maintiens ton streak pour rester en forme.
             </p>
             <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Parcours Machine à Café · 3 semaines →
