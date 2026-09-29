@@ -10,13 +10,13 @@
 | Table `NewsletterSubscriber` (+ enum) | `prisma db push` au build (déjà dans `.replit`) |
 | Corrections des articles de blog en base (tutoiement, citations, témoignages, staccato, mentions IA, années) | boot ~30 s : `fixPublishedBlogArticlesTask` (`src/data/blog-article-fixes.json`) |
 | Dépublication des 3 articles cannibalisés en base | boot : `depublishCannibalizedDbArticlesTask` |
-| Renommage du slug daté `meilleures-blagues-droles-2026` | boot : `convergeBlogSlugRedirectsTask` (+ redirection 308) |
+| URL de la page n°1 `/blog/meilleures-blagues-droles-2026` **conservée** (aucun renommage, choix fondateur) | — |
 | Liens internes vers des URLs redirigées réécrits dans les articles en base | boot : `rewriteRedirectedBlogLinksTask` |
 | Décryptage IA des vannes anciennes sans décryptage (15 / boot) | boot : `backfillMissingJokeDecryptagesTask` (désactivable : `SKIP_JOKE_DECRYPTAGE_AI_BACKFILL=1`) |
-| 15 redirections 301/308 (cannibalisation, historique, slug daté) | `next.config.js` ← `src/lib/seo-redirects.data.cjs` |
+| 14 redirections 301/308 (cannibalisation, historique) | `next.config.js` ← `src/lib/seo-redirects.data.cjs` |
 | Alerte email admin si l'IA tombe en panne (modèle retiré, clé, crédit) | `lib/ai/failure-alert.ts`, 1 alerte / type / 24 h |
-| **Refonte copy** — vannes / conseils / vidéos / parcours du catalogue de base réécrits (favoris conservés : alias `previousContent` / `previousTitle`) | build : `scripts/seed.sh` (seed) |
-| **Refonte copy** — 9 articles de blog en base réécrits (une seule fois, marqueur `DataPatch`) | boot : `applyBlogArticleRewritesTask` |
+| **Refonte copy (passe 2)** — 249/264 vannes + décryptages, 65 conseils, 89 fiches vidéos, 3 parcours réécrits (id et URL conservés, favoris préservés via `previousContent` ; simulé : 0 créée, 247 renommées) | build : `scripts/seed.sh` (seed) |
+| **Refonte copy (passe 2)** — 9 articles de blog en base réécrits, `blog-article-rewrites.json` **v2** (une seule fois, marqueur `DataPatch` par version) | boot : `applyBlogArticleRewritesTask` |
 | **Refonte copy** — relecture automatique des vannes et conseils générés (25 + 25 / jour, 3h-4h UTC ; retrait seulement sur motif fermé, sinon GARDER ; originaux conservés) | scheduler : job copy-review |
 | Nouveaux champs `copyVerdict`, `copyReviewedAt`, `original*` (Joke, Tip) + table `DataPatch` | `prisma db push` au build (colonnes nullables, sans perte) |
 
