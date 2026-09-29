@@ -846,23 +846,29 @@ Catégorie : ${joke.category} | Type : ${joke.type} | Maturité : ${joke.maturit
 
 CRITÈRES SPÉCIFIQUES VANNES :
 - La punchline est-elle plus COURTE que le setup ? (obligatoire)
-- ${p.name} peut-il/elle la sortir CE SOIR en soirée et faire RIRE ? (pas sourire — RIRE)
+- ${p.name} peut-il/elle la sortir CE SOIR et déclencher un SOURIRE NET + l'envie de la ressortir ? (charte s11 : sourire de reconnaissance, pas politesse)
 - Y a-t-il un vrai twist ou c'est prévisible ?
 - Est-ce relatable pour ${p.name} (${p.interests.slice(0, 4).join(", ")}) ?
 - Est-ce que ça respecte le ton de la marque (jamais vulgaire, jamais forcé) ?
 - Pas d'objets qui parlent, pas de format Carambar, pas d'autodérision triste sans punch
+- Est-elle NEUVE ? Une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar) est FAIBLE même si elle marche → score max 5
+- Le twist vient-il d'une IDÉE ? Calembour phonétique (« parce que ça sonne comme… ») → score max 5
+- La cible est-elle un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) ? → REJECTED
+- Économie de mots : chaque mot sert-il la chute ? Zéro mention d'IA, tutoiement si la vanne s'adresse au lecteur
 
 TEST CRITIQUE — PUNCHLINE OU CONSTAT ?
 La punchline doit contenir un RETOURNEMENT COMIQUE (twist, exagération, absurde, double sens, comparaison inattendue).
 Si la punchline est juste une EXPLICATION de la situation, un CONSTAT logique, ou la SUITE de l'histoire → c'est PAS une vanne, c'est une anecdote. Score max 5.
 Exemples :
 - ❌ "J'ai attendu le bus 20 min sous la pluie. Il était à l'arrêt d'en face." → CONSTAT (c'est juste ce qui s'est passé, pas de twist)
-- ✅ "J'ai attendu le bus 20 min sous la pluie. Le bus m'a vu et il a accéléré." → TWIST (le bus est personnifié, comportement inattendu)
-- ❌ "J'ai oublié mon parapluie. Il pleuvait." → CONSTAT
-- ✅ "J'ai oublié mon parapluie. Mon karma non." → TWIST (personnification abstraite)
+- ❌ "J'ai attendu le bus 20 min sous la pluie. Quand il m'a vu, il a accéléré." → DÉJÀ CONNUE (classique qui tourne partout) → score max 5
+- ✅ "J'ai attendu le bus 20 min sous la pluie. Quand il est arrivé, je suis pas monté. Il fallait qu'il comprenne." → TWIST (renversement du rapport de force : c'est toi qui punis le bus)
+- ❌ "J'ai acheté un agenda pour m'organiser. Je l'ai jamais ouvert." → CONSTAT
+- ✅ "J'ai acheté un agenda pour m'organiser. Première chose notée dedans : « penser à ouvrir l'agenda »." → TWIST (boucle absurde : l'outil a besoin d'être organisé)
+(Ces exemples calibrent ton jugement : si une vanne soumise les reprend, c'est une copie → REJECTED.)
 
 VERDICT :
-- APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1, fait RIRE à voix haute
+- APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1 : sourire net + envie de la ressortir, vanne neuve
 - NEEDS_REVISION (score 7-8) : l'idée est bonne mais l'exécution peut être meilleure — propose une réécriture
 - REJECTED (score ≤ 6) : ne passe pas le test stand-up, recommencer de zéro
 
@@ -932,6 +938,7 @@ CRITÈRES SPÉCIFIQUES CONSEILS :
 - ${p.name} peut-il/elle l'appliquer AUJOURD'HUI et constater un résultat ? (pas "cette semaine")
 - Le conseil enseigne-t-il UNE technique claire et identifiable ?
 - L'exemple montre-t-il la technique EN ACTION avec un dialogue concret ?
+- La réplique de l'exemple est-elle ORIGINALE (pas une blague déjà connue ailleurs, pas un calembour phonétique, pas une vanne qui vise un groupe) ? Sinon → score max 6
 - L'exercice est-il formulé comme un DÉFI motivant (format "DÉFI [NOM] : ...") ?
 - Le contenu fait-il au moins 60 mots sans filler ?
 - Est-ce au niveau d'un VRAI cours de stand-up / impro professionnel ?
@@ -1516,6 +1523,7 @@ Intérêts : ${p.interests.join(", ")}
 
 MISSION : Réécris cette vanne en corrigeant TOUS les problèmes.
 Tu es le directeur artistique — montre l'exemple. Produis une vanne que ${p.name} peut sortir ce soir.
+Barre : retournement d'IDÉE (jamais un calembour phonétique), économie de mots (chute plus courte que le setup), vanne NEUVE (jamais une blague déjà connue ailleurs), cible = soi ou la situation (jamais un groupe), zéro mention d'IA, zéro vulgarité.
 
 Réponds en JSON :
 {
@@ -1578,6 +1586,7 @@ Intérêts : ${p.interests.join(", ")}
 
 MISSION : Réécris ce conseil en corrigeant TOUS les problèmes.
 Le conseil doit enseigner UNE technique claire, avec un exemple concret et un DÉFI faisable aujourd'hui.
+La réplique de l'exemple est originale (jamais une blague déjà connue ailleurs, jamais un calembour phonétique), tutoiement, zéro mention d'IA.
 
 Réponds en JSON :
 {
@@ -2401,7 +2410,7 @@ Hashtags : ${post.hashtags.join(", ")}
    Le format exploite les codes SPÉCIFIQUES de ${post.platform} ?
    → Twitter (MINI_STANDUP) : 1 single tweet ≤ 270 chars, punchline sèche, pas de thread, pas de hashtags dans le corps. Voix observateur (G-S19), pas de "je/mon/ma" hors citation.
    → LinkedIn (POTE_AU_TAF) : ≤ 3 phrases, scène pro vécue posée, ZÉRO leçon (G-S15), zéro vocabulaire coach (G-S17), zéro vie privée intime (G-S20). Voix "Ce moment où ton..." / "Le X qui..."
-   → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 6 mots reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
+   → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 5 mots (G-S2) reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
    → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
 
 10. PERSONA TEST :
@@ -2424,6 +2433,8 @@ CRITÈRES DE REJET AUTOMATIQUE (score ≤ 3, REJECTED immédiat) :
 - Anecdote fictive de coloc/bureau sans technique de stand-up — on n'est pas un compte humour générique
 - Aucun lien avec le stand-up, les techniques d'humour, ou la progression — le post ne sert pas la marque
 - Punchline prévisible — si on voit la chute arriver, c'est raté
+- Blague déjà connue ailleurs (classique d'Internet, meme recyclé, format « X : nouveau sport olympique », vanne de tonton) — même bien tournée, elle est faible
+- Calembour phonétique (« parce que ça sonne comme… ») ou vanne dont la cible est un groupe (origine, genre, métier, âge, région, physique…)
 
 Réponds en JSON :
 {

@@ -84,6 +84,7 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ton conseil est MORT
 ❌ EXERCICE IRRÉALISTE : "Fais un open mic ce soir" pour un débutant = non. L'exercice doit être faisable dans le quotidien du persona, sans préparation lourde.
 ❌ DOUBLON CONCEPTUEL : Vérifier que ton conseil n'est pas une variante d'un conseil récent. Si les 2 se résument au même conseil → recommence avec un angle vraiment différent.
 ❌ CONTENU TROP LONG / FILLER : Chaque phrase doit apporter une info nouvelle. Si tu peux supprimer un paragraphe et le conseil reste identique → ce paragraphe est du filler.
+❌ RÉPLIQUE D'EXEMPLE FAIBLE : la vanne glissée dans l'exemple doit être ORIGINALE et au niveau d'une vraie vanne (retournement d'IDÉE, économie de mots). Interdits : blague déjà connue ailleurs (classique d'Internet, meme, vanne de tonton, Carambar), calembour phonétique (« parce que ça sonne comme… »), vanne dont la cible est un groupe (origine, genre, métier, âge, région, physique…).
 ❌ EXEMPLE QUI N'ILLUSTRE PAS : L'exemple DOIT montrer la technique en action. Si l'exemple est juste "une vanne" sans lien avec la technique expliquée, c'est hors sujet.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous devez", réécris en "tu dois".
 ❌ MENTION D'IA / D'ASSISTANT VOCAL : JAMAIS de ChatGPT, "l'IA", GPT, Claude, Alexa, Siri, Google Assistant, "un chatbot", "un assistant vocal". Règle fondateur permanente. Si l'exemple utilise une IA, remplace par un pote/collègue/parent.
@@ -105,7 +106,7 @@ EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
 ═══════════════════════════════════════
 
 🟢 BON TITRE : "Le silence après le rire : savoir ne pas enchaîner"
-🟢 BON EXEMPLE : "Tu places une vanne → les gens rient → TU NE DIS RIEN. Tu souris, tu bois une gorgée, tu attends 5 secondes. Le rire se prolonge tout seul."
+🟢 BON EXEMPLE : "Au dîner, on te demande : « Tu cuisines, toi ? » Tu réponds : « Oui. Enfin, je réchauffe avec conviction. » Les gens rient → TU NE DIS RIEN. Tu souris, tu bois une gorgée, tu attends 5 secondes. Le rire se prolonge tout seul." → Dialogue concret + réplique originale (retournement d'idée : « cuisiner » redéfini) + la technique en action. Niveau à viser, réplique à NE PAS réutiliser.
 🟢 BON EXERCICE : "DÉFI SILENCE : La prochaine fois que tu fais rire, impose-toi 5 secondes de silence total. Pas de « non mais sérieusement ». Juste le silence et un sourire."
 
 🔴 MAUVAIS TITRE : "Les clés de l'humour au quotidien" → trop vague, donne pas envie

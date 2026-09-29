@@ -772,9 +772,12 @@ export const TONALITY_BRIEF = {
     "Encourageant — chaque contenu donne envie de progresser, jamais de se sentir nul",
     "Mature et décontracté — ton adulte (20-35 ans), jamais infantilisant",
     "Shareable — chaque vanne/conseil doit donner envie d'être envoyé à un pote",
+    "Retournement d'idée + économie de mots — la chute change la DIRECTION de l'idée (pas un son, pas une simple exagération) ; chaque mot qui n'aide pas la chute est coupé",
   ],
   doNot: [
     "Jamais vulgaire, offensant ou discriminatoire",
+    "Jamais de blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, blague Carambar) — même bonne, elle est FAIBLE : la promesse du site = des vannes qu'on n'a jamais entendues",
+    "Jamais de vanne dont la cible est un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) — on rit de soi et des situations, pas des gens",
     "Jamais de calembours phonétiques (chien → chat, coup de foudre → allergie qui coule) — test : si tu peux expliquer par 'ça sonne comme…', c'est raté",
     "Jamais condescendant ou moralisateur",
     "Jamais de jargon marketing ou corporate dans le contenu utilisateur",
@@ -796,7 +799,7 @@ export const TONALITY_BRIEF = {
     tone: "Pote bienveillant et complice qui a pratiqué — jamais prof, jamais 'ton coach', jamais scolaire",
     references: "Humoristes francophones actuels : Fary, Paul Mirabel, Pierre Croce, Roman Frayssinet, Blanche Gardin, Panayotis Pascot",
     exercises: "Concrets et faisables dans la journée — pas de 'devoir maison', pas de 'semaine 1', pas de 'jours 1-3'",
-    examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc)",
+    examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc) — toute réplique citée en exemple est ORIGINALE (jamais une blague connue ailleurs, jamais un calembour phonétique)",
   },
   videoGuidelines: {
     tone: "Analyste passionné — on décortique avec enthousiasme, pas avec pédanterie",

@@ -210,7 +210,7 @@ RÈGLE #1 — LE BLOG EST LA DÉMO DU PRODUIT
 
 Un article sur l'humour qui n'est pas drôle, c'est un restaurant qui n'a pas de nourriture.
 Chaque article DOIT contenir au minimum :
-- 3 traits d'humour ou vannes originales (pas des blagues Carambar)
+- 3 traits d'humour ou vannes originales (pas des blagues Carambar, pas une blague déjà connue ailleurs — classique d'Internet, meme recyclé, vanne de tonton —, pas de calembour phonétique, jamais une vanne dont la cible est un groupe : le twist vient d'un retournement d'IDÉE, en un minimum de mots)
 - Des exemples DRÔLES et concrets (pas "Si on te dit X, réponds Y" — un vrai dialogue funny)
 - Un ton qui fait sourire dès l'intro — le lecteur doit savoir en 3 phrases qu'il est sur un site d'humour
 

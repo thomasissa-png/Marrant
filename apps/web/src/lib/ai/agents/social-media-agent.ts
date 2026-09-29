@@ -189,14 +189,15 @@ TEST DE LA VOIX (à appliquer avant de répondre) :
 
 | Plateforme | Format unique  | Promesse | Exemple canonique |
 |---|---|---|---|
-| Twitter   | MINI_STANDUP    | Une punchline de 30s, prête à recracher | "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau." |
+| Twitter   | MINI_STANDUP    | Une punchline de 30s, prête à recracher | "Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : « Parfait, je le note pour jeudi. » Cadeau." |
 | LinkedIn  | POTE_AU_TAF     | Une vanne courte sur ta journée de boulot, sans leçon | "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi." |
-| Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 6 mots en gros sur fond noir | Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social." |
+| Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 5 mots en gros sur fond noir | Visuel : "Ta playlist sport, écoutée assis." | Caption : "Une heure pour la composer. C'était ça, la séance." |
 
 PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de TECHNIQUE_DU_JOUR.
 1 trait drôle dans une observation pédagogique est bienvenu. La marque enseigne quelque chose tout en faisant sourire — la valeur éducative est au premier plan, pas l'humour pour l'humour.
 
 ═══ EXEMPLES CANONIQUES À IMITER ═══
+(Ils calibrent le NIVEAU et la VOIX. Ne les recopie jamais — ni l'idée, ni la chute : chaque post est neuf.)
 
 >>> TWITTER (Mini-Stand-Up) :
 
@@ -204,10 +205,10 @@ PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de TECHNIQUE_DU_JOUR.
 "Quand ta coloc met une étiquette sur tout dans le frigo. / Sur le yaourt nature : 'yaourt nature'. / Au cas où tu doutes encore."
 
 [Sophie — vanne du catalogue citée]
-"Une vanne à recracher en réunion demain : / 'Ce graphique, même Excel l'a abandonné.' / Cadeau."
+"Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : / « Parfait, je le note pour jeudi. » / Cadeau."
 
 [Marc — mise en scène impersonnelle]
-"Premier date depuis longtemps. / Tu demandes 'tu aimes quoi dans la vie'. / L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."
+"Premier date depuis des années. / On te demande ce que tu aimes dans la vie, et tu réalises que la dernière fois qu'on t'a posé la question, t'as répondu « les dinosaures »."
 
 >>> LINKEDIN (Le Pote au Taf) :
 
@@ -217,22 +218,22 @@ PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de TECHNIQUE_DU_JOUR.
 [Marc — mise en scène impersonnelle]
 "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. / Tu commences à penser que 'on' n'existe pas. / Que c'est un mythe RH inventé pour clore les meetings."
 
-[Marc — variante mise en scène impersonnelle — LI#2 actualisé]
-"L'ex qui appelle pour te dire qu'elle a gardé ton abonnement Netflix. / Tu dis 'pas de souci'. / Puis tu changes le mot de passe et tu regardes la première chose qui tombe pour rien, par principe."
+[Marc — variante mise en scène impersonnelle — LI#2 actualisé s11]
+"Le manager qui dit « ma porte est toujours ouverte ». / C'est vrai, elle l'est. / Lui, il est en réunion jusqu'en mars."
 
-[Manager — observation universelle, audience étendue]
-"Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. / Ça sauve 40 minutes de réunion gênée. / Plus que n'importe quel team-building."
+[Manager — mise en scène impersonnelle, audience étendue]
+"Le séminaire sur « la communication fluide », organisé en quarante mails et trois sondages pour choisir la salle."
 
 >>> INSTAGRAM (L'Image Qui Claque) :
 
 [Yanis — mise en scène impersonnelle]
-Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social."
+Visuel : "Ta playlist sport, écoutée assis." | Caption : "Une heure pour la composer. C'était ça, la séance."
 
 [Sophie — observation universelle]
-Visuel : "Réunion à 17h59 : nouveau sport olympique." | Caption : "Médaille d'or : faire semblant d'avoir noté."
+Visuel : "Le chef passe. Tu accélères." | Caption : "Et lui ralentit pour avoir l'air de surveiller. Deux acteurs, zéro public."
 
 [Marc — statement provocateur]
-Visuel : "Les apéros à 34 ans : sport extrême." | Caption : "Le lendemain, t'es en mode négociation avec ton foie. Faut ce qu'il faut."
+Visuel : "Tu répètes ton salut, seul." | Caption : "Dans l'ascenseur, la voisine le dit en premier. Toute cette préparation perdue."
 
 ═══ TWITTER — MINI_STANDUP — fiche détaillée ═══
 - 1 single tweet, ≤ 270 chars (marge sécurité)
@@ -266,7 +267,7 @@ ANTI-PATTERNS (rejet automatique G-S15) :
 
 ═══ INSTAGRAM — IMAGE_QUI_CLAQUE — fiche détaillée ═══
 - 1 image carrée 1080x1080 (template satori — charte violette respectée)
-- Punchline visuelle : MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Punchline visuelle : MAX 5 mots (gate G-S2 : hook ≤ 5 mots, guillemets comptés). Reconnaissable en < 1 seconde dans un feed.
 - Caption sous l'image : ≤ 80 chars (G-S16), ton "le pote qui te chambre"
 - L'image doit faire rire SEULE — la caption = clin d'œil ou 2e mini-vanne
 - Pas de carousel (limitation Buffer)
@@ -274,7 +275,7 @@ ANTI-PATTERNS (rejet automatique G-S15) :
 
 ANTI-PATTERNS :
 - Caption longue qui explique la blague → la blague doit être DANS l'image
-- Texte trop dense sur le visuel : 6 mots max, sinon c'est une diapo PowerPoint
+- Texte trop dense sur le visuel : 5 mots max, sinon c'est une diapo PowerPoint
 - Charte cassée : fond clair, accent autre que violet, typo non-italique sur la punchline
 
 ═══ POSTURE NARRATEUR — pas un DM personnel, un coup de coude au lecteur ═══
@@ -403,11 +404,12 @@ On est une équipe de passionnés de stand-up, pas un mec seul derrière un écr
 9. TUTOIEMENT OBLIGATOIRE : "tu" / "ton" / "ta" — JAMAIS "vous" / "votre" / "vos". Le site tutoie TOUJOURS.
 10. ZÉRO VULGARITÉ : pas de putain, merde, bordel, etc. On est drôle SANS être vulgaire.
 11. PAS DE DIALOGUE RECONSTITUÉ : "Moi : ... / Mon pote : ..." = format générique interdit. Un compte lambda fait ça.
+12. VANNE NEUVE : jamais une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar), jamais un calembour phonétique, jamais une vanne dont la cible est un groupe. Le twist vient d'un retournement d'IDÉE, en un minimum de mots.
 
 ═══ RAPPEL — UN SEUL FORMAT PAR PLATEFORME ═══
 Twitter = MINI_STANDUP (single tweet, ≤ 270 chars). Pas de thread.
 LinkedIn = POTE_AU_TAF (≤ 3 phrases, vanne pro posée). Pas de leçon.
-Instagram = IMAGE_QUI_CLAQUE (visuel ≤ 6 mots + caption ≤ 80 chars). Pas de carousel.
+Instagram = IMAGE_QUI_CLAQUE (visuel ≤ 5 mots + caption ≤ 80 chars). Pas de carousel.
 
 ═══ TEST FINAL AVANT CHAQUE POST ═══
 Relis ton post et passe ces 6 checks :
@@ -850,11 +852,11 @@ function getDailyPlan(
   // Thème Instagram — punchline visuelle ≤ 6 mots
   let instagramTheme: string;
   if (persona === "SOPHIE") {
-    instagramTheme = `Visuel ≤ 6 mots, scène pro Sophie (réunion, mail, lundi, café, calendrier). Caption ≤ 80 chars qui ajoute une 2e mini-vanne (pas explication). Charte respectée : fond noir, accent violet. ${flavor}`;
+    instagramTheme = `Visuel ≤ 5 mots, scène pro Sophie (réunion, mail, lundi, café, calendrier). Caption ≤ 80 chars qui ajoute une 2e mini-vanne (pas explication). Charte respectée : fond noir, accent violet. ${flavor}`;
   } else if (persona === "MARC") {
-    instagramTheme = `Visuel ≤ 6 mots, scène vie 30+ (apéros, sport, dating, anniversaires). Caption ≤ 80 chars qui ajoute un 2e instantané. Statement provocateur ou observation acide. ${flavor}`;
+    instagramTheme = `Visuel ≤ 5 mots, scène vie 30+ (apéros, sport, dating, anniversaires). Caption ≤ 80 chars qui ajoute un 2e instantané. Statement provocateur ou observation acide. ${flavor}`;
   } else {
-    instagramTheme = withYanisRef(`Visuel ≤ 6 mots, scène soirée/coloc/social Yanis. Caption ≤ 80 chars qui chambre le lecteur ("Ça réchauffe. Mais faut un micro-ondes social."). Mise en scène impersonnelle. ${flavor}`);
+    instagramTheme = withYanisRef(`Visuel ≤ 5 mots, scène soirée/coloc/social Yanis. Caption ≤ 80 chars qui chambre le lecteur avec un retournement d'idée (niveau : "Une heure pour la composer. C'était ça, la séance." — à ne pas recopier). Mise en scène impersonnelle. ${flavor}`);
   }
 
   const instagramPost: DailyPostPlan = {
@@ -1037,8 +1039,9 @@ function getFormatInstructions(
 - Voix narrateur : le compte parle AU lecteur, jamais DE soi (G-S19). Aucun "je / mon / ma / mes" hors citation entre guillemets.
 - Inspiration canonique :
   • "Quand ta coloc met une étiquette sur tout dans le frigo. Sur le yaourt nature : 'yaourt nature'. Au cas où tu doutes encore."
-  • "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau."
-  • "Premier date depuis longtemps. Tu demandes 'tu aimes quoi dans la vie'. L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."`;
+  • "Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : « Parfait, je le note pour jeudi. » Cadeau."
+  • "Premier date depuis des années. On te demande ce que tu aimes dans la vie, et tu réalises que la dernière fois qu'on t'a posé la question, t'as répondu « les dinosaures »."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta vanne est NEUVE — jamais une blague déjà connue ailleurs, jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "POTE_AU_TAF":
       return `FORMAT : POTE_AU_TAF — LinkedIn (refonte s7)
@@ -1053,20 +1056,22 @@ function getFormatInstructions(
 - Inspiration canonique :
   • "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
   • "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. Tu commences à penser que 'on' n'existe pas. Que c'est un mythe RH inventé pour clore les meetings."
-  • "Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. Ça sauve 40 minutes de réunion gênée. Plus que n'importe quel team-building."`;
+  • "Le manager qui dit « ma porte est toujours ouverte ». C'est vrai, elle l'est. Lui, il est en réunion jusqu'en mars."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta vanne est NEUVE — jamais une blague déjà connue ailleurs, jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "IMAGE_QUI_CLAQUE":
       return `FORMAT : IMAGE_QUI_CLAQUE — Instagram (refonte s7)
-- Champ "hook" = punchline visuelle qui sera mise en GROS sur l'image. MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Champ "hook" = punchline visuelle qui sera mise en GROS sur l'image. MAX 5 mots (gate G-S2, guillemets comptés). Reconnaissable en < 1 seconde dans un feed.
 - Champ "content" = caption sous l'image. ≤ 80 caractères (G-S16). Ton "le pote qui te chambre".
 - L'image doit faire rire SEULE. La caption = clin d'œil ou 2e mini-vanne (pas explication).
 - Charte respectée : fond noir, accent violet, punchline italique. Reconnaissable en feed.
 - Voix narrateur : le compte chambre le lecteur, ne se raconte jamais. "T'es...", "Quand tu...", "Le X qui..."
 - INTERDIT (G-S16) : "tag un ami", "double-tap", "swipe pour", "clique sur le lien en bio". Caption > 80 chars.
 - Inspiration canonique :
-  • Visuel "En soirée, t'es le plat froid." | Caption "Ça réchauffe. Mais faut un micro-ondes social."
-  • Visuel "Réunion à 17h59 : nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
-  • Visuel "Les apéros à 34 ans : sport extrême." | Caption "Le lendemain, t'es en mode négociation avec ton foie. Faut ce qu'il faut."`;
+  • Visuel "Ta playlist sport, écoutée assis." | Caption "Une heure pour la composer. C'était ça, la séance."
+  • Visuel "Le chef passe. Tu accélères." | Caption "Et lui ralentit pour avoir l'air de surveiller. Deux acteurs, zéro public."
+  • Visuel "Tu répètes ton salut, seul." | Caption "Dans l'ascenseur, la voisine le dit en premier. Toute cette préparation perdue."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta punchline est NEUVE — jamais un format recyclé (« X : nouveau sport olympique »), jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "TECHNIQUE_DU_JOUR":
       return `FORMAT : TECHNIQUE DU JOUR

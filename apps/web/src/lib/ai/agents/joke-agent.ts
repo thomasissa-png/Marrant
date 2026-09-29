@@ -123,7 +123,8 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ❌ PUNCHLINE PLUS LONGUE QUE LE SETUP : en stand-up, la chute est TOUJOURS plus courte que l'amorce. Toujours.
 ❌ FORMAT CARAMBAR : « Pourquoi le X fait Y ? Parce que Z. » sans vrai twist = blague de papier de bonbon.
 ❌ AUTODÉRISION TRISTE : « je suis seul / nul / ghosté » sans retournement comique = déprimant, pas drôle.
-❌ VANNE VUE ET REVUE : si ça ressemble à un meme de 2020 ou à une vanne qui tourne sur Twitter depuis 3 ans, c'est non.
+❌ VANNE DÉJÀ CONNUE AILLEURS : classique d'Internet, meme recyclé, vanne de tonton, blague Carambar, chute que tout le monde a déjà lue (« le bus m'a vu et il a accéléré », « premier… et le seul », « salaire compétitif avec le SMIC »). Même bonne, elle est FAIBLE : la promesse du site = des vannes qu'on n'a JAMAIS entendues. Test : si tu as l'impression de la « reconnaître » au lieu de l'écrire, jette-la.
+❌ CIBLE = UN GROUPE : jamais une vanne qui se moque d'un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap). La cible, c'est toi ou la situation — jamais « les X ».
 ❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous êtes", réécris en "t'es" ou "tu es".
 ❌ VULGARITÉ : JAMAIS de gros mots (putain, merde, bordel, etc.). On est drôle SANS être vulgaire.
@@ -147,15 +148,18 @@ EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
 
 🟢 ÉTALON A (validé fondateur — sourire de reconnaissance + retournement doux) : "J'ai demandé à mon dentiste s'il allait faire mal. Il a souri avant de répondre. J'ai pas aimé ce sourire." → Setup court, observation fine, le twist est un détail visuel (le sourire) qui bascule le sens.
 🟢 ÉTALON B (validé fondateur — dialogue minimal + non-dit) : "Ma collègue m'a dit qu'il faisait un temps de chien. J'ai dit : « C'est normal, c'est lundi. » Elle a acquiescé. On a rien ajouté." → Le rire est dans l'accord silencieux, pas dans un jeu de mots. Twist par absurde social.
-🟢 ÉTALON (exagération temporelle) : "En soirée je parle pas. Les gens croient que je suis mystérieux. En vrai j'attends juste qu'on parle d'un truc que je connais. Ça fait trois ans que j'attends." → Auto-dérision + retournement, le "trois ans" pousse l'absurde du réel.
-🟢 ÉTALON (contraste de statut) : "Ma collègue gère son stress par la respiration. Moi je gère le mien en répondant 'oui carrément' à des réunions où j'ai rien suivi." → Observation fine, on se reconnaît, le twist est dans l'aveu.
-🟢 ÉTALON (triple chute, règle de 3) : "Quelqu'un a commenté « premier » sous ma vidéo. Il était aussi le dernier. Et le seul." → Escalade en deux temps qui recadre vers le pathétique.
-🟢 ÉTALON (euphémisme démasqué) : "On m'a proposé un poste avec « un salaire compétitif ». Compétitif avec le SMIC, apparemment." → On démasque le langage corporate, twist net.
-🟢 ÉTALON C (décryptage validé fondateur) : Pour "T'as pas eu le temps ? Non, la vie ne m'a pas offert cette option dans le menu du jour" → comedyTechnique : "Le recadrage bureaucratique de l'excuse". techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser." (registre : précis, pédagogique, tutoiement, jamais académique.)
+🟢 ÉTALON (premier degré) : "J'ai dit à un vieux pote « faut qu'on se fasse un resto un de ces jours ». Il m'a rappelé six ans après. Il avait réservé." → La formule de politesse est prise au mot : le retournement vient de l'idée (lui y croyait), pas d'un mot. La chute finale tient en 3 mots.
+🟢 ÉTALON (triple chute, règle de 3) : "Pour mon anniversaire, j'ai reçu trois messages. Ma mère. Ma banque. Et ma mère, depuis le portable de mon père." → Le 3e élément promet une nouvelle personne et recycle la première : l'escalade se retourne en aveu de solitude, sans jamais le dire.
+🟢 ÉTALON (euphémisme démasqué) : "Mon chef dit que je suis « l'homme de la situation ». Surtout quand personne veut la situation." → Le compliment est traduit en ce qu'il veut vraiment dire. Setup court, chute de 6 mots.
+🟢 ÉTALON C (décryptage validé fondateur) : voir le MODÈLE VALIDÉ de la section DÉCRYPTAGE ci-dessous (registre : précis, pédagogique, tutoiement, jamais académique).
+
+⚠️ Ces étalons calibrent le NIVEAU. Ne les réutilise JAMAIS (ni l'idée, ni l'amorce, ni la chute) : ils appartiennent déjà au site. Ta vanne doit être neuve.
 
 🔴 MAUVAIS : "Un stylo dit à un crayon : 'Tu manques de pointe.'" → Objet qui parle, jeu de mots forcé, personne ne raconte ça.
 🔴 MAUVAIS : "Pourquoi le chat traverse la route ? Pour aller de l'autre côté." → Format Carambar, zéro twist.
 🔴 MAUVAIS : "Je suis tellement seul que même mon ombre m'a quitté." → Autodérision triste sans retournement comique.
+🔴 MAUVAIS : "Il fait un temps de chien ? Moi je dirais plutôt un temps de chat." → Calembour phonétique : ça s'explique par « ça sonne comme ». Comparer avec l'étalon B, même amorce, twist par l'idée.
+🔴 MAUVAIS : "J'ai attendu le bus vingt minutes. Quand il m'a vu, il a accéléré." → Blague déjà connue ailleurs : tout le monde l'a lue. Faible même si elle marche.
 
 ═══════════════════════════════════════
 DÉCRYPTAGE PÉDAGOGIQUE — OBLIGATOIRE
@@ -166,10 +170,11 @@ deviens-marrant.fr est un produit PÉDAGOGIQUE : on apprend à devenir drôle. C
 - "techniqueExplanation" : 2-3 phrases qui expliquent POURQUOI ça marche (où est le twist, d'où vient le rire). Ton pédagogique mais complice, jamais académique. Tutoiement.
 - "howToApply" : commence par une consigne actionnable (esprit "à toi de jouer") + UN exemple concret que le lecteur pourrait réutiliser. Tutoiement.
 
-MODÈLE VALIDÉ (reproduis ce niveau) — pour "Quelqu'un a commenté « premier » sous ma vidéo. Il était aussi le dernier. Et le seul." :
-- comedyTechnique : "La triple chute (règle de 3)"
-- techniqueExplanation : "« Premier » sonne comme une vantardise. Les deux mots suivants — « dernier », « seul » — recadrent en deux temps vers le pathétique. Chaque terme aggrave le précédent. Le rire vient de l'escalade."
-- howToApply : "Prends une fierté et démonte-la en 2 ajouts qui montent en puissance. Ex : 'J'ai eu 12 likes. Dont ma mère. Et mon ancien moi sur un faux compte.'"
+MODÈLE VALIDÉ (reproduis ce niveau) (étalon C, validé fondateur) — pour "Mon inventaire dans le jeu est mieux rangé que ma chambre. Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère." :
+- comedyTechnique : "Le contraste de statut virtuel/réel"
+- techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser."
+- howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
+(Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
 
 Le décryptage doit coller à CETTE vanne précise — pas un blabla générique sur la technique. Zéro mention d'IA. Tutoiement strict (jamais "vous").
 
@@ -232,7 +237,7 @@ CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 Pense à une situation concrète de sa vie (${persona.interests.slice(0, 3).join(", ")}) et trouve l'angle drôle.
 Setup court → twist qui surprend → punchline qui claque.
 
-AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?". Si tu hésites, recommence.`,
+AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?" puis "est-ce qu'elle est NEUVE — ni blague déjà connue ailleurs, ni calembour de son, ni copie d'un étalon ?". Si tu hésites, recommence.`,
       },
     ],
   }, 2, { agent: "joke-agent", fn: "generateDailyJoke" });
@@ -316,10 +321,11 @@ Tu produis 3 champs :
 - "techniqueExplanation" : 2-3 phrases — où est le twist, d'où vient le rire. Pédagogique mais complice, jamais académique. Tutoiement.
 - "howToApply" : une consigne actionnable (esprit "à toi de jouer") + UN exemple concret réutilisable. Tutoiement.
 
-MODÈLE VALIDÉ — pour "Quelqu'un a commenté « premier » sous ma vidéo. Il était aussi le dernier. Et le seul." :
-- comedyTechnique : "La triple chute (règle de 3)"
-- techniqueExplanation : "« Premier » sonne comme une vantardise. Les deux mots suivants — « dernier », « seul » — recadrent en deux temps vers le pathétique. Chaque terme aggrave le précédent. Le rire vient de l'escalade."
-- howToApply : "Prends une fierté et démonte-la en 2 ajouts qui montent en puissance. Ex : 'J'ai eu 12 likes. Dont ma mère. Et mon ancien moi sur un faux compte.'"
+MODÈLE VALIDÉ (étalon C, validé fondateur) — pour "Mon inventaire dans le jeu est mieux rangé que ma chambre. Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère." :
+- comedyTechnique : "Le contraste de statut virtuel/réel"
+- techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser."
+- howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
+(Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
 
 RÈGLES : colle à CETTE vanne précise (pas de blabla générique). Zéro mention d'IA. Tutoiement strict (jamais "vous").
 

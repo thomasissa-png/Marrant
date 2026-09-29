@@ -126,6 +126,11 @@ BARRE QUALITÉ VANNE :
   si tu peux expliquer par "parce que ça sonne comme…", c'est raté.
 - ❌ Constat ou dramatisation sans twist ("mon pull c'est ma survie").
 - ❌ Vanne de comptoir, carambar, cliché daté, moquerie d'un groupe.
+- ❌ Blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de
+  tonton), même bonne : elle est FAIBLE (choix fondateur 29/09/2026 — la
+  promesse du site = des vannes qu'on n'a jamais entendues). Verdict :
+  REECRIRE avec une vanne ORIGINALE sur la même situation (exception assumée
+  à "même idée" : ici c'est l'idée qui est empruntée). Jamais RETIRER pour ce motif.
 - ❌ Chute plus longue que le setup ; setup bavard.
 - ❌ Vulgarité, vouvoiement, mention IA.
 
@@ -161,7 +166,8 @@ ${CHARTE_RECAP}
 ÉTALONS DE RÉFÉRENCE (niveau visé pour une réécriture) :
 - « J'ai demandé à mon dentiste s'il allait faire mal. Il a souri avant de répondre. J'ai pas aimé ce sourire. »
 - « Ma collègue m'a dit qu'il faisait un temps de chien. J'ai dit : "C'est normal, c'est lundi." Elle a acquiescé. On a rien ajouté. »
-- « En soirée je parle pas. Les gens croient que je suis mystérieux. En vrai j'attends juste qu'on parle d'un truc que je connais. Ça fait trois ans que j'attends. »
+- « Mon chef dit que je suis "l'homme de la situation". Surtout quand personne veut la situation. »
+(Ces étalons calibrent le NIVEAU : ne les réutilise jamais dans une réécriture. L'exemple du howToApply est neuf lui aussi.)
 
 DÉCRYPTAGE (obligatoire si REECRIRE) — même barre que le catalogue :
 - comedyTechnique : nom court, pédagogique et réutilisable (ex. "L'exagération temporelle").
