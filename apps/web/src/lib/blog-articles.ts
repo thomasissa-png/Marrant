@@ -4,6 +4,11 @@ export interface BlogArticle {
   excerpt: string;
   content: string;
   date: string;
+  /**
+   * ISO date de dernière modification (facultatif). Utilisé pour Article.dateModified
+   * dans le JSON-LD. Si absent, on retombe sur `date` (comportement historique).
+   */
+  updatedAt?: string;
   readingTime: string;
   category: string;
   faqs?: { question: string; answer: string }[];
@@ -1340,7 +1345,8 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
     ],
   },
   {
-    slug: "meilleures-blagues-droles-2026",
+    // Slug pérenne (session 11) — la version datée redirige via seo-redirects.data.cjs
+    slug: "meilleures-blagues-droles",
     title: "50 blagues drôles à ressortir en 2026",
     excerpt:
       "Les 50 meilleures blagues courtes de 2026, testées et approuvées. Soirée, boulot, date, famille : la bonne vanne pour chaque situation.",

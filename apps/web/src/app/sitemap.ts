@@ -44,10 +44,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  // Articles statiques
+  // Articles statiques — lastModified = vraie date de modif si dispo, sinon date de publication.
+  // Évite d'écraser des lastmod réels par une date de build (pénalité Bing).
   const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
-    lastModified: new Date(article.date),
+    lastModified: new Date(article.updatedAt || article.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));

@@ -25,7 +25,21 @@ describe("organizationJsonLd", () => {
     expect(organizationJsonLd["@type"]).toBe("Organization");
     expect(organizationJsonLd.name).toBe("deviens-marrant.fr");
     expect(organizationJsonLd.url).toBe("https://deviens-marrant.fr");
-    expect(organizationJsonLd.logo).toContain("icon-512.png");
+    // logo est un ImageObject complet (url + width + height) — requis par Google Rich Results
+    expect(organizationJsonLd.logo).toMatchObject({
+      "@type": "ImageObject",
+      width: 512,
+      height: 512,
+    });
+    expect((organizationJsonLd.logo as { url: string }).url).toContain("icon-512.png");
+  });
+
+  it("omits sameAs when NEXT_PUBLIC_SOCIAL_PROFILES is unset (no invented URLs)", () => {
+    // Le module a été chargé sans NEXT_PUBLIC_SOCIAL_PROFILES par défaut dans jest.setup.
+    // Vérifie qu'on n'invente jamais d'URLs sociales : soit vraies via env, soit absentes.
+    if (!process.env.NEXT_PUBLIC_SOCIAL_PROFILES) {
+      expect("sameAs" in organizationJsonLd).toBe(false);
+    }
   });
 });
 
@@ -69,10 +83,30 @@ describe("buildArticleJsonLd", () => {
     expect(result.headline).toBe("Test Article");
     expect(result.description).toBe("Test excerpt");
     expect(result.datePublished).toBe("2026-03-13");
+    // Sans updatedAt, dateModified fallback sur datePublished
+    expect(result.dateModified).toBe("2026-03-13");
     expect(result.mainEntityOfPage["@id"]).toContain("/blog/test-article");
     expect(result.inLanguage).toBe("fr-FR");
     expect(result.wordCount).toBe(5);
     expect(result.articleSection).toBe("GUIDE");
+    // image doit pointer vers l'OG dynamique par article (pas /og-image.png qui 404)
+    expect(result.image).toContain("/blog/test-article/opengraph-image");
+  });
+
+  it("uses updatedAt for dateModified when provided (vrai updatedAt DB)", () => {
+    const article = {
+      title: "T",
+      excerpt: "E",
+      date: "2026-01-01",
+      updatedAt: "2026-03-15",
+      slug: "t",
+      readingTime: "1 min",
+      category: "GUIDE",
+      content: "a",
+    };
+    const result = buildArticleJsonLd(article);
+    expect(result.datePublished).toBe("2026-01-01");
+    expect(result.dateModified).toBe("2026-03-15");
   });
 });
 
@@ -106,7 +140,8 @@ describe("buildCourseJsonLd", () => {
     expect(result["@type"]).toBe("Course");
     expect(result.name).toBe("Parcours Répartie");
     expect(result.provider.name).toBe("deviens-marrant.fr");
-    expect(result.provider.logo).toContain("icon-512.png");
+    // provider.logo reste une string simple (schema Course accepte les deux formats)
+    expect(String(result.provider.logo)).toContain("icon-512.png");
     expect(result.hasCourseInstance.courseMode).toBe("online");
     expect(result.hasCourseInstance.courseWorkload).toBe("P4W");
     expect(result.url).toContain("/parcours/repartie");

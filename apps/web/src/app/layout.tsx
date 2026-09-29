@@ -70,9 +70,11 @@ export const metadata: Metadata = {
       "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
       "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour. Blagues, techniques de pro, vidéos stand-up analysées et parcours pas à pas.",
+    // /opengraph-image est généré dynamiquement par Next.js (opengraph-image.tsx).
+    // On l'utilise partout pour éviter le 404 sur /og-image.png qui n'existe pas en prod.
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "deviens-marrant.fr — Apprends à devenir drôle et à avoir de la répartie",
@@ -85,7 +87,8 @@ export const metadata: Metadata = {
       "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
       "Apprends à devenir drôle, à avoir de la répartie et à faire rire. Blagues, techniques de pro et parcours personnalisés.",
-    images: ["/og-image.png"],
+    // Aligné sur l'image OG dynamique — /og-image.png retournait 404 en prod.
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -97,6 +100,17 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  // Vérifications propriétaire moteurs de recherche — uniquement rendues
+  // si la variable d'environnement correspondante est définie (jamais de
+  // valeur inventée : sinon le tag est absent).
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+      : {}),
   },
   other: {
     "bingbot": "index, follow, max-image-preview:large, max-snippet:-1",
