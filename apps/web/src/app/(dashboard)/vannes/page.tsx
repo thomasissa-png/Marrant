@@ -40,7 +40,7 @@ const vannesFaqs = [
   {
     question: "Comment retenir une blague pour la ressortir au bon moment ?",
     answer:
-      "Le secret, c'est la répétition espacée. Lis une vanne le matin, essaie de la resortir dans la journée. Nos favoris te permettent de créer ta propre sélection et de la relire régulièrement. En 3-4 répétitions, elle est gravée.",
+      "Le secret, c'est la répétition espacée. Lis une vanne le matin, essaie de la ressortir dans la journée. Nos favoris te permettent de créer ta propre sélection et de la relire régulièrement. En 3-4 répétitions, elle est gravée.",
   },
   {
     question: "Est-ce que les vannes sont adaptées à toutes les situations ?",

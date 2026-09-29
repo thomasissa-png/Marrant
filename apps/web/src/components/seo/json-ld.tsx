@@ -18,7 +18,7 @@ export const authorPersonJsonLd = {
   "@type": "Person",
   name: "Alex Durand",
   url: `${BASE_URL}/a-propos`,
-  jobTitle: "Fondateur & Coach d'humour",
+  jobTitle: "Fondateur",
   knowsAbout: [
     "Stand-up comedy",
     "Écriture comique",
