@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s12 (29/09/2026) : correctifs « hors périmètre restant » @fullstack (code front uniquement)
+
+> Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée (casse « eN GROUPE », vannes liées et guillemets corrigés au rendu). Commits `7f96a45`, `0239d49`, `92391ad`, `11fd944`, `f9e235d`, `6f1be77`, `a3119c1`, `0c72322`, `d2abdd8`, `147c90c`. Détail : `docs/marrant/a-valider-s12.md`.
+
 ## s12 (29/09/2026) : passe UX @fullstack (code front + /api/jokes)
 
 > Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Détail : `docs/ux/passe-ux-s12.md`.
