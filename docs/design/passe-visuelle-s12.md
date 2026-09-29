@@ -16,7 +16,7 @@
 7. **Mobile 390 px** : aucun débordement horizontal constaté. Défauts : badges qui cassent en 2 lignes (abonnement), lignes de programme des parcours écrasées, padding cumulé 48 px par côté sur la carte abonnement et 36 px sur les cartes blog.
 8. **Cartes** : CTA de la section « Trois outils » à 3 hauteurs différentes, cartes vidéo dont le bloc « Ce que tu vas apprendre » démarre à des hauteurs différentes, carte « vanne du jour » vide à 70 %.
 9. **Doublons de captures** : 8 slugs blog sont des redirections (captures identiques à leur cible, voir section 4), donc ~30 gabarits d'article réellement distincts.
-10. Décompte : voir dernière ligne du tableau (P0 / P1 / P2). Ordre conseillé pour @fullstack : T1, T2, T5, hero, T3, T4, puis le reste.
+10. Décompte du tableau : 15 P0, 36 P1, 20 P2 (72 lignes). Ordre conseillé pour @fullstack : T1, T2, hero, T5, T3, T7, T4, puis le reste.
 
 ## 2. Correctifs transverses
 
@@ -238,4 +238,77 @@ Rendu attendu : 1440 px = 2 lignes, « Tu parles et personne rit. » (~730 px) p
 | parcours/repartie | interactif | non capturé | feedback du quiz `bg-green-50 text-green-700 dark:…` : la classe `dark` n'existe pas (`app/layout.tsx:129`), fond clair sur site sombre | parcours-detail.tsx:148-150 | `border-success bg-success/10 text-success` (juste), `border-error bg-error/10 text-error` (faux) | P1 |
 | parcours/confiance | 1440 | desktop_parcours__confiance__01.jpg | niveau « Expert » sur le détail, « DEBUTANT → EXPERT » sur la liste | parcours-detail.tsx:419 / parcours-content.tsx:240 | une seule source, à trancher avec @ux | P2 |
 
-<!--FIN-->
+### Blog : liste et gabarit d'article (38 URLs, ~30 gabarits distincts)
+| Page | Largeur | Capture | Problème | Cause (fichier:ligne) | Correctif exact | Prio |
+|---|---|---|---|---|---|---|
+| blog (liste) | 390 | mobile_blog__01.jpg | H1 : « : guides et techniques » commence la 2e ligne | blog/page.tsx:125-127 | T2 (`drôle&nbsp;: guides…`) | P0 |
+| blog (liste) | 1440+390 | desktop_blog__01.jpg | 12 pastilles de filtre en MAJUSCULES sans accent (REPARTIE, AUTODERISION) | blog-list-client.tsx:54 et badge :65 | T7 `BLOG_CATEGORY_LABELS` | P1 |
+| blog (liste) | 1440+390 | desktop_blog__01.jpg | dates `2026-05-05` | blog-list-client.tsx:74 | T6 | P1 |
+| blog (liste) | 390 | mobile_blog__02.jpg | 36 px de padding par côté dans chaque carte (Card `p-4` + CardContent `p-5`) ; « guide anti- / malaise » coupé au tiret | blog-list-client.tsx:62-63 | `Card className="h-full p-5"`, `CardContent className="flex h-full flex-col p-0"` ; T1 | P1 |
+| article | 1440+390 | desktop_blog__comment-devenir-drole__01.jpg | `> En bref :`, `> Définition :`, `> CLEF :`, `> À retenir :` affichés avec le signe `>` (≥ 20 articles vus) | markdown-renderer.tsx (aucune branche citation) | T5.2 | P0 |
+| article | 1440 | desktop_blog__meilleures-blagues-droles-2026__01.jpg | `---` affiché en clair (aussi `phrases-droles-conversations`, `citation-drole`) | idem | T5.2 | P0 |
+| article | 1440 | desktop_blog__comment-devenir-drole__02.jpg | H2/H3 à 16 px du paragraphe précédent : hiérarchie plate | markdown-renderer.tsx:106 écrase :46 et :56 | T5.1 | P1 |
+| article | 1440 | desktop_blog__5-types-humour-lequel-pour-toi__01.jpg | « Les 5 types… : / 1. … 5. … » et `- Être méchant…` (`humour-noir`) en lignes brutes | markdown-renderer.tsx:87-90 | T5.3 | P1 |
+| article | 1440 | desktop_blog__avoir-confiance-en-soi-grace-a-l-humour__01.jpg | H1 « … : guide / pratique » | blog/[slug]/page.tsx:209-211 | T1 | P0 |
+| article | 1440 | desktop_blog__citation-drole__01.jpg | H1 « … au bon / moment » ; H2 « … devient / assourdissant » | idem | T1 | P0 |
+| article | 1440 | desktop_blog__comment-improviser-des-blagues__01.jpg | H1 « … blagues : 5 / méthodes des pros » ; `pourquoi-blagues-marchent-pas` « … pas : 7 / raisons concrètes » | idem | T2 + T1 | P0 |
+| article | 1440 | desktop_blog__etre-plus-a-l-aise-en-societe__01.jpg | H2 « … pourquoi forcer tue la / spontanéité » | markdown-renderer.tsx:46 | T1 | P0 |
+| article | 390 | mobile_blog__comment-devenir-drole__01.jpg | H1 « Comment devenir drôle / : le guide » ; fil d'Ariane sur 2 lignes (titre long, aussi `avoir-confiance…`, `blague-courte…`) | blog/[slug]/page.tsx:203,209 | T2 ; fil d'Ariane : `<span className="inline-block max-w-[55vw] truncate align-bottom text-text-secondary sm:max-w-none">` | P0 |
+| article | 1440+390 | desktop_blog__comment-devenir-drole__01.jpg | dates `2026-03-13` / `Mis à jour le 2026-09-29` ; badge catégorie « REPARTIE » brut | blog/[slug]/page.tsx:207,215,221 | T6 + T7 | P1 |
+| article | 1440 | desktop_blog__techniques-humoristes-pros__01.jpg | « « » de fin de ligne séparé de son texte ; guillemets droits `"` dans le corps de la plupart des articles | markdown-renderer.tsx:16 | T2 ; conversion des `"` : T5.4 **[À VALIDER THOMAS]** | P1 / P2 |
+| article | 1440 | desktop_blog__comment-devenir-drole__06.jpg | bas de page : 3 panneaux voisins avec 3 fonds et 3 styles de bouton ; bouton outline violet 3,4:1 ; case à cocher native blanche | blog-article-parcours-maillage.tsx, newsletter-inline.tsx, article-cta.tsx (non lus, lignes non données) | même fond `bg-background-card border-border` pour les 3 ; outline en `text-accent-link` ; `accent-accent-primary` sur la case | P2 |
+
+### Auth, tarif, quiz, contenu éditorial, légal
+| Page | Largeur | Capture | Problème | Cause (fichier:ligne) | Correctif exact | Prio |
+|---|---|---|---|---|---|---|
+| login / register / forgot-password | 1440+390 | desktop_login__01.jpg, mobile_register__01.jpg | mise en page propre (carte 448 px centrée). Défauts : H1 register mobile « … ta première vanne / t'attend » ; liens violets 14 px sur carte 3,9:1 ; H1 en `text-lg` faible face au logo `text-2xl` | register/page.tsx:140, login/page.tsx:104, register/page.tsx:243 | H1 en `text-xl` ; T1 ; `text-accent-link` (T3) | P1 |
+| onboarding | 1440+390 | desktop_onboarding__01.jpg | capture identique à `/login` (redirection hors connexion) | (auth)/onboarding | non vérifiable | n/a |
+| abonnement | 390 | mobile_abonnement__01.jpg | « Accès / complet » et badge « Prix de / lancement » sur 2 lignes ; texte réduit à 262 px (Card `p-4` + CardContent `p-8` = 48 px par côté) | abonnement/page.tsx:62-69 | `Card … p-0`, `CardContent className="p-5 sm:p-8"`, `div` ligne 64 en `flex flex-wrap`, badge nowrap (T7) | P1 |
+| abonnement | 1440 | desktop_abonnement__01.jpg | sous-titre coupé en milieu de phrase (« Tu / passes… ») ; badge « Prix de lancement » en double (haut de page et carte) | abonnement/page.tsx:56 ; :50 et :68 | T1 (`text-balance` sur le `<p>`) ; doublon à trancher avec @ux | P2 |
+| quiz-humour | 1440 | desktop_quiz-humour__01.jpg | sous-titre centré avec « film. » orphelin ; 3 largeurs (titre, quiz 512 px, panneaux 864 px) ; deux `<main>` imbriqués | quiz-humour/page.tsx:75,80-82 | `<p className="mx-auto mt-3 max-w-xl text-balance …">` ; `main` devient `div` (T4) | P1 |
+| quiz-humour | 1440 | desktop_quiz-humour__01.jpg | choix n°4 : emoji 😏 en glyphe contour, texte décalé de 5 px (x=518 vs 523) | components/quiz/viral-quiz.tsx (non lu) | emoji dans `<span className="inline-flex w-8 shrink-0 justify-center text-xl">` | P2 |
+| quiz-humour | 1440 | desktop_quiz-humour__02.jpg | FAQ en `details` natif (marqueur ▶) différente du reste du site | quiz-humour/page.tsx:139-146 | T11 | P2 |
+| a-propos | 1440 | desktop_a-propos__01.jpg | fil d'Ariane à x=96, H1 à x=336 | a-propos/page.tsx:54-60 | T4 | P1 |
+| a-propos | 390 | mobile_a-propos__01.jpg | « À propos de deviens- / marrant.fr » coupé dans le nom de marque | a-propos/page.tsx:61-63 | `À propos de <span className="whitespace-nowrap">deviens-marrant.fr</span>` | P1 |
+| a-propos | 1440 | desktop_a-propos__02.jpg | liste 1. 2. 3. en `list-inside` : la 2e ligne repart sous le chiffre | a-propos/page.tsx:138 | `list-decimal list-outside pl-6` | P2 |
+| anatomie-vanne | 390 | mobile_anatomie-vanne__01.jpg | `<br />` force « l'autre ? / Réponse en 3 parties » | anatomie-vanne/page.tsx:107 | `<br className="hidden sm:block" />` | P1 |
+| anatomie-vanne | 1440 | desktop_anatomie-vanne__02.jpg | guillemets doublés « Après 4 minutes, elle m'a demandé : « Toujours là ? » » | anatomie-vanne/page.tsx:63 (donnée) et :237 (gabarit) | donnée : `“Toujours là ?”` **[À VALIDER THOMAS]** ; contrôler les 2 autres exemples | P1 |
+| anatomie-vanne | 1440 | desktop_anatomie-vanne__01.jpg | H1 centré puis H2 « 3 vannes décortiquées » à gauche ; `<main>` imbriqué ; label « PUNCHLINE » 4,4:1 | anatomie-vanne/page.tsx:99,207,233 | T4 ; H2 centrés ou H1 à gauche (au choix @ux) ; `text-red-400` | P2 |
+| glossaire | 1440 | desktop_glossaire__01.jpg | définitions sur ~1150 px ; lien « Techniques de répartie → » 3,9:1 | glossaire/page.tsx (rendu des termes, ligne non lue) | `max-w-3xl` sur les `<p>` ; T3 | P2 |
+| cgu / confidentialité / mentions légales / rétractation | 1440 | desktop_cgu__01.jpg, desktop_retractation__01.jpg | lignes de 170 caractères ; H1 à y=118 (autres pages y=154) ; formulaire pleine largeur | cgu/page.tsx:10-13, retractation/page.tsx:12-17 | T4 ; `RetractationForm` dans `max-w-xl` | P1 |
+
+### Transverses de gabarit (toutes pages)
+| Page | Largeur | Capture | Problème | Cause (fichier:ligne) | Correctif exact | Prio |
+|---|---|---|---|---|---|---|
+| toutes | 1440+390 | desktop_vannes__01.jpg | onglet actif du header : violet sur `#2A2A2A` 3,4:1 ; sur `/blog/<slug>` l'onglet « Blog » n'est pas actif | header.tsx:61-63, :162-164 | `pathname === item.href \|\| (item.href !== "/" && pathname.startsWith(item.href))` ; T3 | P1 |
+| toutes | 1440+390 | desktop_vannes__04.jpg, mobile_mentions-legales__03.jpg | footer : logo « deviens-marrant » sans « .fr » (header : « deviens-marrant.fr ») ; colonne Produit de 9 liens face à Légal de 5 ; copyright mobile « (et un / peu de café) » | footer.tsx:61-63, :58, :94, :128 | « .fr » ajouté **[À VALIDER THOMAS]** ; `ul` Produit en `sm:columns-2` ; copyright `text-balance` | P2 |
+| toutes | 390 | mobile_vannes__01.jpg | boutons `sm` à 32 px de haut (filtres, CTA de carte) : cible tactile sous 44 px recommandés (WCAG 2.2 AA exige 24 px : conforme) | button.tsx:22 | `sm: "h-8 px-3 text-sm max-md:h-11"` | P2 |
+
+**Décompte du tableau** (72 lignes, une ligne peut viser plusieurs pages) : **P0 = 15**, **P1 = 36**, **P2 = 20**, 1 non vérifiable (onboarding). Les correctifs transverses T1 (balance), T2 (insécables), T3 (contrastes), T5 (markdown) et T7 (libellés) traitent à eux seuls 11 des 15 P0.
+
+## 4. Ce que je n'ai pas pu vérifier
+
+- **Pages de détail vanne / conseil / vidéo** (`/vannes/<slug>`, `/conseils/<slug>`, `/videos/<slug>`) : aucune capture. Seul `vannes/[slug]/page.tsx` a été lu (breadcrumb hors colonne `max-w-2xl` :179-187, CTA fait main en `bg-accent-primary` :256). `conseils/[slug]` et `videos/[slug]` supposés identiques, non lus.
+- **États interactifs** : menu mobile ouvert, modales (`AuthModal`, `PremiumModal`), toasts, FAQ ouvertes, révélation de la chute, hover/focus, feedback du quiz de parcours. Le défaut du quiz (`bg-green-50`, `parcours-detail.tsx:148-150`) est déduit du code (pas de classe `dark` sur `<html>`), pas d'une capture.
+- **Onboarding** : la capture est la page `/login` (redirection hors connexion). Aucune vérification de l'écran réel ni de `components/mobile/OnboardingFlow.tsx`.
+- **Pages connectées** (`/profil`, `/favoris`, `/abonnement/success`, admin) : hors captures.
+- **Fichiers non lus, donc lignes non fournies** : `viral-quiz.tsx`, `newsletter-inline.tsx`, `article-cta.tsx`, `blog-article-parcours-maillage.tsx`, `retractation-form.tsx`, `search-bar.tsx`, `auth-modal.tsx`, `premium-modal.tsx`, `glossaire/page.tsx` (au-delà de l'en-tête), `conseils/page.tsx` et `videos/page.tsx` (H1 lus sur capture, pas dans le code).
+- **Rendu de `text-wrap: balance`** : non exécuté (aucune édition, aucun build). Les coupures décrites (« Confiance en soi grâce à / l'humour : guide pratique », etc.) sont des estimations de largeur (Plus Jakarta Sans ≈ 28 px par caractère à 60 px, ≈ 17 px à 36 px). À confirmer sur les captures après implémentation, surtout à 768 px (tablette non capturée).
+- **Contrastes** : calculés depuis les hex du code avec la formule WCAG 2.x, fonds de badge obtenus par mélange alpha théorique sur `#1F1F1F`. Non mesurés sur pixels.
+- **Doublons de captures (redirections)** : les 8 slugs suivants affichent la page d'un autre slug, donc non analysés comme gabarits distincts : `apprendre-la-repartie-methode-30-jours` (= « Répartie : 10 techniques efficaces », comme `comment-avoir-de-la-repartie`), `blagues-courtes-vs-longues` (= `blague-courte-arme-secrete-humour`), `humour-apres-rupture` (= « Reprendre confiance grâce à l'humour », comme `confiance-humour-apres-rupture`), `je-ne-sais-jamais-quoi-repondre` (= `jamais-quoi-repondre-techniques`), `jeux-de-mots-technique-3-etapes` (= `jeu-de-mots-drole-techniques-creer`), `ne-plus-rester-muet-en-groupe` (= `rester-muet-en-groupe`), `timing-humour-ralentir` (= `timing-humour`), `raconter-blague-sans-massacrer` (= `comment-raconter-une-blague-sans-la-rater`). Vérifié par titre et contenu identiques sur les tranches 01 ; à confirmer par `REDIRECTED_BLOG_SLUGS` dans `lib/seo-redirects.ts` (non lu). Si ce sont bien des 301, l'accueil de test les suit et rien à corriger de plus.
+- **Tablette 768 px** : non capturée ; le hero est prévu pour (`md:text-5xl`) mais non vu.
+
+### Hors périmètre design, vus au passage (à transmettre)
+- **@copywriter / @fullstack, règle 12 (tiret cadratin) dans du texte client visible** : `home-cta.tsx:28` (« … 80+ vidéos analysées — le tout »), `premium-cta.tsx:218` (« Déjà 1 500+ inscrits — et toi ? »), `parcours-content.tsx:50` (« Partout — je veux retrouver ma légèreté »), `parcours-detail.tsx:590` (« S'abonner — 0,99 €/mois »), `daily-content.tsx:169` et `vannes-list.tsx:283` (« Pourquoi ça marche — … »), `abonnement/page.tsx:135` (`—`), textes d'intro conseils et vidéos, et de nombreux articles de blog. Non traité ici (copy).
+- **@fullstack / contenu** : doublons de vannes affichées d'affilée sur `/vannes`, casse cassée dans les données `learnings` des vidéos (« eN GROUPE », « UNIQUEMENT », « RESSENTI »), libellés « Débutant / Expert » de source différente entre liste et détail de parcours.
+- **@ux** : les trois cartes « Tu te reconnais ? » pointent toutes vers `/parcours` (`(dashboard)/page.tsx:101,118,135`) au lieu du parcours nommé ; la section « Prochainement » arrive après la FAQ ; badge « Prix de lancement » en double sur `/abonnement`.
+
+---
+**Handoff → @fullstack** (implémentation), copie @ux et @copywriter
+- Fichier produit : `/home/user/Marrant/docs/design/passe-visuelle-s12.md` (aucun fichier de code modifié).
+- Décisions prises : coupure du H1 d'accueil en deux phrases-blocs (pas de `text-balance` seul) ; balance global sur h1 à h4 ; insécables via `frTypo` ; nouveau token `accent-link` `#A78BFA` pour le texte violet courant ; bouton primaire assombri en `#7C3AED` ; échelle de largeurs 7xl / 4xl / 3xl / 2xl ; libellés lisibles pour les enums.
+- À valider par Thomas avant implémentation : bouton primaire `#7C3AED` (T3.3), libellés `Histoire` / `Question / réponse` (T7), conversion `"` vers « » dans les articles (T5.4), `.fr` dans le logo du footer, guillemets internes de la donnée d'anatomie, masquage de 2 pastilles hero sur mobile, limitation des puces vidéo de l'accueil à 2.
+- Ordre conseillé (une seule PR possible) : T1, T2, hero, T5, T3, T7, T4, puis T9/T6/T8, puis P2. Vérifier ensuite par nouvelles captures 1440 / 768 / 390 sur : accueil, `/videos`, un article long (`citation-drole`), `/blog` mobile, `/parcours` mobile, `/abonnement` mobile.
+- Points d'attention : dark mode inexistant (aucune classe `dark` sur `<html>`, toute classe `dark:` est morte) ; `next lint` / `tsc` à lancer avant commit (CLAUDE.md, pre-commit code) ; consigner dans `REPLIT_ACTIONS.md` ; recapturer pour valider les 10 critères (aéré, aligné, hiérarchie) après correctifs.
+- Références marché : non consultées dans cette passe (correction de défauts, pas de nouvelle direction artistique).
+
