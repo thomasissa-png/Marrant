@@ -91,7 +91,7 @@ export default function HomePage() {
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-2xl">☕️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
-              &quot;Je n&apos;ai jamais rien de drôle à dire&quot;
+              «&nbsp;Je n&apos;ai jamais rien de drôle à dire&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis : la bonne vanne te vient
@@ -107,7 +107,7 @@ export default function HomePage() {
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-2xl">⚡️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
-              &quot;Je reste muet quand on me chambre&quot;
+              «&nbsp;Je reste muet quand on me chambre&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Tes potes se chambrent, tu cherches quoi répondre, et quand tu
@@ -124,7 +124,7 @@ export default function HomePage() {
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-2xl">🌱</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
-              &quot;J&apos;ai perdu ma légèreté&quot;
+              «&nbsp;J&apos;ai perdu ma légèreté&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Après une période compliquée, ton humour n&apos;est pas parti, il

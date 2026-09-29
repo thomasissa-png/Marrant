@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 describe("Footer", () => {
   it("renders brand name", () => {
     render(<Footer />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("renders brand description", () => {

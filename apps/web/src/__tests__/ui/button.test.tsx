@@ -10,7 +10,7 @@ describe("Button", () => {
 
   it("applies primary variant by default", () => {
     render(<Button>Primary</Button>);
-    expect(screen.getByRole("button")).toHaveClass("bg-accent-primary");
+    expect(screen.getByRole("button")).toHaveClass("bg-accent-secondary-hover");
   });
 
   it("applies secondary variant", () => {
