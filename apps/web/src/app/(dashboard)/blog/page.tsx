@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
+import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -67,14 +68,17 @@ async function getAllArticles() {
         : new Date().toISOString().split("T")[0],
       readingTime: a.readingTime,
     })),
-    ...blogArticles.map((a) => ({
-      slug: a.slug,
-      title: a.title,
-      excerpt: a.excerpt,
-      category: a.category,
-      date: a.date,
-      readingTime: a.readingTime,
-    })),
+    ...blogArticles
+      // Exclure les slugs dépubliés (cannibalisation s11 — fusion en pillar).
+      .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug))
+      .map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        category: a.category,
+        date: a.date,
+        readingTime: a.readingTime,
+      })),
   ];
 
   // Dédupliquer par slug (DB a priorité)

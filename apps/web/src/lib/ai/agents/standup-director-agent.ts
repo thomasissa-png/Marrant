@@ -385,6 +385,84 @@ export function runBlogGates(article: {
     });
   }
 
+  // ─── Gates s11 lot 3 (anti-staccato, anti-témoignage fictif, anti-scolaire, anti-IA) ─
+
+  // G-B19 — Anti-staccato IA (BLOQUANT)
+  // Motifs "Boom.", "Boom,", "Plot twist :", "STOP.", "Voilà.", "Fin."
+  // en fragment isolé (début de ligne ou après double retour).
+  const staccatoPattern =
+    /(^|\n\n)\s*(Boom[.!,]|Plot twist\s*[:.,]|STOP\.|Voilà\.|Fin\.|Point\.|Basta\.|Terminé\.)(\s|\n|$)/;
+  const staccatoMatch = article.content.match(staccatoPattern);
+  results.push({
+    gate: "G-B19 Anti-staccato IA (BLOQUANT)",
+    pass: !staccatoMatch,
+    reason: staccatoMatch
+      ? `Fragment staccato détecté : "${staccatoMatch[2]}" — remplacer par une phrase construite`
+      : "OK",
+  });
+
+  // G-B20 — Anti-témoignage fictif "Prénom, NN ans" (BLOQUANT)
+  // Détecte "Lucas, 21 ans", "Marine, 28 ans", "Thomas, 35 ans", "Émilie, 30 ans"
+  // et tout motif similaire. Prénom = 2-15 lettres capitalisées (Unicode),
+  // âge = 15-80. On utilise \p{Lu}/\p{Ll} avec flag `u` pour couvrir toutes
+  // les diacritiques latines (É, À, Ï…). NOTE : `\b` ne matche pas avant les
+  // caractères non-ASCII (É, À…), on utilise donc un anchor position explicite
+  // (début, espace, ponctuation) via lookbehind.
+  const testimonialPattern =
+    /(?<=^|[\s.,;:!?"'—«»(])(\p{Lu}\p{Ll}{1,14}),\s*(1[5-9]|[2-7]\d|80)\s*ans\b/u;
+  const testimonialMatch = article.content.match(testimonialPattern);
+  results.push({
+    gate: "G-B20 Anti-témoignage fictif Prénom NN ans (BLOQUANT)",
+    pass: !testimonialMatch,
+    reason: testimonialMatch
+      ? `Témoignage fictif détecté : "${testimonialMatch[0]}" — anonymiser (métier + tranche d'âge) ou remplacer par un chiffre agrégé`
+      : "OK",
+  });
+
+  // G-B21 — Anti-structure scolaire "Semaine X" / "Jours X-Y" (BLOQUANT)
+  // Signal fort de ton "plan de cours" que le site refuse (brand voice
+  // "atelier, pas amphi"). Détecte les titres de section formatés comme
+  // programme scolaire.
+  const scolairePattern =
+    /(^|\n)#{1,4}\s+.*\b(Semaine\s*\d+|Jours?\s*\d+\s*[-–à]\s*\d+|Semaines?\s*\d+\s*[-–à]\s*\d+|Semaine\s+\d+\s*:|Journée\s*\d+\s*:)/i;
+  const scolaireMatch = article.content.match(scolairePattern);
+  results.push({
+    gate: "G-B21 Anti-structure scolaire (BLOQUANT)",
+    pass: !scolaireMatch,
+    reason: scolaireMatch
+      ? `Structure scolaire détectée dans un H2/H3 : "${(scolaireMatch[0] || "").trim().slice(0, 60)}…" — reformuler en progression narrative`
+      : "OK",
+  });
+
+  // G-B22 — Anti-mention IA (BLOQUANT)
+  // Le site NE parle JAMAIS d'IA dans le contenu (règle fondateur permanente).
+  const aiMentionPattern =
+    /\b(généré[es]?\s+par\s+(l'|une\s+|notre\s+|des\s+)?(intelligence\s+artificielle|IA|AI)|notre\s+IA|par\s+notre\s+IA|chatgpt|claude(?:\s*ai)?|gpt-\d|large\s+language\s+model|prompt\s+GPT|intelligence\s+artificielle)\b/i;
+  const aiMatch = article.content.match(aiMentionPattern);
+  results.push({
+    gate: "G-B22 Anti-mention IA (BLOQUANT)",
+    pass: !aiMatch,
+    reason: aiMatch
+      ? `Mention IA détectée : "${aiMatch[0]}" — règle fondateur permanente : JAMAIS d'IA dans le contenu`
+      : "OK",
+  });
+
+  // G-B23 — Anti-citation attribuée à un humoriste réel (WARNING soft)
+  // Détecte "Fary : \"...\"" ou "Comme le dit Fary" — signal de risque
+  // réputationnel (citation potentiellement mal attribuée). NE bloque pas
+  // toutes les mentions (les refs d'humoriste sont encouragées), seulement
+  // les CITATIONS DIRECTES attribuées.
+  const attributionPattern =
+    /\b(Comme (?:le )?dit|Selon|D'après|Pour reprendre)\s+(Fary|Paul Mirabel|Roman Frayssinet|Blanche Gardin|Waly Dia|Panayotis Pascot|Inès Reg|Pierre Croce|Jamel Debbouze|Gad Elmaleh|Florence Foresti|Kev Adams)\s*[:,]\s*["«]/;
+  const attributionMatch = article.content.match(attributionPattern);
+  results.push({
+    gate: "G-B23 Anti-citation attribuée sans source (BLOQUANT)",
+    pass: !attributionMatch,
+    reason: attributionMatch
+      ? `Citation attribuée détectée : "${attributionMatch[0].slice(0, 60)}…" — les citations directes à un humoriste réel sont interdites sauf source vérifiable. Reformuler en "comme dirait un stand-upper" ou retirer l'attribution.`
+      : "OK",
+  });
+
   return results;
 }
 

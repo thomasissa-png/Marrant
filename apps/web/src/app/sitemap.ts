@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogArticles } from "@/lib/blog-articles";
+import { UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 
 export const revalidate = 3600;
 
@@ -44,13 +45,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  // Articles statiques
-  const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles.map((article) => ({
-    url: `${baseUrl}/blog/${article.slug}`,
-    lastModified: new Date(article.date),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  // Articles statiques — exclure les slugs dépubliés (cannibalisation s11).
+  const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles
+    .filter((article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug))
+    .map((article) => ({
+      url: `${baseUrl}/blog/${article.slug}`,
+      lastModified: new Date(article.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
 
   // Articles dynamiques depuis la DB
   let dbBlogRoutes: MetadataRoute.Sitemap = [];

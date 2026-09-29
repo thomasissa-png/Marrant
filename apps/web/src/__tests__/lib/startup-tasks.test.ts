@@ -15,6 +15,10 @@ const mockExecuteRawUnsafe = jest.fn();
 const mockJokeFindMany = jest.fn();
 const mockJokeUpdate = jest.fn();
 const mockJokeUpdateMany = jest.fn();
+const mockBlogArticleFindUnique = jest.fn();
+const mockBlogArticleUpdate = jest.fn();
+const mockBlogArticleUpdateMany = jest.fn();
+const mockGenerateJokeDecryptage = jest.fn();
 
 jest.mock("@/lib/prisma", () => ({
   prisma: {
@@ -24,7 +28,16 @@ jest.mock("@/lib/prisma", () => ({
       update: (...args: unknown[]) => mockJokeUpdate(...args),
       updateMany: (...args: unknown[]) => mockJokeUpdateMany(...args),
     },
+    blogArticle: {
+      findUnique: (...args: unknown[]) => mockBlogArticleFindUnique(...args),
+      update: (...args: unknown[]) => mockBlogArticleUpdate(...args),
+      updateMany: (...args: unknown[]) => mockBlogArticleUpdateMany(...args),
+    },
   },
+}));
+
+jest.mock("@/lib/ai/agents/joke-agent", () => ({
+  generateJokeDecryptage: (...args: unknown[]) => mockGenerateJokeDecryptage(...args),
 }));
 
 jest.mock("@/lib/ai/ceo-helpers", () => ({
@@ -35,9 +48,14 @@ import {
   runStartupTasks,
   applyJokeDecryptagesTask,
   deactivateWeakJokesTask,
+  fixPublishedBlogArticlesTask,
+  depublishCannibalizedDbArticlesTask,
+  backfillMissingJokeDecryptagesTask,
 } from "@/lib/startup-tasks";
 import jokeDecryptages from "@/data/joke-decryptages.json";
 import weakJokes from "@/data/weak-jokes.json";
+import blogArticleFixes from "@/data/blog-article-fixes.json";
+import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 
 const fileEntry = (jokeDecryptages as Array<{ content: string; comedyTechnique: string }>)[0];
 const weakContents = weakJokes as string[];
@@ -49,7 +67,16 @@ beforeEach(() => {
   mockJokeFindMany.mockResolvedValue([]);
   mockJokeUpdate.mockResolvedValue({});
   mockJokeUpdateMany.mockResolvedValue({ count: 0 });
+  mockBlogArticleFindUnique.mockResolvedValue(null);
+  mockBlogArticleUpdate.mockResolvedValue({});
+  mockBlogArticleUpdateMany.mockResolvedValue({ count: 0 });
+  mockGenerateJokeDecryptage.mockResolvedValue({
+    comedyTechnique: "Test technique",
+    techniqueExplanation: "Explication test",
+    howToApply: "Application test",
+  });
   jest.spyOn(console, "log").mockImplementation(() => undefined);
+  jest.spyOn(console, "warn").mockImplementation(() => undefined);
   jest.spyOn(console, "error").mockImplementation(() => undefined);
 });
 
@@ -201,5 +228,215 @@ describe("deactivateWeakJokesTask", () => {
   it("non bloquant : une erreur DB ne fait pas crasher le boot", async () => {
     mockJokeUpdateMany.mockRejectedValue(new Error("relation \"Joke\" does not exist"));
     await expect(deactivateWeakJokesTask()).resolves.toBeUndefined();
+  });
+});
+
+// ─── s11 lot 3 ────────────────────────────────────────────────────────
+
+describe("fixPublishedBlogArticlesTask (s11 lot 3)", () => {
+  const fixes = (blogArticleFixes as { fixes: Array<{ slug: string; search?: string; replace?: string }> }).fixes;
+
+  it("applique un remplacement ciblé si la chaîne est présente", async () => {
+    // Prendre le 1er fix qui a search + replace pour un slug donné.
+    const firstFix = fixes.find((f) => f.search && f.replace !== undefined);
+    if (!firstFix) throw new Error("Fixture blog-article-fixes.json vide — impossible de tester");
+
+    mockBlogArticleFindUnique.mockResolvedValue({
+      id: "cuid-article",
+      content: `Intro paragraphe.\n\n${firstFix.search}\n\nParagraphe suivant.`,
+    });
+
+    await fixPublishedBlogArticlesTask();
+
+    expect(mockBlogArticleUpdate).toHaveBeenCalled();
+    const updateCall = mockBlogArticleUpdate.mock.calls[0][0] as {
+      where: { id: string };
+      data: { content: string; updatedAt: Date };
+    };
+    expect(updateCall.where).toEqual({ id: "cuid-article" });
+    expect(updateCall.data.content).toContain(firstFix.replace);
+    expect(updateCall.data.content).not.toContain(firstFix.search);
+    expect(updateCall.data.updatedAt).toBeInstanceOf(Date);
+  });
+
+  it("idempotent : ne touche pas updatedAt si aucun remplacement effectif", async () => {
+    // Article qui ne contient AUCUNE des chaînes cibles.
+    mockBlogArticleFindUnique.mockResolvedValue({
+      id: "cuid-article",
+      content: "Contenu sans aucun motif à corriger, en tutoiement, sans staccato ni témoignage fictif.",
+    });
+
+    await fixPublishedBlogArticlesTask();
+
+    expect(mockBlogArticleUpdate).not.toHaveBeenCalled();
+  });
+
+  it("skip silencieusement les slugs absents en DB (article statique)", async () => {
+    mockBlogArticleFindUnique.mockResolvedValue(null);
+
+    await expect(fixPublishedBlogArticlesTask()).resolves.toBeUndefined();
+    expect(mockBlogArticleUpdate).not.toHaveBeenCalled();
+  });
+
+  it("fail-safe : une erreur DB (findUnique) ne bloque pas le boot", async () => {
+    mockBlogArticleFindUnique.mockRejectedValue(new Error("connection refused"));
+
+    await expect(fixPublishedBlogArticlesTask()).resolves.toBeUndefined();
+  });
+
+  it("applique le tutoiement à la FAQ comment-devenir-drole (T05)", async () => {
+    // Simule un article qui contient encore le vouvoiement.
+    mockBlogArticleFindUnique.mockImplementation(
+      async ({ where }: { where: { slug: string } }) => {
+        if (where.slug === "comment-devenir-drole") {
+          return {
+            id: "cuid-cdd",
+            content: "Commencez par observer les absurdités. Mémorisez 5 vannes. Pratiquez chaque jour.",
+          };
+        }
+        return null;
+      },
+    );
+
+    await fixPublishedBlogArticlesTask();
+
+    expect(mockBlogArticleUpdate).toHaveBeenCalled();
+    const finalContent = (mockBlogArticleUpdate.mock.calls[0][0] as {
+      data: { content: string };
+    }).data.content;
+    expect(finalContent).toContain("Commence par");
+    expect(finalContent).toMatch(/[Mm]émorise\b/);
+    expect(finalContent).toContain("Pratique");
+    expect(finalContent).not.toContain("Commencez par");
+    expect(finalContent).not.toContain("Mémorisez");
+  });
+
+  it("anonymise les témoignages Lucas/Marine/Thomas dans ne-plus-rester-muet (T04)", async () => {
+    mockBlogArticleFindUnique.mockImplementation(
+      async ({ where }: { where: { slug: string } }) => {
+        if (where.slug === "ne-plus-rester-muet-en-groupe") {
+          return {
+            id: "cuid-nprm",
+            content:
+              "Prenons Lucas, 21 ans, étudiant en école de commerce. Ou Marine, 28 ans, chargée de communication. Ou encore Thomas, 35 ans, en reconstruction après séparation.",
+          };
+        }
+        return null;
+      },
+    );
+
+    await fixPublishedBlogArticlesTask();
+
+    const finalContent = (mockBlogArticleUpdate.mock.calls[0][0] as {
+      data: { content: string };
+    }).data.content;
+    expect(finalContent).not.toMatch(/Lucas, 21 ans/);
+    expect(finalContent).not.toMatch(/Marine, 28 ans/);
+    expect(finalContent).not.toMatch(/Thomas, 35 ans/);
+    expect(finalContent).toContain("un étudiant en école de commerce");
+  });
+});
+
+describe("depublishCannibalizedDbArticlesTask (s11 lot 3)", () => {
+  it("dépublie les 3 DB losers (isPublished false, WHERE isPublished true)", async () => {
+    mockBlogArticleUpdateMany.mockResolvedValue({ count: 3 });
+
+    await depublishCannibalizedDbArticlesTask();
+
+    expect(mockBlogArticleUpdateMany).toHaveBeenCalledTimes(1);
+    const call = mockBlogArticleUpdateMany.mock.calls[0][0] as {
+      where: { slug: { in: string[] }; isPublished: boolean };
+      data: { isPublished: boolean; updatedAt: Date };
+    };
+    expect(call.where.isPublished).toBe(true);
+    expect(call.where.slug.in).toEqual(Array.from(DB_LOSER_SLUGS));
+    expect(call.data.isPublished).toBe(false);
+    expect(call.data.updatedAt).toBeInstanceOf(Date);
+  });
+
+  it("idempotent : 2e passe = 0 update car WHERE isPublished:true ne matche plus", async () => {
+    mockBlogArticleUpdateMany.mockResolvedValueOnce({ count: 3 });
+    mockBlogArticleUpdateMany.mockResolvedValueOnce({ count: 0 });
+
+    await depublishCannibalizedDbArticlesTask();
+    await depublishCannibalizedDbArticlesTask();
+
+    expect(mockBlogArticleUpdateMany).toHaveBeenCalledTimes(2);
+  });
+
+  it("fail-safe : erreur DB non bloquante", async () => {
+    mockBlogArticleUpdateMany.mockRejectedValue(new Error("connection refused"));
+    await expect(depublishCannibalizedDbArticlesTask()).resolves.toBeUndefined();
+  });
+});
+
+describe("backfillMissingJokeDecryptagesTask (s11 lot 3)", () => {
+  it("cible uniquement les vannes actives sans décryptage, batch borné", async () => {
+    mockJokeFindMany.mockResolvedValue([
+      { id: "cuid-1", content: "Vanne 1", punchline: "Chute 1", category: "ABSURDE", type: "SITUATION" },
+    ]);
+
+    await backfillMissingJokeDecryptagesTask();
+
+    expect(mockJokeFindMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { comedyTechnique: null, isActive: true },
+        take: expect.any(Number),
+      }),
+    );
+    expect(mockGenerateJokeDecryptage).toHaveBeenCalledTimes(1);
+    expect(mockJokeUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "cuid-1" },
+        data: expect.objectContaining({
+          comedyTechnique: "Test technique",
+          techniqueExplanation: "Explication test",
+          howToApply: "Application test",
+        }),
+      }),
+    );
+  });
+
+  it("désactivable via env flag (skip complet)", async () => {
+    const prev = process.env.SKIP_JOKE_DECRYPTAGE_AI_BACKFILL;
+    process.env.SKIP_JOKE_DECRYPTAGE_AI_BACKFILL = "1";
+    try {
+      await backfillMissingJokeDecryptagesTask();
+      expect(mockJokeFindMany).not.toHaveBeenCalled();
+      expect(mockGenerateJokeDecryptage).not.toHaveBeenCalled();
+    } finally {
+      process.env.SKIP_JOKE_DECRYPTAGE_AI_BACKFILL = prev;
+    }
+  });
+
+  it("fail-safe : échec IA sur une vanne ne bloque pas les suivantes", async () => {
+    mockJokeFindMany.mockResolvedValue([
+      { id: "cuid-1", content: "V1", punchline: "C1", category: "ABSURDE", type: "SITUATION" },
+      { id: "cuid-2", content: "V2", punchline: "C2", category: "ABSURDE", type: "SITUATION" },
+    ]);
+    mockGenerateJokeDecryptage
+      .mockRejectedValueOnce(new Error("Anthropic 500"))
+      .mockResolvedValueOnce({
+        comedyTechnique: "T2",
+        techniqueExplanation: "E2",
+        howToApply: "A2",
+      });
+
+    await backfillMissingJokeDecryptagesTask();
+
+    // 1 seul update (l'échec IA a skip la vanne 1).
+    expect(mockJokeUpdate).toHaveBeenCalledTimes(1);
+    expect(mockJokeUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { id: "cuid-2" } }),
+    );
+  });
+
+  it("no-op si aucune vanne pending (0 findMany result)", async () => {
+    mockJokeFindMany.mockResolvedValue([]);
+
+    await backfillMissingJokeDecryptagesTask();
+
+    expect(mockGenerateJokeDecryptage).not.toHaveBeenCalled();
+    expect(mockJokeUpdate).not.toHaveBeenCalled();
   });
 });

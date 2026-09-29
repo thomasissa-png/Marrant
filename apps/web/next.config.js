@@ -77,38 +77,30 @@ const nextConfig = {
     ? {}
     : {
         async redirects() {
+          // Source unique : apps/web/src/lib/seo-redirects.ts (SEO_REDIRECTS).
+          // On duplique le tableau ici (littéral JS) pour éviter tout couplage
+          // import TS dans next.config.js (chargé en CJS au build).
+          // Tenir synchro manuellement si un lot ajoute un slug daté ou une
+          // fusion cannibalisation → ajouter DANS seo-redirects.ts d'abord,
+          // puis dupliquer ici. Un test unitaire (seo-redirects.test.ts)
+          // vérifie la cohérence via un compare.
           return [
-      {
-        source: "/blagues",
-        destination: "/vannes",
-        permanent: true,
-      },
-      {
-        source: "/blog/devenir-marrant",
-        destination: "/blog/comment-devenir-drole",
-        permanent: true,
-      },
-      {
-        source: "/blog/devenir-plus-drole",
-        destination: "/blog/comment-devenir-drole",
-        permanent: true,
-      },
-      {
-        source: "/blog/apprendre-a-etre-drole",
-        destination: "/blog/comment-devenir-drole",
-        permanent: true,
-      },
-      // Fusions anti-cannibalisation — 18 mars 2026
-      {
-        source: "/blog/apprendre-etre-drole",
-        destination: "/blog/comment-devenir-drole",
-        permanent: true,
-      },
-      {
-        source: "/blog/techniques-repartie",
-        destination: "/blog/comment-avoir-de-la-repartie",
-        permanent: true,
-      },
+            // Historique
+            { source: "/blagues", destination: "/vannes", permanent: true },
+            { source: "/blog/devenir-marrant", destination: "/blog/comment-devenir-drole", permanent: true },
+            { source: "/blog/devenir-plus-drole", destination: "/blog/comment-devenir-drole", permanent: true },
+            { source: "/blog/apprendre-a-etre-drole", destination: "/blog/comment-devenir-drole", permanent: true },
+            { source: "/blog/apprendre-etre-drole", destination: "/blog/comment-devenir-drole", permanent: true },
+            { source: "/blog/techniques-repartie", destination: "/blog/comment-avoir-de-la-repartie", permanent: true },
+            // Cannibalisation s11 (audit SEO 29/09/2026, §3.3)
+            { source: "/blog/ne-plus-rester-muet-en-groupe", destination: "/blog/rester-muet-en-groupe", permanent: true },
+            { source: "/blog/je-ne-sais-jamais-quoi-repondre", destination: "/blog/jamais-quoi-repondre-techniques", permanent: true },
+            { source: "/blog/timing-humour-ralentir", destination: "/blog/timing-humour", permanent: true },
+            { source: "/blog/raconter-blague-sans-massacrer", destination: "/blog/comment-raconter-une-blague-sans-la-rater", permanent: true },
+            { source: "/blog/jeux-de-mots-technique-3-etapes", destination: "/blog/jeu-de-mots-drole-techniques-creer", permanent: true },
+            { source: "/blog/humour-apres-rupture", destination: "/blog/confiance-humour-apres-rupture", permanent: true },
+            { source: "/blog/blagues-courtes-vs-longues", destination: "/blog/blague-courte-arme-secrete-humour", permanent: true },
+            { source: "/blog/apprendre-la-repartie-methode-30-jours", destination: "/blog/comment-avoir-de-la-repartie", permanent: true },
           ];
         },
       }),
