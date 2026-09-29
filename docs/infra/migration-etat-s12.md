@@ -72,3 +72,50 @@ DNS public actuel (Google et Cloudflare DoH, 29/09/2026) :
 2. Comparer l'import avec le tableau §3 : tous les enregistrements du §3 (hors NS) doivent être présents, en **DNS only (nuage gris)** pour A @ et CNAME www (le site reste sur Replit), MX/TXT/DKIM Resend et IONOS identiques. Ajouter à la main tout enregistrement manquant (Resend et `replit-verify` sont souvent oubliés).
 3. DNSSEC : rien à faire (désactivé).
 4. **Changement des serveurs DNS chez IONOS vers ceux de Cloudflare : uniquement sur GO explicite de Thomas.** Le site continue de pointer vers Replit.
+
+## 6. Base source Replit (lecture seule, 29/09/2026)
+
+Hébergée chez Neon (us-west-2), Postgres 16, 31 Mo, **36 tables, 42 860 lignes**, pas d'historique `_prisma_migrations` (schéma géré par `db push`).
+
+| Table | Lignes |
+|---|---|
+| Account | 2 |
+| BlogArticle | 12 |
+| CeoAuditLog | 1 |
+| CeoBacklink | 0 |
+| CeoCommentBlacklist | 0 |
+| CeoConfig | 1 |
+| CeoDedup | 0 |
+| CeoKpiSnapshot | 125 |
+| CeoLead | 0 |
+| CeoMemory | 0 |
+| CeoOutboundMessage | 0 |
+| CeoTask | 0 |
+| ContentPlan | 12 |
+| ContentPlanEntry | 366 |
+| DailyContent | 115 |
+| FeatureVote | 0 |
+| JobLock | 0 |
+| Joke | 746 |
+| JokeLike | 3 |
+| LearningPath | 7 |
+| LearningPathStep | 33 |
+| LlmUsageLog | 40037 |
+| PushToken | 0 |
+| SeoCalendar | 17 |
+| Session | 0 |
+| SocialPost | 634 |
+| SocialPostDailyLock | 146 |
+| Subscription | 2 |
+| Tip | 464 |
+| User | 12 |
+| UserFavorite | 4 |
+| UserPathProgress | 1 |
+| VerificationToken | 1 |
+| Video | 119 |
+| WebhookEvent | 0 |
+| _prisma_migrations | 0 |
+
+Compatibilité avec le `schema.prisma` de la branche : **0 colonne perdue**. La cible ajoute 2 tables (`DataPatch`, `NewsletterSubscriber`) et 10 colonnes facultatives (`Joke`/`Tip` : `copyReviewVersion`, `copyReviewedAt`, `copyVerdict`, `originalContent`, `originalPunchline`/`originalTitle`).
+
+Écriture dans la nouvelle base Neon (schéma + copie) : bloquée par le garde-fou de session, en attente d'un accord explicite de Thomas.
