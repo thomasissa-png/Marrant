@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s12 (29/09/2026) : passe UX @fullstack (code front + /api/jokes)
+
+> Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Détail : `docs/ux/passe-ux-s12.md`.
+> Commits `d34b96b` (inscription modale -> onboarding, onboarding -> parcours recommandé, vannes dédoublonnées à l'affichage par `/api/jokes`, H1 accueil sur 2 blocs), `0d7acf7` (accueil et /vannes), `c3da858` (parcours), `47227d1` (auth, /abonnement, header, arbitrages Thomas). Doublons de vannes laissés en base (dédoublonnage dans le code uniquement).
+
 ## s12 (29/09/2026) : passe visuelle @design (code front uniquement)
 
 > Aucune action Replit : aucun secret, aucune migration, aucune donnée modifiée. Déploiement prévu sur Cloudflare (branche `claude/marrant-s10-session-recovery-CtZyw`). Détail des correctifs : `docs/design/passe-visuelle-s12.md` (T1 à T12).
