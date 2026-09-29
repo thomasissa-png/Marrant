@@ -53,7 +53,9 @@ Captures 390 / 768 / 1440 des 64 pages (script s12 : `scratchpad/slice.mjs`, à 
 ## 10. Bascule
 Si §1-§9 verts : suivre `bascule-checklist.md` (copie finale `--reset` + `--verify`, secrets **live** identiques à Replit dont `NEXTAUTH_SECRET` et `STRIPE_WEBHOOK_SECRET`, `CRON_ENABLED=true`, domaines personnalisés, contrôles immédiats, retour arrière prêt). Le webhook Stripe live ne change pas d'URL (deviens-marrant.fr) : vérifier ses premiers événements en 2xx. Le lendemain matin : contenu du jour généré, posts sociaux publiés une seule fois.
 
-## 11. Fin de s12 (à compléter)
-- Correctifs UI hors périmètre + arbitrages Thomas (CTA « Créer mon compte gratuit », badge « Populaire » retiré, guillemets « », CGU §2) : _en cours_.
-- Tirets cadratins des 34 articles (statique + patch DataPatch pour la base) : _en cours_.
-- Vérification @qa (390/768/1440) et relecture @design : _à faire après redéploiement_.
+## 11. Fin de s12 (état vérifié par l'orchestrateur)
+- Passes design + UX + correctifs hors périmètre + arbitrages Thomas (CTA « Créer mon compte gratuit » + « Puis 0,99 €/mois… », badge « Populaire » retiré, guillemets « » au rendu, CGU §2 corrigée) : **appliqués**, 2 210 tests OK, déployés sur le Worker de test (dernier commit code `a61490d`).
+- Tirets cadratins : 30 articles statiques corrigés (51 853 mots identiques, liens et titres inchangés, vérifié indépendamment) ; articles en base : tâche `stripBlogEmDashesTask` (marqueurs `blog-em-dash:v1:<slug>`).
+- Tâches de démarrage **déjà exécutées sur Neon Francfort** (Worker de test, 29/09 20:26) : `catalogue-content:v1` (251 vannes, 65 conseils, 89 vidéos, 3 parcours), 9 `blog-rewrite`, 6 `blog-em-dash` ; 2e appel = 0 nouveau marqueur (idempotent). Les 3 articles qui gardent des « — » sont non publiés. **À la bascule, la copie `--reset` efface ces marqueurs : relancer `/api/cron/startup-tasks` juste après** (prévu dans la checklist §4).
+- Choix laissés à @copywriter plus tard (non bloquants) : limite gratuite annoncée sur /conseils, « Voir plus » du blog, encart milieu d'article, correspondance profil du quiz viral → parcours.
+- Vérification finale 390/768/1440 : rapports `docs/qa/verification-s12-3-largeurs.md` (@qa) et `docs/design/verification-finale-s12.md` (@design) ; corrections éventuelles listées dans ces fichiers.
