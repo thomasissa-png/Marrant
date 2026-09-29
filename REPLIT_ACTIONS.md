@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s12 (29/09/2026) : correctifs P1 et P2 du contrôle @qa 64 pages × 4 largeurs @fullstack (code front uniquement)
+
+> Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Commits `caa6f95` (P1-1 à P1-6 : étapes verrouillées lisibles, tirets et apostrophes des conseils retirés au rendu, 2 réponses de FAQ, focus de la modale, blanc sur `#7C3AED`, H1 de /forgot-password et /reset-password, bouton mot de passe de /login à 44 px) et `18f77ba` (P2 : case newsletter, fil d'Ariane et lien de parcours à 44 px en mobile, H1 sans mot seul à 390, index du glossaire à 1024, symbole ✗). Détail des constats : `docs/qa/verification-s12-3-largeurs.md`. À vérifier après déploiement : `/parcours/confiance` (étapes verrouillées), modale « Créer mon compte gratuit » au clavier (Tab reste dans la modale), `/glossaire` à 1024.
+
 ## s12 (29/09/2026) : vérification finale 3 largeurs, correctifs N1 à N19 @fullstack (code front + /api/tips)
 
 > Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Commit `c0b1df8`. Détail des constats : `docs/design/verification-finale-s12.md`. Header en mode mobile jusqu'à 1023 px (N1), correctifs d'accueil, parcours, glossaire, anatomie, auth ; tirets cadratins retirés au rendu (parcours, vidéos, quiz, FAQ à-propos ; titres et SEO intacts) ; guillemets imbriqués corrigés au rendu (N11) ; conseils au titre identique dédoublonnés à l'affichage par `/api/tips` (N12 : le total de conseils affiché baisse du nombre de doublons). À vérifier après déploiement : header à 768 et 1024 px, `/conseils` (3 conseils gratuits différents).
