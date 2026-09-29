@@ -39,3 +39,12 @@
 - **5-11 (chiffres)** : « que ce soit juste » → corrigés sur les faits : Répartie = 4 semaines partout ; rythme = une étape par semaine (15-20 min) ; « résultats sous 2-3 semaines » retiré ; « 600+ vannes » (602 actives) ; 33 phrases ; push « chaque matin ». Coaching 99 € : offre bien présente sur la home → gardé. Compte gratuit (XP + étape 1) : à vérifier en prod.
 - **12-13 (études, citations)** : on laisse.
 - **19 (Gradient)** : fait — dernière version installée (le script local visait la branche `master` au lieu de `main`).
+
+---
+
+## Relectures Opus 5.5 (29/09/2026, fin de session) — points ouverts
+- **Redirections anti-cannibalisation (8)** décidées sans données Search Console : vérifier les impressions de `/blog/ne-plus-rester-muet-en-groupe`, `je-ne-sais-jamais-quoi-repondre`, `timing-humour-ralentir`, `raconter-blague-sans-massacrer`, `jeux-de-mots-technique-3-etapes`, `humour-apres-rupture`, `blagues-courtes-vs-longues`, `apprendre-la-repartie-methode-30-jours`. Une URL qui rapporte du trafic → retirer sa redirection.
+- **GEO** : renseigner `NEXT_PUBLIC_SOCIAL_PROFILES` (URLs réelles des comptes) pour le `sameAs` de la marque ; données structurées HowTo générées depuis les H2 (à revoir, @fullstack) ; routes llms en 200 « indisponible » au lieu de 503 en cas d'erreur.
+- **Code** : `/api/health` public renvoie le message d'erreur Prisma brut ; newsletter (confirmation/désinscription en GET, `emailSent` à true même si Resend échoue) ; décryptage IA au boot sans verrou multi-instance.
+- **SEO P2** : canonical absent sur les 4 pages légales (juridique laissé en l'état) ; `uploadDate` des vidéos = date d'ajout en base.
+Rapports : `docs/seo/relecture-5-5-s11.md`, `docs/geo/relecture-5-5-s11.md`, `docs/qa/relecture-5-5-s11.md`, `docs/qa/catalogue-boot-s11.md`.
