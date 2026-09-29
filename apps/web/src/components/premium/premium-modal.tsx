@@ -51,7 +51,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
           <span className="text-4xl font-bold text-text-primary">0,99 €</span>
           <span className="text-text-muted">/ mois</span>
         </div>
-        <p className="mt-1 text-sm text-accent-primary font-medium">
+        <p className="mt-1 text-sm text-accent-link font-medium">
           Sans engagement, annulable à tout moment
         </p>
 

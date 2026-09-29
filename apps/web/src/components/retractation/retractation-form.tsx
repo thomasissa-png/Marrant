@@ -27,7 +27,7 @@ export function RetractationForm() {
             rien sous 48h, contactez-nous directement &agrave;{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
-              className="text-accent-primary underline"
+              className="text-accent-link underline"
             >
               contact@deviens-marrant.fr
             </a>

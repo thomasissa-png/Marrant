@@ -115,10 +115,10 @@ export default async function VannesPage() {
             Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir en soirée et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas d&apos;objets qui parlent, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
-            Nos vannes sont classées par situation — <strong className="text-text-primary">boulot, couple, soirée, potes</strong> — pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
+            Nos vannes sont classées par situation — <strong className="text-text-primary">boulot, couple, soirée, potes</strong> — pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
           </p>
           <p>
-            Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-primary hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-primary hover:underline">5 erreurs qui tuent tes blagues</Link>.
+            Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-link hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-link hover:underline">5 erreurs qui tuent tes blagues</Link>.
           </p>
         </div>
       </section>

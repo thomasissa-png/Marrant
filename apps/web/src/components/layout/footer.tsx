@@ -58,7 +58,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {/* Marque + Réseaux sociaux */}
           <div>
-            <span className="font-display text-lg font-bold text-gradient">
+            <span className="font-display text-xl font-bold text-gradient">
               deviens-marrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
@@ -66,7 +66,7 @@ export function Footer() {
               de stand-up pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
-              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-primary">contact@deviens-marrant.fr</a>
+              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-link">contact@deviens-marrant.fr</a>
             </p>
 
             {/* Social links */}
@@ -78,7 +78,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-text-muted transition-colors hover:text-accent-primary"
+                  className="text-text-muted transition-colors hover:text-accent-link"
                 >
                   {social.icon}
                 </a>

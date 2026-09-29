@@ -139,7 +139,7 @@ export function VideosGrid() {
                 {d.label}
               </span>
             ))}
-            <span className="mx-1 text-text-muted">·</span>
+            <span className="mx-1 hidden text-text-muted sm:inline">·</span>
             {CATEGORIES.slice(1, 4).map((cat) => (
               <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
                 {cat.label}
@@ -149,7 +149,7 @@ export function VideosGrid() {
           </div>
           <p className="mt-2 text-xs text-text-muted">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -244,7 +244,7 @@ export function VideosGrid() {
                     <ul className="mt-1.5 space-y-1.5">
                       {video.learnings.map((learning, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                          <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
                           {learning}
                         </li>
                       ))}
@@ -253,14 +253,14 @@ export function VideosGrid() {
                 )}
                 {video.exercise && (
                   <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
                     <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                   </div>
                 )}
                 <div className="mt-3 border-t border-border pt-2">
                   <Link
                     href={`/videos/${buildVideoSlug(video)}`}
-                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    className="text-xs text-text-muted hover:text-accent-link hover:underline"
                     aria-label="Ouvrir la page dédiée de cette vidéo"
                   >
                     Page dédiée &rarr;
@@ -293,7 +293,7 @@ export function VideosGrid() {
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
                   </div>
                 </div>
               </CardContent>

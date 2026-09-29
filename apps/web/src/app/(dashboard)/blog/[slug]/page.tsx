@@ -210,7 +210,7 @@ export default async function BlogArticlePage({
         {article.title}
       </h1>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
-        <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-primary">Alex Durand</Link></span>
+        <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-link">Alex Durand</Link></span>
         <span>·</span>
         <span>{article.date}</span>
         {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD). */}

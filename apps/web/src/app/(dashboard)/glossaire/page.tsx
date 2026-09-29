@@ -159,7 +159,7 @@ export default function GlossairePage() {
             </p>
             <Link
               href={item.related}
-              className="mt-3 inline-block text-sm font-medium text-accent-primary hover:underline"
+              className="mt-3 inline-block text-sm font-medium text-accent-link hover:underline"
             >
               {item.relatedLabel} →
             </Link>

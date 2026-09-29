@@ -30,7 +30,7 @@ export function HowToApplyGate({ howToApply }: { howToApply: string }) {
       <p className="mt-1 text-sm text-text-secondary">
         L&apos;exercice d&apos;application (consigne + exemple concret à réutiliser)
         est réservé aux membres.{" "}
-        <Link href="/register" className="font-medium text-accent-primary hover:underline">
+        <Link href="/register" className="font-medium text-accent-link hover:underline">
           Crée ton compte gratuit
         </Link>{" "}
         pour le débloquer.

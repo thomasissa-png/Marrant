@@ -160,7 +160,7 @@ export default async function ConseilPage({
 
       <article className="mx-auto max-w-2xl">
         <div className="mb-2 flex flex-wrap gap-2">
-          <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-primary">
+          <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-link">
             {categoryLabel}
           </span>
           <span className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wider text-text-muted">
@@ -181,7 +181,7 @@ export default async function ConseilPage({
 
         {/* Freemium : l'exercice (application) reste réservé aux inscrits. */}
         <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-primary">À toi de jouer</div>
+          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">À toi de jouer</div>
           <p className="text-sm text-text-primary">
             L&apos;exercice complet pour appliquer cette technique dès aujourd&apos;hui,
             et des centaines d&apos;autres conseils progressifs, sont dans le parcours gratuit.
@@ -221,7 +221,7 @@ export default async function ConseilPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-primary hover:underline">
+          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link hover:underline">
             &larr; Tous les conseils {categoryLabel.toLowerCase()}
           </Link>
         </nav>

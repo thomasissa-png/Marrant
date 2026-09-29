@@ -40,7 +40,7 @@ export default function RetractationPage() {
             Remplissez le formulaire ci-dessous ou envoyez un email &agrave;{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
-              className="text-accent-primary underline"
+              className="text-accent-link underline"
             >
               contact@deviens-marrant.fr
             </a>{" "}

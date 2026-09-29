@@ -164,7 +164,7 @@ export function BlogArticleParcoursMaillage({
       <ul className="mt-4 space-y-2 text-sm text-text-secondary">
         {hint.bullets.map((b) => (
           <li key={b} className="flex gap-2">
-            <span aria-hidden className="text-accent-primary">
+            <span aria-hidden className="text-accent-link">
               →
             </span>
             <span>{b}</span>
@@ -174,7 +174,7 @@ export function BlogArticleParcoursMaillage({
       <div className="mt-5">
         <Link
           href={`/parcours/${hint.slug}`}
-          className="inline-flex items-center gap-2 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-4 py-2 text-sm font-semibold text-accent-primary transition-colors hover:bg-accent-primary/20"
+          className="inline-flex items-center gap-2 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-4 py-2 text-sm font-semibold text-accent-link transition-colors hover:bg-accent-primary/20"
         >
           {hint.cta}
         </Link>
