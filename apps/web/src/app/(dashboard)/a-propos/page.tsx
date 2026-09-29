@@ -198,8 +198,10 @@ export default function AProposPage() {
         </section>
 
         <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
+          {/* Une phrase par ligne, même découpe que le H1 de l'accueil (hero-section.tsx). */}
           <p className="font-display text-xl font-bold text-text-primary">
-            Tu parles et personne rit. On va arranger ça.
+            <span className="block">Tu parles et personne rit.</span>
+            <span className="block">On va arranger ça.</span>
           </p>
           <p className="mt-2 text-text-secondary">
             Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour.

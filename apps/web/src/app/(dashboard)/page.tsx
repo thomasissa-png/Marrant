@@ -98,7 +98,7 @@ export default function HomePage() {
               toujours, mais dans le métro du retour. On te donne des vannes
               courtes à ressortir sur le moment, et un streak pour garder le rythme.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/machine-a-cafe" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
               Parcours Machine à Café · 3 semaines →
             </Link>
           </div>
@@ -115,7 +115,7 @@ export default function HomePage() {
               les réflexes de base avec des exercices simples, et tes XP te
               montrent que tu avances.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/repartie" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
               Parcours Répartie · 4 semaines →
             </Link>
           </div>
@@ -132,7 +132,7 @@ export default function HomePage() {
               remettre en route à ton rythme, avec tes XP et ton streak pour
               mesurer le chemin parcouru.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/confiance" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
               Parcours Confiance · 6 semaines →
             </Link>
           </div>
