@@ -79,7 +79,7 @@
 - **URL du site actuel** : https://deviens-marrant.fr/
 - **Comptes sociaux existants** : LinkedIn, Twitter/X, Instagram — tous à 0 abonné, viennent d'être créés. Publication automatisée via Buffer (pipeline daily-social).
 - **Outils analytics en place** : Umami (tracking web) + back-office admin (suivi abonnés)
-- **Contenu existant** : Catalogue riche — 265 vannes actives (13 catégories ; 289 seedées dont 24 vannes faibles désactivées en soft delete s10, qualité > quantité), 66 conseils (7 catégories), 89 vidéos analysées pédagogiquement, 3 parcours d'apprentissage (Machine à Café, Répartie, Confiance), 21 articles blog SEO (dont 4 pillar GEO-optimises), pipeline social media automatisé, quiz d'humour, contenu quotidien renouvelé automatiquement
+- **Contenu existant** : (mesuré en prod le 29/09/2026 via `/api/content-stats`) ~602 vannes actives décortiquées (« Pourquoi ça marche » / « À toi de jouer »), 400 conseils, 89 vidéos analysées, 3 parcours (Machine à Café, Répartie, Confiance), 34 articles de blog actifs (8 fusionnés en s11 pour cannibalisation), ≈1 100 pages individuelles catalogue, quiz d'humour (12 questions), newsletter, contenu quotidien renouvelé automatiquement
 - **Historique SEO** : Domaine indexé depuis début 2026. Trafic approximatif inconnu (pas d'analytics). Sitemap dynamique en place, robots.txt optimisé (LLM bots autorisés), schemas JSON-LD complets (Organization, Article, FAQPage, HowTo, Course, etc.), score GEO estime 82/100 (apres optimisation pillar).
 
 ---
@@ -176,45 +176,17 @@
 
 ## Mémo de reprise — dernière session
 
-- **Date de clôture** : 07/05/2026
-- **Numéro de session** : 10 (clôturée — Phase 5.D CEO + vannes pédagogiques + déploiement auto-suffisant)
-- **Branche active** : `claude/marrant-s10-session-recovery-CtZyw` (14 commits)
-- **Résumé session 10** : Démarrage par reprise/sanity check → Phase 5.D tests CEO exhaustifs → chantier qualité vannes → automatisation déploiement. Tests **1210 → ~1700 PASS, 0 régression**. 14 commits :
-  1. **Hotfix P0 Buffer rate limit (`2f49a81`)** : `social-analytics/route.ts` time gate utcHour pair + cache 1h queue Buffer + circuit breaker (skip si toutes plateformes 429/24h). +9 tests. Le code se protège seul → l'action Replit "réduire fréquence cron" devient optionnelle.
-  2. **Phase 5.D CEO complète (`9758d92`→`3eb9de3`, 6 groupes)** : 513 tests Jest, coverage moyen ~98% sur tous modules CEO. G2 HMAC+opt-out (110), G3 gates G-CEO1-4 (48), G4 helpers+KPIs (85, 99.83%), G1 router runDailyTick (117, 96.39%), G5 Twitter+backlinks (47, 100%), G6 admin API+composants (106). Helpers factoring `ceo-prisma-mock` + `anthropic-mock`.
-  3. **Fix anti-staccato (`1daacfb`)** : aligné le test `checkAntiStaccato` (G-S21) sur le comportement réel → ferme le "1 fail préexistant" master traîné depuis le début de 5.D.
-  4. **Fix P1 Neon cold start (`bc40ff1`)** : helper `withDbRetry` (retry P1001/connexion, backoff 500ms→2s) sur crons publish-social/social-analytics/daily-social → ferme P1 ouvert 08/04, stoppe le spam d'alertes. +16 tests.
-  5. **Vannes pédagogiques Phase 1a+1b (`8d1441b`,`8280d45`)** : pivot fondateur "vannes font sourire pas rire" → l'IA décortique au lieu de créer. Schéma Joke + 3 champs (comedyTechnique/techniqueExplanation/howToApply). Style joke-agent refondu (tension "Fary vs pote gentil" tranchée → observateur auto-dérisoire avec twist ; 4 étalons validés fondateur). UI catalogue "Pourquoi ça marche"+"À toi de jouer". Script back-fill 289 vannes.
-  6. **Déploiement auto-suffisant (`c20f005`)** : `ensureCeoConfig()` auto-seed fail-safe + 3 jobs scheduler interne (runCeoTickJob/runCeoKpisJob/runJokeBackfillJob, time gate+lock obligatoires) + `startup-tasks.ts` (seed config + cleanup WILD_CARD au boot) + migration 8. **Checklist Replit 11→3 actions.**
-- **Travaux en cours** : aucun. Tout commité/pushé.
-- **Actions manuelles Thomas restantes (checklist FINALE — 3)** :
-  1. **🔴 Merger s9+s10 dans master + Deploy Replit** (rien n'est actif en prod sans ça).
-  2. **~12 secrets Replit** (5 cœur bloquants : `DATABASE_URL`, `CRON_SECRET`, `ANTHROPIC_API_KEY`, `ADMIN_PASSWORD`, `RESEND_API_KEY` ; + CEO : `CEO_ADMIN_EMAIL`, `UNSUBSCRIBE_HMAC_SECRET`, `TWITTER_BEARER_TOKEN`, `RESEND_WEBHOOK_SECRET`, `NEXT_PUBLIC_BASE_URL`). Tout fail-safe si absent.
-  3. **Webhook Resend dashboard** (`/api/webhooks/resend-inbound` + `RESEND_WEBHOOK_SECRET`) + **3 DPA légaux** (Resend, Anthropic, Replit).
-  - AUTOMATIQUE au deploy (zéro action) : migrations (db push), seed CeoConfig fail-safe, cleanup WILD_CARD, crons CEO (scheduler interne), back-fill vannes (50/jour ~6j). CEO reste OFF jusqu'au toggle `/admin/ceo`.
-- **Backlog session 11 (priorités)** :
-  1. **Activer le CEO** une fois secrets en place : toggle `/admin/ceo` enabled=true, dryRun=false, valider les premiers drafts (phasage S1-S4).
-  2. **Vannes faibles** : après back-fill, remplacer les vannes du catalogue dont le décryptage sonne creux (CLASSIQUE/Carambar) — le back-fill les révèle.
-  3. **Phase 5.B.3** : Instagram Graph drafts, lead scoring auto (Umami + streak/JokeLike), câblage `siteReturn48h`, routage IA replies inbound, enum CeoBacklinkSource, Twitter OAuth 1.0a si DM 401.
-  4. **P1 LinkedIn JSON conformité** plan éditorial (dernier P1 ouvert 08/04 ; Neon + race condition résolus).
-  5. **Connectively → RSS/Zapier** (reco @legal s9, handoff manuel).
-  6. **Dettes** : migration `package.json#prisma` → `prisma.config.ts` (warning Prisma 7) ; `npm audit fix` (12 vulns apps/web + 25 root) ; pre-commit hook étendu `tsc --noEmit`.
-- **Nom de branche recommandé prochaine session** : `claude/marrant-s11-activation-ceo-[suffix]` ou `claude/marrant-s11-phase5b3-[suffix]`.
-- **Commande de reprise suggérée pour session 11** :
-  ```
-  @orchestrator Mode reprise. Sanity check anti-dérive (markers CLAUDE.md). Lis project-context.md mémo session 10. PRIORITÉ : confirmer que s10 est mergée master + déployée Replit + secrets en place. Si déployé, vérifier que le back-fill vannes tourne (scheduler) et accompagner l'activation CEO (toggle /admin/ceo + validation drafts). Sinon, aider à finaliser le déploiement.
-  ```
-- **PROPAGATION P0/P1 EN ATTENTE** (gate session 11) :
-  1. **P1 Neon cold start** → RÉSOLU s10 (`withDbRetry`). **P1 race condition** → RÉSOLU s9. Reste **P1 LinkedIn JSON conformité** (08/04) → session 11.
-  2. **L05/05 #5 — Templates audit cron×quota + veille tech LLM** (P1 à-faire) → repo upstream Agent-Team (hors scope Marrant, manuel Thomas).
+- **Date** : 29/09/2026 — **Session 11** (audit global + remise à niveau complète avant redéploiement)
+- **Branche** : `claude/marrant-s10-session-recovery-CtZyw` — Replit déploie la branche indiquée par Thomas (master = obsolète s7, normal).
+- **Cause racine découverte** : `claude-sonnet-4-20250514` retiré par Anthropic le 15/06/2026 → toute la génération IA (vannes, conseils, blog, social, vidéos) en échec silencieux 3,5 mois. **Corrigé** : Claude Sonnet 5.5 partout + Opus 5.5 (rapport CEO), Haiku supprimé, SDK 0.39 → 0.129, lecture des réponses par type de bloc, marge de réflexion, effort `low` (secret `ANTHROPIC_EFFORT`), refus gérés, **alerte email admin sur panne IA** + `/api/health`.
+- **Fait (tout mergé, 1877 tests PASS, build prod typé OK, crawl local 463 URLs en 200)** : lots 1-6 — SEO/GEO (OG, Bing/Google via env, JSON-LD, llms dynamiques + FAQ + catalogue, sitemap lastmod réels, SSR parcours, 15 redirections dont 8 paires cannibalisées), ≈1 100 pages individuelles /vannes /conseils /videos + partage + OG par vanne, conversion (onboarding, callbackUrl sûr, newsletter RGPD double opt-in, double CTA blog, quiz → inscription, chiffres catalogue dynamiques, « 1 500+ membres » remplacé par le vrai nombre ≥100), contenus (34 articles audités, corrections au boot, gates anti-dérive du générateur), infra (CI, CSP sans unsafe-eval, audit fix, ignoreBuildErrors=false). Scores : SEO 55→78, GEO 54→61.
+- **Audits** : `docs/marrant/audit-global-s11.md` (maître), `docs/seo/reaudit-final-s11.md`, `docs/qa/audit-final-s11.md` (GO), `docs/copy/audit-copy-vannes-home-s11.md` (vannes 6,5/10, home 7/10).
+- **Catalogue réel prod** : ~602 vannes / 400 conseils / 89 vidéos (l'ancien « 265 / 66 » de ce fichier était périmé).
+- **En attente Thomas** : (1) **déployer la branche** ; (2) valider les **5 étalons copy** (§7 de l'audit copy) avant réécriture des vannes/home et patch du prompt joke-agent ; (3) secrets optionnels (Bing, profils sociaux) — voir `REPLIT_ACTIONS.md` §s11 ; (4) mise à jour framework Gradient (`update.sh` bloqué en session : à lancer par Thomas) ; (5) décisions : vannes/articles mentionnant ChatGPT/Alexa, structure « Semaine X » de 5 articles, coaching 99 € opérationnel ?
+- **Backlog s12** : appliquer les étalons copy validés (retirer/réécrire vannes faibles, patch joke-agent), soumissions backlinks (`docs/growth/soumissions-backlinks-s11.md`), 2 nouveaux parcours (pro / storytelling), referral, activation CEO, vulnérabilités restantes (next-auth 5, prisma, eslint — montées majeures).
 
-### Mémo audit Bing s10 — 2026-05-30 (agent @seo)
-- **Livrable** : `docs/seo/bing-audit-s10.md`
-- **Verdict** : 3 causes combinées — (1) Bing Webmaster Tools non configuré + `msvalidate.01` absent de `layout.tsx` malgré audit avril ; (2) 0 backlink externe → budget crawl Bing minimal ; (3) si volume Google < 600/mois, le 0% Bing est statistiquement plausible (Bing ~3% marché FR × ~4% pages indexées = espérance < 1 visite).
-- **Fix d'avril confirmé appliqué** : `/blog` cache-control corrigé (`searchParams` retiré, `revalidate = 3600`). IndexNow code OK.
-- **Actions fondateur requises** : (1) Configurer BWT + récupérer clé `msvalidate.01` → transmettre à @fullstack ; (2) Vérifier `INDEXNOW_KEY` dans Replit Secrets ; (3) Refaire `site:deviens-marrant.fr` sur Bing pour baseline actuel ; (4) Vérifier referrers Umami bruts (cn.bing.com, m.bing.com).
-- **Action @fullstack** : ajouter `msvalidate.01` dans `apps/web/src/app/layout.tsx` une fois clé récupérée.
-- **Délai d'effet** : 2-3 semaines pour premières indexations supplémentaires. Bing restera canal secondaire (~3-5% du trafic max).
+### Mémo session 10 (conservé pour mémoire)
+- 07/05→30/05/2026 : Phase 5.D CEO (513 tests), vannes pédagogiques (décryptage 3 champs), déploiement auto-suffisant (startup-tasks), retrait 24 vannes faibles, audit Bing (`docs/seo/bing-audit-s10.md`).
 
 ### Mémo session 9 (conservé pour mémoire)
 - **Branche** : `claude/marrant-s9-conformite-gouvernance-zwLbC` (7 commits + hotfixes)
@@ -224,16 +196,6 @@
 - **Branche** : `claude/add-sanity-check-7Wtc8` (36 commits)
 - **Résumé** : Pivot stratégique majeur du projet CEO autonome. (1) 3 hotfixes P0 enum SocialFormat → script anti-récidive `check-prisma-enums.sh` + extension `.githooks/pre-commit`. (2) Création complète projet CEO autonome (Phase 0 cadrage + benchmark NanoCorp dual + Phase 1 stratégie/growth/legal/seo + Phase 2 corpus canonique 16 exemples avec 6 cycles d'itération dont 2 rejets fondateur + Phase 3 specs+architecture+KPIs+audit cohérence + Phase 4 `.claude/agents/ceo.md`). (3) Pivot fondamental : agent CEO = agent de valeur éducative, pas agent de conversion. (4) Patches voix daily-social + gate G-S21 anti-staccato. (5) 6 nouvelles préférences fondateur dans `founder-preferences.md`.
 - **7 livrables CEO** : ceo-agent-scope.md v2 (235L), ceo-voice-unified.md v3 (257L), ceo-agent-specs.md (628L), ceo-agent-architecture.md (371L), ceo-canonical-examples.md v6 (16 exemples), ceo-kpis-dashboard.md (~480L), ceo.md (280L).
-
-### Mémo session 6 (conservé pour mémoire)
-- **Branche** : `claude/extract-project-context-pgCxb` (13 commits)
-- **Résumé** : Mission P0 optimisation coûts API Anthropic ($10/j → cible $2-4/j = -70 à -80%). Audit @ia complet `docs/ia/ai-cost-audit.md` (620L). 6 commits : fix scheduler time gate P0, instrumentation LlmUsageLog (33 call sites), prompt caching 6 agents (26 call sites, -90% tokens stables), Haiku dual-pass feature flag (OFF), quick wins combo. 1051/1051 tests.
-
-### Mémo session 08/04/2026 (conservé pour mémoire)
-- **Branche** : `claude/update-gradient-agents-GzubQ`
-- **Résumé** : Stabilisation profonde du pipeline social après découverte du bug structurel critique : tous les fixes des sessions précédentes JAMAIS mergés dans `master`. Replit déploie depuis master → 2 semaines de fixes invisibles. Fix Instagram Buffer GraphQL `shouldShareToFeed`, refacto complet daily-social (time gate, filtre quantitatif, quotas dynamiques, alignement JSON), audit @qa 11 risques traités, 4 P1 bugs corrigés, 17 nouveaux learnings dont 4 P0 ouverts. 981/981 tests, 4 commits.
-
----
 
 ## Hypothèses à valider
 

@@ -52,3 +52,17 @@
 
 > Sessions 5-8 (11/04/2026 → 06/05/2026) restent dans `project-context.md` (5 dernières sessions).
 > Mémo de reprise et performances détaillées : voir `project-context.md`.
+
+---
+
+## Mémos archivés en session 11 (29/09/2026)
+
+### Mémo session 6 (conservé pour mémoire)
+- **Branche** : `claude/extract-project-context-pgCxb` (13 commits)
+- **Résumé** : Mission P0 optimisation coûts API Anthropic ($10/j → cible $2-4/j = -70 à -80%). Audit @ia complet `docs/ia/ai-cost-audit.md` (620L). 6 commits : fix scheduler time gate P0, instrumentation LlmUsageLog (33 call sites), prompt caching 6 agents (26 call sites, -90% tokens stables), Haiku dual-pass feature flag (OFF), quick wins combo. 1051/1051 tests.
+
+### Mémo session 08/04/2026 (conservé pour mémoire)
+- **Branche** : `claude/update-gradient-agents-GzubQ`
+- **Résumé** : Stabilisation profonde du pipeline social après découverte du bug structurel critique : tous les fixes des sessions précédentes JAMAIS mergés dans `master`. Replit déploie depuis master → 2 semaines de fixes invisibles. Fix Instagram Buffer GraphQL `shouldShareToFeed`, refacto complet daily-social (time gate, filtre quantitatif, quotas dynamiques, alignement JSON), audit @qa 11 risques traités, 4 P1 bugs corrigés, 17 nouveaux learnings dont 4 P0 ouverts. 981/981 tests, 4 commits.
+
+---
