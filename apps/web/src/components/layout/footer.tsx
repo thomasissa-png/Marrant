@@ -59,7 +59,7 @@ export function Footer() {
           {/* Marque + Réseaux sociaux */}
           <div>
             <span className="font-display text-xl font-bold text-gradient">
-              deviens-marrant
+              deviens-marrant.fr
             </span>
             <p className="mt-2 text-sm text-text-secondary">
               Deviens drôle, un exercice à la fois. Vannes, répartie et techniques

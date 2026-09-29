@@ -60,7 +60,7 @@ const vanneExamples = [
     category: "Observation",
     setup: "J'ai lancé une séance de sport sur une appli, dans mon salon.",
     pivot: "On attend l'effort, on découvre qui a vraiment remarqué l'abandon",
-    punchline: "Après 4 minutes, elle m'a demandé : « Toujours là ? »",
+    punchline: "Après 4 minutes, elle m'a demandé : “Toujours là ?”",
     analysis:
       "Setup court et relatable (tout le monde a déjà ouvert une appli de sport pleine de bonnes intentions). Le pivot est invisible : l'appli censée te motiver se met à vérifier que tu n'es pas parti. La punchline tient en 8 mots, et c'est l'appli qui la délivre à ta place : tu n'as même pas besoin d'avouer que tu t'es arrêté.",
   },
