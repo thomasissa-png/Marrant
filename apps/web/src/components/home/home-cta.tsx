@@ -25,7 +25,7 @@ export function HomeCta() {
           Prêt à devenir plus drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — le tout pour moins qu&apos;un café par mois. Ton futur toi drôle te remerciera.
+          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — le tout pour moins qu&apos;un café par mois. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button variant="primary" size="lg" onClick={() => setShowAuth(true)}>

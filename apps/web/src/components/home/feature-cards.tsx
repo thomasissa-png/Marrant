@@ -10,7 +10,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ vannes prêtes à ressortir` : "Vannes prêtes à ressortir",
     description:
-      "École, boulot, couple, soirées — trouve la vanne parfaite pour chaque situation. Classées par catégorie, prêtes à mémoriser.",
+      "École, boulot, couple, soirées — trouve la vanne parfaite pour chaque situation. Classées par catégorie, prêtes à ressortir ce soir.",
     cta: "Voir les vannes",
     href: "/vannes",
     variant: "primary" as const,

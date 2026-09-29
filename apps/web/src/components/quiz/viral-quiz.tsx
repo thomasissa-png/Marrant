@@ -71,7 +71,7 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
           </div>
           <div className="rounded-lg bg-background-elevated p-4">
             <p className="text-sm font-semibold text-text-primary">
-              Le conseil du coach
+              Le conseil pour progresser
             </p>
             <p className="mt-1 text-sm text-text-secondary">{profile.tip}</p>
           </div>

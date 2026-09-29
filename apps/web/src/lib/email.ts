@@ -63,7 +63,7 @@ export async function sendPasswordResetEmail(
   <p style="font-size: 14px; color: #666;">Ce lien expire dans <strong>1 heure</strong>.</p>
   <p style="font-size: 14px; color: #666;">Si tu n'as pas fait cette demande, ignore cet email.</p>
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
-  <p style="font-size: 12px; color: #999;">deviens-marrant.fr — L'humour, ça s'apprend.</p>
+  <p style="font-size: 12px; color: #999;">deviens-marrant.fr — Deviens dr&ocirc;le, un exercice &agrave; la fois.</p>
 </body>
 </html>`,
   });

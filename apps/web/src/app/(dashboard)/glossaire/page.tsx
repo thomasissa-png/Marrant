@@ -60,7 +60,7 @@ const glossary = [
   {
     term: "One-liner",
     definition:
-      "Blague courte en une seule phrase, facile à mémoriser et à ressortir. Le one-liner est l'arme secrète en société : il ne demande pas de contexte et fonctionne dans toutes les situations. Idéal pour débuter.",
+      "Blague courte en une seule phrase, facile à retenir et à ressortir. Le one-liner est l’arme secrète en société : il ne demande pas de contexte et fonctionne dans toutes les situations. Idéal pour débuter.",
     related: "/vannes",
     relatedLabel: "Voir les one-liners",
   },

@@ -81,7 +81,7 @@ export default function AProposPage() {
             On s&apos;appuie sur les techniques des meilleurs humoristes
             français (Fary, Paul Mirabel, Roman Frayssinet, Blanche Gardin, Waly
             Dia), les principes de la psychologie positive et des exercices
-            concrets testés par notre communauté.
+            concrets testés par notre communauté de 1&nbsp;500+ membres.
           </p>
         </section>
 
@@ -129,9 +129,9 @@ export default function AProposPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="font-display text-2xl font-bold">Notre méthode</h2>
+          <h2 className="font-display text-2xl font-bold">Notre approche</h2>
           <p className="mt-3 text-text-secondary">
-            Notre approche repose sur 3 principes issus de la pédagogie du
+            Tout repose sur 3 principes issus de la pédagogie du
             stand-up et de la psychologie positive :
           </p>
           <ol className="mt-4 space-y-3 text-text-secondary list-decimal list-inside">
@@ -198,11 +198,11 @@ export default function AProposPage() {
 
         <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
           <p className="font-display text-xl font-bold text-text-primary">
-            Prêt à devenir plus drôle ?
+            Tu parles et personne rit. On va arranger ça.
           </p>
           <p className="mt-2 text-text-secondary">
-            Rejoins les membres qui progressent en humour chaque jour.
-            Ton futur toi drôle t&apos;attend.
+            Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour.
+            La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
           </p>
           <div className="mt-4 inline-block">
             <AuthCta label="Commencer à 0,99 €/mois" />
