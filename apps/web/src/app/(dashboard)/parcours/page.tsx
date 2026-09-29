@@ -14,7 +14,7 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 export const metadata: Metadata = {
   title: "Cours humour en ligne : deviens drôle",
   description:
-    "3 parcours pour devenir drôle : Machine à Café, Répartie, Confiance. 15 min/semaine, exercices concrets, XP à gagner. Tu t'inscris, tu progresses.",
+    "3 parcours pour devenir drôle : Machine à Café, Répartie, Confiance. 15 à 20 min/semaine selon le parcours, exercices concrets, XP à gagner. Tu t'inscris, tu progresses.",
   keywords: [
     "cours humour en ligne",
     "parcours répartie",
@@ -80,7 +80,7 @@ export default async function ParcoursPage() {
         </h1>
         <p className="mt-2 text-text-secondary">
           3 parcours structurés pour progresser en humour : machine à café,
-          répartie et confiance. 15 min/semaine, des exercices concrets et
+          répartie et confiance. 15 à 20 min/semaine selon le parcours, des exercices concrets et
           des XP à gagner.
         </p>
       </div>

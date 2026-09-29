@@ -1380,7 +1380,7 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 **1.** « J'ai mis mon réveil 30 minutes plus tôt pour "avoir du temps pour moi le matin". Le temps pour moi c'est appuyer sur snooze 6 fois. Techniquement, c'est un choix. »
 *→ Ton blasé, comme un constat médical. La chute "techniquement c'est un choix" doit tomber comme une justification absurde.*
 
-**2.** « Mon colocataire met des Post-it partout pour s'organiser. Il a mis un Post-it pour se rappeler d'acheter des Post-it. J'ai plus de coloc, j'ai un bug informatique. »
+**2.** « Mon coloc a mis un Post-it pour se rappeler d'acheter des Post-it. C'est plus de l'organisation, c'est une boucle infinie. »
 *→ Accélère sur la dernière phrase, comme une conclusion évidente.*
 
 **3.** « Les gens qui disent "l'argent ne fait pas le bonheur" ont manifestement jamais commandé un Uber quand il pleut à 2h du mat. »
@@ -1392,14 +1392,14 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 **5.** « Ma mère m'a dit "sois toi-même". Mon banquier m'a dit "sois quelqu'un d'autre". Je sais plus qui croire, mais un des deux a mon RIB. »
 *→ Joue la fausse hésitation, comme si tu pesais le pour et le contre.*
 
-**6.** « J'ai acheté un carnet pour écrire mes objectifs. Premier objectif : acheter un stylo. Ça fait 3 semaines. Le carnet et moi, on avance pas au même rythme. »
-*→ Raconte ça comme une saga en plusieurs tomes. Plus c'est solennel, plus c'est drôle.*
+**6.** « Première tâche sur mon carnet d'objectifs : acheter un stylo. Ça fait 3 semaines. Je suis bloqué en pré-production de ma propre vie. »
+*→ Ton de rapport d'avancement, comme si c'était une conclusion normale.*
 
 **7.** « Tu sais que t'es adulte quand ton truc préféré le vendredi soir c'est l'annulation d'un plan. »
 *→ En soupirant, comme un aveu qu'on fait à contrecœur.*
 
-**8.** « J'ai un pote qui dit "je bois socialement". Frère, t'es sociable sept jours sur sept. »
-*→ Le "Frère" doit claquer — c'est le pivot de la vanne.*
+**8.** « Mon pote dit qu'il boit "juste en soirée". La soirée, pour lui, commence après le déjeuner. »
+*→ Pause après "juste en soirée". Laisser l'absurde faire son chemin.*
 
 Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Roman Frayssinet est un monstre à ça.
 
@@ -1409,25 +1409,25 @@ Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la
 
 Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas assez, t'es le collègue invisible.
 
-**9.** « J'arrive au bureau, mon collègue me dit "t'as l'air en forme". Frère, j'ai dormi 4h et mon petit-déj c'était de l'espoir. Mais merci. »
+**9.** « J'arrive au bureau, mon collègue me dit "t'as l'air en forme". J'ai dormi 4h et mon petit-déj c'était de l'espoir. Mais merci. »
 *→ Marmonne ça en fixant ton café.*
 
-**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a un template ?". L'évolution, c'est beau. »
-*→ Prends un ton admiratif, façon documentaire animalier.*
+**10.** « En réunion, "quelqu'un a une idée ?" est devenu "quelqu'un a un template ?". Quelque chose s'est éteint. Personne en parle. »
+*→ Ton documentaire, comme si tu observais quelque chose de précieux qui disparaît.*
 
-**11.** « Mon manager dit qu'il a une politique de "porte ouverte". Techniquement, une porte ouverte sur un open space c'est juste… un mur en moins. »
+**11.** « Mon manager a une politique de "porte ouverte". On est en open space. Il a pas de porte. Il a juste une politique. »
 *→ Fais semblant de réfléchir à la logique, comme si tu venais de réaliser l'absurdité.*
 
 **12.** « J'ai un collègue qui commence chaque mail par "j'espère que tu vas bien". Frère, tu m'envoies un Excel à 8h02. Tu espères rien du tout. »
 
-**13.** « La machine à café du bureau fait un bruit qui ressemble exactement à mon moral le lundi. Un genre de gargouillis résigné. »
+**13.** « Le lundi matin, ma meilleure réunion de la semaine c'est avec la machine à café. Aucun ordre du jour. Pas de notes. On se comprend. »
 
 **14.** « On m'a dit "habille-toi pour le poste que tu veux". Je suis venu en pyjama. Je veux être au lit. »
 *→ Deadpan total. Zéro sourire.*
 
 **15.** « Le flex office c'est comme les chaises musicales, sauf que personne rigole et le prix c'est un câble HDMI qui marche. »
 
-**16.** « Mon collègue met "envoyé depuis mon iPhone" en signature. T'as pas besoin de te justifier. On sait tous que t'es pas au bureau. »
+**16.** « Mon collègue a gardé "Envoyé depuis mon iPhone" en signature. Il est assis en face de moi. Sur un PC. »
 
 Si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
 
@@ -1437,13 +1437,13 @@ Si tu veux [devenir la personne qu'on attend à la machine à café](/conseils),
 
 Fary l'a dit : « la drague, c'est du stand-up devant une seule personne qui peut partir ».
 
-**17.** « J'ai mis "aventurier" sur mon profil. Mon aventure la plus récente, c'est d'avoir goûté un nouveau plat au resto au lieu de reprendre le même depuis 3 ans. »
+**17.** « Sur mon profil j'ai mis "aventurier". Ma dernière aventure : commander autre chose que le burger au menu. J'ai hésité 10 minutes. C'était intense. »
 
 **18.** « On m'a dit "sois naturel sur les dates". Mon naturel c'est rester chez moi en chaussettes. C'est ça que tu veux que je montre ? »
 
 **19.** « Première chose que je regarde chez quelqu'un ? La vitesse de réponse aux messages. Tes yeux, c'est le deuxième critère. »
 
-**20.** « Les applis de rencontre, c'est comme le menu d'un resto trop grand. Trop de choix, tu finis par prendre la même chose qu'à chaque fois. »
+**20.** « J'ai passé 2 heures à peaufiner mon profil de dating. Je l'ai plus jamais ouvert. C'est mon projet le plus abouti. »
 
 **21.** « Premier date, la personne me dit "je suis un livre ouvert". On était au dessert et j'avais toujours pas passé la préface. »
 
@@ -1461,15 +1461,15 @@ Blanche Gardin dit que la famille c'est « un groupe WhatsApp qu'on a pas choisi
 
 **25.** « Ma mère m'envoie des vocaux de 4 minutes. Pas un message vocal — un podcast. Prochain épisode : pourquoi je mets pas de manteau. »
 
-**26.** « Mon père utilise Google comme si c'était son psy. Il tape des questions entières : "pourquoi mon fils m'appelle jamais". Papa, c'est un moteur de recherche, pas une thérapie. »
+**26.** « Je suis tombé sur l'historique Google de mon père. Dernière recherche : "pourquoi mon fils m'appelle jamais". On en a pas reparlé. »
 
-**27.** « Ma grand-mère m'a demandé ce que c'est un influenceur. J'ai dit "c'est quelqu'un qui montre ce qu'il mange". Elle a dit "ah, comme tante Martine sur WhatsApp". Elle a pas tort. »
+**27.** « Ma grand-mère m'a demandé ce que c'est un influenceur. J'ai dit "c'est quelqu'un qui montre ce qu'il mange". Elle a dit "ah, comme tante Martine sur WhatsApp". »
 
-**28.** « En repas de famille, y a toujours un oncle qui dit "de mon temps…". De ton temps, y avait un seul shampoing et il servait aussi pour le chien. »
+**28.** « Mon oncle dit toujours "de mon temps, c'était pas pareil". De son temps, un appart coûtait le prix d'un vélo. Effectivement, c'était pas pareil. »
 
 **29.** « Ma mère quand je mange pas assez : "t'as pas faim ?". Ma mère quand je me ressers : "t'as pas DÉJÀ faim ?". Y a pas de bonne réponse. C'est un escape game sans sortie. »
 
-**30.** « Le groupe WhatsApp de la famille, c'est 10% d'infos utiles et 90% de mon père qui envoie des photos de couchers de soleil sans légende. »
+**30.** « J'ai compté les couchers de soleil envoyés par mon père dans le groupe famille. 1 274 en 3 ans. Jamais de légende. J'aurais pas dû compter. »
 
 ---
 
@@ -1479,29 +1479,29 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **31.** « Mon pote me dit "on fait un truc chill ce soir". Chill pour lui c'est 4 bars, 2 clubs et un kebab à 5h du mat. On a pas le même dictionnaire. »
 
-**32.** « J'ai un ami qui répond "je vais voir" à toutes les invitations. Il a jamais vu. Il vit dans un monde parallèle où il est toujours en train de voir. »
+**32.** « J'ai un ami qui répond "je vais voir" à toutes les invitations. Il a jamais vu. Personne sait ce qu'il regarde. »
 
-**33.** « Le mec qui met 3h à répondre mais qui est "en ligne" en permanence. T'es pas occupé, t'es sur une autre conversation. Je suis ta saison 2, il regarde la saison 1. »
+**33.** « Il est "en ligne" depuis 11h et m'a toujours pas répondu. Je suis officiellement sur liste d'attente. Sans date estimée. »
 
-**34.** « Un pote m'a dit qu'il faisait un "digital detox". Je l'ai vu poster une story de sa digital detox 20 minutes après. »
+**34.** « Digital detox annoncée le lundi. Story le mardi pour le bilan. Story le mercredi pour les 48h. Sa détox a plus d'épisodes que ma série préférée. »
 
 **35.** « On a un groupe WhatsApp qui s'appelle "Orga soirée". On a toujours pas choisi le bar. Le groupe est devenu un monument historique. »
 
-**36.** « Mon meilleur pote me connaît tellement bien qu'il finit mes phrases. Le problème c'est qu'il les finit mieux que moi. C'est vexant. »
+**36.** « Le seul qui finit mes phrases mieux que moi, c'est mon meilleur pote. J'ai commencé à lui donner le début et à m'arrêter. On a trouvé un système. »
 
 **37.** « On dit "c'est l'intention qui compte". Ça, c'est un truc inventé par quelqu'un qui offre des bougies chaque Noël. »
 
-**38.** « Y a deux types de potes : ceux qui te disent "t'es beau" avant de sortir, et ceux qui te disent la vérité. Garde les deux, mais écoute les deuxièmes. »
+**38.** « Le pote précieux, c'est celui qui regarde ta tenue et dit juste : "t'es sûr ?". Rien d'autre. Il m'a évité trois catastrophes. »
 
 ---
 
 ## Les vannes WhatsApp / réseaux
 
-**39.** « "Tu fais quoi ?" Le message le plus stressant de la langue française. La vraie question c'est jamais ce que tu fais, c'est ce que tu VAS faire. Pour eux. »
+**39.** « "Tu fais quoi ?" Le message le plus stressant de la langue française. Parce que la vraie question, c'est ce que tu VAS faire. Pour eux. »
 
 **40.** « J'ai 47 onglets ouverts. C'est pas du multitasking, c'est de l'anxiété avec du Wi-Fi. »
 
-**41.** « J'ai 14 conversations ouvertes et je réponds à aucune. C'est pas de l'antisocialité, c'est du multitasking émotionnel. »
+**41.** « J'ai 14 conversations ouvertes et je réponds à aucune. Un message jamais envoyé, c'est un message que je regretterai jamais. C'est préventif. »
 
 **42.** « Mon temps d'écran cette semaine : 7h par jour. C'est plus un téléphone, c'est un emploi à temps partiel. Et il me paye pas. »
 
@@ -1517,7 +1517,7 @@ Waly Dia a commencé comme ça — à faire rire sa bande avant de monter sur sc
 
 **46.** « Je fais pas la sieste. Je fais une "micro-session de récupération cognitive". Ça passe mieux en réunion. »
 
-**47.** « Mon niveau en cuisine c'est : l'alarme incendie est mon minuteur. »
+**47.** « Deux heures de cuisine pour mon dîner de vendredi. À 22h15, j'ai commandé des pizzas. C'était mon dîner le plus réussi. »
 
 **48.** « J'ai essayé d'être matinal pendant une semaine. Résultat : je suis pas matinal, je suis juste fatigué plus tôt. »
 
