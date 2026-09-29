@@ -373,7 +373,7 @@ export default function AnatomieVannePage() {
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/vannes"
-              className="inline-flex items-center justify-center rounded-lg bg-accent-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-primary-hover"
+              className="inline-flex items-center justify-center rounded-lg bg-accent-secondary-hover px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-secondary"
             >
               Voir des vannes en action
             </Link>

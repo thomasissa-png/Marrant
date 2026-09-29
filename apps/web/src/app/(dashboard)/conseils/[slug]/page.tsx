@@ -6,6 +6,7 @@ import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildTipSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
+import { tipProse } from "@/lib/tip-prose";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -175,12 +176,12 @@ export default async function ConseilPage({
         <h1 className="font-display text-2xl font-bold md:text-3xl">{tip.title}</h1>
 
         <div className="mt-6 space-y-4 text-text-secondary">
-          <p className="whitespace-pre-wrap text-base leading-relaxed">{tip.content}</p>
+          <p className="whitespace-pre-wrap text-base leading-relaxed">{tipProse(tip.content)}</p>
         </div>
 
         <section className="mt-8 rounded-xl border border-border bg-background-card p-5">
           <h2 className="font-display text-base font-bold text-text-primary">Exemple concret</h2>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tip.example}</p>
+          <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
         </section>
 
         {/* Freemium : l'exercice (application) reste réservé aux inscrits. */}
@@ -193,7 +194,7 @@ export default async function ConseilPage({
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/register"
-              className="rounded-lg bg-accent-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-primary/90"
+              className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
               Créer un compte gratuit
             </Link>

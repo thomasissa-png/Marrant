@@ -105,7 +105,7 @@ export default function CeoDashboardPage() {
             {authError && <p className="text-sm text-error">{authError}</p>}
             <button
               type="submit"
-              className="w-full rounded-lg bg-accent-primary py-3 font-semibold text-white transition-colors hover:bg-accent-primary-hover"
+              className="w-full rounded-lg bg-accent-secondary-hover py-3 font-semibold text-white transition-colors hover:bg-accent-secondary"
             >
               Entrer
             </button>

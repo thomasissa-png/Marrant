@@ -189,7 +189,11 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      labelledBy={tab === "forgot-password" ? "auth-modal-forgot-title" : `auth-modal-tab-${tab}`}
+    >
       <Card className="w-full">
         <CardHeader className="text-center">
           <span className="font-display text-2xl font-bold text-gradient">
@@ -197,15 +201,16 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
           </span>
           {/* Tabs */}
           {tab === "forgot-password" ? (
-            <p className="mt-4 text-sm font-medium text-text-primary">Mot de passe oublié</p>
+            <p id="auth-modal-forgot-title" className="mt-4 text-sm font-medium text-text-primary">Mot de passe oublié</p>
           ) : (
             <div className="mt-4 flex rounded-lg bg-background-elevated p-1" role="tablist">
               <button
+                id="auth-modal-tab-login"
                 role="tab"
                 aria-selected={tab === "login"}
                 className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   tab === "login"
-                    ? "bg-accent-primary text-white"
+                    ? "bg-accent-secondary-hover text-white"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
                 onClick={() => switchTab("login")}
@@ -213,11 +218,12 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
                 Connexion
               </button>
               <button
+                id="auth-modal-tab-register"
                 role="tab"
                 aria-selected={tab === "register"}
                 className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   tab === "register"
-                    ? "bg-accent-primary text-white"
+                    ? "bg-accent-secondary-hover text-white"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
                 onClick={() => switchTab("register")}

@@ -215,7 +215,7 @@ export default async function VideoPage({
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/register"
-              className="rounded-lg bg-accent-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-primary/90"
+              className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
               Créer un compte gratuit
             </Link>

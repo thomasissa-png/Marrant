@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
               deviens-marrant.fr
             </span>
           </Link>
-          <CardTitle>Mot de passe oublié</CardTitle>
+          <h1 className="font-display text-lg font-bold text-text-primary">Mot de passe oublié</h1>
           <CardDescription>
             {success
               ? "Jette un œil à ta boîte mail, le lien est en route."

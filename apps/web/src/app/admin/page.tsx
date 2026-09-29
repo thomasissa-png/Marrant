@@ -383,7 +383,7 @@ export default function AdminPage() {
             {error && <p className="text-sm text-error">{error}</p>}
             <button
               type="submit"
-              className="w-full rounded-lg bg-accent-primary py-3 font-semibold text-white transition-colors hover:bg-accent-primary-hover"
+              className="w-full rounded-lg bg-accent-secondary-hover py-3 font-semibold text-white transition-colors hover:bg-accent-secondary"
             >
               Accéder au backoffice
             </button>
@@ -710,7 +710,7 @@ function UsersTab({
           />
           <button
             type="submit"
-            className="rounded-lg bg-accent-primary px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-primary-hover"
+            className="rounded-lg bg-accent-secondary-hover px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-secondary"
           >
             Chercher
           </button>
@@ -1138,7 +1138,7 @@ function PlanningTab({
             onClick={() => setActiveSection(tab.id)}
             className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               activeSection === tab.id
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-secondary-hover text-white"
                 : "bg-background-elevated text-text-muted hover:text-text-secondary"
             }`}
           >

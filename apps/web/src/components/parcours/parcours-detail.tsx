@@ -11,6 +11,7 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { frenchQuizQuotes, getParcoursDifficultyLabel, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo } from "@/lib/fr-typo";
+import { tipProse } from "@/lib/tip-prose";
 import Link from "next/link";
 
 interface VideoRef {
@@ -497,7 +498,7 @@ export function ParcoursDetail({
                 isCompleted
                   ? "border-accent-primary/30 bg-accent-primary/5"
                   : isSequentiallyLocked
-                    ? "opacity-60"
+                    ? "border-dashed"
                     : ""
               }
             >
@@ -526,7 +527,7 @@ export function ParcoursDetail({
                         isCompleted
                           ? "bg-accent-primary text-white"
                           : isSequentiallyLocked
-                            ? "bg-background-elevated text-text-muted/50"
+                            ? "bg-background-elevated text-text-muted opacity-60"
                             : "bg-background-elevated text-text-muted"
                       }`}
                       aria-hidden="true"
@@ -634,7 +635,7 @@ export function ParcoursDetail({
                             Le conseil
                           </h4>
                           <p className="text-sm text-text-secondary">
-                            {step.tip.content}
+                            {tipProse(step.tip.content)}
                           </p>
                         </div>
                       )}
@@ -645,7 +646,7 @@ export function ParcoursDetail({
                             Exemple concret
                           </h4>
                           <p className="rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">
-                            {step.tip.example}
+                            {tipProse(step.tip.example)}
                           </p>
                         </div>
                       )}
@@ -656,7 +657,7 @@ export function ParcoursDetail({
                             Exercice pratique
                           </h4>
                           <p className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3 text-sm text-text-secondary">
-                            {step.tip.exercise}
+                            {tipProse(step.tip.exercise)}
                           </p>
                         </div>
                       )}

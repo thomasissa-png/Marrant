@@ -22,7 +22,7 @@ export const faqs = [
   {
     question: "Comment avoir de la répartie sans être méchant ?",
     answer:
-      "La vraie répartie, ce n\u2019est pas écraser l\u2019autre. C\u2019est créer un moment drôle et léger, même quand la remarque de départ était piquante. L\u2019objectif, c\u2019est que tout le monde rie — y compris la personne qui t\u2019a lancé la remarque. Des techniques comme l\u2019autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
+      "La vraie répartie, ce n\u2019est pas écraser l\u2019autre. C\u2019est créer un moment drôle et léger, même quand la remarque de départ était piquante. L\u2019objectif, c\u2019est que tout le monde rie, y compris la personne qui t\u2019a lancé la remarque. Des techniques comme l\u2019autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
   },
   {
     question: "0,99 \u20AC/mois, c\u2019est vraiment tout ? Pas de frais cachés ?",
@@ -38,6 +38,6 @@ export const faqs = [
   {
     question: "Comment devenir marrant si je n\u2019ai pas le \u00AB sens de l\u2019humour \u00BB ?",
     answer:
-      "Tout le monde a un sens de l\u2019humour — il est peut-être juste en sommeil. Les personnes qui se décrivent comme \u00AB pas drôles \u00BB pensent souvent des choses drôles mais ne les disent pas par peur du jugement. Nos exercices t\u2019aident à libérer cet humour intérieur progressivement, en commençant par des situations à faible enjeu.",
+      "Tout le monde a un sens de l\u2019humour : il est peut-être juste en sommeil. Les personnes qui se décrivent comme \u00AB pas drôles \u00BB pensent souvent des choses drôles mais ne les disent pas par peur du jugement. Nos exercices t\u2019aident à libérer cet humour intérieur progressivement, en commençant par des situations à faible enjeu.",
   },
 ];

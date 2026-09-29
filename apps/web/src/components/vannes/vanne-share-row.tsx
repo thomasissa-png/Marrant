@@ -75,7 +75,7 @@ export function VanneShareRow({ jokeId, slug, content, punchline }: VanneShareRo
       <button
         type="button"
         onClick={handleNativeShare}
-        className="inline-flex items-center gap-2 rounded-lg bg-accent-primary px-3 py-2 text-sm font-semibold text-white transition hover:bg-accent-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="inline-flex items-center gap-2 rounded-lg bg-accent-secondary-hover px-3 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         aria-label="Partager"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>

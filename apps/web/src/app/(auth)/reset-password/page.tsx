@@ -5,7 +5,7 @@ import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 
 export default function ResetPasswordPage() {
   return (
@@ -86,7 +86,7 @@ function ResetPasswordContent() {
               deviens-marrant.fr
             </span>
           </Link>
-          <CardTitle>Nouveau mot de passe</CardTitle>
+          <h1 className="font-display text-lg font-bold text-text-primary">Nouveau mot de passe</h1>
           <CardDescription>
             {success
               ? "C'est bon, ton nouveau mot de passe est en place."

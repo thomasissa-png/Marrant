@@ -39,12 +39,12 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg">
+    <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg" labelledBy="premium-modal-title">
       <div className="rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10">
         <Badge variant="primary" className="mb-3">
           Prix de lancement
         </Badge>
-        <h3 className="font-display text-xl font-bold text-text-primary">
+        <h3 id="premium-modal-title" className="font-display text-xl font-bold text-text-primary">
           Débloque tout le contenu
         </h3>
         <div className="mt-3 flex items-baseline gap-2">

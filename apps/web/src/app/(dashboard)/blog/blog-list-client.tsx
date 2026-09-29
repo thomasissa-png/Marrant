@@ -38,7 +38,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
           href="/blog"
           className={`inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full px-4 text-sm transition-colors ${
             !selectedCategory
-              ? "bg-accent-primary text-white"
+              ? "bg-accent-secondary-hover text-white"
               : "bg-background-elevated text-text-secondary hover:text-text-primary"
           }`}
         >
@@ -50,7 +50,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
             href={`/blog?category=${cat}`}
             className={`inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full px-4 text-sm transition-colors ${
               selectedCategory === cat
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-secondary-hover text-white"
                 : "bg-background-elevated text-text-secondary hover:text-text-primary"
             }`}
           >

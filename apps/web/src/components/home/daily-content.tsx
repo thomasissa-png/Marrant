@@ -9,6 +9,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
+import { tipProse } from "@/lib/tip-prose";
 
 interface Joke {
   id: string;
@@ -256,14 +257,14 @@ export function DailyContent() {
                   <h3 className="font-display text-lg font-bold text-text-primary">
                     {data.tip.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-primary">{data.tip.content}</p>
+                  <p className="text-sm leading-relaxed text-text-primary">{tipProse(data.tip.content)}</p>
                   {data.tip.example && (
                     <details className="group/d rounded-lg bg-background-elevated">
                       <summary className={DETAILS_SUMMARY}>
                         Exemple concret
                         <Chevron />
                       </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.tip.example}</p>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{tipProse(data.tip.example)}</p>
                     </details>
                   )}
                   {data.tip.exercise && (
@@ -272,7 +273,7 @@ export function DailyContent() {
                         Exercice du jour
                         <Chevron />
                       </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.tip.exercise}</p>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{tipProse(data.tip.exercise)}</p>
                     </details>
                   )}
                 </div>

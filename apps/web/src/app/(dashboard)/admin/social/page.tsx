@@ -196,7 +196,7 @@ export default function AdminSocialPage() {
             onClick={() => setActiveTab(tab.status)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === tab.status
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-secondary-hover text-white"
                 : "bg-background-elevated text-text-secondary hover:text-text-primary"
             }`}
           >

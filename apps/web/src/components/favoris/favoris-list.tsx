@@ -9,6 +9,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { useFavoritesStore } from "@/stores/favorites-store";
+import { tipProse } from "@/lib/tip-prose";
 import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
 
@@ -394,17 +395,17 @@ export function FavorisList() {
                     <CardTitle>{tip.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
+                    <p className="text-sm leading-relaxed text-text-primary">{tipProse(tip.content)}</p>
 
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
                         <div className="rounded-lg bg-background-elevated p-4">
                           <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.example)}</p>
                         </div>
                         <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                           <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.exercise)}</p>
                         </div>
                       </div>
                     ) : (
