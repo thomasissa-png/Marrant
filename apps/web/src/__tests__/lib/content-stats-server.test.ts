@@ -1,10 +1,12 @@
 import { roundDownMarketing, formatCount } from "@/lib/content-stats-server";
 
 describe("roundDownMarketing", () => {
-  it("arrondit à la centaine inférieure au-dessus de 100", () => {
+  it("arrondit à la cinquantaine inférieure au-dessus de 100 (compteurs distincts, GO Thomas)", () => {
     expect(roundDownMarketing(602)).toBe(600);
     expect(roundDownMarketing(400)).toBe(400);
-    expect(roundDownMarketing(499)).toBe(400);
+    expect(roundDownMarketing(499)).toBe(450);
+    expect(roundDownMarketing(562)).toBe(550);
+    expect(roundDownMarketing(372)).toBe(350);
     expect(roundDownMarketing(100)).toBe(100);
   });
 

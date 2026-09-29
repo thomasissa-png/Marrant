@@ -25,14 +25,14 @@ export const MEMBERS_SOCIAL_PROOF_MIN = 100;
  */
 export function roundToTen(n: number): number {
   if (!Number.isFinite(n) || n <= 0) return 0;
-  if (n >= 100) return Math.floor(n / 100) * 100;
+  if (n >= 100) return Math.floor(n / 50) * 50;
   return Math.floor(n / 10) * 10;
 }
 
 /**
  * Hook pour récupérer le nombre total de contenus actifs.
  * Utilisé pour afficher des compteurs dynamiques dans les CTA et upsells.
- * Les compteurs sont arrondis (dizaine si < 100, centaine sinon) pour rester marketing.
+ * Les compteurs sont arrondis (dizaine si < 100, cinquantaine sinon) pour rester marketing.
  */
 export function useContentStats() {
   const [stats, setStats] = useState<ContentStats>(DEFAULT_STATS);

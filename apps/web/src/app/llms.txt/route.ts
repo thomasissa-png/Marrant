@@ -132,7 +132,7 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push("");
   // Format llmstxt.org : `- [nom](url): notes` (deux-points collé à la parenthèse,
   // sinon les parseurs de référence n'extraient pas la description).
-  lines.push(`- [Vannes](${BASE_URL}/vannes): catalogue de 600+ vannes classées par catégorie (boulot, couple, soirées, école, gaming…).`);
+  lines.push(`- [Vannes](${BASE_URL}/vannes): catalogue de 550+ vannes classées par catégorie (boulot, couple, soirées, école, gaming…).`);
   lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils): techniques de répartie, timing, storytelling, autodérision avec exercices.`);
   lines.push(`- [Vidéos stand-up](${BASE_URL}/videos): extraits d'humoristes français analysés technique par technique.`);
   lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de 3 à 6 semaines (15 à 20 min par semaine selon le parcours).`);

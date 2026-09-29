@@ -1,5 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { jokeContentKey } from "@/lib/jokes-dedupe";
+import { tipTitleKey } from "@/lib/tips-dedupe";
 
 import * as React from "react";
 
@@ -28,13 +30,14 @@ const FALLBACK: ContentStats = { jokes: 0, tips: 0, videos: 0 };
 
 /**
  * Arrondi marketing :
- * - >= 100 → arrondi à la centaine inférieure (602 → 600, 400 → 400)
+ * - >= 100 → arrondi à la cinquantaine inférieure (562 → 550, 372 → 350) : chiffres
+ *   justes (GO Thomas 29/09/2026 : compteurs = contenus distincts, 550+ / 350+)
  * - <  100 → arrondi à la dizaine inférieure (89 → 80, 66 → 60)
  * - 0        → 0 (permet un fallback texte "des centaines")
  */
 export function roundDownMarketing(n: number): number {
   if (!Number.isFinite(n) || n <= 0) return 0;
-  if (n >= 100) return Math.floor(n / 100) * 100;
+  if (n >= 100) return Math.floor(n / 50) * 50;
   return Math.floor(n / 10) * 10;
 }
 
@@ -44,14 +47,27 @@ export function formatCount(n: number, fallbackText: string): string {
   return rounded > 0 ? `${rounded}+` : fallbackText;
 }
 
+/**
+ * Compte les contenus actifs DISTINCTS (sans doublons), avec la même normalisation
+ * que les listes affichées (/api/jokes, /api/tips) : le compteur annonce ce que
+ * le visiteur peut réellement voir.
+ */
+export async function countDistinctContent(): Promise<ContentStats> {
+  const [jokes, tips, videos] = await Promise.all([
+    prisma.joke.findMany({ where: { isActive: true }, select: { content: true } }),
+    prisma.tip.findMany({ where: { isActive: true }, select: { title: true } }),
+    prisma.video.count({ where: { isActive: true } }),
+  ]);
+  return {
+    jokes: new Set(jokes.map((j) => jokeContentKey(j.content))).size,
+    tips: new Set(tips.map((t) => tipTitleKey(t.title))).size,
+    videos,
+  };
+}
+
 async function fetchContentStats(): Promise<ContentStats> {
   try {
-    const [jokes, tips, videos] = await Promise.all([
-      prisma.joke.count({ where: { isActive: true } }),
-      prisma.tip.count({ where: { isActive: true } }),
-      prisma.video.count({ where: { isActive: true } }),
-    ]);
-    return { jokes, tips, videos };
+    return await countDistinctContent();
   } catch {
     return FALLBACK;
   }
