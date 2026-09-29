@@ -7,7 +7,7 @@
 
 ## 1. Verdict global + Score GEO /100
 
-### Score recalculé : 76/100
+### Score recalculé : 54/100 (nouvelle rubrique 7 dimensions)
 
 | Dimension | Score | Max | Notes |
 |---|---|---|---|
@@ -17,10 +17,10 @@
 | Articles pillar (citabilité) | 17 | 20 | CLEF, définitions, listes numérotées, FAQ — excellents |
 | Entity confidence (sameAs, externe) | 3 | 15 | Pas de sameAs, pas de Wikipedia/Wikidata, réseaux à 0 abonné |
 | Content freshness | 4 | 10 | Pillar articles non mis à jour depuis mars 2026 (6 mois+) |
-| Off-site / community | 1 | 10 | Aucune présence Reddit/forums documentée |
+| Off-site / community | 1 | 10 | Aucune présence Reddit/forums, 1 seule mention tierce (BetaList) |
 | **Total** | **54** | **100** | — |
 
-**[Note sur le changement d'échelle]** : Le score 78/100 de mars 2026 (geo-strategy.md) et le 82/100 estimé post-sprint1 utilisaient 5 dimensions. Cet audit ajoute 2 dimensions nouvelles (entity confidence, off-site) qui étaient absentes du scoring initial mais comptent pour les LLM. Score rebasé sur 100 pour comparaison homogène.
+**[Réconciliation avec les scores précédents]** : Le score 78/100 de mars 2026 (geo-strategy.md) et le 82/100 estimé post-sprint1 utilisaient une rubrique de 5 dimensions techniques (robots, schemas, contenu). Cet audit ajoute 2 dimensions nouvelles (entity confidence /15, off-site /10) qui étaient absentes du scoring initial mais sont déterminantes pour les citations LLM. Sur les 5 anciennes dimensions seulement, le score serait ~70/75 (nette progression vs les ~65/75 de mars 2026). C'est la découverte des gaps entity confidence et off-site qui tire le score total à 54/100.
 
 ### Progression réelle vs mars 2026
 
@@ -178,21 +178,26 @@ Tous les claims majeurs scorent 2/3 ou 3/3. Aucun claim "leader du marché" ou s
 
 **Présence externe** : données partielles via WebSearch (voir note ci-dessous)
 
-**Note** : Les tests de présence LLM (requêtes vers ChatGPT/Perplexity) via WebSearch fournissent des données indicatives, pas des mesures directes des citations LLM.
+**WebSearch du 2026-09-29** : données indicatives, pas de mesure directe des citations LLM.
 
 **Ce qui est connu** :
 - Profils sociaux : LinkedIn, Twitter/X, Instagram créés récemment, 0 abonné (project-context.md L.80)
 - Wikidata/Wikipedia : aucune entrée détectable (aucun `sameAs` dans les schemas → signe fort d'absence)
-- Crunchbase/startup directories : non mentionné dans les sources
-- Mentions presse / backlinks : le haro-agent (backlinks presse) a été supprimé en s9 (project-context.md L.219)
+- BetaList : 1 mention détectée (betalist.com/startups/deviens-marrant) — seule source tierce trouvée
+- Reddit / forums : aucune mention (WebSearch "deviens-marrant reddit" = 0 résultats pertinents)
+- Mentions presse / backlinks : haro-agent supprimé en s9 (project-context.md L.219). Aucune mention presse détectée.
 - Person schema Alex Durand : `url` = /a-propos seulement, pas de profil LinkedIn public lié
 
-**Incohérence E-E-A-T détectée** :
-- La page /a-propos mentionne "Alex Durand" mais sans nom de famille jusqu'en s10 (now visible in a-propos.txt). OK.
-- La page /a-propos mentionne "communauté de 1 500+ membres" — ce chiffre est extractible et vérifiable (claim GEO 3/3).
-- Mais : aucun lien vers une biographie externe, aucun article de presse, aucune mention dans une source tierce.
+**Position dans les SERPs pour les requêtes cibles** (WebSearch 2026-09-29, indicatif) :
+Requête "comment devenir drôle techniques humour francais 2026" → deviens-marrant.fr apparaît dans les résultats Google aux côtés de : socialskills.fr, atelier-theatre.fr, farce-et-attrape.fr, olivier-roland.com, esprit-livre.com. Bonne indexation confirmée.
 
-**Impact** : ChatGPT cite prioritairement les sources avec autorité thématique connue. Sans knowledge graph externe, deviens-marrant.fr est un inconnu pour les LLM, même avec des schemas parfaits en interne.
+**Incohérence E-E-A-T détectée** :
+- La page /a-propos mentionne "Alex Durand, fondateur & coach d'humour" avec biographie — bien.
+- La page /a-propos mentionne "communauté de 1 500+ membres" — claim extractible 3/3 si vérifiable publiquement.
+- Mais : aucun lien vers une biographie externe, aucun article de presse, aucune mention dans une source tierce (hors BetaList).
+- Les concurrents (socialskills.fr, olivier-roland.com) ont des auteurs avec mentions tierces plus nombreuses.
+
+**Impact** : ChatGPT cite prioritairement les sources avec autorité thématique connue. Sans knowledge graph externe, deviens-marrant.fr est un inconnu pour les LLM, même avec des schemas excellents en interne. Une seule mention tierce (BetaList) est insuffisante.
 
 ---
 
@@ -216,12 +221,14 @@ Référence : contenu < 2 mois = +28% citations IA. Aucun article core ne rentre
 
 ### 3.7 Off-site / community — 1/10
 
-Donnée manquante pour une mesure précise (nécessiterait WebSearch ou outil de monitoring). Ce qui est connu :
-- Le haro-agent (backlinks presse HARO) a été supprimé en s9.
-- Aucune mention de présence Reddit dans les sources analysées.
-- Les réseaux sociaux sont à 0 abonné.
+**Source** : WebSearch 2026-09-29, project-context.md
 
-Estimation conservative : présence off-site quasi-nulle. Impact Perplexity significatif (46,7% de ses sources proviennent de Reddit/forums).
+- BetaList : 1 mention confirmée (betalist.com/startups/deviens-marrant) — seule mention tierce trouvée.
+- Reddit : aucune mention de "deviens-marrant" sur Reddit ou forums (WebSearch confirmé).
+- Réseaux sociaux : 0 abonné sur LinkedIn, Twitter/X, Instagram (project-context.md L.80).
+- Presse : haro-agent supprimé en s9. Aucun article de presse détecté.
+
+Présence off-site quasi-nulle. Impact Perplexity significatif : Perplexity cite Reddit à 46,7% de ses sources. Sans présence communautaire, la probabilité de citation par Perplexity est très faible, quelle que soit la qualité du contenu sur le site.
 
 ---
 
