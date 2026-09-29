@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
-import { buildJokeSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
+import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -37,8 +37,9 @@ async function findJokeBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
   try {
-    const joke = await prisma.joke.findFirst({
+    const candidates = await prisma.joke.findMany({
       where: { id: { startsWith: shortId }, isActive: true },
+      take: 200,
       select: {
         id: true,
         content: true,
@@ -52,7 +53,7 @@ async function findJokeBySlug(slug: string) {
         createdAt: true,
       },
     });
-    return joke;
+    return pickBySlug(candidates, slug, buildJokeSlug);
   } catch {
     return null;
   }

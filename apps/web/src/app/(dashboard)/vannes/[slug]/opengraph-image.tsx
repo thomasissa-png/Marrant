@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { prisma } from "@/lib/prisma";
-import { parseShortIdFromSlug } from "@/lib/catalogue-slug";
+import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 
 export const runtime = "nodejs";
 export const alt = "Vanne — deviens-marrant.fr";
@@ -14,10 +14,12 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
   let category = "";
   if (shortId) {
     try {
-      const joke = await prisma.joke.findFirst({
+      const candidates = await prisma.joke.findMany({
         where: { id: { startsWith: shortId }, isActive: true },
-        select: { content: true, punchline: true, category: true },
+        select: { id: true, content: true, punchline: true, category: true },
+        take: 200,
       });
+      const joke = pickBySlug(candidates, params.slug, buildJokeSlug);
       if (joke) {
         content = joke.content.length > 130 ? joke.content.slice(0, 127) + "..." : joke.content;
         punchline = joke.punchline.length > 90 ? joke.punchline.slice(0, 87) + "..." : joke.punchline;

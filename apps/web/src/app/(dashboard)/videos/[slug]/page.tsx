@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
-import { buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
+import { buildVideoSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -34,8 +34,9 @@ async function findVideoBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
   try {
-    const video = await prisma.video.findFirst({
+    const candidates = await prisma.video.findMany({
       where: { id: { startsWith: shortId }, isActive: true },
+      take: 200,
       select: {
         id: true,
         title: true,
@@ -52,7 +53,7 @@ async function findVideoBySlug(slug: string) {
         createdAt: true,
       },
     });
-    return video;
+    return pickBySlug(candidates, slug, buildVideoSlug);
   } catch {
     return null;
   }

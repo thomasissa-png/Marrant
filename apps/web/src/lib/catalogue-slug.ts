@@ -91,3 +91,39 @@ export function buildTipSlug(tip: { id: string; title: string }): string {
 export function buildVideoSlug(video: { id: string; title: string }): string {
   return buildCatalogueSlug(video.title, video.id);
 }
+
+/**
+ * Choisit, parmi les contenus qui partagent le même shortId, celui qui
+ * correspond au slug demandé.
+ *
+ * s11 : les cuid créés en rafale par le seed partagent souvent leurs 10
+ * premiers caractères (ex. 89 vidéos → 3 préfixes). `findFirst({ startsWith })`
+ * renvoyait alors la même fiche pour des URL différentes (contenu dupliqué,
+ * mauvaise vidéo affichée). On compare donc le slug complet, puis, à défaut
+ * (ancienne URL d'un contenu renommé), le nombre de mots en commun.
+ * Les URL existantes ne changent pas.
+ */
+export function pickBySlug<T extends { id: string }>(
+  candidates: T[],
+  slug: string,
+  buildSlug: (item: T) => string
+): T | null {
+  if (candidates.length === 0) return null;
+  if (candidates.length === 1) return candidates[0];
+  const wanted = slug.trim().toLowerCase();
+  const exact = candidates.find((c) => buildSlug(c) === wanted);
+  if (exact) return exact;
+  const words = new Set(wanted.split("-"));
+  let best = candidates[0];
+  let bestScore = -1;
+  for (const c of candidates) {
+    const score = buildSlug(c)
+      .split("-")
+      .filter((w) => words.has(w)).length;
+    if (score > bestScore) {
+      best = c;
+      bestScore = score;
+    }
+  }
+  return best;
+}

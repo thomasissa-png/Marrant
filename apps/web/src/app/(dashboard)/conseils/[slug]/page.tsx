@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
-import { buildTipSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
+import { buildTipSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -34,8 +34,9 @@ async function findTipBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
   try {
-    const tip = await prisma.tip.findFirst({
+    const candidates = await prisma.tip.findMany({
       where: { id: { startsWith: shortId }, isActive: true },
+      take: 200,
       select: {
         id: true,
         title: true,
@@ -48,7 +49,7 @@ async function findTipBySlug(slug: string) {
         createdAt: true,
       },
     });
-    return tip;
+    return pickBySlug(candidates, slug, buildTipSlug);
   } catch {
     return null;
   }
