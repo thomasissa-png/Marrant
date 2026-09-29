@@ -15,7 +15,9 @@ export const blogArticles: BlogArticle[] = [
     title: "Comment devenir drôle : le guide",
     excerpt:
       "\"Être drôle, c'est inné.\" Faux. La science et les pros prouvent le contraire. La méthode pour développer ton humour, avec exercices concrets.",
-    content: `"Soit t'es drôle, soit tu l'es pas." On a tous un oncle qui dit ça. Généralement, c'est le même oncle qui raconte la même blague sur les blondes depuis 2003. Lui, il est "né drôle", paraît-il. Spoiler : **l'humour est une compétence**, pas un chromosome. Et comme toute compétence, elle s'apprend.
+    content: `> **En bref :** Devenir drôle est une compétence qui s'apprend, pas un talent inné. L'humour repose sur 3 mécanismes cognitifs — observation, surprise, timing — que n'importe qui peut développer. Un programme structuré de 8 semaines suffit à progresser significativement, quel que soit le niveau de départ.
+
+"Soit t'es drôle, soit tu l'es pas." On a tous un oncle qui dit ça. Généralement, c'est le même oncle qui raconte la même blague sur les blondes depuis 2003. Lui, il est "né drôle", paraît-il. Spoiler : **l'humour est une compétence**, pas un chromosome. Et comme toute compétence, elle s'apprend.
 
 ## Pourquoi pense-t-on que l'humour est un talent inné ?
 
@@ -98,9 +100,9 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     readingTime: "7 min",
     category: "GUIDE",
     faqs: [
-      { question: "Comment devenir drôle rapidement ?", answer: "Commencez par observer les absurdités du quotidien (1 par jour), mémorisez 5 vannes courtes, et testez-les avec des proches. En 2 à 4 semaines de pratique régulière, vous verrez une vraie différence dans vos interactions." },
+      { question: "Comment devenir drôle rapidement ?", answer: "Commence par observer les absurdités du quotidien (1 par jour), mémorise 5 vannes courtes, et teste-les avec des proches. En 2 à 4 semaines de pratique régulière, tu verras une vraie différence dans tes interactions." },
       { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour repose sur des mécanismes cognitifs (observation, surprise, timing) que n'importe qui peut développer. Paul Mirabel, Fary, Blanche Gardin — tous ont appris et perfectionné leur humour pendant des années avant de devenir les pros qu'on connaît." },
-      { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout : vous observez plus et parlez moins, donc quand vous intervenez, l'effet de surprise est décuplé. Commencez par l'humour écrit (messages, réseaux sociaux), puis passez à l'oral progressivement avec des amis proches." },
+      { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout : tu observes plus et tu parles moins, donc quand tu interviens, l'effet de surprise est décuplé. Commence par l'humour écrit (messages, réseaux sociaux), puis passe à l'oral progressivement avec des amis proches." },
       { question: "Peut-on apprendre à être drôle à tout âge ?", answer: "Absolument. L'humour est un muscle cognitif qui se développe à tout âge. Des études scientifiques montrent qu'un entraînement de 8 semaines améliore significativement la capacité à faire rire, quel que soit l'âge de départ." },
     ],
   },
@@ -303,7 +305,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
 
 ## Erreur 1 : Expliquer la blague
 
-C'est le crime numéro 1 contre l'humour. Tu fais ta blague, il y a un flottement, tu paniques : "Non mais tu vois, c'est drôle parce que..." STOP. Tu viens de commettre un meurtre comique. Expliquer une blague, c'est comme disséquer un papillon : techniquement intéressant, mais le papillon est mort.
+C'est le crime numéro 1 contre l'humour. Tu fais ta blague, il y a un flottement, tu paniques : "Non mais tu vois, c'est drôle parce que..." Arrête tout. Tu viens de commettre un meurtre comique. Expliquer une blague, c'est comme disséquer un papillon : techniquement intéressant, mais le papillon est mort.
 
 **Paul Mirabel** a un sketch entier sur ce thème — il raconte une situation, la salle ne réagit pas immédiatement, et au lieu d'expliquer, il CONTINUE comme si de rien n'était. Et 30 secondes plus tard, le rire arrive. Parce que parfois, le cerveau a besoin de quelques secondes pour faire "clic".
 
@@ -421,7 +423,7 @@ L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur devien
     category: "AUTODERISION",
     faqs: [
       { question: "C'est quoi l'autodérision ?", answer: "L'autodérision consiste à rire de soi-même de façon contrôlée et bienveillante. C'est pointer un défaut mineur avec humour pour créer de la connexion, pas se démolir pour obtenir de la pitié. C'est un signal de confiance, pas de faiblesse." },
-      { question: "Comment faire de l'autodérision sans se rabaisser ?", answer: "Trois règles : visez uniquement les défauts mineurs (jamais les blessures profondes), souriez en le disant (signal d'humour, pas de détresse), et dosez (1 trait d'esprit par conversation, pas à chaque phrase)." },
+      { question: "Comment faire de l'autodérision sans se rabaisser ?", answer: "Trois règles : vise uniquement les défauts mineurs (jamais les blessures profondes), souris en le disant (signal d'humour, pas de détresse), et dose (1 trait d'esprit par conversation, pas à chaque phrase)." },
       { question: "Pourquoi l'autodérision fonctionne-t-elle aussi bien ?", answer: "Elle désarme les tensions, rend accessible et crée de la connexion instantanée. C'est paradoxal : montrer ses failles avec humour est perçu comme un signal de force et de confiance en soi, pas de faiblesse." },
     ],
   },
@@ -499,7 +501,7 @@ Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semai
     readingTime: "6 min",
     category: "GUIDE",
     faqs: [
-      { question: "Comment avoir de la répartie quand on débute ?", answer: "Commencez par 3 phrases filet de sécurité (ex: 'Intéressant', 'C'est noté'), pratiquez l'écoute active pour rebondir sur les mots des autres, et entraînez-vous dans des conversations à basse pression (boulanger, collègue). Les résultats arrivent en 2-3 semaines." },
+      { question: "Comment avoir de la répartie quand on débute ?", answer: "Commence par 3 phrases filet de sécurité (ex: 'Intéressant', 'C'est noté'), pratique l'écoute active pour rebondir sur les mots des autres, et entraîne-toi dans des conversations à basse pression (boulanger, collègue). Les résultats arrivent en 2-3 semaines." },
       { question: "Faut-il être drôle pour avoir de la répartie ?", answer: "Non. La répartie, c'est répondre avec à-propos, pas forcément avec humour. L'honnêteté surprenante et les questions bien placées sont souvent plus efficaces qu'une vanne." },
       { question: "Combien de temps pour développer sa répartie ?", answer: "Avec une pratique quotidienne de 5 minutes (3 phrases filet, écoute active, analyse post-conversation), la plupart des gens constatent une amélioration notable en 2 à 4 semaines." },
     ],
@@ -586,9 +588,9 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     readingTime: "6 min",
     category: "HABITUDES",
     faqs: [
-      { question: "Comment intégrer l'humour dans son quotidien ?", answer: "Commencez par 2 habitudes simples : noter une absurdité par jour (carnet) et reformuler une phrase banale de façon décalée. En une semaine, vous verrez la différence dans vos interactions." },
+      { question: "Comment intégrer l'humour dans son quotidien ?", answer: "Commence par 2 habitudes simples : noter une absurdité par jour (carnet) et reformuler une phrase banale de façon décalée. En une semaine, tu verras la différence dans tes interactions." },
       { question: "Faut-il être extraverti pour être drôle ?", answer: "Non. L'humour du quotidien, c'est une habitude mentale, pas un trait de personnalité. Les introvertis ont souvent un sens de l'observation plus aiguisé, ce qui est le premier ingrédient de l'humour." },
-      { question: "Quelle est l'habitude la plus facile pour commencer ?", answer: "Le carnet d'absurdités : notez chaque jour une situation absurde observée. C'est passif, sans pression sociale, et ça entraîne votre radar comique en arrière-plan." },
+      { question: "Quelle est l'habitude la plus facile pour commencer ?", answer: "Le carnet d'absurdités : note chaque jour une situation absurde observée. C'est passif, sans pression sociale, et ça entraîne ton radar comique en arrière-plan." },
       { question: "Combien de temps pour que ça devienne naturel ?", answer: "Environ 30 jours de pratique quotidienne. Le cerveau commence à chercher l'angle drôle automatiquement, comme un réflexe. C'est le même processus que pour apprendre une langue." },
     ],
   },
@@ -678,8 +680,8 @@ Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t
     category: "ANALYSE",
     faqs: [
       { question: "Quels sont les différents types d'humour ?", answer: "Les 5 grands types : observationnel (décrire la réalité avec précision), autodérision (rire de soi avec bienveillance), absurde (décalage et non-sens), jeux de mots (double sens et détournements), et humour noir (jouer avec les tabous)." },
-      { question: "Comment savoir quel type d'humour me correspond ?", answer: "Analysez ce qui vous fait rire (memes absurdes ? observations ? jeux de mots ?), demandez à vos proches quand vous les faites rire, et testez chaque type pendant une semaine pour voir lequel vient naturellement." },
-      { question: "Peut-on avoir plusieurs types d'humour ?", answer: "Oui, et c'est même recommandé. Les meilleurs humoristes sont des hybrides : Paul Mirabel mélange observationnel et absurde, Fary combine observationnel et jeux de mots. Identifiez votre type dominant puis enrichissez-le." },
+      { question: "Comment savoir quel type d'humour me correspond ?", answer: "Analyse ce qui te fait rire (memes absurdes ? observations ? jeux de mots ?), demande à tes proches quand tu les fais rire, et teste chaque type pendant une semaine pour voir lequel vient naturellement." },
+      { question: "Peut-on avoir plusieurs types d'humour ?", answer: "Oui, et c'est même recommandé. Les meilleurs humoristes sont des hybrides : Paul Mirabel mélange observationnel et absurde, Fary combine observationnel et jeux de mots. Identifie ton type dominant puis enrichis-le." },
       { question: "Quel type d'humour est le plus facile à apprendre ?", answer: "L'observationnel est le plus accessible : il suffit de décrire ce que tout le monde vit mais que personne ne formule. C'est aussi le type le plus universel — tout le monde peut s'identifier à une bonne observation." },
     ],
   },
@@ -755,7 +757,7 @@ Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment
     readingTime: "6 min",
     category: "ANALYSE",
     faqs: [
-      { question: "Comment faire de l'humour noir sans blesser ?", answer: "Trois règles : visez vers le haut (vous-même, le système, l'absurdité de la vie — jamais les personnes vulnérables), adaptez au contexte (amis proches oui, grand groupe d'inconnus non), et assurez-vous que la punchline justifie le sujet sensible." },
+      { question: "Comment faire de l'humour noir sans blesser ?", answer: "Trois règles : vise vers le haut (toi-même, le système, l'absurdité de la vie — jamais les personnes vulnérables), adapte au contexte (amis proches oui, grand groupe d'inconnus non), et assure-toi que la punchline justifie le sujet sensible." },
       { question: "Quelle est la différence entre humour noir et méchanceté ?", answer: "L'humour noir fait rire de l'absurdité d'une situation grave. La méchanceté fait mal à quelqu'un en se cachant derrière 'c'est une blague'. La différence : la cible (système vs personne) et la punchline (surprenante vs inexistante)." },
       { question: "L'humour noir est-il adapté au travail ?", answer: "En version très légère uniquement : métaphores exagérées sur le quotidien pro ('Cette réunion était tellement longue que j'ai commencé à rédiger mon testament'). Évitez les sujets réellement sensibles et la hiérarchie directe." },
     ],
@@ -955,8 +957,8 @@ Pour structurer ta progression, nos [parcours](/parcours) te guident semaine par
     readingTime: "7 min",
     category: "PRATIQUE",
     faqs: [
-      { question: "Comment développer son sens de l'humour avec des exercices ?", answer: "Commencez par des exercices passifs (noter une absurdité par jour) puis progressez vers des exercices actifs (reformulation x3, ping-pong verbal, journal de répartie). 5 minutes par jour suffisent pour les premiers résultats en 2 semaines." },
-      { question: "Quel est l'exercice le plus efficace pour devenir drôle ?", answer: "Le journal de répartie : chaque soir, identifiez un moment de la journée et écrivez 3 réponses drôles avec 3 techniques différentes. Ça développe la rapidité d'esprit et le vocabulaire comique." },
+      { question: "Comment développer son sens de l'humour avec des exercices ?", answer: "Commence par des exercices passifs (noter une absurdité par jour) puis progresse vers des exercices actifs (reformulation x3, ping-pong verbal, journal de répartie). 5 minutes par jour suffisent pour les premiers résultats en 2 semaines." },
+      { question: "Quel est l'exercice le plus efficace pour devenir drôle ?", answer: "Le journal de répartie : chaque soir, identifie un moment de la journée et écris 3 réponses drôles avec 3 techniques différentes. Ça développe la rapidité d'esprit et le vocabulaire comique." },
       { question: "Combien de temps par jour faut-il consacrer ?", answer: "5 minutes pour les débutants, 10-15 pour les intermédiaires. La régularité est plus importante que la durée. 5 minutes par jour pendant 30 jours battent 2 heures une fois par mois." },
       { question: "Peut-on s'entraîner seul à être drôle ?", answer: "Oui, pour 7 exercices sur 10 (radar, reformulation, exagération, journal, analyse, écriture, callback). Le ping-pong verbal et le one-man-show nécessitent un partenaire." },
     ],
@@ -1135,8 +1137,8 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
     faqs: [
       { question: "Comment bien raconter une blague ?", answer: "Trois clés : un setup court (2 phrases max), une punchline inattendue (pas la suite logique), et une livraison maîtrisée (pause avant la chute, ton confiant, silence après). La règle des 3C : Court, Clair, Crédible." },
       { question: "Pourquoi mes blagues tombent à plat ?", answer: "Les causes les plus fréquentes : setup trop long (le public décroche), punchline prévisible (pas de surprise), ou mauvaise livraison (débit trop rapide, pas de pause, explication après la chute)." },
-      { question: "Comment raccourcir une blague sans perdre le sens ?", answer: "Supprimez tout détail qui n'est pas nécessaire à la compréhension de la punchline. Si vous pouvez retirer un mot ou une phrase sans que la chute perde son sens, retirez-le. Le ratio idéal : setup court, punchline percutante." },
-      { question: "Faut-il s'entraîner à raconter des blagues ?", answer: "Oui. L'humour est un muscle. Racontez la même blague à 3 personnes différentes en ajustant à chaque fois. Notez ce qui marche. Les meilleurs humoristes testent leurs vannes des dizaines de fois avant de les garder." },
+      { question: "Comment raccourcir une blague sans perdre le sens ?", answer: "Supprime tout détail qui n'est pas nécessaire à la compréhension de la punchline. Si tu peux retirer un mot ou une phrase sans que la chute perde son sens, retire-le. Le ratio idéal : setup court, punchline percutante." },
+      { question: "Faut-il s'entraîner à raconter des blagues ?", answer: "Oui. L'humour est un muscle. Raconte la même blague à 3 personnes différentes en ajustant à chaque fois. Note ce qui marche. Les meilleurs humoristes testent leurs vannes des dizaines de fois avant de les garder." },
     ],
   },
   {
@@ -1323,7 +1325,7 @@ Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette 
 
 La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que TU sors avec assurance.
 
-→ [Explore nos 290+ vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
+→ [Explore notre catalogue de vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
 
 → [Découvre nos conseils d'humour](/conseils) — les techniques de timing, de répartie et de storytelling des pros du stand-up.
 
@@ -1341,9 +1343,9 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
   },
   {
     slug: "meilleures-blagues-droles-2026",
-    title: "50 blagues drôles à ressortir en 2026",
+    title: "50 blagues drôles à ressortir ce soir",
     excerpt:
-      "Les 50 meilleures blagues courtes de 2026, testées et approuvées. Soirée, boulot, date, famille : la bonne vanne pour chaque situation.",
+      "50 vannes testées et approuvées, classées par situation. Soirée, boulot, date, famille : la bonne blague au bon moment.",
     content: `Tu connais ce moment où quelqu'un sort une **blague drôle** pile au bon moment, tout le monde explose, et toi tu penses « pourquoi c'est jamais moi » ? Cet article, c'est ton armurerie. 50 vannes triées sur le volet, classées par situation — parce qu'une blague de soirée à 23h et une blague à la machine à café un lundi matin, c'est pas le même sport.
 
 Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
@@ -1393,7 +1395,7 @@ Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas
 **9.** « J'arrive au bureau, mon collègue me dit "t'as l'air en forme". Frère, j'ai dormi 4h et mon petit-déj c'était de l'espoir. Mais merci. »
 *→ Marmonne ça en fixant ton café.*
 
-**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a demandé à ChatGPT ?". L'évolution, c'est beau. »
+**10.** « En réunion, on est passé de "quelqu'un a une idée ?" à "quelqu'un a un template pour ça ?". L'évolution, c'est beau. »
 *→ Prends un ton admiratif, façon documentaire animalier.*
 
 **11.** « Mon manager dit qu'il a une politique de "porte ouverte". Techniquement, une porte ouverte sur un open space c'est juste… un mur en moins. »
@@ -1802,7 +1804,7 @@ Oui, c'est tout. Trois. Pas trente. Trois vannes courtes, testées, que tu peux 
 2. Une observation ("LinkedIn, c'est le seul endroit où les gens sont 'ravis d'annoncer' qu'ils ont changé de job. Au bureau, ils pleuraient.")
 3. Une répartie passe-partout ("Ah mais c'est super intéressant ce que tu dis. Non attends, c'est le mot 'intéressant' qui est super intéressant.")
 
-Avec 3 vannes bien rodées, tu as de quoi couvrir 80% des situations sociales. Notre [catalogue de vannes](/vannes) t'en propose 290+ classées par catégorie — pioche celles qui te ressemblent.
+Avec 3 vannes bien rodées, tu as de quoi couvrir 80% des situations sociales. Notre [catalogue de vannes](/vannes) regroupe des centaines de formules classées par catégorie — pioche celles qui te ressemblent.
 
 ### Piste 3 : Teste en terrain safe avant le grand bain
 
@@ -2133,7 +2135,7 @@ Chaque jour, note mentalement ce qui a fait sourire et ce qui est tombé à plat
 
 Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent 10 réflexes concrets. Et le [Parcours Machine à Café](/parcours) est conçu exactement pour cette situation : devenir la personne qu'on veut voir arriver à la pause.
 
-> **[Nos vannes du jour](/vannes)** — 290+ vannes par catégorie, dont beaucoup sont adaptées au contexte pro.
+> **[Nos vannes du jour](/vannes)** — des centaines de vannes par catégorie, dont beaucoup sont adaptées au contexte pro.
 
 > **[Nos conseils de timing](/conseils)** — le timing fait 80% de la blague, surtout en contexte formel.`,
     date: "2026-03-24",
@@ -2436,7 +2438,7 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
       {
         question: "Comment développer son humour quand on est introverti ?",
         answer:
-          "Commencez par l'humour écrit (messages, WhatsApp) — zone d'entraînement sans pression sociale. Notez chaque jour une observation absurde. Testez-la par message avec un ami proche. Quand ça marche à l'écrit, transposez à l'oral en petit groupe. La progression par paliers (1 personne → 5 personnes → groupe large) est la méthode la plus efficace pour les introvertis.",
+          "Commence par l'humour écrit (messages, WhatsApp) — zone d'entraînement sans pression sociale. Note chaque jour une observation absurde. Teste-la par message avec un ami proche. Quand ça marche à l'écrit, transpose à l'oral en petit groupe. La progression par paliers (1 personne → 5 personnes → groupe large) est la méthode la plus efficace pour les introvertis.",
       },
       {
         question:
@@ -2447,12 +2449,12 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
       {
         question: "Comment transformer sa timidité en humour ?",
         answer:
-          "L'autodérision légère est la technique clé : prenez un moment embarrassant lié à votre timidité et poussez l'exagération à 200%. Pas de l'apitoiement ('c'est pathétique'), mais du recul bienveillant ('j'ai un plan d'évacuation mental pour chaque pièce en soirée'). La même réalité, racontée avec précision et distance, devient de l'humour observationnel.",
+          "L'autodérision légère est la technique clé : prends un moment embarrassant lié à ta timidité et pousse l'exagération à 200%. Pas de l'apitoiement ('c'est pathétique'), mais du recul bienveillant ('j'ai un plan d'évacuation mental pour chaque pièce en soirée'). La même réalité, racontée avec précision et distance, devient de l'humour observationnel.",
       },
       {
         question: "Par où commencer pour oser faire rire quand on est timide ?",
         answer:
-          "Commencez par le palier 0 : envoyez une vanne par message à un seul ami de confiance. Pas de risque social, pas de regard, juste du texte. Si ça fait rire, notez-le. Si ça tombe à plat, c'est une donnée, pas un verdict. En une semaine de messages, vous aurez votre premier répertoire de blagues personnelles qui fonctionnent — prêt à tester en conversation.",
+          "Commence par le palier 0 : envoie une vanne par message à un seul ami de confiance. Pas de risque social, pas de regard, juste du texte. Si ça fait rire, note-le. Si ça tombe à plat, c'est une donnée, pas un verdict. En une semaine de messages, tu auras ton premier répertoire de blagues personnelles qui fonctionnent — prêt à tester en conversation.",
       },
     ],
   },
@@ -2951,7 +2953,7 @@ Si tu pars à ce moment-là avec une réplique qui colle, tu es la dernière ima
 2. **Travaille la pause.** Après une vanne, attends 2 secondes avant de parler. C'est contre-intuitif mais c'est le changement le plus visible.
 3. **Prépare ta sortie avant d'arriver.** Avoir une phrase de sortie prête transforme la fin de soirée en micro-performance.
 
-Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne 290+ formules adaptées aux contextes sociaux. C'est le type de matériau qu'on utilise pour se construire un répertoire. Pas du théorique — du concret.`,
+Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne des centaines de formules adaptées aux contextes sociaux. C'est le type de matériau qu'on utilise pour se construire un répertoire. Pas du théorique — du concret.`,
     date: "2026-03-26",
     readingTime: "7 min",
     category: "CONTEXTE",
