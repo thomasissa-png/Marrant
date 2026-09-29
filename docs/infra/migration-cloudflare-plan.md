@@ -14,6 +14,13 @@
 - Le seed reste bloqué en prod (garde-fou) : le contenu passe par les tâches de démarrage.
 - Offre Workers payante nécessaire (taille du bundle, CPU des crons).
 
+## Variables de l'environnement Claude « Marrant » (annoncées par Thomas le 29/09/2026)
+- `CLOUDFARE_DM_TOKEN` (orthographe telle quelle, sans le L) : token API Cloudflare → à utiliser comme `CLOUDFLARE_API_TOKEN` pour wrangler (`export CLOUDFLARE_API_TOKEN="$CLOUDFARE_DM_TOKEN"`).
+- `CLOUDFLARE_DM_ID` : Account ID → `CLOUDFLARE_ACCOUNT_ID`.
+- `CLOUDFLARE_SECRET_KEY` : nature à confirmer au démarrage (clé API globale ? clé R2 ?) — ne l'utiliser que si le token ne suffit pas.
+- `NEON_DATABASE_URL` : à ajouter après l'import Neon (chaîne directe, sans `-pooler`).
+Premier geste de la session : vérifier les droits réels du token (Workers, R2, Hyperdrive, KV, DNS, zones couvertes) et lister ce qui manque.
+
 ## Pas à pas
 **A. Thomas (≈ 45 min)** : compte Cloudflare + offre Workers payante + token API ; compte Neon et **copie de la base Replit via l'« Import Data Assistant » de Neon** (l'environnement Claude ne peut pas ouvrir de connexion Postgres TCP : seul le HTTPS passe ; Neon lit la source sans la modifier) ; dans les réglages de l'environnement Claude (variables d'environnement, jamais dans le chat) : `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `NEON_DATABASE_URL` (chaîne directe, sans `-pooler`) ; capture des enregistrements DNS dans IONOS + état DNSSEC. Checklist détaillée donnée en fin de session s11.
 **B. Claude, nouvelle session (le site en ligne n'est pas touché)** : adaptation du code ; contrôle de la copie Neon (comptes par table via le driver HTTPS Neon) ; déploiement sur une adresse `*.workers.dev` branchée sur une branche Neon (copie de prod) ; tests : crawl des 462 pages, inscription/connexion, parcours, paiement Stripe en mode test, exécution de chaque cron, logs des tâches de démarrage (~250 vannes mises à jour).
