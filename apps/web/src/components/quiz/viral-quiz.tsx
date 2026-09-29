@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
@@ -82,15 +82,16 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             <ShareButton
               title="Mon profil humour"
               text={shareText}
-              className="h-10 w-10"
             />
             <span className="text-sm text-text-muted">Partage ton résultat</span>
           </div>
 
-          <Link href={profile.recommendedPath} className="w-full">
-            <Button variant="primary" size="lg" className="w-full">
-              Voir par où commencer
-            </Button>
+          {/* Lien stylé en bouton : plus de <button> imbriqué dans un <a> (T44). */}
+          <Link
+            href={profile.recommendedPath}
+            className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
+          >
+            Voir par où commencer
           </Link>
 
           <AuthCta

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { fixInvertedCase } from "@/lib/learning-format";
 import { buildVideoSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -193,7 +194,7 @@ export default async function VideoPage({
         <section className="mt-8">
           <h2 className="font-display mb-2 text-lg font-bold">Ce qu&apos;elle montre</h2>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
-            {video.description}
+            {fixInvertedCase(video.description)}
           </p>
           <div className="mt-4 rounded-lg border border-border bg-background-card p-4">
             <div className="text-xs uppercase tracking-wider text-text-muted">Technique principale</div>

@@ -8,7 +8,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
-import { splitLearning } from "@/lib/learning-format";
+import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 
 interface Joke {
   id: string;
@@ -102,7 +102,8 @@ function Chevron() {
 }
 
 /** Puce « TITRE : explication » : titre en gras (casse phrase), donnée non modifiée (design T12). */
-function formatLearning(learning: string) {
+function formatLearning(raw: string) {
+  const learning = fixInvertedCase(raw);
   const parts = splitLearning(learning);
   if (!parts) return learning;
   return (
@@ -340,7 +341,7 @@ export function DailyContent() {
                         Exercice pratique
                         <Chevron />
                       </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{data.video.exercise}</p>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(data.video.exercise)}</p>
                     </details>
                   )}
                 </div>

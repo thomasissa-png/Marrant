@@ -62,14 +62,14 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 const TIP_TEASERS = [
-  "Clique pour l\u2019exemple et le défi",
-  "Un exercice t\u2019attend là-dessous",
+  "Clique pour l’exemple et le défi",
+  "Un exercice t’attend là-dessous",
   "Le défi est juste en dessous",
-  "Ouvre, y\u2019a un défi pour toi",
-  "L\u2019exemple concret est caché ici",
+  "Ouvre, y’a un défi pour toi",
+  "L’exemple concret est caché ici",
   "Teste-toi avec le défi",
-  "Vas-y, le défi t\u2019attend",
-  "Un truc à tester aujourd\u2019hui",
+  "Vas-y, le défi t’attend",
+  "Un truc à tester aujourd’hui",
 ];
 
 export function ConseilsList() {
@@ -153,24 +153,14 @@ export function ConseilsList() {
     <>
       {/* Filtres niveaux + catégories — PREMIUM uniquement */}
       {limited ? (
-        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
-          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
-            {DIFFICULTIES.slice(1).map((d) => (
-              <span key={d.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {d.label}
-              </span>
-            ))}
-            <span className="mx-1 hidden text-text-muted sm:inline">·</span>
-            {CATEGORIES.slice(1, 4).map((cat) => (
-              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {cat.label}
-              </span>
-            ))}
-            <span className="text-sm text-text-muted">...</span>
-          </div>
-          <p className="mt-2 text-xs text-text-muted">
+        // Même traitement que /vannes (T14) : une ligne cadenas + texte existant, sans chips fantômes.
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
+          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="text-sm text-text-secondary">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-link hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -253,7 +243,7 @@ export function ConseilsList() {
                       {CATEGORY_LABELS[tip.category] ?? tip.category}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center">
                     <FavoriteButton contentType="TIP" contentId={tip.id} />
                     <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>
@@ -261,7 +251,12 @@ export function ConseilsList() {
                 <CardTitle>{tip.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="max-w-[72ch] text-sm leading-relaxed text-text-primary">{tip.content}</p>
+                {/* T20 : conseil replié à 4 lignes, affiché en entier au dépliage (clic sur la carte). */}
+                <p
+                  className={`max-w-[72ch] text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
+                >
+                  {tip.content}
+                </p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
@@ -285,7 +280,7 @@ export function ConseilsList() {
                   <Link
                     href={`/conseils/${buildTipSlug(tip)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-text-muted hover:text-accent-link hover:underline"
+                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
                     aria-label="Ouvrir la page dédiée de ce conseil"
                   >
                     Page dédiée &rarr;
@@ -343,11 +338,10 @@ export function ConseilsList() {
           <p className="mt-1 text-sm text-text-secondary">
             Accède à tout le catalogue dès 0,99 &euro;/mois
           </p>
-          <Link href="/abonnement">
-            <Button variant="primary" size="sm" className="mt-3">
-              Voir l&apos;offre
-            </Button>
-          </Link>
+          {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
+          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
+            Voir l&apos;offre
+          </Button>
         </div>
       )}
 

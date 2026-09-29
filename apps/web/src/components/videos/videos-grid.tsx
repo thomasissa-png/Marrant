@@ -13,7 +13,7 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
-import { splitLearning } from "@/lib/learning-format";
+import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 import { frTypo } from "@/lib/fr-typo";
 
 interface Video {
@@ -64,7 +64,8 @@ function formatDuration(iso: string): string {
 }
 
 /** « TITRE : explication » : titre en gras, explication à la suite. */
-function renderLearning(learning: string) {
+function renderLearning(raw: string) {
+  const learning = fixInvertedCase(raw);
   const parts = splitLearning(learning);
   if (!parts) return learning;
   return (
@@ -72,6 +73,18 @@ function renderLearning(learning: string) {
       <strong className="font-semibold text-text-primary">{parts.title}</strong>
       {frTypo(parts.rest)}
     </>
+  );
+}
+
+// Blocs repliables des cartes (T21), même rendu que la vidéo du jour (daily-content.tsx).
+const DETAILS_SUMMARY =
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider [&::-webkit-details-marker]:hidden";
+
+function Chevron() {
+  return (
+    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
   );
 }
 
@@ -101,6 +114,17 @@ export function VideosGrid() {
   const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
+  // T21 : « Ce que tu vas apprendre » et « Exercice pratique » repliés sur mobile, ouverts dès md.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -146,24 +170,14 @@ export function VideosGrid() {
     <>
       {/* Filtres niveau + catégorie — PREMIUM uniquement */}
       {limited ? (
-        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
-          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
-            {DIFFICULTIES.slice(1).map((d) => (
-              <span key={d.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {d.label}
-              </span>
-            ))}
-            <span className="mx-1 hidden text-text-muted sm:inline">·</span>
-            {CATEGORIES.slice(1, 4).map((cat) => (
-              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {cat.label}
-              </span>
-            ))}
-            <span className="text-sm text-text-muted">...</span>
-          </div>
-          <p className="mt-2 text-xs text-text-muted">
+        // Même traitement que /vannes (T14) : une ligne cadenas + texte existant, sans chips fantômes.
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
+          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="text-sm text-text-secondary">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-link hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -233,13 +247,13 @@ export function VideosGrid() {
             >
               <CardContent className="flex flex-1 flex-col pt-4">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
+                  <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
                     {video.title}
                   </h3>
-                  <div className="flex shrink-0 items-center gap-1">
+                  <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="VIDEO" contentId={video.id} />
                     <ShareButton title={`${video.title} - deviens-marrant.fr`} text={`${video.title} par ${video.channelName}`} />
                   </div>
@@ -251,11 +265,14 @@ export function VideosGrid() {
                     <Badge variant="default">{video.technique}</Badge>
                   )}
                 </div>
-                <p className="mt-2 text-sm text-text-muted line-clamp-2">{video.description}</p>
+                <p className="mt-2 text-sm text-text-muted line-clamp-2">{fixInvertedCase(video.description)}</p>
                 {video.learnings && video.learnings.length > 0 && (
-                  <div className="mt-3 rounded-lg bg-background-elevated p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
-                    <ul className="mt-1.5 space-y-1.5">
+                  <details key={`l-${isDesktop}`} open={isDesktop} className="group/d mt-3 rounded-lg bg-background-elevated">
+                    <summary className={`${DETAILS_SUMMARY} text-text-primary`}>
+                      Ce que tu vas apprendre
+                      <Chevron />
+                    </summary>
+                    <ul className="space-y-1.5 px-4 pb-4">
                       {video.learnings.map((learning, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                           <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
@@ -263,19 +280,22 @@ export function VideosGrid() {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </details>
                 )}
                 {video.exercise && (
-                  <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
-                    <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
-                  </div>
+                  <details key={`e-${isDesktop}`} open={isDesktop} className="group/d mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                    <summary className={`${DETAILS_SUMMARY} text-accent-link`}>
+                      Exercice pratique
+                      <Chevron />
+                    </summary>
+                    <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(video.exercise)}</p>
+                  </details>
                 )}
                 <div className="mt-auto pt-3">
                   <div className="border-t border-border pt-2">
                     <Link
                       href={`/videos/${buildVideoSlug(video)}`}
-                      className="text-xs text-text-muted hover:text-accent-link hover:underline"
+                      className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
                       aria-label="Ouvrir la page dédiée de cette vidéo"
                     >
                       Page dédiée &rarr;
@@ -325,11 +345,10 @@ export function VideosGrid() {
           <p className="mt-1 text-sm text-text-secondary">
             Accède à tout le catalogue dès 0,99 &euro;/mois
           </p>
-          <Link href="/abonnement">
-            <Button variant="primary" size="sm" className="mt-3">
-              Voir l&apos;offre
-            </Button>
-          </Link>
+          {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
+          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
+            Voir l&apos;offre
+          </Button>
         </div>
       )}
 

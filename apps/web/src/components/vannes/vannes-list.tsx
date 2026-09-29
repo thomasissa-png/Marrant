@@ -272,7 +272,7 @@ export function VannesList() {
                         <Badge variant="default">{JOKE_TYPE_LABELS[joke.type]}</Badge>
                       )}
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
                     <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
