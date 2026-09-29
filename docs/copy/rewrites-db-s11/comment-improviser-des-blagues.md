@@ -6,7 +6,7 @@ metaDescription: "5 méthodes des pros pour improviser des blagues : observer-co
 
 Improviser des blagues, c'est rebondir sur ce qui se passe au lieu de puiser dans un stock : tu observes un détail, tu le relies à autre chose, tu le retournes. Ce n'est pas un don, c'est un réflexe, et il se travaille.
 
-Ce qui différencie un humoriste comme Fary de ton pote qui ressort toujours les mêmes vannes datées, ce n'est pas un stock de 2000 blagues dans la tête. C'est la capacité à **improviser** à partir de ce qui arrive, en direct. Et bonne nouvelle, ce talent n'est pas réservé aux pros des comedy clubs.
+Ce qui différencie un humoriste comme Fary de ton pote qui ressort toujours les mêmes vannes datées, ce n'est pas un stock de 2000 blagues dans la tête. C'est la capacité à **improviser** à partir de ce qui arrive, en direct. Et bonne nouvelle, ce talent n'est pas réservé aux pros du Jamel Comedy Club.
 
 Quand un humoriste fait rire 15 000 personnes à Bercy avec une remarque sur le prix du parking, il ne l'a pas forcément écrite dans son salon. Il applique des **méthodes d'improvisation** que tu peux apprendre toi aussi. Et non, ça n'a rien à voir avec être "naturellement drôle".
 
