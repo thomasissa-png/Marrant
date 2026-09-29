@@ -79,7 +79,7 @@
 - **URL du site actuel** : https://deviens-marrant.fr/
 - **Comptes sociaux existants** : LinkedIn, Twitter/X, Instagram — tous à 0 abonné, viennent d'être créés. Publication automatisée via Buffer (pipeline daily-social).
 - **Outils analytics en place** : Umami (tracking web) + back-office admin (suivi abonnés)
-- **Contenu existant** : (mesuré en prod le 29/09/2026 via `/api/content-stats`) ~602 vannes actives décortiquées (« Pourquoi ça marche » / « À toi de jouer »), 400 conseils, 89 vidéos analysées, 3 parcours (Machine à Café, Répartie, Confiance), 34 articles de blog actifs (8 fusionnés en s11 pour cannibalisation), ≈1 100 pages individuelles catalogue, quiz d'humour (12 questions), newsletter, contenu quotidien renouvelé automatiquement
+- **Contenu existant** : (mesuré en prod le 29/09/2026 via `/api/content-stats`) ~602 vannes actives (décryptage « Pourquoi ça marche » / « À toi de jouer » : seed + nouvelles vannes ; le stock ancien est complété au boot, 15/jour), 400 conseils, 89 vidéos analysées, 3 parcours (Machine à Café, Répartie, Confiance), 34 articles de blog actifs (8 fusionnés en s11 pour cannibalisation), ≈1 100 pages individuelles catalogue, quiz d'humour (12 questions), newsletter, contenu quotidien renouvelé automatiquement
 - **Historique SEO** : Domaine indexé depuis début 2026. Trafic approximatif inconnu (pas d'analytics). Sitemap dynamique en place, robots.txt optimisé (LLM bots autorisés), schemas JSON-LD complets (Organization, Article, FAQPage, HowTo, Course, etc.), score GEO estime 82/100 (apres optimisation pillar).
 
 ---
