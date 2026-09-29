@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -72,26 +73,29 @@ export async function generateMetadata({
     return { title: "Vanne introuvable" };
   }
   const canonicalSlug = buildJokeSlug(joke);
-  const shortContent = joke.content.length > 90
-    ? joke.content.slice(0, 87) + "..."
-    : joke.content;
-  // Title <= 60 chars total (avec suffixe " | deviens-marrant.fr")
-  const rawTitle = `${shortContent}`;
-  const seoTitle = rawTitle.length > 39 ? rawTitle.slice(0, 36) + "..." : rawTitle;
-
-  const description =
-    `Une vanne ${CATEGORY_LABELS[joke.category] ?? "drôle"} à ressortir : ${shortContent} Découvre la chute et 300+ autres vannes classées par situation.`;
+  const label = CATEGORY_LABELS[joke.category] ?? "Vie quotidienne";
+  const setup = joke.content.replace(/\s+/g, " ").trim();
+  // Titre : mot-clé « Vanne <catégorie> » en tête + début de la vanne, coupé
+  // proprement (plus de « ... » à 36 caractères) — passe SEO finale s11.
+  const titlePrefix = `Vanne ${label.toLowerCase()} : `;
+  const rawTitle = `${titlePrefix}${truncateAtWord(setup, TITLE_MAX - titlePrefix.length)}`;
+  // Description : le début de la vanne (la chute reste sur la page) + la
+  // promesse de la page (pourquoi ça marche + comment la replacer).
+  // « 300+ » conservé tel quel (choix fondateur : aucun chiffre remplacé sans GO) — cf. passe-finale-s11 §8.
+  const descSuffix = " La chute est sur la page, avec 300+ autres vannes par situation.";
+  const descPrefix = `Vanne ${label.toLowerCase()} à ressortir : `;
+  const description = `${descPrefix}${truncateAtWord(setup, 160 - descPrefix.length - descSuffix.length)}${descSuffix}`;
 
   return {
-    title: seoTitle,
-    description: description.slice(0, 155),
+    title: { absolute: rawTitle },
+    description,
     alternates: {
       canonical: `https://deviens-marrant.fr/vannes/${canonicalSlug}`,
     },
     openGraph: {
       type: "article",
       title: rawTitle,
-      description: description.slice(0, 155),
+      description,
       url: `https://deviens-marrant.fr/vannes/${canonicalSlug}`,
       siteName: "deviens-marrant.fr",
       locale: "fr_FR",
@@ -99,7 +103,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: rawTitle,
-      description: description.slice(0, 155),
+      description,
     },
   };
 }

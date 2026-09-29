@@ -13,6 +13,7 @@ import {
   type ValidationResult,
 } from "./standup-director-agent";
 import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
+import { fitDescription, truncateAtWord } from "@/lib/seo-meta";
 
 /**
  * Nombre max de tentatives generate → validate → retry pour un article.
@@ -573,11 +574,12 @@ export async function publishWeeklyArticle(): Promise<{
 
     // 4c. Validation programmatique des meta (truncate si trop long)
     if (article.metaDescription && article.metaDescription.length > 155) {
-      article = { ...article, metaDescription: article.metaDescription.slice(0, 152) + "..." };
+      // Coupe en fin de phrase ou de mot (jamais au milieu d'un mot) — passe SEO s11.
+      article = { ...article, metaDescription: fitDescription(article.metaDescription, 155) };
       console.warn(`[SEO Check] Meta description tronquée à 155 chars`);
     }
     if (article.metaTitle && article.metaTitle.length > 60) {
-      article = { ...article, metaTitle: article.metaTitle.slice(0, 57) + "..." };
+      article = { ...article, metaTitle: truncateAtWord(article.metaTitle, 60) };
       console.warn(`[SEO Check] Meta title tronqué à 60 chars`);
     }
     if (article.excerpt && article.excerpt.length > 155) {

@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "Quiz : quel type d'humour es-tu ?",
   description:
-    "Découvre ton profil humour en 2 minutes : Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Quiz gratuit inspiré des techniques du stand-up.",
+    "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Ce quiz gratuit inspiré du stand-up te dit en 2 minutes quel type d'humour est le tien.",
   keywords: [
     "quiz humour",
     "type humour",

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Conditions Générales d'Utilisation",
-  description: "Conditions générales d'utilisation de deviens-marrant.fr : droits, obligations et règles d'utilisation du service.",
+  description: "Conditions générales d'utilisation de deviens-marrant.fr : compte, offres et tarifs, rétractation, résiliation, propriété intellectuelle et responsabilité.",
 };
 
 export default function CGUPage() {

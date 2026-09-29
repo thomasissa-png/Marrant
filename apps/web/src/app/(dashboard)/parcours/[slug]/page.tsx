@@ -6,6 +6,7 @@
 //   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
 //   L'interactivité (progression, quiz, complétion) reste côté client.
 import type { Metadata } from "next";
+import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
@@ -22,28 +23,34 @@ export const dynamicParams = true;
 
 const PARCOURS_META: Record<
   string,
-  { title: string; description: string; duration: string; difficulty: string; stepsCount: number }
+  { name: string; title: string; description: string; duration: string; difficulty: string; stepsCount: number }
 > = {
   "machine-a-cafe": {
-    title: "Parcours Machine à Café — drôle au bureau",
+    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
+    name: "Parcours Machine à Café",
+    title: "Drôle au bureau : parcours Machine à Café",
     description:
-      "Apprends à avoir des vannes et anecdotes à ressortir au bureau et en afterwork. 3 semaines, 15 min/semaine. Progresse à ton rythme.",
+      "Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : 3 semaines à 15 min/semaine pour devenir le collègue qu'on écoute.",
     duration: "3 semaines",
     difficulty: "DEBUTANT",
     stepsCount: 3,
   },
   repartie: {
-    title: "Parcours Répartie — réponse prête",
+    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
+    name: "Parcours Répartie",
+    title: "Avoir de la répartie : le parcours guidé",
     description:
-      "Développe ta répartie en 4 semaines avec des exercices concrets pour ne plus rester muet en soirée ou entre potes.",
+      "Développe ta répartie en 4 semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre en soirée ou entre potes.",
     duration: "4 semaines",
     difficulty: "INTERMEDIAIRE",
     stepsCount: 4,
   },
   confiance: {
-    title: "Parcours Confiance — retrouve ta légèreté",
+    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
+    name: "Parcours Confiance",
+    title: "Retrouver confiance grâce à l'humour",
     description:
-      "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour. Bienveillant, progressif, adapté à ton rythme.",
+      "6 semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression : on remet de la légèreté dans tes échanges, une étape à la fois.",
     duration: "6 semaines",
     difficulty: "INTERMEDIAIRE",
     stepsCount: 6,
@@ -98,7 +105,7 @@ export async function generateMetadata({
 
   if (staticMeta) {
     return {
-      title: staticMeta.title,
+      title: fitTitle(staticMeta.title),
       description: staticMeta.description,
       alternates: {
         canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
@@ -118,14 +125,14 @@ export async function generateMetadata({
     })
     .catch(() => null);
 
-  const title = path
-    ? `${path.title} — deviens-marrant.fr`
-    : "Parcours — deviens-marrant.fr";
-  const description = path?.description?.slice(0, 155) ??
-    "Progresse étape par étape dans ton parcours humour personnalisé.";
+  // Le template du layout ajoute déjà « | deviens-marrant.fr » : ne pas doubler la marque.
+  const title = path ? path.title : "Parcours humour";
+  const description = path?.description
+    ? fitDescription(path.description)
+    : "Progresse étape par étape dans ton parcours humour personnalisé.";
 
   return {
-    title,
+    title: fitTitle(title),
     description,
     alternates: {
       canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
@@ -278,7 +285,7 @@ export default async function ParcoursDetailPage({
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
           {
-            name: meta?.title ?? initialData?.path.title ?? "Parcours",
+            name: meta?.name ?? initialData?.path.title ?? "Parcours",
             url: `https://deviens-marrant.fr/parcours/${params.slug}`,
           },
         ])}
@@ -286,7 +293,7 @@ export default async function ParcoursDetailPage({
       {meta && (
         <JsonLd
           data={buildCourseJsonLd({
-            name: meta.title,
+            name: meta.name,
             description: meta.description,
             duration: meta.duration,
             slug: params.slug,

@@ -19,7 +19,7 @@ export const blogArticles: BlogArticle[] = [
     slug: "comment-devenir-drole",
     title: "Comment devenir drôle : le guide",
     excerpt:
-      "\"T'es drôle ou t'es pas drôle.\" C'est ce que dit l'oncle. L'oncle a tort. Devenir drôle est une compétence qui s'apprend — voilà comment.",
+      "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours.",
     content: `> **En bref :** Devenir drôle est une compétence qui s'apprend, pas un talent inné. L'humour repose sur 3 mécanismes cognitifs — observation, surprise, timing — que n'importe qui peut développer. Un programme structuré de 8 semaines suffit à progresser significativement, quel que soit le niveau de départ.
 
 "Soit t'es drôle, soit tu l'es pas." Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est "né drôle", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.
@@ -84,7 +84,7 @@ Tu ne deviendras pas drôle en lisant des articles. (Oui, celui-ci compris. On a
 3. **Étape 3 — Tester.** Partage tes meilleures trouvailles avec un ami proche. Note ce qui fait sourire, rire, ou tomber à plat. Pas de jugement, juste des données. Tu fais de la R&D comique.
 4. **Étape 4 — Élargir.** Utilise ce qui a marché à l'étape 3 dans des contextes plus larges. En réunion, en soirée, dans un groupe WhatsApp. Tu as maintenant un petit répertoire testé et approuvé.
 
-> **CLEF :** La progression en humour suit le même schéma que toute compétence : observer → imiter → tester → ajuster. En 30 jours de pratique quotidienne (5-10 minutes), la plupart des gens passent de "je suis pas drôle" à "tiens, les gens sourient quand je parle".
+> **CLEF :** La progression en humour suit le même schéma que toute compétence : observer → imiter → tester → ajuster. En 30 jours de pratique quotidienne (5-10 minutes), la plupart des gens passent de "[je suis pas drôle](/blog/je-suis-pas-drole-comment-changer)" à "tiens, les gens sourient quand je parle".
 
 ## Quelles erreurs empêchent de devenir drôle ?
 
@@ -116,7 +116,7 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     slug: "comment-avoir-de-la-repartie",
     title: "Répartie : 10 techniques efficaces",
     excerpt:
-      "La réplique parfaite, tu la trouves toujours sous la douche 2h après. On va arranger ça. 10 techniques concrètes pour avoir de la répartie — en soirée, au bureau, partout.",
+      "Avoir de la répartie, c'est trouver la réplique sur le moment, pas sous la douche 2h après : 10 techniques concrètes pour y arriver, en soirée comme au bureau.",
     content: `> **En bref :** Avoir de la répartie, ça s'apprend : c'est un répertoire de réflexes verbaux qu'on entraîne, pas un don. Pour débuter, trois techniques suffisent — l'accusé de réception pour gagner du temps, le rebond sur un mot-clé et le retournement. Avec 5 minutes de pratique par jour, la plupart des gens progressent en 2 à 4 semaines.
 
 Tu connais ce moment : quelqu'un te lance une remarque, ton cerveau affiche un écran bleu, rien ne sort. Et la réplique parfaite arrive sous la douche, 2 heures plus tard. Ton cerveau livre bien, mais en point relais.
@@ -201,13 +201,13 @@ Parfois, la meilleure répartie, c'est pas de réponse : un sourire, un regard a
 
 ## Comment avoir de la répartie quand on est timide ?
 
-Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice — parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides : elle casse la glace sans forcer.
+Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice — parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides : elle casse la glace sans forcer. Si tu bloques surtout en groupe, lis comment [ne plus rester muet en groupe](/blog/rester-muet-en-groupe) ; si c'est le blanc total face à une question, voici [5 techniques quand tu sais jamais quoi répondre](/blog/jamais-quoi-repondre-techniques).
 
 ## Un dernier truc important
 
 La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger. L'objectif, c'est que tout le monde rie — y compris celui qui t'a lancé la remarque. Si ta réponse blesse, c'est pas de la répartie, c'est de la méchanceté. Et ça, ça ne rend personne drôle.
 
-Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **0,99 EUR/mois** : de quoi arrêter de répondre sous la douche.`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours/repartie) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **0,99 EUR/mois** : de quoi arrêter de répondre sous la douche.`,
     date: "2026-03-12",
     updatedAt: "2026-09-29",
     readingTime: "8 min",
@@ -223,7 +223,7 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/
     slug: "timing-humour",
     title: "Timing humour : le secret de la blague",
     excerpt:
-      "La même blague. Le même mot pour mot. Et ton pote qui la dit 10 minutes plus tard fait exploser la table. Le problème ? Pas ta blague. Ton timing.",
+      "Ton pote raconte ta blague mot pour mot 10 minutes plus tard et fait exploser la table ? C'est le timing en humour, et ça se travaille avec les bons silences.",
     content: `> **En bref :** Le timing en humour, c'est l'art de placer le silence et le rythme au bon endroit : une pause de 2 à 3 secondes avant la punchline crée la tension, et la chute la libère en rire. C'est souvent plus décisif que la blague elle-même — la même vanne fait un bide ou fait exploser la table selon le moment où tu la places.
 
 Tu as déjà raconté une blague que tu trouvais excellente, et... rien. Pas un sourire, même pas un "ah ouais". 10 minutes plus tard, un pote raconte exactement la même, et la table explose. Le problème, c'était pas ta blague, c'était ton **timing**.
@@ -310,7 +310,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
     slug: "erreurs-blagues",
     title: "5 erreurs qui tuent tes blagues",
     excerpt:
-      "Tu racontes une blague. Le silence. Même pas un sourire poli. C'est pas ta blague qui est nulle — c'est ta livraison. Les 5 erreurs classiques et comment les corriger.",
+      "Ta blague n'a même pas eu droit au sourire poli ? Le problème vient rarement de la blague : voici les 5 erreurs qui tuent tes blagues et comment les corriger.",
     content: `Tu arrives à la chute de ta blague, et... rien. Pas le silence de ceux qui reprennent leur souffle : celui de "quelqu'un a un sujet de conversation de rechange ?". Si ça t'arrive souvent, c'est probablement pas un problème de blague. **C'est un problème de livraison.** Et ça se corrige.
 
 > **À retenir :** Quand une blague tombe à plat, le problème est rarement le contenu — c'est la livraison. Les 5 erreurs les plus courantes : expliquer la chute, un setup trop long, se tromper de public, manquer d'engagement et ignorer les signaux sociaux du groupe. Corrige-les une par une, une semaine chacune.
@@ -373,7 +373,7 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
     slug: "autoderision-interactions",
     title: "Autodérision : le guide pratique",
     excerpt:
-      "Rire de toi-même sans te démolir — c'est ça le super-pouvoir social. L'autodérision bien dosée crée de la connexion en 30 secondes. Mal dosée, elle fait fuir. Le guide complet.",
+      "L'autodérision bien dosée te rend sympathique en 30 secondes, mal dosée elle fait fuir : le guide pour rire de toi sans te démolir, règles d'or incluses.",
     content: `Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te fait passer pour quelqu'un qui attend qu'on le console. Toute la différence tient dans **le ton**, et ce guide t'apprend à le trouver pour rire de toi sans te démolir.
 
 > **À retenir :** L'autodérision est un signal de confiance, pas de faiblesse. Elle fonctionne quand elle cible des défauts mineurs (sens de l'orientation, goûts musicaux) avec le sourire. Les 3 règles : viser les défauts qui ne blessent pas, sourire en les énonçant, et doser (un trait d'esprit par conversation, pas à chaque phrase).
@@ -430,7 +430,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 **Étape 3 :** Teste la meilleure avec des proches. Si tu souris en la disant et qu'ils rient, c'est validé. Si tu as l'air triste en la disant, retravaille le ton.
 
-L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **0,99 EUR/mois** — et tes défauts deviennent enfin rentables.`,
+L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours/confiance) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **0,99 EUR/mois** — et tes défauts deviennent enfin rentables.`,
     date: "2026-02-15",
     updatedAt: "2026-09-29",
     readingTime: "5 min",
@@ -445,7 +445,7 @@ L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [pa
     slug: "repartie-debutant-5-etapes",
     title: "Répartie débutant : 5 étapes simples",
     excerpt:
-      "Ta meilleure répartie aujourd'hui : \"euh... toi-même\" ? Aucun problème. 5 étapes progressives pour débloquer ta tchatche — sans talent naturel requis.",
+      "Ta meilleure répartie, c'est « euh… toi-même » ? Répartie pour débutant : 5 étapes progressives pour débloquer ta tchatche, sans talent naturel requis.",
     content: `Imagine Lucas, 20 ans. En soirée, il est celui qui rit aux blagues des autres, hoche la tête, et dit "ah ouais grave" toutes les 30 secondes. Quand on le chambre, son cerveau part en pause pub. Sa meilleure répartie à ce jour : "euh... toi-même."
 
 On va le suivre sur 5 étapes concrètes, loin des livres de développement personnel.
@@ -525,7 +525,7 @@ Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semai
     slug: "humour-quotidien-8-habitudes",
     title: "Humour quotidien : 8 habitudes simples",
     excerpt:
-      "L'humour du quotidien, c'est pas un talent — c'est 8 habitudes. Tu en prends une ou deux, tu les tiens 30 jours, et ton cerveau cherche automatiquement l'angle drôle. Mode d'emploi.",
+      "L'humour au quotidien tient à 8 habitudes simples : prends-en une ou deux, tiens-les 30 jours, et ton cerveau cherchera l'angle drôle tout seul.",
     content: `L'humour n'est ni un talent, ni un truc d'extraverti, ni un privilège des gens sûrs d'eux : c'est une habitude, et ça se construit brique par brique. Voici 8 habitudes simples. Elles ne feront pas de tes journées un spectacle, mais tu vas te surprendre à faire sourire les gens.
 
 > **À retenir :** Devenir drôle au quotidien, ça commence par 3 habitudes simples : noter une absurdité par jour dans un carnet, reformuler les phrases banales de façon décalée, et pratiquer le compliment absurde. En 30 jours de pratique régulière, l'humour devient un réflexe naturel.
@@ -614,7 +614,7 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     slug: "5-types-humour-lequel-pour-toi",
     title: "Les 5 types d'humour : trouve le tien",
     excerpt:
-      "Il y a l'humour de Roman Frayssinet, celui de Paul Mirabel, celui de Blanche Gardin — et le tien. 5 types d'humour à explorer pour trouver ton style naturel.",
+      "Il y a l'humour de Roman Frayssinet, celui de Paul Mirabel, celui de Blanche Gardin, et puis le tien : explore les 5 types d'humour pour trouver ton style.",
     content: `> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types — trouve ta dominante et développe-la.
 
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
@@ -706,7 +706,7 @@ Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t
     slug: "humour-noir-utiliser-sans-blesser",
     title: "Humour noir : l'utiliser sans blesser",
     excerpt:
-      "Entre de bonnes mains, l'humour noir est spectaculaire. Entre de mauvaises mains, il fait des dégâts. La différence tient à un paramètre : le contexte. Le guide complet.",
+      "L'humour noir peut faire rire toute une table ou vider la pièce avec la même phrase : tout se joue sur le contexte. Les règles pour l'utiliser sans blesser.",
     content: `L'humour noir, c'est le seul humour capable de faire rire toute une table ou de vider une pièce avec la même phrase. Et la différence entre les deux tient souvent à un seul paramètre : le contexte. Pas ton talent, pas ta réputation — juste le moment, le lieu, et les personnes en face.
 
 ## Ce qu'est l'humour noir (et ce qu'il n'est pas)
@@ -861,7 +861,7 @@ Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédié
     slug: "exercices-developper-humour",
     title: "10 exercices pour développer ton humour",
     excerpt:
-      "10 exercices concrets — 5 à 20 min chacun — pour muscler ton humour du débutant au confirmé. Zéro théorie : tu lis, tu essaies, tu progresses.",
+      "10 exercices concrets pour développer ton humour, de 5 à 20 min selon ton niveau : pas de théorie, juste de quoi t'entraîner du débutant au confirmé, pas à pas.",
     content: `Tu veux devenir plus drôle mais tu ne sais pas par où commencer ? Normal : à l'école, on t'a appris les maths, l'histoire, le subjonctif — et pour faire rire les gens ? Débrouille-toi. Voici 10 exercices concrets, classés par difficulté.
 
 > **À retenir :** L'humour se développe avec des exercices progressifs : commence par observer (5 min/jour), puis reformule des phrases banales de façon décalée (10 min), et teste tes trouvailles en situation réelle (15 min). La répétition quotidienne fait toute la différence — comme pour n'importe quelle compétence.
@@ -1164,7 +1164,7 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
     slug: "phrases-droles-conversations",
     title: "30 phrases drôles prêtes à ressortir",
     excerpt:
-      "33 phrases drôles prêtes à ressortir — machine à café, soirée, date, réunion. Les gens drôles ont souvent juste un arsenal de phrases bien rodées. Voilà le tien.",
+      "33 phrases drôles prêtes à ressortir à la machine à café, en soirée, en date ou en réunion : les gens drôles ont surtout un arsenal bien rodé, et voilà le tien.",
     content: `Tu connais ce moment où quelqu'un sort la phrase drôle parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
 
 Les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste **un stock de phrases rodées**, qu'ils ressortent au bon moment. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.
@@ -1345,6 +1345,8 @@ Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette 
 La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu sors avec assurance.
 
 → [Explore notre catalogue de vannes classées par catégorie](/vannes) — filtre par situation et trouve ta prochaine réplique en 10 secondes.
+
+→ Et pour des blagues complètes, voici [50 blagues drôles à ressortir en 2026](/blog/meilleures-blagues-droles-2026), rangées par situation.
 
 → [Découvre nos conseils d'humour](/conseils) — les techniques de timing, de répartie et de storytelling des pros du stand-up.
 
@@ -1568,7 +1570,7 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
     slug: "comment-faire-rire-une-fille",
     title: "Comment faire rire une fille : 7 techniques",
     excerpt:
-      "Faire rire une fille, ça commence par arrêter de chercher à être drôle. Ça semble idiot ? 7 techniques qui marchent en soirée, en date, ou par message.",
+      "Pour faire rire une fille, arrête d'abord de chercher à être drôle. Ça paraît idiot, et pourtant : 7 techniques qui marchent en soirée, en date ou par message.",
     content: `Tu veux faire rire une fille ? Bonne idée, tant que ton plan n'est pas de sortir "Tu connais la différence entre..." suivi d'un jeu de mots douteux.
 
 La réponse courte : arrête de performer, commence à observer. **Faire rire quelqu'un, c'est créer une connexion**, pas faire un numéro. Et les techniques qui marchent en humour marchent aussi en conversation — que ce soit un date, une soirée, ou un message à 23h.
@@ -1648,7 +1650,7 @@ Tu n'es pas sur scène, tu es avec quelqu'un. L'objectif, c'est pas qu'elle pens
 
 Les gens les plus drôles ne sont pas ceux qui sortent les meilleures vannes. Ce sont ceux qui créent un espace où tout le monde se sent assez à l'aise pour rire. **Faire rire une fille**, au fond, c'est lui montrer que tu es à l'aise avec toi-même — et ça, c'est contagieux.
 
-Si tu veux travailler ta répartie en général, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) sont un bon point de départ. Et si tu veux un programme complet, le [Parcours Répartie](/parcours) te guide semaine par semaine.
+Si tu veux travailler ta répartie en général, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) sont un bon point de départ. Et si tu veux un programme complet, le [Parcours Répartie](/parcours/repartie) te guide semaine par semaine.
 
 → **[Nos vannes du jour](/vannes)** — des vannes testées que tu peux adapter à n'importe quelle conversation.
 
@@ -1670,7 +1672,7 @@ Si tu veux travailler ta répartie en général, nos [techniques de répartie](/
     slug: "comment-faire-rire-un-homme",
     title: "Comment faire rire un homme : 6 techniques",
     excerpt:
-      "Les femmes les plus charismatiques que tu connais sont drôles. Pas 'pour une fille' — juste drôles. 6 techniques, zéro cliché, mêmes mécanismes pour tout le monde.",
+      "Faire rire un homme ne demande pas un humour spécial : chambrage léger, réponse décalée, autodérision… 6 techniques sans cliché, qui marchent sur tout le monde.",
     content: `Pour faire rire un homme, pas besoin d'un humour spécial : le chambrage léger, la réponse décalée, les références partagées, l'autodérision, l'observation et le timing marchent sur lui comme sur n'importe qui. Voici les 6, avec des exemples à adapter.
 
 Il y a un mythe tenace : c'est aux mecs d'être drôles, les filles sont censées rire. Ce mythe date de la même époque que "souffler dans la cartouche pour que le jeu marche" : tout le monde y croyait, personne n'avait vérifié.
@@ -1780,7 +1782,7 @@ Si tu veux développer ton propre style d'humour, notre guide [Comment devenir d
     slug: "je-suis-pas-drole-comment-changer",
     title: "Je suis pas drôle : 7 pistes pour changer",
     excerpt:
-      "Tu penses ne pas être drôle ? C'est faux. Voici pourquoi tu te trompes et comment débloquer ton humour, avec 7 pistes concrètes.",
+      "Tu te dis « je suis pas drôle » ? Tu te trompes sûrement : l'humour s'entraîne, et tu as déjà la matière première. 7 pistes concrètes pour le débloquer.",
     content: `Si tu penses ne pas être drôle, tu te trompes sûrement : l'humour n'est pas un don qu'on a ou pas, c'est une compétence qui s'entraîne, et tu en as déjà la matière première puisque tu sais reconnaître ce qui te fait rire. Ce qui te manque, c'est de la pratique et la permission de rater.
 
 "Je suis pas drôle", tu l'as sûrement pensé après un blanc en soirée, ou le jour où ta vanne a eu pour seule réponse un "ah." poli. T'es pas seul : 76% des gens pensent ne pas être drôles, selon une étude de l'Université du Colorado. Trois personnes sur quatre. Dans ta prochaine soirée, sur les 10 personnes présentes, 7 pensent secrètement comme toi. Y compris le mec qui a l'air super à l'aise. Il fait juste mieux semblant.
@@ -1905,7 +1907,7 @@ Notre guide complet [Comment devenir drôle](/blog/comment-devenir-drole) t'acco
     slug: "repondre-moqueries-avec-humour",
     title: "Répondre aux moqueries avec humour",
     excerpt:
-      "Ctrl+alt+suppr. C'est ce que ton cerveau fait quand quelqu'un te chambre. 6 techniques pour ne plus rester muet à ce moment-là.",
+      "Quand on te chambre, ton cerveau fait Ctrl+Alt+Suppr ? Répondre aux moqueries avec humour tient à quelques réflexes : 6 techniques pour ne plus rester muet.",
     content: `Pour répondre à une moquerie avec humour, pas besoin d'être plus drôle que l'autre : il suffit de 2-3 réflexes prêts à l'emploi, comme exagérer la critique, rebondir sur un de ses mots ou lui demander d'expliquer.
 
 Le scénario habituel : quelqu'un te balance une remarque, ton cerveau fait ctrl+alt+suppr, bouche ouverte, rien ne sort. Et 2 heures plus tard, sous la douche, la réplique parfaite arrive. Devant ton gel douche, qui n'avait rien demandé.
@@ -2029,7 +2031,7 @@ L'humour est un bon outil de défense, pas une réponse à tout : savoir *quand*
 
 En 2 semaines de pratique, ces réponses deviendront des réflexes. Tu n'auras plus besoin d'y penser — elles sortiront naturellement.
 
-Pour aller plus loin, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvrent des situations bien au-delà des moqueries. Et si tu veux un parcours complet, le [Parcours Répartie](/parcours) te guide semaine par semaine pour passer de "je sais jamais quoi répondre" à "je gère".`,
+Pour aller plus loin, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvrent des situations bien au-delà des moqueries. Et si tu veux un parcours complet, le [Parcours Répartie](/parcours/repartie) te guide semaine par semaine pour passer de "je sais jamais quoi répondre" à "je gère".`,
     date: "2026-03-24",
     updatedAt: "2026-09-29",
     readingTime: "7 min",
@@ -2045,7 +2047,7 @@ Pour aller plus loin, nos [10 techniques de répartie](/blog/comment-avoir-de-la
     slug: "blagues-travail-faire-rire-pro",
     title: "Blagues au travail : faire rire sans déraper",
     excerpt:
-      "Machine à café, réunion, afterwork : comment placer une blague au bureau sans risquer ta réputation pro.",
+      "Machine à café, réunion, afterwork, Slack : comment placer une blague au travail sans risquer ta réputation pro, en visant la situation et jamais les gens.",
     content: `Pour faire rire au travail sans déraper, vise la situation, jamais les gens : l'observation partagée (le mail absurde, la réunion sans fin) et l'autodérision marchent partout, le chambrage se réserve aux proches, et tout ce qui touche au physique ou au travail d'un collègue reste au vestiaire.
 
 Le bureau, c'est ce territoire étrange où tu passes 8 heures par jour avec des gens que tu n'as pas choisis, dans des réunions qui finissent par "on se refait un point". Et au milieu de tout ça, tu voudrais faire rire. Sans te retrouver convoqué aux RH. Voici comment, zone par zone.
@@ -2162,9 +2164,11 @@ L'humour écrit au travail, c'est un art délicat. Parce que tu n'as pas le ton 
 
 Chaque jour, note mentalement ce qui a fait sourire et ce qui est tombé à plat. C'est exactement la méthode des [parcours deviens-marrant.fr](/parcours) — tester, observer, ajuster.
 
-Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent 10 réflexes concrets. Et le [Parcours Machine à Café](/parcours) est conçu exactement pour cette situation : devenir la personne qu'on veut voir arriver à la pause.
+Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent 10 réflexes concrets. Et le [Parcours Machine à Café](/parcours/machine-a-cafe) est conçu exactement pour cette situation : devenir la personne qu'on veut voir arriver à la pause.
 
 > **[Nos vannes du jour](/vannes)** — des centaines de vannes par catégorie, dont beaucoup sont adaptées au contexte pro.
+
+> **[50 blagues drôles à ressortir en 2026](/blog/meilleures-blagues-droles-2026)** — classées par situation, avec une section entière pour le bureau.
 
 > **[Nos conseils de timing](/conseils)** — le timing fait 80% de la blague, surtout en contexte formel.`,
     date: "2026-03-24",
@@ -2182,7 +2186,7 @@ Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/bl
     slug: "jamais-quoi-repondre-techniques",
     title: "Tu sais jamais quoi répondre ? 5 techniques",
     excerpt:
-      "Le blanc total quand on te parle. Ce moment gênant où tu cherches tes mots. 5 techniques pour ne plus jamais le vivre.",
+      "Tu sais jamais quoi répondre et le blanc s'installe pendant que tu cherches tes mots ? Ça s'entraîne : 5 techniques pour ne plus revivre ce moment.",
     content: `Si tu sais jamais quoi répondre, ce n'est ni un manque d'intelligence ni un défaut de personnalité : c'est un réflexe qui n'a pas été entraîné. La solution tient en quelques phrases prêtes à l'emploi, une règle de timing et l'habitude de poser des questions.
 
 Tu connais la scène : en groupe, quelqu'un te pose une question, ou pire, te chambre. Et là, rien. Ton cerveau affiche une page 404 : les mots sont là, mais bloqués à 99%, comme un téléchargement qui attend que tu partes pour finir. Et 20 minutes plus tard, la réponse parfaite arrive, pile quand le sujet a changé trois fois.
@@ -2293,7 +2297,7 @@ Avoir 3 sujets prêts ne veut pas dire les réciter comme une poésie de CE2. Ç
 
 En 2 semaines, les blancs se raréfient. En 4 semaines, tu ne t'en soucies plus. Pas parce que tu es devenu un orateur, mais parce que tu as des réflexes qui prennent le relais quand ton cerveau se fige.
 
-Notre [Parcours Répartie](/parcours) structure exactement cette progression semaine par semaine, avec des exercices calibrés et des [conseils de timing](/conseils) pour chaque étape. Et si ton problème est plus spécifiquement lié aux moqueries, notre guide [Répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) couvre 6 techniques dédiées.`,
+Notre [Parcours Répartie](/parcours/repartie) structure exactement cette progression semaine par semaine, avec des exercices calibrés et des [conseils de timing](/conseils) pour chaque étape. Et si ton problème est plus spécifiquement lié aux moqueries, notre guide [Répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) couvre 6 techniques dédiées.`,
     date: "2026-03-24",
     updatedAt: "2026-09-29",
     readingTime: "8 min",
@@ -2309,7 +2313,7 @@ Notre [Parcours Répartie](/parcours) structure exactement cette progression sem
     slug: "timidite-et-humour",
     title: "Timidité et humour : 5 clés pour oser",
     excerpt:
-      "Introverti ne veut pas dire pas drôle. 5 clés pour utiliser ta sensibilité comme force comique.",
+      "Timidité et humour font meilleur ménage qu'on croit : tu observes plus que les autres, et ta réplique surprend. 5 clés pour oser, par paliers, sans te forcer.",
     content: `Oui, on peut être drôle quand on est timide : la timidité t'apprend à observer, et quand quelqu'un qui parle peu place une réplique, l'effet de surprise joue pour lui. Il te manque juste des techniques adaptées et une progression par paliers.
 
 Pendant des années, tu t'es convaincu que l'humour était pour les autres : les extravertis, ceux qui ont une réplique dans chaque poche, qui entrent dans une pièce et deviennent la pièce.
@@ -2427,7 +2431,7 @@ La progression en humour pour les introvertis suit une courbe précise :
 
 Chaque palier est un niveau à débloquer : tu ne passes au suivant que quand le précédent est devenu confortable.
 
-C'est exactement la progression de notre [Parcours Répartie](/parcours) sur deviens-marrant.fr : 4 semaines structurées pour passer de "je sais jamais quoi dire" à "je gère", à raison d'un palier par semaine.
+C'est exactement la progression de notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr : 4 semaines structurées pour passer de "je sais jamais quoi dire" à "je gère", à raison d'un palier par semaine.
 
 **Les erreurs à éviter dans la progression :**
 - **Sauter les paliers** : vouloir briller en groupe de 20 avant d'être à l'aise en groupe de 5, c'est le meilleur moyen de se planter et de se décourager pour rien
@@ -2496,7 +2500,7 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
     slug: "storytelling-drole-5-structures",
     title: "Storytelling drôle : 5 structures efficaces",
     excerpt:
-      "Escalade, surprise, exagération : 5 structures narratives pour raconter des histoires qui font rire.",
+      "Une histoire drôle tient moins au talent qu'à sa structure : escalade, pivot, exagération, callback et boucle, 5 structures pour des anecdotes qui font rire.",
     content: `Une histoire drôle, ce n'est pas une question de talent mais de **structure** : une attente qu'on installe, puis une chute qui part ailleurs. Cinq structures couvrent presque tout : l'escalade, le pivot, l'exagération contrôlée, le callback et la boucle.
 
 Ton pote raconte sa queue à la boulangerie, la table pleure de rire. Toi, tu racontes ton road trip en Islande, quelqu'un regarde son téléphone. La différence n'est pas dans l'histoire, elle est dans la façon de la construire.
@@ -2703,7 +2707,7 @@ Le tout pour 0,99 EUR/mois : moins cher que le verre qu'on t'offre pour abréger
     slug: "conversation-machine-a-cafe",
     title: "Machine à café : avoir de la conversation",
     excerpt:
-      "Toi, un collègue, la machine, et 90 secondes de silence gêné. 5 situations machine à café avec la phrase exacte à sortir — et comment en sortir élégamment quand le café est prêt.",
+      "Toi, un collègue et 90 secondes de silence gêné devant la machine à café : 5 situations avec la phrase à sortir, et comment filer quand le café est prêt.",
     content: `**Avoir de la conversation au travail, ça s'apprend** : ce n'est pas un don réservé aux animateurs radio et aux commerciaux hyperactifs, c'est un petit répertoire de phrases d'accroche, de relances et de sorties élégantes.
 
 Tu connais la scène : la machine couine, tu attends ton café, et à 30 centimètres de toi, un collègue. Ni l'un ni l'autre ne parle. On fixe la machine comme si c'était de l'art contemporain. Le bruit du café qui coule devient soudainement fascinant.
@@ -2839,7 +2843,7 @@ Pour développer ton humour au quotidien, notre article [8 habitudes pour un hum
 
 En 5 jours, tu sais ce qui marche avec tes collègues. Et la semaine d'après, c'est automatique.
 
-Notre [Parcours Machine à Café](/parcours) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. 0,99 EUR/mois — le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
+Notre [Parcours Machine à Café](/parcours/machine-a-cafe) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. 0,99 EUR/mois — le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
     date: "2026-03-25",
     updatedAt: "2026-09-29",
     readingTime: "7 min",
@@ -2871,7 +2875,7 @@ Notre [Parcours Machine à Café](/parcours) sur deviens-marrant.fr est construi
     slug: "repartie-soiree-anti-malaise",
     title: "Répartie en soirée : guide anti-malaise",
     excerpt:
-      "Ta vanne tombe à plat. Quelqu'un te chambre devant tout le monde. Tu rejoins un groupe lancé et tu sais pas comment t'insérer. 5 situations, 5 techniques, des phrases à sortir ce soir.",
+      "Ta vanne tombe à plat, on te chambre devant tout le monde, le groupe est déjà lancé : la répartie en soirée en 5 situations et 5 techniques, phrases incluses.",
     content: `Pour avoir de la répartie en soirée, pas besoin de génie : il suffit de 3-4 réponses rodées pour les 5 situations qui reviennent toujours (la vanne qui tombe à plat, la moquerie, le groupe déjà lancé, le malaise, la sortie).
 
 Il y a un moment dans chaque soirée où l'ambiance bascule. Soit tu saisis l'opportunité et tu deviens mémorable. Soit tu ris trop fort d'une blague que t'as pas comprise, tu dis "ouais non, c'est marrant ça" en fixant ton verre, et tu passes le reste de la nuit à t'intéresser beaucoup aux chips.
@@ -2993,7 +2997,7 @@ Si tu pars à ce moment-là avec une réplique qui colle, tu es la dernière ima
 2. **Travaille la pause.** Après une vanne, attends 2 secondes avant de parler. C'est contre-intuitif mais c'est le changement le plus visible.
 3. **Prépare ta sortie avant d'arriver.** Avoir une phrase de sortie prête transforme la fin de soirée en micro-performance.
 
-Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne des centaines de formules adaptées aux contextes sociaux, de quoi te construire un répertoire à toi avant la prochaine soirée.`,
+Notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne des centaines de formules adaptées aux contextes sociaux, de quoi te construire un répertoire à toi avant la prochaine soirée.`,
     date: "2026-03-26",
     updatedAt: "2026-09-29",
     readingTime: "7 min",
@@ -3135,7 +3139,7 @@ Il y a une pression implicite sociale pour aller bien vite, faire des blagues su
 - Ne cherche pas d'approbation
 - Est *spécifique* — il porte sur un détail précis, pas sur une généralisation
 
-La progression vers le vrai recul, ça se travaille. Nos [parcours](/parcours) de développement de l'humour sont conçus exactement pour ça — reconstruire sa légèreté de façon structurée, progressive, sans forcer. Le [Parcours Confiance](/parcours) en particulier est fait pour les moments de reconstruction personnelle.
+La progression vers le vrai recul, ça se travaille. Nos [parcours](/parcours) de développement de l'humour sont conçus exactement pour ça — reconstruire sa légèreté de façon structurée, progressive, sans forcer. Le [Parcours Confiance](/parcours/confiance) en particulier est fait pour les moments de reconstruction personnelle.
 
 ## Les étapes en résumé
 
@@ -3176,14 +3180,14 @@ Retrouver son humour après une rupture n'est pas une performance. C'est un indi
     slug: "confiance-humour-apres-rupture",
     title: "Reprendre confiance grâce à l'humour",
     excerpt:
-      "L'humour comme outil de reconstruction — pas juste pour faire rire, mais pour retrouver qui tu es.",
+      "Après une rupture, l'humour aide à reprendre confiance : rire de la situation, c'est la regarder de l'extérieur. 5 étapes pour le retrouver, dans le bon ordre.",
     content: `Oui, l'humour aide à reprendre confiance après une rupture : rire d'une situation, c'est la regarder de l'extérieur, et chaque sourire que tu provoques te rappelle que tu sais encore créer du lien. Mais ça se reconstruit dans l'ordre : d'abord rire, puis partager, enfin faire rire.
 
 Si tu traverses une période difficile, tu as sûrement entendu le conseil : "essaie de rire un peu, ça ira mieux." C'est vrai. Et c'est aussi une façon très efficace de ne rien dire d'utile. Ce guide, c'est la version concrète : les mécanismes, les étapes, et ce que tu peux faire dès ce soir.
 
 ## Pourquoi l'humour reconstruit la confiance en soi ?
 
-Il y a un paradoxe au cœur de la confiance en soi : on pense qu'il faut la retrouver *pour* redevenir drôle. C'est souvent l'inverse — **redevenir drôle aide à reconstruire la confiance**.
+Il y a un paradoxe au cœur de la confiance en soi : on pense qu'il faut la retrouver *pour* redevenir drôle. C'est souvent l'inverse — **[redevenir drôle](/blog/comment-devenir-drole) aide à reconstruire la confiance**.
 
 Voici pourquoi :
 
@@ -3298,7 +3302,7 @@ Ce qui indique que ça avance : les jours où l'absurde est visible sont de plus
 
 Ce retour du plaisir dans les interactions est un indicateur fiable, même s'il avance en dents de scie.
 
-Si tu veux un cadre pour avancer, notre [Parcours Confiance](/parcours) sur deviens-marrant.fr est conçu pour cette reconstruction : 6 semaines de progression structurée, de l'observation à la pratique en groupe, à ton rythme.`,
+Si tu veux un cadre pour avancer, notre [Parcours Confiance](/parcours/confiance) sur deviens-marrant.fr est conçu pour cette reconstruction : 6 semaines de progression structurée, de l'observation à la pratique en groupe, à ton rythme.`,
     date: "2026-03-26",
     updatedAt: "2026-09-29",
     readingTime: "8 min",
@@ -3335,7 +3339,7 @@ Si tu veux un cadre pour avancer, notre [Parcours Confiance](/parcours) sur devi
     slug: "pourquoi-blagues-marchent-pas",
     title: "Pourquoi tes blagues ne marchent pas : 7 raisons concrètes",
     excerpt:
-      "Tu lances une vanne. Silence. Sourire poli. La même blague racontée mal puis bien — 7 raisons précises qui tuent l'effet, diagnosticables dès ce soir.",
+      "Une vanne, et tu récoltes un silence ou un sourire poli ? Pourquoi tes blagues ne marchent pas : 7 raisons précises à diagnostiquer dès ce soir, et les parades.",
     content: `Tu sors une blague que tu trouves brillante. Silence. Ou pire : un sourire poli, ce truc qui veut dire "j'ai entendu mais c'était pas drôle". Et tu te dis "OK, je suis pas drôle." C'est rarement vrai : dans 9 cas sur 10, **la blague était bonne — c'est la livraison qui a tué l'effet**.
 
 L'humour, c'est 30% d'idée et 70% d'exécution. Voici les 7 raisons précises qui font que tes blagues ne marchent pas, avec à chaque fois la même blague racontée mal puis bien. Tu vas voir : c'est rarement la blague qu'il faut changer, c'est la manière de la sortir.
@@ -3598,7 +3602,7 @@ Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures o
     slug: "rester-muet-en-groupe",
     title: "Rester muet en groupe : 7 techniques pour reprendre la parole",
     excerpt:
-      "À chaque soirée, tu hoches la tête, tu places un 'ah ouais' toutes les huit minutes, et ta meilleure réplique arrive 20 minutes trop tard. 7 techniques pour que ça change ce soir.",
+      "Tu restes muet en groupe, un « ah ouais » toutes les huit minutes, ta réplique arrive 20 minutes trop tard ? 7 techniques pour reprendre la parole dès ce soir.",
     content: `Si tu restes muet en groupe, ce n'est pas un défaut de personnalité : c'est une boucle (peur du jugement, trop de réflexion, fenêtre ratée) qui se casse avec quelques techniques simples — des phrases d'entrée prêtes, le rebond sur ce que disent les autres, et de l'entraînement là où ça ne coûte rien.
 
 Tu es à une soirée. Six personnes parlent. Tu hoches la tête. Tu souris au bon moment. Tu places un "ah ouais" toutes les huit minutes. Et au moment où la phrase parfaite te traverse l'esprit, la conversation a déjà bifurqué trois fois. Tu finis par ressembler à un figurant de série bien payé : présent dans le plan, mais sans réplique.
@@ -3717,7 +3721,7 @@ Objectif : **rester dans la conversation pendant 80% du temps**, même si tu par
 4. "Vous avez remarqué que **[observation simple]** ?"
 5. "Je vais peut-être dire un truc bête, mais..."
 
-Tu les connais par cœur, tu les sors sans réfléchir. Au début, ça fait artificiel. Au bout de deux semaines, c'est devenu naturel. C'est exactement comme apprendre à conduire : les premières fois tu penses à embrayer, ensuite ton pied le fait tout seul. Notre [parcours répartie](/parcours) est conçu autour de cette logique de répétition contextualisée.
+Tu les connais par cœur, tu les sors sans réfléchir. Au début, ça fait artificiel. Au bout de deux semaines, c'est devenu naturel. C'est exactement comme apprendre à conduire : les premières fois tu penses à embrayer, ensuite ton pied le fait tout seul. Notre [parcours Répartie](/parcours/repartie) est conçu autour de cette logique de répétition contextualisée.
 
 ## 3 erreurs qui te maintiennent dans le silence
 
@@ -3763,7 +3767,7 @@ Ces micro-retours alimentent la confiance. La confiance alimente la prise de par
 
 Que tu sois étudiant et que tu galères en soirée alors que tu sais être drôle en tête-à-tête — les techniques 1, 2 et 6 sont tes meilleures alliées. Que tu commences un nouveau job et que les conversations entre collègues te paraissent fermées — la technique du piggyback (5) et de la question idiote (4) ouvrent les portes. Ou que tu reprennes le fil social après une période difficile — le niveau 1 d'entraînement (micro-interactions) te remet en route sans pression.
 
-Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours répartie](/parcours) — une progression de 30 jours pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 0,99 EUR/mois : moins cher qu'une bière, et nettement plus utile la prochaine fois que tu seras dans un groupe.`,
+Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) — une progression de 30 jours pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 0,99 EUR/mois : moins cher qu'une bière, et nettement plus utile la prochaine fois que tu seras dans un groupe.`,
     date: "2026-05-05",
     updatedAt: "2026-09-29",
     readingTime: "10 min",

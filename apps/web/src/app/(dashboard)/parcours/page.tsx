@@ -14,7 +14,7 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 export const metadata: Metadata = {
   title: "Cours humour en ligne : deviens drôle",
   description:
-    "3 parcours pour devenir drôle : Machine à Café, Répartie, Confiance. 15 à 20 min/semaine selon le parcours, exercices concrets, XP à gagner. Tu t'inscris, tu progresses.",
+    "3 parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine selon le parcours, des exercices concrets et de l'XP pour progresser.",
   keywords: [
     "cours humour en ligne",
     "parcours répartie",

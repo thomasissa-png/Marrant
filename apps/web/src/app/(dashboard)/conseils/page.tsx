@@ -13,10 +13,9 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
-  const tipsLabelLower = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
   return {
     title: `${tipsLabel} techniques de répartie + exercices`,
-    description: `${tipsLabelLower} techniques de répartie avec exemples, dialogues et un défi à tester ce soir. Timing, autodérision, storytelling — tu lis, tu testes, tu progresses.`,
+    description: `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
     keywords: [
       "avoir de la répartie",
       "comment avoir de la répartie",
@@ -53,7 +52,6 @@ export default async function ConseilsPage() {
   const stats = await getContentStatsRounded();
   const tipCount = stats.tips > 0 ? stats.tips : 50;
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
-  const tipsLabelLower = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
   return (
     <>
       <JsonLd
@@ -66,12 +64,12 @@ export default async function ConseilsPage() {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${tipsLabel} techniques de répartie + exercices`,
-          description: `${tipsLabelLower} techniques de répartie avec exemples, dialogues et un défi à tester ce soir.`,
+          description: `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
           url: "https://deviens-marrant.fr/conseils",
           numberOfItems: tipCount,
           relatedArticles: [
-            { title: "Comment avoir de la répartie", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
-            { title: "Répartie débutant : 5 étapes", url: "https://deviens-marrant.fr/blog/repartie-debutant-5-etapes" },
+            { title: "Répartie : 10 techniques efficaces", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
+            { title: "Répartie débutant : 5 étapes simples", url: "https://deviens-marrant.fr/blog/repartie-debutant-5-etapes" },
           ],
         })}
       />

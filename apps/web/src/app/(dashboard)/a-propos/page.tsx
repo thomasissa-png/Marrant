@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "L'humour s'apprend — notre mission",
   description:
-    "L'humour, ça s'apprend. On a créé deviens-marrant.fr pour le prouver : vannes, techniques de répartie, vidéos analysées. Objectif : que tu fasses rire ce soir.",
+    "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.",
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",

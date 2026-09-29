@@ -13,10 +13,9 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des centaines de vannes";
-  const prefixLower = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "des centaines de vannes";
   return {
     title: `${prefix} drôles à ressortir ce soir`,
-    description: `${prefixLower} testées par situation : soirée, boulot, couple, école. Tape pour la chute. Si ça fait pas rire, c'est pas sur le site.`,
+    description: `${prefix} classées par situation (soirée, boulot, couple, école), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
     keywords: [
       "blague drôle",
       "blagues courtes",
@@ -53,7 +52,6 @@ export default async function VannesPage() {
   const stats = await getContentStatsRounded();
   const jokeCount = stats.jokes > 0 ? stats.jokes : 200;
   const jokeLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
-  const jokeLabelLower = stats.jokes > 0 ? `${stats.jokes}+` : "des centaines de";
   return (
     <>
       <JsonLd
@@ -66,11 +64,11 @@ export default async function VannesPage() {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${jokeLabel} vannes drôles à ressortir ce soir`,
-          description: `${jokeLabelLower} vannes testées par situation : soirée, boulot, couple, école. Tape pour la chute.`,
+          description: `${jokeLabel} vannes classées par situation (soirée, boulot, couple, école), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
           url: "https://deviens-marrant.fr/vannes",
           numberOfItems: jokeCount,
           relatedArticles: [
-            { title: "Comment devenir drôle : le guide complet", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "Comment devenir drôle : le guide", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
             { title: "5 erreurs qui tuent tes blagues", url: "https://deviens-marrant.fr/blog/erreurs-blagues" },
           ],
         })}

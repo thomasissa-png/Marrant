@@ -7,9 +7,9 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "Anatomie d'une vanne : setup, pivot et punchline",
+  title: { absolute: "Anatomie d'une vanne : setup, pivot et punchline" },
   description:
-    "Décortique les 3 composants d'une blague qui fait rire : setup, pivot et punchline. Avec exemples concrets de Paul Mirabel, Fary et Blanche Gardin.",
+    "Setup, pivot et punchline : décortique les 3 composants d'une blague qui fait rire, avec des exemples concrets de Paul Mirabel, Fary et Blanche Gardin.",
   keywords: [
     "anatomie blague",
     "structure blague",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Anatomie d'une vanne : la science du rire en 3 parties",
     description:
-      "Setup → Pivot → Punchline. Comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
+      "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
     url: "https://deviens-marrant.fr/anatomie-vanne",
   },
 };

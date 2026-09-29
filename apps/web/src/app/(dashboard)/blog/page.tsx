@@ -14,7 +14,7 @@ import { BlogListClient } from "./blog-list-client";
 export const metadata: Metadata = {
   title: "Blog humour — guides et techniques",
   description:
-    "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés. Si tu souris pas, on a raté notre job.",
+    "Le blog qui t'apprend l'humour en te faisant rire : techniques de stand-up, répartie, analyses d'humoristes et exercices à tester. Si tu souris pas, on a raté.",
   keywords: [
     "blog humour",
     "guide répartie",

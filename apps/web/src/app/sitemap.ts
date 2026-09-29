@@ -5,12 +5,21 @@ import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 
 export const revalidate = 3600;
 
+/** Refonte copy + metadata s11 des pages éditoriales (home, catalogues, parcours, ressources). */
+const STRUCTURAL_PAGES_LASTMOD = "2026-09-29";
+/** Dernière modification du texte des pages légales. */
+const LEGAL_PAGES_LASTMOD = "2026-05-06";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
 
   // lastModified doit etre stable — Bing penalise les dates qui changent a chaque crawl.
-  // Utiliser BUILD_DATE pour les pages structurelles, date DB reelle pour le contenu dynamique.
-  const lastDeploy = new Date(process.env.BUILD_DATE || "2026-03-27");
+  // Pages structurelles : date REELLE de derniere modification du contenu
+  // (constante versionnee, a mettre a jour quand le texte d'une page change),
+  // et non plus BUILD_DATE qui bougeait a chaque deploiement sans changement de
+  // contenu (passe SEO finale s11). Contenu dynamique : date DB reelle.
+  const lastDeploy = new Date(STRUCTURAL_PAGES_LASTMOD);
+  const legalLastMod = new Date(LEGAL_PAGES_LASTMOD);
 
   // Pour les pages a contenu quotidien, on query la date du dernier DailyContent
   let lastContentDate = lastDeploy;
@@ -38,10 +47,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/abonnement`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/glossaire`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/mentions-legales`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/cgu`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/confidentialite`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/retractation`, lastModified: lastDeploy, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/mentions-legales`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/cgu`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/confidentialite`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/retractation`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
   ];
@@ -50,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // lastModified = vraie date de modif si dispo, sinon date de publication
   // (évite d'écraser des lastmod réels par une date de build — pénalité Bing).
   const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles
-    .filter((article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug))
+    .filter((article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug) && !REDIRECTED_BLOG_SLUGS.includes(article.slug))
     .map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
       lastModified: new Date(article.updatedAt || article.date),

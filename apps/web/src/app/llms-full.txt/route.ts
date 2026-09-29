@@ -29,6 +29,8 @@ interface FullArticle {
   content: string;
   category: string;
   date: string;
+  /** Dernière modification réelle (statique : champ updatedAt ; DB : colonne updatedAt). */
+  updatedAt?: string;
 }
 
 const RESOURCE_PAGES = [
@@ -89,6 +91,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
     content: a.content,
     category: a.category,
     date: a.date,
+    updatedAt: a.updatedAt,
   }));
 
   let dbArticlesList: FullArticle[] = [];
@@ -103,6 +106,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
         category: true,
         publishedAt: true,
         createdAt: true,
+        updatedAt: true,
       },
       orderBy: { publishedAt: "desc" },
     });
@@ -113,6 +117,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
       content: a.content || "",
       category: a.category,
       date: (a.publishedAt || a.createdAt).toISOString().split("T")[0],
+      updatedAt: a.updatedAt ? a.updatedAt.toISOString().split("T")[0] : undefined,
     }));
   } catch {
     // DB indispo — on continue avec les statiques.
@@ -207,6 +212,9 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
     lines.push(`URL : ${BASE_URL}/blog/${article.slug}`);
     lines.push(`Catégorie : ${article.category}`);
     lines.push(`Publié : ${article.date}`);
+    if (article.updatedAt && article.updatedAt !== article.date) {
+      lines.push(`Mis à jour : ${article.updatedAt}`);
+    }
     lines.push("");
     lines.push(`Résumé : ${article.excerpt}`);
     lines.push("");

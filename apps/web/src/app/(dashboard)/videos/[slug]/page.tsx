@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -70,11 +71,15 @@ export async function generateMetadata({
   if (!video) return { title: "Vidéo introuvable" };
 
   const canonicalSlug = buildVideoSlug(video);
-  const seoTitle = video.title.length > 39 ? video.title.slice(0, 36) + "..." : video.title;
-  const desc = `${video.channelName} — ${video.description}`.slice(0, 155);
+  // Titre YouTube conservé tel quel (fitTitle : jamais de « ... » au milieu),
+  // description coupée proprement (lib/seo-meta.ts — passe SEO s11).
+  const baseDesc = fitDescription(`${video.channelName} — ${video.description}`);
+  const desc = baseDesc.length < 110 && video.technique
+    ? fitDescription(`${baseDesc} La technique à retenir : ${video.technique}.`)
+    : baseDesc;
 
   return {
-    title: seoTitle,
+    title: fitTitle(video.title),
     description: desc,
     alternates: {
       canonical: `https://deviens-marrant.fr/videos/${canonicalSlug}`,

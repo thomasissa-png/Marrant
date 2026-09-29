@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
   return {
     title: "Stand-up analysé : Fary, Mirabel & co.",
-    description: `${videos} de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.`,
+    description: `${videos} de stand-up de Fary, Paul Mirabel ou Blanche Gardin décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
     keywords: [
       "stand-up français",
       "vidéos humour analysées",
@@ -64,12 +64,12 @@ export default async function VideosPage() {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: "Stand-up analysé : Fary, Mirabel & co.",
-          description: `${videoLabel} de stand-up décortiquées. Chaque technique annotée + un défi concret.`,
+          description: `${videoLabel} de stand-up de Fary, Paul Mirabel ou Blanche Gardin décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
           url: "https://deviens-marrant.fr/videos",
           numberOfItems: videoCount,
           relatedArticles: [
-            { title: "Techniques de stand-up pour la vie sociale", url: "https://deviens-marrant.fr/blog/timing-humour" },
-            { title: "Comment devenir drôle", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "Timing humour : le secret de la blague", url: "https://deviens-marrant.fr/blog/timing-humour" },
+            { title: "Comment devenir drôle : le guide", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
           ],
         })}
       />

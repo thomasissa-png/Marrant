@@ -34,8 +34,15 @@ const homepageFaqs = [
   },
 ];
 
-// Fusionner toutes les FAQs de la page en un seul schéma (évite "Duplicate FAQPage")
-const allFaqs = [...homepageFaqs, ...faqSectionFaqs];
+// FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
+// un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
+// est `FaqSection` (rendue via PremiumCta) → `faqSectionFaqs`.
+// `homepageFaqs` n'est affiché nulle part : exclu du JSON-LD (passe SEO s11).
+// Conservé tel quel (chiffres compris) en attendant l'arbitrage de Thomas :
+// l'afficher dans une section visible (puis le réintégrer ici) ou le supprimer.
+// Voir docs/seo/passe-finale-s11.md §3.
+const allFaqs = [...faqSectionFaqs];
+void homepageFaqs;
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -43,8 +50,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const tips = stats.tips > 0 ? `${stats.tips}+ conseils` : "des dizaines de conseils";
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return {
-    title: "Deviens drôle et améliore ta répartie",
-    description: `Tu veux être la personne la plus drôle du groupe ? Vannes à ressortir, techniques de répartie et parcours pour progresser. ${jokes}, ${tips}, ${videos}.`,
+    title: "Devenir drôle et avoir de la répartie",
+    description: `Devenir drôle, ça s'apprend : ${jokes} à ressortir, ${tips} de répartie et ${videos} de stand-up décortiquées pour sortir la bonne réplique à temps.`,
     keywords: [
     "comment devenir drôle",
     "devenir drôle",

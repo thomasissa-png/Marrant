@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | deviens-marrant.fr",
   },
   description:
-    "La plateforme pour devenir drôle, avoir de la répartie et faire rire ton entourage. Vannes, techniques de pro et parcours pas à pas.",
+    "La plateforme pour devenir drôle et avoir de la répartie : des vannes à ressortir, des techniques de pro et des parcours pas à pas pour faire rire tes potes.",
   keywords: [
     "devenir drôle",
     "comment devenir drôle",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title:
       "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
-      "La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour. Blagues, techniques de pro, vidéos stand-up analysées et parcours pas à pas.",
+      "La plateforme francophone pour devenir drôle et avoir de la répartie, avec des vannes, des techniques de pro, du stand-up décortiqué et des parcours.",
     // /opengraph-image est généré dynamiquement par Next.js (opengraph-image.tsx).
     // On l'utilise partout pour éviter le 404 sur /og-image.png qui n'existe pas en prod.
     images: [
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     title:
       "Comment devenir drôle et avoir de la répartie | deviens-marrant.fr",
     description:
-      "Apprends à devenir drôle, à avoir de la répartie et à faire rire. Blagues, techniques de pro et parcours personnalisés.",
+      "Apprends à devenir drôle et à avoir de la répartie : des vannes à ressortir, des techniques de pro et des parcours pas à pas pour faire rire ton entourage.",
     // Aligné sur l'image OG dynamique — /og-image.png retournait 404 en prod.
     images: ["/opengraph-image"],
   },

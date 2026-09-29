@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "Glossaire humour : 12 termes clés",
   description:
-    "Punchline, timing, callback, one-liner... Le dico de l'humour pour comprendre les techniques des pros. 12 termes expliqués avec exemples concrets.",
+    "Punchline, timing, callback, one-liner : le dico de l'humour qui explique 12 termes clés des pros, chacun avec un exemple concret pour bien le replacer.",
   keywords: [
     "définition répartie",
     "qu'est-ce que la répartie",

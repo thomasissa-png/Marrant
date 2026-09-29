@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildTipSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -66,12 +67,16 @@ export async function generateMetadata({
   if (!tip) return { title: "Conseil introuvable" };
 
   const canonicalSlug = buildTipSlug(tip);
-  const seoTitle = tip.title.length > 39 ? tip.title.slice(0, 36) + "..." : tip.title;
-  const shortContent = tip.content.slice(0, 155).replace(/\s+/g, " ").trim();
+  // Titre complet (jamais « ... » au milieu du mot-clé) + description coupée
+  // proprement en fin de phrase ou de mot (lib/seo-meta.ts — passe SEO s11).
+  const baseDescription = fitDescription(tip.content);
+  const shortContent = baseDescription.length < 110
+    ? fitDescription(`${baseDescription} Avec un exemple concret à décortiquer et un exercice à tester dès ce soir.`)
+    : baseDescription;
 
   return {
-    title: seoTitle,
-    description: shortContent.length > 155 ? shortContent.slice(0, 152) + "..." : shortContent,
+    title: fitTitle(tip.title),
+    description: shortContent,
     alternates: {
       canonical: `https://deviens-marrant.fr/conseils/${canonicalSlug}`,
     },
