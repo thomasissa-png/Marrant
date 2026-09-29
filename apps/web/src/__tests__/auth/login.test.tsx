@@ -23,7 +23,7 @@ describe("LoginPage", () => {
 
   it("renders login form", () => {
     render(<LoginPage />);
-    expect(screen.getByText("Connexion")).toBeInTheDocument();
+    expect(screen.getByText("Content de te revoir")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
   });
@@ -132,7 +132,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Une erreur est survenue. Réessaie.");
+      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
     });
   });
 
@@ -144,7 +144,7 @@ describe("LoginPage", () => {
     await userEvent.type(screen.getByLabelText("Mot de passe"), "pass1234");
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
-    expect(screen.getByText("Connexion...")).toBeInTheDocument();
+    expect(screen.getByText("On t'ouvre…")).toBeInTheDocument();
   });
 
   it("calls Google signIn with default /vannes callbackUrl", async () => {

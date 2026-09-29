@@ -34,7 +34,7 @@ const videosFaqs = [
   {
     question: "Comment apprendre l'humour en regardant des vidéos de stand-up ?",
     answer:
-      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu comprends le mécanisme comique, puis tu fais l'exercice proposé pour le reproduire dans ta vie. C'est la différence entre regarder du tennis et prendre des cours de tennis.",
+      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu repères le mécanisme comique, puis tu fais l'exercice proposé pour le tester dans ta vie. À la fin, tu ne sais plus seulement que c'était drôle : tu sais pourquoi.",
   },
   {
     question: "Quels humoristes sont analysés sur deviens-marrant.fr ?",
@@ -44,7 +44,7 @@ const videosFaqs = [
   {
     question: "C'est quoi la différence avec juste regarder YouTube ?",
     answer:
-      "YouTube te montre des humoristes. Nous, on t'apprend leurs techniques. Chaque vidéo est analysée avec les points clés à retenir (learnings) et un exercice concret à tester aujourd'hui (DÉFI). Avec le système de streaks et d'XP, tu gardes la motivation sur la durée.",
+      "YouTube te montre des humoristes ; ici, on te montre comment ils s'y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd'hui. Et avec les streaks et les XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
   },
 ];
 
@@ -80,7 +80,7 @@ export default async function VideosPage() {
       </nav>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Apprends à être drôle avec les meilleurs humoristes
+          Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes
         </h1>
         <p className="mt-2 text-text-secondary">
           Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia — on
@@ -112,10 +112,10 @@ export default async function VideosPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
         <div className="space-y-3 text-sm text-text-secondary">
           <p>
-            La différence entre regarder du stand-up sur YouTube et apprendre le stand-up, c&apos;est <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
+            Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
-            Après chaque vidéo, un <strong className="text-text-primary">DÉFI concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">tu deviens drôle</Link> — pas en regardant, en faisant.
+            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">tu deviens drôle</Link> — pas en regardant, en faisant.
           </p>
           <p>
             Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
@@ -125,19 +125,19 @@ export default async function VideosPage() {
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <h2 className="font-display mb-4 text-xl font-bold">Et maintenant, à toi de jouer</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">{stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de"} vannes drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Mets en pratique ce que tu apprends — des vannes prêtes à ressortir.</p>
+            <p className="mt-1 text-xs text-text-secondary">Passe à la pratique avec des vannes prêtes à ressortir dès ce soir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, adaptées à ta vie quotidienne.</p>
+            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, ramenées à la taille d&apos;une pause café.</p>
           </Link>
           <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">5 erreurs qui tuent tes blagues</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les erreurs classiques et comment les éviter pour faire mouche.</p>
+            <p className="mt-1 text-xs text-text-secondary">Les erreurs qui plombent une vanne avant même la chute, et comment les éviter.</p>
           </Link>
         </div>
       </nav>

@@ -117,12 +117,12 @@ function StepQuiz({
     return (
       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center">
         <p className="font-display text-lg font-bold">
-          {allCorrect ? "Parfait !" : `${score}/${quiz.length} bonnes réponses`}
+          {allCorrect ? "Sans faute !" : `${score}/${quiz.length} bonnes réponses`}
         </p>
         <p className="mt-1 text-sm text-text-secondary">
           {allCorrect
-            ? "Tu maîtrises ce module. Tu peux valider l'étape."
-            : "Pas grave, l'important c'est de pratiquer. Tu peux valider l'étape."}
+            ? "Tu as tout compris. Tu peux valider l'étape."
+            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c'est ta prochaine conversation. Tu peux valider l'étape."}
         </p>
         <Button variant="primary" size="sm" className="mt-3" onClick={onComplete}>
           Continuer
@@ -348,12 +348,12 @@ export function ParcoursDetail({
           setTimeout(() => setExpandedStep(nextStep.order), 500);
         }
       } else if (res.status === 429) {
-        setCompletionError("Trop de tentatives. Attends un moment.");
+        setCompletionError("Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie.");
       } else {
-        setCompletionError("Impossible de valider cette étape. Réessaie.");
+        setCompletionError("L'étape n'a pas voulu se valider. Réessaie.");
       }
     } catch {
-      setCompletionError("Erreur réseau. Vérifie ta connexion et réessaie.");
+      setCompletionError("La connexion a lâché en route. Vérifie ton réseau et réessaie.");
     } finally {
       setCompleting(null);
     }
@@ -380,8 +380,8 @@ export function ParcoursDetail({
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
             {fetchError
-              ? "Impossible de charger ce parcours. Réessaie plus tard."
-              : "Parcours introuvable."}{" "}
+              ? "Ce parcours ne veut pas se charger pour l'instant. Réessaie un peu plus tard."
+              : "Ce parcours n'existe pas, ou plus."}{" "}
             <Link href="/parcours" className="text-accent-primary hover:underline">
               Voir tous les parcours
             </Link>
@@ -583,7 +583,7 @@ export function ParcoursDetail({
                   {isPremiumLocked ? (
                     <div className="rounded-lg bg-background-elevated p-4 text-center">
                       <p className="text-sm text-text-secondary">
-                        Abonne-toi pour accéder à cette étape.
+                        Cette étape fait partie de l&apos;accès complet : la première est offerte, la suite coûte moins qu&apos;un café par mois.
                       </p>
                       <Link href="/abonnement">
                         <Button variant="primary" size="sm" className="mt-3">
@@ -597,7 +597,7 @@ export function ParcoursDetail({
                       {step.why && (
                         <div className="rounded-lg bg-background-elevated p-3">
                           <p className="text-sm font-medium text-accent-primary">
-                            Pourquoi ce module ?
+                            Pourquoi cette étape ?
                           </p>
                           <p className="mt-1 text-sm text-text-secondary">
                             {step.why}
@@ -679,7 +679,7 @@ export function ParcoursDetail({
                       {hasQuiz && !isQuizDone && !isCompleted && (
                         <div>
                           <h4 className="mb-2 text-sm font-semibold text-text-primary">
-                            Teste tes connaissances
+                            Petit quiz avant de valider
                           </h4>
                           <StepQuiz
                             quiz={step.quiz!}
@@ -692,7 +692,7 @@ export function ParcoursDetail({
 
                       {hasQuiz && isQuizDone && !isCompleted && (
                         <p className="text-center text-sm font-medium text-accent-primary">
-                          Quiz terminé — tu peux valider l&apos;étape
+                          Quiz bouclé, tu peux valider l&apos;étape
                         </p>
                       )}
 
@@ -724,20 +724,20 @@ export function ParcoursDetail({
                           disabled={completing === step.order}
                         >
                           {completing === step.order
-                            ? "Validation..."
-                            : "Marquer comme terminé"}
+                            ? "On valide…"
+                            : "Valider cette étape"}
                         </Button>
                       )}
 
                       {!isCompleted && status === "authenticated" && isSeedFallback && (
                         <p className="text-center text-sm text-text-muted">
-                          La progression sera disponible prochainement.
+                          Le suivi de ta progression arrive bientôt sur ce parcours.
                         </p>
                       )}
 
                       {isCompleted && (
                         <p className="text-center text-sm font-medium text-accent-primary">
-                          Étape complétée
+                          Étape validée
                         </p>
                       )}
 
@@ -767,7 +767,7 @@ export function ParcoursDetail({
               Bravo, tu as terminé le {path.title} !
             </p>
             <p className="mx-auto mt-2 max-w-md text-text-secondary">
-              {totalXp} XP gagnés. Tu as développé de nouvelles compétences. Continue sur ta lancée !
+              {totalXp} XP gagnés. Le plus dur, maintenant, c&apos;est de ne pas le raconter à tout le monde. Quoique, c&apos;était un peu l&apos;idée.
             </p>
             {path.nextParcours && (
               <div className="mt-6">
@@ -796,12 +796,12 @@ export function ParcoursDetail({
       {!isPathCompleted && path.nextParcours && (
         <div className="mt-8 rounded-lg border border-border p-4 text-center">
           <p className="text-sm text-text-muted">
-            Envie d&apos;aller plus loin ?{" "}
+            Tu y prends goût ?{" "}
             <Link
               href={`/parcours/${path.nextParcours}`}
               className="text-accent-primary hover:underline"
             >
-              Découvre le parcours suivant
+              Jette un œil au parcours suivant
             </Link>
           </p>
         </div>

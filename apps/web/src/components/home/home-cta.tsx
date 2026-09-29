@@ -22,7 +22,7 @@ export function HomeCta() {
     <section className="py-8 text-center">
       <div className="mx-auto max-w-xl rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-8">
         <h2 className="font-display text-2xl font-bold text-text-primary">
-          Prêt à devenir plus drôle ?
+          Tu crois avoir tout essayé pour être drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
           {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées — le tout pour moins qu&apos;un café par mois. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.

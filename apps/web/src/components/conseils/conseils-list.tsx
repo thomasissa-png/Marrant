@@ -227,7 +227,7 @@ export function ConseilsList() {
         <EmptyState
           emoji="🎓"
           emojiLabel="pas de conseils"
-          title="Aucun conseil ici... on a cherché partout"
+          title="Aucun conseil ne colle à ces filtres, et pourtant on a cherché sous le canapé"
           description="Change tes filtres, y'a plein de techniques qui t'attendent."
           ctaLabel="Voir tous les conseils"
           ctaHref="/conseils"

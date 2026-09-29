@@ -61,19 +61,19 @@ const RESULTS: Record<string, { title: string; description: string; emoji: strin
   },
   INTERMEDIAIRE: {
     title: "Le Blagueur Affûté",
-    description: "T'as déjà le sens de l'humour, on va l'affûter. Répartie, timing, anecdotes : tu vas devenir celui qu'on écoute.",
+    description: "T'as déjà le sens de l'humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu'on écoute quand il prend la parole.",
     emoji: "\uD83C\uDF3F",
     path: "/conseils",
   },
   AVANCE: {
     title: "Le Comique Naturel",
-    description: "T'es déjà bon ! On va te donner les techniques avancées pour être inoubliable, en soirée, au boulot, partout.",
+    description: "T'es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
     emoji: "\uD83D\uDD25",
     path: "/videos",
   },
   EXPERT: {
     title: "La Future Star",
-    description: "Tu vises haut et c'est ce qu'on aime. Analyse les meilleurs, peaufine tes techniques et prépare-toi à briller.",
+    description: "Tu vises haut, et on aime ça. On te met les meilleurs humoristes sous les yeux, démontés pièce par pièce : à toi de leur piquer leur mécanique.",
     emoji: "\u2B50",
     path: "/videos",
   },
@@ -162,7 +162,7 @@ export function HumorQuiz() {
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Button variant="primary" size="lg" onClick={() => router.push(existingResult.path)}>
-              Voir mon parcours
+              Voir par où commencer
             </Button>
             <Button variant="ghost" size="sm" onClick={handleRetakeQuiz}>
               Refaire le quiz
@@ -191,7 +191,7 @@ export function HumorQuiz() {
           <p className="mt-2 text-text-secondary">{result.description}</p>
           <div className="mt-6 flex flex-col gap-3">
             <Button variant="primary" size="lg" onClick={() => router.push(result.path)}>
-              Voir mon parcours
+              Voir par où commencer
             </Button>
             <button
               type="button"

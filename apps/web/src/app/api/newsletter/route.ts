@@ -53,7 +53,7 @@ async function sendConfirmationEmail(
 <head><meta charset="UTF-8"></head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a1a;">
   <h2 style="margin-bottom: 8px;">Confirme ton inscription</h2>
-  <p>On a besoin d'un dernier clic pour t'envoyer une technique d'humour par semaine.</p>
+  <p>Il nous manque juste un clic pour t'envoyer une technique d'humour par semaine. Promis, c'est la dernière fois qu'on te fait cliquer sans te faire rire.</p>
   <p style="margin: 24px 0;">
     <a href="${confirmUrl}" style="display: inline-block; background: #7c3aed; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
       Je confirme mon email
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
         pending: true,
         emailSent: emailResult.sent,
         message: emailResult.sent
-          ? "Regarde ta boîte mail pour confirmer."
+          ? "Jette un œil à ta boîte mail pour confirmer (et aux spams, on ne se vexe pas)."
           : "Inscription enregistrée. On te confirmera par email dès que possible.",
       },
       { status: 200 },
@@ -179,7 +179,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[Newsletter] Erreur POST :", err);
     return NextResponse.json(
-      { error: "Erreur serveur. Réessaie plus tard." },
+      { error: "Petit souci de notre côté. Réessaie un peu plus tard." },
       { status: 500 },
     );
   }

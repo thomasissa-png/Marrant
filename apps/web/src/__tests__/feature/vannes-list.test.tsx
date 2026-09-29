@@ -90,7 +90,7 @@ describe("VannesList", () => {
     await waitFor(() => {
       // Les teasers varient par index — vérifier qu'il y a 2 hints (1 par vanne non révélée)
       expect(screen.getByText("Clique pour la chute")).toBeInTheDocument();
-      expect(screen.getByText("La chute va te surprendre")).toBeInTheDocument();
+      expect(screen.getByText("Parie sur la chute, puis vérifie")).toBeInTheDocument();
     });
   });
 
@@ -161,7 +161,7 @@ describe("VannesList", () => {
     });
     render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Rien ici... c'est aussi vide que mon frigo un dimanche soir")).toBeInTheDocument();
+      expect(screen.getByText("Rien dans cette catégorie pour l'instant, même pas un jeu de mots")).toBeInTheDocument();
     });
   });
 

@@ -26,7 +26,7 @@ const aboutFaqs = [
   {
     question: "Est-ce que deviens-marrant.fr est fait pour les débutants ?",
     answer:
-      "Oui. La majorité de nos membres n'avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Nos parcours commencent au niveau zéro et progressent étape par étape.",
+      "Oui, c'est même pour eux qu'on l'a construit. La majorité de nos membres n'avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Les parcours partent du niveau zéro et avancent étape par étape, sans jamais te pousser sur scène.",
   },
   {
     question: "Quelles techniques d'humour sont enseignées ?",
@@ -65,17 +65,18 @@ export default function AProposPage() {
           deviens-marrant.fr est la première plateforme francophone dédiée à
           l&apos;apprentissage de l&apos;humour, de la répartie et du
           storytelling. Notre mission : prouver que l&apos;humour n&apos;est pas
-          un don réservé à quelques élus, mais un muscle que tout le monde
-          peut entraîner.
+          un don tombé du ciel sur quelques chanceux, mais un muscle que tout
+          le monde peut entraîner, toi compris.
         </p>
 
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">Notre mission</h2>
           <p className="mt-3 text-text-secondary">
-            Tout le monde a le droit d&apos;être drôle. Que tu sois étudiant
-            timide qui veut avoir de la répartie, jeune actif en quête de
-            conversation à la machine à café, ou en reconstruction et en quête
-            de légèreté — on a conçu des parcours pour toi.
+            Tout le monde a le droit d&apos;être drôle, y compris ceux qui
+            répètent leur blague trois fois dans leur tête avant de renoncer à
+            la dire. Étudiant timide qui veut de la répartie, jeune actif qui
+            sèche à la machine à café, ou en train de tourner une page et à la
+            recherche d&apos;un peu de légèreté : il y a un parcours pensé pour toi.
           </p>
           <p className="mt-3 text-text-secondary">
             On s&apos;appuie sur les techniques des meilleurs humoristes
@@ -146,9 +147,9 @@ export default function AProposPage() {
               dans 3 mois.
             </li>
             <li>
-              <strong>Progresser par itération</strong> — comme un humoriste
-              qui rode son set en open mic, on ajuste grâce au feedback et à
-              la répétition.
+              <strong>Roder, comme en open mic</strong> — un humoriste teste
+              son set soir après soir : ce qui fait rire reste, ce qui fait un
+              blanc saute. Tu avances de la même façon, essai après essai.
             </li>
           </ol>
         </section>
@@ -163,9 +164,9 @@ export default function AProposPage() {
             — pas juste à ceux qui sont &quot;nés drôles&quot;.
           </p>
           <p className="mt-3 text-text-secondary">
-            L&apos;équipe combine culture stand-up, pédagogie et technologie
-            pour créer la meilleure expérience d&apos;apprentissage de
-            l&apos;humour en ligne. Chaque vanne, chaque conseil, chaque vidéo
+            L&apos;équipe mélange culture stand-up et pédagogie, avec une
+            obsession : que ce que tu lis ici te serve dès ce soir. Chaque
+            vanne, chaque conseil, chaque vidéo
             passe un test simple avant d&apos;être publié : &quot;est-ce que
             je la sors ce soir en soirée ?&quot;
           </p>

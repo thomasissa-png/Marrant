@@ -82,7 +82,7 @@ describe("ProfilDashboard", () => {
 
   it("displays motivational message under progress bar", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Bien joué, continue comme ça !")).toBeInTheDocument();
+    expect(screen.getByText("Ça avance, et ça commence à s'entendre.")).toBeInTheDocument();
   });
 
   it("displays streak counter", () => {
@@ -196,7 +196,7 @@ describe("ProfilDashboard", () => {
       fetchUser: mockFetchUser,
     });
     render(<ProfilDashboard />);
-    expect(screen.getByText("Tu démarres fort, continue !")).toBeInTheDocument();
+    expect(screen.getByText("Premiers XP au compteur : le reste vient en pratiquant.")).toBeInTheDocument();
   });
 
   it("shows motivational message near level up", () => {
@@ -206,6 +206,6 @@ describe("ProfilDashboard", () => {
       fetchUser: mockFetchUser,
     });
     render(<ProfilDashboard />);
-    expect(screen.getByText("Tu y es presque, dernier effort !")).toBeInTheDocument();
+    expect(screen.getByText("Le niveau suivant est à portée de vanne.")).toBeInTheDocument();
   });
 });

@@ -97,7 +97,7 @@ function SubscriptionSuccessContent() {
             Paiement reçu !
           </h1>
           <p className="mt-2 text-text-secondary">
-            Activation de ton abonnement en cours...
+            On déroule le tapis rouge, ton accès s&apos;active…
           </p>
           {!error && (
             <div className="mt-6 flex justify-center">
@@ -107,7 +107,7 @@ function SubscriptionSuccessContent() {
           {error && (
             <div className="mt-4">
               <p className="text-sm text-text-muted">
-                L&apos;activation prend plus de temps que prévu. Ton paiement a bien été reçu — ton accès sera activé dans quelques instants.
+                L&apos;activation traîne un peu, comme une vanne qui cherche sa chute. Ton paiement est bien reçu : ton accès arrive dans quelques instants.
               </p>
               <Button
                 variant="primary"
@@ -124,7 +124,7 @@ function SubscriptionSuccessContent() {
                 className="mt-2 block w-full"
                 onClick={() => router.push("/vannes")}
               >
-                Continuer vers le site
+                Aller voir les vannes
               </Button>
             </div>
           )}

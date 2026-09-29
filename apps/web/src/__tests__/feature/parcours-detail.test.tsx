@@ -175,7 +175,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 should auto-expand (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
@@ -214,7 +214,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
     expect(screen.getByText("Quelle est la clé d'une bonne vanne ?")).toBeInTheDocument();
@@ -226,14 +226,14 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Voir le résultat")).toBeInTheDocument();
     await userEvent.click(screen.getByText("Voir le résultat"));
 
-    expect(screen.getByText("Parfait !")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute !")).toBeInTheDocument();
     expect(screen.getByText("Continuer")).toBeInTheDocument();
   });
 
   it("shows cross-recommendation to next parcours", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
@@ -259,7 +259,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     render(<ParcoursDetail slug="nonexistent" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
     expect(screen.getByText("Voir tous les parcours")).toBeInTheDocument();
   });
@@ -331,11 +331,11 @@ describe("ParcoursDetail — seed fallback", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Should NOT show "Marquer comme terminé" button
+    // Should NOT show "Valider cette étape" button
     await waitFor(() => {
-      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+      expect(screen.getByText(/suivi de ta progression arrive bientôt/)).toBeInTheDocument();
     });
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
 });
 
@@ -362,12 +362,12 @@ describe("ParcoursDetail — quiz gate", () => {
 
     // Step 1 auto-expands, quiz is shown, button should be disabled
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
     });
 
     // The button should say "Termine le quiz"
     expect(screen.getByText("Termine le quiz pour valider cette étape")).toBeInTheDocument();
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
 
     // Complete the quiz
     await userEvent.click(screen.getByText("La surprise de la chute"));
@@ -376,7 +376,7 @@ describe("ParcoursDetail — quiz gate", () => {
 
     // Now the complete button should appear
     await waitFor(() => {
-      expect(screen.getByText("Marquer comme terminé")).toBeInTheDocument();
+      expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
     });
   });
 });

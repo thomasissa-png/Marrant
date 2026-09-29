@@ -148,7 +148,7 @@ export default async function BlogPage() {
           </Link>
           <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
-            <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets.</p>
+            <p className="mt-1 text-xs text-text-secondary">Tu as lu la théorie ? Les parcours te font passer à la pratique, une semaine à la fois.</p>
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>

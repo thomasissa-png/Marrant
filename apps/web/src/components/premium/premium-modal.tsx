@@ -29,7 +29,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de la création du paiement", "error");
+        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -103,7 +103,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
             onClick={handleCheckout}
             disabled={isCheckoutLoading}
           >
-            {isCheckoutLoading ? "Redirection..." : "Passer à l'offre complète"}
+            {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
           </Button>
         ) : (
           <Button

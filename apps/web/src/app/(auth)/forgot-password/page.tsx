@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
         setSuccess(true);
       } else {
         const data = await res.json();
-        setError(data.error || "Une erreur est survenue");
+        setError(data.error || "Quelque chose a coincé de notre côté. Réessaie.");
       }
     } catch {
       setError("Connexion perdue, réessaie");
@@ -49,8 +49,8 @@ export default function ForgotPasswordPage() {
           <CardTitle>Mot de passe oublié</CardTitle>
           <CardDescription>
             {success
-              ? "Vérifie ta boîte mail pour le lien de réinitialisation."
-              : "Entre ton email et on t'envoie un lien de réinitialisation."}
+              ? "Jette un œil à ta boîte mail, le lien est en route."
+              : "Donne-nous ton email, on t'envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                   <p className="text-sm text-error">{error}</p>
                 )}
                 <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
+                  {isLoading ? "On t'envoie ça…" : "Envoyer le lien"}
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">

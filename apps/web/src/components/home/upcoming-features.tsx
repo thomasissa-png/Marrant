@@ -23,7 +23,7 @@ const FEATURES: Feature[] = [
     slug: "whatsapp",
     title: "Vannes, vidéos et conseils du jour par WhatsApp",
     description:
-      "Reçois chaque jour ta dose d\u2019humour directement sur WhatsApp",
+      "La vanne, le conseil et la vidéo du jour dans tes messages, coincés entre le groupe de la famille et celui du foot.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -37,7 +37,7 @@ const FEATURES: Feature[] = [
     slug: "nouveaux-parcours",
     title: "De nouveaux parcours",
     description:
-      "Des parcours encore plus poussés pour maîtriser l\u2019art de la répartie et du storytelling",
+      "Des parcours plus poussés sur la répartie et le storytelling, pour le jour où les bases ne te suffiront plus.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
@@ -51,7 +51,7 @@ const FEATURES: Feature[] = [
     slug: "communaute",
     title: "Une communauté",
     description:
-      "Échange avec d\u2019autres passionnés d\u2019humour, partage tes meilleures vannes et progresse ensemble",
+      "Un coin pour tester tes vannes sur des gens qui ne sont pas obligés de rire, contrairement à ta famille.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -66,9 +66,9 @@ const FEATURES: Feature[] = [
   },
   {
     slug: "surprises",
-    title: "Générateur de répartie",
+    title: "Répliques à la demande",
     description:
-      "Décris la situation, on te génère 3 répliques possibles. Plus jamais muet.",
+      "Décris la situation, on te propose 3 répliques possibles. La prochaine fois, le dernier mot, c’est toi.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -142,7 +142,7 @@ export function UpcomingFeatures() {
           ...prev,
           [slug]: (prev[slug] ?? 0) + (hadVote ? 1 : -1),
         }));
-        toast("Erreur lors du vote, réessaie", "error");
+        toast("Ton vote s'est perdu en route, réessaie.", "error");
       } finally {
         setVotingSlug(null);
       }
@@ -164,7 +164,7 @@ export function UpcomingFeatures() {
         On prépare la suite pour te rendre encore plus redoutable en société.
       </p>
       <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-text-muted">
-        Vote pour la fonctionnalité que tu veux voir arriver en premier !
+        Vote pour ce que tu veux voir arriver en premier : ça nous aide à choisir par quoi commencer.
       </p>
 
       <div className="grid gap-6 md:grid-cols-2">

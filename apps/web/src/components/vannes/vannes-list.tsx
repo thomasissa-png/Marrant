@@ -74,13 +74,13 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const PUNCHLINE_TEASERS = [
   "Clique pour la chute",
-  "La chute va te surprendre",
+  "Parie sur la chute, puis vérifie",
   "Celle-là, tu vas la ressortir",
   "Attention, chute en approche",
   "Tu la sens venir ?",
-  "Le meilleur arrive...",
+  "La chute est juste derrière",
   "À toi de jouer",
-  "Ça pique, prépare-toi",
+  "Devine d'abord, clique ensuite",
 ];
 
 // Limite gratuite — source de vérité côté serveur : `FREE_JOKE_LIMIT` dans /api/jokes.
@@ -170,7 +170,7 @@ export function VannesList() {
               Aperçu gratuit : {FREE_JOKE_LIMIT_UI} vannes accessibles sans compte.
             </p>
             <p className="text-xs text-text-secondary">
-              Crée ton compte gratuit pour débloquer les filtres et sauvegarder tes préférées, ou passe à l&apos;accès complet à 0,99 €/mois.
+              Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 0,99 €/mois : tout le catalogue, les filtres et les favoris.
             </p>
           </div>
           <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
@@ -236,7 +236,7 @@ export function VannesList() {
         <EmptyState
           emoji="😅"
           emojiLabel="pas de vannes"
-          title="Rien ici... c'est aussi vide que mon frigo un dimanche soir"
+          title="Rien dans cette catégorie pour l'instant, même pas un jeu de mots"
           description="Essaie une autre catégorie, on a forcément un truc pour toi."
           ctaLabel="Voir toutes les vannes"
           ctaHref="/vannes"
@@ -294,7 +294,7 @@ export function VannesList() {
                       </div>
                     )}
                     <p className="mt-3 text-xs text-text-muted">
-                      Envie de comprendre la mécanique en profondeur ?{" "}
+                      Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
                         className="font-medium text-accent-primary hover:underline"

@@ -38,8 +38,8 @@ describe("HeroSection", () => {
     render(<HeroSection />);
     expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
     expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
-    expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
-    expect(screen.getByText("Progresser chaque jour")).toBeInTheDocument();
+    expect(screen.getByText("Reprendre confiance en toi")).toBeInTheDocument();
+    expect(screen.getByText("Un petit exercice par jour")).toBeInTheDocument();
     expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
   });
 

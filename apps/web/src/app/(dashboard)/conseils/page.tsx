@@ -35,17 +35,17 @@ const conseilsFaqs = [
   {
     question: "C'est quoi la répartie exactement ?",
     answer:
-      "La répartie, c'est la capacité à répondre rapidement et avec à-propos, souvent avec humour, à une remarque ou une situation. Elle repose sur des techniques précises comme l'accusé de réception, le rebond sur mot-clé, ou le retournement. Ces techniques s'apprennent et se perfectionnent avec la pratique.",
+      "La répartie, c'est trouver la bonne réponse pendant que la conversation est encore là, pas le soir en te brossant les dents. Souvent drôle, toujours rapide, elle repose sur des techniques précises : l'accusé de réception, le rebond sur un mot-clé, le retournement. Et comme toute technique, ça s'apprend et ça s'affûte en pratiquant.",
   },
   {
     question: "Combien de temps faut-il pour avoir de la répartie ?",
     answer:
-      "Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure 4 semaines et te donne des exercices concrets à tester chaque jour. L'important, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine.",
+      "Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure 4 semaines et te donne des exercices concrets à tester chaque jour. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.",
   },
   {
     question: "Comment avoir de la répartie sans être méchant ?",
     answer:
-      "La vraie répartie, ce n'est pas écraser l'autre. C'est créer un moment drôle et léger, même quand la remarque de départ était piquante. L'objectif, c'est que tout le monde rie — y compris la personne qui t'a lancé la pique. Des techniques comme l'autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
+      "La vraie répartie, ce n'est pas écraser l'autre : c'est transformer une pique en moment drôle pour tout le monde, y compris pour celui qui l'a lancée. L'autodérision ou le détour par l'absurde permettent de désamorcer sans blesser. Tu gagnes l'échange, et personne n'a besoin de le perdre.",
   },
 ];
 
@@ -115,13 +115,13 @@ export default async function ConseilsPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
         <div className="space-y-3 text-sm text-text-secondary">
           <p>
-            La répartie n&apos;est pas un talent inné — c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
+            La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
           </p>
           <p>
             Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> — le guide complet avec plan d&apos;action sur 30 jours.
           </p>
           <p>
-            Et pour maîtriser le silence qui fait exploser une punchline, plonge dans notre article sur le <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>.
+            Et pour savoir combien de temps tenir le silence avant la chute, lis notre article sur le <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>.
           </p>
         </div>
       </section>
@@ -140,7 +140,7 @@ export default async function ConseilsPage() {
           </Link>
           <Link href="/blog/autoderision-interactions" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">L&apos;autodérision qui marche</h3>
-            <p className="mt-1 text-xs text-text-secondary">Rire de soi sans se démolir — le guide pour transformer tes interactions.</p>
+            <p className="mt-1 text-xs text-text-secondary">Rire de toi sans te démolir : ce qui fait sourire les autres, et ce qui les met mal à l&apos;aise.</p>
           </Link>
         </div>
       </nav>

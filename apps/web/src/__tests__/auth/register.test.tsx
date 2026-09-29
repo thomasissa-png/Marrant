@@ -24,7 +24,7 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Créer un compte")).toBeInTheDocument();
+    expect(screen.getByText("Crée ton compte, ta première vanne t'attend")).toBeInTheDocument();
     expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
@@ -133,7 +133,7 @@ describe("RegisterPage", () => {
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
-    expect(screen.getByText("Création...")).toBeInTheDocument();
+    expect(screen.getByText("On prépare ton compte…")).toBeInTheDocument();
   });
 
   it("calls Google signIn with /onboarding callback when no callbackUrl", async () => {

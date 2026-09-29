@@ -36,7 +36,7 @@ describe("SubscriptionSuccessPage", () => {
     mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "FREE" }) });
     render(<SubscriptionSuccessPage />);
     expect(screen.getByText("Paiement reçu !")).toBeInTheDocument();
-    expect(screen.getByText("Activation de ton abonnement en cours...")).toBeInTheDocument();
+    expect(screen.getByText("On déroule le tapis rouge, ton accès s'active…")).toBeInTheDocument();
   });
 
   it("redirects to /vannes when status returns PREMIUM (webhook already processed)", async () => {
@@ -103,9 +103,9 @@ describe("SubscriptionSuccessPage", () => {
     }
 
     await waitFor(() => {
-      expect(screen.getByText(/prend plus de temps que prévu/)).toBeInTheDocument();
+      expect(screen.getByText(/traîne un peu/)).toBeInTheDocument();
       expect(screen.getByText("Réessayer")).toBeInTheDocument();
-      expect(screen.getByText("Continuer vers le site")).toBeInTheDocument();
+      expect(screen.getByText("Aller voir les vannes")).toBeInTheDocument();
     });
   });
 
@@ -161,7 +161,7 @@ describe("SubscriptionSuccessPage", () => {
     }
 
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    await user.click(screen.getByText("Continuer vers le site"));
+    await user.click(screen.getByText("Aller voir les vannes"));
     expect(mockPush).toHaveBeenCalledWith("/vannes");
   });
 

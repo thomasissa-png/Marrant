@@ -35,7 +35,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("renders the page header with title and description", () => {
     expect(screen.getByText(/Parcours humour : deviens drôle pas à pas/)).toBeInTheDocument();
     expect(
-      screen.getByText(/3 parcours structurés pour progresser en humour/)
+      screen.getByText(/3 parcours pour progresser en humour/)
     ).toBeInTheDocument();
   });
 
@@ -148,8 +148,8 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("orientation quiz recommends a parcours after answering", async () => {
     // Answer both questions
     await userEvent.click(screen.getByText(/Au boulot, en réunion/));
-    await userEvent.click(screen.getByText(/Je manque de blagues/));
-    expect(screen.getByText("On te recommande :")).toBeInTheDocument();
+    await userEvent.click(screen.getByText(/rien de drôle à raconter/));
+    expect(screen.getByText("Ton point de départ :")).toBeInTheDocument();
     expect(screen.getByText("Voir ce parcours")).toBeInTheDocument();
   });
 });

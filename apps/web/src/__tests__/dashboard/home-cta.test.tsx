@@ -21,7 +21,7 @@ describe("HomeCta", () => {
   it("shows CTA when unauthenticated", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    expect(screen.getByText(/Prêt à devenir plus drôle/)).toBeInTheDocument();
+    expect(screen.getByText(/Tu crois avoir tout essayé pour être drôle/)).toBeInTheDocument();
     expect(screen.getByText(/Commencer à 0,99 €\/mois/)).toBeInTheDocument();
     expect(screen.getByText("Voir les vannes gratuites")).toBeInTheDocument();
   });

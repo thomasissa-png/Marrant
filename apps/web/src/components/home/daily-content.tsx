@@ -180,7 +180,7 @@ export function DailyContent() {
                       </div>
                     )}
                     <p className="mt-3 text-xs text-text-muted">
-                      Envie de comprendre la mécanique en profondeur ?{" "}
+                      Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
                         className="font-medium text-accent-primary hover:underline"
@@ -252,7 +252,7 @@ export function DailyContent() {
                 </div>
               </>
             ) : (
-              <p className="text-text-secondary">Le prof d&apos;humour est en pause café. Ça revient demain.</p>
+              <p className="text-text-secondary">Le conseil du jour s&apos;est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
             )}
           </div>
         </div>

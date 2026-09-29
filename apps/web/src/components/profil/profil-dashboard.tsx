@@ -64,7 +64,7 @@ export function ProfilDashboard() {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de l'accès au portail", "error");
+        toast("La gestion de ton abonnement ne répond pas. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -81,7 +81,7 @@ export function ProfilDashboard() {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de la création du paiement", "error");
+        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -166,12 +166,12 @@ export function ProfilDashboard() {
           />
           <p className="mt-2 text-xs text-text-muted">
             {progress.value >= progress.max
-              ? "Tu as atteint le sommet, légende !"
+              ? "Niveau maximum. Il ne te reste plus qu'à faire rire les autres."
               : progress.value / progress.max >= 0.75
-                ? "Tu y es presque, dernier effort !"
+                ? "Le niveau suivant est à portée de vanne."
                 : progress.value / progress.max >= 0.25
-                  ? "Bien joué, continue comme ça !"
-                  : "Tu démarres fort, continue !"}
+                  ? "Ça avance, et ça commence à s'entendre."
+                  : "Premiers XP au compteur : le reste vient en pratiquant."}
           </p>
         </CardContent>
       </Card>
@@ -237,7 +237,7 @@ export function ProfilDashboard() {
           {parcoursProgress.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <p className="text-sm text-text-secondary">
-                Tu n&apos;as pas encore commencé de parcours.
+                Tu n&apos;as pas encore commencé de parcours. Le plus court dure 3 semaines, à peine le temps de t&apos;y habituer.
               </p>
               <Link href="/parcours">
                 <Button variant="primary" size="sm" className="mt-3">
@@ -295,7 +295,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Commence par les conseils de répartie et de timing, les fondamentaux pour être à l&apos;aise.
+                    Commence par la répartie et le timing : les deux réflexes qui changent le plus vite une conversation.
                   </p>
                 </div>
               </Link>
@@ -305,7 +305,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Lis des vannes par catégorie et sauvegarde celles que tu veux ressortir.
+                    Pioche des vannes par situation et garde de côté celles que tu te vois déjà ressortir.
                   </p>
                 </div>
               </Link>
@@ -315,7 +315,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Lance-toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases ! Choisis un parcours structuré pour progresser étape par étape.
+                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l&apos;autre.
                   </p>
                 </div>
               </Link>
@@ -325,7 +325,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases, explore les conseils avancés pour affiner ton humour.
+                    Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle.
                   </p>
                 </div>
               </Link>
@@ -334,7 +334,7 @@ export function ProfilDashboard() {
               <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-secondary">
                 <p className="font-semibold text-accent-secondary">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
-                  Analyse les techniques des meilleurs humoristes pour t&apos;en inspirer.
+                  Décortique les techniques des meilleurs humoristes, puis pique-leur ce qui te va.
                 </p>
               </div>
             </Link>
@@ -365,7 +365,7 @@ export function ProfilDashboard() {
                 onClick={handlePortal}
                 disabled={isPortalLoading}
               >
-                {isPortalLoading ? "Redirection..." : "Gérer mon abonnement"}
+                {isPortalLoading ? "On t'emmène…" : "Gérer mon abonnement"}
               </Button>
             </div>
           ) : (
@@ -382,7 +382,7 @@ export function ProfilDashboard() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "Redirection..." : "S'abonner à 0,99 €/mois"}
+                {isCheckoutLoading ? "On t'emmène au paiement…" : "S'abonner à 0,99 €/mois"}
               </Button>
             </>
           )}

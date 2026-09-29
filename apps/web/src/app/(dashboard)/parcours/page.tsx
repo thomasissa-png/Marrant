@@ -79,9 +79,10 @@ export default async function ParcoursPage() {
           Parcours humour : deviens drôle pas à pas
         </h1>
         <p className="mt-2 text-text-secondary">
-          3 parcours structurés pour progresser en humour : machine à café,
-          répartie et confiance. 15 à 20 min/semaine selon le parcours, des exercices concrets et
-          des XP à gagner.
+          3 parcours pour progresser en humour, chacun taillé pour une
+          situation : la machine à café, la répartie et la confiance. Compte
+          15 à 20 min/semaine selon le parcours, soit moins qu&apos;un épisode de
+          série, avec des exercices concrets et des XP à gagner.
         </p>
       </div>
       {/* Liens SSR vers les parcours individuels — visibles par les crawlers
@@ -93,7 +94,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="text-base font-semibold text-text-primary">Machine à Café</h2>
-            <p className="mt-1 text-xs text-text-secondary">3 semaines pour avoir des blagues à ressortir au bureau et en afterwork.</p>
+            <p className="mt-1 text-xs text-text-secondary">3 semaines pour avoir enfin quelque chose à raconter entre deux gorgées de café, au bureau comme en afterwork.</p>
           </Link>
         </li>
         <li>
@@ -102,7 +103,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="text-base font-semibold text-text-primary">Répartie</h2>
-            <p className="mt-1 text-xs text-text-secondary">4 semaines pour développer ta répartie et ne plus jamais rester muet.</p>
+            <p className="mt-1 text-xs text-text-secondary">4 semaines pour trouver ta réplique pendant qu&apos;elle sert encore à quelque chose.</p>
           </Link>
         </li>
         <li>
@@ -111,7 +112,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="text-base font-semibold text-text-primary">Confiance</h2>
-            <p className="mt-1 text-xs text-text-secondary">6 semaines pour retrouver confiance grâce à l&apos;humour après une période difficile.</p>
+            <p className="mt-1 text-xs text-text-secondary">6 semaines pour dérouiller ton humour après une période difficile, et la confiance qui va avec.</p>
           </Link>
         </li>
       </ul>
@@ -134,7 +135,7 @@ export default async function ParcoursPage() {
           </Link>
           <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les termes clés pour comprendre les techniques des pros.</p>
+            <p className="mt-1 text-xs text-text-secondary">Le vocabulaire des humoristes, expliqué sans jargon.</p>
           </Link>
         </div>
       </nav>

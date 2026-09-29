@@ -10,7 +10,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ vannes prêtes à ressortir` : "Vannes prêtes à ressortir",
     description:
-      "École, boulot, couple, soirées — trouve la vanne parfaite pour chaque situation. Classées par catégorie, prêtes à ressortir ce soir.",
+      "École, boulot, couple, soirées : les vannes sont rangées par situation, pour que tu trouves la bonne avant que le moment soit passé.",
     cta: "Voir les vannes",
     href: "/vannes",
     variant: "primary" as const,
@@ -21,7 +21,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ techniques de répartie` : "Techniques de répartie",
     description:
-      "Timing, auto-dérision, storytelling — chaque conseil avec un exemple concret et un exercice à tester aujourd'hui.",
+      "Timing, auto-dérision, storytelling : chaque technique arrive avec un exemple concret et un exercice à tester dès ce midi, à table.",
     cta: "Découvrir les techniques",
     href: "/conseils",
     variant: "secondary" as const,
@@ -32,7 +32,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ vidéos de stand-up décryptées` : "Vidéos stand-up décryptées",
     description:
-      "Les meilleurs extraits d'humoristes français, analysés technique par technique. Regarde les pros. Vole leurs techniques.",
+      "Les meilleurs extraits d'humoristes français, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
     cta: "Regarder les vidéos",
     href: "/videos",
     variant: "primary" as const,
@@ -47,8 +47,8 @@ export function FeatureCards() {
   return (
     <section className="py-12">
       <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
-        Tout ce qu&apos;il te faut pour{" "}
-        <span className="text-gradient">progresser</span>
+        Trois outils pour arrêter de rire{" "}
+        <span className="text-gradient">par politesse</span>
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
         {features.map((feature, i) => (

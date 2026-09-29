@@ -268,7 +268,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"
         >
           <p className="text-center text-sm text-text-muted">
-            Rien trouvé pour &laquo; {query} &raquo;
+            Rien trouvé pour &laquo; {query} &raquo;. Essaie une de ces pistes :
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-1.5">
             {SUGGESTIONS.slice(0, 4).map((s) => (

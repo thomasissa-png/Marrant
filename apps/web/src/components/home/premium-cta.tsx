@@ -27,7 +27,7 @@ export function PremiumCta() {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de la création du paiement", "error");
+        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -46,11 +46,11 @@ export function PremiumCta() {
           Prix de lancement
         </Badge>
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-          Choisis ta formule
+          Deux façons de t&apos;y mettre
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Que tu sois étudiant, jeune actif ou en pleine reconstruction, on a
-          ce qu&apos;il te faut pour devenir vraiment drôle.
+          Étudiant, jeune actif ou en train de tourner une page : tu trouves
+          ici de quoi devenir drôle pour de bon, pas seulement le temps d&apos;un apéro.
         </p>
       </div>
 
@@ -148,7 +148,7 @@ export function PremiumCta() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "Redirection..." : "Passer à l'offre complète"}
+                {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
               </Button>
             ) : (
               <Button
@@ -208,7 +208,7 @@ export function PremiumCta() {
             </Button>
           </a>
           <p className="mt-3 text-center text-xs text-text-muted">
-            Idéal si tu veux progresser vite avec un accompagnement humain
+            Pour toi si tu préfères qu&apos;on regarde ensemble, en direct, ce qui coince
           </p>
         </div>
       </div>

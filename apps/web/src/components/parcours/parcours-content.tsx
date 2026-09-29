@@ -51,9 +51,9 @@ const ORIENTATION_QUESTIONS = [
     ],
   },
   {
-    question: "Quel est ton plus gros frein ?",
+    question: "Qu'est-ce qui coince le plus ?",
     options: [
-      { label: "Je manque de blagues à ressortir", value: "content", emoji: "📝" },
+      { label: "Je n'ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
       { label: "Je ne sais pas quoi répondre sur le moment", value: "repartie", emoji: "⚡" },
       { label: "J'ai perdu confiance en moi", value: "confiance", emoji: "💪" },
     ],
@@ -65,20 +65,20 @@ function getQuizResult(answers: string[]): QuizResult {
     return {
       slug: "confiance",
       title: "Parcours Confiance",
-      reason: "Tu cherches un parcours complet et bienveillant pour retrouver ta légèreté.",
+      reason: "Tu veux retrouver ta légèreté sans te forcer : ce parcours prend son temps, et il a raison.",
     };
   }
   if (answers.includes("repartie") || answers.includes("social")) {
     return {
       slug: "repartie",
       title: "Parcours Répartie",
-      reason: "Tu veux avoir la bonne réplique au bon moment — on va t'y aider.",
+      reason: "Tu veux la bonne réplique pendant qu'elle sert encore : c'est exactement le programme.",
     };
   }
   return {
     slug: "machine-a-cafe",
     title: "Parcours Machine à Café",
-    reason: "Tu veux un arsenal de vannes et d'anecdotes à ressortir au quotidien.",
+    reason: "Tu veux avoir de quoi raconter à la pause, autre chose que la météo.",
   };
 }
 
@@ -108,7 +108,7 @@ function OrientationQuiz() {
     return (
       <Card className="text-center">
         <CardContent className="py-6">
-          <p className="text-sm font-medium text-accent-primary">On te recommande :</p>
+          <p className="text-sm font-medium text-accent-primary">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
           <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">

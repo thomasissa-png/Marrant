@@ -35,17 +35,17 @@ const vannesFaqs = [
   {
     question: "Comment trouver la bonne vanne pour une situation ?",
     answer:
-      "Utilise les filtres par catégorie : boulot, couple, soirée, école, gaming. Chaque vanne est classée par contexte pour que tu trouves en 3 secondes celle qui colle à ta situation. Sauvegarde tes préférées dans tes favoris pour les avoir sous la main.",
+      "Passe par les filtres : boulot, couple, soirée, école, gaming. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Mets tes préférées en favoris : tu les auras sous la main le jour J.",
   },
   {
     question: "Comment retenir une blague pour la ressortir au bon moment ?",
     answer:
-      "Le secret, c'est la répétition espacée. Lis une vanne le matin, essaie de la ressortir dans la journée. Nos favoris te permettent de créer ta propre sélection et de la relire régulièrement. En 3-4 répétitions, elle est gravée.",
+      "Le truc, c'est la répétition espacée : tu lis une vanne le matin et tu essaies de la ressortir dans la journée. Tes favoris te servent de carnet à relire de temps en temps. Au bout de 3-4 répétitions, elle sort toute seule, et de préférence au bon moment.",
   },
   {
     question: "Est-ce que les vannes sont adaptées à toutes les situations ?",
     answer:
-      "Chaque vanne est catégorisée et testée avec le Test Stand-Up : « est-ce que je peux la sortir ce soir en soirée ? ». Aucune vanne vulgaire, aucun objet qui parle, aucun jeu de mots forcé. Du contenu sortable en société, entre potes ou au boulot.",
+      "Chaque vanne est rangée par catégorie et passe le Test Stand-Up : « est-ce que je peux la sortir ce soir en soirée ? ». Rien de vulgaire, pas d'objets qui parlent, pas de jeux de mots forcés : seulement des vannes qu'on peut sortir entre potes ou au boulot sans que la pièce se refroidisse.",
   },
 ];
 
@@ -82,13 +82,13 @@ export default async function VannesPage() {
       </nav>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Vannes drôles à ressortir en toute occasion
+          Vannes drôles à ressortir ce soir, pas trois jours plus tard
         </h1>
         <p className="mt-2 text-text-secondary">
-          Boulot, couple, soirées, école, gaming — trouve la vanne parfaite
-          pour chaque situation. Clique pour révéler la chute, sauvegarde tes
-          préférées, et ressors-les ce soir. La théorie, c&apos;est bien.
-          Avoir une vanne prête, c&apos;est mieux.
+          Boulot, couple, soirées, école, gaming : choisis ta situation, clique
+          pour révéler la chute et garde tes préférées sous le coude. La
+          théorie, c&apos;est bien. Avoir une vanne prête au moment où tout le
+          monde te regarde, c&apos;est mieux.
         </p>
       </div>
 
@@ -127,7 +127,7 @@ export default async function VannesPage() {
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <h2 className="font-display mb-4 text-xl font-bold">La suite, si tu as pris goût</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Techniques de répartie</h3>
@@ -138,8 +138,8 @@ export default async function VannesPage() {
             <p className="mt-1 text-xs text-text-secondary">Regarde comment Fary et Paul Mirabel construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Timing : le secret des pros</h3>
-            <p className="mt-1 text-xs text-text-secondary">Le silence avant la punchline vaut de l&apos;or. Maîtrise le timing.</p>
+            <h3 className="text-sm font-semibold text-text-primary">Timing : bide ou carton, même vanne</h3>
+            <p className="mt-1 text-xs text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-il savoir combien de temps le tenir.</p>
           </Link>
         </div>
       </nav>

@@ -31,12 +31,12 @@ function ResetPasswordContent() {
     setError("");
 
     if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères");
+      setError("Ton mot de passe doit faire au moins 8 caractères.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas");
+      setError("Les deux mots de passe ne sont pas identiques. Retape-les ?");
       return;
     }
 
@@ -53,7 +53,7 @@ function ResetPasswordContent() {
         setSuccess(true);
       } else {
         const data = await res.json();
-        setError(data.error || "Une erreur est survenue");
+        setError(data.error || "Quelque chose a coincé de notre côté. Réessaie.");
       }
     } catch {
       setError("Connexion perdue, réessaie");
@@ -67,7 +67,7 @@ function ResetPasswordContent() {
       <main className="flex min-h-screen items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="py-8 text-center">
-            <p className="text-text-secondary">Lien invalide ou incomplet.</p>
+            <p className="text-text-secondary">Ce lien est cassé ou incomplet. Pas de panique, on t&apos;en renvoie un.</p>
             <Link href="/forgot-password" className="mt-4 inline-block text-accent-primary hover:underline text-sm">
               Demander un nouveau lien
             </Link>
@@ -89,7 +89,7 @@ function ResetPasswordContent() {
           <CardTitle>Nouveau mot de passe</CardTitle>
           <CardDescription>
             {success
-              ? "Mot de passe mis à jour avec succès !"
+              ? "C'est bon, ton nouveau mot de passe est en place."
               : "Choisis un nouveau mot de passe."}
           </CardDescription>
         </CardHeader>
@@ -97,7 +97,7 @@ function ResetPasswordContent() {
           {success ? (
             <div className="text-center">
               <p className="mb-4 text-sm text-success">
-                Tu peux maintenant te connecter avec ton nouveau mot de passe.
+                Tu peux te connecter avec. Essaie de t&apos;en souvenir plus longtemps que le précédent.
               </p>
               <Link href="/login">
                 <Button variant="primary" size="sm">
@@ -139,7 +139,7 @@ function ResetPasswordContent() {
                 <p className="text-sm text-error">{error}</p>
               )}
               <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                {isLoading ? "Réinitialisation..." : "Réinitialiser le mot de passe"}
+                {isLoading ? "On enregistre…" : "Enregistrer mon nouveau mot de passe"}
               </Button>
             </form>
           )}

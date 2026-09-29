@@ -112,7 +112,7 @@ export function ReactionButtons({
           }
         } else {
           triggerShake();
-          toast("Erreur lors de la réaction", "error");
+          toast("Ta réaction s'est perdue en route, réessaie.", "error");
         }
       } catch {
         triggerShake();

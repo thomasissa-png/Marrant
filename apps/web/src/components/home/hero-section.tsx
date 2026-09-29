@@ -38,10 +38,10 @@ export function HeroSection() {
           Briller à la machine à café
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Retrouver confiance en soi
+          Reprendre confiance en toi
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
-          Progresser chaque jour
+          Un petit exercice par jour
         </span>
         <span className="rounded-full bg-background-elevated px-3 py-1 text-sm text-text-secondary">
           Vannes prêtes à ressortir

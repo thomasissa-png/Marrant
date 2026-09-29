@@ -62,7 +62,7 @@ export function NewsletterInline({
 
       if (!res.ok) {
         setStatus("error");
-        setMessage(data?.error ?? "Erreur, réessaie plus tard.");
+        setMessage(data?.error ?? "Petit souci de notre côté. Réessaie un peu plus tard.");
         return;
       }
 
@@ -71,12 +71,12 @@ export function NewsletterInline({
         data?.alreadySubscribed
           ? "Tu es déjà inscrit. On te retrouve dans ta boîte mail."
           : (data?.message ??
-              "Regarde ta boîte mail pour confirmer ton inscription."),
+              "Jette un œil à ta boîte mail pour confirmer (et aux spams, on ne se vexe pas)."),
       );
       setEmail("");
     } catch {
       setStatus("error");
-      setMessage("Erreur réseau, réessaie plus tard.");
+      setMessage("La connexion a lâché en route. Réessaie un peu plus tard.");
     }
   }
 
@@ -129,7 +129,7 @@ export function NewsletterInline({
               variant="primary"
               disabled={status === "loading"}
             >
-              {status === "loading" ? "Envoi..." : "Je m'inscris"}
+              {status === "loading" ? "On t'inscrit…" : "Je m'inscris"}
             </Button>
           </div>
 

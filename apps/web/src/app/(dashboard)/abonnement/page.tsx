@@ -23,7 +23,7 @@ export default function AbonnementPage() {
     ? "Active ton accès pour commencer"
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
-    ? "Ton compte est créé ! Plus qu'un clic pour accéder à tout le catalogue et commencer à devenir la personne la plus drôle du groupe."
+    ? "Ton compte est prêt. Encore un clic et tout le catalogue est à toi, de la première vanne à la dernière vidéo."
     : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 0,99 €/mois.";
 
   const handleCheckout = async () => {
@@ -35,7 +35,7 @@ export default function AbonnementPage() {
         window.location.href = data.url;
       } else {
         console.error("[Checkout]", data.error);
-        toast(data.error || "Erreur lors de la création du paiement", "error");
+        toast(data.error || "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -131,7 +131,7 @@ export default function AbonnementPage() {
               disabled={isCheckoutLoading}
             >
               {isCheckoutLoading
-                ? "Redirection vers le paiement..."
+                ? "On t'emmène au paiement…"
                 : "Active mon acc\u00e8s \u2014 0,99 \u20ac/mois"}
             </Button>
           ) : (

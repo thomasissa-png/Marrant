@@ -513,7 +513,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
 
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
@@ -546,7 +546,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/2")).toBeInTheDocument();
 
@@ -560,7 +560,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await userEvent.click(screen.getByText("Voir le résultat"));
 
     // Perfect score
-    expect(screen.getByText("Parfait !")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute !")).toBeInTheDocument();
     expect(screen.getByText("Continuer")).toBeInTheDocument();
   });
 
@@ -578,7 +578,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
   it("sees cross-recommendation to Répartie", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
@@ -592,9 +592,9 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Seed fallback path → no complete button
     await waitFor(() => {
-      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+      expect(screen.getByText(/suivi de ta progression arrive bientôt/)).toBeInTheDocument();
     });
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
 });
 
@@ -659,7 +659,7 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/Yanis reste muet/)).toBeInTheDocument();
   });
@@ -667,7 +667,7 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
   it("sees cross-recommendation to Confiance", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
@@ -744,7 +744,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
 
     // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/Marc a perdu contact/)).toBeInTheDocument();
 
@@ -758,7 +758,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
 
     // Quiz
-    expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
 
     // CTA to log in
     expect(screen.getByText("Connecte-toi pour valider cette étape")).toBeInTheDocument();
@@ -795,14 +795,14 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
   it("sees cross-recommendation to Machine à Café", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
   it("shows circular recommendation chain: Confiance → Machine à Café", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      const link = screen.getByText(/Découvre le parcours suivant/);
+      const link = screen.getByText(/Jette un œil au parcours suivant/);
       expect(link.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
     });
   });
@@ -821,7 +821,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
     expect(screen.getByText("Voir tous les parcours")).toBeInTheDocument();
   });
@@ -831,7 +831,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
   });
 
@@ -840,7 +840,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
   });
 });

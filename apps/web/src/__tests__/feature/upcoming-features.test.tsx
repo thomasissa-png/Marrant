@@ -55,7 +55,7 @@ describe("UpcomingFeatures", () => {
       expect(screen.getByText("Vannes, vidéos et conseils du jour par WhatsApp")).toBeInTheDocument();
       expect(screen.getByText("De nouveaux parcours")).toBeInTheDocument();
       expect(screen.getByText("Une communauté")).toBeInTheDocument();
-      expect(screen.getByText("Générateur de répartie")).toBeInTheDocument();
+      expect(screen.getByText("Répliques à la demande")).toBeInTheDocument();
     });
   });
 
@@ -160,7 +160,7 @@ describe("UpcomingFeatures", () => {
     // Should rollback to 62 after error
     await waitFor(() => {
       expect(screen.getByLabelText("62 votes pour Une communauté")).toHaveTextContent("Je veux ça !");
-      expect(toast).toHaveBeenCalledWith("Erreur lors du vote, réessaie", "error");
+      expect(toast).toHaveBeenCalledWith("Ton vote s'est perdu en route, réessaie.", "error");
     });
   });
 
@@ -194,6 +194,6 @@ describe("UpcomingFeatures", () => {
     render(<UpcomingFeatures />);
 
     expect(screen.getByText("Prochainement")).toBeInTheDocument();
-    expect(screen.getByText("Vote pour la fonctionnalité que tu veux voir arriver en premier !")).toBeInTheDocument();
+    expect(screen.getByText("Vote pour ce que tu veux voir arriver en premier : ça nous aide à choisir par quoi commencer.")).toBeInTheDocument();
   });
 });

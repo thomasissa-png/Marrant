@@ -15,7 +15,7 @@ export default function OnboardingPage() {
         Découvre ton profil humour
       </h1>
       <p className="mb-8 text-center text-text-secondary">
-        3 questions rapides pour personnaliser ton expérience
+        3 questions, et on te trouve un point de départ à ta taille
       </p>
       <HumorQuiz />
     </main>

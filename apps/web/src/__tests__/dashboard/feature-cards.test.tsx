@@ -9,7 +9,7 @@ jest.mock("@/hooks/use-content-stats", () => ({
 describe("FeatureCards", () => {
   it("renders section title", () => {
     render(<FeatureCards />);
-    expect(screen.getByText(/tout ce qu.il te faut pour/i)).toBeInTheDocument();
+    expect(screen.getByText(/Trois outils pour arrêter de rire/i)).toBeInTheDocument();
   });
 
   it("displays dynamic counts for each content type", () => {

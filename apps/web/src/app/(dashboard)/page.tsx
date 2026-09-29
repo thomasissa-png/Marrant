@@ -87,9 +87,9 @@ export default function HomePage() {
               &quot;Je n&apos;ai jamais rien de drôle à dire&quot;
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Pause café, afterwork, dîner entre amis... tu voudrais avoir la
-              vanne qui fait mouche au bon moment ? On te donne des vannes
-              courtes, prêtes à ressortir. Maintiens ton streak pour rester en forme.
+              Pause café, afterwork, dîner entre amis : la bonne vanne te vient
+              toujours, mais dans le métro du retour. On te donne des vannes
+              courtes à ressortir sur le moment, et un streak pour garder le rythme.
             </p>
             <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Parcours Machine à Café · 3 semaines →
@@ -103,9 +103,10 @@ export default function HomePage() {
               &quot;Je reste muet quand on me chambre&quot;
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Tu aimerais avoir de la répartie avec tes potes sans rester
-              planté là ? On t&apos;apprend les bases avec des exercices simples
-              et encourageants. Gagne des XP chaque jour et suis ta progression.
+              Tes potes se chambrent, tu cherches quoi répondre, et quand tu
+              trouves, la conversation est passée à autre chose. On t&apos;apprend
+              les réflexes de base avec des exercices simples, et tes XP te
+              montrent que tu avances.
             </p>
             <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Parcours Répartie · 4 semaines →
@@ -119,9 +120,10 @@ export default function HomePage() {
               &quot;J&apos;ai perdu ma légèreté&quot;
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Après une période difficile, tu veux retrouver ton humour et ta
-              confiance dans tes interactions ? Blagues, techniques de
-              storytelling et auto-dérision. Suis ta progression avec les XP et les streaks.
+              Après une période compliquée, ton humour n&apos;est pas parti, il
+              est juste rouillé. Blagues, storytelling et auto-dérision pour le
+              remettre en route à ton rythme, avec tes XP et ton streak pour
+              mesurer le chemin parcouru.
             </p>
             <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
               Parcours Confiance · 6 semaines →

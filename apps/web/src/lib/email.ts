@@ -58,10 +58,11 @@ export async function sendPasswordResetEmail(
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #1a1a1a;">
   <h2 style="color: #7c3aed; margin-bottom: 8px;">Deviens Marrant 🎤</h2>
   <p>Salut,</p>
-  <p>Tu as demandé à réinitialiser ton mot de passe. Clique sur le bouton ci-dessous :</p>
+  <p>Tu as demandé à changer ton mot de passe. Un clic sur le bouton ci-dessous et tu en choisis un nouveau :</p>
   <a href="${resetUrl}" style="display: inline-block; background: #7c3aed; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 16px 0;">Réinitialiser mon mot de passe</a>
   <p style="font-size: 14px; color: #666;">Ce lien expire dans <strong>1 heure</strong>.</p>
-  <p style="font-size: 14px; color: #666;">Si tu n'as pas fait cette demande, ignore cet email.</p>
+  <p style="font-size: 14px; color: #666;">Si tu n'as pas fait cette demande, ignore cet email : ton mot de passe actuel reste valable.</p>
+  <p style="font-size: 14px; color: #666;">P.S. : oublier un mot de passe, ça arrive à tout le monde. Oublier la chute d'une blague aussi, mais ça, on s'en occupe.</p>
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
   <p style="font-size: 12px; color: #999;">deviens-marrant.fr — Deviens dr&ocirc;le, un exercice &agrave; la fois.</p>
 </body>
