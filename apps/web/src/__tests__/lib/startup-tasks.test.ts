@@ -124,7 +124,13 @@ describe("runStartupTasks", () => {
 
 describe("applyJokeDecryptagesTask", () => {
   it("applique les 3 champs depuis le fichier pour une vanne null (sans IA)", async () => {
-    mockJokeFindMany.mockResolvedValue([{ id: "cuid-1", content: fileEntry.content }]);
+    // 1er findMany (comedyTechnique: null) → cette vanne. 2e findMany
+    // (seed override, comedyTechnique: not null) → aucune vanne, la nôtre
+    // vient d'être remplie.
+    mockJokeFindMany.mockImplementationOnce(() =>
+      Promise.resolve([{ id: "cuid-1", content: fileEntry.content }]),
+    );
+    mockJokeFindMany.mockImplementationOnce(() => Promise.resolve([]));
 
     await applyJokeDecryptagesTask();
 
@@ -159,10 +165,15 @@ describe("applyJokeDecryptagesTask", () => {
   });
 
   it("traite un mix : applique les vannes du fichier, ignore les orphelines", async () => {
-    mockJokeFindMany.mockResolvedValue([
-      { id: "cuid-1", content: fileEntry.content },
-      { id: "cuid-orphan", content: "Vanne hors fichier." },
-    ]);
+    // 1er findMany : pending (NULL). 2e findMany : seed override (pas de match
+    // dans le fichier pour cuid-orphan → aucun update supplémentaire).
+    mockJokeFindMany.mockImplementationOnce(() =>
+      Promise.resolve([
+        { id: "cuid-1", content: fileEntry.content },
+        { id: "cuid-orphan", content: "Vanne hors fichier." },
+      ]),
+    );
+    mockJokeFindMany.mockImplementationOnce(() => Promise.resolve([]));
 
     await applyJokeDecryptagesTask();
 
@@ -183,6 +194,53 @@ describe("applyJokeDecryptagesTask", () => {
     mockJokeFindMany.mockResolvedValue([{ id: "cuid-1", content: fileEntry.content }]);
     mockJokeUpdate.mockRejectedValue(new Error("write conflict"));
     await expect(applyJokeDecryptagesTask()).resolves.toBeUndefined();
+  });
+
+  it("s11 override seed : réécrit le décryptage d'une vanne seed quand le fichier diffère", async () => {
+    // 1er findMany : aucune vanne NULL (déjà remplie).
+    mockJokeFindMany.mockImplementationOnce(() => Promise.resolve([]));
+    // 2e findMany : passe autoritaire seed. Vanne seed avec un vieux décryptage
+    // différent du fichier → doit être réécrite.
+    mockJokeFindMany.mockImplementationOnce(() =>
+      Promise.resolve([
+        {
+          id: "cuid-seed",
+          content: fileEntry.content,
+          comedyTechnique: "ancien nom obsolète",
+          techniqueExplanation: "ancienne explication",
+          howToApply: "ancienne consigne",
+        },
+      ]),
+    );
+
+    await applyJokeDecryptagesTask();
+
+    expect(mockJokeUpdate).toHaveBeenCalledWith({
+      where: { id: "cuid-seed" },
+      data: {
+        comedyTechnique: fileEntry.comedyTechnique,
+        techniqueExplanation: expect.any(String),
+        howToApply: expect.any(String),
+      },
+    });
+  });
+
+  it("s11 override seed : ne touche pas une vanne seed déjà alignée avec le fichier", async () => {
+    mockJokeFindMany.mockImplementationOnce(() => Promise.resolve([]));
+    mockJokeFindMany.mockImplementationOnce(() =>
+      Promise.resolve([
+        {
+          id: "cuid-seed",
+          content: fileEntry.content,
+          comedyTechnique: fileEntry.comedyTechnique,
+          techniqueExplanation: (jokeDecryptages as Array<{ techniqueExplanation: string }>)[0].techniqueExplanation,
+          howToApply: (jokeDecryptages as Array<{ howToApply: string }>)[0].howToApply,
+        },
+      ]),
+    );
+
+    await applyJokeDecryptagesTask();
+    expect(mockJokeUpdate).not.toHaveBeenCalled();
   });
 });
 

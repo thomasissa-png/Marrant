@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "version": 1,
+    "description": "Réécritures d'articles blog appliquées UNE FOIS par (slug, version) au boot (applyBlogArticleRewritesTask). Un autre agent remplit ce fichier avec les articles réécrits selon la charte s11.",
+    "usage": "Chaque entrée dans `rewrites` réécrit les champs fournis d'un article existant (slug obligatoire). Champs optionnels : title, excerpt, metaTitle, metaDescription, content. Idempotence via marqueur DataPatch `blog-rewrite:v<version>:<slug>`.",
+    "rules": [
+      "L'article doit exister en base (isPublished=true) — sinon skip silencieux",
+      "Ne touche pas aux articles absents du fichier (source de vérité = ce fichier + fixes existants)",
+      "Ne touche à un article donné qu'une seule fois par (slug, version)",
+      "Bumper _meta.version force la réapplication à tous les slugs listés"
+    ]
+  },
+  "rewrites": []
+}
