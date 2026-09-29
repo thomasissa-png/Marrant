@@ -5,6 +5,8 @@ import {
   buildBreadcrumbJsonLd,
   buildDefinedTermListJsonLd,
 } from "@/components/seo/json-ld";
+import { PageHeader } from "@/components/layout/page-header";
+import { frTypo } from "@/lib/fr-typo";
 
 export const metadata: Metadata = {
   title: "Glossaire humour : 12 termes clés",
@@ -132,17 +134,17 @@ export default function GlossairePage() {
         <span className="text-text-secondary">Glossaire</span>
       </nav>
 
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Glossaire humour : les termes à connaître pour devenir drôle
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Répartie, timing, autodérision, punchline… Les mots que les
-          humoristes utilisent entre eux, expliqués simplement et avec des
-          exemples concrets. Parce que savoir comment s&apos;appelle une
-          technique, c&apos;est déjà un peu savoir s&apos;en servir.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Glossaire humour&nbsp;: les termes à connaître pour devenir drôle</>}
+        lead={
+          <>
+            Répartie, timing, autodérision, punchline… Les mots que les
+            humoristes utilisent entre eux, expliqués simplement et avec des
+            exemples concrets. Parce que savoir comment s&apos;appelle une
+            technique, c&apos;est déjà un peu savoir s&apos;en servir.
+          </>
+        }
+      />
 
       <div className="space-y-6">
         {glossary.map((item) => (
@@ -154,8 +156,8 @@ export default function GlossairePage() {
             <h2 className="font-display text-xl font-bold text-text-primary">
               {item.term}
             </h2>
-            <p className="mt-3 text-text-secondary leading-relaxed">
-              {item.definition}
+            <p className="mt-3 max-w-3xl leading-relaxed text-text-secondary">
+              {frTypo(item.definition)}
             </p>
             <Link
               href={item.related}

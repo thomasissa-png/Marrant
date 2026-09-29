@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function CGUPage() {
   return (
-    <>
+    <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions Générales d&apos;Utilisation</h1>
       <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 8 mars 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
@@ -54,6 +54,6 @@ export default function CGUPage() {
           <p>Les présentes CGU sont soumises au droit français. Tout litige sera soumis à la compétence exclusive des tribunaux de Paris.</p>
         </section>
       </div>
-    </>
+    </div>
   );
 }

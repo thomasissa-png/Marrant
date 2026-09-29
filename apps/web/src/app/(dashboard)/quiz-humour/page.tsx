@@ -72,12 +72,12 @@ export default function QuizHumourPage() {
       />
       <JsonLd data={buildFaqJsonLd(quizFaqs)} />
 
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Quel type d&apos;humour es-tu ?
           </h1>
-          <p className="mt-3 text-text-secondary">
+          <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
             12 questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function QuizHumourPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

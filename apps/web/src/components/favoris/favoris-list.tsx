@@ -20,7 +20,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     label: "Tout",
     emptyEmoji: "⭐",
     emptyTitle: "Aucun favori pour l'instant",
-    emptyDesc: "Mets des vannes, conseils ou vidéos de côté — tu nous remercieras en soirée.",
+    emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
     ctaLabel: "Explorer les vannes",
     ctaHref: "/vannes",
   },
@@ -318,7 +318,7 @@ export function FavorisList() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-                              Pourquoi ça marche — {joke.comedyTechnique}
+                              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
                             </p>
                             {joke.techniqueExplanation && (
                               <p className="mt-2 text-sm text-text-secondary">

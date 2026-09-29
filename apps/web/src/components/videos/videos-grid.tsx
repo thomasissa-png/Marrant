@@ -282,7 +282,7 @@ export function VideosGrid() {
               onClick={() => setPremiumOpen(true)}
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label="Contenu premium : cliquer pour débloquer"
             >
               <CardContent className="pt-4">
                 <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />

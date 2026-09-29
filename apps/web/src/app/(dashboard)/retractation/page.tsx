@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RetractationPage() {
   return (
-    <>
+    <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">
         Exercer votre droit de r&eacute;tractation
       </h1>
@@ -48,8 +48,10 @@ export default function RetractationPage() {
           </p>
         </section>
 
-        <RetractationForm />
+        <div className="max-w-xl">
+          <RetractationForm />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

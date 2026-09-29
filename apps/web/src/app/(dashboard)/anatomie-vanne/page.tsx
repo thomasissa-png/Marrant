@@ -96,15 +96,15 @@ export default function AnatomieVannePage() {
       />
       <JsonLd data={buildFaqJsonLd(anatomyFaqs)} />
 
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl">
         {/* Hero */}
         <div className="mb-12 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Anatomie d&apos;une vanne
           </h1>
           <p className="mt-3 text-lg text-text-secondary">
-            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre ?
-            <br />
+            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre&nbsp;?
+            <br className="hidden sm:block" />
             Réponse en 3 parties, sans la moindre équation.
           </p>
         </div>
@@ -334,7 +334,7 @@ export default function AnatomieVannePage() {
                 fix: "Si tu mets plus de 20 secondes à planter le décor, les gens ont déjà commencé à regarder leur verre. Coupe tout ce dont la chute n'a pas besoin.",
               },
               {
-                error: "Pas de vrai pivot — juste un jeu de mots forcé",
+                error: "Pas de vrai pivot : juste un jeu de mots forcé",
                 fix: "Un calembour qui ne marche que parce que « ça sonne pareil », c'est un jeu de mots, pas une vanne. Cherche un retournement d'idée plutôt qu'un retournement de syllabes.",
               },
               {
@@ -410,7 +410,7 @@ export default function AnatomieVannePage() {
             ))}
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

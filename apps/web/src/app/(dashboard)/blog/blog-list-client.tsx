@@ -4,6 +4,9 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { frTypo } from "@/lib/fr-typo";
+import { blogCategoryLabel } from "@/lib/blog-labels";
+import { formatIsoDateFr } from "@/lib/utils";
 
 interface Article {
   slug: string;
@@ -51,7 +54,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
                 : "bg-background-elevated text-text-secondary hover:text-text-primary"
             }`}
           >
-            {cat}
+            {blogCategoryLabel(cat)}
           </Link>
         ))}
       </div>
@@ -59,19 +62,19 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {filteredArticles.map((article) => (
           <Link key={article.slug} href={`/blog/${article.slug}`}>
-            <Card className="h-full transition-shadow hover:shadow-md">
-              <CardContent className="flex h-full flex-col p-5">
+            <Card className="h-full p-5 transition-shadow hover:shadow-md">
+              <CardContent className="flex h-full flex-col p-0">
                 <Badge variant="primary" className="mb-3 w-fit">
-                  {article.category}
+                  {blogCategoryLabel(article.category)}
                 </Badge>
                 <h2 className="font-display text-lg font-bold text-text-primary">
-                  {article.title}
+                  {frTypo(article.title)}
                 </h2>
                 <p className="mt-2 flex-1 text-sm text-text-secondary">
                   {article.excerpt}
                 </p>
                 <div className="mt-4 flex items-center gap-2 text-xs text-text-muted">
-                  <span>{article.date}</span>
+                  <span>{formatIsoDateFr(article.date)}</span>
                   <span>·</span>
                   <span>{article.readingTime} de lecture</span>
                 </div>

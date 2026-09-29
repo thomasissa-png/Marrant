@@ -9,6 +9,8 @@ import {
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { PageHeader } from "@/components/layout/page-header";
+import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -78,17 +80,17 @@ export default async function VannesPage() {
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Vannes</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Vannes drôles à ressortir ce soir, pas trois jours plus tard
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Boulot, couple, soirées, école, gaming : choisis ta situation, clique
-          pour révéler la chute et garde tes préférées sous le coude. La
-          théorie, c&apos;est bien. Avoir une vanne prête au moment où tout le
-          monde te regarde, c&apos;est mieux.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Vannes drôles à ressortir ce soir, pas trois jours plus tard</>}
+        lead={
+          <>
+            Boulot, couple, soirées, école, gaming&nbsp;: choisis ta situation, clique
+            pour révéler la chute et garde tes préférées sous le coude. La
+            théorie, c&apos;est bien. Avoir une vanne prête au moment où tout le
+            monde te regarde, c&apos;est mieux.
+          </>
+        }
+      />
 
       <Suspense fallback={null}>
         <VannesList />
@@ -97,10 +99,10 @@ export default async function VannesPage() {
       {/* FAQ SEO */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="space-y-4">
+        <dl className="max-w-3xl space-y-4">
           {vannesFaqs.map((faq, i) => (
             <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
               <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
             </div>
           ))}
@@ -110,12 +112,12 @@ export default async function VannesPage() {
       {/* Contenu SEO — pourquoi nos vannes */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
-        <div className="space-y-3 text-sm text-text-secondary">
+        <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
             Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir en soirée et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas d&apos;objets qui parlent, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
-            Nos vannes sont classées par situation — <strong className="text-text-primary">boulot, couple, soirée, potes</strong> — pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
+            Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirée, potes</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
           </p>
           <p>
             Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-link hover:underline">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-link hover:underline">5 erreurs qui tuent tes blagues</Link>.

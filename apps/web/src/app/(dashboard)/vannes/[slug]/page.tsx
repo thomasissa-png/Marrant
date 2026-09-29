@@ -177,7 +177,7 @@ export default async function VannePage({
       />
       <JsonLd data={creativeWorkJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/vannes" className="hover:text-text-primary">Vannes</Link>
@@ -215,7 +215,7 @@ export default async function VannePage({
             className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-              Pourquoi ça marche — {joke.comedyTechnique}
+              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
             </p>
             <h2 id="pourquoi-ca-marche" className="sr-only">
               Pourquoi ça marche : {joke.comedyTechnique}

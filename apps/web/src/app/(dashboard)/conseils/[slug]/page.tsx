@@ -150,7 +150,7 @@ export default async function ConseilPage({
       />
       <JsonLd data={howToJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/conseils" className="hover:text-text-primary">Conseils</Link>

@@ -10,6 +10,7 @@ import {
   buildItemListJsonLd,
 } from "@/components/seo/json-ld";
 import { BlogListClient } from "./blog-list-client";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: "Blog humour — guides et techniques",
@@ -121,18 +122,18 @@ export default async function BlogPage() {
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Blog</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Comment devenir drôle : guides et techniques d&apos;humour
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Guides pratiques pour devenir drôle, avoir de la répartie et
-          développer ton humour. Des techniques volées aux meilleurs
-          humoristes, des exercices testables immédiatement, et zéro blabla.
-          Si tu lis un article et que tu ne souris pas au moins une fois,
-          on a raté notre job.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Comment devenir drôle&nbsp;: guides et techniques d&apos;humour</>}
+        lead={
+          <>
+            Guides pratiques pour devenir drôle, avoir de la répartie et
+            développer ton humour. Des techniques volées aux meilleurs
+            humoristes, des exercices testables immédiatement, et zéro blabla.
+            Si tu lis un article et que tu ne souris pas au moins une fois,
+            on a raté notre job.
+          </>
+        }
+      />
 
       <Suspense fallback={<div className="py-12 text-center text-text-secondary">Chargement des articles…</div>}>
         <BlogListClient articles={allArticles} categories={categories} />

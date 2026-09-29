@@ -261,17 +261,17 @@ export function ConseilsList() {
                 <CardTitle>{tip.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
+                <p className="max-w-[72ch] text-sm leading-relaxed text-text-primary">{tip.content}</p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
                       <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
+                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tip.example}</p>
                     </div>
                     <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                       <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
+                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
                     </div>
                   </div>
                 )}
@@ -307,7 +307,7 @@ export function ConseilsList() {
               onClick={() => setPremiumOpen(true)}
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label="Contenu premium : cliquer pour débloquer"
             >
               <CardHeader>
                 <div className="flex items-center gap-2">
