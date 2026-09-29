@@ -15,5 +15,14 @@
 - Slug, titre (title), H2/H3 (formulation gardée ; correction orthographique OK), questions de FAQ (réponses réécrivables), liens internes existants (on peut en ajouter vers des pages existantes), mots-clés cibles.
 - AUCUN chiffre, pourcentage, étude, durée, prix, année retiré ou modifié ([CHOIX UTILISATEUR]). S'il te semble douteux : garde-le tel quel et signale-le dans ton rapport.
 - Zéro invention : pas de nouveau chiffre-statistique, de nouvelle étude, de nouveau témoignage, de nouvelle citation attribuée à une personne réelle. Une citation attribuée À TORT à un humoriste réel (ex. vieille blague du chauve attribuée à Paul Mirabel) : retire l'attribution (pas le contenu pédagogique), signale-le.
-- Témoignages « Tom, 21 ans » / « Léa, 28 ans » : NE PAS TOUCHER (décision fondateur en attente) — signale-les seulement.
+- Témoignages fictifs (« Tom, 21 ans », « Léa, 28 ans »…) : [CHOIX UTILISATEUR 29/09] les présenter comme des exemples assumés (« Imagine Tom, 21 ans, étudiant… »), jamais comme de vrais membres.
 - Zéro mention d'IA (ChatGPT, IA, assistant vocal, robot…). Zéro concurrent nommé. Tutoiement.
+
+## Passe 2 bis — méthode obligatoire (la passe 2 a été trop timide : articles identiques à 95-100 %)
+
+Pour CHAQUE article, AVANT d'éditer :
+1. Extrais dans ton rapport la liste EXHAUSTIVE de toutes les vannes, répliques, exemples de phrases drôles et punchlines citées dans l'article (tout ce qui est entre guillemets ou présenté comme une vanne/réplique), numérotées.
+2. Donne à chacune un verdict GARDER (niveau étalons A/B, originale) ou RÉÉCRIRE (motif §3). Une vanne déjà connue ailleurs est RÉÉCRIRE ([CHOIX UTILISATEUR] 29/09). Sois aussi exigeant que Thomas : il a trouvé 23 vannes à refaire sur 50 dans sa page n°1.
+3. Liste les défauts de prose (§5) paragraphe par paragraphe : phrases creuses, clichés, staccato, CAPITALES, ton scolaire, remplissage, intro qui tarde à répondre.
+Puis applique TOUTES les réécritures. Attendu typique : 30 à 60 % des exemples réécrits et une intro resserrée sur chaque article sous 3,5/5. Si tu gardes un article presque intact, justifie-le exemple par exemple dans le rapport.
+Rappel : les petits chiffres comiques (« 404 », « 99 % ») sont aussi des chiffres — on les garde. Aucun H2/H3 modifié, même pour un anglicisme.
