@@ -6,7 +6,7 @@
 //   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
 //   L'interactivité (progression, quiz, complétion) reste côté client.
 import type { Metadata } from "next";
-import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { fitDescription, fitTitle, DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
@@ -114,6 +114,7 @@ export async function generateMetadata({
         title: staticMeta.title,
         description: staticMeta.description,
         url: `https://deviens-marrant.fr/parcours/${params.slug}`,
+        images: [DEFAULT_OG_IMAGE],
       },
     };
   }
@@ -137,7 +138,12 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
     },
-    openGraph: { title, description, url: `https://deviens-marrant.fr/parcours/${params.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `https://deviens-marrant.fr/parcours/${params.slug}`,
+      images: [DEFAULT_OG_IMAGE],
+    },
   };
 }
 

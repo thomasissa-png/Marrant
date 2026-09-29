@@ -7,7 +7,9 @@ import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
+  BLOG_OG_IMAGE_SEGMENT,
 } from "@/components/seo/json-ld";
+const { djb2Hash } = require("next/dist/shared/lib/hash") as { djb2Hash: (s: string) => number };
 
 describe("JsonLd component", () => {
   it("renders a script tag with application/ld+json type", () => {
@@ -16,6 +18,22 @@ describe("JsonLd component", () => {
     const script = container.querySelector('script[type="application/ld+json"]');
     expect(script).toBeInTheDocument();
     expect(script?.innerHTML).toBe(JSON.stringify(data));
+  });
+
+  it("échappe « < » pour qu'un texte « </script> » ne ferme pas la balise", () => {
+    const data = { name: "a </script><script>alert(1)</script>" };
+    const { container } = render(<JsonLd data={data} />);
+    const script = container.querySelector('script[type="application/ld+json"]');
+    expect(script?.innerHTML).not.toContain("</script>");
+    expect(JSON.parse(script?.innerHTML ?? "{}")).toEqual(data);
+  });
+});
+
+describe("BLOG_OG_IMAGE_SEGMENT", () => {
+  it("correspond au suffixe que Next.js donne à /(dashboard)/blog/[slug]/opengraph-image", () => {
+    // Même calcul que next/dist/lib/metadata/get-metadata-route (getMetadataRouteSuffix).
+    const suffix = djb2Hash("/(dashboard)/blog/[slug]").toString(36).slice(0, 6);
+    expect(BLOG_OG_IMAGE_SEGMENT).toBe(`opengraph-image-${suffix}`);
   });
 });
 
@@ -90,7 +108,8 @@ describe("buildArticleJsonLd", () => {
     expect(result.wordCount).toBe(5);
     expect(result.articleSection).toBe("GUIDE");
     // image doit pointer vers l'OG dynamique par article (pas /og-image.png qui 404)
-    expect(result.image).toContain("/blog/test-article/opengraph-image");
+    // (même URL que og:image, suffixe du groupe de routes compris — sinon 404)
+    expect(result.image).toBe(`https://deviens-marrant.fr/blog/test-article/${BLOG_OG_IMAGE_SEGMENT}`);
   });
 
   it("uses updatedAt for dateModified when provided (vrai updatedAt DB)", () => {

@@ -36,6 +36,10 @@ const CONTENT_FRESHNESS_THRESHOLD_MS = 3 * 24 * 60 * 60 * 1000;
 // Seuil plus court car le pipeline daily-content tourne tous les jours.
 const LLM_FRESHNESS_THRESHOLD_MS = 2 * 24 * 60 * 60 * 1000;
 
+// Vidéos : ajoutées au plus 1×/mois (cron monthly-videos), pas chaque jour —
+// le seuil de 3 j marquait la santé "degraded" en permanence (relecture s11).
+const VIDEO_FRESHNESS_THRESHOLD_MS = 35 * 24 * 60 * 60 * 1000;
+
 // Timeout du check DB. Si la requête met > 2s, on considère que la DB est
 // dégradée (Neon cold start pathologique).
 const DB_TIMEOUT_MS = 2_000;
@@ -183,7 +187,7 @@ export async function GET() {
   const content = {
     joke: buildFreshness(lastJoke?.createdAt, CONTENT_FRESHNESS_THRESHOLD_MS, now),
     tip: buildFreshness(lastTip?.createdAt, CONTENT_FRESHNESS_THRESHOLD_MS, now),
-    video: buildFreshness(lastVideo?.createdAt, CONTENT_FRESHNESS_THRESHOLD_MS, now),
+    video: buildFreshness(lastVideo?.createdAt, VIDEO_FRESHNESS_THRESHOLD_MS, now),
     blogArticle: buildFreshness(
       lastArticle?.publishedAt,
       // Blog = 1 article/semaine, seuil plus large

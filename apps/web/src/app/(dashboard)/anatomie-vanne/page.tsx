@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
     description:
       "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
     url: "https://deviens-marrant.fr/anatomie-vanne",
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

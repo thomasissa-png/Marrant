@@ -474,7 +474,7 @@ export async function register() {
    *
    * Fenêtre : 3h-4h UTC (créneau calme, hors slot daily-content à 5h).
    * Kill-switch : `COPY_REVIEW_ENABLED=false` court-circuite avant lock.
-   * Lock : TTL 30 min (le batch de 25+25 items peut prendre plusieurs minutes).
+   * Lock : verrou daté conservé (TTL 3 h) → un seul lot 25+25 par jour.
    * Batch : `COPY_REVIEW_BATCH` (défaut 25 vannes + 25 conseils).
    *
    * Idempotence : la sélection SQL filtre sur `copyReviewVersion` — seuls les
@@ -486,20 +486,10 @@ export async function register() {
       const utcHour = now.getUTCHours();
       if (utcHour !== 3 && utcHour !== 4) return;
 
-      const { isCopyReviewEnabled } = await import("@/lib/ai/copy-review-runner");
-      if (!isCopyReviewEnabled()) return;
-
-      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
-      const lockKey = buildJobLockKey("copy-review", now);
-      const lockAcquired = await tryAcquireLock(lockKey, 30 * 60 * 1000);
-      if (!lockAcquired) return;
-
-      try {
-        const { runCopyReviewBatch } = await import("@/lib/ai/copy-review-runner");
-        await runCopyReviewBatch(now);
-      } finally {
-        await releaseLock(lockKey);
-      }
+      // Un seul lot par jour : verrou daté NON relâché (TTL 3 h > fenêtre).
+      // Relâcher le verrou relançait un lot à chaque tick de 15 min (8×/jour).
+      const { runDailyCopyReviewOnce } = await import("@/lib/ai/copy-review-runner");
+      await runDailyCopyReviewOnce(now);
     } catch (err) {
       console.error("[scheduler:copy-review] Échec :", err);
     }

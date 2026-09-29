@@ -12,7 +12,7 @@
  *     PermissionDeniedError, BadRequestError avec/sans crédit, APIError 402)
  *   - Throttling 24h via JobLock (première alerte OK, deuxième bloquée)
  *   - Silent-fail total sur erreur DB / erreur envoi email
- *   - Aucune alerte pour les erreurs applicatives (BadRequest sans crédit)
+ *   - BadRequest sans crédit → unknown_non_retryable (alerte throttlée 24 h)
  */
 
 // ─── Mocks — factories inline pour éviter le hoisting Jest ─────────────
@@ -106,12 +106,12 @@ describe("classifyLLMFailure — mapping typé", () => {
     expect(classifyLLMFailure(err)).toBe("credit");
   });
 
-  it("ne mappe PAS un BadRequestError applicatif (prompt malformé) → null", () => {
+  it("mappe un BadRequestError non-crédit → unknown_non_retryable (relecture s11 : un 400 systématique casse tout le pipeline en silence)", () => {
     const err = buildAnthropicError(
       Anthropic.BadRequestError,
-      "messages[0]: content field is required",
+      "temperature: not supported for this model",
     );
-    expect(classifyLLMFailure(err)).toBeNull();
+    expect(classifyLLMFailure(err)).toBe("unknown_non_retryable");
   });
 
   it("ne mappe PAS une erreur réseau générique → null", () => {

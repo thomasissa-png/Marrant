@@ -115,6 +115,23 @@ describe("GET /api/health", () => {
     expect(body.checks.content).toBeNull();
   });
 
+  it("une vidéo de 10 jours reste 'ok' (ajout mensuel, pas quotidien — relecture s11)", async () => {
+    const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
+    p.video.findFirst.mockResolvedValueOnce({ createdAt: tenDaysAgo });
+
+    const { body } = await callHealth();
+    expect(body.checks.content?.video.status).toBe("ok");
+    expect(body.status).toBe("ok");
+  });
+
+  it("une vidéo de 40 jours est 'stale'", async () => {
+    const fortyDaysAgo = new Date(Date.now() - 40 * 24 * 60 * 60 * 1000);
+    p.video.findFirst.mockResolvedValueOnce({ createdAt: fortyDaysAgo });
+
+    const { body } = await callHealth();
+    expect(body.checks.content?.video.status).toBe("stale");
+  });
+
   it("retourne status='degraded' quand la dernière vanne est trop ancienne", async () => {
     const fourDaysAgo = new Date(Date.now() - 4 * 24 * 60 * 60 * 1000);
     p.joke.findFirst.mockResolvedValueOnce({ createdAt: fourDaysAgo });

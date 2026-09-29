@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
@@ -36,27 +37,30 @@ const CATEGORY_LABELS: Record<string, string> = {
 async function findJokeBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
-  try {
-    const candidates = await prisma.joke.findMany({
-      where: { id: { startsWith: shortId }, isActive: true },
-      take: 200,
-      select: {
-        id: true,
-        content: true,
-        punchline: true,
-        category: true,
-        type: true,
-        comedyTechnique: true,
-        techniqueExplanation: true,
-        howToApply: true,
-        updatedAt: true,
-        createdAt: true,
-      },
-    });
-    return pickBySlug(candidates, slug, buildJokeSlug);
-  } catch {
-    return null;
-  }
+  // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
+  // en cache est gardée). Surtout PAS `return null` : notFound() servirait
+  // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
+  const candidates = await withDbRetry(
+    () =>
+      prisma.joke.findMany({
+        where: { id: { startsWith: shortId }, isActive: true },
+        take: 200,
+        select: {
+          id: true,
+          content: true,
+          punchline: true,
+          category: true,
+          type: true,
+          comedyTechnique: true,
+          techniqueExplanation: true,
+          howToApply: true,
+          updatedAt: true,
+          createdAt: true,
+        },
+      }),
+    { label: "findJokeBySlug" },
+  );
+  return pickBySlug(candidates, slug, buildJokeSlug);
 }
 
 // Générateur statique vide — les pages sont générées à la demande (ISR).

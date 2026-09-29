@@ -2,7 +2,9 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // `<` échappé : un texte venu de la base (vanne, titre, FAQ) contenant
+      // « </script> » fermerait sinon la balise et casserait la page.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
     />
   );
 }
@@ -17,6 +19,15 @@ const BASE_URL = "https://deviens-marrant.fr";
 export const ORGANIZATION_ID = `${BASE_URL}/#organization`;
 export const WEBSITE_ID = `${BASE_URL}/#website`;
 export const AUTHOR_ID = `${BASE_URL}/a-propos#alex-durand`;
+
+/**
+ * Suffixe que Next.js 14 ajoute aux routes d'image OG d'un segment situé dans
+ * un groupe de routes (`(dashboard)`) : djb2("/(dashboard)/blog/[slug]") en
+ * base 36, 6 caractères. L'URL réelle est donc
+ * `/blog/<slug>/opengraph-image-1z0cf4` ; `/blog/<slug>/opengraph-image`
+ * renvoie 404. Test de garde : `__tests__/ui/json-ld.test.tsx`.
+ */
+export const BLOG_OG_IMAGE_SEGMENT = "opengraph-image-1z0cf4";
 
 /**
  * Person schema for author — improves E-E-A-T signals for LLMs (GEO).
@@ -219,9 +230,9 @@ export function buildArticleJsonLd(article: {
       "@type": "WebPage",
       "@id": `${BASE_URL}/blog/${article.slug}`,
     },
-    // Chaque article a son propre opengraph-image dynamique (/blog/[slug]/opengraph-image).
-    // /og-image.png retournait 404 en prod → on utilise l'OG dynamique par article.
-    image: `${BASE_URL}/blog/${article.slug}/opengraph-image`,
+    // Chaque article a son propre opengraph-image dynamique — même URL que og:image
+    // (suffixe du groupe de routes inclus, sinon 404 : voir BLOG_OG_IMAGE_SEGMENT).
+    image: `${BASE_URL}/blog/${article.slug}/${BLOG_OG_IMAGE_SEGMENT}`,
     articleSection: article.category,
     inLanguage: "fr-FR",
     wordCount: article.content.split(/\s+/).length,

@@ -52,6 +52,30 @@ export function isCopyReviewEnabled(): boolean {
   return true;
 }
 
+/**
+ * TTL du verrou quotidien : couvre toute la fenêtre 3h-4h59 UTC du scheduler.
+ * Le verrou n'est PAS relâché après le lot : sinon chaque tick de 15 min de la
+ * fenêtre (8 ticks) relançait un lot → 8 × 25 vannes + 8 × 25 conseils par
+ * jour au lieu d'un seul lot borné (relecture s11).
+ */
+export const COPY_REVIEW_DAILY_LOCK_TTL_MS = 3 * 60 * 60 * 1000;
+
+/**
+ * Point d'entrée du scheduler : un seul lot par jour UTC (verrou `JobLock`
+ * daté, conservé jusqu'à expiration). Retourne `null` si le lot du jour a déjà
+ * été pris (autre tick ou autre instance) ou si le kill-switch est actif.
+ */
+export async function runDailyCopyReviewOnce(now: Date = new Date()): Promise<CopyReviewStats | null> {
+  if (!isCopyReviewEnabled()) return null;
+  const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+  const acquired = await tryAcquireLock(
+    buildJobLockKey("copy-review", now),
+    COPY_REVIEW_DAILY_LOCK_TTL_MS,
+  );
+  if (!acquired) return null;
+  return runCopyReviewBatch(now);
+}
+
 export interface CopyReviewStats {
   jokesProcessed: number;
   jokesKept: number;
@@ -121,6 +145,8 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
             comedyTechnique: true,
             techniqueExplanation: true,
             howToApply: true,
+            originalContent: true,
+            originalPunchline: true,
           },
           orderBy: { createdAt: "asc" },
           take: batchSize,
@@ -197,8 +223,11 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
                   comedyTechnique: rw.comedyTechnique,
                   techniqueExplanation: rw.techniqueExplanation,
                   howToApply: rw.howToApply,
-                  originalContent: joke.content,
-                  originalPunchline: joke.punchline,
+                  // Conserver la toute première version : une relecture
+                  // ultérieure (COPY_REVIEW_VERSION incrémentée) ne doit pas
+                  // écraser l'original par une version déjà réécrite.
+                  originalContent: joke.originalContent ?? joke.content,
+                  originalPunchline: joke.originalPunchline ?? joke.punchline,
                   copyReviewedAt: new Date(),
                   copyReviewVersion: version,
                   copyVerdict: "REECRIRE",
@@ -255,6 +284,8 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
             exercise: true,
             category: true,
             difficulty: true,
+            originalTitle: true,
+            originalContent: true,
           },
           orderBy: { createdAt: "asc" },
           take: batchSize,
@@ -329,8 +360,8 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
                   content: rw.content,
                   example: rw.example,
                   exercise: rw.exercise,
-                  originalTitle: tip.title,
-                  originalContent: tip.content,
+                  originalTitle: tip.originalTitle ?? tip.title,
+                  originalContent: tip.originalContent ?? tip.content,
                   copyReviewedAt: new Date(),
                   copyReviewVersion: version,
                   copyVerdict: "REECRIRE",

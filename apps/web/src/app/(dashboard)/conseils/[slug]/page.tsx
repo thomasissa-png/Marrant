@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { withDbRetry } from "@/lib/db-retry";
+import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildTipSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -33,26 +34,29 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 async function findTipBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
-  try {
-    const candidates = await prisma.tip.findMany({
-      where: { id: { startsWith: shortId }, isActive: true },
-      take: 200,
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        category: true,
-        difficulty: true,
-        example: true,
-        exercise: true,
-        updatedAt: true,
-        createdAt: true,
-      },
-    });
-    return pickBySlug(candidates, slug, buildTipSlug);
-  } catch {
-    return null;
-  }
+  // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
+  // en cache est gardée). Surtout PAS `return null` : notFound() servirait
+  // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
+  const candidates = await withDbRetry(
+    () =>
+      prisma.tip.findMany({
+        where: { id: { startsWith: shortId }, isActive: true },
+        take: 200,
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          category: true,
+          difficulty: true,
+          example: true,
+          exercise: true,
+          updatedAt: true,
+          createdAt: true,
+        },
+      }),
+    { label: "findTipBySlug" },
+  );
+  return pickBySlug(candidates, slug, buildTipSlug);
 }
 
 export function generateStaticParams() {
@@ -88,11 +92,13 @@ export async function generateMetadata({
       url: `https://deviens-marrant.fr/conseils/${canonicalSlug}`,
       siteName: "deviens-marrant.fr",
       locale: "fr_FR",
+      images: [DEFAULT_OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: tip.title,
       description: shortContent,
+      images: [DEFAULT_OG_IMAGE.url],
     },
   };
 }

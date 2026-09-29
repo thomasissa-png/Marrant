@@ -66,3 +66,16 @@ export function fitDescription(text: string, max = 160): string {
   if (lastStop >= 110) return window.slice(0, lastStop + 1);
   return truncateAtWord(clean, max);
 }
+
+/**
+ * Image OG par défaut (route `src/app/opengraph-image.tsx`). À mettre dans
+ * `openGraph.images` / `twitter.images` des pages qui redéfinissent `openGraph`
+ * ou `twitter` sans image dédiée : Next.js remplace l'objet du layout en entier
+ * (fusion superficielle), l'image du layout est alors perdue.
+ */
+export const DEFAULT_OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "deviens-marrant.fr — Apprends à devenir drôle et à avoir de la répartie",
+} as const;

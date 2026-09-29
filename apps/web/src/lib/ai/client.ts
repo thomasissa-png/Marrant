@@ -235,8 +235,17 @@ export async function callWithRetry(
   throw lastError;
 }
 
-function isRetryableError(error: unknown): boolean {
+export function isRetryableError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
+
+  // Statut HTTP d'abord (erreurs API du SDK) : leur message contient le corps
+  // JSON avec un `request_id` aléatoire — un 404/400 dont l'id contient "500"
+  // ou "429" était sinon retenté à tort (relecture s11).
+  if ("status" in error && typeof (error as { status: unknown }).status === "number") {
+    const status = (error as { status: number }).status;
+    return status === 429 || status >= 500;
+  }
+
   const msg = error.message;
 
   // Erreurs réseau
@@ -249,12 +258,6 @@ function isRetryableError(error: unknown): boolean {
   if (msg.includes("429") || msg.includes("500") || msg.includes("502") ||
       msg.includes("503") || msg.includes("529")) {
     return true;
-  }
-
-  // Vérifier le code de statut si disponible (Anthropic SDK)
-  if ("status" in error && typeof (error as { status: unknown }).status === "number") {
-    const status = (error as { status: number }).status;
-    return status === 429 || status >= 500;
   }
 
   return false;

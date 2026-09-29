@@ -11,7 +11,9 @@
  *  - Chaque tâche est idempotente (relançable à chaque boot sans effet de bord).
  *  - Chaque tâche est fail-safe : une erreur (ex. DB froide Neon) est loggée
  *    mais NE bloque PAS le démarrage du serveur ni les autres tâches.
- *  - Aucune tâche ne déclenche d'appel LLM ni de coût (pure DB).
+ *  - Aucune tâche ne déclenche d'appel LLM (pure DB), SAUF
+ *    `backfillMissingJokeDecryptagesTask` (lot borné, coupable via
+ *    `SKIP_JOKE_DECRYPTAGE_AI_BACKFILL=1`).
  */
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { buildVideoSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
@@ -33,30 +34,33 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 async function findVideoBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
   if (!shortId) return null;
-  try {
-    const candidates = await prisma.video.findMany({
-      where: { id: { startsWith: shortId }, isActive: true },
-      take: 200,
-      select: {
-        id: true,
-        title: true,
-        channelName: true,
-        youtubeId: true,
-        duration: true,
-        category: true,
-        difficulty: true,
-        description: true,
-        technique: true,
-        learnings: true,
-        exercise: true,
-        updatedAt: true,
-        createdAt: true,
-      },
-    });
-    return pickBySlug(candidates, slug, buildVideoSlug);
-  } catch {
-    return null;
-  }
+  // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
+  // en cache est gardée). Surtout PAS `return null` : notFound() servirait
+  // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
+  const candidates = await withDbRetry(
+    () =>
+      prisma.video.findMany({
+        where: { id: { startsWith: shortId }, isActive: true },
+        take: 200,
+        select: {
+          id: true,
+          title: true,
+          channelName: true,
+          youtubeId: true,
+          duration: true,
+          category: true,
+          difficulty: true,
+          description: true,
+          technique: true,
+          learnings: true,
+          exercise: true,
+          updatedAt: true,
+          createdAt: true,
+        },
+      }),
+    { label: "findVideoBySlug" },
+  );
+  return pickBySlug(candidates, slug, buildVideoSlug);
 }
 
 export function generateStaticParams() {
@@ -93,7 +97,8 @@ export async function generateMetadata({
       siteName: "deviens-marrant.fr",
       locale: "fr_FR",
       images: [
-        { url: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`, width: 1280, height: 720 },
+        // hqdefault.jpg = 480×360 (le 1280×720 annoncé avant était faux).
+        { url: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`, width: 480, height: 360 },
       ],
     },
     twitter: {

@@ -338,8 +338,10 @@ async function main() {
       updated++;
     }
     // Désactiver les vidéos qui ne sont plus dans le seed (IDs YouTube invalides)
+    // Ne touche PAS aux vidéos découvertes par l'IA (generatedByAI = true,
+    // cron monthly-videos) : sinon chaque build les désactivait toutes.
     const deactivated = await prisma.video.updateMany({
-      where: { youtubeId: { notIn: seedYoutubeIds } },
+      where: { youtubeId: { notIn: seedYoutubeIds }, generatedByAI: false },
       data: { isActive: false },
     });
     console.log(`${updated} vidéos mises à jour/ajoutées, ${deactivated.count} désactivées`);

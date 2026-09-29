@@ -83,9 +83,12 @@ export function classifyLLMFailure(error: unknown): LLMFailureType | null {
     ) {
       return "credit";
     }
-    // Autres BadRequest = bug applicatif (prompt mal formé, params invalides)
-    // → on n'alerte pas, ça pollue plus qu'autre chose.
-    return null;
+    // Autres BadRequest (paramètre refusé par le modèle, prompt mal formé) :
+    // la même requête échouera à CHAQUE run → pipeline cassé en silence,
+    // exactement la classe d'incident s11. On alerte (throttle 1 / 24 h).
+    // Ex. : `ANTHROPIC_SONNET_MODEL` pointé vers un modèle qui refuse
+    // `output_config.effort` ou `temperature` → 400 sur tous les appels.
+    return "unknown_non_retryable";
   }
 
   // 3. APIError générique avec status 402 (Payment Required) ou 429 non-retryable
@@ -132,7 +135,7 @@ function buildAlertContent(
 
   const remediation: Record<LLMFailureType, string> = {
     model_not_found:
-      "Vérifie la variable Replit <code>ANTHROPIC_SONNET_MODEL</code> ou <code>ANTHROPIC_HAIKU_MODEL</code> et le catalogue à <a href='https://docs.anthropic.com/en/docs/about-claude/models'>docs.anthropic.com/models</a>. Modifie la valeur dans Replit Secrets puis redéploie.",
+      "Vérifie la variable Replit <code>ANTHROPIC_SONNET_MODEL</code> ou <code>ANTHROPIC_OPUS_MODEL</code> et le catalogue à <a href='https://docs.anthropic.com/en/docs/about-claude/models'>docs.anthropic.com/models</a>. Modifie la valeur dans Replit Secrets puis redéploie.",
     authentication:
       "La clé <code>ANTHROPIC_API_KEY</code> est invalide ou révoquée. Regénère une clé sur <a href='https://console.anthropic.com'>console.anthropic.com</a> et mets-la à jour dans Replit Secrets.",
     permission:
@@ -140,7 +143,7 @@ function buildAlertContent(
     credit:
       "Le crédit Anthropic est épuisé ou la carte a été rejetée. Recharge le compte sur <a href='https://console.anthropic.com'>console.anthropic.com</a>.",
     unknown_non_retryable:
-      "Erreur non identifiée non-retryable. Consulte les logs Replit pour le détail et le code HTTP.",
+      "Requête refusée par l'API (paramètre invalide pour ce modèle, prompt mal formé…). Consulte le message ci-dessus et les logs Replit ; si tu viens de changer <code>ANTHROPIC_SONNET_MODEL</code> / <code>ANTHROPIC_OPUS_MODEL</code> / <code>ANTHROPIC_EFFORT</code>, reviens à la valeur précédente.",
   };
 
   const subject = `[Marrant] ${titles[type]}`;

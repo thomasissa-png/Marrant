@@ -36,10 +36,16 @@ import {
   SONNET_MODEL,
 } from "../client";
 
-export const COPY_REVIEW_VERSION = Number.parseInt(
-  process.env.COPY_REVIEW_VERSION ?? "1",
-  10,
-);
+export const COPY_REVIEW_VERSION = parseCopyReviewVersion(process.env.COPY_REVIEW_VERSION);
+
+/**
+ * Version de charte (entier ≥ 1). Valeur absente ou invalide → 1 : un `NaN`
+ * ferait échouer toutes les écritures Prisma (`copyReviewVersion` Int).
+ */
+export function parseCopyReviewVersion(raw: string | undefined): number {
+  const n = Number.parseInt((raw ?? "").trim(), 10);
+  return Number.isFinite(n) && n >= 1 ? n : 1;
+}
 
 /** Verdicts autorisés par le pipeline de relecture (charte s11). */
 export type CopyReviewVerdict = "GARDER" | "REECRIRE" | "RETIRER";

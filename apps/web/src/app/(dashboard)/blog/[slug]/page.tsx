@@ -6,6 +6,7 @@ import { ArticleCta } from "@/components/blog/article-cta";
 import { NewsletterInline } from "@/components/newsletter/newsletter-inline";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 import {
   JsonLd,
   buildArticleJsonLd,
@@ -33,30 +34,29 @@ async function findArticle(slug: string) {
   const staticArticle = getArticleBySlug(slug);
   if (staticArticle) return staticArticle;
 
-  // Sinon chercher en base de données
-  try {
-    const dbArticle = await prisma.blogArticle.findUnique({
-      where: { slug },
-    });
-    if (dbArticle && dbArticle.isPublished) {
-      return {
-        slug: dbArticle.slug,
-        title: dbArticle.metaTitle || dbArticle.title,
-        excerpt: dbArticle.metaDescription || dbArticle.excerpt,
-        content: dbArticle.content,
-        date: dbArticle.publishedAt
-          ? dbArticle.publishedAt.toISOString().split("T")[0]
-          : dbArticle.createdAt.toISOString().split("T")[0],
-        // Vrai updatedAt de la DB (colonne Prisma) — utilisé pour Article.dateModified
-        updatedAt: dbArticle.updatedAt
-          ? dbArticle.updatedAt.toISOString().split("T")[0]
-          : undefined,
-        readingTime: dbArticle.readingTime,
-        category: dbArticle.category,
-      };
-    }
-  } catch {
-    // Table pas encore migrée
+  // Sinon chercher en base de données. Erreur DB = exception (page 500 retentée,
+  // version ISR en cache gardée) et non `null` : notFound() servirait un 404
+  // mis en cache sur un article qui existe.
+  const dbArticle = await withDbRetry(
+    () => prisma.blogArticle.findUnique({ where: { slug } }),
+    { label: "blog:findArticle" },
+  );
+  if (dbArticle && dbArticle.isPublished) {
+    return {
+      slug: dbArticle.slug,
+      title: dbArticle.metaTitle || dbArticle.title,
+      excerpt: dbArticle.metaDescription || dbArticle.excerpt,
+      content: dbArticle.content,
+      date: dbArticle.publishedAt
+        ? dbArticle.publishedAt.toISOString().split("T")[0]
+        : dbArticle.createdAt.toISOString().split("T")[0],
+      // Vrai updatedAt de la DB (colonne Prisma) — utilisé pour Article.dateModified
+      updatedAt: dbArticle.updatedAt
+        ? dbArticle.updatedAt.toISOString().split("T")[0]
+        : undefined,
+      readingTime: dbArticle.readingTime,
+      category: dbArticle.category,
+    };
   }
 
   return null;

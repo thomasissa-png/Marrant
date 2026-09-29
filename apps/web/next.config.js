@@ -98,7 +98,7 @@ const nextConfig = {
                 // Next et pour Stripe.js. Ajouté explicitement js.stripe.com.
                 // Si un nouveau tiers est ajouté (Sentry, Datadog RUM…), mettre
                 // à jour connect-src ET script-src en même temps.
-                { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube.com https://checkout.stripe.com https://js.stripe.com; object-src 'none'; base-uri 'self'" },
+                { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://checkout.stripe.com https://js.stripe.com; object-src 'none'; base-uri 'self'" },
               ],
             },
           ];

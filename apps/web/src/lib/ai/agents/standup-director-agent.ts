@@ -16,7 +16,7 @@ import { extractSetupAmorce } from "./joke-agent";
  * dénominatifs sans risque de collision ("l'IA" avec article, "ChatGPT", etc).
  */
 const AI_MENTION_PATTERN =
-  /\b(l['']IA|IA générative|intelligence artificielle|ChatGPT|GPT[- ]?\d|LLM|Claude\s*(?:AI|IA)|Claude d['’]Anthropic|Bard|Google Gemini|Gemini\s*(?:AI|IA)|Copilot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel|generative ai)\b/i;
+  /\b(l['’]IA|IA générative|intelligence artificielle|ChatGPT|GPT[- ]?\d|LLM|Claude\s*(?:AI|IA)|Claude d['’]Anthropic|Bard|Google Gemini|Gemini\s*(?:AI|IA)|Copilot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel|generative ai)\b/i;
 
 // ───────────────────────────────────────────────────────────────────
 // Agent Stand-Up Director — Directeur Artistique de deviens-marrant.fr
@@ -514,7 +514,7 @@ export function runBlogGates(article: {
   // G-B22 — Anti-mention IA (BLOQUANT)
   // Le site NE parle JAMAIS d'IA dans le contenu (règle fondateur permanente).
   const aiMentionPattern =
-    /\b(généré[es]?\s+par\s+(l'|une\s+|notre\s+|des\s+)?(intelligence\s+artificielle|IA|AI)|notre\s+IA|par\s+notre\s+IA|chatgpt|claude(?:\s*ai)?|gpt-\d|large\s+language\s+model|prompt\s+GPT|intelligence\s+artificielle)\b/i;
+    /\b(généré[es]?\s+par\s+(l'|une\s+|notre\s+|des\s+)?(intelligence\s+artificielle|IA|AI)|notre\s+IA|par\s+notre\s+IA|chatgpt|(?<!-)claude(?:\s*ai)?|gpt-\d|large\s+language\s+model|prompt\s+GPT|intelligence\s+artificielle)\b/i;
   const aiMatch = article.content.match(aiMentionPattern);
   results.push({
     gate: "G-B22 Anti-mention IA (BLOQUANT)",
