@@ -22,6 +22,7 @@ import weakJokes from "@/data/weak-jokes.json";
 import blogArticleFixes from "@/data/blog-article-fixes.json";
 import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
+import { stripEmDashesWithStats } from "@/lib/em-dash";
 // Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
 // d'import relatif que `components/parcours/parcours-content.tsx`.
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
@@ -1245,6 +1246,93 @@ async function applyCatalogueContentTask(): Promise<void> {
 }
 
 /**
+ * Retrait des tirets cadratins (« — ») du corps des articles de blog en base
+ * (règle projet n°12, décision fondateur s12). Pendant DB de la passe faite à la
+ * main sur `blog-articles.ts`.
+ *
+ * Applique `stripEmDashes` (ponctuation seulement : aucun mot changé ; titres
+ * `#`, liens, code intouchés) au champ `content` des articles PUBLIÉS qui
+ * contiennent un « — ». title / excerpt / metaTitle / metaDescription ne sont
+ * JAMAIS touchés (intouchables SEO).
+ *
+ * Garanties (même modèle que `applyBlogArticleRewritesTask`) :
+ *  - Idempotent : marqueur `DataPatch` "blog-em-dash:v<version>:<slug>" posé
+ *    dans la MÊME transaction que l'update → 2e boot = 0 update. Un article
+ *    dont seul un titre contient « — » n'est ni modifié ni marqué.
+ *  - Réversible : `DataPatch.note` garde le contenu d'origine (JSON, champ
+ *    `before`). Retour arrière :
+ *      UPDATE "BlogArticle" b SET content = (d.note::json->>'before')
+ *      FROM "DataPatch" d WHERE d."patchId" = 'blog-em-dash:v1:' || b.slug;
+ *  - Fail-safe : erreur DB sur un slug → loggée, les autres continuent.
+ *  - SANS IA. Doit tourner APRÈS les tâches qui réécrivent `content`
+ *    (fix / rewrite / liens) : si une réécriture future réinjecte des tirets,
+ *    bumper `BLOG_EM_DASH_PATCH_VERSION`.
+ */
+const BLOG_EM_DASH_PATCH_VERSION = 1;
+
+async function stripBlogEmDashesTask(): Promise<void> {
+  const version = BLOG_EM_DASH_PATCH_VERSION;
+  let articles: { id: string; slug: string; content: string }[];
+  try {
+    articles = await withDbRetry(
+      () =>
+        prisma.blogArticle.findMany({
+          where: { isPublished: true, content: { contains: "—" } },
+          select: { id: true, slug: true, content: true },
+        }),
+      { label: "blog-em-dash:list" },
+    );
+  } catch (err) {
+    console.error("[startup] stripBlogEmDashes : lecture échouée (non bloquant) :", err);
+    return;
+  }
+
+  let applied = 0;
+  let skipped = 0;
+  let dashes = 0;
+  for (const article of articles) {
+    const patchId = `blog-em-dash:v${version}:${article.slug}`;
+    try {
+      const existing = await withDbRetry(
+        () => prisma.dataPatch.findUnique({ where: { patchId } }),
+        { label: `blog-em-dash:check(${article.slug})` },
+      );
+      if (existing) {
+        skipped++;
+        continue;
+      }
+
+      const { text, stats } = stripEmDashesWithStats(article.content);
+      if (text === article.content) continue; // tirets seulement dans les titres
+
+      const replaced = Object.values(stats).reduce((sum, n) => sum + n, 0);
+      const note = JSON.stringify({ patch: "blog-em-dash", version, slug: article.slug, stats, before: article.content });
+      await withDbRetry(
+        () =>
+          prisma.$transaction([
+            prisma.blogArticle.update({
+              where: { id: article.id },
+              data: { content: text, updatedAt: new Date() },
+            }),
+            prisma.dataPatch.create({ data: { patchId, note } }),
+          ]),
+        { label: `blog-em-dash:apply(${article.slug})` },
+      );
+      applied++;
+      dashes += replaced;
+    } catch (err) {
+      console.error(`[startup] stripBlogEmDashes échoué pour "${article.slug}" (non bloquant) :`, err);
+    }
+  }
+
+  if (applied > 0 || skipped > 0) {
+    console.log(
+      `[startup] tirets cadratins blog v${version} : ${applied} article(s) corrigé(s) (${dashes} tiret(s)), ${skipped} déjà patché(s).`,
+    );
+  }
+}
+
+/**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
  */
@@ -1263,6 +1351,8 @@ export async function runStartupTasks(): Promise<void> {
   await backfillMissingJokeDecryptagesTask();
   await convergeBlogSlugRedirectsTask();
   await rewriteRedirectedBlogLinksTask();
+  // EN DERNIER : après toute tâche qui réécrit `content` des articles.
+  await stripBlogEmDashesTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
@@ -1277,4 +1367,6 @@ export {
   backfillMissingJokeDecryptagesTask,
   convergeBlogSlugRedirectsTask,
   rewriteRedirectedBlogLinksTask,
+  stripBlogEmDashesTask,
+  BLOG_EM_DASH_PATCH_VERSION,
 };
