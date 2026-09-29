@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s12 (29/09/2026) : vérification finale 3 largeurs, correctifs N1 à N19 @fullstack (code front + /api/tips)
+
+> Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Commit `c0b1df8`. Détail des constats : `docs/design/verification-finale-s12.md`. Header en mode mobile jusqu'à 1023 px (N1), correctifs d'accueil, parcours, glossaire, anatomie, auth ; tirets cadratins retirés au rendu (parcours, vidéos, quiz, FAQ à-propos ; titres et SEO intacts) ; guillemets imbriqués corrigés au rendu (N11) ; conseils au titre identique dédoublonnés à l'affichage par `/api/tips` (N12 : le total de conseils affiché baisse du nombre de doublons). À vérifier après déploiement : header à 768 et 1024 px, `/conseils` (3 conseils gratuits différents).
+
 ## s12 (29/09/2026) : tirets cadratins retirés des articles de blog @fullstack (règle n°12)
 
 > Aucune action manuelle : aucun secret, aucune migration, aucun package.
