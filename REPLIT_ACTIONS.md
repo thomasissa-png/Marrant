@@ -1007,3 +1007,28 @@ la chute → un bloc "Pourquoi ça marche — [technique]" + "À toi de jouer" a
 - [ ] `count(*) WHERE isActive = true` = 265 (catalogue actif après retrait des 24 faibles)
 - [ ] Vérif visuelle catalogue (bloc décryptage affiché)
 - [ ] `npx tsc --noEmit && npx next lint && npm run build` PASS
+
+---
+
+## s12 — Adaptation du code pour Cloudflare Workers (29/09/2026) : AUCUNE action Replit
+
+**Aucune action requise sur Replit.** Rien n'est redéployé (décision fondateur du 29/09 : la prod
+Replit reste telle quelle jusqu'à la bascule). Détails : `docs/infra/cloudflare-runbook.md`.
+
+Le build et le démarrage Replit (`npm run build` / `npm start` racine, sortie standalone) sont
+inchangés et vérifiés (`tsc -p tsconfig.build.json`, `next lint`, `next build` : PASS). Les
+chemins Cloudflare passent par de nouveaux scripts (`build:cf`, `preview:cf`, `deploy:cf`) et la
+variable `MARRANT_BUILD_TARGET=cloudflare`, jamais posée sur Replit.
+
+Différences observables si cette branche était un jour redéployée sur Replit (retour arrière) :
+- Planificateur : corps de `instrumentation.ts` déplacé tel quel dans `src/lib/scheduler/`
+  (mêmes jobs, fenêtres, verrous, ordre, self-fetch `localhost`/`127.0.0.1:${PORT}`).
+  `register()` ne l'importe que sous `NEXT_RUNTIME === "nodejs"` : l'instrumentation edge
+  n'embarque plus de code Node (bundle middleware affiché 51 kB au build).
+- 3 images OpenGraph (`/opengraph-image`, `/quiz-humour/…`, `/blog/[slug]/…`) passent du runtime
+  edge au runtime Node (OpenNext refuse l'edge) : elles sont désormais prérendues au build
+  (même rendu `next/og`).
+- `npm install` installe en plus `@prisma/adapter-pg` (non chargé sous Node), `@opennextjs/cloudflare`
+  et `wrangler` (dev, binaire workerd : installation plus longue).
+- 2 nouvelles routes protégées par `CRON_SECRET` : `/api/cron/scheduler-tick`,
+  `/api/cron/startup-tasks` (non planifiées sur Replit).
