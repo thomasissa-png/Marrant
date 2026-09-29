@@ -3,7 +3,6 @@ import {
   callWithRetry,
   extractJson,
   getResponseText,
-  HAIKU_MODEL,
   SONNET_MODEL,
 } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
@@ -623,32 +622,14 @@ Quel que soit le type de contenu, ces 5 critères s'appliquent TOUJOURS :
 // du seuil Anthropic de 1024 tokens pour Sonnet/Opus), 100% stable entre
 // appels, éligible au prompt caching `cache_control: ephemeral`.
 // Gain estimé : -90% sur les tokens input du directeur, ~$0.10/jour.
-//
-// Note caching Haiku : Haiku exige un minimum de 2048 tokens pour déclencher
-// le cache. Le bloc identité (~1278 tokens) est EN DESSOUS de ce seuil, donc
-// quand on utilise Haiku en validation (feature flag ENABLE_HAIKU_VALIDATION)
-// le cache ne s'applique PAS sur ce bloc. Le gain Haiku reste positif malgré
-// tout grâce au prix 3x inférieur à Sonnet ($1/M in vs $3/M in).
 const DIRECTOR_IDENTITY_CACHED_BLOCK = buildCachedSystemBlock(buildDirectorIdentity());
 
-// ─── Feature flag Haiku 4.5 sur les validations ──────────────────
+// ─── Validation : une seule passe Sonnet ────────────────────────
 //
-// Objectif : réduire le coût des validations Director de ~70% en exécutant
-// une première passe sur Haiku 4.5 (3x moins cher que Sonnet 4 en input,
-// 3x moins cher en output). Mécanisme de sécurité :
-//
-//   Pass 1 — Haiku 4.5
-//     score >= 8  → APPROVED net → on garde, pas de pass 2
-//     score <  5  → REJECTED net → on garde, pas de pass 2
-//     5 <= score <= 7 (borderline) → pass 2 Sonnet pour décision finale
-//
-//   Pass 2 — Sonnet 4 (seulement sur borderline)
-//     Verdict final quel que soit le score
-//
-// Feature flag OFF par défaut : tant que `ENABLE_HAIKU_VALIDATION !== "true"`
-// dans l'environnement, les validations utilisent Sonnet uniquement (legacy).
-// Activation A/B test manuelle par le fondateur après 24-48h de baseline.
-const ENABLE_HAIKU_VALIDATION = process.env.ENABLE_HAIKU_VALIDATION === "true";
+// s11 : l'ancienne double passe Haiku 4.5 → Sonnet (feature flag
+// ENABLE_HAIKU_VALIDATION, OFF par défaut) est supprimée. Haiku n'est plus
+// utilisé (dernier Haiku = 4.5, retrait annoncé ≥ 15/10/2026) ; Sonnet 5.5 en
+// effort `low` coûte $2/$10 par MTok, déjà moins que Sonnet 4 ($3/$15).
 
 // Feature flag OFF par défaut — désactive les fonctions de batch review
 // (`reviewContentBatch` + `auditSiteContent`) qui ne sont appelées nulle
@@ -662,56 +643,17 @@ const ENABLE_HAIKU_VALIDATION = process.env.ENABLE_HAIKU_VALIDATION === "true";
 // cette var avant `import` pour rester verts.
 const ENABLE_REVIEW_BATCH = process.env.ENABLE_REVIEW_BATCH === "true";
 
-// IDs modèles Anthropic utilisés pour la validation directeur.
-// Le SONNET_VALIDATION_MODEL est gardé local pour l'instant — une future
-// refactor pourra l'exporter depuis `client.ts` pour alignement global.
-const HAIKU_VALIDATION_MODEL = HAIKU_MODEL;
-// Alias local pour clarté — pointe vers la constante globale SONNET_MODEL.
-// Si le fondateur migre Sonnet 4 → 4.6, il change `SONNET_MODEL` dans
-// `client.ts` et toutes les validations suivent automatiquement.
-const SONNET_VALIDATION_MODEL = SONNET_MODEL;
-
-// Seuils borderline : si Haiku retourne un score dans [MIN, MAX] inclus,
-// on re-valide avec Sonnet pour décision finale. En dehors de cette plage,
-// Haiku est considéré fiable (verdict net, APPROVED ou REJECTED).
-const HAIKU_BORDERLINE_MIN = 5;
-const HAIKU_BORDERLINE_MAX = 7;
-
 /**
- * Exécute une validation en 2 passes quand Haiku est activé, ou en 1 passe
- * Sonnet sinon (mode legacy).
- *
- * - `validateFn(model)` doit retourner le résultat typé de validation en
- *   utilisant le `model` passé en paramètre. Tout le reste (prompts, system
- *   blocks, parsing) est géré par le caller.
- * - `getScore(result)` extrait le score numérique pour décider si on re-valide.
- *
- * Le helper est factorisé ici pour que les 5 fonctions validate* partagent
- * exactement la même logique (pas de divergence possible sur les seuils).
+ * Exécute une validation Director avec le modèle Sonnet central.
+ * Nom et signature conservés : les 5 fonctions validate* partagent ce point
+ * d'entrée unique (le modèle se change dans `client.ts`).
  */
 async function dualPassValidate<T>(
   validateFn: (model: string) => Promise<T>,
-  getScore: (result: T) => number,
-  fnName: string,
+  _getScore: (result: T) => number,
+  _fnName: string,
 ): Promise<T> {
-  if (!ENABLE_HAIKU_VALIDATION) {
-    return validateFn(SONNET_VALIDATION_MODEL);
-  }
-
-  // Pass 1 : Haiku 4.5 — 3x moins cher, suffisant pour les verdicts nets
-  const haikuResult = await validateFn(HAIKU_VALIDATION_MODEL);
-  const score = getScore(haikuResult);
-
-  // Verdict net : score très haut (APPROVED) ou très bas (REJECTED) → on garde
-  if (score >= HAIKU_BORDERLINE_MAX + 1 || score < HAIKU_BORDERLINE_MIN) {
-    return haikuResult;
-  }
-
-  // Borderline [5, 7] : re-valide avec Sonnet pour décision finale
-  console.log(
-    `[Director] ${fnName} — Haiku score ${score}/10 borderline, re-validating with Sonnet`,
-  );
-  return validateFn(SONNET_VALIDATION_MODEL);
+  return validateFn(SONNET_MODEL);
 }
 
 // ─── Validation d'une vanne ──────────────────────────────────────

@@ -1,10 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { SONNET_MODEL } from "@/lib/ai/client";
-
-// Client Anthropic — singleton
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { SONNET_MODEL, callWithRetry, getResponseText } from "@/lib/ai/client";
 
 // Prompt système pour la génération de vannes
 const JOKE_SYSTEM_PROMPT = `Tu es un expert en humour francophone, spécialisé dans l'humour mature et bienveillant.
@@ -59,15 +53,14 @@ export async function generateJoke(preferences: {
       : ""
   }${preferences.level ? ` Niveau : ${preferences.level}.` : ""}`;
 
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: SONNET_MODEL,
     max_tokens: 500,
     system: JOKE_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
   });
 
-  const text =
-    response.content[0].type === "text" ? response.content[0].text : "";
+  const text = getResponseText(response);
   return JSON.parse(text);
 }
 
@@ -91,15 +84,14 @@ export async function generateTip(context: {
       : ""
   }`;
 
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: SONNET_MODEL,
     max_tokens: 1000,
     system: TIP_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
   });
 
-  const text =
-    response.content[0].type === "text" ? response.content[0].text : "";
+  const text = getResponseText(response);
   return JSON.parse(text);
 }
 
@@ -111,7 +103,7 @@ export async function analyzeRepartee(
 ): Promise<{
   responses: Array<{ text: string; technique: string; level: string }>;
 }> {
-  const response = await anthropic.messages.create({
+  const response = await callWithRetry({
     model: SONNET_MODEL,
     max_tokens: 1000,
     system: REPARTEE_SYSTEM_PROMPT,
@@ -123,7 +115,6 @@ export async function analyzeRepartee(
     ],
   });
 
-  const text =
-    response.content[0].type === "text" ? response.content[0].text : "";
+  const text = getResponseText(response);
   return JSON.parse(text);
 }

@@ -15,9 +15,17 @@ export const anthropic = new Anthropic({
  *
  * Incident s11 : `claude-sonnet-4-20250514` a été retiré par Anthropic le
  * 15/06/2026 → toute la génération (vannes, conseils, blog, social, vidéos)
- * échouait silencieusement depuis. Migré vers `claude-sonnet-4-6`
- * (remplaçant officiel, même prix, aucune rupture d'API pour notre usage :
- * pas de prefill, pas de temperature, pas de tool_choice forcé).
+ * échouait silencieusement depuis. Migré vers Claude Sonnet 5.5
+ * (`claude-sonnet-5-5`, $2/$10 par MTok). Haiku n'est plus utilisé : le
+ * triage CEO et la validation Director passent par Sonnet 5.5 en effort `low`.
+ *
+ * Différences d'API gérées centralement dans `callWithRetry` :
+ * - réflexion adaptative toujours active → la réponse peut commencer par un
+ *   bloc `thinking` : lire le texte via `getResponseText()` (par type, jamais
+ *   `content[0]`) ;
+ * - la réflexion compte dans `max_tokens` → marge ajoutée automatiquement ;
+ * - effort explicite (défaut `low`, recommandé pour la génération de contenu) ;
+ * - `stop_reason: "refusal"` → `LlmRefusalError` (non retentée).
  *
  * Surcharge sans redéploiement de code : secret Replit `ANTHROPIC_SONNET_MODEL`
  * (ex. au prochain retrait, cf. https://platform.claude.com/docs/en/about-claude/model-deprecations).
@@ -27,15 +35,58 @@ export const anthropic = new Anthropic({
  *   await callWithRetry({ model: SONNET_MODEL, ... });
  */
 export const SONNET_MODEL =
-  process.env.ANTHROPIC_SONNET_MODEL?.trim() || "claude-sonnet-4-6";
+  process.env.ANTHROPIC_SONNET_MODEL?.trim() || "claude-sonnet-5-5";
+
+/** Modèle Opus centralisé (rapport hebdo CEO). Surcharge : `ANTHROPIC_OPUS_MODEL`. */
+export const OPUS_MODEL =
+  process.env.ANTHROPIC_OPUS_MODEL?.trim() || "claude-opus-5-5";
+
+type Effort = NonNullable<Anthropic.OutputConfig["effort"]>;
+const EFFORTS: readonly Effort[] = ["low", "medium", "high", "xhigh", "max"];
 
 /**
- * Modèle Haiku centralisé (triage CEO, validation dual-pass Director).
- * Snapshot `claude-haiku-4-5-20251001` : retrait annoncé "pas avant le
- * 15/10/2026" → surcharge possible via le secret `ANTHROPIC_HAIKU_MODEL`.
+ * Effort par défaut appliqué aux appels qui n'en précisent pas.
+ * `low` = point de départ recommandé pour la génération de contenu
+ * (réflexion courte, sautée sur les requêtes simples). Surcharge globale :
+ * secret `ANTHROPIC_EFFORT` ; surcharge par appel : `output_config.effort`.
  */
-export const HAIKU_MODEL =
-  process.env.ANTHROPIC_HAIKU_MODEL?.trim() || "claude-haiku-4-5-20251001";
+export const DEFAULT_EFFORT: Effort = EFFORTS.includes(
+  process.env.ANTHROPIC_EFFORT?.trim() as Effort,
+)
+  ? (process.env.ANTHROPIC_EFFORT!.trim() as Effort)
+  : "low";
+
+/**
+ * Marge de tokens ajoutée à `max_tokens` pour la réflexion (qui compte dans
+ * `max_tokens` même quand son texte n'est pas renvoyé). Sans cette marge, une
+ * réponse JSON pourrait être tronquée. Les tokens non générés ne sont pas facturés.
+ */
+export const THINKING_HEADROOM_TOKENS = 4000;
+
+/** Le modèle a décliné la requête (`stop_reason: "refusal"`). Non retentée. */
+export class LlmRefusalError extends Error {
+  constructor(public readonly category: string | null) {
+    super(`LLM refusal${category ? ` (${category})` : ""}`);
+    this.name = "LlmRefusalError";
+  }
+}
+
+/**
+ * Applique les réglages propres aux modèles actuels : effort explicite et
+ * marge de réflexion dans `max_tokens`. N'écrase jamais un effort fourni.
+ */
+export function applyModelDefaults(
+  params: Anthropic.MessageCreateParamsNonStreaming,
+): Anthropic.MessageCreateParamsNonStreaming {
+  return {
+    ...params,
+    max_tokens: params.max_tokens + THINKING_HEADROOM_TOKENS,
+    output_config: {
+      ...params.output_config,
+      effort: params.output_config?.effort ?? DEFAULT_EFFORT,
+    },
+  };
+}
 
 /**
  * Métadonnées d'instrumentation attachées à un appel LLM.
@@ -94,10 +145,29 @@ export async function callWithRetry(
 ): Promise<Anthropic.Message> {
   let lastError: unknown;
   const startedAt = Date.now();
+  const request = applyModelDefaults(params);
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const response = await anthropic.messages.create(params);
+      const response = await anthropic.messages.create(request);
+
+      // Refus du modèle : HTTP 200 mais pas de contenu exploitable. Tokens
+      // facturés → loggés, puis erreur non retentable (même requête = même refus).
+      if (response.stop_reason === "refusal") {
+        const refusal = new LlmRefusalError(response.stop_details?.category ?? null);
+        if (meta) {
+          void logLLMUsage({
+            agent: meta.agent,
+            fn: meta.fn,
+            model: params.model,
+            usage: extractUsage(response),
+            durationMs: Date.now() - startedAt,
+            success: false,
+            errorMessage: refusal.message,
+          });
+        }
+        throw refusal;
+      }
 
       // Logging succès : on capture les tokens facturés (input/output + cache).
       // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
@@ -129,8 +199,9 @@ export async function callWithRetry(
 
   // Logging échec : si meta fourni, on enregistre un row success=false pour
   // tracker les retries coûteux (avec message d'erreur). Ces rows n'ont pas
-  // de tokens car l'appel n'a jamais abouti.
-  if (meta) {
+  // de tokens car l'appel n'a jamais abouti. (Un refus est déjà loggé avec
+  // ses tokens réels ci-dessus.)
+  if (meta && !(lastError instanceof LlmRefusalError)) {
     void logLLMUsage({
       agent: meta.agent,
       fn: meta.fn,
@@ -263,5 +334,10 @@ export function extractJsonArray<T>(text: string): T[] {
  */
 export function getResponseText(response: Anthropic.Message): string {
   if (!response.content?.length) return "";
-  return response.content[0].type === "text" ? response.content[0].text : "";
+  // Lire par type, jamais par position : avec la réflexion adaptative, la
+  // réponse peut commencer par un (ou plusieurs) bloc(s) `thinking`.
+  return response.content
+    .filter((block): block is Anthropic.TextBlock => block.type === "text")
+    .map((block) => block.text)
+    .join("");
 }

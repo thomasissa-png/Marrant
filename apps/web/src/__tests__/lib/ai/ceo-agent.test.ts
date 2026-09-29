@@ -143,12 +143,13 @@ import {
   selectPlaybook,
   CHANNEL_CHAR_LIMITS,
   CEO_BUDGET_HARD_STOP_EUR,
-  CEO_HAIKU_MODEL,
+  CEO_TRIAGE_MODEL,
   CEO_OPUS_MODEL,
   type BacklinkOpportunity,
   type InboundSignal,
 } from "@/lib/ai/agents/ceo-agent";
 import type { CeoLead, CeoTask } from "@prisma/client";
+import { THINKING_HEADROOM_TOKENS } from "@/lib/ai/client";
 
 // ─── Fixtures ─────────────────────────────────────────────────────────
 
@@ -801,7 +802,7 @@ describe("dryRun mode", () => {
 // SECTION 4 — triageOpportunity (Haiku 4.5)
 // ════════════════════════════════════════════════════════════════════
 
-describe("triageOpportunity — Haiku 4.5 scoring inbound", () => {
+describe("triageOpportunity — scoring inbound (Sonnet 5.5, effort low)", () => {
   const signal: InboundSignal = {
     source: "twitter_dm",
     authorHandle: "@curieux",
@@ -809,14 +810,14 @@ describe("triageOpportunity — Haiku 4.5 scoring inbound", () => {
     receivedAt: new Date(),
   };
 
-  it("appelle Haiku model claude-haiku-4-5-20251001", async () => {
+  it("triage sur Sonnet 5.5 (Haiku retiré)", async () => {
     mockAnthropicMessagesCreate.mockResolvedValueOnce(
       mockHaikuResponse(defaultTriagePayload()),
     );
     await triageOpportunity(signal);
     const call = mockAnthropicMessagesCreate.mock.calls[0][0];
-    expect(call.model).toBe(CEO_HAIKU_MODEL);
-    expect(call.model).toBe("claude-haiku-4-5-20251001");
+    expect(call.model).toBe(CEO_TRIAGE_MODEL);
+    expect(call.model).toBe("claude-sonnet-5-5");
   });
 
   it("parse Zod strict : score 1-10, topic, intent, playbook → TriageResult", async () => {
@@ -872,13 +873,15 @@ describe("triageOpportunity — Haiku 4.5 scoring inbound", () => {
     await expect(triageOpportunity(signal)).rejects.toThrow();
   });
 
-  it("max_tokens=200 (court — scoring binaire)", async () => {
+  it("max_tokens=200 + marge réflexion (scoring court)", async () => {
     mockAnthropicMessagesCreate.mockResolvedValueOnce(
       mockHaikuResponse(defaultTriagePayload()),
     );
     await triageOpportunity(signal);
     const call = mockAnthropicMessagesCreate.mock.calls[0][0];
-    expect(call.max_tokens).toBe(200);
+    // 200 de réponse + marge de réflexion ajoutée par callWithRetry
+    expect(call.max_tokens).toBe(200 + THINKING_HEADROOM_TOKENS);
+    expect(call.output_config.effort).toBe("low");
   });
 });
 
@@ -899,7 +902,7 @@ describe("composeOutboundMessage — Sonnet 4.6 + cache_control", () => {
       recipient: "x@y.fr",
     });
     const call = mockAnthropicMessagesCreate.mock.calls[0][0];
-    expect(call.model).not.toBe(CEO_HAIKU_MODEL);
+    expect(call.model).toBe("claude-sonnet-5-5");
     expect(call.model).not.toBe(CEO_OPUS_MODEL);
   });
 
@@ -1315,7 +1318,7 @@ describe("draftBacklinkPitch — opportunity-driven (HARO/blog/podcast)", () => 
     mockPrisma.ceoOutboundMessage.create.mockResolvedValueOnce(makeMessage());
     await draftBacklinkPitch(opp);
     const call = mockAnthropicMessagesCreate.mock.calls[0][0];
-    expect(call.model).not.toBe(CEO_HAIKU_MODEL);
+    expect(call.model).toBe("claude-sonnet-5-5");
     expect(call.model).not.toBe(CEO_OPUS_MODEL);
   });
 
@@ -1490,7 +1493,7 @@ describe("runWeeklyReport — Opus 4.7 lundi 9h", () => {
     expect(result.sent).toBe(false);
   });
 
-  it("appelle Opus model claude-opus-4-6", async () => {
+  it("appelle Opus (CEO_OPUS_MODEL)", async () => {
     mockHelpers.isCeoEnabled.mockResolvedValue(true);
     mockPrisma.ceoKpiSnapshot.findMany.mockResolvedValueOnce([]);
     mockAnthropicMessagesCreate.mockResolvedValueOnce(
@@ -1587,8 +1590,8 @@ describe("Constantes CEO — invariants", () => {
     expect(CEO_BUDGET_HARD_STOP_EUR).toBe(4);
   });
 
-  it("CEO_HAIKU_MODEL = claude-haiku-4-5-20251001 (Haiku 4.5 release)", () => {
-    expect(CEO_HAIKU_MODEL).toBe("claude-haiku-4-5-20251001");
+  it("CEO_TRIAGE_MODEL = claude-sonnet-5-5 (plus de Haiku)", () => {
+    expect(CEO_TRIAGE_MODEL).toBe("claude-sonnet-5-5");
   });
 
   it("CEO_OPUS_MODEL est un modèle Opus (préfixe claude-opus-)", () => {

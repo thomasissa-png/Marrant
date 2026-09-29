@@ -4,7 +4,7 @@
  * Objectif : éviter de dupliquer la structure de réponse Anthropic
  * `{ content: [{ type: "text", text: ... }], usage: {...} }` dans chaque
  * fichier de test. 4 modèles utilisés par le CEO Agent :
- *  - Haiku 4.5 (`claude-haiku-4-5-20251001`) : triageOpportunity
+ *  - Sonnet 5.5 (`claude-sonnet-5-5`) : triageOpportunity (plus de Haiku)
  *  - Sonnet 4.6 (default `SONNET_MODEL`) : composeOutboundMessage, draftBacklinkPitch
  *  - Opus 4.7 (`claude-opus-4-6` côté CEO_OPUS_MODEL) : runWeeklyReport
  *
@@ -59,7 +59,7 @@ export function mockAnthropicResponse(
 /** Réponse Haiku 4.5 (triage : score+topic+intent+playbook). */
 export function mockHaikuResponse(payload: unknown): Record<string, unknown> {
   return mockAnthropicResponse(payload, {
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-5-5",
     usage: { input_tokens: 200, output_tokens: 80 },
   });
 }

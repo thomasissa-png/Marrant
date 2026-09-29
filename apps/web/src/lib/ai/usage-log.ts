@@ -32,14 +32,15 @@ import { prisma } from "@/lib/prisma";
  * patcher ce fichier en même temps que son appel pour garantir le calcul du coût.
  */
 export const PRICING = {
-  // Sonnet 4 (modèle principal utilisé en production)
+  // Sonnet 5.5 — modèle principal en production depuis s11
+  "claude-sonnet-5-5": { input: 2, output: 10, cacheRead: 0.2, cacheWrite: 2.5 },
+  // Opus 5.5 — rapport hebdo CEO
+  "claude-opus-5-5": { input: 4, output: 20, cacheRead: 0.2, cacheWrite: 5 },
+  // Historique (lignes LlmUsageLog antérieures à s11) — conservés pour les agrégats
   "claude-sonnet-4-20250514": { input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
-  // Alias court utilisé parfois dans les frontmatters agents
   "claude-sonnet-4-5": { input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
   "claude-sonnet-4-6": { input: 3, output: 15, cacheRead: 0.3, cacheWrite: 3.75 },
-  // Opus 4.6 (non utilisé actuellement mais prix référencé pour future migration)
   "claude-opus-4-6": { input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 },
-  // Haiku 4.5 (cible des validates Director dans le commit 5 de l'audit IA)
   "claude-haiku-4-5-20251001": { input: 1, output: 5, cacheRead: 0.1, cacheWrite: 1.25 },
 } as const;
 

@@ -30,7 +30,7 @@ import {
   callWithRetry,
   extractJson,
   getResponseText,
-  HAIKU_MODEL,
+  OPUS_MODEL,
   SONNET_MODEL,
 } from "../client";
 import { prisma } from "@/lib/prisma";
@@ -64,11 +64,15 @@ import { sendTwitterDmByHandle } from "@/lib/twitter/twitter-client";
 
 // ─── Modèles + constantes ─────────────────────────────────────────────
 
-/** Haiku 4.5 — utilisé pour triage (scoring binaire input court). */
-export const CEO_HAIKU_MODEL = HAIKU_MODEL;
+/**
+ * Triage (scoring binaire, input court) : Sonnet 5.5 en effort `low`.
+ * Haiku n'est plus utilisé (dernier Haiku = 4.5, retrait annoncé ≥ 15/10/2026).
+ * Nom conservé pour compatibilité des imports/tests.
+ */
+export const CEO_TRIAGE_MODEL = SONNET_MODEL;
 
-/** Opus 4.6 — utilisé 1x/sem pour weekly report. */
-export const CEO_OPUS_MODEL = "claude-opus-4-6";
+/** Opus 5.5 — utilisé 1x/sem pour weekly report (effort `medium`). */
+export const CEO_OPUS_MODEL = OPUS_MODEL;
 
 /** Caps anti-runaway. */
 export const CEO_BUDGET_HARD_STOP_EUR = 4;
@@ -233,7 +237,7 @@ JSON strict : {score:1-10, topic, intent, should_respond:bool (≥7 et ≠spam),
 
   const response = await callWithRetry(
     {
-      model: CEO_HAIKU_MODEL,
+      model: CEO_TRIAGE_MODEL,
       max_tokens: 200,
       system: CEO_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userPrompt }],
@@ -781,6 +785,7 @@ Ton sobre, factuel, zéro édito narratif. Output : markdown brut.`;
     {
       model: CEO_OPUS_MODEL,
       max_tokens: 2000,
+      output_config: { effort: "medium" },
       system: CEO_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userPrompt }],
     },
