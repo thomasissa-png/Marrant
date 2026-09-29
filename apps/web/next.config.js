@@ -27,13 +27,9 @@ const nextConfig = {
     // tests restent typechecked séparément par Jest et par la CI
     // (`npx tsc --noEmit`) qui utilise le tsconfig racine.
     tsconfigPath: "tsconfig.build.json",
-    // TODO(s12) : passer à `false` une fois le helper de test
-    // `__resetBufferQueueCacheForTests` de `src/app/api/cron/social-analytics/route.ts`
-    // déplacé hors du fichier `route.ts` (Next 14 refuse les exports arbitraires
-    // sur les Route Handlers). Aujourd'hui, `tsc --noEmit -p tsconfig.build.json`
-    // remonte 0 erreur, mais Next 14 impose sa propre validation supplémentaire
-    // qui échoue tant que ce helper reste co-localisé.
-    ignoreBuildErrors: true,
+    // s11 : le helper de test a été sorti de social-analytics/route.ts → le
+    // build échoue désormais sur toute erreur de type (plus d'erreurs masquées).
+    ignoreBuildErrors: false,
   },
   experimental: {
     instrumentationHook: true,

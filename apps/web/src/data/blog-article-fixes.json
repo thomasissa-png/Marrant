@@ -1,8 +1,9 @@
 {
   "_meta": {
-    "version": "1.0",
+    "version": "1.1",
     "created": "2026-09-29",
-    "session": "s11-lot3",
+    "updated": "2026-09-29",
+    "session": "s11-lot6",
     "description": "Corrections idempotentes appliquées aux articles blog publiés en DB. Chaque entrée cible un slug + une opération 'replace' (search → replace) OU 'setField' (champ direct). L'opération est fail-safe : si la chaîne 'search' n'est plus trouvée (déjà corrigée), l'opération est skip. Le champ updatedAt est mis à jour à chaque application effective (au moins 1 remplacement effectué). Lu par fixPublishedBlogArticlesTask() dans startup-tasks.ts."
   },
   "fixes": [
@@ -152,6 +153,109 @@
       "search": "**STOP.**",
       "replace": "**On s'arrête là.**",
       "reason": "Staccato \"STOP.\" fragment 1 mot (T07) — variante gras"
+    },
+    {
+      "slug": "blague-courte-arme-secrete-humour",
+      "operation": "replace",
+      "search": "Paul Mirabel l'a dit dans son dernier spectacle : \"Une bonne blague, c'est comme un bon café. Si c'est trop long, ça devient amer.\" Et il a raison.",
+      "replace": "Et c'est vrai : une bonne blague, c'est comme un bon café. Si c'est trop long, ça devient amer.",
+      "reason": "Attribution Mirabel non vérifiable — retrait (s11-lot6)"
+    },
+    {
+      "slug": "blague-courte-arme-secrete-humour",
+      "operation": "replace",
+      "search": "J'ai demandé à ChatGPT de me faire rire. Il m'a montré mes photos.",
+      "replace": "il observe un détail banal, le retourne, et la punchline arrive comme une évidence",
+      "reason": "Mention IA (ChatGPT) + citation Frayssinet inventée — règle fondateur 0 IA dans le contenu (s11-lot6)"
+    },
+    {
+      "slug": "blague-courte-arme-secrete-humour",
+      "operation": "replace",
+      "search": "selon une étude de l'Université de Stanford sur la mémorisation humoristique, les blagues de moins de 15 mots sont retenues 3 fois plus longtemps que celles de plus de 50 mots. Nos conseils s'appuient d'ailleurs sur cette recherche fondamentale.",
+      "replace": "le principe est simple : moins le cerveau a besoin de travailler, plus vite il libère le rire.",
+      "reason": "Statistique inventée sans source réelle — retrait (s11-lot6)"
+    },
+    {
+      "slug": "blague-courte-arme-secrete-humour",
+      "operation": "replace",
+      "search": "Panayotis Pascot me confiait récemment : \"Une vanne courte, c'est de l'artillerie lourde. Tu deploys minimum d'énergie pour maximum d'impact.\"",
+      "replace": "C'est ce que Panayotis Pascot incarne dans ses spectacles : une vanne courte, c'est de l'artillerie lourde — minimum d'énergie pour maximum d'impact.",
+      "reason": "Fausse intimité \"me confiait récemment\" avec humoriste vivant (s11-lot6)"
+    },
+    {
+      "slug": "blague-courte-arme-secrete-humour",
+      "operation": "replace",
+      "search": "guide 2026",
+      "replace": "guide pratique",
+      "reason": "Titre avec année qui périme (s11-lot6)"
+    },
+
+    {
+      "slug": "avoir-confiance-en-soi-grace-a-l-humour",
+      "operation": "replace",
+      "search": "Une étude de l'Université de Stanford a montré que les personnes qui utilisent l'humour dans leurs interactions sociales développent une confiance en eux 40% plus élevée que la moyenne. Pourquoi ? Parce que l'humour crée du lien instantané. Quand tu fais rire, tu ne subis plus la situation — tu la contrôles.",
+      "replace": "Les recherches en neurosciences sociales le confirment : l'humour crée du lien instantané et renforce la confiance perçue — les deux se nourrissent mutuellement. Quand tu fais rire, tu ne subis plus la situation — tu la contrôles.",
+      "reason": "Statistique inventée \"Stanford +40%\" sans source vérifiable — retrait (s11-lot6)"
+    },
+    {
+      "slug": "avoir-confiance-en-soi-grace-a-l-humour",
+      "operation": "replaceAll",
+      "search": "Plot twist : c'est pour récupérer ses gosses chez son ex.",
+      "replace": "Et voilà le truc : c'est pour récupérer ses gosses chez son ex.",
+      "reason": "Tic IA \"Plot twist\" (s11-lot6)"
+    },
+
+    {
+      "slug": "etre-plus-a-l-aise-en-societe",
+      "operation": "replaceAll",
+      "search": "guide complet 2024",
+      "replace": "guide pratique",
+      "reason": "Titre avec année 2024 périmée sur un article de 2026 (s11-lot6)"
+    },
+    {
+      "slug": "etre-plus-a-l-aise-en-societe",
+      "operation": "replace",
+      "search": "Roman Frayssinet l'a dit :",
+      "replace": "L'idée, c'est ça :",
+      "reason": "Attribution directe non vérifiée à Frayssinet — retrait (s11-lot6)"
+    },
+
+    {
+      "slug": "blague-drole-7-criteres-pepite",
+      "operation": "replace",
+      "search": "Deux phrases. Un setup, une chute. BOOM.",
+      "replace": "Deux phrases. Un setup, une chute. Efficace.",
+      "reason": "Staccato \"BOOM.\" fragment 1 mot (s11-lot6)"
+    },
+    {
+      "slug": "blague-drole-7-criteres-pepite",
+      "operation": "replace",
+      "search": "Regarde les meilleures blagues drôles de 2026 : elles sont toutes construites sur ce principe.",
+      "replace": "Regarde les meilleures blagues drôles du moment : elles sont toutes construites sur ce principe.",
+      "reason": "Année 2026 qui périme dans le contenu (s11-lot6)"
+    },
+    {
+      "slug": "blague-drole-7-criteres-pepite",
+      "operation": "replace",
+      "search": "Fary explique ça parfaitement :",
+      "replace": "La règle d'or, c'est ça :",
+      "reason": "Attribution directe non vérifiée à Fary (s11-lot6)"
+    },
+
+    {
+      "slug": "comment-raconter-une-blague-sans-la-rater",
+      "operation": "replaceAll",
+      "search": "/blog/timing-humour-ralentir",
+      "replace": "/blog/timing-humour",
+      "reason": "Lien vers article dépublié (slug perdant s11) → rediriger vers pillar timing-humour (s11-lot6)"
+    },
+
+    {
+      "slug": "citation-drole",
+      "operation": "replace",
+      "search": "2024 m'a appris que j'étais plus résistant que prévu. Et plus créatif pour les excuses.",
+      "replace": "Cette année m'a appris que j'étais plus résistant que prévu. Et plus créatif pour les excuses.",
+      "reason": "Année 2024 périmée dans une citation (s11-lot6)"
     }
   ]
 }

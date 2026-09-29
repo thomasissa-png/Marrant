@@ -3,6 +3,11 @@ import type { SocialPlatform } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import {
+  BUFFER_QUEUE_CACHE_TTL_MS,
+  getBufferQueueCache,
+  setBufferQueueCache,
+} from "@/lib/social/buffer-queue-cache";
+import {
   isBufferConfigured,
   getBufferScheduledPosts,
 } from "@/lib/social/buffer-client";
@@ -30,23 +35,7 @@ import {
  * Voir REPLIT_ACTIONS.md (s10) — réduire la fréquence Replit Scheduled de 15 min vers 1-2h.
  */
 
-// ─── Cache module-level pour la queue Buffer (TTL 60 min) ─────────────
-// Amortit la pression sur l'API Buffer même si le cron est appelé toutes
-// les 15 min par Replit Scheduled Deployments.
-type BufferQueueCache = {
-  count: number;
-  cachedAt: number;
-};
-const BUFFER_QUEUE_CACHE_TTL_MS = 60 * 60 * 1000; // 60 min
-let bufferQueueCache: BufferQueueCache | null = null;
-
-/**
- * Reset du cache — exposé pour les tests uniquement.
- * Ne JAMAIS appeler en production.
- */
-export function __resetBufferQueueCacheForTests() {
-  bufferQueueCache = null;
-}
+// Cache de la queue Buffer (TTL 60 min) : voir lib/social/buffer-queue-cache.ts.
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -167,6 +156,7 @@ export async function GET(req: Request) {
     let bufferQueueSource: "cache" | "fresh" | "skipped-circuit-breaker" | "skipped-not-configured" = "skipped-not-configured";
 
     if (isBufferConfigured()) {
+      const cachedQueue = getBufferQueueCache();
       if (allBlocked) {
         // Toutes les plateformes en rate limit 24h → on ne ré-interroge pas Buffer.
         // C'est le fix critique qui empêche la fenêtre 24h de se relancer en boucle.
@@ -175,24 +165,24 @@ export async function GET(req: Request) {
           "[SocialAnalytics] Toutes plateformes en circuit breaker 24h — skip lecture queue Buffer",
         );
       } else if (
-        bufferQueueCache &&
-        now.getTime() - bufferQueueCache.cachedAt < BUFFER_QUEUE_CACHE_TTL_MS
+        cachedQueue &&
+        now.getTime() - cachedQueue.cachedAt < BUFFER_QUEUE_CACHE_TTL_MS
       ) {
         // Cache valide → utiliser la valeur cachée
-        bufferQueue = bufferQueueCache.count;
+        bufferQueue = cachedQueue.count;
         bufferQueueSource = "cache";
       } else {
         // Cache absent ou expiré → fetch frais et mettre en cache
         try {
           const scheduled = await getBufferScheduledPosts();
           bufferQueue = scheduled.length;
-          bufferQueueCache = { count: bufferQueue, cachedAt: now.getTime() };
+          setBufferQueueCache({ count: bufferQueue, cachedAt: now.getTime() });
           bufferQueueSource = "fresh";
         } catch (err) {
           console.error("[SocialAnalytics] Erreur lecture queue Buffer:", err);
           // Si on a un cache même expiré, on l'utilise en fallback
-          if (bufferQueueCache) {
-            bufferQueue = bufferQueueCache.count;
+          if (cachedQueue) {
+            bufferQueue = cachedQueue.count;
             bufferQueueSource = "cache";
           }
         }

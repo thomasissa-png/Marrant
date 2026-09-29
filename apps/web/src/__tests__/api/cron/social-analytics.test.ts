@@ -68,7 +68,8 @@ describe("Cron social-analytics — hotfix s10 Buffer rate limit", () => {
     process.env.CRON_SECRET = "test-secret";
     const mod = await import("@/app/api/cron/social-analytics/route");
     GET = mod.GET as typeof GET;
-    resetBufferQueueCache = mod.__resetBufferQueueCacheForTests;
+    resetBufferQueueCache = (await import("@/lib/social/buffer-queue-cache"))
+      .__resetBufferQueueCacheForTests;
   });
 
   afterAll(() => {
