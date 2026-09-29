@@ -1,5 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { logLLMUsage, extractUsage } from "./usage-log";
+// Import dynamique côté callWithRetry pour éviter la dépendance circulaire
+// (failure-alert.ts importe LlmRefusalError depuis ce fichier).
 
 // Client Anthropic partagé — singleton pour tous les agents
 export const anthropic = new Anthropic({
@@ -188,7 +190,24 @@ export async function callWithRetry(
 
       // Vérifier si l'erreur est retryable
       const isRetryable = isRetryableError(error);
-      if (!isRetryable || attempt === maxRetries) break;
+      if (!isRetryable || attempt === maxRetries) {
+        // Alerte admin sur panne structurelle non-retryable (modèle retiré,
+        // auth cassée, quota épuisé). `notifyLLMFailure` filtre lui-même :
+        // silent-fail, throttlé 24h par type, et ignore les LlmRefusalError.
+        // Import dynamique pour couper la dépendance circulaire client.ts
+        // ↔ failure-alert.ts (qui importe LlmRefusalError d'ici).
+        void import("./failure-alert").then(({ notifyLLMFailure }) =>
+          notifyLLMFailure({
+            error,
+            model: params.model,
+            agent: meta?.agent,
+            fn: meta?.fn,
+          }),
+        ).catch(() => {
+          /* silent-fail final — l'alerte ne doit jamais casser le pipeline */
+        });
+        break;
+      }
 
       // Backoff exponentiel avec jitter pour éviter le thundering herd
       const baseDelay = Math.pow(2, attempt + 1) * 1000; // 2s, 4s
