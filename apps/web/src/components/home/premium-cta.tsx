@@ -100,6 +100,14 @@ export function PremiumCta() {
                 <span className="mt-0.5 text-success">✓</span>
                 <span><strong>Streaks et XP</strong> : suis ta progression jour après jour</span>
               </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-success">✓</span>
+                <span><strong>Parcours structur&eacute;s</strong> de progression</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-success">✓</span>
+                <span><strong>Favoris illimit&eacute;s</strong></span>
+              </li>
             </ul>
 
             {status === "authenticated" ? (
