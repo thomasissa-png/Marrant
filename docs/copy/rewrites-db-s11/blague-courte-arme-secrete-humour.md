@@ -101,4 +101,135 @@ Trop de références cachées. "Comme dirait Nietzsche en mangeant des sushis...
 
 Pour t'entraîner contre ces pièges, direction nos [exercices pour développer ton humour](/blog/exercices-developper-humour).
 
-<!-- SUITE -->
+## Transformer tes blagues longues en pépites courtes
+
+**La méthode, en 4 étapes :**
+
+**Étape 1 : Trouver le noyau dur**
+
+Dans ta version longue, repère la phrase qui fait rire. Tout le reste, c'est de la garniture.
+
+Exemple : "Je suis allé chez l'ostéopathe parce que j'avais mal au dos, et il m'a demandé si j'avais fait un effort inhabituel ces derniers jours, du sport, un déménagement, un truc comme ça, et j'ai réfléchi, et honnêtement la seule chose que j'avais faite, c'était monter mes courses au troisième étage, et quand je lui ai dit, il m'a regardé et il a dit que c'était sûrement ça."
+
+Noyau dur identifié : pour moi, monter mes courses, c'est un effort inhabituel. Le sport, le déménagement, l'étage : tout ça ne fait que retarder la chute.
+
+**Étape 2 : Compresser**
+
+Enlève tout ce qui ne sert pas à déclencher le rire.
+
+Version compressée : "Mal de dos. Mon ostéo me demande si j'ai fait un effort inhabituel. J'avais monté mes courses. Il a dit que c'était sûrement ça."
+
+**Étape 3 : Régler le rythme**
+
+Fais tomber la chute à la fin, et laisse le public tirer la conclusion tout seul.
+
+Version optimisée : "Mon ostéo m'a demandé si j'avais fait un effort inhabituel. J'ai dit : 'J'ai monté mes courses.' Il a hoché la tête, l'air grave."
+
+Le diagnostic n'est plus expliqué, il est montré : c'est le hochement de tête qui fait rire.
+
+**Étape 4 : Le test à voix haute**
+
+Dis-la à voix haute. Si tu butes sur un mot, elle n'est pas encore prête.
+
+## Comment maîtriser le timing de la blague courte ?
+
+Le [timing en humour](/blog/timing-humour) compte encore plus sur une blague courte : tu n'as aucune marge pour rattraper un mot mal placé.
+
+**Les 3 règles d'or du timing court :**
+- **Un silence de 0,5 seconde avant la chute** — juste assez pour créer l'attente
+- **Un setup dit sans traîner** — on arrive vite à l'essentiel
+- **Un ralentissement sur le dernier mot** — pour que la chute atterrisse
+
+Paul Mirabel en est un bon exemple sur scène : ses silences avant la chute font la moitié du travail.
+
+## 15 blagues courtes testées et approuvées par situations
+
+**En réunion (tension à désamorcer) :**
+
+1. "Cette réunion devait durer un quart d'heure. On vient de fêter sa première heure."
+
+2. "J'avais une question, mais elle rallonge la réunion. Je la garde pour moi."
+
+3. "Excel a planté en pleine présentation. On a eu une minute de silence. Le meilleur moment de la réunion."
+
+**À l'apéro (briser la glace) :**
+
+4. "Je bois pas ce soir, je conduis. Demain, je serai le seul à me souvenir de tout. Pesez vos mots."
+
+5. "On avait dit 'un verre vite fait'. On a fini par commander les croissants."
+
+6. "Je connais personne ici à part l'hôte. Et il vient de m'appeler Julien."
+
+**En soirée (détendre l'ambiance) :**
+
+7. "Je danse très bien. Tant que personne filme."
+
+8. "Ma technique de drague ? Je raconte ma vie jusqu'à ce qu'elle parte."
+
+9. "Je suis célibataire. Mon appli de rencontre m'envoie des messages d'encouragement."
+
+**Au travail (humaniser les relations) :**
+
+10. "J'ai envoyé un mail 'urgent' lundi. Vendredi, on m'a répondu : 'Toujours d'actualité ?'"
+
+11. "J'ai une tête exprès pour quand mon chef passe derrière moi. Elle bosse plus que moi."
+
+12. "J'ai rangé mon bureau. Je retrouve plus rien, mais c'est propre."
+
+**En famille (désamorcer les conflits) :**
+
+13. "Ma mère m'a demandé si je mangeais bien. J'ai dit oui. Elle a ouvert mon frigo quand même."
+
+14. "Mon père signe tous ses SMS : 'Papa'. Au cas où j'aurais un doute."
+
+15. "Mes enfants m'entendent jamais. Sauf quand je chuchote le mot 'glace'."
+
+Chacune est pensée pour son contexte : sortie au mauvais endroit, une vanne courte tombe aussi vite qu'elle est partie. Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.
+
+## Challenge 30 jours : maîtriser l'art de la concision humoristique
+
+Un mois pour que le réflexe du format court devienne naturel. Pas besoin d'y passer tes soirées : quelques minutes par jour suffisent.
+
+**Étape 1 : Observer (les 7 premiers jours)**
+
+- Note 3 situations drôles par jour, sans chercher à les raconter
+
+- Résume chacune en une phrase de moins de 10 mots
+
+**Étape 2 : Tester**
+
+- Sors 1 **blague courte** par jour devant des proches
+
+- Note ce qui se passe : sourire, rire ou silence de cathédrale
+
+- Retouche la formulation, garde l'idée
+
+**Étape 3 : Sortir du cercle**
+
+- Place tes meilleures en situation réelle
+
+- Change de terrain : boulot, potes, famille
+
+- Repère quel style marche où
+
+**Étape 4 : Garder les meilleures**
+
+- Sélectionne tes 10 meilleures vannes courtes
+
+- Range-les par situation, comme la liste juste au-dessus
+
+- Travaille le silence avant la chute de chacune
+
+> **CLEF :** 30 jours, c'est le temps qu'il faut pour penser en format court sans y penser. Même philosophie que la blague elle-même : moins de blabla, plus d'effet.
+
+Si tu veux un cadre pour t'entraîner, nos [parcours](/parcours) te font pratiquer exercice par exercice.
+
+## Pourquoi la blague courte est l'avenir de l'humour
+
+Netflix découpe les spectacles en clips de 30 secondes, TikTok impose son rythme : la **blague courte** est devenue le format par défaut. On consomme l'humour comme un espresso, vite et serré.
+
+Les humoristes qui compteront dans les 10 prochaines années maîtrisent déjà cet art. Fary, Paul Mirabel, Roman Frayssinet savent tous faire tenir une idée en une ligne, et ce n'est pas un hasard.
+
+Alors pas besoin de tenir la salle 5 minutes d'affilée. Vise 5 secondes bien placées : c'est tout le secret de la blague courte, et c'est nettement moins fatigant pour tout le monde.
+
+Pour t'échauffer, nos [meilleures blagues drôles à ressortir](/blog/meilleures-blagues-droles-2026) contiennent une section entière de pépites courtes.

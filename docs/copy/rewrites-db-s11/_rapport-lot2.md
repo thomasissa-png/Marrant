@@ -60,3 +60,132 @@ Fichier : `docs/copy/rewrites-db-s11/blague-drole-7-criteres-pepite.md`
 - Mentions de style conservées (non verbatim) : Mirabel/timidité, Gardin/insécurité, Frayssinet/angoisses.
 
 ---
+
+## 2. `comment-raconter-une-blague-sans-la-rater`
+
+Fichier : `docs/copy/rewrites-db-s11/comment-raconter-une-blague-sans-la-rater.md`
+Fusion 308 : `/blog/raconter-blague-sans-massacrer` redirige ici. Idées reprises de l'article statique (`apps/web/src/lib/blog-articles.ts`, l. 1063-1158) : l'ouverture « ami qui raconte mal » (réécrite), la règle des 3C (Court / Clair / Crédible, section 1), l'avant/après setup trop long (section 5, avec une nouvelle vanne), les pièges « annoncer la blague » et « spoiler la chute » (section 7), « tais-toi après la chute » (sections 6 et plan d'action). **Non repris** : la citation Fary « Tu emmènes les gens dans une direction, et tu tournes » (non vérifiable), la vanne « chat tellement gros qu'il a son propre code postal » (cliché « tellement… que »), « mon corps m'a envoyé un mail de rupture », et la stat « fenêtre d'attention de 15-20 secondes » (pour ne pas ajouter de chiffre à cet article). Mention « 0,99 EUR/mois » gardée en fin d'article.
+
+### 2.1 Vannes, répliques et exemples (liste exhaustive)
+
+| N° | Avant | Verdict (motif §3) | Après |
+|---|---|---|---|
+| 1 | Intro : « Tu connais cette sensation horrible ?… silence de mort. Un sourire poli au mieux. Ça arrive même aux meilleurs ! » | RÉÉCRIRE — clichés en chaîne, intro qui tarde à répondre | Ouverture reprise du statique, réécrite : « "Attends, attends, j'en ai une. Alors c'est un mec... non, une femme. Enfin, peu importe. Bref, à la fin il dit "pas de moutarde". Ah, j'ai pas dit qu'ils étaient au restaurant." / On a tous un ami qui raconte ses blagues comme ça. Parfois, cet ami, c'est nous. » (capitales « ATTENDS ATTENDS » et « merde » du statique retirés) + réponse directe citable |
+| 2 | CLEF « …des gens qui "connaissent des blagues" » | GARDER — formule juste | Inchangé |
+| 3 | « l'histoire du type qui va chez le médecin avec une carotte dans l'oreille et un radis dans le nez. Si tu hésites entre "carotte" et "navet"… » | RÉÉCRIRE — vieille blague de comptoir en référence | « si tu oublies le détail dont dépend la chute, tu te retrouves avec de la moutarde sans restaurant. » (rappel de l'ouverture) |
+| 4 | Exemple 3C « Clair » du statique : « tu connais Thomas ? Le cousin du frère de... » | RÉÉCRIRE — prénom retiré | « "Tu connais le cousin du coloc de mon frère ?" devient "Un pote à moi..." » |
+| 5 | Transitions « Ça me rappelle l'histoire de... » / « Tiens, parlant de ça... » | GARDER (idée) — légère correction | « Ça me rappelle un truc... » / « Tiens, en parlant de ça... » |
+| 6 | « blague parachutée qui tombe comme un cheveu sur la soupe » | RÉÉCRIRE — expression toute faite | « celle qui atterrit au milieu d'une discussion sur les impôts » |
+| 7 | « la différence entre un four complet et un succès retentissant » | RÉÉCRIRE — cliché | « C'est lui qui décide si la table rit ou si quelqu'un relance la conversation sur la météo. » |
+| 8 | CLEF « c'est comme le silence en musique — c'est LÀ que la magie opère » | RÉÉCRIRE — cliché + capitales | « Le timing, c'est le silence entre deux notes : c'est lui qui donne envie d'entendre la suivante. » (chiffre 1-2 s gardé) |
+| 9 | (nouveau, gestuelle) | AJOUT — la section n'avait aucun exemple drôle | Mains dans les poches : « elles te font ressembler à quelqu'un qui attend son tour chez le médecin » ; posture voûtée : « tu racontes une deuxième histoire en parallèle : celle de quelqu'un qui voudrait être ailleurs » |
+| 10 | « Entraîne-toi devant ton miroir : ça peut paraître ridicule, mais c'est redoutablement efficace. » | RÉÉCRIRE — ajout d'un clin d'œil | « Ça paraît ridicule, et ça l'est un peu, mais c'est redoutablement efficace. » |
+| 11 | « Un "p" qui claque, un "t" qui percute... » | RÉÉCRIRE — remplissage | « si on te fait répéter la chute, elle est morte. » |
+| 12 | (nouveau, voix) | AJOUT — exemple concret du contraste de volume | « Pour l'anniversaire de ma copine, j'ai organisé une fête surprise. » *[plus bas]* « C'était pas son anniversaire. » (réutilisé en section 5 comme contre-exemple de placement) |
+| 13 | Chute : « le Graal », « comme un orfèvre polit un bijou », « claquer comme un fouet » | RÉÉCRIRE — trois clichés | « Tout le reste de ta blague existe pour la chute… donc c'est elle que tu soignes en premier. » |
+| 14 | CLEF « plus COURTE que le setup » | RÉÉCRIRE — capitales | « plus courte » ; chiffres 30 / 10 / 10 gardés |
+| 15 | Avant/après du statique : rayon fromage, « Vous recommandez quoi ? » / « Un psy. » | RÉÉCRIRE — chute qui se moque de l'autre ; remplacée par de l'autodérision | Ratée : version fleuve (gare, charcuterie…). Réussie : « Au rayon fromage, un mec hésite depuis cinq minutes. Il se tourne vers moi : "Vous prendriez lequel ?" Moi, j'étais là depuis dix minutes. J'attendais qu'il choisisse pour moi. » |
+| 16 | (nouveau, placement) | AJOUT — contre-exemple du mot drôle en fin de phrase | « C'était pas son anniversaire, le jour où j'ai organisé une fête surprise pour ma copine. » |
+| 17 | « Ton public n'est pas un robot. » | RÉÉCRIRE — règle zéro mention robot/IA | « Ton public, ce n'est pas une salle de cinéma » |
+| 18 | « Excellente question, j'y viens justement... » | RÉÉCRIRE — plate | « Garde ta question, la réponse est dans la chute » |
+| 19 | « Tu me voles ma chute ! » | GARDER — court, complice | Inchangé |
+| 20 | « Bon, celle-là, je la garde pour un public moins exigeant » | GARDER — validé par l'audit (c) | Inchangé |
+| 21 | « Visiblement, mon timing était en roue libre » | RÉÉCRIRE — image floue, pas de retournement | « Devant mon miroir, elle avait cartonné. » (rappel de l'entraînement au miroir) |
+| 22 | (statique) « J'AI UNE BLAGUE ! » → même Blanche Gardin aurait la pression | RÉÉCRIRE — capitales, comparaison plate | « "Attends, j'en ai une trop drôle !" Tu viens de placer la barre si haut que même une bonne chute passera en dessous. » |
+| 23 | (statique) « C'est l'histoire d'un mec qui va chez le psy — ah tu vas voir c'est trop drôle. » | RÉÉCRIRE — le spoiler n'en était pas un | « "C'est l'histoire d'un mec qui se trompe de mariage, tu vas voir, c'est trop bien." Tu as raconté la fin avant le début. » |
+| 24 | « Vous comprenez ? Parce qu'il pensait que... » | GARDER + chute ajoutée | « …la blague est morte, tu es en train de faire l'autopsie. » |
+| 25 | « C'est mission impossible et ça se sent » | RÉÉCRIRE — cliché | « Ça ne marche jamais, et ça se voit. » |
+| 26 | Fin : « **0,99 EUR/mois** — le prix d'un café pour ne plus jamais massacrer une blague. » | RÉÉCRIRE — promesse absolue (« ne plus jamais ») | « **0,99 EUR/mois** : à peu près le prix d'un café à la machine, et beaucoup moins cher que le silence après une blague massacrée. » (prix inchangé, « massacrer » gardé pour la sémantique du slug redirigé) |
+
+**Bilan : 26 éléments · 4 gardés tels quels · 18 réécrits · 4 ajouts (69 % réécrits sur l'existant).** Variantes écartées : n°21 « Dans ma tête, vous étiez morts de rire » (moins précis) ; n°15 garder « Un psy » (moqueur, ne passe pas la barre auto-dérision) ; n°18 « Chut, tu vas trouver la fin avant moi ».
+
+### 2.2 Défauts de prose traités (§5)
+
+- **Intro** : 2 paragraphes de mise en condition sans réponse → ouverture-scène + réponse directe en une phrase (les 4 gestes de livraison).
+- **Staccato / exclamations** : « Non. Le rire fait partie… » → phrase liée ; « Non ! Si c'était drôle… » → supprimé ; « Ça arrive même aux meilleurs ! » supprimé.
+- **Capitales** : « LÀ », « COURTE », « DERNIER », « TU » supprimées.
+- **Jargon / corporate** : « bits » (anglicisme), « animateur charismatique », « compétence fondamentale », « effets comiques saisissants » → reformulés.
+- **Affirmations non vérifiables sur des humoristes** : Paul Mirabel (« répète ses bits des dizaines de fois », « ses mains dessinent l'histoire ») et Blanche Gardin (« excelle dans l'expression faciale ») → généralisés (« les humoristes rodent chaque passage… ») ; Frayssinet et les interpellations du public → généralisé. Conservés (non verbatim, à confirmer) : Fary (module son énergie, joue sur les intonations), Frayssinet (silences), Waly Dia (punchlines < 10 mots), Pascot (mot-clé en fin de phrase), Inès Reg (authenticité).
+- **Fausses promesses** : lien timing « analyse seconde par seconde » → « détaille ces techniques » ; conseils « couvrent chaque technique en détail avec des mises en situation » → « te donnent des techniques à essayer en situation ».
+
+### 2.3 Chiffres et citations signalés (non modifiés)
+
+- « dix fois plus de chances de marcher » (aucune source) ; « 3 à 5 secondes » de silence chez Frayssinet (non vérifié) ; « 1-2 secondes » (×2) ; « rarement plus de 10 mots » (Waly Dia, non vérifié) ; « 30 mots / 10 » ; « moins de 10 mots » ; « 100% elle-même » (Inès Reg) ; « 3 blagues » ; « ralentis de 30% » ; « des dizaines de fois » ; « 0,99 EUR/mois » — tous gardés.
+- Détails comiques ajoutés dans la vanne n°15 : « cinq minutes » (repris du statique) et « dix minutes » — détails de vanne, pas des statistiques.
+- Aucune citation verbatim attribuée dans cet article (il n'y en avait pas ; celle du statique n'a pas été reprise).
+
+---
+
+## 3. `etre-plus-a-l-aise-en-societe`
+
+Fichier : `docs/copy/rewrites-db-s11/etre-plus-a-l-aise-en-societe.md`
+
+### 3.1 Vannes, répliques et exemples (liste exhaustive)
+
+| N° | Avant | Verdict (motif §3) | Après |
+|---|---|---|---|
+| 1 | « C'est comme essayer de s'endormir : plus tu forces, plus tu restes éveillé avec les yeux qui brûlent à 3h du matin. » | RÉÉCRIRE — bonne idée, détail plus drôle | « …plus tu te retrouves éveillé à 3h du matin, à rejouer ta conversation avec la boulangère. » (excerpt inchangé) |
+| 2 | Roman Frayssinet : « Je suis tellement à l'aise socialement que j'arrive à mettre mal à l'aise des gens qui étaient déjà mal à l'aise. » | RÉÉCRIRE — citation « probablement fabriquée » (audit e) → attribution retirée, même idée (l'aisance forcée qui se retourne) | « J'ai tellement travaillé mon air détendu qu'on m'a proposé une chaise et un verre d'eau. » (sans attribution) |
+| 3 | « sourire comme un commercial en assurance vie » | GARDER — saluée par l'audit | Inchangé |
+| 4 | « Pas comme un muscle qu'on gonfle, mais comme un talent qu'on révèle. » | RÉÉCRIRE — cliché motivationnel | Supprimé (la phrase suivante porte l'idée) |
+| 5 | « Je sais, ça sonne comme du coaching de vie à 3 balles, mais écoute-moi. » | RÉÉCRIRE — « je » narratif de la marque (charte §1.3) + « coaching » | « Oui, dit comme ça, ça sonne comme du développement personnel à 3 balles. Reste quand même. » |
+| 6 | « Il ne "joue" pas Paul Mirabel. Il EST Paul Mirabel, version amplifiée. » | RÉÉCRIRE — capitales, formule usée | « il ne joue pas un gars sûr de lui : il joue Paul Mirabel, en plus grand. » |
+| 7 | CLEF « Tu n'es pas un produit à vendre, tu es une personne à découvrir. » | RÉÉCRIRE — cliché motivationnel | « Personne n'a envie de passer la soirée avec une bande-annonce. » |
+| 8 | « Pourquoi j'ai raconté l'histoire de mon chat à des inconnus pendant 20 minutes ? » | RÉÉCRIRE — ajout d'une escalade (20 minutes gardé) | « Pourquoi j'ai parlé de mon chat à des inconnus pendant 20 minutes ? Et pourquoi j'ai sorti les photos ? » |
+| 9 | Tabouret : « enlève-en un et tu te retrouves par terre » | GARDER | Inchangé |
+| 10 | Fary « en fait de l'or comique » | RÉÉCRIRE — formule creuse | « tout finit en matière comique » |
+| 11 | « Qui soupire comme si sa vie dépendait de cette baguette de pain ? » | RÉÉCRIRE — image attendue | « Qui soupire comme si la boulangerie lui devait des excuses ? » + « bien plus naturel que "il fait beau, hein" » |
+| 12 | « ajuster ton volume, pas changer ta chanson » | GARDER — juste et court | Inchangé |
+| 13 | Blanche Gardin « d'un plateau télé à un dîner entre amis… cynique et brillante » | RÉÉCRIRE — affirmation invérifiable sur sa vie privée | « ne change pas d'univers entre la scène et un plateau télé : elle garde son ton, elle dose. » |
+| 14 | « Parce que c'est vrai, c'est humain, c'est touchant. » | RÉÉCRIRE — triplet staccato | « justement parce que rien n'est arrangé pour faire joli » |
+| 15 | Règle d'or : « Mieux vaut être détesté pour ce que tu es qu'aimé pour ce que tu n'es pas. » + « VRAIMENT » | RÉÉCRIRE — citation célèbre ultra-connue (circule sous plusieurs attributions) + capitales | « mieux vaut plaire un peu moins, mais pour de bon. Un personnage, il faut le tenir toute la soirée ; toi, tu connais déjà ton texte. » |
+| 16 | Code de la route / style de conduite | GARDER | Inchangé |
+| 17 | « Arriver 15 minutes en retard, c'est stylé. 45 minutes, c'est de l'irrespect déguisé en nonchalance. » | RÉÉCRIRE (léger) — « stylé » = conseil discutable | « 15 minutes de retard, c'est de la décontraction. 45 minutes, c'est de l'irrespect déguisé en nonchalance. » |
+| 18 | « "Ça va ?" n'est pas une vraie question médicale… résumé de ta dernière crise existentielle. » | GARDER — bonne observation (« small talk » retiré du libellé) | Quasi inchangé, libellé « L'art du "ça va ?" » |
+| 19 | 70/30 : « tu n'es plus dans une conversation, tu fais un monologue » | RÉÉCRIRE — chute plate | « ce n'est plus une conversation, c'est une conférence, et personne n'a pris de billet. » |
+| 20 | « Ça va, je survais à lundi, et toi ? » | GARDER + correction de la faute (P0 audit) — c'est une réplique d'ouverture réaliste, pas une punchline | « Ça va, je survis à lundi, et toi ? » |
+| 21 | « le cheat code des relations humaines » / « comme un métronome cassé » | RÉÉCRIRE — anglicisme (audit d) + image illogique (un métronome cassé ne bat plus la mesure) | « le raccourci le plus efficace… » / « Ça, c'est un métronome, pas une écoute. » |
+| 22 | CLEF « écouter pour comprendre, pas pour répondre » | RÉÉCRIRE — formule très connue (livres de développement personnel) | « écouter la phrase de l'autre, pas attendre qu'il ait fini pour placer la tienne. » |
+| 23 | 4 niveaux d'écoute (zombie / pingpong / miroir / laser) | GARDER — noms parlants (« ping-pong » orthographié) | Inchangé |
+| 24 | Dialogue « 3 pourquoi » : « Ça te touche comment ce genre de situation ? » / « Et comment tu aimerais réagir idéalement ? » | RÉÉCRIRE — questions de psy, pas de pote | « Qu'est-ce qui s'est passé ? » / « Et toi, tu l'as vécu comment ? » / « Tu aurais aimé réagir comment ? » + chute « Et sans parler de ton chat une seule fois. » |
+| 25 | 4-7-8 : « ta présence plus stable » | RÉÉCRIRE — ajout d'humour | « …tu arrêtes de parler à la vitesse d'un message vocal en accéléré. » |
+| 26 | « pas dans les poches en mode "j'me cache" » | RÉÉCRIRE — familier sans chute | « pas planquées dans les poches, comme si elles avaient quelque chose à se reprocher » |
+| 27 | Test vidéo : « Tu vas voir tes tics » | RÉÉCRIRE | « des tics dont personne n'a jamais osé te parler » |
+| 28 | Regard : « Plus de 3 secondes, ça devient intense. » | RÉÉCRIRE | « Au-delà de 3 secondes, ça devient un concours. » |
+| 29 | « Pro tip » + point entre les sourcils | RÉÉCRIRE (libellé) — anglicisme (audit d) ; astuce gardée | « Astuce » |
+| 30 | « tu ne commences pas par la piscine olympique » | RÉÉCRIRE — image faible | « personne ne commence par traverser la Manche » |
+| 31 | Famille « sans risque » | RÉÉCRIRE — ajout | « ils te connaissent déjà, ils ne peuvent plus être déçus » |
+| 32 | « "Je m'entraîne à être moins bizarre en société, alors dis-moi si je commence à parler comme un robot." » | RÉÉCRIRE — mention « robot » interdite (brief) | « Je m'entraîne à être moins bizarre en société. Si je commence à te parler comme un conseiller bancaire, arrête-moi. » |
+| 33 | « Si ça se passe mal, tu ne les reverras jamais. Libérant, non ? » | RÉÉCRIRE — staccato | « C'est le seul public qui oublie tes ratés plus vite que toi. » |
+| 34 | « Les silences, c'est comme les légumes dans ton assiette : plus tu les redoutes, plus ils prennent de la place. » | RÉÉCRIRE — comparaison sans logique | « Un silence, c'est comme une tache sur ton t-shirt : personne ne l'avait remarquée avant que tu passes la soirée à la cacher. » |
+| 35 | CLEF « Un silence n'est gênant que si tu le vis comme gênant. » | GARDER | Inchangé |
+| 36 | « Bon, j'ai réussi à plomber l'ambiance, qui veut un café ? » | RÉÉCRIRE — formule attendue | « Bon, ce silence vous est offert par ma dernière phrase. » |
+| 37 | « Dis-moi, tu as vu comme le serveur a l'air speed ce soir ? » | RÉÉCRIRE — anglicisme, constat sans image | « T'as vu le serveur ? Il se promène avec la même assiette depuis qu'on est arrivés. » |
+| 38 | « On dirait qu'on a fait le tour du sujet là, non ? » | RÉÉCRIRE — ajout d'une chute | « On a fait le tour du sujet, là. On en ouvre un autre ou on fait semblant de regarder nos téléphones ? » |
+| 39 | Exercice miroir (jours 5-6) | RÉÉCRIRE — ajout | « Oui, même si ta journée, c'était surtout des mails. » |
+| 40 | « Célèbre tes progrès ! » | RÉÉCRIRE — cliché | « Tu as parlé à des inconnus exprès : ça se fête. » |
+| 41 | « Ta maladresse assumée vaut mieux que ta perfection forcée. Tes petites bizarreries sont ton charme unique. Tes moments de doute te rendent humain. » | RÉÉCRIRE — triplet de clichés | « Une maladresse assumée met les gens plus à l'aise qu'une aisance jouée. Tes petites bizarreries, c'est ce dont on parlera après ton départ, et en bien. » |
+| 42 | CLEF finale « accepter d'être imparfait en public » | GARDER | Inchangé |
+| 43 | « sors de ta zone de confort. Fais des erreurs. Ris de toi. Connecte-toi vraiment » + « pas une destination, c'est un voyage » | RÉÉCRIRE — staccato + deux clichés motivationnels | « lance une conversation, rate-en une ou deux, ris-en, et recommence. » / fin : « …Surtout si tu te sens encore bizarre : tu as déjà une longueur d'avance sur ceux qui font semblant. » |
+
+**Bilan : 43 éléments · 9 gardés (dont n°20 corrigé) · 34 réécrits (79 %).**
+
+### 3.2 Défauts de prose traités (§5)
+
+- **Intro** : ne répondait pas → réponse directe citable en tête (arrêter de se surveiller + observer + écouter + cercles + 21 jours).
+- **Staccato / triplets** : n°14, n°33, n°41, n°43 ; « Simple : » supprimé.
+- **Capitales** : « EST », « TOI », « VRAIMENT », « ET » (×2) supprimées.
+- **Anglicismes** : « cheat code », « Pro tip », « small talk » (×2), « speed », « feedbacks », « upgrade » → français.
+- **« Je » narratif de la marque** : « Je sais… écoute-moi » supprimé.
+- **Promesse fausse** : « ton programme sur mesure » (rien de personnalisé) → « ton programme, à raison d'un petit défi tous les deux jours ».
+- **Ton scolaire** : « Mets en pratique tes nouvelles techniques dans un cadre sécurisé » → « devant des gens qui t'aiment déjà ». Libellés « Jours 1-2 » etc. conservés : ce sont des durées (règle chiffres) et la structure est portée par les H3 intouchables.
+- **Affirmations invérifiables** : Inès Reg « maîtrise parfaitement cet art : elle laisse respirer ses punchlines » → généralisé (« les humoristes laissent respirer leurs punchlines ») ; Frayssinet « fait des blagues qui tombent à plat » → « tous les humoristes ont déjà vu une blague tomber à plat » ; Gardin / dîner entre amis → n°13.
+
+### 3.3 Chiffres et citations signalés (non modifiés)
+
+- **Citation retirée** : Roman Frayssinet « Je suis tellement à l'aise socialement… » (audit : probablement fabriquée) → remplacée par une vanne non attribuée sur la même idée.
+- **Citation connue remplacée** : « Mieux vaut être détesté pour ce que tu es qu'aimé pour ce que tu n'es pas » (présentée sans attribution ; circule sous plusieurs noms).
+- **Chiffres gardés, à signaler** : « Waly Dia… pas parce qu'il mesure 2 mètres » (taille non vérifiée, la phrase laisse entendre qu'il les mesure) ; règle du « 70/30 » (aucune source) ; « 4-7-8 » (technique réelle, popularisée par le Dr Andrew Weil selon l'audit, toujours non attribuée : je n'ai pas ajouté le nom pour ne rien inventer, à trancher par Thomas) ; « règle des 3 secondes » du regard ; « 15 / 45 minutes » ; « 3h du matin », « 3 balles », « 20 minutes », « 10 secondes », « 2 minutes » (×2), « 21 jours » et tous les jours du plan ; « 3 R », « 3 pourquoi », « 4 niveaux ».
+- « toutes les trois secondes » (écoute) gardé.
+
+---
