@@ -14,6 +14,7 @@ import {
 import { createElement } from "react";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { isCloudflareWorkers } from "@/lib/runtime-env";
 
 // ───────────────────────────────────────────────────────────────────
 // Image Generator — satori JSX → SVG → PNG
@@ -103,6 +104,20 @@ async function getFonts() {
  */
 async function renderToPng(element: ReactNode): Promise<Buffer> {
   const fonts = await getFonts();
+
+  // Cloudflare Workers : resvg-js (binaire natif) est indisponible sous
+  // workerd → rendu via `next/og` (satori + resvg en WebAssembly, pris en
+  // charge par OpenNext). Même JSX, mêmes polices, même taille 1080×1080.
+  // Sur Replit, le chemin satori + resvg-js ci-dessous est inchangé.
+  if (isCloudflareWorkers()) {
+    const { ImageResponse } = await import("next/og");
+    const response = new ImageResponse(element as React.ReactElement, {
+      width: SIZE,
+      height: SIZE,
+      fonts,
+    });
+    return Buffer.from(await response.arrayBuffer());
+  }
 
   const svg = await satori(element as React.ReactElement, {
     width: SIZE,

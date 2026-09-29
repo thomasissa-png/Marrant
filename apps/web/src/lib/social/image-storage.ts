@@ -6,7 +6,59 @@
 //
 // Le Repl doit être en mode "Always On" pour que Buffer puisse
 // télécharger les images à tout moment.
+//
+// Cloudflare Workers (migration étape B) : Replit Object Storage n'existe
+// pas → bucket R2 lié au binding `SOCIAL_IMAGES` (mêmes clés
+// `social-images/<postId>.png`, même URL publique). Sur Replit, le chemin
+// ci-dessous est inchangé.
 // ───────────────────────────────────────────────────────────────────
+
+import { isCloudflareWorkers } from "@/lib/runtime-env";
+
+/** Sous-ensemble de l'API R2Bucket utilisé ici (évite les types workerd globaux). */
+interface R2BucketLike {
+  put(key: string, value: ArrayBuffer | Uint8Array, options?: { httpMetadata?: { contentType?: string } }): Promise<unknown>;
+  get(key: string): Promise<{ arrayBuffer(): Promise<ArrayBuffer> } | null>;
+  delete(key: string): Promise<void>;
+}
+
+/**
+ * Client de stockage compatible Workers : adapte le bucket R2 à la même
+ * interface que le client Replit (uploadFromBytes / downloadAsBytes / delete).
+ */
+function getR2Client(): any { // eslint-disable-line
+  try {
+    const { getCloudflareContext } = require("@opennextjs/cloudflare") as typeof import("@opennextjs/cloudflare");
+    const bucket = (getCloudflareContext().env as unknown as Record<string, unknown>).SOCIAL_IMAGES as
+      | R2BucketLike
+      | undefined;
+    if (!bucket) {
+      console.warn("[image-storage] Binding R2 SOCIAL_IMAGES absent — stockage indisponible.");
+      return null;
+    }
+    return {
+      uploadFromBytes: async (key: string, bytes: Buffer) => {
+        await bucket.put(key, new Uint8Array(bytes), { httpMetadata: { contentType: "image/png" } });
+        return { ok: true };
+      },
+      downloadAsBytes: async (key: string) => {
+        const obj = await bucket.get(key);
+        if (!obj) return { ok: false };
+        return { ok: true, value: new Uint8Array(await obj.arrayBuffer()) };
+      },
+      delete: async (key: string) => {
+        await bucket.delete(key);
+        return { ok: true };
+      },
+    };
+  } catch (error) {
+    console.warn(
+      "[image-storage] R2 non disponible:",
+      error instanceof Error ? error.message : error,
+    );
+    return null;
+  }
+}
 
 // Import dynamique pour eviter un crash si le module n'est pas disponible
 let storageClient: any = null; // eslint-disable-line
@@ -15,6 +67,8 @@ let storageClient: any = null; // eslint-disable-line
  * Initialise le client Replit Object Storage (singleton).
  */
 function getClient(): any {
+  // Workers : client R2 résolu à chaque appel (binding lié à la requête courante).
+  if (isCloudflareWorkers()) return getR2Client();
   if (storageClient) return storageClient;
 
   try {

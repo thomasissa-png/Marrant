@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// Runtime Node.js (défaut) : OpenNext/Cloudflare refuse les routes `runtime = "edge"`
+// dans le bundle serveur (migration Cloudflare, étape B). Même rendu `next/og`.
 export const alt = "deviens-marrant.fr — Apprends à être drôle";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
