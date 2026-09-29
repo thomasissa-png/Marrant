@@ -60,7 +60,7 @@ DNS public actuel (Google et Cloudflare DoH, 29/09/2026) :
 
 ## 4. Ce qui manque (à faire par Thomas)
 
-1. **Neon** : relancer/terminer l'Import Data Assistant vers la branche `main`, base `neondb`, du projet pointé par `NEON_DATABASE_URL` (ou me donner l'URL de la branche où l'import a atterri). Claude recomptera les lignes par table.
+1. ~~Neon~~ : fait, copie directe depuis la base Replit (voir §7).
 2. **Token Cloudflare** : éditer `CLOUDFLARE_DM_TOKEN` (ou en créer un nouveau) avec, sur le compte : Workers Scripts **Edit**, Workers Routes **Edit** (inclut le sous-domaine workers.dev), Hyperdrive **Edit**, Workers R2 Storage **Edit**, Account Settings **Read** ; et pour l'étape C : Zone **Edit** + DNS **Edit** (toutes les zones du compte, ou deviens-marrant.fr une fois ajoutée).
 3. ~~Offre Workers payante~~ : active (confirmé par Thomas le 29/09).
 4. ~~Capture DNS~~ : reçue (2e capture), conforme.
@@ -118,4 +118,10 @@ Hébergée chez Neon (us-west-2), Postgres 16, 31 Mo, **36 tables, 42 860 lignes
 
 Compatibilité avec le `schema.prisma` de la branche : **0 colonne perdue**. La cible ajoute 2 tables (`DataPatch`, `NewsletterSubscriber`) et 10 colonnes facultatives (`Joke`/`Tip` : `copyReviewVersion`, `copyReviewedAt`, `copyVerdict`, `originalContent`, `originalPunchline`/`originalTitle`).
 
-Écriture dans la nouvelle base Neon (schéma + copie) : bloquée par le garde-fou de session, en attente d'un accord explicite de Thomas.
+## 7. Copie Replit → Neon Francfort (29/09/2026, accord explicite de Thomas)
+
+- Schéma : généré hors ligne depuis `apps/web/prisma/schema.prisma` (`prisma migrate diff --from-empty`), 181 instructions en une transaction : 37 tables, enums, index, clés étrangères.
+- Données : copie par l'API SQL HTTPS de Neon (lecture seule côté Replit), tables parentes d'abord, lots de 1 000 lignes (`json_agg` côté source → `json_populate_recordset` côté cible, colonnes source uniquement).
+- **Contrôle : 35/35 tables identiques** (nombre de lignes + md5 du contenu trié par clé primaire, calculé des deux côtés). 42 860 lignes. Aucune séquence (identifiants texte). `ANALYZE` passé.
+- Les 2 nouvelles tables (`DataPatch`, `NewsletterSubscriber`) sont vides : les tâches de démarrage de la branche s11 s'appliqueront au premier lancement sur Cloudflare.
+- À refaire au moment de la bascule (étape D) : la même copie, sur base cible vidée, pour récupérer les données écrites entre-temps sur Replit (inscriptions, usage IA, posts).
