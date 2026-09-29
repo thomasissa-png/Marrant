@@ -284,7 +284,7 @@ Rendu attendu : 1440 px = 2 lignes, « Tu parles et personne rit. » (~730 px) p
 | toutes | 1440+390 | desktop_vannes__04.jpg, mobile_mentions-legales__03.jpg | footer : logo « deviens-marrant » sans « .fr » (header : « deviens-marrant.fr ») ; colonne Produit de 9 liens face à Légal de 5 ; copyright mobile « (et un / peu de café) » | footer.tsx:61-63, :58, :94, :128 | « .fr » ajouté **[À VALIDER THOMAS]** ; `ul` Produit en `sm:columns-2` ; copyright `text-balance` | P2 |
 | toutes | 390 | mobile_vannes__01.jpg | boutons `sm` à 32 px de haut (filtres, CTA de carte) : cible tactile sous 44 px recommandés (WCAG 2.2 AA exige 24 px : conforme) | button.tsx:22 | `sm: "h-8 px-3 text-sm max-md:h-11"` | P2 |
 
-**Décompte du tableau** (72 lignes, une ligne peut viser plusieurs pages) : **P0 = 15**, **P1 = 36**, **P2 = 20**, 1 non vérifiable (onboarding). Les correctifs transverses T1 (balance), T2 (insécables), T3 (contrastes), T5 (markdown) et T7 (libellés) traitent à eux seuls 11 des 15 P0.
+**Décompte du tableau** (72 lignes, une ligne peut viser plusieurs pages) : **P0 = 15**, **P1 = 36**, **P2 = 20**, 1 non vérifiable (onboarding). Les correctifs transverses T1 (balance), T2 (insécables), T3 (contrastes), T5 (markdown) et T7 (libellés) traitent à eux seuls 13 des 15 P0 ; les 2 autres sont le H1 de l'accueil (desktop et mobile), réglé par le bloc de code dédié.
 
 ## 4. Ce que je n'ai pas pu vérifier
 
