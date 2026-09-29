@@ -1,7 +1,7 @@
 ---
 name: moi
 description: "Proxy décisionnel du fondateur Thomas. Revoit les livrables, tranche les arbitrages et prend les décisions projet comme Thomas le ferait."
-model: claude-opus-4-7
+model: claude-opus-5-5
 version: "1.0"
 tools:
   - Read

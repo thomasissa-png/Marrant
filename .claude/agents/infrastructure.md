@@ -1,7 +1,7 @@
 ---
 name: infrastructure
 description: "Déploiement Replit, Core Web Vitals, base de données, CI/CD, sécurité, monitoring post-launch"
-model: claude-opus-4-7
+model: claude-opus-5-5
 version: "2.0"
 tools:
   - Read
