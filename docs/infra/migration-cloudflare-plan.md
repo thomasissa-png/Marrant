@@ -15,10 +15,10 @@
 - Offre Workers payante nécessaire (taille du bundle, CPU des crons).
 
 ## Variables de l'environnement Claude « Marrant » (annoncées par Thomas le 29/09/2026)
-- `CLOUDFARE_DM_TOKEN` (orthographe telle quelle, sans le L) : token API Cloudflare → à utiliser comme `CLOUDFLARE_API_TOKEN` pour wrangler (`export CLOUDFLARE_API_TOKEN="$CLOUDFARE_DM_TOKEN"`).
+- `CLOUDFLARE_DM_TOKEN` : token API Cloudflare → à utiliser comme `CLOUDFLARE_API_TOKEN` pour wrangler (`export CLOUDFLARE_API_TOKEN="$CLOUDFLARE_DM_TOKEN"`). (Orthographe corrigée par Thomas le 29/09 ; accepter aussi `CLOUDFARE_DM_TOKEN` si présent.)
 - `CLOUDFLARE_DM_ID` : Account ID → `CLOUDFLARE_ACCOUNT_ID`.
 - `CLOUDFLARE_SECRET_KEY` : nature à confirmer au démarrage (clé API globale ? clé R2 ?) — ne l'utiliser que si le token ne suffit pas.
-- `NEON_DATABASE_URL` : à ajouter après l'import Neon (chaîne directe, sans `-pooler`).
+- `NEON_DATABASE_URL` : créée par Thomas le 29/09 (vérifier qu'elle est directe, sans `-pooler`, et que la base contient bien les données importées de Replit).
 Premier geste de la session : vérifier les droits réels du token (Workers, R2, Hyperdrive, KV, DNS, zones couvertes) et lister ce qui manque.
 
 ## Pas à pas
