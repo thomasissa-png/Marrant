@@ -1,0 +1,157 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "created": "2026-09-29",
+    "session": "s11-lot3",
+    "description": "Corrections idempotentes appliquées aux articles blog publiés en DB. Chaque entrée cible un slug + une opération 'replace' (search → replace) OU 'setField' (champ direct). L'opération est fail-safe : si la chaîne 'search' n'est plus trouvée (déjà corrigée), l'opération est skip. Le champ updatedAt est mis à jour à chaque application effective (au moins 1 remplacement effectué). Lu par fixPublishedBlogArticlesTask() dans startup-tasks.ts."
+  },
+  "fixes": [
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replace",
+      "search": "Comment devenir drôle rapidement ? Commencez par observer les absurdités du quotidien (1 par jour), mémorisez 5 vannes courtes",
+      "replace": "Comment devenir drôle rapidement ? Commence par observer les absurdités du quotidien (1 par jour), mémorise 5 vannes courtes",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Commencez par",
+      "replace": "Commence par",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "mémorisez",
+      "replace": "mémorise",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Mémorisez",
+      "replace": "Mémorise",
+      "reason": "FAQ vouvoiement → tutoiement (T05) — variante capitalisée"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Pratiquez",
+      "replace": "Pratique",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Écoutez",
+      "replace": "Écoute",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Regardez",
+      "replace": "Regarde",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "operation": "replaceAll",
+      "search": "Choisissez",
+      "replace": "Choisis",
+      "reason": "FAQ vouvoiement → tutoiement (T05)"
+    },
+    {
+      "slug": "citation-drole",
+      "operation": "replaceAll",
+      "search": "Comme le dit Fary : \"L'humour, c'est la politesse du désespoir.\"",
+      "replace": "\"L'humour, c'est la politesse du désespoir.\" — la formule est souvent citée par les stand-uppers modernes, sans paternité clairement établie (attribuée tour à tour à Chris, Boris Vian ou d'autres).",
+      "reason": "Attribution fausse à Fary (T06) — retrait attribution directe"
+    },
+    {
+      "slug": "citation-drole",
+      "operation": "replaceAll",
+      "search": "Comme dit Fary : \"L'humour, c'est la seule chose sérieuse dans la vie.\"",
+      "replace": "\"L'humour, c'est la seule chose sérieuse dans la vie.\" — l'idée traverse les époques (on la trouve chez Winston Churchill, chez Molière détourné) et se ressert souvent en soirée sans qu'on sache d'où elle sort vraiment.",
+      "reason": "Attribution fausse à Fary (T06) — retrait attribution directe"
+    },
+    {
+      "slug": "citation-drole",
+      "operation": "replaceAll",
+      "search": "Comme le dit Fary : « L'humour, c'est la politesse du désespoir. »",
+      "replace": "« L'humour, c'est la politesse du désespoir. » — la formule est souvent citée par les stand-uppers modernes, sans paternité clairement établie.",
+      "reason": "Attribution fausse à Fary (T06) — variante guillemets français"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Lucas, 21 ans, étudiant en école de commerce",
+      "replace": "un étudiant en école de commerce, 20-25 ans",
+      "reason": "Témoignage fictif avec prénom persona (T04) — anonymiser"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Marine, 28 ans, chargée de communication",
+      "replace": "une chargée de communication, la trentaine",
+      "reason": "Témoignage fictif avec prénom persona (T04) — anonymiser"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Thomas, 35 ans, en reconstruction après séparation",
+      "replace": "un adulte de 35 ans en reconstruction après séparation",
+      "reason": "Témoignage fictif avec prénom persona (T04) — anonymiser"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Boom, connexion créée.",
+      "replace": "La connexion est créée.",
+      "reason": "Staccato IA \"Boom, X.\" (T07) — remplacer par une phrase complète"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Plot twist : ton silence peut devenir ton super-pouvoir.",
+      "replace": "Retournement de situation : ton silence peut devenir ton super-pouvoir.",
+      "reason": "Tic IA \"Plot twist\" (T07)"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Semaine 1 : Maîtriser les bases (Réflexes #1 et #2)",
+      "replace": "Les premiers pas — comment poser les deux réflexes de base",
+      "reason": "Structure scolaire \"Semaine 1\" (T09)"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Jours 1-3 : Le Rebond",
+      "replace": "Étape 1 — Le Rebond, à tester dès les premiers jours",
+      "reason": "Structure scolaire \"Jours 1-3\" (T09)"
+    },
+    {
+      "slug": "ne-plus-rester-muet-en-groupe",
+      "operation": "replaceAll",
+      "search": "Jours 4-7 : Les Questions Magiques",
+      "replace": "Étape 2 — Les Questions Magiques, quand le Rebond commence à couler",
+      "reason": "Structure scolaire \"Jours 4-7\" (T09)"
+    },
+    {
+      "slug": "jeu-de-mots-drole-techniques-creer",
+      "operation": "replaceAll",
+      "search": "\nSTOP.\n",
+      "replace": "\nOn s'arrête là.\n",
+      "reason": "Staccato \"STOP.\" fragment 1 mot (T07)"
+    },
+    {
+      "slug": "jeu-de-mots-drole-techniques-creer",
+      "operation": "replaceAll",
+      "search": "**STOP.**",
+      "replace": "**On s'arrête là.**",
+      "reason": "Staccato \"STOP.\" fragment 1 mot (T07) — variante gras"
+    }
+  ]
+}

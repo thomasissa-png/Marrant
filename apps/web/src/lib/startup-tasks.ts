@@ -17,6 +17,8 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import jokeDecryptages from "@/data/joke-decryptages.json";
 import weakJokes from "@/data/weak-jokes.json";
+import blogArticleFixes from "@/data/blog-article-fixes.json";
+import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 
 /** Une entrée de décryptage pré-rédigé, matchée sur le `content` de la vanne. */
 interface JokeDecryptageEntry {
@@ -198,6 +200,256 @@ async function deactivateWeakJokesTask(): Promise<void> {
 }
 
 /**
+ * Corrections idempotentes des articles blog déjà publiés (s11 lot 3).
+ *
+ * Contexte : l'audit contenus s11 a identifié plusieurs P0/P1 sur les articles
+ * en prod : FAQ pillar en vouvoiement (T05), citations mal attribuées à Fary
+ * dans citation-drole (T06), témoignages fictifs "Lucas/Marine/Thomas 21/28/35
+ * ans" dans ne-plus-rester-muet (T04), staccato IA résiduels "Boom.", "Plot
+ * twist :", "STOP." (T07), structure scolaire "Semaine 1 / Jours 1-3" (T09).
+ *
+ * Approche : remplacements ciblés (search → replace), PAS de réécriture globale.
+ * Les corrections sont bundlées dans `src/data/blog-article-fixes.json`
+ * (source unique de vérité, versionnée en git).
+ *
+ * Garanties :
+ *  - Idempotent : si la chaîne `search` n'est plus trouvée (déjà corrigée), la
+ *    fix est skip. Une passe qui ne modifie rien ne touche pas `updatedAt`.
+ *  - Fail-safe : erreur DB → non bloquant (prochain boot rattrape).
+ *  - Ciblé : un slug non trouvé en DB est skip silencieusement (article
+ *    peut-être statique, migré, ou en cours de migration).
+ *  - SANS IA : pure manipulation de chaînes.
+ *
+ * NOTE : les articles STATIQUES (dans `blog-articles.ts`) ne sont PAS touchés
+ * par cette tâche — ils sont corrigés directement en source (commits typiques).
+ */
+interface BlogArticleFix {
+  slug: string;
+  operation: "replace" | "replaceAll" | "setField";
+  search?: string;
+  replace?: string;
+  field?: string;
+  value?: unknown;
+  reason?: string;
+}
+
+async function fixPublishedBlogArticlesTask(): Promise<void> {
+  const fixes = (blogArticleFixes as { fixes: BlogArticleFix[] }).fixes ?? [];
+  if (fixes.length === 0) return;
+
+  // Grouper par slug pour n'ouvrir qu'une seule transaction par article.
+  const bySlug = new Map<string, BlogArticleFix[]>();
+  for (const fix of fixes) {
+    if (!bySlug.has(fix.slug)) bySlug.set(fix.slug, []);
+    bySlug.get(fix.slug)!.push(fix);
+  }
+
+  let articlesTouched = 0;
+  let totalReplacements = 0;
+
+  for (const [slug, slugFixes] of bySlug) {
+    try {
+      const article = await withDbRetry(
+        () =>
+          prisma.blogArticle.findUnique({
+            where: { slug },
+            select: { id: true, content: true },
+          }),
+        { label: `fix-blog:find:${slug}` },
+      );
+
+      if (!article) {
+        // Article absent en DB (statique ou pas encore publié) — skip silencieux.
+        continue;
+      }
+
+      let nextContent = article.content;
+      let localReplacements = 0;
+
+      for (const fix of slugFixes) {
+        if (fix.operation === "replace" && fix.search && fix.replace !== undefined) {
+          if (nextContent.includes(fix.search)) {
+            nextContent = nextContent.replace(fix.search, fix.replace);
+            localReplacements++;
+          }
+        } else if (fix.operation === "replaceAll" && fix.search && fix.replace !== undefined) {
+          if (nextContent.includes(fix.search)) {
+            // Split + join → replaceAll safe (pas de regex, pas d'échappement).
+            const parts = nextContent.split(fix.search);
+            if (parts.length > 1) {
+              nextContent = parts.join(fix.replace);
+              localReplacements += parts.length - 1;
+            }
+          }
+        }
+      }
+
+      if (localReplacements > 0) {
+        await withDbRetry(
+          () =>
+            prisma.blogArticle.update({
+              where: { id: article.id },
+              data: { content: nextContent, updatedAt: new Date() },
+            }),
+          { label: `fix-blog:update:${slug}` },
+        );
+        articlesTouched++;
+        totalReplacements += localReplacements;
+      }
+    } catch (err) {
+      console.error(
+        `[startup] fixPublishedBlogArticles échoué pour "${slug}" (non bloquant) :`,
+        err,
+      );
+    }
+  }
+
+  if (articlesTouched > 0) {
+    console.log(
+      `[startup] articles blog corrigés : ${articlesTouched} article(s), ${totalReplacements} remplacement(s).`,
+    );
+  }
+}
+
+/**
+ * Dépublication idempotente des articles blog perdants de la cannibalisation s11.
+ *
+ * Contexte : l'audit SEO s11 (§3.3) a identifié 8 paires d'articles indexés en
+ * doublon. Pour 3 de ces paires, la version DB est la perdante — on la passe
+ * en `isPublished: false` (soft delete). Le lecteur qui tape l'URL est
+ * 301-redirigé vers la version gardée via `next.config.js`.
+ *
+ * Les 5 autres paires ont un slug statique perdant (fichier `blog-articles.ts`)
+ * — filtrés à la lecture dans `sitemap.ts` et `blog/page.tsx` via
+ * `UNPUBLISHED_STATIC_SLUGS`. Aucune action DB nécessaire.
+ *
+ * Idempotent : `WHERE isPublished: true` → une fois dépubliés, les passes
+ * suivantes ne touchent plus rien.
+ */
+async function depublishCannibalizedDbArticlesTask(): Promise<void> {
+  if (DB_LOSER_SLUGS.length === 0) return;
+  try {
+    const result = await withDbRetry(
+      () =>
+        prisma.blogArticle.updateMany({
+          where: {
+            slug: { in: Array.from(DB_LOSER_SLUGS) },
+            isPublished: true,
+          },
+          data: { isPublished: false, updatedAt: new Date() },
+        }),
+      { label: "depublish-cannibalized:updateMany" },
+    );
+    if (result.count > 0) {
+      console.log(
+        `[startup] articles cannibalisés dépubliés : ${result.count} (redirect 301 via next.config).`,
+      );
+    }
+  } catch (err) {
+    console.error(
+      "[startup] depublishCannibalizedDbArticles échoué (non bloquant) :",
+      err,
+    );
+  }
+}
+
+/**
+ * Extension du back-fill décryptage : couvre TOUT le stock actif sans décryptage,
+ * pas seulement les vannes du seed pré-rédigé.
+ *
+ * Contexte s11 : des vannes anciennes générées par l'IA (ex. la vanne du jour
+ * du 29/09 créée le 26/03) sont restées `comedyTechnique IS NULL` parce
+ * qu'elles ne matchent aucune entrée du fichier `joke-decryptages.json`. Le
+ * front affiche alors "Décryptage à venir" — expérience dégradée.
+ *
+ * Cette tâche complète `applyJokeDecryptagesTask` : elle génère le décryptage
+ * via l'IA pour les vannes restantes, en LOT BORNÉ pour maîtriser le coût
+ * (par défaut 15 vannes par boot). Idempotence : on ne cible QUE les vannes
+ * `comedyTechnique: null` ET `isActive: true` (pas de re-génération).
+ *
+ * Feature-flag : désactivé si `SKIP_JOKE_DECRYPTAGE_AI_BACKFILL=1` (utile en
+ * CI/dev, ou pour couper les appels IA en cas de dépassement budget).
+ *
+ * Fail-safe : chaque erreur (échec agent, timeout Anthropic) est loggée mais
+ * ne bloque pas les autres vannes ni le boot.
+ */
+const AI_BACKFILL_BATCH_SIZE = Number.parseInt(
+  process.env.JOKE_DECRYPTAGE_AI_BACKFILL_BATCH ?? "15",
+  10,
+);
+
+async function backfillMissingJokeDecryptagesTask(): Promise<void> {
+  if (process.env.SKIP_JOKE_DECRYPTAGE_AI_BACKFILL === "1") {
+    console.log("[startup] backfill IA décryptages désactivé (env flag).");
+    return;
+  }
+  const batch = Number.isFinite(AI_BACKFILL_BATCH_SIZE) && AI_BACKFILL_BATCH_SIZE > 0
+    ? AI_BACKFILL_BATCH_SIZE
+    : 15;
+
+  try {
+    // Ne cible QUE le stock actif — pas les vannes soft-deleted.
+    const pending = await withDbRetry(
+      () =>
+        prisma.joke.findMany({
+          where: { comedyTechnique: null, isActive: true },
+          select: { id: true, content: true, punchline: true, category: true, type: true },
+          orderBy: { createdAt: "asc" },
+          take: batch,
+        }),
+      { label: "backfill-ai:findPending" },
+    );
+
+    if (pending.length === 0) return;
+
+    // Import dynamique : évite de charger l'agent IA (et sa dep Anthropic)
+    // pour les boots où il n'y a rien à faire.
+    const { generateJokeDecryptage } = await import(
+      "@/lib/ai/agents/joke-agent"
+    );
+
+    let applied = 0;
+    let failed = 0;
+
+    for (const joke of pending) {
+      try {
+        const decryptage = await generateJokeDecryptage({
+          content: joke.content,
+          punchline: joke.punchline,
+          category: joke.category,
+          type: joke.type,
+        });
+        await withDbRetry(
+          () =>
+            prisma.joke.update({
+              where: { id: joke.id },
+              data: {
+                comedyTechnique: decryptage.comedyTechnique,
+                techniqueExplanation: decryptage.techniqueExplanation,
+                howToApply: decryptage.howToApply,
+              },
+            }),
+          { label: "backfill-ai:update" },
+        );
+        applied++;
+      } catch (err) {
+        failed++;
+        console.warn(
+          `[startup] backfill IA décryptage : échec pour joke ${joke.id} (non bloquant) :`,
+          err instanceof Error ? err.message : err,
+        );
+      }
+    }
+
+    console.log(
+      `[startup] backfill IA décryptages : ${applied}/${pending.length} appliqués${failed > 0 ? ` (${failed} échec)` : ""}.`,
+    );
+  } catch (err) {
+    console.error("[startup] backfillMissingJokeDecryptages échoué (non bloquant) :", err);
+  }
+}
+
+/**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
  */
@@ -206,7 +458,16 @@ export async function runStartupTasks(): Promise<void> {
   await cleanupWildcardSocialPostsTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
+  await fixPublishedBlogArticlesTask();
+  await depublishCannibalizedDbArticlesTask();
+  await backfillMissingJokeDecryptagesTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).
-export { applyJokeDecryptagesTask, deactivateWeakJokesTask };
+export {
+  applyJokeDecryptagesTask,
+  deactivateWeakJokesTask,
+  fixPublishedBlogArticlesTask,
+  depublishCannibalizedDbArticlesTask,
+  backfillMissingJokeDecryptagesTask,
+};
