@@ -18,7 +18,7 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">2. Inscription et compte</h2>
-          <p>L&apos;inscription est ouverte à toute personne de plus de 15 ans. L&apos;accès au contenu nécessite un abonnement actif. L&apos;utilisateur s&apos;engage à fournir des informations exactes et à maintenir la confidentialité de ses identifiants.</p>
+          <p>L&apos;inscription est ouverte à toute personne de plus de 15 ans. Un compte gratuit donne accès à une partie du contenu&nbsp;; l&apos;accès à l&apos;ensemble du contenu nécessite un abonnement actif. L&apos;utilisateur s&apos;engage à fournir des informations exactes et à maintenir la confidentialité de ses identifiants.</p>
           <p className="mt-2">Un seul compte par personne est autorisé. L&apos;éditeur se réserve le droit de suspendre ou supprimer tout compte en cas de violation des présentes CGU.</p>
         </section>
         <section>
