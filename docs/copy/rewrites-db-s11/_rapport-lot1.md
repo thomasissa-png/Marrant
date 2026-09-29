@@ -149,3 +149,58 @@
 - Petits chiffres comiques ajoutés : « trois livres » (n°8), « depuis lundi / 5h » (n°3), « trois jours de formation » (n°20), « douze montres » (n°29), « 1 % » (n°31).
 
 ---
+
+## 3. `avoir-confiance-en-soi-grace-a-l-humour`
+
+[Framework : StoryBrand léger (toi → ton blocage → la méthode en 3 étapes → le plan 30 jours)] · [Conscience : Problem-Aware]
+
+**Bilan : 25 éléments relevés · 7 gardés (dont 2 retouchés) · 18 réécrits (72 %).** Intro réécrite : la réponse (« chaque rire est une preuve ») arrive en 1re phrase, avant l'exemple Blanche Gardin. [CHOIX UTILISATEUR 29/09] appliqué : Tom et Léa deviennent des exemples assumés (« Imagine Tom, 21 ans, étudiant… », 3e personne, hypothétique, **aucun guillemet de citation** — leurs répliques sont en italique, dans la scène imaginée), et le H2 « Témoignages : Quand l'humour change tout » devient « Deux situations que tu vas reconnaître » (seul H2 modifié). Tous les autres H2/H3, y compris « Étape 1 (jours 1-7) : Préparation mentale »… conservés à l'identique.
+
+### Tableau exhaustif
+
+| N° | Avant | Verdict | Après |
+|---|---|---|---|
+| 1 | « Regarde Blanche Gardin — elle passe son temps à se critiquer sur scène… Paradoxe ? Pas du tout. » | RÉÉCRIRE — staccato « Pas du tout. » | « …se moquer d'elle-même sur scène… Ce n'est pas un paradoxe, c'est la méthode » |
+| 2 | « l'arme secrète pour transformer ta timidité en charisme naturel » | RÉÉCRIRE — cliché | « un des rares entraînements où se planter fait aussi partie du programme » |
+| 3 | Petite voix intérieure « Tu vas dire une connerie, ils vont tous te regarder bizarrement… » | GARDER (idée) — « connerie » → « bêtise » (ton non vulgaire) | Image « ta petite voix fait du stand-up à tes dépens » inchangée |
+| 4 | « et hop — dopamine… transforme même le plus timide des étudiants en machine à vannes » | RÉÉCRIRE — cliché | « Le cercle tourne enfin dans le bon sens, même pour le plus discret de l'amphi. » |
+| 5 | CLEF « C'est de l'alchimie sociale. » | RÉÉCRIRE — formule creuse | « Le rire des autres, c'est la preuve dont ta petite voix avait besoin pour se calmer. » |
+| 6 | « C'est pour ça que Paul Mirabel a l'air si détendu sur scène — son cerveau baigne littéralement dans un cocktail de bien-être. » | RÉÉCRIRE — affirmation invérifiable (et contraire à son personnage de scène) | Tag comique : « Sans le short et sans les courbatures. » ; Paul Mirabel déplacé à l'étape 1 (voir n°10) |
+| 7 | « Difficile d'attaquer quelqu'un qui se moque déjà de lui-même avec finesse. » | RÉÉCRIRE — sans chute | « …qui s'est déjà moqué de lui-même, et mieux que toi. » |
+| 8 | Les 4 profils (répliques intérieures, dont « Je serai jamais drôle comme Roman Frayssinet ») | GARDER | Inchangées |
+| 9 | « on va transformer chacun d'eux en super-pouvoir comique » | RÉÉCRIRE — cliché | Un antidote concret par profil (tester / rater sans drame / trouver son angle / prendre sa place) |
+| 10 | « Le secret de Fary, c'est qu'il a fait de sa maladresse une marque de fabrique… timing parfait » | RÉÉCRIRE — affirmation douteuse sur Fary (style plutôt assuré) | « Paul Mirabel a fait de sa timidité un personnage » (son personnage de timide gêné est connu — à valider) |
+| 11 | « Ce matin, j'ai dit 'Bonne soirée' à 9h au boulanger. Il m'a regardé comme si j'arrivais du futur. » | RÉÉCRIRE — chute floue | « Ce matin, j'ai dit 'bonne soirée' au boulanger. Il était 9h. Il a répondu 'vous aussi'. Aucun de nous deux a corrigé. » (9h conservé) |
+| 12 | CLEF « Tes moments de honte sont des pépites d'or comique. » | GARDER | Inchangé |
+| 13 | Miroir : « te faire rire TOI-MÊME. Si tu y arrives, c'est que c'est drôle. » | RÉÉCRIRE — capitales | « te faire rire toi-même. Si ça marche sur ton public le plus exigeant, c'est bon signe. » |
+| 14 | « Ce pigeon marche comme s'il avait un rendez-vous important — et vu son air pressé, c'est sûrement pour récupérer ses gosses chez son ex. » | RÉÉCRIRE — bonne idée, chute trop longue | « Ce pigeon marche vite, tête baissée : il a le pas d'un père en retard pour la garde alternée. » |
+| 15 | Bus : « Parfait, il suit le même planning que ma motivation le lundi matin. » | RÉÉCRIRE — cliché « motivation du lundi » | « Mon bus est en retard. Enfin quelqu'un qui me comprend. » |
+| 16 | « Comment répondre quand on te demande pourquoi tu es célibataire ? » (consigne) | GARDER + exemple ajouté | « Je suis en période d'essai avec moi-même. Ça se passe moyen. » |
+| 17 | « Ma vie est un film d'auteur français : c'est long, incompréhensible, et ça finit mal. » | RÉÉCRIRE — cliché connu | « Ma semaine, c'est un film d'auteur : il se passe rien, et à la fin quelqu'un pleure dans une cuisine. » |
+| 18 | « Ils vont pas te lyncher si ça tombe à plat. » | RÉÉCRIRE — « lyncher » (terme violent) | « …ils t'en voudront pas. Au pire, ils te le rappelleront à Noël. » |
+| 19 | « faire semblant de consulter ton téléphone comme si de rien n'était » | GARDER | Inchangé |
+| 20 | Pascot « …ça devient du matériau pour ses prochains spectacles. Malin. » | RÉÉCRIRE — staccato « Malin. » | Affirmation gardée + « un moment raté n'est pas perdu, il est en attente d'être raconté » |
+| 21 | Tom : « Oui : pourquoi les maths existent ? » (témoignage en citation) | RÉÉCRIRE — [CHOIX UTILISATEUR] + vanne cliché | « Imagine Tom, 21 ans, étudiant… » ; réplique : *Est-ce qu'on peut revenir là où j'ai décroché ? Vers la deuxième diapo.* (vanne qui ouvre sur une vraie question) |
+| 22 | Léa : « Cette présentation va soit vous convaincre, soit vous endormir — dans les deux cas, vous aurez l'air d'accord. » + « mon chef me fait plus confiance » | RÉÉCRIRE — [CHOIX UTILISATEUR] ; bonne idée resserrée | « Imagine maintenant Léa, 28 ans, cheffe de projet… » ; *Soit cette présentation vous convainc, soit elle vous endort. Dans les deux cas, vous allez hocher la tête.* ; résultats inventés (« chef me fait plus confiance ») retirés |
+| 23 | « Même Waly Dia ne balance pas des punchlines en achetant son pain. » | GARDER | Inchangé |
+| 24 | Roman Frayssinet : « L'humour, c'est pas être parfait — c'est être humain, mais en version améliorée. » | RÉÉCRIRE — citation probablement fabriquée (audit e) + formule creuse | Même idée, sans attribution : « Être drôle, ce n'est pas être parfait : c'est être imparfait à voix haute. » |
+| 25 | « Alors vas-y, ose être ridicule. Au pire, tu auras une bonne histoire à raconter. » | GARDER | Inchangé |
+
+### Défauts de prose traités (§5)
+
+- L'audit citait « Faux. Archifaux. Complètement faux. » pour cet article : **absent de la source** (il figure dans `blague-drole-7-criteres-pepite`). Les staccatos réellement présents (« Pas du tout. », « Malin. ») sont traités.
+- « Les neurosciences nous le confirment » (sur-affirmation) → « vont dans ce sens ».
+- « Avant de te transformer en machine à rire, identifions tes freins spécifiques » (scolaire) → « Avant de te lancer, repère ce qui te freine. »
+- « événements networking » (anglicisme) → « afterworks ».
+- Programme 30 jours : puces à la voix pote (« Premiers essais avec tes proches, les plus bienveillants d'abord ») ; « Plan de maintien à long terme » (jargon) → « Tes habitudes pour continuer après le programme ».
+- Chute finale : « avec des exercices personnalisés… c'est bien plus marrant à plusieurs » (promesses non vérifiées : personnalisation, dimension collective) → « avec des exercices concrets — et la confiance y a même son propre parcours » (parcours Confiance confirmé dans project-context).
+
+### Chiffres, études, citations signalés (gardés tels quels)
+
+- **« Étude de l'Université de Stanford… confiance 40% plus élevée »** : probablement fabriquée (audit e). Gardée, à trancher.
+- « mêmes zones [cérébrales] que lors d'une victoire sportive » + dopamine : vulgarisation non sourcée, gardée.
+- Chiffres conservés : 30 jours, jours 1-7 / 8-14 / 15-21 / 22-30, 3 moments par jour, 5 minutes, 3 personnes / 3 contextes, 10 blagues plates, 9h, 21 ans, 28 ans.
+- Attribution retirée : Roman Frayssinet (« version améliorée »). Affirmations sur Blanche Gardin (autodérision), Panayotis Pascot (histoires gênantes) et Paul Mirabel (timidité devenue personnage) : conservées ou reformulées, non vérifiées — la phrase sur Fary (« maladresse ») est remplacée.
+- Aucun chiffre comique ajouté (« deuxième diapo » n'est pas un chiffre statistique).
+
+---
