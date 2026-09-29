@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
+import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 import {
@@ -131,17 +132,23 @@ export default async function VannePage({
   const url = `https://deviens-marrant.fr/vannes/${canonicalSlug}`;
 
   // Contenus liés — 3 vannes de la même catégorie, hors vanne courante
+  // Dédoublonnées au rendu (copies d'une même vanne en base, et copies de la vanne courante) :
+  // on lit un peu plus large pour en garder 4 distinctes.
   let related: { id: string; content: string; category: string }[] = [];
   try {
-    related = await prisma.joke.findMany({
+    const candidates = await prisma.joke.findMany({
       where: {
         isActive: true,
         category: joke.category,
         id: { not: joke.id },
       },
       select: { id: true, content: true, category: true },
-      take: 4,
+      take: 12,
     });
+    const currentKey = jokeContentKey(joke.content);
+    related = dedupeJokesByContent(candidates)
+      .filter((r) => jokeContentKey(r.content) !== currentKey)
+      .slice(0, 4);
   } catch {}
 
   const creativeWorkJsonLd = {
