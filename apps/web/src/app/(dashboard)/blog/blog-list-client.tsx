@@ -33,7 +33,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
   return (
     <>
       {/* Category filter : une seule rangée défilante sur mobile, cibles 44 px (T32) */}
-      <div className="-mx-4 mb-6 flex snap-x gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
+      <div className="-mx-4 mb-6 flex snap-x scroll-px-4 gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
         <Link
           href="/blog"
           className={`inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full px-4 text-sm transition-colors ${
