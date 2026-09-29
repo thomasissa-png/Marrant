@@ -106,4 +106,4 @@ Même avec les meilleures intentions, certaines erreurs reviennent sans cesse ch
 
 **Étape 4 — Le terrain.** Teste tes 3 blagues en situation réelle, dans des contextes à basse pression (machine à café, apéro entre potes). Note ce qui marche.
 
-Pour structurer cette progression, nos [parcours](/parcours) te guident étape par étape avec des exercices calibrés. Et nos [conseils](/conseils) de livraison couvrent chaque technique avec des mises en situation concrètes.
+Pour structurer cette progression, nos [parcours](/parcours) te guident étape par étape avec des exercices calibrés. Et nos [conseils](/conseils) de livraison couvrent chaque technique avec des mises en situation concrètes. **0,99 €/mois**, le prix d'un café, pour ne plus jamais rater une blague.
