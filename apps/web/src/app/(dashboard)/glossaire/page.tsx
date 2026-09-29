@@ -133,7 +133,7 @@ export default function GlossairePage() {
         )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Glossaire</span>
       </nav>
@@ -155,7 +155,8 @@ export default function GlossairePage() {
         aria-label="Glossaire"
         className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
       >
-        <ul className="flex snap-x gap-0 overflow-x-auto py-1">
+        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »). */}
+        <ul className="flex snap-x gap-0 overflow-x-auto py-1 lg:flex-wrap lg:overflow-visible">
           {glossary.map((item) => (
             <li key={item.term} className="shrink-0 snap-start">
               <a
@@ -174,7 +175,7 @@ export default function GlossairePage() {
           <section
             key={item.term}
             id={termAnchor(item.term)}
-            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6"
+            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
               {item.term}

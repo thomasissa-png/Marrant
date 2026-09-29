@@ -158,9 +158,9 @@ export default async function VideoPage({
       <JsonLd data={videoJsonLd} />
 
       <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
-        <Link href="/videos" className="hover:text-text-primary">Vidéos</Link>
+        <Link href="/videos" className="hover:text-text-primary max-md:py-3.5">Vidéos</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">{categoryLabel}</span>
       </nav>

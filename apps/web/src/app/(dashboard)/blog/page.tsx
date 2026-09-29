@@ -118,7 +118,7 @@ export default async function BlogPage() {
         )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Blog</span>
       </nav>

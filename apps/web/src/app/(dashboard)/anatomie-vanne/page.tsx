@@ -347,7 +347,7 @@ export default function AnatomieVannePage() {
                 className="rounded-lg border border-border bg-background-card p-4"
               >
                 <div className="flex items-start gap-3">
-                  <span className="mt-0.5 text-error">✗</span>
+                  <span className="mt-0.5 text-red-400">✗</span>
                   <div>
                     <p className="font-medium text-text-primary">
                       {item.error}

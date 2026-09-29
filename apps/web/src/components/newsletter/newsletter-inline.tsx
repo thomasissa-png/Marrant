@@ -133,24 +133,25 @@ export function NewsletterInline({
             </Button>
           </div>
 
-          <div className="flex items-start gap-2">
+          {/* Toute la ligne (case + texte) est la zone cliquable : cible tactile ≥ 44 px. */}
+          <label
+            htmlFor={consentId}
+            className="flex min-h-[44px] cursor-pointer items-start gap-2"
+          >
             <input
               id={consentId}
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-border accent-accent-primary focus:ring-accent-primary"
+              className="mt-1 h-4 w-4 shrink-0 rounded border-border accent-accent-primary focus:ring-accent-primary"
               aria-describedby={message ? messageId : undefined}
             />
-            <label
-              htmlFor={consentId}
-              className="text-xs text-text-secondary leading-relaxed"
-            >
+            <span className="text-xs text-text-secondary leading-relaxed">
               J&apos;accepte de recevoir une technique d&apos;humour par semaine de
               Deviens Marrant à cette adresse email. Je peux me désinscrire à
               tout moment via le lien en bas de chaque email.
-            </label>
-          </div>
+            </span>
+          </label>
 
           {status === "error" && message && (
             <p

@@ -54,13 +54,13 @@ export default function AProposPage() {
       <JsonLd data={authorPersonJsonLd} />
       <div className="mx-auto max-w-3xl">
         <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-          <Link href="/" className="hover:text-text-primary">Accueil</Link>
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
           <span className="text-text-secondary">À propos</span>
         </nav>
 
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          À propos de <span className="whitespace-nowrap">deviens-marrant.fr</span>
+          À propos <span className="whitespace-nowrap">de deviens-marrant.fr</span>
         </h1>
         <p className="mt-4 text-lg text-text-secondary">
           deviens-marrant.fr est la première plateforme francophone dédiée à

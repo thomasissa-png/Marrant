@@ -195,11 +195,11 @@ export default async function BlogArticlePage({
         aria-label="Fil d'Ariane"
         className="mb-6 text-sm text-text-muted"
       >
-        <Link href="/" className="hover:text-text-primary">
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">
           Accueil
         </Link>
         <span className="mx-2">/</span>
-        <Link href="/blog" className="hover:text-text-primary">
+        <Link href="/blog" className="hover:text-text-primary max-md:py-3.5">
           Blog
         </Link>
         <span className="mx-2">/</span>
