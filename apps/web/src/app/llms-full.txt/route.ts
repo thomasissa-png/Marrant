@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
+import { buildJokeSlug, buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import {
   LLMS_FAQ_FULL,
   LLMS_FULL_INTRO,
@@ -38,6 +39,45 @@ const RESOURCE_PAGES = [
   { path: "/parcours/repartie", label: "Parcours Répartie", summary: "Parcours intermédiaire de 4 semaines pour développer sa répartie avec des exercices concrets et ne plus rester muet." },
   { path: "/parcours/confiance", label: "Parcours Confiance", summary: "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif." },
 ];
+
+interface CatalogueSample {
+  jokes: { id: string; content: string; punchline: string; comedyTechnique: string | null; techniqueExplanation: string | null }[];
+  tips: { id: string; title: string; category: string }[];
+  videos: { id: string; title: string; channelName: string; technique: string }[];
+}
+
+/**
+ * Échantillon du catalogue (pages individuelles) pour les moteurs IA : les
+ * vannes les plus récentes AVEC leur décryptage (la valeur pédagogique citable),
+ * des conseils et des vidéos. Fail-safe : vide si la DB est indisponible.
+ */
+async function collectCatalogueSample(): Promise<CatalogueSample> {
+  try {
+    const [jokes, tips, videos] = await Promise.all([
+      prisma.joke.findMany({
+        where: { isActive: true, comedyTechnique: { not: null } },
+        orderBy: { createdAt: "desc" },
+        take: 40,
+        select: { id: true, content: true, punchline: true, comedyTechnique: true, techniqueExplanation: true },
+      }),
+      prisma.tip.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+        take: 30,
+        select: { id: true, title: true, category: true },
+      }),
+      prisma.video.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+        take: 20,
+        select: { id: true, title: true, channelName: true, technique: true },
+      }),
+    ]);
+    return { jokes, tips, videos };
+  } catch {
+    return { jokes: [], tips: [], videos: [] };
+  }
+}
 
 async function collectFullArticles(): Promise<FullArticle[]> {
   const staticArticles: FullArticle[] = blogArticles
@@ -89,7 +129,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
   return staticArticles.sort((a, b) => b.date.localeCompare(a.date));
 }
 
-function renderLlmsFullTxt(articles: FullArticle[]): string {
+function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample): string {
   const lines: string[] = [];
   lines.push("# deviens-marrant.fr — version complète");
   lines.push("");
@@ -132,6 +172,33 @@ function renderLlmsFullTxt(articles: FullArticle[]): string {
     lines.push(resource.summary);
     lines.push("");
   }
+  if (catalogue.jokes.length > 0) {
+    lines.push("## Vannes décortiquées (échantillon — chaque vanne a sa page)");
+    lines.push("");
+    for (const j of catalogue.jokes) {
+      lines.push(`- [${j.content} ${j.punchline}](${BASE_URL}/vannes/${buildJokeSlug(j)})`);
+      if (j.comedyTechnique) {
+        lines.push(`  Technique : ${j.comedyTechnique}${j.techniqueExplanation ? ` — ${j.techniqueExplanation}` : ""}`);
+      }
+    }
+    lines.push("");
+  }
+  if (catalogue.tips.length > 0) {
+    lines.push("## Conseils (échantillon — chaque conseil a sa page)");
+    lines.push("");
+    for (const t of catalogue.tips) {
+      lines.push(`- [${t.title}](${BASE_URL}/conseils/${buildTipSlug(t)})`);
+    }
+    lines.push("");
+  }
+  if (catalogue.videos.length > 0) {
+    lines.push("## Vidéos stand-up analysées (échantillon)");
+    lines.push("");
+    for (const v of catalogue.videos) {
+      lines.push(`- [${v.title}](${BASE_URL}/videos/${buildVideoSlug(v)}) — ${v.channelName}, technique : ${v.technique}`);
+    }
+    lines.push("");
+  }
   lines.push("## Articles de blog");
   lines.push("");
   for (const article of articles) {
@@ -154,7 +221,8 @@ function renderLlmsFullTxt(articles: FullArticle[]): string {
 export async function GET() {
   try {
     const articles = await collectFullArticles();
-    const body = renderLlmsFullTxt(articles);
+    const catalogue = await collectCatalogueSample();
+    const body = renderLlmsFullTxt(articles, catalogue);
     return new NextResponse(body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",

@@ -102,6 +102,7 @@ Que tu sois étudiant et que tu galères à prendre ta place en soirée — comm
 
 Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à mémoriser, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à analyser. Le tout avec un système de progression pour rester motivé. **C'est 0,99 EUR/mois** — moins cher qu'un café. Et beaucoup plus drôle.`,
     date: "2026-03-13",
+    updatedAt: "2026-09-29",
     readingTime: "7 min",
     category: "GUIDE",
     faqs: [
@@ -206,6 +207,7 @@ La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et 
 
 Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à mémoriser. **0,99 EUR/mois** — c'est le prix d'une répartie ratée en moins par jour.`,
     date: "2026-03-12",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "REPARTIE",
     faqs: [
@@ -291,6 +293,7 @@ Se tromper de moment fait partie des [5 erreurs qui tuent tes blagues](/blog/err
 
 Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. Nos [parcours](/parcours) progressifs intègrent des exercices de timing dès la première semaine, et notre catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner. **0,99 EUR/mois**, 5 minutes par jour — et tu ne raconteras plus jamais une blague trop tôt (ni trop tard).`,
     date: "2026-02-28",
+    updatedAt: "2026-09-29",
     readingTime: "5 min",
     category: "TIMING",
     faqs: [
@@ -353,6 +356,7 @@ Choisis UNE erreur que tu fais souvent. **Une seule.** Pendant une semaine, conc
 
 Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [parcours](/parcours) progressifs t'accompagnent semaine par semaine pour corriger ces erreurs. Nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **0,99 EUR/mois** — l'investissement le plus rentable depuis que tu as arrêté de raconter des blagues Carambar.`,
     date: "2026-02-20",
+    updatedAt: "2026-09-29",
     readingTime: "5 min",
     category: "GUIDE",
     faqs: [
@@ -424,6 +428,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 L'autodérision, c'est le muscle le plus puissant de l'humour social. Sur deviens-marrant.fr, le [parcours Confiance](/parcours) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **0,99 EUR/mois** — investis dans la compétence qui rend TOUT le monde plus sympathique.`,
     date: "2026-02-15",
+    updatedAt: "2026-09-29",
     readingTime: "5 min",
     category: "AUTODERISION",
     faqs: [
@@ -503,6 +508,7 @@ Lucas n'est pas devenu un humoriste. Mais il n'est plus "celui qui dit rien". Il
 
 Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semaine après semaine avec des exercices comme ceux de Lucas. Et le catalogue de [vannes](/vannes) te donne du matériel concret pour t'entraîner. **0,99 EUR/mois** — le prix d'un croissant pour ne plus jamais rester muet en soirée.`,
     date: "2026-03-15",
+    updatedAt: "2026-09-29",
     readingTime: "6 min",
     category: "GUIDE",
     faqs: [
@@ -590,6 +596,7 @@ Pas besoin d'adopter les 8 habitudes d'un coup. Commence par les habitudes 1 (ca
 
 Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **0,99 EUR/mois** — le prix de devenir la personne qu'on veut à sa table.`,
     date: "2026-03-14",
+    updatedAt: "2026-09-29",
     readingTime: "6 min",
     category: "HABITUDES",
     faqs: [
@@ -681,6 +688,7 @@ Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d
 
 Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t'accompagnent avec des exercices adaptés. Et notre catalogue de [vannes](/vannes) te permet de voir chaque type en action. Nos [conseils](/conseils) de pros t'aident à affiner ton style. **0,99 EUR/mois** — pour trouver ta voix comique et la développer.`,
     date: "2026-03-17",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "ANALYSE",
     faqs: [
@@ -759,6 +767,7 @@ Avant chaque blague noire, pose-toi 3 questions :
 
 Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant — nos [parcours](/parcours) t'apprennent à le doser, et nos [vannes](/vannes) classées par style te donnent des exemples de second degré réussi. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **0,99 EUR/mois** — pour maîtriser l'art du second degré.`,
     date: "2026-03-16",
+    updatedAt: "2026-09-29",
     readingTime: "6 min",
     category: "ANALYSE",
     faqs: [
@@ -959,6 +968,7 @@ Sujet : les messages vocaux
 
 Pour structurer ta progression, nos [parcours](/parcours) te guident semaine par semaine avec des exercices calibrés pour chaque persona. **0,99 EUR/mois** — l'investissement le plus drôle de ta vie.`,
     date: "2026-03-10",
+    updatedAt: "2026-09-29",
     readingTime: "7 min",
     category: "PRATIQUE",
     faqs: [
@@ -1336,6 +1346,7 @@ La **phrase drôle** parfaite, c'est pas la plus intelligente. C'est celle que T
 
 → [Choisis ton parcours](/parcours) — 3 à 6 semaines pour devenir la personne la plus drôle de ton groupe.`,
     date: "2026-03-19",
+    updatedAt: "2026-09-29",
     readingTime: "7 min",
     category: "CATALOGUE",
     faqs: [
@@ -1538,6 +1549,7 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
 
 → **[Comment devenir drôle](/blog/comment-devenir-drole)** — le guide complet avec plan d'action sur 30 jours.`,
     date: "2026-03-19",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "CATALOGUE",
     faqs: [
@@ -1871,6 +1883,7 @@ Notre guide complet [Comment devenir drôle](/blog/comment-devenir-drole) t'acco
 
 **Le premier pas ? Note 3 observations absurdes aujourd'hui.** C'est tout. Le reste suivra.`,
     date: "2026-03-24",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "PSYCHOLOGIE",
     faqs: [
@@ -2145,6 +2158,7 @@ Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/bl
 
 > **[Nos conseils de timing](/conseils)** — le timing fait 80% de la blague, surtout en contexte formel.`,
     date: "2026-03-24",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "CONTEXTE",
     faqs: [
@@ -2433,6 +2447,7 @@ Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-d
 
 Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme — palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. **0,99 EUR/mois** — le prix d'une réplique ratée en moins.`,
     date: "2026-03-25",
+    updatedAt: "2026-09-29",
     readingTime: "7 min",
     category: "PSYCHOLOGIE",
     faqs: [
@@ -2640,6 +2655,7 @@ Pour te constituer une base de structures testées, le catalogue de [vannes](/va
 
 **0,99 EUR/mois** — pour ne plus jamais raconter une histoire qui tombe à plat.`,
     date: "2026-03-25",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "STORYTELLING",
     faqs: [
@@ -2961,6 +2977,7 @@ Si tu pars à ce moment-là avec une réplique qui colle, tu es la dernière ima
 
 Notre [Parcours Répartie](/parcours) sur deviens-marrant.fr est construit sur ces principes — situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne des centaines de formules adaptées aux contextes sociaux. C'est le type de matériau qu'on utilise pour se construire un répertoire. Pas du théorique — du concret.`,
     date: "2026-03-26",
+    updatedAt: "2026-09-29",
     readingTime: "7 min",
     category: "CONTEXTE",
     faqs: [
@@ -3408,6 +3425,7 @@ Que tu sois en train de redécouvrir l'humour entre potes après une période o�
 
 Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blague-courte-arme-secrete-humour). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. **C'est 0,99 EUR/mois** — moins cher qu'une vanne qui rate.`,
     date: "2026-05-05",
+    updatedAt: "2026-09-29",
     readingTime: "8 min",
     category: "GUIDE",
     faqs: [
