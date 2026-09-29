@@ -1,7 +1,7 @@
 ---
 name: ceo
 description: "Agent autonome de valeur educative — emails, DMs sociaux, pitchs presse, backlinks. NE PAS invoquer en sous-agent — implemente en code via ceo-agent.ts."
-model: claude-sonnet-4-6
+model: claude-sonnet-5-5
 version: "1.0"
 tools:
   - Read
@@ -11,7 +11,7 @@ tools:
   - Bash
 ---
 
-<!-- Version: 2026-05-06 — @agent-factory — Phase 4 — creation initiale agent CEO Deviens Marrant. Source de verite : ceo-agent-scope.md v2 + ceo-voice-unified.md v3 + ceo-agent-specs.md + ceo-agent-architecture.md + ceo-canonical-examples.md v5 + founder-preferences.md (06/05/2026). Modele frontmatter = sonnet (90% du trafic) ; Haiku 4.5 utilise pour triage et Opus 4.7 pour rapport hebdo cf section "Modeles LLM par tache" architecture. -->
+<!-- Version: 2026-05-06 — @agent-factory — Phase 4 — creation initiale agent CEO Deviens Marrant. Source de verite : ceo-agent-scope.md v2 + ceo-voice-unified.md v3 + ceo-agent-specs.md + ceo-agent-architecture.md + ceo-canonical-examples.md v5 + founder-preferences.md (06/05/2026). Modele frontmatter = sonnet. s11 : Sonnet 5.5 partout (triage inclus, plus de Haiku), Opus 5.5 pour le rapport hebdo — source : apps/web/src/lib/ai/client.ts. -->
 
 > **AVERTISSEMENT — Cet agent ne s'invoque PAS comme sous-agent classique.** Il est implemente en code (`apps/web/src/lib/ai/agents/ceo-agent.ts`) et tourne en cron `/api/cron/ceo-tick` toutes les 2-4h. Ce fichier `.md` est la **reference canonique** de la posture, voix, regles et fonctions — utilise par @reviewer, @qa, @moi pour audits et par Thomas pour comprendre l'agent en lisant un seul fichier. Toute modification ici doit etre propagee dans `docs/ia/ceo-agent-architecture.md` (prompt systeme) puis dans `apps/web/src/lib/ai/agents/ceo-agent.ts` (code).
 
@@ -137,7 +137,7 @@ async function ceoTick(): Promise<TickResult>
 // Lit CeoConfig.enabled → return immediat si false. Verifie LlmUsageLog.dailyEur ≤ 2€.
 // Ouvre CeoTask.status=PENDING. Max 3 actions/tick. Recalcule scores leads 30j.
 
-// Triage messages inbound — Haiku 4.5 (~200 tokens)
+// Triage messages inbound — Sonnet 5.5 effort low (~200 tokens)
 async function triageInbound(message: InboundMessage): Promise<TriageResult>
 // Score 1-10 (humour/repartie/soft skills/douleur). ≥7 → CeoTask DRAFT_*. <7 → silence.
 // Verifie CeoCommentBlacklist si commentaire proactif.
@@ -154,7 +154,7 @@ async function draftSocialReply(message: InboundSocialMessage): Promise<CeoOutbo
 
 // Redaction commentaire proactif — Sonnet 4.6 + cache
 async function draftProactiveComment(postSignal: SocialSignal): Promise<CeoOutboundMessage>
-// Trigger : keyword monitoring → triage Haiku ≥7. Verifie blacklist + delai >60min + ≤5/jour.
+// Trigger : keyword monitoring → triage ≥7. Verifie blacklist + delai >60min + ≤5/jour.
 // P6 — observation drole sur la douleur + positionnement Deviens Marrant sans lien direct.
 
 // Redaction pitch backlink — Sonnet 4.6 + cache + glossaire backlink
@@ -174,7 +174,7 @@ async function executeApproved(messageId: string): Promise<ExecuteResult>
 // Verif synchrone CeoDedup SHA256(destinataire+content_100chars) avant envoi.
 // Update CeoOutboundMessage.status=SENT + sentAt + externalId. Insert CeoAuditLog.
 
-// Rapport hebdomadaire fondateur — Opus 4.7 (lundi 9h UTC)
+// Rapport hebdomadaire fondateur — Opus 5.5 (lundi 9h UTC)
 async function weeklyReport(weekStartDate: Date): Promise<void>
 // 4 sections fixes : KPIs delta · ce qui a bien/n'a pas fonctionne · 1 observation pedagogique.
 // Ton sobre factuel, zero edito narratif. Envoi alex@deviens-marrant.fr via Resend.
