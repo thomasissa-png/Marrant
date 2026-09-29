@@ -51,15 +51,15 @@ export default function AProposPage() {
       />
       <JsonLd data={buildFaqJsonLd(aboutFaqs)} />
       <JsonLd data={authorPersonJsonLd} />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">À propos</span>
-      </nav>
-
       <div className="mx-auto max-w-3xl">
+        <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary">Accueil</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">À propos</span>
+        </nav>
+
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          À propos de deviens-marrant.fr
+          À propos de <span className="whitespace-nowrap">deviens-marrant.fr</span>
         </h1>
         <p className="mt-4 text-lg text-text-secondary">
           deviens-marrant.fr est la première plateforme francophone dédiée à
@@ -108,7 +108,7 @@ export default function AProposPage() {
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
-                <strong>Des vidéos de stand-up analysées</strong> — chaque
+                <strong>Des vidéos de stand-up analysées</strong>&nbsp;: chaque
                 technique décryptée pour que tu puisses l&apos;appliquer
               </span>
             </li>
@@ -135,19 +135,19 @@ export default function AProposPage() {
             Tout repose sur 3 principes issus de la pédagogie du
             stand-up et de la psychologie positive :
           </p>
-          <ol className="mt-4 space-y-3 text-text-secondary list-decimal list-inside">
+          <ol className="mt-4 list-outside list-decimal space-y-3 pl-6 text-text-secondary">
             <li>
-              <strong>Observer avant de produire</strong> — on entraîne
+              <strong>Observer avant de produire</strong>&nbsp;: on entraîne
               d&apos;abord le regard (repérer l&apos;absurde du quotidien)
               avant de passer à la création de vannes.
             </li>
             <li>
-              <strong>Pratiquer dans des situations réelles</strong> — chaque
+              <strong>Pratiquer dans des situations réelles</strong>&nbsp;: chaque
               conseil inclut un défi concret à tester aujourd&apos;hui, pas
               dans 3 mois.
             </li>
             <li>
-              <strong>Roder, comme en open mic</strong> — un humoriste teste
+              <strong>Roder, comme en open mic</strong>&nbsp;: un humoriste teste
               son set soir après soir : ce qui fait rire reste, ce qui fait un
               blanc saute. Tu avances de la même façon, essai après essai.
             </li>
@@ -160,8 +160,8 @@ export default function AProposPage() {
             deviens-marrant.fr est fondé par <strong>Alex Durand</strong>,
             passionné de stand-up et de pédagogie. Après des années à
             décortiquer les techniques des meilleurs humoristes français, il a
-            créé cette plateforme pour rendre l&apos;humour accessible à tous
-            — pas juste à ceux qui sont &quot;nés drôles&quot;.
+            créé cette plateforme pour rendre l&apos;humour accessible à tous,
+            pas juste à ceux qui sont &quot;nés drôles&quot;.
           </p>
           <p className="mt-3 text-text-secondary">
             L&apos;équipe mélange culture stand-up et pédagogie, avec une
@@ -190,7 +190,7 @@ export default function AProposPage() {
             Une question, une suggestion, un partenariat ? Écris-nous à{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
-              className="font-medium text-accent-primary hover:underline"
+              className="font-medium text-accent-link hover:underline"
             >
               contact@deviens-marrant.fr
             </a>

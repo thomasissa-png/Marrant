@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ConfidentialitePage() {
   return (
-    <>
+    <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Politique de confidentialité</h1>
       <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 8 mars 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
@@ -71,6 +71,6 @@ export default function ConfidentialitePage() {
           <p>Certaines données peuvent être transférées vers des sous-traitants situés en dehors de l&apos;Union européenne (Replit, Stripe, Google pour OAuth). Ces transferts sont encadrés par des clauses contractuelles types approuvées par la Commission européenne.</p>
         </section>
       </div>
-    </>
+    </div>
   );
 }

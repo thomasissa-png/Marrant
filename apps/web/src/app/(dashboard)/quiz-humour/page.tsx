@@ -72,12 +72,12 @@ export default function QuizHumourPage() {
       />
       <JsonLd data={buildFaqJsonLd(quizFaqs)} />
 
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Quel type d&apos;humour es-tu ?
           </h1>
-          <p className="mt-3 text-text-secondary">
+          <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
             12 questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function QuizHumourPage() {
               toujours la bonne réplique au bon moment.
             </p>
             <p className="mt-3 text-text-secondary">
-              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-primary hover:underline">techniques
+              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link hover:underline">techniques
               travailler en priorité</a> pour progresser plus vite. Un Storyteller et un
               Punchlineur ne s&apos;entraînent pas de la même façon, un peu comme un marathonien
               et un sprinteur qui partageraient le même vestiaire.
@@ -115,16 +115,16 @@ export default function QuizHumourPage() {
             <p className="mt-3 text-text-secondary">
               Pas à te coller une étiquette sur le front, plutôt à te donner un <strong>point de
               départ</strong> pour progresser. Que tu veuilles{" "}
-              <a href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">devenir plus drôle</a>,{" "}
-              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">avoir de la répartie</a> ou
-              juste <a href="/vannes" className="text-accent-primary hover:underline">avoir des vannes d&apos;avance</a> pour la machine à café, ton
+              <a href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">devenir plus drôle</a>,{" "}
+              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">avoir de la répartie</a> ou
+              juste <a href="/vannes" className="text-accent-link hover:underline">avoir des vannes d&apos;avance</a> pour la machine à café, ton
               profil t&apos;indique par quoi commencer.
             </p>
             <p className="mt-3 text-text-secondary">
               Et le jour où tu veux aller plus loin, nos{" "}
-              <a href="/parcours" className="text-accent-primary hover:underline">parcours structurés</a>{" "}
+              <a href="/parcours" className="text-accent-link hover:underline">parcours structurés</a>{" "}
               et nos{" "}
-              <a href="/videos" className="text-accent-primary hover:underline">analyses de vidéos stand-up</a>{" "}
+              <a href="/videos" className="text-accent-link hover:underline">analyses de vidéos stand-up</a>{" "}
               prennent le relais, une semaine à la fois.
             </p>
           </div>
@@ -137,7 +137,7 @@ export default function QuizHumourPage() {
             <div className="mt-4 space-y-4">
               {quizFaqs.map((faq) => (
                 <details key={faq.question} className="group">
-                  <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-primary">
+                  <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
                     {faq.question}
                   </summary>
                   <p className="mt-2 text-sm text-text-secondary pl-4">
@@ -148,7 +148,7 @@ export default function QuizHumourPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

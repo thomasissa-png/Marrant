@@ -194,7 +194,7 @@ export function ProfilDashboard() {
         <CardContent>
           <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
             <div>
-              <p className="text-2xl font-bold text-accent-primary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.jokesRead}
               </p>
               <p className="text-xs text-text-muted">Vannes lues</p>
@@ -206,7 +206,7 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Conseils terminés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-primary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.totalFavorites}
               </p>
               <p className="text-xs text-text-muted">Favoris sauvegardés</p>
@@ -293,7 +293,7 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Apprends les bases</p>
+                  <p className="font-semibold text-accent-link">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Commence par la répartie et le timing : les deux réflexes qui changent le plus vite une conversation.
                   </p>
@@ -303,7 +303,7 @@ export function ProfilDashboard() {
             {user.stats.jokesRead < 10 && (
               <Link href="/vannes" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
+                  <p className="font-semibold text-accent-link">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Pioche des vannes par situation et garde de côté celles que tu te vois déjà ressortir.
                   </p>
@@ -313,7 +313,7 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
               <Link href="/parcours" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Lance-toi dans un parcours</p>
+                  <p className="font-semibold text-accent-link">Lance-toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Tu as les bases. Un parcours te donne un fil à suivre, une étape après l&apos;autre.
                   </p>
@@ -323,7 +323,7 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
+                  <p className="font-semibold text-accent-link">Approfondis tes techniques</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle.
                   </p>

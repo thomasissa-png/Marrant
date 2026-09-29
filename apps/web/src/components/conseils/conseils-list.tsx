@@ -160,7 +160,7 @@ export function ConseilsList() {
                 {d.label}
               </span>
             ))}
-            <span className="mx-1 text-text-muted">·</span>
+            <span className="mx-1 hidden text-text-muted sm:inline">·</span>
             {CATEGORIES.slice(1, 4).map((cat) => (
               <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
                 {cat.label}
@@ -170,7 +170,7 @@ export function ConseilsList() {
           </div>
           <p className="mt-2 text-xs text-text-muted">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -261,17 +261,17 @@ export function ConseilsList() {
                 <CardTitle>{tip.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
+                <p className="max-w-[72ch] text-sm leading-relaxed text-text-primary">{tip.content}</p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
+                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tip.example}</p>
                     </div>
                     <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
+                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
+                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
                     </div>
                   </div>
                 )}
@@ -285,7 +285,7 @@ export function ConseilsList() {
                   <Link
                     href={`/conseils/${buildTipSlug(tip)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
+                    className="text-xs text-text-muted hover:text-accent-link hover:underline"
                     aria-label="Ouvrir la page dédiée de ce conseil"
                   >
                     Page dédiée &rarr;
@@ -307,7 +307,7 @@ export function ConseilsList() {
               onClick={() => setPremiumOpen(true)}
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label="Contenu premium : cliquer pour débloquer"
             >
               <CardHeader>
                 <div className="flex items-center gap-2">
@@ -327,7 +327,7 @@ export function ConseilsList() {
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
                   </div>
                 </div>
               </CardContent>

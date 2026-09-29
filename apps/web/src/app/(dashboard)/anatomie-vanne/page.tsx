@@ -96,15 +96,15 @@ export default function AnatomieVannePage() {
       />
       <JsonLd data={buildFaqJsonLd(anatomyFaqs)} />
 
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl">
         {/* Hero */}
         <div className="mb-12 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Anatomie d&apos;une vanne
           </h1>
           <p className="mt-3 text-lg text-text-secondary">
-            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre ?
-            <br />
+            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre&nbsp;?
+            <br className="hidden sm:block" />
             Réponse en 3 parties, sans la moindre équation.
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function AnatomieVannePage() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent-primary/10 text-3xl">
                 🎯
               </div>
-              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-accent-primary">
+              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-accent-link">
                 Partie 1
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
@@ -142,7 +142,7 @@ export default function AnatomieVannePage() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent-primary/20 text-3xl">
                 🔄
               </div>
-              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-accent-primary">
+              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-accent-link">
                 Partie 2
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
@@ -167,7 +167,7 @@ export default function AnatomieVannePage() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-error/10 text-3xl">
                 💥
               </div>
-              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-error">
+              <div className="mt-2 text-xs font-bold uppercase tracking-widest text-red-400">
                 Partie 3
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
@@ -192,7 +192,7 @@ export default function AnatomieVannePage() {
           <div className="mt-6 hidden items-center justify-center gap-4 text-text-muted md:flex">
             <span className="text-sm">Setup</span>
             <span>→</span>
-            <span className="text-sm font-semibold text-accent-primary">
+            <span className="text-sm font-semibold text-accent-link">
               Pivot
             </span>
             <span>→</span>
@@ -214,7 +214,7 @@ export default function AnatomieVannePage() {
                 className="rounded-xl border border-border bg-background-card overflow-hidden"
               >
                 <div className="border-b border-border bg-background-elevated px-6 py-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-accent-primary">
+                  <span className="text-xs font-bold uppercase tracking-widest text-accent-link">
                     {ex.category}
                   </span>
                 </div>
@@ -225,12 +225,12 @@ export default function AnatomieVannePage() {
                     </p>
                     <p className="mt-1 text-text-primary">{ex.setup}</p>
                   </div>
-                  <div className="flex items-center gap-2 text-accent-primary">
+                  <div className="flex items-center gap-2 text-accent-link">
                     <span className="text-lg">🔄</span>
                     <p className="text-sm italic">{ex.pivot}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase text-error">
+                    <p className="text-xs font-semibold uppercase text-red-400">
                       Punchline
                     </p>
                     <p className="mt-1 text-lg font-semibold text-text-primary">
@@ -334,7 +334,7 @@ export default function AnatomieVannePage() {
                 fix: "Si tu mets plus de 20 secondes à planter le décor, les gens ont déjà commencé à regarder leur verre. Coupe tout ce dont la chute n'a pas besoin.",
               },
               {
-                error: "Pas de vrai pivot — juste un jeu de mots forcé",
+                error: "Pas de vrai pivot : juste un jeu de mots forcé",
                 fix: "Un calembour qui ne marche que parce que « ça sonne pareil », c'est un jeu de mots, pas une vanne. Cherche un retournement d'idée plutôt qu'un retournement de syllabes.",
               },
               {
@@ -400,7 +400,7 @@ export default function AnatomieVannePage() {
           <div className="space-y-4">
             {anatomyFaqs.map((faq) => (
               <details key={faq.question} className="group">
-                <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-primary">
+                <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
                   {faq.question}
                 </summary>
                 <p className="mt-2 text-sm text-text-secondary pl-4">
@@ -410,7 +410,7 @@ export default function AnatomieVannePage() {
             ))}
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

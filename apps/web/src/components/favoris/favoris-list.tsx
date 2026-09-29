@@ -20,7 +20,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     label: "Tout",
     emptyEmoji: "⭐",
     emptyTitle: "Aucun favori pour l'instant",
-    emptyDesc: "Mets des vannes, conseils ou vidéos de côté — tu nous remercieras en soirée.",
+    emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
     ctaLabel: "Explorer les vannes",
     ctaHref: "/vannes",
   },
@@ -229,7 +229,7 @@ export function FavorisList() {
           >
             {tab.label}
             {counts[tab.value] > 0 && (
-              <span className={`ml-1.5 rounded-full px-1.5 text-xs ${activeTab === tab.value ? "bg-white/20" : "bg-accent-primary/20 text-accent-primary"}`}>
+              <span className={`ml-1.5 rounded-full px-1.5 text-xs ${activeTab === tab.value ? "bg-white/20" : "bg-accent-primary/20 text-accent-link"}`}>
                 {counts[tab.value]}
               </span>
             )}
@@ -308,7 +308,7 @@ export function FavorisList() {
                     <p className="text-text-primary">{joke.content}</p>
                     {isRevealed ? (
                       <>
-                        <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
+                        <p className="mt-3 font-semibold text-accent-link animate-fade-in">
                           {joke.punchline}
                         </p>
                         <ReactionButtons jokeId={fav.jokeId ?? ""} className="mt-3" />
@@ -317,8 +317,8 @@ export function FavorisList() {
                             className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
-                              Pourquoi ça marche — {joke.comedyTechnique}
+                            <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
                             </p>
                             {joke.techniqueExplanation && (
                               <p className="mt-2 text-sm text-text-secondary">
@@ -335,7 +335,7 @@ export function FavorisList() {
                               Envie de comprendre la mécanique en profondeur ?{" "}
                               <Link
                                 href="/anatomie-vanne"
-                                className="font-medium text-accent-primary hover:underline"
+                                className="font-medium text-accent-link hover:underline"
                               >
                                 L&apos;anatomie d&apos;une vanne
                               </Link>
@@ -399,11 +399,11 @@ export function FavorisList() {
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
                         <div className="rounded-lg bg-background-elevated p-4">
-                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple</p>
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
                           <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
                         </div>
                         <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice</p>
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
                           <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
                         </div>
                       </div>
@@ -462,7 +462,7 @@ export function FavorisList() {
                         <ul className="mt-1.5 space-y-1.5">
                           {video.learnings.map((learning, i) => (
                             <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                              <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                              <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
                               {learning}
                             </li>
                           ))}
@@ -471,7 +471,7 @@ export function FavorisList() {
                     )}
                     {video.exercise && (
                       <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
                         <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                       </div>
                     )}

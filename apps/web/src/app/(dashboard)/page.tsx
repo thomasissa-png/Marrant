@@ -82,57 +82,57 @@ export default function HomePage() {
       <FeatureCards />
 
       {/* Section "Tu te reconnais ?" — les 3 personas avec lien parcours */}
-      <section className="py-12">
+      <section className="py-12 md:py-16">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Tu te reconnais ?
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {/* Sophie — parcours le plus court en premier */}
-          <div className="rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">☕</p>
-            <h3 className="mt-3 text-lg font-bold text-text-primary">
+          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
+            <p className="text-2xl">☕️</p>
+            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               &quot;Je n&apos;ai jamais rien de drôle à dire&quot;
             </h3>
-            <p className="mt-2 text-sm text-text-secondary">
+            <p className="mt-2 flex-1 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis : la bonne vanne te vient
               toujours, mais dans le métro du retour. On te donne des vannes
               courtes à ressortir sur le moment, et un streak pour garder le rythme.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
               Parcours Machine à Café · 3 semaines →
             </Link>
           </div>
 
           {/* Yanis */}
-          <div className="rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">⚡</p>
-            <h3 className="mt-3 text-lg font-bold text-text-primary">
+          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
+            <p className="text-2xl">⚡️</p>
+            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               &quot;Je reste muet quand on me chambre&quot;
             </h3>
-            <p className="mt-2 text-sm text-text-secondary">
+            <p className="mt-2 flex-1 text-sm text-text-secondary">
               Tes potes se chambrent, tu cherches quoi répondre, et quand tu
               trouves, la conversation est passée à autre chose. On t&apos;apprend
               les réflexes de base avec des exercices simples, et tes XP te
               montrent que tu avances.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
               Parcours Répartie · 4 semaines →
             </Link>
           </div>
 
           {/* Marc */}
-          <div className="rounded-xl border border-border bg-background-card p-6">
+          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-2xl">🌱</p>
-            <h3 className="mt-3 text-lg font-bold text-text-primary">
+            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               &quot;J&apos;ai perdu ma légèreté&quot;
             </h3>
-            <p className="mt-2 text-sm text-text-secondary">
+            <p className="mt-2 flex-1 text-sm text-text-secondary">
               Après une période compliquée, ton humour n&apos;est pas parti, il
               est juste rouillé. Blagues, storytelling et auto-dérision pour le
               remettre en route à ton rythme, avec tes XP et ton streak pour
               mesurer le chemin parcouru.
             </p>
-            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-primary hover:underline">
+            <Link href="/parcours" className="mt-4 inline-block text-sm font-medium text-accent-link hover:underline">
               Parcours Confiance · 6 semaines →
             </Link>
           </div>

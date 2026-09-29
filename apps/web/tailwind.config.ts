@@ -21,6 +21,8 @@ const config: Config = {
           "primary-hover": "#A78BFA",
           secondary: "#6D28D9",
           "secondary-hover": "#7C3AED",
+          // Texte violet courant (< 24 px) : AA sur fond page, carte et élevé
+          link: "#A78BFA",
         },
         text: {
           primary: "#FFFFFF",

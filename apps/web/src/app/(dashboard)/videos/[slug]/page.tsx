@@ -156,7 +156,7 @@ export default async function VideoPage({
       />
       <JsonLd data={videoJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/videos" className="hover:text-text-primary">Vidéos</Link>
@@ -166,7 +166,7 @@ export default async function VideoPage({
 
       <article className="mx-auto max-w-3xl">
         <div className="mb-2 flex flex-wrap gap-2">
-          <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-primary">
+          <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-link">
             {categoryLabel}
           </span>
           <span className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wider text-text-muted">
@@ -205,7 +205,7 @@ export default async function VideoPage({
             Le titre, la vidéo (déjà publique sur YouTube) et la description restent
             visibles pour SEO et VideoObject schema. */}
         <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-primary">Analyse pédagogique complète</div>
+          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">Analyse pédagogique complète</div>
           <p className="text-sm text-text-primary">
             Les points clés à retenir et l&apos;exercice pour appliquer la technique
             sont accessibles gratuitement quand tu crées ton compte. Tu récupères
@@ -247,7 +247,7 @@ export default async function VideoPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-primary hover:underline">
+          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-link hover:underline">
             &larr; Toutes les vidéos {categoryLabel.toLowerCase()}
           </Link>
         </nav>

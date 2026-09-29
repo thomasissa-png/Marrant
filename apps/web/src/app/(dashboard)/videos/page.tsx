@@ -9,6 +9,8 @@ import {
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { PageHeader } from "@/components/layout/page-header";
+import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -78,17 +80,17 @@ export default async function VideosPage() {
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Vidéos</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia — on
-          décortique leurs meilleurs passages. Chaque vidéo est annotée avec la
-          technique utilisée : timing, autodérision, observation, storytelling.
-          Tu regardes, tu comprends le mécanisme, tu le reproduis.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes</>}
+        lead={
+          <>
+            Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia : on
+            décortique leurs meilleurs passages. Chaque vidéo est annotée avec la
+            technique utilisée : timing, autodérision, observation, storytelling.
+            Tu regardes, tu comprends le mécanisme, tu le reproduis.
+          </>
+        }
+      />
 
       <Suspense fallback={null}>
         <VideosGrid />
@@ -97,10 +99,10 @@ export default async function VideosPage() {
       {/* FAQ SEO */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="space-y-4">
+        <dl className="max-w-3xl space-y-4">
           {videosFaqs.map((faq, i) => (
             <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
               <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
             </div>
           ))}
@@ -110,15 +112,15 @@ export default async function VideosPage() {
       {/* Contenu SEO — methode pedagogique */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
-        <div className="space-y-3 text-sm text-text-secondary">
+        <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
             Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
-            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">tu deviens drôle</Link> — pas en regardant, en faisant.
+            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">tu deviens drôle</Link> : pas en regardant, en faisant.
           </p>
           <p>
-            Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
+            Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
           </p>
         </div>
       </section>

@@ -11,6 +11,7 @@ import {
 } from "@/components/seo/json-ld";
 import { VanneShareRow } from "@/components/vannes/vanne-share-row";
 import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
+import { buttonVariants } from "@/components/ui/button";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -176,7 +177,7 @@ export default async function VannePage({
       />
       <JsonLd data={creativeWorkJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/vannes" className="hover:text-text-primary">Vannes</Link>
@@ -185,14 +186,14 @@ export default async function VannePage({
       </nav>
 
       <article className="mx-auto max-w-2xl">
-        <div className="mb-2 text-xs uppercase tracking-wider text-accent-primary">
+        <div className="mb-2 text-xs uppercase tracking-wider text-accent-link">
           {categoryLabel}
         </div>
         <h1 className="font-display text-2xl font-bold md:text-3xl">
           {joke.content}
         </h1>
         <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-primary">La chute</div>
+          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">La chute</div>
           <p className="text-lg font-semibold text-text-primary">{joke.punchline}</p>
         </div>
 
@@ -213,8 +214,8 @@ export default async function VannePage({
             aria-labelledby="pourquoi-ca-marche"
             className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
           >
-            <p className="text-xs font-semibold uppercase tracking-wide text-accent-primary">
-              Pourquoi ça marche — {joke.comedyTechnique}
+            <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
             </p>
             <h2 id="pourquoi-ca-marche" className="sr-only">
               Pourquoi ça marche : {joke.comedyTechnique}
@@ -229,7 +230,7 @@ export default async function VannePage({
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link
                 href="/anatomie-vanne"
-                className="font-medium text-accent-primary hover:underline"
+                className="font-medium text-accent-link hover:underline"
               >
                 L&apos;anatomie d&apos;une vanne
               </Link>
@@ -245,7 +246,7 @@ export default async function VannePage({
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
             Les variantes et le parcours complet sont dans les{" "}
-            <Link href="/parcours" className="text-accent-primary hover:underline">
+            <Link href="/parcours" className="text-accent-link hover:underline">
               parcours Premium
             </Link>
             .
@@ -253,13 +254,13 @@ export default async function VannePage({
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/register"
-              className="rounded-lg bg-accent-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-primary/90"
+              className={buttonVariants({ variant: "primary" })}
             >
               Créer un compte gratuit
             </Link>
             <Link
               href="/vannes"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary/40"
+              className={buttonVariants({ variant: "outline" })}
             >
               Voir toutes les vannes
             </Link>
@@ -285,7 +286,7 @@ export default async function VannePage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-primary hover:underline">
+          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link hover:underline">
             &larr; Toutes les vannes {categoryLabel.toLowerCase()}
           </Link>
         </nav>

@@ -9,6 +9,8 @@ import {
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { PageHeader } from "@/components/layout/page-header";
+import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -78,18 +80,18 @@ export default async function ConseilsPage() {
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Conseils</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Comment avoir de la répartie et devenir plus drôle
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Répartie, timing, storytelling — les techniques des meilleurs
-          humoristes français, expliquées comme si on était à la même table.
-          Chaque conseil vient avec un exemple concret et un défi à tester
-          aujourd&apos;hui. Pas de théorie creuse : tu lis, tu testes, tu
-          progresses.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Comment avoir de la répartie et devenir plus drôle</>}
+        lead={
+          <>
+            Répartie, timing, storytelling : les techniques des meilleurs
+            humoristes français, expliquées comme si on était à la même table.
+            Chaque conseil vient avec un exemple concret et un défi à tester
+            aujourd&apos;hui. Pas de théorie creuse&nbsp;: tu lis, tu testes, tu
+            progresses.
+          </>
+        }
+      />
 
       <Suspense fallback={null}>
         <ConseilsList />
@@ -98,10 +100,10 @@ export default async function ConseilsPage() {
       {/* FAQ SEO */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="space-y-4">
+        <dl className="max-w-3xl space-y-4">
           {conseilsFaqs.map((faq, i) => (
             <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
               <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
             </div>
           ))}
@@ -111,15 +113,15 @@ export default async function ConseilsPage() {
       {/* Contenu SEO — approfondir avec le blog */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
-        <div className="space-y-3 text-sm text-text-secondary">
+        <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
             La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
           </p>
           <p>
-            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">comment devenir drôle</Link> — le guide complet avec plan d&apos;action sur 30 jours.
+            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link>, le guide complet avec plan d&apos;action sur 30 jours.
           </p>
           <p>
-            Et pour savoir combien de temps tenir le silence avant la chute, lis notre article sur le <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>.
+            Et pour savoir combien de temps tenir le silence avant la chute, lis notre article sur le <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>.
           </p>
         </div>
       </section>

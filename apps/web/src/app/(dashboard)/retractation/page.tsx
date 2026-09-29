@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RetractationPage() {
   return (
-    <>
+    <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">
         Exercer votre droit de r&eacute;tractation
       </h1>
@@ -40,7 +40,7 @@ export default function RetractationPage() {
             Remplissez le formulaire ci-dessous ou envoyez un email &agrave;{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
-              className="text-accent-primary underline"
+              className="text-accent-link underline"
             >
               contact@deviens-marrant.fr
             </a>{" "}
@@ -48,8 +48,10 @@ export default function RetractationPage() {
           </p>
         </section>
 
-        <RetractationForm />
+        <div className="max-w-xl">
+          <RetractationForm />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

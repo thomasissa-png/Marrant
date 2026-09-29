@@ -16,6 +16,9 @@ import {
   authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { frTypo } from "@/lib/fr-typo";
+import { blogCategoryLabel } from "@/lib/blog-labels";
+import { formatIsoDateFr } from "@/lib/utils";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
 import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
@@ -158,7 +161,7 @@ export default async function BlogArticlePage({
   const prevArticle = prevSlug ? allAvailableArticles.find((a) => a.slug === prevSlug) : null;
 
   return (
-    <article className="mx-auto max-w-3xl py-8">
+    <article className="mx-auto max-w-3xl">
       <JsonLd data={buildArticleJsonLd(article)} />
       <JsonLd data={authorPersonJsonLd} />
       {"faqs" in article && article.faqs && article.faqs.length > 0 && (
@@ -200,25 +203,27 @@ export default async function BlogArticlePage({
           Blog
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-text-secondary">{article.title}</span>
+        <span className="inline-block max-w-[55vw] truncate align-bottom text-text-secondary sm:max-w-none">
+          {frTypo(article.title)}
+        </span>
       </nav>
 
       <Badge variant="primary" className="mb-4">
-        {article.category}
+        {blogCategoryLabel(article.category)}
       </Badge>
       <h1 className="font-display text-3xl font-bold md:text-4xl">
-        {article.title}
+        {frTypo(article.title)}
       </h1>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
-        <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-primary">Alex Durand</Link></span>
+        <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-link">Alex Durand</Link></span>
         <span>·</span>
-        <span>{article.date}</span>
+        <span>{formatIsoDateFr(article.date)}</span>
         {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD). */}
         {"updatedAt" in article && article.updatedAt && article.updatedAt !== article.date && (
           <>
             <span>·</span>
             <span>
-              Mis à jour le <time dateTime={article.updatedAt}>{article.updatedAt}</time>
+              Mis à jour le <time dateTime={article.updatedAt}>{formatIsoDateFr(article.updatedAt)}</time>
             </span>
           </>
         )}
@@ -292,7 +297,7 @@ export default async function BlogArticlePage({
                 className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
               >
                 <Badge variant="primary" className="mb-2 text-xs">
-                  {related.category}
+                  {blogCategoryLabel(related.category)}
                 </Badge>
                 <h3 className="text-sm font-semibold text-text-primary line-clamp-2">
                   {related.title}

@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-error text-white hover:bg-error/90 focus-visible:ring-error",
       },
       size: {
-        sm: "h-8 px-3 text-sm",
+        sm: "h-8 px-3 text-sm max-md:h-11",
         md: "h-10 px-4 text-sm",
         lg: "h-12 px-6 text-base",
         icon: "h-10 w-10",

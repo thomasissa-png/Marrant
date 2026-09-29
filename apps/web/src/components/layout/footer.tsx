@@ -58,7 +58,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {/* Marque + Réseaux sociaux */}
           <div>
-            <span className="font-display text-lg font-bold text-gradient">
+            <span className="font-display text-xl font-bold text-gradient">
               deviens-marrant
             </span>
             <p className="mt-2 text-sm text-text-secondary">
@@ -66,7 +66,7 @@ export function Footer() {
               de stand-up pour briller en société.
             </p>
             <p className="mt-3 text-sm text-text-muted">
-              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-primary">contact@deviens-marrant.fr</a>
+              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-link">contact@deviens-marrant.fr</a>
             </p>
 
             {/* Social links */}
@@ -78,7 +78,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-text-muted transition-colors hover:text-accent-primary"
+                  className="text-text-muted transition-colors hover:text-accent-link"
                 >
                   {social.icon}
                 </a>
@@ -91,7 +91,7 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="grid gap-2 lg:grid-cols-2 lg:gap-x-6">
               {footerLinks.produit.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -125,7 +125,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
+        <div className="mt-8 text-balance border-t border-border pt-8 text-center text-sm text-text-muted">
           &copy; {new Date().getFullYear()} deviens-marrant.fr · Fait avec
           humour (et un peu de café)
         </div>

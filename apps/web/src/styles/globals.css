@@ -73,6 +73,15 @@
     min-height: 100vh;
   }
 
+  /* Titres équilibrés (pas de mot orphelin), paragraphes sans veuve */
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p, li, dd {
+    text-wrap: pretty;
+  }
+
   /* Sélection personnalisée */
   ::selection {
     background-color: var(--color-accent-primary);
@@ -106,7 +115,7 @@
 
   /* Gradient texte accent */
   .text-gradient {
-    @apply bg-gradient-to-r from-accent-primary-hover to-accent-secondary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-primary-hover to-accent-secondary-hover bg-clip-text text-transparent;
   }
 }
 

@@ -156,8 +156,8 @@ export function ReactionButtons({
         className={cn(
           "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
           userReaction === true
-            ? "bg-accent-primary/20 text-accent-primary"
-            : "bg-background-elevated text-text-muted hover:text-accent-primary"
+            ? "bg-accent-primary/20 text-accent-link"
+            : "bg-background-elevated text-text-muted hover:text-accent-link"
         )}
         aria-label={`${likes} hilarant`}
       >

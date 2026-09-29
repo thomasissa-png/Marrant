@@ -146,8 +146,8 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders category badges", () => {
-    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("REPARTIE").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Guide").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Répartie").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders excerpts", () => {
@@ -157,7 +157,7 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders dates and reading times", () => {
-    expect(screen.getByText("2026-03-10")).toBeInTheDocument();
+    expect(screen.getByText("10 mars 2026")).toBeInTheDocument();
     expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 
@@ -189,11 +189,11 @@ describe("BlogArticlePage — article detail", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Comment devenir drôle : le guide",
+        name: /^Comment devenir drôle\s:\sle guide$/,
       })
     ).toBeInTheDocument();
-    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("2026-03-10")).toBeInTheDocument();
+    expect(screen.getAllByText("Guide").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("10 mars 2026")).toBeInTheDocument();
     expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 

@@ -13,6 +13,8 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
+import { splitLearning } from "@/lib/learning-format";
+import { frTypo } from "@/lib/fr-typo";
 
 interface Video {
   id: string;
@@ -59,6 +61,18 @@ function formatDuration(iso: string): string {
   const m = match[2] ?? "0";
   const s = (match[3] ?? "0").padStart(2, "0");
   return `${h}${m}:${s}`;
+}
+
+/** « TITRE : explication » : titre en gras, explication à la suite. */
+function renderLearning(learning: string) {
+  const parts = splitLearning(learning);
+  if (!parts) return learning;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{parts.title}</strong>
+      {frTypo(parts.rest)}
+    </>
+  );
 }
 
 const CATEGORIES = [
@@ -139,7 +153,7 @@ export function VideosGrid() {
                 {d.label}
               </span>
             ))}
-            <span className="mx-1 text-text-muted">·</span>
+            <span className="mx-1 hidden text-text-muted sm:inline">·</span>
             {CATEGORIES.slice(1, 4).map((cat) => (
               <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
                 {cat.label}
@@ -149,7 +163,7 @@ export function VideosGrid() {
           </div>
           <p className="mt-2 text-xs text-text-muted">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="font-medium text-accent-link hover:underline">Premium</Link>
           </p>
         </div>
       ) : (
@@ -214,15 +228,15 @@ export function VideosGrid() {
           {videos.map((video, index) => (
             <Card
               key={video.id}
-              className="overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
+              className="flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="pt-4">
+              <CardContent className="flex flex-1 flex-col pt-4">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">
+                  <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
                     {video.title}
                   </h3>
                   <div className="flex shrink-0 items-center gap-1">
@@ -244,8 +258,8 @@ export function VideosGrid() {
                     <ul className="mt-1.5 space-y-1.5">
                       {video.learnings.map((learning, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
-                          {learning}
+                          <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
+                          <span>{renderLearning(learning)}</span>
                         </li>
                       ))}
                     </ul>
@@ -253,18 +267,20 @@ export function VideosGrid() {
                 )}
                 {video.exercise && (
                   <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
                     <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                   </div>
                 )}
-                <div className="mt-3 border-t border-border pt-2">
-                  <Link
-                    href={`/videos/${buildVideoSlug(video)}`}
-                    className="text-xs text-text-muted hover:text-accent-primary hover:underline"
-                    aria-label="Ouvrir la page dédiée de cette vidéo"
-                  >
-                    Page dédiée &rarr;
-                  </Link>
+                <div className="mt-auto pt-3">
+                  <div className="border-t border-border pt-2">
+                    <Link
+                      href={`/videos/${buildVideoSlug(video)}`}
+                      className="text-xs text-text-muted hover:text-accent-link hover:underline"
+                      aria-label="Ouvrir la page dédiée de cette vidéo"
+                    >
+                      Page dédiée &rarr;
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -282,7 +298,7 @@ export function VideosGrid() {
               onClick={() => setPremiumOpen(true)}
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label="Contenu premium : cliquer pour débloquer"
             >
               <CardContent className="pt-4">
                 <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
@@ -293,7 +309,7 @@ export function VideosGrid() {
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
                   </div>
                 </div>
               </CardContent>
