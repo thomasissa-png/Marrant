@@ -217,7 +217,7 @@ export default async function BlogArticlePage({
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-text-muted">
         <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-link">Alex Durand</Link></span>
         <span>·</span>
-        <span>{formatIsoDateFr(article.date)}</span>
+        <time dateTime={article.date}>{formatIsoDateFr(article.date)}</time>
         {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD). */}
         {"updatedAt" in article && article.updatedAt && article.updatedAt !== article.date && (
           <>
@@ -256,11 +256,12 @@ export default async function BlogArticlePage({
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-text-muted">
             {cluster.name}
           </p>
-          <div className="flex gap-4">
+          {/* T37 : carte seule = demi-largeur en desktop (côté de son sens), texte à gauche en mobile */}
+          <div className="flex flex-col gap-4 sm:flex-row">
             {prevArticle && (
               <Link
                 href={`/blog/${prevArticle.slug}`}
-                className="flex-1 rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 ${nextArticle ? "flex-1" : "sm:w-1/2"}`}
               >
                 <span className="text-xs text-text-muted">Précédent</span>
                 <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
@@ -271,7 +272,7 @@ export default async function BlogArticlePage({
             {nextArticle && (
               <Link
                 href={`/blog/${nextArticle.slug}`}
-                className="flex-1 rounded-lg border border-border bg-background-card p-4 text-right transition-colors hover:border-accent-primary/40"
+                className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 sm:text-right ${prevArticle ? "flex-1" : "sm:ml-auto sm:w-1/2"}`}
               >
                 <span className="text-xs text-text-muted">Suivant</span>
                 <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
@@ -317,11 +318,11 @@ export default async function BlogArticlePage({
         articleCategory={article.category}
       />
 
-      {/* Capture newsletter — après lecture, avant CTA payant */}
-      <NewsletterInline source={`blog:${article.slug}`} className="mt-12" />
-
-      {/* CTA double (essai gratuit + premium) */}
+      {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35) */}
       <ArticleCta />
+
+      {/* Capture newsletter : en dernier, après l'action principale (T35) */}
+      <NewsletterInline source={`blog:${article.slug}`} className="mt-12" />
     </article>
   );
 }

@@ -32,11 +32,11 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
 
   return (
     <>
-      {/* Category filter */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      {/* Category filter : une seule rangée défilante sur mobile, cibles 44 px (T32) */}
+      <div className="-mx-4 mb-6 flex snap-x gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
         <Link
           href="/blog"
-          className={`rounded-full px-3 py-1 text-sm transition-colors ${
+          className={`inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full px-4 text-sm transition-colors ${
             !selectedCategory
               ? "bg-accent-primary text-white"
               : "bg-background-elevated text-text-secondary hover:text-text-primary"
@@ -48,7 +48,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
           <Link
             key={cat}
             href={`/blog?category=${cat}`}
-            className={`rounded-full px-3 py-1 text-sm transition-colors ${
+            className={`inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full px-4 text-sm transition-colors ${
               selectedCategory === cat
                 ? "bg-accent-primary text-white"
                 : "bg-background-elevated text-text-secondary hover:text-text-primary"
@@ -61,7 +61,7 @@ export function BlogListClient({ articles, categories }: BlogListClientProps) {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {filteredArticles.map((article) => (
-          <Link key={article.slug} href={`/blog/${article.slug}`}>
+          <Link key={article.slug} href={`/blog/${article.slug}`} className="block">
             <Card className="h-full p-5 transition-shadow hover:shadow-md">
               <CardContent className="flex h-full flex-col p-0">
                 <Badge variant="primary" className="mb-3 w-fit">
