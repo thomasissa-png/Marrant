@@ -116,7 +116,9 @@ describe("ViralQuiz", () => {
       );
     }
     expect(screen.getByText("Progresse avec ton profil")).toBeInTheDocument();
-    expect(screen.getByText("Crée ton compte gratuit")).toBeInTheDocument();
+    expect(
+      screen.getByText("Crée ton compte gratuit pour ton parcours personnalisé"),
+    ).toBeInTheDocument();
   });
 
   it("saves result to localStorage", async () => {

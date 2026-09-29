@@ -1,6 +1,15 @@
-import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
+
+import * as React from "react";
+
+// `React.cache` n'est pas disponible dans l'environnement de test (jsdom).
+// On l'utilise s'il existe, sinon fallback identité (dedup manquant en dev/test).
+type CacheFn = <T extends (...a: unknown[]) => unknown>(fn: T) => T;
+const reactCache: CacheFn =
+  typeof (React as { cache?: CacheFn }).cache === "function"
+    ? ((React as { cache: CacheFn }).cache)
+    : ((fn) => fn);
 
 /**
  * Statistiques de catalogue affichées côté UI marketing (metadata SEO, titres).
@@ -48,16 +57,29 @@ async function fetchContentStats(): Promise<ContentStats> {
   }
 }
 
+// unstable_cache nécessite l'incrementalCache Next.js — indisponible en tests.
+// On l'active seulement en runtime réel ; fallback direct sinon.
+const isCacheAvailable = process.env.NODE_ENV === "production" || process.env.NEXT_RUNTIME !== undefined;
+
+const cachedFetch = isCacheAvailable
+  ? unstable_cache(fetchContentStats, ["content-stats-v1"], {
+      revalidate: 300,
+      tags: ["content-stats"],
+    })
+  : fetchContentStats;
+
 /**
  * Cache serveur cross-requêtes (5 min) + déduplication intra-render (React.cache).
  * Utilisable dans generateMetadata et Server Components.
  */
-export const getContentStatsCached = cache(
-  unstable_cache(fetchContentStats, ["content-stats-v1"], {
-    revalidate: 300,
-    tags: ["content-stats"],
-  }),
-);
+export const getContentStatsCached = reactCache(async (): Promise<ContentStats> => {
+  try {
+    return await cachedFetch();
+  } catch {
+    // Fallback si unstable_cache crash (context manquant, tests, etc.)
+    return fetchContentStats();
+  }
+});
 
 /**
  * Version arrondie prête à afficher — même contrat que le hook client.
