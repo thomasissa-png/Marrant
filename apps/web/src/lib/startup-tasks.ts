@@ -18,6 +18,7 @@ import { withDbRetry } from "@/lib/db-retry";
 import jokeDecryptages from "@/data/joke-decryptages.json";
 import weakJokes from "@/data/weak-jokes.json";
 import blogArticleFixes from "@/data/blog-article-fixes.json";
+import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 
 /** Une entrée de décryptage pré-rédigé, matchée sur le `content` de la vanne. */
@@ -106,7 +107,13 @@ async function applyJokeDecryptagesTask(): Promise<void> {
     // Index par content pour un match O(1) (le content est unique par vanne seed).
     const byContent = new Map(entries.map((e) => [e.content, e]));
 
-    // On ne lit QUE les vannes non décryptées (idempotence + charge minimale).
+    // Deux passes distinctes :
+    //  1. NULL → back-fill (identique historique) sur TOUTES les vannes.
+    //  2. Vannes seed (generatedByAI=false) : override le décryptage si le
+    //     fichier de référence diffère de la DB — le fichier fait AUTORITÉ
+    //     pour le catalogue seed (audit s11 : décryptages retravaillés).
+    //     Ne JAMAIS toucher aux vannes generatedByAI=true (leur décryptage
+    //     est propre à leur version IA).
     const pending = await withDbRetry(
       () =>
         prisma.joke.findMany({
@@ -126,8 +133,6 @@ async function applyJokeDecryptagesTask(): Promise<void> {
         slice.map(async (joke) => {
           const entry = byContent.get(joke.content);
           if (!entry) {
-            // Vanne absente du fichier (ex. ancienne vanne IA sans décryptage).
-            // On laisse null — sans crash. Le décryptage IA reste possible ailleurs.
             skippedNoMatch++;
             return;
           }
@@ -148,8 +153,55 @@ async function applyJokeDecryptagesTask(): Promise<void> {
       );
     }
 
+    // Passe autoritaire : override sur les vannes SEED uniquement, si le
+    // décryptage stocké diffère du fichier (source de vérité pour le catalogue).
+    let overridden = 0;
+    const seedJokes = await withDbRetry(
+      () =>
+        prisma.joke.findMany({
+          where: { generatedByAI: false, comedyTechnique: { not: null } },
+          select: {
+            id: true,
+            content: true,
+            comedyTechnique: true,
+            techniqueExplanation: true,
+            howToApply: true,
+          },
+        }),
+      { label: "apply-decryptages:findSeed" },
+    );
+
+    for (let i = 0; i < seedJokes.length; i += BATCH) {
+      const slice = seedJokes.slice(i, i + BATCH);
+      await Promise.all(
+        slice.map(async (joke) => {
+          const entry = byContent.get(joke.content);
+          if (!entry) return;
+          const differs =
+            entry.comedyTechnique !== joke.comedyTechnique ||
+            entry.techniqueExplanation !== joke.techniqueExplanation ||
+            entry.howToApply !== joke.howToApply;
+          if (!differs) return;
+          await withDbRetry(
+            () =>
+              prisma.joke.update({
+                where: { id: joke.id },
+                data: {
+                  comedyTechnique: entry.comedyTechnique,
+                  techniqueExplanation: entry.techniqueExplanation,
+                  howToApply: entry.howToApply,
+                },
+              }),
+            { label: "apply-decryptages:override" },
+          );
+          overridden++;
+        }),
+      );
+    }
+
     const skipNote = skippedNoMatch > 0 ? ` (${skippedNoMatch} sans match fichier)` : "";
-    console.log(`[startup] décryptages appliqués : ${applied}/${total}${skipNote}.`);
+    const overrideNote = overridden > 0 ? `, ${overridden} seed override` : "";
+    console.log(`[startup] décryptages appliqués : ${applied}/${total}${skipNote}${overrideNote}.`);
   } catch (err) {
     console.error("[startup] applyJokeDecryptages échoué (non bloquant) :", err);
   }
@@ -307,6 +359,138 @@ async function fixPublishedBlogArticlesTask(): Promise<void> {
   if (articlesTouched > 0) {
     console.log(
       `[startup] articles blog corrigés : ${articlesTouched} article(s), ${totalReplacements} remplacement(s).`,
+    );
+  }
+}
+
+/**
+ * Applique les réécritures d'articles de blog (s11 charte refonte copy).
+ *
+ * Contexte : la charte s11 impose une réécriture globale des articles publiés.
+ * Un autre agent produit les nouvelles versions dans
+ * `src/data/blog-article-rewrites.json` (format : `{ _meta: { version }, rewrites: [...] }`).
+ * Cette tâche applique chaque réécriture UNE SEULE FOIS par (slug, version) via
+ * un marqueur persistant `DataPatch` (patchId "blog-rewrite:v<version>:<slug>").
+ *
+ * Format d'une entrée :
+ *   {
+ *     "slug": "comment-devenir-drole",
+ *     "title": "…",            // optionnel
+ *     "excerpt": "…",          // optionnel
+ *     "metaTitle": "…",        // optionnel
+ *     "metaDescription": "…",  // optionnel
+ *     "content": "…"           // optionnel (Markdown)
+ *   }
+ *
+ * Garanties :
+ *  - Idempotent : DataPatch.patchId unique → 2e boot skip (0 update).
+ *  - Ciblé : ne touche que les articles PUBLIÉS existants (skip silencieux sinon).
+ *  - Fail-safe : erreur DB par slug → non bloquant (les autres slugs continuent).
+ *  - SANS IA : pure copie de champs depuis JSON → DB.
+ *  - Réversibilité : supprimer la ligne DataPatch correspondante rejoue le rewrite
+ *    au prochain boot. Bumper `_meta.version` force la réapplication de TOUT le
+ *    fichier (nouveau patchId → aucun marqueur existant).
+ */
+interface BlogArticleRewriteEntry {
+  slug: string;
+  title?: string;
+  excerpt?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  content?: string;
+}
+
+interface BlogArticleRewritesFile {
+  _meta?: { version?: number };
+  rewrites?: BlogArticleRewriteEntry[];
+}
+
+async function applyBlogArticleRewritesTask(): Promise<void> {
+  const file = blogArticleRewrites as BlogArticleRewritesFile;
+  const version = file._meta?.version ?? 1;
+  const rewrites = file.rewrites ?? [];
+  if (rewrites.length === 0) return;
+
+  let applied = 0;
+  let skipped = 0;
+  let missing = 0;
+
+  for (const entry of rewrites) {
+    if (!entry.slug || typeof entry.slug !== "string") continue;
+    const patchId = `blog-rewrite:v${version}:${entry.slug}`;
+
+    try {
+      // Marqueur idempotence : si déjà appliqué pour cette version, skip.
+      const existing = await withDbRetry(
+        () => prisma.dataPatch.findUnique({ where: { patchId } }),
+        { label: `blog-rewrite:check(${entry.slug})` },
+      );
+      if (existing) {
+        skipped++;
+        continue;
+      }
+
+      const article = await withDbRetry(
+        () =>
+          prisma.blogArticle.findUnique({
+            where: { slug: entry.slug },
+            select: { id: true, isPublished: true },
+          }),
+        { label: `blog-rewrite:find(${entry.slug})` },
+      );
+
+      if (!article || !article.isPublished) {
+        // Article absent ou non publié → skip silencieux, ne pas marquer patché
+        // (permet une réapplication automatique si l'article est publié plus tard).
+        missing++;
+        continue;
+      }
+
+      const update: {
+        title?: string;
+        excerpt?: string;
+        metaTitle?: string;
+        metaDescription?: string;
+        content?: string;
+        updatedAt: Date;
+      } = { updatedAt: new Date() };
+      if (typeof entry.title === "string" && entry.title.trim()) update.title = entry.title;
+      if (typeof entry.excerpt === "string" && entry.excerpt.trim()) update.excerpt = entry.excerpt;
+      if (typeof entry.metaTitle === "string" && entry.metaTitle.trim()) update.metaTitle = entry.metaTitle;
+      if (typeof entry.metaDescription === "string" && entry.metaDescription.trim()) update.metaDescription = entry.metaDescription;
+      if (typeof entry.content === "string" && entry.content.trim()) update.content = entry.content;
+
+      // Si l'entrée n'apporte AUCUN champ utile → ne pas toucher l'article ni
+      // consommer un marqueur (défensif contre les entrées mal formées).
+      if (Object.keys(update).length === 1) {
+        continue;
+      }
+
+      await withDbRetry(
+        () =>
+          prisma.$transaction([
+            prisma.blogArticle.update({
+              where: { id: article.id },
+              data: update,
+            }),
+            prisma.dataPatch.create({
+              data: { patchId, note: `blog-rewrite v${version} slug=${entry.slug}` },
+            }),
+          ]),
+        { label: `blog-rewrite:apply(${entry.slug})` },
+      );
+      applied++;
+    } catch (err) {
+      console.error(
+        `[startup] applyBlogArticleRewrites échoué pour "${entry.slug}" (non bloquant) :`,
+        err,
+      );
+    }
+  }
+
+  if (applied > 0 || skipped > 0 || missing > 0) {
+    console.log(
+      `[startup] réécritures blog v${version} : ${applied} appliquée(s), ${skipped} déjà patchée(s), ${missing} article(s) introuvable(s).`,
     );
   }
 }
@@ -620,6 +804,7 @@ export async function runStartupTasks(): Promise<void> {
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
   await fixPublishedBlogArticlesTask();
+  await applyBlogArticleRewritesTask();
   await depublishCannibalizedDbArticlesTask();
   await backfillMissingJokeDecryptagesTask();
   await convergeBlogSlugRedirectsTask();
@@ -631,6 +816,7 @@ export {
   applyJokeDecryptagesTask,
   deactivateWeakJokesTask,
   fixPublishedBlogArticlesTask,
+  applyBlogArticleRewritesTask,
   depublishCannibalizedDbArticlesTask,
   backfillMissingJokeDecryptagesTask,
   convergeBlogSlugRedirectsTask,

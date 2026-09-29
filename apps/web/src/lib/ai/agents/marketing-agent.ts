@@ -775,10 +775,16 @@ export const TONALITY_BRIEF = {
   ],
   doNot: [
     "Jamais vulgaire, offensant ou discriminatoire",
-    "Jamais de calembours éculés type 'oncle en soirée' (canif/fien, chat-peint...)",
+    "Jamais de calembours phonétiques (chien → chat, coup de foudre → allergie qui coule) — test : si tu peux expliquer par 'ça sonne comme…', c'est raté",
     "Jamais condescendant ou moralisateur",
     "Jamais de jargon marketing ou corporate dans le contenu utilisateur",
     "Jamais forcer l'humour — si c'est pas drôle naturellement, reformuler",
+    "Jamais mentionner l'IA (ChatGPT, GPT, Claude, LLM, Alexa, Siri, assistant vocal) — règle fondateur permanente",
+    "Jamais nommer un concurrent",
+    "Jamais inventer un nouveau chiffre, une nouvelle stat, un témoignage — on ne modifie AUCUN chiffre existant du site",
+    "Jamais utiliser le vocabulaire scolaire (mémoriser, semaine 1, jours 1-3, leçon) — on est un atelier, pas un amphi",
+    "Jamais présenter la marque comme un 'coach' — on est un pote qui a pratiqué",
+    "Jamais de staccato IA en fragment isolé ('Boom.', 'Plot twist :', 'STOP.', 'Voilà.', 'Fin.')",
   ],
   jokeGuidelines: {
     preferredTypes: ["ONE_LINER", "SUBTIL", "STORY"],
@@ -787,9 +793,9 @@ export const TONALITY_BRIEF = {
     freshness: "Références actuelles (réseaux sociaux, apps, streaming, colocation, dating apps)",
   },
   tipGuidelines: {
-    tone: "Coach bienveillant et complice, pas prof",
+    tone: "Pote bienveillant et complice qui a pratiqué — jamais prof, jamais 'ton coach', jamais scolaire",
     references: "Humoristes francophones actuels : Fary, Paul Mirabel, Pierre Croce, Roman Frayssinet, Blanche Gardin, Panayotis Pascot",
-    exercises: "Concrets et faisables dans la journée — pas de 'devoir maison'",
+    exercises: "Concrets et faisables dans la journée — pas de 'devoir maison', pas de 'semaine 1', pas de 'jours 1-3'",
     examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc)",
   },
   videoGuidelines: {

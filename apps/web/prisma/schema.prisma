@@ -124,6 +124,19 @@ model Joke {
   techniqueExplanation String? @db.Text // 2-3 phrases : POURQUOI ça marche
   howToApply           String? @db.Text // "À toi de jouer" : 1 consigne + 1 exemple
 
+  // Relecture automatique s11 (charte refonte copy) — nullable, réversible.
+  // copyReviewedAt : timestamp de la dernière relecture (par version de charte).
+  // copyReviewVersion : version de la charte relue (défaut 1). Si la charte évolue,
+  //   les vannes non relues pour la nouvelle version sont retraitées.
+  // copyVerdict : verdict du Director (GARDER / RÉÉCRIRE / RETIRER).
+  // originalContent/originalPunchline : version d'origine avant réécriture
+  //   (permet rollback + audit).
+  copyReviewedAt      DateTime? // date de la dernière relecture Director s11
+  copyReviewVersion   Int?      // version de la charte de relecture appliquée
+  copyVerdict         String?   // "GARDER" | "REECRIRE" | "RETIRER"
+  originalContent     String?   @db.Text // contenu avant réécriture s11 (si REECRIRE)
+  originalPunchline   String?   @db.Text // punchline avant réécriture s11 (si REECRIRE)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -131,6 +144,7 @@ model Joke {
 
   @@index([category])
   @@index([isActive])
+  @@index([copyReviewedAt])
 }
 
 enum JokeCategory {
@@ -191,6 +205,13 @@ model Tip {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  // Relecture automatique s11 (charte refonte copy) — nullable, réversible.
+  copyReviewedAt    DateTime? // date de la dernière relecture Director s11
+  copyReviewVersion Int?      // version de la charte de relecture appliquée
+  copyVerdict       String?   // "GARDER" | "REECRIRE" | "RETIRER"
+  originalTitle     String?   // titre avant réécriture s11 (si REECRIRE)
+  originalContent   String?   @db.Text // contenu avant réécriture s11 (si REECRIRE)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -199,6 +220,7 @@ model Tip {
   @@index([category])
   @@index([difficulty])
   @@index([isActive])
+  @@index([copyReviewedAt])
 }
 
 enum TipCategory {
@@ -952,4 +974,26 @@ enum NewsletterSubscriberStatus {
   PENDING       // inscription enregistrée, en attente de confirmation double opt-in
   CONFIRMED     // a cliqué sur le lien de confirmation
   UNSUBSCRIBED  // s'est désabonné
+}
+
+// ==========================================
+// PATCHS DE DONNÉES (idempotence — s11 lot copy)
+// ==========================================
+
+/// Marqueur persistant "cette réécriture / correction a déjà été appliquée".
+///
+/// Utilisé par `applyBlogArticleRewritesTask` (s11) pour garantir qu'un
+/// rewrite de blog n'est appliqué qu'une seule fois par (slug, version) —
+/// même si le boot redémarre 20 fois, même si un autre patch identique
+/// ré-apparaît dans le JSON, on ne réécrit qu'une seule fois. Réutilisable
+/// pour toute future tâche de convergence idempotente.
+///
+/// Format `patchId` : "<domain>:<version>:<key>", ex "blog-rewrite:v1:mon-slug".
+model DataPatch {
+  id        String   @id @default(cuid())
+  patchId   String   @unique
+  appliedAt DateTime @default(now())
+  note      String?  @db.Text
+
+  @@index([appliedAt])
 }

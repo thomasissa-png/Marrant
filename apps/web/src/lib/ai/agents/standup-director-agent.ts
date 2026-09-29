@@ -7,6 +7,16 @@ import {
 } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { extractSetupAmorce } from "./joke-agent";
+
+/**
+ * Regex de mentions IA / assistants vocaux (règle fondateur permanente).
+ * Utilisée par G-J11 (jokes) et G-T6 (tips). Attention aux faux positifs :
+ * "AI" seul est ambigu (Aïnhoa, "j'ai", "ça y est"), on cible donc les mots
+ * dénominatifs sans risque de collision ("l'IA" avec article, "ChatGPT", etc).
+ */
+const AI_MENTION_PATTERN =
+  /\b(l['']IA|IA générative|intelligence artificielle|ChatGPT|GPT[- ]?\d|LLM|Claude\s*(?:AI|IA)|Claude d['’]Anthropic|Bard|Google Gemini|Gemini\s*(?:AI|IA)|Copilot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel|generative ai)\b/i;
 
 // ───────────────────────────────────────────────────────────────────
 // Agent Stand-Up Director — Directeur Artistique de deviens-marrant.fr
@@ -37,7 +47,10 @@ interface GateResult {
  * Gates pour les vannes — chaque gate est un check binaire.
  * 1 FAIL = rejet automatique, pas besoin de passer par le LLM.
  */
-export function runJokeGates(joke: JokeToValidate): GateResult[] {
+export function runJokeGates(
+  joke: JokeToValidate,
+  options: { recentSetups?: string[] } = {},
+): GateResult[] {
   const results: GateResult[] = [];
   const content = joke.content.trim();
   const punchline = joke.punchline.trim();
@@ -127,6 +140,59 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
     reason: vulgarPattern.test(fullText) ? "Insulte directe détectée" : "OK",
   });
 
+  // G-J10 — Anti-répétition d'amorce (s11 charte §3 : "❌ Même amorce qu'une
+  // autre vanne du catalogue"). Compare l'amorce (12 premiers mots normalisés)
+  // de la vanne proposée à celles des N dernières vannes passées en contexte.
+  // On considère qu'il y a "répétition" quand ≥ 5 mots de préfixe sont
+  // strictement identiques après normalisation (extractSetupAmorce). C'est
+  // conservateur : deux amorces qui partagent leur ouverture ("j'ai demandé
+  // à mon…") tombent, deux vannes sur le même thème avec des ouvertures
+  // différentes passent. Ne bloque JAMAIS une vanne existante (aucun recentSetup
+  // fourni → gate PASS silencieusement, cf. règle fondateur "ne pas supprimer
+  // ce qui marche par doute").
+  const recentSetups = (options.recentSetups ?? [])
+    .map((s) => extractSetupAmorce(s))
+    .filter((s) => s.length > 0);
+  const currentAmorce = extractSetupAmorce(content);
+  const currentTokens = currentAmorce.split(" ").filter((w) => w.length > 0);
+  let amorceCollision: string | null = null;
+  if (currentTokens.length >= 5) {
+    for (const setup of recentSetups) {
+      const setupTokens = setup.split(" ").filter((w) => w.length > 0);
+      // Comparaison préfixe : combien de mots consécutifs identiques depuis le début ?
+      let matching = 0;
+      const maxMatch = Math.min(currentTokens.length, setupTokens.length);
+      for (let i = 0; i < maxMatch; i++) {
+        if (currentTokens[i] === setupTokens[i]) matching++;
+        else break;
+      }
+      if (matching >= 5) {
+        amorceCollision = setup;
+        break;
+      }
+    }
+  }
+  results.push({
+    gate: "G-J10 Anti-répétition d'amorce",
+    pass: !amorceCollision,
+    reason: amorceCollision
+      ? `Amorce trop proche d'une vanne récente : "${amorceCollision}" — même ouverture, changer d'angle`
+      : "OK",
+  });
+
+  // G-J11 — Anti-mention IA / assistant vocal (règle fondateur permanente).
+  // Une vanne du site NE parle JAMAIS de ChatGPT, "l'IA", Siri, Alexa… (audit
+  // charte s11 §1.2 : "Zéro mention d'IA — y compris les vannes/exemples qui
+  // parlent de ChatGPT, d'assistants vocaux ou de « l'IA »").
+  const aiInJoke = AI_MENTION_PATTERN.test(`${content} ${punchline}`);
+  results.push({
+    gate: "G-J11 Anti-mention IA",
+    pass: !aiInJoke,
+    reason: aiInJoke
+      ? "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
+      : "OK",
+  });
+
   return results;
 }
 
@@ -175,6 +241,17 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
     gate: "G-T5 Tutoiement obligatoire",
     pass: !vousPattern.test(fullText),
     reason: vousPattern.test(fullText) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
+  });
+
+  // G-T6 — Anti-mention IA / assistant vocal (règle fondateur permanente).
+  const aiText = `${tip.title} ${tip.content} ${tip.example} ${tip.exercise}`;
+  const aiInTip = AI_MENTION_PATTERN.test(aiText);
+  results.push({
+    gate: "G-T6 Anti-mention IA",
+    pass: !aiInTip,
+    reason: aiInTip
+      ? "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
+      : "OK",
   });
 
   return results;
@@ -739,9 +816,10 @@ async function dualPassValidate<T>(
 export async function validateJoke(
   joke: JokeToValidate,
   persona: PersonaKey,
+  options: { recentSetups?: string[] } = {},
 ): Promise<ValidationResult> {
   // ── Gates programmatiques (binaires, pas de LLM) ──
-  const gates = runJokeGates(joke);
+  const gates = runJokeGates(joke, { recentSetups: options.recentSetups });
   const gateReject = applyGates(gates, "JOKE");
   if (gateReject) {
     console.log(`[Director] Vanne rejetée par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);

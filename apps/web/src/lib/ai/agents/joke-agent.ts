@@ -21,6 +21,27 @@ const JOKE_TYPES = [
   "SUBTIL", "CLASSIQUE", "ABSURDE", "ONE_LINER", "STORY", "DIALOGUE", "QA",
 ] as const;
 
+/**
+ * Extrait "l'amorce" d'une vanne : la première proposition significative du
+ * setup (jusqu'au premier point/point-virgule, max 12 mots). Réutilisé par le
+ * générateur (injection dans le prompt) ET le gate anti-répétition d'amorce
+ * du Stand-Up Director (G-J10). Normalisation légère : minuscules, espaces
+ * simplifiés, ponctuation de fin retirée — un match "similaire" repose sur
+ * l'ouverture nue, pas sur la casse ou une virgule décorative.
+ */
+export function extractSetupAmorce(content: string): string {
+  if (!content) return "";
+  const firstClause = content.split(/[.;!?\n]/)[0] ?? content;
+  const words = firstClause.trim().split(/\s+/).slice(0, 12).join(" ");
+  return words
+    .toLowerCase()
+    // Retire les guillemets et double-quotes typographiques mais PRÉSERVE les
+    // apostrophes typographiques (essentielles au français : m'a, l'IA, j'ai).
+    .replace(/[«»""]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export interface JokeDecryptage {
   comedyTechnique: string;
   techniqueExplanation: string;
@@ -83,9 +104,10 @@ LE TEST STAND-UP — RÈGLE N°1, NON NÉGOCIABLE
 ═══════════════════════════════════════
 
 Avant de valider ta vanne, pose-toi CETTE question :
-« Est-ce que le persona ciblé peut la sortir ce soir en soirée ou demain à la machine à café et faire RIRE ? »
+« Est-ce que le persona ciblé peut la sortir ce soir en soirée ou demain à la machine à café et faire SOURIRE + donner envie de la ressortir ? »
 
-Pas sourire poliment. RIRE. Si la réponse est "bof", "peut-être", "ça dépend" → ta vanne est nulle, recommence.
+Pas sourire poliment. Faire SOURIRE NET, celui de reconnaissance ("ah ouais c'est vrai"), et donner ENVIE DE LA RÉPÉTER. Si la réponse est "bof", "peut-être", "ça dépend" → ta vanne est nulle, recommence.
+Note : l'objectif n'est pas le rire tonitruant de scène — c'est le sourire de reconnaissance + l'envie de répéter. Une vanne qui déclenche "ah ouais c'est vrai" + sourire + "je vais dire ça à [un pote]" est une réussite. La valeur ultime du site est dans le DÉCRYPTAGE — la vanne, c'est la porte d'entrée.
 
 PENSE COMME UN STAND-UPPER :
 - Tu es sur scène. Tu as 10 secondes. Le public décroche si le setup est trop long.
@@ -97,7 +119,7 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ═══════════════════════════════════════
 
 ❌ OBJETS QUI PARLENT : « Un X dit à un Y... » entre objets inanimés. Personne ne raconte ça en société. Jamais.
-❌ JEUX DE MOTS FORCÉS : si le calembour ne marche qu'à l'écrit ou nécessite 3 secondes de réflexion, c'est non.
+❌ JEUX DE MOTS FORCÉS : si le calembour repose sur deux sons proches (chien → chat, réviser → révélation, coup de foudre → allergie), c'est non même si ça marche à l'oral. La vanne doit surprendre par une IDÉE, pas par un son. Test : si tu peux expliquer le jeu de mots en disant "parce que ça sonne comme...", c'est raté.
 ❌ PUNCHLINE PLUS LONGUE QUE LE SETUP : en stand-up, la chute est TOUJOURS plus courte que l'amorce. Toujours.
 ❌ FORMAT CARAMBAR : « Pourquoi le X fait Y ? Parce que Z. » sans vrai twist = blague de papier de bonbon.
 ❌ AUTODÉRISION TRISTE : « je suis seul / nul / ghosté » sans retournement comique = déprimant, pas drôle.
@@ -105,6 +127,7 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous êtes", réécris en "t'es" ou "tu es".
 ❌ VULGARITÉ : JAMAIS de gros mots (putain, merde, bordel, etc.). On est drôle SANS être vulgaire.
+❌ MENTION D'IA / D'ASSISTANT VOCAL : JAMAIS de ChatGPT, "l'IA", GPT, Claude, Alexa, Siri, Google Assistant, "mon assistant vocal", "un chatbot". Règle fondateur permanente : on n'évoque JAMAIS l'IA dans le contenu. Si l'idée passe par un assistant vocal ou une IA, remplace-le par un humain (un pote, un collègue, un parent, une appli lambda).
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
@@ -114,6 +137,7 @@ CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
 ✅ SORTABLE À L'ORAL : le persona doit pouvoir la glisser naturellement dans une conversation. Teste : "Ah tiens ça me rappelle, [ta vanne]" — si ça marche, c'est bon.
 ✅ TWIST NET : la punchline doit surprendre. Le public ne doit PAS la voir venir. Si on peut deviner la chute après le setup, c'est raté.
 ⚠️ ATTENTION — CONSTAT ≠ PUNCHLINE : si la punchline EXPLIQUE juste ce qui s'est passé (ex: "il était de l'autre côté", "j'avais oublié"), c'est un CONSTAT, pas un TWIST. Une punchline doit contenir un RETOURNEMENT : exagération, personnification, absurde, double sens, comparaison inattendue. "Il m'est arrivé un truc con" n'est PAS une vanne.
+⚠️ DRAMATISATION ≠ TWIST non plus : "Mon pull c'est ma survie" est une dramatisation, pas un twist. Transformer un enjeu faible en enjeu épique par des mots forts (survie, mission, destin) sans retournement logique = constat dramatisé = raté. Le retournement doit changer la DIRECTION de la vanne, pas juste amplifier le ton.
 ✅ COURTE ET PERCUTANTE : setup + punchline < 40 mots. Les meilleures tiennent en 15-20 mots. Chaque mot qui n'ajoute rien au rire DOIT être supprimé.
 ✅ PARTAGEABLE : après l'avoir lue, le persona doit avoir envie de l'envoyer à un pote ou de la screenshot. C'est le test ultime.
 
@@ -121,10 +145,13 @@ CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
 EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
 ═══════════════════════════════════════
 
+🟢 ÉTALON A (validé fondateur — sourire de reconnaissance + retournement doux) : "J'ai demandé à mon dentiste s'il allait faire mal. Il a souri avant de répondre. J'ai pas aimé ce sourire." → Setup court, observation fine, le twist est un détail visuel (le sourire) qui bascule le sens.
+🟢 ÉTALON B (validé fondateur — dialogue minimal + non-dit) : "Ma collègue m'a dit qu'il faisait un temps de chien. J'ai dit : « C'est normal, c'est lundi. » Elle a acquiescé. On a rien ajouté." → Le rire est dans l'accord silencieux, pas dans un jeu de mots. Twist par absurde social.
 🟢 ÉTALON (exagération temporelle) : "En soirée je parle pas. Les gens croient que je suis mystérieux. En vrai j'attends juste qu'on parle d'un truc que je connais. Ça fait trois ans que j'attends." → Auto-dérision + retournement, le "trois ans" pousse l'absurde du réel.
 🟢 ÉTALON (contraste de statut) : "Ma collègue gère son stress par la respiration. Moi je gère le mien en répondant 'oui carrément' à des réunions où j'ai rien suivi." → Observation fine, on se reconnaît, le twist est dans l'aveu.
 🟢 ÉTALON (triple chute, règle de 3) : "Quelqu'un a commenté « premier » sous ma vidéo. Il était aussi le dernier. Et le seul." → Escalade en deux temps qui recadre vers le pathétique.
 🟢 ÉTALON (euphémisme démasqué) : "On m'a proposé un poste avec « un salaire compétitif ». Compétitif avec le SMIC, apparemment." → On démasque le langage corporate, twist net.
+🟢 ÉTALON C (décryptage validé fondateur) : Pour "T'as pas eu le temps ? Non, la vie ne m'a pas offert cette option dans le menu du jour" → comedyTechnique : "Le recadrage bureaucratique de l'excuse". techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser." (registre : précis, pédagogique, tutoiement, jamais académique.)
 
 🔴 MAUVAIS : "Un stylo dit à un crayon : 'Tu manques de pointe.'" → Objet qui parle, jeu de mots forcé, personne ne raconte ça.
 🔴 MAUVAIS : "Pourquoi le chat traverse la route ? Pour aller de l'autre côté." → Format Carambar, zéro twist.
@@ -182,6 +209,10 @@ Conseil du jour : "${ctx.otherAgentsCategories?.tip ?? "?"}" | Vidéo du jour : 
 NE PAS RÉPÉTER — ${ctx.recentJokes.length} dernières vannes publiées :
 ${ctx.recentJokes.map((j, i) => `${i + 1}. [${j.category}/${j.type}] ${j.content}`).join("\n")}
 
+SETUPS BRUTS À ÉVITER (extraits des ${ctx.recentJokes.length} dernières amorces) :
+${ctx.recentJokes.map((j) => `- "${extractSetupAmorce(j.content)}"`).join("\n")}
+→ Si ta vanne commence par une situation proche de l'une de ces amorces (même verbe d'ouverture, même sujet), recommence. Même thème, angle différent.
+
 PLAN DU MOIS :
 ${ctx.monthlyPlanSummary}
 
@@ -201,7 +232,7 @@ CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 Pense à une situation concrète de sa vie (${persona.interests.slice(0, 3).join(", ")}) et trouve l'angle drôle.
 Setup court → twist qui surprend → punchline qui claque.
 
-AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait rire ?". Si tu hésites, recommence.`,
+AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?". Si tu hésites, recommence.`,
       },
     ],
   }, 2, { agent: "joke-agent", fn: "generateDailyJoke" });
@@ -253,7 +284,7 @@ AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça 
 // Regex de mentions IA (gate G-J10 léger) — local au joke-agent pour éviter
 // d'importer depuis standup-director-agent (couplage inutile).
 const AI_MENTIONS =
-  /(\b(IA|intelligence artificielle|agent IA|LLM|GPT|Claude|ChatGPT|automatisation|bot)\b|propulsé par|powered by)/i;
+  /(\b(IA|intelligence artificielle|agent IA|LLM|GPT|Claude|ChatGPT|automatisation|bot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel)\b|propulsé par|powered by)/i;
 
 /**
  * Gate G-J10 léger : valide le décryptage pédagogique d'une vanne.
