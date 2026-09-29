@@ -10,7 +10,7 @@
 
 [Framework : AIDA pédagogique (promesse → mécanique → démonstration → action)] · [Conscience : Problem-Aware]
 
-**Bilan : 31 éléments relevés · 5 gardés · 26 réécrits / remplacés (84 %).** Intro resserrée (réponse directe en 1re phrase). Gras « blague courte » ramené de 20+ à 6 occurrences (audit a : bourrage SEO) — le mot-clé reste présent dans le texte et les H2.
+**Bilan : 31 éléments relevés · 7 gardés (dont 3 contre-exemples volontaires) · 24 réécrits / remplacés (77 %) — 14 des 15 vannes de la liste réécrites, les 4 étapes de la démonstration refaites.** Intro resserrée (réponse directe en 1re phrase). Gras « blague courte » ramené de 20+ à 6 occurrences (audit a : bourrage SEO) — le mot-clé reste présent dans le texte et les H2.
 
 ### Tableau exhaustif
 
@@ -204,3 +204,158 @@
 - Aucun chiffre comique ajouté (« deuxième diapo » n'est pas un chiffre statistique).
 
 ---
+
+## 4. `comment-improviser-des-blagues`
+
+[Framework : FAB par méthode (méthode → mécanique → exemple réutilisable)] · [Conscience : Problem-Aware]
+
+**Bilan : 38 éléments relevés (lignes n°30 et n°33 = 3 vannes chacune, n°34 = 3 éléments) · 10 gardés (dont 2 retouchés) · 28 réécrits (74 %).** Intro : réponse directe citable en 1re phrase (« rebondir sur ce qui se passe au lieu de puiser dans un stock »). Tous les H2/H3 intacts, ancre FAQ `#5-gérer-léchec--transformer-un-flop-en-rebond` intacte.
+
+### Tableau exhaustif
+
+| N° | Avant | Verdict | Après |
+|---|---|---|---|
+| 1 | « Fary n'a pas un stock de 2000 blagues dans sa tête. Il improvise en direct, à partir de rien. » (+ excerpt « 2 000 ») | RÉÉCRIRE — affirmation invérifiable (un humoriste écrit son spectacle) | « Ce qui différencie un humoriste comme Fary… ce n'est pas un stock de 2000 blagues dans la tête. C'est la capacité à improviser à partir de ce qui arrive. » (2000 / 2 000 conservés) |
+| 2 | « …pas réservé aux pros du Jamel Comedy Club » | RÉÉCRIRE — marque/plateau nommé (audit b, « zéro concurrent nommé » à interpréter) + référence legacy | « …pas réservé aux pros des comedy clubs » — **à valider par Thomas** |
+| 3 | « Quand Paul Mirabel fait rire 15 000 personnes à Bercy avec une observation sur le prix du parking, il n'avait pas préparé cette blague dans son salon. » | RÉÉCRIRE — anecdote invérifiable attribuée | « Quand un humoriste fait rire 15 000 personnes à Bercy avec une remarque sur le prix du parking, il ne l'a pas forcément écrite dans son salon. » (15 000 et Bercy conservés, attribution retirée) |
+| 4 | « Spoiler : ça n'a rien à voir… » | RÉÉCRIRE — anglicisme | « Et non, ça n'a rien à voir avec être "naturellement drôle". » |
+| 5 | Frayssinet « ne se réveille pas le matin en étant plus drôle que toi » | GARDER + chute | « …y compris dans sa tasse de café » |
+| 6 | CLEF « ce n'est pas être spontané — c'est avoir tellement pratiqué les patterns… » | GARDER | Inchangé |
+| 7 | Observer : « ce mec parle comme un robot qui aurait appris le management sur LinkedIn » | RÉÉCRIRE — mention « robot » (charte : zéro IA) + cliché | « il vient de dire une phrase où aucun mot ne veut rien dire, et tout le monde hoche la tête » |
+| 8 | Connecter : « Mon stagiaire, explique-moi la synergie collaborative. » / « Il m'a regardé 5 secondes et m'a proposé de faire une pause café. » | GARDER — bonne chute | Inchangé |
+| 9 | Transformer : « On dirait que mon stagiaire a suivi une formation en management pour apprendre à déléguer le boulot des autres — et à appeler ça de la synergie. » | RÉÉCRIRE — chute longue qui s'explique | « J'ai demandé à mon stagiaire ce qu'était la synergie collaborative. Il a réfléchi 5 secondes et il a proposé une pause café. Honnêtement, je crois que c'est exactement ça. » |
+| 10 | Waly Dia « excelle… punchlines chirurgicales » | RÉÉCRIRE — emphase | « est un bon exemple… des punchlines qui tapent juste » (affirmation de style gardée) |
+| 11 | « Inès Reg en est la reine sur les plateaux télé. » | RÉÉCRIRE — affirmation invérifiable | « C'est le réflexe qu'on voit chez les humoristes invités sur les plateaux télé » |
+| 12 | Pivot : « Ah tu travailles dans un asile maintenant ? Ça explique tes horaires de visite. » | RÉÉCRIRE — **NO-GO : moquerie de la maladie mentale** | « De fou comment ? Une réunion qui a fini à l'heure ? » |
+| 13 | Escalade : « Non mais sérieux, ils t'ont donné une camisole de force ou c'est juste le dress code ? » | RÉÉCRIRE — **NO-GO** | « Me dis pas que quelqu'un a rempli la machine à café sans qu'on lui demande. » |
+| 14 | « Fary maîtrise cette technique à la perfection… 5 minutes de stand-up improvisé. » | RÉÉCRIRE — affirmation invérifiable | Explication du crowdwork (« l'échange avec le public »), 5 minutes conservées, sans attribution |
+| 15 | CLEF rebond « (avec bienveillance) » | GARDER | Inchangé |
+| 16 | « Ma chaussette sent tellement le fromage qu'elle pourrait faire grève à la SNCF. 'Solidarité olfactive, camarades !' » | RÉÉCRIRE — chaîne forcée, chute lourde (audit) | Chaîne conservée ; consigne « relie deux maillons éloignés » + « Mes chaussettes de sport, je les lave pas. Je les affine. » |
+| 17 | Opposition : « Porter des gants aux pieds, ça s'appelle des chaussettes de luxe » | RÉÉCRIRE — pas de retournement | « Une chaussette, c'est un gant qui a renoncé à ses rêves. » |
+| 18 | Fonction détournée : « Allô ? C'est mon pied, il voudrait savoir pourquoi tu me fais marcher » | RÉÉCRIRE — calembour | « Une chaussette toute seule, c'est plus une chaussette. C'est un chiffon avec un passé. » |
+| 19 | Exagération : « Ma chaussette est tellement sale qu'elle a sa propre atmosphère » | RÉÉCRIRE — « tellement… que » | « Mon tiroir à chaussettes compte plus de célibataires qu'une appli de rencontre. » |
+| 20 | Personnification : « Ma chaussette droite et ma chaussette gauche se disputent pour savoir qui pue le plus » | RÉÉCRIRE — plat | « Chaque fois que je lance une machine, une chaussette en profite pour refaire sa vie. » |
+| 21 | Pattern 1 : « J'ai trois qualités : je suis ponctuel, organisé, et je mens beaucoup. » | RÉÉCRIRE — formule connue | « Sur mon CV : ponctuel, organisé, créatif. Surtout créatif. » (même mécanisme) |
+| 22 | Pattern 2 : voisin qui tond à 7h / 6h / « tondre la sienne pendant qu'il dort » | GARDER | Inchangé (7h, 6h conservés) |
+| 23 | Pattern 3 : « Je pensais que mon chat m'ignorait. En fait, il me met en sourdine. » | GARDER | Inchangé |
+| 24 | Pattern 4 : « …moi je me demande qui a bu l'autre moitié. » (verre à moitié plein) | RÉÉCRIRE — cliché total (audit) | « J'avance ma montre de dix minutes pour être à l'heure. Comme je le sais, je prends dix minutes de marge. » |
+| 25 | Pattern 5 : « Je déteste les gens qui généralisent. Tous, sans exception. » | RÉÉCRIRE — vanne connue du domaine public (audit) | « Je suis pas rancunier. J'ai juste une liste. » |
+| 26 | Anti-flop 1 : « …tellement nulle qu'elle mérite un prix. Le prix du silence le plus pesant de la soirée. » | RÉÉCRIRE — « tellement… que », trop long | « Bon. Retenez surtout que j'ai essayé. » |
+| 27 | Anti-flop 2 : « …prouver scientifiquement qu'on peut aspirer la joie d'une pièce en 3 secondes chrono. » | GARDER (resserré) | « Je viens de prouver qu'on peut vider une pièce de toute sa joie en 3 secondes chrono. » |
+| 28 | Anti-flop 3 : « Attendez, j'en ai une encore plus nulle... Non en fait, impossible de faire pire. » | RÉÉCRIRE — chute plate | « Attendez, j'en ai une encore plus nulle… Ah non, c'était celle-là. » |
+| 29 | Anti-flop 4 : « …avant que ma réputation ne prenne l'ascenseur... qui est en panne. » | RÉÉCRIRE — image confuse | « Bon, changeons de sujet avant que quelqu'un filme. » |
+| 30 | Réveil : « relation toxique. Lui me crie dessus tous les matins, moi je le frappe. » / « comme un ami qui prévient pas qu'il annule » / « réveil intelligent… mauvaise humeur » | RÉÉCRIRE ×3 — champ lexical des violences conjugales ; comparaison molle ; « intelligent » (objet connecté, proche IA) | « Mon réveil, c'est le seul qui m'appelle tous les matins. Et je raccroche à chaque fois. » / « Le jour où mon réveil a pas sonné, j'ai fait la meilleure nuit de ma vie. Et le pire entretien. » / « Mon réveil a une fonction 'réveil doux'. Il me réveille doucement, mais toujours aussi tôt. » |
+| 31 | Rebond courses : « Ah, tu pars en mission de reconnaissance dans la jungle des promotions ? » | RÉÉCRIRE — laborieux | « Avec une liste, ou comme moi : tu reviens avec des chips et des regrets ? » |
+| 32 | « Les girafes prendraient jamais le bus, elles ont déjà payé leur place debout. » | RÉÉCRIRE — non-sens | « Dans le bus bondé du matin, je voyage comme une girafe : le cou tendu pour trouver de l'air. » |
+| 33 | Embouteillages 45 min : « …le temps qu'il faut à ma voiture pour réfléchir à sa vie » / « …relation plus forte avec le conducteur de droite qu'avec certains collègues » / « …mon GPS développe une dépression » | RÉÉCRIRE ×3 — plat ; bonne idée trop longue ; moquerie de la dépression | « J'ai eu le temps d'écouter un podcast entier sur la gestion du temps. » / « 45 minutes à côté du même conducteur. On s'est pas parlé, mais on a traversé des choses ensemble. » / « …mon GPS a arrêté de proposer des itinéraires. Il m'a juste souhaité bon courage. » (45 minutes conservé ×3) |
+| 34 | « Un flop assumé avec le sourire vaut mieux qu'une blague moyenne prise au sérieux. » + natation + « Fary n'est pas né avec un micro dans la main » | GARDER | Inchangés |
+
+### Défauts de prose traités (§5)
+
+- Blanche Gardin « excelle dans ces patterns » → « en fait un usage redoutable » (affirmation de style gardée, emphase retirée) ; Pascot « utilise constamment… métaphores hilarantes » → « part souvent de ses expériences personnelles » ; « Paul Mirabel les fait probablement sans s'en rendre compte » (spéculation) → « Chez les humoristes, ces exercices sont devenus des réflexes ».
+- « La différence entre un amateur et un pro ? » → phrase fluide. « encore du jargon corporate » → « encore du jargon ».
+- FAQ : réponses reformulées à la voix pote (« foirent » → « ratent », « contextes sécurisés » → « là où tu ne risques rien »), questions intactes.
+- Conclusion : « Dans un mois, tes proches ne te reconnaîtront plus » (cliché) → « tu te surprendras à rebondir avant même d'avoir réfléchi » ; « il y a tout un monde à explorer » (creux) → promesse concrète du parcours (exercices étape par étape).
+
+### Chiffres, études, citations signalés (gardés tels quels)
+
+- Chiffres conservés : 2000 / 2 000, 15 000 personnes, Bercy, 5 secondes, 5 minutes, 90% des situations, 80% des situations sociales, 7h / 6h, 3 secondes, 5 min, 3 blagues, 45 minutes, 15-20 minutes, 3-4 semaines, 6 mois, un mois.
+- « 90% » et « 80% » des situations : ordres de grandeur sans source, gardés.
+- **Anecdote « Paul Mirabel à Bercy / prix du parking »** : attribution retirée (invérifiable), chiffre et lieu gardés.
+- **« Jamel Comedy Club »** → « comedy clubs » : à valider (Thomas peut préférer garder le nom).
+- Citation Fary « L'humour, c'est la seule chose sérieuse dans la vie » signalée par l'audit (e) : **absente de la source** de cet article.
+- Petit chiffre comique ajouté : « dix minutes » (pattern 4).
+
+---
+
+## 5. `citation-drole`
+
+[Framework : FAB par citation (la phrase → le contexte → l'effet recherché)] · [Conscience : Solution-Aware]
+
+**Bilan : 48 éléments relevés (40 citations + 8 autres) · 12 gardés (dont 2 retouchés) · 36 réécrits (75 %) — 33 des 40 citations réécrites (83 %).** Toujours 40 citations, même numérotation, mêmes sections, tous les H2/H3 intacts (y compris « Comment adapter une citation drôle à SA personnalité ? », dont les capitales sont signalées sans être touchées). Réponse de l'audit (c) au « mélange trouble » : un paragraphe honnête en intro — « quelques-unes revisitent des classiques (l'auteur est cité quand on en est sûr), toutes les autres sont des formules maison. Pas de faux Churchill ici ». Une seule attribution conservée, parce qu'elle est certaine : Oscar Wilde (« Experience is the name everyone gives to their mistakes », *L'Éventail de Lady Windermere*). Tous les modes d'emploi en italique sont conservés, retouchés à la marge.
+
+### Tableau exhaustif
+
+| N° | Avant | Verdict | Après |
+|---|---|---|---|
+| A | « Comme dit la maxime : "L'humour, c'est la politesse du désespoir." … transformer ce désespoir en superpouvoir social » | GARDER (citation, anonyme) — attribution incertaine (Vian / Marker / autres) : reste anonyme ; fin de phrase réécrite (cliché) | « Comme dit la formule… Ici, on va surtout s'en servir pour que le désespoir ne s'installe pas. » |
+| B | « comme avoir Paul Mirabel dans ta poche… mentions légales de Netflix » | GARDER | Inchangé |
+| C | « comme porter des chaussettes avec des sandales — techniquement possible, socialement risqué » | GARDER | Inchangé |
+| 1 | « Je ne bois jamais d'alcool. En fait, si, mais pas avec les gens sobres. » (adapté de Churchill) | RÉÉCRIRE — attribution non sûre + chute plate | « Je bois jamais seul. D'où ma présence ici. » (sans attribution) |
+| 2 | « La ponctualité est la politesse des rois... et l'angoisse des retardataires chroniques. » | RÉÉCRIRE — constat sans twist | « La ponctualité est la politesse des rois. Moi, je suis plutôt républicain. » |
+| 3 | « L'expérience, c'est le nom que chacun donne à ses erreurs. Moi j'en ai beaucoup. » (Oscar Wilde revisité) | RÉÉCRIRE la chute — **attribution conservée (certaine)** | « …À ce compte-là, j'ai une expérience impressionnante. » |
+| 4 | « Je suis multitâche : je peux écouter, ignorer et oublier en même temps. » | RÉÉCRIRE — cliché web (audit) | « Je suis multitâche : je peux hocher la tête et penser à mon déjeuner en même temps. » |
+| 5 | « Mon psychiatre dit que je suis fou… C'est lui qui a un diplôme. » | RÉÉCRIRE — cliché (audit) + ressort « fou » | « Attends, on en est aux sujets sérieux ? Je dois signer quelque part ? » |
+| 6 | « Je ne suis pas antisocial, je suis juste pro-solitude. » | RÉÉCRIRE — jeu de mots plat | « J'adore les soirées. Surtout le moment où je rentre chez moi. » |
+| 7 | « La différence entre un optimiste et un pessimiste ? L'optimiste pense que tout va mal s'arranger. » | RÉÉCRIRE — famille optimiste/pessimiste usée, chute confuse | « Le positif dans tout ça ? On aura une bonne histoire à raconter. » |
+| 8 | « Je ne procrastine pas, je fais de la maturation stratégique. » | RÉÉCRIRE — 3e « je ne X pas, je Y » de l'article | « J'ai une to-do list. Elle vieillit très bien. » |
+| 9 | « Mes défauts ? J'en ai tellement que j'ai dû en breveter certains. » | RÉÉCRIRE — « tellement… que » | « Mes défauts ? Oui, j'en ai. Mais ils sont tous d'origine. » |
+| 10 | « Je ne suis pas parfait, mais certaines de mes parties le sont. » (adapté de Mae West) | RÉÉCRIRE — **attribution fausse** (la phrase circule sous le nom d'Ashleigh Brilliant, pas de Mae West) + formule connue | « Mon physique a beaucoup de charme. Il faut juste un peu de patience pour le trouver. » |
+| 11 | « Mes erreurs sont tellement créatives qu'elles mériteraient un prix. » | RÉÉCRIRE — « tellement… que » | « Je fais jamais deux fois la même erreur. J'en invente des nouvelles. » |
+| 12 | « Je ne fais pas d'erreurs, je crée des versions alternatives inattendues. » | RÉÉCRIRE — laborieux | « Tu as raison, c'est une erreur. Mais une erreur très bien présentée. » |
+| 13 | « Critiquer, c'est facile. Moi, je préfère les défis difficiles. » | RÉÉCRIRE — pas de chute | « La critique est facile. Surtout celle-là. » |
+| 14 | « Tes critiques constructives sont comme tes compliments : rares mais précieux. » | GARDER | Inchangé |
+| 15 | « J'adore tes conseils. Ils me rappellent pourquoi j'aime faire à ma façon. » | RÉÉCRIRE — chute molle | « Tes conseils m'aident beaucoup : maintenant, je sais exactement quoi ne pas faire. » |
+| 16 | « Merci pour ton feedback. Mon ego en prend note pour l'ignorer plus tard. » | RÉÉCRIRE — anglicisme, chute lourde | « Merci pour ton retour. Je le note, et je l'oublierai avec beaucoup de soin. » |
+| 17 | « Je suis modeste, et j'en suis très fier. » | RÉÉCRIRE — paradoxe connu | « Ma plus grande qualité, c'est la modestie. Je suis de loin la personne la plus modeste que je connaisse. » |
+| 18 | « Mon niveau de français ? Approximatif. Mon niveau d'anglais ? Catastrophique. Mon niveau de confiance ? Inébranlable. » | RÉÉCRIRE — staccato, pas de chute | « Mon anglais est approximatif, mon sens de l'orientation catastrophique, et ma confiance intacte. Personne sait d'où elle vient. » |
+| 19 | « Je ne suis pas paresseux, je suis en mode économie d'énergie. » | RÉÉCRIRE — formule connue | « La flemme, c'est pas un défaut. C'est une stratégie. Que j'ai jamais pris le temps de développer. » |
+| 20 | « Ma cuisine ? Même mon four demande une augmentation. » | RÉÉCRIRE — non-sens | « J'ai tout fait moi-même. Enfin, j'ai tout commandé moi-même. » |
+| 21 | « Mes projets avortés ont leur propre cimetière. C'est devenu touristique. » | RÉÉCRIRE — « avortés » (mot chargé), image confuse | « Avec tous mes projets abandonnés, je pourrais ouvrir un musée. D'ailleurs, je l'ai commencé. » |
+| 22 | « Mon historique amoureux ? Une série Netflix qui s'arrête toujours à la saison 1. » | RÉÉCRIRE — bonne idée, formulation usée | « Mes histoires d'amour, c'est comme mes séries : je m'attache, et elles sont annulées après la saison 1. » |
+| 23 | « Je collectionne les débuts. Les fins, c'est overrated. » | RÉÉCRIRE — anglicisme, chute qui s'explique | « Je collectionne les débuts : trois livres, deux langues et un abonnement à la salle. » |
+| 24 | « Mon CV ? Un roman de science-fiction basé sur des faits réels. » | GARDER | Inchangé |
+| 25 | « Cette réunion aurait pu être un email. Cet email aurait pu être une pensée. » | RÉÉCRIRE — cliché ultra-usé + doublon inter-articles (audit) | « Je propose qu'on fixe une prochaine réunion pour finir celle-ci. » |
+| 26 | « J'aime les brainstormings. C'est là qu'on découvre que certains cerveaux sont en grève. » | RÉÉCRIRE — moque des collègues | « Après ce brainstorming, une idée fait l'unanimité : aller manger. » |
+| 27 | « PowerPoint : l'art de dire peu avec beaucoup de slides. » | RÉÉCRIRE — cliché (audit) + marque | « Belle présentation. Je me souviens très bien de la première slide. » |
+| 28 | « Le travail en équipe, c'est magnifique. Surtout quand l'équipe travaille. » | RÉÉCRIRE — formule connue | « Travailler en équipe, c'est magnifique : on partage le travail, et surtout la faute. » |
+| 29 | « Mon bureau est comme ma vie : organisé de façon à ce que moi seul puisse m'y retrouver. » | RÉÉCRIRE — cliché (même amorce que `blague-courte` n°12) | « Mon bureau suit un système de rangement très précis. Je l'ai juste oublié pendant les vacances. » |
+| 30 | « Le café du bureau ? Il réveille tout sauf la motivation. » | RÉÉCRIRE — cliché | « Le café du bureau a un goût de réunion. » |
+| 31 | « Les urgences de dernière minute, c'est ma spécialité. Enfin, subir les urgences des autres. » | RÉÉCRIRE — bonne idée, trop longue | « Je suis spécialiste des urgences. Surtout de celles des autres. » |
+| 32 | « Je ne travaille pas sous pression. Je travaille sous menace. » | GARDER | Inchangé |
+| 33 | « Mon wifi et moi, on a une relation compliquée. Lui me trompe avec tous les voisins. » | GARDER | Inchangé |
+| 34 | « Mon téléphone a une autonomie de 30 minutes. En mode avion. » | GARDER | Inchangé |
+| 35 | « Plan A annulé. Plan B reporté. Actuellement en train d'inventer le plan Z. » | RÉÉCRIRE — staccato, pas de chute | « J'ai toujours un plan B. C'est le plan A qui me manque. » |
+| 36 | « La météo et mes projets ont un point commun : imprévisibles. » | RÉÉCRIRE — constat sans twist | « Mes plans du week-end dépendent de deux choses : la météo et mon canapé. Mon canapé a toujours le dernier mot. » |
+| 37 | « Mon compte en banque pratique le minimalisme. C'est très zen. » | RÉÉCRIRE — chute molle | « Mon compte en banque est très minimaliste. Il m'a appris le détachement. » |
+| 38 | « Je vis au-dessus de mes moyens. Enfin, juste au-dessus de zéro. » | GARDER | Inchangé (mode d'emploi « précarité » → « fins de mois ») |
+| 39 | « 2024 m'a appris que j'étais plus résistant que prévu. Et plus créatif pour les excuses. » | GARDER — **année 2024 conservée et signalée** | Inchangé ; mode d'emploi : « Remplace 2024 par l'année que tu préfères oublier. » (la date ne vieillit plus) |
+| 40 | « Ma vie ? Un work in progress permanent. Actuellement en phase de debug. » | RÉÉCRIRE — anglicismes | « Ma vie est en travaux. Merci de ne pas déranger les ouvriers : ils sont en pause. » |
+| D | Déformation : « L'habit ne fait pas le moine, mais le logo fait l'influenceur » | GARDER | Inchangé |
+| E | Contraste : « Ma liste de courses : un thriller où le héros oublie toujours l'essentiel » | RÉÉCRIRE — image molle | « Mes courses, c'est un thriller : je sais que j'ai oublié quelque chose, et je découvre quoi en rentrant. » |
+| F | « Je ne procrastine pas, je laisse mes idées vieillir en cave » | GARDER (retouché) | « Je procrastine pas, je laisse mes idées vieillir en cave » |
+| G | Fary : « L'humour, c'est la seule chose sérieuse dans la vie. » | RÉÉCRIRE l'attribution — attribution douteuse (audit, proche de formules attribuées à d'autres) | Présentée comme anonyme : « Comme dit la formule : … » (contenu gardé) |
+| H | Abonnement : « des citations personnalisées selon tes situations… une bibliothèque mise à jour chaque semaine » | RÉÉCRIRE — fonction « personnalisées » non vérifiée | « des répliques pour toutes tes situations… une bibliothèque mise à jour chaque semaine » |
+
+### Défauts de prose traités (§5)
+
+- Pas de réponse directe : le 1er paragraphe définit maintenant la citation drôle et son usage (citable).
+- « superpouvoir social », « tes armes secrètes » (clichés) → retirés ; « l'awkwardness » (anglicisme, audit b) → « le malaise ».
+- Panayotis Pascot « transformer les merdes en or comique » (vulgaire) → « transformer ses pires moments en or comique ».
+- « le chef qui fait du micromanagement » (jargon) → « le chef qui vérifie tout deux fois ».
+- « Devine laquelle Roman Frayssinet choisirait ? » : conservé (question rhétorique, pas une citation).
+- « une citation de Blanche Gardin dans la bouche de quelqu'un de timide » → « une réplique à la Blanche Gardin » (évite de laisser croire que l'article la cite).
+- « Les vraies stars de l'humour ne récitent pas » → « Les humoristes ne récitent pas, ils créent ».
+
+### Chiffres, années, citations signalés (gardés tels quels)
+
+- **Année « 2024 » (n°39)** conservée ; l'audit (e) la juge datée en 2026 — la consigne d'usage la rend réutilisable. À trancher par Thomas.
+- Chiffres conservés : 40 citations, 10% / 90%, trois options, 30 minutes, saison 1, 3 règles, 3 méthodes, « chaque semaine » (fréquence de mise à jour à vérifier vs le rythme réel du catalogue).
+- Attributions : **Mae West retirée (fausse)**, « adapté de Churchill » retiré (non sûr), Fary retiré (douteux) ; **Oscar Wilde conservé (certain)** ; « La politesse du désespoir » laissée anonyme (origine disputée).
+- Petits chiffres comiques ajoutés : « trois livres, deux langues » (n°23), « deux choses » (n°36).
+
+---
+
+## Synthèse du lot 1
+
+| Article | Éléments relevés | Réécrits | Taux | Points NO-GO de l'audit |
+|---|---|---|---|---|
+| `blague-courte-arme-secrete-humour` | 31 | 24 | 77 % | Vanne « ma femme me casse les couilles » : supprimée, démonstration refaite sur la même situation (ostéo / mal de dos) |
+| `jeu-de-mots-drole-techniques-creer` | 40 (+6 ajouts) | 34 | 85 % | Calembours phonétiques remplacés par des doubles sens à image ; blague du chauve désattribuée de Paul Mirabel |
+| `avoir-confiance-en-soi-grace-a-l-humour` | 25 | 18 | 72 % | Tom / Léa → exemples assumés (« Imagine… ») ; H2 renommé selon le [CHOIX UTILISATEUR] |
+| `comment-improviser-des-blagues` | 38 | 28 | 74 % | Rebonds « asile / camisole » → rebonds propres sur « journée de fou au boulot » |
+| `citation-drole` | 48 | 36 | 75 % | Attributions non sûres → anonymes ; 2024 gardé et signalé |
+
+**À trancher par Thomas (rien n'a été retiré sur ces points) :** études Stanford (15 mots / 3 fois ; 40 %) ; « 50 nouvelles chaque mois » et « mise à jour chaque semaine » (rythme réel du catalogue) ; « Jamel Comedy Club » → « comedy clubs » ; année 2024 ; proverbe « traduttore, traditore » ajouté sans auteur ; affirmations de style sur des humoristes (Frayssinet, Fary, Mirabel, Gardin, Pascot, Inès Reg, Waly Dia) conservées sans vérification ; petits chiffres comiques ajoutés dans les vannes nouvelles (listés par article).
+
+**Hors périmètre, non touché :** aucun autre fichier modifié, aucun commit. Les 5 fichiers finaux gardent le format de la source (frontmatter slug / excerpt / metaDescription en chaînes JSON + contenu Markdown). Les metaDescription sont inchangées ; excerpts réécrits pour `blague-courte`, `jeu-de-mots` et `comment-improviser` (chiffre « 2 000 » conservé).
