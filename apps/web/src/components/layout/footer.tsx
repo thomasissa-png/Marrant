@@ -91,7 +91,7 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="grid gap-2 lg:grid-cols-2 lg:gap-x-6">
               {footerLinks.produit.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -125,7 +125,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
+        <div className="mt-8 text-balance border-t border-border pt-8 text-center text-sm text-text-muted">
           &copy; {new Date().getFullYear()} deviens-marrant.fr · Fait avec
           humour (et un peu de café)
         </div>

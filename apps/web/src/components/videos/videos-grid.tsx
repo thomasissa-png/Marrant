@@ -13,6 +13,8 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
+import { splitLearning } from "@/lib/learning-format";
+import { frTypo } from "@/lib/fr-typo";
 
 interface Video {
   id: string;
@@ -59,6 +61,18 @@ function formatDuration(iso: string): string {
   const m = match[2] ?? "0";
   const s = (match[3] ?? "0").padStart(2, "0");
   return `${h}${m}:${s}`;
+}
+
+/** « TITRE : explication » : titre en gras, explication à la suite. */
+function renderLearning(learning: string) {
+  const parts = splitLearning(learning);
+  if (!parts) return learning;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{parts.title}</strong>
+      {frTypo(parts.rest)}
+    </>
+  );
 }
 
 const CATEGORIES = [
@@ -214,15 +228,15 @@ export function VideosGrid() {
           {videos.map((video, index) => (
             <Card
               key={video.id}
-              className="overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
+              className="flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="pt-4">
+              <CardContent className="flex flex-1 flex-col pt-4">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">
+                  <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
                     {video.title}
                   </h3>
                   <div className="flex shrink-0 items-center gap-1">
@@ -245,7 +259,7 @@ export function VideosGrid() {
                       {video.learnings.map((learning, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                           <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
-                          {learning}
+                          <span>{renderLearning(learning)}</span>
                         </li>
                       ))}
                     </ul>
@@ -257,14 +271,16 @@ export function VideosGrid() {
                     <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                   </div>
                 )}
-                <div className="mt-3 border-t border-border pt-2">
-                  <Link
-                    href={`/videos/${buildVideoSlug(video)}`}
-                    className="text-xs text-text-muted hover:text-accent-link hover:underline"
-                    aria-label="Ouvrir la page dédiée de cette vidéo"
-                  >
-                    Page dédiée &rarr;
-                  </Link>
+                <div className="mt-auto pt-3">
+                  <div className="border-t border-border pt-2">
+                    <Link
+                      href={`/videos/${buildVideoSlug(video)}`}
+                      className="text-xs text-text-muted hover:text-accent-link hover:underline"
+                      aria-label="Ouvrir la page dédiée de cette vidéo"
+                    >
+                      Page dédiée &rarr;
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>

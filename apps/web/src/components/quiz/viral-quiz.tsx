@@ -196,7 +196,7 @@ export function ViralQuiz() {
             onClick={() => handleAnswer(option.scores)}
             className="flex items-center gap-3 rounded-lg border border-border bg-background-card p-4 text-left transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"
           >
-            <span className="text-2xl">{option.emoji}</span>
+            <span className="inline-flex w-8 shrink-0 justify-center text-xl" aria-hidden="true">{option.emoji}</span>
             <span className="text-sm font-medium text-text-primary">
               {option.label}
             </span>

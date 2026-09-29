@@ -152,7 +152,7 @@ export function BlogArticleParcoursMaillage({
   return (
     <aside
       aria-label="Parcours recommandé"
-      className="mt-12 rounded-lg border border-border bg-background-elevated p-6"
+      className="mt-12 rounded-lg border border-border bg-background-card p-6"
     >
       <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
         Parcours recommandé · {hint.duration}
