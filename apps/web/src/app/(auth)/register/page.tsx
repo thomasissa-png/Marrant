@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { resolvePostAuthRedirect, sanitizeCallbackUrl } from "@/lib/safe-callback";
+import { getPostSignupRedirect } from "@/lib/safe-callback";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
@@ -36,14 +36,11 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const oauthError = searchParams.get("error");
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
-  // Priorité au callbackUrl fourni (ex : "Continue → /parcours/repartie"),
-  // sinon on envoie vers l'onboarding pour éviter la boucle inscription → paiement direct.
-  const rawCallback = searchParams.get("callbackUrl");
-  const safeCallback = sanitizeCallbackUrl(rawCallback);
-  const postAuthTarget = resolvePostAuthRedirect(rawCallback, "/onboarding");
-  // Pour OAuth (Google) : NextAuth gère lui-même la redirection via callbackUrl.
-  // On préserve le callback safe s'il existe, sinon on cible /onboarding.
-  const oauthCallbackUrl = safeCallback ?? "/onboarding";
+  // Règle unique d'après-inscription, partagée avec la modale (lib/safe-callback) :
+  // onboarding par défaut, callback d'intention explicite respecté,
+  // sinon onboarding qui transmet le callback. Google suit la même règle.
+  const postAuthTarget = getPostSignupRedirect(searchParams.get("callbackUrl"));
+  const oauthCallbackUrl = postAuthTarget;
 
   const validateForm = (): boolean => {
     const errors: { name?: string; email?: string; password?: string } = {};

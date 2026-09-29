@@ -1,4 +1,4 @@
-import { sanitizeCallbackUrl, resolvePostAuthRedirect } from "@/lib/safe-callback";
+import { sanitizeCallbackUrl, resolvePostAuthRedirect, getPostSignupRedirect } from "@/lib/safe-callback";
 
 describe("sanitizeCallbackUrl", () => {
   it("accepte un chemin relatif interne", () => {
@@ -48,5 +48,27 @@ describe("resolvePostAuthRedirect", () => {
   it("renvoie le fallback si le callback est invalide", () => {
     expect(resolvePostAuthRedirect("https://evil.com", "/onboarding")).toBe("/onboarding");
     expect(resolvePostAuthRedirect(null, "/onboarding")).toBe("/onboarding");
+  });
+});
+
+describe("getPostSignupRedirect", () => {
+  it("envoie vers l'onboarding sans callback ou depuis l'accueil", () => {
+    expect(getPostSignupRedirect(null)).toBe("/onboarding");
+    expect(getPostSignupRedirect("/")).toBe("/onboarding");
+    expect(getPostSignupRedirect("https://evil.com")).toBe("/onboarding");
+  });
+
+  it("garde l'onboarding tel quel s'il est déjà la cible", () => {
+    expect(getPostSignupRedirect("/onboarding")).toBe("/onboarding");
+  });
+
+  it("va directement vers une intention explicite (paiement, parcours)", () => {
+    expect(getPostSignupRedirect("/abonnement")).toBe("/abonnement");
+    expect(getPostSignupRedirect("/parcours/repartie")).toBe("/parcours/repartie");
+  });
+
+  it("passe par l'onboarding en transmettant le callback sinon", () => {
+    expect(getPostSignupRedirect("/vannes")).toBe("/onboarding?callbackUrl=%2Fvannes");
+    expect(getPostSignupRedirect("/parcours")).toBe("/onboarding?callbackUrl=%2Fparcours");
   });
 });

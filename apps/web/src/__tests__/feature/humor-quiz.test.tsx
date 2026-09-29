@@ -105,14 +105,14 @@ describe("HumorQuiz", () => {
     expect(screen.getByText("La Future Star")).toBeInTheDocument();
   });
 
-  it("navigates to recommended path on 'Voir mon parcours' click (DEBUTANT → /conseils)", async () => {
+  it("navigates to the recommended parcours (répartie + entre potes → /parcours/repartie)", async () => {
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
     await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/conseils");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie");
   });
 
   it("shows INTERMEDIAIRE result", async () => {
@@ -171,7 +171,7 @@ describe("HumorQuiz", () => {
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
 
-  it("navigates to recommended path on 'Voir mon parcours' click (existing profile)", async () => {
+  it("navigates to the recommended parcours from an existing profile", async () => {
     const profile = {
       objective: "REPARTIE",
       context: "social",
@@ -183,7 +183,7 @@ describe("HumorQuiz", () => {
 
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/conseils");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie");
   });
 
   it("shows quiz from scratch on 'Refaire le quiz' click", async () => {
@@ -214,6 +214,52 @@ describe("HumorQuiz", () => {
 
     render(<HumorQuiz />);
     expect(screen.getByText("La Future Star")).toBeInTheDocument();
-    expect(screen.getByText(/Quiz complet/)).toBeInTheDocument();
+    expect(screen.getByText(/Quiz complété le/)).toBeInTheDocument();
+  });
+
+  // --- s12 T43 : recommandation de parcours à partir de Q1 + Q2 ---
+
+  it("shows the recommended parcours on the result screen", async () => {
+    render(<HumorQuiz />);
+    await userEvent.click(screen.getByText("Avoir de la répartie"));
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
+    await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
+
+    expect(screen.getByText("Ton point de départ :")).toBeInTheDocument();
+    expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      "humor-profile",
+      expect.stringContaining('"parcours":"repartie"')
+    );
+  });
+
+  it("recommends Machine à Café for « Faire rire les gens » au boulot", async () => {
+    render(<HumorQuiz />);
+    await userEvent.click(screen.getByText("Faire rire les gens"));
+    await userEvent.click(screen.getByText("Au boulot / machine à café"));
+    await userEvent.click(screen.getByText("Parfois ça marche"));
+
+    await userEvent.click(screen.getByText("Voir par où commencer"));
+    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
+  });
+
+  it("recommends Confiance for « Être plus à l'aise socialement »", async () => {
+    render(<HumorQuiz />);
+    await userEvent.click(screen.getByText("Être plus à l'aise socialement"));
+    await userEvent.click(screen.getByText("Partout"));
+    await userEvent.click(screen.getByText("Je fais rire souvent"));
+
+    await userEvent.click(screen.getByText("Voir par où commencer"));
+    expect(mockPush).toHaveBeenCalledWith("/parcours/confiance");
+  });
+
+  it("shows the exit link when exitHref is provided", () => {
+    render(<HumorQuiz exitHref="/vannes" />);
+    expect(screen.getByText("Plus tard, laisse-moi explorer").closest("a")).toHaveAttribute("href", "/vannes");
+  });
+
+  it("hides the exit link without exitHref", () => {
+    render(<HumorQuiz />);
+    expect(screen.queryByText("Plus tard, laisse-moi explorer")).not.toBeInTheDocument();
   });
 });

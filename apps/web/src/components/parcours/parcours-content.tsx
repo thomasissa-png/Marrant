@@ -8,6 +8,7 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 // Build display data from seed — single source of truth
@@ -35,11 +36,7 @@ const parcours = parcoursSeed.map((p) => ({
 // Mini quiz d'orientation parcours
 // ==============================
 
-interface QuizResult {
-  slug: string;
-  title: string;
-  reason: string;
-}
+type QuizResult = ParcoursRecommendation;
 
 const ORIENTATION_QUESTIONS = [
   {
@@ -60,28 +57,6 @@ const ORIENTATION_QUESTIONS = [
   },
 ];
 
-function getQuizResult(answers: string[]): QuizResult {
-  if (answers.includes("confiance") || answers.includes("global")) {
-    return {
-      slug: "confiance",
-      title: "Parcours Confiance",
-      reason: "Tu veux retrouver ta légèreté sans te forcer : ce parcours prend son temps, et il a raison.",
-    };
-  }
-  if (answers.includes("repartie") || answers.includes("social")) {
-    return {
-      slug: "repartie",
-      title: "Parcours Répartie",
-      reason: "Tu veux la bonne réplique pendant qu'elle sert encore : c'est exactement le programme.",
-    };
-  }
-  return {
-    slug: "machine-a-cafe",
-    title: "Parcours Machine à Café",
-    reason: "Tu veux avoir de quoi raconter à la pause, autre chose que la météo.",
-  };
-}
-
 function OrientationQuiz() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -94,7 +69,7 @@ function OrientationQuiz() {
     if (step < ORIENTATION_QUESTIONS.length - 1) {
       setStep(step + 1);
     } else {
-      setResult(getQuizResult(newAnswers));
+      setResult(recommendParcours(newAnswers));
     }
   };
 

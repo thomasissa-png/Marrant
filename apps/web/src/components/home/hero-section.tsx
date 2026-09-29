@@ -13,10 +13,13 @@ export function HeroSection() {
 
   return (
     <section className="py-12 text-center md:py-20">
-      <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-        Tu parles et{" "}
-        <span className="text-gradient">personne rit</span>
-        {". "}On va arranger ça.
+      {/* Une phrase par ligne (demande fondateur : 2 lignes). Taille mobile calée
+          pour que « Tu parles et personne rit. » tienne sur 358 px (passe s12, T01). */}
+      <h1 className="font-display text-[1.75rem] font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
+        <span className="block">
+          Tu parles et <span className="whitespace-nowrap text-gradient">personne rit</span>.
+        </span>
+        <span className="block">On va arranger ça.</span>
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
         Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine

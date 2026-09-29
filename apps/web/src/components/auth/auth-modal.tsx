@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPostSignupRedirect, sanitizeCallbackUrl } from "@/lib/safe-callback";
 
 type AuthTab = "login" | "register" | "forgot-password";
 
@@ -59,6 +60,11 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
         setPassword("");
       } else {
         onClose();
+        // Connexion : retour vers la destination demandée si elle diffère de la page courante.
+        const target = sanitizeCallbackUrl(callbackUrl);
+        if (target && target !== window.location.pathname) {
+          router.push(target);
+        }
         router.refresh();
       }
     } catch {
@@ -98,7 +104,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
         switchTab("login");
       } else {
         onClose();
-        router.push("/abonnement");
+        // Même règle que /register : onboarding (passable), callback respecté.
+        router.push(getPostSignupRedirect(callbackUrl));
         router.refresh();
       }
     } catch {
@@ -133,8 +140,14 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login", callbackUrl }
     }
   };
 
+  // Google : inscription = même destination que l'inscription par email ;
+  // connexion = retour à la destination demandée, sinon à la page courante.
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: callbackUrl || "/vannes" });
+    const target =
+      tab === "register"
+        ? getPostSignupRedirect(callbackUrl)
+        : sanitizeCallbackUrl(callbackUrl) ?? window.location.pathname;
+    signIn("google", { callbackUrl: target });
   };
 
   const handleClose = () => {

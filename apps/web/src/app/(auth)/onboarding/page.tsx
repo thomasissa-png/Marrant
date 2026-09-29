@@ -1,7 +1,14 @@
 "use client";
 
-import { HumorQuiz } from "@/components/onboarding/humor-quiz";
+// Rendu : Client Component (quiz interactif, lit le callbackUrl de l'URL).
+import { Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { HumorQuiz } from "@/components/onboarding/humor-quiz";
+import { sanitizeCallbackUrl } from "@/lib/safe-callback";
+
+/** Sortie par défaut quand aucun callback n'est fourni : la liste des parcours. */
+const DEFAULT_EXIT = "/parcours";
 
 export default function OnboardingPage() {
   return (
@@ -17,7 +24,17 @@ export default function OnboardingPage() {
       <p className="mb-8 text-center text-text-secondary">
         3 questions, et on te trouve un point de départ à ta taille
       </p>
-      <HumorQuiz />
+      <Suspense fallback={<HumorQuiz exitHref={DEFAULT_EXIT} />}>
+        <OnboardingQuiz />
+      </Suspense>
     </main>
   );
+}
+
+function OnboardingQuiz() {
+  const searchParams = useSearchParams();
+  const callback = sanitizeCallbackUrl(searchParams.get("callbackUrl"));
+  // Jamais de boucle vers l'onboarding lui-même.
+  const exitHref = callback && !callback.startsWith("/onboarding") ? callback : DEFAULT_EXIT;
+  return <HumorQuiz exitHref={exitHref} />;
 }
