@@ -18,6 +18,14 @@ import { getPlanSummary } from "./content-planner";
 import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
+import { buildJokeSeriesGuard, type JokeSeriesGuard } from "./joke-series-guard";
+
+/**
+ * Lot V7 : régénérations autorisées quand la vanne générée est rejetée par le
+ * filtre anti-séries (quasi-doublon, amorce saturée, tic). Au-delà : pas de
+ * vanne IA ce jour, le fallback catalogue prend le relais.
+ */
+const MAX_SERIES_REGENERATIONS = 1;
 
 /**
  * Nombre max de tentatives generate → validate → retry par contenu.
@@ -138,7 +146,31 @@ export async function publishDailyContent(
         otherAgentsCategories: { tip: tipCategory, video: videoCategory },
       };
 
-      let jokeData = await generateDailyJoke(jokeCtx);
+      // Lot V7 — anti-séries : tout le catalogue (actifs + inactifs), setups seuls.
+      // Échec de lecture → garde vide (la génération n'est jamais bloquée par ce filtre).
+      let seriesGuard: JokeSeriesGuard = buildJokeSeriesGuard([]);
+      try {
+        const allSetups = await prisma.joke.findMany({ select: { content: true, isActive: true } });
+        seriesGuard = buildJokeSeriesGuard(allSetups);
+      } catch (err) {
+        console.warn("[AntiSéries] Lecture du catalogue impossible, filtre désactivé pour ce run :", err);
+      }
+      const jokeCtxWithAvoid = { ...jokeCtx, avoidListPrompt: seriesGuard.avoidListPrompt };
+
+      let jokeData = await generateDailyJoke(jokeCtxWithAvoid);
+      let seriesCheck = seriesGuard.check(jokeData);
+      for (let regen = 1; !seriesCheck.ok && regen <= MAX_SERIES_REGENERATIONS; regen++) {
+        console.log(`[AntiSéries] Vanne rejetée (${seriesCheck.reason}) : ${seriesCheck.detail} — régénération ${regen}/${MAX_SERIES_REGENERATIONS}`);
+        jokeData = await generateDailyJoke({
+          ...jokeCtxWithAvoid,
+          plannedTheme: `${jokeCtx.plannedTheme} — REJET ANTI-SÉRIES : ${seriesCheck.detail}. Change de situation.`,
+        });
+        seriesCheck = seriesGuard.check(jokeData);
+      }
+      if (!seriesCheck.ok) {
+        throw new Error(`Vanne rejetée par le filtre anti-séries (${seriesCheck.reason}) : ${seriesCheck.detail}`);
+      }
+
       let validation: ValidationResult | null = null;
       let directorTookOver = false;
 
@@ -147,6 +179,7 @@ export async function publishDailyContent(
         try {
           validation = await validateJoke(jokeData as JokeToValidate, persona, {
             recentSetups: recentJokes.map((j) => j.content),
+            dailyGeneration: true,
           });
         } catch (err) {
           validationCrashCount++;
@@ -167,6 +200,12 @@ export async function publishDailyContent(
           console.log(`[Director] Vanne rejetée ${MAX_VALIDATION_ATTEMPTS_SHORT}x — le directeur réécrit`);
           try {
             const rewritten = await directorRewriteJoke(jokeData as JokeToValidate, validation, persona);
+            // Lot V7 : la réécriture repasse le filtre anti-séries. Rejet →
+            // pas de publication IA ce jour (fallback catalogue plus bas).
+            const rewriteCheck = seriesGuard.check(rewritten);
+            if (!rewriteCheck.ok) {
+              throw new Error(`réécriture rejetée par le filtre anti-séries (${rewriteCheck.reason}) : ${rewriteCheck.detail}`);
+            }
             jokeData = { ...jokeData, ...rewritten };
             directorTookOver = true;
             // La réécriture ne produit pas de décryptage — le contenu a changé,
@@ -192,7 +231,7 @@ export async function publishDailyContent(
         // Re-générer en passant le feedback du directeur dans le thème
         console.log(`[Director] Vanne rejetée (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS_SHORT})`);
         const feedbackTheme = `${jokeCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
-        jokeData = await generateDailyJoke({ ...jokeCtx, plannedTheme: feedbackTheme });
+        jokeData = await generateDailyJoke({ ...jokeCtxWithAvoid, plannedTheme: feedbackTheme });
       }
 
       // Gate: ne publier que si score >= 9 ou si le directeur a réécrit
