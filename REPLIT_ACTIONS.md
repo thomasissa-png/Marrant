@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s13 (30/09/2026) : images sociales sous Cloudflare Workers (polices Inter)
+
+> Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Chemin Replit inchangé (lecture de `public/fonts/` sur le disque).
+> Constat du test s13 : sous Workers, `/api/social/image` renvoyait 500 (« No fonts are loaded ») : pas de système de fichiers, et les URL Google Fonts de secours renvoient 404. Correctif : sous Workers, les TTF de `public/fonts/` sont lues via le binding `ASSETS` (`src/lib/social/image-generator.ts`). Vérifié sur le Worker de test : 3 formats rendus en PNG 1080×1080 avec Inter. Sans ce correctif, `daily-social` n'aurait produit aucune image après la bascule.
+
 ## s12 (29/09/2026) : correctifs P1 et P2 du contrôle @qa 64 pages × 4 largeurs @fullstack (code front uniquement)
 
 > Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Commits `caa6f95` (P1-1 à P1-6 : étapes verrouillées lisibles, tirets et apostrophes des conseils retirés au rendu, 2 réponses de FAQ, focus de la modale, blanc sur `#7C3AED`, H1 de /forgot-password et /reset-password, bouton mot de passe de /login à 44 px) et `18f77ba` (P2 : case newsletter, fil d'Ariane et lien de parcours à 44 px en mobile, H1 sans mot seul à 390, index du glossaire à 1024, symbole ✗). Détail des constats : `docs/qa/verification-s12-3-largeurs.md`. À vérifier après déploiement : `/parcours/confiance` (étapes verrouillées), modale « Créer mon compte gratuit » au clavier (Tab reste dans la modale), `/glossaire` à 1024.

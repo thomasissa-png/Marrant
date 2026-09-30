@@ -40,6 +40,18 @@ const CDN_URLS: Record<number, string> = {
   800: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50tjIw2boKoduKv0.woff",
 };
 
+/** Lit une police de public/fonts/ via le binding ASSETS (Workers uniquement). */
+async function fetchFontFromAssets(file: string): Promise<ArrayBuffer> {
+  const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+  const assets = (getCloudflareContext().env as unknown as Record<string, unknown>).ASSETS as
+    | { fetch: (req: Request) => Promise<Response> }
+    | undefined;
+  if (!assets) throw new Error("Binding ASSETS absent");
+  const res = await assets.fetch(new Request(`https://assets.local/fonts/${file}`));
+  if (!res.ok) throw new Error(`ASSETS ${res.status}`);
+  return res.arrayBuffer();
+}
+
 async function loadFonts() {
   const weights = [
     { weight: 400, name: "Inter Regular", file: "Inter-Regular.ttf" },
@@ -65,6 +77,23 @@ async function loadFonts() {
         };
       } catch {
         // Local TTF not found, fall through to CDN
+      }
+
+      // 1b. Cloudflare Workers : pas de filesystem → même TTF lu dans les
+      // assets statiques du Worker (binding ASSETS, public/fonts/).
+      if (isCloudflareWorkers()) {
+        try {
+          const data = await fetchFontFromAssets(file);
+          console.log(`[image-gen] ${name} chargée depuis ASSETS`);
+          return {
+            name: "Inter",
+            data,
+            weight: weight as 400 | 700 | 800,
+            style: "normal" as const,
+          };
+        } catch (err) {
+          console.warn(`[image-gen] ${name} absente des ASSETS:`, err);
+        }
       }
 
       // 2. Fallback: fetch WOFF from CDN (supported by satori)
