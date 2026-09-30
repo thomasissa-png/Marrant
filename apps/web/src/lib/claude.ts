@@ -58,7 +58,7 @@ export async function generateJoke(preferences: {
     max_tokens: 500,
     system: JOKE_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
-  });
+  }, 2, { agent: "api-ai", fn: "generateJoke" });
 
   const text = getResponseText(response);
   return JSON.parse(text);
@@ -89,7 +89,7 @@ export async function generateTip(context: {
     max_tokens: 1000,
     system: TIP_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userMessage }],
-  });
+  }, 2, { agent: "api-ai", fn: "generateTip" });
 
   const text = getResponseText(response);
   return JSON.parse(text);
@@ -113,7 +113,7 @@ export async function analyzeRepartee(
         content: `Situation : ${situation}\n\nPropose 3 réponses humoristiques.`,
       },
     ],
-  });
+  }, 2, { agent: "api-ai", fn: "analyzeRepartee" });
 
   const text = getResponseText(response);
   return JSON.parse(text);

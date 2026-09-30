@@ -10,3 +10,12 @@ import "@testing-library/jest-dom";
   if (typeof g.Headers === "undefined") g.Headers = (global as any).Headers;
   if (typeof g.fetch === "undefined") g.fetch = (global as any).fetch;
 }
+
+// Coupe-circuit budget LLM (s14) : ouvert par défaut dans les tests unitaires
+// des agents (leurs mocks Prisma n'exposent pas llmUsageLog.aggregate, et le
+// garde-fou est fail-closed). Les tests du garde-fou lui-même utilisent
+// `jest.requireActual("@/lib/ai/budget-guard")` ou surchargent ce mock.
+jest.mock("@/lib/ai/budget-guard", () => {
+  const actual = jest.requireActual("@/lib/ai/budget-guard");
+  return { ...actual, assertLlmBudget: jest.fn().mockResolvedValue(undefined) };
+});

@@ -1,11 +1,22 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { logLLMUsage, extractUsage } from "./usage-log";
+import { assertLlmBudget, isLlmBudgetExceededError } from "./budget-guard";
 // Import dynamique côté callWithRetry pour éviter la dépendance circulaire
 // (failure-alert.ts importe LlmRefusalError depuis ce fichier).
 
 // Client Anthropic partagé — singleton pour tous les agents
+//
+// `fetch` en `cache: "no-store"` (incident s14) : sous Workers, Next 14 mettait
+// en cache (1 an, dans R2) les POST /v1/messages exécutés dans un route handler
+// et REJOUAIT la même réponse d'un tick cron à l'autre. Voir
+// docs/infra/diagnostic-crons-s14.md (le wrapper d'open-next.config.ts coupe
+// aussi ce cache côté OpenNext : double protection).
+export const noStoreFetch: typeof fetch = (input, init) =>
+  fetch(input, { ...init, cache: "no-store" });
+
 export const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
+  fetch: noStoreFetch,
 });
 
 /**
@@ -143,49 +154,53 @@ export function buildCachedSystemBlock(text: string): Anthropic.TextBlockParam {
 export async function callWithRetry(
   params: Anthropic.MessageCreateParamsNonStreaming,
   maxRetries = 2,
-  meta?: CallMeta,
+  callMeta?: CallMeta,
 ): Promise<Anthropic.Message> {
   let lastError: unknown;
   const startedAt = Date.now();
   const request = applyModelDefaults(params);
+  // Journalisation OBLIGATOIRE (s14) : le coupe-circuit budget somme
+  // LlmUsageLog.costUsd, un appel non journalisé fausserait le compteur.
+  const meta: CallMeta = callMeta ?? { agent: "non-attribue", fn: "inconnu" };
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
+      // Coupe-circuit budget (24 h glissantes + mois UTC), au plus près du SDK,
+      // re-vérifié à chaque tentative. Lève LlmBudgetExceededError (non retentée).
+      await assertLlmBudget(meta);
       const response = await anthropic.messages.create(request);
 
       // Refus du modèle : HTTP 200 mais pas de contenu exploitable. Tokens
       // facturés → loggés, puis erreur non retentable (même requête = même refus).
       if (response.stop_reason === "refusal") {
         const refusal = new LlmRefusalError(response.stop_details?.category ?? null);
-        if (meta) {
-          void logLLMUsage({
-            agent: meta.agent,
-            fn: meta.fn,
-            model: params.model,
-            usage: extractUsage(response),
-            durationMs: Date.now() - startedAt,
-            success: false,
-            errorMessage: refusal.message,
-          });
-        }
-        throw refusal;
-      }
-
-      // Logging succès : on capture les tokens facturés (input/output + cache).
-      // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
-      if (meta) {
-        void logLLMUsage({
+        await logLLMUsage({
           agent: meta.agent,
           fn: meta.fn,
           model: params.model,
           usage: extractUsage(response),
           durationMs: Date.now() - startedAt,
-          success: true,
+          success: false,
+          errorMessage: refusal.message,
         });
+        throw refusal;
       }
+
+      // Logging succès : on capture les tokens facturés (input/output + cache).
+      // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
+      await logLLMUsage({
+        agent: meta.agent,
+        fn: meta.fn,
+        model: params.model,
+        usage: extractUsage(response),
+        durationMs: Date.now() - startedAt,
+        success: true,
+      });
 
       return response;
     } catch (error) {
+      // Budget atteint : aucun appel n'a été fait, rien à journaliser ni à retenter.
+      if (isLlmBudgetExceededError(error)) throw error;
       lastError = error;
 
       // Vérifier si l'erreur est retryable
@@ -220,8 +235,8 @@ export async function callWithRetry(
   // tracker les retries coûteux (avec message d'erreur). Ces rows n'ont pas
   // de tokens car l'appel n'a jamais abouti. (Un refus est déjà loggé avec
   // ses tokens réels ci-dessus.)
-  if (meta && !(lastError instanceof LlmRefusalError)) {
-    void logLLMUsage({
+  if (!(lastError instanceof LlmRefusalError)) {
+    await logLLMUsage({
       agent: meta.agent,
       fn: meta.fn,
       model: params.model,

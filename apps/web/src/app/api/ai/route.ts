@@ -5,6 +5,17 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { generateJoke, generateTip, analyzeRepartee } from "@/lib/claude";
 import { rateLimit } from "@/lib/rate-limit";
+import { consumeDailyQuota } from "@/lib/persistent-quota";
+import { isLlmBudgetExceededError } from "@/lib/ai/budget-guard";
+
+/** Générations IA max par membre et par jour UTC (surcharge : AI_USER_DAILY_LIMIT). */
+function getAiUserDailyLimit(): number {
+  const value = Number(process.env.AI_USER_DAILY_LIMIT);
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : 30;
+}
+
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 const jokeSchema = z.object({
   type: z.literal("joke"),
@@ -63,6 +74,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = requestSchema.parse(body);
 
+    // Limite PERSISTANTE par membre (s14) : le rateLimit ci-dessus est en
+    // mémoire, donc non fiable sous Workers (un isolat = une mémoire).
+    const quota = await consumeDailyQuota(`ai:${userId}`, getAiUserDailyLimit());
+    if (!quota.allowed) {
+      return NextResponse.json(
+        { error: `Tu as utilisé tes ${quota.limit} générations IA du jour. Reviens demain pour la suite !` },
+        { status: 429 }
+      );
+    }
+
     switch (data.type) {
       case "joke": {
         const joke = await generateJoke({
@@ -88,6 +109,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Requête invalide", details: error.errors },
         { status: 400 }
+      );
+    }
+    if (isLlmBudgetExceededError(error)) {
+      console.error("[API /ai] Coupe-circuit budget LLM :", error.message);
+      return NextResponse.json(
+        { error: "L'IA fait une petite pause. Réessaie un peu plus tard, promis elle revient !" },
+        { status: 503 }
       );
     }
     console.error("[API /ai]", error);
