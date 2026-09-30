@@ -21,6 +21,8 @@ Décision Thomas du 30/09/2026 (`docs/founder-preferences.md`) : le contenu est 
 
 ## Premier trimestre (octobre à décembre 2026)
 
-- **01/10 au 31/12 programmés le 30/09** (92 `DailyContent`) : vannes GARDER jamais utilisées, hors saison exclues (été, plage, festivals, Pâques, Saint-Valentin), pas deux catégories identiques d'affilée ; conseils = rotation des 26 conseils GARDER de l'audit (`conseils-garder-ids.txt`) en attendant les conseils neufs (à reprogrammer quand ils existent) ; vidéos actives en rotation. Réserve : 100 vannes GARDER hors saison non utilisées + les vannes saisonnières (été) pour 2027.
-- Stock vannes au 30/09 : 333 actives, toutes GARDER. Stock conseils : 26 GARDER sur 438 (audit `docs/copy/audit-conseils-s14.md`), décisions Thomas en attente (étalons, nettoyage, compteur).
-- Articles : calendrier `docs/seo/calendrier-editorial-q4-2026.md` (13 lundis du 05/10 au 28/12).
+- **Catalogue vannes (30/09, validé par Thomas)** : 125 vannes, toutes relues à l'aveugle (2 avis sur 3 : 2 relecteurs + départage orchestrateur), 30 anciennes + 95 neuves (497 candidates écrites). 303 retirées (soft delete, sauvegarde `docs/copy/audit-vannes-s14/sauvegarde-vannes-avant-bascule.json`). 5 anciennes sans décryptage (hors vivier vanne du jour tant que non écrit).
+- **Catalogue conseils** : 88 validés à l'aveugle (73 neufs + 15 réécrits) + 26 conseils utilisés par les parcours, gardés actifs mais sous la barre (chantier parcours à faire).
+- **Calendrier 01/10 au 31/12** : 92 vannes distinctes (Halloween le 31/10, Noël autour du 24/12, zéro vanne d'été, jamais deux catégories identiques d'affilée), 88 conseils validés en rotation, vidéos actives. Réserve : 26 vannes validées non programmées.
+- **Rendement mesuré** : ~6 % du stock historique au niveau ; ~19 % des vannes neuves écrites pour la barre. Pour 30 vannes neuves validées, prévoir ~160 candidates.
+- Articles : calendrier `docs/seo/calendrier-editorial-q4-2026.md` (13 lundis du 05/10 au 28/12) ; S8 (étalon) et S1 (Halloween) rédigés, en attente de validation Thomas.

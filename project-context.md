@@ -179,7 +179,7 @@
 
 ## Mémo de reprise — dernière session
 
-- **30/09/2026, session 14 (BASCULE faite)** : deviens-marrant.fr servi par Cloudflare Workers (version `59178f0a`), données 35/35, crons actifs, endpoint webhook Stripe live créé. Replit en pause, Always Use HTTPS actif. Audits SEO/GEO/messages/vannes + décisions validées : `docs/marrant/decisions-s14.md`. Reste Thomas : vrai abonnement Stripe, URI workers.dev dans Google Cloud, contrôle du contenu du jour demain. Détail : `docs/infra/passation-s14.md` §4.
+- **30/09/2026, session 14 (BASCULE faite)** : deviens-marrant.fr servi par Cloudflare Workers (version `59178f0a`), données 35/35, crons actifs, endpoint webhook Stripe live créé. Replit en pause, Always Use HTTPS actif. Audits SEO/GEO/messages/vannes + décisions validées : `docs/marrant/decisions-s14.md`. Contenu préparé à l'avance (génération IA coupée) : catalogue 125 vannes + 88 conseils validés à l'aveugle, calendrier programmé jusqu'au 31/12 (`docs/marrant/production-trimestrielle.md`). Reste Thomas : vrai abonnement Stripe, URI workers.dev dans Google Cloud, contrôle du contenu du jour demain. Détail : `docs/infra/passation-s14.md` §4.
 - 30/09/2026, session 13 (migration Cloudflare, tests) : Worker de test validé (comptes, e-mails, Google, tâches de démarrage, images sociales). Bug corrigé : polices des images sociales sous Workers (`46dd690`). Stripe, `daily-content` et captures non testés (accord Thomas). **Bascule reportée à s14** : lire `docs/infra/passation-s14.md` puis `bascule-checklist.md`.
 
 ### Mémo session 11 (conservé pour mémoire)
