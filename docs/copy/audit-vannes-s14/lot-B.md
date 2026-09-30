@@ -199,7 +199,94 @@ _(provisoire, complétée en fin de travail)_
 | cmnye4jlw002cs60w6ha7b9aq | RETIRER | constat sans twist (hyperbole « le serveur a pris sa retraite ») |
 | cmnylmlv40034s60w3ozrcbo9 | GARDER | [A] « sauf McDonald's » → « du coup je sais plus » : le seul avis tombe |
 | cmnz1meqe000us60xg1xtq8bj | GARDER | [C] étoilé Michelin ; chute un peu décalée mais tient |
-<!-- FIN BLOC 2 -->
+| cmnyhbsls002os60wmier5p3k | RETIRER | variante redondante (groupe x18 « choisis toi le resto, ça m'est égal » ; gardés : cmnysl010003us60w8y65g7u5, cmnyyxld0000ms60xi50c22mz, cmnyye90u000ks60xk1cfqz98) |
+| cmnyhv8zo002qs60wphzo1npg | RETIRER | variante redondante (groupe x18) |
+| cmnyk0fdw002ys60wvhtv1flg | RETIRER | variante redondante (groupe x18) |
+| cmnyl2s9n0032s60w4aeiucko | RETIRER | variante redondante (groupe x18, « 8 premières propositions ») |
+| cmnym5dog0036s60whbat1cdz | RETIRER | variante redondante (groupe x18, McDo) |
+| cmnynr7gw003cs60wiryizub1 | RETIRER | variante redondante (groupe x18, « 12 premières propositions ») |
+| cmnypwo2m003ks60wcgdsgmrb | RETIRER | variante redondante (groupe x18, « 7 » propositions) |
+| cmnyqfoul003ms60wa1wel8k9 | RETIRER | doublon exact de cmnynr7gw003cs60wiryizub1 (même chute « 12 premières propositions ») |
+| cmnyriaa1003qs60w3e1e50h3 | RETIRER | variante redondante (groupe x18, « 8 premières ») |
+| cmnys1k10003ss60w4zhnp5ii | RETIRER | variante redondante (groupe x18, « 12 que j'ai proposés ») |
+| cmnysl010003us60w8y65g7u5 | GARDER | [A] « égal ça veut dire sauf japonais, sauf indien… » : meilleure du groupe x18, redéfinit le mot |
+| cmnytknz50002s60xg1k41eyc | RETIRER | variante redondante (groupe x18, McDonald's) |
+| cmnyu3xqp0004s60xttfnom2n | RETIRER | variante redondante (groupe x18, « 4 premiers ») |
+| cmnyung6x0006s60xmt4h3x4n | RETIRER | variante redondante (groupe x18, « 7 premières ») |
+| cmnyw9425000cs60x9az28ycy | RETIRER | doublon quasi exact de cmnynr7gw003cs60wiryizub1 (« 12 premières propositions ») |
+| cmnyye90u000ks60xk1cfqz98 | GARDER | [B] « Maintenant il a un avis. » Court ; 2e du groupe x18 |
+| cmnyyxld0000ms60xi50c22mz | GARDER | [B] PowerPoint pour expliquer pourquoi pas celui-là : escalade absurde distincte ; 3e du groupe x18 |
+| cmnz003xq000os60xnibe67x1 | RETIRER | variante redondante (groupe x18, « chez sa mère ») |
+| cmnyn7yc4003as60w8msr0m56 | RETIRER | variante redondante (même amorce que le groupe x18) |
+| cmnyotu7l003gs60w5r6zb5ko | RETIRER | variante redondante (même amorce, « 7 premiers choix ») |
+| cmny880ww001qs60wy73ls68i | RETIRER | variante redondante (même amorce) ; chute « pâtes chez moi » sans twist |
+| cmnz7ikid001gs60xdppocm4o | RETIRER | variante redondante (même amorce) ; « réservé à 14h30 » obscur |
+| cmnykjzfj0030s60wl6p6ivyc | RETIRER | variante redondante (resto promis vs réalité) ; chute plus longue que le setup |
+| cmnyif1wj002ts60wfane5u6o | GARDER | [B] « resto japonais le plus authentique » = Netflix en japonais sous-titré |
+| cmnxz4jr0000fs60wg0fbqt71 | GARDER | [B] « je rêve de McDo à 23h30 » |
+| cmmnsqn130034th63ozlu7gar | GARDER | [B] éponge, puis seau : « il essaie de me dire quelque chose » |
+| cmmnsqn14004oth63x51e4lkp | GARDER | [B] confiance, communication, et personne ne sait cuisiner |
+| cmmnsqn13001cth639mzv79g2 | GARDER | [B] couple = Wi-Fi, « plus je m'éloigne, meilleure est la réception » |
+| cmmnsqn15006ath63j4pqs88c | GARDER | [B] insulté en 4 langues : « multiculturel » |
+| cmmnsqn12000kth639f52jmyj | GARDER | [B] « résistant au stress » = « dissocié » (ton limite santé mentale, voir signalements) |
+| cmmnsqn15007hth6306tesgwv | GARDER | [B] « toi non plus » ; addition séparée |
+| cmmnsqn13002wth63cieza5xe | GARDER | [A] « La constance, c'est une qualité. » |
+| cmmnsqn15006pth63x7vuov4r | GARDER | [B] thérapeute : progrès / espionnage |
+| cmmnsqn140054th63xlwadcpq | GARDER | [B] ex qui bloque = relation stable ; idée « relation stable » aussi dans cmmnsqn15007lth63h6uapxzz |
+| cmmnsqn14004gth636ovkgmvn | GARDER | [B] « Tu trouveras mieux que moi » : accord unique |
+| cmp66iwpt000hs60xp59ovw02 | REECRIRE | chute tarabiscotée (bricoler ses profils Tinder) ; idée de l'ex qui reproche tient |
+| cmpncsdnf000ls60wpk2n4ffwn | GARDER | [B] Chandeleur : « le jour où papa a arrêté de les rater » |
+| cmmw0togs0001mw62152nl589 | GARDER | [A] GPS, fleuve, « il avait l'air sûr de lui » |
+| cmmnsqn15006mth634iq7quu4 | GARDER | [B] Steam = résolutions du Nouvel An |
+| cmmnsqn15006jth63trumhoam | GARDER | [A] « un bouton trier / ma mère » : c'est l'étalon (C) de la charte, à protéger |
+| cmmw0tpug000qmw62f7w76zr5 | GARDER | [B] « Surprise. » |
+| cmmnsqn14003sth63puzhcve5 | GARDER | [B] cuisine annoncée, appli commandée « au cas où » |
+| cmmnsqn13001qth63js2tsd3o | REECRIRE | chute plus longue que le setup, cynisme sur le prix du diamant peu lisible ; idée diamant vs voyage tient |
+| cmny8rl04001ts60wk0tbueei | RETIRER | variante redondante (« resto de tes rêves ») ; « au lit » ambigu |
+| cmn6q51i50006s60x7vbwiyna | REECRIRE | **vanne du jour** : voir verdict argumenté en synthèse §1 |
+| cmmnsqn13002hth63tuo6m58y | GARDER | [C] Nutella / cornichons ; comparaison finale « comme notre couple » floue |
+| cmmsw18l60000rp62k1a0xxw4 | RETIRER | doublon : blague notoire (« mot de passe incorrect », circule depuis les années 2000), même critère que l'escargot retiré en s11 |
+| cmmnsqn13002sth63de7o3ohu | GARDER | [B] lundi matin = téléphone à 3% |
+| cmmnsqn14003oth63cuch3l0w | GARDER | [B] Ikea : « avez-vous un ami disponible » |
+| cmmnsqn13002qth632dhoo7r6 | GARDER | [B] « on est une famille » / héritage |
+| cmmnsqn120006th633634ej4h | GARDER | [B] « irremplaçable » : personne d'autre ne voulait le poste |
+| cmmnsqn15006dth63toy9o1m9 | GARDER | [C] perso de jeu avec meilleure vie sociale ; énumération, peu de retournement |
+| cmmsw18z60006rp62o0i371pa | GARDER | [C] plan de carrière : phase « plan » ; boucle légère |
+| cmmnsqn15006hth6314l5jpfn | GARDER | [B] hardstuck : « le point commun, c'est lui » |
+| cmmnsqn150089th63z1c0ella | GARDER | [C] deux enceintes, deux musiques ; anecdote plus que vanne |
+| cmp7v80w40037s60x0c5052rf | GARDER | [C] « j'ai dit oui… en 2019 » ; tic « 2019 » récurrent (voir signalements) |
+| cmo25lngy002ls60xm6vjioc3 | GARDER | [B] 20 minutes sur une œuvre profonde = plan d'évacuation |
+| cmmnsqn150084th63lmtza2y7 | GARDER | [B] « tranquille, 10 personnes » : on était 47 |
+| cmp0qhm9f009ns60ykaw7rg5j | RETIRER | constat sans twist : riposte « nous on a de l'eau » floue, cliché régional Paris/province |
+| cmn5aauwo0001s60y4x490kst | GARDER | [C] objectifs de mars vs salle depuis 2019 ; saisonnière (mars) et tic « 2019 » |
+| cmmnsqn14005sth63dts5es5e | REECRIRE | « La vie est un scam » : cliché de conclusion, déjà jugé s11 (id 209), version réécrite prête, non appliquée en base |
+| cmmnsqn15007fth632iq057qg | GARDER | [B] photos d'il y a 5 ans : « les filles matchent avec son passé » |
+| cmmnsqn15007kth63akt2cpao | GARDER | [C] pseudo-calembour volontairement raté (Solange) ; passe car l'échec est le sujet, à surveiller (charte : calembour) |
+| cmmnsqn15005yth637l317llm | GARDER | [B] la triche m'a mené jusqu'en terminale |
+| cmmnsqn14005nth6304gbz1il | GARDER | [B] pas de questions bêtes : « il a changé d'avis » |
+| cmqbw7t4h00bds60xqvaymwg7 | RETIRER | constat sans twist : « mon pull c'est ma survie » est l'exemple cité par la charte §3 |
+| cmmnsqn14005kth63pdujihby | REECRIRE | répartie « zéro c'est quelqu'un » illisible, setup bavard ; idée élève puni pour insolence tient |
+| cmmnsqn14005vth63fepwxuvs | GARDER | [B] Descartes / rattrapages |
+| cmmsw19b4000crp62vp792lgr | GARDER | [B] « remettez tout en question » |
+| cmmnsqn15007pth630tpqyqo2 | GARDER | [B] Hinge : mot de passe Netflix |
+| cmmnsqn120001th63ryms5sxv | GARDER | [A] « les autres n'ont pas ce problème » |
+| cmmnsqn16008rth63rmwonvrd | REECRIRE | amorce doublon avec cmmnsqn16008dth63es5ylimi, déjà jugé s11 (id 316), version prête, non appliquée en base |
+| cmmnsqn16008dth63es5ylimi | GARDER | [A] pouce levé pour dire que mamie est à l'hôpital |
+| cmmnsqn16008tth63jvmxpvsw | GARDER | [B] flash sur le soleil |
+| cmmnsqn16008nth63yy4p9dds | GARDER | [B] selfie : front, plafond, doigt |
+| cmmnsqn16008pth635hs1cz7x | GARDER | [B] « de mon temps » / Google Maps |
+| cmmw0tpoi000nmw621aytd6if | GARDER | [B] « c'est nul », puis envoyé à toute la famille |
+| cmmnsqn16008hth63dz46jchf | GARDER | [B] WhatsApp sur tablette : 10 minutes + 2h50 (chiffres intouchables) |
+| cmmnsqn16008jth63zwal8rzj | GARDER | [C] messages en MAJUSCULES ; la chute explique le gag |
+| cmmnsqn16008lth63mw3tta9a | GARDER | [B] tutos YouTube, la famille sait réparer une chasse d'eau |
+| cmmnsqn16008vth6325liw1pb | GARDER | [A] « Bien cordialement, Papa. » pour des pâtes |
+| cmmnsqn16008fth630hmz4i44 | GARDER | [C] « google » dans Google ; « l'univers a failli imploser » cliché |
+| cmmnsqn150061th63sce1mq4n | GARDER | [B] relevé de notes = météo |
+| cmmsw19j2000grp629lpuaber | GARDER | [B] réveil à 6h, objectifs reportés à 6h01 |
+| cmmnsqn15006tth63jaiyuhtq | GARDER | [B] notif de félicitations pour 9h d'écran |
+| cmmnsqn130019th6305olo4bl | GARDER | [B] téléphone : mémoire de trucs à oublier |
+| cmpw4zn5n00b3s60xonhfk4bc | GARDER | [B] clim « temporaire » / ma motivation ; tic « 2019 » |
+<!-- FIN BLOC 3 -->
 
 ## 3. Questions pour Thomas
 

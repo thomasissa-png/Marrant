@@ -11,7 +11,73 @@
 
 ## 1. Synthèse
 
-_(provisoire, complétée à la fin de l'audit)_
+### 1.1 Comptes
+
+Périmètre : lignes 1 à 342 de l'export = **321 vannes** (342 lignes moins 3 lignes d'en-tête et 18 titres « ## SETUP »). Toutes classées, une ligne chacune, ids vérifiés par sondage sur l'export.
+
+| Verdict | Nb | % |
+|---|---|---|
+| GARDER | 192 | 59,8 % |
+| REECRIRE | 28 | 8,7 % |
+| RETIRER | 101 | 31,5 % |
+| **Total** | **321** | **100 %** |
+
+Lot après passage : 220 vannes actives (192 + 28 à réécrire), soit 101 de moins.
+
+Répartition des 101 RETIRER (approximative, un motif principal par vanne) :
+- variante redondante : 67 (séries : festivals 23, « Ma copine » vacances 17, bus/pluie 13, jean/chaleur 8, « draguer une maman » 3, resto 2, tenues/shopping 4, congés d'août 3, divers) ;
+- doublon exact : 4 (3 « bus, arrêt d'en face » identiques + 1 « briefé 45 minutes ») ;
+- calembour phonétique / jeu sur expression : 6 (dont les deux exemples cités dans la charte : « coup de foudre… qui coule », « temps de chien… plutôt chat ») ;
+- blessant : 5 (moquerie d'un groupe ou d'un plus faible, sujets sensibles, détail en 1.4) ;
+- constat sans twist : le reste, dont 9 hors liste fermée (chute sans logique, cliché connu), voir question 3.
+
+Les 3 vannes de l'échantillon « meilleure variante d'un groupe » qui restent faibles sont gardées (doute = GARDER) et repérées dans le tableau par « faible mais tient ». Une meilleure variante peut être en REECRIRE quand seule l'exécution est à resserrer (ex. « chaises cassées »).
+
+### 1.2 Top 10 des meilleures (étalons candidats pour calibrer les réécritures avec Thomas)
+
+| # | id | Vanne (début) | Pourquoi ça marche |
+|---|---|---|---|
+| 1 | cmmnsqn15007dth63pcggw13x | « Elle m'a demandé ce que je faisais dans la vie. » | « des erreurs, principalement… Elle a ri. Puis elle est partie. » Retournement + rythme, au niveau de l'étalon A |
+| 2 | cmmnsqn13002bth638y2j0ow1 | « Netflix m'a demandé : Vous êtes toujours là ? » | Auto-dérision douce, chute qui retourne la question sur la solitude |
+| 3 | cmmw0tois0002mw62b7bkcvj7 | « J'ai mis mon réveil en face du lit » | « je dors par terre, à côté du réveil » : logique absurde imparable |
+| 4 | cmncns72d0006s60yy0z693gx | « graines faciles pour débutants » | « Même les mauvaises herbes ont refusé de pousser » : hyperbole inversée |
+| 5 | cmmnsqn13001ath63fqmyiojy | « sorti de chez moi pour la première fois en trois jours » | « Le soleil m'a regardé comme un ex qu'on croise par hasard » : comparaison précise |
+| 6 | cmmnsqn140043th6385irpygh | « la porte vitrée trop propre » | « Elle a brisé plus de dignités que de verres » : chute économe |
+| 7 | cmmnsqn12000cth63z2sepukk | « entretien annuel, problème d'attitude » | « Merci, j'y travaille depuis des années » : réplique qui retourne le reproche |
+| 8 | cmmnsqn14005mth63wtau3gig | « Je révisais en écoutant du lo-fi hip hop » | « 3/20 mais dans une ambiance incroyable » : contraste net |
+| 9 | cmnqpynlf0001s60zk6wm2yy6 | « machine à café en panne, premier lundi depuis ma séparation » | « Au moins elle, elle va être réparée » : tristesse + twist, parle à Marc |
+| 10 | cmpk1edri00h3s60x8rg25ner | « PowerPoint de 23 slides pour nos vacances » | « Slide 24 : Acceptes-tu de m'épouser ? » : vrai twist, seule vanne de la série à surprendre |
+
+Suivent de près : cmmw0tomr0004mw62zoi89im8 (prof de sport, « Il courait toujours. Moi non. »), cmmsw19p1000jrp62wanrhr5l (agenda perdu), cmpc6bdmz00o5s60xejjgehrh (influenceurs = mouettes), cmmnsqn130022th636usvl23a (« toi aussi » au serveur), cmmnsqn13001eth63zc1vwsog (salle de sport, prélèvement), cmory497y000os60wxftwlijw (app qualité de l'air, « 1987 »), cmmnsqn150063th630dpv26pw (« la moyenne de mes deux pires notes »).
+Note : cmmnsqn13002tth63v6hz760m (dentiste) est quasi identique à l'étalon A déjà validé, à ne pas compter comme étalon supplémentaire.
+
+### 1.3 Top 10 des pires (à traiter en premier)
+
+| # | id | Vanne (début) | Problème |
+|---|---|---|---|
+| 1 | cmo3nuz41000as60xu5k70lgh | « sites de rencontre pour parents célibataires… le gamin de ma sœur » | Enfant sur un site de rencontre, malaise et incohérence : RETIRER en priorité |
+| 2 | cmp1y8tuw00dss60ylsabr8pm | « premier rencard sur la plage de Vannes… elle était fluide » | Moquerie sur le genre + calembour : RETIRER |
+| 3 | cmmnsqn130035th63nzlankwx | « Le stagiaire a demandé quand il serait embauché » | On rit d'un plus faible, contraire à l'auto-dérision de la marque : RETIRER |
+| 4 | cmn6plle40001s60xu8vwcimr | « allergique au pollen en même temps que mon crush » | « coup de foudre… qui coule » : calembour cité comme raté dans la charte |
+| 5 | cmq8ql1ua0029s60xx322h5xw | « temps de chien aujourd'hui » | « plutôt chat » : même calembour cité dans la charte |
+| 6 | cmojalv9o0045s60xwivdlrgs | « propriétaire à 2h du matin, enfermée dehors » | Setup bavard, chute sans logique (la poignée) |
+| 7 | cmprxiu8m0069s60w14iq3ps0 | « congés d'août, voir avec l'équipe » | « qui garde les enfants ? » ne suit pas |
+| 8 | cmp3cfoff00qls60yn2wxeb8p | « localisation Tinder Europe » | « mes parents pensent que je voyage, et moi que je drague » : sans logique |
+| 9 | cmpqcmen9000xs60wffbnzx0z | « Parisiens en Bretagne, galette sans gluten » | Moquerie de groupe + la galette de sarrasin est déjà sans gluten |
+| 10 | cmp9bfisq005us60xs86b0yd2 | « festival de musique local… mes ex qui rappent » | Chute incohérente, représentative des ~10 chutes de la série festival qui ne veulent rien dire |
+
+### 1.4 Signalements transverses (hors verdict, rien n'a été modifié)
+
+1. **Mentions d'IA encore actives en base** : cmmnsqn15005wth63kzoxldav (ChatGPT), cmmnsqn130027th63at2ene9i (Alexa), cmmw0tooq0005mw62bxsd1aht (Siri). La revue s11 avait produit et retenu leurs réécritures (ids seed 213, 80, 326) mais elles ne sont pas dans la base prod. À vérifier aussi pour les 4 autres réécritures s11 et le retrait de l'escargot (voir question 1).
+2. **Tiret cadratin dans 3 vannes** : cmmnsqn140053th635oa49916, cmpf5hc6900uds60x3icrsffs, cmp9qfv4000cms60xbs8sjjkm (la dernière est à retirer). Règle 12 : correction mécanique si gardées.
+3. **Chiffres à surveiller, non touchés** : cmpmbwywp00tps60x73u10a1v (6 vérifications / 7 mensonges, incohérents entre eux, vanne retirée pour constat sans twist) ; cmmnsqn13002ath63b7rnpw41 (« 90 % », déjà signalé en s11, gardé). Les chiffres des vannes retirées (800 €, 2000 €…) ne sont pas modifiés, la vanne est seulement désactivée.
+4. **Vannes datées** : BeReal (cmmw0tp6n000emw62k2mgvaou), Plus Belle la Vie (cmp9wv7w400gcs60x01wkswbb), statut Facebook « c'est compliqué » (cmmnsqn13001jth63u4o7gl1l), « les terrasses ont rouvert » (cmof09zp1000es60xh91yugkj), glow-up 2019 (cmohv5xhj0015s60x79zd1kn9). Gardées, à surveiller.
+5. **Vannes saisonnières** (festivals d'été, Chandeleur, fête des mères, Pâques, « mars », « cette chaleur », « pont de mai ») : une dizaine de vannes gardées perdent leur sens hors saison. Signalées `[SAISONNIER]`.
+6. **Genre / ton à surveiller** : série « draguer une maman à la sortie d'école » (2 gardées, papa dragueur), « impressionner une fille » (cmmnsqn13002mth63tidwfpgt, ok), « Chérie » (retirée). Aucune vanne gardée n'est blessante à mon sens.
+7. **Amorces répétées** (charte §3, « même amorce ») : « En soirée, » x8, « En France, » x6 (4 gardées), « J'ai commencé à réviser » x4, « J'ai regardé la programmation de… » x25 (7 gardées), « Ma copine a dit qu'elle voulait partir… » x12 (3 gardées avec id cmpjqof0e00b9s60xtzir3yw2), format « Je suis tellement… que… » x3. Le lot B et le job nocturne doivent tenir compte de ces séries pour ne pas les regonfler.
+8. **Catégories fausses** : cmmw0tp2o000cmw62v5rgrbte est classée JEUX_DE_MOTS sans jeu de mots ; les vannes festival IA sont toutes CULTUREL.
+9. **Écriture** : les vannes IA gardées ont des guillemets simples ('…'), des « ... » et des « ET » en majuscules (tics IA) à normaliser en « … » lors du passage par le job, sans toucher au sens.
+10. **Décryptages** : cet export donne « décryptage=oui/non » mais l'audit n'a pas jugé la qualité des décryptages existants (hors périmètre). Les 192 GARDER dont le décryptage est « non » sont à générer.
 
 ---
 
@@ -38,7 +104,7 @@ _(provisoire, complétée à la fin de l'audit)_
 | cmq0pgunr00r3s60x0u58fc6e | RETIRER | variante redondante (série jean, « basse température ») |
 | cmq0oxdyr00qqs60xnn3xkmie | RETIRER | variante redondante (série jean, « menti au FBI », la plus drôle des redondantes si Thomas veut un 3e) |
 | cmq0m95m300p8s60xpybrj1fd | RETIRER | variante redondante (série jean, « mijoteuse ») |
-| cmmnsqn140053th635oa49916 | REECRIRE | « Deux Parisiens se croisent » : format « Deux X se croisent » interdit par le brief, moquerie de groupe légère ; le twist exil/vacances tient, passer au « je » |
+| cmmnsqn140053th635oa49916 | REECRIRE | « Deux Parisiens se croisent » : format « Deux X se croisent » interdit par le brief, moquerie de groupe légère ; le twist exil/vacances tient, passer au « je ». `[TIRET]` cadratin dans la vanne à retirer |
 | cmowg60y9000hs60ye0y2chv4 | RETIRER | « 15 degrés, terrasse » : constat sans twist, « survivants d'apocalypse » cliché, idée déjà couverte par les terrasses de 17h |
 | cmmnsqn15007dth63pcggw13x | GARDER | « ce que je faisais dans la vie » : « des erreurs, principalement… Elle a ri. Puis elle est partie. » Niveau étalon (rythme, retournement) |
 | cmmnsqn15007oth63jbugyxvs | GARDER | « love language » : réponse relatable ; la fin « mauvaise réponse » explique un peu, à polir si Thomas veut |
