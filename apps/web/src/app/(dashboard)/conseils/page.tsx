@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { ConseilsList } from "@/components/conseils/conseils-list";
@@ -10,9 +11,20 @@ import {
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { PageHeader } from "@/components/layout/page-header";
+import { getTipsPage } from "@/lib/catalogue-pages";
+import { listCanonical, parsePageParam } from "@/lib/list-pagination";
+
+// Stratégie de rendu : SSR (lecture de `?page=N`, lot S1 s14 P0-1). Les données de
+// liste sont en cache serveur 1 h (unstable_cache, lib/catalogue-pages) : le HTML
+// initial contient les liens vers les fiches et une pagination crawlable. Sans base
+// (build, panne), la liste retombe sur le chargement client d'avant.
+interface ListPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 import { frTypo } from "@/lib/fr-typo";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
+  const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
   return {
@@ -28,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "storytelling humour",
       "répartie au travail",
     ],
-    alternates: { canonical: "https://deviens-marrant.fr/conseils" },
+    alternates: { canonical: listCanonical("/conseils", page) },
   };
 }
 
@@ -50,8 +62,16 @@ const conseilsFaqs = [
   },
 ];
 
-export default async function ConseilsPage() {
-  const stats = await getContentStatsRounded();
+export default async function ConseilsPage({ searchParams }: ListPageProps) {
+  const page = parsePageParam(searchParams.page);
+  // Recherche `?q=` : filtrée côté client (API), pas de liste serveur à remplacer.
+  const hasQuery = typeof searchParams.q === "string" && searchParams.q.length > 0;
+  const [stats, listPage] = await Promise.all([
+    getContentStatsRounded(),
+    hasQuery ? Promise.resolve(null) : getTipsPage(page),
+  ]);
+  // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
+  if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
   const tipCount = stats.tips > 0 ? stats.tips : 50;
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
   return (
@@ -62,7 +82,8 @@ export default async function ConseilsPage() {
           { name: "Conseils", url: "https://deviens-marrant.fr/conseils" },
         ])}
       />
-      <JsonLd data={buildFaqJsonLd(conseilsFaqs)} />
+      {/* FAQ balisée une seule fois (page 1), pas sur chaque page de pagination. */}
+      {page === 1 && <JsonLd data={buildFaqJsonLd(conseilsFaqs)} />}
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${tipsLabel} techniques de répartie + exercices`,
@@ -94,7 +115,7 @@ export default async function ConseilsPage() {
       />
 
       <Suspense fallback={null}>
-        <ConseilsList />
+        <ConseilsList initialData={listPage} initialPage={page} />
       </Suspense>
 
       {/* FAQ SEO */}

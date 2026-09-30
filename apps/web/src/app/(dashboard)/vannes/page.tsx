@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
@@ -11,8 +12,19 @@ import {
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { PageHeader } from "@/components/layout/page-header";
+import { getJokesPage } from "@/lib/catalogue-pages";
+import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 
-export async function generateMetadata(): Promise<Metadata> {
+// Stratégie de rendu : SSR (lecture de `?page=N`, lot S1 s14 P0-1). Les données de
+// liste sont en cache serveur 1 h (unstable_cache, lib/catalogue-pages) : le HTML
+// initial contient les liens vers les fiches et une pagination crawlable. Sans base
+// (build, panne), la liste retombe sur le chargement client d'avant.
+interface ListPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
+  const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des centaines de vannes";
   return {
@@ -28,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "blague courte drôle",
       "phrase drôle",
     ],
-    alternates: { canonical: "https://deviens-marrant.fr/vannes" },
+    alternates: { canonical: listCanonical("/vannes", page) },
   };
 }
 
@@ -50,8 +62,16 @@ const vannesFaqs = [
   },
 ];
 
-export default async function VannesPage() {
-  const stats = await getContentStatsRounded();
+export default async function VannesPage({ searchParams }: ListPageProps) {
+  const page = parsePageParam(searchParams.page);
+  // Recherche `?q=` : filtrée côté client (API), pas de liste serveur à remplacer.
+  const hasQuery = typeof searchParams.q === "string" && searchParams.q.length > 0;
+  const [stats, listPage] = await Promise.all([
+    getContentStatsRounded(),
+    hasQuery ? Promise.resolve(null) : getJokesPage(page),
+  ]);
+  // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
+  if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
   const jokeCount = stats.jokes > 0 ? stats.jokes : 200;
   const jokeLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
   return (
@@ -62,7 +82,8 @@ export default async function VannesPage() {
           { name: "Vannes", url: "https://deviens-marrant.fr/vannes" },
         ])}
       />
-      <JsonLd data={buildFaqJsonLd(vannesFaqs)} />
+      {/* FAQ balisée une seule fois (page 1), pas sur chaque page de pagination. */}
+      {page === 1 && <JsonLd data={buildFaqJsonLd(vannesFaqs)} />}
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${jokeLabel} vannes drôles à ressortir ce soir`,
@@ -93,7 +114,7 @@ export default async function VannesPage() {
       />
 
       <Suspense fallback={null}>
-        <VannesList />
+        <VannesList initialData={listPage} initialPage={page} />
       </Suspense>
 
       {/* FAQ SEO */}
