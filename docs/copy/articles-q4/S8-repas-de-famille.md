@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article ÉTALON S8 (repas de famille)
+# VALIDÉ PAR THOMAS (GO du 30/09) : article ÉTALON S8 (repas de famille, publication lundi 23/11)
 
 > Statut : brouillon complet, non publié, non commité. Si tu valides ce gabarit (voix, niveau des réparties, structure), les 10 autres guides du même type suivent le même moule.
 > Grille de validation : `docs/seo/calendrier-editorial-q4-2026.md` §5. Les répliques ont passé la relecture à l'aveugle du 30/09 (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`).
