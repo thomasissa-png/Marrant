@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S1 (Halloween, publication lundi 05/10)
+# VALIDÉ PAR THOMAS (GO du 30/09) : article S1 (Halloween, publication lundi 05/10)
 
 > Statut : brouillon complet, non publié, non commité. Échéance dure : Halloween tombe le samedi 31/10/2026. Repli prévu au calendrier : décaler au 12/10 si non validé au 03/10.
 > Les 8 vannes ont passé la relecture à l'aveugle du 30/09 (2 relecteurs + départage, `docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`).
