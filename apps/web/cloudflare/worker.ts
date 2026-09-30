@@ -65,6 +65,28 @@ export function withImmutableCache(res: Response): Response {
   return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
 }
 
+/** Balise insérée par Next quand une page appelle redirect()/permanentRedirect(). */
+const NEXT_REDIRECT_META = /<meta[^>]*id="__next-page-redirect"[^>]*content="\d+;url=([^"]+)"/;
+
+/**
+ * Next 14.2 + ISR : une page qui appelle permanentRedirect() (fiches catalogue
+ * retirées) est mise en cache avec son statut 308 mais SANS l'en-tête Location
+ * (seuls status et headers « de rendu » sont stockés, Location est posé à part).
+ * Les hits de cache suivants renverraient un 308 sans destination. On restaure
+ * Location depuis la balise meta refresh que Next écrit dans le HTML.
+ * N'intervient que sur un 3xx HTML sans Location (cas rare) : aucun impact sur
+ * le streaming des pages normales.
+ */
+export async function restoreRedirectLocation(res: Response): Promise<Response> {
+  if (res.status < 300 || res.status >= 400 || res.headers.has("location")) return res;
+  if (!(res.headers.get("content-type") ?? "").includes("text/html")) return res;
+  const html = await res.text();
+  const headers = new Headers(res.headers);
+  const match = html.match(NEXT_REDIRECT_META);
+  if (match) headers.set("Location", match[1].replace(/&amp;/g, "&"));
+  return new Response(html, { status: res.status, statusText: res.statusText, headers });
+}
+
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: ExecutionContextLike): Promise<Response> {
     const url = new URL(request.url);
@@ -88,7 +110,7 @@ export default {
         return new Response("Not found", { status: 404 });
       }
     }
-    const response = await handler.fetch(request, env, ctx);
+    const response = await restoreRedirectLocation(await handler.fetch(request, env, ctx));
     // Adresse de test *.workers.dev : jamais indexée (doublon SEO du domaine de prod).
     if (new URL(request.url).hostname.endsWith(".workers.dev")) {
       const headers = new Headers(response.headers);

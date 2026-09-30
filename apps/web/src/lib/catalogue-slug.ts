@@ -127,3 +127,30 @@ export function pickBySlug<T extends { id: string }>(
   }
   return best;
 }
+
+/** Résultat de la résolution d'un slug de fiche catalogue. */
+export type SlugResolution<T> =
+  | { status: "active"; item: T }
+  | { status: "inactive" }
+  | { status: "missing" };
+
+/**
+ * Résout un slug parmi TOUS les contenus partageant le shortId (actifs ET
+ * retirés) : la fiche visée est choisie par `pickBySlug`, puis son statut
+ * décide de la réponse. Chercher parmi les seuls actifs ferait servir, pour
+ * l'URL d'une fiche retirée, un autre contenu qui partage le même préfixe d'id.
+ *
+ * - "active"   : fiche affichée
+ * - "inactive" : fiche retirée (soft delete) → redirection permanente vers la liste
+ * - "missing"  : aucun contenu → 404
+ */
+export function resolveBySlug<T extends { id: string; isActive: boolean }>(
+  candidates: T[],
+  slug: string,
+  buildSlug: (item: T) => string
+): SlugResolution<T> {
+  const picked = pickBySlug(candidates, slug, buildSlug);
+  if (!picked) return { status: "missing" };
+  if (!picked.isActive) return { status: "inactive" };
+  return { status: "active", item: picked };
+}

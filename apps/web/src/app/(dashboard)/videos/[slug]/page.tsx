@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
-import { buildVideoSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
+import { buildVideoSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -34,17 +34,18 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 
 async function findVideoBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
-  if (!shortId) return null;
+  if (!shortId) return { status: "missing" as const };
   // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
   // en cache est gardée). Surtout PAS `return null` : notFound() servirait
   // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
   const candidates = await withDbRetry(
     () =>
       prisma.video.findMany({
-        where: { id: { startsWith: shortId }, isActive: true },
+        where: { id: { startsWith: shortId } },
         take: 200,
         select: {
           id: true,
+          isActive: true,
           title: true,
           channelName: true,
           youtubeId: true,
@@ -61,7 +62,7 @@ async function findVideoBySlug(slug: string) {
       }),
     { label: "findVideoBySlug" },
   );
-  return pickBySlug(candidates, slug, buildVideoSlug);
+  return resolveBySlug(candidates, slug, buildVideoSlug);
 }
 
 export function generateStaticParams() {
@@ -73,7 +74,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const video = await findVideoBySlug(params.slug);
+  const resolved = await findVideoBySlug(params.slug);
+  const video = resolved.status === "active" ? resolved.item : null;
   if (!video) return { title: "Vidéo introuvable" };
 
   const canonicalSlug = buildVideoSlug(video);
@@ -115,8 +117,12 @@ export default async function VideoPage({
 }: {
   params: { slug: string };
 }) {
-  const video = await findVideoBySlug(params.slug);
-  if (!video) notFound();
+  const resolved = await findVideoBySlug(params.slug);
+  // Vidéo retirée (isActive=false) : redirection permanente vers la liste,
+  // pas de 404. Slug inconnu : 404 comme avant.
+  if (resolved.status === "inactive") permanentRedirect("/videos");
+  if (resolved.status === "missing") notFound();
+  const video = resolved.item;
 
   const canonicalSlug = buildVideoSlug(video);
   const url = `https://deviens-marrant.fr/videos/${canonicalSlug}`;

@@ -15,7 +15,9 @@ import { join } from "path";
 jest.mock("../../../.open-next/worker.js", () => ({ default: { fetch: jest.fn() } }), { virtual: true });
 
 const nextConfig = require("../../../next.config.js");
-import { withImmutableCache, IMMUTABLE_CACHE_CONTROL } from "../../../cloudflare/worker";
+import { withImmutableCache, IMMUTABLE_CACHE_CONTROL, restoreRedirectLocation } from "../../../cloudflare/worker";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 const WEB_ROOT = join(__dirname, "../../..");
 
@@ -88,5 +90,32 @@ describe("HSTS (next.config.js headers())", () => {
     const all = rules.find((r: { source: string }) => r.source === "/(.*)");
     const hsts = all.headers.find((h: { key: string }) => h.key === "Strict-Transport-Security");
     expect(hsts.value).toBe("max-age=15552000");
+  });
+});
+
+describe("Worker : redirection mise en cache ISR sans Location (lot S2)", () => {
+  // Balise produite par Next 14.2 (make-get-server-inserted-html) pour permanentRedirect().
+  const meta = renderToStaticMarkup(
+    createElement("meta", { id: "__next-page-redirect", httpEquiv: "refresh", content: "0;url=/vannes" }),
+  );
+  const html = `<!DOCTYPE html><html><head>${meta}</head><body></body></html>`;
+
+  it("restaure Location depuis la balise meta de Next sur un 308 HTML", async () => {
+    const res = await restoreRedirectLocation(
+      new Response(html, { status: 308, headers: { "Content-Type": "text/html; charset=utf-8" } }),
+    );
+    expect(res.status).toBe(308);
+    expect(res.headers.get("Location")).toBe("/vannes");
+    expect(await res.text()).toBe(html);
+  });
+
+  it("ne touche pas à une redirection qui a déjà sa Location", async () => {
+    const original = new Response(null, { status: 308, headers: { Location: "/conseils" } });
+    expect(await restoreRedirectLocation(original)).toBe(original);
+  });
+
+  it("ne touche pas aux réponses 200 (streaming intact)", async () => {
+    const original = new Response(html, { status: 200, headers: { "Content-Type": "text/html" } });
+    expect(await restoreRedirectLocation(original)).toBe(original);
   });
 });

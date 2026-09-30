@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
-import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
+import { buildJokeSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -38,17 +38,18 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 async function findJokeBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
-  if (!shortId) return null;
+  if (!shortId) return { status: "missing" as const };
   // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
   // en cache est gardée). Surtout PAS `return null` : notFound() servirait
   // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
   const candidates = await withDbRetry(
     () =>
       prisma.joke.findMany({
-        where: { id: { startsWith: shortId }, isActive: true },
+        where: { id: { startsWith: shortId } },
         take: 200,
         select: {
           id: true,
+          isActive: true,
           content: true,
           punchline: true,
           category: true,
@@ -62,7 +63,7 @@ async function findJokeBySlug(slug: string) {
       }),
     { label: "findJokeBySlug" },
   );
-  return pickBySlug(candidates, slug, buildJokeSlug);
+  return resolveBySlug(candidates, slug, buildJokeSlug);
 }
 
 // Générateur statique vide — les pages sont générées à la demande (ISR).
@@ -75,7 +76,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const joke = await findJokeBySlug(params.slug);
+  const resolved = await findJokeBySlug(params.slug);
+  const joke = resolved.status === "active" ? resolved.item : null;
   if (!joke) {
     return { title: "Vanne introuvable" };
   }
@@ -120,8 +122,12 @@ export default async function VannePage({
 }: {
   params: { slug: string };
 }) {
-  const joke = await findJokeBySlug(params.slug);
-  if (!joke) notFound();
+  const resolved = await findJokeBySlug(params.slug);
+  // Vanne retirée (isActive=false) : redirection permanente vers la liste,
+  // pas de 404. Slug inconnu : 404 comme avant.
+  if (resolved.status === "inactive") permanentRedirect("/vannes");
+  if (resolved.status === "missing") notFound();
+  const joke = resolved.item;
 
   // Freemium aligné sur le catalogue : "Pourquoi ça marche" public (valeur SEO),
   // "À toi de jouer" réservé aux membres connectés — géré côté client par
