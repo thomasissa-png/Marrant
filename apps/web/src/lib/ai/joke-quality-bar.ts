@@ -8,8 +8,9 @@
  *
  * Partagé par le générateur (joke-agent, bloc system caché) et par le
  * Stand-Up Director en mode génération quotidienne (validateJoke avec
- * `dailyGeneration: true`, directorRewriteJoke). Le copy-review n'est pas
- * concerné (choix Thomas : il tourne tel quel).
+ * `dailyGeneration: true`, directorRewriteJoke), par la relecture copy-review
+ * des vannes (lot Q2, s14 : GARDER seulement au niveau, doute = REECRIRE) et
+ * par le contrôle du matin (quality-watch).
  */
 
 export const JOKE_FLOOR_ETALONS: ReadonlyArray<{ setup: string; punchline: string }> = [

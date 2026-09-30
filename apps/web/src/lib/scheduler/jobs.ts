@@ -561,7 +561,28 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
-   * Orchestrateur : exécute les 10 jobs séquentiellement.
+   * Contrôle qualité du matin (s14, lot Q4) : relit la vanne et le conseil du
+   * jour, remplace une vanne sous la barre des étalons par une vanne validée et
+   * envoie un récap admin si besoin. Fenêtre 6h-8h UTC (après daily-content à
+   * 5h) ; verrou daté interne à runQualityWatch : 1 seul passage par jour,
+   * au plus 1 appel LLM (sous le coupe-circuit budget).
+   */
+  const runQualityWatchJob = async () => {
+    try {
+      const utcHour = new Date().getUTCHours();
+      if (utcHour < 6 || utcHour >= 8) return;
+      const { runQualityWatch } = await import("@/lib/ai/quality-watch");
+      const res = await runQualityWatch();
+      if (!res.skipped) {
+        console.log(`[scheduler:quality-watch] ${res.date} : ${res.defects.length} défaut(s), e-mail ${res.emailed ? "envoyé" : "non"}.`);
+      }
+    } catch (err) {
+      console.error("[scheduler:quality-watch] Échec :", err);
+    }
+  };
+
+  /**
+   * Orchestrateur : exécute les jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    *
    * Le décryptage des vannes existantes ne fait PLUS partie du scheduler :
@@ -570,6 +591,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runAllJobs = async () => {
     await runDailyContentJob();
+    await runQualityWatchJob();
     await runWeeklySeoJob();
     await runMonthlyPlanJob();
     await runDailySocialJob();

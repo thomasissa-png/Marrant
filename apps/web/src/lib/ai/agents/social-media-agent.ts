@@ -8,6 +8,7 @@ import {
 import { PERSONAS, getPersonaForDay } from "../personas";
 import type { PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { runWithContentGates } from "../content-gates";
 import {
   validateSocialPost,
   directorRewriteSocialPost,
@@ -752,7 +753,27 @@ export async function generateDailySocialPosts(
       const post = await generateSinglePost(entry, persona, winningPatterns);
       // Director validation pipeline
       const validated = await validateAndRefinePost(post, persona);
-      posts.push(validated);
+      // Lot Q3 : gates de publication sans LLM (tirets cadratins corrigés ;
+      // vulgarité, vouvoiement, auto-mention IA → UNE régénération, sinon pas
+      // de publication pour ce créneau ; marques signalées dans les logs).
+      const gated = await runWithContentGates(
+        validated,
+        async (feedback) => {
+          const regenerated = await generateSinglePost(
+            { ...entry, theme: `${entry.theme} — ${feedback}` },
+            persona,
+            winningPatterns,
+          );
+          return validateAndRefinePost(regenerated, persona);
+        },
+        ["hook", "content", "threadParts", "cta"],
+        `post ${entry.platform}/${entry.format}`,
+      );
+      if (!gated.ok) {
+        console.warn(`[SocialAgent] Post ${entry.platform}/${entry.format} non publié : rejeté par les gates de publication`);
+        continue;
+      }
+      posts.push(gated.value);
     } catch (err) {
       console.error(
         `[SocialAgent] Erreur génération ${entry.format}:`,

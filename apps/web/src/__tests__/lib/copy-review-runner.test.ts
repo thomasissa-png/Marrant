@@ -136,7 +136,7 @@ describe("runCopyReviewBatch", () => {
     );
   });
 
-  it("REECRIRE approuvée par le Director (score ≥ 8) → applique la réécriture avec originalContent", async () => {
+  it("REECRIRE APPROVED par le Director avec la barre → réécriture appliquée, verdict GARDER (éligible vanne du jour)", async () => {
     mockJokeFindMany.mockResolvedValue([
       { id: "j3", content: "original setup", punchline: "original punch", category: "AUTODERISION", type: "STORY", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null },
     ]);
@@ -159,10 +159,47 @@ describe("runCopyReviewBatch", () => {
     expect(call.data.content).toBe("nouveau setup");
     expect(call.data.originalContent).toBe("original setup");
     expect(call.data.originalPunchline).toBe("original punch");
+    expect(call.data.copyVerdict).toBe("GARDER");
+    expect(mockValidateJoke).toHaveBeenCalledWith(
+      expect.objectContaining({ content: "nouveau setup" }),
+      "YANIS",
+      { dailyGeneration: true },
+    );
+  });
+
+  it("REECRIRE NEEDS_REVISION (score 8) → sous la barre : original conservé, REECRIRE", async () => {
+    mockJokeFindMany.mockResolvedValue([
+      { id: "j8", content: "s", punchline: "p", category: "AUTODERISION", type: "STORY", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null },
+    ]);
+    mockReviewJoke.mockResolvedValue({
+      verdict: "REECRIRE",
+      reason: "Moyenne.",
+      rewritten: { content: "setup v2", punchline: "chute v2", comedyTechnique: "T", techniqueExplanation: "e", howToApply: "h" },
+    });
+    mockValidateJoke.mockResolvedValue({ verdict: "NEEDS_REVISION", score: 8, strengths: [], issues: [], directorNote: "" });
+
+    const stats = await runCopyReviewBatch();
+    expect(stats.jokesRewritten).toBe(0);
+    const call = mockJokeUpdate.mock.calls[0][0];
+    expect(call.data.content).toBeUndefined();
     expect(call.data.copyVerdict).toBe("REECRIRE");
   });
 
-  it("REECRIRE REJECTED par le Director → on garde l'original, verdict marqué GARDER", async () => {
+  it("REECRIRE sans réécriture (doute) → pas d'appel Director, original marqué REECRIRE", async () => {
+    mockJokeFindMany.mockResolvedValue([
+      { id: "j9", content: "s", punchline: "p", category: "AUTODERISION", type: "STORY", maturityLevel: 1, comedyTechnique: "T", techniqueExplanation: "e", howToApply: "h" },
+    ]);
+    mockReviewJoke.mockResolvedValue({ verdict: "REECRIRE", reason: "Doute." });
+
+    const stats = await runCopyReviewBatch();
+    expect(mockValidateJoke).not.toHaveBeenCalled();
+    expect(stats.jokesGuarded).toBe(1);
+    const call = mockJokeUpdate.mock.calls[0][0];
+    expect(call.data.content).toBeUndefined();
+    expect(call.data.copyVerdict).toBe("REECRIRE");
+  });
+
+  it("REECRIRE REJECTED par le Director → on garde l'original, verdict marqué REECRIRE (hors vanne du jour)", async () => {
     mockJokeFindMany.mockResolvedValue([
       { id: "j4", content: "s", punchline: "p", category: "AUTODERISION", type: "STORY", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null },
     ]);
@@ -184,7 +221,7 @@ describe("runCopyReviewBatch", () => {
     expect(stats.jokesRewritten).toBe(0);
     const call = mockJokeUpdate.mock.calls[0][0];
     expect(call.data.content).toBeUndefined();
-    expect(call.data.copyVerdict).toBe("GARDER");
+    expect(call.data.copyVerdict).toBe("REECRIRE");
   });
 
   it("filtre SQL : ne prend que generatedByAI=true, isActive=true, non relus pour la version courante", async () => {

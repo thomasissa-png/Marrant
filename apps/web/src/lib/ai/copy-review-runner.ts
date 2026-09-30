@@ -10,7 +10,10 @@
  *  - Kill-switch env `COPY_REVIEW_ENABLED` (défaut ACTIF — mais si "false", skip).
  *  - Chaque échec (LLM crash, DB down) est loggé, on continue avec l'item suivant.
  *  - REECRIRE : la nouvelle version passe par le Stand-Up Director avant
- *    d'écrire en DB. Score < 8 → on conserve l'original.
+ *    d'écrire en DB. Vannes (lot Q2, s14) : validateJoke avec la barre des
+ *    étalons, écrite seulement si APPROVED (→ copyVerdict GARDER) ; sinon
+ *    original conservé, copyVerdict REECRIRE (hors vanne du jour).
+ *    Conseils : score < 8 → on conserve l'original.
  *  - RETIRER : `isActive=false` (soft delete), la ligne reste (favoris/likes
  *    conservés — le UI filtre déjà sur isActive).
  *  - Réversibilité : `originalContent`/`originalPunchline` (Joke) et
@@ -33,6 +36,7 @@ import {
   type TipToValidate,
 } from "@/lib/ai/agents/standup-director-agent";
 import { getPersonaForDay } from "@/lib/ai/personas";
+import { stripEmDashes } from "@/lib/em-dash";
 
 const DEFAULT_BATCH = 25;
 const MIN_DIRECTOR_SCORE = 8;
@@ -202,17 +206,32 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
           continue;
         }
 
-        // REECRIRE → valider avec le Stand-Up Director avant d'écrire.
-        const rw = review.rewritten!;
-        const proposal: JokeToValidate = {
-          content: rw.content,
-          punchline: rw.punchline,
-          category: joke.category,
-          type: joke.type,
-          maturityLevel: joke.maturityLevel,
-        };
-        const validation = await validateJoke(proposal, persona);
-        if (validation.verdict !== "REJECTED" && validation.score >= MIN_DIRECTOR_SCORE) {
+        // REECRIRE (lot Q2) : la réécriture est validée par le Director AVEC la
+        // barre des étalons (dailyGeneration). Écrite seulement si APPROVED :
+        // elle est alors au niveau → GARDER (éligible vanne du jour, l'original
+        // reste dans originalContent). Sinon, ou sans réécriture, l'original
+        // reste marqué REECRIRE : visible au catalogue, jamais vanne du jour.
+        const rw = review.rewritten
+          ? {
+              ...review.rewritten,
+              content: stripEmDashes(review.rewritten.content),
+              punchline: stripEmDashes(review.rewritten.punchline),
+            }
+          : null;
+        const validation = rw
+          ? await validateJoke(
+              {
+                content: rw.content,
+                punchline: rw.punchline,
+                category: joke.category,
+                type: joke.type,
+                maturityLevel: joke.maturityLevel,
+              } satisfies JokeToValidate,
+              persona,
+              { dailyGeneration: true },
+            )
+          : null;
+        if (rw && validation?.verdict === "APPROVED") {
           await withDbRetry(
             () =>
               prisma.joke.update({
@@ -230,15 +249,15 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
                   originalPunchline: joke.originalPunchline ?? joke.punchline,
                   copyReviewedAt: new Date(),
                   copyReviewVersion: version,
-                  copyVerdict: "REECRIRE",
+                  copyVerdict: "GARDER",
                 },
               }),
             { label: "copy-review:rewrite-joke" },
           );
           stats.jokesRewritten++;
         } else {
-          // Réécriture rejetée par le Director → on garde l'original mais on
-          // marque la relecture pour ne pas re-tourner en boucle.
+          // Pas de réécriture au niveau → l'original reste, marqué REECRIRE
+          // (hors vanne du jour) ; la relecture est datée pour ne pas boucler.
           await withDbRetry(
             () =>
               prisma.joke.update({
@@ -246,10 +265,10 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
                 data: {
                   copyReviewedAt: new Date(),
                   copyReviewVersion: version,
-                  copyVerdict: "GARDER",
+                  copyVerdict: "REECRIRE",
                 },
               }),
-            { label: "copy-review:keep-after-director-reject" },
+            { label: "copy-review:keep-original-below-bar" },
           );
           stats.jokesGuarded++;
         }

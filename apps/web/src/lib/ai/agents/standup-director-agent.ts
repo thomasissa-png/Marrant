@@ -832,10 +832,10 @@ export async function validateJoke(
   options: {
     recentSetups?: string[];
     /**
-     * Lot V7 : true uniquement depuis daily-publisher. Ajoute la barre
-     * plancher (4 étalons + critères + tics) au prompt et autorise les
-     * assistants / IA comme sujet. Défaut false = comportement copy-review
-     * inchangé.
+     * Lot V7 : ajoute la barre plancher (4 étalons + critères + tics) au
+     * prompt et autorise les assistants / IA comme sujet. Utilisé par
+     * daily-publisher, la réécriture copy-review des vannes (lot Q2) et
+     * quality-watch (lot Q4).
      */
     dailyGeneration?: boolean;
   } = {},

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
+import { pickValidatedJoke } from "@/lib/ai/daily-joke-pool";
 
 export const dynamic = "force-dynamic";
 
@@ -37,36 +39,14 @@ export async function GET() {
     // Fallback : contenu déterministe basé sur le jour de l'année
     const dayOfYear = getDayOfYear(today);
 
-    // Vanne du jour de repli :
-    //  1. On préfère les vannes décortiquées ET validées par la relecture s11
-    //     (copyVerdict GARDER ou REECRIRE — le décryptage est plein, la charte
-    //     s11 a été appliquée).
-    //  2. Si aucune n'est encore relue (transition), on garde le filtre
-    //     historique "au moins un décryptage".
-    //  3. En dernier recours, toutes les vannes actives (pré-décryptage).
-    const reviewedCount = await prisma.joke.count({
-      where: {
-        isActive: true,
-        comedyTechnique: { not: null },
-        copyVerdict: { in: ["GARDER", "REECRIRE"] },
-      },
-    });
-    const decryptedCount = reviewedCount > 0 ? reviewedCount : await prisma.joke.count({
-      where: { isActive: true, comedyTechnique: { not: null } },
-    });
-    const jokeWhere =
-      reviewedCount > 0
-        ? {
-            isActive: true,
-            comedyTechnique: { not: null },
-            copyVerdict: { in: ["GARDER", "REECRIRE"] },
-          }
-        : decryptedCount > 0
-          ? { isActive: true, comedyTechnique: { not: null } }
-          : { isActive: true };
+    // Vanne du jour de repli (lot Q1, s14, barre Alexa) : uniquement une vanne
+    // validée au niveau des étalons (isActive, copyVerdict GARDER, décryptage
+    // présent). Pool vide (transition) → repli historique.
+    const validatedJoke = await pickValidatedJoke(dayOfYear);
+    const legacyJokeWhere = validatedJoke ? null : await legacyFallbackJokeWhere();
 
     const [jokeCount, tipCount, videoCount] = await Promise.all([
-      prisma.joke.count({ where: jokeWhere }),
+      legacyJokeWhere ? prisma.joke.count({ where: legacyJokeWhere }) : Promise.resolve(1),
       prisma.tip.count({ where: { isActive: true } }),
       prisma.video.count({ where: { isActive: true } }),
     ]);
@@ -79,11 +59,13 @@ export async function GET() {
     }
 
     const [joke, tip, video] = await Promise.all([
-      prisma.joke.findFirst({
-        where: jokeWhere,
-        orderBy: { id: "asc" },
-        skip: dayOfYear % jokeCount,
-      }),
+      legacyJokeWhere
+        ? prisma.joke.findFirst({
+            where: legacyJokeWhere,
+            orderBy: { id: "asc" },
+            skip: dayOfYear % jokeCount,
+          })
+        : Promise.resolve(validatedJoke),
       prisma.tip.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
@@ -110,4 +92,23 @@ export async function GET() {
       { status: 500 }
     );
   }
+}
+
+/**
+ * Repli historique (avant la barre s14), utilisé seulement tant qu'aucune
+ * vanne n'est marquée GARDER :
+ *  1. vannes décortiquées et relues (copyVerdict GARDER ou REECRIRE) ;
+ *  2. sinon, vannes avec au moins un décryptage ;
+ *  3. en dernier recours, toutes les vannes actives.
+ */
+async function legacyFallbackJokeWhere(): Promise<Prisma.JokeWhereInput> {
+  const reviewedWhere: Prisma.JokeWhereInput = {
+    isActive: true,
+    comedyTechnique: { not: null },
+    copyVerdict: { in: ["GARDER", "REECRIRE"] },
+  };
+  if ((await prisma.joke.count({ where: reviewedWhere })) > 0) return reviewedWhere;
+  const decryptedWhere: Prisma.JokeWhereInput = { isActive: true, comedyTechnique: { not: null } };
+  if ((await prisma.joke.count({ where: decryptedWhere })) > 0) return decryptedWhere;
+  return { isActive: true };
 }
