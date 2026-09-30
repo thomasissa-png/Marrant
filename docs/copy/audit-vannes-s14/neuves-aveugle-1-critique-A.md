@@ -190,3 +190,65 @@ Règle : « = » si niveau des 30 références ET jamais entendue. Doute = « < 
 | V298 | < | doute | Speedrun contre 60 heures : connu |
 | V027 | < | doute | Bulle « écrit » : mème de messagerie courant |
 | V077 | < | doute | Point commun jamais pratiqué : trope connu |
+| V245 | < | doute | Homonyme sportif : idée connue, chute longue |
+| V415 | < | oui | Téléphone rangé dans un tiroir : connu |
+| V062 | < | doute | Halloween sans enfants : chute en deux temps, connu |
+| V322 | < | doute | Bonne chute (« pas en même temps »), agenda de joueurs connu |
+| V427 | < | oui | « Personne n'est revenu du fond » : mème du bus |
+| V122 | < | oui | Recruteur qui hésite sur l'ambiance : connu |
+| V163 | < | oui | Évaluation et attente minimale : connu |
+| V209 | < | doute | Bonne chute, mais appli de méditation déjà vue |
+| V461 | < | oui | Vessie contre scénario : classique |
+| V030 | < | doute | Baiser/poignée de main : trope de date connu |
+| V007 | < | oui | « Super » trop rapide : classique |
+| V375 | < | oui | Chômage en « transition stratégique » : mème LinkedIn |
+| V316 | < | oui | Trophée « mourir 100 fois » : connu |
+| V467 | < | oui | Romans russes et prénoms : connu |
+| V259 | < | oui | Le seul à apporter de l'eau : connu |
+| V188 | < | oui | Une mouche captive l'amphi : connu |
+| V056 | < | doute | « Mademoiselle par précaution » bon, cousin et copines connu |
+| V301 | < | doute | Grand-mère et jeu de bonbons : connu |
+| V142 | < | doute | Photo d'embauche qui ne ressemble plus : connu |
+| V248 | < | non | Correct, pas de vraie surprise |
+| V453 | = | non | Liste jamais barrée, « que je comprends » : tendre, imprévu |
+| V044 | = | non | « J'ai gardé la canne » : absurde, courte, neuve |
+| V337 | < | oui | « Votre appel est important » : très connu |
+| V006 | < | doute | « Au cas où » simultané, mais setup long |
+| V003 | = | non | « Je lui ai demandé s'il partait » : net, imprévu |
+| V000 | = | non | « Elle a pris les deux » : chute courte, non télégraphiée |
+| V139 | < | doute | Humeur 1 à 5 : bon, mais sujet RH connu |
+| V242 | < | doute | Père et « like » : trope familial connu |
+| V369 | < | non | « Il y a eu une histoire » : vague |
+| V151 | < | doute | Croiser son chef : setup long, gag connu |
+| V177 | < | doute | Alternant introuvable des deux côtés : idée connue |
+| V288 | < | doute | « Très original » : compliment ambigu connu |
+| V132 | < | non | Logique tordue, chute peu claire |
+| V345 | < | oui | Faire semblant de dormir dans le bus : connu |
+| V287 | = | non | « À peine bougé qu'ils avaient trouvé » : court, imprévisible |
+| V295 | < | doute | Console d'enfance lourde : observation courante |
+| V323 | < | oui | Le joueur qui meurt sert d'appât : connu |
+| V440 | < | oui | « On verra » = non : trope familial |
+| V289 | < | oui | Sauter le tutoriel : connu |
+| V382 | < | doute | « C'est exact » drôle, résumé IA déjà courant |
+| V225 | < | oui | Commentaire réduit à « top » : connu |
+| V383 | < | oui | « Ce n'est pas vous, c'est moi » : classique |
+| V101 | < | oui | Pull de mamie raté : trope connu |
+| V315 | < | oui | Notification du jeu désinstallé : doublon de V220 |
+| V046 | < | oui | Tupperware de mamie : trope connu |
+| V394 | < | oui | S'excuser auprès d'un objet : classique |
+| V168 | < | doute | Stylos posés : observation vraie, déjà exploitée |
+| V033 | < | oui | Répéter ses sujets en date : connu |
+| V064 | < | doute | Faire semblant d'aimer la série : trope connu |
+| V235 | < | doute | Bon final, IA « thérapeute » déjà usée |
+| V204 | = | non | « Il est intact. Je le ménage. » : court, neuf |
+| V386 | < | oui | IA qui donne raison à tous : doublon de V385 |
+| V176 | = | non | « Ce qu'est devenu alternant1 » : image nette, imprévue |
+| V320 | < | doute | « Ne pas écouter » : chute attendue |
+| V230 | < | doute | Appli qui tutoie : bon, mais chute molle |
+| V463 | < | oui | Voir le concert sur un téléphone : doublon de V276 |
+| V099 | < | oui | « Des choses vraies, mais pas toutes » : connu |
+| V459 | < | non | Belle comparaison, mais chute traînante |
+| V343 | = | non | « Il a écrit six » : court, imprévu, vrai |
+| V353 | < | non | « Maximum est une opinion » : formule cherchée |
+| V211 | = | non | « J'espère que ce message te trouve bien » : net, drôle |
+| V282 | < | doute | Fuir dans la cuisine : trope connu |

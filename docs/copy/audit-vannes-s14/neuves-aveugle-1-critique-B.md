@@ -194,3 +194,98 @@ Légende : note `=` (au niveau E1-E4 ET jamais entendue) ou `<`. connue : non / 
 | V415 | < | classique | téléphone dans le tiroir : classique |
 | V062 | < | trope | grand-mère qui attend : joli, mais longue et proche de V438 |
 | V322 | < | trope | soirée où tous sont libres : connu |
+| V427 | < | classique | « personne n'est revenu du fond du bus » : formule entendue |
+| V122 | < | trope | recruteur qui hésite sur l'ambiance : connu |
+| V163 | < | trope | « dépasse les attentes » : blague RH connue |
+| V209 | < | non | chute tarabiscotée |
+| V461 | < | trope | « X a tenu, pas Y » : formule connue |
+| V030 | < | classique | baiser raté / poignée de main : classique |
+| V007 | < | classique | « comment tu trouves ma robe » : classique |
+| V375 | < | trope | IA qui enjolive : mème |
+| V316 | < | trope | trophée de mort : jeu connu, chute sans surprise |
+| V467 | < | classique | noms des romans russes : classique |
+| V259 | < | trope | l'invité qui apporte de l'eau : connu |
+| V188 | < | trope | doublon d'idée avec V169/V180 (« cours le plus suivi ») |
+| V056 | = | non | « Elle dit "mademoiselle", par précaution » : détail concret et inattendu, vrai |
+| V301 | = | non | « c'est un bon début » : la grand-mère condescendante, courte, non télégraphiée |
+| V142 | = | non | « Il cherche quelqu'un de plus reposé. » : conséquence absurde et vraie |
+| V248 | < | non | bonne prémisse, chute qui explique |
+| V453 | < | non | tendre mais setup long et chute non drôle |
+| V044 | = | non | « J'ai gardé la canne. » : l'escalade absurde, dernière phrase inattendue |
+| V337 | < | classique | l'attente téléphonique : genre saturé, malgré la bonne chute |
+| V006 | < | trope | « au cas où » : connu |
+| V003 | = | non | « Je lui ai demandé s'il partait. » : implication inattendue, courte, vraie |
+| V000 | < | trope | couette : bonne chute mais sujet connu |
+| V139 | < | trope | sondage d'humeur : doublon d'idée avec V127, chute qui explique |
+| V242 | < | trope | père et « like » : trope |
+| V369 | < | non | histoire jamais racontée : flou |
+| V151 | < | non | drôle mais trop long |
+| V177 | < | non | « c'est reposant » explique |
+| V288 | < | trope | compliment mal lu : mécanisme connu |
+| V132 | < | trope | brut/net : connu |
+| V345 | = | non | « Personne ne m'a prévenu. » : retournement de culpabilité, court, vrai |
+| V287 | < | non | correcte, sans mordant |
+| V295 | < | non | logique ambiguë |
+| V323 | < | classique | gamer « je meurs et l'équipe voit l'ennemi » : connue |
+| V440 | < | trope | « on verra » : proche de la réf « elle verrait en juin » |
+| V289 | < | trope | tutoriel sauté : connu |
+| V382 | < | trope | résumé IA : bon mais mème IA-mail (cf. V391) |
+| V225 | < | classique | commentaire « top » : classique |
+| V383 | < | trope | « c'est pas toi, c'est moi » à l'IA : mème IA |
+| V101 | < | classique | pull de grand-mère : classique |
+| V315 | < | trope | doublon d'idée avec V039/V220 (appli qui manque) |
+| V046 | < | classique | Tupperware de grand-mère : classique |
+| V394 | < | classique | s'excuser auprès d'un poteau : classique |
+| V168 | < | trope | « hors programme » : connu |
+| V033 | < | trope | sujets de conversation épuisés : connu |
+| V064 | = | non | « On a pleuré tous les deux. » : retournement net, vrai, courte |
+| V235 | < | trope | IA thérapeute : mème |
+| V204 | < | classique | « potentiel » : classique |
+| V386 | < | classique | l'IA donne raison à tous : mème |
+| V176 | < | trope | alternant1 : gag d'adresse mail connu |
+| V320 | < | trope | perso de jeu ressemblant : connu |
+| V230 | < | non | chute qui explique |
+| V463 | < | trope | doublon d'idée avec V276, moins bon |
+| V099 | < | non | bon mais chute dite en dialogue, un peu écrite |
+| V459 | = | non | manger la tomate « devant lui, en silence » : la solennité tenue jusqu'au bout, vrai |
+| V343 | = | non | « Il a regardé mes mains. Il a écrit six. » : chute physique, non télégraphiée |
+| V353 | < | non | « maximum est une opinion » : formule d'auteur |
+| V211 | < | trope | mème IA-message (cf. V391) |
+| V282 | = | non | « Il est venu m'aider à essuyer. » : le piège qui se retourne, court, vrai |
+
+## Comptes
+
+- Total : 248 vannes.
+- `=` : 38 (V302, V417, V065, V201, V148, V091, V045, V438, V034, V460, V381, V097, V429, V227, V053, V436, V115, V112, V366, V057, V283, V416, V487, V276, V185, V486, V108, V245, V056, V301, V142, V044, V003, V345, V064, V459, V343, V282)
+- `<` : 210.
+- Réserve honnête : parmi les 38, environ 15 supportent la comparaison directe avec E1-E4 ; les autres sont des `=` de justesse (chute fraîche mais setup un peu long ou tendresse plus que rire).
+
+## Les 15 meilleures (ordre décroissant)
+
+1. V417 : « 7h12, puis 7h20 » / « passé la journée inquiet »
+2. V065 : « surprends-moi » / « J'ai fait la vaisselle. Elle a appelé sa mère. »
+3. V201 : « prenez votre temps » / « pas tout »
+4. V148 : « je suis en réunion » / « tu leur diras bonjour »
+5. V438 : place réservée / « attendu pendant tout le trajet »
+6. V283 : mot du voisin / « comme si j'étais le bruit »
+7. V487 : grand-mère / « quelqu'un de plus haut placé »
+8. V343 : cafés / « Il a écrit six »
+9. V381 : prof et IA / « il s'est excusé »
+10. V276 : concert filmé / « il m'a demandé si c'était bien »
+11. V056 : cousin et copines / « mademoiselle, par précaution »
+12. V142 : portique facial / « quelqu'un de plus reposé »
+13. V282 : vaisselle pour fuir / « il est venu essuyer »
+14. V097 : jumeau / « comme d'un diplôme »
+15. V091 : deux vérités et un mensonge / « celle où j'ai un CDI »
+
+Réserves proches : V245 (tir à l'arc), V064 (saison 5), V416 (« je suis descendu »), V460 (« c'est puissant »).
+
+## Doublons d'idée relevés (meilleure gardée)
+
+- « Se sentir attendu » : garder V438 (écarter V360, V062).
+- Appli qui manque : V039, V220, V315, tous `<` (mème).
+- « Cours le plus suivi » : V169, V180, V188, tous `<`.
+- « Fais comme chez toi » : V014 / V156, tous `<`.
+- Yeux fermés sur la photo : V015 / V224, tous `<`.
+- Concert filmé par un autre : garder V276 (écarter V463).
+- Message IA / IA-mail : V391, V211, V382, V383, tous `<` (mème saturé).
