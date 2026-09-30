@@ -11,6 +11,7 @@ import {
 } from "@/components/seo/json-ld";
 import { BlogListClient, BlogListView } from "./blog-list-client";
 import { PageHeader } from "@/components/layout/page-header";
+import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 export const metadata: Metadata = {
   title: "Blog humour — guides et techniques",
@@ -42,7 +43,7 @@ async function getAllArticles() {
 
   try {
     dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
+      where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: {
         slug: true,
         title: true,

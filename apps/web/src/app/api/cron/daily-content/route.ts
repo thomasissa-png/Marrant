@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { INDEXNOW_HOST, submitToIndexNow } from "@/lib/indexnow";
 import { publishDailyContent } from "@/lib/ai/daily-publisher";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
@@ -6,8 +7,7 @@ export const dynamic = "force-dynamic";
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
-const HOST = "deviens-marrant.fr";
+const HOST = INDEXNOW_HOST;
 
 /** Pages produit à notifier après publication de contenu frais. */
 const PRODUCT_PAGES = [
@@ -19,31 +19,11 @@ const PRODUCT_PAGES = [
 
 /**
  * Notifie Bing (+ Yandex, Naver, Seznam) via IndexNow que les pages ont du contenu frais.
- * Fire-and-forget : ne bloque jamais le cron en cas d'erreur.
+ * Non bloquant : ne fait jamais échouer le cron (lib/indexnow, timeout 5 s).
  */
 async function notifyIndexNow(urls: string[]): Promise<{ submitted: number; status: number } | null> {
-  if (!INDEXNOW_KEY) {
-    console.warn("[IndexNow] INDEXNOW_KEY absent — soumission ignorée");
-    return null;
-  }
-  try {
-    const response = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        host: HOST,
-        key: INDEXNOW_KEY,
-        keyLocation: `https://${HOST}/indexnow-key.txt`,
-        urlList: urls,
-      }),
-    });
-    const body = await response.text();
-    console.log(`[IndexNow] ${urls.length} URLs soumises — status ${response.status} — response: ${body}`);
-    return { submitted: urls.length, status: response.status };
-  } catch (err) {
-    console.warn("[IndexNow] Erreur (non bloquante):", err);
-    return null;
-  }
+  const result = await submitToIndexNow(urls);
+  return result.ok ? { submitted: result.submitted, status: result.status } : null;
 }
 
 /**

@@ -10,7 +10,7 @@ const mockPrisma = {
   joke: { count: jest.fn(), findFirst: jest.fn() },
   tip: { count: jest.fn(), findFirst: jest.fn() },
   video: { count: jest.fn(), findFirst: jest.fn() },
-  blogArticle: { updateMany: jest.fn(), findFirst: jest.fn() },
+  blogArticle: { updateMany: jest.fn(), findFirst: jest.fn(), findMany: jest.fn() },
   contentPlan: { findFirst: jest.fn() },
   jobLock: { deleteMany: jest.fn(), create: jest.fn() },
 };
@@ -30,6 +30,9 @@ jest.mock("@/lib/ai/agents/seo-blog-agent", () => ({ publishWeeklyArticle: () =>
 jest.mock("@/lib/social-post-daily-lock", () => ({ tryAcquireSocialDailyLock: jest.fn().mockResolvedValue(false) }));
 jest.mock("@/lib/ai/ceo-helpers", () => ({ ensureCeoConfig: jest.fn().mockResolvedValue({ enabled: false }) }));
 jest.mock("@/lib/ai/copy-review-runner", () => ({ runDailyCopyReviewOnce: jest.fn() }));
+const mockRevalidatePath = jest.fn();
+jest.mock("next/cache", () => ({ revalidatePath: (p: string) => mockRevalidatePath(p) }));
+const mockFetch = jest.fn();
 
 import { createSchedulerJobs } from "@/lib/scheduler/jobs";
 import {
@@ -54,6 +57,12 @@ beforeEach(() => {
   mockPrisma.video.count.mockResolvedValue(80);
   mockPrisma.video.findFirst.mockResolvedValue({ id: "video-1" });
   mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 0 });
+  mockPrisma.blogArticle.findMany.mockResolvedValue([]);
+  mockPrisma.jobLock.deleteMany.mockResolvedValue({ count: 0 });
+  mockPrisma.jobLock.create.mockResolvedValue({});
+  mockFetch.mockResolvedValue(new Response("", { status: 200 }));
+  global.fetch = mockFetch as unknown as typeof fetch;
+  process.env.INDEXNOW_KEY = "35cc97ed505a4ae89d8470d259fc5662";
   jest.spyOn(console, "warn").mockImplementation(() => {});
   jest.spyOn(console, "log").mockImplementation(() => {});
   jest.spyOn(console, "error").mockImplementation(() => {});
@@ -79,7 +88,7 @@ describe("scheduler-tick avec contenu préparé : zéro LLM", () => {
     }
     expect(mockLlm).not.toHaveBeenCalled();
     expect(mockPrisma.contentPlan.findFirst).not.toHaveBeenCalled(); // monthly-plan court-circuité
-    expect(mockPrisma.blogArticle.updateMany).toHaveBeenCalled(); // weekly-seo : article planifié
+    expect(mockPrisma.blogArticle.findMany).toHaveBeenCalled(); // weekly-seo : article planifié cherché
   });
 
   it("contenu du jour déjà en calendrier : rien n'est créé", async () => {
@@ -126,18 +135,100 @@ describe("ensureDailyContentFromStock", () => {
   });
 });
 
-describe("publishDueScheduledArticles", () => {
-  it("borné à la semaine ISO en cours : les articles retirés (publishedAt ancien) restent retirés", async () => {
-    const now = new Date("2026-10-07T10:00:00Z"); // mercredi
+describe("publishDueScheduledArticles (publication programmée)", () => {
+  const MONDAY_0515 = new Date("2026-10-05T05:15:00Z");
+  const due = [{ id: "a1", slug: "blagues-halloween-soiree-deguisee" }];
+
+  it("rien d'échu : aucun verrou, aucune écriture", async () => {
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toEqual([]);
+    expect(mockPrisma.blogArticle.findMany).toHaveBeenCalledWith({
+      where: { isPublished: false, publishedAt: { gte: new Date("2026-10-05T00:00:00Z"), lte: MONDAY_0515 } },
+      select: { id: true, slug: true },
+      orderBy: { publishedAt: "asc" },
+    });
+    expect(mockPrisma.jobLock.create).not.toHaveBeenCalled();
+    expect(mockPrisma.blogArticle.updateMany).not.toHaveBeenCalled();
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it("article échu : bascule compare-and-set, revalidation, ping IndexNow, verrou relâché", async () => {
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
     mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 1 });
-    expect(await publishDueScheduledArticles(now)).toBe(1);
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toEqual(["blagues-halloween-soiree-deguisee"]);
+
+    expect(mockPrisma.jobLock.create.mock.calls[0][0].data.jobKey).toBe("publish-scheduled-articles-2026-10-05");
     expect(mockPrisma.blogArticle.updateMany).toHaveBeenCalledWith({
-      where: { isPublished: false, publishedAt: { gte: new Date("2026-10-05T00:00:00Z"), lte: now } },
+      where: { id: "a1", isPublished: false },
       data: { isPublished: true },
+    });
+    expect(mockRevalidatePath.mock.calls.map((c) => c[0])).toEqual([
+      "/blog", "/blog/blagues-halloween-soiree-deguisee", "/sitemap.xml", "/llms.txt", "/llms-full.txt",
+    ]);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    const [url, init] = mockFetch.mock.calls[0];
+    expect(url).toBe("https://api.indexnow.org/indexnow");
+    expect(JSON.parse(init.body)).toMatchObject({
+      host: "deviens-marrant.fr",
+      key: "35cc97ed505a4ae89d8470d259fc5662",
+      urlList: [
+        "https://deviens-marrant.fr/blog/blagues-halloween-soiree-deguisee",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/sitemap.xml",
+      ],
+    });
+    expect(mockPrisma.jobLock.deleteMany).toHaveBeenLastCalledWith({
+      where: { jobKey: "publish-scheduled-articles-2026-10-05" },
     });
   });
 
-  it("début de semaine ISO (dimanche → lundi précédent)", () => {
+  it("idempotent : article déjà basculé par un autre processus (count 0) → ni revalidation ni ping", async () => {
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
+    mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 0 });
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toEqual([]);
+    expect(mockRevalidatePath).not.toHaveBeenCalled();
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it("verrou détenu ailleurs : on ne touche à rien", async () => {
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
+    mockPrisma.jobLock.create.mockRejectedValue(Object.assign(new Error("unique"), { code: "P2002" }));
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toEqual([]);
+    expect(mockPrisma.blogArticle.updateMany).not.toHaveBeenCalled();
+  });
+
+  it("revalidatePath indisponible (hors requête) et IndexNow en panne : l'article reste publié", async () => {
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
+    mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 1 });
+    mockRevalidatePath.mockImplementationOnce(() => {
+      throw new Error("Invariant: static generation store missing in revalidateTag");
+    });
+    mockFetch.mockRejectedValue(new Error("timeout"));
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toEqual(["blagues-halloween-soiree-deguisee"]);
+  });
+
+  it("clé IndexNow absente ou placeholder : pas d'appel réseau", async () => {
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
+    mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 1 });
+    process.env.INDEXNOW_KEY = "...";
+    expect(await publishDueScheduledArticles(MONDAY_0515)).toHaveLength(1);
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it("scheduler-tick lundi 05:15 UTC, génération coupée : l'article planifié est publié sans LLM", async () => {
+    jest.useFakeTimers({ doNotFake: ["nextTick", "setImmediate", "queueMicrotask"] });
+    jest.setSystemTime(MONDAY_0515);
+    mockPrisma.blogArticle.findMany.mockResolvedValue(due);
+    mockPrisma.blogArticle.updateMany.mockResolvedValue({ count: 1 });
+    await createSchedulerJobs(ok).runAllJobs();
+    expect(mockPrisma.blogArticle.updateMany).toHaveBeenCalledWith({
+      where: { id: "a1", isPublished: false },
+      data: { isPublished: true },
+    });
+    expect(mockLlm).not.toHaveBeenCalled();
+  });
+
+  it("début de semaine ISO (dimanche → lundi précédent) : un article retiré ancien n'est jamais republié", () => {
     expect(startOfIsoWeekUtc(new Date("2026-10-11T23:00:00Z")).toISOString()).toBe("2026-10-05T00:00:00.000Z");
   });
 });
+

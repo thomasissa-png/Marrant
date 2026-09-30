@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : publication programmée des articles préparés + script d'import @fullstack
+
+> Aucun secret, aucune migration, aucun package. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`). Donnée : l'article S1 n'est inséré en base que par la commande d'import lancée par Thomas (voir plus bas), jamais au déploiement.
+> - `publishDueScheduledArticles` (`src/lib/scheduler/prepared-content.ts`), appelé à chaque tick de 15 min et par `/api/cron/weekly-seo` quand `CONTENT_GENERATION_ENABLED` ≠ "true" : passe `isPublished=true` sur les articles dont `publishedAt` est échu dans la semaine ISO en cours (compare-and-set, verrou `JobLock` seulement s'il y a un article échu), puis revalidation `/blog`, article, sitemap, llms (best effort, voir `src/lib/blog-revalidate.ts`) et ping IndexNow (`src/lib/indexnow.ts`, source unique, timeout 5 s). Sous OpenNext sans tag cache, `revalidatePath` est sans effet : la page article (jamais mise en cache avant) est servie dès la bascule (05:00-05:15 UTC), `/blog`, sitemap et llms se régénèrent par l'ISR 1 h (première visite après expiration du cache).
+> - Garde-fou d'exposition : `/blog`, `/blog/<slug>`, sitemap, `llms.txt`, `llms-full.txt` n'affichent un article en base que s'il est publié ET daté du passé (`src/lib/blog-visibility.ts`).
+> - FAQ des articles en base : section finale `## FAQ` + `### Question` dans `content`, rendue en bloc « Questions fréquentes » + JSON-LD FAQPage (`src/lib/blog-faq.ts`). Aucun article en base actuel n'a cette section (contrôlé en lecture seule le 30/09) : rendu existant inchangé.
+> - Import (depuis `apps/web`, `NEON_DATABASE_URL` définie) : `npx tsx scripts/content/import-article.ts ../../docs/copy/articles-q4/S1-halloween.md` (dry-run, lecture seule) puis la même commande avec `--write`.
+
 ## s14 (30/09/2026) : lots S3a à S3d, landings vannes, sameAs, slugs canoniques @fullstack
 
 > Aucune action manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`).
