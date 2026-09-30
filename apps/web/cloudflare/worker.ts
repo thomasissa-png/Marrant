@@ -50,6 +50,21 @@ const DEFAULT_ORIGIN = "https://deviens-marrant.fr";
 
 const handler = openNextHandler as OpenNextHandler;
 
+/** Cache des fichiers Next hashés (identique à la règle /_next/static/* de public/_headers). */
+export const IMMUTABLE_CACHE_CONTROL = "public, max-age=31536000, immutable";
+
+/**
+ * Les règles de public/_headers ne s'appliquent pas aux réponses renvoyées par le
+ * Worker : on pose ici le Cache-Control des chunks servis via run_worker_first.
+ * Uniquement sur succès (2xx) ou 304 : une 404 ne doit jamais être mise en cache 1 an.
+ */
+export function withImmutableCache(res: Response): Response {
+  if (!res.ok && res.status !== 304) return res;
+  const headers = new Headers(res.headers);
+  headers.set("Cache-Control", IMMUTABLE_CACHE_CONTROL);
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+}
+
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: ExecutionContextLike): Promise<Response> {
     const url = new URL(request.url);
@@ -67,7 +82,7 @@ export default {
           seen.add(target);
           const res = await assets.fetch(new Request(target, { method: request.method, headers: request.headers }));
           const location = res.status >= 300 && res.status < 400 ? res.headers.get("location") : null;
-          if (!location) return res;
+          if (!location) return withImmutableCache(res);
           target = new URL(location, target).toString();
         }
         return new Response("Not found", { status: 404 });
