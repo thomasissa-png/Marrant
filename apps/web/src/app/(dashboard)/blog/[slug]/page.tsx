@@ -23,6 +23,8 @@ import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } f
 import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { isBlogArticleVisible, visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { splitTrailingFaq } from "@/lib/blog-faq";
 
 export const revalidate = 3600;
 
@@ -44,12 +46,15 @@ async function findArticle(slug: string) {
     () => prisma.blogArticle.findUnique({ where: { slug } }),
     { label: "blog:findArticle" },
   );
-  if (dbArticle && dbArticle.isPublished) {
+  // Visible = publié ET date échue (lib/blog-visibility) : jamais d'article planifié.
+  // FAQ stockée en fin de `content` (lib/blog-faq) : rendue comme celle des statiques.
+  if (dbArticle && isBlogArticleVisible(dbArticle)) {
+    const { content, faqs } = splitTrailingFaq(dbArticle.content);
     return {
       slug: dbArticle.slug,
       title: dbArticle.metaTitle || dbArticle.title,
       excerpt: dbArticle.metaDescription || dbArticle.excerpt,
-      content: dbArticle.content,
+      content,
       date: dbArticle.publishedAt
         ? dbArticle.publishedAt.toISOString().split("T")[0]
         : dbArticle.createdAt.toISOString().split("T")[0],
@@ -59,6 +64,7 @@ async function findArticle(slug: string) {
         : undefined,
       readingTime: dbArticle.readingTime,
       category: dbArticle.category,
+      faqs,
     };
   }
 
@@ -125,7 +131,7 @@ export default async function BlogArticlePage({
     }));
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
+      where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, title: true, category: true, readingTime: true, publishedAt: true },
     });
     const dbMapped = dbArticles.map((a) => ({

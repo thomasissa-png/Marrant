@@ -10,6 +10,7 @@ import {
   LLMS_TARIFS,
   renderFaq,
 } from "@/lib/llms-content";
+import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 /**
  * llms-full.txt — version étendue de llms.txt pour les crawlers LLM (GEO).
@@ -98,7 +99,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
   let dbArticlesList: FullArticle[] = [];
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
+      where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: {
         slug: true,
         title: true,

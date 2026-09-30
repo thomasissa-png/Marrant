@@ -3,6 +3,7 @@ import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
 import { LLMS_FAQ_SHORT, LLMS_TARIFS, renderFaq } from "@/lib/llms-content";
+import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 /**
  * llms.txt — carte de site condensée pour les crawlers LLM (GEO).
@@ -82,7 +83,7 @@ async function collectArticles(): Promise<ArticleEntry[]> {
   let dbEntries: ArticleEntry[] = [];
   try {
     const dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true, slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
+      where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, title: true, excerpt: true },
       orderBy: { publishedAt: "desc" },
     });

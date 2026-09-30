@@ -9,6 +9,9 @@
  */
 import { prisma } from "@/lib/prisma";
 import { getDayOfYear } from "@/lib/ai/date-utils";
+import { buildJobLockKey, releaseLock, tryAcquireLock } from "@/lib/job-lock";
+import { revalidateBlogPaths } from "@/lib/blog-revalidate";
+import { submitToIndexNow } from "@/lib/indexnow";
 
 export function isContentGenerationEnabled(): boolean {
   return process.env.CONTENT_GENERATION_ENABLED?.trim() === "true";
@@ -88,19 +91,57 @@ export function startOfIsoWeekUtc(now: Date): Date {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (dayNum - 1)));
 }
 
+/** Clé du verrou de publication (TTL court : la bascule prend quelques ms). */
+const PUBLISH_LOCK_TTL_MS = 5 * 60 * 1000;
+
 /**
- * Publie l'article PLANIFIÉ de la semaine : BlogArticle déjà en base avec
- * `isPublished=false` et `publishedAt` dans la semaine ISO en cours, échu.
- * Le site filtre sur `isPublished` (pas sur `publishedAt`) : un article
- * planifié doit donc être stocké NON publié avec sa date prévue.
- * Borné à la semaine en cours : les articles retirés (publishedAt ancien,
- * isPublished=false) ne sont jamais republiés. Aucun LLM.
+ * Publie les articles PLANIFIÉS échus (publication programmée, s14). Aucun LLM.
+ *
+ * Un article planifié est stocké en base avec `isPublished=false` et
+ * `publishedAt` = date/heure prévue (import : scripts/content/import-article.ts,
+ * lundi 05:00 UTC par défaut). Le site filtre sur `isPublished` (et, par
+ * garde-fou, sur `publishedAt <= now`, voir lib/blog-visibility.ts).
+ *
+ * Appelé à CHAQUE tick du scheduler (15 min) et par le cron HTTP weekly-seo :
+ *  - borné à la semaine ISO en cours : un article retiré (publishedAt ancien,
+ *    isPublished=false) n'est jamais republié ;
+ *  - verrou `JobLock` quotidien (lib/job-lock) pris seulement s'il y a un
+ *    article échu : zéro écriture en base les autres ticks ;
+ *  - bascule par compare-and-set (`isPublished: false` dans le where) : un
+ *    seul processus « gagne » chaque article, donc une seule revalidation et
+ *    un seul ping IndexNow, même en cas de course. Idempotent.
+ * Pas de plafond de tentatives : l'opération est gratuite (pas de LLM) et un
+ * échec base doit être retenté au tick suivant.
+ *
+ * @returns slugs publiés par CET appel.
  */
-export async function publishDueScheduledArticles(now: Date = new Date()): Promise<number> {
-  const { count } = await prisma.blogArticle.updateMany({
+export async function publishDueScheduledArticles(now: Date = new Date()): Promise<string[]> {
+  const due = await prisma.blogArticle.findMany({
     where: { isPublished: false, publishedAt: { gte: startOfIsoWeekUtc(now), lte: now } },
-    data: { isPublished: true },
+    select: { id: true, slug: true },
+    orderBy: { publishedAt: "asc" },
   });
-  if (count > 0) console.log(`[prepared-content] ${count} article(s) planifié(s) publié(s).`);
-  return count;
+  if (due.length === 0) return [];
+
+  const lockKey = buildJobLockKey("publish-scheduled-articles", now);
+  if (!(await tryAcquireLock(lockKey, PUBLISH_LOCK_TTL_MS))) return [];
+
+  const published: string[] = [];
+  try {
+    for (const article of due) {
+      const { count } = await prisma.blogArticle.updateMany({
+        where: { id: article.id, isPublished: false },
+        data: { isPublished: true },
+      });
+      if (count === 1) published.push(article.slug);
+    }
+  } finally {
+    await releaseLock(lockKey);
+  }
+  if (published.length === 0) return [];
+
+  console.log(`[prepared-content] Article(s) planifié(s) publié(s) : ${published.join(", ")}.`);
+  revalidateBlogPaths(published);
+  await submitToIndexNow([...published.map((slug) => `/blog/${slug}`), "/blog", "/sitemap.xml"]);
+  return published;
 }
