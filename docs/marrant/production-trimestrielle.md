@@ -14,7 +14,7 @@ Décision Thomas du 30/09/2026 (`docs/founder-preferences.md`) : le contenu est 
 1. **État du stock** (lecture Neon via `scripts/infra/copie-replit-neon.py`, fonction `q`) : dates de M+1 sans `DailyContent`, vannes GARDER jamais utilisées, conseils validés jamais utilisés, articles planifiés de M+1.
 2. **Vannes** : si le stock GARDER non utilisé couvre moins de 60 jours, @copywriter écrit ~60 vannes neuves (dont l'actualité du mois), sans complaisance ; un 2e @copywriter les note contre les étalons ; on ne garde que celles au niveau ; Thomas valide un échantillon de 10.
 3. **Conseils** : même principe avec les étalons de conseils.
-4. **Articles** : @copywriter rédige les articles de M+1 du calendrier @seo ; contrôle @seo (title, meta, maillage, FAQ) ; insertion en base avec `publishedAt` à la date prévue.
+4. **Articles** : @copywriter rédige les articles de M+1 du calendrier @seo ; contrôle @seo (title, meta, maillage, FAQ) ; insertion en base avec `isPublished = false` et `publishedAt` à la date prévue (le site filtre sur `isPublished` ; le job weekly-seo publie l'article planifié de la semaine, interrupteur contenu préparé, cf. `docs/infra/diagnostic-crons-s14.md`).
 5. **Programmation** : une ligne `DailyContent` par date de M+1 (vanne GARDER jamais utilisée, conseil validé, vidéo active), variété de catégories d'un jour à l'autre, saisonnalité respectée.
 6. **Contrôles** : aucune date vide sur M+1, zéro tiret cadratin et zéro gros mot dans ce qui est programmé, coûts IA du mois (`LlmUsageLog`) sous le plafond.
 7. **Traçabilité** : commit des fichiers produits sur la branche de travail, entrée dans `REPLIT_ACTIONS.md` si du code change, compte rendu court à Thomas avec ce qui attend sa validation.
