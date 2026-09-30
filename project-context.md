@@ -179,6 +179,10 @@
 
 ## Mémo de reprise — dernière session
 
+- **30/09/2026, session 13 (migration Cloudflare, tests)** : Worker de test validé (comptes, e-mails, Google, tâches de démarrage, images sociales). Bug corrigé : polices des images sociales sous Workers (`46dd690`). Stripe, `daily-content` et captures non testés (accord Thomas). **Bascule reportée à s14** : lire `docs/infra/passation-s14.md` puis `bascule-checklist.md`.
+
+### Mémo session 11 (conservé pour mémoire)
+
 - **Date** : 29/09/2026 — **Session 11** (audit global + remise à niveau complète avant redéploiement)
 - **Branche** : `claude/marrant-s10-session-recovery-CtZyw` — Replit déploie la branche indiquée par Thomas (master = obsolète s7, normal).
 - **Cause racine découverte** : `claude-sonnet-4-20250514` retiré par Anthropic le 15/06/2026 → toute la génération IA (vannes, conseils, blog, social, vidéos) en échec silencieux 3,5 mois. **Corrigé** : Claude Sonnet 5.5 partout + Opus 5.5 (rapport CEO), Haiku supprimé, SDK 0.39 → 0.129, lecture des réponses par type de bloc, marge de réflexion, effort `low` (secret `ANTHROPIC_EFFORT`), refus gérés, **alerte email admin sur panne IA** + `/api/health`.
@@ -194,11 +198,6 @@
 ### Mémo session 9 (conservé pour mémoire)
 - **Branche** : `claude/marrant-s9-conformite-gouvernance-zwLbC` (7 commits + hotfixes)
 - **Résumé** : Sanity check gouvernance (CLAUDE.md 986→116L slim + extraction playbook/audits-history) → Phase 5 CEO A→C : 11 modèles Prisma + ceo-agent.ts core + crons (ceo-tick/kpis/contest) + ceo-email-footer HMAC + validateCeoOutbound (G-CEO1-4) + Twitter v2 DM + Resend Inbound + suppression haro-agent + dashboard `/admin/ceo`. Audit @legal DPA (GO conditionnel 13 actions). Phase 5.D + 5.B.3 différées s10. Hotfixes post-mémo : favicons G31, 41 erreurs TSC, build script Replit.
-
-### Mémo session 8 (conservé pour mémoire)
-- **Branche** : `claude/add-sanity-check-7Wtc8` (36 commits)
-- **Résumé** : Pivot stratégique majeur du projet CEO autonome. (1) 3 hotfixes P0 enum SocialFormat → script anti-récidive `check-prisma-enums.sh` + extension `.githooks/pre-commit`. (2) Création complète projet CEO autonome (Phase 0 cadrage + benchmark NanoCorp dual + Phase 1 stratégie/growth/legal/seo + Phase 2 corpus canonique 16 exemples avec 6 cycles d'itération dont 2 rejets fondateur + Phase 3 specs+architecture+KPIs+audit cohérence + Phase 4 `.claude/agents/ceo.md`). (3) Pivot fondamental : agent CEO = agent de valeur éducative, pas agent de conversion. (4) Patches voix daily-social + gate G-S21 anti-staccato. (5) 6 nouvelles préférences fondateur dans `founder-preferences.md`.
-- **7 livrables CEO** : ceo-agent-scope.md v2 (235L), ceo-voice-unified.md v3 (257L), ceo-agent-specs.md (628L), ceo-agent-architecture.md (371L), ceo-canonical-examples.md v6 (16 exemples), ceo-kpis-dashboard.md (~480L), ceo.md (280L).
 
 ## Hypothèses à valider
 
