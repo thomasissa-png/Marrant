@@ -1,0 +1,32 @@
+[
+ {
+  "id": "cmmp8p730004kqk63bj5587oy",
+  "tipId": "cmmp8ozsx0006qk63l1qngkr5",
+  "learningPathId": "cmmp8p710004iqk63jclzuo3x",
+  "order": 2
+ },
+ {
+  "id": "cmmp8p7av004tqk63gbqzbt6d",
+  "tipId": "cmmp8ozsx000eqk631v8zat4d",
+  "learningPathId": "cmmp8p78w004oqk63yws42g8h",
+  "order": 5
+ },
+ {
+  "id": "cmppm1ahd002md76yp88aiguf",
+  "tipId": "cmmp8ozsx000lqk63pgytfuuv",
+  "learningPathId": "cmmw5vbpt002ln963dy8a3ogu",
+  "order": 1
+ },
+ {
+  "id": "cmppm1ahd002nd76yakwwyax9",
+  "tipId": "cmmw0tqwa000ymw62dttx5y57",
+  "learningPathId": "cmmw5vbpt002ln963dy8a3ogu",
+  "order": 2
+ },
+ {
+  "id": "cmppm1ary002rd76y0bmxyfb7",
+  "tipId": "cmmw0tr090010mw6276qpd2eo",
+  "learningPathId": "cmmw5vc1r002qn963ss7c18h0",
+  "order": 1
+ }
+]

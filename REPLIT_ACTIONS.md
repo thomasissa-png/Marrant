@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : parcours, option A (5 étapes sous la barre) + tirets cadratins du seed parcours
+
+> Aucun secret, aucune migration, aucun package. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) : `docs/content/parcours-seed.json` est importé au build (textes « pourquoi », quiz, vidéos).
+> - Base (déjà faite le 30/09, Neon) : `LearningPathStep.tipId` de 5 étapes pointe vers un conseil validé de même compétence (confiance 1 : « Énoncer la règle non écrite » ; repartie 1 : « L'ironie bienveillante » ; repartie 2 : « Le silence entre deux chansons » ; maitre-storytelling 5 et roi-repartie 2, parcours inactifs : « La question qui fait raconter », « Répondre au pied de la lettre »). Les 5 anciens conseils sont désactivés. Sauvegardes dans `docs/copy/audit-vannes-s14/`.
+> - Seed : `tipTitle` et phrase « pourquoi » des 3 étapes actives alignés ; 33 tirets cadratins remplacés par deux-points (+ 1 dialogue en guillemets).
+
 ## s14 (30/09/2026) : publication programmée des articles préparés + script d'import @fullstack
 
 > Aucun secret, aucune migration, aucun package. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`). Donnée : l'article S1 n'est inséré en base que par la commande d'import lancée par Thomas (voir plus bas), jamais au déploiement.

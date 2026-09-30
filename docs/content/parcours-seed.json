@@ -2,7 +2,7 @@
   {
     "slug": "machine-a-cafe",
     "title": "Parcours Machine à Café",
-    "description": "Pour que la pause café ne se résume plus à « Ça va ? — Ça va. ». En 3 semaines, tu te fais une réserve de vannes courtes, tu apprends à sentir le bon moment pour les placer, et tu racontes ton week-end de façon à ce qu'on te demande la suite.",
+    "description": "Pour que la pause café ne se résume plus à « Ça va ? » « Ça va. ». En 3 semaines, tu te fais une réserve de vannes courtes, tu apprends à sentir le bon moment pour les placer, et tu racontes ton week-end de façon à ce qu'on te demande la suite.",
     "duration": "3 semaines",
     "timePerWeek": "15 min/semaine",
     "difficulty": "DEBUTANT",
@@ -37,7 +37,7 @@
             "youtubeId": "afFehefVWxk",
             "artist": "Karim Duval",
             "title": "Génération Y",
-            "why": "Détournement de jargon corporate en humour — pile le ton machine à café."
+            "why": "Détournement de jargon corporate en humour : pile le ton machine à café."
           }
         ],
         "quiz": [
@@ -79,13 +79,13 @@
             "youtubeId": "K-oIyXvLUeg",
             "artist": "Jason Brokerss",
             "title": "Le mariage",
-            "why": "Pauses millimétrées, silence avant la punchline, non-réaction — la meilleure leçon de timing."
+            "why": "Pauses millimétrées, silence avant la punchline, non-réaction : la meilleure leçon de timing."
           },
           {
             "youtubeId": "lw0hwSg87qk",
             "artist": "Félix Dhjan",
             "title": "Le quotidien",
-            "why": "Rythme quotidien, musicalité des phrases — montre comment le timing crée le rire."
+            "why": "Rythme quotidien, musicalité des phrases : montre comment le timing crée le rire."
           }
         ],
         "quiz": [
@@ -133,7 +133,7 @@
             "youtubeId": "Ps3UNPLpmKc",
             "artist": "Karim Duval",
             "title": "Élever son enfant en mode start-up",
-            "why": "Jargon corporate transposé dans la vie quotidienne — la technique du détail ancré dans un univers partagé."
+            "why": "Jargon corporate transposé dans la vie quotidienne : la technique du détail ancré dans un univers partagé."
           }
         ],
         "quiz": [
@@ -144,7 +144,7 @@
           },
           {
             "question": "Dans une bonne anecdote, la chute doit être :",
-            "options": ["Plus longue que le setup pour bien expliquer", "Plus courte que le setup — elle tombe comme un couperet", "De la même longueur que le setup", "Répétée deux fois pour que tout le monde comprenne"],
+            "options": ["Plus longue que le setup pour bien expliquer", "Plus courte que le setup : elle tombe comme un couperet", "De la même longueur que le setup", "Répétée deux fois pour que tout le monde comprenne"],
             "correctIndex": 1
           },
           {
@@ -179,9 +179,9 @@
     "steps": [
       {
         "week": 1,
-        "tipTitle": "La répartie bienveillante",
+        "tipTitle": "L'ironie bienveillante",
         "dayNumber": 3,
-        "why": "On commence par la version douce : répondre à une pique sans en lancer une plus grosse. La répartie bienveillante te fait exister dans l'échange sans déclencher de conflit, idéal quand tu débutes et que tu es plutôt timide.",
+        "why": "On commence par la version douce : répondre à une pique sans en lancer une plus grosse. L'ironie bienveillante, dite avec le sourire, te fait exister dans l'échange sans déclencher de conflit, idéal quand tu débutes et que tu es plutôt timide.",
         "moduleTitle": "Tes premières répliques",
         "moduleDetail": "Rebondir sur une remarque, accuser réception, reformuler avec humour : 3 réflexes pour ne plus rester muet en TD, en soirée ou en coloc. Si tu es timide, bonne nouvelle : tu écoutes déjà, et c'est par là que toute bonne réplique commence.",
         "moduleFormat": "Conseil technique + vannes comebacks + vidéo répartie + quiz",
@@ -193,13 +193,13 @@
             "youtubeId": "qdqIc-uzdbA",
             "artist": "Haroun",
             "title": "L'impro et la répartie",
-            "why": "Rebond en 3 temps (écoute → reformule → retourne), « oui, et… », filets de sécurité préparés — la meilleure démonstration de répartie."
+            "why": "Rebond en 3 temps (écoute → reformule → retourne), « oui, et… », filets de sécurité préparés : la meilleure démonstration de répartie."
           },
           {
             "youtubeId": "vpdrKdWY838",
             "artist": "Lilia Benchabane",
             "title": "Sa vie est un blind test",
-            "why": "Réponses préparées aux remarques gênantes, prendre les devants — la répartie bienveillante en action."
+            "why": "Réponses préparées aux remarques gênantes, prendre les devants : la répartie bienveillante en action."
           }
         ],
         "quiz": [
@@ -227,9 +227,9 @@
       },
       {
         "week": 2,
-        "tipTitle": "Le silence après le rire : savoir ne pas enchaîner",
+        "tipTitle": "Le silence entre deux chansons",
         "dayNumber": 10,
-        "why": "Si tu as le réflexe de combler chaque blanc, ce conseil va te soulager : après une bonne réplique, le silence travaille pour toi. Tu as juste à le laisser faire.",
+        "why": "Si tu as le réflexe de combler chaque blanc, ce conseil va te soulager : le silence travaille pour toi. Tu apprends à repérer le blanc où ta phrase porte dans toute la pièce, puis à le laisser faire.",
         "moduleTitle": "Le rythme et les silences",
         "moduleDetail": "Les pauses, le regard, le rythme : tout ce qui se passe autour de tes mots. Un bon silence avant ta réplique vaut mieux que 10 mots précipités, et c'est souvent lui qui fait que tes potes tendent l'oreille quand tu parles.",
         "moduleFormat": "Conseil technique + vannes avec timing intégré + vidéo timing + quiz",
@@ -241,13 +241,13 @@
             "youtubeId": "K-oIyXvLUeg",
             "artist": "Jason Brokerss",
             "title": "Le mariage",
-            "why": "Pause d'impact avant la punchline, regard-pause, non-réaction — le sketch qui enseigne le silence."
+            "why": "Pause d'impact avant la punchline, regard-pause, non-réaction : le sketch qui enseigne le silence."
           },
           {
             "youtubeId": "b0sxUyrE1Cs",
             "artist": "Thomas Wiesel & Kyan Khojandi",
             "title": "Petites blagues entre amis",
-            "why": "Timing à deux, silences entre les blagues, ping-pong comique — montre l'espace laissé à l'autre."
+            "why": "Timing à deux, silences entre les blagues, ping-pong comique : montre l'espace laissé à l'autre."
           }
         ],
         "quiz": [
@@ -289,13 +289,13 @@
             "youtubeId": "vpdrKdWY838",
             "artist": "Lilia Benchabane",
             "title": "Sa vie est un blind test",
-            "why": "Accepter la pique et la retourner, prendre les devants — le comeback en douceur."
+            "why": "Accepter la pique et la retourner, prendre les devants : le comeback en douceur."
           },
           {
             "youtubeId": "m30qZa8p_Js",
             "artist": "Marina Rollman",
             "title": "Les relations sociales",
-            "why": "Retournement de cliché, ironie douce — retourner les conventions sans agressivité."
+            "why": "Retournement de cliché, ironie douce : retourner les conventions sans agressivité."
           }
         ],
         "quiz": [
@@ -337,13 +337,13 @@
             "youtubeId": "qdqIc-uzdbA",
             "artist": "Haroun",
             "title": "L'impro et la répartie",
-            "why": "« oui, et… » d'impro, filet de sécurité, écoute active — le plus directement pédagogique sur l'impro."
+            "why": "« oui, et… » d'impro, filet de sécurité, écoute active : le plus directement pédagogique sur l'impro."
           },
           {
             "youtubeId": "TWGNkUX8wbk",
             "artist": "Kyan Khojandi & Navo",
             "title": "Le Rêve",
-            "why": "Duo en impro, dynamique rationnel/délirant, « oui, et… » verbal — rebondir sur l'inattendu à deux."
+            "why": "Duo en impro, dynamique rationnel/délirant, « oui, et… » verbal : rebondir sur l'inattendu à deux."
           }
         ],
         "quiz": [
@@ -394,9 +394,9 @@
     "steps": [
       {
         "week": 1,
-        "tipTitle": "Retrouver sa voix drôle après une pause sociale",
+        "tipTitle": "Énoncer la règle non écrite",
         "dayNumber": 3,
-        "why": "On démarre en douceur : aucune vanne à réussir, juste regarder ta journée et remarquer ce qui cloche. C'est souvent par là que la légèreté revient.",
+        "why": "On démarre en douceur : aucune vanne à réussir, juste regarder ta journée et remarquer les règles que tout le monde suit sans jamais les dire. C'est souvent par là que la légèreté revient.",
         "moduleTitle": "Redécouvrir ce qui te fait rire",
         "moduleDetail": "Regarder ton quotidien avec un œil comique, noter ce qui te fait sourire, comprendre ce qui te fait rire, toi. Ici, pas d'exercice à rater : chaque détail noté compte déjà.",
         "moduleFormat": "Conseil technique + vannes légères + vidéo observation + quiz",
@@ -408,13 +408,13 @@
             "youtubeId": "brlY_DMoaRk",
             "artist": "Roman Frayssinet",
             "title": "L'intelligence des animaux",
-            "why": "Faux naïf, regard décalé — redécouvrir que le quotidien est drôle si on le regarde autrement."
+            "why": "Faux naïf, regard décalé : redécouvrir que le quotidien est drôle si on le regarde autrement."
           },
           {
             "youtubeId": "QGqA4va99rw",
             "artist": "Pierre Croce",
             "title": "Ce qu'on rêverait d'entendre dans l'avion",
-            "why": "Micro-vannes sur le quotidien, format rapide — très accessible pour repartir de zéro."
+            "why": "Micro-vannes sur le quotidien, format rapide : très accessible pour repartir de zéro."
           }
         ],
         "quiz": [
@@ -456,13 +456,13 @@
             "youtubeId": "RYjfe8OSRFw",
             "artist": "Paul Mirabel",
             "title": "Je me suis fait racketter",
-            "why": "Gênant assumé, vulnérabilité comique — le modèle d'autodérision bienveillante."
+            "why": "Gênant assumé, vulnérabilité comique : le modèle d'autodérision bienveillante."
           },
           {
             "youtubeId": "F5WiaMalDSc",
             "artist": "Baptiste Lecaplain",
             "title": "La timidité",
-            "why": "Monologue intérieur, anti-héros attachant — la timidité comme force comique."
+            "why": "Monologue intérieur, anti-héros attachant : la timidité comme force comique."
           }
         ],
         "quiz": [
@@ -504,13 +504,13 @@
             "youtubeId": "t7fgrrRVyaU",
             "artist": "Élodie Poux",
             "title": "Survivre en école maternelle",
-            "why": "Ethnologue du quotidien, micro-observation, détail ultra-spécifique — la technique de l'observation comique ciblée."
+            "why": "Ethnologue du quotidien, micro-observation, détail ultra-spécifique : la technique de l'observation comique ciblée."
           },
           {
             "youtubeId": "rldvVgHQSvo",
             "artist": "Vérino",
             "title": "Le distributeur de baguettes",
-            "why": "Œil neuf sur un objet banal — transformer n'importe quel détail du quotidien en matière comique."
+            "why": "Œil neuf sur un objet banal : transformer n'importe quel détail du quotidien en matière comique."
           }
         ],
         "quiz": [
@@ -552,13 +552,13 @@
             "youtubeId": "b0sxUyrE1Cs",
             "artist": "Thomas Wiesel & Kyan Khojandi",
             "title": "Petites blagues entre amis",
-            "why": "Ping-pong comique à deux, complicité visible — savoir quand parler et quand laisser l'autre briller."
+            "why": "Ping-pong comique à deux, complicité visible : savoir quand parler et quand laisser l'autre briller."
           },
           {
             "youtubeId": "4t9a0To2ygo",
             "artist": "Marina Rollman",
             "title": "Les enterrements de vie",
-            "why": "Observation participante, consensus inavoué — rebondir sur les rituels de groupe."
+            "why": "Observation participante, consensus inavoué : rebondir sur les rituels de groupe."
           }
         ],
         "quiz": [
@@ -569,7 +569,7 @@
           },
           {
             "question": "Dans un groupe qui rit, ton rôle n'est pas forcément d'être :",
-            "options": ["Le rieur — quelqu'un doit rire pour que ça marche", "Le blagueur principal — tu peux être le commentateur, le relanceur ou le rieur", "Présent physiquement", "Poli avec les autres"],
+            "options": ["Le rieur : quelqu'un doit rire pour que ça marche", "Le blagueur principal : tu peux être le commentateur, le relanceur ou le rieur", "Présent physiquement", "Poli avec les autres"],
             "correctIndex": 1
           },
           {
@@ -579,7 +579,7 @@
           },
           {
             "question": "Tu es dans un groupe où une personne monopolise la parole. Comment t'intégrer ?",
-            "options": ["Parler plus fort qu'elle pour prendre le dessus", "Attendre la fin de la soirée, c'est foutu", "Placer des réactions courtes et drôles entre ses histoires — devenir le commentateur", "Lui dire de se taire pour laisser les autres parler"],
+            "options": ["Parler plus fort qu'elle pour prendre le dessus", "Attendre la fin de la soirée, c'est foutu", "Placer des réactions courtes et drôles entre ses histoires : devenir le commentateur", "Lui dire de se taire pour laisser les autres parler"],
             "correctIndex": 2
           }
         ]
@@ -600,19 +600,19 @@
             "youtubeId": "mFKUThh26oU",
             "artist": "Max Bird",
             "title": "Les effets de l'alcool",
-            "why": "Prof cool, décalage éducatif, autorité détournée — l'absurde via la logique poussée à l'extrême."
+            "why": "Prof cool, décalage éducatif, autorité détournée : l'absurde via la logique poussée à l'extrême."
           },
           {
             "youtubeId": "egM-wlaobjo",
             "artist": "Artus",
             "title": "Le commissariat du 18ème",
-            "why": "Absurde physique, personnage joué à 100%, escalade situationnelle — ironie et décalage de registre."
+            "why": "Absurde physique, personnage joué à 100%, escalade situationnelle : ironie et décalage de registre."
           }
         ],
         "quiz": [
           {
             "question": "'Après examen de votre dossier, mon frigo a le regret de ne pas donner suite à votre demande de dîner.' C'est du :",
-            "options": ["Jeu de mots classique", "Décalage de registre — vocabulaire corporate pour un sujet banal", "Storytelling pur", "Autodérision simple"],
+            "options": ["Jeu de mots classique", "Décalage de registre : vocabulaire corporate pour un sujet banal", "Storytelling pur", "Autodérision simple"],
             "correctIndex": 1
           },
           {
@@ -627,7 +627,7 @@
           },
           {
             "question": "Identifie le registre : 'Mon réveil et moi, on traverse une mauvaise passe. Il est toujours là pour moi, et moi, chaque matin, je le repousse.'",
-            "options": ["Jeu de mots", "Storytelling", "Décalage de registre — vocabulaire sentimental pour un objet du quotidien", "Autodérision"],
+            "options": ["Jeu de mots", "Storytelling", "Décalage de registre : vocabulaire sentimental pour un objet du quotidien", "Autodérision"],
             "correctIndex": 2
           }
         ]
@@ -648,13 +648,13 @@
             "youtubeId": "zC7ff6w7x-Y",
             "artist": "Fary",
             "title": "Le legging",
-            "why": "Objet unique, style reconnaissable — t'apprend à trouver ton phrasé à toi, pas une copie."
+            "why": "Objet unique, style reconnaissable : t'apprend à trouver ton phrasé à toi, pas une copie."
           },
           {
             "youtubeId": "u41ujNodvnM",
             "artist": "Kyan Khojandi",
             "title": "Pulsions (spectacle complet)",
-            "why": "Honnêteté radicale, névroses comme matière première — le modèle pour affirmer son style."
+            "why": "Honnêteté radicale, névroses comme matière première : le modèle pour affirmer son style."
           }
         ],
         "quiz": [
@@ -665,12 +665,12 @@
           },
           {
             "question": "Un ami te dit 'Toi t'es le genre pince-sans-rire'. C'est :",
-            "options": ["Une insulte — ça veut dire que t'es pas drôle", "La preuve que tu as un style identifiable — c'est exactement l'objectif", "Un conseil de changer de registre pour être plus expressif", "Rien de particulier, c'est juste un commentaire"],
+            "options": ["Une insulte : ça veut dire que t'es pas drôle", "La preuve que tu as un style identifiable : c'est exactement l'objectif", "Un conseil de changer de registre pour être plus expressif", "Rien de particulier, c'est juste un commentaire"],
             "correctIndex": 1
           },
           {
             "question": "Tu dois raconter un truc drôle qui t'est arrivé cette semaine. Tu choisis :",
-            "options": ["L'événement le plus spectaculaire de ta semaine", "Un détail absurde d'un moment banal : c'est ton regard qui le rend drôle", "Une blague trouvée sur internet que tu fais passer pour du vécu", "Rien — t'as pas eu de semaine drôle, ça arrive"],
+            "options": ["L'événement le plus spectaculaire de ta semaine", "Un détail absurde d'un moment banal : c'est ton regard qui le rend drôle", "Une blague trouvée sur internet que tu fais passer pour du vécu", "Rien : t'as pas eu de semaine drôle, ça arrive"],
             "correctIndex": 1
           },
           {
