@@ -61,4 +61,59 @@ Cluster à signaler : ~11 vannes « copain + choix du resto » (8, 32, 49, 62, 8
 | cmp9fpyd4006ys60xwsegez9e | < | non | Hellfest / vaccins : la plus proche de « = » du bloc, chute plausible mais réflexe « maman s'inquiète » ; presque |
 | cmnxxihbf0008s60we8jcauts | < | non | Oignons : cluster resto, sans surprise |
 | cmmw0tpqh000omw62jeisz384 | < | non | « On a tous les deux regretté » : tic, pas de chute |
+
+## Bloc 2 (51-100)
+
+| id | note | connue | motif |
+|---|---|---|---|
+| cmmnsqn15006mth634iq7quu4 | < | ? | « Le seul que j'ai terminé, c'est le paiement » : chute nette mais formule du backlog déjà lue partout |
+| cmn5aauwo0001s60y4x490kst | < | oui | Le pote du « nouveau mois, nouveaux objectifs » : trope LinkedIn/salle |
+| cmmnsqn150078th63efrbu1if | < | oui | « Sois toi-même » sur Tinder : format connu (cf. 162), chute vue venir |
+| cmmnsqn13001uth639tf4f1md | < | oui | Rire = meilleur médicament : gag d'ordonnance connu |
+| cmp9yh2zs00has60xhax6s39z | < | non | Chute obscure (« trouvé où aller aux toilettes »), doublon de forme avec 129 |
+| cmmnsqn14005mth63wtau3gig | < | ? | 3/20 « dans une ambiance incroyable » : jolie, mais paraphrase d'un lieu commun étudiant |
+| cmpw4zn5n00b3s60xonhfk4bc | < | non | « Temporaire comme ma motivation » : pirouette, « depuis 2019 » réutilisé 3 fois dans le lot |
+| cmnl1ns640055s60yy53xfnbw | < | ? | Chauffeur qui salue en passant : vrai et net, mais proche du gag connu « le bus qui accélère » ; presque |
+| cmmnsqn15006uth63x8q44hwo | < | non | « Je le prends personnellement » : sans image |
+| cmorvfmiw000hs60wlmd9ug3h | < | non | Setup en points de suspension, image fabriquée, pas d'observation |
+| cmnl01zwv004ss60y2ecodj9a | = | non | Bus à l'heure, moi à l'arrêt d'en face : l'erreur est de moi, non télégraphiée, courte, logique sans explication, cousine d'E3/E4. Rien de connu trouvé |
+| cmnyc0inc0025s60w2ebleob7 | < | oui | L'app qui crée la dispute sur l'app : structure « la solution devient le problème » archi-connue |
+| cmmnsqn15007gth63zallmjsr | < | oui | Taille mentie sur le profil : trope Tinder |
+| cmokqksa3004is60x0r2nz0uz | < | ? | « Système d'organisation par tas » : vrai, mais explicatif |
+| cmpary82p00jns60x1y34axz4 | < | non | Chute confuse, référence locale, logique à démêler |
+| cmmnsqn150085th63s8x6ar77 | < | non | « Seul le soleil a tenu parole » : belle image mais poétique et un peu attendue ; presque |
+| cmptboy7s0028s60xynjj9g34 | < | non | Setup en deux temps, chute en explication |
+| cmmnsqn150086th63t3ssddk7 | < | ? | « N'a jamais existé » : renversement du « pics or it didn't happen » |
+| cmmnsqn13002qth632dhoo7r6 | < | oui | « On est une famille » / héritage : classique du genre |
+| cmmnsqn15006rth63mxckpnrt | < | oui | « Living my best life » / pyjama : classique |
+| cmmnsqn140055th63kh4hs7cx | < | non | « Il n'a jamais raté son coup » : ambigu, sans logique nette |
+| cmmnsqn15007xth63p3dzv6pc | < | non | « Il a beaucoup de chansons » : sec et vrai, mais la chute redit le setup, télégraphiée ; presque |
+| cmmnsqn15006gth631g7fz4fu | < | oui | Liste de trois gamer (foncer/mourir/blâmer) : format et contenu connus |
+| cmpf2t3ah00u2s60xuniyp7ck | < | oui | Art contemporain qui « questionne » : cible facile, jeu de mots sur « rapport à » |
+| cmmnsqn140053th635oa49916 | < | non | Parisiens en exil : fabriqué, pas drôle |
+| cmpjqof0e00b9s60xtzir3yw2 | < | non | « Appartement de mon ex » : sans surprise |
+| cmmnsqn130038th63fxn1wvhn | = | non | Maman entend le papier alu, n'insiste pas : observation vraie, chute non télégraphiée, sans explication, ton E2. Rien de connu trouvé |
+| cmmnsqn15007vth638tm9ym5v | < | oui | « Une heure max » / 4h du mat : trope de soirée |
+| cmpk7ajc900kds60xmlnhtst5 | < | non | Vrai (le prix a augmenté), mais chute à relire, pas nette |
+| cmnybfrfo0022s60whr2puvlm | < | ? | « On ouvre nos comptes en banque » : la meilleure du cluster resto, insuffisante |
+| cmorzpo1r000us60wo1jy5ku1 | < | ? | App météo / déception : formule standard |
+| cmo3m8mdp0006s60xzz8shnh1 | < | oui | Doublon faible de la vanne 47 (« la maîtresse ») |
+| cmpk1xm1p00hes60xtw7oalc5 | < | ? | « Quand il aura mûri » : bon titre, mais setup incohérent (« secret » mais connu) ; presque |
+| cmmzkqckk0001s60xbczpj5it | < | oui | Triangle rouge « cons ou cultivés » : classique du genre |
+| cmory497y000os60wxftwlijw | < | non | « 1987 » : notification inventée, drôle sans être vraie |
+| cmnylmlv40034s60wm8j9prjx | < | oui | Indécision resto : trope, chute attendue |
+| cmmnsqn15007wth63fb08l211 | < | oui | Message à l'ex après soirée : trope, règle de trois |
+| cmmnsqn16008hth63dz46jchf | < | oui | Parents et technologie, avec l'arithmétique expliquée : vu mille fois |
+| cmmnsqn13002ith63lfni9vvz | < | oui | « Cordialement » passif-agressif : connu |
+| cmmnsqn150067th63i6tpp8eu | < | oui | Pseudo de tueur / peur des araignées : connu |
+| cmpkr42j700oms60xlcfeqaum | < | non | Insulter en coréen = bilinguisme : bonne, mais setup à deux phrases et « techniquement » |
+| cmmw0togs0001mw62152nl589 | = | non | ÉTALON E4 (GPS / fleuve), repris mot pour mot |
+| cmmnsqn15007tth639mie19s9 | < | ? | Attendre près du buffet : introverti-trope |
+| cmnyadirg001zs60wut9bcmha | < | non | Table de ping-pong du coloc : image, pas de chute franche |
+| cmmnsqn12000cth63z2sepukk | < | oui | « Problème d'attitude » / « j'y travaille » : réponse-type connue |
+| cmnz6fs38001cs60x3cor8mm2 | < | ? | Algorithme sans résultat : vu venir, idée de « zéro résultat » usée |
+| cmmnsqn130027th63at2ene9i | = | non | ÉTALON E1 (Alexa), repris mot pour mot |
+| cmmnsqn140054th63xlwadcpq | < | ? | « Relation la plus stable » : formule connue, chute expliquée |
+| cmp9skwho00dss60xba2ruz6b | < | non | Maman qui vient chercher : correct, doublon de thème avec 48 |
+| cmmnsqn14003wth633fngfa4h | < | oui | « Quel jour exactement ? » : gag littéral connu |
 <!-- FIN -->

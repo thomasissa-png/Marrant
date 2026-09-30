@@ -4,7 +4,7 @@ Grille : `=` seulement si (1) niveau étalon (chute surprenante non télégraphi
 `connue` : oui (blague/format identifié) / variante (variante évidente d'un classique ou d'un format) / non (rien trouvé, WebSearch ciblées sur les candidats `=` : aucune source retrouvée).
 Note : les lignes 92, 97 et 163 sont les étalons E4, E1 et E3 de Thomas glissés dans le lot (E2 absent). Notés `=` par définition (ils sont la barre), mais E1 et E3 circulent déjà : à ne pas prendre comme preuve d'originalité.
 
-## Bloc 1 (vannes 1 à 50)
+## Bloc 1 (vannes 1 à 51)
 
 | id | note | connue | motif |
 |---|---|---|---|
@@ -115,7 +115,7 @@ Note : les lignes 92, 97 et 163 sont les étalons E4, E1 et E3 de Thomas glissé
 | cmmnsqn14003wth633fngfa4h | < | oui | « À un de ces quatre, quel jour ? » : classique |
 | cmmnsqn16008mth63hygzwcdf | < | non | Chute explicative (« blog-sante… ») |
 
-## Bloc 3 (vannes 102 à 134)
+## Bloc 3 (vannes 102 à 133)
 
 | id | note | connue | motif |
 |---|---|---|---|
@@ -193,11 +193,11 @@ Note : les lignes 92, 97 et 163 sont les étalons E4, E1 et E3 de Thomas glissé
 
 ## Comptes
 
-Total : 167 lignes (51 + 50 + 32 + 34).
-- `=` : 15 (dont 3 étalons E1, E3, E4 : 12 vannes réelles)
-- `<` : 152
+Total : 167 lignes (vérifié par comptage).
+- `=` : 13, dont 3 étalons de Thomas (E1, E3, E4) : 10 vannes réelles
+- `<` : 154
 
-Vannes réelles notées `=` (12) : cmmnsqn130033th63b54ux45o, cmmnsqn12000hth63y5wqmb9d, cmoxx7e56003xs60yyooxncw3, cmp9fpyd4006ys60xwsegez9e, cmnl1ns640055s60yy53xfnbw, cmnl01zwv004ss60y2ecodj9a, cmmnsqn15007xth63p3dzv6pc, cmmnsqn130038th63fxn1wvhn, cmozb1ocr006ws60yraru87yn, cmonlkgeu000ds60wu0gazutb (10 listées ci-dessus, plus ci-dessous les 2 manquantes vérifiées) : voir la liste des 10 meilleures.
+Les 10 vannes réelles notées `=` sont exactement la liste ci-dessous. Aucune n'est certaine à 100 % (WebSearch sans résultat ne prouve pas l'inédit) : la 8 (chat) et la 9 (chansons) sont les plus fragiles.
 
 ## 10 meilleures (hors étalons)
 
