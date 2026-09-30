@@ -109,6 +109,22 @@ describe("Worker : redirection mise en cache ISR sans Location (lot S2)", () => 
     expect(await res.text()).toBe(html);
   });
 
+  it("repli : restaure Location depuis la digest NEXT_REDIRECT (page d'erreur ISR en cache, cas prod s14)", async () => {
+    const errorPage = `<!DOCTYPE html><html id="__next_error__"><head><title>Vanne introuvable</title></head><body><script>self.__next_f.push([1,"0:[\\"$\\",\\"html\\",null,{\\"digest\\":\\"NEXT_REDIRECT;replace;/vannes;308;\\"}]"])</script></body></html>`;
+    const res = await restoreRedirectLocation(
+      new Response(errorPage, { status: 308, headers: { "Content-Type": "text/html; charset=utf-8" } }),
+    );
+    expect(res.headers.get("Location")).toBe("/vannes");
+  });
+
+  it("repli digest : refuse une destination hors du site (pas de redirection ouverte)", async () => {
+    const evil = `<html><body>NEXT_REDIRECT;replace;//evil.example;308;</body></html>`;
+    const res = await restoreRedirectLocation(
+      new Response(evil, { status: 308, headers: { "Content-Type": "text/html" } }),
+    );
+    expect(res.headers.get("Location")).toBeNull();
+  });
+
   it("ne touche pas à une redirection qui a déjà sa Location", async () => {
     const original = new Response(null, { status: 308, headers: { Location: "/conseils" } });
     expect(await restoreRedirectLocation(original)).toBe(original);

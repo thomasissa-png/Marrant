@@ -67,6 +67,11 @@ export function withImmutableCache(res: Response): Response {
 
 /** Balise insérée par Next quand une page appelle redirect()/permanentRedirect(). */
 const NEXT_REDIRECT_META = /<meta[^>]*id="__next-page-redirect"[^>]*content="\d+;url=([^"]+)"/;
+// Repli : selon le chemin de rendu (page d'erreur ISR mise en cache), seule la
+// digest RSC porte la destination : « NEXT_REDIRECT;replace;/vannes;308 ».
+// Chemins internes uniquement (commence par « / » mais pas « // ») : pas de
+// redirection ouverte vers un autre domaine.
+const NEXT_REDIRECT_DIGEST = /NEXT_REDIRECT;(?:replace|push);(\\?\/(?!\\?\/)[^;"\s]*);30[178]/;
 
 /**
  * Next 14.2 + ISR : une page qui appelle permanentRedirect() (fiches catalogue
@@ -83,7 +88,12 @@ export async function restoreRedirectLocation(res: Response): Promise<Response> 
   const html = await res.text();
   const headers = new Headers(res.headers);
   const match = html.match(NEXT_REDIRECT_META);
-  if (match) headers.set("Location", match[1].replace(/&amp;/g, "&"));
+  if (match) {
+    headers.set("Location", match[1].replace(/&amp;/g, "&"));
+  } else {
+    const digest = html.match(NEXT_REDIRECT_DIGEST);
+    if (digest) headers.set("Location", digest[1].replace(/\\\//g, "/"));
+  }
   return new Response(html, { status: res.status, statusText: res.statusText, headers });
 }
 
