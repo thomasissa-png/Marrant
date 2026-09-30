@@ -58,7 +58,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       const { todayUTC } = await import("@/lib/ai/date-utils");
       const { publishDailyContent } = await import("@/lib/ai/daily-publisher");
       const { generateMonthlyPlans } = await import("@/lib/ai/content-planner");
-      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const { tryAcquireLock, releaseLock, buildJobLockKey, tryConsumeJobAttempt, nextUtcDay } =
+        await import("@/lib/job-lock");
 
       const today = todayUTC();
 
@@ -80,17 +81,34 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       }
 
       try {
+        // Plafond persistant (s14) : 2 tentatives max par jour UTC, en base.
+        const dayKey = today.toISOString().slice(0, 10);
+        const attempt = await tryConsumeJobAttempt("daily-content", dayKey, nextUtcDay(today));
+        if (attempt === 0) {
+          console.warn(`[scheduler:daily] Plafond de tentatives atteint pour ${dayKey} — pas de nouvel essai avant demain.`);
+          return;
+        }
         console.log(
-          `[scheduler:daily] Contenu du jour absent — génération (${isMainWindow ? "main 5h UTC" : `catch-up ${utcHour}h`})…`,
+          `[scheduler:daily] Contenu du jour absent — génération (${isMainWindow ? "main 5h UTC" : `catch-up ${utcHour}h`}, tentative ${attempt})…`,
         );
 
         const month = today.getUTCMonth() + 1;
         const year = today.getUTCFullYear();
 
-        await generateMonthlyPlans(month, year);
-        await publishDailyContent(today);
+        // Les plans mensuels ne doivent jamais bloquer le contenu du jour
+        // (budget LLM atteint, panne API…) : publishDailyContent a ses valeurs
+        // par défaut et son repli catalogue.
+        try {
+          await generateMonthlyPlans(month, year);
+        } catch (planErr) {
+          console.error("[scheduler:daily] Plans mensuels indisponibles, publication quand même :", planErr);
+        }
+        const result = await publishDailyContent(today);
 
-        console.log("[scheduler:daily] Contenu du jour généré avec succès.");
+        if (result.errors.length > 0) {
+          console.warn(`[scheduler:daily] Publication avec avertissements : ${result.errors.join(" | ")}`);
+        }
+        console.log("[scheduler:daily] Contenu du jour traité.");
       } finally {
         await releaseLock(lockKey);
       }
@@ -131,7 +149,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       const { publishWeeklyArticle, updateSeoCalendar } = await import(
         "@/lib/ai/agents/seo-blog-agent"
       );
-      const { tryAcquireLock, releaseLock, buildWeeklyJobLockKey } = await import("@/lib/job-lock");
+      const { tryAcquireLock, releaseLock, buildWeeklyJobLockKey, tryConsumeJobAttempt, nextUtcMonday } =
+        await import("@/lib/job-lock");
 
       // Déterminer le lundi de cette semaine (début de semaine ISO)
       // À ce stade, dayOfWeek est forcément 1, 2 ou 3 (main + catch-up)
@@ -157,14 +176,27 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       if (!lockAcquired) return;
 
       try {
+        // Plafond persistant (s14) : 2 tentatives max par semaine ISO, en base.
+        // Avant : publishWeeklyArticle renvoyait { success:false } sans lever,
+        // le verrou était relâché et le job relançait toutes les 15 min.
+        const weekKey = buildWeeklyJobLockKey("week", now).slice("week-".length);
+        const attempt = await tryConsumeJobAttempt("weekly-seo", weekKey, nextUtcMonday(now));
+        if (attempt === 0) {
+          console.warn(`[scheduler:seo] Plafond de tentatives atteint pour ${weekKey} — pas de nouvel essai cette semaine.`);
+          return;
+        }
         console.log(
-          `[scheduler:seo] Pas d'article blog cette semaine — génération (${isMainWindow ? "main lundi" : `catch-up jour ${dayOfWeek}`})…`,
+          `[scheduler:seo] Pas d'article blog cette semaine — génération (${isMainWindow ? "main lundi" : `catch-up jour ${dayOfWeek}`}, tentative ${attempt})…`,
         );
 
         await updateSeoCalendar();
-        await publishWeeklyArticle();
+        const result = await publishWeeklyArticle();
 
-        console.log("[scheduler:seo] Article blog SEO publié avec succès.");
+        if (result.success) {
+          console.log(`[scheduler:seo] Article blog SEO publié : ${result.article?.slug ?? "?"}.`);
+        } else {
+          console.error(`[scheduler:seo] Article NON publié (tentative ${attempt}) : ${result.error ?? "raison inconnue"}`);
+        }
       } finally {
         await releaseLock(lockKey);
       }
@@ -200,7 +232,16 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
 
       if (existingPlan) return;
 
-      console.log(`[scheduler:monthly] Plans du mois ${nextMonth}/${nextYear} absents — génération…`);
+      // Plafond persistant (s14) : 2 tentatives max pour ce mois cible, en base.
+      const { tryConsumeJobAttempt, nextUtcMonth } = await import("@/lib/job-lock");
+      const monthKey = `${nextYear}-${String(nextMonth).padStart(2, "0")}`;
+      const attempt = await tryConsumeJobAttempt("monthly-plan", monthKey, nextUtcMonth(now));
+      if (attempt === 0) {
+        console.warn(`[scheduler:monthly] Plafond de tentatives atteint pour ${monthKey}.`);
+        return;
+      }
+
+      console.log(`[scheduler:monthly] Plans du mois ${nextMonth}/${nextYear} absents — génération (tentative ${attempt})…`);
 
       await generateMonthlyPlans(nextMonth, nextYear);
 
@@ -407,7 +448,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       const cfg = await ensureCeoConfig();
       if (!cfg.enabled) return;
 
-      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const { tryAcquireLock, releaseLock, buildJobLockKey, tryConsumeJobAttempt, nextUtcDay } =
+        await import("@/lib/job-lock");
       const lockKey = buildJobLockKey("scheduler-ceo-tick", now);
       const lockAcquired = await tryAcquireLock(lockKey, 15 * 60 * 1000);
       if (!lockAcquired) return;
@@ -415,6 +457,10 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       try {
         const secret = process.env.CRON_SECRET;
         if (!secret) return;
+
+        // Plafond persistant (s14) : 2 déclenchements max par jour UTC, en base.
+        const attempt = await tryConsumeJobAttempt("ceo-tick", now.toISOString().slice(0, 10), nextUtcDay(now));
+        if (attempt === 0) return;
 
         const res = await callCronRoute(
           `/api/cron/ceo-tick?secret=${secret}`,

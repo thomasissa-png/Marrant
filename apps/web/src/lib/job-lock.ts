@@ -108,3 +108,54 @@ export async function releaseLock(jobKey: string): Promise<void> {
     console.error(`[job-lock] Erreur libération "${jobKey}" :`, err);
   }
 }
+
+/**
+ * Plafond de tentatives PERSISTANT par job et par fenêtre (incident s14).
+ *
+ * Un job de génération qui a déjà tenté `max` fois sa fenêtre (jour, semaine
+ * ISO, mois) sans réussir ne relance plus avant la fenêtre suivante, quel que
+ * soit le nombre de ticks. Compteur en base (une ligne `JobLock` par tentative :
+ * `attempt:<job>:<fenêtre>:<n>`, expirant à la fin de la fenêtre), jamais en
+ * mémoire : sous Workers la mémoire d'un isolat ne survit pas d'un tick à l'autre.
+ *
+ * Le succès n'a pas besoin d'être enregistré : le guard DB de chaque job
+ * (contenu du jour déjà présent, article de la semaine publié…) court-circuite
+ * les ticks suivants AVANT l'appel à cette fonction.
+ *
+ * Fail-closed : base indisponible → `0` (pas de tentative).
+ *
+ * @returns numéro de la tentative accordée (1..max), ou 0 si le plafond est atteint.
+ */
+export const MAX_JOB_ATTEMPTS_PER_WINDOW = 2;
+
+export async function tryConsumeJobAttempt(
+  jobName: string,
+  windowKey: string,
+  windowEnd: Date,
+  max: number = MAX_JOB_ATTEMPTS_PER_WINDOW,
+): Promise<number> {
+  // Même horloge que tryAcquireLock (heure courante) : expiration = fin de fenêtre.
+  const ttlMs = Math.max(windowEnd.getTime() - Date.now(), 60_000);
+  for (let attempt = 1; attempt <= max; attempt++) {
+    if (await tryAcquireLock(`attempt:${jobName}:${windowKey}:${attempt}`, ttlMs)) {
+      return attempt;
+    }
+  }
+  return 0;
+}
+
+/** Début du jour UTC suivant (fin de fenêtre « jour »). */
+export function nextUtcDay(date: Date): Date {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1));
+}
+
+/** Lundi 00:00 UTC suivant (fin de fenêtre « semaine ISO »). */
+export function nextUtcMonday(date: Date): Date {
+  const dayNum = date.getUTCDay() || 7; // dimanche = 7
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8 - dayNum));
+}
+
+/** 1er du mois suivant 00:00 UTC (fin de fenêtre « mois »). */
+export function nextUtcMonth(date: Date): Date {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1));
+}
