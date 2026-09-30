@@ -9,7 +9,7 @@ import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
 } from "@/components/seo/json-ld";
-import { BlogListClient } from "./blog-list-client";
+import { BlogListClient, BlogListView } from "./blog-list-client";
 import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
@@ -135,7 +135,9 @@ export default async function BlogPage() {
         }
       />
 
-      <Suspense fallback={<div className="py-12 text-center text-text-secondary">Chargement des articles…</div>}>
+      {/* Fallback = liste complète rendue dans le HTML statique (liens crawlables, lot S1 s14) ;
+          le client applique ensuite le filtre `?category=`. */}
+      <Suspense fallback={<BlogListView articles={allArticles} categories={categories} />}>
         <BlogListClient articles={allArticles} categories={categories} />
       </Suspense>
 

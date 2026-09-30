@@ -111,6 +111,7 @@ jest.mock("@/lib/blog-clusters", () => ({
 }));
 
 import BlogPage from "@/app/(dashboard)/blog/page";
+import { BlogListView } from "@/app/(dashboard)/blog/blog-list-client";
 import BlogArticlePage, {
   generateStaticParams,
   generateMetadata,
@@ -177,6 +178,24 @@ describe("BlogPage — listing", () => {
   it("renders JSON-LD structured data", () => {
     const jsonLdScripts = document.querySelectorAll('[data-testid="json-ld"]');
     expect(jsonLdScripts.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe("BlogListView — HTML statique (lot S1 s14, P0-1)", () => {
+  it("rend tous les liens d'articles sans hook ni message de chargement", () => {
+    const { container } = render(
+      <BlogListView
+        articles={[
+          { slug: "a-1", title: "Article 1", excerpt: "E1", category: "guide", date: "2026-03-10", readingTime: "5 min" },
+          { slug: "a-2", title: "Article 2", excerpt: "E2", category: "repartie", date: "2026-03-11", readingTime: "6 min" },
+        ]}
+        categories={["guide", "repartie"]}
+      />,
+    );
+    const html = container.innerHTML;
+    expect(html).toContain('href="/blog/a-1"');
+    expect(html).toContain('href="/blog/a-2"');
+    expect(html).not.toContain("Chargement");
   });
 });
 
