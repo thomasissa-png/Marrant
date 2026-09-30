@@ -14,7 +14,7 @@ Nettement au niveau : environ 1 sur 3. Compteur du site après retraits : de « 
 | V1 | Vague 1 de retraits (réversible, `isActive=false`) : variantes redondantes, doublons, calembours, blessantes (~200) | GO |
 | V2 | Vague 2 : les ~80 « sous l'étalon », après ta relecture de 10 exemples | GO après échantillon |
 | V3 | Vanne du jour fleurs / pollen : retirée + sortie de la rotation | GO |
-| V4 | Relecture automatique de cette nuit : sa règle « doute = garder » contredit ta barre et elle réécrirait des vannes que l'audit retire | la COUPER jusqu'au calibrage (change ma reco d'avant) |
+| V4 | Relecture automatique de cette nuit : sa règle « doute = garder » contredit ta barre et elle réécrirait des vannes que l'audit retire | [CHOIX UTILISATEUR] 30/09 : on la LAISSE TOURNER |
 | V5 | Étalons pour lancer les réécritures (règle P0) : valider 3 à 5 parmi la liste ci-dessous | à choisir |
 | V6 | Vannes qui parlent d'IA / assistants (Alexa, ChatGPT, Siri) : la charte s11 les retirait. Ton étalon en est une | autoriser comme sujet si drôle |
 | V7 | Générateur quotidien : lui interdire les amorces déjà en base (source des séries ×18) avant sa reprise | GO (@ia) |
