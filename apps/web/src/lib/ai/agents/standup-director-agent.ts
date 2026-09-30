@@ -843,7 +843,9 @@ export async function validateJoke(
   const dailyGeneration = options.dailyGeneration === true;
   const gates = runJokeGates(joke, {
     recentSetups: options.recentSetups,
-    allowAssistantSubject: dailyGeneration,
+    // Décision Thomas V6 (30/09/2026) : l'IA comme SUJET de vanne est autorisée
+    // partout (génération quotidienne ET relecture copy-review).
+    allowAssistantSubject: true,
   });
   const gateReject = applyGates(gates, "JOKE");
   if (gateReject) {
