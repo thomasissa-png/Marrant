@@ -5,11 +5,68 @@
 > **Calibrage fondateur du 30/09 ([CHOIX UTILISATEUR], prime sur « doute = GARDER » pour cet audit)** : étalon plancher = « J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches. » (chute surprenante non télégraphiée par le setup, courte, logique, vraie observation). GARDER uniquement si la vanne est à ce niveau. En dessous avec idée solide : REECRIRE. En dessous avec idée faible : RETIRER (« sous l'étalon »).
 > Source : `export-vannes-actives.txt` (Neon prod 30/09/2026), lignes 343 à 675 : 317 vannes actives (16 groupes « SETUP xN »).
 
-**Légende.** Colonne **niv.** = niveau vs étalon : `=` au niveau, `<` en dessous. Pour GARDER : **[A]** net (étalon candidat), **[B]** limite (au niveau mais la moins tranchée, à valider par Thomas). RETIRER : motifs de la charte (calembour phonétique, constat sans twist, blessant, doublon, mention IA, variante redondante) + « sous l'étalon ». Dans un groupe « SETUP xN », la meilleure variante est indiquée ; si elle est sous l'étalon, elle est en REECRIRE (idée solide) ou RETIRER (aucune variante ne tient). Les séries à amorce quasi identique sans setup strictement identique (ex. « Mon copain m'a dit 'choisis toi le resto pour samedi'… », 22 variantes) sont traitées comme des groupes (charte §3 « même amorce »). Pour une variante redondante, `=` signifie « au niveau mais redondante ».
+**Légende.** Colonne **niv.** = niveau vs étalon : `=` au niveau, `<` en dessous. Pour GARDER : **[A]** net (étalon candidat), **[B]** limite (au niveau mais la moins tranchée, à valider par Thomas). RETIRER : motifs de la charte (calembour phonétique, constat sans twist, blessant, doublon, mention IA, variante redondante) + « sous l'étalon ». Dans un groupe « SETUP xN », la meilleure variante est indiquée ; si elle est sous l'étalon, elle est en REECRIRE (idée solide) ou RETIRER (aucune variante ne tient). Les séries à amorce quasi identique sans setup strictement identique (ex. « Mon copain m'a dit 'choisis toi le resto pour samedi'… ») sont traitées comme des groupes (charte §3 « même amorce »). Le groupe « choisis toi le resto pour samedi » compte 20 variantes dans le lot. Pour une variante redondante, `=` signifie « au niveau mais redondante ».
 
 ## 1. Synthèse
 
-_(provisoire, complétée en fin de travail)_
+### 1.1 Comptes (317 vannes, comptés par recherche dans le tableau §2)
+
+| Verdict | Nb | % du lot |
+|---|---|---|
+| GARDER (au niveau de l'étalon) | 119 | 37,5 % |
+| dont [A] net (étalons candidats) | 40 | 12,6 % |
+| dont [B] limite (au niveau, à valider) | 79 | 24,9 % |
+| REECRIRE (idée solide, sous l'étalon) | 56 | 17,7 % |
+| RETIRER | 142 | 44,8 % |
+| dont variante redondante | 90 | 28,4 % |
+| dont sous l'étalon (idée faible) | 28 (27 + vanne du jour) | 8,8 % |
+| dont constat sans twist / blessant (3) / calembour (4) | 19 | 6,0 % |
+| dont doublon (exact ou blague notoire) | 5 | 1,6 % |
+
+**Niveau vs étalon** : `=` sur 120 vannes (119 GARDER + 1 variante redondante mais bonne), `<` sur 197 (62 %). Le nombre de vannes **nettement** au niveau est de 40 (12,6 % du lot, 18 % si l'on exclut les 95 variantes redondantes et doublons). Les [B] sont au niveau dans mon jugement mais moins tranchées : question 1 §3.
+
+**Par origine** (prefixe d'id) : humaines/seed 118 vannes : 71 GARDER (60 %, dont 25 [A]), 28 REECRIRE, 19 RETIRER. Générées par IA 199 vannes : 48 GARDER (24 %, dont 15 [A]), 28 REECRIRE, 123 RETIRER (dont 90 variantes redondantes). Constat structurel : le gisement IA du lot est dominé par deux séries, une centaine de vannes « choisir le resto » (17 GARDER dont 4 [A], 6 REECRIRE) et une quarantaine de « vacances de la copine » (12 GARDER dont 3 [A], 8 REECRIRE), qui répètent 4 ou 5 mécanismes seulement (compromis où l'un perd, chacun chez soi, on va chez sa mère, on commande en livraison, on se sépare). Le job copy-review (25 vannes IA par jour, sans vue sur les séries) mettrait plusieurs semaines à les voir passer une par une sans jamais les comparer entre elles.
+
+**Constat sur la revue s11** : les 5 décisions s11 qui touchent ce lot (1 RETIRER, 4 REECRIRE) ne sont pas appliquées en base (voir §4). Les 4 REECRIRE correspondants sont marqués comme tels avec renvoi vers les réécritures déjà rédigées.
+
+### 1.2 Vanne du jour (cmn6q51i50006s60x7vbwiyna) : RETIRER, sous l'étalon
+
+« Mon mec m'a envoyé des fleurs le jour où j'ai découvert mon allergie au pollen. // J'ai enfin compris pourquoi on dit que l'amour fait pleurer. »
+
+- **Est-ce une expression française établie ? Non.** « L'amour fait pleurer » n'est pas un dicton figé. Les formules établies sont « l'amour rend aveugle », « l'amour fait mal / fait souffrir », « pleurer comme une madeleine ». La chute s'appuie donc sur un faux proverbe introduit par « on dit que » : le procédé existe (inventer un dicton), mais il ne produit un effet que si le lecteur reconnaît quelque chose à détourner. Ici il n'y a rien à détourner, seulement une phrase de carte de vœux.
+- **La chute est-elle télégraphiée ? Oui, totalement.** Le setup contient déjà les trois pièces du raisonnement (fleurs, cadeau amoureux, allergie au pollen). Le lecteur a conclu « il pleure » avant d'arriver à la chute, qui ne fait que nommer ce qu'il a compris et l'habille d'une morale. À l'inverse, dans l'étalon Alexa, le setup ne dit rien de l'historique de recherches : la chute apporte l'information nouvelle et retourne la phrase. Ici, la chute n'apporte aucune information nouvelle.
+- **Défauts secondaires** : « le jour où j'ai découvert » est une coïncidence forcée qui sert à expliquer le gag au lieu de le laisser faire ; « j'ai enfin compris pourquoi on dit que… » est un tic de fin de vanne (voir §4) ; le passage « pleurer d'allergie = pleurer d'amour » est un rapprochement gentil, pas une observation.
+- **Pourquoi RETIRER et pas REECRIRE** : le gag tient en un seul mouvement (fleurs + pollen = larmes) entièrement contenu dans le setup. Sans le pivot explicite il ne reste plus de chute, donc pas de « même idée, meilleure exécution » possible. Si Thomas tient à l'idée, la seule piste est de ne rien annoncer de l'allergie et de laisser la chute porter la surprise, à valider avec lui avant toute réécriture.
+- **Actions** : la sortir de la rotation « vanne du jour » ; retirer son décryptage ; et, plus important, faire passer en priorité dans copy-review toutes les vannes IA qui seront tirées comme vanne du jour dans les 14 prochains jours (ici la vanne publique la plus visible du site n'a passé aucun contrôle de barème).
+
+### 1.3 Top 10 des meilleures (étalons candidats, ordre de préférence)
+
+1. cmmw0togs0001mw62152nl589 : « Mon GPS m'a dit de tourner à droite. Y'avait un fleuve. // J'ai hésité. Il avait l'air sûr de lui. »
+2. cmmnsqn13002xth63p57ifyqv : « N'hésite pas si tu as des questions » // « une expression, pas une invitation »
+3. cmmnsqn130030th6381ol5rxt : confiant comme celui qui répond « à peu près » quand on lui demande s'il sait nager
+4. cmos0sgqc000xs60wdm00lh2k : app météo 30 minutes avant la pluie / ex 30 secondes avant de me quitter
+5. cmmnsqn14003kth63tvy4jb1m : « Ma copine dit que je suis trop possessif. // Enfin, MA copine. »
+6. cmn85alj00004s610f14eg0re : « Ma mère m'a appelé pour me rappeler que les vacances scolaires commencent bientôt. // J'ai pas d'enfants. »
+7. cmpk8cwqv00kxs60xvg0g38bs : vacances « spontanées et improvisées » // « Elle avait déjà tout réservé. »
+8. cmmnsqn16008vth6325liw1pb : « Bien cordialement, Papa. » pour demander si je veux des pâtes
+9. cmmnsqn16008dth63es5ylimi : pouce levé pour annoncer que mamie est à l'hôpital
+10. cmmnsqn14003oth63cuch3l0w : le mode d'emploi Ikea demande si j'ai un ami disponible
+
+À protéger : cmmnsqn15006jth63trumhoam (« bouton trier / ma mère »), déjà étalon C de la charte. Presque étalons si la chute est resserrée (REECRIRE à forte valeur) : cmpjq5c5u00b1s60xmy07gc4y (authenticité au milieu de 3000 Français), cmpjufkp800d4s60xv3rt57ac (Netflix « vous regardez encore ? »), cmmnsqn14005cth635d8xojou (loto), cmunvljrb006b2t1gcgte97k2 (« je l'évitais depuis juillet »).
+
+### 1.4 Top 10 des pires (à sortir en premier)
+
+1. cmqbw7t4h00bds60xqvaymwg7 : « mon pull c'est ma survie », l'exemple même de la charte (décryptage existant à retirer aussi)
+2. cmpjojd3900a4s60x6mc2tykz : allusion sexuelle (« le G »), blessante et hors ton
+3. cmpjplvz200aos60xuq63b4hv : insinuation d'infidélité avec « ta meilleure amie »
+4. cmqd130xp00dys60x0tbzxnp9 : « J'ai gagné par KO », violence de couple banalisée (a un décryptage)
+5. cmmw0touq0008mw62sk5d0cbu : avocate / avocat → guacamole, calembour
+6. cmmsw18l60000rp62k1a0xxw4 : « mot de passe incorrect », blague notoire des années 2000
+7. cmn8601vw000as6107gh2oopf et cmnyqfoul003ms60wa1wel8k9 : doublons exacts
+8. cmp51c9u8012ds60y9ddw5iy1 : maillot de bain / « pourquoi il adore le shopping », chute obscure et sous-entendu ambigu
+9. cmny0q544000ns60w0la8pnbq : « on a commandé nos ex sur Tinder », incohérente
+10. cmpf1qi1p00tjs60xf1wglufv : « mon divorce » à un premier rendez-vous, incohérente
+(hors classement : la vanne du jour, §1.2)
 
 ## 2. Tableau complet (ordre de l'export)
 
@@ -332,13 +389,20 @@ _(provisoire, complétée en fin de travail)_
 | cmmnsqn16008bth639v3z2ysb | REECRIRE | < | chute en 3 phrases (plus longue que le setup) ; l'idée du récit qui s'embellit tient |
 | cmmnsqn13002xth63p57ifyqv | GARDER | = | [A] « une expression, pas une invitation » |
 | cmmnsqn14005dth63tkk1ftot | REECRIRE | < | chute trop longue ; « le baby-foot remplace la prime » tient |
-<!-- FIN TABLEAU -->
 
-## 3. Questions pour Thomas
+## 3. Questions pour Thomas (3 max)
 
-_(à compléter)_
+1. **Que fait-on des 79 vannes [B] « au niveau, mais limite » ?** Mon barème est sévère sur les chutes télégraphiées et longues, mais [B] reste subjectif (ex. cmmnsqn13002qth632dhoo7r6 « héritage », cmoxx7e56003xs60yyooxncw3 « police de caractère », cmmnsqn15007mth63nediuq1b « 3 ans »). Reco : garder les 40 [A] comme socle certain, laisser les [B] actives mais hors du job copy-review et hors « vanne du jour » tant que tu ne les as pas tranchées, et me faire valider 10 [B] à l'aveugle (je te les liste) pour recaler la barre avant de généraliser aux 373 vannes IA.
+2. **Plafond par thème/amorce et sens de « RETIRER ».** Le générateur a produit une centaine de vannes « resto » (dont une vingtaine de « choisis toi le resto pour samedi… ») et une quarantaine de « vacances de la copine ». Reco : plafond dur de 3 vannes actives par amorce et 6 par thème, RETIRER = désactivation réversible (jamais suppression, favoris et votes conservés), et un correctif générateur (mémoire des amorces/thèmes déjà en base) sinon la série repousse chaque nuit.
+3. **Ancrage local et saisonnier : on garde ?** ~12 vannes IA sont ancrées dans le Morbihan (Quiberon, Ploërmel, « le vieux Vannes », Bretagne) et ~60 parlent de vacances d'été/Pâques alors qu'on est le 30/09. Reco : ne garder que celles dont la chute marche sans connaître le lieu (seules cmpary82p00jns60x1y34axz4 et cmpavp7so00kjs60x4q3u4ckj le font, gardées en [B]) et mettre les vannes saisonnières en réserve hors saison, à réactiver en juin.
 
+## 4. Signalements (rien n'a été modifié)
 
-## 3. Questions pour Thomas
-
-_(à compléter)_
+- **Décisions s11 non appliquées en base** (constaté sur l'export du 30/09) : escargot cmmnsqn12000wth63klmln2pr (retirer, id 33), « La vie est un scam » cmmnsqn14005sth63dts5es5e (id 209), « transfert » WhatsApp cmmnsqn16008rth63rmwonvrd (id 316), coiffeur cmmw0tp4o000dmw62eeksni98 (id 334), bibliothèque cmmnsqn120002th63g1nzbeg4 (id 3) sont toujours actives dans leur ancienne version. Les réécritures existent dans `revue-vannes-seed-s11.md` §3 (à appliquer, pas à refaire). Un grep sur `docs/content/blagues-seed.json` montre en plus que bibliothèque et « transfert » y sont encore en ancienne version : à vérifier par @fullstack.
+- **Blessantes ou limites** (RETIRER) : cmpjojd3900a4s60x6mc2tykz (allusion sexuelle), cmpjplvz200aos60xuq63b4hv (infidélité), cmqd130xp00dys60x0tbzxnp9 (« gagné par KO », violence de couple). Limites conservées : cmmnsqn14003kth63tvy4jb1m (« trop possessif » : la chute retourne l'accusation, le décryptage doit cadrer l'ironie), cmmnsqn12000kth639f52jmyj (« dissocié » : banalise un terme clinique). Stéréotype social : cmpjx40ie00eos60x3rm3qahq (« Kévin, tatouage tribal »), cmokq1kj9004gs60x2j0zj29i (registre tonton envers un ado).
+- **Genrées ou datées** : cmmnsqn120005th63d0wstn6o (foot vs copine), cmmw0tpkk000lmw62hisrlpc1 (« ce jean me grossit »), cmmnsqn15007eth63cwyet2ca (Bumble), cmmnsqn16008qth63vr6hexls (« LOL = Lots Of Love »), cmmnsqn150077th63gcnejji5 (« Twitter » devenu X, gardée [B], à faire relire), cmmsw18l60000rp62k1a0xxw4 (blague notoire).
+- **Incohérentes ou illisibles** : cmpf1qi1p00tjs60xf1wglufv (« mon divorce » à un premier rendez-vous), cmny0q544000ns60w0la8pnbq (« commandé nos ex sur Tinder »), cmpk7ajc900kds60xmlnhtst5 (« sur Booking »), cmpjksbd40088s60xx8e8mlnv (« feu vert général »), cmmnsqn14005kth63pdujihby (« zéro c'est quelqu'un »), cmp9jgzpg0093s60x14d1kzrr (« stage principal » du Hellfest, fait douteux).
+- **Tics d'écriture IA à surveiller dans le générateur** : « depuis 2019 » (cmp7v80w40037s60x0c5052rf, cmn5aauwo0001s60y4x490kst, cmpw4zn5n00b3s60xonhfk4bc), « j'ai enfin compris pourquoi on dit que » (vanne du jour), « j'ai pris ma retraite pendant » (×3), « chez sa mère / chez ses parents » (×9), « On a rompu. » comme chute (×3), « Uber Eats / McDo » (~30), citation entre apostrophes sur setup long.
+- **Typographie dans le texte en base** : tiret cadratin dans cmpf175o700t6s60xzxzb9ndt et cmmnsqn12000wth63klmln2pr ; tirets simples espacés faisant office de cadratin dans cmoxvlrwv0036s60y4mjmxjlh et cmnz4u9rk0016s60xkpe2vn66 (règle 12).
+- **Chiffres signalés, non touchés** : « 80€ » (cmp9u6qw900ews60xn04lin8k, prix de festival non vérifié) ; toutes les autres valeurs numériques (47, 3000, 200, 10 min / 2h50, 12 followers…) sont laissées telles quelles.
+- **Décryptages** : les vannes conservées par l'audit qui ont `décryptage=non` (séries IA resto/vacances) ne sont pas exploitables « À toi de jouer » : à produire seulement après validation du barème. Le décryptage de la vanne du jour (`décryptage=oui`) est à retirer avec elle.
