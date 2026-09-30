@@ -1,0 +1,552 @@
+[
+ {
+  "q": "Q3",
+  "t": "On préviendra la famille en premier, juste après le facteur, qui semble déjà au courant.",
+  "n": 1
+ },
+ {
+  "q": "Q1",
+  "t": "J'ai discuté dix minutes avec quelqu'un au marché. J'ai pris quatre kilos de poireaux pour que ça dure.",
+  "n": 2
+ },
+ {
+  "q": "Q3",
+  "t": "On a fait un plan sur dix ans. On est en année sept. On a refait le plan.",
+  "n": 3
+ },
+ {
+  "q": "Q5",
+  "t": "Mon loyer habite au quatrième. Mon salaire est au sous-sol. Il n'y a pas d'ascenseur entre les deux.",
+  "n": 4
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour aller au cinéma le mardi. Le samedi, c'est pour les gens de la haute.",
+  "n": 5
+ },
+ {
+  "q": "Q6",
+  "t": "Je fais comme au concours de tartes : je goûte à tout et je ne donne aucune note.",
+  "n": 6
+ },
+ {
+  "q": "Q2",
+  "t": "On m'a parlé d'évolution. Je suis têtard depuis trois ans, je fais confiance à la nature.",
+  "n": 7
+ },
+ {
+  "q": "Q1",
+  "t": "Quelqu'un est descendu à Juvisy en 2022. Je suis resté assis.",
+  "n": 8
+ },
+ {
+  "q": "Q4",
+  "t": "Tout paraît plus rond sous les guirlandes. Regarde le sapin.",
+  "n": 9
+ },
+ {
+  "q": "Q3",
+  "t": "On veut un mariage qui nous ressemble. On enquête encore sur ce que ça donne.",
+  "n": 10
+ },
+ {
+  "q": "Q1",
+  "t": "Hier, un pigeon m'a regardé deux secondes de suite. Je prends ça comme un début.",
+  "n": 11
+ },
+ {
+  "q": "Q3",
+  "t": "On se marie quand on aura vu tous les films de notre liste. Elle grandit plus vite qu'on ne regarde.",
+  "n": 12
+ },
+ {
+  "q": "Q4",
+  "t": "Je ne peux pas trancher à l'œil nu. Il nous faudrait l'arbitrage vidéo.",
+  "n": 13
+ },
+ {
+  "q": "Q2",
+  "t": "On m'a dit que j'avais un profil atypique. Je n'ai pas osé demander si c'était un compliment ou un diagnostic.",
+  "n": 14
+ },
+ {
+  "q": "Q5",
+  "t": "C'est un nombre à quatre chiffres. Le premier est très bien, les trois autres font ce qu'ils peuvent.",
+  "n": 15
+ },
+ {
+  "q": "Q5",
+  "t": "Mon loyer, c'est du lierre : il monte chaque année et je ne sais pas comment l'arrêter.",
+  "n": 16
+ },
+ {
+  "q": "Q1",
+  "t": "J'ai vu un documentaire sur les manchots. Ils marchent quatre-vingts kilomètres pour se trouver. Moi, j'ai abandonné au deuxième carrefour.",
+  "n": 17
+ },
+ {
+  "q": "Q3",
+  "t": "On a décidé d'en reparler à la fin de notre série. Elle a huit saisons, on est à la troisième.",
+  "n": 18
+ },
+ {
+  "q": "Q3",
+  "t": "On a voté. Un oui, et un « je vais chercher du pain ».",
+  "n": 19
+ },
+ {
+  "q": "Q6",
+  "t": "Je suis le Saint-Bernard de ce repas : j'interviens quand ça se calme, avec un petit tonneau.",
+  "n": 20
+ },
+ {
+  "q": "Q2",
+  "t": "Mon évaluation salue ma ponctualité. Je pense que c'était le seul compliment disponible.",
+  "n": 21
+ },
+ {
+  "q": "Q1",
+  "t": "Je me suis mis à l'escalade pour rencontrer du monde. Je connais très bien le mur.",
+  "n": 22
+ },
+ {
+  "q": "Q6",
+  "t": "Je suis en visite libre. Je regarde, je ne touche à rien, j'ai laissé mon opinion au vestiaire.",
+  "n": 23
+ },
+ {
+  "q": "Q4",
+  "t": "Je suis comme l'univers : en expansion ou en contraction, les scientifiques hésitent.",
+  "n": 24
+ },
+ {
+  "q": "Q5",
+  "t": "On me l'a demandé à mon entretien. J'ai répondu « ce que vous voulez ». Ils ont pris ça au mot.",
+  "n": 25
+ },
+ {
+  "q": "Q3",
+  "t": "On a regardé un tutoriel pour changer une couche. On a mis pause à mi-parcours pour respirer.",
+  "n": 26
+ },
+ {
+  "q": "Q2",
+  "t": "Ça avance comme le niveau de la mer : personne ne le voit, mais on m'assure que ça monte.",
+  "n": 27
+ },
+ {
+  "q": "Q4",
+  "t": "Tu m'as connu en version été. Là, c'est l'édition d'hiver, avec guirlandes.",
+  "n": 28
+ },
+ {
+  "q": "Q6",
+  "t": "Des années de repas de famille m'ont poli comme un galet. Il me reste très peu d'avis.",
+  "n": 29
+ },
+ {
+  "q": "Q3",
+  "t": "On a acheté une grande tente pour le mariage. Elle est encore dans son sac, mais on est très confiants.",
+  "n": 30
+ },
+ {
+  "q": "Q1",
+  "t": "J'ai rencontré quelqu'un à la préfecture. J'y suis retourné trois fois. Mes papiers sont à jour, c'est déjà ça.",
+  "n": 31
+ },
+ {
+  "q": "Q1",
+  "t": "J'ai rencontré quelqu'un de très bien en rêve. Depuis, je me couche à vingt et une heures.",
+  "n": 32
+ },
+ {
+  "q": "Q5",
+  "t": "Je te le dirai à l'oreille, dans le couloir, comme dans un film d'espionnage.",
+  "n": 33
+ },
+ {
+  "q": "Q4",
+  "t": "Je suis comme une ville : chaque année, on refait un peu de choses sans consulter les habitants.",
+  "n": 34
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour aller à la piscine. Pas pour le grand bain.",
+  "n": 35
+ },
+ {
+  "q": "Q2",
+  "t": "Je lis mon cours à voix haute. Ma chambre le sait maintenant par cœur, moi moins.",
+  "n": 36
+ },
+ {
+  "q": "Q4",
+  "t": "Je suis une histoire de marées. Il faut regarder à plusieurs heures avant de conclure.",
+  "n": 37
+ },
+ {
+  "q": "Q1",
+  "t": "On me sollicite beaucoup. Surtout pour des fenêtres, le soir.",
+  "n": 38
+ },
+ {
+  "q": "Q2",
+  "t": "J'arrive en avance depuis mars. Je me suis trompé de bus, et personne n'a osé me le dire.",
+  "n": 39
+ },
+ {
+  "q": "Q1",
+  "t": "Au dernier rendez-vous, on m'a demandé ce que je recherchais. J'ai répondu « les toilettes ». C'était sincère.",
+  "n": 40
+ },
+ {
+  "q": "Q2",
+  "t": "Il y a une plante à côté de mon bureau. Elle a plus d'ancienneté que moi, et elle a l'air plus en forme.",
+  "n": 41
+ },
+ {
+  "q": "Q2",
+  "t": "Ça avance comme un soufflé : je n'ouvre pas le four pour vérifier.",
+  "n": 42
+ },
+ {
+  "q": "Q2",
+  "t": "On m'a confié les clefs du local. Depuis, je les garde dans la main, au cas où on me les reprendrait.",
+  "n": 43
+ },
+ {
+  "q": "Q4",
+  "t": "On dit qu'on ne se baigne jamais deux fois dans le même fleuve. Ce soir, je m'identifie beaucoup au fleuve.",
+  "n": 44
+ },
+ {
+  "q": "Q4",
+  "t": "Ça se joue à quelques millimètres. Je laisse ça aux géomètres.",
+  "n": 45
+ },
+ {
+  "q": "Q2",
+  "t": "Dans l'orchestre, je suis le triangle. Peu de notes, mais je ne me trompe jamais de moment.",
+  "n": 46
+ },
+ {
+  "q": "Q4",
+  "t": "C'est pour un rôle de composition. Le réalisateur m'a interdit de dire dans quel sens.",
+  "n": 47
+ },
+ {
+  "q": "Q2",
+  "t": "À l'examen, j'ai été impeccable sur l'en-tête : nom, prénom, numéro. Le reste a suivi moins bien.",
+  "n": 48
+ },
+ {
+  "q": "Q1",
+  "t": "Je suis dans un club de lecture. Personne n'a lu le livre. Ça crée des liens.",
+  "n": 49
+ },
+ {
+  "q": "Q4",
+  "t": "On me dit tantôt l'un, tantôt l'autre. En faisant la moyenne, je n'ai pas bougé.",
+  "n": 50
+ },
+ {
+  "q": "Q5",
+  "t": "Mon loyer est la chose la plus ponctuelle de ma vie. Il arrive le 1er, sans exception.",
+  "n": 51
+ },
+ {
+  "q": "Q1",
+  "t": "Quelqu'un m'a souri dans l'ascenseur. Je suis monté au septième pour prolonger. J'habite au deuxième.",
+  "n": 52
+ },
+ {
+  "q": "Q5",
+  "t": "Mon loyer n'a pas bougé depuis que je suis à table. Je compte ça comme une victoire.",
+  "n": 53
+ },
+ {
+  "q": "Q5",
+  "t": "J'ai le critère de ma grand-mère : reste-t-il de la confiture en février ? Chez moi, oui, cette année.",
+  "n": 54
+ },
+ {
+  "q": "Q2",
+  "t": "Je suis en salle d'embarquement depuis deux ans. On annonce un léger retard toutes les demi-heures.",
+  "n": 55
+ },
+ {
+  "q": "Q4",
+  "t": "C'est sûrement la coupe de cheveux. Je n'ai pas changé de coupe, mais je préfère cette explication.",
+  "n": 56
+ },
+ {
+  "q": "Q5",
+  "t": "Mon salaire est un secret. Ma consommation de clémentines est de notoriété publique.",
+  "n": 57
+ },
+ {
+  "q": "Q3",
+  "t": "On est en train de se marier. Très lentement. On a commencé en 2021.",
+  "n": 58
+ },
+ {
+  "q": "Q2",
+  "t": "Mon rôle, c'est celui de la marche d'escalier : on ne me remarque que si je manque.",
+  "n": 59
+ },
+ {
+  "q": "Q2",
+  "t": "Vendredi, j'ai fait une présentation. Quelqu'un a hoché la tête. J'ai décidé que c'était pour moi.",
+  "n": 60
+ },
+ {
+  "q": "Q1",
+  "t": "Mon dernier rendez-vous s'est très bien passé. On m'a serré la main à la fin, avec un « merci pour votre présence ».",
+  "n": 61
+ },
+ {
+  "q": "Q3",
+  "t": "Chez les cygnes, c'est pour la vie et sans buffet. On étudie sérieusement la piste.",
+  "n": 62
+ },
+ {
+  "q": "Q1",
+  "t": "Je rends mes livres en retard à la bibliothèque. Ça marche : ils connaissent tous mon prénom.",
+  "n": 63
+ },
+ {
+  "q": "Q1",
+  "t": "Je crois que j'ai un admirateur secret. Il est si secret que je n'ai aucune preuve.",
+  "n": 64
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour aller chez le coiffeur. Pas assez pour dire oui quand on me propose le soin.",
+  "n": 65
+ },
+ {
+  "q": "Q1",
+  "t": "Quelqu'un a ri à ma blague à la boulangerie en septembre. J'y retourne chaque jour. J'ai un congélateur plein de baguettes.",
+  "n": 66
+ },
+ {
+  "q": "Q6",
+  "t": "J'ai un avis dans chaque poche. Ils se sont battus toute la route, je n'ose plus les sortir.",
+  "n": 67
+ },
+ {
+  "q": "Q5",
+  "t": "Mon salaire et mon loyer se croisent une fois par mois. C'est une belle rencontre, mais brève.",
+  "n": 68
+ },
+ {
+  "q": "Q3",
+  "t": "Pour le mariage, on attend d'être d'accord sur le chauffage. On y travaille depuis trois hivers.",
+  "n": 69
+ },
+ {
+  "q": "Q2",
+  "t": "J'ai acheté cinq surligneurs. Toutes les conditions sont réunies pour ne pas commencer.",
+  "n": 70
+ },
+ {
+  "q": "Q3",
+  "t": "On a demandé leur avis aux portraits de la famille. Ils n'ont pas bougé, on prend ça pour un accord.",
+  "n": 71
+ },
+ {
+  "q": "Q3",
+  "t": "On a ouvert un carnet pour organiser le mariage. La première page est très réussie.",
+  "n": 72
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour ne pas avoir à vendre mon cheval. Je précise que je n'ai pas de cheval.",
+  "n": 73
+ },
+ {
+  "q": "Q3",
+  "t": "On se marie à la prochaine éclipse totale visible d'ici. On a de la marge.",
+  "n": 74
+ },
+ {
+  "q": "Q4",
+  "t": "Me demander ça à cette heure, c'est comme demander l'heure à un cadran solaire. Ce n'est pas mon moment.",
+  "n": 75
+ },
+ {
+  "q": "Q4",
+  "t": "Nous sommes en croisière. Le commandant préfère ne pas annoncer l'altitude.",
+  "n": 76
+ },
+ {
+  "q": "Q1",
+  "t": "Quelqu'un m'a dit récemment que j'avais de belles dents. C'était le dentiste.",
+  "n": 77
+ },
+ {
+  "q": "Q4",
+  "t": "Je suis en travaux. On ne sait pas encore si c'est une extension ou une rénovation.",
+  "n": 78
+ },
+ {
+  "q": "Q2",
+  "t": "Ça avance à l'échelle géologique. On m'a dit que les Alpes aussi ont mis du temps.",
+  "n": 79
+ },
+ {
+  "q": "Q4",
+  "t": "C'est peut-être le pull. Il est arrivé avec une forte personnalité.",
+  "n": 80
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour hésiter entre deux fromages. Pas pour prendre les deux.",
+  "n": 81
+ },
+ {
+  "q": "Q3",
+  "t": "On attend une éclaircie. La météo en annonce une vers 2029.",
+  "n": 82
+ },
+ {
+  "q": "Q4",
+  "t": "Ça vient du trajet. Quatre heures de route, ça déforme un peu, comme une tarte dans un sac.",
+  "n": 83
+ },
+ {
+  "q": "Q5",
+  "t": "Assez pour une place debout à l'opéra. Ça suffit, on entend très bien.",
+  "n": 84
+ },
+ {
+  "q": "Q2",
+  "t": "Ça avance : j'ai enfin compris mon métier. On me change de poste lundi.",
+  "n": 85
+ },
+ {
+  "q": "Q5",
+  "t": "Je ne sais pas très bien. Je me suis endormi pendant qu'on m'expliquait mon contrat.",
+  "n": 86
+ },
+ {
+  "q": "Q6",
+  "t": "Sur ce sujet, je n'ai qu'une carte routière de 1998 et un bon pressentiment.",
+  "n": 87
+ },
+ {
+  "q": "Q4",
+  "t": "Chez moi, il n'y a pas de balance, mais un baromètre. Aujourd'hui, il indique beau temps.",
+  "n": 88
+ },
+ {
+  "q": "Q6",
+  "t": "Je vais aller voir si l'eau bout. Je n'ai rien mis à chauffer.",
+  "n": 89
+ },
+ {
+  "q": "Q2",
+  "t": "J'ai retenu tous les prénoms au bureau. Pour l'instant, on me connaît comme « l'autre ».",
+  "n": 90
+ },
+ {
+  "q": "Q5",
+  "t": "Ce soir, je porte ma plus belle chemise. C'est aussi la seule, ça fausse un peu la moyenne.",
+  "n": 91
+ },
+ {
+  "q": "Q1",
+  "t": "Mon horoscope m'annonce quelqu'un de grand. Depuis, je vais plus souvent au zoo.",
+  "n": 92
+ },
+ {
+  "q": "Q2",
+  "t": "On m'a confié un gros dossier. Je le garde au chaud, en attendant de savoir ce qu'il contient.",
+  "n": 93
+ },
+ {
+  "q": "Q4",
+  "t": "Je suis comme la lune : ça dépend du soir où tu m'as vu.",
+  "n": 94
+ },
+ {
+  "q": "Q1",
+  "t": "Je me suis inscrit à la chorale pour rencontrer du monde. Je chante si faux qu'on me place derrière le piano.",
+  "n": 95
+ },
+ {
+  "q": "Q6",
+  "t": "Quand une ruche bourdonne comme ça, on met un voile et on recule doucement.",
+  "n": 96
+ },
+ {
+  "q": "Q3",
+  "t": "On se marie quand on aura passé un dimanche entier sans regarder l'heure. On s'entraîne.",
+  "n": 97
+ },
+ {
+  "q": "Q3",
+  "t": "On est allés observer des enfants au parc, de loin. Ils sont très bien, mais très rapides.",
+  "n": 98
+ },
+ {
+  "q": "Q3",
+  "t": "On a fait imprimer les faire-part. Sans date ni lieu, mais le papier est très beau.",
+  "n": 99
+ },
+ {
+  "q": "Q2",
+  "t": "Hier, quelqu'un m'a demandé mon avis sur un dossier. J'ai regardé le plafond avec sérieux. Ça a semblé suffire.",
+  "n": 100
+ },
+ {
+  "q": "Q5",
+  "t": "Je te le dis contre ta recette de sauce. Je précise que la recette vaut plus.",
+  "n": 101
+ },
+ {
+  "q": "Q3",
+  "t": "Il faut deux témoins. On fait passer des entretiens, c'est très sélectif.",
+  "n": 102
+ },
+ {
+  "q": "Q6",
+  "t": "Bulletin de la soirée : orages sur la table, accalmie prévue au moment de la bûche.",
+  "n": 103
+ },
+ {
+  "q": "Q6",
+  "t": "Je suis le figurant du fond : on me voit, mais je n'ai pas de texte. Je tiens à ce rôle.",
+  "n": 104
+ },
+ {
+  "q": "Q3",
+  "t": "On attend un signe. Hier, un grand oiseau blanc est passé devant le balcon. C'était un sac plastique, mais on reste ouverts.",
+  "n": 105
+ },
+ {
+  "q": "Q1",
+  "t": "Chaque vendredi, j'achète un timbre au bureau de poste. Je n'écris à personne, mais je suis très bien accueilli.",
+  "n": 106
+ },
+ {
+  "q": "Q1",
+  "t": "J'ai eu un coup de foudre dans le bus. J'ai hésité jusqu'au terminus, puis j'ai pris l'autre sens pour réfléchir.",
+  "n": 107
+ },
+ {
+  "q": "Q4",
+  "t": "On m'a planté il y a trente ans. Je pousse à mon rythme, dans tous les sens.",
+  "n": 108
+ },
+ {
+  "q": "Q4",
+  "t": "Les plaques tectoniques bougent de quelques centimètres par an. Personne ne leur en parle à table.",
+  "n": 109
+ },
+ {
+  "q": "Q5",
+  "t": "Je ne peux pas le dire. Comme un magicien : une fois qu'on connaît le truc, plus personne n'y croit.",
+  "n": 110
+ }
+]
