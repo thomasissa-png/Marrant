@@ -76,7 +76,12 @@ curl -fsS -H "Authorization: Bearer $CRON_SECRET" https://marrant.<sous-domaine>
 
 Fenêtres UTC inchangées (codées dans les jobs, pas dans les crons) : contenu quotidien 5h + rattrapage 7h-22h ; article SEO lundi 9h-10h + rattrapage mardi/mercredi ; plans mensuels du 28 au 31 ; posts sociaux 4h + rattrapage 6h-23h ; publication et analytics sociales à chaque tick ; audit SEO le mercredi ; rapport SEO le 1er du mois ; CEO tick 2h-4h ; KPIs CEO 5h ; relecture corpus 3h-4h.
 
-**Interrupteur** : `CRON_ENABLED` vaut `"false"` dans `wrangler.jsonc`, les crons ne font rien pendant l'étape B. Les routes restent appelables à la main (Bearer `CRON_SECRET`) pour tester chaque job. À la bascule (étape D) : passer `CRON_ENABLED` à `"true"` et redéployer.
+**Interrupteurs** : `CRON_ENABLED` vaut `"true"` depuis la bascule DNS (étape D, s14). `CONTENT_GENERATION_ENABLED` (décision fondateur du 30/09) : tant qu'il ne vaut pas `"true"` (absent = désactivé), daily-content, weekly-seo, monthly-plan et monthly-videos n'appellent **aucun LLM**. Le contenu est préparé à l'avance en base, et le tick comble seulement un trou du calendrier depuis le stock validé ou publie l'article planifié échu (`src/lib/scheduler/prepared-content.ts`). Un article planifié est stocké `isPublished=false` avec `publishedAt` à sa date prévue.
+
+**Garde-fous (incident s14, voir `diagnostic-crons-s14.md`)** :
+- réponses HTTP `fetch` jamais mises en cache (wrapper de l'incremental cache dans `open-next.config.ts` + `fetchCache = "force-no-store"` sur `/api/cron/*`). Sans cela, Next 14 rejouait les réponses Anthropic d'un tick à l'autre ;
+- 2 tentatives maximum par job de génération et par fenêtre (jour, semaine ISO, mois), compteur en base (`JobLock attempt:*`) ;
+- coupe-circuit budget avant chaque appel LLM : `LLM_DAILY_BUDGET_USD` (24 h glissantes, défaut 5) et `LLM_MONTHLY_BUDGET_USD` (mois UTC, défaut 40), 1 alerte e-mail par jour maximum ; quota `/api/ai` de 30 par jour et par membre (`AI_USER_DAILY_LIMIT`).
 
 Test local des crons :
 
@@ -87,7 +92,7 @@ curl "http://localhost:8787/__scheduled?cron=*/15+*+*+*+*"   # tick
 curl "http://localhost:8787/__scheduled?cron=0+1+*+*+*"      # tâches de démarrage
 ```
 
-Limites à surveiller (Workers payant, à vérifier sur la doc au moment du déploiement) : un cron à intervalle < 1 h dispose de 30 s de CPU, 15 min de durée. Les appels LLM sont de l'attente réseau (hors CPU), mais un tick cumulant CEO tick (jusqu'à 300 s) et relecture du corpus (3h-4h UTC) peut approcher les 15 min : surveiller les logs `[scheduler-tick]` et `[cf-cron]`. Un appel HTTP manuel de `/api/cron/startup-tasks` est soumis à la limite CPU des requêtes HTTP (30 s par défaut, `limits.cpu_ms` dans `wrangler.jsonc` si besoin).
+Limites (Workers payant, vérifiées le 30/09/2026 sur developers.cloudflare.com/workers/platform/limits) : un cron à intervalle < 1 h dispose de 30 s de CPU et de 15 min de durée (wall time). Mesuré le 30/09 : 1,06 s de CPU au maximum par tick et 318 s de durée au maximum (génération d'article), donc large marge. Les appels LLM sont de l'attente réseau (hors CPU). `limits.cpu_ms` ne vaut que pour les requêtes HTTP (appel manuel de `/api/cron/startup-tasks`). Pour lire l'`outcome` des ticks : GraphQL `workersInvocationsScheduled` (status, cpuTimeUs) ou `npx wrangler tail marrant --format json`.
 
 ## 6. Retour arrière
 
