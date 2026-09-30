@@ -37,4 +37,4 @@ python3 scripts/infra/copie-replit-neon.py --verify  # doit afficher 35/35 (sauf
 - [ ] En-tête `X-Robots-Tag` **absent** sur deviens-marrant.fr (présent seulement sur *.workers.dev).
 
 ## Retour arrière (minutes)
-Retirer les domaines personnalisés du Worker, recréer `A @ 34.111.179.208` et `CNAME www → deviens-marrant.fr` en DNS only. Replit n'a pas été modifié. Données écrites sur Cloudflare entre-temps : à reporter à la main si besoin.
+**D'abord réactiver le déploiement Replit** (mis en pause par Thomas le 30/09), sinon le domaine pointerait vers « This app isn't live yet ». Puis : Retirer les domaines personnalisés du Worker, recréer `A @ 34.111.179.208` et `CNAME www → deviens-marrant.fr` en DNS only. Replit n'a pas été modifié. Données écrites sur Cloudflare entre-temps : à reporter à la main si besoin.
