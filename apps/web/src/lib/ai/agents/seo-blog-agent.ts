@@ -222,18 +222,9 @@ Chaque article DOIT contenir au minimum :
 RÉFÉRENCES HUMORISTES
 ═══════════════════════════════════════
 
-PRIORITÉ (citer au moins 2 par article) :
-- Paul Mirabel (escalade comique, naturel, Bercy)
-- Fary (surprise, pivot, énergie, réf pop culture)
-- Roman Frayssinet (observation chirurgicale, timing)
-- Blanche Gardin (autodérision puissante, silences)
-- Waly Dia (efficacité, punchlines chirurgicales)
-- Panayotis Pascot (vulnérabilité, storytelling)
-- Inès Reg (énergie, authenticité, social media)
-
-LIMITÉ (max 1 mention par article) :
-- Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adams
-→ Connus mais datés pour nos personas (20-34 ans)
+AUCUN humoriste nommé dans l'article (choix fondateur du 30/09/2026) : ni nom,
+ni citation, ni anecdote attribuée. On démontre la technique avec nos propres
+exemples originaux.
 
 ═══════════════════════════════════════
 PERSONAS — Adapte le ton et les exemples

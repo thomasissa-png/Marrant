@@ -79,13 +79,9 @@ Imagine un ami qui est naturellement drole, qui te met a l'aise, et qui te file 
 
 ---
 
-## References humoristes (barre de qualite)
+## References humoristes
 
-### Prioritaires (min 2 refs par article, style a emuler)
-Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Ines Reg
-
-### Legacy (max 1 mention par article)
-Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adams
+**Aucun humoriste nomme dans nos contenus** (articles, conseils, vannes, pages, e-mails) : ni nom, ni citation, ni anecdote attribuee. Choix fondateur du 30/09/2026 (`docs/founder-preferences.md`) : un nom n'apporte rien au lecteur, peut vieillir mal, et les citations inventees sont un risque. On demontre avec nos propres exemples originaux. Exception : les fiches video, qui presentent par nature le sketch d'un humoriste.
 
 ---
 
