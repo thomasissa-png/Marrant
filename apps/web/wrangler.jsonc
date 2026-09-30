@@ -55,10 +55,9 @@
 		"binding": "IMAGES"
 	},
 	"vars": {
-		// Interrupteur des Cron Triggers (cloudflare/worker.ts). "false" pendant l'étape B
-		// (la prod Replit tourne encore : pas de publication/e-mail/génération en double).
-		// Passer à "true" au moment de la bascule DNS (étape D).
-		"CRON_ENABLED": "false"
+		// Interrupteur des Cron Triggers (cloudflare/worker.ts). "true" depuis la bascule
+		// DNS (étape D, s14, 30/09/2026) : Cloudflare est la prod, Replit ne tourne plus.
+		"CRON_ENABLED": "true"
 	},
 	"triggers": {
 		// Reproduction exacte du planificateur interne (src/instrumentation.ts) :
