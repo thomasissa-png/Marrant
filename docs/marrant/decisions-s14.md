@@ -3,6 +3,7 @@
 Sources : `docs/seo/audit-post-bascule-s14.md` (60/100), `docs/geo/audit-post-bascule-s14.md` (63/100),
 `docs/strategy/audit-messages-s14.md`, `docs/copy/audit-vannes-s14/lot-A.md` + `lot-B.md`.
 Barre vannes validée : étalon Alexa (`docs/founder-preferences.md`, 30/09).
+**Thomas, 30/09 : « Ok recos » sur toutes les recommandations ci-dessous.** V5 = étalons 1 à 4 ; M2 = étape 1 gratuite, 2+ Premium.
 
 ## Vannes (638 actives)
 
@@ -13,7 +14,7 @@ Nettement au niveau : environ 1 sur 3. Compteur du site après retraits : de « 
 |---|---|---|
 | V1 | Vague 1 de retraits (réversible, `isActive=false`) : variantes redondantes, doublons, calembours, blessantes (~200) | GO |
 | V2 | Vague 2 : les ~80 « sous l'étalon », après ta relecture de 10 exemples | GO après échantillon |
-| V3 | Vanne du jour fleurs / pollen : retirée + sortie de la rotation | GO |
+| V3 | Vanne du jour fleurs / pollen : retirée + sortie de la rotation | FAIT 30/09 : désactivée, Alexa en vanne du jour |
 | V4 | Relecture automatique de cette nuit : sa règle « doute = garder » contredit ta barre et elle réécrirait des vannes que l'audit retire | [CHOIX UTILISATEUR] 30/09 : on la LAISSE TOURNER |
 | V5 | Étalons pour lancer les réécritures (règle P0) : valider 3 à 5 parmi la liste ci-dessous | à choisir |
 | V6 | Vannes qui parlent d'IA / assistants (Alexa, ChatGPT, Siri) : la charte s11 les retirait. Ton étalon en est une | autoriser comme sujet si drôle |
