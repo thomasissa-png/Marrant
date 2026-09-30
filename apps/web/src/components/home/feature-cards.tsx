@@ -49,7 +49,21 @@ const features = [
   },
 ];
 
-export function FeatureCards() {
+/** Lien vers une fiche réelle (libellé = titre ou début du contenu, sans texte ajouté). */
+export interface FeatureExample {
+  href: string;
+  label: string;
+}
+
+interface FeatureCardsProps {
+  /**
+   * Quelques fiches par carte (vannes, conseils, vidéos), dans l'ordre des cartes.
+   * Rendues dans le HTML de l'accueil pour le maillage interne (lot S1 s14, P0-1).
+   */
+  examples?: FeatureExample[][];
+}
+
+export function FeatureCards({ examples }: FeatureCardsProps = {}) {
   const stats = useContentStats();
   const counts = [stats.jokes, stats.tips, stats.videos];
 
@@ -76,6 +90,17 @@ export function FeatureCards() {
               <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                 {feature.description}
               </p>
+              {examples?.[i]?.length ? (
+                <ul className="mt-4 space-y-1">
+                  {examples[i].map((example) => (
+                    <li key={example.href}>
+                      <Link href={example.href} className="line-clamp-2 py-1 text-sm text-accent-link hover:underline">
+                        {example.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
               <Link href={feature.href} className="mt-auto self-start pt-5">
                 <Button
                   variant={feature.variant}

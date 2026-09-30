@@ -3,8 +3,9 @@ import userEvent from "@testing-library/user-event";
 import { VannesList } from "@/components/vannes/vannes-list";
 
 const mockPush = jest.fn();
+let mockSearch = "";
 jest.mock("next/navigation", () => ({
-  useSearchParams: () => new URLSearchParams(),
+  useSearchParams: () => new URLSearchParams(mockSearch),
   useRouter: () => ({ push: mockPush }),
 }));
 
@@ -241,6 +242,84 @@ describe("VannesList", () => {
     render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Précédent")).toBeDisabled();
+    });
+  });
+
+  describe("liste rendue par le serveur (lot S1 s14, P0-1)", () => {
+    const serverPage = (page: number) => ({
+      items: mockJokes.map((j) => ({ ...j, id: `${j.id}-p${page}`, howToApply: null })),
+      page,
+      limit: 12,
+      total: 30,
+      totalPages: 3,
+    });
+
+    afterEach(() => {
+      mockSearch = "";
+    });
+
+    it("affiche les vannes du serveur et leurs liens de fiche dès le premier rendu", () => {
+      global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock; // fetch jamais résolu
+      render(<VannesList initialData={serverPage(1)} initialPage={1} />);
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+      const ficheLinks = screen.getAllByRole("link", { name: "Ouvrir la page dédiée de cette vanne" });
+      expect(ficheLinks).toHaveLength(2);
+      expect(ficheLinks[0].getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
+    });
+
+    it("pagination en vrais liens ?page=N (page 1 sans paramètre)", () => {
+      mockSearch = "page=2";
+      global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock;
+      render(<VannesList initialData={serverPage(2)} initialPage={2} />);
+      expect(screen.getByText("Page 2 / 3")).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");
+      expect(screen.getByRole("link", { name: "Suivant" })).toHaveAttribute("href", "/vannes?page=3");
+    });
+
+    it("clic sur Suivant : pas de rechargement, URL mise à jour, page suivante chargée", async () => {
+      mockSearch = "page=2";
+      const pushState = jest.spyOn(window.history, "pushState");
+      render(<VannesList initialData={serverPage(2)} initialPage={2} />);
+      await userEvent.click(screen.getByRole("link", { name: "Suivant" }));
+      expect(pushState).toHaveBeenCalledWith(null, "", expect.stringContaining("page=3"));
+      await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("page=3")));
+      pushState.mockRestore();
+    });
+
+    it("garde la liste du serveur si l'API est inaccessible (robot, /api/ interdit)", async () => {
+      global.fetch = jest.fn().mockRejectedValue(new Error("blocked")) as jest.Mock;
+      render(<VannesList initialData={serverPage(1)} initialPage={1} />);
+      await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+      expect(screen.queryByText("Les vannes se sont perdues en chemin.")).not.toBeInTheDocument();
+    });
+
+    it("recharge la page via l'API avec le même numéro de page", async () => {
+      mockSearch = "page=2";
+      render(<VannesList initialData={serverPage(2)} initialPage={2} />);
+      await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("page=2")));
+    });
+
+    it("aperçu gratuit dépassé (page 2, compte FREE) : cartes verrouillées, pas d'état vide", async () => {
+      mockSearch = "page=2";
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          jokes: [],
+          pagination: { page: 2, limit: 12, total: 10, totalPages: 1 },
+          limited: true,
+          totalReal: 30,
+          upgradeMessage: "Abonne-toi pour accéder à toutes les vannes",
+        }),
+      }) as jest.Mock;
+      render(<VannesList initialData={serverPage(2)} initialPage={2} />);
+      await waitFor(() => {
+        expect(screen.getByText("Abonne-toi pour accéder à toutes les vannes")).toBeInTheDocument();
+      });
+      expect(screen.getAllByLabelText("Contenu premium : cliquer pour débloquer").length).toBeGreaterThan(0);
+      expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
+      // La pagination du catalogue public reste disponible (retour en page 1).
+      expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");
     });
   });
 });

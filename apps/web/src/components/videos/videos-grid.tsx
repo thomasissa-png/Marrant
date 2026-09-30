@@ -12,7 +12,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
+import { ListPagination } from "@/components/ui/list-pagination";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
+import { useListPage } from "@/hooks/use-list-page";
+import type { CataloguePage } from "@/lib/list-pagination";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 import { frTypo } from "@/lib/fr-typo";
 
@@ -99,15 +102,21 @@ const CATEGORIES = [
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
 ];
 
-export function VideosGrid() {
+interface VideosGridProps {
+  /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
+  initialData?: CataloguePage<Video> | null;
+  initialPage?: number;
+}
+
+export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const { page, goToPage, resetPage } = useListPage(initialPage);
+  const [videos, setVideos] = useState<Video[]>(initialData?.items ?? []);
+  const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
   const [difficulty, setDifficulty] = useState("");
   const [category, setCategory] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialData);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
@@ -143,6 +152,17 @@ export function VideosGrid() {
     if (category) params.set("category", category);
     if (searchQuery) params.set("q", searchQuery);
 
+    // Échec du rechargement de la vue rendue par le serveur (ex. robot sans accès
+    // à /api/) : on garde la liste du serveur plutôt qu'un message d'erreur.
+    const fallBackToServer = () => {
+      if (initialData && page === initialData.page && !difficulty && !category && !searchQuery) {
+        setVideos(initialData.items);
+        setPagination(toPagination(initialData));
+      } else {
+        setError(true);
+      }
+    };
+
     try {
       const res = await fetch(`/api/videos?${params}`);
       if (res.ok) {
@@ -153,14 +173,14 @@ export function VideosGrid() {
         setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
-        setError(true);
+        fallBackToServer();
       }
     } catch {
-      setError(true);
+      fallBackToServer();
     } finally {
       setIsLoading(false);
     }
-  }, [difficulty, category, page, searchQuery]);
+  }, [difficulty, category, page, searchQuery, initialData]);
 
   useEffect(() => {
     fetchVideos();
@@ -190,7 +210,7 @@ export function VideosGrid() {
                 size="sm"
                 role="tab"
                 aria-selected={difficulty === d.value}
-                onClick={() => { setDifficulty(d.value); setPage(1); }}
+                onClick={() => { setDifficulty(d.value); resetPage(); }}
               >
                 {d.label}
               </Button>
@@ -205,7 +225,7 @@ export function VideosGrid() {
                 size="sm"
                 role="tab"
                 aria-selected={category === cat.value}
-                onClick={() => { setCategory(cat.value); setPage(1); }}
+                onClick={() => { setCategory(cat.value); resetPage(); }}
               >
                 {cat.label}
               </Button>
@@ -229,7 +249,8 @@ export function VideosGrid() {
           ))}
         </div>
       ) : videos.length === 0 ? (
-        <EmptyState
+        // Page au-delà de l'aperçu gratuit : cartes verrouillées + offre (plus bas).
+        limited && page > 1 ? null : <EmptyState
           emoji="🎬"
           emojiLabel="pas de vidéos"
           title="Pas de vidéo ici... même les humoristes font des pauses"
@@ -309,7 +330,7 @@ export function VideosGrid() {
       )}
 
       {/* Cartes verrouillées pour FREE users */}
-      {limited && videos.length > 0 && (
+      {limited && (videos.length > 0 || page > 1) && (
         <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: Math.min(3, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
             <Card
@@ -355,20 +376,21 @@ export function VideosGrid() {
       {/* Premium Modal */}
       <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-            Précédent
-          </Button>
-          <span className="text-sm text-text-secondary">
-            Page {pagination.page} / {pagination.totalPages}
-          </span>
-          <Button variant="ghost" size="sm" disabled={page >= pagination.totalPages} onClick={() => setPage((p) => p + 1)}>
-            Suivant
-          </Button>
-        </div>
-      )}
+      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
+      <ListPagination
+        basePath="/videos"
+        page={page}
+        totalPages={Math.max(
+          pagination?.totalPages ?? 0,
+          // Catalogue public complet (pages rendues par le serveur), hors filtres et recherche.
+          !difficulty && !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
+        )}
+        onNavigate={goToPage}
+      />
     </>
   );
+}
+
+function toPagination(data: CataloguePage<unknown>): Pagination {
+  return { page: data.page, limit: data.limit, total: data.total, totalPages: data.totalPages };
 }

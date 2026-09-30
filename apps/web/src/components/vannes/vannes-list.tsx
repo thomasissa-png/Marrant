@@ -13,8 +13,11 @@ import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import { AuthCta } from "@/components/auth/auth-cta";
+import { ListPagination } from "@/components/ui/list-pagination";
 import Link from "next/link";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
+import { useListPage } from "@/hooks/use-list-page";
+import type { CataloguePage } from "@/lib/list-pagination";
 
 interface Joke {
   id: string;
@@ -100,16 +103,22 @@ const PUNCHLINE_TEASERS = [
 // en même temps que la valeur serveur (Grep FREE_JOKE_LIMIT).
 const FREE_JOKE_LIMIT_UI = 10;
 
-export function VannesList() {
+interface VannesListProps {
+  /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
+  initialData?: CataloguePage<Joke> | null;
+  initialPage?: number;
+}
+
+export function VannesList({ initialData = null, initialPage = 1 }: VannesListProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const { status: sessionStatus } = useSession();
   const isAnonymous = sessionStatus === "unauthenticated";
-  const [jokes, setJokes] = useState<Joke[]>([]);
-  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const { page, goToPage, resetPage } = useListPage(initialPage);
+  const [jokes, setJokes] = useState<Joke[]>(initialData?.items ?? []);
+  const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
   const [category, setCategory] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialData);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
@@ -134,6 +143,17 @@ export function VannesList() {
     if (category) params.set("category", category);
     if (searchQuery) params.set("q", searchQuery);
 
+    // Échec du rechargement de la vue rendue par le serveur (ex. robot sans accès
+    // à /api/) : on garde la liste du serveur plutôt qu'un message d'erreur.
+    const fallBackToServer = () => {
+      if (initialData && page === initialData.page && !category && !searchQuery) {
+        setJokes(initialData.items);
+        setPagination(toPagination(initialData));
+      } else {
+        setError(true);
+      }
+    };
+
     try {
       const res = await fetch(`/api/jokes?${params}`);
       if (res.ok) {
@@ -144,14 +164,14 @@ export function VannesList() {
         setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
-        setError(true);
+        fallBackToServer();
       }
     } catch {
-      setError(true);
+      fallBackToServer();
     } finally {
       setIsLoading(false);
     }
-  }, [category, page, searchQuery]);
+  }, [category, page, searchQuery, initialData]);
 
   useEffect(() => {
     fetchJokes();
@@ -159,7 +179,7 @@ export function VannesList() {
 
   const handleCategoryChange = (cat: string) => {
     setCategory(cat);
-    setPage(1);
+    resetPage();
     setRevealedIds(new Set());
   };
 
@@ -243,7 +263,8 @@ export function VannesList() {
           ))}
         </div>
       ) : jokes.length === 0 ? (
-        <EmptyState
+        // Page au-delà de l'aperçu gratuit : cartes verrouillées + offre (plus bas).
+        limited && page > 1 ? null : <EmptyState
           emoji="😅"
           emojiLabel="pas de vannes"
           title="Rien dans cette catégorie pour l'instant, même pas un jeu de mots"
@@ -358,7 +379,7 @@ export function VannesList() {
       )}
 
       {/* Cartes verrouillées pour FREE users */}
-      {limited && jokes.length > 0 && (
+      {limited && (jokes.length > 0 || page > 1) && (
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {Array.from({ length: Math.min(4, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
             <Card
@@ -407,30 +428,21 @@ export function VannesList() {
       {/* Premium Modal */}
       <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            Précédent
-          </Button>
-          <span className="text-sm text-text-secondary">
-            Page {pagination.page} / {pagination.totalPages}
-          </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={page >= pagination.totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Suivant
-          </Button>
-        </div>
-      )}
+      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
+      <ListPagination
+        basePath="/vannes"
+        page={page}
+        totalPages={Math.max(
+          pagination?.totalPages ?? 0,
+          // Catalogue public complet (pages rendues par le serveur), hors filtre et recherche.
+          !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
+        )}
+        onNavigate={goToPage}
+      />
     </>
   );
+}
+
+function toPagination(data: CataloguePage<unknown>): Pagination {
+  return { page: data.page, limit: data.limit, total: data.total, totalPages: data.totalPages };
 }

@@ -3,6 +3,7 @@ import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { getHomeFeatureExamples } from "@/lib/catalogue-pages";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
@@ -67,7 +68,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function HomePage() {
+// Stratégie de rendu : statique + ISR (revalidation portée par les unstable_cache :
+// compteurs 5 min, listes 1 h). Les liens vers les fiches (FeatureCards) sont dans le
+// HTML ; sans base au build, les cartes s'affichent sans liens jusqu'à la revalidation.
+export default async function HomePage() {
+  const featureExamples = await getHomeFeatureExamples();
   return (
     <>
       <JsonLd data={buildFaqJsonLd(allFaqs)} />
@@ -79,7 +84,7 @@ export default function HomePage() {
       <DailyContent />
 
       {/* Sections principales — blagues, conseils, vidéos */}
-      <FeatureCards />
+      <FeatureCards examples={featureExamples} />
 
       {/* Section "Tu te reconnais ?" — les 3 personas avec lien parcours */}
       <section className="py-12 md:py-16">

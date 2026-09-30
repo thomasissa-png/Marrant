@@ -25,7 +25,19 @@ interface BlogListClientProps {
 export function BlogListClient({ articles, categories }: BlogListClientProps) {
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get("category") || undefined;
+  return <BlogListView articles={articles} categories={categories} selectedCategory={selectedCategory} />;
+}
 
+/**
+ * Liste des articles sans hook (lot S1 s14, P0-1) : rendue telle quelle dans le HTML
+ * statique (fallback du Suspense de /blog, tous les articles, filtre « Tous »), puis
+ * filtrée par `BlogListClient` après hydratation si `?category=` est présent.
+ */
+export function BlogListView({
+  articles,
+  categories,
+  selectedCategory,
+}: BlogListClientProps & { selectedCategory?: string }) {
   const filteredArticles = selectedCategory
     ? articles.filter((a) => a.category === selectedCategory)
     : articles;
