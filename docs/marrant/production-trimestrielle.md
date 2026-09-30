@@ -21,6 +21,6 @@ Décision Thomas du 30/09/2026 (`docs/founder-preferences.md`) : le contenu est 
 
 ## Premier trimestre (octobre à décembre 2026)
 
-- 01/10 au 07/10 programmés le 30/09 (vannes GARDER ; conseils provisoires à remplacer par des conseils validés à la fin de l'audit des conseils).
-- Stock vannes au 30/09 : 333 actives, toutes GARDER.
+- **01/10 au 31/12 programmés le 30/09** (92 `DailyContent`) : vannes GARDER jamais utilisées, hors saison exclues (été, plage, festivals, Pâques, Saint-Valentin), pas deux catégories identiques d'affilée ; conseils = rotation des 26 conseils GARDER de l'audit (`conseils-garder-ids.txt`) en attendant les conseils neufs (à reprogrammer quand ils existent) ; vidéos actives en rotation. Réserve : 100 vannes GARDER hors saison non utilisées + les vannes saisonnières (été) pour 2027.
+- Stock vannes au 30/09 : 333 actives, toutes GARDER. Stock conseils : 26 GARDER sur 438 (audit `docs/copy/audit-conseils-s14.md`), décisions Thomas en attente (étalons, nettoyage, compteur).
 - Articles : calendrier `docs/seo/calendrier-editorial-q4-2026.md` (13 lundis du 05/10 au 28/12).
