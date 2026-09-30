@@ -6,13 +6,140 @@
 
 ## 1. Synthèse
 
-[SYNTHÈSE À COMPLÉTER APRÈS LECTURE INTÉGRALE]
+### 1.1 Comptes
 
-## 2. Étalons candidats
+| Verdict | Nb | % |
+|---|---|---|
+| GARDER (au niveau de la barre, retouches mineures) | 26 | 5,9 % |
+| REECRIRE (bonne technique, exécution sous la barre) | 80 | 18,3 % |
+| RETIRER (doublon d'idée, hors sujet, faux, blessant, vide) | 332 | 75,8 % |
+| **Total (les 438 conseils actifs, tous classés)** | **438** | 100 % |
 
-[À COMPLÉTER]
+- **Origine** : 65 conseils « H » (rédigés à la main, ids `cmmp8ozsx…` et `cmmw0tq…`) donnent **25 GARDER (38 %)**. Les 373 conseils « IA » donnent **1 seul GARDER** (`cmo9aepg4001hs60xjzgc009c`, 0,3 %). Le stock de qualité est presque entièrement la graine manuelle.
+- **Si tout est appliqué, il reste 106 conseils distincts (26 + 80).** Le compteur « 350+ conseils » du site deviendrait faux : voir question 3.
+- **Répartition** : OBSERVATION 175 (40 %), TIMING 153 (35 %), REPARTIE 38, STORYTELLING 34, AUTODERISION 16, ABSURDE 13, JEUX_DE_MOTS 9. La répartie, cœur du produit, pèse 9 %.
+- **Scénarios** : 303 conseils sur 438 (69 %) se passent au bureau (collègues, réunion, open space). Le persona principal (étudiant, coloc, soirée, potes, date) est servi par une poignée.
+
+### 1.2 Doublons détectés (groupes, nb approximatif de conseils dans le groupe)
+
+Le stock est une répétition de quelques idées, régénérées des dizaines de fois avec des titres identiques ou quasi identiques (jusqu'à 5 occurrences du même titre). Un survivant par technique distincte, les autres en RETIRER (leurs meilleures répliques sont notées « à récupérer » dans le tableau).
+
+| Groupe | Idée répétée | ≈ Nb | Survivants proposés |
+|---|---|---|---|
+| G02 | Repérer les manies/rituels d'un collègue et les commenter (« ethnologue », « détective », « anthropologue ») | 88 | `cmpjlc3xu008ns60xhh5v36nk` (baptiser la manie), `cmq0gw85z00nas60xc0gno2ka` (comparaison décalée), `cmntkvcaw0088s60zadb5qw8j` (vie parallèle inventée) |
+| G04 | Saint-Valentin : rebondir avec son fail romantique (« post-Saint-Valentin tactique », « lendemain magique »…) | 66 | `cmnyax22y0021s60w3ghcmlem` (à dé-saisonnaliser) |
+| G03 | Commenter le lundi matin de l'équipe en documentaire animalier, météo, sport, journaliste, deuil | 42 | `cmp9uqejc00fas60x6ode1ptm` (5 étapes du deuil du week-end), `cmp9xye1000h3s60xxu6ticwr` (auto-commentaire sportif). **Inclut le conseil du jour du 30/09** |
+| G12 | Raconter une galère (RER, cuisine, bricolage, week-end, retard) en épopée héroïque | 17 | `cmoaqebic0023s60xsb8wq36v` |
+| G01 | Placer sa vanne dans le micro-silence (apéro, pause café, cours) | 16 | `cmpmbx4tx00tts60xchrjjlo8`, et `cmo9aepg4001hs60xjzgc009c` (arrêter au pic du rire) |
+| G16/G17 | Surfer sur l'émotion collective ou le lendemain d'un événement | 16 | `cmnyuo01h0007s60xgb9pqf1m` (« bon, on a tous compris »), `cmnyhcsab002ps60wrhea87db` |
+| G10 | Vanner un tic collectif avec « on » plutôt que « tu » | 13 | `cmnl5yc92000cs60zfctq4dm2` |
+| G11 | Visio, avant-réunion, présentation qui plante | 13 | `cmparyf6a00jrs60x3not8c3d`, `cmo3l6nir0003s60xj0o0n38z` |
+| G06 | Raconter son échec avec autodérision (résolution ratée, mauvaise note, voyage) | 12 | `cmndv8k8q0004s60xtlt8smpg` |
+| G13 | Loupe sur un détail, comparaison absurde | 11 | `cmmp8ozsx000rqk63f996txze` (GARDER) |
+| G05 | Retourner une pique (âge, célibat, mauvaise note) en atout | 9 | `cmnwfppia0001s60xeh7pmhsk`, `cmodkv41a0001s60x45ytodp5`, `cmptbp7nv002bs60xscu5ixmx` |
+| G14 | Questions indiscrètes sur la vie perso | 6 | `cmmp8ozsx0011qk63frclljng` (GARDER), `cmn85hg600009s610jmoqsu6f`, `cmmw0tr480012mw62jq8btgft` |
+| G18 | Savoir quand ne PAS faire de vanne (cours, tension) | 6 | `cmov5buqv0024s60wto587pj7` |
+
+Deux contradictions internes à trancher : (a) silence de 5 s après le rire (`cmmw0tqwa000ymw62dttx5y57`) contre « compte 3 et change de sujet » (`cmo9aepg4001hs60xjzgc009c`) ; (b) blague à plat : « change de sujet » (retiré) contre « commente le raté » (`cmmp8ozsx000uqk63inkyafkn`, gardé). J'ai gardé la version « commenter » pour (b) ; à réconcilier pour (a) au moment de la réécriture.
+
+### 1.3 Défauts récurrents (mesurés sur l'export, en nombre de conseils)
+
+| Défaut | Nb | Note |
+|---|---|---|
+| Humoriste réel nommé « qui excelle dans… » | 346 (79 %) | **≈ 40 conseils attribuent une citation, une anecdote ou une affirmation inventée à une personne réelle** (Fary, Paul Mirabel, Blanche Gardin…, dont « bégaiements », « son physique »). Risque réputationnel et contraire à la charte (zéro citation inventée) |
+| Ton coach/gamifié en fin de DÉFI (« Objectif : », « Critère de succès : », « Mission réussie si »), plus « formation/programme/leçon » | 238 (54 %) | Contraire à « zéro vocabulaire coach » |
+| Tiret cadratin | 86 (20 %) | Dont dialogues balisés par « — » |
+| Saint-Valentin / lendemain de fête | 72 (16 %) | Contenu saisonnier qui peut sortir en conseil du jour n'importe quand |
+| Marques, séries, médias nommés (Netflix, Ikea, Tinder, Instagram, Uber Eats…) | 88 (20 %) | Dont séries/docus : The Office, Seinfeld, David Attenborough, National Geographic (10) |
+| Rituels/manies/tics comme sujet | 125 (29 %) | Sujet unique décliné à l'infini |
+| Titres ou textes au féminin (« chroniqueuse », « narratrice », « commentatrice »…) | 39 | Persona principal masculin, incohérence de genre |
+| Gros mots et registre relâché (« putain » ×13, « merde », « gueule », « relou », « chiant », « connerie »…) | 48 | Brand voice : jamais vulgaire |
+| Tics d'écriture IA (« Boom », « Bingo », « BANG », « spoiler », « de l'or comique », « ERREUR. », « formule magique ») et anglicismes (« awkward », « cringe », « gold », « jackpot ») | ≥ 16 + récurrents | |
+| Vouvoiement ou « vous » hors gag de registre | 29 lignes | À trier : certains dialogues (prof, boulangère, registre volontairement pompeux) sont légitimes |
+| Exemple plat ou sans dialogue, DÉFI non faisable aujourd'hui (planning 7 jours, 10 one-liners, 3 anecdotes filmées) | ≈ 25 | |
+| Fautes et encodage (« tu créés », « ritual », « photosynth�se », « eN GROUPE », « cHRONO ») | ≈ 20 | 1 caractère corrompu (`cmpkr4e4n00ops60xm2nabe3t`, retiré) |
+| Blagues connues (aspirateur/poussière, « pas paresseux, économie d'énergie », détecteur de fumée, « pain pendant le confinement ») | ≈ 6 | Contraire au choix fondateur du 29/09 |
+| Blessant ou déplacé (« Café Schizophrène », « OCD », « TOCs », génocide en exemple, sous-entendu sexuel) | ≈ 8 | RETIRER systématique |
+
+**Chiffres à ne pas toucher sans ton GO (règle du 29/09), signalés seulement** : « 50 % de l'humour passe par le non-verbal » (`cmmp8ozsx0000qk63pm0016tm`), « 80 % du travail » (`cmmp8ozsx0008qk63gvmy9ah7`), « 90 % des gens » (`cmmw0tra60015mw62l0360wm9`), « 10 fois plus drôle » (`cmmp8ozsx000vqk63yfv48jba`), « 80 % des situations » (`cmmp8ozsx001hqk63kwwmoglv`), « 10 fois plus d'impact » (`cmmp8ozsx001lqk63asu6cqdz`), plus 9 stats de même nature dans des conseils retirés (« 99 % », « 90 % », « 10x »…). Ce sont des chiffres d'illustration non sourcés : je les ai gardés tels quels dans les conseils conservés.
+
+### 1.4 Diagnostic du générateur (constat uniquement, aucun code touché)
+
+- 0,3 % de réussite pour les conseils IA contre 38 % pour la graine manuelle : ce n'est pas un problème de dosage, c'est le brief. Le brief `apps/web/src/lib/ai/agents/tip-agent.ts` contient lui-même l'exemple « DÉFI SILENCE » (ligne 110), cloné tel quel dans `cmmw0tqwa000ymw62dttx5y57` et `cmnnv61i80001s60ynfs5elgx`.
+- Pas de garde-fou anti-doublon d'idée (seulement de titre), pas de liste d'interdits (humoristes réels, séries, marques, dates saisonnières, gros mots, tiret, vouvoiement, féminin), pas de scénarios imposés (coloc, soirée, date, potes, cours, groupe WhatsApp), pas d'étalons en few-shot.
+- Recommandation pour @ia après ton choix d'étalons : patcher ces 4 points, puis régénérer par scénario. Je ne le fais pas ici (audit seul).
+
+### 1.5 Conseil du jour
+
+Celui du 30/09 (« Ton bureau devient ta salle de spectacle », `cmp9g9hap007es60xroldgvi3`) est classé **RETIRER** : doublon de G03, « putain » dans le texte, tiret cadratin, The Office nommé, ton féminin, exemple plat. Reco : tant que le brief n'est pas patché, ne tirer le conseil du jour que parmi les 26 GARDER puis les REECRIRE validés, et ne jamais tirer un conseil saisonnier hors saison.
+
+## 2. Étalons candidats (7, tu en choisis 3 à 5)
+
+Textes **verbatim** de la base (aucune réécriture). Ce sont tous des conseils « H » : une technique, un exemple qui fait sourire, un DÉFI faisable dans la journée. Retouches minimales à prévoir avant de les figer (liste sous chaque texte), pour que l'étalon respecte la charte à la lettre. Catégories couvertes : REPARTIE ×2, TIMING, STORYTELLING, ABSURDE, OBSERVATION, AUTODERISION.
+
+**Ma reco de 5** : E1 (coloc), E2 (détails spécifiques), E3 (décalage de registre), E4 (groupe qui rit), E5 (sniper). Ils couvrent les 5 catégories qui portent le produit et tous les persona (étudiant, introverti, jeune actif).
+
+### E1. REPARTIE : « La répartie en coloc : 10 secondes pour s'affirmer » (`cmmw0tre50017mw62ht9h43r3`, DEBUTANT)
+
+- **Contenu** : La coloc c'est un ring comique permanent. Celui qui a la meilleure répartie gagne le respect. La technique : ne cherche pas la vanne parfaite, cherche la vanne RAPIDE. En coloc, la vitesse compte plus que la qualité. Un « pas mal » lancé vite bat un « génial » lancé 30 secondes trop tard. Et le meilleur terrain d'entraînement c'est la vaisselle : personne ne la fait, tout le monde la commente.
+- **Exemple** : Ton coloc : « C'est ton tour de vaisselle. » → « Ça fait 3 jours que j'attends que le tas devienne une œuvre d'art. Laisse-moi finir. » → Rapide, pas agressif, et ça fait sourire tout le monde dans la cuisine.
+- **Exercice** : DÉFI RÉACTIVITÉ : Aujourd'hui, à chaque remarque de ton coloc/ami/collègue, essaye de répondre quelque chose de drôle en moins de 5 secondes. Pas besoin que ce soit génial — l'objectif c'est la vitesse.
+- **Pourquoi c'est la barre** : une seule idée (vitesse > qualité), un lieu et un irritant que le persona vit chaque semaine, une réplique qui retourne l'accusation en fausse noblesse. Le DÉFI se fait sans préparation.
+- **Retouches** : titre « 10 secondes » contre « 5 secondes » dans le DÉFI (aligner), tiret cadratin dans le DÉFI, flèches dans l'exemple.
+
+### E2. STORYTELLING : « La règle des détails spécifiques : ce qui rend une histoire vivante » (`cmmw0tro2001cmw62z2qd0kb6`, DEBUTANT)
+
+- **Contenu** : La différence entre une anecdote oubliable et une anecdote géniale, c'est les détails spécifiques. « J'étais au resto » = plat. « J'étais au kebab de la gare à 2h du mat » = on voit la scène. Le cerveau accroche sur les détails précis. Ne dis pas « un pote », dis « mon pote Kévin, celui qui met des Crocs en soirée ». Chaque détail spécifique ajoute une image et rend ton histoire plus drôle sans effort.
+- **Exemple** : Ennuyeux : « L'autre jour je me suis fait doubler dans la file. » → Vivant : « Mardi, 8h15, Monoprix de la gare, un mec en costume trois-pièces m'a doublé à la caisse automatique. Avec un paquet de Pépito. Il avait l'air pressé. Les Pépito aussi apparemment. »
+- **Exercice** : DÉFI PRÉCISION : Raconte un événement banal de ta semaine à un ami. Mais cette fois, ajoute 3 détails ultra-spécifiques (heure, lieu, marque, prénom, vêtement). Note la différence de réaction.
+- **Pourquoi c'est la barre** : la technique est démontrée par un avant/après, et la chute (« Les Pépito aussi apparemment ») est exactement le niveau de l'étalon Alexa : courte, non télégraphiée, observation vraie. Le DÉFI mesure un résultat (la réaction).
+- **Retouches** : flèches, « un mec » (ok en registre parlé).
+
+### E3. ABSURDE : « Le décalage de registre » (`cmmp8ozsx000nqk63vbvb16eh`, INTERMEDIAIRE)
+
+- **Contenu** : Utiliser un vocabulaire ou un ton complètement décalé par rapport à la situation est une technique simple et redoutable. Parle de ton petit-déjeuner comme un critique gastronomique, de ton chat comme un analyste géopolitique, d'une galère au bureau comme un correspondant de guerre. Le contraste entre le fond banal et la forme soutenue (ou l'inverse) crée automatiquement un effet comique. Florence Foresti alterne brillamment les registres — du soutenu au familier en une phrase.
+- **Exemple** : « Suite à un audit approfondi de mon réfrigérateur, je suis au regret de vous informer que le camembert a dépassé sa DLC. Les mesures d'évacuation sont en cours. Le chat a été nommé responsable de la cellule de crise. »
+- **Exercice** : DÉFI QUOTIDIEN (3 jours) : Jour 1 — Décris ta journée comme un commentateur sportif. Jour 2 — Comme un narrateur de documentaire animalier. Jour 3 — Comme un avocat plaidant au tribunal. Envoie la meilleure version par texto à un ami et note sa réaction.
+- **Pourquoi c'est la barre** : c'est la technique mère de dizaines de conseils du stock (documentaire, météo, sport, épopée), énoncée une fois, avec un exemple qui a une vraie chute (« le chat nommé responsable de la cellule de crise »). Le vouvoiement du gag est volontaire (c'est le ressort).
+- **Retouches** : DÉFI « 3 jours » à ramener à « aujourd'hui » (un seul registre au choix), tirets cadratins (« Jour 1 — »), retirer la mention Foresti ou la neutraliser.
+
+### E4. OBSERVATION : « Trouver sa place dans un groupe qui rit » (`cmmp8ozsx001lqk63asu6cqdz`, DEBUTANT)
+
+- **Contenu** : En groupe, les rôles se distribuent vite : le leader comique, le public, le silencieux. Si tu es naturellement discret, pas besoin de forcer le rôle du boute-en-train. Ton créneau : la remarque chirurgicale. Pendant que les autres enchaînent les vannes, toi tu observes. Et quand tu places UNE phrase bien sentie, elle a 10 fois plus d'impact parce que tout le monde l'attend. La qualité bat la quantité.
+- **Exemple** : Tes amis débattent bruyamment sur le meilleur kebab du quartier. Toi, après 5 minutes de silence : « On dirait un conseil municipal sur un sujet de défense nationale. » Une phrase, maximum d'impact.
+- **Exercice** : DÉFI INTÉGRATION : Prochaine soirée : Observe pendant 15 minutes sans intervenir. Identifie le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques — pas plus — en visant le moment où tout le monde reprend son souffle. Note l'impact vs tes soirées habituelles.
+- **Pourquoi c'est la barre** : c'est le seul conseil du stock qui dit à l'introverti qu'il n'a pas à devenir le boute-en-train (persona Yanis, promesse « hero » du site : « Tu parles et personne rit »). Une phrase d'exemple, une vraie chute.
+- **Retouches** : tirets cadratins, flèche « vs ». [CHIFFRE] « 10 fois plus d'impact » : gardé tel quel, signalé.
+
+### E5. TIMING : « Attendre le bon moment : la patience du sniper » (`cmmw0tqsb000wmw620z1lmqn4`, INTERMEDIAIRE)
+
+- **Contenu** : Tu as la vanne parfaite en tête. La tentation c'est de la lâcher immédiatement. Erreur. Les meilleurs humoristes attendent. Parfois 2 minutes, parfois 10. Ils placent leur vanne quand la conversation revient naturellement sur le sujet. L'attente augmente la précision et l'impact. Si tu forces ta vanne dans un moment où elle ne s'insère pas naturellement, elle tombe à plat même si elle est bonne. La patience est la qualité #1 du mec drôle.
+- **Exemple** : Au déjeuner, quelqu'un mentionne son régime à 12h15. À 12h40, il reprend du pain. C'est LÀ que tu places : « C'est la phase 2 du régime, celle où on teste sa résilience au pain. » → 25 minutes d'attente, impact maximum.
+- **Exercice** : DÉFI SNIPER : Aujourd'hui, quand tu as une vanne en tête, ne la dis PAS immédiatement. Attends au moins 5 minutes. Note si l'occasion de la placer revient naturellement. Si oui, place-la. Sinon, garde-la pour une prochaine fois.
+- **Pourquoi c'est la barre** : l'exemple installe un vrai suspense (25 minutes) et se résout sur une réplique qui fait sourire. Le DÉFI est un jeu (sniper), avec un critère (5 minutes), pas une consigne scolaire.
+- **Retouches** : « Erreur. » staccato à fondre dans la phrase, « du mec drôle » à neutraliser, flèche.
+
+### E6. AUTODERISION : « L'auto-dérision sociale » (`cmmp8ozsx0013qk63v8r6g90r`, INTERMEDIAIRE)
+
+- **Contenu** : Se moquer de ses propres galères sociales (malaise en soirée, date raté, erreur de mail) est universellement drôle parce que TOUT LE MONDE a vécu ça. La clé : détaille les pensées internes que tout le monde a mais que personne ne dit. C'est ça qui crée l'identification. Panayotis Pascot excelle dans la verbalisation des malaises sociaux ordinaires.
+- **Exemple** : « J'ai fait un check à quelqu'un qui voulait me serrer la main. On a négocié un compromis : le fist bump. C'était le moment le plus diplomatique de ma semaine. »
+- **Exercice** : DÉFI SOCIAL : note tes 3 derniers moments de malaise social. Réécris chacun en détaillant tes pensées internes du moment. Le monologue interne est presque toujours plus drôle que l'action.
+- **Pourquoi c'est la barre** : l'exemple est une vanne à part entière (« négocié un compromis : le fist bump »), au niveau de l'étalon Alexa : observation vraie, économie de mots, retournement d'un malaise en diplomatie.
+- **Retouches** : retirer la mention Pascot, DÉFI à rendre « aujourd'hui » (choisis UN malaise récent plutôt que 3).
+
+### E7. REPARTIE : « L'ironie bienveillante » (`cmmp8ozsx0015qk63val4k3gm`, INTERMEDIAIRE)
+
+- **Contenu** : L'ironie est un couteau à double tranchant : bien utilisée, elle est brillante ; mal utilisée, elle est blessante. L'ironie bienveillante consiste à dire le contraire de ce qu'on pense, mais de façon tellement évidente que c'est drôle sans être méchant. Le sourire et le ton sont essentiels. L'ironie sans malice est un des outils les plus puissants du comique social.
+- **Exemple** : Ton pote arrive avec 45 minutes de retard : « Non mais prends ton temps, on avait juste prévu de manger ensemble, pas de vieillir ensemble. » → L'ironie est claire mais le ton reste léger, pas passif-agressif.
+- **Exercice** : DÉFI IRONIE DOUCE : La prochaine fois qu'un ami fait un truc agaçant (retard, oubli, gaffe), réponds avec le contraire exact de ce que tu penses, mais avec un sourire. L'ironie bienveillante = dire le contraire avec de l'affection dans la voix.
+- **Pourquoi c'est la barre** : la réplique (« pas de vieillir ensemble ») est la meilleure de tout le stock côté répartie ; la consigne de ton (« sourire, pas passif-agressif ») protège la marque.
+- **Retouches** : flèche, « couteau à double tranchant » (cliché), paragraphe de contenu à resserrer.
+
+**Autres conseils prêts à servir d'étalon si tu veux varier** : `cmmp8ozsx000tqk63yhagsgqi` (« Le twist final » : « …Elle a adoré. Le livreur Uber Eats aussi. »), `cmmp8ozsx0018qk637h1oau4z` (anti-climax : « j'arrive enfin à ouvrir un bocal de cornichons »), `cmmw0tr280011mw62kxywuwdl` (humour en date, 80/20), `cmmw0tqya000zmw62klfs2ji5` (timing par texto : « Sinon on mange. »), `cmmw0tra60015mw62l0360wm9` (networking).
 
 ## 3. Tableau complet id | verdict | motif
+
+Les 438 conseils, dans l'ordre de l'export (un seul tableau continu). `G01` à `G18` renvoient aux groupes de doublons de la section 1.2. « À récupérer » = réplique ou image à réutiliser dans la réécriture du survivant. `[CHIFFRE]` = chiffre non sourcé, gardé et signalé.
 
 | id | verdict | motif |
 |---|---|---|
@@ -456,6 +583,23 @@
 | cmmw0trg40018mw62gb0e3lhy | RETIRER | Doublon de cmmp8ozsx001lqk63asu6cqdz (15 min d'observation puis UNE remarque) ; « groupe de soutien » à récupérer ; Netflix nommé, « le mec posé », flèche |
 <!-- TABLE_END -->
 
-## 4. Questions pour Thomas
+## 4. Questions pour Thomas (3)
 
-[À COMPLÉTER]
+1. **Les noms d'humoristes réels dans les conseils.** 346 conseils sur 438 disent « X excelle dans cette technique », et une quarantaine prêtent à Fary, Paul Mirabel, Blanche Gardin, etc. des citations, des anecdotes ou des affirmations inventées (dont « bégaiements », « son physique »). Je propose de **retirer toutes les attributions et citations inventées dans les conseils conservés**, et de n'autoriser qu'une référence neutre et vérifiable (ou aucune) par conseil. **Ma reco : oui**, c'est un risque réputationnel et la charte interdit déjà les citations inventées. Le brand voice demande des références dans les articles de blog, pas dans les conseils.
+2. **Procédure de retrait.** 332 RETIRER, dont ≈ 300 sont de simples doublons. **Ma reco : soft delete réversible en deux temps**, d'abord les défauts durs (gros mots, blessant, faux, hors sujet, saisonnier, doublons exacts de titre), ensuite le reste des doublons d'idée après ton choix d'étalons. Les 80 REECRIRE passent en réécriture une fois les 3 à 5 étalons validés, en gardant chaque bonne réplique marquée « à récupérer ». Et en attendant, le conseil du jour est tiré uniquement dans les 26 GARDER.
+3. **Le compteur « 350+ conseils » et la suite.** Après retrait, il resterait **106 conseils distincts** (26 + 80), soit « 100+ conseils » au lieu de « 350+ ». Deux décisions : (a) as-tu un GO pour aligner ce chiffre sur les faits (règle « chiffres du site alignés sur les faits ») ; (b) veux-tu qu'on régénère ensuite ~100 conseils neufs avec les étalons en few-shot et des scénarios imposés (coloc, soirée, date, potes, cours, groupe WhatsApp) pour combler le vide côté persona étudiant ? **Ma reco : (a) oui, à faire au moment du retrait, jamais avant ; (b) oui, mais seulement après patch du brief du générateur** (sinon on reproduit les mêmes défauts).
+
+---
+
+## Résumé (10 lignes)
+
+1. 438 conseils actifs audités un par un : **26 GARDER (5,9 %), 80 REECRIRE (18,3 %), 332 RETIRER (75,8 %)**.
+2. Le stock est une répétition de 13 idées régénérées des dizaines de fois : manies de collègues (≈ 88), Saint-Valentin (≈ 66), lundi matin en documentaire (≈ 42), épopées, micro-silences…
+3. Le conseil du jour du 30/09 est confirmé sous la barre (doublon, « putain », tiret cadratin, The Office, exemple plat) : RETIRER.
+4. Le stock de qualité est presque uniquement la graine manuelle : 25 GARDER sur 65 conseils H, **1 sur 373** conseils IA.
+5. Défauts massifs : humoriste réel « qui excelle » dans 79 % des conseils (≈ 40 citations ou anecdotes inventées attribuées à des personnes réelles), ton coach en fin de DÉFI dans 54 %, tiret cadratin 20 %, Saint-Valentin 16 %, « putain » ×13, féminin dans 39 titres/textes.
+6. 69 % des conseils se passent au bureau ; le persona étudiant/coloc/soirée/date est presque absent.
+7. **7 étalons candidats** proposés (texte complet, verbatim) : coloc, détails spécifiques, décalage de registre, groupe qui rit, sniper, auto-dérision sociale, ironie bienveillante. Reco de 5 : E1 à E5.
+8. Diagnostic générateur : le brief du tip-agent contient l'exemple « DÉFI SILENCE » cloné tel quel, aucun garde-fou anti-doublon d'idée ni liste d'interdits ; patch à confier à @ia après le choix des étalons.
+9. Chiffres d'illustration non sourcés (50 %, 80 %, 90 %, 10 fois) : gardés tels quels dans les conseils conservés, signalés dans la section 1.3.
+10. 3 questions à trancher : retirer les attributions/citations inventées ; procédure de retrait en deux temps ; GO pour aligner « 350+ conseils » sur « 100+ » puis régénération ciblée.
