@@ -65,6 +65,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
+  // Contenu préparé à l'avance (s14) : aucun LLM, trou du calendrier comblé depuis le stock.
+  {
+    const { isContentGenerationEnabled, ensureDailyContentFromStock } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      const { todayUTC } = await import("@/lib/ai/date-utils");
+      const stock = await ensureDailyContentFromStock(todayUTC());
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true", stock });
+    }
+  }
+
   const force = searchParams.get("force") === "true";
 
   try {

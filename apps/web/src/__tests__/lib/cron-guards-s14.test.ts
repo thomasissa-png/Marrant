@@ -58,6 +58,8 @@ import { withoutHttpFetchCache, isHttpFetchCacheValue } from "@/lib/cloudflare/n
 const ok = () => Promise.resolve(new Response("{}", { status: 200 }));
 
 beforeEach(() => {
+  // Ces scénarios couvrent la génération IA (interrupteur activé).
+  process.env.CONTENT_GENERATION_ENABLED = "true";
   locks.clear();
   jest.clearAllMocks();
   mockPublishDailyContent.mockResolvedValue({ errors: [] });

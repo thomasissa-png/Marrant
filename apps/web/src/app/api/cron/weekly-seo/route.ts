@@ -59,6 +59,15 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
+  // Contenu préparé à l'avance (s14) : publication de l'article planifié échu, aucun LLM.
+  {
+    const { isContentGenerationEnabled, publishDueScheduledArticles } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      const published = await publishDueScheduledArticles();
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true", published });
+    }
+  }
+
   try {
     console.log("[Cron SEO] Démarrage du job hebdomadaire...");
 

@@ -18,6 +18,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
+  // Contenu préparé à l'avance (s14) : aucune génération IA.
+  {
+    const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true" });
+    }
+  }
+
   try {
     const now = new Date();
     const currentMonth = now.getUTCMonth() + 1; // 1-12

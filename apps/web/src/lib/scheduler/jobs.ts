@@ -44,6 +44,15 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runDailyContentJob = async () => {
     try {
+      // Contenu préparé à l'avance (s14) : aucun LLM, on comble seulement un
+      // trou du calendrier depuis le stock validé (à toute heure, idempotent).
+      const { isContentGenerationEnabled, ensureDailyContentFromStock } = await import("./prepared-content");
+      if (!isContentGenerationEnabled()) {
+        const { todayUTC } = await import("@/lib/ai/date-utils");
+        await ensureDailyContentFromStock(todayUTC());
+        return;
+      }
+
       const now = new Date();
       const utcHour = now.getUTCHours();
 
@@ -134,6 +143,14 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runWeeklySeoJob = async () => {
     try {
+      // Contenu préparé à l'avance (s14) : publie l'article planifié échu de
+      // la semaine s'il existe, sinon rien. Aucun LLM.
+      const { isContentGenerationEnabled, publishDueScheduledArticles } = await import("./prepared-content");
+      if (!isContentGenerationEnabled()) {
+        await publishDueScheduledArticles();
+        return;
+      }
+
       const now = new Date();
       const dayOfWeek = now.getUTCDay(); // 0=dimanche, 1=lundi, ..., 6=samedi
       const utcHour = now.getUTCHours();
@@ -211,6 +228,10 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runMonthlyPlanJob = async () => {
     try {
+      // Contenu préparé à l'avance (s14) : pas de plans mensuels générés par IA.
+      const { isContentGenerationEnabled } = await import("./prepared-content");
+      if (!isContentGenerationEnabled()) return;
+
       const { prisma } = await import("@/lib/prisma");
       const { generateMonthlyPlans } = await import("@/lib/ai/content-planner");
 

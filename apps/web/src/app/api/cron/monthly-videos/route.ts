@@ -35,6 +35,14 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Contenu préparé à l'avance (s14) : aucune génération IA.
+  {
+    const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true" });
+    }
+  }
+
   // Vérifier que l'API YouTube est configurée
   if (!process.env.YOUTUBE_API_KEY) {
     return NextResponse.json(
