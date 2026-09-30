@@ -230,7 +230,7 @@
 | < | 95 | 48,2 % |
 | Total | 197 | 100 % |
 
-Par tranche : lignes 1-50 = 23 « = » (dont N105 retiré ensuite : voir ci-dessous) ; à lire comme suit, tranche 1 : 23 / 27 ; tranche 2 : 30 / 20 (après retrait de N105 et N047) ; tranche 3 : 30 / 20 ; tranche 4 : 19 / 28. Total = 102.
+Par tranche (« = » / « < ») : lignes 1-50 : 22 / 28 ; lignes 51-100 : 31 / 19 ; lignes 101-150 : 29 / 21 ; lignes 151-197 : 20 / 27. Total : 102 / 95.
 
 Étalons présents dans le fichier : E2 (cmmw0tro2001cmw62z2qd0kb6), E3 (cmmp8ozsx000nqk63vbvb16eh), E4 (cmmp8ozsx001lqk63asu6cqdz), E6 (cmmp8ozsx0013qk63v8r6g90r), E7 (cmmp8ozsx0015qk63val4k3gm) notés « = » par construction. E1 et E5, écartés de la barre par Thomas, notés « < ».
 
