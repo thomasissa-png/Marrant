@@ -116,4 +116,101 @@ Cluster à signaler : ~11 vannes « copain + choix du resto » (8, 32, 49, 62, 8
 | cmmnsqn140054th63xlwadcpq | < | ? | « Relation la plus stable » : formule connue, chute expliquée |
 | cmp9skwho00dss60xba2ruz6b | < | non | Maman qui vient chercher : correct, doublon de thème avec 48 |
 | cmmnsqn14003wth633fngfa4h | < | oui | « Quel jour exactement ? » : gag littéral connu |
-<!-- FIN -->
+
+## Bloc 3 (101-150)
+
+| id | note | connue | motif |
+|---|---|---|---|
+| cmmnsqn16008mth63hygzwcdf | < | ? | Mère et fausses infos, nom de blog en chute : précis mais « signé : » explique, trope du parent crédule |
+| cmmnsqn140043th6385irpygh | < | non | Aphorisme, pas une vanne (pas de retournement) |
+| cmo7uyjgg0019s60xcou6sgwh | < | oui | « This is fine » : mème, format mème exclu |
+| cmqer3h5m00jrs60xm1b3j709 | < | oui | « Ma dernière relation a duré moins » : formule connue |
+| cmq4r326m009rs60xj2koepny | < | oui | « Seule réunion où personne n'est en retard » : variante de l'apéro/happy hour |
+| cmmnsqn140058th63ckjqjt6q | < | oui | Fermer le placard = rangé : trope |
+| cmmnsqn13003gth633omym39t | < | oui | Abonnés : mère, père, bot : formule connue |
+| cmmw0tokr0003mw62asclqbrg | < | oui | Machine à laver qui mange les chaussettes : classique |
+| cmozb1ocr006ws60yraru87yn | = | non | App calories « si tout allait bien » : courte, chute non télégraphiée, sans explication, cousine d'E1 (l'outil qui te juge). WebSearch : rien. Doute résiduel sur l'originalité, retenue par bénéfice du doute minimal |
+| cmny7om5c001os60w4zkhhonz | < | oui | « Le resto parfait : celui qui était fermé » : variante connue |
+| cmonlkgeu000ds60wu0gazutb | = | non | Collègue de retour de Rome : « on vient de récupérer les valises » après 2h. Observation vraie, chute qui dérape sur la durée sans l'expliquer. Rien de connu trouvé |
+| cmmw0tpmj000mmw62k2mgvaou | < | ? | Mariage / DJ meilleur ami : mou, formule connue |
+| cmorxkt6n000ms60wj85t37rp | < | non | « Couleur du parking du Monoprix » : image, pas de logique posée en setup |
+| cmmnsqn15006xth63pxo15gky | < | oui | Influenceur / ma mère : doublon de 107 |
+| cmmnsqn13001eth63zc1vwsog | < | oui | Abonnement salle / prélèvement : classique |
+| cmorz6lec000ts60wf30jxbfp | < | non | « Manifestante pour le réchauffement » : image forcée |
+| cmmnsqn15007mth63nediuq1b | < | oui | « L'amour vient quand on s'y attend pas » : chute plate |
+| cmmw0tpsh000pmw6260sllhy2 | < | non | Comparaison connexion/parents : correct, sans surprise |
+| cmmw0tp2o000cmw62v5rgrbte | < | oui | Feu brûlé, « et un piéton » : télégraphié |
+| cmpk5oo5u00jhs60xjemgrcwt | < | non | Le setup (liste de contradictions) est la meilleure partie, le Leclerc ne suit pas |
+| cmmnsqn16008kth63pcnb9nzn | < | non | « Le ratio est impressionnant » : tic, pas de chute |
+| cmncns72d0006s60yy0z693gx | < | ? | « Même les mauvaises herbes » : hyperbole connue (« je tue même les cactus ») |
+| cmo5035b8000ms60x61lbjzgw | < | oui | « Je rentre, je suis crevé » / 3h sur YouTube : trope ; hamsters obèses ajoutent du grain |
+| cmmnsqn16008oth63oksjuphg | < | non | « Elle était en ligne aussi » suffisait, la suite dilue ; presque |
+| cmmnsqn16008bth639v3z2ysb | < | ? | Le héros qui s'améliore : observation vraie, mais c'est « la pêche qui grossit » |
+| cmmnsqn15006pth63x7vuov4r | < | non | Thérapeute / espionnage : explicatif |
+| cmpggn30c00x1s60xl5jb29tt | < | non | Idée surprenante (chercher l'auteur du cours) mais setup qui la télégraphie et ligne trop longue |
+| cmpf5hc6900uds60x3icrsffs | < | oui | Œuvre = sortie de secours : classique de l'art contemporain |
+| cmp9lm77p00aas60xul70plep | < | ? | « Mes parents vivent ça avec mes playlists » : format « mes parents/ma musique » |
+| cmp7v80w40037s60x0c5052rf | < | non | « J'ai dit oui en 2019 » : logique ambiguë (l'apéro dure encore ? il n'a jamais eu lieu ?) |
+| cmmnsqn14004hth63tg0i4808 | < | oui | Imprimante qui « comprend la hiérarchie » : trope de bureau |
+| cmmnsqn150065th63sa89k1aq | < | oui | Heures de jeu = CV : trope (doublon de 9) |
+| cmmnsqn15006ath63j4pqs88c | < | non | « Multiculturel » : plat |
+| cmny75eld001ms60w3bopct2y | < | oui | Spontanéité planifiée : paradoxe connu |
+| cmmnsqn13001ath63fqmyiojy | < | non | Simple comparaison (soleil/ex), pas de retournement |
+| cmpk1edri00h3s60x8rg25ner | < | non | Chute = demande en mariage : mignon, pas une vanne ni une observation |
+| cmmnsqn130023th63rz2hslah | < | ? | « Un optimiste, hier soir. C'était moi » : « moi d'hier vs moi de ce matin » très connu |
+| cmoc5tjrk002ds60xf8s0kte1 | < | oui | « Ça reviendra moins cher, un cheval » : vanne très connue du web |
+| cmmnsqn14004nth638k89q5ig | = | non | « À la base » / « la base a déménagé » : jeu de mots court, non télégraphié, vrai à l'oral. Rien de connu trouvé. Setup légèrement bavard (« il faut être patient ») |
+| cmnysl010003us60w8y65g7u5 | < | oui | « Ça m'est égal » = liste d'exclusions : trope, doublon de 32 |
+| cmmnsqn14005uth63o1vwaytj | < | oui | « Euh » et « du coup » : plat |
+| cmmnsqn150068th637asmvcci | < | non | Réplique de maman confuse (« self-control / WiFi ») |
+| cmmsw19h3000frp629w4qd809 | < | non | « Bande-son de ma culpabilité » : explication et écriture |
+| cmpjghxkj006as60x5dj0py6f | < | oui | « On fait un compromis : on fait ce qu'elle veut » : classique |
+| cmmnsqn120008th63abw0aob7 | < | oui | Mémoire photographique / bouchon de l'objectif : variante de « photographique mais jamais développée » |
+| cmmnsqn15007nth630tv1n9sp | < | ? | Tinder Gold, 8000 km : bonne fin, setup trop long |
+| cmos0sgqc000xs60wdm00lh2k | < | non | Météo / ex : contraste attendu |
+| cmmw0tpgl000jmw62xeqb9dhl | < | oui | « Souris plus » / riposte : format connu, tic « elle a regretté » |
+| cmmnsqn12000ith63e37twyzz | < | non | Boulangerie au patrimoine : plat |
+| cmmnsqn14003oth63cuch3l0w | < | oui | « Tellement nul en bricolage que... » : formule usée |
+
+## Bloc 4 (151-167)
+
+| id | note | connue | motif |
+|---|---|---|---|
+| cmndv8ruk0005s60xnlf1d0rt | < | ? | Netflix a plus d'« engagement » : jargon plaqué, formule « ma vie sociale vs streaming » |
+| cmnjklyez0000s60yxy4ryrio | < | non | Chute illisible (projet / délai) |
+| cmmnsqn130037th63j8lpbwgu | < | non | Pantoufles « honnêtes » : aphorisme, la chute est vraie mais annoncée par « honnête » |
+| cmpjlbp1q008ks60x515jij1z | < | non | Grèce / influenceurs Mykonos : satire juste, mais 2 phrases de chute |
+| cmov11ehd000xs60wgba1rw1f | < | non | Toilettes de la fac de droit : plat, référence de niche |
+| cmpavp7so00kjs60x4q3u4ckj | < | ? | « Authentique, même les prix » : formule de touriste connue |
+| cmpjbocge0052s60xkl485sgz | < | non | « Arriver à l'heure quelque part » : idée maligne mais glissement logique (jamais allée vs à l'heure) ; presque |
+| cmmnsqn13001mth63v8g93hzp | < | oui | Frigo du dimanche soir = vie sociale : trope |
+| cmnv026560000s60yva9ujsca | < | oui | Étagère qui tient / moi non : plat, connu |
+| cmpmaufrz00t4s60xgngo4pcb | < | non | « Découvert bien assorti » : jeu de mots tiré |
+| cmmnsqn14005cth635d8xojou | < | oui | « Si je gagnais au loto, je te quitte » : trope du couple |
+| cmmnsqn12000mth6397kypxfn | < | oui | « Reste toi-même / c'est le problème » : formule connue |
+| cmmw0tois0002mw62b7bkcvj7 | = | non | ÉTALON E3 (réveil), repris mot pour mot |
+| cmmnsqn16008vth6325liw1pb | < | ? | « Bien cordialement, Papa » / pâtes : détail juste, mais le setup donne la chute, cousin de 89 |
+| cmn9kmlw90000s60xvg2ocs4n | < | ? | Marathon = Elden Ring, barres énergétiques : bonne, mais glissement « marathon de jeu » connu et setup qui suppose une mise en scène ; presque |
+| cmmsw19p1000jrp62wanrhr5l | < | oui | « J'ai perdu l'agenda » : classique, télégraphiée |
+| cmmnsqn14003kth63tvy4jb1m | < | oui | « MA copine » : jeu de mots possessif, format tonton |
+
+## Comptes
+
+- **= : 9 sur 167**, dont 3 étalons repris mot pour mot (92 E4, 97 E1, 163 E3). Hors étalons : **6 sur 164 (3,7 %)**.
+- **< : 158 sur 167** (dont 72 « connue = oui », c'est-à-dire blague, format ou variante identifiée).
+- Les 6 « = » hors étalons (à considérer à la limite haute, toutes sans source retrouvée mais non prouvées originales) : 20 (chat/droits des animaux), 61 (bus, arrêt d'en face), 77 (papier alu), 109 (app calories), 111 (Rome/valises), 139 (« la base a déménagé »).
+- Le lot contient 3 fois la barre elle-même et environ 21 vannes sur 2 prémisses (resto de couple, vacances de couple) qui ne produisent rien : pas de signal de qualité.
+
+## 10 meilleures (hors étalons, ordre décroissant)
+
+1. Ligne 77, `cmmnsqn130038th63fxn1wvhn` (papier alu) : = 
+2. Ligne 61, `cmnl01zwv004ss60y2ecodj9a` (bus, arrêt d'en face) : =
+3. Ligne 111, `cmonlkgeu000ds60wu0gazutb` (Rome, valises) : =
+4. Ligne 109, `cmozb1ocr006ws60yraru87yn` (app calories) : =
+5. Ligne 20, `cmmnsqn12000hth63y5wqmb9d` (chat, droits des animaux) : =
+6. Ligne 139, `cmmnsqn14004nth638k89q5ig` (« à la base ») : =
+7. Ligne 165, `cmn9kmlw90000s60xvg2ocs4n` (marathon Elden Ring) : < (presque)
+8. Ligne 48, `cmp9fpyd4006ys60xwsegez9e` (Hellfest, vaccins) : < (presque)
+9. Ligne 66, `cmmnsqn150085th63s8x6ar77` (after, « seul le soleil ») : < (presque)
+10. Ligne 83, `cmpk1xm1p00hes60xtw7oalc5` (Pinterest, « quand il aura mûri ») : < (presque)
+
