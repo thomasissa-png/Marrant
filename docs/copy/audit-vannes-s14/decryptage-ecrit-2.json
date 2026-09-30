@@ -32,7 +32,7 @@
  {
   "vid": "V211",
   "comedyTechnique": "Le décalage de registre",
-  "techniqueExplanation": "Tu demandes de la chaleur humaine pour un message intime et tu reçois une formule de courrier professionnel. Le mot d'ordre du rire est dans la distance entre ce que tu attends (spontané) et ce qu'on te donne (corporate). Le lecteur reconnaît le ton mou des mails de bureau, et comprend que le remède est pire que le mal.",
+  "techniqueExplanation": "Tu demandes de la chaleur humaine pour un message intime et tu reçois une formule de courrier professionnel. Le rire naît de la distance entre ce que tu attends (spontané) et ce qu'on te donne (corporate). Le lecteur reconnaît le ton mou des mails de bureau, et comprend que le remède est pire que le mal.",
   "howToApply": "Glisse le vocabulaire d'un univers froid (administration, banque, assurance) dans un moment très personnel. Exemple : « J'ai dit « je t'aime » à ma sœur. Elle a répondu « bien reçu ». »"
  },
  {
@@ -178,5 +178,107 @@
   "comedyTechnique": "Le lien invisible",
   "techniqueExplanation": "Une nuisance sonore devient une routine, puis une relation à sens unique dont tu remarques la moindre variation. Les deux horaires précis font sourire, parce qu'ils prouvent que tu suis la vie de ton voisin de très près. L'inquiétude finale est de l'affection que tu n'aurais jamais dite à voix haute.",
   "howToApply": "Repère un bruit ou un rituel d'un voisin que tu connais mieux que celui de tes proches, puis montre ton réflexe d'inquiétude. Exemple : « Ma voisine chante faux sous sa douche à 8h. Ce matin, rien. J'ai failli laisser un mot. »"
+ },
+ {
+  "vid": "V424",
+  "comedyTechnique": "La gêne tacite",
+  "techniqueExplanation": "Le train impose une intimité absurde entre deux inconnus, et les deux jouent le jeu comme si tout était normal. La chute « on n'en a jamais parlé » traite l'épisode comme un secret de couple. Le lecteur rit parce que la vraie règle sociale est là : ne rien dire fait de la scène un souvenir partagé.",
+  "howToApply": "Place deux inconnus dans une situation trop proche et traite-la comme un non-dit gênant qui dure. Exemple : « Le seul wifi du café passait par la table d'un inconnu. J'ai tenu mon téléphone au-dessus de sa soupe. Nous n'en avons jamais parlé. »"
+ },
+ {
+  "vid": "V426",
+  "comedyTechnique": "Le retournement de responsabilité",
+  "techniqueExplanation": "La faute change de camp : ce sont les absents qui devraient s'excuser, et c'est elle qui le fait. Le détail « neuf » est précis, ce qui donne du poids à la générosité. Le lecteur reconnaît un vrai comportement de grand-mère, et le rire se mélange à la tendresse.",
+  "howToApply": "Fais porter à un proche une faute qui n'est pas la sienne, avec un sérieux parfait. Exemple : « Mon père s'excuse auprès des invités quand il pleut sur le barbecue. Il a l'air de l'avoir commandé. »"
+ },
+ {
+  "vid": "V429",
+  "comedyTechnique": "La naïveté qui démonte",
+  "techniqueExplanation": "Une enfant pose la question la plus simple, et la réponse de l'adulte se retrouve nue. La logique enfantine ne cherche pas à piquer : elle applique la règle de réciprocité que le système a oubliée. Le lecteur rit du loyer, et d'avoir jamais vraiment posé la question.",
+  "howToApply": "Donne à un enfant une question de bon sens sur un truc que les adultes ne remettent jamais en cause. Exemple : « Ma cousine de six ans m'a demandé pourquoi les adultes disent « on verra » quand ils veulent dire non. J'ai dit que je verrais. »"
+ },
+ {
+  "vid": "V438",
+  "comedyTechnique": "Le recadrage",
+  "techniqueExplanation": "Tu gardes le même fait (une place vide) et tu changes le regard : au lieu d'un siège perdu, une attente. Le mot « attendu » retourne le sens de la scène en un instant, avec un mélange de tendresse et d'auto-dérision. Le lecteur a le sourire un peu pincé de celui qui reconnaît sa solitude relookée.",
+  "howToApply": "Prends une situation plutôt triste et donne-lui une interprétation flatteuse, sans changer un seul fait. Exemple : « Personne n'a répondu à mon invitation. J'ai vu ça comme un événement très exclusif. »"
+ },
+ {
+  "vid": "V442",
+  "comedyTechnique": "La vexation inattendue",
+  "techniqueExplanation": "On attend de la colère ou de la peur face au vol, et tu te vexes de ce qu'on n'ait pas pris l'essentiel. Le voleur devient un critique, et ton vélo un mauvais produit. L'absurde vient de cette logique parallèle : une injure se cache dans un événement qui aurait dû être simplement négatif.",
+  "howToApply": "Trouve une situation où l'absence de traitement particulier te blesse plus que la situation elle-même. Exemple : « Le contrôleur a vérifié ma carte de transport sans rien dire. J'ai eu l'impression d'être trop banal pour une amende. »"
+ },
+ {
+  "vid": "V453",
+  "comedyTechnique": "Le miroir involontaire",
+  "techniqueExplanation": "Tu tombes sur la trace d'un inconnu et tu t'y reconnais tout de suite. L'empathie du narrateur fonctionne comme un autoportrait : ce carnet, c'est le sien. Le lecteur rit parce qu'il a le même carnet, et le pacte d'amitié envers un inconnu est très doux.",
+  "howToApply": "Fais découvrir à quelqu'un l'objet d'un inconnu qui expose son propre défaut, et donne-lui l'envie de lui serrer la main. Exemple : « J'ai trouvé un tiroir de vis dépareillées dans le local de l'immeuble. Il y en a trois cents, pas deux identiques. J'ai voulu serrer la main de celui qui les a rangées. »"
+ },
+ {
+  "vid": "V454",
+  "comedyTechnique": "La comparaison à ton détriment",
+  "techniqueExplanation": "Un objet dont tu ne voulais plus prospère chez quelqu'un d'autre, et tu te compares à lui, à ton désavantage. Le contraste est mesuré : il essaie le fauteuil, il a l'air heureux, et toi non. L'auto-dérision arrive sur la dernière phrase, sans que tu aies à la souligner.",
+  "howToApply": "Prends quelque chose dont tu t'es séparé, montre-le épanoui ailleurs, et compare-toi. Exemple : « J'ai donné ma vieille plante à ma voisine. Elle l'a mise au soleil, elle a fleuri en une semaine. Chez moi, elle boudait. »"
+ },
+ {
+  "vid": "V456",
+  "comedyTechnique": "Le couple improbable",
+  "techniqueExplanation": "Tu appliques la logique d'une relation amoureuse (dispute, silence, réconciliation) à un objet. Le silence est le meilleur indice : dans un vrai couple, on fait aussi la paix sans le dire. Le lecteur y croit parce que le narrateur reste sérieux, comme un vrai voisin qui a tout entendu à travers le mur.",
+  "howToApply": "Raconte une relation entre un humain et un objet avec le vocabulaire d'un couple. Exemple : « Mon voisin insulte son ascenseur tous les jours. Ce matin, il l'a remercié. J'ai su qu'ils avaient parlé. »"
+ },
+ {
+  "vid": "V459",
+  "comedyTechnique": "La solennité disproportionnée",
+  "techniqueExplanation": "Un cadeau minuscule est livré avec la gravité d'un acte majeur, et le poids de la cérémonie est ce qui compte. Le narrateur se plie au rituel, sans oser rire, donc le lecteur le fait à sa place. Le « devant lui, en silence » de la chute installe le malaise en quelques mots.",
+  "howToApply": "Choisis un geste minuscule et donne-lui un cérémonial de grande occasion. Exemple : « Mon collègue m'a tendu son stylo de rechange avec un regard de passation de pouvoir. J'ai signé en retenant mon souffle. »"
+ },
+ {
+  "vid": "V460",
+  "comedyTechnique": "La rationalisation solennelle",
+  "techniqueExplanation": "Face à un vide qui ressemble à un accident, quelqu'un plaque un vocabulaire de connaisseur pour lui donner un sens. Le lecteur voit la contradiction entre la scène (un trou de mémoire) et le mot (puissant). Deux minutes de silence rendent l'effort de la sur-interprétation encore plus drôle.",
+  "howToApply": "Observe une panne ou une erreur, et fais-la interpréter comme un choix artistique ou stratégique par un personnage sérieux. Exemple : « Le GPS s'est tu au milieu d'un rond-point. Ma passagère a dit « il nous laisse choisir ». »"
+ },
+ {
+  "vid": "V464",
+  "comedyTechnique": "La révélation rétroactive",
+  "techniqueExplanation": "Tu ne dis pas ce que disent les paroles : tu laisses le lecteur reconstituer la scène gênante lui-même. La chute donne juste la conséquence (des excuses dues à un mariage), et l'imagination fait le reste. Plus tu en dis peu, plus l'image que le lecteur se fabrique est précise et gênante.",
+  "howToApply": "Raconte la découverte tardive d'un contresens, et ne donne que la conséquence, pas le contenu. Exemple : « J'ai porté dix ans un t-shirt avec un mot étranger. Hier, un touriste m'a serré la main avec beaucoup de compassion. »"
+ },
+ {
+  "vid": "V468",
+  "comedyTechnique": "L'enquête disproportionnée",
+  "techniqueExplanation": "Une petite trahison de spectateur devient une surveillance de tous les instants. Le narrateur traite un visage comme une source d'informations, avec un sérieux d'inspecteur. Le lecteur rit parce qu'il connaît cette obsession du spoiler, et qu'elle a l'air aussi ridicule vue de l'extérieur.",
+  "howToApply": "Prends un petit affront du quotidien et traite-le comme une affaire à instruire. Exemple : « Ma copine a goûté le dessert du resto avant moi. J'attends de voir si elle en parle. Chaque silence est une critique. »"
+ },
+ {
+  "vid": "V473",
+  "comedyTechnique": "Le faux-semblant",
+  "techniqueExplanation": "L'outil tombe en panne, mais tu continues à jouer le visiteur attentif. Le détail des deux heures montre l'ampleur de l'effort : jouer la comédie est plus fatigant que d'admettre le problème. Le hochement de tête est un geste universel de connaisseur, et le lecteur voit la scène tout seul.",
+  "howToApply": "Imagine une panne que tu choisis de cacher plutôt que d'avouer, avec un geste de camouflage précis. Exemple : « Ma batterie est morte au début du podcast d'un ami. J'ai gardé le casque dans l'oreille trois stations, en souriant aux endroits qui semblaient drôles. »"
+ },
+ {
+  "vid": "V476",
+  "comedyTechnique": "Le renversement d'attente",
+  "techniqueExplanation": "Une plainte potentielle se transforme en rendez-vous régulier : le voisin arrive inquiet et repart fidèle. Le lecteur s'attend à une dispute et reçoit une amitié. Tout est dans la dernière phrase, dont la simplicité joue le rôle d'une confirmation naturelle.",
+  "howToApply": "Pars d'une confrontation classique entre voisins et termine par une relation qui s'installe. Exemple : « Ma voisine est venue se plaindre des odeurs de cuisine. Elle est repartie avec une part. Elle s'est plainte de nouveau jeudi. »"
+ },
+ {
+  "vid": "V486",
+  "comedyTechnique": "La tendresse esquivée",
+  "techniqueExplanation": "Certaines générations n'ont pas le vocabulaire des sentiments, mais elles ont celui de la table. « Prends du pain » est une réponse détournée qui veut dire « moi aussi ». Le lecteur comprend le message caché, et le plaisir vient de ce décodage : l'émotion est la vraie chute, jamais nommée.",
+  "howToApply": "Fais dire un mot tendre à quelqu'un de pudique et fais-le répondre par un geste ou une phrase pratique. Exemple : « J'ai dit à mon père que j'étais fier de lui. Il m'a demandé si j'avais fait le plein. »"
+ },
+ {
+  "vid": "V487",
+  "comedyTechnique": "La double lecture",
+  "techniqueExplanation": "Le mot « quelqu'un » a un sens amoureux pour toi et un sens hiérarchique pour ta grand-mère. Elle répond avec sa logique à elle, parfaitement cohérente, et le lecteur comprend en une seconde ce qu'elle a compris. La chute est douce parce que la grand-mère est prête à tout pour t'aider, quitte à passer par le haut de l'échelle.",
+  "howToApply": "Choisis un mot qui a deux sens courants et fais qu'un personnage réponde au second avec conviction. Exemple : « Mon oncle m'a demandé si j'avais des vues sur la maison. J'ai dit non. Il a fermé les volets. »"
+ },
+ {
+  "vid": "V488",
+  "comedyTechnique": "Le bon côté forcé",
+  "techniqueExplanation": "Un chaos sonore est présenté comme un choix artistique : le terme technique « canon » lui donne une noblesse qu'il n'a pas. Le lecteur sait que ça devait être insupportable, et l'optimisme du narrateur rend l'ensemble drôle. La fin est nette : une phrase d'éloge, prononcée avec un calme total.",
+  "howToApply": "Prends une situation pénible et décris-la avec un vocabulaire technique d'expert qui y trouve du bon. Exemple : « Trois voisins ont tondu leur pelouse en même temps. J'appelle ça un orchestre de banlieue, avec un vrai sens de l'improvisation. »"
  }
 ]
