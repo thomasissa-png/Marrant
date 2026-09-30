@@ -47,7 +47,7 @@ Celles qui parlent de la soirée elle-même. Les peurs d'adulte sont plus drôle
 
 > « T'es déguisé en quoi ? »
 >
-> « En quelqu'un de reposé. Personne n'y croit. »
+> « En quelqu'un de reposé. »
 
 **Pourquoi ça marche :** ton costume est le contraire de ton état réel, et les cernes témoignent contre toi. Le public voit la preuve avant que tu aies fini ta phrase.
 

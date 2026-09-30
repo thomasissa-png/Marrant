@@ -15,7 +15,7 @@
 - **date de publication** : 2026-11-23 (lundi)
 - **category** : REPARTIE · **readingTime** : 8 min
 - **liens internes** (11, tous vers des URL existantes ou annoncées live cette nuit) : `/vannes/theme/famille` · `/blog/jamais-quoi-repondre-techniques` · `/blog/comment-avoir-de-la-repartie` · `/blog/repondre-moqueries-avec-humour` · `/blog/repartie-soiree-anti-malaise` · `/parcours/repartie` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
-- **décisions fondateur 30/09 appliquées** : zéro humoriste nommé (choix fondateur, non re-questionnable) ; aucune réplique sous la barre des étalons E1 à E4 ; réplique d'exemple de la FAQ 1 : « assez pour venir, pas assez pour recevoir » (déjà dans la question 5) ; formulation non genrée pour la personne qui a cuisiné
+- **décisions fondateur 30/09 appliquées** : zéro humoriste nommé (choix fondateur, non re-questionnable) ; aucune réplique sous la barre des étalons E1 à E4 ; réplique d'exemple de la FAQ 1 : « assez pour venir, pas assez pour recevoir » (déjà dans la question 5) ; formulation non genrée pour la personne qui a cuisiné ; 6 répliques faibles remplacées (Q1a, Q3b, Q4a, Q4b, Q6a, plan B Q5), recherche web de contrôle sur les formulations clés le 30/09 (aucune correspondance, avec la limite qu'un moteur de recherche ne prouve pas l'inexistence)
 - **objections traitées** : « je vais vexer quelqu'un » (geste 2 + FAQ 1) ; « je n'ai pas d'humour à table, je fige » (entraînement + lien freeze) ; « et si ça me fait vraiment mal » (section « humour ne suffit pas » + FAQ 3) ; « et si on insiste » (plan B + FAQ 5)
 - **contenu propriétaire (first-hand)** : 12 réparties originales décryptées, 6 plans B, 1 réplique belle-famille
 - **rappel FAQPage** : les 5 questions de la fin sont visibles dans la page (FAQPage limité au visible)
@@ -56,11 +56,11 @@ Pour chacune : la scène, deux répliques, pourquoi ça marche, et un plan B si 
 
 Tu viens à peine de t'asseoir. Ta tante pose sa fourchette, ce qui chez elle signifie que la vraie conversation commence.
 
-> « J'ai des pistes, comme la police. Aucune arrestation pour l'instant. »
+> « On m'a dit d'arrêter de chercher. Depuis, je retrouve mes clés. »
 
 > « Tu seras la première prévenue. Après ma mère, qui le saura avant moi. »
 
-**Pourquoi ça marche :** dans la première, tu traites ta vie amoureuse comme une enquête : des pistes, oui, mais « aucune arrestation » avoue en une chute que personne n'est encore tombé. La seconde repose sur une vérité que toute la table reconnaît : les mères savent toujours avant.
+**Pourquoi ça marche :** dans la première, tu reprends le conseil qu'on entend à chaque repas (« ça viendra quand tu ne chercheras plus ») et tu ne retiens que son seul résultat mesurable : les clés. La chute est minuscule, concrète, et ne dit rien de ta vie amoureuse. La seconde repose sur une vérité que toute la table reconnaît : les mères savent toujours avant.
 
 **Si ça insiste :** « Je ne commente pas les affaires en cours. » Puis une vraie question sur elle, sur son voyage ou sur ses travaux.
 
@@ -82,9 +82,9 @@ La question à double détente : deux sujets en une phrase, pour que personne ne
 
 > « Dès qu'on se sera mis d'accord sur une série. On négocie depuis l'automne. »
 
-> « On a un plan précis. Étape un : un lave-vaisselle. Après, on avisera. »
+> « On a une plante en commun. On attend de voir si elle survit à l'hiver. »
 
-**Pourquoi ça marche :** dans les deux, un grand projet de vie se heurte à une petite décision domestique, et l'écart d'échelle fait rire en douceur. Dans la seconde, le « plan précis » ne compte qu'une étape, et elle est ménagère : l'aplomb de la première phrase ne survit pas à la deuxième. En bonus, tu ne dis rien de ton couple : tu parles de séries et de vaisselle.
+**Pourquoi ça marche :** dans les deux, un grand projet de vie se heurte à une petite décision domestique, et l'écart d'échelle fait rire en douceur. Dans la seconde, la plante sert de test grandeur nature avant le reste, et « on attend de voir » est dit avec le sérieux d'un comité de suivi. En bonus, tu ne dis rien de ton couple : tu parles de séries et de plantes vertes.
 
 **Si ça insiste :** « Tu le sauras avant la presse. En attendant, cette tarte est un vrai projet d'avenir. »
 
@@ -92,11 +92,11 @@ La question à double détente : deux sujets en une phrase, pour que personne ne
 
 La remarque sur le physique arrive souvent déguisée en compliment, ce qui te laisse sans recours : contester un compliment, personne n'a appris à le faire.
 
-> « Merci pour la mise à jour, j'étais resté sur la version de l'an dernier. »
+> « Possible. La balance et moi, on ne se parle plus depuis l'été. »
 
-> « Oui, et c'est volontaire. Je prépare ce repas depuis novembre. »
+> « Je m'entraîne pour ce repas depuis septembre. Les résultats sont encourageants. »
 
-**Pourquoi ça marche :** dans la première, tu remercies pour une « mise à jour » comme si ton corps était un logiciel que tu avais oublié de rafraîchir, avec la politesse d'un service client. Dans la seconde, tu passes du poids à la fête, et la personne qui a cuisiné reçoit un hommage au lieu d'une réponse.
+**Pourquoi ça marche :** dans la première, tu ne confirmes ni ne contestes : tu déplaces la question vers une brouille avec un objet, dite du ton d'une information sans importance. Ça marche aussi pour « tu as minci ». Dans la seconde, tu traites le repas comme une compétition sportive et tu ris de toi, en douceur : tu passes du poids à la fête, et la personne qui a cuisiné reçoit un hommage au lieu d'une réponse.
 
 **Si ça insiste :** ici, l'humour peut ne pas suffire, et ce n'est pas grave. « Je préfère qu'on ne commente pas ça à table. Raconte-moi plutôt ton dernier voyage. » Dit avec un sourire, c'est clair et ça ne blesse personne.
 
@@ -110,17 +110,17 @@ Dans certaines familles, la question d'argent arrive avec le fromage, parce que 
 
 **Pourquoi ça marche :** aucun chiffre, et pourtant on a l'impression que tu as tout dit. Les deux répliques s'appuient sur une expérience que tout le monde a vécue (recevoir coûte cher, un dossier de location s'embellit) et tu ris de ton budget, jamais de celui de l'autre.
 
-**Si ça insiste :** « On ne parle pas d'argent à table. C'est le seul conseil de famille que j'ai suivi. »
+**Si ça insiste :** « Je te laisse voir avec ma banque. Elle est la seule à suivre ça de près. »
 
 ### 6. « Et toi, t'en penses quoi ? » (en plein débat qui fâche)
 
 Le repas a glissé vers l'actualité, deux cousins ont monté le ton, et toute la table se tourne vers toi comme vers un juge de paix.
 
-> « Je suis complètement d'accord avec celui qui a raison. Je vous dis qui c'est au café. »
+> « Je peux répondre. Mais j'aimerais qu'on me réinvite l'an prochain. »
 
 > « J'ai des convictions très fortes. Pas au point de perdre ma part de bûche. »
 
-**Pourquoi ça marche :** tu ne prends pas parti, tu prends la parole, ce qui est différent. Les deux camps rient en même temps, et le repas revient au centre de la table.
+**Pourquoi ça marche :** tu ne prends pas parti, tu prends la parole, ce qui est différent. Dans la première, tu mets ton avis en balance avec ton invitation de l'année prochaine : chacun comprend que ta priorité est la paix du repas, pas de gagner le débat. Les deux camps rient en même temps, et le repas revient au centre de la table.
 
 **Si ça insiste :** lève-toi. « Je vais chercher du pain. Vous êtes tous d'accord que c'est urgent ? » Bouger fait retomber une tension mieux que n'importe quel argument, et tu reviens avec quelque chose à partager.
 
