@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
+import { VannesThemeNav } from "@/components/vannes/vannes-theme-nav";
 import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
@@ -112,6 +113,8 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           </>
         }
       />
+      {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. */}
+      <VannesThemeNav />
 
       <Suspense fallback={null}>
         <VannesList initialData={listPage} initialPage={page} />

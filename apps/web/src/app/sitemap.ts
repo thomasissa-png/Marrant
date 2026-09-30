@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
+import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
 
 export const revalidate = 3600;
 
@@ -9,6 +10,8 @@ export const revalidate = 3600;
 const STRUCTURAL_PAGES_LASTMOD = "2026-09-29";
 /** Dernière modification du texte des pages légales. */
 const LEGAL_PAGES_LASTMOD = "2026-05-06";
+/** Mise en ligne des pages thème /vannes/theme/<slug> (lot S3b s14). */
+const THEME_PAGES_LASTMOD = "2026-09-30";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
@@ -53,6 +56,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/retractation`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
+    // Landings s14 (lots S3a et S3b).
+    { url: `${baseUrl}/blague-du-jour`, lastModified: lastContentDate, changeFrequency: "daily", priority: 0.8 },
+    ...VANNES_THEMES.map((theme) => ({
+      url: `${baseUrl}${vannesThemePath(theme.slug)}`,
+      lastModified: new Date(THEME_PAGES_LASTMOD),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })),
   ];
 
   // Articles statiques — exclure les slugs dépubliés (cannibalisation s11) ;

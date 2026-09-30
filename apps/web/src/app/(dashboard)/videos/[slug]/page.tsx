@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
-import { buildVideoSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import { buildVideoSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -125,6 +125,8 @@ export default async function VideoPage({
   const video = resolved.item;
 
   const canonicalSlug = buildVideoSlug(video);
+  // Ancien slug (vidéo renommée) : 308 vers l'URL canonique (lot S3d s14).
+  if (isNonCanonicalSlug(params.slug, canonicalSlug)) permanentRedirect(`/videos/${canonicalSlug}`);
   const url = `https://deviens-marrant.fr/videos/${canonicalSlug}`;
   const categoryLabel = CATEGORY_LABELS[video.category] ?? video.category;
   const difficultyLabel = DIFFICULTY_LABELS[video.difficulty] ?? video.difficulty;

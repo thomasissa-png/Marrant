@@ -9,8 +9,11 @@ interface ListPaginationProps {
   basePath: string;
   page: number;
   totalPages: number;
-  /** Navigation sans rechargement quand JS est actif (le lien reste crawlable). */
-  onNavigate: (page: number) => void;
+  /**
+   * Navigation sans rechargement quand JS est actif (le lien reste crawlable).
+   * Absent (liste rendue par le serveur seul, ex. pages thème) : lien classique.
+   */
+  onNavigate?: (page: number) => void;
 }
 
 /**
@@ -24,7 +27,7 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
   const link = (target: number, label: string) => {
     const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
       // Ctrl/Cmd/Maj + clic, clic molette : comportement natif du navigateur.
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      if (!onNavigate || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       e.preventDefault();
       onNavigate(target);
     };

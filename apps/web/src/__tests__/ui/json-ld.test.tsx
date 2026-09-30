@@ -8,6 +8,8 @@ import {
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
   BLOG_OG_IMAGE_SEGMENT,
+  OFFICIAL_SOCIAL_PROFILES,
+  getSocialProfiles,
 } from "@/components/seo/json-ld";
 const { djb2Hash } = require("next/dist/shared/lib/hash") as { djb2Hash: (s: string) => number };
 
@@ -52,12 +54,25 @@ describe("organizationJsonLd", () => {
     expect((organizationJsonLd.logo as { url: string }).url).toContain("icon-512.png");
   });
 
-  it("omits sameAs when NEXT_PUBLIC_SOCIAL_PROFILES is unset (no invented URLs)", () => {
+  it("émet les comptes sociaux officiels dans sameAs (lot S3c, confirmés par Thomas)", () => {
     // Le module a été chargé sans NEXT_PUBLIC_SOCIAL_PROFILES par défaut dans jest.setup.
-    // Vérifie qu'on n'invente jamais d'URLs sociales : soit vraies via env, soit absentes.
     if (!process.env.NEXT_PUBLIC_SOCIAL_PROFILES) {
-      expect("sameAs" in organizationJsonLd).toBe(false);
+      expect(organizationJsonLd.sameAs).toEqual([
+        "https://www.instagram.com/deviensmarrant/",
+        "https://x.com/deviensmarrant",
+        "https://www.linkedin.com/company/deviens-marrant",
+      ]);
     }
+  });
+
+  it("NEXT_PUBLIC_SOCIAL_PROFILES reste une surcharge de la liste officielle", () => {
+    expect(getSocialProfiles(undefined)).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles("")).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles("pas-une-url")).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles(" https://a.test/x , https://b.test/y ")).toEqual([
+      "https://a.test/x",
+      "https://b.test/y",
+    ]);
   });
 });
 

@@ -154,3 +154,14 @@ export function resolveBySlug<T extends { id: string; isActive: boolean }>(
   if (!picked.isActive) return { status: "inactive" };
   return { status: "active", item: picked };
 }
+
+/**
+ * Lot S3d (s14) : le slug dérive du texte, et les vannes vont être réécrites.
+ * Une ancienne URL (texte d'avant, casse différente) résout toujours la fiche
+ * par son shortId : si le slug demandé n'est pas le slug canonique actuel, la
+ * fiche redirige en permanence (308) vers ce dernier. Les slugs canoniques ne
+ * contiennent que [a-z0-9-] : l'URL cible résout exactement, pas de boucle.
+ */
+export function isNonCanonicalSlug(requested: string, canonical: string): boolean {
+  return requested !== canonical;
+}
