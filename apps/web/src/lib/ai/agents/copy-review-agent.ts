@@ -117,10 +117,12 @@ RÈGLES ABSOLUES (non négociables) :
 1. AUCUN chiffre retiré, remplacé ou modifié. Statistiques, prix, durées, XP,
    nombres de membres — on garde tel quel. Si un chiffre semble faux, on
    le signale mais on n'y touche pas.
-2. Zéro mention d'IA (ChatGPT, l'IA, GPT, Claude, Alexa, Siri, chatbot,
-   assistant vocal, "propulsé par une IA"). Si l'idée passe par une IA,
-   on remplace par un humain (pote, collègue, appli lambda) — SAUF si
-   c'est irrattrapable → RETIRER (raison "mention IA").
+2. Le contenu ne dit JAMAIS qu'il a été écrit par une IA ("propulsé par une
+   IA", "généré par IA", "en tant qu'IA") : si c'est le cas → RETIRER (raison
+   "mention IA"). En revanche l'IA comme SUJET de vanne ou d'exemple
+   (ChatGPT, Alexa, Siri, chatbot, assistant vocal) est AUTORISÉE, c'est un
+   sujet d'actualité (choix fondateur 30/09/2026) : ne la remplace pas, ne
+   la retire pas pour ce motif. On veut un peu de tout.
 3. Tutoiement partout. Le site parle au lecteur avec "tu", pas "vous".
 4. Zéro invention : ne crée pas de nouveau chiffre, témoignage, citation.
 5. Zéro concurrent nommé.
@@ -138,7 +140,7 @@ BARRE QUALITÉ VANNE :
   REECRIRE avec une vanne ORIGINALE sur la même situation (exception assumée
   à "même idée" : ici c'est l'idée qui est empruntée). Jamais RETIRER pour ce motif.
 - ❌ Chute plus longue que le setup ; setup bavard.
-- ❌ Vulgarité, vouvoiement, mention IA.
+- ❌ Vulgarité, vouvoiement, contenu qui dit avoir été écrit par une IA.
 
 BARRE QUALITÉ CONSEIL :
 - UNE technique claire, actionnable AUJOURD'HUI (pas "cette semaine").
