@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : BASCULE deviens-marrant.fr → Cloudflare Workers (étape D)
+
+> **Action Replit : mettre en pause / arrêter le déploiement** (Deployments → Autoscale). Le domaine ne pointe plus sur Replit, mais un visiteur de l'URL `*.replit.app` réveillerait son planificateur interne (posts sociaux en double, écritures dans l'ancienne base Replit). Ne pas supprimer : retour arrière possible (voir `docs/infra/bascule-checklist.md`).
+> Fait : copie finale 35/35, 25 secrets live sur le Worker, `CRON_ENABLED=true`, déploiement `59178f0a`, DNS `A @`/`CNAME www` retirés, domaines personnalisés attachés, endpoint webhook Stripe live créé (`/api/stripe/webhook`). Détail et contrôles : `docs/infra/passation-s14.md` §4.
+
 ## s13 (30/09/2026) : images sociales sous Cloudflare Workers (polices Inter)
 
 > Aucune action Replit : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Chemin Replit inchangé (lecture de `public/fonts/` sur le disque).

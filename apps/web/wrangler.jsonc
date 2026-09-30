@@ -2,8 +2,8 @@
 // Adaptateur : @opennextjs/cloudflare 1.15.1 (dernière version compatible Next 14.2.35).
 // Runbook : docs/infra/cloudflare-runbook.md · Variables : docs/infra/cloudflare-env.md
 //
-// AUCUNE route ni domaine personnalisé ici : le Worker n'est servi que sur
-// *.workers.dev tant que la bascule DNS (étape D) n'a pas été validée par Thomas.
+// Prod depuis la bascule DNS (étape D, s14, 30/09/2026) : domaines personnalisés
+// deviens-marrant.fr + www (www → apex en 301). *.workers.dev reste en noindex.
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "marrant",
@@ -13,6 +13,10 @@
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"workers_dev": true,
 	"preview_urls": true,
+	"routes": [
+		{ "pattern": "deviens-marrant.fr", "custom_domain": true },
+		{ "pattern": "www.deviens-marrant.fr", "custom_domain": true }
+	],
 	"assets": {
 		"directory": ".open-next/assets",
 		"binding": "ASSETS",

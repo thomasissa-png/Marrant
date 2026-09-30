@@ -179,7 +179,8 @@
 
 ## Mémo de reprise — dernière session
 
-- **30/09/2026, session 13 (migration Cloudflare, tests)** : Worker de test validé (comptes, e-mails, Google, tâches de démarrage, images sociales). Bug corrigé : polices des images sociales sous Workers (`46dd690`). Stripe, `daily-content` et captures non testés (accord Thomas). **Bascule reportée à s14** : lire `docs/infra/passation-s14.md` puis `bascule-checklist.md`.
+- **30/09/2026, session 14 (BASCULE faite)** : deviens-marrant.fr servi par Cloudflare Workers (version `59178f0a`), données 35/35, crons actifs, endpoint webhook Stripe live créé. Reste Thomas : vrai abonnement Stripe, pause du déploiement Replit, URI workers.dev dans Google Cloud, contrôle du contenu du jour demain. Détail : `docs/infra/passation-s14.md` §4.
+- 30/09/2026, session 13 (migration Cloudflare, tests) : Worker de test validé (comptes, e-mails, Google, tâches de démarrage, images sociales). Bug corrigé : polices des images sociales sous Workers (`46dd690`). Stripe, `daily-content` et captures non testés (accord Thomas). **Bascule reportée à s14** : lire `docs/infra/passation-s14.md` puis `bascule-checklist.md`.
 
 ### Mémo session 11 (conservé pour mémoire)
 

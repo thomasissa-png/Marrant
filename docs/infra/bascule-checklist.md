@@ -31,7 +31,7 @@ python3 scripts/infra/copie-replit-neon.py --verify  # doit afficher 35/35 (sauf
 - [ ] Pages : `/`, `/blog`, `/vannes`, `/conseils`, `/videos`, `/parcours`, `/login`, 0 erreur console (Chromium).
 - [ ] Sitemap : le build d'ici (sans base) le fige sans les articles en base. Juste après `deploy:cf`, supprimer son entrée du cache R2 `marrant-next-cache` (`incremental-cache/<BUILD_ID>/<sha256("/sitemap.xml")>.cache`) puis le recharger : attendu ~1 215 URL (catalogue vannes/conseils/vidéos inclus, s13), pas 60. Les 8 URL de blog de Replit absentes = redirections 308 voulues.
 - [ ] Connexion d'un compte existant, inscription, e-mail reçu (mot de passe oublié).
-- [ ] Stripe : webhook `https://deviens-marrant.fr/api/stripe/webhook` en 2xx dans le tableau de bord Stripe.
+- [ ] Stripe (après le vrai abonnement de Thomas) : webhook `https://deviens-marrant.fr/api/stripe/webhook` en 2xx dans le tableau de bord Stripe.
 - [ ] `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`) : logs des tâches de démarrage (~250 vannes mises à jour).
 - [ ] `/api/health` : base `up` ; le lendemain matin, contenu du jour généré (les modèles IA de Replit sont retirés depuis juin).
 - [ ] En-tête `X-Robots-Tag` **absent** sur deviens-marrant.fr (présent seulement sur *.workers.dev).
