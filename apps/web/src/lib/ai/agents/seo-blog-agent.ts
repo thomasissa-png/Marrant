@@ -14,6 +14,7 @@ import {
 } from "./standup-director-agent";
 import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
 import { fitDescription, truncateAtWord } from "@/lib/seo-meta";
+import { runWithContentGates } from "../content-gates";
 
 /**
  * Nombre max de tentatives generate → validate → retry pour un article.
@@ -571,6 +572,41 @@ export async function publishWeeklyArticle(): Promise<{
         error: `Article rejeté par le directeur (score ${articleScore}/10 < 9)`,
       };
     }
+
+    // 4b-bis. Lot Q3 : gates de publication sans LLM (tirets cadratins,
+    // vulgarité, vouvoiement, auto-mention IA, marques signalées). Rejet →
+    // UNE régénération revalidée par le Director, sinon article reporté.
+    const gatedArticle = await runWithContentGates(
+      article,
+      async (feedback) => {
+        const regenerated = await generateArticle({
+          ...plan,
+          outline: `${plan.outline}\n\n--- ${feedback} ---`,
+        });
+        if (!regenerated) throw new Error("régénération article vide");
+        const revalidation = await validateBlogArticle({
+          title: regenerated.title,
+          slug: regenerated.slug,
+          excerpt: regenerated.excerpt,
+          content: regenerated.content,
+          category: regenerated.category,
+          targetKeyword: regenerated.targetKeyword,
+        });
+        if (revalidation.verdict !== "APPROVED") {
+          throw new Error(`article régénéré non validé par le directeur (score ${revalidation.score}/10)`);
+        }
+        return regenerated;
+      },
+      ["title", "excerpt", "content", "metaTitle", "metaDescription"],
+      `article « ${article.slug} »`,
+    );
+    if (!gatedArticle.ok) {
+      return {
+        success: false,
+        error: "Article reporté : rejeté par les gates de publication (vulgarité, vouvoiement ou mention IA)",
+      };
+    }
+    article = gatedArticle.value;
 
     // 4c. Validation programmatique des meta (truncate si trop long)
     if (article.metaDescription && article.metaDescription.length > 155) {

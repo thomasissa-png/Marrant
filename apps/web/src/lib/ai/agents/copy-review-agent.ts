@@ -8,15 +8,19 @@
  *
  * Verdicts (charte s11) :
  *  - GARDER : la vanne/le conseil respecte la charte, on ne touche à rien.
+ *      Vannes (lot Q2, s14) : GARDER seulement au niveau des étalons de la
+ *      barre Alexa (joke-quality-bar) ; GARDER = éligible vanne du jour.
  *  - REECRIRE : idée bonne, exécution faible → même idée, meilleure exécution.
- *      Le résultat est validé par le Stand-Up Director avant d'écrire en DB.
- *      Si le Director rejette (score < 8) → on garde l'original.
+ *      Vannes : la réécriture est revalidée par validateJoke avec la barre
+ *      (dailyGeneration) ; écrite seulement si APPROVED, sinon l'original
+ *      reste marqué REECRIRE (hors vanne du jour). Conseils : Director ≥ 8.
  *  - RETIRER : idée irrattrapable (calembour phonétique, constat sans twist,
  *      blessant, doublon, mention IA). isActive → false, ligne conservée.
  *
  * Règles fondateur (prime sur tout) :
  *  - « On ne supprime pas des choses qui marchent simplement parce qu'on a
- *    un doute » → en cas d'hésitation le verdict DOIT être GARDER, pas RETIRER.
+ *    un doute » → en cas d'hésitation, jamais RETIRER. Vannes : le doute mène
+ *    à REECRIRE (barre Alexa, 30/09/2026). Conseils : le doute mène à GARDER.
  *  - Préférer REECRIRE à RETIRER dès que l'idée tient.
  *  - Ne JAMAIS retirer ou modifier un chiffre / une stat / une citation
  *    présent(e) dans un contenu gardé ou réécrit.
@@ -35,17 +39,9 @@ import {
   getResponseText,
   SONNET_MODEL,
 } from "../client";
+import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
 
-export const COPY_REVIEW_VERSION = parseCopyReviewVersion(process.env.COPY_REVIEW_VERSION);
-
-/**
- * Version de charte (entier ≥ 1). Valeur absente ou invalide → 1 : un `NaN`
- * ferait échouer toutes les écritures Prisma (`copyReviewVersion` Int).
- */
-export function parseCopyReviewVersion(raw: string | undefined): number {
-  const n = Number.parseInt((raw ?? "").trim(), 10);
-  return Number.isFinite(n) && n >= 1 ? n : 1;
-}
+export { COPY_REVIEW_VERSION, parseCopyReviewVersion } from "../copy-review-version";
 
 /** Verdicts autorisés par le pipeline de relecture (charte s11). */
 export type CopyReviewVerdict = "GARDER" | "REECRIRE" | "RETIRER";
@@ -149,7 +145,34 @@ BARRE QUALITÉ CONSEIL :
 - Zéro ton scolaire ("mémoriser" → "ressortir"), zéro jargon marketing.
 - Zéro vocabulaire "coach" pour la marque (le site n'est pas un coach).
 
-VERDICTS AUTORISÉS :
+RÈGLE DES CHIFFRES : quand tu réécris, tu conserves TOUS les chiffres,
+statistiques et citations présents dans l'original. Tu ne les remplaces
+pas, tu ne les ajoutes pas.`;
+
+/**
+ * Verdicts vannes (lot Q2, s14, barre Alexa validée par Thomas le 30/09/2026) :
+ * GARDER seulement au niveau des étalons, le doute mène à REECRIRE. Une vanne
+ * REECRIRE non réécrite reste au catalogue mais n'est jamais vanne du jour.
+ */
+const JOKE_VERDICTS = `VERDICTS AUTORISÉS (vannes) :
+- GARDER : uniquement si la vanne est au niveau des quatre étalons de la barre
+  plancher ci-dessous (chute surprenante non télégraphiée, courte, logique,
+  observation vraie, aucun tic listé). GARDER = la vanne peut être vanne du jour.
+- REECRIRE : sous la barre, ou en cas de doute. Tu proposes une réécriture au
+  niveau des étalons : même situation, meilleure exécution (ou vanne originale
+  sur la même situation si l'idée est empruntée). Si l'idée ne permet pas
+  d'atteindre la barre, REECRIRE quand même avec ta meilleure version : elle
+  sera revalidée avant d'être écrite, l'original reste sinon.
+- RETIRER : idée irrattrapable. Raison OBLIGATOIRE parmi la liste fermée :
+  "calembour phonétique", "constat sans twist", "blessant", "doublon",
+  "mention IA". Toute autre raison invalide le verdict → REECRIRE.
+
+RÈGLE DU DOUTE (vannes) : si tu hésites entre GARDER et REECRIRE → REECRIRE.
+Si tu hésites entre REECRIRE et RETIRER → REECRIRE. On ne supprime rien par
+doute, mais on ne garde pas non plus une vanne moyenne comme vanne du jour.`;
+
+/** Verdicts conseils : inchangés (règle fondateur du 29/09 : doute = GARDER). */
+const TIP_VERDICTS = `VERDICTS AUTORISÉS (conseils) :
 - GARDER : respecte la charte OU en cas de doute (règle fondateur : on ne
   supprime pas ce qui marche par doute).
 - REECRIRE : bonne idée, exécution faible. Résultat : MÊME IDÉE, meilleure
@@ -160,22 +183,17 @@ VERDICTS AUTORISÉS :
 
 RÈGLE DU DOUTE : « on ne supprime pas des choses qui marchent simplement
 parce qu'on a un doute ». Si tu hésites entre GARDER et REECRIRE → GARDER.
-Si tu hésites entre REECRIRE et RETIRER → REECRIRE.
+Si tu hésites entre REECRIRE et RETIRER → REECRIRE.`;
 
-RÈGLE DES CHIFFRES : quand tu réécris, tu conserves TOUS les chiffres,
-statistiques et citations présents dans l'original. Tu ne les remplaces
-pas, tu ne les ajoutes pas.`;
-
-const JOKE_REVIEW_STABLE = `Tu es le relecteur qualité des vannes IA de deviens-marrant.fr.
-Ta mission : appliquer la charte de relecture s11 sur des vannes générées avant la charte.
+const JOKE_REVIEW_STABLE = `Tu es le relecteur qualité des vannes de deviens-marrant.fr.
+Ta mission : appliquer la charte de relecture et la barre plancher des étalons.
 
 ${CHARTE_RECAP}
 
-ÉTALONS DE RÉFÉRENCE (niveau visé pour une réécriture) :
-- « J'ai demandé à mon dentiste s'il allait faire mal. Il a souri avant de répondre. J'ai pas aimé ce sourire. »
-- « Ma collègue m'a dit qu'il faisait un temps de chien. J'ai dit : "C'est normal, c'est lundi." Elle a acquiescé. On a rien ajouté. »
-- « Mon chef dit que je suis "l'homme de la situation". Surtout quand personne veut la situation. »
-(Ces étalons calibrent le NIVEAU : ne les réutilise jamais dans une réécriture. L'exemple du howToApply est neuf lui aussi.)
+${JOKE_QUALITY_BAR}
+
+${JOKE_VERDICTS}
+(Une réécriture ne reprend jamais un étalon. L'exemple du howToApply est neuf lui aussi.)
 
 DÉCRYPTAGE (obligatoire si REECRIRE) — même barre que le catalogue :
 - comedyTechnique : nom court, pédagogique et réutilisable (ex. "L'exagération temporelle").
@@ -199,6 +217,8 @@ const TIP_REVIEW_STABLE = `Tu es le relecteur qualité des conseils IA de devien
 Ta mission : appliquer la charte de relecture s11 sur des conseils générés avant la charte.
 
 ${CHARTE_RECAP}
+
+${TIP_VERDICTS}
 
 ÉTALON DE FORME (niveau visé pour une réécriture) :
 - Titre : percutant, 5-8 mots, donne envie.
@@ -255,6 +275,24 @@ export function applyDoubtFallback<T extends { verdict: CopyReviewVerdict; reaso
   return result;
 }
 
+/**
+ * Garde-fou vannes (lot Q2, barre Alexa) : plus jamais GARDER par doute.
+ * RETIRER hors liste fermée → REECRIRE sans réécriture : l'original reste au
+ * catalogue, marqué REECRIRE, donc hors vanne du jour.
+ */
+export function applyJokeDoubtFallback<T extends { verdict: CopyReviewVerdict; reason: string }>(
+  result: T,
+): T {
+  if (result.verdict === "RETIRER" && !retirerJustified(result.reason)) {
+    return {
+      ...result,
+      verdict: "REECRIRE",
+      reason: `[Garde-fou fondateur] Raison de RETIRER hors liste fermée ("${result.reason}") → REECRIRE (hors vanne du jour).`,
+    };
+  }
+  return result;
+}
+
 // ─── Appels LLM ──────────────────────────────────────────────────
 
 export async function reviewJoke(input: JokeReviewInput): Promise<JokeReviewResult> {
@@ -272,7 +310,7 @@ Setup : ${input.content}
 Chute : ${input.punchline}
 ${input.comedyTechnique ? `Décryptage actuel — technique : ${input.comedyTechnique}\nExplication : ${input.techniqueExplanation ?? "(vide)"}\nÀ toi de jouer : ${input.howToApply ?? "(vide)"}` : "Décryptage actuel : ABSENT"}
 
-Applique la charte s11. Rappel : en cas de doute, GARDER. Ne modifie AUCUN chiffre présent dans l'original. Si tu réécris, produis aussi un décryptage complet.
+Applique la charte et la barre des étalons. GARDER seulement si la vanne est au niveau des étalons ; en cas de doute, REECRIRE. Ne modifie AUCUN chiffre présent dans l'original. Si tu réécris, produis aussi un décryptage complet.
 
 Réponds UNIQUEMENT en JSON.`,
         },
@@ -289,10 +327,12 @@ Réponds UNIQUEMENT en JSON.`,
     rewritten?: JokeReviewResult["rewritten"];
   }>(text);
 
+  // Lot Q2 : verdict illisible = doute → REECRIRE sans réécriture (l'original
+  // reste, hors vanne du jour). Plus jamais GARDER par défaut pour une vanne.
   const verdict = normalizeVerdict(parsed.verdict);
   const base: JokeReviewResult = {
-    verdict: verdict ?? "GARDER",
-    reason: (parsed.reason ?? "").trim() || "Verdict LLM manquant — GARDER par défaut.",
+    verdict: verdict ?? "REECRIRE",
+    reason: (parsed.reason ?? "").trim() || "Verdict LLM manquant → REECRIRE par défaut (doute).",
   };
 
   if (base.verdict === "REECRIRE") {
@@ -304,10 +344,11 @@ Réponds UNIQUEMENT en JSON.`,
       !rw.comedyTechnique?.trim() ||
       !rw.howToApply?.trim()
     ) {
-      // Réécriture incomplète — on ne prend pas le risque → GARDER.
+      // Réécriture absente ou incomplète : on n'écrit rien, l'original reste
+      // marqué REECRIRE (hors vanne du jour).
       return {
-        verdict: "GARDER",
-        reason: `[Garde-fou] Réécriture incomplète renvoyée par le LLM — GARDER par défaut.`,
+        verdict: "REECRIRE",
+        reason: `${base.reason} [Garde-fou] Réécriture absente ou incomplète : original conservé, hors vanne du jour.`,
       };
     }
     base.rewritten = {
@@ -319,7 +360,7 @@ Réponds UNIQUEMENT en JSON.`,
     };
   }
 
-  return applyDoubtFallback(base);
+  return applyJokeDoubtFallback(base);
 }
 
 export async function reviewTip(input: TipReviewInput): Promise<TipReviewResult> {

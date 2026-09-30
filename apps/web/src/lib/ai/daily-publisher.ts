@@ -19,6 +19,10 @@ import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
 import { buildJokeSeriesGuard, type JokeSeriesGuard } from "./joke-series-guard";
+import { COPY_REVIEW_VERSION } from "./copy-review-version";
+import { pickValidatedJoke } from "./daily-joke-pool";
+import { runWithContentGates } from "./content-gates";
+import { stripEmDashes } from "@/lib/em-dash";
 
 /**
  * Lot V7 : régénérations autorisées quand la vanne générée est rejetée par le
@@ -242,11 +246,27 @@ export async function publishDailyContent(
         throw new Error(`Vanne rejetée par le directeur (score ${jokeScore}/10)${crashInfo}`);
       }
 
-      const jokeDecryptage = jokeData as Partial<JokeDecryptage>;
+      // Lot Q3 (a) : tirets cadratins retirés (ponctuation seulement). Les
+      // autres gates vanne (vulgarité, vouvoiement, mention IA) sont déjà dans
+      // validateJoke (G-J8, G-J9, anti-mention IA).
+      const rawJoke = jokeData as Partial<JokeDecryptage> & { content: string; punchline: string };
+      const dash = (t: string | undefined) => (t ? stripEmDashes(t) : t);
+      const jokeDecryptage = {
+        content: stripEmDashes(rawJoke.content),
+        punchline: stripEmDashes(rawJoke.punchline),
+        comedyTechnique: dash(rawJoke.comedyTechnique),
+        techniqueExplanation: dash(rawJoke.techniqueExplanation),
+        howToApply: dash(rawJoke.howToApply),
+      };
+      // Lot Q1 : une vanne générée qui a passé la barre V7 (Director avec les
+      // étalons, verdict APPROVED) est marquée GARDER et rejoint le pool de la
+      // vanne du jour. Une réécriture du Director n'a pas été revalidée : elle
+      // reste non marquée (quality-watch la relit le matin, copy-review ensuite).
+      const passedBar = !directorTookOver && validation?.verdict === "APPROVED";
       const joke = await prisma.joke.create({
         data: {
-          content: jokeData.content,
-          punchline: jokeData.punchline,
+          content: jokeDecryptage.content,
+          punchline: jokeDecryptage.punchline,
           category: jokeData.category as Prisma.EnumJokeCategoryFieldUpdateOperationsInput["set"] & string,
           type: jokeData.type as Prisma.EnumJokeTypeFieldUpdateOperationsInput["set"] & string,
           maturityLevel: jokeData.maturityLevel,
@@ -254,6 +274,9 @@ export async function publishDailyContent(
           comedyTechnique: jokeDecryptage.comedyTechnique || null,
           techniqueExplanation: jokeDecryptage.techniqueExplanation || null,
           howToApply: jokeDecryptage.howToApply || null,
+          ...(passedBar
+            ? { copyVerdict: "GARDER", copyReviewVersion: COPY_REVIEW_VERSION, copyReviewedAt: new Date() }
+            : {}),
         },
       });
       return { id: joke.id, category: joke.category };
@@ -319,6 +342,30 @@ export async function publishDailyContent(
         console.warn(`[Director] Conseil non publié — score ${tipScore}/10 < 9 (verdict: ${validation?.verdict ?? "VALIDATION_IMPOSSIBLE"})${crashInfo}`);
         throw new Error(`Conseil rejeté par le directeur (score ${tipScore}/10)${crashInfo}`);
       }
+
+      // Lot Q3 : gates programmatiques avant enregistrement (tirets cadratins,
+      // vulgarité, vouvoiement, auto-mention IA, marques signalées). Rejet →
+      // UNE régénération, revalidée par le Director ; sinon conseil du stock.
+      const gated = await runWithContentGates(
+        tipData,
+        async (feedback) => {
+          const regenerated = await generateDailyTip({
+            ...tipCtx,
+            plannedTheme: `${tipCtx.plannedTheme} — ${feedback}`,
+          });
+          const revalidation = await validateTip(regenerated as TipToValidate, persona);
+          if (revalidation.verdict !== "APPROVED") {
+            throw new Error(`conseil régénéré non validé par le directeur (score ${revalidation.score}/10)`);
+          }
+          return regenerated;
+        },
+        ["title", "content", "example", "exercise"],
+        "conseil du jour",
+      );
+      if (!gated.ok) {
+        throw new Error("Conseil rejeté par les gates de publication (repli sur le stock)");
+      }
+      tipData = gated.value;
 
       const tip = await prisma.tip.create({
         data: {
@@ -447,6 +494,18 @@ export async function publishDailyContent(
   if (result.tip) usedCategories.add(result.tip.category);
 
   if (!jokeId) {
+    // Lot Q1 : repli sur une vanne validée au niveau des étalons (pool GARDER).
+    const validated = await pickValidatedJoke(dayOfYear, {
+      excludeCategories: Array.from(usedCategories),
+    });
+    if (validated) {
+      jokeId = validated.id;
+      usedCategories.add(validated.category);
+      console.log(`[DailyPublisher] Vanne du jour de repli prise dans le pool validé (${validated.id})`);
+    }
+  }
+  if (!jokeId) {
+    // Transition : pool validé vide → repli historique.
     // Essayer d'abord un fallback qui évite les catégories déjà utilisées
     const fallbackJoke = await prisma.joke.findFirst({
       where: {

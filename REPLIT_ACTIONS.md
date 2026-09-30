@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : lots Q1-Q4 « rien de moyen » (vanne du jour validée, copy-review sur la barre, gates de publication, contrôle du matin) @ia
+
+> Aucun secret, aucune migration, aucun package. Modèles et effort inchangés. Action restante (orchestrateur) : brancher `GET /api/cron/quality-watch` (Bearer `CRON_SECRET`) dans le planificateur, recommandé 6h30 UTC (après `daily-content` 5h et 6h UTC). `?force=true` ignore le verrou quotidien.
+> - Q1 : vanne du jour de repli (`/api/daily`, `daily-publisher`) = pool `isActive, copyVerdict GARDER, comedyTechnique non null` (`src/lib/ai/daily-joke-pool.ts`) ; pool vide → repli historique. Vanne générée APPROVED avec la barre → enregistrée `GARDER` (+ version, date).
+> - Q2 : relecture copy-review des vannes avec la barre des étalons ; doute = REECRIRE ; réécriture écrite seulement si `validateJoke` (barre) = APPROVED, alors `GARDER` ; sinon original conservé, `REECRIRE` (hors vanne du jour). Conseils inchangés (doute = GARDER).
+> - Q3 : `src/lib/ai/content-gates.ts` avant enregistrement des conseils, articles, posts sociaux et fiches vidéo : tirets cadratins corrigés ; gros mots, vouvoiement, auto-mention IA → une régénération, sinon repli ; marques signalées dans les logs.
+> - Q4 : `src/lib/ai/quality-watch.ts` : 1 appel LLM/jour max, remplace la vanne sous la barre par une vanne GARDER, le conseil fautif par un conseil du stock propre, e-mail récap admin seulement si remplacement ou défaut.
+
 ## s14 (30/09/2026) : lot V7 anti-séries et barre qualité du générateur de vannes @ia (code `src/lib/ai/` uniquement)
 
 > Aucune action manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Modèle et effort inchangés. Pris en compte au prochain `daily-content` (5h UTC) une fois la branche déployée sur le Worker.
