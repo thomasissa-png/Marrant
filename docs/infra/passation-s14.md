@@ -16,7 +16,7 @@
 - Zone Cloudflare `active`, NS Cloudflare.
 
 ## 2. Non testé, accepté par Thomas
-- **Stripe** : pas de clé test ; test en réel après bascule (webhook live `https://deviens-marrant.fr/api/webhooks/stripe` en 2xx dans le tableau de bord, puis un vrai abonnement de Thomas).
+- **Stripe** : pas de clé test ; test en réel après bascule (webhook live `https://deviens-marrant.fr/api/stripe/webhook` en 2xx dans le tableau de bord, puis un vrai abonnement de Thomas).
 - **`daily-content`** (IA) : appel bloqué par le mode auto de la session (action réelle payante). Sera vérifié le lendemain de la bascule (contenu du jour, `LlmUsageLog` success). Prod Replit ne génère plus rien depuis juin : pas de régression possible.
 - **Captures 390/768/1440** : Chromium ne passe pas le proxy de la session (contournement TLS refusé). Couvert par le contrôle @qa fin s12 (64 pages × 4 largeurs, 0 P0) sur le même code front.
 
@@ -27,3 +27,9 @@
 - Le mode auto de la session peut bloquer des étapes (secrets live, DNS, `--reset`). Si blocage : s'arrêter, dire à Thomas laquelle, ne rien laisser à moitié.
 - Après bascule : retirer de Google Cloud Console l'URI et l'origine `marrant.thomas-issa.workers.dev`.
 - Hors migration, noté : texte du modèle d'image « Le Défi » tronqué au milieu d'un mot ; objet de l'e-mail de réinitialisation avec un tiret cadratin (règle n°12).
+
+## 4. s14 (30/09) : bascule arrêtée au §0, rien exécuté de §1 à §4
+- Zone `active` (NS Cloudflare), clés critiques présentes, `STRIPE_SECRET_KEY` en `sk_live_`, prix Premium actif (99 c EUR, live).
+- **Bloquant** : `STRIPE_WEBHOOK_SECRET` vaut un identifiant d'endpoint (`we_…`), pas un secret de signature `whsec_…`, et cet endpoint n'existe pas sur le compte Stripe de la clé live (0 endpoint webhook sur le compte). Avec cette valeur, tout événement Stripe serait rejeté (signature invalide) : abonnements jamais activés.
+- Route réelle du webhook : `/api/stripe/webhook` (la checklist disait `/api/webhooks/stripe`, corrigé). Événements traités : `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`, `invoice.payment_succeeded`, `charge.refunded`.
+- Pour débloquer : créer l'endpoint live `https://deviens-marrant.fr/api/stripe/webhook` avec ces 6 événements et fournir son `whsec_` en `STRIPE_WEBHOOK_SECRET`, puis reprendre au §1.
