@@ -4,6 +4,9 @@ import {
   updateSeoCalendar,
 } from "@/lib/ai/agents/seo-blog-agent";
 
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
+
 const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
 const HOST = "deviens-marrant.fr";
 

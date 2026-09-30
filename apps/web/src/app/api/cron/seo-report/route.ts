@@ -4,6 +4,8 @@ import { blogArticles } from "@/lib/blog-articles";
 import { BLOG_CLUSTERS } from "@/lib/blog-clusters";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron mensuel rapport SEO — génère un rapport complet de l'état SEO du site.

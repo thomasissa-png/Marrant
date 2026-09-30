@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { snapshotCeoKpis } from "@/lib/ai/ceo-helpers";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron CEO KPIs snapshot — daily 5h UTC.

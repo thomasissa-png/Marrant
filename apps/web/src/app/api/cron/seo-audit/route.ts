@@ -6,6 +6,8 @@ import { blogArticles } from "@/lib/blog-articles";
 import { isCloudflareWorkers } from "@/lib/runtime-env";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron hebdomadaire audit SEO — vérifie le maillage interne et réconcilie plan/DB.

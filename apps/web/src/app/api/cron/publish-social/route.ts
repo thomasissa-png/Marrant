@@ -15,6 +15,9 @@ import {
 } from "@/lib/social/buffer-client";
 import { sendAdminAlert } from "@/lib/email";
 
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
+
 /**
  * Découpe un texte trop long en tweets de ≤ 280 chars.
  * Coupe sur les sauts de ligne doubles, puis les phrases, puis les espaces.

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
+
 /**
  * Cron quotidien — envoi push notification "vanne du jour" à 9h UTC+1 (8h UTC).
  *

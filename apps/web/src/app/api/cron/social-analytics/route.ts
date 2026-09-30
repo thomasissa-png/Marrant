@@ -12,6 +12,9 @@ import {
   getBufferScheduledPosts,
 } from "@/lib/social/buffer-client";
 
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
+
 /**
  * CRON — Suivi des posts sociaux et nettoyage.
  * Tourne via Replit Scheduled Deployments.

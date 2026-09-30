@@ -4,6 +4,8 @@ import { createSchedulerJobs, loopbackCronRouteCaller } from "@/lib/scheduler/jo
 import { createInProcessCronRouteCaller } from "@/lib/scheduler/in-process-cron-caller";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * GET /api/cron/scheduler-tick — un « tick » du planificateur interne.

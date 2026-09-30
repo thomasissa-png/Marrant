@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron job mensuel — déclenché le 28 de chaque mois.

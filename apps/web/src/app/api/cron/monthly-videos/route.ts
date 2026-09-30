@@ -8,6 +8,8 @@ import {
 import { validateNewVideo } from "@/lib/ai/agents/standup-director-agent";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * CRON — Découverte mensuelle de 10 nouvelles vidéos.
@@ -231,7 +233,7 @@ Applique les corrections demandées. Garde le format exact :
 }`,
         },
       ],
-    });
+    }, 2, { agent: "video-agent", fn: "applyDirectorCorrections" });
 
     const text = getResponseText(response);
     const corrections = extractJson<{

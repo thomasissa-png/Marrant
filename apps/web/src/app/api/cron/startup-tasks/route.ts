@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { runStartupTasks } from "@/lib/startup-tasks";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * GET /api/cron/startup-tasks — tâches de démarrage idempotentes.

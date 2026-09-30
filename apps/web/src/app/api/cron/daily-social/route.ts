@@ -11,6 +11,9 @@ import { sendAdminAlert } from "@/lib/email";
 import { generatePostImage } from "@/lib/social/generate-post-image";
 import { uploadPostImage } from "@/lib/social/image-storage";
 
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
+
 /**
  * CRON — Génération quotidienne des posts sociaux.
  * Déclenché à 4h UTC par Replit Cron.

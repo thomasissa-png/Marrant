@@ -3,6 +3,8 @@ import { runDailyTick } from "@/lib/ai/agents/ceo-agent";
 import { tryAcquireLock, releaseLock } from "@/lib/job-lock";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron CEO tick — appelé toutes les heures par Replit, mais ne s'exécute QUE
