@@ -1,0 +1,866 @@
+[
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je serais curieux de voir la même conviction au moment de décider qui fait la vaisselle.",
+  "n": 1
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Je n'ai pas ouvert aux enfants qui sonnaient pour les bonbons. / Ils ont écrit \"maison hantée\" sur ma boîte aux lettres. Je l'ai pris comme un compliment.",
+  "n": 2
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je vous le dirai au prochain repas. Vous aurez eu le temps de vous réconcilier, et moi d'en avoir un.",
+  "n": 3
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Ça avance. En tout cas, midi arrive de plus en plus tôt.",
+  "n": 4
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai dîné avec quelqu'un en mars. On m'a dit « je te rappelle ». Je garde le téléphone chargé.",
+  "n": 5
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Mon salaire est en période d'essai depuis trois ans. On me dit de patienter.",
+  "n": 6
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Un petit sorcier m'a dit : \"Des bonbons ou un sort.\" / J'ai demandé s'il pouvait faire quelque chose pour mon loyer. Il a pris les bonbons.",
+  "n": 7
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai demandé où étaient les toilettes. / On m'a répondu : \"Après la momie.\" Je ne sais toujours pas si c'était le décor.",
+  "n": 8
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Bonne question. Je reviens vers toi d'ici la fin du trimestre.",
+  "n": 9
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À la soirée du bureau, mon chef était en pirate. / Il m'a quand même demandé où en était mon dossier, avec le perroquet sur l'épaule.",
+  "n": 10
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Avec cet éclairage, je ne sais plus qui je suis. Repose-moi la question dans la cuisine.",
+  "n": 11
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai demandé à mon enceinte connectée de mettre de la musique qui fait peur. / Elle a lancé mes playlists de lycée. Trois invités sont partis.",
+  "n": 12
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Mon voisin ne m'a pas dit bonjour en six ans. / Ce soir, déguisé en loup-garou, il m'a dit bonsoir.",
+  "n": 13
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Mon appli bancaire me le rappelle chaque matin. Elle n'a aucun tact.",
+  "n": 14
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a une méthode pour les grandes décisions : dire « on verra » en même temps.",
+  "n": 15
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Je vis une histoire sérieuse avec ma couette. On a des projets de week-end.",
+  "n": 16
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Je suis en période d'essai avec moi-même. Pour l'instant, les retours sont mitigés.",
+  "n": 17
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a essayé de choisir un prénom. On n'a pas dépassé le poisson rouge.",
+  "n": 18
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Je te dirai ça après ma prochaine augmentation. Je ne l'ai pas encore demandée, mais j'y crois.",
+  "n": 19
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai répondu à l'invitation trois jours après la date limite. / L'hôte m'a dit \"pas de souci\", avec la voix de quelqu'un qui avait un souci.",
+  "n": 20
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Mon neveu de six ans s'est déguisé en moi. / Il est resté sur le canapé avec mon pull et il a dit : \"Je suis fatigué.\"",
+  "n": 21
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Mon dernier rendez-vous a duré quarante minutes, dont vingt à chercher une place pour se garer.",
+  "n": 22
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Mon maquillage de zombie ne part pas au savon. / Lundi, j'ai dû dire à trois collègues que non, je n'étais pas malade. Deux ne m'ont pas cru.",
+  "n": 23
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai décoré l'appartement avec de fausses toiles d'araignée. / Personne n'a vu la différence avec celles du plafond.",
+  "n": 24
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Avec mon maquillage de zombie, mon téléphone n'a pas reconnu mon visage. / Ma mère non plus, quand je lui ai envoyé la photo.",
+  "n": 25
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "La photo de groupe a pris vingt minutes. / Sur le résultat, on voit surtout le mur.",
+  "n": 26
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a regardé le prix des salles de réception. On se marie dans le salon, chacun apporte sa chaise.",
+  "n": 27
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Ma relation la plus longue, c'est un pot de moutarde ouvert depuis deux ans.",
+  "n": 28
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Oui, mon frigo. Il s'allume dès que j'arrive.",
+  "n": 29
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Je ne le dis jamais à voix haute. Même seul dans la voiture, je chuchote.",
+  "n": 30
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je suis là en observateur neutre. J'ai oublié mon casque bleu dans l'autre manteau.",
+  "n": 31
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "J'ai reçu un mail qui finissait par « bonne continuation ». Je ne sais pas encore si c'est un encouragement.",
+  "n": 32
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Ma seule conviction ce soir : le four a fini depuis dix minutes.",
+  "n": 33
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Gros progrès : j'ai réglé ma chaise à la bonne hauteur. Ça m'a pris deux mois.",
+  "n": 34
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai désinstallé mon appli de rencontre trois fois. Elle m'a repris à chaque fois, sans poser de questions.",
+  "n": 35
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "J'ai perdu le fil au deuxième « ah non mais ». Quelqu'un peut résumer ?",
+  "n": 36
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Ça avance comme une imprimante : beaucoup de bruit, et personne ne sait ce qui va sortir.",
+  "n": 37
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Mon faux sang est parti de mon visage en trois secondes. / Sur le canapé blanc de l'hôte, il a décidé de rester.",
+  "n": 38
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Je me suis déguisé en plante verte. / À minuit, quelqu'un avait posé son verre sur moi.",
+  "n": 39
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai demandé à une IA le costume le plus original possible. / À la soirée, on était quatre à avoir eu la même réponse.",
+  "n": 40
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Grande nouvelle : j'ai écrit « je reviens vers vous », puis je l'ai vraiment fait. Grosse surprise.",
+  "n": 41
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Pas encore, mais j'ai déjà écrit mon discours de mariage. Il ne manque que les mariés.",
+  "n": 42
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "On m'a demandé comment je connaissais l'hôte. / J'ai dit : \"Par Julien.\" On a passé une heure à chercher Julien.",
+  "n": 43
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "Pour les enfants, on a fait le tour de l'appartement à quatre pattes. On a retrouvé trois chaussettes et une envie de sieste.",
+  "n": 44
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ma cape est restée coincée dans la porte du métro. / J'ai fait trois stations sur le quai, à petits pas, en souriant aux gens.",
+  "n": 45
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À 20 ans, Halloween se finissait à l'aube. / À 40 ans, mon costume de pirate est rentré à 22 h 30 avec une bouillotte.",
+  "n": 46
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "J'ai trouvé comment expliquer mon métier en une phrase. Elle fait quarante mots, tu veux l'entendre ?",
+  "n": 47
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai mis des cris enregistrés devant ma porte. / Le livreur de pizzas a posé la boîte par terre et a demandé à être payé de loin.",
+  "n": 48
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai posté une photo de la soirée avec \"trop bien\". / Ma mère a commenté : \"Tu as mangé ?\"",
+  "n": 49
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Mon loyer, je le paie chaque mois et je n'y crois toujours pas.",
+  "n": 50
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Une invitée m'a demandé si mon costume était fait maison. / J'ai dit oui. Elle a répondu : \"On sent le cœur que vous y avez mis.\"",
+  "n": 51
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Dans la poche de mon costume de l'an dernier, j'ai trouvé un numéro de téléphone. / J'ai appelé. Une dame m'a dit : \"Ah, quand même.\"",
+  "n": 52
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Je gagne exactement ce qu'il faut pour être surpris par le mois suivant.",
+  "n": 53
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Mes vêtements ont signé une clause de confidentialité. Je ne peux rien te dire.",
+  "n": 54
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Le tutoriel disait \"maquillage de zombie en dix minutes\". / La vidéo était accélérée. Moi, non.",
+  "n": 55
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai acheté les bonbons d'Halloween en septembre. / Le 31, j'ai dû en racheter pour les enfants. Ceux de septembre, je ne veux pas en parler.",
+  "n": 56
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai découpé deux trous dans un drap pour faire un fantôme. / Ma femme a demandé lequel. J'ai su tout de suite où j'allais dormir.",
+  "n": 57
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "J'ai découvert le mot « en cours ». Je l'utilise pour tout, ça change ma vie.",
+  "n": 58
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai eu une conversation passionnante d'une heure avec un homme masqué. / Il a enlevé son masque : c'était mon beau-frère. J'aurais préféré qu'il le remette.",
+  "n": 59
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Mon corps refuse de commenter sans son avocat.",
+  "n": 60
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Pour l'ambiance, j'ai lancé la machine à fumée. / Le détecteur de fumée a fait tout le reste.",
+  "n": 61
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a gardé les enfants des voisins trois heures. On dort encore.",
+  "n": 62
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Un enfant m'a demandé de quoi j'étais déguisé. / J'ai répondu : \"D'un adulte avec un crédit sur vingt-cinq ans.\" Il est parti en courant.",
+  "n": 63
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Sur le buffet, tout avait un nom qui fait peur. / J'ai pris le pain, le seul à avoir gardé son vrai nom.",
+  "n": 64
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai créé un profil sur une appli. Sur ma photo, on dirait que j'ai un chien. C'est celui du voisin.",
+  "n": 65
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Ça avance. Mon planning a cinq couleurs, dont une que je ne sais plus lire.",
+  "n": 66
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ma mère m'a appelé en pleine soirée d'Halloween. / Elle voulait savoir si j'avais pris une veste. J'étais en gladiateur.",
+  "n": 67
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a un chat. Il n'a donné son accord ni pour le mariage, ni pour les enfants.",
+  "n": 68
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je n'avais jamais vu autant de conviction autour d'un gratin.",
+  "n": 69
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Je gagne ma vie. C'est le verbe « gagner » que mon banquier conteste.",
+  "n": 70
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Ça avance. Lundi, j'ai trouvé la salle de réunion sans demander mon chemin.",
+  "n": 71
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ma porte grince depuis deux ans. / Ce soir, tout le monde m'a félicité pour l'effet sonore.",
+  "n": 72
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai répondu \"je vais essayer de venir\". / Tout le monde a compris que j'étais déjà en pyjama.",
+  "n": 73
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai un abonnement à la salle de sport. On ne se voit plus, mais elle me prélève tous les mois.",
+  "n": 74
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Si je te dis le montant, tu vas me proposer ta chambre d'amis. Je préfère garder le suspense.",
+  "n": 75
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Mon canapé et moi, on a fini par avoir la même forme.",
+  "n": 76
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Hier, quelqu'un m'a dit exactement l'inverse. Vous devriez vous mettre d'accord et m'envoyer un résumé.",
+  "n": 77
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Je suis en phase de test. Les résultats seront communiqués aux familles.",
+  "n": 78
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À la caisse, avec six kilos de bonbons, la caissière m'a demandé si c'était pour les enfants. / J'ai dit oui. Elle a fait semblant de me croire.",
+  "n": 79
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai un plan pour me faire remarquer. Pour l'instant, je me suis surtout fait remarquer au rayon frais.",
+  "n": 80
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Le film d'horreur commençait par une maison de six chambres à 600 euros par mois. / J'ai mis pause pour appeler l'agence.",
+  "n": 81
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "J'ai changé plusieurs choses depuis l'an dernier. Tu as droit à trois essais.",
+  "n": 82
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "En euros ou en satisfaction ? Dans les deux cas, je suis en négociation.",
+  "n": 83
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Sous les masques, personne ne se reconnaissait. / Moi, on m'a reconnu à 22 h 15, à ma façon de chercher mon manteau.",
+  "n": 84
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ce matin, j'ai retrouvé une épée en plastique dans mon sac. / Je n'ai aucun souvenir, mais j'espère avoir gagné.",
+  "n": 85
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "L'invitation disait \"tenue libre\". / J'ai passé trois jours à chercher le piège.",
+  "n": 86
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Merci de l'info. Je n'avais pas fait attention, j'étais occupé à vivre.",
+  "n": 87
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a tiré à pile ou face pour savoir qui fait la demande. On en est à la sixième manche.",
+  "n": 88
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai accompagné mon neveu pour les bonbons. / Il a eu deux kilos de bonbons. Moi, trois invitations à la réunion de copropriété.",
+  "n": 89
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "Mon livreur connaît mon prénom, mon étage et mon plat préféré. Je considère que c'est du suivi.",
+  "n": 90
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On se marie dès qu'on a fini de monter l'armoire. Il nous reste des vis, c'est mauvais signe.",
+  "n": 91
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Ça va, j'ai retenu mon mot de passe. Le reste, j'y vais par étapes.",
+  "n": 92
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Mon costume était en \"taille unique\". / J'ai essayé. J'ai compris qu'ils parlaient d'une seule personne, et que ce n'était pas moi.",
+  "n": 93
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Ce que je gagne, c'est flou. Ce que je dépense, je le connais au centime.",
+  "n": 94
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Cette question se pose au digestif. Pour l'instant, je suis encore sobre.",
+  "n": 95
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Pour l'instant, mon jean ne s'est pas plaint. Il est très poli.",
+  "n": 96
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Il y a eu une mise à jour cet automne. Je n'ai pas lu les notes de version.",
+  "n": 97
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "J'ai appris à avoir l'air concentré devant un écran. Là, en ce moment, tu me vois en séance.",
+  "n": 98
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Mon pantalon et mon miroir se contredisent. J'attends un troisième avis.",
+  "n": 99
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Mon avis est encore en brouillon. Je ne le publie pas avant le café.",
+  "n": 100
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Cette année, j'ai enfin compris à quoi sert le badge. À ouvrir la porte. Le reste, on verra.",
+  "n": 101
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Je gagne du temps, principalement. Là, par exemple.",
+  "n": 102
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "Brut, net, ou ce qu'il reste le 20 ? Le troisième est le plus court.",
+  "n": 103
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ma copine voulait qu'on soit assortis pour Halloween. / Elle est en sorcière. Moi, en mec qui a dit oui trop vite.",
+  "n": 104
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai dit à mon propriétaire que mon appartement était hanté. / Il a répondu que ça justifiait l'augmentation.",
+  "n": 105
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai reçu le prix du \"costume le plus courageux\". / C'est ce qu'on dit à un enfant qui a dessiné un cheval.",
+  "n": 106
+ },
+ {
+  "src": "S8",
+  "q": "Q5",
+  "t": "J'ai calculé mon taux horaire une fois. J'ai décidé de ne plus jamais recalculer.",
+  "n": 107
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai dit : \"Je passe juste dire bonjour.\" / Trois heures plus tard, on m'a demandé si j'habitais là.",
+  "n": 108
+ },
+ {
+  "src": "S8",
+  "q": "Q1",
+  "t": "J'ai rangé mes critères dans un tiroir. Depuis, c'est le tiroir le plus fidèle de la maison.",
+  "n": 109
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je propose un règlement : celui qui baisse le ton en premier choisit la musique.",
+  "n": 110
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Un sujet pareil, il lui faut un arbitre et des fauteuils. Là, on a des chaises pliantes.",
+  "n": 111
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Mon avis fait douze pages. Je te l'envoie en pièce jointe, tu le liras au calme.",
+  "n": 112
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai traversé la ville en Dracula dans le métro. / La seule personne qui m'a regardé, c'était un autre Dracula. On a fait comme si de rien n'était.",
+  "n": 113
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On en est à la phase où on regarde les photos de mariage des autres. C'est efficace, on trouve tout ce qu'on ne veut pas.",
+  "n": 114
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Dans le groupe de la soirée, il y a eu 214 messages en deux jours. / Résultat : personne n'a apporté de glaçons.",
+  "n": 115
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ma tante a essayé de souffler mes bougies décoratives à piles. / Elle a insisté trois minutes, puis elle a dit qu'elles étaient de mauvaise qualité.",
+  "n": 116
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a déjà goûté six gâteaux de mariage. On n'a pas de date, mais on a un avis.",
+  "n": 117
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On se marie dès qu'on a une idée de liste de cadeaux. On a déjà tout, c'est bloquant.",
+  "n": 118
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je viens de faire trois heures de route. Mon seul avis porte sur le parking.",
+  "n": 119
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai demandé à quelqu'un de me prendre en photo dans mon costume. / Il en a pris quarante. Sur trente-neuf, on voit son pouce.",
+  "n": 120
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Il faisait 6 degrés à la soirée dans le jardin. / Le costume qui a fait l'unanimité, c'était la doudoune.",
+  "n": 121
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "On m'a demandé mes objectifs. J'ai répondu : arriver avant que le café refroidisse.",
+  "n": 122
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "J'ai mis un rappel \"acheter un costume\" le 1er octobre. / Je l'ai repoussé trente fois. Ce soir, c'est le seul de nous deux à être arrivé à l'heure.",
+  "n": 123
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À 23 h, j'ai dit à l'hôte que j'allais prendre l'air. / L'air, je l'ai pris jusqu'à mon lit.",
+  "n": 124
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Ma politique à moi se limite au dernier morceau de fromage. Je suis en campagne.",
+  "n": 125
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a choisi la date. On ne s'est mis d'accord ni sur le mois, ni sur l'année.",
+  "n": 126
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Ce matin, mon oreiller avait le visage d'un zombie. / C'est le seul à avoir gardé mon maquillage jusqu'au bout.",
+  "n": 127
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a fait la liste des pour et des contre. « Dormir jusqu'à midi » mène de très loin.",
+  "n": 128
+ },
+ {
+  "src": "S8",
+  "q": "Q2",
+  "t": "Je progresse : je comprends enfin les blagues de la machine à café. Pas le travail, les blagues.",
+  "n": 129
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "L'invitation disait 21 h, alors je suis arrivé à 21 h. / J'ai passé la première heure à aider l'hôte à mettre son costume de pirate.",
+  "n": 130
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Je suis venu déguisé en chat. / Je suis resté sur le canapé à ignorer tout le monde. Tout le monde a dit que j'étais très bon.",
+  "n": 131
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Dans la maison hantée, un fantôme a surgi en criant. / J'ai répondu \"bonjour\" par réflexe. Il a eu l'air vexé.",
+  "n": 132
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "L'invitation disait \"déguisez-vous en ce qui vous fait peur\". / Je suis venu avec mon relevé de compte.",
+  "n": 133
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Vous avez de bons arguments. Malheureusement, j'avais la bouche pleine, je n'en ai retenu aucun.",
+  "n": 134
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Je n'ai pas peur des fantômes. / J'ai peur de l'hôte qui dit : \"On va faire un petit jeu.\"",
+  "n": 135
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Ma dernière mesure officielle date du collège. Depuis, je fais confiance.",
+  "n": 136
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À 20 ans, je choisissais mon costume pour plaire. / À 40, je le choisis pour qu'il ait des poches.",
+  "n": 137
+ },
+ {
+  "src": "S8",
+  "q": "Q3",
+  "t": "On a demandé conseil à nos amis qui ont des enfants. Ils ont répondu en dormant debout.",
+  "n": 138
+ },
+ {
+  "src": "S8",
+  "q": "Q6",
+  "t": "Je pense qu'on est tous d'accord sur un point : la dinde refroidit.",
+  "n": 139
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "Je ne me suis jamais aussi peu posé la question qu'avant que tu me la poses.",
+  "n": 140
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "On a joué à cache-cache à minuit. / Je me suis si bien caché que je suis rentré dormir chez moi. Ils m'ont cherché jusqu'à 2 h.",
+  "n": 141
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "À la soirée du bureau, j'ai passé une heure à discuter avec un gorille. / Il était très sympa. Je cherche encore qui c'est, au bureau.",
+  "n": 142
+ },
+ {
+  "src": "S8",
+  "q": "Q4",
+  "t": "J'ai arrêté de me regarder de profil en 2019. C'était très reposant.",
+  "n": 143
+ },
+ {
+  "src": "S1",
+  "q": null,
+  "t": "Avec mes fausses dents de vampire, je ne peux plus fermer la bouche. / J'ai passé la soirée à m'excuser auprès des chemises.",
+  "n": 144
+ }
+]
