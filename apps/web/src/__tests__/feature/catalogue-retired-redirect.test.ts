@@ -8,7 +8,7 @@
  * Les candidats partagent parfois leur préfixe d'id (seed en rafale) : l'URL
  * d'une fiche retirée ne doit JAMAIS servir une autre fiche active.
  */
-import { buildCatalogueSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import { buildCatalogueSlug, isNonCanonicalSlug, resolveBySlug } from "@/lib/catalogue-slug";
 
 const findMany = jest.fn();
 
@@ -117,6 +117,50 @@ describe("fiches catalogue retirées → redirection permanente", () => {
     const slug = buildCatalogueSlug("Une fiche active", SIBLING_ID);
     const meta = await page.generateMetadata({ params: { slug } });
     expect(meta.alternates.canonical).toBe(`https://deviens-marrant.fr/${list}/${slug}`);
+  });
+});
+
+describe("fiches catalogue actives → slug canonique (lot S3d)", () => {
+  beforeEach(() => {
+    findMany.mockReset();
+    notFound.mockClear();
+    permanentRedirect.mockClear();
+  });
+
+  it.each(PAGES)("/%s/[slug] : ancien slug (texte réécrit) → permanentRedirect vers le slug canonique", async (list, mod) => {
+    findMany.mockResolvedValue([item(SIBLING_ID, "Le nouveau texte de la fiche", true)]);
+    const page = require(mod);
+    const oldSlug = buildCatalogueSlug("L'ancien texte de la fiche", SIBLING_ID);
+    const canonical = buildCatalogueSlug("Le nouveau texte de la fiche", SIBLING_ID);
+    await expect(page.default({ params: { slug: oldSlug } })).rejects.toThrow(`NEXT_REDIRECT:/${list}/${canonical}`);
+    expect(permanentRedirect).toHaveBeenCalledWith(`/${list}/${canonical}`);
+    expect(notFound).not.toHaveBeenCalled();
+  });
+
+  it.each(PAGES)("/%s/[slug] : shortId seul ou casse différente → slug canonique", async (list, mod) => {
+    findMany.mockResolvedValue([item(SIBLING_ID, "Une fiche active", true)]);
+    const page = require(mod);
+    const canonical = buildCatalogueSlug("Une fiche active", SIBLING_ID);
+    await expect(page.default({ params: { slug: SHORT_ID } })).rejects.toThrow(`NEXT_REDIRECT:/${list}/${canonical}`);
+    await expect(page.default({ params: { slug: canonical.toUpperCase() } })).rejects.toThrow(
+      `NEXT_REDIRECT:/${list}/${canonical}`,
+    );
+  });
+
+  it.each(PAGES)("/%s/[slug] : slug canonique → pas de redirection (pas de boucle)", async (_list, mod) => {
+    findMany.mockResolvedValue([item(SIBLING_ID, "Une fiche active", true)]);
+    const page = require(mod);
+    const canonical = buildCatalogueSlug("Une fiche active", SIBLING_ID);
+    await page.default({ params: { slug: canonical } }).catch(() => undefined);
+    expect(permanentRedirect).not.toHaveBeenCalled();
+    expect(notFound).not.toHaveBeenCalled();
+  });
+});
+
+describe("isNonCanonicalSlug", () => {
+  it("compare le slug demandé au slug canonique", () => {
+    expect(isNonCanonicalSlug("une-vanne-cmabcdefgh", "une-vanne-cmabcdefgh")).toBe(false);
+    expect(isNonCanonicalSlug("vieux-texte-cmabcdefgh", "une-vanne-cmabcdefgh")).toBe(true);
   });
 });
 

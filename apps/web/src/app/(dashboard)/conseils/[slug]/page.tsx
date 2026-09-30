@@ -4,7 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
-import { buildTipSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import { buildTipSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { tipProse } from "@/lib/tip-prose";
 import {
@@ -120,6 +120,8 @@ export default async function ConseilPage({
   const tip = resolved.item;
 
   const canonicalSlug = buildTipSlug(tip);
+  // Ancien slug (conseil réécrit) : 308 vers l'URL canonique (lot S3d s14).
+  if (isNonCanonicalSlug(params.slug, canonicalSlug)) permanentRedirect(`/conseils/${canonicalSlug}`);
   const url = `https://deviens-marrant.fr/conseils/${canonicalSlug}`;
   const categoryLabel = CATEGORY_LABELS[tip.category] ?? tip.category;
   const difficultyLabel = DIFFICULTY_LABELS[tip.difficulty] ?? tip.difficulty;

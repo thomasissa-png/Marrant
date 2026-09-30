@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
-import { buildJokeSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import { buildJokeSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -134,6 +134,8 @@ export default async function VannePage({
   // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
+  // Ancien slug (vanne réécrite) : 308 vers l'URL canonique (lot S3d s14).
+  if (isNonCanonicalSlug(params.slug, canonicalSlug)) permanentRedirect(`/vannes/${canonicalSlug}`);
   const categoryLabel = CATEGORY_LABELS[joke.category] ?? "Vanne";
   const url = `https://deviens-marrant.fr/vannes/${canonicalSlug}`;
 
