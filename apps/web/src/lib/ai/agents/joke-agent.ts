@@ -6,6 +6,8 @@ import {
   getResponseText,
   SONNET_MODEL,
 } from "../client";
+import type Anthropic from "@anthropic-ai/sdk";
+import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
@@ -63,6 +65,13 @@ interface JokeAgentContext {
   recentJokes: Array<{ content: string; category: string; type: string }>;
   monthlyPlanSummary: string;
   otherAgentsCategories?: { tip: string; video: string };
+  /**
+   * Lot V7 : amorces déjà exploitées dans TOUT le catalogue (actives et
+   * inactives), construites par `buildJokeSeriesGuard().avoidListPrompt`.
+   * Placées dans un bloc system caché juste après le préambule : identiques
+   * entre la génération et la régénération d'un même run → lecture cache.
+   */
+  avoidListPrompt?: string;
 }
 
 // Bloc stable du system prompt joke-agent — construit une seule fois au
@@ -128,7 +137,7 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous êtes", réécris en "t'es" ou "tu es".
 ❌ VULGARITÉ : JAMAIS de gros mots (putain, merde, bordel, etc.). On est drôle SANS être vulgaire.
-❌ MENTION D'IA / D'ASSISTANT VOCAL : JAMAIS de ChatGPT, "l'IA", GPT, Claude, Alexa, Siri, Google Assistant, "mon assistant vocal", "un chatbot". Règle fondateur permanente : on n'évoque JAMAIS l'IA dans le contenu. Si l'idée passe par un assistant vocal ou une IA, remplace-le par un humain (un pote, un collègue, un parent, une appli lambda).
+❌ VANNE PRÉSENTÉE COMME ÉCRITE PAR UNE IA : jamais de « générée par IA », « propulsé par », ni de clin d'œil sur le fait que la vanne ou le site viennent d'une IA. En revanche, un assistant ou une IA (Alexa, Siri, ChatGPT…) peut être le sujet de la vanne s'il la sert (décision fondateur V6, voir l'étalon Alexa plus bas).
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
@@ -160,6 +169,10 @@ EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
 🔴 MAUVAIS : "Je suis tellement seul que même mon ombre m'a quitté." → Autodérision triste sans retournement comique.
 🔴 MAUVAIS : "Il fait un temps de chien ? Moi je dirais plutôt un temps de chat." → Calembour phonétique : ça s'explique par « ça sonne comme ». Comparer avec l'étalon B, même amorce, twist par l'idée.
 🔴 MAUVAIS : "J'ai attendu le bus vingt minutes. Quand il m'a vu, il a accéléré." → Blague déjà connue ailleurs : tout le monde l'a lue. Faible même si elle marche.
+🔴 MAUVAIS : "Mon mec m'a envoyé des fleurs le jour où j'ai découvert mon allergie au pollen. J'ai enfin compris pourquoi on dit que l'amour fait pleurer." → Chute télégraphiée (fleurs + pollen = larmes, tout est dans le setup), faux proverbe, tic « j'ai enfin compris pourquoi on dit que ».
+
+═══════════════════════════════════════
+${JOKE_QUALITY_BAR}
 
 ═══════════════════════════════════════
 DÉCRYPTAGE PÉDAGOGIQUE — OBLIGATOIRE
@@ -176,7 +189,7 @@ MODÈLE VALIDÉ (reproduis ce niveau) (étalon C, validé fondateur) — pour "M
 - howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
 (Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
 
-Le décryptage doit coller à CETTE vanne précise — pas un blabla générique sur la technique. Zéro mention d'IA. Tutoiement strict (jamais "vous").
+Le décryptage doit coller à CETTE vanne précise — pas un blabla générique sur la technique. Il ne présente jamais la vanne comme écrite par une IA (nommer l'assistant dont parle la vanne reste possible). Tutoiement strict (jamais "vous").
 
 ═══════════════════════════════════════
 FORMAT DE RÉPONSE — JSON STRICT
@@ -196,7 +209,13 @@ Rappel : la punchline est TOUJOURS plus courte que le content. Si c'est pas le c
 
 const JOKE_STABLE_CACHED_BLOCK = buildCachedSystemBlock(JOKE_STABLE_PREAMBLE);
 
-export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
+/**
+ * Construit les blocs system du générateur de vannes (fonction pure, testée) :
+ *   1. préambule stable + barre qualité V7 (caché) ;
+ *   2. amorces à éviter du catalogue (caché, si fourni) ;
+ *   3. contexte variable du jour (persona, récentes, plan), non caché.
+ */
+export function buildJokeSystemBlocks(ctx: JokeAgentContext): Anthropic.TextBlockParam[] {
   const persona = PERSONAS[ctx.persona];
 
   // Bloc variable non caché — persona, coordination, recent jokes, plan
@@ -224,10 +243,19 @@ ${ctx.monthlyPlanSummary}
 CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 (Utilise cette catégorie dans le champ "category" du JSON de réponse.)`;
 
+  const blocks: Anthropic.TextBlockParam[] = [JOKE_STABLE_CACHED_BLOCK];
+  if (ctx.avoidListPrompt?.trim()) blocks.push(buildCachedSystemBlock(ctx.avoidListPrompt));
+  blocks.push({ type: "text" as const, text: variableContext });
+  return blocks;
+}
+
+export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
+  const persona = PERSONAS[ctx.persona];
+
   const response = await callWithRetry({
     model: SONNET_MODEL,
     max_tokens: 1200,
-    system: [JOKE_STABLE_CACHED_BLOCK, { type: "text" as const, text: variableContext }],
+    system: buildJokeSystemBlocks(ctx),
     messages: [
       {
         role: "user",
@@ -237,7 +265,7 @@ CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 Pense à une situation concrète de sa vie (${persona.interests.slice(0, 3).join(", ")}) et trouve l'angle drôle.
 Setup court → twist qui surprend → punchline qui claque.
 
-AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?" puis "est-ce qu'elle est NEUVE — ni blague déjà connue ailleurs, ni calembour de son, ni copie d'un étalon ?". Si tu hésites, recommence.`,
+AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?" puis "est-ce qu'elle est NEUVE — ni blague déjà connue ailleurs, ni calembour de son, ni copie d'un étalon, ni situation de la liste des amorces déjà exploitées ?" puis "le setup laisse-t-il deviner la chute ?" (si oui, elle est télégraphiée). Compare-la aux quatre étalons de la barre plancher : si elle est en dessous, recommence.`,
       },
     ],
   }, 2, { agent: "joke-agent", fn: "generateDailyJoke" });
@@ -327,7 +355,7 @@ MODÈLE VALIDÉ (étalon C, validé fondateur) — pour "Mon inventaire dans le 
 - howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
 (Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
 
-RÈGLES : colle à CETTE vanne précise (pas de blabla générique). Zéro mention d'IA. Tutoiement strict (jamais "vous").
+RÈGLES : colle à CETTE vanne précise (pas de blabla générique). Ne présente jamais la vanne comme écrite par une IA (nommer l'assistant dont parle la vanne reste possible). Tutoiement strict (jamais "vous").
 
 FORMAT DE RÉPONSE — JSON STRICT :
 {

@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : lot V7 anti-séries et barre qualité du générateur de vannes @ia (code `src/lib/ai/` uniquement)
+
+> Aucune action manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Modèle et effort inchangés. Pris en compte au prochain `daily-content` (5h UTC) une fois la branche déployée sur le Worker.
+> - `joke-series-guard.ts` (nouveau) : avant génération, lecture de tous les setups (actifs + inactifs) ; liste compacte des amorces déjà en série injectée au prompt (40 entrées max, 2 800 caractères max, bloc system caché) ; après génération, rejet d'un setup quasi identique (Jaccard ≥ 0,6), d'une 4e vanne active sur une même amorce (Jaccard des 12 premiers mots ≥ 0,5) et des tics d'écriture de l'audit s14. Une régénération au plus, sinon le repli sur le catalogue prend le relais. La réécriture du Director repasse le filtre.
+> - `joke-quality-bar.ts` (nouveau) : les 4 étalons validés (Alexa, « des erreurs, principalement », réveil, GPS), les critères et les tics, injectés dans le générateur, dans `validateJoke` (option `dailyGeneration`, passée seulement par `daily-publisher`) et dans `directorRewriteJoke`.
+> - Décision V6 : le générateur n'interdit plus les assistants et l'IA comme sujet ; en génération quotidienne, G-J11 laisse passer. Le copy-review (`validateJoke` appelé sans option) est inchangé.
+
 ## s14 (30/09/2026) : BASCULE deviens-marrant.fr → Cloudflare Workers (étape D)
 
 > **Action Replit : mettre en pause / arrêter le déploiement** (Deployments → Autoscale). Le domaine ne pointe plus sur Replit, mais un visiteur de l'URL `*.replit.app` réveillerait son planificateur interne (posts sociaux en double, écritures dans l'ancienne base Replit). Ne pas supprimer : retour arrière possible (voir `docs/infra/bascule-checklist.md`).

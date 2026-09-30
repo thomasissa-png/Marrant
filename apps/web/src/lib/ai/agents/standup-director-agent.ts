@@ -8,6 +8,7 @@ import {
 import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
 import { extractSetupAmorce } from "./joke-agent";
+import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
 
 /**
  * Regex de mentions IA / assistants vocaux (règle fondateur permanente).
@@ -49,7 +50,15 @@ interface GateResult {
  */
 export function runJokeGates(
   joke: JokeToValidate,
-  options: { recentSetups?: string[] } = {},
+  options: {
+    recentSetups?: string[];
+    /**
+     * Lot V7 (décision Thomas V6) : en génération quotidienne, les assistants
+     * / IA sont un sujet autorisé → G-J11 passe. Défaut false : le
+     * copy-review (qui appelle validateJoke sans option) garde G-J11 tel quel.
+     */
+    allowAssistantSubject?: boolean;
+  } = {},
 ): GateResult[] {
   const results: GateResult[] = [];
   const content = joke.content.trim();
@@ -185,11 +194,14 @@ export function runJokeGates(
   // charte s11 §1.2 : "Zéro mention d'IA — y compris les vannes/exemples qui
   // parlent de ChatGPT, d'assistants vocaux ou de « l'IA »").
   const aiInJoke = AI_MENTION_PATTERN.test(`${content} ${punchline}`);
+  const aiAllowed = options.allowAssistantSubject === true;
   results.push({
     gate: "G-J11 Anti-mention IA",
-    pass: !aiInJoke,
+    pass: aiAllowed || !aiInJoke,
     reason: aiInJoke
-      ? "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
+      ? aiAllowed
+        ? "OK (assistant / IA comme sujet autorisé en génération, décision V6)"
+        : "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
       : "OK",
   });
 
@@ -816,10 +828,23 @@ async function dualPassValidate<T>(
 export async function validateJoke(
   joke: JokeToValidate,
   persona: PersonaKey,
-  options: { recentSetups?: string[] } = {},
+  options: {
+    recentSetups?: string[];
+    /**
+     * Lot V7 : true uniquement depuis daily-publisher. Ajoute la barre
+     * plancher (4 étalons + critères + tics) au prompt et autorise les
+     * assistants / IA comme sujet. Défaut false = comportement copy-review
+     * inchangé.
+     */
+    dailyGeneration?: boolean;
+  } = {},
 ): Promise<ValidationResult> {
   // ── Gates programmatiques (binaires, pas de LLM) ──
-  const gates = runJokeGates(joke, { recentSetups: options.recentSetups });
+  const dailyGeneration = options.dailyGeneration === true;
+  const gates = runJokeGates(joke, {
+    recentSetups: options.recentSetups,
+    allowAssistantSubject: dailyGeneration,
+  });
   const gateReject = applyGates(gates, "JOKE");
   if (gateReject) {
     console.log(`[Director] Vanne rejetée par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
@@ -854,8 +879,8 @@ CRITÈRES SPÉCIFIQUES VANNES :
 - Est-elle NEUVE ? Une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar) est FAIBLE même si elle marche → score max 5
 - Le twist vient-il d'une IDÉE ? Calembour phonétique (« parce que ça sonne comme… ») → score max 5
 - La cible est-elle un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) ? → REJECTED
-- Économie de mots : chaque mot sert-il la chute ? Zéro mention d'IA, tutoiement si la vanne s'adresse au lecteur
-
+- Économie de mots : chaque mot sert-il la chute ? ${dailyGeneration ? "Un assistant ou une IA (Alexa, Siri, ChatGPT) comme sujet est autorisé s'il sert la vanne ; la vanne ne se présente jamais comme écrite par une IA" : "Zéro mention d'IA"}, tutoiement si la vanne s'adresse au lecteur
+${dailyGeneration ? `\n${JOKE_QUALITY_BAR}\nUne vanne en dessous de ces étalons, à la chute télégraphiée par le setup ou contenant un tic listé → score max 6.\n` : ""}
 TEST CRITIQUE — PUNCHLINE OU CONSTAT ?
 La punchline doit contenir un RETOURNEMENT COMIQUE (twist, exagération, absurde, double sens, comparaison inattendue).
 Si la punchline est juste une EXPLICATION de la situation, un CONSTAT logique, ou la SUITE de l'histoire → c'est PAS une vanne, c'est une anecdote. Score max 5.
@@ -1523,7 +1548,10 @@ Intérêts : ${p.interests.join(", ")}
 
 MISSION : Réécris cette vanne en corrigeant TOUS les problèmes.
 Tu es le directeur artistique — montre l'exemple. Produis une vanne que ${p.name} peut sortir ce soir.
-Barre : retournement d'IDÉE (jamais un calembour phonétique), économie de mots (chute plus courte que le setup), vanne NEUVE (jamais une blague déjà connue ailleurs), cible = soi ou la situation (jamais un groupe), zéro mention d'IA, zéro vulgarité.
+Barre : retournement d'IDÉE (jamais un calembour phonétique), économie de mots (chute plus courte que le setup), vanne NEUVE (jamais une blague déjà connue ailleurs), cible = soi ou la situation (jamais un groupe), jamais présentée comme écrite par une IA, zéro vulgarité.
+
+${JOKE_QUALITY_BAR}
+Garde de préférence la situation de départ (elle a déjà passé le filtre anti-séries du catalogue). Réécrire le setup pour qu'il ne télégraphie plus la chute est permis.
 
 Réponds en JSON :
 {
