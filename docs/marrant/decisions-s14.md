@@ -31,7 +31,7 @@ Nettement au niveau : environ 1 sur 3. Compteur du site après retraits : de « 
 
 | # | Décision | Reco |
 |---|---|---|
-| T1 | Always Use HTTPS (http reste en 200) : interrupteur Cloudflare, token sans droit | Thomas, 1 clic |
+| T1 | Always Use HTTPS | FAIT (Thomas, 30/09) : http → https en 301 vérifié |
 | T2 | Clé IndexNow : le fichier statique `public/indexnow-key.txt` masque la route sous Workers, les soumissions Bing échouent. Retirer le fichier + cache long sur `/_next/static` + HSTS 6 mois (sans preload) : 1 build + déploiement | GO |
 
 ## SEO / GEO / messages
