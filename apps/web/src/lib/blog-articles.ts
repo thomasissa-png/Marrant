@@ -34,9 +34,11 @@ Derrière chaque "naturel", il y a des centaines de bides que personne n'a film�
 
 Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des **mécanismes cognitifs précis** : détection d'incongruité, résolution de tension, calibrage social. Ton cerveau sait déjà faire tout ça : il le fait chaque fois que tu comprends une blague. Le truc, c'est de passer de "comprendre" à "produire".
 
-Une étude du *Journal of Positive Psychology* a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire. 8 semaines : moins que ce qu'il faut à la plupart des gens pour réussir un créneau.
+Une étude de Crawford et Caltabiano (2011, *Journal of Positive Psychology*) a montré qu'un programme d'humour de 8 semaines améliorait significativement le bien-être émotionnel des participants : plus d'optimisme et d'émotions positives, moins de stress et d'anxiété. 8 semaines : moins que ce qu'il faut à la plupart des gens pour réussir un créneau.
 
-> **À retenir :** L'humour n'est pas un talent inné, c'est une compétence cognitive qui repose sur l'observation, la surprise et le timing. Des études scientifiques montrent qu'un entraînement structuré de 8 semaines améliore significativement la capacité à faire rire, quel que soit le niveau de départ.
+*Source : Crawford, S. A. et Caltabiano, N. J. (2011), « Promoting emotional well-being through the use of humour », The Journal of Positive Psychology, 6(3), 237-252.*
+
+> **À retenir :** L'humour n'est pas un talent inné, c'est une compétence qui repose sur trois leviers : l'observation, la surprise et le timing. Une étude scientifique (Crawford et Caltabiano, 2011) montre qu'un programme d'humour de 8 semaines améliore le bien-être émotionnel, et l'humour se travaille, quel que soit le niveau de départ.
 
 ## Quels sont les 5 piliers pour devenir drôle ?
 
@@ -107,9 +109,9 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     category: "GUIDE",
     faqs: [
       { question: "Comment devenir drôle rapidement ?", answer: "Commence par noter une absurdité par jour dans ton téléphone, ressors 5 vannes courtes avec des proches, et teste. En 2 à 4 semaines de pratique régulière, tu vas voir la différence dans tes interactions, et les gens le sentiront avant que tu t'en rendes compte." },
-      { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour repose sur des mécanismes cognitifs (observation, surprise, timing) que n'importe qui peut développer. Paul Mirabel, Fary, Blanche Gardin ont tous commencé en salle de 20 personnes à rater leurs vannes une fois sur deux. C'est ça, la progression." },
+      { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour repose sur 3 leviers (observation, surprise, timing) que n'importe qui peut développer. Paul Mirabel, Fary, Blanche Gardin ont tous commencé en salle de 20 personnes à rater leurs vannes une fois sur deux. C'est ça, la progression." },
       { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout : tu observes plus et tu parles moins, donc quand tu interviens, l'effet de surprise est décuplé. Commence par l'humour à l'écrit (messages, réseaux), puis passe à l'oral progressivement avec des amis proches. Moins tu parles, plus chaque mot compte." },
-      { question: "Peut-on apprendre à être drôle à tout âge ?", answer: "Absolument. L'humour est un muscle cognitif qui se développe à tout âge. Des études montrent qu'un entraînement de 8 semaines améliore significativement la capacité à faire rire, peu importe le point de départ." },
+      { question: "Peut-on apprendre à être drôle à tout âge ?", answer: "Absolument. L'humour est un muscle cognitif qui se développe à tout âge. Une étude (Crawford et Caltabiano, 2011) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel, et l'humour se travaille, peu importe le point de départ." },
     ],
   },
   {
@@ -264,7 +266,7 @@ Voici la structure en 4 étapes :
 
 1. **Le setup** : tu racontes normalement, rythme conversationnel
 2. **Le ralentissement** : juste avant la chute, tu baisses le volume et tu ralentis
-3. **La micro-pause** : 1-2 secondes de silence
+3. **La micro-pause** : 2-3 secondes de silence
 4. **La punchline** : changement de ton, souvent plus bas ou plus direct
 
 C'est ce **contraste** qui fait le travail. Le cerveau de ton public s'attend à la suite logique du setup... et le silence le met en alerte. La punchline libère la tension sous forme de rire.
@@ -1047,7 +1049,7 @@ Les 3 premières fois, c'est TRÈS inconfortable. Tu vas vouloir combler le sile
 
 Sur scène, les silences peuvent durer 5 secondes. En conversation, c'est trop. Le timing conversationnel est plus subtil :
 
-- **Pause avant la punchline :** 1-2 secondes (pas plus)
+- **Pause avant la punchline :** 2-3 secondes (pas plus)
 - **Changement de ton :** léger, pas théâtral
 - **Silence après :** 2-3 secondes max avant de reprendre
 
@@ -1060,7 +1062,7 @@ Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercic
     faqs: [
       { question: "Pourquoi le timing est-il si important en humour ?", answer: "Le timing crée la tension nécessaire au rire. Sans pause avant la punchline, le cerveau ne peut pas construire l'attente. Le silence est l'arme secrète : il transforme un sourire en éclat de rire." },
       { question: "Comment améliorer son timing comique en conversation ?", answer: "Exercice de la micro-pause : avant chaque punchline, compte 'mille-un, mille-deux' silencieusement, baisse le ton, puis lâche la chute. En 4-5 essais, le réflexe se met en place." },
-      { question: "Quelle est la durée idéale d'une pause en conversation ?", answer: "1-2 secondes avant la punchline, 2-3 secondes après. Sur scène, les pauses peuvent aller jusqu'à 5 secondes, mais en conversation ce serait trop long et gênant." },
+      { question: "Quelle est la durée idéale d'une pause en conversation ?", answer: "2-3 secondes avant la punchline, autant après. Sur scène, les pauses peuvent aller jusqu'à 5 secondes, mais en conversation ce serait trop long et gênant." },
     ],
   },
   {
@@ -1897,9 +1899,9 @@ Notre guide complet [Comment devenir drôle](/blog/comment-devenir-drole) t'acco
     category: "PSYCHOLOGIE",
     faqs: [
       { question: "Comment savoir si on est drôle ?", answer: "Si tu fais sourire tes proches, si tu remarques des absurdités au quotidien, si tu penses des réflexions drôles (même sans les dire), tu as déjà le muscle. Entre 'pas drôle' et 'drôle', il n'y a que de la pratique et la permission de tenter." },
-      { question: "Est-ce que tout le monde peut apprendre à être drôle ?", answer: "Oui. L'humour repose sur des mécanismes cognitifs universels : observation, surprise, timing. Des études scientifiques montrent qu'un entraînement structuré de 8 semaines améliore significativement la capacité à faire rire, quel que soit le niveau de départ." },
+      { question: "Est-ce que tout le monde peut apprendre à être drôle ?", answer: "Oui. L'humour repose sur des mécanismes cognitifs universels : observation, surprise, timing. Une étude scientifique (Crawford et Caltabiano, 2011) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel, et l'humour se travaille, quel que soit le niveau de départ." },
       { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout en humour : tu observes plus, tu parles moins, donc quand tu interviens, personne ne s'y attend. Commence par l'écrit (messages, groupes de potes), puis passe à l'oral avec des proches. Les meilleurs observateurs sont souvent les plus discrets." },
-      { question: "Combien de temps pour devenir drôle ?", answer: "Avec une pratique régulière (1 observation par jour, 1 test de vanne par semaine), la plupart des gens constatent une amélioration en 2 à 4 semaines. En 8 semaines d'entraînement structuré, les progrès sont significatifs selon les études en psychologie positive." },
+      { question: "Combien de temps pour devenir drôle ?", answer: "Avec une pratique régulière (1 observation par jour, 1 test de vanne par semaine), la plupart des gens constatent une amélioration en 2 à 4 semaines. En 8 semaines de programme d'humour, l'effet sur le bien-être émotionnel est significatif selon une étude en psychologie positive (Crawford et Caltabiano, 2011)." },
       { question: "Pourquoi mes blagues tombent toujours à plat ?", answer: "Trois causes reviennent presque toujours : tu annonces tes blagues ('attends, j'ai une blague'), ton timing est décalé (trop tôt ou trop tard dans la conversation), ou tu forces un humour qui n'est pas le tien. Repère ton style naturel et glisse tes vannes dans la conversation sans prévenir." },
     ],
   },

@@ -37,7 +37,7 @@ const aboutFaqs = [
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
     answer:
-      "Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent 3 semaines, les plus complets 6 semaines. Une étude du Journal of Positive Psychology montre qu'en 8 semaines d'entraînement structuré, la progression est significative.",
+      "Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent 3 semaines, les plus complets 6 semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel.",
   },
 ];
 

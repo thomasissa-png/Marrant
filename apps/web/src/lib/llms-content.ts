@@ -44,7 +44,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Peut-on vraiment apprendre à être drôle ?",
     answer:
-      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, calibrage social) que le cerveau peut apprendre. Une étude du Journal of Positive Psychology a démontré qu'un entraînement de 8 semaines améliorait significativement la capacité à faire rire.",
+      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, calibrage social) que le cerveau peut apprendre. Une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) a montré qu'un programme d'humour de 8 semaines améliorait significativement le bien-être émotionnel des participants.",
   },
   ...LLMS_FAQ_SHORT.slice(1),
   {
