@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : lot S1, catalogue crawlable (listes rendues côté serveur) @fullstack
+
+> Aucune action Replit ni Cloudflare manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`).
+> `/vannes`, `/conseils`, `/videos` passent en rendu serveur à la requête (lecture de `?page=N`) : le HTML contient les fiches de la page (12 vannes, 10 conseils, 12 vidéos) et une pagination en vrais liens ; données en cache serveur 1 h (`src/lib/catalogue-pages.ts`, entrées R2 `catalogue-*-page-v1`). `/blog` : liste complète dans le HTML statique. Accueil : 2 fiches par carte (vannes, conseils, vidéos). Base indisponible : repli sur le chargement client d'avant (pas de 500). À vérifier après déploiement : voir le handoff du lot S1 (comptage des liens au `curl`).
+
 ## s14 (30/09/2026) : BASCULE deviens-marrant.fr → Cloudflare Workers (étape D)
 
 > **Action Replit : mettre en pause / arrêter le déploiement** (Deployments → Autoscale). Le domaine ne pointe plus sur Replit, mais un visiteur de l'URL `*.replit.app` réveillerait son planificateur interne (posts sociaux en double, écritures dans l'ancienne base Replit). Ne pas supprimer : retour arrière possible (voir `docs/infra/bascule-checklist.md`).
