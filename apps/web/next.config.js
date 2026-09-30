@@ -112,9 +112,10 @@ const nextConfig = {
                 { key: "X-XSS-Protection", value: "1; mode=block" },
                 { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
                 { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-                // HSTS retiré : Replit / Google Frontend en injecte déjà un
-                // (max-age=63072000; includeSubDomains) en amont — doublon constaté
-                // en prod. Si on redéploie hors Replit, réactiver ici.
+                // HSTS réactivé à la bascule Cloudflare (s14) : Replit / Google Frontend
+                // l'injectait en amont, Cloudflare Workers non. 6 mois, volontairement
+                // SANS includeSubDomains ni preload (choix Thomas, réversible).
+                { key: "Strict-Transport-Security", value: "max-age=15552000" },
                 // CSP prod — s11 : retrait de 'unsafe-eval' (Next 14 prod n'en
                 // a pas besoin ; Umami et Stripe.js n'utilisent pas eval).
                 // 'unsafe-inline' reste requis pour les scripts d'hydratation

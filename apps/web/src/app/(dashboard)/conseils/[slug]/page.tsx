@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
-import { buildTipSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
+import { buildTipSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { tipProse } from "@/lib/tip-prose";
 import {
@@ -35,17 +35,18 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 
 async function findTipBySlug(slug: string) {
   const shortId = parseShortIdFromSlug(slug);
-  if (!shortId) return null;
+  if (!shortId) return { status: "missing" as const };
   // Erreur DB = exception (page 500, retentée ; en revalidation ISR la version
   // en cache est gardée). Surtout PAS `return null` : notFound() servirait
   // alors un 404, mis en cache ISR, sur une page qui existe (désindexation).
   const candidates = await withDbRetry(
     () =>
       prisma.tip.findMany({
-        where: { id: { startsWith: shortId }, isActive: true },
+        where: { id: { startsWith: shortId } },
         take: 200,
         select: {
           id: true,
+          isActive: true,
           title: true,
           content: true,
           category: true,
@@ -58,7 +59,7 @@ async function findTipBySlug(slug: string) {
       }),
     { label: "findTipBySlug" },
   );
-  return pickBySlug(candidates, slug, buildTipSlug);
+  return resolveBySlug(candidates, slug, buildTipSlug);
 }
 
 export function generateStaticParams() {
@@ -70,7 +71,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const tip = await findTipBySlug(params.slug);
+  const resolved = await findTipBySlug(params.slug);
+  const tip = resolved.status === "active" ? resolved.item : null;
   if (!tip) return { title: "Conseil introuvable" };
 
   const canonicalSlug = buildTipSlug(tip);
@@ -110,8 +112,12 @@ export default async function ConseilPage({
 }: {
   params: { slug: string };
 }) {
-  const tip = await findTipBySlug(params.slug);
-  if (!tip) notFound();
+  const resolved = await findTipBySlug(params.slug);
+  // Conseil retiré (isActive=false, ex. relecture automatique) : redirection
+  // permanente vers la liste, pas de 404. Slug inconnu : 404 comme avant.
+  if (resolved.status === "inactive") permanentRedirect("/conseils");
+  if (resolved.status === "missing") notFound();
+  const tip = resolved.item;
 
   const canonicalSlug = buildTipSlug(tip);
   const url = `https://deviens-marrant.fr/conseils/${canonicalSlug}`;

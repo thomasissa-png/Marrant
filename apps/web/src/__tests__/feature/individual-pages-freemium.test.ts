@@ -13,7 +13,8 @@
  *       - Vidéos  : learnings pédagogiques + exercice → CTA compte gratuit
  *   - "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
  *     valeur SEO + preuve d'expertise pour les crawlers et visiteurs non connectés.
- *   - Aucune page pour les contenus inactifs (isActive=false) → 404.
+ *   - Aucune page pour les contenus inactifs (isActive=false) : redirection
+ *     permanente vers la liste (lot S2 s14) ; slug inexistant → 404.
  */
 
 import fs from "node:fs";
@@ -31,6 +32,8 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("filtre les contenus inactifs (isActive:true)", () => {
       expect(src).toMatch(/isActive:\s*true/);
+      // Lot S2 (s14) : fiche retirée → 308 vers la liste (plus de 404).
+      expect(src).toMatch(/permanentRedirect\("\/(vannes|conseils|videos)"\)/);
     });
 
     it("affiche la vanne (content) et la chute (punchline) — indexable SEO", () => {
@@ -80,6 +83,8 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("filtre les contenus inactifs (isActive:true)", () => {
       expect(src).toMatch(/isActive:\s*true/);
+      // Lot S2 (s14) : fiche retirée → 308 vers la liste (plus de 404).
+      expect(src).toMatch(/permanentRedirect\("\/(vannes|conseils|videos)"\)/);
     });
 
     it("affiche titre, contenu théorique et exemple — indexable SEO", () => {
@@ -103,6 +108,8 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("filtre les contenus inactifs (isActive:true)", () => {
       expect(src).toMatch(/isActive:\s*true/);
+      // Lot S2 (s14) : fiche retirée → 308 vers la liste (plus de 404).
+      expect(src).toMatch(/permanentRedirect\("\/(vannes|conseils|videos)"\)/);
     });
 
     it("affiche titre, description, technique et embed YouTube — indexable SEO", () => {

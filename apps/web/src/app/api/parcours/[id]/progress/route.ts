@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import { canAccessParcoursStep, LAST_FREE_PARCOURS_STEP } from "@/lib/parcours-access";
 import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
 
 // Get the moduleXp from seed for a given parcours step
@@ -101,6 +102,21 @@ export async function POST(
         { error: "stepOrder doit être un entier positif" },
         { status: 400 }
       );
+    }
+
+    // Étapes 2+ réservées aux abonnés Premium (même contrôle que les favoris :
+    // plan lu en base, pas dans le jwt). L'étape 1 reste ouverte à tous.
+    if (stepOrder > LAST_FREE_PARCOURS_STEP) {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { plan: true },
+      });
+      if (!canAccessParcoursStep(stepOrder, user?.plan)) {
+        return NextResponse.json(
+          { error: "Cette étape est réservée aux membres Premium" },
+          { status: 403 }
+        );
+      }
     }
 
     // Tout dans la transaction pour éviter les race conditions
