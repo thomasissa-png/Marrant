@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import type { JokeCategory, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
@@ -76,15 +77,32 @@ function paginate<T>(ids: string[], page: number, limit: number) {
 
 const ORDER_BY = [{ createdAt: "desc" as const }, { id: "asc" as const }];
 
-async function loadJokesPage(page: number): Promise<CataloguePage<PublicJoke>> {
+function loadJokesPage(page: number): Promise<CataloguePage<PublicJoke>> {
+  return loadJokesPageWhere({ isActive: true }, page, "catalogue-pages:jokes");
+}
+
+/** Pages thème (lot S3b) : mêmes règles que /vannes, limitées à une catégorie. */
+function loadThemeJokesPage(category: string, page: number): Promise<CataloguePage<PublicJoke>> {
+  return loadJokesPageWhere(
+    { isActive: true, category: category as JokeCategory },
+    page,
+    `catalogue-pages:jokes:${category}`,
+  );
+}
+
+async function loadJokesPageWhere(
+  where: Prisma.JokeWhereInput,
+  page: number,
+  label: string,
+): Promise<CataloguePage<PublicJoke>> {
   const candidates = await withDbRetry(
     () =>
       prisma.joke.findMany({
-        where: { isActive: true },
+        where,
         select: { id: true, content: true },
         orderBy: ORDER_BY,
       }),
-    { label: "catalogue-pages:jokes" },
+    { label },
   );
   const uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
   const { pageIds, total, totalPages } = paginate(uniqueIds, page, JOKES_PAGE_SIZE);
@@ -184,6 +202,10 @@ function cached<T>(fn: (page: number) => Promise<T>, key: string): (page: number
 const cachedJokesPage = cached(loadJokesPage, "catalogue-jokes-page-v1");
 const cachedTipsPage = cached(loadTipsPage, "catalogue-tips-page-v1");
 const cachedVideosPage = cached(loadVideosPage, "catalogue-videos-page-v1");
+// Les arguments (catégorie, page) font partie de la clé de cache unstable_cache.
+const cachedThemeJokesPage = isCacheAvailable
+  ? unstable_cache(loadThemeJokesPage, ["catalogue-theme-jokes-page-v1"], { revalidate: LIST_REVALIDATE_SECONDS })
+  : loadThemeJokesPage;
 
 /**
  * Erreur DB → `null` (jamais mis en cache : l'exception traverse unstable_cache).
@@ -200,6 +222,11 @@ async function safe<T>(load: (page: number) => Promise<T>, page: number, label: 
 
 export function getJokesPage(page: number): Promise<CataloguePage<PublicJoke> | null> {
   return safe(cachedJokesPage, page, "vannes");
+}
+
+/** Vannes actives d'une catégorie (pages /vannes/theme/<slug>, lot S3b). */
+export function getThemeJokesPage(category: string, page: number): Promise<CataloguePage<PublicJoke> | null> {
+  return safe((p) => cachedThemeJokesPage(category, p), page, `vannes-theme:${category}`);
 }
 
 export function getTipsPage(page: number): Promise<CataloguePage<PublicTip> | null> {

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (30/09/2026) : lots S3a à S3d, landings vannes, sameAs, slugs canoniques @fullstack
+
+> Aucune action manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`).
+> - S3a `/blague-du-jour` (ISR, régénérée toutes les 5 min au plus) : vanne du jour avec chute et décryptage, même source que `/api/daily` (DailyContent du jour, sinon repli déterministe) via `src/lib/daily-joke.ts` en lecture seule ; FAQ + JSON-LD FAQPage, compteur de vannes dynamique.
+> - S3b 7 pages `/vannes/theme/<slug>` (boulot, couple, dating, soirees, famille, gaming, autoderision ; « ecole » plus tard) : liste serveur paginée `?page=N`, canonical auto-référent, cache R2 `catalogue-theme-jokes-page-v1`. Liens depuis `/vannes` et `/blague-du-jour`. Ajoutées au sitemap avec `/blague-du-jour`.
+> - S3c JSON-LD Organization : `sameAs` = Instagram, X, LinkedIn (constante `OFFICIAL_SOCIAL_PROFILES`) ; `NEXT_PUBLIC_SOCIAL_PROFILES` reste une surcharge.
+> - S3d fiches vanne, conseil, vidéo actives demandées par un ancien slug : 308 vers le slug canonique. Inchangé : fiche inactive vers la liste (S2), slug inconnu en 404.
+
 ## s14 (30/09/2026) : lot V7 anti-séries et barre qualité du générateur de vannes @ia (code `src/lib/ai/` uniquement)
 
 > Aucune action manuelle : aucun secret, aucune migration, aucun package, aucune donnée modifiée. Modèle et effort inchangés. Pris en compte au prochain `daily-content` (5h UTC) une fois la branche déployée sur le Worker.
