@@ -15,6 +15,7 @@
 - **date de publication** : 2026-11-23 (lundi)
 - **category** : REPARTIE · **readingTime** : 8 min
 - **liens internes** (11, tous vers des URL existantes ou annoncées live cette nuit) : `/vannes/theme/famille` · `/blog/jamais-quoi-repondre-techniques` · `/blog/comment-avoir-de-la-repartie` · `/blog/repondre-moqueries-avec-humour` · `/blog/repartie-soiree-anti-malaise` · `/parcours/repartie` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
+- **décisions fondateur 30/09 appliquées** : zéro humoriste nommé (choix fondateur, non re-questionnable) ; aucune réplique sous la barre des étalons E1 à E4 ; réplique d'exemple de la FAQ 1 : « assez pour venir, pas assez pour recevoir » (déjà dans la question 5) ; formulation non genrée pour la personne qui a cuisiné
 - **objections traitées** : « je vais vexer quelqu'un » (geste 2 + FAQ 1) ; « je n'ai pas d'humour à table, je fige » (entraînement + lien freeze) ; « et si ça me fait vraiment mal » (section « humour ne suffit pas » + FAQ 3) ; « et si on insiste » (plan B + FAQ 5)
 - **contenu propriétaire (first-hand)** : 12 réparties originales décryptées, 6 plans B, 1 réplique belle-famille
 - **rappel FAQPage** : les 5 questions de la fin sont visibles dans la page (FAQPage limité au visible)
@@ -27,7 +28,7 @@
 
 Le repas de Noël a une programmation fixe : l'entrée, le plat, et quelque part entre les deux, quelqu'un qui te demande si tu as trouvé l'amour. Tu as trois secondes, toute la table qui te regarde et une bouchée de dinde en réserve. Tu réponds « bof, ça va », et la vraie réplique arrive à 23 h, dans la voiture du retour, avec un brio que tu n'avais pas à table.
 
-Voici, pour les six questions qu'on reçoit presque chaque année, deux réparties prêtes à l'emploi et un plan B. Aucune ne vise personne : on rit de la situation, jamais de la tante qui pose la question. C'est d'ailleurs la mécanique de base du stand-up français, celle qu'on entend chez Paul Mirabel comme chez Fary : partir d'une situation que tout le monde connaît. Pour comprendre le reste du mécanisme, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) prennent le relais.
+Voici, pour les six questions qu'on reçoit presque chaque année, deux réparties prêtes à l'emploi et un plan B. Aucune ne vise personne : on rit de la situation, jamais de la tante qui pose la question. C'est d'ailleurs la mécanique de base du stand-up français : partir d'une situation que tout le monde connaît. Pour comprendre le reste du mécanisme, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) prennent le relais.
 
 ## Pourquoi les questions gênantes tombent-elles toujours à Noël ?
 
@@ -59,7 +60,7 @@ Tu viens à peine de t'asseoir. Ta tante pose sa fourchette, ce qui chez elle si
 
 > « Tu seras la première prévenue. Après ma mère, qui le saura avant moi. »
 
-**Pourquoi ça marche :** dans la première, tu appliques un vocabulaire d'enquête à ta vie amoureuse, et « arrestation » sert de chute : personne n'est tombé. La seconde repose sur une vérité que toute la table reconnaît : les mères savent toujours avant.
+**Pourquoi ça marche :** dans la première, tu traites ta vie amoureuse comme une enquête : des pistes, oui, mais « aucune arrestation » avoue en une chute que personne n'est encore tombé. La seconde repose sur une vérité que toute la table reconnaît : les mères savent toujours avant.
 
 **Si ça insiste :** « Je ne commente pas les affaires en cours. » Puis une vraie question sur elle, sur son voyage ou sur ses travaux.
 
@@ -83,7 +84,7 @@ La question à double détente : deux sujets en une phrase, pour que personne ne
 
 > « On a un plan précis. Étape un : un lave-vaisselle. Après, on avisera. »
 
-**Pourquoi ça marche :** tu compares un grand projet de vie à la petite décision qui bloque vraiment les couples, et l'écart d'échelle fait rire en douceur. En bonus, tu ne dis rien de ton couple : tu parles de canapé.
+**Pourquoi ça marche :** dans les deux, un grand projet de vie se heurte à une petite décision domestique, et l'écart d'échelle fait rire en douceur. Dans la seconde, le « plan précis » ne compte qu'une étape, et elle est ménagère : l'aplomb de la première phrase ne survit pas à la deuxième. En bonus, tu ne dis rien de ton couple : tu parles de séries et de vaisselle.
 
 **Si ça insiste :** « Tu le sauras avant la presse. En attendant, cette tarte est un vrai projet d'avenir. »
 
@@ -95,7 +96,7 @@ La remarque sur le physique arrive souvent déguisée en compliment, ce qui te l
 
 > « Oui, et c'est volontaire. Je prépare ce repas depuis novembre. »
 
-**Pourquoi ça marche :** dans la première, tu traites ton propre corps comme une information que tu n'avais pas reçue, avec la politesse d'un service client. Dans la seconde, tu passes du poids à la fête, et la cuisinière reçoit un hommage au lieu d'une réponse.
+**Pourquoi ça marche :** dans la première, tu remercies pour une « mise à jour » comme si ton corps était un logiciel que tu avais oublié de rafraîchir, avec la politesse d'un service client. Dans la seconde, tu passes du poids à la fête, et la personne qui a cuisiné reçoit un hommage au lieu d'une réponse.
 
 **Si ça insiste :** ici, l'humour peut ne pas suffire, et ce n'est pas grave. « Je préfère qu'on ne commente pas ça à table. Raconte-moi plutôt ton dernier voyage. » Dit avec un sourire, c'est clair et ça ne blesse personne.
 
@@ -113,7 +114,7 @@ Dans certaines familles, la question d'argent arrive avec le fromage, parce que 
 
 ### 6. « Et toi, t'en penses quoi ? » (en plein débat qui fâche)
 
-Le repas a glissé vers l'actualité, deux cousins ont monté le ton, et toute la table se tourne vers toi comme vers un juge de paix. Ou vers le prochain.
+Le repas a glissé vers l'actualité, deux cousins ont monté le ton, et toute la table se tourne vers toi comme vers un juge de paix.
 
 > « Je suis complètement d'accord avec celui qui a raison. Je vous dis qui c'est au café. »
 
@@ -153,7 +154,7 @@ Pour t'entraîner sur la durée, le [parcours Répartie](/parcours/repartie) dem
 
 ### Comment répondre avec humour à une question gênante sans vexer sa tante ?
 
-Rire de la situation ou de toi, jamais d'elle, avec un ton doux et un sourire. Termine par une question ou un compliment sur le plat : ce qui vexe n'est presque jamais la vanne, c'est l'impression qu'elle est dirigée contre la personne. Une réplique courte qui te vise toi (« j'ai des pistes, comme la police ») ne peut froisser personne.
+Rire de la situation ou de toi, jamais d'elle, avec un ton doux et un sourire. Termine par une question ou un compliment sur le plat : ce qui vexe n'est presque jamais la vanne, c'est l'impression qu'elle est dirigée contre la personne. Une réplique courte qui te vise toi (« assez pour venir, pas assez pour recevoir ») ne peut froisser personne.
 
 ### Que répondre à « t'as quelqu'un ? » quand on est célibataire ?
 

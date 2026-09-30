@@ -27,7 +27,7 @@
 
 Cette année, Halloween tombe un samedi. Traduction : une soirée déguisée, un costume commandé trop tard et au moins une personne qui va te demander « t'es quoi, toi ? » avec l'air de vraiment vouloir savoir.
 
-La plupart des blagues d'Halloween qu'on trouve en ligne sont faites pour des enfants, ou pour des adultes qui voudraient l'être. Ici : des vannes que tu n'as jamais entendues, écrites pour une soirée entre grandes personnes, avec la raison pour laquelle elles marchent. C'est le socle du stand-up français, de Roman Frayssinet à Blanche Gardin : partir d'un détail ordinaire que tout le monde a vécu sans oser le dire.
+La plupart des blagues d'Halloween qu'on trouve en ligne sont faites pour des enfants, ou pour des adultes qui voudraient l'être. Ici : des vannes que tu n'as jamais entendues, écrites pour une soirée entre grandes personnes, avec la raison pour laquelle elles marchent. C'est le socle du stand-up français : partir d'un détail ordinaire que tout le monde a vécu sans oser le dire.
 
 ## Quelles blagues d'Halloween sortir entre adultes ?
 
