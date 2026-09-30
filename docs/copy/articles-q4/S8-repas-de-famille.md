@@ -148,7 +148,7 @@ Trois minutes la veille suffisent. Écris les trois questions que tu redoutes le
 
 Si tu as tendance à figer, [Tu sais jamais quoi répondre ? 5 techniques](/blog/jamais-quoi-repondre-techniques) te donne les réflexes de secours. Si la question ressemble à un chambrage, [répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) prend le relais, et [la répartie en soirée](/blog/repartie-soiree-anti-malaise) complète le tableau.
 
-Pour t'entraîner sur la durée, le [parcours Répartie](/parcours/repartie) demande 15 à 20 minutes par semaine selon le parcours. Tu peux aussi piocher dans les [vannes sur la famille](/vannes/theme/famille), les [vannes](/vannes), les [conseils](/conseils) et les [vidéos](/videos), ou passer voir la [vanne du jour](/blague-du-jour) avant de te mettre à table.
+Pour t'entraîner sur la durée, le [parcours Répartie](/parcours/repartie) demande 20 minutes par semaine. Tu peux aussi piocher dans les [vannes sur la famille](/vannes/theme/famille), les [vannes](/vannes), les [conseils](/conseils) et les [vidéos](/videos), ou passer voir la [vanne du jour](/blague-du-jour) avant de te mettre à table.
 
 ## FAQ
 

@@ -140,7 +140,7 @@ Pour la suite de la soirée, [répartie en soirée : les 5 situations anti-malai
 
 Si ta phrase reste plate, applique un des ressorts de la liste : lecture littérale, anticlimax, témoin. Pour savoir si ta trouvaille tient, [les 7 critères d'une blague pépite](/blog/blague-drole-7-criteres-pepite) servent de check-list, et [les 10 techniques de répartie](/blog/comment-avoir-de-la-repartie) t'aident à la ressortir au bon moment.
 
-Pour t'entraîner sans attendre le 31, le [parcours Répartie](/parcours/repartie) demande 15 à 20 minutes par semaine selon le parcours. Il y a aussi les [vannes](/vannes), les [conseils](/conseils), les [vidéos](/videos) et les [meilleures blagues drôles](/blog/meilleures-blagues-droles-2026).
+Pour t'entraîner sans attendre le 31, le [parcours Répartie](/parcours/repartie) demande 20 minutes par semaine. Il y a aussi les [vannes](/vannes), les [conseils](/conseils), les [vidéos](/videos) et les [meilleures blagues drôles](/blog/meilleures-blagues-droles-2026).
 
 ## FAQ
 
