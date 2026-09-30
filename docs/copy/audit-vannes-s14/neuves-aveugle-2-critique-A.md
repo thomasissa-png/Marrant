@@ -273,7 +273,40 @@ Colonne « connue » : oui (classique, mème, trope évident ou déclinaison d'u
 | V367 | < | doute | Escalade de politesse : sympa, mais idée connue. |
 
 ## Vérifs web
-(à compléter)
+
+Cinq recherches ciblées (cadenas volé sans le vélo, alliance « endroit sûr », voisin qui revient jeudi, contact « Antoine bar », variantes anglaises). Aucune source trouvée pour ces chutes. Ce n'est pas une preuve d'inédit, seulement une absence de preuve du contraire. V442 reste le plus fragile (il existe des blagues de vélo volé partiel, pas cette chute) ; V018 frôle le trope « objet rangé en lieu sûr, introuvable ».
+
+## Comptes
+
+- **= : 59** (bloc 1 : 12, bloc 2 : 12, bloc 3 : 15, bloc 4 : 20)
+- **< : 190**
+- Total : 249
+
+Motifs principaux des « < » : trope ou mème connu (environ 2/3), chute télégraphiée ou expliquée, chute floue, sujet IA/gamer/date saturé, doublons d'idée (V013/V119, V333/V009, V281/V426, V355/V042, V017/V218, V393/V023, V458/V452, V199/V397, V232/V348).
+
+Réserve : 59/249 (24 %) est un taux généreux. Si Thomas veut « rien en dessous » au sens strict des E1-E4, ne garder que les 15 ci-dessous, puis les 10 « seconde ligne ».
+
+## 15 meilleures
+
+1. V025 : « Il a même trouvé où on range les draps. »
+2. V206 : « Maxime a répondu : je suis dans le groupe. »
+3. V222 : « Anniv de Léa. Léa, c'est moi. »
+4. V018 : « On cherche toujours l'endroit. »
+5. V090 : « Elle avait une liste. »
+6. V150 : « Robert commence en septembre. »
+7. V476 : « Je l'ai fait entrer. Il revient jeudi. »
+8. V001 : « Il a zoomé. Sur le parking. »
+9. V134 : « Elle m'a demandé si on me répondait, parfois. »
+10. V464 : « Je dois des excuses à un mariage. »
+11. V119 : « Ne va pas trop vite. »
+12. V213 : « Oui, mais je n'ai pas pu mettre de like. »
+13. V107 : « Je n'en ai pas. Elle, si. »
+14. V083 : « Notre premier contact physique, c'était la manœuvre de Heimlich. »
+15. V207 : « Il s'est fait rajouter. Il a écrit "bref". »
+
+Seconde ligne (au niveau mais un cran dessous) : V082, V023, V009, V024, V229, V191, V104, V042, V002, V389.
+
+À écarter parmi les « = » si on veut être encore plus dur : V442 (fragile), V160, V084, V144, V149, V228.
 
 
 

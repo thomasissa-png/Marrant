@@ -150,9 +150,9 @@ Règle : « = » si niveau des 30 références ET jamais entendue. Doute = « < 
 | V411 | < | oui | Sagesse : batterie vide : trope connu |
 | V416 | < | non | Bon final, mais trois phrases de setup |
 | V181 | < | non | Chute molle et expliquée |
-| V311 | < | doute | Belle image gamer, mais niche et un peu expliquée |
+| V311 | = | non | « Tête de quelqu'un qui dit on se regroupe » : image imprévue |
 | V451 | < | doute | Queue sans savoir pourquoi : connu, double chute |
-| V487 | < | doute | « Quelqu'un de plus haut placé » : bien vu, grand-mère/Dieu attendu |
+| V487 | = | non | « Quelqu'un de plus haut placé » : chute imprévue, logique |
 | V278 | < | doute | Bon final, mais cadeau saut en parachute connu |
 | V015 | < | oui | Photo choisie yeux fermés : doublon de V224 |
 | V276 | < | doute | Filmer les concerts : sujet très exploité |
@@ -252,3 +252,28 @@ Règle : « = » si niveau des 30 références ET jamais entendue. Doute = « < 
 | V353 | < | non | « Maximum est une opinion » : formule cherchée |
 | V211 | = | non | « J'espère que ce message te trouve bien » : net, drôle |
 | V282 | < | doute | Fuir dans la cuisine : trope connu |
+
+## Comptes
+
+- 248 vannes notées : **30 « = »**, **218 « < »**.
+- WebSearch ciblées (V166, V201, V486, V176, V343, V148) : aucune occurrence trouvée, ce qui ne prouve pas la nouveauté (V166 reste « < » par prudence).
+
+## 15 meilleures (ordre décroissant)
+
+1. V148 : « Tu leur diras bonjour »
+2. V201 : « Pas tout »
+3. V438 : « Je me suis senti attendu »
+4. V112 : « J'ai jusqu'à Noël pour l'obtenir »
+5. V097 : « Il en parle comme d'un diplôme »
+6. V486 : « Prends du pain »
+7. V343 : « Il a écrit six »
+8. V247 : le chat qui s'excuse pour aller voir quelqu'un
+9. V417 : voisin qui tousse à 7h20, « journée inquiet »
+10. V054 : tondeuse robot, « il la trouve lente »
+11. V204 : « Il est intact. Je le ménage. »
+12. V176 : « Ce qu'est devenu alternant1 »
+13. V211 : « J'espère que ce message te trouve bien »
+14. V468 : surveiller son visage pour savoir qui meurt
+15. V227 : « Personne n'a répondu au premier »
+
+Doublons d'idée écartés : V039/V315 (au profit de V220), V133 (imprimante, V047 meilleure), V114 (V012), V463 (V276), V015 (V224), V156 (V014), V386 (V385).
