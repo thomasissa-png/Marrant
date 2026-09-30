@@ -24,7 +24,7 @@
     "verdict": "OK",
     "title": "L'afterwork : passer de collègue à personne drôle",
     "content": "L'afterwork est la zone de transition entre le pro et le perso : tu peux t'y permettre plus d'humour qu'au bureau. La technique : prends les situations du travail comme matière comique partagée. Ce client difficile, cette réunion interminable, ce mail du boss à 17h59. Au bureau tu subis, à l'afterwork tu en fais du stand-up. Le rire est collectif parce que tout le monde vient de vivre la même semaine.",
-    "example": "À l'afterwork : « La réunion de 14h, c'était quelque chose. On a passé 45 minutes à débattre de la police du PowerPoint. Quelqu'un a dit Calibri et ça a failli partir en pugilat. » Exagérer un vrai moment fait rire des collègues qui y étaient.",
+    "example": "À l'afterwork : « La réunion de 14h, c'était quelque chose. On a passé 45 minutes à débattre de la police de la présentation. Quelqu'un a dit Calibri et ça a failli partir en pugilat. » Exagérer un vrai moment fait rire des collègues qui y étaient.",
     "exercise": "DÉFI AFTERWORK : au prochain afterwork, raconte en 30 secondes un moment absurde de ta semaine de travail, en 3 actes : la situation, l'escalade, la chute.",
     "category": "STORYTELLING",
     "note": "« Catharsis » remplacé, flèches retirées, DÉFI reformulé sans jargon."
@@ -243,7 +243,7 @@
     "id": "cmmw0tra60015mw62l0360wm9",
     "verdict": "OK",
     "title": "Survivre (et briller) au networking pro avec humour",
-    "content": "Le networking, c'est l'enfer pour 90% des gens, parce que tout le monde récite son pitch comme un robot. L'humour te rend mémorable tout de suite. La technique : dégonfle la formalité. Au lieu de « je travaille dans le marketing digital », essaie « je fais des PowerPoint pour convaincre des gens de cliquer sur des trucs ». Même métier, mais on se souvient de toi.",
+    "content": "Le networking, c'est l'enfer pour 90% des gens, parce que tout le monde récite son pitch comme un robot. L'humour te rend mémorable tout de suite. La technique : dégonfle la formalité. Au lieu de « je travaille dans le marketing digital », essaie « je fais des diaporamas pour convaincre des gens de cliquer sur des trucs ». Même métier, mais on se souvient de toi.",
     "example": "« Et toi, tu fais quoi ? » Toi : « Officiellement, chef de projet. Officieusement, je fais des relances polies à des gens qui ne répondent jamais. C'est entre le télétravail et le ghosting. » L'autodérision pro casse la glace tout de suite.",
     "exercise": "DÉFI PITCH : réécris ta description de poste en version honnête et drôle (2 phrases max). Teste-la la prochaine fois qu'on te demande « tu fais quoi ? ». Si la personne rit, c'est gagné.",
     "category": "AUTODERISION",
@@ -259,4 +259,805 @@
     "category": "OBSERVATION",
     "note": "Étalon E4. Tirets cadratins et « vs » retirés. Chiffre « 10 fois plus d'impact » conservé tel quel."
   },
-<<<SUITE>>>
+  {
+    "id": "cmmp8ozsx000eqk631v8zat4d",
+    "verdict": "OK",
+    "title": "Adapter son humour à son public",
+    "content": "Ce qui fait rire tes potes ne marche pas forcément avec ta belle-famille. Avant de te lancer, teste le terrain avec une petite blague légère et regarde ce qui revient : un sourire, un rire, un regard vide. Puis ajuste le ton, pas l'idée. Ta blague reste la même, seul l'emballage change.",
+    "example": "Même histoire, une panne de wifi de 2 heures. Aux potes : « J'ai découvert que mon coloc avait une voix. » Au repas de famille : « Deux heures sans wifi. J'ai découvert que mon oncle avait des avis sur tout, même sur la panne. » Le fond ne bouge pas, le vocabulaire si.",
+    "exercise": "DÉFI CAMÉLÉON : aujourd'hui, raconte la même petite anecdote à deux publics différents (un ami, puis un collègue ou quelqu'un de ta famille). Regarde ce qui change dans les réactions et ajuste une phrase pour le second.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommée, tiret cadratin et flèches retirés. Exemple reconstruit avec une même histoire adaptée à deux publics et une vraie chute. DÉFI de 3 groupes ramené à 2."
+  },
+  {
+    "id": "cmpmbx4tx00tts60xchrjjlo8",
+    "verdict": "OK",
+    "title": "Apéro : place ta vanne dans le micro-silence",
+    "content": "Le meilleur moment pour une vanne n'est pas quand tout le monde parle, c'est dans la micro-transition : quelqu'un finit sa phrase et le groupe cherche le prochain sujet. Pendant ces 2-3 secondes de flottement, l'attention est disponible et tu ne coupes personne. Repère le moment où la conversation reprend son souffle : un rire qui retombe, ou un « bon... » qui cherche la suite.",
+    "example": "Léa finit de raconter sa galère de RER : « Et là, je reste coincée une heure dans le tunnel ! » Les rires retombent, deux secondes de silence. Toi : « Au moins, t'as eu le temps de finir ton podcast sur la productivité. » Placée pendant son récit, la même phrase aurait coupé son histoire.",
+    "exercise": "DÉFI SURF : ce soir en apéro, compte mentalement « 1, 2 » après chaque fin de phrase. Dès que le silence arrive, glisse UNE vanne courte, 8 mots maximum.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, flèches, crochets et « Objectif » retirés. Exemple RER gardé (bonne chute), DÉFI ramené à une vanne."
+  },
+  {
+    "id": "cmmsvsgt5002ps60x75lkommh",
+    "verdict": "OK",
+    "title": "Assume ton addiction au téléphone",
+    "content": "L'autodérision, c'est te moquer de toi avant que les autres le fassent. Quand quelqu'un remarque que tu scrolles depuis 20 minutes, ne te justifie pas : exagère ton « addiction » jusqu'à ce que ce soit trop gros pour vexer. Tu montres du recul, tout le monde se reconnaît, et l'ambiance se détend.",
+    "example": "Ton pote : « Tu scrolles depuis 20 minutes. » Toi : « Je ne scrolle pas, je fais de la veille. Là, je suis en train de suivre le petit-déjeuner d'un inconnu. »",
+    "exercise": "DÉFI VEILLE : aujourd'hui, la première fois qu'on te fait remarquer que tu es sur ton téléphone, réponds par un titre de métier ridicule pour ce que tu fais (« je fais de la veille », « je suis en audit de mon fil »). Une seule réplique, avec le sourire.",
+    "category": "AUTODERISION",
+    "note": "Marques (Instagram, TikTok), « pur matériau comique » et « prépare 2-3 répliques » (contraire à la spontanéité) retirés. Nouvelle chute."
+  },
+  {
+    "id": "cmphn4dk7001xs60xgavzvg0k",
+    "verdict": "OK",
+    "title": "Ta galère tech en film catastrophe",
+    "content": "Un bug est une galère pour toi et un scénario pour les autres. Raconte-le comme un film catastrophe : le calme avant, le moment où ça craque, l'escalade, puis un sauveur qui arrive et règle tout d'un geste minuscule. Donne des rôles aux objets : ton PC est le traître, toi le héros incompris. Plus tu prends ça au sérieux, plus le geste minuscule de la fin fait rire.",
+    "example": "« Ma présentation était prête. À 15 minutes de la réunion, écran bleu. Ctrl+Alt+Suppr, mon dernier allié, m'a lâché. Là, le service informatique est arrivé, a débranché l'écran, l'a rebranché, et est reparti sans se retourner. Comme dans un western. »",
+    "exercise": "DÉFI CATASTROPHE : avant ce soir, raconte UNE galère tech de cette semaine à quelqu'un en 4 phrases : le calme, le bug, l'escalade, le sauveur qui règle tout d'un geste minuscule.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé, « Hollywood », vocabulaire magique et 5 étapes retirés (une seule idée). Exemple raccourci avec chute « comme dans un western »."
+  },
+  {
+    "id": "cmny1tkhw000rs60wsolieluq",
+    "verdict": "OK",
+    "title": "Consoler avec humour",
+    "content": "Quand quelqu'un raconte un échec (rendez-vous raté, projet foiré, week-end catastrophe), tu as 3 secondes pour réagir. Le compatissant lourd (« Oh non, pauvre toi ! ») et l'optimisme forcé (« Ça ira mieux ! ») sonnent creux. La technique : amplifie son fail à l'absurde, puis redescends avec de la tendresse. Ça dédramatise sans minimiser. Le timing : juste après que la personne a fini de raconter, pas pendant.",
+    "example": "Un collègue : « Mon week-end camping a viré au naufrage, il a plu non-stop. » Toi : « Ce n'était pas un camping, c'était une expédition polaire. Vous avez commencé à manger la tente ? » Il rit. Alors, plus doucement : « Sérieusement, quel week-end. Tu as pu te sécher, au moins ? »",
+    "exercise": "DÉFI RÉCONFORT : aujourd'hui, quand quelqu'un te raconte un truc qui a foiré, amplifie son malheur à l'absurde en une phrase, puis redescends d'un ton avec une vraie question sur lui.",
+    "category": "TIMING",
+    "note": "Référence nommée (Bear Grylls) et « warrior » retirés, genre neutralisé, nouvelle chute (la tente), « Objectif » retiré."
+  },
+  {
+    "id": "cmnyax22y0021s60w3ghcmlem",
+    "verdict": "OK",
+    "title": "Le rebond catastrophe",
+    "content": "Quand quelqu'un raconte sa réussite (un rendez-vous parfait, une soirée réussie), tu peux surenchérir avec ton propre échec dans la même situation. Eux : « On a regardé les étoiles. » Toi : « Nous, on a fini aux urgences. » La règle : ton fail est plus dramatique que leur perfection, lancé avec le même enthousiasme. Le bon moment : juste après leur point culminant, quand le groupe digère encore leur bonheur. Les gens préfèrent une catastrophe drôle à une perfection fade.",
+    "example": "Maxime : « On a dîné dans un petit italien, bougies, tout le monde rayonnait... » Toi : « Ah génial ! L'an dernier, j'avais tout prévu aussi. Resto chic, réservé 3 semaines à l'avance. » Pause. « Sauf que le resto avait brûlé la veille. On a fini sur un banc avec des sandwichs de station-service, à regarder des pigeons faire mieux que nous. »",
+    "exercise": "DÉFI REBOND CATASTROPHE : aujourd'hui, dès que quelqu'un raconte une réussite, rebondis avec ton échec dans la même situation, avec le même enthousiasme que lui. Compte les rires francs.",
+    "category": "TIMING",
+    "note": "Dé-saisonnalisé (plus de Saint-Valentin ni de « catastrophes des autres »), titre cynique remplacé, exemple confus (robe, costard, KFC) reconstruit, « Nous on a fini aux urgences » gardé."
+  },
+  {
+    "id": "cmptbp7nv002bs60xscu5ixmx",
+    "verdict": "OK",
+    "title": "Transformer un mauvais résultat en tremplin",
+    "content": "Quelqu'un remarque ton mauvais résultat (une note, un score, un classement). Ne te justifie pas : reconnais-le, puis présente-le comme le point de départ d'un plan que tu as déjà en tête. Tu passes de la défense à quelqu'un qui a trois coups d'avance, et la personne qui s'attendait à te voir te défendre ne sait plus quoi répondre.",
+    "example": "Ton pote : « 8/20 en maths, aïe. » Toi : « C'est mon record du semestre. Je progresse par paliers. Prochain palier : 9. » Ou ton coloc voit ton classement au jeu : « Bronze 2, sérieux ? » Toi : « J'ai touché le fond. La seule direction, c'est le haut. Ou un sous-sol, on verra. »",
+    "exercise": "DÉFI TREMPLIN : choisis UN résultat pourri récent (note, score, classement) et écris une phrase qui le transforme en point de départ. Sers-la à la prochaine personne qui en parle.",
+    "category": "REPARTIE",
+    "note": "Titre cliché motivationnel, humoriste nommé, « comme un malpropre » et marque (Rocket League) retirés. « Bronze 2 : j'ai touché le fond » gardé avec une chute. Chiffres 8/20, 9 conservés dans le sens de l'exemple."
+  },
+  {
+    "id": "cmpjlc3xu008ns60xhh5v36nk",
+    "verdict": "OK",
+    "title": "Baptiser la manie d'un collègue",
+    "content": "Chaque collègue a une habitude qu'il répète sans le savoir. La technique : repère UNE manie et donne-lui un nom affectueux (« le Protocole Sandrine », « le Rituel du café de Kevin »). Une fois nommée, chaque répétition devient un clin d'œil partagé. Le ton compte : avec de la tendresse, c'est un running gag. Avec de la moquerie, c'est une pique.",
+    "example": "Sandrine arrive, pose son sac, allume son PC, va aux toilettes, revient, vérifie ses mails, va chercher un café. Toujours dans cet ordre. Tu la baptises « le Protocole Sandrine ». Le lendemain : « Ah, lancement du Protocole Sandrine. Les astronautes ont moins de checklists. » Elle rit : « Tu m'observes, maintenant ? » Toi : « Je prends des notes, c'est pour ma thèse. »",
+    "exercise": "DÉFI BAPTÊME : aujourd'hui, repère UNE manie d'un collègue et donne-lui un nom affectueux. Dès qu'elle se répète, nomme-la avec le sourire.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommé, faute « Ritual » et longueur retirés, « Objectif » retiré. Nouvelle chute (les astronautes, la thèse)."
+  },
+  {
+    "id": "cmmp8ozsx0004qk63x4cxt89b",
+    "verdict": "OK",
+    "title": "Construire une histoire drôle",
+    "content": "Le storytelling comique repose sur la tension : tu poses une situation normale, tu accumules des détails crédibles, puis tu fais dérailler le tout avec un détail absurde. Plus l'histoire est crédible, plus la dérive fait rire.",
+    "example": "« Lundi, j'attends mon bus depuis 20 minutes. Une dame me dit : Il ne passe plus ici depuis 2019. Je la remercie. Et je reste. Par principe. Une heure plus tard, elle m'a apporté un thermos. »",
+    "exercise": "DÉFI ANECDOTE : écris en 4 phrases une anecdote vraie de ta journée, puis remplace la dernière phrase par un détail absurde. Raconte les deux versions à quelqu'un et compare les réactions.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé, « BAM » et tiret cadratin retirés. Calembour de l'avocat remplacé par une vraie histoire qui déraille, avec chute (le thermos)."
+  },
+  {
+    "id": "cmmwpnha10001s60z4i17xv88",
+    "verdict": "OK",
+    "title": "Invente une théorie sérieuse sur ce qui t'agace",
+    "content": "Au lieu de râler, transforme ce qui t'agace en théorie délirante, avec le ton d'un scientifique. Prends un phénomène banal (le wifi lent, la queue à la cafét') et invente une loi physique, une conspiration ou une origine mythologique. Plus la forme est sérieuse et le fond absurde, plus ça marche. Garde le ton professoral pendant que tu débites n'importe quoi.",
+    "example": "Ton prof arrive avec 15 minutes de retard. Tu souffles à ton voisin : « Théorie : plus un prof maîtrise sa matière, plus le temps s'écoule lentement autour de lui. Pour lui, il est même en avance. »",
+    "exercise": "DÉFI THÉORICIEN : la prochaine fois que quelque chose t'agace aujourd'hui (wifi lent, queue à la cafét', ascenseur en panne), invente sur-le-champ une théorie déjantée. Dis-la à voix haute ou envoie-la à ton groupe de potes.",
+    "category": "ABSURDE",
+    "note": "Fausse attribution à un humoriste réel retirée, registre « pétée/débile/chiant » nettoyé, exemple raccourci avec nouvelle chute."
+  },
+  {
+    "id": "cmodkv41a0001s60x45ytodp5",
+    "verdict": "OK",
+    "title": "Célibataire ? Fais-en ta force",
+    "content": "Quand on te charrie sur ton célibat, la pire réaction est de te justifier. La meilleure : l'inversion de statut. Tu présentes ton célibat comme une vie de luxe. Version débutant : la liste concrète des avantages. Version confirmée : l'ironie sur les « contraintes » du couple.",
+    "example": "Ton pote : « Alors, toujours célibataire ? » Version débutant : « Ouais, j'ai la console, je mange ce que je veux, je dors quand je veux. Je comprends pas pourquoi vous vous plaignez. » Version confirmée : « Tu ne sais pas comme c'est dur de n'avoir personne avec qui négocier le choix du film. Je gagne tout le temps, c'est lassant. »",
+    "exercise": "DÉFI INVERSION : aujourd'hui, lance toi-même le sujet avec un pote : « Au fait, tu sais pourquoi je reste célibataire ? » et enchaîne avec tes 3 meilleurs arguments de luxe. Si ton pote rigole au lieu de te plaindre, c'est gagné.",
+    "category": "REPARTIE",
+    "note": "Citation inventée attribuée à un humoriste, markdown et marques (PS5, Netflix) retirés, nouvelle chute sur le choix du film."
+  },
+  {
+    "id": "cmnb0c4tg0001s60zi68in9i1",
+    "verdict": "OK",
+    "title": "Dans 20 ans, on rigolera de quoi ?",
+    "content": "Pour critiquer une mode sans passer pour un rabat-joie, projette-la dans le futur. Au lieu de « cette mode est ridicule », dis « imagine dans 20 ans... ». Ta critique devient une prédiction amusante, et personne n'est visé : la moquerie est reléguée dans un futur lointain et absurde. Les gens rient de la tendance ET de ta projection.",
+    "example": "Un collègue arrive avec un casque énorme sur les oreilles. Toi : « J'imagine nos petits-enfants dans un musée : Papy, c'est vrai que vous portiez des casques de chantier pour écouter de la musique ? » L'équipe rit, lui aussi.",
+    "exercise": "DÉFI MACHINE À TEMPS : aujourd'hui, dès que tu croises une tendance (une appli, une mode, une expression), lâche une phrase « Dans 20 ans... ». Vise une projection bien absurde, pas juste moqueuse.",
+    "category": "OBSERVATION",
+    "note": "Citation inventée attribuée à un humoriste, « vieux con » et marques (AirPods Max, Spotify) retirés."
+  },
+  {
+    "id": "cmq0gw85z00nas60xc0gno2ka",
+    "verdict": "OK",
+    "title": "Compare la manie d'un collègue à un autre métier",
+    "content": "Une manie de collègue devient drôle quand tu la compares à un métier ou un univers sans rapport. Repère le détail que tout le monde a remarqué mais que personne n'a formulé, puis donne-lui un costume : artiste, sportif, notaire. La comparaison reste affectueuse, elle doit faire rire la personne concernée aussi.",
+    "example": "À la pause café, Sam répond « effectivement » à toutes les phrases. Toi : « Sam, tu ne confirmes pas, tu valides l'existence de chaque phrase, comme un notaire de la conversation. » Sam éclate de rire : « Effectivement. »",
+    "exercise": "DÉFI COMPARAISON : aujourd'hui, repère UNE manie d'un collègue (façon de tenir sa tasse, tic de langage, rangement du bureau). Trouve une comparaison avec un autre métier et teste-la avec le sourire.",
+    "category": "OBSERVATION",
+    "note": "Référence à un humoriste et faute « ritual » retirées. « Notaire de la conversation » gardé, ajout d'une chute (« Effectivement. »). Distinct du conseil « Baptiser la manie »."
+  },
+  {
+    "id": "cmp9uqejc00fas60x6ode1ptm",
+    "verdict": "OK",
+    "title": "Les 5 étapes du deuil du week-end",
+    "content": "Le lundi matin, ton équipe traverse les 5 étapes du deuil du week-end : déni (« c'est déjà lundi ? »), colère (grognements devant la machine à café), marchandage (« encore 4 jours... »), dépression (regards dans le vide), acceptation (premier sourire vers 10h30). Ta technique : commente ces micro-transformations à mi-voix, sur le ton calme d'un documentaire, comme si tu observais une migration d'oiseaux. Tu dis tout haut ce que tout le monde vit sans le formuler.",
+    "example": "9h15, machine à café. Julien arrive, cheveux en bataille, un « bonjour » murmuré dans sa barbe. Toi, à mi-voix : « Julien est au stade 2 : la phase zombie-café. » À 10h30, il sourit à une blague. Toi : « Et voilà. Julien a officiellement rejoint les humains. »",
+    "exercise": "DÉFI STADE : choisis UN moment de ta journée (machine à café, premier mail, réunion de 10h) et annonce à voix basse à quelqu'un à quelle étape du deuil l'équipe en est.",
+    "category": "OBSERVATION",
+    "note": "Références nommées (David Attenborough, humoriste), titre féminin (« chroniqueuse ») retirés. Chiffres conservés (5 étapes, 4 jours, 10h30)."
+  },
+  {
+    "id": "cmp9xye1000h3s60xxu6ticwr",
+    "verdict": "OK",
+    "title": "Commente ta journée comme un match",
+    "content": "Commente tes propres galères comme un match passionnant : tu transformes la frustration en autodérision partageable. Utilise le vocabulaire du sport pour décrire tes actions les plus banales. Plus le contraste est fort entre ton ton dramatique et la banalité de l'action, plus c'est drôle. Tu passes de victime de la journée à héros de ta propre comédie.",
+    "example": "Tu arrives au bureau avec 10 minutes de retard. À mi-voix : « Et voilà l'athlète qui arrive avec 10 minutes de retard. Approche discrète vers son poste... le regard du chef ! Il tient sa trajectoire, il ne regarde personne. Il s'installe, sort son ordi, fait semblant d'être là depuis 8h30. Performance de la saison. »",
+    "exercise": "DÉFI COMMENTATEUR : aujourd'hui, commente à mi-voix UNE de tes actions banales (prendre l'ascenseur, faire chauffer ton plat) comme un match décisif. Une seule fois, assez fort pour qu'une personne l'entende.",
+    "category": "OBSERVATION",
+    "note": "Titre et texte féminins, humoriste nommé, « Objectif » retirés. Nouvelle chute (« Performance de la saison »)."
+  },
+  {
+    "id": "cmpdlrjvn00qts60x5u5im54k",
+    "verdict": "OK",
+    "title": "Détourne un proverbe en changeant un mot",
+    "content": "Reprends une expression que tout le monde connaît et change seulement 1 ou 2 mots pour qu'elle colle à ta situation. Ça marche parce que le cerveau reconnaît l'original et savoure l'écart. Garde le rythme exact : plus c'est proche de l'original, plus la surprise fait mouche. Ne réécris pas toute la phrase, tu perdrais la reconnaissance immédiate.",
+    "example": "Ton coloc regarde l'évier : « Ça en est où, la vaisselle ? » Toi : « Petit à petit, la vaisselle fait son nid. » Ou on te demande où en est ton rapport : « Rome ne s'est pas faite en un jour, mon rapport non plus. »",
+    "exercise": "DÉFI DÉTOURNEMENT : choisis UN proverbe que tu connais par cœur. Trouve une situation de ta journée où changer un ou deux mots le fait coller, et tente-le avant ce soir.",
+    "category": "JEUX_DE_MOTS",
+    "note": "Expressions datées (« red flag », « PLS », « ça me trigger »), humoriste nommé, tiret cadratin et série nommée retirés. Passage aux proverbes, durables."
+  },
+  {
+    "id": "cmmp8ozsx0019qk63l129kfax",
+    "verdict": "OK",
+    "title": "Trouve ton style d'humour",
+    "content": "Être drôle, c'est d'abord être toi. Les techniques sont des outils, mais ton style vient de ce qui te vient naturellement : l'absurde, l'observation, l'autodérision. Ne force pas un style qui n'est pas le tien : une vanne qui te ressemble vaut mieux qu'une vanne empruntée. Le plus rapide pour le découvrir : demander à ceux qui te connaissent.",
+    "example": "Tu demandes à trois amis : « Quand est-ce que tu me trouves le plus drôle ? » Le premier : « Quand tu râles. » Le deuxième : « Quand tu râles contre un objet. » Le troisième : « Quand tu râles contre ton grille-pain, en particulier. » Ton style : l'observation râleuse, avec le grille-pain comme spécialité.",
+    "exercise": "DÉFI STYLE : envoie aujourd'hui ce message à 3 amis : « Quand est-ce que tu me trouves le plus drôle ? ». Regarde ce qui revient dans leurs réponses : c'est ton style naturel.",
+    "category": "OBSERVATION",
+    "note": "Trois humoristes nommés, « pendant un mois » et « 10 blagues » retirés. Exemple avec chute (le grille-pain), DÉFI faisable aujourd'hui."
+  },
+  {
+    "id": "cmotllu8e000is60wt7n95sc1",
+    "verdict": "OK",
+    "title": "Encaisser une critique avec classe",
+    "content": "Quand on te fait une remarque, ni justification ni silence : la technique du rebond en 3 temps. Remercie, reconnais le point avec une pointe d'autodérision, puis demande une solution avec légèreté. Tu montres que tu sais recevoir un retour sans t'effondrer ni contre-attaquer. L'autodérision reste légère : tu reconnais le point sans te rabaisser.",
+    "example": "Un collègue : « Tes présentations manquent de structure, on s'y perd un peu. » Toi : « Merci pour le retour ! C'est vrai, mes slides ont autant de logique qu'un meuble en kit sans notice. Tu aurais un format à me conseiller ? » Lui : « Déjà, une notice. »",
+    "exercise": "DÉFI REBOND : la prochaine fois qu'on te fait une remarque, applique la formule : merci, autodérision légère, question pour trouver la solution.",
+    "category": "REPARTIE",
+    "note": "Ton pro (« respect mutuel », « collaboration »), marque (IKEA) et « Objectif » retirés. Ajout d'une chute (« Déjà, une notice. »)."
+  },
+  {
+    "id": "cmntkvcaw0088s60zadb5qw8j",
+    "verdict": "OK",
+    "title": "Invente la vie secrète d'un collègue",
+    "content": "Au lieu d'un calembour sur un prénom, que tout le monde a déjà entendu, observe une manie et invente-lui une mission secrète. Le bon moment : quand la personne fait son truc habituel, tu annonces ta théorie comme si tu venais de percer son secret. Tu crées un running gag sur mesure.",
+    "example": "Martin tient toujours sa tasse à deux mains. Tu chuchotes : « J'ai tout compris : Martin est agent infiltré pour une marque de mugs. Il teste la résistance thermique de chaque tasse. Sa couverture, c'est la comptabilité. » Martin éclate de rire : « Mon indic, c'est la machine à café. »",
+    "exercise": "DÉFI AGENT SECRET : choisis UN collègue avec une manie visible. La prochaine fois qu'il la fait, invente-lui à mi-voix une mission secrète liée à cette manie, avec un air très sérieux.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, « chiant », « foireux », « 1000x » et critère de succès retirés. Ajout d'une chute (« Mon indic »). Catégorie TIMING conservée telle quelle malgré le mauvais classement signalé dans l'audit."
+  },
+  {
+    "id": "cmmw0tqgc000rmw62q9wh2zui",
+    "verdict": "OK",
+    "title": "L'ancrage culturel : parler le même langage",
+    "content": "L'humour qui marche le mieux s'appuie sur des références partagées. Avec tes collègues, c'est l'open space et la machine à café. Avec tes potes, ce sont les soirées et les séries. Ancre ta vanne dans un contexte que ton public connaît par cœur, et n'utilise jamais une référence qu'il ne capte pas : un meme en réunion de direction, c'est la mort.",
+    "example": "Devant des collègues : « Notre open space est tellement silencieux qu'on entend les gens reconsidérer leurs choix de carrière. » La référence partagée (l'open space) rend la vanne instantanément parlante.",
+    "exercise": "DÉFI TRIBU : choisis aujourd'hui UN cercle (famille, boulot, potes) et écris une vanne qui ne marcherait que dans ce cercle, avec une référence que seul ce groupe capte. Sers-la à l'un de ses membres.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommé, marque (Netflix) et tirets cadratins retirés. DÉFI de 3 cercles ramené à un seul, faisable aujourd'hui."
+  },
+  {
+    "id": "cmmp8ozsx000zqk63x2wyth9o",
+    "verdict": "OK",
+    "title": "L'anecdote de l'étranger",
+    "content": "Raconter un voyage ou une autre culture est une mine d'or comique, à condition de te moquer de toi et non de l'autre culture. « J'étais perdu » est drôle, « ils sont bizarres » ne l'est pas. Tu dois être le personnage naïf de ta propre histoire.",
+    "example": "À Lisbonne, j'ai passé 5 minutes à mimer « toilettes » à un passant, avec des gestes que je ne referai pas en public. Il m'a répondu dans un français parfait : « Deuxième à gauche. »",
+    "exercise": "DÉFI INCONNU : pense à ta dernière expérience culturellement confuse (voyage, restaurant étranger, conversation avec quelqu'un d'un autre pays) et raconte-la aujourd'hui en 3 phrases, en étant le personnage naïf.",
+    "category": "STORYTELLING",
+    "note": "Référence à une humoriste réelle retirée, exemple « serveur français » cliché remplacé par une histoire où le narrateur est le naïf, avec chute."
+  },
+  {
+    "id": "cmnyuo01h0007s60xgb9pqf1m",
+    "verdict": "OK",
+    "title": "L'anti-fatigue collective : « bon, on a tous compris »",
+    "content": "Quand tout le monde en a marre du même sujet en même temps (une campagne pub qui tourne en boucle, un événement surmédiatisé, une tendance qui traîne), c'est le moment de faire rire. La technique : tourner cette saturation en dérision avec un simple « bon, on a tous compris ». Tu ne critiques pas frontalement, tu exprimes une lassitude partagée avec légèreté. Le timing : quand les gens commencent à saturer mais n'osent pas encore le dire. Tu deviens le porte-parole de ce que tout le monde pense.",
+    "example": "En réunion, après la 5e présentation sur l'IA de la semaine : « Bon, on a tous compris : l'IA va aussi révolutionner la façon de faire le café. »",
+    "exercise": "DÉFI SATURATION : aujourd'hui, repère UN moment où tu sens une lassitude collective (collègues qui parlent du même sujet, amis qui postent la même chose, famille qui ressort la même remarque). Place ton « bon, on a tous compris » avec le sourire.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, deuxième exemple faible (livraison) et « Objectif » retirés. Premier exemple sur l'IA gardé (sujet autorisé), chute resserrée."
+  },
+  {
+    "id": "cmmp8ozsx0006qk63l1qngkr5",
+    "verdict": "OK",
+    "title": "Réponds à l'expression au sens littéral",
+    "content": "Le jeu de mots a mauvaise réputation parce que la plupart sont forcés. Le plus naturel : prends une expression courante et réponds à son sens littéral, comme si tu n'avais pas saisi l'image. La personne met une seconde à comprendre, puis sourit. Utilise des expressions que tout le monde connaît, pas des calembours de dictionnaire. Le jeu de mots doit enrichir la conversation, pas l'interrompre.",
+    "example": "Ton ami : « Mon rencard m'a posé un lapin. » Toi : « Il te l'a laissé ? Il faut le nourrir, ça mange beaucoup. »",
+    "exercise": "DÉFI DOUBLE SENS : aujourd'hui, choisis UNE expression courante (« avoir la pêche », « donner un coup de main », « poser un lapin ») et prépare une réponse qui la prend au sens littéral. Sers-la dès que l'expression passe dans une conversation.",
+    "category": "JEUX_DE_MOTS",
+    "note": "Tiret cadratin retiré, exemple « la patience c'est un plat qui se mange... la vengeance » (faible) remplacé par une chute nette (le lapin à nourrir). DÉFI ramené de 5 à 1 expression."
+  },
+  {
+    "id": "cmmp8ozsx000jqk63p99w2sjq",
+    "verdict": "OK",
+    "title": "L'art du non-dit",
+    "content": "Ce que tu ne dis pas est parfois plus drôle que ce que tu dis. Tu poses le contexte, tu amènes vers une conclusion évidente, et tu t'arrêtes juste avant. Le cerveau de l'autre fait le travail et rit de sa propre pensée. Le silence après la dernière phrase fait partie de la blague.",
+    "example": "« Ma coloc me demande qui a mangé son dernier yaourt. Je regarde la poubelle. Elle regarde la poubelle. Puis elle me regarde. Je regarde la poubelle. »",
+    "exercise": "DÉFI NON-DIT : aujourd'hui, raconte UNE anecdote à un ami, mais arrête-toi avant la fin et laisse 3 secondes de silence. S'il rit, le non-dit a marché.",
+    "category": "TIMING",
+    "note": "Humoriste nommée retirée, exemple flou (« mais dans ma tête... ») remplacé par un non-dit avec vraie chute (la poubelle). DÉFI ramené de 3 anecdotes à une."
+  },
+  {
+    "id": "cmqdc6vay00fws60xfij2s5af",
+    "verdict": "OK",
+    "title": "L'auto-blague préventive : désamorcer avant que ça glace",
+    "content": "Tu viens de faire une bourde au bureau : tu as 3 secondes avant que l'ambiance devienne glaciale. L'auto-blague préventive consiste à assumer ton erreur avec humour AVANT que quelqu'un d'autre ne monte au créneau. La clé : être précis dans ton auto-critique et rapide dans l'exécution, dans les 5 secondes qui suivent, pas après 2 minutes de silence gênant. Tu reconnais l'erreur, tu en ris le premier, tu reprends le contrôle.",
+    "example": "Tu envoies un mail confidentiel en copie à tout l'open space. Silence de mort. Avant que ton chef réagisse, tu lances : « Bon, maintenant que tout le monde connaît notre chiffre d'affaires, on passe aux paris sportifs ? » Quelques sourires, la tension retombe, et ton chef peut même rire avant de te dire de faire attention la prochaine fois.",
+    "exercise": "DÉFI AUTO-BLAGUE : la prochaine fois que tu fais une erreur visible au travail (mail raté, café renversé, mauvaise manipulation), fais une vanne dans les 5 secondes. Compte-les dans ta tête : après, c'est trop tard.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, féminin (« précise ») et « Objectif » retirés. Chute « paris sportifs » gardée."
+  },
+  {
+    "id": "cmnl5eo7n0008s60z9lm900fz",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "OBSERVATION",
+    "note": "Doublon d'idée avec « Assume ton addiction au téléphone » (exagérer sa propre manie pour désarmer). Exemple du stylo (« quota de maladresse ») banal, fausse « technique » attribuée à une humoriste réelle."
+  },
+  {
+    "id": "cmoqfzhwj0000s60wsw6qo25y",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "AUTODERISION",
+    "note": "Formule figée (« mais bon, je découvre encore ») qui sonne scolaire, anglicisme « noob », doublon avec « Savoir rebondir sur un raté » et « L'auto-blague préventive »."
+  },
+  {
+    "id": "cmnfak3lg0000s60x6zvwqbnh",
+    "verdict": "OK",
+    "title": "L'escalade complice",
+    "content": "Quand tes potes te charrient sur ton look, la pire réaction est de te défendre sérieusement. La meilleure : tu acceptes la critique, puis tu la pousses plus loin que ce qu'ils avaient osé, jusqu'à l'absurde. Leur charriage devient un sketch collectif où tu es le réalisateur, pas la victime.",
+    "example": "Ton pote : « Ton pull, on dirait que ta grand-mère l'a tricoté les yeux fermés. » Toi : « Elle l'a tricoté pendant un tremblement de terre. Le col, c'est la réplique de 3h du matin. »",
+    "exercise": "DÉFI ESCALADE : aujourd'hui, la première fois qu'on te fait une remarque sur ton apparence (même gentille), prends-la et pousse-la un cran plus loin que la personne. Une phrase suffit.",
+    "category": "REPARTIE",
+    "note": "Humoriste nommé, anglicisme « material gold », « Mec » et exemple « grand-mère cliniquement morte » (trop lourd) retirés. Nouvelle chute (la réplique de 3h du matin)."
+  },
+  {
+    "id": "cmmp8ozsx000dqk63y7qi81vo",
+    "verdict": "OK",
+    "title": "L'escalade et l'accumulation comique",
+    "content": "L'escalade comique : commence petit et monte en absurdité, cran par cran. Règle de trois : le premier élément est normal, le deuxième décalé, le troisième complètement absurde. L'accumulation en est la forme la plus simple : une liste où chaque élément surprend un peu plus que le précédent.",
+    "example": "« Ce week-end, j'ai fait du rangement : j'ai trié mes chaussettes, organisé ma bibliothèque, négocié un traité de paix avec les araignées du plafond et déposé une motion de censure contre le frigo. »",
+    "exercise": "DÉFI ESCALADE : à table ce soir, lance un jeu : quelqu'un commence une phrase, chacun ajoute un élément plus absurde que le précédent. Par exemple : « Pour être en forme, je fais du sport, je mange équilibré, je négocie avec mon reflet, je fais une conférence à mes plantes. » Le dernier à faire rire marque un point.",
+    "category": "ABSURDE",
+    "note": "Deux humoristes nommés, vouvoiement (« Lancez »), faute « eN GROUPE », tiret cadratin, flèches et « TED talk » retirés. « Motion de censure contre le frigo » gardé."
+  },
+  {
+    "id": "cmmp8ozsx0009qk63ye8u0idw",
+    "verdict": "OK",
+    "title": "L'exagération contrôlée",
+    "content": "L'exagération est un outil puissant, mais elle se dose. L'astuce : prends une vérité et multiplie-la par 10. Pas par 100 (ça devient incroyable), ni par 2 (ça reste banal). Le sweet spot : quand on se dit « c'est exagéré, mais je vois ce que tu veux dire ».",
+    "example": "Par 2 : « Il y a pas mal de vaisselle. » Par 100 : « La vaisselle a fondé une civilisation. » Par 10 : « Ma coloc laisse la vaisselle si longtemps que les assiettes ont commencé à payer un loyer. »",
+    "exercise": "DÉFI x10 : choisis UNE vérité de ta journée (ta cuisine, tes transports, ton téléphone) et multiplie-la par 10, pas par 100. Raconte la meilleure version à quelqu'un aujourd'hui.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommé retiré, exemple « téléphone en congé maladie » (attendu) remplacé par une démonstration ×2 / ×10 / ×100 avec chute (les assiettes qui paient un loyer), DÉFI de 5 jours ramené à aujourd'hui. Chiffre ×10 conservé."
+  },
+  {
+    "id": "cmmw0tr670013mw62n2xbmewk",
+    "verdict": "OK",
+    "title": "Tes souvenirs d'avant, ta matière comique",
+    "content": "À 30 ans et plus, tu as un avantage : tu as vécu deux époques. Tu peux comparer l'avant et l'après Internet, les cassettes et le streaming. Ce décalage est une mine d'or comique, et il fait rire tout le monde parce que la nostalgie est positive.",
+    "example": "« Avant, on attendait 3 minutes qu'Internet se connecte. Le bruit du modem, c'était notre méditation du matin. Maintenant, si une page met 4 secondes à charger, on change d'opérateur. On n'a pas évolué, on est juste devenus impatients. »",
+    "exercise": "DÉFI NOSTALGIE : choisis UN truc qui existait quand tu avais 15 ans et qui a disparu ou changé (le modem, les cabines téléphoniques, les cassettes). Écris une observation drôle qui compare avant et maintenant, et teste-la ce soir.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommé, « archéologue du quotidien » (cliché), marques (MSN, WhatsApp, Spotify) et tiret cadratin retirés. Exemple du modem gardé. DÉFI de 5 trucs ramené à 1."
+  },
+  {
+    "id": "cmmw0tqkc000smw62bo1yfeyg",
+    "verdict": "OK",
+    "title": "Le PS qui détend un mail sérieux",
+    "content": "Au boulot, l'humour écrit est un art subtil : il doit rester montrable à n'importe qui. La technique du PS : à la fin d'un message sérieux, ajoute une ligne de post-scriptum légère. Le fond reste pro, la forme détend tout le monde. Règle d'or : rien qui ne survivrait à une capture d'écran envoyée aux RH.",
+    "example": "Mail pro : « Ci-joint le rapport du trimestre. Bonne lecture. PS : j'ai mis les mauvais chiffres en police plus petite, c'est normal. » Le PS casse la formalité sans nuire au message.",
+    "exercise": "DÉFI PS : aujourd'hui, ajoute un PS léger à UN mail ou message pro sérieux. Il doit rester présentable si ton chef le lit.",
+    "category": "JEUX_DE_MOTS",
+    "note": "Trois techniques mélangées (GIF, emoji, PS) réduites à une seule (le PS), jargon (Q1, N+2, Slack, Teams) et tiret cadratin retirés."
+  },
+  {
+    "id": "cmmp8ozsx001jqk63gqjuk0t7",
+    "verdict": "OK",
+    "title": "Réponds à côté par texto",
+    "content": "Par écrit, ta voix et ton visage n'accompagnent pas ta blague : c'est le contraste qui fait tout. La technique : à une question banale, réponds avec un décalage inattendu au lieu de la réponse standard. Reste bref, un message drôle de 3 lignes perd son impact, et préfère l'absurde ou l'autodérision : l'ironie passe mal par écrit.",
+    "example": "Ton pote : « T'es où ? » Toi : « Physiquement au bureau. Mentalement sur une plage. Émotionnellement dans le frigo. » Ton pote : « On mange quoi ? » Toi : « De l'espoir et des restes d'hier. »",
+    "exercise": "DÉFI TEXTO : aujourd'hui, réponds à UN message banal d'un ami avec une réponse décalée au lieu de la réponse standard. Un émoji qui rit veut dire que ça marche, un « ?? » veut dire à retravailler.",
+    "category": "JEUX_DE_MOTS",
+    "note": "4 règles ramenées à une technique, tirets cadratins et flèches retirés, DÉFI d'une semaine ramené à aujourd'hui. Réponses décalées gardées (très bonnes)."
+  },
+  {
+    "id": "cmnwfppia0001s60xeh7pmhsk",
+    "verdict": "OK",
+    "title": "L'inverseur d'âge : « Exactement, c'est pour ça que... »",
+    "content": "Quand quelqu'un fait une remarque sur ton âge, ne te justifie pas et ne joue pas au mature : inverse la perspective avec la formule « Exactement, c'est pour ça que... » suivie d'un avantage inattendu. Ne nie jamais ton âge, présente-le comme un choix tactique. Ça désamorce l'attaque et montre que tu assumes.",
+    "example": "Ta tante : « À ton âge, on ne sait rien de la vie. » Toi : « Exactement, c'est pour ça que je peux encore me tromper avec panache. »",
+    "exercise": "DÉFI INVERSEUR : aujourd'hui, dès que quelqu'un commente ton âge (ou celui des jeunes en général), réponds par « Exactement, c'est pour ça que... » et un avantage surprise. Deux essais suffisent.",
+    "category": "REPARTIE",
+    "note": "Humoriste nommé retiré, deuxième exemple moralisateur supprimé, exemple resserré avec chute (« avec panache »)."
+  },
+  {
+    "id": "cmnl5yc92000cs60zfctq4dm2",
+    "verdict": "OK",
+    "title": "Vanner un tic collectif avec « on »",
+    "content": "Au lieu de cibler une personne, observe ce que TOUT LE MONDE fait. Personne ne se sent visé, tout le monde se reconnaît et rit ensemble. La clé : « nous, on... » au lieu de « toi, tu... ».",
+    "example": "En pause café, tu remarques que tout le monde secoue la dosette 3 fois avant de la mettre dans la machine. Toi : « Pourquoi on secoue tous les dosettes comme si c'étaient des maracas ? On croit que la caféine va mieux se répartir ? » Tout le monde rit et se met à mimer le geste.",
+    "exercise": "DÉFI MIROIR COLLECTIF : aujourd'hui, repère UNE habitude que tu vois chez au moins 3 personnes différentes (même façon de tenir leur téléphone, même réflexe en réunion). Quand tu la revois, commente-la avec « on » ou « nous ».",
+    "category": "OBSERVATION",
+    "note": "Fausse « technique » attribuée à une humoriste réelle, « observatrice » (féminin) et critère de succès retirés. Exemple des dosettes maracas gardé."
+  },
+  {
+    "id": "cmmp8ozsx0002qk63w60l7lca",
+    "verdict": "OK",
+    "title": "L'observation du quotidien",
+    "content": "Les meilleures blagues viennent de situations banales que tout le monde vit mais que personne ne formule. Pourquoi on dit « allô » au téléphone ? Pourquoi on appuie plus fort sur la télécommande quand les piles sont faibles ? L'humour est partout, il faut juste apprendre à le voir, puis à le dire de façon percutante.",
+    "example": "« On regarde l'heure sur son téléphone, on referme, et 3 secondes après on ne sait toujours pas quelle heure il est. On l'a regardée sans la lire. Mon cerveau fait de la figuration. »",
+    "exercise": "DÉFI REMARQUÉ : aujourd'hui, repère UNE situation banale que tout le monde vit sans jamais la dire, et formule-la à voix haute en commençant par « Vous avez remarqué que... ? ».",
+    "category": "OBSERVATION",
+    "note": "Trois humoristes ou séries nommés (Seinfeld, Vérino, Frayssinet) et « analyse vidéo » retirés, vouvoiement de l'exemple corrigé, chute ajoutée (« figuration »). DÉFI de carnet de 10 absurdités remplacé par « Vous avez remarqué que... » pour ne pas doubler « Le carnet d'absurdités »."
+  },
+  {
+    "id": "cmparyf6a00jrs60x3not8c3d",
+    "verdict": "OK",
+    "title": "Détendre la salle avant que la réunion commence",
+    "content": "Le moment bizarre avant une réunion, quand tout le monde arrive, s'installe, teste son matériel, est ton créneau en or. Fais une observation légère sur ce qui se passe sous tes yeux. Pas une blague préparée, juste un commentaire amusé sur la situation. Vise l'universel : la galère technique, les rituels d'installation. Maximum 2 minutes avant le début officiel, et tu t'arrêtes dès que ça devient formel.",
+    "example": "Réunion budget, tout le monde se connecte en visio. Trois collègues galèrent avec leur micro. Toi : « On dirait qu'on enregistre un podcast sur les mystères de la technologie moderne. » Quelqu'un ajoute : « Épisode 1 : pourquoi mon micro marche une fois sur deux. » Sourires, puis toi : « Bon, on passe au vrai sujet ? »",
+    "exercise": "DÉFI OUVERTURE : à ta prochaine réunion, arrive 2 minutes avant l'heure. Trouve UNE chose observable (tech, organisation, météo) et fais-en un commentaire léger.",
+    "category": "TIMING",
+    "note": "Texte resserré, « Objectif » retiré. Exemple visio gardé (bon), fin raccourcie."
+  },
+  {
+    "id": "cmnyln91q0035s60wljci4xqt",
+    "verdict": "OK",
+    "title": "L'écart entre attentes et réalité",
+    "content": "Quand tout le monde attend du rêve, sers de la vraie vie. Identifie ce que les gens fantasment (vacances de rêve, soirées parfaites, vie de couple idéale), puis donne ta version crue avec un détail concret. Plus l'écart entre l'attente sociale et ta réalité est grand, plus ça fait rire.",
+    "example": "Tes collègues parlent de leur week-end romantique. Toi : « Nous aussi, c'est un week-end d'exception : on va enfin changer les draps et regarder un film pendant 20 minutes sans s'endormir. Si on tient jusqu'au générique, on se marie. »",
+    "exercise": "DÉFI ÉCART : aujourd'hui, repère UNE conversation où les gens idéalisent quelque chose (week-end, projet, achat) et donne ta version réaliste avec un détail concret, sur un ton assumé.",
+    "category": "TIMING",
+    "note": "Deux humoristes nommés, marques (Instagram, Netflix, Titanic) et « Objectif » retirés. Chute reconstruite (« on se marie »). Chiffre 20 minutes conservé."
+  },
+  {
+    "id": "cmndv8k8q0004s60xtlt8smpg",
+    "verdict": "OK",
+    "title": "L'échec assumé : ta résolution ratée devient ton meilleur gag",
+    "content": "Au lieu de cacher tes résolutions abandonnées, fais-en ton matériau comique. Avoue ton échec, puis amplifie-le avec des détails absurdes jusqu'à ce que ce soit trop gros pour être vrai. L'autodérision marche quand tu es le premier à en rire : plus tu dramatises de façon évidente, plus les gens rient avec toi, pas de toi.",
+    "example": "Ton pote : « Alors, ta résolution sport, ça donne quoi ? » Toi : « J'ai tenu 3 jours. Le 4e jour, j'ai négocié avec mon réveil. Le 5e, j'ai essayé de convaincre mon lit que marcher jusqu'au frigo comptait comme du cardio. Maintenant, mon abonnement à la salle me sert de marque-page très cher. »",
+    "exercise": "DÉFI RÉSOLUTION RATÉE : aujourd'hui, raconte à quelqu'un (pote, famille, coloc) une de tes résolutions abandonnées en amplifiant l'échec à chaque phrase. Il y a de fortes chances qu'il te réponde avec ses propres échecs.",
+    "category": "AUTODERISION",
+    "note": "Humoriste nommé retiré, DÉFI de 3 personnes ramené à une. Exemple gardé tel quel (très bonne chute)."
+  },
+  {
+    "id": "cmoaqebic0023s60xsb8wq36v",
+    "verdict": "OK",
+    "title": "L'épopée du raté de cuisine",
+    "content": "Un raté de cuisine devient légendaire quand tu le racontes comme une épopée. Trois étapes : pose le décor comme un défi héroïque, dramatise chaque étape avec un vocabulaire de bataille, conclus sur ta défaite noble face à un adversaire redoutable. L'échec devient héroïque, pas pathétique.",
+    "example": "Au lieu de « J'ai cramé mon riz hier », tu dis : « Hier, j'ai lancé l'opération Riz Parfait. Mission : dompter ces grains rebelles. Stratégie : feu doux, surveillance constante. Résultat : j'ai produit du charbon premium. Le riz a gagné cette bataille, mais la guerre continue. »",
+    "exercise": "DÉFI ÉPOPÉE : raconte ton prochain raté de cuisine comme une saga militaire, avec une mission, une stratégie et un résultat. Si quelqu'un demande « mais comment tu fais pour rater ça ? », c'est gagné.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé et « Critère de succès » retirés, texte resserré. « Charbon premium » gardé."
+  },
+  {
+    "id": "cmmp8ozsx0012qk63kxfsux75",
+    "verdict": "OK",
+    "title": "La blague à tiroirs",
+    "content": "La blague à tiroirs en contient d'autres : tu ouvres un sujet, tu digresses sur un détail, tu glisses une blague dans la digression, puis tu reviens au sujet principal pour la chute finale. C'est de l'architecture narrative : le public oublie presque le point de départ, et la chute le rattrape.",
+    "example": "« L'autre jour, je vais acheter une étagère. (Le magasin est un labyrinthe avec des flèches au sol, et moi, je respecte les flèches : on ne m'a jamais vu désobéir à une flèche.) Bref, j'y suis allé pour une étagère. J'en suis reparti avec un chariot, un hot-dog et un canapé qui s'appelle Bjorn. »",
+    "exercise": "DÉFI TIROIRS : prends une de tes anecdotes favorites. Ajoute une digression drôle au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire principale pour la chute. Raconte-la à quelqu'un aujourd'hui.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé, marque (Ikea) et fausse étymologie (« tu trouveras jamais la sortie ») retirés, tirets cadratins retirés. Nouvelle chute (le canapé qui s'appelle Bjorn)."
+  },
+  {
+    "id": "cmnxyl845000ds60wjvwshjyi",
+    "verdict": "OK",
+    "title": "La cascade de ratés",
+    "content": "Quand tu rates un truc, commente-le au lieu de t'excuser. Et si un deuxième raté suit, commente-le aussi, avec 2-3 secondes entre chaque pour que les gens anticipent le prochain. La cascade crée un effet boule de neige. Arrête-toi à 3 ratés maximum : au-delà, tu passes du drôle au pathétique.",
+    "example": "Tu renverses ton café au bureau. Toi : « Bon, je rate mon café. » Deux secondes. La serviette tombe pendant que tu nettoies : « Je rate mon nettoyage. » Deux secondes. Ton stylo roule par terre : « Et je rate ma récupération. Trois sur trois, c'est un sans-faute. »",
+    "exercise": "DÉFI CASCADE : dès que tu rates un truc aujourd'hui (renverser, faire tomber, trébucher), commente-le à voix haute. Si un deuxième raté suit, commente-le aussi, et arrête-toi à trois.",
+    "category": "TIMING",
+    "note": "Fausse attribution à un humoriste réel (« bégaiements ») retirée, consigne de rater volontairement retirée, exemple resserré avec chute « sans-faute »."
+  },
+  {
+    "id": "cmnz95dlc001ns60xdvy8qe0r",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Doublon d'idée (raconter son raté 24-48h après) avec « L'échec assumé », « Le rebond catastrophe » et « L'épopée du raté de cuisine ». Saisonnier (Saint-Valentin), humoriste nommé, « gold ». Chute « céréales aux chandelles » à récupérer si besoin."
+  },
+  {
+    "id": "cmo0qp9ww0024s60xqe5e9se9",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "AUTODERISION",
+    "note": "Doublon d'idée (retourner une pique en atout) avec « Célibataire ? Fais-en ta force » et « Transformer un mauvais résultat en tremplin ». Artiste et marque nommés (Jul, Spotify), humoriste nommé, « pétés »."
+  },
+  {
+    "id": "cmn9kmoy30001s60xmmc1u2sp",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "ABSURDE",
+    "note": "Doublon d'idée avec « Le décalage de registre » (présentateur météo cité dans le DÉFI). Humoriste nommé, marque (Insta). Chute « éclaircies prévues vers 14h après la pause café » à récupérer."
+  },
+  {
+    "id": "cmmp8ozsx0010qk63aeup700a",
+    "verdict": "OK",
+    "title": "La pause après la chute",
+    "content": "Au lieu de la pause classique avant la chute, essaie la pause APRÈS. Tu balances la punchline très vite, presque en la jetant, puis tu te tais 4 secondes, regard fixe. L'autre met un instant à processer, puis rit. Ça marche surtout avec les one-liners. Le silence fait le travail que tu n'as pas à faire.",
+    "example": "Tu dis très vite, comme si tu pensais à voix haute : « Mon niveau d'anglais, c'est : je comprends tout, sauf quand quelqu'un parle. » Puis silence total, regard fixe, pendant 4 secondes.",
+    "exercise": "DÉFI PAUSE INVERSÉE : choisis UN one-liner court. Dis-le très vite, puis garde un silence total de 4 secondes. Tente-le aujourd'hui sur la première personne qui passe.",
+    "category": "TIMING",
+    "note": "Blague connue (l'aspirateur qui prend la poussière) remplacée par une vanne originale. DÉFI de 5 one-liners ramené à 1."
+  },
+  {
+    "id": "cmmp8ozsx0000qk63pm0016tm",
+    "verdict": "OK",
+    "title": "La pause et le silence : tes meilleurs alliés",
+    "content": "Le timing est tout en humour. Avant la chute, marque une pause de 3 secondes : ce silence crée l'attente et amplifie l'effet. Et en face-à-face, 50% de l'humour passe par le non-verbal : le regard fixe après une blague, le sourcil levé, le silence prolongé. Les stand-uppers appellent ça le « beat ». Ne comble jamais le silence trop vite après une blague.",
+    "example": "« J'ai fait du yoga ce matin. » (pause de 3 secondes, regard fixe) « J'ai réussi à toucher mes pieds. » (sourcil levé, 2 secondes) « Parce que je suis tombé. » (visage neutre, tu laisses le silence travailler)",
+    "exercise": "DÉFI MIROIR : choisis une blague que tu connais bien. Raconte-la devant un miroir en comptant 3 secondes dans ta tête avant la chute, visage neutre. Puis teste-la sur un ami, avec le regard fixe après la chute.",
+    "category": "TIMING",
+    "note": "Deux humoristes nommées retirées, tiret cadratin retiré. Chiffre 50% conservé tel quel. DÉFI de 5 répétitions ramené à un essai."
+  },
+  {
+    "id": "cmo3l6nir0003s60xj0o0n38z",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Doublon d'idée (invention d'une explication absurde à ce qui t'agace) avec « Invente une théorie sérieuse sur ce qui t'agace ». Humoriste nommé, marques (PowerPoint, Excel, Wifi). Chute « Excel a décidé de faire grève parce qu'il trouve nos chiffres déprimants » à récupérer."
+  },
+  {
+    "id": "cmnv02u7u0001s60y0a4l0625",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "REPARTIE",
+    "note": "Doublon d'idée (retourner un point faible en atout) avec les conseils G05 gardés. Humoriste nommé. Chute « détecter un cèpe à 50 mètres » à récupérer."
+  },
+  {
+    "id": "cmn85hg600009s610jmoqsu6f",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "REPARTIE",
+    "note": "Doublon d'idée avec « La répartie de redirection » (conseil gardé). Humoriste nommée, « copine » (genré). Exemple des draps-housses à récupérer."
+  },
+  {
+    "id": "cmqer3hzu00jts60xu2ayc35c",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "STORYTELLING",
+    "note": "Exemple à connotation sexuelle (menottes, ex) et rupture amoureuse comme sujet, série et humoriste nommés. Technique (l'enquêteur naïf de sa propre histoire) déjà couverte par « Ta galère tech en film catastrophe » et « L'épopée du raté de cuisine »."
+  },
+  {
+    "id": "cmmp8ozsx0014qk63nq5cnq7u",
+    "verdict": "OK",
+    "title": "La règle du « et si »",
+    "content": "L'imagination comique commence par « Et si... ». Et si les animaux avaient des jobs ? Et si les meubles avaient des sentiments ? Prends un objet ou un système du quotidien et prête-lui un comportement humain précis. C'est le détail précis qui rend le scénario drôle.",
+    "example": "Et si les GPS étaient passifs-agressifs ? « Recalcul en cours. Encore. Comme d'habitude. Non non, c'est très bien, tourne à gauche si tu veux. »",
+    "exercise": "DÉFI ET SI : écris 3 « Et si... » absurdes sur des objets de ta journée (ton GPS, ton frigo, ton réveil). Développe le meilleur en mini-scénario de 3-4 phrases et envoie-le à un ami.",
+    "category": "ABSURDE",
+    "note": "Marque (Instagram), Napoléon et « publie sur les réseaux » retirés, DÉFI de 10 « Et si » ramené à 3. Exemple du GPS passif-agressif gardé (bonne chute)."
+  },
+  {
+    "id": "cmnykks230031s60wph44qqz8",
+    "verdict": "OK",
+    "title": "La règle du soupir collectif",
+    "content": "Quand ton équipe sort d'un gros stress (deadline, réunion importante, rush), tout le monde relâche la pression en même temps. C'est le moment pour UNE petite galère perso, 10 mots maximum. Attends que l'équipe souffle collectivement, puis lâche ton anecdote ridicule. Quand tout le monde a envie de rire, ta galère tombe pile.",
+    "example": "Fin de présentation client stressante, tout le monde ferme son ordi et soupire. Tu attends 30 secondes, puis : « Au moins vous, vous n'avez pas passé 20 minutes hier soir à chercher vos clés... qui étaient dans ma main. »",
+    "exercise": "DÉFI SOUPIR : repère le prochain moment où ton équipe sort d'un stress collectif. Attends 30 secondes que l'ambiance retombe, puis glisse UNE galère perso récente en 10 mots maximum.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, « or comique » et « Objectif » retirés. Chute « qui étaient dans ma main » gardée. Chiffres 10 mots, 30 secondes, 20 minutes conservés."
+  },
+  {
+    "id": "cmmp8ozsx000lqk63pgytfuuv",
+    "verdict": "OK",
+    "title": "La répartie bienveillante",
+    "content": "La meilleure répartie n'humilie personne : elle fait rire tout le monde, y compris la personne visée. Le secret : vise la situation, jamais la personne. Au lieu de « t'es maladroit », pointe l'absurdité du moment. Tu gagnes le respect du groupe, pas juste un rire aux dépens de quelqu'un.",
+    "example": "Quelqu'un renverse son verre. Au lieu de se moquer : « T'inquiète, la table avait soif aussi. »",
+    "exercise": "DÉFI BIENVEILLANCE : la prochaine fois que quelqu'un fait une gaffe, trouve un commentaire drôle qui dédramatise sans viser la personne. Si la personne en rit aussi, c'est gagné.",
+    "category": "REPARTIE",
+    "note": "Flèche retirée, « Bonus » retiré. Exemple de la table qui a soif gardé."
+  },
+  {
+    "id": "cmqbw7u0100bfs60xkxtkh80g",
+    "verdict": "OK",
+    "title": "Le compliment inversé",
+    "content": "Quand quelqu'un se moque de ton style, ne te défends pas : complimente-le sur son « expertise ». Tu transformes l'attaque en reconnaissance de son talent. Ça désamorce l'agressivité et te place en position haute. Le secret : avoir l'air sincèrement admiratif de sa capacité à repérer les détails. Il est difficile de continuer à critiquer quelqu'un qui vient de te valoriser.",
+    "example": "Ton pote en soirée : « Tes baskets, elles viennent d'où ? De 2015 ? » Toi, admiratif : « Tu as vu ça ? Tu as un œil de styliste. Moi, je n'aurais jamais reconnu que c'était du vintage. » Lui, décontenancé : « Euh... c'est juste qu'elles sont vraiment datées. » Toi : « Tu vois, c'est un don. »",
+    "exercise": "DÉFI EXPERT : aujourd'hui, dès que quelqu'un critique ton look, complimente son « expertise » avec un vrai sourire : « Tu as l'œil pour ça ! ». Si la personne arrête ses critiques, c'est gagné.",
+    "category": "REPARTIE",
+    "note": "Humoriste nommé, « Putain », « Mec », anglicisme « genuine » et faute « transforms » retirés. Nouvelle chute (« Tu vois, c'est un don »)."
+  },
+  {
+    "id": "cmnyhcsab002ps60wrhea87db",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Doublon d'idée (surfer sur l'émotion collective) avec « La règle du soupir collectif » et « L'anti-fatigue collective ». Saisonnier (Saint-Valentin, galette des rois), humoriste nommé."
+  },
+  {
+    "id": "cmmp8ozsx000hqk637xkg9poy",
+    "verdict": "OK",
+    "title": "Donne une voix à chaque personnage",
+    "content": "Incarner un personnage (un serveur, ton boss, ta mère) en imitant sa façon de parler amplifie l'humour d'une anecdote. Pas besoin d'être un grand imitateur : changer légèrement ta voix, ton rythme ou ta posture suffit. Grave et lent pour l'autorité, aigu et rapide pour la panique.",
+    "example": "Ton boss arrive, voix grave et lente : « Il faut qu'on parle. » Toi, voix qui monte de deux tons : « D'accord ? » Lui, toujours grave : « La fenêtre est ouverte. »",
+    "exercise": "DÉFI PERSONNAGE : aujourd'hui, raconte une anecdote à un ami en changeant de voix pour chaque personnage (grave et lent pour le boss, aigu et rapide pour toi). Demande-lui lequel il a préféré.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé retiré, faute « eN DUO » et « enfant de 5 ans » retirés, exemple reconstruit avec vraie chute (« La fenêtre est ouverte »)."
+  },
+  {
+    "id": "cmq3bn5l6005js60xyozpk0wo",
+    "verdict": "OK",
+    "title": "La vanne de fin de cours",
+    "content": "Le bon timing en cours n'est pas pendant que le prof explique : c'est dans les 30 secondes qui suivent la fin. Quand le prof dit « c'est tout pour aujourd'hui », tout le monde range ses affaires. C'est TA fenêtre : l'attention se relâche, les gens sont détendus, une vanne bien placée marque les esprits. Tu laisses le prof finir son truc sérieux, et quand il referme son ordi, tu glisses ta réflexion. Pas besoin de couper la parole.",
+    "example": "Cours de maths, 2 heures de probabilités. Le prof ferme son ordi : « Bon, c'est terminé pour aujourd'hui. » Pendant que tout le monde range, tu lâches : « Deux heures de probabilités, et la seule chose dont je suis certain, c'est que je n'ai rien compris. »",
+    "exercise": "DÉFI SORTIE : aujourd'hui, repère le moment où ton prof dit « c'est fini » ou range ses affaires. Attends 10 secondes que l'ambiance se détende, puis glisse UNE réflexion légère sur le cours, pas une vraie blague.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, « BOOM », « spoiler alert » et « Objectif » retirés, marque (PowerPoint) retirée. Chute reconstruite (« la seule chose dont je suis certain »)."
+  },
+  {
+    "id": "cmof09zzb000fs60xuwq650zl",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Doublon d'idée avec « Savoir rebondir sur un raté » (conseil gardé : « Un silence gênant ? Commente-le »). Anglicismes (awkward, cringe), humoriste nommé. Chute « petit moment de méditation collective » à récupérer."
+  },
+  {
+    "id": "cmorynj4s000rs60w3dxwnx8h",
+    "verdict": "OK",
+    "title": "Le carnet d'absurdités",
+    "content": "Les bons observateurs ne cherchent pas l'extraordinaire : ils collectent les micro-moments délirants du quotidien. Au bureau, chaque jour livre le sien : le collègue qui dit « bon appétit » à 16h en mangeant une pomme, l'imprimante qui ne marche que le lundi, les réunions pour planifier des réunions. La technique : note UNE absurdité par jour, la phrase exacte ou la situation précise, pas ton interprétation. Compilés, ces détails deviennent de la matière comique.",
+    "example": "Ton manager termine chaque mail par « Cordialement », même pour annoncer une panne. Tu notes : « Objet : URGENT. Cordialement, la cafetière nous a quittés. Cordialement, Thierry. » Trois semaines plus tard, en soirée : « Mon chef écrirait cordialement même pour annoncer la fin du monde : Cordialement, un astéroïde va détruire la Terre. »",
+    "exercise": "DÉFI CARNET : aujourd'hui, ouvre une note sur ton téléphone intitulée « Carnet d'absurdités » et note UNE phrase bizarre entendue ou UNE situation absurde. Juste une.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommée retirée, « Bureau Comedy » remplacé, « pépite d'or » retiré. Exemple du « Cordialement » gardé (bonne chute). Le DÉFI de « L'observation du quotidien » sera changé pour ne pas doubler celui-ci."
+  },
+  {
+    "id": "cmp51ckjk012hs60ya03z0at2",
+    "verdict": "OK",
+    "title": "Le compliment déguisé en fausse critique",
+    "content": "Le compliment direct est parfois raide. L'astuce : pars d'une fausse critique, laisse deux secondes de faux suspense, puis révèle le vrai message. Tu contournes les défenses qu'on a face aux compliments frontaux. Le timing : pas trop vite (ça rate), pas trop tard (ça devient lourd).",
+    "example": "Ton rencard se prépare pour sortir. Toi : « J'ai un problème avec toi. » L'autre lève les yeux, un peu inquiet. Toi : « Tu ne peux pas être aussi bien un mardi soir. Je n'avais rien prévu pour ça. »",
+    "exercise": "DÉFI COMPLIMENT PIÈGE : aujourd'hui, glisse UN compliment déguisé en fausse critique à quelqu'un que tu apprécies, en commençant par « J'ai un souci avec toi... » ou « C'est pas normal que... ». Regarde son visage au moment du retournement.",
+    "category": "TIMING",
+    "note": "Humoriste nommé, genre (« copain », « jalouse », « il/elle ») et « Mission réussie si » retirés. Exemple reconstruit avec une chute."
+  },
+  {
+    "id": "cmnqpymjq0000s60zg23nie59",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "OBSERVATION",
+    "note": "Doublon d'idée (critiquer une tendance sans viser une personne) avec « Dans 20 ans, on rigolera de quoi ? » et « Vanner un tic collectif avec on ». Exemple centré sur le corps (nombril, âge), humoriste nommé, « le mec »."
+  },
+  {
+    "id": "cmp7v8ao1003as60xx2g3zyvz",
+    "verdict": "OK",
+    "title": "Commente ton look avant qu'on le fasse",
+    "content": "L'autodérision vestimentaire, c'est commenter tes propres choix avant que les autres le fassent. Décris ton look comme un concept artistique incompris ou une stratégie secrète. Tu montres que tu as conscience du décalage sans être gêné, et le point faible devient un point d'humour.",
+    "example": "Tu arrives en cours avec un t-shirt de dessin animé, un jogging et des claquettes. Toi : « J'ai opté pour le style business-casual-gamer aujourd'hui. Très tendance chez les étudiants en fin de mois. » Ou : « J'appelle ça le look confort-nostalgie-flemme. Assemblé en 3 secondes, record personnel. »",
+    "exercise": "DÉFI LOOK : aujourd'hui, la première fois que tu croises quelqu'un (potes, famille, cours), commente ton look avec humour avant qu'on te dise quoi que ce soit.",
+    "category": "AUTODERISION",
+    "note": "ATTENTION id : l'audit et conseils-reecrire-ids.txt donnent cmp7v8ao1003as60xc8arxzur, mais l'export Neon contient ce conseil sous cmp7v8ao1003as60xx2g3zyvz (même titre « Le look du matin »). C'est l'id de l'export qui est utilisé ici. Humoriste nommé, marque (Pokémon), « le mec » et « Objectif : 3 commentaires » retirés."
+  },
+  {
+    "id": "cmoc6cyvg002fs60xk6faw99u",
+    "verdict": "OK",
+    "title": "Le miroir générationnel : « On est la génération qui... »",
+    "content": "Ta génération a ses absurdités : on commande tout en ligne mais on panique au téléphone, on scrolle des recettes parfaites puis on commande à manger. L'astuce : le « nous » collectif. « On est la génération qui... » crée une complicité immédiate : tu ne juges pas les autres, tu t'inclus dans l'absurde. Plus tu assumes faire partie du problème, plus les gens rient avec toi.",
+    "example": "En pause café, un collègue commande son déjeuner sur une appli. Toi : « On est quand même la génération qui télécharge 15 applis de livraison pour éviter d'appeler la pizzeria du coin. On préfère expliquer notre adresse à un algorithme plutôt qu'à un humain. »",
+    "exercise": "DÉFI GÉNÉRATION : aujourd'hui, trouve UNE habitude absurde de ta génération que tu partages. Commence par « On est la génération qui... » et termine sur une contradiction savoureuse. Si quelqu'un répond « exactement ! », c'est gagné.",
+    "category": "OBSERVATION",
+    "note": "Humoriste nommée et marque (UberEats) retirées, grammaire corrigée (« vous... paniquent »). Chiffre 15 conservé."
+  },
+  {
+    "id": "cmmp8ozsx000vqk63yfv48jba",
+    "verdict": "OK",
+    "title": "Le personnage exagéré",
+    "content": "Quand tu racontes une anecdote, transforme les vrais personnages en versions caricaturales : l'histoire devient 10 fois plus drôle. Ton boss devient un dictateur mégalomane, ta grand-mère une espionne, le serveur un philosophe existentialiste. L'exagération des personnages permet de rester bienveillant tout en étant hilarant.",
+    "example": "Au lieu de « le prof était sévère » : « Le prof est entré et nous a regardés comme un général avant la bataille de Normandie. Il a fait l'appel comme on lit un acte d'accusation. »",
+    "exercise": "DÉFI PERSONNAGE EXAGÉRÉ : prends une anecdote récente avec au moins 3 personnes. Réécris-la en donnant à chaque personne un archétype exagéré (le général, l'espionne, le philosophe). Raconte-la ce soir.",
+    "category": "STORYTELLING",
+    "note": "Flèche retirée. Chiffre « 10 fois plus drôle » conservé tel quel. Nouvelle chute (« acte d'accusation »)."
+  },
+  {
+    "id": "cmom5ird30001s60w411n32fn",
+    "verdict": "OK",
+    "title": "Le retard assumé",
+    "content": "Quand on te fait remarquer ton retard, ni excuse molle ni mensonge. La technique : reconnaître ton retard avec une exagération tellement assumée que ça devient drôle. Le secret : jouer sur l'écart entre la gravité que tu affiches et la banalité de la situation. Ton défaut devient un trait de caractère charmant.",
+    "example": "Ton pote en TD : « Encore en retard ! » Toi, avec le plus grand sérieux : « Écoute, j'ai un emploi du temps de ministre. Entre mon rendez-vous avec mon oreiller et ma réunion avec ma machine à café, c'est compliqué de tout caser. »",
+    "exercise": "DÉFI MINISTRE : aujourd'hui, si quelqu'un te fait remarquer ton retard, réponds en inventant un emploi du temps de VIP complètement délirant. Plus c'est absurde, mieux c'est.",
+    "category": "REPARTIE",
+    "note": "Deux humoristes nommés, « Erreur. » et « Objectif » retirés. Un seul exemple gardé."
+  },
+  {
+    "id": "cmmw0tqwa000ymw62dttx5y57",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Contradiction avec « La règle des 3 secondes : arrêter au pic du rire » (conseil gardé : compter 1, 2, 3 puis changer de sujet, contre ici 5 secondes de silence total) et doublon d'idée. Humoriste nommée. Exemple du DÉFI SILENCE cloné depuis le brief du générateur."
+  },
+  {
+    "id": "cmov5buqv0024s60wto587pj7",
+    "verdict": "OK",
+    "title": "Les 3 moments où fermer ta bouche",
+    "content": "Il y a des moments où même la meilleure vanne va te griller. Trois signaux rouges : le prof annonce des mauvaises notes, quelqu'un pose une question sérieuse après avoir levé timidement la main, l'ambiance devient tendue (prof énervé, silence de mort). Ton cerveau te souffle « allez, une petite blague pour détendre ». C'est là qu'il faut résister : une blague ne détend pas une ambiance tendue, elle en devient la cible. Le bon timing, c'est quand l'atmosphère est déjà détendue.",
+    "example": "Le prof distribue les copies : « Les résultats ne sont pas terribles... » Ton voisin te chuchote une vanne sur les notes. Toi, tu ne dis rien. Plus tard, le prof se trompe au tableau, efface, se trompe encore. Là, tu glisses à mi-voix : « Il est en train de nous apprendre à raturer proprement. » Tout le monde rit, même le prof.",
+    "exercise": "DÉFI SIGNAL ROUGE : aujourd'hui en cours, repère UN moment de tension. Quand ton cerveau te dit « dis quelque chose de drôle », compte jusqu'à 10 et garde ta blague pour le moment suivant.",
+    "category": "TIMING",
+    "note": "Citation inventée attribuée à un humoriste, « ERREUR. » et « Mission réussie si » retirés. Chute reconstruite (« raturer proprement »). Conseil de retenue gardé : il protège la marque."
+  },
+  {
+    "id": "cmmp8ozsx000wqk630akmeqc2",
+    "verdict": "OK",
+    "title": "La question rhétorique drôle",
+    "content": "Poser une question dont tout le monde connaît la réponse, en la formulant de façon décalée, est une technique classique de stand-up. La question invite le public à réfléchir une seconde, ce qui prépare la chute. C'est une entrée parfaite pour un développement observationnel.",
+    "example": "« Pourquoi les gens qui conduisent lentement sont toujours devant toi, et les gens pressés toujours derrière ? On dirait que l'univers a un algorithme pour maximiser ta frustration. »",
+    "exercise": "DÉFI RHÉTORIQUE : aujourd'hui, formule 3 questions rhétoriques drôles sur des absurdités du quotidien et teste la meilleure dans une conversation.",
+    "category": "OBSERVATION",
+    "note": "DÉFI de 10 questions sur une semaine ramené à 3 aujourd'hui."
+  },
+  {
+    "id": "cmmp8ozsx001hqk63kwwmoglv",
+    "verdict": "OK",
+    "title": "Les scripts de répartie prêts à l'emploi",
+    "content": "Quand tu débutes en répartie, le plus dur, c'est le blanc : tu ne trouves rien à répondre sur le moment. La solution : prépare des réponses passe-partout qui marchent dans 80% des situations. Ce n'est pas de la triche, c'est de l'entraînement. Avec le temps, ces scripts deviennent des réflexes et tu n'en as plus besoin.",
+    "example": "Une pique générique : « Venant de quelqu'un qui porte des chaussettes dans ses sandales, ça me touche. » Une remarque sur ton physique : « Je sais, j'ai hésité entre ça et être parfait, mais parfait, c'était complet. » Une question gênante : « Excellente question. Suivante. »",
+    "exercise": "DÉFI SCRIPTS : choisis 2 des réponses ci-dessus, répète-les à voix haute 3 fois, et utilises-en une aujourd'hui.",
+    "category": "REPARTIE",
+    "note": "Faute « aRSENAL DE POCHE », « hecklers » et flèches retirés, DÉFI de 5 réponses ramené à 2. Chiffre 80% conservé tel quel. Exemple : ajout d'une pique concrète pour le premier script."
+  },
+  {
+    "id": "cmmp8ozsx000mqk63ux155ma1",
+    "verdict": "OK",
+    "title": "Raconter une anecdote en 3 actes",
+    "content": "Toute bonne histoire drôle suit 3 actes : 1) le contexte (qui, où, quand, en 2 phrases max), 2) la montée (ce qui s'est passé, avec des détails précis), 3) la chute (le retournement inattendu). Plus tu tiens cette structure, plus tes anecdotes frappent.",
+    "example": "Contexte : « Mardi, premier rendez-vous. » Montée : « On discute, ça se passe bien, et à un moment j'entends : J'adore les gens spontanés. » Chute : « Alors, spontanément, j'ai renversé mon café sur mon rencard. »",
+    "exercise": "DÉFI 3 ACTES : prends UNE anecdote de ta semaine et raconte-la à voix haute en respectant les 3 actes : contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase. Enregistre-toi sur ton téléphone si tu veux voir ce qui traîne.",
+    "category": "STORYTELLING",
+    "note": "Humoriste nommé, marque (Tinder), tiret cadratin et genre (« elle ») retirés. DÉFI de 3 anecdotes filmées ramené à une. Chute « spontanément, j'ai renversé mon café » gardée."
+  },
+  {
+    "id": "cmmw0tr090010mw6276qpd2eo",
+    "verdict": "OK",
+    "title": "Retrouver sa voix drôle après une pause",
+    "content": "Après une séparation ou un passage à vide, ton humour est rouillé. Normal, c'est comme le vélo. Commence petit, sans faire le clown en soirée : des micro-remarques au quotidien, un commentaire à la boulangère, une remarque à un collègue. L'humour revient par couches : d'abord l'observation, puis le commentaire, puis la vanne. Ne te mets pas la pression d'être celui qui fait rire : sois juste celui qui remarque des trucs.",
+    "example": "À la boulangerie : « Un pain au chocolat, s'il vous plaît. Ou une chocolatine. Je reste neutre, j'ai vu ce que ce débat fait aux familles. » Micro-interaction, zéro pression, juste un commentaire léger qui ouvre une porte.",
+    "exercise": "DÉFI ROUILLE : aujourd'hui, place UN commentaire léger dans une interaction du quotidien (courses, café, travail). Pas une vanne, juste une observation amusante. Si ça ne prend pas, tu auras quand même retrouvé ta voix.",
+    "category": "OBSERVATION",
+    "note": "« Le mec drôle » (genré), flèche et DÉFI d'une semaine retirés. Nouvelle chute (« ce que ce débat fait aux familles »)."
+  },
+  {
+    "id": "cmmw0trk3001amw62akk6qqy9",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "REPARTIE",
+    "note": "Doublon d'idée (accepter, exagérer, retourner) avec « L'escalade complice » et « Célibataire ? Fais-en ta force ». Exemple centré sur le célibat, déjà traité, et « ta copine » genré. Réplique « anniversaire de célibat » à récupérer."
+  },
+  {
+    "id": "cmp3cfv7v00qps60y14xysiko",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "REPARTIE",
+    "note": "Doublon d'idée avec « Encaisser une critique avec classe » (reconnaître le point avec autodérision). Humoriste nommé, « bégayer »."
+  },
+  {
+    "id": "cmmw0tr480012mw62jq8btgft",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "REPARTIE",
+    "note": "Doublon d'idée avec « La répartie de redirection » (conseil gardé). Marque (Netflix) et « elle te manque pas » (genré, sujet lourd)."
+  },
+  {
+    "id": "cmpqcmblb000vs60wh5n7wb5w",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "JEUX_DE_MOTS",
+    "note": "Doublon d'idée avec « Baptiser la manie d'un collègue » (nom affectueux). Technique du surnom valorisant : « Mathieu-dégustation » à récupérer."
+  },
+  {
+    "id": "cmmp8ozsx001fqk6301jruvzj",
+    "verdict": "OK",
+    "title": "Survivre aux réunions avec humour",
+    "content": "Les réunions sont un concentré d'absurdités sociales : le diaporama illisible, le manager qui « rebondit » sur tout, le collègue qui pose LA question à 17h55. L'humour en réunion demande de la finesse : tu vises le système, jamais les personnes. Le bon commentaire fait rire tout le monde, y compris la cible involontaire.",
+    "example": "Le manager dit : « Pensez out of the box. » Toi : « D'accord, mais on pourrait d'abord définir la box ? J'ai l'impression qu'on n'est même pas dans la même pièce. »",
+    "exercise": "DÉFI BINGO : à ta prochaine réunion, note mentalement les clichés qui tombent (synergies, on est alignés, je rebondis). Après, raconte le bingo à un collègue complice.",
+    "category": "OBSERVATION",
+    "note": "Tiret cadratin, flèche, « stand-up corporate » et « prépare 2 commentaires » (contraire à la spontanéité) retirés. Réplique « définir la box » gardée."
+  },
+  {
+    "id": "cmp1y91b500dws60ynsgozahy",
+    "verdict": "OK",
+    "title": "Transforme ta fatigue en spectacle personnel",
+    "content": "Au lieu de t'excuser d'être fatigué, raconte ta fatigue comme un phénomène fascinant : métaphores absurdes, comparaisons scientifiques. Plus tu es précis dans la description de ton état, plus c'est drôle. Ta fatigue devient un personnage, pas une excuse, et tout le monde reconnaît cette fatigue-là.",
+    "example": "En réunion à 16h : « Je vous préviens, mon cerveau fonctionne en mode économie d'énergie. Si vous entendez un petit bruit de ventilateur, c'est normal. » Ou quand un collègue te propose un after-work : « Mon niveau d'énergie sociale est à 12%. Je peux te proposer une conversation en mode veille : on fait semblant d'être passionnés par la machine à café. »",
+    "exercise": "DÉFI FATIGUE : la prochaine fois que tu sens la fatigue pointer, annonce-la à voix haute comme un état de fonctionnement (« mode économie d'énergie », « batterie à 12% ») au lieu de t'excuser. Une fois suffit.",
+    "category": "AUTODERISION",
+    "note": "Humoriste nommé, « pop culture » et « Objectif : 3 moments » retirés. Chiffre 12% conservé."
+  },
+  {
+    "id": "cmn3uybuy0002s60xf1wo5g96",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "OBSERVATION",
+    "note": "Doublon d'idée (fausse expertise sur les comportements) avec « Invente une théorie sérieuse sur ce qui t'agace » et « Commente ta journée comme un match ». Marques nommées (BMW, Twingo, Uber, Mario Kart, Tetris), humoristes nommés, « le mec »."
+  },
+  {
+    "id": "cmnydlj5h002bs60wyxh1dghc",
+    "verdict": "RETIRER",
+    "title": "",
+    "content": "",
+    "example": "",
+    "exercise": "",
+    "category": "TIMING",
+    "note": "Contradiction avec « L'auto-blague préventive » (5 secondes ici contre 24 à 72 h de délai) et doublon d'idée avec « L'échec assumé » et « Le rebond catastrophe ». Deux humoristes nommés, marque (Tinder, PowerPoint)."
+  }
+]
+
