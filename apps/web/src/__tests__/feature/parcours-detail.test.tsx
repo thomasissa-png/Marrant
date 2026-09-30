@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
+import { useUserStore } from "@/stores/user-store";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -382,9 +383,9 @@ describe("ParcoursDetail — quiz gate", () => {
 });
 
 describe("ParcoursDetail — sequential unlock for authenticated users", () => {
-  it("unlocks step 2 when step 1 is completed", async () => {
+  it("unlocks step 2 when step 1 is completed (abonné Premium)", async () => {
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -415,5 +416,73 @@ describe("ParcoursDetail — sequential unlock for authenticated users", () => {
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
+  });
+});
+
+describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2 s14)", () => {
+  const progressAfterStep1 = {
+    ...mockPathData,
+    path: { ...mockPathData.path, id: "db-path-123" },
+    userProgress: { completedSteps: [1], currentStep: 1, completedAt: null },
+  };
+
+  afterEach(() => {
+    useUserStore.setState({ user: null });
+  });
+
+  it("compte gratuit : l'étape 2 affiche le bloc d'abonnement, pas le contenu", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Cette étape fait partie de l'accès complet/)).toBeInTheDocument();
+    });
+    expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute("href", "/abonnement");
+    expect(screen.queryByText(/sait quoi dire mais pas QUAND/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
+  });
+
+  it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...progressAfterStep1,
+        userProgress: { completedSteps: [], currentStep: 0, completedAt: null },
+      }),
+    });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
+  });
+
+  it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    useUserStore.setState({
+      user: { plan: "PREMIUM" } as unknown as ReturnType<typeof useUserStore.getState>["user"],
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
   });
 });

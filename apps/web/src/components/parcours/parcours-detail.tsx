@@ -12,6 +12,8 @@ import { frenchQuizQuotes, getParcoursDifficultyLabel, withEmojiPresentation } f
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo } from "@/lib/fr-typo";
 import { tipProse } from "@/lib/tip-prose";
+import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
+import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
 
 interface VideoRef {
@@ -277,7 +279,15 @@ export function ParcoursDetail({
     }
   }, [quizDone, quizStorageKey]);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const { status } = useSession();
+  const { status, data: session } = useSession();
+  const storeUser = useUserStore((s) => s.user);
+  // Plan lu dans la session (jwt, rafraîchi toutes les 5 min ou via update())
+  // ou dans le store utilisateur (favoris Premium) : l'un ou l'autre suffit,
+  // pour qu'un abonné ne se retrouve jamais verrouillé. L'API tranche en dernier.
+  const isPremium =
+    status === "authenticated" &&
+    (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) ||
+      isPremiumPlan(storeUser?.plan));
 
   useEffect(() => {
     // Si le SSR nous a déjà donné le contenu, on skip le fetch initial —
@@ -477,8 +487,9 @@ export function ParcoursDetail({
         {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
           const isExpanded = expandedStep === step.order;
-          const isPremiumLocked =
-            status !== "authenticated" && step.order > 1;
+          // Étape 1 offerte à tous ; 2 et suivantes réservées aux abonnés
+          // Premium (anonymes ET comptes gratuits), comme l'annonce le bloc ci-dessous.
+          const isPremiumLocked = !canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null);
           const stepXp = step.moduleXp ?? 20;
           const hasQuiz = step.quiz && step.quiz.length > 0;
           const isQuizDone = quizDone.has(step.order);
