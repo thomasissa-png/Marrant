@@ -67,12 +67,12 @@ export const VANNES_THEMES: readonly VannesTheme[] = [
     slug: "famille",
     category: "PARENTS",
     label: "Famille",
-    title: "Blagues de famille et de parents",
+    title: "Blagues de famille : parents et enfants",
     description:
-      "Des blagues de famille sur les parents, les repas du dimanche et les questions de tata. Chaque vanne a sa chute et son décryptage.",
-    h1: "Blagues de famille : la table du dimanche, version drôle",
+      "Des blagues de famille sur les parents face au téléphone, les enfants qui ont réponse à tout et le groupe WhatsApp familial. Avec chute et décryptage.",
+    h1: "Blagues de famille : parents, enfants et technologie",
     intro:
-      "La famille, c'est le seul public qui a déjà tout entendu et qui rit quand même. Ces vannes partent de situations que tout le monde reconnaît, sans viser personne en particulier. Teste-en une au prochain repas.",
+      "La famille, c'est le seul public qui a déjà tout entendu et qui rit quand même. Ces vannes partent des parents qui découvrent leur téléphone et des enfants qui ont réponse à tout, sans viser personne en particulier. Teste-en une au prochain appel en famille.",
   },
   {
     slug: "gaming",

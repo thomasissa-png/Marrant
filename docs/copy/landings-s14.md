@@ -85,10 +85,10 @@ Chaque page : catégories couvertes (enum de la base), title, meta, H1, intro. L
 
 ### 6. `/vannes/theme/famille` (catégorie PARENTS, « Famille »)
 
-- **Title** (32 car.) : `Blagues de famille et de parents`
-- **Meta** (130 car.) : `Des blagues de famille sur les parents, les repas du dimanche et les questions de tata. Chaque vanne a sa chute et son décryptage.`
-- **H1** : `Blagues de famille : la table du dimanche, version drôle`
-- **Intro** : La famille, c'est le seul public qui a déjà tout entendu et qui rit quand même. Ces vannes partent de situations que tout le monde reconnaît, sans viser personne en particulier. Teste-en une au prochain repas.
+- **Title** (32 car.) : `Blagues de famille : parents et enfants`
+- **Meta** (130 car.) : `Des blagues de famille sur les parents face au téléphone, les enfants qui ont réponse à tout et le groupe WhatsApp familial. Avec chute et décryptage.`
+- **H1** : `Blagues de famille : parents, enfants et technologie`
+- **Intro** : La famille, c'est le seul public qui a déjà tout entendu et qui rit quand même. Ces vannes partent des parents qui découvrent leur téléphone et des enfants qui ont réponse à tout, sans viser personne en particulier. Teste-en une au prochain appel en famille.
 - Point à vérifier par @fullstack : que les vannes PARENTS parlent bien de ces situations (parents, repas de famille). Sinon adapter la meta et l'intro.
 
 ### 7. `/vannes/theme/gaming` (catégorie GAMING)
