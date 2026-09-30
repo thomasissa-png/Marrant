@@ -9,6 +9,7 @@ import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
 import { extractSetupAmorce } from "./joke-agent";
 import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
+import { withFrenchExerciseAlias } from "@/lib/ai/json-aliases";
 
 /**
  * Regex de mentions IA / assistants vocaux (règle fondateur permanente).
@@ -1632,7 +1633,7 @@ Réponds en JSON :
   }, 2, { agent: "standup-director-agent", fn: "directorRewriteTip" });
 
   const text = getResponseText(response);
-  const parsed = extractJson<TipToValidate>(text);
+  const parsed = withFrenchExerciseAlias(extractJson<TipToValidate>(text));
 
   if (!parsed.title?.trim() || !parsed.content?.trim() || !parsed.example?.trim() || !parsed.exercise?.trim()) {
     throw new Error("Stand-Up Director : réécriture conseil — champs vides");

@@ -25,6 +25,8 @@ import { fitDescription, truncateAtWord } from "@/lib/seo-meta";
  * passe pas au 2e essai ne passera pas au 3e non plus.
  */
 const MAX_ARTICLE_VALIDATION_ATTEMPTS = 2;
+/** Budget de sortie d'un article (hors marge de réflexion ajoutée par callWithRetry). */
+export const ARTICLE_MAX_TOKENS = 8000;
 
 /**
  * Agent SEO Blog — Génère des articles de blog optimisés SEO
@@ -393,14 +395,14 @@ export async function generateArticle(
     crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
   }
 
-  // max_tokens 5000 (avril 2026, ex-8000) : en pratique les articles
-  // generes font 2500-4000 tokens (1500-2500 mots FR). Le budget 8000
-  // etait un gaspillage — Anthropic facture le max_tokens reserve meme
-  // si le modele n'ecrit que 3000 tokens (sur certains providers). 5000
-  // laisse une marge confortable sans sur-provisionner.
+  // max_tokens 8000 (s14, ex-5000) : la réflexion adaptative de Sonnet 5.5
+  // compte dans max_tokens. Le 30/09/2026, la re-génération avec feedback
+  // directeur a atteint la limite (9000 = 5000 + 4000 de marge, dont 3379 de
+  // réflexion) : JSON tronqué → article perdu, relancé à chaque tick.
+  // Seuls les tokens réellement générés sont facturés : la marge ne coûte rien.
   const response = await callWithRetry({
     model: SONNET_MODEL,
-    max_tokens: 5000,
+    max_tokens: ARTICLE_MAX_TOKENS,
     system: [GENERATE_ARTICLE_CACHED_BLOCK],
     messages: [
       {
@@ -431,6 +433,11 @@ Réponds UNIQUEMENT en JSON :
   }, 2, { agent: "seo-blog-agent", fn: "generateArticle" });
 
   const text = getResponseText(response);
+  if (response.stop_reason === "max_tokens") {
+    console.error(
+      `[SEO Agent] Article tronqué (stop_reason max_tokens, ${response.usage?.output_tokens ?? "?"} tokens) : augmenter ARTICLE_MAX_TOKENS.`,
+    );
+  }
   try {
     return extractJson<GeneratedArticle>(text);
   } catch {

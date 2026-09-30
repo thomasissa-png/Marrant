@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, JokeCategory, TipCategory } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { generateDailyJoke, generateJokeDecryptage, type JokeDecryptage } from "./agents/joke-agent";
 import { generateDailyTip } from "./agents/tip-agent";
@@ -19,6 +19,10 @@ import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
 import { buildJokeSeriesGuard, type JokeSeriesGuard } from "./joke-series-guard";
+import { categoryExclusion } from "./category-exclusion";
+
+const JOKE_CATEGORY_VALUES: readonly string[] = Object.values(JokeCategory);
+const TIP_CATEGORY_VALUES: readonly string[] = Object.values(TipCategory);
 
 /**
  * Lot V7 : régénérations autorisées quand la vanne générée est rejetée par le
@@ -451,7 +455,7 @@ export async function publishDailyContent(
     const fallbackJoke = await prisma.joke.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        ...categoryExclusion(usedCategories, JOKE_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, await prisma.joke.count({ where: { isActive: true } })),
@@ -474,7 +478,7 @@ export async function publishDailyContent(
     const fallbackTip = await prisma.tip.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        ...categoryExclusion(usedCategories, TIP_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, tipCount),
@@ -496,7 +500,8 @@ export async function publishDailyContent(
     const fallbackVideo = await prisma.video.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        // Video.category utilise l'enum TipCategory.
+        ...categoryExclusion(usedCategories, TIP_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, videoCount),

@@ -10,6 +10,7 @@ import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, getDifficultyForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { withFrenchExerciseAlias } from "@/lib/ai/json-aliases";
 
 const TIP_CATEGORIES = [
   "TIMING", "AUTODERISION", "OBSERVATION", "REPARTIE",
@@ -176,7 +177,7 @@ AVANT DE RÉPONDRE : relis ton conseil et demande-toi "est-ce que ${persona.name
   }, 2, { agent: "tip-agent", fn: "generateDailyTip" });
 
   const text = getResponseText(response);
-  const parsed = extractJson<GeneratedTip>(text);
+  const parsed = withFrenchExerciseAlias(extractJson<GeneratedTip>(text));
 
   // Validation des champs obligatoires
   if (!parsed.title?.trim() || !parsed.content?.trim() || !parsed.example?.trim() || !parsed.exercise?.trim()) {
