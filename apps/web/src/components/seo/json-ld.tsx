@@ -93,17 +93,26 @@ export function buildCollectionPageJsonLd(collection: {
 }
 
 /**
- * Profils sociaux officiels — alimentés via la variable d'environnement
- * NEXT_PUBLIC_SOCIAL_PROFILES (URLs séparées par des virgules). Vide → sameAs
- * n'est PAS émis (jamais d'URL inventée : cela crée des faux signaux E-A-T).
+ * Comptes sociaux officiels de la marque, confirmés par Thomas le 30/09/2026
+ * (lot S3c s14, audit SEO P0-3). Source unique du `sameAs` de l'Organization.
  */
-function getSocialProfiles(): string[] {
-  const raw = process.env.NEXT_PUBLIC_SOCIAL_PROFILES;
-  if (!raw) return [];
-  return raw
+export const OFFICIAL_SOCIAL_PROFILES = [
+  "https://www.instagram.com/deviensmarrant/",
+  "https://x.com/deviensmarrant",
+  "https://www.linkedin.com/company/deviens-marrant",
+] as const;
+
+/**
+ * Profils émis dans `sameAs`. NEXT_PUBLIC_SOCIAL_PROFILES (URLs séparées par
+ * des virgules) reste une surcharge : si elle contient au moins une URL
+ * valide, elle remplace la liste officielle.
+ */
+export function getSocialProfiles(raw = process.env.NEXT_PUBLIC_SOCIAL_PROFILES): string[] {
+  const override = (raw ?? "")
     .split(",")
     .map((u) => u.trim())
     .filter((u) => u.length > 0 && /^https?:\/\//.test(u));
+  return override.length > 0 ? override : [...OFFICIAL_SOCIAL_PROFILES];
 }
 
 const socialProfiles = getSocialProfiles();
@@ -138,7 +147,7 @@ export const organizationJsonLd = {
     contactType: "customer service",
     availableLanguage: "French",
   },
-  ...(socialProfiles.length > 0 && { sameAs: socialProfiles }),
+  sameAs: socialProfiles,
 };
 
 export const websiteJsonLd = {
