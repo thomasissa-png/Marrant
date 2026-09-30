@@ -53,3 +53,21 @@ A : 9 « = » ; B : 7 « = ». Consensus : 8, 60, 100. Départage orchestrateur 
 | 72 | Q3 | < | = | < | écartée | Carnet de mariage : doublon d'idée avec 99, moins visuel |
 
 Couverture S8 : Q1 4, Q2 2, Q3 3, Q4 0, Q5 0, Q6 1 (casque bleu, lot 2), belle-famille 1 (oral, lot 1). Vague 3 ciblée Q4, Q5, Q6.
+
+## Lot 4 (S8 vague 3, 75 réparties Q4-Q6)
+
+A : 6 « = » ; B : 10 « = ». Consensus : 9, 17, 19, 37 (toutes Q6).
+
+| n° | Q | A | B | Orch. | Verdict | Réplique |
+|---|---|---|---|---|---|---|
+| 17 | Q6 | = | = | = | GARDÉE | Avis oublié dans le train avec le parapluie, « ils doivent être à Lyon maintenant » |
+| 9 | Q6 | = | = | = | GARDÉE (réserve) | L'aspirateur en colocation, « je peux aller le chercher » |
+| 19 | Q6 | = | = | = | GARDÉE (réserve) | Le chat qui quitte la pièce, « je le suis, à distance » |
+| 37 | Q6 | = | = | = | GARDÉE (réserve) | Pétanque, « je vais chercher un mètre. Ça fait trois ans. » |
+| 55 | Q5 | < | = | = | GARDÉE | Banque, « pas prêt », « ils ont dit qu'ils attendraient » |
+| 5 | Q5 | < | = | < | écartée | Pâtes et fromage : ne répond pas à la question |
+| 25, 49, 43, 52, 69, 74 | Q6 | | | < | écartées | Q6 déjà couverte, idées plus faibles ou connues |
+
+Décision orchestrateur (Q4 « Tu as grossi ? ») : 0 réplique au niveau sur 3 vagues (64 candidates). Pas de vanne sur une remarque physique : la section propose une limite posée avec le sourire (déjà le plan B de l'article, cohérent avec « rien de blessant »).
+
+Assemblage S8 : Q1 Juvisy + « merci pour votre présence » ; Q2 hochement de tête + plafond ; Q3 faire-part + plan sur dix ans ; Q4 limite ; Q5 banque ; Q6 casque bleu + avis à Lyon ; belle-famille : oral. Réserve validée : escalade, ascenseur, vote, aspirateur, chat, pétanque.
