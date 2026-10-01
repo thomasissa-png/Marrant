@@ -3,17 +3,19 @@
  * du jour.
  *
  * Pour la date du jour (UTC) :
- *  1. Vanne du jour → validateJoke avec la barre des étalons (dailyGeneration).
- *     Sous la barre (verdict ≠ APPROVED) → remplacée dans DailyContent par une
- *     vanne du pool validé (GARDER, déterministe). Validation impossible (API)
- *     → remplacée seulement si la vanne n'est pas déjà GARDER.
+ *  1. Vanne du jour déjà GARDER (catalogue relu à l'aveugle, étalons compris)
+ *     → conservée sans appel LLM : le juge automatique prenait les étalons du
+ *     fondateur pour des copies (01/10, réveil E3 rejeté à 3/10). Sinon
+ *     validateJoke avec la barre des étalons (dailyGeneration). Sous la barre
+ *     (verdict ≠ APPROVED) → remplacée dans DailyContent par une vanne du pool
+ *     validé (GARDER, déterministe). Validation impossible (API) → remplacée.
  *  2. Conseil du jour → gates programmatiques Q3 (content-gates). Tirets
  *     cadratins corrigés en base ; vulgarité / vouvoiement / mention IA →
  *     remplacé par un conseil du stock qui passe les gates.
  *  3. UN e-mail récap à l'admin (sendAdminAlert, Resend) seulement s'il y a eu
  *     un remplacement ou un défaut.
  *
- * Coût : au plus 1 appel LLM par jour (validateJoke). Idempotent via un verrou
+ * Coût : au plus 1 appel LLM par jour (validateJoke), 0 si la vanne est GARDER. Idempotent via un verrou
  * JobLock daté (sauf `force`). Pas branché au planificateur ici : la route
  * /api/cron/quality-watch est appelée par l'orchestrateur (voir handoff).
  */
@@ -112,6 +114,12 @@ async function checkJoke(joke: DailyJoke, date: Date, dayOfYear: number, result:
     return;
   }
   result.joke.id = joke.id;
+  // Le catalogue GARDER est la barre (relecture à l'aveugle validée par Thomas) :
+  // aucun rejugement automatique, qui contredirait ce choix.
+  if (joke.copyVerdict === "GARDER") {
+    result.joke.verdict = "GARDER";
+    return;
+  }
 
   let underBar: boolean;
   try {
@@ -134,8 +142,8 @@ async function checkJoke(joke: DailyJoke, date: Date, dayOfYear: number, result:
   } catch (err) {
     result.joke.verdict = "VALIDATION_IMPOSSIBLE";
     result.defects.push(`Validation de la vanne impossible : ${err instanceof Error ? err.message : String(err)}`);
-    // Sans avis du Director, seule une vanne déjà validée (GARDER) reste.
-    underBar = joke.copyVerdict !== "GARDER";
+    // Sans avis du Director, une vanne non validée ne reste pas.
+    underBar = true;
   }
   if (!underBar) return;
 

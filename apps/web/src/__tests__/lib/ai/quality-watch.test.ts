@@ -95,15 +95,21 @@ describe("runQualityWatch", () => {
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
   });
 
-  it("validation impossible : vanne GARDER conservée, vanne non validée remplacée", async () => {
-    mockValidateJoke.mockRejectedValue(new Error("API down"));
+  it("vanne GARDER (catalogue relu à l'aveugle, étalons compris) : conservée sans appel LLM ni e-mail", async () => {
     mockPrisma.dailyContent.findUnique.mockResolvedValueOnce({ date: DATE, joke: { ...JOKE, copyVerdict: "GARDER" }, tip: TIP });
-    const kept = await runQualityWatch({ now: NOW });
-    expect(kept.joke.replacedBy).toBeUndefined();
-    expect(kept.defects.join(" ")).toMatch(/Validation de la vanne impossible/);
+    const r = await runQualityWatch({ now: NOW });
+    expect(mockValidateJoke).not.toHaveBeenCalled();
+    expect(r.llmCalls).toBe(0);
+    expect(r.joke.verdict).toBe("GARDER");
+    expect(r.joke.replacedBy).toBeUndefined();
+    expect(mockSendAdminAlert).not.toHaveBeenCalled();
+  });
 
+  it("validation impossible : vanne non validée remplacée, défaut signalé", async () => {
+    mockValidateJoke.mockRejectedValue(new Error("API down"));
     const replaced = await runQualityWatch({ now: NOW });
     expect(replaced.joke.replacedBy).toBe("j-garder");
+    expect(replaced.defects.join(" ")).toMatch(/Validation de la vanne impossible/);
   });
 
   it("conseil avec tirets cadratins → corrigé en base, pas d'e-mail pour ça seul", async () => {

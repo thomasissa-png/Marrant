@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (01/10/2026) : contrôle qualité du matin, vannes GARDER plus rejugées @orchestrateur
+
+> Aucun secret, aucune migration, aucun package. Déployé (version 00cff7bd). Le 01/10, le juge automatique a rejeté l'étalon E3 (réveil, vanne du jour validée) à 3/10 en le prenant pour une copie d'étalon, et l'a remplacé par une vanne déjà programmée le 28/10.
+> - `src/lib/ai/quality-watch.ts` : vanne du jour `copyVerdict = GARDER` (catalogue relu à l'aveugle) conservée sans appel LLM ; seules les vannes non validées sont jugées. Validation impossible → remplacement.
+> - Donnée : DailyContent du 01/10 remis sur la vanne prévue (réveil). Sans le correctif, même rejet attendu les 06/10 (Alexa), 03/11 (GPS) et 09/11 (erreurs).
+
 ## s14 (30/09/2026) : parcours, option A (5 étapes sous la barre) + tirets cadratins du seed parcours
 
 > Aucun secret, aucune migration, aucun package. Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) : `docs/content/parcours-seed.json` est importé au build (textes « pourquoi », quiz, vidéos).
