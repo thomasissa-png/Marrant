@@ -162,3 +162,9 @@ Actions Thomas 1-2 (trancher Instagram) → C1 + C2 (observabilité, robustesse)
 - Aucun code, aucune donnée, aucune config modifiés. Aucun appel Buffer ou réseau social.
 - Actions infra requises : aucune immédiate ; actions de compte Thomas 1-4 ci-dessus.
 - Pre-commit check : sans objet (aucun fichier `src/` modifié).
+
+## Complément orchestrateur (01/10) : cause exacte des échecs Instagram, PROUVÉE
+
+E-mails « Publication social — echec Buffer » (boîte de Thomas, 15/06 puis 08 et 09/09, ~200 e-mails au total) :
+`Buffer API error 400 : Field "images" is not defined by type "AssetInput". Did you mean "image"?` (code `GRAPHQL_VALIDATION_FAILED`).
+Cause : bogue de notre code (`apps/web/src/lib/social/buffer-client.ts`, mutation de création de post Instagram), qui envoie `assets.images` alors que l'API Buffer attend `image`. Ce n'est ni le compte Buffer ni le canal Instagram. Correctif : C3 révisé, champ `image` conforme au schéma Buffer, à valider sur un post de test non public avant toute reprise.
