@@ -1,8 +1,9 @@
 # À VALIDER PAR THOMAS : article S3 (humour en colocation, publication lundi 19/10)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : `docs/copy/articles-q4/S8-repas-de-famille.md` (validé le 30/09). Brief : `docs/seo/calendrier-editorial-q4-2026.md`, ligne « 3 | Lun 19/10 » et ligne 3 du tableau de cannibalisation.
-> Règle humour : chaque phrase drôle est soit recopiée du catalogue (`docs/copy/catalogue-vannes-valides.md`, balise `<!-- joke:ID -->`), soit une candidate neuve (balise `<!-- CANDIDATE -->`, 5 variantes dans `docs/copy/articles-q4/S3-candidates.md`). Les phrases « ça envenime » et le reste du texte ne cherchent pas à être drôles.
+> Règle humour : chaque phrase drôle est soit recopiée du catalogue (`docs/copy/catalogue-vannes-valides.md`, balise ``), soit une candidate neuve (balise `<!-- CANDIDATE -->`, 5 variantes dans `docs/copy/articles-q4/S3-candidates.md`). Les phrases « ça envenime » et le reste du texte ne cherchent pas à être drôles.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + démonstration par l'exemple]` · `[Conscience : Problem-Aware, le lecteur vit la tension, ne sait pas encore qu'une phrase légère peut la défaire]`
+> Humour final (01/10) : 6 vannes du catalogue validé, recopiées mot pour mot (`ID`, `cs14jka3336e7e90a453a9d6`, `cs14jkb03209d55cbfc17448`, `cs14jk19d61c474a856962a1`, `cs14jkb13ecb02394551151e`, `cs14jke92ed6178b5326c48c`) + 2 vannes neuves validées à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 1). Passages sans vanne au niveau retirés.
 
 ## Métadonnées
 
@@ -59,11 +60,11 @@ L'évier est plein depuis trois jours, tout le monde l'a remarqué, personne n'e
 
 **Ça détend :** commencer par ta propre part du problème, avec une phrase qui rit de toi.
 
-> J'ai laissé une casserole tremper jeudi. / Elle a maintenant plus d'ancienneté que moi dans l'appart. <!-- CANDIDATE -->
+> J'ai dit « je la fais tout à l'heure » à la poêle. / Elle a arrêté de me croire avant mes colocs.
 
 Même ressort dans cette vanne du catalogue, où une promesse jamais tenue devient un running gag :
 
-> Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars. / Elle a un prénom, maintenant. <!-- joke:cs14jka3336e7e90a453a9d6 -->
+> Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars. / Elle a un prénom, maintenant.
 
 **Ça envenime :** « Tu pourrais faire un effort, pour une fois. » ou « Évidemment, c'est encore pour ma pomme. »
 
@@ -75,11 +76,11 @@ Il est tard, le mur est mince, et l'un de vous deux est en train de calculer com
 
 **Ça détend :** prévenir avant, avec un geste. C'est la logique de cette vanne du catalogue : le message est poli, le geste suit.
 
-> Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert. / Il m'a regardé comme si j'étais le bruit. <!-- joke:cs14jkb03209d55cbfc17448 -->
+> Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert. / Il m'a regardé comme si j'étais le bruit.
 
 Et quand c'est toi qu'on vient voir parce que ça dépasse :
 
-> Mon voisin a sonné, inquiet, à cause des cris de ma série. / Je l'ai fait entrer. Il revient jeudi. <!-- joke:cs14jk19d61c474a856962a1 -->
+> Mon voisin a sonné, inquiet, à cause des cris de ma série. / Je l'ai fait entrer. Il revient jeudi.
 
 **Ça envenime :** « Tu peux faire moins de bruit, pour une fois ? » ou taper sur le mur sans un mot, puis faire comme si de rien n'était le lendemain.
 
@@ -89,15 +90,11 @@ Et quand c'est toi qu'on vient voir parce que ça dépasse :
 
 Quelqu'un a mangé quelque chose qui n'était pas à lui. Ou tout le monde le soupçonne. L'ambiance du dîner a changé sans que personne ait rien dit.
 
-**Ça détend :** une phrase qui rit de ton propre système de protection, suivie d'une règle simple.
-
-> Dans le frigo de la coloc, j'ai un étage à moi. / J'y ai posé un citron et une sauce soja. Je tiens le territoire. <!-- CANDIDATE -->
-
-Ensuite : « On met une étagère par personne et une pour ce qu'on partage ? » La vanne prépare le terrain, la règle règle.
+**Ça détend :** une proposition simple, sur un ton léger, qui vaut pour tout le monde : « On met une étagère par personne et une pour ce qu'on partage ? »
 
 **Ça envenime :** un message collectif du type « Quelqu'un ici n'a aucun respect pour les affaires des autres », qui accuse tout le monde sans nommer personne, ou une étiquette sur chaque aliment avec une menace en prime.
 
-**Pourquoi ça marche :** les remarques à l'ensemble de la coloc touchent aussi ceux qui n'y sont pour rien, et le vrai fautif s'en cache plus facilement. Une phrase sur ton propre frigo n'accuse personne, et la règle qui suit s'applique à tous de la même façon.
+**Pourquoi ça marche :** les remarques à l'ensemble de la coloc touchent aussi ceux qui n'y sont pour rien, et le vrai fautif s'en cache plus facilement. Une proposition pour toute la coloc n'accuse personne, et la règle s'applique à tous de la même façon.
 
 ### 4. Le ménage et le tableau des tâches
 
@@ -105,7 +102,7 @@ Salle de bain, poubelles, sol de la cuisine : la liste existe, mais chacun a une
 
 **Ça détend :** rire du système, pas de celui ou celle qui l'a fabriqué. Cette vanne du catalogue le montre très bien, parce que c'est le narrateur qui se retrouve avec la mauvaise colonne :
 
-> Ma copine a fait un tableau des tâches ménagères avec un code couleur. / J'ai le bleu. Il y a rien en bleu. <!-- joke:cs14jkb13ecb02394551151e -->
+> Ma copine a fait un tableau des tâches ménagères avec un code couleur. / J'ai le bleu. Il y a rien en bleu.
 
 À dire à voix haute : « On reprend le tableau ensemble ? Je veux savoir ce qu'il y a dans ma colonne. »
 
@@ -119,7 +116,7 @@ Le silence s'est installé depuis une dispute dont plus personne ne se rappelle 
 
 **Ça détend :** casser le silence avec un geste minuscule, sans revenir sur la dispute. « Je fais des pâtes, tu en veux ? » ou une phrase légère sur le silence lui-même. Cette vanne du catalogue le met en scène :
 
-> Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé. / Il s'est fait rajouter. Il a écrit « bref ». <!-- joke:cs14jke92ed6178b5326c48c -->
+> Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé. / Il s'est fait rajouter. Il a écrit « bref ».
 
 **Ça envenime :** l'ironie lourde (« Merci pour ce silence si chaleureux »), ou parler de l'autre à un troisième colocataire plutôt qu'à lui.
 
@@ -176,9 +173,7 @@ Quand l'autre est à bout, quand il t'a dit qu'il ne voulait pas en rire, quand 
 
 ### Comment réagir au message passif-agressif d'un colocataire ?
 
-Réponds d'abord sur le fond, en une phrase (« Tu as raison, je m'en occupe ce soir »), puis, si le ton s'y prête, ajoute une touche légère qui vise toi :
-
-> Merci pour le petit rappel. / Je l'ai mis sur le frigo, à côté des cinq autres. <!-- CANDIDATE -->
+Réponds d'abord sur le fond, en une phrase (« Tu as raison, je m'en occupe ce soir »), puis, si le ton s'y prête, ajoute une touche légère qui vise toi, par exemple : « J'ai lu ton message. J'ai fait la vaisselle avant le deuxième paragraphe, par peur du troisième. »
 
 Ne réponds pas à la forme (« petit rappel » ironique) par une pique du même niveau : tu rendrais le message plus violent, pas plus clair. Si le message arrive en groupe devant tout le monde, propose d'en parler à deux.
 

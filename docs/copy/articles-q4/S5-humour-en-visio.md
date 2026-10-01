@@ -1,9 +1,10 @@
 # À VALIDER PAR THOMAS : article S5 (humour en visio, publication lundi 02/11)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 5 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 5 du tableau de cannibalisation).
-> **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire `<!-- joke:ID -->`), soit une candidate neuve balisée `<!-- CANDIDATE -->` (5 variantes dans `docs/copy/articles-q4/S5-candidates.md`, relecture à l'aveugle ensuite). Le texte autour est volontairement sobre (aucune autre phrase drôle).
+> **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire ``), soit une candidate neuve balisée `<!-- CANDIDATE -->` (5 variantes dans `docs/copy/articles-q4/S5-candidates.md`, relecture à l'aveugle ensuite). Le texte autour est volontairement sobre (aucune autre phrase drôle).
 > **Candidates (5 emplacements, dans l'ordre d'apparition)** : C1 = ressort 1 (ouverture) · C2 = ressort 3 (panne) · C3 = ressort 4 (chat) · C4 = FAQ 1 (micro coupé) · C5 = FAQ 4 (caméra éteinte). Chaque emplacement contient la variante 1 en attente. Après la relecture à l'aveugle : remplacer par la variante qui passe, ou supprimer la ligne de citation si aucune ne passe (la phrase qui l'introduit et le paragraphe « Pourquoi ça marche » restent valables sans elle).
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + démonstration par l'exemple]` · `[Conscience : Problem-Aware, le lecteur vit la visio tous les jours, il ne sait pas encore que le timing de l'humour y change]`
+> Humour final (01/10) : 5 vannes du catalogue validé, recopiées mot pour mot (`ID`, `cs14jke956e7ca02641e25c5`, `cs14jk0761c9f2d885762bb5`, `cs14jk177b62432b07f5d17a`, `cmoxx7e56003xs60yyooxncw3`) + 2 vannes neuves validées à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 1). Passages sans vanne au niveau retirés.
 
 ## Métadonnées
 
@@ -43,7 +44,7 @@ Oui, à condition de changer trois réglages. Ce qui marche en vrai ne se transp
 
 Un décor joue en ta faveur : la visio fait entrer ta vie dans le travail, avec le salon, le canapé, la voix de quelqu'un dans la pièce d'à côté. C'est une matière que tu peux utiliser sans viser personne, parce qu'elle est à toi :
 
-> « Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion ». Elle a répondu « tu leur diras bonjour ». » <!-- joke:cs14jke956e7ca02641e25c5 -->
+> « Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion ». Elle a répondu « tu leur diras bonjour ». »
 
 La réplique de la mère joue sur le fait que la réunion n'a pas de porte : elle est à la maison, donc elle est invitée à la discussion. Tu ris de ta situation de télétravailleur, jamais d'un collègue.
 
@@ -55,7 +56,7 @@ En salle, tu ajustes ta chute en temps réel : tu sens la tension monter, tu lai
 
 Cette sensation de parler dans le vide, ceux qui travaillent seuls à la maison la connaissent bien :
 
-> « Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio. Elle m'a demandé si on me répondait, parfois. » <!-- joke:cs14jk0761c9f2d885762bb5 -->
+> « Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio. Elle m'a demandé si on me répondait, parfois. »
 
 Trois conséquences pour le timing.
 
@@ -71,9 +72,9 @@ Pour chacun : la scène, une vanne, pourquoi ça marche, et quoi faire si ça to
 
 Les premières minutes sont un rituel que tout le monde connaît : on se connecte, on vérifie le son, on attend les retardataires. C'est le seul moment de la réunion où personne n'a la parole et où tout le monde se sent un peu gauche. Une phrase légère y passe bien, parce que tout le monde vit la même chose au même instant.
 
-> « Au début de la réunion, huit personnes ont dit « vous m'entendez ? » en même temps. Personne n'entendait personne. C'était le meilleur échange de la journée. » <!-- CANDIDATE -->
+> « Je me suis connecté dix minutes en avance à la visio. J'ai passé dix minutes seul avec mon visage. Je commence à avoir un avis. »
 
-**Pourquoi ça marche :** tu t'appuies sur un rituel partagé, sans viser personne. La gêne collective du début est déjà là : tu la nommes, elle se relâche.
+**Pourquoi ça marche :** tu ris de toi dans un moment que tout le monde connaît, sans viser personne. La gêne collective du début est déjà là : tu la nommes, elle se relâche.
 
 **Si ça tombe à plat :** rien à rattraper. Enchaîne avec « bon, on commence ? ».
 
@@ -81,7 +82,7 @@ Les premières minutes sont un rituel que tout le monde connaît : on se connect
 
 Quelqu'un te pose une question, ou tu viens de placer ta phrase. Il y a un blanc, parce que le son voyage et que chacun attend de voir si l'autre a fini. En salle, ce blanc serait un malaise. En visio, il est normal, et c'est là que se joue le timing. Le piège est de le combler.
 
-> « Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes. Il a précisé « pas tout ». » <!-- joke:cs14jk177b62432b07f5d17a -->
+> « Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes. Il a précisé « pas tout ». »
 
 **Pourquoi ça marche :** un silence qui dure devient son propre sujet. En visio, c'est la même mécanique : celui qui laisse le blanc durer a l'air de maîtriser la situation, celui qui le comble avec trois phrases de plus s'excuse en public. Entre les deux, la bonne durée est celle d'un « un, deux » intérieur, puis tu continues.
 
@@ -91,8 +92,6 @@ Quelqu'un te pose une question, ou tu viens de placer ta phrase. Il y a un blanc
 
 C'est le ressort le plus généreux, parce que tout le monde en a vécu une et que personne n'en est coupable. La panne est le seul sujet commun à toute la réunion qui ne vise aucun participant. La règle est simple : tu peux rire de la panne ou de ta propre connexion, jamais de la personne qui est en train de se figer, de chercher le bouton du partage d'écran ou de se faire couper.
 
-> « Ma connexion a coupé pendant que j'expliquais mon retard. Quand je suis revenu, ils m'avaient pardonné. Quelqu'un avait dû entendre la moitié. » <!-- CANDIDATE -->
-
 **Pourquoi ça marche :** la panne est un événement que personne ne contrôle, donc tu peux la raconter sans te mettre en cause ni mettre quelqu'un d'autre en cause. Le rire tombe sur la technique.
 
 **Si ça tombe à plat :** reviens au sujet avec un « bon, où en étions-nous ? ». Une seule vanne sur la panne, jamais deux, parce que la deuxième ressemble à du remplissage.
@@ -101,7 +100,7 @@ C'est le ressort le plus généreux, parce que tout le monde en a vécu une et q
 
 Dans toutes les réunions en ligne, le chat joue le rôle du rire de la salle : un pouce, un « +1 », une phrase de dix mots. C'est le seul endroit où tu peux faire rire sans couper personne, et où les timides trouvent leur place. Deux règles : ça se comprend à la première lecture, et il n'y a qu'un seul niveau de lecture, parce que l'ironie sans ton de voix passe mal à l'écrit. Pour l'humour écrit en général (emails, messagerie), la [zone « emails et Slack » du guide pour faire rire au bureau](/blog/blagues-travail-faire-rire-pro) va plus loin.
 
-> « Dans le chat de la visio, quelqu'un a écrit « +1 ». Personne ne sait à quoi. Tout le monde a mis « +1 ». » <!-- CANDIDATE -->
+> « J'ai écrit un message très drôle dans le chat. Il a reçu un pouce en l'air. C'est le même pouce que pour « je dois partir à 17 h ». »
 
 **Pourquoi ça marche :** le chat n'a ni visage ni voix, donc la vanne doit se comprendre seule. Une observation que tout le monde fait en silence, mise en mots, remplit ce rôle mieux que n'importe quelle formule.
 
@@ -111,7 +110,7 @@ Dans toutes les réunions en ligne, le chat joue le rôle du rire de la salle : 
 
 Tout le monde dit « merci, bonne journée » en même temps, et chacun cherche le bouton pour quitter. C'est la meilleure fenêtre de la visio pour une phrase légère : l'attention remonte souvent juste avant le départ, et les derniers mots sont ceux qu'on retient le plus facilement. Et si la réunion a débordé, une phrase qui le reconnaît rassemble tout le monde.
 
-> « Ma réunion 'point rapide avant l'été' a commencé à 14h. On a fini par voter la police de caractère. » <!-- joke:cmoxx7e56003xs60yyooxncw3 -->
+> « Ma réunion 'point rapide avant l'été' a commencé à 14h. On a fini par voter la police de caractère. »
 
 **Pourquoi ça marche :** la réunion qui s'étire est une expérience partagée, et la chute (la police de caractère) rappelle le sujet de plus en plus petit qui occupe la fin. Placée en dernier, elle ferme la réunion sur un sourire.
 
@@ -138,9 +137,7 @@ Pour t'entraîner sur la durée, le [parcours Machine à Café](/parcours/machin
 
 ### Comment placer une blague en visioconférence quand on risque de ne pas être entendu ?
 
-Regarde l'icône du micro avant de parler : un micro coupé fait perdre une vanne avant même qu'elle commence. Si on te dit « on ne t'entend pas », répète en plus court, ou envoie la phrase dans le chat. Et si l'accident t'arrive à toi, tu peux le raconter, ça marche aussi :
-
-> « Dans la visio, j'ai parlé pendant une minute, micro coupé. Personne n'a rien dit. C'est la meilleure intervention que j'aie faite en réunion. » <!-- CANDIDATE -->
+Regarde l'icône du micro avant de parler : un micro coupé fait perdre une vanne avant même qu'elle commence. Si on te dit « on ne t'entend pas », répète en plus court, ou envoie la phrase dans le chat.
 
 ### Peut-on faire de l'humour dans le chat d'une visio ?
 
@@ -152,6 +149,4 @@ Rien de plus que de compter « un, deux » dans ta tête, puis de reprendre le f
 
 ### Caméra éteinte, comment faire rire ?
 
-Avec la voix seule, il te reste le rythme et les silences. Une phrase courte, un temps, et la chute en dernier. Les vannes d'observation passent le mieux, parce que chacun les reçoit sans avoir à voir ton visage. Une situation partagée par tous les participants, comme celle-ci, fonctionne même sans image :
-
-> « Quand toutes les caméras sont éteintes, on parle à des initiales. Je ne savais pas que « JM » pouvait avoir l'air aussi déçu. » <!-- CANDIDATE -->
+Avec la voix seule, il te reste le rythme et les silences. Une phrase courte, un temps, et la chute en dernier. Les vannes d'observation passent le mieux, parce que chacun les reçoit sans avoir à voir ton visage. Une situation partagée par tous les participants fonctionne même sans image.

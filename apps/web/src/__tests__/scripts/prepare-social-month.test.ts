@@ -15,6 +15,7 @@ import { generatePostImage } from "@/lib/social/generate-post-image";
 import { checkPost } from "../../../scripts/content/social-controls";
 import {
   buildPlan,
+  IG_ARTICLE_LINE,
   drawSample,
   parisToUtc,
   utmLink,
@@ -132,7 +133,7 @@ describe("buildPlan : règles du 01/10", () => {
     }
   });
 
-  it("lundi : article avec lien UTM (X dans le texte, Instagram en bio)", () => {
+  it("lundi : article avec lien UTM (X dans le texte, Instagram « Lien en bio. » sans note de bio)", () => {
     const { posts } = octoberPlan();
     const x = posts.find((p) => p.date === "2026-10-05" && p.platform === "TWITTER")!;
     const ig = posts.find((p) => p.date === "2026-10-05" && p.platform === "INSTAGRAM")!;
@@ -140,6 +141,8 @@ describe("buildPlan : règles du 01/10", () => {
     expect(x.text).toContain("utm_source=x&utm_medium=social&utm_campaign=2026-10");
     expect(ig.link).toBe(utmLink("https://deviens-marrant.fr", ARTICLES[0].slug, "INSTAGRAM", "2026-10"));
     expect(ig.text).not.toContain("http");
+    expect(ig.text.endsWith(IG_ARTICLE_LINE)).toBe(true);
+    expect(ig.note).toBeNull(); // la bio pointe une fois pour toutes vers /liens
   });
 
   it("lundi sans article → avertissement et vanne", () => {

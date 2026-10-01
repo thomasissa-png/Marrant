@@ -1,8 +1,9 @@
 # À VALIDER PAR THOMAS : article S2 (se présenter avec humour, publication lundi 12/10)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : `docs/copy/articles-q4/S8-repas-de-famille.md`. Brief : `docs/seo/calendrier-editorial-q4-2026.md` (ligne « 2 | Lun 12/10 » et ligne 2 du tableau de cannibalisation).
-> Règle humour : toute phrase drôle est soit recopiée du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, id en commentaire `<!-- joke:ID -->`), soit une candidate balisée `<!-- CANDIDATE:Cx -->` dont les 5 variantes sont dans `docs/copy/articles-q4/S2-candidates.md`. Les exemples « avant » sont plats par construction. Si une candidate ne passe pas la relecture à l'aveugle, supprimer la phrase balisée : le texte reste cohérent sans elle.
+> Règle humour : toute phrase drôle est soit recopiée du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, id en commentaire ``), soit une candidate balisée `<!-- CANDIDATE:Cx -->` dont les 5 variantes sont dans `docs/copy/articles-q4/S2-candidates.md`. Les exemples « avant » sont plats par construction. Si une candidate ne passe pas la relecture à l'aveugle, supprimer la phrase balisée : le texte reste cohérent sans elle.
 > `[Framework : BAB allégé (Before, After, Bridge : l'avant plat, l'après avec détail vrai, la formule pour passer de l'un à l'autre)]` · `[Conscience : Problem-Aware, le lecteur sait qu'il se présente mal ou pas du tout, pas encore qu'une formule existe]`
+> Humour final (01/10) : 6 vannes du catalogue validé, recopiées mot pour mot (`ID`, `cs14jk0aa83dd779a1c72b43`, `cs14jkd6b11e811ffbf7f301`, `cs14jk8f28ff20e1cf82f3a8`, `cs14jke4221e9a31a33b0395`, `cmmnsqn130030th6381ol5rxt`) + 2 vannes neuves validées à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 1). Passages sans vanne au niveau retirés.
 
 ## Métadonnées
 
@@ -13,7 +14,7 @@
 - **mot-clé principal** : se présenter avec humour
 - **mots-clés secondaires** : présentation drôle tour de table ; phrase d'accroche drôle présentation orale
 - **date de publication** : 2026-10-12 (lundi)
-- **category** : REPARTIE (à confirmer à l'intégration, aucune catégorie « présentation » n'existe dans les gabarits Q4) · **readingTime** : 7 min
+- **category** : PRATIQUE · **readingTime** : 7 min
 - **liens internes** (8, tous vers des URL du brief ou des pages existantes) : `/blog/etre-plus-a-l-aise-en-societe` · `/blog/autoderision-interactions` · `/parcours/confiance` · `/parcours/machine-a-cafe` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
 - **décisions fondateur appliquées** : zéro humoriste, zéro marque, zéro concurrent nommé ; vannes uniquement issues du catalogue validé ou candidates soumises à relecture à l'aveugle ; prénoms des exemples fictifs et présentés comme tels (aucun témoignage) ; parcours Confiance 20 min par semaine, Machine à café 15 min par semaine
 - **angle (cannibalisation)** : l'oral en rentrée uniquement (tour de table, premier jour, groupe d'inconnus), jamais la bio de site de rencontre ; on ne donne pas de phrases à recopier, on montre comment les bâtir
@@ -28,7 +29,7 @@
 
 > **En bref :** Pour se présenter avec humour, trois temps suffisent : ton prénom avec une demi-phrase de contexte, un détail vrai et ordinaire raconté avec sérieux (une scène courte qui te vise toi ou la situation, jamais quelqu'un du groupe), puis tu rends la parole. Une bonne présentation drôle ne cherche pas à faire rire : elle donne aux autres une image précise de toi, et le sourire suit.
 
-Le tour de table commence à gauche et tu comptes les places : tu es sixième. <!-- CANDIDATE:C1 -->Tu as eu cinq présentations pour préparer la tienne, et tu as passé les cinq à répéter « salut, moi c'est ». Au final, tu dis ton prénom, ce que tu fais et ce que tu aimes bien. C'est exact, c'est poli, et personne ne le retient.
+Le tour de table commence à gauche et tu comptes les places : tu es sixième. Tu avais une phrase géniale. Le quatrième vient de la dire. Au final, tu dis ton prénom, ce que tu fais et ce que tu aimes bien. C'est exact, c'est poli, et personne ne le retient.
 
 Cet article traite d'un seul cas : te présenter à l'oral quand c'est la rentrée, un nouveau groupe ou un nouveau poste. Pas de bio à écrire, pas de phrases à recopier non plus : une accroche qui n'est pas la tienne sonne faux dès la deuxième seconde. Tu repars avec une formule, une méthode pour trouver ton propre détail, et 5 exemples avant/après pour voir la mécanique à l'œuvre.
 
@@ -70,7 +71,7 @@ Cinq situations, chacune avec la version plate de départ, la version retravaill
 
 **Après :**
 
-> « Moi, c'est Inès, deuxième année. J'ai passé mon stage à ranger les archives par ordre alphabétique. Depuis, plus personne ne retrouve rien. Ils avaient un système. » <!-- joke:cs14jk0aa83dd779a1c72b43 -->
+> « Moi, c'est Inès, deuxième année. J'ai passé mon stage à ranger les archives par ordre alphabétique. Depuis, plus personne ne retrouve rien. Ils avaient un système. »
 
 **Ce qui change :** la liste de hobbies devient une scène. Tu ne dis pas que tu es serviable ni que tu es maladroit, tu racontes un stage, et le groupe en tire sa propre idée. La dernière phrase se retourne contre toi sans que tu aies à te rabaisser.
 
@@ -80,7 +81,7 @@ Cinq situations, chacune avec la version plate de départ, la version retravaill
 
 **Après :**
 
-> « Salut, c'est Léo, je commence aujourd'hui. Mon adresse mail pro d'alternant commence par « alternant2 ». J'aimerais savoir ce qu'est devenu alternant1. » <!-- joke:cs14jkd6b11e811ffbf7f301 -->
+> « Salut, c'est Léo, je commence aujourd'hui. Mon adresse mail pro d'alternant commence par « alternant2 ». J'aimerais savoir ce qu'est devenu alternant1. »
 
 **Ce qui change :** le ressort est un détail administratif que toute l'équipe connaît, l'adresse mail. Tu ne dis rien de l'entreprise, tu constates un fait sur ton compte. À garder à l'esprit : on rit d'un objet, pas d'une personne ni de la hiérarchie.
 
@@ -90,7 +91,7 @@ Cinq situations, chacune avec la version plate de départ, la version retravaill
 
 **Après :**
 
-> « Moi, c'est Camille. Au jeu de mimes, ma carte disait « la timidité ». J'avais à peine bougé qu'ils avaient trouvé. » <!-- joke:cs14jk8f28ff20e1cf82f3a8 -->
+> « Moi, c'est Camille. Au jeu de mimes, ma carte disait « la timidité ». J'avais à peine bougé qu'ils avaient trouvé. »
 
 **Ce qui change :** même sujet, mais l'excuse devient une scène. Tu nommes ta timidité sans t'en excuser, et le groupe comprend qu'il peut te parler sans précaution. Se présenter avec humour convient très bien aux timides, à condition de parler de ta timidité comme d'un fait.
 
@@ -100,7 +101,7 @@ Cinq situations, chacune avec la version plate de départ, la version retravaill
 
 **Après :**
 
-> « J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? » J'avais rien préparé pour ça. J'ai dit « plus ou moins ». Il a noté. » <!-- joke:cs14jke4221e9a31a33b0395 -->
+> « J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? » J'avais rien préparé pour ça. J'ai dit « plus ou moins ». Il a noté. »
 
 **Ce qui change :** tu réponds à la question posée, mais par une scène que tous les gens présents ont vécue côté candidat. La phrase du recruteur est banale, c'est ton « plus ou moins » qui fait la chute. Une vraie réponse, un vrai souvenir, aucune performance.
 
@@ -110,7 +111,7 @@ Cinq situations, chacune avec la version plate de départ, la version retravaill
 
 **Après :**
 
-> « Moi, c'est Sam. Mon ambition dans la vie, c'est d'être aussi confiant... Que le mec qui répond « à peu près » quand on lui demande s'il sait nager. » <!-- joke:cmmnsqn130030th6381ol5rxt -->
+> « Moi, c'est Sam. Mon ambition dans la vie, c'est d'être aussi confiant... Que le mec qui répond « à peu près » quand on lui demande s'il sait nager. »
 
 **Ce qui change :** la phrase de gauche dit ton objectif, celle de droite le met en image. Tu réponds bien à la question (tu veux de la confiance), et personne ne pense que tu manques de sérieux.
 
@@ -130,7 +131,7 @@ Un silence de deux secondes dure une éternité pour toi et presque rien pour le
 
 Si tu veux une phrase de rattrapage, garde-la courte et dis-la sur le même ton :
 
-> <!-- CANDIDATE:C2 -->« Ça a mieux marché devant mon miroir. Il est resté jusqu'au bout. »
+> « Ça a mieux marché devant mon miroir. Il est resté jusqu'au bout. »
 
 Le groupe n'a pas besoin que tu aies réussi, il a besoin que tu aies l'air à l'aise. Souvent, la personne suivante se détend en voyant que tu ne t'es pas effondré, et le tour de table devient plus facile pour tout le monde.
 

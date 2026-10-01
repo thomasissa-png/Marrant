@@ -10,12 +10,12 @@ Tous les liens publiés vers le site portent les trois paramètres, posés par `
 |---|---|
 | `utm_source` | `x` ou `instagram` |
 | `utm_medium` | `social` |
-| `utm_campaign` | le mois, au format `AAAA-MM` (ex. `2026-10`) |
+| `utm_campaign` | le mois, au format `AAAA-MM` (ex. `2026-10`) ; `bio` pour les liens de la page `/liens` |
 
 Exemple : `https://deviens-marrant.fr/blog/<slug>?utm_source=instagram&utm_medium=social&utm_campaign=2026-10`.
 
 - **X** : le lien de l'article du lundi est dans le texte du post.
-- **Instagram** : les légendes ne sont pas cliquables. Chaque lundi, mettre à jour le **lien de la bio** avec l'URL UTM indiquée dans `docs/social/preparation/<mois>.md` (champ « Lien de la bio à mettre à jour ce lundi »).
+- **Instagram** : les légendes ne sont pas cliquables. Le **lien de la bio** est `https://deviens-marrant.fr/liens`, à poser **une seule fois** (décision Thomas du 01/10/2026) : la page se met à jour seule (dernier article publié, vanne du jour, liens vers le parcours Répartie, les vannes et les conseils). Plus aucune mise à jour de la bio le lundi : la légende de l'article du lundi reste « Lien en bio. ». Les liens de `/liens` portent `utm_source=instagram&utm_medium=social&utm_campaign=bio` (campagne fixe `bio`, pas le mois).
 - Règle : aucun lien vers le site sans UTM (y compris un lien ajouté à la main en réponse ou en message privé : reprendre la même forme, avec `utm_source` de la plateforme).
 
 ## 2. Relevé hebdomadaire du lundi (15 minutes)
@@ -39,7 +39,7 @@ Chaque lundi matin, relever les chiffres de la semaine précédente (lundi à di
 Umami (en place sur le site) lit les paramètres UTM des URL d'arrivée :
 - filtrer la période sur la semaine relevée ;
 - **Sources (referrers)** : `t.co` / `x.com` pour X, `instagram.com` / `l.instagram.com` pour Instagram ;
-- **paramètres d'URL / rapport UTM** : visites par `utm_source` (`x`, `instagram`) et par `utm_campaign` (le mois) ;
+- **paramètres d'URL / rapport UTM** : visites par `utm_source` (`x`, `instagram`) et par `utm_campaign` (le mois, ou `bio` pour les clics depuis la page `/liens`) ;
 - noter : visites, pages vues sur l'article du lundi, et inscriptions si l'événement d'inscription du plan de tracking est visible sur la même période.
 
 Aucun script ni appel d'API supplémentaire : lecture manuelle du tableau de bord.

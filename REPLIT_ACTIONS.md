@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (01/10/2026) : page `/liens` (bio Instagram automatique), newsletter retirée @fullstack
+
+> Aucun secret, aucune migration, aucun package, aucune donnée modifiée. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - `/liens` (`src/app/liens/page.tsx`, ISR 5 min, `noindex, follow`, hors sitemap, sans en-tête ni pied de page) : dernier article visible (même source que `/blog`, via `src/lib/latest-blog-article.ts` et `blog-visibility.ts`), vanne du jour (`src/lib/daily-joke.ts`), puis liens fixes parcours Répartie, vannes, conseils. Tous les liens portent `utm_source=instagram&utm_medium=social&utm_campaign=bio`. Action Thomas, une seule fois après déploiement : mettre `https://deviens-marrant.fr/liens` dans la bio Instagram.
+> - Préparation sociale : plus de note « Lien de la bio à mettre à jour ce lundi » (`scripts/content/social-month-plan.ts`, retirée aussi de `docs/social/preparation/2026-10.md` et `2026-11.md`) ; la légende Instagram du lundi reste « Lien en bio. ». `docs/social/mesure.md` à jour.
+> - Newsletter : formulaire retiré (fin d'article de blog, résultat du quiz), composant `newsletter-inline.tsx` et texte de consentement « une technique par semaine » supprimés. `POST /api/newsletter` répond 410 (« Les inscriptions sont fermées pour le moment. »), sans écriture. Table `NewsletterSubscriber` et routes de confirmation et de désinscription conservées (newsletter mensuelle préparée à venir).
+
 ## s14 (01/10/2026) : publication Instagram corrigée, échecs tracés, génération IA sociale arrêtée, préparation mensuelle @fullstack
 
 > Aucun secret, aucune migration, aucun package. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide. Rien n'est inséré en base au déploiement.

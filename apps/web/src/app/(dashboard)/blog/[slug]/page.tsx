@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
-import { NewsletterInline } from "@/components/newsletter/newsletter-inline";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
@@ -326,9 +325,6 @@ export default async function BlogArticlePage({
 
       {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35) */}
       <ArticleCta />
-
-      {/* Capture newsletter : en dernier, après l'action principale (T35) */}
-      <NewsletterInline source={`blog:${article.slug}`} className="mt-12" />
     </article>
   );
 }

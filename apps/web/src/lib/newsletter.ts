@@ -15,6 +15,3 @@ export function buildUnsubscribeUrl(baseUrl: string, token: string): string {
   return `${baseUrl.replace(/\/$/, "")}/api/newsletter/unsubscribe/${encodeURIComponent(token)}`;
 }
 
-/** Texte de consentement RGPD stocké en base (preuve de collecte). */
-export const NEWSLETTER_CONSENT_TEXT =
-  "J'accepte de recevoir une technique d'humour par semaine de Deviens Marrant à cette adresse email. Je peux me désinscrire à tout moment via le lien en bas de chaque email.";

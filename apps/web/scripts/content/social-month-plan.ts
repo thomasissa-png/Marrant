@@ -38,7 +38,7 @@ export interface PlannedPost {
   card: { setup: string; punchline: string } | null;
   sourceType: "JOKE" | "BLOG";
   sourceId: string;
-  link: string | null; // lien UTM (dans le texte sur X, en bio sur Instagram)
+  link: string | null; // lien UTM (dans le texte sur X ; sur Instagram, la bio pointe une fois pour toutes vers /liens)
   note: string | null;
 }
 export interface PlanResult { posts: PlannedPost[]; warnings: string[]; errors: string[] }
@@ -191,8 +191,7 @@ export function buildPlan(input: PlanInput): PlanResult {
         const errs = checkPost({ platform, text, quoted: title, cardText: platform === "INSTAGRAM" ? title : undefined });
         if (errs.length > 0) errors.push(`${date} ${platform} article « ${article.slug} » refusé : ${errs.join(", ")}`);
         posts.push({ ...base, kind: "ARTICLE", text, card: platform === "INSTAGRAM" ? { setup: "", punchline: title } : null,
-          sourceType: "BLOG", sourceId: article.slug, link,
-          note: platform === "INSTAGRAM" ? `Lien de la bio à mettre à jour ce lundi : ${link}` : null });
+          sourceType: "BLOG", sourceId: article.slug, link, note: null });
         continue;
       }
       let note: string | null = null;
