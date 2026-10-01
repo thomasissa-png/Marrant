@@ -147,7 +147,14 @@ async function checkJoke(joke: DailyJoke, date: Date, dayOfYear: number, result:
   }
   if (!underBar) return;
 
-  const replacement = await pickValidatedJoke(dayOfYear, { excludeIds: [joke.id] });
+  // Remplaçant jamais programmé à ±90 jours : pas de vanne vue deux fois de suite.
+  const window = 90 * 24 * 60 * 60 * 1000;
+  const scheduled = await prisma.dailyContent.findMany({
+    where: { date: { gte: new Date(date.getTime() - window), lte: new Date(date.getTime() + window) } },
+    select: { jokeId: true },
+  });
+  const excludeIds = Array.from(new Set([joke.id, ...scheduled.map((d) => d.jokeId).filter((id): id is string => !!id)]));
+  const replacement = await pickValidatedJoke(dayOfYear, { excludeIds });
   if (!replacement) {
     result.defects.push("Vanne du jour sous la barre, mais aucune vanne validée (GARDER) disponible pour la remplacer.");
     return;

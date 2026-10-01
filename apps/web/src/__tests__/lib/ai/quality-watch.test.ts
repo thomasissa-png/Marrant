@@ -18,7 +18,7 @@ jest.mock("@/lib/job-lock", () => ({
 }));
 
 const mockPrisma = {
-  dailyContent: { findUnique: jest.fn(), update: jest.fn() },
+  dailyContent: { findUnique: jest.fn(), update: jest.fn(), findMany: jest.fn().mockResolvedValue([]) },
   joke: { count: jest.fn(), findFirst: jest.fn() },
   tip: { count: jest.fn(), findMany: jest.fn(), update: jest.fn() },
 };
@@ -51,6 +51,7 @@ beforeEach(() => {
   mockTryAcquireLock.mockResolvedValue(true);
   mockPrisma.dailyContent.findUnique.mockResolvedValue({ date: DATE, joke: JOKE, tip: TIP });
   mockPrisma.dailyContent.update.mockResolvedValue({});
+  mockPrisma.dailyContent.findMany.mockResolvedValue([]);
   mockPrisma.joke.count.mockResolvedValue(3);
   mockPrisma.joke.findFirst.mockResolvedValue({ id: "j-garder", category: "SITUATION" });
   mockPrisma.tip.count.mockResolvedValue(4);
@@ -78,6 +79,14 @@ describe("runQualityWatch", () => {
     expect(r.joke.replacedBy).toBe("j-garder");
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
     expect(mockSendAdminAlert.mock.calls[0][1]).toContain("chute télégraphiée");
+  });
+
+  it("remplaçant : jamais une vanne déjà programmée à ±90 jours", async () => {
+    mockValidateJoke.mockResolvedValue(BELOW);
+    mockPrisma.dailyContent.findMany.mockResolvedValue([{ jokeId: "j-day" }, { jokeId: "j-oct-28" }, { jokeId: null }]);
+    await runQualityWatch({ now: NOW });
+    const poolWhere = mockPrisma.joke.count.mock.calls[0][0].where;
+    expect(poolWhere.id.notIn).toEqual(["j-day", "j-oct-28"]);
   });
 
   it("NEEDS_REVISION = moyen → remplacée aussi (rien de moyen)", async () => {

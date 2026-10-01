@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (01/10/2026) : remplaçant jamais déjà programmé, posts sociaux en pause, agent CEO coupé @orchestrateur
+
+> Aucun secret, aucune migration, aucun package. Déployé (version a6dbeae7).
+> - `quality-watch.ts` : une vanne de remplacement ne peut plus être une vanne programmée à ±90 jours (cas du 01/10 : vanne du 28/10 tirée en double).
+> - `scheduler/jobs.ts` : génération quotidienne des posts sociaux (4h UTC) suspendue tant que `CONTENT_GENERATION_ENABLED` ≠ "true" (audit réseaux sociaux demandé par Thomas, même approche que les vannes).
+> - Données : les 2 posts du 01/10 (non audités) repassés `PENDING` (non publiés). `CeoConfig.enabled = false` (agent CEO : file de tâches vide depuis sa création, dry-run ; réactivable par l'admin), entrée `CeoAuditLog`.
+
 ## s14 (01/10/2026) : contrôle qualité du matin, vannes GARDER plus rejugées @orchestrateur
 
 > Aucun secret, aucune migration, aucun package. Déployé (version 00cff7bd). Le 01/10, le juge automatique a rejeté l'étalon E3 (réveil, vanne du jour validée) à 3/10 en le prenant pour une copie d'étalon, et l'a remplacé par une vanne déjà programmée le 28/10.

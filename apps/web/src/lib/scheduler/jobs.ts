@@ -286,6 +286,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runDailySocialJob = async () => {
     try {
+      // Contenu préparé (s14) : posts sociaux en pause tant que la génération IA
+      // est coupée (audit réseaux sociaux en cours, Thomas 01/10).
+      const { isContentGenerationEnabled } = await import("./prepared-content");
+      if (!isContentGenerationEnabled()) return;
+
       const now = new Date();
       const utcHour = now.getUTCHours();
 
