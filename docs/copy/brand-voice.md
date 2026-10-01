@@ -41,7 +41,7 @@ Imagine un ami qui est naturellement drole, qui te met a l'aise, et qui te file 
 |---|---|
 | **Drole** | Le contenu fait sourire ou rire — c'est la DEMO du produit |
 | **Sympa** | Accessible, bienveillant, zero prise de tete |
-| **Stand-up** | Reference au monde du stand-up francais — Paul Mirabel, Fary, Blanche Gardin, pas Carambar |
+| **Stand-up** | Qualite d'ecriture du stand-up : observation precise, chute nette, vanne originale jamais entendue ailleurs (pas de blague de papier de bonbon). Aucun nom d'humoriste |
 
 ## 3 mots qui ne DEFINISSENT PAS la marque
 
@@ -63,8 +63,7 @@ Imagine un ami qui est naturellement drole, qui te met a l'aise, et qui te file 
 ### Blog / articles SEO
 - Le blog est la **DEMO du produit** — minimum 3 traits d'humour par article
 - Educatif ET divertissant, jamais juste informatif
-- Refs modernes obligatoires (Paul Mirabel, Fary, Roman Frayssinet en priorite)
-- Jamel/Gad/Foresti : max 1 mention par article
+- Exemples originaux et modernes (situations d'aujourd'hui), aucun humoriste nomme (voir « References humoristes »)
 
 ### Social media
 - Plus punchy que le site (chaque mot compte, 0 filler)
@@ -75,7 +74,15 @@ Imagine un ami qui est naturellement drole, qui te met a l'aise, et qui te file 
 ### Email
 - Objet court et intriguant (pas de "Newsletter #12")
 - Corps : 1 vanne, 1 conseil, 1 CTA — c'est tout
-- Signature : Alex, pas "L'equipe Deviens Marrant"
+- Signature : « L'Équipe Deviens Marrant », jamais « Alex » (décision fondateur du 06/05/2026, `docs/founder-preferences.md`)
+
+### Réseaux sociaux (décisions du 01/10/2026, `docs/social/audit-s14/audit-strategie-ton.md`)
+- **Instagram, priorité 1** : cartes « amorce // chute » (le format des vannes validées). Légende de 150 caractères max
+- **X** : relais simple des mêmes contenus
+- **LinkedIn** : en pause (page statique), ton de plateforme incompatible avec la marque
+- **Contenu 100 % repris du catalogue validé** (vannes, conseils, articles) : on met en forme, on ne réécrit pas
+- **Pas de « je » de marque** : la marque ne se raconte pas à la première personne
+- **Pas de ton coach** : ni leçon, ni « Technique : », ni morale finale. On reste le pote
 
 ---
 
