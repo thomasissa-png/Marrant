@@ -34,6 +34,15 @@ export async function generatePostImage(
   void slide;
   switch (post.format) {
     case "IMAGE_QUI_CLAQUE": {
+      // s14 (préparation mensuelle depuis le catalogue) : carte « amorce // chute ».
+      // threadParts = [amorce, chute] de la vanne reprise mot pour mot.
+      if (post.threadParts.length === 2 && post.threadParts[0] && post.threadParts[1]) {
+        return generateLaVanne({
+          setup: post.threadParts[0],
+          punchline: post.threadParts[1],
+          category: "",
+        });
+      }
       // Refonte s7 : punchline ≤ 6 mots en gros sur fond noir + accent violet.
       // On reuse generateLaVanne pour son rendu visuel italique-grand-format
       // mais on utilise UNIQUEMENT le hook comme punchline (caption = champ content séparé).

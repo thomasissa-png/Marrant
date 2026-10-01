@@ -377,9 +377,7 @@ export async function createBufferImagePost(
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}",
-        assets: {
-          images: [{ url: ${JSON.stringify(imageUrl)} }]
-        }${metadataBlock}
+        assets: [{ image: { url: ${JSON.stringify(imageUrl)} } }]${metadataBlock}
       }) {
         ... on PostActionSuccess {
           post {

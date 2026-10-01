@@ -433,6 +433,21 @@ describe("depublishCannibalizedDbArticlesTask (s11 lot 3)", () => {
 });
 
 describe("backfillMissingJokeDecryptagesTask (s11 lot 3)", () => {
+  // s14 : le backfill IA ne tourne que si l'interrupteur de génération est ouvert.
+  beforeEach(() => {
+    process.env.CONTENT_GENERATION_ENABLED = "true";
+  });
+  afterEach(() => {
+    delete process.env.CONTENT_GENERATION_ENABLED;
+  });
+
+  it("interrupteur CONTENT_GENERATION_ENABLED coupé (s14) → aucune requête, aucun appel IA", async () => {
+    delete process.env.CONTENT_GENERATION_ENABLED;
+    await backfillMissingJokeDecryptagesTask();
+    expect(mockJokeFindMany).not.toHaveBeenCalled();
+    expect(mockGenerateJokeDecryptage).not.toHaveBeenCalled();
+  });
+
   it("cible uniquement les vannes actives sans décryptage, batch borné", async () => {
     mockJokeFindMany.mockResolvedValue([
       { id: "cuid-1", content: "Vanne 1", punchline: "Chute 1", category: "ABSURDE", type: "SITUATION" },

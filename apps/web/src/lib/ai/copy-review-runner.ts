@@ -71,6 +71,11 @@ export const COPY_REVIEW_DAILY_LOCK_TTL_MS = 3 * 60 * 60 * 1000;
  */
 export async function runDailyCopyReviewOnce(now: Date = new Date()): Promise<CopyReviewStats | null> {
   if (!isCopyReviewEnabled()) return null;
+  // [CHOIX UTILISATEUR] Thomas 01/10 (s14) : contenu préparé, aucune IA ne
+  // réécrit seule le catalogue. Interrupteur CONTENT_GENERATION_ENABLED ≠ "true"
+  // (défaut) → retour immédiat, aucun appel LLM, aucune écriture.
+  const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+  if (!isContentGenerationEnabled()) return null;
   const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
   const acquired = await tryAcquireLock(
     buildJobLockKey("copy-review", now),

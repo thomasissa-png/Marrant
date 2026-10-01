@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (01/10/2026) : publication Instagram corrigée, échecs tracés, génération IA sociale arrêtée, préparation mensuelle @fullstack
+
+> Aucun secret, aucune migration, aucun package. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide. Rien n'est inséré en base au déploiement.
+> - `src/lib/social/buffer-client.ts` : mutation Instagram conforme au schéma Buffer `AssetInput` (`assets: [{ image: { url } }]`), cause prouvée des 41 échecs (`Field "images" is not defined by type "AssetInput"`). À valider sur un post de test non public avant toute reprise.
+> - `api/cron/publish-social` : message exact de chaque échec enregistré dans `SocialPost.directorNote` (préfixe « Échec publication Buffer : ») ; e-mails d'échec limités à 1 par jour UTC (verrou `JobLock` `publish-social-failure-alert-AAAA-MM-JJ`, `src/lib/social/publish-failure.ts`) ; LinkedIn exclu (pause) ; coupe-circuit 429 lu en `startsWith`.
+> - Génération IA des posts arrêtée définitivement : `runDailySocialJob` et `/api/cron/daily-social` retournent immédiatement (aucun LLM, aucune écriture) ; `social-media-agent.ts` archivé (commentaire en tête, non patché).
+> - [CHOIX UTILISATEUR] aucune IA ne produit seule : la relecture copy-review (`runCopyReviewJob`, `runDailyCopyReviewOnce`) et `backfillMissingJokeDecryptagesTask` ne tournent plus que si `CONTENT_GENERATION_ENABLED` = "true" (absent sur le Worker : coupés).
+> - Carte Instagram « amorce // chute » : `generatePostImage` (IMAGE_QUI_CLAQUE + `threadParts` [amorce, chute]) rend le gabarit « La Vanne » ; image rendue par le Worker à la publication (`/api/social/image?postId=`), aucun upload R2 depuis le script.
+> - Préparation mensuelle (depuis `apps/web`, `NEON_DATABASE_URL` définie) : `npx tsx scripts/content/prepare-social-month.ts --month 2026-10 --from 2026-10-02` (dry-run, SELECT seulement, écrit `docs/social/preparation/2026-10.md` avec l'échantillon de 10), puis, après validation de Thomas, la même commande avec `--write --echantillon-valide` (posts `APPROVED`, `approvedBy = preparation-mensuelle`, créneaux X 12:30 et Instagram 18:30 heure de Paris). Mesure : `docs/social/mesure.md`.
+
 ## s14 (01/10/2026) : remplaçant jamais déjà programmé, posts sociaux en pause, agent CEO coupé @orchestrateur
 
 > Aucun secret, aucune migration, aucun package. Déployé (version a6dbeae7).

@@ -1,3 +1,12 @@
+// ═══════════════════════════════════════════════════════════════════
+// ARCHIVÉ (s14, 01/10/2026) : NE PLUS APPELER.
+// La génération IA quotidienne des posts sociaux est arrêtée définitivement
+// (décision Thomas, audit docs/social/audit-s14/audit-strategie-ton.md).
+// Ce prompt contredit les règles de marque (humoristes nommés, tirets
+// cadratins, voix « je ») : il est conservé pour l'historique, non patché.
+// Les posts sont préparés chaque mois depuis le catalogue validé :
+// apps/web/scripts/content/prepare-social-month.ts
+// ═══════════════════════════════════════════════════════════════════
 import {
   buildCachedSystemBlock,
   callWithRetry,

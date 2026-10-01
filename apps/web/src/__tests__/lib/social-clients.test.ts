@@ -345,7 +345,9 @@ describe("buffer-client", () => {
 
       const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("ch-instagram-012");
-      expect(body.query).toContain("images");
+      // s14 : schéma Buffer AssetInput = liste de { image: { url } } (« images » refusé en 400).
+      expect(body.query).toContain("assets: [{ image: { url:");
+      expect(body.query).not.toMatch(/\bimages\s*:/);
       expect(body.query).toContain("deviens-marrant.fr");
     });
 

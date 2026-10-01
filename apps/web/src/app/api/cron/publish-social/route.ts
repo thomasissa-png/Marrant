@@ -13,7 +13,7 @@ import {
   BufferContentTooLongError,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
-import { sendAdminAlert } from "@/lib/email";
+import { buildPublishErrorNote, sendDailyPublishFailureAlert } from "@/lib/social/publish-failure";
 
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
@@ -64,6 +64,9 @@ function splitIntoTweetThread(text: string): string[] {
   return result;
 }
 
+/** Plateformes en pause (décision Thomas 01/10, s14) : jamais publiées. */
+const PAUSED_PLATFORMS: SocialPlatform[] = ["LINKEDIN"];
+
 /** Retourne l'URL publique du site (pour les images Instagram). */
 function getBaseUrl(): string {
   return process.env.NEXT_PUBLIC_SITE_URL || "https://deviens-marrant.fr";
@@ -106,8 +109,8 @@ export async function GET(req: Request) {
 
       if (isAuthError) {
         console.error("[PublishSocial] Token Buffer invalide ou expiré:", errMsg);
-        try {
-          await sendAdminAlert(
+        // s14 : au plus 1 e-mail d'échec par jour (toutes alertes publish-social).
+        await sendDailyPublishFailureAlert(
             "Token Buffer expire — publication impossible",
             `<p>Le token Buffer est <strong>invalide ou expire</strong>. Aucun post ne peut etre publie.</p>
             <p><strong>Erreur :</strong> ${errMsg}</p>
@@ -115,12 +118,9 @@ export async function GET(req: Request) {
             <ol>
               <li>Va dans <a href="https://buffer.com/app/account">Buffer Settings > API</a></li>
               <li>Genere un nouveau token</li>
-              <li>Mets a jour <code>BUFFER_ACCESS_TOKEN</code> dans les Secrets Replit</li>
+              <li>Mets a jour <code>BUFFER_ACCESS_TOKEN</code> dans les secrets du Worker</li>
             </ol>`,
-          );
-        } catch (_) {
-          // Silencieux
-        }
+        );
         return NextResponse.json({
           error: "Token Buffer invalide ou expiré. Renouvelle-le dans les Secrets Replit.",
         }, { status: 401 });
@@ -142,7 +142,9 @@ export async function GET(req: Request) {
           where: {
             status: "FAILED",
             updatedAt: { gte: cooldownWindow },
-            directorNote: { contains: "429" },
+            // s14 : `startsWith` (et non `contains`) — les notes portent désormais
+            // le message d'erreur exact, qui peut contenir « 429 » ailleurs.
+            directorNote: { startsWith: "429" },
           },
           select: { platform: true },
           distinct: ["platform"],
@@ -163,14 +165,16 @@ export async function GET(req: Request) {
     // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
     // Posts approuves automatiquement (approvedBy null) doivent avoir directorScore >= 9.
+    // Décision Thomas 01/10 (s14) : LinkedIn en pause, jamais publié.
+    const excludedPlatforms = new Set<SocialPlatform>([...blockedPlatforms, ...PAUSED_PLATFORMS]);
     const posts = await prisma.socialPost.findMany({
       where: {
         status: "APPROVED",
         scheduledAt: { lte: now },
         // Refonte s7 : skip formats deprecated (legacy queue avant refonte)
         format: { notIn: DEPRECATED_FORMATS },
-        // Circuit breaker : exclure les plateformes en cooldown 429
-        ...(blockedPlatforms.size > 0 ? { platform: { notIn: [...blockedPlatforms] as SocialPlatform[] } } : {}),
+        // Circuit breaker 429 + plateformes en pause
+        platform: { notIn: [...excludedPlatforms] },
         OR: [
           { approvedBy: { not: null } },
           { directorScore: { gte: 9 } },
@@ -379,9 +383,10 @@ export async function GET(req: Request) {
           errMsg.includes("MutationError");
 
         if (isPermanent) {
+          // s14 (C1) : le message exact est enregistré sur le post.
           await prisma.socialPost.update({
             where: { id: post.id },
-            data: { status: "FAILED" },
+            data: { status: "FAILED", directorNote: buildPublishErrorNote(errMsg) },
           });
         } else {
           // Erreur temporaire (réseau, rate limit) → repousser de 30 min pour retry au prochain cron
@@ -394,12 +399,11 @@ export async function GET(req: Request) {
           if (newRetryCount >= 3) {
             await prisma.socialPost.update({
               where: { id: post.id },
-              data: { status: "FAILED" },
+              data: { status: "FAILED", directorNote: buildPublishErrorNote(errMsg, newRetryCount) },
             });
           } else {
-            const retryNote = post.directorNote
-              ? post.directorNote.replace(/\s*\[retry:\d+\]$/, "") + ` [retry:${newRetryCount}]`
-              : `[retry:${newRetryCount}]`;
+            // s14 (C1) : dernier message d'erreur + compteur de relances (suffixe lu ci-dessus).
+            const retryNote = buildPublishErrorNote(errMsg, newRetryCount);
             await prisma.socialPost.update({
               where: { id: post.id },
               data: {
@@ -437,16 +441,13 @@ export async function GET(req: Request) {
         .map((r) => `<li><strong>${r.platform}</strong> (${r.id}) : ${r.error || "erreur inconnue"}</li>`)
         .join("");
 
-      try {
-        await sendAdminAlert(
-          "Publication social — echec Buffer",
-          `<p><strong>${failed} posts</strong> ont echoue a la publication. Aucun post n'a ete publie.</p>
-          <ul>${failedErrors}</ul>
-          <p>Verifie la configuration Buffer et les logs du cron.</p>`,
-        );
-      } catch (_) {
-        // Silencieux
-      }
+      // s14 : 1 e-mail par jour maximum ; le détail de chaque échec est en base (directorNote).
+      await sendDailyPublishFailureAlert(
+        "Publication social — echec Buffer",
+        `<p><strong>${failed} posts</strong> ont echoue a la publication. Aucun post n'a ete publie.</p>
+        <ul>${failedErrors}</ul>
+        <p>Les messages exacts sont enregistres sur chaque post (directorNote). Pas d'autre alerte avant demain.</p>`,
+      );
     }
 
     return NextResponse.json({
@@ -458,13 +459,13 @@ export async function GET(req: Request) {
 
     // Alerte sur erreur critique
     try {
-      await sendAdminAlert(
+      await sendDailyPublishFailureAlert(
         "Publication social — erreur critique",
         `<p>Le cron <code>publish-social</code> a plante.</p>
         <p><strong>Erreur :</strong> ${error instanceof Error ? error.message : "Erreur inconnue"}</p>`,
       );
     } catch (_) {
-      // Silencieux
+      // Silencieux (base indisponible)
     }
 
     return NextResponse.json(

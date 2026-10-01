@@ -59,6 +59,8 @@ import { parseCopyReviewVersion } from "@/lib/ai/agents/copy-review-agent";
 beforeEach(() => {
   jest.clearAllMocks();
   delete process.env.COPY_REVIEW_ENABLED;
+  // s14 : la relecture IA ne tourne que si l'interrupteur de génération est ouvert.
+  process.env.CONTENT_GENERATION_ENABLED = "true";
   mockJokeFindMany.mockResolvedValue([]);
   mockTipFindMany.mockResolvedValue([]);
   mockJokeUpdate.mockResolvedValue({});
@@ -80,6 +82,13 @@ describe("runDailyCopyReviewOnce — un seul lot par jour", () => {
   it("verrou déjà pris (tick suivant) → aucun lot, aucune requête", async () => {
     mockTryAcquireLock.mockResolvedValue(false);
     expect(await runDailyCopyReviewOnce(new Date("2026-10-01T03:15:00Z"))).toBeNull();
+    expect(mockJokeFindMany).not.toHaveBeenCalled();
+  });
+
+  it("interrupteur CONTENT_GENERATION_ENABLED coupé (s14) → ni verrou ni lot", async () => {
+    delete process.env.CONTENT_GENERATION_ENABLED;
+    expect(await runDailyCopyReviewOnce()).toBeNull();
+    expect(mockTryAcquireLock).not.toHaveBeenCalled();
     expect(mockJokeFindMany).not.toHaveBeenCalled();
   });
 

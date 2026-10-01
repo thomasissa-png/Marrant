@@ -273,87 +273,17 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
-   * Job 4 : Génération quotidienne des posts sociaux — TIME-GATED
+   * Job 4 : Génération quotidienne des posts sociaux — ARRÊTÉE DÉFINITIVEMENT (s14).
    *
-   * Déclenche UNIQUEMENT dans la fenêtre 4h-5h UTC (1x/jour).
-   * + Catch-up d'urgence entre 6h-23h si aucun post Twitter n'existe
-   *   pour la journée (fallback si le run de 4h UTC a échoué).
-   *
-   * L'idempotence est garantie par :
-   *   - Time gate : exclut 95% des runs (15 min = 96 runs/jour → 4-5 éligibles)
-   *   - HARD LOCK dans le cron HTTP (limites par plateforme + jour)
-   *   - Filtre quantitatif (ne génère que ce qui manque)
+   * Décision Thomas du 01/10/2026 (audit réseaux sociaux s14) : plus aucune
+   * génération IA de posts. Les posts X et Instagram sont préparés chaque mois
+   * à partir du catalogue validé (`scripts/content/prepare-social-month.ts`),
+   * relus sur échantillon de 10 par Thomas, puis insérés en APPROVED.
+   * Le job est conservé (planning inchangé) mais retourne immédiatement :
+   * aucun appel à `/api/cron/daily-social`, aucun verrou pris, aucun appel LLM.
    */
-  const runDailySocialJob = async () => {
-    try {
-      // Contenu préparé (s14) : posts sociaux en pause tant que la génération IA
-      // est coupée (audit réseaux sociaux en cours, Thomas 01/10).
-      const { isContentGenerationEnabled } = await import("./prepared-content");
-      if (!isContentGenerationEnabled()) return;
-
-      const now = new Date();
-      const utcHour = now.getUTCHours();
-
-      // Fenêtre principale : 4h-5h UTC (slot officiel)
-      const isMainWindow = utcHour === 4;
-
-      // Fenêtre de catch-up : 6h-23h UTC
-      // Ne déclenche que si AUCUN post Twitter aujourd'hui (panne totale du run de 4h)
-      const isCatchupWindow = utcHour >= 6 && utcHour <= 23;
-
-      if (!isMainWindow && !isCatchupWindow) return;
-
-      // P1 race condition lock applicatif (s08/04) — un seul run/jour franchit
-      // la barrière, même si le scheduler retente pendant la catch-up window.
-      // Cf docs/marrant/playbook.md + apps/web/src/lib/social-post-daily-lock.ts
-      const { tryAcquireSocialDailyLock } = await import("@/lib/social-post-daily-lock");
-      const lockAcquired = await tryAcquireSocialDailyLock(now);
-      if (!lockAcquired) {
-        console.log(`[scheduler:social] Lock journalier déjà détenu pour ${now.toISOString().slice(0, 10)} — skip`);
-        return;
-      }
-
-      // Pour le catch-up, on vérifie si les quotas sont atteints aujourd'hui.
-      // Déclenche si DÉFICIT (pas seulement count=0) pour rattraper les échecs partiels.
-      if (isCatchupWindow) {
-        const { prisma } = await import("@/lib/prisma");
-        const startOfDay = new Date(now);
-        startOfDay.setUTCHours(0, 0, 0, 0);
-
-        // Quotas minimaux attendus pour aujourd'hui (approximation conservatrice)
-        // On veut rattraper si MOINS de 2 Twitter OU 0 Instagram
-        const dayOfWeek = now.getUTCDay();
-        const minExpectedTwitter = (dayOfWeek === 0) ? 2 : 2; // au moins 2 tweets tous les jours
-        const minExpectedInstagram = 1;
-
-        const countsByPlatform = await prisma.socialPost.groupBy({
-          by: ["platform"],
-          where: { createdAt: { gte: startOfDay } },
-          _count: true,
-        });
-        const countMap = new Map(countsByPlatform.map((g) => [g.platform, g._count]));
-        const twitterCount = countMap.get("TWITTER") || 0;
-        const instagramCount = countMap.get("INSTAGRAM") || 0;
-
-        // Pas de déficit → skip le catch-up
-        if (twitterCount >= minExpectedTwitter && instagramCount >= minExpectedInstagram) {
-          return;
-        }
-        console.warn(
-          `[scheduler:social] Catch-up activé ${utcHour}h UTC — déficit : Twitter ${twitterCount}/${minExpectedTwitter}, Instagram ${instagramCount}/${minExpectedInstagram}`,
-        );
-      }
-
-      const secret = process.env.CRON_SECRET;
-      if (!secret) return;
-
-      const res = await callCronRoute(`/api/cron/daily-social?secret=${secret}`);
-      if (res.ok) {
-        console.log(`[scheduler:social] Daily-social trigger (${isMainWindow ? "main 4h UTC" : "catch-up " + utcHour + "h"}).`);
-      }
-    } catch (err) {
-      console.error("[scheduler:social] Échec génération :", err);
-    }
+  const runDailySocialJob = async (): Promise<void> => {
+    return;
   };
 
   /**
@@ -552,6 +482,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    */
   const runCopyReviewJob = async () => {
     try {
+      // [CHOIX UTILISATEUR] Thomas 01/10 (s14) : aucune IA ne produit seule.
+      // La relecture IA réécrit le catalogue en prod : coupée avec l'interrupteur.
+      const { isContentGenerationEnabled } = await import("./prepared-content");
+      if (!isContentGenerationEnabled()) return;
+
       const now = new Date();
       const utcHour = now.getUTCHours();
       if (utcHour !== 3 && utcHour !== 4) return;
@@ -609,5 +544,6 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCopyReviewJob();
   };
 
-  return { runAllJobs };
+  // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée).
+  return { runAllJobs, runDailySocialJob };
 }

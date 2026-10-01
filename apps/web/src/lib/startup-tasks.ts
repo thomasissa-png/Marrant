@@ -641,6 +641,14 @@ async function backfillMissingJokeDecryptagesTask(): Promise<void> {
     console.log("[startup] backfill IA décryptages désactivé (env flag).");
     return;
   }
+  // [CHOIX UTILISATEUR] Thomas 01/10 (s14) : aucune IA ne produit seule.
+  // Interrupteur CONTENT_GENERATION_ENABLED ≠ "true" (défaut) → aucun décryptage
+  // généré en base ; les décryptages manquants passent par un fichier préparé et relu.
+  const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+  if (!isContentGenerationEnabled()) {
+    console.log("[startup] backfill IA décryptages coupé (CONTENT_GENERATION_ENABLED ≠ true).");
+    return;
+  }
   const batch = Number.isFinite(AI_BACKFILL_BATCH_SIZE) && AI_BACKFILL_BATCH_SIZE > 0
     ? AI_BACKFILL_BATCH_SIZE
     : 15;
