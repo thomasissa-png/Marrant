@@ -33,7 +33,7 @@ export function HomeCta() {
             <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
               Créer mon compte gratuit
             </Button>
-            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 0,99 €/mois pour tout débloquer, sans engagement</p>
+            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 4,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
           <Link href="/vannes" className="w-full sm:w-auto">
             <Button variant="outline" size="lg" className="w-full whitespace-nowrap">

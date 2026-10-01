@@ -17,7 +17,7 @@ interface ArticleCtaProps {
  * CTA de fin d'article — double bouton pour le trafic froid.
  *
  * Primaire : essai gratuit (inscription free — 10 vannes + contenu du jour).
- * Secondaire : passage direct au premium (0,99 €/mois).
+ * Secondaire : passage direct au premium (4,99 €/mois).
  *
  * Rationale : la landing blog reçoit 99% du trafic froid. Un CTA payant
  * unique tue la conversion. On propose d'abord d'entrer dans le funnel.
@@ -47,7 +47,7 @@ export function ArticleCta({ freeCallbackUrl = "/onboarding" }: ArticleCtaProps)
             </Link>
             <Link href="/abonnement">
               <Button variant="outline" size="lg">
-                Tout débloquer à 0,99 €/mois
+                Tout débloquer à 4,99 €/mois
               </Button>
             </Link>
           </>
@@ -61,7 +61,7 @@ export function ArticleCta({ freeCallbackUrl = "/onboarding" }: ArticleCtaProps)
             />
             <Link href="/abonnement">
               <Button variant="outline" size="lg">
-                Tout débloquer à 0,99 €/mois
+                Tout débloquer à 4,99 €/mois
               </Button>
             </Link>
           </>

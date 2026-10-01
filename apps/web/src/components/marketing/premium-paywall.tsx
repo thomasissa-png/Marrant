@@ -158,7 +158,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         disabled={loading}
         className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-4 py-3 font-semibold transition"
       >
-        {loading ? "On t'emmène au paiement…" : "S'abonner — 0,99 €/mois"}
+        {loading ? "On t'emmène au paiement…" : "S'abonner · 4,99 €/mois"}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       <p className="mt-3 text-xs text-gray-400">

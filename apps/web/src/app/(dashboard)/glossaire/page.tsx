@@ -223,7 +223,7 @@ export default function GlossairePage() {
           bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
         <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
-          Commencer à 0,99 €/mois
+          Commencer à 4,99 €/mois
         </Link>
       </div>
     </>

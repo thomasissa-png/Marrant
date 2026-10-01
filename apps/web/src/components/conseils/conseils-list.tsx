@@ -360,7 +360,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 0,99 &euro;/mois
+            Accède à tout le catalogue dès 4,99 &euro;/mois
           </p>
           {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>

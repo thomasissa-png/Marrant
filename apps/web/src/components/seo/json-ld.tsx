@@ -341,7 +341,7 @@ export function buildProductJsonLd() {
     },
     offers: {
       "@type": "Offer",
-      price: "0.99",
+      price: "4.99",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,
@@ -429,7 +429,7 @@ export function buildCourseJsonLd(course: {
     isAccessibleForFree: false,
     offers: {
       "@type": "Offer",
-      price: "0.99",
+      price: "4.99",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,

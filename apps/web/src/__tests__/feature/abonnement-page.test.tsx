@@ -29,8 +29,8 @@ describe("AbonnementPage (s12 T45)", () => {
     render(<AbonnementPage />);
     expect(screen.getByText("Compte gratuit")).toBeInTheDocument();
     expect(screen.getByText("Accès complet")).toBeInTheDocument();
-    // « Prix de lancement » n'apparaît qu'une fois (sur la carte).
-    expect(screen.getAllByText("Prix de lancement")).toHaveLength(1);
+    // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
+    expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
   });
 
   it("free CTA opens sign-up without callback (onboarding)", async () => {
@@ -45,7 +45,7 @@ describe("AbonnementPage (s12 T45)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
 
-    await userEvent.click(screen.getByText("Commencer à 0,99 €/mois"));
+    await userEvent.click(screen.getByText("Commencer à 4,99 €/mois"));
     expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-callback", "/abonnement");
   });
 
@@ -53,6 +53,6 @@ describe("AbonnementPage (s12 T45)", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<AbonnementPage />);
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
-    expect(screen.getByText("Active mon accès · 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Active mon accès · 4,99 €/mois")).toBeInTheDocument();
   });
 });

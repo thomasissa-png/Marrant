@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { AuthModal } from "@/components/auth/auth-modal";
@@ -41,14 +40,11 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg" labelledBy="premium-modal-title">
       <div className="rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10">
-        <Badge variant="primary" className="mb-3">
-          Prix de lancement
-        </Badge>
         <h3 id="premium-modal-title" className="font-display text-xl font-bold text-text-primary">
           Débloque tout le contenu
         </h3>
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-4xl font-bold text-text-primary">0,99 €</span>
+          <span className="text-4xl font-bold text-text-primary">4,99 €</span>
           <span className="text-text-muted">/ mois</span>
         </div>
         <p className="mt-1 text-sm text-accent-link font-medium">

@@ -60,12 +60,9 @@ export function PremiumCta() {
             {/* Badge « Populaire » retiré : offre payante unique (reco validée par Thomas) */}
             <h3 className="text-lg font-semibold text-text-primary">Accès complet</h3>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-text-primary">0,99 €</span>
+              <span className="text-4xl font-bold text-text-primary">4,99 €</span>
               <span className="text-text-muted">/ mois</span>
             </div>
-            <p className="mt-1 text-sm text-accent-link font-medium">
-              Prix de lancement
-            </p>
             <p className="mt-1 text-xs text-text-muted">
               Sans engagement, annulable &agrave; tout moment &middot;{" "}
               <Link href="/retractation" className="underline hover:text-text-secondary">
@@ -125,7 +122,7 @@ export function PremiumCta() {
                 className="mt-8 w-full"
                 onClick={() => setShowAuth(true)}
               >
-                Commencer à 0,99 €/mois
+                Commencer à 4,99 €/mois
               </Button>
             )}
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
@@ -135,7 +132,7 @@ export function PremiumCta() {
           </div>
         </div>
 
-        {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 0,99 € (T08) */}
+        {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 4,99 € (T08) */}
         <details className="group rounded-2xl border border-border bg-background-card">
           <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 p-6 sm:px-8 [&::-webkit-details-marker]:hidden">
             <h3 className="min-w-0 text-lg font-semibold text-text-primary">Coaching individuel</h3>

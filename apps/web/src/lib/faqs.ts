@@ -25,9 +25,9 @@ export const faqs = [
       "La vraie répartie, ce n\u2019est pas écraser l\u2019autre. C\u2019est créer un moment drôle et léger, même quand la remarque de départ était piquante. L\u2019objectif, c\u2019est que tout le monde rie, y compris la personne qui t\u2019a lancé la remarque. Des techniques comme l\u2019autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
   },
   {
-    question: "0,99 \u20AC/mois, c\u2019est vraiment tout ? Pas de frais cachés ?",
+    question: "4,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
     answer:
-      "C\u2019est le prix de lancement, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
+      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
   },
   {
     question:

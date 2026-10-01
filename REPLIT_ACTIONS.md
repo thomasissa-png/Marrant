@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (01/10/2026) : fin de l'offre de lancement, Premium à 4,99 €/mois @fullstack
+
+> Décision de Thomas (01/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - **Secrets Worker, au MÊME déploiement** : `STRIPE_PREMIUM_PRICE_ID` doit passer au nouveau prix Stripe à 4,99 € (créé par l'orchestrateur), sinon le checkout facture encore 0,99 € alors que le site affiche 4,99 €. Si `STRIPE_PREMIUM_PRICE_CENTS` est défini sur le Worker, le passer à `499` (ou le supprimer : défaut du code désormais 499), il sert au calcul du MRR admin.
+> - Affichage : toutes les mentions 0,99 € remplacées par 4,99 € (pages abonnement, accueil, à propos, parcours, glossaire, inscription, CGU, CTA, paywall, modale premium, quiz, listes, FAQ, `llms-content.ts`, prompts des agents IA) ; JSON-LD `offers.price` = "4.99". Badges et mentions « Prix de lancement » retirés ; CGU : « (4,99 €/mois) » sans clause d'évolution du prix de lancement.
+> - Articles statiques (`blog-articles.ts`, 19 articles ; `blog-article-rewrites.json`, 1 article) : seul le prix change, plus 7 comparaisons devenues fausses (café, croissant, soda, verre, bière) remplacées par « sans engagement » ou retirées. Empreintes de ces 19 articles régénérées dans `blog-em-dash-baseline.json`.
+> - `api/admin/stats` : MRR = abonnements actifs × `PREMIUM_PRICE_CENTS` / 100 (plus de 0,99 codé en dur).
+> - Abonnés existants : restent sur l'ancien prix Stripe tant qu'ils ne sont pas migrés (décision et opération côté Stripe, hors code).
+
 ## s14 (01/10/2026) : page `/liens` (bio Instagram automatique), newsletter retirée @fullstack
 
 > Aucun secret, aucune migration, aucun package, aucune donnée modifiée. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

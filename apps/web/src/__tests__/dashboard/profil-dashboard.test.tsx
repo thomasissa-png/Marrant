@@ -109,7 +109,7 @@ describe("ProfilDashboard", () => {
 
   it("shows subscribe button with engagement copy for FREE plan", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("S'abonner à 0,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("S'abonner à 4,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
     expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
   });

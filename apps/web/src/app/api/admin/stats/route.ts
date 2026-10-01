@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { PREMIUM_PRICE_CENTS } from "@/lib/stripe";
 
 export async function GET(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -106,8 +107,8 @@ export async function GET(request: NextRequest) {
       ? ((premiumUsers / totalUsers) * 100).toFixed(1)
       : "0.0";
 
-    // MRR = abonnements actifs * 0.99€
-    const mrr = (activeSubscriptions * 0.99).toFixed(2);
+    // MRR = abonnements actifs * montant réel de l'abonnement (STRIPE_PREMIUM_PRICE_CENTS, 4,99 € par défaut)
+    const mrr = ((activeSubscriptions * PREMIUM_PRICE_CENTS) / 100).toFixed(2);
 
     return NextResponse.json({
       // KPIs business

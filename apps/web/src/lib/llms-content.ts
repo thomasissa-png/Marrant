@@ -65,7 +65,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      "Un accès gratuit permanent (10 vannes, 3 conseils, 3 vidéos et le contenu du jour) et un accès complet à 0,99 €/mois, sans engagement, résiliable en un clic depuis le profil.",
+      "Un accès gratuit permanent (10 vannes, 3 conseils, 3 vidéos et le contenu du jour) et un accès complet à 4,99 €/mois, sans engagement, résiliable en un clic depuis le profil.",
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -112,7 +112,7 @@ Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complèt
 
 export const LLMS_TARIFS: string[] = [
   "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos + contenu du jour renouvelé quotidiennement.",
-  "Accès complet : 0,99 €/mois — toutes les vannes, conseils, vidéos, parcours et contenu quotidien, sans engagement.",
+  "Accès complet : 4,99 €/mois : toutes les vannes, conseils, vidéos, parcours et contenu quotidien, sans engagement.",
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
 

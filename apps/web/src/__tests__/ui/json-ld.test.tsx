@@ -181,7 +181,7 @@ describe("buildCourseJsonLd", () => {
     expect(result.url).toContain("/parcours/repartie");
     expect(result.educationalLevel).toBe("Intermediate");
     // numberOfLessons retiré : non reconnu par Schema.org Course
-    expect(result.offers.price).toBe("0.99");
+    expect(result.offers.price).toBe("4.99");
     expect(result.offers.priceCurrency).toBe("EUR");
     expect(result.offers.category).toBe("Paid");
     expect(result.offers.url).toContain("/abonnement");

@@ -24,13 +24,13 @@ export default function AbonnementPage() {
   };
 
   const isAuthenticated = status === "authenticated";
-  const pageBadge = isAuthenticated ? "Plus qu'une étape" : "Prix de lancement";
+  const pageBadge = "Plus qu'une étape";
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
     ? "Ton compte est prêt. Encore un clic et tout le catalogue est à toi, de la première vanne à la dernière vidéo."
-    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 0,99 €/mois.";
+    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois.";
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -53,7 +53,7 @@ export default function AbonnementPage() {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="text-center">
-        {/* Anonyme : « Prix de lancement » n'est affiché qu'une fois, sur la carte (doublon retiré) */}
+        {/* Badge affiché uniquement pour un utilisateur connecté */}
         {isAuthenticated && (
           <Badge variant="primary" className="mb-4">
             {pageBadge}
@@ -97,10 +97,9 @@ export default function AbonnementPage() {
             <h2 className="text-lg font-semibold text-text-primary">
               Accès complet
             </h2>
-            <Badge variant="primary">Prix de lancement</Badge>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-text-primary">0,99 &euro;</span>
+            <span className="text-4xl font-bold text-text-primary">4,99 &euro;</span>
             <span className="text-text-muted">/ mois</span>
           </div>
           <p className="mt-1 text-sm font-medium text-accent-link">
@@ -164,7 +163,7 @@ export default function AbonnementPage() {
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : "Active mon accès · 0,99 €/mois"}
+                : "Active mon accès · 4,99 €/mois"}
             </Button>
           ) : (
             <Button
@@ -173,7 +172,7 @@ export default function AbonnementPage() {
               className="mt-8 w-full"
               onClick={() => openAuth("/abonnement")}
             >
-              Commencer à 0,99 €/mois
+              Commencer à 4,99 €/mois
             </Button>
           )}
 

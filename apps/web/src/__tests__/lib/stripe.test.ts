@@ -29,8 +29,8 @@ jest.mock("@/lib/prisma", () => ({
 import { stripe, PREMIUM_PRICE_ID, PREMIUM_PRICE_CENTS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
 
 describe("Stripe constants", () => {
-  it("PREMIUM_PRICE_CENTS is 99 (launch offer)", () => {
-    expect(PREMIUM_PRICE_CENTS).toBe(99);
+  it("PREMIUM_PRICE_CENTS is 499 (4,99 €)", () => {
+    expect(PREMIUM_PRICE_CENTS).toBe(499);
   });
 
   it("PREMIUM_PRICE_ID is defined", () => {

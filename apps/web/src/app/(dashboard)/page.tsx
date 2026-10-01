@@ -31,7 +31,7 @@ const homepageFaqs = [
   {
     question: "Combien coûte deviens-marrant.fr ?",
     answer:
-      "L'accès complet coûte 0,99 €/mois (prix de lancement). Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
+      "L'accès complet coûte 4,99 €/mois. Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
   },
 ];
 

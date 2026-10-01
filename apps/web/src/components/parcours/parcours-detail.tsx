@@ -604,7 +604,7 @@ export function ParcoursDetail({
                       </p>
                       <Link href="/abonnement">
                         <Button variant="primary" size="sm" className="mt-3">
-                          S&apos;abonner · 0,99 &euro;/mois
+                          S&apos;abonner · 4,99 &euro;/mois
                         </Button>
                       </Link>
                     </div>

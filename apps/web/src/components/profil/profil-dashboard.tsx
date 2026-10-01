@@ -382,7 +382,7 @@ export function ProfilDashboard() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "On t'emmène au paiement…" : "S'abonner à 0,99 €/mois"}
+                {isCheckoutLoading ? "On t'emmène au paiement…" : "S'abonner à 4,99 €/mois"}
               </Button>
             </>
           )}

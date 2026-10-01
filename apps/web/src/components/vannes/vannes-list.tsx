@@ -202,7 +202,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               Aperçu gratuit : {FREE_JOKE_LIMIT_UI} vannes accessibles sans compte.
             </p>
             <p className="text-xs text-text-secondary">
-              Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 0,99 €/mois : tout le catalogue, les filtres et les favoris.
+              Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 4,99 €/mois : tout le catalogue, les filtres et les favoris.
             </p>
           </div>
           <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
@@ -417,7 +417,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 0,99 &euro;/mois
+            Accède à tout le catalogue dès 4,99 &euro;/mois
           </p>
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
             Voir l&apos;offre
