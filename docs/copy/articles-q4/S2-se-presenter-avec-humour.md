@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S2 (se présenter avec humour, publication lundi 12/10)
+# VALIDÉ PAR THOMAS (GO du 01/10) : article S2 (se présenter avec humour, publication lundi 12/10)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : `docs/copy/articles-q4/S8-repas-de-famille.md`. Brief : `docs/seo/calendrier-editorial-q4-2026.md` (ligne « 2 | Lun 12/10 » et ligne 2 du tableau de cannibalisation).
 > Règle humour : toute phrase drôle est soit recopiée du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, id en commentaire ``), soit une candidate balisée `<!-- CANDIDATE:Cx -->` dont les 5 variantes sont dans `docs/copy/articles-q4/S2-candidates.md`. Les exemples « avant » sont plats par construction. Si une candidate ne passe pas la relecture à l'aveugle, supprimer la phrase balisée : le texte reste cohérent sans elle.

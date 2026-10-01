@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S5 (humour en visio, publication lundi 02/11)
+# VALIDÉ PAR THOMAS (GO du 01/10) : article S5 (humour en visio, publication lundi 02/11)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 5 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 5 du tableau de cannibalisation).
 > **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire ``), soit une candidate neuve balisée `<!-- CANDIDATE -->` (5 variantes dans `docs/copy/articles-q4/S5-candidates.md`, relecture à l'aveugle ensuite). Le texte autour est volontairement sobre (aucune autre phrase drôle).

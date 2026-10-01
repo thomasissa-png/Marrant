@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S3 (humour en colocation, publication lundi 19/10)
+# VALIDÉ PAR THOMAS (GO du 01/10) : article S3 (humour en colocation, publication lundi 19/10)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : `docs/copy/articles-q4/S8-repas-de-famille.md` (validé le 30/09). Brief : `docs/seo/calendrier-editorial-q4-2026.md`, ligne « 3 | Lun 19/10 » et ligne 3 du tableau de cannibalisation.
 > Règle humour : chaque phrase drôle est soit recopiée du catalogue (`docs/copy/catalogue-vannes-valides.md`, balise ``), soit une candidate neuve (balise `<!-- CANDIDATE -->`, 5 variantes dans `docs/copy/articles-q4/S3-candidates.md`). Les phrases « ça envenime » et le reste du texte ne cherchent pas à être drôles.

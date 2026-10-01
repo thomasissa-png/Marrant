@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S4 (blagues sur l'IA et les assistants vocaux, publication lundi 26/10)
+# VALIDÉ PAR THOMAS (GO du 01/10) : article S4 (blagues sur l'IA et les assistants vocaux, publication lundi 26/10)
 
 > Statut : brouillon complet, non publié, non commité. Aucun enjeu de date dure (sujet intemporel), publication calée sur la ligne 4 du calendrier.
 > Les 6 vannes sont recopiées mot pour mot du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, relecture à l'aveugle s14), chacune avec son id en commentaire HTML. Aucune candidate neuve : pas de fichier `S4-candidates.md`. Seule adaptation de présentation, identique à S1 : les guillemets internes d'une vanne passent en "..." à l'intérieur des « ... » de citation.
