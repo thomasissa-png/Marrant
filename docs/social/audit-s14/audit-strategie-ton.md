@@ -104,7 +104,7 @@ Risque juridique à faire examiner par @legal : plusieurs posts attribuent à de
 | Shareable : on l'envoie à un pote | un pote n'envoie pas un mode d'emploi en 5 points ; il envoie une chute |
 
 Contradictions internes du cadre lui-même (à corriger, sinon l'écart revient) :
-- `brand-voice.md` dit en haut « Stand-up : Paul Mirabel, Fary, Blanche Gardin » et « Refs modernes obligatoires » pour le blog, puis plus bas « Aucun humoriste nommé » : deux règles incompatibles dans le même fichier.
+- `brand-voice.md` dit en haut que « Stand-up » se définit par trois humoristes cités nommément (ligne 44) et exige des « refs modernes obligatoires » (lignes 66 et 67) pour le blog, puis ligne 84 « Aucun humoriste nommé » : deux règles incompatibles dans le même fichier.
 - Le prompt `social-media-agent.ts` contient une `HUMORISTES_ROTATION` de 8 noms, une « inspiration du jour » avec un humoriste imposé, des « modèles de pensée » nominatifs et deux médias nommés comme modèles d'écriture. Il demande aussi « des tirets [tiret cadratin] pour lier deux idées » et « la valeur éducative au premier plan, pas l'humour pour l'humour » : c'est ce dernier ordre qui produit des leçons déguisées en posts.
 - Le prompt exige « zéro hashtag » mais le schéma de sortie contient un champ `hashtags` que le modèle remplit toujours.
 - La signature d'e-mail du brand-voice (« Alex ») contredit la décision du 06/05 (« L'Équipe Deviens Marrant »). Hors périmètre social, à nettoyer au passage.
@@ -181,3 +181,103 @@ Total : 5 posts X et 4 posts Instagram par semaine, soit environ 20 et 17 par mo
 - Troll ou critique publique : doctrine du 06/05 conservée (silence ou chaleur détachée).
 - Réponses aux commentaires : 10 à 15 minutes par jour en manuel, hors périmètre automatisation tant qu'il n'y a pas d'audience.
 - Parcours : les cartes « conseil » reprennent les 109 conseils des parcours, ce qui renvoie naturellement vers eux depuis la bio ; aucune promesse chiffrée nouvelle (règle du 29/09).
+
+---
+
+## 5. Modèle de production : préparé chaque mois, relu, jamais généré au jour le jour
+
+### 5.1 Principe
+
+- Aucun texte publié n'est produit par un modèle le jour même. Aucun texte n'est publié sans être issu d'un contenu déjà validé à l'aveugle (même procédure que les vannes : niveau « Alexa » ET jamais entendu ailleurs).
+- Le texte d'une vanne, d'un conseil ou d'une répartie n'est jamais retouché pour les réseaux. L'adaptation est une mise en forme : coupure setup / chute, carte, ligne de légende. Le travail humain porte sur le visuel et la cohérence, pas sur l'humour.
+- Ce modèle applique la décision du 30/09 (« contenu préparé à l'avance, génération quotidienne coupée ») aux réseaux, qui avaient été oubliés : le cron `daily-social` reste coupé et doit être retiré du planning.
+
+### 5.2 Cycle mensuel (greffé sur l'étape 5 du cycle du 20 de `production-trimestrielle.md`, une fois la programmation du site de M+1 faite)
+
+| Étape | Action | Qui |
+|---|---|---|
+| 1 | Extraction déterministe (script, zéro appel LLM) : vannes du jour de M+1, conseils, répartie de la réserve, articles du lundi, décryptages associés | @fullstack (script une seule fois) |
+| 2 | Assemblage par gabarits fixes : carte ou 2 lignes, légende ≤ 80 caractères, hashtags 0 sur X, 3 maximum sur Instagram `[HYPOTHÈSE]`, pied de carte = nom de marque | script |
+| 3 | Rendu des visuels en lot avec le gabarit existant (charte violette, fond sombre) | script |
+| 4 | Contrôle bloquant sans LLM : noms d'humoristes (liste noire versionnée), tirets cadratins, « je / mon / ma » hors citation, prénoms des personas, vouvoiement, vulgarité, longueurs, nombre de hashtags, mention d'IA, chiffres du site. Il étend `runWithContentGates`, qui existe déjà | script |
+| 5 | Validation : Thomas relit un échantillon de 10 posts (texte et visuel). Si un seul est sous la barre, le lot est refait | Thomas |
+| 6 | Chargement de tout le mois en file de programmation, avec le calendrier `docs/social/calendrier/AAAA-MM.md` (colonnes : Semaine, Date, Plateforme, Format, Pilier, Hook, CTA, Statut) | script |
+| 7 | Contrôle de fiabilité hebdomadaire : posts planifiés contre publiés, alerte si aucune publication sur 48 h (c'est ce qui a manqué de juin à septembre) | @fullstack |
+| 8 | Bilan mensuel des statistiques et réglage des ratios (section 6) | @social |
+
+Anti-répétition : un registre `docs/social/registre-posts.md` (identifiant du contenu source, plateforme, date, pilier). Règle : un même contenu source n'est repris qu'une fois par plateforme sur 90 jours `[HYPOTHÈSE]`, jamais avec la même mise en forme deux fois de suite.
+
+### 5.3 Ce que le catalogue couvre (calcul sur la cadence 4.4, sur un trimestre de 13 semaines)
+
+| Contenu | Besoin par trimestre | Stock existant | Conclusion |
+|---|---|---|---|
+| Vannes du jour (X et Instagram reprennent les mêmes) | 26 | 125 validées, dont 92 programmées sur le site au T4 et 26 en réserve | couvert, aucune vanne consommée en plus (reprise de la vanne du jour) |
+| Conseils | 13 | 109 actifs | couvert plus de 8 trimestres |
+| Décryptages « pourquoi ça marche » | environ 6 | un décryptage par vanne validée (5 anciennes vannes encore sans décryptage) | couvert |
+| Réparties | environ 7 | 12 validées dans les articles + 6 sujets en réserve | juste : le rendement mesuré est de ~4 %, donc ~25 candidates par réplique voulue ; sinon on remplace par un décryptage |
+| Articles du lundi | 13 | calendrier T4 (13 lundis) | couvert |
+
+Seul besoin de création : les réparties, déjà dans le cycle mensuel de production du site.
+
+### 5.4 À arrêter ou à ne pas reconduire
+
+- Cron `daily-social` : arrêt définitif, prompt archivé et non patché. Les patchs successifs (s7 à s11) n'ont pas tenu parce que le modèle de production est le défaut.
+- `HUMORISTES_ROTATION`, « inspiration du jour », modèles nominatifs, recommandation de tirets, injonction « valeur éducative au premier plan, pas l'humour pour l'humour » : tous incompatibles avec les choix fondateur.
+- `getWinningPatterns()` : boucle de renforcement sur un score IA qui ne discrimine pas.
+- Notation par directeur IA comme garantie de qualité : seule la relecture à l'aveugle fait foi.
+- 3 personas en rotation avec le thème imposé par jour : le persona principal (Yanis) est un angle, pas un calendrier. Les personas restent invisibles en public.
+
+---
+
+## 6. Mesure
+
+### 6.1 Constat
+
+0 statistique d'audience dans l'export (impressions, likes, retweets, réponses, clics). Les colonnes existent mais aucune tâche ne les remplit. Résultat : on ne sait pas si une seule personne a lu un post en 6 mois, et la « boucle de feedback » du prompt s'alimente de notes IA.
+
+### 6.2 Dispositif
+
+1. Source de vérité = analytics natifs de chaque plateforme (gratuits), relevés chaque lundi, 15 minutes. Première étape : exporter l'historique X et LinkedIn pour établir un état des lieux avant tout nettoyage.
+2. Automatisation : une tâche hebdomadaire qui alimente les colonnes existantes en base. `[HYPOTHÈSE : l'accès API aux métriques peut être limité ou payant, à vérifier par @fullstack avant de promettre l'automatisation ; repli = saisie manuelle des exports]`.
+3. Côté site : paramètres UTM sur le lien du lundi (source = plateforme, support = social, campagne = slug de l'article) et lecture des sources de trafic et des inscriptions dans Umami (en place).
+
+### 6.3 Indicateurs
+
+| Niveau | Indicateur | Pourquoi |
+|---|---|---|
+| Post | portée ou impressions, sauvegardes, envois (Instagram), réponses, clics sur lien | les envois et sauvegardes mesurent le « je l'envoie à un pote » qui définit la marque |
+| Plateforme | abonnés nets par mois, visites de profil, taux d'engagement (interactions / portée) | croissance et résonance |
+| Pilier | médiane d'envois + sauvegardes par pilier | pour régler les ratios 4.3 |
+| Site | sessions et inscriptions venant des réseaux (UTM, source de trafic Umami) | lien avec l'objectif d'acquisition organique |
+| Fiabilité | publiés / planifiés, délai de publication, jours sans publication | évite un nouveau silence de 3 mois |
+| Conformité | violations détectées par le contrôle bloquant (cible 0), échantillon validé par Thomas (cible 10 sur 10) | maintient la barre |
+
+### 6.4 Seuils
+
+Aucun seuil chiffré n'est fixé aujourd'hui : on n'a aucune base (zéro donnée, abonnés non communiqués). Règle : les 4 premières semaines servent de référence. À la semaine 5, on fixe pour chaque plateforme un seuil au-dessus de la médiane observée et on décide : un format dont les envois + sauvegardes par portée restent sous la médiane deux mois de suite est remplacé. Objectif de croissance : le project-context vise 10 000 abonnés combinés à 12 mois ; la croissance mensuelle requise = (10 000 moins le total actuel) / 12, à calculer dès que Thomas donne les abonnés actuels `[À FOURNIR]`.
+
+---
+
+## 7. Décisions à faire trancher par Thomas
+
+1. **Plateformes.** Instagram en priorité (cartes de vannes), X en relais simple, LinkedIn en pause (page statique), TikTok non ouvert. *Ma reco : oui.* Le persona principal n'est pas sur LinkedIn, le ton de la plateforme est celui que tu rejettes, et Instagram n'a jamais publié : on y part sans passif.
+2. **Les posts déjà en ligne (518 tweets, 39 LinkedIn).** *Ma reco :* (a) exporter d'abord les analytics natifs, sans rien supprimer ; (b) supprimer en lot tous les posts qui nomment un humoriste, attribuent une citation ou une anecdote à une personne réelle, parlent en « je », sont des threads ou contiennent un tiret cadratin ou un sujet à éviter ; (c) ne garder le reste que s'il a une audience mesurée. Les fausses citations à des personnes réelles sont à passer à @legal. Tu avais demandé de ne pas supprimer ce qui marche : ici on ne supprime que ce qui enfreint tes règles, et on garde ce que les chiffres défendent.
+3. **Modèle de production.** Contenu 100 % repris du catalogue validé, assemblé par script, relu sur échantillon de 10 par mois ; génération IA quotidienne arrêtée définitivement, prompt archivé. *Ma reco : oui.* C'est la décision du 30/09 étendue aux réseaux.
+4. **Cadence et mix.** 5 posts X et 4 posts Instagram par semaine, ratios de 4.3, test de 8 semaines puis bilan avec décision de réglage. *Ma reco : oui,* parce que la cadence est tenable à coût nul de création et que les statistiques réelles permettent ensuite de décider sur des faits.
+5. **Vidéo courte (Reels, puis TikTok).** *Ma reco :* ne pas produire de vidéo avant la semaine 9 ; si les cartes Instagram dépassent la médiane d'envois, lancer des Reels « vanne en texte à l'écran, sans visage » à partir du même catalogue ; ouvrir TikTok seulement si les Reels tiennent. À valider : acceptes-tu un format vidéo sans voix ni visage ?
+
+---
+
+## Points techniques pour @fullstack (hors décisions fondateur)
+
+- Instagram : 41 échecs sur 41, diagnostic en cours côté développeur ; ne pas relancer la publication avant le nettoyage décidé en 7.2.
+- Alerte si 48 h sans publication ; tâche hebdomadaire de relevé des statistiques ; extension du contrôle bloquant (liste noire de noms, tirets, voix « je », personas, hashtags, longueur).
+- Retirer `daily-social` du planning et archiver `social-media-agent.ts` (modèle de prompt incompatible avec les choix du 30/09).
+- Aucune modification faite par moi : tout changement de code ou de configuration devra être consigné dans `REPLIT_ACTIONS.md`.
+
+## Handoff
+
+**Handoff → @orchestrator**
+- Fichier produit : `/home/user/Marrant/docs/social/audit-s14/audit-strategie-ton.md`
+- Décisions proposées : Instagram + X (LinkedIn en pause, TikTok plus tard), 5 piliers rattachés au site, 100 % réutilisation du catalogue validé, cadence 5 X + 4 Instagram par semaine, mesure native hebdomadaire.
+- Points d'attention : abonnés actuels inconnus `[À FOURNIR]`, accès API aux métriques `[HYPOTHÈSE]`, fausses citations d'humoristes à passer à @legal, `brand-voice.md` se contredit sur les humoristes et la signature (@copywriter), notation précise des 80 posts dans le travail du critique à l'aveugle.
