@@ -71,3 +71,9 @@ A : 6 « = » ; B : 10 « = ». Consensus : 9, 17, 19, 37 (toutes Q6).
 Décision orchestrateur (Q4 « Tu as grossi ? ») : 0 réplique au niveau sur 3 vagues (64 candidates). Pas de vanne sur une remarque physique : la section propose une limite posée avec le sourire (déjà le plan B de l'article, cohérent avec « rien de blessant »).
 
 Assemblage S8 : Q1 Juvisy + « merci pour votre présence » ; Q2 hochement de tête + plafond ; Q3 faire-part + plan sur dix ans ; Q4 limite ; Q5 banque ; Q6 casque bleu + avis à Lyon ; belle-famille : oral. Réserve validée : escalade, ascenseur, vote, aspirateur, chat, pétanque.
+
+## Lot articles 1 (S2, S3, S5 : 10 emplacements, 50 variantes)
+
+A : 7 « = » ; B : 8 « = ». Consensus : 16, 27, 46, 48. Départage orchestrateur : 5 (=), 34 (=), 4, 15, 37, 7, 14 (<).
+Retenues : S2 C1 « Tu avais une phrase géniale. Le quatrième vient de la dire. » ; S2 C2 miroir « Il est resté jusqu'au bout » ; S3 vaisselle « la poêle … avant mes colocs » ; S3 message passif-agressif « par peur du troisième » ; S5 ouverture « seul avec mon visage » ; S5 chat « le même pouce que pour je dois partir à 17 h ».
+Emplacements retirés (aucune variante au niveau) : S3 frigo, S5 panne, S5 micro coupé, S5 caméra éteinte.
