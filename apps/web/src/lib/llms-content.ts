@@ -77,7 +77,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
 /** Présentation + sections détaillées (llms-full.txt), en Markdown. */
 export const LLMS_FULL_INTRO = `## Présentation détaillée
 
-deviens-marrant.fr est une plateforme éducative francophone qui traite l'humour comme une compétence acquise, pas un talent inné. Elle s'appuie sur les techniques des humoristes de stand-up français (Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Inès Reg) pour proposer un apprentissage structuré et progressif.
+deviens-marrant.fr est une plateforme éducative francophone qui traite l'humour comme une compétence acquise, pas un talent inné. Elle s'appuie sur les techniques des pros du stand-up français pour proposer un apprentissage structuré et progressif.
 
 ### Philosophie
 

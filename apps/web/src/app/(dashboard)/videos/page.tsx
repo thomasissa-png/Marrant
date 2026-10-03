@@ -28,17 +28,14 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const stats = await getContentStatsRounded();
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
   return {
-    title: "Stand-up analysé : Fary, Mirabel & co.",
-    description: `${videos} de stand-up de Fary, Paul Mirabel ou Blanche Gardin décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+    title: "Stand-up analysé : les techniques des pros",
+    description: `${videos} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
     keywords: [
       "stand-up français",
       "vidéos humour analysées",
-      "Paul Mirabel techniques",
-      "Blanche Gardin humour",
-      "Fary stand-up",
+      "techniques stand-up",
+      "analyse stand-up",
       "apprendre humour vidéo",
-      "Roman Frayssinet",
-      "Waly Dia stand-up",
     ],
     alternates: { canonical: listCanonical("/videos", page) },
   };
@@ -51,9 +48,9 @@ const videosFaqs = [
       "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu repères le mécanisme comique, puis tu fais l'exercice proposé pour le tester dans ta vie. À la fin, tu ne sais plus seulement que c'était drôle : tu sais pourquoi.",
   },
   {
-    question: "Quels humoristes sont analysés sur deviens-marrant.fr ?",
+    question: "Quels styles de stand-up sont analysés sur deviens-marrant.fr ?",
     answer:
-      "On décortique les meilleurs passages de Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg, et bien d'autres. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
+      "On décortique les meilleurs passages de pros de la scène française, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
   },
   {
     question: "C'est quoi la différence avec juste regarder YouTube ?",
@@ -86,8 +83,8 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
       {page === 1 && <JsonLd data={buildFaqJsonLd(videosFaqs)} />}
       <JsonLd
         data={buildCollectionPageJsonLd({
-          name: "Stand-up analysé : Fary, Mirabel & co.",
-          description: `${videoLabel} de stand-up de Fary, Paul Mirabel ou Blanche Gardin décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+          name: "Stand-up analysé : les techniques des pros",
+          description: `${videoLabel} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
           url: "https://deviens-marrant.fr/videos",
           numberOfItems: videoCount,
           relatedArticles: [
@@ -105,8 +102,8 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
         title={<>Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes</>}
         lead={
           <>
-            Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia : on
-            décortique leurs meilleurs passages. Chaque vidéo est annotée avec la
+            Chaque pro de la scène a sa mécanique : on décortique leurs
+            meilleurs passages. Chaque vidéo est annotée avec la
             technique utilisée : timing, autodérision, observation, storytelling.
             Tu regardes, tu comprends le mécanisme, tu le reproduis.
           </>
@@ -141,7 +138,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
             Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">tu deviens drôle</Link> : pas en regardant, en faisant.
           </p>
           <p>
-            Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
+            Tu veux comprendre comment <strong className="text-text-primary">les pros de la scène</strong> maîtrisent leurs silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
           </p>
         </div>
       </section>

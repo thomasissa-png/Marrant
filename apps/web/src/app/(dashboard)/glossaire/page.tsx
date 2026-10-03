@@ -73,7 +73,7 @@ const glossary = [
   {
     term: "Observationnel",
     definition:
-      "Style d'humour qui part de l'observation du quotidien : l'humoriste décrit ce que tout le monde vit sans jamais le dire à voix haute, et le public rit de se reconnaître. Roman Frayssinet, Fary et Blanche Gardin sont des maîtres de l'humour observationnel en France.",
+      "Style d'humour qui part de l'observation du quotidien : l'humoriste décrit ce que tout le monde vit sans jamais le dire à voix haute, et le public rit de se reconnaître. C'est le terrain de jeu favori de nombreux pros de la scène française.",
     related: "/videos",
     relatedLabel: "Vidéos observationnelles",
   },
@@ -94,7 +94,7 @@ const glossary = [
   {
     term: "Escalade comique",
     definition:
-      "Technique de répartie où tu surenchéris sur une remarque en l'exagérant jusqu'à l'absurde. Au lieu de nier ou de te justifier, tu pousses le propos encore plus loin que la personne en face, qui se retrouve à devoir te retenir. Fary et Paul Mirabel l'utilisent régulièrement en spectacle.",
+      "Technique de répartie où tu surenchéris sur une remarque en l'exagérant jusqu'à l'absurde. Au lieu de nier ou de te justifier, tu pousses le propos encore plus loin que la personne en face, qui se retrouve à devoir te retenir. Les pros de la scène s'en servent régulièrement en spectacle.",
     related: "/blog/comment-avoir-de-la-repartie",
     relatedLabel: "10 techniques de répartie",
   },

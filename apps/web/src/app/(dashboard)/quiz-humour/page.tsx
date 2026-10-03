@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Quel type d'humour es-tu ? Quiz en 12 questions",
     description:
-      "Observateur comme Frayssinet ? Storyteller comme Mirabel ? Découvre ton profil humour en 2 minutes.",
+      "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Découvre ton profil humour en 2 minutes.",
     url: "https://deviens-marrant.fr/quiz-humour",
     type: "website",
   },
@@ -39,7 +39,7 @@ const quizFaqs = [
   {
     question: "Quels sont les profils humour possibles ?",
     answer:
-      "Il existe 5 profils : L'Observateur (style Roman Frayssinet), Le Storyteller (style Paul Mirabel), L'Absurde (style Fary), Le Punchlineur (style Blanche Gardin) et Le Taquin (style Waly Dia). Chaque profil vient avec sa force principale et un conseil concret pour progresser dans ton style.",
+      "Il existe 5 profils : L'Observateur (l'observation précise), Le Storyteller (le récit qui monte), L'Absurde (la surprise permanente), Le Punchlineur (le mot juste et les silences) et Le Taquin (la répartie complice). Chaque profil vient avec sa force principale et un conseil concret pour progresser dans ton style.",
   },
   {
     question: "Le quiz est-il gratuit ?",
@@ -92,13 +92,12 @@ export default function QuizHumourPage() {
             </h2>
             <p className="mt-3 text-text-secondary">
               Chaque profil correspond à un style d&apos;humour qu&apos;on retrouve chez les
-              meilleurs humoristes français. <strong>L&apos;Observateur</strong> comme Roman
-              Frayssinet repère les détails absurdes du quotidien. <strong>Le
-              Storyteller</strong> comme Paul Mirabel transforme la moindre anecdote en
-              sketch. <strong>L&apos;Absurde</strong> comme Fary surprend en permanence avec
-              des associations imprévisibles. <strong>Le Punchlineur</strong> comme Blanche
-              Gardin tape juste avec trois fois rien. <strong>Le Taquin</strong> comme Waly Dia a
-              toujours la bonne réplique au bon moment.
+              pros de la scène. <strong>L&apos;Observateur</strong> repère les détails
+              absurdes du quotidien. <strong>Le Storyteller</strong> transforme la moindre
+              anecdote en sketch. <strong>L&apos;Absurde</strong> surprend en permanence avec
+              des associations imprévisibles. <strong>Le Punchlineur</strong> tape juste
+              avec trois fois rien. <strong>Le Taquin</strong> a toujours la bonne réplique
+              au bon moment.
             </p>
             <p className="mt-3 text-text-secondary">
               Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link hover:underline">techniques

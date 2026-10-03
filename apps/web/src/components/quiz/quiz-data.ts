@@ -1,5 +1,5 @@
 // ─── Quiz Viral "Quel type d'humour es-tu ?" ─────────────────────────
-// 12 questions, 5 profils inspirés d'humoristes français.
+// 12 questions, 5 profils de style d'humour.
 // Chaque réponse attribue des points aux profils.
 
 export interface QuizQuestion {
@@ -34,7 +34,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
   OBSERVATEUR: {
     type: "OBSERVATEUR",
     title: "L'Observateur",
-    humoriste: "Roman Frayssinet",
+    humoriste: "observation précise",
     emoji: "🔍",
     description:
       "Tu remarques ce que tout le monde a sous les yeux sans jamais le voir : le collègue qui imprime un mail pour le relire, puis le scanne pour te le renvoyer, le groupe de messages qui s'appelle encore « Anniv de Julie », des années après la fête. Une phrase bien placée te suffit.",
@@ -46,7 +46,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
   STORYTELLER: {
     type: "STORYTELLER",
     title: "Le Storyteller",
-    humoriste: "Paul Mirabel",
+    humoriste: "récit qui monte",
     emoji: "📖",
     description:
       "Chez toi, un trajet en bus devient une épopée en trois actes. Tu fais monter la tension tranquillement, avec l'air de ne pas y toucher, et les autres attendent la suite.",
@@ -58,7 +58,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
   ABSURDE: {
     type: "ABSURDE",
     title: "L'Absurde",
-    humoriste: "Fary",
+    humoriste: "surprise permanente",
     emoji: "🌀",
     description:
       "Tu relies des idées que personne n'aurait mises dans la même phrase, et tu le fais avec un sérieux total. Les autres ne savent jamais où tu vas, toi non plus parfois, et c'est exactement ce qui les fait rire.",
@@ -70,7 +70,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
   PUNCHLINEUR: {
     type: "PUNCHLINEUR",
     title: "Le Punchlineur",
-    humoriste: "Blanche Gardin",
+    humoriste: "mot juste et silences",
     emoji: "💥",
     description:
       "Tu parles peu, mais quand tu parles, la table se tait une seconde avant de rire. Tu sais te servir d'un silence, rire de toi sans te démolir et couper ta phrase au bon mot.",
@@ -82,7 +82,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
   TAQUIN: {
     type: "TAQUIN",
     title: "Le Taquin",
-    humoriste: "Waly Dia",
+    humoriste: "répartie complice",
     emoji: "😏",
     description:
       "Tu rebondis sur tout, tu chambres sans jamais viser en dessous de la ceinture, et la personne que tu taquines finit souvent par rire plus fort que les autres.",
@@ -170,25 +170,25 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Si tu devais piquer le style d'un humoriste...",
+    question: "Si tu devais piquer une technique aux pros de la scène...",
     options: [
       {
-        label: "Roman Frayssinet — simplicité et précision",
+        label: "La simplicité et la précision",
         emoji: "🎯",
         scores: { OBSERVATEUR: 3 },
       },
       {
-        label: "Paul Mirabel — naturel et escalade comique",
+        label: "Le naturel et l'escalade comique",
         emoji: "✨",
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "Fary — surprises et pivots permanents",
+        label: "Les surprises et les pivots permanents",
         emoji: "🌀",
         scores: { ABSURDE: 3 },
       },
       {
-        label: "Blanche Gardin — silences et autodérision",
+        label: "Les silences et l'autodérision",
         emoji: "💥",
         scores: { PUNCHLINEUR: 3 },
       },
@@ -373,7 +373,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: "Ta devise, ce serait...",
     options: [
       {
-        label: "\"Le diable est dans les détails — et les vannes aussi\"",
+        label: "\"Le diable est dans les détails, et les vannes aussi\"",
         emoji: "🔎",
         scores: { OBSERVATEUR: 3 },
       },

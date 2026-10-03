@@ -32,7 +32,7 @@ const aboutFaqs = [
   {
     question: "Quelles techniques d'humour sont enseignées ?",
     answer:
-      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots — les mêmes techniques utilisées par les humoristes professionnels comme Paul Mirabel, Fary et Blanche Gardin.",
+      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots — les mêmes techniques utilisées par les pros de la scène.",
   },
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
@@ -81,8 +81,7 @@ export default function AProposPage() {
           </p>
           <p className="mt-3 text-text-secondary">
             On s&apos;appuie sur les techniques des meilleurs humoristes
-            français (Fary, Paul Mirabel, Roman Frayssinet, Blanche Gardin, Waly
-            Dia), les principes de la psychologie positive et des exercices
+            français, les principes de la psychologie positive et des exercices
             concrets testés par notre communauté de 1&nbsp;500+ membres.
           </p>
         </section>

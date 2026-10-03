@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: { absolute: "Anatomie d'une vanne : setup, pivot et punchline" },
   description:
-    "Setup, pivot et punchline : décortique les 3 composants d'une blague qui fait rire, avec des exemples concrets de Paul Mirabel, Fary et Blanche Gardin.",
+    "Setup, pivot et punchline : décortique les 3 composants d'une blague qui fait rire, avec des exemples concrets pour t'entraîner.",
   keywords: [
     "anatomie blague",
     "structure blague",
