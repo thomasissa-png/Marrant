@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useUserStore } from "@/stores/user-store";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
@@ -53,13 +54,13 @@ export function PremiumCta() {
 
       <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-6">
         {/* Offre 1 — Accès complet */}
-        <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-8 shadow-lg shadow-accent-primary/10">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 sm:p-8">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
           <div className="relative">
             {/* Badge « Populaire » retiré : offre payante unique (reco validée par Thomas) */}
-            <h3 className="text-lg font-semibold text-text-primary">Accès complet</h3>
+            <h3 className="font-display text-lg font-bold text-text-primary">Accès complet</h3>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-text-primary">2,99 €</span>
+              <span className="font-display text-4xl font-bold text-text-primary">2,99 €</span>
               <span className="text-text-muted">/ mois</span>
             </div>
             <p className="mt-1 text-xs text-text-muted">
@@ -101,9 +102,9 @@ export function PremiumCta() {
         {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 2,99 € (T08) */}
         <details className="group rounded-2xl border border-border bg-background-card">
           <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 p-6 sm:px-8 [&::-webkit-details-marker]:hidden">
-            <h3 className="min-w-0 text-lg font-semibold text-text-primary">Coaching individuel</h3>
+            <h3 className="min-w-0 font-display text-lg font-bold text-text-primary">Coaching individuel</h3>
             <span className="flex shrink-0 items-center gap-2 whitespace-nowrap text-text-muted">
-              <span className="text-lg font-bold text-text-primary">99&nbsp;€</span>
+              <span className="font-display text-lg font-bold text-text-primary">99&nbsp;€</span>
               <span className="text-sm">/ séance</span>
               <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -142,14 +143,12 @@ export function PremiumCta() {
             href="https://calendly.com/contact-deviens-marrant/45min"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 block"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "mt-8 w-full")}
           >
-            <Button variant="outline" size="lg" className="w-full">
-              Réserver un appel · 99 €
-              <svg className="ml-2 h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </Button>
+            Réserver un appel · 99 €
+            <svg className="ml-2 h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
           </a>
           <p className="mt-3 text-center text-xs text-text-muted">
             Pour toi si tu préfères qu&apos;on regarde ensemble, en direct, ce qui coince

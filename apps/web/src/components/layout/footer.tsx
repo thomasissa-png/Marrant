@@ -66,7 +66,7 @@ export function Footer() {
               de stand-up pour briller en société.
             </p>
             <p className="mt-2 text-sm text-text-muted">
-              <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent-link">contact@deviens-marrant.fr</a>
+              <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center text-text-secondary transition-colors hover:text-text-primary">contact@deviens-marrant.fr</a>
             </p>
 
             {/* Social links : zone de toucher 44 px (p-3 autour de l'icône 20 px), alignée sur le texte (T48) */}
@@ -91,7 +91,7 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="grid lg:grid-cols-2 lg:gap-x-6">
+            <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1 lg:grid-cols-2">
               {footerLinks.produit.map((link) => (
                 <li key={link.href}>
                   <Link

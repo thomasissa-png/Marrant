@@ -65,8 +65,8 @@ function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) =>
 
   if (result) {
     return (
-      <Card className="text-center">
-        <CardContent className="py-6">
+      <Card className="p-4 text-center sm:p-6">
+        <CardContent>
           <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
           <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
@@ -85,8 +85,8 @@ function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) =>
 
   const q = ORIENTATION_QUESTIONS[step];
   return (
-    <Card>
-      <CardContent className="py-6">
+    <Card className="p-4 sm:p-6">
+      <CardContent>
         <div className="mb-4 flex items-center justify-between">
           <Badge variant="primary">Question {step + 1}/{ORIENTATION_QUESTIONS.length}</Badge>
           <div className="flex gap-1">
@@ -207,7 +207,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       </div>
 
       {/* Parcours cards */}
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6">
         {parcours.map((p) => {
           const totalXp = p.modules.reduce((sum, m) => sum + m.xp, 0);
           const prog = userProgress[p.slug];
@@ -261,7 +261,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
-                  <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wide text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
+                  <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
                     Programme
                     <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -282,7 +282,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                               {m.title}
                             </span>
                             {m.free && (
-                              <Badge variant="primary">Essai gratuit</Badge>
+                              <Badge variant="success">Essai gratuit</Badge>
                             )}
                           </div>
                           <p className="mt-1 text-sm text-text-secondary">

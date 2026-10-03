@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { chipClass } from "@/components/ui/chip";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
@@ -231,16 +232,16 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       ) : (
         <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
           {CATEGORIES.map((cat) => (
-            <Button
+            <button
               key={cat.value}
-              variant={category === cat.value ? "primary" : "ghost"}
-              size="sm"
+              type="button"
               role="tab"
               aria-selected={category === cat.value}
               onClick={() => handleCategoryChange(cat.value)}
+              className={chipClass(category === cat.value ? "active" : "idle")}
             >
               {cat.label}
-            </Button>
+            </button>
           ))}
         </div>
       )}
@@ -316,7 +317,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
                       Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
                     </p>
                     {joke.techniqueExplanation && (

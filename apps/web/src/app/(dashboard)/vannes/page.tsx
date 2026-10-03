@@ -124,7 +124,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       {/* FAQ SEO */}
       {/* Accordéon fermé (passe UX s12, T19) : le contenu reste dans le DOM pour le SEO. */}
       <section className="mt-12 border-t border-border pt-8">
-        <FaqSection items={vannesFaqs} />
+        <FaqSection items={vannesFaqs} align="left" />
       </section>
 
       {/* Contenu SEO — pourquoi nos vannes */}
@@ -148,16 +148,16 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">La suite, si tu as pris goût</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Techniques de répartie</h3>
+            <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
-            <p className="mt-1 text-xs text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-up analysées</h3>
+            <p className="mt-1 text-sm text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Timing : bide ou carton, même vanne</h3>
-            <p className="mt-1 text-xs text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-il savoir combien de temps le tenir.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Timing : bide ou carton, même vanne</h3>
+            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-il savoir combien de temps le tenir.</p>
           </Link>
         </div>
       </nav>

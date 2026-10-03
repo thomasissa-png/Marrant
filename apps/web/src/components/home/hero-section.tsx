@@ -4,13 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { frTypo } from "@/lib/fr-typo";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { chipClass } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { AuthModal } from "@/components/auth/auth-modal";
 
-/** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02). */
+/** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02).
+ *  Ordre aligné sur le reste du site, le plus court d'abord (audit forme s14 P2-4, tranché par Thomas). */
 const HERO_PARCOURS_LINKS = [
-  { label: "Avoir de la répartie", href: "/parcours/repartie" },
   { label: "Briller à la machine à café", href: "/parcours/machine-a-cafe" },
+  { label: "Avoir de la répartie", href: "/parcours/repartie" },
   { label: "Reprendre confiance en toi", href: "/parcours/confiance" },
 ] as const;
 
@@ -46,15 +49,17 @@ export function HeroSection() {
           avec le chemin gratuit visible juste dessous (T03) */}
       {isAuthenticated ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/vannes">
-            <Button variant="primary" size="lg">
-              Explorer les vannes
-            </Button>
+          <Link
+            href="/vannes"
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+          >
+            Explorer les vannes
           </Link>
-          <Link href="/conseils">
-            <Button variant="outline" size="lg">
-              Voir les conseils
-            </Button>
+          <Link
+            href="/conseils"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}
+          >
+            Voir les conseils
           </Link>
         </div>
       ) : (
@@ -73,24 +78,23 @@ export function HeroSection() {
         </div>
       )}
 
-      {/* Situations concrètes = les 3 personas se reconnaissent, sous le CTA (spec UX §2.8) */}
-      <ul className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-3">
+      {/* Situations concrètes : 3 liens-pastilles (bordé = cliquable), sous le CTA (spec UX §2.8) */}
+      <ul className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         {HERO_PARCOURS_LINKS.map((item) => (
           <li key={item.href}>
-            <Link
-              href={item.href}
-              className="inline-flex min-h-[44px] items-center rounded-full border border-border bg-background-elevated px-4 text-sm text-text-secondary transition-colors hover:border-accent-primary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-            >
+            <Link href={item.href} className={chipClass()}>
               {item.label}
             </Link>
           </li>
         ))}
-        {/* Pastilles descriptives (non cliquables), masquées en mobile : arbitrage Thomas s12 */}
+      </ul>
+
+      {/* Atouts : texte informatif, NON cliquable (ni fond ni bordure), masqué en mobile : arbitrage Thomas s12, forme audit s14 P0-1 */}
+      <ul className="mx-auto mt-4 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-text-muted sm:flex">
         {HERO_EXTRA_TAGS.map((label) => (
-          <li key={label} className="hidden sm:inline-block">
-            <span className="inline-block rounded-full bg-transparent px-3 py-1 text-sm text-text-muted">
-              {label}
-            </span>
+          <li key={label} className="flex items-center gap-2">
+            <span className="text-success" aria-hidden="true">✓</span>
+            {label}
           </li>
         ))}
       </ul>

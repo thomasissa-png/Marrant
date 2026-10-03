@@ -108,7 +108,7 @@ export default async function BlagueDuJourPage() {
       <VannesThemeNav className="mt-6" />
 
       <section className="mt-12 border-t border-border pt-8">
-        <FaqSection items={faqs} />
+        <FaqSection items={faqs} align="left" />
       </section>
     </>
   );

@@ -2,6 +2,7 @@
 
 import { faqs } from "@/lib/faqs";
 import { frTypo } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
 export { faqs };
 
 export interface FaqItem {
@@ -13,16 +14,24 @@ interface FaqSectionProps {
   /** Questions à afficher (par défaut : FAQ générale du site). */
   items?: readonly FaqItem[];
   title?: string;
+  /** "left" : pages catalogue (titre aligné à gauche, même largeur que les blocs voisins). */
+  align?: "center" | "left";
 }
 
 /**
  * FAQ en accordéon fermé : un seul composant pour toutes les pages
  * (passe s12 : UX T19/T46, design T11).
  */
-export function FaqSection({ items = faqs, title = "Questions fréquentes" }: FaqSectionProps = {}) {
+export function FaqSection({ items = faqs, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
+  const left = align === "left";
   return (
-    <div className="mx-auto max-w-2xl">
-      <h2 className="font-display mb-8 text-center text-2xl font-bold text-text-primary">
+    <div className={left ? "max-w-3xl" : "mx-auto max-w-2xl"}>
+      <h2
+        className={cn(
+          "font-display font-bold text-text-primary",
+          left ? "mb-4 text-xl" : "mb-8 text-center text-2xl",
+        )}
+      >
         {title}
       </h2>
       <div className="space-y-4">

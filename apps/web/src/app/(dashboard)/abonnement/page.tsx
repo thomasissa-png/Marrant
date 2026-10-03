@@ -92,9 +92,9 @@ export default function AbonnementPage() {
 
       {/* T45 : deux blocs lisibles pour l'anonyme, gratuit puis complet */}
       {!isAuthenticated && (
-        <Card className="mt-10 p-0">
-          <CardContent className="p-5 sm:p-8">
-            <h2 className="text-lg font-semibold text-text-primary">Compte gratuit</h2>
+        <Card className="mt-10 p-0 hover:border-border">
+          <CardContent className="p-6 sm:p-8">
+            <h2 className="font-display text-lg font-bold text-text-primary">Compte gratuit</h2>
             <p className="mt-2 text-sm text-text-secondary">
               10 vannes, 3 conseils, 3 vidéos, le contenu du jour et la première étape de chaque parcours. Sans carte.
             </p>
@@ -114,15 +114,15 @@ export default function AbonnementPage() {
       )}
 
       {/* Offre principale */}
-      <Card className={`${isAuthenticated ? "mt-10" : "mt-6"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10`}>
-        <CardContent className="p-5 sm:p-8">
+      <Card className={`${isAuthenticated ? "mt-10" : "mt-6"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary`}>
+        <CardContent className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-lg font-semibold text-text-primary">
+            <h2 className="font-display text-lg font-bold text-text-primary">
               Accès complet
             </h2>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-text-primary">2,99 &euro;</span>
+            <span className="font-display text-4xl font-bold text-text-primary">2,99 &euro;</span>
             <span className="text-text-muted">/ mois</span>
           </div>
           <p className="mt-1 text-sm font-medium text-accent-link">

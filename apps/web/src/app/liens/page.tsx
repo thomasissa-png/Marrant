@@ -35,7 +35,7 @@ const FIXED_LINKS = [
 ] as const;
 
 const SECTION_LABEL = "mb-2 text-xs font-semibold uppercase tracking-wider text-accent-link";
-const CARD = "block rounded-xl border border-border bg-background-elevated p-5 transition-colors hover:border-border-hover";
+const CARD = "block rounded-xl border border-border bg-background-card p-5 transition-colors hover:border-border-hover";
 
 export default async function LiensPage() {
   const [article, joke] = await Promise.all([getLatestBlogArticle(), getDailyJoke()]);
@@ -70,7 +70,7 @@ export default async function LiensPage() {
           </h2>
           <Link
             href={withBioUtm(`/vannes/${buildJokeSlug(joke)}`)}
-            className={cn(CARD, "border-accent-primary/30 bg-accent-primary/10")}
+            className={cn(CARD, "border-accent-primary/30 bg-accent-primary/10 hover:border-accent-primary/60")}
           >
             <span className="block text-text-primary">{joke.content}</span>
             <span className="mt-3 block font-semibold text-text-primary">{joke.punchline}</span>
@@ -79,11 +79,11 @@ export default async function LiensPage() {
       )}
 
       <nav aria-label="Liens utiles" className="flex flex-col gap-3">
-        {FIXED_LINKS.map((link) => (
+        {FIXED_LINKS.map((link, index) => (
           <Link
             key={link.href}
             href={withBioUtm(link.href)}
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full justify-center")}
+            className={cn(buttonVariants({ variant: index === 0 ? "primary" : "outline", size: "lg" }), "w-full justify-center")}
           >
             {link.label}
           </Link>

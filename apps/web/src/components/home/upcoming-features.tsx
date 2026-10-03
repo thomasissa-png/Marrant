@@ -32,7 +32,7 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-primary/5",
     iconBg: "bg-accent-primary/10",
-    iconColor: "text-accent-primary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "nouveaux-parcours",
@@ -46,7 +46,7 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-secondary/5",
     iconBg: "bg-accent-secondary/10",
-    iconColor: "text-accent-secondary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "communaute",
@@ -63,7 +63,7 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-primary/5",
     iconBg: "bg-accent-primary/10",
-    iconColor: "text-accent-primary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "surprises",
@@ -77,7 +77,7 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-secondary/5",
     iconBg: "bg-accent-secondary/10",
-    iconColor: "text-accent-secondary",
+    iconColor: "text-accent-link",
   },
 ];
 
@@ -179,7 +179,7 @@ export function UpcomingFeatures() {
             <Card
               key={feature.slug}
               className={cn(
-                "relative overflow-hidden border-accent-primary/20 bg-gradient-to-br",
+                "relative overflow-hidden border-accent-primary/20 bg-gradient-to-br p-6 hover:border-accent-primary/20",
                 feature.gradient
               )}
             >
@@ -204,10 +204,10 @@ export function UpcomingFeatures() {
                   onClick={() => handleVote(feature.slug)}
                   disabled={votingSlug !== null}
                   className={cn(
-                    "mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                    "mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                     voted
-                      ? "bg-accent-secondary-hover text-white"
-                      : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-link"
+                      ? "border-accent-secondary-hover bg-accent-secondary-hover text-white"
+                      : "border-border bg-background-elevated text-text-secondary hover:border-accent-primary hover:text-text-primary"
                   )}
                   aria-label={count >= 10 ? `${count} votes pour ${feature.title}` : `Voter pour ${feature.title}`}
                 >

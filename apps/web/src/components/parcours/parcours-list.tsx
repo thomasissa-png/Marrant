@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -19,10 +20,11 @@ interface LearningPath {
   steps: { id: string; order: number; tip: { id: string; title: string } }[];
 }
 
-const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
+/** Niveau = étiquette `secondary` quel que soit le niveau (jamais `error` : le rouge dit « erreur »), audit forme s14 P0-2. */
+const DIFFICULTY_VARIANT: Record<string, "secondary"> = {
   DEBUTANT: "secondary",
-  INTERMEDIAIRE: "primary",
-  EXPERT: "error",
+  INTERMEDIAIRE: "secondary",
+  EXPERT: "secondary",
 };
 
 const DIFFICULTY_LABELS: Record<string, string> = {
@@ -109,10 +111,11 @@ export function ParcoursList() {
                 <span>+{path.steps.length * 20 + 100} XP</span>
               </div>
               <ProgressBar value={completedSteps} max={path.steps.length} variant="gradient" />
-              <Link href={`/parcours/${path.slug}`} className="mt-4 block">
-                <Button variant="primary" size="sm" className="w-full">
-                  {isCompleted ? "Parcours terminé ✓" : isStarted ? "Continuer le parcours" : "Commencer le parcours"}
-                </Button>
+              <Link
+                href={`/parcours/${path.slug}`}
+                className={cn(buttonVariants({ variant: "primary", size: "sm" }), "mt-4 w-full")}
+              >
+                {isCompleted ? "Parcours terminé ✓" : isStarted ? "Continuer le parcours" : "Commencer le parcours"}
               </Link>
             </CardContent>
           </Card>

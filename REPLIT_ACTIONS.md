@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : audit de forme appliqué (`docs/design/audit-forme-s14.md`) @fullstack
+
+> Demande de Thomas (« bien tout revoir sur la forme »). Aucun secret, aucune migration, aucun package, aucune donnée, aucun texte/prix/lien/slug/titre modifié. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - Classes et variantes uniquement : P0-1 à P0-3, P1-1 à P1-11, P2-2, P2-3, P2-5 à P2-9, et P2-4 (ordre des parcours du hero aligné sur le site, tranché par Thomas). Nouveau fichier `src/components/ui/chip.ts` (pastille unique : hero, filtres et thèmes de /vannes, archives du carnet).
+> - Hero : 3 pastilles-liens, puis les 2 libellés « Un petit exercice par jour » / « Vannes prêtes à ressortir » sur une ligne à part (coche verte, sans fond ni bordure, non cliquables, masqués sous 640 px).
+> - Non appliqués : P2-1 (preuve sociale violette dans l'offre, au choix de Thomas), P2-10 (libellés visibles Favoris/Mon profil en desktop : ajoute du texte visible).
+> - Protection Premium du carnet et des parcours inchangée (aucun fichier serveur touché, seulement des classes).
+
 ## s14 (03/10/2026) : carnet mensuel de répartie Premium (`/carnet`) @fullstack
 
 > Décision de Thomas (03/10/2026). Aucun secret, aucune migration, aucun package, aucune donnée en base, aucun appel IA. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

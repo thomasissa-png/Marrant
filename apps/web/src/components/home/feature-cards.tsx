@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useContentStats } from "@/hooks/use-content-stats";
 
 const features = [
@@ -14,7 +15,7 @@ const features = [
       "École, boulot, couple, soirées : les vannes sont rangées par situation, pour que tu trouves la bonne avant que le moment soit passé.",
     cta: "Voir les vannes",
     href: "/vannes",
-    variant: "primary" as const,
+    variant: "outline" as const,
     gradient: "from-accent-primary to-accent-secondary",
   },
   {
@@ -25,7 +26,7 @@ const features = [
       "Timing, auto-dérision, storytelling : chaque technique arrive avec un exemple concret et un exercice à tester dès ce midi, à table.",
     cta: "Découvrir les techniques",
     href: "/conseils",
-    variant: "primary" as const,
+    variant: "outline" as const,
     gradient: "from-accent-secondary to-accent-primary",
   },
   {
@@ -44,7 +45,7 @@ const features = [
       "Les meilleurs extraits d'humoristes français, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
     cta: "Regarder les vidéos",
     href: "/videos",
-    variant: "primary" as const,
+    variant: "outline" as const,
     gradient: "from-accent-primary via-accent-secondary to-accent-primary",
   },
 ];
@@ -77,7 +78,7 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
         {features.map((feature, i) => (
           <div
             key={feature.href}
-            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40"
+            className="relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card"
           >
             <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
             <div className="flex flex-1 flex-col p-6">
@@ -101,15 +102,17 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
                   ))}
                 </ul>
               ) : null}
-              <Link href={feature.href} className="mt-auto self-start pt-5">
-                <Button
-                  variant={feature.variant}
-                  size="sm"
-                  className="h-auto min-h-8 whitespace-normal py-1.5 text-left leading-snug max-md:h-auto max-md:min-h-11"
+              <div className="mt-auto self-start pt-5">
+                <Link
+                  href={feature.href}
+                  className={cn(
+                    buttonVariants({ variant: feature.variant, size: "sm" }),
+                    "h-auto min-h-8 whitespace-normal py-1.5 text-left leading-snug max-md:h-auto max-md:min-h-11",
+                  )}
                 >
                   {feature.cta} →
-                </Button>
-              </Link>
+                </Link>
+              </div>
             </div>
           </div>
         ))}

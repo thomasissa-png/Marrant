@@ -39,12 +39,27 @@ describe("HeroSection", () => {
     expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie");
     expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
     expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance");
-    // Les 2 pastilles descriptives restent, non cliquables et masquées en mobile (arbitrage Thomas).
+    // Les 2 libellés descriptifs restent, non cliquables et masqués en mobile (arbitrage Thomas).
+    // Forme audit s14 P0-1 : sortis de la rangée de pastilles, sur une ligne à part sans fond ni bordure.
     for (const label of ["Un petit exercice par jour", "Vannes prêtes à ressortir"]) {
       const tag = screen.getByText(label);
       expect(tag.closest("a")).toBeNull();
-      expect(tag.closest("li")).toHaveClass("hidden", "sm:inline-block");
+      expect(tag.closest("button")).toBeNull();
+      const row = tag.closest("ul");
+      expect(row).toHaveClass("hidden", "sm:flex");
+      expect(row?.querySelector("a")).toBeNull();
+      expect(tag.closest("li")).not.toHaveClass("border");
     }
+  });
+
+  it("orders the 3 parcours like the rest of the site (audit forme s14 P2-4, tranché par Thomas)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    const hrefs = screen
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href"))
+      .filter((href) => href?.startsWith("/parcours/"));
+    expect(hrefs).toEqual(["/parcours/machine-a-cafe", "/parcours/repartie", "/parcours/confiance"]);
   });
 
   it("shows the H1 as two sentences, one per block (s12 T01)", () => {

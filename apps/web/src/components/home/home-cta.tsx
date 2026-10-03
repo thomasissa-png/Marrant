@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { AuthModal } from "@/components/auth/auth-modal";
 
@@ -20,7 +21,7 @@ export function HomeCta() {
 
   return (
     <section className="py-12 text-center md:py-16">
-      <div className="mx-auto max-w-2xl rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-8">
+      <div className="mx-auto max-w-2xl rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-6 sm:p-8">
         <h2 className="font-display text-2xl font-bold text-text-primary">
           Tu crois avoir tout essayé pour être drôle ?
         </h2>
@@ -35,10 +36,11 @@ export function HomeCta() {
             </Button>
             <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
-          <Link href="/vannes" className="w-full sm:w-auto">
-            <Button variant="outline" size="lg" className="w-full whitespace-nowrap">
-              Voir les vannes gratuites
-            </Button>
+          <Link
+            href="/vannes"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full whitespace-nowrap sm:w-auto")}
+          >
+            Voir les vannes gratuites
           </Link>
         </div>
       </div>

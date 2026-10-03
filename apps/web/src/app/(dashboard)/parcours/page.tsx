@@ -94,8 +94,8 @@ export default async function ParcoursPage() {
             href="/parcours/machine-a-cafe"
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
-            <h2 className="text-base font-semibold text-text-primary">Machine à Café</h2>
-            <p className="mt-1 text-xs text-text-secondary">3 semaines pour avoir enfin quelque chose à raconter entre deux gorgées de café, au bureau comme en afterwork.</p>
+            <h2 className="font-display text-base font-bold text-text-primary">Machine à Café</h2>
+            <p className="mt-1 text-sm text-text-secondary">3 semaines pour avoir enfin quelque chose à raconter entre deux gorgées de café, au bureau comme en afterwork.</p>
           </Link>
         </li>
         <li>
@@ -103,8 +103,8 @@ export default async function ParcoursPage() {
             href="/parcours/repartie"
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
-            <h2 className="text-base font-semibold text-text-primary">Répartie</h2>
-            <p className="mt-1 text-xs text-text-secondary">4 semaines pour trouver ta réplique pendant qu&apos;elle sert encore à quelque chose.</p>
+            <h2 className="font-display text-base font-bold text-text-primary">Répartie</h2>
+            <p className="mt-1 text-sm text-text-secondary">4 semaines pour trouver ta réplique pendant qu&apos;elle sert encore à quelque chose.</p>
           </Link>
         </li>
         <li>
@@ -112,8 +112,8 @@ export default async function ParcoursPage() {
             href="/parcours/confiance"
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
-            <h2 className="text-base font-semibold text-text-primary">Confiance</h2>
-            <p className="mt-1 text-xs text-text-secondary">6 semaines pour dérouiller ton humour après une période difficile, et la confiance qui va avec.</p>
+            <h2 className="font-display text-base font-bold text-text-primary">Confiance</h2>
+            <p className="mt-1 text-sm text-text-secondary">6 semaines pour dérouiller ton humour après une période difficile, et la confiance qui va avec.</p>
           </Link>
         </li>
       </ul>
@@ -127,24 +127,24 @@ export default async function ParcoursPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/abonnement" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Abonnement 2,99 &euro;/mois</h3>
-            <p className="mt-1 text-xs text-text-secondary">Accès complet à tous les parcours, vannes, conseils et vidéos.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Abonnement 2,99 &euro;/mois</h3>
+            <p className="mt-1 text-sm text-text-secondary">Accès complet à tous les parcours, vannes, conseils et vidéos.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>
+            <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
           </Link>
           <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">Glossaire humour</h3>
-            <p className="mt-1 text-xs text-text-secondary">Le vocabulaire des humoristes, expliqué sans jargon.</p>
+            <h3 className="font-display text-base font-bold text-text-primary">Glossaire humour</h3>
+            <p className="mt-1 text-sm text-text-secondary">Le vocabulaire des humoristes, expliqué sans jargon.</p>
           </Link>
         </div>
       </nav>
 
       {/* FAQ */}
-      <div className="mt-16">
-        <FaqSection />
-      </div>
+      <section className="mt-12 border-t border-border pt-8">
+        <FaqSection align="left" />
+      </section>
     </div>
   );
 }

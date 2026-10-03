@@ -12,9 +12,9 @@ export function CarnetFicheCard({
   offerte?: boolean;
 }) {
   return (
-    <Card className="space-y-4 p-5" id={`fiche-${fiche.id}`}>
+    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={`fiche-${fiche.id}`}>
       <header className="space-y-1">
-        <p className="text-xs font-medium uppercase tracking-wide text-accent-link">
+        <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
           Situation {numero}
           {offerte ? " · offerte" : ""}
         </p>

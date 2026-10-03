@@ -84,12 +84,6 @@ const DIFFICULTY_LABELS: Record<string, string> = {
   EXPERT: "Expert",
 };
 
-const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
-  DEBUTANT: "secondary",
-  INTERMEDIAIRE: "primary",
-  EXPERT: "error",
-};
-
 /** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
 const DETAILS_SUMMARY =
   "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-link [&::-webkit-details-marker]:hidden";
@@ -138,9 +132,12 @@ export function DailyContent() {
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="animate-pulse rounded-xl border border-border bg-background-card p-6">
+            <div
+              key={i}
+              className="w-[86%] shrink-0 snap-center animate-pulse rounded-xl border border-border bg-background-card p-6 lg:w-auto"
+            >
               <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
               <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
@@ -160,7 +157,7 @@ export function DailyContent() {
       {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9) */}
       <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
         {/* Vanne du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -182,7 +179,7 @@ export function DailyContent() {
                     </p>
                   ) : (
                     <Button
-                      variant="primary"
+                      variant="outline"
                       size="sm"
                       className="mt-4"
                       onClick={() => setShowPunchline(true)}
@@ -193,7 +190,7 @@ export function DailyContent() {
                 </div>
                 {showPunchline && data.joke.comedyTechnique && (
                   <div className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
                       Pourquoi ça marche&nbsp;: {data.joke.comedyTechnique}
                     </p>
                     {data.joke.techniqueExplanation && (
@@ -234,15 +231,15 @@ export function DailyContent() {
         </div>
 
         {/* Conseil du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40 lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">💡</span>
-              <Badge variant="secondary">Conseil du jour</Badge>
+              <Badge variant="primary">Conseil du jour</Badge>
               {data.tip && (
                 <>
-                  <Badge variant={DIFFICULTY_VARIANT[data.tip.difficulty] ?? "default"}>
+                  <Badge variant="secondary">
                     {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
                   </Badge>
                   <Badge variant="default">
@@ -292,20 +289,20 @@ export function DailyContent() {
         </div>
 
         {/* Vidéo du jour */}
-        <div className="group relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40 lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">🎬</span>
-              <Badge variant="default">Vidéo du jour</Badge>
+              <Badge variant="primary">Vidéo du jour</Badge>
               {data.video && (
                 <>
-                  <Badge variant="secondary">
+                  <Badge variant="default">
                     {TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category}
                   </Badge>
                   {data.video.technique &&
                     data.video.technique.toLowerCase() !== (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
-                    <Badge variant="primary">{data.video.technique}</Badge>
+                    <Badge variant="default">{data.video.technique}</Badge>
                   )}
                 </>
               )}

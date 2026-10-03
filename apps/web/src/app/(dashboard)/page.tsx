@@ -94,7 +94,7 @@ export default async function HomePage() {
         <div className="grid gap-6 md:grid-cols-3">
           {/* Sophie — parcours le plus court en premier */}
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">☕️</p>
+            <p className="text-3xl" aria-hidden="true">☕️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;Je n&apos;ai jamais rien de drôle à dire&nbsp;»
             </h3>
@@ -110,7 +110,7 @@ export default async function HomePage() {
 
           {/* Yanis */}
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">⚡️</p>
+            <p className="text-3xl" aria-hidden="true">⚡️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;Je reste muet quand on me chambre&nbsp;»
             </h3>
@@ -127,7 +127,7 @@ export default async function HomePage() {
 
           {/* Marc */}
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
-            <p className="text-2xl">🌱</p>
+            <p className="text-3xl" aria-hidden="true">🌱</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;J&apos;ai perdu ma légèreté&nbsp;»
             </h3>
