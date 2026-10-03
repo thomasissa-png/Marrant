@@ -152,7 +152,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vidéos stand-up analysées</h3>
-            <p className="mt-1 text-xs text-text-secondary">Regarde comment Fary et Paul Mirabel construisent leurs blagues.</p>
+            <p className="mt-1 text-xs text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Timing : bide ou carton, même vanne</h3>

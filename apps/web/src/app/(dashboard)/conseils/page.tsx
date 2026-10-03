@@ -136,7 +136,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques des meilleurs humoristes français : <strong className="text-text-primary">Paul Mirabel</strong>, <strong className="text-text-primary">Fary</strong>, <strong className="text-text-primary">Roman Frayssinet</strong>, <strong className="text-text-primary">Blanche Gardin</strong>.
+            La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques que les pros de la scène utilisent tous les soirs.
           </p>
           <p>
             Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link>, le guide complet avec plan d&apos;action sur 30 jours.

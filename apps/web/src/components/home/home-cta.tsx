@@ -25,7 +25,7 @@ export function HomeCta() {
           Tu crois avoir tout essayé pour être drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour moins qu&apos;un café par mois. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
+          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour 4,99 € par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
           {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}

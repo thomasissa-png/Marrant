@@ -600,7 +600,7 @@ export function ParcoursDetail({
                   {isPremiumLocked ? (
                     <div className="rounded-lg bg-background-elevated p-4 text-center">
                       <p className="text-sm text-text-secondary">
-                        Cette étape fait partie de l&apos;accès complet : la première est offerte, la suite coûte moins qu&apos;un café par mois.
+                        Cette étape fait partie de l&apos;accès complet : la première est offerte, la suite est incluse dans l&apos;abonnement à 4,99 € par mois.
                       </p>
                       <Link href="/abonnement">
                         <Button variant="primary" size="sm" className="mt-3">
