@@ -78,13 +78,13 @@ Le piège est la phrase sans prise, celle qui ne laisse rien à répondre :
 
 > « Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ». J'ai répondu « oui, mais ça ne durera pas ». » <!-- joke:cmmnsqn14004sth63rnutrbwi -->
 
-Si tu veux une version plus légère de l'entrée, parle de ta situation :
+Pour une entrée plus légère, tu peux aussi parler de ta propre situation.
 
 > « Salut, je connais l'hôte et le code de l'immeuble. Je ne sais plus lequel des deux m'a fait entrer. » <!-- CANDIDATE:C3 -->
 
 ### 4. Pose une vraie question
 
-Une vraie question fait plus rire qu'une phrase d'effet, parce qu'elle donne à l'autre l'occasion de raconter, et qu'on rit presque toujours avec quelqu'un qui raconte. Évite les questions fermées (« tu fais quoi dans la vie ? » renvoie une réponse de six mots) et préfère celles qui appellent une anecdote : « Quel est le meilleur trajet que tu aies fait pour venir ici ? », « C'est quoi, ton plat de soirée préféré ? ».
+Une vraie question fait plus rire qu'une phrase d'effet, parce qu'elle donne à l'autre l'occasion de raconter, et qu'on rit presque toujours avec quelqu'un qui raconte. Évite les questions fermées (« tu fais quoi dans la vie ? » renvoie une réponse de six mots) et préfère celles qui appellent une anecdote : « Qu'est-ce qui t'a fait venir ce soir ? », « C'est quoi, ton plat de soirée préféré ? ».
 
 Quand tu ne connais personne et que personne n'est libre pour la question, il reste l'animal de la maison :
 
@@ -106,7 +106,7 @@ Une soirée a son meilleur moment, et il se situe rarement tout à la fin. Parti
 
 > « Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. À 2h du matin, on les a mangés. Par respect. » <!-- joke:cs14jkbe889a47471bf8cbeb -->
 
-Pour la sortie elle-même, une phrase sur toi suffit :
+Pour la sortie elle-même, une phrase sur toi suffit.
 
 > « Je vais y aller. Mon lit m'a écrit trois fois. » <!-- CANDIDATE:C5 -->
 
@@ -118,11 +118,11 @@ Trois règles, dans cet ordre.
 2. **Un sourire et un ton léger.** La question est presque toujours amicale : celui qui la pose veut que tu sois bien servi, ou cherche une façon de lancer la conversation. Réponds sur le même ton.
 3. **Rends la parole.** Propose quelque chose, ou retourne la question : « Pas ce soir, merci. Tu as de l'eau pétillante ? » ou « Je suis bien comme ça, merci. Et toi, tu bois quoi ? ». La conversation repart ailleurs.
 
-Si tu veux alléger, une phrase qui parle de toi plutôt que du verre ne prête à aucune discussion :
+Pour alléger, une phrase qui parle de toi plutôt que du verre ne prête à aucune discussion.
 
 > « Ce soir, je tiens la mémoire de la soirée. Poste non rémunéré, mais les archives sont complètes. » <!-- CANDIDATE:C1 -->
 
-Et si le groupe insiste, garde le même sourire, sans changer d'avis :
+Si le groupe insiste, garde le même sourire, sans changer d'avis.
 
 > « J'ai déjà atteint mon maximum de spontanéité ce soir. J'ai dit bonjour avant qu'on me le demande. » <!-- CANDIDATE:C2 -->
 
@@ -152,11 +152,11 @@ Réponds court, avec le sourire, et rends la parole : « Pas ce soir, merci. Tu 
 
 ### Comment se lâcher en soirée sans alcool ?
 
-En remplaçant le filet par une méthode : observer la pièce avant de parler, prendre un rôle simple (musique, présentations, photos), préparer une phrase d'entrée et une phrase de départ. Se lâcher vient surtout du fait de savoir quoi dire en premier. Une fois la première phrase passée, la suite se déroule plus facilement.
+En remplaçant le filet par une méthode : observer la pièce avant de parler, prendre un rôle simple (musique, présentations, photos), préparer une phrase d'entrée et une phrase de départ. Se lâcher vient souvent du fait de savoir quoi dire en premier. Une fois la première phrase passée, la suite se déroule plus facilement.
 
 ### Que faire dans une soirée où tout le monde boit sauf moi ?
 
-Garde un verre en main dès l'arrivée, prends un rôle (musique, présentations), pose de vraies questions plutôt que des phrases d'effet, et pars à ton heure. Les personnes qui boivent n'attendent rien de particulier de toi : elles cherchent quelqu'un avec qui parler, et tu peux être celui-là.
+Garde un verre en main dès l'arrivée, prends un rôle (musique, présentations), pose de vraies questions plutôt que des phrases d'effet, et pars à ton heure. En général, personne n'attend rien de particulier de toi : chacun cherche quelqu'un avec qui parler, et tu peux être celui-là.
 
 ### Comment tenir les soirées pendant un janvier sobre ?
 
