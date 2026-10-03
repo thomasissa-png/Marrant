@@ -27,7 +27,7 @@ interface ListPageProps {
 export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
-  const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des centaines de vannes";
+  const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
   return {
     title: `${prefix} drôles à ressortir ce soir`,
     description: `${prefix} classées par situation (soirée, boulot, couple, école), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
@@ -73,8 +73,9 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
   ]);
   // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
   if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
-  const jokeCount = stats.jokes > 0 ? stats.jokes : 200;
-  const jokeLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
+  // Pas de chiffre de repli inventé (ex-200) : base KO = numberOfItems omis.
+  const jokeCount = stats.jokes;
+  const jokeLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des";
   return (
     <>
       <JsonLd

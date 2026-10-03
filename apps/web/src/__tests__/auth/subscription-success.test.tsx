@@ -39,7 +39,7 @@ describe("SubscriptionSuccessPage", () => {
     expect(screen.getByText("On déroule le tapis rouge, ton accès s'active…")).toBeInTheDocument();
   });
 
-  it("redirects to /vannes when status returns PREMIUM (webhook already processed)", async () => {
+  it("redirects to /parcours with welcome when status returns PREMIUM (webhook already processed)", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ plan: "PREMIUM" }),
@@ -53,7 +53,7 @@ describe("SubscriptionSuccessPage", () => {
 
     await waitFor(() => {
       expect(mockUpdate).toHaveBeenCalled();
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
@@ -82,7 +82,7 @@ describe("SubscriptionSuccessPage", () => {
         body: JSON.stringify({ sessionId: "cs_test_123" }),
       });
       expect(mockUpdate).toHaveBeenCalled();
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
@@ -105,7 +105,7 @@ describe("SubscriptionSuccessPage", () => {
     await waitFor(() => {
       expect(screen.getByText(/traîne un peu/)).toBeInTheDocument();
       expect(screen.getByText("Réessayer")).toBeInTheDocument();
-      expect(screen.getByText("Aller voir les vannes")).toBeInTheDocument();
+      expect(screen.getByText("Voir les parcours")).toBeInTheDocument();
     });
   });
 
@@ -142,11 +142,11 @@ describe("SubscriptionSuccessPage", () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
-  it("'Continuer vers le site' navigates to /vannes", async () => {
+  it("'Voir les parcours' navigates to /parcours", async () => {
     mockFetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ plan: "FREE" }),
@@ -161,8 +161,8 @@ describe("SubscriptionSuccessPage", () => {
     }
 
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    await user.click(screen.getByText("Aller voir les vannes"));
-    expect(mockPush).toHaveBeenCalledWith("/vannes");
+    await user.click(screen.getByText("Voir les parcours"));
+    expect(mockPush).toHaveBeenCalledWith("/parcours");
   });
 
   it("handles network errors gracefully and retries", async () => {
@@ -188,7 +188,35 @@ describe("SubscriptionSuccessPage", () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
+    });
+  });
+
+  describe("returnTo (retour à l'intention d'origine, 03/10)", () => {
+    afterEach(() => mockSearchParams.delete("returnTo"));
+
+    it("returnTo interne : retour à l'étape de parcours avec message de bienvenue", async () => {
+      mockSearchParams.set("returnTo", "/parcours/repartie");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith("/parcours/repartie?premium=bienvenue");
+      });
+    });
+
+    it("returnTo externe : ignoré, retour à /parcours", async () => {
+      mockSearchParams.set("returnTo", "https://evil.example/phish");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
+      });
     });
   });
 });

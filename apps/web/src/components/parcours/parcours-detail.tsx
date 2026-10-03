@@ -8,11 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { frenchQuizQuotes, getParcoursDifficultyLabel, withEmojiPresentation } from "@/lib/parcours-labels";
+import { formatDifficulty, frenchQuizQuotes, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo } from "@/lib/fr-typo";
 import { tipProse } from "@/lib/tip-prose";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
 
@@ -52,6 +53,8 @@ interface Step {
   jokeIds?: number[];
   videos?: VideoRef[];
   quiz?: QuizQuestion[];
+  /** true : aperçu servi par le serveur (contenu réservé Premium, non envoyé). */
+  locked?: boolean;
 }
 
 interface PathData {
@@ -61,6 +64,8 @@ interface PathData {
   slug: string;
   duration: string;
   difficulty: string;
+  /** Plage de niveau du seed (« DEBUTANT → EXPERT »), transmise par le serveur. */
+  difficultyLabel?: string | null;
   icon: string;
   steps: Step[];
   nextParcours?: string | null;
@@ -77,6 +82,37 @@ interface UserProgress {
 
 
 // ==============================
+/**
+ * Aperçu d'une étape réservée aux abonnés : seuls titre, format, une phrase
+ * « pourquoi » et XP sont envoyés par le serveur. Le bouton mène à
+ * /abonnement avec retour au parcours après paiement (returnTo).
+ */
+function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
+  return (
+    <div className="space-y-3 rounded-lg bg-background-elevated p-4">
+      {step.why && (
+        <div>
+          <p className="text-sm font-medium text-accent-link">Ce que tu vas apprendre</p>
+          <p className="mt-1 text-sm text-text-secondary">{step.why}</p>
+        </div>
+      )}
+      {step.moduleFormat && (
+        <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>
+      )}
+      <div className="border-t border-border pt-3 text-center">
+        <p className="text-sm text-text-secondary">
+          Cette étape fait partie de l&apos;accès complet. La première étape est offerte, les suivantes se débloquent avec l&apos;abonnement à 4,99 &euro;/mois, sans engagement.
+        </p>
+        <Link href={buildAbonnementUrl(`/parcours/${slug}`)}>
+          <Button variant="primary" size="sm" className="mt-3 min-h-[44px]">
+            S&apos;abonner · 4,99 &euro;/mois
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 // Mini-quiz component
 // ==============================
 
@@ -297,6 +333,9 @@ export function ParcoursDetail({
       fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
+          // Le HTML ISR ne contient que l'aperçu des étapes 2+ : la réponse de
+          // l'API (plan vérifié en base) apporte le contenu complet d'un abonné.
+          if (data?.path?.steps) setPath(data.path);
           if (data?.userProgress) {
             setProgress(data.userProgress);
             const completed = data.userProgress.completedSteps ?? [];
@@ -432,7 +471,7 @@ export function ParcoursDetail({
             <h1 className="font-display text-3xl font-bold">{path.title}</h1>
             <div className="mt-1 flex items-center gap-2">
               <Badge variant="primary">
-                {getParcoursDifficultyLabel(slug, path.difficulty)}
+                {formatDifficulty(path.difficultyLabel ?? path.difficulty)}
               </Badge>
               <span className="text-sm text-text-muted">{path.duration}</span>
             </div>
@@ -598,16 +637,11 @@ export function ParcoursDetail({
               {isExpanded && canExpand && (
                 <CardContent className="pt-0">
                   {isPremiumLocked ? (
-                    <div className="rounded-lg bg-background-elevated p-4 text-center">
-                      <p className="text-sm text-text-secondary">
-                        Cette étape fait partie de l&apos;accès complet : la première est offerte, la suite est incluse dans l&apos;abonnement à 4,99 € par mois.
-                      </p>
-                      <Link href="/abonnement">
-                        <Button variant="primary" size="sm" className="mt-3">
-                          S&apos;abonner · 4,99 &euro;/mois
-                        </Button>
-                      </Link>
-                    </div>
+                    <LockedStepPreview step={step} slug={slug} />
+                  ) : step.locked ? (
+                    <p className="rounded-lg bg-background-elevated p-4 text-center text-sm text-text-secondary" role="status">
+                      Chargement du contenu de l&apos;étape…
+                    </p>
                   ) : (
                     <div className="space-y-5">
                       {/* Why this step */}

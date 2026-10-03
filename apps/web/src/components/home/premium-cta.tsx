@@ -7,14 +7,13 @@ import { useUserStore } from "@/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
-import { useContentStats } from "@/hooks/use-content-stats";
+import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
 import { AuthModal } from "@/components/auth/auth-modal";
 
 export function PremiumCta() {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
-  const stats = useContentStats();
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
@@ -70,40 +69,7 @@ export function PremiumCta() {
               </Link>
             </p>
 
-            <ul className="mt-6 space-y-3 text-sm text-text-secondary">
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vannes</strong> : {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées par catégorie (au lieu de 10)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Tous les conseils</strong> : {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples concrets + exercices (au lieu de 3)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Toutes les vidéos stand-up</strong> : {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analysées avec les techniques (au lieu de 3)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Contenu du jour</strong> : vanne + conseil + vidéo quotidiens</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Nouveaux contenus chaque semaine</strong></span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Streaks et XP</strong> : suis ta progression jour après jour</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Parcours structur&eacute;s</strong> de progression</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-success">✓</span>
-                <span><strong>Favoris illimit&eacute;s</strong></span>
-              </li>
-            </ul>
+            <PremiumBenefits className="mt-6 space-y-3" />
 
             {status === "authenticated" ? (
               <Button
@@ -202,6 +168,9 @@ export function PremiumCta() {
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
         defaultTab="register"
+        // CTA payant : après inscription, direction /abonnement (pas le quiz
+        // d'onboarding gratuit), voir getPostSignupRedirect (audit tunnel F1).
+        callbackUrl="/abonnement"
       />
     </section>
   );

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 /** FAQ validée (docs/copy/landings-s14.md) ; compteur dynamique, jamais figé. */
 function buildFaqs(jokeCount: number) {
-  const count = jokeCount > 0 ? `Il y en a ${jokeCount}+` : "Il y en a des centaines";
+  const count = jokeCount > 0 ? `Il y en a ${jokeCount}+` : "Il y en a bien d'autres";
   return [
     {
       question: "C'est quoi la blague du jour ?",

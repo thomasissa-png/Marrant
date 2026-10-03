@@ -94,7 +94,7 @@ export default function AProposPage() {
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
-                <strong>Des centaines de vannes</strong> classées par catégorie,
+                <strong>Un catalogue de vannes</strong> classées par catégorie,
                 prêtes à ressortir en soirée, au bureau ou entre amis
               </span>
             </li>

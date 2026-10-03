@@ -3,6 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
+import { getContentStatsCached } from "@/lib/content-stats-server";
 import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
 import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
@@ -90,8 +91,14 @@ export async function generateMetadata({
   const rawTitle = `${titlePrefix}${truncateAtWord(setup, TITLE_MAX - titlePrefix.length)}`;
   // Description : le début de la vanne (la chute reste sur la page) + la
   // promesse de la page (pourquoi ça marche + comment la replacer).
-  // « 550+ » = vannes actives distinctes (562 au 29/09/2026, GO Thomas : compteurs sans doublons).
-  const descSuffix = " La chute est sur la page, avec 550+ autres vannes par situation.";
+  // Nombre RÉEL de vannes actives distinctes (même source que les compteurs
+  // du site, GO Thomas 03/10/2026) au lieu de « 550+ » en dur. Base KO : pas de chiffre.
+  const { jokes: activeJokes } = await getContentStatsCached();
+  const otherJokes = activeJokes - 1;
+  const descSuffix =
+    otherJokes > 1
+      ? ` La chute est sur la page, avec ${otherJokes} autres vannes par situation.`
+      : " La chute est sur la page, avec d'autres vannes par situation.";
   const descPrefix = `Vanne ${label.toLowerCase()} à ressortir : `;
   const description = `${descPrefix}${truncateAtWord(setup, 160 - descPrefix.length - descSuffix.length)}${descSuffix}`;
 

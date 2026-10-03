@@ -7,13 +7,31 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
-import { useContentStats } from "@/hooks/use-content-stats";
+import { PremiumBenefits } from "@/components/premium/premium-benefits";
+import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { FaqSection } from "@/components/home/faq-section";
 import { AuthModal } from "@/components/auth/auth-modal";
 
+/**
+ * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
+ * retour (/abonnement/success). Lue au clic dans l'URL (pas de useSearchParams :
+ * la page garde son HTML statique), chemin interne uniquement.
+ */
+function readReturnTo(): string | null {
+  if (typeof window === "undefined") return null;
+  return sanitizeReturnTo(new URLSearchParams(window.location.search).get("returnTo"));
+}
+
+/** Messages humains : jamais l'erreur brute de l'API (audit tunnel F14). */
+function checkoutErrorMessage(status: number): string {
+  if (status === 401) return "Ta session a expiré. Reconnecte-toi pour reprendre le paiement.";
+  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
+  return "Le paiement n'a pas pu démarrer. Réessaie dans un instant.";
+}
+
+// Rendu : Client Component (session + paiement), HTML statique.
 export default function AbonnementPage() {
   const { status } = useSession();
-  const stats = useContentStats();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   // Compte gratuit : onboarding ; accès complet : retour ici pour payer (voir getPostSignupRedirect).
@@ -29,19 +47,24 @@ export default function AbonnementPage() {
     ? "Active ton accès pour commencer"
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
-    ? "Ton compte est prêt. Encore un clic et tout le catalogue est à toi, de la première vanne à la dernière vidéo."
-    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois.";
+    ? "Ton compte est prêt. Encore un clic et les 3 parcours sont à toi en entier, de la première à la dernière étape."
+    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois.";
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
     try {
-      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      const returnTo = readReturnTo();
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(returnTo ? { returnTo } : {}),
+      });
       const data = await res.json();
       if (res.ok && data.url) {
         window.location.href = data.url;
       } else {
         console.error("[Checkout]", data.error);
-        toast(data.error || "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        toast(checkoutErrorMessage(res.status), "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -73,7 +96,7 @@ export default function AbonnementPage() {
           <CardContent className="p-5 sm:p-8">
             <h2 className="text-lg font-semibold text-text-primary">Compte gratuit</h2>
             <p className="mt-2 text-sm text-text-secondary">
-              10 vannes, 3 conseils, 3 vidéos, contenu du jour. Sans carte.
+              10 vannes, 3 conseils, 3 vidéos, le contenu du jour et la première étape de chaque parcours. Sans carte.
             </p>
             <Button
               variant="outline"
@@ -106,52 +129,7 @@ export default function AbonnementPage() {
             Sans engagement, annulable &agrave; tout moment
           </p>
 
-          <ul className="mt-6 space-y-3 text-sm text-text-secondary">
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Toutes les vannes</strong> :{" "}
-                {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} class&eacute;es
-                par cat&eacute;gorie
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Tous les conseils</strong> :{" "}
-                {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples
-                concrets + exercices
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Toutes les vid&eacute;os stand-up</strong> :{" "}
-                {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} analys&eacute;es
-                avec les techniques
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Contenu quotidien</strong> : vanne + conseil + vid&eacute;o
-                chaque jour
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Filtres avanc&eacute;s</strong> : cat&eacute;gorie, niveau, recherche
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">&#10003;</span>
-              <span>
-                <strong>Favoris illimit&eacute;s</strong> : sauvegarde ce que tu veux
-                ressortir
-              </span>
-            </li>
-          </ul>
+          <PremiumBenefits className="mt-6 space-y-3" />
 
           {isAuthenticated ? (
             <Button
@@ -170,7 +148,7 @@ export default function AbonnementPage() {
               variant="primary"
               size="lg"
               className="mt-8 w-full"
-              onClick={() => openAuth("/abonnement")}
+              onClick={() => openAuth(buildAbonnementUrl(readReturnTo()))}
             >
               Commencer à 4,99 €/mois
             </Button>

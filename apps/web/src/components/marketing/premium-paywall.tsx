@@ -4,6 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
+import { sanitizeReturnTo } from "@/lib/premium-return";
+
+/**
+ * Valeur Premium (décision Thomas, 03/10/2026) : uniquement ce qui est vrai.
+ * Parcours complets en tête ; pas de « contenu quotidien » (gratuit), pas de
+ * filtres avancés (inexistants), pas de contenu mensuel promis.
+ */
+const PREMIUM_VALUE_TEXT =
+  "Les 3 parcours en entier (Machine à Café, Répartie, Confiance), la première étape de chaque parcours restant offerte, plus tes favoris et les listes complètes de vannes, conseils et vidéos.";
 
 type Props = {
   userId?: string;
@@ -48,7 +57,12 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const res = await api("/api/stripe/checkout", { method: "POST" });
+      const returnTo = sanitizeReturnTo(`${window.location.pathname}${window.location.search}`);
+      const res = await api("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(returnTo ? { returnTo } : {}),
+      });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -107,9 +121,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
     return (
       <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
         <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-        <p className="text-gray-300 mb-4">
-          Toutes les vannes, tous les conseils, toutes les vidéos et tous les parcours, sans limite.
-        </p>
+        <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
 
         {products.length === 0 ? (
           <p className="text-gray-400 text-sm">Chargement des offres…</p>
@@ -152,7 +164,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
   return (
     <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
       <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-      <p className="text-gray-300 mb-4">Accès illimité à tout le catalogue : toutes les vannes, tous les conseils, tous les parcours.</p>
+      <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
       <button
         onClick={handleStripeCheckout}
         disabled={loading}

@@ -6,24 +6,51 @@ import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
-import { useContentStats } from "@/hooks/use-content-stats";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { PremiumBenefits } from "@/components/premium/premium-benefits";
+import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
+
+/** Geste qui a ouvert la modale : le titre et l'accroche en dépendent (audit tunnel R5). */
+export type PremiumModalReason = "favoris" | "defaut";
+
+const COPY: Record<PremiumModalReason, { title: string; intro: string | null }> = {
+  favoris: {
+    title: "Les favoris font partie de Premium",
+    intro:
+      "Garder une vanne, un conseil ou une vidéo sous la main, c'est réservé à l'accès complet. Avec lui, tu as aussi les 3 parcours en entier.",
+  },
+  defaut: { title: "Passe à l'accès complet", intro: null },
+};
 
 interface PremiumModalProps {
   isOpen: boolean;
   onClose: () => void;
+  reason?: PremiumModalReason;
+  /** Page à retrouver après paiement (chemin interne) ; par défaut la page courante. */
+  returnTo?: string;
 }
 
-export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
+function currentPath(): string | null {
+  if (typeof window === "undefined") return null;
+  return `${window.location.pathname}${window.location.search}`;
+}
+
+export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: PremiumModalProps) {
   const { status } = useSession();
-  const stats = useContentStats();
+  const copy = COPY[reason];
+  const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
     try {
-      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      const target = resolveReturnTo();
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(target ? { returnTo: target } : {}),
+      });
       if (res.ok) {
         const data = await res.json();
         window.location.href = data.url;
@@ -41,8 +68,11 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg" labelledBy="premium-modal-title">
       <div className="rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10">
         <h3 id="premium-modal-title" className="font-display text-xl font-bold text-text-primary">
-          Débloque tout le contenu
+          {copy.title}
         </h3>
+        {copy.intro && (
+          <p className="mt-2 text-sm text-text-secondary">{copy.intro}</p>
+        )}
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-4xl font-bold text-text-primary">4,99 €</span>
           <span className="text-text-muted">/ mois</span>
@@ -51,45 +81,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
           Sans engagement, annulable à tout moment
         </p>
 
-        <ul className="mt-5 space-y-2.5 text-sm text-text-secondary">
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">✓</span>
-            <span>
-              <strong>Toutes les vannes</strong> :{" "}
-              {stats.jokes > 0 ? `${stats.jokes}+` : "des centaines"} classées
-              par catégorie
-            </span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">✓</span>
-            <span>
-              <strong>Tous les conseils</strong> :{" "}
-              {stats.tips > 0 ? `${stats.tips}+` : "des dizaines"} + exemples +
-              exercices
-            </span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">✓</span>
-            <span>
-              <strong>Toutes les vidéos</strong> :{" "}
-              {stats.videos > 0 ? `${stats.videos}+` : "des dizaines"} stand-up
-              analysées
-            </span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">✓</span>
-            <span>
-              <strong>Filtres avancés</strong> : catégorie, niveau, recherche
-            </span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-success">✓</span>
-            <span>
-              <strong>Contenu quotidien</strong> : vanne + conseil + vidéo
-              chaque jour
-            </span>
-          </li>
-        </ul>
+        <PremiumBenefits className="mt-5 space-y-2.5" />
 
         {status === "authenticated" ? (
           <Button
@@ -99,7 +91,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
             onClick={handleCheckout}
             disabled={isCheckoutLoading}
           >
-            {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
+            {isCheckoutLoading ? "On t'emmène au paiement…" : "Active mon accès · 4,99 €/mois"}
           </Button>
         ) : (
           <Button
@@ -131,7 +123,7 @@ export function PremiumModal({ isOpen, onClose }: PremiumModalProps) {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         defaultTab="register"
-        callbackUrl="/abonnement"
+        callbackUrl={buildAbonnementUrl(resolveReturnTo())}
       />
     </Modal>
   );

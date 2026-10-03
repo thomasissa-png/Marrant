@@ -442,9 +442,44 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/Cette étape fait partie de l'accès complet/)).toBeInTheDocument();
     });
-    expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute("href", "/abonnement");
-    expect(screen.queryByText(/sait quoi dire mais pas QUAND/)).not.toBeInTheDocument();
+    // Retour au parcours après paiement (returnTo interne, encodé).
+    expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute(
+      "href",
+      "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    );
+    // Aperçu seulement : la phrase « pourquoi » et le format, jamais le contenu.
+    expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
+    expect(screen.queryByText("Quand placer ta blague.")).not.toBeInTheDocument();
+    expect(screen.queryByText(/vannes sélectionnées pour ce module/)).not.toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
+  });
+
+  it("abonné : le contenu complet servi par l'API remplace l'aperçu du HTML ISR", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "PREMIUM" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+    const isrPath = {
+      ...progressAfterStep1.path,
+      steps: progressAfterStep1.path.steps.map((st: { order: number; tip: Record<string, unknown> }) =>
+        st.order === 1
+          ? st
+          : { ...st, moduleDetail: undefined, jokeIds: [], videos: [], quiz: [], locked: true, tip: { ...st.tip, content: "", example: "", exercise: "" } },
+      ),
+    };
+
+    render(
+      <ParcoursDetail
+        slug="machine-a-cafe"
+        initialPath={isrPath as unknown as React.ComponentProps<typeof ParcoursDetail>["initialPath"]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
   });
 
   it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {

@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : parcours Premium protégés côté serveur, `/api/ai` coupée, offre Premium vraie, retour après paiement @fullstack
+
+> Décisions de Thomas (03/10/2026). Aucun secret, aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - Parcours : pour un visiteur non Premium (anonyme ou compte gratuit, plan lu en base comme les favoris), les étapes 2+ ne sortent plus du serveur qu'en aperçu (titre, format, une phrase « pourquoi », XP) : ni conseil, ni quiz, ni vannes, ni vidéos (`src/lib/parcours-preview.ts`, `api/parcours/by-slug/[slug]`, `Cache-Control: private, no-store`). Le HTML ISR de `/parcours/[slug]` est toujours en aperçu ; un abonné reçoit le contenu complet via l'API après hydratation. Le seed complet (quiz avec réponses, vidéos) ne part plus dans le JS public : `/parcours` reçoit ses données du serveur (`src/lib/parcours-catalogue.ts`) et `parcours-labels.ts` n'importe plus le seed.
+> - `/api/ai` : 410 pour toute requête, message neutre, sans session, base ni LLM. `AI_USER_DAILY_LIMIT` devient inutile sur le Worker.
+> - Offre : `/abonnement` (page et metadata), modale Premium, paywall, carte d'accueil et JSON-LD produit partagent une seule liste vraie (`components/premium/premium-benefits.tsx`, `src/config/premium.ts`) : les 3 parcours en entier (Machine à Café 15 min/semaine, Répartie et Confiance 20 min/semaine, première étape offerte), favoris, listes complètes. Retirés : « contenu quotidien », « filtres avancés », « favoris illimités », « nouveaux contenus chaque semaine », « streaks et XP ». Aucun annuel, aucun contenu mensuel promis.
+> - Chiffres : fiches vannes « 550+ » remplacé par le nombre réel de vannes actives (même source que les compteurs), `llms.txt` dynamique, « Plus de 550 vannes » et « des centaines » (a-propos, image OG des vannes, conseils, `llms-content.ts`, replis si base KO) neutralisés, repli `numberOfItems: 200` supprimé.
+> - Tunnel : « Commencer à 4,99 €/mois » de l'accueil mène à `/abonnement` après inscription. `returnTo` (chemin interne validé, `src/lib/premium-return.ts`) voyage du paywall jusqu'à Stripe (`success_url`/`cancel_url`) puis `/abonnement/success`, qui renvoie à l'intention d'origine, sinon `/parcours`, avec un bandeau de bienvenue (`?premium=bienvenue`). Erreurs de paiement de `/abonnement` : plus de message brut de l'API. Favoris : modale « Les favoris font partie de Premium ».
+
 ## s14 (01/10/2026) : fin de l'offre de lancement, Premium à 4,99 €/mois @fullstack
 
 > Décision de Thomas (01/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

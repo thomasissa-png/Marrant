@@ -9,30 +9,12 @@ import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
-import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
+import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
 
-// Build display data from seed — single source of truth
-const parcours = parcoursSeed.map((p) => ({
-  emoji: withEmojiPresentation(p.icon),
-  slug: p.slug,
-  title: p.title,
-  duration: p.duration,
-  timePerWeek: p.timePerWeek,
-  difficulty: formatDifficulty(p.difficultyLabel),
-  persona: p.personaTagline,
-  description: p.description,
-  testimonial: p.testimonial,
-  modules: p.steps.map((s) => ({
-    week: `Semaine ${s.week}`,
-    title: s.moduleTitle,
-    detail: s.moduleDetail,
-    format: s.moduleFormat,
-    xp: s.moduleXp,
-    free: s.free,
-  })),
-}));
+// Les données arrivent du Server Component (app/(dashboard)/parcours/page.tsx) :
+// le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
 
 // ==============================
 // Mini quiz d'orientation parcours
@@ -140,7 +122,7 @@ function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) =>
 // Main component
 // ==============================
 
-export function ParcoursContent() {
+export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[] }) {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authCallbackSlug, setAuthCallbackSlug] = useState<string | null>(null);
   const { status } = useSession();
@@ -203,7 +185,7 @@ export function ParcoursContent() {
       .catch((err) => {
         console.error("[ParcoursContent] Erreur chargement parcours:", err);
       });
-  }, [status]);
+  }, [status, parcours]);
 
   const handleCta = (slug: string) => {
     if (status === "authenticated") {

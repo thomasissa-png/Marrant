@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { sanitizeReturnTo } from "@/lib/premium-return";
 
 // Client Stripe — singleton lazy (évite crash au build sans clé API)
 let _stripe: Stripe | null = null;
@@ -79,8 +80,12 @@ async function getOrCreateStripeCustomer(
  */
 export async function createCheckoutSession(
   userId: string,
-  customerEmail: string
+  customerEmail: string,
+  /** Intention d'origine (chemin interne), relayée jusqu'à /abonnement/success. */
+  rawReturnTo?: string | null
 ): Promise<string> {
+  const returnTo = sanitizeReturnTo(rawReturnTo);
+  const returnQuery = returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : "";
   const customerId = await getOrCreateStripeCustomer(userId, customerEmail);
 
   // Si on a un customer Stripe existant, on l'utilise directement.
@@ -99,8 +104,8 @@ export async function createCheckoutSession(
         quantity: 1,
       },
     ],
-    success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel`,
+    success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}`,
+    cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel${returnQuery}`,
     metadata: {
       userId,
     },

@@ -3,7 +3,7 @@
  *
  * Coupe-circuit budget LLM (s14) : seuils 24 h glissantes et mois UTC, sur les
  * DEUX clients (callWithRetry des crons/agents, src/lib/claude.ts de /api/ai),
- * alerte e-mail 1×/jour, quota persistant par membre sur /api/ai.
+ * alerte e-mail 1×/jour. /api/ai est coupée (410) depuis le 03/10 ; le quota persistant reste testé.
  * Aucun appel réseau : SDK Anthropic, Prisma et e-mail mockés.
  */
 
@@ -179,33 +179,25 @@ describe("client 2 : src/lib/claude.ts (POST /api/ai)", () => {
   });
 });
 
-describe("POST /api/ai : quota persistant et message poli", () => {
-  const post = async () => {
+describe("POST /api/ai : fonction coupée (décision Thomas 03/10)", () => {
+  it("POST : 410, message neutre, sans appel LLM ni lecture en base", async () => {
     const { POST } = await import("@/app/api/ai/route");
-    const req = new Request("https://deviens-marrant.fr/api/ai", {
-      method: "POST",
-      body: JSON.stringify({ type: "joke" }),
-      headers: { "content-type": "application/json" },
-    });
-    return POST(req as never);
-  };
-
-  it("30 générations/jour par membre puis 429, sans appel LLM", async () => {
-    for (let i = 0; i < 30; i++) expect((await post()).status).toBe(200);
-    const res = await post();
-    expect(res.status).toBe(429);
-    expect((await res.json()).error).toContain("30 générations IA du jour");
-    expect(mockCreate).toHaveBeenCalledTimes(30);
-  });
-
-  it("budget atteint : 503 avec message poli (pas d'erreur brute)", async () => {
-    spent24h = 9;
-    const res = await post();
-    expect(res.status).toBe(503);
-    expect((await res.json()).error).toContain("petite pause");
+    const res = await POST();
+    expect(res.status).toBe(410);
+    const { error } = await res.json();
+    expect(error).not.toMatch(/\bIA\b|intelligence artificielle/i);
+    expect(error).not.toContain("\u2014");
     expect(mockCreate).not.toHaveBeenCalled();
+    expect(mockPrisma.user.findUnique).not.toHaveBeenCalled();
   });
 
+  it("GET : 410 également", async () => {
+    const { GET } = await import("@/app/api/ai/route");
+    expect((await GET()).status).toBe(410);
+  });
+});
+
+describe("quota persistant (lib/persistent-quota)", () => {
   it("quota : base KO → refus (fail-closed)", async () => {
     mockPrisma.jobLock.count.mockRejectedValueOnce(new Error("down"));
     expect((await consumeDailyQuota("ai:u2", 30)).allowed).toBe(false);

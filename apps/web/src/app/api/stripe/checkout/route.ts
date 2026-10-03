@@ -3,8 +3,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createCheckoutSession } from "@/lib/stripe";
 import { rateLimit } from "@/lib/rate-limit";
+import { z } from "zod";
 
-export async function POST() {
+/** Corps facultatif : intention d'origine, revalidée dans createCheckoutSession (chemin interne). */
+const bodySchema = z.object({ returnTo: z.string().max(512).optional() });
+
+async function readReturnTo(request: Request): Promise<string | undefined> {
+  try {
+    const parsed = bodySchema.safeParse(await request.json());
+    return parsed.success ? parsed.data.returnTo : undefined;
+  } catch {
+    return undefined; // corps absent ou non JSON : paiement sans retour mémorisé
+  }
+}
+
+export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -25,7 +38,8 @@ export async function POST() {
         { status: 429 }
       );
     }
-    const checkoutUrl = await createCheckoutSession(userId, session.user.email);
+    const returnTo = await readReturnTo(request);
+    const checkoutUrl = await createCheckoutSession(userId, session.user.email, returnTo);
 
     if (!checkoutUrl) {
       return NextResponse.json(

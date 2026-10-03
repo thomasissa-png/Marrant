@@ -14,7 +14,7 @@ export function HomeCta() {
 
   if (status === "authenticated") return null;
 
-  const jokesLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des centaines de";
+  const jokesLabel = stats.jokes > 0 ? `${stats.jokes}+` : "Des";
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "des dizaines de";
   const videosLabel = stats.videos > 0 ? `${stats.videos}+` : "des";
 

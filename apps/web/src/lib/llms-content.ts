@@ -89,10 +89,10 @@ L'humour repose sur trois piliers qui s'apprennent :
 ## Sections du site
 
 ### Vannes (${LLMS_BASE_URL}/vannes)
-Plus de 550 vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (couple, boulot, école, soirées, dating…). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
+Un catalogue de vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (couple, boulot, école, soirées, dating…). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
 
 ### Conseils humour et répartie (${LLMS_BASE_URL}/conseils)
-Des centaines de techniques concrètes avec exemples et exercices :
+Des techniques concrètes avec exemples et exercices :
 - **Répartie** : accuser réception, rebondir sur un mot-clé, retourner la situation, fausse naïveté, miroir, escalade comique
 - **Timing** : la règle des 3 secondes, le pouvoir du silence, la pause avant la punchline, lire la pièce
 - **Storytelling** : structure setup/punchline, éviter le setup trop long
@@ -111,8 +111,8 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée (ti
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos + contenu du jour renouvelé quotidiennement.",
-  "Accès complet : 4,99 €/mois : toutes les vannes, conseils, vidéos, parcours et contenu quotidien, sans engagement.",
+  "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours + contenu du jour renouvelé quotidiennement.",
+  "Accès complet : 4,99 €/mois : les 3 parcours en entier (première étape offerte), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.",
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
 

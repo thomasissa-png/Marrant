@@ -69,6 +69,26 @@ describe("createCheckoutSession", () => {
   });
 });
 
+describe("createCheckoutSession : retour à l'intention (returnTo, 03/10)", () => {
+  const lastCall = () =>
+    (stripe.checkout.sessions.create as jest.Mock).mock.calls.at(-1)[0] as { success_url: string; cancel_url: string };
+
+  it("chemin interne : relayé encodé dans success_url et cancel_url", async () => {
+    await createCheckoutSession("user-1", "test@test.fr", "/parcours/repartie");
+    expect(lastCall().success_url).toMatch(/\/abonnement\/success\?session_id=\{CHECKOUT_SESSION_ID\}&returnTo=%2Fparcours%2Frepartie$/);
+    expect(lastCall().cancel_url).toMatch(/\/abonnement\?upgrade=cancel&returnTo=%2Fparcours%2Frepartie$/);
+  });
+
+  it.each(["https://evil.example/x", "//evil.example", "/api/ai", "/abonnement"])(
+    "valeur refusée (%s) : aucun returnTo transmis à Stripe",
+    async (bad) => {
+      await createCheckoutSession("user-1", "test@test.fr", bad);
+      expect(lastCall().success_url).not.toContain("returnTo");
+      expect(lastCall().cancel_url).not.toContain("returnTo");
+    },
+  );
+});
+
 describe("createPortalSession", () => {
   it("creates a portal session and returns URL", async () => {
     const url = await createPortalSession("cus_123");

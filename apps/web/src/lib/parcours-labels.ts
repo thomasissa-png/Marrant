@@ -2,7 +2,10 @@
  * Libellés d'affichage des parcours : source unique pour la liste (/parcours)
  * et le détail (/parcours/<slug>) (passe UX s12 T27, design T7/T8).
  */
-import parcoursSeed from "../../../../docs/content/parcours-seed.json";
+// Pas d'import du seed ici : ce module est chargé par des composants client,
+// et le seed complet (quiz, vidéos, vannes) ne doit pas partir dans le bundle
+// public (protection Premium, 03/10/2026). La plage de niveau du seed
+// (`difficultyLabel`) est transmise par le serveur dans les données du parcours.
 
 export const DIFFICULTY_LABELS: Record<string, string> = {
   DEBUTANT: "Débutant",
@@ -18,15 +21,6 @@ export function formatDifficulty(raw: string): string {
     .map((part) => part.trim())
     .map((part) => DIFFICULTY_LABELS[part] ?? part)
     .join(" → ");
-}
-
-/**
- * Niveau affiché pour un parcours : la plage du seed (« Débutant → Expert »)
- * quand elle existe, sinon le niveau unique de la base.
- */
-export function getParcoursDifficultyLabel(slug: string, fallback: string): string {
-  const seed = parcoursSeed.find((p) => p.slug === slug);
-  return formatDifficulty(seed?.difficultyLabel ?? fallback);
 }
 
 /** Sélecteur de variation emoji (VS16) : ☕ et ⚡ s'affichent en couleur, pas en glyphe gris. */

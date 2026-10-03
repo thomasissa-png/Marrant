@@ -5,11 +5,16 @@
 // - Objectif SEO : Googlebot / Bingbot doivent recevoir le contenu du parcours
 //   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
 //   L'interactivité (progression, quiz, complétion) reste côté client.
+// - Premium (décision 03/10/2026) : le HTML ISR est partagé par tous, il ne
+//   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre,
+//   format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
+//   via /api/parcours/by-slug après hydratation (plan vérifié en base).
 import type { Metadata } from "next";
 import { fitDescription, fitTitle, DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
+import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -80,6 +85,7 @@ interface SeedParcours {
   description: string;
   duration: string;
   difficulty: string;
+  difficultyLabel?: string;
   icon: string;
   nextParcours?: string;
   nextParcoursReason?: string;
@@ -182,6 +188,7 @@ function buildInitialPathFromSeed(slug: string) {
       videos: s.videos ?? [],
       quiz: s.quiz ?? [],
     })),
+    difficultyLabel: seed.difficultyLabel ?? null,
     nextParcours: seed.nextParcours ?? null,
     nextParcoursReason: seed.nextParcoursReason ?? null,
     personaTagline: seed.personaTagline ?? null,
@@ -217,11 +224,19 @@ function enrichDbPathWithSeed(dbPath: Record<string, unknown>, slug: string) {
   return {
     ...dbPath,
     steps: enrichedSteps,
+    difficultyLabel: seed.difficultyLabel ?? null,
     nextParcours: seed.nextParcours ?? null,
     nextParcoursReason: seed.nextParcoursReason ?? null,
     personaTagline: seed.personaTagline ?? null,
     testimonial: seed.testimonial ?? null,
   };
+}
+
+type RedactablePath = { steps: ParcoursStepPayload[] };
+
+/** HTML partagé (ISR) : jamais de contenu Premium dedans, quel que soit le visiteur. */
+function toPublicPath<P>(path: P): P {
+  return redactParcoursForPlan(path as unknown as RedactablePath, null) as unknown as P;
 }
 
 async function fetchInitialData(slug: string) {
@@ -260,7 +275,7 @@ async function fetchInitialData(slug: string) {
       // après hydratation (parcours-detail refetch quand initialProgress est null).
       const initialProgress = null;
 
-      return { path: enriched, progress: initialProgress };
+      return { path: toPublicPath(enriched), progress: initialProgress };
     }
   } catch {
     // DB indispo → fallback seed uniquement
@@ -269,7 +284,7 @@ async function fetchInitialData(slug: string) {
   // 2. Fallback seed (pas encore migré, ou parcours purement statique)
   const seedPath = buildInitialPathFromSeed(slug);
   if (!seedPath) return null;
-  return { path: seedPath, progress: null };
+  return { path: toPublicPath(seedPath), progress: null };
 }
 
 export default async function ParcoursDetailPage({

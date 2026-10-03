@@ -196,8 +196,8 @@ export default async function ConseilPage({
         <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">À toi de jouer</div>
           <p className="text-sm text-text-primary">
-            L&apos;exercice complet pour appliquer cette technique dès aujourd&apos;hui,
-            et des centaines d&apos;autres conseils progressifs, sont dans le parcours gratuit.
+            L&apos;exercice complet pour appliquer cette technique dès aujourd&apos;hui
+            t&apos;attend avec ton compte gratuit.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link

@@ -3,6 +3,7 @@ import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
 import { LLMS_FAQ_SHORT, LLMS_TARIFS, renderFaq } from "@/lib/llms-content";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 /**
@@ -109,7 +110,8 @@ async function collectArticles(): Promise<ArticleEntry[]> {
   return staticEntries.sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
-function renderLlmsTxt(articles: ArticleEntry[]): string {
+// Compteur de vannes dynamique (même source que l'UI) : plus de « 550+ » en dur (03/10/2026).
+function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
   const lines: string[] = [];
   lines.push("# deviens-marrant.fr");
   lines.push("");
@@ -133,7 +135,8 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
   lines.push("");
   // Format llmstxt.org : `- [nom](url): notes` (deux-points collé à la parenthèse,
   // sinon les parseurs de référence n'extraient pas la description).
-  lines.push(`- [Vannes](${BASE_URL}/vannes): catalogue de 550+ vannes classées par catégorie (boulot, couple, soirées, école, gaming…).`);
+  const jokesLabel = jokeCount > 0 ? `catalogue de ${jokeCount}+ vannes` : "catalogue de vannes";
+  lines.push(`- [Vannes](${BASE_URL}/vannes): ${jokesLabel} classées par catégorie (boulot, couple, soirées, école, gaming…).`);
   lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils): techniques de répartie, timing, storytelling, autodérision avec exercices.`);
   lines.push(`- [Vidéos stand-up](${BASE_URL}/videos): extraits d'humoristes français analysés technique par technique.`);
   lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de 3 à 6 semaines (15 à 20 min par semaine selon le parcours).`);
@@ -167,8 +170,8 @@ function renderLlmsTxt(articles: ArticleEntry[]): string {
 
 export async function GET() {
   try {
-    const articles = await collectArticles();
-    const body = renderLlmsTxt(articles);
+    const [articles, stats] = await Promise.all([collectArticles(), getContentStatsRounded()]);
+    const body = renderLlmsTxt(articles, stats.jokes);
     return new NextResponse(body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",

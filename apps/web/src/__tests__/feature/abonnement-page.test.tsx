@@ -55,4 +55,47 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.getByText("Active mon accès · 4,99 €/mois")).toBeInTheDocument();
   });
+
+  describe("offre Premium vraie (décision Thomas 03/10)", () => {
+    afterEach(() => window.history.pushState({}, "", "/"));
+
+    it("met les 3 parcours en avant et ne vend plus le gratuit ni l'inexistant", () => {
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(<AbonnementPage />);
+      expect(screen.getByText("Les 3 parcours en entier")).toBeInTheDocument();
+      const text = document.body.textContent ?? "";
+      expect(text).toContain("Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine)");
+      expect(text).toContain("La première étape de chaque parcours est offerte");
+      expect(text).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel|par an/i);
+      expect(text).not.toContain("\u2014");
+    });
+
+    it("anonyme : le CTA payant garde l'intention d'origine (returnTo)", async () => {
+      window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Commencer à 4,99 €/mois"));
+      expect(screen.getByTestId("auth-modal")).toHaveAttribute(
+        "data-callback",
+        "/abonnement?returnTo=%2Fparcours%2Frepartie",
+      );
+    });
+
+    it("connecté : returnTo transmis au checkout, valeur externe ignorée", async () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      const fetchMock = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) });
+      global.fetch = fetchMock as unknown as typeof fetch;
+
+      window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
+      const { unmount } = render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
+      unmount();
+
+      window.history.pushState({}, "", "/abonnement?returnTo=https%3A%2F%2Fevil.example");
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+      expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({});
+    });
+  });
 });

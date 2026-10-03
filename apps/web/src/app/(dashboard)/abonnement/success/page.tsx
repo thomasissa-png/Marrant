@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 
 export default function SubscriptionSuccessPage() {
   return (
@@ -24,6 +25,17 @@ function SubscriptionSuccessContent() {
   const MAX_ATTEMPTS = 15;
 
   const sessionId = searchParams.get("session_id");
+  // Retour à l'intention d'origine (ex. l'étape de parcours qui a déclenché le
+  // paywall), validée chemin interne ; sinon /parcours. Message de bienvenue
+  // affiché à l'arrivée (paramètre premium=bienvenue).
+  const rawReturnTo = searchParams.get("returnTo");
+  const destination = getPostPaymentDestination(rawReturnTo);
+  const fallbackTarget = sanitizeReturnTo(rawReturnTo) ?? "/parcours";
+  const fallbackLabel = fallbackTarget.startsWith("/parcours/")
+    ? "Reprendre mon parcours"
+    : fallbackTarget === "/parcours"
+      ? "Voir les parcours"
+      : "Continuer";
 
   const activate = useCallback(async () => {
     // 1. Vérifier d'abord si le webhook a déjà activé le plan (rapide)
@@ -84,9 +96,9 @@ function SubscriptionSuccessContent() {
 
   useEffect(() => {
     if (ready) {
-      router.push("/vannes?upgrade=success");
+      router.push(destination);
     }
-  }, [ready, router]);
+  }, [ready, router, destination]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -122,9 +134,9 @@ function SubscriptionSuccessContent() {
               <Button
                 variant="ghost"
                 className="mt-2 block w-full"
-                onClick={() => router.push("/vannes")}
+                onClick={() => router.push(fallbackTarget)}
               >
-                Aller voir les vannes
+                {fallbackLabel}
               </Button>
             </div>
           )}

@@ -10,6 +10,7 @@ import {
 } from "@/components/seo/json-ld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
 
 export const metadata: Metadata = {
   title: "Cours humour en ligne : deviens drôle",
@@ -117,7 +118,7 @@ export default async function ParcoursPage() {
         </li>
       </ul>
 
-      <ParcoursContent />
+      <ParcoursContent parcours={getParcoursCatalogue()} />
 
       <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
 

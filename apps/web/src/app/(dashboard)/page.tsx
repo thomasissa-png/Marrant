@@ -47,7 +47,7 @@ void homepageFaqs;
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
-  const jokes = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "des centaines de vannes";
+  const jokes = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "des vannes";
   const tips = stats.tips > 0 ? `${stats.tips}+ conseils` : "des dizaines de conseils";
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return {

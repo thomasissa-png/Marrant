@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
 import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
 
 interface SeedStep {
@@ -78,6 +79,7 @@ function buildFallbackFromSeed(slug: string) {
       quiz: s.quiz ?? [],
     })),
     // Parcours-level enrichments
+    difficultyLabel: seed.difficultyLabel ?? null,
     nextParcours: seed.nextParcours ?? null,
     nextParcoursReason: seed.nextParcoursReason ?? null,
     personaTagline: seed.personaTagline ?? null,
@@ -113,11 +115,37 @@ function enrichPathWithSeed(path: Record<string, unknown>, slug: string) {
   return {
     ...path,
     steps: enrichedSteps,
+    difficultyLabel: seed.difficultyLabel ?? null,
     nextParcours: seed.nextParcours ?? null,
     nextParcoursReason: seed.nextParcoursReason ?? null,
     personaTagline: seed.personaTagline ?? null,
     testimonial: seed.testimonial ?? null,
   };
+}
+
+type RedactablePath = { steps: ParcoursStepPayload[] };
+
+/** Contenu propre à chaque visiteur (plan, progression) : jamais en cache partagé. */
+const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
+
+/** Plan lu en base (même contrôle que les favoris et la progression), pas dans le jwt. */
+async function readPlan(userId: string | undefined): Promise<string | null> {
+  if (!userId) return null;
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { plan: true },
+  });
+  return user?.plan ?? null;
+}
+
+/** Repli seed : étapes 2+ en aperçu sauf plan Premium vérifié en base. */
+function seedFallbackResponse(slug: string, plan: string | null = null) {
+  const fallback = buildFallbackFromSeed(slug);
+  if (!fallback) return null;
+  return NextResponse.json(
+    { path: redactParcoursForPlan(fallback, plan), userProgress: null },
+    { headers: PRIVATE_HEADERS }
+  );
 }
 
 export async function GET(
@@ -149,10 +177,10 @@ export async function GET(
 
     if (!path) {
       // Fallback to seed data if parcours not in DB
-      const fallback = buildFallbackFromSeed(params.slug);
-      if (fallback) {
-        return NextResponse.json({ path: fallback, userProgress: null });
-      }
+      const session = await getServerSession(authOptions);
+      const plan = await readPlan((session?.user as { id?: string })?.id);
+      const fallback = seedFallbackResponse(params.slug, plan);
+      if (fallback) return fallback;
       return NextResponse.json(
         { error: "Parcours introuvable" },
         { status: 404 }
@@ -169,6 +197,7 @@ export async function GET(
     let userProgress = null;
     const session = await getServerSession(authOptions);
     const userId = (session?.user as { id?: string })?.id;
+    const plan = await readPlan(userId);
 
     if (userId) {
       userProgress = await prisma.userPathProgress.findUnique({
@@ -178,14 +207,21 @@ export async function GET(
       });
     }
 
-    return NextResponse.json({ path: enrichedPath, userProgress });
+    // Étapes 2+ : contenu complet pour un Premium, aperçu sinon (décision 03/10).
+    const servedPath = redactParcoursForPlan(
+      enrichedPath as unknown as RedactablePath,
+      plan
+    );
+
+    return NextResponse.json(
+      { path: servedPath, userProgress },
+      { headers: PRIVATE_HEADERS }
+    );
   } catch (error) {
     console.error("[API /parcours/by-slug]", error);
-    // Fallback to seed data on DB error too
-    const fallback = buildFallbackFromSeed(params.slug);
-    if (fallback) {
-      return NextResponse.json({ path: fallback, userProgress: null });
-    }
+    // Fallback to seed data on DB error too (aperçu : plan inconnu)
+    const fallback = seedFallbackResponse(params.slug);
+    if (fallback) return fallback;
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

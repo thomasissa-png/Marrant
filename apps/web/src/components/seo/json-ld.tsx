@@ -67,7 +67,8 @@ export function buildCollectionPageJsonLd(collection: {
   name: string;
   description: string;
   url: string;
-  numberOfItems: number;
+  /** Nombre réel d'éléments ; omis (pas de chiffre inventé) si inconnu ou nul. */
+  numberOfItems?: number;
   relatedArticles?: { title: string; url: string }[];
 }) {
   return {
@@ -79,7 +80,9 @@ export function buildCollectionPageJsonLd(collection: {
     inLanguage: "fr-FR",
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: collection.numberOfItems,
+      ...(collection.numberOfItems && collection.numberOfItems > 0
+        ? { numberOfItems: collection.numberOfItems }
+        : {}),
     },
     ...(collection.relatedArticles &&
       collection.relatedArticles.length > 0 && {
@@ -329,7 +332,7 @@ export function buildProductJsonLd() {
     "@type": "Product",
     name: "deviens-marrant.fr Premium",
     description:
-      "Accès complet : vannes, conseils, vidéos stand-up analysées, parcours structurés et contenu quotidien pour devenir drôle.",
+      "Accès complet : les 3 parcours en entier (première étape offerte), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.",
     // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
       `${BASE_URL}/opengraph-image`,

@@ -51,7 +51,13 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
           isFav && "scale-110",
           className
         )}
-        aria-label={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
+        aria-label={
+          isFav
+            ? "Retirer des favoris"
+            : isPremium
+              ? "Ajouter aux favoris"
+              : "Ajouter aux favoris (réservé Premium)"
+        }
       >
         <span
           aria-hidden="true"
@@ -77,7 +83,8 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
         </svg>
         </span>
       </button>
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      {/* Modale contextualisée : dit clairement que les favoris font partie de Premium. */}
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="favoris" />
     </>
   );
 }

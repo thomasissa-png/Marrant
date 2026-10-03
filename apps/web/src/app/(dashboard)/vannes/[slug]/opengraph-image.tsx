@@ -99,7 +99,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
           >
             deviens-marrant.fr
           </div>
-          <div style={{ fontSize: 20, color: "#a0a0b0" }}>Des centaines de vannes à ressortir</div>
+          <div style={{ fontSize: 20, color: "#a0a0b0" }}>Des vannes à ressortir</div>
         </div>
       </div>
     ),
