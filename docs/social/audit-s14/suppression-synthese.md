@@ -1,5 +1,7 @@
 # Liste des posts publiés à supprimer (audit s14)
 
+> **Décision Thomas 03/10 : aucune suppression.** Les anciens posts restent en ligne ; cette liste et la synthèse sont conservées pour mémoire.
+
 > Lecture seule, 01/10/2026. Rien n'a été supprimé. Aucun appel à Buffer, X ou LinkedIn, aucune écriture en base, aucun code modifié.
 > Source : `export-posts.json` (636 posts), statut `PUBLISHED` uniquement (557 : 518 X, 39 LinkedIn, publiés du 20/03 au 15/06/2026).
 > Liste détaillée : `suppression-liste.csv`. Les posts avec CITATION sont en tête, puis le reste par date. La colonne `noms` a été ajoutée en plus.
