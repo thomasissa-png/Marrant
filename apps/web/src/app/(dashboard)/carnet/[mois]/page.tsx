@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { CarnetPage } from "@/components/carnet/carnet-page";
 import {
   carnetViewForPlan,
-  formatCarnetMonth,
+  deCarnetMonth,
   getCarnetByMonth,
   listCarnetMonths,
 } from "@/lib/carnet";
@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 
 export function generateMetadata({ params }: { params: { mois: string } }): Metadata {
   return {
-    title: `Carnet de répartie de ${formatCarnetMonth(params.mois)}`,
+    title: `Carnet de répartie ${deCarnetMonth(params.mois)}`,
     robots: { index: false, follow: false },
   };
 }

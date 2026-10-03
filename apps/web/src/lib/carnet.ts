@@ -165,3 +165,9 @@ export function formatCarnetMonth(mois: string): string {
   const name = MOIS_FR[Number(month) - 1];
   return name ? `${name} ${year}` : mois;
 }
+
+/** « 2026-10 » → « d'octobre 2026 », « 2026-11 » → « de novembre 2026 » (élision). */
+export function deCarnetMonth(mois: string): string {
+  const label = formatCarnetMonth(mois);
+  return /^[aeiouâéèêîôû]/i.test(label) ? `d'${label}` : `de ${label}`;
+}

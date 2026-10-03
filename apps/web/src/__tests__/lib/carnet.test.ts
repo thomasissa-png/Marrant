@@ -130,3 +130,12 @@ describe("server only", () => {
     expect(offenders).toEqual([]);
   });
 });
+
+describe("deCarnetMonth", () => {
+  it("élide devant une voyelle", () => {
+    const { deCarnetMonth } = require("@/lib/carnet");
+    expect(deCarnetMonth("2026-10")).toBe("d'octobre 2026");
+    expect(deCarnetMonth("2026-08")).toBe("d'août 2026");
+    expect(deCarnetMonth("2026-11")).toBe("de novembre 2026");
+  });
+});

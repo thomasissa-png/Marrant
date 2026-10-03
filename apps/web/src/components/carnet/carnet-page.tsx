@@ -4,7 +4,7 @@ import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-fiche-card";
-import { formatCarnetMonth, type CarnetView } from "@/lib/carnet";
+import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
@@ -37,7 +37,7 @@ export function CarnetPage({
 
       <header className="mb-8 space-y-3">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-          Carnet de {formatCarnetMonth(view.mois)} · {view.totalFiches} situations
+          Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
         </p>
         <h1 className="font-display text-3xl font-bold md:text-4xl">{view.titre}</h1>
         <p className="text-text-secondary">{view.intro}</p>
