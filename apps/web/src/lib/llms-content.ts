@@ -84,9 +84,9 @@ deviens-marrant.fr est une plateforme éducative francophone qui traite l'humour
 ### Philosophie
 
 L'humour repose sur trois piliers qui s'apprennent :
-1. **L'observation** — repérer les absurdités et contradictions du quotidien
-2. **La structure** — maîtriser le setup + punchline, le timing, le storytelling
-3. **La pratique** — s'entraîner régulièrement avec des exercices concrets
+1. **L'observation** : repérer les absurdités et contradictions du quotidien
+2. **La structure** : maîtriser le setup + punchline, le timing, le storytelling
+3. **La pratique** : s'entraîner régulièrement avec des exercices concrets
 
 ## Sections du site
 
@@ -105,9 +105,9 @@ Des techniques concrètes avec exemples et exercices :
 Extraits de stand-up français annotés avec la technique d'humour utilisée (timing, autodérision, observation, absurde, jeux de mots, storytelling).
 
 ### Parcours structurés (${LLMS_BASE_URL}/parcours)
-- **Machine à Café** (${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine) — avoir des vannes et anecdotes à ressortir au bureau et en afterwork
-- **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) — savoir quoi répondre quand on se fait chambrer
-- **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) — retrouver son humour et sa légèreté après une période difficile
+- **Machine à Café** (${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine) : avoir des vannes et anecdotes à ressortir au bureau et en afterwork
+- **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) : savoir quoi répondre quand on se fait chambrer
+- **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) : retrouver son humour et sa légèreté après une période difficile
 
 ### Blog (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
