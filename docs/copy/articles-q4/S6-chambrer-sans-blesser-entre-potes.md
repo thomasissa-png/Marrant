@@ -18,7 +18,7 @@
 - **cannibalisation (ligne 6 du tableau)** : « faire rire un homme » non ciblé ; côté cible (se faire chambrer) renvoyé vers `repondre-moqueries-avec-humour` ; sujets sombres renvoyés vers `humour-noir-utiliser-sans-blesser` ; « chambrer » présent dans le H1, les H2 et la définition
 - **décisions fondateur appliquées** : zéro humoriste ni marque nommé ; catalogue validé seul autorisé pour les vannes existantes ; aucune vanne sur le corps, la santé, l'argent, le deuil ; aucun chiffre ni étude
 - **objections traitées** : « je ne sais pas où est la limite » (règles 1 et 5 + FAQ 1) ; « et si je connais peu la personne » (H2 4 + FAQ 2) ; « et si c'est moi qu'on chambre trop » (H2 5 + FAQ 3) ; « groupe mixte » (H2 4 + FAQ 4)
-- **contenu propriétaire (first-hand)** : 5 règles nommées, 3 tests (récit, retour, signal), 2 phrases de réparation, 2 phrases de limite, 3 vannes du catalogue, 4 candidates
+- **contenu propriétaire (first-hand)** : 5 règles nommées, 3 tests (récit, retour, signal), 2 phrases de réparation, 2 phrases de limite, 2 vannes du catalogue, 4 candidates
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
 
 ---
