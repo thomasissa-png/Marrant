@@ -8,7 +8,8 @@ import { PREMIUM_PARCOURS } from "@/config/premium";
  * carte d'accueil). Décision Thomas du 03/10/2026 : uniquement des puces
  * vraies. Les parcours complets sont la valeur principale ; « contenu
  * quotidien » (gratuit pour tous) et « filtres avancés » (inexistants) sont
- * retirés. Aucun contenu mensuel promis tant qu'il n'existe pas.
+ * retirés. Le carnet mensuel (page /carnet) est ajouté le 03/10/2026, une
+ * fois le premier carnet écrit.
  */
 export function PremiumBenefits({ className = "space-y-3" }: { className?: string }) {
   const stats = useContentStats();
@@ -26,6 +27,13 @@ export function PremiumBenefits({ className = "space-y-3" }: { className?: strin
         <span>
           <strong>Les 3 parcours en entier</strong> : {parcoursList}. Chaque étape avec son
           conseil, ses vannes, ses vidéos et son quiz. La première étape de chaque parcours est offerte.
+        </span>
+      </li>
+      <li className="flex items-start gap-2">
+        <span className="mt-0.5 text-success" aria-hidden="true">✓</span>
+        <span>
+          <strong>Le carnet mensuel de situations de répartie</strong> (nouveau chaque mois) :
+          ce qu&apos;on te dit, quoi répondre, pourquoi ça marche et quoi faire si ça se tend.
         </span>
       </li>
       <li className="flex items-start gap-2">

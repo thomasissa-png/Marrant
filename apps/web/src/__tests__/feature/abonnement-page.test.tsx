@@ -66,7 +66,9 @@ describe("AbonnementPage (s12 T45)", () => {
       const text = document.body.textContent ?? "";
       expect(text).toContain("Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine)");
       expect(text).toContain("La première étape de chaque parcours est offerte");
-      expect(text).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel|par an/i);
+      // Seul contenu mensuel vendu : le carnet, qui existe (décision 03/10/2026).
+      expect(text).toContain("Le carnet mensuel de situations de répartie");
+      expect(text.replace("(nouveau chaque mois)", "")).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel|par an/i);
       expect(text).not.toContain("\u2014");
     });
 

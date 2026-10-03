@@ -24,6 +24,13 @@ const navItems = [
   { href: "/blog", label: "Blog" },
 ];
 
+/** Abonnés Premium : le carnet mensuel juste après les parcours. */
+const premiumNavItems = [
+  ...navItems.slice(0, 5),
+  { href: "/carnet", label: "Carnet" },
+  ...navItems.slice(5),
+];
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -31,6 +38,8 @@ export function Header() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
+  const isPremium = (session?.user as { plan?: string } | undefined)?.plan === "PREMIUM";
+  const items = isPremium ? premiumNavItems : navItems;
 
   // T47 : à l'ouverture de la recherche mobile, le champ reçoit le focus (1 tap au lieu de 2)
   useEffect(() => {
@@ -64,7 +73,7 @@ export function Header() {
 
           {/* Navigation desktop */}
           <nav className="hidden shrink-0 items-center gap-1 lg:flex" aria-label="Navigation principale">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -165,7 +174,7 @@ export function Header() {
             aria-label="Navigation mobile"
           >
             <div className="flex flex-col gap-2">
-              {navItems.map((item) => (
+              {items.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

@@ -332,7 +332,7 @@ export function buildProductJsonLd() {
     "@type": "Product",
     name: "deviens-marrant.fr Premium",
     description:
-      "Accès complet : les 3 parcours en entier (première étape offerte), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.",
+      "Accès complet : les 3 parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.",
     // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
       `${BASE_URL}/opengraph-image`,

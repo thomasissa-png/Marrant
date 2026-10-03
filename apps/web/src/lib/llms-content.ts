@@ -111,8 +111,8 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée (ti
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours + contenu du jour renouvelé quotidiennement.",
-  "Accès complet : 2,99 €/mois : les 3 parcours en entier (première étape offerte), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.",
+  "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.",
+  "Accès complet : 2,99 €/mois : les 3 parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.",
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
 

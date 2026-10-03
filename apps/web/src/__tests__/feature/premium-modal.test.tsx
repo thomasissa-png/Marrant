@@ -28,7 +28,9 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} />);
     const text = document.body.textContent ?? "";
-    expect(text).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel/i);
+    // Seul contenu mensuel vendu : le carnet, qui existe (décision 03/10/2026).
+    expect(text).toContain("Le carnet mensuel de situations de répartie");
+    expect(text.replace("(nouveau chaque mois)", "")).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel/i);
     expect(text).toContain("La première étape de chaque parcours est offerte");
   });
 

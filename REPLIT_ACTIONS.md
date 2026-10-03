@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : carnet mensuel de répartie Premium (`/carnet`) @fullstack
+
+> Décision de Thomas (03/10/2026). Aucun secret, aucune migration, aucun package, aucune donnée en base, aucun appel IA. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - Contenu : un JSON par mois dans `apps/web/src/data/carnet/AAAA-MM.json`, embarqué au build (`require.context`, validé par zod dans `src/lib/carnet.ts`, fichier invalide écarté et signalé dans les logs). Ajouter un mois = déposer le JSON puis redéployer, rien d'autre à enregistrer. Un mois n'apparaît qu'à partir du 1er à minuit, heure de Paris (le carnet courant est le plus récent déjà commencé ; un mois futur répond 404).
+> - `/carnet` et `/carnet/[mois]` (SSR dynamique, `noindex, nofollow`, hors sitemap) : abonné Premium (plan lu en base, `src/lib/session-plan.ts`) = toutes les fiches + liens vers les mois précédents ; non Premium (anonyme ou gratuit) = intro + première fiche entière + titres et contextes des autres, filtrés côté serveur (vérifié dans le build : aucune autre fiche dans le HTML ni dans `.next/static`), puis appel à l'abonnement vers `/abonnement?returnTo=%2Fcarnet`.
+> - Avantages Premium : « le carnet mensuel de situations de répartie (nouveau chaque mois) » ajouté (`config/premium.ts`, `premium-benefits.tsx`, paywall, JSON-LD produit, `llms-content.ts`). Lien « Carnet » dans l'en-tête pour les abonnés Premium seulement.
+
 ## s14 (03/10/2026) : Premium à 2,99 €/mois @fullstack
 
 > Décision de Thomas (03/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
