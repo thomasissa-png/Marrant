@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -10,24 +10,12 @@ import { toast } from "@/components/ui/toast";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { FaqSection } from "@/components/home/faq-section";
 import { AuthModal } from "@/components/auth/auth-modal";
-import { PlanSelector } from "@/components/premium/plan-selector";
-import { premiumPlanSchema, type PremiumPlan } from "@/lib/premium-plans";
 
 export default function AbonnementPage() {
   const { status } = useSession();
   const stats = useContentStats();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  // Mensuel par défaut (accroche principale) ; ?plan=annual conserve le choix après inscription.
-  const [plan, setPlan] = useState<PremiumPlan>("monthly");
-  useEffect(() => {
-    const fromUrl = premiumPlanSchema.safeParse(
-      new URLSearchParams(window.location.search).get("plan")
-    );
-    if (fromUrl.success) setPlan(fromUrl.data);
-  }, []);
-  const isAnnual = plan === "annual";
-  const planCallbackUrl = isAnnual ? "/abonnement?plan=annual" : "/abonnement";
   // Compte gratuit : onboarding ; accès complet : retour ici pour payer (voir getPostSignupRedirect).
   const [authCallbackUrl, setAuthCallbackUrl] = useState<string | undefined>(undefined);
   const openAuth = (callbackUrl: string | undefined) => {
@@ -42,16 +30,12 @@ export default function AbonnementPage() {
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
     ? "Ton compte est prêt. Encore un clic et tout le catalogue est à toi, de la première vanne à la dernière vidéo."
-    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois ou 39,99 €/an.";
+    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois.";
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
     try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan }),
-      });
+      const res = await fetch("/api/stripe/checkout", { method: "POST" });
       const data = await res.json();
       if (res.ok && data.url) {
         window.location.href = data.url;
@@ -114,7 +98,13 @@ export default function AbonnementPage() {
               Accès complet
             </h2>
           </div>
-          <PlanSelector value={plan} onChange={setPlan} />
+          <div className="mt-3 flex items-baseline gap-2">
+            <span className="text-4xl font-bold text-text-primary">4,99 &euro;</span>
+            <span className="text-text-muted">/ mois</span>
+          </div>
+          <p className="mt-1 text-sm font-medium text-accent-link">
+            Sans engagement, annulable &agrave; tout moment
+          </p>
 
           <ul className="mt-6 space-y-3 text-sm text-text-secondary">
             <li className="flex items-start gap-2">
@@ -173,18 +163,16 @@ export default function AbonnementPage() {
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : isAnnual
-                  ? "Active mon accès · 39,99 €/an"
-                  : "Active mon accès · 4,99 €/mois"}
+                : "Active mon accès · 4,99 €/mois"}
             </Button>
           ) : (
             <Button
               variant="primary"
               size="lg"
               className="mt-8 w-full"
-              onClick={() => openAuth(planCallbackUrl)}
+              onClick={() => openAuth("/abonnement")}
             >
-              {isAnnual ? "Commencer à 39,99 €/an" : "Commencer à 4,99 €/mois"}
+              Commencer à 4,99 €/mois
             </Button>
           )}
 
@@ -207,8 +195,8 @@ export default function AbonnementPage() {
           Tu annules quand tu veux
         </p>
         <p className="mt-1 text-sm text-text-secondary">
-          Ton acc&egrave;s reste actif jusqu&apos;à la fin de ta p&eacute;riode en cours
-          (le mois ou l&apos;ann&eacute;e d&eacute;j&agrave; pay&eacute;s). Pas de frais cach&eacute;s, pas de pi&egrave;ge.
+          Ton acc&egrave;s reste actif jusqu&apos;à la fin de ta p&eacute;riode en cours.
+          Pas de frais cach&eacute;s, pas de pi&egrave;ge.
         </p>
       </div>
 

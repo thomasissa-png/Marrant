@@ -9,7 +9,7 @@ export default function CGUPage() {
   return (
     <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d&apos;Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 3 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 8 mars 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
@@ -23,8 +23,8 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">3. Offres et tarifs</h2>
-          <p>L&apos;abonnement Premium donne accès à l&apos;ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien. Il est proposé en deux formules : mensuelle (4,99 €/mois) ou annuelle (39,99 €/an, payée en une fois pour douze mois).</p>
-          <p className="mt-2">L&apos;abonnement se renouvelle automatiquement à la fin de chaque période (chaque mois pour la formule mensuelle, chaque année pour la formule annuelle), sauf annulation. Il est sans engagement au-delà de la période payée et peut être annulé à tout moment depuis l&apos;espace profil : l&apos;annulation met fin au renouvellement et l&apos;accès reste actif jusqu&apos;à la fin de la période payée.</p>
+          <p>L&apos;abonnement Premium (4,99 €/mois) donne accès à l&apos;ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien.</p>
+          <p className="mt-2">L&apos;abonnement est sans engagement et peut être annulé à tout moment depuis l&apos;espace profil. L&apos;accès reste actif jusqu&apos;à la fin de la période payée.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">4. Contenu utilisateur</h2>
@@ -43,7 +43,7 @@ export default function CGUPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
           <p>L&apos;utilisateur peut supprimer son compte à tout moment depuis son profil. La suppression entraîne l&apos;effacement de toutes les données personnelles dans un délai de 30 jours.</p>
-          <p className="mt-2">L&apos;abonnement Premium, mensuel ou annuel, peut être annulé avant la fin de la période en cours pour éviter son renouvellement. L&apos;accès Premium reste actif jusqu&apos;à la fin de la période payée.</p>
+          <p className="mt-2">L&apos;abonnement Premium peut être annulé avant la fin de la période en cours. L&apos;accès Premium reste actif jusqu&apos;à la fin de la période payée.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Limitation de responsabilité</h2>

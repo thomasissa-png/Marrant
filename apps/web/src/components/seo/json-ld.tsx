@@ -339,21 +339,10 @@ export function buildProductJsonLd() {
       "@type": "Brand",
       name: "deviens-marrant.fr",
     },
-    // Deux formules (01/10/2026) : mensuel 4,99 € (P1M) et annuel 39,99 € (P1Y).
-    offers: [
-      { price: "4.99", billingDuration: "P1M", name: "Premium mensuel" },
-      { price: "39.99", billingDuration: "P1Y", name: "Premium annuel" },
-    ].map((offer) => ({
+    offers: {
       "@type": "Offer",
-      name: offer.name,
-      price: offer.price,
+      price: "4.99",
       priceCurrency: "EUR",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: offer.price,
-        priceCurrency: "EUR",
-        billingDuration: offer.billingDuration,
-      },
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,
       priceValidUntil: "2026-12-31",
@@ -362,7 +351,7 @@ export function buildProductJsonLd() {
         "@type": "Organization",
         name: "deviens-marrant.fr",
       },
-    })),
+    },
   };
 }
 

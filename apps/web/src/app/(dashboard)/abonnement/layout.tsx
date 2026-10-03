@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return {
     title: "Abonnement Premium : 4,99 €/mois",
-    description: `${jokes}, ${tips}, ${videos} analysées, 3 parcours : tout pour devenir drôle à 4,99 €/mois sans engagement, ou 39,99 €/an. Tu annules quand tu veux.`,
+    description: `${jokes}, ${tips}, ${videos} analysées, 3 parcours : tout pour devenir drôle à 4,99 €/mois. Sans engagement, tu annules quand tu veux.`,
     alternates: {
       canonical: "https://deviens-marrant.fr/abonnement",
     },
