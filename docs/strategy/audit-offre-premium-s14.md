@@ -51,4 +51,61 @@ Ce que voit l'utilisateur : le compte gratuit affiche 10 vannes puis des cartes 
 Actions à confier à @fullstack (sans modifier sans GO de Thomas, CHOIX 29/09 « aucun chiffre retiré sans GO ») : lister toutes les occurrences de « 550+ », « 350+ », « 290+ », « 60+ », « 80+ » dans `src/`, `docs/content/`, `llms-content.ts`, FAQ et articles ; `project-context.md:34` cite encore « 290+ vannes, 60+ conseils, 80+ vidéos ».
 Hors périmètre Premium mais signalé : `vannes/page.tsx:155` et `conseils/page.tsx:139` nomment des humoristes, ce qui contredit le CHOIX 30/09 « zéro humoriste nommé » (exception : fiches vidéo).
 
-<!-- SUITE -->
+## 3. Valeur Premium recommandée
+
+Principe (CHOIX 06/05 : « produit qui s'apprend, pas qui se vend ») : on ne vend pas l'accès à des pages que Google montre déjà ; on vend la progression guidée et ce qui est préparé exprès pour les abonnés. Pas de hook de surveillance du type « tu as touché la limite ».
+
+### 3.1 Reste gratuit (acquisition, SEO)
+
+- Fiches vannes, conseils, vidéos et listes paginées (déjà indexées, une partie du trafic « devenir drôle »).
+- Contenu du jour (vanne, conseil, vidéo), blog hebdomadaire, quiz humour, glossaire, anatomie d'une vanne.
+- Étape 1 de chaque parcours, contenu complet, avec validation et XP (preuve de valeur avant paiement).
+- Compte gratuit : « À toi de jouer », exercices des conseils, apprentissages des vidéos (déjà le cas).
+- Filtre par catégorie et recherche : à ouvrir à tous (déjà accessibles par les pages thème et par l'API, un verrou visible agace sans rien protéger).
+- Plafonds 10/3/3 des listes interactives : à lever (voir décision D1). Ils ne protègent aucun contenu et abîment la première impression de Yanis.
+
+### 3.2 Devient réellement payant
+
+| Priorité | Élément | Persona servi | Impact (1-3) x Confiance | Pourquoi |
+|---|---|---|---|---|
+| P0 | Parcours, étapes 2+ : contenu retiré côté serveur pour les non-abonnés (titres, XP et « pourquoi » gardés comme aperçu, étape 1 intacte) | Yanis (répartie), Sophie (machine à café), Marc (confiance) | 3 x 80 % `[HYPOTHÈSE]` | Seule offre structurée que rien d'autre ne remplace ; aujourd'hui contournable (2.1). |
+| P0 | Puces de vente réécrites autour des parcours (voir 3.4) | Tous | 3 x 90 % `[HYPOTHÈSE]` | Corrige E1 à E4. |
+| P1 | Carnet de répartie mensuel préparé : 30 situations réalistes par lot (coloc, soirée, machine à café, groupe WhatsApp), chacune avec 3 réponses de niveaux croissants et le mécanisme expliqué, validées à l'aveugle (2 relecteurs, barre étalons) | Yanis, Sophie | 3 x 70 % `[HYPOTHÈSE]` | Contenu récurrent qui manque (E7), 100 % préparé (CHOIX 01/10), utile le soir même. Sert aussi de substitut à l'IA (section 4, option C). |
+| P1 | Favoris organisés en carnet « à ressortir » (déjà payants) | Sophie | 2 x 80 % `[HYPOTHÈSE]` | Besoin cité : blagues prêtes à ressortir. À garder, à nommer comme tel. |
+| P2 | Suivi de progression et streak visibles sur tous les parcours avec un rappel doux | Yanis | 2 x 60 % `[HYPOTHÈSE]` | Progression mesurable = promesse du produit. Discovery avant de spécifier. |
+| P2 | Parcours recommandé selon le profil (Marc : « recommandations personnalisées ») | Marc | 2 x 50 % `[HYPOTHÈSE]` | Vérifier d'abord ce que fait déjà `lib/parcours-orientation.ts` (non lu dans cet audit). |
+| P3 | Analyse de répartie à la demande (section 4) | Yanis | 3 x 40 % `[HYPOTHÈSE]` | Fort mais soumis à l'exception IA et à une éval. |
+| P3 | Nouveau parcours à terme | Tous | 3 x 50 % `[HYPOTHÈSE]` | Rallonge la durée de vie après les 13 étapes. Produit en lot avec Thomas. |
+
+Priorité par valeur persona, pas par effort. Le seul champ qui manque vraiment pour tenir un abonnement annuel est le P1 récurrent.
+
+### 3.3 Ce qui manque (hors tableau)
+
+- Un moyen de voir ce qu'on achète avant de payer : aperçu des étapes 2+ (titre, durée, XP, « pourquoi cette étape »).
+- Une explication de la perte d'accès à la résiliation (règle PM : livrables liés à l'abonnement actif). `/abonnement` dit que l'accès reste actif jusqu'à la fin de la période (`abonnement/page.tsx:197-199`) ; le sort de la progression et des favoris après résiliation n'est écrit nulle part dans le code lu. Juridique laissé en l'état (CHOIX 29/09) : on documente côté produit seulement, Thomas décide s'il l'affiche.
+- La formule annuelle : second prix Stripe, choix mensuel/annuel au checkout (`lib/stripe.ts:92-107`), bascule sur `/abonnement`, prise en charge par le webhook (`app/api/stripe/webhook/route.ts`, non relu) ; parité boutiques mobiles à vérifier côté RevenueCat (`app/api/iap/revenuecat-webhook/route.ts`) `[HYPOTHÈSE : l'annuel doit exister dans les deux boutiques pour que le prix reste cohérent]`.
+- Les 2 abonnés à 0,99 € à vie (CHOIX 01/10) : ne jamais migrer ; vérifier qu'ils accèdent aussi aux nouveautés Premium.
+
+### 3.4 Textes proposés (sans tiret cadratin, tutoiement, zéro humoriste, zéro mention d'IA)
+
+Puces de `/abonnement` et de la modale, à valider par Thomas :
+- « Tous les parcours, de la première à la dernière étape : exercices, vidéos et quiz pour avoir de la répartie, à ton rythme »
+- « Chaque mois, un carnet de 30 situations de répartie avec des réponses prêtes à tester »
+- « Tes favoris rangés dans un carnet, pour ressortir la bonne vanne au bon moment »
+- « Ton XP et ta progression gardés d'un parcours à l'autre »
+Mention annuelle : « 39,99 € par an, soit environ 3,33 € par mois ». Retirer « ~2 mois offerts » : 12 x 4,99 € = 59,88 €, donc 39,99 € revient à environ 4 mois offerts (-33 %), pas 2.
+Message du verrou d'étape 2 : « Cette étape fait partie du parcours complet. La première est offerte, la suite t'attend avec le parcours complet. »
+
+### 3.5 Hypothèses critiques (extrait pour `assumption-map.md`)
+
+| Hypothèse | Preuve | Test | Statut |
+|---|---|---|---|
+| Les parcours 2+ suffisent à déclencher l'achat | Aucune (2 abonnés de lancement à 0,99 €) | Mesurer clic sur étape 2 verrouillée, arrivée sur `/abonnement`, démarrage du paiement | À instrumenter |
+| Lever les plafonds 10/3/3 ne fait pas chuter la conversion | Aucune (conversion jamais mesurée, plafond contournable) | Comparer avant/après sur le même parcours d'entrée | À tester après D1 |
+| Un carnet mensuel retient au-delà de 3 mois | Aucune | Interview des abonnés actifs + usage du carnet | À valider |
+| Le prix de 4,99 € est perçu juste avec les nouvelles puces | Aucune | Taux de passage `/abonnement` vers paiement | À suivre |
+| Un abonné annuel renouvelle | Aucune | Taux de renouvellement à 12 mois, donc long : surveiller usage mensuel | Risque connu |
+
+Events Umami à créer (pour @data-analyst) : `step_locked_view`, `abonnement_view` (propriété `origine`), `checkout_start` (propriété `formule` : mensuel ou annuel), `checkout_success`, `carnet_open`, `favorite_blocked_view`.
+
+<!-- SUITE2 -->
