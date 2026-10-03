@@ -27,10 +27,11 @@ describe("HeroSection", () => {
     expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
   });
 
-  it("shows social proof « 1 500+ membres » (texte fixe validé fondateur)", () => {
+  it("shows social proof sans chiffre de membres (1 500+ retiré, GO Thomas 03/10 : 13 comptes réels)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Rejoins 1\s500\+ membres/)).toBeInTheDocument();
+    expect(screen.getByText(/Rejoins celles et ceux qui progressent/)).toBeInTheDocument();
+    expect(screen.queryByText(/1\s500\+/)).not.toBeInTheDocument();
   });
 
   it("links each persona tag to its parcours (s12 T02)", () => {

@@ -82,7 +82,7 @@ export default function AProposPage() {
           <p className="mt-3 text-text-secondary">
             On s&apos;appuie sur les techniques des meilleurs humoristes
             français, les principes de la psychologie positive et des exercices
-            concrets testés par notre communauté de 1&nbsp;500+ membres.
+            concrets, pensés pour les situations de tous les jours.
           </p>
         </section>
 
@@ -204,7 +204,7 @@ export default function AProposPage() {
             <span className="block">On va arranger ça.</span>
           </p>
           <p className="mt-2 text-text-secondary">
-            Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour.
+            Rejoins celles et ceux qui progressent en humour chaque jour.
             La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
           </p>
           {/* Ouvre l'inscription gratuite : libellé aligné sur l'accueil (reco T03 validée par Thomas).
