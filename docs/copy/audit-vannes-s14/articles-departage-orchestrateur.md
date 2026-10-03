@@ -77,3 +77,9 @@ Assemblage S8 : Q1 Juvisy + « merci pour votre présence » ; Q2 hochement de t
 A : 7 « = » ; B : 8 « = ». Consensus : 16, 27, 46, 48. Départage orchestrateur : 5 (=), 34 (=), 4, 15, 37, 7, 14 (<).
 Retenues : S2 C1 « Tu avais une phrase géniale. Le quatrième vient de la dire. » ; S2 C2 miroir « Il est resté jusqu'au bout » ; S3 vaisselle « la poêle … avant mes colocs » ; S3 message passif-agressif « par peur du troisième » ; S5 ouverture « seul avec mon visage » ; S5 chat « le même pouce que pour je dois partir à 17 h ».
 Emplacements retirés (aucune variante au niveau) : S3 frigo, S5 panne, S5 micro coupé, S5 caméra éteinte.
+
+## Lot articles 2 (S6, S7, S9, S10, S11, S12, S13 : 28 emplacements, 140 variantes)
+
+A : 7 « = » ; B : 9 « = ». Consensus : 4, 55, 98. Départage orchestrateur : 34, 105, 28, 77 (=) ; 1, 128, 89 (emplacement S13 C1 déjà pourvu par 55) ; 103, 137, 23 (<).
+Retenues (emplacement → variante) : S13 C1 v2 « J'ai tenu le "et" » ; S9 C3 v1 « tout lu, sauf les phrases soulignées » (v2 « le chat… j'ai pris ça pour un avis », aussi validée, en réserve) ; S10 C2 v1 « d'invité à fournisseur » ; S12 C4 v2 « restée à la correspondance » ; S7 C1 v1 « bien cordialement » ; S9 C1 v1 « c'est pour un mariage ? ».
+Emplacements retirés (aucune variante au niveau) : S6 C1-C4, S7 C2-C5, S9 C2 et C4, S10 C1 et C3, S11 C1-C3, S12 C1, C2, C3, C5, S13 C2-C4. Rendement : 6/28 emplacements, 7/140 variantes (5 %).
