@@ -1,0 +1,161 @@
+{
+  "mois": "2026-10",
+  "titre": "Carnet d'octobre",
+  "intro": "Des situations de la vie courante, rangées de la moins tendue à la plus tendue, pour que tu progresses au fil du mois. Chaque fiche se lit en une minute : la phrase qu'on te dit, une réplique, une sortie polie et un exercice à faire à voix haute.",
+  "fiches": [
+    {
+      "id": "2026-10-01",
+      "titre": "Le soleil dans l'ascenseur",
+      "contexte": "quotidien",
+      "situation": "Dans l'ascenseur, un voisin que tu croises une fois par mois regarde les chiffres des étages monter, puis se tourne vers toi.",
+      "onTeDit": "Ça fait du bien ce soleil, hein ?",
+      "reponse": "Vous voyez l'effet qu'il a : je parle dans un ascenseur.",
+      "pourquoi": "Tu prends la remarque sur la météo comme une preuve : le soleil t'a rendu bavard dans un lieu où l'on se tait. Le rire tombe sur toi et sur l'ascenseur, le voisin n'a rien à défendre.",
+      "siTendu": "Oui, ça fait du bien. Bonne journée à vous.",
+      "exercice": "Dis la réplique à voix haute dans un endroit exigu de chez toi, sur le ton exact de quelqu'un qui commente la météo."
+    },
+    {
+      "id": "2026-10-02",
+      "titre": "Le lundi à la machine à café",
+      "contexte": "boulot",
+      "situation": "Tu viens d'arriver, ton sac est encore sur l'épaule, et un collègue en pleine forme t'attend près de la machine à café.",
+      "onTeDit": "Tu as passé un bon week-end ?",
+      "reponse": "Le samedi était excellent. Le dimanche a démissionné vers 15 h.",
+      "pourquoi": "Le dimanche devient un employé qui claque la porte en plein après-midi, et l'heure précise rend la scène crédible. Le rire tombe sur ton week-end, la bonne humeur du collègue n'est pas touchée.",
+      "siTendu": "Oui, merci, il était tranquille. Et toi, tu as pu te reposer ?",
+      "exercice": "Choisis un moment de ton dernier dimanche où l'ambiance a tourné, donne-lui un verbe de bureau et dis-le à voix haute avec l'heure."
+    },
+    {
+      "id": "2026-10-03",
+      "titre": "La randonnée sans fin",
+      "contexte": "soirée",
+      "situation": "Un inconnu au salon te raconte sa randonnée depuis vingt minutes, verre en main, sans signe de descente.",
+      "onTeDit": "Et là, on arrive enfin au deuxième col.",
+      "reponse": "Je suis à bout de souffle. Dis-moi que c'est la descente.",
+      "pourquoi": "Tu fais comme si tu avais grimpé avec lui alors que tu n'as pas quitté ton fauteuil, et ta demande est celle d'un vrai marcheur. Il reçoit un compliment sur son récit, et le rire tombe sur ta forme.",
+      "siTendu": "Ça a l'air superbe. Je vais me resservir à boire, tu veux quelque chose ?",
+      "exercice": "Dis la réplique à voix haute en reprenant ton souffle pour de vrai, puis laisse un temps de silence avant de sourire."
+    },
+    {
+      "id": "2026-10-04",
+      "titre": "Ton métier, concrètement",
+      "contexte": "soirée",
+      "situation": "Chez des amis d'amis, un invité que tu viens de rencontrer te pose la question en te regardant de la tête aux pieds.",
+      "onTeDit": "Et toi, tu fais quoi, concrètement ?",
+      "reponse": "J'ai un badge. Je ne sais pas ce qu'il ouvre, mais on me salue dans l'ascenseur.",
+      "pourquoi": "Tu réponds par un objet plutôt que par un métier, et l'objet ne t'explique rien à toi non plus. La salutation dans l'ascenseur est la seule preuve de ta place, et le rire tombe sur ton flou.",
+      "siTendu": "Un peu de tout, c'est long à résumer. Et toi, tu fais quoi ?",
+      "exercice": "Dis ton vrai métier à voix haute en une phrase sans jargon, puis ajoute un détail concret de ta journée, comme un objet que tu portes."
+    },
+    {
+      "id": "2026-10-05",
+      "titre": "Le téléphone expliqué",
+      "contexte": "famille",
+      "situation": "Ton père, assis à côté de toi, prend ton téléphone pour la quatrième fois afin de t'expliquer comment il fonctionne.",
+      "onTeDit": "Regarde, tu fais glisser comme ça, tu vois ?",
+      "reponse": "Je prends des notes. Les trois premières fois, je regardais ton pouce.",
+      "pourquoi": "La première phrase promet de l'application, la seconde avoue que tu as regardé le geste sans jamais le retenir. Le rire tombe sur ton apprentissage, et ton père garde son rôle de celui qui sait.",
+      "siTendu": "Merci de me l'expliquer, je m'y remets tranquillement.",
+      "exercice": "Dis la réplique à voix haute avec le ton le plus appliqué que tu aies, comme si tu dictais vraiment tes notes."
+    },
+    {
+      "id": "2026-10-06",
+      "titre": "Tu dors assez ?",
+      "contexte": "famille",
+      "situation": "Ta mère t'appelle un mardi soir, tu es dans le canapé, il est 23 h passées.",
+      "onTeDit": "Tu dors assez, au moins ?",
+      "reponse": "Ma montre mesure mon sommeil. Ce matin, elle m'a écrit « courage ».",
+      "pourquoi": "Ta montre devient un témoin qui a pitié de toi, et un seul mot suffit à dire que tu dors mal. Ta mère entend la vérité sans avoir de quoi s'inquiéter, et le rire tombe sur toi et sur ta montre.",
+      "siTendu": "Ça va, ne t'inquiète pas, je fais attention. Et toi, tu dors bien ?",
+      "exercice": "Choisis un objet de ton quotidien, imagine le seul mot qu'il t'écrirait ce matin et dis-le à voix haute comme un message reçu."
+    },
+    {
+      "id": "2026-10-07",
+      "titre": "Le « comme convenu »",
+      "contexte": "boulot",
+      "situation": "Tu as envoyé un mail avec une question, et la réponse d'un collègue tient en deux mots, alors que tu ne te souviens de rien qui ressemble à un accord.",
+      "onTeDit": "Comme convenu.",
+      "reponse": "J'ai demandé à mon moi du mois dernier. Il ne se souvient de rien non plus.",
+      "pourquoi": "Tu consultes une ancienne version de toi comme un collègue, et elle n'en sait pas plus que toi. Tu avoues ne te souvenir de rien sans accuser l'autre, et le rire tombe sur ta mémoire.",
+      "siTendu": "Je ne retrouve pas ce point de mon côté. Peux-tu me rappeler ce qu'on a décidé ?",
+      "exercice": "Dis la réplique à voix haute avec le ton neutre d'un message professionnel, comme si tu la dictais à un assistant."
+    },
+    {
+      "id": "2026-10-08",
+      "titre": "Le micro du karaoké",
+      "contexte": "soirée",
+      "situation": "Il est minuit passé, l'écran affiche les paroles de la chanson que tout le monde a choisie pour toi, et le micro arrive dans ta main.",
+      "onTeDit": "Allez, c'est ton tour !",
+      "reponse": "J'ai arrêté le piano à neuf ans. Mon professeur m'a remercié par écrit.",
+      "pourquoi": "Tu ne refuses pas, tu racontes pourquoi tu as arrêté, et la lettre de remerciement se lit comme un renvoi poli. Le rire tombe sur ton talent, le public qui t'a tendu le micro n'est pas visé.",
+      "siTendu": "Pas ce soir, merci. Je vous applaudis de bon cœur, allez-y.",
+      "exercice": "Dis la réplique à voix haute avec le calme d'un souvenir d'enfance, en finissant nettement sur « par écrit »."
+    },
+    {
+      "id": "2026-10-09",
+      "titre": "Le film du soir",
+      "contexte": "couple",
+      "situation": "Sur le canapé, ton ou ta partenaire et toi faites défiler les films depuis vingt-cinq minutes, la télécommande passe de main en main.",
+      "onTeDit": "On regarde quoi ce soir ?",
+      "reponse": "J'ai choisi il y a vingt minutes. Je n'osais pas appuyer.",
+      "pourquoi": "Tu avoues que la décision était prise bien avant, et que seul le geste te manquait. Le rire tombe sur ta peur d'appuyer, et le choix reste un sujet à deux.",
+      "siTendu": "Choisis, toi, ce soir. Ce que tu mets me va.",
+      "exercice": "Dis la réplique à voix haute en ralentissant sur « appuyer », comme si le mot pesait, puis recommence d'un ton plus léger."
+    },
+    {
+      "id": "2026-10-10",
+      "titre": "La question de la réunion",
+      "contexte": "boulot",
+      "situation": "Réunion du lundi, le silence dure depuis dix secondes, et ton manager balaie la table du regard jusqu'à s'arrêter sur toi.",
+      "onTeDit": "Quelqu'un a une idée ?",
+      "reponse": "Une seconde. C'est la première fois que toute la salle me regarde. Je ne voudrais pas gâcher ça avec une idée.",
+      "pourquoi": "Tu transformes la gêne de prendre la parole en privilège que tu savoures, et l'idée devient ce qui pourrait tout gâcher. Le silence qui suit fait partie du rire, ne le comble pas.",
+      "siTendu": "Je préfère y réfléchir encore un peu. Je reviens vers vous avec une proposition dans la journée.",
+      "exercice": "Dis la réplique à voix haute devant un miroir en t'arrêtant un instant après « Une seconde », puis tiens le silence avant de continuer."
+    },
+    {
+      "id": "2026-10-11",
+      "titre": "L'annulation de dernière minute",
+      "contexte": "amis",
+      "situation": "Il est 19 h 12, tu es déjà en chemin vers le restaurant réservé pour quatre, et un message arrive d'un pote de longue date.",
+      "onTeDit": "Désolé, je peux pas ce soir, je suis crevé.",
+      "reponse": "Je comprends. Ton corps a dû annuler sans te prévenir. Dis-lui de m'écrire plus tôt.",
+      "pourquoi": "Le corps de ton ami devient un contact peu fiable, et le reproche prend la forme d'un conseil pratique. L'agacement passe sans que sa fatigue soit mise en cause, et le rire reste léger.",
+      "siTendu": "D'accord, repose-toi. Dis-moi quand tu seras vraiment libre et on refixe.",
+      "exercice": "Dis la réplique à voix haute comme un message vocal bienveillant, en souriant avec la voix et sans appuyer sur le reproche."
+    },
+    {
+      "id": "2026-10-12",
+      "titre": "L'addition à parts égales",
+      "contexte": "amis",
+      "situation": "À la fin d'un dîner au restaurant à six, tu as pris une salade et de l'eau, les autres des plats, des desserts et du vin.",
+      "onTeDit": "On partage l'addition à parts égales, non ?",
+      "reponse": "Parfait, je trouvais cette soirée un peu légère.",
+      "pourquoi": "Tu acceptes la règle avec une phrase qui sonne comme une bonne nouvelle, alors qu'elle porte ton bilan en creux. Le rire tombe sur ta salade et sur ton ironie, jamais sur les autres convives, à condition de la dire en souriant.",
+      "siTendu": "Je préférerais qu'on paie chacun ce qu'on a pris, ça vous va ?",
+      "exercice": "Dis la réplique à voix haute en souriant vraiment, puis une seconde fois le visage neutre, et note laquelle passe le mieux."
+    },
+    {
+      "id": "2026-10-13",
+      "titre": "La fois du mariage",
+      "contexte": "amis",
+      "situation": "Dîner entre amis, une personne que tu connais peu vient de s'asseoir, et le groupe se tourne vers toi avec des sourires de complices.",
+      "onTeDit": "Allez, raconte-lui la fois du mariage !",
+      "reponse": "Elle a eu des suites. Certaines en recommandé.",
+      "pourquoi": "Tu confirmes que l'histoire est vraie sans la raconter, et le courrier recommandé donne à la suite un poids administratif. Le rire tombe sur toi, et le nouveau venu a envie d'en savoir plus.",
+      "siTendu": "Je préfère la garder pour une autre fois, si ça ne vous dérange pas.",
+      "exercice": "Dis la réplique à voix haute en marquant un temps avant « Certaines en recommandé », pour que la chute arrive seule."
+    },
+    {
+      "id": "2026-10-14",
+      "titre": "Le premier rendez-vous silencieux",
+      "contexte": "couple",
+      "situation": "Premier rendez-vous dans un restaurant, au dessert, tu viens de prononcer ta troisième phrase de la soirée.",
+      "onTeDit": "Tu parles toujours aussi peu ?",
+      "reponse": "Donne-moi la nuit. Demain, je t'envoie un message magnifique.",
+      "pourquoi": "Tu remets à demain ce que tu n'as pas su dire ce soir, et tu te donnes une suite avec une promesse flatteuse. Le rire tombe sur ta timidité, la personne en face reste libre de sourire ou de répondre.",
+      "siTendu": "Oui, je suis plutôt discret au début. Parle-moi de toi, j'ai envie de t'écouter.",
+      "exercice": "Dis la réplique à voix haute d'une voix douce, sans te presser, en regardant un point fixe devant toi comme si c'était la personne en face."
+    }
+  ]
+}
