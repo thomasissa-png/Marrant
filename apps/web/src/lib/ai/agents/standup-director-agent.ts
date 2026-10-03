@@ -2748,9 +2748,9 @@ ${message.content}
    → OK : "Si tu veux, on peut t'envoyer X" / lien naturel après demande explicite
 
 5. PRIX SANS ARGUMENTATION :
-   Si prix mentionné (4,99 €), est-il cité 1× sobrement, jamais en hook ?
+   Si prix mentionné (2,99 €), est-il cité 1× sobrement, jamais en hook ?
    → "À ce niveau, l'argumentation crée plus de friction qu'elle n'en lève" (CEO_SYSTEM_PROMPT)
-   → Banni : "Pour seulement 4,99 €...", "Moins cher qu'un café !", "Profite de ce prix unique"
+   → Banni : "Pour seulement 2,99 €...", "Moins cher qu'un café !", "Profite de ce prix unique"
 
 6. DOCTRINE TROLL (si reply à message provocateur) :
    Le ton est-il détaché bienveillant ? Pas de riposte humour qui donne l'impression d'avoir été touché ?

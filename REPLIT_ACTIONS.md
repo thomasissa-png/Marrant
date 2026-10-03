@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : Premium à 2,99 €/mois @fullstack
+
+> Décision de Thomas (03/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - **Secrets Worker, au MÊME déploiement** : `STRIPE_PREMIUM_PRICE_ID` doit passer au nouveau prix Stripe à 2,99 € (créé par l'orchestrateur), sinon le checkout facture encore 4,99 € alors que le site affiche 2,99 €. Si `STRIPE_PREMIUM_PRICE_CENTS` est défini sur le Worker, le passer à `299` (ou le supprimer : défaut du code désormais 299), il sert au calcul du MRR admin.
+> - Affichage : toutes les mentions 4,99 € remplacées par 2,99 € (pages abonnement et metadata, accueil, à propos, parcours, glossaire, inscription, CGU, CTA, paywall, modale premium, quiz, listes, profil, FAQ, `config/premium.ts`, `llms-content.ts`, prompts des agents IA) ; JSON-LD `offers.price` = "2.99" ; `.env.example` à 299. Aucune offre annuelle.
+> - Articles statiques (`blog-articles.ts`, 19 articles ; `blog-article-rewrites.json`, 1 article) : seul le prix change (un seul mot « 4 » devenu « 2 » par article, vérifié), aucune comparaison chiffrée devenue fausse. Empreintes `words`/`numbers` de ces 19 articles régénérées dans `blog-em-dash-baseline.json`.
+> - Abonnés existants : restent sur l'ancien prix Stripe tant qu'ils ne sont pas migrés (décision et opération côté Stripe, hors code).
+
 ## s14 (03/10/2026) : parcours Premium protégés côté serveur, `/api/ai` coupée, offre Premium vraie, retour après paiement @fullstack
 
 > Décisions de Thomas (03/10/2026). Aucun secret, aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

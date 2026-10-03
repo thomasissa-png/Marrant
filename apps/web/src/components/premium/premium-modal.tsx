@@ -74,7 +74,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
           <p className="mt-2 text-sm text-text-secondary">{copy.intro}</p>
         )}
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-4xl font-bold text-text-primary">4,99 €</span>
+          <span className="text-4xl font-bold text-text-primary">2,99 €</span>
           <span className="text-text-muted">/ mois</span>
         </div>
         <p className="mt-1 text-sm text-accent-link font-medium">
@@ -91,7 +91,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
             onClick={handleCheckout}
             disabled={isCheckoutLoading}
           >
-            {isCheckoutLoading ? "On t'emmène au paiement…" : "Active mon accès · 4,99 €/mois"}
+            {isCheckoutLoading ? "On t'emmène au paiement…" : "Active mon accès · 2,99 €/mois"}
           </Button>
         ) : (
           <Button

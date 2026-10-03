@@ -25,7 +25,7 @@ export function HomeCta() {
           Tu crois avoir tout essayé pour être drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour 4,99 € par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
+          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour 2,99 € par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
           {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
@@ -33,7 +33,7 @@ export function HomeCta() {
             <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
               Créer mon compte gratuit
             </Button>
-            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 4,99 €/mois pour tout débloquer, sans engagement</p>
+            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
           <Link href="/vannes" className="w-full sm:w-auto">
             <Button variant="outline" size="lg" className="w-full whitespace-nowrap">

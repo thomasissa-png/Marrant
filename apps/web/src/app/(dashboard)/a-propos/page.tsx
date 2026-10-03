@@ -211,7 +211,7 @@ export default function AProposPage() {
               Après inscription : onboarding (callback « / »), plus la page de paiement. */}
           <div className="mt-4 inline-flex flex-col items-center gap-1">
             <AuthCta label="Créer mon compte gratuit" callbackUrl="/" />
-            <p className="text-sm text-text-muted">Puis 4,99 €/mois pour tout débloquer, sans engagement</p>
+            <p className="text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
         </div>
       </div>

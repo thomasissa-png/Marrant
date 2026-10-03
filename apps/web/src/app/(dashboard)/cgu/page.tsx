@@ -23,7 +23,7 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">3. Offres et tarifs</h2>
-          <p>L&apos;abonnement Premium (4,99 €/mois) donne accès à l&apos;ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien.</p>
+          <p>L&apos;abonnement Premium (2,99 €/mois) donne accès à l&apos;ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien.</p>
           <p className="mt-2">L&apos;abonnement est sans engagement et peut être annulé à tout moment depuis l&apos;espace profil. L&apos;accès reste actif jusqu&apos;à la fin de la période payée.</p>
         </section>
         <section>

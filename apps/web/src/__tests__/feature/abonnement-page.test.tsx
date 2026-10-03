@@ -45,7 +45,7 @@ describe("AbonnementPage (s12 T45)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
 
-    await userEvent.click(screen.getByText("Commencer à 4,99 €/mois"));
+    await userEvent.click(screen.getByText("Commencer à 2,99 €/mois"));
     expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-callback", "/abonnement");
   });
 
@@ -53,7 +53,7 @@ describe("AbonnementPage (s12 T45)", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<AbonnementPage />);
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
-    expect(screen.getByText("Active mon accès · 4,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
   });
 
   describe("offre Premium vraie (décision Thomas 03/10)", () => {
@@ -74,7 +74,7 @@ describe("AbonnementPage (s12 T45)", () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Commencer à 4,99 €/mois"));
+      await userEvent.click(screen.getByText("Commencer à 2,99 €/mois"));
       expect(screen.getByTestId("auth-modal")).toHaveAttribute(
         "data-callback",
         "/abonnement?returnTo=%2Fparcours%2Frepartie",
@@ -88,13 +88,13 @@ describe("AbonnementPage (s12 T45)", () => {
 
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
       const { unmount } = render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
       expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
       unmount();
 
       window.history.pushState({}, "", "/abonnement?returnTo=https%3A%2F%2Fevil.example");
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
       expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({});
     });
   });

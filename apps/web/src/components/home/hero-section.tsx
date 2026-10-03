@@ -63,7 +63,7 @@ export function HeroSection() {
           <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
             Créer mon compte gratuit
           </Button>
-          <p className="text-sm text-text-muted">Puis 4,99 €/mois pour tout débloquer, sans engagement</p>
+          <p className="text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           <Link
             href="/vannes"
             className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"

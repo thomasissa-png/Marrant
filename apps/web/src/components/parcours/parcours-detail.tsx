@@ -101,11 +101,11 @@ function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
       )}
       <div className="border-t border-border pt-3 text-center">
         <p className="text-sm text-text-secondary">
-          Cette étape fait partie de l&apos;accès complet. La première étape est offerte, les suivantes se débloquent avec l&apos;abonnement à 4,99 &euro;/mois, sans engagement.
+          Cette étape fait partie de l&apos;accès complet. La première étape est offerte, les suivantes se débloquent avec l&apos;abonnement à 2,99 &euro;/mois, sans engagement.
         </p>
         <Link href={buildAbonnementUrl(`/parcours/${slug}`)}>
           <Button variant="primary" size="sm" className="mt-3 min-h-[44px]">
-            S&apos;abonner · 4,99 &euro;/mois
+            S&apos;abonner · 2,99 &euro;/mois
           </Button>
         </Link>
       </div>

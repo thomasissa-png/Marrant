@@ -235,7 +235,7 @@ describe("BlogArticlePage — article detail", () => {
     ).toBeInTheDocument();
     // Double CTA — essai gratuit + premium (fix conversion s11 lot 2)
     expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
-    expect(screen.getByText("Tout débloquer à 4,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Tout débloquer à 2,99 €/mois")).toBeInTheDocument();
   });
 
   it("renders breadcrumb navigation", async () => {

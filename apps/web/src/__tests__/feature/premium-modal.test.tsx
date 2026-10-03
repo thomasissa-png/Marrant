@@ -49,7 +49,7 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     const fetchMock = jest.fn().mockResolvedValue({ ok: false, json: async () => ({}) });
     global.fetch = fetchMock as unknown as typeof fetch;
     render(<PremiumModal isOpen onClose={jest.fn()} />);
-    await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+    await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
     expect(fetchMock).toHaveBeenCalledWith("/api/stripe/checkout", expect.objectContaining({ method: "POST" }));
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/repartie" });
   });

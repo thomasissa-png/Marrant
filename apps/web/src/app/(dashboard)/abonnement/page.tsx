@@ -48,7 +48,7 @@ export default function AbonnementPage() {
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
     ? "Ton compte est prêt. Encore un clic et les 3 parcours sont à toi en entier, de la première à la dernière étape."
-    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours). Tu passes à l'accès complet quand tu veux, à 4,99 €/mois.";
+    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours). Tu passes à l'accès complet quand tu veux, à 2,99 €/mois.";
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -122,7 +122,7 @@ export default function AbonnementPage() {
             </h2>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-text-primary">4,99 &euro;</span>
+            <span className="text-4xl font-bold text-text-primary">2,99 &euro;</span>
             <span className="text-text-muted">/ mois</span>
           </div>
           <p className="mt-1 text-sm font-medium text-accent-link">
@@ -141,7 +141,7 @@ export default function AbonnementPage() {
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : "Active mon accès · 4,99 €/mois"}
+                : "Active mon accès · 2,99 €/mois"}
             </Button>
           ) : (
             <Button
@@ -150,7 +150,7 @@ export default function AbonnementPage() {
               className="mt-8 w-full"
               onClick={() => openAuth(buildAbonnementUrl(readReturnTo()))}
             >
-              Commencer à 4,99 €/mois
+              Commencer à 2,99 €/mois
             </Button>
           )}
 

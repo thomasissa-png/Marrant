@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
       ? ((premiumUsers / totalUsers) * 100).toFixed(1)
       : "0.0";
 
-    // MRR = abonnements actifs * montant réel de l'abonnement (STRIPE_PREMIUM_PRICE_CENTS, 4,99 € par défaut)
+    // MRR = abonnements actifs * montant réel de l'abonnement (STRIPE_PREMIUM_PRICE_CENTS, 2,99 € par défaut)
     const mrr = ((activeSubscriptions * PREMIUM_PRICE_CENTS) / 100).toFixed(2);
 
     return NextResponse.json({

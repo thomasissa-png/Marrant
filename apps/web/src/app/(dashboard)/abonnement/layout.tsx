@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
   ].filter(Boolean);
   const catalogueText = catalogue.length > 0 ? ` et toutes les listes (${catalogue.join(", ")})` : " et toutes les listes";
   return {
-    title: "Abonnement Premium : 4,99 €/mois",
-    description: `Les 3 parcours en entier (première étape offerte)${catalogueText}, à 4,99 €/mois. Sans engagement, tu annules quand tu veux.`,
+    title: "Abonnement Premium : 2,99 €/mois",
+    description: `Les 3 parcours en entier (première étape offerte)${catalogueText}, à 2,99 €/mois. Sans engagement, tu annules quand tu veux.`,
     alternates: {
       canonical: "https://deviens-marrant.fr/abonnement",
     },

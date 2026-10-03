@@ -59,7 +59,7 @@ describe("HeroSection", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
     expect(screen.getByText("Créer mon compte gratuit")).toBeInTheDocument();
-    expect(screen.getByText("Puis 4,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
+    expect(screen.getByText("Puis 2,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
     expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
   });
 

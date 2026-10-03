@@ -24,8 +24,8 @@ export const stripe = new Proxy({} as Stripe, {
 // Prix de l'abonnement premium
 export const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PRICE_ID ?? "";
 
-// Montant de l'abonnement premium en centimes (4,99 €)
-export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CENTS ?? "499", 10);
+// Montant de l'abonnement premium en centimes (2,99 €)
+export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CENTS ?? "299", 10);
 
 /**
  * Récupère ou crée un client Stripe pour l'utilisateur.

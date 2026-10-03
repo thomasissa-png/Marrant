@@ -209,7 +209,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 onClick={() => router.push("/abonnement")}
                 className="min-h-[44px] text-xs text-text-muted underline hover:text-text-secondary"
               >
-                Tout débloquer à 4,99 €/mois
+                Tout débloquer à 2,99 €/mois
               </button>
             </div>
           </CardContent>

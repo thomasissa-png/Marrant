@@ -1,7 +1,7 @@
 /**
  * Offre Premium : valeurs business centralisées (décisions Thomas, 03/10/2026).
  *
- * - Prix unique 4,99 €/mois (formule annuelle retirée pour l'instant).
+ * - Prix unique 2,99 €/mois (formule annuelle retirée pour l'instant).
  * - Valeur principale : les 3 parcours en entier, première étape offerte.
  * - Aucune promesse de contenu mensuel tant qu'il n'existe pas.
  *
@@ -9,7 +9,7 @@
  * par un test (src/__tests__/lib/premium-offer.test.ts).
  */
 
-export const PREMIUM_PRICE_LABEL = "4,99 €/mois";
+export const PREMIUM_PRICE_LABEL = "2,99 €/mois";
 
 export interface PremiumParcoursOffer {
   slug: string;
