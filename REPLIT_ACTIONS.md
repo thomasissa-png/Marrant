@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : formule annuelle Premium 39,99 €/an @fullstack
+
+> Décision de Thomas (01/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - **Secret Worker, au MÊME déploiement** : `STRIPE_PREMIUM_ANNUAL_PRICE_ID` = id du prix Stripe annuel existant (39,99 €, récurrence annuelle). Sans lui, le choix annuel de `/abonnement` répond 503 « L'abonnement annuel n'est pas encore disponible » (aucun repli sur le mensuel). `STRIPE_PREMIUM_PRICE_ID` (mensuel) inchangé.
+> - `POST /api/stripe/checkout` : corps optionnel `{ "plan": "monthly" | "annual" }` validé par zod (défaut mensuel : modale, paywall, profil et accueil inchangés), 400 si formule inconnue. `lib/stripe.ts` : prix lu au runtime (`getPremiumPriceId`, placeholders refusés), `plan` ajouté aux métadonnées de la session Checkout.
+> - Webhook, `verify-session`, `status` : inchangés, l'annuel est traité comme le mensuel (ACTIVE, `currentPeriodEnd` = fin de période Stripe, donc ~1 an). Le champ `Subscription.plan` est l'enum FREE/PREMIUM, pas la périodicité : rien à alimenter.
+> - `/abonnement` : choix mensuel 4,99 €/mois (présélectionné) ou annuel 39,99 €/an (« soit 3,33 € par mois », « Tu économises 19,89 € par an »), choix conservé après inscription (`/abonnement?plan=annual`). FAQ, `llms-content.ts`, JSON-LD Product (2 offres, `billingDuration` P1M et P1Y), métadonnées `/abonnement`, CGU art. 3 et 7 (renouvellement annuel, annulation) à jour.
+> - Limite connue : MRR admin (`api/admin/stats`) = abonnements actifs × 4,99 €, un abonné annuel y compte pour 4,99 € au lieu de 3,33 €.
+
 ## s14 (01/10/2026) : fin de l'offre de lancement, Premium à 4,99 €/mois @fullstack
 
 > Décision de Thomas (01/10/2026). Aucune migration, aucun package, aucune donnée modifiée, aucun appel Stripe. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

@@ -56,3 +56,58 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.getByText("Active mon accès · 4,99 €/mois")).toBeInTheDocument();
   });
 });
+
+describe("AbonnementPage : formule annuelle (01/10/2026)", () => {
+  const fetchMock = jest.fn();
+  beforeEach(() => {
+    fetchMock.mockReset().mockResolvedValue({ ok: false, json: async () => ({ error: "stop" }) });
+    global.fetch = fetchMock as unknown as typeof fetch;
+    window.history.replaceState({}, "", "/abonnement");
+  });
+
+  it("shows both plans with exact figures, monthly selected by default", () => {
+    useSession.mockReturnValue({ status: "authenticated" });
+    render(<AbonnementPage />);
+    expect(screen.getByRole("radio", { name: /Mensuel/ })).toBeChecked();
+    expect(screen.getByRole("radio", { name: /Annuel/ })).not.toBeChecked();
+    expect(screen.getByText("39,99 €")).toBeInTheDocument();
+    expect(screen.getByText("Payé en une fois, soit 3,33 € par mois")).toBeInTheDocument();
+    expect(screen.getByText("Tu économises 19,89 € par an")).toBeInTheDocument();
+  });
+
+  it("sends plan=annual to checkout once the annual plan is chosen", async () => {
+    useSession.mockReturnValue({ status: "authenticated" });
+    render(<AbonnementPage />);
+    await userEvent.click(screen.getByRole("radio", { name: /Annuel/ }));
+    await userEvent.click(screen.getByText("Active mon accès · 39,99 €/an"));
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/stripe/checkout",
+      expect.objectContaining({ method: "POST", body: JSON.stringify({ plan: "annual" }) })
+    );
+  });
+
+  it("sends plan=monthly by default", async () => {
+    useSession.mockReturnValue({ status: "authenticated" });
+    render(<AbonnementPage />);
+    await userEvent.click(screen.getByText("Active mon accès · 4,99 €/mois"));
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/stripe/checkout",
+      expect.objectContaining({ body: JSON.stringify({ plan: "monthly" }) })
+    );
+  });
+
+  it("keeps the annual choice through sign-up (callback /abonnement?plan=annual)", async () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementPage />);
+    await userEvent.click(screen.getByRole("radio", { name: /Annuel/ }));
+    await userEvent.click(screen.getByText("Commencer à 39,99 €/an"));
+    expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-callback", "/abonnement?plan=annual");
+  });
+
+  it("preselects the annual plan from ?plan=annual", () => {
+    window.history.replaceState({}, "", "/abonnement?plan=annual");
+    useSession.mockReturnValue({ status: "authenticated" });
+    render(<AbonnementPage />);
+    expect(screen.getByRole("radio", { name: /Annuel/ })).toBeChecked();
+  });
+});

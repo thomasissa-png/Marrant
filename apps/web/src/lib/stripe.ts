@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import type { PremiumPlan } from "@/lib/premium-plans";
 
 // Client Stripe — singleton lazy (évite crash au build sans clé API)
 let _stripe: Stripe | null = null;
@@ -20,8 +21,32 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
-// Prix de l'abonnement premium
+// Prix de l'abonnement premium mensuel (conservé pour compatibilité, préférer getPremiumPriceId)
 export const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PRICE_ID ?? "";
+
+/** Secret Worker portant l'id du prix Stripe de chaque formule. */
+export const PREMIUM_PRICE_ENV: Record<PremiumPlan, string> = {
+  monthly: "STRIPE_PREMIUM_PRICE_ID",
+  annual: "STRIPE_PREMIUM_ANNUAL_PRICE_ID",
+};
+
+/** Formule demandée mais prix Stripe absent ou placeholder : aucun repli sur une autre formule. */
+export class PremiumPriceNotConfiguredError extends Error {
+  constructor(public readonly plan: PremiumPlan) {
+    super(`Prix Stripe non configuré pour la formule ${plan} (${PREMIUM_PRICE_ENV[plan]})`);
+    this.name = "PremiumPriceNotConfiguredError";
+  }
+}
+
+/**
+ * Id du prix Stripe de la formule, lu au runtime (secret Worker posé au déploiement).
+ * Placeholder (.env.example « price_XXXX… ») ou valeur vide → null.
+ */
+export function getPremiumPriceId(plan: PremiumPlan): string | null {
+  const id = (process.env[PREMIUM_PRICE_ENV[plan]] ?? "").trim();
+  if (!id.startsWith("price_") || /X{4,}/.test(id)) return null;
+  return id;
+}
 
 // Montant de l'abonnement premium en centimes (4,99 €)
 export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CENTS ?? "499", 10);
@@ -79,8 +104,14 @@ async function getOrCreateStripeCustomer(
  */
 export async function createCheckoutSession(
   userId: string,
-  customerEmail: string
+  customerEmail: string,
+  plan: PremiumPlan = "monthly"
 ): Promise<string> {
+  // Vérifié AVANT toute création de customer : l'annuel sans prix configuré est refusé,
+  // jamais remplacé en silence par le mensuel.
+  const priceId = getPremiumPriceId(plan);
+  if (!priceId) throw new PremiumPriceNotConfiguredError(plan);
+
   const customerId = await getOrCreateStripeCustomer(userId, customerEmail);
 
   // Si on a un customer Stripe existant, on l'utilise directement.
@@ -95,7 +126,7 @@ export async function createCheckoutSession(
     ...customerParams,
     line_items: [
       {
-        price: PREMIUM_PRICE_ID,
+        price: priceId,
         quantity: 1,
       },
     ],
@@ -103,6 +134,7 @@ export async function createCheckoutSession(
     cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel`,
     metadata: {
       userId,
+      plan,
     },
   });
 

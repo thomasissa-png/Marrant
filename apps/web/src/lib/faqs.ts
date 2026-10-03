@@ -27,7 +27,7 @@ export const faqs = [
   {
     question: "4,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
     answer:
-      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
+      "C’est le prix, point. Tu préfères payer à l’année ? C’est 39,99 €/an en une fois, soit 3,33 € par mois : tu économises 19,89 € par an. Pas de frais cachés. L’abonnement se renouvelle à la fin de chaque période (mois ou année) tant que tu ne l’annules pas, et tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
   },
   {
     question:
