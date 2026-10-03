@@ -16,6 +16,17 @@
     },
     {
       "id": "2026-10-02",
+      "titre": "La carte du magasin",
+      "contexte": "quotidien",
+      "situation": "À la caisse du supermarché, tes courses sont posées sur le tapis et le caissier scanne le dernier article sans lever les yeux.",
+      "onTeDit": "Vous avez la carte du magasin ?",
+      "reponse": "Laissez-moi réfléchir. C'est la seule question qu'on me pose cette semaine.",
+      "pourquoi": "Tu fais mine de peser une question de routine, et la seconde phrase avoue que personne ne te demande rien d'autre. Le rire tombe sur ton agenda, et le caissier, qui pose cette question à chaque client, n'a rien à défendre.",
+      "siTendu": "Non, merci, je n'en ai pas. Bonne fin de journée.",
+      "exercice": "Dis la réplique à voix haute en fixant un objet de ta cuisine, comme si tu pesais vraiment la question, et marque un temps avant la seconde phrase."
+    },
+    {
+      "id": "2026-10-03",
       "titre": "Le lundi à la machine à café",
       "contexte": "boulot",
       "situation": "Tu viens d'arriver, ton sac est encore sur l'épaule, et un collègue en pleine forme t'attend près de la machine à café.",
@@ -26,7 +37,7 @@
       "exercice": "Choisis un moment de ton dernier dimanche où l'ambiance a tourné, donne-lui un verbe de bureau et dis-le à voix haute avec l'heure."
     },
     {
-      "id": "2026-10-03",
+      "id": "2026-10-04",
       "titre": "La randonnée sans fin",
       "contexte": "soirée",
       "situation": "Un inconnu au salon te raconte sa randonnée depuis vingt minutes, verre en main, sans signe de descente.",
@@ -37,7 +48,7 @@
       "exercice": "Dis la réplique à voix haute en reprenant ton souffle pour de vrai, puis laisse un temps de silence avant de sourire."
     },
     {
-      "id": "2026-10-04",
+      "id": "2026-10-05",
       "titre": "Ton métier, concrètement",
       "contexte": "soirée",
       "situation": "Chez des amis d'amis, un invité que tu viens de rencontrer te pose la question en te regardant de la tête aux pieds.",
@@ -48,7 +59,7 @@
       "exercice": "Dis ton vrai métier à voix haute en une phrase sans jargon, puis ajoute un détail concret de ta journée, comme un objet que tu portes."
     },
     {
-      "id": "2026-10-05",
+      "id": "2026-10-06",
       "titre": "Le téléphone expliqué",
       "contexte": "famille",
       "situation": "Ton père, assis à côté de toi, prend ton téléphone pour la quatrième fois afin de t'expliquer comment il fonctionne.",
@@ -59,7 +70,7 @@
       "exercice": "Dis la réplique à voix haute avec le ton le plus appliqué que tu aies, comme si tu dictais vraiment tes notes."
     },
     {
-      "id": "2026-10-06",
+      "id": "2026-10-07",
       "titre": "Tu dors assez ?",
       "contexte": "famille",
       "situation": "Ta mère t'appelle un mardi soir, tu es dans le canapé, il est 23 h passées.",
@@ -70,7 +81,7 @@
       "exercice": "Choisis un objet de ton quotidien, imagine le seul mot qu'il t'écrirait ce matin et dis-le à voix haute comme un message reçu."
     },
     {
-      "id": "2026-10-07",
+      "id": "2026-10-08",
       "titre": "Le « comme convenu »",
       "contexte": "boulot",
       "situation": "Tu as envoyé un mail avec une question, et la réponse d'un collègue tient en deux mots, alors que tu ne te souviens de rien qui ressemble à un accord.",
@@ -81,7 +92,7 @@
       "exercice": "Dis la réplique à voix haute avec le ton neutre d'un message professionnel, comme si tu la dictais à un assistant."
     },
     {
-      "id": "2026-10-08",
+      "id": "2026-10-09",
       "titre": "Le micro du karaoké",
       "contexte": "soirée",
       "situation": "Il est minuit passé, l'écran affiche les paroles de la chanson que tout le monde a choisie pour toi, et le micro arrive dans ta main.",
@@ -92,7 +103,7 @@
       "exercice": "Dis la réplique à voix haute avec le calme d'un souvenir d'enfance, en finissant nettement sur « par écrit »."
     },
     {
-      "id": "2026-10-09",
+      "id": "2026-10-10",
       "titre": "Le film du soir",
       "contexte": "couple",
       "situation": "Sur le canapé, ton ou ta partenaire et toi faites défiler les films depuis vingt-cinq minutes, la télécommande passe de main en main.",
@@ -103,7 +114,7 @@
       "exercice": "Dis la réplique à voix haute en ralentissant sur « appuyer », comme si le mot pesait, puis recommence d'un ton plus léger."
     },
     {
-      "id": "2026-10-10",
+      "id": "2026-10-11",
       "titre": "La question de la réunion",
       "contexte": "boulot",
       "situation": "Réunion du lundi, le silence dure depuis dix secondes, et ton manager balaie la table du regard jusqu'à s'arrêter sur toi.",
@@ -114,7 +125,7 @@
       "exercice": "Dis la réplique à voix haute devant un miroir en t'arrêtant un instant après « Une seconde », puis tiens le silence avant de continuer."
     },
     {
-      "id": "2026-10-11",
+      "id": "2026-10-12",
       "titre": "L'annulation de dernière minute",
       "contexte": "amis",
       "situation": "Il est 19 h 12, tu es déjà en chemin vers le restaurant réservé pour quatre, et un message arrive d'un pote de longue date.",
@@ -125,7 +136,7 @@
       "exercice": "Dis la réplique à voix haute comme un message vocal bienveillant, en souriant avec la voix et sans appuyer sur le reproche."
     },
     {
-      "id": "2026-10-12",
+      "id": "2026-10-13",
       "titre": "L'addition à parts égales",
       "contexte": "amis",
       "situation": "À la fin d'un dîner au restaurant à six, tu as pris une salade et de l'eau, les autres des plats, des desserts et du vin.",
@@ -136,7 +147,7 @@
       "exercice": "Dis la réplique à voix haute en souriant vraiment, puis une seconde fois le visage neutre, et note laquelle passe le mieux."
     },
     {
-      "id": "2026-10-13",
+      "id": "2026-10-14",
       "titre": "La fois du mariage",
       "contexte": "amis",
       "situation": "Dîner entre amis, une personne que tu connais peu vient de s'asseoir, et le groupe se tourne vers toi avec des sourires de complices.",
@@ -147,7 +158,7 @@
       "exercice": "Dis la réplique à voix haute en marquant un temps avant « Certaines en recommandé », pour que la chute arrive seule."
     },
     {
-      "id": "2026-10-14",
+      "id": "2026-10-15",
       "titre": "Le premier rendez-vous silencieux",
       "contexte": "couple",
       "situation": "Premier rendez-vous dans un restaurant, au dessert, tu viens de prononcer ta troisième phrase de la soirée.",
