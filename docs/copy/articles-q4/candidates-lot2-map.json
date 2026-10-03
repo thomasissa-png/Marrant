@@ -1,0 +1,1122 @@
+[
+ {
+  "art": "S13",
+  "c": "C1",
+  "v": 3,
+  "ctx": "le 31 décembre, trop de résolutions d'un coup",
+  "t": "Chaque 31 décembre, je prends mes résolutions devant témoins. / Le 15 janvier, les témoins changent de sujet par politesse.",
+  "n": 1
+ },
+ {
+  "art": "S9",
+  "c": "C4",
+  "v": 4,
+  "ctx": "le toast improvisé, quand on te demande « quelques mots » sans prévenir",
+  "t": "On m'a demandé un petit mot à la fin du repas. J'ai dit « merci pour le fromage ». / Je n'avais rien à ajouter. Ça a quand même applaudi.",
+  "n": 2
+ },
+ {
+  "art": "S12",
+  "c": "C2",
+  "v": 5,
+  "ctx": "le groupe regarde ton verre et insiste : « Allez, juste un ! » (deuxième réponse, section « tu bois pas ? »)",
+  "t": "Je suis déjà très en forme, ce soir. / Je tiens ça de la file d'attente de la salle de bain.",
+  "n": 3
+ },
+ {
+  "art": "S9",
+  "c": "C3",
+  "v": 2,
+  "ctx": "le trac, la fiche de notes que l'on a préparée et que l'on ne suit plus",
+  "t": "J'ai répété mon toast à voix haute dans la salle de bain. Le chat est sorti au deuxième paragraphe. / J'ai pris ça pour un avis.",
+  "n": 4
+ },
+ {
+  "art": "S7",
+  "c": "C5",
+  "v": 2,
+  "ctx": "quitter la soirée sans faire de scène",
+  "t": "Je m'en vais avant la photo de groupe. / Je préfère qu'on se souvienne de moi pour l'effort.",
+  "n": 5
+ },
+ {
+  "art": "S6",
+  "c": "C2",
+  "v": 1,
+  "ctx": "le plat raté d'un pote cuisinier, servi à toute la bande (section « qui passe / qui blesse »)",
+  "t": "« Franchement, c'est courageux. Pas pour toi, pour nous. »",
+  "n": 6
+ },
+ {
+  "art": "S13",
+  "c": "C4",
+  "v": 2,
+  "ctx": "la vanne du jour dite à voix haute, devant un public minimal",
+  "t": "Je m'entraîne à ma vanne du matin devant le miroir. / Il me laisse toujours finir. C'est déjà mieux que mes réunions.",
+  "n": 7
+ },
+ {
+  "art": "S11",
+  "c": "C3",
+  "v": 1,
+  "ctx": "jeu 5, la résolution en une phrase (situation : le 31 décembre, on annonce une résolution pour l'année qui vient)",
+  "t": "J'ai écrit mes résolutions sur un papier que j'ai rangé « à un endroit sûr ». / Je les retrouverai en décembre, avec celles de l'an dernier.",
+  "n": 8
+ },
+ {
+  "art": "S6",
+  "c": "C3",
+  "v": 1,
+  "ctx": "une personne qu'on connaît peu gagne la première partie de la soirée (H2 « connaît peu / groupe mixte »)",
+  "t": "« Première partie, première victoire. Les règles, tu les as lues en cachette ? »",
+  "n": 9
+ },
+ {
+  "art": "S7",
+  "c": "C5",
+  "v": 3,
+  "ctx": "quitter la soirée sans faire de scène",
+  "t": "Je rentre avant le dernier métro. / C'est la seule réunion dont je connais l'heure de fin.",
+  "n": 10
+ },
+ {
+  "art": "S6",
+  "c": "C3",
+  "v": 3,
+  "ctx": "une personne qu'on connaît peu gagne la première partie de la soirée (H2 « connaît peu / groupe mixte »)",
+  "t": "« Tu viens d'arriver et tu gagnes déjà. Chez nous, on attend d'habitude d'avoir perdu longtemps avant de mériter ça. »",
+  "n": 11
+ },
+ {
+  "art": "S7",
+  "c": "C2",
+  "v": 3,
+  "ctx": "la direction demande « alors, cette année ? »",
+  "t": "Cette année, j'ai assisté à beaucoup de réunions. / J'en ai même compris une.",
+  "n": 12
+ },
+ {
+  "art": "S12",
+  "c": "C1",
+  "v": 2,
+  "ctx": "à l'arrivée, l'hôte tend une bouteille : « Tu bois pas ? » (réponse courte, section « tu bois pas ? »)",
+  "t": "Ce soir, je suis le conducteur désigné. / Il n'y a pas de voiture. J'ai pris le rôle au sérieux quand même.",
+  "n": 13
+ },
+ {
+  "art": "S7",
+  "c": "C3",
+  "v": 4,
+  "ctx": "le Secret Santa, offrir à quelqu'un qu'on connaît à peine",
+  "t": "Au Secret Santa, j'ai offert une bougie. J'en ai reçu une. / On a le même problème, et la même boutique.",
+  "n": 14
+ },
+ {
+  "art": "S9",
+  "c": "C2",
+  "v": 2,
+  "ctx": "la chute du toast, le plat qui refroidit pendant le discours",
+  "t": "Je vais conclure : le gratin m'a fait comprendre que mon temps de parole était terminé. / Il n'a rien dit. Il a juste arrêté de fumer.",
+  "n": 15
+ },
+ {
+  "art": "S11",
+  "c": "C2",
+  "v": 3,
+  "ctx": "jeu 3, le pire conseil (situation tirée : « arriver à un réveillon où l'on ne connaît personne »)",
+  "t": "Dis à chacun que tu es le plus-un de quelqu'un d'autre. / Personne ne vérifiera, et tout le monde croira connaître ta moitié.",
+  "n": 16
+ },
+ {
+  "art": "S13",
+  "c": "C4",
+  "v": 4,
+  "ctx": "la vanne du jour dite à voix haute, devant un public minimal",
+  "t": "J'ai testé ma vanne du jour sur mon chat. / Il a fait la même tête que mon manager.",
+  "n": 17
+ },
+ {
+  "art": "S13",
+  "c": "C2",
+  "v": 1,
+  "ctx": "la semaine ratée, le report au lundi suivant",
+  "t": "J'ai raté ma résolution lundi, alors je l'ai repoussée au lundi suivant. / Au troisième lundi, on peut parler de routine.",
+  "n": 18
+ },
+ {
+  "art": "S6",
+  "c": "C4",
+  "v": 2,
+  "ctx": "un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages (H2 « se faire chambrer trop », riposte tournée vers soi)",
+  "t": "« J'ai lu ton message avec beaucoup d'attention. Pendant trois semaines. »",
+  "n": 19
+ },
+ {
+  "art": "S10",
+  "c": "C1",
+  "v": 2,
+  "ctx": "idée 3, le mauvais nom (l'adulte se trompe exprès, l'enfant le corrige)",
+  "t": "J'ai fait semblant d'oublier comment s'appelle une cuillère. Mon neveu m'a donné la réponse. / Il me l'a redonnée trois fois, au cas où je l'oublierais encore.",
+  "n": 20
+ },
+ {
+  "art": "S7",
+  "c": "C3",
+  "v": 5,
+  "ctx": "le Secret Santa, offrir à quelqu'un qu'on connaît à peine",
+  "t": "Au Secret Santa, on a le droit de tout offrir, sauf un défaut. / J'ai pris une bougie, par prudence.",
+  "n": 21
+ },
+ {
+  "art": "S10",
+  "c": "C1",
+  "v": 5,
+  "ctx": "idée 3, le mauvais nom (l'adulte se trompe exprès, l'enfant le corrige)",
+  "t": "J'ai appelé la carafe « le seau » devant ma nièce. / Elle a fait signe à sa mère de me surveiller.",
+  "n": 22
+ },
+ {
+  "art": "S9",
+  "c": "C2",
+  "v": 4,
+  "ctx": "la chute du toast, le plat qui refroidit pendant le discours",
+  "t": "Je conclus, parce que toute la table vient de regarder le plat, puis moi, puis le plat. / C'était un vote.",
+  "n": 23
+ },
+ {
+  "art": "S13",
+  "c": "C2",
+  "v": 4,
+  "ctx": "la semaine ratée, le report au lundi suivant",
+  "t": "Ça fait trois semaines que je rate ma résolution. / Je suis très régulier dans le contraire.",
+  "n": 24
+ },
+ {
+  "art": "S12",
+  "c": "C4",
+  "v": 4,
+  "ctx": "piste 5, quand ta vanne ne prend pas (assumer la petite maladresse)",
+  "t": "Je vais faire comme si j'avais dit autre chose. / Toi aussi, si tu veux.",
+  "n": 25
+ },
+ {
+  "art": "S11",
+  "c": "C1",
+  "v": 4,
+  "ctx": "jeu 2, l'excuse en une phrase (situation tirée : « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? »)",
+  "t": "J'attendais d'avoir une bonne réponse. / Je suis en train de la vivre, pour que ce soit vrai.",
+  "n": 26
+ },
+ {
+  "art": "S9",
+  "c": "C3",
+  "v": 3,
+  "ctx": "le trac, la fiche de notes que l'on a préparée et que l'on ne suit plus",
+  "t": "Avant mon toast, mes mains tremblaient tellement que le verre faisait de la musique. / Quelqu'un a applaudi avant la fin.",
+  "n": 27
+ },
+ {
+  "art": "S7",
+  "c": "C1",
+  "v": 1,
+  "ctx": "croiser à la soirée quelqu'un d'un autre service qu'on ne connaît que par ses mails",
+  "t": "On s'écrit depuis deux ans. Je te rencontre enfin. / Jusqu'ici, tu étais pour moi un « bien cordialement ».",
+  "n": 28
+ },
+ {
+  "art": "S10",
+  "c": "C3",
+  "v": 1,
+  "ctx": "section « ce qui rate », la blague expliquée (l'adulte raconte son propre échec)",
+  "t": "J'ai expliqué ma blague à mon neveu. Il a dit « d'accord ». / C'est la première fois qu'on me répond avec autant de gentillesse.",
+  "n": 29
+ },
+ {
+  "art": "S13",
+  "c": "C3",
+  "v": 3,
+  "ctx": "le tableau de suivi, les cases à cocher",
+  "t": "J'ai fait un tableau de suivi pour ma résolution. / La seule colonne remplie, c'est « commentaires ».",
+  "n": 30
+ },
+ {
+  "art": "S13",
+  "c": "C4",
+  "v": 3,
+  "ctx": "la vanne du jour dite à voix haute, devant un public minimal",
+  "t": "J'ai répété ma vanne trois fois à voix basse dans l'ascenseur. / Quelqu'un est monté au deuxième. Je l'ai terminée en toussant.",
+  "n": 31
+ },
+ {
+  "art": "S10",
+  "c": "C2",
+  "v": 5,
+  "ctx": "idée 5, le geste qui revient (la grimace réclamée en boucle)",
+  "t": "Mon neveu m'a dit « encore ! ». J'ai recommencé. Il a redit « encore ! ». / J'ai compris pourquoi les adultes répondent « on verra ».",
+  "n": 32
+ },
+ {
+  "art": "S6",
+  "c": "C3",
+  "v": 2,
+  "ctx": "une personne qu'on connaît peu gagne la première partie de la soirée (H2 « connaît peu / groupe mixte »)",
+  "t": "« Vingt minutes dans le groupe et tu as déjà battu la moitié de la bande. Les autres ont des années d'entraînement. »",
+  "n": 33
+ },
+ {
+  "art": "S10",
+  "c": "C2",
+  "v": 1,
+  "ctx": "idée 5, le geste qui revient (la grimace réclamée en boucle)",
+  "t": "Mon neveu m'a demandé de refaire ma grimace. Je l'ai faite quinze fois. / Je suis passé d'invité à fournisseur.",
+  "n": 34
+ },
+ {
+  "art": "S7",
+  "c": "C1",
+  "v": 3,
+  "ctx": "croiser à la soirée quelqu'un d'un autre service qu'on ne connaît que par ses mails",
+  "t": "Je t'ai enfin devant moi. J'ai trois dossiers à te relancer. / Mais ce soir, je te laisse tranquille.",
+  "n": 35
+ },
+ {
+  "art": "S12",
+  "c": "C1",
+  "v": 3,
+  "ctx": "à l'arrivée, l'hôte tend une bouteille : « Tu bois pas ? » (réponse courte, section « tu bois pas ? »)",
+  "t": "Je suis en mission : retenir les prénoms. / J'en suis à deux, et l'un d'eux est le tien.",
+  "n": 36
+ },
+ {
+  "art": "S6",
+  "c": "C1",
+  "v": 3,
+  "ctx": "un pote arrive en retard, comme chaque fois (règle 1, chambrer une habitude)",
+  "t": "« On a fondé un club pour tes retards. Les membres sont tous arrivés à l'heure. »",
+  "n": 37
+ },
+ {
+  "art": "S6",
+  "c": "C2",
+  "v": 3,
+  "ctx": "le plat raté d'un pote cuisinier, servi à toute la bande (section « qui passe / qui blesse »)",
+  "t": "« Je reprends du pain. Beaucoup de pain. »",
+  "n": 38
+ },
+ {
+  "art": "S12",
+  "c": "C3",
+  "v": 1,
+  "ctx": "piste 3, la phrase d'entrée quand tu ne connais personne",
+  "t": "Salut, je connais l'hôte et le code de l'immeuble. / Je ne sais plus lequel des deux m'a fait entrer.",
+  "n": 39
+ },
+ {
+  "art": "S11",
+  "c": "C2",
+  "v": 2,
+  "ctx": "jeu 3, le pire conseil (situation tirée : « arriver à un réveillon où l'on ne connaît personne »)",
+  "t": "Apporte un plat principal, pas un dessert. / Ils seront obligés de te garder pour le service.",
+  "n": 40
+ },
+ {
+  "art": "S6",
+  "c": "C1",
+  "v": 1,
+  "ctx": "un pote arrive en retard, comme chaque fois (règle 1, chambrer une habitude)",
+  "t": "« Ah, te voilà. On avait ouvert les paris sur ton excuse. Le métro est en tête. »",
+  "n": 41
+ },
+ {
+  "art": "S12",
+  "c": "C5",
+  "v": 4,
+  "ctx": "piste 6, partir à ton heure",
+  "t": "Je pars sur une bonne note. / C'est la seule que j'ai trouvée de la soirée.",
+  "n": 42
+ },
+ {
+  "art": "S6",
+  "c": "C2",
+  "v": 5,
+  "ctx": "le plat raté d'un pote cuisinier, servi à toute la bande (section « qui passe / qui blesse »)",
+  "t": "« On t'a nommé meilleur cuisinier du groupe par politesse. On continue par amitié. »",
+  "n": 43
+ },
+ {
+  "art": "S10",
+  "c": "C3",
+  "v": 5,
+  "ctx": "section « ce qui rate », la blague expliquée (l'adulte raconte son propre échec)",
+  "t": "Ma nièce a écouté ma blague, puis elle m'a posé trois questions de logique. / J'ai retiré la blague. Elle a gardé les questions.",
+  "n": 44
+ },
+ {
+  "art": "S12",
+  "c": "C4",
+  "v": 5,
+  "ctx": "piste 5, quand ta vanne ne prend pas (assumer la petite maladresse)",
+  "t": "Ma vanne avait un début, un milieu, une fin. / Il lui manquait juste un public.",
+  "n": 45
+ },
+ {
+  "art": "S12",
+  "c": "C2",
+  "v": 4,
+  "ctx": "le groupe regarde ton verre et insiste : « Allez, juste un ! » (deuxième réponse, section « tu bois pas ? »)",
+  "t": "Si j'ajoute quoi que ce soit, je deviens trop sûr de moi. / Je me suis déjà salué dans le miroir de l'entrée.",
+  "n": 46
+ },
+ {
+  "art": "S10",
+  "c": "C3",
+  "v": 4,
+  "ctx": "section « ce qui rate », la blague expliquée (l'adulte raconte son propre échec)",
+  "t": "J'ai dû expliquer ma blague à ma nièce. À la fin, elle a dit « c'est tout ? ». / J'ai répondu que oui. Elle a eu la politesse de ne pas insister.",
+  "n": 47
+ },
+ {
+  "art": "S7",
+  "c": "C4",
+  "v": 2,
+  "ctx": "sa vanne tombe dans le silence devant l'équipe",
+  "t": "Je vais laisser cette blague ici. / Elle a besoin de calme.",
+  "n": 48
+ },
+ {
+  "art": "S11",
+  "c": "C2",
+  "v": 1,
+  "ctx": "jeu 3, le pire conseil (situation tirée : « arriver à un réveillon où l'on ne connaît personne »)",
+  "t": "Si tu ne connais personne, reste près de la porte. / On te prendra pour quelqu'un d'attendu ailleurs, donc d'important.",
+  "n": 49
+ },
+ {
+  "art": "S7",
+  "c": "C4",
+  "v": 1,
+  "ctx": "sa vanne tombe dans le silence devant l'équipe",
+  "t": "Dans ma version, il y avait des rires à cet endroit. / Je suis ouvert aux corrections.",
+  "n": 50
+ },
+ {
+  "art": "S7",
+  "c": "C2",
+  "v": 4,
+  "ctx": "la direction demande « alors, cette année ? »",
+  "t": "Cette année, j'ai réussi à ne jamais répondre à tous par erreur. / J'ai répondu à personne, par précaution.",
+  "n": 51
+ },
+ {
+  "art": "S11",
+  "c": "C1",
+  "v": 3,
+  "ctx": "jeu 2, l'excuse en une phrase (situation tirée : « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? »)",
+  "t": "Ton message est arrivé un mardi. / Depuis, il y a eu trois mardis. J'ai été très pris.",
+  "n": 52
+ },
+ {
+  "art": "S6",
+  "c": "C3",
+  "v": 5,
+  "ctx": "une personne qu'on connaît peu gagne la première partie de la soirée (H2 « connaît peu / groupe mixte »)",
+  "t": "« On t'a laissé gagner pour que tu reviennes. Ça a marché : tu as gagné pour de vrai. »",
+  "n": 53
+ },
+ {
+  "art": "S9",
+  "c": "C2",
+  "v": 5,
+  "ctx": "la chute du toast, le plat qui refroidit pendant le discours",
+  "t": "Un bon discours se termine avant que le plat refroidisse. Le mien s'est terminé il y a deux minutes. / Je suis en prolongation.",
+  "n": 54
+ },
+ {
+  "art": "S13",
+  "c": "C1",
+  "v": 2,
+  "ctx": "le 31 décembre, trop de résolutions d'un coup",
+  "t": "Ma résolution de janvier : être plus drôle, plus sportif et plus organisé. / J'ai tenu le « et ».",
+  "n": 55
+ },
+ {
+  "art": "S10",
+  "c": "C1",
+  "v": 3,
+  "ctx": "idée 3, le mauvais nom (l'adulte se trompe exprès, l'enfant le corrige)",
+  "t": "Je me suis trompé exprès en nommant la cuillère. Ma nièce a ri, puis elle m'a repris avec fermeté. / Je n'ai jamais été corrigé avec autant de plaisir.",
+  "n": 56
+ },
+ {
+  "art": "S6",
+  "c": "C1",
+  "v": 5,
+  "ctx": "un pote arrive en retard, comme chaque fois (règle 1, chambrer une habitude)",
+  "t": "« Tu es en avance sur ton retard habituel. C'est un progrès. »",
+  "n": 57
+ },
+ {
+  "art": "S9",
+  "c": "C3",
+  "v": 5,
+  "ctx": "le trac, la fiche de notes que l'on a préparée et que l'on ne suit plus",
+  "t": "Mon toast tenait sur une fiche. J'ai passé le repas à la relire sous la table. / On m'a demandé de ranger mon téléphone.",
+  "n": 58
+ },
+ {
+  "art": "S10",
+  "c": "C3",
+  "v": 2,
+  "ctx": "section « ce qui rate », la blague expliquée (l'adulte raconte son propre échec)",
+  "t": "J'ai raconté une blague à ma nièce. Elle a demandé « et après ? ». / Il n'y avait pas d'après. Elle a attendu quand même.",
+  "n": 59
+ },
+ {
+  "art": "S7",
+  "c": "C3",
+  "v": 1,
+  "ctx": "le Secret Santa, offrir à quelqu'un qu'on connaît à peine",
+  "t": "Au Secret Santa, j'ai enquêté une semaine sur la personne que j'avais tirée. / Je sais tout d'elle, sauf ce qu'elle aime. J'ai pris une bougie.",
+  "n": 60
+ },
+ {
+  "art": "S11",
+  "c": "C3",
+  "v": 5,
+  "ctx": "jeu 5, la résolution en une phrase (situation : le 31 décembre, on annonce une résolution pour l'année qui vient)",
+  "t": "J'ai demandé à mon agenda ce qu'il pensait de mes résolutions. / Il a tourné la page. Il connaît la suite.",
+  "n": 61
+ },
+ {
+  "art": "S13",
+  "c": "C4",
+  "v": 1,
+  "ctx": "la vanne du jour dite à voix haute, devant un public minimal",
+  "t": "Pour ma résolution, je dis une vanne par jour à ma plante. / Elle ne rit pas, mais elle ne part pas non plus.",
+  "n": 62
+ },
+ {
+  "art": "S7",
+  "c": "C2",
+  "v": 5,
+  "ctx": "la direction demande « alors, cette année ? »",
+  "t": "Mon bilan de l'année tient en une phrase. / Elle a pris vingt minutes en réunion.",
+  "n": 63
+ },
+ {
+  "art": "S10",
+  "c": "C3",
+  "v": 3,
+  "ctx": "section « ce qui rate », la blague expliquée (l'adulte raconte son propre échec)",
+  "t": "Mon neveu a écouté ma blague jusqu'au bout avec beaucoup d'attention. / Puis il m'a demandé de lui passer le pain.",
+  "n": 64
+ },
+ {
+  "art": "S13",
+  "c": "C3",
+  "v": 4,
+  "ctx": "le tableau de suivi, les cases à cocher",
+  "t": "Mon tableau de suivi a quatre colonnes pour quatre semaines. / J'ai décoré la première. Elle est magnifique.",
+  "n": 65
+ },
+ {
+  "art": "S12",
+  "c": "C3",
+  "v": 3,
+  "ctx": "piste 3, la phrase d'entrée quand tu ne connais personne",
+  "t": "Je suis venu pour l'ambiance. / Elle est où ? Je veux juste savoir où me mettre.",
+  "n": 66
+ },
+ {
+  "art": "S10",
+  "c": "C2",
+  "v": 4,
+  "ctx": "idée 5, le geste qui revient (la grimace réclamée en boucle)",
+  "t": "J'ai annoncé le dessert d'une voix de présentateur. Mon neveu a exigé qu'on annonce aussi le pain. / On a fini par annoncer la carafe d'eau. Il a applaudi chaque fois.",
+  "n": 67
+ },
+ {
+  "art": "S11",
+  "c": "C3",
+  "v": 2,
+  "ctx": "jeu 5, la résolution en une phrase (situation : le 31 décembre, on annonce une résolution pour l'année qui vient)",
+  "t": "Cette année, je me suis fixé trois résolutions. / Une par mois, jusqu'à mars. Après, je rediscute le contrat.",
+  "n": 68
+ },
+ {
+  "art": "S13",
+  "c": "C1",
+  "v": 4,
+  "ctx": "le 31 décembre, trop de résolutions d'un coup",
+  "t": "Le 1er janvier, je me suis promis de changer. / Le 2, j'ai demandé un délai.",
+  "n": 69
+ },
+ {
+  "art": "S7",
+  "c": "C1",
+  "v": 4,
+  "ctx": "croiser à la soirée quelqu'un d'un autre service qu'on ne connaît que par ses mails",
+  "t": "C'est donc toi, « bien cordialement ». / Tu es exactement comme tes mails. Cordial, et un peu en copie.",
+  "n": 70
+ },
+ {
+  "art": "S9",
+  "c": "C4",
+  "v": 2,
+  "ctx": "le toast improvisé, quand on te demande « quelques mots » sans prévenir",
+  "t": "Un oncle a dit « et maintenant, un petit discours ! » en me regardant. / Je n'avais pas de petit discours. J'avais un grand silence. Il a duré.",
+  "n": 71
+ },
+ {
+  "art": "S12",
+  "c": "C1",
+  "v": 4,
+  "ctx": "à l'arrivée, l'hôte tend une bouteille : « Tu bois pas ? » (réponse courte, section « tu bois pas ? »)",
+  "t": "Je me garde pour la fin de soirée. / Je ne sais pas encore pour quoi. Je me garde quand même.",
+  "n": 72
+ },
+ {
+  "art": "S11",
+  "c": "C1",
+  "v": 2,
+  "ctx": "jeu 2, l'excuse en une phrase (situation tirée : « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? »)",
+  "t": "J'ai lu ton message le jour même. / Depuis, je rédige la réponse. Elle fait onze pages.",
+  "n": 73
+ },
+ {
+  "art": "S9",
+  "c": "C1",
+  "v": 2,
+  "ctx": "l'accroche du toast, quand on tape sur son verre et que la table attend une annonce",
+  "t": "Quand je tape sur mon verre, toute la famille croit à une annonce. / L'annonce, c'est que je vais parler. Certains ont déjà regardé la porte.",
+  "n": 74
+ },
+ {
+  "art": "S6",
+  "c": "C2",
+  "v": 4,
+  "ctx": "le plat raté d'un pote cuisinier, servi à toute la bande (section « qui passe / qui blesse »)",
+  "t": "« Je le dis avec tendresse : ta cuisine nous a rapprochés. On s'est tous regardés. »",
+  "n": 75
+ },
+ {
+  "art": "S7",
+  "c": "C4",
+  "v": 4,
+  "ctx": "sa vanne tombe dans le silence devant l'équipe",
+  "t": "Mon humour met parfois quelques jours à arriver. / Revenez lundi.",
+  "n": 76
+ },
+ {
+  "art": "S9",
+  "c": "C1",
+  "v": 1,
+  "ctx": "l'accroche du toast, quand on tape sur son verre et que la table attend une annonce",
+  "t": "J'ai tapé sur mon verre pour demander le silence. Quelqu'un a demandé « c'est pour un mariage ? ». / J'ai dit non. Il y a eu de la déception.",
+  "n": 77
+ },
+ {
+  "art": "S9",
+  "c": "C2",
+  "v": 1,
+  "ctx": "la chute du toast, le plat qui refroidit pendant le discours",
+  "t": "Je vois que le gratin refroidit pendant mon discours. / Dans cette famille, on pardonne beaucoup de choses, mais pas ça.",
+  "n": 78
+ },
+ {
+  "art": "S10",
+  "c": "C2",
+  "v": 3,
+  "ctx": "idée 5, le geste qui revient (la grimace réclamée en boucle)",
+  "t": "Ma nièce a ri à ma grimace. Elle a dit « encore ». / Une heure plus tard, c'était toujours la première fois pour elle.",
+  "n": 79
+ },
+ {
+  "art": "S7",
+  "c": "C3",
+  "v": 3,
+  "ctx": "le Secret Santa, offrir à quelqu'un qu'on connaît à peine",
+  "t": "Au Secret Santa, j'ai pris trois semaines pour choisir. / Le cadeau a pris quatre secondes à déballer.",
+  "n": 80
+ },
+ {
+  "art": "S12",
+  "c": "C5",
+  "v": 1,
+  "ctx": "piste 6, partir à ton heure",
+  "t": "Je vais y aller. / Mon lit m'a écrit trois fois.",
+  "n": 81
+ },
+ {
+  "art": "S10",
+  "c": "C1",
+  "v": 1,
+  "ctx": "idée 3, le mauvais nom (l'adulte se trompe exprès, l'enfant le corrige)",
+  "t": "Devant ma nièce, j'ai appelé la cuillère « fourchette ». / Elle a repris le repas en main avec une patience que je n'ai jamais vue chez un adulte.",
+  "n": 82
+ },
+ {
+  "art": "S10",
+  "c": "C2",
+  "v": 2,
+  "ctx": "idée 5, le geste qui revient (la grimace réclamée en boucle)",
+  "t": "J'ai fait une grimace une seule fois au dessert. Mon neveu l'a exigée à chaque service. / Je n'avais pas vu que j'avais signé un contrat.",
+  "n": 83
+ },
+ {
+  "art": "S12",
+  "c": "C5",
+  "v": 5,
+  "ctx": "piste 6, partir à ton heure",
+  "t": "Je vous laisse, j'ai laissé de la lumière dans l'entrée. / Elle m'attend depuis ce matin, elle commence à s'inquiéter.",
+  "n": 84
+ },
+ {
+  "art": "S9",
+  "c": "C4",
+  "v": 1,
+  "ctx": "le toast improvisé, quand on te demande « quelques mots » sans prévenir",
+  "t": "On m'a demandé « tu peux dire quelques mots ? » sans prévenir. J'en ai dit trois : merci, santé, à table. / On m'a trouvé très synthétique.",
+  "n": 85
+ },
+ {
+  "art": "S6",
+  "c": "C1",
+  "v": 2,
+  "ctx": "un pote arrive en retard, comme chaque fois (règle 1, chambrer une habitude)",
+  "t": "« Tu arrives à l'heure où, chez les autres, on range. »",
+  "n": 86
+ },
+ {
+  "art": "S12",
+  "c": "C2",
+  "v": 2,
+  "ctx": "le groupe regarde ton verre et insiste : « Allez, juste un ! » (deuxième réponse, section « tu bois pas ? »)",
+  "t": "Mon verre est plein d'eau pétillante. / C'est la seule chose ici qui fait des bulles sans me demander mon avis.",
+  "n": 87
+ },
+ {
+  "art": "S6",
+  "c": "C2",
+  "v": 2,
+  "ctx": "le plat raté d'un pote cuisinier, servi à toute la bande (section « qui passe / qui blesse »)",
+  "t": "« C'est très bien, ton plat. Je dis ça avec la bouche pleine d'eau. »",
+  "n": 88
+ },
+ {
+  "art": "S13",
+  "c": "C1",
+  "v": 5,
+  "ctx": "le 31 décembre, trop de résolutions d'un coup",
+  "t": "Ma liste de résolutions tenait sur une page. / En février, je m'en suis servi pour caler la table.",
+  "n": 89
+ },
+ {
+  "art": "S12",
+  "c": "C3",
+  "v": 2,
+  "ctx": "piste 3, la phrase d'entrée quand tu ne connais personne",
+  "t": "Bonsoir, je cherche quelqu'un qui connaît quelqu'un. / Je suis arrivé avec un dessert et rien d'autre.",
+  "n": 90
+ },
+ {
+  "art": "S7",
+  "c": "C5",
+  "v": 5,
+  "ctx": "quitter la soirée sans faire de scène",
+  "t": "Je pars en premier pour que vous puissiez parler de moi tranquillement. / Dites du bien, j'ai tout mon temps.",
+  "n": 91
+ },
+ {
+  "art": "S7",
+  "c": "C1",
+  "v": 5,
+  "ctx": "croiser à la soirée quelqu'un d'un autre service qu'on ne connaît que par ses mails",
+  "t": "On a échangé des centaines de mails. C'est notre première conversation. / Je propose qu'on fasse court, pour changer.",
+  "n": 92
+ },
+ {
+  "art": "S11",
+  "c": "C1",
+  "v": 5,
+  "ctx": "jeu 2, l'excuse en une phrase (situation tirée : « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? »)",
+  "t": "J'ai voulu te répondre à la hauteur. / Je n'ai pas trouvé d'échelle assez grande.",
+  "n": 93
+ },
+ {
+  "art": "S7",
+  "c": "C4",
+  "v": 3,
+  "ctx": "sa vanne tombe dans le silence devant l'équipe",
+  "t": "Je tiens à remercier le public pour ce silence. / Il était très bien placé.",
+  "n": 94
+ },
+ {
+  "art": "S9",
+  "c": "C4",
+  "v": 3,
+  "ctx": "le toast improvisé, quand on te demande « quelques mots » sans prévenir",
+  "t": "On m'a demandé de dire un mot. J'ai dit « santé ». / C'est le seul discours de ma vie que tout le monde a applaudi.",
+  "n": 95
+ },
+ {
+  "art": "S7",
+  "c": "C1",
+  "v": 2,
+  "ctx": "croiser à la soirée quelqu'un d'un autre service qu'on ne connaît que par ses mails",
+  "t": "On s'écrit depuis deux ans. Je commençais à croire que tu étais une signature automatique. / Tu as même une voix. Ça change tout.",
+  "n": 96
+ },
+ {
+  "art": "S12",
+  "c": "C2",
+  "v": 3,
+  "ctx": "le groupe regarde ton verre et insiste : « Allez, juste un ! » (deuxième réponse, section « tu bois pas ? »)",
+  "t": "Je suis comme ça en vrai. / Je sais, personne n'est prêt.",
+  "n": 97
+ },
+ {
+  "art": "S9",
+  "c": "C3",
+  "v": 1,
+  "ctx": "le trac, la fiche de notes que l'on a préparée et que l'on ne suit plus",
+  "t": "J'ai préparé mon toast sur une fiche, avec mes meilleures phrases soulignées. / Dans le trac, j'ai tout lu, sauf les phrases soulignées.",
+  "n": 98
+ },
+ {
+  "art": "S13",
+  "c": "C2",
+  "v": 3,
+  "ctx": "la semaine ratée, le report au lundi suivant",
+  "t": "Ma résolution a duré jusqu'au 9 janvier. / On s'est quittés en bons termes.",
+  "n": 99
+ },
+ {
+  "art": "S12",
+  "c": "C4",
+  "v": 1,
+  "ctx": "piste 5, quand ta vanne ne prend pas (assumer la petite maladresse)",
+  "t": "Cette vanne marchait très bien dans ma tête. / Elle avait un public, des applaudissements, un rappel.",
+  "n": 100
+ },
+ {
+  "art": "S12",
+  "c": "C3",
+  "v": 5,
+  "ctx": "piste 3, la phrase d'entrée quand tu ne connais personne",
+  "t": "Salut, je cherche le coin où on discute. / J'ai fait le tour : il y en a trois, et ils ont tous du monde.",
+  "n": 101
+ },
+ {
+  "art": "S7",
+  "c": "C2",
+  "v": 2,
+  "ctx": "la direction demande « alors, cette année ? »",
+  "t": "Mon plus gros succès de l'année : j'ai trouvé comment imprimer en recto verso. / Depuis, je n'imprime plus. Par prudence.",
+  "n": 102
+ },
+ {
+  "art": "S13",
+  "c": "C2",
+  "v": 5,
+  "ctx": "la semaine ratée, le report au lundi suivant",
+  "t": "J'ai raté une semaine, puis une autre. / Ma résolution est partie sans faire de bruit. J'ai failli lui dire que je comprenais.",
+  "n": 103
+ },
+ {
+  "art": "S9",
+  "c": "C3",
+  "v": 4,
+  "ctx": "le trac, la fiche de notes que l'on a préparée et que l'on ne suit plus",
+  "t": "Quand j'ai le trac, je parle vite. Mon dernier toast était fini avant que tout le monde ait levé son verre. / J'ai dû le refaire. En plus lent, il était pire.",
+  "n": 104
+ },
+ {
+  "art": "S12",
+  "c": "C4",
+  "v": 2,
+  "ctx": "piste 5, quand ta vanne ne prend pas (assumer la petite maladresse)",
+  "t": "J'avais préparé une vanne dans le métro. / Elle est restée à la correspondance.",
+  "n": 105
+ },
+ {
+  "art": "S12",
+  "c": "C3",
+  "v": 4,
+  "ctx": "piste 3, la phrase d'entrée quand tu ne connais personne",
+  "t": "Je ne connais que la personne qui m'a invité. / Je viens de la perdre. Tu m'aides à la retrouver ?",
+  "n": 106
+ },
+ {
+  "art": "S13",
+  "c": "C4",
+  "v": 5,
+  "ctx": "la vanne du jour dite à voix haute, devant un public minimal",
+  "t": "J'ai ressorti ma vanne du matin au déjeuner. / Un collègue a dit « ça me dit quelque chose ». J'ai un public fidèle.",
+  "n": 107
+ },
+ {
+  "art": "S11",
+  "c": "C3",
+  "v": 3,
+  "ctx": "jeu 5, la résolution en une phrase (situation : le 31 décembre, on annonce une résolution pour l'année qui vient)",
+  "t": "J'ai pris la résolution d'arrêter de remettre à plus tard. / Je l'ai notée pour le 2 janvier, pour être tranquille ce soir.",
+  "n": 108
+ },
+ {
+  "art": "S10",
+  "c": "C1",
+  "v": 4,
+  "ctx": "idée 3, le mauvais nom (l'adulte se trompe exprès, l'enfant le corrige)",
+  "t": "J'ai voulu manger ma soupe avec une fourchette, pour rire. Mon neveu m'a regardé avec inquiétude. / Puis il m'a prêté sa cuillère, pour que je reprenne mes esprits.",
+  "n": 109
+ },
+ {
+  "art": "S9",
+  "c": "C1",
+  "v": 3,
+  "ctx": "l'accroche du toast, quand on tape sur son verre et que la table attend une annonce",
+  "t": "J'ai tapé sur mon verre. Ma grand-mère a dit « il va nous annoncer quelque chose ». / Oui : qu'on peut rester assis.",
+  "n": 110
+ },
+ {
+  "art": "S12",
+  "c": "C1",
+  "v": 1,
+  "ctx": "à l'arrivée, l'hôte tend une bouteille : « Tu bois pas ? » (réponse courte, section « tu bois pas ? »)",
+  "t": "Ce soir, je tiens la mémoire de la soirée. / Poste non rémunéré, mais les archives sont complètes.",
+  "n": 111
+ },
+ {
+  "art": "S12",
+  "c": "C2",
+  "v": 1,
+  "ctx": "le groupe regarde ton verre et insiste : « Allez, juste un ! » (deuxième réponse, section « tu bois pas ? »)",
+  "t": "J'ai déjà atteint mon maximum de spontanéité ce soir. / J'ai dit bonjour avant qu'on me le demande.",
+  "n": 112
+ },
+ {
+  "art": "S6",
+  "c": "C4",
+  "v": 1,
+  "ctx": "un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages (H2 « se faire chambrer trop », riposte tournée vers soi)",
+  "t": "« Je t'ai répondu. Dans ma tête, tu as même eu une très belle réponse. »",
+  "n": 113
+ },
+ {
+  "art": "S6",
+  "c": "C4",
+  "v": 5,
+  "ctx": "un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages (H2 « se faire chambrer trop », riposte tournée vers soi)",
+  "t": "« Tu as eu ma réponse en pensée dès que tu as écrit. Je ne pouvais pas la formuler plus vite. »",
+  "n": 114
+ },
+ {
+  "art": "S11",
+  "c": "C1",
+  "v": 1,
+  "ctx": "jeu 2, l'excuse en une phrase (situation tirée : « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? »)",
+  "t": "J'ai répondu dans ma tête, tout de suite. / Je pensais que ça partait automatiquement.",
+  "n": 115
+ },
+ {
+  "art": "S7",
+  "c": "C4",
+  "v": 5,
+  "ctx": "sa vanne tombe dans le silence devant l'équipe",
+  "t": "Cette blague marchait très bien dans l'ascenseur. / Je pense que c'était l'ascenseur.",
+  "n": 116
+ },
+ {
+  "art": "S11",
+  "c": "C2",
+  "v": 4,
+  "ctx": "jeu 3, le pire conseil (situation tirée : « arriver à un réveillon où l'on ne connaît personne »)",
+  "t": "Fais comme chez toi. / Surtout dans le frigo : les gens adorent qu'on connaisse leurs réserves.",
+  "n": 117
+ },
+ {
+  "art": "S6",
+  "c": "C4",
+  "v": 4,
+  "ctx": "un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages (H2 « se faire chambrer trop », riposte tournée vers soi)",
+  "t": "« Je réponds toujours. Le réseau, lui, a du mal à suivre mon rythme. »",
+  "n": 118
+ },
+ {
+  "art": "S9",
+  "c": "C1",
+  "v": 5,
+  "ctx": "l'accroche du toast, quand on tape sur son verre et que la table attend une annonce",
+  "t": "Je me suis levé avec mon verre. Tout le monde a posé sa fourchette, comme devant un jury. / Je rappelle que j'ai juste préparé un toast.",
+  "n": 119
+ },
+ {
+  "art": "S7",
+  "c": "C5",
+  "v": 1,
+  "ctx": "quitter la soirée sans faire de scène",
+  "t": "Je file. Si on me cherche lundi, j'étais là. / J'ai même parlé à la direction.",
+  "n": 120
+ },
+ {
+  "art": "S13",
+  "c": "C3",
+  "v": 1,
+  "ctx": "le tableau de suivi, les cases à cocher",
+  "t": "J'ai fait un tableau de suivi avec de jolies cases à cocher. / J'ai passé plus de temps à tracer les cases qu'à faire la résolution. Elles sont très droites.",
+  "n": 121
+ },
+ {
+  "art": "S11",
+  "c": "C2",
+  "v": 5,
+  "ctx": "jeu 3, le pire conseil (situation tirée : « arriver à un réveillon où l'on ne connaît personne »)",
+  "t": "Arrive très tôt et propose ton aide en cuisine. / À minuit, on te confondra avec le traiteur.",
+  "n": 122
+ },
+ {
+  "art": "S13",
+  "c": "C2",
+  "v": 2,
+  "ctx": "la semaine ratée, le report au lundi suivant",
+  "t": "J'ai sauté une semaine, alors j'ai décidé de la rattraper en une soirée. / La soirée a décidé de ne pas venir.",
+  "n": 123
+ },
+ {
+  "art": "S11",
+  "c": "C3",
+  "v": 4,
+  "ctx": "jeu 5, la résolution en une phrase (situation : le 31 décembre, on annonce une résolution pour l'année qui vient)",
+  "t": "Ma résolution : dire non plus souvent. / J'ai dit oui à l'idée en moins de trois secondes, pour garder une marge.",
+  "n": 124
+ },
+ {
+  "art": "S7",
+  "c": "C5",
+  "v": 4,
+  "ctx": "quitter la soirée sans faire de scène",
+  "t": "Je vais y aller, j'ai un agenda très chargé demain. / Le canapé est réservé depuis le début de l'année.",
+  "n": 125
+ },
+ {
+  "art": "S7",
+  "c": "C2",
+  "v": 1,
+  "ctx": "la direction demande « alors, cette année ? »",
+  "t": "Cette année, j'ai enfin appris où est la salle de réunion du deuxième étage. / Elle est au troisième.",
+  "n": 126
+ },
+ {
+  "art": "S12",
+  "c": "C5",
+  "v": 2,
+  "ctx": "piste 6, partir à ton heure",
+  "t": "Je file, j'ai un rendez-vous important. / Mon oreiller n'a pas de patience.",
+  "n": 127
+ },
+ {
+  "art": "S13",
+  "c": "C1",
+  "v": 1,
+  "ctx": "le 31 décembre, trop de résolutions d'un coup",
+  "t": "Le 31 décembre, j'ai pris onze résolutions. / Le 2 janvier, j'ai organisé une réunion pour décider par laquelle commencer.",
+  "n": 128
+ },
+ {
+  "art": "S12",
+  "c": "C1",
+  "v": 5,
+  "ctx": "à l'arrivée, l'hôte tend une bouteille : « Tu bois pas ? » (réponse courte, section « tu bois pas ? »)",
+  "t": "Je prends de l'eau pétillante. / Ça a l'air d'un cocktail tant qu'on ne me demande pas la recette.",
+  "n": 129
+ },
+ {
+  "art": "S13",
+  "c": "C3",
+  "v": 5,
+  "ctx": "le tableau de suivi, les cases à cocher",
+  "t": "J'ai coché la case « être plus drôle ». / Mon ami a demandé qui l'avait validée. J'ai répondu « moi ».",
+  "n": 130
+ },
+ {
+  "art": "S9",
+  "c": "C2",
+  "v": 3,
+  "ctx": "la chute du toast, le plat qui refroidit pendant le discours",
+  "t": "Mon discours devait être court. Le gratin a refroidi pendant le premier paragraphe. / Je lève le verre avant d'être jugé.",
+  "n": 131
+ },
+ {
+  "art": "S9",
+  "c": "C4",
+  "v": 5,
+  "ctx": "le toast improvisé, quand on te demande « quelques mots » sans prévenir",
+  "t": "Quand on m'a demandé de dire quelques mots, j'ai senti mon cerveau chercher la sortie. / Il a trouvé la cuisine. Je l'ai suivi.",
+  "n": 132
+ },
+ {
+  "art": "S6",
+  "c": "C1",
+  "v": 4,
+  "ctx": "un pote arrive en retard, comme chaque fois (règle 1, chambrer une habitude)",
+  "t": "« Ne t'inquiète pas, on t'a gardé la dernière part. Elle date de 19 h. »",
+  "n": 133
+ },
+ {
+  "art": "S7",
+  "c": "C3",
+  "v": 2,
+  "ctx": "le Secret Santa, offrir à quelqu'un qu'on connaît à peine",
+  "t": "Au Secret Santa, j'ai tiré quelqu'un que j'ai croisé deux fois. / On a maintenant un lien : je sais où il range ses stylos.",
+  "n": 134
+ },
+ {
+  "art": "S9",
+  "c": "C1",
+  "v": 4,
+  "ctx": "l'accroche du toast, quand on tape sur son verre et que la table attend une annonce",
+  "t": "Chez nous, quand on tape sur un verre, on se tait, on se regarde, on sort un mouchoir. / Je n'ai encore rien dit.",
+  "n": 135
+ },
+ {
+  "art": "S6",
+  "c": "C3",
+  "v": 4,
+  "ctx": "une personne qu'on connaît peu gagne la première partie de la soirée (H2 « connaît peu / groupe mixte »)",
+  "t": "« Bravo. Tu es officiellement le seul à qui on a expliqué les règles. »",
+  "n": 136
+ },
+ {
+  "art": "S13",
+  "c": "C3",
+  "v": 2,
+  "ctx": "le tableau de suivi, les cases à cocher",
+  "t": "Je coche une case chaque soir pour ma résolution. / Hier, j'ai coché pour demain, par avance. Je fais confiance au futur.",
+  "n": 137
+ },
+ {
+  "art": "S12",
+  "c": "C4",
+  "v": 3,
+  "ctx": "piste 5, quand ta vanne ne prend pas (assumer la petite maladresse)",
+  "t": "Je viens de dire ça à voix haute. / Dans ma tête, c'était mieux placé.",
+  "n": 138
+ },
+ {
+  "art": "S6",
+  "c": "C4",
+  "v": 3,
+  "ctx": "un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages (H2 « se faire chambrer trop », riposte tournée vers soi)",
+  "t": "« Mon silence est une marque de respect. Chez toi, ça s'appelle un vu. »",
+  "n": 139
+ },
+ {
+  "art": "S12",
+  "c": "C5",
+  "v": 3,
+  "ctx": "piste 6, partir à ton heure",
+  "t": "Je rentre avant la fin. / Comme ça, dans ma tête, la soirée ne s'arrête jamais.",
+  "n": 140
+ }
+]

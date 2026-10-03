@@ -94,7 +94,7 @@ Puces de `/abonnement` et de la modale, à valider par Thomas :
 - « Tes favoris rangés dans un carnet, pour ressortir la bonne vanne au bon moment »
 - « Ton XP et ta progression gardés d'un parcours à l'autre »
 Mention annuelle : « 39,99 € par an, soit environ 3,33 € par mois ». Retirer « ~2 mois offerts » : 12 x 4,99 € = 59,88 €, donc 39,99 € revient à environ 4 mois offerts (-33 %), pas 2.
-Message du verrou d'étape 2 : « Cette étape fait partie du parcours complet. La première est offerte, la suite t'attend avec le parcours complet. »
+Message du verrou d'étape 2 : « La première étape est offerte. Les suivantes font partie du parcours complet : tu vois déjà ce qu'elles t'apprennent, tu les débloques quand tu veux. »
 
 ### 3.5 Hypothèses critiques (extrait pour `assumption-map.md`)
 
@@ -108,4 +108,59 @@ Message du verrou d'étape 2 : « Cette étape fait partie du parcours complet. 
 
 Events Umami à créer (pour @data-analyst) : `step_locked_view`, `abonnement_view` (propriété `origine`), `checkout_start` (propriété `formule` : mensuel ou annuel), `checkout_success`, `carnet_open`, `favorite_blocked_view`.
 
-<!-- SUITE2 -->
+## 4. Sort de la fonction IA membres (`/api/ai`)
+
+### 4.1 État des faits
+
+- Trois types : `joke`, `tip`, `repartee` (`app/api/ai/route.ts:20-41`). Réservé Premium (`:67-72`), quota persistant de 30 par jour (`:11-15,79`), coupe-circuit budget (`:114-120`). Aucune interface ne l'appelle : elle n'apporte aucune valeur aujourd'hui et ne coûte que si un abonné l'appelle à la main.
+- Conflits avec les CHOIX : `joke` et `tip` produisent un contenu non relu, au fil de l'eau, donc contraire à « aucune IA ne produit seule » (01/10), à la barre Alexa (30/09) et à la relecture à l'aveugle. `repartee` est interactif et personnalisé : il ne peut pas être préparé à l'avance, donc c'est la seule des trois qui pourrait relever d'une exception.
+- Les textes d'erreur citent l'IA (E8).
+
+### 4.2 Économie (calcul, coût par appel donné : 0,017 $)
+
+Hypothèse de calcul `[HYPOTHÈSE : 1 $ = 1 €, à ajuster au taux réel ; TVA non prise en compte, à confirmer par Thomas]`. Frais Stripe : 0,25 € + 1,5 %.
+
+| Plan | Prix | Frais Stripe | Net par mois | Coût IA à 30/jour (900 appels = 15,30 $) | Coût IA à 15/mois (0,255 $) |
+|---|---|---|---|---|---|
+| Mensuel | 4,99 € | 0,32 € | 4,67 € | 328 % du net, perte d'environ 10,6 € par membre actif | 5,5 % du net |
+| Annuel | 39,99 € | 0,85 € | 3,26 € (39,14 € / 12) | 469 % du net | 7,8 % du net |
+| Lancement (2 abonnés, à vie) | 0,99 € | 0,26 € | 0,73 € | environ 21 fois le net | 35 % du net |
+
+Le quota actuel (30 par jour) couvre donc mal le prix : un seul membre très actif transforme un abonnement en perte.
+
+### 4.3 Options
+
+| Option | Contenu | Pour | Contre |
+|---|---|---|---|
+| A. Désactiver | Réponse 410 pour `joke` et `tip`, kill-switch pour `repartee` | Coût nul, cohérent avec tous les CHOIX, zéro risque de qualité | Perd une idée forte (analyse sur situation perso) |
+| B. Brancher avec plafond | Interface « décris ta situation, reçois une analyse », plafond mensuel | Seule fonction vraiment personnalisée (Yanis : répondre du tac au tac ; Marc : recommandations personnalisées) | Sortie non relue, besoin d'une éval, exception à valider, texte à ne jamais attribuer à une IA, risque de dérive de ton |
+| C. Remplacer par du contenu préparé | Carnet de répartie mensuel (3.2, P1) : situations, réponses graduées, mécanisme | Qualité garantie, coût API nul, récurrent, conforme aux CHOIX | Pas personnalisé |
+
+### 4.4 Recommandation
+
+1. **Maintenant** : A pour `joke` et `tip` (suppression de ces deux types de l'API, aucune génération de vanne ou de conseil non relue). Kill-switch `AI_MEMBER_ENABLED`, désactivé par défaut, pour `repartee`, sur le modèle de `CONTENT_GENERATION_ENABLED`.
+2. **Valeur répartie d'abord par C** : le carnet préparé est livré avant toute ouverture de B.
+3. **B limité à `repartee`, seulement après GO d'exception de Thomas** et après éval. Plafond proposé : **15 analyses par mois et par membre** (fenêtre mensuelle, plus quotidienne), soit 0,255 $ par membre et par mois au maximum. Règle de calcul : coût IA du plafond inférieur ou égal à 10 % du net du plan plein tarif le moins rentable (annuel : 0,33 € soit 19 appels ; 15 laisse de la marge). Exposition globale : nombre d'abonnés x 15 x 0,017 $ ; à environ 200 abonnés (1 000 € de MRR visé) et plafond atteint par tous, environ 51 $ par mois. Les 2 abonnés de lancement : exposition maximale 0,51 $ par mois au total, acceptée.
+4. Spécification pour @fullstack et @ia : `AI_USER_MONTHLY_LIMIT` (défaut 15) remplace `AI_USER_DAILY_LIMIT` ; garder le coupe-circuit budget (`lib/ai/budget-guard.ts`) ; garder la limite de 10 requêtes par minute (`api/ai/route.ts:54`) ; réécrire les messages sans mention d'IA.
+5. Critère de qualité mesurable (@ia) : jeu de 20 situations rédigées avec Thomas ; 2 relecteurs aveugles notent chaque sortie sur la grille des étalons conseils (E2, E3, E4, E6, E7) ; 0 humoriste nommé, 0 tiret cadratin, 0 mention d'IA, tutoiement, aucune moquerie du membre ; seuil de réussite à fixer par @ia et Thomas `[HYPOTHÈSE : seuil non défini]`. Si le seuil n'est pas atteint, B n'ouvre pas.
+6. Comportements d'échec à spécifier : (a) erreur ou délai dépassé : « L'analyse n'a pas abouti. Réessaie dans un instant, ou pioche une situation dans le carnet. » (b) refus (propos haineux, hors sujet) : « Cette situation, on ne peut pas la travailler ici. Décris-en une autre, plus légère. » (c) plafond atteint : « Tu as utilisé tes 15 analyses du mois. Elles reviennent le 1er, et le carnet est là en attendant. » (d) budget global dépassé : message générique et repli sur le carnet.
+7. Point de périmètre à faire confirmer par Thomas (une ligne, pas une remise en cause) : le CHOIX 06/05 couvre « contenu » et « signature » ; ici le membre dialogue avec l'outil. Thomas confirme si la règle s'applique aussi à cet écran, et le texte de l'interface en découle.
+
+## 5. Décisions à faire trancher par Thomas (5)
+
+| # | Décision | Reco |
+|---|---|---|
+| D1 | Modèle payant : (A) garder les plafonds 10/3/3 et les filtres verrouillés, ou (B) catalogue ouvert (plafonds et filtre catégorie levés) et Premium = parcours complets protégés côté serveur + carnet mensuel + favoris | **B.** Les plafonds ne protègent rien (fiches publiques) et agacent ; la valeur payante devient lisible. Hypothèse de conversion non mesurée, à instrumenter (3.5). |
+| D2 | Fonction IA membres : couper `joke` et `tip` maintenant ; `repartee` : exception interactive oui ou non | **Couper `joke` et `tip` maintenant ; exception oui pour `repartee` seulement**, plafond 15 par mois, après éval et après livraison du carnet. Sinon C seule. |
+| D3 | Annuel 39,99 € : date d'ouverture et texte | **Ouvrir quand le premier carnet mensuel est publié**, sinon on vend 12 mois pour environ 3 mois de contenu. Texte « soit environ 3,33 € par mois » ; retirer « ~2 mois offerts » (c'est environ 4 mois offerts). Prix inchangé. |
+| D4 | Contenu récurrent Premium : format et cadence | **Carnet de répartie mensuel de 30 situations**, validé à l'aveugle (2 relecteurs), préparé en lot comme vannes et blog. La cadence dépend de ta capacité de relecture : une passe a déjà validé 95 vannes neuves. |
+| D5 | GO pour aligner les promesses fausses (CHOIX 29/09 : aucun chiffre retiré sans GO) | **GO** : « 550+ » en dur dans les fiches vannes (`vannes/[slug]/page.tsx:93-94`) à passer sur le compteur dynamique ; retirer « Contenu quotidien » et « Filtres avancés » des puces payantes ; ajouter les parcours aux puces ; réécrire le message de l'étape 2 (3.4). |
+
+## Handoff
+
+- @fullstack : protéger les étapes 2+ côté serveur (`api/parcours/by-slug`, `parcours/[slug]/page.tsx`), couper `joke` et `tip` dans `api/ai`, kill-switch, fenêtre mensuelle, prix annuel Stripe + choix au checkout, liste des chiffres en dur.
+- @copywriter (après calibrage de 3 à 5 étalons avec Thomas, règle P0 s8) : puces, mention annuelle, message de verrou.
+- @ux : écran `/abonnement` (puces, bascule mensuel/annuel, aperçu des étapes 2+), états des cartes verrouillées.
+- @data-analyst : events de 3.5. @ia : éval de 4.4. @qa : bouton de résiliation du profil (E6), parcours anonyme vers `/abonnement`.
+- Non rouvert : prix 4,99 € et 39,99 €, abonnés à 0,99 € à vie, aucune mention d'IA, aucun fondateur nommé.
+- Reste à vérifier (non lu dans cet audit) : `api/stripe/webhook`, bouton de résiliation du profil, `lib/parcours-orientation.ts`, filtres niveau des conseils et vidéos.

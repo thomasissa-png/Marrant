@@ -103,3 +103,122 @@ Gravité : P0 = perte de conversion ou promesse fausse, à corriger avant tout ;
 | H8 Minimalisme | FAIL partiel | Trois CTA d'inscription et deux de prix cohabitent sur l'accueil ; coaching à 99 € replié (correct, `premium-cta.tsx:136`). |
 | H9 Messages d'erreur | FAIL | Erreurs techniques brutes (F14). Les messages de parcours et de modale sont humains. |
 | H10 Aide dans le flow | FAIL | Aucune explication de ce que débloque le paiement à l'endroit où l'on bute (F7). Aucune FAQ de prix dans le mur d'étape. |
+
+## 3. Moments où la valeur Premium devrait être montrée et ne l'est pas
+
+| # | Moment | Ce qui se passe aujourd'hui | Ce qu'il faut montrer |
+|---|---|---|---|
+| M1 | Fin de validation de l'étape 1 (pic émotionnel : +XP, étape 2 qui s'ouvre) | Phrase générique, bouton vers une autre page (F7) | XP gagnés, nom de la prochaine étape, nombre d'étapes restantes (donnée du parcours), prix mensuel et annuel, paiement sans quitter le parcours |
+| M2 | Arrivée sur une page parcours (anonyme ou gratuit) | Rien sur le split gratuit / payant | Bandeau « Étape 1 offerte, la suite avec l'accès complet », badges sur les étapes 2+ |
+| M3 | Résultat du quiz d'onboarding | Parcours recommandé, lien Premium minuscule | « {N} étapes, la première est offerte » (N lu dans les données du parcours) |
+| M4 | `/abonnement` et modale Premium | Liste catalogue sans parcours, avec du gratuit dedans | Parcours en tête, tableau gratuit contre accès complet, choix mensuel ou annuel |
+| M5 | Clic sur l'étoile favoris | Modale générique | Modale contextualisée « Garde tes vannes sous la main » |
+| M6 | Cartes de vannes verrouillées (au-delà des 10) | Barres grises | Début de vanne visible, chute masquée (ressort du produit), si D1 le permet |
+| M7 | Juste après le paiement | `/vannes`, aucun message | Atterrissage sur l'étape 2 (ou le parcours recommandé), message de bienvenue, une seule action suggérée |
+| M8 | Accueil d'un connecté gratuit | « Explorer les vannes » | Coaching : « Reprendre mon parcours » avec progression, puis mur au bon endroit |
+| M9 | Entrée Instagram `/liens` | Liens neutres | Une carte « Commencer un parcours, étape 1 offerte » |
+
+## 4. Recommandations concrètes par écran
+
+Règles de rédaction appliquées : tutoiement, zéro tiret cadratin, zéro humoriste nommé, aucun chiffre inventé. Les chiffres viennent de décisions Thomas (4,99 €/mois, 39,99 €/an, 10 vannes, 3 conseils, 3 vidéos, étape 1 offerte), de données dynamiques `{N}`, `{xp}`, `{stats.x}`, ou d'un calcul : 39,99 / 12 = 3,33 € ; 4,99 x 12 = 59,88 € ; économie 19,89 € (voir D2).
+
+**R1. Mur d'étape 2** (`parcours-detail.tsx:600-610`, corrige F2, F6, F7, F17)
+- Ouvrir `PremiumModal` (variante `parcours`) à la place du lien vers `/abonnement` ; mémoriser `returnTo=/parcours/{slug}?step=2`.
+- Titre : « Étape 1 validée, +{xp} XP. La suite t'attend. »
+- Corps : « Prochaine étape : {moduleTitle}. Les {N moins 1} étapes suivantes de {path.title} sont dans l'accès complet, avec leurs exercices, leurs quiz et leurs vidéos décryptées. »
+- CTA primaire : « Débloquer la suite · 4,99 €/mois ». Lien secondaire : « Ou 39,99 €/an, soit 3,33 €/mois ».
+- Micro-texte : « Annulable à tout moment. » (ajouter « Tu reviens ici juste après le paiement » seulement quand F4 est corrigé).
+- Mobile (<768 px) : CTA pleine largeur, collé en bas de la carte, cible 44 px minimum.
+
+**R2. En-tête des étapes et page parcours** (`parcours-detail.tsx:566-573`, `:454-473` ; `parcours-list.tsx:108-110`)
+- Étapes 2+ pour un non abonné : badge « Accès complet » à la place de « Termine l'étape 1 pour débloquer ».
+- Bandeau sous la barre de progression : « Étape 1 offerte. Les {N moins 1} suivantes se débloquent avec l'accès complet : 4,99 €/mois ou 39,99 €/an. »
+- Carte de la liste : badge « Étape 1 offerte ».
+
+**R3. Quiz d'onboarding** (`humor-quiz.tsx:99-116`, `:207-213`)
+- Sous le titre du parcours recommandé : « {N} étapes. La première est offerte. »
+- Lien discret : « Tout débloquer à 4,99 €/mois » devient « Voir l'accès complet ».
+
+**R4. `/abonnement`** (`abonnement/page.tsx`, compatible avec l'ajout de l'annuel par l'autre agent)
+- Sous-titre anonyme : « Compte gratuit d'abord : 10 vannes, 3 conseils, 3 vidéos, l'étape 1 de chaque parcours. Tu passes à l'accès complet quand tu veux. »
+- Liste d'avantages, ordre et texte :
+  1. « **Les parcours en entier** : chaque étape avec son exercice, son quiz et ses vidéos décryptées. L'étape 1 est offerte. »
+  2. « **Toutes les vannes** : {stats.jokes}+ classées par situation, chacune avec le décryptage de sa chute. »
+  3. « **Tous les conseils** : {stats.tips}+ avec exemples et exercices. »
+  4. « **Toutes les vidéos de stand-up** : {stats.videos}+ décryptées technique par technique. »
+  5. « **Filtres** par situation et par niveau. » 6. « **Favoris** : garde sous la main les vannes à ressortir. »
+- Retirer « Contenu quotidien » de cette liste ; l'ajouter au bloc gratuit : « Contenu du jour : vanne, conseil et vidéo, gratuits pour tous. » (corrige F5).
+- Tableau Gratuit contre Accès complet, 2 colonnes (>=768 px), empilé en dessous : lignes Vannes (10 / toutes), Conseils (3 / tous), Vidéos (3 / toutes), Parcours (étape 1 / toutes les étapes), Filtres (non / oui), Favoris (non / oui), Contenu du jour (oui / oui). Valeurs vérifiées dans `vannes-list.tsx:221-230` et `api/favorites/route.ts:53`.
+- Choix de formule : deux cartes radio côte à côte, mensuel « 4,99 €/mois » et annuel « 39,99 €/an, soit 3,33 €/mois » ; le bouton reprend le prix choisi : « Active mon accès · 39,99 €/an ». Libellé d'économie selon D2.
+- Erreur de paiement : ne jamais afficher `data.error` (F14). 401 : « Ta session a expiré. Reconnecte-toi, on reprend le paiement. » (ouvre la modale de connexion avec `callbackUrl=/abonnement`) ; 429 : « Trop d'essais pour l'instant. Réessaie un peu plus tard. » ; autres : « Le paiement n'a pas pu démarrer. Réessaie dans un instant. »
+
+**R5. Modale Premium et étoile favoris** (`premium-modal.tsx`, `favorite-button.tsx`)
+- Prop `reason` : `favoris`, `vannes`, `parcours`, `filtres`, `defaut`. Titres : favoris « Garde tes vannes sous la main » ; parcours « Continue ton parcours » ; vannes « La suite du catalogue t'attend » ; défaut « Passe à l'accès complet ».
+- Corps favoris : « Les favoris font partie de l'accès complet. Sauvegarde les vannes à ressortir et retrouve-les en un clic. »
+- Liste identique à R4 (parcours en tête), sélecteur mensuel/annuel, lien de rétractation conservé.
+- Étoile pour un non abonné : `aria-label="Ajouter aux favoris (accès complet)"`.
+- « Favoris illimités » devient « Favoris » (le gratuit n'en a aucun).
+
+**R6. Accueil** (`hero-section.tsx:66`, `home-cta.tsx:28, :36`, `premium-cta.tsx`)
+- Hero et HomeCta, ligne sous le bouton : « La première étape de chaque parcours est offerte. La suite : 4,99 €/mois, sans engagement. »
+- HomeCta, texte : « {jokesLabel} vannes, {tipsLabel} conseils, {videosLabel} vidéos analysées, et des parcours pour t'entraîner étape par étape. La première étape est offerte. » (supprimer « moins qu'un café », F2).
+- PremiumCta : `AuthModal` avec `callbackUrl="/abonnement"` (F1) ; puces dans l'ordre de R4 ; ajouter sous le bouton « Ou 39,99 €/an, soit 3,33 €/mois ». Le compteur « 1 500+ » reste tel quel (`[CHOIX UTILISATEUR]` 29/09).
+- Connecté gratuit : boutons du hero remplacés par « Reprendre mon parcours » (ou « Commencer mon parcours » sans progression) puis « Explorer les vannes ». Dashboard = coaching, pas bibliothèque.
+
+**R7. Fin d'article** (`article-cta.tsx`)
+- Primaire : « Essaie la première étape, elle est offerte » avec `freeCallbackUrl` = parcours lié à l'article (la prop existe : vérifier que chaque article en passe un, sinon le défaut renvoie vers `/onboarding`).
+- Secondaire : « Voir l'accès complet · 4,99 €/mois ».
+- Note : « Compte gratuit : 10 vannes, 3 conseils, 3 vidéos, étape 1 de chaque parcours. Sans carte. »
+
+**R8. `/liens`** (`app/liens/page.tsx`, mobile d'abord, colonne unique de 28 rem max)
+- Ordre : 1) vanne du jour (carte amorce // chute), 2) bouton plein format « Commencer le parcours Répartie, première étape offerte » vers `/parcours/repartie`, 3) dernier article, 4) liens « Toutes les vannes » et « Tous les conseils d'humour ».
+- Ligne sous le bouton : « Compte gratuit, sans carte. »
+- Conserver l'UTM `utm_source=instagram` dans `sessionStorage` à l'arrivée pour l'attribuer à l'inscription (@data-analyst).
+
+**R9. Inscription** (`register/page.tsx:114`, `auth-modal.tsx`)
+- Titre par défaut : « Crée ton compte gratuit, ton parcours t'attend » ; avec `callbackUrl=/abonnement` : sous-titre « Un compte gratuit d'abord, puis le paiement sécurisé à l'étape suivante. » (annonce les 2 temps, H1).
+- Si `humor-profile` existe en localStorage : envoyer directement au parcours recommandé (zéro duplication d'info) et sauter le quiz.
+- Le verrou « À toi de jouer » ouvre la modale d'inscription (`how-to-apply-gate.tsx:33`) au lieu de `/register`.
+
+**R10. Page de succès** (`abonnement/success/page.tsx`)
+- Titre : « Accès complet activé ». Corps : « Tu peux reprendre là où tu t'étais arrêté. »
+- Redirection : `returnTo` (étape ou parcours d'origine), sinon parcours recommandé du quiz, sinon `/parcours`. Jamais `/vannes` par défaut.
+- Message d'arrivée (toast ou bandeau) : « Bienvenue dans l'accès complet. Voilà la suite de ton parcours. »
+- État d'échec : bouton primaire « Reprendre mon parcours » (à la place de « Aller voir les vannes »).
+
+**R11. Cartes de vannes verrouillées** (`vannes-list.tsx:384-411`, conditionné à D1)
+- Montrer l'amorce de la vanne et masquer la chute : « Chute avec l'accès complet ». Ouvre `PremiumModal` `reason=vannes`.
+
+**R12. Nettoyage** : retirer les deux humoristes de `vannes/page.tsx:155` (« Regarde comment des humoristes construisent leurs blagues, technique par technique. ») ; harmoniser le vocabulaire (un seul nom : « accès complet », jamais « offre complète » ni « Premium » côté visiteur).
+
+## 5. Décisions à faire trancher par Thomas
+
+| # | Décision | Reco |
+|---|---|---|
+| D1 | Qu'achète-t-on exactement ? Avec 125 vannes validées, le catalogue n'est plus l'argument fort ; les parcours (étapes 2+), les exercices, le décryptage et les favoris le sont. Les fiches `/vannes/[slug]` restent par ailleurs publiques (SEO). | Faire des **parcours la tête d'affiche** partout (R1 à R6), sortir « Contenu du jour » de la liste payante, garder les fiches publiques (page n°1 SEO intouchable) et vendre l'apprentissage, pas l'accès à chaque vanne. |
+| D2 | Annuel : « ~2 mois offerts » (décision du 01/10) ne colle pas au calcul. 12 x 4,99 = 59,88 € ; 39,99 € = environ 8 mensualités, soit **4 mois offerts** ou 19,89 € d'économie, 3,33 €/mois. Par ailleurs, présélectionner l'annuel ou le mensuel ? | Afficher « 39,99 €/an, soit 3,33 €/mois » et « 4 mois offerts » (chiffre exact, conforme à « que ce soit juste »). Présélectionner l'annuel, avec le prix lisible sur le bouton et le mensuel à un clic. Pas d'autre libellé d'économie. |
+| D3 | Atterrissage après paiement et après inscription : retour à l'intention (étape 2, parcours recommandé), au lieu de `/vannes` et du quiz. | **GO** : paramètre `returnTo` passé au checkout, relu par la page de succès. Résout F1, F4, F17. Valeur persona : l'abonné voit immédiatement ce qu'il a acheté. |
+| D4 | Visibilité des étapes 2+ : afficher un aperçu (titre, format, première phrase de « Ce que tu vas apprendre ») et vérifier que le corps n'est pas dans le HTML ou le JSON d'un anonyme (F18). | **GO aperçu** (titre + format + une phrase), corps masqué côté serveur pour les non abonnés. Si tu préfères le SEO sur ces contenus, garde-les lisibles mais alors le mur est cosmétique : à assumer. |
+| D5 | Que gagne un compte gratuit face à l'anonyme ? Aujourd'hui rien de net (F10). | Annoncer 3 gains : étape 1 validable avec XP, progression sauvegardée, exercice « À toi de jouer » sur les fiches. Nommer ces gains dans la modale d'inscription et sur `/abonnement`. |
+
+## 6. Mesure (HEART) et évènements à instrumenter
+
+Aucune donnée réelle de conversion n'existe à ce jour (0 abonné hors lancement) : les cibles sont à fixer après 4 semaines de mesure, sans chiffre inventé. Défaut de méthode : complétion du parcours critique paiement >= 90 %.
+
+| Dimension | Signal | Évènement Umami (à créer, `source` = `parcours_step2` / `favoris` / `vannes_locked` / `article` / `liens` / `home` / `quiz`) |
+|---|---|---|
+| Task success | Clic « payer » vers Stripe ouvert puis plan PREMIUM actif | `paywall_view`, `cta_click{source,plan}`, `checkout_start{plan}`, `checkout_success{plan}` |
+| Adoption | Compte gratuit vers paiement | `signup_complete{intent}`, `step1_validated`, `paywall_view{source=parcours_step2}` |
+| Engagement | Première action Premium dans les 10 minutes | `premium_first_action{type}` (étape 2 ouverte, favori ajouté, filtre utilisé) |
+| Retention | Retour après 7 et 30 jours | `premium_return_d7`, `premium_return_d30` (@data-analyst) |
+| Happiness | Question unique sur la page de succès, facultative | `premium_csat` |
+
+Tests UX à jouer par @qa avant livraison : parcours Yanis sans aide (Instagram vers étape 2 débloquée), 3 actions principales maximum par écran, edge cases (session expirée à l'étape de paiement, paiement annulé sur Stripe, webhook lent, retour après 30 jours en compte gratuit, connexion lente sur `/liens`), accessibilité WCAG 2.2 AA (modales fermables par Escape, focus visible, cibles >= 44 px, étoile avec libellé juste).
+
+## Handoff
+
+**Handoff vers @orchestrator**
+- Fichier produit : `/home/user/Marrant/docs/ux/audit-tunnel-premium-s14.md`.
+- Décisions prises : parcours en tête d'affiche de la proposition payante ; modale Premium contextualisée par déclencheur ; atterrissage post-paiement sur l'intention d'origine ; vocabulaire unique « accès complet ».
+- Points d'attention : F1 (CTA payant mène au quiz, correction d'une ligne), F2 (« moins qu'un café » faux), F5 (gratuit vendu comme payant), D2 (arithmétique de l'annuel), F18 (contenu des étapes 2+ potentiellement lisible côté client), F16 (humoristes nommés sur `/vannes`). Prod non consultée.
+- Suites : @copywriter (calibrer 3 à 5 étalons avec Thomas avant tout brief, règle P0 s8) ; @fullstack (F1, F4, F14, `returnTo`, `reason` de la modale, vérification F18) ; @design (tableau gratuit contre complet, sélecteur de formule) ; @data-analyst (évènements section 6) ; @qa (vérification prod, tests section 6).
