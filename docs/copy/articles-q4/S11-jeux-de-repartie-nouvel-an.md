@@ -2,7 +2,7 @@
 
 > Statut : brouillon complet, non publié, non commité. Brief : ligne « 11 | Lun 14/12 » de `docs/seo/calendrier-editorial-q4-2026.md` et ligne 11 du tableau de cannibalisation. Gabarit : S8 (étalon validé le 30/09) et S1 pour la liste numérotée.
 > `[Framework : liste utile + démonstration par l'exemple (AIDA allégé : Attention, le réveillon qui s'essouffle ; Intérêt, un jeu = une compétence ; Désir, « je peux animer ça » ; Action, le parcours Répartie)]` · `[Conscience : Solution-Aware, le lecteur cherche des jeux pour sa soirée, on lui donne des jeux qui entraînent quelque chose]`
-> Règle humour appliquée : les exemples de partie montrent la mécanique. Toute réplique drôle est soit recopiée du catalogue (`docs/copy/catalogue-vannes-valides.md`, id en commentaire `joke:`), soit une candidate neuve balisée `CANDIDATE:Cn` (5 variantes dans `docs/copy/articles-q4/S11-candidates.md`). Les jeux 1, 4 et la FAQ ont un déroulé neutre volontairement.
+> Humour final (03/10) : 3 vannes du catalogue validé, recopiées mot pour mot (`cs14jk8f28ff20e1cf82f3a8`, `cs14jk9cc844b92fde69e845`, `cs14jkbe889a47471bf8cbeb`) + 0 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés. Les exemples de partie montrent la mécanique et restent neutres.
 
 ## Métadonnées
 
@@ -16,7 +16,7 @@
 - **category** : REPARTIE · **readingTime** : 8 min
 - **liens internes** (8, tous vers les URL du brief ou des pages existantes) : `/blog/repartie-soiree-anti-malaise` · `/blog/exercices-developper-humour` · `/vannes/theme/soirees` · `/parcours/repartie` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
 - **fait daté** : le 31/12/2026 est un jeudi (calcul depuis le lundi 14/12/2026 du calendrier)
-- **comptage humour** : 3 vannes catalogue (`joke:`), 3 candidates (`CANDIDATE`, dans l'ordre : C1 jeu 2 l'excuse, C2 jeu 3 le pire conseil, C3 jeu 5 la résolution). Chaque candidate est une puce autonome : si elle est retirée, l'exemple de partie reste un déroulé neutre cohérent.
+- **comptage humour** : 3 vannes catalogue, 0 vanne neuve (les 3 candidates des jeux 2, 3 et 5 ont été retirées après la relecture à l'aveugle : les exemples de partie restent des déroulés neutres cohérents)
 - **garde-fou anti-cannibalisation** : jeux collectifs datés Nouvel An ; pas de ciblage de « exercices répartie » (lien vers `exercices-developper-humour` pour la pratique solo ou à deux) ; `repartie-soiree-anti-malaise` cité pour la situation « la soirée s'essouffle »
 - **objections traitées** : « je ne suis pas drôle, je vais me ridiculiser » (règle « on peut passer » + FAQ 4) ; « mes amis vont trouver ça forcé » (enchaînement + FAQ 3) ; « le groupe ne se connaît pas » (FAQ 2) ; « ça va dégénérer en chambrage » (règle « on rit de la situation ou de soi »)
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page, réponses en texte brut
@@ -40,8 +40,6 @@ Les jeux de mimes en sont la meilleure preuve, parce que le fiasco y est le but 
 > Au jeu de mimes, ma carte disait « la timidité ».
 >
 > J'avais à peine bougé qu'ils avaient trouvé.
-<!-- joke:cs14jk8f28ff20e1cf82f3a8 -->
-
 Les six jeux qui suivent fonctionnent sur la même idée, avec la parole comme seul accessoire.
 
 ## Quelles règles communes pour que les jeux de répartie restent drôles ?
@@ -70,10 +68,7 @@ Pour chaque jeu : la règle en deux lignes, un exemple de partie, et ce qu'il tr
 
 **La règle :** le groupe désigne une personne et lance une situation (« tu es arrivé en retard au dîner », « tu n'as pas répondu à mon message depuis trois semaines »). Elle a dix secondes pour donner son excuse, en une seule phrase.
 
-**Exemple de partie :** Inès est désignée, la situation est « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? ».
-
-- **Première excuse :** « Désolée, j'ai eu énormément de travail. » Le groupe lève la main : trop attendu. On lui demande une version plus précise, avec le détail qui surprend en dernier.
-- **Deuxième excuse :** « J'ai répondu dans ma tête, tout de suite. Je pensais que ça partait automatiquement. » <!-- CANDIDATE:C1 -->
+**Exemple de partie :** Inès est désignée, la situation est « Pourquoi tu n'as pas répondu à mon message depuis trois semaines ? ». Sa première excuse : « Désolée, j'ai eu énormément de travail. » Le groupe lève la main : trop attendu. On lui demande une version plus précise, avec le détail qui surprend en dernier, et elle a dix secondes de plus pour la trouver.
 
 **Ce que ça travaille : le timing.** Dans une phrase drôle, l'ordre des mots décide de tout : le mot qui surprend va à la fin, jamais au milieu. Dix secondes obligent à choisir, et choisir apprend à couper ce qui ne sert pas.
 
@@ -82,8 +77,6 @@ Pour chaque jeu : la règle en deux lignes, un exemple de partie, et ce qu'il tr
 **La règle :** on tire une situation embarrassante (« arriver à un réveillon où l'on ne connaît personne »). Chacun donne, en une phrase et d'un ton très sérieux, le pire conseil possible. Le groupe désigne le plus convaincant.
 
 **Exemple de partie :** Inès tire « arriver à un réveillon où l'on ne connaît personne ». Elle donne son pire conseil, sur le ton de quelqu'un qui veut vraiment aider, puis Sam enchaîne avec le sien. Au troisième tour, tout le monde a compris que le sérieux du ton fait la moitié du travail.
-
-- **Le conseil d'Inès :** « Si tu ne connais personne, reste près de la porte. On te prendra pour quelqu'un d'attendu ailleurs, donc d'important. » <!-- CANDIDATE:C2 -->
 
 **Ce que ça travaille : le sérieux du ton.** Une phrase absurde dite avec calme fait plus rire qu'une phrase absurde dite en riant. Ce jeu entraîne à garder son visage et sa voix neutres pendant que les mots font le travail, un réflexe précieux quand tu veux placer une vanne sans la signaler.
 
@@ -104,12 +97,7 @@ Pour chaque jeu : la règle en deux lignes, un exemple de partie, et ce qu'il tr
 > « J'ai pris un chien pour me faire des amis. »
 >
 > « Il en a plein. Moi, je tiens la laisse. »
-<!-- joke:cs14jk9cc844b92fde69e845 -->
-
 Chacun s'en inspire pour sa propre phrase, sur le thème de l'année qui s'achève ou de celle qui commence.
-
-- **La résolution de Paul :** « J'ai écrit mes résolutions sur un papier que j'ai rangé "à un endroit sûr". Je les retrouverai en décembre, avec celles de l'an dernier. » <!-- CANDIDATE:C3 -->
-
 **Ce que ça travaille : l'autodérision.** Rire de soi demande de choisir un détail précis et vrai, puis de le dire sans se plaindre. C'est la compétence qui désarme tout le monde, parce qu'elle montre que tu n'as pas peur de ta propre image. Et c'est un jeu qui se prête au Nouvel An, parce que chacun a une année à raconter.
 
 ### 6. Le constat du salon
@@ -121,8 +109,6 @@ Chacun s'en inspire pour sa propre phrase, sur le thème de l'année qui s'achè
 > « Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. »
 >
 > « À 2h du matin, on les a mangés. Par respect. »
-<!-- joke:cs14jkbe889a47471bf8cbeb -->
-
 Sam et Paul cherchent ensuite le leur en regardant autour d'eux : la playlist, le canapé trop petit pour tout le monde, la pile de manteaux sur le lit.
 
 **Ce que ça travaille : l'observation.** C'est la matière première de la répartie et du stand-up : un détail que tout le monde a sous les yeux et que personne n'a nommé. Plus on s'entraîne à regarder, plus la phrase arrive vite.

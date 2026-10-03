@@ -1,7 +1,7 @@
 # À VALIDER PAR THOMAS : article S6 (chambrer sans blesser entre potes, publication lundi 09/11)
 
 > Statut : brouillon complet, non publié, non commité. Même moule que l'étalon S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé le 30/09).
-> Règle humour : chaque phrase drôle est soit recopiée du catalogue validé (`<!-- joke:ID -->`, `docs/copy/catalogue-vannes-valides.md`), soit une candidate neuve (`<!-- CANDIDATE:Cn -->`, 5 variantes dans `docs/copy/articles-q4/S6-candidates.md`, la variante 1 est celle du texte). Les exemples « qui blessent » ne sont pas drôles par nature et ne sont pas balisés. Retirer une candidate = supprimer sa seule ligne de citation, le texte reste cohérent.
+> Humour final (03/10) : 2 vannes du catalogue validé, recopiées mot pour mot (`cs14jke92ed6178b5326c48c`, `cmmnsqn14003vth63i2are7es`) + 0 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés. Les exemples « qui blessent » ne sont pas drôles par nature.
 > `[Framework : définition citable + PAS allégé (Problème, Agitation, Solution), cinq règles démontrées par l'exemple]` · `[Conscience : Problem-Aware, le lecteur chambre déjà, il ne sait pas où est la ligne]`
 
 ## Métadonnées
@@ -18,7 +18,7 @@
 - **cannibalisation (ligne 6 du tableau)** : « faire rire un homme » non ciblé ; côté cible (se faire chambrer) renvoyé vers `repondre-moqueries-avec-humour` ; sujets sombres renvoyés vers `humour-noir-utiliser-sans-blesser` ; « chambrer » présent dans le H1, les H2 et la définition
 - **décisions fondateur appliquées** : zéro humoriste ni marque nommé ; catalogue validé seul autorisé pour les vannes existantes ; aucune vanne sur le corps, la santé, l'argent, le deuil ; aucun chiffre ni étude
 - **objections traitées** : « je ne sais pas où est la limite » (règles 1 et 5 + FAQ 1) ; « et si je connais peu la personne » (H2 4 + FAQ 2) ; « et si c'est moi qu'on chambre trop » (H2 5 + FAQ 3) ; « groupe mixte » (H2 4 + FAQ 4)
-- **contenu propriétaire (first-hand)** : 5 règles nommées, 3 tests (récit, retour, signal), 2 phrases de réparation, 2 phrases de limite, 2 vannes du catalogue, 4 candidates
+- **contenu propriétaire (first-hand)** : 5 règles nommées, 3 tests (récit, retour, signal), 2 phrases de réparation, 2 phrases de limite, 2 vannes du catalogue
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
 
 ---
@@ -44,27 +44,20 @@ C'est pour cela que le chambrage dépend de la relation avant de dépendre du te
 ### Règle 1 : vise une habitude, jamais une fatalité
 
 On chambre ce que l'autre fait : un retard, un plat expérimental, des messages vocaux interminables. On ne chambre pas ce qu'il est et ne peut pas changer : son corps, sa santé, son origine, sa famille, son argent, une rupture récente, un deuil. Le test du récit tient en une question : est-ce qu'il pourrait raconter ça lui-même, avec le sourire ? Si la réponse est non, change de cible. Pour les sujets plus sombres, [l'humour noir sans blesser](/blog/humour-noir-utiliser-sans-blesser) pose les limites en détail.
-
-Ton pote arrive en retard, comme chaque fois.
-
-> « Ah, te voilà. On avait ouvert les paris sur ton excuse. Le métro est en tête. » <!-- CANDIDATE:C1 -->
-
 ### Règle 2 : regarde qui t'écoute
 
 Une pique appartient à un public. Entre ceux qui étaient là, elle fait rire parce qu'ils ont le contexte. Devant quelqu'un qui découvre la scène, elle ressemble à une attaque sans histoire. Avant de lancer, compte les personnes qui connaissent votre relation, et mets de côté ce qui demande un contexte que la moitié de la table n'a pas.
 
 Une anecdote qui fait rire le groupe qui l'a vécue :
 
-> « Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé. / Il s'est fait rajouter. Il a écrit « bref ». » <!-- joke:cs14jke92ed6178b5326c48c -->
-
+> « Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé. / Il s'est fait rajouter. Il a écrit « bref ». »
 ### Règle 3 : ne lance que ce qu'on pourrait te renvoyer
 
 Le test du retour : si l'autre te rendait exactement la même pique, tu en rirais ? Sinon, ne la lance pas. Le chambrage qui marche dure parce qu'il circule : chacun chambre, chacun est chambré, et aucun ne s'installe en juge. Quand c'est toujours la même personne qui lance et toujours la même qui reçoit, ce n'est plus de l'humour d'amitié, c'est une hiérarchie qui rit.
 
 Le plus sûr est de viser la relation, avec toi dedans :
 
-> « Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années. / C'est devenu notre truc. » <!-- joke:cmmnsqn14003vth63i2are7es -->
-
+> « Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années. / C'est devenu notre truc. »
 ### Règle 4 : ne ressers pas la même pique
 
 Une pique fait rire la première fois, sourire la deuxième et plus rien la troisième. Après dix reprises, elle ne dit plus « je te connais » mais « je ne te vois que comme ça ». Une pique par sujet et par soirée suffit, et un sujet qui a servi se repose un moment. Pense aussi à varier les cibles : si le même ami finit chaque soirée en bout de table, le groupe a un problème de répartition, pas d'humour.
@@ -85,15 +78,13 @@ Voici deux situations, avec une version qui passe et une qui blesse. La version 
 
 **Première situation : ton pote a cuisiné pour toute la bande, et le plat est raté.**
 
-Version qui passe :
-
-> « Franchement, c'est courageux. Pas pour toi, pour nous. » <!-- CANDIDATE:C2 -->
+Version qui passe : une remarque sur le plat lui-même, dite avec le sourire, qui t'inclut dans la scène et ne touche jamais au cuisinier.
 
 Version qui blesse :
 
 > « Arrête la cuisine, tu es nul en tout de toute façon. »
 
-La première vise le plat, un fait du moment que l'auteur peut assumer. La seconde généralise : on ne parle plus du plat mais de la personne, et plus personne ne peut en rire avec elle.
+La version qui passe vise le plat, un fait du moment que l'auteur peut assumer. La seconde généralise : on ne parle plus du plat mais de la personne, et plus personne ne peut en rire avec elle.
 
 **Deuxième situation : ton pote vient de se faire larguer, et la bande plaisante.**
 
@@ -106,20 +97,13 @@ Ici, il n'existe pas de version qui passe. La règle 1 s'applique : une rupture 
 ## Comment chambrer quelqu'un qu'on connaît peu, ou en groupe mixte ?
 
 Moins tu connais la personne, moins tu as de crédit, donc moins tu vises la personne. Chambre la situation que vous partagez au même moment : la partie de jeu, le trajet, l'attente, le plat qui arrive. Là, personne n'est la cible, tout le monde est dans la scène.
-
-Une personne que tu connais à peine gagne la première partie de la soirée.
-
-> « Première partie, première victoire. Les règles, tu les as lues en cachette ? » <!-- CANDIDATE:C3 -->
-
 En groupe mixte, la règle est la même avec une précaution : cherche ce que tous les présents ont en commun (la soirée, la nourriture, le retard du dernier arrivé) et laisse de côté ce qui suppose un âge, un genre ou un métier précis. Ne présume jamais de ce qui est sensible chez quelqu'un que tu viens de rencontrer. Si la personne rit puis te renvoie une pique, tu as gagné le droit d'en lancer une seconde. Sinon, tu t'arrêtes là.
 
 ## Que faire quand on se fait chambrer trop ?
 
 Dis-le tôt, simplement, avec le sourire, avant que ça ne pèse : « Celle-là, je l'ai déjà eue. On change de sujet ? » Une limite posée à la première répétition coûte une phrase. Posée à la dixième, elle coûte une ambiance.
 
-Si l'autre continue, parle-lui à part, après la soirée : « Je ne t'en veux pas, mais ce sujet-là, j'aimerais qu'on le laisse. » Un vrai ami entend ça sans se vexer. Si la pique est légère et que tu as juste envie de répondre, la meilleure riposte tourne la même mécanique vers toi. Un pote te chambre devant tout le monde sur ta lenteur à répondre aux messages.
-
-> « Je t'ai répondu. Dans ma tête, tu as même eu une très belle réponse. » <!-- CANDIDATE:C4 -->
+Si l'autre continue, parle-lui à part, après la soirée : « Je ne t'en veux pas, mais ce sujet-là, j'aimerais qu'on le laisse. » Un vrai ami entend ça sans se vexer. Si la pique est légère et que tu as juste envie de répondre, la meilleure riposte tourne la même mécanique vers toi : tu reprends l'habitude qu'on te reproche et tu la pousses un cran plus loin, sans viser l'autre.
 
 Pour aller plus loin sur ce côté de la table, [répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) détaille les réflexes.
 

@@ -1,7 +1,7 @@
 # À VALIDER PAR THOMAS : article S13 (résolution de nouvelle année, publication lundi 28/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 13 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 13 du tableau de cannibalisation, risque élevé).
-> **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire `<!-- joke:ID -->`), soit une candidate neuve balisée `<!-- CANDIDATE:Cn -->` (5 variantes dans `docs/copy/articles-q4/S13-candidates.md`, relecture à l'aveugle ensuite). Chaque candidate est une ligne de citation isolée : la retirer ne casse pas le texte autour.
+> Humour final (03/10) : 3 vannes du catalogue validé, recopiées mot pour mot (`cs14jkfc1715f1d4c7509f3b`, `cmmw0tois0002mw62b7bkcvj7`, `cmmnsqn14003vth63i2are7es`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + règle mnémotechnique « petit, daté, suivi »]` · `[Conscience : Problem-Aware, le lecteur connaît son objectif et ses échecs passés, pas encore la méthode]`
 
 ## Métadonnées
@@ -16,9 +16,9 @@
 - **category** : HABITUDES · **readingTime** : 6 min
 - **liens internes** (8 URL distinctes, 10 occurrences, toutes vers des URL du brief ou des pages existantes) : `/blog/comment-devenir-drole` (ancre exacte « devenir drôle », 2 occurrences) · `/blague-du-jour` · `/parcours/repartie` · `/parcours/confiance` · `/parcours/machine-a-cafe` · `/vannes` · `/conseils` · `/videos`
 - **cannibalisation (risque élevé)** : « devenir drôle » absent du H1, du title, du slug, de la meta, des H2 et de la FAQ ; il n'apparaît que dans l'ancre du lien vers le pilier, qui garde le mot-clé. L'article ne donne aucune technique (ce qui fait rire, structures, répliques) : il parle d'objectif, de régularité et de suivi, et renvoie au guide pour le reste.
-- **décisions fondateur appliquées** : zéro humoriste, marque ou concurrent nommé ; humour tracé (3 vannes catalogue, 4 candidates) ; aucun chiffre ni étude inventé : le taux d'abandon des résolutions est traité de façon qualitative (« beaucoup de résolutions s'essoufflent dès les premières semaines »), aucun pourcentage ; les « 3 minutes », « 28 cases » et « 4 semaines » sont des consignes d'entraînement, pas des données ; durées de parcours exactes (Répartie 20, Confiance 20, Machine à café 15 minutes par semaine)
+- **décisions fondateur appliquées** : zéro humoriste, marque ou concurrent nommé ; humour tracé (3 vannes catalogue, 1 vanne neuve validée à l'aveugle) ; aucun chiffre ni étude inventé : le taux d'abandon des résolutions est traité de façon qualitative (« beaucoup de résolutions s'essoufflent dès les premières semaines »), aucun pourcentage ; les « 3 minutes », « 28 cases » et « 4 semaines » sont des consignes d'entraînement, pas des données ; durées de parcours exactes (Répartie 20, Confiance 20, Machine à café 15 minutes par semaine)
 - **vannes catalogue utilisées (3)** : `cs14jkfc1715f1d4c7509f3b` · `cmmw0tois0002mw62b7bkcvj7` · `cmmnsqn14003vth63i2are7es`
-- **candidates (4)** : C1 (trop de résolutions d'un coup) · C2 (le report au lundi suivant) · C3 (le tableau de suivi) · C4 (la vanne dite à la plante)
+- **vanne neuve validée (1)** : « J'ai tenu le "et" » (trop de résolutions d'un coup)
 - **objections traitées** : « je n'ai pas le temps » (petit : 3 minutes, FAQ 3) ; « j'ai déjà lâché toutes les autres années » (section semaine ratée + FAQ 2) ; « je ne sais pas si je progresse » (section mesure + FAQ 4) ; « je ne veux pas me forcer à être drôle » (section « sans pression » : on mesure les gestes, pas les rires)
 - **contenu propriétaire (first-hand)** : règle « petit, daté, suivi » ; menu de 5 habitudes de moins de 3 minutes (un muscle chacune) ; plan en 4 semaines (je fais, je dis, je rebondis, je garde) ; 3 questions de bilan sans mesurer les rires ; règle « jamais deux trous d'affilée »
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
@@ -39,11 +39,10 @@ Parce qu'elle est trop grosse, trop floue et sans date. « Être plus drôle » 
 
 Une résolution floue donne une liste que personne ne coche :
 
-> « J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée. J'ai voulu retrouver son propriétaire pour lui dire que je comprends. » <!-- joke:cs14jkfc1715f1d4c7509f3b -->
+> « J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée. J'ai voulu retrouver son propriétaire pour lui dire que je comprends. »
+Le propriétaire du carnet ne manque pas de volonté : il manque d'une première action assez petite pour être faite un mardi à 18 h. Le piège inverse existe aussi, et il est tout aussi courant : empiler les résolutions d'un coup, puis n'en tenir aucune.
 
-Le propriétaire du carnet ne manque pas de volonté : il manque d'une première action assez petite pour être faite un mardi à 18 h. Le piège inverse existe aussi, et il est tout aussi courant : prendre dix résolutions d'un coup, puis ne plus savoir par laquelle commencer.
-
-> « Le 31 décembre, j'ai pris onze résolutions. Le 2 janvier, j'ai organisé une réunion pour décider par laquelle commencer. » <!-- CANDIDATE:C1 -->
+> « Ma résolution de janvier : être plus drôle, plus sportif et plus organisé. J'ai tenu le « et ». »
 
 Cette résolution-là a une difficulté en plus : on ne peut pas forcer son humour. Un humour sous pression sonne faux, et c'est la meilleure façon de se dégoûter de l'exercice. D'où le « sans pression » du titre : tu ne t'engages pas à faire rire, tu t'engages à pratiquer. Le rire des autres ne sera jamais ton indicateur, on y revient plus bas.
 
@@ -53,18 +52,13 @@ Trois mots, dans cet ordre : petit, daté, suivi.
 
 1. **Petit.** Une action de trois minutes au maximum, assez modeste pour que tu ne puisses pas négocier avec toi-même. Au début, ce qui compte est la répétition, pas l'effort. Une contrainte trop dure finit toujours contournée :
 
-   > « J'ai mis mon réveil en face du lit pour être obligé de me lever. Maintenant je dors par terre, à côté du réveil. » <!-- joke:cmmw0tois0002mw62b7bkcvj7 -->
-
+   > « J'ai mis mon réveil en face du lit pour être obligé de me lever. Maintenant je dors par terre, à côté du réveil. »
    Une habitude qui demande un effort héroïque est une habitude qui trouve une sortie. Choisis celle dont tu n'as pas peur.
 2. **Daté.** Un jour et une heure, accrochés à quelque chose que tu fais déjà : le café du matin, le trajet, le brossage de dents. Écris-le noir sur blanc : « tous les jours, après le café ». « Un jour, je m'y mets » est le meilleur moyen de ne jamais s'y mettre, et chacun connaît la formule :
 
-   > « Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années. C'est devenu notre truc. » <!-- joke:cmmnsqn14003vth63i2are7es -->
-
+   > « Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années. C'est devenu notre truc. »
    Quand « il faudrait » dure des années, il devient une habitude, mais pas celle qu'on visait. Une date, elle, se constate : soit c'est fait, soit ça ne l'est pas.
 3. **Suivi.** Une grille de quatre semaines, soit 28 cases, un crayon, et une case cochée chaque jour où c'est fait. Cocher prend deux secondes, et voir une série de cases pleines donne envie de ne pas la casser. C'est aussi ta seule mesure fiable, on y revient plus bas.
-
-   > « J'ai fait un tableau de suivi avec de jolies cases à cocher. J'ai passé plus de temps à tracer les cases qu'à faire la résolution. Elles sont très droites. » <!-- CANDIDATE:C3 -->
-
 > **À retenir :** Une résolution tient quand elle est petite (trois minutes), datée (un moment fixe de la journée) et suivie (une case cochée chaque jour). Mesure ce qui dépend de toi, les gestes faits, jamais les rires obtenus.
 
 ## Quelle habitude de trois minutes choisir pour être plus drôle ?
@@ -78,9 +72,6 @@ Une seule, pour commencer. Voici cinq candidates, toutes faisables en moins de t
 5. **Envoyer à un ami un message drôle**, une phrase, sans le justifier. Muscle travaillé : l'audace.
 
 Choisis celle qui te fait le moins peur, pas la plus utile : la meilleure habitude est celle que tu fais encore le 20 janvier. Si tu veux piocher sans chercher, le catalogue des [vannes](/vannes) est là pour ça.
-
-> « Pour ma résolution, je dis une vanne par jour à ma plante. Elle ne rit pas, mais elle ne part pas non plus. » <!-- CANDIDATE:C4 -->
-
 ## À quoi ressemblent les quatre semaines ?
 
 La grille reste la même du début à la fin : seule la difficulté monte, par paliers.
@@ -107,9 +98,6 @@ Si les trois réponses vont dans le bon sens, tu progresses, même si personne n
 Rien de spectaculaire : tu reprends à la case suivante. Pas de rattrapage, pas de double dose, parce qu'une habitude de trois minutes qui devient une corvée est exactement celle qu'on abandonne. Une seule règle : jamais deux trous d'affilée. Un trou est un accident de calendrier, deux commencent à ressembler à un arrêt.
 
 Le mauvais réflexe est de tout repousser « au lundi ». Le bon est de reprendre le soir même, avec la plus petite version de l'habitude : une minute, une phrase.
-
-> « J'ai raté ma résolution lundi, alors je l'ai repoussée au lundi suivant. Au troisième lundi, on peut parler de routine. » <!-- CANDIDATE:C2 -->
-
 ## Un parcours peut-il aider à tenir la résolution ?
 
 Si tu préfères un cadre à l'auto-organisation, oui : les parcours découpent l'apprentissage en séances courtes. Le parcours [Répartie](/parcours/repartie) demande 20 minutes par semaine, [Confiance](/parcours/confiance) 20 également, et [Machine à café](/parcours/machine-a-cafe) 15. Une séance par semaine peut devenir ton créneau fixe, en plus de l'habitude quotidienne ou à sa place si tu préfères un seul rendez-vous.

@@ -1,8 +1,7 @@
 # À VALIDER PAR THOMAS : article S10 (faire rire un enfant, repas de fête, publication lundi 07/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 10 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 10 du tableau de cannibalisation : ne pas dériver vers « blagues pour enfants »).
-> **Règle humour appliquée** : l'article enseigne des ressorts (décalage physique, fausse erreur, répétition) en décrivant des gestes et des situations. Toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, suivie de `<!-- joke:ID -->`), soit une candidate neuve balisée `<!-- CANDIDATE:Cn -->` (5 variantes dans `docs/copy/articles-q4/S10-candidates.md`, relecture à l'aveugle ensuite). Aucune autre phrase drôle dans le texte.
-> **Candidates (3 emplacements, dans l'ordre d'apparition)** : C1 = idée 3 (le mauvais nom) · C2 = idée 5 (le geste qui revient) · C3 = section « ce qui rate » (la blague expliquée). Chaque emplacement contient la variante 1 en attente. Après la relecture à l'aveugle : remplacer par la variante qui passe, ou supprimer la ligne de citation si aucune ne passe (le paragraphe « Pourquoi ça marche » reste valable sans elle).
+> Humour final (03/10) : 1 vanne du catalogue validé, recopiée mot pour mot (`cs14jk9de039def971586501`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés. L'article enseigne des ressorts (décalage physique, fausse erreur, répétition) en décrivant des gestes et des situations.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + démonstration par l'exemple]` · `[Conscience : Problem-Aware, le lecteur sait que ses blagues habituelles ne passent pas avec un enfant, il ne sait pas encore quels ressorts les remplacent]`
 
 ## Métadonnées
@@ -17,9 +16,9 @@
 - **category** : GUIDE · **readingTime** : 7 min
 - **liens internes** (8, tous vers des URL du brief ou des pages existantes) : `/vannes/theme/famille` · `/blog/comment-improviser-des-blagues` · `/blog/5-types-humour-lequel-pour-toi` · `/parcours/confiance` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
 - **cannibalisation** : « blagues pour enfants » non ciblé (aucune blague à raconter, uniquement des ressorts et des gestes). Les questions gênantes de Noël restent sur S8, le toast sur S9 : cet article ne parle que de l'enfant à table.
-- **décisions fondateur appliquées** : zéro humoriste nommé ; vannes catalogue uniquement ou candidates à l'aveugle ; zéro chiffre ou étude inventé (aucun âge donné pour la compréhension de l'ironie : formulation qualitative, voir FAQ 1) ; parcours Confiance = 20 minutes par semaine ; tutoiement ; bienveillance envers l'enfant (on rit avec lui, jamais de lui)
+- **décisions fondateur appliquées** : zéro humoriste nommé ; vannes catalogue ou vannes neuves validées à l'aveugle uniquement ; zéro chiffre ou étude inventé (aucun âge donné pour la compréhension de l'ironie : formulation qualitative, voir FAQ 1) ; parcours Confiance = 20 minutes par semaine ; tutoiement ; bienveillance envers l'enfant (on rit avec lui, jamais de lui)
 - **vannes catalogue utilisées (1)** : `cs14jk9de039def971586501`
-- **candidates (3)** : C1, C2, C3 (variantes dans `docs/copy/articles-q4/S10-candidates.md`)
+- **vanne neuve validée (1)** : « d'invité à fournisseur » (idée 5, le geste qui revient)
 - **objections traitées** : « mes blagues ne passent pas avec les enfants » (sections 1 et « ce qui rate ») ; « je vais le vexer ou lui faire peur » (règle de bienveillance + idée 4) ; « il ne rit pas » (FAQ 3) ; « les cousins ont des âges différents » (section dédiée + FAQ 4) ; « je ne suis pas un adulte rigolo » (idées sans aucun texte à retenir)
 - **contenu propriétaire (first-hand)** : 3 ressorts, 6 idées testables avec geste, pourquoi ça marche, et ce qui peut rater pour chacune ; 4 règles de ce qui rate ; méthode pour une table d'âges mêlés
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
@@ -74,9 +73,7 @@ Au moment d'apporter le plat, tu annonces l'arrivée de la bûche d'une voix gra
 
 Tu tends la main vers la cuillère et tu demandes la fourchette, d'un ton parfaitement naturel. L'enfant te corrige. Tu reprends, tu te trompes encore, sur un autre objet cette fois.
 
-> « Devant ma nièce, j'ai appelé la cuillère « fourchette ». Elle a repris le repas en main avec une patience que je n'ai jamais vue chez un adulte. » <!-- CANDIDATE:C1 -->
-
-**Pourquoi ça marche :** l'enfant sait quelque chose que tu sembles ignorer. Il passe de spectateur à arbitre, et corriger un adulte est un plaisir rare. Dans la scène ci-dessus, l'adulte se retrouve gentiment mis sous tutelle : le rire tombe sur lui, pas sur l'enfant.
+**Pourquoi ça marche :** l'enfant sait quelque chose que tu sembles ignorer. Il passe de spectateur à arbitre, et corriger un adulte est un plaisir rare. Tu te retrouves gentiment mis sous tutelle : le rire tombe sur toi, pas sur l'enfant.
 
 **Ce qui peut rater :** se tromper sur son prénom, son âge ou ses affaires. La fausse erreur porte sur les objets du repas, jamais sur lui : un enfant qui doute qu'on le connaît ne trouve pas ça drôle.
 
@@ -92,7 +89,7 @@ Tu cherches ton verre alors qu'il est dans ta main. Tu le demandes à voix haute
 
 Au dessert, tu fais une petite grimace en croisant son regard. Il rit. Quelques minutes plus tard, tu la refais, à un moment où il ne s'y attend pas, puis encore une fois pendant que tu parles à quelqu'un d'autre.
 
-> « Mon neveu m'a demandé de refaire ma grimace. Je l'ai faite quinze fois. Je suis passé d'invité à fournisseur. » <!-- CANDIDATE:C2 -->
+> « Mon neveu m'a demandé de refaire ma grimace. Je l'ai faite quinze fois. Je suis passé d'invité à fournisseur. »
 
 **Pourquoi ça marche :** à la deuxième occurrence, il reconnaît le geste et il rit de l'avoir reconnu. À la troisième, il l'anticipe, et le plaisir est dans l'attente. Dans la scène ci-dessus, c'est l'adulte qui devient une machine à grimaces, et c'est lui qu'on regarde.
 
@@ -115,11 +112,7 @@ Quatre erreurs reviennent presque à chaque repas.
 3. **Rire de lui.** Son erreur de prononciation, sa peur, son dessin raté : jamais, même gentiment, même devant la famille. Un enfant sent vite quand le rire est dirigé contre lui, et ça abîme la confiance qu'il te fait.
 4. **Forcer.** Un enfant qui ne rit pas n'est pas un enfant à convaincre. Quand l'idée ne prend pas, change d'idée ou change de sujet.
 
-Quand la blague que tu avais prévue tombe à plat, le plus simple est de t'en moquer toi-même :
-
-> « J'ai expliqué ma blague à mon neveu. Il a dit « d'accord ». C'est la première fois qu'on me répond avec autant de gentillesse. » <!-- CANDIDATE:C3 -->
-
-L'échec se raconte à ton détriment, jamais au sien, et il fait rire les adultes autour sans mettre l'enfant en cause.
+Quand la blague que tu avais prévue tombe à plat, le plus simple est de t'en moquer toi-même, à voix haute, avec le sourire. L'échec se raconte à ton détriment, jamais au sien, et il détend les adultes autour sans mettre l'enfant en cause.
 
 ## Comment faire rire une table de cousins d'âges différents ?
 
@@ -133,8 +126,7 @@ Les plus petits rient du geste lui-même (la serviette, la voix). Les plus grand
 
 Cela arrive : un enfant pose une question simple, sans malice, et la logique est imparable. Ce que ça t'apprend sur l'humour : il ne cherche pas à faire rire, il dit ce qu'il voit.
 
-> « Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer. Elle a demandé : « Et lui, il fait quoi pour toi ? » » <!-- joke:cs14jk9de039def971586501 -->
-
+> « Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer. Elle a demandé : « Et lui, il fait quoi pour toi ? » »
 Ici, le rire vient de la logique de l'enfant, qui retourne la situation sans le vouloir, et l'adulte se retrouve sans réponse. Quand cela t'arrive, ris avec lui, pas de lui : redis sa phrase avec admiration, et il comprendra que son idée a plu.
 
 ## Comment s'entraîner avant le repas ?

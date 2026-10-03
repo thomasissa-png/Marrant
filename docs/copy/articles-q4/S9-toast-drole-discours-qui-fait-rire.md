@@ -1,8 +1,7 @@
 # À VALIDER PAR THOMAS : article S9 (toast drôle, publication lundi 30/11)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé). Brief : ligne 9 de `docs/seo/calendrier-editorial-q4-2026.md` + ligne 9 du tableau de cannibalisation.
-> **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire `<!-- joke:ID -->`), soit une candidate neuve balisée `<!-- CANDIDATE:Cn -->` (5 variantes dans `docs/copy/articles-q4/S9-candidates.md`, relecture à l'aveugle ensuite). Le texte autour est volontairement sobre (aucune autre phrase drôle).
-> **Candidates (4 emplacements, dans l'ordre d'apparition)** : C1 = accroche du toast d'exemple (on tape sur le verre, la table attend une annonce) · C2 = chute du toast d'exemple (le plat qui refroidit) · C3 = trac (la fiche de notes) · C4 = toast improvisé (« quelques mots » sans prévenir). Chaque emplacement contient la variante 1 en attente. Après la relecture à l'aveugle : remplacer par la variante qui passe, ou supprimer la ligne de citation si aucune ne passe. Le toast d'exemple reste lisible sans C1 (il s'ouvre sur « Avant de lever le verre, un mot sur nous ») et sans C2 (il se ferme sur « Alors, levons nos verres »). Les paragraphes « Pourquoi ça marche » décrivent les temps sans citer les vannes, donc restent valables.
+> Humour final (03/10) : 4 vannes du catalogue validé, recopiées mot pour mot (`cs14jk4fe660e7238281ce47`, `cs14jkc4a2c545e132b38a92`, `cs14jk02047ed5635bab6a52`, `cs14jkffeab1620070f2263e`) + 2 vannes neuves validées à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + démonstration par l'exemple]` · `[Conscience : Problem-Aware, le lecteur sait qu'on va lui demander un toast, il ne sait pas comment le construire sans se prendre pour un humoriste]`
 
 ## Métadonnées
@@ -17,10 +16,11 @@
 - **category** : GUIDE · **readingTime** : 8 min
 - **liens internes** (11, tous vers des URL du brief ou des pages existantes) : `/blog/storytelling-drole-5-structures` · `/blog/comment-raconter-une-blague-sans-la-rater` · `/blog/timing-humour` · `/blog/citation-drole` · `/parcours/confiance` · `/parcours/repartie` · `/vannes/theme/famille` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
 - **cannibalisation** : l'article ne redit pas les 5 structures de storytelling ni la technique de la chute (liens vers `storytelling-drole-5-structures`, `comment-raconter-une-blague-sans-la-rater`, `timing-humour`). Angle propre : le format discours debout devant un public mixte, avec un exemple complet. `citation-drole` (orphelin P2-8) reçoit un lien entrant depuis la section accroche.
-- **décisions fondateur appliquées** : zéro humoriste nommé (choix fondateur 30/09, non re-questionnable) ; vannes catalogue uniquement ou candidates à l'aveugle ; zéro chiffre ou étude inventé ; durée idéale d'un toast : formulation qualitative, aucun chiffre ; parcours Confiance et Répartie = 20 minutes par semaine ; aucune vanne sur le physique, l'argent, le couple ou un absent
+- **décisions fondateur appliquées** : zéro humoriste nommé (choix fondateur 30/09, non re-questionnable) ; vannes catalogue ou vannes neuves validées à l'aveugle uniquement ; zéro chiffre ou étude inventé ; durée idéale d'un toast : formulation qualitative, aucun chiffre ; parcours Confiance et Répartie = 20 minutes par semaine ; aucune vanne sur le physique, l'argent, le couple ou un absent
 - **vannes catalogue utilisées (4)** : `cs14jk4fe660e7238281ce47` · `cs14jkc4a2c545e132b38a92` · `cs14jk02047ed5635bab6a52` · `cs14jkffeab1620070f2263e`
+- **vannes neuves validées (2)** : « c'est pour un mariage ? » (accroche du toast) · « tout lu, sauf les phrases soulignées » (trac)
 - **objections traitées** : « un toast, c'est du stand-up, je ne sais pas faire » (section « pas un mini stand-up ») ; « je vais vexer quelqu'un de la famille » (section public mixte + FAQ 2) ; « et si on me demande un mot sans prévenir » (section trac et improvisation + FAQ 3) ; « j'ai le trac » (idem + FAQ 4) ; « combien de temps ? » (FAQ 1)
-- **contenu propriétaire (first-hand)** : structure en 5 temps avec une règle d'usage par temps ; 1 toast complet écrit pour un repas de famille, avec 3 vannes du catalogue et 2 candidates en relecture ; 3 filtres pour un public mixte ; 1 vanne décryptée côté enfant et côté adulte
+- **contenu propriétaire (first-hand)** : structure en 5 temps avec une règle d'usage par temps ; 1 toast complet écrit pour un repas de famille, avec 2 vannes du catalogue et 1 vanne neuve validée à l'aveugle (l'accroche) ; 3 filtres pour un public mixte ; 1 vanne décryptée côté enfant et côté adulte
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
 
 ---
@@ -53,8 +53,7 @@ Cinq temps, dans cet ordre. Chacun a un rôle précis et une règle d'usage.
 
 Pour l'accroche, voici le genre de matière brute à chercher, un détail de table que tout le monde reconnaît :
 
-> Ma grand-mère cuisine toujours pour douze. On est trois. Elle s'excuse pour les neuf qui ne sont pas venus. <!-- joke:cs14jk4fe660e7238281ce47 -->
-
+> Ma grand-mère cuisine toujours pour douze. On est trois. Elle s'excuse pour les neuf qui ne sont pas venus.
 Elle ne vise personne en particulier, et chacun y reconnaît sa propre grand-mère. Elle fait sourire en deux phrases, à tout âge : c'est exactement ce qu'on demande à une accroche.
 
 > **À retenir :** Un toast drôle tient en cinq temps : accroche, anecdote, retournement, chute, verre levé. Le rire sert la sincérité du troisième temps, il ne la remplace pas.
@@ -65,19 +64,15 @@ Voici un toast écrit de zéro pour un repas de Noël, dit par quelqu'un qui rem
 
 > *[Tape doucement sur ton verre, attends que le silence s'installe.]*
 >
-> J'ai tapé sur mon verre pour demander le silence. Quelqu'un a demandé « c'est pour un mariage ? ». J'ai dit non. Il y a eu de la déception. <!-- CANDIDATE:C1 -->
+> J'ai tapé sur mon verre pour demander le silence. Quelqu'un a demandé « c'est pour un mariage ? ». J'ai dit non. Il y a eu de la déception.
 >
 > Avant de lever le verre, un mot sur nous.
 >
 > Une famille, c'est d'abord des histoires qu'on se répète. Chez nous, il y en a une à chaque repas.
 >
-> Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans. Elle est de plus en plus détaillée. Je commence à m'en souvenir. <!-- joke:cs14jkc4a2c545e132b38a92 -->
->
-> Ces histoires sont notre façon de nous aimer, parce que chez nous les choses importantes se disent de travers. J'ai dit à mon grand-père que je l'admirais. Il a répondu « prends du pain ». <!-- joke:cs14jk02047ed5635bab6a52 -->
->
+> Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans. Elle est de plus en plus détaillée. Je commence à m'en souvenir.>
+> Ces histoires sont notre façon de nous aimer, parce que chez nous les choses importantes se disent de travers. J'ai dit à mon grand-père que je l'admirais. Il a répondu « prends du pain ».>
 > Alors ce soir, je le dis de face, une seule fois : je suis heureux d'être à cette table avec vous. Merci d'être venus, merci d'avoir cuisiné, merci de revenir chaque année, même quand ce n'est pas simple.
->
-> Je vois que le gratin refroidit pendant mon discours. Dans cette famille, on pardonne beaucoup de choses, mais pas ça. <!-- CANDIDATE:C2 -->
 >
 > Alors, levons nos verres : à nous, à cette table, et à ceux qui ne sont pas là ce soir. À la famille !
 
@@ -86,10 +81,10 @@ Voici un toast écrit de zéro pour un repas de Noël, dit par quelqu'un qui rem
 - **Accroche :** elle part de ce que tout le monde vient de voir : quelqu'un se lève et demande le silence, ce qui crée une attente que chaque famille connaît, celle d'une annonce. Le rire tombe sur la situation et sur toi, et la table sait aussitôt que tu n'as rien de lourd à dire.
 - **Anecdote :** elle ne raconte rien de précis sur personne. Elle dit que la famille se répète ses histoires, et le rire vise l'orateur, qui se retrouve dépossédé de son propre souvenir. Ta sœur ne se sent pas visée : elle devient le personnage d'une affection.
 - **Retournement :** le grand-père répond de travers à une phrase sincère, et c'est précisément le sujet. La phrase d'après, « je le dis de face », fait basculer le toast : après deux sourires, la table est prête à entendre quelque chose de vrai.
-- **Chute :** un dernier trait tourné vers le repas, pas vers une personne, juste après l'émotion. Il détend ceux qui avaient les yeux humides et rappelle que le repas continue. Sans lui, le toast se ferme directement sur le verre levé, et ça marche aussi.
+- **Chute :** ici, il n'y en a pas, et le toast se ferme directement sur le verre levé : ça marche aussi. Si tu en veux une, choisis un dernier trait tourné vers le repas, pas vers une personne, juste après l'émotion. Il détend ceux qui avaient les yeux humides et rappelle que le repas continue.
 - **Verre levé :** trois groupes nommés, la table, la famille, ceux qui ne sont pas là. Aucun long remerciement, personne n'est oublié, et le « À la famille ! » est court donc facile à reprendre en chœur.
 
-Pour l'adapter : change le lien de parenté (la sœur peut être un frère ou une cousine, le grand-père un oncle), garde la forme, et remplace le gratin par le plat qui est vraiment sur la table. Un toast qui nomme ce qui se voit ne se prépare pas dans l'abstrait : les détails vrais font le travail.
+Pour l'adapter : change le lien de parenté (la sœur peut être un frère ou une cousine, le grand-père un oncle), garde la forme, et remplace les détails par ceux qui sont vraiment sur ta table (le plat, le rituel, la manière dont tout le monde se tait). Un toast qui nomme ce qui se voit ne se prépare pas dans l'abstrait : les détails vrais font le travail.
 
 ## Comment faire rire l'oncle et la petite cousine en même temps ?
 
@@ -101,8 +96,7 @@ Un repas de famille réunit des âges et des sensibilités très différents. Tr
 
 Un exemple de phrase qui passe ces trois filtres :
 
-> Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison. Le congélateur est rempli de baguettes. <!-- joke:cs14jkffeab1620070f2263e -->
-
+> Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison. Le congélateur est rempli de baguettes.
 L'enfant rit de l'image des baguettes entassées dans le congélateur. L'adulte rit de la raison pour laquelle on part acheter du pain. Les deux rient en même temps de deux choses différentes, et personne n'est attaqué : c'est ça, un humour de public mixte.
 
 ## Comment gérer le trac et l'improvisation d'un toast ?
@@ -111,11 +105,9 @@ Le trac fait partie du toast : il est même utile, parce qu'une voix qui tremble
 
 Une fiche aide à ne pas perdre le fil, à condition qu'elle tienne en cinq lignes, une par temps. Les gens qui lisent un discours entier regardent leur feuille, pas la table. Mieux vaut une fiche courte et connue qu'un texte complet : si le texte te quitte, il te reste la structure.
 
-> J'ai préparé mon toast sur une fiche, avec mes meilleures phrases soulignées. Dans le trac, j'ai tout lu, sauf les phrases soulignées. <!-- CANDIDATE:C3 -->
+> J'ai préparé mon toast sur une fiche, avec mes meilleures phrases soulignées. Dans le trac, j'ai tout lu, sauf les phrases soulignées.
 
 Si on te demande « quelques mots » sans prévenir, applique la structure en version réduite : une phrase sur ce que tu vois (accroche), une phrase vraie sur la personne ou la famille (retournement), un « santé » franc. Trois temps suffisent, et personne n'attend un discours.
-
-> On m'a demandé « tu peux dire quelques mots ? » sans prévenir. J'en ai dit trois : merci, santé, à table. On m'a trouvé très synthétique. <!-- CANDIDATE:C4 -->
 
 Dans les deux cas, ce qui rassure, c'est d'avoir déjà dit ton toast une fois à voix haute, même seul.
 

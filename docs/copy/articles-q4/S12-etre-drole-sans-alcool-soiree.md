@@ -1,7 +1,7 @@
 # À VALIDER PAR THOMAS : article S12 (être drôle sans alcool en soirée, publication lundi 21/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 12 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 12 du tableau de cannibalisation).
-> **Règle humour appliquée** : toute phrase drôle est soit une vanne du catalogue validé (`docs/copy/catalogue-vannes-valides.md`, recopiée mot pour mot, id en commentaire `<!-- joke:ID -->`), soit une candidate neuve balisée `<!-- CANDIDATE:Cn -->` (5 variantes dans `docs/copy/articles-q4/S12-candidates.md`, relecture à l'aveugle ensuite, la variante 1 occupe l'emplacement). Le texte autour est volontairement sobre. Si une candidate ne passe pas, supprimer sa ligne de citation : le texte reste cohérent.
+> Humour final (03/10) : 6 vannes du catalogue validé, recopiées mot pour mot (`cmmnsqn15007xth63p3dzv6pc`, `cs14jk0d9dfe9b5c26db5f8d`, `cmmnsqn14004sth63rnutrbwi`, `cs14jk1e07f8547b752601b8`, `cmmnsqn130030th6381ol5rxt`, `cs14jkbe889a47471bf8cbeb`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.
 > **Alcool et désinhibition** : aucune affirmation chiffrée ni scientifique, uniquement des formulations qualitatives (« souvent », « pour beaucoup de gens »). Pas de discours santé, pas de raison à fournir, aucun jugement sur ceux qui boivent ou non.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + démonstration par l'exemple]` · `[Conscience : Problem-Aware, le lecteur connaît la situation, pas encore la technique]`
 
@@ -16,10 +16,10 @@
 - **date de publication** : 2026-12-21 (lundi)
 - **category** : PRATIQUE · **readingTime** : 7 min
 - **liens internes** (9, tous vers les URL du brief ou des pages existantes) : `/blog/avoir-confiance-en-soi-grace-a-l-humour` · `/blog/rester-muet-en-groupe` · `/vannes/theme/soirees` · `/parcours/confiance` · `/parcours/repartie` · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
-- **décisions appliquées** : zéro humoriste, zéro marque, zéro concurrent nommé ; mot « timide » absent de l'article (jamais en primaire, non utilisé) ; aucune raison de ne pas boire n'est suggérée ni demandée ; le rire tombe sur la situation ou sur toi, jamais sur le verre des autres ; réponses à « tu bois pas ? » : 2 candidates (C1, C2) plus 2 formulations simples non drôles ; FAQ en texte brut sans vanne
+- **décisions appliquées** : zéro humoriste, zéro marque, zéro concurrent nommé ; mot « timide » absent de l'article (jamais en primaire, non utilisé) ; aucune raison de ne pas boire n'est suggérée ni demandée ; le rire tombe sur la situation ou sur toi, jamais sur le verre des autres ; réponses à « tu bois pas ? » : 2 formulations simples non drôles ; FAQ en texte brut sans vanne
 - **objections traitées** : « sans verre, je n'ai plus rien à dire » (pistes 1 à 4) ; « on va me poser la question toute la soirée » (section « tu bois pas ? » + FAQ 1) ; « tout le monde boit sauf moi » (FAQ 3) ; « je vais passer pour le rabat-joie » (section « tu bois pas ? », ton léger, FAQ 1) ; « et en janvier sobre ? » (section fêtes + FAQ 4)
-- **contenu propriétaire (first-hand)** : 6 pistes avec exemples dits à voix haute, 5 phrases d'entrée et de sortie, 4 formulations pour « tu bois pas ? » (2 simples, 2 drôles), 1 plan en 3 gestes
-- **comptage humour** : 6 vannes catalogue (`joke:`) et 5 candidates (`CANDIDATE`, dans l'ordre : C1 réponse courte, C2 réponse quand on insiste, C3 phrase d'entrée, C4 vanne qui ne prend pas, C5 départ)
+- **contenu propriétaire (first-hand)** : 6 pistes avec exemples dits à voix haute, 5 phrases d'entrée et de sortie, 2 formulations simples pour « tu bois pas ? », 1 plan en 3 gestes
+- **comptage humour** : 6 vannes catalogue et 1 vanne neuve validée à l'aveugle (« restée à la correspondance », piste 5, la vanne qui ne prend pas)
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
 
 ---
@@ -58,8 +58,7 @@ Pour chacune : la scène, ce qu'elle t'apporte, et une phrase à dire. Prends ce
 
 Pendant les dix premières minutes, au lieu de chercher une phrase brillante, regarde. Une soirée fournit sa propre matière : la musique, le buffet, les gens qui se regroupent dans la cuisine, le rituel de la chanson que quelqu'un annonce à chaque tour. Une remarque sur ce que tout le monde voit en même temps fait sourire, parce que chacun la reconnaît aussitôt. Tu n'inventes rien : tu dis tout haut ce qui est déjà là.
 
-> « Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons. Il a beaucoup de chansons. » <!-- joke:cmmnsqn15007xth63p3dzv6pc -->
-
+> « Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons. Il a beaucoup de chansons. »
 Pour t'entraîner, repère trois détails de la pièce avant de parler à qui que ce soit. Tu en auras toujours un à disposition.
 
 ### 2. Prends un rôle dans le groupe
@@ -68,49 +67,34 @@ Un rôle te donne une raison de bouger et un sujet de départ. Choisis une missi
 
 Le rôle de la vaisselle est un classique, avec ses aléas :
 
-> « Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un. Il est venu m'aider à essuyer. » <!-- joke:cs14jk0d9dfe9b5c26db5f8d -->
-
+> « Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un. Il est venu m'aider à essuyer. »
 ### 3. Prépare ta phrase d'entrée
 
 La phrase d'entrée est celle qui ouvre la conversation avec quelqu'un que tu ne connais pas. Prépare-en deux avant de partir et garde-les en poche. Trois formats marchent presque partout : une question sur le lien avec l'hôte (« Tu connais l'hôte d'où ? »), une remarque sur le lieu ou la musique, une demande de service (« Tu sais où poser mon manteau ? »).
 
 Le piège est la phrase sans prise, celle qui ne laisse rien à répondre :
 
-> « Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ». J'ai répondu « oui, mais ça ne durera pas ». » <!-- joke:cmmnsqn14004sth63rnutrbwi -->
-
-Pour une entrée plus légère, tu peux aussi parler de ta propre situation.
-
-> « Salut, je connais l'hôte et le code de l'immeuble. Je ne sais plus lequel des deux m'a fait entrer. » <!-- CANDIDATE:C3 -->
-
-### 4. Pose une vraie question
+> « Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ». J'ai répondu « oui, mais ça ne durera pas ». »### 4. Pose une vraie question
 
 Une vraie question fait plus rire qu'une phrase d'effet, parce qu'elle donne à l'autre l'occasion de raconter, et qu'on rit presque toujours avec quelqu'un qui raconte. Évite les questions fermées (« tu fais quoi dans la vie ? » renvoie une réponse de six mots) et préfère celles qui appellent une anecdote : « Qu'est-ce qui t'a fait venir ce soir ? », « C'est quoi, ton plat de soirée préféré ? ».
 
 Quand tu ne connais personne et que personne n'est libre pour la question, il reste l'animal de la maison :
 
-> « Je ne connaissais personne à la soirée, alors j'ai parlé au chat. À minuit, il s'est excusé pour aller voir quelqu'un. » <!-- joke:cs14jk1e07f8547b752601b8 -->
-
+> « Je ne connaissais personne à la soirée, alors j'ai parlé au chat. À minuit, il s'est excusé pour aller voir quelqu'un. »
 ### 5. Assume ta petite maladresse
 
 Sans verre, tu entends ta propre phrase rater, et tu la vois rater en direct. Le réflexe est de se justifier ou de faire comme si de rien n'était, ce qui fait durer le silence. Le geste inverse est le plus simple : nomme-la toi-même, avec le sourire, avant les autres. L'autodérision douce désarme le moment, et surtout elle te détend, ce qui est le vrai service.
 
-> « Cette vanne marchait très bien dans ma tête. Elle avait un public, des applaudissements, un rappel. » <!-- CANDIDATE:C4 -->
+> « J'avais préparé une vanne dans le métro. Elle est restée à la correspondance. »
 
 Rire de soi demande un peu de confiance, qui s'entraîne comme le reste. Si l'objectif te paraît lointain, tu es en bonne compagnie :
 
-> « Mon ambition dans la vie, c'est d'être aussi confiant... Que le mec qui répond « à peu près » quand on lui demande s'il sait nager. » <!-- joke:cmmnsqn130030th6381ol5rxt -->
-
+> « Mon ambition dans la vie, c'est d'être aussi confiant... Que le mec qui répond « à peu près » quand on lui demande s'il sait nager. »
 ### 6. Pars à ton heure
 
 Une soirée a son meilleur moment, et il se situe rarement tout à la fin. Partir quand c'est bien laisse un bon souvenir à tout le monde, toi compris, et ça enlève la pression de tenir jusqu'au bout. Dis merci à l'hôte, en une phrase, et pars sans cérémonie. Certaines soirées s'étirent plus que prévu :
 
-> « Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. À 2h du matin, on les a mangés. Par respect. » <!-- joke:cs14jkbe889a47471bf8cbeb -->
-
-Pour la sortie elle-même, une phrase sur toi suffit.
-
-> « Je vais y aller. Mon lit m'a écrit trois fois. » <!-- CANDIDATE:C5 -->
-
-## Comment répondre à « tu bois pas ? » avec légèreté ?
+> « Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. À 2h du matin, on les a mangés. Par respect. »## Comment répondre à « tu bois pas ? » avec légèreté ?
 
 Trois règles, dans cet ordre.
 
@@ -118,15 +102,7 @@ Trois règles, dans cet ordre.
 2. **Un sourire et un ton léger.** La question est presque toujours amicale : celui qui la pose veut que tu sois bien servi, ou cherche une façon de lancer la conversation. Réponds sur le même ton.
 3. **Rends la parole.** Propose quelque chose, ou retourne la question : « Pas ce soir, merci. Tu as de l'eau pétillante ? » ou « Je suis bien comme ça, merci. Et toi, tu bois quoi ? ». La conversation repart ailleurs.
 
-Pour alléger, une phrase qui parle de toi plutôt que du verre ne prête à aucune discussion.
-
-> « Ce soir, je tiens la mémoire de la soirée. Poste non rémunéré, mais les archives sont complètes. » <!-- CANDIDATE:C1 -->
-
-Si le groupe insiste, garde le même sourire, sans changer d'avis.
-
-> « J'ai déjà atteint mon maximum de spontanéité ce soir. J'ai dit bonjour avant qu'on me le demande. » <!-- CANDIDATE:C2 -->
-
-Si ça continue malgré tout, répète ta première phrase, mot pour mot, puis va te servir à boire quelque chose que tu aimes. Le verre en main règle souvent le sujet : une fois ton verre plein, plus personne n'a de raison de te le demander.
+Si le groupe insiste, garde le même sourire, sans changer d'avis. Si ça continue malgré tout, répète ta première phrase, mot pour mot, puis va te servir à boire quelque chose que tu aimes. Le verre en main règle souvent le sujet : une fois ton verre plein, plus personne n'a de raison de te le demander.
 
 ## Comment tenir les soirées de fin d'année et un janvier sobre ?
 

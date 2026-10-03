@@ -1,7 +1,7 @@
 # À VALIDER PAR THOMAS : article S7 (soirée de Noël au boulot, publication lundi 16/11)
 
 > Statut : brouillon complet, non publié, non commité. Même moule que l'étalon S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé le 30/09). Brief : ligne 7 de `docs/seo/calendrier-editorial-q4-2026.md` §4 et tableau de cannibalisation.
-> Barre humour : chaque phrase drôle est soit une vanne du catalogue validé recopiée mot pour mot (`<!-- joke:ID -->`), soit une candidate neuve (`<!-- CANDIDATE:Cn -->`) avec ses 5 variantes dans `docs/copy/articles-q4/S7-candidates.md`. Retirer une candidate ne casse aucune phrase autour.
+> Humour final (03/10) : 5 vannes du catalogue validé, recopiées mot pour mot (`cmmnsqn14004sth63rnutrbwi`, `cs14jkbe889a47471bf8cbeb`, `cs14jkc13a4d9d7194d8e5ea`, `cs14jkefbc9f40abb6f8a2ca`, `cs14jk0d9dfe9b5c26db5f8d`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.
 > `[Framework : PAS allégé (Problème, Agitation, Solution) + règle des 3 zones]` · `[Conscience : Problem-Aware, le lecteur connaît la situation, pas encore la méthode]`
 
 ## Métadonnées
@@ -15,9 +15,9 @@
 - **date de publication** : 2026-11-16 (lundi)
 - **category** : PRATIQUE · **readingTime** : 8 min
 - **liens internes** (9, tous vers les URL du brief ou des pages existantes) : `/blog/blagues-travail-faire-rire-pro` · `/blog/conversation-machine-a-cafe` · `/vannes/theme/boulot` · `/parcours/machine-a-cafe` (15 min) · `/parcours/repartie` (20 min) · `/vannes` · `/conseils` · `/videos` · `/blague-du-jour`
-- **décisions fondateur appliquées** : zéro humoriste, outil ou enseigne nommé ; vannes uniquement du catalogue validé ou candidates numérotées ; aucune vanne sur le verre de trop (zone rouge) ni sur un collègue ; alcool traité sans morale ni incitation ; aucun chiffre ou étude inventé
+- **décisions fondateur appliquées** : zéro humoriste, outil ou enseigne nommé ; vannes uniquement du catalogue validé ou neuves validées à l'aveugle ; aucune vanne sur le verre de trop (zone rouge) ni sur un collègue ; alcool traité sans morale ni incitation ; aucun chiffre ou étude inventé
 - **vannes catalogue utilisées (5)** : `cmmnsqn14004sth63rnutrbwi` (small talk) · `cs14jkbe889a47471bf8cbeb` (bâtonnets de carottes) · `cs14jkc13a4d9d7194d8e5ea` (discrétion du manager) · `cs14jkefbc9f40abb6f8a2ca` (mug « meilleur collègue ») · `cs14jk0d9dfe9b5c26db5f8d` (vaisselle)
-- **candidates neuves (5)** : C1 arrivée (collègue connu par ses mails) · C2 direction (« alors, cette année ? ») · C3 Secret Santa · C4 vanne qui tombe à plat · C5 départ
+- **vanne neuve validée (1)** : « bien cordialement » (arrivée, collègue connu par ses mails)
 - **objections traitées** : « je vais dire une bêtise devant la direction » (moment 2 + FAQ 1) ; « je ne bois pas / je ne veux pas jouer le jeu » (moment 4) ; « et si ma vanne tombe à plat » (section dédiée + FAQ 3) ; « et si un collègue dépasse les bornes » (moment 4, section « l'humour ne suffit pas » + FAQ 4)
 - **contenu propriétaire (first-hand)** : la règle des 3 zones (vert, orange, rouge), le plan en 5 moments, 5 phrases neutres de sortie pour le verre de trop, la ligne rouge de la direction
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
@@ -48,8 +48,7 @@ Avant d'entrer, classe chaque sujet dans l'une des trois zones.
 
 En zone verte, l'anecdote idéale est celle où le seul perdant est celui qui la raconte.
 
-> Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ». / J'ai répondu « oui, mais ça ne durera pas ». <!-- joke:cmmnsqn14004sth63rnutrbwi -->
-
+> Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ». / J'ai répondu « oui, mais ça ne durera pas ».
 Un test rapide avant de parler : la personne concernée pourrait-elle entendre ta phrase en direct, devant toute l'équipe, et rire autant que toi ? Si tu hésites, c'est orange ou rouge, et tu changes de cible : toi.
 
 > **À retenir :** Plaisante sur toi et sur la situation, avec prudence sur un collègue précis, jamais sur la direction en public, le physique, l'argent ni la vie privée. En cas de doute, change de cible : toi.
@@ -62,35 +61,25 @@ Pour chaque moment : la zone, ce qui marche, et une ou deux phrases à garder en
 
 Zone verte. Tu viens d'entrer, tu tiens un verre ou une assiette, et tu ne sais pas encore avec qui parler. Le plus simple est de t'accrocher à ce que tout le monde voit en même temps : le buffet, la salle, la musique. Personne n'a à te répondre de façon brillante, et la conversation démarre.
 
-> Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. / À 2h du matin, on les a mangés. Par respect. <!-- joke:cs14jkbe889a47471bf8cbeb -->
-
+> Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. / À 2h du matin, on les a mangés. Par respect.
 Si tu croises quelqu'un d'un autre service que tu ne connais que par ses mails, c'est plus facile qu'il n'y paraît : vous avez déjà un point commun, la messagerie. Ouvre là-dessus avec le sourire de quelqu'un content de mettre enfin un visage sur un nom, puis pose une vraie question : « Tu es dans l'équipe depuis longtemps ? »
 
-> On s'écrit depuis deux ans. Je te rencontre enfin. / Jusqu'ici, tu étais pour moi un « bien cordialement ». <!-- CANDIDATE:C1 -->
+> On s'écrit depuis deux ans. Je te rencontre enfin. / Jusqu'ici, tu étais pour moi un « bien cordialement ».
 
 ### 2. La discussion avec la direction
 
 Zone verte si tu parles de toi, zone rouge si tu parles d'elle. La direction vient te saluer, ou tu t'approches parce que le moment s'y prête. Tu n'as pas besoin d'être brillant : tu as besoin d'être agréable et court. Trois réflexes. Réponds d'abord à la question posée, sincèrement. Ajoute une touche sur toi, jamais sur l'entreprise ni sur ses décisions : pas de remarque sur une réorganisation, un budget ou un projet. Rends enfin la parole avec une vraie question sur la soirée ou sur ses fêtes de fin d'année.
 
-Quand la question est « alors, cette année ? », une touche d'autodérision suffit.
+Quand la question est « alors, cette année ? », une touche d'autodérision suffit : un petit échec sans enjeu, raconté en une phrase, puis tu rends la parole. Si tu préfères une anecdote toute faite, celle-ci raconte un compliment que tu n'as pas su recevoir.
 
-> Cette année, j'ai enfin appris où est la salle de réunion du deuxième étage. / Elle est au troisième. <!-- CANDIDATE:C2 -->
-
-Si tu préfères une anecdote toute faite, celle-ci raconte un compliment que tu n'as pas su recevoir.
-
-> Mon manager m'a félicité pour ma discrétion. / Je n'ai pas su comment le remercier sans me faire remarquer. <!-- joke:cs14jkc13a4d9d7194d8e5ea -->
-
+> Mon manager m'a félicité pour ma discrétion. / Je n'ai pas su comment le remercier sans me faire remarquer.
 ### 3. Le Secret Santa
 
 Zone orange par nature : un cadeau s'adresse à une personne précise. Ici, le cadeau est l'humour. Un objet qui fait un clin d'œil à un détail que la personne a elle-même rendu public (son goût pour le café, une plante sur son bureau) fait sourire sans exposer. Un objet qui désigne un défaut, un physique ou une habitude gênante met la personne en scène devant tous, et c'est le cadeau qui devient le sujet. Respecte le budget annoncé, et garde pour toi tout mot d'accompagnement qui ne pourrait pas se lire à voix haute.
 
 Pour offrir comme pour recevoir, une phrase simple et chaleureuse suffit : « Merci, c'est vraiment pensé. » Côté anecdotes, les histoires de cadeau d'entreprise rient de la situation sans viser personne.
 
-> Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze. / Depuis, on se surveille. <!-- joke:cs14jkefbc9f40abb6f8a2ca -->
-
-> Au Secret Santa, j'ai enquêté une semaine sur la personne que j'avais tirée. / Je sais tout d'elle, sauf ce qu'elle aime. J'ai pris une bougie. <!-- CANDIDATE:C3 -->
-
-### 4. Le verre de trop (le tien ou celui d'un collègue)
+> Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze. / Depuis, on se surveille.### 4. Le verre de trop (le tien ou celui d'un collègue)
 
 Ici, on ne plaisante pas, et le plus simple est de le décider avant d'arriver. Que tu boives ou non, c'est ton affaire : « Je prends un jus de fruit » suffit comme réponse, sans justification, et personne n'a à commenter le verre de l'autre, dans un sens comme dans l'autre.
 
@@ -100,22 +89,11 @@ Quand un collègue a trop bu, on est en zone rouge : rien de drôle sur le momen
 
 Zone verte. Pars quand la soirée est encore bonne, pas quand elle se vide. Dis au revoir à la personne qui a organisé et, si tu l'as croisée, à la direction, en une phrase chaleureuse : « Merci pour la soirée, c'était très agréable. » Inutile d'inventer un prétexte long. Pour quitter une conversation qui s'étire, une tâche utile (débarrasser, aller chercher quelque chose) est la sortie la plus polie, et elle ne vexe personne. Une anecdote sur ce principe :
 
-> Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un. / Il est venu m'aider à essuyer. <!-- joke:cs14jk0d9dfe9b5c26db5f8d -->
-
-Pour la sortie elle-même, une phrase légère suffit.
-
-> Je file. Si on me cherche lundi, j'étais là. / J'ai même parlé à la direction. <!-- CANDIDATE:C5 -->
-
-Et lundi, une seule règle : on ne ressort pas les vannes de la soirée, les siennes comme celles des autres.
+> Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un. / Il est venu m'aider à essuyer.Et lundi, une seule règle : on ne ressort pas les vannes de la soirée, les siennes comme celles des autres.
 
 ## Que faire quand ta vanne tombe à plat devant l'équipe ?
 
 Ça arrive à tout le monde, et la durée du silence dépend surtout de ta réaction. Trois gestes. Ne l'explique pas : une vanne qu'on explique est morte deux fois. Ne t'excuse pas longuement : une demi-phrase suffit, ou rien. Rends la parole à quelqu'un d'autre avec une vraie question, pour que la conversation ait un endroit où aller. En général, l'équipe passe à autre chose avant toi.
-
-Si tu veux nommer la situation avec légèreté, une phrase peut le faire.
-
-> Dans ma version, il y avait des rires à cet endroit. / Je suis ouvert aux corrections. <!-- CANDIDATE:C4 -->
-
 ## Que faire quand l'humour ne suffit pas ?
 
 Certaines situations ne se règlent pas avec une vanne : une remarque sexiste ou raciste présentée comme une blague, une moquerie répétée sur quelqu'un, un geste ou un propos déplacé envers une personne. Si tu en es témoin ou cible, ce n'est plus de l'humour, et tu n'as aucune obligation de rire. Dis-le simplement : « Moi, ça ne me fait pas rire. » Ou écarte-toi avec la personne concernée. Après la soirée, tu peux en parler à une personne de confiance, à tes ressources humaines ou à un représentant du personnel. Rire avec le groupe pour éviter la tension a un coût que tu n'as pas à payer.
