@@ -37,7 +37,7 @@ Ce qui fait un toast drôle, c'est sa forme. Une structure en cinq temps, une r�
 
 Un stand-up cherche le rire à chaque phrase, devant des inconnus qui ont payé pour ça. Un toast cherche un rire ou deux, devant des proches, au service d'un moment : remercier, célébrer, rassembler. La différence change tout dans l'écriture.
 
-Sur scène, on peut viser large et faire rire aux dépens de quelqu'un. À table, tout le monde se connaît : la moindre pique atterrit sur une vraie personne, qui est assise à deux mètres. Et le rire n'est pas le but, c'est l'élan qui prépare le moment sincère, celui qui fait lever les verres.
+Sur scène, on peut viser large et faire rire aux dépens de quelqu'un. À table, tout le monde se connaît : la moindre pique atterrit sur une vraie personne, qui est assise juste en face. Et le rire n'est pas le but, c'est l'élan qui prépare le moment sincère, celui qui fait lever les verres.
 
 D'où la règle de base : un toast drôle fait sourire souvent, rire parfois, et émeut un peu à la fin. S'il ne fait que rire, il s'oublie. S'il ne fait qu'émouvoir, il est long.
 
@@ -83,10 +83,10 @@ Voici un toast écrit de zéro pour un repas de Noël, dit par quelqu'un qui rem
 
 **Pourquoi ça marche :**
 
-- **Accroche :** elle part de ce que tout le monde vient de voir, le geste de taper sur le verre, et d'une attente que chaque famille connaît : celle d'une annonce. Le rire tombe sur la situation et sur toi, et la table sait aussitôt que tu n'as rien de lourd à dire.
+- **Accroche :** elle part de ce que tout le monde vient de voir : quelqu'un se lève et demande le silence, ce qui crée une attente que chaque famille connaît, celle d'une annonce. Le rire tombe sur la situation et sur toi, et la table sait aussitôt que tu n'as rien de lourd à dire.
 - **Anecdote :** elle ne raconte rien de précis sur personne. Elle dit que la famille se répète ses histoires, et le rire vise l'orateur, qui se retrouve dépossédé de son propre souvenir. Ta sœur ne se sent pas visée : elle devient le personnage d'une affection.
 - **Retournement :** le grand-père répond de travers à une phrase sincère, et c'est précisément le sujet. La phrase d'après, « je le dis de face », fait basculer le toast : après deux sourires, la table est prête à entendre quelque chose de vrai.
-- **Chute :** un dernier trait sur le plat, pas sur une personne, juste après l'émotion. Elle détend ceux qui avaient les yeux humides et rappelle que le repas continue.
+- **Chute :** un dernier trait tourné vers le repas, pas vers une personne, juste après l'émotion. Il détend ceux qui avaient les yeux humides et rappelle que le repas continue. Sans lui, le toast se ferme directement sur le verre levé, et ça marche aussi.
 - **Verre levé :** trois groupes nommés, la table, la famille, ceux qui ne sont pas là. Aucun long remerciement, personne n'est oublié, et le « À la famille ! » est court donc facile à reprendre en chœur.
 
 Pour l'adapter : change le lien de parenté (la sœur peut être un frère ou une cousine, le grand-père un oncle), garde la forme, et remplace le gratin par le plat qui est vraiment sur la table. Un toast qui nomme ce qui se voit ne se prépare pas dans l'abstrait : les détails vrais font le travail.
@@ -109,11 +109,9 @@ L'enfant rit de l'image des baguettes entassées dans le congélateur. L'adulte 
 
 Le trac fait partie du toast : il est même utile, parce qu'une voix qui tremble un peu rend l'orateur plus proche. Ce qui gêne, c'est de vouloir le cacher. Dis ton toast plus lentement que tu ne le sens. Pose le verre avant de commencer si ta main tremble, et ne le lève qu'à la fin.
 
-Une fiche aide à ne pas perdre le fil, à condition qu'elle tienne en cinq lignes, une par temps. Les gens qui lisent un discours entier regardent leur feuille, pas la table.
+Une fiche aide à ne pas perdre le fil, à condition qu'elle tienne en cinq lignes, une par temps. Les gens qui lisent un discours entier regardent leur feuille, pas la table. Mieux vaut une fiche courte et connue qu'un texte complet : si le texte te quitte, il te reste la structure.
 
 > J'ai préparé mon toast sur une fiche, avec mes meilleures phrases soulignées. Dans le trac, j'ai tout lu, sauf les phrases soulignées. <!-- CANDIDATE:C3 -->
-
-La leçon : mieux vaut une fiche courte et connue qu'un texte complet. Si le texte te quitte, il te reste la structure.
 
 Si on te demande « quelques mots » sans prévenir, applique la structure en version réduite : une phrase sur ce que tu vois (accroche), une phrase vraie sur la personne ou la famille (retournement), un « santé » franc. Trois temps suffisent, et personne n'attend un discours.
 
@@ -143,4 +141,4 @@ Réduis la structure à trois temps : une phrase sur ce que tout le monde voit (
 
 ### Comment gérer le trac avant de lever son verre ?
 
-Ralentis, respire avant de parler et pose ton verre si ta main tremble. Garde une fiche de cinq lignes, une par temps, plutôt qu'un texte entier. Dis ton toast une fois à voix haute avant le repas : la version de la table ne sera pas la première. Le trac ne se voit presque pas de l'extérieur, et une voix qui tremble un peu rend l'orateur plus proche.
+Ralentis, respire avant de parler et pose ton verre si ta main tremble. Garde une fiche de cinq lignes, une par temps, plutôt qu'un texte entier. Dis ton toast une fois à voix haute avant le repas : la version de la table ne sera pas la première. Une voix qui tremble un peu rend l'orateur plus proche, et la table est plus indulgente que tu ne le crois.
