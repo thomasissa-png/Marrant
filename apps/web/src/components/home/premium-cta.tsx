@@ -93,7 +93,7 @@ export function PremiumCta() {
             )}
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
-              La première étape est offerte, et toi&nbsp;?
+              Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?
             </p>
           </div>
         </div>
