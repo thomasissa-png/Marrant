@@ -17,7 +17,12 @@ A : 18 « = » ; B : 14 « = ». Consensus : 56, 105, 108, 121, 131. Départage 
 | S11 couple « on regarde quoi ? » | 85 | J'ai choisi il y a vingt minutes. Je n'osais pas appuyer. | < | = | = |
 | S12 dating « tu parles toujours aussi peu ? » | 121 | Donne-moi la nuit. Demain, je t'envoie un message magnifique. | = | = | = |
 | S13 amis, addition à parts égales | 112 | Parfait, je trouvais cette soirée un peu légère. | = | < | = |
-| S14 caissier « la carte du magasin ? » | : | aucune au niveau → vague 2 | | | |
+| S14 caissier « la carte du magasin ? » | V2-12 | Laissez-moi réfléchir. C'est la seule question qu'on me pose cette semaine. | = | = | = |
 | S15 voisin « ce soleil, hein ? » | 114 | Vous voyez l'effet qu'il a : je parle dans un ascenseur. | = | < | = |
 
 Réserve validée (non utilisée) : 105 (S7, « je m'occupe des soupirs »). Écartées au départage : 51, 110, 133 (S1), 47, 176 (S6), 151 (S7), 152 (S8), 2 (S10), 46 (S11), 83 (S13), 50, 178 (S15), 9 retenue à la place de 51.
+
+
+## S14, vague 2 (25 candidates, aveugle)
+
+A : 1 « = » (n° aveugle 17) ; B : 2 « = » (n° aveugle 17 et 20). Consensus : n° aveugle 17 = original 12 (`candidates-S14-vague2.md`), retenu à l'unanimité. Le n° aveugle 20 (original 24, fausse date de naissance) est écarté : B seul le met à « = », et en limite.
