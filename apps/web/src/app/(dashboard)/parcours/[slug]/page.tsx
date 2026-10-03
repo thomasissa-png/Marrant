@@ -21,6 +21,7 @@ import {
   buildCourseJsonLd,
 } from "@/components/seo/json-ld";
 import parcoursSeed from "../../../../../../../docs/content/parcours-seed.json";
+import { parcoursWeeks } from "@/config/premium";
 
 // Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
 export const revalidate = 3600;
@@ -35,30 +36,30 @@ const PARCOURS_META: Record<
     name: "Parcours Machine à Café",
     title: "Drôle au bureau : parcours Machine à Café",
     description:
-      "Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : 3 semaines à 15 min/semaine pour devenir le collègue qu'on écoute.",
-    duration: "3 semaines",
+      `Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : ${parcoursWeeks("machine-a-cafe")} semaines à 15 min/semaine pour devenir le collègue qu'on écoute.`,
+    duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
     difficulty: "DEBUTANT",
-    stepsCount: 3,
+    stepsCount: parcoursWeeks("machine-a-cafe"),
   },
   repartie: {
     // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
     name: "Parcours Répartie",
     title: "Avoir de la répartie : le parcours guidé",
     description:
-      "Développe ta répartie en 4 semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre en soirée ou entre potes.",
-    duration: "4 semaines",
+      `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre en soirée ou entre potes.`,
+    duration: `${parcoursWeeks("repartie")} semaines`,
     difficulty: "INTERMEDIAIRE",
-    stepsCount: 4,
+    stepsCount: parcoursWeeks("repartie"),
   },
   confiance: {
     // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
     name: "Parcours Confiance",
     title: "Retrouver confiance grâce à l'humour",
     description:
-      "6 semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression : on remet de la légèreté dans tes échanges, une étape à la fois.",
-    duration: "6 semaines",
+      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression : on remet de la légèreté dans tes échanges, une étape à la fois.`,
+    duration: `${parcoursWeeks("confiance")} semaines`,
     difficulty: "INTERMEDIAIRE",
-    stepsCount: 6,
+    stepsCount: parcoursWeeks("confiance"),
   },
 };
 

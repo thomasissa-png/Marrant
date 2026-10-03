@@ -11,6 +11,9 @@ import {
   renderFaq,
 } from "@/lib/llms-content";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { glossary } from "@/lib/glossary";
+import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
+import { parcoursWeeks } from "@/config/premium";
 
 /**
  * llms-full.txt — version étendue de llms.txt pour les crawlers LLM (GEO).
@@ -35,12 +38,12 @@ interface FullArticle {
 }
 
 const RESOURCE_PAGES = [
-  { path: "/glossaire", label: "Glossaire humour", summary: "12 termes clés de l'humour expliqués avec un exemple : répartie, timing, autodérision, punchline, storytelling, one-liner, observationnel, setup, callback, escalade comique, accusé de réception, rebond sur mot-clé." },
+  { path: "/glossaire", label: "Glossaire humour", summary: `${glossary.length} termes clés de l'humour expliqués avec un exemple : répartie, timing, autodérision, punchline, storytelling, one-liner, observationnel, setup, callback, escalade comique, accusé de réception, rebond sur mot-clé.` },
   { path: "/anatomie-vanne", label: "Anatomie d'une vanne", summary: "Structure setup + punchline décortiquée avec exemples concrets. Comment construire une vanne qui déclenche vraiment le rire." },
-  { path: "/quiz-humour", label: "Quiz humour", summary: "Quiz pour identifier ton style d'humour dominant en 12 questions (autodérision, absurde, observation, jeu de mots, timing…)." },
-  { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: "Parcours débutant de 3 semaines (15 min par semaine) pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork." },
-  { path: "/parcours/repartie", label: "Parcours Répartie", summary: "Parcours intermédiaire de 4 semaines (20 min par semaine) pour développer sa répartie avec des exercices concrets et ne plus rester muet." },
-  { path: "/parcours/confiance", label: "Parcours Confiance", summary: "Parcours de 6 semaines (20 min par semaine) pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif." },
+  { path: "/quiz-humour", label: "Quiz humour", summary: `Quiz pour identifier ton style d'humour dominant en ${QUIZ_QUESTIONS.length} questions (autodérision, absurde, observation, jeu de mots, timing…).` },
+  { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: `Parcours débutant de ${parcoursWeeks("machine-a-cafe")} semaines (15 min par semaine) pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork.` },
+  { path: "/parcours/repartie", label: "Parcours Répartie", summary: `Parcours intermédiaire de ${parcoursWeeks("repartie")} semaines (20 min par semaine) pour développer sa répartie avec des exercices concrets et ne plus rester muet.` },
+  { path: "/parcours/confiance", label: "Parcours Confiance", summary: `Parcours de ${parcoursWeeks("confiance")} semaines (20 min par semaine) pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif.` },
 ];
 
 interface CatalogueSample {

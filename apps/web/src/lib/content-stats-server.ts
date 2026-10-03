@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { jokeContentKey } from "@/lib/jokes-dedupe";
 import { tipTitleKey } from "@/lib/tips-dedupe";
+import { roundDownMarketing } from "@/lib/marketing-round";
 
 import * as React from "react";
 
@@ -28,24 +29,8 @@ export interface ContentStats {
 
 const FALLBACK: ContentStats = { jokes: 0, tips: 0, videos: 0 };
 
-/**
- * Arrondi marketing :
- * - >= 100 → arrondi à la cinquantaine inférieure (562 → 550, 372 → 350) : chiffres
- *   justes (GO Thomas 29/09/2026 : compteurs = contenus distincts, 550+ / 350+)
- * - <  100 → arrondi à la dizaine inférieure (89 → 80, 66 → 60)
- * - 0        → 0 (permet un fallback texte "des centaines")
- */
-export function roundDownMarketing(n: number): number {
-  if (!Number.isFinite(n) || n <= 0) return 0;
-  if (n >= 100) return Math.floor(n / 50) * 50;
-  return Math.floor(n / 10) * 10;
-}
-
-/** Formatage `"600+"`, avec fallback texte si 0. */
-export function formatCount(n: number, fallbackText: string): string {
-  const rounded = roundDownMarketing(n);
-  return rounded > 0 ? `${rounded}+` : fallbackText;
-}
+// Arrondi : implémentation unique dans marketing-round.ts (aussi utilisée côté client).
+export { roundDownMarketing, formatCount } from "@/lib/marketing-round";
 
 /**
  * Compte les contenus actifs DISTINCTS (sans doublons), avec la même normalisation

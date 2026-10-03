@@ -11,6 +11,7 @@ import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { FaqSection } from "@/components/home/faq-section";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { FREE_CATALOGUE_LIMITS_LABEL, PARCOURS_COUNT } from "@/config/premium";
 
 /**
  * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
@@ -47,8 +48,8 @@ export default function AbonnementPage() {
     ? "Active ton accès pour commencer"
     : "Crée ton compte, deviens drôle";
   const pageSubtitle = isAuthenticated
-    ? "Ton compte est prêt. Encore un clic et les 3 parcours sont à toi en entier, de la première à la dernière étape."
-    : "Compte gratuit d'abord (10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours). Tu passes à l'accès complet quand tu veux, à 2,99 €/mois.";
+    ? `Ton compte est prêt. Encore un clic et les ${PARCOURS_COUNT} parcours sont à toi en entier, de la première à la dernière étape.`
+    : `Compte gratuit d'abord (${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours). Tu passes à l'accès complet quand tu veux, à 2,99 €/mois.`;
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -96,7 +97,7 @@ export default function AbonnementPage() {
           <CardContent className="p-6 sm:p-8">
             <h2 className="font-display text-lg font-bold text-text-primary">Compte gratuit</h2>
             <p className="mt-2 text-sm text-text-secondary">
-              10 vannes, 3 conseils, 3 vidéos, le contenu du jour et la première étape de chaque parcours. Sans carte.
+              {FREE_CATALOGUE_LIMITS_LABEL}, le contenu du jour et la première étape de chaque parcours. Sans carte.
             </p>
             <Button
               variant="outline"

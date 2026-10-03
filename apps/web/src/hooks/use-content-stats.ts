@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { roundDownMarketing } from "@/lib/marketing-round";
 
 interface ContentStats {
   jokes: number;
@@ -19,20 +20,9 @@ const DEFAULT_STATS: ContentStats = { jokes: 0, tips: 0, videos: 0, members: 0 }
 export const MEMBERS_SOCIAL_PROOF_MIN = 100;
 
 /**
- * Arrondi marketing (aligné sur `content-stats-server.ts`) :
- * - >= 100 → centaine inférieure (602 → 600, 400 → 400)
- * - <  100 → dizaine inférieure (89 → 80, 66 → 60)
- */
-export function roundToTen(n: number): number {
-  if (!Number.isFinite(n) || n <= 0) return 0;
-  if (n >= 100) return Math.floor(n / 50) * 50;
-  return Math.floor(n / 10) * 10;
-}
-
-/**
  * Hook pour récupérer le nombre total de contenus actifs.
  * Utilisé pour afficher des compteurs dynamiques dans les CTA et upsells.
- * Les compteurs sont arrondis (dizaine si < 100, cinquantaine sinon) pour rester marketing.
+ * Les compteurs sont arrondis avec la même fonction que le serveur (marketing-round.ts).
  */
 export function useContentStats() {
   const [stats, setStats] = useState<ContentStats>(DEFAULT_STATS);
@@ -42,10 +32,10 @@ export function useContentStats() {
       .then((res) => (res.ok ? res.json() : DEFAULT_STATS))
       .then((data) =>
         setStats({
-          jokes: roundToTen(data.jokes || 0),
-          tips: roundToTen(data.tips || 0),
-          videos: roundToTen(data.videos || 0),
-          members: roundToTen(data.members || 0),
+          jokes: roundDownMarketing(data.jokes || 0),
+          tips: roundDownMarketing(data.tips || 0),
+          videos: roundDownMarketing(data.videos || 0),
+          members: roundDownMarketing(data.members || 0),
         }),
       )
       .catch(() => {});

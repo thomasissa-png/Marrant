@@ -30,7 +30,9 @@ describe("HeroSection", () => {
   it("shows social proof « 1 500+ membres » (texte fixe validé fondateur)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/Rejoins 1\s500\+ membres/)).toBeInTheDocument();
+    const proof = screen.getByText(/1\s500\+ membres bossent leur humour\. Rejoins-les\./);
+    expect(proof).toBeInTheDocument();
+    expect(proof.textContent).toMatch(/1\s500\+ membres/);
   });
 
   it("links each persona tag to its parcours (s12 T02)", () => {

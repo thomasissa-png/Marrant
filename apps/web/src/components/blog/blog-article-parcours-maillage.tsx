@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { resolveCluster } from "@/lib/blog-clusters";
+import { parcoursWeeks } from "@/config/premium";
 
 /**
  * Maillage contextuel article → parcours individuel.
@@ -30,7 +31,7 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "techniques-repartie": {
     slug: "repartie",
     title: "Parcours Répartie",
-    duration: "4 semaines",
+    duration: `${parcoursWeeks("repartie")} semaines`,
     headline: "Ces techniques, entraîne-les dans un parcours guidé",
     bullets: [
       "Une étape par semaine, environ 20 minutes",
@@ -42,10 +43,10 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "apprendre-humour": {
     slug: "repartie",
     title: "Parcours Répartie",
-    duration: "4 semaines",
+    duration: `${parcoursWeeks("repartie")} semaines`,
     headline: "Passe de la théorie à la pratique",
     bullets: [
-      "4 semaines sur les fondamentaux de la répartie : rebondir, tenir un silence, retourner une pique",
+      `${parcoursWeeks("repartie")} semaines sur les fondamentaux de la répartie : rebondir, tenir un silence, retourner une pique`,
       "Des exercices à tester le soir même, en soirée ou en coloc",
       "À chaque étape, un conseil, des vannes, une vidéo et un petit quiz",
     ],
@@ -54,7 +55,7 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "apprendre-des-pros": {
     slug: "repartie",
     title: "Parcours Répartie",
-    duration: "4 semaines",
+    duration: `${parcoursWeeks("repartie")} semaines`,
     headline: "Pique les techniques que tu viens de lire, proprement",
     bullets: [
       "Chaque étape s'appuie sur une vidéo de stand-up, décortiquée",
@@ -66,34 +67,34 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "techniques-delivery": {
     slug: "repartie",
     title: "Parcours Répartie",
-    duration: "4 semaines",
+    duration: `${parcoursWeeks("repartie")} semaines`,
     headline: "Le timing, ça s'entraîne plus que ça ne se lit",
     bullets: [
       "Une étape entière sur le rythme et les silences",
       "Des vannes avec le timing intégré, à dire à voix haute",
-      "4 semaines pour que ta chute arrive au bon moment, et pas juste après",
+      `${parcoursWeeks("repartie")} semaines pour que ta chute arrive au bon moment, et pas juste après`,
     ],
     cta: "Travailler ton timing",
   },
   "types-humour": {
     slug: "repartie",
     title: "Parcours Répartie",
-    duration: "4 semaines",
+    duration: `${parcoursWeeks("repartie")} semaines`,
     headline: "Trouve ton registre et entraîne-le",
     bullets: [
       "Du chambrage bienveillant à l'impro : tu vois vite dans quel registre tu es à l'aise",
       "Une étape par semaine, chacune un cran au-dessus de la précédente",
-      "4 étapes en 4 semaines, à ton rythme",
+      `${parcoursWeeks("repartie")} étapes en ${parcoursWeeks("repartie")} semaines, à ton rythme`,
     ],
     cta: "Lancer le parcours",
   },
   "douleurs-personas": {
     slug: "confiance",
     title: "Parcours Confiance",
-    duration: "6 semaines",
+    duration: `${parcoursWeeks("confiance")} semaines`,
     headline: "Reprends confiance, une conversation à la fois",
     bullets: [
-      "6 semaines à ton rythme, sans personne pour te pousser sur scène",
+      `${parcoursWeeks("confiance")} semaines à ton rythme, sans personne pour te pousser sur scène`,
       "Des étapes pensées pour les moments où c'est dur : reprendre après une pause, trouver ta place dans un groupe qui rit",
       "Le rire revient d'abord pour toi, puis il se partage",
     ],
@@ -102,7 +103,7 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "humour-contexte": {
     slug: "machine-a-cafe",
     title: "Parcours Machine à Café",
-    duration: "3 semaines",
+    duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
     headline: "Sois drôle au bureau sans avoir l'air d'essayer",
     bullets: [
       "15 min/semaine, tenable même en pleine deadline",
@@ -114,22 +115,22 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
   "fort-volume": {
     slug: "machine-a-cafe",
     title: "Parcours Machine à Café",
-    duration: "3 semaines",
+    duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
     headline: "Des blagues toutes faites à ta propre voix",
     bullets: [
       "Choisis la vanne qui colle au moment, pas celle que tu as apprise par cœur",
       "Place ta chute sans prévenir tout le monde que « t'en as une bonne »",
-      "3 semaines, 15 min/semaine, l'équivalent d'une pause café un peu longue",
+      `${parcoursWeeks("machine-a-cafe")} semaines, 15 min/semaine, l'équivalent d'une pause café un peu longue`,
     ],
     cta: "Ouvrir le parcours",
   },
   saisonnier: {
     slug: "machine-a-cafe",
     title: "Parcours Machine à Café",
-    duration: "3 semaines",
+    duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
     headline: "Garde ces réflexes bien après la saison",
     bullets: [
-      "3 semaines pour te faire une base qui sert en toute saison",
+      `${parcoursWeeks("machine-a-cafe")} semaines pour te faire une base qui sert en toute saison`,
       "Des réflexes qui marchent au repas de Noël comme à la rentrée ou au bureau",
       "Des XP à chaque étape, pour que ça tienne plus longtemps que les décorations de Noël",
     ],

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (03/10/2026) : chiffres publics dynamiques (catalogue, limites gratuites, parcours) + arrondi à la dizaine @fullstack
+
+> Demande de Thomas (« que tous les chiffres de vannes, vidéos, etc. soient bien dynamiques »). Aucun secret, aucune migration, aucun package, aucune donnée en base. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.
+> - Limites du compte gratuit : source unique `FREE_JOKE_LIMIT` / `FREE_TIP_LIMIT` / `FREE_VIDEO_LIMIT` dans `src/config/premium.ts`, importées par `/api/jokes`, `/api/tips`, `/api/videos` (valeurs inchangées : 10 / 3 / 3, protection identique) et par tous les textes (abonnement, CTA blog, avantages Premium, liste des vannes, llms.txt).
+> - Parcours : nombre (`PARCOURS_COUNT`) et durées en semaines (`parcoursWeeks`, min/max) dans `config/premium.ts`, vérifiés contre `docs/content/parcours-seed.json` par test. Quiz (`QUIZ_QUESTIONS.length`), glossaire (`src/lib/glossary.ts`, extrait de la page) et exemples d'anatomie suivent la longueur de leurs données.
+> - Arrondi des compteurs (GO Thomas 03/10) : dizaine inférieure (125 → 120+, 109 → 100+, 89 → 80+), implémentation unique `src/lib/marketing-round.ts` (serveur et hook client). Cache serveur des compteurs : 5 min.
+> - Textes « 1 500+ membres » reformulés à la demande de Thomas : accueil (sous le H1) et à propos (2 phrases). Chiffre inchangé.
+
 ## s14 (03/10/2026) : audit de forme appliqué (`docs/design/audit-forme-s14.md`) @fullstack
 
 > Demande de Thomas (« bien tout revoir sur la forme »). Aucun secret, aucune migration, aucun package, aucune donnée, aucun texte/prix/lien/slug/titre modifié. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

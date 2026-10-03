@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
-import { PREMIUM_CARNET_BENEFIT } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS } from "@/config/premium";
 
 /**
  * Valeur Premium (décision Thomas, 03/10/2026) : uniquement ce qui est vrai.
  * Parcours complets en tête ; pas de « contenu quotidien » (gratuit), pas de
  * filtres avancés (inexistants). Carnet mensuel ajouté le 03/10/2026.
  */
-const PREMIUM_VALUE_TEXT = `Les 3 parcours en entier (Machine à Café, Répartie, Confiance), la première étape de chaque parcours restant offerte, ${PREMIUM_CARNET_BENEFIT}, plus tes favoris et les listes complètes de vannes, conseils et vidéos.`;
+const PREMIUM_VALUE_TEXT = `Les ${PARCOURS_COUNT} parcours en entier (${PREMIUM_PARCOURS.map((p) => p.name).join(", ")}), la première étape de chaque parcours restant offerte, ${PREMIUM_CARNET_BENEFIT}, plus tes favoris et les listes complètes de vannes, conseils et vidéos.`;
 
 type Props = {
   userId?: string;

@@ -11,6 +11,7 @@ import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
 import Link from "next/link";
+import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -237,7 +238,7 @@ export function ProfilDashboard() {
           {parcoursProgress.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <p className="text-sm text-text-secondary">
-                Tu n&apos;as pas encore commencé de parcours. Le plus court dure 3 semaines, à peine le temps de t&apos;y habituer.
+                Tu n&apos;as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t&apos;y habituer.
               </p>
               <Link href="/parcours">
                 <Button variant="primary" size="sm" className="mt-3">

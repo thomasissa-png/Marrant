@@ -10,6 +10,7 @@ import {
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { parcoursWeeks } from "@/config/premium";
 import { PageHeader } from "@/components/layout/page-header";
 import { getTipsPage } from "@/lib/catalogue-pages";
 import { listCanonical, parsePageParam } from "@/lib/list-pagination";
@@ -53,7 +54,7 @@ const conseilsFaqs = [
   {
     question: "Combien de temps faut-il pour avoir de la répartie ?",
     answer:
-      "Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure 4 semaines et te donne des exercices concrets à tester chaque jour. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.",
+      `Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure ${parcoursWeeks("repartie")} semaines et te donne des exercices concrets à tester chaque jour. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.`,
   },
   {
     question: "Comment avoir de la répartie sans être méchant ?",

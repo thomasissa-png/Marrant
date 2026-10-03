@@ -1,3 +1,5 @@
+import { PARCOURS_COUNT } from "@/config/premium";
+
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
@@ -332,7 +334,7 @@ export function buildProductJsonLd() {
     "@type": "Product",
     name: "deviens-marrant.fr Premium",
     description:
-      "Accès complet : les 3 parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.",
+      `Accès complet : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.`,
     // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
       `${BASE_URL}/opengraph-image`,
@@ -388,7 +390,7 @@ export function buildDefinedTermListJsonLd(
     "@type": "DefinedTermSet",
     name: "Glossaire humour",
     description:
-      "Les 12 termes clés de l'humour expliqués : répartie, timing, punchline, callback et plus.",
+      `Les ${terms.length} termes clés de l'humour expliqués : répartie, timing, punchline, callback et plus.`,
     url: `${BASE_URL}/glossaire`,
     hasDefinedTerm: terms.map((t) => ({
       "@type": "DefinedTerm",

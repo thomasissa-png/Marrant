@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
+import { PARCOURS_COUNT } from "@/config/premium";
 import { buildVideoSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -218,7 +219,7 @@ export default async function VideoPage({
           <p className="text-sm text-text-primary">
             Les points clés à retenir et l&apos;exercice pour appliquer la technique
             sont accessibles gratuitement quand tu crées ton compte. Tu récupères
-            aussi ton contenu quotidien, tes favoris et 3 parcours structurés.
+            aussi ton contenu quotidien, tes favoris et {PARCOURS_COUNT} parcours structurés.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link

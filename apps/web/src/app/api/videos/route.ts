@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { FREE_VIDEO_LIMIT } from "@/config/premium";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -35,9 +36,6 @@ export async function GET(request: NextRequest) {
       });
       isPremium = user?.plan === "PREMIUM";
     }
-
-    // Limites gratuites : 3 vidéos max pour les FREE
-    const FREE_VIDEO_LIMIT = 3;
 
     const where = {
       isActive: true,

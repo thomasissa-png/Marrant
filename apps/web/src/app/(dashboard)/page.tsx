@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/home/hero-section";
 import { FeatureCards } from "@/components/home/feature-cards";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getHomeFeatureExamples } from "@/lib/catalogue-pages";
+import { parcoursWeeks } from "@/config/premium";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
@@ -104,7 +105,7 @@ export default async function HomePage() {
               courtes à ressortir sur le moment, et un streak pour garder le rythme.
             </p>
             <Link href="/parcours/machine-a-cafe" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Machine à Café · 3 semaines →
+              Parcours Machine à Café · {parcoursWeeks("machine-a-cafe")} semaines →
             </Link>
           </div>
 
@@ -121,7 +122,7 @@ export default async function HomePage() {
               montrent que tu avances.
             </p>
             <Link href="/parcours/repartie" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Répartie · 4 semaines →
+              Parcours Répartie · {parcoursWeeks("repartie")} semaines →
             </Link>
           </div>
 
@@ -138,7 +139,7 @@ export default async function HomePage() {
               mesurer le chemin parcouru.
             </p>
             <Link href="/parcours/confiance" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Confiance · 6 semaines →
+              Parcours Confiance · {parcoursWeeks("confiance")} semaines →
             </Link>
           </div>
         </div>

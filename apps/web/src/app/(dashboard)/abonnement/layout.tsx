@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JsonLd, buildFaqJsonLd, buildProductJsonLd } from "@/components/seo/json-ld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { PARCOURS_COUNT } from "@/config/premium";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Décision Thomas (03/10/2026) : les parcours complets sont la valeur
@@ -15,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const catalogueText = catalogue.length > 0 ? ` et toutes les listes (${catalogue.join(", ")})` : " et toutes les listes";
   return {
     title: "Abonnement Premium : 2,99 €/mois",
-    description: `Les 3 parcours en entier (première étape offerte)${catalogueText}, à 2,99 €/mois. Sans engagement, tu annules quand tu veux.`,
+    description: `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}, à 2,99 €/mois. Sans engagement, tu annules quand tu veux.`,
     alternates: {
       canonical: "https://deviens-marrant.fr/abonnement",
     },

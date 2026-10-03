@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/toast";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
+import { PARCOURS_COUNT } from "@/config/premium";
 
 /** Geste qui a ouvert la modale : le titre et l'accroche en dépendent (audit tunnel R5). */
 export type PremiumModalReason = "favoris" | "defaut";
@@ -17,7 +18,7 @@ const COPY: Record<PremiumModalReason, { title: string; intro: string | null }> 
   favoris: {
     title: "Les favoris font partie de Premium",
     intro:
-      "Garder une vanne, un conseil ou une vidéo sous la main, c'est réservé à l'accès complet. Avec lui, tu as aussi les 3 parcours en entier.",
+      `Garder une vanne, un conseil ou une vidéo sous la main, c'est réservé à l'accès complet. Avec lui, tu as aussi les ${PARCOURS_COUNT} parcours en entier.`,
   },
   defaut: { title: "Passe à l'accès complet", intro: null },
 };

@@ -18,6 +18,8 @@ import { ListPagination } from "@/components/ui/list-pagination";
 import Link from "next/link";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
+// Limite gratuite : même constante que celle appliquée par /api/jokes.
+import { FREE_JOKE_LIMIT } from "@/config/premium";
 import type { CataloguePage } from "@/lib/list-pagination";
 
 interface Joke {
@@ -99,10 +101,6 @@ const PUNCHLINE_TEASERS = [
   "Devine d'abord, clique ensuite",
 ];
 
-// Limite gratuite — source de vérité côté serveur : `FREE_JOKE_LIMIT` dans /api/jokes.
-// Dupliquée ici uniquement pour l'affichage. Toute modification doit être faite
-// en même temps que la valeur serveur (Grep FREE_JOKE_LIMIT).
-const FREE_JOKE_LIMIT_UI = 10;
 
 interface VannesListProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
@@ -200,7 +198,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         <div className="mb-6 flex flex-col gap-3 rounded-lg border border-accent-primary/30 bg-accent-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold text-text-primary">
-              Aperçu gratuit : {FREE_JOKE_LIMIT_UI} vannes accessibles sans compte.
+              Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans compte.
             </p>
             <p className="text-xs text-text-secondary">
               Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 2,99 €/mois : tout le catalogue, les filtres et les favoris.

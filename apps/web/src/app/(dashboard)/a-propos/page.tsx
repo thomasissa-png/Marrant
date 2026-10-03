@@ -3,6 +3,7 @@ import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -37,7 +38,7 @@ const aboutFaqs = [
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
     answer:
-      "Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent 3 semaines, les plus complets 6 semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel.",
+      `Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent ${PARCOURS_MIN_WEEKS} semaines, les plus complets ${PARCOURS_MAX_WEEKS} semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel.`,
   },
 ];
 
@@ -82,7 +83,7 @@ export default function AProposPage() {
           <p className="mt-3 text-text-secondary">
             On s&apos;appuie sur les techniques des meilleurs humoristes
             français, les principes de la psychologie positive et des exercices
-            concrets testés par notre communauté de 1&nbsp;500+ membres.
+            concrets que 1&nbsp;500+ membres mettent en pratique.
           </p>
         </section>
 
@@ -115,7 +116,7 @@ export default function AProposPage() {
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
-                <strong>Des parcours structurés</strong> de 3 à 6 semaines pour
+                <strong>Des parcours structurés</strong> de {PARCOURS_MIN_WEEKS} à {PARCOURS_MAX_WEEKS} semaines pour
                 progresser pas à pas avec des XP et des streaks
               </span>
             </li>
@@ -204,7 +205,7 @@ export default function AProposPage() {
             <span className="block">On va arranger ça.</span>
           </p>
           <p className="mt-2 text-text-secondary">
-            Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour.
+            Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.
             La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
           </p>
           {/* Ouvre l'inscription gratuite : libellé aligné sur l'accueil (reco T03 validée par Thomas).

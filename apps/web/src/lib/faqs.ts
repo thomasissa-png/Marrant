@@ -1,3 +1,5 @@
+import { parcoursWeeks } from "@/config/premium";
+
 export const faqs = [
   {
     question: "Est-ce que je peux vraiment apprendre à être drôle ?",
@@ -12,7 +14,7 @@ export const faqs = [
   {
     question: "Combien de temps faut-il pour devenir plus drôle ?",
     answer:
-      "Avec une pratique quotidienne de 5-10 minutes, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Machine à Café dure 3 semaines, le Parcours Répartie 4 semaines, et le Parcours Confiance 6 semaines. L\u2019important, c\u2019est la régularité : 5 minutes chaque jour valent mieux qu\u2019une heure une fois par semaine.",
+      `Avec une pratique quotidienne de 5-10 minutes, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Machine à Café dure ${parcoursWeeks("machine-a-cafe")} semaines, le Parcours Répartie ${parcoursWeeks("repartie")} semaines, et le Parcours Confiance ${parcoursWeeks("confiance")} semaines. L\u2019important, c\u2019est la régularité : 5 minutes chaque jour valent mieux qu\u2019une heure une fois par semaine.`,
   },
   {
     question: "C\u2019est quoi la répartie exactement ?",

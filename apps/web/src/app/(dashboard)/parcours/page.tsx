@@ -11,11 +11,12 @@ import {
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
+import { PARCOURS_COUNT, parcoursWeeks } from "@/config/premium";
 
 export const metadata: Metadata = {
   title: "Cours humour en ligne : deviens drôle",
   description:
-    "3 parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine selon le parcours, des exercices concrets et de l'XP pour progresser.",
+    `${PARCOURS_COUNT} parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine selon le parcours, des exercices concrets et de l'XP pour progresser.`,
   keywords: [
     "cours humour en ligne",
     "parcours répartie",
@@ -41,33 +42,33 @@ export default async function ParcoursPage() {
         data={buildCourseJsonLd({
           name: "Parcours Machine à Café — Deviens drôle au bureau",
           description:
-            "Apprends à avoir des blagues et anecdotes à ressortir au bureau et en afterwork en 3 semaines.",
-          duration: "3 semaines",
+            `Apprends à avoir des blagues et anecdotes à ressortir au bureau et en afterwork en ${parcoursWeeks("machine-a-cafe")} semaines.`,
+          duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
           slug: "machine-a-cafe",
           difficulty: "DEBUTANT",
-          stepsCount: 3,
+          stepsCount: parcoursWeeks("machine-a-cafe"),
         })}
       />
       <JsonLd
         data={buildCourseJsonLd({
           name: "Parcours Répartie — Aie toujours une réponse prête",
           description:
-            "Développe ta répartie en 4 semaines avec des techniques concrètes pour ne plus rester muet.",
-          duration: "4 semaines",
+            `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des techniques concrètes pour ne plus rester muet.`,
+          duration: `${parcoursWeeks("repartie")} semaines`,
           slug: "repartie",
           difficulty: "INTERMEDIAIRE",
-          stepsCount: 4,
+          stepsCount: parcoursWeeks("repartie"),
         })}
       />
       <JsonLd
         data={buildCourseJsonLd({
           name: "Parcours Confiance — Retrouve ton humour et ta légèreté",
           description:
-            "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour après une période difficile.",
-          duration: "6 semaines",
+            `Parcours de ${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour après une période difficile.`,
+          duration: `${parcoursWeeks("confiance")} semaines`,
           slug: "confiance",
           difficulty: "INTERMEDIAIRE",
-          stepsCount: 6,
+          stepsCount: parcoursWeeks("confiance"),
         })}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
@@ -80,7 +81,7 @@ export default async function ParcoursPage() {
           Parcours humour : deviens drôle pas à pas
         </h1>
         <p className="mt-2 text-text-secondary">
-          3 parcours pour progresser en humour, chacun taillé pour une
+          {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une
           situation : la machine à café, la répartie et la confiance. Compte
           15 à 20 min/semaine selon le parcours, soit moins qu&apos;un épisode de
           série, avec des exercices concrets et des XP à gagner.
@@ -95,7 +96,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="font-display text-base font-bold text-text-primary">Machine à Café</h2>
-            <p className="mt-1 text-sm text-text-secondary">3 semaines pour avoir enfin quelque chose à raconter entre deux gorgées de café, au bureau comme en afterwork.</p>
+            <p className="mt-1 text-sm text-text-secondary">{parcoursWeeks("machine-a-cafe")} semaines pour avoir enfin quelque chose à raconter entre deux gorgées de café, au bureau comme en afterwork.</p>
           </Link>
         </li>
         <li>
@@ -104,7 +105,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="font-display text-base font-bold text-text-primary">Répartie</h2>
-            <p className="mt-1 text-sm text-text-secondary">4 semaines pour trouver ta réplique pendant qu&apos;elle sert encore à quelque chose.</p>
+            <p className="mt-1 text-sm text-text-secondary">{parcoursWeeks("repartie")} semaines pour trouver ta réplique pendant qu&apos;elle sert encore à quelque chose.</p>
           </Link>
         </li>
         <li>
@@ -113,7 +114,7 @@ export default async function ParcoursPage() {
             className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
           >
             <h2 className="font-display text-base font-bold text-text-primary">Confiance</h2>
-            <p className="mt-1 text-sm text-text-secondary">6 semaines pour dérouiller ton humour après une période difficile, et la confiance qui va avec.</p>
+            <p className="mt-1 text-sm text-text-secondary">{parcoursWeeks("confiance")} semaines pour dérouiller ton humour après une période difficile, et la confiance qui va avec.</p>
           </Link>
         </li>
       </ul>

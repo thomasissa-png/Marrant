@@ -1,7 +1,13 @@
 "use client";
 
 import { useContentStats } from "@/hooks/use-content-stats";
-import { PREMIUM_PARCOURS } from "@/config/premium";
+import {
+  FREE_JOKE_LIMIT,
+  FREE_TIP_LIMIT,
+  FREE_VIDEO_LIMIT,
+  PARCOURS_COUNT,
+  PREMIUM_PARCOURS,
+} from "@/config/premium";
 
 /**
  * Liste unique des avantages Premium (page /abonnement, modale Premium,
@@ -25,7 +31,7 @@ export function PremiumBenefits({ className = "space-y-3" }: { className?: strin
       <li className="flex items-start gap-2">
         <span className="mt-0.5 text-success" aria-hidden="true">✓</span>
         <span>
-          <strong>Les 3 parcours en entier</strong> : {parcoursList}. Chaque étape avec son
+          <strong>Les {PARCOURS_COUNT} parcours en entier</strong> : {parcoursList}. Chaque étape avec son
           conseil, ses vannes, ses vidéos et son quiz. La première étape de chaque parcours est offerte.
         </span>
       </li>
@@ -46,8 +52,8 @@ export function PremiumBenefits({ className = "space-y-3" }: { className?: strin
         <span className="mt-0.5 text-success" aria-hidden="true">✓</span>
         <span>
           <strong>Les listes complètes</strong>
-          {counts.length > 0 ? ` (${counts.join(", ")})` : ""}, au lieu de 10 vannes, 3 conseils et
-          3 vidéos en compte gratuit, avec le filtre par catégorie des vannes.
+          {counts.length > 0 ? ` (${counts.join(", ")})` : ""}, au lieu de {FREE_JOKE_LIMIT} vannes,{" "}
+          {FREE_TIP_LIMIT} conseils et {FREE_VIDEO_LIMIT} vidéos en compte gratuit, avec le filtre par catégorie des vannes.
         </span>
       </li>
     </ul>

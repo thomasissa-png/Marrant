@@ -5,6 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { LLMS_FAQ_SHORT, LLMS_TARIFS, renderFaq } from "@/lib/llms-content";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { glossary } from "@/lib/glossary";
+import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, parcoursWeeks } from "@/config/premium";
 
 /**
  * llms.txt — carte de site condensée pour les crawlers LLM (GEO).
@@ -36,7 +39,7 @@ const RESOURCE_PAGES: ResourceEntry[] = [
   {
     path: "/glossaire",
     label: "Glossaire humour",
-    summary: "12 termes clés de l'humour expliqués (répartie, timing, punchline, callback…).",
+    summary: `${glossary.length} termes clés de l'humour expliqués (répartie, timing, punchline, callback…).`,
   },
   {
     path: "/anatomie-vanne",
@@ -46,22 +49,22 @@ const RESOURCE_PAGES: ResourceEntry[] = [
   {
     path: "/quiz-humour",
     label: "Quiz humour",
-    summary: "Quiz pour identifier ton style d'humour dominant en 12 questions.",
+    summary: `Quiz pour identifier ton style d'humour dominant en ${QUIZ_QUESTIONS.length} questions.`,
   },
   {
     path: "/parcours/machine-a-cafe",
     label: "Parcours Machine à Café",
-    summary: "3 semaines, 15 min par semaine, pour être drôle au bureau et en afterwork (débutant).",
+    summary: `${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine, pour être drôle au bureau et en afterwork (débutant).`,
   },
   {
     path: "/parcours/repartie",
     label: "Parcours Répartie",
-    summary: "4 semaines, 20 min par semaine, pour ne plus rester muet quand on te chambre (intermédiaire).",
+    summary: `${parcoursWeeks("repartie")} semaines, 20 min par semaine, pour ne plus rester muet quand on te chambre (intermédiaire).`,
   },
   {
     path: "/parcours/confiance",
     label: "Parcours Confiance",
-    summary: "6 semaines, 20 min par semaine, pour retrouver ta légèreté et ta confiance sociale par l'humour.",
+    summary: `${parcoursWeeks("confiance")} semaines, 20 min par semaine, pour retrouver ta légèreté et ta confiance sociale par l'humour.`,
   },
 ];
 
@@ -139,7 +142,7 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
   lines.push(`- [Vannes](${BASE_URL}/vannes): ${jokesLabel} classées par catégorie (boulot, couple, soirées, école, gaming…).`);
   lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils): techniques de répartie, timing, storytelling, autodérision avec exercices.`);
   lines.push(`- [Vidéos stand-up](${BASE_URL}/videos): extraits d'humoristes français analysés technique par technique.`);
-  lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de 3 à 6 semaines (15 à 20 min par semaine selon le parcours).`);
+  lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de ${PARCOURS_MIN_WEEKS} à ${PARCOURS_MAX_WEEKS} semaines (15 à 20 min par semaine selon le parcours).`);
   lines.push(`- [Blog](${BASE_URL}/blog): articles de fond sur l'humour, la répartie et le développement personnel.`);
   lines.push("");
   lines.push("## Questions fréquentes");

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
+import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://deviens-marrant.fr/quiz-humour" },
   openGraph: {
-    title: "Quel type d'humour es-tu ? Quiz en 12 questions",
+    title: `Quel type d'humour es-tu ? Quiz en ${QUIZ_QUESTIONS.length} questions`,
     description:
       "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Découvre ton profil humour en 2 minutes.",
     url: "https://deviens-marrant.fr/quiz-humour",
@@ -34,7 +35,7 @@ const quizFaqs = [
   {
     question: "Combien de temps dure le quiz ?",
     answer:
-      "Environ 2 minutes, le temps que ton café refroidisse. Tu réponds à 12 questions à choix multiples, toutes tirées de situations que tu connais : soirées, boulot, rencards, messages.",
+      `Environ 2 minutes, le temps que ton café refroidisse. Tu réponds à ${QUIZ_QUESTIONS.length} questions à choix multiples, toutes tirées de situations que tu connais : soirées, boulot, rencards, messages.`,
   },
   {
     question: "Quels sont les profils humour possibles ?",
@@ -49,7 +50,7 @@ const quizFaqs = [
   {
     question: "Comment le profil est-il calculé ?",
     answer:
-      "Chaque réponse donne des points aux 5 profils. Au bout des 12 questions, celui qui en a le plus devient ton profil dominant. Les questions passent en revue tes réflexes en soirée, au travail, en conversation et quand la pression monte.",
+      `Chaque réponse donne des points aux 5 profils. Au bout des ${QUIZ_QUESTIONS.length} questions, celui qui en a le plus devient ton profil dominant. Les questions passent en revue tes réflexes en soirée, au travail, en conversation et quand la pression monte.`,
   },
   {
     question: "Je peux partager mon résultat ?",
@@ -78,7 +79,7 @@ export default function QuizHumourPage() {
             Quel type d&apos;humour es-tu ?
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
-            12 questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
+            {QUIZ_QUESTIONS.length} questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
           </p>
         </div>
 

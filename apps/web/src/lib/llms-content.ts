@@ -8,6 +8,8 @@
  * chiffre retiré sans GO de Thomas — cf. docs/founder-preferences.md).
  */
 
+import { FREE_CATALOGUE_LIMITS_LABEL, PARCOURS_COUNT, parcoursWeeks } from "@/config/premium";
+
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
 
 export interface LlmsFaqEntry {
@@ -65,7 +67,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      "Un accès gratuit permanent (10 vannes, 3 conseils, 3 vidéos et le contenu du jour) et un accès complet à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.",
+      `Un accès gratuit permanent (${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour) et un accès complet à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -103,16 +105,16 @@ Des techniques concrètes avec exemples et exercices :
 Extraits de stand-up français annotés avec la technique d'humour utilisée (timing, autodérision, observation, absurde, jeux de mots, storytelling).
 
 ### Parcours structurés (${LLMS_BASE_URL}/parcours)
-- **Machine à Café** (3 semaines, 15 min par semaine) — avoir des vannes et anecdotes à ressortir au bureau et en afterwork
-- **Répartie** (4 semaines, 20 min par semaine) — savoir quoi répondre quand on se fait chambrer
-- **Confiance** (6 semaines, 20 min par semaine) — retrouver son humour et sa légèreté après une période difficile
+- **Machine à Café** (${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine) — avoir des vannes et anecdotes à ressortir au bureau et en afterwork
+- **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) — savoir quoi répondre quand on se fait chambrer
+- **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) — retrouver son humour et sa légèreté après une période difficile
 
 ### Blog (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  "Accès gratuit : 10 vannes, 3 conseils, 3 vidéos, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.",
-  "Accès complet : 2,99 €/mois : les 3 parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.",
+  `Accès gratuit : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
+  `Accès complet : 2,99 €/mois : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
 

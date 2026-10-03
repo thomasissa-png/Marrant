@@ -205,7 +205,7 @@ export default function AnatomieVannePage() {
         {/* Exemples décortiqués */}
         <section className="mb-16">
           <h2 className="mb-6 font-display text-2xl font-bold text-text-primary">
-            3 vannes décortiquées
+            {vanneExamples.length} vannes décortiquées
           </h2>
           <div className="space-y-6">
             {vanneExamples.map((ex, i) => (

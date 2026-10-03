@@ -42,7 +42,7 @@ export function HeroSection() {
 
       {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
       <p className="mt-6 text-sm font-medium text-accent-link">
-        Rejoins 1&nbsp;500+ membres qui progressent en humour chaque jour
+        1&nbsp;500+ membres bossent leur humour. Rejoins-les.
       </p>
 
       {/* CTA : connectés vers le catalogue ; anonymes vers l'inscription,

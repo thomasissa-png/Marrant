@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
+import { FREE_CATALOGUE_LIMITS_LABEL } from "@/config/premium";
 
 interface ArticleCtaProps {
   /**
@@ -16,7 +17,7 @@ interface ArticleCtaProps {
 /**
  * CTA de fin d'article — double bouton pour le trafic froid.
  *
- * Primaire : essai gratuit (inscription free — 10 vannes + contenu du jour).
+ * Primaire : essai gratuit (inscription free : FREE_CATALOGUE_LIMITS_LABEL + contenu du jour).
  * Secondaire : passage direct au premium (2,99 €/mois).
  *
  * Rationale : la landing blog reçoit 99% du trafic froid. Un CTA payant
@@ -69,7 +70,7 @@ export function ArticleCta({ freeCallbackUrl = "/onboarding" }: ArticleCtaProps)
       </div>
 
       <p className="mt-3 text-xs text-text-muted">
-        Compte gratuit : 10 vannes, 3 conseils, 3 vidéos, contenu du jour. Sans carte.
+        Compte gratuit : {FREE_CATALOGUE_LIMITS_LABEL}, contenu du jour. Sans carte.
       </p>
     </div>
   );

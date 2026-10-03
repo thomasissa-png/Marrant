@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
+import { FREE_JOKE_LIMIT } from "@/config/premium";
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -37,9 +38,6 @@ export async function GET(request: NextRequest) {
       });
       isPremium = user?.plan === "PREMIUM";
     }
-
-    // Limites gratuites : 10 blagues max pour les FREE
-    const FREE_JOKE_LIMIT = 10;
 
     // Support comma-separated categories for grouped filters (e.g. "COUPLE,DATING")
     const categoryFilter = query.category
