@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S10 (faire rire un enfant, repas de fête, publication lundi 07/12)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S10 (faire rire un enfant, repas de fête, publication lundi 07/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 10 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 10 du tableau de cannibalisation : ne pas dériver vers « blagues pour enfants »).
 > Humour final (03/10) : 1 vanne du catalogue validé, recopiée mot pour mot (`cs14jk9de039def971586501`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés. L'article enseigne des ressorts (décalage physique, fausse erreur, répétition) en décrivant des gestes et des situations.

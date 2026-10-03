@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S7 (soirée de Noël au boulot, publication lundi 16/11)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S7 (soirée de Noël au boulot, publication lundi 16/11)
 
 > Statut : brouillon complet, non publié, non commité. Même moule que l'étalon S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé le 30/09). Brief : ligne 7 de `docs/seo/calendrier-editorial-q4-2026.md` §4 et tableau de cannibalisation.
 > Humour final (03/10) : 5 vannes du catalogue validé, recopiées mot pour mot (`cmmnsqn14004sth63rnutrbwi`, `cs14jkbe889a47471bf8cbeb`, `cs14jkc13a4d9d7194d8e5ea`, `cs14jkefbc9f40abb6f8a2ca`, `cs14jk0d9dfe9b5c26db5f8d`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.

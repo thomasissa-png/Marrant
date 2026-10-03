@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S12 (être drôle sans alcool en soirée, publication lundi 21/12)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S12 (être drôle sans alcool en soirée, publication lundi 21/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 12 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 12 du tableau de cannibalisation).
 > Humour final (03/10) : 6 vannes du catalogue validé, recopiées mot pour mot (`cmmnsqn15007xth63p3dzv6pc`, `cs14jk0d9dfe9b5c26db5f8d`, `cmmnsqn14004sth63rnutrbwi`, `cs14jk1e07f8547b752601b8`, `cmmnsqn130030th6381ol5rxt`, `cs14jkbe889a47471bf8cbeb`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.

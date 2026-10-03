@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S13 (résolution de nouvelle année, publication lundi 28/12)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S13 (résolution de nouvelle année, publication lundi 28/12)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`). Brief : ligne 13 de `docs/seo/calendrier-editorial-q4-2026.md` (+ ligne 13 du tableau de cannibalisation, risque élevé).
 > Humour final (03/10) : 3 vannes du catalogue validé, recopiées mot pour mot (`cs14jkfc1715f1d4c7509f3b`, `cmmw0tois0002mw62b7bkcvj7`, `cmmnsqn14003vth63i2are7es`) + 1 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.

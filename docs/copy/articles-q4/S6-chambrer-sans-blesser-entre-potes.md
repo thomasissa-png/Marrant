@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S6 (chambrer sans blesser entre potes, publication lundi 09/11)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S6 (chambrer sans blesser entre potes, publication lundi 09/11)
 
 > Statut : brouillon complet, non publié, non commité. Même moule que l'étalon S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé le 30/09).
 > Humour final (03/10) : 2 vannes du catalogue validé, recopiées mot pour mot (`cs14jke92ed6178b5326c48c`, `cmmnsqn14003vth63i2are7es`) + 0 vanne neuve validée à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés. Les exemples « qui blessent » ne sont pas drôles par nature.

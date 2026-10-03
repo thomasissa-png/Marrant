@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S11 (jeux de répartie pour le Nouvel An, publication lundi 14/12)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S11 (jeux de répartie pour le Nouvel An, publication lundi 14/12)
 
 > Statut : brouillon complet, non publié, non commité. Brief : ligne « 11 | Lun 14/12 » de `docs/seo/calendrier-editorial-q4-2026.md` et ligne 11 du tableau de cannibalisation. Gabarit : S8 (étalon validé le 30/09) et S1 pour la liste numérotée.
 > `[Framework : liste utile + démonstration par l'exemple (AIDA allégé : Attention, le réveillon qui s'essouffle ; Intérêt, un jeu = une compétence ; Désir, « je peux animer ça » ; Action, le parcours Répartie)]` · `[Conscience : Solution-Aware, le lecteur cherche des jeux pour sa soirée, on lui donne des jeux qui entraînent quelque chose]`

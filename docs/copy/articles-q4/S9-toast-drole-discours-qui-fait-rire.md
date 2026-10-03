@@ -1,4 +1,4 @@
-# À VALIDER PAR THOMAS : article S9 (toast drôle, publication lundi 30/11)
+# VALIDÉ PAR THOMAS (GO du 03/10) : article S9 (toast drôle, publication lundi 30/11)
 
 > Statut : brouillon complet, non publié, non commité. Gabarit : S8 (`docs/copy/articles-q4/S8-repas-de-famille.md`, validé). Brief : ligne 9 de `docs/seo/calendrier-editorial-q4-2026.md` + ligne 9 du tableau de cannibalisation.
 > Humour final (03/10) : 4 vannes du catalogue validé, recopiées mot pour mot (`cs14jk4fe660e7238281ce47`, `cs14jkc4a2c545e132b38a92`, `cs14jk02047ed5635bab6a52`, `cs14jkffeab1620070f2263e`) + 2 vannes neuves validées à l'aveugle (`docs/copy/audit-vannes-s14/articles-departage-orchestrateur.md`, lot articles 2). Passages sans vanne au niveau retirés.
