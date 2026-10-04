@@ -9,6 +9,7 @@
  */
 import { sanitizeCallbackUrl } from "@/lib/safe-callback";
 import {
+  type PremiumPlan,
   PREMIUM_DEFAULT_RETURN,
   PREMIUM_WELCOME_PARAM,
   PREMIUM_WELCOME_VALUE,
@@ -33,8 +34,19 @@ export function getPostPaymentDestination(rawReturnTo: string | null | undefined
   return hash !== undefined ? `${withParam}#${hash}` : withParam;
 }
 
-/** `/abonnement` avec l'intention mémorisée (pour les liens et le callback d'inscription). */
-export function buildAbonnementUrl(rawReturnTo: string | null | undefined): string {
+/**
+ * `/abonnement` avec l'intention mémorisée (pour les liens et le callback
+ * d'inscription). `plan=annual` conserve le choix de l'annuel après inscription
+ * (le mensuel, par défaut, n'ajoute rien).
+ */
+export function buildAbonnementUrl(
+  rawReturnTo: string | null | undefined,
+  plan: PremiumPlan = "monthly",
+): string {
   const safe = sanitizeReturnTo(rawReturnTo);
-  return safe ? `/abonnement?returnTo=${encodeURIComponent(safe)}` : "/abonnement";
+  const params = [
+    ...(safe ? [`returnTo=${encodeURIComponent(safe)}`] : []),
+    ...(plan === "annual" ? ["plan=annual"] : []),
+  ];
+  return params.length > 0 ? `/abonnement?${params.join("&")}` : "/abonnement";
 }

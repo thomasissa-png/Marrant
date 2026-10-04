@@ -13,6 +13,8 @@ const envSchema = z.object({
   STRIPE_PUBLISHABLE_KEY: z.string().optional().default(""),
   STRIPE_WEBHOOK_SECRET: z.string().optional().default(""),
   STRIPE_PREMIUM_PRICE_ID: z.string().optional().default(""),
+  // Formule annuelle : absent = annuel invisible partout et checkout annuel en 503
+  STRIPE_PREMIUM_ANNUAL_PRICE_ID: z.string().optional().default(""),
   YOUTUBE_API_KEY: z.string().optional().default(""),
 });
 

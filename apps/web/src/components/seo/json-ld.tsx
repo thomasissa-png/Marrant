@@ -1,4 +1,4 @@
-import { PARCOURS_COUNT } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -328,7 +328,41 @@ function toEducationalLevel(difficulty?: string): string {
   }
 }
 
-export function buildProductJsonLd() {
+/** Offre Premium schema.org (priceSpecification + durée de facturation ISO 8601). */
+function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: string) {
+  return {
+    "@type": "Offer",
+    name,
+    price,
+    priceCurrency: "EUR",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price,
+      priceCurrency: "EUR",
+      billingDuration,
+    },
+    availability: "https://schema.org/InStock",
+    url: `${BASE_URL}/abonnement`,
+    priceValidUntil: "2026-12-31",
+    category: "Subscription",
+    seller: {
+      "@type": "Organization",
+      name: "deviens-marrant.fr",
+    },
+  };
+}
+
+/** Prix schema.org depuis les centimes : 2499 → "24.99". */
+function schemaPrice(cents: number): string {
+  return (cents / 100).toFixed(2);
+}
+
+/**
+ * Produit Premium. `annualAvailable` (lu côté serveur, isAnnualPlanAvailable) :
+ * faux → offre mensuelle seule, identique à l'avant-annuel ; vrai → offres
+ * mensuelle (P1M) et annuelle (P1Y).
+ */
+export function buildProductJsonLd({ annualAvailable = false }: { annualAvailable?: boolean } = {}) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -344,19 +378,24 @@ export function buildProductJsonLd() {
       "@type": "Brand",
       name: "deviens-marrant.fr",
     },
-    offers: {
-      "@type": "Offer",
-      price: "2.99",
-      priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
-      url: `${BASE_URL}/abonnement`,
-      priceValidUntil: "2026-12-31",
-      category: "Subscription",
-      seller: {
-        "@type": "Organization",
-        name: "deviens-marrant.fr",
-      },
-    },
+    offers: annualAvailable
+      ? [
+          premiumOffer(schemaPrice(PREMIUM_MONTHLY_PRICE_CENTS), "P1M", "Premium mensuel"),
+          premiumOffer(schemaPrice(PREMIUM_ANNUAL_PRICE_CENTS), "P1Y", "Premium annuel"),
+        ]
+      : {
+          "@type": "Offer",
+          price: "2.99",
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+          url: `${BASE_URL}/abonnement`,
+          priceValidUntil: "2026-12-31",
+          category: "Subscription",
+          seller: {
+            "@type": "Organization",
+            name: "deviens-marrant.fr",
+          },
+        },
   };
 }
 

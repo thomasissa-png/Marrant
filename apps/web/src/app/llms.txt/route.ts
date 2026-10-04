@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { prisma } from "@/lib/prisma";
-import { LLMS_FAQ_SHORT, LLMS_TARIFS, renderFaq } from "@/lib/llms-content";
+import { getLlmsTarifs, LLMS_FAQ_SHORT, renderFaq } from "@/lib/llms-content";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { glossary } from "@/lib/glossary";
@@ -162,7 +163,7 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
   lines.push("");
   lines.push("## Tarifs");
   lines.push("");
-  for (const tarif of LLMS_TARIFS) lines.push(`- ${tarif}`);
+  for (const tarif of getLlmsTarifs(isAnnualPlanAvailable())) lines.push(`- ${tarif}`);
   lines.push("");
   lines.push("## Pour plus de détails");
   lines.push("");

@@ -8,7 +8,14 @@
  * chiffre retiré sans GO de Thomas — cf. docs/founder-preferences.md).
  */
 
-import { FREE_CATALOGUE_LIMITS_LABEL, PARCOURS_COUNT, parcoursWeeks } from "@/config/premium";
+import {
+  FREE_CATALOGUE_LIMITS_LABEL,
+  PARCOURS_COUNT,
+  parcoursWeeks,
+  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
+  PREMIUM_ANNUAL_PRICE_LABEL,
+  PREMIUM_ANNUAL_SAVINGS_LABEL,
+} from "@/config/premium";
 
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
 
@@ -124,6 +131,32 @@ export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
   { label: "Politique de confidentialité", path: "/confidentialite" },
   { label: "Droit de rétractation", path: "/retractation" },
 ];
+
+/**
+ * Variantes avec la formule annuelle (s14, 04/10/2026) : utilisées par
+ * llms.txt et llms-full.txt seulement si `isAnnualPlanAvailable()` (prix Stripe
+ * annuel configuré côté serveur). Sans annuel : constantes ci-dessus inchangées.
+ */
+const ANNUAL_TARIF = `Accès complet en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL} par rapport au mensuel), renouvelé chaque année, résiliable depuis le profil.`;
+
+export function getLlmsTarifs(annualAvailable: boolean): string[] {
+  if (!annualAvailable) return LLMS_TARIFS;
+  const coachingIndex = LLMS_TARIFS.findIndex((t) => t.startsWith("Coaching"));
+  const at = coachingIndex === -1 ? LLMS_TARIFS.length : coachingIndex;
+  return [...LLMS_TARIFS.slice(0, at), ANNUAL_TARIF, ...LLMS_TARIFS.slice(at)];
+}
+
+export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
+  if (!annualAvailable) return LLMS_FAQ_FULL;
+  return LLMS_FAQ_FULL.map((entry) =>
+    entry.question === "Combien ça coûte ?"
+      ? {
+          ...entry,
+          answer: `Un accès gratuit permanent (${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour) et un accès complet à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+        }
+      : entry,
+  );
+}
 
 export function renderFaq(entries: LlmsFaqEntry[], headingLevel: "##" | "###" = "###"): string[] {
   const lines: string[] = [];

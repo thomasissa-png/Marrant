@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { PREMIUM_PRICE_CENTS } from "@/lib/stripe";
+import { monthlyRevenueCents } from "@/lib/stripe-subscription";
 
 export async function GET(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -107,8 +108,19 @@ export async function GET(request: NextRequest) {
       ? ((premiumUsers / totalUsers) * 100).toFixed(1)
       : "0.0";
 
-    // MRR = abonnements actifs * montant réel de l'abonnement (STRIPE_PREMIUM_PRICE_CENTS, 2,99 € par défaut)
-    const mrr = ((activeSubscriptions * PREMIUM_PRICE_CENTS) / 100).toFixed(2);
+    // MRR = somme des montants mensualisés des abonnements actifs (s14, 04/10/2026) :
+    // montant réel du prix Stripe recopié par le webhook (abonnés de lancement à
+    // 0,99 € inclus, tels quels), annuel compté pour montant / 12. Abonnement pas
+    // encore resynchronisé (montant NULL) : STRIPE_PREMIUM_PRICE_CENTS, comme avant.
+    const activeBilling = await prisma.subscription.findMany({
+      where: { status: "ACTIVE" },
+      select: { billingInterval: true, priceAmountCents: true },
+    });
+    const mrrCents = activeBilling.reduce(
+      (sum, sub) => sum + monthlyRevenueCents(sub, PREMIUM_PRICE_CENTS),
+      0,
+    );
+    const mrr = (mrrCents / 100).toFixed(2);
 
     return NextResponse.json({
       // KPIs business

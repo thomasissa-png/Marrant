@@ -436,10 +436,34 @@ model Subscription {
   stripeSubscriptionId String?            @unique
   status               SubscriptionStatus @default(INACTIVE)
   currentPeriodEnd     DateTime?
+  // Formule annuelle (s14, 04/10/2026) : renseignés par le webhook Stripe depuis
+  // le prix réel de l'abonnement. NULL = abonnement antérieur pas encore resynchronisé.
+  billingInterval      String? // "month" | "year" (price.recurring.interval)
+  priceAmountCents     Int? // montant réel du prix Stripe (ex. 99, 299, 2499)
+  cancelAtPeriodEnd    Boolean            @default(false)
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  renewalReminders RenewalReminder[]
+}
+
+/// Rappel légal de reconduction de l'annuel (L.215-1) : une ligne par
+/// (abonnement, fin de période), insérée AVANT l'envoi = anti-doublon.
+model RenewalReminder {
+  id             String    @id @default(cuid())
+  subscriptionId String
+  periodEnd      DateTime
+  status         String    @default("PENDING") // PENDING | SENT | FAILED
+  sentAt         DateTime?
+  error          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, periodEnd])
+  @@index([status])
 }
 
 model WebhookEvent {

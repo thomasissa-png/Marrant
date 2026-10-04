@@ -101,3 +101,92 @@ describe("AbonnementPage (s12 T45)", () => {
     });
   });
 });
+
+describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
+  const saved = process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+  const fetchMock = jest.fn();
+  beforeEach(() => {
+    fetchMock.mockReset().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) });
+    global.fetch = fetchMock as unknown as typeof fetch;
+    window.history.pushState({}, "", "/abonnement");
+  });
+  afterEach(() => {
+    if (saved === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+    else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = saved;
+    window.history.pushState({}, "", "/");
+  });
+
+  describe("sans STRIPE_PREMIUM_ANNUAL_PRICE_ID : mensuel seul, comme avant", () => {
+    it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX"])("valeur %p : aucune trace de l'annuel", (value) => {
+      if (value === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+      else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = value;
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/24,99|annuel|par an|\/an/i);
+    });
+
+    it("?plan=annual ignoré : le checkout reste mensuel (corps historique)", async () => {
+      delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+      window.history.pushState({}, "", "/abonnement?plan=annual");
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({});
+    });
+  });
+
+  describe("avec STRIPE_PREMIUM_ANNUAL_PRICE_ID", () => {
+    beforeEach(() => {
+      process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = "price_test_annual_1";
+    });
+
+    it("sélecteur de formule, mensuel coché par défaut", () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      expect(screen.getByRole("radio", { name: "Mensuel" })).toBeChecked();
+      expect(screen.getByRole("radio", { name: "Annuel" })).not.toBeChecked();
+      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+    });
+
+    it("annuel : 24,99 €/an, soit 2,08 € par mois (10,89 € économisés par an), envoi plan=annual", async () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
+      expect(screen.getByText("24,99 €")).toBeInTheDocument();
+      expect(screen.getByText("soit 2,08 € par mois (10,89 € économisés par an)")).toBeInTheDocument();
+      const text = document.body.textContent ?? "";
+      expect(text).not.toMatch(/4 mois/);
+      expect(text).not.toContain("—");
+      await userEvent.click(screen.getByText("Active mon accès · 24,99 €/an"));
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ plan: "annual" });
+    });
+
+    it("mensuel choisi : corps historique, sans plan", async () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({});
+    });
+
+    it("anonyme : le choix annuel survit à l'inscription (callback plan=annual + returnTo)", async () => {
+      window.history.pushState({}, "", "/abonnement?returnTo=%2Fcarnet");
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
+      await userEvent.click(screen.getByText("Commencer à 24,99 €/an"));
+      expect(screen.getByTestId("auth-modal")).toHaveAttribute(
+        "data-callback",
+        "/abonnement?returnTo=%2Fcarnet&plan=annual",
+      );
+    });
+
+    it("?plan=annual préselectionne l'annuel", () => {
+      window.history.pushState({}, "", "/abonnement?plan=annual");
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      expect(screen.getByRole("radio", { name: "Annuel" })).toBeChecked();
+    });
+  });
+});

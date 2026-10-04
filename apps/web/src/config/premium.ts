@@ -1,7 +1,9 @@
 /**
  * Offre Premium : valeurs business centralisées (décisions Thomas, 03/10/2026).
  *
- * - Prix unique 2,99 €/mois (formule annuelle retirée pour l'instant).
+ * - Mensuel 2,99 €/mois ; annuel 24,99 €/an (décision Thomas 04/10/2026),
+ *   affiché seulement quand le prix Stripe annuel est configuré côté serveur
+ *   (`isAnnualPlanAvailable()`, src/lib/premium-plan-availability.ts).
  * - Valeur principale : tous les parcours en entier, première étape offerte.
  * - Contenu mensuel : le carnet de situations de répartie (src/data/carnet/,
  *   page /carnet), ajouté le 03/10/2026 une fois le premier carnet écrit.
@@ -10,7 +12,42 @@
  * par un test (src/__tests__/lib/premium-offer.test.ts).
  */
 
-export const PREMIUM_PRICE_LABEL = "2,99 €/mois";
+/** Format français : 299 → « 2,99 € ». */
+export function formatEuros(cents: number): string {
+  const euros = Math.floor(cents / 100);
+  const rest = String(cents % 100).padStart(2, "0");
+  return `${euros},${rest} €`;
+}
+
+/** Prix affiché du mensuel (le prix facturé est celui de STRIPE_PREMIUM_PRICE_ID). */
+export const PREMIUM_MONTHLY_PRICE_CENTS = 299;
+/** Prix affiché de l'annuel (le prix facturé est celui de STRIPE_PREMIUM_ANNUAL_PRICE_ID). */
+export const PREMIUM_ANNUAL_PRICE_CENTS = 2499;
+
+/** 24,99 / 12 = 2,0825 € : « 2,08 € par mois » (centime inférieur, pas de surpromesse). */
+export const PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS = Math.floor(PREMIUM_ANNUAL_PRICE_CENTS / 12);
+
+/** 2,99 × 12 = 35,88 € ; 35,88 − 24,99 = 10,89 € économisés par an. */
+export const PREMIUM_ANNUAL_SAVINGS_CENTS = PREMIUM_MONTHLY_PRICE_CENTS * 12 - PREMIUM_ANNUAL_PRICE_CENTS;
+
+/** « 2,99 €/mois » */
+export const PREMIUM_PRICE_LABEL = `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}/mois`;
+/** « 24,99 €/an » */
+export const PREMIUM_ANNUAL_PRICE_LABEL = `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)}/an`;
+/** « soit 2,08 € par mois » */
+export const PREMIUM_ANNUAL_EQUIVALENT_LABEL = `soit ${formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)} par mois`;
+/** « 10,89 € économisés par an » */
+export const PREMIUM_ANNUAL_SAVINGS_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par an`;
+/** « 24,99 €/an, soit 2,08 € par mois (10,89 € économisés par an) » */
+export const PREMIUM_ANNUAL_SUMMARY = `${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL})`;
+
+/** Formules Premium. Mensuel par défaut partout (checkout sans paramètre compris). */
+export const PREMIUM_PLANS = ["monthly", "annual"] as const;
+export type PremiumPlan = (typeof PREMIUM_PLANS)[number];
+
+export function isPremiumPlan(value: unknown): value is PremiumPlan {
+  return typeof value === "string" && (PREMIUM_PLANS as readonly string[]).includes(value);
+}
 
 export interface PremiumParcoursOffer {
   slug: string;

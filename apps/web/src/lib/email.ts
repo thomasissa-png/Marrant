@@ -69,3 +69,22 @@ export async function sendPasswordResetEmail(
 </html>`,
   });
 }
+
+/**
+ * Email transactionnel en texte simple (rappel légal de reconduction de
+ * l'annuel, s14). Lève une erreur si l'envoi échoue ou si Resend n'est pas
+ * configuré : l'appelant marque alors l'envoi en échec pour le retenter.
+ */
+export async function sendTransactionalTextEmail(
+  to: string,
+  subject: string,
+  text: string,
+): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY non configurée : email transactionnel non envoyé");
+  }
+  const { error } = await resend.emails.send({ from: FROM_EMAIL, to, subject, text });
+  if (error) {
+    throw new Error(`Resend : ${error.message}`);
+  }
+}

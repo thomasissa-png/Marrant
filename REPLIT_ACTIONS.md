@@ -1,5 +1,18 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (04/10/2026) : formule annuelle Premium 24,99 €/an + rappel légal de reconduction @fullstack
+
+> Décision de Thomas (04/10/2026). Commit local, non poussé, non déployé. Aucun package. Aucun appel Stripe (tests sur mocks). CGU et /retractation NON modifiées (texte @legal à intégrer par l'orchestrateur, `docs/legal/annuel-renouvellement-s14.md`).
+> - **1. Migration Neon AVANT le déploiement du code** (additive et idempotente, testée 2× sur une base jetable) : depuis `apps/web`, avec le `DATABASE_URL` de production :
+>   `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/10_annual_plan_renewal_reminder/migration.sql`
+>   Ajoute `Subscription.billingInterval`, `priceAmountCents`, `cancelAtPeriodEnd` (défaut false) et la table `RenewalReminder`. Ordre impératif : le client Prisma du nouveau code lit ces colonnes (webhook Stripe) ; code déployé sans migration = webhooks en 500 (retentés par Stripe, mais à éviter).
+> - **2. Déploiement Cloudflare normal** (`build:cf` puis `deploy:cf`). Sans autre action, le site reste strictement mensuel (2,99 €/mois) : l'annuel est invisible partout et `POST /api/stripe/checkout {plan:"annual"}` répond 503, sans repli sur le mensuel.
+> - **3. Activation de l'annuel, quand Thomas le décide** : créer dans Stripe un prix récurrent annuel 24,99 € EUR sur le produit Premium, puis poser le secret Worker `STRIPE_PREMIUM_ANNUAL_PRICE_ID` (`wrangler secret put STRIPE_PREMIUM_ANNUAL_PRICE_ID`). Aucun redéploiement : `/abonnement` (SSR dynamique : sélecteur Mensuel/Annuel, metadata, JSON-LD P1M + P1Y, FAQ) bascule à la requête suivante ; `llms.txt` / `llms-full.txt` (ISR 1 h) dans l'heure. Retirer le secret = retour au mensuel seul.
+> - **Avant d'activer** (points @legal) : bouton « Résilier votre contrat » sur /profil (l'email de rappel le cite ; aujourd'hui « Gérer mon abonnement »), CGU §3/§6/§7, case de renonciation, TVA et médiateur.
+> - Webhook : aucun traitement ne dépend du prix ni de l'intervalle (pas de comparaison à `STRIPE_PREMIUM_PRICE_ID`) ; il recopie désormais l'intervalle, le montant réel et `cancel_at_period_end`. Abonnés actuels (dont les 2 de lancement à 0,99 €) : aucun changement Stripe, champs remplis à leur prochain événement Stripe.
+> - MRR admin : somme des montants réels mensualisés (annuel / 12) ; abonnement pas encore resynchronisé = `STRIPE_PREMIUM_PRICE_CENTS` comme avant.
+> - **Job « rappel de reconduction »** (scheduler existant, Cron Trigger 15 min, fenêtre 8h UTC) : abonnés annuels actifs sans annulation programmée dont la période se termine dans 32 à 40 jours (cible J-40, jamais à J-31 ou après), un seul email par période (clé unique `RenewalReminder (subscriptionId, periodEnd)` insérée AVANT l'envoi, échec retenté). Texte exact @legal (`src/lib/emails/annual-renewal-reminder.ts`), envoi en texte simple via Resend (`RESEND_API_KEY` déjà requis). Rien ne part tant qu'aucun abonnement annuel n'existe.
+
 ## s14 (03/10/2026) : chiffres publics dynamiques (catalogue, limites gratuites, parcours) + arrondi à la dizaine @fullstack
 
 > Demande de Thomas (« que tous les chiffres de vannes, vidéos, etc. soient bien dynamiques »). Aucun secret, aucune migration, aucun package, aucune donnée en base. Non déployé (commit local). Déploiement Cloudflare normal (`build:cf` puis `deploy:cf`) quand Thomas le décide.

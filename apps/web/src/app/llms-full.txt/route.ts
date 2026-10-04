@@ -4,12 +4,13 @@ import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redir
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import {
-  LLMS_FAQ_FULL,
+  getLlmsFaqFull,
+  getLlmsTarifs,
   LLMS_FULL_INTRO,
   LLMS_LEGAL_PAGES,
-  LLMS_TARIFS,
   renderFaq,
 } from "@/lib/llms-content";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
@@ -157,10 +158,10 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
   lines.push("");
   lines.push("## FAQ complète");
   lines.push("");
-  lines.push(...renderFaq(LLMS_FAQ_FULL));
+  lines.push(...renderFaq(getLlmsFaqFull(isAnnualPlanAvailable())));
   lines.push("## Tarifs et limites");
   lines.push("");
-  for (const tarif of LLMS_TARIFS) lines.push(`- ${tarif}`);
+  for (const tarif of getLlmsTarifs(isAnnualPlanAvailable())) lines.push(`- ${tarif}`);
   lines.push("");
   lines.push("## Pages légales");
   lines.push("");

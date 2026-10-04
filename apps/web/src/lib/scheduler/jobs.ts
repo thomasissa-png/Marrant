@@ -522,6 +522,49 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Rappel légal de reconduction de l'annuel (L.215-1, s14 04/10/2026)
+   * TIME-GATED + LOCK + anti-doublon en base.
+   *
+   * Fenêtre 8h UTC (4 ticks de 15 min : les envois en échec sont retentés au
+   * tick suivant). Abonnés annuels actifs dont la période se termine dans
+   * 32 à 40 jours (cible J-40), un seul email par période : clé unique
+   * RenewalReminder (subscriptionId, periodEnd) insérée AVANT l'envoi.
+   * Aucun LLM, aucun appel Stripe : lecture base + mailer transactionnel.
+   */
+  const runAnnualRenewalReminderJob = async () => {
+    try {
+      const now = new Date();
+      if (now.getUTCHours() !== 8) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("annual-renewal-reminders", now);
+      const lockAcquired = await tryAcquireLock(lockKey, 10 * 60 * 1000);
+      if (!lockAcquired) return;
+
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        const { sendTransactionalTextEmail } = await import("@/lib/email");
+        const { runAnnualRenewalReminders } = await import("@/lib/billing/annual-renewal-reminders");
+        const baseUrl = process.env.NEXTAUTH_URL || "https://deviens-marrant.fr";
+        const res = await runAnnualRenewalReminders(now, {
+          prisma,
+          sendEmail: sendTransactionalTextEmail,
+          manageUrl: `${baseUrl}/profil`,
+        });
+        if (res.candidates > 0) {
+          console.log(
+            `[scheduler:renewal-reminder] ${res.sent} envoyé(s), ${res.skipped} ignoré(s), ${res.failed} échec(s) sur ${res.candidates}.`,
+          );
+        }
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:renewal-reminder] Échec :", err);
+    }
+  };
+
+  /**
    * Orchestrateur : exécute les jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    *
@@ -542,8 +585,10 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCeoTickJob();
     await runCeoKpisJob();
     await runCopyReviewJob();
+    await runAnnualRenewalReminderJob();
   };
 
-  // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée).
-  return { runAllJobs, runDailySocialJob };
+  // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée) ;
+  // runAnnualRenewalReminderJob pour le test du rappel légal de l'annuel.
+  return { runAllJobs, runDailySocialJob, runAnnualRenewalReminderJob };
 }

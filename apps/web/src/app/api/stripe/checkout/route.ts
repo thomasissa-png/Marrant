@@ -1,20 +1,35 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { createCheckoutSession } from "@/lib/stripe";
+import { createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
 import { rateLimit } from "@/lib/rate-limit";
+import { PREMIUM_PLANS, type PremiumPlan } from "@/config/premium";
 import { z } from "zod";
 
-/** Corps facultatif : intention d'origine, revalidée dans createCheckoutSession (chemin interne). */
-const bodySchema = z.object({ returnTo: z.string().max(512).optional() });
+/**
+ * Corps facultatif :
+ * - `returnTo` : intention d'origine, revalidée dans createCheckoutSession (chemin interne) ;
+ * - `plan` : "monthly" (défaut, appels historiques sans corps) ou "annual".
+ */
+const returnToSchema = z.string().max(512).optional();
+const planSchema = z.enum(PREMIUM_PLANS).default("monthly");
 
-async function readReturnTo(request: Request): Promise<string | undefined> {
+type CheckoutBody =
+  | { ok: true; plan: PremiumPlan; returnTo?: string }
+  | { ok: false };
+
+async function readBody(request: Request): Promise<CheckoutBody> {
+  let raw: unknown;
   try {
-    const parsed = bodySchema.safeParse(await request.json());
-    return parsed.success ? parsed.data.returnTo : undefined;
+    raw = await request.json();
   } catch {
-    return undefined; // corps absent ou non JSON : paiement sans retour mémorisé
+    return { ok: true, plan: "monthly" }; // corps absent ou non JSON : mensuel, sans retour mémorisé
   }
+  const obj = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const plan = planSchema.safeParse(obj.plan);
+  if (!plan.success) return { ok: false }; // formule inconnue : jamais de repli silencieux
+  const returnTo = returnToSchema.safeParse(obj.returnTo);
+  return { ok: true, plan: plan.data, returnTo: returnTo.success ? returnTo.data : undefined };
 }
 
 export async function POST(request: Request) {
@@ -38,8 +53,14 @@ export async function POST(request: Request) {
         { status: 429 }
       );
     }
-    const returnTo = await readReturnTo(request);
-    const checkoutUrl = await createCheckoutSession(userId, session.user.email, returnTo);
+    const body = await readBody(request);
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: "Formule inconnue : choisis l'abonnement mensuel ou annuel." },
+        { status: 400 }
+      );
+    }
+    const checkoutUrl = await createCheckoutSession(userId, session.user.email, body.returnTo, body.plan);
 
     if (!checkoutUrl) {
       return NextResponse.json(
@@ -50,6 +71,18 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: checkoutUrl });
   } catch (error) {
+    if (error instanceof PremiumPriceNotConfiguredError) {
+      console.error("[API /stripe/checkout]", error.message);
+      return NextResponse.json(
+        {
+          error:
+            error.plan === "annual"
+              ? "L'abonnement annuel n'est pas encore disponible. Choisis le mensuel ou réessaie plus tard."
+              : "Le paiement est indisponible pour le moment. Réessaie dans un instant.",
+        },
+        { status: 503 }
+      );
+    }
     const message = error instanceof Error ? error.message : String(error);
     console.error("[API /stripe/checkout]", message, error);
 

@@ -2,7 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { extractSubscriptionBilling } from "@/lib/stripe-subscription";
 import Stripe from "stripe";
+
+// Formule annuelle (s14, 04/10/2026) : aucun traitement ne dépend du prix ni de
+// l'intervalle. Mensuel, annuel et anciens prix de lancement suivent exactement
+// le même chemin (plan PREMIUM, période lue sur l'abonnement, renouvellement,
+// annulation) ; l'intervalle et le montant réels sont seulement recopiés en base
+// (MRR admin, rappel légal de reconduction de l'annuel).
 
 export async function POST(request: NextRequest) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -51,6 +58,8 @@ export async function POST(request: NextRequest) {
           break;
         }
 
+        const billing = extractSubscriptionBilling(subscription);
+
         // Transaction atomique : user.plan + subscription en une seule opération
         await prisma.$transaction([
           prisma.user.update({
@@ -66,6 +75,7 @@ export async function POST(request: NextRequest) {
               stripeSubscriptionId: subscription.id,
               status: "ACTIVE",
               currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              ...billing,
             },
             update: {
               plan: "PREMIUM",
@@ -73,6 +83,7 @@ export async function POST(request: NextRequest) {
               stripeSubscriptionId: subscription.id,
               status: "ACTIVE",
               currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              ...billing,
             },
           }),
         ]);
@@ -113,6 +124,7 @@ export async function POST(request: NextRequest) {
               data: {
                 status: newStatus,
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                ...extractSubscriptionBilling(subscription),
               },
             }),
             ...(planUpdate

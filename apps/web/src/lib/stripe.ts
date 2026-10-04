@@ -1,5 +1,7 @@
 import Stripe from "stripe";
 import { sanitizeReturnTo } from "@/lib/premium-return";
+import type { PremiumPlan } from "@/config/premium";
+import { getPremiumPriceId, PREMIUM_PRICE_ENV } from "@/lib/premium-plan-availability";
 
 // Client Stripe — singleton lazy (évite crash au build sans clé API)
 let _stripe: Stripe | null = null;
@@ -21,7 +23,16 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
-// Prix de l'abonnement premium
+/** Formule demandée mais prix Stripe absent : aucun repli sur une autre formule (503). */
+export class PremiumPriceNotConfiguredError extends Error {
+  constructor(public readonly plan: PremiumPlan) {
+    super(`Prix Stripe non configuré pour la formule ${plan} (${PREMIUM_PRICE_ENV[plan]})`);
+    this.name = "PremiumPriceNotConfiguredError";
+  }
+}
+
+// Prix de l'abonnement premium mensuel (lu au chargement, conservé pour compatibilité :
+// le checkout lit désormais le prix au runtime via getPremiumPriceId)
 export const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PRICE_ID ?? "";
 
 // Montant de l'abonnement premium en centimes (2,99 €)
@@ -82,8 +93,14 @@ export async function createCheckoutSession(
   userId: string,
   customerEmail: string,
   /** Intention d'origine (chemin interne), relayée jusqu'à /abonnement/success. */
-  rawReturnTo?: string | null
+  rawReturnTo?: string | null,
+  plan: PremiumPlan = "monthly"
 ): Promise<string> {
+  // Vérifié AVANT toute création de customer : une formule sans prix configuré
+  // est refusée, jamais remplacée en silence par une autre.
+  const priceId = getPremiumPriceId(plan);
+  if (!priceId) throw new PremiumPriceNotConfiguredError(plan);
+
   const returnTo = sanitizeReturnTo(rawReturnTo);
   const returnQuery = returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : "";
   const customerId = await getOrCreateStripeCustomer(userId, customerEmail);
@@ -100,7 +117,7 @@ export async function createCheckoutSession(
     ...customerParams,
     line_items: [
       {
-        price: PREMIUM_PRICE_ID,
+        price: priceId,
         quantity: 1,
       },
     ],
@@ -108,6 +125,7 @@ export async function createCheckoutSession(
     cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel${returnQuery}`,
     metadata: {
       userId,
+      plan,
     },
   });
 

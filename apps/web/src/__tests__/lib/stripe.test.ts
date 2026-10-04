@@ -26,7 +26,15 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
-import { stripe, PREMIUM_PRICE_ID, PREMIUM_PRICE_CENTS, createCheckoutSession, createPortalSession } from "@/lib/stripe";
+import {
+  stripe,
+  PREMIUM_PRICE_ID,
+  PREMIUM_PRICE_CENTS,
+  createCheckoutSession,
+  createPortalSession,
+  PremiumPriceNotConfiguredError,
+} from "@/lib/stripe";
+import { getPremiumPriceId, isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 describe("Stripe constants", () => {
   it("PREMIUM_PRICE_CENTS is 299 (2,99 €)", () => {
@@ -54,7 +62,7 @@ describe("createCheckoutSession", () => {
       expect.objectContaining({
         mode: "subscription",
         customer: "cus_new_123",
-        metadata: { userId: "user-1" },
+        metadata: { userId: "user-1", plan: "monthly" },
       })
     );
   });
@@ -87,6 +95,59 @@ describe("createCheckoutSession : retour à l'intention (returnTo, 03/10)", () =
       expect(lastCall().cancel_url).not.toContain("returnTo");
     },
   );
+});
+
+describe("createCheckoutSession : formule annuelle (04/10)", () => {
+  const MONTHLY = "price_test_monthly_1";
+  const ANNUAL = "price_test_annual_1";
+  const saved = { m: process.env.STRIPE_PREMIUM_PRICE_ID, a: process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID };
+
+  beforeEach(() => {
+    process.env.STRIPE_PREMIUM_PRICE_ID = MONTHLY;
+    process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = ANNUAL;
+    (stripe.checkout.sessions.create as jest.Mock).mockClear();
+    (stripe.customers.create as jest.Mock).mockClear();
+  });
+  afterAll(() => {
+    process.env.STRIPE_PREMIUM_PRICE_ID = saved.m;
+    if (saved.a === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+    else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = saved.a;
+  });
+
+  it("mensuel par défaut, prix lu au runtime", async () => {
+    await createCheckoutSession("user-1", "test@test.fr");
+    expect(stripe.checkout.sessions.create).toHaveBeenCalledWith(
+      expect.objectContaining({ line_items: [{ price: MONTHLY, quantity: 1 }], metadata: { userId: "user-1", plan: "monthly" } })
+    );
+  });
+
+  it("annuel : prix annuel et plan en metadata, returnTo conservé", async () => {
+    await createCheckoutSession("user-1", "test@test.fr", "/parcours/repartie", "annual");
+    const call = (stripe.checkout.sessions.create as jest.Mock).mock.calls.at(-1)[0];
+    expect(call.line_items).toEqual([{ price: ANNUAL, quantity: 1 }]);
+    expect(call.metadata).toEqual({ userId: "user-1", plan: "annual" });
+    expect(call.success_url).toContain("returnTo=%2Fparcours%2Frepartie");
+  });
+
+  it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX", "prod_123"])(
+    "annuel sans prix valide (%s) : erreur dédiée, aucun repli mensuel, aucun appel Stripe",
+    async (value) => {
+      if (value === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+      else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = value;
+      expect(isAnnualPlanAvailable()).toBe(false);
+      await expect(createCheckoutSession("user-1", "test@test.fr", null, "annual")).rejects.toBeInstanceOf(
+        PremiumPriceNotConfiguredError
+      );
+      expect(stripe.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(stripe.customers.create).not.toHaveBeenCalled();
+    },
+  );
+
+  it("disponibilité : annuel visible dès que le secret est posé", () => {
+    expect(isAnnualPlanAvailable()).toBe(true);
+    expect(getPremiumPriceId("annual")).toBe(ANNUAL);
+    expect(getPremiumPriceId("monthly")).toBe(MONTHLY);
+  });
 });
 
 describe("createPortalSession", () => {
