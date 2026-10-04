@@ -368,6 +368,17 @@ export function ProfilDashboard() {
               >
                 {isPortalLoading ? "On t'emmène…" : "Gérer mon abonnement"}
               </Button>
+              {/* Bouton légal de résiliation en ligne (L.215-1-1) : ouvre le portail Stripe,
+                  où l'annulation se confirme en fin de période. */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-2 mt-4"
+                onClick={handlePortal}
+                disabled={isPortalLoading}
+              >
+                Résilier votre contrat
+              </Button>
             </div>
           ) : (
             <>
