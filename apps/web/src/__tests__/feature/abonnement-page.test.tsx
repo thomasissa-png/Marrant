@@ -16,12 +16,20 @@ jest.mock("@/components/home/faq-section", () => ({
   FaqSection: () => <div data-testid="faq-section" />,
 }));
 
-jest.mock("@/components/auth/auth-modal", () => ({
-  AuthModal: ({ isOpen, callbackUrl }: { isOpen: boolean; callbackUrl?: string }) =>
-    isOpen ? <div data-testid="auth-modal" data-callback={callbackUrl ?? ""} /> : null,
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({
+  trackUmami: (...args: unknown[]) => mockTrack(...args),
+  trackUmamiWhenReady: (...args: unknown[]) => mockTrack(...args),
 }));
 
 const { useSession } = require("next-auth/react");
+
+/** s15 : les CTA anonymes sont des liens /register (plus de modale). */
+function registerParams(text: string): URLSearchParams {
+  const href = screen.getByText(text).closest("a")?.getAttribute("href") ?? "";
+  expect(href.startsWith("/register")).toBe(true);
+  return new URL(href, "https://deviens-marrant.fr").searchParams;
+}
 
 describe("AbonnementPage (s12 T45)", () => {
   it("shows the free account block then the paid card to anonymous visitors", () => {
@@ -33,20 +41,20 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
   });
 
-  it("free CTA opens sign-up without callback (onboarding)", async () => {
+  it("free CTA links to sign-up without callback (onboarding)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
-
-    await userEvent.click(screen.getByText("Crée ton compte gratuit"));
-    expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-callback", "");
+    const params = registerParams("Crée ton compte gratuit");
+    expect(params.get("callbackUrl")).toBeNull();
+    expect(params.get("src")).toBe("abonnement-gratuit");
   });
 
-  it("paid CTA keeps /abonnement as the destination", async () => {
+  it("paid CTA keeps /abonnement as the destination", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
-
-    await userEvent.click(screen.getByText("Commencer à 2,99 €/mois"));
-    expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-callback", "/abonnement");
+    const params = registerParams("Commencer à 2,99 €/mois");
+    expect(params.get("callbackUrl")).toBe("/abonnement");
+    expect(params.get("src")).toBe("abonnement");
   });
 
   it("shows only the paid card with the checkout button to signed-in users", () => {
@@ -76,9 +84,7 @@ describe("AbonnementPage (s12 T45)", () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Commencer à 2,99 €/mois"));
-      expect(screen.getByTestId("auth-modal")).toHaveAttribute(
-        "data-callback",
+      expect(registerParams("Commencer à 2,99 €/mois").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fparcours%2Frepartie",
       );
     });
@@ -175,9 +181,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
-      await userEvent.click(screen.getByText("Commencer à 24,99 €/an"));
-      expect(screen.getByTestId("auth-modal")).toHaveAttribute(
-        "data-callback",
+      expect(registerParams("Commencer à 24,99 €/an").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fcarnet&plan=annual",
       );
     });
@@ -187,6 +191,32 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
       expect(screen.getByRole("radio", { name: "Annuel" })).toBeChecked();
+    });
+  });
+
+  describe("mesure Umami du tunnel (s15)", () => {
+    beforeEach(() => mockTrack.mockClear());
+    afterEach(() => window.history.pushState({}, "", "/"));
+
+    it("retour Stripe sans paiement (upgrade=cancel) : abonnement-annule", () => {
+      window.history.pushState({}, "", "/abonnement?upgrade=cancel");
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
+    });
+
+    it("visite normale : aucun abonnement-annule", () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      render(<AbonnementPage />);
+      expect(mockTrack).not.toHaveBeenCalledWith("abonnement-annule");
+    });
+
+    it("clic paiement : abonnement-clic avec formule et source", async () => {
+      useSession.mockReturnValue({ status: "authenticated" });
+      global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
+      render(<AbonnementPage />);
+      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement" });
     });
   });
 });

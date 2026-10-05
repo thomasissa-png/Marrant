@@ -8,6 +8,20 @@ import {
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
 
+/**
+ * IndexNow catalogue (s15) : URL du sitemap modifiées depuis moins de 8 jours,
+ * un seul POST. Non bloquant : une erreur n'empêche jamais la réponse du cron.
+ */
+async function notifyRecentCatalogue() {
+  try {
+    const { notifyRecentSitemapUrls } = await import("@/lib/indexnow-sitemap");
+    return await notifyRecentSitemapUrls();
+  } catch (error) {
+    console.warn("[Cron SEO] IndexNow catalogue (non bloquant) :", error);
+    return { submitted: 0, reason: "error" as const };
+  }
+}
+
 /** Notifie Bing via IndexNow qu'un nouvel article a été publié (non bloquant). */
 async function notifyIndexNow(slug: string): Promise<void> {
   await submitToIndexNow([`/blog/${slug}`, "/blog", "/sitemap.xml"]);
@@ -38,7 +52,8 @@ export async function GET(request: Request) {
     const { isContentGenerationEnabled, publishDueScheduledArticles } = await import("@/lib/scheduler/prepared-content");
     if (!isContentGenerationEnabled()) {
       const published = await publishDueScheduledArticles();
-      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true", published });
+      const indexnow = await notifyRecentCatalogue();
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true", published, indexnow });
     }
   }
 
@@ -57,11 +72,13 @@ export async function GET(request: Request) {
     if (articleResult?.article?.slug) {
       await notifyIndexNow(articleResult.article.slug);
     }
+    const indexnow = await notifyRecentCatalogue();
 
     return NextResponse.json({
       success: true,
       calendar: calendarResult,
       article: articleResult,
+      indexnow,
     });
   } catch (error) {
     console.error("[Cron SEO] Erreur:", error);

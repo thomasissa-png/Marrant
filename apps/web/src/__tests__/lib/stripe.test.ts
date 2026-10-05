@@ -127,6 +127,15 @@ describe("createCheckoutSession : formule annuelle (04/10)", () => {
     expect(call.line_items).toEqual([{ price: ANNUAL, quantity: 1 }]);
     expect(call.metadata).toEqual({ userId: "user-1", plan: "annual" });
     expect(call.success_url).toContain("returnTo=%2Fparcours%2Frepartie");
+    // s15 : formule lue par /abonnement/success pour l'événement abonnement-reussi.
+    expect(call.success_url).toMatch(/&formule=annuel$/);
+    expect(call.cancel_url).not.toContain("formule");
+  });
+
+  it("mensuel : success_url sans paramètre formule (s15)", async () => {
+    await createCheckoutSession("user-1", "test@test.fr");
+    const call = (stripe.checkout.sessions.create as jest.Mock).mock.calls.at(-1)[0];
+    expect(call.success_url).not.toContain("formule");
   });
 
   it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX", "prod_123"])(

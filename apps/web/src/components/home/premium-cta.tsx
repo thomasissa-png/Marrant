@@ -10,17 +10,18 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
 
 export function PremiumCta() {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
+    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil" });
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
@@ -83,14 +84,14 @@ export function PremiumCta() {
                 {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
               </Button>
             ) : (
-              <Button
-                variant="primary"
-                size="lg"
-                className="mt-8 w-full"
-                onClick={() => setShowAuth(true)}
+              // CTA payant : après inscription, direction /abonnement (pas le quiz
+              // d'onboarding gratuit), voir getPostSignupRedirect (audit tunnel F1).
+              <Link
+                href={buildRegisterUrl({ callbackUrl: "/abonnement", src: "accueil-premium" })}
+                className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
               >
                 Commencer à 2,99 €/mois
-              </Button>
+              </Link>
             )}
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
@@ -162,15 +163,6 @@ export function PremiumCta() {
       <div className="mt-16">
         <FaqSection />
       </div>
-
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-        defaultTab="register"
-        // CTA payant : après inscription, direction /abonnement (pas le quiz
-        // d'onboarding gratuit), voir getPostSignupRedirect (audit tunnel F1).
-        callbackUrl="/abonnement"
-      />
     </section>
   );
 }

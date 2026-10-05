@@ -4,37 +4,66 @@ import Link from "next/link";
 import { Suspense, useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { resolvePostAuthRedirect } from "@/lib/safe-callback";
+import {
+  AUTH_RETURN_LOGIN_GOOGLE,
+  buildRegisterUrl,
+  sanitizeSignupSrc,
+  withAuthReturnMarker,
+} from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Clique sur « Continuer avec Google » juste en dessous.",
-  OAuthCallback: "La connexion avec Google a calé en route. Réessaie.",
+  OAuthCallback:
+    "La connexion avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
   OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
   Default: "La connexion a coincé de notre côté. Réessaie.",
 };
 
+// Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
+// paramètres : le HTML serveur contient déjà « Créer un compte » (s15).
 export default function LoginPage() {
   return (
-    <Suspense>
-      <LoginForm />
+    <Suspense fallback={<LoginForm rawCallbackUrl={null} oauthError={null} src={null} />}>
+      <LoginFromUrl />
     </Suspense>
   );
 }
 
-function LoginForm() {
+function LoginFromUrl() {
+  const searchParams = useSearchParams();
+  return (
+    <LoginForm
+      rawCallbackUrl={searchParams.get("callbackUrl")}
+      oauthError={searchParams.get("error")}
+      src={sanitizeSignupSrc(searchParams.get("src"))}
+    />
+  );
+}
+
+interface LoginFormProps {
+  rawCallbackUrl: string | null;
+  oauthError: string | null;
+  src: string | null;
+}
+
+function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const oauthError = searchParams.get("error");
   // Sanitisation anti open-redirect + fallback vers /vannes pour la connexion classique.
-  const callbackUrl = resolvePostAuthRedirect(searchParams.get("callbackUrl"), "/vannes");
+  const callbackUrl = resolvePostAuthRedirect(rawCallbackUrl, "/vannes");
+  // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
+  const googleCallbackUrl = withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
+  // « Créer un compte » garde la destination demandée (ou l'onboarding par défaut).
+  const registerHref = buildRegisterUrl({ callbackUrl: rawCallbackUrl, src: src ?? "login" });
   const autoRetried = useRef(false);
   const [autoRetrying, setAutoRetrying] = useState(false);
 
@@ -46,7 +75,7 @@ function LoginForm() {
         autoRetried.current = true;
         setAutoRetrying(true);
         sessionStorage.setItem("oauth-auto-retry", "1");
-        signIn("google", { callbackUrl });
+        signIn("google", { callbackUrl: googleCallbackUrl });
         return;
       }
       // Cleanup after second failure (prevent permanent loop)
@@ -55,7 +84,7 @@ function LoginForm() {
       // Clear retry flag on successful navigation to login without error
       sessionStorage.removeItem("oauth-auto-retry");
     }
-  }, [oauthError, callbackUrl]);
+  }, [oauthError, googleCallbackUrl]);
 
   const oauthMessage = oauthError && !autoRetrying
     ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default)
@@ -77,6 +106,7 @@ function LoginForm() {
         setError("Email ou mot de passe incorrect.");
         setPassword("");
       } else {
+        trackUmami("connexion-reussie", { methode: "email" });
         router.push(callbackUrl);
         router.refresh();
       }
@@ -89,7 +119,7 @@ function LoginForm() {
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl });
+    signIn("google", { callbackUrl: googleCallbackUrl });
   };
 
   return (
@@ -180,10 +210,14 @@ function LoginForm() {
               Mot de passe oublié ?
             </Link>
           </div>
-          <div className="mt-2 text-center text-sm text-text-secondary">
-            Pas de compte ?{" "}
-            <Link href="/register" className="text-accent-link hover:underline">
-              Inscris-toi
+          {/* s15 : création de compte visible (avant : petit lien « Inscris-toi » en bas). */}
+          <div className="mt-6 border-t border-border pt-4 text-center">
+            <p className="text-sm text-text-secondary">Pas encore de compte ?</p>
+            <Link
+              href={registerHref}
+              className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
+            >
+              Créer un compte
             </Link>
           </div>
         </CardContent>

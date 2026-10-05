@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { formatDifficulty, frenchQuizQuotes, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
@@ -314,8 +315,8 @@ export function ParcoursDetail({
       // Sans stockage, le quiz reste simplement à refaire.
     }
   }, [quizDone, quizStorageKey]);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const { status, data: session } = useSession();
+  const registerHref = buildRegisterUrl({ callbackUrl: `/parcours/${slug}`, src: "parcours-etape" });
   const storeUser = useUserStore((s) => s.user);
   // Plan lu dans la session (jwt, rafraîchi toutes les 5 min ou via update())
   // ou dans le store utilisateur (favoris Premium) : l'un ou l'autre suffit,
@@ -377,7 +378,7 @@ export function ParcoursDetail({
 
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || status !== "authenticated") {
-      setAuthModalOpen(true);
+      window.location.assign(registerHref);
       return;
     }
 
@@ -393,6 +394,7 @@ export function ParcoursDetail({
       if (res.ok) {
         const data = await res.json();
         setProgress(data.progress);
+        trackUmami("parcours-etape", { parcours: slug, etape: stepOrder });
         if (data.xpGained > 0) {
           setXpGained({ step: stepOrder, xp: data.xpGained });
           setTimeout(() => setXpGained(null), 3000);
@@ -793,13 +795,12 @@ export function ParcoursDetail({
                       )}
 
                       {status !== "authenticated" && step.order === 1 && (
-                        <Button
-                          variant="primary"
-                          className="h-auto min-h-10 w-full whitespace-normal py-2 leading-snug"
-                          onClick={() => setAuthModalOpen(true)}
+                        <Link
+                          href={registerHref}
+                          className={`${buttonVariants({ variant: "primary" })} h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
                         >
                           Crée ton compte gratuit pour valider l&apos;étape
-                        </Button>
+                        </Link>
                       )}
                     </div>
                   )}
@@ -858,12 +859,6 @@ export function ParcoursDetail({
         </div>
       )}
 
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={`/parcours/${slug}`}
-      />
     </>
   );
 }

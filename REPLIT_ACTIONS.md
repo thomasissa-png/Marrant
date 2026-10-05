@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026) : tunnel visiteur → inscrit → Premium réparé et mesuré, IndexNow protégé et étendu au catalogue @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (`CRON_SECRET`, `ADMIN_PASSWORD`, `INDEXNOW_KEY` existants), aucun LLM. Détail : `docs/qa/tunnel-inscription-s15.md`.
+> - **Déploiement normal.** Plus de modale d'inscription : tous les boutons « créer un compte » d'un anonyme sont des liens `/register?callbackUrl=<destination>&src=<origine>` (header, accueil, fin d'article, quiz, parcours, /abonnement, modale Premium, fiches). Header : lien « Connexion » ajouté. `/login` : bouton « Créer un compte ». `/onboarding` anonyme → `/register` en 1 saut ; `/profil`, `/favoris` → `/login` en 1 saut. Formule choisie sur /abonnement retrouvée après inscription.
+> - **Nouveaux événements Umami** (kebab-case, aucune donnée personnelle) : `inscription-envoi`, `inscription-reussie` {methode, src}, `connexion-reussie` {methode}, `onboarding-termine` {parcours}, `abonnement-clic` {formule, src}, `abonnement-reussi` {formule}, `abonnement-annule`, `quiz-termine` {profil}, `parcours-etape` {parcours, etape}. Stripe : `success_url` annuel suffixé `&formule=annuel`.
+> - **Sécurité** : `POST /api/indexnow` exige `Authorization: Bearer <CRON_SECRET>` ou `<ADMIN_PASSWORD>` (401 sinon). **Cron `weekly-seo`** : notifie aussi IndexNow des URL du sitemap dont le lastmod a moins de 8 jours (1 POST, réponse `indexnow` dans le JSON), y compris en mode contenu préparé.
+> - **OAuthCallback Google** : config vérifiée par curl (redirect_uri et cookies corrects) ; les 3 retours viennent d'un callback sans cookies NextAuth (navigateur intégré d'appli, délai > 15 min). Message clair ajouté. **Action Thomas** : vérifier l'URI de redirection et l'écran de consentement « En production » dans Google Cloud, faire une inscription Google réelle sur mobile ; si l'erreur revient, `npx wrangler tail` → `OAUTH_CALLBACK_ERROR`.
+> - **Après déploiement** : `curl -s https://deviens-marrant.fr/ | grep -o 'href="/register[^"]*"'` (liens présents) ; `curl -sI https://deviens-marrant.fr/onboarding` → 307 `/register?callbackUrl=%2Fonboarding` ; `curl -s -o /dev/null -w "%{http_code}" -X POST https://deviens-marrant.fr/api/indexnow` → 401 ; dans Umami, voir apparaître `inscription-envoi` sous 48 h.
+
 ## s15 (05/10/2026) : titles et metas des 5 pages à CTR ≈ 0 (données GSC réelles) @orchestrator
 
 > Commit poussé sur la branche, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.

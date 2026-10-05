@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { frTypo } from "@/lib/fr-typo";
 import { useSession } from "next-auth/react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
 
 /** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02).
  *  Ordre aligné sur le reste du site, le plus court d'abord (audit forme s14 P2-4, tranché par Thomas). */
@@ -22,7 +21,6 @@ const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressor
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
-  const [showAuth, setShowAuth] = useState(false);
 
   return (
     <section className="py-12 text-center md:py-20">
@@ -65,9 +63,12 @@ export function HeroSection() {
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
           {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
-          <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
+          <Link
+            href={buildRegisterUrl({ src: "accueil-hero" })}
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+          >
             Créer mon compte gratuit
-          </Button>
+          </Link>
           <p className="text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           <Link
             href="/vannes"
@@ -99,11 +100,6 @@ export function HeroSection() {
         ))}
       </ul>
 
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-        defaultTab="register"
-      />
     </section>
   );
 }

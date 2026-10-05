@@ -7,10 +7,8 @@ jest.mock("@/hooks/use-content-stats", () => ({
   useContentStats: () => ({ jokes: 100, tips: 100, videos: 50, members: 0 }),
 }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
-jest.mock("@/components/auth/auth-modal", () => ({
-  AuthModal: ({ isOpen, callbackUrl }: { isOpen: boolean; callbackUrl?: string }) =>
-    isOpen ? <div data-testid="auth-modal" data-callback={callbackUrl ?? ""} /> : null,
-}));
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 const { useSession } = require("next-auth/react");
 
@@ -38,11 +36,20 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     window.history.pushState({}, "", "/vannes?page=2");
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" />);
-    await userEvent.click(screen.getByText("Créer un compte pour commencer"));
-    expect(screen.getByTestId("auth-modal")).toHaveAttribute(
-      "data-callback",
-      "/abonnement?returnTo=%2Fvannes%3Fpage%3D2",
-    );
+    // s15 : lien direct /register (plus de 2e modale), destination et source conservées.
+    const href = screen.getByText("Créer un compte pour commencer").closest("a")?.getAttribute("href") ?? "";
+    const params = new URL(href, "https://deviens-marrant.fr").searchParams;
+    expect(href.startsWith("/register?")).toBe(true);
+    expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%3Fpage%3D2");
+    expect(params.get("src")).toBe("modale-favoris");
+  });
+
+  it("connecté : clic paiement mesuré (abonnement-clic, source modale)", async () => {
+    useSession.mockReturnValue({ status: "authenticated" });
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
+    render(<PremiumModal isOpen onClose={jest.fn()} reason="defaut" />);
+    await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "modale-defaut" });
   });
 
   it("connecté : checkout avec returnTo de la page courante", async () => {

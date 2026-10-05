@@ -20,6 +20,11 @@ jest.mock("next/navigation", () => ({
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({
+  trackUmamiWhenReady: (...args: unknown[]) => mockTrack(...args),
+}));
+
 import SubscriptionSuccessPage from "@/app/(dashboard)/abonnement/success/page";
 
 describe("SubscriptionSuccessPage", () => {
@@ -217,6 +222,40 @@ describe("SubscriptionSuccessPage", () => {
       await waitFor(() => {
         expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
       });
+    });
+  });
+
+  describe("mesure Umami (s15)", () => {
+    afterEach(() => mockSearchParams.delete("formule"));
+
+    it("abonnement confirmé : abonnement-reussi mensuel, une seule fois", async () => {
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(mockPush).toHaveBeenCalled());
+      expect(mockTrack).toHaveBeenCalledTimes(1);
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-reussi", { formule: "mensuel" });
+    });
+
+    it("formule=annuel dans l'URL de retour : abonnement-reussi annuel", async () => {
+      mockSearchParams.set("formule", "annuel");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("abonnement-reussi", { formule: "annuel" }));
+    });
+
+    it("paiement pas encore confirmé : aucun événement", async () => {
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "FREE" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(mockTrack).not.toHaveBeenCalled();
     });
   });
 });

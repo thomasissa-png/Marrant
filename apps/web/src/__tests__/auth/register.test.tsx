@@ -13,8 +13,20 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("next-auth/react", () => ({
-  signIn: (...args) => mockSignIn(...args),
+  signIn: (...args: unknown[]) => mockSignIn(...args),
 }));
+
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({
+  trackUmami: (...args: unknown[]) => mockTrack(...args),
+}));
+
+async function fillAndSubmit() {
+  await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+  await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+  await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
+  await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+}
 
 describe("RegisterPage", () => {
   beforeEach(() => {
@@ -139,7 +151,79 @@ describe("RegisterPage", () => {
   it("calls Google signIn with /onboarding callback when no callbackUrl", async () => {
     render(<RegisterPage />);
     await userEvent.click(screen.getByText("S'inscrire avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding" });
+    // Marqueur de retour pour la mesure (AuthReturnTracker), s15.
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding?auth=inscription-google" });
+    expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct" });
+  });
+
+  describe("tunnel s15 : destination, source et mesure", () => {
+    afterEach(() => {
+      mockSearchParams.delete("callbackUrl");
+      mockSearchParams.delete("src");
+      mockSearchParams.delete("error");
+    });
+
+    it("email : inscription-envoi puis inscription-reussie avec la source", async () => {
+      mockSearchParams.set("src", "blog-meilleures-blagues-droles-2026");
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "1" } }) });
+      mockSignIn.mockResolvedValue({ error: null });
+      render(<RegisterPage />);
+      await fillAndSubmit();
+      const data = { methode: "email", src: "blog-meilleures-blagues-droles-2026" };
+      await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("inscription-reussie", data));
+      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", data);
+      expect(mockPush).toHaveBeenCalledWith("/onboarding");
+    });
+
+    it("échec API : envoi mesuré, pas de réussite", async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: false, json: async () => ({ error: "Email déjà utilisé" }) });
+      render(<RegisterPage />);
+      await fillAndSubmit();
+      await waitFor(() => expect(screen.getByText("Email déjà utilisé")).toBeInTheDocument());
+      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "email", src: "direct" });
+      expect(mockTrack).not.toHaveBeenCalledWith("inscription-reussie", expect.anything());
+    });
+
+    it("formule choisie sur /abonnement retrouvée après inscription", async () => {
+      mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "1" } }) });
+      mockSignIn.mockResolvedValue({ error: null });
+      render(<RegisterPage />);
+      await fillAndSubmit();
+      await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual"));
+    });
+
+    it("Google : destination + marqueur + source conservés", async () => {
+      mockSearchParams.set("callbackUrl", "/parcours/repartie");
+      mockSearchParams.set("src", "parcours");
+      render(<RegisterPage />);
+      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      expect(mockSignIn).toHaveBeenCalledWith("google", {
+        callbackUrl: "/parcours/repartie?auth=inscription-google&src=parcours",
+      });
+    });
+
+    it("source invalide ignorée (jamais de donnée libre envoyée)", async () => {
+      mockSearchParams.set("src", "jean@test.fr");
+      render(<RegisterPage />);
+      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct" });
+    });
+
+    it("lien « Connecte-toi » garde la destination", () => {
+      mockSearchParams.set("callbackUrl", "/abonnement");
+      render(<RegisterPage />);
+      expect(screen.getByRole("link", { name: "Connecte-toi" })).toHaveAttribute(
+        "href",
+        "/login?callbackUrl=%2Fabonnement",
+      );
+    });
+
+    it("OAuthCallback : message compréhensible", () => {
+      mockSearchParams.set("error", "OAuthCallback");
+      render(<RegisterPage />);
+      expect(screen.getByRole("alert")).toHaveTextContent("L'inscription avec Google n'a pas abouti");
+    });
   });
 
 });

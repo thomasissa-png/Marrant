@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
+import { buildRegisterUrl } from "@/lib/auth-links";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
@@ -201,7 +202,7 @@ export default async function ConseilPage({
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href="/register"
+              href={buildRegisterUrl({ callbackUrl: `/conseils/${canonicalSlug}`, src: "fiche-conseil" })}
               className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
               Créer un compte gratuit

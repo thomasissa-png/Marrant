@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { buildRegisterUrl } from "@/lib/auth-links";
 
 /**
  * Bloc « À toi de jouer » de la page individuelle d'une vanne.
@@ -14,6 +16,7 @@ import { useSession } from "next-auth/react";
  */
 export function HowToApplyGate({ howToApply }: { howToApply: string }) {
   const { status } = useSession();
+  const pathname = usePathname();
 
   if (status === "authenticated") {
     return (
@@ -30,7 +33,7 @@ export function HowToApplyGate({ howToApply }: { howToApply: string }) {
       <p className="mt-1 text-sm text-text-secondary">
         L&apos;exercice d&apos;application (consigne + exemple concret à réutiliser)
         est réservé aux membres.{" "}
-        <Link href="/register" className="font-medium text-accent-link hover:underline">
+        <Link href={buildRegisterUrl({ callbackUrl: pathname, src: "exercice-vanne" })} className="font-medium text-accent-link hover:underline">
           Crée ton compte gratuit
         </Link>{" "}
         pour le débloquer.

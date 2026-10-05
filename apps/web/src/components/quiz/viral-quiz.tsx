@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
+import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { AuthCta } from "@/components/auth/auth-cta";
 import {
@@ -99,6 +100,7 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             size="lg"
             className="w-full"
             callbackUrl={profile.recommendedPath}
+            src="quiz"
           />
         </div>
       </CardContent>
@@ -133,6 +135,7 @@ export function ViralQuiz() {
       const profile = QUIZ_PROFILES[profileType];
       saveResult(profileType);
       setResult(profile);
+      trackUmami("quiz-termine", { profil: profileType });
       setShowRetake(false);
     }
   };

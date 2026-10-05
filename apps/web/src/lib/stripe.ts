@@ -121,7 +121,8 @@ export async function createCheckoutSession(
         quantity: 1,
       },
     ],
-    success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}`,
+    // `formule=annuel` (annuel seulement) : mesure Umami abonnement-reussi sur la page de retour.
+    success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`,
     cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?upgrade=cancel${returnQuery}`,
     metadata: {
       userId,

@@ -10,10 +10,8 @@ jest.mock("@/components/ui/toast", () => ({
   toast: jest.fn(),
 }));
 
-jest.mock("@/components/auth/auth-modal", () => ({
-  AuthModal: ({ isOpen, defaultTab }: { isOpen: boolean; defaultTab?: string }) =>
-    isOpen ? <div data-testid="auth-modal" data-tab={defaultTab} /> : null,
-}));
+const mockPush = jest.fn();
+jest.mock("next/navigation", () => ({ useRouter: () => ({ push: mockPush }) }));
 
 const { useSession } = require("next-auth/react");
 const { toast } = require("@/components/ui/toast");
@@ -146,7 +144,7 @@ describe("UpcomingFeatures", () => {
     await userEvent.click(screen.getByLabelText("62 votes pour Une communauté"));
 
     expect(toast).not.toHaveBeenCalled();
-    expect(screen.getByTestId("auth-modal")).toHaveAttribute("data-tab", "register");
+    expect(mockPush).toHaveBeenCalledWith("/register?src=accueil-vote");
   });
 
   it("rolls back on API error", async () => {

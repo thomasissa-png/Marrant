@@ -21,6 +21,9 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: jest.fn() }),
 }));
 
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
+
 // Build a mock API response based on the enriched seed structure
 const mockPathData = {
   path: {
@@ -379,6 +382,43 @@ describe("ParcoursDetail — quiz gate", () => {
     await waitFor(() => {
       expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
     });
+  });
+});
+
+describe("ParcoursDetail — tunnel s15", () => {
+  it("anonyme : « Crée ton compte gratuit » est un lien /register qui ramène au parcours", async () => {
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    const link = await screen.findByRole("link", { name: "Crée ton compte gratuit pour valider l'étape" });
+    expect(link).toHaveAttribute("href", "/register?callbackUrl=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+  });
+
+  it("étape validée : événement parcours-etape {parcours, etape}", async () => {
+    mockTrack.mockClear();
+    sessionStorage.clear(); // quiz déjà réussi par un test précédent (mémorisé par parcours)
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test" } },
+      status: "authenticated",
+    });
+    const pathPayload = {
+      path: { ...mockPathData.path, id: "db-path-123" },
+      userProgress: { completedSteps: [], currentStep: 0, completedAt: null },
+    };
+    (global.fetch as jest.Mock).mockImplementation(async (_url: string, init?: RequestInit) =>
+      init?.method === "POST"
+        ? { ok: true, json: async () => ({ progress: { completedSteps: [1], currentStep: 1, completedAt: null }, xpGained: 0 }) }
+        : { ok: true, json: async () => pathPayload },
+    );
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await screen.findByText("Petit quiz avant de valider");
+    await userEvent.click(screen.getByText("La surprise de la chute"));
+    await userEvent.click(screen.getByText("Voir le résultat"));
+    await userEvent.click(screen.getByText("Continuer"));
+    await userEvent.click(await screen.findByText("Valider cette étape"));
+
+    await waitFor(() =>
+      expect(mockTrack).toHaveBeenCalledWith("parcours-etape", { parcours: "machine-a-cafe", etape: 1 }),
+    );
   });
 });
 

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
 import { cn } from "@/lib/utils";
 
 /** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
@@ -34,7 +34,6 @@ const premiumNavItems = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -53,10 +52,9 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const openRegister = () => {
-    setAuthModalOpen(true);
-    setIsMenuOpen(false);
-  };
+  // Liens réels (présents dans le HTML serveur) : retour sur la page courante après coup.
+  const registerHref = buildRegisterUrl({ callbackUrl: pathname, src: "header" });
+  const loginHref = buildLoginUrl({ callbackUrl: pathname });
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
@@ -124,9 +122,14 @@ export function Header() {
                 </Button>
               </>
             ) : (
-              <Button variant="primary" size="sm" onClick={openRegister}>
-                Commencer
-              </Button>
+              <>
+                <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+                  Connexion
+                </Link>
+                <Link href={registerHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
+                  Commencer
+                </Link>
+              </>
             )}
           </div>
 
@@ -223,22 +226,27 @@ export function Header() {
                   </Button>
                 </>
               ) : (
-                <Button variant="primary" size="sm" className="w-full" onClick={openRegister}>
-                  Commencer
-                </Button>
+                <>
+                  <Link
+                    href={registerHref}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
+                  >
+                    Commencer
+                  </Link>
+                  <Link
+                    href={loginHref}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}
+                  >
+                    Connexion
+                  </Link>
+                </>
               )}
             </div>
           </nav>
         )}
       </header>
-
-      {/* Auth modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={pathname}
-      />
     </>
   );
 }

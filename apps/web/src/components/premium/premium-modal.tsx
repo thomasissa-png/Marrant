@@ -4,12 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
-import { AuthModal } from "@/components/auth/auth-modal";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { PARCOURS_COUNT } from "@/config/premium";
+import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
+import { cn } from "@/lib/utils";
 
 /** Geste qui a ouvert la modale : le titre et l'accroche en dépendent (audit tunnel R5). */
 export type PremiumModalReason = "favoris" | "defaut";
@@ -41,10 +43,10 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
   const copy = COPY[reason];
   const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
+    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}` });
     try {
       const target = resolveReturnTo();
       const res = await fetch("/api/stripe/checkout", {
@@ -95,17 +97,16 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
             {isCheckoutLoading ? "On t'emmène au paiement…" : "Active mon accès · 2,99 €/mois"}
           </Button>
         ) : (
-          <Button
-            variant="primary"
-            size="lg"
-            className="mt-6 w-full"
-            onClick={() => {
-              onClose();
-              setIsAuthModalOpen(true);
-            }}
+          <Link
+            href={buildRegisterUrl({
+              callbackUrl: buildAbonnementUrl(resolveReturnTo()),
+              src: `modale-${reason}`,
+            })}
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-6 w-full")}
+            onClick={onClose}
           >
             Cr&eacute;er un compte pour commencer
-          </Button>
+          </Link>
         )}
 
         <p className="mt-3 text-center text-xs text-text-muted">
@@ -120,12 +121,6 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
         </p>
       </div>
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={buildAbonnementUrl(resolveReturnTo())}
-      />
     </Modal>
   );
 }

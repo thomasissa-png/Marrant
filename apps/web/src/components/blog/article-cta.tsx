@@ -12,6 +12,8 @@ interface ArticleCtaProps {
    * Passe par le sanitizer côté page d'auth.
    */
   freeCallbackUrl?: string;
+  /** Source de l'inscription pour la mesure du tunnel (ex. `blog-<slug>`). */
+  src?: string;
   /** Titre du bloc (défaut : texte générique des articles). */
   title?: string;
   /** Paragraphe sous le titre (défaut : texte générique des articles). */
@@ -42,6 +44,7 @@ const DEFAULT_NOTE = `Compte gratuit : ${FREE_CATALOGUE_LIMITS_LABEL}, contenu d
  */
 export function ArticleCta({
   freeCallbackUrl = "/onboarding",
+  src,
   title = DEFAULT_TITLE,
   text = DEFAULT_TEXT,
   primaryLabel = DEFAULT_PRIMARY_LABEL,
@@ -73,13 +76,14 @@ export function ArticleCta({
           </>
         ) : (
           <>
-            {/* Marqueur de mesure (blog-cta-clic) : AuthCta ne transmet pas les data-*. */}
+            {/* Marqueur de mesure (blog-cta-clic) : AuthCta ne transmet pas les data-* (lien /register). */}
             <span data-blog-cta="inscription" className="contents">
               <AuthCta
                 label={primaryLabel}
                 variant="primary"
                 size="lg"
                 callbackUrl={freeCallbackUrl}
+                src={src}
               />
             </span>
             <Link href="/abonnement" data-blog-cta="premium">

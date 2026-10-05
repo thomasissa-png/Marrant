@@ -205,7 +205,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
             </p>
           </div>
           <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
-            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" className="w-full sm:w-auto" />
+            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" src="vannes" className="w-full sm:w-auto" />
             <Link
               href="/abonnement"
               className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline"

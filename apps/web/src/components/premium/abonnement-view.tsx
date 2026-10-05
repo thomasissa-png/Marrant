@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
@@ -11,7 +11,9 @@ import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { FaqSection } from "@/components/home/faq-section";
 import { getPremiumFaqs } from "@/lib/faqs";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
+import { cn } from "@/lib/utils";
 import { PlanSelector } from "@/components/premium/plan-selector";
 import {
   formatEuros,
@@ -56,20 +58,27 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   const { status } = useSession();
   // Mensuel par défaut ; ?plan=annual préselectionne l'annuel (si disponible).
   const [selectedPlan, setSelectedPlan] = useState<PremiumPlan>("monthly");
+  // Intention d'origine lue après montage (le HTML serveur garde le lien sans returnTo).
+  const [returnTo, setReturnTo] = useState<string | null>(null);
   useEffect(() => {
     setSelectedPlan(readPlanFromUrl());
+    setReturnTo(readReturnTo());
+    // Retour de Stripe sans paiement (cancel_url) : mesuré une fois au chargement.
+    if (new URLSearchParams(window.location.search).get("upgrade") === "cancel") {
+      trackUmamiWhenReady("abonnement-annule");
+    }
   }, []);
   const plan: PremiumPlan = annualAvailable ? selectedPlan : "monthly";
   const isAnnual = plan === "annual";
   const priceLabel = isAnnual ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  // Compte gratuit : onboarding ; accès complet : retour ici pour payer (voir getPostSignupRedirect).
-  const [authCallbackUrl, setAuthCallbackUrl] = useState<string | undefined>(undefined);
-  const openAuth = (callbackUrl: string | undefined) => {
-    setAuthCallbackUrl(callbackUrl);
-    setIsAuthModalOpen(true);
-  };
+  // Compte gratuit : onboarding ; accès complet : retour ici pour payer, formule
+  // choisie conservée (`plan=annual`, voir getPostSignupRedirect et buildAbonnementUrl).
+  const freeSignupHref = buildRegisterUrl({ src: "abonnement-gratuit" });
+  const paidSignupHref = buildRegisterUrl({
+    callbackUrl: buildAbonnementUrl(returnTo, plan),
+    src: "abonnement",
+  });
 
   const isAuthenticated = status === "authenticated";
   const pageBadge = "Plus qu'une étape";
@@ -82,13 +91,14 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
+    trackUmami("abonnement-clic", { formule: isAnnual ? "annuel" : "mensuel", src: "abonnement" });
     try {
-      const returnTo = readReturnTo();
+      const origin = readReturnTo();
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Mensuel : corps historique inchangé (le serveur applique le mensuel par défaut).
-        body: JSON.stringify({ ...(returnTo ? { returnTo } : {}), ...(isAnnual ? { plan } : {}) }),
+        body: JSON.stringify({ ...(origin ? { returnTo: origin } : {}), ...(isAnnual ? { plan } : {}) }),
       });
       const data = await res.json();
       if (res.ok && data.url) {
@@ -129,14 +139,12 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
             <p className="mt-2 text-sm text-text-secondary">
               {FREE_CATALOGUE_LIMITS_LABEL}, le contenu du jour et la première étape de chaque parcours. Sans carte.
             </p>
-            <Button
-              variant="outline"
-              size="lg"
-              className="mt-5 w-full"
-              onClick={() => openAuth(undefined)}
+            <Link
+              href={freeSignupHref}
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "mt-5 w-full")}
             >
               Cr&eacute;e ton compte gratuit
-            </Button>
+            </Link>
             <p className="mt-3 text-center text-xs text-text-muted">
               Commence gratuitement, tu passes premium quand tu veux.
             </p>
@@ -183,14 +191,12 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
                 : `Active mon accès · ${priceLabel}`}
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              size="lg"
-              className="mt-8 w-full"
-              onClick={() => openAuth(buildAbonnementUrl(readReturnTo(), plan))}
+            <Link
+              href={paidSignupHref}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
             >
               Commencer à {priceLabel}
-            </Button>
+            </Link>
           )}
 
           <p className="mt-3 text-center text-xs text-text-muted">
@@ -222,13 +228,6 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
       <div className="mt-12">
         <FaqSection items={getPremiumFaqs(annualAvailable)} />
       </div>
-
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={authCallbackUrl}
-      />
     </div>
   );
 }

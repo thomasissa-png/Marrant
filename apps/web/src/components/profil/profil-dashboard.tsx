@@ -11,6 +11,7 @@ import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
 import Link from "next/link";
+import { buildLoginUrl } from "@/lib/auth-links";
 import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
@@ -115,7 +116,7 @@ export function ProfilDashboard() {
           <p className="mt-4 text-lg font-medium text-text-primary">
             Connecte-toi pour voir ton profil
           </p>
-          <Link href="/login" className="mt-4">
+          <Link href={buildLoginUrl({ callbackUrl: "/profil" })} className="mt-4">
             <Button variant="primary" size="sm">
               Se connecter
             </Button>

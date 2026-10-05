@@ -32,10 +32,10 @@ interface BlogArticleViewProps {
 /** Gabarit d'un article, commun à `/blog/[slug]` et `/blog/apercu/[slug]`. */
 export function BlogArticleView({ article, navigation, banner }: BlogArticleViewProps) {
   // CTA de fin : textes et position propres à l'article si config/blog-cta.ts en définit.
-  // Inscription attribuable à l'article : /onboarding lit seulement callbackUrl, `src`
-  // est ignoré par la page et visible dans Umami (vue de /onboarding?src=blog-<slug>).
+  // Inscription attribuable à l'article (s15) : lien direct /register?callbackUrl=/onboarding
+  // &src=blog-<slug> ; `src` alimente les événements inscription-envoi / inscription-reussie.
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
-  const cta = <ArticleCta {...ctaCopy} freeCallbackUrl={`/onboarding?src=blog-${article.slug}`} />;
+  const cta = <ArticleCta {...ctaCopy} freeCallbackUrl="/onboarding" src={`blog-${article.slug}`} />;
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];

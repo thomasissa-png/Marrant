@@ -10,11 +10,7 @@ import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { getPostSignupRedirect } from "@/lib/safe-callback";
 
-const mockAuthModal = jest.fn((_props: Record<string, unknown>) => null);
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
-jest.mock("@/components/auth/auth-modal", () => ({
-  AuthModal: (props: Record<string, unknown>) => mockAuthModal(props),
-}));
 
 const track = jest.fn();
 const SLUG = "meilleures-blagues-droles-2026";
@@ -221,13 +217,11 @@ describe("CTA d'article : note et inscription attribuable", () => {
     expect(screen.getByText(/^Compte gratuit : .+, contenu du jour\. Sans carte\.$/)).toBeInTheDocument();
   });
 
-  it("le bouton d'inscription transmet le callback /onboarding?src=… à la modale", () => {
-    mockAuthModal.mockClear();
-    render(<ArticleCta freeCallbackUrl={`/onboarding?src=blog-${SLUG}`} />);
-    expect(mockAuthModal).toHaveBeenCalledWith(
-      expect.objectContaining({ callbackUrl: `/onboarding?src=blog-${SLUG}`, defaultTab: "register" }),
-    );
-    // Destination après inscription : l'onboarding avec src, tel quel.
-    expect(getPostSignupRedirect(`/onboarding?src=blog-${SLUG}`)).toBe(`/onboarding?src=blog-${SLUG}`);
+  it("le bouton d'inscription est un lien direct /register avec callback et source (s15)", () => {
+    const { container } = render(<ArticleCta freeCallbackUrl="/onboarding" src={`blog-${SLUG}`} />);
+    const link = container.querySelector('[data-blog-cta="inscription"] a');
+    expect(link).toHaveAttribute("href", `/register?callbackUrl=%2Fonboarding&src=blog-${SLUG}`);
+    // Destination après inscription : l'onboarding.
+    expect(getPostSignupRedirect("/onboarding")).toBe("/onboarding");
   });
 });

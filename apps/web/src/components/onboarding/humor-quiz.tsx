@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { trackUmami } from "@/lib/umami";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -159,6 +160,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
       saveProfile(profile);
       setExistingProfile(profile);
       setShowResult(true);
+      trackUmami("onboarding-termine", { parcours: recommendation.slug });
     }
   };
 

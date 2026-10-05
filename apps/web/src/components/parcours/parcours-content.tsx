@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
@@ -123,8 +123,6 @@ function OrientationQuiz({ onShowParcours }: { onShowParcours: (slug: string) =>
 // ==============================
 
 export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[] }) {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authCallbackSlug, setAuthCallbackSlug] = useState<string | null>(null);
   const { status } = useSession();
   const router = useRouter();
   const [userProgress, setUserProgress] = useState<Record<string, Record<string, number>>>({});
@@ -192,8 +190,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       router.push(`/parcours/${slug}`);
       return;
     }
-    setAuthCallbackSlug(slug);
-    setAuthModalOpen(true);
+    router.push(buildRegisterUrl({ callbackUrl: `/parcours/${slug}`, src: "parcours" }));
   };
 
   return (
@@ -315,13 +312,6 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           );
         })}
       </div>
-
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={authCallbackSlug ? `/parcours/${authCallbackSlug}` : "/parcours"}
-      />
     </>
   );
 }

@@ -8,6 +8,7 @@ import {
   isBlogPreviewPath,
 } from "@/config/blog-preview";
 import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
+import { buildRegisterUrl } from "@/lib/auth-links";
 
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
@@ -24,6 +25,17 @@ const authMiddleware = withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
+
+    // Onboarding sans session (s15) : directement la création de compte, en un
+    // seul saut (avant : /api/auth/signin puis /login, page « Connexion »).
+    // La destination et la source de mesure sont conservées.
+    if (path.startsWith("/onboarding") && !token) {
+      const target = buildRegisterUrl({
+        callbackUrl: `${path}${req.nextUrl.search}`,
+        src: req.nextUrl.searchParams.get("src"),
+      });
+      return NextResponse.redirect(new URL(target, req.url));
+    }
 
     // Utilisateur PREMIUM qui visite /abonnement → rediriger vers le contenu
     if (path.startsWith("/abonnement") && token?.plan === "PREMIUM") {
@@ -44,7 +56,8 @@ const authMiddleware = withAuth(
         const path = req.nextUrl.pathname;
 
         // Routes nécessitant une session (authentification)
-        const authRequiredPaths = ["/profil", "/favoris", "/onboarding"];
+        // (/onboarding : géré ci-dessus, redirection vers /register et non /login.)
+        const authRequiredPaths = ["/profil", "/favoris"];
         if (authRequiredPaths.some((p) => path.startsWith(p))) {
           return !!token;
         }
@@ -54,6 +67,8 @@ const authMiddleware = withAuth(
         return true;
       },
     },
+    // Sans session : /login?callbackUrl=… en un saut (défaut : /api/auth/signin puis /login).
+    pages: { signIn: "/login" },
   }
 );
 

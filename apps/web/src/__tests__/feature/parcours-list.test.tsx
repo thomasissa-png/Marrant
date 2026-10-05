@@ -84,11 +84,12 @@ describe("ParcoursPage — Parcours structurés", () => {
     });
   });
 
-  it("opens auth modal when CTA button is clicked", async () => {
+  it("anonyme : le CTA mène à /register avec le parcours en destination (s15)", async () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Inscription")).toBeInTheDocument();
+    expect(mockPush).toHaveBeenCalledWith(
+      expect.stringMatching(/^\/register\?callbackUrl=%2Fparcours%2F[a-z-]+&src=parcours$/),
+    );
   });
 
   it("shows Essai gratuit badges on free modules", () => {

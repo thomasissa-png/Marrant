@@ -7,6 +7,9 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
 }));
 
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
+
 // Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -113,6 +116,17 @@ describe("HumorQuiz", () => {
 
     await userEvent.click(screen.getByText("Voir par où commencer"));
     expect(mockPush).toHaveBeenCalledWith("/parcours/repartie");
+  });
+
+  it("quiz terminé : événement onboarding-termine avec le parcours recommandé (s15)", async () => {
+    mockTrack.mockClear();
+    render(<HumorQuiz />);
+    await userEvent.click(screen.getByText("Avoir de la répartie"));
+    expect(mockTrack).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
+    await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
+    expect(mockTrack).toHaveBeenCalledTimes(1);
+    expect(mockTrack).toHaveBeenCalledWith("onboarding-termine", { parcours: "repartie" });
   });
 
   it("shows INTERMEDIAIRE result", async () => {

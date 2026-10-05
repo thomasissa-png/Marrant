@@ -40,11 +40,11 @@ describe("HomeCta", () => {
     expect(screen.getByText(/La seule chose que tu n.as pas encore essayée/i)).toBeInTheDocument();
   });
 
-  it("CTA opens auth modal (button, not link to /register)", () => {
+  it("CTA is a real link to /register (s15 : présent dans le HTML serveur)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
     const cta = screen.getByText("Créer mon compte gratuit");
-    expect(cta.closest("button")).toBeTruthy();
+    expect(cta.closest("a")).toHaveAttribute("href", "/register?src=accueil-cta");
   });
 
   it("links to /vannes for free content", () => {

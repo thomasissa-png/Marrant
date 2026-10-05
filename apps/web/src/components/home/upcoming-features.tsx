@@ -2,12 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
 
 interface Feature {
   slug: string;
@@ -86,7 +87,7 @@ export function UpcomingFeatures() {
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
   const [votingSlug, setVotingSlug] = useState<string | null>(null);
-  const [showAuth, setShowAuth] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/features/vote")
@@ -104,7 +105,7 @@ export function UpcomingFeatures() {
     async (slug: string) => {
       if (status !== "authenticated") {
         // Anonyme : on ouvre directement l'inscription au lieu d'un toast d'erreur (T10).
-        setShowAuth(true);
+        router.push(buildRegisterUrl({ src: "accueil-vote" }));
         return;
       }
       if (votingSlug) return;
@@ -150,7 +151,7 @@ export function UpcomingFeatures() {
         setVotingSlug(null);
       }
     },
-    [status, userVotes, votingSlug]
+    [status, userVotes, votingSlug, router]
   );
 
   return (
@@ -234,7 +235,6 @@ export function UpcomingFeatures() {
         })}
       </div>
 
-      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} defaultTab="register" />
     </section>
   );
 }

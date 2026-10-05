@@ -1,11 +1,12 @@
 "use client";
 
-import { Suspense, useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useRef, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
+import { trackUmamiWhenReady } from "@/lib/umami";
 
 export default function SubscriptionSuccessPage() {
   return (
@@ -94,11 +95,18 @@ function SubscriptionSuccessContent() {
     return () => clearTimeout(timer);
   }, [attempts, ready, activate]);
 
+  // Abonnement confirmé (plan PREMIUM vérifié) : mesuré une seule fois, avant la redirection.
+  const formule = searchParams.get("formule") === "annuel" ? "annuel" : "mensuel";
+  const tracked = useRef(false);
   useEffect(() => {
     if (ready) {
+      if (!tracked.current) {
+        tracked.current = true;
+        trackUmamiWhenReady("abonnement-reussi", { formule });
+      }
       router.push(destination);
     }
-  }, [ready, router, destination]);
+  }, [ready, router, destination, formule]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">

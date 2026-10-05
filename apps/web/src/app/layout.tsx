@@ -8,6 +8,7 @@ import {
   websiteJsonLd,
 } from "@/components/seo/json-ld";
 import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
+import { AuthReturnTracker } from "@/components/auth/auth-return-tracker";
 import { BLOG_PREVIEW_PATH } from "@/config/blog-preview";
 import "@/styles/globals.css";
 
@@ -136,6 +137,7 @@ export default function RootLayout({
         <JsonLd data={websiteJsonLd} />
         <SessionProvider>{children}</SessionProvider>
         <WebVitalsReporter />
+        <AuthReturnTracker />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <>
             {/* Filtre Umami (data-before-send) : rien ne part sous l'aperçu admin

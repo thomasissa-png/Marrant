@@ -95,7 +95,7 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("garde le CTA compte gratuit pour l'exercice complet", () => {
       expect(src).toMatch(/À toi de jouer/);
-      expect(src).toMatch(/register/);
+      expect(src).toMatch(/buildRegisterUrl\(\{ callbackUrl: `\/(conseils|videos)\/\$\{canonicalSlug\}`/);
     });
 
     it("retourne notFound() si tip absent", () => {
@@ -121,7 +121,7 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("garde le CTA compte gratuit pour learnings + exercice", () => {
       expect(src).toMatch(/Analyse pédagogique complète/);
-      expect(src).toMatch(/register/);
+      expect(src).toMatch(/buildRegisterUrl\(\{ callbackUrl: `\/(conseils|videos)\/\$\{canonicalSlug\}`/);
     });
 
     it("retourne notFound() si vidéo absente", () => {

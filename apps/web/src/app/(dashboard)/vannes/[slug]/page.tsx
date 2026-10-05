@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
+import { buildRegisterUrl } from "@/lib/auth-links";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
@@ -275,7 +276,7 @@ export default async function VannePage({
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href="/register"
+              href={buildRegisterUrl({ callbackUrl: `/vannes/${canonicalSlug}`, src: "fiche-vanne" })}
               className={buttonVariants({ variant: "primary" })}
             >
               Créer un compte gratuit

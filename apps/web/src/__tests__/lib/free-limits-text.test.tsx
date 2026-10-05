@@ -17,7 +17,6 @@ jest.mock("@/config/premium", () => ({
 }));
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 jest.mock("@/components/auth/auth-cta", () => ({ AuthCta: () => null }));
-jest.mock("@/components/auth/auth-modal", () => ({ AuthModal: () => null }));
 jest.mock("@/components/home/faq-section", () => ({ FaqSection: () => null }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({

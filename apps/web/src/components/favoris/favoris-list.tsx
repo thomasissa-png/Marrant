@@ -12,6 +12,7 @@ import { useFavoritesStore } from "@/stores/favorites-store";
 import { tipProse } from "@/lib/tip-prose";
 import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
+import { buildLoginUrl } from "@/lib/auth-links";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -167,7 +168,7 @@ export function FavorisList() {
           <p className="mt-4 text-lg font-medium text-text-primary">
             Connecte-toi pour retrouver tes p&#233;pites
           </p>
-          <Link href="/login" className="mt-4">
+          <Link href={buildLoginUrl({ callbackUrl: "/favoris" })} className="mt-4">
             <Button variant="primary" size="sm">
               Se connecter
             </Button>

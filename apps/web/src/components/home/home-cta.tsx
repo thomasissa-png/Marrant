@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useContentStats } from "@/hooks/use-content-stats";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { buildRegisterUrl } from "@/lib/auth-links";
 
 export function HomeCta() {
   const { status } = useSession();
   const stats = useContentStats();
-  const [showAuth, setShowAuth] = useState(false);
 
   if (status === "authenticated") return null;
 
@@ -31,9 +29,12 @@ export function HomeCta() {
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
           {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
           <div className="flex w-full flex-col items-center gap-1 sm:w-auto">
-            <Button variant="primary" size="lg" className="w-full sm:w-auto" onClick={() => setShowAuth(true)}>
+            <Link
+              href={buildRegisterUrl({ src: "accueil-cta" })}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+            >
               Créer mon compte gratuit
-            </Button>
+            </Link>
             <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
           </div>
           <Link
@@ -44,12 +45,6 @@ export function HomeCta() {
           </Link>
         </div>
       </div>
-
-      <AuthModal
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-        defaultTab="register"
-      />
     </section>
   );
 }

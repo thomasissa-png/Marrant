@@ -12,6 +12,9 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
 
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
+
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(() => ({ data: null, status: "unauthenticated" })),
   SessionProvider: ({ children }: { children: React.ReactNode }) => children,
@@ -96,6 +99,20 @@ describe("ViralQuiz", () => {
       screen.queryByText(title),
     );
     expect(foundTitle).toBe(true);
+  });
+
+  it("quiz terminé : événement quiz-termine avec le profil (s15), CTA vers /register", async () => {
+    mockTrack.mockClear();
+    render(<ViralQuiz />);
+    for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
+      await userEvent.click(screen.getByText(QUIZ_QUESTIONS[i].options[0].label));
+    }
+    expect(mockTrack).toHaveBeenCalledTimes(1);
+    const [name, data] = mockTrack.mock.calls[0];
+    expect(name).toBe("quiz-termine");
+    expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
+    const cta = screen.getByText("Crée ton compte gratuit et commence un parcours").closest("a");
+    expect(cta?.getAttribute("href")).toMatch(/^\/register\?callbackUrl=%2F[a-z%0-9-]+&src=quiz$/);
   });
 
   it("shows share button on result screen", async () => {

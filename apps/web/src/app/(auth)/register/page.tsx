@@ -8,24 +8,52 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPostSignupRedirect } from "@/lib/safe-callback";
+import {
+  AUTH_RETURN_SIGNUP_GOOGLE,
+  buildLoginUrl,
+  sanitizeSignupSrc,
+  withAuthReturnMarker,
+} from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
-  OAuthCallback: "L'inscription avec Google a calé en route. Réessaie.",
+  OAuthCallback:
+    "L'inscription avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
   OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
   Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
+// Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
+// paramètres : le HTML serveur contient déjà le formulaire et ses liens (s15).
 export default function RegisterPage() {
   return (
-    <Suspense>
-      <RegisterForm />
+    <Suspense fallback={<RegisterForm callbackUrl={null} oauthError={null} src={null} />}>
+      <RegisterFromUrl />
     </Suspense>
   );
 }
 
-function RegisterForm() {
+function RegisterFromUrl() {
+  const searchParams = useSearchParams();
+  return (
+    <RegisterForm
+      callbackUrl={searchParams.get("callbackUrl")}
+      oauthError={searchParams.get("error")}
+      src={sanitizeSignupSrc(searchParams.get("src"))}
+    />
+  );
+}
+
+interface RegisterFormProps {
+  callbackUrl: string | null;
+  oauthError: string | null;
+  /** Source du clic (mesure Umami), déjà validée. */
+  src: string | null;
+}
+
+function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,14 +62,16 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const oauthError = searchParams.get("error");
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
   // Règle unique d'après-inscription, partagée avec la modale (lib/safe-callback) :
   // onboarding par défaut, callback d'intention explicite respecté,
   // sinon onboarding qui transmet le callback. Google suit la même règle.
-  const postAuthTarget = getPostSignupRedirect(searchParams.get("callbackUrl"));
-  const oauthCallbackUrl = postAuthTarget;
+  const postAuthTarget = getPostSignupRedirect(callbackUrl);
+  // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
+  const oauthCallbackUrl = withAuthReturnMarker(postAuthTarget, AUTH_RETURN_SIGNUP_GOOGLE, src);
+  // Source toujours renseignée (« direct » si la page est ouverte sans lien suivi).
+  const srcData = { src: src ?? "direct" };
+  const loginHref = buildLoginUrl({ callbackUrl, src });
 
   const validateForm = (): boolean => {
     const errors = validateRegisterFields({ name, email, password });
@@ -59,6 +89,7 @@ function RegisterForm() {
       setIsLoading(false);
       return;
     }
+    trackUmami("inscription-envoi", { methode: "email", ...srcData });
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -86,8 +117,9 @@ function RegisterForm() {
       });
 
       if (result?.error) {
-        router.push("/login");
+        router.push(loginHref);
       } else {
+        trackUmami("inscription-reussie", { methode: "email", ...srcData });
         router.push(postAuthTarget);
         router.refresh();
       }
@@ -99,6 +131,7 @@ function RegisterForm() {
   };
 
   const handleGoogle = () => {
+    trackUmami("inscription-envoi", { methode: "google", ...srcData });
     signIn("google", { callbackUrl: oauthCallbackUrl });
   };
 
@@ -213,7 +246,7 @@ function RegisterForm() {
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
             Déjà un compte ?{" "}
-            <Link href="/login" className="text-accent-link hover:underline">
+            <Link href={loginHref} className="text-accent-link hover:underline">
               Connecte-toi
             </Link>
           </div>

@@ -1,5 +1,19 @@
 import { NextResponse } from "next/server";
 import { submitToIndexNow } from "@/lib/indexnow";
+import { bearerToken, isAdminPassword, safeEqual } from "@/lib/blog-preview-auth";
+
+/**
+ * Accès réservé (s15) : `Authorization: Bearer <CRON_SECRET>` ou
+ * `Bearer <ADMIN_PASSWORD>`, comparaison en temps constant. Avant : route
+ * ouverte, n'importe qui pouvait faire soumettre des URL avec notre clé.
+ */
+async function isAuthorized(request: Request): Promise<boolean> {
+  const token = bearerToken(request.headers.get("authorization"));
+  if (!token) return false;
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  if (cronSecret && (await safeEqual(token, cronSecret))) return true;
+  return isAdminPassword(token);
+}
 
 /**
  * IndexNow API : notifie Bing (et Yandex, Naver, Seznam) de la mise à jour de pages.
@@ -8,6 +22,10 @@ import { submitToIndexNow } from "@/lib/indexnow";
  * publication programmée des articles, sans self-fetch vers cette route).
  */
 export async function POST(request: Request) {
+  if (!(await isAuthorized(request))) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
   let urls: unknown;
   try {
     urls = ((await request.json()) as { urls?: unknown })?.urls;

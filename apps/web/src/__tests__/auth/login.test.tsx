@@ -13,7 +13,12 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("next-auth/react", () => ({
-  signIn: (...args) => mockSignIn(...args),
+  signIn: (...args: unknown[]) => mockSignIn(...args),
+}));
+
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({
+  trackUmami: (...args: unknown[]) => mockTrack(...args),
 }));
 
 describe("LoginPage", () => {
@@ -48,9 +53,42 @@ describe("LoginPage", () => {
     expect(screen.getByText("Mot de passe oublié ?")).toBeInTheDocument();
   });
 
-  it("has register link", () => {
+  it("propose clairement « Créer un compte » vers /register (s15)", () => {
     render(<LoginPage />);
-    expect(screen.getByText("Inscris-toi")).toBeInTheDocument();
+    expect(screen.getByText("Pas encore de compte ?")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Créer un compte" })).toHaveAttribute("href", "/register?src=login");
+  });
+
+  it("« Créer un compte » garde la destination et la source (s15)", () => {
+    mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
+    mockSearchParams.set("src", "header");
+    render(<LoginPage />);
+    expect(screen.getByRole("link", { name: "Créer un compte" })).toHaveAttribute(
+      "href",
+      "/register?callbackUrl=%2Fabonnement%3Fplan%3Dannual&src=header",
+    );
+    mockSearchParams.delete("callbackUrl");
+    mockSearchParams.delete("src");
+  });
+
+  it("OAuthCallback : message compréhensible (navigateur intégré, email)", () => {
+    mockSearchParams.set("error", "OAuthCallback");
+    mockSearchParams.set("callbackUrl", "https://deviens-marrant.fr");
+    render(<LoginPage />);
+    expect(screen.getByRole("alert")).toHaveTextContent("La connexion avec Google n'a pas abouti");
+    expect(screen.getByRole("alert")).toHaveTextContent("ouvre le site dans ton navigateur");
+    expect(screen.getByRole("alert").textContent).not.toContain("\u2014");
+    mockSearchParams.delete("error");
+    mockSearchParams.delete("callbackUrl");
+  });
+
+  it("connexion email réussie : événement connexion-reussie", async () => {
+    mockSignIn.mockResolvedValue({ error: null });
+    render(<LoginPage />);
+    await userEvent.type(screen.getByLabelText("Email"), "a@b.fr");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "motdepasse123");
+    await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
+    await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("connexion-reussie", { methode: "email" }));
   });
 
   it("toggles password visibility", async () => {
@@ -150,14 +188,14 @@ describe("LoginPage", () => {
   it("calls Google signIn with default /vannes callbackUrl", async () => {
     render(<LoginPage />);
     await userEvent.click(screen.getByText("Continuer avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes?auth=connexion-google" });
   });
 
   it("calls Google signIn with callbackUrl from search params", async () => {
     mockSearchParams.set("callbackUrl", "/conseils");
     render(<LoginPage />);
     await userEvent.click(screen.getByText("Continuer avec Google"));
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/conseils" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/conseils?auth=connexion-google" });
     mockSearchParams.delete("callbackUrl");
   });
 
@@ -167,7 +205,7 @@ describe("LoginPage", () => {
     render(<LoginPage />);
 
     await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes" });
+      expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes?auth=connexion-google" });
     });
     mockSearchParams.delete("error");
     sessionStorage.clear();
