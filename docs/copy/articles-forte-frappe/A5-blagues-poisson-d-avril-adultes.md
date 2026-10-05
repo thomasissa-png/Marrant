@@ -13,7 +13,7 @@
 - **mot-clé principal** : blague poisson d'avril adultes
 - **mots-clés secondaires** : canular 1er avril adulte ; poisson d'avril au bureau ; poisson d'avril en couple ; faux message poisson d'avril (volumes non vérifiés, à confirmer en Search Console ; `docs/seo/keyword-map.md` non consulté sur consigne, @seo valide)
 - **date de publication** : 2027-02-25 (jeudi)
-- **category** : CATALOGUE (valeur existante de l'enum, celle de l'étalon) · **readingTime** : 6 min
+- **category** : CATALOGUE · **readingTime** : 6 min
 - **liens internes** (tous existants) : `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/soirees` · `/vannes/theme/couple` · `/vannes/theme/dating` · `/vannes/theme/gaming` · `/vannes/theme/autoderision` · `/parcours` · `/parcours/machine-a-cafe` · `/parcours/repartie` · `/blog/timing-humour` · `/blog/comment-raconter-une-blague-sans-la-rater` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour`
 - **cannibalisation** : faible. L'étalon vise la requête générique « blagues drôles » ; ici des idées de canulars à date fixe, aucune vanne partagée avec l'étalon, S1 ni le catalogue.
 - **décisions fondateur appliquées** : zéro humoriste, zéro concurrent, zéro marque nommée ; zéro chiffre ou étude inventé (le seul fait daté est calendaire : le 1er avril 2027 tombe un jeudi) ; aucune promesse hors site réel (vannes, conseils, vidéos, 3 parcours, carnet mensuel Premium, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas) ; aucun témoignage ; zéro tiret cadratin
