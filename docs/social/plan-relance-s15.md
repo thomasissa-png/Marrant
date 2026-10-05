@@ -32,6 +32,11 @@ Croissance et engagement ne se notent qu'après publication (mesure à J+14 et J
 3. **Passe de contrôle** : une correction ne doit pas en casser une autre (leçon s14) ; contradiction entre notateurs tranchée une fois et inscrite.
 4. Retour à 1 jusqu'à 10/10 sur K1 à K9.
 
+## Règles d'étalonnage tranchées (valables pour tous les cycles)
+
+- **Drôlerie : 10/10 = au niveau ou au-dessus de la barre plancher fondateur** (vanne Alexa, [CHOIX] du 30/09 : « Rien en dessous »). Les notes à l'aveugle sont lues relativement à cette vanne : si elle reçoit 9, un post noté 9 est au niveau donc à 10. (Tranché par la session principale le 05/10, cycle 3.)
+- Règles R1 à R5 de `docs/social/strategie-relance-v3.md` (remplacement des vannes sous le seuil, carrousel, légende, relais LinkedIn, lien LinkedIn).
+
 ## Ordre
 
 1. Cycle 1 (en cours) : rendu réel de la piste visuelle A (prototype local, non déployé) ; notation de la stratégie et des 9 étalons.
