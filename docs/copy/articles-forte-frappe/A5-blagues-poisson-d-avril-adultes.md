@@ -125,6 +125,24 @@ Et le jour où quelqu'un te rend la pareille, le [parcours Répartie](/parcours/
 
 ---
 
+## Comment réussir un poisson d'avril sans le gâcher ?
+
+> **CLEF :** Un canular se joue en trois temps : une amorce crédible, un silence, une révélation immédiate. Un canular rate pour deux raisons : la révélation arrive trop tard, ou l'amorce est trop grave. Si tu hésites entre deux idées, prends celle qui fait le moins peur.
+
+Quatre règles pour les jouer proprement, et rester le complice qu'on n'évite pas jusqu'au 2 avril.
+
+**Garde ton sérieux jusqu'au bout.** Le rire avant la révélation tue le canular. Dis ta phrase comme une information banale, sans sourire, et laisse l'autre réagir. Le silence juste avant la révélation fait une bonne partie du travail : le [timing de l'humour](/blog/timing-humour) l'explique, et [raconter une blague sans la rater](/blog/comment-raconter-une-blague-sans-la-rater) règle le reste.
+
+**Révèle vite.** Dès que la personne a cru, ou qu'elle hésite, ou qu'elle commence à s'inquiéter : « poisson d'avril ». Un canular qui dure trop longtemps devient un malaise.
+
+**Vise des gens qui rient d'eux-mêmes.** Si quelqu'un déteste être pris en défaut, choisis une autre cible ou un autre jour. La bonne cible se reconnaît à ce qu'elle a déjà ri d'un de ses propres ratés.
+
+**Ne montre jamais personne.** Pas de photo ni de capture partagée sans l'accord de la personne. Le meilleur souvenir d'un canular, c'est celui qu'on raconte ensemble.
+
+Si tu veux progresser sérieusement sur le rire au quotidien, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
+
+---
+
 **Tu as fait le tour ?** Les vannes, elles, servent toute l'année et sans piège : le [catalogue](/vannes) les range toutes, chacune avec son décryptage.
 
 Tu préfères choisir ta situation ?
@@ -137,24 +155,6 @@ Tu préfères choisir ta situation ?
 - [Autodérision](/vannes/theme/autoderision)
 
 Pas sûr de ton style d'humour ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
-
----
-
-## Comment réussir un poisson d'avril sans le gâcher ?
-
-> **CLEF :** Un canular se joue en trois temps : une amorce crédible, un silence, une révélation immédiate. Un canular rate pour deux raisons : la révélation arrive trop tard, ou l'amorce est trop grave. Si tu hésites entre deux idées, prends celle qui fait le moins peur.
-
-Avoir des idées en stock, c'est bien. Les jouer proprement, c'est ce qui sépare le bon complice de celui qu'on évite jusqu'au 2 avril.
-
-**Garde ton sérieux jusqu'au bout.** Le rire avant la révélation tue le canular. Dis ta phrase comme une information banale, sans sourire, et laisse l'autre réagir. Le silence juste avant la révélation fait une bonne partie du travail : le [timing de l'humour](/blog/timing-humour) l'explique, et [raconter une blague sans la rater](/blog/comment-raconter-une-blague-sans-la-rater) règle le reste.
-
-**Révèle vite.** Dès que la personne a cru, ou qu'elle hésite, ou qu'elle commence à s'inquiéter : « poisson d'avril ». Un canular qui dure trop longtemps devient un malaise.
-
-**Vise des gens qui rient d'eux-mêmes.** Si quelqu'un déteste être pris en défaut, choisis une autre cible ou un autre jour. La bonne cible se reconnaît à ce qu'elle a déjà ri d'un de ses propres ratés.
-
-**Ne montre jamais personne.** Pas de photo ni de capture partagée sans l'accord de la personne. Le meilleur souvenir d'un canular, c'est celui qu'on raconte ensemble.
-
-Si tu veux progresser sérieusement sur le rire au quotidien, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
 
 → **[La blague du jour](/blague-du-jour)** : celle d'aujourd'hui, et demain une autre.
 

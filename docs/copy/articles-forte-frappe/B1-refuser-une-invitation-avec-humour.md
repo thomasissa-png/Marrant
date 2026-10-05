@@ -166,7 +166,7 @@ Tenir ton non quand on insiste, ça s'entraîne : le [parcours Répartie](/parco
 
 > **À retenir :** Un refus drôle réussi est rapide, honnête et chaleureux. Une phrase drôle suffit : le reste de ton message peut être sincère.
 
-Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règles, dans l'ordre :
+Pour que ton refus sonne comme toi, quatre règles, dans l'ordre :
 
 **1. Dis non vite et clairement.** Le « peut-être » est le vrai coup dur : l'autre achète, réserve, attend. Un non net le jour même vaut mieux qu'une blague géniale après trois relances.
 
@@ -209,5 +209,3 @@ Un message court, neutre, qui rit de toi et jamais du pot, de l'équipe ou de la
 ### Un refus drôle ne risque-t-il pas de paraître désinvolte ?
 
 Cela dépend de l'invitation. Pour un événement important pour l'autre, choisis la variante sans humour ou appelle. Pour une invitation du quotidien (soirée, pot, repas), un refus drôle suivi d'un mot sincère passe presque toujours mieux qu'un message froid de trois paragraphes.
-
-<!-- FIN -->

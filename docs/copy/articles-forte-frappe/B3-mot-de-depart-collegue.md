@@ -72,7 +72,7 @@ Pour la même carte à l'occasion d'un anniversaire, il y a [les messages d'anni
 
 ## Quel message drôle poster dans le canal d'équipe pour un départ ?
 
-Le canal d'équipe ou le mail de groupe : tout le monde le voit, la direction aussi, et il reste. Une seule ligne, un ton neutre, une chute sur l'organisation du pot ou sur toi, jamais sur le partant. L'invitation au pot de départ (n°5) part à toute l'équipe, partant compris ; la cagnotte et le cadeau (n°6 à 8) se gèrent dans un fil sans lui, pour qu'il découvre la surprise au pot. Les chiffres et les jours des lignes ci-dessous sont à remplacer par les vrais chez toi.
+Le canal d'équipe ou le mail de groupe : tout le monde le voit, la direction aussi, et il reste. Un message court, un ton neutre, une chute sur l'organisation du pot ou sur toi, jamais sur le partant. L'invitation au pot de départ (n°5) part à toute l'équipe, partant compris ; la cagnotte et le cadeau (n°6 à 8) se gèrent dans un fil sans lui, pour qu'il découvre la surprise au pot. Les chiffres et les jours des lignes ci-dessous sont à remplacer par les vrais chez toi.
 
 **5.** Pot de [prénom], jeudi à 17h30. Merci de répondre avant mercredi. On a acheté un gâteau pour douze. On est trente-quatre.
 *→ Dans le mail d'invitation au pot. Mets la date, l'heure et le lieu avant la blague, pas après, et remplace « douze » et « trente-quatre » par les vrais nombres.*
