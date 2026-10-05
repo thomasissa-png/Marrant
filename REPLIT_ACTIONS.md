@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, ~00:15 Paris) : DÉPLOYÉ par la session, Worker `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f` (N-1 `c5c0529b-db00-4cd7-bfca-218bf1273c01`)
+
+- Contenu : `9c1367b` (test d'intégration route → vrai `buffer-client` par réseau, alerte de repli image → texte LinkedIn, marqueurs conservés sur échec, pont du quiz dans le générateur, test d'heure A/B par jour X et Instagram du 12/10 au 09/11 mardi à jeudi, heures B : X 09:00, IG 12:30 ; LinkedIn garde l'heure A pendant le test image).
+- Contrôles : tsc 0, lint 0 erreur, Jest 3 155 PASS / 2 skipped (212 suites). Prod : `/`, `/liens`, `/liens/x`, `/liens/li`, `/register`, `/api/health` 200, `/liens/ig` 404 ; 3 réseaux ouverts, canaux ok.
+- Dry-run `relance-s15` (non inséré) : 0 erreur bloquante jusqu'au 02/11 (38 posts) ; 122 manques de stock du 03/11 au 03/01 (attendu : pilote P0 du 09/10, 14 hors lot, vague V1). Les fichiers `lot-relance-s15.{md,json}` du dépôt restent l'ancienne version (140 posts) : NE PAS INSÉRER, régénérer.
+- Carrousel 4 cartes du post IG du 07/10 (S1) NON appliqué : le rendu exige 5 parties dont « Le quiz est dans le lien de la bio. », fausse tant que les liens de bio ne sont pas posés ; le post reste en 2 cartes (format validé).
+
 ## s15 (05/10/2026, nuit) : correctifs cycle 7 (QA 1 et 5, @social F1 et S3) @fullstack : **À DÉPLOYER** (butoir : avant le 1er post `[heure:B]`, mer. 14/10 07:00 UTC ; l'alerte de repli avant le 13/10 06:00 UTC)
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration (marqueurs dans `directorNote`), aucun package, aucune variable d'env, aucun event Umami. Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK, Jest 3 155 PASS / 2 skipped (212 suites).
