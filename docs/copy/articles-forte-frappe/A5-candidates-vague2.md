@@ -84,3 +84,57 @@
 
 **H4-14** Dis à un collègue : « J'ai une bonne et une mauvaise nouvelle. » Il choisit. « La bonne : j'ai oublié la mauvaise. Poisson d'avril. »
 *→ Marque une pause avant de lancer ta phrase. Le sourire arrive à l'oubli.*
+
+## FAMILLE
+
+### H5 : à table, la fausse tradition ou le faux souvenir
+
+**H5-7** En posant le plat, dis avec émotion : « C'est la recette de mamie, celle qu'elle n'a jamais voulu écrire. » Laisse le respect s'installer autour de la table. « Eau, pâtes, sel. Je comprends qu'elle n'ait pas voulu l'écrire. Poisson d'avril. »
+*→ À jouer avec un plat très simple et une grand-mère qui a de l'humour. Sers-le vraiment, il sera très bon.*
+
+**H5-8** Verse l'eau dans les verres en disant : « Cette eau vient d'une source que la famille garde secrète depuis trois générations. » Laisse un oncle hocher la tête. « C'est le robinet de la cuisine. Il est très discret. Poisson d'avril. »
+*→ Annonce-le avec un ton de cérémonie, carafe à la main. Le premier qui goûte avec gravité est ton gagnant.*
+
+**H5-9** En apportant le plat, dis : « Pour la première fois, j'ai fait la recette sans la regarder. » Laisse chacun goûter avec respect. « Je l'ai regardée, mais très vite. Poisson d'avril. »
+*→ Choisis un plat que tu fais toujours avec la recette ouverte à côté. Pose le livre bien en évidence sur le plan de travail.*
+
+**H5-10** Chuchote à ton voisin de table, assez fort : « Tu as aussi l'impression qu'on mange plus tôt que d'habitude ? » Laisse-le vérifier l'heure. « Non, c'est moi qui avais faim plus tôt. Poisson d'avril. »
+*→ Dis-le avec l'air de quelqu'un qui a un vrai doute. Il regarde la pendule, tu souris.*
+
+**H5-11** En t'asseyant, annonce : « Pour que le repas soit agréable, on ne parle plus que de météo. » Laisse la table s'y mettre : « Il fait beau, non ? » « Ça fait quinze minutes que personne n'a parlé de politique. Poisson d'avril. »
+*→ Choisis un repas où la politique pointe toujours son nez. Dis-le avec la gravité d'un arbitre.*
+
+**H5-12** Au dessert, dis : « Cette recette est un secret de famille, ne la répétez à personne. » Laisse chacun hocher la tête. « Elle est écrite au dos du paquet, en petits caractères. Poisson d'avril. »
+*→ Garde le paquet en main, caché sous la table. Le secret le plus gardé de la famille est vendu en supermarché.*
+
+**H5-13** En servant une eau plate, dis : « Je précise qu'elle est gazeuse. » Laisse un cousin goûter, perplexe. « Elle est gazeuse, mais très calme. Poisson d'avril. »
+*→ Annonce-le comme une information pratique. Plus tu es sérieux, plus il cherche les bulles.*
+
+**H5-14** Fais circuler un carnet en disant : « Livre d'or du repas, chacun laisse un petit mot. » Reprends le carnet rempli de « bravo » et de dessins. « Merci, je n'avais pas pensé à mettre "bravo" sur ma liste de courses. Poisson d'avril. »
+*→ Écris « Liste de courses » discrètement en haut de la page. Le petit mot de chacun est déjà un plaisir.*
+
+### H8 : le groupe de famille
+
+**H8-7** Écris dans le groupe : « Quelqu'un sait ce que veut dire "épingler la conversation" ? » Laisse un neveu expliquer. « Merci, je viens de l'épingler. Poisson d'avril. »
+*→ Épingle vraiment le message. Il restera en haut du groupe tout le week-end.*
+
+**H8-8** Envoie une photo floue d'un coin de ta cuisine : « Devinez ce que je prépare pour dimanche. » Attends les paris (quiche, gratin, pot-au-feu). « C'est le four. Je n'ai photographié que le four. Poisson d'avril. »
+*→ Cadre serré sur un détail neutre. Garde les réponses, elles valent le déplacement.*
+
+**H8-9** Écris : « Grande annonce dimanche midi, soyez tous là. » Laisse monter les hypothèses. « L'annonce : je serai à l'heure. Poisson d'avril. »
+*→ À réserver à celui ou celle de la famille qui arrive toujours en retard. C'est lui ou elle qui rit le plus fort.*
+
+**H8-10** Écris dans le groupe : « Bonjour à tous, ravi de rejoindre le groupe, j'espère ne pas déranger. » Laisse les « Mais c'est toi ! » arriver. « Je suis là depuis la création, mais personne ne m'avait jamais accueilli. Poisson d'avril. »
+*→ Reste très poli dans tous tes messages suivants. Les réponses les plus gentilles sont les premières.*
+
+**H8-11** Écris : « Quelqu'un a l'adresse de la boulangerie dont on parlait ? » Quelqu'un répond « Laquelle ? ». « Celle dont on parlait. Je n'en ai aucune idée, mais j'ai très faim maintenant. Poisson d'avril. »
+*→ Reste vague sur tout, c'est le principe. Il y aura toujours quelqu'un pour proposer une adresse.*
+
+**H8-12** Écris : « Concours : celui qui répond avec le moins de lettres gagne. Départ. » Réponds-toi immédiatement : « . » Quand les « ok » arrivent : « Un point. J'ai gagné. Poisson d'avril. »
+*→ Poste-le et réponds tout de suite avant les autres. La compétition familiale fait le reste.*
+
+**H8-13** Écris dans le groupe : « J'ai retrouvé les clés de papa ! » Laisse le soulagement circuler. « Les miennes. Papa, tu es innocent. Poisson d'avril. »
+*→ À réserver à un père qui rit de ses clés égarées. Dis-le dans le groupe pour que tout le monde y soit.*
+
+**H8-14** Écris : « Pour dimanche, je prends tout en charge, vous n'avez rien à apporter. » Laisse les remerciements arriver. « Sauf votre chaise. Je n'en ai que quatre. Poisson d'avril. »
+*→ Écris-le vraiment avec le ton le plus généreux possible. Le groupe se met souvent à compter les chaises.*
