@@ -48,4 +48,6 @@ export const FORTE_FRAPPE_PARCOURS: Readonly<Partial<Record<string, ParcoursSlug
   // gâteau, pas seulement par écrit. Confiance vise un autre lecteur (celui qui se
   // croit pas drôle), pas quelqu'un qui cherche déjà quoi envoyer.
   "message-anniversaire-drole-par-situation": "repartie",
+  // Refuser une invitation : savoir dire non avec une phrase qui fait sourire (notation B1 iter1).
+  "refuser-une-invitation-avec-humour": "repartie",
 };
