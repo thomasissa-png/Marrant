@@ -116,9 +116,9 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
   },
   {
     slug: "comment-avoir-de-la-repartie",
-    title: "Répartie : 10 techniques efficaces",
+    title: "Avoir de la répartie : 10 techniques",
     excerpt:
-      "Avoir de la répartie, c'est trouver la réplique sur le moment, pas sous la douche 2h après : 10 techniques concrètes pour y arriver, en soirée comme au bureau.",
+      "Avoir de la répartie, c'est trouver la réplique sur le moment, pas sous la douche 2h après. 10 techniques concrètes, en soirée comme au bureau.",
     content: `> **En bref :** Avoir de la répartie, ça s'apprend : c'est un répertoire de réflexes verbaux qu'on entraîne, pas un don. Pour débuter, trois techniques suffisent : l'accusé de réception pour gagner du temps, le rebond sur un mot-clé et le retournement. Avec 5 minutes de pratique par jour, la plupart des gens progressent en 2 à 4 semaines.
 
 Tu connais ce moment : quelqu'un te lance une remarque, ton cerveau affiche un écran bleu, rien ne sort. Et la réplique parfaite arrive sous la douche, 2 heures plus tard. Ton cerveau livre bien, mais en point relais.
@@ -373,9 +373,9 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
   },
   {
     slug: "autoderision-interactions",
-    title: "Autodérision : le guide pratique",
+    title: "Autodérision : définition et exemples",
     excerpt:
-      "L'autodérision bien dosée te rend sympathique en 30 secondes, mal dosée elle fait fuir : le guide pour rire de toi sans te démolir, règles d'or incluses.",
+      "L'autodérision, c'est rire de soi sans se rabaisser. Définition, règles d'or et exemples pour être sympathique en 30 secondes sans te démolir.",
     content: `Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te fait passer pour quelqu'un qui attend qu'on le console. Toute la différence tient dans **le ton**, et ce guide t'apprend à le trouver pour rire de toi sans te démolir.
 
 > **À retenir :** L'autodérision est un signal de confiance, pas de faiblesse. Elle fonctionne quand elle cible des défauts mineurs (sens de l'orientation, goûts musicaux) avec le sourire. Les 3 règles : viser les défauts qui ne blessent pas, sourire en les énonçant, et doser (un trait d'esprit par conversation, pas à chaque phrase).
@@ -614,9 +614,9 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
   },
   {
     slug: "5-types-humour-lequel-pour-toi",
-    title: "Les 5 types d'humour : trouve le tien",
+    title: "Humour observationnel : les 5 types",
     excerpt:
-      "Il y a l'humour de Roman Frayssinet, celui de Paul Mirabel, celui de Blanche Gardin, et puis le tien : explore les 5 types d'humour pour trouver ton style.",
+      "L'humour observationnel, c'est rire de ce que tout le monde vit sans le dire. Sa définition en une phrase, puis 4 autres types pour trouver ton style.",
     content: `> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types : trouve ta dominante et développe-la.
 
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
@@ -1166,7 +1166,7 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
     slug: "phrases-droles-conversations",
     title: "30 phrases drôles prêtes à ressortir",
     excerpt:
-      "33 phrases drôles prêtes à ressortir à la machine à café, en soirée, en date ou en réunion : les gens drôles ont surtout un arsenal bien rodé, et voilà le tien.",
+      "Phrases drôles pour la soirée, le date, WhatsApp ou la réunion : 33 répliques à placer, chacune avec le moment où la sortir pour qu'elle fasse rire.",
     content: `Tu connais ce moment où quelqu'un sort la phrase drôle parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
 
 Les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste **un stock de phrases rodées**, qu'ils ressortent au bon moment. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.

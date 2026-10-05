@@ -92,7 +92,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
           url: "https://deviens-marrant.fr/conseils",
           numberOfItems: tipCount,
           relatedArticles: [
-            { title: "Répartie : 10 techniques efficaces", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
+            { title: "Avoir de la répartie : 10 techniques", url: "https://deviens-marrant.fr/blog/comment-avoir-de-la-repartie" },
             { title: "Répartie débutant : 5 étapes simples", url: "https://deviens-marrant.fr/blog/repartie-debutant-5-etapes" },
           ],
         })}
@@ -140,7 +140,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
             La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques que les pros de la scène utilisent tous les soirs.
           </p>
           <p>
-            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">Répartie : 10 techniques efficaces</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link>, le guide complet avec plan d&apos;action sur 30 jours.
+            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">Avoir de la répartie : 10 techniques</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">comment devenir drôle</Link>, le guide complet avec plan d&apos;action sur 30 jours.
           </p>
           <p>
             Et pour savoir combien de temps tenir le silence avant la chute, lis notre article sur le <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>.

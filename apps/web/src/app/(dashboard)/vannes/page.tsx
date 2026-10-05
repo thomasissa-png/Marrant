@@ -29,8 +29,8 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
   return {
-    title: `${prefix} drôles à ressortir ce soir`,
-    description: `${prefix} classées par situation (soirée, boulot, couple, école), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
+    title: "Vannes et blagues drôles à ressortir",
+    description: `${prefix} (ou blagues) rangées par situation : soirée, boulot, couple, école. Chacune a sa chute et son décryptage pour la replacer au bon moment.`,
     keywords: [
       "blague drôle",
       "blagues courtes",
