@@ -92,4 +92,78 @@
 
 ---
 
-<!-- SUITE -->
+## Situation 4 : un simple « salut » reçu (le rire vise la réponse de l'expéditeur, jamais le message de l'autre)
+
+### H13 : on t'écrit juste « Salut »
+- **H13-7** : « Salut ! Je m'entraînais à le dire à voix haute devant mes clés. Tu as été plus rapide. »
+- **H13-8** : « Salut ! J'ai relu mon salut avant de l'envoyer. Il tenait la route. »
+- **H13-9** : « Salut ! Le premier mot, je le maîtrise. Pour le deuxième, je ne promets rien. »
+- **H13-10** : « Salut ! J'ai failli écrire « bonjour ». C'est mon registre pour écrire à mon propriétaire. »
+- **H13-11** : « Salut ! Mon clavier a d'abord proposé « salir ». J'ai gardé le contrôle. »
+- **H13-12** : « Salut ! Je te réponds debout. Je ne sais pas pourquoi, mais ça m'a semblé plus sérieux. »
+- **H13-13** : « Salut ! J'avais une accroche drôle. Elle a rejoint les autres, dans mes brouillons. »
+- **H13-14** : « Salut ! C'est le seul mot que j'envoie sans relire. »
+
+### H14 : on t'écrit « Salut, ça va ? »
+- **H14-7** : « Ça va ! Aujourd'hui, j'ai croisé un voisin. On a dit « ça va ? » en même temps. Personne n'a répondu. »
+- **H14-8** : « Ça va ! J'ai ouvert une boîte de conserve sans me couper. C'est une bonne semaine. »
+- **H14-9** : « Ça va ! Mon pull est à l'endroit, du premier coup. La journée est bien partie. »
+- **H14-10** : « Ça va ! J'ai relu ta question pour chercher le piège. Il n'y en avait pas, merci. »
+- **H14-11** : « Ça va ! J'ai une chaise, j'ai mangé, personne ne me cherche. On a connu pire. »
+- **H14-12** : « Ça va ! Sauf mon imprimante, mais elle, ça ne va jamais. »
+- **H14-13** : « Ça va ! C'est la cinquième fois que je le dis aujourd'hui. Je commence à y croire. »
+- **H14-14** : « Ça va ! D'habitude, je le dis avant de vérifier. Cette fois, j'ai vérifié. C'est vrai. »
+
+### H15 : on t'écrit « Tu fais quoi dans la vie ? » (aucun métier précisé : la ligne laisse la porte ouverte)
+- **H15-7** : « Ma grand-mère résume mon métier en une phrase. Elle est fausse, mais elle est mieux que la mienne. »
+- **H15-8** : « Mon titre a changé trois fois cette année. Mon métier, pas du tout. »
+- **H15-9** : « Au travail, on me demande souvent « tu sais faire marcher le vidéoprojecteur ? ». Je dis toujours oui. »
+- **H15-10** : « Dans la vie, je vérifie que j'ai ma carte d'accès avant de claquer la porte. Le reste du métier, c'est du détail. »
+- **H15-11** : « On me paie pour une chose, et je passe mes journées sur une autre. L'autre me réussit mieux. »
+- **H15-12** : « Dans mon métier, quand tout va bien, personne ne sait que j'existe. Quand ça va mal, tout le monde connaît mon prénom. »
+- **H15-13** : « J'essaie de transformer mon métier en passion. Les négociations durent depuis cinq ans. »
+- **H15-14** : « Dans la vie, je coche des cases. Surtout « lu et approuvé ». »
+
+### H16 : on t'écrit « Tu fais quoi ce week-end ? » (réponse sans engagement sur un rendez-vous)
+- **H16-7** : « Ce week-end, je me repose. J'ai déjà dressé la liste de ce que ça demande. »
+- **H16-8** : « Ce week-end, je vais enfin prévoir quelque chose. C'est mon plan depuis quatre week-ends. »
+- **H16-9** : « Ce week-end, je répare l'étagère. Elle est inscrite à « ce week-end » depuis deux ans. »
+- **H16-10** : « Ce week-end, je vois ma famille. J'ai préparé trois réponses à « et le travail ? ». »
+- **H16-11** : « Samedi, marché. Je vais tapoter un melon avec l'air de savoir ce que j'écoute. »
+- **H16-12** : « Ce week-end, je me lance dans le plein air : j'ouvrirai une fenêtre, peut-être deux. »
+- **H16-13** : « Ce week-end, je me suis promis de ne pas toucher mon téléphone. C'est mal parti, je te réponds depuis. »
+- **H16-14** : « Ce week-end, j'aide un ami à déménager. On m'a confié le carton « fragile ». Il contient un coussin. On me connaît. »
+
+---
+
+## Situation 5 : la relance après un silence (une seule relance, une porte de sortie, zéro reproche)
+
+### H17 : la conversation s'est arrêtée juste après ta question, depuis quelques jours
+- **H17-7** : « Je ne relance qu'une fois : mon courage ne couvre pas la deuxième. Voilà la relance, sans obligation. »
+- **H17-8** : « Ma question de l'autre jour n'était pas mon meilleur travail. Tu peux la laisser dans l'état. »
+- **H17-9** : « Ma dernière question est restée sans réponse, elle devait être mauvaise. J'en ai d'autres, elles sont pires. »
+- **H17-10** : « Au cas où ma question serait passée sous des messages plus intéressants : je la remonte, sans rancune. »
+- **H17-11** : « Je reviens avec la même question. Je ne la reformule pas, ça risquerait d'être pire. Tu peux aussi l'ignorer. »
+- **H17-12** : « Ma question de l'autre jour reste valable. Ni urgente, ni obligatoire, ni très bien posée. »
+- **H17-13** : « Je passe une fois, comme le facteur. Voici l'avis de passage. Tu le retires quand tu veux, ou jamais. »
+- **H17-14** : « J'ai hésité entre ne rien envoyer et te relancer en majuscules. J'ai choisi la voie du milieu. »
+
+### H18 : la personne avait écrit « je te réponds plus tard », et rien depuis
+- **H18-7** : « Mon téléphone m'a rappelé de te relancer. Il est plus organisé que moi. Aucune urgence de ton côté. »
+- **H18-8** : « « Plus tard », j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps. »
+- **H18-9** : « Aucune pression de mon côté. Je regarde simplement mon téléphone d'un air détaché depuis un moment. »
+- **H18-10** : « Petite relance, vérifiée avant envoi : aucune pression détectée. »
+- **H18-11** : « Pendant ton « plus tard », j'ai rangé un tiroir. C'était utile. Je te relance sans urgence. »
+- **H18-12** : « Petite relance. Tu peux me répondre « plus tard » une deuxième fois, c'est une très bonne réponse. »
+- **H18-13** : « Aucun souci pour « plus tard ». J'ai un « plus tard » avec mon dentiste depuis deux ans. »
+- **H18-14** : « Je te relance. Une relance ne fait jamais de mal à personne, sauf à qui l'envoie. »
+
+### H19 : c'est toi qui as laissé le message sans réponse pendant des jours
+- **H19-7** : « J'ai ouvert ton message tous les jours. Je l'ai refermé tous les jours. Pardon pour le retard. »
+- **H19-8** : « Pardon pour le retard. J'ai écrit trois réponses : une trop enthousiaste, une trop froide. Celle-ci est tiède. »
+- **H19-9** : « Ce n'est pas personnel : j'ai des messages de l'an dernier qui attendent encore. Toi, tu as eu un traitement de faveur. »
+- **H19-10** : « Mon téléphone m'a proposé des réponses toutes faites. Elles étaient pires que le silence, j'ai donc continué le silence. »
+- **H19-11** : « Je te réponds enfin. J'ai fait un détour par la gêne, ça n'a pas raccourci le trajet. »
+- **H19-12** : « Pour éviter de te répondre, j'ai lavé deux fenêtres. Elles n'ont jamais été aussi propres. Pardon. »
+- **H19-13** : « Je pourrais dire que j'étais débordé. J'étais surtout moi. Pardon pour le retard. »
+- **H19-14** : « J'ai lu ton message en marchant, et il est resté dans la rue. Je viens de repasser le chercher. Pardon pour le retard. »
