@@ -75,4 +75,9 @@ export const FORTE_FRAPPE_PARCOURS: Readonly<Partial<Record<string, ParcoursSlug
   // Gamer : le CTA vend Répartie (« renvoyer la balle » en vocal), comme la section
   // Vocal ; Machine à Café (cluster CATALOGUE) parle de bureau (notation B2 iter2).
   "blagues-de-gamer-jeux-video": "repartie",
+  // Fêtes des mères et des pères : le CTA nomme Confiance, le corps y renvoie (notations B4/B5 iter1).
+  "message-drole-fete-des-meres": "confiance",
+  "message-drole-fete-des-peres": "confiance",
+  // Vacances entre amis : « trouver ta place dans un groupe qui rit » (notation B6 iter1).
+  "blagues-vacances-ete-entre-amis": "confiance",
 };
