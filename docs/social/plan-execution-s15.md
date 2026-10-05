@@ -15,6 +15,8 @@
 | D7 | Échantillon de 10 vannes neuves par vague V1 à V4 (30/09) | 5 min par vague | Non bloquant : sans réponse sous 48 h les vannes passent ; veto de Thomas = retrait |
 | D8 | **Conditionnelle** : pilote P0 sous 3 % (§2) | 10/10 | **Aucun défaut (Thomas, 05/10 : « pas sans mon accord »)** : cadence 5/5/2 maintenue avec les posts notés disponibles (un créneau sans post au niveau est omis), relance de Thomas chaque jour jusqu'à sa réponse |
 
+**DÉMARRAGE AVANCÉ (05/10, 21:45) : réseaux rouverts, premiers posts le mar. 06/10** (LinkedIn 08:15, X 12:30, Instagram 19:30), lot `semaine0` (10 posts, pool strict) ; Thomas : le plan est validé, rien ne justifie d'attendre le 12/10. Le GO/NO-GO du 11/10 devient un contrôle avant la semaine 1 ; les jalons de mesure restent comptés depuis le 12/10. **À faire le 07/10** : corriger `--insert --driver=neon-http` (transaction refusée en HTTP), le lot 1a doit exclure les vannes de la semaine 0 (lecture des posts en base).
+
 **Réponses de Thomas (05/10, 21:00 Paris) : [CHOIX UTILISATEUR], non re-questionnables.**
 - **Sessions planifiées : oui**, créées par la session principale (test réel du 05/10 consigné dans `routines/`).
 - **D2 : oui** (conseils en appoint ; 3 étalons de cartes conseil à valider dès leur livraison le 07/10). **D3 : oui. D7 : oui.**

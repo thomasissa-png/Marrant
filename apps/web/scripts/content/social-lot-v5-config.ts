@@ -18,8 +18,12 @@ export function approvedByDuLot(lot: string): string {
 }
 export const LOT_DEBUT = "2026-10-12";
 export const LOT_FIN = "2027-01-03";
-/** J0 par réseau (v5 §1) : un post daté avant le J0 de son réseau est sauté. */
-export const J0: Record<PreparedPlatform, string> = { TWITTER: "2026-10-12", INSTAGRAM: "2026-10-12", LINKEDIN: "2026-10-13" };
+/**
+ * J0 par réseau (v5 §1) : un post daté avant le J0 de son réseau est sauté.
+ * Avancé au mar. 06/10 (Thomas, 05/10 : plan validé, on démarre sans attendre le 12/10).
+ * Les jalons de mesure restent comptés depuis J0_SOCIAL (12/10, src/config/social-calendrier.ts).
+ */
+export const J0: Record<PreparedPlatform, string> = { TWITTER: "2026-10-06", INSTAGRAM: "2026-10-06", LINKEDIN: "2026-10-06" };
 
 export type TypeCase = "RELAIS_LUNDI" | "RELAIS_JEUDI" | "VANNE" | "VANNE_QUIZ" | "DECRYPTAGE" | "LI_MARDI" | "LI_JEUDI";
 /**

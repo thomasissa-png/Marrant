@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026, 21:45 Paris) : RÉSEAUX ROUVERTS, démarrage avancé au mar. 06/10 (Thomas : plan validé, « qu'est-ce qui ne va pas ? ») : FAIT par la session
+
+- **Aucun déploiement** (Worker inchangé : `0edcaee7-9e95-4b61-9acb-4c22ff8861f0`, N-1 `108da3e7-bac9-42fe-b6b1-71bedcd0143d`).
+- **Lot `semaine0` (06/10 au 09/10) inséré en APPROVED** (`approvedBy` « lot-semaine0 ») : 10 posts, X 4 (12:30), Instagram 4 (19:30, carrousel 2 cartes), LinkedIn 2 (mar. et jeu. 08:15). Vannes du pool strict uniquement (≥ 8,5 chez 2 relecteurs). Échanges manuels relus : vannes de bureau sur LinkedIn (Rome, visio), vanne mentionnant « une IA » retirée (règle zéro mention IA). Contrôles bloquants : 0 erreur, 0 doublon. Fichiers : `docs/social/preparation/lot-semaine0.{md,json}` (le .md est le dry-run d'avant les échanges, le .json fait foi).
+- **Script** : `J0` du lot avancé au 06/10 pour les 3 réseaux (`apps/web/scripts/content/social-lot-v5-config.ts`) ; les jalons de mesure restent comptés depuis `J0_SOCIAL` = 12/10. Jest social : 335 tests OK.
+- **Défaut trouvé** : `--insert --driver=neon-http` échoue (« Transactions are not supported in HTTP mode » : `createMany` via l'adaptateur HTTP). Insertion faite par une requête SQL multi-lignes unique (mêmes garde-fous : période, ids, autres posts actifs = 0). **À corriger dans le script avant le lot 1a du 09/10.**
+- **Interrupteurs** : LINKEDIN, TWITTER, INSTAGRAM repris via `/api/admin/social/platforms` (05/10 19:44 UTC), canaux Buffer connectés (`isDisconnected:false`, files non en pause). Cartes Instagram vérifiées en prod (`/api/social/image`, slides 0 et 1).
+- **Premiers posts** : LinkedIn 06/10 08:15, X 12:30, Instagram 19:30 ; vérifications H+45 programmées (routines).
+
 ## s15 (05/10/2026) : fiabilité de la relance sociale (QA cycles 1 à 3) : lots par tranche, reprise sûre, garde des relais, job de couverture @fullstack
 
 > Commit local, non poussé, non déployé, **rien inséré en base**. **Aucune migration** (marqueurs dans `directorNote`), aucun package, aucune nouvelle variable d'env (`ADMIN_EMAIL`, `RESEND_API_KEY`, `BUFFER_*`, `ADMIN_PASSWORD` existants), aucun LLM, aucun event Umami. Contrôles : `tsc -p tsconfig.build.json` 0, `next lint` 0 erreur, `npm run build` OK, Jest 3 010 PASS (baseline 2 954).
