@@ -3,13 +3,21 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+export type ShareChannel = "natif" | "copie";
+
 interface ShareButtonProps {
   title: string;
   text: string;
   className?: string;
+  /** URL partagée (défaut : page courante ; la copie ajoute alors le nom du site). */
+  url?: string;
+  /** Nom accessible (défaut : « Partager »). */
+  label?: string;
+  /** Appelé après un partage réussi (annulation : pas d'appel). */
+  onShared?: (channel: ShareChannel) => void;
 }
 
-export function ShareButton({ title, text, className }: ShareButtonProps) {
+export function ShareButton({ title, text, className, url, label = "Partager", onShared }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async (e: React.MouseEvent) => {
@@ -18,19 +26,25 @@ export function ShareButton({ title, text, className }: ShareButtonProps) {
     const shareData = {
       title,
       text,
-      url: window.location.href,
+      url: url ?? window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
+        onShared?.("natif");
       } catch {
         // User cancelled
       }
     } else {
-      await navigator.clipboard.writeText(`${text}\n\ndeviens-marrant.fr`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(`${text}\n\n${url ?? "deviens-marrant.fr"}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        onShared?.("copie");
+      } catch {
+        // Presse-papiers refusé
+      }
     }
   };
 
@@ -42,7 +56,8 @@ export function ShareButton({ title, text, className }: ShareButtonProps) {
         "group/share flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
         className
       )}
-      aria-label={copied ? "Copié !" : "Partager"}
+      type="button"
+      aria-label={copied ? "Copié !" : label}
     >
       <span
         aria-hidden="true"

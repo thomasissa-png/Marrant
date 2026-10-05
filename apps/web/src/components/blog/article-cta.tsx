@@ -18,12 +18,15 @@ interface ArticleCtaProps {
   text?: string;
   /** Libellé du bouton d'inscription, visiteur non connecté (défaut : « Essaie gratuitement »). */
   primaryLabel?: string;
+  /** Ligne sous les boutons (défaut : limites du compte gratuit). */
+  note?: string;
 }
 
 const DEFAULT_TITLE = "Maintenant, reste à le dire à voix haute";
 const DEFAULT_TEXT =
   "Des exercices concrets, des parcours étape par étape et des XP pour voir le chemin parcouru. Parce qu'un article lu finit par s'oublier, alors qu'un réflexe entraîné reste.";
 const DEFAULT_PRIMARY_LABEL = "Essaie gratuitement";
+const DEFAULT_NOTE = `Compte gratuit : ${FREE_CATALOGUE_LIMITS_LABEL}, contenu du jour. Sans carte.`;
 
 /**
  * CTA de fin d'article — double bouton pour le trafic froid.
@@ -42,6 +45,7 @@ export function ArticleCta({
   title = DEFAULT_TITLE,
   text = DEFAULT_TEXT,
   primaryLabel = DEFAULT_PRIMARY_LABEL,
+  note = DEFAULT_NOTE,
 }: ArticleCtaProps) {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -87,9 +91,7 @@ export function ArticleCta({
         )}
       </div>
 
-      <p className="mt-3 text-xs text-text-muted">
-        Compte gratuit : {FREE_CATALOGUE_LIMITS_LABEL}, contenu du jour. Sans carte.
-      </p>
+      <p className="mt-3 text-xs text-text-muted">{note}</p>
     </div>
   );
 }

@@ -3,8 +3,8 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { trackUmami } from "@/lib/umami";
 
-/** Seuil de lecture de `blog-scroll` : part une seule fois par page. */
-export const BLOG_SCROLL_THRESHOLD = 75;
+/** Paliers de lecture de `blog-scroll` : chacun part une seule fois par page. */
+export const BLOG_SCROLL_STEPS = [25, 50, 75, 100] as const;
 
 interface BlogArticleTrackingProps {
   slug: string;
@@ -14,11 +14,14 @@ interface BlogArticleTrackingProps {
 /**
  * Mesure Umami d'un article (audit growth s14, E1 à E3), sans toucher au contenu :
  *  - `blog-cta-clic` {slug, bouton} : élément marqué `data-blog-cta` ;
- *  - `blog-sortie-clic` {slug, zone, section, cible} : tout autre lien. Zone =
+ *  - `blog-ancre-clic` {slug, cible} : ancre interne (#…), navigation dans la page ;
+ *  - `blog-sortie-clic` {slug, zone, section, cible} : tout autre lien (2e page). Zone =
  *    `data-blog-zone` du bloc (related, cluster, parcours), sinon, dans le corps
- *    (`data-blog-body`) : « sommaire » (ancre # ou intro avant le 1er H2) ou
+ *    (`data-blog-body`) : « sommaire » (intro avant le 1er H2) ou
  *    « section » (section = id du H2 précédent) ;
- *  - `blog-scroll` {slug, palier: 75} : une fois, quand 75 % du corps est passé.
+ *  - `blog-scroll` {slug, palier: 25 | 50 | 75 | 100} : chaque palier une fois, quand
+ *    cette part du corps est passée.
+ * Le partage d'une vanne (`blog-vanne-partage`) est mesuré par BlogVanneShare.
  * Écoute native sur le conteneur : les clics dans un portail (modale d'auth) sont ignorés.
  */
 export function BlogArticleTracking({ slug, children }: BlogArticleTrackingProps) {
@@ -37,23 +40,31 @@ export function BlogArticleTracking({ slug, children }: BlogArticleTrackingProps
       }
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
       if (!link || !root.contains(link)) return;
-      trackUmami("blog-sortie-clic", { slug, ...linkZone(link), cible: link.getAttribute("href") ?? "" });
+      const href = link.getAttribute("href") ?? "";
+      // Ancre du sommaire = navigation dans la page, pas une 2e page.
+      if (href.startsWith("#")) {
+        trackUmami("blog-ancre-clic", { slug, cible: href });
+        return;
+      }
+      trackUmami("blog-sortie-clic", { slug, ...linkZone(link), cible: href });
     };
 
-    let sent = false;
+    const sent = new Set<number>();
     let frame = 0;
     const measure = () => {
       frame = 0;
       const body = root.querySelector<HTMLElement>("[data-blog-body]");
-      if (sent || !body) return;
+      if (!body) return;
       const rect = body.getBoundingClientRect();
       if (rect.height <= 0) return;
-      const read = (window.innerHeight - rect.top) / rect.height;
-      if (read * 100 >= BLOG_SCROLL_THRESHOLD) {
-        sent = true;
-        trackUmami("blog-scroll", { slug, palier: BLOG_SCROLL_THRESHOLD });
-        window.removeEventListener("scroll", onScroll);
+      const read = ((window.innerHeight - rect.top) / rect.height) * 100;
+      for (const palier of BLOG_SCROLL_STEPS) {
+        if (read >= palier && !sent.has(palier)) {
+          sent.add(palier);
+          trackUmami("blog-scroll", { slug, palier });
+        }
       }
+      if (sent.size === BLOG_SCROLL_STEPS.length) window.removeEventListener("scroll", onScroll);
     };
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(measure);

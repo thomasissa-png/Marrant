@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
+import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
@@ -28,6 +29,9 @@ import { isBlogArticleVisible, visibleBlogArticleWhere } from "@/lib/blog-visibi
 import { splitTrailingFaq } from "@/lib/blog-faq";
 
 export const revalidate = 3600;
+
+/** Articles dont chaque vanne numérotée reçoit un bouton Partager (notation iter1, C7). */
+const SHARE_JOKES_SLUGS = new Set(["meilleures-blagues-droles-2026"]);
 
 export function generateStaticParams() {
   return blogArticles.map((article) => ({
@@ -167,6 +171,13 @@ export default async function BlogArticlePage({
   const nextArticle = nextSlug ? allAvailableArticles.find((a) => a.slug === nextSlug) : null;
   const prevArticle = prevSlug ? allAvailableArticles.find((a) => a.slug === prevSlug) : null;
 
+  // CTA de fin : textes et position propres à l'article si config/blog-cta.ts en définit.
+  // Inscription attribuable à l'article : /onboarding lit seulement callbackUrl, `src`
+  // est ignoré par la page et visible dans Umami (vue de /onboarding?src=blog-<slug>).
+  const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
+  const cta = <ArticleCta {...ctaCopy} freeCallbackUrl={`/onboarding?src=blog-${article.slug}`} />;
+  const shareJokes = SHARE_JOKES_SLUGS.has(article.slug);
+
   return (
     <article className="mx-auto max-w-3xl">
       <JsonLd data={buildArticleJsonLd(article)} />
@@ -241,8 +252,13 @@ export default async function BlogArticlePage({
       {/* Mesure Umami (blog-sortie-clic, blog-cta-clic, blog-scroll) : wrapper client, contenu inchangé. */}
       <BlogArticleTracking slug={article.slug}>
         <div data-blog-body>
-          <MarkdownRenderer content={article.content} className="mt-8" />
+          <MarkdownRenderer content={article.content} className="mt-8" shareJokes={shareJokes} />
         </div>
+        {shareJokes && <BlogVanneShare slug={article.slug} />}
+
+        {/* Article à CTA dédié (config/blog-cta.ts) : CTA au moment où la lecture
+            se termine, avant FAQ et maillage. Sinon, CTA en bas (défaut). */}
+        {ctaCopy && cta}
 
         {/* FAQ Schema */}
         {"faqs" in article && article.faqs && article.faqs.length > 0 && (
@@ -331,9 +347,9 @@ export default async function BlogArticlePage({
           />
         </div>
 
-        {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35).
-            Textes propres à l'article si config/blog-cta.ts en définit. */}
-        <ArticleCta {...BLOG_CTA_BY_SLUG[article.slug]} />
+        {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35)
+            pour les articles sans CTA dédié. */}
+        {!ctaCopy && cta}
       </BlogArticleTracking>
     </article>
   );

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : article « 50 blagues drôles », notation iter1, correctifs C1 à C13 @fullstack
+
+> GO Thomas sur `docs/growth/notation-article-blagues-2026-iter1.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM.
+> - **Déploiement normal**. Slug, title, meta, H1, 8 H2, 50 vannes (empreinte SHA-256), Définition, CLEF et FAQ inchangés. Contenu : environ 15 lignes modifiées sur 210 (sommaire remonté en 2e paragraphe + ancre Inclassables, lien « machine à café » vers `/parcours/machine-a-cafe`, 4 sorties de section réécrites, thèmes en puces, « Toi aussi » retiré, 3e mention de la blague du jour reformulée).
+> - **Cet article** : CTA placé juste après le corps (avant la FAQ), nouveau texte et note « Gratuit, sans carte… » ; bouton 2,99 €/mois conservé. Bouton Partager (le même que sur les cartes de vannes) sur chacune des 50 vannes, lien partagé ancré `#vanne-N`.
+> - **Tous les articles** : bouton d'inscription du CTA vers `/onboarding?src=blog-<slug>` (même page qu'avant, `src` ignoré par l'onboarding, visible dans Umami) ; puces Markdown réduites à un lien = zone de tap de 44 px.
+> - **Umami** : `blog-scroll` passe à 4 paliers {palier: 25 | 50 | 75 | 100} ; nouveau `blog-ancre-clic` {slug, cible} (les ancres ne comptent plus dans `blog-sortie-clic`) ; nouveau `blog-vanne-partage` {slug, vanne (numéro), canal : natif | copie}. À vérifier après déploiement : Umami > Events.
+
 ## s14 (05/10/2026) : article « 50 blagues drôles » : audit growth R1 à R5 + mesure Umami @fullstack
 
 > GO Thomas sur `docs/growth/audit-article-blagues-2026-s14.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM.

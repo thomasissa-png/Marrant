@@ -8,6 +8,11 @@
         "slug": "meilleures-blagues-droles-2026",
         "session": "s14",
         "raison": "audit growth s14 R1 à R5 (sommaire, sorties, conformité, updatedAt) : titres inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
+      },
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "notation iter1",
+        "raison": "correctifs C1 à C3, C8 à C10 (sommaire remonté, lien machine à café, sorties, puces thèmes, « Toi aussi ») : titres et meta inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
       }
     ]
   },
@@ -139,11 +144,11 @@
       "emDashesBefore": 20
     },
     "meilleures-blagues-droles-2026": {
-      "words": "af224fcdadb2dd42d9cf70056d69648716bbc917ace21712de460b2a215d43af",
-      "wordCount": 2516,
+      "words": "7875aff7f070063f346d9337bac23abf4ceaf0e2bf3541df3efded424de3249e",
+      "wordCount": 2538,
       "headings": "1f316593f32e57d29184adda284a3c57a99db8926707916dc1767ae66d238d30",
-      "links": "37375d793737ae876871cb22747385442f1ae03622b834dc35fb8cc6ecd02306",
-      "numbers": "4964de3d51dd85f9e58536a50e9827961bb12f96cf01b07cc23d45dc9fdc4b6f",
+      "links": "691af42e6bf91e5efab3dd5f1306a77c89803a4d832b21273a755ea17c8f5b04",
+      "numbers": "20c868673800ebf6148325c9b15898365899b7aa9c32213aa6948914975a7002",
       "meta": "1b03b6938e1eafc528d4dd48699d746336d7f04dff3d64285d293cd21178b0ee",
       "emDashesBefore": 6
     },

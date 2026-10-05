@@ -22,6 +22,22 @@ function escapeHtml(text: string): string {
     .replace(/>/g, "&gt;");
 }
 
+function escapeAttr(text: string): string {
+  return escapeHtml(text).replace(/"/g, "&quot;");
+}
+
+/** Vanne numérotée d'un article : « **12.** « … » » en début de bloc. */
+const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»)/;
+
+export interface RenderOptions {
+  /**
+   * Emplacement de partage sur chaque vanne numérotée : `span[data-share-vanne]`
+   * flottant à droite (44 px réservés, pas de hauteur ajoutée), rempli côté client
+   * par le bouton Partager du site (components/blog/blog-vanne-share).
+   */
+  shareJokes?: boolean;
+}
+
 // Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
 const NBSP = String.fromCharCode(0xa0);
 // Segments protégés : cible des liens « ](url) » et code inline `…` (jamais modifiés).
@@ -143,7 +159,14 @@ function renderGroup(kind: LineKind, lines: string[]): string {
     }
     case "ul": {
       const items = lines
-        .map((l) => `<li>${inlineMarkdown(l.trimStart().slice(2))}</li>`)
+        .map((l) => {
+          const item = l.trimStart().slice(2);
+          // Puce réduite à un seul lien : zone de tap pleine hauteur (44 px) sur mobile.
+          const solo = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(item.trim());
+          return solo
+            ? `<li><a href="${escapeAttr(solo[2])}" class="inline-flex min-h-[44px] items-center text-accent-link hover:underline">${inlineMarkdown(solo[1])}</a></li>`
+            : `<li>${inlineMarkdown(item)}</li>`;
+        })
         .join("");
       return `<ul class="${UL_CLASS}">${items}</ul>`;
     }
@@ -176,7 +199,7 @@ function renderBlock(block: string): string {
   return parts.join("");
 }
 
-export function renderMarkdown(content: string): string {
+export function renderMarkdown(content: string, options: RenderOptions = {}): string {
   const blocks = content.split("\n\n");
   const htmlParts: string[] = [];
   // Ancres uniques dans la page : un 2e titre identique reçoit « -2 », etc.
@@ -223,7 +246,12 @@ export function renderMarkdown(content: string): string {
       continue;
     }
 
-    htmlParts.push(renderBlock(block));
+    const joke = options.shareJokes ? JOKE_RE.exec(block) : null;
+    htmlParts.push(
+      joke
+        ? `<div id="vanne-${joke[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${joke[1]}" data-text="${escapeAttr(joke[2])}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}</div>`
+        : renderBlock(block),
+    );
     i++;
   }
 
@@ -233,10 +261,12 @@ export function renderMarkdown(content: string): string {
 interface MarkdownRendererProps {
   content: string;
   className?: string;
+  /** Emplacement Partager sur chaque vanne numérotée (défaut : non). */
+  shareJokes?: boolean;
 }
 
-export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
-  const html = renderMarkdown(content);
+export function MarkdownRenderer({ content, className, shareJokes = false }: MarkdownRendererProps) {
+  const html = renderMarkdown(content, { shareJokes });
   return (
     <div
       className={`leading-relaxed [&>*:first-child]:mt-0 ${className ?? ""}`}

@@ -1373,9 +1373,9 @@ La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu s
       "Les 50 meilleures blagues courtes de 2026, testées et approuvées. Soirée, boulot, date, famille : la bonne vanne pour chaque situation.",
     content: `Tu connais ce moment où quelqu'un sort une **blague drôle** pile au bon moment, tout le monde explose, et toi tu penses « pourquoi c'est jamais moi » ? Cet article, c'est ton armurerie. 50 vannes triées sur le volet, classées par situation, parce qu'une blague de soirée à 23h et une blague à la machine à café un lundi matin, c'est pas le même sport.
 
-Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
+Va direct à ta situation : [Soirée](#quelles-blagues-sortir-en-soiree-celles-qui-marchent-a-partir-de-22h) · [Bureau](#quelles-blagues-au-bureau-le-lundi-matin-est-un-sport-de-combat) · [Date](#comment-faire-rire-en-date-detendre-un-moment-genant) · [Famille](#les-vannes-en-famille-niveau-expert) · [Potes](#les-vannes-entre-potes-le-labo-d-essai) · [WhatsApp](#les-vannes-whatsapp-reseaux) · [Inclassables](#les-pepites-inclassables). Et quand tu les auras toutes usées : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
 
-L'humour, c'est pas un don, c'est un muscle, et cet article est ta salle de sport. Tu cherches pour une situation précise ? Va direct : [Soirée](#quelles-blagues-sortir-en-soiree-celles-qui-marchent-a-partir-de-22h) · [Bureau](#quelles-blagues-au-bureau-le-lundi-matin-est-un-sport-de-combat) · [Date](#comment-faire-rire-en-date-detendre-un-moment-genant) · [Famille](#les-vannes-en-famille-niveau-expert) · [Potes](#les-vannes-entre-potes-le-labo-d-essai) · [WhatsApp](#les-vannes-whatsapp-reseaux). La [blague du jour](/blague-du-jour) change chaque jour, et le [catalogue de vannes](/vannes) range le reste par situation.
+Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
 
 > **Définition :** Une bonne blague repose sur 3 éléments : un setup (la situation), un pivot (le changement de direction) et une punchline (la chute inattendue). Le setup crée l'attente, le pivot la détourne, et la punchline libère le rire. Plus la punchline est courte et inattendue, plus l'impact est fort.
 
@@ -1411,7 +1411,7 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 
 Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Les pros du stand-up font exactement ça.
 
-Plus de vannes de soirée, avec leur chute et leur décryptage : [les blagues de soirée](/vannes/theme/soirees).
+Il t'en faut d'autres pour ce soir ? Elles t'attendent avec leur chute et leur décryptage : [les blagues de soirée](/vannes/theme/soirees).
 
 ---
 
@@ -1439,9 +1439,9 @@ Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas
 
 **16.** « Mon collègue a gardé "Envoyé depuis mon iPhone" en signature. Il est assis en face de moi. Sur un PC. »
 
-Si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
+Si tu veux [devenir la personne qu'on attend à la machine à café](/parcours/machine-a-cafe), le secret c'est la régularité : 15 minutes par semaine suffisent.
 
-Plus de vannes pour la machine à café : [les blagues de boulot](/vannes/theme/boulot).
+De quoi tenir jusqu'à vendredi à la machine à café : [les blagues de boulot](/vannes/theme/boulot).
 
 ---
 
@@ -1465,7 +1465,7 @@ La drague, c'est du stand-up devant une seule personne qui peut partir.
 
 **24.** « Le "on se fait un truc ce week-end ?" des applis de rencontre c'est le "on déjeune ensemble !" du boulot. Ça arrivera jamais et tout le monde le sait. »
 
-Plus de vannes de date : [les blagues de dating](/vannes/theme/dating).
+Pour le prochain date, ou pour le prochain blanc : [les blagues de dating](/vannes/theme/dating).
 
 ---
 
@@ -1485,7 +1485,7 @@ La famille, c'est un groupe WhatsApp qu'on n'a pas choisi de rejoindre.
 
 **30.** « J'ai compté les couchers de soleil envoyés par mon père dans le groupe famille. 1 274 en 3 ans. Jamais de légende. J'aurais pas dû compter. »
 
-Plus de vannes de famille : [les blagues de famille](/vannes/theme/famille).
+Le prochain repas de famille arrive toujours plus vite que prévu : [les blagues de famille](/vannes/theme/famille).
 
 ---
 
@@ -1543,7 +1543,14 @@ C'est là que tout commence : faire rire sa bande avant de faire rire un public.
 
 **Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage.
 
-Tu préfères choisir ta situation ? [Boulot](/vannes/theme/boulot), [couple](/vannes/theme/couple), [dating](/vannes/theme/dating), [soirées](/vannes/theme/soirees), [famille](/vannes/theme/famille), [gaming](/vannes/theme/gaming), [autodérision](/vannes/theme/autoderision).
+Tu préfères choisir ta situation ?
+- [Boulot](/vannes/theme/boulot)
+- [Couple](/vannes/theme/couple)
+- [Dating](/vannes/theme/dating)
+- [Soirées](/vannes/theme/soirees)
+- [Famille](/vannes/theme/famille)
+- [Gaming](/vannes/theme/gaming)
+- [Autodérision](/vannes/theme/autoderision)
 
 Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
 
@@ -1555,7 +1562,7 @@ Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour)
 
 Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le mec drôle du mec qui « connaît des blagues ».
 
-**Le timing, c'est sacré.** Un silence de 3 secondes peut faire rire à lui tout seul. Toi aussi. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
+**Le timing, c'est sacré.** Un silence de 3 secondes peut faire rire à lui tout seul. Et un silence, tout le monde sait le faire. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
 
 **Le contexte fait la vanne.** La blague sur le flex office, tu la sors au bureau, pas en boîte.
 
@@ -1565,7 +1572,7 @@ Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le
 
 Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
 
-→ **[La blague du jour](/blague-du-jour)** : une vanne neuve chaque jour, avec sa chute et son décryptage.
+→ **[La blague du jour](/blague-du-jour)** : celle d'aujourd'hui, et demain une autre.
 
 → **[Nos conseils d'humour](/conseils)** : les techniques de timing et de répartie des pros.
 
