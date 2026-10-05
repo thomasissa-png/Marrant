@@ -105,4 +105,93 @@ Rire de toi d'abord, c'est la valeur sûre dans toutes les situations : [les van
 
 ---
 
-<!-- SUITE -->
+## Quelles blagues de gamer quand l'entourage ne comprend pas ? (couple, parents, enfants, voisins)
+
+Un gamer vit rarement seul avec son écran : il y a quelqu'un qui attend le dîner, quelqu'un qui demande « c'est quand que tu gagnes ? », quelqu'un qui entend à travers le mur. Ces vannes se comprennent sans jamais avoir tenu une manette, et elles se disent à ceux qui ne jouent pas. Le rire tombe sur toi, sur ta façon de répondre « une partie » quand on te demande combien de temps, jamais sur eux.
+
+**15.** [H13]
+*[USAGE : à dire à l'autre, au moment où la question « t'en as encore pour longtemps ? » tombe, ou le lendemain.]*
+
+**16.** [H14]
+*[USAGE : à raconter après un repas de famille, avec le calme de quelqu'un qui a expliqué une fois de trop.]*
+
+**17.** « Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit « c'est un bon début ». »
+*→ À raconter en famille, avec une fierté mal placée. Laisse la dernière phrase seule, sans sourire.*
+
+**18.** [H15]
+*[USAGE : à raconter à la team ou à la famille, sur le ton de quelqu'un qui accepte sa place.]*
+
+**19.** [H16]
+*[USAGE : à dire à un voisin ou à une coloc le lendemain, pour rire de la scène sans s'excuser.]*
+
+Pour la famille au sens large, celle qui regarde par-dessus ton épaule : [les blagues de famille](/vannes/theme/famille). Et pour le couple qui attend que la partie finisse : [les blagues de couple](/vannes/theme/couple).
+
+---
+
+## Quelles blagues de gamer pour la nuit blanche ? (3 h du matin, s'arrêter, le lever du jour, le bureau)
+
+La nuit blanche est la part du gamer qu'il avoue le moins et dont il rit le mieux : le calcul de sommeil à 1 h, les règles qu'on se fixe à 23 h, l'heure où on remarque que le jour s'est levé, la réunion du lendemain. Ces vannes se racontent le matin, de préférence avec un café, et jamais en se vantant.
+
+**20.** [H17]
+*[USAGE : à envoyer à la team à 3 h du matin, ou à dire le lendemain, sur le ton d'un constat.]*
+
+**21.** [H18]
+*[USAGE : à dire au moment de se dire « j'arrête », sur le ton d'une résolution sincère.]*
+
+**22.** [H19]
+*[USAGE : à raconter le matin, au retour de la nuit, ou à envoyer à la team qui a tenu aussi.]*
+
+**23.** [H20]
+*[USAGE : à raconter à la machine à café ou en réunion, avec le sérieux de quelqu'un qui n'a rien à cacher.]*
+
+Pour tenir jusqu'au bureau sans que ça se voie, le [parcours Confiance](/parcours/confiance) demande 20 minutes par semaine et aide à oser sortir ces vannes au bon moment.
+
+---
+
+## Comment faire une blague de gamer sans vexer ta team ?
+
+Une blague de gamer se joue à plusieurs, et les règles tiennent en cinq gestes.
+
+**Fais tomber le rire sur toi d'abord.** L'[autodérision](/blog/autoderision-interactions) est la valeur sûre : si tu es le joueur qui perd, qui s'endort ou qui n'a pas compris le plan, les autres rient sans se sentir visés.
+
+**Choisis le moment.** La même phrase est une pique en pleine manche et une complicité entre deux parties. [Le timing de l'humour](/blog/timing-humour) compte autant que le texte : attends l'attente, la défaite ou la pause.
+
+**Reste court en vocal.** Une phrase, un silence, et on enchaîne. Si la team ne rit pas, passe à autre chose : réexpliquer une vanne la tue, c'est la première erreur de [raconter une blague sans la rater](/blog/raconter-blague-sans-massacrer).
+
+**Laisse le niveau des autres hors du jeu.** Un équipier qui joue mal le sait déjà. Rire de son score, de son pseudo ou de sa voix, même gentiment, ne fait rire que toi.
+
+**Adapte avec tes détails.** Les vannes ci-dessus sont des modèles : remplace la box par ce qui te lâche vraiment, les prénoms par les vôtres, l'heure par celle où tu t'arrêtes. Les formules que toute la team connaît déjà ne font plus rire ; un détail à toi, si.
+
+---
+
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage.
+
+Tu préfères choisir ton thème ?
+- [Gaming](/vannes/theme/gaming)
+- [Autodérision](/vannes/theme/autoderision)
+- [Soirées](/vannes/theme/soirees)
+- [Famille](/vannes/theme/famille)
+
+Pas sûr du type d'humour de ta team ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
+
+→ **[Nos conseils d'humour](/conseils)** : les techniques de timing et de répartie.
+
+→ **[Les vidéos](/videos)** : à regarder avant de sortir ta prochaine vanne.
+
+## FAQ
+
+### Quelles blagues de gamer peut-on faire sans vexer un coéquipier ?
+
+Celles qui tombent sur toi ou sur une situation que toute la team connaît (la mise à jour, le micro ouvert, la défaite), avec toi dans le rôle du joueur qui rate. Évite le niveau de jeu, le pseudo, la voix ou la disponibilité d'un équipier précis. Un test simple : est-ce qu'il pourrait la dire à ta place ? Si oui, tu peux la sortir.
+
+### Comment faire une blague de gamer à quelqu'un qui ne joue pas ?
+
+Pars de la situation, pas du jargon : la nuit qui s'allonge, la voisine qui entend un seul côté de la conversation, la phrase « une partie » quand on te demande combien de temps. Les vannes de la section sur l'entourage se comprennent sans connaître aucun jeu. Si tu dois expliquer un mot, change de blague.
+
+### Quand placer une blague en vocal sans couper la partie ?
+
+Pendant l'attente avant la partie, entre deux manches, juste après une défaite ou quand le silence s'installe. Évite la phase où tout le monde se concentre. Une phrase suffit : dis-la sans commentaire et laisse la team réagir, ou enchaîner.
+
+### Que faire si la blague tombe à plat en vocal ?
+
+Ça arrive : le micro était coupé, le moment n'était pas le bon, ou la team était en pleine action. Ne l'explique pas et ne la répète pas. Dis « elle était meilleure dans ma tête » et reviens à la partie. Si le sujet lui-même a touché quelqu'un, laisse tomber la blague et vérifie simplement que tout va bien.
