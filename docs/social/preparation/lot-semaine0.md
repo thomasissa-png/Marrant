@@ -2,6 +2,7 @@
 
 > Généré par `apps/web/scripts/content/prepare-social-month.ts --lot semaine0 --debut 2026-10-06 --fin 2026-10-11` (graine « semaine0 »). **Rien n'est inséré en base, rien n'est publié.**
 > Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.
+> **Dry-run d'origine, antérieur aux échanges du 05/10 : `lot-semaine0.json` fait foi** (écarts constatés le 05/10 sur 3 posts : LinkedIn 06/10, LinkedIn 08/10, X 09/10 ; contrôles et exclusion J+90 dans `plan-execution-s15.md` §0).
 > Insertion (plus tard) : `--lot semaine0 --insert [--driver=neon-http]` lit `lot-semaine0.json` et insère ces lignes en APPROVED (approvedBy « lot-semaine0 »), puis compte par réseau et par semaine. Annulation : `--lot semaine0 --rollback --confirmer`.
 
 **Total : 10 posts** (X : 4, Instagram : 4, LinkedIn : 2). Heures de Paris : X 12:30, Instagram 19:30, LinkedIn 08:15. Stock éligible du catalogue au J0 : 32 vannes.

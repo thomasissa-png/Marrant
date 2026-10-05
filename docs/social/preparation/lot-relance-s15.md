@@ -2,6 +2,7 @@
 
 > Généré par `apps/web/scripts/content/prepare-social-month.ts --lot relance-s15` (graine « relance-s15 »). **Rien n'est inséré en base, rien n'est publié.**
 > Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.
+> **Dry-run antérieur à la semaine 0 : obsolète, à régénérer** (lots 1a, 1b, 2a et 2b, après l'insertion de la semaine 0 ; il répète ses 10 vannes, voir `plan-execution-s15.md` §0).
 > Insertion (plus tard) : `--lot relance-s15 --insert [--driver=neon-http]` lit `lot-relance-s15.json` et insère ces lignes en APPROVED (approvedBy « thomas-s15 »).
 
 **Total : 140 posts** (X : 58, Instagram : 58, LinkedIn : 24). Heures de Paris : X 12:30, Instagram 19:30, LinkedIn 08:15. Stock éligible du catalogue au J0 : 93 vannes.
