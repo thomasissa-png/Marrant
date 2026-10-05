@@ -46,7 +46,7 @@ La fête des pères tombe le dimanche 20 juin 2027. Tu as un père qui répond �
 
 Va direct à ta situation : [Bricolage](#quel-message-drole-ecrire-a-un-pere-qui-bricole) · [Barbecue et voiture](#quel-message-drole-pour-un-pere-au-barbecue-ou-au-volant) · [Appel et répondeur](#que-dire-de-drole-a-son-pere-au-telephone-ou-sur-son-repondeur) · [Les 4 règles](#comment-ecrire-un-message-drole-de-fete-des-peres-qu-il-gardera). Pour l'anniversaire de ton père, il y a [le message d'anniversaire drôle](/blog/message-anniversaire-drole-par-situation).
 
-Chaque message tient sur un écran de téléphone, avec en dessous l'endroit et le moment où l'envoyer. Il te reste à remplacer « papa » par le mot que tu emploies pour lui (p'pa, son prénom) et à glisser le détail qui n'appartient qu'à vous deux : le nom de l'outil, la route, sa phrase à lui.
+En dessous de chaque message : l'endroit et le moment où l'envoyer. Il te reste à remplacer « papa » par le mot que tu emploies pour lui (p'pa, son prénom) et à glisser le détail qui n'appartient qu'à vous deux : le nom de l'outil, la route, sa phrase à lui.
 
 ---
 
