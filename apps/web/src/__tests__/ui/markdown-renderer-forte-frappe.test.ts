@@ -41,6 +41,22 @@ describe("A1 importé : lignes « **N.** texte » sans guillemets", () => {
   });
 });
 
+describe("A2 importé : lignes « **N.** texte », envoi du texte seul", () => {
+  const content = importedContent("A2-voeux-drole-nouvelle-annee.md");
+  const html = renderMarkdown(content, { shareJokes: true });
+
+  it("27 emplacements numérotés (aucun message collé à un paragraphe), 7 H2", () => {
+    expect(slots(html).map((s) => s.n)).toEqual(Array.from({ length: 27 }, (_, i) => i + 1));
+    expect(html.match(/<h2 id=/g)).toHaveLength(7);
+  });
+
+  it("texte partagé = le message seul", () => {
+    const texts = slots(html).map((s) => s.text);
+    expect(texts[19]).toBe("Bonne année à tous. Je vous écris depuis le balcon, le seul endroit où ça capte. Il y a du monde.");
+    for (const text of texts) expect(text).not.toMatch(/^\d|\*|→|À minuit/);
+  });
+});
+
 describe("A3 importé : titre « **N. Situation** » puis message en blockquote", () => {
   const content = importedContent("A3-premier-message-appli-rencontre.md");
   const html = renderMarkdown(content, { shareJokes: true });

@@ -144,6 +144,7 @@ Pour le prochain repas de famille : [les vannes de famille](/vannes/theme/famill
 ## Quel message drôle pour le groupe WhatsApp et les amis perdus de vue ?
 
 À minuit, le groupe reçoit beaucoup de messages identiques : le tien doit faire sourire en une ligne. Pour un ami perdu de vue, c'est l'inverse : un message privé, une fois par an, qui donne envie de répondre sans y obliger.
+
 **20.** Bonne année à tous. Je vous écris depuis le balcon, le seul endroit où ça capte. Il y a du monde.
 *→ Pour le groupe d'amis, juste après minuit ou dans la journée du 1er. Remplace « le balcon » par ton vrai coin de réseau. Un message court se lit en entier, un long se survole.*
 
@@ -184,9 +185,9 @@ Pour les histoires de couple, finies ou non : [les vannes de couple](/vannes/the
 
 Quatre vérifications, trente secondes.
 
-1. **Change un mot.** Le prénom, le plat, le nom du groupe : un détail à toi, et le message n'est plus celui de tout le monde.
+1. **Remplace les détails d'exemple.** Le fauteuil, « compta ? », Biscotte, Sébastien, mars : ce sont les nôtres. Mets les tiens, sinon la chute raconte la vie de quelqu'un d'autre.
 2. **Lis-le à voix haute.** Si tu butes sur une phrase, le destinataire butera aussi : coupe-la.
-3. **Choisis le moment.** L'usage veut qu'on envoie ses vœux jusqu'à fin janvier : tu n'es pas en retard le 2.
+3. **Vérifie le moment.** L'indication sous chaque message dit quand l'envoyer : un message écrit pour la reprise ne part pas le 31 décembre.
 4. **Un message par destinataire.** Le même texte envoyé à tout ton répertoire se reconnaît vite. Mieux vaut cinq messages adaptés que cinquante identiques.
 
 ---
