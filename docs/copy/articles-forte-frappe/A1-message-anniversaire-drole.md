@@ -8,7 +8,7 @@
 
 - **slug** : `message-anniversaire-drole-par-situation`
 - **title** (54 car.) : Message d'anniversaire drôle : 21 textes par situation
-- **metaDescription** : 21 messages d'anniversaire drôles à copier-coller : pote, collègue, parent, frère ou sœur, ami perdu de vue. Avec le moment et le support qui font mouche.
+- **metaDescription** : 21 messages d'anniversaire drôles à copier-coller : pote, collègue, parent, frère ou sœur, ami perdu de vue. Avec le bon moment et le bon support.
 - **excerpt** : Un message d'anniversaire drôle, c'est une ou deux phrases, un rire qui tombe sur toi et un bon moment pour l'envoyer. Voici 21 textes à copier-coller selon la personne (pote, collègue, parent, frère ou sœur, ami perdu de vue), avec le support conseillé pour chacun : WhatsApp, carte ou mot au gâteau.
 - **mot-clé principal** : message d'anniversaire drôle
 - **mots-clés secondaires** : texte anniversaire humoristique ; mot drôle carte anniversaire ; message anniversaire drôle collègue
@@ -16,12 +16,23 @@
 - **category** : CATALOGUE · **readingTime** : 6 min
 - **liens internes** (15, tous existants) : `/vannes/theme/soirees` · `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/autoderision` · `/parcours/machine-a-cafe` · `/parcours/confiance` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/phrases-droles-conversations` · `/blog/timing-humour` · `/blog/meilleures-blagues-droles-2026`
 - **cannibalisation** : ne vise ni « phrases drôles » (lien vers `phrases-droles-conversations`), ni « toast » (reste à S9, aucun lien nécessaire), ni Saint-Valentin ni célibataire. Angle propre : le message écrit, par destinataire et par support.
-- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro chiffre inventé (le « 21 » du title, de l'excerpt, de la metaDescription et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucun rire sur la personne fêtée, son âge ou son physique ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas) ; la ligne 20 (H18-4) garde « remonté » tel que validé à l'aveugle
+- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro chiffre inventé (le « 21 » du title, de l'excerpt, de la metaDescription et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucun rire sur la personne fêtée, son âge ou son physique ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, aucune promesse de nouveauté sur le reste du catalogue) ; la ligne 20 (H18-4) garde « remonté » tel que validé à l'aveugle
 - **vannes catalogue reprises** : aucune (les vannes validées sont des anecdotes racontées, pas des messages à envoyer)
 - **objections traitées** : « je vais vexer la personne » (règle 1 + FAQ 1) ; « je n'ai pas d'idée et je n'ai pas le temps » (textes prêts à copier) ; « j'ai oublié la date » (situation 5 + FAQ 2) ; « un message drôle fait-il froid ? » (FAQ 4) ; « tout le monde enverra le même » (règle personnalisation + FAQ 3)
 - **contenu propriétaire** : 21 lignes inédites triées à l'aveugle, indication de support et de moment pour chacune, 4 règles de personnalisation
 - **ancres du sommaire** (slug = minuscules, sans accent ni ponctuation, espaces et apostrophes en tirets, comme l'étalon) : à vérifier par @fullstack à l'intégration
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page
+
+---
+
+## CTA (pour blog-cta.ts)
+
+> À reporter à la main dans `apps/web/src/config/blog-cta.ts`, entrée `"message-anniversaire-drole-par-situation"`. Sans cette entrée, le CTA ne s'affiche qu'en bas de page. Non lu par l'import.
+
+- **title** : Le message, c'est fait. Reste le moment du gâteau.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver la bonne phrase aussi à l'oral, pas seulement par écrit.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.
 
 ---
 
@@ -31,24 +42,24 @@
 
 Tu as un anniversaire à souhaiter, un écran vide et trois minutes. Le « joyeux anniv » est sûr, mais il ressemble à tous les autres de la journée. Cet article te donne **21 messages d'anniversaire drôles** à copier-coller, rangés selon la personne à qui tu écris.
 
-Chaque message tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'envoyer. Il te reste à changer le prénom et, si tu en as un, à ajouter un détail que toi seul connais.
+Choisis à qui tu écris : [Pote](#quel-message-drole-envoyer-a-un-pote-pour-son-anniversaire) · [Collègue](#quel-mot-drole-ecrire-sur-la-carte-collective-du-bureau) · [Parents](#que-dire-de-drole-a-ses-parents-le-jour-de-leur-anniversaire) · [Frère ou sœur](#quel-message-drole-pour-un-anniversaire-dans-la-fratrie) · [Ami perdu de vue ou date oubliée](#que-dire-a-un-ami-perdu-de-vue-ou-quand-on-a-oublie-la-date) · [Les 4 règles](#comment-ecrire-un-message-d-anniversaire-drole-qui-ne-tombe-pas-a-plat). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
 
-Va direct à ta personne : [Pote](#quel-message-drole-envoyer-a-un-pote-le-matin-de-son-anniversaire) · [Collègue](#quel-mot-drole-ecrire-sur-la-carte-collective-du-bureau) · [Parents](#que-dire-de-drole-a-ses-parents-le-jour-de-leur-anniversaire) · [Frère ou sœur](#quel-message-drole-pour-un-anniversaire-dans-la-fratrie) · [Ami perdu de vue ou date oubliée](#que-dire-a-un-ami-perdu-de-vue-ou-quand-on-a-oublie-la-date) · [Les 4 règles](#comment-ecrire-un-message-d-anniversaire-drole-qui-ne-tombe-pas-a-plat). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
+Chaque message tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'envoyer. Il te reste à changer le prénom et, si tu en as un, à ajouter un détail que toi seul connais.
 
 ---
 
-## Quel message drôle envoyer à un pote le matin de son anniversaire ?
+## Quel message drôle envoyer à un pote pour son anniversaire ?
 
-Avec un pote, tu as le plus de liberté : il te connaît, il sait quand tu plaisantes. La seule règle, c'est que le rire reste à ta charge. Tu peux t'accuser de tout, sauf de l'avoir oublié.
+Avec un pote, tu as le plus de liberté : il te connaît, il sait quand tu plaisantes. La seule règle, c'est que le rire reste à ta charge : ta mémoire, ta flemme, tes photos ratées.
 
 **1.** Joyeux anniversaire. J'ai cherché une photo de nous deux. J'ai trouvé toi, toi, toi et mon pouce.
 *→ WhatsApp, premier message de la journée. Envoie-le seul, sans émoji ni explication derrière : la dernière phrase doit rester la dernière chose lue.*
 
 **2.** Joyeux anniversaire. Je te laisse ce vocal pour que tu aies quelque chose à ne pas écouter jusqu'au bout.
-*→ En vocal si tu sais le dire d'une voix plate. Une seule prise, sans rire à la fin.*
+*→ En vocal uniquement, d'une voix plate : par écrit, « ce vocal » ne veut plus rien dire. Une seule prise, sans rire à la fin.*
 
 **3.** Joyeux anniversaire [prénom] ! J'ai attendu que quelqu'un d'autre écrive en premier pour copier. Personne n'a écrit. J'ai dû être original.
-*→ Dans le groupe, si l'anniversaire est fêté à plusieurs. Écris-le en une seule bulle, pas en trois.*
+*→ Dans le groupe de potes, seulement si personne n'a encore écrit : la phrase doit rester vraie. Écris-le en une seule bulle, pas en trois.*
 
 **4.** J'ai relu mon discours dans le métro ce matin. Une dame a changé de wagon. Je garde la version courte : joyeux anniversaire.
 *→ En mot au gâteau, dit à voix haute au moment des bougies. Lis-le lentement et fais une pause avant la dernière phrase.*
@@ -74,7 +85,7 @@ Une carte de bureau passe de main en main : tout le monde la lit, y compris ta d
 *→ Mail ou canal d'équipe aussi, sur une seule ligne. Garde un ton neutre : la direction le lira.*
 
 **9.** Joyeux anniversaire ! Ce cadeau a fait deux fois le tour de l'étage avant d'arriver sur ton bureau. Il connaît tout le monde.
-*→ Sur la note adhésive collée au cadeau d'équipe. Laisse-le seul sur le papier, sans signature décorée.*
+*→ Sur la note adhésive collée au cadeau d'équipe. Laisse-le seul sur la note : les signatures vont sur la carte.*
 
 Si tu veux devenir celui ou celle qu'on attend à la machine à café, le [parcours Machine à Café](/parcours/machine-a-cafe) te guide semaine après semaine. Et pour le reste de la semaine au bureau : [les blagues de boulot](/vannes/theme/boulot).
 
@@ -88,7 +99,7 @@ Pour un parent, le rire doit rester tendre. C'est toi le sujet, ou une situation
 *→ Par SMS ou WhatsApp, avant midi. Si ton parent préfère le téléphone, appelle et dis-le au début de l'appel.*
 
 **11.** Ce bouquet a pris les transports avec moi. Il est arrivé en meilleur état.
-*→ Sur la carte papier jointe au bouquet ou au cadeau. Écris-le sur une ligne à part, au-dessus de ta signature.*
+*→ Sur la carte jointe au bouquet, seulement s'il y a un bouquet. Écris-le sur une ligne à part, au-dessus de ta signature.*
 
 **12.** Joyeux anniversaire. Mon discours est dans mon téléphone, qui est à trois pour cent. Nous allons vivre ça ensemble.
 *→ À table, au moment du gâteau, devant les autres. Sors ton téléphone avant de parler, puis dis-le lentement en regardant la personne fêtée.*
@@ -134,9 +145,9 @@ Dans les deux cas, une seule phrase suffit : tu reconnais le retard, tu en ris e
 *→ Sur WhatsApp, avec le prénom en début de message. Pas de « ça fait longtemps » derrière : la phrase s'en charge.*
 
 **21.** Joyeux anniversaire. Hier, j'ai pensé à toi. Mon téléphone était dans l'autre pièce. J'ai jugé la distance trop grande.
-*→ Même en retard, en vocal si vous aviez cette habitude. Garde-le court.*
+*→ Le lendemain, si tu as laissé passer la date. Par écrit, ou en vocal si vous aviez cette habitude. Garde-le court.*
 
-Écrire le premier après un silence demande un peu de courage. Le [parcours Confiance](/parcours/confiance) est fait pour ça : 20 minutes par semaine pour oser envoyer le message. Et pour rire de ton propre retard : [les blagues d'autodérision](/vannes/theme/autoderision).
+Écrire le premier après un silence demande un peu de courage. Le [parcours Confiance](/parcours/confiance) t'aide à reprendre après une pause, une conversation à la fois : 20 minutes par semaine.
 
 ---
 
@@ -152,13 +163,13 @@ Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règ
 
 **3. Ajoute un détail que toi seul connais.** Le prénom ne suffit pas : un lieu, une habitude, un objet que vous avez en commun. Si ton détail demande trois lignes d'explication, retire-le.
 
-**4. Choisis le support avant le texte.** Une phrase écrite sur une carte ne se joue pas comme un vocal. [Le timing de l'humour](/blog/timing-humour) donne la règle de la pause, utile à l'oral.
+**4. Choisis le support avant le texte.** Une phrase écrite sur une carte ne se joue pas comme un vocal : à l'écrit, c'est le point avant la dernière phrase qui fait la pause.
 
 Si tu cherches un autre format que l'anniversaire, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille.
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste du catalogue, lui, ne change pas : [toutes les vannes](/vannes) sont rangées par situation.
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
 
 Tu préfères choisir ton terrain ?
 - [Soirées](/vannes/theme/soirees)
