@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : « À lire ensuite » des articles CATALOGUE en base (notation B4 iter1) @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.
+> - **Déploiement normal**. Les articles forte frappe en base n'héritent plus des satellites du cluster `fort-volume` (« Comment faire rire une fille » sous la fête des mères) : liste dédiée par slug (`src/config/blog-related-cards.ts`), puis l'étalon ; « faire rire une fille / un homme » gardé seulement sous premier message et couple. Pas de remplissage par catégorie : moins de 3 cartes si les voisins ne sont pas encore publiés.
+> - **Visibilité** : un article non publié ou programmé n'est jamais proposé (filtre SQL + `isBlogArticleVisible`). Étalon et 30 articles statiques : maillage inchangé. À vérifier après déploiement : bas de page de B4 (fête des mères).
+
 ## s14 (05/10/2026) : forte frappe, correctifs de code des notations B1/B2/A5 iter2 et A1/A3/A4 iter3 @fullstack
 
 > Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami. Texte stocké des vannes inchangé (tout se joue au rendu).

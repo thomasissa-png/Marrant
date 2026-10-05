@@ -6,7 +6,7 @@ import { blogArticles, getArticleBySlug, type BlogArticle } from "@/lib/blog-art
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
-import { pickRelatedArticles } from "@/lib/blog-related";
+import { curatedRelatedSlugs, pickRelatedArticles } from "@/lib/blog-related";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { isBlogArticleVisible, publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { splitTrailingFaq } from "@/lib/blog-faq";
@@ -96,11 +96,12 @@ export async function loadBlogArticleNavigation(article: BlogArticleData): Promi
   try {
     const dbArticles = await prisma.blogArticle.findMany({
       where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
-      select: { slug: true, title: true, category: true, readingTime: true, publishedAt: true },
+      select: { slug: true, title: true, category: true, readingTime: true, isPublished: true, publishedAt: true },
     });
     const seen = new Set(allAvailableArticles.map((a) => a.slug));
     for (const a of dbArticles) {
-      if (seen.has(a.slug)) continue;
+      // Double verrou (en plus du where) : jamais de carte vers un article non publié ou programmé.
+      if (seen.has(a.slug) || !isBlogArticleVisible(a)) continue;
       allAvailableArticles.push({
         slug: a.slug, title: a.title, category: a.category, readingTime: a.readingTime,
         date: a.publishedAt ? a.publishedAt.toISOString().split("T")[0] : "",
@@ -108,16 +109,18 @@ export async function loadBlogArticleNavigation(article: BlogArticleData): Promi
     }
   } catch {}
 
-  // Cluster d'abord, puis même catégorie, puis récents.
+  // Cluster d'abord, puis même catégorie, puis récents. Article CATALOGUE hors
+  // cluster : sa liste dédiée seule (lib/blog-related), quitte à afficher moins de cartes.
   const cluster = resolveCluster(article.slug, article.category);
-  const clusterRelatedSlugs = getRelatedSlugs(article.slug, article.category);
+  const curatedSlugs = curatedRelatedSlugs(article.slug, article.category);
+  const clusterRelatedSlugs = curatedSlugs ?? getRelatedSlugs(article.slug, article.category);
   const clusterArticles = clusterRelatedSlugs
     .map((s) => allAvailableArticles.find((a) => a.slug === s))
     .filter(Boolean) as ArticleLink[];
-  const sameCategoryArticles = allAvailableArticles
+  const sameCategoryArticles = curatedSlugs ? [] : allAvailableArticles
     .filter((a) => a.slug !== article.slug && a.category === article.category && !clusterRelatedSlugs.includes(a.slug))
     .sort((a, b) => b.date.localeCompare(a.date));
-  const otherArticles = allAvailableArticles
+  const otherArticles = curatedSlugs ? [] : allAvailableArticles
     .filter((a) => a.slug !== article.slug && a.category !== article.category && !clusterRelatedSlugs.includes(a.slug))
     .sort((a, b) => b.date.localeCompare(a.date));
 

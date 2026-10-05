@@ -162,7 +162,7 @@ describe("Page article : « À lire ensuite » sans doublon (notation iter2, D1)
 
   it("meilleures-blagues : place libérée reprise par le suivant du cluster publié en base", async () => {
     (prisma.blogArticle.findMany as jest.Mock).mockResolvedValueOnce([
-      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", publishedAt: new Date("2026-04-01") },
+      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", isPublished: true, publishedAt: new Date("2026-04-01") },
     ]);
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const related = hrefs(container.querySelector('[data-blog-zone="related"]'));
@@ -219,7 +219,7 @@ describe("Page article : typographie FAQ et cartes, grille ajustée (notation it
 
   it("3 cartes « À lire ensuite » = 3 colonnes", async () => {
     (prisma.blogArticle.findMany as jest.Mock).mockResolvedValueOnce([
-      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", publishedAt: new Date("2026-04-01") },
+      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", isPublished: true, publishedAt: new Date("2026-04-01") },
     ]);
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     expect(container.querySelectorAll('[data-blog-zone="related"] a')).toHaveLength(3);
