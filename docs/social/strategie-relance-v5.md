@@ -169,11 +169,13 @@ Consigne : pour chaque duel, noter A, B et C de 1 à 10 en drôlerie (étalon : 
 
 ## 9. Clé des duels et candidat retenu (à retirer avant l'envoi de §7)
 
+> **Départage fait le 05/10** (`duels-resultat-cycle5.md`) : X2 C, X3 A, IG2 A, IG3 A, L2 C, L3 C. Ces gagnants priment sur les « Retenu » ci-dessous et dans §3 et §8.
+
 - **X2** : A jumeau `cs14jk5ce9195f000dfa330f` ; B sœur (texte v4) `cs14jk10c844a13d108646fd` ; C parents `cs14jk0e4fedaac1a91fddf1`. **Retenu : C** (chute non télégraphiée, 9 au cycle 4).
 - **X3** : A train `cs14jk50c85bb0d73deaebaf` ; B grand-père `cs14jk02047ed5635bab6a52` (motif « pain ») ; C voisin (texte v4) `cs14jk1a722c352c691f600e`. **Retenu : A** (264 caractères avec le bloc 2 court, plafond 270 ; le bloc 2 long de la v4 donnerait 278).
-- **IG2** : A mimes (texte v4) `cs14jk8f28ff20e1cf82f3a8` ; B vaisselle `cs14jk0d9dfe9b5c26db5f8d` ; C chat `cs14jk1e07f8547b752601b8`. **Retenu : C.**
+- **IG2** : A mimes (texte v4) `cs14jk8f28ff20e1cf82f3a8` ; B vaisselle `cs14jk0d9dfe9b5c26db5f8d` ; C chat `cs14jk1e07f8547b752601b8`. ~~Retenu : C.~~ **Gagnant du départage à l'aveugle : A (mimes)**, voir `duels-resultat-cycle5.md`.
 - **IG3** : A Léa `cs14jk04b4bc8bbf8a2d8a05` ; B Maxime (texte v4) `cs14jk44dcd2dbf3ec29324d` ; C immeuble `cs14jk812483721e0a4d4228`. **Retenu : A** (cartes 3 et 4 de A et C : texte neuf, fiche de décryptage à écrire par @copywriter).
-- **L2** : A et B = réécritures du cycle 4 ; C = texte v4. **Retenu : B.** Repli : JOKE `cs14jkc13a4d9d7194d8e5ea` entre « ».
+- **L2** : A et B = réécritures du cycle 4 ; C = texte v4. ~~Retenu : B.~~ **Gagnant du départage à l'aveugle : C**, voir `duels-resultat-cycle5.md`. Repli : JOKE `cs14jkc13a4d9d7194d8e5ea` entre « ».
 - **L3** : A = texte v4 ; B et C = réécritures du cycle 4. **Retenu : C.** Repli : JOKE `cmmnsqn130030th6381ol5rxt` entre « ».
 - **Départage** : 2 relecteurs notent A, B, C sans clé ; meilleure somme gagne, égalité = candidat retenu ; le gagnant remplace le retenu dans §3 et §8. Les textes neufs (L2, L3, cartes 3 et 4) gardent leur repli.
 
