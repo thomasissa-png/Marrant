@@ -28,7 +28,7 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts` (clé = slug), même p
 - **date de publication** : 2026-11-26 (jeudi)
 - **category** : CATALOGUE · **readingTime** : 5 min
 - **liens internes** : `/blog/meilleures-blagues-droles-2026` · `/blog/autoderision-interactions` · `/blog/timing-humour` · `/blog/comment-raconter-une-blague-sans-la-rater` · `/vannes/theme/gaming` · `/vannes/theme/autoderision` · `/vannes/theme/soirees` · `/vannes/theme/famille` · `/parcours/confiance` · `/parcours/repartie` · `/vannes` · `/quiz-humour` · `/conseils` · `/videos` · `/blague-du-jour`
-- **cannibalisation** : S4 (IA et assistants vocaux) : ni « IA » ni « assistant » dans l'article, aucun lien vers lui (absent de la base du code). Article des 50 blagues : il ne contient aucune vanne de gamer (seulement le lien vers `/vannes/theme/gaming`), aucune ligne reprise. Article couple A4 : aucune ligne de couple dans B2, pas de recoupement. Page thème `/vannes/theme/gaming` : l'article sélectionne par situation et ne remplace pas la page (3 lignes du catalogue reprises, doublon voulu, même pratique que S9 et A4).
+- **cannibalisation** : S4 (IA et assistants vocaux) : ni « IA » ni « assistant » dans l'article, aucun lien vers lui (absent de la base du code). Article des 50 blagues : il ne contient aucune vanne de gamer (seulement le lien vers `/vannes/theme/gaming`), aucune ligne reprise. Article couple A4 : aucune ligne de couple dans B2, pas de recoupement. Page thème `/vannes/theme/gaming` : l'article sélectionne par situation et ne remplace pas la page (3 lignes du catalogue reprises, doublon voulu, même pratique que S9 et A4). Arbitrage Thomas 05/10 : la page thème (`vannes-themes.ts`, textes validés [CHOIX UTILISATEUR]) n'est pas modifiée ; la différence est portée par l'article (intro « moment + façon de la sortir », H2 des sections En ligne et Nuit blanche en « que dire / que raconter », sortie vers la page thème en ancre descriptive « thème gaming du catalogue »).
 - **décisions fondateur appliquées** : zéro humoriste, zéro concurrent, zéro marque, aucun nom de jeu ni de console ; vannes catalogue mot pour mot ou lignes neuves validées à l'aveugle uniquement ; aucun chiffre ni étude inventé ; aucune vanne sur le physique ni sur le niveau d'un joueur identifiable ; parcours Confiance et Répartie = 20 minutes par semaine (formule S9 et A4) ; quiz = environ 2 minutes, sans inscription (formule de l'étalon)
 - **vannes catalogue utilisées (3)** : `cmmnsqn15006kth63res9rqp9` (F1) · `cs14jk28b5acf3a95217071c` (F2) · `cs14jkb81aae613b293f204b` (F3)
 - **objections traitées** : « ça va vexer un coéquipier » (encadré Le test, section règles, FAQ 1) ; « mon entourage ne joue pas, il ne comprendra pas » (section 4, FAQ 2) ; « ça va tomber à plat en vocal » (italique d'usage de chaque ligne, FAQ 3 et 4) ; « les blagues de gamer, je les connais déjà » (lignes inédites, règle 5)
@@ -40,20 +40,20 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts` (clé = slug), même p
 
 > **En bref :** 24 blagues de gamer classées par moment (la partie en ligne, le vocal, la défaite, l'entourage, la nuit blanche), chacune avec la façon de la dire ou de l'envoyer. Elles partent d'un détail vécu et le rire tombe sur toi ou sur la situation, jamais sur le niveau d'un coéquipier.
 
-Va direct à ton moment : [En ligne](#quelles-blagues-de-gamer-pour-une-partie-en-ligne-le-telechargement-le-pseudo-la-connexion-les-mods) · [Vocal](#quelles-blagues-de-jeux-video-en-vocal-avec-ta-team-le-micro-les-ordres-les-departs) · [Défaite](#comment-rire-de-sa-defaite-avec-ses-potes-l-excuse-le-materiel-la-serie-noire-le-debrief) · [Entourage](#quelles-blagues-de-gamer-quand-l-entourage-ne-comprend-pas-parents-voisins-coloc-grand-mere) · [Nuit blanche](#quelles-blagues-de-gamer-pour-la-nuit-blanche-la-regle-de-minuit-le-lever-du-jour) · [Règles du jeu](#comment-faire-une-blague-de-gamer-sans-vexer-ta-team). Pour les autres situations (soirée, bureau, famille, date), les [50 blagues drôles à ressortir](/blog/meilleures-blagues-droles-2026) font le tour. Ici, on parle de ceux qui jouent, et de ceux qui les regardent jouer. La [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par thème.
+Va direct à ton moment : [En ligne](#que-dire-quand-la-partie-en-ligne-n-a-pas-commence-le-telechargement-le-pseudo-la-connexion-les-mods) · [Vocal](#quelles-blagues-de-jeux-video-en-vocal-avec-ta-team-le-micro-les-ordres-les-departs) · [Défaite](#comment-rire-de-sa-defaite-avec-ses-potes-l-excuse-le-materiel-la-serie-noire-le-debrief) · [Entourage](#quelles-blagues-de-gamer-quand-l-entourage-ne-comprend-pas-parents-voisins-coloc-grand-mere) · [Nuit blanche](#que-raconter-apres-une-nuit-blanche-de-gamer-la-regle-de-minuit-le-lever-du-jour) · [Règles du jeu](#comment-faire-une-blague-de-gamer-sans-vexer-ta-team). Pour les autres situations (soirée, bureau, famille, date), les [50 blagues drôles à ressortir](/blog/meilleures-blagues-droles-2026) font le tour. Ici, on parle de ceux qui jouent, et de ceux qui les regardent jouer. La [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par thème.
 
-Le gamer n'a pas besoin de blagues pour la partie : elle fournit déjà de quoi rire. Il en a besoin pour ce qui l'entoure : le vocal où la mère de quelqu'un dit bonsoir, la défaite qu'il rejoue en réunion, la voisine qui entend un seul côté de la conversation. Les meilleures blagues de jeux vidéo ne parlent pas du jeu. Elles parlent de ce qu'on fait pendant, et de ce que les autres en pensent.
+Le gamer n'a pas besoin de blagues pour la partie : elle fournit déjà de quoi rire. Il en a besoin pour ce qui l'entoure : le vocal où la mère de quelqu'un dit bonsoir, la défaite qu'il rejoue en réunion, la voisine qui entend un seul côté de la conversation. Les meilleures blagues de jeux vidéo ne parlent pas du jeu. Elles parlent de ce qu'on fait pendant, et de ce que les autres en pensent. Ici, chaque vanne vient avec son moment et sa façon de la sortir à ta team.
 
-> **Le test :** Une blague de gamer passe si ta team pourrait la dire à ta place et si quelqu'un qui ne joue jamais en comprend la chute. Elle tombe sur toi ou sur la situation, jamais sur le niveau d'un coéquipier.
+> **Le test :** Une blague de gamer passe si ta team pourrait la dire à ta place et si quelqu'un qui ne joue jamais en comprend la chute.
 
 ---
 
-## Quelles blagues de gamer pour une partie en ligne ? (le téléchargement, le pseudo, la connexion, les mods)
+## Que dire quand la partie en ligne n'a pas commencé ? (le téléchargement, le pseudo, la connexion, les mods)
 
 Une partie en ligne commence rarement par une partie. Il y a le téléchargement qui n'avance pas, le pseudo dont on ne se débarrasse plus, la box qui clignote, le jeu qu'on ne lance plus. Ce sont ces moments creux qui font rire, parce que tous les joueurs les ont vécus et qu'aucun ne les raconte.
 
 **1.** « J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul. Je l'ai pas désinstallé. On a fait le téléchargement ensemble. »
-*→ À dire en regardant la barre de téléchargement, avec la tendresse de quelqu'un qui garde un souvenir. Ne commente pas la dernière phrase.*
+*→ À dire en regardant la barre de téléchargement, avec la tendresse de quelqu'un qui garde un souvenir. Appuie à peine sur « ensemble ».*
 
 **2.** « Mon pseudo était pris. Le deuxième aussi. Le troisième aussi. Je suis maintenant mon prénom et huit chiffres. Les gens me prennent pour un dossier. »
 *→ À dire en tapant un pseudo dans un formulaire, ou à envoyer à la team le jour d'une inscription. Ton résigné, sans sourire.*
@@ -65,12 +65,12 @@ Une partie en ligne commence rarement par une partie. Il y a le téléchargement
 *→ À dire sur un ton de fierté technique, juste après avoir regardé l'écran d'erreur. La chute doit arriver sans que tu bouges.*
 
 **5.** « Je change de pseudo quand je perds trop. Je suis maintenant quarante-deux personnes, toutes mauvaises. »
-*→ À dire à la team après une série de défaites, sans sourire. Laisse le chiffre faire le travail.*
+*→ À dire à la team en créant ton nouveau pseudo. Laisse le chiffre faire le travail.*
 
 **6.** « J'ai pris le nom de mon premier chat comme pseudo. Dix ans qu'on l'insulte à ma place. Il n'a rien fait. »
-*→ À raconter quand on te demande d'où vient ton pseudo, avec la gravité d'un avocat. La dernière phrase se dit seule.*
+*→ À raconter quand on te demande d'où vient ton pseudo, avec la gravité d'un avocat. Garde « Il n'a rien fait » pour après un silence.*
 
-Pour d'autres lignes de gamer, avec leur chute et leur décryptage : [les blagues de gamer](/vannes/theme/gaming).
+Les vannes n°1 et n°4 viennent du [thème gaming du catalogue](/vannes/theme/gaming), où chacune a sa propre fiche.
 
 ---
 
@@ -85,7 +85,7 @@ Le vocal est un salon où cinq personnes partagent la même partie et rien d'aut
 *→ À sortir juste après la partie, sur le ton d'un compte rendu, quand l'équipe vient de se mettre d'accord pour la troisième fois.*
 
 **9.** « Dans l'équipe, j'ai le rôle de celui qui protège les autres. On m'a dit « merci » une fois. C'était pour quelqu'un d'autre. »
-*→ À dire en vocal sur un ton de constat, sans viser un équipier précis. Le rire tombe sur toi.*
+*→ À dire en vocal quand la team se remercie après une manche, sur un ton de constat. « C'était pour quelqu'un d'autre » se dit plus bas.*
 
 **10.** « Mon coéquipier me dit « pas grave » chaque fois que je meurs. Il le dit de plus en plus doucement. »
 *→ À dire après une série de défaites, avec reconnaissance. Le rire tombe sur toi qui meurs, pas sur lui qui s'use.*
@@ -99,7 +99,7 @@ Quand ta team te renvoie une vanne et qu'il faut répondre sur le même ton, c'e
 
 ## Comment rire de sa défaite avec ses potes ? (l'excuse, le matériel, la série noire, le débrief)
 
-La défaite est le moment où un gamer devient le plus drôle, à condition de rire le premier. Avant que les autres s'en chargent, tu peux t'en charger toi. Les lignes ci-dessous rient de ton excuse, de ton matériel et de ta série noire, pas du score de quelqu'un d'autre.
+La défaite est le moment où un gamer devient le plus drôle, à condition de rire le premier, avant que les autres s'en chargent. Les lignes ci-dessous rient de ton excuse, de ton matériel et de ta série noire, pas du score de quelqu'un d'autre.
 
 **12.** « J'ai dit « le soleil m'éblouissait » en perdant. Il était 23 h 40. Personne n'a relevé, par pudeur. »
 *→ À dire juste après la défaite, sur un ton de plaidoirie, ou à envoyer à la team le lendemain.*
@@ -108,7 +108,7 @@ La défaite est le moment où un gamer devient le plus drôle, à condition de r
 *→ À dire en tapotant l'accoudoir, ou à envoyer avec le mot « investissement ».*
 
 **14.** « Mon classement baisse tous les jours, très régulièrement. C'est la courbe la plus stable de ma vie. »
-*→ À dire après une série de défaites, sans attendre que quelqu'un d'autre le dise. Ton de bilan trimestriel.*
+*→ À dire en regardant ton classement, avant que quelqu'un d'autre le remarque. Ton de bilan trimestriel.*
 
 **15.** « Le lendemain d'une défaite, je la rejoue dans ma tête pendant la réunion. J'ai gagné quatre fois. On m'a demandé si j'étais d'accord. »
 *→ À raconter le lendemain d'une défaite, dans le vocal ou à la machine à café.*
@@ -122,10 +122,10 @@ Rire de toi d'abord, c'est la valeur sûre dans toutes les situations : [les van
 Un gamer vit rarement seul avec son écran : il y a le parent qui passe derrière lui, le voisin qui entend à travers le mur, la coloc qui reconnaît sa victoire au bruit de la chaise. Ces vannes se comprennent sans jamais avoir tenu une manette, et elles se disent à ceux qui ne jouent pas. Le rire tombe sur toi, sur ta façon d'expliquer ce que tu fais, jamais sur eux.
 
 **16.** « Mon père a regardé ma partie dix minutes en silence. Il m'a demandé « et c'est toi, le gentil ? ». J'ai dit oui. Je n'en étais plus sûr. »
-*→ À raconter après un repas de famille, sur un ton hésitant. Laisse la dernière phrase seule, sans sourire.*
+*→ À raconter après un repas de famille, sur un ton hésitant. Marque un temps avant « Je n'en étais plus sûr ».*
 
 **17.** « Mon père a tenu la manette trente secondes. Il me l'a rendue comme on rend un oiseau. »
-*→ À dire en tendant une manette à quelqu'un qui ne joue jamais, ou à raconter après. Une phrase, un silence.*
+*→ À dire en tendant une manette à quelqu'un qui ne joue jamais, ou à raconter après, les mains en coupe.*
 
 **18.** « Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit « c'est un bon début ». »
 *→ À raconter en famille, avec une fierté mal placée. Laisse la dernière phrase seule, sans sourire.*
@@ -134,24 +134,24 @@ Un gamer vit rarement seul avec son écran : il y a le parent qui passe derrièr
 *→ À raconter à la team ou à la famille, sur le ton de quelqu'un qui accepte sa place.*
 
 **20.** « Mon voisin a tapé au plafond à minuit. J'ai baissé le son du jeu. Il a retapé. C'était donc moi. »
-*→ À raconter le lendemain, avec le ton de quelqu'un qui vient de comprendre. Dis « c'était donc moi » à plat.*
+*→ À raconter le lendemain, comme une enquête enfin résolue. Dis « c'était donc moi » à plat.*
 
 **21.** « Je parle à voix haute quand je joue. Ma voisine n'entend que moi. Elle m'a laissé un gâteau devant la porte. Je ne sais pas ce qu'elle a compris. »
 *→ À dire à un voisin ou à une coloc le lendemain, pour rire de la scène sans t'excuser.*
 
 **22.** « Ma coloc sait si j'ai gagné au bruit de ma chaise. Pour les défaites, elle prépare du thé. »
-*→ À dire à ta coloc, ou à raconter à la team, avec de la reconnaissance. Le thé est la chute : ne la souligne pas.*
+*→ À dire à ta coloc, ou à raconter à la team, sur un ton complice. Le thé est la chute : ne la souligne pas.*
 
 Pour la famille au sens large, celle qui regarde par-dessus ton épaule : [les blagues de famille](/vannes/theme/famille).
 
 ---
 
-## Quelles blagues de gamer pour la nuit blanche ? (la règle de minuit, le lever du jour)
+## Que raconter après une nuit blanche de gamer ? (la règle de minuit, le lever du jour)
 
 La nuit blanche est la part du gamer qu'il avoue le moins et dont il rit le mieux : la règle qu'on se fixe en début de soirée et l'heure où on remarque que le jour s'est levé. Ces vannes se racontent le matin, de préférence avec un café, et jamais en se vantant.
 
 **23.** « Chaque soir, je me dis « minuit, pas plus tard ». À 21 h, je suis sincère. »
-*→ À envoyer à la team en début de soirée, ou à dire au moment de te dire « j'arrête », sur le ton d'une résolution sincère.*
+*→ À envoyer à la team en début de soirée, avant la première partie. Elle se relit toute seule vers minuit.*
 
 **24.** « Vers 6 h, les oiseaux se sont mis à chanter. J'ai pris ça pour la musique de fin. »
 *→ À raconter le matin, au retour de la nuit, ou à envoyer à la team qui a tenu aussi.*
@@ -184,7 +184,7 @@ Tu préfères choisir ton thème ?
 - [Soirées](/vannes/theme/soirees)
 - [Famille](/vannes/theme/famille)
 
-Pas sûr du type d'humour de ta team ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
+Pas sûr de ton style d'humour ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription. Envoie-le à ta team, puis comparez.
 
 → **[Nos conseils d'humour](/conseils)** : les techniques de timing et de répartie.
 
@@ -194,7 +194,7 @@ Pas sûr du type d'humour de ta team ? [Le quiz « quel type d'humour es-tu ? »
 
 ### Quelles blagues de gamer peut-on faire sans vexer un coéquipier ?
 
-Celles qui tombent sur toi ou sur une situation que toute la team connaît (le téléchargement, le micro ouvert, la défaite), avec toi dans le rôle du joueur qui rate. Évite le niveau de jeu, le pseudo, la voix ou la disponibilité d'un équipier précis. Un test simple : est-ce qu'il pourrait la dire à ta place ? Si oui, tu peux la sortir.
+Celles qui tombent sur toi ou sur une situation que toute la team connaît (le téléchargement, le micro ouvert, la défaite), avec toi dans le rôle du joueur qui rate. Évite le niveau de jeu, le pseudo ou la voix d'un équipier précis. Un test simple : est-ce qu'il pourrait la dire à ta place ? Si oui, tu peux la sortir.
 
 ### Comment faire une blague de gamer à quelqu'un qui ne joue pas ?
 

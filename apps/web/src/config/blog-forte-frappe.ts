@@ -50,4 +50,6 @@ export const FORTE_FRAPPE_PARCOURS: Readonly<Partial<Record<string, ParcoursSlug
   "message-anniversaire-drole-par-situation": "repartie",
   // Refuser une invitation : savoir dire non avec une phrase qui fait sourire (notation B1 iter1).
   "refuser-une-invitation-avec-humour": "repartie",
+  // Poisson d'avril : le CTA vend « la riposte » (notation A5 iter1).
+  "blagues-poisson-d-avril-adultes": "repartie",
 };
