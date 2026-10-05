@@ -90,7 +90,8 @@ export const ARTICLES_MARC = new Set(["premier-message-drole-appli-de-rencontre"
 export const FORMULES = {
   pied: "deviens-marrant.fr",
   renvoiPratique4: "Les 4 autres exemples, et comment trouver le tien :",
-  quizCourt: "Et toi, tu es lequel des 5 profils ? Environ 2 minutes, sans inscription :",
+  // Pont validé du X quiz du 07/10 (cycle 6, `lot-semaine0.json`), repris par le générateur (cycle 7, S3).
+  quizCourt: "Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 minutes, sans inscription :",
   carte3: "Pourquoi ça fait rire :",
   carte4: "À toi de jouer :",
   renvoiQuizBio: "Le quiz est dans le lien de la bio.",

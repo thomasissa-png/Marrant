@@ -113,7 +113,7 @@ describe("replis en réserve et marqueurs (plan v2 §6, R3)", () => {
     const f = fichierLot(lot1b.posts, "test", META, lot1b.replis);
     expect(f).toMatchObject({ lot: "tranche-1b", approvedBy: "lot-tranche-1b", debut: "2026-10-19", total: 46 });
     const r = relais[0];
-    expect(f.posts.find((p) => p.id === r.id)!.directorNote).toMatch(new RegExp(`^\\[article:${r.article}\\] \\[repli:${r.repli}\\] Lot tranche-1b \\(`));
+    expect(f.posts.find((p) => p.id === r.id)!.directorNote).toMatch(new RegExp(`^\\[article:${r.article}\\] \\[repli:${r.repli}\\] (?:\\[heure:[AB]\\] )?Lot tranche-1b \\(`));
     expect(f.replis!.every((x) => x.status === "REJECTED" && x.directorNote.startsWith("[repli-de:"))).toBe(true);
     const dates = lot1b.posts.filter((p) => p.type === "PIVOT" || SAISONS.some((x) => x.re.test(`${p.content} ${p.cartes.join(" ")}`)));
     const marques = f.posts.filter((p) => /\[date:\d{4}-\d{2}-\d{2}\]/.test(p.directorNote));

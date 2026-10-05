@@ -59,7 +59,7 @@ import { blogArticles } from "../../src/lib/blog-articles";
 import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLot, type ArticleLot } from "./social-lot-v5";
-import { fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
+import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
 import { annulerLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
 export const APPROVED_BY = "preparation-mensuelle";
@@ -240,6 +240,7 @@ async function mainLot(argv: string[]): Promise<number> {
   console.log(`Lot ${a.lot} (${a.debut} au ${a.fin}) : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}), ${res.replis.length} repli(s) en réserve.`);
   const v = res.variantes;
   console.log(`Test LinkedIn texte / image : ${v.eligibles} éligible(s), image ${v.image}, texte ${v.texte}, ${v.paires} paire(s) dont ${v.pairesMemeNote} de même note.`);
+  console.log(`Test d'heure A / B : ${brasHeureParReseau(res.posts)}.`);
   for (const e of errors) console.error(`ERREUR : ${e}`);
   const mdPath = arg(argv, "--out") ?? path.join(DOCS_DIR, `lot-${a.lot}.md`);
   fs.mkdirSync(path.dirname(mdPath), { recursive: true });

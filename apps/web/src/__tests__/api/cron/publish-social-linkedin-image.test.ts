@@ -51,8 +51,10 @@ jest.mock("@/lib/social/buffer-client", () => {
     BufferContentTooLongError,
   };
 });
-jest.mock("@/lib/job-lock", () => ({ ...jest.requireActual("@/lib/job-lock"), tryAcquireLock: async () => true, isLockHeld: async () => false }));
-jest.mock("@/lib/email", () => ({ sendAdminAlert: jest.fn(async () => true) }));
+const mockLockHeld = jest.fn(async (..._a: unknown[]) => false);
+jest.mock("@/lib/job-lock", () => ({ ...jest.requireActual("@/lib/job-lock"), tryAcquireLock: async () => true, isLockHeld: (...a: unknown[]) => mockLockHeld(...a) }));
+const mockAlert = jest.fn(async (..._a: unknown[]) => true);
+jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockAlert(...a) }));
 jest.mock("@/lib/blog-article-page", () => ({ findBlogArticle: jest.fn(async () => ({})) }));
 
 import { GET } from "@/app/api/cron/publish-social/route";
@@ -86,6 +88,8 @@ beforeEach(() => {
   mockCreatePost.mockResolvedValue("buf-texte");
   mockCreateImagePost.mockResolvedValue("buf-image");
   mockRenderSlides.mockResolvedValue([PNG]);
+  mockLockHeld.mockResolvedValue(false);
+  mockAlert.mockResolvedValue(true);
   for (const k of ["error", "warn", "log"] as const) jest.spyOn(console, k).mockImplementation(() => undefined);
 });
 
@@ -148,5 +152,66 @@ describe("publish-social : LinkedIn [variante:image]", () => {
     expect(mockRenderSlides).not.toHaveBeenCalled();
     expect(mockCreatePost).toHaveBeenCalledTimes(2);
     expect(noteFinale()).toBeUndefined();
+  });
+});
+
+describe("publish-social : repli image visible et marqueurs conservés (cycle 7, QA L1 à L3)", () => {
+  const alertesRepli = () => mockAlert.mock.calls.filter((c) => String(c[0]).includes("texte seul"));
+
+  it("repli image → texte : 1 e-mail d'alerte, clé du jour social-repli-image-linkedin", async () => {
+    mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
+    await publier(liPost("[variante:image] Lot relance-s15"));
+    expect(alertesRepli()).toHaveLength(1);
+    expect(String(alertesRepli()[0][1])).toContain("wasm absent");
+    expect(mockLockHeld.mock.calls.map((c) => String(c[0]))).toContainEqual(expect.stringContaining("social-repli-image-linkedin"));
+    expect(statutFinal()).toBe("PUBLISHED");
+  });
+
+  it("2e repli le même jour : verrou posé, pas de 2e e-mail, post toujours PUBLISHED", async () => {
+    mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
+    mockLockHeld.mockResolvedValue(true);
+    await publier(liPost("[variante:image]"));
+    expect(alertesRepli()).toHaveLength(0);
+    expect(statutFinal()).toBe("PUBLISHED");
+  });
+
+  it("e-mail en échec : sans effet sur l'envoi", async () => {
+    mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
+    mockAlert.mockRejectedValue(new Error("Resend en panne"));
+    await publier(liPost("[variante:image]"));
+    expect(mockCreatePost).toHaveBeenCalledTimes(1);
+    expect(statutFinal()).toBe("PUBLISHED");
+  });
+
+  it("carte envoyée : aucune alerte de repli", async () => {
+    await publier(liPost("[variante:image]"));
+    expect(alertesRepli()).toHaveLength(0);
+  });
+
+  it("échec définitif (400) du bras image : FAILED, [variante:image] et [heure:] conservés dans la note", async () => {
+    mockCreateImagePost.mockRejectedValue(new Error("Buffer API error 400: invalid asset"));
+    await publier(liPost("[variante:image] [heure:A] Lot relance-s15 (VANNE, TIRAGE)"));
+    expect(statutFinal()).toBe("FAILED");
+    const note = mockUpdate.mock.calls.map((c) => c[0].data).find((d) => d.status === "FAILED").directorNote as string;
+    expect(note).toContain("[variante:image]");
+    expect(note).toContain("[heure:A]");
+    expect(note).toContain("Échec publication Buffer : Buffer API error 400: invalid asset");
+  });
+
+  it("échec définitif après un repli texte : le bras compté reste [variante:texte]", async () => {
+    mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
+    mockCreatePost.mockRejectedValue(new Error("Buffer API error 400: invalid"));
+    await publier(liPost("[variante:image] Lot relance-s15"));
+    const note = mockUpdate.mock.calls.map((c) => c[0].data).find((d) => d.status === "FAILED").directorNote as string;
+    expect(note).toContain("[variante:texte]");
+    expect(note).not.toContain("[variante:image]");
+  });
+
+  it("3e échec temporaire (retry épuisé) : FAILED, marqueur conservé", async () => {
+    mockCreatePost.mockRejectedValue(new Error("fetch failed: ECONNRESET"));
+    await publier(liPost("[variante:texte] Lot relance-s15 [retry:2]"));
+    const d = mockUpdate.mock.calls.map((c) => c[0].data).find((x) => x.status === "FAILED");
+    expect(d.directorNote).toContain("[variante:texte]");
+    expect(d.directorNote).toMatch(/\[retry:3\]$/);
   });
 });

@@ -311,9 +311,9 @@ export async function GET(req: Request) {
             where: { id: post.id },
             data: {
               status: "FAILED",
-              directorNote: buildPublishErrorNote(
+              directorNote: conserverMarqueurs(post.directorNote, buildPublishErrorNote(
                 `fil X interdit : ${longueurX(post.content)} caractères comptés par X (max ${X_MAX_CARACTERES}), raccourcir le post`,
-              ),
+              )),
             },
           });
           results.push({ id: post.id, platform: post.platform, status: "failed", error: "Fil X interdit (post trop long)" });
@@ -342,7 +342,23 @@ export async function GET(req: Request) {
           } else {
             if (envoi) {
               console.warn(`[PublishSocial] Carte LinkedIn ${post.id} : ${envoi.raison}, envoi en texte seul`);
-              await prisma.socialPost.update({ where: { id: post.id }, data: { directorNote: noteRepliTexte(post.directorNote, envoi.raison) } });
+              const noteRepli = noteRepliTexte(post.directorNote, envoi.raison);
+              await prisma.socialPost.update({ where: { id: post.id }, data: { directorNote: noteRepli } });
+              post = { ...post, directorNote: noteRepli };
+              // s15 cycle 7 (QA L1, L2) : un repli silencieux fausse le test texte / image.
+              // 1 alerte par jour (clé social-repli-image-linkedin) ; e-mail en échec sans effet sur l'envoi.
+              try {
+                await sendDailyPublishFailureAlert(
+                  "LinkedIn : carte non envoyée, post parti en texte seul (test image faussé)",
+                  `<p>Le post LinkedIn <code>${post.id}</code>, prévu avec une carte (bras image du test texte / image), part en <strong>texte seul</strong>.</p>
+                  <p>Cause : ${envoi.raison.slice(0, 300)}</p>
+                  <p>Le post est compté dans le bras texte (marqueur <code>[variante:texte]</code>). Si la cause est le rendu, tous les posts image suivants partiront aussi en texte : vérifier <code>/api/social/image?postId=${post.id}&amp;slide=0</code>.</p>`,
+                  now,
+                  "social-repli-image-linkedin",
+                );
+              } catch (alertErr) {
+                console.error(`[PublishSocial] Alerte de repli image ${post.id} non envoyée :`, alertErr);
+              }
             }
             externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined, false, { firstComment });
           }
@@ -452,7 +468,8 @@ export async function GET(req: Request) {
           // s14 (C1) : le message exact est enregistré sur le post.
           await prisma.socialPost.update({
             where: { id: post.id },
-            data: { status: "FAILED", directorNote: buildPublishErrorNote(errMsg) },
+            // s15 cycle 7 (QA L3) : les marqueurs ([variante:…], [article:…]…) survivent à l'échec.
+            data: { status: "FAILED", directorNote: conserverMarqueurs(post.directorNote, buildPublishErrorNote(errMsg)) },
           });
           // s15 cycle 3 : autorisation perdue → réseau en pause (les posts
           // suivants restent APPROVED au lieu d'échouer un par un) + alerte.
@@ -472,7 +489,7 @@ export async function GET(req: Request) {
           if (newRetryCount >= 3) {
             await prisma.socialPost.update({
               where: { id: post.id },
-              data: { status: "FAILED", directorNote: buildPublishErrorNote(errMsg, newRetryCount) },
+              data: { status: "FAILED", directorNote: conserverMarqueurs(post.directorNote, buildPublishErrorNote(errMsg, newRetryCount)) },
             });
           } else {
             // s14 (C1) : dernier message d'erreur + compteur de relances (suffixe lu ci-dessus).

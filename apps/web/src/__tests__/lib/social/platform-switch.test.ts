@@ -133,6 +133,21 @@ describe("interrupteur", () => {
     expect(plan[0].scheduledAt.toISOString()).toBe("2026-10-13T06:15:00.000Z");
   });
 
+  it("replanifierRetards : un post du bras B ([heure:B]) garde l'heure B, le bras A garde l'heure A (F1, cycle 7)", () => {
+    const now = new Date("2026-10-14T05:00:00Z"); // mer. 07:00 Paris
+    const plan = replanifierRetards(
+      [
+        { id: "b", scheduledAt: new Date("2026-10-13T07:00:00Z"), directorNote: "[heure:B] Lot relance-s15 (VANNE, TIRAGE)" },
+        { id: "a", scheduledAt: new Date("2026-10-13T10:30:00Z"), directorNote: "[heure:A] Lot relance-s15 (VANNE, TIRAGE)" },
+      ],
+      new Set(),
+      now,
+      "TWITTER",
+    );
+    // B : mer. 14/10 09:00 Paris (07:00 UTC) ; A : jeu. 15/10 12:30 Paris (10:30 UTC), 1 rattrapage par jour.
+    expect(plan.map((p) => [p.id, p.scheduledAt.toISOString()])).toEqual([["b", "2026-10-14T07:00:00.000Z"], ["a", "2026-10-15T10:30:00.000Z"]]);
+  });
+
   it("replanifierRetards : aucun retard, aucun changement", () => {
     expect(replanifierRetards([], new Set(), NOW, "TWITTER")).toEqual([]);
   });

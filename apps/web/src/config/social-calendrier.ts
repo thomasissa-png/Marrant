@@ -15,6 +15,29 @@ export const HEURE_PARIS: Record<ReseauSocial, { h: number; m: number }> = {
   LINKEDIN: { h: 8, m: 15 },
 };
 
+/**
+ * Test d'heure A / B (`docs/social/mesure.md` §7 c, `horaires-sources-s15.md` §6) : heure B
+ * (challenger) de chaque réseau. A = HEURE_PARIS. LinkedIn 17:15 est défini mais inactif tant
+ * que le test texte / image tourne (un facteur à la fois : TEST_HEURE.LINKEDIN = null).
+ */
+export const HEURE_B_PARIS: Record<ReseauSocial, { h: number; m: number }> = {
+  TWITTER: { h: 9, m: 0 },
+  INSTAGRAM: { h: 12, m: 30 },
+  LINKEDIN: { h: 17, m: 15 },
+};
+/**
+ * Fenêtre du test d'heure par réseau, dates de Paris [de, a[ : de J0 (12/10) à J+28 (09/11,
+ * exclu ; X : test image ensuite). Instagram : même fenêtre `[À CONFIRMER @social : fenêtre]`
+ * (mesure §7 c). LinkedIn : null jusqu'au verdict du test texte / image (heure A seule).
+ */
+export const TEST_HEURE: Record<ReseauSocial, { de: string; a: string } | null> = {
+  TWITTER: { de: "2026-10-12", a: "2026-11-09" },
+  INSTAGRAM: { de: "2026-10-12", a: "2026-11-09" },
+  LINKEDIN: null,
+};
+/** Jours du test d'heure (mar. à jeu., mesure §7 c) ; lundi et vendredi restent à l'heure A, hors test. */
+export const JOURS_TEST_HEURE = [2, 3, 4];
+
 /** Jours de la grille v5 (1 = lundi … 5 = vendredi) : X 5, Instagram 5, LinkedIn 2. */
 export const JOURS_GRILLE: Record<ReseauSocial, number[]> = {
   TWITTER: [1, 2, 3, 4, 5],

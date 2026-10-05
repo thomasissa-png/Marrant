@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026, nuit) : correctifs cycle 7 (QA 1 et 5, @social F1 et S3) @fullstack : **À DÉPLOYER** (butoir : avant le 1er post `[heure:B]`, mer. 14/10 07:00 UTC ; l'alerte de repli avant le 13/10 06:00 UTC)
+
+> Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration (marqueurs dans `directorNote`), aucun package, aucune variable d'env, aucun event Umami. Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK, Jest 3 155 PASS / 2 skipped (212 suites).
+> - **publish-social** : repli LinkedIn image → texte = e-mail d'alerte, 1 par jour (clé `social-repli-image-linkedin`, mécanisme `sendDailyPublishFailureAlert`, e-mail en échec sans effet sur l'envoi). Échec définitif (400/401/403, retry épuisé, X trop long) : les marqueurs `[variante:…]`, `[heure:…]`, `[article:…]`, `[repli:…]`, `[date:…]` sont conservés en tête de la note (compteur par bras juste).
+> - **Test d'heure alterné par jour** (`mesure.md` §7 c) : `HEURE_B_PARIS` X 09:00, Instagram 12:30, LinkedIn 17:15 inactif ; `TEST_HEURE` X et Instagram du 12/10 au 09/11 exclu, LinkedIn `null` (heure A tant que le test image tourne) ; mar. à jeu. seulement : mar. A, mer. B, jeu. A, puis l'inverse (`src/lib/social/heure-test.ts`). Le script de lot pose `[heure:A|B]` ; la reprise (`replanifierRetards`) garde l'heure B d'un post `[heure:B]`.
+> - **Pont du quiz** : `FORMULES.quizCourt` = « Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 minutes, sans inscription : ».
+> - **Test d'intégration** : `publish-social-buffer-reel.test.ts`, route + vrai `buffer-client` + vrai rendu de carte (seuls `fetch`, Prisma et e-mail simulés), textes exacts de `lot-semaine0.json`.
+> - **Dry-run `relance-s15 --pool strict`** (rien inséré, fichiers du dépôt non modifiés) : lot complet 12/10 au 03/01 = 122 erreurs bloquantes, toutes de stock (« aucune vanne ne passe », dès le 03/11 ; identique avec l'ancien pont). Fenêtre `--fin 2026-11-02` : 0 erreur, 38 posts (X 16, Instagram 16, LinkedIn 6), 0 vanne de `semaine0`, LinkedIn image 2 / texte 2, heure X A 5 / B 4, Instagram A 5 / B 4.
+> - **Après déploiement** : rien à vérifier en prod tant qu'aucun post `[heure:B]` ou `[variante:image]` n'est en base ; au 1er `[variante:image]`, suivre le point 4 de la notation QA cycle 7.
+
 ## s15 (05/10/2026, ~22:45 Paris) : DÉPLOYÉ par la session, Worker `c5c0529b-db00-4cd7-bfca-218bf1273c01` (N-1 `16638a00-0521-444a-9a85-642c1f498104`, avant : `c32b0f0b-ea8b-479d-a972-eaef036a1739`)
 
 - Contenu : `81641f8` (LinkedIn carte unique 4:5 en test alterné dès le 13/10, contrôle « pain » sur la base) + `4c108db` (`/liens` 3 routes, `origine`/`contenu`, navigateur intégré, e-mail avant Google) + correctif de la session : `/liens/[reseau]` répondait 404 en prod avec `dynamicParams = false` (OpenNext) ; passé à `true`, 404 conservé par `notFound()` (test adapté).

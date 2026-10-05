@@ -124,9 +124,11 @@ describe("lot de relance v5 (buildLotV5)", () => {
     expect(lot.posts.some((p) => p.date === "2026-11-11" || p.date === "2026-11-27")).toBe(false);
   });
 
-  it("heures de Paris fixes des deux côtés du 25/10 : X 12:30, Instagram 19:30, LinkedIn 08:15", () => {
-    expect(new Set(parPf("TWITTER").map(paris))).toEqual(new Set(["12:30"]));
-    expect(new Set(parPf("INSTAGRAM").map(paris))).toEqual(new Set(["19:30"]));
+  it("heures de Paris fixes des deux côtés du 25/10 : X 12:30, Instagram 19:30, LinkedIn 08:15 (B du test d'heure : X 09:00, Instagram 12:30)", () => {
+    expect(new Set(parPf("TWITTER").filter((p) => p.bras !== "B").map(paris))).toEqual(new Set(["12:30"]));
+    expect(new Set(parPf("INSTAGRAM").filter((p) => p.bras !== "B").map(paris))).toEqual(new Set(["19:30"]));
+    expect(new Set(parPf("TWITTER").filter((p) => p.bras === "B").map(paris))).toEqual(new Set(["09:00"]));
+    expect(new Set(parPf("INSTAGRAM").filter((p) => p.bras === "B").map(paris))).toEqual(new Set(["12:30"]));
     expect(new Set(parPf("LINKEDIN").map(paris))).toEqual(new Set(["08:15"]));
   });
 

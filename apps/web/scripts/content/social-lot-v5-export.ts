@@ -3,6 +3,7 @@
  * relecture (markdown). Logique pure, sans base.
  */
 import type { PreparedPlatform } from "./social-controls";
+import { HEURE_B_PARIS, HEURE_PARIS, TEST_HEURE } from "../../src/config/social-calendrier";
 import { approvedByDuLot, LI_TEST_IMAGE_DES, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
 import type { LotPost, Origine } from "./social-lot-v5";
 
@@ -42,9 +43,11 @@ const LABEL: Record<PreparedPlatform, string> = { TWITTER: "X", INSTAGRAM: "Inst
 const JOURS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
 
 function marqueurs(p: LotPost): string {
-  if (p.repliDe) return `[repli-de:${p.repliDe}] `;
+  // Repli : `[repli-de:<id>]` reste en tête (repliValide) ; il part au créneau du relais, même bras d'heure.
+  if (p.repliDe) return `[repli-de:${p.repliDe}] ${p.bras ? `[heure:${p.bras}] ` : ""}`;
   // `[variante:image|texte]` : test LinkedIn alterné (mesure §7), lu par publish-social (carte-linkedin.ts).
-  return [p.article && `[article:${p.article}]`, p.repli && `[repli:${p.repli}]`, p.datee && `[date:${p.date}]`, p.variante && `[variante:${p.variante}]`]
+  return [p.article && `[article:${p.article}]`, p.repli && `[repli:${p.repli}]`, p.datee && `[date:${p.date}]`, p.variante && `[variante:${p.variante}]`,
+    p.bras && `[heure:${p.bras}]`]
     .filter(Boolean).map((m) => `${m} `).join("");
 }
 
@@ -89,6 +92,22 @@ export function variantesLinkedIn(posts: LotPost[]): string {
   return `**Test LinkedIn texte / image (dès le ${LI_TEST_IMAGE_DES.split("-").reverse().join("/")}) :** image ${n("image")}, texte ${n("texte")}, hors test ${li.length - n("image") - n("texte")} (relais avec lien, textes de marque, amorce de plus de 140 caractères ou avant le début du test).`;
 }
 
+const hm = (c: { h: number; m: number }) => `${String(c.h).padStart(2, "0")}:${String(c.m).padStart(2, "0")}`;
+/** Heures par réseau ; `test` : seulement les réseaux dont la fenêtre de test d'heure est ouverte, avec ses dates. */
+function heures(h: Record<PreparedPlatform, { h: number; m: number }>, test = false): string {
+  return (["TWITTER", "INSTAGRAM", "LINKEDIN"] as PreparedPlatform[]).filter((pf) => !test || TEST_HEURE[pf])
+    .map((pf) => `${LABEL[pf]} ${hm(h[pf])}${test ? ` (du ${frDate(TEST_HEURE[pf]!.de)} au ${frDate(TEST_HEURE[pf]!.a)} exclu)` : ""}`).join(", ");
+}
+
+/** Récapitulatif du test d'heure alterné par jour : compteur par réseau et par bras (mesure §7 c). */
+export function brasHeureParReseau(posts: LotPost[]): string {
+  return (["TWITTER", "INSTAGRAM", "LINKEDIN"] as PreparedPlatform[]).map((pf) => {
+    const ps = posts.filter((p) => p.platform === pf);
+    const n = (b: string) => ps.filter((p) => p.bras === b).length;
+    return `${LABEL[pf]} A ${n("A")}, B ${n("B")}, hors test ${ps.length - n("A") - n("B")}`;
+  }).join(" ; ");
+}
+
 export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: string[], stock: number, graine: string, meta: MetaLot = META_LOT_V5, replis: LotPost[] = []): string {
   const { lot, debut, fin } = meta;
   const n = (pf: PreparedPlatform) => posts.filter((p) => p.platform === pf).length;
@@ -101,11 +120,13 @@ export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: 
     "> Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.",
     `> Insertion (plus tard) : \`--lot ${lot} --insert [--driver=neon-http]\` lit \`lot-${lot}.json\` et insère ces lignes en APPROVED (approvedBy « ${approvedByDuLot(lot)} »), puis compte par réseau et par semaine. Annulation : \`--lot ${lot} --rollback --confirmer\`.`,
     "",
-    `**Total : ${posts.length} posts** (X : ${n("TWITTER")}, Instagram : ${n("INSTAGRAM")}, LinkedIn : ${n("LINKEDIN")}). Heures de Paris : X 12:30, Instagram 19:30, LinkedIn 08:15. Stock éligible du catalogue au J0 : ${stock} vannes.`,
+    `**Total : ${posts.length} posts** (X : ${n("TWITTER")}, Instagram : ${n("INSTAGRAM")}, LinkedIn : ${n("LINKEDIN")}). Heures de Paris (A) : ${heures(HEURE_PARIS)}. Test d'heure alterné par jour, mar. à jeu. : heure B ${heures(HEURE_B_PARIS, true)} (réseau sans fenêtre : heure A seule, LinkedIn tant que le test texte / image tourne). Stock éligible du catalogue au J0 : ${stock} vannes.`,
     "",
     "**R1 non vérifiable par le script** : aucune note à l'aveugle n'existe pour les vannes du catalogue ni pour la plupart des lignes d'article (v5 §1 : « N exact à compter par @copywriter »). Sont exclues : les 5 vannes connues sous 8 et les 7 perdants des duels du cycle 5. Les vannes tirées restent à confirmer à 8 et plus avant insertion.",
     "",
     variantesLinkedIn(posts),
+    "",
+    `**Test d'heure (marqueur \`[heure:A|B]\`) :** ${brasHeureParReseau(posts)}.`,
     "",
     `Contrôles bloquants passés sur chaque post : zéro tiret cadratin, gros mots, « je » hors « » (R6), longueurs (X 270 comptés par X, lien = 23 ; légende Instagram 80), LinkedIn 3 phrases au plus, cartes (25 / 30 / 35 mots). Sur le lot : anti-répétition 90 jours tous réseaux (posts récents en base compris), « pain » 30 jours, réservées Noël, liens UTM v5, aucun dimanche, 1 relais LinkedIn par semaine au plus. Erreurs bloquantes : **${errors.length}**.`,
     "",

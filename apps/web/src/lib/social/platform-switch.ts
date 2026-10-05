@@ -18,10 +18,13 @@
  * Commande « sauter les posts avant J0 » : `sauterAvantJ0`.
  */
 import type { SocialPlatform } from "@prisma/client";
-import { HEURE_PARIS, RETARD_MAX_REPRISE_HEURES, SILENCES_SOCIAL } from "@/config/social-calendrier";
+import { HEURE_B_PARIS, HEURE_PARIS, RETARD_MAX_REPRISE_HEURES, SILENCES_SOCIAL } from "@/config/social-calendrier";
 import type { BufferChannel, BufferPlatform } from "./buffer-client";
 import { estDateOuRelais } from "./garde-article";
 import { ajouterJours, dateParis, jourSemaine, parisVersUtc } from "./heure-paris";
+
+/** Marqueur du bras B du test d'heure (script de lot, `lib/social/heure-test.ts`). */
+const MARQUEUR_HEURE_B = "[heure:B]";
 
 export const RESEAUX: BufferPlatform[] = ["TWITTER", "INSTAGRAM", "LINKEDIN"];
 export const RESEAU_LABEL: Record<BufferPlatform, string> = {
@@ -138,21 +141,22 @@ const MARGE_CRENEAU_MS = 15 * 60 * 1000;
  * Paris du réseau (heure d'hiver comprise). Fonction pure.
  */
 export function replanifierRetards(
-  retards: Array<{ id: string; scheduledAt: Date }>,
+  retards: Array<{ id: string; scheduledAt: Date; directorNote?: string | null }>,
   joursOccupes: Set<string>,
   now: Date,
   platform: BufferPlatform,
 ): Array<{ id: string; scheduledAt: Date }> {
-  const { h, m } = HEURE_PARIS[platform];
   const parJour = new Map<string, number>();
   for (const j of joursOccupes) parJour.set(j, MAX_RATTRAPAGE_PAR_JOUR);
   const out: Array<{ id: string; scheduledAt: Date }> = [];
   let jour = dateParis(now);
-  const libre = (d: string) =>
+  const libre = (d: string, h: number, m: number) =>
     (parJour.get(d) ?? 0) < MAX_RATTRAPAGE_PAR_JOUR && !SILENCES_SOCIAL.has(d) && jourSemaine(d) !== 0 &&
     parisVersUtc(d, h, m).getTime() >= now.getTime() + MARGE_CRENEAU_MS;
   for (const p of [...retards].sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())) {
-    while (!libre(jour)) jour = ajouterJours(jour, 1);
+    // s15 cycle 7 (F1) : un post du bras B du test d'heure garde l'heure B (marqueur `[heure:B]`).
+    const { h, m } = p.directorNote?.includes(MARQUEUR_HEURE_B) ? HEURE_B_PARIS[platform] : HEURE_PARIS[platform];
+    while (!libre(jour, h, m)) jour = ajouterJours(jour, 1);
     parJour.set(jour, (parJour.get(jour) ?? 0) + 1);
     out.push({ id: p.id, scheduledAt: parisVersUtc(jour, h, m) });
   }

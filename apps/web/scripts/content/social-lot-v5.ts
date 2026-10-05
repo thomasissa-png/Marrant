@@ -12,6 +12,7 @@ import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom,
 import * as C from "./social-lot-v5-config";
 import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
+import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -80,6 +81,8 @@ export interface LotPost {
   lignes?: string[];
   /** Test LinkedIn texte / image (dès LI_TEST_IMAGE_DES) : bras du post ; absent si non éligible. */
   variante?: Variante;
+  /** Test d'heure alterné par jour (mesure §7 c) : bras du créneau ; absent hors test. */
+  bras?: BrasHeure;
 }
 export interface LotResult { posts: LotPost[]; replis: LotPost[]; warnings: string[]; errors: string[]; stockEligible: number; variantes: CompteVariantes }
 
@@ -228,7 +231,8 @@ export function buildLotV5(input: LotInput): LotResult {
   melange.LINKEDIN = [...ordonner(input.pool.filter((j) => j.category === "BOULOT")), ...ordonner(input.pool.filter((j) => j.category !== "BOULOT"))];
 
   // ── Construction d'un post ──
-  const creneau = (pf: PreparedPlatform) => C.GRILLE_V5[pf];
+  // Heure A (grille v5) ou B (test d'heure alterné par jour, src/lib/social/heure-test.ts).
+  const creneau = (pf: PreparedPlatform, date: string) => heureDuCreneau(pf, date);
   const textePost = (pf: PreparedPlatform, v: Vanne | null, marque: string | null, renvoi: string | null, lien: string | null): string => {
     const corps = v ? vanneR6(v.lignes, premierePersonne(texteDe(v))) : (marque ?? "");
     if (!renvoi && !lien) return corps;
@@ -258,7 +262,7 @@ export function buildLotV5(input: LotInput): LotResult {
     cartes?: string[]; cartesOrigine?: Origine; origine: LotPost["origine"]; cle?: string; slug?: string; note?: string | null; valide?: boolean;
     repliDe?: string;
   }): LotPost => {
-    const g = creneau(pf);
+    const g = creneau(pf, date);
     const id = idDuPost(pf, date, o.repliDe ? `${lotId}-repli` : lotId);
     const lien = o.lien ?? null;
     const content = pf === "INSTAGRAM" ? (o.legende ?? C.FORMULES.pied) : textePost(pf, o.v, o.marque ?? null, o.renvoi ?? null, lien);
@@ -280,6 +284,7 @@ export function buildLotV5(input: LotInput): LotResult {
       imageUrls: Array.from({ length: nombreDeCartes(cartes) }, (_, i) => `${siteUrl}/api/social/image?postId=${id}&slide=${i}`),
       lien, sourceType, sourceId, vannes: o.v ? [o.v.cle] : [], persona, origine: o.origine, segments, note: o.note ?? null,
       lignes: o.v ? [...o.v.lignes] : undefined,
+      ...(g.bras ? { bras: g.bras } : {}),
       article: (type === "RELAIS" || type === "PIVOT") && o.slug ? o.slug : null,
       repli: null, repliDe: o.repliDe ?? null,
       datee: type === "PIVOT" || C.SAISONS.some((x) => x.re.test(`${content} ${cartes.join(" ")}`)),
