@@ -4,11 +4,12 @@
  *    seul en dryRun). Utilisé par la route admin manuelle et par le scheduler.
  *  - `runScheduledWeeklyVisitsReport` : fenêtre lundi 7h-8h heure de Paris
  *    (4 ticks du Cron Trigger 15 min), verrou hebdomadaire anti-doublon.
- * Aucun LLM. Lecture Umami + 2 comptages en base + 1 email interne.
+ * Aucun LLM. Lecture Umami + 2 comptages et 1 lecture d'articles en base + 1 email interne.
  */
 import { getUmamiConfig } from "./umami";
 import { buildWeeklyVisitsHtml, buildWeeklyVisitsSubject } from "./weekly-visits-email";
 import { parisParts, parisWeekKey } from "./weekly-visits-period";
+import type { BlogArticleLookup } from "./weekly-blog-report";
 import { buildWeeklyVisitsReport, type ConversionCounter, type WeeklyVisitsReport } from "./weekly-visits-report";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
@@ -31,15 +32,29 @@ const prismaConversions: ConversionCounter = async (startAt, endAt) => {
   return { signups, newPremium };
 };
 
+/** Statut de publication des articles suivis (section blog du rapport). */
+const prismaBlogArticles: BlogArticleLookup = async (slugs) => {
+  const { prisma } = await import("@/lib/prisma");
+  return prisma.blogArticle.findMany({
+    where: { slug: { in: slugs } },
+    select: { slug: true, isPublished: true, publishedAt: true },
+  });
+};
+
 export async function runWeeklyVisitsReport(
-  opts: { now?: Date; dryRun?: boolean; countConversions?: ConversionCounter } = {},
+  opts: { now?: Date; dryRun?: boolean; countConversions?: ConversionCounter; lookupArticles?: BlogArticleLookup } = {},
 ): Promise<WeeklyVisitsResult> {
   const config = getUmamiConfig();
   if (!config) {
     console.warn("[weekly-visits] UMAMI_API_KEY ou UMAMI_WEBSITE_ID absent : rapport non généré.");
     return { status: "skipped", reason: "umami-not-configured" };
   }
-  const report = await buildWeeklyVisitsReport(opts.now ?? new Date(), config, opts.countConversions ?? prismaConversions);
+  const report = await buildWeeklyVisitsReport(
+    opts.now ?? new Date(),
+    config,
+    opts.countConversions ?? prismaConversions,
+    opts.lookupArticles ?? prismaBlogArticles,
+  );
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 

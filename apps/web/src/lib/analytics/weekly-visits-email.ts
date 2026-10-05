@@ -2,6 +2,7 @@
  * Email interne du rapport hebdomadaire des visites : objet + HTML simple,
  * lisible sur mobile (une colonne, tableaux 100 %), en français.
  */
+import type { BlogArticleRow, BlogReport, Compared } from "./weekly-blog-report";
 import type { MetricKey, WeeklyVisitsReport } from "./weekly-visits-report";
 
 const nf = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
@@ -62,6 +63,50 @@ function listTable(title: string, head: string, rows: [string, number][]): strin
   return `<h3 style="${H3}">${title}</h3><table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;"><tr><th style="${TD}text-align:left;color:#666;font-weight:500;">${head}</th><th style="${TD_NUM}color:#666;font-weight:500;">Nombre</th></tr>${body}</table>`;
 }
 
+const NA = "n.d.";
+const num = (n: number | null) => (n === null ? NA : nf.format(n));
+const TH = `${TD}text-align:left;color:#666;font-weight:500;`;
+const TH_NUM = `${TD_NUM}color:#666;font-weight:500;`;
+
+function comparedRow(label: string, c: Compared): string {
+  const color = c.change === null || c.change === 0 ? "#666" : c.change > 0 ? "#15803d" : "#dc2626";
+  const change = c.current === null || c.previous === null ? NA : formatChange(c.change);
+  return `<tr><td style="${TD}">${escapeHtml(label)}</td><td style="${TD_NUM}font-weight:600;">${num(c.current)}</td><td style="${TD_NUM}color:#666;">${num(c.previous)}</td><td style="${TD_NUM}color:${color};font-weight:600;">${change}</td></tr>`;
+}
+
+function articleLine(a: BlogArticleRow): string {
+  if (a.status === "scheduled") return a.publishedLabel;
+  if (!("views" in a)) {
+    return a.status === "missing" ? "absent de la base" : "non publié, date de publication non planifiée";
+  }
+  const views = a.views.current === null ? `vues ${NA}` : `${nf.format(a.views.current)} vues`;
+  const trend = a.views.current !== null && a.views.previous !== null ? ` (${formatChange(a.views.change)})` : "";
+  const rate = a.readRate === null ? NA : `${nf.format(a.readRate)} %`;
+  return `${views}${trend}, ${num(a.exits)} sorties, ${num(a.ctas)} CTA, ${num(a.shares)} partages, lu à 75 % : ${rate}`;
+}
+
+/** Section « Blog : articles à forte frappe » : événements, paliers, articles suivis. */
+export function buildBlogSectionHtml(blog: BlogReport): string {
+  const events = blog.events
+    .filter((e) => !(blog.scrollSteps && e.name === "blog-scroll"))
+    .map((e) => comparedRow(e.label, e));
+  const steps = (blog.scrollSteps ?? []).map((s) => comparedRow(`Lecture ${s.palier} %`, s));
+  const partial = blog.partial
+    ? `<p style="font-size:13px;color:#b45309;margin:0 0 8px;">Section partielle : ${escapeHtml(blog.warnings.join(" ; "))}.</p>`
+    : "";
+  const articles = blog.articles
+    .map(
+      (a) =>
+        `<tr><td style="${TD}"><strong style="word-break:break-all;">${escapeHtml(a.slug)}</strong><br><span style="font-size:13px;color:#444;">${escapeHtml(articleLine(a))}</span></td></tr>`,
+    )
+    .join("");
+  return `<h3 style="${H3}">Blog : articles à forte frappe</h3>${partial}
+  <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;"><tr><th style="${TH}">Événement</th><th style="${TH_NUM}">Semaine</th><th style="${TH_NUM}">Préc.</th><th style="${TH_NUM}">Évol.</th></tr>${[...events, ...steps].join("")}</table>
+  <p style="font-size:14px;font-weight:600;margin:16px 0 4px;">Articles suivis (semaine)</p>
+  <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${articles}</table>
+  <p style="font-size:12px;color:#999;margin:8px 0 0;">Lu à 75 % : part des vues de l'article qui atteignent 75 % du texte. n.d. : donnée non disponible.</p>`;
+}
+
 export function buildWeeklyVisitsHtml(report: WeeklyVisitsReport): string {
   const { current, previous, changes } = report;
   const metrics = ROWS.map(
@@ -97,6 +142,7 @@ export function buildWeeklyVisitsHtml(report: WeeklyVisitsReport): string {
   <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${days}</table>
   ${listTable("Top 5 des pages", "Page", report.topPages.map((p) => [p.path, p.views]))}
   ${listTable("Top 5 des sources", "Source", report.topSources.map((s) => [s.source, s.visitors]))}
+  ${buildBlogSectionHtml(report.blog)}
   <p style="font-size:12px;color:#999;margin-top:24px;">Rapport automatique du lundi, données Umami et base Marrant.</p>
 </body>
 </html>`;

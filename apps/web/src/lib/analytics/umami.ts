@@ -24,7 +24,8 @@ export type UmamiStats = {
 
 export type UmamiPoint = { x: string; y: number };
 export type UmamiPageviewsSeries = { pageviews: UmamiPoint[]; sessions: UmamiPoint[] };
-export type UmamiMetricType = "url" | "referrer";
+/** `url` : nom antérieur au 07/10/2025 de `path` (repli automatique, voir fetchUmamiPathMetrics). */
+export type UmamiMetricType = "path" | "url" | "referrer" | "event";
 
 export class UmamiError extends Error {
   constructor(
@@ -121,6 +122,60 @@ export async function fetchUmamiMetrics(
   endAt: number,
   type: UmamiMetricType,
   limit = 10,
+  filters: Record<string, string> = {},
 ): Promise<UmamiPoint[]> {
-  return toPoints(await umamiGet(config, "metrics", { startAt, endAt, type, limit }));
+  return toPoints(await umamiGet(config, "metrics", { startAt, endAt, type, limit, ...filters }));
+}
+
+/**
+ * Pages vues par chemin. Umami a renommé `type=url` en `type=path` (et le
+ * filtre `url` en `path`) le 07/10/2025 : on demande `path`, et sur HTTP 400
+ * (API plus ancienne) on rejoue avec `url`.
+ */
+export async function fetchUmamiPathMetrics(
+  config: UmamiConfig,
+  startAt: number,
+  endAt: number,
+  limit = 10,
+  pathFilter?: string,
+): Promise<UmamiPoint[]> {
+  try {
+    return await fetchUmamiMetrics(config, startAt, endAt, "path", limit, pathFilter ? { path: pathFilter } : {});
+  } catch (err) {
+    if (!(err instanceof UmamiError) || err.status !== 400) throw err;
+    return fetchUmamiMetrics(config, startAt, endAt, "url", limit, pathFilter ? { url: pathFilter } : {});
+  }
+}
+
+export type UmamiPropertyValue = { value: string; total: number };
+
+/**
+ * Répartition d'une propriété d'événement (`GET /event-data/values`).
+ * Le nom d'événement part en `event` (nom actuel) et `eventName` (ancien nom,
+ * encore listé dans la référence) : Umami ignore celui qu'il ne connaît pas.
+ * Une valeur numérique peut revenir en « 75 » ou « 75.0000 ».
+ */
+export async function fetchUmamiEventDataValues(
+  config: UmamiConfig,
+  startAt: number,
+  endAt: number,
+  event: string,
+  propertyName: string,
+  filters: Record<string, string> = {},
+): Promise<UmamiPropertyValue[]> {
+  const raw = await umamiGet(config, "event-data/values", {
+    startAt,
+    endAt,
+    event,
+    eventName: event,
+    propertyName,
+    ...filters,
+  });
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((r): r is { value: unknown; total: unknown } => !!r && typeof r === "object")
+    .map((r) => ({
+      value: typeof r.value === "number" ? String(r.value) : typeof r.value === "string" ? r.value.replace(/\.0+$/, "") : "",
+      total: typeof r.total === "number" && Number.isFinite(r.total) ? r.total : 0,
+    }));
 }

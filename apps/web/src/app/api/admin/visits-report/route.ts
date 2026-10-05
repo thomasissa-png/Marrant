@@ -3,7 +3,7 @@
  *
  * - Auth : `Authorization: Bearer {ADMIN_PASSWORD}` (comme les autres /api/admin/*).
  * - `POST /api/admin/visits-report?dryRun=1` : renvoie le JSON du rapport
- *   (objet de l'email compris) sans rien envoyer.
+ *   (objet de l'email et section `blog` compris) sans rien envoyer.
  * - `POST /api/admin/visits-report` : calcule et envoie l'email à l'admin.
  *   Ne prend pas le verrou hebdomadaire du scheduler (envoi explicite).
  * Toujours dynamique (données du moment, aucune mise en cache).

@@ -13,10 +13,12 @@ jest.mock("@/lib/job-lock", () => ({
 }));
 const userCount = jest.fn();
 const subscriptionCount = jest.fn();
+const blogFindMany = jest.fn();
 jest.mock("@/lib/prisma", () => ({
   prisma: {
     user: { count: (...a: unknown[]) => userCount(...a) },
     subscription: { count: (...a: unknown[]) => subscriptionCount(...a) },
+    blogArticle: { findMany: (...a: unknown[]) => blogFindMany(...a) },
   },
 }));
 const sendAdminHtmlEmail = jest.fn();
@@ -56,6 +58,10 @@ beforeEach(() => {
   tryAcquireLock.mockResolvedValue(true);
   userCount.mockResolvedValue(4);
   subscriptionCount.mockResolvedValue(1);
+  blogFindMany.mockResolvedValue([
+    { slug: "meilleures-blagues-droles-2026", isPublished: true, publishedAt: new Date("2026-09-01T08:00:00Z") },
+    { slug: "blagues-poisson-d-avril-adultes", isPublished: false, publishedAt: new Date("2027-03-31T22:30:00Z") },
+  ]);
   sendAdminHtmlEmail.mockResolvedValue(undefined);
   warn = jest.spyOn(console, "warn").mockImplementation(() => {});
   error = jest.spyOn(console, "error").mockImplementation(() => {});
@@ -192,6 +198,20 @@ describe("route POST /api/admin/visits-report", () => {
     const body = await res.json();
     expect(body).toMatchObject({ success: true, status: "dry-run", subject: expect.stringContaining("semaine du") });
     expect(body.report.byDay).toHaveLength(7);
+    // Section blog dans le JSON du dryRun : statut lu en base, article programmé.
+    expect(blogFindMany).toHaveBeenCalledWith({
+      where: { slug: { in: expect.arrayContaining(["blagues-de-couple-drole"]) } },
+      select: { slug: true, isPublished: true, publishedAt: true },
+    });
+    expect(body.report.blog.events.map((e: { name: string }) => e.name)).toContain("blog-cta-clic");
+    expect(body.report.blog.articles).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ slug: "meilleures-blagues-droles-2026", status: "published" }),
+        expect.objectContaining({ slug: "blagues-poisson-d-avril-adultes", publishedLabel: "publication prévue le 01/04" }),
+        expect.objectContaining({ slug: "voeux-drole-nouvelle-annee", status: "missing" }),
+      ]),
+    );
+    expect(JSON.stringify(body)).not.toContain(TEST_UMAMI_KEY);
     expect(sendAdminHtmlEmail).not.toHaveBeenCalled();
   });
 

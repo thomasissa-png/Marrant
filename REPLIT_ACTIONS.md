@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : rapport hebdo des visites, section « Blog : articles à forte frappe » @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (mêmes secrets `UMAMI_API_KEY`, `UMAMI_WEBSITE_ID`), aucun LLM.
+> - **Déploiement normal**. L'email du lundi 7h et `POST /api/admin/visits-report?dryRun=1` (champ `report.blog`) ajoutent : événements `blog-sortie-clic`, `blog-cta-clic`, `blog-ancre-clic`, `blog-vanne-partage` semaine vs précédente, `blog-scroll` par palier (25, 50, 75, 100), puis pour chaque article de `src/config/blog-tracking.ts` (`TRACKED_ARTICLES`) : vues, variation, sorties, CTA, partages, part des vues lues à 75 %. Article non publié en base : « publication prévue le JJ/MM ».
+> - **Endpoints Umami** : `metrics?type=event` (global et filtré `path=/blog/<slug>`), `metrics?type=path&path=/blog/<slug>`, `event-data/values?event=blog-scroll&propertyName=palier` (global et par path). Endpoint absent ou en erreur : section marquée « partielle », le reste de l'email part quand même.
+> - **Correctif** : Umami a renommé `metrics?type=url` en `type=path` le 07/10/2025 ; le Top 5 des pages demande `path` et rejoue en `url` sur HTTP 400.
+> - **À vérifier après déploiement** : lancer le dryRun, contrôler `report.blog.partial` et `report.blog.warnings` (aucune valeur secrète n'y figure).
+
 ## s14 (05/10/2026) : article « 50 blagues drôles », notation iter3, correctifs E1 à E3 @fullstack
 
 > Correctifs de `docs/growth/notation-article-blagues-2026-iter3.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun event Umami.

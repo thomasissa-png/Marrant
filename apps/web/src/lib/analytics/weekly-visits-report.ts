@@ -5,10 +5,12 @@
 import {
   fetchUmamiMetrics,
   fetchUmamiPageviews,
+  fetchUmamiPathMetrics,
   fetchUmamiStats,
   type UmamiConfig,
   type UmamiStats,
 } from "./umami";
+import { buildBlogReport, type BlogArticleLookup, type BlogReport } from "./weekly-blog-report";
 import { PARIS_TZ, computeReportPeriods, pctChange, type ReportWindow } from "./weekly-visits-period";
 
 export type WeekMetrics = {
@@ -35,6 +37,8 @@ export type WeeklyVisitsReport = {
   topSources: { source: string; visitors: number }[];
   /** Inscriptions / visiteurs de la semaine, en %. null si aucun visiteur. */
   signupRate: number | null;
+  /** Section « Blog : articles à forte frappe » (partielle si un endpoint manque). */
+  blog: BlogReport;
 };
 
 /** Compteurs de conversion lus en base, injectés (Prisma en production). */
@@ -67,6 +71,7 @@ export async function buildWeeklyVisitsReport(
   now: Date,
   config: UmamiConfig,
   countConversions: ConversionCounter,
+  lookupArticles?: BlogArticleLookup,
 ): Promise<WeeklyVisitsReport> {
   const periods = computeReportPeriods(now);
   const { startAt, endAt } = periods.current;
@@ -74,9 +79,11 @@ export async function buildWeeklyVisitsReport(
     loadWeek(config, periods.current, countConversions),
     loadWeek(config, periods.previous, countConversions),
     fetchUmamiPageviews(config, startAt, endAt, PARIS_TZ),
-    fetchUmamiMetrics(config, startAt, endAt, "url", 5),
+    fetchUmamiPathMetrics(config, startAt, endAt, 5),
     fetchUmamiMetrics(config, startAt, endAt, "referrer", 5),
   ]);
+  // Après le cœur du rapport : la section blog ne lève jamais (section partielle).
+  const blog = await buildBlogReport(config, periods, lookupArticles);
 
   const keys: MetricKey[] = ["visitors", "visits", "pageviews", "bounceRate", "avgVisitSeconds", "signups", "newPremium"];
   const changes = Object.fromEntries(
@@ -105,5 +112,6 @@ export async function buildWeeklyVisitsReport(
     topPages: pages.slice(0, 5).map((p) => ({ path: p.x || "/", views: p.y })),
     topSources: sources.slice(0, 5).map((p) => ({ source: p.x || "Accès direct", visitors: p.y })),
     signupRate: current.visitors > 0 ? round1((current.signups / current.visitors) * 100) : null,
+    blog,
   };
 }

@@ -189,6 +189,8 @@ describe("buildWeeklyVisitsReport + email", () => {
     expect(buildWeeklyVisitsSubject(r)).toBe("Visites deviens-marrant.fr : semaine du 28/09 au 04/10 (+21 %)");
     const html = buildWeeklyVisitsHtml(r);
     expect(html).toContain("Top 5 des pages");
+    expect(html).toContain("Blog : articles à forte frappe");
+    expect(r.blog.articles).toHaveLength(6);
     expect(html).toContain("&lt;script&gt;");
     expect(html).not.toContain("<script>");
     expect(html).not.toContain("—");
