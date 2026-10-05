@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
 
 export const runtime = "nodejs";
-export const alt = "Vanne — deviens-marrant.fr";
+export const alt = "Vanne | deviens-marrant.fr";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -83,7 +83,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
                 maxWidth: 1000,
               }}
             >
-              {`— ${punchline}`}
+              {`→ ${punchline}`}
             </div>
           )}
         </div>
