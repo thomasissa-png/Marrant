@@ -63,10 +63,10 @@ describe("checkPost : contrôle bloquant sans IA", () => {
     const v = "Je dis toujours oui.\nMon agenda dit non.";
     expect(checkPost({ ...base, text: v, quoted: v })).toEqual([]);
   });
-  it("refuse tiret cadratin, gros mot, humoriste, « je » hors vanne, longueur", () => {
+  it("refuse tiret cadratin, gros mot, « je » hors vanne, longueur ; accepte un humoriste nommé", () => {
     expect(checkPost({ ...base, text: "Une idée — une autre" })).toContain("tiret cadratin");
     expect(checkPost({ ...base, text: "Ah merde." }).join()).toContain("merde");
-    expect(checkPost({ ...base, text: "Comme Fary en spectacle." }).join()).toContain("humoriste");
+    expect(checkPost({ ...base, text: "Comme Fary en spectacle." })).toEqual([]);
     expect(checkPost({ ...base, text: "Vanne.\nJe la trouve bonne.", quoted: "Vanne." })).toContain("« je » hors de la vanne");
     expect(checkPost({ ...base, text: "x".repeat(271) }).join()).toContain("trop long");
     expect(checkPost({ platform: "INSTAGRAM", quoted: "", text: "x".repeat(151) }).join()).toContain("trop long");

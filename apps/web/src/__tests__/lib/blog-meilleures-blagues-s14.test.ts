@@ -3,7 +3,7 @@
  *
  * Audit growth s14 sur /blog/meilleures-blagues-droles-2026 (R1 à R5) :
  * ancres des H2, sorties vers des routes qui existent, 50 vannes intactes,
- * aucun humoriste nommé, zéro tiret cadratin.
+ * zéro tiret cadratin.
  */
 import { createHash } from "crypto";
 import { existsSync } from "fs";
@@ -24,7 +24,6 @@ const links = [...article.content.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]);
 const VANNES_SHA256 = "2b7eb96d7bbdf2179eb7f0ca79766e962938f89d2460246e96751aa96628cf80"; // 05/10 : indication de jeu n°8 « Laisser » → « Laisse » (tutoiement, notation iter4), vanne inchangée
 
 /** Liste reprise de ceo-backlinks.test.ts, complétée des autres noms cités sur le blog. */
-const HUMORISTES = ["Paul Mirabel", "Mirabel", "Fary", "Blanche Gardin", "Gardin", "Roman Frayssinet", "Frayssinet", "Waly Dia", "Inès Reg"];
 
 const SOMMAIRE = [
   "quelles-blagues-sortir-en-soiree-celles-qui-marchent-a-partir-de-22h",
@@ -104,8 +103,7 @@ describe("meilleures-blagues-droles-2026 : audit s14", () => {
     }
   });
 
-  it("aucun humoriste nommé, aucune promesse de catalogue renouvelé", () => {
-    for (const name of HUMORISTES) expect([name, body.includes(name)]).toEqual([name, false]);
+  it("aucune promesse de catalogue renouvelé", () => {
     expect(body).not.toMatch(/renouvel/i);
   });
 

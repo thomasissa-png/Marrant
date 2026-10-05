@@ -1,5 +1,7 @@
 # Avis SEO sur données réelles : session 15 (05/10/2026)
 
+> **Note du 05/10 (Thomas, P0)** : la règle « zéro humoriste nommé » du 30/09 est ANNULÉE. Les humoristes cités dans la meta et le corps de `5-types` restent. Ignorer toute mention contraire ci-dessous.
+
 **Agent :** @seo · **Sources :** `docs/analytics/snapshot-trafic-2026-10-05.md` (seule source de chiffres), code `apps/web`, `curl` prod du 05/10, 2 WebSearch (SERP « humour observationnel définition » et « une vanne blague »). **Aucun fichier de code modifié.** Volumes/difficulté non disponibles (niche) : intentions qualitatives. Courbes de CTR par position : [HYPOTHÈSE : ordre de grandeur général, pos 5 ≈ 5-8 %, pos 7-8 ≈ 2-4 %, pos 10 ≈ 1-2 %, à ne pas lire comme une mesure].
 
 ## 1. Verdict

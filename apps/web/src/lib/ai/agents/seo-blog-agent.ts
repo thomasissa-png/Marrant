@@ -222,9 +222,9 @@ Chaque article DOIT contenir au minimum :
 RÉFÉRENCES HUMORISTES
 ═══════════════════════════════════════
 
-AUCUN humoriste nommé dans l'article (choix fondateur du 30/09/2026) : ni nom,
-ni citation, ni anecdote attribuée. On démontre la technique avec nos propres
-exemples originaux.
+Humoristes nommés et cités BIENVENUS (choix fondateur P0 du 05/10/2026 : « on est
+un site d'humoriste ») : références de style, sketchs, citations. Une citation
+entre guillemets doit être réelle : ne jamais en inventer une, ni une anecdote.
 
 ═══════════════════════════════════════
 PERSONAS — Adapte le ton et les exemples
@@ -279,14 +279,14 @@ INTERDICTIONS RENFORCÉES (gates programmatiques BLOQUANTS — l'article est rej
 
 4. **Anti-mention IA** — INTERDIT dans le contenu généré : "généré par IA", "notre IA", "notre intelligence artificielle", "ChatGPT", "Claude", "GPT-4", "large language model". Règle fondateur PERMANENTE : le site NE se présente JAMAIS comme un produit IA dans son contenu éditorial. La marque parle en son nom.
 
-5. **Anti-citation attribuée à un humoriste réel** — INTERDIT d'attribuer une citation entre guillemets à un humoriste réel (Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Jamel Debbouze, etc.) sauf si la source est PUBLIQUE et VÉRIFIABLE (sketch identifiable, interview reconnue). Les motifs "Comme le dit Fary : \"...\"", "Selon Roman Frayssinet, \"...\"" sont BLOQUÉS. À la place : (a) reformuler en "comme dirait un stand-upper", (b) évoquer la technique de l'humoriste sans lui coller une citation ("Fary utilise souvent l'escalade — l'idée : partir d'une observation banale et pousser jusqu'à l'absurde"), (c) retirer les guillemets et proposer l'idée en ton indirect. Les MENTIONS d'humoristes restent encouragées — c'est SEULEMENT l'attribution de citation entre guillemets qui est bloquée.
+5. **Citations d'humoristes réels : oui, mais vraies** — Nommer et citer des humoristes (Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, etc.) est ENCOURAGÉ. Une citation entre guillemets doit venir d'une source réelle (sketch, interview, livre). Si tu n'es pas sûr des mots exacts, évoque la technique sans guillemets ("Fary pousse souvent une observation banale jusqu'à l'absurde"). Ne jamais inventer une citation ni une anecdote.
 
 TESTS FINAUX avant de répondre (checklist mentale) :
 - [ ] Zéro "Boom.", zéro "Plot twist :", zéro "STOP." en fragment isolé
 - [ ] Zéro "Prénom, XX ans" dans les témoignages
 - [ ] Zéro "Semaine X" / "Jours X-Y" dans les H2/H3
 - [ ] Zéro mention "IA", "ChatGPT", "Claude", "généré par"
-- [ ] Zéro "Comme le dit [Humoriste] : \"...\"" avec citation entre guillemets
+- [ ] Toute citation d'humoriste entre guillemets est réelle (jamais inventée)
 - [ ] Tutoiement partout (FAQ comprise)
 
 ═══════════════════════════════════════

@@ -8,9 +8,8 @@
  * Règles :
  *  1. Zéro tiret cadratin (règle commune 12).
  *  2. Zéro gros mot (liste ci-dessous, mots entiers, insensible à la casse).
- *  3. Zéro humoriste nommé (règle fondateur du 30/09). Liste constituée à partir des
- *     noms relevés dans docs/social/audit-s14/export-posts.json (636 posts) : ces
- *     noms sont internes au contrôle et ne doivent jamais apparaître dans un post.
+ *  3. (Retiré le 05/10/2026, P0 Thomas : les humoristes nommés et cités sont
+ *     autorisés, « on est un site d'humoriste ». Ne jamais réintroduire ce contrôle.)
  *  4. Zéro « je » hors de la vanne : la vanne est reprise mot pour mot (elle peut
  *     parler à la 1re personne), mais la ligne de marque ou le titre ajoutés ne
  *     parlent jamais au nom d'une personne (le compte = la marque, règle du 05/05).
@@ -38,17 +37,6 @@ export const FORBIDDEN_WORDS = [
   "enfoirés", "bâtard", "batard", "cul", "baiser", "baisé", "baisés", "branler", "teub", "zob",
 ];
 
-/**
- * Humoristes et vidéastes nommés dans l'historique des posts (export s14).
- * Correspondance sensible à la casse sur le nom tel qu'il s'écrit (mot entier).
- */
-export const HUMORIST_NAMES = [
-  "Paul Mirabel", "Mirabel", "Fary", "Roman Frayssinet", "Frayssinet", "Blanche Gardin", "Gardin",
-  "Waly Dia", "Waly", "Panayotis Pascot", "Panayotis", "Pascot", "Pierre Croce", "Croce", "Inès Reg",
-  "Kevin Hart", "Gad Elmaleh", "Elmaleh", "Jérôme Commandeur", "Commandeur", "José Garcia", "Jamel",
-  "Debbouze", "Cyprien", "Squeezie",
-];
-
 /** Première personne du singulier (je, j', me, m', moi, mon, ma, mes). */
 const FIRST_PERSON = /(^|[^\p{L}])(je|j['’]|me|m['’]|moi|mon|ma|mes)(?=[^\p{L}]|$)/iu;
 
@@ -58,7 +46,6 @@ function wordRegex(word: string, flags: string): RegExp {
 }
 
 const FORBIDDEN_RES = FORBIDDEN_WORDS.map((w) => ({ w, re: wordRegex(w, "iu") }));
-const HUMORIST_RES = HUMORIST_NAMES.map((w) => ({ w, re: wordRegex(w, "u") }));
 
 export interface ControlInput {
   platform: PreparedPlatform;
@@ -77,7 +64,6 @@ export function checkPost(input: ControlInput): string[] {
 
   if (EM_DASH.test(all)) errors.push("tiret cadratin");
   for (const { w, re } of FORBIDDEN_RES) if (re.test(all)) errors.push(`mot interdit « ${w} »`);
-  for (const { w, re } of HUMORIST_RES) if (re.test(all)) errors.push(`humoriste nommé « ${w} »`);
 
   // Hors vanne : on retire la partie reprise mot pour mot et les liens (slugs).
   const outside = (input.quoted ? input.text.split(input.quoted).join("\n") : input.text).replace(/https?:\/\/\S+/g, "");

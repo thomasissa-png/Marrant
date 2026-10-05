@@ -616,7 +616,7 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     slug: "5-types-humour-lequel-pour-toi",
     title: "Humour observationnel : les 5 types",
     excerpt:
-      "L'humour observationnel, c'est rire de ce que tout le monde vit sans le dire. Sa définition en une phrase, puis 4 autres types pour trouver ton style.",
+      "Il y a l'humour de Roman Frayssinet, celui de Paul Mirabel, celui de Blanche Gardin, et puis le tien : explore les 5 types d'humour pour trouver ton style.",
     content: `> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types : trouve ta dominante et développe-la.
 
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
