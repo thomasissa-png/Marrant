@@ -50,6 +50,19 @@ Bilan : 12 défauts sur 12 soldés en document ; en code, 4 non livrés (K6.1, 6
 
 Sources : [Rival IQ 2025](https://www.rivaliq.com/blog/social-media-industry-benchmark-report/) (Instagram, médiane 0,36 %, dénominateur non comparable aux seuils, lecture seule) ; [Auth0, Google bloque OAuth en navigateur intégré](https://auth0.com/blog/google-blocks-oauth-requests-from-embedded-browsers/).
 
+## Corrections appliquées (05/10/2026, dans `docs/social/mesure.md` uniquement)
+
+1. **D2 et démarrage réel** : début 06/10, semaine 0 = rodage (colonne « échauffement », hors cumuls et seuils), seconde baseline dim. 11/10 (cumuls = relevé moins baseline 2), J0 de mesure lun. 12/10 `[HYPOTHÈSE : C2 et C3 en ligne le 11/10]`, jalons 26/10, 09/11, 07/12, 04/01, 01/02 (§2). Registre des J0 rempli : début 06/10, C1 05/10, C2/C3/C4 et lignes `REPLIT_ACTIONS.md` en `[à renseigner]` (aucune date inventée) ; 6 lignes ajoutées au relevé (§6).
+2. **D3 et ligne 3 périmée** : deux modes de relevé (A natif du lundi par défaut ; B par post par Buffer avec `insights:read`, absente de la clé au 05/10, total d'abonnés toujours manuel) ; clé demandée dans le message du 06/10, échéance 08/10 (en-tête, §3).
+3. **D4 Économie** (§5) : coût cash 0 €, 986 min / 24 semaines (41 min par semaine), CAC temps lu à J+56, LTV `[HYPOTHÈSE]` (churn inconnu), jamais un critère d'arrêt ; lecture utile = `quiz-termine` vers clic CTA par `origine`.
+4. **D5** (§1) : avant C2, attribution = UTM de la session Umami `[À VÉRIFIER @data-analyst]`. **D7** (§1) : lien de bio provisoire X et LinkedIn vers `/quiz-humour` avec UTM `bio-quiz` (Instagram idem), remplacé par `/liens/x` et `/liens/li`.
+5. **Tests (§7)** : (a) LinkedIn carte contre texte dès le 13/10, règle d'adoption @design (+30 % d'impressions ET engagement non inférieur ; défaut image) ; (b) X image contre texte dès J+28 (défaut texte) ; (c) heure alternée par jour (écart sous 25 % : A) ; un facteur à la fois par réseau, « non concluant » sous 6 posts par bras ; colonne « Variante / heure » au relevé.
+6. **Limite de puissance (§8)** : 13 comptes dont 5 sur 90 j pour 2 399 visites = 0,21 % ; au succès, 0,10 / 0,26 / 0,42 / 0,58 inscrit attendu à J+28 / 56 / 84 / 112 (23 % de chance d'en voir un à J+56) ; conclusions permises (abonnés, visites, test d'heure X à J+28, image LinkedIn à J+56 si 6 posts éligibles par bras) et interdites (conversion par réseau, CAC, A/B sur inscriptions).
+7. **Non traités ici** : D1 et D6 (`strategie-relance-v5.md`, `plan-execution-s15.md`, éditions @social) ; D8 (preuve de clôture) reste après le 10/10. Aucune note révisée.
+8. **Seuils** : aucun seuil validé par Thomas modifié (§4, J+84, J+112, règle §5 de jugement inchangés).
+9. **Alignement fondateur** : « cadence réduite » du §5 précisée « seulement avec l'accord explicite de Thomas » (D8, `founder-preferences.md`:57), sans changer le critère de déclenchement.
+10. **À trancher par Thomas ou @social** : test vendredi contre dimanche dès J0 (non tranché, superposerait un 2e facteur) ; test d'heure LinkedIn décalé après le verdict image ; format carte X 16:9 (@design) contre 4:5 (@social) ; règle de pause du §5 contre « aucun réseau en pause » (`founder-preferences.md`:59), non modifiée.
+
 ---
 **Handoff → @orchestrator** (puis @fullstack pour C1 à C5, @data-analyst pour D3 à D5)
 - Fichiers produits : `/home/user/Marrant/docs/social/notation-relance-cycle6-growth.md`
