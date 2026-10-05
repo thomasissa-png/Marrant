@@ -313,8 +313,8 @@ describe("image-generator", () => {
 
     const slides = [
       ...carrouselVanne({ amorce: "Amorce.", chute: ["Chute."] }),
-      carteVanneUnique("x", ["Chute."]),
-      carteVanneUnique("linkedin", ["Chute."]),
+      carteVanneUnique("x", { amorce: "Amorce.", chute: ["Chute."] }),
+      carteVanneUnique("linkedin", { amorce: "Amorce.", chute: ["Chute."] }),
     ];
     const buffers = await renderSlides(slides);
 
@@ -327,7 +327,7 @@ describe("image-generator", () => {
     expect(dims).toEqual(["1080x1350", "1080x1350", "1600x900", "1200x627"]);
   });
 
-  it("charge Syne 700/800 en plus d'Inter pour les titres des cartes", async () => {
+  it("charge Plus Jakarta Sans 700/800 (police du site) en plus d'Inter pour les titres des cartes", async () => {
     jest.resetModules();
     const satori = require("satori") as jest.Mock;
     satori.mockClear();
@@ -338,8 +338,8 @@ describe("image-generator", () => {
       "Inter 400",
       "Inter 700",
       "Inter 800",
-      "Syne 700",
-      "Syne 800",
+      "Plus Jakarta Sans 700",
+      "Plus Jakarta Sans 800",
     ]);
   });
 });

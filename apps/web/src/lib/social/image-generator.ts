@@ -16,6 +16,7 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { isCloudflareWorkers } from "@/lib/runtime-env";
 import type { Slide } from "./carrousel-piste-a";
+import { enregistrerPolice } from "./mesure-texte";
 
 // ───────────────────────────────────────────────────────────────────
 // Image Generator — satori JSX → SVG → PNG
@@ -23,8 +24,9 @@ import type { Slide } from "./carrousel-piste-a";
 // Génère des images 1080×1080 pour Instagram à partir des templates
 // JSX. Utilise satori (SVG) + resvg-js (PNG).
 //
-// Fonts : Inter (Regular + Bold + ExtraBold) et Syne (Bold + ExtraBold,
-// titres des cartes piste A) chargées depuis le
+// Fonts : Inter (Regular + Bold + ExtraBold) et Plus Jakarta Sans
+// (Bold + ExtraBold, police de titre du site et des cartes piste A)
+// chargées depuis le
 // filesystem local (public/fonts/) au premier appel, avec fallback
 // CDN si les fichiers locaux sont absents. Cache mémoire après
 // premier chargement.
@@ -54,22 +56,22 @@ async function fetchFontFromAssets(file: string): Promise<ArrayBuffer> {
   return res.arrayBuffer();
 }
 
-/** Polices des cartes : Inter (texte) + Syne (titres, piste A). */
+/** Polices des cartes : Inter (texte) + Plus Jakarta Sans (titres, comme le site). */
 const FONT_FILES = [
   { family: "Inter", weight: 400, file: "Inter-Regular.ttf", cdn: CDN_URLS[400] },
   { family: "Inter", weight: 700, file: "Inter-Bold.ttf", cdn: CDN_URLS[700] },
   { family: "Inter", weight: 800, file: "Inter-ExtraBold.ttf", cdn: CDN_URLS[800] },
   {
-    family: "Syne",
+    family: "Plus Jakarta Sans",
     weight: 700,
-    file: "Syne-Bold.ttf",
-    cdn: "https://fonts.gstatic.com/s/syne/v24/8vIS7w4qzmVxsWxjBZRjr0FKM_3fvj6k.ttf",
+    file: "PlusJakartaSans-Bold.ttf",
+    cdn: "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_TknNSg.ttf",
   },
   {
-    family: "Syne",
+    family: "Plus Jakarta Sans",
     weight: 800,
-    file: "Syne-ExtraBold.ttf",
-    cdn: "https://fonts.gstatic.com/s/syne/v24/8vIS7w4qzmVxsWxjBZRjr0FKM_24vj6k.ttf",
+    file: "PlusJakartaSans-ExtraBold.ttf",
+    cdn: "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KUnNSg.ttf",
   },
 ] as const;
 
@@ -79,12 +81,11 @@ async function loadFonts() {
   const fonts = await Promise.all(
     FONT_FILES.map(async ({ family, weight, file, cdn }) => {
       const name = `${family} ${weight}`;
-      const font = (data: ArrayBuffer) => ({
-        name: family,
-        data,
-        weight: weight as FontWeight,
-        style: "normal" as const,
-      });
+      const font = (data: ArrayBuffer) => {
+        // Même police pour la mise en lignes mesurée (mise-en-lignes.ts).
+        enregistrerPolice(family, weight, data);
+        return { name: family, data, weight: weight as FontWeight, style: "normal" as const };
+      };
 
       // 1. TTF local (WOFF2 non supporté par satori)
       try {
@@ -109,7 +110,7 @@ async function loadFonts() {
         }
       }
 
-      // 2. Repli CDN (WOFF Inter / TTF Syne, formats lus par satori)
+      // 2. Repli CDN (WOFF Inter / TTF Plus Jakarta Sans, formats lus par satori)
       try {
         console.warn(`[image-gen] ${name} introuvable localement, repli CDN...`);
         const res = await fetch(cdn);

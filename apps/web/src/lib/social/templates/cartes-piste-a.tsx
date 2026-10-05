@@ -1,70 +1,81 @@
 import { COLORS } from "./instagram-templates";
 import { Carte, FONT_TITRE, FORMATS, type FormatCarte } from "./carte-marque";
 import { typo } from "../typo";
+import { mettreEnLignes } from "../mise-en-lignes";
 
 // ───────────────────────────────────────────────────────────────────
-// Cartes « piste A » (audit visuels s15, §4) : carrousel 4:5,
-// slide 1 amorce sur fond sombre, slide 2 chute sur aplat #6D28D9.
-// Syne 800/700 pour titres et chutes, Inter pour le reste, texte
-// aligné à gauche, aucun texte sous 28 px.
+// Cartes « piste A », v3 (notations cycle 2 @design et @reviewer)
+//
+// Plus Jakarta Sans 800/700 (police de titre du site), lignes calculées
+// sur les largeurs réelles des glyphes (mise-en-lignes.ts) : plus de
+// trou d'espace ni de mot seul. Une slide = un temps : jamais amorce et
+// chute sur la même slide d'un carrousel. Le chevron « ne marque que la
+// réplique à dire (conseil). Aucun texte sous 28 px, pied 32 px.
 // ───────────────────────────────────────────────────────────────────
 
-type Page = { n: number; total: number };
-
-/** Tailles de titre par format (Instagram = référence de l'audit). */
-const TAILLES: Record<FormatCarte, { amorce: number; chute: number; titre: number; nombre: number }> = {
-  instagram: { amorce: 64, chute: 84, titre: 72, nombre: 200 },
-  x: { amorce: 60, chute: 76, titre: 72, nombre: 160 },
-  linkedin: { amorce: 44, chute: 56, titre: 54, nombre: 120 },
+/** Tailles par format (Instagram = référence, notation @design point 4). */
+export const TAILLES: Record<FormatCarte, { amorce: number; chute: number; titre: number; nombre: number }> = {
+  instagram: { amorce: 80, chute: 100, titre: 76, nombre: 220 },
+  x: { amorce: 72, chute: 88, titre: 76, nombre: 180 },
+  linkedin: { amorce: 44, chute: 60, titre: 52, nombre: 120 },
 };
 
-/** Chasse moyenne d'un caractère Syne, en em (mesurée sur les rendus). */
-const CHASSE_SYNE = { 700: 0.66, 800: 0.78 } as const;
+type Poids = 700 | 800;
 
-/**
- * Corps maximal pour qu'aucun bloc insécable (mots collés par typo())
- * ne déborde de la zone de texte : Syne 800 est très large, satori ne
- * coupe pas les mots et ne réduit pas le corps tout seul.
- */
-export function corpsSansDebordement(
-  textes: string[],
-  taille: number,
-  poids: 700 | 800,
-  largeur: number,
-): number {
-  const plusLong = Math.max(
-    ...textes.flatMap((t) => typo(t).split(/[ \n]+/)).map((m) => m.length),
-  );
-  const max = Math.floor(largeur / (CHASSE_SYNE[poids] * plusLong));
-  return Math.max(28, Math.min(taille, max));
+/** Largeur utile d'un format (hors marges de sécurité). */
+export function largeurUtile(format: FormatCarte): number {
+  return FORMATS[format].width - 2 * FORMATS[format].padX;
+}
+
+/** Corps commun et lignes de chaque paragraphe (même corps pour tout le bloc). */
+export function composerBloc(textes: string[], taille: number, poids: Poids, largeur: number) {
+  const police = { famille: FONT_TITRE, poids };
+  const corps = Math.min(...textes.map((t) => mettreEnLignes(typo(t), police, taille, largeur).corps));
+  return { corps, paragraphes: textes.map((t) => mettreEnLignes(typo(t), police, corps, largeur).lignes) };
 }
 
 /**
- * Bloc insécable rendu mot par mot : satori surestime la largeur d'un
- * nœud texte contenant une espace insécable (trou visible après le
- * bloc, constaté au rendu). Les insécables deviennent donc des marges :
- * espace normale avant « : » et dans « », espace fine avant ; ? !
+ * Approche optique de la ponctuation basse et de l'apostrophe : Plus
+ * Jakarta Sans leur donne de larges approches (point : 0,13 em de chaque
+ * côté) et satori n'applique pas le crénage GPOS, d'où un « trou » visible
+ * après « TGV, » ou avant le point final. Valeurs en em.
  */
-function BlocInsecable({ bloc, corps }: { bloc: string; corps: number }) {
-  const parties = bloc.split(/([\u00A0\u202F])/);
-  const mots: Array<{ mot: string; marge: number }> = [];
-  for (let k = 0; k < parties.length; k += 2) {
-    const sep = parties[k - 1];
-    const marge = sep === undefined ? 0 : Math.round(corps * (sep === "\u202F" ? 0.12 : 0.24));
-    if (parties[k]) mots.push({ mot: parties[k], marge });
-  }
+export const APPROCHE: Record<string, { avant: number; apres: number }> = {
+  ".": { avant: -0.07, apres: -0.05 },
+  ",": { avant: -0.06, apres: -0.06 },
+  "…": { avant: -0.05, apres: -0.03 },
+  "’": { avant: -0.05, apres: -0.05 },
+};
+
+/** Découpe une ligne en segments : texte courant et ponctuation à rapprocher. */
+export function segmentsLigne(ligne: string): Array<{ texte: string; avant: number; apres: number }> {
+  return ligne
+    .split(/([.,…’])/)
+    .filter(Boolean)
+    .map((t) => ({ texte: t, avant: APPROCHE[t]?.avant ?? 0, apres: APPROCHE[t]?.apres ?? 0 }));
+}
+
+function Ligne({ texte, corps }: { texte: string; corps: number }) {
   return (
     <div style={{ display: "flex" }}>
-      {mots.map(({ mot, marge }, k) => (
-        <div key={k} style={{ display: "flex", marginLeft: marge }}>
-          {mot}
+      {segmentsLigne(texte).map((s, k) => (
+        <div
+          key={k}
+          style={{
+            display: "flex",
+            whiteSpace: "pre",
+            marginLeft: Math.round(s.avant * corps),
+            marginRight: Math.round(s.apres * corps),
+          }}
+        >
+          {s.texte}
         </div>
       ))}
     </div>
   );
 }
 
-/** Paragraphes en Syne, typographie française appliquée. */
+/** Paragraphes : une ligne = un div sans retour automatique. */
 function Bloc({
   textes,
   taille,
@@ -72,39 +83,32 @@ function Bloc({
   poids = 800,
   couleur = COLORS.textPrimary,
   gap = 40,
-  citation = false,
 }: {
   textes: string[];
   taille: number;
   format?: FormatCarte;
-  /** Texte cité (ouvert par le grand « ) : un « » intérieur devient “ ”. */
-  citation?: boolean;
-  poids?: 700 | 800;
+  poids?: Poids;
   couleur?: string;
   gap?: number;
 }) {
-  const largeur = FORMATS[format].width - 2 * FORMATS[format].padX;
-  const corps = corpsSansDebordement(textes, taille, poids, largeur);
-  // Chaque bloc insécable (mots collés par typo()) est un élément flex
-  // distinct, espacement fixé ici à la chasse d'une espace Syne.
+  const { corps, paragraphes } = composerBloc(textes, taille, poids, largeurUtile(format));
   return (
     <div style={{ display: "flex", flexDirection: "column", gap }}>
-      {textes.map((t, i) => (
+      {paragraphes.map((lignes, i) => (
         <div
           key={i}
           style={{
             display: "flex",
-            flexWrap: "wrap",
-            columnGap: Math.round(corps * 0.24),
+            flexDirection: "column",
             fontFamily: FONT_TITRE,
             fontWeight: poids,
             fontSize: corps,
-            lineHeight: 1.15,
+            lineHeight: 1.12,
             color: couleur,
           }}
         >
-          {(citation ? typo(`«${t}»`).slice(2, -2) : typo(t)).split(" ").map((bloc, j) => (
-            <BlocInsecable key={j} bloc={bloc} corps={corps} />
+          {lignes.map((l, j) => (
+            <Ligne key={j} texte={l} corps={corps} />
           ))}
         </div>
       ))}
@@ -112,8 +116,8 @@ function Bloc({
   );
 }
 
-/** Grand guillemet « violet qui ouvre une amorce ou un extrait. */
-function GrandGuillemet({ taille = 160, couleur = COLORS.accent }: { taille?: number; couleur?: string }) {
+/** Grand chevron « : marque la réplique à dire (règle unique). */
+function GrandGuillemet({ taille = 140, couleur = COLORS.bg }: { taille?: number; couleur?: string }) {
   return (
     <div
       style={{
@@ -131,7 +135,8 @@ function GrandGuillemet({ taille = 160, couleur = COLORS.accent }: { taille?: nu
   );
 }
 
-function Kicker({ texte, couleur = COLORS.accentHover }: { texte: string; couleur?: string }) {
+/** Surtitre (« Vanne n° 2 sur 8 », titre du conseil). */
+function Surtitre({ texte, couleur = COLORS.accentHover }: { texte: string; couleur?: string }) {
   return (
     <div
       style={{
@@ -142,37 +147,64 @@ function Kicker({ texte, couleur = COLORS.accentHover }: { texte: string; couleu
         lineHeight: 1.2,
         color: couleur,
         marginBottom: 32,
+        whiteSpace: "pre",
       }}
     >
-      {typo(texte)}
+      {typo(texte).replace(/ /g, " ").replace(/ /g, " ")}
+    </div>
+  );
+}
+
+/** Bouton d'appel à l'action (« Lien en bio ») : blanc, texte violet, rayon lg. */
+function Bouton({ texte }: { texte: string }) {
+  return (
+    <div style={{ display: "flex", marginTop: 56 }}>
+      <div
+        style={{
+          display: "flex",
+          backgroundColor: COLORS.textPrimary,
+          color: COLORS.accentSecondary,
+          fontFamily: FONT_TITRE,
+          fontWeight: 800,
+          fontSize: 40,
+          lineHeight: 1,
+          padding: "26px 40px",
+          borderRadius: 12,
+        }}
+      >
+        {texte}
+      </div>
     </div>
   );
 }
 
 // ─── Vanne ───────────────────────────────────────────────────────
 
-export function VanneAmorce({ amorce, page, indice }: { amorce: string; page?: Page; indice?: string }) {
+export function VanneAmorce({ amorce, indice }: { amorce: string; indice?: string }) {
   return (
-    <Carte format="instagram" kind="vanne" page={page} indice={indice}>
-      <GrandGuillemet />
-      <Bloc textes={[amorce]} taille={TAILLES.instagram.amorce} poids={700} citation />
+    <Carte format="instagram" kind="vanne" indice={indice} position="haut">
+      <Bloc textes={[amorce]} taille={TAILLES.instagram.amorce} />
     </Carte>
   );
 }
 
-export function VanneChute({
-  chute,
-  format = "instagram",
-  page,
-}: {
-  /** Un élément par temps de la chute (le second temps va à la ligne). */
-  chute: string[];
-  format?: FormatCarte;
-  page?: Page;
-}) {
+export function VanneChute({ chute, format = "instagram" }: { chute: string[]; format?: FormatCarte }) {
   return (
-    <Carte format={format} fond="aplat" page={page}>
-      <Bloc textes={chute} taille={TAILLES[format].chute} format={format} gap={format === "linkedin" ? 24 : 48} />
+    <Carte format={format} fond="aplat">
+      <Bloc textes={chute} taille={TAILLES[format].chute} format={format} gap={format === "linkedin" ? 20 : 48} />
+    </Carte>
+  );
+}
+
+/** Repli LinkedIn (amorce > 140 caractères) : amorce et chute sur une carte. */
+export function VanneComplete({ amorce, chute, format }: { amorce: string; chute: string[]; format: FormatCarte }) {
+  const t = TAILLES[format];
+  return (
+    <Carte format={format}>
+      <Bloc textes={[amorce]} taille={t.amorce} format={format} poids={700} />
+      <div style={{ display: "flex", marginTop: format === "linkedin" ? 20 : 40 }}>
+        <Bloc textes={chute} taille={t.amorce} format={format} couleur={COLORS.accentHover} gap={12} />
+      </div>
     </Carte>
   );
 }
@@ -184,19 +216,17 @@ export function ArticleCouverture({
   nombre,
   format = "instagram",
   sansEtiquette = false,
-  page,
   indice,
 }: {
   titre: string;
   nombre?: number;
   format?: FormatCarte;
   sansEtiquette?: boolean;
-  page?: Page;
   indice?: string;
 }) {
   const t = TAILLES[format];
   return (
-    <Carte format={format} kind={sansEtiquette ? undefined : "article"} page={page} indice={indice}>
+    <Carte format={format} kind={sansEtiquette ? undefined : "article"} indice={indice}>
       {nombre !== undefined && (
         <div
           style={{
@@ -204,9 +234,10 @@ export function ArticleCouverture({
             fontFamily: FONT_TITRE,
             fontWeight: 800,
             fontSize: t.nombre,
-            lineHeight: 0.9,
+            lineHeight: 1,
+            letterSpacing: -4,
             color: COLORS.accent,
-            marginBottom: format === "linkedin" ? 12 : 32,
+            marginBottom: Math.round(t.titre * 0.4),
           }}
         >
           {String(nombre)}
@@ -217,41 +248,22 @@ export function ArticleCouverture({
   );
 }
 
-export function ArticleExtrait({
-  amorce,
-  chute,
-  rang,
-  total,
-  page,
-}: {
-  amorce: string;
-  chute?: string;
-  rang: number;
-  total: number;
-  page?: Page;
-}) {
+/** Extrait, temps 1 : l'amorce seule, surtitre « Vanne n° 2 sur 8 ». */
+export function ArticleExtraitAmorce({ amorce, surtitre }: { amorce: string; surtitre: string }) {
   return (
-    <Carte format="instagram" kind="article" page={page}>
-      <Kicker texte={`Extrait : n° ${rang} sur ${total}`} />
-      <GrandGuillemet taille={120} />
-      <Bloc textes={[amorce]} taille={56} poids={700} citation />
-      {chute && (
-        <div style={{ display: "flex", marginTop: 40 }}>
-          <Bloc textes={[chute]} taille={56} couleur={COLORS.accentHover} citation />
-        </div>
-      )}
+    <Carte format="instagram" kind="article">
+      <Surtitre texte={surtitre} />
+      <Bloc textes={[amorce]} taille={TAILLES.instagram.amorce} />
     </Carte>
   );
 }
 
-export function ArticleFin({ texte, page }: { texte: string; page?: Page }) {
+/** Dernière slide : « Les N autres … » + bouton (lien en bio ou en commentaire). */
+export function CarteFin({ texte, cta }: { texte: string; cta: string }) {
   return (
-    <Carte format="instagram" fond="aplat" page={page}>
-      <Bloc textes={[texte]} taille={72} />
-      <div style={{ display: "flex", marginTop: 24 }}>
-        <Bloc textes={["sur deviens-marrant.fr"]} taille={48} poids={700} />
-      </div>
-      <div style={{ display: "flex", marginTop: 56, fontSize: 40, fontWeight: 700 }}>Lien en bio</div>
+    <Carte format="instagram" fond="aplat">
+      <Bloc textes={[texte]} taille={88} />
+      <Bouton texte={cta} />
     </Carte>
   );
 }
@@ -261,27 +273,36 @@ export function ArticleFin({ texte, page }: { texte: string; page?: Page }) {
 export function ConseilSituation({
   titreConseil,
   situation,
-  page,
   indice,
 }: {
   titreConseil: string;
   situation: string;
-  page?: Page;
   indice?: string;
 }) {
   return (
-    <Carte format="instagram" kind="conseil" page={page} indice={indice}>
-      <Kicker texte={titreConseil} />
-      <Bloc textes={[situation]} taille={TAILLES.instagram.amorce} poids={700} />
+    <Carte format="instagram" kind="conseil" indice={indice} position="haut">
+      <Surtitre texte={titreConseil} />
+      <Bloc textes={[situation]} taille={TAILLES.instagram.amorce} />
     </Carte>
   );
 }
 
-export function ConseilReplique({ replique, page }: { replique: string[]; page?: Page }) {
+export function ConseilReplique({ replique }: { replique: string[] }) {
   return (
-    <Carte format="instagram" fond="aplat" page={page}>
-      <GrandGuillemet taille={120} couleur={COLORS.bg} />
-      <Bloc textes={replique} taille={TAILLES.instagram.chute} gap={40} citation />
+    <Carte format="instagram" fond="aplat">
+      <GrandGuillemet />
+      <Bloc textes={replique} taille={TAILLES.instagram.chute} gap={40} />
+    </Carte>
+  );
+}
+
+/** Principe en une phrase (tiré du conseil) + appel à l'action : fin du carrousel. */
+export function ConseilPrincipe({ surtitre, principe, cta }: { surtitre: string; principe: string; cta: string }) {
+  return (
+    <Carte format="instagram" kind="conseil">
+      <Surtitre texte={surtitre} />
+      <Bloc textes={[principe]} taille={64} />
+      <Bouton texte={cta} />
     </Carte>
   );
 }

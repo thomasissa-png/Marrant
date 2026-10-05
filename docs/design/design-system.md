@@ -33,7 +33,7 @@
 
 ## Typographie
 
-- **Titres** : Syne (font-display), bold
+- **Titres** : Plus Jakarta Sans 800/700 (font-display, chargée par `layout.tsx`), aussi sur les cartes sociales (s15)
 - **Corps** : Inter (font-sans), regular/medium
 - **Tailles** : system Tailwind (text-sm, text-base, text-lg, text-xl, text-2xl, text-3xl, text-4xl)
 

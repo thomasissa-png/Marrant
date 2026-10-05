@@ -75,7 +75,7 @@ function paragraphe(ligne: string): string {
   let bloc = mots[0].length; // longueur du bloc insécable en cours
   for (let i = 1; i < mots.length; i++) {
     // Anti-orphelin : coller les 2 derniers mots, sauf si le bloc
-    // insécable obtenu dépasse 18 caractères (en Syne 800 grand corps,
+    // insécable obtenu dépasse 18 caractères (en grand corps,
     // un bloc plus long forcerait une forte réduction du corps).
     const dernier = i === mots.length - 1;
     const avantDernier = vrais >= 4 && dernier && bloc + 1 + mots[i].length <= 18;

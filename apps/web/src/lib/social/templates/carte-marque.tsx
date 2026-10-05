@@ -7,8 +7,8 @@ import { COLORS, BRAND } from "./instagram-templates";
 // Formats : Instagram 4:5 (1080×1350), X 16:9 (1600×900),
 // LinkedIn lien (1200×627). Fond sombre #0D0D0D ou aplat #6D28D9
 // (slide chute / dernière slide). Pied de carte : monogramme « d »
-// du favicon + deviens-marrant.fr + pagination. Plancher texte 28 px,
-// zone de sécurité 96 px sur Instagram.
+// du favicon + deviens-marrant.fr (+ « Glisse → » en slide 1).
+// Plancher texte 28 px, pied 32 px, zone de sécurité 96 px (Instagram).
 // ───────────────────────────────────────────────────────────────────
 
 export const FORMATS = {
@@ -21,9 +21,13 @@ export type FormatCarte = keyof typeof FORMATS;
 export type KindCarte = "vanne" | "article" | "conseil";
 export type FondCarte = "sombre" | "aplat";
 
-/** Familles de polices chargées par image-generator (Syne = titres). */
-export const FONT_TITRE = "Syne";
+/** Familles chargées par image-generator : Plus Jakarta Sans = titres (comme le site). */
+export const FONT_TITRE = "Plus Jakarta Sans";
 export const FONT_TEXTE = "Inter";
+
+/** Pied et étiquettes : jamais sous 32 px (notation cycle 2, V2). */
+export const TAILLE_PIED: Record<FormatCarte, number> = { instagram: 32, x: 40, linkedin: 32 };
+const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56 };
 
 /** Étiquette affichée selon le type de contenu (vanne : aucune). */
 export const ETIQUETTES: Record<KindCarte, string | null> = {
@@ -32,7 +36,7 @@ export const ETIQUETTES: Record<KindCarte, string | null> = {
   conseil: "Conseil",
 };
 
-export function Monogramme({ fond, taille = 56 }: { fond: FondCarte; taille?: number }) {
+export function Monogramme({ fond, taille = 72 }: { fond: FondCarte; taille?: number }) {
   return (
     <div
       style={{
@@ -60,18 +64,21 @@ export interface CarteProps {
   format: FormatCarte;
   fond?: FondCarte;
   kind?: KindCarte;
-  /** Pagination « 1/2 » (carrousel Instagram uniquement). */
-  page?: { n: number; total: number };
-  /** Indice de swipe affiché en pied (« Glisse »). */
+  /** Indice de swipe affiché en pied (« Glisse → », slides 1 seulement). */
   indice?: string;
+  /** « haut » : bloc remonté au tiers haut (slide 1, arrêt du défilement). */
+  position?: "centre" | "haut";
   children: ReactNode;
 }
 
-export function Carte({ format, fond = "sombre", kind, page, indice, children }: CarteProps) {
+/**
+ * Cadre commun. Pas de pagination « n/N » : Instagram affiche déjà son
+ * compteur (notation cycle 2, point 8).
+ */
+export function Carte({ format, fond = "sombre", kind, indice, position = "centre", children }: CarteProps) {
   const f = FORMATS[format];
   const etiquette = kind ? ETIQUETTES[kind] : null;
-  const compact = format === "linkedin";
-  const pied = compact ? 28 : 30;
+  const pied = TAILLE_PIED[format];
   const couleurPied = fond === "aplat" ? COLORS.textPrimary : COLORS.textSecondary;
   return (
     <div
@@ -90,7 +97,7 @@ export function Carte({ format, fond = "sombre", kind, page, indice, children }:
         <div
           style={{
             display: "flex",
-            fontSize: 28,
+            fontSize: pied,
             fontWeight: 700,
             letterSpacing: 4,
             textTransform: "uppercase",
@@ -101,27 +108,28 @@ export function Carte({ format, fond = "sombre", kind, page, indice, children }:
         </div>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          justifyContent: position === "haut" ? "flex-start" : "center",
+          paddingTop: position === "haut" ? Math.round(f.height * 0.12) : 0,
+        }}
+      >
         {children}
       </div>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <Monogramme fond={fond} taille={compact ? 48 : 56} />
+          <Monogramme fond={fond} taille={TAILLE_MONOGRAMME[format]} />
           <div style={{ display: "flex", fontSize: pied, color: couleurPied }}>{BRAND}</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: pied }}>
-          {indice && (
-            <div style={{ display: "flex", color: COLORS.textPrimary, fontWeight: 700 }}>
-              {indice}
-            </div>
-          )}
-          {page && (
-            <div style={{ display: "flex", color: couleurPied }}>
-              {`${page.n}/${page.total}`}
-            </div>
-          )}
-        </div>
+        {indice && (
+          <div style={{ display: "flex", fontSize: pied, color: COLORS.textPrimary, fontWeight: 700 }}>
+            {indice}
+          </div>
+        )}
       </div>
     </div>
   );
