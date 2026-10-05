@@ -10,7 +10,7 @@
 - **slug** : `message-drole-fete-des-peres`
 - **title** (54 car.) : Message drôle fête des pères : 19 textes par situation
 - **metaDescription** (153 car.) : 19 messages drôles pour la fête des pères à copier-coller : bricolage, barbecue, voiture, appel, répondeur. Avec le support et le moment qui font mouche.
-- **excerpt** : Un message drôle de fête des pères, c'est une ou deux phrases, un rire qui tombe sur toi et une vraie tendresse derrière. Voici 19 textes à copier-coller selon la situation (bricolage, barbecue et voiture, appel et répondeur), avec le support conseillé pour chacun : SMS, carte ou mot dit à table.
+- **excerpt** : Un message drôle de fête des pères, c'est un texte court, un rire qui tombe sur toi et une vraie tendresse derrière. Voici 19 textes à copier-coller selon la situation (bricolage, barbecue et voiture, appel et répondeur), avec le support conseillé pour chacun : SMS, carte ou mot dit à table.
 - **mot-clé principal** : message drôle fête des pères
 - **mots-clés secondaires** : texte humoristique fête des pères ; carte fête des pères drôle ; sms fête des pères drôle ; message fête des pères humour
 - **date de publication** : 2027-05-13 (jeudi) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes
@@ -40,13 +40,13 @@
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un message drôle de fête des pères tient en une ou deux phrases, fait rire sur toi ou sur la situation (jamais sur ton père) et dit « je t'aime » sans avoir l'air d'y toucher : SMS le matin, mot sur la carte, phrase dite au barbecue ou au téléphone.
+> **En bref :** Un message drôle de fête des pères tient sur un écran de téléphone, fait rire sur toi ou sur la situation (jamais sur ton père) et dit « je t'aime » sans avoir l'air d'y toucher : SMS le matin, mot sur la carte, phrase dite au barbecue ou au téléphone.
 
 La fête des pères tombe le dimanche 20 juin 2027. Tu as un père qui répond « il ne fallait pas » et le pense à moitié, une carte à écrire, et l'envie de dire autre chose que « bonne fête papa ». Cet article te donne **19 messages drôles pour la fête des pères**, rangés par situation : le bricolage, le barbecue et la voiture, l'appel et le répondeur.
 
-Chaque message tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'envoyer. Il te reste à mettre le mot que tu emploies pour lui (papa, p'pa, le prénom) et, si tu en as un, à ajouter un détail que toi seul connais.
+Va direct à ta situation : [Bricolage](#quel-message-drole-ecrire-a-un-pere-qui-bricole) · [Barbecue et voiture](#quel-message-drole-pour-un-pere-au-barbecue-ou-au-volant) · [Appel et répondeur](#que-dire-de-drole-a-son-pere-au-telephone-ou-sur-son-repondeur) · [Les 4 règles](#comment-ecrire-un-message-drole-de-fete-des-peres-qu-il-gardera). Pour l'anniversaire de ton père, il y a [le message d'anniversaire drôle](/blog/message-anniversaire-drole-par-situation).
 
-Va direct à ta situation : [Bricolage](#quel-message-drole-ecrire-a-un-pere-qui-bricole) · [Barbecue et voiture](#quel-message-drole-pour-un-pere-au-barbecue-ou-au-volant) · [Appel et répondeur](#que-dire-de-drole-a-son-pere-au-telephone-le-jour-de-la-fete-des-peres) · [Les 4 règles](#comment-ecrire-un-message-drole-de-fete-des-peres-qui-touche-juste). Pour l'anniversaire de ton père, il y a [le message d'anniversaire drôle](/blog/message-anniversaire-drole-par-situation).
+Chaque message tient sur un écran de téléphone, avec en dessous l'endroit et le moment où l'envoyer. Il te reste à remplacer « papa » par le mot que tu emploies pour lui (p'pa, son prénom) et à glisser le détail qui n'appartient qu'à vous deux : le nom de l'outil, la route, sa phrase à lui.
 
 ---
 
@@ -72,13 +72,13 @@ Un père qui bricole a un garage, un tiroir de vis et des principes. Le rire tom
 **6.** Bonne fête papa. Pendant toute mon enfance, tu m'as demandé de tenir la lampe. Je n'ai jamais su ce que tu réparais. J'éclairais bien.
 *→ À voix haute, au café, ou en vocal. C'est la plus tendre de la série : garde-la pour la fin du repas et laisse un silence après « J'éclairais bien ».*
 
-Pour garder le rire sur toi, [les blagues d'autodérision](/vannes/theme/autoderision) sont le bon terrain d'entraînement.
+Rater un trou dans le mur et le raconter soi-même, c'est déjà de l'autodérision : [les blagues d'autodérision](/vannes/theme/autoderision) en ont d'autres, avec leur chute et leur décryptage.
 
 ---
 
 ## Quel message drôle pour un père au barbecue ou au volant ?
 
-Le barbecue et la voiture sont deux territoires où il règne sans partage : la grille, le GPS, le raccourci, et les conseils que tu n'as pas demandés. Tu peux sourire de la file d'attente, de tes trajets ou de ton estomac, pas du cuisinier ni du conducteur.
+Le barbecue et la voiture sont deux territoires où il règne sans partage : la grille, le GPS, le raccourci, et les conseils que tu n'as pas demandés. Tu peux sourire de tes talents au barbecue, de tes trajets ou de l'huile que tu n'as jamais su vérifier, pas du cuisinier ni du conducteur.
 
 **7.** Bonne fête papa. J'ai appris à allumer un barbecue. Je n'ai pas osé te le dire. Tu l'aurais rallumé.
 *→ SMS la veille, ou carte glissée dans le sac avant le repas. Une seule bulle, sans émoji : « rallumé » doit arriver en dernier.*
@@ -98,13 +98,13 @@ Le barbecue et la voiture sont deux territoires où il règne sans partage : la 
 **12.** Bonne fête papa. À mon âge, tu me dis encore « mets une veste ». J'en garde une dans la voiture. Pour ne pas te mentir.
 *→ SMS le matin, ou une ligne sur la carte. Seulement si ton père dit vraiment cette phrase : sinon, remplace-la par la sienne.*
 
-Pour la suite du repas, [les blagues de soirée](/vannes/theme/soirees) ont leur chute et leur décryptage. Et pour comprendre pourquoi une pause avant la chute change tout, [le timing de l'humour](/blog/timing-humour) explique le principe.
+Au barbecue comme au volant, tout tient dans la pause avant le dernier mot : [le timing de l'humour](/blog/timing-humour) montre où la placer.
 
 ---
 
-## Que dire de drôle à son père au téléphone le jour de la fête des pères ?
+## Que dire de drôle à son père au téléphone, ou sur son répondeur ?
 
-Au téléphone, tu n'as que la voix. Les appels de père ont leurs rites (le « qu'est-ce qui se passe ? », le « je te laisse » qui dure vingt minutes) et son répondeur aussi : joue avec, c'est ton public qui les écrit. S'il ne décroche pas, le vocal ou le SMS prend le relais.
+Au téléphone, tu n'as que la voix. Les appels de père ont leurs rites (le haut-parleur, la question d'ouverture, le « ok » en guise de réponse) et son répondeur aussi : joue avec, il les reconnaîtra tout de suite. S'il ne décroche pas, le vocal ou le SMS prend le relais.
 
 **13.** Bonne fête papa. Je sens que je suis sur haut-parleur. Dis bonjour à la voiture de ma part.
 *→ À dire à voix haute dès qu'il décroche, seulement s'il est vraiment sur haut-parleur (au volant, les mains prises). Dis-le sur le ton de la bonne nouvelle.*
@@ -113,7 +113,7 @@ Au téléphone, tu n'as que la voix. Les appels de père ont leurs rites (le « 
 *→ À dire en début d'appel, avant qu'il te passe ta mère. Dis « Voilà, c'est personnel » plus doucement que le reste : c'est là que la phrase touche.*
 
 **15.** Bonne fête papa. Hier, notre appel a duré plus longtemps que mon trajet. Je suis resté garé dans la voiture pour qu'il continue.
-*→ Vocal ou SMS, le jour J, seulement si vous vous êtes vraiment parlé la veille. Envoie-le seul, sans « merci pour hier » devant ni derrière.*
+*→ Vocal ou SMS, le jour J, seulement si vous vous êtes vraiment parlé la veille. Envoie-le seul, sans « merci pour hier » devant ni derrière. Si tu es sa fille : « restée garée ».*
 
 **16.** Bonne fête papa. Ton répondeur commence par dix secondes de silence. J'ai dit « bonne fête » pendant le silence. Fais comme si tu l'avais entendu.
 *→ En vocal, quand il ne décroche pas, seulement si son répondeur commence vraiment par un silence : la phrase doit rester vraie. Dis-la d'une voix calme, sans rire.*
@@ -125,31 +125,31 @@ Au téléphone, tu n'as que la voix. Les appels de père ont leurs rites (le « 
 *→ SMS, quand il ne décroche pas ou quand tu sais qu'il répondra peu. N'y mets aucune question : il n'a rien à répondre, et le « ok » est déjà prévu.*
 
 **19.** Mon père décroche toujours par « qu'est-ce qui se passe ? ». Un jour, j'inventerai quelque chose. Pour lui faire plaisir.
-*→ À raconter, pas à envoyer : à table, au moment du café, en le regardant. Lis-le lentement et garde ton sérieux jusqu'à « quelque chose ».*
+*→ À raconter à table, au moment du café, en le regardant : tu parles de lui, devant lui. Par écrit, envoie-la plutôt dans le groupe de la famille. Garde ton sérieux jusqu'à « quelque chose ».*
 
-Pour le reste de la famille autour de la table : [les blagues de famille](/vannes/theme/famille). Et appeler sans raison demande un peu de courage : le [parcours Confiance](/parcours/confiance) est fait pour ça, 20 minutes par semaine pour oser envoyer le message.
+Pour le reste de la famille autour de la table : [les blagues de famille](/vannes/theme/famille). Et si appeler sans raison ne fait pas partie de vos habitudes, le [parcours Confiance](/parcours/confiance) t'aide à reprendre confiance, une conversation à la fois : 20 minutes par semaine.
 
 ---
 
-## Comment écrire un message drôle de fête des pères qui touche juste ?
+## Comment écrire un message drôle de fête des pères qu'il gardera ?
 
-> **À retenir :** Un message drôle réussi est court, vrai et précis. Une phrase drôle suffit : le reste de ton message peut être sincère.
+> **À retenir :** Un message drôle de fête des pères réussi est court, précis, et ne demande pas de réponse. Le détail juste (l'outil, la route, sa phrase à lui) dit ce que tu n'oserais pas dire en face.
 
-Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règles, dans l'ordre :
+Pour qu'il reconnaisse ta voix dans le message, quatre règles, dans l'ordre :
 
-**1. Le rire tombe sur toi ou sur la situation, pas sur ton père.** Ton incapacité à percer un mur, ta façon de goûter avant qu'il ait fini : tu peux tout te permettre. Son âge, sa santé, son travail, ses silences, jamais.
+**1. Le rire tombe sur toi ou sur la situation, pas sur ton père.** Le mur que tu ne sais pas percer, l'huile que tu vérifies sans savoir quoi chercher, le carton « à rendre à papa » : tu peux tout te permettre. Son âge, sa santé et son travail, jamais. Ses silences et ses « ok », seulement pour dire que tu y tiens, comme dans les n°14 et 18.
 
-**2. Garde une seule idée par message.** Une situation, une chute, puis, si tu veux, une phrase vraie. Si tu en mets deux, la première gâche la seconde.
+**2. Garde une seule idée par message.** Une situation, une chute, et s'il le faut une phrase vraie derrière. Le bricolage et la voiture dans le même SMS, ce sont deux blagues qui se marchent dessus.
 
 **3. Ajoute le détail que toi seul connais.** Le nom de l'outil, la route, le mot qu'il répète. Plus il est précis, plus il est à toi. Si ton détail demande trois lignes d'explication, retire-le.
 
-**4. Choisis le support avant le texte.** Une phrase sur une carte ne se joue pas comme un vocal. Le SMS arrive le matin, la carte se lit debout, le mot de table se dit lentement. [Le timing de l'humour](/blog/timing-humour) donne la règle de la pause.
+**4. Choisis le support avant le texte.** Le SMS arrive le matin, la carte se lit debout, le mot de table se dit lentement. Décide d'abord où il la recevra, ensuite la phrase.
 
-Si tu cherches un autre format, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille, et [les phrases drôles](/blog/phrases-droles-conversations) servent dans toutes les conversations.
+Si tu cherches un autre format, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille, et [les phrases drôles](/blog/phrases-droles-conversations) servent dans toutes les conversations. La fête des mères tombe quelques semaines plus tôt : [les messages drôles pour la fête des mères](/blog/message-drole-fete-des-meres) sont prêts aussi.
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste du catalogue, lui, ne change pas : [toutes les vannes](/vannes) sont rangées par situation.
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
 
 Tu préfères choisir ton terrain ?
 - [Famille](/vannes/theme/famille)
@@ -164,7 +164,7 @@ Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour)
 
 ### Comment écrire un message drôle pour la fête des pères sans le vexer ?
 
-Fais rire sur toi ou sur une situation que vous partagez (le bricolage, le trajet, l'appel), jamais sur son âge, sa santé, son travail ou ses silences. Si tu hésites, relis ton message en te mettant à sa place : s'il te fait sourire de l'autre côté, il peut partir. Une phrase drôle suivie d'une phrase sincère passe presque toujours mieux qu'un message uniquement moqueur.
+Fais rire sur toi ou sur une situation que vous partagez (le bricolage, le trajet, l'appel), jamais sur son âge, sa santé ou son travail. S'il parle peu, tu peux en sourire si la phrase finit sur ce que ses mots comptent pour toi, comme un « ok » qu'on encadre. Avant d'envoyer, imagine-le lire ton message à table devant tout le monde : si tu n'as rien à retirer, il peut partir.
 
 ### Mon père n'est pas du genre à rire : un message drôle peut-il marcher ?
 

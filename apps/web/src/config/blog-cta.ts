@@ -78,8 +78,8 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   },
   // Article à forte frappe s14 (B4-message-drole-fete-des-meres.md).
   "message-drole-fete-des-meres": {
-    title: "Le message est choisi. Reste à le dire à voix haute.",
-    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi oser le dire au téléphone ou à table, pas seulement l'écrire sur une carte.",
+    title: "Le message est choisi. Le reste de la journée s'improvise.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi trouver tes mots au téléphone ou à table aussi, quand il n'y a plus de texte à copier.",
     primaryLabel: "Créer mon compte gratuit",
     note: "Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.",
   },
@@ -93,7 +93,7 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   // Article à forte frappe s14 (B6-blagues-vacances-entre-amis.md).
   "blagues-vacances-ete-entre-amis": {
     title: "Les vannes sont prêtes. Reste à oser les sortir.",
-    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi sortir ta vanne devant tout le groupe sans la relire dix fois.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi sortir ta vanne devant tout le groupe, même si tu n'es pas le drôle de la bande.",
     primaryLabel: "Créer mon compte gratuit",
     note: "Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.",
   },

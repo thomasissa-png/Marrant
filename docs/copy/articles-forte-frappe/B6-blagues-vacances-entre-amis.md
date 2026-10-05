@@ -15,7 +15,7 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts` (clé = slug), même p
 
 - **clé** : `blagues-vacances-ete-entre-amis`
 - **title** : Les vannes sont prêtes. Reste à oser les sortir.
-- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi sortir ta vanne devant tout le groupe sans la relire dix fois.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi sortir ta vanne devant tout le groupe, même si tu n'es pas le drôle de la bande.
 - **primaryLabel** : Créer mon compte gratuit
 - **note** : Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.
 
@@ -23,7 +23,7 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts` (clé = slug), même p
 
 - **slug** : `blagues-vacances-ete-entre-amis`
 - **title** (53 car.) : Blagues de vacances : 20 vannes pour l'été entre amis
-- **metaDescription** (145 car.) : 20 blagues de vacances pour la location, la route, la cagnotte, le groupe de discussion et les photos, chacune avec le bon moment pour la sortir.
+- **metaDescription** (146 car.) : 20 blagues de vacances entre amis pour l'été : location, route, cagnotte, groupe de discussion, photos. Chacune avec le bon moment pour la sortir.
 - **excerpt** : Des blagues de vacances pour le groupe d'amis, classées par situation : la location, la route, le partage des comptes, le groupe de discussion, les photos et le retour. Chaque vanne a son mode d'emploi, et le rire tombe sur le groupe ou sur toi, jamais sur quelqu'un.
 - **mot-clé principal** : blagues de vacances · volume à vérifier dans Search Console (aucun chiffre disponible)
 - **mots-clés secondaires** : blagues d'été ; blague de vacances drôle ; humour de vacances entre amis
@@ -43,7 +43,7 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts` (clé = slug), même p
 
 Va direct à ton moment : [Location](#quelles-blagues-de-vacances-pour-la-location-les-consignes-les-chambres-la-salle-de-bain) · [Route](#quelles-blagues-de-vacances-pour-la-route-le-depart-la-playlist-l-aire-de-repos-le-coffre) · [Comptes](#quelles-blagues-pour-le-partage-des-comptes-la-cagnotte-les-courses-le-remboursement) · [Groupe de discussion](#quelles-blagues-pour-le-groupe-de-discussion-des-vacances-pendant-le-sejour-au-fil-des-messages) · [Photos et retour](#quelles-blagues-pour-la-photo-de-groupe-et-le-retour-le-trepied-la-galerie) · [Règles du jeu](#comment-faire-rire-son-groupe-en-vacances-sans-blesser-personne). Pour les autres situations (soirée, bureau, famille), les [50 blagues drôles à ressortir](/blog/meilleures-blagues-droles-2026) font le tour. Ici, on reste dans le séjour : du règlement de la location au dernier message du groupe. La [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par thème.
 
-Des vacances entre amis, c'est six personnes, une maison, une voiture et une cagnotte. Personne n'a choisi de faire tout ça ensemble avec autant de sérieux, et c'est exactement ce qui fait rire : les petites décisions collectives qui prennent une heure. Les meilleures blagues de vacances ne s'apprennent pas, elles se glissent là où le groupe se reconnaît.
+Des vacances d'été entre amis, c'est six personnes, une maison, un coffre trop petit et une cagnotte. Ce qui fait rire, ce sont les petites décisions collectives qui prennent une heure : qui dort où, qui paie le dentifrice, qui ose lancer le lave-vaisselle. Les vannes ci-dessous viennent de là, et chacune a son moment.
 
 > **Le test :** Une blague de vacances passe si tout le groupe pourrait la dire de lui-même. Elle tombe sur vous tous ou sur la situation, jamais sur le physique, jamais sur l'argent de quelqu'un, jamais sur un point sensible.
 
@@ -63,9 +63,9 @@ La location est le décor où le groupe découvre en direct qu'il ne sait pas la
 *→ À raconter en fin de séjour, en passant devant la porte de la grande chambre restée intacte. Ou quand la répartition s'éternise.*
 
 **4.** « On a affiché un planning pour la salle de bain. Il a tenu un matin. Depuis, quelqu'un se lève à 6 h 30 pour gagner. »
-*→ À dire au deuxième ou troisième matin, en croisant quelqu'un déjà douché. Le planning, c'est vous tous : personne n'est visé.*
+*→ À dire au deuxième ou troisième matin, au petit-déjeuner, quand le planning affiché ne sert plus à rien. Si c'est toi qui te lèves à 6 h 30, dis-le en levant la main : le rire tombe sur toi.*
 
-Pour d'autres lignes, avec leur chute et leur décryptage : [les blagues d'autodérision](/vannes/theme/autoderision).
+Le premier soir à la location, [les blagues de soirée](/vannes/theme/soirees) prennent le relais entre potes.
 
 ---
 
@@ -88,8 +88,6 @@ La route est un petit espace fermé où tout le groupe a un avis et une seule de
 **9.** « À l'arrière, on avait un parasol sur les genoux. Après deux heures, il participait à la conversation. »
 *→ À dire au déchargement, en sortant le parasol de la voiture, avec un petit salut pour lui.*
 
-Une fois la voiture garée, [les blagues de soirée](/vannes/theme/soirees) prennent le relais entre potes.
-
 Quand quelqu'un renvoie une vanne depuis la banquette arrière, il faut pouvoir répondre sur le même ton : c'est le travail du [parcours Répartie](/parcours/repartie), 20 minutes par semaine.
 
 ---
@@ -111,9 +109,9 @@ L'argent entre amis ne fait pas de grosses disputes, il fait des rituels : la ca
 *→ À raconter en rentrant des courses, ou à voix basse dans la file, face à un chariot qui ressemble au vôtre.*
 
 **14.** « Selon l'appli des comptes, je dois 3,20 euros « au groupe ». Je cherche son IBAN. »
-*→ À dire ou à envoyer en fin de séjour, quand les remboursements tombent. Garde-la pour toi : c'est toi qui dois.*
+*→ À dire ou à envoyer en fin de séjour, quand les remboursements tombent. Seulement si c'est toi qui dois : la ligne parle de ta dette, pas de celle d'un autre.*
 
-Pour rire de toi d'abord, ce qui reste la valeur sûre dès qu'on parle d'argent : [les vannes d'autodérision](/vannes/theme/autoderision).
+Dès qu'on parle d'argent, commence par rire de toi : [les vannes d'autodérision](/vannes/theme/autoderision) t'entraînent à le faire sans te rabaisser.
 
 ---
 
@@ -135,7 +133,7 @@ Le groupe de discussion naît en février, vit en juin et meurt en septembre. Il
 
 Le groupe de discussion de la famille a lui aussi ses codes : [les blagues de famille](/vannes/theme/famille).
 
-Pour oser envoyer ce genre de message sans le relire dix fois, le [parcours Confiance](/parcours/confiance) demande 20 minutes par semaine.
+Si tu restes plutôt en lecture dans le groupe, le [parcours Confiance](/parcours/confiance) t'aide à trouver ta place dans un groupe qui rit : 20 minutes par semaine.
 
 ---
 
@@ -177,7 +175,7 @@ Tu préfères choisir ton thème ?
 - [Famille](/vannes/theme/famille)
 - [Boulot](/vannes/theme/boulot)
 
-Pas sûr du type d'humour de ton groupe ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
+Tu ne sais pas encore quel genre de drôle tu es dans le groupe ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) te le dit en environ 2 minutes, sans inscription.
 
 → **[Nos conseils d'humour](/conseils)** : les techniques de timing et de répartie.
 
@@ -195,7 +193,7 @@ Quand la tension retombe, pas pendant. Une blague sur la route marche au péage 
 
 ### Peut-on rire de l'argent et des comptes entre amis ?
 
-Oui, si le rire tombe sur le système (la cagnotte, le carnet, le ticket de caisse) et jamais sur ce que chacun a dépensé ou gagné. Garde les vannes de comptes pour un moment détendu, pas le jour où quelqu'un hésite à rembourser. Un test : la dirais-tu en riant devant celui qui doit le plus d'argent au groupe sans qu'il se raidisse ?
+Oui, si le rire tombe sur le système (la cagnotte, le carnet, le ticket de caisse) et jamais sur ce que chacun a dépensé ou gagné. Garde les vannes de comptes pour un moment détendu, pas le jour où quelqu'un hésite à rembourser. Un test : si celui qui doit le plus au groupe l'entendait, rirait-il avec vous ? Dans le doute, garde-la pour un autre jour.
 
 ### Que faire si personne ne rit ?
 
