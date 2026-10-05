@@ -1,5 +1,16 @@
 # A2 : article « vœux drôles de nouvelle année » (version finale, 27 messages)
 
+## CTA (pour blog-cta.ts)
+
+Entrée pour la clé `"voeux-drole-nouvelle-annee"`, code géré par @fullstack (hors de l'import) :
+
+- **title** : Ton message est choisi. Le reste de l'année, c'est toi qui écris.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver tes propres chutes d'ici l'an prochain.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.
+
+> Itération 1 (notation `docs/growth/notation-A2-iter1.md`) : D1 à D9 appliqués dans le contenu ci-dessous ; D10 ci-dessus ; D11 (envoi du texte seul) : code, hors brouillon. Import : publication programmée le 12/11/2026, format de la section FAQ inchangé.
+
 > Statut : **final, prêt pour le dry-run d'import**, non publié, non commité. Les 27 lignes humoristiques sont celles retenues au départage à l'aveugle, recopiées mot pour mot (vague 1 : `A2-departage.md`, vague 2 : `A2v2-departage.md` ; textes : `A2-candidates.md`, `A2-candidates-vague2.md`). Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°3. Étalon de format : `meilleures-blagues-droles-2026`.
 > `[Framework : PAS allégé (Problème : tous les vœux se ressemblent ; Agitation : le même message part à tout le répertoire ; Solution : un message par destinataire, avec son moment et son ton)]` · `[Conscience : Solution-Aware, le lecteur sait déjà ce qu'il veut : un texte drôle à envoyer à tel destinataire, pas une méthode]`
 > **Ids retenus (28, dont 27 dans l'article)** : H1-5, H2-3, H2-4, H3-1, H3-3, H4-7, H4-10, H5-7, H5-12, H5-14, H6-10, H6-11, H7-3, H8-9, H8-12, H9-6, H10-1, H10-6, H11-13, H12-4, H13-4, H14-7, H14-9, H14-12, H16-4, H18-10, H19-5, H20-9. Emplacements supprimés (aucune ligne retenue) : H15 (lendemain du réveillon) et H17 (ex en bons termes), avec leur indication d'usage.
@@ -10,7 +21,7 @@
 
 - **slug** : `voeux-drole-nouvelle-annee`
 - **title** (53 car.) : Vœux drôles nouvelle année : messages prêts à envoyer
-- **metaDescription** (143 car.) : Vœux drôles de nouvelle année à copier-coller : collègues, patron, famille, groupe WhatsApp, ex. Messages inédits, avec une indication d'usage.
+- **metaDescription** (144 car., maximum 155) : Vœux drôles de nouvelle année à copier-coller : collègues, patron, famille, groupe WhatsApp, ex. Messages inédits, avec une indication d'usage.
 - **excerpt** : Des vœux drôles à envoyer, classés par destinataire : tes collègues, ton patron ou un client, ta famille, ton groupe WhatsApp et ton ex. Chaque message se copie tel quel, avec le moment et le ton pour l'envoyer.
 - **mot-clé principal** : voeux drôles nouvelle année
 - **mots-clés secondaires** : message de voeux drôle collègues ; voeux drôles patron ; voeux drôles famille ; voeux drôles groupe WhatsApp
@@ -29,13 +40,13 @@
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un vœu drôle tient en deux phrases et se règle sur le destinataire : le rire tombe sur toi ou sur la situation, jamais sur la personne qui reçoit le message. Voici des messages à copier, classés par destinataire (collègues, patron ou client, famille, groupe WhatsApp, ex), chacun avec le moment et le ton pour l'envoyer.
+> **En bref :** Un vœu drôle de nouvelle année tient en quelques lignes et se règle sur le destinataire : le rire tombe sur toi ou sur la situation, jamais sur la personne qui reçoit le message. Voici des messages à copier, classés par destinataire (collègues, patron ou client, famille, groupe WhatsApp, ex), chacun avec le moment et le ton pour l'envoyer.
+
+Va direct à ton destinataire : [Collègues](#quel-message-drole-envoyer-a-tes-collegues) · [Patron et clients](#que-souhaiter-a-ton-patron-ou-a-un-client-sans-te-griller) · [Famille](#quel-message-drole-pour-ta-famille-des-parents-a-la-belle-famille) · [Groupe WhatsApp et amis](#quel-message-drole-pour-le-groupe-whatsapp-et-les-amis-perdus-de-vue) · [Ex](#que-dire-a-ton-ex-pour-la-nouvelle-annee-sans-rouvrir-le-dossier). Une fois les vœux envoyés, la [blague du jour](/blague-du-jour) change chaque jour, et le [catalogue de vannes](/vannes) range le reste par situation.
 
 Chaque fin d'année, ton téléphone reçoit les mêmes phrases : « bonne année, bonne santé », avec un feu d'artifice en pièce jointe. Tu les renvoies, parce qu'à minuit personne n'a le temps d'en inventer d'autres.
 
-Un vœu drôle coûte à peine plus cher à écrire : deux phrases et une chute, et il sort de la pile. Encore faut-il qu'il tombe juste, parce que le texte qui fait rire ton groupe d'amis ne s'envoie pas à ton patron. Voici des messages classés par destinataire, prêts à copier, avec pour chacun une indication pour l'envoyer au bon moment.
-
-Va direct à ton destinataire : [Collègues](#quel-message-drole-envoyer-a-tes-collegues) · [Patron et clients](#que-souhaiter-a-ton-patron-ou-a-un-client-sans-te-griller) · [Famille](#quel-message-drole-pour-ta-famille-des-parents-a-la-belle-famille) · [Groupe WhatsApp et amis](#quel-message-drole-pour-le-groupe-whatsapp-et-les-amis-perdus-de-vue) · [Ex](#que-dire-a-ton-ex-pour-la-nouvelle-annee-sans-rouvrir-le-dossier). Une fois les vœux envoyés, la [blague du jour](/blague-du-jour) change chaque jour, et le [catalogue de vannes](/vannes) range le reste par situation.
+Un vœu drôle coûte à peine plus cher à écrire : quelques lignes et une chute, et il sort de la pile. Encore faut-il qu'il tombe juste, parce que le texte qui fait rire ton groupe d'amis ne s'envoie pas à ton patron.
 
 ---
 
@@ -45,9 +56,7 @@ Trois réflexes valent mieux que dix pages de consignes.
 
 1. **Le rire tombe sur toi ou sur la situation.** Jamais sur le destinataire, son âge, son physique ou sa vie. Si tu hésites, retourne la phrase contre toi.
 2. **La chute est la dernière phrase.** On ne l'explique pas et on ne la double pas d'un « haha ». Le vœu vient d'abord, la chute ferme le message.
-3. **Un détail vrai vaut mieux qu'une formule.** Remplace un mot par quelque chose qui n'appartient qu'à vous (la galette, le plat, le nom du groupe). C'est ce qui rend le message à toi.
-
-> **À retenir :** Un vœu drôle se joue en deux phrases : le vœu, puis une chute qui retombe sur toi. Adapte-le au destinataire, et si tu hésites, supprime la chute et garde le vœu.
+3. **Un détail vrai vaut mieux qu'une formule.** Remplace un mot par quelque chose qui n'appartient qu'à vous (la galette, le plat, le nom du groupe). C'est ce qui en fait ton message.
 
 ---
 
@@ -62,7 +71,7 @@ Entre collègues, tout le monde partage le même décor, donc la chute n'a pas b
 *→ Pour le collègue avec qui tu travailles le plus, en message direct, à son retour de congés. C'est un vrai merci déguisé : envoie-le seulement à quelqu'un qui te supporte déjà.*
 
 **3.** Bonne année. Je te souhaite un fauteuil qui ne descend pas tout seul. Le mien a perdu face à la gravité en septembre. Je travaille un peu plus bas, depuis.
-*→ Pour le collègue du bureau d'à côté, en message direct. Remplace « fauteuil » par l'objet qui te lâche vraiment : un détail vrai fait rire plus qu'une formule.*
+*→ Pour le collègue du bureau d'à côté, en message direct. Remplace « fauteuil » par l'objet qui te lâche vraiment, et garde « un peu plus bas » pour la fin.*
 
 **4.** Bonne année. Ça fait des années qu'on se dit « courage » dans le couloir. Je te souhaite de savoir enfin pour quoi.
 *→ Pour le collègue d'un autre service, que tu croises sans vraiment le connaître. Court : l'idée est de faire sourire, pas de lancer une conversation.*
@@ -71,7 +80,7 @@ Entre collègues, tout le monde partage le même décor, donc la chute n'a pas b
 *→ Pour un collègue dont tu as noté le service plutôt que le prénom. Remplace « compta » par le sien, et envoie sans rien ajouter.*
 
 **6.** Bonne année à tous. J'ai déjà souhaité la bonne année trois fois à la même personne ce matin. Elle a pris l'escalier.
-*→ Pour le premier jour de reprise, à l'équipe ou à voix haute au retour de congés. Envoie-le tôt dans la matinée, avant que les premiers dossiers n'arrivent.*
+*→ Pour le premier jour de reprise, à l'équipe ou à voix haute au retour de congés. Envoie-le en fin de matinée, quand tu as vraiment fait le tour des bureaux.*
 
 **7.** Bonne année à tous. J'ai retrouvé ma tasse du 22 décembre. Ce qu'il y avait dedans a passé de meilleures fêtes que moi.
 *→ Pour le matin de la reprise, quand ta tasse est encore sur ton bureau. Envoie-le au groupe de l'équipe plutôt qu'à une seule personne.*
@@ -91,7 +100,7 @@ Ici, la prudence est une qualité. Un seul trait d'humour par message, placé ju
 *→ Pour le même destinataire, quand tu lui écris rarement sans rien lui demander. Envoie-le seul, sans demande glissée plus bas : sinon la chute ne tient plus.*
 
 **10.** Je vous présente mes meilleurs vœux pour la nouvelle année. J'ai gardé votre « OK » de mars. C'est mon entretien annuel.
-*→ Pour une carte ou un mail formel à la direction, au vouvoiement. Garde l'ouverture classique et glisse la phrase juste avant la signature. Remplace « mars » par le mois de son dernier mot.*
+*→ Pour ton manager direct, s'il plaisante déjà de ses réponses en deux lettres. Ici, la chute le vise un peu : à une direction que tu connais peu, prends plutôt la n°8 ou la n°9. Remplace « mars » par le mois de son dernier mot.*
 
 **11.** Je vous présente mes meilleurs vœux pour la nouvelle année. J'ai répété ces vœux à voix haute dans l'ascenseur. Vous étiez dedans.
 *→ Pour une direction que tu as vraiment croisée dans un ascenseur. Sinon, ne l'envoie pas : la chute serait fausse, et elle ne se rattrape pas.*
@@ -134,8 +143,7 @@ Pour le prochain repas de famille : [les vannes de famille](/vannes/theme/famill
 
 ## Quel message drôle pour le groupe WhatsApp et les amis perdus de vue ?
 
-À minuit, le groupe reçoit beaucoup de messages identiques : le tien doit faire sourire en une ligne. Pour un ami perdu de vue, c'est l'inverse : un message privé, une fois par an, qui donne envie de répondre sans y obliger. Pour la suite de la conversation, [les phrases drôles pour une conversation](/blog/phrases-droles-conversations) prennent le relais.
-
+À minuit, le groupe reçoit beaucoup de messages identiques : le tien doit faire sourire en une ligne. Pour un ami perdu de vue, c'est l'inverse : un message privé, une fois par an, qui donne envie de répondre sans y obliger.
 **20.** Bonne année à tous. Je vous écris depuis le balcon, le seul endroit où ça capte. Il y a du monde.
 *→ Pour le groupe d'amis, juste après minuit ou dans la journée du 1er. Remplace « le balcon » par ton vrai coin de réseau. Un message court se lit en entier, un long se survole.*
 
@@ -151,7 +159,7 @@ Pour le prochain repas de famille : [les vannes de famille](/vannes/theme/famill
 **24.** Bonne année. L'an dernier, j'ai écrit à ton ancien numéro. Un monsieur m'a répondu « pareil ». On s'écrit encore. Il va très bien.
 *→ Pour un ami perdu de vue, en message privé, jamais dans un groupe. C'est une anecdote montée comme une blague : envoie-la seulement si tu acceptes qu'on la lise ainsi. Un seul message par an.*
 
-Pour la soirée qui précède le message : [les vannes de soirée](/vannes/theme/soirees).
+S'il répond, la suite se joue ici : [les phrases drôles pour une conversation](/blog/phrases-droles-conversations). Et pour la soirée qui précède le message : [les vannes de soirée](/vannes/theme/soirees).
 
 ---
 
@@ -200,7 +208,7 @@ Pour que l'humour dure au-delà du 1er janvier, les [parcours](/parcours) donnen
 
 → **[La blague du jour](/blague-du-jour)** : celle d'aujourd'hui, et demain une autre.
 
-→ **[Nos conseils d'humour](/conseils)** : de quoi améliorer ton timing avant l'envoi.
+→ **[Nos conseils d'humour](/conseils)** : pour écrire tes propres chutes l'an prochain.
 
 → **[Les vidéos](/videos)** : pour voir comment on raconte une phrase sans l'expliquer.
 
