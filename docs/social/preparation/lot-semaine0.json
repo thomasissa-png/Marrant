@@ -71,7 +71,7 @@
       "status": "APPROVED",
       "approvedBy": "lot-semaine0",
       "directorScore": null,
-      "directorNote": "Lot semaine0 (VANNE, TIRAGE) ; échange s15 (bureau sur LinkedIn, pas de mention IA)",
+      "directorNote": "Lot semaine0 (VANNE, TIRAGE) ; échange s15 (vannes de bureau sur LinkedIn)",
       "scheduledAt": "2026-10-06T06:15:00.000Z"
     },
     {
@@ -178,7 +178,7 @@
       "status": "APPROVED",
       "approvedBy": "lot-semaine0",
       "directorScore": null,
-      "directorNote": "Lot semaine0 (VANNE, TIRAGE) ; échange s15 (bureau sur LinkedIn, pas de mention IA)",
+      "directorNote": "Lot semaine0 (VANNE, TIRAGE) ; échange s15 (vannes de bureau sur LinkedIn)",
       "scheduledAt": "2026-10-08T06:15:00.000Z"
     },
     {
