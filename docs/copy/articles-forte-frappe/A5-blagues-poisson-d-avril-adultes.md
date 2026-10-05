@@ -1,38 +1,50 @@
-# BROUILLON : article A5 (poisson d'avril pour adultes, publication jeudi 25/02/2027)
+# A5 : poisson d'avril pour adultes (publication jeudi 25/02/2027)
 
-> Statut : brouillon avec emplacements `[H1]` à `[H20]`, non publié, non commité. Gabarit : S9 (`docs/copy/articles-q4/S9-toast-drole-discours-qui-fait-rire.md`). Étalon de format : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md` (section 2, n°4, et section 4).
+> Statut : final, idées validées à l'aveugle (deux vagues, départage dans `A5-departage.md` et `A5v2-departage.md`). Non publié, non commité. 15 idées, recopiées mot pour mot depuis `A5-candidates.md` et `A5-candidates-vague2.md`. Format : S9 (`docs/copy/articles-q4/S9-toast-drole-discours-qui-fait-rire.md`). Étalon de recette : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°4, et section 4.
+> **Ids utilisés (15)** : vague 1 : H1-1, H6-6, H7-3, H7-5, H12-1 · vague 2 : H2-9, H2-10, H5-13, H8-10, H8-14, H9-9, H9-12, H10-12, H14-11, H16-10. Emplacements sans idée retenue, supprimés : H3, H4, H11, H13, H15, H17, H18, H19, H20. Terrain « couple » (2 idées) fusionné avec « potes » ; terrain « message » (0 idée) supprimé.
 > `[Framework : AIDA allégé + liste par situation]` · `[Conscience : Solution-Aware, le lecteur sait qu'il veut faire un canular le 1er avril, il cherche une idée crédible qui ne blesse personne]`
-> **Convention des emplacements :** chaque `[Hn]` sera remplacé par UNE idée retenue dans `A5-candidates.md` (candidates `Hn-1` à `Hn-6`, relecture à l'aveugle), avec sa ligne d'usage en italique au tutoiement. Format final d'une idée : 1 à 3 phrases, la dernière est la révélation (« Poisson d'avril »). Un emplacement sans candidate retenue est supprimé, la numérotation se recale, le nombre d'idées du texte n'est écrit nulle part en chiffre (pas d'engagement de quantité dans le title ni dans l'intro).
 
 ## Métadonnées
 
 - **slug** : `blagues-poisson-d-avril-adultes`
-- **title** (57 car.) : Blague poisson d'avril adultes : canulars sans méchanceté
-- **metaDescription** : Des idées de poisson d'avril pour adultes, au bureau, en famille, entre potes, en couple ou par message. Inédites, drôles, sans méchanceté.
-- **excerpt** : Des canulars du 1er avril pour adultes, classés par terrain : bureau, famille, potes, couple, message. Chaque idée tient en deux ou trois phrases et se termine par la révélation. Aucune ne fait peur, ne coûte d'argent ni ne vexe : on rit avec la personne, jamais à ses dépens.
+- **title** (56 car.) : Blague poisson d'avril adultes : 15 canulars inoffensifs
+- **metaDescription** (134 car.) : 15 canulars de poisson d'avril pour adultes : bureau, famille, potes, couple. Inédits, drôles, sans méchanceté, avec la phrase à dire.
+- **excerpt** : 15 canulars du 1er avril pour adultes, classés par terrain : bureau, famille, potes et couple. Chaque idée tient en deux ou trois phrases et se termine par la révélation. Aucune ne fait peur, ne coûte d'argent ni ne vexe : on rit avec la personne, jamais à ses dépens.
 - **mot-clé principal** : blague poisson d'avril adultes
-- **mots-clés secondaires** : canular 1er avril adulte ; poisson d'avril au bureau ; poisson d'avril en couple ; faux message poisson d'avril (volumes non vérifiés, à confirmer en Search Console ; `docs/seo/keyword-map.md` non consulté sur consigne, @seo valide)
-- **date de publication** : 2027-02-25 (jeudi)
-- **category** : CATALOGUE · **readingTime** : 6 min
+- **mots-clés secondaires** : canular 1er avril adulte ; poisson d'avril au bureau ; poisson d'avril en couple (volumes non vérifiés, à confirmer en Search Console ; `docs/seo/keyword-map.md` non consulté sur consigne, @seo valide)
+- **date de publication** : 2027-02-25 (jeudi) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel d'idées
+- **category** : CATALOGUE · **readingTime** : 5 min
 - **liens internes** (tous existants) : `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/soirees` · `/vannes/theme/couple` · `/vannes/theme/dating` · `/vannes/theme/gaming` · `/vannes/theme/autoderision` · `/parcours` · `/parcours/machine-a-cafe` · `/parcours/repartie` · `/blog/timing-humour` · `/blog/comment-raconter-une-blague-sans-la-rater` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour`
 - **cannibalisation** : faible. L'étalon vise la requête générique « blagues drôles » ; ici des idées de canulars à date fixe, aucune vanne partagée avec l'étalon, S1 ni le catalogue.
-- **décisions fondateur appliquées** : zéro humoriste, zéro concurrent, zéro marque nommée ; zéro chiffre ou étude inventé (le seul fait daté est calendaire : le 1er avril 2027 tombe un jeudi) ; aucune promesse hors site réel (vannes, conseils, vidéos, 3 parcours, carnet mensuel Premium, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas) ; aucun témoignage ; zéro tiret cadratin
+- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé ; zéro chiffre ou étude inventé (le « 15 » du title, de l'excerpt, de la metaDescription et de l'intro est le nombre d'idées : à corriger partout si une idée est retirée ou ajoutée ; le seul fait daté est calendaire : le 1er avril 2027 tombe un jeudi) ; aucune promesse hors site réel (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, aucune promesse de nouveauté sur le reste du catalogue) ; aucun témoignage ; zéro tiret cadratin
 - **interdits de contenu des canulars** : rien de dangereux, rien qui coûte de l'argent, rien qui fasse peur (santé, accident, licenciement), rien d'humiliant, aucune dégradation, rien d'illégal
-- **objections traitées** : « on n'a plus l'âge » (intro) ; « je vais passer pour un lourd » (règles + FAQ 1) ; « je n'ai pas d'idée crédible » (les cinq terrains) ; « et s'il le prend mal » (FAQ 4) ; « puis-je le faire à mon chef » (FAQ 2)
-- **contenu propriétaire (first-hand)** : idées inédites par terrain avec ligne d'usage ; 6 interdits explicites ; 4 règles de réalisation ; protocole de révélation
-- **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page (FAQPage limité au visible)
+- **objections traitées** : « on n'a plus l'âge » (intro) ; « je vais passer pour un lourd » (règles + FAQ 1) ; « je n'ai pas d'idée crédible » (les trois terrains) ; « et s'il le prend mal » (FAQ 4) ; « puis-je le faire à mon chef » (FAQ 2)
+- **contenu propriétaire (first-hand)** : 15 idées inédites triées à l'aveugle, avec ligne d'usage ; 6 interdits explicites ; 4 règles de réalisation
+- **ancres du sommaire** (slug = minuscules, sans accent ni ponctuation, espaces et apostrophes en tirets, comme l'étalon) : à vérifier par @fullstack à l'intégration
+- **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page
+
+---
+
+## CTA (pour blog-cta.ts)
+
+> À reporter à la main dans `apps/web/src/config/blog-cta.ts`, entrée `"blagues-poisson-d-avril-adultes"`. Sans cette entrée, le CTA ne s'affiche qu'en bas de page. Non lu par l'import.
+
+- **title** : Le canular est prêt. Et la riposte ?
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver la bonne réponse le jour où c'est toi la cible.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les idées de cette page restent en accès libre, compte ou pas.
 
 ---
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un bon poisson d'avril pour adultes tient en deux ou trois phrases, se croit pendant quelques secondes et se termine par « poisson d'avril » avant que quiconque ait le temps de s'inquiéter. Voici des idées classées par terrain (bureau, famille, potes, couple, message), toutes sans danger, sans dépense, sans peur et sans humiliation.
+> **En bref :** Un bon poisson d'avril pour adultes tient en deux ou trois phrases, se croit pendant quelques secondes et se termine par « poisson d'avril » avant que quiconque ait le temps de s'inquiéter. Voici 15 idées classées par terrain (bureau, famille, potes et couple), toutes sans danger, sans dépense, sans peur et sans humiliation.
 
 Le 1er avril, tout adulte se dit qu'il est trop vieux pour ça. Puis il lit son premier message de la journée avec une méfiance de douanier. C'est bien le signe que le jeu n'est pas fini : il a juste changé de niveau. Le canular d'adulte demande une phrase assez crédible pour qu'on y croie quelques secondes, et une révélation assez drôle pour que l'autre rie en la recevant. Le papier dans le dos, c'est pour les enfants.
 
-Cet article, c'est ton stock d'idées. Des canulars **inédits**, classés par terrain, à lancer en une à trois phrases. Pas de sel dans le sucre, pas de poisson en papier dans le dos : les classiques, tu les as déjà tous reçus.
+Cet article, c'est ton stock de **15 idées** inédites, classées par terrain, à lancer en une à trois phrases. Pas de sel dans le sucre, pas de poisson en papier dans le dos : les classiques, tu les as déjà tous reçus.
 
-Va direct à ton terrain : [Bureau](#quel-poisson-d-avril-faire-au-bureau-sans-que-ca-tourne-mal) · [Famille](#quels-canulars-en-famille-sans-jamais-vexer-personne) · [Potes](#quels-canulars-entre-potes-pour-que-tout-le-monde-rie-a-la-fin) · [Couple](#quel-poisson-d-avril-en-couple-sans-que-personne-dorme-sur-le-canape) · [Message](#quels-faux-messages-envoyer-par-sms-le-1er-avril). Et quand tu auras tout joué : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
+Va direct à ton terrain : [Bureau](#quel-poisson-d-avril-faire-au-bureau-sans-que-ca-tourne-mal) · [Famille](#quels-canulars-en-famille-sans-jamais-vexer-personne) · [Potes et couple](#quels-canulars-entre-potes-et-en-couple-pour-que-tout-le-monde-rie-a-la-fin) · [Les règles](#comment-reussir-un-poisson-d-avril-sans-le-gacher). Et quand tu auras tout joué : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
 
 Chaque idée respecte six interdits, sans exception : rien de dangereux, rien qui coûte de l'argent, rien qui fasse peur (santé, accident, travail), rien d'humiliant, rien qui abîme quoi que ce soit, rien d'illégal. Un canular réussi, c'est une personne qui rit à la fin, pas une personne qui te doit une explication.
 
@@ -42,15 +54,16 @@ Chaque idée respecte six interdits, sans exception : rien de dangereux, rien qu
 
 ## Quel poisson d'avril faire au bureau sans que ça tourne mal ?
 
-Le 1er avril 2027 tombe un jeudi : le bureau sera plein. Règle de base : le canular ne touche ni au travail de quelqu'un, ni à son poste, ni à ses fichiers. Il vit dans l'ordinaire du lieu : un mail, une affichette, une réunion, une demande bizarre.
+Le 1er avril 2027 tombe un jeudi : le bureau sera plein. Règle de base : le canular ne touche ni au travail de quelqu'un, ni à son poste, ni à ses fichiers. Il vit dans l'ordinaire du lieu : une affichette, une réunion, une visio.
 
-**1.** [H1]
+**1.** Colle sur le frigo commun : « Rappel : tout pot ouvert depuis plus de trois semaines sera rendu à son propriétaire lors d'une cérémonie, vendredi 15 h. Présence souhaitée. » Quand quelqu'un vient lire l'heure, dis-lui : « Il n'y aura pas de cérémonie, mais le yaourt de mars existe bel et bien. Poisson d'avril. »
+*→ Affiche-la tôt le matin et attends le premier qui ouvre le frigo « pour vérifier ». Garde ton sérieux, c'est lui qui doit sourire en premier.*
 
-**2.** [H2]
+**2.** En visio, dis : « Vous voyez mon écran ? » sans avoir rien partagé. Quand deux ou trois répondent « oui » par politesse : « Moi non plus. Poisson d'avril. »
+*→ Dis-le comme une vérification technique de routine. Les « oui » arrivent en moins de deux secondes.*
 
-**3.** [H3]
-
-**4.** [H4]
+**3.** Ouvre la réunion d'un ton grave : « J'ai un changement de planning à annoncer. » Laisse le silence s'installer : « La réunion de jeudi est déplacée au jeudi. Merci de votre souplesse. Poisson d'avril. »
+*→ Garde la gravité jusqu'à la dernière syllabe. Le soulagement fait le reste.*
 
 Pour devenir la personne qu'on attend à la machine à café le reste de l'année, le [parcours Machine à Café](/parcours/machine-a-cafe) est fait pour ça.
 
@@ -62,61 +75,51 @@ Pour la suite, dès le 2 avril : [les blagues de boulot](/vannes/theme/boulot), 
 
 En famille, tu vises le public le plus indulgent du monde, et aussi le plus facile à inquiéter. On joue donc sur les habitudes de la maison (le repas, le téléphone, le groupe de messages) et jamais sur la santé, ni sur un absent.
 
-**5.** [H5]
+**4.** En servant une eau plate, dis : « Je précise qu'elle est gazeuse. » Laisse un cousin goûter, perplexe. « Elle est gazeuse, mais très calme. Poisson d'avril. »
+*→ Annonce-le comme une information pratique. Plus tu es sérieux, plus il cherche les bulles.*
 
-**6.** [H6]
+**5.** Écris à ton père : « Pour la tondeuse, tu me conseilles quoi ? » Laisse-le se lancer dans un exposé de quinze minutes. « Je n'ai pas de pelouse. Poisson d'avril. »
+*→ Choisis l'outil qui lui plaît (tondeuse, perceuse, taille-haie). Plus il a d'avis, plus c'est drôle.*
 
-**7.** [H7]
+**6.** Écris à ta sœur : « J'ai retrouvé la lettre que tu m'avais écrite quand on était petits. Elle dit des choses. » Laisse-la paniquer, puis : « Elle dit "Rends-moi mon stylo". Poisson d'avril. »
+*→ Parle d'une lettre inventée, jamais d'un vrai souvenir que ta sœur voudrait garder pour elle.*
 
-**8.** [H8]
+**7.** Envoie à ta sœur un message tout à fait normal, signé « Cordialement ». Quand elle demande « On est fâchés ? », réponds : « Non. Poisson d'avril. Cordialement. »
+*→ La formule fait le travail : elle a pris cinq secondes de panique pour une signature.*
+
+**8.** Écris dans le groupe : « Bonjour à tous, ravi de rejoindre le groupe, j'espère ne pas déranger. » Laisse les « Mais c'est toi ! » arriver. « Je suis là depuis la création, mais personne ne m'avait jamais accueilli. Poisson d'avril. »
+*→ Reste très poli dans tous tes messages suivants. Les réponses les plus gentilles sont les premières.*
+
+**9.** Écris : « Pour dimanche, je prends tout en charge, vous n'avez rien à apporter. » Laisse les remerciements arriver. « Sauf votre chaise. Je n'en ai que quatre. Poisson d'avril. »
+*→ Écris-le vraiment avec le ton le plus généreux possible. Le groupe se met souvent à compter les chaises.*
 
 Le prochain repas de famille arrive plus vite que prévu : [les blagues de famille](/vannes/theme/famille) sont là pour ça.
 
 ---
 
-## Quels canulars entre potes, pour que tout le monde rie à la fin ?
+## Quels canulars entre potes et en couple, pour que tout le monde rie à la fin ?
 
-Entre potes, presque tout passe, sauf ce qui coûte quelque chose ou ce qui se retourne contre quelqu'un devant les autres. Le meilleur canular de bande est celui dont la victime veut aussitôt refaire la version pour quelqu'un d'autre.
+Entre potes, presque tout passe, sauf ce qui coûte quelque chose ou ce qui se retourne contre quelqu'un devant les autres. Le meilleur canular de bande est celui dont la victime veut aussitôt refaire la version pour quelqu'un d'autre. En couple, la barre de sécurité monte d'un cran : jamais de fausse rupture, de fausse dispute ni de fausse nouvelle qui touche à votre avenir. On joue sur le quotidien, là où c'est le plus crédible et où personne ne se sent trahi.
 
-**9.** [H9]
+**10.** Écris : « Rendez-vous samedi à 20 h pile, au même endroit que d'habitude. » Laisse les « OK » s'empiler. « Vous avez tous dit OK. Moi, je ne sais pas où c'est. Poisson d'avril. »
+*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Le premier à demander « mais lequel ? » a tout compris.*
 
-**10.** [H10]
+**11.** Écris : « Randonnée samedi, départ à 7 h. Ceux qui sont partants lèvent le pouce. » Attends les pouces hésitants. « Retour à 7 h 20, distance : le tour du pâté de maisons. Poisson d'avril. »
+*→ Garde un ton très sportif. Ceux qui répondent « ok » tout de suite sont ta cible préférée.*
 
-**11.** [H11]
+**12.** Tends un papier plié à un pote : « Garde-le, tu l'ouvriras ce soir à 20 h. » À 20 h, il lit : « Tu as regardé l'heure combien de fois ? Poisson d'avril. »
+*→ Écris la phrase à la main avant de plier. Demande-lui seulement le résultat, jamais le nombre exact.*
 
-**12.** [H12]
+**13.** Dis à ton colocataire : « J'ai réorganisé toute la cuisine, tu verras, c'est plus logique. » Laisse-le chercher les changements. « Je l'ai réorganisée à l'identique. C'était le plus difficile. Poisson d'avril. »
+*→ Ne touche à rien : l'absence d'action est le canular. Dis-le avec la fierté de quelqu'un qui a travaillé.*
 
-Pour la soirée qui suit forcément le canular : [les blagues de soirée](/vannes/theme/soirees).
+**14.** Annonce : « Nouvelle règle : chacun a droit à trois "j'arrive" par soirée. Au-delà, on arrive vraiment. » Quand l'autre demande combien tu en as utilisé : « J'en suis à deux. Poisson d'avril. »
+*→ Garde le compte sur une feuille, visible. Le troisième « j'arrive » a un autre poids.*
 
----
+**15.** Dis : « J'ai lu ton horoscope : une grande surprise va arriver dans la pièce où tu es. » Laisse l'autre chercher. « C'est moi. Je viens d'entrer. Poisson d'avril. »
+*→ Entre dans la pièce juste après la phrase. Le timing est la moitié du plaisir.*
 
-## Quel poisson d'avril en couple, sans que personne dorme sur le canapé ?
-
-En couple, la barre de sécurité monte d'un cran : jamais de fausse rupture, de fausse dispute ni de fausse nouvelle qui touche à votre avenir. On joue sur le quotidien (le canapé, la télécommande, le placard), là où c'est le plus crédible et où personne ne se sent trahi.
-
-**13.** [H13]
-
-**14.** [H14]
-
-**15.** [H15]
-
-**16.** [H16]
-
-Pour rire à deux le reste de l'année : [les blagues de couple](/vannes/theme/couple).
-
----
-
-## Quels faux messages envoyer par SMS le 1er avril ?
-
-Le message a un avantage : il se prépare. Il a un inconvénient : l'autre peut en faire une capture d'écran. Tout ce qui suit passe donc un test simple : « Est-ce que je pourrais montrer cette conversation à tout le monde ? ». Si la réponse est oui, envoie.
-
-**17.** [H17]
-
-**18.** [H18]
-
-**19.** [H19]
-
-**20.** [H20]
+Pour la soirée qui suit forcément le canular : [les blagues de soirée](/vannes/theme/soirees). Pour rire à deux le reste de l'année : [les blagues de couple](/vannes/theme/couple).
 
 Et le jour où quelqu'un te rend la pareille, le [parcours Répartie](/parcours/repartie) sert exactement à ça : trouver la bonne réponse sans l'avoir préparée.
 
@@ -167,7 +170,7 @@ Le rire final. Un bon canular se termine par une personne qui rit avec toi, pas 
 
 ### Peut-on faire un poisson d'avril à son chef ou à ses collègues ?
 
-Oui, si le canular ne touche ni au travail, ni au poste, ni aux fichiers de personne. Joue sur le décor (une affichette, un mail à l'absurde assumé, une demande de réunion pour rire) et révèle vite. Si tu hésites, demande-toi si tu serais à l'aise que ton chef lise le message à voix haute devant l'équipe. Si oui, tu peux y aller.
+Oui, si le canular ne touche ni au travail, ni au poste, ni aux fichiers de personne. Joue sur le décor (une affichette, une visio, une réunion pour rire) et révèle vite. Si tu hésites, demande-toi si tu serais à l'aise que ton chef lise le message à voix haute devant l'équipe. Si oui, tu peux y aller.
 
 ### Comment rendre un poisson d'avril crédible sans que ça devienne grave ?
 
