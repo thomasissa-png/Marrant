@@ -1,26 +1,34 @@
 /**
- * Relecture du statut réel des posts remis à Buffer (s15, 05/10/2026).
+ * Relecture du statut réel des posts remis à Buffer (s15, 05/10/2026 ; cycle 3).
  *
- * Avant : `SocialPost.status = PUBLISHED` dès que Buffer ACCEPTE le post, statut
- * jamais relu. Le post Instagram du 02/10 restait PUBLISHED alors qu'il était
- * en `error` chez Buffer (autorisation Instagram perdue), sans alerte.
+ * PUBLISHED = remis à Buffer. Chaque passage relit les posts non confirmés
+ * des 30 derniers jours :
+ *  - `sent`  → confirmé : `bufferStatus = sent`, `publishedAt = sentAt`, ligne
+ *    « Publication confirmée par Buffer … : <lien réel> » ajoutée à la note ;
+ *  - `error` → FAILED, message Buffer ajouté à la note (la note précédente est
+ *    gardée), alerte ; autorisation perdue → réseau mis en pause automatiquement ;
+ *  - introuvable chez Buffer (supprimé) → FAILED `introuvable`, alerte ;
+ *  - toujours `scheduled` / `sending` / brouillon 6 h après l'heure prévue →
+ *    `non_confirme` (reste PUBLISHED, relu ensuite), alerte.
+ * Lecture : pages de 100 posts `sent|error` avec curseur jusqu'à trouver tous
+ * les candidats, puis relecture par identifiant des absents (25 max par passe).
  *
- * Sens des statuts (aucune migration, choix du minimum) :
- *  - PUBLISHED sans ligne de confirmation = remis à Buffer, pas encore confirmé ;
- *  - PUBLISHED + ligne « Publication confirmée par Buffer … » dans `directorNote`
- *    = réellement publié (`publishedAt = sentAt`, lien réel dans la note) ;
- *  - FAILED + « Échec publication Buffer : <message> » = refusé par le réseau.
- *
- * Idempotent : un post confirmé ou passé en FAILED sort des candidats ; mises à
- * jour conditionnées à `status = PUBLISHED`. Buffer injoignable → aucun changement.
+ * Alertes : un post à signaler garde `alertedAt = null` tant que l'e-mail n'est
+ * pas parti (1 e-mail par jour et par réseau) ; rien n'est perdu si Resend
+ * échoue ou si l'alerte du jour est déjà partie : il part au passage suivant.
+ * Idempotent ; Buffer injoignable → aucun changement de statut.
  */
 import type { SocialPlatform } from "@prisma/client";
 import type { BufferPostStatus } from "./buffer-client";
 import { buildPublishErrorNote } from "./publish-failure";
+import { estAutorisationPerdue } from "./platform-switch";
 
 export const BUFFER_CONFIRMED_PREFIX = "Publication confirmée par Buffer";
-export const STATUS_CHECK_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+export const STATUS_CHECK_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+export const NON_CONFIRME_APRES_MS = 6 * 60 * 60 * 1000;
+export const MAX_RELECTURES_PAR_PASSE = 25;
 export const STATUS_ALERT_JOB_PREFIX = "buffer-status-alert";
+export const STATUTS_A_SIGNALER = ["error", "introuvable", "non_confirme"] as const;
 
 const PLATFORM_LABELS: Record<SocialPlatform, string> = {
   TWITTER: "X (Twitter)",
@@ -29,33 +37,52 @@ const PLATFORM_LABELS: Record<SocialPlatform, string> = {
   INSTAGRAM: "Instagram",
 };
 
-interface CandidatePost {
+export interface CandidatePost {
   id: string;
   platform: SocialPlatform;
   externalId: string | null;
   directorNote: string | null;
+  scheduledAt: Date;
+  publishedAt: Date | null;
+  bufferStatus: string | null;
 }
 
-/** Sous-ensemble du client Prisma utilisé (injectable en test). */
-export interface StatusCheckDb {
-  socialPost: {
-    findMany(args: unknown): Promise<CandidatePost[]>;
-    updateMany(args: unknown): Promise<{ count: number }>;
-  };
+export interface PostASignaler {
+  id: string;
+  platform: SocialPlatform;
+  scheduledAt: Date;
+  hook: string;
+  bufferStatus: string | null;
+  directorNote: string | null;
+}
+
+/** Accès base (injectable en test ; l'implémentation réelle est en bas). */
+export interface StatusStore {
+  candidats(since: Date): Promise<CandidatePost[]>;
+  /** Met à jour si le post est encore PUBLISHED ; retourne 1 ou 0. */
+  maj(id: string, data: Record<string, unknown>): Promise<number>;
+  aSignaler(since: Date): Promise<PostASignaler[]>;
+  marquerAlertes(ids: string[], now: Date): Promise<void>;
 }
 
 export interface StatusCheckDeps {
-  db: StatusCheckDb;
-  fetchStatuses: () => Promise<BufferPostStatus[]>;
-  /** Alerte au plus 1×/jour pour `alertJob` ; retourne true si l'e-mail est parti. */
+  store: StatusStore;
+  fetchFinished: (wantedIds: string[]) => Promise<BufferPostStatus[]>;
+  fetchOne: (id: string) => Promise<BufferPostStatus | null>;
+  /** Alerte au plus 1×/jour pour `alertJob` ; true si l'e-mail est parti. */
   sendAlert: (subject: string, html: string, now: Date, alertJob: string) => Promise<boolean>;
+  /** Pause automatique d'un réseau dont Buffer a perdu l'autorisation. */
+  autoPause?: (platform: SocialPlatform, motif: string, now: Date) => Promise<boolean>;
 }
 
 export interface StatusCheckResult {
   candidates: number;
   confirmed: number;
   failed: number;
+  missing: number;
+  unconfirmed: number;
   unchanged: number;
+  paused: SocialPlatform[];
   alerted: SocialPlatform[];
   error?: string;
 }
@@ -67,99 +94,190 @@ export function formatBufferError(err: BufferPostStatus["error"]): string {
   return raw && raw !== message ? `${message} (détail : ${raw})` : message;
 }
 
-export function buildConfirmationNote(previous: string | null, sentAt: Date, link: string | null): string {
-  const line = `${BUFFER_CONFIRMED_PREFIX} le ${sentAt.toISOString()}${link ? ` : ${link}` : ""}`;
+function ajouterLigne(previous: string | null, line: string): string {
   return previous?.trim() ? `${previous.trim()}\n${line}` : line;
+}
+
+export function buildConfirmationNote(previous: string | null, sentAt: Date, link: string | null): string {
+  return ajouterLigne(previous, `${BUFFER_CONFIRMED_PREFIX} le ${sentAt.toISOString()}${link ? ` : ${link}` : ""}`);
+}
+
+function dateValide(s: string | null | undefined): Date | null {
+  if (!s) return null;
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? null : d;
 }
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function buildAlertHtml(platform: SocialPlatform, failures: BufferPostStatus[]): string {
-  const first = failures[0];
-  const support = first.error?.supportUrl
-    ? `<p><a href="${escapeHtml(first.error.supportUrl)}">Aide Buffer</a></p>`
-    : "";
-  return `<p>Buffer n'a pas publié <strong>${failures.length} post(s) ${PLATFORM_LABELS[platform]}</strong>
-    (marqués FAILED dans l'admin).</p>
-    <p><strong>Message Buffer :</strong> ${escapeHtml(formatBufferError(first.error))}</p>
-    ${support}
-    <p><strong>Action à faire :</strong> reconnecter le canal ${PLATFORM_LABELS[platform]} dans Buffer
-    (Buffer &gt; Channels &gt; Reconnect), puis reprogrammer les posts concernés.</p>`;
+const LIBELLE_STATUT: Record<string, string> = {
+  error: "refusé par le réseau",
+  introuvable: "introuvable chez Buffer (supprimé ?)",
+  non_confirme: "pas publié 6 h après l'heure prévue",
+};
+
+export function buildAlertHtml(platform: SocialPlatform, posts: PostASignaler[]): string {
+  const lignes = posts
+    .map((p) => {
+      const derniere = (p.directorNote ?? "").split("\n").filter(Boolean).pop() ?? "";
+      return `<li>${escapeHtml(p.scheduledAt.toISOString().slice(0, 16).replace("T", " "))} UTC, « ${escapeHtml(p.hook.slice(0, 80))} » :
+        <strong>${escapeHtml(LIBELLE_STATUT[p.bufferStatus ?? ""] ?? p.bufferStatus ?? "anomalie")}</strong>
+        ${derniere ? `<br><small>${escapeHtml(derniere.slice(0, 300))}</small>` : ""} (id ${escapeHtml(p.id)})</li>`;
+    })
+    .join("");
+  return `<p><strong>${posts.length} post(s) ${PLATFORM_LABELS[platform]}</strong> ne sont pas confirmés publiés :</p>
+    <ul>${lignes}</ul>
+    <p><strong>Action :</strong> vérifier le canal ${PLATFORM_LABELS[platform]} dans Buffer (Channels &gt; Reconnect si
+    déconnecté), puis reprogrammer les posts concernés depuis l'admin social. Détail : rapport « prévu contre publié ».</p>`;
 }
 
 export async function reconcileBufferPostStatuses(deps: StatusCheckDeps, now: Date): Promise<StatusCheckResult> {
-  const result: StatusCheckResult = { candidates: 0, confirmed: 0, failed: 0, unchanged: 0, alerted: [] };
-
-  const candidates = await deps.db.socialPost.findMany({
-    where: {
-      status: "PUBLISHED",
-      externalId: { not: null },
-      publishedAt: { gte: new Date(now.getTime() - STATUS_CHECK_WINDOW_MS) },
-      OR: [{ directorNote: null }, { NOT: { directorNote: { contains: BUFFER_CONFIRMED_PREFIX } } }],
-    },
-    select: { id: true, platform: true, externalId: true, directorNote: true },
-  });
+  const result: StatusCheckResult = {
+    candidates: 0, confirmed: 0, failed: 0, missing: 0, unconfirmed: 0, unchanged: 0, paused: [], alerted: [],
+  };
+  const since = new Date(now.getTime() - STATUS_CHECK_WINDOW_MS);
+  const candidates = (await deps.store.candidats(since)).filter((p) => p.externalId);
   result.candidates = candidates.length;
-  if (candidates.length === 0) return result;
 
-  let statuses: BufferPostStatus[];
-  try {
-    statuses = await deps.fetchStatuses();
-  } catch (err) {
-    result.error = err instanceof Error ? err.message : String(err);
-    result.unchanged = candidates.length;
-    return result;
+  if (candidates.length > 0) {
+    let finished: BufferPostStatus[] | null = null;
+    try {
+      finished = await deps.fetchFinished(candidates.map((p) => p.externalId as string));
+    } catch (err) {
+      result.error = err instanceof Error ? err.message : String(err);
+      result.unchanged = candidates.length;
+    }
+    if (finished) await appliquer(deps, candidates, finished, now, result);
   }
-  const byId = new Map(statuses.map((s) => [s.id, s]));
-  const failuresByPlatform = new Map<SocialPlatform, BufferPostStatus[]>();
 
+  await alerter(deps, since, now, result);
+  return result;
+}
+
+async function appliquer(
+  deps: StatusCheckDeps,
+  candidates: CandidatePost[],
+  finished: BufferPostStatus[],
+  now: Date,
+  result: StatusCheckResult,
+): Promise<void> {
+  const byId = new Map(finished.map((s) => [s.id, s]));
+  let relectures = 0;
   for (const post of candidates) {
-    const remote = post.externalId ? byId.get(post.externalId) : undefined;
-    if (remote?.status === "sent") {
-      const sentAt = remote.sentAt ? new Date(remote.sentAt) : now;
-      const { count } = await deps.db.socialPost.updateMany({
-        where: { id: post.id, status: "PUBLISHED" },
-        data: { publishedAt: sentAt, directorNote: buildConfirmationNote(post.directorNote, sentAt, remote.externalLink) },
+    const externalId = post.externalId as string;
+    let remote: BufferPostStatus | null | undefined = byId.get(externalId);
+    if (remote === undefined) {
+      if (relectures >= MAX_RELECTURES_PAR_PASSE) {
+        result.unchanged += 1;
+        continue;
+      }
+      relectures += 1;
+      try {
+        remote = await deps.fetchOne(externalId);
+      } catch {
+        result.unchanged += 1; // Buffer injoignable pour ce post : relu au prochain passage
+        continue;
+      }
+    }
+    const base = { bufferCheckedAt: now };
+    if (remote === null) {
+      result.missing += await deps.store.maj(post.id, {
+        ...base, status: "FAILED", bufferStatus: "introuvable", alertedAt: null,
+        directorNote: ajouterLigne(post.directorNote, buildPublishErrorNote("post introuvable chez Buffer (supprimé ou jamais créé)")),
       });
-      result.confirmed += count;
-    } else if (remote?.status === "error") {
-      const { count } = await deps.db.socialPost.updateMany({
-        where: { id: post.id, status: "PUBLISHED" },
-        data: { status: "FAILED", directorNote: buildPublishErrorNote(formatBufferError(remote.error)) },
+    } else if (remote.status === "sent") {
+      const sentAt = dateValide(remote.sentAt) ?? now;
+      result.confirmed += await deps.store.maj(post.id, {
+        ...base, bufferStatus: "sent", publishedAt: sentAt,
+        directorNote: buildConfirmationNote(post.directorNote, sentAt, remote.externalLink),
       });
-      result.failed += count;
-      if (count > 0) failuresByPlatform.set(post.platform, [...(failuresByPlatform.get(post.platform) ?? []), remote]);
+    } else if (remote.status === "error") {
+      const message = formatBufferError(remote.error);
+      result.failed += await deps.store.maj(post.id, {
+        ...base, status: "FAILED", bufferStatus: "error", alertedAt: null,
+        directorNote: ajouterLigne(post.directorNote, buildPublishErrorNote(message)),
+      });
+      if (deps.autoPause && estAutorisationPerdue(message) && !result.paused.includes(post.platform)) {
+        if (await deps.autoPause(post.platform, `Buffer : ${message.slice(0, 300)}`, now)) result.paused.push(post.platform);
+      }
     } else {
-      result.unchanged += 1; // scheduled, sending, absent de la page : on relira plus tard
+      const prevu = dateValide(remote.dueAt ?? null) ?? post.scheduledAt;
+      const reference = Math.max(prevu.getTime(), post.publishedAt?.getTime() ?? 0);
+      if (now.getTime() - reference > NON_CONFIRME_APRES_MS && post.bufferStatus !== "non_confirme") {
+        result.unconfirmed += await deps.store.maj(post.id, { ...base, bufferStatus: "non_confirme" });
+      } else {
+        await deps.store.maj(post.id, { ...base, bufferStatus: post.bufferStatus === "non_confirme" ? "non_confirme" : remote.status });
+        result.unchanged += 1;
+      }
     }
   }
+}
 
-  for (const [platform, failures] of failuresByPlatform) {
+async function alerter(deps: StatusCheckDeps, since: Date, now: Date, result: StatusCheckResult): Promise<void> {
+  const parReseau = new Map<SocialPlatform, PostASignaler[]>();
+  for (const p of await deps.store.aSignaler(since)) parReseau.set(p.platform, [...(parReseau.get(p.platform) ?? []), p]);
+  for (const [platform, posts] of parReseau) {
     const sent = await deps.sendAlert(
-      `Publication ${PLATFORM_LABELS[platform]} en échec chez Buffer : reconnecter le canal`,
-      buildAlertHtml(platform, failures),
+      `Publication ${PLATFORM_LABELS[platform]} non confirmée chez Buffer (${posts.length} post(s))`,
+      buildAlertHtml(platform, posts),
       now,
       `${STATUS_ALERT_JOB_PREFIX}-${platform.toLowerCase()}`,
     );
-    if (sent) result.alerted.push(platform);
+    if (sent) {
+      await deps.store.marquerAlertes(posts.map((p) => p.id), now);
+      result.alerted.push(platform);
+    }
   }
-  return result;
+}
+
+/** Accès base réel (Prisma). */
+export function prismaStatusStore(prisma: import("@prisma/client").PrismaClient): StatusStore {
+  return {
+    candidats: (since) =>
+      prisma.socialPost.findMany({
+        where: {
+          status: "PUBLISHED",
+          externalId: { not: null },
+          publishedAt: { gte: since },
+          OR: [{ bufferStatus: null }, { bufferStatus: { not: "sent" } }],
+          AND: [{ OR: [{ directorNote: null }, { NOT: { directorNote: { contains: BUFFER_CONFIRMED_PREFIX } } }] }],
+        },
+        select: { id: true, platform: true, externalId: true, directorNote: true, scheduledAt: true, publishedAt: true, bufferStatus: true },
+      }),
+    maj: async (id, data) => (await prisma.socialPost.updateMany({ where: { id, status: "PUBLISHED" }, data })).count,
+    aSignaler: (since) =>
+      prisma.socialPost.findMany({
+        where: { bufferStatus: { in: [...STATUTS_A_SIGNALER] }, alertedAt: null, updatedAt: { gte: since } },
+        select: { id: true, platform: true, scheduledAt: true, hook: true, bufferStatus: true, directorNote: true },
+        orderBy: { scheduledAt: "asc" },
+      }),
+    marquerAlertes: async (ids, now) => {
+      await prisma.socialPost.updateMany({ where: { id: { in: ids } }, data: { alertedAt: now } });
+    },
+  };
 }
 
 /** Exécution réelle (Prisma + Buffer + alerte admin). Utilisée par le job et le démarrage. */
 export async function runBufferStatusCheck(now: Date = new Date()): Promise<StatusCheckResult | null> {
-  const { isBufferConfigured, getBufferFinishedPosts } = await import("./buffer-client");
+  const { isBufferConfigured, getBufferFinishedPosts, getBufferPostStatus } = await import("./buffer-client");
   if (!isBufferConfigured()) return null;
   const { prisma } = await import("@/lib/prisma");
   const { sendDailyPublishFailureAlert } = await import("./publish-failure");
-  return reconcileBufferPostStatuses(
+  const { pauserAutomatiquement, alerterPausesAutomatiques } = await import("./platform-switch");
+  const db = prisma as unknown as import("./platform-switch").SwitchDb;
+  const res = await reconcileBufferPostStatuses(
     {
-      db: prisma as unknown as StatusCheckDb,
-      fetchStatuses: () => getBufferFinishedPosts(),
+      store: prismaStatusStore(prisma),
+      fetchFinished: (ids) => getBufferFinishedPosts({ wantedIds: ids }),
+      fetchOne: (id) => getBufferPostStatus(id),
       sendAlert: sendDailyPublishFailureAlert,
+      autoPause: (platform, motif, at) =>
+        platform === "THREADS" ? Promise.resolve(false) : pauserAutomatiquement(db, platform, motif, at),
     },
     now,
   );
+  if (res.paused.length > 0) await alerterPausesAutomatiques(db, sendDailyPublishFailureAlert, now);
+  return res;
 }

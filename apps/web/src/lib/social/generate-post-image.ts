@@ -10,7 +10,9 @@ import {
   generateTechniqueDuJour,
   generateLaVanne,
   generateLeDefi,
+  renderSlides,
 } from "./image-generator";
+import { carrouselArticle, carrouselVanne, type Slide } from "./carrousel-piste-a";
 
 interface PostData {
   format: string;
@@ -18,6 +20,38 @@ interface PostData {
   content: string;
   targetPersona: string;
   threadParts: string[];
+  sourceType?: string | null;
+}
+
+/**
+ * Carrousel v3 (cartes « piste A ») d'un post Instagram préparé, ou null
+ * (anciens gabarits) :
+ *  - vanne : threadParts = [amorce, chute] → amorce puis chute sur aplat ;
+ *  - relais d'article (sourceType BLOG) : 1re ligne = titre → couverture + fin.
+ */
+export function slidesDuPost(post: PostData): Slide[] | null {
+  if (post.format !== "IMAGE_QUI_CLAQUE") return null;
+  const [amorce, chute] = post.threadParts;
+  if (post.threadParts.length === 2 && amorce?.trim() && chute?.trim()) {
+    return carrouselVanne({ amorce: amorce.trim(), chute: [chute.trim()] });
+  }
+  if (post.sourceType === "BLOG") {
+    const titre = post.content.split("\n")[0]?.trim();
+    if (titre) return carrouselArticle({ titre });
+  }
+  return null;
+}
+
+/** Nombre d'images à envoyer pour ce post (1 = image simple). */
+export function nombreDeSlides(post: PostData): number {
+  return slidesDuPost(post)?.length ?? 1;
+}
+
+/** Texte alternatif d'une image du post : amorce + chute, sinon le texte de la carte. */
+export function texteAlternatifDuPost(post: PostData): string {
+  const [amorce, chute] = post.threadParts;
+  if (post.threadParts.length === 2 && amorce?.trim() && chute?.trim()) return `${amorce.trim()} ${chute.trim()}`;
+  return (post.content.split("\n")[0] || post.hook).trim();
 }
 
 /**
@@ -31,7 +65,12 @@ export async function generatePostImage(
   post: PostData,
   slide = 0,
 ): Promise<Buffer> {
-  void slide;
+  const slides = slidesDuPost(post);
+  if (slides) {
+    const s = slides[Math.min(Math.max(0, Math.floor(slide) || 0), slides.length - 1)];
+    const [png] = await renderSlides([s]);
+    return png;
+  }
   switch (post.format) {
     case "IMAGE_QUI_CLAQUE": {
       // s14 (préparation mensuelle depuis le catalogue) : carte « amorce // chute ».

@@ -5,17 +5,23 @@
  * Thomas du 01/10 et contrôle bloquant sans IA. Données simulées, aucune base.
  */
 const mockLaVanne = jest.fn().mockResolvedValue(Buffer.from("png"));
+const mockRenderSlides = jest.fn().mockResolvedValue([Buffer.from("slide")]);
 jest.mock("@/lib/social/image-generator", () => ({
   generateLaVanne: (...a: unknown[]) => mockLaVanne(...a),
+  renderSlides: (...a: unknown[]) => mockRenderSlides(...a),
   generateTechniqueDuJour: jest.fn(),
   generateLeDefi: jest.fn(),
 }));
 
-import { generatePostImage } from "@/lib/social/generate-post-image";
+import { generatePostImage, nombreDeSlides, slidesDuPost, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
 import { checkPost } from "../../../scripts/content/social-controls";
 import {
   buildPlan,
+  CADENCE_V2,
+  estAngleBureau,
   IG_ARTICLE_LINE,
+  LI_ARTICLE_LINE,
+  QUIZ_LINE,
   drawSample,
   parisToUtc,
   utmLink,
@@ -80,15 +86,58 @@ describe("checkPost : contrôle bloquant sans IA", () => {
   });
 });
 
-describe("buildPlan : règles du 01/10", () => {
-  it("cadence 5 X + 4 Instagram par semaine complète, zéro LinkedIn", () => {
-    const { posts, errors } = octoberPlan();
+describe("buildPlan : stratégie v2 (05/10) et règles maintenues du 01/10", () => {
+  it("cadence v2 : 5 X + 4 Instagram automatiques (mercredi décryptage à part) + 2 LinkedIn par semaine", () => {
+    const { posts, errors, warnings } = octoberPlan();
     expect(errors).toEqual([]);
     const week = posts.filter((p) => p.date >= "2026-10-05" && p.date <= "2026-10-11");
     expect(week.filter((p) => p.platform === "TWITTER")).toHaveLength(5);
-    expect(week.filter((p) => p.platform === "INSTAGRAM")).toHaveLength(4);
-    expect(posts.every((p) => p.platform === "TWITTER" || p.platform === "INSTAGRAM")).toBe(true);
+    expect(week.filter((p) => p.platform === "INSTAGRAM").map((p) => p.date)).toEqual(["2026-10-05", "2026-10-06", "2026-10-08", "2026-10-09"]);
+    expect(week.filter((p) => p.platform === "LINKEDIN").map((p) => `${p.date} ${p.parisTime}`)).toEqual(["2026-10-06 08:15", "2026-10-08 08:15"]);
+    expect(warnings.join()).toContain("2026-10-07 INSTAGRAM : carrousel décryptage à préparer à part");
     expect(posts.every((p) => p.date >= "2026-10-02" && p.date <= "2026-10-31")).toBe(true);
+  });
+
+  it("cadence paramétrable : une stratégie v3 n'a qu'à fournir la sienne", () => {
+    const { posts } = octoberPlan({ cadence: { LINKEDIN: { h: 9, m: 0, jours: { 3: "VANNE" } } } });
+    expect(posts.every((p) => p.platform === "LINKEDIN" && p.parisTime === "09:00" && new Date(`${p.date}T12:00:00Z`).getUTCDay() === 3)).toBe(true);
+    expect(CADENCE_V2.LINKEDIN!.jours).toEqual({ 2: "RELAIS_BUREAU_OU_VANNE", 4: "RELAIS_BUREAU_OU_VANNE" });
+  });
+
+  it("X mercredi : vanne puis ligne quiz avec lien UTM, 270 caractères max", () => {
+    const { posts } = octoberPlan();
+    const wed = posts.find((p) => p.date === "2026-10-07" && p.platform === "TWITTER")!;
+    expect(wed.kind).toBe("VANNE_QUIZ");
+    expect(wed.text).toContain(`\n\n${QUIZ_LINE} https://deviens-marrant.fr/quiz-humour?utm_source=x&utm_medium=social&utm_campaign=2026-10&utm_content=quiz`);
+    expect(wed.text.length).toBeLessThanOrEqual(270);
+  });
+
+  it("LinkedIn : relais d'article à angle bureau (lien en 1er commentaire), sinon vanne de bureau, jamais 2 relais par semaine", () => {
+    const bureau = { slug: "pot-de-depart-discours-drole", title: "Pot de départ : 6 phrases pour faire rire tes collègues", date: "2026-10-12" };
+    const jeudi = { slug: "visio-humour-reunion", title: "Humour en visio : 5 vannes de réunion", date: "2026-10-15" };
+    const pool = POOL.map((j, i) => (i < 5 ? { ...j, category: "BOULOT" } : j));
+    const { posts } = octoberPlan({ articles: [...ARTICLES, bureau, jeudi], pool });
+    const mardi = posts.find((p) => p.date === "2026-10-13" && p.platform === "LINKEDIN")!;
+    expect(mardi.kind).toBe("ARTICLE");
+    expect(mardi.text).toBe(`${bureau.title}\n${LI_ARTICLE_LINE}`);
+    expect(mardi.text).not.toContain("http");
+    expect(mardi.firstComment).toBe(utmLink("https://deviens-marrant.fr", bureau.slug, "LINKEDIN", "2026-10", "commentaire"));
+    const jeu = posts.find((p) => p.date === "2026-10-15" && p.platform === "LINKEDIN")!;
+    expect(jeu.kind).not.toBe("ARTICLE"); // 2e relais de la semaine refusé
+    expect(["j001", "j002", "j003", "j004", "j005"]).toContain(posts.find((p) => p.date === "2026-10-06" && p.platform === "LINKEDIN")!.sourceId);
+    const halloween = posts.find((p) => p.date === "2026-10-06" && p.platform === "LINKEDIN")!;
+    expect(halloween.kind).not.toBe("ARTICLE"); // Halloween : pas d'angle bureau
+  });
+
+  it("LinkedIn : jamais une amorce coupée par « voir plus » (> 140 caractères)", () => {
+    const longue = joke(600, { setup: `${"Amorce très longue ".repeat(9)}fin.`, category: "BOULOT" });
+    const { posts } = octoberPlan({ pool: [longue, ...POOL] });
+    expect(posts.some((p) => p.platform === "LINKEDIN" && p.sourceId === "j600")).toBe(false);
+  });
+
+  it("angle bureau : mots du slug ou du titre", () => {
+    expect(estAngleBureau({ slug: "soiree-de-noel-au-boulot", title: "x", date: "" })).toBe(true);
+    expect(estAngleBureau({ slug: "blagues-halloween", title: "Blagues d'Halloween", date: "" })).toBe(false);
   });
 
   it("X reprend la vanne du jour mot pour mot", () => {
@@ -139,7 +188,8 @@ describe("buildPlan : règles du 01/10", () => {
     const ig = posts.find((p) => p.date === "2026-10-05" && p.platform === "INSTAGRAM")!;
     expect(x.kind).toBe("ARTICLE");
     expect(x.text).toContain("utm_source=x&utm_medium=social&utm_campaign=2026-10");
-    expect(ig.link).toBe(utmLink("https://deviens-marrant.fr", ARTICLES[0].slug, "INSTAGRAM", "2026-10"));
+    expect(x.text).toContain("utm_content=lundi");
+    expect(ig.link).toBe(utmLink("https://deviens-marrant.fr", ARTICLES[0].slug, "INSTAGRAM", "2026-10", "lundi"));
     expect(ig.text).not.toContain("http");
     expect(ig.text.endsWith(IG_ARTICLE_LINE)).toBe(true);
     expect(ig.note).toBeNull(); // la bio pointe une fois pour toutes vers /liens
@@ -183,12 +233,32 @@ describe("rendu et lignes à insérer", () => {
     expect(ig.format).toBe("IMAGE_QUI_CLAQUE");
     expect(ig.threadParts).toHaveLength(2);
     expect(rows.find((r) => r.platform === "TWITTER")!.format).toBe("TWEET");
+    expect(rows.find((r) => r.platform === "LINKEDIN")!.format).toBe("POTE_AU_TAF");
   });
 });
 
-describe("carte Instagram « amorce // chute » (générateur existant)", () => {
-  it("IMAGE_QUI_CLAQUE avec threadParts [amorce, chute] → gabarit La Vanne", async () => {
-    await generatePostImage({ format: "IMAGE_QUI_CLAQUE", hook: "Amorce", content: "Amorce\nChute", targetPersona: "YANIS", threadParts: ["Amorce", "Chute"] });
-    expect(mockLaVanne).toHaveBeenCalledWith({ setup: "Amorce", punchline: "Chute", category: "" });
+describe("carrousel Instagram v3 (cartes piste A)", () => {
+  const vanne = { format: "IMAGE_QUI_CLAQUE", hook: "Amorce", content: "Amorce\nChute", targetPersona: "YANIS", threadParts: ["Amorce", "Chute"] };
+
+  it("vanne [amorce, chute] → 2 slides 4:5, slide n rendue seule", async () => {
+    expect(nombreDeSlides(vanne)).toBe(2);
+    expect(slidesDuPost(vanne)!.map((s) => [s.width, s.height])).toEqual([[1080, 1350], [1080, 1350]]);
+    await generatePostImage(vanne, 1);
+    expect(mockRenderSlides).toHaveBeenCalledTimes(1);
+    expect(mockRenderSlides.mock.calls[0][0]).toHaveLength(1);
+    expect(mockLaVanne).not.toHaveBeenCalled();
+    expect(texteAlternatifDuPost(vanne)).toBe("Amorce Chute");
+  });
+
+  it("relais d'article (sourceType BLOG) → couverture + fin", () => {
+    const article = { ...vanne, threadParts: [], sourceType: "BLOG", content: `Blagues d'Halloween : 8 vannes\n${IG_ARTICLE_LINE}` };
+    expect(nombreDeSlides(article)).toBe(2);
+    expect(texteAlternatifDuPost(article)).toBe("Blagues d'Halloween : 8 vannes");
+  });
+
+  it("anciens formats : image unique, anciens gabarits", async () => {
+    expect(nombreDeSlides({ ...vanne, format: "TECHNIQUE_DU_JOUR" })).toBe(1);
+    await generatePostImage({ ...vanne, threadParts: [], content: "Punch" });
+    expect(mockLaVanne).toHaveBeenCalled();
   });
 });

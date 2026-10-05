@@ -41,8 +41,27 @@ const prismaBlogArticles: BlogArticleLookup = async (slugs) => {
   });
 };
 
+/** Section « Réseaux sociaux : prévu contre publié » (s15 cycle 3). Jamais d'exception. */
+export type SocialSection = (startAt: Date, endAt: Date, now: Date) => Promise<string>;
+
+const prismaSocialSection: SocialSection = async (startAt, endAt, now) => {
+  try {
+    const { chargerRapport, jourParis, rapportPublicationHtml } = await import("@/lib/social/publication-report");
+    return rapportPublicationHtml(await chargerRapport(jourParis(startAt), jourParis(endAt), now));
+  } catch (err) {
+    console.warn(`[weekly-visits] Section réseaux sociaux indisponible : ${err instanceof Error ? err.message : "erreur"}`);
+    return `<h3 style="font-size:16px;margin:24px 0 8px;">Réseaux sociaux : prévu contre publié</h3><p style="font-size:13px;color:#b45309;">Section indisponible (base illisible) : voir l'admin social.</p>`;
+  }
+};
+
 export async function runWeeklyVisitsReport(
-  opts: { now?: Date; dryRun?: boolean; countConversions?: ConversionCounter; lookupArticles?: BlogArticleLookup } = {},
+  opts: {
+    now?: Date;
+    dryRun?: boolean;
+    countConversions?: ConversionCounter;
+    lookupArticles?: BlogArticleLookup;
+    socialSection?: SocialSection;
+  } = {},
 ): Promise<WeeklyVisitsResult> {
   const config = getUmamiConfig();
   if (!config) {
@@ -58,8 +77,13 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
+  const social = await (opts.socialSection ?? prismaSocialSection)(
+    new Date(report.current.startAt),
+    new Date(report.current.endAt),
+    opts.now ?? new Date(),
+  );
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(subject, buildWeeklyVisitsHtml(report));
+  await sendAdminHtmlEmail(subject, buildWeeklyVisitsHtml(report, social));
   return { status: "sent", subject, report };
 }
 

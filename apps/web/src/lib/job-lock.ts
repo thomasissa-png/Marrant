@@ -110,6 +110,15 @@ export async function releaseLock(jobKey: string): Promise<void> {
 }
 
 /**
+ * Le lock est-il détenu (présent et non expiré) ? Lecture seule.
+ * Lève si la base est indisponible : l'appelant décide (fail-closed en général).
+ */
+export async function isLockHeld(jobKey: string, now: Date = new Date()): Promise<boolean> {
+  const lock = await prisma.jobLock.findFirst({ where: { jobKey, expiresAt: { gt: now } } });
+  return lock !== null;
+}
+
+/**
  * Plafond de tentatives PERSISTANT par job et par fenêtre (incident s14).
  *
  * Un job de génération qui a déjà tenté `max` fois sa fenêtre (jour, semaine

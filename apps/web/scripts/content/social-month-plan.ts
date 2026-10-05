@@ -1,11 +1,18 @@
 /**
  * Planification mensuelle des posts sociaux (logique pure, sans base ni réseau).
- * Utilisé par scripts/content/prepare-social-month.ts. Décisions Thomas du 01/10/2026 :
- *  - X : 5 posts/semaine (lun article, mar-ven vanne du jour en priorité) ;
- *  - Instagram : 4 posts/semaine (lun article, mar/mer/ven carte « amorce // chute ») ;
- *  - LinkedIn en pause, aucune génération IA, texte = la vanne mot pour mot ;
- *  - jamais deux fois la même vanne sur une plateforme dans le mois ;
- *  - sur Instagram, jamais une vanne qui est vanne du jour (ou postée sur X) la même semaine.
+ * Utilisé par scripts/content/prepare-social-month.ts.
+ *
+ * Cadence PARAMÉTRABLE (`PlanInput.cadence`) ; défaut = stratégie v2
+ * (docs/social/strategie-relance-v2.md §1, choix fondateur du 05/10 : relance des
+ * 3 réseaux, consignes du 01/10 annulées). Une v3 n'a qu'à fournir sa cadence.
+ *  - X 12:30 : lun. relais article, mar. vanne, mer. vanne + quiz, jeu. relais, ven. vanne ;
+ *  - Instagram 18:30 : lun. relais, mar. vanne, mer. carrousel décryptage (préparé à
+ *    part, non automatisé), jeu. relais, ven. vanne ;
+ *  - LinkedIn 08:15 : mar. et jeu. relais d'article à angle bureau, sinon vanne de
+ *    bureau ; jamais 2 relais la même semaine ; lien en premier commentaire.
+ * Toujours : aucune génération IA, texte = la vanne mot pour mot, jamais deux fois
+ * la même vanne sur un réseau dans le mois, pas de vanne déjà vue la même semaine
+ * (vanne du jour ou autre réseau) sur Instagram et LinkedIn.
  */
 import { checkPost, type PreparedPlatform } from "./social-controls";
 
@@ -15,8 +22,22 @@ export interface CatalogueJoke {
   punchline: string;
   isActive: boolean;
   verdict: string | null;
+  /** Catégorie Joke (BOULOT = vanne de bureau pour LinkedIn). */
+  category?: string | null;
 }
+/** Article publié à cette date (lundi ou jeudi : relayé). */
 export interface MondayArticle { slug: string; title: string; date: string }
+export type RegleJour = "RELAIS_OU_VANNE" | "VANNE" | "VANNE_QUIZ" | "RELAIS_BUREAU_OU_VANNE" | "MANUEL";
+export interface CadenceReseau { h: number; m: number; jours: Partial<Record<number, RegleJour>> }
+export type Cadence = Partial<Record<PreparedPlatform, CadenceReseau>>;
+
+/** Cadence de la stratégie v2 (12 posts / semaine). Jours : 0 = dimanche … 6 = samedi. */
+export const CADENCE_V2: Cadence = {
+  TWITTER: { h: 12, m: 30, jours: { 1: "RELAIS_OU_VANNE", 2: "VANNE", 3: "VANNE_QUIZ", 4: "RELAIS_OU_VANNE", 5: "VANNE" } },
+  INSTAGRAM: { h: 18, m: 30, jours: { 1: "RELAIS_OU_VANNE", 2: "VANNE", 3: "MANUEL", 4: "RELAIS_OU_VANNE", 5: "VANNE" } },
+  LINKEDIN: { h: 8, m: 15, jours: { 2: "RELAIS_BUREAU_OU_VANNE", 4: "RELAIS_BUREAU_OU_VANNE" } },
+};
+
 export interface PlanInput {
   month: string; // AAAA-MM
   from: string; // AAAA-MM-JJ
@@ -26,8 +47,9 @@ export interface PlanInput {
   alreadyUsed: Array<{ platform: PreparedPlatform; sourceId: string }>;
   seed?: string;
   siteUrl?: string;
+  cadence?: Cadence;
 }
-export type PostKind = "VANNE_DU_JOUR" | "VANNE" | "ARTICLE";
+export type PostKind = "VANNE_DU_JOUR" | "VANNE" | "VANNE_QUIZ" | "ARTICLE";
 export interface PlannedPost {
   date: string;
   scheduledAt: string; // ISO UTC
@@ -38,28 +60,43 @@ export interface PlannedPost {
   card: { setup: string; punchline: string } | null;
   sourceType: "JOKE" | "BLOG";
   sourceId: string;
-  link: string | null; // lien UTM (dans le texte sur X ; sur Instagram, la bio pointe une fois pour toutes vers /liens)
+  link: string | null; // lien UTM (X : dans le texte ; Instagram : bio /liens ; LinkedIn : 1er commentaire)
+  /** LinkedIn : lien publié en premier commentaire (jamais dans le corps). */
+  firstComment: string | null;
   note: string | null;
 }
 export interface PlanResult { posts: PlannedPost[]; warnings: string[]; errors: string[] }
 
-/** Créneaux fixes (heure de Paris) : jamais deux posts à moins de 3 h. */
+/** Créneaux de la cadence par défaut (compatibilité). */
 export const SLOTS_PARIS: Record<PreparedPlatform, { h: number; m: number }> = {
   TWITTER: { h: 12, m: 30 },
   INSTAGRAM: { h: 18, m: 30 },
-};
-/** Jours de publication (0 = dimanche … 6 = samedi). Lundi = article. */
-export const WEEK_PATTERN: Record<PreparedPlatform, number[]> = {
-  TWITTER: [1, 2, 3, 4, 5],
-  INSTAGRAM: [1, 2, 3, 5],
+  LINKEDIN: { h: 8, m: 15 },
 };
 export const IG_BRAND_LINE = "deviens-marrant.fr";
 export const IG_ARTICLE_LINE = "Lien en bio.";
-export const UTM_SOURCE: Record<PreparedPlatform, string> = { TWITTER: "x", INSTAGRAM: "instagram" };
+export const LI_ARTICLE_LINE = "Lien en commentaire.";
+/** Ligne quiz du mercredi sur X (stratégie v2 §2, mot pour mot). */
+export const QUIZ_LINE = "Le quiz « quel type d'humour es-tu ? » prend environ 2 minutes, sans inscription :";
+/** Amorce LinkedIn visible avant « voir plus ». */
+export const LINKEDIN_AMORCE_MAX = 140;
+export const UTM_SOURCE: Record<PreparedPlatform, string> = { TWITTER: "x", INSTAGRAM: "instagram", LINKEDIN: "linkedin" };
+const JOUR_UTM = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 
-export function utmLink(siteUrl: string, slug: string, platform: PreparedPlatform, month: string): string {
+/** Angle bureau d'un article (LinkedIn) : mots du slug ou du titre. */
+const BUREAU = /bureau|boulot|travail|coll[eè]gue|r[eé]union|t[eé]l[eé]travail|visio|entretien|pot-de-depart|pot de départ|manager|open.?space/i;
+export function estAngleBureau(a: MondayArticle): boolean {
+  return BUREAU.test(a.slug) || BUREAU.test(a.title);
+}
+
+export function utmLink(siteUrl: string, slug: string, platform: PreparedPlatform, month: string, content?: string): string {
   const base = siteUrl.replace(/\/$/, "");
-  return `${base}/blog/${slug}?utm_source=${UTM_SOURCE[platform]}&utm_medium=social&utm_campaign=${month}`;
+  const c = content ? `&utm_content=${content}` : "";
+  return `${base}/blog/${slug}?utm_source=${UTM_SOURCE[platform]}&utm_medium=social&utm_campaign=${month}${c}`;
+}
+
+export function quizLink(siteUrl: string, month: string): string {
+  return `${siteUrl.replace(/\/$/, "")}/quiz-humour?utm_source=x&utm_medium=social&utm_campaign=${month}&utm_content=quiz`;
 }
 
 /** Convertit une heure de Paris en instant UTC (gère l'heure d'été). */
@@ -125,29 +162,39 @@ function isValidated(j: CatalogueJoke | undefined): j is CatalogueJoke {
   return !!j && j.isActive && j.verdict === "GARDER";
 }
 
-function jokePost(platform: PreparedPlatform, j: CatalogueJoke): { text: string; errors: string[] } {
+function jokePost(platform: PreparedPlatform, j: CatalogueJoke, suffix = ""): { text: string; errors: string[] } {
   const quoted = vanneText(j);
-  const text = platform === "INSTAGRAM" ? `${quoted}\n${IG_BRAND_LINE}` : quoted;
+  const text = platform === "INSTAGRAM" ? `${quoted}\n${IG_BRAND_LINE}` : `${quoted}${suffix}`;
   const errors = checkPost({ platform, text, quoted, cardText: platform === "INSTAGRAM" ? quoted : undefined });
+  if (platform === "LINKEDIN" && j.setup.trim().length > LINKEDIN_AMORCE_MAX) {
+    errors.push(`amorce trop longue pour LinkedIn (${j.setup.trim().length} > ${LINKEDIN_AMORCE_MAX}, coupée par « voir plus »)`);
+  }
   return { text, errors };
 }
 
 /** Construit le plan du mois. Aucune écriture : le résultat est relu (dry-run) avant `--write`. */
 export function buildPlan(input: PlanInput): PlanResult {
   const siteUrl = input.siteUrl ?? "https://deviens-marrant.fr";
+  const cadence = input.cadence ?? CADENCE_V2;
   const rnd = seededRandom(input.seed ?? input.month);
   const posts: PlannedPost[] = [];
   const warnings: string[] = [];
   const errors: string[] = [];
-  const used: Record<PreparedPlatform, Set<string>> = { TWITTER: new Set(), INSTAGRAM: new Set() };
-  for (const u of input.alreadyUsed) used[u.platform].add(u.sourceId);
+  const used: Record<PreparedPlatform, Set<string>> = { TWITTER: new Set(), INSTAGRAM: new Set(), LINKEDIN: new Set() };
+  for (const u of input.alreadyUsed) used[u.platform]?.add(u.sourceId);
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
+  // Ordre de mélange fixe (X, puis Instagram, puis LinkedIn) : ajouter LinkedIn
+  // ne change pas les tirages X et Instagram d'une même graine.
   const shuffled: Record<PreparedPlatform, CatalogueJoke[]> = {
     TWITTER: shuffle(input.pool, rnd),
     INSTAGRAM: shuffle(input.pool, rnd),
+    LINKEDIN: [],
   };
-  const xByWeek = new Map<string, Set<string>>();
-  const articleByMonday = new Map(input.articles.filter((a) => weekday(a.date) === 1).map((a) => [a.date, a]));
+  const bureau = input.pool.filter((j) => j.category === "BOULOT");
+  shuffled.LINKEDIN = [...shuffle(bureau, rnd), ...shuffle(input.pool.filter((j) => j.category !== "BOULOT"), rnd)];
+  const seenByWeek = new Map<string, Set<string>>(); // vannes déjà postées cette semaine (tous réseaux)
+  const liRelaysByWeek = new Map<string, number>();
+  const articleByDate = new Map(input.articles.map((a) => [a.date, a]));
 
   const days: string[] = [];
   for (let d = input.from; d <= monthEnd(input.month); d = addDays(d, 1)) days.push(d);
@@ -161,51 +208,78 @@ export function buildPlan(input: PlanInput): PlanResult {
     }
     return ids;
   };
+  const markSeen = (date: string, id: string) => {
+    const set = seenByWeek.get(mondayOf(date)) ?? new Set<string>();
+    set.add(id);
+    seenByWeek.set(mondayOf(date), set);
+  };
 
-  const pickFromPool = (platform: PreparedPlatform, exclude: Set<string>): { j: CatalogueJoke; text: string } | null => {
+  const pickFromPool = (platform: PreparedPlatform, exclude: Set<string>, suffix = ""): { j: CatalogueJoke; text: string } | null => {
     for (const j of shuffled[platform]) {
       if (used[platform].has(j.id) || exclude.has(j.id)) continue;
-      const { text, errors: errs } = jokePost(platform, j);
+      const { text, errors: errs } = jokePost(platform, j, suffix);
       if (errs.length === 0) return { j, text };
     }
     return null;
   };
 
-  // Passe 1 : X (vanne du jour en priorité), passe 2 : Instagram (exclut la semaine).
-  for (const platform of ["TWITTER", "INSTAGRAM"] as PreparedPlatform[]) {
+  // Passe 1 : X (vanne du jour en priorité), puis Instagram, puis LinkedIn
+  // (excluent les vannes déjà vues dans la semaine).
+  for (const platform of ["TWITTER", "INSTAGRAM", "LINKEDIN"] as PreparedPlatform[]) {
+    const reseau = cadence[platform];
+    if (!reseau) continue;
     for (const date of days) {
-      if (!WEEK_PATTERN[platform].includes(weekday(date))) continue;
-      const slot = SLOTS_PARIS[platform];
-      const base = {
-        date,
-        scheduledAt: parisToUtc(date, slot.h, slot.m).toISOString(),
-        parisTime: `${String(slot.h).padStart(2, "0")}:${String(slot.m).padStart(2, "0")}`,
-        platform,
-      };
-      const article = weekday(date) === 1 ? articleByMonday.get(date) : undefined;
-      if (weekday(date) === 1 && !article) warnings.push(`${date} ${platform} : aucun article programmé ce lundi, vanne à la place.`);
-      if (article) {
-        const link = utmLink(siteUrl, article.slug, platform, input.month);
-        const title = article.title.trim();
-        const text = platform === "TWITTER" ? `${title}\n${link}` : `${title}\n${IG_ARTICLE_LINE}`;
-        const errs = checkPost({ platform, text, quoted: title, cardText: platform === "INSTAGRAM" ? title : undefined });
-        if (errs.length > 0) errors.push(`${date} ${platform} article « ${article.slug} » refusé : ${errs.join(", ")}`);
-        posts.push({ ...base, kind: "ARTICLE", text, card: platform === "INSTAGRAM" ? { setup: "", punchline: title } : null,
-          sourceType: "BLOG", sourceId: article.slug, link, note: null });
+      const regle = reseau.jours[weekday(date)];
+      if (!regle) continue;
+      if (regle === "MANUEL") {
+        warnings.push(`${date} ${platform} : carrousel décryptage à préparer à part (non automatisé).`);
         continue;
       }
+      const base = {
+        date,
+        scheduledAt: parisToUtc(date, reseau.h, reseau.m).toISOString(),
+        parisTime: `${String(reseau.h).padStart(2, "0")}:${String(reseau.m).padStart(2, "0")}`,
+        platform,
+        firstComment: null as string | null,
+      };
+      const week = mondayOf(date);
+
+      // ── Relais d'article ──
+      let article: MondayArticle | undefined;
+      if (regle === "RELAIS_OU_VANNE") {
+        article = articleByDate.get(date);
+        if (!article && weekday(date) === 1) warnings.push(`${date} ${platform} : aucun article programmé ce lundi, vanne à la place.`);
+      } else if (regle === "RELAIS_BUREAU_OU_VANNE") {
+        // Mardi : article du lundi ; jeudi : article du jour. Angle bureau, 1 relais / semaine max.
+        const candidat = articleByDate.get(weekday(date) === 2 ? addDays(date, -1) : date);
+        if (candidat && estAngleBureau(candidat) && (liRelaysByWeek.get(week) ?? 0) === 0) article = candidat;
+      }
+      if (article) {
+        const title = article.title.trim();
+        const content = platform === "LINKEDIN" ? "commentaire" : JOUR_UTM[weekday(date)];
+        const link = utmLink(siteUrl, article.slug, platform, input.month, content);
+        const text = platform === "TWITTER" ? `${title}\n${link}` : platform === "INSTAGRAM" ? `${title}\n${IG_ARTICLE_LINE}` : `${title}\n${LI_ARTICLE_LINE}`;
+        const errs = checkPost({ platform, text, quoted: title, cardText: platform === "INSTAGRAM" ? title : undefined });
+        if (errs.length > 0) errors.push(`${date} ${platform} article « ${article.slug} » refusé : ${errs.join(", ")}`);
+        if (platform === "LINKEDIN") liRelaysByWeek.set(week, (liRelaysByWeek.get(week) ?? 0) + 1);
+        posts.push({ ...base, kind: "ARTICLE", text, card: platform === "INSTAGRAM" ? { setup: "", punchline: title } : null,
+          sourceType: "BLOG", sourceId: article.slug, link, firstComment: platform === "LINKEDIN" ? link : null, note: null });
+        continue;
+      }
+
+      // ── Vanne ──
       let note: string | null = null;
       let chosen: { j: CatalogueJoke; text: string } | null = null;
-      let kind: PostKind = "VANNE";
-      const week = mondayOf(date);
+      let kind: PostKind = regle === "VANNE_QUIZ" ? "VANNE_QUIZ" : "VANNE";
+      const suffix = regle === "VANNE_QUIZ" ? `\n\n${QUIZ_LINE} ${quizLink(siteUrl, input.month)}` : "";
       if (platform === "TWITTER") {
         const daily = input.daily.get(date);
         if (daily) {
           const validated = isValidated(daily) ? poolById.get(daily.id) ?? daily : undefined;
-          const res = validated ? jokePost(platform, validated) : null;
+          const res = validated ? jokePost(platform, validated, suffix) : null;
           if (validated && res && res.errors.length === 0 && !used.TWITTER.has(validated.id)) {
             chosen = { j: validated, text: res.text };
-            kind = "VANNE_DU_JOUR";
+            if (kind === "VANNE") kind = "VANNE_DU_JOUR";
           } else {
             const why = !validated ? "non validée (isActive/GARDER)" : used.TWITTER.has(daily.id) ? "déjà postée sur X ce mois" : res!.errors.join(", ");
             note = `Vanne du jour ${daily.id} écartée : ${why}.`;
@@ -213,24 +287,23 @@ export function buildPlan(input: PlanInput): PlanResult {
         } else {
           note = "Pas de vanne du jour programmée : vanne du catalogue.";
         }
-        if (!chosen) chosen = pickFromPool(platform, weekDailyIds(date));
-        if (chosen) {
-          const set = xByWeek.get(week) ?? new Set<string>();
-          set.add(chosen.j.id);
-          xByWeek.set(week, set);
-        }
+        if (!chosen) chosen = pickFromPool(platform, weekDailyIds(date), suffix);
       } else {
-        const exclude = new Set([...weekDailyIds(date), ...(xByWeek.get(week) ?? [])]);
+        const exclude = new Set([...weekDailyIds(date), ...(seenByWeek.get(week) ?? [])]);
         chosen = pickFromPool(platform, exclude);
+        if (chosen && platform === "LINKEDIN" && chosen.j.category !== "BOULOT") {
+          note = "Plus de vanne de bureau disponible : vanne du catalogue.";
+        }
       }
       if (!chosen) {
         errors.push(`${date} ${platform} : aucune vanne validée ne passe les contrôles.`);
         continue;
       }
       used[platform].add(chosen.j.id);
+      markSeen(date, chosen.j.id);
       posts.push({ ...base, kind, text: chosen.text,
         card: platform === "INSTAGRAM" ? { setup: chosen.j.setup.trim(), punchline: chosen.j.punchline.trim() } : null,
-        sourceType: "JOKE", sourceId: chosen.j.id, link: null, note });
+        sourceType: "JOKE", sourceId: chosen.j.id, link: regle === "VANNE_QUIZ" ? quizLink(siteUrl, input.month) : null, note });
     }
   }
   posts.sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));

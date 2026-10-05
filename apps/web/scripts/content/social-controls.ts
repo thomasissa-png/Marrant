@@ -13,18 +13,21 @@
  *  4. Zéro « je » hors de la vanne : la vanne est reprise mot pour mot (elle peut
  *     parler à la 1re personne), mais la ligne de marque ou le titre ajoutés ne
  *     parlent jamais au nom d'une personne (le compte = la marque, règle du 05/05).
- *  5. Longueur : X 270 caractères (le cron publish-social découpe en thread au-delà
- *     de 270, or les threads sont interdits : on bloque avant), légende Instagram 150.
+ *  5. Longueur : X 270 caractères (fils interdits : publish-social refuse tout post
+ *     X plus long, sans découpage), légende Instagram 150, LinkedIn 1300.
  */
 
-export type PreparedPlatform = "TWITTER" | "INSTAGRAM";
+export type PreparedPlatform = "TWITTER" | "INSTAGRAM" | "LINKEDIN";
 
 /** Limites de longueur du texte publié (caractères JS, saut de ligne compris). */
 export const MAX_LENGTH: Record<PreparedPlatform, number> = {
-  // Consigne Thomas : X 280. Bloqué à 270 car publish-social transforme tout tweet
-  // de plus de 270 caractères en thread (publish-social/route.ts, splitIntoTweetThread).
+  // Consigne Thomas : X 280. Bloqué à 270 : publish-social refuse (FAILED « fil X
+  // interdit ») tout tweet de plus de 270 caractères (s15, plus de découpage).
   TWITTER: 270,
   INSTAGRAM: 150,
+  // LinkedIn (s15) : limite Buffer 1300 ; l'amorce doit en plus tenir avant
+  // « voir plus » (140 caractères), contrôlé par social-month-plan.
+  LINKEDIN: 1300,
 };
 
 const EM_DASH = /[—―]/;

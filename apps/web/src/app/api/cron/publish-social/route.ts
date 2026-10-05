@@ -4,68 +4,32 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import {
   createBufferPost,
-  createBufferThread,
   createBufferImagePost,
   isBufferConfigured,
   isChannelConfigured,
   getBufferChannels,
+  getConfiguredChannelIds,
   BufferQueueFullError,
   BufferContentTooLongError,
+  type BufferChannel,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
 import { buildPublishErrorNote, sendDailyPublishFailureAlert } from "@/lib/social/publish-failure";
+import {
+  alerterPausesAutomatiques,
+  canauxEnPanne,
+  estAutorisationPerdue,
+  pauserAutomatiquement,
+  reseauxEnPause,
+  type SwitchDb,
+} from "@/lib/social/platform-switch";
+import { nombreDeSlides, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
 
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
 
-/**
- * Découpe un texte trop long en tweets de ≤ 280 chars.
- * Coupe sur les sauts de ligne doubles, puis les phrases, puis les espaces.
- */
-function splitIntoTweetThread(text: string): string[] {
-  const MAX = 280;
-  if (text.length <= MAX) return [text];
-
-  const parts: string[] = [];
-  // Essayer de couper sur les doubles sauts de ligne d'abord
-  const paragraphs = text.split(/\n\n+/).filter(Boolean);
-
-  let current = "";
-  for (const para of paragraphs) {
-    if (current && (current + "\n\n" + para).length > MAX) {
-      parts.push(current.trim());
-      current = para;
-    } else {
-      current = current ? current + "\n\n" + para : para;
-    }
-  }
-  if (current.trim()) parts.push(current.trim());
-
-  // Si un morceau dépasse encore 280, couper sur les phrases
-  const result: string[] = [];
-  for (const part of parts) {
-    if (part.length <= MAX) {
-      result.push(part);
-      continue;
-    }
-    const sentences = part.split(/(?<=[.!?])\s+/);
-    let chunk = "";
-    for (const sentence of sentences) {
-      if (chunk && (chunk + " " + sentence).length > MAX) {
-        result.push(chunk.trim());
-        chunk = sentence;
-      } else {
-        chunk = chunk ? chunk + " " + sentence : sentence;
-      }
-    }
-    if (chunk.trim()) result.push(chunk.trim());
-  }
-
-  return result;
-}
-
-/** Plateformes en pause (décision Thomas 01/10, s14) : jamais publiées. */
-const PAUSED_PLATFORMS: SocialPlatform[] = ["LINKEDIN"];
+/** X = posts simples (s15) : au-delà, le post est refusé, jamais découpé en fil. */
+const X_MAX_CARACTERES = 270;
 
 /** Retourne l'URL publique du site (pour les images Instagram). */
 function getBaseUrl(): string {
@@ -100,9 +64,10 @@ export async function GET(req: Request) {
       }, { status: 500 });
     }
 
-    // Test de validité du token Buffer avant de publier
+    // Test de validité du token Buffer avant de publier + santé des canaux
+    let channels: BufferChannel[] | null = null;
     try {
-      await getBufferChannels();
+      channels = await getBufferChannels();
     } catch (tokenError) {
       const errMsg = tokenError instanceof Error ? tokenError.message : "Erreur inconnue";
       const isAuthError = /\b(401|403|unauthorized|forbidden|expired|expiré)\b/i.test(errMsg);
@@ -130,6 +95,22 @@ export async function GET(req: Request) {
     }
 
     const now = new Date();
+    const switchDb = prisma as unknown as SwitchDb;
+
+    // ── Santé des canaux (s15 cycle 3) : un canal déconnecté chez Buffer
+    // (autorisation perdue) met son réseau en pause automatiquement + alerte.
+    if (channels) {
+      for (const panne of canauxEnPanne(channels, getConfiguredChannelIds())) {
+        if (await pauserAutomatiquement(switchDb, panne.platform, panne.motif, now)) {
+          console.warn(`[PublishSocial] ${panne.platform} mis en pause automatiquement : ${panne.motif}`);
+        }
+      }
+    }
+    await alerterPausesAutomatiques(switchDb, sendDailyPublishFailureAlert, now);
+
+    // ── Interrupteur Pause / Reprise par réseau (en base, admin social).
+    // Ligne absente ou base illisible = réseau en pause.
+    const pausedPlatforms = await reseauxEnPause(switchDb);
 
     // ── Circuit breaker par plateforme ──────────────────────────────
     // Si un post a échoué avec 429 sur une plateforme dans les dernières 24h,
@@ -165,8 +146,8 @@ export async function GET(req: Request) {
     // Fetch approved posts ready to publish — exclure les plateformes en cooldown
     // Posts approuves par l'admin (approvedBy: "admin") sont publies quel que soit le score.
     // Posts approuves automatiquement (approvedBy null) doivent avoir directorScore >= 9.
-    // Décision Thomas 01/10 (s14) : LinkedIn en pause, jamais publié.
-    const excludedPlatforms = new Set<SocialPlatform>([...blockedPlatforms, ...PAUSED_PLATFORMS]);
+    // s15 cycle 3 : réseaux en pause = interrupteur en base (plus de constante).
+    const excludedPlatforms = new Set<SocialPlatform>([...blockedPlatforms, ...pausedPlatforms]);
     const posts = await prisma.socialPost.findMany({
       where: {
         status: "APPROVED",
@@ -271,30 +252,37 @@ export async function GET(req: Request) {
 
         let externalId: string;
 
-        if (platform === "TWITTER" && post.format === "THREAD" && (post.threadParts?.length ?? 0) > 0) {
-          // Thread Twitter : publie chaque partie avec 2 min d'écart
-          externalId = await createBufferThread(post.threadParts, post.scheduledAt || undefined);
-        } else if (platform === "TWITTER" && post.content.length > 270) {
-          // Safety net : tweet trop long → auto-split en thread
-          // Marge de sécurité à 270 (pas 280) car Twitter compte certains caractères
-          // spéciaux (emojis, accents composés) différemment
-          console.warn(`[PublishSocial] Tweet ${post.id} trop long (${post.content.length} chars) — auto-split en thread`);
-          const parts = splitIntoTweetThread(post.content);
-          externalId = await createBufferThread(parts, post.scheduledAt || undefined);
+        if (platform === "TWITTER" && (post.content.length > X_MAX_CARACTERES || post.format === "THREAD")) {
+          // s15 : X = posts simples, fils interdits. Jamais de découpage
+          // automatique : le post est refusé avec un message clair.
+          await prisma.socialPost.update({
+            where: { id: post.id },
+            data: {
+              status: "FAILED",
+              directorNote: buildPublishErrorNote(
+                `fil X interdit : ${post.content.length} caractères (max ${X_MAX_CARACTERES}), raccourcir le post`,
+              ),
+            },
+          });
+          results.push({ id: post.id, platform: post.platform, status: "failed", error: "Fil X interdit (post trop long)" });
+          continue;
         } else if (platform === "INSTAGRAM") {
-          // Instagram : utilise l'image pré-générée (Object Storage) si disponible,
-          // sinon fallback sur la génération à la volée (URL dynamique)
-          const imageUrl = post.imageUrl
-            ? post.imageUrl
-            : `${getBaseUrl()}/api/social/image?postId=${post.id}`;
-          if (!post.imageUrl) {
-            console.warn(`[PublishSocial] Post ${post.id} sans image Object Storage — fallback URL dynamique`);
-          }
+          // Instagram : carrousel v3 (une URL par slide, rendue par le Worker),
+          // ou URL explicites en base, ou ancienne image unique.
+          const n = nombreDeSlides(post);
+          const imageUrls = post.imageUrls.length > 0
+            ? post.imageUrls
+            : n > 1 || !post.imageUrl
+              ? Array.from({ length: n }, (_, i) => `${getBaseUrl()}/api/social/image?postId=${post.id}&slide=${i}`)
+              : [post.imageUrl];
           const hashtags = (post.hashtags?.length ?? 0) > 0 ? post.hashtags.join(" ") : undefined;
-          externalId = await createBufferImagePost(platform, post.content, imageUrl, post.scheduledAt || undefined, hashtags);
+          externalId = await createBufferImagePost(
+            platform, post.content, imageUrls, post.scheduledAt || undefined, hashtags, texteAlternatifDuPost(post),
+          );
         } else {
-          // Tweet simple ou post LinkedIn : texte pur
-          externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined);
+          // Tweet simple ou post LinkedIn : texte pur. LinkedIn : lien en 1er commentaire (champ cta).
+          const firstComment = platform === "LINKEDIN" && post.cta?.startsWith("http") ? post.cta : undefined;
+          externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined, false, { firstComment });
         }
 
         await prisma.socialPost.update({
@@ -388,6 +376,13 @@ export async function GET(req: Request) {
             where: { id: post.id },
             data: { status: "FAILED", directorNote: buildPublishErrorNote(errMsg) },
           });
+          // s15 cycle 3 : autorisation perdue → réseau en pause (les posts
+          // suivants restent APPROVED au lieu d'échouer un par un) + alerte.
+          if (estAutorisationPerdue(errMsg) && post.platform !== "THREADS") {
+            await pauserAutomatiquement(switchDb, post.platform as BufferPlatform, `Remise refusée par Buffer : ${errMsg.slice(0, 300)}`, new Date());
+            await alerterPausesAutomatiques(switchDb, sendDailyPublishFailureAlert, new Date());
+            queueFullPlatforms.add(post.platform as BufferPlatform);
+          }
         } else {
           // Erreur temporaire (réseau, rate limit) → repousser de 30 min pour retry au prochain cron
           const retryAt = new Date(Date.now() + 30 * 60 * 1000);

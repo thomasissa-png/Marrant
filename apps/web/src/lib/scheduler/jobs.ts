@@ -308,12 +308,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    * Job 5 bis : Relecture du statut réel des posts remis à Buffer (s15, 05/10/2026).
    * TIME-GATED (1 passage par heure UTC) + LOCK horaire non relâché.
    *
-   * Posts PUBLISHED non confirmés remis à Buffer depuis moins de 7 jours :
-   * `sent` → confirmé (publishedAt = sentAt, lien réel dans la note) ;
-   * `error` → FAILED + « Échec publication Buffer : … » + e-mail admin
-   * (1 par jour et par plateforme). Buffer injoignable → aucun changement,
-   * nouvel essai l'heure suivante. 1 seul appel Buffer, aucun LLM.
-   * Ne publie rien : la stratégie de publication (PAUSED_PLATFORMS) est intacte.
+   * Posts PUBLISHED non confirmés remis à Buffer depuis moins de 30 jours
+   * (détail : `lib/social/buffer-status-check.ts`) : sent → confirmé ; error →
+   * FAILED ; supprimé chez Buffer → FAILED introuvable ; bloqué 6 h → non
+   * confirmé ; autorisation perdue → réseau mis en pause. E-mail admin 1 par
+   * jour et par réseau, jamais perdu. Aucun LLM. Ne publie rien.
    */
   const runBufferStatusCheckJob = async () => {
     try {
@@ -330,9 +329,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       const res = await runBufferStatusCheck(now);
       if (res?.error) {
         console.warn(`[scheduler:buffer-status] Buffer injoignable, aucun changement : ${res.error}`);
-      } else if (res && (res.confirmed > 0 || res.failed > 0)) {
+      } else if (res && (res.confirmed + res.failed + res.missing + res.unconfirmed > 0 || res.alerted.length > 0)) {
         console.log(
-          `[scheduler:buffer-status] ${res.confirmed} confirmé(s), ${res.failed} en échec, alerte : ${res.alerted.join(", ") || "aucune"}.`,
+          `[scheduler:buffer-status] ${res.confirmed} confirmé(s), ${res.failed} en échec, ${res.missing} introuvable(s), ${res.unconfirmed} non confirmé(s), pause auto : ${res.paused.join(", ") || "aucune"}, alerte : ${res.alerted.join(", ") || "aucune"}.`,
         );
       }
     } catch (err) {

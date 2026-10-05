@@ -107,7 +107,8 @@ export function buildBlogSectionHtml(blog: BlogReport): string {
   <p style="font-size:12px;color:#999;margin:8px 0 0;">Lu à 75 % : part des vues de l'article qui atteignent 75 % du texte. n.d. : donnée non disponible.</p>`;
 }
 
-export function buildWeeklyVisitsHtml(report: WeeklyVisitsReport): string {
+/** `sectionsSupplementaires` : HTML ajouté après la section blog (ex. réseaux sociaux, s15). */
+export function buildWeeklyVisitsHtml(report: WeeklyVisitsReport, sectionsSupplementaires = ""): string {
   const { current, previous, changes } = report;
   const metrics = ROWS.map(
     (r) =>
@@ -143,6 +144,7 @@ export function buildWeeklyVisitsHtml(report: WeeklyVisitsReport): string {
   ${listTable("Top 5 des pages", "Page", report.topPages.map((p) => [p.path, p.views]))}
   ${listTable("Top 5 des sources", "Source", report.topSources.map((s) => [s.source, s.visitors]))}
   ${buildBlogSectionHtml(report.blog)}
+  ${sectionsSupplementaires}
   <p style="font-size:12px;color:#999;margin-top:24px;">Rapport automatique du lundi, données Umami et base Marrant.</p>
 </body>
 </html>`;

@@ -568,6 +568,10 @@ model SocialPost {
   publishedAt     DateTime?
   externalId      String?             // ID du post sur la plateforme (tweet ID, etc.)
   imageUrl        String?             // URL Replit Object Storage pour images Instagram (pré-générées)
+  imageUrls       String[]            @default([]) // s15 : carrousel, URL des slides dans l'ordre (vide = URL dérivées /api/social/image?slide=N)
+  bufferStatus    String?             // s15 : dernier statut relu chez Buffer (sent, error, scheduled, sending, draft, introuvable, non_confirme)
+  bufferCheckedAt DateTime?           // s15 : date de la dernière relecture Buffer
+  alertedAt       DateTime?           // s15 : alerte d'anomalie envoyée (null = alerte encore à envoyer)
   // Analytics (remplies par le cron social-analytics)
   impressions     Int                 @default(0)
   likes           Int                 @default(0)
@@ -581,6 +585,19 @@ model SocialPost {
   @@index([platform])
   @@index([scheduledAt])
   @@index([publishedAt])
+  @@index([bufferStatus])
+}
+
+/// s15 : interrupteur Pause / Reprise par réseau, modifiable depuis l'admin
+/// sans redéploiement. Ligne absente ou base illisible = réseau EN PAUSE.
+model SocialPlatformSetting {
+  platform     SocialPlatform @id
+  paused       Boolean        @default(true)
+  reason       String?        @db.Text
+  changedBy    String?        // "admin" | "auto" (canal Buffer déconnecté) | "migration"
+  pausedAt     DateTime?
+  alertSentAt  DateTime?      // alerte de mise en pause automatique envoyée
+  updatedAt    DateTime       @updatedAt
 }
 
 enum SocialPlatform {

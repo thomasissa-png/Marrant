@@ -1,6 +1,7 @@
 /**
- * Préparation mensuelle des posts sociaux X + Instagram depuis le catalogue validé
- * (décision Thomas du 01/10/2026 : génération IA quotidienne arrêtée définitivement).
+ * Préparation mensuelle des posts sociaux X + Instagram + LinkedIn depuis le catalogue
+ * validé (génération IA quotidienne arrêtée le 01/10/2026 ; relance des 3 réseaux le
+ * 05/10, cadence de docs/social/strategie-relance-v2.md, paramétrable : CADENCE_V2).
  *
  * Lancement (depuis apps/web) :
  *   npx tsx scripts/content/prepare-social-month.ts --month 2026-10 --from 2026-10-02
@@ -18,20 +19,20 @@
  * Sources (aucune IA, aucun texte inventé) :
  *  - vanne du jour : DailyContent → Joke (pour X, si isActive + copyVerdict GARDER) ;
  *  - cartes Instagram et repli X : Joke isActive + copyVerdict = 'GARDER' ;
- *  - article du lundi : BlogArticle dont publishedAt tombe un lundi du mois (lien UTM).
+ *  - articles relayés : BlogArticle publiés le jour même (lundi, jeudi), lien UTM ;
+ *    LinkedIn : seulement si angle bureau, lien en premier commentaire (colonne `cta`).
  * Contrôle bloquant sans IA : scripts/content/social-controls.ts.
  *
- * Images Instagram : la carte (gabarit « La Vanne », 1080×1080) ne peut être rendue et
- * stockée dans R2 (binding SOCIAL_IMAGES) qu'au runtime Worker. Le script insère donc
- * `imageUrl = null` et `threadParts = [amorce, chute]` ; au moment de publier,
- * publish-social envoie à Buffer l'URL `/api/social/image?postId=<id>`, rendue à la
- * demande par le Worker (generatePostImage → generateLaVanne).
+ * Images Instagram : carrousel v3 4:5 (cartes « piste A ») rendu à la demande par le
+ * Worker. Le script insère `imageUrl = null` et `threadParts = [amorce, chute]` (vanne)
+ * ou `[]` (relais d'article, sourceType BLOG) ; publish-social envoie à Buffer une URL
+ * par slide `/api/social/image?postId=<id>&slide=<n>` (generatePostImage → renderSlides).
  */
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { neonHttpQuery, type SqlQuery } from "./import-article";
-import { addDays, buildPlan, drawSample, mondayOf, monthEnd, type CatalogueJoke, type PlannedPost } from "./social-month-plan";
+import { addDays, buildPlan, drawSample, mondayOf, monthEnd, CADENCE_V2, type CatalogueJoke, type PlannedPost } from "./social-month-plan";
 import type { PreparedPlatform } from "./social-controls";
 
 export const APPROVED_BY = "preparation-mensuelle";
@@ -50,16 +51,17 @@ export async function loadInputs(q: SqlQuery, month: string, from: string) {
   const weekStart = mondayOf(from);
   const weekEnd = addDays(mondayOf(end), 6);
   const dailyRows = await q(
-    `select to_char(dc.date, 'YYYY-MM-DD') as d, j.id, j.content, j.punchline, j."isActive" as active, j."copyVerdict" as verdict
+    `select to_char(dc.date, 'YYYY-MM-DD') as d, j.id, j.content, j.punchline, j."isActive" as active, j."copyVerdict" as verdict, j.category::text as category
      from "DailyContent" dc join "Joke" j on j.id = dc."jokeId" where dc.date >= $1::date and dc.date <= $2::date`,
     [weekStart, weekEnd],
   );
   const daily = new Map<string, CatalogueJoke>(dailyRows.map((r) => [s(r.d), {
     id: s(r.id), setup: s(r.content), punchline: s(r.punchline), isActive: r.active === true, verdict: r.verdict == null ? null : s(r.verdict),
+    category: r.category == null ? null : s(r.category),
   }]));
   const pool: CatalogueJoke[] = (await q(
-    `select id, content, punchline from "Joke" where "isActive" = true and "copyVerdict" = 'GARDER' order by id`,
-  )).map((r) => ({ id: s(r.id), setup: s(r.content), punchline: s(r.punchline), isActive: true, verdict: "GARDER" }));
+    `select id, content, punchline, category::text as category from "Joke" where "isActive" = true and "copyVerdict" = 'GARDER' order by id`,
+  )).map((r) => ({ id: s(r.id), setup: s(r.content), punchline: s(r.punchline), isActive: true, verdict: "GARDER", category: s(r.category) || null }));
   const articles = (await q(
     `select slug, title, to_char("publishedAt", 'YYYY-MM-DD') as d from "BlogArticle"
      where "publishedAt" >= $1::date and "publishedAt" < ($2::date + 1)`,
@@ -68,7 +70,7 @@ export async function loadInputs(q: SqlQuery, month: string, from: string) {
   const usedRows = await q(
     `select platform::text as platform, "sourceId" from "SocialPost"
      where "scheduledAt" >= $1::date and "scheduledAt" < ($2::date + 1) and "sourceId" is not null
-       and status::text not in ('REJECTED', 'FAILED') and platform::text in ('TWITTER', 'INSTAGRAM')`,
+       and status::text not in ('REJECTED', 'FAILED') and platform::text in ('TWITTER', 'INSTAGRAM', 'LINKEDIN')`,
     [`${month}-01`, end],
   );
   const alreadyUsed = usedRows.map((r) => ({ platform: s(r.platform) as PreparedPlatform, sourceId: s(r.sourceId) }));
@@ -79,8 +81,10 @@ export async function loadInputs(q: SqlQuery, month: string, from: string) {
   return { daily, pool, articles, alreadyUsed, alreadyPrepared: Number(n) };
 }
 
-const PLATFORM_LABEL: Record<PreparedPlatform, string> = { TWITTER: "X", INSTAGRAM: "Instagram" };
-const KIND_LABEL = { VANNE_DU_JOUR: "Vanne du jour", VANNE: "Vanne du catalogue", ARTICLE: "Article du lundi" } as const;
+const PLATFORM_LABEL: Record<PreparedPlatform, string> = { TWITTER: "X", INSTAGRAM: "Instagram", LINKEDIN: "LinkedIn" };
+const KIND_LABEL = {
+  VANNE_DU_JOUR: "Vanne du jour", VANNE: "Vanne du catalogue", VANNE_QUIZ: "Vanne + quiz", ARTICLE: "Relais d'article",
+} as const;
 const JOURS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
 
 function frDate(date: string): string {
@@ -90,8 +94,8 @@ function frDate(date: string): string {
 
 function imageLine(p: PlannedPost): string {
   if (!p.card) return "aucune (post texte)";
-  const card = p.card.setup ? `« ${p.card.setup} » // « ${p.card.punchline} »` : `« ${p.card.punchline} »`;
-  return `carte 1080×1080 gabarit « La Vanne » : ${card} (rendue par le Worker à la publication)`;
+  const card = p.card.setup ? `« ${p.card.setup} » puis « ${p.card.punchline} »` : `couverture « ${p.card.punchline} » + fin`;
+  return `carrousel 4:5 v3 : ${card} (rendu par le Worker à la publication)`;
 }
 
 function postBlock(p: PlannedPost, i: number): string {
@@ -105,8 +109,15 @@ function postBlock(p: PlannedPost, i: number): string {
     `- Source : ${p.sourceType} \`${p.sourceId}\``,
   ];
   if (p.link) lines.push(`- Lien UTM : ${p.link}`);
+  if (p.firstComment) lines.push(`- Premier commentaire LinkedIn : ${p.firstComment}`);
   if (p.note) lines.push(`- Note : ${p.note}`);
   return lines.join("\n");
+}
+
+function creneaux(): string {
+  return (Object.entries(CADENCE_V2) as Array<[PreparedPlatform, { h: number; m: number }]>)
+    .map(([pf, c]) => `${PLATFORM_LABEL[pf]} ${String(c.h).padStart(2, "0")}:${String(c.m).padStart(2, "0")}`)
+    .join(", ");
 }
 
 export function renderMarkdown(month: string, from: string, posts: PlannedPost[], sample: PlannedPost[], warnings: string[], errors: string[], seed: string): string {
@@ -118,7 +129,7 @@ export function renderMarkdown(month: string, from: string, posts: PlannedPost[]
     "> Contenu 100 % repris du catalogue validé (vannes actives au verdict GARDER, articles programmés). Aucune génération IA.",
     "> Insertion après validation de l'échantillon : relancer avec `--write --echantillon-valide` (même graine = même plan).",
     "",
-    `Total : ${posts.length} posts (X : ${count("TWITTER")}, Instagram : ${count("INSTAGRAM")}). Créneaux fixes : X 12:30, Instagram 18:30 (heure de Paris).`,
+    `Total : ${posts.length} posts (X : ${count("TWITTER")}, Instagram : ${count("INSTAGRAM")}, LinkedIn : ${count("LINKEDIN")}). Créneaux (heure de Paris) : ${creneaux()}.`,
     "",
   ];
   if (errors.length) out.push("## Erreurs bloquantes", "", ...errors.map((e) => `- ${e}`), "");
@@ -138,10 +149,10 @@ export function renderMarkdown(month: string, from: string, posts: PlannedPost[]
 
 const INSERT_SQL = `insert into "SocialPost" ("id","platform","format","content","hook","cta","hashtags","targetPersona",
   "sourceType","sourceId","threadParts","status","directorNote","approvedBy","scheduledAt","imageUrl","createdAt","updatedAt")
-  select x.id, x.platform::"SocialPlatform", x.format::"SocialFormat", x.content, x.hook, null, '{}'::text[], 'YANIS',
+  select x.id, x.platform::"SocialPlatform", x.format::"SocialFormat", x.content, x.hook, x.cta, '{}'::text[], 'YANIS',
     x."sourceType", x."sourceId", array(select json_array_elements_text(x."threadParts")), 'APPROVED'::"SocialPostStatus",
     x.note, $2, (x."scheduledAt")::timestamptz at time zone 'UTC', null, now() at time zone 'UTC', now() at time zone 'UTC'
-  from json_to_recordset($1::json) as x(id text, platform text, format text, content text, hook text,
+  from json_to_recordset($1::json) as x(id text, platform text, format text, content text, hook text, cta text,
     "sourceType" text, "sourceId" text, "threadParts" json, note text, "scheduledAt" text)
   returning id`;
 
@@ -149,9 +160,10 @@ export function toRows(posts: PlannedPost[], month: string, newId: () => string)
   return posts.map((p) => ({
     id: newId(),
     platform: p.platform,
-    format: p.platform === "INSTAGRAM" ? "IMAGE_QUI_CLAQUE" : "TWEET",
+    format: p.platform === "INSTAGRAM" ? "IMAGE_QUI_CLAQUE" : p.platform === "LINKEDIN" ? "POTE_AU_TAF" : "TWEET",
     content: p.text,
     hook: p.text.split("\n")[0].slice(0, 80),
+    cta: p.firstComment,
     sourceType: p.sourceType,
     sourceId: p.sourceId,
     threadParts: p.card ? (p.card.setup ? [p.card.setup, p.card.punchline] : []) : [],
@@ -193,7 +205,8 @@ async function main(argv: string[]): Promise<number> {
   const { posts, warnings, errors } = buildPlan({ month, from, seed, siteUrl, ...inputs });
   const sample = drawSample(posts, 10, seed);
   console.log(`Catalogue : ${inputs.pool.length} vannes GARDER, ${inputs.daily.size} vannes du jour, ${inputs.articles.length} article(s).`);
-  console.log(`Plan : ${posts.length} posts (X ${posts.filter((p) => p.platform === "TWITTER").length}, Instagram ${posts.filter((p) => p.platform === "INSTAGRAM").length}).`);
+  const n = (pf: string) => posts.filter((p) => p.platform === pf).length;
+  console.log(`Plan : ${posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}).`);
   for (const w of warnings) console.log(`AVERTISSEMENT : ${w}`);
   for (const e of errors) console.error(`ERREUR : ${e}`);
 

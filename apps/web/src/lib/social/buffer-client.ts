@@ -33,6 +33,9 @@ export interface BufferChannel {
   service: string;
   avatar: string;
   isQueuePaused: boolean;
+  /** Buffer a perdu l'autorisation du réseau : plus rien ne part (s15). */
+  isDisconnected?: boolean;
+  isLocked?: boolean;
 }
 
 export interface BufferPostResult {
@@ -273,12 +276,14 @@ export async function createBufferPost(
   text: string,
   dueAt?: Date,
   _skipQuotaCheck = false,
+  options: { firstComment?: string } = {},
 ): Promise<string> {
   // ─── Hard guard taille (avant tout appel API) ───
   // Évite la cascade Buffer 400 "post cannot exceed N characters"
   ensureContentLength(platform, text);
 
-  // Quota check (sauf si appelé depuis createBufferThread qui fait son propre check)
+  // Quota check (sauf appel interne qui a déjà vérifié le quota).
+  // Fils X interdits depuis s15 (X = posts simples) : plus de createBufferThread.
   if (!_skipQuotaCheck) {
     await ensureQuotaAvailable(platform, 1);
   }
@@ -293,9 +298,13 @@ export async function createBufferPost(
   // Instagram requiert le metadata shouldShareToFeed même pour un post texte
   // (cas rare mais possible — si Instagram tombe sur ce path sans image, l'API
   // Buffer rejette sans le metadata. Voir createBufferImagePost pour le cas standard).
+  // LinkedIn : lien en premier commentaire (stratégie v2), champ
+  // LinkedInPostMetadataInput.firstComment vérifié par introspection (s15).
   const metadataBlock = platform === "INSTAGRAM"
     ? `,\n        metadata: { instagram: { type: post, shouldShareToFeed: true } }`
-    : "";
+    : platform === "LINKEDIN" && options.firstComment
+      ? `,\n        metadata: { linkedin: { firstComment: ${JSON.stringify(options.firstComment)} } }`
+      : "";
 
   const query = `
     mutation CreatePost {
@@ -333,19 +342,30 @@ export async function createBufferPost(
   return data.createPost.post.id;
 }
 
+/** Carrousel Instagram : 1 à 10 images (limite Instagram), dans l'ordre. */
+export const MAX_CAROUSEL_IMAGES = 10;
+
 /**
- * Publie un post avec image sur une plateforme via Buffer (pour Instagram).
- * Buffer gère l'upload et la publication de l'image.
+ * Publie un post avec une ou plusieurs images via Buffer (Instagram : carrousel
+ * dès 2 images). Vérifié par introspection et brouillon réel le 05/10/2026 :
+ * un carrousel Instagram = `metadata.instagram.type: post` + plusieurs `assets`
+ * (le type `carousel` est refusé pour Instagram) ; chaque image accepte un
+ * texte alternatif (`ImageMetadataInput.altText`).
  *
  * @returns L'ID du post Buffer créé.
  */
 export async function createBufferImagePost(
   platform: BufferPlatform,
   text: string,
-  imageUrl: string,
+  imageUrls: string | string[],
   dueAt?: Date,
   hashtags?: string,
+  altText?: string,
 ): Promise<string> {
+  const urls = (Array.isArray(imageUrls) ? imageUrls : [imageUrls]).filter(Boolean);
+  if (urls.length === 0 || urls.length > MAX_CAROUSEL_IMAGES) {
+    throw new Error(`Buffer createImagePost invalid : ${urls.length} image(s), 1 à ${MAX_CAROUSEL_IMAGES} attendue(s).`);
+  }
   // Hashtags ajoutés en fin de texte (Buffer ne supporte pas firstComment)
   const fullText = hashtags ? `${text}\n\n${hashtags}` : text;
 
@@ -363,13 +383,14 @@ export async function createBufferImagePost(
   const dueAtStr = effectiveDueAt.toISOString();
 
   // Instagram requiert :
-  //   - type : post, story, ou reel (enum GraphQL)
+  //   - type : post, story, ou reel (enum GraphQL ; carrousel = post à plusieurs images)
   //   - shouldShareToFeed : Boolean! REQUIRED par Buffer API
-  //     (indique si le post apparait dans le feed principal — true pour un post standard)
   // Buffer GraphQL : metadata.instagram (NOT subprofile — ce champ n'existe pas)
   const metadataBlock = platform === "INSTAGRAM"
     ? `,\n        metadata: { instagram: { type: post, shouldShareToFeed: true } }`
     : "";
+  const alt = altText?.trim() ? `, metadata: { altText: ${JSON.stringify(altText.trim().slice(0, 1000))} }` : "";
+  const assets = urls.map((u) => `{ image: { url: ${JSON.stringify(u)}${alt} } }`).join(", ");
 
   const query = `
     mutation CreateImagePost {
@@ -379,7 +400,7 @@ export async function createBufferImagePost(
         schedulingType: automatic,
         mode: customScheduled,
         dueAt: "${dueAtStr}",
-        assets: [{ image: { url: ${JSON.stringify(imageUrl)} } }]${metadataBlock}
+        assets: [${assets}]${metadataBlock}
       }) {
         ... on PostActionSuccess {
           post {
@@ -412,54 +433,6 @@ export async function createBufferImagePost(
 }
 
 /**
- * Publie un thread Twitter via Buffer.
- * Chaque partie est publiée comme un tweet séparé, espacé de 2 min.
- *
- * Note plan gratuit Buffer : 10 posts schedulés/channel max.
- * Les threads sont publiés en quasi-immédiat (dueAt = maintenant + 1-2 min par partie)
- * pour ne pas monopoliser les slots de scheduling.
- * Le paramètre dueAt est ignoré pour les threads — ils partent immédiatement.
- *
- * @returns L'ID du premier post Buffer.
- */
-export async function createBufferThread(
-  parts: string[],
-  _dueAt?: Date,
-): Promise<string> {
-  if (parts.length === 0) {
-    throw new Error("Thread vide — au moins 1 tweet requis");
-  }
-
-  // ─── Hard guard : chaque partie du thread doit respecter la limite Twitter ───
-  // (createBufferPost ferait le check par partie, mais on lève l'erreur en amont
-  // pour éviter de publier 2 parties valides puis échouer sur la 3ème)
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i].length > PLATFORM_HARD_LIMITS.TWITTER) {
-      throw new BufferContentTooLongError(
-        "TWITTER",
-        parts[i].length,
-        PLATFORM_HARD_LIMITS.TWITTER,
-      );
-    }
-  }
-
-  // Quota check : un thread consomme N slots (1 par partie)
-  await ensureQuotaAvailable("TWITTER", parts.length);
-
-  // Publication quasi-immédiate : 1 min dans le futur + 2 min entre chaque partie
-  // Libère les slots de scheduling rapidement (important pour plan gratuit Buffer)
-  const baseTime = Date.now() + 60 * 1000; // +1 min
-  const firstId = await createBufferPost("TWITTER", parts[0], new Date(baseTime), true);
-
-  for (let i = 1; i < parts.length; i++) {
-    const partDueAt = new Date(baseTime + i * 2 * 60 * 1000);
-    await createBufferPost("TWITTER", parts[i], partDueAt, true);
-  }
-
-  return firstId;
-}
-
-/**
  * Récupère la liste des channels (profils sociaux) connectés dans Buffer.
  * Utile pour trouver les Channel IDs à configurer dans les Secrets.
  */
@@ -477,6 +450,8 @@ export async function getBufferChannels(): Promise<BufferChannel[]> {
         service
         avatar
         isQueuePaused
+        isDisconnected
+        isLocked
       }
     }
   `;
@@ -524,20 +499,25 @@ export async function getBufferScheduledPosts(): Promise<
 export interface BufferPostStatus {
   id: string;
   status: string; // draft | error | needs_approval | scheduled | sending | sent
+  dueAt?: string | null;
   sentAt: string | null;
   externalLink: string | null;
   channelService: string | null;
   error: { message: string | null; rawError: string | null; supportUrl: string | null } | null;
 }
 
-/**
- * Posts Buffer terminés (envoyés ou en erreur), les plus récents d'abord.
- * Un seul appel pour toute l'organisation ; timeout 5 s (une panne Buffer
- * lève une erreur, l'appelant ne modifie alors rien).
- */
-export async function getBufferFinishedPosts(first = 100): Promise<BufferPostStatus[]> {
-  const config = getConfig();
+const STATUS_FIELDS = `id status dueAt sentAt externalLink channelService error { message rawError supportUrl }`;
 
+/**
+ * Une page de posts Buffer terminés (envoyés ou en erreur), les plus récents
+ * d'abord, avec le curseur de la page suivante. Timeout 5 s.
+ */
+export async function getBufferFinishedPostsPage(
+  after?: string | null,
+  first = 100,
+): Promise<{ posts: BufferPostStatus[]; endCursor: string | null; hasNextPage: boolean }> {
+  const config = getConfig();
+  const afterArg = after ? `, after: ${JSON.stringify(after)}` : "";
   const query = `
     query GetFinishedPosts {
       posts(
@@ -546,29 +526,60 @@ export async function getBufferFinishedPosts(first = 100): Promise<BufferPostSta
           sort: [{ field: dueAt, direction: desc }],
           filter: { status: [sent, error] }
         },
-        first: ${Math.max(1, Math.floor(first))}
+        first: ${Math.max(1, Math.floor(first))}${afterArg}
       ) {
-        edges {
-          node {
-            id
-            status
-            sentAt
-            externalLink
-            channelService
-            error { message rawError supportUrl }
-          }
-        }
+        edges { node { ${STATUS_FIELDS} } }
+        pageInfo { endCursor hasNextPage }
       }
     }
   `;
+  const data = await bufferGraphQL<{
+    posts: { edges: Array<{ node: BufferPostStatus }> | null; pageInfo: { endCursor: string | null; hasNextPage: boolean } };
+  }>(query, config.accessToken, 5_000);
+  return {
+    posts: (data.posts.edges ?? []).map((e) => e.node),
+    endCursor: data.posts.pageInfo?.endCursor ?? null,
+    hasNextPage: !!data.posts.pageInfo?.hasNextPage,
+  };
+}
 
-  const data = await bufferGraphQL<{ posts: { edges: Array<{ node: BufferPostStatus }> } }>(
-    query,
-    config.accessToken,
-    5_000,
-  );
+/**
+ * Posts Buffer terminés, page après page (s15 cycle 3, défaut D4) : on
+ * s'arrête dès que tous les `wantedIds` sont trouvés, faute de page suivante,
+ * ou après `maxPages` pages (100 posts chacune).
+ */
+export async function getBufferFinishedPosts(
+  opts: { wantedIds?: Iterable<string>; maxPages?: number } = {},
+): Promise<BufferPostStatus[]> {
+  const wanted = new Set(opts.wantedIds ?? []);
+  const maxPages = opts.maxPages ?? 5;
+  const out: BufferPostStatus[] = [];
+  let after: string | null = null;
+  for (let page = 0; page < maxPages; page++) {
+    const res = await getBufferFinishedPostsPage(after);
+    out.push(...res.posts);
+    for (const p of res.posts) wanted.delete(p.id);
+    if (!res.hasNextPage || !res.endCursor || (opts.wantedIds && wanted.size === 0)) break;
+    after = res.endCursor;
+  }
+  return out;
+}
 
-  return data.posts.edges.map((e) => e.node);
+/**
+ * Statut d'un post Buffer par identifiant (relecture des posts absents des
+ * pages : programmés, en cours d'envoi, ou supprimés chez Buffer).
+ * Retourne `null` si Buffer ne connaît pas (plus) ce post (NOT_FOUND).
+ */
+export async function getBufferPostStatus(id: string): Promise<BufferPostStatus | null> {
+  const config = getConfig();
+  const query = `query GetPost { post(input: { id: ${JSON.stringify(id)} }) { ${STATUS_FIELDS} } }`;
+  try {
+    const data = await bufferGraphQL<{ post: BufferPostStatus }>(query, config.accessToken, 5_000);
+    return data.post;
+  } catch (err) {
+    if (err instanceof Error && /not found/i.test(err.message)) return null;
+    throw err;
+  }
 }
 
 // ─── Configuration Check ────────────────────────────────────────
@@ -593,4 +604,19 @@ export function isChannelConfigured(platform: BufferPlatform): boolean {
     INSTAGRAM: "BUFFER_CHANNEL_INSTAGRAM",
   };
   return !!process.env[envMap[platform]];
+}
+
+/** Channel ID Buffer configuré pour chaque plateforme (absent = non configuré). */
+export function getConfiguredChannelIds(): Partial<Record<BufferPlatform, string>> {
+  const out: Partial<Record<BufferPlatform, string>> = {};
+  const envMap: Record<BufferPlatform, string> = {
+    TWITTER: "BUFFER_CHANNEL_TWITTER",
+    LINKEDIN: "BUFFER_CHANNEL_LINKEDIN",
+    INSTAGRAM: "BUFFER_CHANNEL_INSTAGRAM",
+  };
+  for (const [platform, env] of Object.entries(envMap) as Array<[BufferPlatform, string]>) {
+    const id = process.env[env];
+    if (id) out[platform] = id;
+  }
+  return out;
 }

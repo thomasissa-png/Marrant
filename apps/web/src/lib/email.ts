@@ -8,20 +8,23 @@ const FROM_EMAIL = process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-m
 export const ADMIN_EMAIL = "alex@deviens-marrant.fr";
 
 /**
- * Envoie une alerte admin par email.
- * Silencieux si RESEND_API_KEY n'est pas configuree — log un warning sans crash.
+ * Envoie une alerte admin par email. Ne lève jamais.
+ * Retourne `true` seulement si Resend a accepté l'e-mail : clé absente, erreur
+ * renvoyée par Resend (`{ error }`, l'API ne lève pas) ou exception = `false`.
+ * Les appelants qui dédoublonnent (verrou « 1 alerte par jour ») ne posent leur
+ * verrou qu'après un `true` (s15 cycle 3, défaut D1 : alerte perdue).
  */
 export async function sendAdminAlert(
   subject: string,
   body: string,
-): Promise<void> {
+): Promise<boolean> {
   if (!process.env.RESEND_API_KEY) {
     console.warn(`[Email] RESEND_API_KEY non configuree — alerte non envoyee: ${subject}`);
-    return;
+    return false;
   }
 
   try {
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject,
@@ -38,9 +41,15 @@ export async function sendAdminAlert(
 </body>
 </html>`,
     });
+    if (error) {
+      console.warn(`[Email] Resend a refuse l'alerte admin « ${subject} » : ${error.message}`);
+      return false;
+    }
     console.log(`[Email] Alerte admin envoyee: ${subject}`);
+    return true;
   } catch (error) {
     console.warn(`[Email] Echec envoi alerte admin: ${error instanceof Error ? error.message : "erreur inconnue"}`);
+    return false;
   }
 }
 

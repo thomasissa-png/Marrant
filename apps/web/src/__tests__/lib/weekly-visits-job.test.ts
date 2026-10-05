@@ -105,6 +105,18 @@ describe("runWeeklyVisitsReport", () => {
     expect(res.status).toBe("sent");
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Visites par jour"));
   });
+
+  it("section réseaux sociaux « prévu contre publié » sur la semaine du rapport (s15)", async () => {
+    const socialSection = jest.fn().mockResolvedValue("<h3>Réseaux sociaux : prévu contre publié</h3>");
+    await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS, socialSection });
+    expect(socialSection).toHaveBeenCalledWith(new Date(WEEK_START_2809), new Date(Date.parse("2026-10-04T21:59:59.999Z")), MONDAY_7H_PARIS);
+    expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Réseaux sociaux : prévu contre publié"));
+  });
+
+  it("base sociale illisible : section signalée indisponible, rapport envoyé quand même", async () => {
+    await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+    expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Section indisponible"));
+  });
 });
 
 describe("runScheduledWeeklyVisitsReport (fenêtre + verrou hebdomadaire)", () => {

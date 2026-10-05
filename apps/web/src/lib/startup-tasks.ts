@@ -1352,8 +1352,10 @@ async function reconcileBufferPostStatusesTask(): Promise<void> {
     const res = await runBufferStatusCheck(new Date());
     if (res?.error) {
       console.warn(`[startup] Relecture Buffer : Buffer injoignable, aucun changement (${res.error}).`);
-    } else if (res && (res.confirmed > 0 || res.failed > 0)) {
-      console.log(`[startup] Relecture Buffer : ${res.confirmed} confirmé(s), ${res.failed} passé(s) en FAILED.`);
+    } else if (res && (res.confirmed + res.failed + res.missing + res.unconfirmed > 0)) {
+      console.log(
+        `[startup] Relecture Buffer : ${res.confirmed} confirmé(s), ${res.failed} en FAILED, ${res.missing} introuvable(s), ${res.unconfirmed} non confirmé(s).`,
+      );
     }
   } catch (err) {
     console.error("[startup] Relecture des statuts Buffer échouée (non bloquant) :", err);

@@ -9,7 +9,7 @@
  *    persistant, valable sous Workers où la mémoire ne survit pas d'un tick à
  *    l'autre). Avant s14 : ~200 e-mails répétitifs, un par tick en échec.
  */
-import { buildJobLockKey, nextUtcDay, tryAcquireLock } from "@/lib/job-lock";
+import { buildJobLockKey, isLockHeld, nextUtcDay, tryAcquireLock } from "@/lib/job-lock";
 import { sendAdminAlert } from "@/lib/email";
 
 export const PUBLISH_ERROR_PREFIX = "Échec publication Buffer : ";
@@ -26,12 +26,16 @@ export function buildPublishErrorNote(errMsg: string, retry?: number): string {
 export const FAILURE_ALERT_JOB = "publish-social-failure-alert";
 
 /**
- * Envoie l'alerte d'échec au plus une fois par jour UTC (toutes alertes
- * publish-social confondues). Retourne `true` si l'e-mail est parti.
- * Fail-closed : base indisponible → pas d'e-mail (le message reste en base et
- * dans les logs Workers).
- * `alertJob` : nom du verrou (défaut : alerte publish-social commune). La
- * relecture des statuts Buffer passe un nom par plateforme (1 e-mail/jour/plateforme).
+ * Envoie l'alerte d'échec au plus une fois par jour UTC et par `alertJob`.
+ * Retourne `true` si l'e-mail est parti.
+ *
+ * Ordre (s15 cycle 3, défaut D1) : 1. verrou du jour déjà posé ? alors rien ;
+ * 2. envoi ; 3. verrou posé SEULEMENT après un envoi accepté par Resend. Un
+ * envoi en échec (clé absente, Resend en erreur) ne pose pas de verrou :
+ * l'alerte est retentée au passage suivant. Base illisible : pas d'e-mail
+ * (fail-closed, le message reste en base et dans les logs), retenté ensuite.
+ * Deux passages concurrents peuvent exceptionnellement envoyer 2 e-mails :
+ * un doublon vaut mieux qu'une alerte perdue.
  */
 export async function sendDailyPublishFailureAlert(
   subject: string,
@@ -40,17 +44,21 @@ export async function sendDailyPublishFailureAlert(
   alertJob: string = FAILURE_ALERT_JOB,
 ): Promise<boolean> {
   const key = buildJobLockKey(alertJob, now);
-  const ttlMs = nextUtcDay(now).getTime() - now.getTime();
-  const acquired = await tryAcquireLock(key, ttlMs);
-  if (!acquired) {
-    console.warn(`[PublishSocial] Alerte « ${subject} » non envoyée : déjà une alerte aujourd'hui (${key}).`);
-    return false;
-  }
   try {
-    await sendAdminAlert(subject, html);
-    return true;
+    if (await isLockHeld(key, now)) {
+      console.warn(`[PublishSocial] Alerte « ${subject} » non envoyée : déjà une alerte aujourd'hui (${key}).`);
+      return false;
+    }
   } catch (err) {
-    console.error("[PublishSocial] Envoi de l'alerte en échec :", err);
+    console.error("[PublishSocial] Verrou d'alerte illisible, alerte reportée :", err);
     return false;
   }
+  const sent = await sendAdminAlert(subject, html);
+  if (!sent) {
+    console.error(`[PublishSocial] Alerte « ${subject} » non envoyée (e-mail refusé) : nouvel essai au prochain passage.`);
+    return false;
+  }
+  const ttlMs = nextUtcDay(now).getTime() - now.getTime();
+  await tryAcquireLock(key, ttlMs);
+  return true;
 }

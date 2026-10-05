@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
+import { SocialPlatformPanel } from "@/components/admin/social-platform-panel";
 
 interface SocialPost {
   id: string;
@@ -187,6 +188,8 @@ export default function AdminSocialPage() {
           Valide les posts avant publication. 1 clic, c&apos;est tout.
         </p>
       </div>
+
+      <SocialPlatformPanel adminPassword={adminPassword} />
 
       {/* Status tabs */}
       <div className="mb-6 flex gap-2">
