@@ -13,7 +13,15 @@
 | D4 | Réponses aux commentaires et messages | 08/10 | **Défaut = v5 §1** (déjà validée) : réponse sous 24 h les jours ouvrés, 5 min par jour ouvré (plafond v5 : 15 min) avec banque de réponses ; suspendues pour un réseau sous 5 interactions au J+28. La v2 proposait 2 passages (délai jusqu'à 72 h) : écart abandonné |
 | D6 | Relevé natif (abonnés, impressions) : **chaque lundi** (24 x 10 = 240 min) ou aux **5 jalons** (5 x 10 = 50 min, gain 190 min, historique natif conservé par les réseaux `[À VÉRIFIER @data-analyst]`). Inclut les seuils J+84 et J+112 de `mesure.md` §4 `[HYPOTHÈSE]`, **hors C1** | 08/10 | **Chaque lundi** ; seuils J+84 et J+112 appliqués sans bloquer J0 |
 | D7 | Échantillon de 10 vannes neuves par vague V1 à V4 (30/09) | 5 min par vague | Non bloquant : sans réponse sous 48 h les vannes passent ; veto de Thomas = retrait |
-| D8 | **Conditionnelle** : pilote P0 sous 3 % (§2) | 10/10 | Mode 3/3/1 sur 2a et 2b (7 posts par semaine) après 48 h |
+| D8 | **Conditionnelle** : pilote P0 sous 3 % (§2) | 10/10 | **Aucun défaut (Thomas, 05/10 : « pas sans mon accord »)** : cadence 5/5/2 maintenue avec les posts notés disponibles (un créneau sans post au niveau est omis), relance de Thomas chaque jour jusqu'à sa réponse |
+
+**Réponses de Thomas (05/10, 21:00 Paris) : [CHOIX UTILISATEUR], non re-questionnables.**
+- **Sessions planifiées : oui**, créées par la session principale (test réel du 05/10 consigné dans `routines/`).
+- **D2 : oui** (conseils en appoint ; 3 étalons de cartes conseil à valider dès leur livraison le 07/10). **D3 : oui. D7 : oui.**
+- **D4 : oui, avec un signal** : Thomas doit être prévenu quand il y a des commentaires à traiter (il ne surveille pas les applications). Signal visé : relevé quotidien des commentaires par post via l'API Buffer (`metrics`, type `comments`), e-mail seulement s'il y a du nouveau. **Bloqué tant que la clé Buffer n'a pas la permission `insights:read`** (constaté le 05/10 : `INSUFFICIENT_SCOPE`) ; en attendant, ce sont les notifications des applications.
+- **D6 : en suspens (« on verra »)**. Piste de Thomas : les statistiques Buffer. Avec `insights:read`, la session relève elle-même impressions, likes, commentaires, partages, enregistrements, abonnements gagnés et clics par post ; seul le total d'abonnés reste natif (absent de l'API Buffer).
+- **D8 : jamais de mode 3/3/1 sans accord explicite** (ligne D8 ci-dessus).
+- **Tests C2 sur téléphone : non, « on fera sans pour l'instant »**. C2 devient un test de la session : parcours d'inscription par e-mail émulé dans les navigateurs intégrés de X, Instagram et LinkedIn (agent utilisateur), sur le code en ligne, plus la surveillance des événements `inscription-envoi` / `inscription-reussie` par `origine` à H+48. Risque accepté : un défaut propre à l'application réelle ne se voit qu'à l'usage. Baseline : 0 abonné partout (Thomas, 05/10).
 
 ## 1. Comptages vérifiés à la source
 | Donnée | Valeur | Source et calcul |
@@ -122,7 +130,7 @@ Couverture : 58 + 82 + 144 = 284 (1a+1b = 58, 2a+2b = 82, 3a+3b+4+5 = 144).
 **Reprise (J0 = lun. 12/10 pour les trois réseaux `[HYPOTHÈSE]`)**
 | Étape | Date | Qui | Condition ou contrôle |
 |---|---|---|---|
-| Tests C2 (e-mail dans X, Instagram, LinkedIn ; Safari et Chrome) et liens de bio, **sur le code déployé le 10/10**, plus **baseline** (captures natives d'abonnés des 3 réseaux, `mesure.md` §2) | sam. 10/10 13:00 à dim. 11/10 12:00 (butoir unique) | Thomas, 15 min + 3 min | l'inscription e-mail aboutit dans l'application ; Google désactivé seulement si l'échec est reproduit ; baseline attendue 0 (la session relève Google, Umami et la base) |
+| Tests C2 **par la session** (Thomas, 05/10 : pas de test sur téléphone) : inscription e-mail en émulation des navigateurs intégrés X, Instagram, LinkedIn (agents utilisateurs réels, mobile), liens de bio, **sur le code déployé le 10/10** ; baseline = 0 partout (Thomas, 05/10) | sam. 10/10 13:00 à dim. 11/10 12:00 | session | l'inscription e-mail aboutit (compte créé puis supprimé) ; Google désactivé seulement si l'échec est reproduit |
 | Lot 1a inséré, 3 canaux Buffer | ven. 09/10 | session | écart prévu/inséré = 0 ; 3 canaux connectés (API, 05/10), relus le 09/10 |
 | **GO/NO-GO** | dim. 11/10 18:00 | session | **C1 : satisfaite** (Thomas a validé les seuils de mesure le 05/10 : `validation-thomas-s15.md` §3 point 5 et `founder-preferences.md`, ligne « Relance des réseaux VALIDÉE » ; plus de NO-GO lié à C1 ; J+84 et J+112 hors C1) ; **C2** = e-mail avant Google en navigateur intégré en ligne et test dans l'application du réseau ; **C3** = `/liens` 3 routes en ligne ; **C4** = LinkedIn débloqué dans le code et statut réel Buffer relu, preuve = brouillon LinkedIn réel du 08/10 ; X = C1+C2, Instagram = C1+C2+C3, LinkedIn = C1+C2+C4 ; plus correctif X 270 prouvé en ligne et lot 1a en base ; sinon J0 = 19/10 pour le réseau concerné |
 | Reprise LinkedIn, X, Instagram (C3 obligatoire) | dim. 11/10 20:00, 20:15, 20:30 | session (interrupteur admin) | 1er post : LinkedIn mar. 13/10 08:15, X lun. 12/10 12:30, IG lun. 12/10 19:30 |
@@ -161,7 +169,8 @@ Les autres travaux (articles Q1 et Q2, citations, refonte, fiches Q1, GO/NO-GO, 
 | Quand | Quoi | Durée |
 |---|---|---|
 | 06/10 à 08/10 | Répondre à D2, D3, D4, D6, D7 (5 min), valider 3 étalons conseil (10 min), poser les secrets des routines sur son compte avant le test du 07/10 (10 min) | 25 min |
-| sam. 10/10 13:00 à dim. 11/10 12:00 | Tests C2 sur téléphone (3 applications), liens de bio, baseline (captures natives d'abonnés des 3 réseaux, 3 min) | 18 min |
+| ~~sam. 10/10~~ | ~~Tests C2 sur téléphone~~ : retirés (Thomas, 05/10), faits par la session ; baseline donnée (0 partout) | 0 min |
+| une fois | Nouvelle clé Buffer avec la permission statistiques (`insights:read`), posée dans l'environnement : débloque D4 (signal commentaires) et D6 (relevé automatique) | 5 min |
 | chaque lundi, 24 semaines | Relevé natif des 3 réseaux (D6) | 24 x 10 = 240 min |
 | 5 jalons (réseaux regroupés) | Répondre à la fiche de décision | 5 x 5 = 25 min |
 | livraisons V1 à V4 | Échantillon de 10 vannes (D7) | 4 x 5 = 20 min |
