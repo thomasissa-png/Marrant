@@ -565,6 +565,21 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Rapport hebdomadaire des visites (Umami + conversions en base).
+   * Lundi 7h-8h heure de Paris (heure d'été gérée), verrou hebdomadaire
+   * conservé après envoi (1 email par semaine), relâché en cas d'échec pour
+   * retenter au tick suivant. Secrets Umami absents : rien, avertissement.
+   */
+  const runWeeklyVisitsReportJob = async () => {
+    try {
+      const { runScheduledWeeklyVisitsReport } = await import("@/lib/analytics/weekly-visits-job");
+      await runScheduledWeeklyVisitsReport(new Date());
+    } catch (err) {
+      console.error("[scheduler:weekly-visits] Échec :", err);
+    }
+  };
+
+  /**
    * Orchestrateur : exécute les jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    *
@@ -586,9 +601,10 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCeoKpisJob();
     await runCopyReviewJob();
     await runAnnualRenewalReminderJob();
+    await runWeeklyVisitsReportJob();
   };
 
   // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée) ;
   // runAnnualRenewalReminderJob pour le test du rappel légal de l'annuel.
-  return { runAllJobs, runDailySocialJob, runAnnualRenewalReminderJob };
+  return { runAllJobs, runDailySocialJob, runAnnualRenewalReminderJob, runWeeklyVisitsReportJob };
 }

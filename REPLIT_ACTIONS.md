@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : rapport hebdomadaire des visites (Umami) par email le lundi @fullstack
+
+> Demande de Thomas. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucun LLM. Secrets Worker `UMAMI_API_KEY` et `UMAMI_WEBSITE_ID` déjà posés (05/10) ; `RESEND_API_KEY` déjà requis.
+> - **Déploiement Cloudflare normal** (`build:cf` puis `deploy:cf`). Aucun autre geste : le job tourne dans le scheduler existant (Cron Trigger 15 min, route `/api/cron/scheduler-tick`).
+> - **Déclenchement** : lundi 7h-8h heure de Paris (heure d'été et d'hiver gérées), 1 seul email par semaine (verrou `JobLock` `weekly-visits-report-<lundi>`, conservé 6 jours après l'envoi, relâché en cas d'échec pour retenter au tick suivant de la même heure).
+> - **Contenu** : 7 derniers jours complets (lundi à dimanche, heure de Paris) comparés aux 7 précédents : visiteurs, visites, pages vues, taux de rebond (écart en points), temps moyen par visite, variation en % (« nouveau » si la semaine précédente est à zéro) ; visites par jour ; top 5 pages et top 5 sources ; inscriptions (`User.createdAt`) et nouveaux Premium (`Subscription` plan PREMIUM créée dans la semaine) avec le taux d'inscription.
+> - **Destinataire** : `ADMIN_EMAIL` du mailer existant (`src/lib/email.ts`, alex@deviens-marrant.fr, la même adresse que les alertes). Objet : « Visites deviens-marrant.fr : semaine du 28/09 au 04/10 (+21 %) » (variation des visiteurs).
+> - **Manuel** : `curl -X POST -H "Authorization: Bearer $ADMIN_PASSWORD" "https://deviens-marrant.fr/api/admin/visits-report?dryRun=1"` renvoie le JSON sans envoyer ; sans `dryRun`, envoie l'email (hors verrou hebdo). 503 si secrets Umami absents, 502 si Umami répond en erreur.
+> - Secrets absents : rien n'est envoyé, avertissement `[weekly-visits]` dans les logs. La clé n'est jamais journalisée (header `x-umami-api-key`, timeout 5 s).
+
 ## s14 (04/10/2026) : formule annuelle Premium 24,99 €/an + rappel légal de reconduction @fullstack
 
 

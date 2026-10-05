@@ -4,7 +4,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-marrant.fr>";
 
-const ADMIN_EMAIL = "alex@deviens-marrant.fr";
+/** Destinataire des emails internes (alertes, rapports). */
+export const ADMIN_EMAIL = "alex@deviens-marrant.fr";
 
 /**
  * Envoie une alerte admin par email.
@@ -84,6 +85,21 @@ export async function sendTransactionalTextEmail(
     throw new Error("RESEND_API_KEY non configurée : email transactionnel non envoyé");
   }
   const { error } = await resend.emails.send({ from: FROM_EMAIL, to, subject, text });
+  if (error) {
+    throw new Error(`Resend : ${error.message}`);
+  }
+}
+
+/**
+ * Email interne HTML à l'admin (rapport hebdomadaire des visites). Lève une
+ * erreur si Resend n'est pas configuré ou refuse l'envoi : l'appelant libère
+ * alors son verrou pour retenter au tick suivant.
+ */
+export async function sendAdminHtmlEmail(subject: string, html: string): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY non configurée : email interne non envoyé");
+  }
+  const { error } = await resend.emails.send({ from: FROM_EMAIL, to: ADMIN_EMAIL, subject, html });
   if (error) {
     throw new Error(`Resend : ${error.message}`);
   }
