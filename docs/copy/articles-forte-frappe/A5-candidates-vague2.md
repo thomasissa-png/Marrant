@@ -218,3 +218,224 @@
 
 **H11-14** Avant de commencer un jeu : « Pour l'équité, celui qui a les plus grandes mains commence. » Laisse tout le monde comparer. « Je commence : je viens de vérifier, c'est moi. Poisson d'avril. »
 *→ Colle ta main contre celle d'un voisin avant de trancher. Le ton officiel fait le reste.*
+
+## COUPLE
+
+Garde-fou du terrain : aucune idée ne touche à la rupture, à une dispute, à l'avenir à deux ni à la santé.
+
+### H13 : le rôle trop poli ou trop dévoué
+
+**H13-7** Annonce à ton ou ta partenaire : « Aujourd'hui, je suis votre assistant personnel. Posez-moi vos questions. » Quand on demande l'heure : « Il est 14 h. C'est ma seule compétence. Poisson d'avril. »
+*→ Garde le vouvoiement de l'assistant jusqu'à la première question. Réponds toujours avec la même précision.*
+
+**H13-8** Fais visiter l'appartement comme un guide de musée : « À votre droite, un grille-pain d'époque, très peu utilisé. » Après la dernière pièce : « Fin de la visite. La boutique de souvenirs est à la cuisine. Poisson d'avril. »
+*→ Ne regarde que les objets, jamais ton public. Les commentaires les plus sérieux sont les meilleurs.*
+
+**H13-9** À chaque demande de la journée, réponds « Avec plaisir, je note » et note-la dans un carnet. Le soir, quand on te demande où ça en est : « J'ai tout noté. Je n'ai rien fait. Poisson d'avril. »
+*→ Choisis un vrai carnet, avec un vrai stylo. Les demandes sont banales (« tu peux passer le pain ? »), tu les réalises vraiment, sauf une.*
+
+**H13-10** Appelle ton ou ta partenaire par un titre officiel toute la journée : « Madame la responsable du canapé », « Monsieur le directeur des chaussettes ». Quand on te demande pourquoi : « Titres provisoires, valables jusqu'à ce soir. Poisson d'avril. »
+*→ Change le titre à chaque phrase. Le sérieux est dans le ton, jamais dans le choix des mots.*
+
+**H13-11** Réponds à chaque demande par « À votre service. » Quand l'étonnement devient une question : « Pourboire accepté sous forme de bisou. Poisson d'avril. »
+*→ Ajoute une petite révérence à la troisième fois. Le bisou est le seul tarif.*
+
+**H13-12** Tiens la porte à ton ou ta partenaire à chaque pièce : « Après vous. » Quand il ou elle s'en étonne : « Il y a onze portes dans cet appartement, j'ai tout compté. Poisson d'avril. »
+*→ Compte vraiment tes portes avant, pour que le chiffre soit juste. Si tu n'en as que quatre, la blague est plus courte.*
+
+**H13-13** Tends un programme de la soirée : « 20 h : s'asseoir. 20 h 05 : rester assis. 20 h 10 : pause pour chercher les chips. » Quand on te demande ce que c'est : « Un programme très ambitieux. Poisson d'avril. »
+*→ Écris-le à la main, avec une vraie mise en page. L'autre est déjà en train de le lire.*
+
+**H13-14** Prends des notes pendant que ton ou ta partenaire raconte sa journée, d'un air très appliqué. Quand on te demande ce que tu fais : « Je prépare un exposé sur toi, jeudi. Note finale : 20 sur 20. Poisson d'avril. »
+*→ Hoche la tête, souris, ne dis rien d'autre. Le compliment à la fin est le seul vrai mensonge.*
+
+### H14 : la fausse règle du foyer
+
+**H14-7** Colle sur le frigo : « Horaires d'ouverture : 8 h-9 h, 12 h-14 h, 19 h-21 h. En dehors, merci de laisser les yaourts tranquilles. » Quand l'autre l'ouvre à 15 h : « Il est ouvert tout le temps, c'est juste de la politesse. Poisson d'avril. »
+*→ Écris-le en lettres capitales, comme une vraie affiche de magasin. Le frigo ne risque rien.*
+
+**H14-8** Annonce : « Nouvelle règle officielle : on se dit "bonne journée" en changeant de pièce. » Lance-le dès que l'autre quitte le salon : « Bonne journée dans le couloir ! Poisson d'avril. »
+*→ Dis-le sans sourire, avec la main levée. Le couloir est le meilleur moment.*
+
+**H14-9** Annonce : « J'ai décidé qu'on aurait une chanson officielle pour quand on rentre. » Chante-la : trois notes. « Elle fait "pam pam pam". C'est tout ce que j'ai trouvé. Poisson d'avril. »
+*→ Chante-la très sérieusement, à chaque entrée de la journée. Plus elle est courte, plus elle reste en tête.*
+
+**H14-10** Annonce : « Règle de la maison : "on verra" signifie "oui". » Quand l'autre répond « On verra » à une proposition : « Sauf quand c'est moi qui le dis. Poisson d'avril. »
+*→ Dis-le avec le sérieux d'une loi. Attends sa première réponse « on verra ».*
+
+**H14-11** Annonce : « Nouvelle règle : chacun a droit à trois "j'arrive" par soirée. Au-delà, on arrive vraiment. » Quand l'autre demande combien tu en as utilisé : « J'en suis à deux. Poisson d'avril. »
+*→ Garde le compte sur une feuille, visible. Le troisième « j'arrive » a un autre poids.*
+
+**H14-12** Annonce : « À partir de ce soir, on ne dit plus "je ne sais pas", on dit "je réfléchis encore". » Quand on te demande ce qu'on mange : « Je réfléchis encore. Poisson d'avril. »
+*→ Choisis l'heure où la question du dîner revient toujours. Il y a un peu de vérité dans cette règle.*
+
+**H14-13** Annonce : « Mise à jour du règlement du foyer : les chaussettes doivent désormais être appariées. » Laisse l'autre regarder ses pieds. « Je viens de vérifier les miennes. Poisson d'avril. »
+*→ Regarde tes propres pieds avant de parler. Si tes chaussettes sont assorties, retourne la phrase.*
+
+**H14-14** Annonce : « À partir de maintenant, la dernière phrase de la journée est toujours "bonne nuit", jamais "tu as éteint ?". » Au moment de dormir : « Tu as éteint ? Poisson d'avril. »
+*→ Garde la gravité d'un règlement jusqu'à l'extinction des lumières. Pose-la au coucher, pas avant.*
+
+### H15 : la tendresse suspecte
+
+**H15-7** Glisse un mot dans la poche du manteau de ton ou ta partenaire : « Tu es adorable. » Quand il ou elle le trouve et demande si c'est toi : « C'est ta poche qui l'a écrit. Elle t'aime beaucoup. Poisson d'avril. »
+*→ Glisse-le avant son départ, pour qu'il ou elle le trouve en chemin. Écris à la main.*
+
+**H15-8** Dis, un peu timide : « J'ai passé la journée à penser à toi. » Laisse l'autre s'attendrir. « Surtout à ce qu'on mange ce soir. Poisson d'avril. »
+*→ Garde la douceur dans la voix jusqu'à la dernière phrase. La chute fait sourire des deux côtés.*
+
+**H15-9** Offre une fleur en disant : « Cette fleur a voyagé trois jours pour arriver jusqu'à toi. » Laisse l'autre s'émouvoir. « Elle a fait trois mètres, de la table à ta main. Poisson d'avril. »
+*→ Prends-la dans un bouquet qui est déjà là. Tends-la comme une vraie cérémonie.*
+
+**H15-10** Glisse un mot dans le sac de ton ou ta partenaire : « Si tu lis ça, c'est que tu cherchais autre chose. Je t'aime quand même. Poisson d'avril. »
+*→ Colle-le sur une pochette que le sac contient toujours (clés, portefeuille). La découverte est le vrai moment.*
+
+**H15-11** Prépare le siège préféré de ton ou ta partenaire (coussin, plaid) avec un papier : « Place réservée aux gens que j'aime. » Quand il ou elle s'assoit : « Tu viens de t'inscrire dans la catégorie. Poisson d'avril. »
+*→ Choisis un papier qui tient debout. Ne dis rien avant qu'il ou elle ait lu.*
+
+**H15-12** Dis : « Je voudrais qu'on se dise chacun une chose qu'on aime chez l'autre. Tu commences. » Écoute avec attention. « Merci, je prends en note pour le prochain anniversaire. Poisson d'avril. »
+*→ Sors vraiment un carnet. Le compliment reçu reste, même si tu notes.*
+
+**H15-13** Dis : « Je t'ai gardé le meilleur morceau. » Laisse l'autre chercher. « Je l'ai goûté pour être sûr. Il est excellent. Poisson d'avril. »
+*→ Dis-le au moment du dessert, assiette en main. Garde un vrai morceau pour l'autre, c'est plus tendre.*
+
+**H15-14** Écris sur chaque page du calendrier de la semaine : « Aujourd'hui, c'est le plus beau jour, car tu es là. » Quand l'autre le découvre : « Je l'ai écrit partout, par précaution. Poisson d'avril. »
+*→ Utilise un petit calendrier ou un carnet. Écris-le à la main, sans te presser.*
+
+### H16 : l'info qui vient de l'extérieur
+
+**H16-7** Dis : « Le boulanger m'a demandé de te dire bonjour. Il t'a reconnu à ma description : "celui qui prend toujours la même baguette". » Il sourit. « Il a ajouté "ça lui ressemble". Poisson d'avril. »
+*→ À réserver à une boulangerie que vous fréquentez vraiment. Ne nomme jamais la boutique.*
+
+**H16-8** Montre ton téléphone : « Regarde, j'ai reçu un rappel : "Dire à X qu'il est génial." » Quand l'autre sourit : « Je l'avais programmé en janvier. Il était temps. Poisson d'avril. »
+*→ Programme vraiment le rappel la veille, avec l'intitulé exact. Remplace X par son prénom.*
+
+**H16-9** Dis, en lisant ton téléphone : « Un sondage dit que le meilleur moment de la journée, c'est quand on rentre à la maison. » L'autre demande qui l'a fait. « Moi, et tu es le seul sondé. Poisson d'avril. »
+*→ Dis-le sur un ton d'information sérieuse. Ne cite aucun chiffre.*
+
+**H16-10** Dis : « J'ai lu ton horoscope : une grande surprise va arriver dans la pièce où tu es. » Laisse l'autre chercher. « C'est moi. Je viens d'entrer. Poisson d'avril. »
+*→ Entre dans la pièce juste après la phrase. Le timing est la moitié du plaisir.*
+
+**H16-11** Dis : « J'ai lu un article sur la bonne façon de ranger les couverts. On le fait mal depuis des années. » Laisse l'autre regarder le tiroir. « L'article dit que c'est très bien comme ça. Poisson d'avril. »
+*→ Reste très sérieux sur la première phrase. Le petit soulagement est la chute.*
+
+**H16-12** Dis : « Le facteur m'a confié quelque chose pour toi. » Tends ta main fermée, puis ouvre-la : « Un bonjour. Il l'a fait avec beaucoup de discrétion. Poisson d'avril. »
+*→ Ferme bien la main avant de la tendre. Le geste fait travailler l'imagination.*
+
+**H16-13** Dis : « Mon chef m'a demandé de te remercier. » Laisse l'autre s'étonner. « Pour la bonne humeur que je ramène du travail. Poisson d'avril. »
+*→ Dis-le comme si tu transmettais une consigne officielle. La personne remerciée sourit toujours.*
+
+**H16-14** Dis, en regardant ton téléphone : « Mon GPS a trouvé le chemin le plus court jusqu'au canapé. » L'autre demande lequel. « Tout droit. Poisson d'avril. »
+*→ Montre l'écran de loin, sans l'inviter à vérifier. Le chemin est de trois mètres.*
+
+## MESSAGE
+
+Garde-fou du terrain : tout message passe le test « je pourrais montrer cette conversation à tout le monde ». Aucun faux message d'organisme, d'administration, de banque ni de livraison.
+
+### H17 : le message mal adressé ou sans contexte
+
+**H17-7** Envoie : « Une seconde, je reviens. » Reviens vingt minutes plus tard : « Une seconde, c'est long. Poisson d'avril. »
+*→ Ne réponds à rien entre les deux messages. Il aura le temps de lancer un « ok ».*
+
+**H17-8** Envoie : « Ça y est, je l'ai trouvé ! » Laisse-le demander quoi. « Mon téléphone. Je t'écris avec. Poisson d'avril. »
+*→ Envoie-le en pleine matinée. Les « quoi ? » arrivent en moins d'une minute.*
+
+**H17-9** Envoie : « J'ai trouvé la solution à tout. » Laisse-le demander laquelle. « Je ne sais pas à quoi, mais je l'ai. Poisson d'avril. »
+*→ Garde la même assurance jusqu'à la fin. Plus tu es sûr de toi, plus c'est drôle.*
+
+**H17-10** Envoie : « Je ne devrais pas te le dire, mais il est 10 h 42. » Laisse-le répondre « Merci ? ». « Secret professionnel. Poisson d'avril. »
+*→ Mets l'heure réelle au moment où tu écris. Le ton de confidence fait la mise en place.*
+
+**H17-11** Envoie : « Pour répondre à ta question : oui. » Il demande : « Quelle question ? » « Je ne sais pas, mais c'est oui. Poisson d'avril. »
+*→ Choisis quelqu'un qui pose beaucoup de questions. Il y a toujours une chance qu'il en ait vraiment posé une.*
+
+**H17-12** Envoie la photo d'une page blanche : « Le document que tu voulais. » Quand il demande si c'est une erreur : « Version sans aucune faute d'orthographe. Poisson d'avril. »
+*→ Choisis quelqu'un qui n'attend pas de vrai document ce jour-là. Garde le ton d'un envoi de travail.*
+
+**H17-13** Envoie : « Je t'écris depuis demain. » Il demande : « Alors, ça donne quoi ? » « La même chose, avec un peu plus de fatigue. Poisson d'avril. »
+*→ Réponds du tac au tac, sans hésiter. Le rythme fait la blague.*
+
+**H17-14** Envoie : « J'ai deux nouvelles : une bonne, une bonne. » Quand il demande lesquelles : « Un : je t'écris. Deux : tu me réponds. Poisson d'avril. »
+*→ Laisse un temps avant de répondre. La première nouvelle compte déjà pour lui.*
+
+### H18 : l'ordre qui se retourne contre lui
+
+**H18-7** Écris : « Nouvelle règle : je ne réponds plus à aucun message avant midi. » Dès qu'il t'écrit, réponds en cinq secondes : « Je n'ai pas tenu quatre minutes. Poisson d'avril. »
+*→ Envoie-le tôt le matin. Réponds au premier message qui arrive, même sans attendre.*
+
+**H18-8** Écris : « J'ai décidé de ne plus jamais utiliser de point d'exclamation ! » Quand il le relève : « Le premier est déjà dans mon message. Poisson d'avril. »
+*→ Mets le point d'exclamation sans y penser. Plus tu es naturel, plus la chute est limpide.*
+
+**H18-9** Écris : « Ce message ne contien aucune faute. » Quand il relève la faute : « Tu es le premier à avoir relu. Poisson d'avril. »
+*→ Garde la faute telle quelle, sans smiley. Ne corrige pas avant sa réponse.*
+
+**H18-10** Écris : « Nouvelle règle entre nous : interdit de commencer par "ça va ?". » Il répond « OK ». Écris : « Ça va ? » « Je viens d'enfreindre ma propre règle. Poisson d'avril. »
+*→ Laisse passer une minute entre les deux messages. Le « OK » est déjà sa première victoire.*
+
+**H18-11** Écris : « À partir d'aujourd'hui, plus de smileys entre nous. » Il répond « Ok ». Réponds avec un smiley : « Le smiley est de moi. Je suis le seul à y avoir droit. Poisson d'avril. »
+*→ À réserver à un pote qui envoie beaucoup de smileys. Il sera le premier à relever l'écart.*
+
+**H18-12** Écris : « Peux-tu m'écrire que tu n'as rien à m'écrire ? » Il répond : « Je n'ai rien à t'écrire. » « Tu viens de m'écrire. Poisson d'avril. »
+*→ Pose la question avec un sérieux total. Il met parfois trente secondes à comprendre.*
+
+**H18-13** Écris : « Réponds "oui" si tu as déjà lu ce message. » Il répond « Oui. » « Tu viens de le lire pour la première fois. Poisson d'avril. »
+*→ Envoie-le à un pote rapide, qui répond avant de réfléchir. Garde la capture.*
+
+**H18-14** Écris : « Ne réponds à aucun de mes trois prochains messages. » Envoie ensuite : « Tu es là ? », « Allô ? », « Tu m'as oublié ? » Quand il a tenu : « Bravo, tu as tout respecté. Poisson d'avril. »
+*→ Garde un rythme d'une minute entre les messages. S'il craque, la chute marche aussi : « Tu as répondu. »*
+
+### H19 : le message d'un faux service très poli
+
+**H19-7** Envoie : « Service des salutations : un bonjour vous attend. Souhaitez-vous le rendre ? » Quand il répond « oui » : « Bonjour. Votre bonjour a été rendu. Poisson d'avril. »
+*→ Garde le ton d'une notification. Si l'autre répond « bonjour », la blague est déjà gagnée.*
+
+**H19-8** Envoie : « Comité d'accueil de la journée : merci de confirmer votre présence. » Quand il répond « présent » : « Présence enregistrée. Bonne journée. Poisson d'avril. »
+*→ Envoie-le tôt le matin. Les réponses les plus sérieuses sont les plus drôles.*
+
+**H19-9** Envoie : « Votre abonnement à mon amitié arrive à échéance. Il sera renouvelé automatiquement. » Quand il demande s'il peut résilier : « Résiliation impossible. Poisson d'avril. »
+*→ À envoyer à un vrai pote, jamais à une connaissance récente. Il n'y a ni facture, ni prix, ni engagement.*
+
+**H19-10** Envoie : « Félicitations, vous venez d'être admis au Club des gens qui répondent vite. Répondez pour confirmer. » Dès qu'il répond : « Inscription confirmée. Poisson d'avril. »
+*→ Choisis quelqu'un qui répond effectivement vite. Les « merci ? » sont la meilleure partie.*
+
+**H19-11** Envoie : « Le service des félicitations vous informe que vous avez ouvert ce message. Bravo. » Quand il demande pourquoi : « C'était la seule épreuve. Poisson d'avril. »
+*→ Envoie-le à un pote qui lit tout de suite. Pas besoin d'en dire plus.*
+
+**H19-12** Envoie : « Rappel du service des remerciements : vous n'avez pas dit merci aujourd'hui. » Quand il répond « merci » : « Merci à vous. Vous venez de rattraper votre retard. Poisson d'avril. »
+*→ Garde la politesse jusqu'à la dernière syllabe. Quelqu'un répond souvent « merci » par réflexe.*
+
+**H19-13** Envoie : « Service des pensées : toutes nos lignes sont occupées, un conseiller va penser à vous dans quelques instants. Merci de rester en ligne. » Quand il répond : « Vous voilà en ligne. Je pense à vous. Poisson d'avril. »
+*→ Un canular tendre. Envoie-le à quelqu'un qui aime ce ton de standard téléphonique.*
+
+**H19-14** Envoie : « Avis préalable : vous allez recevoir un message sans raison. Merci de ne pas vous inquiéter. » Puis, trente secondes plus tard : « Voilà. Sans raison. Poisson d'avril. »
+*→ Garde les deux messages très proches dans le temps. Le premier ne doit pas inquiéter, d'où le ton léger.*
+
+### H20 : la mise en scène en quelques messages
+
+**H20-7** Envoie : « 1. Bonjour. » Puis, dix secondes plus tard : « 3. Au revoir. » Quand il demande où est le 2 : « Il y a eu une coupure. Poisson d'avril. »
+*→ Numérote bien tes messages. La question « et le 2 ? » arrive presque tout de suite.*
+
+**H20-8** Envoie : « Je t'écris un très long message, ça va prendre du temps. » Dix minutes plus tard : « Bonjour. Poisson d'avril. »
+*→ Ne réponds à personne entre les deux. Plus l'attente est longue, plus « Bonjour » est drôle.*
+
+**H20-9** Envoie : « Question à choix multiples : A, B ou C ? » Quand il demande de quoi tu parles : « Je ne sais pas, j'ai perdu la question. Poisson d'avril. »
+*→ Réponds immédiatement à sa première réponse, même si c'est « B ». Plus c'est sec, mieux c'est.*
+
+**H20-10** Envoie : « Je te fais un schéma pour t'expliquer. » Envoie la photo d'une feuille blanche avec un seul point : « Tu es ici. Poisson d'avril. »
+*→ Dessine le point avec un vrai feutre. Cadre la feuille bien droite.*
+
+**H20-11** Envoie : « Je t'ai écrit une lettre. » Envoie la photo d'une enveloppe fermée : « Elle est très belle. Je la garde. Poisson d'avril. »
+*→ Prends une enveloppe qui traîne chez toi. Garde un ton très sérieux sur la première phrase.*
+
+**H20-12** Envoie : « Allô ? » Quand il répond « Allô ? » : « Ça marche ! On peut décrocher un texto. Poisson d'avril. »
+*→ Envoie-le sans autre mot. Plus tu es sobre, plus il se prend au jeu.*
+
+**H20-13** Envoie : « Résumé de ma journée jusqu'ici. » Laisse-le attendre trois minutes, puis : « Un café. Poisson d'avril. »
+*→ Choisis un jour tranquille, où la journée est vraiment vide. Le suspense dure tout juste ce qu'il faut.*
+
+**H20-14** Envoie la photo d'une table vide : « Regarde, le lapin a disparu. » Quand il demande quel lapin : « Voilà, le tour a marché. Poisson d'avril. »
+*→ Cadre une table bien rangée, sans aucun objet. Le sérieux de la légende fait le reste.*
+
+---
+
+**Total : 16 emplacements (H2, H3, H4, H5, H8, H9, H10, H11, H13, H14, H15, H16, H17, H18, H19, H20), 128 candidates (Hn-7 à Hn-14).**
+*Rappel de relecture :* chaque idée est une proposition, pas un texte validé. Celles qui ne passent pas la barre sont supprimées, l'emplacement correspondant est retiré du brouillon (jamais comblé par une idée moyenne).
