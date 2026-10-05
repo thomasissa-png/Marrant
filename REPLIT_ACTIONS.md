@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : aperçu admin d'un article programmé `/blog/apercu/[slug]` + script de captures @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (`ADMIN_PASSWORD` existant), aucun LLM, aucun nouvel event Umami.
+> - **Déploiement normal**. `https://deviens-marrant.fr/blog/apercu/<slug>?cle=<ADMIN_PASSWORD>` : la clé est comparée en temps constant, un cookie httpOnly signé (2 h, chemin `/blog/apercu`, sans le mot de passe) est posé, puis redirection 303 sans le paramètre. Accepté aussi : `Authorization: Bearer <ADMIN_PASSWORD>`. Sans autorisation ou mauvaise clé : 404.
+> - **Rendu** : même gabarit que `/blog/[slug]` (factorisé dans `components/blog/blog-article-view.tsx`), article programmé ou déjà publié, plus un bandeau « Aperçu : publication prévue le JJ/MM/AAAA » (« article publié le … » si déjà en ligne). Page publique inchangée : HTML et métadonnées des 30 articles statiques identiques octet pour octet avant/après.
+> - **Discrétion** : `noindex, nofollow` (meta + `X-Robots-Tag`), `Cache-Control: private, no-store`, `force-dynamic`, absent du sitemap et de llms. Umami muet sous `/blog/apercu` : `data-before-send` sur le script (vues et événements) + garde dans `lib/umami.ts`.
+> - **Captures** : `ADMIN_PASSWORD=… scripts/content/snapshot-article.sh <slug> <dossier>` (depuis apps/web) : curl de l'aperçu en Bearer, CSS et polices inlinées, Playwright en `file://` : `m00.png…` (390 px, tranches de 1600 px), `d-haut.png`, `d-bas.png` (1280 px). À vérifier après déploiement : 404 sans clé, puis captures d'un article programmé.
+
 ## s14 (05/10/2026) : articles à forte frappe en base, partage par ligne, CTA A1, parcours imposé @fullstack
 
 > Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.

@@ -1,5 +1,13 @@
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  BLOG_PREVIEW_COOKIE,
+  BLOG_PREVIEW_MAX_AGE_S,
+  BLOG_PREVIEW_PATH,
+  BLOG_PREVIEW_QUERY_PARAM,
+  isBlogPreviewPath,
+} from "@/config/blog-preview";
+import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
 
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
@@ -49,8 +57,37 @@ const authMiddleware = withAuth(
   }
 );
 
+// --- Aperçu blog (/blog/apercu/[slug]) ---
+// `?cle=` est toujours retiré de l'URL par redirection ; le cookie signé (2 h,
+// httpOnly, chemin /blog/apercu) n'est posé que si la clé est ADMIN_PASSWORD.
+// La page vérifie ensuite cookie ou Bearer et répond 404 sans autorisation.
+export async function blogPreviewMiddleware(req: NextRequest): Promise<NextResponse> {
+  const key = req.nextUrl.searchParams.get(BLOG_PREVIEW_QUERY_PARAM);
+  let res: NextResponse;
+  if (key === null) {
+    res = NextResponse.next();
+  } else {
+    const target = req.nextUrl.clone();
+    target.searchParams.delete(BLOG_PREVIEW_QUERY_PARAM);
+    res = NextResponse.redirect(target, 303);
+    const token = (await isAdminPassword(key)) ? await createPreviewToken() : null;
+    if (token) {
+      res.cookies.set(BLOG_PREVIEW_COOKIE, token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: BLOG_PREVIEW_PATH,
+        maxAge: BLOG_PREVIEW_MAX_AGE_S,
+      });
+    }
+  }
+  res.headers.set("X-Robots-Tag", "noindex, nofollow");
+  res.headers.set("Cache-Control", "private, no-store");
+  return res;
+}
+
 // --- Middleware principal : www redirect + delegation auth ---
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const hostname = req.headers.get("host") || "";
 
   // Redirection www → non-www (301 permanente, SEO-friendly)
@@ -60,6 +97,10 @@ export default function middleware(req: NextRequest) {
     // Construire l'URL canonique sans port interne (Replit expose :5904 en interne)
     const canonicalUrl = `https://deviens-marrant.fr${url.pathname}${url.search}`;
     return NextResponse.redirect(canonicalUrl, 301);
+  }
+
+  if (isBlogPreviewPath(req.nextUrl.pathname)) {
+    return blogPreviewMiddleware(req);
   }
 
   // Déléguer à withAuth uniquement pour les routes qui en ont besoin

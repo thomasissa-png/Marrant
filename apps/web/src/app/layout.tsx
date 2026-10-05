@@ -8,6 +8,7 @@ import {
   websiteJsonLd,
 } from "@/components/seo/json-ld";
 import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
+import { BLOG_PREVIEW_PATH } from "@/config/blog-preview";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -136,11 +137,21 @@ export default function RootLayout({
         <SessionProvider>{children}</SessionProvider>
         <WebVitalsReporter />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
-          <Script
-            defer
-            src="https://cloud.umami.is/script.js"
-            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-          />
+          <>
+            {/* Filtre Umami (data-before-send) : rien ne part sous l'aperçu admin
+                /blog/apercu (vues et événements). Défini avant le tracker. */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.marrantUmamiBeforeSend=function(t,p){var a=${JSON.stringify(BLOG_PREVIEW_PATH)},l=location.pathname;return l===a||l.indexOf(a+"/")===0?false:p};`,
+              }}
+            />
+            <Script
+              defer
+              src="https://cloud.umami.is/script.js"
+              data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+              data-before-send="marrantUmamiBeforeSend"
+            />
+          </>
         )}
       </body>
     </html>
