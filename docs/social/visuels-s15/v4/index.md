@@ -59,4 +59,4 @@ Brouillons réels (`saveToDraft: true`, échéance fictive au 01/06/2027, jamais
 ## Reste ouvert
 
 - Post LinkedIn multi-images et document PDF 1080×1350 via Buffer : non testés (hors lot, LinkedIn est en texte seul).
-- Canal Instagram signalé déconnecté chez Buffer (`REPLIT_ACTIONS.md`) : le brouillon passe, la publication non. À reconnecter avant le 12/10.
+- Canal Instagram : reconnecté par Thomas, vérifié connecté chez Buffer le 05/10 à 17:06 UTC (API, `isDisconnected: false`).
