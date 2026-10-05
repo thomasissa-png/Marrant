@@ -221,6 +221,28 @@
 
 ---
 
+## Notation articles forte frappe — 5 octobre 2026 (s14, branche `claude/marrant-s10-session-recovery-CtZyw`)
+
+Grille 8 critères (`docs/growth/notation-article-blagues-2026-iter1.md`), notée sur captures de l'aperçu de production + HTML servi. 11 articles programmés, tous à **10/10** :
+
+| Article | Publication | Itérations | Fichier final |
+|---|---|---|---|
+| A1 anniversaire | 22/10/2026 | 4 | `docs/growth/notation-A1-iter4.md` |
+| A3 appli de rencontre | 29/10/2026 | 4 | `notation-A3-iter4.md` |
+| A4 couple | 05/11/2026 | 4 | `notation-A4-iter4.md` |
+| A2 vœux | 12/11/2026 | 4 | `notation-A2-iter4.md` |
+| B1 refuser une invitation | 19/11/2026 | 3 | `notation-B1-iter3.md` |
+| B2 gamer | 26/11/2026 | 3 | `notation-B2-iter3.md` |
+| B3 départ collègue | 03/12/2026 | 3 | `notation-B3-iter3.md` |
+| A5 poisson d'avril | 25/02/2027 | 3 | `notation-A5-iter3.md` |
+| B4 fête des mères | 22/04/2027 | 2 | `notation-B4-iter2.md` |
+| B5 fête des pères | 13/05/2027 | 3 | `notation-B5-iter3.md` |
+| B6 vacances entre amis | 03/06/2027 | 3 | `notation-B6-iter3.md` |
+
+Défauts de gabarit trouvés grâce aux captures et corrigés en code : commentaire HTML affiché en FAQ, « Mis à jour » antérieur à la publication (`publicUpdatedAt`), « » imbriqués, « À lire ensuite » hors sujet (`config/blog-related-cards.ts`), parcours recommandé par article. Aucune vanne validée à l'aveugle modifiée.
+
+---
+
 ## Audit cible : prochaines sessions
 
 > Section vivante — chaque audit clôturé est ajouté ci-dessus avec date et branche.
