@@ -153,3 +153,205 @@ Pourquoi : la sortie la plus attirante de la section était placée avant les 5 
 → **[Nos conseils d'humour](/conseils)** : pour écrire tes propres chutes l'an prochain.
 ```
 Pourquoi : un message écrit n'a pas de timing de diction. L'idée « l'an prochain, c'est toi qui écris » prépare le CTA de D10 sans promettre plus que ce que `/conseils` contient (des techniques, en libre accès).
+
+### D10. CTA dédié, placé juste après le corps (critère 3)
+
+Fichier : `apps/web/src/config/blog-cta.ts`. **Avant** (l.22 à l.23) :
+```ts
+  },
+};
+```
+**Après** :
+```ts
+  },
+  // Notation A2 iter1 (D10) : visiteur venu chercher un message à envoyer, pas un programme.
+  "voeux-drole-nouvelle-annee": {
+    title: "Ton message est choisi. Le reste de l'année, c'est toi qui écris.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver tes propres chutes d'ici l'an prochain.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.",
+  },
+};
+```
+Pourquoi : sans entrée, `page.tsx` (l.267 et suivantes) place le CTA par défaut en bas, après la FAQ, le cluster, les cartes et l'encart parcours. Son titre « Maintenant, reste à le dire à voix haute » parle d'oral alors que le lecteur vient d'envoyer un texte. Avec l'entrée, le gabarit le place juste après le corps, sans autre changement de code. La promesse et la note reprennent mot pour mot la formulation validée pour l'étalon ([CHOIX UTILISATEUR] du 04/10 : « ton contenu quotidien et la première étape de chaque parcours ») : elles sont vraies, puisque l'article ne bloque rien. Aucun tiret cadratin, aucun chiffre. L'attribution `src=blog-voeux-drole-nouvelle-annee` est déjà en place (l.184).
+
+### D11. Bouton « Envoyer le message » sur chaque message, texte seul (critères 4 et 8)
+
+Le partage de l'étalon envoie la vanne avec l'URL de l'article. Pour un vœu, c'est rédhibitoire : le patron recevrait « …C'est mon entretien annuel. https://deviens-marrant.fr/blog/voeux-drole-nouvelle-annee#vanne-10 ». A2 a besoin du même emplacement de 44 px, mais en envoi du texte seul.
+
+Fichier : `apps/web/src/components/ui/markdown-renderer.tsx`. **Avant** (l.29 et l.30) :
+```ts
+/** Vanne numérotée d'un article : « **12.** « … » » en début de bloc. */
+const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»)/;
+```
+**Après** :
+```ts
+/** Vanne ou message numéroté : « **12.** « … » » ou « **12.** texte » en début de bloc (1re ligne seule). */
+const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»|[^\n]+)/;
+```
+Fichier : `apps/web/src/components/ui/share-button.tsx`. **Avant** (l.17 et l.18) :
+```ts
+  onShared?: (channel: ShareChannel) => void;
+}
+```
+**Après** :
+```ts
+  onShared?: (channel: ShareChannel) => void;
+  /** Texte seul, sans titre ni lien : message à envoyer tel quel (vœux). */
+  textOnly?: boolean;
+}
+```
+**Avant** (l.20) :
+```ts
+export function ShareButton({ title, text, className, url, label = "Partager", onShared }: ShareButtonProps) {
+```
+**Après** :
+```ts
+export function ShareButton({ title, text, className, url, label = "Partager", onShared, textOnly = false }: ShareButtonProps) {
+```
+**Avant** (l.26 à l.30) :
+```ts
+    const shareData = {
+      title,
+      text,
+      url: url ?? window.location.href,
+    };
+```
+**Après** :
+```ts
+    const shareData: ShareData = textOnly ? { text } : { title, text, url: url ?? window.location.href };
+```
+**Avant** (l.41) :
+```ts
+        await navigator.clipboard.writeText(`${text}\n\n${url ?? "deviens-marrant.fr"}`);
+```
+**Après** :
+```ts
+        await navigator.clipboard.writeText(textOnly ? text : `${text}\n\n${url ?? "deviens-marrant.fr"}`);
+```
+Fichier : `apps/web/src/components/blog/blog-vanne-share.tsx`. **Avant** (l.8 à l.10) :
+```tsx
+interface BlogVanneShareProps {
+  slug: string;
+}
+```
+**Après** :
+```tsx
+interface BlogVanneShareProps {
+  slug: string;
+  /** Messages à envoyer tels quels : texte seul, sans lien ni nom du site. */
+  textOnly?: boolean;
+}
+```
+**Avant** (l.26) : `export function BlogVanneShare({ slug }: BlogVanneShareProps) {`
+**Après** : `export function BlogVanneShare({ slug, textOnly = false }: BlogVanneShareProps) {`
+**Avant** (l.44) :
+```tsx
+            label={`Partager la vanne n°${vanne}`}
+```
+**Après** :
+```tsx
+            label={textOnly ? `Envoyer le message n°${vanne}` : `Partager la vanne n°${vanne}`}
+            textOnly={textOnly}
+```
+Fichier : `apps/web/src/app/(dashboard)/blog/[slug]/page.tsx`. **Avant** (l.34 et l.35) :
+```ts
+/** Articles dont chaque vanne numérotée reçoit un bouton Partager (notation iter1, C7). */
+const SHARE_JOKES_SLUGS = new Set(["meilleures-blagues-droles-2026"]);
+```
+**Après** :
+```ts
+/** Articles dont chaque vanne numérotée reçoit un bouton Partager (notation iter1, C7). */
+const SHARE_JOKES_SLUGS = new Set(["meilleures-blagues-droles-2026", "voeux-drole-nouvelle-annee"]);
+/** Messages à envoyer tels quels : partage du texte seul, sans URL (notation A2 iter1, D11). */
+const TEXT_ONLY_SHARE_SLUGS = new Set(["voeux-drole-nouvelle-annee"]);
+```
+**Avant** (l.263) :
+```tsx
+        {shareJokes && <BlogVanneShare slug={article.slug} />}
+```
+**Après** :
+```tsx
+        {shareJokes && <BlogVanneShare slug={article.slug} textOnly={TEXT_ONLY_SHARE_SLUGS.has(article.slug)} />}
+```
+Pourquoi : c'est l'usage n°1 du persona, que l'excerpt promet (« Chaque message se copie tel quel »). Sur mobile, le partage natif ouvre WhatsApp ou SMS avec le message seul ; sur desktop, le message est copié seul. Aucune hauteur n'est ajoutée : c'est l'emplacement flottant de l'étalon. La mesure suit avec `blog-vanne-partage {slug, vanne, canal}`, sans nouvel événement. `data-text` ne prend que la 1re ligne du bloc, c'est-à-dire le message sans son indication. Pour l'étalon, rien ne change : ses 50 vannes commencent par « et matchent la 1re alternative comme avant ; son partage garde l'URL (`textOnly` faux). Contrepartie assumée : sans lien, le partage d'A2 ne ramène pas de visiteur. On préfère la valeur pour le persona.
+Tests : le test s14 l.155 doit rester à 50 `data-share-vanne`. En ajouter un : `renderMarkdown(<content A2>, { shareJokes: true })` contient 27 `data-share-vanne`, et le `data-text` de la n°1 vaut exactement « Bonne année à toute l'équipe. À toutes les questions que vous m'avez posées sans réponse l'an dernier : oui. » (apostrophes échappées comprises). Dans un test `share-button`, `textOnly` appelle `navigator.share({ text })` et copie `text` seul.
+
+### Récapitulatif
+
+| # | Critère(s) | Fichier | Lignes de contenu touchées |
+|---|---|---|---|
+| D1 | 1, 5, 7 | brouillon A2 l.32 | 1 (3 mots) |
+| D2 | 1, 5 | brouillon A2 l.34-38 | 1 déplacée, 1 phrase supprimée, 1 mot changé |
+| D3 | 1, 5 | brouillon A2 l.50 | 1 supprimée |
+| D4 | 5 | brouillon A2 l.48 | 1 (4 mots) |
+| D5 | 5 | brouillon A2 l.65 (indication n°3) | 1 |
+| D6 | 5 | brouillon A2 l.74 (indication n°6) | 1 |
+| D7 | 6 | brouillon A2 l.94 (indication n°10) | 1 |
+| D8 | 2 | brouillon A2 l.137 et l.154 | 2 |
+| D9 | 5 | brouillon A2 l.203 | 1 |
+| D10 | 3 | config/blog-cta.ts | config (7 lignes) |
+| D11 | 4, 8 | markdown-renderer.tsx, share-button.tsx, blog-vanne-share.tsx, page.tsx | code (environ 12 lignes) |
+
+Diff réel attendu (P0 s11) : environ 10 lignes de contenu sur environ 190, soit 0 sur les intouchables (27 messages, slug, title, meta, H2, questions de FAQ). Ce n'est pas une réécriture. D1 à D9 se font dans le brouillon AVANT le dry-run d'import. D10 et D11 passent en un seul déploiement, documenté dans `REPLIT_ACTIONS.md`, avec le pre-commit `npx tsc --noEmit -p tsconfig.build.json && npx next lint && npm run build`.
+
+Notes projetées après application : 1 = 10, 2 = 10, 3 = 10, 4 = 10, 5 = 10, 6 = 10, 7 = 10, 8 = 10.
+
+## 4. Contrôles demandés
+
+### SEO
+
+| Point | Valeur | Verdict |
+|---|---|---|
+| Title ≤ 60 car. avec la requête | « Vœux drôles nouvelle année : messages prêts à envoyer », 53 car. Avec le suffixe (21 car.), on arriverait à 74 > 60 : `fitTitle` le rend donc en `absolute` (titre seul, égal au H1). La requête est en tête (« œ » et « oe » sont traités de la même façon par les moteurs). | PASS |
+| Meta ≤ 155 car. | 144 car. comptés (le brouillon annonce 143), servie par `metaDescription` (page.tsx l.62) et non par l'excerpt de 211 car. Vérifier à l'import que `metaDescription` est bien renseigné, sinon `fitDescription` couperait l'excerpt à 160. | PASS sous réserve |
+| H2 en question | 7 sur 7, plus 4 questions de FAQ. La FAQ, dernière H2, sans markdown dans les réponses, est donc extraite en FAQPage par `splitTrailingFaq`. | PASS |
+| Intention servie dès l'intro | L'En bref donne la règle et la promesse, mais sans la requête, et le sommaire n'arrive qu'en 4e bloc. | PASS après D1 et D2 |
+| Fraîcheur | Publication le 12/11 pour une fenêtre d'usage du 20/12 au 15/01 [HYPOTHÈSE growth, à confirmer en Search Console] : environ 5 semaines d'indexation. | PASS |
+
+Vérification externe de « jusqu'à fin janvier » (FAQ 2, adaptation 3, n°13) : l'usage français est bien le 31 janvier ; certaines sources jugent « négligé » un envoi après le 25. Les n°13 et 14 l'assument déjà (« assume ton retard »). Rien à changer.
+
+### Variété des ressorts (27 messages)
+
+| Ressort | Messages | Nb |
+|---|---|---|
+| Aveu ou autodérision | 8, 9, 11, 14, 17, 18, 19, 27 | 8 |
+| Observation du quotidien numérique (groupe, répertoire, réseau) | 5, 20, 22, 23 | 4 |
+| Retournement de formule ou sens littéral | 1, 4, 13 | 3 |
+| Objet personnifié | 3, 7 | 2 |
+| Compliment ou merci déguisé | 2, 15, 16 | 3 |
+| Absurde ou anecdote | 6, 21, 24 | 3 |
+| Paradoxe | 12, 26 | 2 |
+| Comparaison chiffrée | 25 | 1 |
+| Ironie sur le destinataire | 10 | 1 (voir D7) |
+
+9 ressorts différents, et aucun ne dépasse 8 messages sur 27. Aucune section n'utilise un seul ressort. Un seul quasi-doublon : les n°22 et 23 jouent toutes deux sur le silence du groupe, et elles se suivent. Je ne retire rien : elles ont été validées à l'aveugle et chacune a sa condition de vérité (historique, « en train d'écrire »). Si Thomas veut aérer, il peut placer la n°21 entre les deux (voir §6). Constat sans correctif possible : 24 messages sur 27 s'ouvrent par « Bonne année » (c'est le genre qui le veut, et le texte est intouchable).
+
+### Cannibalisation avec S11 et S13
+
+| Article | Requête | Title | H2 | Recouvrement avec A2 |
+|---|---|---|---|---|
+| S11 | jeux de répartie | Nouvel An : 6 jeux de répartie pour une soirée drôle | 6 H2 sur les jeux, leurs règles, l'enchaînement, l'entraînement | Aucun : animation orale du 31, zéro message écrit. Le seul « message » de S11 est un exemple de jeu (l.69). |
+| S13 | résolution être plus drôle | Résolution 2027 : être plus drôle sans pression | 7 H2 sur la résolution, l'habitude, les 4 semaines, la mesure | Aucun : méthode d'habitude. Le seul point commun est l'habitude n°5 de S13 (« envoyer à un ami un message drôle », l.72), une ligne qui renvoie naturellement vers A2. |
+
+« vœux », « jeux » et « résolution » ne se croisent dans aucun title, aucune meta ni aucun H2. A2 ne cite la répartie qu'une fois (FAQ 4, « c'est de la répartie simple »), sans méthode. Verdict : PASS. Les liens croisés prévus (l.7 du brouillon) sont à poser à la publication de S11 (14/12) et de S13 (28/12). Ils ne comptent pas dans la note : les cibles n'existent pas au 12/11.
+
+## 5. Ne comptent pas contre le 10
+
+- **« Blague du jour » 3 fois** (sommaire, « Tu as fait le tour ? », flèche finale) : même structure que l'étalon noté 10, avec 3 formulations différentes.
+- **Sommaire en ligne et non en puces** : choix de l'étalon, conditionné aux données `blog-ancre-clic` à 30 jours.
+- **« Remplace « X » par » dans 8 indications** : c'est une consigne fonctionnelle (adapter le message), pas un tic. La reformuler 8 fois nuirait à la clarté.
+
+## 6. Décisions pour Thomas (hors note)
+
+- **D11 sans lien** : le partage d'A2 ne ramène pas de visiteur, alors que celui de l'étalon en ramène. Par défaut, je garde le texte seul (on ne grille pas l'expéditeur auprès de son patron). Tu peux trancher autrement.
+- **Ordre 21, 22, 23** : on peut passer à 22, 21, 23 pour séparer les deux « silence du groupe ». C'est un déplacement autorisé, sans effet sur la note, et la numérotation suivrait.
+- **Bouton « Tout débloquer à 2,99 €/mois »** dans le CTA : même décision que pour l'étalon (on le garde, puis on lit `blog-cta-clic {bouton: premium}` à 30 jours).
+- **Rendu** : une itération 2 sur captures 390 px et desktop après le dry-run d'import est nécessaire avant de déclarer le 10/10 « vu ». Cette notation porte sur le texte et le code, pas sur le rendu.
+
+---
+**Handoff → @orchestrator**
+- Fichiers produits : /home/user/Marrant/docs/growth/notation-A2-iter1.md
+- Décisions prises : note 8,3/10 (66/80) ; 11 correctifs exacts (D1 à D11) pour 10/10 sans toucher aux 27 messages, au slug, au title, à la meta, aux H2 ni aux questions de FAQ ; SEO PASS (title 53, meta 144, 7 H2 en question) ; variété PASS (9 ressorts) ; cannibalisation S11/S13 PASS.
+- Points d'attention : @copywriter (ou édition mineure) applique D1 à D9 dans le brouillon avant le dry-run d'import ; @fullstack applique D10 et D11 et ajoute les tests (27 `data-share-vanne` pour A2, 50 inchangés pour l'étalon, `textOnly` dans share-button), puis les documente dans `REPLIT_ACTIONS.md` ; vérifier que `metaDescription` est bien renseigné à l'import ; captures 390 px et desktop après l'import pour une itération 2.
+---
