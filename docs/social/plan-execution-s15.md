@@ -10,9 +10,10 @@
 | T1 | Stock de vannes à l'aveugle | 125 actives, 41 au niveau chez les 2 relecteurs (>= 8,5), 74 à la note d'Alexa (moyenne >= 8,25), 87 à >= 8. Le lot en publie 111 jusqu'au 03/01 | Épuisé le 13/11 (41), le 07/12 (74), le 17/12 (87) : §1.3 |
 | T2 | Lundis sans article | 12 lundis du 04/01 au 22/03 (le calendrier Q4 s'arrête le 28/12, aucun calendrier Q1) | §3 |
 | T3 | Jeudis sans article | 13 jeudis (15/10, 10/12, 07/01 à 18/02, 04/03 à 25/03) ; un seul article 2027 dans la période (25/02) ; 17/12, 24/12, 31/12 couverts par pivots | §3 |
-| T4 | Fiches de décryptage (cartes 3 et 4) | 8 manquantes (04/11 à 30/12) + 12 pour les mercredis 06/01 à 24/03 = 20 ; 5 citations d'humoriste à fournir (04/11, 02/12, 06/01, 03/02, 03/03) | §1.4 |
+| T4 | Fiches de décryptage (cartes 3 et 4) | **8 livrées le 05/10** (`complements-lot-s15.md`, tirées des fiches s14, à comparer à la base avant insertion) ; 12 restent pour les mercredis 06/01 à 24/03 ; 5 citations d'humoriste sourcées à fournir, dont 04/11 et 02/12 déjà sans source (repli sans citation) | §1.4 |
 | T5 | Lignes d'article non notées | aucune note exploitable par le script : les relais prennent une vanne du catalogue (13 posts du lot seulement en lignes d'article) | §1.4 |
-| T6 | 2 formules de renvoi non relues | 24 posts (13 X et LinkedIn, 11 Instagram) | relecture à l'aveugle avant insertion (09/10) |
+| T6 | 2 formules de renvoi | **retenues le 05/10** : « D'autres exemples, et comment trouver le tien : » (X, LinkedIn) et « D'autres exemples : lien en bio. » (Instagram) ; reste la relecture à l'aveugle et la vérification d'un passage « méthode » dans chaque article (sinon « D'autres exemples : ») ; 24 posts | relecture avant insertion (08/10) |
+| T6b | Légendes Instagram | 26 légendes R3 livrées ; **11 relais Instagram sans « À envoyer à... »** ; permutation 20/11 et 30/12 à accepter | @copywriter, 08/10 |
 | T7 | 3 vannes collées dans 2 articles en base | `soiree-de-noel-entreprise-humour` n°5 et n°6 (publié 16/11), `etre-drole-sans-alcool-soiree` n°3 (publié 21/12) | correction `import-article.ts --update` avant le 23/10 |
 | T8 | Bug limite X 270 (URL comptée en entier) | tout post X avec lien échouerait ; correctif non déployé | déployer avant la reprise de X (§4) |
 | T9 | Aucun déclencheur ni alerte « file basse » | rien ne lance les lots de novembre à mars ; rien ne prévient si la file se vide | §2.3 |
@@ -54,6 +55,7 @@ Emplacements « vanne » par semaine : X 5 (le relais porte une vanne), Instagra
 Avec la reco §3 (un article chaque lundi du 04/01 au 22/03), chaque semaine 2027 gagne 3 lignes d'article (X lundi, Instagram lundi, X jeudi) : 8 emplacements vanne au catalogue au lieu de 11.
 
 ### 1.3 Stock de vannes : le vrai trou
+- **Réserve réelle = 1 vanne** (compléments du 05/10) : sur 125, 118 sont placées dans le lot ; les 7 restantes sont 7 perdants de duels, les 5 connues sous 8 et la vanne « pain » `cs14jke956e7ca02641e25c5` (reprise le 18/11 en carrousel, 37 jours avant le 25/12). Aucun rattrapage possible sans vannes neuves : le lot doit être refait avec `--pool` (O3) avant insertion, et les 8 carrousels suivent leur vanne.
 - **Mesure du 05/10** (2 relecteurs, 111 vannes, Alexa = 8,32 et 8,16 chez eux) : 41 au niveau chez les 2 ; 48 en moyenne >= 8,5 ; 74 >= 8,25 ; 87 >= 8. Les 14 vannes hors lot ne sont pas notées : aucune réserve.
 - **Épuisement** (9,25 vannes par semaine, lot actuel) : barre stricte 41 = fin de la semaine du 09/11 ; 74 = semaine du 30/11 ; 87 = semaine du 14/12 ; les 111 = 03/01. Ensuite la règle des 90 jours rend une vanne réutilisable : celles de la semaine 1 reviennent le 11/01, celles de la semaine 11 le 22/03, soit 9 retours par semaine environ.
 - **Besoin sans article en 2027** : 11 par semaine contre 9 retours : déficit croissant, 19 à 28 vannes de plus avant le 28/03. **Avec un article par lundi** : 8 par semaine, couvert par les retours.
@@ -68,9 +70,10 @@ Avec la reco §3 (un article chaque lundi du 04/01 au 22/03), chaque semaine 202
 | Texte | Volume | Produit par | Livré au plus tard |
 |---|---|---|---|
 | Notes des lignes d'article (compilation des `-aveugle.md` dans `lignes-articles-notes.json`) | 20 articles Q4 | @copywriter | 09/10 (articles de S1 à S5), 06/11 (le reste) |
-| 2 formules de renvoi, relues à l'aveugle (2 relecteurs) | 2 (24 posts) | @copywriter + 2 relecteurs | 08/10 |
-| Fiches de décryptage (cartes 3 et 4, R2, 2 candidats, 2 relecteurs) | 8 (04/11 à 30/12) | @copywriter | 23/10 (la fiche du 04/11 est remise à Buffer vers le 24/10) |
-| Fiches Q1 | 12 | @copywriter | 18/12 (4), 22/01 (4), 19/02 (4) |
+| 2 formules de renvoi retenues, à relire à l'aveugle (2 relecteurs) | 2 (24 posts) | 2 relecteurs | 08/10 |
+| Fiches de décryptage 04/11 à 30/12 : fait ; vérification contre la base et relecture à l'aveugle (R1 de V148 et V002 à reconfirmer) | 8 | @copywriter + 2 relecteurs | 08/10 (la fiche du 04/11 part chez Buffer vers le 24/10) |
+| Fiches Q1 (livrées avec chaque vanne neuve, R2) | 12 | @copywriter | 18/12 (4), 22/01 (4), 19/02 (4) |
+| Légendes « À envoyer à... » des 11 relais Instagram | 11 | @copywriter | 08/10 |
 | Citations d'humoriste réelles et sourcées (@copywriter vérifie) | 5 | @copywriter | 23/10 (04/11), puis 6 jours avant chaque 1er mercredi ; repli sans citation |
 | LinkedIn : relais ou situation de bureau, duel à 3 candidats | 19 (7 de novembre à janvier dont relais, 12 de janvier à mars) | @copywriter | avec chaque lot |
 | Légendes Instagram « À envoyer à... » (80 caractères) | environ 60 pour 2027 | @copywriter | avec chaque lot |
@@ -85,7 +88,7 @@ Non. Lundis : oui du 12/10 au 28/12 (12), puis plus rien. Jeudis : 7 du 22/10 au
 ### 2.1 Lots (dates exactes, prêt = inséré APPROVED, noté, vérifié)
 | Lot | Posts | Lancement | Prêt au plus tard | Marge | Particularité |
 |---|---|---|---|---|---|
-| 1 | lun. 12/10 au dim. 15/11 | 05/10 (en cours) | ven. 09/10 | 3 j (exception : relance décidée le 05/10) | 41 meilleures vannes, renvois relus, fiche du 04/11 par mise à jour avant le 23/10 |
+| 1 | lun. 12/10 au dim. 15/11 | 05/10 (en cours) | ven. 09/10 | 3 j (exception : relance décidée le 05/10) | 41 meilleures vannes, renvois et légendes relus, lot refait avec `--pool`, fiche du 04/11 intégrée |
 | 2 (novembre et décembre) | lun. 16/11 au dim. 03/01 | lun. 26/10 | ven. 06/11 | 10 j | vannes V1, fiches 18/11 à 30/12, correction des 3 vannes collées, Noël, pivots |
 | 3 (janvier) | lun. 04/01 au dim. 31/01 | lun. 14/12 | ven. 18/12 | 17 j | après J+56 (07/12) ; articles Q1 prêts le 11/12 ; Noël sans travail |
 | 4 (février) | lun. 01/02 au dim. 28/02 | lun. 11/01 | ven. 22/01 | 10 j | V2 livrée le 15/01 ; poisson d'avril 25/02 |
