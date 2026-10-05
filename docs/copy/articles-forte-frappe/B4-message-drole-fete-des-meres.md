@@ -1,27 +1,39 @@
 # B4 : message drôle pour la fête des mères (publication jeudi 22/04/2027)
 
-> Statut : brouillon avec 20 emplacements `[H1]` à `[H20]`, à remplir depuis `B4-candidates.md` (6 candidates inédites par emplacement, relecture à l'aveugle avant tout GO). Non publié, non commité. Les lignes d'indication de support (en italique) sont rédigées pour le contexte de l'emplacement et seront ajustées au texte retenu. Format : A1 (`A1-message-anniversaire-drole.md`). Étalon de recette : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°9.
-> **Ids utilisés** : à renseigner après le choix (un id `Hn-k` par emplacement). Emplacements sans ligne retenue : à supprimer, puis corriger partout le « 20 » (title, metaDescription, excerpt, intro).
+> Statut : final, répliques validées à l'aveugle (deux vagues, départage dans `B4-departage.md` et `B4v2-departage.md`). Non publié, non commité. 23 lignes, recopiées mot pour mot depuis `B4-candidates.md` et `B4-candidates-vague2.md`. Format : A1 (`A1-message-anniversaire-drole.md`). Étalon de recette : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°9.
+> **Ids utilisés (23)** : vague 1 : H1-1, H2-4, H3-5, H4-4, H9-3, H11-1, H11-3, H12-3, H13-1, H13-3, H19-4 · vague 2 : H5-12, H5-13, H7-9, H8-8, H10-7, H14-7, H14-11, H15-12, H16-10, H17-9, H20-8, H20-12. Emplacements du brouillon sans ligne finale, supprimés : H6 (aucune retenue) et H18 (sa seule retenue, H18-6, est en réserve). Les 20 emplacements `[Hn]` sont remplacés par 23 lignes (certains emplacements en portent deux, H5, H11, H20 ; d'autres une, avec renumérotation 1 à 23).
+> **Réserve (5, retenues à l'aveugle mais écartées pour mécanisme doublon, à garder pour une mise à jour de l'article)** : H4-5 (carte bricolée, même mécanisme que H4-4) · H7-14 (retard de cadeau + sortie de l'école, double H7-9 et H15-12) · H8-12 (emballage raté, même mécanisme que H8-8) · H14-8 (adulte qui redemande ce qu'il a appris dans la cuisine, même mécanisme que H14-7) · H18-6 (silence en début de vocal, même mécanisme que H11-1). Écartées au départage : H11-4, H11-6, H20-7, H20-10, H8-14.
 > `[Framework : PAS allégé (Problème : la carte standard « Bonne fête maman » et le texto copié-collé, Agitation : le même message que tous les autres enfants, Solution : un texte par moment de la journée, où le rire tombe sur toi)]` · `[Conscience : Solution-Aware, le lecteur sait qu'il veut un message drôle et tendre, il cherche un texte prêt à envoyer]`
 
 ## Métadonnées
 
 - **slug** : `message-drole-fete-des-meres`
-- **title** (50 car.) : Message drôle fête des mères : 20 textes à envoyer
-- **metaDescription** (145 car.) : 20 messages drôles pour la fête des mères à copier-coller : carte, cadeau, appel, repas, message de loin. Le rire tombe sur toi, jamais sur elle.
-- **excerpt** : Un message drôle pour la fête des mères, c'est une ou deux phrases où le rire tombe sur toi et un mot sincère qui reste. Voici 20 textes à copier-coller selon le moment (la carte, le cadeau, l'appel, le repas, le message de loin), avec le support conseillé pour chacun.
+- **title** (50 car.) : Message drôle fête des mères : 23 textes à envoyer
+- **metaDescription** (145 car.) : 23 messages drôles pour la fête des mères à copier-coller : carte, cadeau, appel, repas, message de loin. Le rire tombe sur toi, jamais sur elle.
+- **excerpt** : Un message drôle pour la fête des mères, c'est une ou deux phrases où le rire tombe sur toi et un mot sincère qui reste. Voici 23 textes à copier-coller selon le moment (la carte, le cadeau, l'appel, le repas, le message de loin), avec le support conseillé pour chacun.
 - **mot-clé principal** : message drôle fête des mères
 - **mots-clés secondaires** : texte fête des mères humoristique ; carte fête des mères drôle ; mot drôle fête des mères
 - **date de publication** : 2027-04-22 (jeudi) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes · **fête visée** : dimanche 30/05/2027 (38 jours après la publication)
 - **category** : CATALOGUE · **readingTime** : 6 min
 - **liens internes** (13) : `/vannes/theme/famille` · `/vannes/theme/autoderision` · `/parcours/confiance` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/message-anniversaire-drole-par-situation` (A1, publié le 22/10/2026, **à vérifier présent en base avant intégration**) · `/blog/timing-humour` · `/blog/phrases-droles-conversations` · `/blog/meilleures-blagues-droles-2026`. Le lien vers S8 demandé au brief n'est pas posé : slug non fourni dans les sources de cette tâche, à ajouter par @seo.
 - **cannibalisation** : reprend l'angle « parents » de A1 sous un seul jour, la fête des mères, avec lien vers A1 pour l'anniversaire. Ne vise ni « message anniversaire » (A1), ni « fête des pères » (article conditionnel à J+21), ni « blagues pour enfants », ni « poème ». Angle propre : le message de l'enfant, par moment (carte, cadeau, appel, repas, message de loin).
-- **décisions appliquées** : le rire tombe toujours sur l'enfant qui écrit, jamais sur la mère (âge, cuisine, physique, maîtrise du téléphone exclus) ; zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro tiret cadratin ; tutoiement ; zéro chiffre inventé (le « 20 » est le nombre de lignes) ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas) ; le jour peut être difficile pour certains : règle 5 et FAQ 3, sans forcer l'humour
+- **décisions appliquées** : le rire tombe toujours sur l'enfant qui écrit, jamais sur la mère (âge, cuisine, physique, maîtrise du téléphone exclus) ; zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support ; « Post-it » du brouillon remplacé par « note adhésive ») ; zéro tiret cadratin ; tutoiement ; zéro chiffre inventé (le « 23 » du title, de la metaDescription, de l'excerpt et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas) ; le jour peut être difficile pour certains : règle 5 et FAQ 3, sans forcer l'humour ; plusieurs lignes (2, 6, 7, 14, 15, 21, 22, 23) sont à adapter à la vraie situation du lecteur, l'indication d'usage le dit
 - **vannes catalogue reprises** : aucune (les vannes validées sont des anecdotes racontées, pas des messages à envoyer)
 - **objections traitées** : « je vais la vexer » (règle 1 + FAQ 1) ; « je n'ai pas d'idée et pas le temps » (textes prêts à copier) ; « un message drôle fait-il froid ? » (FAQ 2) ; « et si ce jour est difficile ? » (règle 5 + FAQ 3) ; « même message pour une grand-mère ou une belle-mère ? » (FAQ 4)
-- **contenu propriétaire** : 20 lignes inédites triées à l'aveugle, indication de support et de moment pour chacune, 5 règles de personnalisation
+- **contenu propriétaire** : 23 lignes inédites triées à l'aveugle, indication de support et de moment pour chacune, 5 règles de personnalisation
 - **ancres du sommaire** (slug = minuscules, sans accent ni ponctuation, espaces et apostrophes en tirets, comme l'étalon) : à vérifier par @fullstack à l'intégration
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page
+
+---
+
+## CTA (pour blog-cta.ts)
+
+> À reporter à la main dans `apps/web/src/config/blog-cta.ts`, entrée `"message-drole-fete-des-meres"`. Sans cette entrée, le CTA ne s'affiche qu'en bas de page. Non lu par l'import.
+
+- **title** : Le message est choisi. Reste à le dire à voix haute.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi oser le dire au téléphone ou à table, pas seulement l'écrire sur une carte.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.
 
 ---
 
@@ -29,7 +41,7 @@
 
 > **En bref :** Un message drôle pour la fête des mères tient en une ou deux phrases, fait rire sur toi (jamais sur ta mère, son âge, sa cuisine ou son physique) et finit par un mot vrai. Choisis-le selon le moment : la carte, le cadeau, l'appel, le repas ou le message de loin.
 
-Tu as une fête des mères à ne pas rater, et une carte du commerce qui dit « Bonne fête maman » comme celle de tous les autres. Le texto « bonne fête » est sûr, mais il ressemble à celui des autres enfants. Cet article te donne **20 messages drôles pour la fête des mères** à copier-coller, rangés selon le moment où tu les envoies.
+Tu as une fête des mères à ne pas rater, et une carte du commerce qui dit « Bonne fête maman » comme celle de tous les autres. Le texto « bonne fête » est sûr, mais il ressemble à celui des autres enfants. Cet article te donne **23 messages drôles pour la fête des mères** à copier-coller, rangés selon le moment où tu les envoies.
 
 Chaque message tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'utiliser. Il te reste à changer ce qui ne te ressemble pas et à ajouter un détail que ta mère et toi êtes seuls à connaître. Pour l'anniversaire d'un parent, qui suit d'autres règles, il y a [les messages d'anniversaire drôles](/blog/message-anniversaire-drole-par-situation).
 
@@ -41,17 +53,17 @@ Va direct à ton moment : [Carte](#que-mettre-de-drole-sur-la-carte-de-la-fete-d
 
 Une carte se garde, parfois pendant des années. Elle se lit lentement, de près, plusieurs fois. Garde donc une seule phrase drôle, sur toi (ton écriture, ta carte du rayon, ton retard), et laisse le reste sincère.
 
-**1.** [H1]
-*→ Au centre de la carte papier, juste après « Bonne fête maman ». À la main, en une seule ligne, sans rature.*
+**1.** Bonne fête maman. Au rayon, il restait une seule carte « meilleure maman du monde ». Je l'ai prise avant qu'un autre enfant la voie.
+*→ Au centre de la carte papier, en ouverture : la formule de vœux est déjà dans la phrase. À la main, sans rature.*
 
-**2.** [H2]
-*→ En P.-S., sous ta signature. Écris-le plus petit que le reste : le « P.-S. » fait le travail.*
+**2.** P.-S. : j'ai écrit avec ton stylo. Celui que tu cherches depuis 2009.
+*→ Sous ta signature, plus petit que le reste. Le « P.-S. » est déjà dans la phrase : ne l'écris pas deux fois. Change l'année si tu en connais une plus juste.*
 
-**3.** [H3]
-*→ Sur une carte postée. Envoie-la au moins cinq jours avant la fête : une carte qui arrive à temps fait plus d'effet que la plus belle phrase.*
+**3.** Cette carte voyage en trois jours. Moi, quand je dis « je passe te voir », ça prend trois mois.
+*→ Sur une carte postée. Poste-la au moins cinq jours avant la fête : une carte qui arrive à temps fait plus d'effet que la plus belle phrase.*
 
-**4.** [H4]
-*→ À l'intérieur d'une carte faite à la main. Passe ton temps sur la découpe, pas sur la phrase : une ligne suffit.*
+**4.** Tu as le cœur numéro quatre. Il est de travers, mais les trois premiers étaient pires.
+*→ À l'intérieur d'une carte faite à la main, à côté du cœur découpé. Passe ton temps sur la découpe, pas sur la phrase : une ligne suffit.*
 
 Pour comprendre pourquoi une chute courte tombe mieux qu'une chute expliquée, [le timing de l'humour](/blog/timing-humour) donne le principe. Et pour le reste de la famille : [les blagues de famille](/vannes/theme/famille).
 
@@ -61,17 +73,17 @@ Pour comprendre pourquoi une chute courte tombe mieux qu'une chute expliquée, [
 
 Le mot qui accompagne le cadeau est le plus lu de la journée : on l'ouvre en même temps que le paquet. Tu peux rire de ton cadeau, de ton emballage ou de ta lenteur à choisir. Jamais du goût de ta mère, ni de ce qu'elle aurait voulu.
 
-**5.** [H5]
+**5.** En janvier, j'ai ouvert une note « idées cadeau maman ». Elle contient un seul mot : « quelque chose ». Voici quelque chose.
 *→ Sur la carte attachée au cadeau, quand ta mère t'a répondu « rien » à ta question. Écris-le avant d'emballer, pas après.*
 
-**6.** [H6]
-*→ Sur la carte commune d'un cadeau partagé. Valable si les autres donateurs ont le même humour : relis-leur la phrase avant d'écrire.*
+**6.** J'ai relu mes cadeaux des dix dernières années. Le foulard bleu y est deux fois. Celui-ci est vert, j'ai progressé.
+*→ Sur la carte du cadeau, seulement si tu as déjà offert deux fois le même objet. Remplace « foulard » et les couleurs par les vrais, sinon la phrase sonne faux.*
 
-**7.** [H7]
-*→ Par SMS ou WhatsApp, quand le cadeau ne sera pas là à temps. Envoie-le dès que tu le sais, avant qu'elle s'inquiète.*
+**7.** Ton cadeau arrive lundi. Je suis venu dimanche. C'est la première fois que j'arrive avant un colis.
+*→ À voix haute en arrivant, ou sur un mot posé sur la table, quand ton colis a du retard et que tu viens en personne. Sinon, choisis une autre ligne.*
 
-**8.** [H8]
-*→ Sur un Post-it collé sur le paquet. Une seule ligne, lisible à un mètre.*
+**8.** Tes paquets avaient des coins nets. Les miens ont des coins.
+*→ Sur une note adhésive collée sur le paquet. Une seule ligne, lisible à un mètre.*
 
 Pour rire de tes propres ratés sans te rabaisser, [les blagues d'autodérision](/vannes/theme/autoderision) sont le bon terrain d'entraînement.
 
@@ -81,19 +93,22 @@ Pour rire de tes propres ratés sans te rabaisser, [les blagues d'autodérision]
 
 Au téléphone, tout se joue dans les dix premières secondes : un parent qui voit ton nom s'afficher se demande d'abord s'il y a un problème. Rassure-la avec une phrase drôle, où c'est toi qui es pris en défaut, puis laisse venir le mot sincère.
 
-**9.** [H9]
+**9.** Maman, je t'appelle sans aucune question. J'ai cherché, pas une. Bonne fête.
 *→ Dans les premières secondes de l'appel, avant qu'elle ait le temps de s'inquiéter. Dis-le d'une voix calme, sans rire.*
 
-**10.** [H10]
+**10.** On ne sait pas se parler face à face, nous. On a toujours parlé en cuisine, en épluchant. Je vais chercher des carottes.
 *→ Pendant un appel vidéo, une fois l'image installée. Dis-le tel quel, en regardant la caméra.*
 
-**11.** [H11]
-*→ Sur le répondeur, ou en vocal si elle ne décroche pas. Parle lentement et garde les silences : ils font partie de la ligne.*
+**11.** Salut maman, c'est moi. Je n'avais pas prévu de tomber sur ton répondeur, donc je n'ai rien préparé. Voici un silence de quatre secondes. Bonne fête.
+*→ Sur le répondeur, ou en vocal si elle ne décroche pas. Fais vraiment le silence de quatre secondes : il fait partie de la ligne.*
 
-**12.** [H12]
-*→ À la fin de l'appel, quand le « bon, je te laisse » est déjà dit. Garde-la pour le dernier mot.*
+**12.** Ceci est un message un peu sentimental. Écoute-le seule. Je ne l'évoquerai pas au repas.
+*→ En vocal, dans votre conversation à deux (pas dans le groupe de la famille), si vous vous voyez plus tard dans la journée. Parle doucement, sans sourire.*
 
-Si l'idée de passer l'appel te fait hésiter, le [parcours Confiance](/parcours/confiance) est fait pour ça : 20 minutes par semaine pour oser dire le premier mot.
+**13.** J'avais un truc important à te dire. On a parlé des horaires de la déchetterie. Alors voilà, d'un coup : merci.
+*→ À la fin de l'appel, quand le « bon, je te laisse » est déjà dit. Dis « merci » sans ralentir : la surprise fait la chute.*
+
+Si l'idée de passer l'appel te fait hésiter, le [parcours Confiance](/parcours/confiance) est fait pour ça : 20 minutes par semaine pour oser dire le premier mot. Et pour t'entraîner à rire de toi avec douceur : [les blagues d'autodérision](/vannes/theme/autoderision).
 
 ---
 
@@ -101,17 +116,23 @@ Si l'idée de passer l'appel te fait hésiter, le [parcours Confiance](/parcours
 
 À table, tout le monde écoute, y compris les autres enfants. Une seule phrase, une seule chute, et toujours à ta charge : ton dessert, ton aide en cuisine, ton appétit. Les plats, la cuisine ou les manières de ta mère ne sont jamais le sujet.
 
-**13.** [H13]
-*→ À la porte, en arrivant, avant d'enlever ton manteau. Dis-le avec le paquet encore dans les mains.*
+**14.** Dans le tram, j'ai dû choisir entre les fleurs et le gâteau. Les fleurs ont compris.
+*→ À la porte, en arrivant, avec les fleurs et le gâteau encore dans les mains. Remplace « tram » par ton vrai moyen de transport.*
 
-**14.** [H14]
+**15.** Je suis arrivé en avance. J'ai fait trois fois le tour du pâté de maisons pour ne pas sonner trop tôt. À la troisième, tu m'as fait signe.
+*→ Une fois assis, comme une confidence, avec le ton de celui qui raconte son trajet. Garde-la seulement si tu étais vraiment en avance.*
+
+**16.** J'ai ouvert quatre placards pour trouver un verre. Dans la cuisine où j'ai grandi.
 *→ En entrant dans la cuisine ou au moment de débarrasser. Dis-le sur le ton de celui qui connaît déjà la réponse.*
 
-**15.** [H15]
-*→ Quand tu annonces le déjeuner au restaurant, par message avant le jour ou à voix haute à l'arrivée.*
+**17.** Je débarrasse en un seul voyage, comme tu m'as appris. Je le dis avant le bruit.
+*→ Au moment de débarrasser, les assiettes déjà en équilibre dans les mains. Dis-le avant de bouger, pas après.*
 
-**16.** [H16]
-*→ À table, au dessert ou juste avant de partir. Dis-le à mi-voix : la ligne est plus drôle quand elle est presque confidentielle.*
+**18.** Au retour des toilettes, je me suis assis à la mauvaise table. Tu m'as fait signe de loin, comme à la sortie de l'école.
+*→ Au restaurant, une fois revenu à ta place. Dis-le sur le ton de celui qui avoue, sans le jouer.*
+
+**19.** En arrivant, j'ai dit « je n'ai pas très faim ». Tu as répondu « on verra ». On a vu.
+*→ À table, au dessert, devant ton assiette vide. Dis-le à mi-voix : la ligne est plus drôle quand elle est presque confidentielle.*
 
 Il y aura bientôt un autre repas de famille : [les blagues de famille](/vannes/theme/famille) t'attendent avec leur chute et leur décryptage.
 
@@ -121,17 +142,17 @@ Il y aura bientôt un autre repas de famille : [les blagues de famille](/vannes/
 
 À distance, ton message est tout ce qu'elle a de toi ce jour-là. Un mot drôle suffit à te rendre présent, à condition de rester court. Ensuite, laisse la place à une phrase vraie.
 
-**17.** [H17]
-*→ En premier message de la matinée, sur WhatsApp ou par SMS. Envoie-le avant dix heures, seul, sans enchaîner sur autre chose.*
+**20.** Bonne fête mamam. J'ai vu la faute après l'envoi. Je la laisse, c'est la même qu'à l'école.
+*→ En premier message de la matinée, sur WhatsApp ou par SMS. Envoie-le avant dix heures, seul, avec la faute : sans elle, la ligne ne marche plus.*
 
-**18.** [H18]
-*→ En vocal, dans la conversation avec ta mère (pas dans le groupe de la famille). Dis-le d'une traite, sans reprendre.*
+**21.** Voici une photo de mon frigo. Ton dernier mot est dessus, bien en vue. C'est la seule chose rangée chez moi.
+*→ En message avec la photo jointe, seulement si un mot d'elle est vraiment sur ton frigo. Écris la ligne d'abord, joins la photo ensuite.*
 
-**19.** [H19]
-*→ En message avec une photo jointe. Écris la ligne d'abord, joins la photo ensuite.*
+**22.** Tu avais raison pour le manteau. Pour le reste aussi, mais je commence petit.
+*→ En dernière ligne d'un message, après ta phrase drôle, seule sur sa ligne. Remplace « le manteau » par le conseil qu'elle te répète vraiment.*
 
-**20.** [H20]
-*→ En dernière ligne de n'importe quel message de cette page, après la phrase drôle. Place-la seule, sur sa propre ligne.*
+**23.** Je ne sais pas écrire les belles phrases. Je sais en revanche ton numéro de fixe par cœur. C'est mon poème.
+*→ En clôture d'un message ou d'une carte, sur sa propre ligne. Si elle n'a pas de fixe, remplace-le par un numéro que tu connais vraiment par cœur.*
 
 Écrire le premier mot demande un peu de courage. Si tu veux t'entraîner avant dimanche, [les blagues d'autodérision](/vannes/theme/autoderision) te donnent de quoi rire de toi avec douceur.
 
@@ -157,7 +178,7 @@ Si tu cherches un autre format que la fête des mères, [les 50 blagues drôles 
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste du catalogue, lui, ne change pas : [toutes les vannes](/vannes) sont rangées par situation.
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
 
 Tu préfères choisir ton terrain ?
 - [Famille](/vannes/theme/famille)

@@ -62,4 +62,39 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
     primaryLabel: "Créer mon compte gratuit",
     note: "Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.",
   },
+  // Article à forte frappe s14 (B1-refuser-une-invitation-avec-humour.md).
+  "refuser-une-invitation-avec-humour": {
+    title: "Le refus est parti. Reste la relance en face.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver la bonne phrase aussi à l'oral, quand on te redemande en face, pas seulement par écrit.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les réponses de cette page restent en accès libre, compte ou pas.",
+  },
+  // Article à forte frappe s14 (B3-mot-de-depart-collegue.md).
+  "mot-de-depart-collegue-drole": {
+    title: "Le mot est écrit. Reste le pot.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi t'entraîner à la répartie pour le pot, pas seulement pour la carte.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte bancaire. Les textes de cette page restent en accès libre, compte ou pas.",
+  },
+  // Article à forte frappe s14 (B4-message-drole-fete-des-meres.md).
+  "message-drole-fete-des-meres": {
+    title: "Le message est choisi. Reste à le dire à voix haute.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi oser le dire au téléphone ou à table, pas seulement l'écrire sur une carte.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.",
+  },
+  // Article à forte frappe s14 (B5-message-drole-fete-des-peres.md).
+  "message-drole-fete-des-peres": {
+    title: "Le message est prêt. Reste à le dire en face.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi oser la phrase à voix haute, au téléphone ou à table, pas seulement par SMS.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.",
+  },
+  // Article à forte frappe s14 (B6-blagues-vacances-entre-amis.md).
+  "blagues-vacances-ete-entre-amis": {
+    title: "Les vannes sont prêtes. Reste à oser les sortir.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance : de quoi sortir ta vanne devant tout le groupe sans la relire dix fois.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.",
+  },
 };

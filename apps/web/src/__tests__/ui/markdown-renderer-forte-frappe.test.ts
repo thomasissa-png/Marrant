@@ -46,7 +46,7 @@ describe("A3 importé : titre « **N. Situation** » puis message en blockquote"
   const html = renderMarkdown(content, { shareJokes: true });
 
   it("un emplacement par message, ancré sur son titre", () => {
-    expect(slots(html).map((s) => s.n)).toEqual(Array.from({ length: 14 }, (_, i) => i + 1));
+    expect(slots(html).map((s) => s.n)).toEqual(Array.from({ length: 18 }, (_, i) => i + 1)); // 18 depuis le découpage « un message par numéro » (05/10)
     expect(html).toContain('<div id="vanne-1" class="flow-root scroll-mt-20"><span data-share-vanne="1"');
     // Le titre de situation reste affiché, le message reste un blockquote.
     expect(html).toMatch(/<div id="vanne-1"[^]*?Sa bio dit[^]*?<blockquote[^]*?Le dimanche, tout est fermé\.[^]*?<\/blockquote><\/div>/);
@@ -56,7 +56,7 @@ describe("A3 importé : titre « **N. Situation** » puis message en blockquote"
     const texts = slots(html).map((s) => s.text);
     expect(texts[0]).toBe("Le dimanche, tout est fermé. J'ai déjà remplacé le citron par du vinaigre. Les invités ont été très polis.");
     expect(texts[1]).toBe("Ma dernière blague en réunion a reçu un “merci pour l'info”.");
-    expect(texts[12]).toBe("“Plus tard”, j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps.");
+    expect(texts).toContain("“Plus tard”, j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps.");
     for (const text of texts) expect(text).not.toMatch(/^>|^\d|«|»|\*/);
   });
 

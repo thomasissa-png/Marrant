@@ -1,27 +1,39 @@
 # B1 : refuser une invitation avec humour (publication jeudi 19/11/2026)
 
-> Statut : BROUILLON, 20 emplacements `[H1]` à `[H20]` à remplir depuis `B1-candidates.md` (6 candidates inédites par emplacement, `Hn-1` à `Hn-6`). Rien de publié, rien de commité. Format : A1 (`A1-message-anniversaire-drole.md`). Étalon de recette : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°8. Barre : environ 10 % des candidates passent, un emplacement sans ligne retenue est supprimé (comme H7, H11, H14, H19 dans A1) et le nombre `[N]` est mis à jour partout.
-> **Ids utilisés** : à renseigner après relecture à l'aveugle.
+> Statut : final, répliques validées à l'aveugle (deux vagues, départage dans `B1-departage.md` et `B1v2-departage.md`). Non publié, non commité. 21 lignes, recopiées mot pour mot depuis `B1-candidates.md` et `B1-candidates-vague2.md`. Format : A1 (`A1-message-anniversaire-drole.md`). Étalon de recette : `meilleures-blagues-droles-2026`. Brief : `docs/growth/articles-forte-frappe-s14.md`, section 2, n°8.
+> **Ids utilisés (21)** : vague 1 : H2-1, H2-3, H3-2, H6-5, H12-6, H14-1, H15-4, H16-4 · vague 2 : H4-7, H4-8, H5-9, H7-8, H10-8, H11-7, H11-11, H13-10, H17-11, H18-9, H18-11, H19-10, H20-13. Emplacements sans ligne retenue, supprimés : H1, H9 (leurs lignes retenues sont en réserve, voir ci-dessous).
+> **Réserve (6, retenues à l'aveugle mais écartées de l'article pour mécanisme redondant)** : H1-5 et H9-2 (même ressort que H13-10 : « je te préviens maintenant, sinon je t'écris un désolé tardif »), H10-7 (même ressort que H10-8 : l'absence devient un arrangement de table), H10-9 (même ressort que H11-7 : on devance la réplique de l'autre), H12-4 (même ressort que H12-6 : on passe en fin de repas avec un rôle pratique), H18-8 (même ressort que H18-9 : durée de présence chiffrée). À réutiliser pour une mise à jour (ajout réel de lignes, `updatedAt`) ou un autre article.
 > `[Framework : PAS allégé (Problème : dire non sans vexer et sans s'inventer une excuse, Agitation : le « peut-être » qui traîne, le message d'excuses de trois paragraphes, la fausse raison qu'on retrouve, Solution : une réponse courte par situation, prête à envoyer, avec une variante sans humour)]` · `[Conscience : Solution-Aware, le lecteur sait qu'il veut refuser avec légèreté, il cherche le texte prêt à envoyer]`
 
 ## Métadonnées
 
 - **slug** : `refuser-une-invitation-avec-humour`
-- **title** (56 car. avec `[N]` à un chiffre, 57 à deux chiffres, max 60) : Refuser une invitation avec humour : [N] réponses prêtes
-- **metaDescription** : [N] réponses drôles pour refuser une invitation sans vexer : soirée d'un pote, pot de boulot, repas de famille, groupe WhatsApp. À copier-coller.
-- **excerpt** : Refuser une invitation avec humour, c'est dire non vite, sans excuse inventée, en riant de toi ou de la situation. Voici [N] réponses à copier-coller selon le cas (soirée d'un pote, pot de boulot, repas de famille, groupe WhatsApp, « t'es sûr de pas venir ? »), avec le support conseillé et une variante sans humour pour chaque situation.
+- **title** (55 car., max 60) : Refuser une invitation avec humour : 21 réponses prêtes
+- **metaDescription** (144 car., max 155) : 21 réponses drôles pour refuser une invitation sans vexer : soirée d'un pote, pot de boulot, repas de famille, groupe WhatsApp. À copier-coller.
+- **excerpt** : Refuser une invitation avec humour, c'est dire non vite, sans excuse inventée, en riant de toi ou de la situation. Voici 21 réponses à copier-coller selon le cas (soirée d'un pote, pot de boulot, repas de famille, groupe WhatsApp, « t'es sûr de pas venir ? »), avec le support conseillé et une variante sans humour pour chaque situation.
 - **mot-clé principal** : refuser une invitation avec humour
 - **mots-clés secondaires** : excuse drôle annuler soirée ; refuser une invitation sans vexer ; message pour refuser une invitation
 - **date de publication** : 2026-11-19 (jeudi, date imposée par la demande ; le calendrier growth prévoyait le 26/11) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes
 - **category** : CATALOGUE · **readingTime** : 6 min
 - **liens internes** (15, tous existants, mêmes cibles que A1) : `/vannes/theme/soirees` · `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/autoderision` · `/parcours/machine-a-cafe` · `/parcours/confiance` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/phrases-droles-conversations` · `/blog/timing-humour` · `/blog/meilleures-blagues-droles-2026`
-- **cannibalisation** : ne vise ni « timide » ni alcool ni « phrases drôles » (lien vers `phrases-droles-conversations`). Angle propre : la réponse écrite ou dite pour dire non, par situation, avec le rire sur soi. Les articles `rester-muet-en-groupe`, `timidite-et-humour` et S12 ne sont pas liés (existence non vérifiée dans cette session) : @seo peut ajouter un lien croisé.
-- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro chiffre inventé (le `[N]` du title, de l'excerpt, de la metaDescription et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucun rire sur l'invitation, la personne qui invite ou les autres invités ; aucune fausse excuse proposée, la règle 3 les déconseille ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas)
+- **cannibalisation** : ne vise ni « timide » ni alcool ni « phrases drôles » (lien vers `phrases-droles-conversations`). Angle propre : la réponse écrite ou dite pour dire non, par situation, avec le rire sur soi. Les articles `rester-muet-en-groupe`, `timidite-et-humour` et S12 ne sont pas liés (existence non vérifiée) : @seo peut ajouter un lien croisé.
+- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro chiffre inventé (le « 21 » du title, de l'excerpt, de la metaDescription et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucun rire sur l'invitation, la personne qui invite ou les autres invités ; aucune fausse excuse proposée, la règle 3 les déconseille ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, aucune promesse de nouveauté sur le reste du catalogue) ; les lignes sont recopiées telles que validées à l'aveugle (jour « samedi », « dimanche » ou « ce soir » inclus) : l'indication d'usage dit quoi adapter
 - **vannes catalogue reprises** : aucune (les vannes validées sont des anecdotes racontées, pas des refus à envoyer)
 - **objections traitées** : « je vais vexer / passer pour un ours » (règle 2 + FAQ 4) ; « je n'ai pas de bonne excuse et je ne veux pas mentir » (règle 3 + FAQ 1) ; « mon manager va lire » (situation 2 + FAQ 3) ; « je préviens trop tard » (situation 1 + FAQ 2) ; « il insiste » (situation 5)
-- **contenu propriétaire** : [N] lignes inédites triées à l'aveugle, support et moment pour chacune, une variante sans humour par situation, 4 règles
+- **contenu propriétaire** : 21 lignes inédites triées à l'aveugle, support et moment pour chacune, une variante sans humour par situation, 4 règles
 - **ancres du sommaire** (slug = minuscules, sans accent ni ponctuation, espaces et apostrophes en tirets, comme l'étalon) : à vérifier par @fullstack à l'intégration
 - **rappel FAQPage** : les 4 questions de la fin sont visibles dans la page
+
+---
+
+## CTA (pour blog-cta.ts)
+
+> À reporter à la main dans `apps/web/src/config/blog-cta.ts`, entrée `"refuser-une-invitation-avec-humour"`. Sans cette entrée, le CTA ne s'affiche qu'en bas de page. Non lu par l'import.
+
+- **title** : Le refus est parti. Reste la relance en face.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver la bonne phrase aussi à l'oral, quand on te redemande en face, pas seulement par écrit.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les réponses de cette page restent en accès libre, compte ou pas.
 
 ---
 
@@ -29,7 +41,7 @@
 
 > **En bref :** Refuser une invitation avec humour, c'est dire non vite, sans excuse inventée, et faire rire sur toi ou sur la situation (jamais sur l'invitation ni sur la personne qui invite). Une ou deux phrases suffisent, adaptées au support : message, vocal, mot à la machine à café.
 
-Tu as reçu une invitation que tu ne vas pas honorer. Le « désolé, je ne peux pas » est sûr, mais il est plat, et le « on verra » est pire. Cet article te donne **[N] réponses drôles pour refuser une invitation** à copier-coller, rangées selon la situation.
+Tu as reçu une invitation que tu ne vas pas honorer. Le « désolé, je ne peux pas » est sûr, mais il est plat, et le « on verra » est pire. Cet article te donne **21 réponses drôles pour refuser une invitation** à copier-coller, rangées selon la situation.
 
 Chaque réponse tient en une ou deux phrases. Après chacune, une ligne en italique te dit où et quand l'envoyer. À la fin de chaque situation, une variante sans humour, pour les jours où le rire n'est pas le bon outil. Il te reste à changer le jour et, si tu en as un, à ajouter un détail que toi seul connais.
 
@@ -41,17 +53,20 @@ Va direct à ta situation : [Soirée d'un pote](#comment-refuser-la-soiree-d-un-
 
 Avec un pote, tu peux jouer franc. La seule règle, c'est que le rire reste à ta charge : tu t'accuses de tout, sauf de ne pas tenir à lui. Et plus tu préviens tôt, plus la blague passe.
 
-**1.** [H1]
-*→ [support et moment à écrire selon la ligne retenue]*
+**1.** Je suis au pied de l'immeuble. Du mien. Je ne viens pas ce soir, pardon.
+*→ WhatsApp, le jour même, dès que tu sais. Envoie-le seul et garde le « pardon » sincère : pas d'explication derrière.*
 
-**2.** [H2]
-*→ [support et moment à écrire selon la ligne retenue]*
+**2.** Annonce de dernière minute : je ne viens pas. J'ai tout fait pour y croire, j'ai même sorti une chemise.
+*→ WhatsApp, le jour même, seulement si tu as vraiment hésité : la phrase doit rester vraie. Remplace « une chemise » par ce que tu as réellement sorti.*
 
-**3.** [H3]
-*→ [support et moment à écrire selon la ligne retenue]*
+**3.** Je ne viens pas samedi. J'ai refait ce vocal trois fois pour avoir l'air moins content de rester chez moi. Je garde la troisième.
+*→ En vocal uniquement, d'une voix posée : par écrit, « ce vocal » ne veut plus rien dire. Une seule prise, sans rire à la fin.*
 
-**4.** [H4]
-*→ [support et moment à écrire selon la ligne retenue]*
+**4.** Je ne viens pas samedi. Pour me faire pardonner, je te rends enfin ton escabeau. Je l'ai depuis ton déménagement.
+*→ WhatsApp, quelques jours avant, seulement si tu as vraiment un objet à rendre : change l'escabeau pour le tien, et propose le jour où tu le rapportes.*
+
+**5.** Je ne viens pas samedi. Dimanche, je passe avec des croissants, et je sonne très doucement.
+*→ En fin de message d'invitation refusée, seulement si tu passes vraiment dimanche. Confirme l'heure dans la foulée, pour que la promesse tienne.*
 
 *Variante sans humour :* Merci de m'avoir invité, ça me fait vraiment plaisir. Je ne pourrai pas venir samedi. Raconte-moi la soirée, et on se fait un café bientôt ?
 
@@ -63,17 +78,14 @@ Pour [améliorer ton timing](/blog/timing-humour), même à l'écrit, la phrase 
 
 Un message d'équipe passe sous les yeux de tout le monde, direction comprise. Reste sur toi (ta journée, ta présence), ne parle jamais du travail des autres ni de la soirée elle-même.
 
-**5.** [H5]
-*→ [support et moment à écrire selon la ligne retenue]*
+**6.** Je ne viens pas ce soir. Sur les photos de décembre, j'ai l'air d'attendre un train.
+*→ Dans le canal d'équipe, avant l'afterwork, sur une seule ligne. Avant d'envoyer, relis-le en imaginant ton manager derrière ton épaule.*
 
-**6.** [H6]
-*→ [support et moment à écrire selon la ligne retenue]*
+**7.** Je ne viens pas au pot, mais j'ai mis un point d'exclamation dans mon dernier mail pour toi. À mon échelle, c'est un bouquet.
+*→ Sur la carte du pot de départ ou en face à face, au collègue qui part, seulement si ton dernier mail en comporte un. Ajoute ensuite un vrai « merci » dit simplement.*
 
-**7.** [H7]
-*→ [support et moment à écrire selon la ligne retenue]*
-
-**8.** [H8]
-*→ [support et moment à écrire selon la ligne retenue]*
+**8.** Je ne viens pas au pot. Tu peux effacer mon nom : je suis sûr que tu l'avais écrit au crayon.
+*→ En message privé ou par mail à la personne qui compte les présents, sur une ligne. Envoie-le avant qu'elle commande.*
 
 *Variante sans humour :* Merci pour l'invitation, je ne serai pas là ce soir. Passez un bon moment, et à demain.
 
@@ -85,17 +97,17 @@ Si tu veux devenir celui ou celle qu'on attend à la machine à café, le [parco
 
 En famille, le refus fait plus de bruit qu'ailleurs : on le commentera. Garde le rire tendre, sur toi ou sur la situation (le dimanche, le téléphone, le dessert), jamais sur le menu ni sur ceux qui seront à table.
 
-**9.** [H9]
-*→ [support et moment à écrire selon la ligne retenue]*
+**9.** Je ne viens pas au repas. Mon absence fera un trou entre deux chaises. Mets-y le pain.
+*→ Par SMS ou message à la personne qui organise, quelques jours avant. Ajoute dans un second message un vrai merci pour l'invitation.*
 
-**10.** [H10]
-*→ [support et moment à écrire selon la ligne retenue]*
+**10.** À Noël. Je te le dis tôt pour que tu aies le temps de dire « c'est loin ».
+*→ Au téléphone, à voix haute, quand on te demande « tu viens quand ? ». Seulement si Noël est vraiment ta prochaine date, sinon change-la. Fais une pause avant « c'est loin ».*
 
-**11.** [H11]
-*→ [support et moment à écrire selon la ligne retenue]*
+**11.** Bientôt. J'ai même mis une alarme dans mon téléphone pour t'appeler et te dire « bientôt ».
+*→ Au téléphone aussi, d'une voix tranquille. Mets vraiment l'alarme : la phrase doit rester vraie.*
 
-**12.** [H12]
-*→ [support et moment à écrire selon la ligne retenue]*
+**12.** Je ne viens pas au repas, mais je passe après pour aider à ranger. Je ne sais pas faire la conversation, je sais où vont les assiettes.
+*→ Par message ou au téléphone, seulement si tu passes réellement après le repas. Donne ton heure d'arrivée, et range pour de bon.*
 
 *Variante sans humour :* Merci pour l'invitation, ça me fait plaisir que tu aies pensé à moi. Je ne pourrai pas être là dimanche. Je t'appelle dans la semaine pour avoir des nouvelles.
 
@@ -107,17 +119,17 @@ Il y aura un autre repas de famille : [les blagues de famille](/vannes/theme/fam
 
 Dans un groupe, ta réponse est lue par tous et l'organisateur compte les présents. Une bulle, une chute, et surtout une réponse claire : un silence coûte plus cher qu'un non.
 
-**13.** [H13]
-*→ [support et moment à écrire selon la ligne retenue]*
+**13.** Je ne viens pas samedi. Je vous écris maintenant : dans trois jours, j'aurais écrit « désolé, j'avais pas vu ».
+*→ Dans le groupe, en une seule bulle, dès que tu sais, en réponse à « Qui vient samedi ? ». Pas de seconde bulle pour t'expliquer.*
 
-**14.** [H14]
-*→ [support et moment à écrire selon la ligne retenue]*
+**14.** La première date me convenait, la deuxième aussi. La troisième, non. Je m'étais habitué à la deuxième.
+*→ Dans le groupe, après le dernier changement de date. Remercie la personne qui organise dans un message à part : la ligne seule ne vise que ta propre habitude.*
 
-**15.** [H15]
-*→ [support et moment à écrire selon la ligne retenue]*
+**15.** Tu as bien fait de relancer : j'avais classé ton message dans « je réponds ce soir ». Il y est depuis lundi. Je ne viens pas.
+*→ En message privé, juste après la relance de l'organisateur. Réponds dans l'heure : la phrase tient seulement si tu ne retardes plus.*
 
-**16.** [H16]
-*→ [support et moment à écrire selon la ligne retenue]*
+**16.** J'annule mon « oui ». Si besoin, je rembourse ma part de chips, au prorata de ce que j'aurais mangé.
+*→ Dans le groupe ou en privé, dès que tu changes d'avis. Si une somme a été avancée pour toi, rembourse-la pour de vrai.*
 
 *Variante sans humour :* Merci pour l'organisation ! Je ne pourrai pas venir cette fois. Bonne soirée à tous.
 
@@ -129,17 +141,20 @@ Pour rire de ton propre retard de réponse : [les blagues d'autodérision](/vann
 
 La première réponse était claire, la relance ne l'a pas effacée. Tu peux rester ferme, rester drôle et montrer que tu tiens à la personne : l'insistance est souvent une marque d'affection, pas un reproche.
 
-**17.** [H17]
-*→ [support et moment à écrire selon la ligne retenue]*
+**17.** Sûr. J'ai regardé la météo pour trouver une excuse. Il fait beau. Donc c'est moi.
+*→ À voix haute ou par message, à la première relance. Dis-le à plat et ne rajoute pas d'excuse derrière : la phrase vient justement de les écarter.*
 
-**18.** [H18]
-*→ [support et moment à écrire selon la ligne retenue]*
+**18.** Mon record de présence à une soirée, c'est quarante minutes. C'était chez moi.
+*→ À la relance « viens juste une heure ». À voix haute, avec une pause avant « C'était chez moi ». Par écrit, mets un point à cet endroit.*
 
-**19.** [H19]
-*→ [support et moment à écrire selon la ligne retenue]*
+**19.** Une heure, c'est assez pour qu'on me présente à quelqu'un. Après, je le croise dans la rue pendant des années.
+*→ À la deuxième relance aussi, plutôt à l'oral. Garde un ton tranquille et ne t'excuse pas.*
 
-**20.** [H20]
-*→ [support et moment à écrire selon la ligne retenue]*
+**20.** Tout le monde sera là ? Alors il n'y aura plus de place pour se garer. J'en ai une devant chez moi.
+*→ Quand on te dit « mais tout le monde sera là ! », seulement si tu as vraiment une place devant chez toi. Sinon, adapte au détail réel de ton quartier.*
+
+**21.** C'est non, avec la voix que j'ai pour refuser un sac à la caisse : douce et définitive.
+*→ En dernière réponse, après deux ou trois relances, à voix haute ou en vocal. Aucune phrase derrière : elle ferme la discussion.*
 
 *Variante sans humour :* Je suis sûr, et ça me touche que tu insistes. Je pense à vous, racontez-moi demain.
 
@@ -165,7 +180,7 @@ Si tu cherches un autre format que le refus, [les 50 blagues drôles par situati
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste du catalogue, lui, ne change pas : [toutes les vannes](/vannes) sont rangées par situation.
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
 
 Tu préfères choisir ton terrain ?
 - [Soirées](/vannes/theme/soirees)
