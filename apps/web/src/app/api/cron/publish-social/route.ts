@@ -392,6 +392,21 @@ export async function GET(req: Request) {
           });
           console.warn(`[PublishSocial] Rate limit 429 ${post.platform} — post ${post.id} FAILED, circuit breaker activé`);
 
+          // s15 cycle 6 (R4) : le blocage 24 h n'était signalé par aucun e-mail.
+          // 1 alerte par jour et par réseau (clé social-429-<réseau>).
+          try {
+            await sendDailyPublishFailureAlert(
+              `Publication ${post.platform} : Buffer limite les envois (429), réseau bloqué 24 h`,
+              `<p>Buffer a refusé un envoi sur <strong>${post.platform}</strong> (limite de débit, 429).</p>
+              <p>Post ${post.id} passé en FAILED ; les autres posts de ce réseau ne partent plus pendant 24 h, puis reprennent seuls.</p>
+              <p>Message exact : ${errMsg.slice(0, 300)}</p>`,
+              now,
+              `social-429-${post.platform.toLowerCase()}`,
+            );
+          } catch (alertErr) {
+            console.error(`[PublishSocial] Alerte 429 ${post.platform} non envoyée :`, alertErr);
+          }
+
           // Skip ALL remaining posts for this platform in this run
           queueFullPlatforms.add(post.platform as BufferPlatform);
 

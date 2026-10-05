@@ -205,6 +205,44 @@ describe("D1 : verrou d'alerte posé après l'envoi réussi", () => {
   });
 });
 
+describe("R4 (s15 cycle 6) : 429 Buffer = réseau bloqué 24 h, avec alerte", () => {
+  const BUFFER_429 = "Buffer API error 429: Too Many Requests";
+
+  it("envoie 1 alerte du réseau (clé social-429-<réseau>), en plus du FAILED", async () => {
+    mockCreateImagePost.mockRejectedValue(new Error(BUFFER_429));
+    await GET(req());
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "p1" },
+      data: { status: "FAILED", directorNote: "429 rate limit INSTAGRAM — circuit breaker 24h activé" },
+    });
+    expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
+    expect(mockSendAdminAlert.mock.calls[0][0]).toContain("INSTAGRAM");
+    expect(mockSendAdminAlert.mock.calls[0][0]).toContain("429");
+    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringMatching(/^social-429-instagram-\d{4}-\d{2}-\d{2}$/));
+  });
+
+  it("1 seule alerte par jour et par réseau ; un autre réseau a la sienne", async () => {
+    mockCreateImagePost.mockRejectedValue(new Error(BUFFER_429));
+    await GET(req());
+    postsAPublier(igPost);
+    await GET(req());
+    expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
+    mockCreatePost.mockRejectedValue(new Error(BUFFER_429));
+    postsAPublier({ ...igPost, id: "x1", platform: "TWITTER", format: "TWEET", content: "Court." });
+    await GET(req());
+    expect(mockSendAdminAlert).toHaveBeenCalledTimes(2);
+    expect(mockTryAcquireLock).toHaveBeenLastCalledWith(expect.stringMatching(/^social-429-twitter-/));
+  });
+
+  it("e-mail en échec : le passage continue (réponse 200, réseau bloqué)", async () => {
+    mockCreateImagePost.mockRejectedValue(new Error(BUFFER_429));
+    mockSendAdminAlert.mockRejectedValueOnce(new Error("Resend down"));
+    const res = await GET(req());
+    expect(res.status).toBe(200);
+    expect(mockTryAcquireLock).not.toHaveBeenCalled();
+  });
+});
+
 describe("interrupteur Pause / Reprise en base", () => {
   it("réseaux en pause exclus de la requête de publication (THREADS toujours exclu)", async () => {
     settings = actifs("LINKEDIN");

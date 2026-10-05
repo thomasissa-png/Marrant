@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026, soir) : correctifs QA cycle 6 (R1 longueur X, R4 alerte 429, insertion HTTP) @fullstack : À DÉPLOYER
+
+> Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé** (la session principale déploie). Aucune migration, aucun package, aucune variable d'env, aucun event Umami. Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK, Jest 3 026 PASS / 2 skipped (203 suites).
+> - **BLOQUANT, à déployer avant le 07/10 10:15 UTC (R1)** : `src/lib/social/buffer-client.ts`, `ensureContentLength` compte X comme X (`longueurX`, lien = 23, même fonction que la route) au lieu de la longueur brute ; s'applique aux 2 chemins (texte seul et avec image). Sans ce déploiement, le post X du 07/10 (quiz, 328 bruts, 244 comptés par X) passe en FAILED « Contenu trop long ». LinkedIn et Instagram : inchangés (longueur brute).
+> - **R4** : `publish-social`, un 429 Buffer (réseau bloqué 24 h) envoie maintenant une alerte, 1 par jour et par réseau (clé `social-429-<réseau>`, verrou existant) ; un e-mail en échec ne casse pas le passage.
+> - **Script d'insertion** (`scripts/content/social-lot-v5-insert.ts`, hors Worker) : en `--driver=neon-http`, `--insert` = UNE instruction `INSERT` multi-lignes (`$executeRaw`, enums castés, `text[]`, `createdAt`/`updatedAt` = `NOW()`) et `--rollback --confirmer` = UN `UPDATE` (même filtre). Vérifié : `updateMany` échouait AUSSI en HTTP (« Transactions are not supported in HTTP mode »). Pilote `tcp` inchangé. Reste à prouver `[LIVE]` sur une branche Neon avant le lot 1a du 09/10 : `--insert --driver=neon-http` puis `--rollback --lot <id> --confirmer`.
+> - **Après déploiement** : brouillon X réel (`saveToDraft`) du texte de `c2acdc88…` puis suppression (preuve R1, voir `docs/social/notation-relance-cycle6-qa.md`).
+
 ## s15 (05/10/2026, 21:45 Paris) : RÉSEAUX ROUVERTS, démarrage avancé au mar. 06/10 (Thomas : plan validé, « qu'est-ce qui ne va pas ? ») : FAIT par la session
 
 - **Aucun déploiement** (Worker inchangé : `0edcaee7-9e95-4b61-9acb-4c22ff8861f0`, N-1 `108da3e7-bac9-42fe-b6b1-71bedcd0143d`).

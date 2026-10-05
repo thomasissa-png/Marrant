@@ -13,7 +13,7 @@
  * `--rollback` : posts APPROVED non envoyés du lot passés en REJECTED (comptage avant, après).
  */
 import fs from "node:fs";
-import { PrismaClient, type SocialFormat, type SocialPlatform } from "@prisma/client";
+import { Prisma, PrismaClient, type SocialFormat, type SocialPlatform } from "@prisma/client";
 import { approvedByDuLot } from "./social-lot-v5-config";
 import { dateParis, lundiDe, parisVersUtc, ajouterJours } from "../../src/lib/social/heure-paris";
 import type { FichierLot, LigneLot } from "./social-lot-v5-export";
@@ -48,6 +48,29 @@ function donnees(p: LigneLot) {
     imageUrls: p.imageUrls, status: p.status, approvedBy: p.approvedBy, directorScore: p.directorScore, directorNote: p.directorNote,
     scheduledAt: new Date(p.scheduledAt),
   };
+}
+
+/** Colonnes de l'INSERT HTTP : celles de `donnees` + createdAt/updatedAt (pas de défaut en base pour @updatedAt). */
+export const COLONNES_INSERTION = [
+  "id", "platform", "format", "content", "hook", "cta", "hashtags", "targetPersona", "sourceType", "sourceId",
+  "threadParts", "imageUrls", "status", "approvedBy", "directorScore", "directorNote", "scheduledAt", "createdAt", "updatedAt",
+] as const;
+
+/**
+ * Pilote `neon-http` (s15 cycle 6) : `createMany` ouvre une transaction, refusée en HTTP.
+ * UNE instruction `INSERT` multi-lignes est atomique sans transaction (tout ou rien).
+ * Enums castés, tableaux en text[], scheduledAt en UTC explicite. Fonction pure.
+ */
+export function requeteInsertion(lignes: LigneLot[]): Prisma.Sql {
+  if (lignes.length === 0) throw new Error("Aucune ligne à insérer.");
+  const valeurs = lignes.map(donnees).map((d) => Prisma.sql`(${d.id}, CAST(${d.platform} AS "SocialPlatform"), CAST(${d.format} AS "SocialFormat"), ${d.content}, ${d.hook}, ${d.cta}, ${d.hashtags}::text[], ${d.targetPersona}, ${d.sourceType}, ${d.sourceId}, ${d.threadParts}::text[], ${d.imageUrls}::text[], CAST(${d.status} AS "SocialPostStatus"), ${d.approvedBy}, ${d.directorScore}::int, ${d.directorNote}, (${d.scheduledAt.toISOString()}::timestamptz AT TIME ZONE 'UTC'), NOW(), NOW())`);
+  const colonnes = Prisma.raw(COLONNES_INSERTION.map((c) => `"${c}"`).join(", "));
+  return Prisma.sql`INSERT INTO "SocialPost" (${colonnes}) VALUES ${Prisma.join(valeurs)}`;
+}
+
+/** Pilote `neon-http` : `updateMany` ouvre aussi une transaction ; même filtre que NON_ENVOYES, en un UPDATE. Fonction pure. */
+export function requeteAnnulation(approvedBy: string, note: string): Prisma.Sql {
+  return Prisma.sql`UPDATE "SocialPost" SET "status" = CAST('REJECTED' AS "SocialPostStatus"), "directorNote" = ${note}, "updatedAt" = NOW() WHERE "approvedBy" = ${approvedBy} AND "status" = CAST('APPROVED' AS "SocialPostStatus") AND "externalId" IS NULL AND "publishedAt" IS NULL`;
 }
 
 /** Bornes UTC d'un lot : minuit de Paris du début, minuit de Paris du lendemain de la fin. */
@@ -90,15 +113,19 @@ export async function insererLot(f: FichierLot, driver: Driver, url: string): Pr
       where: { platform: { in: reseaux }, scheduledAt: periode, status: { in: ["PENDING", "APPROVED", "PUBLISHED"] } },
     });
     if (autres > 0) throw new Error(`${autres} autre(s) post(s) actif(s) déjà prévu(s) sur la période (autre lot ?) : insertion refusée, voir --rollback.`);
-    // Une seule instruction (createMany) : tout ou rien, compatible avec l'adaptateur HTTP (pas de transaction interactive).
-    const res = await prisma.socialPost.createMany({ data: [...f.posts, ...replis].map(donnees) });
+    // Tout ou rien. TCP : createMany. HTTP : createMany ouvre une transaction (refusée,
+    // « Transactions are not supported in HTTP mode »), donc UNE instruction INSERT multi-lignes.
+    const lignes = [...f.posts, ...replis];
+    const n = driver === "neon-http"
+      ? await prisma.$executeRaw(requeteInsertion(lignes))
+      : (await prisma.socialPost.createMany({ data: lignes.map(donnees) })).count;
     // Contrôle après insertion : relecture en base, par réseau et par semaine (APPROVED), puis les replis.
     const lus = await prisma.socialPost.findMany({ where: { approvedBy: f.approvedBy, scheduledAt: periode, status: "APPROVED" }, select: { platform: true, scheduledAt: true } });
     const comptes = comptesParReseauSemaine(lus);
     const ecarts = ecartsInsertion(comptesParReseauSemaine(f.posts), comptes);
     const replisLus = await prisma.socialPost.count({ where: { approvedBy: f.approvedBy, status: "REJECTED", directorNote: { startsWith: "[repli-de:" } } });
     if (replisLus !== replis.length) ecarts.push(`replis en réserve : attendu ${replis.length}, inséré ${replisLus}`);
-    return { inseres: res.count - replis.length, ecarts, comptes };
+    return { inseres: n - replis.length, ecarts, comptes };
   } finally {
     await prisma.$disconnect();
   }
@@ -120,11 +147,12 @@ export async function annulerLot(lot: string, driver: Driver, url: string, confi
     const avant = await parStatut();
     const aAnnuler = await prisma.socialPost.count({ where: { approvedBy, ...NON_ENVOYES } });
     if (!confirmer) return { approvedBy, avant, aAnnuler, annules: 0, apres: avant };
-    const res = await prisma.socialPost.updateMany({
-      where: { approvedBy, ...NON_ENVOYES },
-      data: { status: "REJECTED", directorNote: `Lot ${lot} annulé (--rollback) le ${now.toISOString()}.` },
-    });
-    return { approvedBy, avant, aAnnuler, annules: res.count, apres: await parStatut() };
+    const note = `Lot ${lot} annulé (--rollback) le ${now.toISOString()}.`;
+    // HTTP : updateMany ouvre une transaction (refusée) ; un seul UPDATE, même filtre.
+    const annules = driver === "neon-http"
+      ? await prisma.$executeRaw(requeteAnnulation(approvedBy, note))
+      : (await prisma.socialPost.updateMany({ where: { approvedBy, ...NON_ENVOYES }, data: { status: "REJECTED", directorNote: note } })).count;
+    return { approvedBy, avant, aAnnuler, annules, apres: await parStatut() };
   } finally {
     await prisma.$disconnect();
   }

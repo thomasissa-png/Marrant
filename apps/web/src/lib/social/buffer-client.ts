@@ -15,6 +15,8 @@
 //   BUFFER_CHANNEL_INSTAGRAM  — Channel ID du profil Instagram dans Buffer
 // ───────────────────────────────────────────────────────────────────
 
+import { longueurX } from "./longueur-x";
+
 const BUFFER_API = "https://api.buffer.com";
 
 // ─── Types ──────────────────────────────────────────────────────
@@ -168,8 +170,10 @@ export class BufferContentTooLongError extends Error {
  */
 function ensureContentLength(platform: BufferPlatform, content: string): void {
   const limit = PLATFORM_HARD_LIMITS[platform];
-  if (content.length > limit) {
-    throw new BufferContentTooLongError(platform, content.length, limit);
+  // X compte un lien pour 23 caractères (s15) : même calcul que la route publish-social.
+  const n = platform === "TWITTER" ? longueurX(content) : content.length;
+  if (n > limit) {
+    throw new BufferContentTooLongError(platform, n, limit);
   }
 }
 
