@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : article « 50 blagues drôles », notation iter3, correctifs E1 à E3 @fullstack
+
+> Correctifs de `docs/growth/notation-article-blagues-2026-iter3.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun event Umami.
+> - **Déploiement normal**. Contenu inchangé (0 ligne) : slug, title, meta, H1, H2 et 50 vannes (empreinte SHA-256) intacts ; FAQ du JSON-LD toujours en texte brut.
+> - **Tous les articles (rendu seul)** : FAQ (questions et réponses) et titres des cartes Précédent / Suivant / « À lire ensuite » en typographie française (espace insécable avant ? ! : ; et après un nombre). `frTypo` ne pose jamais 2 insécables d'affilée.
+> - **Tous les articles (rendu seul)** : mot composé court (2 parties de 8 lettres max : Post-it, week-end, Wi-Fi) jamais coupé en fin de ligne, via un span `whitespace-nowrap`. Aucun caractère ajouté, texte visible et copier-coller identiques. Mesuré : 297 mots sur les 30 articles statiques, dont 14 dans cet article.
+> - **« À lire ensuite »** : 2 colonnes en desktop quand il n'y a que 2 cartes (3 sinon). Mobile inchangé. À vérifier après déploiement : captures m01, m03, m07 et desktop bas de page.
+
 ## s14 (05/10/2026) : article « 50 blagues drôles », notation iter2, correctifs D1 à D3 @fullstack
 
 > Correctifs de `docs/growth/notation-article-blagues-2026-iter2.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.

@@ -115,3 +115,49 @@ describe("Page article : « À lire ensuite » sans doublon (notation iter2, D1)
     }
   });
 });
+
+describe("Page article : typographie FAQ et cartes, grille ajustée (notation iter3, E1 et E3)", () => {
+  const NBSP = String.fromCharCode(0xa0);
+  const grid = (container: HTMLElement) =>
+    container.querySelector('[data-blog-zone="related"] .grid')!.className;
+
+  it("meilleures-blagues : FAQ en typographie française, « ? » jamais orphelin", async () => {
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    const questions = [...container.querySelectorAll("dt")].map((dt) => dt.textContent ?? "");
+    expect(questions.length).toBeGreaterThan(0);
+    expect(questions[0]).toBe(`Comment trouver des blagues drôles à raconter${NBSP}?`);
+    for (const text of [...questions, ...[...container.querySelectorAll("dd")].map((dd) => dd.textContent ?? "")]) {
+      expect(text).not.toMatch(/ [:;!?»]/);
+      expect(text).not.toContain(`${NBSP}${NBSP}`);
+    }
+  });
+
+  it("titres des cartes Précédent/Suivant et « À lire ensuite » passés dans frTypo", async () => {
+    const redirected = new Set<string>(REDIRECTED_BLOG_SLUGS);
+    for (const { slug } of blogArticles.filter((a) => !redirected.has(a.slug))) {
+      const { container, unmount } = await renderArticle(slug);
+      const titles = container.querySelectorAll(
+        '[data-blog-zone="cluster"] a p, [data-blog-zone="related"] a h3',
+      );
+      for (const t of titles) expect(t.textContent).not.toMatch(/ [:;!?»]|(\d) (?=[A-Za-zÀ-ÿ€%°])/);
+      unmount();
+    }
+  });
+
+  it("meilleures-blagues : 2 cartes « À lire ensuite » = 2 colonnes", async () => {
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    expect(container.querySelectorAll('[data-blog-zone="related"] a')).toHaveLength(2);
+    expect(grid(container)).toContain("sm:grid-cols-2");
+    expect(grid(container)).not.toContain("sm:grid-cols-3");
+  });
+
+  it("3 cartes « À lire ensuite » = 3 colonnes", async () => {
+    (prisma.blogArticle.findMany as jest.Mock).mockResolvedValueOnce([
+      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", publishedAt: new Date("2026-04-01") },
+    ]);
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    expect(container.querySelectorAll('[data-blog-zone="related"] a')).toHaveLength(3);
+    expect(grid(container)).toContain("sm:grid-cols-3");
+    expect(grid(container)).not.toContain("sm:grid-cols-2");
+  });
+});

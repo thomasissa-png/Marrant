@@ -8,13 +8,18 @@
 // Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
 const NBSP = String.fromCharCode(0xa0);
 
+// Idempotente : une insécable déjà présente (seule ou collée à une espace) donne
+// une seule insécable, jamais deux.
+const SPACES_BEFORE_PUNCT = new RegExp(`(?:${NBSP}* +${NBSP}*)([:;!?»])`, "g");
+const SPACES_AFTER_OPEN = new RegExp(`«(?:${NBSP}* +${NBSP}*)`, "g");
+
 export function frTypo(text: string): string {
   return (
     text
       // « mot : » ne se coupe plus avant la ponctuation haute
-      .replace(/ ([:;!?»])/g, `${NBSP}$1`)
+      .replace(SPACES_BEFORE_PUNCT, `${NBSP}$1`)
       // « mot » ne se coupe plus après le guillemet ouvrant
-      .replace(/« /g, `«${NBSP}`)
+      .replace(SPACES_AFTER_OPEN, `«${NBSP}`)
       // « 7 techniques », « 5 min » restent liés
       .replace(/(\d) (?=[A-Za-zÀ-ÿ€%°])/g, `$1${NBSP}`)
   );

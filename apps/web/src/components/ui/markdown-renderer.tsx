@@ -40,6 +40,11 @@ export interface RenderOptions {
 
 // Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
 const NBSP = String.fromCharCode(0xa0);
+// Mot composé de 2 parties courtes (8 lettres max chacune) : Post-it, week-end, petit-déj.
+// Classe de lettres explicite, sans \p{L} : tsconfig.build.json cible ES2017
+// (même convention que lib/learning-format.ts). Préfixe capturé au lieu d'un lookbehind.
+const L = "A-Za-zÀ-ÖØ-öø-ÿŒœ";
+const COMPOUND_RE = new RegExp(`(^|[^${L}-])([${L}]{1,8}-[${L}]{1,8})(?=[^${L}-]|$)`, "g");
 // Segments protégés : cible des liens « ](url) » et code inline `…` (jamais modifiés).
 const PROTECTED_RE = /(\]\([^)]*\)|`[^`]*`)/g;
 const PLACEHOLDER = String.fromCharCode(0);
@@ -122,7 +127,22 @@ function inlineMarkdown(text: string): string {
     /\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" class="text-accent-link hover:underline">$1</a>'
   );
-  return result;
+  return keepCompoundsTogether(result);
+}
+
+/**
+ * Mot composé court (Post-it, week-end, Wi-Fi) jamais coupé en fin de ligne :
+ * enveloppé dans un span nowrap (pas de caractère spécial : aucune dépendance à
+ * la police, le copier-coller garde le vrai trait d'union). Texte seul : les
+ * segments impairs du split sont des balises (href, class), laissées intactes.
+ */
+export function keepCompoundsTogether(html: string): string {
+  return html
+    .split(/(<[^>]*>)/)
+    .map((part, i) =>
+      i % 2 === 1 ? part : part.replace(COMPOUND_RE, '$1<span class="whitespace-nowrap">$2</span>'),
+    )
+    .join("");
 }
 
 /**

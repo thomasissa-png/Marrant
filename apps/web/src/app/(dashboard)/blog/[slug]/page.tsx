@@ -275,8 +275,8 @@ export default async function BlogArticlePage({
             <dl className="mt-4 space-y-4">
               {article.faqs.map((faq, i) => (
                 <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-                  <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-                  <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+                  <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
+                  <dd className="mt-2 text-sm text-text-secondary">{frTypo(faq.answer)}</dd>
                 </div>
               ))}
             </dl>
@@ -298,7 +298,7 @@ export default async function BlogArticlePage({
                 >
                   <span className="text-xs text-text-muted">Précédent</span>
                   <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
-                    {prevArticle.title}
+                    {frTypo(prevArticle.title)}
                   </p>
                 </Link>
               )}
@@ -309,7 +309,7 @@ export default async function BlogArticlePage({
                 >
                   <span className="text-xs text-text-muted">Suivant</span>
                   <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
-                    {nextArticle.title}
+                    {frTypo(nextArticle.title)}
                   </p>
                 </Link>
               )}
@@ -323,7 +323,7 @@ export default async function BlogArticlePage({
             <h2 className="font-display text-xl font-bold text-text-primary">
               À lire ensuite
             </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            <div className={`mt-4 grid gap-4 ${relatedArticles.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
               {relatedArticles.map((related) => (
                 <Link
                   key={related.slug}
@@ -334,7 +334,7 @@ export default async function BlogArticlePage({
                     {blogCategoryLabel(related.category)}
                   </Badge>
                   <h3 className="text-sm font-semibold text-text-primary line-clamp-2">
-                    {related.title}
+                    {frTypo(related.title)}
                   </h3>
                   <p className="mt-1 text-xs text-text-muted">
                     {related.readingTime} de lecture
