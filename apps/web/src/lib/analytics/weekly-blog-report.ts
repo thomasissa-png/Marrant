@@ -11,6 +11,10 @@
  * avertissement sans secret ; la section devient partielle, jamais d'exception.
  */
 import { TRACKED_ARTICLES } from "@/config/blog-tracking";
+import { blogArticles } from "@/lib/blog-articles";
+
+/** Articles écrits dans le code (pas en base) : toujours publiés. */
+const STATIC_SLUGS = new Set(blogArticles.map((a) => a.slug));
 import {
   UmamiError,
   fetchUmamiEventDataValues,
@@ -189,7 +193,8 @@ export async function buildBlogReport(
   const articles: BlogArticleRow[] = [];
   for (const slug of slugs) {
     const state = states?.get(slug);
-    if (states && !state) {
+    const isStatic = STATIC_SLUGS.has(slug);
+    if (states && !state && !isStatic) {
       articles.push({ slug, status: "missing" });
     } else if (state && !state.isPublished) {
       articles.push(
@@ -203,7 +208,7 @@ export async function buildBlogReport(
           : { slug, status: "unscheduled" },
       );
     } else {
-      articles.push(await loadArticle(config, periods, slug, state ? "published" : "unknown", safe));
+      articles.push(await loadArticle(config, periods, slug, state || isStatic ? "published" : "unknown", safe));
     }
   }
 

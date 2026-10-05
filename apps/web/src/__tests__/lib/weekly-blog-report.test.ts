@@ -154,7 +154,7 @@ describe("buildBlogReport", () => {
     });
     const r = await buildBlogReport(config, periods, undefined, [TOP]);
     expect(r.partial).toBe(false);
-    expect(r.articles[0]).toMatchObject({ status: "unknown", views: { current: 7, previous: 7, change: 0 } });
+    expect(r.articles[0]).toMatchObject({ status: "published", views: { current: 7, previous: 7, change: 0 } });
     expect(fetchMock.mock.calls.some(([u]) => new URL(String(u)).searchParams.get("type") === "url")).toBe(true);
   });
 
@@ -175,7 +175,7 @@ describe("buildBlogReport", () => {
     }, [TOP, AVRIL]);
     expect(r.partial).toBe(true);
     expect(r.warnings).toEqual(["Base : statut de publication des articles indisponible"]);
-    expect(r.articles.map((a) => a.status)).toEqual(["unknown", "unknown"]);
+    expect(r.articles.map((a) => a.status)).toEqual(["published", "unknown"]); // 1er slug = article statique (dans le code) : toujours publié
     expect(JSON.stringify(r)).not.toContain("secret");
   });
 
@@ -184,5 +184,12 @@ describe("buildBlogReport", () => {
     const r = await buildBlogReport(config, periods, lookup, [TOP]);
     expect(r.partial).toBe(true);
     expect(r.warnings).toContain("Umami metrics : réseau indisponible");
+  });
+});
+
+describe("articles statiques", () => {
+  it("un article écrit dans le code n'est jamais « absent de la base »", () => {
+    const { blogArticles } = require("@/lib/blog-articles");
+    expect(blogArticles.some((a: { slug: string }) => a.slug === "meilleures-blagues-droles-2026")).toBe(true);
   });
 });

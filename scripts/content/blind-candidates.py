@@ -12,7 +12,7 @@ for line in open(src, encoding="utf-8"):
     m = re.match(r"(?:\*\*|#{2,4}\s*)(H\d+)(?:\*\*)?\s*[·:]\s*(.+)", line.strip())
     if m:
         cur = m.group(1); ctx[cur] = m.group(2).strip(); continue
-    m = re.match(r"-\s*\**(H\d+-\d+)\**\s*:\s*(.+)", line.strip())
+    m = re.match(r"(?:-\s*)?\**(H\d+-\d+)\**\s*:?\s*(.+)", line.strip())
     if m:
         slot = m.group(1).split("-")[0]
         items.append((m.group(1), ctx.get(slot, ""), m.group(2).strip()))
