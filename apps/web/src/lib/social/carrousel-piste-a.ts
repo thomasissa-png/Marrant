@@ -193,17 +193,29 @@ export function carrouselConseil(
   ];
 }
 
-// ─── X (16:9) et LinkedIn (lien 1200×627) ────────────────────────
+// ─── X (16:9) et LinkedIn (4:5, carte chute d'Instagram) ─────────
 
 /**
  * Vanne sur X ou LinkedIn : la chute seule, le texte du post porte
- * l'amorce. Sur LinkedIn, si l'amorce dépasse 140 caractères (coupée par
- * « voir plus »), repli sur une carte amorce + chute.
+ * l'amorce. LinkedIn (v5 §8, décision du 05/10) : exactement la carte
+ * chute d'Instagram, 4:5 1080×1350 ; amorce de plus de 140 caractères
+ * (coupée par « voir plus ») refusée, sans repli : le post reste en texte.
  */
 export function carteVanneUnique(format: "x" | "linkedin", v: Vanne): Slide {
-  if (format === "linkedin" && v.amorce.length > LINKEDIN_AVANT_VOIR_PLUS) return carteVanneRepli(format, v);
-  return slide(format, createElement(VanneChute, { chute: v.chute, format, citation: estCitee(v) }),
-    altVanne(v, [v.amorce, joindre(...v.chute)]));
+  const alt = altVanne(v, [v.amorce, joindre(...v.chute)]);
+  if (format === "linkedin") {
+    if (!amorceLinkedInEligible(v.amorce)) {
+      throw new Error(`Amorce LinkedIn de ${v.amorce.trim().length} caractères (max ${LINKEDIN_AVANT_VOIR_PLUS}) : texte seul.`);
+    }
+    return slide("instagram", createElement(VanneChute, { chute: v.chute, citation: estCitee(v) }), alt);
+  }
+  return slide(format, createElement(VanneChute, { chute: v.chute, format, citation: estCitee(v) }), alt);
+}
+
+/** LinkedIn : la carte n'est permise que si l'amorce tient avant « voir plus ». */
+export function amorceLinkedInEligible(amorce: string): boolean {
+  const t = amorce.trim();
+  return t.length > 0 && t.length <= LINKEDIN_AVANT_VOIR_PLUS;
 }
 
 /** Carte de repli : amorce et chute sur la même image (amorce trop longue pour le post). */

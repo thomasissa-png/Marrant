@@ -12,7 +12,8 @@ import {
   generateLeDefi,
   renderSlides,
 } from "./image-generator";
-import { carrouselArticle, carrouselDecryptage, carrouselVanne, type Slide } from "./carrousel-piste-a";
+import { carrouselArticle, carrouselDecryptage, carrouselVanne, carteVanneUnique, type Slide } from "./carrousel-piste-a";
+import { vanneLinkedInImage } from "./carte-linkedin";
 
 interface PostData {
   format: string;
@@ -21,6 +22,9 @@ interface PostData {
   targetPersona: string;
   threadParts: string[];
   sourceType?: string | null;
+  /** s15 : carte LinkedIn du test alterné (`[variante:image]` dans directorNote). */
+  platform?: string | null;
+  directorNote?: string | null;
 }
 
 /**
@@ -30,8 +34,12 @@ interface PostData {
  *  - décryptage (s15, lot v5) : threadParts = [amorce, chute, mécanisme, consigne,
  *    renvoi] → 4 cartes (carrouselDecryptage) ;
  *  - relais d'article (sourceType BLOG) : 1re ligne = titre → couverture + fin.
+ * LinkedIn `[variante:image]` éligible : 1 carte 4:5, la chute seule (v5 §8).
  */
 export function slidesDuPost(post: PostData): Slide[] | null {
+  const li = vanneLinkedInImage(post);
+  // R6 : guillemets de la carte = ceux du texte du post (même décision, pas recalculée).
+  if (li) return [carteVanneUnique("linkedin", { amorce: li.amorce, chute: [li.chute], citation: li.texte.startsWith("«") })];
   if (post.format !== "IMAGE_QUI_CLAQUE") return null;
   const [amorce, chute, mecanisme, consigne, renvoi] = post.threadParts;
   if (post.threadParts.length === 2 && amorce?.trim() && chute?.trim()) {
@@ -56,6 +64,11 @@ export function nombreDeSlides(post: PostData): number {
 
 /** Texte alternatif d'une image du post : amorce + chute, sinon le texte de la carte. */
 export function texteAlternatifDuPost(post: PostData): string {
+  // Carte LinkedIn : alt de la carte (amorce + chute, « » R6 compris).
+  if (vanneLinkedInImage(post)) {
+    const carte = slidesDuPost(post)?.[0];
+    if (carte) return carte.alt;
+  }
   const [amorce, chute] = post.threadParts;
   if ((post.threadParts.length === 2 || post.threadParts.length === 5) && amorce?.trim() && chute?.trim()) {
     return `${amorce.replace(/\s*\n\s*/g, " ").trim()} ${chute.trim()}`;

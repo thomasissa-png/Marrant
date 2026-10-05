@@ -125,11 +125,12 @@ export async function loadLotInputs(q: SqlQuery, debut: string = LOT_DEBUT, fin:
     .map((a) => ({ slug: a.slug, title: a.title, category: a.category, content: a.content, date: a.date.slice(0, 10) }));
   // Tout l'historique avant le lot : 90 jours pour l'anti-répétition, réseau de 1re diffusion pour le retour (plan v3 §2).
   const recents = (await q(
-    `select to_char("scheduledAt", 'YYYY-MM-DD') as d, "sourceId", platform::text as platform from "SocialPost"
+    `select to_char("scheduledAt", 'YYYY-MM-DD') as d, "sourceId", platform::text as platform,
+       coalesce(content, '') || ' ' || array_to_string("threadParts", ' ') as texte from "SocialPost"
      where "scheduledAt" < $1::date and "sourceId" is not null and status::text not in ('REJECTED', 'FAILED')
        and platform::text in ('TWITTER', 'INSTAGRAM', 'LINKEDIN')`,
     [debut],
-  )).map((r) => ({ date: s(r.d), sourceId: s(r.sourceId), platform: s(r.platform) }));
+  )).map((r) => ({ date: s(r.d), sourceId: s(r.sourceId), platform: s(r.platform), texte: s(r.texte) }));
   return { pool, articles: [...enBase, ...statiques].sort((a, b) => a.date.localeCompare(b.date)), recents };
 }
 
@@ -151,6 +152,19 @@ export function lirePool(contenu: string, chemin: string): string[] {
   if (doublons.length) throw new Error(`--pool ${chemin} : identifiant(s) en double (${[...new Set(doublons)].join(", ")}).`);
   if (ids.length === 0) throw new Error(`--pool ${chemin} : aucun identifiant.`);
   return ids;
+}
+
+/**
+ * Notes à l'aveugle d'un fichier de pool ou de `src/config/social-pool.ts` : sur une ligne,
+ * un identifiant puis « 8,5 / 9,0 » (2 relecteurs) → moyenne. Lignes sans note ignorées.
+ */
+export function notesDuTexte(contenu: string): Record<string, number> {
+  const notes: Record<string, number> = {};
+  for (const l of contenu.split(/\r?\n/)) {
+    const m = l.match(/^\s*"?([A-Za-z0-9][\w#-]{2,})"?,?.*?(\d+(?:[,.]\d+)?)\s*\/\s*(\d+(?:[,.]\d+)?)/);
+    if (m) notes[m[1]] = (Number(m[2].replace(",", ".")) + Number(m[3].replace(",", "."))) / 2;
+  }
+  return notes;
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -212,14 +226,20 @@ async function mainLot(argv: string[]): Promise<number> {
   const seed = arg(argv, "--seed") ?? a.lot;
   // `--pool strict` : pool strict du Worker (src/config/social-pool.ts), sinon fichier.
   const autorisees = a.pool === "strict" ? [...POOL_STRICT] : a.pool ? lirePool(fs.readFileSync(a.pool, "utf-8"), a.pool) : undefined;
+  // Notes du pool (paires du test LinkedIn texte / image) : commentaires de social-pool.ts ou lignes du fichier.
+  const sourceNotes = a.pool === "strict" ? path.join(process.cwd(), "src", "config", "social-pool.ts") : a.pool;
+  const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
   const inputs = await loadLotInputs(neonHttpQuery(dbUrl), a.debut, a.fin);
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees });
-  const lot = controlerLot(res.posts);
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes });
+  // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
+  const lot = controlerLot(res.posts, inputs.recents);
   const errors = [...res.errors, ...lot.errors];
   const warnings = [...res.warnings, ...lot.warnings];
   const n = (pf: string) => res.posts.filter((p) => p.platform === pf).length;
   console.log(`Catalogue : ${inputs.pool.length} vannes GARDER${autorisees ? `, pool ${autorisees.length} identifiant(s)` : ""} (stock éligible ${res.stockEligible}), ${inputs.articles.length} article(s), ${inputs.recents.length} post(s) récent(s).`);
   console.log(`Lot ${a.lot} (${a.debut} au ${a.fin}) : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}), ${res.replis.length} repli(s) en réserve.`);
+  const v = res.variantes;
+  console.log(`Test LinkedIn texte / image : ${v.eligibles} éligible(s), image ${v.image}, texte ${v.texte}, ${v.paires} paire(s) dont ${v.pairesMemeNote} de même note.`);
   for (const e of errors) console.error(`ERREUR : ${e}`);
   const mdPath = arg(argv, "--out") ?? path.join(DOCS_DIR, `lot-${a.lot}.md`);
   fs.mkdirSync(path.dirname(mdPath), { recursive: true });

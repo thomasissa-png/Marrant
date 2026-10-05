@@ -3,7 +3,7 @@
  * relecture (markdown). Logique pure, sans base.
  */
 import type { PreparedPlatform } from "./social-controls";
-import { approvedByDuLot, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
+import { approvedByDuLot, LI_TEST_IMAGE_DES, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
 import type { LotPost, Origine } from "./social-lot-v5";
 
 /** Ligne SocialPost telle qu'insérée (`--insert`), champs non listés = défauts Prisma. */
@@ -43,7 +43,9 @@ const JOURS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
 
 function marqueurs(p: LotPost): string {
   if (p.repliDe) return `[repli-de:${p.repliDe}] `;
-  return [p.article && `[article:${p.article}]`, p.repli && `[repli:${p.repli}]`, p.datee && `[date:${p.date}]`].filter(Boolean).map((m) => `${m} `).join("");
+  // `[variante:image|texte]` : test LinkedIn alterné (mesure §7), lu par publish-social (carte-linkedin.ts).
+  return [p.article && `[article:${p.article}]`, p.repli && `[repli:${p.repli}]`, p.datee && `[date:${p.date}]`, p.variante && `[variante:${p.variante}]`]
+    .filter(Boolean).map((m) => `${m} `).join("");
 }
 
 export function versLigne(p: LotPost, lot: string = LOT_ID): LigneLot {
@@ -80,6 +82,13 @@ function source(p: LotPost): string {
   return `${p.sourceType} \`${p.sourceId}\` (${s})`;
 }
 
+/** Récapitulatif du test LinkedIn texte / image : compteur par bras (mesure §7). */
+export function variantesLinkedIn(posts: LotPost[]): string {
+  const li = posts.filter((p) => p.platform === "LINKEDIN");
+  const n = (v: string) => li.filter((p) => p.variante === v).length;
+  return `**Test LinkedIn texte / image (dès le ${LI_TEST_IMAGE_DES.split("-").reverse().join("/")}) :** image ${n("image")}, texte ${n("texte")}, hors test ${li.length - n("image") - n("texte")} (relais avec lien, textes de marque, amorce de plus de 140 caractères ou avant le début du test).`;
+}
+
 export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: string[], stock: number, graine: string, meta: MetaLot = META_LOT_V5, replis: LotPost[] = []): string {
   const { lot, debut, fin } = meta;
   const n = (pf: PreparedPlatform) => posts.filter((p) => p.platform === pf).length;
@@ -96,6 +105,8 @@ export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: 
     "",
     "**R1 non vérifiable par le script** : aucune note à l'aveugle n'existe pour les vannes du catalogue ni pour la plupart des lignes d'article (v5 §1 : « N exact à compter par @copywriter »). Sont exclues : les 5 vannes connues sous 8 et les 7 perdants des duels du cycle 5. Les vannes tirées restent à confirmer à 8 et plus avant insertion.",
     "",
+    variantesLinkedIn(posts),
+    "",
     `Contrôles bloquants passés sur chaque post : zéro tiret cadratin, gros mots, « je » hors « » (R6), longueurs (X 270 comptés par X, lien = 23 ; légende Instagram 80), LinkedIn 3 phrases au plus, cartes (25 / 30 / 35 mots). Sur le lot : anti-répétition 90 jours tous réseaux (posts récents en base compris), « pain » 30 jours, réservées Noël, liens UTM v5, aucun dimanche, 1 relais LinkedIn par semaine au plus. Erreurs bloquantes : **${errors.length}**.`,
     "",
   ];
@@ -110,7 +121,8 @@ export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: 
   out.push("## Calendrier complet", "", "| Date | Heure | Réseau | Type | Texte exact | Lien | Source | Cartes |", "|---|---|---|---|---|---|---|---|");
   for (const p of posts) {
     const affichees = p.cartes.length === 5 ? [...p.cartes.slice(0, 3), `${p.cartes[3]} ${p.cartes[4]}`] : p.cartes;
-    const cartes = affichees.length ? affichees.map((c, i) => `${i + 1}. ${c}`).join("<br>") : "aucune (texte seul)";
+    const cartes = p.variante === "image" ? `[variante:image] carte 4:5 : ${p.cartes[1]} (texte envoyé : la ligne 1 seule)`
+      : affichees.length ? affichees.map((c, i) => `${i + 1}. ${c}`).join("<br>") : `aucune (texte seul${p.variante ? ", [variante:texte]" : ""})`;
     out.push(`| ${frDate(p.date)} | ${p.heure} | ${LABEL[p.platform]} | ${p.type}${p.cle ? ` (${p.cle})` : ""} | ${cell(p.content)} | ${p.lien ? cell(p.lien) : p.platform === "INSTAGRAM" && /lien en bio/.test(p.content) ? "lien de bio `/liens`" : "aucun"} | ${cell(source(p))}${p.note ? `<br>${cell(p.note)}` : ""} | ${cell(cartes)} |`);
   }
   if (replis.length) {

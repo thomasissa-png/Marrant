@@ -324,7 +324,7 @@ describe("image-generator", () => {
       const o = c[1] as { width: number; height: number };
       return `${o.width}x${o.height}`;
     });
-    expect(dims).toEqual(["1080x1350", "1080x1350", "1600x900", "1200x627"]);
+    expect(dims).toEqual(["1080x1350", "1080x1350", "1600x900", "1080x1350"]);
   });
 
   it("charge Plus Jakarta Sans 700/800 (police du site) en plus d'Inter pour les titres des cartes", async () => {

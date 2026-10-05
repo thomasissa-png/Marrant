@@ -49,6 +49,13 @@ export const SOUS_HUIT = SOUS_8;
 export const PAIN_IDS = PAIN;
 export const PAIN_RE = /(^|[^\p{L}])pain(?=[^\p{L}]|$)/iu;
 export const FENETRE_PAIN_JOURS = 30;
+/**
+ * Test LinkedIn texte / image (v5 §4 et §8, mesure §7) : à partir de cette date, les vannes
+ * éligibles (amorce de 140 caractères au plus, sans lien) alternent `[variante:image]` et
+ * `[variante:texte]`, par paires de même note quand c'est possible (dans les 2 posts suivants).
+ */
+export const LI_TEST_IMAGE_DES = "2026-10-13";
+export const FENETRE_PAIRE_VARIANTE = 2;
 export const ANTI_REPETITION_JOURS = 90;
 
 /** Saisonnalité : une vanne de saison n'est tirée que dans sa fenêtre. */

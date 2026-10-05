@@ -23,7 +23,8 @@ import {
   reseauxEnPause,
   type SwitchDb,
 } from "@/lib/social/platform-switch";
-import { nombreDeSlides, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
+import { generatePostImage, nombreDeSlides, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
+import { estVarianteImage, noteRepliTexte, preparerCarteLinkedIn } from "@/lib/social/carte-linkedin";
 import { longueurX } from "@/lib/social/longueur-x";
 import { articleSlugDuPost, conserverMarqueurs, noteRelaisRejete, repliDuPost, repliValide } from "@/lib/social/garde-article";
 import { findBlogArticle } from "@/lib/blog-article-page";
@@ -33,6 +34,11 @@ export const fetchCache = "force-no-store";
 
 /** X = posts simples (s15) : au-delà (longueur comptée par X, lien = 23), le post est refusé, jamais découpé en fil. */
 const X_MAX_CARACTERES = 270;
+
+/** Rendu de la carte LinkedIn dans le Worker (vérifie qu'elle se rend avant de la confier à Buffer). */
+async function rendreCarte(post: Parameters<typeof generatePostImage>[0]): Promise<{ png: Uint8Array; alt: string }> {
+  return { png: await generatePostImage(post, 0), alt: texteAlternatifDuPost(post) };
+}
 
 /** Retourne l'URL publique du site (pour les images Instagram). */
 function getBaseUrl(): string {
@@ -328,7 +334,18 @@ export async function GET(req: Request) {
         } else {
           // Tweet simple ou post LinkedIn : texte pur. LinkedIn : lien en 1er commentaire (champ cta).
           const firstComment = platform === "LINKEDIN" && post.cta?.startsWith("http") ? post.cta : undefined;
-          externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined, false, { firstComment });
+          // s15 (v5 §4, §8) : LinkedIn `[variante:image]` = amorce + carte 4:5 de la chute ;
+          // carte non rendue = texte seul (créneau jamais perdu), cause dans directorNote.
+          const envoi = estVarianteImage(post) ? await preparerCarteLinkedIn(post, getBaseUrl(), () => rendreCarte(post)) : null;
+          if (envoi?.ok) {
+            externalId = await createBufferImagePost(platform, envoi.texte, envoi.url, post.scheduledAt || undefined, undefined, envoi.alt);
+          } else {
+            if (envoi) {
+              console.warn(`[PublishSocial] Carte LinkedIn ${post.id} : ${envoi.raison}, envoi en texte seul`);
+              await prisma.socialPost.update({ where: { id: post.id }, data: { directorNote: noteRepliTexte(post.directorNote, envoi.raison) } });
+            }
+            externalId = await createBufferPost(platform, post.content, post.scheduledAt || undefined, false, { firstComment });
+          }
         }
 
         await prisma.socialPost.update({

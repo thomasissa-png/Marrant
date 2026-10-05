@@ -17,6 +17,7 @@ import {
   extraireListe,
   surtitreExtrait,
   texteAccompagnement,
+  amorceLinkedInEligible,
   LINKEDIN_AVANT_VOIR_PLUS,
 } from "@/lib/social/carrousel-piste-a";
 import {
@@ -195,22 +196,27 @@ describe("carrousels piste A v3", () => {
 describe("déclinaisons X et LinkedIn", () => {
   const tgv = { amorce: "Dans le TGV, la seule prise.", chute: ["Chute."] };
 
-  it("vanne : chute seule en 1600×900 (X) et 1200×627 (LinkedIn), alt = amorce + chute", () => {
+  it("vanne : chute seule en 1600×900 (X) et 4:5 1080×1350 (LinkedIn), alt = amorce + chute", () => {
     const x = carteVanneUnique("x", tgv);
     const li = carteVanneUnique("linkedin", tgv);
     expect([x.width, x.height]).toEqual([1600, 900]);
-    expect([li.width, li.height]).toEqual([1200, 627]);
+    expect([li.width, li.height]).toEqual([1080, 1350]);
+    // LinkedIn = exactement la carte chute du carrousel Instagram (même élément).
+    expect(html(li.element)).toBe(html(carrouselVanne(tgv)[1].element));
+    expect(texte(li.element)).not.toContain("TGV");
+    expect(texte(li.element)).not.toMatch(/Glisse/);
     expect(html(x.element)).not.toMatch(/\d\/\d/);
     expect(texte(x.element)).not.toContain("TGV");
     expect(x.alt).toBe("Dans le TGV, la seule prise. Chute.");
     expect(texteAccompagnement(tgv)).toBe("Dans le TGV, la seule prise.");
   });
 
-  it("LinkedIn : amorce > 140 caractères = repli sur une carte amorce + chute", () => {
+  it("LinkedIn : amorce > 140 caractères refusée, sans repli amorce + chute (texte seul)", () => {
     const longue = { amorce: "a".repeat(80) + " " + "b".repeat(70), chute: ["Chute."] };
     expect(longue.amorce.length).toBeGreaterThan(LINKEDIN_AVANT_VOIR_PLUS);
-    expect(texte(carteVanneUnique("linkedin", longue).element)).toContain("Chute.");
-    expect(texte(carteVanneUnique("linkedin", longue).element)).toContain("aaaa");
+    expect(() => carteVanneUnique("linkedin", longue)).toThrow(/texte seul/);
+    expect(amorceLinkedInEligible("a".repeat(LINKEDIN_AVANT_VOIR_PLUS))).toBe(true);
+    expect(amorceLinkedInEligible("a".repeat(LINKEDIN_AVANT_VOIR_PLUS + 1))).toBe(false);
     expect(texte(carteVanneUnique("x", longue).element)).not.toContain("aaaa");
   });
 

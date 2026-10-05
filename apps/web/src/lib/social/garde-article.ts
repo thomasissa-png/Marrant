@@ -18,7 +18,8 @@
 const MARQUEUR_ARTICLE = /\[article:([a-z0-9-]+)\]/;
 const MARQUEUR_REPLI = /\[repli:([a-z0-9]+)\]/;
 const MARQUEUR_DATE = /\[date:\d{4}-\d{2}-\d{2}\]/;
-const MARQUEURS = /\[(?:article|repli|date):[^\]\s]+\]/g;
+// `[variante:texte|image]` (test alterné, mesure §7) survit aussi aux relances.
+const MARQUEURS = /\[(?:article|repli|date|variante):[^\]\s]+\]/g;
 const LIEN_BLOG = /\/blog\/([a-z0-9-]+)/;
 
 /** Note d'un repli en réserve : `[repli-de:<id du relais>]`. */

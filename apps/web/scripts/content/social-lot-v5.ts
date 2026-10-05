@@ -11,6 +11,7 @@ import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
 import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -24,7 +25,9 @@ export interface LotInput {
    * Vannes postées ou programmées avant le lot (anti-répétition 90 jours) ; `platform`
    * sert à la règle « retour à 90 jours sur un autre réseau que la 1re diffusion » (plan v3 §2).
    */
-  recents: Array<{ date: string; sourceId: string; platform?: string }>;
+  recents: PostEnBase[];
+  /** Note à l'aveugle par vanne (moyenne des 2 relecteurs) : paires du test LinkedIn texte / image. */
+  notes?: Record<string, number>;
   siteUrl?: string;
   seed?: string;
   /** Identifiant du lot (défaut « relance-s15 ») : graine par défaut et identifiants des posts. */
@@ -38,7 +41,12 @@ export interface LotInput {
    */
   autorisees?: string[];
 }
+/** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
+export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
 export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF";
+export type Variante = "image" | "texte";
+/** Test LinkedIn texte / image : bras par post et paires formées. */
+export interface CompteVariantes { eligibles: number; image: number; texte: number; paires: number; pairesMemeNote: number }
 export interface Segment { texte: string; origine: Origine }
 export interface LotPost {
   id: string;
@@ -68,8 +76,12 @@ export interface LotPost {
   origine: "VALIDE" | "V5" | "TIRAGE";
   segments: Segment[];
   note: string | null;
+  /** Lignes de la vanne (amorce, chute) : éligibilité à la carte LinkedIn. */
+  lignes?: string[];
+  /** Test LinkedIn texte / image (dès LI_TEST_IMAGE_DES) : bras du post ; absent si non éligible. */
+  variante?: Variante;
 }
-export interface LotResult { posts: LotPost[]; replis: LotPost[]; warnings: string[]; errors: string[]; stockEligible: number }
+export interface LotResult { posts: LotPost[]; replis: LotPost[]; warnings: string[]; errors: string[]; stockEligible: number; variantes: CompteVariantes }
 
 interface Vanne {
   cle: string;
@@ -267,6 +279,7 @@ export function buildLotV5(input: LotInput): LotResult {
       // Décryptage : 5 parties (amorce, chute, mécanisme, consigne, renvoi) = 4 cartes (carte 4 = consigne + renvoi).
       imageUrls: Array.from({ length: nombreDeCartes(cartes) }, (_, i) => `${siteUrl}/api/social/image?postId=${id}&slide=${i}`),
       lien, sourceType, sourceId, vannes: o.v ? [o.v.cle] : [], persona, origine: o.origine, segments, note: o.note ?? null,
+      lignes: o.v ? [...o.v.lignes] : undefined,
       article: (type === "RELAIS" || type === "PIVOT") && o.slug ? o.slug : null,
       repli: null, repliDe: o.repliDe ?? null,
       datee: type === "PIVOT" || C.SAISONS.some((x) => x.re.test(`${content} ${cartes.join(" ")}`)),
@@ -321,7 +334,13 @@ export function buildLotV5(input: LotInput): LotResult {
   };
   construire();
   construireReplis();
-  return { posts, replis, warnings, errors, stockEligible: stock };
+  const variantes = alternerVariantes(posts, input.notes);
+  // Bras image : threadParts = [amorce, chute], 1 carte servie par /api/social/image (slide 0).
+  for (const p of posts) if (p.variante === "image") {
+    p.cartes = [...p.lignes!];
+    p.imageUrls = [`${siteUrl}/api/social/image?postId=${p.id}&slide=0`];
+  }
+  return { posts, replis, warnings, errors, stockEligible: stock, variantes };
 
   /**
    * Repli de chaque relais d'un article pas encore visible (plan v2 §6, R3) : vanne du même
@@ -455,15 +474,61 @@ export function buildLotV5(input: LotInput): LotResult {
   }
 }
 
-/** Contrôles du lot complet (v5 §1 à §3) : anti-répétition, pain, Noël, liens, cadence. */
-export function controlerLot(posts: LotPost[]): { errors: string[]; warnings: string[] } {
+/**
+ * Carte LinkedIn possible (v5 §8) : vanne de 2 lignes sans lien, à partir de `des`, que le
+ * Worker acceptera telle quelle (même contrôle que `vanneLinkedInImage` : amorce ≤ 140, mot pour mot).
+ */
+export function eligibleCarteLinkedIn(p: LotPost, des: string = C.LI_TEST_IMAGE_DES): boolean {
+  if (p.platform !== "LINKEDIN" || p.date < des || p.lien || p.repliDe || p.vannes.length !== 1 || p.lignes?.length !== 2) return false;
+  return vanneLinkedInImage({ platform: p.platform, content: p.content, threadParts: p.lignes, directorNote: VARIANTE_IMAGE }) !== null;
+}
+
+/**
+ * Test LinkedIn texte / image (mesure §7) : les posts éligibles, dans l'ordre, forment des paires
+ * (même note dans les FENETRE_PAIRE_VARIANTE posts suivants si possible, sinon le suivant) ; le
+ * 1er de la paire est image une paire sur deux (ordre inversé d'une paire à l'autre). Post seul
+ * en fin de lot : bras le moins servi. Pose `variante` sur les posts, renvoie les compteurs.
+ */
+export function alternerVariantes(posts: LotPost[], notes: Record<string, number> = {}, des: string = C.LI_TEST_IMAGE_DES): CompteVariantes {
+  const libres = posts.filter((p) => eligibleCarteLinkedIn(p, des)).sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
+  const c: CompteVariantes = { eligibles: libres.length, image: 0, texte: 0, paires: 0, pairesMemeNote: 0 };
+  const poser = (p: LotPost, v: Variante) => { p.variante = v; c[v]++; };
+  const note = (p: LotPost): number | undefined => notes[p.vannes[0]];
+  while (libres.length) {
+    const a = libres.shift()!;
+    if (!libres.length) { poser(a, c.image <= c.texte ? "image" : "texte"); break; }
+    const n = note(a);
+    const k = n === undefined ? -1 : libres.slice(0, C.FENETRE_PAIRE_VARIANTE).findIndex((b) => note(b) === n);
+    const [b] = libres.splice(Math.max(k, 0), 1);
+    const premier: Variante = c.paires % 2 === 0 ? "image" : "texte";
+    poser(a, premier);
+    poser(b, premier === "image" ? "texte" : "image");
+    c.paires++;
+    if (k >= 0) c.pairesMemeNote++;
+  }
+  return c;
+}
+
+/** Contrôles du lot complet (v5 §1 à §3) : anti-répétition, pain (lot et base), Noël, liens, cadence. */
+export function controlerLot(posts: LotPost[], base: PostEnBase[] = []): { errors: string[]; warnings: string[] } {
   const errors: string[] = [];
   const warnings: string[] = [];
   const parCle = new Map<string, string[]>();
   for (const p of posts) for (const k of p.vannes) parCle.set(k, [...(parCle.get(k) ?? []), p.date]);
   for (const [k, ds] of parCle) if (ds.length > 1) errors.push(`Vanne ${k} postée ${ds.length} fois (${ds.join(", ")}) : anti-répétition 90 jours.`);
-  const pains = posts.filter((p) => p.vannes.some((k) => C.PAIN_IDS.includes(k)) || C.PAIN_RE.test(p.cartes.join(" ") + p.content)).map((p) => p.date).sort();
-  for (let i = 1; i < pains.length; i++) if (jours(pains[i - 1], pains[i]) < C.FENETRE_PAIN_JOURS) errors.push(`Motif « pain » deux fois en moins de 30 jours (${pains[i - 1]}, ${pains[i]}).`);
+  // « pain » : 1 par fenêtre de 30 jours tous réseaux, posts déjà en base compris (seule une paire base/base est ignorée).
+  const estPain = (ids: string[], texte: string) => ids.some((k) => C.PAIN_IDS.includes(k)) || C.PAIN_RE.test(texte);
+  const premierJour = posts.map((p) => p.date).sort()[0];
+  const pains = [
+    ...posts.filter((p) => estPain(p.vannes, `${p.cartes.join(" ")} ${p.content}`)).map((p) => ({ date: p.date, quoi: p.date, enBase: false })),
+    ...(premierJour ? base : []).filter((r) => r.date >= addDays(premierJour, -C.FENETRE_PAIN_JOURS) && estPain([r.sourceId], r.texte ?? ""))
+      .map((r) => ({ date: r.date, quoi: `${r.date} en base ${r.platform ?? ""} ${r.sourceId}`.replace(/\s+/g, " "), enBase: true })),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  for (let i = 1; i < pains.length; i++) {
+    const [a, b] = [pains[i - 1], pains[i]];
+    if (a.enBase && b.enBase) continue;
+    if (jours(a.date, b.date) < C.FENETRE_PAIN_JOURS) errors.push(`Motif « pain » deux fois en moins de 30 jours (${a.quoi}, ${b.quoi}).`);
+  }
   for (const p of posts) {
     if (p.vannes.some((k) => C.RESERVEES_NOEL.includes(k)) && p.date < C.NOEL_DES) errors.push(`${p.date} : vanne réservée à Noël avant le 24/12.`);
     if (weekday(p.date) === 0) errors.push(`${p.date} : post un dimanche.`);
