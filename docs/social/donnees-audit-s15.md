@@ -27,3 +27,11 @@
 ## 3. Ce qui manque (à relever par Thomas, `docs/social/mesure.md` §2 et §4)
 
 Abonnés X et Instagram, impressions natives, enregistrements et partages Instagram, clics sur le lien de bio. Comptes créés au printemps 2026, « 0 abonné » au 24/03 (project-context) ; aucun relevé depuis.
+
+## 4. Statut RÉEL chez Buffer (API Buffer, 05/10 vers 16 h 30 UTC) : corrige le §1
+
+- **« PUBLISHED » en base = post remis à Buffer, PAS publié.** Le statut réel n'est jamais relu.
+- **Instagram : le post du 02/10 est en ERREUR chez Buffer** : « It looks like Buffer has lost authorization to post on your behalf. Please refresh your channel to resume scheduling. » (`rawError` : Invalid Credentials). Le compte Instagram affiche **0 publication** (constat Thomas). Les 33 posts IG en file échoueront tant que le canal n'est pas reconnecté dans Buffer.
+- **X : fonctionne.** Posts du 02/10 et du 05/10 « sent » avec lien x.com réel.
+- **LinkedIn** : derniers envois réels chez Buffer le 09/08/2026 (lien linkedin.com réel), absents de la base lue ; rien depuis. 0 post depuis début septembre (constat Thomas).
+- Canaux Buffer branchés : X, Instagram, LinkedIn (aucun en pause côté Buffer) ; côté code, LinkedIn bloqué (`PAUSED_PLATFORMS`, `publish-social`) et non préparé (`social-month-plan.ts`).
