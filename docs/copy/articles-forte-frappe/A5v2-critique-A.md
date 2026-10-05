@@ -68,3 +68,71 @@ Barre : `docs/copy/catalogue-vannes-valides.md`. « = » seulement si l'idée es
 | 62 | < | proche | Observation correcte, mais la chute est attendue et le jeu dure toute la journée |
 | 63 | < | non | Pas de ressort |
 | 64 | < | non | Chute longue et explicative |
+| 65 | < | non | Chute faible |
+| 66 | < | non | Jolie phrase, mais aucune phase crédible, pas un piège |
+| 67 | < | non | Chute molle |
+| 68 | < | non | Alambiqué, la chute demande une explication |
+| 69 | < | non | « Tout droit » ne fait pas rire |
+| 70 | < | non | Crédible et inoffensif, mais l'anticlimax ne fait pas rire |
+| 71 | < | oui | Le long message qui fait « Bonjour » est connu |
+| 72 | < | non | Chute faible |
+| 73 | < | proche | Vanne de couple connue, pas un piège |
+| 74 | = | non | Crédible, appréhension réelle des pouces, soulagement drôle et concret (« le tour du pâté de maisons ») |
+| 75 | < | non | Mièvre |
+| 76 | < | proche | Le « vous êtes ici » est un gag visuel connu |
+| 77 | < | non | Chute faible |
+| 78 | < | non | Pas de ressort |
+| 79 | < | non | Absurde mou |
+| 80 | < | proche | La « grande annonce » fait craindre une grossesse, une maladie ou une séparation : peur, exclue |
+| 81 | < | proche | Schéma bonne/mauvaise nouvelle connu |
+| 82 | < | non | Chute faible |
+| 83 | < | non | Incohérent |
+| 84 | < | non | Lourd, un peu prétentieux |
+| 85 | < | proche | Anti-blague de bureau connue, sourire au mieux |
+| 86 | < | oui | « Réunion avec moi-même » est une blague courante |
+| 87 | < | proche | Le faux tour de magie est connu |
+| 88 | < | non | Contradiction trois jours / trois mètres, pas drôle |
+| 89 | < | non | La chute est un compliment, pas une révélation |
+| 90 | < | non | Pas crédible |
+| 91 | < | non | Faible |
+| 92 | < | non | Incohérent |
+| 93 | < | non | Chute faible |
+| 94 | < | non | Chute faible |
+| 95 | < | non | Mièvre |
+| 96 | < | non | Fait déplacer six collègues pour rien : coût en temps, pas inoffensif |
+| 97 | < | non | Chute faible |
+| 98 | < | non | Mignon, pas drôle |
+| 99 | < | non | Malaisant (la douche) |
+| 100 | < | non | Pas de ressort |
+| 101 | < | non | Mignon, pas crédible |
+| 102 | < | non | Chute faible |
+| 103 | < | non | Chute ambiguë |
+| 104 | < | proche | Gag de magie connu, plat |
+| 105 | < | non | Absurde mou |
+| 106 | = | non | Crédible quelques secondes, chute de cinq mots dans le registre du catalogue (« gazeuse, mais très calme »), inoffensif |
+| 107 | < | non | Observation juste, chute faible |
+| 108 | < | non | Pas de ressort |
+| 109 | < | proche | Très bonne chute, mais le faux gel de caméra est une blague connue |
+| 110 | < | oui | Chercher son téléphone en l'utilisant est un classique |
+| 111 | < | non | Chute plate |
+| 112 | < | non | Paradoxe faible |
+| 113 | < | non | Chute faible |
+| 114 | < | non | Mignon, pas drôle |
+| 115 | < | non | Plat |
+| 116 | < | non | Chute faible |
+| 117 | < | non | Pas de révélation |
+| 118 | < | oui | La recette « au dos du paquet » est un cliché |
+| 119 | < | non | Chute faible |
+| 120 | < | non | Plat |
+| 121 | < | proche | Même mécanisme que la recette secrète, chute attendue |
+| 122 | < | non | Mignon, pas un piège |
+| 123 | < | non | Chute qui fait sourire, mais faible. Doute |
+| 124 | < | non | Plat |
+| 125 | < | non | Confus |
+| 126 | < | oui | « Je l'ai goûté pour être sûr » est un cliché |
+| 127 | < | non | Absurde mou |
+| 128 | < | non | Chute faible |
+
+Total = : 6/128
+
+N° notés « = » : 8, 36, 52, 57, 74, 106.
