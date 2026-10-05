@@ -51,3 +51,15 @@ humour observationnel → 5-types-humour 2 832 imp pos 7,4 **0 clic** · une van
 - Requête n°1 en impressions : « unsitemarrant.fr » (navigationnelle vers un autre site, ~250 imp cumulées pos 4-5). Puis citation drole, comment etre drole, devenir drole, type d'humour.
 - Pages : article blagues 2026 (pos 5-6), phrases-droles-conversations, citation-drole, a-propos.
 - Quota de soumission d'URL : 100/jour, 2 700/mois (IndexNow / SubmitUrl disponibles).
+
+## 4. Complément (05/10, pour l'audit noté s15)
+
+**Funnel Umami (pages vues)** : 90 j : `/parcours` 27, `/parcours/machine-a-cafe` 13, `/parcours/repartie` 13, `/parcours/confiance` 9, `/abonnement` 8, `/quiz-humour` 8, `/login` 4, `/profil` 3, `/abonnement/success` 1. Sur **180 j : 0 vue de `/onboarding` et de `/register`** (script Umami chargé dans le layout racine, filtre limité à `/blog/apercu` : vérifié). Seulement **89 chemins distincts visités en 180 j** sur 384 URL du sitemap. `?upgrade=cancel` 2, `?upgrade=success` 1 (90 j).
+**Article n°1, 28 j** : 383 visites, 352 rebonds (92 %), temps moyen 28 s. **Accueil, 28 j** : 41 visites, 37 rebonds.
+**Pages de sortie 28 j** : article n°1 357, phrases-droles 53, `/vannes` 32, `/` 26.
+**Paramètres 90 j** : `utm_source=chatgpt.com` 23, copilot 1, gemini 1, perplexity 1 ; `ref=betalist` 4 ; `fbclid` (Facebook/Instagram) 5.
+
+**GSC 90 j par section** : blog 20 pages avec impressions (sur 36) → 1 495 clics / 20 551 imp ; `/vannes` (hub seul) 45 / 3 850 ; conseils 19 pages → 2 clics / 101 imp ; accueil 4 / 235 ; fiches vannes individuelles et vidéos ≈ 0.
+**GSC 90 j par article** : blagues-2026 1 347 / 5 944 (pos 4,4) · phrases-droles 52 / 2 935 (7,6) · comment-avoir-de-la-repartie 25 / 2 369 (10,9) · exercices-developper-humour 23 / 499 (20,5) · autoderision 14 / 1 865 (11,0) · faire-rire-un-homme 12 / 1 085 (9,1) · faire-rire-une-fille 6 / 901 (9,4) · jeux-de-mots-technique 6 / 237 · 5-types-humour 4 / 3 190 (7,9) · les autres articles < 3 clics ; **16 articles sur 36 : aucune impression en 90 j**. `comment-devenir-drole` (article pilier) : impressions seulement sous `www.` (47 imp, pos 19,4), aucune sous l'URL canonique.
+**Requêtes cœur (objectif « #1 sur devenir drôle / répartie »)** : comment devenir drôle 0 / 48 (pos 33,2) · comment être drôle 0 / 17 (pos 44,4) · comment être drôle dans une conversation 0 / 8 (pos 43) · avoir de la répartie 1 / 96 (pos 14,6) · comment avoir de la répartie 1 / 33 (pos 15,8) · exercices-developper-humour sur « comment devenir drôle » pos 54. **Requête de marque « deviens marrant » : 0 impression en 90 j.**
+**Requêtes de l'accueil** : être marrant 0 / 16 (pos 17,5), blog marrant 0 / 6 (pos 41,8).
