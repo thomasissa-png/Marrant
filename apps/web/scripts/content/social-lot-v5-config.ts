@@ -6,9 +6,16 @@
  * recopié de ces documents, du catalogue ou d'un article.
  */
 import type { PreparedPlatform } from "./social-controls";
+import { HEURE_PARIS, LI_DEPLACE as LI_DEPLACE_SOCIAL, NOEL_DES as NOEL, PAIN_IDS as PAIN, RESERVEES_NOEL as NOEL_IDS, SILENCES_SOCIAL, SOUS_HUIT as SOUS_8 } from "../../src/config/social-calendrier";
 
 export const LOT_ID = "relance-s15";
 export const APPROVED_BY_LOT = "thomas-s15";
+/** Identifiant de lot libre (`--lot`) : minuscules, chiffres, tirets. */
+export const LOT_ID_RE = /^[a-z0-9][a-z0-9-]{1,39}$/;
+/** approvedBy d'un lot : « thomas-s15 » pour le lot historique, sinon « lot-<id> » (sert au --rollback). */
+export function approvedByDuLot(lot: string): string {
+  return lot === LOT_ID ? APPROVED_BY_LOT : `lot-${lot}`;
+}
 export const LOT_DEBUT = "2026-10-12";
 export const LOT_FIN = "2027-01-03";
 /** J0 par réseau (v5 §1) : un post daté avant le J0 de son réseau est sauté. */
@@ -20,28 +27,22 @@ export type TypeCase = "RELAIS_LUNDI" | "RELAIS_JEUDI" | "VANNE" | "VANNE_QUIZ" 
  * Instagram à 19:30 depuis la mise à jour du 05/10 (`docs/social/horaires-sources-s15.md`).
  */
 export const GRILLE_V5: Record<PreparedPlatform, { h: number; m: number; jours: Partial<Record<number, TypeCase>> }> = {
-  TWITTER: { h: 12, m: 30, jours: { 1: "RELAIS_LUNDI", 2: "VANNE", 3: "VANNE_QUIZ", 4: "RELAIS_JEUDI", 5: "VANNE" } },
-  INSTAGRAM: { h: 19, m: 30, jours: { 1: "RELAIS_LUNDI", 2: "VANNE", 3: "DECRYPTAGE", 4: "RELAIS_JEUDI", 5: "VANNE" } },
-  LINKEDIN: { h: 8, m: 15, jours: { 2: "LI_MARDI", 4: "LI_JEUDI" } },
+  TWITTER: { ...HEURE_PARIS.TWITTER, jours: { 1: "RELAIS_LUNDI", 2: "VANNE", 3: "VANNE_QUIZ", 4: "RELAIS_JEUDI", 5: "VANNE" } },
+  INSTAGRAM: { ...HEURE_PARIS.INSTAGRAM, jours: { 1: "RELAIS_LUNDI", 2: "VANNE", 3: "DECRYPTAGE", 4: "RELAIS_JEUDI", 5: "VANNE" } },
+  LINKEDIN: { ...HEURE_PARIS.LINKEDIN, jours: { 2: "LI_MARDI", 4: "LI_JEUDI" } },
 };
 
-/** Silences du calendrier (v5 §3) : 11/11 et Black Friday 27/11. */
-export const SILENCES = new Set(["2026-11-11", "2026-11-27"]);
+/** Silences du calendrier (v5 §3) : 11/11 et Black Friday 27/11 (source unique : src/config/social-calendrier.ts). */
+export const SILENCES = SILENCES_SOCIAL;
 /** LinkedIn du jeudi 24/12 déplacé au mercredi 23/12 (v5 §3, S11). */
-export const LI_DEPLACE: Record<string, string> = { "2026-12-24": "2026-12-23" };
+export const LI_DEPLACE: Record<string, string> = LI_DEPLACE_SOCIAL;
 
-/** Réservées à Noël : exclues de tout relais, tirage et pivot avant le 24/12 (v5 §1). */
-export const RESERVEES_NOEL = ["cs14jkee5c537f7286c1da98", "cs14jk4fe660e7238281ce47", "cs14jkc4a2c545e132b38a92", "cs14jkffeab1620070f2263e"];
-export const NOEL_DES = "2026-12-24";
-/** Déjà connues sous 8 à l'aveugle (v5 §1 et duels du cycle 5) : hors tirage. */
-export const SOUS_HUIT = [
-  "cs14jkefbc9f40abb6f8a2ca", "cs14jke4221e9a31a33b0395", "cs14jk9cc844b92fde69e845", "cmmnsqn14004sth63rnutrbwi", "cs14jk0aa83dd779a1c72b43",
-  // Perdants des duels à l'aveugle du cycle 5 (`duels-resultat-cycle5.md`, moyenne sous 8, R1).
-  "cs14jk5ce9195f000dfa330f", "cs14jk10c844a13d108646fd", "cs14jk1a722c352c691f600e", "cs14jk0d9dfe9b5c26db5f8d",
-  "cs14jk1e07f8547b752601b8", "cs14jk44dcd2dbf3ec29324d", "cs14jk812483721e0a4d4228",
-];
+/** Réservées à Noël, connues sous 8 (source unique : src/config/social-calendrier.ts, v5 §1 et duels du cycle 5). */
+export const RESERVEES_NOEL = NOEL_IDS;
+export const NOEL_DES = NOEL;
+export const SOUS_HUIT = SOUS_8;
 /** Motif « pain » : au plus un par fenêtre de 30 jours, tous réseaux (v5 §1). */
-export const PAIN_IDS = ["cs14jk02047ed5635bab6a52", "cs14jke956e7ca02641e25c5", "cs14jkffeab1620070f2263e"];
+export const PAIN_IDS = PAIN;
 export const PAIN_RE = /(^|[^\p{L}])pain(?=[^\p{L}]|$)/iu;
 export const FENETRE_PAIN_JOURS = 30;
 export const ANTI_REPETITION_JOURS = 90;

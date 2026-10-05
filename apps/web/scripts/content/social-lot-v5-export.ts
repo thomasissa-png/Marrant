@@ -3,7 +3,7 @@
  * relecture (markdown). Logique pure, sans base.
  */
 import type { PreparedPlatform } from "./social-controls";
-import { APPROVED_BY_LOT, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
+import { approvedByDuLot, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
 import type { LotPost, Origine } from "./social-lot-v5";
 
 /** Ligne SocialPost telle qu'insérée (`--insert`), champs non listés = défauts Prisma. */
@@ -20,32 +20,48 @@ export interface LigneLot {
   sourceId: string;
   threadParts: string[];
   imageUrls: string[];
-  status: "APPROVED";
+  /** APPROVED ; REJECTED pour un repli en réserve (activé par la garde articleSlug). */
+  status: "APPROVED" | "REJECTED";
   approvedBy: string;
   directorScore: null;
   directorNote: string;
   scheduledAt: string;
 }
-export interface FichierLot { lot: string; approvedBy: string; debut: string; fin: string; graine: string; total: number; parReseau: Record<string, number>; posts: LigneLot[] }
+/** Identité d'un lot : identifiant libre (`--lot`) et bornes (dates de Paris incluses). */
+export interface MetaLot { lot: string; debut: string; fin: string }
+export const META_LOT_V5: MetaLot = { lot: LOT_ID, debut: LOT_DEBUT, fin: LOT_FIN };
+
+export interface FichierLot {
+  lot: string; approvedBy: string; debut: string; fin: string; graine: string; total: number; parReseau: Record<string, number>; posts: LigneLot[];
+  /** Replis en réserve des relais d'articles programmés (insérés en REJECTED). */
+  replis?: LigneLot[];
+}
 
 const FORMAT: Record<PreparedPlatform, LigneLot["format"]> = { TWITTER: "TWEET", INSTAGRAM: "IMAGE_QUI_CLAQUE", LINKEDIN: "POTE_AU_TAF" };
 const LABEL: Record<PreparedPlatform, string> = { TWITTER: "X", INSTAGRAM: "Instagram", LINKEDIN: "LinkedIn" };
 const JOURS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
 
-export function versLigne(p: LotPost): LigneLot {
+function marqueurs(p: LotPost): string {
+  if (p.repliDe) return `[repli-de:${p.repliDe}] `;
+  return [p.article && `[article:${p.article}]`, p.repli && `[repli:${p.repli}]`, p.datee && `[date:${p.date}]`].filter(Boolean).map((m) => `${m} `).join("");
+}
+
+export function versLigne(p: LotPost, lot: string = LOT_ID): LigneLot {
   const premiere = (p.cartes[0] ?? p.content.split("\n")[0]).replace(/\s*\n\s*/g, " ");
   return {
     id: p.id, platform: p.platform, format: FORMAT[p.platform], content: p.content, hook: premiere.slice(0, 80), cta: null, hashtags: [],
     targetPersona: p.persona, sourceType: p.sourceType, sourceId: p.sourceId, threadParts: p.cartes, imageUrls: p.imageUrls,
-    status: "APPROVED", approvedBy: APPROVED_BY_LOT, directorScore: null,
-    directorNote: `Lot ${LOT_ID} (${p.type}, ${p.origine}${p.cle ? ` ${p.cle}` : ""})${p.note ? ` : ${p.note}` : ""}`,
+    status: p.repliDe ? "REJECTED" : "APPROVED", approvedBy: approvedByDuLot(lot), directorScore: null,
+    // Marqueurs lus par le Worker (lib/social/garde-article.ts) : garde des relais et reprise.
+    directorNote: `${marqueurs(p)}Lot ${lot} (${p.type}, ${p.origine}${p.cle ? ` ${p.cle}` : ""})${p.note ? ` : ${p.note}` : ""}`,
     scheduledAt: p.scheduledAt,
   };
 }
 
-export function fichierLot(posts: LotPost[], graine: string): FichierLot {
+export function fichierLot(posts: LotPost[], graine: string, meta: MetaLot = META_LOT_V5, replis: LotPost[] = []): FichierLot {
   const parReseau = Object.fromEntries((["TWITTER", "INSTAGRAM", "LINKEDIN"] as const).map((pf) => [pf, posts.filter((p) => p.platform === pf).length]));
-  return { lot: LOT_ID, approvedBy: APPROVED_BY_LOT, debut: LOT_DEBUT, fin: LOT_FIN, graine, total: posts.length, parReseau, posts: posts.map(versLigne) };
+  return { lot: meta.lot, approvedBy: approvedByDuLot(meta.lot), debut: meta.debut, fin: meta.fin, graine, total: posts.length, parReseau,
+    posts: posts.map((p) => versLigne(p, meta.lot)), replis: replis.map((p) => versLigne(p, meta.lot)) };
 }
 
 /** Segments à faire relire à l'aveugle : ni catalogue, ni article, ni validé, ni formule v5. */
@@ -64,16 +80,17 @@ function source(p: LotPost): string {
   return `${p.sourceType} \`${p.sourceId}\` (${s})`;
 }
 
-export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: string[], stock: number, graine: string): string {
+export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: string[], stock: number, graine: string, meta: MetaLot = META_LOT_V5, replis: LotPost[] = []): string {
+  const { lot, debut, fin } = meta;
   const n = (pf: PreparedPlatform) => posts.filter((p) => p.platform === pf).length;
   const neufs = textesNeufs(posts);
   const valides = posts.filter((p) => p.origine === "VALIDE");
   const out = [
-    `# Lot de relance des réseaux, s15 (${frDate(LOT_DEBUT)} au ${frDate(LOT_FIN)}), DRY-RUN`,
+    `# Lot social « ${lot} » (${frDate(debut)} au ${frDate(fin)}), DRY-RUN`,
     "",
-    `> Généré par \`apps/web/scripts/content/prepare-social-month.ts --lot ${LOT_ID}\` (graine « ${graine} »). **Rien n'est inséré en base, rien n'est publié.**`,
+    `> Généré par \`apps/web/scripts/content/prepare-social-month.ts --lot ${lot} --debut ${debut} --fin ${fin}\` (graine « ${graine} »). **Rien n'est inséré en base, rien n'est publié.**`,
     "> Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.",
-    `> Insertion (plus tard) : \`--lot ${LOT_ID} --insert [--driver=neon-http]\` lit \`lot-relance-s15.json\` et insère ces lignes en APPROVED (approvedBy « ${APPROVED_BY_LOT} »).`,
+    `> Insertion (plus tard) : \`--lot ${lot} --insert [--driver=neon-http]\` lit \`lot-${lot}.json\` et insère ces lignes en APPROVED (approvedBy « ${approvedByDuLot(lot)} »), puis compte par réseau et par semaine. Annulation : \`--lot ${lot} --rollback --confirmer\`.`,
     "",
     `**Total : ${posts.length} posts** (X : ${n("TWITTER")}, Instagram : ${n("INSTAGRAM")}, LinkedIn : ${n("LINKEDIN")}). Heures de Paris : X 12:30, Instagram 19:30, LinkedIn 08:15. Stock éligible du catalogue au J0 : ${stock} vannes.`,
     "",
@@ -95,6 +112,11 @@ export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: 
     const affichees = p.cartes.length === 5 ? [...p.cartes.slice(0, 3), `${p.cartes[3]} ${p.cartes[4]}`] : p.cartes;
     const cartes = affichees.length ? affichees.map((c, i) => `${i + 1}. ${c}`).join("<br>") : "aucune (texte seul)";
     out.push(`| ${frDate(p.date)} | ${p.heure} | ${LABEL[p.platform]} | ${p.type}${p.cle ? ` (${p.cle})` : ""} | ${cell(p.content)} | ${p.lien ? cell(p.lien) : p.platform === "INSTAGRAM" && /lien en bio/.test(p.content) ? "lien de bio `/liens`" : "aucun"} | ${cell(source(p))}${p.note ? `<br>${cell(p.note)}` : ""} | ${cell(cartes)} |`);
+  }
+  if (replis.length) {
+    out.push("", `## Replis en réserve (${replis.length}), envoyés seulement si l'article relayé n'est pas publié à l'heure`, "",
+      "| Date | Réseau | Relais remplacé | Texte exact | Cartes |", "|---|---|---|---|---|");
+    for (const r of replis) out.push(`| ${frDate(r.date)} ${r.heure} | ${LABEL[r.platform]} | ${r.repliDe} | ${cell(r.content)} | ${cell(r.cartes.join("<br>") || "aucune")} |`);
   }
   out.push("");
   return out.join("\n");

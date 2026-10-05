@@ -8,6 +8,7 @@
  * Utilisé par l'admin (`/api/admin/social/report`) et le rapport du lundi.
  */
 import type { SocialPlatform } from "@prisma/client";
+import { CONSIGNE_RELEVE } from "@/config/social-calendrier";
 import { BUFFER_CONFIRMED_PREFIX, NON_CONFIRME_APRES_MS } from "./buffer-status-check";
 
 export interface PostRapport {
@@ -104,8 +105,18 @@ const LABEL: Partial<Record<SocialPlatform, string>> = { TWITTER: "X", INSTAGRAM
 const TD = "padding:6px 8px;border-bottom:1px solid #eee;";
 const TDN = `${TD}text-align:right;`;
 
-/** Section HTML du rapport du lundi (totaux par réseau, écart en rouge). */
+/** Consigne du relevé du lundi (plan v3 §8-§9), à coller dans une session. */
+export function consigneReleveHtml(): string {
+  return `<p style="font-size:13px;margin:12px 0 4px;"><strong>Relevé du lundi, consigne à coller dans une session :</strong></p>
+  <pre style="font-size:12px;white-space:pre-wrap;background:#f6f6f6;padding:8px;margin:0;">${CONSIGNE_RELEVE}</pre>`;
+}
+
+/** Section HTML du rapport du lundi (totaux par réseau, écart en rouge), suivie de la consigne de relevé. */
 export function rapportPublicationHtml(r: RapportPublication): string {
+  return `${tableauPublicationHtml(r)}${consigneReleveHtml()}`;
+}
+
+function tableauPublicationHtml(r: RapportPublication): string {
   const reseaux = Object.entries(r.totaux) as Array<[SocialPlatform, Compteurs]>;
   const titre = `<h3 style="font-size:16px;margin:24px 0 8px;">Réseaux sociaux : prévu contre publié</h3>`;
   if (reseaux.length === 0) {

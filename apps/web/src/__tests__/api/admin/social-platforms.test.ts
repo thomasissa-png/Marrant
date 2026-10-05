@@ -3,9 +3,11 @@
  *
  * Admin social (s15 cycle 3) : interrupteur Pause / Reprise par réseau et
  * rapport « prévu contre publié ». Auth Bearer ADMIN_PASSWORD, zod, reprise
- * refusée tant que le canal Buffer est en panne.
+ * refusée tant que le canal Buffer est en panne ou si Buffer est injoignable
+ * (QA cycle 1 C3) ; commande « sauter les posts avant J0 ».
  */
 const settings: Array<Record<string, unknown>> = [];
+const posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date; directorNote?: string | null }> = [];
 jest.mock("@/lib/prisma", () => ({
   prisma: {
     socialPlatformSetting: {
@@ -19,15 +21,20 @@ jest.mock("@/lib/prisma", () => ({
       updateMany: async () => ({ count: 0 }),
     },
     socialPost: {
-      findMany: async () => [],
-      update: async () => ({}),
+      findMany: async (a: { where: { platform: string; scheduledAt: { lt: Date } } }) =>
+        posts.filter((p) => p.platform === a.where.platform && p.status === "APPROVED" && p.scheduledAt < a.where.scheduledAt.lt),
+      update: async (a: { where: { id: string }; data: Record<string, unknown> }) => Object.assign(posts.find((p) => p.id === a.where.id)!, a.data),
     },
   },
 }));
 let channels: Array<Record<string, unknown>> = [];
+let bufferDown = false;
 jest.mock("@/lib/social/buffer-client", () => ({
   isBufferConfigured: () => true,
-  getBufferChannels: async () => channels,
+  getBufferChannels: async () => {
+    if (bufferDown) throw new Error("Buffer timeout");
+    return channels;
+  },
   getConfiguredChannelIds: () => ({ TWITTER: "x", INSTAGRAM: "ig", LINKEDIN: "li" }),
 }));
 
@@ -42,6 +49,8 @@ const post = (body: unknown, headers: Record<string, string> = auth) =>
 beforeEach(() => {
   process.env.ADMIN_PASSWORD = "pw";
   settings.length = 0;
+  posts.length = 0;
+  bufferDown = false;
   for (const platform of ["TWITTER", "INSTAGRAM", "LINKEDIN"]) {
     settings.push({ platform, paused: true, reason: "Relance s15", changedBy: "migration", pausedAt: null, alertSentAt: null });
   }
@@ -86,6 +95,27 @@ describe("/api/admin/social/platforms", () => {
     expect(r.status).toBe(409);
     expect((await r.json()).error).toContain("Reconnecter le canal");
     expect(settings.find((s) => s.platform === "INSTAGRAM")).toMatchObject({ paused: true });
+  });
+
+  it("reprise refusée si Buffer est injoignable (503), réseau toujours en pause", async () => {
+    bufferDown = true;
+    const r = await post({ platform: "LINKEDIN", action: "reprise" });
+    expect(r.status).toBe(503);
+    expect((await r.json()).error).toContain("Buffer injoignable");
+    expect(settings.find((s) => s.platform === "LINKEDIN")).toMatchObject({ paused: true });
+  });
+
+  it("sauter les posts avant J0 : j0 obligatoire, puis REJECTED des posts antérieurs", async () => {
+    posts.push(
+      { id: "a", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-12T10:30:00Z") },
+      { id: "b", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-19T10:30:00Z") },
+    );
+    expect((await post({ platform: "TWITTER", action: "sauter-avant-j0" })).status).toBe(400);
+    expect((await post({ platform: "TWITTER", action: "sauter-avant-j0", j0: "19/10" })).status).toBe(400);
+    const r = await post({ platform: "TWITTER", action: "sauter-avant-j0", j0: "2026-10-19" });
+    expect(r.status).toBe(200);
+    expect((await r.json()).message).toContain("1 post(s)");
+    expect(posts.map((p) => p.status)).toEqual(["REJECTED", "APPROVED"]);
   });
 });
 

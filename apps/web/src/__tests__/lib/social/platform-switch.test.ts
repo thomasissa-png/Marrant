@@ -14,6 +14,7 @@ import {
   replanifierRetards,
   reprendre,
   reseauxEnPause,
+  sauterAvantJ0,
   type PlatformSettingRow,
   type SwitchDb,
 } from "@/lib/social/platform-switch";
@@ -22,7 +23,7 @@ import { construireRapport, rapportPublicationHtml, type PostRapport } from "@/l
 
 const NOW = new Date("2026-10-12T10:00:00Z");
 
-function fakeDb(settings: PlatformSettingRow[], posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date }> = []) {
+function fakeDb(settings: PlatformSettingRow[], posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date; directorNote?: string | null }> = []) {
   const db: SwitchDb & { settings: PlatformSettingRow[]; posts: typeof posts } = {
     settings,
     posts,
@@ -49,7 +50,7 @@ function fakeDb(settings: PlatformSettingRow[], posts: Array<{ id: string; platf
           (!w.scheduledAt.lt || p.scheduledAt < w.scheduledAt.lt) && (!w.scheduledAt.gte || p.scheduledAt >= w.scheduledAt.gte));
       },
       update: async (args: unknown) => {
-        const a = args as { where: { id: string }; data: { scheduledAt: Date } };
+        const a = args as { where: { id: string }; data: Record<string, unknown> };
         Object.assign(posts.find((p) => p.id === a.where.id)!, a.data);
         return {};
       },
@@ -79,23 +80,74 @@ describe("interrupteur", () => {
     expect(db.settings[0]).toMatchObject({ paused: false, reason: null });
   });
 
-  it("reprise : posts en retard replanifiés à 1 par jour, sur les jours libres, à leur heure", async () => {
-    const posts = [
-      { id: "r1", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-06T16:30:00Z") },
-      { id: "r2", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-07T16:30:00Z") },
-      { id: "r3", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-09T16:30:00Z") },
-      { id: "f1", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-14T16:30:00Z") },
+  it("reprise : plus de 24 h de retard = REJECTED « expiré », moins de 24 h = replanifié sur un jour libre, heure de Paris", async () => {
+    const posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date; directorNote?: string | null }> = [
+      { id: "r1", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-06T17:30:00Z"), directorNote: "Lot relance-s15 (VANNE)" },
+      { id: "r2", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-11T17:30:00Z") },
+      { id: "f1", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-12T17:30:00Z") },
+      { id: "f2", platform: "INSTAGRAM", status: "APPROVED", scheduledAt: new Date("2026-10-13T17:30:00Z") },
     ];
     const db = fakeDb([ligne("INSTAGRAM", true)], posts);
-    const { replanifies } = await reprendre(db, "INSTAGRAM", NOW);
-    expect(replanifies).toBe(3);
-    expect(posts.map((p) => p.scheduledAt.toISOString())).toEqual([
-      "2026-10-13T16:30:00.000Z", "2026-10-15T16:30:00.000Z", "2026-10-16T16:30:00.000Z", "2026-10-14T16:30:00.000Z",
-    ]);
+    const res = await reprendre(db, "INSTAGRAM", NOW);
+    expect(res).toEqual({ replanifies: 1, expires: 1 });
+    expect(posts[0]).toMatchObject({ status: "REJECTED", scheduledAt: new Date("2026-10-06T17:30:00Z") });
+    expect(posts[0].directorNote).toBe("Expiré à la reprise du 12/10/2026 : prévu le 06/10/2026, plus de 24 h avant. Lot relance-s15 (VANNE)");
+    // 12/10 et 13/10 occupés : mercredi 14/10 à 19:30 (Paris, heure d'été).
+    expect(posts[1].scheduledAt.toISOString()).toBe("2026-10-14T17:30:00.000Z");
+    expect(db.settings[0]).toMatchObject({ paused: false });
+  });
+
+  it("reprise : relais d'article et post daté en retard de moins de 24 h = REJECTED, jamais rattrapés (plan v2 §7)", async () => {
+    const posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date; directorNote?: string | null; content?: string; cta?: string | null }> = [
+      { id: "rel", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-12T09:30:00Z"), content: "Vanne\n\nhttps://deviens-marrant.fr/blog/a?utm_source=x", directorNote: null },
+      { id: "hal", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-11T10:30:00Z"), content: "Vanne d'Halloween", directorNote: "[date:2026-10-11] Lot relance-s15 (PIVOT)" },
+      { id: "van", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-11T10:30:00Z"), content: "Vanne", directorNote: "Lot relance-s15 (VANNE)" },
+    ];
+    const db = fakeDb([ligne("TWITTER", true)], posts);
+    expect(await reprendre(db, "TWITTER", NOW)).toEqual({ replanifies: 1, expires: 2 });
+    expect(posts.map((p) => p.status)).toEqual(["REJECTED", "REJECTED", "APPROVED"]);
+    expect(posts[0].directorNote).toBe("Expiré à la reprise du 12/10/2026 : prévu le 12/10/2026, relais d'article ou post daté, jamais rattrapé.");
+    expect(posts[2].scheduledAt.toISOString()).toBe("2026-10-12T10:30:00.000Z"); // créneau X du jour encore à venir
+  });
+
+  it("replanifierRetards : jamais un dimanche ni un jour de silence (11/11)", () => {
+    const now = new Date("2026-11-07T15:00:00Z"); // samedi 16:00 Paris, créneau X de 12:30 passé
+    const plan = replanifierRetards(
+      [{ id: "a", scheduledAt: new Date("2026-11-06T11:30:00Z") }, { id: "b", scheduledAt: new Date("2026-11-07T11:30:00Z") }],
+      new Set(["2026-11-09"]),
+      now,
+      "TWITTER",
+    );
+    // dim. 08/11 exclu, lun. 09/11 occupé, mar. 10/11 libre ; mer. 11/11 silence, jeu. 12/11.
+    expect(plan.map((p) => p.scheduledAt.toISOString())).toEqual(["2026-11-10T11:30:00.000Z", "2026-11-12T11:30:00.000Z"]);
+  });
+
+  it("replanifierRetards : heure de Paris du réseau après le passage à l'heure d'hiver (25/10)", () => {
+    // Post X du sam. 24/10 à 12:30 Paris (10:30 UTC), reprise dim. 25/10 à 06:00 UTC.
+    const plan = replanifierRetards([{ id: "a", scheduledAt: new Date("2026-10-24T10:30:00Z") }], new Set(), new Date("2026-10-25T06:00:00Z"), "TWITTER");
+    expect(plan[0].scheduledAt.toISOString()).toBe("2026-10-26T11:30:00.000Z"); // lundi 12:30 Paris = 11:30 UTC
+  });
+
+  it("replanifierRetards : créneau du jour même gardé s'il est encore à venir", () => {
+    const plan = replanifierRetards([{ id: "a", scheduledAt: new Date("2026-10-12T06:15:00Z") }], new Set(), new Date("2026-10-13T05:00:00Z"), "LINKEDIN");
+    expect(plan[0].scheduledAt.toISOString()).toBe("2026-10-13T06:15:00.000Z");
   });
 
   it("replanifierRetards : aucun retard, aucun changement", () => {
-    expect(replanifierRetards([], new Set(), NOW)).toEqual([]);
+    expect(replanifierRetards([], new Set(), NOW, "TWITTER")).toEqual([]);
+  });
+
+  it("sauter les posts avant J0 : APPROVED datés avant le J0 du réseau passés en REJECTED", async () => {
+    const posts: Array<{ id: string; platform: string; status: string; scheduledAt: Date; directorNote?: string | null }> = [
+      { id: "a", platform: "LINKEDIN", status: "APPROVED", scheduledAt: new Date("2026-10-13T06:15:00Z") },
+      { id: "b", platform: "LINKEDIN", status: "APPROVED", scheduledAt: new Date("2026-10-20T06:15:00Z") },
+      { id: "c", platform: "TWITTER", status: "APPROVED", scheduledAt: new Date("2026-10-13T10:30:00Z") },
+    ];
+    const db = fakeDb([ligne("LINKEDIN", true)], posts);
+    expect(await sauterAvantJ0(db, "LINKEDIN", "2026-10-20")).toEqual({ sautes: 1 });
+    expect(posts.map((p) => p.status)).toEqual(["REJECTED", "APPROVED", "APPROVED"]);
+    expect(posts[0].directorNote).toBe("Sauté : prévu le 13/10/2026, avant le J0 du réseau (20/10/2026).");
+    expect(db.settings[0].paused).toBe(true);
   });
 
   it("détecte un canal déconnecté, verrouillé ou introuvable parmi les réseaux configurés", () => {

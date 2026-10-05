@@ -16,6 +16,8 @@
  * Toute évolution d'un job se fait ICI (source unique pour les deux hébergeurs).
  */
 
+import type { CouvertureDb } from "@/lib/social/couverture";
+
 /** Appelle une route cron interne. `path` inclut la query (`?secret=` le cas échéant). */
 export type CronRouteCaller = (
   path: string,
@@ -340,6 +342,42 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job 5 ter : Couverture de la file sociale (s15, QA cycles 1-2, plan v2 §5 et §8).
+   * TIME-GATED (5h-21h UTC, les créneaux de publication) + LOCK horaire non
+   * relâché (1 passage par heure, comme la relecture Buffer).
+   *
+   * Réseaux non en pause : pause automatique après 2 FAILED consécutifs ;
+   * alerte « file basse » (moins de 10 jours de posts APPROVED) ; tranche en
+   * retard (à sa date de prêt, J-14 : insérés < prévus, 9 tranches du plan v2).
+   * Tous réseaux : stock éligible < 14 ; e-mail de lancement de tranche.
+   * E-mails séparés par réseau et par type, 1 par jour au plus, verrou posé
+   * après envoi. Aucun LLM, aucun appel Buffer. Détail : `lib/social/couverture.ts`.
+   */
+  const runCouvertureSocialeJob = async () => {
+    try {
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+      if (utcHour < 5 || utcHour > 21) return;
+
+      const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = `${buildJobLockKey("social-couverture", now)}-h${String(utcHour).padStart(2, "0")}`;
+      if (!(await tryAcquireLock(lockKey, 55 * 60 * 1000))) return;
+
+      const { prisma } = await import("@/lib/prisma");
+      const { runCouvertureSociale } = await import("@/lib/social/couverture");
+      const { sendDailyPublishFailureAlert } = await import("@/lib/social/publish-failure");
+      const res = await runCouvertureSociale(prisma as unknown as CouvertureDb, sendDailyPublishFailureAlert, now);
+      if (res.alertes.length + res.pauses.length + res.fileBasse.length + res.tranchesEnRetard.length > 0) {
+        console.log(
+          `[scheduler:social-couverture] pause : ${res.pauses.join(", ") || "aucune"} ; file basse : ${res.fileBasse.map((f) => `${f.platform} ${f.jours.toFixed(1)} j`).join(", ") || "aucune"} ; tranche en retard : ${res.tranchesEnRetard.map((t) => `${t.platform} ${t.tranche} ${t.inseres}/${t.prevus}`).join(", ") || "aucune"} ; stock : ${JSON.stringify(res.stock)} ; lancement : ${res.lancement ?? "aucun"} ; alertes : ${res.alertes.join(", ") || "aucune"}.`,
+        );
+      }
+    } catch (err) {
+      console.error("[scheduler:social-couverture] Échec :", err);
+    }
+  };
+
+  /**
    * Job 6 : Suivi et nettoyage des posts sociaux
    * Appelle le cron endpoint /api/cron/social-analytics qui gère :
    * - Nettoyage des posts stuck (APPROVED > 48h → FAILED)
@@ -630,6 +668,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runDailySocialJob();
     await runPublishSocialJob();
     await runBufferStatusCheckJob();
+    await runCouvertureSocialeJob();
     await runSocialAnalyticsJob();
     await runSeoAuditJob();
     await runSeoReportJob();
@@ -648,5 +687,6 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runAnnualRenewalReminderJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
+    runCouvertureSocialeJob,
   };
 }

@@ -12,14 +12,31 @@ import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom,
 import * as C from "./social-lot-v5-config";
 import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 
-export interface ArticleLot { slug: string; title: string; category: string; date: string; content: string }
+export interface ArticleLot {
+  slug: string; title: string; category: string; date: string; content: string;
+  /** Article en base pas encore visible (programmé) : ses relais reçoivent un repli en réserve (garde articleSlug). */
+  aGarder?: boolean;
+}
 export interface LotInput {
   pool: CatalogueJoke[];
   articles: ArticleLot[];
-  /** Vannes postées ou programmées avant le lot (anti-répétition 90 jours). */
-  recents: Array<{ date: string; sourceId: string }>;
+  /**
+   * Vannes postées ou programmées avant le lot (anti-répétition 90 jours) ; `platform`
+   * sert à la règle « retour à 90 jours sur un autre réseau que la 1re diffusion » (plan v3 §2).
+   */
+  recents: Array<{ date: string; sourceId: string; platform?: string }>;
   siteUrl?: string;
   seed?: string;
+  /** Identifiant du lot (défaut « relance-s15 ») : graine par défaut et identifiants des posts. */
+  lot?: string;
+  /** Bornes du lot, dates de Paris incluses (défaut : 12/10/2026 au 03/01/2027). */
+  debut?: string;
+  fin?: string;
+  /**
+   * `--pool` : vannes autorisées pour les tirages, relais et décryptages (id catalogue ou
+   * `slug#rang`), ordonnées des meilleures aux moins bonnes. Les posts fixes restent imposés.
+   */
+  autorisees?: string[];
 }
 export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF";
 export interface Segment { texte: string; origine: Origine }
@@ -40,11 +57,19 @@ export interface LotPost {
   /** Clés anti-répétition (id catalogue ou `slug#rang`). */
   vannes: string[];
   persona: "YANIS" | "SOPHIE" | "MARC";
+  /** Slug de l'article relayé (RELAIS, PIVOT) : garde de publication `articleSlug`. */
+  article: string | null;
+  /** Relais : id du repli en réserve (vanne du même thème, sans lien). */
+  repli: string | null;
+  /** Repli : id du relais qu'il remplace si l'article n'est pas publié à l'heure. */
+  repliDe: string | null;
+  /** Post daté (pivot, saison) : jamais rattrapé à la reprise. */
+  datee: boolean;
   origine: "VALIDE" | "V5" | "TIRAGE";
   segments: Segment[];
   note: string | null;
 }
-export interface LotResult { posts: LotPost[]; warnings: string[]; errors: string[]; stockEligible: number }
+export interface LotResult { posts: LotPost[]; replis: LotPost[]; warnings: string[]; errors: string[]; stockEligible: number }
 
 interface Vanne {
   cle: string;
@@ -62,8 +87,8 @@ const mots = (t: string) => t.trim().split(/\s+/).filter(Boolean).length;
 const texteDe = (v: Vanne) => v.lignes.join(" ");
 const jours = (a: string, b: string) => Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
 
-export function idDuPost(platform: PreparedPlatform, date: string): string {
-  return `c${createHash("sha256").update(`${C.LOT_ID}|${platform}|${date}`).digest("hex").slice(0, 24)}`;
+export function idDuPost(platform: PreparedPlatform, date: string, lot: string = C.LOT_ID): string {
+  return `c${createHash("sha256").update(`${lot}|${platform}|${date}`).digest("hex").slice(0, 24)}`;
 }
 
 /** Coupe une ligne unique en deux cartes : tout sauf la dernière phrase, puis la dernière. */
@@ -90,10 +115,18 @@ function deJoke(j: CatalogueJoke): Vanne {
 
 export function buildLotV5(input: LotInput): LotResult {
   const siteUrl = (input.siteUrl ?? "https://deviens-marrant.fr").replace(/\/$/, "");
-  const rnd = seededRandom(input.seed ?? C.LOT_ID);
+  const lotId = input.lot ?? C.LOT_ID;
+  const graine = input.seed ?? lotId;
+  const debut = input.debut ?? C.LOT_DEBUT;
+  const fin = input.fin ?? C.LOT_FIN;
+  const rnd = seededRandom(graine);
+  /** Rang dans le pool (0 = meilleure) ; null = pas de --pool. */
+  const rang = input.autorisees ? new Map(input.autorisees.map((id, i) => [id, i])) : null;
+  const parRang = <T extends { cle: string }>(vs: T[]): T[] => (rang ? [...vs].sort((a, b) => (rang.get(a.cle) ?? Infinity) - (rang.get(b.cle) ?? Infinity)) : vs);
   const warnings: string[] = [];
   const errors: string[] = [];
   const posts: LotPost[] = [];
+  const replis: LotPost[] = [];
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
   const articleParDate = new Map(input.articles.map((a) => [a.date, a]));
   const articleParSlug = new Map(input.articles.map((a) => [a.slug, a]));
@@ -103,7 +136,13 @@ export function buildLotV5(input: LotInput): LotResult {
   // ── Registre anti-répétition (clé et texte normalisé) ──
   const utilise = new Map<string, string>(); // clé -> date
   const textes = new Set<string>();
-  for (const r of input.recents) utilise.set(r.sourceId, r.date);
+  for (const r of input.recents) if (!utilise.has(r.sourceId) || r.date > utilise.get(r.sourceId)!) utilise.set(r.sourceId, r.date);
+  /** Réseau de 1re diffusion de chaque vanne (retour à 90 jours sur un autre réseau, sauf pénurie). */
+  const premier = new Map<string, { date: string; pf: string }>();
+  for (const r of input.recents) {
+    const p = premier.get(r.sourceId);
+    if (r.platform && (!p || r.date < p.date)) premier.set(r.sourceId, { date: r.date, pf: r.platform });
+  }
   const fixesVannes = new Set<string>();
 
   const vanneDeLigne = (l: LigneArticle): Vanne => {
@@ -111,12 +150,14 @@ export function buildLotV5(input: LotInput): LotResult {
     if (j) return { ...deJoke(j), origine: "CATALOGUE", article: l };
     return { cle: `${l.slug}#${l.rang}`, lignes: l.lignes, cartes: deuxCartes(l.lignes), categorie: null, origine: "ARTICLE", article: l };
   };
-  const vanneDuFixe = (f: Fixe): Vanne | null => {
+  // Fixes hors des bornes du lot : leurs vannes restent réservées, sans erreur bloquante.
+  const vanneDuFixe = (f: Fixe, signaler = true): Vanne | null => {
     const v = f.vanne;
     if (!v) return null;
+    const err = (m: string) => { if (signaler) errors.push(m); };
     if (v.jokeId) {
       const j = poolById.get(v.jokeId);
-      if (!j) { errors.push(`${f.date} ${f.cle} : vanne ${v.jokeId} absente du catalogue validé (isActive + GARDER).`); return null; }
+      if (!j) { err(`${f.date} ${f.cle} : vanne ${v.jokeId} absente du catalogue validé (isActive + GARDER).`); return null; }
       return deJoke(j);
     }
     const slug = v.article?.slug ?? v.articleTexte?.slug ?? "";
@@ -129,31 +170,50 @@ export function buildLotV5(input: LotInput): LotResult {
       return { cle: `${slug}#${normaliser(v.articleTexte.texte).slice(0, 24)}`, lignes: [v.articleTexte.texte],
         cartes: deuxCartes([v.articleTexte.texte]), categorie: null, origine: "ARTICLE" };
     }
-    errors.push(`${f.date} ${f.cle} : ligne introuvable mot pour mot dans l'article ${slug}.`);
+    err(`${f.date} ${f.cle} : ligne introuvable mot pour mot dans l'article ${slug}.`);
     return null;
   };
-  for (const f of FIXES) { const v = vanneDuFixe(f); if (v) fixesVannes.add(v.cle); }
+  for (const f of FIXES) { const v = vanneDuFixe(f, f.date >= debut && f.date <= fin); if (v) fixesVannes.add(v.cle); }
+  if (rang) {
+    const connues = new Set([...input.pool.map((j) => j.id), ...[...lignesParSlug.values()].flat().map((l) => vanneDeLigne(l).cle)]);
+    const inconnues = input.autorisees!.filter((id) => !connues.has(id));
+    if (inconnues.length) warnings.push(`--pool : ${inconnues.length} identifiant(s) absent(s) du catalogue validé et des articles (${inconnues.slice(0, 5).join(", ")}${inconnues.length > 5 ? "…" : ""}).`);
+  }
 
   const saisonBloque = (texte: string, date: string) => C.SAISONS.some((s) => s.re.test(texte) && (date < s.de || date > s.a));
   const estPain = (v: Vanne) => (v.jokeId ? C.PAIN_IDS.includes(v.jokeId) : false) || C.PAIN_RE.test(texteDe(v));
   /** Vanne utilisable par un tirage ou un relais à cette date (les fixes passent à part). */
   // `relais` : la ligne vient de l'article relayé ce jour-là, sa saison est celle de l'article.
-  const libre = (v: Vanne, date: string, relais = false): boolean => {
+  // `pf` : réseau visé ; une vanne ne revient pas sur le réseau de sa 1re diffusion.
+  const libre = (v: Vanne, date: string, relais = false, pf?: PreparedPlatform): boolean => {
+    if (rang && !rang.has(v.cle)) return false;
+    if (pf && premier.get(v.cle)?.pf === pf) return false;
     if (v.jokeId && (C.SOUS_HUIT.includes(v.jokeId) || C.RESERVEES_NOEL.includes(v.jokeId))) return false;
     if (estPain(v) || (!relais && saisonBloque(texteDe(v), date)) || fixesVannes.has(v.cle)) return false;
     const d = utilise.get(v.cle);
     if (d && Math.abs(jours(d, date)) < C.ANTI_REPETITION_JOURS) return false;
     return !textes.has(normaliser(texteDe(v)));
   };
-  const reserver = (v: Vanne, date: string) => { utilise.set(v.cle, date); textes.add(normaliser(texteDe(v))); };
+  const reserver = (v: Vanne, date: string, pf: PreparedPlatform) => {
+    utilise.set(v.cle, date);
+    textes.add(normaliser(texteDe(v)));
+    if (!premier.has(v.cle)) premier.set(v.cle, { date, pf });
+  };
+  /** Pénurie : la règle « autre réseau » est levée, avec avertissement (plan v3 §2 « sauf pénurie »). */
+  const penurie = (v: Vanne | null, pf: PreparedPlatform, date: string): Vanne | null => {
+    if (v) warnings.push(`${date} ${pf} : pénurie, vanne ${v.cle} reprise sur son réseau de 1re diffusion (${premier.get(v.cle)?.date}).`);
+    return v;
+  };
 
-  const stock = input.pool.filter((j) => libre(deJoke(j), C.LOT_DEBUT)).length;
+  const stock = input.pool.filter((j) => libre(deJoke(j), debut)).length;
   if (stock < 7) errors.push(`Stock éligible ${stock} sous 7 : lot bloqué (v5 §1).`);
 
+  // Avec --pool : ordre du fichier (les meilleures d'abord), sans mélange.
+  const ordonner = (js: CatalogueJoke[]) => (rang ? parRang(js.map((j) => ({ j, cle: j.id }))).map((x) => x.j) : shuffle(js, rnd));
   const melange: Record<PreparedPlatform, CatalogueJoke[]> = {
-    TWITTER: shuffle(input.pool, rnd), INSTAGRAM: shuffle(input.pool, rnd), LINKEDIN: [],
+    TWITTER: ordonner(input.pool), INSTAGRAM: ordonner(input.pool), LINKEDIN: [],
   };
-  melange.LINKEDIN = [...shuffle(input.pool.filter((j) => j.category === "BOULOT"), rnd), ...shuffle(input.pool.filter((j) => j.category !== "BOULOT"), rnd)];
+  melange.LINKEDIN = [...ordonner(input.pool.filter((j) => j.category === "BOULOT")), ...ordonner(input.pool.filter((j) => j.category !== "BOULOT"))];
 
   // ── Construction d'un post ──
   const creneau = (pf: PreparedPlatform) => C.GRILLE_V5[pf];
@@ -184,9 +244,10 @@ export function buildLotV5(input: LotInput): LotResult {
   const poster = (date: string, pf: PreparedPlatform, type: TypePost, o: {
     v: Vanne | null; marque?: string; renvoi?: string | null; renvoiOrigine?: Origine; lien?: string | null; legende?: string; legendeOrigine?: Origine;
     cartes?: string[]; cartesOrigine?: Origine; origine: LotPost["origine"]; cle?: string; slug?: string; note?: string | null; valide?: boolean;
+    repliDe?: string;
   }): LotPost => {
     const g = creneau(pf);
-    const id = idDuPost(pf, date);
+    const id = idDuPost(pf, date, o.repliDe ? `${lotId}-repli` : lotId);
     const lien = o.lien ?? null;
     const content = pf === "INSTAGRAM" ? (o.legende ?? C.FORMULES.pied) : textePost(pf, o.v, o.marque ?? null, o.renvoi ?? null, lien);
     const cartes = pf === "INSTAGRAM" ? (o.cartes ?? (o.v?.cartes ? [...o.v.cartes] : [])) : [];
@@ -206,10 +267,13 @@ export function buildLotV5(input: LotInput): LotResult {
       // Décryptage : 5 parties (amorce, chute, mécanisme, consigne, renvoi) = 4 cartes (carte 4 = consigne + renvoi).
       imageUrls: Array.from({ length: nombreDeCartes(cartes) }, (_, i) => `${siteUrl}/api/social/image?postId=${id}&slide=${i}`),
       lien, sourceType, sourceId, vannes: o.v ? [o.v.cle] : [], persona, origine: o.origine, segments, note: o.note ?? null,
+      article: (type === "RELAIS" || type === "PIVOT") && o.slug ? o.slug : null,
+      repli: null, repliDe: o.repliDe ?? null,
+      datee: type === "PIVOT" || C.SAISONS.some((x) => x.re.test(`${content} ${cartes.join(" ")}`)),
     };
     const errs = controler(p);
-    if (errs.length) errors.push(`${date} ${pf} ${o.cle ?? type} : ${errs.join(", ")}`);
-    posts.push(p);
+    if (errs.length) errors.push(`${date} ${pf} ${o.cle ?? type}${o.repliDe ? " (repli)" : ""} : ${errs.join(", ")}`);
+    (o.repliDe ? replis : posts).push(p);
     return p;
   };
 
@@ -235,19 +299,20 @@ export function buildLotV5(input: LotInput): LotResult {
     return l.citee && premierePersonne(t) && !t.includes("?") && (a.category === "CATALOGUE" || !!l.pourquoi);
   }
   /** Ligne d'article pour un relais : catalogue, article CATALOGUE, ou vanne décryptée citée. */
-  const ligneRelais = (a: ArticleLot, date: string, filtre: (v: Vanne) => boolean): Vanne | null => {
-    const ls = shuffle(lignesParSlug.get(a.slug) ?? [], seededRandom(`${input.seed ?? C.LOT_ID}-${a.slug}-${date}`));
-    const candidats = ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId));
-    return candidats.find((v) => libre(v, date, true) && filtre(v)) ?? null;
+  const ligneRelais = (a: ArticleLot, date: string, pf: PreparedPlatform, filtre: (v: Vanne) => boolean): Vanne | null => {
+    const ls = shuffle(lignesParSlug.get(a.slug) ?? [], seededRandom(`${graine}-${a.slug}-${date}`));
+    const candidats = parRang(ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId)));
+    return candidats.find((v) => libre(v, date, true, pf) && filtre(v))
+      ?? penurie(candidats.find((v) => libre(v, date, true) && filtre(v)) ?? null, pf, date);
   };
   /** Lignes d'articles déjà publiés à cette date (v5 : « vannes = catalogue ou lignes des articles du site »). */
   const lignesPubliees = (date: string): Vanne[] => input.articles.filter((a) => a.date < date && !C.ARTICLES_MESSAGES.test(a.slug))
     .flatMap((a) => (lignesParSlug.get(a.slug) ?? []).filter((l) => !l.catalogueId && eligibleRelais(a, l)))
     .map(vanneDeLigne);
   const tirer = (pf: PreparedPlatform, date: string, filtre: (v: Vanne) => boolean, prefere?: (v: Vanne) => boolean): Vanne | null => {
-    const ordre = [...melange[pf].map(deJoke), ...shuffle(lignesPubliees(date), seededRandom(`${input.seed ?? C.LOT_ID}-${pf}-${date}`))];
-    const ok = (v: Vanne) => libre(v, date) && filtre(v);
-    return (prefere ? ordre.find((v) => prefere(v) && ok(v)) : undefined) ?? ordre.find(ok) ?? null;
+    const ordre = parRang([...melange[pf].map(deJoke), ...shuffle(lignesPubliees(date), seededRandom(`${graine}-${pf}-${date}`))]);
+    const choisir = (ok: (v: Vanne) => boolean) => (prefere ? ordre.find((v) => prefere(v) && ok(v)) : undefined) ?? ordre.find(ok) ?? null;
+    return choisir((v) => libre(v, date, false, pf) && filtre(v)) ?? penurie(choisir((v) => libre(v, date) && filtre(v)), pf, date);
   };
   const filtreReseau = (pf: PreparedPlatform, suffixe = ""): ((v: Vanne) => boolean) => (v) => {
     if (pf === "INSTAGRAM") return !!v.cartes && v.cartes.every((c) => mots(c) <= 25);
@@ -255,13 +320,34 @@ export function buildLotV5(input: LotInput): LotResult {
     return checkPost({ platform: pf, text: t, quoted: "", r6: true }).length === 0 && (pf !== "LINKEDIN" || t.split("\n")[0].length <= 140);
   };
   construire();
-  return { posts, warnings, errors, stockEligible: stock };
+  construireReplis();
+  return { posts, replis, warnings, errors, stockEligible: stock };
+
+  /**
+   * Repli de chaque relais d'un article pas encore visible (plan v2 §6, R3) : vanne du même
+   * thème, sans lien, sur le même créneau. Tirée APRÈS tout le lot parmi les vannes libres
+   * (aucune vanne du lot à moins de 90 jours), jamais deux fois : aucun stock du lot consommé.
+   */
+  function construireReplis(): void {
+    for (const r of [...posts]) {
+      const a = r.article ? articleParSlug.get(r.article) : undefined;
+      if (!a?.aGarder) continue;
+      const themes = C.THEME_ARTICLE[a.slug] ?? [];
+      const memeTheme = (x: Vanne) => themes.length === 0 || themes.includes(x.categorie ?? "");
+      const v = tirer(r.platform, r.date, (x) => memeTheme(x) && filtreReseau(r.platform)(x));
+      if (!v) { warnings.push(`${r.date} ${r.platform} : aucun repli libre pour le relais de ${a.slug} (créneau vide si l'article n'est pas publié à l'heure).`); continue; }
+      reserver(v, r.date, r.platform);
+      const p = poster(r.date, r.platform, "VANNE", { v, origine: "TIRAGE", repliDe: r.id,
+        note: `Repli du relais de ${a.slug} : envoyé seulement si l'article n'est pas publié à l'heure.` });
+      r.repli = p.id;
+    }
+  }
 
   function construire(): void {
     const parCase = new Map(FIXES.map((f) => [`${f.date}|${f.platform}`, f]));
     const forces = new Map(RELAIS_FORCES.map((r) => [`${r.date}|${r.platform}`, r]));
     const relaisLiParSemaine = new Map<string, number>();
-    for (let date = C.LOT_DEBUT; date <= C.LOT_FIN; date = addDays(date, 1)) {
+    for (let date = debut; date <= fin; date = addDays(date, 1)) {
       for (const pf of PLATEFORMES) {
         const jourGrille = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0];
         const dateGrille = jourGrille ?? date;
@@ -281,7 +367,7 @@ export function buildLotV5(input: LotInput): LotResult {
   function construireFixe(f: Fixe) {
     const v = vanneDuFixe(f);
     if (f.vanne && !v) return;
-    if (v) reserver(v, f.date);
+    if (v) reserver(v, f.date, f.platform);
     const valide = f.origine === "VALIDE";
     const slug = f.vanne?.article?.slug ?? f.vanne?.articleTexte?.slug ?? (f.lien?.chemin.startsWith("/blog/") ? f.lien.chemin.slice(6) : undefined);
     const a = slug ? articleParSlug.get(slug) : undefined;
@@ -302,7 +388,7 @@ export function buildLotV5(input: LotInput): LotResult {
   function construireRelais(date: string, pf: PreparedPlatform, a: ArticleLot | undefined, utm: string, type: TypePost, note: string | null) {
     if (!a) { errors.push(`${date} ${pf} : article du relais absent.`); return false; }
     const filtreLi = (v: Vanne) => pf !== "LINKEDIN" || nombreDePhrases(texteDe(v)) <= 2;
-    let v = ligneRelais(a, date, (x) => filtreLi(x) && filtreReseau(pf, "x".repeat(80))(x));
+    let v = ligneRelais(a, date, pf, (x) => filtreLi(x) && filtreReseau(pf, "x".repeat(80))(x));
     let n = note;
     if (!v) {
       const themes = C.THEME_ARTICLE[a.slug] ?? [];
@@ -310,7 +396,7 @@ export function buildLotV5(input: LotInput): LotResult {
       n = `${note ? `${note} ` : ""}Aucune ligne de l'article disponible : vanne du catalogue du même thème (v5 §1, relais (2)).`;
     }
     if (!v) { errors.push(`${date} ${pf} : aucune ligne ni vanne pour le relais de ${a.slug}.`); return false; }
-    reserver(v, date);
+    reserver(v, date, pf);
     const rv = renvoi(a, pf, !!v.article);
     const lien = pf === "INSTAGRAM" ? null : lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, utm);
     poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv.texte, renvoiOrigine: rv.origine, lien,
@@ -325,7 +411,7 @@ export function buildLotV5(input: LotInput): LotResult {
     const prefere = saisonniere ? (v: Vanne) => C.SAISONS.some((s) => s.re.test(texteDe(v)) && date >= s.de && date <= s.a) : undefined;
     const v = tirer(pf, date, filtreReseau(pf, suffixe), prefere);
     if (!v) { errors.push(`${date} ${pf} : aucune vanne du catalogue ne passe les contrôles.`); return; }
-    reserver(v, date);
+    reserver(v, date, pf);
     poster(date, pf, type, { v, renvoi: quiz ? C.FORMULES.quizCourt : null, lien: lienQuiz, origine: "TIRAGE", note });
   }
 
@@ -333,11 +419,11 @@ export function buildLotV5(input: LotInput): LotResult {
     const avec = CARROUSELS_CITATION.includes(date) ? "Carrousel avec citation d'humoriste prévu (v5 §1) : citation non fournie, repli sans citation. " : "";
     const candidats = input.articles.filter((a) => a.date <= date).flatMap((a) => lignesParSlug.get(a.slug) ?? [])
       .filter((l) => l.pourquoi && l.jouer).map(vanneDeLigne);
-    for (const v of shuffle(candidats, seededRandom(`${input.seed ?? C.LOT_ID}-decryptage-${date}`))) {
+    for (const v of parRang(shuffle(candidats, seededRandom(`${graine}-decryptage-${date}`)))) {
       const l = v.article!;
       const cartes = v.cartes ? [...v.cartes, `${C.FORMULES.carte3} ${l.pourquoi}`, `${C.FORMULES.carte4} ${l.jouer}`, C.FORMULES.renvoiQuizBio] : null;
-      if (!cartes || !libre(v, date) || cartes.slice(0, 2).some((c) => mots(c) > 25) || mots(cartes[2]) > 30 || mots(`${cartes[3]} ${cartes[4]}`) > 35) continue;
-      reserver(v, date);
+      if (!cartes || !libre(v, date, false, "INSTAGRAM") || cartes.slice(0, 2).some((c) => mots(c) > 25) || mots(cartes[2]) > 30 || mots(`${cartes[3]} ${cartes[4]}`) > 35) continue;
+      reserver(v, date, "INSTAGRAM");
       poster(date, "INSTAGRAM", "DECRYPTAGE", { v, cartes, cartesOrigine: "ARTICLE", origine: "TIRAGE", slug: l.slug,
         note: `${avec}Cartes 3 et 4 : 1re phrase du décryptage de l'article (« Pourquoi ça marche », « À toi de jouer »).`.trim() });
       return;

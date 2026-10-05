@@ -50,7 +50,8 @@ const prismaSocialSection: SocialSection = async (startAt, endAt, now) => {
     return rapportPublicationHtml(await chargerRapport(jourParis(startAt), jourParis(endAt), now));
   } catch (err) {
     console.warn(`[weekly-visits] Section réseaux sociaux indisponible : ${err instanceof Error ? err.message : "erreur"}`);
-    return `<h3 style="font-size:16px;margin:24px 0 8px;">Réseaux sociaux : prévu contre publié</h3><p style="font-size:13px;color:#b45309;">Section indisponible (base illisible) : voir l'admin social.</p>`;
+    const { consigneReleveHtml } = await import("@/lib/social/publication-report");
+    return `<h3 style="font-size:16px;margin:24px 0 8px;">Réseaux sociaux : prévu contre publié</h3><p style="font-size:13px;color:#b45309;">Section indisponible (base illisible) : voir l'admin social.</p>${consigneReleveHtml()}`;
   }
 };
 

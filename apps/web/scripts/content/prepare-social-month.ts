@@ -32,6 +32,17 @@
  *   npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --insert [--driver=neon-http] [--json fichier]
  *       Insère les lignes du JSON relu en APPROVED (approvedBy « thomas-s15 ») via Prisma ;
  *       `--driver=neon-http` = adaptateur HTTP Neon si la connexion TCP est bloquée.
+ *       Puis contrôle après insertion : comptes par réseau et par semaine, attendu contre inséré.
+ *
+ * LOTS SUIVANTS (QA cycle 1, C6) : identifiant libre et bornes de dates (Paris, incluses).
+ *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --debut AAAA-MM-JJ --fin AAAA-MM-JJ [--pool fichier]
+ *       `--pool` : vannes autorisées (id catalogue ou `slug#rang`), les meilleures d'abord (ordre
+ *       du tirage, sans mélange) ; JSON ou texte (1 id par ligne, `# ` = commentaire) ;
+ *       `--pool strict` = pool strict de `src/config/social-pool.ts` (lu aussi par le Worker).
+ *       Retour à 90 jours sur un autre réseau que la 1re diffusion, sauf pénurie (avertissement).
+ *       approvedBy du lot : « lot-<id> » (« thomas-s15 » pour relance-s15, bornes par défaut 12/10 au 03/01).
+ *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback [--confirmer] [--driver=neon-http]
+ *       Sans --confirmer : comptes seulement. Avec : posts APPROVED jamais envoyés du lot passés en REJECTED.
  *
  * Images Instagram : carrousel v3 4:5 (cartes « piste A ») rendu à la demande par le
  * Worker. Le script insère `imageUrl = null` et `threadParts = [amorce, chute]` (vanne)
@@ -45,10 +56,11 @@ import { neonHttpQuery, type SqlQuery } from "./import-article";
 import { addDays, buildPlan, drawSample, mondayOf, monthEnd, CADENCE_V2, type CatalogueJoke, type PlannedPost } from "./social-month-plan";
 import type { PreparedPlatform } from "./social-controls";
 import { blogArticles } from "../../src/lib/blog-articles";
-import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
+import { POOL_STRICT } from "../../src/config/social-pool";
+import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLot, type ArticleLot } from "./social-lot-v5";
-import { fichierLot, renderLotMarkdown } from "./social-lot-v5-export";
-import { insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
+import { fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
+import { annulerLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
 export const APPROVED_BY = "preparation-mensuelle";
 const DOCS_DIR = path.resolve(__dirname, "../../../../docs/social/preparation");
@@ -96,64 +108,123 @@ export async function loadInputs(q: SqlQuery, month: string, from: string) {
   return { daily, pool, articles, alreadyUsed, alreadyPrepared: Number(n) };
 }
 
-/** Entrées du lot v5 : catalogue validé, articles (base + statiques) et posts des 90 jours avant le J0. */
-export async function loadLotInputs(q: SqlQuery) {
+/** Entrées d'un lot v5 : catalogue validé, articles (base + statiques) et posts antérieurs à son début. */
+export async function loadLotInputs(q: SqlQuery, debut: string = LOT_DEBUT, fin: string = LOT_FIN) {
   const pool: CatalogueJoke[] = (await q(
     `select id, content, punchline, category::text as category from "Joke" where "isActive" = true and "copyVerdict" = 'GARDER' order by id`,
   )).map((r) => ({ id: s(r.id), setup: s(r.content), punchline: s(r.punchline), isActive: true, verdict: "GARDER", category: s(r.category) || null }));
-  const debutArticles = addDays(LOT_DEBUT, -ANTI_REPETITION_JOURS);
+  const debutArticles = addDays(debut, -ANTI_REPETITION_JOURS);
   const enBase: ArticleLot[] = (await q(
-    `select slug, title, category, content, to_char("publishedAt", 'YYYY-MM-DD') as d from "BlogArticle"
+    `select slug, title, category, content, to_char("publishedAt", 'YYYY-MM-DD') as d,
+       (not "isPublished" or "publishedAt" > now()) as a_garder from "BlogArticle"
      where "publishedAt" >= $1::date and "publishedAt" < ($2::date + 1) order by "publishedAt"`,
-    [debutArticles, LOT_FIN],
-  )).map((r) => ({ slug: s(r.slug), title: s(r.title), category: s(r.category), content: s(r.content), date: s(r.d) }));
+    [debutArticles, fin],
+  )).map((r) => ({ slug: s(r.slug), title: s(r.title), category: s(r.category), content: s(r.content), date: s(r.d), aGarder: r.a_garder === true }));
   const slugs = new Set(enBase.map((a) => a.slug));
-  const statiques: ArticleLot[] = blogArticles.filter((a) => a.date >= debutArticles && a.date <= LOT_FIN && !slugs.has(a.slug))
+  const statiques: ArticleLot[] = blogArticles.filter((a) => a.date >= debutArticles && a.date <= fin && !slugs.has(a.slug))
     .map((a) => ({ slug: a.slug, title: a.title, category: a.category, content: a.content, date: a.date.slice(0, 10) }));
+  // Tout l'historique avant le lot : 90 jours pour l'anti-répétition, réseau de 1re diffusion pour le retour (plan v3 §2).
   const recents = (await q(
-    `select to_char("scheduledAt", 'YYYY-MM-DD') as d, "sourceId" from "SocialPost"
-     where "scheduledAt" >= $1::date and "scheduledAt" < $2::date and "sourceId" is not null and status::text not in ('REJECTED', 'FAILED')`,
-    [debutArticles, LOT_DEBUT],
-  )).map((r) => ({ date: s(r.d), sourceId: s(r.sourceId) }));
+    `select to_char("scheduledAt", 'YYYY-MM-DD') as d, "sourceId", platform::text as platform from "SocialPost"
+     where "scheduledAt" < $1::date and "sourceId" is not null and status::text not in ('REJECTED', 'FAILED')
+       and platform::text in ('TWITTER', 'INSTAGRAM', 'LINKEDIN')`,
+    [debut],
+  )).map((r) => ({ date: s(r.d), sourceId: s(r.sourceId), platform: s(r.platform) }));
   return { pool, articles: [...enBase, ...statiques].sort((a, b) => a.date.localeCompare(b.date)), recents };
 }
 
+/**
+ * Fichier `--pool` : identifiants de vannes autorisées, les meilleures d'abord. JSON (tableau de
+ * chaînes ou d'objets `{ id }`) ou texte (1 identifiant en tête de ligne ; lignes vides et `# …` ignorées).
+ */
+export function lirePool(contenu: string, chemin: string): string[] {
+  let ids: string[];
+  if (chemin.endsWith(".json")) {
+    const brut = JSON.parse(contenu) as unknown;
+    if (!Array.isArray(brut)) throw new Error(`--pool ${chemin} : tableau JSON attendu.`);
+    ids = brut.map((x) => (typeof x === "string" ? x : String((x as { id?: unknown })?.id ?? ""))).map((x) => x.trim());
+  } else {
+    ids = contenu.split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("# ") && l !== "#").map((l) => l.split(/\s+/)[0]);
+  }
+  ids = ids.filter(Boolean);
+  const doublons = ids.filter((id, i) => ids.indexOf(id) !== i);
+  if (doublons.length) throw new Error(`--pool ${chemin} : identifiant(s) en double (${[...new Set(doublons)].join(", ")}).`);
+  if (ids.length === 0) throw new Error(`--pool ${chemin} : aucun identifiant.`);
+  return ids;
+}
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Arguments d'un lot : identifiant libre, bornes (défaut du lot relance-s15), pool. Erreur = message. */
+export function argsLot(argv: string[]): { lot: string; debut: string; fin: string; pool?: string } | string {
+  const lot = arg(argv, "--lot") ?? "";
+  if (!LOT_ID_RE.test(lot)) return `--lot : identifiant libre en minuscules, chiffres et tirets (2 à 40 caractères), reçu « ${lot} ».`;
+  const debut = arg(argv, "--debut") ?? (lot === LOT_ID ? LOT_DEBUT : undefined);
+  const fin = arg(argv, "--fin") ?? (lot === LOT_ID ? LOT_FIN : undefined);
+  if (!debut || !fin) return `--debut et --fin (AAAA-MM-JJ) obligatoires pour le lot « ${lot} ».`;
+  if (!DATE_RE.test(debut) || !DATE_RE.test(fin) || Number.isNaN(Date.parse(debut)) || Number.isNaN(Date.parse(fin))) return "--debut et --fin : dates AAAA-MM-JJ.";
+  if (debut > fin) return `--debut (${debut}) après --fin (${fin}).`;
+  return { lot, debut, fin, pool: arg(argv, "--pool") };
+}
+
 async function mainLot(argv: string[]): Promise<number> {
-  if (arg(argv, "--lot") !== LOT_ID) {
-    console.error(`Lot inconnu : seul « ${LOT_ID} » est défini.`);
+  const a = argsLot(argv);
+  if (typeof a === "string") {
+    console.error(a);
     return 2;
   }
-  const jsonPath = arg(argv, "--json") ?? path.join(DOCS_DIR, `lot-${LOT_ID}.json`);
+  const meta: MetaLot = { lot: a.lot, debut: a.debut, fin: a.fin };
+  const jsonPath = arg(argv, "--json") ?? path.join(DOCS_DIR, `lot-${a.lot}.json`);
   const dbUrl = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
   if (!dbUrl) {
     console.error("NEON_DATABASE_URL (ou DATABASE_URL) absente.");
     return 2;
   }
+  const driver = (arg(argv, "--driver") ?? "tcp") as Driver;
+  if (driver !== "tcp" && driver !== "neon-http") {
+    console.error("--driver doit valoir tcp ou neon-http.");
+    return 2;
+  }
+  if (argv.includes("--rollback")) {
+    const confirmer = argv.includes("--confirmer");
+    const r = await annulerLot(a.lot, driver, dbUrl, confirmer, new Date());
+    console.log(`Lot ${a.lot} (approvedBy « ${r.approvedBy} ») avant : ${JSON.stringify(r.avant)}. APPROVED non envoyés : ${r.aAnnuler}.`);
+    if (!confirmer) {
+      console.log("Rien n'a été modifié. Relancer avec --confirmer pour passer ces posts en REJECTED.");
+      return 0;
+    }
+    console.log(`Annulés (REJECTED) : ${r.annules}. Après : ${JSON.stringify(r.apres)}. Réinsertion : nouvel identifiant de lot (--lot), les ids dépendent du lot.`);
+    return r.annules === r.aAnnuler ? 0 : 1;
+  }
   if (argv.includes("--insert")) {
-    const driver = (arg(argv, "--driver") ?? "tcp") as Driver;
-    if (driver !== "tcp" && driver !== "neon-http") {
-      console.error("--driver doit valoir tcp ou neon-http.");
+    const f = lireFichierLot(jsonPath);
+    if (f.lot !== a.lot) {
+      console.error(`Le fichier ${jsonPath} est le lot « ${f.lot} », pas « ${a.lot} ».`);
       return 2;
     }
-    const f = lireFichierLot(jsonPath);
-    const n = await insererLot(f, driver, dbUrl);
-    console.log(`Inséré : ${n} posts APPROVED (${f.approvedBy}) depuis ${jsonPath}, pilote ${driver}. Publication par le cron publish-social, réseau par réseau selon l'interrupteur.`);
-    return n === f.total ? 0 : 1;
+    const r = await insererLot(f, driver, dbUrl);
+    console.log(`Inséré : ${r.inseres} posts APPROVED (${f.approvedBy}) depuis ${jsonPath}, pilote ${driver}.`);
+    for (const [k, n] of [...r.comptes].sort()) console.log(`  ${k.replace("|", ", semaine du ")} : ${n}`);
+    for (const e of r.ecarts) console.error(`ÉCART : ${e}`);
+    console.log(r.ecarts.length ? `Contrôle après insertion : ${r.ecarts.length} écart(s), voir --rollback.` : "Contrôle après insertion : conforme (par réseau et par semaine).");
+    return r.inseres === f.total && r.ecarts.length === 0 ? 0 : 1;
   }
-  const seed = arg(argv, "--seed") ?? LOT_ID;
-  const inputs = await loadLotInputs(neonHttpQuery(dbUrl));
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url") });
+  const seed = arg(argv, "--seed") ?? a.lot;
+  // `--pool strict` : pool strict du Worker (src/config/social-pool.ts), sinon fichier.
+  const autorisees = a.pool === "strict" ? [...POOL_STRICT] : a.pool ? lirePool(fs.readFileSync(a.pool, "utf-8"), a.pool) : undefined;
+  const inputs = await loadLotInputs(neonHttpQuery(dbUrl), a.debut, a.fin);
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees });
   const lot = controlerLot(res.posts);
   const errors = [...res.errors, ...lot.errors];
   const warnings = [...res.warnings, ...lot.warnings];
   const n = (pf: string) => res.posts.filter((p) => p.platform === pf).length;
-  console.log(`Catalogue : ${inputs.pool.length} vannes GARDER (stock éligible ${res.stockEligible}), ${inputs.articles.length} article(s), ${inputs.recents.length} post(s) récent(s).`);
-  console.log(`Lot : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}).`);
+  console.log(`Catalogue : ${inputs.pool.length} vannes GARDER${autorisees ? `, pool ${autorisees.length} identifiant(s)` : ""} (stock éligible ${res.stockEligible}), ${inputs.articles.length} article(s), ${inputs.recents.length} post(s) récent(s).`);
+  console.log(`Lot ${a.lot} (${a.debut} au ${a.fin}) : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}), ${res.replis.length} repli(s) en réserve.`);
   for (const e of errors) console.error(`ERREUR : ${e}`);
-  const mdPath = arg(argv, "--out") ?? path.join(DOCS_DIR, `lot-${LOT_ID}.md`);
+  const mdPath = arg(argv, "--out") ?? path.join(DOCS_DIR, `lot-${a.lot}.md`);
   fs.mkdirSync(path.dirname(mdPath), { recursive: true });
-  fs.writeFileSync(mdPath, renderLotMarkdown(res.posts, warnings, errors, res.stockEligible, seed), "utf-8");
-  if (errors.length === 0) fs.writeFileSync(jsonPath, `${JSON.stringify(fichierLot(res.posts, seed), null, 2)}\n`, "utf-8");
+  fs.writeFileSync(mdPath, renderLotMarkdown(res.posts, warnings, errors, res.stockEligible, seed, meta, res.replis), "utf-8");
+  if (errors.length === 0) fs.writeFileSync(jsonPath, `${JSON.stringify(fichierLot(res.posts, seed, meta, res.replis), null, 2)}\n`, "utf-8");
   console.log(`\nDRY-RUN : rien n'a été écrit en base. Relecture : ${mdPath}${errors.length ? " (JSON non écrit : erreurs bloquantes)" : `, lignes : ${jsonPath}`}`);
   return errors.length > 0 ? 1 : 0;
 }

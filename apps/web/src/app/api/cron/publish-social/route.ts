@@ -25,6 +25,8 @@ import {
 } from "@/lib/social/platform-switch";
 import { nombreDeSlides, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
 import { longueurX } from "@/lib/social/longueur-x";
+import { articleSlugDuPost, conserverMarqueurs, noteRelaisRejete, repliDuPost, repliValide } from "@/lib/social/garde-article";
+import { findBlogArticle } from "@/lib/blog-article-page";
 
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
@@ -225,7 +227,9 @@ export async function GET(req: Request) {
     // Track platforms with full queues to skip them
     const queueFullPlatforms = new Set<BufferPlatform>();
 
-    for (const post of postsToPublish) {
+    for (const candidat of postsToPublish) {
+      // `post` peut devenir le repli d'un relais d'article (garde articleSlug).
+      let post = candidat;
       try {
         const platform = post.platform as BufferPlatform;
 
@@ -249,6 +253,47 @@ export async function GET(req: Request) {
             error: `Channel Buffer non configuré pour ${platform}`,
           });
           continue;
+        }
+
+        // s15 (plan v2 §6, §7, R3) : un relais d'article ne part que si l'article est
+        // visible à l'envoi ; sinon REJECTED et son repli (vanne du même thème, sans
+        // lien, en réserve) part à sa place sur le même créneau. Alerte par réseau.
+        const articleSlug = articleSlugDuPost(post);
+        if (articleSlug) {
+          let visible: boolean;
+          try {
+            visible = (await findBlogArticle(articleSlug)) !== null;
+          } catch (err) {
+            console.warn(`[PublishSocial] Visibilité de l'article ${articleSlug} illisible, post ${post.id} retenu :`, err);
+            results.push({ id: post.id, platform: post.platform, status: "skipped", error: `Article ${articleSlug} illisible, nouvel essai au prochain passage` });
+            continue;
+          }
+          if (!visible) {
+            const repliId = repliDuPost(post.directorNote);
+            const repli = repliId ? await prisma.socialPost.findUnique({ where: { id: repliId } }) : null;
+            const ok = repliValide(repli, post);
+            await prisma.socialPost.update({
+              where: { id: post.id },
+              data: { status: "REJECTED", directorNote: noteRelaisRejete(articleSlug, ok ? repliId : null, post.directorNote) },
+            });
+            await sendDailyPublishFailureAlert(
+              `Relais ${post.platform} : article « ${articleSlug} » non publié, ${ok ? "repli envoyé" : "créneau vide"}`,
+              `<p>Le relais <strong>${post.platform}</strong> (${post.id}) de l'article <code>${articleSlug}</code> est passé en
+              <strong>REJECTED</strong> : l'article n'est pas visible à l'heure de l'envoi.</p>
+              <p>${ok ? `Son repli <code>${repliId}</code> (vanne du même thème, sans lien) part sur le même créneau.` : "Aucun repli en réserve : le créneau reste vide."}</p>
+              <p><strong>Action :</strong> publier l'article ou vérifier sa date dans l'admin du blog.</p>`,
+              now,
+              `social-relais-${post.platform.toLowerCase()}`,
+            );
+            if (!ok || !repli) {
+              results.push({ id: post.id, platform: post.platform, status: "skipped", error: `Article ${articleSlug} non publié : relais rejeté, aucun repli` });
+              continue;
+            }
+            post = await prisma.socialPost.update({
+              where: { id: repli.id },
+              data: { status: "APPROVED", scheduledAt: post.scheduledAt },
+            });
+          }
         }
 
         let externalId: string;
@@ -399,7 +444,8 @@ export async function GET(req: Request) {
             });
           } else {
             // s14 (C1) : dernier message d'erreur + compteur de relances (suffixe lu ci-dessus).
-            const retryNote = buildPublishErrorNote(errMsg, newRetryCount);
+            // s15 : les marqueurs [article:…] et [report-article:N] survivent à la relance.
+            const retryNote = conserverMarqueurs(post.directorNote, buildPublishErrorNote(errMsg, newRetryCount));
             await prisma.socialPost.update({
               where: { id: post.id },
               data: {
@@ -437,13 +483,18 @@ export async function GET(req: Request) {
         .map((r) => `<li><strong>${r.platform}</strong> (${r.id}) : ${r.error || "erreur inconnue"}</li>`)
         .join("");
 
-      // s14 : 1 e-mail par jour maximum ; le détail de chaque échec est en base (directorNote).
-      await sendDailyPublishFailureAlert(
-        "Publication social — echec Buffer",
-        `<p><strong>${failed} posts</strong> ont echoue a la publication. Aucun post n'a ete publie.</p>
-        <ul>${failedErrors}</ul>
-        <p>Les messages exacts sont enregistres sur chaque post (directorNote). Pas d'autre alerte avant demain.</p>`,
-      );
+      // s15 (plan v2 §8, QA C8) : 1 e-mail par jour ET par réseau (clé social-echec-<réseau>),
+      // un 2e incident sur un autre réseau n'est plus masqué. Détail de chaque échec en base.
+      for (const pf of [...new Set(results.filter((r) => r.status === "failed").map((r) => r.platform))]) {
+        await sendDailyPublishFailureAlert(
+          `Publication ${pf} : échec Buffer`,
+          `<p>Échec de publication sur <strong>${pf}</strong> (${failed} échec(s) au total sur ce passage, aucun post publié).</p>
+          <ul>${failedErrors}</ul>
+          <p>Les messages exacts sont enregistrés sur chaque post (directorNote). Pas d'autre alerte pour ce réseau avant demain.</p>`,
+          now,
+          `social-echec-${pf.toLowerCase()}`,
+        );
+      }
     }
 
     return NextResponse.json({

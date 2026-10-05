@@ -9,9 +9,13 @@
  *     pause automatique d'un canal déconnecté chez Buffer + alerte ;
  *     fils X interdits ; carrousel Instagram (1 URL par slide + texte alternatif) ;
  *     LinkedIn : lien en premier commentaire.
+ *   s15 plan v2 (§6, §7, R3) : garde `articleSlug` (relais envoyé seulement si
+ *     l'article est visible, sinon REJECTED et son repli en réserve part sur le même
+ *     créneau ; sans repli, créneau vide) ; alerte par réseau et par type (C8).
  */
 
 const mockFindMany = jest.fn();
+const mockFindUnique = jest.fn();
 const mockUpdate = jest.fn();
 const mockUpdateMany = jest.fn();
 let settings: Array<Record<string, unknown>> = [];
@@ -32,6 +36,7 @@ jest.mock("@/lib/prisma", () => ({
   prisma: {
     socialPost: {
       findMany: (...a: unknown[]) => mockFindMany(...a),
+      findUnique: (...a: unknown[]) => mockFindUnique(...a),
       update: (...a: unknown[]) => mockUpdate(...a),
       updateMany: (...a: unknown[]) => mockUpdateMany(...a),
     },
@@ -87,6 +92,9 @@ jest.mock("@/lib/job-lock", () => ({
 const mockSendAdminAlert = jest.fn();
 jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockSendAdminAlert(...a) }));
 
+const mockFindBlogArticle = jest.fn();
+jest.mock("@/lib/blog-article-page", () => ({ findBlogArticle: (...a: unknown[]) => mockFindBlogArticle(...a) }));
+
 import { GET } from "@/app/api/cron/publish-social/route";
 import { buildPublishErrorNote } from "@/lib/social/publish-failure";
 
@@ -138,6 +146,7 @@ beforeEach(() => {
   mockUpdate.mockResolvedValue({});
   postsAPublier(igPost);
   mockCreateImagePost.mockRejectedValue(new Error(BUFFER_400));
+  mockFindBlogArticle.mockResolvedValue({ article: { slug: "x" }, isVisible: true });
   mockCreatePost.mockResolvedValue("buf-1");
   mockSendAdminAlert.mockResolvedValue(true);
   jest.spyOn(console, "error").mockImplementation(() => undefined);
@@ -164,8 +173,18 @@ describe("D1 : verrou d'alerte posé après l'envoi réussi", () => {
   it("envoie l'e-mail puis pose le verrou du jour", async () => {
     await GET(req());
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
-    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringMatching(/^publish-social-failure-alert-\d{4}-\d{2}-\d{2}$/));
+    // s15 plan v2 §8 (QA C8) : clé d'alerte par réseau.
+    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringMatching(/^social-echec-instagram-\d{4}-\d{2}-\d{2}$/));
     expect(mockSendAdminAlert.mock.invocationCallOrder[0]).toBeLessThan(mockTryAcquireLock.mock.invocationCallOrder[0]);
+  });
+
+  it("échecs sur 2 réseaux le même jour : 2 e-mails séparés (QA C8)", async () => {
+    mockSendAdminAlert.mockResolvedValue(true);
+    mockCreatePost.mockRejectedValue(new Error("Buffer API error 400: invalid text"));
+    postsAPublier(igPost, { ...igPost, id: "x9", platform: "TWITTER", format: "TWEET", content: "Court." });
+    await GET(req());
+    expect(mockSendAdminAlert).toHaveBeenCalledTimes(2);
+    expect(mockSendAdminAlert.mock.calls.map((c) => c[0])).toEqual(["Publication INSTAGRAM : échec Buffer", "Publication TWITTER : échec Buffer"]);
   });
 
   it("n'envoie pas de 2e e-mail le même jour", async () => {
@@ -266,6 +285,82 @@ describe("formats", () => {
     postsAPublier({ ...igPost, id: "li1", platform: "LINKEDIN", format: "POTE_AU_TAF", content: "Titre\nLien en commentaire.", cta: lien });
     await GET(req());
     expect(mockCreatePost).toHaveBeenCalledWith("LINKEDIN", "Titre\nLien en commentaire.", expect.any(Date), false, { firstComment: lien });
+  });
+});
+
+describe("garde articleSlug (relais d'article) et repli", () => {
+  const relaisX = {
+    ...igPost, id: "x1", platform: "TWITTER", format: "TWEET",
+    content: "Une vanne.\n\nLes 9 autres : https://deviens-marrant.fr/blog/article-a?utm_source=x",
+    scheduledAt: new Date("2026-10-12T10:30:00Z"), directorNote: "[article:article-a] [repli:r1] Lot relance-s15 (RELAIS, TIRAGE)",
+  };
+  const repliX = {
+    ...relaisX, id: "r1", content: "« Une autre vanne du même thème. »", status: "REJECTED",
+    directorNote: "[repli-de:x1] Lot relance-s15 (VANNE, TIRAGE) : Repli du relais de article-a",
+  };
+  const relaisIg = { ...igPost, id: "i1", content: "Les 9 autres : lien en bio.", directorNote: "[article:article-b] Lot relance-s15 (RELAIS, TIRAGE)" };
+  const majDe = (id: string) => mockUpdate.mock.calls.find((c) => c[0].where.id === id)?.[0].data;
+
+  beforeEach(() => {
+    mockFindUnique.mockResolvedValue(repliX);
+    mockUpdate.mockImplementation(async (a: { where: { id: string }; data: Record<string, unknown> }) => (a.where.id === "r1" ? { ...repliX, ...a.data } : {}));
+    mockSendAdminAlert.mockResolvedValue(true);
+  });
+
+  it("article visible : le relais part, aucun repli", async () => {
+    mockCreatePost.mockResolvedValue("buf-x");
+    postsAPublier(relaisX);
+    await GET(req());
+    expect(mockFindBlogArticle).toHaveBeenCalledWith("article-a");
+    expect(mockCreatePost).toHaveBeenCalledWith("TWITTER", relaisX.content, expect.any(Date), false, expect.anything());
+    expect(mockFindUnique).not.toHaveBeenCalled();
+  });
+
+  it("article non publié : relais REJECTED, repli APPROVED envoyé sur le même créneau, alerte du réseau", async () => {
+    mockFindBlogArticle.mockResolvedValue(null);
+    mockCreatePost.mockResolvedValue("buf-r1");
+    postsAPublier(relaisX);
+    await GET(req());
+    expect(majDe("x1")).toMatchObject({ status: "REJECTED" });
+    expect(majDe("x1").directorNote).toMatch(/^Relais rejeté : article « article-a » non publié à l'heure de l'envoi \(repli r1 envoyé sur le même créneau\)/);
+    expect(majDe("r1")).toEqual({ status: "APPROVED", scheduledAt: relaisX.scheduledAt });
+    expect(mockCreatePost).toHaveBeenCalledWith("TWITTER", repliX.content, relaisX.scheduledAt, false, expect.anything());
+    expect(mockUpdate.mock.calls.some((c) => c[0].where.id === "r1" && c[0].data.status === "PUBLISHED")).toBe(true);
+    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringContaining("social-relais-twitter"));
+  });
+
+  it("repli absent ou déjà utilisé : relais REJECTED, créneau vide, rien chez Buffer", async () => {
+    mockFindBlogArticle.mockResolvedValue(null);
+    mockFindUnique.mockResolvedValue({ ...repliX, status: "PUBLISHED" });
+    postsAPublier(relaisX);
+    await GET(req());
+    expect(majDe("x1").directorNote).toMatch(/aucun repli en réserve, créneau vide/);
+    expect(mockCreatePost).not.toHaveBeenCalled();
+    expect(mockSendAdminAlert).toHaveBeenCalledWith(expect.stringContaining("créneau vide"), expect.any(String));
+  });
+
+  it("relais Instagram (marqueur seul, sans lien ni repli) : REJECTED, aucun carrousel envoyé", async () => {
+    mockFindBlogArticle.mockResolvedValue(null);
+    postsAPublier(relaisIg);
+    await GET(req());
+    expect(mockFindBlogArticle).toHaveBeenCalledWith("article-b");
+    expect(majDe("i1")).toMatchObject({ status: "REJECTED" });
+    expect(mockCreateImagePost).not.toHaveBeenCalled();
+  });
+
+  it("visibilité illisible : post retenu sans changement", async () => {
+    mockFindBlogArticle.mockRejectedValue(new Error("db down"));
+    postsAPublier(relaisX);
+    await GET(req());
+    expect(mockCreatePost).not.toHaveBeenCalled();
+    expect(majDe("x1")).toBeUndefined();
+  });
+
+  it("échec temporaire : les marqueurs survivent à la note de relance", async () => {
+    mockCreatePost.mockRejectedValue(new Error("network timeout"));
+    postsAPublier(relaisX);
+    await GET(req());
+    expect(majDe("x1").directorNote).toBe("[article:article-a] [repli:r1] Échec publication Buffer : network timeout [retry:1]");
   });
 });
 

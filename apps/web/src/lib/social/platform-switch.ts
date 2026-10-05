@@ -10,12 +10,18 @@
  * erreur d'autorisation à la remise ou à la relecture met le réseau en pause,
  * puis une alerte part ; `alertSentAt` n'est posé qu'après un envoi réussi.
  *
- * Reprise : les posts APPROVED restés en retard pendant la pause ne partent
- * pas tous d'un coup ; ils sont replanifiés à 1 par jour, sur les jours libres
- * du réseau, à leur heure d'origine.
+ * Reprise (s15, QA cycle 1 C3/C4, plan v2 §7-§8) : refusée si Buffer est
+ * injoignable (route admin). Posts APPROVED en retard de plus de 24 h, relais
+ * d'article et posts datés en retard : REJECTED « expiré à la reprise ». Le
+ * reste : replanifié à 1 par jour, sur les jours libres, jamais un dimanche ni
+ * un jour de silence, à l'heure de Paris du réseau.
+ * Commande « sauter les posts avant J0 » : `sauterAvantJ0`.
  */
 import type { SocialPlatform } from "@prisma/client";
+import { HEURE_PARIS, RETARD_MAX_REPRISE_HEURES, SILENCES_SOCIAL } from "@/config/social-calendrier";
 import type { BufferChannel, BufferPlatform } from "./buffer-client";
+import { estDateOuRelais } from "./garde-article";
+import { ajouterJours, dateParis, jourSemaine, parisVersUtc } from "./heure-paris";
 
 export const RESEAUX: BufferPlatform[] = ["TWITTER", "INSTAGRAM", "LINKEDIN"];
 export const RESEAU_LABEL: Record<BufferPlatform, string> = {
@@ -45,6 +51,20 @@ export interface Interrupteur {
   alertSentAt: Date | null;
   /** true si aucune ligne en base : pause par défaut. */
   parDefaut: boolean;
+  /** Dernier changement de l'interrupteur (reprise d'un réseau actif), null si inconnu. */
+  depuis: Date | null;
+}
+
+/** Ligne SocialPost lue par l'interrupteur et la couverture (champs selon `select`). */
+export interface PostFile {
+  id: string;
+  scheduledAt: Date;
+  status?: string;
+  directorNote?: string | null;
+  content?: string;
+  cta?: string | null;
+  sourceId?: string | null;
+  platform?: string;
 }
 
 /** Sous-ensemble Prisma utilisé (injectable en test). */
@@ -55,7 +75,7 @@ export interface SwitchDb {
     updateMany(args: unknown): Promise<{ count: number }>;
   };
   socialPost: {
-    findMany(args: unknown): Promise<Array<{ id: string; scheduledAt: Date }>>;
+    findMany(args: unknown): Promise<PostFile[]>;
     update(args: unknown): Promise<unknown>;
   };
 }
@@ -82,13 +102,13 @@ export async function lireInterrupteurs(db: SwitchDb): Promise<Interrupteur[]> {
     const row = rows.find((r) => r.platform === platform);
     if (!row) {
       return {
-        platform, paused: true, parDefaut: true, changedBy: null, pausedAt: null, alertSentAt: null,
+        platform, paused: true, parDefaut: true, changedBy: null, pausedAt: null, alertSentAt: null, depuis: null,
         reason: lisible ? "Aucun réglage en base : en pause par défaut." : "Base illisible : en pause par sécurité.",
       };
     }
     return {
       platform, paused: row.paused, parDefaut: false, reason: row.reason, changedBy: row.changedBy,
-      pausedAt: row.pausedAt, alertSentAt: row.alertSentAt,
+      pausedAt: row.pausedAt, alertSentAt: row.alertSentAt, depuis: row.updatedAt ?? null,
     };
   });
 }
@@ -108,52 +128,74 @@ export async function mettreEnPause(db: SwitchDb, platform: BufferPlatform, reas
   });
 }
 
+/** Marge minimale entre la reprise et un créneau du jour même (le cron passe toutes les 15 min). */
+const MARGE_CRENEAU_MS = 15 * 60 * 1000;
+
 /**
- * Replanifie des posts en retard : 1 par jour (MAX_RATTRAPAGE_PAR_JOUR), à
- * partir du lendemain, sur les jours UTC sans post déjà prévu, à l'heure
- * d'origine. Fonction pure.
+ * Replanifie des posts en retard (moins de 24 h) : 1 par jour
+ * (MAX_RATTRAPAGE_PAR_JOUR), sur les jours de Paris sans post déjà prévu,
+ * jamais un dimanche ni un jour de silence (v5 §3), toujours à l'heure de
+ * Paris du réseau (heure d'hiver comprise). Fonction pure.
  */
 export function replanifierRetards(
   retards: Array<{ id: string; scheduledAt: Date }>,
   joursOccupes: Set<string>,
   now: Date,
+  platform: BufferPlatform,
 ): Array<{ id: string; scheduledAt: Date }> {
+  const { h, m } = HEURE_PARIS[platform];
   const parJour = new Map<string, number>();
   for (const j of joursOccupes) parJour.set(j, MAX_RATTRAPAGE_PAR_JOUR);
   const out: Array<{ id: string; scheduledAt: Date }> = [];
-  let jour = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+  let jour = dateParis(now);
+  const libre = (d: string) =>
+    (parJour.get(d) ?? 0) < MAX_RATTRAPAGE_PAR_JOUR && !SILENCES_SOCIAL.has(d) && jourSemaine(d) !== 0 &&
+    parisVersUtc(d, h, m).getTime() >= now.getTime() + MARGE_CRENEAU_MS;
   for (const p of [...retards].sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())) {
-    while ((parJour.get(jour.toISOString().slice(0, 10)) ?? 0) >= MAX_RATTRAPAGE_PAR_JOUR) {
-      jour = new Date(jour.getTime() + 24 * 60 * 60 * 1000);
-    }
-    const cle = jour.toISOString().slice(0, 10);
-    parJour.set(cle, (parJour.get(cle) ?? 0) + 1);
-    const h = p.scheduledAt;
-    out.push({
-      id: p.id,
-      scheduledAt: new Date(Date.UTC(jour.getUTCFullYear(), jour.getUTCMonth(), jour.getUTCDate(),
-        h.getUTCHours(), h.getUTCMinutes())),
-    });
+    while (!libre(jour)) jour = ajouterJours(jour, 1);
+    parJour.set(jour, (parJour.get(jour) ?? 0) + 1);
+    out.push({ id: p.id, scheduledAt: parisVersUtc(jour, h, m) });
   }
   return out;
 }
 
-/** Reprise (admin) : réseau actif, posts en retard replanifiés à 1 par jour. */
+const fr = (d: Date) => `${dateParis(d).split("-").reverse().join("/")}`;
+
+/**
+ * Reprise (admin) : réseau actif. Posts APPROVED en retard de plus de 24 h, et
+ * relais d'article ou posts datés (`[date:…]`) en retard quel que soit le retard :
+ * REJECTED « expiré à la reprise », jamais rattrapés hors contexte.
+ * Le reste : replanifié à 1 par jour (voir replanifierRetards).
+ */
 export async function reprendre(
   db: SwitchDb,
   platform: BufferPlatform,
   now: Date,
-): Promise<{ replanifies: number }> {
+): Promise<{ replanifies: number; expires: number }> {
   const retards = await db.socialPost.findMany({
     where: { platform, status: "APPROVED", scheduledAt: { lt: now } },
-    select: { id: true, scheduledAt: true },
+    select: { id: true, scheduledAt: true, directorNote: true, content: true, cta: true },
   });
+  const limite = now.getTime() - RETARD_MAX_REPRISE_HEURES * 60 * 60 * 1000;
+  const horsContexte = (p: PostFile) => estDateOuRelais({ content: p.content ?? "", cta: p.cta ?? null, directorNote: p.directorNote ?? null });
+  const expire = (p: PostFile) => p.scheduledAt.getTime() < limite || horsContexte(p);
+  const expires = retards.filter(expire);
+  for (const p of expires) {
+    const motif = p.scheduledAt.getTime() < limite ? `plus de ${RETARD_MAX_REPRISE_HEURES} h avant` : "relais d'article ou post daté, jamais rattrapé";
+    await db.socialPost.update({
+      where: { id: p.id },
+      data: {
+        status: "REJECTED",
+        directorNote: `Expiré à la reprise du ${fr(now)} : prévu le ${fr(p.scheduledAt)}, ${motif}.${p.directorNote ? ` ${p.directorNote}` : ""}`,
+      },
+    });
+  }
   const futurs = await db.socialPost.findMany({
     where: { platform, status: "APPROVED", scheduledAt: { gte: now } },
     select: { id: true, scheduledAt: true },
   });
-  const occupes = new Set(futurs.map((p) => p.scheduledAt.toISOString().slice(0, 10)));
-  const plan = replanifierRetards(retards, occupes, now);
+  const occupes = new Set(futurs.map((p) => dateParis(p.scheduledAt)));
+  const plan = replanifierRetards(retards.filter((p) => !expire(p)), occupes, now, platform);
   for (const p of plan) {
     await db.socialPost.update({ where: { id: p.id }, data: { scheduledAt: p.scheduledAt } });
   }
@@ -162,7 +204,34 @@ export async function reprendre(
     create: { platform, paused: false, reason: null, changedBy: "admin", pausedAt: null, alertSentAt: null },
     update: { paused: false, reason: null, changedBy: "admin", pausedAt: null, alertSentAt: null },
   });
-  return { replanifies: plan.length };
+  return { replanifies: plan.length, expires: expires.length };
+}
+
+/**
+ * Commande admin « sauter les posts avant J0 » : les posts APPROVED (jamais
+ * envoyés) datés avant le J0 du réseau (minuit, heure de Paris) passent en
+ * REJECTED. Le réseau reste dans son état (pause ou non).
+ */
+export async function sauterAvantJ0(
+  db: SwitchDb,
+  platform: BufferPlatform,
+  j0: string,
+): Promise<{ sautes: number }> {
+  const posts = await db.socialPost.findMany({
+    where: { platform, status: "APPROVED", scheduledAt: { lt: parisVersUtc(j0, 0, 0) } },
+    select: { id: true, scheduledAt: true, directorNote: true },
+  });
+  const j0Fr = j0.split("-").reverse().join("/");
+  for (const p of posts) {
+    await db.socialPost.update({
+      where: { id: p.id },
+      data: {
+        status: "REJECTED",
+        directorNote: `Sauté : prévu le ${fr(p.scheduledAt)}, avant le J0 du réseau (${j0Fr}).${p.directorNote ? ` ${p.directorNote}` : ""}`,
+      },
+    });
+  }
+  return { sautes: posts.length };
 }
 
 /** Canaux Buffer inutilisables parmi les réseaux configurés. Fonction pure. */
@@ -202,7 +271,14 @@ export async function pauserAutomatiquement(
   return true;
 }
 
-export type EnvoiAlerte = (subject: string, html: string, now: Date, alertJob: string) => Promise<boolean>;
+/** Préfixe du motif de pause automatique après échecs consécutifs (job de couverture). */
+export const MOTIF_PAUSE_ECHECS = "Échecs de publication consécutifs";
+
+export function estPauseSurEchecs(reason: string | null | undefined): boolean {
+  return !!reason && reason.startsWith(MOTIF_PAUSE_ECHECS);
+}
+
+export type EnvoiAlerte =(subject: string, html: string, now: Date, alertJob: string) => Promise<boolean>;
 
 /** Alerte des pauses automatiques pas encore signalées (alertSentAt posé après envoi). */
 export async function alerterPausesAutomatiques(
@@ -214,12 +290,16 @@ export async function alerterPausesAutomatiques(
   for (const e of await lireInterrupteurs(db)) {
     if (e.parDefaut || !e.paused || e.changedBy !== "auto" || e.alertSentAt) continue;
     const label = RESEAU_LABEL[e.platform];
+    const echecs = estPauseSurEchecs(e.reason);
+    const action = echecs
+      ? `lire la note des posts FAILED de ${label} dans l'admin social, corriger la cause (texte, lien, image), puis cliquer
+      « Reprendre ».`
+      : `reconnecter le canal dans Buffer (Channels &gt; Reconnect), puis cliquer « Reprendre » pour ${label} dans l'admin social.`;
     const ok = await envoyer(
-      `${label} mis en pause automatiquement : reconnecter le canal Buffer`,
+      `${label} mis en pause automatiquement : ${echecs ? "échecs de publication consécutifs" : "reconnecter le canal Buffer"}`,
       `<p>La publication <strong>${label}</strong> est <strong>en pause</strong> (aucun post ne part).</p>
       <p><strong>Cause :</strong> ${escapeHtml(e.reason ?? "canal Buffer inutilisable")}</p>
-      <p><strong>Action :</strong> reconnecter le canal dans Buffer (Channels &gt; Reconnect), puis cliquer
-      « Reprendre » pour ${label} dans l'admin social. Les posts en retard repartiront à 1 par jour.</p>`,
+      <p><strong>Action :</strong> ${action} Les posts en retard de moins de 24 h repartiront à 1 par jour, les autres passent en REJECTED.</p>`,
       now,
       `social-auto-pause-${e.platform.toLowerCase()}`,
     );
