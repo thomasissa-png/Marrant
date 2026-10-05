@@ -1,0 +1,192 @@
+# Stratégie de relance des 3 réseaux, v5 FIGÉE (cycle 5, s15, 05/10/2026)
+
+> Document autonome et final : c'est la version dessinée et présentée à Thomas. Remplace `strategie-relance-v4.md`. Choix fondateur du 05/10 : relance de X, Instagram et LinkedIn, consignes du 01/10 annulées ; restent valables : compte = marque, X sans thread, LinkedIn sans ton coach ni corporate (3 phrases au plus, fluides, tutoiement, format POTE_AU_TAF), style fluide, humoristes nommés et cités autorisés (citation réelle, jamais inventée), zéro tiret cadratin, jamais de mention IA, contenu préparé par lot. Vannes = catalogue validé (`docs/copy/catalogue-vannes-valides.md`, mot pour mot) ou lignes des articles du site (`docs/copy/articles-q4/`, `docs/copy/articles-forte-frappe/`).
+> **Étalonnage** : 10/10 en drôlerie = niveau d'Alexa (barre fondateur du 30/09). **Une note unique par post** : la note globale de la relecture à l'aveugle (2 relecteurs, moyenne arrondie au demi-point), sans colonnes parallèles. Cycle 4 (1 relecteur) : X1, IG1 (tuteur) et L1 (canapé) sont au niveau d'Alexa ; X2, X3, IG2, IG3, L2 et L3 sont dessous : chacun passe un **duel à 3 candidats (§7)**, départagé à l'aveugle par 2 relecteurs avant présentation à Thomas.
+> Point de départ : aucun post en attente (33 posts Instagram et 40 posts X retenus, §5) ; Instagram reconnecté dans Buffer ; LinkedIn muet depuis août ; abonnés inconnus ; 1 visite sociale en 28 jours contre 455 en recherche organique.
+
+## 1. Stratégie des 3 réseaux
+
+| Réseau | Étape du funnel | Rôle | Destination du lien | Métrique pilote | Personas |
+|---|---|---|---|---|---|
+| Instagram | Acquisition : notoriété et partage | « je l'envoie à un pote » | lien de bio `/liens` : article (s'il a moins de 48 h) ou quiz en premier | (partages + enregistrements) / couverture, clics bio | Yanis, Sophie ; Marc via les relais rencontre et couple |
+| X | Acquisition : clic | tester ce qui circule ; lien direct dans le post | article (relais lundi et jeudi), quiz (mercredi) | visites `utm_source=x`, (réponses + citations) / impressions | Yanis, Sophie ; Marc via les mêmes relais |
+| LinkedIn | Acquisition qualifiée | vanne de bureau, situation, relais d'article à angle travail | article en dernière ligne du post (pas de premier commentaire) | (réactions + commentaires) / impressions, visites `utm_source=linkedin` | Sophie seule |
+
+Funnel commun : post, puis article ou quiz (valeur sans compte), puis CTA de la page (compte gratuit), puis `inscription-reussie`, puis `onboarding-termine`. Le social ne mène jamais à `/abonnement` et ne parle jamais de prix (choix du 06/05).
+**Marc** (34 ans, séparé) : hypothèse « Instagram et X » uniquement, via les relais rencontre (29/10) et couple (05/11). Seuil `[HYPOTHÈSE]` : au moins **8 visites** `utm_source` x ou instagram sur ces 2 articles (2 articles sur 16 relayés pèsent 12,5 % des 100 visites X + Instagram du succès) ET au moins **1 clic CTA inscription** (événement `blog-cta-clic`, bouton `inscription`, sur ces 2 slugs, déjà codé) OU 1 `inscription-reussie` `methode=email` avec `src=blog-<slug>` (forme vérifiée dans le code). `inscription-envoi` reste au relevé, hors critère (il compte les échecs). **Ancre : le J0 le plus tardif de X et d'Instagram** (les 2 relais doivent être postés après). Lecture à J+28, verdict à J+56 ; abandon seulement si les 8 visites sont atteintes avec zéro clic CTA, sinon prolongation de 28 jours. Limite écrite : un lecteur passé par le quiz (`src=quiz`) n'est pas attribué.
+
+**Grille hebdomadaire unique** (heures de Paris `[HYPOTHÈSE : créneaux à tester, relevé à J+28]`) : 12 posts.
+
+| Jour | X 12:30 | Instagram 18:30 | LinkedIn 08:15 |
+|---|---|---|---|
+| Lundi | relais de l'article du lundi | carte relais : une autre ligne de l'article, légende « lien en bio » | aucun |
+| Mardi | vanne | carte vanne | relais du lundi si angle bureau, sinon vanne de bureau |
+| Mercredi | vanne + lien du quiz | carrousel décryptage (4 cartes) | aucun |
+| Jeudi | relais de l'article du jeudi, sinon vanne saisonnière | carte relais du jeudi, sinon carte vanne | relais du jeudi si angle bureau, sinon situation neuve ou vanne |
+| Vendredi | vanne | carte vanne | aucun |
+
+Totaux : X 5 (3 vannes, 2 relais), Instagram 5 (2 cartes vanne, 1 carrousel, 2 relais), LinkedIn 2 (au moins 1 vanne ou situation par semaine, jamais 2 relais). Pas de relais du jeudi avant le 22/10.
+**Relais, trois précisions** : (1) **le renvoi dépend de la catégorie de l'article** : CATALOGUE, « Les N autres sont prêts à copier : lien » ; PRATIQUE (ex. `se-presenter-avec-humour`), « Les 4 autres exemples, et comment trouver le tien : lien ». (2) **Quand aucune ligne de l'article n'atteint 8 à l'aveugle**, le relais prend une vanne du catalogue du même thème (8 et plus) et renvoie à l'article. (3) **Article de plus de 7 jours : vanne simple, sans lien ni « lien en bio »**, avec UNE exception amendée deux fois : les pivots saisonniers à leur pic, **liste fermée**, liens directs X et LinkedIn seulement, jamais Instagram : X 30/10 (Halloween) ; **X 17/12 (republication 2027, si la refonte est en ligne la veille, sinon vanne simple)** ; X et LinkedIn 31/12 ; X 01/01. Instagram ces jours-là : carte vanne sans lien ni « lien en bio ».
+**Piliers sur ces 12 posts** : vanne 6 (50 %), relais X et Instagram 4 (33 %), décryptage 1 (8 %), LinkedIn relais ou situation 1 (8 %). **Catalogue ou propre** : vannes du catalogue mot pour mot 7 (58 %), lignes d'article mot pour mot 4 (33 %), texte neuf relu à l'aveugle 1 (8 %). **Carrousel avec citation d'humoriste** (citation réelle, source vérifiée par @copywriter avant la veille) : mer. 28/10, puis le 1er mercredi de chaque mois dès novembre ; repli sans citation si la source n'est pas vérifiée. Chaque post tient à un pilier et à au moins un des 3E.
+**Conditions de départ et J0 par réseau.** C1 : Thomas valide les 9 étalons (après duels) **ET les seuils du §4** (dont l'engagement X et LinkedIn) ; C2 : e-mail avant Google en navigateur intégré en ligne ET test dans l'application DU réseau (§2.6) ; C3 : `/liens` trois routes en ligne ; C4 : LinkedIn débloqué dans le code et statut réel Buffer relu (@fullstack). **X = C1 + C2 ; Instagram = C1 + C2 + C3 ; LinkedIn = C1 + C2 + C4.** J0 = premier lundi où les conditions du réseau sont réunies, au plus tôt le 12/10, baseline le dimanche qui précède ; chaque J0 est inscrit au registre (`mesure.md` §6). **C1 non validée le 12/10 : J0 = lundi suivant.**
+**Calendrier relatif au J0** : la grille et les tirages se comptent en semaines depuis le J0 du réseau (S1 = semaine du J0) ; les modèles sans article gardent leur jour relatif (`J0 + n`). Les posts liés à une date (relais d'un article, pivots saisonniers, Noël) restent à leur date : **un post daté avant le J0 de son réseau est sauté, jamais rattrapé** (sa case devient un tirage de vanne), et un relais décalé de plus de 7 jours devient vanne simple.
+**Temps humain plafonné** : relevé du lundi 30 min, réponses 15 min par jour au plus (jusqu'à 105 min par semaine), réponse sous 24 h les jours ouvrés avec banque de réponses (pattern d'invitation du 06/05, troll : silence ou chaleur détachée).
+**Stock et anti-répétition** : 7 vannes catalogue par semaine, soit 91 par fenêtre de 90 jours. **Éligibles : N au plus 116** (125 validées, moins 4 réservées Noël, moins 5 déjà connues sous 8 : mug `cs14jkefbc9f40abb6f8a2ca`, entretien `cs14jke4221e9a31a33b0395`, chien `cs14jk9cc844b92fde69e845`, small talk `cmmnsqn14004sth63rnutrbwi`, archives `cs14jk0aa83dd779a1c72b43`) ; N exact = vannes notées 8 et plus à l'aveugle `[À COMPTER par @copywriter avant le lot 1]` ; si N est sous 91, les 30 vannes neuves par mois (1re livraison le 02/11, relues à l'aveugle) sont la seule marge. **Aucune vanne ni ligne d'article n'est postée deux fois à moins de 90 jours, tous réseaux confondus ; motif « pain » (`cs14jk02047ed5635bab6a52`, `cs14jke956e7ca02641e25c5`, `cs14jkffeab1620070f2263e`) : au plus un par fenêtre de 30 jours, tous réseaux.** **Réservées à Noël (4 vannes), exclues de tout relais, tirage et pivot avant le 24/12** : `cs14jkee5c537f7286c1da98` (= n°18 de `blagues-de-couple-drole`), `cs14jk4fe660e7238281ce47`, `cs14jkc4a2c545e132b38a92`, `cs14jkffeab1620070f2263e`. Le script lit le registre du lot ET les posts publiés des 90 derniers jours, applique la fenêtre « pain » et la liste de réservation, et bloque si le stock éligible tombe sous 7.
+
+## 2. Liens et attribution
+
+| Paramètre | Valeur |
+|---|---|
+| `utm_source` | `x`, `instagram`, `linkedin` |
+| `utm_medium` | `social` |
+| `utm_campaign` | `AAAA-MM` du post ; `bio` pour `/liens` |
+| `utm_content` | X : `lundi`, `jeudi`, `quiz`, `saison` (pivots avec lien : 30/10, 17/12, 31/12, 01/01) ; LinkedIn : `relais`, `saison` (31/12) ; `/liens` : `bio-article`, `bio-quiz`, `bio-vanne`, `bio-parcours`, `bio-vannes`, `bio-conseils` |
+
+Destinations : quiz `/quiz-humour` (« environ 2 minutes » et « sans inscription » vérifiés dans la page), article `/blog/<slug>`, parcours `/parcours/repartie`. Aucun lien social ne mène à `/register` ni `/abonnement`. Aucun lien sans UTM, même ajouté à la main.
+
+| Type de post | Appel à l'action |
+|---|---|
+| Vanne X (mardi, vendredi), carte vanne IG, vanne LinkedIn | aucun lien ; légende IG « À envoyer à... » ou rien, pied `deviens-marrant.fr`, 80 caractères au plus pied compris |
+| Vanne X du mercredi | 2e bloc : renvoi au quiz, durée et « sans inscription », lien ; 270 caractères au plus, lien compté 23 |
+| Relais X (lundi, jeudi), pivot saisonnier X | une ligne ou une vanne, puis le renvoi de la catégorie (§1) |
+| Relais IG, carrousel IG | « lien en bio » une seule fois. Relais : l'article a moins de 48 h. Carrousel : « le quiz est dans le lien de la bio » |
+| Relais LinkedIn | lien UTM en dernière ligne du post, après la 3e phrase |
+
+Liens ou CTA explicites : X 3 posts sur 5 (**4 les semaines du 26/10 et du 28/12**), Instagram 3 sur 5, LinkedIn 1 sur 2 au plus.
+**Spec pour @fullstack (pas de code ici)** :
+1. `/liens` reste statique (ISR 300 s) : trois routes `/liens` (Instagram), `/liens/x`, `/liens/li`, via `generateStaticParams` avec `dynamicParams = false` (une 4e route renvoie 404), pas de `?s=` lu côté serveur ; `utm_source` = `instagram|x|linkedin`, `utm_campaign=bio`, un `utm_content` par bloc.
+2. Ordre des blocs : (1) l'article s'il est publié depuis moins de 48 h, sinon le quiz ; (2) l'autre des deux ; (3) vanne du jour ; (4) parcours Répartie ; (5) toutes les vannes ; (6) conseils.
+3. Persistance : UTM lue à l'arrivée (sessionStorage), envoyée sur `quiz-termine`, `parcours-etape`, `inscription-envoi`, `inscription-reussie`, `onboarding-termine` : `origine` = `utm_source`, `contenu` = `utm_content`, `src` inchangé. **Listes blanches** : `origine` parmi `x|instagram|linkedin`, `contenu` parmi la liste du tableau. Limite écrite : attribution = session d'arrivée.
+4. `/register` reste prérendu statique ; navigateur intégré (Instagram, LinkedIn, X, Facebook) **détecté côté client** au montage (marqueurs confirmés sur appareil), pas de middleware ni `Vary: User-Agent`. **E-mail avant Google pour tous** (retirer `order-first` du bouton Google : pas de saut d'ordre au montage). Le bouton Google n'est **désactivé (message « Google n'accepte pas l'inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur. ») que dans les applications où l'échec `disallowed_useragent` est reproduit au test** ; une application où Google fonctionne le garde actif. **Même hook sur `/login`.**
+5. **Bascule** : « Ouvrir dans mon navigateur » mène à `/register?callbackUrl=<…>&src=<…>&origine=<…>&contenu=<…>` (**`callbackUrl` et `src` conservés**, sinon `src=blog-<slug>` disparaît et la destination retombe sur `/onboarding`) ; relus à l'arrivée et replacés en sessionStorage (UTM d'arrivée prioritaire). Sur iOS un lien ne sort pas d'une vue intégrée : **copie du lien = action principale**. Non attribués : ceux qui basculent sans ce bouton ; écart chiffré chaque lundi (`mesure.md` §3).
+6. Tests mobile avant le J0 de **chaque réseau**, dans l'application de CE réseau, plus Safari et Chrome. Réussite : l'inscription par e-mail aboutit dans l'application, le bouton Google est désactivé avec son message seulement si l'échec est reproduit, et Google fonctionne dans Safari et Chrome. Consigner dans `REPLIT_ACTIONS.md` (alimente le registre des J0). Test Buffer d'un brouillon de carrousel Instagram à 2, 3 et 4 images et d'un post LinkedIn multi-images (§8).
+7. LinkedIn : le premier commentaire programmé exige une offre Buffer payante : **pas de premier commentaire**, lien dans le corps ; 1 post sur 2 sans lien, lecture à J+28.
+8. **Gates du directeur** : le lot préparé est inséré en contournant G-S2, G-S16 et G-S19, ou ces gates sont alignées (1re personne admise entre « », légende Instagram 80 caractères au plus) ; @fullstack tranche et l'écrit dans `REPLIT_ACTIONS.md`.
+9. **Plafond Buffer** : 10 posts programmés par canal à la fois (offre gratuite, vérifié le 05/10) ; insertion **glissante** : le lot reste en base, une tâche quotidienne envoie 8 posts au plus par canal ; échec = alerte (1 e-mail par jour). **Script de tirage : fenêtre « pain » de 30 jours, registre de 90 jours, liste de Noël, plafond de 270 caractères sur X** (bloc 2 court de repli).
+10. @data-analyst : visites par `utm_source` et événements par `origine` par l'API Umami dans l'e-mail du lundi (`mesure.md` aligné sur cette v5).
+
+## 3. Calendrier
+
+Lot 1 : lun. 12/10 au dim. 15/11 (après validation de C1). Lot 2 : lun. 16/11 au dim. 03/01 (relu à l'aveugle avant le 09/11). Détail dans `docs/social/editorial-calendar.md` (Semaine, Date, Plateforme, Format, Pilier, Hook, CTA, Statut). Chaque article du lundi et du jeudi est relayé sur X et Instagram (**deux lignes différentes**), sur LinkedIn quand l'angle est le travail. Première colonne : S = semaine depuis un J0 du 12/10 (règle du calendrier relatif, §1). Les cases « tirage » sont remplies par le script.
+
+| Semaine | Lundi (X + IG) | Jeudi (X + IG) | LinkedIn mar. / jeu. | Pivots et modèles |
+|---|---|---|---|---|
+| S1, 12/10 | `se-presenter-avec-humour` (PRATIQUE) : X `cs14jkd6b11e811ffbf7f301` (accroche 2), IG IG2 (duel §7) | aucun article le 15/10 : tirage | L3 relais (13/10, duel) / L1 canapé (15/10) | mar. 13/10 X1 ; mer. 14/10 IG3 (duel) |
+| S2, 19/10 | `humour-en-colocation-desamorcer-tensions` : tirage | `message-anniversaire-drole-par-situation` (22/10) : X2 (duel) + renvoi, IG n°13 | vanne (20/10) / **n°6 de l'article seule, sans lien** (22/10), seulement si sa note à l'aveugle seule est de 8 et plus, sinon `cs14jk69eb578cce484b6f87` | mer. 21/10 X3 avec quiz (duel) |
+| S3, 26/10 | `blagues-sur-l-ia-assistants-vocaux` : X n°5 `cs14jkf0a20e0837fa95c784`, IG n°4 `cs14jke6736001250d3a940d` (n°1 Alexa exclue) | `premier-message-drole-appli-de-rencontre` (29/10, Marc) : tirage | vanne (27/10) / L2 situation (29/10, duel) | mar. 27/10 IG1 ; mer. 28/10 carrousel avec citation d'humoriste ; ven. 30/10 Halloween : X ligne n°3 de `blagues-halloween-soiree-deguisee` + lien `saison`, IG `cs14jk1bc86d3502a2cef27b` sans lien |
+| S4, 02/11 | `humour-en-visio-reunion-en-ligne` : tirage | `blagues-de-couple-drole` (05/11, Marc) : tirage, **jamais la n°18** (réservée) | relais (03/11) / vanne | mer. 04/11 carrousel avec citation |
+| S5, 09/11 | `chambrer-sans-blesser-entre-potes` | `voeux-drole-nouvelle-annee` (12/11), relais léger « à garder de côté » | vanne / vanne ou situation | 11/11 : silence ; fin du lot 1 |
+| S6, 16/11 | `soiree-de-noel-entreprise-humour` | article du 19/11 (invitation, fichier B1) | relais (17/11) / vanne | début du lot 2 |
+| S7, 23/11 | `repas-de-famille-questions-genantes-humour` | article du 26/11 (gamer, fichier B2) | vanne / vanne ou situation | Black Friday 27/11 : silence |
+| S8, 30/11 | `toast-drole-discours-qui-fait-rire` : **les 2 vannes neuves de l'article (8 et plus), une par réseau, jamais l'une des 4 réservées à Noël** ; `cs14jk02047ed5635bab6a52` reportée après le 24/01 | `mot-de-depart-collegue-drole` (03/12) | vanne / relais (03/12) | |
+| S9, 07/12 | `faire-rire-un-enfant-repas-de-fete` | aucun article après le 03/12 `[À VÉRIFIER avec @seo]` : vannes hors liste réservée | vanne / situation de pot de fin d'année | |
+| S10, 14/12 | `jeux-de-repartie-soiree-nouvel-an` | 17/12 `meilleures-blagues-droles-2026` (passé à 2027) : **X avec lien `saison` si la refonte est en ligne, sinon vanne ; IG carte vanne sans lien** | vanne / vanne | refonte 2027 du 15 au 20/12 |
+| S11, 21/12 | `etre-drole-sans-alcool-soiree` | 24/12 : X `cs14jkee5c537f7286c1da98`, IG `cs14jk4fe660e7238281ce47` | vanne / vanne (déplacée au mer. 23/12) | ven. 25/12 sans lien : X `cs14jkc4a2c545e132b38a92`, IG `cs14jkffeab1620070f2263e` |
+| S12, 28/12 | `resolution-nouvelle-annee-etre-plus-drole` | 31/12 : X relais vœux (`saison`), **IG carte vanne sans lien** ; ven. 01/01 X message de vœux (`saison`) | vanne (29/12) / relais vœux (31/12, `saison`) | fin du lot 2 dim. 03/01 ; **lun. 04/01 (lot 3) : X et IG, une ligne de l'article vœux jamais postée, sans lien** |
+
+Contrôle de la passe : les 15 identifiants du catalogue des modèles et de ce tableau (7 modèles, 4 relais ou pivots, 4 de Noël) sont distincts, aucun n'est repris à moins de 90 jours, aucun réservé n'apparaît avant le 24/12, un seul motif « pain » par fenêtre de 30 jours (script). Aucun pivot sur dimanche.
+
+## 4. Mesure
+
+**Règle de jugement unique : par réseau.** Chaque réseau est jugé seul, à J+28 et J+56 de SON J0, sans seuil combiné. Détail et relevé : `docs/social/mesure.md` (aligné sur cette v5).
+**Baseline** (captures datées, le dimanche avant chaque J0) : abonnés du réseau, impressions Google de « deviens marrant » (0 sur 90 jours), visites `utm_source` des 28 derniers jours (0), **inscriptions totales par semaine toutes sources, comptées en base (`createdAt`)**, pas dans Umami ; chaque lundi, les `inscription-reussie` Google sont comparés aux créations en base. **« Visite » = session Umami.** Plancher de contrôle : référents `t.co`, `l.instagram.com`, `lnkd.in`.
+**Relevé du lundi** (30 min) : abonnés nets, posts prévus et publiés, couverture ou impressions, engagement, visites par `utm_source`, entonnoir `/liens` > `quiz-termine` > `inscription-reussie` > `onboarding-termine` par `origine`, écart clics bio contre visites UTM, taux de réponse sous 24 h, minutes réelles passées.
+
+Seuils par réseau, cumulés depuis son J0 `[HYPOTHÈSE : validés par Thomas dans C1, aucun benchmark interne]` :
+
+| Mesure (succès / échec) | Instagram J+28 | X J+28 | LinkedIn J+28 | Instagram J+56 | X J+56 | LinkedIn J+56 |
+|---|---|---|---|---|---|---|
+| Abonnés gagnés | ≥ +120 / < +30 | ≥ +40 / < +10 | ≥ +30 / < +10 | ≥ +300 / < +80 | ≥ +100 / < +30 | ≥ +80 / < +25 |
+| Visites `utm_source` | ≥ 20 / < 4 | ≥ 20 / < 4 | ≥ 10 / < 2 | ≥ 50 / < 10 | ≥ 50 / < 10 | ≥ 25 / < 5 |
+| Engagement (médiane des posts depuis J0) | partages + enreg. / couverture ≥ 2 % / < 0,5 % | (réponses + citations) / impressions ≥ 0,5 % / < 0,1 % | (réactions + commentaires) / impressions ≥ 3 % / < 1 % | idem | idem | idem |
+
+Sommes de contrôle : abonnés au succès 190 / 50 à J+28, **480** / 135 à J+56 ; visites 50 / 10 à J+28, **125** / 25 à J+56.
+**Décision, par réseau** : maintien si au moins 2 mesures sur 3 en succès ; ajustement sinon ; **pause et réallocation vers SEO et tunnel seulement si les 3 sont sous le seuil d'échec aux DEUX jalons**. Ajustement aux deux jalons consécutifs : cadence réduite (X 3, Instagram 3, LinkedIn 1 par semaine) et 60 min par semaine. Quiz, inscriptions et activation attribués sont lus, jamais jugés ; le MRR n'est jamais un critère du social. **Contrôle J+14** : 0 visite UTM, ou abonnés sous 10 % du seuil de succès J+28 = vérifier lien de bio, clic sur `/liens`, OAuth dans l'application, avant tout ajustement.
+Honnêteté : environ 480 abonnés combinés au succès à J+56 ne font pas 10 000 à 12 mois (il faudrait environ 190 par semaine, soit 3 fois le rythme du succès) : Thomas révise l'objectif à J+56 ou on change d'échelle.
+
+## 5. Sort des files retenues
+
+Format des deux fichiers : `id`, `scheduledAt`, `format`, `content`, `approvedBy`, `directorScore` nul. Aucun texte ne repart sans validation des 9 étalons. **Garder** (re-datés, vanne à la 1re personne entre « ») : toute vanne identique au catalogue mot pour mot, si elle passe les 90 jours, la fenêtre « pain » et la liste de Noël ; cartes à re-rendre avec le gabarit §8. **Réécrire** : légendes Instagram qui recopient la carte (remplacées par « À envoyer à... »). **Jeter** : tout post d'article au titre nu et tout post périmé (Halloween du 05/10). Les 33 posts Instagram restent REJECTED et les 40 posts X retirés de la file jusqu'à validation ; lot refait sur la grille par @social, inséré par @fullstack (§2.9).
+
+## 6. Les 3 modèles fixés (niveau d'Alexa, cycle 4)
+
+Aucun émoji, aucun tiret cadratin, aucun hashtag les deux premières semaines. Les 6 autres modèles sont en duel (§7), leur texte retenu est dans la clé (§9) et la spec des cartes (§8).
+**X1, vanne, mar. 13/10 12:30**, pas de lien. JOKE `cmmnsqn130027th63at2ene9i` (plancher fondateur, jamais soumise au seuil), postée une seule fois.
+> « J'ai dit à Alexa de me raconter une blague. »
+> « Elle m'a lu mon historique de recherches. »
+
+**IG1, carte vanne, mar. 27/10 18:30**, 2 cartes 4:5, pas de lien. JOKE `cs14jke5d015b07714055538` (tuteur). Légende (51 caractères, pied compris) : À envoyer à ton tuteur de stage. deviens-marrant.fr
+**L1, vanne de bureau, jeu. 15/10 08:15**, pas de lien, 3 phrases. JOKE `cs14jka89abf28d3769b05fe` (canapé).
+> « Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. »
+> « Il est là pour prouver qu'on pourrait. »
+
+## 7. Duels (à transmettre seuls aux relecteurs, sans §9)
+
+Consigne : pour chaque duel, noter A, B et C de 1 à 10 en drôlerie (étalon : « J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches. » = 9), puis désigner le meilleur. `//` = retour à la ligne de la vanne. Le renvoi, le lien et la légende sont communs à chaque duel.
+**Duel X2** (X, relais de l'article de messages d'anniversaire ; renvoi commun : « Les 21 messages de l'article sont prêts à copier : lien »)
+- A : « Mon frère jumeau est né six minutes avant moi. » // « Il en parle comme d'un diplôme. »
+- B : « Ma sœur m'a dit qu'elle m'avait “pardonné” mon retard à son anniversaire. » // « Elle a précisé l'heure : 20 h 47. »
+- C : « Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi. » // « Ils ont cherché un moment. »
+
+**Duel X3** (X, vanne avec quiz ; bloc 2 commun : « Ça, c'est de l'humour d'Observateur. Et toi, tu es lequel des 5 profils ? Environ 2 minutes, sans inscription : lien »)
+- A : « Dans le train, la place à côté de moi était réservée. Personne n'est venu. » // « Je me suis senti attendu pendant tout le trajet. »
+- B : « J'ai dit à mon grand-père que je l'admirais. » // « Il a répondu “prends du pain”. »
+- C : « Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20. » // « J'ai passé la journée inquiet. »
+
+**Duel IG2** (Instagram, 2 cartes : carte 1 = première ligne, carte 2 = seconde ; légende commune : « À envoyer à qui a un tour de table demain. » suivie du renvoi vers l'article de présentation en 5 accroches)
+- A : « Au jeu de mimes, ma carte disait “la timidité”. » // « J'avais à peine bougé qu'ils avaient trouvé. »
+- B : « Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un. » // « Il est venu m'aider à essuyer. »
+- C : « Je ne connaissais personne à la soirée, alors j'ai parlé au chat. » // « À minuit, il s'est excusé pour aller voir quelqu'un. »
+
+**Duel IG3** (Instagram, carrousel décryptage de 4 cartes : cartes 1 et 2 = la vanne, carte 3 = mécanisme, carte 4 = consigne et renvoi au quiz dans le lien de la bio)
+- A : Cartes 1 et 2 : « J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours. » // « Il s'appelait “Anniv de Léa”. Léa, c'est moi. » Carte 3 : Pourquoi ça fait rire : celui qui boude trois jours est l'invité d'honneur, et la preuve se trouvait dans le titre du groupe. Carte 4 : À toi de jouer : repense à un moment où tu t'es cru mis de côté, puis cherche le détail qui prouvait le contraire. Le quiz est dans le lien de la bio. Légende : À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr
+- B : Cartes 1 et 2 : « Dans le groupe de mon ancienne classe, quelqu'un a demandé “des nouvelles de Maxime ?”. » // « Maxime a répondu : “je suis dans le groupe”. » Carte 3 : Pourquoi ça fait rire : le groupe parle de Maxime comme s'il était absent alors qu'il lit tout, et son calme, sans le moindre reproche, fait la chute. Carte 4 : À toi de jouer : repère une conversation où l'on parle d'un absent qui lit tout, puis écris sa réponse la plus calme. Le quiz est dans le lien de la bio. Légende : À envoyer à celui qui lit le groupe sans jamais répondre. deviens-marrant.fr
+- C : Cartes 1 et 2 : « Le groupe de mon immeuble a été créé il y a un an. Premier message : “Bonjour à tous”. » // « Deuxième message, hier : “À qui est le vélo ?”. Personne n'a répondu au premier. » Carte 3 : Pourquoi ça fait rire : un an de silence poli, puis une question sur un vélo, comme si le bonjour du début n'avait jamais été lu. Carte 4 : À toi de jouer : choisis un groupe où personne ne répond, puis écris en une ligne le message que chacun pense sans l'envoyer. Le quiz est dans le lien de la bio. Légende : À envoyer au voisin qui ne dit jamais bonjour. deviens-marrant.fr
+
+**Duel L2** (LinkedIn, situation de bureau, 3 phrases, pas de lien)
+- A : Ton manager t'écrit « t'as deux minutes ? » à 17 h 52, sans un mot de plus. Tu passes la soirée à relire tes six derniers mails pour trouver lequel te coûtera ton poste. Il voulait emprunter ton chargeur.
+- B : Ton manager passe devant ton bureau et dit « on se voit demain, rien de grave ». Tu dors trois heures, dont une à rédiger ta démission dans ta tête. Il voulait ton avis sur la couleur des gobelets.
+- C : Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes les quatre minutes suivantes à t'inventer trois fautes graves, dont une dans un dossier que tu n'as jamais ouvert. Il voulait le code du photocopieur.
+
+**Duel L3** (LinkedIn, relais de l'article de présentation en 5 accroches, 3 phrases, lien commun en dernière ligne)
+- A : Au tour de table, la personne juste avant toi vient d'annoncer qu'elle a monté sa boîte à 19 ans. Ton plan tient en trois mots, « Bonjour, moi c'est », et la suite est confiée à l'inspiration. Pour ce moment-là, voici 5 accroches et la formule pour trouver la tienne :
+- B : Au tour de table, la personne juste avant toi vient de raconter qu'elle a monté sa boîte à 19 ans. Toi, tu as préparé « Bonjour, moi c'est », puis tu comptais sur l'inspiration, qui a pris sa journée. Voici 5 accroches pour ce moment-là, et comment trouver la tienne :
+- C : Au tour de table, tu es le suivant, et celui d'avant vient d'évoquer sa boîte montée à 19 ans. Ta présentation commence par « Bonjour, moi c'est » et se termine au même endroit. Voici 5 accroches pour la prolonger, et comment trouver la tienne :
+
+## 8. Spec cartes (conception visuelle finale)
+
+- **Formats** : Instagram 4:5 1080x1350 (sûr au recadrage 3:4). Vanne = 2 cartes (amorce sur noir, chute sur aplat violet) ; carrousel décryptage = 4 cartes ; relais d'article = 2 cartes vanne (ni couverture ni slides d'article, tranché). Aucune pagination ; « Glisse → » seulement sur la carte 1 du carrousel Instagram. Pied `deviens-marrant.fr` sur chaque carte. **X : texte seul, aucune image.**
+- **R6 sur carte** : une paire « » par ligne de vanne (carte 1 = ligne 1, carte 2 = ligne 2 ; deux phrases dans une ligne = une paire), “ ” imbriqués ; guillemets de la même police et du même corps, lilas `#A78BFA` sur noir et `#DDD6FE` sur l'aplat, espace fine insécable (U+202F) à l'intérieur, « suspendu dans la marge, » fermant collé au dernier mot. Surtitres, boutons, pied, cartes 3 et 4 : jamais de guillemets. `alt` = amorce + chute avec « ».
+- Césure : jamais séparer n', l', s', t' du verbe ; dernière ligne et ligne intermédiaire à 40 % au moins de la plus longue. Plafonds `[HYPOTHÈSE à confirmer au rendu de @design]` : carte vanne 25 mots, carte 3 : 30 mots, carte 4 : 35 mots.
+- Légende Instagram : « À envoyer à... », 80 caractères au plus pied compris (relais : sans pied) ; « lien en bio » une seule fois, seulement si l'article a moins de 48 h.
+- **IG1, mar. 27/10** : Carte 1 : « Mon tuteur a lu mon rapport de stage. Il m'a dit “les remerciements sont très bien”. » Carte 2 : « Ils sont en page 2. Le rapport commence page 3. » Légende (51) : À envoyer à ton tuteur de stage. deviens-marrant.fr
+- **IG2, lun. 12/10 (retenu : C)** : Carte 1 : « Je ne connaissais personne à la soirée, alors j'ai parlé au chat. » Carte 2 : « À minuit, il s'est excusé pour aller voir quelqu'un. » Légende (73, sans pied) : À envoyer à qui a un tour de table demain. Les 5 accroches : lien en bio. Si A gagne : légende (79) « ... Les 4 autres exemples : lien en bio. »
+- **IG3, mer. 14/10 (retenu : A)** : Carte 1 : « J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours. » Carte 2 : « Il s'appelait “Anniv de Léa”. Léa, c'est moi. » Carte 3 (surtitre intégré) : Pourquoi ça fait rire : celui qui boude trois jours est l'invité d'honneur, et la preuve se trouvait dans le titre du groupe. Carte 4 (sans bouton) : À toi de jouer : repense à un moment où tu t'es cru mis de côté, puis cherche le détail qui prouvait le contraire. Le quiz est dans le lien de la bio. Légende (72) : À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr. Si B ou C gagne : textes du duel §7, mêmes plafonds.
+- **Carte vanne générique** (mar., ven., 17/12, 31/12) : amorce, chute, légende « À envoyer à... » sans « lien en bio ». **Halloween, ven. 30/10** : Carte 1 : « Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple. » Carte 2 : « Elle a dit “ne va pas trop vite”. » Légende (60) : À envoyer à qui a un date pour Halloween. deviens-marrant.fr
+- **Carrousel avec citation d'humoriste** (28/10, puis 1er mercredi) : gabarit IG3 ; la carte 3 devient la citation réelle entre « », avec son auteur et sa source `[À FOURNIR par @copywriter, source vérifiée, jamais inventée]` ; repli : gabarit IG3 sans citation.
+- **LinkedIn** : texte seul par défaut (L1, L2, L3, relais). **Règle multi-images** : plusieurs images s'affichent en mosaïque, pas en défilement ; **aucune mention « Glisse », aucune pagination, aucun « 1/3 »**, chaque image se lit seule, la première porte l'amorce complète ; bouton « Lien dans le post » (jamais « Lien en commentaire »). Un document PDF 1080x1350 (défilement natif) reste à tester avec Buffer `[À VÉRIFIER avec @fullstack]`.
+
+## 9. Clé des duels et candidat retenu (à retirer avant l'envoi de §7)
+
+- **X2** : A jumeau `cs14jk5ce9195f000dfa330f` ; B sœur (texte v4) `cs14jk10c844a13d108646fd` ; C parents `cs14jk0e4fedaac1a91fddf1`. **Retenu : C** (chute non télégraphiée, 9 au cycle 4).
+- **X3** : A train `cs14jk50c85bb0d73deaebaf` ; B grand-père `cs14jk02047ed5635bab6a52` (motif « pain ») ; C voisin (texte v4) `cs14jk1a722c352c691f600e`. **Retenu : A** (264 caractères avec le bloc 2 court, plafond 270 ; le bloc 2 long de la v4 donnerait 278).
+- **IG2** : A mimes (texte v4) `cs14jk8f28ff20e1cf82f3a8` ; B vaisselle `cs14jk0d9dfe9b5c26db5f8d` ; C chat `cs14jk1e07f8547b752601b8`. **Retenu : C.**
+- **IG3** : A Léa `cs14jk04b4bc8bbf8a2d8a05` ; B Maxime (texte v4) `cs14jk44dcd2dbf3ec29324d` ; C immeuble `cs14jk812483721e0a4d4228`. **Retenu : A** (cartes 3 et 4 de A et C : texte neuf, fiche de décryptage à écrire par @copywriter).
+- **L2** : A et B = réécritures du cycle 4 ; C = texte v4. **Retenu : B.** Repli : JOKE `cs14jkc13a4d9d7194d8e5ea` entre « ».
+- **L3** : A = texte v4 ; B et C = réécritures du cycle 4. **Retenu : C.** Repli : JOKE `cmmnsqn130030th6381ol5rxt` entre « ».
+- **Départage** : 2 relecteurs notent A, B, C sans clé ; meilleure somme gagne, égalité = candidat retenu ; le gagnant remplace le retenu dans §3 et §8. Les textes neufs (L2, L3, cartes 3 et 4) gardent leur repli.
+
+## 10. Règles tranchées (une fois, non rejouées)
+
+- **R1** : source exacte et mot pour mot sont nécessaires, pas suffisants ; **une ligne se choisit à la note de drôlerie à l'aveugle : 8 et plus pour entrer dans le lot, sinon hors tirage** (jamais retirée du site, jamais réécrite ; une vanne sous le seuil est remplacée par une autre). Exception : X1 Alexa (plancher fondateur du 30/09). Un modèle présenté à Thomas vise le niveau d'Alexa (duels §7).
+- **R2, carrousel** : carte 3 = une phrase sur le mécanisme, sans impératif ni vocabulaire de fiche ; carte 4 = consigne « à toi de jouer » et renvoi vrai au quiz.
+- **R3, légende** : pour qui ou quand sortir la vanne, jamais ce qu'elle raconte, jamais une consigne de réciter la vanne quand l'article enseigne une méthode. Instagram : 80 caractères au plus, pied compris.
+- **R4, relais LinkedIn** : 3 phrases au plus (2 de scène, 1 de renvoi de 15 mots au plus), jamais la chute de l'article ; une ligne d'article reprise compte dans les 3 phrases. **R5** : lien LinkedIn en dernière ligne du corps, pas de premier commentaire.
+- **R6** : une vanne à la 1re personne est publiée entre guillemets français « … », **une paire par ligne du catalogue** (un « » dans un « » s'affiche “ ”). **Le texte de marque n'emploie jamais « je » ; « on » y désigne la marque ou tout le monde, jamais le narrateur d'une vanne.** Valable sur X, Instagram (cartes), LinkedIn et dans les files retenues ; Thomas peut y revenir à la validation des étalons.
+
+## 11. Réponse aux notateurs, cycle 4
+
+**@reviewer** : K1 R1 en une règle et stock compté : appliqué (R1, §1 : N au plus 116 ; l'exact reste à compter, aucune note à l'aveugle n'existe pour les 125). R6 clause « on » : appliqué (R6), IG3 inchangé, carte 3 dit « le groupe parle ». IG1 « 51 » et T2 : appliqués (note unique par post). K5 (a) pain : appliqué (S8, fenêtre de 30 jours au script) ; (b) 17/12 : appliqué (exception amendée, IG sans lien) ; (c) 4 liens X : appliqué ; (d) 31/12 IG sans lien, 04/01 ligne jamais postée, sans lien : appliqué ; (e) Noël = 4 vannes, `cs14jkee5c537f7286c1da98` = n°18 : appliqué. §3.6 (22/10 LinkedIn) : n°6 soumise seule à l'aveugle, repli `cs14jk69eb578cce484b6f87`. K2 et K9 : sans correction.
+**@growth** : K1 (a) calendrier relatif et post sauté, (b) seuils dans C1, (c) ancre Marc : appliqués. K6 (1) `callbackUrl` et `src` dans le lien de bascule, (2) e-mail avant Google pour tous, (3) désactivation par application où l'échec est reproduit, (4) `saison` pour LinkedIn 31/12, (5) hook `/login`, listes blanches, copie iOS : appliqués. K8 seuil Marc (visites + clic CTA ou inscription e-mail), `inscription-envoi` sorti du critère, limite du quiz écrite : appliqués.
+**@design et @reviewer, visuels cycle 3** : R6 sur cartes, « Lien dans le post », gabarit décryptage 4 cartes, relais à 2 cartes (tranché), « Glisse » absent de LinkedIn, invitation « À envoyer à... » : appliqués (§8). Désaccord tranché : une paire par ligne du catalogue, pas par phrase (comme les articles et les modèles). Test Buffer des carrousels : encore à faire (§2.6).
+**Relecture à l'aveugle** : les 6 posts sous Alexa passent en duel de 3 candidats, la réserve « 2 relecteurs avant tout remplacement » est tenue ; IG3 passe à Léa (7,5 pour Maxime), carte 4 raccourcie ; le « mème » de Maxime reste non tranché, d'où son maintien en duel.
