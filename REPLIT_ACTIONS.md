@@ -2,7 +2,7 @@
 
 ## s15 (05/10/2026) : tunnel visiteur → inscrit → Premium réparé et mesuré, IndexNow protégé et étendu au catalogue @fullstack
 
-> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (`CRON_SECRET`, `ADMIN_PASSWORD`, `INDEXNOW_KEY` existants), aucun LLM. Détail : `docs/qa/tunnel-inscription-s15.md`.
+> **Déployé le 05/10/2026 (Worker `fa296917`).** Aucune migration, aucun package, aucune nouvelle variable d'env (`CRON_SECRET`, `ADMIN_PASSWORD`, `INDEXNOW_KEY` existants), aucun LLM. Détail : `docs/qa/tunnel-inscription-s15.md`.
 > - **Déploiement normal.** Plus de modale d'inscription : tous les boutons « créer un compte » d'un anonyme sont des liens `/register?callbackUrl=<destination>&src=<origine>` (header, accueil, fin d'article, quiz, parcours, /abonnement, modale Premium, fiches). Header : lien « Connexion » ajouté. `/login` : bouton « Créer un compte ». `/onboarding` anonyme → `/register` en 1 saut ; `/profil`, `/favoris` → `/login` en 1 saut. Formule choisie sur /abonnement retrouvée après inscription.
 > - **Nouveaux événements Umami** (kebab-case, aucune donnée personnelle) : `inscription-envoi`, `inscription-reussie` {methode, src}, `connexion-reussie` {methode}, `onboarding-termine` {parcours}, `abonnement-clic` {formule, src}, `abonnement-reussi` {formule}, `abonnement-annule`, `quiz-termine` {profil}, `parcours-etape` {parcours, etape}. Stripe : `success_url` annuel suffixé `&formule=annuel`.
 > - **Sécurité** : `POST /api/indexnow` exige `Authorization: Bearer <CRON_SECRET>` ou `<ADMIN_PASSWORD>` (401 sinon). **Cron `weekly-seo`** : notifie aussi IndexNow des URL du sitemap dont le lastmod a moins de 8 jours (1 POST, réponse `indexnow` dans le JSON), y compris en mode contenu préparé.
@@ -11,7 +11,7 @@
 
 ## s15 (05/10/2026) : titles et metas des 5 pages à CTR ≈ 0 (données GSC réelles) @orchestrator
 
-> Commit poussé sur la branche, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.
+> **Déployé le 05/10/2026 (Worker `fa296917`).** Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.
 > - **Déploiement normal.** `lib/blog-articles.ts` : title (= H1) et excerpt (= meta) de `5-types-humour-lequel-pour-toi` (« Humour observationnel : les 5 types », meta d'origine conservée avec ses humoristes, P0 Thomas), `comment-avoir-de-la-repartie` (« Avoir de la répartie : 10 techniques »), `autoderision-interactions` (« Autodérision : définition et exemples ») ; meta seule de `phrases-droles-conversations`. `/vannes` : title « Vannes et blagues drôles à ressortir », meta avec le chiffre dynamique. `/conseils` : ancre et JSON-LD alignés sur le nouveau titre répartie. Slugs, H2, FAQ, liens, chiffres du corps inchangés (empreintes du test `blog-em-dash-static` identiques hors meta).
 > - **Humoristes (P0 05/10)** : règle « zéro humoriste » retirée du prompt `seo-blog-agent` (citations réelles bienvenues) et du contrôle bloquant `scripts/content/social-controls.ts`.
 > - **Après déploiement** : vérifier le `<title>` servi des 5 pages, puis annoter le 05/10 dans GSC ; mesure à J+28 (cibles : `docs/seo/avis-donnees-reelles-s15.md` §8).
