@@ -49,17 +49,17 @@
 
 Modification à appliquer en v5 §1 (ligne de la grille) : `| Jour | X 12:30 | Instagram 18:30 | LinkedIn 08:15 |` devient `| Jour | X 12:30 | Instagram 19:30 | LinkedIn 08:15 |`. Idem dans §6 « IG1, carte vanne, mar. 27/10 18:30 » devient « 19:30 ». Ajouter au §1 : « Créneaux : voir `horaires-sources-s15.md` (test A/B J0 à J+28). » Ajouter au relevé du lundi de `mesure.md` §3 une colonne « créneau du post (A/B) ». Fuseau Buffer à vérifier sur Europe/Paris, passage à l'heure d'hiver le 25/10 `[À VÉRIFIER avec @fullstack]`.
 
-## 6. Plan de test (2 créneaux alternés, décision à J+28 de chaque réseau)
+## 6. Plan de test (2 créneaux alternés par jour, décision à J+28 pour X et Instagram, à J+56 pour LinkedIn)
 
-Alternance **par semaine** (S1 et S3 = créneau A, S2 et S4 = créneau B), mêmes types de posts dans les deux bras. Pivots datés (ven. 30/10 sur X et Instagram) exclus de la comparaison.
+Alternance **par jour**, jamais par semaine (l'audience croît : B partirait avec plus d'abonnés) : mar. A, mer. B, jeu. A, ordre inversé la semaine suivante ; lundi (relais de l'article) et vendredi (jour faible) hors test ; mêmes types de posts dans les deux bras. **Un facteur à la fois par réseau** : X et Instagram testent l'heure de J0 à J+28 ; LinkedIn teste l'image de la semaine du 13/10 à J+28 puis l'heure en S5 à S8 (v5 §4). Pivots datés exclus de la comparaison.
 
 | Réseau | A (défaut) | B (challenger) | Posts par bras | Critère à J+28 |
 |---|---|---|---|---|
-| X | 12:30 | 09:00 (en tête chez Buffer) | 10 | B adopté si médiane des impressions B ≥ 1,25 fois A ET taux (réponses + citations) / impressions B ≥ A ; sinon A |
-| Instagram (lun. à jeu.) | 19:30 | 12:30 (Buffer mer. 12 h, FR 13 h) | 8 | B adopté si couverture médiane ≥ 1,25 fois A ET (partages + enregistrements) / couverture B ≥ A ; sinon A |
-| LinkedIn (mar. et jeu.) | 08:15 | 17:15 (Buffer, Swello) | 4 (1 par semaine et par bras, A/B inversés mar. et jeu. d'une semaine à l'autre) | B adopté si impressions B > A dans 3 semaines sur 4 ET médiane ≥ 1,3 fois ; sinon A |
+| X (mar. à jeu.) | 12:30 | 09:00 (en tête chez Buffer) | 6 (12 posts sur 4 semaines) | B adopté si médiane des impressions B ≥ 1,25 fois A ET taux (réponses + citations) / impressions B ≥ A ; sinon A |
+| Instagram (mar. à jeu.) | 19:30 | 12:30 (Buffer mer. 12 h, FR 13 h) | 6 (12 posts sur 4 semaines) | B adopté si couverture médiane ≥ 1,25 fois A ET (partages + enregistrements) / couverture B ≥ A ; sinon A |
+| LinkedIn (mar. et jeu., S5 à S8) | 08:15 | 17:15 (Buffer, Swello) | 4 (1 par semaine et par bras, A/B inversés mar. et jeu. d'une semaine à l'autre) | B adopté si impressions B > A dans 3 semaines sur 4 ET médiane ≥ 1,3 fois ; sinon A |
 
-- **Phase 2 Instagram, J+28 à J+56** : vendredi 19:30 contre dimanche 19:30, alternés (2 posts par bras, lecture **indicative**) ; déplacement définitif seulement si dimanche ≥ 2 fois vendredi sur la couverture dans les 2 paires. Sinon le vendredi reste.
+- **Phase 2 Instagram, J+28 à J+56** (après le test d'heure, jamais en même temps) : vendredi 19:30 contre dimanche 19:30, alternés **à cadence constante** (le post du vendredi part le vendredi ou le dimanche suivant : 5 posts par semaine, 0 en plus), 2 posts par bras, lecture **indicative** ; déplacement définitif seulement si dimanche ≥ 2 fois vendredi sur la couverture dans les 2 paires. Sinon le vendredi reste. **Calendrier si J0 = 12/10** : ven. 13/11 = A, dim. 22/11 = B, ven. 27/11 silence (Black Friday, hors test), ven. 04/12 = A, dim. 13/12 = B ; seuls 3 posts tombent avant J+56 (07/12), le 4e (13/12) complète la lecture. X ne fait pas ce test (son facteur de J+28 à J+56 est l'image, v5 §4).
 - **Lecture** : médianes, pas moyennes. Avec 0 abonné au départ, les petits volumes sont bruités : un écart sous 25 % = pas de décision, on garde A. LinkedIn (4 posts par bras) reste indicatif : le contenu (relais ou vanne) est apparié d'une semaine à l'autre pour limiter le biais.
 - **Temps humain** : aucun, les créneaux sont programmés dans Buffer, le relevé du lundi (§3 de `mesure.md`) ajoute la colonne A/B.
 
