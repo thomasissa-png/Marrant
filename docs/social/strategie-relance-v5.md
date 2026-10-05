@@ -15,9 +15,9 @@
 Funnel commun : post, puis article ou quiz (valeur sans compte), puis CTA de la page (compte gratuit), puis `inscription-reussie`, puis `onboarding-termine`. Le social ne mène jamais à `/abonnement` et ne parle jamais de prix (choix du 06/05).
 **Marc** (34 ans, séparé) : hypothèse « Instagram et X » uniquement, via les relais rencontre (29/10) et couple (05/11). Seuil `[HYPOTHÈSE]` : au moins **8 visites** `utm_source` x ou instagram sur ces 2 articles (2 articles sur 16 relayés pèsent 12,5 % des 100 visites X + Instagram du succès) ET au moins **1 clic CTA inscription** (événement `blog-cta-clic`, bouton `inscription`, sur ces 2 slugs, déjà codé) OU 1 `inscription-reussie` `methode=email` avec `src=blog-<slug>` (forme vérifiée dans le code). `inscription-envoi` reste au relevé, hors critère (il compte les échecs). **Ancre : le J0 le plus tardif de X et d'Instagram** (les 2 relais doivent être postés après). Lecture à J+28, verdict à J+56 ; abandon seulement si les 8 visites sont atteintes avec zéro clic CTA, sinon prolongation de 28 jours. Limite écrite : un lecteur passé par le quiz (`src=quiz`) n'est pas attribué.
 
-**Grille hebdomadaire unique** (heures de Paris `[HYPOTHÈSE : créneaux à tester, relevé à J+28]`) : 12 posts.
+**Grille hebdomadaire unique** (Instagram passé de 18:30 à 19:30 le 05/10 après vérification sourcée, `horaires-sources-s15.md` ; test de créneaux alternés J0 à J+28 décrit dans ce fichier ; heures de Paris `[HYPOTHÈSE : créneaux à tester, relevé à J+28]`) : 12 posts.
 
-| Jour | X 12:30 | Instagram 18:30 | LinkedIn 08:15 |
+| Jour | X 12:30 | Instagram 19:30 | LinkedIn 08:15 |
 |---|---|---|---|
 | Lundi | relais de l'article du lundi | carte relais : une autre ligne de l'article, légende « lien en bio » | aucun |
 | Mardi | vanne | carte vanne | relais du lundi si angle bureau, sinon vanne de bureau |
@@ -115,7 +115,7 @@ Aucun émoji, aucun tiret cadratin, aucun hashtag les deux premières semaines. 
 > « J'ai dit à Alexa de me raconter une blague. »
 > « Elle m'a lu mon historique de recherches. »
 
-**IG1, carte vanne, mar. 27/10 18:30**, 2 cartes 4:5, pas de lien. JOKE `cs14jke5d015b07714055538` (tuteur). Légende (51 caractères, pied compris) : À envoyer à ton tuteur de stage. deviens-marrant.fr
+**IG1, carte vanne, mar. 27/10 19:30**, 2 cartes 4:5, pas de lien. JOKE `cs14jke5d015b07714055538` (tuteur). Légende (51 caractères, pied compris) : À envoyer à ton tuteur de stage. deviens-marrant.fr
 **L1, vanne de bureau, jeu. 15/10 08:15**, pas de lien, 3 phrases. JOKE `cs14jka89abf28d3769b05fe` (canapé).
 > « Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. »
 > « Il est là pour prouver qu'on pourrait. »
