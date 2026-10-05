@@ -8,7 +8,7 @@ import { withDbRetry } from "@/lib/db-retry";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
 import { pickRelatedArticles } from "@/lib/blog-related";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
-import { isBlogArticleVisible, visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { isBlogArticleVisible, publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { splitTrailingFaq } from "@/lib/blog-faq";
 
 /** Article rendu (statique ou base) : même forme que les articles statiques. */
@@ -73,8 +73,9 @@ export async function findBlogArticle(
       date: dbArticle.publishedAt
         ? dbArticle.publishedAt.toISOString().split("T")[0]
         : dbArticle.createdAt.toISOString().split("T")[0],
-      // Vrai updatedAt de la DB (colonne Prisma) : utilisé pour Article.dateModified
-      updatedAt: dbArticle.updatedAt ? dbArticle.updatedAt.toISOString().split("T")[0] : undefined,
+      // Vrai updatedAt de la DB (colonne Prisma) : utilisé pour Article.dateModified,
+      // seulement s'il suit la publication (article programmé corrigé avant sa sortie : non).
+      updatedAt: publicUpdatedAt(dbArticle)?.toISOString().split("T")[0],
       readingTime: dbArticle.readingTime,
       category: dbArticle.category,
       faqs,

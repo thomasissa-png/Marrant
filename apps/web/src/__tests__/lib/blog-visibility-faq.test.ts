@@ -4,7 +4,7 @@
  * Publication programmée (s14) : un article en base n'est jamais exposé avant
  * d'être publié ET daté du passé ; FAQ stockée en fin de `content`.
  */
-import { isBlogArticleVisible, visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { isBlogArticleVisible, publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { splitTrailingFaq } from "@/lib/blog-faq";
 
 const NOW = new Date("2026-10-05T06:00:00Z");
@@ -54,5 +54,21 @@ describe("splitTrailingFaq", () => {
     ["texte libre avant la première question", `${body}\n\n## FAQ\n\nIntro.\n\n### Q ?\n\nR.`],
   ])("%s : contenu intact, FAQ vide", (_label, content) => {
     expect(splitTrailingFaq(content)).toEqual({ content, faqs: [] });
+  });
+});
+
+describe("publicUpdatedAt : « Mis à jour » jamais antérieur à la publication (notation A1 iter3 F1)", () => {
+  const publishedAt = new Date("2026-10-22T05:00:00Z");
+
+  it("article programmé, corrigé avant sa sortie : pas de date de mise à jour", () => {
+    expect(publicUpdatedAt({ publishedAt, updatedAt: new Date("2026-10-05T10:00:00Z") })).toBeNull();
+    expect(publicUpdatedAt({ publishedAt, updatedAt: publishedAt })).toBeNull();
+  });
+
+  it("mise à jour après publication, ou article sans date : updatedAt conservé", () => {
+    const later = new Date("2026-11-02T08:00:00Z");
+    expect(publicUpdatedAt({ publishedAt, updatedAt: later })).toBe(later);
+    expect(publicUpdatedAt({ publishedAt: null, updatedAt: later })).toBe(later);
+    expect(publicUpdatedAt({ publishedAt, updatedAt: null })).toBeNull();
   });
 });

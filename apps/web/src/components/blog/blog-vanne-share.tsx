@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ShareButton } from "@/components/ui/share-button";
 import { trackUmami } from "@/lib/umami";
-import type { BlogShareMode } from "@/config/blog-forte-frappe";
+import { shareLabel, shareTitle, type BlogShareMode } from "@/config/blog-forte-frappe";
 
 interface BlogVanneShareProps {
   slug: string;
@@ -43,10 +43,10 @@ export function BlogVanneShare({ slug, mode = "with-url" }: BlogVanneShareProps)
       {slots.map(({ el, vanne, text }) =>
         createPortal(
           <ShareButton
-            title="Vanne - deviens-marrant.fr"
+            title={shareTitle(slug)}
             text={text}
             url={`${window.location.origin}${window.location.pathname}#vanne-${vanne}`}
-            label={textOnly ? `Envoyer le message n°${vanne}` : `Partager la vanne n°${vanne}`}
+            label={shareLabel(slug, mode, vanne)}
             textOnly={textOnly}
             onShared={(canal) => trackUmami("blog-vanne-partage", { slug, vanne: Number(vanne), canal })}
           />,

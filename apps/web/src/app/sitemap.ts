@@ -3,7 +3,7 @@ import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
-import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 export const revalidate = 3600;
 
@@ -89,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
     dbBlogRoutes = dbArticles.map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
-      lastModified: article.updatedAt || article.publishedAt || new Date(),
+      lastModified: publicUpdatedAt(article) || article.publishedAt || new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));

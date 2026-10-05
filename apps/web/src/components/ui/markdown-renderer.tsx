@@ -40,9 +40,31 @@ const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»|[^\n]+)/;
  */
 const TITLED_RE = /^\*\*(\d+)\. [^\n]+\*\*$/;
 
-/** « … » dans un message cité en blockquote = 2e niveau : “…”, comme dans les vannes de l'étalon. */
-function innerQuotes(text: string): string {
-  return text.replace(/«\s*([^«»]*?)\s*»/g, "“$1”");
+/**
+ * « … « x » … » écrit en guillemets français aux deux niveaux (vannes de B2) :
+ * le 2e niveau est rendu “x”, comme frenchQuotes le fait pour "x" (notations B2
+ * iter2, A4 iter3). Seul un « » DANS un « … » extérieur est converti : les « » de
+ * 1er niveau (messages A3 en blockquote, sans guillemets propres) restent « ».
+ * Rendu et texte partagé seulement, texte stocké intact. Imbrication déséquilibrée
+ * ou à 3 niveaux : texte inchangé.
+ */
+export function nestedGuillemets(text: string): string {
+  if ((text.match(/«/g) ?? []).length < 2) return text;
+  let depth = 0;
+  let out = "";
+  for (const c of text) {
+    if (c === "«") {
+      depth++;
+      if (depth > 2) return text;
+      out += depth === 2 ? "“" : c;
+    } else if (c === "»") {
+      if (depth === 0) return text;
+      out += depth === 2 ? "”" : c;
+      depth--;
+    } else out += c;
+  }
+  if (depth !== 0) return text;
+  return out.replace(new RegExp(`“[ ${NBSP}]+`, "g"), "“").replace(new RegExp(`[ ${NBSP}]+”`, "g"), "”");
 }
 
 /** Texte partagé : sans indication « *→ …* » en fin de ligne ni markdown (liens, gras, italique, code). */
@@ -142,7 +164,7 @@ export function frenchQuotes(text: string): string {
 }
 
 function inlineMarkdown(text: string): string {
-  let result = escapeHtml(frTypo(frenchQuotes(text)));
+  let result = escapeHtml(frTypo(nestedGuillemets(frenchQuotes(text))));
   // Bold: **text**
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   // Italic: *text*
@@ -302,7 +324,9 @@ export function renderMarkdown(content: string, options: RenderOptions = {}): st
     const titled = options.shareJokes ? TITLED_RE.exec(block) : null;
     const quoteLines = titled ? (blocks[i + 1] ?? "").trim().split("\n") : [];
     if (titled && quoteLines.every((line) => line.startsWith(">"))) {
-      const message = innerQuotes(quoteLines.map((line) => line.replace(/^>\s?/, "")).join("\n"));
+      // La citation en retrait tient lieu de guillemets : les « » du message restent au
+      // 1er niveau, affichés et partagés tels quels (notation A3 iter3 F3).
+      const message = quoteLines.map((line) => line.replace(/^>\s?/, "")).join("\n");
       htmlParts.push(
         `<div id="vanne-${titled[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${titled[1]}" data-text="${escapeAttr(shareText(message))}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}${renderBlock(message.split("\n").map((line) => `> ${line}`).join("\n"))}</div>`,
       );
@@ -313,7 +337,7 @@ export function renderMarkdown(content: string, options: RenderOptions = {}): st
     const joke = options.shareJokes ? JOKE_RE.exec(block) : null;
     htmlParts.push(
       joke
-        ? `<div id="vanne-${joke[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${joke[1]}" data-text="${escapeAttr(shareText(joke[2]))}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}</div>`
+        ? `<div id="vanne-${joke[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${joke[1]}" data-text="${escapeAttr(nestedGuillemets(shareText(joke[2])))}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}</div>`
         : renderBlock(block),
     );
     i++;

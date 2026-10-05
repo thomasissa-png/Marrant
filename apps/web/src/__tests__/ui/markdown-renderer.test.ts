@@ -14,6 +14,15 @@ describe("frTypo", () => {
     expect(frTypo("5 méthodes en 7 min")).toBe(`5${NBSP}méthodes en 7${NBSP}min`);
   });
 
+  it("milliers et heures insécables : « 4 812 », « 23 h 40 » (notation B2 iter2)", () => {
+    expect(frTypo("niveau 4 812 dans son jeu")).toBe(`niveau 4${NBSP}812${NBSP}dans son jeu`);
+    expect(frTypo("Il était 23 h 40.")).toBe(`Il était 23${NBSP}h${NBSP}40.`);
+    expect(frTypo("À 21 h, je suis sincère.")).toBe(`À 21${NBSP}h, je suis sincère.`);
+    // Pas un millier : « 2 1234 » et « 12 34 » restent tels quels.
+    expect(frTypo("2 1234, 12 34.")).toBe("2 1234, 12 34.");
+    expect(frTypo(frTypo("4 812"))).toBe(`4${NBSP}812`);
+  });
+
   it("ne touche pas aux URL", () => {
     expect(frTypo("https://deviens-marrant.fr/blog?x=1")).toBe("https://deviens-marrant.fr/blog?x=1");
   });

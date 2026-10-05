@@ -191,6 +191,10 @@ export function validateArticle(article: ParsedArticle, publishedAt: Date, now: 
   if (/^# /m.test(article.content)) {
     errors.push("Le contenu contient un titre H1 (« # ») : le H1 de la page vient du champ title.");
   }
+  // Notation B1 iter2 : « <!-- FIN --> » s'affichait en fin de FAQ et dans le JSON-LD.
+  if (article.content.includes("<!--")) {
+    errors.push("Le contenu contient un commentaire HTML (« <!-- ») : le rendu l'affiche en texte, FAQ et JSON-LD compris. Le retirer du brouillon.");
+  }
 
   if (publishedAt.getTime() < startOfIsoWeekUtc(now).getTime()) {
     errors.push(
@@ -199,7 +203,8 @@ export function validateArticle(article: ParsedArticle, publishedAt: Date, now: 
   } else if (publishedAt.getTime() <= now.getTime()) {
     warnings.push(`Date de publication ${article.publishDate} déjà échue : l'article sera publié au prochain tick (15 min).`);
   }
-  if (publishedAt.getUTCDay() !== 1) warnings.push(`${article.publishDate} n'est pas un lundi (calendrier : 1 article par lundi).`);
+  // Calendrier forte frappe : 1 article par jeudi (fondateur, s14).
+  if (publishedAt.getUTCDay() !== 4) warnings.push(`${article.publishDate} n'est pas un jeudi (calendrier : 1 article forte frappe par jeudi).`);
 
   const hasFaqHeading = /^##[ \t]+(?:FAQ|Questions fréquentes)[ \t]*$/im.test(article.content);
   if (hasFaqHeading && article.faqs.length === 0) {

@@ -22,5 +22,8 @@ export function frTypo(text: string): string {
       .replace(SPACES_AFTER_OPEN, `«${NBSP}`)
       // « 7 techniques », « 5 min » restent liés
       .replace(/(\d) (?=[A-Za-zÀ-ÿ€%°])/g, `$1${NBSP}`)
+      // « 4 812 » et « 23 h 40 » ne se coupent jamais (notation B2 iter2)
+      .replace(/(\d) (?=\d{3}(?!\d))/g, `$1${NBSP}`)
+      .replace(new RegExp(`(\\d${NBSP}h) (?=\\d)`, "g"), `$1${NBSP}`)
   );
 }

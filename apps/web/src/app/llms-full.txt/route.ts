@@ -11,7 +11,7 @@ import {
   renderFaq,
 } from "@/lib/llms-content";
 import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
-import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import { parcoursWeeks } from "@/config/premium";
@@ -123,7 +123,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
       content: a.content || "",
       category: a.category,
       date: (a.publishedAt || a.createdAt).toISOString().split("T")[0],
-      updatedAt: a.updatedAt ? a.updatedAt.toISOString().split("T")[0] : undefined,
+      updatedAt: publicUpdatedAt(a)?.toISOString().split("T")[0],
     }));
   } catch {
     // DB indispo — on continue avec les statiques.
@@ -218,7 +218,7 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
     lines.push(`URL : ${BASE_URL}/blog/${article.slug}`);
     lines.push(`Catégorie : ${article.category}`);
     lines.push(`Publié : ${article.date}`);
-    if (article.updatedAt && article.updatedAt !== article.date) {
+    if (article.updatedAt && article.updatedAt > article.date) {
       lines.push(`Mis à jour : ${article.updatedAt}`);
     }
     lines.push("");

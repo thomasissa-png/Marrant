@@ -94,8 +94,9 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         <span>Par <Link href="/a-propos" className="text-text-secondary hover:text-accent-link">Alex Durand</Link></span>
         <span>·</span>
         <time dateTime={article.date}>{formatIsoDateFr(article.date)}</time>
-        {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD). */}
-        {article.updatedAt && article.updatedAt !== article.date && (
+        {/* Fraîcheur visible = même source que Article.dateModified (JSON-LD) ;
+            jamais une date antérieure ou égale à la publication (dates ISO comparables). */}
+        {article.updatedAt && article.updatedAt > article.date && (
           <>
             <span>·</span>
             <span>

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : forte frappe, correctifs de code des notations B1/B2/A5 iter2 et A1/A3/A4 iter3 @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami. Texte stocké des vannes inchangé (tout se joue au rendu).
+> - **Déploiement normal, avant le 22/10** (1re publication programmée). **Dates** : `publicUpdatedAt` (`lib/blog-visibility.ts`) : un article corrigé avant sa sortie n'affiche plus « Mis à jour le », ni `dateModified`, ni `lastmod` du sitemap, ni « Mis à jour » dans llms-full ; affichage seulement si updatedAt > date de publication.
+> - **Guillemets** : seul un « » DANS un « … » extérieur passe en “…” (B2, A4, affiché et partagé, « » extérieurs gardés) ; les « » des messages A3 en blockquote restent « » (1er niveau). **Typo** : « 4 812 » et « 23 h 40 » insécables.
+> - **Config** : B2 `blagues-de-gamer-jeux-video` → encart Répartie ; A5 : bouton « Partager l'idée n°N », titre « Idée de poisson d'avril », lien inchangé (`with-url`).
+> - **Import** : refus de tout commentaire HTML `<!--` (B1 « <!-- FIN --> ») ; avertissement de jour passé de lundi à jeudi (calendrier forte frappe). À vérifier après déploiement : aperçus A4 n°17 et B2 n°7 (390 px), en-tête d'A3 sans « Mis à jour ».
+
 ## s14 (05/10/2026) : aperçu admin d'un article programmé `/blog/apercu/[slug]` + script de captures @fullstack
 
 > Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (`ADMIN_PASSWORD` existant), aucun LLM, aucun nouvel event Umami.

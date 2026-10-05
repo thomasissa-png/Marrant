@@ -4,7 +4,8 @@
  *
  * Partage : chaque ligne numérotée `**N.** texte` (avec ou sans « … ») reçoit un
  * bouton (components/blog/blog-vanne-share). Mode par slug :
- * - `with-url` : vanne + lien vers l'article ancré (#vanne-N), libellé « Partager la vanne n°N » ;
+ * - `with-url` : vanne + lien vers l'article ancré (#vanne-N), libellé « Partager la vanne n°N »
+ *   (« Partager l'idée n°N » pour FORTE_FRAPPE_IDEA_SLUGS) ;
  * - `text-only` : message à envoyer tel quel, sans titre ni lien (on n'ajoute pas
  *   un lien à un vœu envoyé à son patron, notation A2 iter1 D11), libellé
  *   « Envoyer le message n°N ».
@@ -29,6 +30,25 @@ export const FORTE_FRAPPE_SHARE: Readonly<Partial<Record<string, BlogShareMode>>
 
 export const FORTE_FRAPPE_SLUGS = Object.keys(FORTE_FRAPPE_SHARE);
 
+/**
+ * Lignes numérotées = idées (canulars), pas des vannes : libellé « Partager l'idée n°N »
+ * et titre de partage adaptés, mode `with-url` inchangé (notation A5 iter2).
+ */
+export const FORTE_FRAPPE_IDEA_SLUGS: ReadonlySet<string> = new Set(["blagues-poisson-d-avril-adultes"]);
+
+/** Libellé du bouton de partage d'une ligne numérotée (components/blog/blog-vanne-share). */
+export function shareLabel(slug: string, mode: BlogShareMode, n: string): string {
+  if (mode === "text-only") return `Envoyer le message n°${n}`;
+  return `Partager ${FORTE_FRAPPE_IDEA_SLUGS.has(slug) ? "l'idée" : "la vanne"} n°${n}`;
+}
+
+/** Titre de partage (partage natif `with-url`). */
+export function shareTitle(slug: string): string {
+  return FORTE_FRAPPE_IDEA_SLUGS.has(slug)
+    ? "Idée de poisson d'avril - deviens-marrant.fr"
+    : "Vanne - deviens-marrant.fr";
+}
+
 export type ParcoursSlug = "repartie" | "machine-a-cafe" | "confiance";
 
 /**
@@ -52,4 +72,7 @@ export const FORTE_FRAPPE_PARCOURS: Readonly<Partial<Record<string, ParcoursSlug
   "refuser-une-invitation-avec-humour": "repartie",
   // Poisson d'avril : le CTA vend « la riposte » (notation A5 iter1).
   "blagues-poisson-d-avril-adultes": "repartie",
+  // Gamer : le CTA vend Répartie (« renvoyer la balle » en vocal), comme la section
+  // Vocal ; Machine à Café (cluster CATALOGUE) parle de bureau (notation B2 iter2).
+  "blagues-de-gamer-jeux-video": "repartie",
 };

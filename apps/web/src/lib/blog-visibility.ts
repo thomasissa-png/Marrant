@@ -23,3 +23,14 @@ export function isBlogArticleVisible(
   if (!article.isPublished) return false;
   return article.publishedAt === null || article.publishedAt.getTime() <= now.getTime();
 }
+
+/**
+ * Date de modification publiable : `updatedAt` seulement s'il suit la publication.
+ * Un article programmé, corrigé avant sa sortie, n'a pas été « mis à jour »
+ * (notation A1 iter3 F1) : ni « Mis à jour le », ni dateModified, ni lastmod.
+ */
+export function publicUpdatedAt(article: { publishedAt: Date | null; updatedAt: Date | null }): Date | null {
+  if (!article.updatedAt) return null;
+  if (article.publishedAt && article.updatedAt.getTime() <= article.publishedAt.getTime()) return null;
+  return article.updatedAt;
+}

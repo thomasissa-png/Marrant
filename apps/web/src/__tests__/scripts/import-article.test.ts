@@ -117,6 +117,19 @@ describe("refus", () => {
     expect(errors.filter((e) => e.includes("Tiret cadratin"))).toHaveLength(2);
   });
 
+  it("avertissement si la date n'est pas un jeudi (calendrier forte frappe, s14)", async () => {
+    const warningsOf = async (md: string) => (await prepareImport(md, { now: NOW })).warnings;
+    expect(await warningsOf(S1)).toContainEqual(expect.stringContaining("n'est pas un jeudi"));
+    const jeudi = await warningsOf(S1.replace("2026-10-05 (lundi)", "2026-10-08 (jeudi)"));
+    expect(jeudi.filter((w) => w.includes("n'est pas un"))).toHaveLength(0);
+  });
+
+  it("commentaire HTML dans le contenu (« <!-- FIN --> » en fin de FAQ, notation B1 iter2)", async () => {
+    expect(await errorsOf(S1)).not.toContainEqual(expect.stringContaining("commentaire HTML"));
+    const errors = await errorsOf(`${S1.trimEnd()}\n\n<!-- FIN -->\n`);
+    expect(errors).toContainEqual(expect.stringContaining("commentaire HTML (« <!-- »)"));
+  });
+
   it("liens internes inexistants, redirigés ou non vérifiables à l'écriture", async () => {
     const md = S1.replace("(/videos)", "(/page-fantome)")
       .replace("(/vannes/theme/soirees)", "(/vannes/theme/inconnu)")
