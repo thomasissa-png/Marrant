@@ -25,7 +25,7 @@ Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/70
 
 | Post | Carte(s) | Texte affiché | Format | Légende |
 |---|---|---|---|---|
-| Relais Instagram, lun. 26/10, `blagues-sur-l-ia-assistants-vocaux`, n°4 `cs14jke6736001250d3a940d` | `ig-relais-blagues-ia-1.png` | « J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu “passionnant”. » | 1080×1350, noir, « Glisse → » | `[À FOURNIR par @social : « À envoyer à... » + « lien en bio », 80 caractères au plus, sans pied]` |
+| Relais Instagram, lun. 26/10, `blagues-sur-l-ia-assistants-vocaux`, n°4 `cs14jke6736001250d3a940d` | `ig-relais-blagues-ia-1.png` | « J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu “passionnant”. » | 1080×1350, noir, « Glisse → » | « À envoyer à qui t’a fait lire son roman. Les 5 autres vannes : lien en bio. » (75) |
 | | `ig-relais-blagues-ia-2.png` | « C'est le mot de ma mère. Je cherche quelqu'un qui me déteste. » | 1080×1350, aplat | |
 | Couverture d'article LinkedIn (option du relais L3) | `linkedin-article-se-presenter.png` | Se présenter avec humour : 5 accroches qui passent | 1200×627, sans étiquette | |
 
@@ -43,4 +43,4 @@ Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/70
 ## Reste ouvert
 
 - Test Buffer d'un brouillon carrousel Instagram 2 et 4 images et d'un post LinkedIn multi-images (v5 §2.6) : non fait ici.
-- Légende du relais du 26/10 à écrire par @social.
+- Légende du relais du 26/10 : fournie par @social (75 caractères), reportée ici et dans la v5 §8.
