@@ -9,16 +9,22 @@ import {
   ConseilSituation,
   ConseilReplique,
   ConseilPrincipe,
+  DecryptageMecanisme,
+  DecryptageConsigne,
+  estPremierePersonne,
 } from "./templates/cartes-piste-a";
+import { NNBSP } from "./typo";
 import { FORMATS, type FormatCarte } from "./templates/carte-marque";
 
 // ───────────────────────────────────────────────────────────────────
-// Composition des carrousels « piste A », v3 (notations cycle 2)
+// Composition des carrousels « piste A », v4 (stratégie v5 §8)
 //
 // Fonctions pures : slides (élément, dimensions, texte alternatif). Le
 // rendu PNG est fait par image-generator (renderSlides). Règles :
 //   - une slide = un temps (jamais amorce et chute ensemble en carrousel) ;
-//   - pas de pagination « n/N » (compteur natif), « Glisse → » en slide 1 ;
+//   - pas de pagination « n/N » (compteur natif), « Glisse → » en carte 1
+//     des carrousels Instagram seulement (LinkedIn : mosaïque, jamais) ;
+//   - R6 : vanne à la 1re personne entre « », alt compris ;
 //   - chaque image porte son texte alternatif ; une image qui montre la
 //     chute porte amorce + chute (lisible seule, accessible).
 // ───────────────────────────────────────────────────────────────────
@@ -37,11 +43,34 @@ export type ReseauCarrousel = "instagram" | "linkedin";
 /** Indice de swipe en pied de la slide 1 (audit : « Glisse »). */
 export const INDICE_SWIPE = "Glisse →";
 
-/** Appel à l'action de la dernière slide (LinkedIn : lien en 1er commentaire). */
+/** Appel à l'action de la dernière slide (LinkedIn : lien dans le corps du post, v5 R5). */
 export const CTA_FIN: Record<ReseauCarrousel, string> = {
   instagram: "Lien en bio",
-  linkedin: "Lien en commentaire",
+  linkedin: "Lien dans le post",
 };
+
+/** « Glisse → » : carte 1 d'un carrousel Instagram seulement. */
+function indice(reseau: ReseauCarrousel): string | undefined {
+  return reseau === "instagram" ? INDICE_SWIPE : undefined;
+}
+
+/** Légende Instagram : 80 caractères au plus (pied compris), « À envoyer à... » (v5 R3). */
+export const LEGENDE_MAX = 80;
+
+/** Défauts d'une légende Instagram (liste vide = conforme). */
+export function defautsLegende(legende: string): string[] {
+  const d: string[] = [];
+  if ([...legende].length > LEGENDE_MAX) d.push(`${[...legende].length} caractères (max ${LEGENDE_MAX})`);
+  if (!/^À envoyer (à|au|aux) /.test(legende)) d.push("ne commence pas par « À envoyer à »");
+  if ((legende.match(/lien en bio/gi) ?? []).length > 1) d.push("« lien en bio » plus d'une fois");
+  return d;
+}
+
+/** Ligne de vanne citée pour le texte alternatif (R6) : « … », “ ” imbriqués. */
+export function citer(ligne: string): string {
+  const t = ligne.trim().replace(/«\s*/g, "“").replace(/\s*»/g, "”");
+  return `«${NNBSP}${t}${NNBSP}»`;
+}
 
 /** Longueur visible d'un post LinkedIn avant « voir plus ». */
 export const LINKEDIN_AVANT_VOIR_PLUS = 140;
@@ -69,11 +98,46 @@ export function surtitreExtrait(nom: string, rang: number, total: number): strin
 
 // ─── Instagram (4:5) ─────────────────────────────────────────────
 
-export function carrouselVanne(v: { amorce: string; chute: string[] }): Slide[] {
-  const complet = joindre(v.amorce, ...v.chute);
+export interface Vanne {
+  amorce: string;
+  chute: string[];
+  /** R6 : forcer ou retirer les « » (défaut : vanne à la 1re personne). */
+  citation?: boolean;
+}
+
+function estCitee(v: Vanne): boolean {
+  return v.citation ?? estPremierePersonne(v.amorce, ...v.chute);
+}
+
+/** Texte alternatif d'une vanne : chaque ligne entre « » si elle est citée. */
+function altVanne(v: Vanne, lignes: string[]): string {
+  return joindre(...(estCitee(v) ? lignes.map(citer) : lignes));
+}
+
+/** Vanne : 2 cartes 4:5, amorce sur noir puis chute sur aplat. */
+export function carrouselVanne(v: Vanne): Slide[] {
+  const citation = estCitee(v);
   return [
-    slide("instagram", createElement(VanneAmorce, { amorce: v.amorce, indice: INDICE_SWIPE }), v.amorce),
-    slide("instagram", createElement(VanneChute, { chute: v.chute }), complet),
+    slide("instagram", createElement(VanneAmorce, { amorce: v.amorce, indice: INDICE_SWIPE, citation }), altVanne(v, [v.amorce])),
+    slide("instagram", createElement(VanneChute, { chute: v.chute, citation }), altVanne(v, [v.amorce, joindre(...v.chute)])),
+  ];
+}
+
+/** Relais d'article Instagram : 2 cartes vanne (ni couverture ni slides d'article, v5 §8). */
+export function carrouselRelais(v: Vanne): Slide[] {
+  return carrouselVanne(v);
+}
+
+/**
+ * Décryptage : 4 cartes. 1 et 2 = la vanne ; 3 = mécanisme (surtitre
+ * intégré « Pourquoi ça fait rire : ») ; 4 = consigne « À toi de jouer : »
+ * et renvoi au quiz, sans bouton. Cartes 3 et 4 sans guillemets.
+ */
+export function carrouselDecryptage(d: Vanne & { mecanisme: string; consigne: string; renvoi: string }): Slide[] {
+  return [
+    ...carrouselVanne(d),
+    slide("instagram", createElement(DecryptageMecanisme, { texte: d.mecanisme }), d.mecanisme),
+    slide("instagram", createElement(DecryptageConsigne, { consigne: d.consigne, renvoi: d.renvoi }), joindre(d.consigne, d.renvoi)),
   ];
 }
 
@@ -85,17 +149,18 @@ export function carrouselArticle(
   const slides: Slide[] = [
     slide("instagram", createElement(ArticleCouverture, {
       titre: a.titre,
-      nombre: liste?.nombre,
-      indice: INDICE_SWIPE,
+      indice: indice(reseau),
     }), a.titre),
   ];
   if (a.extrait && liste) {
     const surtitre = surtitreExtrait(liste.nom, a.extrait.rang, liste.nombre);
+    const v: Vanne = { amorce: a.extrait.amorce, chute: [a.extrait.chute] };
+    const citation = estCitee(v);
     slides.push(
-      slide("instagram", createElement(ArticleExtraitAmorce, { amorce: a.extrait.amorce, surtitre }),
-        joindre(`${surtitre} :`, a.extrait.amorce)),
-      slide("instagram", createElement(VanneChute, { chute: [a.extrait.chute] }),
-        joindre(a.extrait.amorce, a.extrait.chute)),
+      slide("instagram", createElement(ArticleExtraitAmorce, { amorce: a.extrait.amorce, surtitre, citation }),
+        joindre(`${surtitre} :`, altVanne(v, [a.extrait.amorce]))),
+      slide("instagram", createElement(VanneChute, { chute: [a.extrait.chute], citation }),
+        altVanne(v, [a.extrait.amorce, a.extrait.chute])),
     );
   }
   const fin = liste && a.extrait ? `Les ${liste.nombre - 1} autres ${liste.nom}` : "L'article complet";
@@ -114,10 +179,10 @@ export function carrouselConseil(
     slide("instagram", createElement(ConseilSituation, {
       titreConseil: c.titreConseil,
       situation: c.situation,
-      indice: INDICE_SWIPE,
+      indice: indice(reseau),
     }), joindre(`${c.titreConseil} :`, c.situation)),
     slide("instagram", createElement(ConseilReplique, { replique: c.replique }),
-      joindre(c.situation, ...c.replique)),
+      joindre(c.situation, citer(joindre(...c.replique)))),
     slide("instagram", createElement(ConseilPrincipe, { surtitre: surtitrePrincipe, principe: c.principe, cta }),
       joindre(`${surtitrePrincipe} :`, c.principe, `${cta}.`)),
   ];
@@ -130,21 +195,22 @@ export function carrouselConseil(
  * l'amorce. Sur LinkedIn, si l'amorce dépasse 140 caractères (coupée par
  * « voir plus »), repli sur une carte amorce + chute.
  */
-export function carteVanneUnique(format: "x" | "linkedin", v: { amorce: string; chute: string[] }): Slide {
+export function carteVanneUnique(format: "x" | "linkedin", v: Vanne): Slide {
   if (format === "linkedin" && v.amorce.length > LINKEDIN_AVANT_VOIR_PLUS) return carteVanneRepli(format, v);
-  return slide(format, createElement(VanneChute, { chute: v.chute, format }), joindre(v.amorce, ...v.chute));
+  return slide(format, createElement(VanneChute, { chute: v.chute, format, citation: estCitee(v) }),
+    altVanne(v, [v.amorce, joindre(...v.chute)]));
 }
 
 /** Carte de repli : amorce et chute sur la même image (amorce trop longue pour le post). */
-export function carteVanneRepli(format: "x" | "linkedin", v: { amorce: string; chute: string[] }): Slide {
-  return slide(format, createElement(VanneComplete, { amorce: v.amorce, chute: v.chute, format }), joindre(v.amorce, ...v.chute));
+export function carteVanneRepli(format: "x" | "linkedin", v: Vanne): Slide {
+  return slide(format, createElement(VanneComplete, { amorce: v.amorce, chute: v.chute, format, citation: estCitee(v) }),
+    altVanne(v, [v.amorce, joindre(...v.chute)]));
 }
 
 /** Article sur X (couverture, sans pagination) ou LinkedIn (sans étiquette). */
 export function carteArticleUnique(format: "x" | "linkedin", titre: string): Slide {
   return slide(format, createElement(ArticleCouverture, {
     titre,
-    nombre: extraireListe(titre)?.nombre,
     format,
     sansEtiquette: format === "linkedin",
   }), titre);

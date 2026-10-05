@@ -27,7 +27,7 @@ export const FONT_TEXTE = "Inter";
 
 /** Pied et étiquettes : jamais sous 32 px (notation cycle 2, V2). */
 export const TAILLE_PIED: Record<FormatCarte, number> = { instagram: 32, x: 40, linkedin: 32 };
-const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56 };
+export const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56 };
 
 /** Étiquette affichée selon le type de contenu (vanne : aucune). */
 export const ETIQUETTES: Record<KindCarte, string | null> = {
@@ -66,7 +66,7 @@ export interface CarteProps {
   kind?: KindCarte;
   /** Indice de swipe affiché en pied (« Glisse → », slides 1 seulement). */
   indice?: string;
-  /** « haut » : bloc remonté au tiers haut (slide 1, arrêt du défilement). */
+  /** « haut » : bloc centré à 40 % de la hauteur (slide 1, arrêt du défilement). */
   position?: "centre" | "haut";
   children: ReactNode;
 }
@@ -113,8 +113,9 @@ export function Carte({ format, fond = "sombre", kind, indice, position = "centr
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          justifyContent: position === "haut" ? "flex-start" : "center",
-          paddingTop: position === "haut" ? Math.round(f.height * 0.12) : 0,
+          justifyContent: "center",
+          // Centre du bloc remonté de 50 % à 40 % de la hauteur (notation cycle 3, V1).
+          paddingBottom: position === "haut" ? Math.round(f.height * 0.2) : 0,
         }}
       >
         {children}

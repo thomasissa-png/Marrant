@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 cycle 4 (05/10/2026) : visuels sociaux v4 (R6 sur cartes, décryptage 4 cartes, relais 2 cartes) @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun nouvel event Umami.
+> - **Gabarits** (`templates/cartes-piste-a.tsx`, `carte-marque.tsx`, `carrousel-piste-a.ts`) : vanne à la 1re personne entre « » (lilas, « suspendu), « géant du conseil retiré, trait d'union en Inter, chiffre géant des couvertures retiré (nombre du titre en lilas, 64 px garantis au-dessus du pied), amorce 88 px, `carrouselDecryptage` (4 cartes), `carrouselRelais` (2 cartes), `defautsLegende`. LinkedIn : bouton « Lien dans le post », plus de « Glisse ».
+> - **Effet en production après déploiement** : les carrousels Instagram générés par `generate-post-image.ts` (vanne, article) prennent ce rendu ; aucun réseau ne publie tant que les interrupteurs restent en pause.
+> - **Visuels** : `docs/social/visuels-s15/v4/` (11 PNG + 6 tests de charge, `index.md`, `alt.json`).
+
 ## s15 cycle 3 (05/10/2026) : visuels sociaux v3 + chaîne de publication (interrupteur par réseau, LinkedIn, carrousel Instagram) @fullstack
 
 > Commits locaux, non poussés, non déployés. **1 migration** (`11_social_platform_switch`, additive, idempotente, testée 2 fois de suite sur une base Postgres jetable), aucun package, aucune nouvelle variable d'env (`BUFFER_*`, `RESEND_API_KEY`, `ADMIN_PASSWORD` existants), aucun LLM, aucun nouvel event Umami.
