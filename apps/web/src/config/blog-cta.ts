@@ -43,7 +43,7 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   },
   // Article à forte frappe s14 : textes de la notation iter1 (A4-blagues-de-couple.md).
   "blagues-de-couple-drole": {
-    title: "Tu as les vannes. Reste à trouver le bon moment.",
+    title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
     text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Répartie : de quoi renvoyer la balle quand l'autre te répond du tac au tac.",
     primaryLabel: "Créer mon compte gratuit",
     note: "Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.",
