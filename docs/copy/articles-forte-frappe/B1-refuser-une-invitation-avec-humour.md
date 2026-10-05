@@ -15,7 +15,7 @@
 - **mots-clés secondaires** : excuse drôle annuler soirée ; refuser une invitation sans vexer ; message pour refuser une invitation
 - **date de publication** : 2026-11-19 (jeudi, date imposée par la demande ; le calendrier growth prévoyait le 26/11) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes
 - **category** : CATALOGUE · **readingTime** : 6 min
-- **liens internes** (15, tous existants, mêmes cibles que A1) : `/vannes/theme/soirees` · `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/autoderision` · `/parcours/machine-a-cafe` · `/parcours/confiance` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/phrases-droles-conversations` · `/blog/timing-humour` · `/blog/meilleures-blagues-droles-2026`
+- **liens internes** (15, tous existants, mêmes cibles que A1) : `/vannes/theme/soirees` · `/vannes/theme/boulot` · `/vannes/theme/famille` · `/vannes/theme/autoderision` · `/parcours/machine-a-cafe` · `/parcours/repartie` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/phrases-droles-conversations` · `/blog/timing-humour` · `/blog/meilleures-blagues-droles-2026`
 - **cannibalisation** : ne vise ni « timide » ni alcool ni « phrases drôles » (lien vers `phrases-droles-conversations`). Angle propre : la réponse écrite ou dite pour dire non, par situation, avec le rire sur soi. Les articles `rester-muet-en-groupe`, `timidite-et-humour` et S12 ne sont pas liés (existence non vérifiée) : @seo peut ajouter un lien croisé.
 - **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; zéro chiffre inventé (le « 21 » du title, de l'excerpt, de la metaDescription et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée) ; aucun rire sur l'invitation, la personne qui invite ou les autres invités ; aucune fausse excuse proposée, la règle 3 les déconseille ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, aucune promesse de nouveauté sur le reste du catalogue) ; les lignes sont recopiées telles que validées à l'aveugle (jour « samedi », « dimanche » ou « ce soir » inclus) : l'indication d'usage dit quoi adapter
 - **vannes catalogue reprises** : aucune (les vannes validées sont des anecdotes racontées, pas des refus à envoyer)
@@ -43,9 +43,9 @@
 
 Tu as reçu une invitation que tu ne vas pas honorer. Le « désolé, je ne peux pas » est sûr, mais il est plat, et le « on verra » est pire. Cet article te donne **21 réponses drôles pour refuser une invitation** à copier-coller, rangées selon la situation.
 
-Chaque réponse tient en une ou deux phrases. Après chacune, une ligne en italique te dit où et quand l'envoyer. À la fin de chaque situation, une variante sans humour, pour les jours où le rire n'est pas le bon outil. Il te reste à changer le jour et, si tu en as un, à ajouter un détail que toi seul connais.
-
 Va direct à ta situation : [Soirée d'un pote](#comment-refuser-la-soiree-d-un-pote-ou-annuler-a-la-derniere-minute) · [Pot de boulot](#que-repondre-au-pot-ou-a-l-afterwork-de-l-equipe-quand-tu-ne-viens-pas) · [Repas de famille](#comment-decliner-un-repas-de-famille-avec-tendresse) · [Groupe WhatsApp](#que-repondre-dans-le-groupe-whatsapp-quand-tu-ne-viens-pas) · [« T'es sûr de pas venir ? »](#que-dire-quand-on-te-demande-t-es-sur-de-pas-venir) · [Les 4 règles](#comment-refuser-une-invitation-avec-humour-sans-vexer-personne). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
+
+Chaque réponse tient en une ou deux phrases. Après chacune, une ligne en italique te dit où et quand l'envoyer. À la fin de chaque situation, une variante sans humour, pour les jours où le rire n'est pas le bon outil. Il te reste à changer le jour et, si tu en as un, à ajouter un détail que toi seul connais.
 
 ---
 
@@ -60,17 +60,17 @@ Avec un pote, tu peux jouer franc. La seule règle, c'est que le rire reste à t
 *→ WhatsApp, le jour même, seulement si tu as vraiment hésité : la phrase doit rester vraie. Remplace « une chemise » par ce que tu as réellement sorti.*
 
 **3.** Je ne viens pas samedi. J'ai refait ce vocal trois fois pour avoir l'air moins content de rester chez moi. Je garde la troisième.
-*→ En vocal uniquement, d'une voix posée : par écrit, « ce vocal » ne veut plus rien dire. Une seule prise, sans rire à la fin.*
+*→ En vocal uniquement (par écrit, « ce vocal » ne veut plus rien dire), à un pote qui te sait casanier, jamais pour une fête qu'il prépare depuis des semaines. Une seule prise, d'une voix posée.*
 
 **4.** Je ne viens pas samedi. Pour me faire pardonner, je te rends enfin ton escabeau. Je l'ai depuis ton déménagement.
 *→ WhatsApp, quelques jours avant, seulement si tu as vraiment un objet à rendre : change l'escabeau pour le tien, et propose le jour où tu le rapportes.*
 
 **5.** Je ne viens pas samedi. Dimanche, je passe avec des croissants, et je sonne très doucement.
-*→ En fin de message d'invitation refusée, seulement si tu passes vraiment dimanche. Confirme l'heure dans la foulée, pour que la promesse tienne.*
+*→ WhatsApp, avant samedi, seulement si tu passes vraiment dimanche. Confirme l'heure dans la foulée, pour que la promesse tienne.*
 
 *Variante sans humour :* Merci de m'avoir invité, ça me fait vraiment plaisir. Je ne pourrai pas venir samedi. Raconte-moi la soirée, et on se fait un café bientôt ?
 
-Pour [améliorer ton timing](/blog/timing-humour), même à l'écrit, la phrase qui tombe en dernier est celle qui reste. Et pour les soirées où tu vas, [les blagues de soirée](/vannes/theme/soirees).
+Même à l'écrit, la phrase qui tombe en dernier est celle qui reste : [le timing de l'humour](/blog/timing-humour) t'explique pourquoi. Et pour les soirées où tu vas, [les blagues de soirée](/vannes/theme/soirees).
 
 ---
 
@@ -95,7 +95,7 @@ Si tu veux devenir celui ou celle qu'on attend à la machine à café, le [parco
 
 ## Comment décliner un repas de famille avec tendresse ?
 
-En famille, le refus fait plus de bruit qu'ailleurs : on le commentera. Garde le rire tendre, sur toi ou sur la situation (le dimanche, le téléphone, le dessert), jamais sur le menu ni sur ceux qui seront à table.
+En famille, le refus fait plus de bruit qu'ailleurs : on le commentera. Garde le rire tendre, sur toi ou sur la situation (ta chaise vide, le téléphone, la vaisselle), jamais sur le menu ni sur ceux qui seront à table. Et quand on te demande « tu viens quand ? », réponds en riant, puis donne une vraie date.
 
 **9.** Je ne viens pas au repas. Mon absence fera un trou entre deux chaises. Mets-y le pain.
 *→ Par SMS ou message à la personne qui organise, quelques jours avant. Ajoute dans un second message un vrai merci pour l'invitation.*
@@ -104,7 +104,7 @@ En famille, le refus fait plus de bruit qu'ailleurs : on le commentera. Garde le
 *→ Au téléphone, à voix haute, quand on te demande « tu viens quand ? ». Seulement si Noël est vraiment ta prochaine date, sinon change-la. Fais une pause avant « c'est loin ».*
 
 **11.** Bientôt. J'ai même mis une alarme dans mon téléphone pour t'appeler et te dire « bientôt ».
-*→ Au téléphone aussi, d'une voix tranquille. Mets vraiment l'alarme : la phrase doit rester vraie.*
+*→ Au téléphone aussi, d'une voix tranquille, et donne une vraie date juste après : seul, « bientôt » est le « on verra » de la règle 1. Mets vraiment l'alarme.*
 
 **12.** Je ne viens pas au repas, mais je passe après pour aider à ranger. Je ne sais pas faire la conversation, je sais où vont les assiettes.
 *→ Par message ou au téléphone, seulement si tu passes réellement après le repas. Donne ton heure d'arrivée, et range pour de bon.*
@@ -123,7 +123,7 @@ Dans un groupe, ta réponse est lue par tous et l'organisateur compte les prése
 *→ Dans le groupe, en une seule bulle, dès que tu sais, en réponse à « Qui vient samedi ? ». Pas de seconde bulle pour t'expliquer.*
 
 **14.** La première date me convenait, la deuxième aussi. La troisième, non. Je m'étais habitué à la deuxième.
-*→ Dans le groupe, après le dernier changement de date. Remercie la personne qui organise dans un message à part : la ligne seule ne vise que ta propre habitude.*
+*→ En message privé à la personne qui organise, après le dernier changement de date, avec un vrai merci dans la foulée. Dans le groupe, devant tout le monde, elle sonnerait comme un reproche.*
 
 **15.** Tu as bien fait de relancer : j'avais classé ton message dans « je réponds ce soir ». Il y est depuis lundi. Je ne viens pas.
 *→ En message privé, juste après la relance de l'organisateur. Réponds dans l'heure : la phrase tient seulement si tu ne retardes plus.*
@@ -145,10 +145,10 @@ La première réponse était claire, la relance ne l'a pas effacée. Tu peux res
 *→ À voix haute ou par message, à la première relance. Dis-le à plat et ne rajoute pas d'excuse derrière : la phrase vient justement de les écarter.*
 
 **18.** Mon record de présence à une soirée, c'est quarante minutes. C'était chez moi.
-*→ À la relance « viens juste une heure ». À voix haute, avec une pause avant « C'était chez moi ». Par écrit, mets un point à cet endroit.*
+*→ À la relance « viens juste une heure ». À voix haute, avec une pause avant « C'était chez moi ». Par écrit, envoie-la telle quelle : le point fait déjà la pause.*
 
 **19.** Une heure, c'est assez pour qu'on me présente à quelqu'un. Après, je le croise dans la rue pendant des années.
-*→ À la deuxième relance aussi, plutôt à l'oral. Garde un ton tranquille et ne t'excuse pas.*
+*→ À la relance « viens juste une heure », si la n°18 est déjà partie. Plutôt à l'oral, d'un ton tranquille, sans t'excuser.*
 
 **20.** Tout le monde sera là ? Alors il n'y aura plus de place pour se garer. J'en ai une devant chez moi.
 *→ Quand on te dit « mais tout le monde sera là ! », seulement si tu as vraiment une place devant chez toi. Sinon, adapte au détail réel de ton quartier.*
@@ -158,7 +158,7 @@ La première réponse était claire, la relance ne l'a pas effacée. Tu peux res
 
 *Variante sans humour :* Je suis sûr, et ça me touche que tu insistes. Je pense à vous, racontez-moi demain.
 
-Dire non avec le sourire demande un peu d'entraînement : le [parcours Confiance](/parcours/confiance) est fait pour ça. Et pour rire de toi sans te rabaisser : [les blagues d'autodérision](/vannes/theme/autoderision).
+Tenir ton non quand on insiste, ça s'entraîne : le [parcours Répartie](/parcours/repartie) t'apprend à rebondir et à tenir un silence, une étape par semaine.
 
 ---
 
@@ -204,7 +204,7 @@ Oui, à une condition : prévenir dès que tu sais, et dire un vrai « désolé 
 
 ### Comment refuser un collègue ou une invitation du travail avec humour ?
 
-Un message court, neutre, qui rit de toi et jamais du pot, de l'équipe ou de la direction. Avant d'envoyer, relis-le en imaginant ton manager derrière ton épaule. Si l'invitation vient de quelqu'un que tu apprécies (pot de départ), ajoute un mot vrai en face à face.
+Un message court, neutre, qui rit de toi et jamais du pot, de l'équipe ou de la direction. Si tu hésites sur une ligne, prends la variante sans humour : au travail, un non poli ne coûte jamais rien. Si l'invitation vient de quelqu'un que tu apprécies (pot de départ), ajoute un mot vrai en face à face.
 
 ### Un refus drôle ne risque-t-il pas de paraître désinvolte ?
 
