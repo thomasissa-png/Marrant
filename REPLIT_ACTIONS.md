@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026) : prototype rendu des cartes sociales « piste A » (carrousel 4:5, X, LinkedIn) @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami. **Publication inchangée** : `generate-post-image.ts` et Buffer appellent toujours les anciens gabarits carrés.
+> - **Nouveaux fichiers** : `src/lib/social/typo.ts` (typographie française), `templates/carte-marque.tsx` + `templates/cartes-piste-a.tsx` (cartes), `carrousel-piste-a.ts` (composition), `renderSlides()` dans `image-generator.ts` (largeur et hauteur par slide). Polices `public/fonts/Syne-Bold.ttf` et `Syne-ExtraBold.ttf` (OFL) ajoutées, lues comme Inter (fichier local, binding ASSETS sous Workers, repli CDN gstatic).
+> - **Gabarits hérités** (audit §5.8-9) : « » au lieu de `&ldquo;`, « Glisse » au lieu de « Swipe », « 50+ techniques » retiré, italique non rendu retiré, aucun texte sous 28 px.
+> - **Rendu local** : `cd apps/web && npx tsx --tsconfig scripts/tsconfig.scripts.json scripts/render-visuels-piste-a.ts` → `docs/social/visuels-s15/v2/`.
+> - **Après déploiement** : rien à vérifier côté publication (aucun appel des nouvelles cartes en production tant que Thomas n'a pas validé les modèles).
+
 ## s15 (05/10/2026) : relecture du statut réel des posts Buffer + alerte d'échec @fullstack
 
 > Commit local, non poussé, non déployé. **Aucune migration**, aucun package, aucune nouvelle variable d'env (`BUFFER_ACCESS_TOKEN`, `BUFFER_ORGANIZATION_ID`, `RESEND_API_KEY`, `ADMIN_EMAIL` existants), aucun LLM, aucun event Umami.

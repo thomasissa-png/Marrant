@@ -304,6 +304,44 @@ describe("image-generator", () => {
 
     expect(Buffer.isBuffer(buf)).toBe(true);
   });
+
+  it("renderSlides rend chaque slide piste A à ses dimensions (4:5, X, LinkedIn)", async () => {
+    const satori = require("satori") as jest.Mock;
+    satori.mockClear();
+    const { renderSlides } = require("@/lib/social/image-generator");
+    const { carrouselVanne, carteVanneUnique } = require("@/lib/social/carrousel-piste-a");
+
+    const slides = [
+      ...carrouselVanne({ amorce: "Amorce.", chute: ["Chute."] }),
+      carteVanneUnique("x", ["Chute."]),
+      carteVanneUnique("linkedin", ["Chute."]),
+    ];
+    const buffers = await renderSlides(slides);
+
+    expect(buffers).toHaveLength(4);
+    buffers.forEach((buf: Buffer) => expect(Buffer.isBuffer(buf)).toBe(true));
+    const dims = satori.mock.calls.map((c: unknown[]) => {
+      const o = c[1] as { width: number; height: number };
+      return `${o.width}x${o.height}`;
+    });
+    expect(dims).toEqual(["1080x1350", "1080x1350", "1600x900", "1200x627"]);
+  });
+
+  it("charge Syne 700/800 en plus d'Inter pour les titres des cartes", async () => {
+    jest.resetModules();
+    const satori = require("satori") as jest.Mock;
+    satori.mockClear();
+    const { generateLeDefi } = require("@/lib/social/image-generator");
+    await generateLeDefi({ challenge: "Défi", context: "Contexte", persona: "MARC" });
+    const fonts = (satori.mock.calls[0][1] as { fonts: Array<{ name: string; weight: number }> }).fonts;
+    expect(fonts.map((f) => `${f.name} ${f.weight}`)).toEqual([
+      "Inter 400",
+      "Inter 700",
+      "Inter 800",
+      "Syne 700",
+      "Syne 800",
+    ]);
+  });
 });
 
 // ─── Template Structure Tests ────────────────────────────────────
