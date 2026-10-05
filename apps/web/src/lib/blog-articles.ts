@@ -1375,7 +1375,7 @@ La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu s
 
 Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
 
-Comme le dit Paul Mirabel : l'humour c'est pas un don, c'est un muscle. Cet article, c'est ta salle de sport. Et si tu veux t'entraîner quotidiennement avec des vannes fraîches, notre [catalogue de vannes](/vannes) se renouvelle chaque jour.
+L'humour, c'est pas un don, c'est un muscle, et cet article est ta salle de sport. Tu cherches pour une situation précise ? Va direct : [Soirée](#quelles-blagues-sortir-en-soiree-celles-qui-marchent-a-partir-de-22h) · [Bureau](#quelles-blagues-au-bureau-le-lundi-matin-est-un-sport-de-combat) · [Date](#comment-faire-rire-en-date-detendre-un-moment-genant) · [Famille](#les-vannes-en-famille-niveau-expert) · [Potes](#les-vannes-entre-potes-le-labo-d-essai) · [WhatsApp](#les-vannes-whatsapp-reseaux). La [blague du jour](/blague-du-jour) change chaque jour, et le [catalogue de vannes](/vannes) range le reste par situation.
 
 > **Définition :** Une bonne blague repose sur 3 éléments : un setup (la situation), un pivot (le changement de direction) et une punchline (la chute inattendue). Le setup crée l'attente, le pivot la détourne, et la punchline libère le rire. Plus la punchline est courte et inattendue, plus l'impact est fort.
 
@@ -1409,7 +1409,9 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 **8.** « Mon pote dit qu'il boit "juste en soirée". La soirée, pour lui, commence après le déjeuner. »
 *→ Pause après "juste en soirée". Laisser l'absurde faire son chemin.*
 
-Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Roman Frayssinet est un monstre à ça.
+Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Les pros du stand-up font exactement ça.
+
+Plus de vannes de soirée, avec leur chute et leur décryptage : [les blagues de soirée](/vannes/theme/soirees).
 
 ---
 
@@ -1439,11 +1441,13 @@ Le bureau, c'est un terrain miné. Trop drôle, on te prend pas au sérieux. Pas
 
 Si tu veux [devenir la personne qu'on attend à la machine à café](/conseils), le secret c'est la régularité.
 
+Plus de vannes pour la machine à café : [les blagues de boulot](/vannes/theme/boulot).
+
 ---
 
 ## Comment faire rire en date ? (détendre un moment gênant)
 
-Fary l'a dit : « la drague, c'est du stand-up devant une seule personne qui peut partir ».
+La drague, c'est du stand-up devant une seule personne qui peut partir.
 
 **17.** « Sur mon profil j'ai mis "aventurier". Ma dernière aventure : commander autre chose que le burger au menu. J'ai hésité 10 minutes. C'était intense. »
 
@@ -1461,11 +1465,13 @@ Fary l'a dit : « la drague, c'est du stand-up devant une seule personne qui peu
 
 **24.** « Le "on se fait un truc ce week-end ?" des applis de rencontre c'est le "on déjeune ensemble !" du boulot. Ça arrivera jamais et tout le monde le sait. »
 
+Plus de vannes de date : [les blagues de dating](/vannes/theme/dating).
+
 ---
 
 ## Les vannes en famille (niveau expert)
 
-Blanche Gardin dit que la famille c'est « un groupe WhatsApp qu'on a pas choisi de rejoindre ».
+La famille, c'est un groupe WhatsApp qu'on n'a pas choisi de rejoindre.
 
 **25.** « Ma mère m'envoie des vocaux de 4 minutes. Pas un message vocal : un podcast. Prochain épisode : pourquoi je mets pas de manteau. »
 
@@ -1479,11 +1485,13 @@ Blanche Gardin dit que la famille c'est « un groupe WhatsApp qu'on a pas choisi
 
 **30.** « J'ai compté les couchers de soleil envoyés par mon père dans le groupe famille. 1 274 en 3 ans. Jamais de légende. J'aurais pas dû compter. »
 
+Plus de vannes de famille : [les blagues de famille](/vannes/theme/famille).
+
 ---
 
 ## Les vannes entre potes (le labo d'essai)
 
-Waly Dia a commencé comme ça : à faire rire sa bande avant de monter sur scène.
+C'est là que tout commence : faire rire sa bande avant de faire rire un public.
 
 **31.** « Mon pote me dit "on fait un truc chill ce soir". Chill pour lui c'est 4 bars, 2 clubs et un kebab à 5h du mat. On a pas le même dictionnaire. »
 
@@ -1533,6 +1541,12 @@ Waly Dia a commencé comme ça : à faire rire sa bande avant de monter sur scè
 
 **50.** « On me dit "il faut savoir se vendre". J'ai essayé. Mon prix de départ c'était un CDI. Personne a enchéri. »
 
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage.
+
+Tu préfères choisir ta situation ? [Boulot](/vannes/theme/boulot), [couple](/vannes/theme/couple), [dating](/vannes/theme/dating), [soirées](/vannes/theme/soirees), [famille](/vannes/theme/famille), [gaming](/vannes/theme/gaming), [autodérision](/vannes/theme/autoderision).
+
+Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
+
 ---
 
 ## Comment bien raconter une blague drôle ?
@@ -1541,7 +1555,7 @@ Waly Dia a commencé comme ça : à faire rire sa bande avant de monter sur scè
 
 Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le mec drôle du mec qui « connaît des blagues ».
 
-**Le timing, c'est sacré.** Roman Frayssinet peut faire rire avec un silence de 3 secondes. Toi aussi. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
+**Le timing, c'est sacré.** Un silence de 3 secondes peut faire rire à lui tout seul. Toi aussi. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
 
 **Le contexte fait la vanne.** La blague sur le flex office, tu la sors au bureau, pas en boîte.
 
@@ -1551,17 +1565,17 @@ Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le
 
 Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
 
-→ **[Découvrir nos vannes du jour](/vannes)** : classées par catégorie, chute cachée, renouvelées quotidiennement.
+→ **[La blague du jour](/blague-du-jour)** : une vanne neuve chaque jour, avec sa chute et son décryptage.
 
 → **[Nos conseils d'humour](/conseils)** : les techniques de timing et de répartie des pros.
 
 → **[Comment devenir drôle](/blog/comment-devenir-drole)** : le guide complet avec plan d'action sur 30 jours.`,
     date: "2026-03-19",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-05",
     readingTime: "8 min",
     category: "CATALOGUE",
     faqs: [
-      { question: "Comment trouver des blagues drôles à raconter ?", answer: "L'observation de ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille. Les humoristes comme Fary ou Paul Mirabel ne font que mettre en mots ce qu'on pense tout bas." },
+      { question: "Comment trouver des blagues drôles à raconter ?", answer: "L'observation de ta propre vie est la meilleure source. Les vannes les plus drôles viennent de situations que tout le monde vit : transports, boulot, applis, famille. Les humoristes ne font que mettre en mots ce qu'on pense tout bas." },
       { question: "Comment devenir plus drôle au quotidien ?", answer: "C'est un entraînement, pas un talent inné. Commence par sortir une vanne par jour dans une situation safe (entre potes, en famille). Analyse ce qui marche et ce qui tombe à plat." },
       { question: "C'est quoi une bonne blague drôle courte ?", answer: "Une bonne blague courte a trois qualités : un setup relatable (tout le monde se reconnaît), un twist qu'on voit pas venir, et une punchline plus courte que l'amorce. Les meilleures tiennent en 15-20 mots." },
       { question: "Comment adapter une blague à son public ?", answer: "La même blague ne marche pas partout. En famille, reste sur de l'autodérision légère. Entre potes, tu peux pousser plus loin. Au bureau, évite les sujets clivants. La clé : observe ton public 5 minutes avant de te lancer, et choisis la vanne qui colle au niveau d'énergie du groupe." },

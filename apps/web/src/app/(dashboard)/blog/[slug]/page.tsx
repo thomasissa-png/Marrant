@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
+import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
+import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
@@ -236,95 +238,103 @@ export default async function BlogArticlePage({
         <span>{article.readingTime} de lecture</span>
       </div>
 
-      <MarkdownRenderer content={article.content} className="mt-8" />
-
-      {/* FAQ Schema */}
-      {"faqs" in article && article.faqs && article.faqs.length > 0 && (
-        <section className="mt-12 border-t border-border pt-8">
-          <h2 className="font-display text-xl font-bold text-text-primary">
-            Questions fréquentes
-          </h2>
-          <dl className="mt-4 space-y-4">
-            {article.faqs.map((faq, i) => (
-              <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-                <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-                <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-      )}
-
-      {/* Navigation dans le cluster */}
-      {cluster && (nextArticle || prevArticle) && (
-        <nav className="mt-12 border-t border-border pt-8" aria-label="Navigation dans le cluster">
-          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-text-muted">
-            {cluster.name}
-          </p>
-          {/* T37 : carte seule = demi-largeur en desktop (côté de son sens), texte à gauche en mobile */}
-          <div className="flex flex-col gap-4 sm:flex-row">
-            {prevArticle && (
-              <Link
-                href={`/blog/${prevArticle.slug}`}
-                className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 ${nextArticle ? "flex-1" : "sm:w-1/2"}`}
-              >
-                <span className="text-xs text-text-muted">Précédent</span>
-                <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
-                  {prevArticle.title}
-                </p>
-              </Link>
-            )}
-            {nextArticle && (
-              <Link
-                href={`/blog/${nextArticle.slug}`}
-                className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 sm:text-right ${prevArticle ? "flex-1" : "sm:ml-auto sm:w-1/2"}`}
-              >
-                <span className="text-xs text-text-muted">Suivant</span>
-                <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
-                  {nextArticle.title}
-                </p>
-              </Link>
-            )}
-          </div>
-        </nav>
-      )}
-
-      {/* Articles similaires */}
-      {relatedArticles.length > 0 && (
-        <div className="mt-12 border-t border-border pt-8">
-          <h2 className="font-display text-xl font-bold text-text-primary">
-            À lire ensuite
-          </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {relatedArticles.map((related) => (
-              <Link
-                key={related.slug}
-                href={`/blog/${related.slug}`}
-                className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
-              >
-                <Badge variant="primary" className="mb-2 text-xs">
-                  {blogCategoryLabel(related.category)}
-                </Badge>
-                <h3 className="text-sm font-semibold text-text-primary line-clamp-2">
-                  {related.title}
-                </h3>
-                <p className="mt-1 text-xs text-text-muted">
-                  {related.readingTime} de lecture
-                </p>
-              </Link>
-            ))}
-          </div>
+      {/* Mesure Umami (blog-sortie-clic, blog-cta-clic, blog-scroll) : wrapper client, contenu inchangé. */}
+      <BlogArticleTracking slug={article.slug}>
+        <div data-blog-body>
+          <MarkdownRenderer content={article.content} className="mt-8" />
         </div>
-      )}
 
-      {/* Maillage contextuel vers le parcours pertinent selon le cluster. */}
-      <BlogArticleParcoursMaillage
-        articleSlug={article.slug}
-        articleCategory={article.category}
-      />
+        {/* FAQ Schema */}
+        {"faqs" in article && article.faqs && article.faqs.length > 0 && (
+          <section className="mt-12 border-t border-border pt-8">
+            <h2 className="font-display text-xl font-bold text-text-primary">
+              Questions fréquentes
+            </h2>
+            <dl className="mt-4 space-y-4">
+              {article.faqs.map((faq, i) => (
+                <div key={i} className="rounded-lg border border-border bg-background-card p-4">
+                  <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+                  <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
 
-      {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35) */}
-      <ArticleCta />
+        {/* Navigation dans le cluster */}
+        {cluster && (nextArticle || prevArticle) && (
+          <nav className="mt-12 border-t border-border pt-8" aria-label="Navigation dans le cluster" data-blog-zone="cluster">
+            <p className="mb-4 text-xs font-medium uppercase tracking-wider text-text-muted">
+              {cluster.name}
+            </p>
+            {/* T37 : carte seule = demi-largeur en desktop (côté de son sens), texte à gauche en mobile */}
+            <div className="flex flex-col gap-4 sm:flex-row">
+              {prevArticle && (
+                <Link
+                  href={`/blog/${prevArticle.slug}`}
+                  className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 ${nextArticle ? "flex-1" : "sm:w-1/2"}`}
+                >
+                  <span className="text-xs text-text-muted">Précédent</span>
+                  <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
+                    {prevArticle.title}
+                  </p>
+                </Link>
+              )}
+              {nextArticle && (
+                <Link
+                  href={`/blog/${nextArticle.slug}`}
+                  className={`rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40 sm:text-right ${prevArticle ? "flex-1" : "sm:ml-auto sm:w-1/2"}`}
+                >
+                  <span className="text-xs text-text-muted">Suivant</span>
+                  <p className="mt-1 text-sm font-semibold text-text-primary line-clamp-2">
+                    {nextArticle.title}
+                  </p>
+                </Link>
+              )}
+            </div>
+          </nav>
+        )}
+
+        {/* Articles similaires */}
+        {relatedArticles.length > 0 && (
+          <div className="mt-12 border-t border-border pt-8" data-blog-zone="related">
+            <h2 className="font-display text-xl font-bold text-text-primary">
+              À lire ensuite
+            </h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+              {relatedArticles.map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/blog/${related.slug}`}
+                  className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                >
+                  <Badge variant="primary" className="mb-2 text-xs">
+                    {blogCategoryLabel(related.category)}
+                  </Badge>
+                  <h3 className="text-sm font-semibold text-text-primary line-clamp-2">
+                    {related.title}
+                  </h3>
+                  <p className="mt-1 text-xs text-text-muted">
+                    {related.readingTime} de lecture
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Maillage contextuel vers le parcours pertinent selon le cluster. */}
+        <div data-blog-zone="parcours">
+          <BlogArticleParcoursMaillage
+            articleSlug={article.slug}
+            articleCategory={article.category}
+          />
+        </div>
+
+        {/* CTA double (essai gratuit + premium), collé au parcours recommandé (T35).
+            Textes propres à l'article si config/blog-cta.ts en définit. */}
+        <ArticleCta {...BLOG_CTA_BY_SLUG[article.slug]} />
+      </BlogArticleTracking>
     </article>
   );
 }

@@ -1,4 +1,4 @@
-import { frenchQuotes, renderMarkdown } from "@/components/ui/markdown-renderer";
+import { frenchQuotes, headingId, renderMarkdown } from "@/components/ui/markdown-renderer";
 import { frTypo } from "@/lib/fr-typo";
 import { blogArticles } from "@/lib/blog-articles";
 import blogArticleRewrites from "@/data/blog-article-rewrites.json";
@@ -90,5 +90,38 @@ describe("frenchQuotes (guillemets au rendu)", () => {
     expect(html).toContain('<a href="/parcours" class="text-accent-link hover:underline">');
     expect(html).toContain(`lien «${NBSP}cité${NBSP}»`);
     expect(html).toContain(`«${NBSP}une vanne${NBSP}»`);
+  });
+});
+
+describe("ancres des H2 (id stables, tous les articles)", () => {
+  it("slug du titre : minuscules, sans accents ni ponctuation", () => {
+    expect(headingId("Comment faire rire en date ? (détendre un moment gênant)")).toBe(
+      "comment-faire-rire-en-date-detendre-un-moment-genant"
+    );
+    expect(headingId("Les vannes entre potes (le labo d'essai)")).toBe("les-vannes-entre-potes-le-labo-d-essai");
+    expect(headingId("Les vannes WhatsApp / réseaux")).toBe("les-vannes-whatsapp-reseaux");
+    expect(headingId("**Cœur** et [lien](/x) à l'œil")).toBe("coeur-et-lien-a-l-oeil");
+    expect(headingId("?!")).toBe("section");
+  });
+
+  it("pose l'id sur le H2 sans changer son texte, pas sur le H3", () => {
+    const html = renderMarkdown("## Quelles blagues au bureau ?\n\n### Sous-titre");
+    expect(html).toMatch(/<h2 id="quelles-blagues-au-bureau" class="[^"]*">Quelles blagues au bureau.\?<\/h2>/);
+    expect(html).toMatch(/<h3 class=/);
+  });
+
+  it("dédoublonne deux titres identiques", () => {
+    const html = renderMarkdown("## Exemple\n\n## Exemple");
+    expect(html).toContain('id="exemple"');
+    expect(html).toContain('id="exemple-2"');
+  });
+
+  it("ids uniques et valides dans chaque article statique", () => {
+    for (const article of blogArticles) {
+      const ids = [...renderMarkdown(article.content).matchAll(/<h2 id="([^"]+)"/g)].map((m) => m[1]);
+      expect(ids.length).toBe((article.content.match(/^## /gm) ?? []).length);
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const id of ids) expect(id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+    }
   });
 });

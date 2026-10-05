@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : article « 50 blagues drôles » : audit growth R1 à R5 + mesure Umami @fullstack
+
+> GO Thomas sur `docs/growth/audit-article-blagues-2026-s14.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM.
+> - **Déploiement normal**. Article statique (`blog-articles.ts`) : la page `/blog/meilleures-blagues-droles-2026` est régénérée au build, `updatedAt` passe au 05/10/2026.
+> - **Tous les articles** : chaque H2 reçoit un `id` stable (slug du titre, sans accents) ; texte des titres inchangé.
+> - **Umami** (même script, `window.umami.track`) : `blog-sortie-clic` {slug, zone, section, cible}, `blog-cta-clic` {slug, bouton : inscription | premium | parcours}, `blog-scroll` {slug, palier: 75}, une fois par page. Actifs sur tous les articles de blog. À vérifier après déploiement : Umami > Events.
+> - CTA de fin : textes propres à cet article (`src/config/blog-cta.ts`) ; bouton 2,99 €/mois inchangé ; autres articles inchangés.
+
 ## s14 (05/10/2026) : rapport hebdomadaire des visites (Umami) par email le lundi @fullstack
 
 > Demande de Thomas. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucun LLM. Secrets Worker `UMAMI_API_KEY` et `UMAMI_WEBSITE_ID` déjà posés (05/10) ; `RESEND_API_KEY` déjà requis.

@@ -2,7 +2,14 @@
   "_meta": {
     "source": "apps/web/src/lib/blog-articles.ts @ 6f1be77 (avant retrait des tirets cadratins)",
     "articles": 30,
-    "emDashesBefore": 467
+    "emDashesBefore": 467,
+    "rebaselines": [
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "s14",
+        "raison": "audit growth s14 R1 à R5 (sommaire, sorties, conformité, updatedAt) : titres inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
+      }
+    ]
   },
   "articles": {
     "comment-devenir-drole": {
@@ -132,12 +139,12 @@
       "emDashesBefore": 20
     },
     "meilleures-blagues-droles-2026": {
-      "words": "050b2c2b65703a7474541f650a53075ca2517ddf9f72f3a149c423ef4d518b58",
-      "wordCount": 2325,
+      "words": "af224fcdadb2dd42d9cf70056d69648716bbc917ace21712de460b2a215d43af",
+      "wordCount": 2516,
       "headings": "1f316593f32e57d29184adda284a3c57a99db8926707916dc1767ae66d238d30",
-      "links": "ceae9da64b01f741f80cba42d8e7cbd54a129ca103eca0104a000d5ea73eb053",
-      "numbers": "21a5916b75703e891fd7aa833a568daddf4792d8a1a46647c452ed21ebcef97a",
-      "meta": "32fc332e84a34af738d47bd47c5f8c11467f08dd037f641c54ecdaa4e6991415",
+      "links": "37375d793737ae876871cb22747385442f1ae03622b834dc35fb8cc6ecd02306",
+      "numbers": "4964de3d51dd85f9e58536a50e9827961bb12f96cf01b07cc23d45dc9fdc4b6f",
+      "meta": "1b03b6938e1eafc528d4dd48699d746336d7f04dff3d64285d293cd21178b0ee",
       "emDashesBefore": 6
     },
     "comment-faire-rire-une-fille": {

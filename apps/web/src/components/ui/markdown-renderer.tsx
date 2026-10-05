@@ -103,6 +103,28 @@ function inlineMarkdown(text: string): string {
   return result;
 }
 
+/**
+ * Ancre stable d'un titre (sommaires, liens #…) : texte brut du Markdown en
+ * minuscules, sans accents ni ponctuation, mots séparés par des tirets
+ * (« Les vannes entre potes (le labo d'essai) » → « les-vannes-entre-potes-le-labo-d-essai »).
+ * Calculée sur le texte stocké, jamais sur le rendu typographié : l'ancre ne
+ * bouge pas si frTypo ou frenchQuotes évoluent.
+ */
+export function headingId(text: string): string {
+  const slug = text
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .toLowerCase()
+    .replace(/œ/g, "oe")
+    .replace(/æ/g, "ae")
+    // NFD sépare la lettre de son accent ; on retire les diacritiques combinants
+    // (plage Unicode, invisible par nature : pas d'équivalent UTF-8 lisible).
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || "section";
+}
+
 type LineKind = "quote" | "ul" | "ol" | "text";
 
 function lineKind(line: string): LineKind {
@@ -157,6 +179,14 @@ function renderBlock(block: string): string {
 export function renderMarkdown(content: string): string {
   const blocks = content.split("\n\n");
   const htmlParts: string[] = [];
+  // Ancres uniques dans la page : un 2e titre identique reçoit « -2 », etc.
+  const usedIds = new Map<string, number>();
+  const uniqueId = (text: string): string => {
+    const base = headingId(text);
+    const n = (usedIds.get(base) ?? 0) + 1;
+    usedIds.set(base, n);
+    return n === 1 ? base : `${base}-${n}`;
+  };
 
   let i = 0;
   while (i < blocks.length) {
@@ -174,7 +204,7 @@ export function renderMarkdown(content: string): string {
       const text = inlineMarkdown(heading[2]);
       htmlParts.push(
         heading[1] === "##"
-          ? `<h2 class="mt-12 mb-4 font-display text-xl font-bold text-text-primary md:text-2xl">${text}</h2>`
+          ? `<h2 id="${uniqueId(heading[2])}" class="mt-12 mb-4 scroll-mt-20 font-display text-xl font-bold text-text-primary md:text-2xl">${text}</h2>`
           : `<h3 class="mt-8 mb-3 font-display text-lg font-semibold text-text-primary">${text}</h3>`
       );
       const rest = block.split("\n").slice(1).join("\n").trim();
