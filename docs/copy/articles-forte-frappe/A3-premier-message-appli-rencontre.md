@@ -1,6 +1,15 @@
-# FINAL A3 : article « premier message drôle appli de rencontre » (publication jeudi 03/12/2026)
+# FINAL A3 : article « premier message drôle appli de rencontre » (publication programmée jeudi 29/10/2026)
 
-> Statut : FINAL (05/10/2026), non publié, non commité, prêt pour l'import à blanc. Gabarit de contenu : étalon `meilleures-blagues-droles-2026` (`apps/web/src/lib/blog-articles.ts`). Format du fichier : S9 (`docs/copy/articles-q4/S9-toast-drole-discours-qui-fait-rire.md`). Brief : `docs/growth/articles-forte-frappe-s14.md` §2 n°5 et §4.
+## CTA (pour blog-cta.ts)
+
+Entrée à ajouter dans `apps/web/src/config/blog-cta.ts`, clé `premier-message-drole-appli-de-rencontre` (géré côté code, valeurs exactes) :
+
+- **title** : Ton premier message est prêt. La suite s'entraîne.
+- **text** : Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours, dont Confiance et Répartie : de quoi oser envoyer, puis tenir la conversation qui suit.
+- **primaryLabel** : Créer mon compte gratuit
+- **note** : Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.
+
+> Statut : FINAL (05/10/2026), correctifs de `docs/growth/notation-A3-iter1.md` appliqués (C1, C3 à C5, C7 à C11), non publié, non commité, prêt pour l'import à blanc. Gabarit de contenu : étalon `meilleures-blagues-droles-2026` (`apps/web/src/lib/blog-articles.ts`). Format du fichier : S9 (`docs/copy/articles-q4/S9-toast-drole-discours-qui-fait-rire.md`). Brief : `docs/growth/articles-forte-frappe-s14.md` §2 n°5 et §4.
 > Humour final : 17 lignes retenues à l'aveugle, recopiées mot pour mot (`A3-candidates.md`, `A3-candidates-vague2.md`), plus 3 vannes du catalogue validé. Vague 1 (`A3-departage.md`) : H3-5, H5-6, H6-1, H6-3, H10-4, H11-1, H20-2. Vague 2 (`A3v2-departage.md`) : H1-13, H2-13, H8-11, H9-8, H9-13, H9-14, H12-7, H16-9, H16-14, H18-8. Emplacements supprimés avec leur indication d'usage : H4, H7, H13, H14, H15, H17, H19. Les sections « salut reçu » et « relance » ne gardaient que 2 lignes chacune : fusionnées en une seule section (« répondre à une question et relancer »).
 > `[Framework : PAS allégé (Problème : le « Salut, ça va ? » qui ne laisse aucun souvenir ; Agitation : le message trop poli ou trop lourd qui ferme la conversation ; Solution : un détail du profil, une touche qui vise soi, une porte ouverte) + démonstration par l'exemple, situation par situation]` · `[Conscience : Problem-Aware, le lecteur sait que son premier message est plat ou qu'on ne lui répond pas, il ne sait pas encore ce qu'il peut écrire à la place]`
 
@@ -31,23 +40,23 @@
 
 > **En bref :** Un premier message drôle sur une appli de rencontre tient en deux ou trois lignes : un détail précis du profil, une touche d'humour qui te vise toi ou la situation (jamais la personne, jamais son physique), et une porte ouverte pour qu'on puisse te répondre sans effort. Cette accroche drôle se construit selon la situation : sa bio, sa photo de voyage, son animal, une question reçue, ou une relance après un silence.
 
+Va direct à ta situation : [Sa bio](#comment-reagir-a-sa-bio-avec-un-premier-message-drole) · [Sa photo de voyage](#quel-premier-message-drole-pour-une-photo-de-voyage) · [Son animal](#quel-premier-message-drole-quand-la-photo-montre-un-animal) · [Une question reçue ou une relance](#comment-repondre-a-une-question-et-relancer-apres-un-silence-sans-insister). Les autres vannes du site t'attendent dans la [blague du jour](/blague-du-jour), qui change chaque jour, et dans le [catalogue de vannes](/vannes), rangé par situation.
+
 Tu as ouvert la conversation, le curseur clignote, et tes doigts tapent « Salut, ça va ? ». C'est le message qu'on reçoit sans cesse, donc celui dont personne ne se souvient. Le piège inverse existe aussi : un message si poli qu'il ne ressemble à personne.
 
 > J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec. Elle a proposé « j'espère que ce message te trouve bien ».
 
 Un premier message drôle n'est pas un numéro de scène. C'est une ou deux phrases qui disent que tu as regardé le profil, que tu ne te prends pas trop au sérieux, et qu'on peut te répondre en une ligne.
 
-Cet article traite d'un seul cas : le texte écrit, envoyé à une seule personne sur une appli de rencontre. Pour te présenter à l'oral devant un groupe, c'est [se présenter avec humour](/blog/se-presenter-avec-humour). Pour faire rire quand vous êtes face à face, il y a [comment faire rire une fille](/blog/comment-faire-rire-une-fille) et [comment faire rire un homme](/blog/comment-faire-rire-un-homme). Si c'est l'idée même d'écrire à quelqu'un qui te bloque, commence par [timidité et humour](/blog/timidite-et-humour). Ici, on reste sur l'écran.
-
-Va direct à ta situation : [Sa bio](#comment-reagir-a-sa-bio-avec-un-premier-message-drole) · [Sa photo de voyage](#quel-premier-message-drole-pour-une-photo-de-voyage) · [Son animal](#quel-premier-message-drole-quand-la-photo-montre-un-animal) · [Une question reçue ou une relance](#comment-repondre-a-une-question-et-relancer-apres-un-silence-sans-insister). Les autres vannes du site t'attendent dans la [blague du jour](/blague-du-jour), qui change chaque jour, et dans le [catalogue de vannes](/vannes), rangé par situation.
-
 > **Les quatre règles de ces messages :**
 > 1. **Un détail de son profil**, pas une phrase valable pour tout le monde.
-> 2. **Le rire tombe sur toi ou sur la situation de l'appli.** Jamais sur la personne, jamais sur son physique, jamais sur ce qu'elle a écrit.
+> 2. **Le rire tombe sur toi ou sur la situation de l'appli.** Jamais sur la personne, jamais sur son physique, jamais aux dépens de ce qu'elle a écrit.
 > 3. **Une porte ouverte** : une question simple, ou une phrase à laquelle on peut répondre en une ligne.
 > 4. **Aucun message qui insiste.** Une relance au maximum, et un silence reste une réponse.
 
 Un test avant d'envoyer : si tu hésites en te demandant « et si la personne le prenait mal ? », le message ne part pas. Un bon premier message se relit sans que tu aies à le défendre.
+
+Cet article traite d'un seul cas : le texte écrit, envoyé à une seule personne sur une appli de rencontre. Pour te présenter à l'oral devant un groupe, c'est [se présenter avec humour](/blog/se-presenter-avec-humour). Pour faire rire quand vous êtes face à face, il y a [comment faire rire une fille](/blog/comment-faire-rire-une-fille) et [comment faire rire un homme](/blog/comment-faire-rire-un-homme). Si c'est l'idée même d'écrire à quelqu'un qui te bloque, commence par [timidité et humour](/blog/timidite-et-humour). Ici, on reste sur l'écran.
 
 ---
 
@@ -57,19 +66,19 @@ Sa bio est ta meilleure matière : la personne a choisi ces mots, y répondre pr
 
 **1. Sa bio dit : « Je cuisine tous les dimanches. »**
 
-« Le dimanche, tout est fermé. J'ai déjà remplacé le citron par du vinaigre. Les invités ont été très polis. »
+> Le dimanche, tout est fermé. J'ai déjà remplacé le citron par du vinaigre. Les invités ont été très polis.
 
-*→ Écris-le comme un constat, sans smiley pour prévenir qu'on peut rire. Si la phrase est bonne, elle n'en a pas besoin. Pour une réponse facile, termine par « et le tien ? ».*
+*→ Écris-le comme un constat, sans smiley pour prévenir qu'on peut rire. Si la phrase est bonne, elle n'en a pas besoin. Termine par une question sur sa cuisine, par exemple « qu'est-ce qui sort de ta cuisine ce dimanche ? ».*
 
 **2. Sa bio dit : « Cherche quelqu'un qui me fasse rire. »**
 
-« Ma dernière blague en réunion a reçu un « merci pour l'info ». »
+> Ma dernière blague en réunion a reçu un « merci pour l'info ».
 
 *→ Une bio qui demande du rire met la pression. Désamorce-la en te prenant pour cible, sans rien promettre que tu ne tiendras pas.*
 
 **3. Sa bio dit : « Commence ton message par ton plat préféré. »**
 
-« Le hachis parmentier. J'avais écrit « soupe », puis j'ai effacé : ça fait trop « je me couche à vingt et une heures ». Je me couche à vingt et une heures. »
+> Le hachis parmentier. J'avais écrit « soupe », puis j'ai effacé : ça fait trop « je me couche à vingt et une heures ». Je me couche à vingt et une heures.
 
 *→ Joue le jeu à la lettre : une consigne dans une bio attend qu'on l'ait lue. Commence par la réponse, la touche d'humour vient après.*
 
@@ -83,21 +92,21 @@ Une photo de voyage est un sujet que la personne a choisi de montrer : c'est une
 
 **4. Sa photo est prise en montagne, au bout d'une randonnée.**
 
-« J'ai agrandi ta photo pour repérer le sentier. Je me vois très bien dans la descente. La montée est encore à l'étude. »
+> J'ai agrandi ta photo pour repérer le sentier. Je me vois très bien dans la descente. La montée est encore à l'étude.
 
-*→ Parle du sentier, pas de la personne. Pour une réponse facile, termine par une question sur la montée.*
+*→ Parle du sentier, pas de la personne. Pour qu'on puisse te répondre en une ligne, termine par une question sur la montée.*
 
 **5. Sa photo est prise au bord de l'eau.**
 
-« Question de plage : comment tu retrouves ta serviette après la baignade ? Moi, j'ai déjà séché sur celle d'une famille qui n'a rien dit. »
+> Question de plage : comment tu retrouves ta serviette après la baignade ? Moi, j'ai déjà séché sur celle d'une famille qui n'a rien dit.
 
-« Devant ton eau, je repense à ma dernière baignade : j'ai mis un orteil, j'ai dit « elle est bonne » à voix haute, et j'ai attendu que quelqu'un me croie. »
+> Devant ton eau, je repense à ma dernière baignade : j'ai mis un orteil, j'ai dit « elle est bonne » à voix haute, et j'ai attendu que quelqu'un me croie.
 
 *→ Le lieu est ton sujet : l'eau, le sable, la météo. Choisis une des deux lignes. Aucun commentaire sur la tenue ou la silhouette, même flatteur.*
 
 **6. Sa photo montre un pays que tu n'as jamais visité.**
 
-« Tout ce que je sais de ce pays vient d'un exposé de collège. C'était le mien. Je me méfie. »
+> Tout ce que je sais de ce pays vient d'un exposé de collège. C'était le mien. Je me méfie.
 
 *→ Avoue ton ignorance sans en faire trop. Une phrase, puis une vraie question : « c'était comment ? ».*
 
@@ -111,39 +120,39 @@ Un animal sur une photo, c'est souvent le sujet préféré de la personne. Tu pe
 
 **7. Sa photo montre un chat.**
 
-« Un chat bloquait mon escalier. Je lui ai dit « pardon ». Puis j'ai attendu. »
+> Un chat bloquait mon escalier. Je lui ai dit « pardon ». Puis j'ai attendu.
 
-« J'ai offert un jouet au chat d'un ami. Il joue avec l'emballage. Depuis, j'offre des emballages. »
+> J'ai offert un jouet au chat d'un ami. Il joue avec l'emballage. Depuis, j'offre des emballages.
 
-« Un chat s'est approché de moi hier. J'ai regardé derrière moi pour voir qui il venait voir. »
+> Un chat s'est approché de moi hier. J'ai regardé derrière moi pour voir qui il venait voir.
 
 *→ Le gag est sur toi, pas sur le chat de la personne. Choisis une seule des trois lignes, puis ajoute une question concrète sur son chat (son nom, son caractère).*
 
 **8. Sa photo montre un chien, en promenade.**
 
-« Je n'ai pas de chien, mais j'ai déjà dit « assis » à un inconnu dans le tram, par réflexe. Il s'est assis. »
+> Je n'ai pas de chien, mais j'ai déjà dit « assis » à un inconnu dans le tram, par réflexe. Il s'est assis.
 
 *→ Dis honnêtement que tu n'as pas de chien, puis ramène la conversation sur le sien : la balade, la laisse, ses habitudes. Rien sur la personne qui le promène.*
 
 **9. Tu as toi aussi un chien.**
 
-« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. »
+> J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse.
 
 *→ À envoyer seulement si c'est vrai. Ajoute le prénom de ton chien et une question sur le sien : la phrase devient une conversation.*
 
 **10. Son animal est peu courant (lapin, tortue, oiseau…).**
 
-« Comment on en arrive à partager son salon avec un animal comme le tien ? Ma décision la plus audacieuse de l'année, c'était une chaise avec accoudoirs. »
+> Comment on en arrive à partager son salon avec un animal comme le tien ? Ma décision la plus audacieuse de l'année, c'était une chaise avec accoudoirs.
 
 *→ Un animal inhabituel déclenche des questions : la ligne en pose déjà une vraie, tu auras une histoire en réponse.*
 
 **11. L'animal est sur presque toutes les photos du profil.**
 
-« Sur mes photos, il y a surtout quelqu'un que j'ai recadré. Il reste un coude. »
+> Sur mes photos, il y a surtout quelqu'un que j'ai recadré. Il reste un coude.
 
 *→ Retourne la remarque sur toi : tes propres photos font le gag. Termine par une question sur l'animal, sans rien dire de l'apparence de la personne.*
 
-Pour la suite de la conversation, [les vannes de soirées](/vannes/theme/soirees) rangent des lignes pour lancer un échange sans forcer.
+Pour garder le ton une fois l'échange lancé, [les phrases drôles pour la conversation](/blog/phrases-droles-conversations) prennent le relais, par message comme en face.
 
 ---
 
@@ -157,25 +166,25 @@ Une relance, jamais deux. Pas de « tu es là ? », pas de reproche, pas de capt
 
 **12. On t'écrit « Tu fais quoi ce week-end ? ».**
 
-« Ce week-end, je répare l'étagère. Elle est inscrite à « ce week-end » depuis deux ans. »
+> Ce week-end, je répare l'étagère. Elle est inscrite à « ce week-end » depuis deux ans.
 
-« Ce week-end, j'aide un ami à déménager. On m'a confié le carton « fragile ». Il contient un coussin. On me connaît. »
+> Ce week-end, j'aide un ami à déménager. On m'a confié le carton « fragile ». Il contient un coussin. On me connaît.
 
 *→ Réponds par ce que tu fais vraiment, sans t'engager sur un rendez-vous. Choisis une des deux lignes, puis renvoie la question.*
 
 **13. La personne avait écrit « je te réponds plus tard », et rien depuis.**
 
-« « Plus tard », j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps. »
+> « Plus tard », j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps.
 
 *→ Une relance légère est permise après quelques jours, sans reproche et sans urgence. Si rien ne vient, tu t'arrêtes là.*
 
 **14. La conversation reprend après un long silence de la personne.**
 
-« Aucune excuse nécessaire, la ponctualité n'est pas mon rayon : j'ai déjà été en avance, mais de la mauvaise semaine. »
+> Aucune excuse nécessaire, la ponctualité n'est pas mon rayon : j'ai déjà été en avance, mais de la mauvaise semaine.
 
-*→ Aucun reproche, même drôle. Le rire tombe sur toi ou sur la situation, jamais sur le retard de l'autre.*
+*→ À n'envoyer que si la personne s'est excusée de son retard : sinon, « aucune excuse nécessaire » laisse entendre qu'une excuse était due. Aucun reproche, même drôle. Le rire tombe sur toi ou sur la situation, jamais sur le retard de l'autre.*
 
-Pour d'autres lignes sur le silence après « on se rappelle », [les vannes de dating](/vannes/theme/dating) ont leur étagère. Pour répondre du tac au tac sans y penser trois heures, le [parcours Répartie](/parcours/repartie) demande 20 minutes par semaine. Relancer une fois puis lâcher prise, accepter un silence sans le prendre pour un verdict : ça s'entraîne aussi, avec le [parcours Confiance](/parcours/confiance), 20 minutes par semaine.
+Pour répondre du tac au tac sans y penser trois heures, le [parcours Répartie](/parcours/repartie) demande 20 minutes par semaine. Relancer une fois puis lâcher prise, accepter un silence sans le prendre pour un verdict : ça s'entraîne aussi, au même rythme, avec le [parcours Confiance](/parcours/confiance).
 
 ---
 
@@ -188,7 +197,7 @@ Les messages ci-dessus sont des moules, pas des scripts. Pour qu'ils sonnent com
 3. **Lis-le à voix haute.** Si tu ne le dirais pas ainsi en face de la personne, ne l'envoie pas.
 4. **Ne l'envoie qu'à une seule personne.** Le même message copié vers plusieurs profils se remarque, et ce n'est pas respectueux.
 
-Et si tu n'as pas envie de faire de l'humour ce jour-là, une phrase simple et chaleureuse vaut mieux qu'une blague forcée.
+Et si tu n'as pas envie de faire de l'humour ce jour-là, n'en fais pas : un message simple qui montre que tu as lu son profil fait très bien l'affaire.
 
 ---
 
@@ -202,7 +211,7 @@ Prépare-toi aussi à entrer dans son répertoire sous un nom que tu ne choisis 
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage.
+**Tu as fait le tour ?** [La blague du jour](/blague-du-jour) t'en garde une neuve pour demain, avec sa chute et son décryptage.
 
 Tu préfères choisir ta situation ?
 - [Dating](/vannes/theme/dating)
@@ -214,11 +223,7 @@ Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour)
 
 → **[50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026)** : soirée, bureau, date, famille, potes, WhatsApp.
 
-→ **[Phrases drôles pour la conversation](/blog/phrases-droles-conversations)** : de quoi continuer l'échange par WhatsApp ou SMS.
-
 → **[Nos conseils d'humour](/conseils)** et **[les vidéos](/videos)** : les techniques de timing et de répartie.
-
-→ **[Le parcours Confiance](/parcours/confiance)** : 20 minutes par semaine pour oser écrire le premier message.
 
 ## FAQ
 
