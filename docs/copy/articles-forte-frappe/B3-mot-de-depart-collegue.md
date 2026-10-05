@@ -9,8 +9,8 @@
 
 - **slug** : `mot-de-depart-collegue-drole`
 - **title** (54 car.) : Mot de départ drôle pour un collègue : 22 textes prêts
-- **metaDescription** (144 car.) : 22 mots de départ drôles à copier-coller : carte collective, canal d'équipe, message privé, mail d'adieu de celui qui part. Avec le bon support.
-- **excerpt** : Un mot de départ drôle tient en une ou deux phrases, fait rire sur toi ou sur le bureau et ne vise jamais celui qui part. Voici 22 textes à copier-coller selon le support (carte collective, canal d'équipe, message privé, mail d'adieu, nouvelles après le départ), avec le moment pour chacun.
+- **metaDescription** (144 car.) : 22 mots de départ drôles pour un collègue, à copier-coller : carte collective, canal d'équipe, message privé, mail d'adieu. Avec le bon support.
+- **excerpt** : Un mot de départ drôle tient en quelques phrases courtes, fait rire sur toi ou sur le bureau et ne vise jamais celui qui part. Voici 22 textes à copier-coller selon le support (carte collective, canal d'équipe, message privé, mail d'adieu, nouvelles après le départ), avec le moment pour chacun.
 - **mot-clé principal** : mot de départ drôle collègue
 - **mots-clés secondaires** : message pot de départ ; texte carte de départ collègue humour ; mail de départ drôle
 - **date de publication** : 2026-12-03 (jeudi) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes
@@ -18,7 +18,7 @@
 - **liens internes** (16, tous existants, S9 publié le 30/11 donc avant, A1 publié le 22/10) : `/vannes/theme/boulot` · `/vannes/theme/soirees` · `/vannes/theme/autoderision` · `/parcours/machine-a-cafe` · `/parcours/confiance` · `/parcours` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos` · `/quiz-humour` + articles `/blog/toast-drole-discours-qui-fait-rire` · `/blog/timing-humour` · `/blog/phrases-droles-conversations` · `/blog/message-anniversaire-drole-par-situation` · `/blog/meilleures-blagues-droles-2026`
 - **sortie thème par section** : carte → `boulot` ; canal → `soirees` ; message privé → `autoderision` ; mail d'adieu → `boulot` ; après le départ → `soirees`
 - **cannibalisation** : le discours à voix haute reste à S9 (`toast-drole-discours-qui-fait-rire`), lié deux fois sans rien en reprendre ; aucune structure de discours ici, uniquement des mots écrits. Ne vise ni « phrases drôles » (lien vers `phrases-droles-conversations`), ni « anniversaire » (lien vers A1), ni « blagues de boulot » (lien vers le thème). Angle propre : le texte écrit par support, de la carte à l'auto-réponse.
-- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp seul toléré, comme support) ; aucun rire sur le partant, son poste, son âge ni sa destination ; rien sur un licenciement (FAQ 3 traite le départ à l'humeur incertaine par le sincère) ; zéro chiffre inventé (le « 22 » du title, de la metaDescription, de l'excerpt et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée ; les chiffres à l'intérieur des lignes sont signalés comme à adapter) ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas)
+- **décisions appliquées** : zéro humoriste, concurrent ou marque nommé (WhatsApp toléré comme support ; la n°21, intouchable car validée à l'aveugle, emploie le nom commun usuel de la note adhésive ; partout ailleurs, écrire « note adhésive ») ; aucun rire sur le partant, son poste, son âge ni sa destination ; rien sur un licenciement (FAQ 3 traite le départ à l'humeur incertaine par le sincère) ; zéro chiffre inventé (le « 22 » du title, de la metaDescription, de l'excerpt et de l'intro est le nombre de lignes : à corriger partout si une ligne est retirée ou ajoutée ; les chiffres à l'intérieur des lignes sont signalés comme à adapter) ; aucune promesse hors site (vannes, conseils, vidéos, 3 parcours, quiz ; la vanne du jour change chaque jour, le reste du catalogue ne change pas)
 - **vannes catalogue reprises** : aucune (les vannes validées sont des anecdotes racontées, pas des messages à envoyer)
 - **objections traitées** : « je vais vexer le partant ou la direction » (règle 1 + intro de chaque support + FAQ 1) ; « je connais à peine la personne » (ligne 1 + FAQ 2) ; « le départ n'est peut-être pas une bonne nouvelle pour lui » (FAQ 3) ; « je n'ai pas le temps » (textes prêts à copier) ; « tout le monde écrira la même chose » (règle personnalisation)
 - **contenu propriétaire** : 22 lignes inédites triées à l'aveugle, support et moment indiqués pour chacune, 4 règles
@@ -40,17 +40,17 @@
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un mot de départ drôle tient en une ou deux phrases, fait rire sur toi ou sur le bureau (jamais sur celui qui part, son poste ou sa destination) et s'adapte au support : carte collective, canal d'équipe, message privé ou mail d'adieu.
+> **En bref :** Un mot de départ drôle tient en quelques phrases courtes, fait rire sur toi ou sur le bureau (jamais sur celui qui part, son poste ou sa destination) et s'adapte au support : carte collective, canal d'équipe, message privé ou mail d'adieu.
 
 Un collègue s'en va, la carte circule, le pot est jeudi. Tu as déjà lu vingt fois « bonne continuation » sur le papier et tu es censé trouver mieux en trois minutes. Cet article te donne **22 mots de départ drôles** à copier-coller, rangés par support : carte, canal d'équipe, message privé, mail de celui qui part, nouvelles d'après.
 
-Chaque texte tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'écrire. Il te reste à remplacer le [prénom] par celui du partant et, si tu en as un, à ajouter un détail que toi seul connais. Et si tu cherches le discours à dire à voix haute, c'est ailleurs : [la structure d'un toast drôle](/blog/toast-drole-discours-qui-fait-rire) s'en charge. Ici, que de l'écrit.
+Va direct à ton support : [Carte collective](#quel-mot-drole-ecrire-sur-la-carte-de-depart-d-un-collegue) · [Canal d'équipe](#quel-message-drole-poster-dans-le-canal-d-equipe-pour-un-depart) · [Message privé](#que-dire-de-drole-en-message-prive-a-un-collegue-qui-part) · [Mail d'adieu](#quel-mail-d-adieu-drole-ecrire-quand-c-est-toi-qui-pars) · [Après le départ](#quel-message-envoyer-a-un-ancien-collegue-apres-son-depart) · [Les 4 règles](#comment-ecrire-un-mot-de-depart-drole-qui-ne-blesse-personne). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
 
-Va direct à ton support : [Carte collective](#quel-mot-drole-ecrire-sur-la-carte-collective-de-depart) · [Canal d'équipe](#quel-message-drole-poster-dans-le-canal-d-equipe-pour-un-depart) · [Message privé](#que-dire-de-drole-en-message-prive-a-un-collegue-qui-part) · [Mail d'adieu](#quel-mail-d-adieu-drole-ecrire-quand-c-est-toi-qui-pars) · [Après le départ](#quel-message-envoyer-a-un-ancien-collegue-apres-son-depart) · [Les 4 règles](#comment-ecrire-un-mot-de-depart-drole-qui-ne-blesse-personne). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
+Chaque texte tient en quelques phrases courtes. Après chacun, une ligne en italique te dit où et quand l'écrire. Il te reste à remplacer le [prénom] par celui du partant et, si tu en as un, à ajouter un détail que toi seul connais. Et si tu cherches le discours à dire à voix haute, c'est ailleurs : [la structure d'un toast drôle](/blog/toast-drole-discours-qui-fait-rire) s'en charge. Ici, que de l'écrit.
 
 ---
 
-## Quel mot drôle écrire sur la carte collective de départ ?
+## Quel mot drôle écrire sur la carte de départ d'un collègue ?
 
 Une carte de départ passe de main en main : tout le monde la lit, ta direction aussi, et le partant la relira dans dix ans. Reste sur ce que vous partagez (les réunions, le café, l'étage) ou sur toi. Rien sur ce qu'il va faire ensuite, rien sur son poste, rien sur son âge.
 
@@ -72,13 +72,13 @@ Pour la même carte à l'occasion d'un anniversaire, il y a [les messages d'anni
 
 ## Quel message drôle poster dans le canal d'équipe pour un départ ?
 
-Le canal d'équipe ou le mail de groupe : tout le monde le voit, la direction aussi, et il reste. Une seule ligne, un ton neutre, une chute sur l'organisation du pot ou sur toi, jamais sur le partant. Les chiffres et les jours des lignes ci-dessous sont à remplacer par les vrais chez toi.
+Le canal d'équipe ou le mail de groupe : tout le monde le voit, la direction aussi, et il reste. Une seule ligne, un ton neutre, une chute sur l'organisation du pot ou sur toi, jamais sur le partant. L'invitation au pot de départ (n°5) part à toute l'équipe, partant compris ; la cagnotte et le cadeau (n°6 à 8) se gèrent dans un fil sans lui, pour qu'il découvre la surprise au pot. Les chiffres et les jours des lignes ci-dessous sont à remplacer par les vrais chez toi.
 
 **5.** Pot de [prénom], jeudi à 17h30. Merci de répondre avant mercredi. On a acheté un gâteau pour douze. On est trente-quatre.
 *→ Dans le mail d'invitation au pot. Mets la date, l'heure et le lieu avant la blague, pas après, et remplace « douze » et « trente-quatre » par les vrais nombres.*
 
 **6.** Présent. Pour la cagnotte, je suis en cours de versement depuis mardi.
-*→ En réponse dans le fil de l'annonce, sur une ligne, et seulement si tu n'as pas encore versé. Réponds vite : une blague tardive ne fait plus rire personne.*
+*→ En réponse dans le fil de la cagnotte, un ou deux jours après l'annonce, et seulement si tu n'as pas encore versé. Remplace « mardi » par le vrai jour de l'annonce, puis verse : la blague ne sert qu'une fois.*
 
 **7.** Pour le cadeau de [prénom], j'ai demandé vos idées. J'ai reçu quatre réponses, toutes différentes. J'ai donc acheté la cinquième.
 *→ Dans le canal, quand tu annonces le cadeau. Seulement si tu as vraiment demandé des idées : la phrase doit rester vraie.*
@@ -121,7 +121,7 @@ Quand c'est toi qui pars, tu écris à tout le monde, y compris à ceux qui te c
 *→ Première phrase du mail, juste après « Bonjour à tous ». Ne la fais pas suivre d'une excuse.*
 
 **15.** Bonjour à tous, je pars. Je voulais vous l'annoncer de vive voix. J'ai regardé vos agendas. Alors voilà un mail.
-*→ Autre ouverture, à choisir à la place de la précédente : une seule phrase drôle par mail. Réserve-la à un mail adressé à toute l'équipe.*
+*→ Autre ouverture, à choisir à la place de la précédente : une seule phrase drôle par mail. Seulement si ce mail apprend ton départ à une partie des destinataires : si tout le monde le sait déjà, prends la n°14.*
 
 **16.** Tout est documenté. J'ai même écrit un fichier « à lire en premier ». Il est dans un dossier « divers ».
 *→ Dans le paragraphe de passation, entre deux consignes utiles. Une ligne drôle, des lignes claires autour : la passation doit rester lisible.*
@@ -130,15 +130,15 @@ Quand c'est toi qui pars, tu écris à tout le monde, y compris à ceux qui te c
 *→ En dernière ligne, juste avant ta signature. Seulement si le plat existe : la phrase doit rester vraie, avec le bon mois.*
 
 **18.** Bonjour, j'ai quitté l'entreprise. Pour toute demande, écrivez à [prénom]. [prénom] était déjà en copie.
-*→ Dans le message d'absence automatique, le dernier jour. Mets le prénom de la personne qui reprend tes dossiers, après l'avoir prévenue.*
+*→ Dans le message d'absence réservé aux collègues, le dernier jour, si ta messagerie sépare l'interne de l'externe. Les clients et partenaires reçoivent les deux premières phrases seules. Mets le prénom de la personne qui reprend tes dossiers, après l'avoir prévenue.*
 
-Pour le dernier jour au bureau, [les blagues de boulot](/vannes/theme/boulot) te donnent de quoi tenir jusqu'au pot.
+Et si on te demande un mot au pot, [le toast drôle](/blog/toast-drole-discours-qui-fait-rire) donne la structure d'un discours court, à dire à voix haute.
 
 ---
 
 ## Quel message envoyer à un ancien collègue après son départ ?
 
-Le départ ne s'arrête pas au pot. Le message envoyé quelques semaines plus tard est celui qui reste : une anecdote du bureau, une vraie question, une proposition précise. Les deux premiers textes sont pour celui qui reste, le troisième pour celui qui est parti, le dernier pour l'un ou l'autre.
+Le départ ne s'arrête pas au pot. Le message envoyé quelques semaines plus tard est celui qui reste : une anecdote du bureau, une vraie question, une proposition précise. Les deux premiers textes s'envoient depuis l'ancien bureau, le troisième par celui qui est parti, le dernier par l'un ou l'autre.
 
 **19.** Ton prénom est toujours sur le tableau de l'équipe. Personne n'a osé l'effacer. Quelqu'un a ajouté un point d'interrogation.
 *→ Entre deux et six semaines après le départ, en message privé, seulement si c'est vrai chez vous. Envoie la ligne seule : l'autre répond quand il veut.*
@@ -152,7 +152,7 @@ Le départ ne s'arrête pas au pot. Le message envoyé quelques semaines plus ta
 **22.** On se voit à mi-chemin entre ton bureau et le mien ? J'ai regardé sur la carte : c'est un rond-point.
 *→ Pour proposer un café ou un déjeuner. Mets une date dans le message : « un de ces jours » ne se réserve pas.*
 
-Écrire le premier après un silence demande un peu de courage. Le [parcours Confiance](/parcours/confiance) est fait pour ça : 20 minutes par semaine pour oser envoyer le message. Et pour le déjeuner des retrouvailles : [les blagues de soirée](/vannes/theme/soirees).
+Écrire le premier après un silence demande un peu de courage. Le [parcours Confiance](/parcours/confiance) t'aide à reprendre après une pause, une conversation à la fois : 20 minutes par semaine.
 
 ---
 
@@ -160,9 +160,9 @@ Le départ ne s'arrête pas au pot. Le message envoyé quelques semaines plus ta
 
 > **À retenir :** Un mot de départ réussi est court, vrai, et écrit pour le support où il sera lu. Une phrase drôle suffit : le reste peut être sincère.
 
-Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règles, dans l'ordre :
+Pour que le texte devienne le tien, quatre règles, dans l'ordre :
 
-**1. Le rire tombe sur toi ou sur le bureau, pas sur le partant.** Ton retard, ta mémoire, la salle réservée, les chips : tout est permis. Son poste, son âge, sa destination et ce qu'il laisse derrière lui, jamais.
+**1. Le rire tombe sur toi ou sur le bureau, pas sur le partant.** Ton retard, ta mémoire, le gâteau trop petit, l'imprimante du 2e : tout est permis. Son poste, son âge et sa destination, jamais. Ce qu'il laisse derrière lui (un fauteuil, un prénom au tableau) seulement si c'est le bureau qui en sort ridicule.
 
 **2. Écris pour tous les lecteurs du support.** Une carte et un canal d'équipe sont lus par la direction, un message privé par une seule personne. Si tu hésites sur un mot, relis-le en imaginant ton manager derrière toi.
 
@@ -170,11 +170,11 @@ Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règ
 
 **4. Une idée, une chute, une phrase vraie.** Une phrase drôle, puis une phrase sincère. Si tu en mets deux drôles, la première gâche la seconde.
 
-Pour le discours dit à voix haute, [le toast drôle](/blog/toast-drole-discours-qui-fait-rire) donne la structure. Et si tu cherches d'autres situations que le départ, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille.
+Si tu cherches d'autres situations que le départ, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille.
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste du catalogue, lui, ne change pas : [toutes les vannes](/vannes) sont rangées par situation.
+**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
 
 Tu préfères choisir ton terrain ?
 - [Boulot](/vannes/theme/boulot)
