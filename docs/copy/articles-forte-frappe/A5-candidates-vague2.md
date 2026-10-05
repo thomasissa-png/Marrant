@@ -138,3 +138,83 @@
 
 **H8-14** Écris : « Pour dimanche, je prends tout en charge, vous n'avez rien à apporter. » Laisse les remerciements arriver. « Sauf votre chaise. Je n'en ai que quatre. Poisson d'avril. »
 *→ Écris-le vraiment avec le ton le plus généreux possible. Le groupe se met souvent à compter les chaises.*
+
+## POTES
+
+### H9 : le faux plan dans le groupe
+
+**H9-7** Écris dans le groupe : « Samedi, soirée à thème : venez habillés comme d'habitude. » Laisse tomber les « Mais c'est quoi le thème ? ». « Le thème est respecté, vous êtes déjà tous habillés comme d'habitude. Poisson d'avril. »
+*→ Garde le message tel quel, sans explication. Les questions arrivent en moins de dix minutes.*
+
+**H9-8** Écris : « Samedi, je vous invite à une dégustation à l'aveugle. » Quand on demande de quoi : « De mes pâtes. Les yeux fermés, elles sont meilleures. Poisson d'avril. »
+*→ À réserver à celui qui se sait cuisinier moyen. Si tu cuisines très bien, change le plat.*
+
+**H9-9** Écris : « Rendez-vous samedi à 20 h pile, au même endroit que d'habitude. » Laisse les « OK » s'empiler. « Vous avez tous dit OK. Moi, je ne sais pas où c'est. Poisson d'avril. »
+*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Le premier à demander « mais lequel ? » a tout compris.*
+
+**H9-10** Écris : « Ce week-end, on tente de battre le record du plus long moment sans rien faire. Je m'entraîne déjà. » Laisse les paris arriver. « J'ai de l'avance depuis ce matin. Poisson d'avril. »
+*→ Envoie-le un samedi matin, depuis ton canapé. Les « Moi aussi » arrivent presque tout de suite.*
+
+**H9-11** Écris : « Samedi, on fête un anniversaire, je ne dis pas lequel. » Laisse le groupe deviner. « Les trois ans de mon canapé. Il est très fier. Poisson d'avril. »
+*→ Choisis un objet que tu as vraiment depuis un moment. La précision de l'âge fait la blague.*
+
+**H9-12** Écris : « Randonnée samedi, départ à 7 h. Ceux qui sont partants lèvent le pouce. » Attends les pouces hésitants. « Retour à 7 h 20, distance : le tour du pâté de maisons. Poisson d'avril. »
+*→ Garde un ton très sportif. Ceux qui répondent « ok » tout de suite sont ta cible préférée.*
+
+**H9-13** Écris : « J'ai trouvé le resto parfait pour samedi : il n'a ni nom, ni adresse, ni téléphone. » Attends les « Mais comment on y va ? ». « C'est ma cuisine. Réservation ouverte. Poisson d'avril. »
+*→ Prévois effectivement un vrai repas à la maison, même simple. Sinon, laisse la blague tomber en conversation.*
+
+**H9-14** Écris : « Soirée surprise samedi. Celui qui devine ce que c'est gagne un câlin de ma part. » Laisse les hypothèses fuser. « Il n'y a pas de soirée, mais le câlin est valable à vie. Poisson d'avril. »
+*→ À réserver à une bande tendre et sans pudeur. Tiens ta promesse au premier qui la réclame.*
+
+### H10 : le faux compliment, la fausse mission ou la fausse photo
+
+**H10-7** Envoie à un pote une photo floue de ta main : « Devine ce que je tiens. » Laisse-le proposer (clé, verre, stylo). « Mon téléphone. C'est lui qui prend la photo. Poisson d'avril. »
+*→ Cadre la main serrée sur un fond banal. Les propositions vont de plus en plus loin.*
+
+**H10-8** Dis à un pote : « J'ai besoin que tu retiennes un truc très important pour samedi. » Laisse-le se concentrer. « Que c'est samedi. Poisson d'avril. »
+*→ Dis-le à voix basse, en le regardant dans les yeux. Si c'est vraiment samedi, tu as une chance de plus.*
+
+**H10-9** Envoie une photo d'une table de restaurant avec une chaise vide : « Regarde, ils nous ont gardé ta place. » Laisse-le chercher le détail. « La chaise vide, c'est la tienne. Poisson d'avril. »
+*→ Prends la photo dans un vrai restaurant ou chez toi, sans aucune personne reconnaissable. Garde la légende sérieuse.*
+
+**H10-10** Dis à un pote : « Je trouve que ton prénom est vraiment très beau. » Laisse-le te remercier, un peu méfiant. « Le mien me va moins bien. Poisson d'avril. »
+*→ Dis-le avec un air rêveur. Le pote qui répond « merci ? » en deux notes est ta cible.*
+
+**H10-11** Dis à un pote : « Ça fait des semaines que je dois te demander quelque chose. » Laisse-le se préparer. « Tu as l'heure ? Poisson d'avril. »
+*→ Marque une vraie hésitation avant la question. Plus l'attente est longue, plus le soulagement fait rire.*
+
+**H10-12** Tends un papier plié à un pote : « Garde-le, tu l'ouvriras ce soir à 20 h. » À 20 h, il lit : « Tu as regardé l'heure combien de fois ? Poisson d'avril. »
+*→ Écris la phrase à la main avant de plier. Demande-lui seulement le résultat, jamais le nombre exact.*
+
+**H10-13** Dis à un pote : « Tu sais que ton nom est cité tous les matins chez moi ? » Laisse-le s'interroger. « Par moi, à voix haute, sous la douche. Poisson d'avril. »
+*→ Dis-le avec une vraie fierté. Le pote qui répond « merci » avant d'avoir compris est ton gagnant.*
+
+**H10-14** Envoie à un pote une photo du ciel : « Regarde, ce nuage te ressemble. » Il demande lequel. « Celui qui fait semblant d'être un nuage. Poisson d'avril. »
+*→ Choisis un ciel à moitié couvert, sans forme claire. Tu peux t'arrêter dès qu'il rit.*
+
+### H11 : sur place, à table, au jeu ou à l'apéro
+
+**H11-7** Avant de lancer un jeu de société, dis : « J'ai relu la règle trois fois, ça devrait aller. » Laisse chacun se détendre. « Je ne l'ai toujours pas comprise. Poisson d'avril. »
+*→ Garde la notice bien visible dans ta main. Le soulagement général fait la mise en place.*
+
+**H11-8** En ouvrant une bouteille de jus, dis d'un ton de connaisseur : « Millésime de la semaine dernière, c'est le meilleur de l'année. Poisson d'avril. »
+*→ Verse-le avec lenteur, comme un vrai connaisseur. Les « mmm » de politesse arrivent presque tout seuls.*
+
+**H11-9** Annonce : « Je vais vous faire un tour de magie. Regardez bien mes mains. » Laisse dix secondes passer. « Le tour, c'était de vous faire regarder mes mains. Il est réussi. Poisson d'avril. »
+*→ Garde un air très concentré, comme avant un vrai tour. Ne bouge pas les doigts.*
+
+**H11-10** À l'apéro, dis : « On joue à un jeu où personne ne gagne et personne ne perd. » Attends les « Ça s'appelle comment ? ». « L'apéro. Poisson d'avril. »
+*→ Annonce-le comme la nouveauté de la soirée. Il y a toujours quelqu'un pour demander les règles.*
+
+**H11-11** Dis à tout le monde, à table : « Regardez tous la personne à votre droite. » Laisse les regards se croiser. « Remerciez-la d'être venue. Elle est contente. Poisson d'avril. »
+*→ Dis-le sur un ton de maître de cérémonie. Les sourires sont le vrai résultat.*
+
+**H11-12** À l'apéro, annonce : « Jeu rapide : le premier qui rit perd. » Laisse chacun se retenir. « Je viens de rire en premier, j'ai perdu. Poisson d'avril. »
+*→ Compte à voix haute jusqu'à trois pour lancer la partie. Ton rire doit être vrai.*
+
+**H11-13** Pendant le repas, dis calmement : « Je propose une minute de silence gourmand. » Laisse la table manger sans parler. « C'est la première fois qu'on est silencieux depuis l'entrée. Poisson d'avril. »
+*→ Regarde l'horloge pour donner du sérieux au chrono. Une minute suffit.*
+
+**H11-14** Avant de commencer un jeu : « Pour l'équité, celui qui a les plus grandes mains commence. » Laisse tout le monde comparer. « Je commence : je viens de vérifier, c'est moi. Poisson d'avril. »
+*→ Colle ta main contre celle d'un voisin avant de trancher. Le ton officiel fait le reste.*
