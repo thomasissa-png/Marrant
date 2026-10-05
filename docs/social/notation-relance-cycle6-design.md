@@ -65,7 +65,7 @@ Goût, non bloquant : « mon rapport / de stage » coupe le groupe nominal ; amo
 1. **Brouillons Buffer** : image unique sur X et sur LinkedIn (assets `image.url` + `altText`, sans métadonnée Instagram), via l'URL réelle `/api/social/image` ; supprimer les brouillons ; consigner dans `REPLIT_ACTIONS.md`. **Refaire aussi les brouillons Instagram 2 et 4 images par l'URL réelle** (K4).
 2. `PostData` reçoit `platform` ; `slidesDuPost` renvoie `[carteVanneUnique(x|linkedin)]` pour un post TWITTER ou LINKEDIN portant `[variante:image]` et `threadParts = [amorce, chute]` ; sans repli LinkedIn ; amorce > 140 refusée en LinkedIn.
 3. `publish-social/route.ts` : la branche texte seul (l.328-332) appelle `createBufferImagePost` pour ces posts ; le contrôle `longueurX` s'applique au texte seul (amorce), pas à l'image ; la gate G-S14 (X texte seul) accepte la variante image.
-4. Rendre `v5-xli/` : 3 PNG (X1 en 16:9, L1 en 4:5, une vanne R6 à 5 lignes en 16:9) pour mon relecture ; ajouter le test de composition (aucun mot seul, aucune ligne < 40 %).
+4. Rendre `v5-xli/` : 3 PNG (X1 en 16:9, L1 en 4:5, une vanne R6 à 5 lignes en 16:9) que je relis ; ajouter le test de composition (aucun mot seul, aucune ligne < 40 %).
 
 ## 6. Pour 10/10
 
