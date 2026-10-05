@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026, ~22:45 Paris) : DÉPLOYÉ par la session, Worker `c5c0529b-db00-4cd7-bfca-218bf1273c01` (N-1 `16638a00-0521-444a-9a85-642c1f498104`, avant : `c32b0f0b-ea8b-479d-a972-eaef036a1739`)
+
+- Contenu : `81641f8` (LinkedIn carte unique 4:5 en test alterné dès le 13/10, contrôle « pain » sur la base) + `4c108db` (`/liens` 3 routes, `origine`/`contenu`, navigateur intégré, e-mail avant Google) + correctif de la session : `/liens/[reseau]` répondait 404 en prod avec `dynamicParams = false` (OpenNext) ; passé à `true`, 404 conservé par `notFound()` (test adapté).
+- Contrôles avant déploiement : tsc 0, lint 0 erreur, Jest 3 133 PASS / 2 skipped (210 suites).
+- Vérifié en prod : `/liens`, `/liens/x`, `/liens/li` 200 (UTM `utm_source=x|linkedin`, `utm_campaign=bio`, `utm_content=bio-*`), `/liens/ig` 404, `/register`, `/login`, `/quiz-humour`, article n°1 et `/api/health` 200 ; 3 réseaux ouverts, canaux Buffer ok.
+- Reste : liens de bio des 3 comptes à pointer vers `/liens` (Instagram), `/liens/x`, `/liens/li` (action dans les applications, Thomas ou session si accès) ; tests sur appareil des navigateurs intégrés `[À VÉRIFIER]` (Thomas a renoncé aux tests sur téléphone : surveillance des événements `inscription-*` par `origine`) ; lot `relance-s15` à régénérer avec les marqueurs `[variante:…]` avant le 13/10.
+
 ## s15 (05/10/2026, nuit) : parcours réseau → site, C2 et C3 (`/liens` 3 routes, `origine`/`contenu`, navigateur intégré) @fullstack : **À DÉPLOYER** (butoir 10/10, avant le J0 du 12/10)
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucun nouvel événement Umami (2 propriétés ajoutées). Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK (`/liens` ○, `/liens/x` et `/liens/li` ● prérendues, `/register` et `/login` ○ statiques), Jest 3 133 PASS / 2 skipped (210 suites).

@@ -5,10 +5,11 @@ import { LIENS_RESEAUX, origineFromSegment } from "@/lib/liens";
 
 // Stratégie de rendu : ISR 5 min, comme /liens. Deux routes seulement,
 // prérendues : /liens/x (`utm_source=x`) et /liens/li (`utm_source=linkedin`) ;
-// toute autre route renvoie 404 (dynamicParams = false), aucun paramètre lu
-// côté serveur.
+// toute autre route renvoie 404 par `notFound()` (garde `origineFromSegment`).
+// `dynamicParams = false` est volontairement absent : sur Cloudflare (OpenNext),
+// il faisait répondre 404 aussi aux deux routes prérendues (constaté le 05/10).
 export const revalidate = 300;
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 interface LiensReseauProps {
   params: { reseau: string };
@@ -28,7 +29,7 @@ export function generateMetadata({ params }: LiensReseauProps): Metadata {
 }
 
 export default async function LiensReseauPage({ params }: LiensReseauProps) {
-  // `params.reseau` est toujours `x` ou `li` (dynamicParams = false) : garde-fou.
+  // Segment hors liste blanche (ex. `ig`) : 404.
   const origine = origineFromSegment(params.reseau ?? "");
   if (!origine) notFound();
   return LiensPageContent({ origine });

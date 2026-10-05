@@ -121,8 +121,9 @@ describe("/liens", () => {
     expect(screen.getByRole("link", { name: "Avoir de la répartie" })).toBeInTheDocument();
   });
 
-  it("3 routes seulement : /liens, /liens/x, /liens/li (dynamicParams = false, 404 ailleurs)", () => {
-    expect(reseauPage.dynamicParams).toBe(false);
+  it("3 routes seulement : /liens, /liens/x, /liens/li (404 ailleurs par notFound, dynamicParams = true : OpenNext)", async () => {
+    expect(reseauPage.dynamicParams).toBe(true);
+    await expect(reseauPage.default({ params: { reseau: "ig" } })).rejects.toThrow();
     expect(reseauPage.generateStaticParams()).toEqual([{ reseau: "x" }, { reseau: "li" }]);
     expect(reseauPage.generateMetadata({ params: { reseau: "li" } }).alternates.canonical).toBe(
       "https://deviens-marrant.fr/liens/li",
