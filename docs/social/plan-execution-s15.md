@@ -1,184 +1,218 @@
-# Plan d'exécution de la relance des réseaux : 12/10/2026 au 28/03/2027 (cycle 1, s15, 05/10/2026)
+# Plan d'exécution de la relance des réseaux : 12/10/2026 au 28/03/2027 (v2, cycle 2, s15, 05/10/2026)
 
-> Autonome. Sources : `strategie-relance-v5.md`, `horaires-sources-s15.md`, `mesure.md`, `validation-thomas-s15.md`, `founder-preferences.md` (01/10 et 05/10), `production-trimestrielle.md`, `calendrier-editorial-q4-2026.md`, `preparation/lot-relance-s15.md` (dry-run, commit `9ca796e`), `preparation/stock-vannes-resultat-s15.md`. Dates exactes, heures de Paris. `[HYPOTHÈSE]` = à confirmer. Aucun humain opérationnel : tout passe par une session Claude Code, Thomas n'intervient que pour ce qui exige son téléphone, son compte ou son jugement (§5).
-> Période : 24 semaines (lun. 12/10/2026 à dim. 28/03/2027), 284 posts : X 118, Instagram 118, LinkedIn 48 (5 + 5 + 2 par semaine, moins les silences du 11/11 et du 27/11). Lot dry-run : 140 posts jusqu'au 03/01 ; reste 144 posts du 04/01 au 28/03.
+> Autonome. Sources : `strategie-relance-v5.md`, `mesure.md`, `founder-preferences.md`, `preparation/lot-relance-s15.md` (dry-run `9ca796e`), `complements-lot-s15.md`, `stock-vannes-resultat-s15.md`, notations du cycle 1 (@reviewer 5,3 ; @qa 4,6 ; @growth 6,75). Heures de Paris. `[HYPOTHÈSE]` = à confirmer, `[À VÉRIFIER]` = non prouvé. Aucun humain opérationnel : tout passe par une session Claude Code ; Thomas n'intervient que pour son téléphone, son compte ou son jugement (§10).
+> Période : 24 semaines (lun. 12/10/2026 à dim. 28/03/2027), **284 posts** (X 118, Instagram 118, LinkedIn 48). Lot dry-run : 140 posts jusqu'au 03/01 ; reste 144 du 04/01 au 28/03.
 
-## 0. Trous trouvés et décisions à prendre
-
-| # | Trou | Chiffre | Réponse |
+## 0. Décisions (un seul message à Thomas le 06/10, réponse attendue le 08/10 à 18:00)
+| # | Décision | Statut | Défaut si Thomas ne répond pas |
 |---|---|---|---|
-| T1 | Stock de vannes à l'aveugle | 125 actives, 41 au niveau chez les 2 relecteurs (>= 8,5), 74 à la note d'Alexa (moyenne >= 8,25), 87 à >= 8. Le lot en publie 111 jusqu'au 03/01 | Épuisé le 13/11 (41), le 07/12 (74), le 17/12 (87) : §1.3 |
-| T2 | Lundis sans article | 12 lundis du 04/01 au 22/03 (le calendrier Q4 s'arrête le 28/12, aucun calendrier Q1) | §3 |
-| T3 | Jeudis sans article | 13 jeudis (15/10, 10/12, 07/01 à 18/02, 04/03 à 25/03) ; un seul article 2027 dans la période (25/02) ; 17/12, 24/12, 31/12 couverts par pivots | §3 |
-| T4 | Fiches de décryptage (cartes 3 et 4) | **8 livrées le 05/10** (`complements-lot-s15.md`, tirées des fiches s14, à comparer à la base avant insertion) ; 12 restent pour les mercredis 06/01 à 24/03 ; 5 citations d'humoriste sourcées à fournir, dont 04/11 et 02/12 déjà sans source (repli sans citation) | §1.4 |
-| T5 | Lignes d'article non notées | aucune note exploitable par le script : les relais prennent une vanne du catalogue (13 posts du lot seulement en lignes d'article) | §1.4 |
-| T6 | 2 formules de renvoi | **retenues le 05/10** : « D'autres exemples, et comment trouver le tien : » (X, LinkedIn) et « D'autres exemples : lien en bio. » (Instagram) ; reste la relecture à l'aveugle et la vérification d'un passage « méthode » dans chaque article (sinon « D'autres exemples : ») ; 24 posts | relecture avant insertion (08/10) |
-| T6b | Légendes Instagram | 26 légendes R3 livrées ; **11 relais Instagram sans « À envoyer à... »** ; permutation 20/11 et 30/12 à accepter | @copywriter, 08/10 |
-| T7 | 3 vannes collées dans 2 articles en base | `soiree-de-noel-entreprise-humour` n°5 et n°6 (publié 16/11), `etre-drole-sans-alcool-soiree` n°3 (publié 21/12) | correction `import-article.ts --update` avant le 23/10 |
-| T8 | Bug limite X 270 (URL comptée en entier) | tout post X avec lien échouerait ; correctif non déployé | déployer avant la reprise de X (§4) |
-| T9 | Aucun déclencheur ni alerte « file basse » | rien ne lance les lots de novembre à mars ; rien ne prévient si la file se vide | §2.3 |
-| T10 | Conditions de J0 non vérifiées | C2 (test dans chaque application), C3 (`/liens` 3 routes en ligne `[À VÉRIFIER]`), liens de bio posés `[À VÉRIFIER]` | §4.1 |
+| D1 | **Barre des vannes stricte** : seules les vannes au niveau (≥ 8,5 chez les 2 relecteurs à l'aveugle, 41) | **Tranchée** (choix du 30/09 « rien en dessous »), non re-questionnable | Sans objet. Alexa = 9 chez les 2 relecteurs ; 8,32 et 8,16 sont leurs moyennes sur le lot, pas la note d'Alexa : le « 8,25 » de la v1 est supprimé |
+| D2 | Conseils en appoint (règle §3) et **3 étalons de cartes conseil** (10 min, règle P0 s8) | À valider | Sans réponse le 08/10 : conseils non activés (aucun contenu sans étalon validé), relance 13/10 12:00, activables en 24 h ensuite ; les vendredis concernés sont tenus par le secours §3 |
+| D3 | Q1 2027 : un article chaque lundi du 04/01 au 22/03 (12) + celui du 25/02 | Avant le 23/10 18:00 | **Appliqué** (12 lundis ; jeudi = 2e ligne de l'article du lundi). Chaque article reste noté jusqu'à 10/10 par les agents (choix du 05/10), sans validation individuelle de Thomas. Refus : lundis relayés par vanne, secours S1 porté à 3 conseils par semaine |
+| D4 | Réponses aux commentaires et messages | 08/10 | **2 passages de 10 min par semaine** (mar., ven.) avec la banque de réponses ; suspendus pour un réseau sous 5 interactions au J+28 |
+| D5 | Autorisation de déployer (§7) et GO de reprise conditionnelle | 08/10 | Pas de déploiement, aucune reprise : **J0 = lun. 19/10 pour les 3 réseaux**, nouvelle échéance 15/10 18:00 |
+| D6 | Relevé natif (abonnés, impressions) : chaque lundi (10 min, `mesure.md` §3) ou aux seuls jalons | 08/10 | **Chaque lundi** (24 x 10 min), conforme à `mesure.md` validé le 05/10 |
+| D7 | Échantillon de 10 vannes neuves par vague (choix du 30/09 « échantillon de 10 ») | 5 min par vague | Non bloquant : sans réponse sous 48 h les vannes passent ; veto de Thomas = retrait |
 
-**Décisions à demander à Thomas en un seul message (défauts proposés, 5 min)** :
-- D1 barre vannes = **note d'Alexa chez les mêmes relecteurs (>= 8,25 de moyenne, 74 vannes), les 41 meilleures d'abord, production de vannes neuves** (§1.3, option O3).
-- D2 plan B pré-autorisé : si la production de vannes manque son objectif le 30/10, jusqu'à 2 emplacements vanne par semaine (le vendredi X et Instagram) passent en cartes « conseil » du catalogue validé s14, après validation de 3 étalons (§1.3, O4).
-- D3 Q1 2027 : un article par lundi (12) au lieu de deux par semaine, relais X du jeudi sur une 2e ligne du lundi, et tout article au gabarit de l'étalon S8 publié sans validation individuelle (§3).
-- D4 réponses aux commentaires et messages : 2 passages de 10 min par semaine par Thomas, ou aucun (§5).
-- D5 autorisation de déployer le correctif X et GO de reprise conditionnelle (§4.1).
+## 1. Comptages vérifiés à la source
+| Donnée | Valeur | Source et calcul |
+|---|---|---|
+| Posts | 284 = 24 x (5+5+2) = 288 moins 4 silences (11/11 et 27/11, X et Instagram) | v5 §1 et §3 |
+| Lot dry-run | 140 = **111 vannes du catalogue + 27 lignes d'article + L3 (article) + L2 (texte original)** ; X 58, IG 58, LI 24 | recomptage des colonnes Source de `lot-relance-s15.md` (JOKE 111, BLOG 27 hors L3) |
+| Relais avec renvoi | 24 (13 X et LinkedIn, 11 IG) : **17 prennent une vanne du catalogue** (9 sur 13, 8 sur 11), **7 une ligne d'article** (23/11, 30/11, 07/12, 28/12 en X ; 23/11, 30/11, 28/12 en IG) | `complements-lot-s15.md` §2, recomptage du lot |
+| Catalogue | 125 actives = 111 dans le lot + **14 hors lot, non notées** | `stock-vannes-resultat-s15.md` l.12 ; le « 118 placées, 7 restantes » des compléments est abandonné `[À VÉRIFIER @copywriter en base le 07/10]` |
+| Vannes au niveau | **41** (≥ 8,5 chez les 2) ; 48 en moyenne ≥ 8,5 ; 74 en moyenne ≥ 8,25 ; 87 en moyenne ≥ 8 | même fichier l.5 à 10, liste l.17 ; seul le 41 est retenu |
+| Carrousels | 8 livrés (04/11, 18/11, 25/11, 02/12, 09/12, 16/12, 23/12, 30/12) ; permutation 20/11 et 30/12 acceptée ; 12 fiches Q1 restent (mercredis 06/01 à 24/03) | compléments §1 ; les 8 vannes de carrousel sont recoupées avec les 41 le 07/10 (sinon changées pour une vanne au niveau avec fiche) |
+| Citations d'humoriste | 3 à fournir (06/01, 03/02, 03/03) ; 04/11 et 02/12 en repli sans citation (tranché) | 1ers mercredis du mois |
+| Articles | lundis Q4 : 12 (12/10 à 28/12) ; jeudis Q4 : 7 (22/10 à 03/12) ; lundis 2027 sans article : 12 ; jeudis sans article : 13 (15/10, 10/12, 07/01 à 18/02, 04/03 à 25/03) ; seul article 2027 programmé : 25/02 | `founder-preferences.md` 05/10 |
+| Posts X > 270 en longueur brute | 30 sur 58 (le lien compte 23) | recomptage @qa du JSON du lot |
 
-## 1. Stock et besoin de contenu
+## 2. Stock de vannes sous barre stricte
+- **Emplacements** : 12 par semaine (X 5, IG 5, LI 2). Chacun porte une vanne du pool, une ligne d'article notée au niveau, ou un conseil (§3). Les 9 posts validés par Thomas le 05/10 restent tels quels (choix fondateur, y compris les 6 sous la barre) : 7 vannes exemptées, jamais rejouées.
+- **Pool strict** : les 41 + les 14 hors lot à noter le 07/10 (attendu 5 : 41/111 = 37 %) + les lignes d'article notées (compilation 07/10 et 23/10, comptées seulement après livraison) + les vannes neuves V1 à V4. Les 4 réservées de Noël restent exclues avant le 24/12 ; recoupement avec les 41 par @copywriter le 07/10 `[À VÉRIFIER : les 7 exemptées et les 4 de Noël sont-elles dans les 41 ?]`. Le lot 1 est refait avec `--pool` (liste ordonnée par note).
+- **Retour à 90 jours** : une vanne de la semaine 1 revient le 11/01 (91 jours), **sur un autre réseau que sa première diffusion** sauf pénurie ; « pain » 30 jours ; alerte de stock < 14.
+- **Pire cas** : aucune ligne d'article notée au niveau (aucune note exploitable aujourd'hui) ; toute ligne livrée réduit le besoin.
 
-### 1.1 Règle de calcul
-Emplacements « vanne » par semaine : X 5 (le relais porte une vanne), Instagram 5, LinkedIn 1 = **11** ; LinkedIn a en plus 1 texte neuf (relais ou situation). Total période : 124 emplacements du 12/10 au 03/01 (dont 13 en ligne d'article, **111 vannes du catalogue**, observé au dry-run), puis 132 du 04/01 au 28/03. Noël (4 vannes réservées) et les silences (11/11, 27/11) sont déduits. Un relais n'allège le catalogue que si une ligne d'article notée (>= 8,25) existe : sinon il prend une vanne du thème.
+| Tranche | Posts | Moins posts de Thomas, L2, L3 | Moins conseils | À pourvoir | Offre |
+|---|---|---|---|---|---|
+| 1a 12/10 au 18/10 | 12 | 5 (X1, IG2, IG3, L1, L3) | 0 | 7 | pool (41) |
+| 1b 19/10 au 15/11 | 46 | 4 (X3, X2, IG1, L2) | 6 (23/10, 06/11, 13/11) | 36 | 34 restantes + environ 5 hors lot + 4 lignes d'article si notées : marge faible, secours S1 |
+| 2a 16/11 au 06/12 | 34 | 0 | 4 | 30 | V1 = 34 |
+| 2b 07/12 au 03/01 | 48 | 0 | 4 | 44 | V2 = 48 |
+| 3a 04/01 au 17/01 | 24 | 0 | 4 | 20, dont 7 retours (semaine 1) = 13 neuves | V3 = 20 |
+| 3b à lot 5, 18/01 au 28/03 | 120 | 0 | 20 | 100 | retours des semaines 2 à 11 (environ 99) + V4 = 20 |
 
-### 1.2 Semaine par semaine
-| S | Lundi | Article lundi | Article jeudi | Empl. vanne | LI neuf | Fiche décryptage (mercredi) |
-|---|---|---|---|---|---|---|
-| 1 | 12/10 | `se-presenter-avec-humour` | aucun (15/10) : vanne | 11 | 1 (L3 fait) | 14/10 IG3 faite |
-| 2 | 19/10 | coloc | 22/10 anniversaire | 11 | 0 | 21/10 fiche de l'article Halloween |
-| 3 | 26/10 | IA assistants vocaux | 29/10 appli de rencontre | 11 | 1 (L2 fait) | 28/10 fiche d'article, citation absente (repli) |
-| 4 | 02/11 | visio | 05/11 couple (hors n°18) | 11 | 1 | **04/11 manque** + citation |
-| 5 | 09/11 | chambrer | 12/11 vœux | 9 (silence 11/11) | 1 | aucune |
-| 6 | 16/11 | soirée de Noël | 19/11 invitation | 11 | 1 | **18/11 manque** |
-| 7 | 23/11 | repas de famille | 26/11 gamer | 9 (silence 27/11) | 1 | **25/11 manque** |
-| 8 | 30/11 | toast | 03/12 mot de départ | 11 | 1 | **02/12 manque** + citation |
-| 9 | 07/12 | enfants | aucun (10/12) : vanne | 11 | 1 | **09/12 manque** |
-| 10 | 14/12 | jeux de répartie | 17/12 pivot X (refonte 2027) | 11 | 0 | **16/12 manque** |
-| 11 | 21/12 | sans alcool | 24/12 Noël (4 réservées) | 7 | 0 | **23/12 manque** |
-| 12 | 28/12 | résolution | 31/12 pivot vœux | 11 | 1 | **30/12 manque** |
-| 13 | 04/01 | **aucun** (ligne vœux, sans lien) | aucun | 11 | 1 | **06/01 manque** + citation |
-| 14 à 16 | 11/01, 18/01, 25/01 | **aucun** | aucun | 11 par semaine | 1 par semaine | **3 manquent** (13, 20, 27/01) |
-| 17 à 19 | 01/02, 08/02, 15/02 | **aucun** | aucun | 11 par semaine | 1 par semaine | **3 manquent** (dont 03/02 + citation) |
-| 20 | 22/02 | **aucun** | 25/02 poisson d'avril | 11 | 1 | **24/02 manque** |
-| 21 à 24 | 01/03, 08/03, 15/03, 22/03 | **aucun** | aucun | 11 par semaine | 1 par semaine | **4 manquent** (dont 03/03 + citation) |
+- **Production de vannes neuves** (méthode s14 : 6 candidats par emplacement, 2 critiques à l'aveugle, départage, vérification « jamais entendue », insertion `isActive`, `copyVerdict = GARDER`, décryptage rempli). Rendement `[HYPOTHÈSE : 7 % = 19 % (s14) x 37 % (41 sur 111), à mesurer sur le pilote]`.
 
-Avec la reco §3 (un article chaque lundi du 04/01 au 22/03), chaque semaine 2027 gagne 3 lignes d'article (X lundi, Instagram lundi, X jeudi) : 8 emplacements vanne au catalogue au lieu de 11.
+| Vague | Cible au niveau | Pour | Candidats | Production | Livrée validée | Prêt du lot | Marge |
+|---|---|---|---|---|---|---|---|
+| P0 pilote | rendement mesuré | calibrage | 120 | 06/10 au 09/10 | ven. 09/10 | sans objet | sans objet |
+| V1 | 34 (30 + 4) | 2a | environ 490 | 12/10 au 25/10 | lun. 26/10 | 02/11 | 7 j |
+| V2 | 48 (44 + 4) | 2b | environ 690 | 27/10 au 12/11 | ven. 13/11 | 23/11 | 10 j |
+| V3 | 20 (13 + 7) | 3a | environ 290 | 16/11 au 10/12 | ven. 11/12 | 21/12 | 10 j |
+| V4 | 20 (marge) | lots 4 et 5 | environ 290 | 14/12 au 07/01 | ven. 08/01 | 18/01 | 10 j |
+- **Total 122 vannes neuves** (la v1 prévoyait 60 avec la barre à 8,25 : l'écart vient de D1). Les vannes entrent dans le pot unique avec le cycle mensuel du site (`production-trimestrielle.md`) : le site ne produit pas 60 de plus, le social est servi d'abord `[À VÉRIFIER @copywriter : recouvrement]`. Recalibrage après P0 et chaque vague (candidats = cible / rendement mesuré). **Déclencheur** : une vague livre moins de 90 % de sa cible 7 jours avant son prêt, ou stock éligible < 14 = secours S1 (§3).
 
-### 1.3 Stock de vannes : le vrai trou
-- **Réserve réelle = 1 vanne** (compléments du 05/10) : sur 125, 118 sont placées dans le lot ; les 7 restantes sont 7 perdants de duels, les 5 connues sous 8 et la vanne « pain » `cs14jke956e7ca02641e25c5` (reprise le 18/11 en carrousel, 37 jours avant le 25/12). Aucun rattrapage possible sans vannes neuves : le lot doit être refait avec `--pool` (O3) avant insertion, et les 8 carrousels suivent leur vanne.
-- **Mesure du 05/10** (2 relecteurs, 111 vannes, Alexa = 8,32 et 8,16 chez eux) : 41 au niveau chez les 2 ; 48 en moyenne >= 8,5 ; 74 >= 8,25 ; 87 >= 8. Les 14 vannes hors lot ne sont pas notées : aucune réserve.
-- **Épuisement** (9,25 vannes par semaine, lot actuel) : barre stricte 41 = fin de la semaine du 09/11 ; 74 = semaine du 30/11 ; 87 = semaine du 14/12 ; les 111 = 03/01. Ensuite la règle des 90 jours rend une vanne réutilisable : celles de la semaine 1 reviennent le 11/01, celles de la semaine 11 le 22/03, soit 9 retours par semaine environ.
-- **Besoin sans article en 2027** : 11 par semaine contre 9 retours : déficit croissant, 19 à 28 vannes de plus avant le 28/03. **Avec un article par lundi** : 8 par semaine, couvert par les retours.
-- **Options pour Thomas**
-  - **O1 stricte** (>= 8,5 chez les 2, 41 vannes) : au-dessus de la barre d'Alexa elle-même (8,24 en moyenne chez ces relecteurs) ; exige 70 vannes neuves, environ 560 candidats. Non retenue.
-  - **O2 >= 8** (87) : 0,24 sous Alexa en lecture relative, contraire au « rien en dessous » du 30/09 ; couvre jusqu'au 17/12, puis le trou revient. Non retenue.
-  - **O3 par défaut** : barre = Alexa relative (>= 8,25 de moyenne, aucune note sous 8 chez l'un), **ordre d'usage : les 41 d'abord** (semaines 1 à 5, celles du jugement J+28), puis les 33 suivantes (semaines 5 à 8), puis les neuves. Production **V1 = 45 vannes livrées le 23/10** (37 pour les semaines 9 à 12 + 8 pour la semaine 13) et **V2 = 15 vannes livrées le 15/01** (marge et variété). Méthode s14 : plusieurs candidats par emplacement, 2 critiques, départage, vérification « jamais entendue ». Volume `[HYPOTHÈSE : 13 % des candidats passent la barre relative (19 % s14 x 67 % observé), soit 8 candidats par vanne : V1 = 360 candidats, V2 = 120]`. Insertion en base `isActive`, `copyVerdict = GARDER`, décryptage rempli (elles enrichissent aussi le site).
-  - **O4 complément (plan B, D2)** : cartes « conseil » (88 conseils validés s14) sur 2 emplacements du vendredi par semaine : besoin de vannes de 11 à 9 par semaine, 48 vannes économisées sur la période. Exige 3 étalons validés par Thomas (règle P0 s8, 10 min) et change la part de vannes (50 % à 33 %), d'où la décision préalable. Déclencheur : V1 < 40 vannes retenues le 30/10.
-- **Contrôles du script** (déjà prévus, à conserver) : registre 90 jours tous réseaux, « pain » 30 jours, réservées Noël avant le 24/12, blocage si stock éligible < 7. Ajout demandé à @fullstack : option `--pool <fichier>` (liste blanche ordonnée par note) pour refaire le lot 1 et le lot 2 avec la barre O3.
+## 3. Conseils en appoint (dès le départ, même volume total validé)
+- **Règle** : 2 par semaine, **le vendredi** : X (post unique, 270 caractères au plus lien exclu, tutoiement, sans lien ni thread, 2 phrases : situation, puis réplique ou geste) et Instagram (2 cartes 4:5 au gabarit v4 : situation, réplique ; légende « À envoyer à... » 80 caractères). **Jamais sur LinkedIn** (choix du 05/05 : pas de ton coach ni de leçon). Exceptions : 30/10 (Halloween), 27/11 (silence), 25/12 (Noël), 01/01 (vœux).
+- **Volume** : 19 vendredis du 23/10 au 26/03 = **38 conseils sur les 88 validés en s14** (50 en réserve, aucun conseil rejoué), repris tels quels, reformatés puis relus à l'aveugle sur le seul format (barre : étalons conseils E2, E3, E4, E6, E7 de `audit-conseils-s14.md`). Piliers v5 : vanne 6 sur 12 devient 4 (33 %), conseil 2 (17 %).
+- **Personas** : Yanis (apprendre la répartie) sur X et Instagram ; Sophie garde ses 2 vannes de bureau ; Marc par les relais d'article. Lecture J+28 par format (conseil contre vanne, médiane d'engagement).
+- **Secours S1** : si une vague livre moins de 90 % de sa cible, jusqu'à 3 conseils par semaine (le 3e sur X mardi) pendant 12 semaines au plus (12 de plus, total 50 sur 88) ; ensuite le post est omis (aucun post vaut mieux qu'un post sous la barre).
+- **Livraison** : 3 étalons par @copywriter le 07/10, validés par Thomas le 08/10 (D2) ; cartes de la tranche 1b prêtes le 13/10.
 
-### 1.4 Textes neufs : combien, qui, quand
+## 4. Textes à produire : qui, combien, quand
 | Texte | Volume | Produit par | Livré au plus tard |
 |---|---|---|---|
-| Notes des lignes d'article (compilation des `-aveugle.md` dans `lignes-articles-notes.json`) | 20 articles Q4 | @copywriter | 09/10 (articles de S1 à S5), 06/11 (le reste) |
-| 2 formules de renvoi retenues, à relire à l'aveugle (2 relecteurs) | 2 (24 posts) | 2 relecteurs | 08/10 |
-| Fiches de décryptage 04/11 à 30/12 : fait ; vérification contre la base et relecture à l'aveugle (R1 de V148 et V002 à reconfirmer) | 8 | @copywriter + 2 relecteurs | 08/10 (la fiche du 04/11 part chez Buffer vers le 24/10) |
-| Fiches Q1 (livrées avec chaque vanne neuve, R2) | 12 | @copywriter | 18/12 (4), 22/01 (4), 19/02 (4) |
-| Légendes « À envoyer à... » des 11 relais Instagram | 11 | @copywriter | 08/10 |
-| Citations d'humoriste réelles et sourcées (@copywriter vérifie) | 5 | @copywriter | 23/10 (04/11), puis 6 jours avant chaque 1er mercredi ; repli sans citation |
-| LinkedIn : relais ou situation de bureau, duel à 3 candidats | 19 (7 de novembre à janvier dont relais, 12 de janvier à mars) | @copywriter | avec chaque lot |
-| Légendes Instagram « À envoyer à... » (80 caractères) | environ 60 pour 2027 | @copywriter | avec chaque lot |
-| Corrections des 3 vannes collées | 2 articles | @copywriter + @seo | 23/10 |
-Gel : tout post du lot se modifie en base au plus tard 14 jours avant sa date (les 11 jours précédents sont déjà chez Buffer, plafond 8 posts par canal `[À VÉRIFIER @fullstack : une mise à jour après remise ne corrige pas Buffer]`).
+| Note à l'aveugle des 14 vannes hors lot (barre ≥ 8,5 chez 2) | 14 | 2 relecteurs | mer. 07/10 |
+| Compilation des notes des lignes d'article (`-aveugle.md` vers `lignes-articles-notes.json`, même barre) | 20 articles Q4 | @copywriter | 07/10 (articles des semaines 1 à 5), 23/10 (le reste) |
+| 2 formules de renvoi (« D'autres exemples, et comment trouver le tien : » X et LinkedIn ; « D'autres exemples : lien en bio. » IG) : relecture à l'aveugle et vérification d'un passage « méthode » par article (sinon « D'autres exemples : ») | 24 posts | 2 relecteurs + @copywriter | jeu. 08/10 |
+| Fiches des 8 carrousels : comparaison à la base, relecture (R1 de V148 et V002) | 8 | @copywriter + relecteurs | 08/10 (04/11), le reste avec chaque tranche |
+| Fiches Q1 (livrées avec chaque tranche : 06/01 et 13/01 en 3a, 20/01 et 27/01 en 3b, 4 en lot 4, 4 en lot 5) | 12 | @copywriter | prêt de la tranche |
+| Légendes « À envoyer à... » des 11 relais IG ; puis environ 60 pour 2027 | 11 ; 60 | @copywriter | 08/10 ; avec chaque lot |
+| Citations d'humoriste réelles et sourcées | 3 | @copywriter | 18/12 (06/01), 15/01 (03/02), 12/02 (03/03) ; repli sans citation |
+| Cartes conseil (X 19, IG 19), étalons D2 d'abord | 38 | @copywriter + 2 relecteurs | avec chaque tranche ; 1b le 13/10 |
+| Correction des 3 vannes collées (`soiree-de-noel-entreprise-humour` n°5 et n°6, `etre-drole-sans-alcool-soiree` n°3) par `import-article.ts --update` | 2 articles | @copywriter + @seo | vendredi 23/10 (avant les relais du 16/11 et du 21/12) |
+LinkedIn : aucun texte neuf requis (L2 et L3 validés, le reste = vannes) ; la v1 prévoyait 19 situations, supprimées. Toute situation ajoutée passe par la barre des 2 relecteurs.
 
-### 1.5 Relais d'articles : y en a-t-il chaque lundi ET jeudi ?
-Non. Lundis : oui du 12/10 au 28/12 (12), puis plus rien. Jeudis : 7 du 22/10 au 03/12, puis 25/02 seulement. Remplacement : voir §3. Le dry-run montre que même quand l'article existe, 24 relais sur 28 ont pris une vanne du catalogue faute de ligne notée (T5) : la compilation des notes (09/10 et 06/11) est donc la mesure la plus rentable pour le stock.
-
-## 2. Chaîne de production récurrente
-
-### 2.1 Lots (dates exactes, prêt = inséré APPROVED, noté, vérifié)
-| Lot | Posts | Lancement | Prêt au plus tard | Marge | Particularité |
+## 5. Chaîne de production
+**Règle de prêt unique : un lot est prêt (inséré APPROVED, noté, contrôlé) 14 jours avant son premier post**, sauf 1a et 1b (relance décidée le 05/10). Le code n'a plus de gel : une correction en base vaut jusqu'à 15 minutes avant la remise (§8). L'alerte « file basse » (dernier APPROVED d'un réseau à moins de 10 jours) ne se déclenche donc jamais à vide : à J-14 le dernier APPROVED est à plus de 13 jours.
+| Lot | Posts | Lancement | Prêt | Marge | Dépend de |
 |---|---|---|---|---|---|
-| 1 | lun. 12/10 au dim. 15/11 | 05/10 (en cours) | ven. 09/10 | 3 j (exception : relance décidée le 05/10) | 41 meilleures vannes, renvois et légendes relus, lot refait avec `--pool`, fiche du 04/11 intégrée |
-| 2 (novembre et décembre) | lun. 16/11 au dim. 03/01 | lun. 26/10 | ven. 06/11 | 10 j | vannes V1, fiches 18/11 à 30/12, correction des 3 vannes collées, Noël, pivots |
-| 3 (janvier) | lun. 04/01 au dim. 31/01 | lun. 14/12 | ven. 18/12 | 17 j | après J+56 (07/12) ; articles Q1 prêts le 11/12 ; Noël sans travail |
-| 4 (février) | lun. 01/02 au dim. 28/02 | lun. 11/01 | ven. 22/01 | 10 j | V2 livrée le 15/01 ; poisson d'avril 25/02 |
-| 5 (mars) | lun. 01/03 au dim. 28/03 | lun. 08/02 | ven. 19/02 | 10 j | heure d'été le 28/03 testée dans le lot 6 |
-| 6 (avril, préparation) | lun. 29/03 au dim. 02/05 | lun. 08/03 | ven. 19/03 | 10 j | pivot poisson d'avril 01/04, articles Q2 |
+| 1a | 12/10 au 18/10 (12) | 05/10 (dry-run fait) | ven. 09/10 | J-3, exception | `--pool` 07/10, pool strict, 14 hors lot notées |
+| 1b | 19/10 au 15/11 (46) | 05/10 | mer. 14/10 | J-5, exception | étalons D2, notes de lignes du 07/10, cartes conseil 13/10 |
+| 2a | 16/11 au 06/12 (34) | lun. 19/10 | lun. 02/11 | 14 j | V1 (26/10), notes du 23/10, 3 vannes collées corrigées, fiches 18/11 à 02/12 |
+| 2b | 07/12 au 03/01 (48) | lun. 02/11 | lun. 23/11 | 14 j | V2 (13/11), Noël, pivots, refonte 2027 vérifiée le 16/12 |
+| 3a | 04/01 au 17/01 (24) | lun. 30/11 | lun. 21/12 | 14 j | V3 (11/12), articles Q1 insérés (11/12), citation 06/01 (18/12) |
+| 3b | 18/01 au 31/01 (24) | lun. 14/12 | lun. 04/01 | 14 j | verdict J+56 (§9) : sinon cadence 3/3/1 pour le réseau concerné |
+| 4 | 01/02 au 28/02 (48) | lun. 04/01 | lun. 18/01 | 14 j | V4 (08/01), citation 03/02 (15/01), J+84 |
+| 5 | 01/03 au 28/03 (48) | lun. 01/02 | lun. 15/02 | 14 j | citation 03/03 (12/02), J+112 |
+| 6 (préparation avril) | 29/03 au 02/05 | lun. 01/03 | lun. 15/03 | 14 j | articles Q2 (22/04, 13/05, 03/06), pivot 01/04, heure d'été testée |
+Contrôle de couverture : 58 + 82 + 144 = 284 posts (1a+1b = 58, 2a+2b = 82, 3a+3b+4+5 = 144).
+**Recette d'un lot** (session de pilotage, sous-agents en parallèle) : (1) stock par date sur 90 jours, lu par @fullstack en Neon HTTP ; (2) tirage `prepare-social-month.ts --lot --debut --fin --pool` en dry-run, **0 erreur bloquante** (tirets, gros mots, « je » hors « », 270 caractères X avec lien à 23, légende 80, LinkedIn 3 phrases, registre 90 jours) ; (3) textes neufs (§4) ; (4) relecture à l'aveugle : un texte sous 8,5 chez l'un des 2 est remplacé, jamais réécrit sur place ; (5) @reviewer (conformité, humoristes cités vérifiés), @qa (comptage par réseau et par semaine, UTM, dimanches, heure de Paris en UTC avec changement d'heure), mesure du diff réel (règle P0 s11) ; (6) `--insert --driver=neon-http` en APPROVED, posts insérés = posts du dry-run par réseau et par semaine ; (7) commit, ligne `REPLIT_ACTIONS.md`, 5 lignes à Thomas ; (8) un réseau en pause n'est rouvert qu'après les contrôles 1 à 6.
 
-### 2.2 Recette d'un lot (une session de pilotage, sous-agents en parallèle)
-1. **Stock** : @fullstack lit la base (Neon HTTP, TCP bloqué en session) : vannes éligibles par date sur 90 jours, articles de la période publiés ou programmés, stock < 14 = alerte rouge.
-2. **Tirage** : `prepare-social-month.ts --lot <id> --pool <fichier>` en dry-run, **contrôles bloquants = 0 erreur** (tirets, gros mots, « je » hors « », 270 caractères X avec lien compté 23, légende 80, LinkedIn 3 phrases, registre 90 jours).
-3. **Textes neufs** (§1.4) par @copywriter.
-4. **Relecture à l'aveugle** : 2 relecteurs notent les vannes tirées et les textes neufs contre Alexa ; un texte sous la barre est remplacé (jamais réécrit sur place).
-5. **Contrôle** : @reviewer (conformité : tirets, mention IA, humoristes cités vérifiés), @qa (comptage par réseau et par semaine, UTM, dimanches, heure Paris en UTC avec changement d'heure), **mesure du diff réel** (règle P0 s11).
-6. **Insertion** `--insert --driver=neon-http` en APPROVED, puis contrôle : posts insérés = posts du dry-run, par réseau et par semaine.
-7. **Traçabilité** : commit, ligne `REPLIT_ACTIONS.md`, 5 lignes à Thomas (ce qui est prêt, jusqu'à quelle date, stock restant). Rien d'attendu de lui.
-8. **Reprise** : si un réseau est en pause, l'interrupteur n'est rouvert qu'après les contrôles 1 à 6.
+## 6. Dépendance au blog
+- **État** : lundis programmés jusqu'au 28/12, jeudis jusqu'au 03/12, puis 25/02, 22/04, 13/05, 03/06. Génération IA coupée : tout article 2027 est écrit en session.
+- **Q1 2027 (D3, défaut appliqué)** : 12 articles, un chaque lundi du 04/01 au 22/03, plus celui du 25/02. @seo livre `docs/seo/calendrier-editorial-q1-2027.md` (12 lundis, mots-clés distincts, maillage, cannibalisation, article Saint-Valentin le 08/02 `[HYPOTHÈSE]`) **lun. 02/11** ; @copywriter produit du 09/11 au 04/12 ; **insertion `isPublished=false`, `publishedAt` le lundi, avant le ven. 11/12** par `import-article.ts`. Publication par `weekly-seo` le lundi 05:00 UTC.
+- **Critère de livraison** : 3 lignes notées au niveau (≥ 8,5 chez 2) par article, soit 36 lignes (X lundi, IG lundi, X jeudi) ; rendement des réparties 4 % : environ 900 candidats bornés à 75 par article (la v1 prévoyait 1 500). Sans ligne notée, le relais prend une vanne du pool (pas de « 8 par semaine » acquis).
+- **Jeudi 2027** : X relaie une 2e ligne de l'article du lundi (moins de 7 jours, lien autorisé) ; IG jeudi = carte vanne sans « lien en bio » ; LinkedIn mardi relaie l'article du lundi si l'angle est le travail. Semaine 13 : article du 04/01 (la v1 le disait absent, contradiction levée).
+- **Article en retard** : le relais bascule sur son repli (vanne du même thème sans lien) par la garde du cron (§7). **Refonte 2027** de `meilleures-blagues-droles-2026` du 15 au 20/12, vérifiée le 16/12 ; sinon le pivot X du 17/12 devient vanne simple.
 
-### 2.3 Déclenchement fiable (trois filets indépendants)
-- **Routines planifiées de Claude Code** (exécution dans le cloud d'Anthropic sans machine allumée, déclencheur planifié, intervalle minimal 1 heure : [Builder.io](https://www.builder.io/blog/claude-code-routines), [MakerKit](https://makerkit.dev/blog/tutorials/claude-code-routines-guide)) `[À VÉRIFIER : offre de Thomas, accès au dépôt, secrets Neon / Buffer / ADMIN_PASSWORD dans l'environnement de la routine]`. Test d'essai le **mer. 07/10** (la routine lit la base et écrit un fichier). Quatre routines : lancement de lot (dates §2.1, une fois chacune), **contrôle du lundi** (07:30 UTC, §6), **garde des articles** (lundi et jeudi 05:30 UTC, §4.3), vérification d'après-publication (§4.1, 3 occurrences uniques).
-- **Alerte « file basse » dans le Worker** (demande @fullstack, `REPLIT_ACTIONS.md`) : si le dernier post APPROVED d'un réseau est à moins de 10 jours, e-mail à `ADMIN_EMAIL` avec le texte du prompt de relance à coller, 1 par jour. C'est le filet si les routines ne tournent pas.
-- **Garde dans le contrôle du lundi** : un lot non prêt à J-10 de sa date de prêt, ou stock < 14, ouvre une issue GitHub (notification e-mail native).
-- Plan B sans routine : Thomas reçoit l'e-mail de file basse et colle le prompt (1 min, §5).
-- Buffer : la file n'est pas le stock (8 posts remis au plus par canal : environ 11 jours pour X et Instagram, 28 jours pour LinkedIn) ; **le stock est la base**, la tâche quotidienne remet au fil de l'eau.
-
-## 3. Dépendance au blog
-- **État** : lundis programmés jusqu'au 28/12, jeudis jusqu'au 03/12, puis 25/02, 22/04, 13/05, 03/06 (`founder-preferences.md` 05/10). Génération IA coupée (`CONTENT_GENERATION_ENABLED` ≠ "true") : tout article 2027 est écrit en session.
-- **Reco (D3)** : 12 articles, un chaque lundi du 04/01 au 22/03, plus l'article du 25/02. Jeudi : X relaie une 2e ligne de l'article du lundi (moins de 7 jours, lien autorisé, v5 §1) ; Instagram jeudi = carte vanne sans « lien en bio » (plus de 48 h) ; LinkedIn mardi relaie l'article du lundi si l'angle est le travail. Thomas a ouvert la porte (« un article par semaine », 05/10). Saint-Valentin est le dimanche 14/02 : `[HYPOTHÈSE]` article du 08/02 sur ce thème, choisi par @seo.
-- **Qui et quand** : @seo livre `docs/seo/calendrier-editorial-q1-2027.md` (12 lundis, mots-clés distincts, maillage, risque de cannibalisation) le **lun. 02/11** ; @copywriter produit en lot du 09/11 au 04/12, notes de lignes comprises, avec 2 critiques à l'aveugle et départage ; **les 12 articles sont insérés `isPublished=false`, `publishedAt` le lundi, par `import-article.ts`, au plus tard le ven. 11/12** (avant le lot 3). Publication automatique le lundi 05:00 UTC par `weekly-seo`.
-- **Impact** : un article qui glisse retire ses lignes du lot ; chaque relais a un repli (vanne du même thème sans lien, §4.3). Le rendement des réparties est d'environ 4 % : prévoir environ 1 500 candidats pour 12 articles, c'est la charge de relecture la plus lourde du plan (risque R5).
-- **Refonte 2027** de `meilleures-blagues-droles-2026` du 15 au 20/12 : vérifiée le 16/12 par la garde ; sinon le pivot X du 17/12 devient une vanne simple (v5 §1).
-
-## 4. Exploitation et incidents
-
-### 4.1 Reprise et vérifications (J0 = lun. 12/10 pour les trois, `[HYPOTHÈSE]` si les conditions sont réunies)
+## 7. Fiabilité : code, déploiements, reprise (dates)
+Le code est en cours chez @fullstack ; chaque livraison passe `tsc`, lint, build, Jest, et est consignée dans `REPLIT_ACTIONS.md`.
+| Date | Livrable | Preuve ou test |
+|---|---|---|
+| mer. 07/10 | `prepare-social-month.ts` : `--debut`, `--fin`, `--pool`, `--lot` (identifiant libre), `--rollback --lot <id>` (APPROVED futurs en REJECTED, comptage avant et après), contrôle après insertion par réseau et par semaine | Jest ; dry-run de 1a et 1b ; insertion `neon-http` d'abord sur une branche Neon |
+| mer. 07/10 | Test des routines planifiées sur 4 critères : lecture Neon HTTP, lecture des `channels` Buffer, issue créée, commit poussé (secrets en lecture seule si possible) | réussi : routines = déclencheur d'appoint (lancement de lot, contrôle du lundi) ; échec : le Worker seul, §8 |
+| jeu. 08/10 | **Déploiement du correctif X 270 (`9ca796e`)**, après D5, avant toute reprise de X | `git show <branche déployée>:apps/web/src/app/api/cron/publish-social/route.ts` contient `longueurX` ; `wrangler deployments list`, version précédente `108da3e7` consignée pour le retour ; brouillons Buffer réels (`saveToDraft` puis suppression) : post X le plus long avec lien, post LinkedIn |
+| ven. 09/10 | `reprendre()` corrigé : option « sauter » (REJECTED des posts échus depuis plus de 24 h, des relais et des posts datés), jamais sur un jour de silence, heure de Paris ; reprise refusée si Buffer est injoignable | tests de non-régression : silences 11/11 et 27/11, heure d'hiver, posts datés |
+| ven. 09/10, sam. 10/10 | `/liens` 3 routes (`/liens`, `/liens/x`, `/liens/li`), suivi `origine` et `contenu`, e-mail avant Google (v5 §2) | test d'événement Umami ; ne bloque que Instagram (C3), pas X ni LinkedIn |
+| ven. 16/10 | Garde `articleSlug` dans `publish-social` : un relais n'est remis que si l'article est publié et en 200, sinon son repli (tous réseaux, IG 19:30 compris) ; alertes séparées par réseau et par type | simulation d'un article absent |
+| ven. 23/10 | **Job de couverture quotidien** (Worker) : par réseau, dernier APPROVED à moins de 10 jours ; lot en retard (calendrier §5 codé en configuration : aucun APPROVED couvrant le début du lot à sa date de prêt) ; stock éligible < 14 ; **pause automatique après 2 FAILED consécutifs** ; e-mail `ADMIN_EMAIL` avec le prompt de relance ; e-mail de lancement de lot aux dates §5 | simulation de chaque alerte |
+| lun. 26/10 | Contrôle de l'heure d'hiver du 25/10 de bout en bout | `sentAt` réel chez Buffer : X 11:30 UTC, IG 18:30 UTC, LinkedIn mar. 27/10 07:15 UTC, y compris un post replanifié |
+**Reprise (J0 = lun. 12/10 pour les trois réseaux, `[HYPOTHÈSE]`)**
 | Étape | Date | Qui | Condition ou contrôle |
 |---|---|---|---|
-| Tests C2 dans X, Instagram, LinkedIn (+ Safari et Chrome) et liens de bio `/liens/x`, `/liens`, `/liens/li` | avant le dim. 11/10 | Thomas (15 min) | inscription e-mail aboutit dans l'application ; Google désactivé seulement si l'échec est reproduit |
-| Déploiement du correctif X 270 + routes `/liens` si absentes | jeu. 08/10 | session, après D5 | `tsc`, lint, build, tests ; `wrangler rollback` prêt |
-| Lot 1 inséré, vérifié chez Buffer (`channels` connectés, 3 canaux) | ven. 09/10 | session | écart prévu/publié = 0 |
-| **GO/NO-GO** | dim. 11/10 18:00 | session | C1 à C4, correctif déployé, lot 1 en base, canaux connectés ; sinon J0 = lun. 19/10 pour le réseau concerné (posts datés avant J0 sautés, v5) |
-| Reprise **LinkedIn** (premier risque : jamais publié depuis août) | dim. 11/10 20:00 | session (interrupteur admin) | 1er post mar. 13/10 08:15 |
-| Reprise **X** | dim. 11/10 20:15 | session | 1er post lun. 12/10 12:30 |
-| Reprise **Instagram** (C3 obligatoire) | dim. 11/10 20:30 | session | 1er post lun. 12/10 19:30 |
-| Vérification après 1re publication de chaque réseau | 12/10 12:45 (X), 12/10 19:45 (Instagram), 13/10 08:30 (LinkedIn) | routine + Thomas (2 min par réseau, regarder son fil) | statut Buffer `sent` et lien réel relu, UTM présent, carrousel à 2 images avec texte alternatif, aucun lien Instagram |
-Si un 1er post échoue : le réseau est mis en pause automatiquement (alerte), correction, reprise après nouveau contrôle.
+| Tests C2 (e-mail dans X, Instagram, LinkedIn + Safari et Chrome) et liens de bio | entre le 07/10 et dim. 11/10 12:00 (date butoir unique) | Thomas | inscription e-mail aboutit dans l'application ; Google désactivé seulement si l'échec est reproduit |
+| Lot 1a inséré, `channels` Buffer vus (3 canaux) | ven. 09/10 | session | écart prévu/inséré = 0 |
+| **GO/NO-GO** | dim. 11/10 18:00 | session | C1 à C4, correctif déployé et prouvé, lot 1a en base, canaux connectés ; sinon J0 = 19/10 pour le réseau concerné |
+| Reprise LinkedIn, X, Instagram (C3 obligatoire) | dim. 11/10 20:00, 20:15, 20:30 | session (interrupteur admin) | 1er post : LinkedIn mar. 13/10 08:15, X lun. 12/10 12:30, IG lun. 12/10 19:30 |
+| Vérification après 1re publication (H+45) | 12/10 13:15 (X), 12/10 20:15 (IG), 13/10 09:00 (LinkedIn) | session + Thomas (2 min par réseau) | statut `sent` (relu au passage horaire), lien réel, UTM, carrousel à 2 images avec texte alternatif, aucun lien IG |
+Un 1er post en échec donne FAILED et une alerte, pas une pause automatique : la session met le réseau en pause tout de suite (automatique après 2 FAILED à partir du 23/10), corrige, puis reprend après nouveau contrôle.
 
-### 4.2 Alertes existantes et incidents
-- **Alertes (e-mail `ADMIN_EMAIL`, 1 par jour et par réseau)** : échec Buffer, canal déconnecté (pause automatique), « prévu ≠ publié » dans le rapport du lundi ; à ajouter : file basse (§2.3).
-- **Buffer se déconnecte** : pause automatique + e-mail ; Thomas reconnecte (3 min, sa connexion de compte) ; une session vérifie `channels`, rouvre l'interrupteur (les retards sont replanifiés à 1 par jour) ; les posts datés expirés de plus de 24 h sont REJECTED, pas rattrapés.
-- **Lot non prêt** : à J-3 de la date de prêt, mode dégradé (cadence réduite 3/3/1 avec les seules vannes déjà notées) ; si rien n'est inséré, le réseau se vide proprement (aucun post vaut mieux qu'un post sous la barre) ; l'alerte file basse prévient 10 jours avant.
-- **Heure d'hiver dim. 25/10** : le dry-run est testé ; contrôle lun. 26/10 : `sentAt` du post X = 11:30 UTC, Instagram 18:30 UTC, LinkedIn mar. 27/10 07:15 UTC. **Heure d'été dim. 28/03/2027** : à tester dans le lot 6 (lun. 29/03 12:30 = 10:30 UTC).
-- **Plafond Buffer (10 par canal)** : remise de 8 au plus ; une erreur de plafond = alerte et nouvel essai le lendemain ; jamais de remise en rafale.
-- **Retour arrière** : pause par réseau (immédiate, admin), suppression chez Buffer (`deletePost`) et REJECTED en base, `wrangler rollback` pour le code. Un post déjà publié se retire dans l'application du réseau : Thomas (2 min), seul cas.
+## 8. Exploitation et incidents
+- **Modèle de remise Buffer (corrigé)** : le cron prend les posts échus (`scheduledAt` passé), 1 par réseau et par passage de 15 min, et Buffer reçoit `dueAt` = maintenant + 2 min : la file Buffer contient 0 ou 1 post. Plafond de 10, gel de 14 jours et suppression chez Buffer sont **sans objet** ; le stock est la base.
+- **Alertes** (e-mail `ADMIN_EMAIL`, 1 par jour, par réseau et par type depuis le 16/10) : échec Buffer, canal déconnecté (pause automatique), prévu ≠ publié (rapport du lundi), file basse, lot en retard, stock < 14, 2 FAILED.
+- **Déclenchement des lots** : le Worker est le filet principal (e-mail de lancement aux dates §5, file < 21 jours) ; les routines ne sont qu'un exécutant d'appoint si leur test du 07/10 réussit ; sinon Thomas colle le prompt (2 min par lancement). Secours du relevé du lundi : e-mail du lundi du Worker.
+- **Buffer se déconnecte** : pause automatique + e-mail ; Thomas reconnecte (3 min) ; la session vérifie `channels`, relance `reprendre()` corrigé (relais et posts datés rejetés, le reste replanifié 1 par jour hors silences).
+- **Lot non prêt à J-3 de son premier post** : mode dégradé 3/3/1 avec les seuls posts déjà notés ; sinon le réseau se vide proprement.
+- **Heure d'été dim. 28/03/2027** : testée dans le lot 6 (lun. 29/03 12:30 = 10:30 UTC).
+- **Retour arrière** : pause par réseau (admin), `--rollback --lot <id>`, `wrangler rollback`. Un post déjà publié se retire dans l'application du réseau : Thomas, 2 min, seul cas.
 
-### 4.3 Garde des articles (lundi et jeudi, 05:30 UTC)
-Pour chaque relais du jour : article `isPublished` et page en 200 ; sinon la session supprime le post chez Buffer, le passe REJECTED et insère son repli (vanne du même thème sans lien, prévue au lot) avant 08:15 (LinkedIn) et 12:30 (X). Demande @fullstack : un post relais (`articleSlug`) n'est remis à Buffer que si l'article est publié, sinon bascule sur le repli.
+## 9. Pilotage
+**Jalons par réseau** (`mesure.md` §2 : chaque réseau est jugé depuis son J0). Table de glissement (lundis) :
+| J0 du réseau | J+14 | J+28 | J+56 | J+84 | J+112 |
+|---|---|---|---|---|---|
+| 12/10 | 26/10 | 09/11 | 07/12 | 04/01 | 01/02 |
+| 19/10 | 02/11 | 16/11 | 14/12 | 11/01 | 08/02 |
+| 26/10 | 09/11 | 23/11 | 21/12 | 18/01 | 15/02 |
+| 02/11 | 16/11 | 30/11 | 28/12 | 25/01 | 22/02 |
+| 09/11 | 23/11 | 07/12 | 04/01 | 01/02 | 01/03 |
+- **Règle de glissement** : le J+56 d'un réseau doit tomber au plus tard le **04/01** (J0 au plus tard le 09/11) pour précéder l'insertion de la tranche 3b ; au-delà, la tranche 3b de ce réseau est insérée à 3/3/1 et relancée à 5/5/2 au verdict. J+84 et J+112 (fiche d'une demi-page) précèdent les lots 4 et 5 (prêts 18/01 et 15/02) si J0 ≤ 26/10 ; sinon le lot part sur le dernier verdict et le lot suivant corrige. Chaque jalon : fiche d'une page préparée le dimanche, Thomas répond « ok » ou choisit. Bilan Q1 : lun. 29/03.
+- **Lecture corrigée du stock** : la fiche joint la note moyenne des posts du réseau sur la période (J+28 juge les 41 meilleures, J+56 les vannes V1) : un recul avec note moyenne en baisse est un effet de stock, pas de réseau. Les visites sont rapportées au nombre de lundis avec article.
+- **Relevé du lundi** (routine si test OK, sinon e-mail du lundi du Worker) écrit `docs/social/releves/AAAA-MM-JJ.md` : prévu/publié et statut Buffer, FAILED, couverture en jours, stock éligible, visites Umami par `utm_source`, entonnoir par `origine`, référents `t.co`, `l.instagram.com`, `lnkd.in`. Natifs : D6.
+- **Ajustements** : règle v5 (2 mesures sur 3 = maintien ; 3 sous l'échec aux 2 jalons = pause) ; stock < 14 ou vague < 90 % = S1 ; 2 semaines de suite prévu ≠ publié = pause du réseau.
 
-## 5. Charge de Thomas (exhaustive, hors incident)
+## 10. Charge de Thomas (exhaustive, hors incident)
 | Quand | Quoi | Durée |
 |---|---|---|
-| Avant le 08/10 | Répondre « ok défauts » à D1 à D5 | 5 min |
-| Avant le 11/10 | Tests C2 sur téléphone (3 applications) et liens de bio | 15 min |
+| 06/10 à 08/10 | Répondre à D2 à D7 (5 min) et valider 3 étalons conseil (10 min) | 15 min |
+| avant dim. 11/10 | Tests C2 sur téléphone (3 applications) et liens de bio | 15 min |
+| 08/10, 16/10, 23/10 | Indiquer la branche à déployer à Replit `[À VÉRIFIER : action de Thomas ?]` | 3 x 3 min |
+| 07/10 | Secrets des routines sur son compte, seulement si le test réussit `[À VÉRIFIER]` | 10 min |
 | 12/10 et 13/10 | Regarder le 1er post de chaque réseau | 3 x 2 min |
-| lun. 26/10, 09/11, 07/12 | Jalons J+14, J+28, J+56 : 3 captures de statistiques natives (X, Instagram, LinkedIn) + réponse à la fiche de décision | 3 x 20 min |
-| 02/11 | Échantillon de 10 vannes neuves (existant, `[supprimable]` si D1 acceptée) | 5 min |
-| Chaque semaine | Réponses aux commentaires avec la banque de réponses (D4) : mar. et ven. | 2 x 10 min, 8 h sur 24 semaines ; 0 si moins de 5 interactions au J+28 |
-| Seulement si incident | Reconnecter Buffer ; retirer un post publié ; coller le prompt de relance après e-mail de file basse | 3 min ; 2 min ; 1 min |
-Total fixe : environ 1 h 45 sur 24 semaines, hors réponses. Tout le reste (lots, insertion, reprise, vérification Buffer, relevé Umami, alertes, déploiements, sous réserve de ton accord) est fait par session.
+| chaque lundi, 24 semaines | Relevé natif des 3 réseaux (D6) | 24 x 10 min |
+| jalons (5 dates, 3 réseaux regroupés) | Répondre à la fiche de décision | 5 x 5 min |
+| livraisons V1, V2, V3 | Échantillon de 10 vannes (D7) | 3 x 5 min |
+| lancements de lot si routines non retenues | Coller le prompt de l'e-mail du Worker | 6 x 2 min |
+| lun. 29/03 | Bilan Q1 | 20 min |
+| mardi et vendredi, 24 semaines | Réponses aux commentaires (D4, défaut) | 48 x 10 min |
+**Total recompté : hors réponses 367 min (6 h 07) ; avec réponses 847 min (14 h 07), soit environ 35 min par semaine**, sous le plafond de 105 min de `mesure.md`. Tout le reste (lots, insertion, reprise, vérification Buffer, relevé Umami, déploiements après D5) est fait par session.
 
-## 6. Pilotage
-- **Contrôle du lundi** (routine, 07:30 UTC, sans Thomas) : prévu / publié et statut réel Buffer, FAILED, couverture de file en jours, stock éligible de vannes, articles de la semaine, visites Umami par `utm_source`, entonnoir par `origine`, référents `t.co` / `l.instagram.com` / `lnkd.in`. Écrit `docs/social/releves/AAAA-MM-JJ.md` et ouvre une issue GitHub si rouge. Les abonnés et l'engagement natifs n'ont pas d'API : ils viennent de Thomas aux seuls jalons.
-- **Rendez-vous** (J0 = 12/10) : **J+14 lun. 26/10** (contrôle lien de bio, OAuth, `/liens`, stock vannes) ; **J+28 lun. 09/11** (seuils §4 v5, test de créneaux, hypothèse Marc lue) ; **J+56 lun. 07/12** (verdict par réseau, objectif 10 000 abonnés révisé ou non, **avant le lot 3**) ; **bilan Q1 lun. 29/03**. La session prépare la fiche d'une page le dimanche, Thomas répond « ok » ou choisit.
-- **Ajustements déclenchés** : règle v5 (2 mesures sur 3 en succès = maintien ; sinon ajustement ; 3 sous l'échec aux 2 jalons = pause) ; stock éligible < 14 vannes ou file < 10 jours = lot ou production en urgence ; 2 semaines de suite « prévu ≠ publié » = pause du réseau ; V1 < 40 le 30/10 = O4 ; lot 3 prévu en cadence pleine mais découpable en 3/3/1 si J+56 l'exige.
-
-## 7. Registre des risques
+## 11. Risques
 | # | Risque | P | I | Prévention | Plan B |
 |---|---|---|---|---|---|
-| R1 | Stock de vannes à la barre épuisé (T1) | Élevée | Élevé | O3, V1 le 23/10, V2 le 15/01, 41 d'abord, alerte stock < 14 | O4 (conseils), puis cadence 3/3/1 |
-| R2 | Routines indisponibles ou sans secrets | Moyenne | Élevé | test d'essai le 07/10, alerte file basse du Worker | Thomas colle le prompt (1 min) |
-| R3 | Article publié en retard ou absent | Moyenne | Moyen | garde lundi et jeudi 05:30 UTC, repli prévu dans le lot | vanne simple sans lien |
-| R4 | Buffer déconnecté ou plafond | Moyenne | Moyen | pause auto, remise de 8 au plus | reconnexion Thomas, REJECTED des posts expirés |
-| R5 | Charge de relecture à l'aveugle (V1 360 + articles 1 500 + fiches) | Élevée | Moyen | échelonnement 06/10 à 18/12, parallélisation | moins de réparties par article Q1 |
-| R6 | Bug de publication (X 270, heure d'hiver, LinkedIn jamais publié) | Moyenne | Élevé | correctif déployé avant X, tests de l'heure, 1er post vérifié réseau par réseau | pause immédiate, rollback |
-| R7 | C2 ou C3 non réunis le 11/10 | Moyenne | Moyen | tests le 07/10, GO/NO-GO du 11/10 | J0 = 19/10 pour ce réseau |
-| R8 | Vanne répétée à 90 jours jugée lassante, notes relecteurs instables (8,32 et 8,16 pour Alexa) | Moyenne | Moyen | étalon Alexa mesuré par les mêmes relecteurs, seuil relatif | rotation des 41 meilleures |
-| R9 | Audience nulle à J+28 (0 abonné au départ) | Moyenne | Élevé | seuils par réseau, contrôle J+14 | réduction de cadence, réallocation SEO |
-| R10 | Gel de 14 jours bloque une correction urgente | Faible | Moyen | suppression chez Buffer + REJECTED | remplacement par vanne du stock |
-| R11 | Contenu publié contraire aux choix fondateur (mention IA, tiret, humoriste inventé) | Faible | Élevé | @reviewer à chaque lot, citation sourcée | retrait dans l'application (Thomas) |
-| R12 | Session sans accès Neon HTTP ou Buffer | Faible | Élevé | `--driver=neon-http` déjà prévu | report du lot, file basse prévient |
+| R1 | Stock de vannes au niveau insuffisant (barre stricte) | Élevée | Élevé | 41 + 14 notées, V1 à V4 avec marge 7 à 10 j, pilote P0, alerte stock < 14 | S1 (conseils jusqu'à 3 par semaine), puis post omis |
+| R2 | Routines absentes ou sans secrets | Moyenne | Moyen | Worker principal (job de couverture 23/10), test du 07/10 | Thomas colle le prompt (2 min) |
+| R3 | Article en retard ou absent | Moyenne | Moyen | garde `articleSlug` à la remise (16/10), repli prévu au lot | vanne simple sans lien |
+| R4 | Buffer déconnecté | Moyenne | Moyen | pause automatique, `reprendre()` corrigé | reconnexion Thomas, REJECTED des posts datés |
+| R5 | Charge de relecture (environ 1 880 candidats de vannes + 900 de réparties + notes) | Élevée | Moyen | 17 sessions parallèles échelonnées du 06/10 au 11/12, recalibrage après P0 | moins de candidats par article Q1 |
+| R6 | Bug de publication (X 270, heure d'hiver, LinkedIn muet depuis août) | Moyenne | Élevé | correctif prouvé le 08/10, brouillons réels, H+45, test du 26/10 | pause immédiate, rollback |
+| R7 | C2 ou C3 non réunis le 11/10, D5 sans réponse | Moyenne | Moyen | tests avant le 11/10 midi, GO/NO-GO | J0 = 19/10 pour le réseau |
+| R8 | Notes des relecteurs instables ; vanne revue à 90 jours | Moyenne | Moyen | barre ≥ 8,5 chez 2, retour sur un autre réseau | rotation, V4 |
+| R9 | Audience nulle à J+28 (0 abonné au départ) | Moyenne | Élevé | seuils par réseau, contrôle J+14 | cadence réduite, réallocation SEO |
+| R10 | Contenu contraire aux choix fondateur (mention IA, tiret, humoriste inventé) | Faible | Élevé | @reviewer à chaque lot, citation sourcée | retrait dans l'application (Thomas) |
+| R11 | Session sans accès Neon HTTP ou Buffer | Faible | Élevé | `--driver=neon-http`, branche Neon testée | report du lot, alerte de couverture |
 
-## 8. Hypothèses et handoff
-`[HYPOTHÈSE]` : J0 identique pour les 3 réseaux ; routines disponibles ; rendement de 13 % des candidats ; Q1 à un article par lundi accepté ; 14 vannes hors lot sans réserve ; calendrier Q4 et jeudis 2027 comme dans `founder-preferences.md`.
+## 12. Hypothèses et handoff
+`[HYPOTHÈSE]` : J0 identique pour les 3 réseaux ; rendement de 7 % ; routines disponibles ; Q1 à un article par lundi ; 14 hors lot non notées donc comptées à environ 5 ; déploiement par Replit demandé à Thomas.
+**Handoff → @orchestrator** : @fullstack (§7 aux dates), @copywriter (pilote P0, V1 à V4, notes, fiches, citations, étalons conseil), @seo (calendrier Q1 le 02/11), @reviewer et @qa (contrôles de lot), @social (cartes conseil et grille). Points d'attention : D1 tranchée, 122 vannes neuves à produire, le Worker est le filet principal.
 
-**Handoff → @orchestrator** : @fullstack (option `--pool`, garde `articleSlug`, alerte file basse, déploiement correctif X), @copywriter (notes de lignes, V1, fiches, citations), @seo (calendrier Q1 le 02/11), @reviewer et @qa (contrôles de lot), @social (grille jeudi Q1). Points d'attention : T1, T2, T9 sont les trois trous qui font échouer la relance en novembre et en janvier.
+## Réponse aux notateurs
+**@reviewer**
+- E1a : « 13 lignes d'article » corrigé en 27 BLOG (hors L3), 111 vannes catalogue : §1.
+- E1b : « 24 relais sur 28 » remplacé par 17 sur 24 (9 sur 13, 8 sur 11) : §1.
+- E1c : « 7 restantes » contre « 14 hors lot » : 111 + 14 = 125, le 118/7 est abandonné et vérifié en base le 07/10 : §1.
+- E1d : tableau semaine par semaine remplacé par tranches ; fiches livrées marquées, 12 Q1 restantes : §1, §2, §4.
+- E1e : le « 74 » (et sa condition « aucune note sous 8 ») est supprimé, seul le 41 est retenu : §0, §1.
+- E2a : `--pool` daté au 07/10, garde `articleSlug` au 16/10, alerte au 23/10 : §7.
+- E2b, E2c : gel de 14 jours supprimé (modèle Buffer faux) ; prêt à J-14 pour tous les lots, alerte à 10 jours sans fausse alerte : §5.
+- E2d : V1 à V4 recalculés sur la barre stricte (122 vannes, pilote de rendement) : §2.
+- E3 : D3 rappelle la notation jusqu'à 10/10 sans validation individuelle ; réparties bornées à 75 par article ; « 8 par semaine » réservé aux lignes notées ; semaine 13 réconciliée : §0, §6.
+- E4 : D1 réécrite (barre stricte, Alexa = 9, 8,25 supprimé) ; échantillon de 10 = D7 et relevé natif = D6, décisions nommées : §0.
+- E5 : charge recomptée (367 min fixes), défauts de D4 à D7, règle « sans réponse le 08/10 18:00 = J0 19/10 » : §0, §10.
+- E6, contradictions : 07/10 et 11/10 unifiés (butoir dim. 11/10 12:00) ; citations 04/11 et 02/12 en repli, 3 citations à fournir ; fiches « manque » corrigées : §1, §7.
+**@qa**
+- C1 : déploiement `9ca796e` le 08/10 avec preuve `longueurX` et version `108da3e7` consignée : §7.
+- C2 : modèle Buffer corrigé (file de 0 ou 1 post, ni plafond ni gel ni suppression chez Buffer) : §8.
+- C3, C4 : `reprendre()` corrigé (sauter, silences, heure de Paris, refus si Buffer injoignable) avec tests, 09/10 : §7.
+- C5, F2 : job de couverture (file basse, lot en retard, stock, 2 FAILED) le 23/10 : §7.
+- C6 : `--debut/--fin/--pool/--lot/--rollback` le 07/10, insertion d'abord sur une branche Neon : §7.
+- C7, C8 : échec de contenu sans pause auto reconnu (pause par la session, auto après 2 FAILED) ; alertes par réseau et par type dès le 16/10 : §7, §8.
+- C9, C10, F5 : vérifications à H+45 ; heure d'hiver de bout en bout le 26/10 ; brouillons Buffer réels, non-régression : §7.
+- C11, F3 : Worker = filet principal, routines = appoint, test à 4 critères le 07/10 : §7, §8.
+- F4 : `--rollback`, garde `articleSlug` dans le cron à la remise (plus de session à 05:30) : §7, §8.
+**@growth**
+- G1.1 : jalons par réseau avec table de glissement et règle du 04/01 pour la tranche 3b : §9.
+- G1.2 : relevé natif hebdomadaire arbitré en D6 (défaut chaque lundi), ajouté à la charge : §0, §10.
+- G1.3 : sans gel, une décision du J+28 s'applique dès le lot suivant ; tranches 2a, 2b, 3a, 3b : §5.
+- G1.4, G1.5 : jalons J+84 et J+112 ; secours du relevé par l'e-mail du lundi du Worker : §9.
+- G1.6 : charge recomptée, 3 étalons, bilan 29/03, déploiements, secrets routines ajoutés : §10.
+- G2.1 : D3 à date (23/10) avec défaut appliqué et plan si refus : §0, §6.
+- G2.2, G2.5 : notes de lignes avancées au 07/10 et au 23/10, marges de 7 à 14 jours ; citations non sourcées = repli, 3 à fournir : §1, §4, §5.
+- G2.3, G2.4 : critère de 3 lignes notées par article Q1 ; pot unique avec le cycle mensuel du site, écart 60 vers 122 assumé : §2, §6.
+- G3.1 : 88 conseils en appoint dès le départ (2 par semaine, X et IG, vendredi) : §3.
+- G3.2 : retour à 90 jours sur un autre réseau : §2.
+- G3.3 : J+28 lu contre le stock utilisé : §9.
+- G3.4, G3.5 : « retenues » = au niveau (≥ 8,5 chez 2), déclencheur V < 90 % de la cible, étalons datés 08/10 ; 14 vannes hors lot notées le 07/10 : §2, §3, §4.
+- G4.1, G4.2 : suivi `origine`, e-mail avant Google, `/liens/x` et `/liens/li` datés 09 et 10/10 avec test Umami ; garde étendue à Instagram par le cron : §7.
+- G4.3, G4.4 : visites rapportées au nombre de lundis avec article, plan si D3 refusée ; passage « méthode » vérifié le 08/10 pour les 24 posts : §4, §6, §9.
