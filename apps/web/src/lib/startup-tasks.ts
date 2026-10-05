@@ -1341,12 +1341,33 @@ async function stripBlogEmDashesTask(): Promise<void> {
 }
 
 /**
+ * Rattrapage de la relecture des statuts Buffer (s15, 05/10/2026) : au boot,
+ * les posts PUBLISHED non confirmés des 7 derniers jours sont relus chez Buffer
+ * (le post Instagram du 02/10, en erreur chez Buffer, passe en FAILED + alerte).
+ * Idempotent (même logique que le job horaire), sans IA, non bloquant.
+ */
+async function reconcileBufferPostStatusesTask(): Promise<void> {
+  try {
+    const { runBufferStatusCheck } = await import("@/lib/social/buffer-status-check");
+    const res = await runBufferStatusCheck(new Date());
+    if (res?.error) {
+      console.warn(`[startup] Relecture Buffer : Buffer injoignable, aucun changement (${res.error}).`);
+    } else if (res && (res.confirmed > 0 || res.failed > 0)) {
+      console.log(`[startup] Relecture Buffer : ${res.confirmed} confirmé(s), ${res.failed} passé(s) en FAILED.`);
+    }
+  } catch (err) {
+    console.error("[startup] Relecture des statuts Buffer échouée (non bloquant) :", err);
+  }
+}
+
+/**
  * Exécute toutes les tâches de démarrage séquentiellement.
  * Appelée une seule fois depuis `register()` (au boot, avant le scheduler).
  */
 export async function runStartupTasks(): Promise<void> {
   await ensureCeoConfigTask();
   await cleanupWildcardSocialPostsTask();
+  await reconcileBufferPostStatusesTask();
   // AVANT applyJokeDecryptagesTask : renomme les vannes (previousContent →
   // nouveau content) pour que le match par content des décryptages porte
   // ensuite sur les textes réécrits (même fichier source → aucune contradiction).
@@ -1377,4 +1398,5 @@ export {
   rewriteRedirectedBlogLinksTask,
   stripBlogEmDashesTask,
   BLOG_EM_DASH_PATCH_VERSION,
+  reconcileBufferPostStatusesTask,
 };

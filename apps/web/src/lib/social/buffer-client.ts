@@ -84,6 +84,7 @@ function getChannelId(platform: BufferPlatform): string {
 async function bufferGraphQL<T>(
   query: string,
   accessToken?: string,
+  timeoutMs?: number,
 ): Promise<T> {
   const token = accessToken || getConfig().accessToken;
 
@@ -94,6 +95,7 @@ async function bufferGraphQL<T>(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ query }),
+    ...(timeoutMs ? { signal: AbortSignal.timeout(timeoutMs) } : {}),
   });
 
   if (!response.ok) {
@@ -514,6 +516,57 @@ export async function getBufferScheduledPosts(): Promise<
   const data = await bufferGraphQL<{
     posts: { edges: Array<{ node: { id: string; text: string; createdAt: string } }> };
   }>(query);
+
+  return data.posts.edges.map((e) => e.node);
+}
+
+/** Statut réel d'un post chez Buffer (relecture s15, 05/10/2026). */
+export interface BufferPostStatus {
+  id: string;
+  status: string; // draft | error | needs_approval | scheduled | sending | sent
+  sentAt: string | null;
+  externalLink: string | null;
+  channelService: string | null;
+  error: { message: string | null; rawError: string | null; supportUrl: string | null } | null;
+}
+
+/**
+ * Posts Buffer terminés (envoyés ou en erreur), les plus récents d'abord.
+ * Un seul appel pour toute l'organisation ; timeout 5 s (une panne Buffer
+ * lève une erreur, l'appelant ne modifie alors rien).
+ */
+export async function getBufferFinishedPosts(first = 100): Promise<BufferPostStatus[]> {
+  const config = getConfig();
+
+  const query = `
+    query GetFinishedPosts {
+      posts(
+        input: {
+          organizationId: ${JSON.stringify(config.organizationId)},
+          sort: [{ field: dueAt, direction: desc }],
+          filter: { status: [sent, error] }
+        },
+        first: ${Math.max(1, Math.floor(first))}
+      ) {
+        edges {
+          node {
+            id
+            status
+            sentAt
+            externalLink
+            channelService
+            error { message rawError supportUrl }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await bufferGraphQL<{ posts: { edges: Array<{ node: BufferPostStatus }> } }>(
+    query,
+    config.accessToken,
+    5_000,
+  );
 
   return data.posts.edges.map((e) => e.node);
 }

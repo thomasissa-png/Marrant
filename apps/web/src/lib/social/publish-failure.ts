@@ -30,13 +30,16 @@ export const FAILURE_ALERT_JOB = "publish-social-failure-alert";
  * publish-social confondues). Retourne `true` si l'e-mail est parti.
  * Fail-closed : base indisponible → pas d'e-mail (le message reste en base et
  * dans les logs Workers).
+ * `alertJob` : nom du verrou (défaut : alerte publish-social commune). La
+ * relecture des statuts Buffer passe un nom par plateforme (1 e-mail/jour/plateforme).
  */
 export async function sendDailyPublishFailureAlert(
   subject: string,
   html: string,
   now: Date = new Date(),
+  alertJob: string = FAILURE_ALERT_JOB,
 ): Promise<boolean> {
-  const key = buildJobLockKey(FAILURE_ALERT_JOB, now);
+  const key = buildJobLockKey(alertJob, now);
   const ttlMs = nextUtcDay(now).getTime() - now.getTime();
   const acquired = await tryAcquireLock(key, ttlMs);
   if (!acquired) {

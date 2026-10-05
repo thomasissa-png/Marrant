@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026) : relecture du statut réel des posts Buffer + alerte d'échec @fullstack
+
+> Commit local, non poussé, non déployé. **Aucune migration**, aucun package, aucune nouvelle variable d'env (`BUFFER_ACCESS_TOKEN`, `BUFFER_ORGANIZATION_ID`, `RESEND_API_KEY`, `ADMIN_EMAIL` existants), aucun LLM, aucun event Umami.
+> - **Déploiement normal.** Nouveau job du scheduler `runBufferStatusCheckJob` (après publish-social, verrou horaire `buffer-status-check-AAAA-MM-JJ-hHH` non relâché : 1 passage par heure) et tâche de démarrage `reconcileBufferPostStatusesTask` (rattrapage, idempotente). Un seul appel GraphQL Buffer (`posts`, statuts `sent` + `error`, 100 plus récents, timeout 5 s).
+> - **Sens des statuts** : PUBLISHED = remis à Buffer. Confirmé = ligne « Publication confirmée par Buffer le <sentAt> : <lien réel> » ajoutée à `directorNote` et `publishedAt = sentAt`. Buffer en `error` → FAILED + note « Échec publication Buffer : <message> (détail : <rawError>) ». Candidats : PUBLISHED non confirmés, `publishedAt` de moins de 7 jours. Buffer injoignable : aucun changement, nouvel essai l'heure suivante.
+> - **Alerte** : e-mail à `ADMIN_EMAIL` (plateforme, message Buffer, « reconnecter le canal dans Buffer »), au plus 1 par jour et par plateforme (verrou `buffer-status-alert-<plateforme>-AAAA-MM-JJ`).
+> - **Publication inchangée** : `PAUSED_PLATFORMS` (LinkedIn) intact, aucun post republié automatiquement.
+> - **Après déploiement** : `/api/cron/startup-tasks` (ou le premier tick) doit passer le post Instagram du 02/10 en FAILED (admin social : note « Échec publication Buffer : Buffer has lost authorization… ») et envoyer 1 e-mail Instagram. **Action Thomas** : reconnecter le canal Instagram dans Buffer, puis reprogrammer le post.
+
 ## s15 (05/10/2026) : tunnel visiteur → inscrit → Premium réparé et mesuré, IndexNow protégé et étendu au catalogue @fullstack
 
 > **Déployé le 05/10/2026 (Worker `fa296917`).** Aucune migration, aucun package, aucune nouvelle variable d'env (`CRON_SECRET`, `ADMIN_PASSWORD`, `INDEXNOW_KEY` existants), aucun LLM. Détail : `docs/qa/tunnel-inscription-s15.md`.

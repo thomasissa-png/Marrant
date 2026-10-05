@@ -305,6 +305,42 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job 5 bis : Relecture du statut réel des posts remis à Buffer (s15, 05/10/2026).
+   * TIME-GATED (1 passage par heure UTC) + LOCK horaire non relâché.
+   *
+   * Posts PUBLISHED non confirmés remis à Buffer depuis moins de 7 jours :
+   * `sent` → confirmé (publishedAt = sentAt, lien réel dans la note) ;
+   * `error` → FAILED + « Échec publication Buffer : … » + e-mail admin
+   * (1 par jour et par plateforme). Buffer injoignable → aucun changement,
+   * nouvel essai l'heure suivante. 1 seul appel Buffer, aucun LLM.
+   * Ne publie rien : la stratégie de publication (PAUSED_PLATFORMS) est intacte.
+   */
+  const runBufferStatusCheckJob = async () => {
+    try {
+      const { isBufferConfigured } = await import("@/lib/social/buffer-client");
+      if (!isBufferConfigured()) return;
+
+      const now = new Date();
+      const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const hour = String(now.getUTCHours()).padStart(2, "0");
+      const lockKey = `${buildJobLockKey("buffer-status-check", now)}-h${hour}`;
+      if (!(await tryAcquireLock(lockKey, 55 * 60 * 1000))) return;
+
+      const { runBufferStatusCheck } = await import("@/lib/social/buffer-status-check");
+      const res = await runBufferStatusCheck(now);
+      if (res?.error) {
+        console.warn(`[scheduler:buffer-status] Buffer injoignable, aucun changement : ${res.error}`);
+      } else if (res && (res.confirmed > 0 || res.failed > 0)) {
+        console.log(
+          `[scheduler:buffer-status] ${res.confirmed} confirmé(s), ${res.failed} en échec, alerte : ${res.alerted.join(", ") || "aucune"}.`,
+        );
+      }
+    } catch (err) {
+      console.error("[scheduler:buffer-status] Échec :", err);
+    }
+  };
+
+  /**
    * Job 6 : Suivi et nettoyage des posts sociaux
    * Appelle le cron endpoint /api/cron/social-analytics qui gère :
    * - Nettoyage des posts stuck (APPROVED > 48h → FAILED)
@@ -594,6 +630,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runMonthlyPlanJob();
     await runDailySocialJob();
     await runPublishSocialJob();
+    await runBufferStatusCheckJob();
     await runSocialAnalyticsJob();
     await runSeoAuditJob();
     await runSeoReportJob();
@@ -606,5 +643,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
 
   // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée) ;
   // runAnnualRenewalReminderJob pour le test du rappel légal de l'annuel.
-  return { runAllJobs, runDailySocialJob, runAnnualRenewalReminderJob, runWeeklyVisitsReportJob };
+  return {
+    runAllJobs,
+    runDailySocialJob,
+    runAnnualRenewalReminderJob,
+    runWeeklyVisitsReportJob,
+    runBufferStatusCheckJob,
+  };
 }
