@@ -150,7 +150,7 @@ Une blague de vacances se joue à plusieurs, et les règles tiennent en cinq ges
 
 **Garde le physique et l'argent de chacun hors du jeu.** On rit du système (la cagnotte, le tableau des chambres), pas de qui paie plus, dort mieux ou mange plus. Même gentil, même en riant.
 
-**Adapte avec vos objets.** Les vannes ci-dessus sont des modèles : remplace le parasol, le sac bleu ou le « plat du jour » par ce qui a vraiment existé dans votre séjour. Une blague qui n'a eu lieu que chez vous gagne à chaque fois.
+**Adapte avec vos objets.** Les vannes ci-dessus sont des modèles : remplace la cagnotte, le parasol ou la playlist par ce qui a vraiment existé dans votre séjour. Une blague qui n'a eu lieu que chez vous gagne à chaque fois.
 
 ---
 
