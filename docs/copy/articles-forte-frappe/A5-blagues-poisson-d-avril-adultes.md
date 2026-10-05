@@ -108,7 +108,7 @@ Entre potes, presque tout passe, sauf ce qui coûte quelque chose ou ce qui se r
 *→ Écris la phrase à la main avant de plier, et donne le papier le matin : il aura toute la journée pour regarder l'heure.*
 
 **12.** Écris : « Randonnée samedi, départ à 7 h. Ceux qui sont partants lèvent le pouce. » Attends les pouces hésitants. « Retour à 7 h 20, distance : le tour du pâté de maisons. Poisson d'avril. »
-*→ Prends un ton très sportif, et choisis un autre groupe que celui du rendez-vous de samedi (n°10). Ceux qui répondent « ok » tout de suite sont ta cible préférée.*
+*→ Prends un ton très sportif, et choisis un autre groupe que celui du rendez-vous de samedi (n°10). Ceux qui lèvent le pouce tout de suite sont ta cible préférée.*
 
 **13.** Dis à ton colocataire : « J'ai réorganisé toute la cuisine, tu verras, c'est plus logique. » Laisse-le chercher les changements. « Je l'ai réorganisée à l'identique. C'était le plus difficile. Poisson d'avril. »
 *→ Ne touche à rien : l'absence d'action est le canular. Dis-le avec la fierté de quelqu'un qui a travaillé.*
