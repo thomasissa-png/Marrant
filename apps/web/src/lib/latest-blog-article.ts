@@ -20,6 +20,11 @@ export interface LatestBlogArticle {
   excerpt: string;
   /** AAAA-MM-JJ */
   date: string;
+  /**
+   * Instant de publication (ISO), pour la règle des 48 h de /liens. Article
+   * statique (date seule) : minuit UTC du jour indiqué.
+   */
+  publishedAt: string;
   readingTime: string;
 }
 
@@ -41,6 +46,7 @@ async function loadLatestDbArticle(now: Date): Promise<LatestBlogArticle | null>
     title: article.title,
     excerpt: article.excerpt,
     date: toDay(article.publishedAt),
+    publishedAt: article.publishedAt.toISOString(),
     readingTime: article.readingTime,
   };
 }
@@ -54,7 +60,14 @@ function latestStaticArticle(now: Date, excludedSlugs: Set<string>): LatestBlogA
     .sort((a, b) => b.date.localeCompare(a.date));
   const a = candidates[0];
   return a
-    ? { slug: a.slug, title: a.title, excerpt: a.excerpt, date: a.date, readingTime: a.readingTime }
+    ? {
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        date: a.date,
+        publishedAt: `${a.date}T00:00:00.000Z`,
+        readingTime: a.readingTime,
+      }
     : null;
 }
 

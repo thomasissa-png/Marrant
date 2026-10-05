@@ -5,6 +5,7 @@
  * admin `/blog/apercu` (relectures et captures ne faussent pas les stats).
  */
 import { isBlogPreviewPath } from "@/config/blog-preview";
+import { attributionProps, captureAttribution } from "@/lib/attribution";
 
 type UmamiData = Record<string, string | number>;
 
@@ -12,10 +13,31 @@ interface UmamiWindow {
   umami?: { track?: (name: string, data?: UmamiData) => void };
 }
 
+/**
+ * Événements du tunnel qui reçoivent `origine` et `contenu` (attribution
+ * réseau social, v5 §2.3). Propriétés existantes jamais écrasées ; sans
+ * arrivée sociale, l'événement part tel quel.
+ */
+export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
+  "quiz-termine",
+  "parcours-etape",
+  "inscription-envoi",
+  "inscription-reussie",
+  "onboarding-termine",
+  "blog-cta-clic",
+]);
+
+function withAttribution(name: string, data?: UmamiData): UmamiData | undefined {
+  if (!ATTRIBUTED_EVENTS.has(name)) return data;
+  const props = attributionProps(captureAttribution());
+  if (Object.keys(props).length === 0) return data;
+  return { ...props, ...data };
+}
+
 export function trackUmami(name: string, data?: UmamiData): void {
   if (typeof window === "undefined") return;
   if (isBlogPreviewPath(window.location.pathname)) return;
-  (window as unknown as UmamiWindow).umami?.track?.(name, data);
+  (window as unknown as UmamiWindow).umami?.track?.(name, withAttribution(name, data));
 }
 
 /**

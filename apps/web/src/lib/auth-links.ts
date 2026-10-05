@@ -7,6 +7,7 @@
  * source du clic (`src`, mesure Umami, jamais de donnée personnelle).
  */
 import { sanitizeCallbackUrl } from "@/lib/safe-callback";
+import { sanitizeContenu, sanitizeOrigine } from "@/lib/attribution";
 
 /** Paramètre de retour après Google (lu par AuthReturnTracker puis retiré de l'URL). */
 export const AUTH_RETURN_PARAM = "auth";
@@ -22,19 +23,29 @@ export function sanitizeSignupSrc(raw: string | null | undefined): string | null
 interface AuthLinkOptions {
   callbackUrl?: string | null;
   src?: string | null;
+  /** Réseau d'arrivée (`x|instagram|linkedin`), bascule depuis une application. */
+  origine?: string | null;
+  /** `utm_content` d'arrivée (liste blanche de lib/attribution). */
+  contenu?: string | null;
 }
 
-function buildAuthUrl(path: "/register" | "/login", { callbackUrl, src }: AuthLinkOptions): string {
+function buildAuthUrl(path: "/register" | "/login", { callbackUrl, src, origine, contenu }: AuthLinkOptions): string {
   const params = new URLSearchParams();
   const safeCallback = sanitizeCallbackUrl(callbackUrl);
   if (safeCallback) params.set("callbackUrl", safeCallback);
   const safeSrc = sanitizeSignupSrc(src);
   if (safeSrc) params.set("src", safeSrc);
+  const safeOrigine = sanitizeOrigine(origine);
+  if (safeOrigine) {
+    params.set("origine", safeOrigine);
+    const safeContenu = sanitizeContenu(contenu);
+    if (safeContenu) params.set("contenu", safeContenu);
+  }
   const query = params.toString();
   return query ? `${path}?${query}` : path;
 }
 
-/** `/register?callbackUrl=…&src=…` (paramètres omis s'ils sont vides ou non sûrs). */
+/** `/register?callbackUrl=…&src=…&origine=…&contenu=…` (paramètres omis s'ils sont vides ou non sûrs). */
 export function buildRegisterUrl(options: AuthLinkOptions = {}): string {
   return buildAuthUrl("/register", options);
 }

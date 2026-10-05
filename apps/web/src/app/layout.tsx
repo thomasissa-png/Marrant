@@ -9,6 +9,7 @@ import {
 } from "@/components/seo/json-ld";
 import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
 import { AuthReturnTracker } from "@/components/auth/auth-return-tracker";
+import { AttributionCapture } from "@/components/analytics/attribution-capture";
 import { BLOG_PREVIEW_PATH } from "@/config/blog-preview";
 import "@/styles/globals.css";
 
@@ -137,6 +138,7 @@ export default function RootLayout({
         <JsonLd data={websiteJsonLd} />
         <SessionProvider>{children}</SessionProvider>
         <WebVitalsReporter />
+        <AttributionCapture />
         <AuthReturnTracker />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <>

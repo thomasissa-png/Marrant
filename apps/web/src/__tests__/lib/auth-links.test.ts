@@ -39,6 +39,38 @@ describe("buildLoginUrl", () => {
   });
 });
 
+describe("bascule depuis une application (v5 §2.5) : callbackUrl, src, origine, contenu", () => {
+  it("les 4 paramètres conservés, dans l'ordre", () => {
+    expect(
+      buildRegisterUrl({ callbackUrl: "/onboarding", src: "blog-mon-article", origine: "instagram", contenu: "bio-article" }),
+    ).toBe("/register?callbackUrl=%2Fonboarding&src=blog-mon-article&origine=instagram&contenu=bio-article");
+    expect(buildLoginUrl({ callbackUrl: "/favoris", src: "login", origine: "linkedin", contenu: "relais" })).toBe(
+      "/login?callbackUrl=%2Ffavoris&src=login&origine=linkedin&contenu=relais",
+    );
+  });
+
+  it("src=blog-<slug> et callbackUrl survivent : destination intacte après inscription", () => {
+    const url = new URL(
+      buildRegisterUrl({ callbackUrl: "/parcours/repartie", src: "blog-se-presenter-avec-humour", origine: "x", contenu: "lundi" }),
+      "https://deviens-marrant.fr",
+    );
+    expect(url.searchParams.get("src")).toBe("blog-se-presenter-avec-humour");
+    expect(getPostSignupRedirect(url.searchParams.get("callbackUrl"))).toBe("/parcours/repartie");
+  });
+
+  it("origine hors liste blanche : origine et contenu omis", () => {
+    expect(buildRegisterUrl({ src: "quiz", origine: "tiktok", contenu: "quiz" })).toBe("/register?src=quiz");
+  });
+
+  it("contenu hors liste blanche : omis, origine gardée", () => {
+    expect(buildRegisterUrl({ src: "quiz", origine: "x", contenu: "jean@test.fr" })).toBe("/register?src=quiz&origine=x");
+  });
+
+  it("contenu sans origine : omis", () => {
+    expect(buildRegisterUrl({ contenu: "bio-quiz" })).toBe("/register");
+  });
+});
+
 describe("sanitizeSignupSrc (jamais de donnée libre dans Umami)", () => {
   it.each([
     ["blog-meilleures-blagues-droles-2026", "blog-meilleures-blagues-droles-2026"],
