@@ -85,6 +85,11 @@ describe("frenchQuotes (guillemets au rendu)", () => {
     expect(html).not.toMatch(/»\s*pas de moutarde/);
   });
 
+  it("rend le 2e niveau en “…” dans une citation déjà entre « … »", () => {
+    expect(frenchQuotes('« Il dit "bonjour". »')).toBe("« Il dit “bonjour”. »");
+    expect(frenchQuotes('« Vanne. » Puis "ça".')).toBe(`« Vanne. » Puis «${NBSP}ça${NBSP}».`);
+  });
+
   it("produit des attributs HTML intacts dans le rendu", () => {
     const html = renderMarkdown('Un [lien "cité"](/parcours) et "une vanne".');
     expect(html).toContain('<a href="/parcours" class="text-accent-link hover:underline">');

@@ -100,7 +100,13 @@ export function frenchQuotes(text: string): string {
   if (count === 0 || count % 2 !== 0) return text;
   const converted =
     nestedQuotes(masked) ??
-    masked.replace(/"([^"\n]+?)"/g, (_m, inner: string) => `«${NBSP}${inner.trim()}${NBSP}»`);
+    masked.replace(/"([^"\n]+?)"/g, (_m, inner: string, offset: number) => {
+      // Citation dans un passage déjà entre « … » (vanne) : 2e niveau en “…”,
+      // comme nestedQuotes, sinon on lit « « … » … » et la vanne semble finir trop tôt.
+      const before = masked.slice(0, offset);
+      const inside = (before.match(/«/g) ?? []).length > (before.match(/»/g) ?? []).length;
+      return inside ? `“${inner.trim()}”` : `«${NBSP}${inner.trim()}${NBSP}»`;
+    });
   if (converted.includes('"')) return text;
   return converted.replace(new RegExp(`${PLACEHOLDER}(\\d+)${PLACEHOLDER}`, "g"), (_m, i: string) => saved[Number(i)]);
 }

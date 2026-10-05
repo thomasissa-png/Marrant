@@ -22,6 +22,7 @@ import { frTypo } from "@/lib/fr-typo";
 import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
 import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
+import { pickRelatedArticles } from "@/lib/blog-related";
 import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
@@ -163,13 +164,18 @@ export default async function BlogArticlePage({
   const otherArticles = allAvailableArticles
     .filter((a) => a.slug !== article.slug && a.category !== article.category && !clusterRelatedSlugs.includes(a.slug))
     .sort((a, b) => b.date.localeCompare(a.date));
-  const relatedArticles = [...clusterArticles, ...sameCategoryArticles, ...otherArticles].slice(0, 3);
 
   // Next/prev in cluster (only for pre-registered slugs — sequential nav)
   const nextSlug = getNextInCluster(article.slug);
   const prevSlug = getPrevInCluster(article.slug);
   const nextArticle = nextSlug ? allAvailableArticles.find((a) => a.slug === nextSlug) : null;
   const prevArticle = prevSlug ? allAvailableArticles.find((a) => a.slug === prevSlug) : null;
+
+  // « À lire ensuite » ne reprend pas les cartes Suivant / Précédent affichées.
+  const relatedArticles = pickRelatedArticles(
+    { cluster: clusterArticles, sameCategory: sameCategoryArticles, others: otherArticles },
+    cluster ? [nextArticle?.slug, prevArticle?.slug] : [],
+  );
 
   // CTA de fin : textes et position propres à l'article si config/blog-cta.ts en définit.
   // Inscription attribuable à l'article : /onboarding lit seulement callbackUrl, `src`

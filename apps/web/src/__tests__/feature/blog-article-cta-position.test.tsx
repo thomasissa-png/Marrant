@@ -34,6 +34,9 @@ jest.mock("@/lib/prisma", () => ({
 }));
 
 import BlogArticlePage from "@/app/(dashboard)/blog/[slug]/page";
+import { blogArticles } from "@/lib/blog-articles";
+import { prisma } from "@/lib/prisma";
+import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 
@@ -76,5 +79,39 @@ describe("Page article : position du CTA et partage", () => {
     expect(mockAuthModal).toHaveBeenCalledWith(
       expect.objectContaining({ callbackUrl: "/onboarding?src=blog-comment-devenir-drole" }),
     );
+  });
+});
+
+describe("Page article : « À lire ensuite » sans doublon (notation iter2, D1)", () => {
+  const hrefs = (zone: Element | null) =>
+    [...(zone?.querySelectorAll("a[href^='/blog/']") ?? [])].map((l) => l.getAttribute("href"));
+
+  it("meilleures-blagues : la carte Suivant n'est pas reprise ; cluster épuisé, moins de cartes", async () => {
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    const nav = hrefs(container.querySelector('[data-blog-zone="cluster"]'));
+    const related = hrefs(container.querySelector('[data-blog-zone="related"]'));
+    expect(nav).toEqual(["/blog/phrases-droles-conversations"]);
+    expect(related).toEqual(["/blog/comment-faire-rire-une-fille", "/blog/comment-faire-rire-un-homme"]);
+  });
+
+  it("meilleures-blagues : place libérée reprise par le suivant du cluster publié en base", async () => {
+    (prisma.blogArticle.findMany as jest.Mock).mockResolvedValueOnce([
+      { slug: "creer-ses-propres-blagues", title: "Créer ses propres blagues", category: "CATALOGUE", readingTime: "8 min", publishedAt: new Date("2026-04-01") },
+    ]);
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    const related = hrefs(container.querySelector('[data-blog-zone="related"]'));
+    expect(related).toEqual(["/blog/comment-faire-rire-une-fille", "/blog/comment-faire-rire-un-homme", "/blog/creer-ses-propres-blagues"]);
+  });
+
+  it("aucun article ne propose 2 fois la même destination", async () => {
+    const redirected = new Set<string>(REDIRECTED_BLOG_SLUGS);
+    for (const { slug } of blogArticles.filter((a) => !redirected.has(a.slug))) {
+      const { container, unmount } = await renderArticle(slug);
+      const nav = hrefs(container.querySelector('[data-blog-zone="cluster"]'));
+      const related = hrefs(container.querySelector('[data-blog-zone="related"]'));
+      expect(related.filter((h) => nav.includes(h))).toEqual([]);
+      expect(new Set(related).size).toBe(related.length);
+      unmount();
+    }
   });
 });

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : article « 50 blagues drôles », notation iter2, correctifs D1 à D3 @fullstack
+
+> Correctifs de `docs/growth/notation-article-blagues-2026-iter2.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.
+> - **Déploiement normal**. Contenu de l'article inchangé (0 ligne) : slug, title, meta, H1, 8 H2, 50 vannes (empreinte SHA-256) intacts.
+> - **Tous les articles** : « À lire ensuite » ne reprend plus un article déjà proposé en Suivant ou Précédent ; la place revient au prochain article du même cluster, sinon la section affiche moins de cartes.
+> - **Tous les articles (rendu seul)** : une citation dans un passage déjà entre « … » s'affiche en “…”. Mesuré : 2 articles touchés sur 39 rendus (30 statiques + 9 réécritures en base), 40 occurrences (36 dans les 50 vannes, 4 dans techniques-humoristes-pros) ; aucun autre écart de texte visible.
+> - **Surtitre de la navigation cluster** : « Blagues et vannes à ressortir », « Humour de saison », « Quand l'humour coince », « Timing et art de raconter » remplacent les libellés internes. À vérifier après déploiement : captures m00, m05, m07-m08.
+
 ## s14 (05/10/2026) : article « 50 blagues drôles », notation iter1, correctifs C1 à C13 @fullstack
 
 > GO Thomas sur `docs/growth/notation-article-blagues-2026-iter1.md`. Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM.
