@@ -2,6 +2,10 @@
  * Planification mensuelle des posts sociaux (logique pure, sans base ni réseau).
  * Utilisé par scripts/content/prepare-social-month.ts.
  *
+ * s15 : le lot de relance v5 (grille X 5 / Instagram 5 / LinkedIn 2, R1 à R6, UTM v5)
+ * est construit par `social-lot-v5.ts`, qui réutilise les outils de ce fichier
+ * (heures de Paris, PRNG, `lienUtmV5`, `citerLigne`). `buildPlan` (v2) reste inchangé.
+ *
  * Cadence PARAMÉTRABLE (`PlanInput.cadence`) ; défaut = stratégie v2
  * (docs/social/strategie-relance-v2.md §1, choix fondateur du 05/10 : relance des
  * 3 réseaux, consignes du 01/10 annulées). Une v3 n'a qu'à fournir sa cadence.
@@ -93,6 +97,33 @@ export function utmLink(siteUrl: string, slug: string, platform: PreparedPlatfor
   const base = siteUrl.replace(/\/$/, "");
   const c = content ? `&utm_content=${content}` : "";
   return `${base}/blog/${slug}?utm_source=${UTM_SOURCE[platform]}&utm_medium=social&utm_campaign=${month}${c}`;
+}
+
+/**
+ * Lien UTM v5 (§2) : `utm_source=x|instagram|linkedin&utm_medium=social&utm_campaign=AAAA-MM`
+ * (mois du post) et `utm_content` selon le type (lundi, jeudi, quiz, saison, relais).
+ */
+export function lienUtmV5(siteUrl: string, chemin: string, platform: PreparedPlatform, date: string, content?: string): string {
+  const base = `${siteUrl.replace(/\/$/, "")}${chemin}`;
+  const c = content ? `&utm_content=${content}` : "";
+  return `${base}?utm_source=${UTM_SOURCE[platform]}&utm_medium=social&utm_campaign=${date.slice(0, 7)}${c}`;
+}
+
+/** Espace insécable des guillemets français dans le texte des posts (poids 1 sur X). */
+export const NBSP = " ";
+
+/**
+ * R6 (v5 §10) : une ligne de vanne citée entre « », une paire par ligne ; les « »
+ * intérieurs deviennent “ ” (comme `citer` des cartes, qui utilise l'espace fine).
+ */
+export function citerLigne(ligne: string): string {
+  const t = ligne.replace(/\s*\n\s*/g, " ").trim().replace(/«\s*/g, "“").replace(/\s*»/g, "”");
+  return `«${NBSP}${t}${NBSP}»`;
+}
+
+/** Vanne publiée : chaque ligne citée si elle est à la 1re personne (R6), une ligne par ligne du catalogue. */
+export function vanneR6(lignes: string[], premierePersonne: boolean): string {
+  return lignes.map((l) => (premierePersonne ? citerLigne(l) : l.replace(/\s*\n\s*/g, " ").trim())).join("\n");
 }
 
 export function quizLink(siteUrl: string, month: string): string {

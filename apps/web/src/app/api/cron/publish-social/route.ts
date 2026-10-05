@@ -24,11 +24,12 @@ import {
   type SwitchDb,
 } from "@/lib/social/platform-switch";
 import { nombreDeSlides, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
+import { longueurX } from "@/lib/social/longueur-x";
 
 // Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
 export const fetchCache = "force-no-store";
 
-/** X = posts simples (s15) : au-delà, le post est refusé, jamais découpé en fil. */
+/** X = posts simples (s15) : au-delà (longueur comptée par X, lien = 23), le post est refusé, jamais découpé en fil. */
 const X_MAX_CARACTERES = 270;
 
 /** Retourne l'URL publique du site (pour les images Instagram). */
@@ -252,7 +253,7 @@ export async function GET(req: Request) {
 
         let externalId: string;
 
-        if (platform === "TWITTER" && (post.content.length > X_MAX_CARACTERES || post.format === "THREAD")) {
+        if (platform === "TWITTER" && (longueurX(post.content) > X_MAX_CARACTERES || post.format === "THREAD")) {
           // s15 : X = posts simples, fils interdits. Jamais de découpage
           // automatique : le post est refusé avec un message clair.
           await prisma.socialPost.update({
@@ -260,7 +261,7 @@ export async function GET(req: Request) {
             data: {
               status: "FAILED",
               directorNote: buildPublishErrorNote(
-                `fil X interdit : ${post.content.length} caractères (max ${X_MAX_CARACTERES}), raccourcir le post`,
+                `fil X interdit : ${longueurX(post.content)} caractères comptés par X (max ${X_MAX_CARACTERES}), raccourcir le post`,
               ),
             },
           });

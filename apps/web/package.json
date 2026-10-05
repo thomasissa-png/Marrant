@@ -63,6 +63,7 @@
   "devDependencies": {
     "@opennextjs/cloudflare": "1.15.1",
     "@playwright/test": "^1.49.1",
+    "@prisma/adapter-neon": "6.19.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.6.1",

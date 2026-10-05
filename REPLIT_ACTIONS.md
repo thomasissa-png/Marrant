@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (05/10/2026) : lot complet de relance des 3 réseaux, préparé en DRY-RUN @fullstack
+
+> Commit local, non poussé, non déployé, **rien inséré en base**. Aucune migration, aucune variable d'env, aucun event Umami. **1 devDependency** : `@prisma/adapter-neon@6.19.2` (+ `@neondatabase/serverless`), utilisée seulement par le script d'insertion (jamais importée par `src/`, absente du Worker).
+> - **Lot** : `docs/social/preparation/lot-relance-s15.md` (relecture) et `lot-relance-s15.json` (lignes exactes) : 140 posts du 12/10/2026 au 03/01/2027 (X 58 à 12:30, Instagram 58 à 19:30, LinkedIn 24 à 08:15, heures de Paris, heure d'hiver du 25/10 vérifiée). Généré par `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15` (SELECT seulement).
+> - **Insertion (plus tard, par la session principale)** : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --insert` (Prisma TCP) ou `--insert --driver=neon-http` (adaptateur HTTP Neon si le port 5432 est bloqué). Insère le JSON tel quel en APPROVED, `approvedBy = thomas-s15` ; refus si des posts `thomas-s15` existent déjà sur la période. Les interrupteurs par réseau décident ensuite de la publication.
+> - **publish-social (effet après déploiement)** : la limite X de 270 se compte comme X (lien = 23, `src/lib/social/longueur-x.ts`) ; avant, l'URL UTM complète faisait échouer en FAILED tout post X avec lien (X3, relais, quiz).
+> - **Carrousel de décryptage** : `threadParts` à 5 parties (amorce, chute, mécanisme, consigne, renvoi) = 4 cartes rendues par `/api/social/image` (`carrouselDecryptage`).
+
 ## s15 cycle 4 (05/10/2026) : visuels sociaux v4 (R6 sur cartes, décryptage 4 cartes, relais 2 cartes) @fullstack
 
 > Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun nouvel event Umami.

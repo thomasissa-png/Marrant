@@ -23,6 +23,16 @@
  *    LinkedIn : seulement si angle bureau, lien en premier commentaire (colonne `cta`).
  * Contrôle bloquant sans IA : scripts/content/social-controls.ts.
  *
+ * LOT DE RELANCE v5 (s15, `docs/social/strategie-relance-v5.md`) : 3 réseaux du 12/10/2026
+ * au 03/01/2027, grille X 5 / Instagram 5 / LinkedIn 2 (heures de Paris 12:30, 19:30, 08:15).
+ *   npx tsx scripts/content/prepare-social-month.ts --lot relance-s15
+ *       DRY-RUN : lectures SELECT seulement (API SQL HTTPS Neon), écrit
+ *       docs/social/preparation/lot-relance-s15.md (tableau de relecture, textes neufs)
+ *       et lot-relance-s15.json (exactement les lignes qui seraient insérées). Rien en base.
+ *   npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --insert [--driver=neon-http] [--json fichier]
+ *       Insère les lignes du JSON relu en APPROVED (approvedBy « thomas-s15 ») via Prisma ;
+ *       `--driver=neon-http` = adaptateur HTTP Neon si la connexion TCP est bloquée.
+ *
  * Images Instagram : carrousel v3 4:5 (cartes « piste A ») rendu à la demande par le
  * Worker. Le script insère `imageUrl = null` et `threadParts = [amorce, chute]` (vanne)
  * ou `[]` (relais d'article, sourceType BLOG) ; publish-social envoie à Buffer une URL
@@ -34,6 +44,11 @@ import path from "node:path";
 import { neonHttpQuery, type SqlQuery } from "./import-article";
 import { addDays, buildPlan, drawSample, mondayOf, monthEnd, CADENCE_V2, type CatalogueJoke, type PlannedPost } from "./social-month-plan";
 import type { PreparedPlatform } from "./social-controls";
+import { blogArticles } from "../../src/lib/blog-articles";
+import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID } from "./social-lot-v5-config";
+import { buildLotV5, controlerLot, type ArticleLot } from "./social-lot-v5";
+import { fichierLot, renderLotMarkdown } from "./social-lot-v5-export";
+import { insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
 export const APPROVED_BY = "preparation-mensuelle";
 const DOCS_DIR = path.resolve(__dirname, "../../../../docs/social/preparation");
@@ -79,6 +94,68 @@ export async function loadInputs(q: SqlQuery, month: string, from: string) {
     [APPROVED_BY, from, end],
   );
   return { daily, pool, articles, alreadyUsed, alreadyPrepared: Number(n) };
+}
+
+/** Entrées du lot v5 : catalogue validé, articles (base + statiques) et posts des 90 jours avant le J0. */
+export async function loadLotInputs(q: SqlQuery) {
+  const pool: CatalogueJoke[] = (await q(
+    `select id, content, punchline, category::text as category from "Joke" where "isActive" = true and "copyVerdict" = 'GARDER' order by id`,
+  )).map((r) => ({ id: s(r.id), setup: s(r.content), punchline: s(r.punchline), isActive: true, verdict: "GARDER", category: s(r.category) || null }));
+  const debutArticles = addDays(LOT_DEBUT, -ANTI_REPETITION_JOURS);
+  const enBase: ArticleLot[] = (await q(
+    `select slug, title, category, content, to_char("publishedAt", 'YYYY-MM-DD') as d from "BlogArticle"
+     where "publishedAt" >= $1::date and "publishedAt" < ($2::date + 1) order by "publishedAt"`,
+    [debutArticles, LOT_FIN],
+  )).map((r) => ({ slug: s(r.slug), title: s(r.title), category: s(r.category), content: s(r.content), date: s(r.d) }));
+  const slugs = new Set(enBase.map((a) => a.slug));
+  const statiques: ArticleLot[] = blogArticles.filter((a) => a.date >= debutArticles && a.date <= LOT_FIN && !slugs.has(a.slug))
+    .map((a) => ({ slug: a.slug, title: a.title, category: a.category, content: a.content, date: a.date.slice(0, 10) }));
+  const recents = (await q(
+    `select to_char("scheduledAt", 'YYYY-MM-DD') as d, "sourceId" from "SocialPost"
+     where "scheduledAt" >= $1::date and "scheduledAt" < $2::date and "sourceId" is not null and status::text not in ('REJECTED', 'FAILED')`,
+    [debutArticles, LOT_DEBUT],
+  )).map((r) => ({ date: s(r.d), sourceId: s(r.sourceId) }));
+  return { pool, articles: [...enBase, ...statiques].sort((a, b) => a.date.localeCompare(b.date)), recents };
+}
+
+async function mainLot(argv: string[]): Promise<number> {
+  if (arg(argv, "--lot") !== LOT_ID) {
+    console.error(`Lot inconnu : seul « ${LOT_ID} » est défini.`);
+    return 2;
+  }
+  const jsonPath = arg(argv, "--json") ?? path.join(DOCS_DIR, `lot-${LOT_ID}.json`);
+  const dbUrl = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
+  if (!dbUrl) {
+    console.error("NEON_DATABASE_URL (ou DATABASE_URL) absente.");
+    return 2;
+  }
+  if (argv.includes("--insert")) {
+    const driver = (arg(argv, "--driver") ?? "tcp") as Driver;
+    if (driver !== "tcp" && driver !== "neon-http") {
+      console.error("--driver doit valoir tcp ou neon-http.");
+      return 2;
+    }
+    const f = lireFichierLot(jsonPath);
+    const n = await insererLot(f, driver, dbUrl);
+    console.log(`Inséré : ${n} posts APPROVED (${f.approvedBy}) depuis ${jsonPath}, pilote ${driver}. Publication par le cron publish-social, réseau par réseau selon l'interrupteur.`);
+    return n === f.total ? 0 : 1;
+  }
+  const seed = arg(argv, "--seed") ?? LOT_ID;
+  const inputs = await loadLotInputs(neonHttpQuery(dbUrl));
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url") });
+  const lot = controlerLot(res.posts);
+  const errors = [...res.errors, ...lot.errors];
+  const warnings = [...res.warnings, ...lot.warnings];
+  const n = (pf: string) => res.posts.filter((p) => p.platform === pf).length;
+  console.log(`Catalogue : ${inputs.pool.length} vannes GARDER (stock éligible ${res.stockEligible}), ${inputs.articles.length} article(s), ${inputs.recents.length} post(s) récent(s).`);
+  console.log(`Lot : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}).`);
+  for (const e of errors) console.error(`ERREUR : ${e}`);
+  const mdPath = arg(argv, "--out") ?? path.join(DOCS_DIR, `lot-${LOT_ID}.md`);
+  fs.mkdirSync(path.dirname(mdPath), { recursive: true });
+  fs.writeFileSync(mdPath, renderLotMarkdown(res.posts, warnings, errors, res.stockEligible, seed), "utf-8");
+  if (errors.length === 0) fs.writeFileSync(jsonPath, `${JSON.stringify(fichierLot(res.posts, seed), null, 2)}\n`, "utf-8");
+  console.log(`\nDRY-RUN : rien n'a été écrit en base. Relecture : ${mdPath}${errors.length ? " (JSON non écrit : erreurs bloquantes)" : `, lignes : ${jsonPath}`}`);
+  return errors.length > 0 ? 1 : 0;
 }
 
 const PLATFORM_LABEL: Record<PreparedPlatform, string> = { TWITTER: "X", INSTAGRAM: "Instagram", LINKEDIN: "LinkedIn" };
@@ -178,6 +255,7 @@ function newId(): string {
 }
 
 async function main(argv: string[]): Promise<number> {
+  if (arg(argv, "--lot")) return mainLot(argv);
   const month = arg(argv, "--month");
   if (!month || !/^\d{4}-\d{2}$/.test(month)) {
     console.error("Usage : npx tsx scripts/content/prepare-social-month.ts --month AAAA-MM [--from AAAA-MM-JJ] [--write --echantillon-valide] [--seed x] [--site-url url] [--out fichier.md]");
