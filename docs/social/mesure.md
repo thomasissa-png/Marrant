@@ -23,7 +23,7 @@ Exemple : `https://deviens-marrant.fr/blog/<slug>?utm_source=linkedin&utm_medium
 
 > **Baseline relevée par Thomas le 05/10/2026 : 0 abonné sur X, Instagram et LinkedIn.** Les seuils « abonnés gagnés » se lisent donc directement en abonnés totaux.
 
-J0 = premier lundi où les conditions du réseau sont réunies (v5 §1 : X = C1 + C2 ; Instagram = C1 + C2 + C3 ; LinkedIn = C1 + C2 + C4), au plus tôt le 12/10 ; C2 inclut le test dans l'application DU réseau ; **C1 = les 9 étalons ET les seuils du §4 validés par Thomas** (dont l'engagement X et LinkedIn). **C1 non validée le 12/10 : J0 = lundi suivant.** **Calendrier relatif** : un post daté (relais d'article, pivot saisonnier, Noël) avant le J0 de son réseau est sauté, jamais rattrapé ; les jalons et la grille se comptent depuis le J0 du réseau. **Baseline relevée le dimanche qui précède le J0 du réseau** (captures datées) : abonnés du réseau, impressions Google de « deviens marrant » (0 sur 90 jours), visites `utm_source` des 28 derniers jours (0), **inscriptions totales par semaine toutes sources, comptées en base (`createdAt`)** (dénominateur de toute lecture d'inscription ; Umami n'a aucun `inscription-reussie` avant le déploiement). Jalons de chaque réseau : J+14, J+28, J+56 à partir de son J0. Si J0 glisse, tous ses jalons glissent d'autant.
+J0 = premier lundi où les conditions du réseau sont réunies (v5 §1 : X = C1 + C2 ; Instagram = C1 + C2 + C3 ; LinkedIn = C1 + C2 + C4), au plus tôt le 12/10 ; C2 inclut le test dans l'application DU réseau ; **C1 = les 9 étalons ET les seuils du §4 validés par Thomas** (dont l'engagement X et LinkedIn). **C1 non validée le 12/10 : J0 = lundi suivant.** **Calendrier relatif** : un post daté (relais d'article, pivot saisonnier, Noël) avant le J0 de son réseau est sauté, jamais rattrapé ; les jalons et la grille se comptent depuis le J0 du réseau. **Baseline relevée le dimanche qui précède le J0 du réseau** (captures datées) : abonnés du réseau, impressions Google de « deviens marrant » (0 sur 90 jours), visites `utm_source` des 28 derniers jours (0), **inscriptions totales par semaine toutes sources, comptées en base (`createdAt`)** (dénominateur de toute lecture d'inscription ; Umami n'a aucun `inscription-reussie` avant le déploiement). Jalons de chaque réseau : J+14, J+28, J+56, **J+84 et J+112** (v3 du plan d'exécution) à partir de son J0. Si J0 glisse, tous ses jalons glissent d'autant.
 
 ## 3. Relevé hebdomadaire du lundi (30 min au plus, dont 10 min de statistiques natives)
 
@@ -33,7 +33,7 @@ Chiffres de la semaine précédente (lundi à dimanche), reportés dans le table
 - **LinkedIn** (statistiques de la page) : abonnés de la page, impressions, réactions, commentaires, clics.
 - **Umami par API (dans l'e-mail du lundi)** : visites par `utm_source` et `utm_campaign` ; événements par `origine` : entonnoir `/liens` > `quiz-termine` > `inscription-reussie` > `onboarding-termine` ; top 5 des pages d'arrivée sociales ; part du social dans les visites (0,14 % aujourd'hui) ; **référents `t.co`, `l.instagram.com`, `lnkd.in`** (plancher de contrôle : un lien sans UTM y apparaît) ; **écart clics de la bio (stats natives) contre visites UTM** : il chiffre la perte d'attribution à la bascule.
 - **Inscriptions** : les `inscription-reussie` Google (clic depuis `/register`, donc surcomptés) comparés aux créations en base de la semaine.
-- **Fiabilité** (base, en lecture) : posts prévus contre publiés, statut réel Buffer relu ; tout `FAILED` porte le message exact de Buffer dans `directorNote`. Limite d'1 e-mail d'échec par jour. Plafond Buffer gratuit : 10 posts programmés par canal à la fois, insertion glissante (v5 §2.9).
+- **Fiabilité** (base, en lecture) : posts prévus contre publiés, statut réel Buffer relu ; tout `FAILED` porte le message exact de Buffer dans `directorNote`. Limite d'1 e-mail d'échec par jour. **Modèle de remise Buffer** : le cron remet les posts échus, 1 par réseau et par passage de 15 min, `dueAt` = maintenant + 2 min ; la file Buffer contient 0 ou 1 post, la base fait stock (le plafond de 10 posts et l'insertion glissante de v5 §2.9 sont sans objet).
 - **Temps** : minutes réelles passées dans la semaine (relevé, réponses, validation), comparées au résultat à J+56. Plafond : jusqu'à 105 min par semaine, 60 min en cadence réduite.
 
 ## 4. Seuils par réseau `[HYPOTHÈSE : validés par Thomas dans C1, aucun benchmark interne]`
@@ -44,9 +44,20 @@ Cumul depuis le J0 du réseau. Succès / échec.
 |---|---|---|---|---|---|---|
 | Abonnés gagnés | ≥ +120 / < +30 | ≥ +40 / < +10 | ≥ +30 / < +10 | ≥ +300 / < +80 | ≥ +100 / < +30 | ≥ +80 / < +25 |
 | Visites `utm_source` | ≥ 20 / < 4 | ≥ 20 / < 4 | ≥ 10 / < 2 | ≥ 50 / < 10 | ≥ 50 / < 10 | ≥ 25 / < 5 |
-| Engagement (médiane de tous les posts depuis le J0) | partages + enreg. / couverture : ≥ 2 % / < 0,5 % | (réponses + citations) / impressions : ≥ 0,5 % / < 0,1 % | (réactions + commentaires) / impressions : ≥ 3 % / < 1 % | idem | idem | idem |
+| Engagement (médiane des posts depuis le J0, **hors conseils du vendredi**, suivis à part) | partages + enreg. / couverture : ≥ 2 % / < 0,5 % | (réponses + citations) / impressions : ≥ 0,5 % / < 0,1 % | (réactions + commentaires) / impressions : ≥ 3 % / < 1 % | idem | idem | idem |
 
 Sommes de contrôle : abonnés au succès à J+56 = 300 + 100 + 80 = 480 (à l'échec 80 + 30 + 25 = 135) ; à J+28 : 190 / 50. Visites à J+28 : 20 + 20 + 10 = 50 (échec 4 + 4 + 2 = 10) ; à J+56 : 50 + 50 + 25 = 125 (échec 10 + 10 + 5 = 25). Les seuils d'engagement X et LinkedIn sont validés par Thomas dans C1, avant J0.
+
+**Conseils du vendredi (X et Instagram, 2 par semaine)** : exclus de la médiane d'engagement (10 à 15 % des posts à J+28, confondus avec le jour de la semaine) ; médiane des conseils relevée à part par réseau, lecture comparée aux vannes à J+112 seulement (16 à 18 conseils par réseau) ; jamais décisive pour le verdict.
+
+**Seuils J+84 et J+112 `[HYPOTHÈSE : extrapolation linéaire du rythme exigé entre J+28 et J+56, validée par Thomas avec la décision D6 du plan d'exécution]`.** Cumul depuis le J0, succès / échec ; ils ne décident que d'ajustements de lot (créneaux, ratio vanne et relais, destination du lien), jamais d'une pause (réservée à J+28 et J+56, §5). Engagement : mêmes seuils qu'à J+56.
+
+| Mesure | Instagram J+84 | X J+84 | LinkedIn J+84 | Instagram J+112 | X J+112 | LinkedIn J+112 |
+|---|---|---|---|---|---|---|
+| Abonnés gagnés | ≥ +480 / < +130 | ≥ +160 / < +50 | ≥ +130 / < +40 | ≥ +660 / < +180 | ≥ +220 / < +70 | ≥ +180 / < +55 |
+| Visites `utm_source` | ≥ 80 / < 16 | ≥ 80 / < 16 | ≥ 40 / < 8 | ≥ 110 / < 22 | ≥ 110 / < 22 | ≥ 55 / < 11 |
+
+Sommes de contrôle : abonnés au succès à J+84 = 480 + 160 + 130 = 770 (échec 130 + 50 + 40 = 220) ; à J+112 = 660 + 220 + 180 = 1 060 (échec 180 + 70 + 55 = 305). Visites au succès : J+84 = 200, J+112 = 275.
 
 ## 5. Règle de jugement unique : par réseau
 
