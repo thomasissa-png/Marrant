@@ -26,8 +26,8 @@ Entrée à ajouter dans `apps/web/src/config/blog-cta.ts`, clé `premier-message
 - **liens internes** (17, tous existants ou programmés avant le 03/12) : `/blog/se-presenter-avec-humour` (S2, publication 12/10, `docs/seo/calendrier-editorial-q4-2026.md`) · `/blog/comment-faire-rire-une-fille` · `/blog/comment-faire-rire-un-homme` · `/blog/timidite-et-humour` · `/blog/meilleures-blagues-droles-2026` · `/blog/phrases-droles-conversations` · `/vannes/theme/dating` · `/vannes/theme/autoderision` · `/vannes/theme/couple` · `/vannes/theme/soirees` · `/parcours/repartie` · `/parcours/confiance` · `/quiz-humour` · `/blague-du-jour` · `/vannes` · `/conseils` · `/videos`
 - **cannibalisation** : (1) `comment-faire-rire-une-fille` et `comment-faire-rire-un-homme` traitent l'oral et la relation en face à face ; A3 ne traite que le texte écrit, envoyé à une seule personne sur une appli, découpé par situation de profil (bio, photo de voyage, animal) ou d'échange (question reçue, relance). On ne redit ni l'autodérision, ni le chambrage, ni l'observation : on renvoie vers eux. (2) `se-presenter-avec-humour` (S2) traite l'oral devant un groupe et exclut la bio de site de rencontre ; A3 ne traite pas l'écriture de TA bio, seulement la réaction à la bio des autres. (3) L'étalon contient 5 lignes de dating (n°17, 18, 19, 20, 24, sur le profil et le rendez-vous) : aucune ligne reprise, aucun angle redit.
 - **décisions fondateur appliquées** : zéro humoriste, zéro marque d'appli, zéro concurrent nommé ; vannes uniquement issues du catalogue validé ou lignes retenues à la relecture à l'aveugle ; aucune vanne sur le physique, le corps, l'âge, le métier ou le revenu de la personne en face ; aucun témoignage, aucun chiffre sur l'efficacité des messages ; parcours Confiance et Répartie = 20 minutes par semaine (valeur déjà publiée dans S9) ; quiz = environ 2 minutes sans inscription (valeur de l'étalon)
-- **vannes catalogue utilisées (3, recopiées mot pour mot)** : `cs14jkf0a20e0837fa95c784` (intro, IA et message trop sec) · `cs14jk9cc844b92fde69e845` (situation 9, chien, à n'envoyer que si le chien existe) · `cs14jkb9ba433a0746280280` (fin, « Antoine bar »)
-- **situations retenues (14, 4 sections)** : Sa bio : 1 (H1-13) · 2 (H2-13) · 3 (H3-5). Photo de voyage : 4 (H5-6) · 5 (H6-1, H6-3) · 6 (H8-11). Animal : 7 (H9-8, H9-13, H9-14) · 8 (H10-4) · 9 (catalogue) · 10 (H11-1) · 11 (H12-7). Question reçue et relance : 12 (H16-9, H16-14) · 13 (H18-8) · 14 (H20-2)
+- **vannes catalogue utilisées (3, recopiées mot pour mot)** : `cs14jkf0a20e0837fa95c784` (intro, IA et message trop sec) · `cs14jk9cc844b92fde69e845` (situation 12, chien, à n'envoyer que si le chien existe) · `cs14jkb9ba433a0746280280` (fin, « Antoine bar »)
+- **situations retenues (18 entrées numérotées, 4 sections ; un message = un numéro, pour que le bouton Partager s'attache à chaque message)** : Sa bio : 1 (H1-13) · 2 (H2-13) · 3 (H3-5). Photo de voyage : 4 (H5-6) · 5 et 6 (H6-1, H6-3, même situation « au bord de l'eau », deux angles) · 7 (H8-11). Animal : 8, 9 et 10 (H9-8, H9-13, H9-14, même situation « chat », trois angles) · 11 (H10-4) · 12 (catalogue) · 13 (H11-1) · 14 (H12-7). Question reçue et relance : 15 et 16 (H16-9, H16-14, même situation « week-end », deux angles) · 17 (H18-8) · 18 (H20-2)
 - **objections traitées** : « je n'ai rien d'intéressant à écrire » (règle 1 : un détail du profil suffit, exemples de la section bio) ; « et si la personne le prend mal » (test avant d'envoyer + règle 2 + FAQ 4) ; « je ne veux pas avoir l'air lourd ou insistant » (règle 4 + section relance + FAQ 3) ; « je ne suis pas drôle, ça va sonner faux » (section copié-collé + FAQ 2) ; « ça fait des jours qu'on ne me répond pas » (section relance + FAQ 3)
 - **contenu propriétaire (first-hand)** : 4 règles de respect propres à l'écrit sur appli ; 20 lignes à envoyer (17 retenues à l'aveugle, 3 du catalogue), chacune rattachée à une situation avec une indication d'usage ; test « et si la personne le prenait mal » ; règle de la relance unique avec porte de sortie ; méthode anti copié-collé
 - **mots-clés SEO** : « premier message drôle » dans les H2 des sections bio, photo de voyage et animal, et dans l'en-bref ; « accroche drôle » dans l'en-bref ; « relancer après un silence » dans le H2 de la dernière section ; « appli de rencontre » dans l'intro et la FAQ
@@ -100,11 +100,15 @@ Une photo de voyage est un sujet que la personne a choisi de montrer : c'est une
 
 > Question de plage : comment tu retrouves ta serviette après la baignade ? Moi, j'ai déjà séché sur celle d'une famille qui n'a rien dit.
 
+*→ Le lieu est ton sujet : l'eau, le sable, la serviette. La question est déjà posée dans le message, laisse la personne y répondre. Aucun commentaire sur la tenue ou la silhouette, même flatteur.*
+
+**6. Sa photo est prise au bord de l'eau (autre angle).**
+
 > Devant ton eau, je repense à ma dernière baignade : j'ai mis un orteil, j'ai dit « elle est bonne » à voix haute, et j'ai attendu que quelqu'un me croie.
 
-*→ Le lieu est ton sujet : l'eau, le sable, la météo. Choisis une des deux lignes. Aucun commentaire sur la tenue ou la silhouette, même flatteur.*
+*→ Le gag est sur ta prudence face à l'eau, pas sur la personne. Termine par une question simple, par exemple « elle était vraiment bonne, la tienne ? ». Même règle : rien sur la tenue ou la silhouette.*
 
-**6. Sa photo montre un pays que tu n'as jamais visité.**
+**7. Sa photo montre un pays que tu n'as jamais visité.**
 
 > Tout ce que je sais de ce pays vient d'un exposé de collège. C'était le mien. Je me méfie.
 
@@ -118,35 +122,43 @@ Les messages où tu te prends pour cible avec élégance ont leur étagère : [l
 
 Un animal sur une photo, c'est souvent le sujet préféré de la personne. Tu peux ouvrir dessus, à une condition : tu parles de l'animal ou de toi, jamais d'un rapprochement entre l'animal et la personne (aucune comparaison de visage ou de silhouette, même affectueuse). Et n'invente jamais un animal que tu n'as pas : tu devrais en parler au premier rendez-vous.
 
-**7. Sa photo montre un chat.**
+**8. Sa photo montre un chat.**
 
 > Un chat bloquait mon escalier. Je lui ai dit « pardon ». Puis j'ai attendu.
 
+*→ Le gag est sur toi et ta politesse envers un chat, pas sur celui de la personne. Ajoute une question concrète sur son chat (son nom, son caractère).*
+
+**9. Sa photo montre un chat (autre angle).**
+
 > J'ai offert un jouet au chat d'un ami. Il joue avec l'emballage. Depuis, j'offre des emballages.
+
+*→ Le gag est sur ton cadeau raté, pas sur le chat de la personne. Termine par une question sur ses jeux préférés : « et le tien, il joue avec quoi ? ».*
+
+**10. Sa photo montre un chat (troisième angle).**
 
 > Un chat s'est approché de moi hier. J'ai regardé derrière moi pour voir qui il venait voir.
 
-*→ Le gag est sur toi, pas sur le chat de la personne. Choisis une seule des trois lignes, puis ajoute une question concrète sur son chat (son nom, son caractère).*
+*→ Le gag est sur toi, qui ne te crois pas visé par l'attention d'un chat. Termine par une question concrète sur le sien (son nom, son caractère).*
 
-**8. Sa photo montre un chien, en promenade.**
+**11. Sa photo montre un chien, en promenade.**
 
 > Je n'ai pas de chien, mais j'ai déjà dit « assis » à un inconnu dans le tram, par réflexe. Il s'est assis.
 
 *→ Dis honnêtement que tu n'as pas de chien, puis ramène la conversation sur le sien : la balade, la laisse, ses habitudes. Rien sur la personne qui le promène.*
 
-**9. Tu as toi aussi un chien.**
+**12. Tu as toi aussi un chien.**
 
 > J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse.
 
 *→ À envoyer seulement si c'est vrai. Ajoute le prénom de ton chien et une question sur le sien : la phrase devient une conversation.*
 
-**10. Son animal est peu courant (lapin, tortue, oiseau…).**
+**13. Son animal est peu courant (lapin, tortue, oiseau…).**
 
 > Comment on en arrive à partager son salon avec un animal comme le tien ? Ma décision la plus audacieuse de l'année, c'était une chaise avec accoudoirs.
 
 *→ Un animal inhabituel déclenche des questions : la ligne en pose déjà une vraie, tu auras une histoire en réponse.*
 
-**11. L'animal est sur presque toutes les photos du profil.**
+**14. L'animal est sur presque toutes les photos du profil.**
 
 > Sur mes photos, il y a surtout quelqu'un que j'ai recadré. Il reste un coude.
 
@@ -164,21 +176,25 @@ Quand c'est le silence qui s'installe, un silence est une réponse possible, et 
 
 Une relance, jamais deux. Pas de « tu es là ? », pas de reproche, pas de capture d'écran de l'heure de lecture. Si rien ne vient, tu ranges la conversation et tu passes à autre chose.
 
-**12. On t'écrit « Tu fais quoi ce week-end ? ».**
+**15. On t'écrit « Tu fais quoi ce week-end ? ».**
 
 > Ce week-end, je répare l'étagère. Elle est inscrite à « ce week-end » depuis deux ans.
 
+*→ Réponds par ce que tu fais vraiment, sans t'engager sur un rendez-vous. Le gag est sur ton étagère, pas sur la question reçue. Termine en renvoyant la question : « et toi ? ».*
+
+**16. On t'écrit « Tu fais quoi ce week-end ? » (autre angle).**
+
 > Ce week-end, j'aide un ami à déménager. On m'a confié le carton « fragile ». Il contient un coussin. On me connaît.
 
-*→ Réponds par ce que tu fais vraiment, sans t'engager sur un rendez-vous. Choisis une des deux lignes, puis renvoie la question.*
+*→ À envoyer seulement si ton week-end ressemble à ça : sinon, réponds par ce que tu fais vraiment. Aucun engagement sur un rendez-vous, puis renvoie la question.*
 
-**13. La personne avait écrit « je te réponds plus tard », et rien depuis.**
+**17. La personne avait écrit « je te réponds plus tard », et rien depuis.**
 
 > « Plus tard », j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps.
 
 *→ Une relance légère est permise après quelques jours, sans reproche et sans urgence. Si rien ne vient, tu t'arrêtes là.*
 
-**14. La conversation reprend après un long silence de la personne.**
+**18. La conversation reprend après un long silence de la personne.**
 
 > Aucune excuse nécessaire, la ponctualité n'est pas mon rayon : j'ai déjà été en avance, mais de la mauvaise semaine.
 
