@@ -7,7 +7,7 @@
 ## Métadonnées
 
 - **slug** : `blagues-poisson-d-avril-adultes`
-- **title** (56 car.) : Blague poisson d'avril adultes : 15 canulars inoffensifs
+- **title** (59 car.) : Blague poisson d'avril pour adultes : 15 idées inoffensives
 - **metaDescription** (134 car.) : 15 canulars de poisson d'avril pour adultes : bureau, famille, potes, couple. Inédits, drôles, sans méchanceté, avec la phrase à dire.
 - **excerpt** : 15 canulars du 1er avril pour adultes, classés par terrain : bureau, famille, potes et couple. Chaque idée tient en deux ou trois phrases et se termine par la révélation. Aucune ne fait peur, ne coûte d'argent ni ne vexe : on rit avec la personne, jamais à ses dépens.
 - **mot-clé principal** : blague poisson d'avril adultes
@@ -38,13 +38,13 @@
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un bon poisson d'avril pour adultes tient en deux ou trois phrases, se croit pendant quelques secondes et se termine par « poisson d'avril » avant que quiconque ait le temps de s'inquiéter. Voici 15 idées classées par terrain (bureau, famille, potes et couple), toutes sans danger, sans dépense, sans peur et sans humiliation.
+> **En bref :** Une bonne blague de poisson d'avril pour adultes tient en deux ou trois phrases, se croit pendant quelques secondes et se termine par « poisson d'avril » avant que quiconque ait le temps de s'inquiéter. Voici 15 idées classées par terrain (bureau, famille, potes et couple), toutes sans danger, sans dépense, sans peur et sans humiliation.
+
+Va direct à ton terrain : [Bureau](#quel-poisson-d-avril-faire-au-bureau-sans-que-ca-tourne-mal) · [Famille](#quels-canulars-en-famille-sans-jamais-vexer-personne) · [Potes et couple](#quels-canulars-entre-potes-et-en-couple-pour-que-tout-le-monde-rie-a-la-fin) · [Les règles](#comment-reussir-un-poisson-d-avril-sans-le-gacher). Et quand tu auras tout joué : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
 
 Le 1er avril, tout adulte se dit qu'il est trop vieux pour ça. Puis il lit son premier message de la journée avec une méfiance de douanier. C'est bien le signe que le jeu n'est pas fini : il a juste changé de niveau. Le canular d'adulte demande une phrase assez crédible pour qu'on y croie quelques secondes, et une révélation assez drôle pour que l'autre rie en la recevant. Le papier dans le dos, c'est pour les enfants.
 
-Cet article, c'est ton stock de **15 idées** inédites, classées par terrain, à lancer en une à trois phrases. Pas de sel dans le sucre, pas de poisson en papier dans le dos : les classiques, tu les as déjà tous reçus.
-
-Va direct à ton terrain : [Bureau](#quel-poisson-d-avril-faire-au-bureau-sans-que-ca-tourne-mal) · [Famille](#quels-canulars-en-famille-sans-jamais-vexer-personne) · [Potes et couple](#quels-canulars-entre-potes-et-en-couple-pour-que-tout-le-monde-rie-a-la-fin) · [Les règles](#comment-reussir-un-poisson-d-avril-sans-le-gacher). Et quand tu auras tout joué : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
+Cet article, c'est ton stock de **15 idées** inédites, classées par terrain, à lancer en une à trois phrases. Pas de sel dans le sucre ni de fausse panne d'ordinateur : les classiques, tu les as déjà tous reçus.
 
 Chaque idée respecte six interdits, sans exception : rien de dangereux, rien qui coûte de l'argent, rien qui fasse peur (santé, accident, travail), rien d'humiliant, rien qui abîme quoi que ce soit, rien d'illégal. Un canular réussi, c'est une personne qui rit à la fin, pas une personne qui te doit une explication.
 
@@ -54,16 +54,16 @@ Chaque idée respecte six interdits, sans exception : rien de dangereux, rien qu
 
 ## Quel poisson d'avril faire au bureau sans que ça tourne mal ?
 
-Le 1er avril 2027 tombe un jeudi : le bureau sera plein. Règle de base : le canular ne touche ni au travail de quelqu'un, ni à son poste, ni à ses fichiers. Il vit dans l'ordinaire du lieu : une affichette, une réunion, une visio.
+Le 1er avril 2027 tombe un jeudi : un jour de semaine, donc un jour de bureau. Règle de base : le canular ne touche ni au travail de quelqu'un, ni à son poste, ni à ses fichiers. Il vit dans l'ordinaire du lieu : une affichette, une réunion, une visio.
 
 **1.** Colle sur le frigo commun : « Rappel : tout pot ouvert depuis plus de trois semaines sera rendu à son propriétaire lors d'une cérémonie, vendredi 15 h. Présence souhaitée. » Quand quelqu'un vient lire l'heure, dis-lui : « Il n'y aura pas de cérémonie, mais le yaourt de mars existe bel et bien. Poisson d'avril. »
-*→ Affiche-la tôt le matin et attends le premier qui ouvre le frigo « pour vérifier ». Garde ton sérieux, c'est lui qui doit sourire en premier.*
+*→ Affiche-la tôt le matin et attends le premier qui ouvre le frigo « pour vérifier ». À midi, écris « Poisson d'avril » en bas de l'affiche, pour ceux que tu n'as pas croisés.*
 
 **2.** En visio, dis : « Vous voyez mon écran ? » sans avoir rien partagé. Quand deux ou trois répondent « oui » par politesse : « Moi non plus. Poisson d'avril. »
-*→ Dis-le comme une vérification technique de routine. Les « oui » arrivent en moins de deux secondes.*
+*→ Dis-le comme une vérification technique de routine, en réunion interne seulement, jamais devant un client. Ne nomme personne : on rit de la politesse de tous, pas de celui qui a dit oui.*
 
 **3.** Ouvre la réunion d'un ton grave : « J'ai un changement de planning à annoncer. » Laisse le silence s'installer : « La réunion de jeudi est déplacée au jeudi. Merci de votre souplesse. Poisson d'avril. »
-*→ Garde la gravité jusqu'à la dernière syllabe. Le soulagement fait le reste.*
+*→ Seulement si c'est toi qui animes la réunion. Deux secondes de silence, pas plus : on doit se demander quoi, pas commencer à s'inquiéter.*
 
 Pour devenir la personne qu'on attend à la machine à café le reste de l'année, le [parcours Machine à Café](/parcours/machine-a-cafe) est fait pour ça.
 
@@ -79,21 +79,21 @@ En famille, tu vises le public le plus indulgent du monde, et aussi le plus faci
 *→ Annonce-le comme une information pratique. Plus tu es sérieux, plus il cherche les bulles.*
 
 **5.** Écris à ton père : « Pour la tondeuse, tu me conseilles quoi ? » Laisse-le se lancer dans un exposé de quinze minutes. « Je n'ai pas de pelouse. Poisson d'avril. »
-*→ Choisis l'outil qui lui plaît (tondeuse, perceuse, taille-haie). Plus il a d'avis, plus c'est drôle.*
+*→ Ne change pas d'outil : toute la chute repose sur la pelouse. Idéal si tu as déménagé il y a peu. Révèle dès qu'il compare deux modèles : il doit rire de sa passion, pas avoir parlé dans le vide.*
 
 **6.** Écris à ta sœur : « J'ai retrouvé la lettre que tu m'avais écrite quand on était petits. Elle dit des choses. » Laisse-la paniquer, puis : « Elle dit "Rends-moi mon stylo". Poisson d'avril. »
-*→ Parle d'une lettre inventée, jamais d'un vrai souvenir que ta sœur voudrait garder pour elle.*
+*→ Parle d'une lettre inventée, jamais d'un vrai souvenir que ta sœur voudrait garder pour elle. Révèle dès sa première réponse : l'inquiétude doit tenir en un message.*
 
-**7.** Envoie à ta sœur un message tout à fait normal, signé « Cordialement ». Quand elle demande « On est fâchés ? », réponds : « Non. Poisson d'avril. Cordialement. »
-*→ La formule fait le travail : elle a pris cinq secondes de panique pour une signature.*
-
-**8.** Écris dans le groupe : « Bonjour à tous, ravi de rejoindre le groupe, j'espère ne pas déranger. » Laisse les « Mais c'est toi ! » arriver. « Je suis là depuis la création, mais personne ne m'avait jamais accueilli. Poisson d'avril. »
+**7.** Écris dans le groupe : « Bonjour à tous, ravi de rejoindre le groupe, j'espère ne pas déranger. » Laisse les « Mais c'est toi ! » arriver. « Je suis là depuis la création, mais personne ne m'avait jamais accueilli. Poisson d'avril. »
 *→ Reste très poli dans tous tes messages suivants. Les réponses les plus gentilles sont les premières.*
 
-**9.** Écris : « Pour dimanche, je prends tout en charge, vous n'avez rien à apporter. » Laisse les remerciements arriver. « Sauf votre chaise. Je n'en ai que quatre. Poisson d'avril. »
-*→ Écris-le vraiment avec le ton le plus généreux possible. Le groupe se met souvent à compter les chaises.*
+**8.** Envoie à ta sœur un message tout à fait normal, signé « Cordialement ». Quand elle demande « On est fâchés ? », réponds : « Non. Poisson d'avril. Cordialement. »
+*→ Écris un message banal, sans un mot de trop : la signature fait tout le travail. Marche avec n'importe quel proche qui ne signe jamais ses messages.*
 
-Le prochain repas de famille arrive plus vite que prévu : [les blagues de famille](/vannes/theme/famille) sont là pour ça.
+**9.** Écris : « Pour dimanche, je prends tout en charge, vous n'avez rien à apporter. » Laisse les remerciements arriver. « Sauf votre chaise. Je n'en ai que quatre. Poisson d'avril. »
+*→ Seulement si le repas a vraiment lieu chez toi. Écris-le avec le ton le plus généreux possible, et précise après les rires que la chaise, elle, est une vraie consigne.*
+
+Pour le prochain repas où toute la tablée sera là : [les blagues de famille](/vannes/theme/famille).
 
 ---
 
@@ -102,22 +102,22 @@ Le prochain repas de famille arrive plus vite que prévu : [les blagues de famil
 Entre potes, presque tout passe, sauf ce qui coûte quelque chose ou ce qui se retourne contre quelqu'un devant les autres. Le meilleur canular de bande est celui dont la victime veut aussitôt refaire la version pour quelqu'un d'autre. En couple, la barre de sécurité monte d'un cran : jamais de fausse rupture, de fausse dispute ni de fausse nouvelle qui touche à votre avenir. On joue sur le quotidien, là où c'est le plus crédible et où personne ne se sent trahi.
 
 **10.** Écris : « Rendez-vous samedi à 20 h pile, au même endroit que d'habitude. » Laisse les « OK » s'empiler. « Vous avez tous dit OK. Moi, je ne sais pas où c'est. Poisson d'avril. »
-*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Le premier à demander « mais lequel ? » a tout compris.*
+*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Après les rires, précise qu'il n'y a pas de rendez-vous samedi, sauf si quelqu'un en propose un pour de vrai.*
 
-**11.** Écris : « Randonnée samedi, départ à 7 h. Ceux qui sont partants lèvent le pouce. » Attends les pouces hésitants. « Retour à 7 h 20, distance : le tour du pâté de maisons. Poisson d'avril. »
-*→ Garde un ton très sportif. Ceux qui répondent « ok » tout de suite sont ta cible préférée.*
+**11.** Tends un papier plié à un pote : « Garde-le, tu l'ouvriras ce soir à 20 h. » À 20 h, il lit : « Tu as regardé l'heure combien de fois ? Poisson d'avril. »
+*→ Écris la phrase à la main avant de plier, et donne le papier le matin : il aura toute la journée pour regarder l'heure.*
 
-**12.** Tends un papier plié à un pote : « Garde-le, tu l'ouvriras ce soir à 20 h. » À 20 h, il lit : « Tu as regardé l'heure combien de fois ? Poisson d'avril. »
-*→ Écris la phrase à la main avant de plier. Demande-lui seulement le résultat, jamais le nombre exact.*
+**12.** Écris : « Randonnée samedi, départ à 7 h. Ceux qui sont partants lèvent le pouce. » Attends les pouces hésitants. « Retour à 7 h 20, distance : le tour du pâté de maisons. Poisson d'avril. »
+*→ Prends un ton très sportif, et choisis un autre groupe que celui du rendez-vous de samedi (n°10). Ceux qui répondent « ok » tout de suite sont ta cible préférée.*
 
 **13.** Dis à ton colocataire : « J'ai réorganisé toute la cuisine, tu verras, c'est plus logique. » Laisse-le chercher les changements. « Je l'ai réorganisée à l'identique. C'était le plus difficile. Poisson d'avril. »
 *→ Ne touche à rien : l'absence d'action est le canular. Dis-le avec la fierté de quelqu'un qui a travaillé.*
 
 **14.** Annonce : « Nouvelle règle : chacun a droit à trois "j'arrive" par soirée. Au-delà, on arrive vraiment. » Quand l'autre demande combien tu en as utilisé : « J'en suis à deux. Poisson d'avril. »
-*→ Garde le compte sur une feuille, visible. Le troisième « j'arrive » a un autre poids.*
+*→ Tiens le compte sur une feuille, bien en vue. Le troisième « j'arrive » a un autre poids.*
 
 **15.** Dis : « J'ai lu ton horoscope : une grande surprise va arriver dans la pièce où tu es. » Laisse l'autre chercher. « C'est moi. Je viens d'entrer. Poisson d'avril. »
-*→ Entre dans la pièce juste après la phrase. Le timing est la moitié du plaisir.*
+*→ Lance la phrase depuis le couloir, porte entrouverte, puis entre aussitôt. Le timing est la moitié du plaisir.*
 
 Pour la soirée qui suit forcément le canular : [les blagues de soirée](/vannes/theme/soirees). Pour rire à deux le reste de l'année : [les blagues de couple](/vannes/theme/couple).
 
@@ -125,7 +125,7 @@ Et le jour où quelqu'un te rend la pareille, le [parcours Répartie](/parcours/
 
 ---
 
-**Tu as fait le tour ?** La [blague du jour](/blague-du-jour) change chaque jour, avec sa chute et son décryptage. Le reste du catalogue ne bouge pas : c'est ton stock.
+**Tu as fait le tour ?** Les vannes, elles, servent toute l'année et sans piège : le [catalogue](/vannes) les range toutes, chacune avec son décryptage.
 
 Tu préfères choisir ta situation ?
 - [Boulot](/vannes/theme/boulot)
@@ -136,13 +136,13 @@ Tu préfères choisir ta situation ?
 - [Gaming](/vannes/theme/gaming)
 - [Autodérision](/vannes/theme/autoderision)
 
-Pas sûr de ton style de canular ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
+Pas sûr de ton style d'humour ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.
 
 ---
 
 ## Comment réussir un poisson d'avril sans le gâcher ?
 
-> **CLEF :** Un canular se joue en trois temps : une amorce crédible, un silence, une révélation immédiate. Les ratés viennent presque toujours de la révélation trop tardive ou de l'amorce trop grave. Si tu hésites entre deux idées, prends celle qui fait le moins peur.
+> **CLEF :** Un canular se joue en trois temps : une amorce crédible, un silence, une révélation immédiate. Un canular rate pour deux raisons : la révélation arrive trop tard, ou l'amorce est trop grave. Si tu hésites entre deux idées, prends celle qui fait le moins peur.
 
 Avoir des idées en stock, c'est bien. Les jouer proprement, c'est ce qui sépare le bon complice de celui qu'on évite jusqu'au 2 avril.
 

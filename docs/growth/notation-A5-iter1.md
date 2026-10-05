@@ -121,3 +121,126 @@ Pourquoi : le CTA (« Le canular est prêt. Et la riposte ? ») et la section po
 - Échanger les blocs l.107-108 (randonnée) et l.110-111 (papier plié) : la n°11 devient le papier, la n°12 la randonnée. Les deux « samedi » envoyés au groupe ne se suivent plus.
 
 Seul le `**N.**` de tête est renuméroté. Liste d'ids de l'en-tête (l.4) inchangée (elle ne porte pas les numéros). Article non publié : aucune ancre `#vanne-N` partagée à casser.
+
+### C5. Partager « l'idée », pas « la vanne » (critère 4)
+
+Fichier : `apps/web/src/config/blog-forte-frappe.ts`. **Avant** (l.30) : `export const FORTE_FRAPPE_SLUGS = Object.keys(FORTE_FRAPPE_SHARE);`
+**Après** :
+```ts
+export const FORTE_FRAPPE_SLUGS = Object.keys(FORTE_FRAPPE_SHARE);
+
+/** Lignes numérotées = idées (canulars), pas des vannes : libellé et titre de partage adaptés. */
+export const FORTE_FRAPPE_IDEA_SLUGS: ReadonlySet<string> = new Set(["blagues-poisson-d-avril-adultes"]);
+```
+Fichier : `apps/web/src/components/blog/blog-vanne-share.tsx`.
+
+| Ligne | Avant | Après |
+|---|---|---|
+| l.7 | `import type { BlogShareMode } from "@/config/blog-forte-frappe";` | `import { FORTE_FRAPPE_IDEA_SLUGS, type BlogShareMode } from "@/config/blog-forte-frappe";` |
+| l.31 | `const textOnly = mode === "text-only";` | `const textOnly = mode === "text-only";` puis, ligne suivante : `const idea = FORTE_FRAPPE_IDEA_SLUGS.has(slug);` |
+| l.46 | `title="Vanne - deviens-marrant.fr"` | `title={idea ? "Idée de poisson d'avril - deviens-marrant.fr" : "Vanne - deviens-marrant.fr"}` |
+| l.49 | ``label={textOnly ? `Envoyer le message n°${vanne}` : `Partager la vanne n°${vanne}`}`` | ``label={textOnly ? `Envoyer le message n°${vanne}` : `Partager ${idea ? "l'idée" : "la vanne"} n°${vanne}`}`` |
+
+Pourquoi : le lecteur partage un canular à un complice ; « Partager la vanne n°3 » (lecteur d'écran compris) et un titre « Vanne » décrivent autre chose. Les 11 autres slugs ne bougent pas. Le trait d'union du titre existe déjà (pas un tiret cadratin). @fullstack relance les tests de `blog-vanne-share` s'il en existe.
+
+### C6. Indications d'usage : innocuité, faisabilité, révélation, ton (critères 5 et 6)
+
+Seule la ligne en italique change. Numéros après C4.
+
+| Idée (ligne) | Avant | Après |
+|---|---|---|
+| I1, n°1 (l.60) | `*→ Affiche-la tôt le matin et attends le premier qui ouvre le frigo « pour vérifier ». Garde ton sérieux, c'est lui qui doit sourire en premier.*` | `*→ Affiche-la tôt le matin et attends le premier qui ouvre le frigo « pour vérifier ». À midi, écris « Poisson d'avril » en bas de l'affiche, pour ceux que tu n'as pas croisés.*` |
+| I2, n°2 (l.63) | `*→ Dis-le comme une vérification technique de routine. Les « oui » arrivent en moins de deux secondes.*` | `*→ Dis-le comme une vérification technique de routine, en réunion interne seulement, jamais devant un client. Ne nomme personne : on rit de la politesse de tous, pas de celui qui a dit oui.*` |
+| I3, n°3 (l.66) | `*→ Garde la gravité jusqu'à la dernière syllabe. Le soulagement fait le reste.*` | `*→ Seulement si c'est toi qui animes la réunion. Deux secondes de silence, pas plus : on doit se demander quoi, pas commencer à s'inquiéter.*` |
+| I5, n°5 (l.82) | `*→ Choisis l'outil qui lui plaît (tondeuse, perceuse, taille-haie). Plus il a d'avis, plus c'est drôle.*` | `*→ Ne change pas d'outil : toute la chute repose sur la pelouse. Idéal si tu as déménagé il y a peu. Révèle dès qu'il compare deux modèles : il doit rire de sa passion, pas avoir parlé dans le vide.*` |
+| I6, n°6 (l.85) | `*→ Parle d'une lettre inventée, jamais d'un vrai souvenir que ta sœur voudrait garder pour elle.*` | `*→ Parle d'une lettre inventée, jamais d'un vrai souvenir que ta sœur voudrait garder pour elle. Révèle dès sa première réponse : l'inquiétude doit tenir en un message.*` |
+| I7, n°8 (l.88) | `*→ La formule fait le travail : elle a pris cinq secondes de panique pour une signature.*` | `*→ Écris un message banal, sans un mot de trop : la signature fait tout le travail. Marche avec n'importe quel proche qui ne signe jamais ses messages.*` |
+| I9, n°9 (l.94) | `*→ Écris-le vraiment avec le ton le plus généreux possible. Le groupe se met souvent à compter les chaises.*` | `*→ Seulement si le repas a vraiment lieu chez toi. Écris-le avec le ton le plus généreux possible, et précise après les rires que la chaise, elle, est une vraie consigne.*` |
+| I10, n°10 (l.105) | `*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Le premier à demander « mais lequel ? » a tout compris.*` | `*→ Envoie-le à un groupe qui a vraiment un endroit d'habitude. Après les rires, précise qu'il n'y a pas de rendez-vous samedi, sauf si quelqu'un en propose un pour de vrai.*` |
+| I11, n°12 (l.108) | `*→ Garde un ton très sportif. Ceux qui répondent « ok » tout de suite sont ta cible préférée.*` | `*→ Prends un ton très sportif, et choisis un autre groupe que celui du rendez-vous de samedi (n°10). Ceux qui répondent « ok » tout de suite sont ta cible préférée.*` |
+| I12, n°11 (l.111) | `*→ Écris la phrase à la main avant de plier. Demande-lui seulement le résultat, jamais le nombre exact.*` | `*→ Écris la phrase à la main avant de plier, et donne le papier le matin : il aura toute la journée pour regarder l'heure.*` |
+| I14, n°14 (l.117) | `*→ Garde le compte sur une feuille, visible. Le troisième « j'arrive » a un autre poids.*` | `*→ Tiens le compte sur une feuille, bien en vue. Le troisième « j'arrive » a un autre poids.*` |
+| I15, n°15 (l.120) | `*→ Entre dans la pièce juste après la phrase. Le timing est la moitié du plaisir.*` | `*→ Lance la phrase depuis le couloir, porte entrouverte, puis entre aussitôt. Le timing est la moitié du plaisir.*` |
+
+Pourquoi, par famille :
+- **Révélation** (I1, I9, I10) : plus personne ne reste dans le faux (affiche, repas, rendez-vous), donc plus de déplacement pour rien.
+- **Peur et durée** (I3, I5, I6, I7) : chaque indication applique la règle « Révèle vite » (l.151) ; « panique » et « soulagement » disparaissent, l'excerpt (« Aucune ne fait peur ») devient vrai.
+- **Humiliation et travail** (I2, I3) : jamais devant un client, personne de nommé, seulement l'animateur de la réunion (FAQ 2 : rien qui touche au travail).
+- **Faisabilité** (I5, I7, I15) : l'indication ne contredit plus la chute (pelouse) ; l'idée « sœur » marche sans sœur ; la n°15 dit d'où lancer la phrase.
+- **Ton** (I1, I3, I5, I11, I12, I14) : « Garde » n'ouvre plus aucune indication, « Plus…, plus… » n'apparaît plus qu'une fois (n°4), la n°12 se comprend en une lecture.
+- **Affirmations non sourcées** (I2, I9) : « en moins de deux secondes » et « souvent » retirés.
+
+### C7. Sortie famille propre à l'article (critère 5)
+
+**Avant** (l.96) : `Le prochain repas de famille arrive plus vite que prévu : [les blagues de famille](/vannes/theme/famille) sont là pour ça.`
+**Après** : `Pour le prochain repas où toute la tablée sera là : [les blagues de famille](/vannes/theme/famille).`
+
+Pourquoi : c'est presque mot pour mot la sortie famille de l'étalon (iter1 C10) ; un lecteur des deux pages lit deux fois la même formule.
+
+### C8. Deux affirmations non sourcées (critère 6)
+
+**Avant** (l.57) : `Le 1er avril 2027 tombe un jeudi : le bureau sera plein.`
+**Après** : `Le 1er avril 2027 tombe un jeudi : un jour de semaine, donc un jour de bureau.`
+
+**Avant** (CLEF, l.145) : `Les ratés viennent presque toujours de la révélation trop tardive ou de l'amorce trop grave.`
+**Après** : `Un canular rate pour deux raisons : la révélation arrive trop tard, ou l'amorce est trop grave.`
+
+Pourquoi : « sera plein » et « presque toujours » sont des données de fréquence sans source (CLAUDE.md n°2). Les versions corrigées disent la même chose sans chiffre implicite. Le reste de la ligne CLEF ne bouge pas.
+
+### C9. Le quiz ne promet plus un « style de canular » (critère 6)
+
+**Avant** (l.139) : `Pas sûr de ton style de canular ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.`
+**Après** : `Pas sûr de ton style d'humour ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription.`
+
+Pourquoi : le quiz donne un profil d'humour, pas de canular (même écart que A4 C8).
+
+### C10. Title et H1 en français, mot « blague » dès « En bref » (critère 7)
+
+**Avant** (l.10) : `Blague poisson d'avril adultes : 15 canulars inoffensifs` (56 car.)
+**Après** : `Blague poisson d'avril pour adultes : 15 idées inoffensives` (59 car., ≤ 60 : servi seul par `fitTitle`, sans coupe)
+
+**Avant** (l.41, début) : `> **En bref :** Un bon poisson d'avril pour adultes tient en deux ou trois phrases,`
+**Après** : `> **En bref :** Une bonne blague de poisson d'avril pour adultes tient en deux ou trois phrases,` (suite de la ligne inchangée)
+
+Pourquoi : le title est aussi le H1 affiché (`page.tsx` l.59 et l.239) ; sans « pour », il se lit comme une suite de mots-clés. « Idées » est le mot de la SERP et du corps (« 15 idées », l.45) ; « canulars » reste dans la meta, l'excerpt et deux H2. « Inoffensives » garde la promesse qui distingue la page des listes « pour être bien lourd ». Mettre à jour l'en-tête : `**title** (59 car.)`. Meta, slug et excerpt inchangés.
+
+## 5. Récapitulatif
+
+| # | Critère(s) | Fichier(s) | Agent |
+|---|---|---|---|
+| C1 | 1, 5 | A5 l.43-47 | @copywriter |
+| C2 | 2 | A5 l.128 | @copywriter |
+| C3 | 3 | config/blog-forte-frappe.ts l.50-51 | @fullstack |
+| C4 | 4 | A5 l.87-91, l.107-111 | @copywriter |
+| C5 | 4 | config/blog-forte-frappe.ts l.30, blog-vanne-share.tsx l.7, 31, 46, 49 | @fullstack |
+| C6 | 5, 6 | A5, 12 indications | @copywriter |
+| C7 | 5 | A5 l.96 | @copywriter |
+| C8 | 6 | A5 l.57, l.145 | @copywriter |
+| C9 | 6 | A5 l.139 | @copywriter |
+| C10 | 7 | A5 l.10, l.41 | @copywriter |
+
+Notes projetées après application : 1 = 10, 2 = 10, 3 = 10, 4 = 10, 5 = 10, 6 = 10, 7 = 10, 8 = 10.
+
+Diff réel attendu (P0 s11) : environ 22 lignes de texte modifiées sur environ 140 de contenu, 4 blocs déplacés, 4 numéros changés, 0 mot changé dans les 15 idées ; environ 8 lignes de code. Ne pas l'annoncer comme une réécriture. Contenu : import relancé avec `--update`. Code : pre-commit `npx tsc --noEmit -p tsconfig.build.json && npx next lint && npm run build`, déploiement noté dans `REPLIT_ACTIONS.md`.
+
+## 6. Ne comptent pas contre le 10
+
+- **Section bureau à 3 idées** (famille et potes en ont 6) alors que le bureau ouvre la meta : seul remède, une vague d'idées validées à l'aveugle. À ouvrir si `blog-ancre-clic` montre que « Bureau » est l'ancre la plus cliquée.
+- **Rendu réel** : captures 390 px et desktop après la mise en ligne du 25/02/2027.
+- **Mesure saisonnière** : le bilan utile se lit après le 1er avril 2027 (J+7), pas à J+30 de la publication.
+
+## 7. Décisions pour Thomas (hors note)
+
+- **C4** : si tu considères l'ordre des idées comme intouchable, C4 tombe ; I7 et I11 suffisent alors à lever la gêne (critère 4 à 9,5 de fait).
+- **C10** : « 15 idées inoffensives » (proposé) ou « 15 canulars gentils » (57 car., garde « canulars » mais perd la promesse de sécurité). Défaut proposé : « idées inoffensives ».
+
+## 8. Sources externes
+
+- SERP « blague poisson d'avril adultes » consultée le 05/10/2026 : [joueclub.fr](https://tous-joueurs.joueclub.fr/articles/actualites/poisson-d-avril-20-idees-originales-de-blagues-a-faire/), [blogdumoderateur.com](https://www.blogdumoderateur.com/blagues-1er-avril/), [flexilivre.com](https://www.flexilivre.com/nos-conseils/idees-de-poisson-d-avril-blagues-et-pieges/), [topito.com](https://www.topito.com/top-des-meilleures-blagues-du-1er-avril-hihi-mdr-lol-exlpdr-ferme-la), [santeplusmag.com](https://www.santeplusmag.com/111127719-poisson-davril-psychologie/). Usage : format de la requête (listes numérotées, vocabulaire « idées » et « blagues ») uniquement ; aucun nom de site dans le client-facing.
+
+---
+**Handoff → @orchestrator**
+- Fichiers produits : /home/user/Marrant/docs/growth/notation-A5-iter1.md
+- Décisions prises : note 8,6/10 (69/80) ; 15 idées sur 15 inoffensives après correction des indications, aucune retirée ; 10 correctifs exacts (C1 à C10) pour 10/10, aucun mot changé dans les idées.
+- Points d'attention : @copywriter applique C1, C2, C4, C6 à C10 dans le fichier A5, puis réimport `--update` ; @fullstack applique C3 et C5 (config + `blog-vanne-share.tsx`) ; Thomas tranche les 2 points du §7 ; itération 2 après application, avec captures du rendu.
+---
