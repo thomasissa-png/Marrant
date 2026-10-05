@@ -1,0 +1,117 @@
+# Stock de vannes du lot, notation à l'aveugle (s15)
+
+> 111 vannes tirées dans le catalogue pour le lot du 12/10 au 03/01. Texte nu (amorce // chute), sans source ni note.
+
+> Étalon (barre plancher fondateur, choix du 30/09) : « J'ai dit à Alexa de me raconter une blague. » // « Elle m'a lu mon historique de recherches. »
+
+- **V001** : Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche. // Il cherche quelqu'un de plus reposé.
+- **V002** : Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat ». // Elle m'a demandé si j'en parlais un autre.
+- **V003** : Ce matin, j'ai dormi du côté gauche du lit par erreur. // Elle m'a demandé si j'avais quelque chose à lui dire.
+- **V004** : J'ai bloqué quelqu'un sur les réseaux. Il m'a appelé pour demander pourquoi. // J'ai décroché. J'ai dû mal comprendre le principe.
+- **V005** : Avec un collègue, on a enfin comparé nos salaires. // Il a payé le café. Sans un mot.
+- **V006** : Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille. // J'ai jusqu'à Noël pour l'obtenir.
+- **V007** : J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul. // Je l'ai pas désinstallé. On a fait le téléchargement ensemble.
+- **V008** : Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe. // J'ai dû la manger devant lui, en silence.
+- **V009** : Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus. // Ils m'ont laissé un avis Google : une étoile.
+- **V010** : Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non. // Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé.
+- **V011** : Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui. // Elle entend le papier alu. Elle insiste pas.
+- **V012** : Mon psy m'a dit que je devais arrêter de me comparer aux autres. // J'ai vérifié, les autres n'ont pas ce problème.
+- **V013** : Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an. // Je lui ai demandé s'il partait.
+- **V014** : Dans le train, la place à côté de moi était réservée. Personne n'est venu. // Je me suis senti attendu pendant tout le trajet.
+- **V015** : Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram. // Elle m'a demandé pourquoi j'avais eu un bouc.
+- **V016** : Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. // À 2h du matin, on les a mangés. Par respect.
+- **V017** : Le prof écrit au feutre presque vide. La formule finale, c'était un 3 ou un 8 ? // On a mis 5, pour ne fâcher personne.
+- **V018** : Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée ». // Elle vit chez nous depuis un an.
+- **V019** : J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours. // Il s'appelait « Anniv de Léa ». Léa, c'est moi.
+- **V020** : Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un. // Cinq personnes m'ont demandé ce que je faisais dans la conversation.
+- **V021** : Le dimanche, mon copain se lève à 7 h pour profiter de la journée. // À 8 h, il l'avait profitée. Il est retourné se coucher.
+- **V022** : Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ». // Il a dit « merci, c'est mieux que papa ».
+- **V023** : Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années. // C'est devenu notre truc.
+- **V024** : Ma mère a vu que j'allais au Hellfest. // Elle m'a demandé si j'avais fait mes vaccins.
+- **V025** : Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien ». // Ils sont en page 2. Le rapport commence page 3.
+- **V026** : Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert. // Il m'a regardé comme si j'étais le bruit.
+- **V027** : Mon frère m'a emprunté ma console il y a dix ans. // Son fils vient de me dire que c'était la leur.
+- **V028** : Mon père a vu mon appart. Il a dit « c'est pas mal ». // Je lui ai demandé de me le mettre par écrit.
+- **V029** : J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles. // Je dois des excuses à un mariage.
+- **V030** : Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. // Elle revient lundi.
+- **V031** : Mon manager m'a félicité pour ma discrétion. // Je n'ai pas su comment le remercier sans me faire remarquer.
+- **V032** : Je fais semblant d'aimer la série préférée de ma copine depuis deux ans. // Ils viennent d'annoncer une saison 5. On a pleuré tous les deux.
+- **V033** : Ma copine m'a envoyé son planning de la semaine pour qu'on s'organise. // Je suis mercredi, de 19 h à 19 h 30.
+- **V034** : En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien. // Il te fait asseoir et baisse la voix.
+- **V035** : Ma mère me demande encore des nouvelles de mon ex. // Je n'en ai pas. Elle, si.
+- **V036** : Premier rendez-vous en hiver. J'ai enlevé mon gros manteau. // Elle a demandé où était passé le reste.
+- **V037** : Quelqu'un a récupéré le fauteuil que je venais de jeter à la déchetterie. Il l'a essayé sur place. // Il avait l'air plus heureux dedans que moi.
+- **V038** : Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi. // Ils ont cherché un moment.
+- **V039** : Ma réunion 'point rapide avant l'été' a commencé à 14h. // On a fini par voter la police de caractère.
+- **V040** : Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse. // Il la surveille depuis trois heures. Il la trouve lente.
+- **V041** : Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai suivi le concert sur son écran. // À la fin, il m'a demandé si c'était bien.
+- **V042** : Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. // Elle m'a dit « c'est un bon début ».
+- **V043** : Ma grand-mère cuisine toujours pour douze. On est trois. // Elle s'excuse pour les neuf qui ne sont pas venus.
+- **V044** : Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit. // Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas.
+- **V045** : Mon copain m'a dit qu'il ne pouvait pas vivre sans moi. Je suis partie trois jours chez ma mère. // Il a très bien vécu. Il a même trouvé où on range les draps.
+- **V046** : Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes. // Il a précisé « pas tout ».
+- **V047** : Ma mère m'a dit avoir regardé un film hier soir sur Netflix. // Elle a vu quarante minutes de bandes-annonces. Elle dit que c'était bien.
+- **V048** : Je me suis filmé pour préparer mon oral. // Mes mains ont fait un autre exposé, plus convaincant.
+- **V049** : Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio. // Elle m'a demandé si on me répondait, parfois.
+- **V050** : Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc. // En entretien, on m'a demandé si j'étais dispo pour les régionales.
+- **V051** : J'ai passé six heures à installer des mods pour embellir mon jeu. // Il ne se lance plus, mais le message d'erreur est en 4K.
+- **V052** : Mon père décroche toujours par « qu'est-ce qui se passe ? ». // Un jour, j'inventerai quelque chose. Pour lui faire plaisir.
+- **V053** : Mon adresse mail pro d'alternant commence par « alternant2 ». // J'aimerais savoir ce qu'est devenu alternant1.
+- **V054** : L'audioguide du musée s'est éteint dans la première salle. // J'ai hoché la tête pendant deux heures.
+- **V055** : Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu. // J'ai voyagé à genoux devant lui. On n'en a jamais parlé.
+- **V056** : J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée. // Elle m'a demandé si tout allait bien.
+- **V057** : Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine. // Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».
+- **V058** : Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes. // Le monsieur devant moi a dit « c'est puissant ».
+- **V059** : Mon père est retraité depuis un an et me dit toujours qu'il est très pris. // Hier, il a dû raccrocher : un nuage arrivait.
+- **V060** : Le médecin m'a demandé combien de cafés je bois par jour. J'ai dit deux. // Il a regardé mes mains. Il a écrit six.
+- **V061** : Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare. // Moi, elle a dit qu'elle verrait en juin.
+- **V062** : Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer. // Elle a demandé : « Et lui, il fait quoi pour toi ? »
+- **V063** : Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir. // On a croisé un autre couple avec les mêmes. On a changé de trottoir.
+- **V064** : Mon date a posé son téléphone face contre la table pour me montrer qu'elle m'écoutait. // Il a vibré onze fois. Elle a tenu dix.
+- **V065** : Dans le métro, quelqu'un m'a demandé « vous descendez ? ». J'ai dit oui par réflexe. // Je suis descendu. J'habite à trois stations. Je tiens parole.
+- **V066** : Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans. // Elle est de plus en plus détaillée. Je commence à m'en souvenir.
+- **V067** : Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance ». // Je ne connaissais personne. J'ai dû avoir une enfance discrète.
+- **V068** : Quand quelqu'un commence par « à la base », il faut être patient. // Trois digressions plus tard, la base a déménagé.
+- **V069** : J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu « passionnant ». // C'est le mot de ma mère. Je cherche quelqu'un qui me déteste.
+- **V070** : Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. // Il a zoomé. Sur le parking.
+- **V071** : J'ai regardé les prix des pass 3 jours pour les Eurockéennes. // Je vais acheter une guitare.
+- **V072** : Tous les soirs, mon voisin se dispute avec sa télé à travers le mur. // Hier, silence. Ils se sont réconciliés.
+- **V073** : Mon copain et moi, on a trouvé comment choisir un resto sans se disputer. // On se fait livrer et on chuchote, comme si on était sortis.
+- **V074** : Mon collègue revient de 4 jours à Rome et me raconte tout en détail. // Ça fait 2h. On vient de récupérer les valises.
+- **V075** : J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! ». // Depuis, je passe par l'autre rue.
+- **V076** : Mon prof a cru que mon devoir était écrit par une IA. // Il a relu mes anciennes copies et il s'est excusé.
+- **V077** : J'ai mis mon réveil en face du lit pour être obligé de me lever. // Maintenant je dors par terre, à côté du réveil.
+- **V078** : Mon cousin ramène une nouvelle copine à chaque repas de famille. // Ma grand-mère a arrêté d'apprendre les prénoms. Elle dit « mademoiselle », par précaution.
+- **V079** : Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison. // Le congélateur est rempli de baguettes.
+- **V080** : À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos. // Le canon a beaucoup amélioré la chanson.
+- **V081** : Ma copine a fait un tableau des tâches ménagères avec un code couleur. // J'ai le bleu. Il y a rien en bleu.
+- **V082** : Mon voisin a sonné, inquiet, à cause des cris de ma série. // Je l'ai fait entrer. Il revient jeudi.
+- **V083** : Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars. // Elle a un prénom, maintenant.
+- **V084** : Ma copine a acheté deux couettes pour qu'on arrête de se disputer. // Elle a pris les deux.
+- **V085** : Mon ambition dans la vie, c'est d'être aussi confiant... // Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.
+- **V086** : Mon copain a regardé un épisode de notre série sans moi. // Depuis, je surveille son visage pour savoir qui meurt.
+- **V087** : Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure. // Robert commence en septembre.
+- **V088** : Je joue depuis dix ans avec un pote que je n'ai jamais vu. Il m'a enfin envoyé une photo. // Il a la tête de quelqu'un qui dit « on se regroupe ».
+- **V089** : J'ai dit à mon chat qu'on allait chez le vétérinaire. // Depuis, il cherche « droits des animaux » sur mon ordinateur.
+- **V090** : Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé. // Il s'est fait rajouter. Il a écrit « bref ».
+- **V091** : On m'a volé le cadenas de mon vélo. Pas le vélo. // Je prends ça pour une critique.
+- **V092** : Au jeu de mimes, ma carte disait « la timidité ». // J'avais à peine bougé qu'ils avaient trouvé.
+- **V093** : Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. // Il est là pour prouver qu'on pourrait.
+- **V094** : Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date lui a demandé si elle avait des conseils. // Elle avait une liste.
+- **V095** : Mon père m'envoie ses messages en MAJUSCULES. // Je réponds en minuscules. Il m'a demandé pourquoi je boudais.
+- **V096** : Mon date a enregistré mon numéro devant moi. Elle a tapé « Antoine bar ». // Je suis devenu un endroit.
+- **V097** : Premier Noël chez ma belle-famille. On m'a placé à côté du grand-père, qui entend rien. // Il m'a pris pour son notaire. J'ai été très bien traité.
+- **V098** : Mon GPS m'a dit de tourner à droite. Y'avait un fleuve. // J'ai hésité. Il avait l'air sûr de lui.
+- **V099** : J'ai couru pour attraper le bus ce matin sous la pluie. // Le chauffeur m'a fait un petit signe de la main en passant.
+- **V100** : J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches.
+- **V101** : Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère. // Elle me l'a dicté de mémoire, avec les espaces.
+- **V102** : Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple. // Elle a dit « ne va pas trop vite ».
+- **V103** : J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'heure, moi j'étais à l'arrêt d'en face.
+- **V104** : J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec. // Elle a proposé « j'espère que ce message te trouve bien ».
+- **V105** : Mon copain : 'Choisis le resto, ça m'est égal.' // J'ai réservé chez son ex. Ça lui était égal aussi.
+- **V106** : Elle m'a demandé ce que je faisais dans la vie. // J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.
+- **V107** : J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui. // J'ai su répondre à deux. Le discours est très pudique.
+- **V108** : J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée. // J'ai voulu retrouver son propriétaire pour lui dire que je comprends.
+- **V109** : Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons. // Il a beaucoup de chansons.
+- **V110** : Mon petit frère m'appelle « papi ». J'ai 26 ans. // J'ai acheté une canne. Il a arrêté. J'ai gardé la canne.
+- **V111** : Au jeu « deux vérités et un mensonge », j'ai dit trois vérités. // Elle a désigné celle où j'ai un CDI.
