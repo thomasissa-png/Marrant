@@ -52,3 +52,6 @@ Défauts et angles morts (aucun ne touche `semaine0`) :
 4. **Rendu Worker prouvé avant le 13/10 06:00 UTC** : après régénération de `relance-s15`, `curl` de `/api/social/image?postId=<1er [variante:image]>&slide=0` → 200 `image/png` 1080×1350, puis brouillon LinkedIn image réel (`saveToDraft`) et suppression (preuve K4).
 5. **Alerte sur repli image** (1 par jour, clé `social-repli-image-linkedin`) pour rendre L1 visible le jour même ; et conserver `[variante:…]` dans la note d'échec permanent (L3, via `conserverMarqueurs`).
 Points 1, 2 et 4 relèvent de @fullstack (2 et 4 avec la session pour l'accès) ; 3 de la session. L4 et L5 : à corriger au passage, non bloquants.
+
+## Note de la session (05/10, ~23:00)
+Point 4 en partie FAIT avant cette notation : carte LinkedIn `[variante:image]` rendue PAR LE WORKER EN PRODUCTION (`/api/social/image`, post de test REJECTED, 200 `image/png` 1080×1350 en 3,0 s) et brouillon Buffer LinkedIn 1 image accepté puis supprimé (`REPLIT_ACTIONS.md`). Reste du point 4 : refaire sur un vrai post du lot régénéré avant le 13/10, et vérifier le chemin d'envoi qui rend la carte dans le Worker sans passer par l'URL.
