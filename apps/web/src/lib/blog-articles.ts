@@ -1407,7 +1407,7 @@ La soirée, c'est le terrain de jeu naturel de l'humour. Le public est détendu,
 *→ En soupirant, comme un aveu qu'on fait à contrecœur.*
 
 **8.** « Mon pote dit qu'il boit "juste en soirée". La soirée, pour lui, commence après le déjeuner. »
-*→ Pause après "juste en soirée". Laisser l'absurde faire son chemin.*
+*→ Pause après "juste en soirée". Laisse l'absurde faire son chemin.*
 
 Pour [améliorer ton timing](/blog/timing-humour) en soirée, le secret c'est la pause juste avant la punchline. Les pros du stand-up font exactement ça.
 

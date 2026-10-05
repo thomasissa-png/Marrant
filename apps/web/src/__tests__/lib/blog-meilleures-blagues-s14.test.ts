@@ -21,7 +21,7 @@ const body = [article.content, ...(article.faqs ?? []).map((f) => `${f.question}
 const links = [...article.content.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]);
 
 /** Empreinte des 50 vannes (ligne numérotée + note de jeu) à HEAD avant l'audit s14. */
-const VANNES_SHA256 = "a3818503605421853febc78ed6ecf5519b1c099c54b835ae6273de82eb77ec54";
+const VANNES_SHA256 = "2b7eb96d7bbdf2179eb7f0ca79766e962938f89d2460246e96751aa96628cf80"; // 05/10 : indication de jeu n°8 « Laisser » → « Laisse » (tutoiement, notation iter4), vanne inchangée
 
 /** Liste reprise de ceo-backlinks.test.ts, complétée des autres noms cités sur le blog. */
 const HUMORISTES = ["Paul Mirabel", "Mirabel", "Fary", "Blanche Gardin", "Gardin", "Roman Frayssinet", "Frayssinet", "Waly Dia", "Inès Reg"];
