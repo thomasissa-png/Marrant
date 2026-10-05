@@ -21,6 +21,8 @@ Exemple : `https://deviens-marrant.fr/blog/<slug>?utm_source=linkedin&utm_medium
 
 ## 2. Baseline et J0 par réseau
 
+> **Baseline relevée par Thomas le 05/10/2026 : 0 abonné sur X, Instagram et LinkedIn.** Les seuils « abonnés gagnés » se lisent donc directement en abonnés totaux.
+
 J0 = premier lundi où les conditions du réseau sont réunies (v5 §1 : X = C1 + C2 ; Instagram = C1 + C2 + C3 ; LinkedIn = C1 + C2 + C4), au plus tôt le 12/10 ; C2 inclut le test dans l'application DU réseau ; **C1 = les 9 étalons ET les seuils du §4 validés par Thomas** (dont l'engagement X et LinkedIn). **C1 non validée le 12/10 : J0 = lundi suivant.** **Calendrier relatif** : un post daté (relais d'article, pivot saisonnier, Noël) avant le J0 de son réseau est sauté, jamais rattrapé ; les jalons et la grille se comptent depuis le J0 du réseau. **Baseline relevée le dimanche qui précède le J0 du réseau** (captures datées) : abonnés du réseau, impressions Google de « deviens marrant » (0 sur 90 jours), visites `utm_source` des 28 derniers jours (0), **inscriptions totales par semaine toutes sources, comptées en base (`createdAt`)** (dénominateur de toute lecture d'inscription ; Umami n'a aucun `inscription-reussie` avant le déploiement). Jalons de chaque réseau : J+14, J+28, J+56 à partir de son J0. Si J0 glisse, tous ses jalons glissent d'autant.
 
 ## 3. Relevé hebdomadaire du lundi (30 min au plus, dont 10 min de statistiques natives)
@@ -71,6 +73,6 @@ Chaque réseau est jugé seul, à J+28 et J+56 de son J0, sur les trois mesures 
 
 | Semaine (lundi) | Réseau | Abonnés | Posts prévus / publiés | Impressions ou couverture | Engagement du réseau | Clics lien | Visites Umami (utm_source) | Minutes passées | Remarque |
 |---|---|---|---|---|---|---|---|---|---|
-| dimanche avant J0 | X | | | | | | | | baseline |
-| dimanche avant J0 | Instagram | | | | | | | | baseline |
-| dimanche avant J0 | LinkedIn | | | | | | | | baseline |
+| 05/10/2026 (relevé Thomas) | X | 0 | | | | | | | baseline |
+| 05/10/2026 (relevé Thomas) | Instagram | 0 | | | | | | | baseline |
+| 05/10/2026 (relevé Thomas) | LinkedIn | 0 | | | | | | | baseline |

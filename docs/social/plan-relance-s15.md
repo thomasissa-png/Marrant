@@ -6,7 +6,8 @@
 
 - **Instagram retenu** : les 33 posts en file (visuels jamais validés) sont sortis de la file (statut REJECTED via l'admin), sauvegardés dans `docs/social/file-instagram-retenue-s15.json`. Rien ne part sur Instagram avant validation.
 - **X retenu aussi** (Thomas, 05/10 16 h 09 UTC : « que ça parte pas ») : 40 posts sortis de la file, sauvegardés dans `docs/social/file-x-retenue-s15.json`. **Plus aucun post en attente** sur les 3 réseaux (base et Buffer vérifiés). Aucun job ne remplit la file seul (génération quotidienne coupée, préparation mensuelle manuelle).
-- **LinkedIn** : toujours bloqué dans le code jusqu'à la relance.
+- **LinkedIn** : débloqué dans le code (Worker `108da3e7`), en pause via l'interrupteur comme X et Instagram.
+- **Baseline** (Thomas, 05/10) : 0 abonné sur X, Instagram et LinkedIn.
 - Buffer : Instagram reconnecté par Thomas. Correctif « statut réel Buffer + alerte » commité (`0c13c5f`), non déployé.
 
 ## Critères clés (chacun doit atteindre 10/10 avant relance)
