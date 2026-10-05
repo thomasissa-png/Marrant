@@ -20,6 +20,12 @@ const NNBSP = " ";
 const FINE = " ";
 /** Marge de prudence : la mesure ignore le crénage et l'arrondi de satori. */
 const MARGE = 0.97;
+/**
+ * Espace entre mots ajoutée au rendu (em) : Plus Jakarta 800 ferme
+ * l'espace devant « j » et « à » (notations cycle 4, D2). Comptée dans
+ * la mesure, appliquée par segmentsLigne (cartes-piste-a.tsx).
+ */
+export const ESPACE_MOTS = 0.06;
 
 export interface Police {
   famille: string;
@@ -125,6 +131,22 @@ function resoudre(blocs: string[], larg: number[], esp: number, max: number, nbL
  * possible au-dessus du plancher.
  */
 export function mettreEnLignes(texte: string, police: Police, corps: number, largeur: number): Lignes {
+  // Lignes imposées (« \n », coupe éditoriale, @reviewer cycle 4) : une
+  // partie = une ligne, corps réduit jusqu'à ce que chacune tienne (même
+  // plancher que les autres réductions). Au-delà : parties composées seules.
+  const parties = texte.split("\n").map((p) => p.trim()).filter(Boolean);
+  if (parties.length > 1) {
+    const plancherImpose = Math.max(PLANCHER_CORPS, Math.round(corps * 0.7));
+    for (let c = corps; c >= plancherImpose; c -= 2) {
+      const essais = parties.map((p) => composer(p, police, c, largeur));
+      if (essais.every((e) => e.lignes.length === 1 && e.corps === c && e.defauts === 0)) {
+        return { lignes: essais.map((e) => e.lignes[0]), corps: c };
+      }
+    }
+    const c = Math.min(...parties.map((p) => mettreEnLignes(p, police, corps, largeur).corps));
+    const res = parties.map((p) => mettreEnLignes(p, police, c, largeur));
+    return { lignes: res.flatMap((r) => r.lignes), corps: Math.min(...res.map((r) => r.corps)) };
+  }
   // Si un mot seul est inévitable au corps nominal, on descend jusqu'à
   // -30 % pour trouver une coupe sans défaut avant de l'accepter.
   const nominal = composer(texte, police, corps, largeur);
@@ -140,7 +162,10 @@ export function mettreEnLignes(texte: string, police: Police, corps: number, lar
 function composer(texte: string, police: Police, corps: number, largeur: number): Lignes & { defauts: number } {
   const max = largeur * MARGE;
   let blocs = texte.trim().split(/ +/).filter(Boolean);
-  const mesure = (t: string, c: number) => largeurTexte(affichage(t), police.famille, police.poids, c);
+  const mesure = (t: string, c: number) => {
+    const a = affichage(t);
+    return largeurTexte(a, police.famille, police.poids, c) + (a.split(" ").length - 1) * ESPACE_MOTS * c;
+  };
   let c = corps;
   while (c > PLANCHER_CORPS && blocs.some((b) => mesure(b, c) > max)) c -= 2;
   c = Math.max(PLANCHER_CORPS, c);

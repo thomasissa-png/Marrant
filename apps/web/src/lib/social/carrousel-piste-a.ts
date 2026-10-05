@@ -66,9 +66,14 @@ export function defautsLegende(legende: string): string[] {
   return d;
 }
 
+/** Texte sans coupe forcée (« \n » de mise en lignes), pour le texte alternatif. */
+function sansCoupe(texte: string): string {
+  return texte.replace(/\s*\n\s*/g, " ").trim();
+}
+
 /** Ligne de vanne citée pour le texte alternatif (R6) : « … », “ ” imbriqués. */
 export function citer(ligne: string): string {
-  const t = ligne.trim().replace(/«\s*/g, "“").replace(/\s*»/g, "”");
+  const t = sansCoupe(ligne).replace(/«\s*/g, "“").replace(/\s*»/g, "”");
   return `«${NNBSP}${t}${NNBSP}»`;
 }
 
@@ -80,7 +85,7 @@ function slide(format: FormatCarte, element: ReactElement, alt: string): Slide {
 }
 
 function joindre(...parts: string[]): string {
-  return parts.map((p) => p.trim()).filter(Boolean).join(" ");
+  return parts.map(sansCoupe).filter(Boolean).join(" ");
 }
 
 /** « Blagues d'Halloween : 8 vannes pour… » → { nombre: 8, nom: "vannes" }. */

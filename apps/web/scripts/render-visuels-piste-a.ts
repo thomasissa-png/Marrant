@@ -55,6 +55,8 @@ const LEGENDES: Record<string, string> = {
   "ig1-tuteur": "À envoyer à ton tuteur de stage. deviens-marrant.fr",
   "ig2-mimes": "À envoyer à qui a un tour de table demain. Les 4 autres exemples : lien en bio.",
   "ig3-anniv-de-lea": "À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr",
+  "ig-relais-blagues-ia": "À envoyer à qui t'a fait lire son roman. Les 5 autres vannes : lien en bio.",
+  "ig-halloween-date": "À envoyer à qui a un date pour Halloween. deviens-marrant.fr",
 };
 
 const CAS: Array<{ prefixe: string; slides: Slide[] }> = [
@@ -78,7 +80,8 @@ const CAS: Array<{ prefixe: string; slides: Slide[] }> = [
   {
     prefixe: "ig3-anniv-de-lea",
     slides: carrouselDecryptage({
-      amorce: "J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours.",
+      // Lignes imposées (@reviewer cycle 4) : « sans moi. » groupé, « J'ai boudé trois jours. » seul sur sa ligne.
+      amorce: "J'ai découvert que\nmes potes avaient\nun groupe sans moi.\nJ'ai boudé trois jours.",
       chute: ["Il s'appelait “Anniv de Léa”. Léa, c'est moi."],
       mecanisme:
         "Pourquoi ça fait rire : celui qui boude trois jours est l'invité d'honneur, et la preuve se trouvait dans le titre du groupe.",
@@ -93,6 +96,14 @@ const CAS: Array<{ prefixe: string; slides: Slide[] }> = [
     slides: carrouselRelais({
       amorce: "J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu « passionnant ».",
       chute: ["C'est le mot de ma mère. Je cherche quelqu'un qui me déteste."],
+    }),
+  },
+  // Halloween, ven. 30/10 : IG cs14jk1bc86d3502a2cef27b, carte vanne sans lien (v5 §8)
+  {
+    prefixe: "ig-halloween-date",
+    slides: carrouselVanne({
+      amorce: "Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple.",
+      chute: ["Elle a dit “ne va pas trop vite”."],
     }),
   },
   // Couverture d'article LinkedIn (option : LinkedIn est en texte seul par défaut, v5 §8)

@@ -93,4 +93,12 @@ describe("mettreEnLignes", () => {
     const r = mettreEnLignes("x".repeat(200), police, 100, 888);
     expect(r.corps).toBe(PLANCHER_CORPS);
   });
+
+  it("lignes imposées par « \\n » : une partie = une ligne, corps réduit pour tenir", () => {
+    const r = mettreEnLignes(typo("J'ai découvert que\nmes potes avaient\nun groupe sans moi.\nJ'ai boudé trois jours."), police, 88, 840);
+    expect(r.lignes).toHaveLength(4);
+    expect(r.lignes[3]).toBe("J’ai boudé trois jours.");
+    expect(r.corps).toBeLessThan(88);
+    expect(r.corps).toBeGreaterThanOrEqual(Math.round(88 * 0.7));
+  });
 });

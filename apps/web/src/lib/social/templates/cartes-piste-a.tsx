@@ -10,7 +10,7 @@ import {
   type FormatCarte,
 } from "./carte-marque";
 import { typo, NBSP, NNBSP } from "../typo";
-import { mettreEnLignes, affichage } from "../mise-en-lignes";
+import { mettreEnLignes, affichage, ESPACE_MOTS } from "../mise-en-lignes";
 import { largeurTexte } from "../mesure-texte";
 
 // ───────────────────────────────────────────────────────────────────
@@ -38,6 +38,12 @@ const LIGNES_AMORCE_MAX = 4;
 export const COULEUR_GUILLEMETS: Record<FondCarte, string> = { sombre: "#A78BFA", aplat: "#DDD6FE" };
 /** Bord gauche minimal du « suspendu (hors découpe 3:4 de 34 px). */
 export const MARGE_GUILLEMET = 48;
+/**
+ * Colonne de texte des vannes citées, fixe quel que soit le corps
+ * (notations cycle 4, D1) : amorce et chute partent du même x, le «
+ * suspendu se place à gauche (x = 144 − sa largeur, ≥ 48 px).
+ */
+export const COLONNE_CITATION: Partial<Record<FormatCarte, number>> = { instagram: 144 };
 /** Écart minimal entre un titre de couverture et le pied (notation @reviewer cycle 3). */
 export const ECART_TITRE_PIED = 64;
 const INTERLIGNE = 1.12;
@@ -83,12 +89,14 @@ export const APPROCHE: Record<string, { avant: number; apres: number }> = {
   ",": { avant: -0.06, apres: -0.06 },
   "…": { avant: -0.05, apres: -0.03 },
   "’": { avant: -0.05, apres: -0.05 },
+  // Espace entre mots élargie (D2, cycle 4), comptée par mise-en-lignes.
+  " ": { avant: 0, apres: ESPACE_MOTS },
 };
 
-/** Découpe une ligne en segments : texte courant, ponctuation rapprochée, trait d'union en Inter. */
+/** Découpe une ligne en segments : texte courant, ponctuation rapprochée, espace élargie, trait d'union en Inter. */
 export function segmentsLigne(ligne: string): Array<{ texte: string; avant: number; apres: number; police?: string }> {
   return ligne
-    .split(/([.,…’-])/)
+    .split(/([.,…’ -])/)
     .filter(Boolean)
     .map((t) => ({
       texte: t,
@@ -170,7 +178,8 @@ export function composition({ textes, taille, format = "instagram", poids = 800,
   const f = FORMATS[format];
   const ouvrant = `«${affichage(NNBSP)}`;
   const suspendu = citation ? largeurTexte(ouvrant, FONT_TITRE, poids, taille) : 0;
-  const decalage = citation ? Math.max(0, MARGE_GUILLEMET + Math.ceil(suspendu) - f.padX) : 0;
+  const colonne = Math.max(COLONNE_CITATION[format] ?? 0, MARGE_GUILLEMET + Math.ceil(suspendu));
+  const decalage = citation ? Math.max(0, colonne - f.padX) : 0;
   const largeur = largeurUtile(format) - decalage;
   const src = citation ? textes.map((t, i) => texteCite(t, i === textes.length - 1)) : textes.map((t) => typo(t));
   let c = composerBloc(src, taille, poids, largeur);

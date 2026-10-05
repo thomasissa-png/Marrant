@@ -1,4 +1,4 @@
-# Cartes sociales « piste A », v4 (s15, 05/10/2026, cycle 4 des visuels)
+# Cartes sociales « piste A », v4 (s15, 05/10/2026, réglages finaux après les notations du cycle 4)
 
 Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/700 + Inter. Script : `cd apps/web && npx tsx --tsconfig scripts/tsconfig.scripts.json scripts/render-visuels-piste-a.ts`. Contenu figé : `strategie-relance-v5.md` §8 et gagnants de `duels-resultat-cycle5.md` (textes de `duels-aveugle-cycle5.md`). Chaque PNG a été ouvert et corrigé. Rien n'est publié. Textes alternatifs : `alt.json`.
 
@@ -13,7 +13,7 @@ Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/70
 | | `ig1-tuteur-2.png` | « Ils sont en page 2. Le rapport commence page 3. » | 1080×1350, aplat | |
 | IG2 mimes (duel : A), lun. 12/10, relais `se-presenter-avec-humour` | `ig2-mimes-1.png` | « Au jeu de mimes, ma carte disait “la timidité”. » | 1080×1350, noir | À envoyer à qui a un tour de table demain. Les 4 autres exemples : lien en bio. (79, sans pied) |
 | | `ig2-mimes-2.png` | « J'avais à peine bougé qu'ils avaient trouvé. » | 1080×1350, aplat | |
-| IG3 Anniv de Léa (duel : A), mer. 14/10, décryptage | `ig3-anniv-de-lea-1.png` | « J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours. » | 1080×1350, noir, « Glisse → » | À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr (72) |
+| IG3 Anniv de Léa (duel : A), mer. 14/10, décryptage | `ig3-anniv-de-lea-1.png` | « J'ai découvert que / mes potes avaient / un groupe sans moi. / J'ai boudé trois jours. » (lignes imposées) | 1080×1350, noir, « Glisse → », amorce 72 px | À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr (72) |
 | | `ig3-anniv-de-lea-2.png` | « Il s'appelait “Anniv de Léa”. Léa, c'est moi. » | 1080×1350, aplat | |
 | | `ig3-anniv-de-lea-3.png` | Pourquoi ça fait rire : celui qui boude trois jours est l'invité d'honneur, et la preuve se trouvait dans le titre du groupe. | 1080×1350, noir, surtitre intégré lilas | |
 | | `ig3-anniv-de-lea-4.png` | À toi de jouer : repense à un moment où tu t'es cru mis de côté, puis cherche le détail qui prouvait le contraire. Le quiz est dans le lien de la bio. | 1080×1350, aplat, sans bouton | |
@@ -27,6 +27,8 @@ Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/70
 |---|---|---|---|---|
 | Relais Instagram, lun. 26/10, `blagues-sur-l-ia-assistants-vocaux`, n°4 `cs14jke6736001250d3a940d` | `ig-relais-blagues-ia-1.png` | « J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu “passionnant”. » | 1080×1350, noir, « Glisse → » | « À envoyer à qui t’a fait lire son roman. Les 5 autres vannes : lien en bio. » (75) |
 | | `ig-relais-blagues-ia-2.png` | « C'est le mot de ma mère. Je cherche quelqu'un qui me déteste. » | 1080×1350, aplat | |
+| Halloween, ven. 30/10, IG `cs14jk1bc86d3502a2cef27b` (sans lien) | `ig-halloween-date-1.png` | « Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple. » | 1080×1350, noir, « Glisse → » | À envoyer à qui a un date pour Halloween. deviens-marrant.fr (60) |
+| | `ig-halloween-date-2.png` | « Elle a dit “ne va pas trop vite”. » | 1080×1350, aplat | |
 | Couverture d'article LinkedIn (option du relais L3) | `linkedin-article-se-presenter.png` | Se présenter avec humour : 5 accroches qui passent | 1200×627, sans étiquette | |
 
 ## Actions 10/10 appliquées (notations cycle 3)
@@ -40,7 +42,21 @@ Rendu réel `next/og` (même moteur que la production), Plus Jakarta Sans 800/70
 - **LinkedIn** : bouton « Lien dans le post », aucun « Glisse » ni pagination (`charge/ig-conseil-3.png`, rendu LinkedIn).
 - **Amorce** à 88 px si elle tient en 4 lignes (sinon 80), bloc centré à 40 % de la hauteur.
 
+## Réglages finaux (notations cycle 4 @design et @reviewer)
+
+- **D1, colonne fixe** : amorce et chute des 10 cartes vanne partent de x = 144 (`COLONNE_CITATION`), quel que soit le corps ; « suspendu à gauche, toujours à 48 px ou plus du bord. Mesuré au pixel : bord des glyphes entre 146 et 151 px sur les 10 cartes (approche propre à chaque lettre), 96 à 98 px sur les cartes 3 et 4. Plus de saut entre carte 1 et carte 2.
+- **D2, espaces entre mots** : +0,06 em par espace (`ESPACE_MOTS`), comptés dans la mesure des lignes ; relu au zoom : « Au jeu », « trois jours », « quiz est », « demandé à » sont bien ouverts.
+- **Coupe `ig3-anniv-de-lea-1`** : lignes imposées par `\n` (une partie = une ligne, corps réduit jusqu'à ce que chacune tienne, plancher -30 %). La coupe du reviewer ne tient pas à 88 px (« J'ai boudé trois jours. » mesure 1 017 px à 88 px, pour 840 px utiles) : rendue à 72 px.
+- **Halloween 30/10** rendu (2 cartes, légende de 60 caractères contrôlée). Les légendes du relais et d'Halloween passent aussi par `defautsLegende`.
+- Effet de bord visible : la colonne à 144 réduit la largeur utile ; `ig-relais-blagues-ia-2` passe sur 5 lignes (« Je cherche / quelqu'un qui / me déteste. »), sans mot seul.
+
+## Test Buffer des carrousels Instagram (05/10/2026)
+
+Brouillons réels (`saveToDraft: true`, échéance fictive au 01/06/2027, jamais programmés) sur le canal Instagram, avec les PNG v4 servis par raw.githubusercontent (commit `86521ff`, même format 1080×1350 que le rendu final) :
+- **2 images** (`ig2-mimes-1/-2`) : id `6ac3dcbaa3332ccdd882b57d`, accepté, `status: draft`, `metadata.type: post`, 2 assets `image/png` ; `deletePost` OK, relecture NOT_FOUND.
+- **4 images** (`ig3-anniv-de-lea-1..4`) : id `6ac3dcbb1e475b8bb4506a37`, accepté, `status: draft`, `metadata.type: post`, 4 assets `image/png` ; `deletePost` OK, relecture NOT_FOUND.
+
 ## Reste ouvert
 
-- Test Buffer d'un brouillon carrousel Instagram 2 et 4 images et d'un post LinkedIn multi-images (v5 §2.6) : non fait ici.
-- Légende du relais du 26/10 : fournie par @social (75 caractères), reportée ici et dans la v5 §8.
+- Post LinkedIn multi-images et document PDF 1080×1350 via Buffer : non testés (hors lot, LinkedIn est en texte seul).
+- Canal Instagram signalé déconnecté chez Buffer (`REPLIT_ACTIONS.md`) : le brouillon passe, la publication non. À reconnecter avant le 12/10.

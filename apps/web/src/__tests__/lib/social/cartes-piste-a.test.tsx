@@ -28,6 +28,7 @@ import {
   lignesTitreMax,
   COULEUR_GUILLEMETS,
   MARGE_GUILLEMET,
+  COLONNE_CITATION,
   TAILLES,
 } from "@/lib/social/templates/cartes-piste-a";
 import { FORMATS } from "@/lib/social/templates/carte-marque";
@@ -263,6 +264,32 @@ describe("cycle 4 : R6, décryptage, relais, légendes, couvertures", () => {
       expect(derniere[derniere.length - 1]).toMatch(/trouvé\. »$/);
     }
     expect(texteCite("Il s'appelait « Anniv de Léa ». Léa, c'est moi.", true)).toMatch(/“Anniv\sde\sLéa”.*moi\.\u202F»$/);
+  });
+
+  it("D1 cycle 4 : colonne de texte fixe à 144 px pour l'amorce et la chute, quel que soit le corps", () => {
+    for (const [taille, fond] of [[80, "sombre"], [88, "sombre"], [100, "aplat"]] as const) {
+      const c = composition({ textes: [ig2.chute[0]], taille, citation: fond });
+      expect(FORMATS.instagram.padX + c.decalage).toBe(COLONNE_CITATION.instagram);
+    }
+    // Cartes 3 et 4, surtitres : colonne du gabarit (96).
+    expect(composition({ textes: ["Pourquoi ça fait rire : test."], taille: 64 }).decalage).toBe(0);
+  });
+
+  it("D2 cycle 4 : espace entre mots élargie (segment dédié), texte inchangé", () => {
+    const s = segmentsLigne("Au jeu de mimes");
+    const espaces = s.filter((x) => x.texte === " ");
+    expect(espaces).toHaveLength(3);
+    expect(espaces.every((x) => x.apres > 0)).toBe(true);
+    expect(s.map((x) => x.texte).join("")).toBe("Au jeu de mimes");
+  });
+
+  it("lignes imposées (« \\n ») : coupe éditoriale respectée, alt sans retour à la ligne", () => {
+    const [a] = carrouselVanne({
+      amorce: "J'ai découvert que\nmes potes avaient\nun groupe sans moi.\nJ'ai boudé trois jours.",
+      chute: ["Il s'appelait “Anniv de Léa”. Léa, c'est moi."],
+    });
+    expect(texte(a.element)).toContain("J’ai boudé trois jours. »");
+    expect(a.alt).toBe(`«${NNBSP}J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours.${NNBSP}»`);
   });
 
   it("décryptage : 4 cartes, « Glisse » en carte 1, cartes 3 et 4 sans guillemets ni bouton", () => {
