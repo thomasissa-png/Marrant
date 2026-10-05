@@ -22,6 +22,30 @@ export function extractSubscriptionBilling(subscription: Stripe.Subscription): S
   };
 }
 
+/**
+ * Fin de période d'un abonnement, quelle que soit la version d'API Stripe :
+ * jusqu'à 2025-02-24.acacia elle est sur l'abonnement (`current_period_end`),
+ * depuis 2025-03-31.basil elle est sur chaque ligne (`items.data[].current_period_end`).
+ * Les webhooks sont rendus dans la version de l'endpoint, pas celle du SDK
+ * (bug du 01/10 : `new Date(undefined * 1000)` = date invalide → webhook en 500).
+ */
+export function subscriptionPeriodEnd(subscription: Stripe.Subscription): Date | null {
+  const raw = subscription as unknown as {
+    current_period_end?: number;
+    items?: { data?: Array<{ current_period_end?: number }> };
+  };
+  const seconds =
+    raw.current_period_end ??
+    raw.items?.data?.map((item) => item.current_period_end).find((v): v is number => typeof v === "number");
+  return typeof seconds === "number" && Number.isFinite(seconds) ? new Date(seconds * 1000) : null;
+}
+
+/** Champ `currentPeriodEnd` à écrire, omis si Stripe ne le fournit pas (jamais de date invalide). */
+export function periodEndData(subscription: Stripe.Subscription): { currentPeriodEnd?: Date } {
+  const end = subscriptionPeriodEnd(subscription);
+  return end ? { currentPeriodEnd: end } : {};
+}
+
 /** Montant mensualisé d'un abonnement pour le MRR : un annuel compte pour montant / 12. */
 export function monthlyRevenueCents(
   sub: { billingInterval: string | null; priceAmountCents: number | null },

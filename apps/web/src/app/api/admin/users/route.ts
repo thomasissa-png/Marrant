@@ -1,3 +1,4 @@
+import { periodEndData } from "@/lib/stripe-subscription";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
@@ -166,14 +167,14 @@ export async function PATCH(request: NextRequest) {
           stripeCustomerId: customer.id,
           stripeSubscriptionId: sub.id,
           status: "ACTIVE",
-          currentPeriodEnd: new Date(sub.current_period_end * 1000),
+          ...periodEndData(sub),
         },
         update: {
           plan: "PREMIUM",
           stripeCustomerId: customer.id,
           stripeSubscriptionId: sub.id,
           status: "ACTIVE",
-          currentPeriodEnd: new Date(sub.current_period_end * 1000),
+          ...periodEndData(sub),
         },
       }),
     ]);

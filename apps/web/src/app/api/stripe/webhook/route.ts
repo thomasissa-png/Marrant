@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
-import { extractSubscriptionBilling } from "@/lib/stripe-subscription";
+import { extractSubscriptionBilling, periodEndData } from "@/lib/stripe-subscription";
 import Stripe from "stripe";
 
 // Formule annuelle (s14, 04/10/2026) : aucun traitement ne dépend du prix ni de
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
               stripeCustomerId: session.customer as string,
               stripeSubscriptionId: subscription.id,
               status: "ACTIVE",
-              currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              ...periodEndData(subscription),
               ...billing,
             },
             update: {
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
               stripeCustomerId: session.customer as string,
               stripeSubscriptionId: subscription.id,
               status: "ACTIVE",
-              currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              ...periodEndData(subscription),
               ...billing,
             },
           }),
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
               where: { id: sub.id },
               data: {
                 status: newStatus,
-                currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                ...periodEndData(subscription),
                 ...extractSubscriptionBilling(subscription),
               },
             }),

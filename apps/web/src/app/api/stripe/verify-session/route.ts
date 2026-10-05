@@ -1,3 +1,4 @@
+import { periodEndData } from "@/lib/stripe-subscription";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -75,14 +76,14 @@ export async function POST(request: NextRequest) {
           stripeCustomerId: checkoutSession.customer as string,
           stripeSubscriptionId: subscription.id,
           status: "ACTIVE",
-          currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+          ...periodEndData(subscription),
         },
         update: {
           plan: "PREMIUM",
           stripeCustomerId: checkoutSession.customer as string,
           stripeSubscriptionId: subscription.id,
           status: "ACTIVE",
-          currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+          ...periodEndData(subscription),
         },
       }),
     ]);
