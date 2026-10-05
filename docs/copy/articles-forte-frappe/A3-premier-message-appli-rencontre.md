@@ -46,7 +46,7 @@ Tu as ouvert la conversation, le curseur clignote, et tes doigts tapent « Salut
 
 > J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec. Elle a proposé « j'espère que ce message te trouve bien ».
 
-Un premier message drôle n'est pas un numéro de scène. C'est une ou deux phrases qui disent que tu as regardé le profil, que tu ne te prends pas trop au sérieux, et qu'on peut te répondre en une ligne.
+Un premier message drôle n'est pas un numéro de scène. C'est un message court qui dit que tu as regardé le profil, que tu ne te prends pas trop au sérieux, et qu'on peut te répondre en une ligne.
 
 > **Les quatre règles de ces messages :**
 > 1. **Un détail de son profil**, pas une phrase valable pour tout le monde.

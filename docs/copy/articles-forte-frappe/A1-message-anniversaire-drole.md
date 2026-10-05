@@ -153,7 +153,7 @@ Dans les deux cas, un message court suffit : tu reconnais le retard, tu en ris e
 
 ## Comment écrire un message d'anniversaire drôle qui ne tombe pas à plat ?
 
-> **À retenir :** Un message drôle réussi est court, vrai, et s'envoie au bon moment. Une phrase drôle suffit : le reste de ton message peut être sincère.
+> **À retenir :** Un message drôle réussi est court, vrai, et s'envoie au bon moment. Une seule chute suffit : la phrase sincère va avant elle sur une carte, ou dans un second message.
 
 Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règles, dans l'ordre :
 
@@ -169,7 +169,7 @@ Pour une autre occasion que l'anniversaire, [les 50 blagues drôles par situatio
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage. Le reste est dans [le catalogue de vannes](/vannes), rangé par situation.
+**Tu as fait le tour ?** Le reste est dans [le catalogue de vannes](/vannes), rangé par situation, chaque vanne avec sa chute et son décryptage.
 
 Tu préfères choisir ton terrain ?
 - [Soirées](/vannes/theme/soirees)

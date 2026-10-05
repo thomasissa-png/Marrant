@@ -192,9 +192,7 @@ Quatre vérifications, trente secondes.
 
 ---
 
-**Tu as fait le tour ?** Une nouvelle vanne arrive chaque jour : [la blague du jour](/blague-du-jour), avec sa chute et son décryptage.
-
-Tu préfères choisir ta situation ?
+**Tu as fait le tour ?** Choisis ta situation :
 - [Boulot](/vannes/theme/boulot)
 - [Couple](/vannes/theme/couple)
 - [Dating](/vannes/theme/dating)
@@ -225,7 +223,7 @@ L'usage veut qu'on les envoie jusqu'à fin janvier. Passé la mi-janvier, assume
 
 ### Peut-on copier-coller un message de vœux drôle tel quel ?
 
-Oui, il marche tel quel. Change quand même un mot pour y mettre un détail à toi : un prénom, le plat du réveillon, le nom du groupe. Et évite d'envoyer le même texte à tout ton répertoire : on le reconnaît vite, et il perd sa drôlerie dès la deuxième lecture.
+Oui, pour la plupart. Ceux qui citent un détail d'exemple (un fauteuil, un prénom, un mois) demandent le tien : l'indication sous le message dit lequel. Pour les autres, change quand même un mot pour y mettre un détail à toi, comme le plat du réveillon ou le nom du groupe. Et évite d'envoyer le même texte à tout ton répertoire : on le reconnaît vite, et il perd sa drôlerie dès la deuxième lecture.
 
 ### Que répondre quand on reçoit un vœu drôle ?
 
