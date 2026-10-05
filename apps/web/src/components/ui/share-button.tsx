@@ -15,19 +15,17 @@ interface ShareButtonProps {
   label?: string;
   /** Appelé après un partage réussi (annulation : pas d'appel). */
   onShared?: (channel: ShareChannel) => void;
+  /** Texte seul, sans titre ni lien : message à envoyer tel quel (vœux, anniversaire). */
+  textOnly?: boolean;
 }
 
-export function ShareButton({ title, text, className, url, label = "Partager", onShared }: ShareButtonProps) {
+export function ShareButton({ title, text, className, url, label = "Partager", onShared, textOnly = false }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    const shareData = {
-      title,
-      text,
-      url: url ?? window.location.href,
-    };
+    const shareData: ShareData = textOnly ? { text } : { title, text, url: url ?? window.location.href };
 
     if (navigator.share) {
       try {
@@ -38,7 +36,7 @@ export function ShareButton({ title, text, className, url, label = "Partager", o
       }
     } else {
       try {
-        await navigator.clipboard.writeText(`${text}\n\n${url ?? "deviens-marrant.fr"}`);
+        await navigator.clipboard.writeText(textOnly ? text : `${text}\n\n${url ?? "deviens-marrant.fr"}`);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         onShared?.("copie");

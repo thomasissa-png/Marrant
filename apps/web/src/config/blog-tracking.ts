@@ -11,4 +11,11 @@ export const TRACKED_ARTICLES = [
   "premier-message-drole-appli-de-rencontre",
   "blagues-de-couple-drole",
   "blagues-poisson-d-avril-adultes",
+  // Lot B
+  "refuser-une-invitation-avec-humour",
+  "blagues-de-gamer-jeux-video",
+  "mot-de-depart-collegue-drole",
+  "message-drole-fete-des-meres",
+  "message-drole-fete-des-peres",
+  "blagues-vacances-ete-entre-amis",
 ] as const;

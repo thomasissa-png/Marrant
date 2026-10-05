@@ -182,6 +182,34 @@ describe("blog-vanne-partage", () => {
     await act(async () => {});
     expect(track).not.toHaveBeenCalled();
   });
+
+  it("mode text-only (messages à envoyer) : ligne seule, sans titre ni lien, ni numéro, ni indication", async () => {
+    const MESSAGES = [
+      "**1.** Joyeux anniversaire [prénom] ! J'ai dû être **original**.\n*→ WhatsApp, premier message de la journée.*",
+      "**2.** Bonne année. Voir [la vanne du jour](/blague-du-jour). *→ Pour le mail collectif.*",
+    ].join("\n\n");
+    render(
+      <BlogArticleTracking slug="voeux-drole-nouvelle-annee">
+        <div data-blog-body>
+          <MarkdownRenderer content={MESSAGES} shareJokes />
+        </div>
+        <BlogVanneShare slug="voeux-drole-nouvelle-annee" mode="text-only" />
+      </BlogArticleTracking>,
+    );
+    expect(screen.queryByRole("button", { name: /^Partager la vanne/ })).toBeNull();
+
+    const share = jest.fn(() => Promise.resolve());
+    Object.defineProperty(navigator, "share", { value: share, configurable: true });
+    fireEvent.click(screen.getByRole("button", { name: "Envoyer le message n°1" }));
+    await waitFor(() =>
+      expect(track).toHaveBeenCalledWith("blog-vanne-partage", { slug: "voeux-drole-nouvelle-annee", vanne: 1, canal: "natif" }),
+    );
+    expect(share).toHaveBeenCalledWith({ text: "Joyeux anniversaire [prénom] ! J'ai dû être original." });
+
+    delete (navigator as { share?: unknown }).share;
+    fireEvent.click(screen.getByRole("button", { name: "Envoyer le message n°2" }));
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith("Bonne année. Voir la vanne du jour."));
+  });
 });
 
 describe("CTA d'article : note et inscription attribuable", () => {

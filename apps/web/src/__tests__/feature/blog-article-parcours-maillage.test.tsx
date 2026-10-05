@@ -46,6 +46,17 @@ describe("BlogArticleParcoursMaillage", () => {
     expect(link).toHaveAttribute("href", "/parcours/machine-a-cafe");
   });
 
+  it.each([
+    ["premier-message-drole-appli-de-rencontre", "DATING", "/parcours/confiance", "Commencer le parcours Confiance"],
+    ["blagues-de-couple-drole", "CATALOGUE", "/parcours/confiance", "Commencer le parcours Confiance"],
+    ["message-anniversaire-drole-par-situation", "CATALOGUE", "/parcours/repartie", "Découvrir le parcours Répartie"],
+  ])("parcours imposé par slug (FORTE_FRAPPE_PARCOURS) : %s → %s", (slug, category, href, cta) => {
+    render(<BlogArticleParcoursMaillage articleSlug={slug} articleCategory={category} />);
+    const link = screen.getByRole("link");
+    expect(link).toHaveAttribute("href", href);
+    expect(link).toHaveTextContent(cta);
+  });
+
   it("fallback /parcours/repartie pour un slug inconnu", () => {
     render(
       <BlogArticleParcoursMaillage

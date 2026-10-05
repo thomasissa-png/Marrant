@@ -82,6 +82,72 @@ describe("Page article : position du CTA et partage", () => {
   });
 });
 
+describe("Page article en base : articles à forte frappe (config/blog-forte-frappe)", () => {
+  const CONTENT = [
+    "Intro.",
+    "## Quel message drôle envoyer à un pote pour son anniversaire ?",
+    "**1.** Joyeux anniversaire [prénom] ! Personne n'a écrit. J'ai dû être **original**.\n*→ WhatsApp, premier message de la journée.*",
+    "**2.** Joyeux anniversaire. Je te laisse ce vocal.\n*→ Vocal uniquement.*",
+    "**3.** « Une vanne entre guillemets. »",
+  ].join("\n\n");
+
+  const dbArticle = (slug: string) => ({
+    slug,
+    title: "Titre",
+    excerpt: "Extrait.",
+    content: CONTENT,
+    category: "CATALOGUE",
+    readingTime: "6 min",
+    targetKeyword: "mot-clé",
+    metaTitle: null,
+    metaDescription: null,
+    isPublished: true,
+    publishedAt: new Date("2026-01-01"),
+    generatedByAI: false,
+    createdAt: new Date("2026-01-01"),
+    updatedAt: new Date("2026-01-01"),
+  });
+
+  async function renderDb(slug: string) {
+    (prisma.blogArticle.findUnique as jest.Mock).mockResolvedValueOnce(dbArticle(slug));
+    return renderArticle(slug);
+  }
+
+  it("A1 en base : un bouton par ligne numérotée, avec ou sans guillemets, texte partagé propre", async () => {
+    const { container } = await renderDb("message-anniversaire-drole-par-situation");
+    const body = container.querySelector<HTMLElement>("[data-blog-body]")!;
+    expect(within(body).getAllByRole("button", { name: /^Envoyer le message n°\d+$/ })).toHaveLength(3);
+    const texts = [...body.querySelectorAll<HTMLElement>("[data-share-vanne]")].map((el) => el.dataset.text);
+    expect(texts).toEqual([
+      "Joyeux anniversaire [prénom] ! Personne n'a écrit. J'ai dû être original.",
+      "Joyeux anniversaire. Je te laisse ce vocal.",
+      "« Une vanne entre guillemets. »",
+    ]);
+  });
+
+  it("article de blagues en base (with-url) : libellé « Partager la vanne »", async () => {
+    const { container } = await renderDb("blagues-de-gamer-jeux-video");
+    const body = container.querySelector<HTMLElement>("[data-blog-body]")!;
+    expect(within(body).getAllByRole("button", { name: /^Partager la vanne n°\d+$/ })).toHaveLength(3);
+  });
+
+  it("slug hors liste en base : aucun bouton Partager", async () => {
+    const { container } = await renderDb("article-en-base-hors-liste");
+    expect(container.querySelector("[data-share-vanne]")).toBeNull();
+    expect(screen.queryByRole("button", { name: /^(Partager la vanne|Envoyer le message) n°/ })).toBeNull();
+  });
+
+  it("A1 en base : CTA dédié juste après le corps, avant le maillage", async () => {
+    const { container } = await renderDb("message-anniversaire-drole-par-situation");
+    const titles = screen.getAllByText("Le message, c'est fait. Reste le moment du gâteau.");
+    expect(titles).toHaveLength(1);
+    expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
+    expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
+    expect(screen.getByText("Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Créer mon compte gratuit" })).toBeInTheDocument();
+  });
+});
+
 describe("Page article : « À lire ensuite » sans doublon (notation iter2, D1)", () => {
   const hrefs = (zone: Element | null) =>
     [...(zone?.querySelectorAll("a[href^='/blog/']") ?? [])].map((l) => l.getAttribute("href"));

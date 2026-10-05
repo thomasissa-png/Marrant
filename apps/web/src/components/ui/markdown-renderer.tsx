@@ -26,8 +26,33 @@ function escapeAttr(text: string): string {
   return escapeHtml(text).replace(/"/g, "&quot;");
 }
 
-/** Vanne numérotée d'un article : « **12.** « … » » en début de bloc. */
-const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»)/;
+/**
+ * Ligne numérotée d'un article, en début de bloc (1re ligne seule : l'indication
+ * d'usage en italique, à la ligne suivante, n'est jamais partagée) :
+ * « **12.** « … » » (vanne entre guillemets, capturée telle quelle comme sur
+ * l'étalon) ou « **12.** texte » (message sans guillemets).
+ */
+const JOKE_RE = /^\*\*(\d+)\.\*\* («[^\n]+»|[^\n]+)/;
+
+/**
+ * Titre de situation numéroté, seul dans son bloc : « **12. Sa bio dit : … ** ».
+ * Suivi d'un blockquote (format A3), c'est le blockquote qui est partagé.
+ */
+const TITLED_RE = /^\*\*(\d+)\. [^\n]+\*\*$/;
+
+/** « … » dans un message cité en blockquote = 2e niveau : “…”, comme dans les vannes de l'étalon. */
+function innerQuotes(text: string): string {
+  return text.replace(/«\s*([^«»]*?)\s*»/g, "“$1”");
+}
+
+/** Texte partagé : sans indication « *→ …* » en fin de ligne ni markdown (liens, gras, italique, code). */
+function shareText(line: string): string {
+  return line
+    .replace(/\s*\*→.*$/, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[*`]/g, "")
+    .trim();
+}
 
 export interface RenderOptions {
   /**
@@ -272,10 +297,23 @@ export function renderMarkdown(content: string, options: RenderOptions = {}): st
       continue;
     }
 
+    // Message en blockquote sous un titre « **N. Situation** » (format A3) :
+    // emplacement Partager à côté du titre, texte partagé = le blockquote seul.
+    const titled = options.shareJokes ? TITLED_RE.exec(block) : null;
+    const quoteLines = titled ? (blocks[i + 1] ?? "").trim().split("\n") : [];
+    if (titled && quoteLines.every((line) => line.startsWith(">"))) {
+      const message = innerQuotes(quoteLines.map((line) => line.replace(/^>\s?/, "")).join("\n"));
+      htmlParts.push(
+        `<div id="vanne-${titled[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${titled[1]}" data-text="${escapeAttr(shareText(message))}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}${renderBlock(message.split("\n").map((line) => `> ${line}`).join("\n"))}</div>`,
+      );
+      i += 2;
+      continue;
+    }
+
     const joke = options.shareJokes ? JOKE_RE.exec(block) : null;
     htmlParts.push(
       joke
-        ? `<div id="vanne-${joke[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${joke[1]}" data-text="${escapeAttr(joke[2])}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}</div>`
+        ? `<div id="vanne-${joke[1]}" class="flow-root scroll-mt-20"><span data-share-vanne="${joke[1]}" data-text="${escapeAttr(shareText(joke[2]))}" class="float-right ml-3 mt-3 block h-11 w-11"></span>${renderBlock(block)}</div>`
         : renderBlock(block),
     );
     i++;

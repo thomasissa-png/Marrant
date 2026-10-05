@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { resolveCluster } from "@/lib/blog-clusters";
 import { parcoursWeeks } from "@/config/premium";
+import { FORTE_FRAPPE_PARCOURS, type ParcoursSlug } from "@/config/blog-forte-frappe";
 
 /**
  * Maillage contextuel article → parcours individuel.
@@ -16,10 +17,13 @@ import { parcoursWeeks } from "@/config/premium";
  *
  * Fallback : si le cluster est inconnu (article DB orphelin), on tombe sur
  * /parcours/repartie (le plus large).
+ *
+ * Parcours imposé par slug (config/blog-forte-frappe, FORTE_FRAPPE_PARCOURS) :
+ * prioritaire sur le cluster, avec les textes génériques du parcours (HINT_BY_PARCOURS).
  */
 
 interface ParcoursHint {
-  slug: "repartie" | "machine-a-cafe" | "confiance";
+  slug: ParcoursSlug;
   title: string;
   duration: string;
   headline: string;
@@ -140,6 +144,13 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
 
 const DEFAULT_HINT = PARCOURS_BY_CLUSTER["techniques-repartie"];
 
+/** Textes de l'encart quand le parcours est imposé par slug. */
+const HINT_BY_PARCOURS: Record<ParcoursSlug, ParcoursHint> = {
+  repartie: DEFAULT_HINT,
+  confiance: PARCOURS_BY_CLUSTER["douleurs-personas"],
+  "machine-a-cafe": PARCOURS_BY_CLUSTER["humour-contexte"],
+};
+
 export function BlogArticleParcoursMaillage({
   articleSlug,
   articleCategory,
@@ -147,8 +158,11 @@ export function BlogArticleParcoursMaillage({
   articleSlug: string;
   articleCategory?: string;
 }) {
+  const forced = FORTE_FRAPPE_PARCOURS[articleSlug];
   const cluster = resolveCluster(articleSlug, articleCategory);
-  const hint = (cluster && PARCOURS_BY_CLUSTER[cluster.id]) || DEFAULT_HINT;
+  const hint = forced
+    ? HINT_BY_PARCOURS[forced]
+    : (cluster && PARCOURS_BY_CLUSTER[cluster.id]) || DEFAULT_HINT;
 
   return (
     <aside

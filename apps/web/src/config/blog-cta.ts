@@ -20,4 +20,11 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
     primaryLabel: "Créer mon compte gratuit",
     note: "Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.",
   },
+  // A1 (docs/copy/articles-forte-frappe/A1-message-anniversaire-drole.md, section « CTA »).
+  "message-anniversaire-drole-par-situation": {
+    title: "Le message, c'est fait. Reste le moment du gâteau.",
+    text: "Le compte gratuit t'ouvre ton contenu quotidien et la première étape de chaque parcours : de quoi trouver la bonne phrase aussi à l'oral, pas seulement par écrit.",
+    primaryLabel: "Créer mon compte gratuit",
+    note: "Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.",
+  },
 };

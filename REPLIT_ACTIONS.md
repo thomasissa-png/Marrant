@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s14 (05/10/2026) : articles à forte frappe en base, partage par ligne, CTA A1, parcours imposé @fullstack
+
+> Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune variable d'env, aucun LLM, aucun nouvel event Umami.
+> - **Déploiement normal**. Config unique `src/config/blog-forte-frappe.ts` : l'étalon + 11 slugs (statiques ou en base) reçoivent un bouton par ligne numérotée. Formats : `**N.** « vanne »`, `**N.** texte` sans guillemets (A1, A2), titre `**N. Situation**` suivi d'un blockquote (A3, « » du message rendus en “…”). Texte partagé : la ligne seule, sans numéro, indication ni markdown.
+> - **Mode par slug** : `with-url` (étalon et articles de blagues : comportement actuel) ; `text-only` pour les 7 articles de messages (« Envoyer le message n°N », texte seul, sans titre ni lien). Événement inchangé : `blog-vanne-partage` {slug, vanne, canal}.
+> - **CTA** de `message-anniversaire-drole-par-situation` après le corps (`blog-cta.ts`). **Encart parcours** imposé : premier message et couple → Confiance, anniversaire → Répartie. **Rapport hebdo** : 12 articles suivis (+ lot B).
+> - **Étalon** : rendu HTML des 30 articles statiques identique octet pour octet avant/après. À vérifier après publication d'A1 et A3 : boutons sur mobile (375 px).
+
 ## s14 (05/10/2026) : rapport hebdo des visites, section « Blog : articles à forte frappe » @fullstack
 
 > Commit local, non poussé, non déployé. Aucune migration, aucun package, aucune nouvelle variable d'env (mêmes secrets `UMAMI_API_KEY`, `UMAMI_WEBSITE_ID`), aucun LLM.

@@ -6,6 +6,7 @@ import { ArticleCta } from "@/components/blog/article-cta";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
+import { FORTE_FRAPPE_SHARE } from "@/config/blog-forte-frappe";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
@@ -30,9 +31,6 @@ import { isBlogArticleVisible, visibleBlogArticleWhere } from "@/lib/blog-visibi
 import { splitTrailingFaq } from "@/lib/blog-faq";
 
 export const revalidate = 3600;
-
-/** Articles dont chaque vanne numérotée reçoit un bouton Partager (notation iter1, C7). */
-const SHARE_JOKES_SLUGS = new Set(["meilleures-blagues-droles-2026"]);
 
 export function generateStaticParams() {
   return blogArticles.map((article) => ({
@@ -182,7 +180,10 @@ export default async function BlogArticlePage({
   // est ignoré par la page et visible dans Umami (vue de /onboarding?src=blog-<slug>).
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const cta = <ArticleCta {...ctaCopy} freeCallbackUrl={`/onboarding?src=blog-${article.slug}`} />;
-  const shareJokes = SHARE_JOKES_SLUGS.has(article.slug);
+  // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
+  // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
+  const shareMode = FORTE_FRAPPE_SHARE[article.slug];
+  const shareJokes = Boolean(shareMode);
 
   return (
     <article className="mx-auto max-w-3xl">
@@ -260,7 +261,7 @@ export default async function BlogArticlePage({
         <div data-blog-body>
           <MarkdownRenderer content={article.content} className="mt-8" shareJokes={shareJokes} />
         </div>
-        {shareJokes && <BlogVanneShare slug={article.slug} />}
+        {shareMode && <BlogVanneShare slug={article.slug} mode={shareMode} />}
 
         {/* Article à CTA dédié (config/blog-cta.ts) : CTA au moment où la lecture
             se termine, avant FAQ et maillage. Sinon, CTA en bas (défaut). */}

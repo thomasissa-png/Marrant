@@ -7,6 +7,7 @@
  * repli type=url. fetch mocké : aucun appel à l'API Umami réelle.
  */
 import { TRACKED_ARTICLES } from "@/config/blog-tracking";
+import { FORTE_FRAPPE_SLUGS } from "@/config/blog-forte-frappe";
 import { buildBlogReport, type BlogArticleLookup } from "@/lib/analytics/weekly-blog-report";
 import { buildBlogSectionHtml } from "@/lib/analytics/weekly-visits-email";
 import { computeReportPeriods } from "@/lib/analytics/weekly-visits-period";
@@ -60,9 +61,12 @@ function richRoute(url: URL): unknown {
 afterEach(() => jest.restoreAllMocks());
 
 describe("buildBlogReport", () => {
-  it("TRACKED_ARTICLES : les 6 articles à forte frappe", () => {
-    expect(TRACKED_ARTICLES).toHaveLength(6);
+  it("TRACKED_ARTICLES : les 12 articles à forte frappe (étalon, lots A et B)", () => {
+    expect(TRACKED_ARTICLES).toHaveLength(12);
     expect(TRACKED_ARTICLES).toContain("premier-message-drole-appli-de-rencontre");
+    expect(TRACKED_ARTICLES).toContain("blagues-vacances-ete-entre-amis");
+    // Même liste que celle des boutons Partager (config/blog-forte-frappe).
+    expect([...TRACKED_ARTICLES].sort()).toEqual([...FORTE_FRAPPE_SLUGS].sort());
   });
 
   it("événements, paliers et suivi par article ; article non publié sans appel Umami", async () => {

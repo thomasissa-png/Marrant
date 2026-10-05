@@ -13,6 +13,7 @@ import {
 } from "@/lib/analytics/umami";
 import { computeReportPeriods, parisWeekKey, pctChange } from "@/lib/analytics/weekly-visits-period";
 import { buildWeeklyVisitsReport } from "@/lib/analytics/weekly-visits-report";
+import { TRACKED_ARTICLES } from "@/config/blog-tracking";
 import {
   buildWeeklyVisitsHtml,
   buildWeeklyVisitsSubject,
@@ -190,7 +191,7 @@ describe("buildWeeklyVisitsReport + email", () => {
     const html = buildWeeklyVisitsHtml(r);
     expect(html).toContain("Top 5 des pages");
     expect(html).toContain("Blog : articles à forte frappe");
-    expect(r.blog.articles).toHaveLength(6);
+    expect(r.blog.articles).toHaveLength(TRACKED_ARTICLES.length);
     expect(html).toContain("&lt;script&gt;");
     expect(html).not.toContain("<script>");
     expect(html).not.toContain("—");

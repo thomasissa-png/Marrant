@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ShareButton } from "@/components/ui/share-button";
 import { trackUmami } from "@/lib/umami";
+import type { BlogShareMode } from "@/config/blog-forte-frappe";
 
 interface BlogVanneShareProps {
   slug: string;
+  /** `text-only` : message envoyé tel quel, sans titre ni lien (config/blog-forte-frappe). */
+  mode?: BlogShareMode;
 }
 
 interface Slot {
@@ -20,10 +23,12 @@ interface Slot {
  * vanne numérotée de l'article. Le corps est du HTML rendu côté serveur
  * (MarkdownRenderer, option shareJokes) : on monte les boutons par portail dans les
  * emplacements `span[data-share-vanne]` qu'il réserve (44 px, flottants, sans
- * hauteur ajoutée). Lien partagé : l'article ancré sur la vanne (#vanne-N).
+ * hauteur ajoutée). Lien partagé : l'article ancré sur la vanne (#vanne-N), sauf en
+ * mode `text-only` (messages à envoyer : texte seul).
  * Mesure : `blog-vanne-partage` {slug, vanne, canal: natif | copie}.
  */
-export function BlogVanneShare({ slug }: BlogVanneShareProps) {
+export function BlogVanneShare({ slug, mode = "with-url" }: BlogVanneShareProps) {
+  const textOnly = mode === "text-only";
   const [slots, setSlots] = useState<Slot[]>([]);
 
   useEffect(() => {
@@ -41,7 +46,8 @@ export function BlogVanneShare({ slug }: BlogVanneShareProps) {
             title="Vanne - deviens-marrant.fr"
             text={text}
             url={`${window.location.origin}${window.location.pathname}#vanne-${vanne}`}
-            label={`Partager la vanne n°${vanne}`}
+            label={textOnly ? `Envoyer le message n°${vanne}` : `Partager la vanne n°${vanne}`}
+            textOnly={textOnly}
             onShared={(canal) => trackUmami("blog-vanne-partage", { slug, vanne: Number(vanne), canal })}
           />,
           el,
