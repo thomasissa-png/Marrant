@@ -82,4 +82,82 @@
 - H10-5 : Je me suis coiffé pour la visio. Je ne le fais que pour toi et pour les entretiens d'embauche.
 - H10-6 : Je tiens le téléphone à bout de bras pour que tu voies tout le salon. Mon bras tremble. C'est de l'émotion.
 
-<!-- SUITE -->
+**H11** · Appel, répondeur ou vocal quand elle ne décroche pas
+- H11-1 : Salut maman, c'est moi. Je n'avais pas prévu de tomber sur ton répondeur, donc je n'ai rien préparé. Voici un silence de quatre secondes. Bonne fête.
+- H11-2 : Bonjour, c'est ton enfant, le moins rapide à rappeler de la famille. Cette fois, j'appelle en premier. Rappelle quand tu veux, je ne bouge pas.
+- H11-3 : Ceci est un message un peu sentimental. Écoute-le seule. Je ne l'évoquerai pas au repas.
+- H11-4 : Je te laisse un vocal parce que tu ne réponds pas. Il n'est pas monté. Tu entendras tous mes « enfin voilà ».
+- H11-5 : Je laisse un message court : bonne fête maman, je t'aime. Voilà. Je raccroche avant de devenir sentimental. Trop tard.
+- H11-6 : Tu ne décroches pas. Je ne m'inquiète pas. Il m'a fallu quatre minutes pour y arriver, c'est mon record.
+
+**H12** · Appel, fin de conversation, dernier mot
+- H12-1 : Bon, je te laisse. Je le dis depuis vingt minutes. Aujourd'hui, ça veut dire l'inverse.
+- H12-2 : Je t'aime. Je raccroche maintenant, c'est ma technique.
+- H12-3 : J'avais un truc important à te dire. On a parlé des horaires de la déchetterie. Alors voilà, d'un coup : merci.
+- H12-4 : Je te laisse, j'ai un truc. Je n'ai pas de truc. Je voulais juste raccrocher sur une belle phrase : bonne fête.
+- H12-5 : Avant de raccrocher, une précision : tout ce que j'ai dit de travers pendant cet appel voulait dire « je t'aime ».
+- H12-6 : On raccroche ensemble ? Un, deux, trois. Personne n'a raccroché. On est de la même famille.
+
+**H13** · Repas, arrivée à la porte avec le dessert, les fleurs ou le paquet
+- H13-1 : Dans le tram, j'ai dû choisir entre les fleurs et le gâteau. Les fleurs ont compris.
+- H13-2 : J'ai apporté un gâteau. Je précise qu'il est acheté, pour que personne n'ait à faire semblant.
+- H13-3 : Je suis arrivé en avance. J'ai fait trois fois le tour du pâté de maisons pour ne pas sonner trop tôt. À la troisième, tu m'as fait signe.
+- H13-4 : Je t'ai apporté un cadeau, une carte et un appétit. Les deux premiers sont négociables.
+- H13-5 : Je suis venu avec le dessert que tu m'avais interdit d'apporter. C'est mon premier acte de rébellion depuis l'adolescence.
+- H13-6 : Je t'ai apporté des fleurs, un gâteau et un sac. Ouvre vite : j'ai le coude sur la sonnette.
+
+**H14** · Repas, proposer son aide en cuisine ou pour débarrasser
+- H14-1 : Je viens aider. Tu vas me dire non, j'insisterai deux fois, puis je m'assiérai. Gagnons du temps.
+- H14-2 : Je propose mon aide à chaque repas, depuis toujours. Elle est refusée, depuis toujours. Je continue : j'ai de la constance.
+- H14-3 : Pour la fête des mères, je ne propose pas mon aide : je fais la vaisselle sans prévenir. Si tu entends du bruit, ne viens pas voir.
+- H14-4 : Tu m'as confié la table. J'ai posé les assiettes. Pour les couteaux, j'ai fait un choix et j'ai fermé les yeux.
+- H14-5 : Je suis venu pour aider. Je suis resté à côté de toi pendant que tu faisais tout. J'appelle ça du soutien moral.
+- H14-6 : Je me suis proposé pour débarrasser. J'ai débarrassé mon verre. Le reste, je le laisse à ceux qui ont de l'ambition.
+
+**H15** · Repas au restaurant (réservation, table, addition)
+- H15-1 : Il restait une seule table, à 11 h 30. Nous mangerons donc en avance sur toute la ville. C'est un honneur.
+- H15-2 : Je suis allé repérer le restaurant, par prudence. J'ai goûté deux plats. Je dois y retourner pour être sûr.
+- H15-3 : C'est moi qui invite. Prends ce que tu veux, jusqu'au dessert. Le dessert, on en parle.
+- H15-4 : Au restaurant, je prends la même chose que toi, depuis toujours. Je ne suis pas indécis. Je suis fidèle.
+- H15-5 : J'ai demandé une table au calme. La personne au téléphone a ri. Elle a dit « c'est la fête des mères ». J'ai compris.
+- H15-6 : Le serveur nous a demandé « tout se passe bien ? ». Tu as dit oui, j'ai dit oui. On avait raison : l'addition n'était pas arrivée.
+
+**H16** · Repas, dessert, reprise, photo ou départ (le rire sur l'appétit ou la photo de l'envoyeur)
+- H16-1 : Je ne reprends pas du dessert. Je continue le dessert. C'est un autre verbe.
+- H16-2 : Tu as demandé « qui reprend ? ». Ma main était déjà levée. Elle connaît la maison.
+- H16-3 : J'ai dit « je n'ai plus faim ». Ma fourchette n'a pas été prévenue.
+- H16-4 : Je m'étais promis de manger lentement pour profiter. Ce serment a duré trois bouchées.
+- H16-5 : Sur toutes nos photos de famille, c'est moi qui prends la photo. Aujourd'hui, mets-toi à côté de moi : on laissera le téléphone se débrouiller.
+- H16-6 : Merci pour ce moment. Je le dis sincèrement, et un peu pour être réinvité.
+
+**H17** · Message de loin, premier message de la matinée (SMS ou WhatsApp)
+- H17-1 : Bonne fête maman. De là où je suis, ton câlin est à quatre heures de train. Voici un message : il est moins bien, mais plus rapide.
+- H17-2 : Bonne fête maman. J'ai mis un réveil pour t'écrire en premier. Je l'ai arrêté. Je t'écris donc depuis mon lit, avec toute ma sincérité horizontale.
+- H17-3 : Je ne suis pas le premier à t'écrire ce matin. Je suis celui qui a le plus hésité.
+- H17-4 : Bonne fête maman. Je n'ai pas oublié. Je m'en suis souvenu à 9 h 14, ce qui est une autre façon de ne pas oublier.
+- H17-5 : Bonne fête maman. Dans mon téléphone, tu es enregistrée « Maman », sans émoji. Tu es la seule à avoir échappé à ma créativité.
+- H17-6 : Bonne fête maman. Ce message est écrit sans « mdr », sans « lol » et sans émoji. Autant dire que c'est du sérieux.
+
+**H18** · Message de loin, vocal envoyé seul à ta mère
+- H18-1 : Je t'envoie un vocal plutôt qu'un texte. À l'écrit, j'efface tout ce qui est sincère.
+- H18-2 : Si tu entends du bruit derrière moi, c'est un camion, pas une urgence. Je marche et je pense à toi. Bonne fête.
+- H18-3 : J'avais tout préparé dans ma tête. Je n'ai pas trouvé comment le faire sortir. Bonne fête maman, voici la version qui sort.
+- H18-4 : Ce vocal est court. Au-delà de vingt secondes, je dis des choses sincères. Bonne fête.
+- H18-5 : Tu peux écouter ce vocal deux fois : la première pour le contenu, la seconde pour ma voix quand je suis ému.
+- H18-6 : Les trois premières secondes de ce vocal sont vides. C'est moi qui prends mon élan.
+
+**H19** · Message de loin, texte accompagné d'une photo jointe
+- H19-1 : Voici une photo de moi à six ans, tendant une carte. J'ai exactement la même tête aujourd'hui.
+- H19-2 : Voici la photo où tu m'as dit « souris » et où je n'ai pas souri. Je le fais maintenant, avec du retard.
+- H19-3 : J'ai retrouvé la photo où je suis déguisé. Tu m'as laissé sortir comme ça. Merci pour ton courage.
+- H19-4 : Voici une photo de mon frigo. Ton dernier mot est dessus, bien en vue. C'est la seule chose rangée chez moi.
+- H19-5 : Voici une photo de mon déjeuner, pour que tu ne demandes pas. C'est ta fête, je réponds avant la question.
+- H19-6 : Voici une photo de la plante que tu m'as donnée. Elle est vivante. Je suis aussi surpris que toi.
+
+**H20** · Dernière ligne sincère, seule sur sa ligne, après la phrase drôle
+- H20-1 : Tout ça, c'était pour te faire sourire. Pour le reste, je n'ai que « merci », mais je le pense très fort.
+- H20-2 : Je sais que je ne le dis pas souvent. J'ai mis tout ce que j'avais dans ce message. Reste « merci », c'était le plus lourd à porter.
+- H20-3 : Retiens la dernière phrase. Les autres étaient là pour la faire passer : merci.
+- H20-4 : D'habitude, je te dis merci dans ma tête. Aujourd'hui, c'est par écrit. J'ai honte, et c'est volontaire.
+- H20-5 : Mon sens de l'humour, je l'ai appris à la maison. Voici ma copie, moins bonne que l'original. Bonne fête.
+- H20-6 : Ma meilleure phrase tient en trois mots. Je ne sais pas encore les dire à voix haute. Je m'entraîne. Bonne fête.
