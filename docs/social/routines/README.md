@@ -4,20 +4,20 @@
 
 ## Principe
 
-- **Jusqu'au 14/10** : la session principale (celle qui a écrit le plan) est relancée chaque matin et aux heures clés de la reprise. Elle garde tout le contexte.
-- **À partir du 15/10** : deux routines hebdomadaires, chacune ouvre une session neuve sur le dépôt, lit le plan et fait **ce qui est daté de la semaine**. Elles ne dépendent d'aucune liste figée : si le plan bouge, elles suivent le plan.
+- **Toutes les routines relancent la session principale** (`session_018LhMLAUcg6rWocuejGrCgR`), qui a le dépôt, les accès et tout le contexte. **Test du 05/10 21:14 (session neuve) : échec**, deux causes : (1) push refusé, le dépôt n'est pas dans les sources d'une session neuve créée par routine (« not in this session's authorized repository set ») ; (2) lecture Neon, Buffer et des variables refusée par le classifieur de permissions d'une session neuve (« Credential Exploration »). D'où le choix de relancer la session principale.
+- **Jusqu'au 14/10** : pilotage quotidien et heures clés de la reprise. **À partir du 19/10** : deux routines hebdomadaires qui lisent le plan et font **ce qui est daté de la semaine**. Elles ne dépendent d'aucune liste figée : si le plan bouge, elles suivent le plan.
 - **Filet** : les e-mails du job de couverture du Worker (déployé le 05/10) restent actifs ; si une routine ne part pas, Thomas colle le prompt reçu par e-mail.
 
 ## Registre
 
 | Routine | Quand | Session | Rôle |
 |---|---|---|---|
-| Test (05/10) | 05/10 21:13, une fois | neuve | 4 contrôles : base Neon, Buffer, secrets présents, commit poussé (résultat : `test-2026-10-05.md`) |
+| Test (05/10) | 05/10 21:14, une fois | neuve | **échec** (voir Principe) ; seul le checkout a réussi |
 | Pilotage quotidien | chaque jour 07:47, du 06/10 au 14/10 | principale | tâches datées du jour (pilote P0, notations, étalons conseil, lot 1a, déploiement du 10/10, tests C2) ; se désactive le 14/10 |
 | GO/NO-GO et reprise | dim. 11/10 17:30 | principale | GO/NO-GO 18:00, reprise des 3 réseaux 20:00 à 20:30 |
 | Vérifications H+45 | 12/10 13:15 (X), 12/10 20:15 (IG), 13/10 09:00 (LinkedIn) | principale | statut `sent`, lien réel, UTM, carrousel, texte alternatif |
-| Relevé du lundi | lundi 07:52, du 19/10 au 29/03/2027 | neuve | relevé (`releves/AAAA-MM-JJ.md`), fiche de jalon si un jalon tombe dans la semaine, alertes ; message à Thomas seulement s'il a quelque chose à faire |
-| Production de la semaine | lundi 08:37, du 19/10 au 29/03/2027 | neuve | lots, vagues V1 à V4, citations, articles, tests et déploiements datés de la semaine (§4 à §7) |
+| Relevé du lundi | lundi 07:52, du 19/10 au 29/03/2027 | principale | relevé (`releves/AAAA-MM-JJ.md`), fiche de jalon si un jalon tombe dans la semaine, alertes ; message à Thomas seulement s'il a quelque chose à faire |
+| Production de la semaine | lundi 08:37, du 19/10 au 29/03/2027 | principale | lots, vagues V1 à V4, citations, articles, tests et déploiements datés de la semaine (§4 à §7) |
 
 ## Règles communes à toutes les routines
 
