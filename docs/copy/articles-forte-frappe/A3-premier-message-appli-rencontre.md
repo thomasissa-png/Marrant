@@ -74,7 +74,7 @@ Sa bio est ta meilleure matière : la personne a choisi ces mots, y répondre pr
 
 > Ma dernière blague en réunion a reçu un « merci pour l'info ».
 
-*→ Une bio qui demande du rire met la pression. Désamorce-la en te prenant pour cible, sans rien promettre que tu ne tiendras pas.*
+*→ Une bio qui demande du rire met la pression. Désamorce-la en te prenant pour cible, sans rien promettre que tu ne tiendras pas, puis rends-lui la main : « et toi, qu'est-ce qui t'a fait rire cette semaine ? ».*
 
 **3. Sa bio dit : « Commence ton message par ton plat préféré. »**
 
@@ -126,19 +126,19 @@ Un animal sur une photo, c'est souvent le sujet préféré de la personne. Tu pe
 
 > Un chat bloquait mon escalier. Je lui ai dit « pardon ». Puis j'ai attendu.
 
-*→ Le gag est sur toi et ta politesse envers un chat, pas sur celui de la personne. Ajoute une question concrète sur son chat (son nom, son caractère).*
+*→ Tu ris de ta politesse envers un chat, pas du sien. Ajoute une question concrète : son nom, ou qui a le dernier mot à la maison.*
 
 **9. Sa photo montre un chat (autre angle).**
 
 > J'ai offert un jouet au chat d'un ami. Il joue avec l'emballage. Depuis, j'offre des emballages.
 
-*→ Le gag est sur ton cadeau raté, pas sur le chat de la personne. Termine par une question sur ses jeux préférés : « et le tien, il joue avec quoi ? ».*
+*→ C'est ton cadeau raté qui fait rire, son chat n'y est pour rien. Finis sur le sien : « et le tien, il joue avec quoi ? ».*
 
 **10. Sa photo montre un chat (troisième angle).**
 
 > Un chat s'est approché de moi hier. J'ai regardé derrière moi pour voir qui il venait voir.
 
-*→ Le gag est sur toi, qui ne te crois pas visé par l'attention d'un chat. Termine par une question concrète sur le sien (son nom, son caractère).*
+*→ La chute est sur toi, étonné qu'un chat t'ait choisi. Demande ensuite si le sien vient vers les gens ou les ignore.*
 
 **11. Sa photo montre un chien, en promenade.**
 
@@ -186,19 +186,19 @@ Une relance, jamais deux. Pas de « tu es là ? », pas de reproche, pas de capt
 
 > Ce week-end, j'aide un ami à déménager. On m'a confié le carton « fragile ». Il contient un coussin. On me connaît.
 
-*→ À envoyer seulement si ton week-end ressemble à ça : sinon, réponds par ce que tu fais vraiment. Aucun engagement sur un rendez-vous, puis renvoie la question.*
+*→ À envoyer seulement si un ami déménage vraiment ce week-end. Sinon, reprends la forme de la n°15 avec ton vrai programme.*
 
 **17. La personne avait écrit « je te réponds plus tard », et rien depuis.**
 
 > « Plus tard », j'ai dit ça à ma vaisselle il y a une semaine. Prends ton temps.
 
-*→ Une relance légère est permise après quelques jours, sans reproche et sans urgence. Si rien ne vient, tu t'arrêtes là.*
+*→ Tu reprends ses propres mots sans les lui reprocher, et « prends ton temps » lui laisse le droit de ne pas répondre. C'est ta seule relance.*
 
-**18. La conversation reprend après un long silence de la personne.**
+**18. La personne revient après un long silence et s'excuse du retard.**
 
 > Aucune excuse nécessaire, la ponctualité n'est pas mon rayon : j'ai déjà été en avance, mais de la mauvaise semaine.
 
-*→ À n'envoyer que si la personne s'est excusée de son retard : sinon, « aucune excuse nécessaire » laisse entendre qu'une excuse était due. Aucun reproche, même drôle. Le rire tombe sur toi ou sur la situation, jamais sur le retard de l'autre.*
+*→ Sans excuse de sa part, garde-la pour une autre fois : « aucune excuse nécessaire » laisserait entendre qu'une excuse était due. Aucun reproche, même drôle : le rire porte sur ta propre ponctualité, jamais sur son retard.*
 
 Pour répondre du tac au tac sans y penser trois heures, le [parcours Répartie](/parcours/repartie) demande 20 minutes par semaine. Relancer une fois puis lâcher prise, accepter un silence sans le prendre pour un verdict : ça s'entraîne aussi, au même rythme, avec le [parcours Confiance](/parcours/confiance).
 
@@ -206,7 +206,7 @@ Pour répondre du tac au tac sans y penser trois heures, le [parcours Répartie]
 
 ## Comment éviter que ton message ait l'air copié-collé ?
 
-Les messages ci-dessus sont des moules, pas des scripts. Pour qu'ils sonnent comme toi :
+Les messages ci-dessus sont des moules, pas des scripts : le bouton sous chacun te le donne tel quel, à toi d'y mettre ton détail avant de l'envoyer. Pour qu'ils sonnent comme toi :
 
 1. **Change le détail.** Remplace la cuisine ou la montagne par ce qui est vraiment dans son profil, et la chute par ta propre version de la même idée.
 2. **Garde-le court.** Deux ou trois phrases. Ce qui dépasse se lit comme une corvée.

@@ -9,7 +9,7 @@
 - **slug** : `message-anniversaire-drole-par-situation`
 - **title** (54 car.) : Message d'anniversaire drôle : 21 textes par situation
 - **metaDescription** : 21 messages d'anniversaire drôles à copier-coller : pote, collègue, parent, frère ou sœur, ami perdu de vue. Avec le bon moment et le bon support.
-- **excerpt** : Un message d'anniversaire drôle, c'est une ou deux phrases, un rire qui tombe sur toi et un bon moment pour l'envoyer. Voici 21 textes à copier-coller selon la personne (pote, collègue, parent, frère ou sœur, ami perdu de vue), avec le support conseillé pour chacun : WhatsApp, carte ou mot au gâteau.
+- **excerpt** : Un message d'anniversaire drôle, c'est quelques phrases courtes, un rire qui tombe sur toi et un bon moment pour l'envoyer. Voici 21 textes à copier-coller selon la personne (pote, collègue, parent, frère ou sœur, ami perdu de vue), avec le support conseillé pour chacun : WhatsApp, carte ou mot dit au moment du gâteau.
 - **mot-clé principal** : message d'anniversaire drôle
 - **mots-clés secondaires** : texte anniversaire humoristique ; mot drôle carte anniversaire ; message anniversaire drôle collègue
 - **date de publication** : 2026-10-22 (jeudi) · **updatedAt** : identique à la date au jour J, puis à chaque ajout réel de lignes
@@ -38,19 +38,19 @@
 
 ## Contenu de l'article (markdown, format `content` de `blog-articles.ts`)
 
-> **En bref :** Un message d'anniversaire drôle tient en une ou deux phrases, fait rire sur toi ou sur la situation (jamais sur la personne fêtée, son âge ou son physique) et s'adapte au support : WhatsApp le matin, carte pour le bureau, mot dit à voix haute au moment du gâteau.
+> **En bref :** Un message d'anniversaire drôle est court, n'a qu'une chute, fait rire sur toi ou sur la situation (jamais sur la personne fêtée, son âge ou son physique) et s'adapte au support : WhatsApp le matin, carte pour le bureau, mot dit à voix haute au moment du gâteau.
 
 Tu as un anniversaire à souhaiter, un écran vide et trois minutes. Le « joyeux anniv » est sûr, mais il ressemble à tous les autres de la journée. Cet article te donne **21 messages d'anniversaire drôles** à copier-coller, rangés selon la personne à qui tu écris.
 
 Choisis à qui tu écris : [Pote](#quel-message-drole-envoyer-a-un-pote-pour-son-anniversaire) · [Collègue](#quel-mot-drole-ecrire-sur-la-carte-collective-du-bureau) · [Parents](#que-dire-de-drole-a-ses-parents-le-jour-de-leur-anniversaire) · [Frère ou sœur](#quel-message-drole-pour-un-anniversaire-dans-la-fratrie) · [Ami perdu de vue ou date oubliée](#que-dire-a-un-ami-perdu-de-vue-ou-quand-on-a-oublie-la-date) · [Les 4 règles](#comment-ecrire-un-message-d-anniversaire-drole-qui-ne-tombe-pas-a-plat). Pour d'autres phrases à ressortir dans une conversation, il y a aussi [les phrases drôles](/blog/phrases-droles-conversations).
 
-Chaque message tient en une ou deux phrases. Après chacun, une ligne en italique te dit où et quand l'envoyer. Il te reste à changer le prénom et, si tu en as un, à ajouter un détail que toi seul connais.
+Chaque message est court et n'a qu'une chute. Après chacun, une ligne en italique te dit où et quand l'envoyer. Il te reste à mettre le prénom là où il manque et, si tu en as un, à ajouter un détail que toi seul connais.
 
 ---
 
 ## Quel message drôle envoyer à un pote pour son anniversaire ?
 
-Avec un pote, tu as le plus de liberté : il te connaît, il sait quand tu plaisantes. La seule règle, c'est que le rire reste à ta charge : ta mémoire, ta flemme, tes photos ratées.
+Avec un pote, tu as le plus de liberté : il te connaît, il sait quand tu plaisantes. La seule règle, c'est que le rire reste à ta charge : tes photos ratées, ta flemme, tes vocaux trop longs.
 
 **1.** Joyeux anniversaire. J'ai cherché une photo de nous deux. J'ai trouvé toi, toi, toi et mon pouce.
 *→ WhatsApp, premier message de la journée. Envoie-le seul, sans émoji ni explication derrière : la dernière phrase doit rester la dernière chose lue.*
@@ -62,7 +62,7 @@ Avec un pote, tu as le plus de liberté : il te connaît, il sait quand tu plais
 *→ Dans le groupe de potes, seulement si personne n'a encore écrit : la phrase doit rester vraie. Écris-le en une seule bulle, pas en trois.*
 
 **4.** J'ai relu mon discours dans le métro ce matin. Une dame a changé de wagon. Je garde la version courte : joyeux anniversaire.
-*→ En mot au gâteau, dit à voix haute au moment des bougies. Lis-le lentement et fais une pause avant la dernière phrase.*
+*→ À voix haute, au moment des bougies. Dis-le lentement et fais une pause avant la dernière phrase.*
 
 Pour comprendre pourquoi une pause avant la chute change tout, [le timing de l'humour](/blog/timing-humour) explique le principe. Et pour la soirée qui suit : [les blagues de soirée](/vannes/theme/soirees).
 
@@ -70,7 +70,7 @@ Pour comprendre pourquoi une pause avant la chute change tout, [le timing de l'h
 
 ## Quel mot drôle écrire sur la carte collective du bureau ?
 
-Une carte de bureau passe de main en main : tout le monde la lit, y compris ta direction. Reste sur ce que vous partagez tous (les réunions, le café, la messagerie) et ne parle jamais de la vie privée de personne.
+La carte d'anniversaire d'un collègue passe de main en main : tout le monde la lit, y compris ta direction. Reste sur ce que vous partagez tous (les réunions, le café, la messagerie) et ne parle jamais de la vie privée de personne.
 
 **5.** Joyeux anniversaire ! Bises. Je viens de voir que j'écris juste sous le mot de la direction. Je maintiens.
 *→ Sur la carte collective, seulement si la direction a déjà écrit juste au-dessus de toi. À la main et lisiblement : elle se lit debout, en deux secondes.*
@@ -133,7 +133,7 @@ Pour garder le rire sur toi, [les blagues d'autodérision](/vannes/theme/autoder
 
 ## Que dire à un ami perdu de vue, ou quand on a oublié la date ?
 
-Dans les deux cas, une seule phrase suffit : tu reconnais le retard, tu en ris en premier, tu dis que tu penses à la personne. Pas de justification en trois paragraphes, elle ne ferait que rallonger la gêne.
+Dans les deux cas, un message court suffit : tu reconnais le retard, tu en ris en premier, tu dis que tu penses à la personne. Pas de justification en trois paragraphes, elle ne ferait que rallonger la gêne.
 
 **18.** Joyeux anniversaire ! J'ai retrouvé une photo de nous deux. On a l'air de gens qui se voient souvent.
 *→ En premier message après un long silence, seul, sans enchaîner sur des nouvelles. Laisse l'autre répondre quand il veut.*
@@ -165,7 +165,7 @@ Copier un texte, c'est bien. L'adapter, c'est ce qui le rend à toi. Quatre règ
 
 **4. Choisis le support avant le texte.** Une phrase écrite sur une carte ne se joue pas comme un vocal : à l'écrit, c'est le point avant la dernière phrase qui fait la pause.
 
-Si tu cherches un autre format que l'anniversaire, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille.
+Pour une autre occasion que l'anniversaire, [les 50 blagues drôles par situation](/blog/meilleures-blagues-droles-2026) couvrent la soirée, le bureau, les dates et la famille.
 
 ---
 
@@ -185,7 +185,7 @@ Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour)
 
 ### Comment écrire un message d'anniversaire drôle sans vexer ?
 
-Fais rire sur toi ou sur une situation que vous partagez, jamais sur l'âge, le physique ou la vie privée de la personne fêtée. Si tu hésites, relis ton message en te mettant à sa place : s'il te fait sourire de l'autre côté, il peut partir. Une phrase drôle suivie d'une phrase sincère passe presque toujours mieux qu'un message uniquement moqueur.
+Fais rire sur toi ou sur une situation que vous partagez, jamais sur l'âge, le physique ou la vie privée de la personne fêtée. Si tu hésites, relis ton message en te mettant à sa place : s'il te fait sourire de l'autre côté, il peut partir. Ajoute aussi une phrase sincère, à sa place : avant la blague sur une carte, dans un second message sur WhatsApp. Les deux ensemble passent presque toujours mieux qu'un message uniquement moqueur.
 
 ### Peut-on envoyer un message drôle en retard ?
 
@@ -197,4 +197,4 @@ Tu peux, mais il sera plus fort avec un détail à toi : un lieu, une habitude, 
 
 ### Vaut-il mieux un message drôle ou un message sincère ?
 
-Les deux, dans cet ordre : une phrase drôle pour ouvrir, une phrase vraie pour finir. Le rire installe la complicité, la phrase sincère fait que la personne se sent attendue. Un message uniquement drôle s'oublie vite, et un message uniquement sérieux peut peser le matin d'un anniversaire.
+Les deux, sans que la phrase vraie écrase la chute. Sur WhatsApp, envoie le message drôle seul, puis la phrase sincère quand la personne a répondu. Sur une carte, écris tes vœux d'abord et garde la blague pour la fin ou pour le P.-S. Le rire installe la complicité, la phrase sincère fait que la personne se sent attendue. Un message uniquement drôle s'oublie vite, et un message uniquement sérieux peut peser le matin d'un anniversaire.
