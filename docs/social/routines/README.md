@@ -13,7 +13,7 @@
 | Routine | Quand | Session | Rôle |
 |---|---|---|---|
 | Test (05/10) | 05/10 21:14, une fois | neuve | **échec** (voir Principe) ; seul le checkout a réussi |
-| Pilotage quotidien | chaque jour 07:47, du 06/10 au 14/10 | principale | tâches datées du jour (pilote P0, notations, étalons conseil, lot 1a, déploiement du 10/10, tests C2) ; se désactive le 14/10 |
+| Pilotage quotidien | chaque jour 07:47, du 06/10 au 14/10 | principale | tâches datées du jour (pilote P0, notations, étalons conseil, lot 1a, déploiement du 10/10, tests C2) ; **06/10 en plus : correction du pilier non indexé** (`docs/seo/pilier-non-indexe-s15.md`, GO de Thomas du 05/10 : liens L1 à L7 déployés, étalons du haut de page soumis à Thomas avant tout brief copy) ; se désactive le 14/10 |
 | GO/NO-GO et reprise | dim. 11/10 17:30 | principale | GO/NO-GO 18:00, reprise des 3 réseaux 20:00 à 20:30 |
 | Vérifications H+45 | 12/10 13:15 (X), 12/10 20:15 (IG), 13/10 09:00 (LinkedIn) | principale | statut `sent`, lien réel, UTM, carrousel, texte alternatif |
 | Relevé du lundi | lundi 07:52, du 19/10 au 29/03/2027 | principale | relevé (`releves/AAAA-MM-JJ.md`), fiche de jalon si un jalon tombe dans la semaine, alertes ; message à Thomas seulement s'il a quelque chose à faire |
