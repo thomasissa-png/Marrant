@@ -2,6 +2,14 @@
 
 ## s14 (04/10/2026) : formule annuelle Premium 24,99 €/an + rappel légal de reconduction @fullstack
 
+
+> **05/10/2026, annuel en ligne + webhook Stripe réparé (fait par Claude, autorisé par Thomas)**
+> - Migration `10_annual_plan_renewal_reminder` appliquée sur Neon prod (3 colonnes `Subscription`, table `RenewalReminder`, index et FK vérifiés).
+> - Prix Stripe live annuel `price_1UN4pdRqTNSm2ji5hM2fWxbY` (24,99 € TTC/an, `tax_behavior=inclusive`) ; secret Worker `STRIPE_PREMIUM_ANNUAL_PRICE_ID` posé. Session de paiement test à 24,99 € créée puis expirée (aucun paiement).
+> - Bug corrigé : les webhooks Stripe arrivent en version d'API basil (fin de période sur `items.data[].current_period_end`) : date invalide → 500 depuis le 01/10. Lecture désormais compatible avec les deux versions.
+> - Endpoint webhook recréé `we_1UN4rpRqTNSm2ji5DIZCWPSt` (6 événements), son secret posé sur le Worker ; ancien `we_1ULIyN…` supprimé. Les 2 abonnés de lancement resynchronisés (0,99 €/mois, périodes correctes). **La variable `STRIPE_WEBHOOK_SECRET` de l'environnement Claude Code est obsolète** (le Worker a la bonne valeur).
+> - Secrets Worker `UMAMI_API_KEY` et `UMAMI_WEBSITE_ID` posés (rapport hebdo des visites en cours de développement).
+
 > Décision de Thomas (04/10/2026). Commit local, non poussé, non déployé. Aucun package. Aucun appel Stripe (tests sur mocks). CGU et /retractation NON modifiées (texte @legal à intégrer par l'orchestrateur, `docs/legal/annuel-renouvellement-s14.md`).
 > - **1. Migration Neon AVANT le déploiement du code** (additive et idempotente, testée 2× sur une base jetable) : depuis `apps/web`, avec le `DATABASE_URL` de production :
 >   `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/10_annual_plan_renewal_reminder/migration.sql`
