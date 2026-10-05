@@ -15,7 +15,7 @@
 - H2-2 : P.-S. : si tu n'arrives pas à lire un mot, c'est « merci ». Pour les autres, c'est « merci » aussi.
 - H2-3 : P.-S. : j'ai écrit « je t'aime » en petit pour que ça tienne dans la carte. Dans la vraie vie, c'est plus grand.
 - H2-4 : P.-S. : j'ai écrit avec ton stylo. Celui que tu cherches depuis 2009.
-- H2-5 : P.-S. : j'ai appuyé très fort sur le stylo. Ça compte comme un effort, et ça se voit au verso.
+- H2-5 : P.-S. : j'ai relu cette carte à voix haute pour vérifier qu'elle était drôle. Elle est surtout sincère. C'est un défaut de fabrication.
 - H2-6 : P.-S. : je n'ai plus de place sur la carte. Il me restait pourtant plein de choses à dire. Je te les dirai dimanche, en moins bien.
 
 **H3** · Carte postale ou carte envoyée par la poste
@@ -23,7 +23,7 @@
 - H3-2 : Maman, j'ai acheté un timbre. Un vrai, en papier. Tu mesures le sacrifice.
 - H3-3 : Bonne fête maman. J'ai trouvé une boîte aux lettres en vingt minutes. Je compte ça comme un cadeau.
 - H3-4 : J'ai écrit ton adresse de mémoire. Si tu lis cette carte, mon enfance m'a servi à quelque chose.
-- H3-5 : Cette carte a fait le voyage en trois jours. Moi, il me faut quatre heures de train. Elle a pris un autre itinéraire que ma paresse.
+- H3-5 : Cette carte voyage en trois jours. Moi, quand je dis « je passe te voir », ça prend trois mois.
 - H3-6 : Bonne fête maman. Pour une fois, mon courrier arrive avant moi. Profites-en.
 
 **H4** · Carte faite à la main (découpage, dessin)
@@ -32,7 +32,7 @@
 - H4-3 : Je sais déjà où cette carte finira : sur le frigo. Je n'ai jamais eu d'autre galerie.
 - H4-4 : Tu as le cœur numéro quatre. Il est de travers, mais les trois premiers étaient pires.
 - H4-5 : Carte réalisée sans aide. Pour la première fois, tu n'as pas tenu les ciseaux.
-- H4-6 : J'ai utilisé la règle, le compas et ma dernière feuille propre. Tu vois le niveau d'exigence.
+- H4-6 : J'ai pris la règle, le compas et ma dernière feuille propre. Le compas n'a rien fait. Il est là pour l'ambiance.
 
 **H5** · Cadeau, mot joint après un « je ne veux rien » de ta mère
 - H5-1 : Tu m'avais dit « rien du tout ». J'ai pris « rien du tout » au sérieux pendant trois semaines. Puis j'ai trouvé ça.
