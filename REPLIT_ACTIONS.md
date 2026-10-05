@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s15 (05/10/2026, soir) : correctifs QA cycle 6 (R1 longueur X, R4 alerte 429, insertion HTTP) @fullstack : À DÉPLOYER
+## s15 (05/10/2026, soir) : correctifs QA cycle 6 (R1 longueur X, R4 alerte 429, insertion HTTP) @fullstack : **DÉPLOYÉ** le 05/10 à 20:03 UTC par la session (Worker `c32b0f0b-ea8b-479d-a972-eaef036a1739`, N-1 pour `wrangler rollback` : `0edcaee7-9e95-4b61-9acb-4c22ff8861f0`). Preuve R1 : brouillon X réel du texte exact du post du 07/10 (328 bruts) accepté par Buffer (`status: draft`) puis supprimé ; interrupteurs relus : 3 réseaux ouverts ; accueil 200.
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé** (la session principale déploie). Aucune migration, aucun package, aucune variable d'env, aucun event Umami. Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK, Jest 3 026 PASS / 2 skipped (203 suites).
 > - **BLOQUANT, à déployer avant le 07/10 10:15 UTC (R1)** : `src/lib/social/buffer-client.ts`, `ensureContentLength` compte X comme X (`longueurX`, lien = 23, même fonction que la route) au lieu de la longueur brute ; s'applique aux 2 chemins (texte seul et avec image). Sans ce déploiement, le post X du 07/10 (quiz, 328 bruts, 244 comptés par X) passe en FAILED « Contenu trop long ». LinkedIn et Instagram : inchangés (longueur brute).
