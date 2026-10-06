@@ -72,7 +72,7 @@ export const FIXES: Fixe[] = [
     legende: "À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr" },
   { cle: "L1", date: "2026-10-15", platform: "LINKEDIN", type: "VANNE", origine: "VALIDE", vanne: { jokeId: "cs14jka89abf28d3769b05fe" } },
   { cle: "X3", date: "2026-10-21", platform: "TWITTER", type: "VANNE_QUIZ", origine: "VALIDE", vanne: { jokeId: "cs14jk50c85bb0d73deaebaf" },
-    renvoi: "Ça, c'est de l'humour d'Observateur. Et toi, tu es lequel des 5 profils ? Environ 2 minutes, sans inscription :",
+    renvoi: "Ça, c'est de l'humour d'Observateur. Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 minutes, sans inscription :",
     lien: { chemin: "/quiz-humour", content: "quiz" } },
   { cle: "X2", date: "2026-10-22", platform: "TWITTER", type: "RELAIS", origine: "VALIDE", vanne: { jokeId: "cs14jk0e4fedaac1a91fddf1" },
     renvoi: "Les 21 messages de l'article sont prêts à copier :",
