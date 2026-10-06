@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, 07:40 Paris) : INCIDENT, déploiement `c328c3de-7f5b-4fd9-87c6-e7f3abc6e704` en 500 partout, RETOUR ARRIÈRE immédiat vers `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f` (site 200 vérifié, coupure environ 1 min)
+
+- Contexte : déploiement de `fcafdff` (un seul e-mail admin par jour) depuis un worktree propre (`git worktree` + liens symboliques vers `node_modules`), pour exclure le travail non commité d'un autre agent. tsc et Jest (3 189 PASS) verts dans ce worktree.
+- Cause probable `[À VÉRIFIER]` : bundle OpenNext incomplet à cause des `node_modules` en lien symbolique (pas le code). **Règle : ne jamais déployer depuis un worktree à `node_modules` symbolique** ; déployer depuis le dépôt principal, arbre propre (aucun fichier non commité), ou faire `npm ci` dans le worktree.
+- `fcafdff` reste À DÉPLOYER (à faire dès que l'arbre principal est propre), puis vérifier `/`, `/api/health` et `GET /api/admin/alertes`.
+
 ## s15 (06/10/2026) : moins d'e-mails admin (1 digest par jour au plus) @fullstack : **À DÉPLOYER** (dès que possible : sinon de nouveaux e-mails « file basse » partent chaque nuit)
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration (stockage dans la table existante `CeoMemory`, namespace `admin_alert`), aucun package, aucune variable d'env, aucun event Umami, aucun Cron Trigger nouveau (le digest tourne dans `scheduler-tick` toutes les 15 min). Inventaire : `docs/qa/inventaire-emails-admin-s15.md`.
