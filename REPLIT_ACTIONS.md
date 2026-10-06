@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, 07:50 Paris) : PREUVE `--insert` / `--rollback` en `--driver=neon-http` sur la base réelle (point QA cycle 6 et 7) : FAIT
+
+- Lot fictif `preuve-http-2031` (1 post X daté du 06/01/2031, jamais publiable avant) : `--insert --driver=neon-http` : « Inséré : 1 posts APPROVED… Contrôle après insertion : conforme » ; `--rollback` sans `--confirmer` : comptes seulement, « Rien n'a été modifié » ; `--rollback --confirmer` : « Annulés (REJECTED) : 1. Après : {REJECTED:1} » ; ligne supprimée ensuite (reste 0). À noter : `--rollback` exige `--debut` et `--fin`.
+
 ## s15 (06/10/2026, 07:45 Paris) : DÉPLOYÉ depuis l'arbre principal (propre), Worker `fd1a595d-7c52-47a8-9e1e-417930b9534a` (N-1 `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f`)
 
 - Contenu : `fcafdff` (au plus un e-mail admin par jour, classes A/B/C, `GET /api/admin/alertes`, digest 07:30) + `8fc22df` (suppression du compte gratuit L1 à L3, L5, L6 ; étalons validés par Thomas ; CGU : phrase retirée ; `origine`/`contenu` sur `abonnement-*`).
