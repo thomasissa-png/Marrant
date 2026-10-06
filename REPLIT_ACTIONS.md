@@ -12,6 +12,10 @@
 - **Instagram : impossible par API** (lien de bio, stories à la une, stickers lien) : à faire dans l'application (marche à suivre : `docs/social/visuels-s15/bannieres/notation-growth-cycle3.md`).
 - L'API Buffer ne gère que les posts (aucune mutation de profil).
 
+## s15 (06/10/2026, 20:15 Paris) : H+45 Instagram OK, jour 1 = 3/3
+
+- 1er post Instagram réellement publié : `sent` à 19:32, `instagram.com/p/DeKVBhaIFPb/`, carrousel 2 images, légende sans lien, aucun FAILED. Jour 1 : 3 posts sur 3 publiés (`docs/social/releves/2026-10-06.md`).
+
 ## s15 (06/10/2026, 13:15 Paris) : H+45 X OK
 
 - 1er post X de la relance : `sent` à 12:32 Paris, lien réel `x.com/…/status/2107418777784570269`, aucun FAILED (`docs/social/releves/2026-10-06.md`).
