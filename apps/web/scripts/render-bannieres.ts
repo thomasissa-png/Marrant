@@ -1,11 +1,12 @@
 /**
- * Bannières des réseaux (s15) : en-tête X 1500×500, couverture de page LinkedIn
+ * Bannières des réseaux (s15, cycle 2) : en-tête X 1500×500, couverture de page LinkedIn
  * 1128×191, couvertures de stories à la une Instagram 1080×1920. Même moteur
  * (`next/og`, satori) et même identité que les cartes « piste A » : Plus Jakarta Sans
- * 800/700, noir #0D0D0D, aplat #6D28D9, guillemets lilas, monogramme « d » + adresse.
- * Lignes calculées sur les largeurs réelles des glyphes (mise-en-lignes.ts).
+ * 800/700, noir #0D0D0D, aplat #6D28D9, lilas. Lignes calculées sur les largeurs
+ * réelles des glyphes (mise-en-lignes.ts).
  *
- * Chaque PNG a sa version `-controle.png` : zones masquées par l'interface en surimpression.
+ * Chaque PNG a sa version `-controle.png` (zones masquées par l'interface en surimpression)
+ * et un `-apercu-mobile.png` : affichage simulé à taille réelle sur un écran de 390 px.
  * Usage (depuis apps/web) :
  *   npx tsx --tsconfig scripts/tsconfig.scripts.json scripts/render-bannieres.ts
  * Sortie : docs/social/visuels-s15/bannieres/*.png. Aucune publication.
@@ -14,7 +15,7 @@ import { createElement as h, type ReactElement, type ReactNode } from "react";
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { ImageResponse } from "next/og";
-import { COLORS, BRAND } from "../src/lib/social/templates/instagram-templates";
+import { COLORS } from "../src/lib/social/templates/instagram-templates";
 import { Monogramme, FONT_TITRE, FONT_TEXTE } from "../src/lib/social/templates/carte-marque";
 import { COULEUR_GUILLEMETS, segmentsLigne, texteCite } from "../src/lib/social/templates/cartes-piste-a";
 import { mettreEnLignes, affichage } from "../src/lib/social/mise-en-lignes";
@@ -33,7 +34,6 @@ const POLICES = [
 
 const INTERLIGNE = 1.12;
 const LILAS = COULEUR_GUILLEMETS.sombre; // #A78BFA sur noir
-const LILAS_CLAIR = COULEUR_GUILLEMETS.aplat; // #DDD6FE sur l'aplat
 
 type Poids = 700 | 800;
 type Fond = "sombre" | "aplat";
@@ -111,13 +111,6 @@ function Texte(o: TexteOpts): ReactElement {
   }));
 }
 
-/** Pied des cartes : monogramme « d » + deviens-marrant.fr. */
-function Pied({ fond, taille, corps }: { fond: Fond; taille: number; corps: number }): ReactElement {
-  return h("div", { style: { display: "flex", alignItems: "center", gap: Math.round(taille * 0.28) } },
-    h(Monogramme, { fond, taille }),
-    h("div", { style: { display: "flex", fontFamily: FONT_TEXTE, fontSize: corps, color: fond === "aplat" ? COLORS.textPrimary : COLORS.textSecondary } }, BRAND));
-}
-
 /** Position absolue (raccourci). */
 function abs(style: Record<string, number | string>, ...enfants: ReactNode[]): ReactElement {
   return h("div", { style: { position: "absolute", display: "flex", ...style } }, ...enfants);
@@ -134,14 +127,16 @@ function Zone({ x, y, w, hh, libelle, couleur = "rgba(239,68,68,0.45)", corps = 
 
 // ─── Textes (bios validées, pool strict) ────────────────────────
 const MESSAGE_X = "Une vanne par jour pour devenir plus drôle.";
-/** Vanne du pool strict (config/social-pool.ts), catalogue validé, mot pour mot : `cs14jk90226d6abb90287724`. */
-const VANNE_X = { amorce: "Ma mère me demande encore des nouvelles de mon ex.", chute: "Je n'en ai pas. Elle, si." };
-const MESSAGE_LI = "Des vannes pour le bureau,\nun quiz pour ton profil d'humour.";
+/** Ligne d'appel @growth (cycle 1) : nomme le quiz, sans URL ni flèche. */
+const APPEL_X = "Quiz d'humour, sans inscription.";
+const GRIS_APPEL = "#D4D4D4";
+const LILAS_TRES_CLAIR = "#EDE9FE"; // sous-titre LinkedIn sur l'aplat (6:1)
 
 // ─── Zones masquées [HYPOTHÈSE : relevés approximatifs des interfaces, octobre 2026] ──
 const X = { w: 1500, h: 500, avatar: { x: 0, y: 300, w: 400, hh: 200 }, recadrage: 70 };
 const LI = { w: 1128, h: 191, logo: { x: 0, y: 90, w: 260, hh: 101 }, gauche: 300 };
-const IG = { w: 1080, h: 1920, diametre: 1080 };
+/** Zone vue dans le cercle de la story à la une : diamètre 720 (rayon 360), centre (540, 960). */
+const IG = { w: 1080, h: 1920, diametre: 720, cx: 540, cy: 960 };
 
 interface Banniere { fichier: string; w: number; h: number; element: ReactElement; zones: ReactElement[]; controles: string[] }
 
@@ -158,49 +153,28 @@ function zonesX(): ReactElement[] {
   ];
 }
 
-/** X, variante A : le message seul, sur noir ; « plus drôle. » en lilas ; pied en bas à droite. */
+/**
+ * X : le message sur noir, « plus drôle. » en lilas, bloc remonté à top 75 (@design) ;
+ * en pied, une seule ligne d'appel alignée à droite (@growth) : Inter 52 px, #D4D4D4,
+ * fin x 1388, boîte y 350 à 410, hors photo de profil (x 0 à 400) et hors recadrage (y > 430).
+ */
 function xMessage(): Banniere {
   const t = { texte: MESSAGE_X, corps: 84, largeur: X.w - 224, accent: "plus drôle." };
   const c = composer(t);
-  const haut = X.recadrage + Math.round((X.avatar.y - X.recadrage - c.hauteur) / 2);
+  const haut = 75;
+  const appel = typo(APPEL_X);
+  const lAppel = Math.round(largeurTexte(appel, FONT_TEXTE, 400, 52));
+  const finAppel = 1388;
   return {
-    fichier: "x-entete-a-message", w: X.w, h: X.h, zones: zonesX(),
-    controles: [`message ${c.lignes.length} lignes à ${c.corps} px, y ${haut} à ${haut + c.hauteur} (photo de profil à partir de y ${X.avatar.y})`],
-    element: racine(X.w, X.h, COLORS.bg,
-      abs({ left: 112, top: haut }, Texte(t)),
-      abs({ right: 112, bottom: X.recadrage + 12 }, Pied({ fond: "sombre", taille: 72, corps: 44 }))),
-  };
-}
-
-/** X, variante B : message à gauche sur noir, vanne du pool sur l'aplat à droite (une paire « » par ligne, R6). */
-function xVanne(): Banniere {
-  const panneau = 780;
-  const colonne = panneau + 112;
-  const largeur = X.w - colonne - 64;
-  const msg = { texte: MESSAGE_X, corps: 60, largeur: panneau - 96 - 56, accent: "plus drôle." };
-  const cm = composer(msg);
-  const am = { texte: VANNE_X.amorce, corps: 46, largeur, poids: 700 as const, citation: "aplat" as const };
-  const ch = { texte: VANNE_X.chute, corps: 46, largeur, citation: "aplat" as const };
-  const ca = composer(am);
-  const cc = composer(ch);
-  if (ca.corps !== cc.corps) throw new Error(`Corps différents amorce ${ca.corps} / chute ${cc.corps}`);
-  const hv = ca.hauteur + 20 + cc.hauteur;
-  const hautVanne = X.recadrage + Math.round((X.h - 2 * X.recadrage - hv) / 2);
-  const hautMsg = X.recadrage + Math.round((X.avatar.y - X.recadrage - cm.hauteur) / 2);
-  // Pied à droite de la photo de profil, dans le panneau noir.
-  const piedX = X.avatar.w + 24;
-  return {
-    fichier: "x-entete-b-vanne", w: X.w, h: X.h, zones: zonesX(),
+    fichier: "x-entete", w: X.w, h: X.h, zones: zonesX(),
     controles: [
-      `message ${cm.lignes.length} lignes à ${cm.corps} px, y ${hautMsg} à ${hautMsg + cm.hauteur}`,
-      `vanne ${ca.lignes.length}+${cc.lignes.length} lignes à ${ca.corps} px, y ${hautVanne} à ${hautVanne + hv}, guillemet ouvrant x ${Math.round(colonne - ca.suspendu)}`,
-      `pied x ${piedX} à ${piedX + 48 + 14 + Math.round(largeurTexte(BRAND, FONT_TEXTE, 400, 30))} (panneau à x ${panneau})`,
+      `message ${c.lignes.length} lignes à ${c.corps} px, boîte y ${haut} à ${haut + c.hauteur}, x 112 à ${112 + Math.round(c.plusLongue)}`,
+      `appel Inter 52 px, x ${finAppel - lAppel} à ${finAppel}, y 350 à 410 (photo jusqu'à x ${X.avatar.w}, recadrage à y ${X.h - X.recadrage})`,
     ],
     element: racine(X.w, X.h, COLORS.bg,
-      abs({ left: panneau, top: 0, width: X.w - panneau, height: X.h, backgroundColor: COLORS.accentSecondary }),
-      abs({ left: 96, top: hautMsg }, Texte(msg)),
-      abs({ left: colonne, top: hautVanne, flexDirection: "column", gap: 20 }, Texte(am), Texte(ch)),
-      abs({ left: piedX, bottom: X.recadrage + 12 }, Pied({ fond: "sombre", taille: 48, corps: 30 }))),
+      abs({ left: 112, top: haut }, Texte(t)),
+      abs({ left: finAppel - lAppel - 20, top: 350, width: lAppel + 20, height: 60, alignItems: "center", justifyContent: "flex-end",
+        fontFamily: FONT_TEXTE, fontWeight: 400, fontSize: 52, lineHeight: 1, color: GRIS_APPEL, whiteSpace: "pre" }, appel)),
   };
 }
 
@@ -210,84 +184,132 @@ function zonesLI(): ReactElement[] {
   return [h(Zone, { key: "logo", x: l.x, y: l.y, w: l.w, hh: l.hh, libelle: "Logo de la page", corps: 18 })];
 }
 
-/** LinkedIn, variante A : noir, bio sur 2 lignes (« pour le bureau » en lilas), pied sous le texte. */
-function liNoir(): Banniere {
-  const t = { texte: MESSAGE_LI, corps: 44, largeur: LI.w - LI.gauche - 40, accent: "pour le bureau" };
-  const c = composer(t);
-  const hb = c.hauteur + 12 + 36;
-  const haut = Math.round((LI.h - hb) / 2);
-  return {
-    fichier: "linkedin-couverture-a-noir", w: LI.w, h: LI.h, zones: zonesLI(),
-    controles: [`texte ${c.lignes.length} lignes à ${c.corps} px, x ${LI.gauche} à ${LI.gauche + Math.round(c.plusLongue)}, y ${haut} à ${haut + hb}`],
-    element: racine(LI.w, LI.h, COLORS.bg,
-      abs({ left: LI.gauche, top: haut, flexDirection: "column", gap: 12 }, Texte(t), Pied({ fond: "sombre", taille: 36, corps: 24 }))),
-  };
-}
-
-/** LinkedIn, variante B : aplat violet, « Des vannes pour le bureau. » en grand, le quiz en lilas clair. */
+/** LinkedIn : aplat violet, titre 52 px blanc, sous-titre impératif 38 px #EDE9FE, ni pied ni URL. */
 function liAplat(): Banniere {
-  const largeur = LI.w - LI.gauche - 40;
-  const t1 = { texte: "Des vannes pour le bureau.", corps: 54, largeur };
-  const t2 = { texte: "Un quiz pour ton profil d'humour.", corps: 32, largeur, poids: 700 as const, couleur: LILAS_CLAIR };
+  const largeur = LI.w - LI.gauche - 20;
+  const t1 = { texte: "Des vannes pour le bureau.", corps: 52, largeur };
+  const t2 = { texte: "Fais le quiz de ton profil d'humour.", corps: 38, largeur, poids: 700 as const, couleur: LILAS_TRES_CLAIR };
   const c1 = composer(t1);
   const c2 = composer(t2);
-  const hb = c1.hauteur + 6 + c2.hauteur;
+  if (c1.lignes.length !== 1 || c2.lignes.length !== 1 || c1.corps !== 52 || c2.corps !== 38) {
+    throw new Error(`LinkedIn : titre ${c1.lignes.length}×${c1.corps} px, sous-titre ${c2.lignes.length}×${c2.corps} px (attendu 1×52 et 1×38).`);
+  }
+  const hb = c1.hauteur + 8 + c2.hauteur;
   const haut = Math.round((LI.h - hb) / 2);
   return {
-    fichier: "linkedin-couverture-b-aplat", w: LI.w, h: LI.h, zones: zonesLI(),
-    controles: [`titre ${c1.lignes.length} ligne à ${c1.corps} px (x ${LI.gauche} à ${LI.gauche + Math.round(c1.plusLongue)}), sous-titre ${c2.lignes.length} ligne à ${c2.corps} px, y ${haut} à ${haut + hb}`],
+    fichier: "linkedin-couverture", w: LI.w, h: LI.h, zones: zonesLI(),
+    controles: [
+      `titre ${c1.corps} px x ${LI.gauche} à ${LI.gauche + Math.round(c1.plusLongue)}, sous-titre ${c2.corps} px x ${LI.gauche} à ${LI.gauche + Math.round(c2.plusLongue)}`,
+      `bloc y ${haut} à ${haut + hb} (logo à partir de x ${LI.logo.w} max, y ${LI.logo.y})`,
+    ],
     element: racine(LI.w, LI.h, COLORS.accentSecondary,
-      abs({ left: LI.gauche, top: haut, flexDirection: "column", gap: 6 }, Texte(t1), Texte(t2))),
+      abs({ left: LI.gauche, top: haut, flexDirection: "column", gap: 8 }, Texte(t1), Texte(t2))),
   };
 }
 
 // ─── Instagram, couvertures de stories à la une 1080×1920 ───────
-/** Côté du pictogramme dans le cercle de 1080 px (lisible à la taille du cercle du profil). */
-const PICTO = 440;
-const TRAIT = { fill: "none", stroke: LILAS_CLAIR, strokeWidth: 2.2, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+/** Pictogramme : boîte 520 px (viewBox 24), trait blanc 2,8 identique pour les 4, aucun libellé. */
+const PICTO = 520;
+const TRAIT = { fill: "none", stroke: "#FFFFFF", strokeWidth: 2.8, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 function svg(...enfants: ReactElement[]): ReactElement {
   return h("svg", { width: PICTO, height: PICTO, viewBox: "0 0 24 24", ...TRAIT }, ...enfants);
 }
 
-/** Glyphe Plus Jakarta 800 dont le corps est calé pour tenir dans `largeur` px. */
-function glyphe(texte: string, largeur: number, decalage = 0): ReactElement {
-  const corps = Math.floor(largeur / largeurTexte(texte, FONT_TITRE, 800, 1));
-  return h("div", { style: { display: "flex", fontFamily: FONT_TITRE, fontWeight: 800, fontSize: corps, lineHeight: 1, color: LILAS_CLAIR, marginTop: decalage } }, texte);
-}
-
 const PICTOS: Record<string, () => ReactElement> = {
-  vannes: () => glyphe(`«${affichage(NNBSP)}»`, PICTO),
+  // Point d'interrogation dans un cercle.
+  quiz: () => svg(
+    h("circle", { cx: 12, cy: 12, r: 10 }),
+    h("path", { d: "M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3" }), h("path", { d: "M12 17h.01" })),
+  // Micro de scène sur pied.
+  vannes: () => svg(
+    h("rect", { x: 9, y: 2, width: 6, height: 13, rx: 3 }),
+    h("path", { d: "M19 10v2a7 7 0 0 1-14 0v-2" }), h("path", { d: "M12 19v3" }), h("path", { d: "M8 22h8" })),
+  // Ampoule.
   conseils: () => svg(
-    h("path", { d: "M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" }),
+    h("path", { d: "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" }),
     h("path", { d: "M9 18h6" }), h("path", { d: "M10 22h4" })),
-  quiz: () => glyphe("?", 250),
-  bureau: () => svg(
-    h("rect", { x: 2, y: 7, width: 20, height: 14, rx: 2 }),
-    h("path", { d: "M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" })),
+  // Deux bulles de dialogue (échange de répliques).
+  repartie: () => svg(
+    h("path", { d: "M5 2.5h7a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H6l-4 4V5.5a3 3 0 0 1 3-3z" }),
+    h("path", { d: "M15 8.5h4a3 3 0 0 1 3 3v10l-4-3h-6a3 3 0 0 1-3-3v-3" })),
 };
+
+/** Ordre des stories à la une (arbitrage s15) : Quiz, Vannes, Conseils, Répartie. */
+const ALAUNE = [
+  { cle: "quiz", nom: "Quiz" }, { cle: "vannes", nom: "Vannes" },
+  { cle: "conseils", nom: "Conseils" }, { cle: "repartie", nom: "Répartie" },
+] as const;
 
 function zonesIG(): ReactElement[] {
   const b = 1300;
   const r = IG.diametre / 2;
   return [
-    abs({ key: "anneau", left: IG.w / 2 - r - b, top: IG.h / 2 - r - b, width: IG.diametre + 2 * b, height: IG.diametre + 2 * b,
+    abs({ key: "anneau", left: IG.cx - r - b, top: IG.cy - r - b, width: IG.diametre + 2 * b, height: IG.diametre + 2 * b,
       borderRadius: r + b, border: `${b}px solid rgba(239,68,68,0.45)` }),
-    abs({ key: "cercle", left: 0, top: IG.h / 2 - r, width: IG.diametre, height: IG.diametre, borderRadius: r, border: "4px dashed #FFFFFF" }),
-    abs({ key: "lib", left: 0, top: 220, width: IG.w, justifyContent: "center", fontFamily: FONT_TEXTE, fontWeight: 700, fontSize: 40, color: "#FFFFFF" },
-      "Hors du cercle de la story à la une"),
+    abs({ key: "cercle", left: IG.cx - r, top: IG.cy - r, width: IG.diametre, height: IG.diametre, borderRadius: r, border: "4px dashed #FFFFFF" }),
+    abs({ key: "boite", left: IG.cx - PICTO / 2, top: IG.cy - PICTO / 2, width: PICTO, height: PICTO, border: "2px dashed rgba(255,255,255,0.6)" }),
+    abs({ key: "lib", left: 0, top: 380, width: IG.w, justifyContent: "center", fontFamily: FONT_TEXTE, fontWeight: 700, fontSize: 40, color: "#FFFFFF" },
+      "Hors du cercle vu (rayon 360 px)"),
   ];
 }
 
-function alaUne(cle: string, libelle: string): Banniere {
+function alaUne(cle: string): Banniere {
   return {
-    fichier: `instagram-alaune-${cle}`, w: IG.w, h: IG.h, zones: zonesIG(), controles: [`pictogramme ${PICTO} px + « ${libelle} » 132 px, centrés`],
+    fichier: `instagram-alaune-${cle}`, w: IG.w, h: IG.h, zones: zonesIG(),
+    controles: [`pictogramme ${PICTO} px, centre (${IG.cx}, ${IG.cy}), trait ${TRAIT.strokeWidth}/24, sans libellé`],
     element: racine(IG.w, IG.h, COLORS.accentSecondary,
-      abs({ left: 0, top: 0, width: IG.w, height: IG.h, flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 56 },
-        // Guillemets : glyphe bas (hauteur d'x), boîte à sa hauteur naturelle pour garder le groupe compact.
-        h("div", { style: { display: "flex", width: PICTO, ...(cle === "vannes" ? {} : { height: PICTO }), alignItems: "center", justifyContent: "center" } }, PICTOS[cle]()),
-        h("div", { style: { display: "flex", fontFamily: FONT_TITRE, fontWeight: 800, fontSize: 132, lineHeight: 1, color: COLORS.textPrimary } }, libelle))),
+      abs({ left: IG.cx - PICTO / 2, top: IG.cy - PICTO / 2, width: PICTO, height: PICTO }, PICTOS[cle]())),
   };
+}
+
+// ─── Aperçus mobiles, taille réelle (écran de 390 px, 1 px = 1 pt) ──
+const TEL = 390;
+const versDonnees = (png: Buffer) => `data:image/png;base64,${png.toString("base64")}`;
+
+function image(png: Buffer, w: number, hh: number, left = 0, top = 0): ReactElement {
+  return h("img", { src: versDonnees(png), width: w, height: hh, style: { position: "absolute", left, top } });
+}
+
+function barre(left: number, top: number, w: number, hh = 10): ReactElement {
+  return abs({ left, top, width: w, height: hh, borderRadius: hh / 2, backgroundColor: "#E5E5E5" });
+}
+
+/** Photo de profil simulée par le monogramme (cercle ou carré arrondi), bord blanc. */
+function photo(cote: number, bord: number, rayon: number, left: number, top: number): ReactElement {
+  return abs({ left, top, width: cote, height: cote, borderRadius: rayon, border: `${bord}px solid #FFFFFF`, backgroundColor: COLORS.bg,
+    overflow: "hidden", alignItems: "center", justifyContent: "center" }, h(Monogramme, { fond: "aplat", taille: cote - 2 * bord }));
+}
+
+/** X : bannière 390×130, photo ronde de 84 px (bord 4) à x 16, y 78 = zone retenue x 0 à 400, y 300 à 500. */
+function apercuX(png: Buffer) {
+  const hb = Math.round(X.h * TEL / X.w);
+  return { w: TEL, h: 240, element: racine(TEL, 240, "#FFFFFF",
+    image(png, TEL, hb), photo(84, 4, 42, 16, 78),
+    abs({ right: 16, top: hb + 12, width: 78, height: 32, borderRadius: 16, backgroundColor: "#0F1419", alignItems: "center", justifyContent: "center",
+      fontFamily: FONT_TEXTE, fontWeight: 700, fontSize: 14, color: "#FFFFFF" }, "Suivre"),
+    barre(16, 174, 110, 14), barre(16, 196, 80), barre(16, 218, 300)) };
+}
+
+/** LinkedIn : couverture 390×66, logo carré de 72 px (bord 2) à x 16, y 31 = zone retenue x 0 à 260, y 90 à 191. */
+function apercuLI(png: Buffer) {
+  const hb = Math.round(LI.h * TEL / LI.w);
+  return { w: TEL, h: 176, element: racine(TEL, 176, "#FFFFFF",
+    image(png, TEL, hb), photo(72, 2, 6, 16, 31),
+    barre(16, 114, 140, 14), barre(16, 136, 220), barre(16, 154, 180)) };
+}
+
+/** Instagram : 4 cercles de 64 px (zone vue de 720 px), anneau gris, nom en dessous en 12 px. */
+function apercuIG(pngs: Buffer[]) {
+  const d = 64;
+  const s = d / IG.diametre;
+  const pas = 88;
+  return { w: TEL, h: 120, element: racine(TEL, 120, "#FFFFFF",
+    ...ALAUNE.map((a, i) => abs({ left: 16 + i * pas, top: 14, width: 72, flexDirection: "column", alignItems: "center" },
+      h("div", { style: { display: "flex", width: 72, height: 72, borderRadius: 36, border: "1px solid #DBDBDB", alignItems: "center", justifyContent: "center" } },
+        h("div", { style: { display: "flex", position: "relative", width: d, height: d, borderRadius: d / 2, overflow: "hidden" } },
+          image(pngs[i], Math.round(IG.w * s), Math.round(IG.h * s), -Math.round((IG.cx - IG.diametre / 2) * s), -Math.round((IG.cy - IG.diametre / 2) * s)))),
+      h("div", { style: { display: "flex", marginTop: 6, fontFamily: FONT_TEXTE, fontWeight: 400, fontSize: 12, color: "#262626" } }, a.nom)))) };
 }
 
 // ─── Rendu ──────────────────────────────────────────────────────
@@ -299,23 +321,32 @@ async function main() {
     return { name: p.name, weight: p.weight, style: "normal" as const, data };
   }));
   await mkdir(OUT, { recursive: true });
-  const lot: Array<() => Banniere> = [
-    xMessage, xVanne, liNoir, liAplat,
-    () => alaUne("vannes", "Vannes"), () => alaUne("conseils", "Conseils"),
-    () => alaUne("quiz", "Quiz"), () => alaUne("bureau", "Bureau"),
-  ];
-  for (const fabrique of lot) {
-    const b = fabrique();
+  const rendre = async (el: ReactElement, w: number, hh: number, nom: string) => {
+    const png = Buffer.from(await new ImageResponse(el, { width: w, height: hh, fonts }).arrayBuffer());
+    await writeFile(join(OUT, `${nom}.png`), png);
+    return png;
+  };
+  const sortie = async (b: Banniere) => {
+    const png = await rendre(b.element, b.w, b.h, b.fichier);
     const controle = h("div", { style: { display: "flex", position: "relative", width: b.w, height: b.h } }, b.element, ...b.zones);
-    for (const [el, suffixe] of [[b.element, ""], [controle, "-controle"]] as const) {
-      const res = new ImageResponse(el, { width: b.w, height: b.h, fonts });
-      await writeFile(join(OUT, `${b.fichier}${suffixe}.png`), Buffer.from(await res.arrayBuffer()));
-    }
+    await rendre(controle, b.w, b.h, `${b.fichier}-controle`);
     console.log(`${b.fichier} (${b.w}x${b.h}) : ${b.controles.join(" ; ")}`);
-  }
+    return png;
+  };
+  const x = xMessage();
+  const ax = apercuX(await sortie(x));
+  await rendre(ax.element, ax.w, ax.h, `${x.fichier}-apercu-mobile`);
+  const li = liAplat();
+  const al = apercuLI(await sortie(li));
+  await rendre(al.element, al.w, al.h, `${li.fichier}-apercu-mobile`);
+  const couvertures: Buffer[] = [];
+  for (const a of ALAUNE) couvertures.push(await sortie(alaUne(a.cle)));
+  const ai = apercuIG(couvertures);
+  await rendre(ai.element, ai.w, ai.h, "instagram-alaune-apercu-mobile");
 }
 
 main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
+
