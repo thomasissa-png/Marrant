@@ -1,19 +1,24 @@
 import { ImageResponse } from "next/og";
-import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
+import { blogArticles } from "@/lib/blog-articles";
+import { findBlogArticle } from "@/lib/blog-article-page";
 
 // Runtime Node.js (défaut) : OpenNext/Cloudflare refuse les routes `runtime = "edge"`
 // dans le bundle serveur (migration Cloudflare, étape B). Même rendu `next/og`.
 export const alt = "Article blog | deviens-marrant.fr";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+// Même fraîcheur que la page : un article en base publié après le build a son image (s15, 06/10).
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return blogArticles.map((article) => ({ slug: article.slug }));
 }
 
-export default function OgImage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
-  const title = article?.title ?? "Article introuvable";
+export default async function OgImage({ params }: { params: { slug: string } }) {
+  // s15 (06/10) : articles statiques ET articles en base (même résolution que la page).
+  // Avant : statiques seulement, d'où « Article introuvable » sur les cartes X des articles en base.
+  const article = (await findBlogArticle(params.slug).catch(() => null))?.article ?? null;
+  const title = article?.title ?? "Le blog humour et répartie";
   const category = article?.category ?? "";
 
   return new ImageResponse(
