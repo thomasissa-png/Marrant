@@ -36,3 +36,10 @@ Rendement < 3 % : « problème de méthode, pas de volume ». Ce qui est fait, s
 - **Égalent l'étalon chez les 2 : 1 finaliste, P0-041.** Ancres du pool : 2 sur 4 égalent l'étalon chez les 2 (Nicolas/Julien, le zoom sur le parking), 2 restent à 8 / 8,5.
 - P0-072 (au niveau dans la notation à l'aveugle) ne passe pas le départage chez les 2.
 - **Bilan P0 : 2 vannes versées au pool (P0-072 au niveau ≥ 8,5 chez les 2, P0-041 égale Alexa chez les 2) sur 240, soit 0,8 %.** La moitié des ancres du pool ne tient pas la barre aujourd'hui : la barre est instable d'une session de notation à l'autre ; la méthode d'écriture reste le premier levier (pilote 2, consigne `consigne-pilote-2.md`).
+
+## Pilote 2 (06/10, nouvelle consigne `consigne-pilote-2.md`, 120 candidates, Alexa ET 4 ancres du pool glissées dans le lot)
+
+- Alexa : 9 chez les 2 relecteurs (cohérent).
+- **Candidates au niveau chez les 2 : 0 sur 120.** ≥ 8 chez les 2 : 2 (P2-008 : 8,5 / 8 ; P2-048 : 8 / 8). Moyennes : 7,14 et 6,66.
+- **Ancres du pool strict (jugées au niveau le 05/10, publiées en ce moment) : 0 sur 4 au niveau chez les 2** (8 / 7 ; 7 / 8,5 ; 8,5 / 7,5 ; 8 / 7,5).
+- Lecture : quand l'étalon est présent dans le lot, les relecteurs placent Alexa à 9 et tout le reste, y compris notre meilleur stock, entre 7 et 8,5. La barre telle qu'elle est mesurée aujourd'hui n'est atteinte ni par la production neuve (P0 : 2 sur 240 ; pilote 2 : 0 sur 120) ni de façon stable par le stock existant. **Décision à soumettre à Thomas** (barre = choix fondateur, non modifiable par la session).
