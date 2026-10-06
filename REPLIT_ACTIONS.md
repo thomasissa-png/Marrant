@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : profils sociaux
+
+- **X : en-tête posé par la session** via l'API X v1.1 (`account/update_profile_banner`, clés `TWITTER_*` de l'environnement), fichier `docs/social/visuels-s15/bannieres/x-entete.png` (10/10 @design et @growth) ; vérifié : image servie par X identique. Lien de profil (`/liens/x`) et bio : déjà posés par Thomas.
+- **LinkedIn : impossible par la session**, `LINKEDIN_ACCESS_TOKEN` expiré (401 `EXPIRED_ACCESS_TOKEN`). Couverture `linkedin-couverture.png` et site web `/liens/li` à poser par Thomas, ou nouveau jeton (droits d'administration de la page) pour que la session le fasse.
+- **Instagram : impossible par API** (lien de bio, stories à la une, stickers lien) : à faire dans l'application (marche à suivre : `docs/social/visuels-s15/bannieres/notation-growth-cycle3.md`).
+- L'API Buffer ne gère que les posts (aucune mutation de profil).
+
 ## s15 (06/10/2026, 09:00 Paris) : H+45 LinkedIn OK
 
 - 1er post LinkedIn depuis le 09/08 : `sent` à 08:18 Paris, lien réel `linkedin.com/feed/update/urn:li:share:7513120421135708160`, aucun FAILED, 3 réseaux ouverts (`docs/social/releves/2026-10-06.md`).
