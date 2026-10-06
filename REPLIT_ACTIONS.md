@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, 09:00 Paris) : H+45 LinkedIn OK
+
+- 1er post LinkedIn depuis le 09/08 : `sent` à 08:18 Paris, lien réel `linkedin.com/feed/update/urn:li:share:7513120421135708160`, aucun FAILED, 3 réseaux ouverts (`docs/social/releves/2026-10-06.md`).
+
 ## s15 (06/10/2026) : DÉPLOYÉ depuis l'arbre principal, Worker `1fda1ab3-12b1-4d8e-8564-cd92dabcd782` (N-1 `03e279cf-0e52-4f01-945b-6701d10c79be`)
 
 - Contenu : `5a0a2bf` (haut de page du pilier : En bref 1A, title/H1 2A, intro 3B ; titres alignés dans `/vannes` et `/videos`) + `7761333` (carte « Commence ici » de `/blog`). Jest 3 254 PASS ; tsc, lint OK.
