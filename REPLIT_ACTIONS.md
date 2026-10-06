@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : liens vers le pilier `/blog/comment-devenir-drole` (L1 à L7, `docs/seo/pilier-non-indexe-s15.md`) @fullstack : **À DÉPLOYER**
+
+> Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucune requête SQL (les 6 articles touchés sont statiques), aucun event Umami, aucune URL changée, rien supprimé. Journal avant/après et mesure du diff : `docs/seo/liens-pilier-appliques-s15.md`.
+> - **L1** footer : « Comment devenir drôle » avant « Blog » (toutes les pages). **L2** accueil : phrase sous les 3 cartes « Tu te reconnais ? ». **L3** `/blog` : bloc « Commence ici » au-dessus de la liste.
+> - **L4** article n°1 : lien dans l'intro (le lien final reste). **L5** une phrase dans `comment-avoir-de-la-repartie`, `5-types-humour-lequel-pour-toi`, `phrases-droles-conversations`, `autoderision-interactions`. **L6** pilier : 5 liens sortants (exercices, 8 habitudes, répartie, pourquoi les blagues ne marchent pas, `/quiz-humour`), haut de page non touché.
+> - **L7** `updatedAt` du pilier = `2026-10-06` : **si le déploiement a lieu un autre jour, reporter la date** (`apps/web/src/lib/blog-articles.ts`, slug `comment-devenir-drole`) avant de déployer.
+> - **Après déploiement** : `/`, `/blog`, `/blog/comment-devenir-drole`, `/blog/meilleures-blagues-droles-2026` en 200 avec le lien visible ; `/sitemap.xml` : `lastmod` du pilier à la date de L7. Puis **Thomas** : Search Console > Inspection d'URL du pilier (version apex) > « Tester l'URL en direct » > « Demander une indexation » (une seule fois) ; IndexNow pour le pilier, `/blog` et `/`.
+
 ## s15 (06/10/2026, 07:50 Paris) : PREUVE `--insert` / `--rollback` en `--driver=neon-http` sur la base réelle (point QA cycle 6 et 7) : FAIT
 
 - Lot fictif `preuve-http-2031` (1 post X daté du 06/01/2031, jamais publiable avant) : `--insert --driver=neon-http` : « Inséré : 1 posts APPROVED… Contrôle après insertion : conforme » ; `--rollback` sans `--confirmer` : comptes seulement, « Rien n'a été modifié » ; `--rollback --confirmer` : « Annulés (REJECTED) : 1. Après : {REJECTED:1} » ; ligne supprimée ensuite (reste 0). À noter : `--rollback` exige `--debut` et `--fin`.

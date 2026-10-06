@@ -143,6 +143,15 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+
+        {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
+        <p className="mt-6 text-center text-sm text-text-secondary">
+          Tu veux d&apos;abord comprendre le mécanisme ? Lis notre guide{" "}
+          <Link href="/blog/comment-devenir-drole" className="font-medium text-accent-link hover:underline">
+            comment devenir drôle
+          </Link>
+          .
+        </p>
       </section>
 
       {/* CTA principal */}

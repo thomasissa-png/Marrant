@@ -138,9 +138,10 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders article cards with titles", () => {
+    // 2 occurrences depuis s15 (L3) : la carte « Commence ici » et la carte de la liste.
     expect(
-      screen.getByText("Comment devenir drôle : le guide")
-    ).toBeInTheDocument();
+      screen.getAllByText("Comment devenir drôle : le guide")
+    ).toHaveLength(2);
     expect(
       screen.getByText("Comment avoir de la répartie : techniques")
     ).toBeInTheDocument();

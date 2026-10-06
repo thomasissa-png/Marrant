@@ -6,6 +6,8 @@ const footerLinks = {
     { href: "/conseils", label: "Conseils" },
     { href: "/videos", label: "Vidéos stand-up" },
     { href: "/parcours", label: "Parcours" },
+    // Pilier SEO non indexé (docs/seo/pilier-non-indexe-s15.md, L1) : lien sitewide.
+    { href: "/blog/comment-devenir-drole", label: "Comment devenir drôle" },
     { href: "/blog", label: "Blog" },
     { href: "/glossaire", label: "Glossaire" },
     { href: "/quiz-humour", label: "Quiz humour" },

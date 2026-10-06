@@ -136,6 +136,21 @@ export default async function BlogPage() {
         }
       />
 
+      {/* Bloc « Commence ici » vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L3).
+          Pas de titre Hn : la hiérarchie de titres de /blog reste inchangée. */}
+      <aside aria-label="Commence ici" className="mb-8">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-muted">Commence ici</p>
+        <Link
+          href="/blog/comment-devenir-drole"
+          className="block rounded-lg border border-accent-primary/40 bg-background-card p-4 transition-colors hover:border-accent-primary"
+        >
+          <span className="block font-display text-lg font-bold text-text-primary">Comment devenir drôle : le guide</span>
+          <span className="mt-1 block text-sm text-text-secondary">
+            Les 5 piliers, ce qu&apos;en dit la science et un plan sur 30 jours.
+          </span>
+        </Link>
+      </aside>
+
       {/* Fallback = liste complète rendue dans le HTML statique (liens crawlables, lot S1 s14) ;
           le client applique ensuite le filtre `?category=`. */}
       <Suspense fallback={<BlogListView articles={allArticles} categories={categories} />}>

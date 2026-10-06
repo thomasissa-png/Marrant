@@ -13,24 +13,54 @@
         "slug": "meilleures-blagues-droles-2026",
         "session": "notation iter1",
         "raison": "correctifs C1 à C3, C8 à C10 (sommaire remonté, lien machine à café, sorties, puces thèmes, « Toi aussi ») : titres et meta inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s15",
+        "raison": "liens pilier L6 (5 liens sortants) et L7 (updatedAt 2026-10-06) : titres, FAQ et humoristes inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "5-types-humour-lequel-pour-toi",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "phrases-droles-conversations",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "autoderision-interactions",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "4ea29938f3ca35d55b347a030f8a682bc5fa4477ebee4d977c6d951562e7eb57",
-      "wordCount": 1674,
+      "words": "643e629256aaaeca73dc075858a7718919cf6d3241824f309554bc597f51e541",
+      "wordCount": 1773,
       "headings": "0d0f261cf80a2c1797565694eb2d6b0fe351b84c50f1e5f4db280c3964c32f4b",
-      "links": "22cfc7e210d87516776bdb009e8924403c4e31512c19447c09f34975e112d9e2",
-      "numbers": "4ca2a81dfdcbaaa2f42b17226d612c5e4d6e20b8642850cd1f3149d2b8bf3fb0",
-      "meta": "81d2c9752090e0deda2d81d79d189e3ee0fdbd9d1b7a0b21aba2a390b0367552",
+      "links": "f51c0e718c7a286ff288d3335d0bdd3bd60eb8378e1a5c5f1f31acf65d8f1cc0",
+      "numbers": "0e52f3a749a48fb6291dc3f4b247840037257ac1e353918535df9815388f1049",
+      "meta": "8ed7b9d26dad473b64da92a43f12feb96b880b39f294f9ea8e6c2d86b6edbc33",
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {
-      "words": "dbb0724494fb7ad77b6f88d07686b4289947a001c9c744d5913afca2dc430787",
-      "wordCount": 1567,
+      "words": "e0fc64bbb361f584431f2273757c69438ed425d637bb8f9439a328077f24027f",
+      "wordCount": 1589,
       "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
-      "links": "47f74eb5c7ae9e96cc7b0ba569c0fced8530549f7546375785df96dded63e506",
+      "links": "6497ebc73860ed4f9a9ca234dc1b0d4def347b5ec6b7e17d05f691df2b29bd3b",
       "numbers": "c8f72de03fcbce9f1ac5a9bdde58527d0a77ade9ae38f8e89131b66f72bf89ec",
       "meta": "f00a61c61cca6c8f4bc8e689b73a8c7bf1d57106f9b688a3ed9b738392f5594a",
       "emDashesBefore": 23
@@ -54,10 +84,10 @@
       "emDashesBefore": 11
     },
     "autoderision-interactions": {
-      "words": "d6e0ea8e67d51b359b550c4d1003a4ed8b2aa298e4f234ce3b83ecc654086fcf",
-      "wordCount": 1175,
+      "words": "848409d7a3657edf3f7669738c894f3b53d83a19466d0ad35f9f64d362c88198",
+      "wordCount": 1189,
       "headings": "e25a3ba7acfdd7f3af2bd97c9b933198ea4e202c547570942eba4d1d67d7cca0",
-      "links": "0614cfc41a8fe56e0b0fd601e42e8f9a509decfa4005ceb7a8cd3c2c3e7d84f3",
+      "links": "84824849b8b4cea86974c4798df0b1d98c8359cb58a997c53f561fa12d1bba76",
       "numbers": "e84d215af5d3c46a28b302c4ec06940fd983124e1b1809c9d34363322811269e",
       "meta": "855475710660ae672f50ce109f5c6e365a3a42f6fda977cde5c47385dd7dc01e",
       "emDashesBefore": 8
@@ -81,10 +111,10 @@
       "emDashesBefore": 11
     },
     "5-types-humour-lequel-pour-toi": {
-      "words": "80924cf2d600a8471910bd13dbb53ed41d8f19aca753e30c2c52877fc82da93c",
-      "wordCount": 1512,
+      "words": "b9a8c4550acc177d98b05f2b17cd62519646d1df5e428a6a2c5c9f7fed1a4631",
+      "wordCount": 1528,
       "headings": "b4107bbf9375f5d9d08d2317e6eb05d1eb5a3902c59e68d1746bcead9e0ab897",
-      "links": "e1b0095925fcef2cd47d761e0923fd094cdd2bbd0318dc8e12c2cc894c928ed6",
+      "links": "9e8a1330cd302240811a7a9b94b82ec7c5ba00b3b430addbf4a9a35c032099e7",
       "numbers": "92713f55ee0ae3cec34f2d0d23fe12c5be8073cab5f5bdc37b8e06271f60f312",
       "meta": "12b9f6ae8710dab2a0855eaefb400057e599df873a32b39fc1ac69c815bde046",
       "emDashesBefore": 15
@@ -135,19 +165,19 @@
       "emDashesBefore": 6
     },
     "phrases-droles-conversations": {
-      "words": "a6c78fee1bde9fb694a9902a0dcb58f4f7ec4e1071cbb7e64500ba330d590488",
-      "wordCount": 2114,
+      "words": "b330288fa0d2e14f3adcbc82d7e81ff0f8cab6030bc56fd668e433fddb38631d",
+      "wordCount": 2128,
       "headings": "2775640f4ef04fd921185663e212a090772cb00c58a5c7b0c8bea13a6e584a34",
-      "links": "10c98330117b8c782df5d7290e165c4cab4c6f72cb03f0f1600cb28f5583b9e6",
+      "links": "d4632649240d2168428250b485b98794bb1a441f9c60fa8d9a4f442c77c802cb",
       "numbers": "dfbdb1892e8edefbd3d5c91d222fe592f6815d965b848c3c5333c46c23f5482e",
       "meta": "7ce06a2353a4f90936b740c8f5e71ec2abf15c0258c3e44935cc18eb69eae28c",
       "emDashesBefore": 20
     },
     "meilleures-blagues-droles-2026": {
-      "words": "ea81fc22a7aac7518339532085159b8704a3357d6460cb51643dae863e527a1c",
-      "wordCount": 2538,
+      "words": "9e6983239fc075e2646aa6b274237d718539901578c173d87bf8aaa728cd46b3",
+      "wordCount": 2555,
       "headings": "1f316593f32e57d29184adda284a3c57a99db8926707916dc1767ae66d238d30",
-      "links": "691af42e6bf91e5efab3dd5f1306a77c89803a4d832b21273a755ea17c8f5b04",
+      "links": "3c2d70e181853f607dc938d1b2d7cc32a88b08784c6de3610fffa2a2e673b3cf",
       "numbers": "20c868673800ebf6148325c9b15898365899b7aa9c32213aa6948914975a7002",
       "meta": "1b03b6938e1eafc528d4dd48699d746336d7f04dff3d64285d293cd21178b0ee",
       "emDashesBefore": 6

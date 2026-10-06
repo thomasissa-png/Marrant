@@ -50,7 +50,7 @@ Une étude de Crawford et Caltabiano (2011, *Journal of Positive Psychology*) a 
 
 L'observation, c'est le premier muscle à entraîner. Note chaque jour un truc absurde que tu as remarqué. Le collègue qui répond "bien et toi ?" à "bon week-end !". Le mec qui fait semblant de chercher dans son sac au moment de payer au resto. Le mail pro qui commence par "J'espère que tu vas bien", envoyé par quelqu'un qui n'a jamais attendu la réponse.
 
-En 30 jours, tu auras 30 observations. Et au moins 10 potentiellement drôles.
+En 30 jours, tu auras 30 observations. Et au moins 10 potentiellement drôles. Pour en faire un réflexe, pioche dans nos [8 habitudes simples d'humour au quotidien](/blog/humour-quotidien-8-habitudes).
 
 ### Pilier 2 : La surprise — L'art du virage inattendu
 
@@ -86,6 +86,8 @@ Tu ne deviendras pas drôle en lisant des articles. (Oui, celui-ci compris. On a
 3. **Étape 3 : Tester.** Partage tes meilleures trouvailles avec un ami proche. Note ce qui fait sourire, rire, ou tomber à plat. Pas de jugement, juste des données. Tu fais de la R&D comique.
 4. **Étape 4 : Élargir.** Utilise ce qui a marché à l'étape 3 dans des contextes plus larges. En réunion, en soirée, dans un groupe WhatsApp. Tu as maintenant un petit répertoire testé et approuvé.
 
+Pour t'entraîner sur chaque étape, fais nos [10 exercices pour développer ton humour](/blog/exercices-developper-humour).
+
 > **CLEF :** La progression en humour suit le même schéma que toute compétence : observer → imiter → tester → ajuster. En 30 jours de pratique quotidienne (5-10 minutes), la plupart des gens passent de "[je suis pas drôle](/blog/je-suis-pas-drole-comment-changer)" à "tiens, les gens sourient quand je parle".
 
 ## Quelles erreurs empêchent de devenir drôle ?
@@ -98,13 +100,18 @@ On a détaillé les pièges les plus courants dans notre article [5 erreurs qui 
 
 **Forcer.** L'humour forcé se sent à 10 kilomètres. C'est le mec qui annonce "attends, j'ai une blague" : l'ambiance meurt avant la blague. Les gens drôles ne sont pas "on" en permanence. Ils choisissent leurs moments.
 
+Et si tes vannes tombent quand même à plat, lis [pourquoi tes blagues ne marchent pas](/blog/pourquoi-blagues-marchent-pas).
+
 ## À qui ça s'adresse ?
 
-Que tu sois étudiant et que tu galères à prendre ta place en soirée, commence par l'observation, c'est le point d'entrée le moins intimidant. Que tu cherches à alimenter tes conversations au bureau, la structure setup/punchline va transformer tes anecdotes de pause déjeuner. Ou que tu traverses une période où tu as perdu ta légèreté, la pratique progressive te permet de retrouver ton humour à ton rythme, sans pression.
+Que tu sois étudiant et que tu galères à prendre ta place en soirée, commence par l'observation, c'est le point d'entrée le moins intimidant. Que tu cherches à alimenter tes conversations au bureau, la structure setup/punchline va transformer tes anecdotes de pause déjeuner. Ou que tu traverses une période où tu as perdu ta légèreté, la pratique progressive te permet de retrouver ton humour à ton rythme, sans pression. Si c'est surtout la répartie qui te manque, commence par [avoir de la répartie en 10 techniques](/blog/comment-avoir-de-la-repartie).
+
+Tu ne sais pas encore quel humour est le tien ? Fais le [quiz humour](/quiz-humour).
 
 Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 2,99 EUR/mois**, sans engagement.`,
     date: "2026-03-13",
-    updatedAt: "2026-09-29",
+    // s15 (L7) : date réelle de la modification (liens L6). Si le déploiement glisse, la reporter au jour du déploiement.
+    updatedAt: "2026-10-06",
     readingTime: "7 min",
     category: "GUIDE",
     faqs: [
@@ -207,7 +214,7 @@ Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïvet
 
 ## Un dernier truc important
 
-La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger. L'objectif, c'est que tout le monde rie, y compris celui qui t'a lancé la remarque. Si ta réponse blesse, c'est pas de la répartie, c'est de la méchanceté. Et ça, ça ne rend personne drôle.
+La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger. L'objectif, c'est que tout le monde rie, y compris celui qui t'a lancé la remarque. Si ta réponse blesse, c'est pas de la répartie, c'est de la méchanceté. Et ça, ça ne rend personne drôle. Si tu veux travailler ton humour au-delà de la répartie, lis le guide pour [devenir plus drôle](/blog/comment-devenir-drole).
 
 Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours/repartie) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **2,99 EUR/mois** : de quoi arrêter de répondre sous la douche.`,
     date: "2026-03-12",
@@ -430,7 +437,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 **Étape 2 :** Pour chacun, écris une phrase d'autodérision avec une exagération comique. "Mauvais en cuisine" devient "La dernière fois que j'ai cuisiné, ma poêle a demandé sa mutation."
 
-**Étape 3 :** Teste la meilleure avec des proches. Si tu souris en la disant et qu'ils rient, c'est validé. Si tu as l'air triste en la disant, retravaille le ton.
+**Étape 3 :** Teste la meilleure avec des proches. Si tu souris en la disant et qu'ils rient, c'est validé. Si tu as l'air triste en la disant, retravaille le ton. C'est d'ailleurs un des piliers pour [devenir drôle](/blog/comment-devenir-drole).
 
 L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours/confiance) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **2,99 EUR/mois**, et tes défauts deviennent enfin rentables.`,
     date: "2026-02-15",
@@ -684,7 +691,7 @@ L'humour noir joue avec les tabous, l'inconfort et les sujets graves. C'est le p
 
 La réalité, c'est que la plupart des gens drôles ne sont pas "un type". Ils sont des hybrides. **Paul Mirabel** mélange observationnel + absurde + escalade. **Fary** combine observationnel + jeux de mots + énergie. **Roman Frayssinet** fait de l'observationnel avec une touche d'absurde. Regarde nos [vidéos](/videos) analysées pour identifier les combinaisons de chaque pro.
 
-Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d'un second type. Un observateur qui s'autorise un peu d'absurde, ou un autodérisif qui glisse un jeu de mots, ajoute une surprise de plus à chaque vanne.
+Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d'un second type. Un observateur qui s'autorise un peu d'absurde, ou un autodérisif qui glisse un jeu de mots, ajoute une surprise de plus à chaque vanne. Pour travailler ton style au quotidien, lis notre guide [comment devenir drôle](/blog/comment-devenir-drole).
 
 ## Comment trouver ton type d'humour ?
 
@@ -1320,7 +1327,7 @@ Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "l
 
 ## L'art de la **phrase drôle** : pourquoi certaines marchent
 
-Les 33 phrases au-dessus ont un point commun : elles sont **courtes** (moins de 25 mots), elles parlent de **situations universelles**, et la chute arrive **là où on ne l'attend pas**.
+Les 33 phrases au-dessus ont un point commun : elles sont **courtes** (moins de 25 mots), elles parlent de **situations universelles**, et la chute arrive **là où on ne l'attend pas**. Pour fabriquer les tiennes, lis [le guide pour devenir drôle](/blog/comment-devenir-drole).
 
 C'est exactement ce que Roman Frayssinet fait sur scène : il part d'un truc banal et tourne à un endroit imprévisible. La mécanique :
 
@@ -1375,7 +1382,7 @@ La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu s
 
 Va direct à ta situation : [Soirée](#quelles-blagues-sortir-en-soiree-celles-qui-marchent-a-partir-de-22h) · [Bureau](#quelles-blagues-au-bureau-le-lundi-matin-est-un-sport-de-combat) · [Date](#comment-faire-rire-en-date-detendre-un-moment-genant) · [Famille](#les-vannes-en-famille-niveau-expert) · [Potes](#les-vannes-entre-potes-le-labo-d-essai) · [WhatsApp](#les-vannes-whatsapp-reseaux) · [Inclassables](#les-pepites-inclassables). Et quand tu les auras toutes usées : la [blague du jour](/blague-du-jour) change tous les jours, et le [catalogue de vannes](/vannes) range le reste par situation.
 
-Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable.
+Chaque vanne ici a passé un test simple : **« Est-ce que je peux la sortir ce soir et faire rire ? »** Si la réponse était non, elle a dégagé. Pas de « qu'est-ce qu'un canif dit à un autre canif », pas de blagues Carambar recyclées depuis 2004. Que du concret, du testable, du sortable. Et si un jour tu veux écrire les tiennes, lis [comment devenir drôle](/blog/comment-devenir-drole).
 
 > **Définition :** Une bonne blague repose sur 3 éléments : un setup (la situation), un pivot (le changement de direction) et une punchline (la chute inattendue). Le setup crée l'attente, le pivot la détourne, et la punchline libère le rire. Plus la punchline est courte et inattendue, plus l'impact est fort.
 
