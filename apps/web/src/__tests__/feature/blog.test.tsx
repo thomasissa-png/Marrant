@@ -138,10 +138,9 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders article cards with titles", () => {
-    // 2 occurrences depuis s15 (L3) : la carte « Commence ici » et la carte de la liste.
-    expect(
-      screen.getAllByText("Comment devenir drôle : le guide")
-    ).toHaveLength(2);
+    // s15 : la carte de la liste (titre du mock) et la carte « Commence ici » (titre du pilier depuis le 06/10).
+    expect(screen.getAllByText("Comment devenir drôle : le guide")).toHaveLength(1);
+    expect(screen.getByText("Comment devenir drôle : 5 piliers et un plan sur 30 jours")).toBeInTheDocument();
     expect(
       screen.getByText("Comment avoir de la répartie : techniques")
     ).toBeInTheDocument();

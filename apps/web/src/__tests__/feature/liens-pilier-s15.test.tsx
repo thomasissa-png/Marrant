@@ -70,7 +70,7 @@ describe("L3 : /blog, bloc « Commence ici »", () => {
   it("rend la carte vers le pilier au-dessus de la liste, sans nouveau titre Hn", async () => {
     render(await BlogPage());
     const bloc = screen.getByRole("complementary", { name: "Commence ici" });
-    const lien = within(bloc).getByRole("link", { name: /Comment devenir drôle : le guide/ });
+    const lien = within(bloc).getByRole("link", { name: /Comment devenir drôle : 5 piliers et un plan sur 30 jours/ });
     expect(lien).toHaveAttribute("href", PILIER);
     expect(within(bloc).queryByRole("heading")).toBeNull();
   });

@@ -144,7 +144,7 @@ export default async function BlogPage() {
           href="/blog/comment-devenir-drole"
           className="block rounded-lg border border-accent-primary/40 bg-background-card p-4 transition-colors hover:border-accent-primary"
         >
-          <span className="block font-display text-lg font-bold text-text-primary">Comment devenir drôle : le guide</span>
+          <span className="block font-display text-lg font-bold text-text-primary">Comment devenir drôle : 5 piliers et un plan sur 30 jours</span>
           <span className="mt-1 block text-sm text-text-secondary">
             Les 5 piliers, ce qu&apos;en dit la science et un plan sur 30 jours.
           </span>
