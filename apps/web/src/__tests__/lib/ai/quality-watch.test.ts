@@ -11,7 +11,10 @@ const mockTryAcquireLock = jest.fn();
 jest.mock("@/lib/ai/agents/standup-director-agent", () => ({
   validateJoke: (...a: unknown[]) => mockValidateJoke(...a),
 }));
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockSendAdminAlert(...a) }));
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct. Le mock reçoit (sujet, html, clé).
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => mockSendAdminAlert(i.sujet, i.html, i.cle),
+}));
 jest.mock("@/lib/job-lock", () => ({
   tryAcquireLock: (...a: unknown[]) => mockTryAcquireLock(...a),
   buildJobLockKey: (name: string, d: Date) => `${name}:${d.toISOString().slice(0, 10)}`,

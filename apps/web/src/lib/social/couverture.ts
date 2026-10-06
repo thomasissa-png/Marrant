@@ -15,8 +15,9 @@
  *     d'un réseau actif passe sous 21 jours alors que la tranche suivante est incomplète ;
  *  6. vagues V1 à V4 : e-mail au démarrage et à la livraison ;
  *  7. jalons J+14 à J+112 : e-mail le dimanche d'avant (fiche d'une page).
- * Alertes séparées par réseau et par type, au plus 1 par jour chacune (verrou posé
- * après envoi réussi : `sendDailyPublishFailureAlert`).
+ * Alertes séparées par réseau et par type, un enregistrement par jour chacune
+ * (`sendDailyPublishFailureAlert` → `lib/admin-alerts.ts`). Depuis s15 (06/10),
+ * aucune ne part par e-mail : classe B, lue par la session (`GET /api/admin/alertes`).
  */
 import { POOL_STRICT } from "@/config/social-pool";
 import {

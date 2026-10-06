@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : moins d'e-mails admin (1 digest par jour au plus) @fullstack : **À DÉPLOYER** (dès que possible : sinon de nouveaux e-mails « file basse » partent chaque nuit)
+
+> Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration (stockage dans la table existante `CeoMemory`, namespace `admin_alert`), aucun package, aucune variable d'env, aucun event Umami, aucun Cron Trigger nouveau (le digest tourne dans `scheduler-tick` toutes les 15 min). Inventaire : `docs/qa/inventaire-emails-admin-s15.md`.
+> - **Plus aucun e-mail par alerte** : `sendAdminAlert` supprimé ; social (couverture, publish-social, buffer-status-check, pauses), IA (pannes LLM, coupe-circuit budget) et contrôle qualité passent par `recordAdminAlert` (`lib/admin-alerts.ts`), une ligne par clé et par jour de Paris.
+> - **Classe A** (Thomas doit agir : token Buffer, canal Buffer à reconnecter, crédit/clé/permission Anthropic, coupe-circuit budget) : **un seul digest par jour**, 07:30 heure de Paris (retentes jusqu'à 09:59), rien si aucune action. Le lundi, il voyage dans le rapport des visites de 07:00.
+> - **Classe B** (file basse, lot en retard, stock, lancement, vagues, jalons, 429, échecs, relais, repli image, non confirmés, pause sur échecs, qualité, panne modèle) : `GET /api/admin/alertes` (Bearer `ADMIN_PASSWORD`, `?jours=1..30`, `?classe=A|B`, `?apercu=1` pour lire sans dater la lecture). **Les routines du matin de la session doivent l'appeler chaque jour.**
+> - **Filet** : sans lecture de la route depuis 48 h, les alertes B en attente partent dans le digest.
+> - Clé de pause automatique scindée : `social-auto-pause-canal-*` (A) / `social-auto-pause-echecs-*` (B).
+> - **Après déploiement** : `curl -H "Authorization: Bearer $ADMIN_PASSWORD" https://deviens-marrant.fr/api/admin/alertes` → 200 `{ success: true, alertes: [...] }` ; le lendemain matin, au plus 1 e-mail (« [Marrant] N action(s) pour toi »), aucun si rien à faire.
+
 ## s15 (06/10/2026, ~00:15 Paris) : DÉPLOYÉ par la session, Worker `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f` (N-1 `c5c0529b-db00-4cd7-bfca-218bf1273c01`)
 
 - Contenu : `9c1367b` (test d'intégration route → vrai `buffer-client` par réseau, alerte de repli image → texte LinkedIn, marqueurs conservés sur échec, pont du quiz dans le générateur, test d'heure A/B par jour X et Instagram du 12/10 au 09/11 mardi à jeudi, heures B : X 09:00, IG 12:30 ; LinkedIn garde l'heure A pendant le test image).

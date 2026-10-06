@@ -54,7 +54,10 @@ jest.mock("@/lib/social/buffer-client", () => {
 const mockLockHeld = jest.fn(async (..._a: unknown[]) => false);
 jest.mock("@/lib/job-lock", () => ({ ...jest.requireActual("@/lib/job-lock"), tryAcquireLock: async () => true, isLockHeld: (...a: unknown[]) => mockLockHeld(...a) }));
 const mockAlert = jest.fn(async (..._a: unknown[]) => true);
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockAlert(...a) }));
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct. Le mock reçoit (sujet, html, clé).
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => mockAlert(i.sujet, i.html, i.cle),
+}));
 jest.mock("@/lib/blog-article-page", () => ({ findBlogArticle: jest.fn(async () => ({})) }));
 
 import { GET } from "@/app/api/cron/publish-social/route";
@@ -158,24 +161,16 @@ describe("publish-social : LinkedIn [variante:image]", () => {
 describe("publish-social : repli image visible et marqueurs conservés (cycle 7, QA L1 à L3)", () => {
   const alertesRepli = () => mockAlert.mock.calls.filter((c) => String(c[0]).includes("texte seul"));
 
-  it("repli image → texte : 1 e-mail d'alerte, clé du jour social-repli-image-linkedin", async () => {
+  it("repli image → texte : 1 alerte enregistrée, clé social-repli-image-linkedin", async () => {
     mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
     await publier(liPost("[variante:image] Lot relance-s15"));
     expect(alertesRepli()).toHaveLength(1);
     expect(String(alertesRepli()[0][1])).toContain("wasm absent");
-    expect(mockLockHeld.mock.calls.map((c) => String(c[0]))).toContainEqual(expect.stringContaining("social-repli-image-linkedin"));
+    expect(alertesRepli()[0][2]).toBe("social-repli-image-linkedin");
     expect(statutFinal()).toBe("PUBLISHED");
   });
 
-  it("2e repli le même jour : verrou posé, pas de 2e e-mail, post toujours PUBLISHED", async () => {
-    mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
-    mockLockHeld.mockResolvedValue(true);
-    await publier(liPost("[variante:image]"));
-    expect(alertesRepli()).toHaveLength(0);
-    expect(statutFinal()).toBe("PUBLISHED");
-  });
-
-  it("e-mail en échec : sans effet sur l'envoi", async () => {
+  it("alerte en échec : sans effet sur l'envoi", async () => {
     mockRenderSlides.mockRejectedValue(new Error("wasm absent"));
     mockAlert.mockRejectedValue(new Error("Resend en panne"));
     await publier(liPost("[variante:image]"));

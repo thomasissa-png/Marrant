@@ -19,7 +19,10 @@ jest.mock("@/lib/job-lock", () => ({
   },
 }));
 const sendAdminAlert = jest.fn();
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => sendAdminAlert(...a) }));
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct. Le mock reçoit (sujet, html, clé).
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => sendAdminAlert(i.sujet, i.html, i.cle),
+}));
 
 import type { SocialPlatform } from "@prisma/client";
 import type { BufferPostStatus } from "@/lib/social/buffer-client";
@@ -197,7 +200,7 @@ describe("reconcileBufferPostStatuses", () => {
     expect(rows[1].alertedAt).toEqual(NOW);
   });
 
-  it("D1 : Resend en échec = alerte gardée en attente et renvoyée au passage suivant", async () => {
+  it("D1 : base illisible = alerte gardée en attente et renvoyée au passage suivant", async () => {
     const rows = [row("a")];
     sendAdminAlert.mockResolvedValueOnce(false);
     await reconcileBufferPostStatuses(deps(rows, [remote("buf-a", "error")]), NOW);
@@ -208,15 +211,13 @@ describe("reconcileBufferPostStatuses", () => {
     expect(rows[0].alertedAt).not.toBeNull();
   });
 
-  it("alerte du jour déjà partie : la nouvelle anomalie attend le lendemain, jamais perdue", async () => {
+  it("nouvelle anomalie le même jour : enregistrée tout de suite (même clé, comptée), jamais perdue", async () => {
     const rows = [row("a"), row("b")];
     await reconcileBufferPostStatuses(deps(rows, [remote("buf-a", "error"), remote("buf-b", "sent")]), NOW);
     rows.push(row("c"));
     await reconcileBufferPostStatuses(deps(rows, [remote("buf-c", "error")]), new Date(NOW.getTime() + H));
-    expect(sendAdminAlert).toHaveBeenCalledTimes(1);
-    expect(rows[2].alertedAt).toBeNull();
-    await reconcileBufferPostStatuses(deps(rows, []), new Date(NOW.getTime() + 24 * H));
     expect(sendAdminAlert).toHaveBeenCalledTimes(2);
+    expect(sendAdminAlert.mock.calls.map((c) => c[2])).toEqual(["buffer-status-alert-instagram", "buffer-status-alert-instagram"]);
     expect(rows[2].alertedAt).not.toBeNull();
   });
 

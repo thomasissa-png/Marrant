@@ -62,6 +62,8 @@ export async function runWeeklyVisitsReport(
     countConversions?: ConversionCounter;
     lookupArticles?: BlogArticleLookup;
     socialSection?: SocialSection;
+    /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
+    digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
 ): Promise<WeeklyVisitsResult> {
   const config = getUmamiConfig();
@@ -83,9 +85,13 @@ export async function runWeeklyVisitsReport(
     new Date(report.current.endAt),
     opts.now ?? new Date(),
   );
+  const digest = opts.digest;
+  const finalSubject = digest
+    ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
+    : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(subject, buildWeeklyVisitsHtml(report, social));
-  return { status: "sent", subject, report };
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${social}${digest?.html ?? ""}`));
+  return { status: "sent", subject: finalSubject, report };
 }
 
 /** Tick du scheduler. Ne lève jamais : erreurs journalisées, verrou relâché pour retenter. */
@@ -102,8 +108,15 @@ export async function runScheduledWeeklyVisitsReport(now: Date = new Date()): Pr
   if (!(await tryAcquireLock(lockKey, WEEKLY_VISITS_LOCK_TTL_MS))) return;
 
   try {
-    const res = await runWeeklyVisitsReport({ now });
+    // Lundi : le digest des alertes du matin voyage dans ce rapport (au plus
+    // UN e-mail par jour, s15 06/10) ; une fois envoyé, le digest de 07:30 ne part pas.
+    const { preparerDigest, validerDigest } = await import("@/lib/admin-digest");
+    const digest = await preparerDigest(now);
+    const res = await runWeeklyVisitsReport({ now, digest });
     if (res.status === "sent") console.log(`[weekly-visits] Rapport envoyé : ${res.subject}`);
+    if (res.status === "sent" && digest) {
+      await validerDigest(digest, now).catch((err) => console.error("[weekly-visits] Digest non marqué :", err));
+    }
   } catch (err) {
     console.error(`[weekly-visits] Échec : ${err instanceof Error ? err.message : "erreur inconnue"}`);
     await releaseLock(lockKey);

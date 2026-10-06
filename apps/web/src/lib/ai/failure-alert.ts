@@ -10,8 +10,9 @@
  *
  * Ce module garantit qu'un tel incident ne peut plus passer inaperçu :
  *   - dès qu'une erreur NON-retryable de type modèle introuvable / auth /
- *     permission / crédit remonte de `callWithRetry`, on envoie un email à
- *     l'admin (`alex@deviens-marrant.fr` via `sendAdminAlert`)
+ *     permission / crédit remonte de `callWithRetry`, on enregistre une
+ *     alerte admin (`recordAdminAlert`, s15 06/10 : crédit, clé, permission =
+ *     classe A dans le digest du matin ; le reste = classe B lue par la session)
  *   - throttling : max 1 alerte par TYPE d'erreur / 24h (persistance via
  *     `JobLock`), pour éviter le spam si le pipeline se relance 20 fois
  *   - silent-fail total : une erreur d'envoi email ou de DB ne re-throw
@@ -26,10 +27,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
 import { LlmRefusalError } from "./client";
 
-// `sendAdminAlert` est importé dynamiquement dans `notifyLLMFailure` pour
-// éviter d'embarquer `resend` (et sa dépendance optionnelle `@react-email/render`)
-// dans le bundle des Server Components qui touchent client.ts (instrumentation,
-// crons, etc.). Le coût d'un dynamic import est négligeable — cette fonction
+// `recordAdminAlert` est importé dynamiquement dans `notifyLLMFailure` pour
+// ne charger le module d'alertes qu'en cas de panne (hors du chemin des Server
+// Components qui touchent client.ts : instrumentation, crons, etc.). Le coût d'un dynamic import est négligeable — cette fonction
 // est appelée au maximum une fois par type d'erreur / 24h.
 
 /**
@@ -218,8 +218,10 @@ export async function notifyLLMFailure(
     if (!canSend) return;
 
     const { subject, body } = buildAlertContent(type, params);
-    const { sendAdminAlert } = await import("@/lib/email");
-    await sendAdminAlert(subject, body);
+    // s15 (06/10) : plus d'e-mail direct. Crédit, clé, permission = classe A
+    // (digest du matin) ; modèle introuvable, requête refusée = classe B (session).
+    const { recordAdminAlert } = await import("@/lib/admin-alerts");
+    await recordAdminAlert({ cle: `llm-alert-${type}`, sujet: subject, html: body });
   } catch (err) {
     // Silent-fail final — on log en console pour investigation manuelle
     // mais on ne re-throw jamais (le pipeline LLM ne doit pas être

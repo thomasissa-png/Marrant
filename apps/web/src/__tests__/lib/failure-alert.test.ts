@@ -26,8 +26,10 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
-jest.mock("@/lib/email", () => ({
-  sendAdminAlert: jest.fn().mockResolvedValue(undefined),
+const mockSend = jest.fn();
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct. Le mock reçoit (sujet, html, clé).
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => mockSend(i.sujet, i.html, i.cle),
 }));
 
 // ─── Silence console pour garder la sortie de test propre ─────────────
@@ -42,7 +44,6 @@ afterAll(() => {
 
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
-import { sendAdminAlert } from "@/lib/email";
 import {
   classifyLLMFailure,
   notifyLLMFailure,
@@ -51,7 +52,6 @@ import { LlmRefusalError } from "@/lib/ai/client";
 
 const mockDeleteMany = prisma.jobLock.deleteMany as jest.Mock;
 const mockCreate = prisma.jobLock.create as jest.Mock;
-const mockSend = sendAdminAlert as jest.Mock;
 
 beforeEach(() => {
   mockDeleteMany.mockReset();

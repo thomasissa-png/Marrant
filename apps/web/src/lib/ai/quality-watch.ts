@@ -12,7 +12,7 @@
  *  2. Conseil du jour → gates programmatiques Q3 (content-gates). Tirets
  *     cadratins corrigés en base ; vulgarité / vouvoiement / mention IA →
  *     remplacé par un conseil du stock qui passe les gates.
- *  3. UN e-mail récap à l'admin (sendAdminAlert, Resend) seulement s'il y a eu
+ *  3. UNE alerte récap (classe B, `recordAdminAlert`, lue par la session ; plus d'e-mail depuis s15 06/10) seulement s'il y a eu
  *     un remplacement ou un défaut.
  *
  * Coût : au plus 1 appel LLM par jour (validateJoke), 0 si la vanne est GARDER. Idempotent via un verrou
@@ -93,7 +93,7 @@ export async function runQualityWatch(
     await sendRecap(result);
   }
   console.log(
-    `[QualityWatch] ${result.date} : vanne ${result.joke.verdict ?? "?"}${result.joke.replacedBy ? " → remplacée" : ""}, conseil ${result.tip.replacedBy ? "remplacé" : "ok"}, défauts ${result.defects.length}, e-mail ${result.emailed ? "envoyé" : "non"}.`,
+    `[QualityWatch] ${result.date} : vanne ${result.joke.verdict ?? "?"}${result.joke.replacedBy ? " → remplacée" : ""}, conseil ${result.tip.replacedBy ? "remplacé" : "ok"}, défauts ${result.defects.length}, alerte ${result.emailed ? "enregistrée" : "non"}.`,
   );
   return result;
 }
@@ -246,9 +246,13 @@ async function sendRecap(result: QualityWatchResult): Promise<void> {
   if (result.tip.emDashFixed) lines.push("Conseil du jour : tirets cadratins corrigés automatiquement.");
   const body = `<p>Contrôle qualité du matin, ${result.date} :</p><ul>${lines.map((l) => `<li>${escapeHtml(l)}</li>`).join("")}</ul>`;
   try {
-    const { sendAdminAlert } = await import("@/lib/email");
-    await sendAdminAlert(`[Marrant] Contrôle qualité du ${result.date} : ${lines.length} point(s)`, body);
-    result.emailed = true;
+    // s15 (06/10) : classe B, plus d'e-mail direct ; la session lit /api/admin/alertes.
+    const { recordAdminAlert } = await import("@/lib/admin-alerts");
+    result.emailed = await recordAdminAlert({
+      cle: "qualite-matin",
+      sujet: `[Marrant] Contrôle qualité du ${result.date} : ${lines.length} point(s)`,
+      html: body,
+    });
   } catch (err) {
     console.warn("[QualityWatch] Envoi du récap impossible :", err);
   }

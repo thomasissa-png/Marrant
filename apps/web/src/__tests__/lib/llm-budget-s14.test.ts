@@ -51,7 +51,10 @@ jest.mock("@/lib/prisma", () => ({
 }));
 
 const mockSendAdminAlert = jest.fn().mockResolvedValue(undefined);
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockSendAdminAlert(...a) }));
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct. Le mock reçoit (sujet, html, clé).
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => mockSendAdminAlert(i.sujet, i.html, i.cle),
+}));
 jest.mock("next-auth", () => ({ getServerSession: jest.fn().mockResolvedValue({ user: { id: "u1" } }) }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 // Limiteur mémoire neutralisé : on teste ici la limite PERSISTANTE.

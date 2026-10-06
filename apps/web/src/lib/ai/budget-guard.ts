@@ -85,17 +85,20 @@ export async function notifyBudgetExceeded(
     const canSend = await tryAcquireLock(budgetAlertLockKey(now), 25 * 60 * 60 * 1000);
     if (!canSend) return;
     const { dailyUsd, monthlyUsd } = getLlmBudgets();
-    const { sendAdminAlert } = await import("@/lib/email");
-    await sendAdminAlert(
-      `[Marrant] Coupe-circuit LLM déclenché (${error.scope})`,
-      `<p><strong>Tous les appels LLM sont bloqués</strong> jusqu'à ce que la dépense repasse sous les seuils.</p>
+    // s15 (06/10) : classe A (décision de dépense de Thomas), envoyée dans le digest du matin.
+    const { recordAdminAlert } = await import("@/lib/admin-alerts");
+    await recordAdminAlert({
+      cle: "llm-budget",
+      sujet: `[Marrant] Coupe-circuit LLM déclenché (${error.scope})`,
+      html: `<p><strong>Tous les appels LLM sont bloqués</strong> jusqu'à ce que la dépense repasse sous les seuils.</p>
 <ul>
 <li>Motif : ${error.message}</li>
 <li>Seuils : ${dailyUsd} $ / 24 h glissantes, ${monthlyUsd} $ / mois UTC (variables LLM_DAILY_BUDGET_USD, LLM_MONTHLY_BUDGET_USD)</li>
 <li>Premier appel bloqué : ${context.agent ?? "?"} / ${context.fn ?? "?"} à ${now.toISOString()}</li>
 </ul>
 <p>Contrôle : SELECT sum("costUsd") FROM "LlmUsageLog" WHERE "createdAt" &gt;= now() - interval '24 hours'. Une seule alerte par jour.</p>`,
-    );
+      now,
+    });
   } catch (err) {
     console.warn(`[llm-budget] Échec envoi alerte : ${err instanceof Error ? err.message : String(err)}`);
   }

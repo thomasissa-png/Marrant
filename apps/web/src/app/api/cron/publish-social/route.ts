@@ -14,7 +14,7 @@ import {
   type BufferChannel,
   type BufferPlatform,
 } from "@/lib/social/buffer-client";
-import { buildPublishErrorNote, sendDailyPublishFailureAlert } from "@/lib/social/publish-failure";
+import { buildPublishErrorNote, sendDailyPublishFailureAlert, TOKEN_ALERT_JOB } from "@/lib/social/publish-failure";
 import {
   alerterPausesAutomatiques,
   canauxEnPanne,
@@ -83,7 +83,7 @@ export async function GET(req: Request) {
 
       if (isAuthError) {
         console.error("[PublishSocial] Token Buffer invalide ou expiré:", errMsg);
-        // s14 : au plus 1 e-mail d'échec par jour (toutes alertes publish-social).
+        // s15 (06/10) : alerte A (Thomas régénère le token), partie dans le digest du matin.
         await sendDailyPublishFailureAlert(
             "Token Buffer expire — publication impossible",
             `<p>Le token Buffer est <strong>invalide ou expire</strong>. Aucun post ne peut etre publie.</p>
@@ -94,6 +94,8 @@ export async function GET(req: Request) {
               <li>Genere un nouveau token</li>
               <li>Mets a jour <code>BUFFER_ACCESS_TOKEN</code> dans les secrets du Worker</li>
             </ol>`,
+            new Date(),
+            TOKEN_ALERT_JOB,
         );
         return NextResponse.json({
           error: "Token Buffer invalide ou expiré. Renouvelle-le dans les Secrets Replit.",

@@ -89,8 +89,13 @@ jest.mock("@/lib/job-lock", () => ({
   isLockHeld: async (key: string) => locks.has(key),
 }));
 
+// s15 (06/10) : plus d'e-mail direct, les alertes sont enregistrées (lib/admin-alerts).
+// Le mock reçoit (sujet, html, clé).
 const mockSendAdminAlert = jest.fn();
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockSendAdminAlert(...a) }));
+jest.mock("@/lib/admin-alerts", () => ({
+  recordAdminAlert: (i: { cle: string; sujet: string; html: string }) => mockSendAdminAlert(i.sujet, i.html, i.cle),
+}));
+const cles = () => mockSendAdminAlert.mock.calls.map((c) => c[2]);
 
 const mockFindBlogArticle = jest.fn();
 jest.mock("@/lib/blog-article-page", () => ({ findBlogArticle: (...a: unknown[]) => mockFindBlogArticle(...a) }));
@@ -169,16 +174,16 @@ describe("publish-social : traçabilité des échecs (s14)", () => {
   });
 });
 
-describe("D1 : verrou d'alerte posé après l'envoi réussi", () => {
-  it("envoie l'e-mail puis pose le verrou du jour", async () => {
+describe("alertes d'échec enregistrées, plus d'e-mail (s15 06/10)", () => {
+  it("enregistre 1 alerte sous la clé du réseau, sans verrou e-mail", async () => {
     await GET(req());
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
     // s15 plan v2 §8 (QA C8) : clé d'alerte par réseau.
-    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringMatching(/^social-echec-instagram-\d{4}-\d{2}-\d{2}$/));
-    expect(mockSendAdminAlert.mock.invocationCallOrder[0]).toBeLessThan(mockTryAcquireLock.mock.invocationCallOrder[0]);
+    expect(cles()).toEqual(["social-echec-instagram"]);
+    expect(mockTryAcquireLock).not.toHaveBeenCalledWith(expect.stringMatching(/^social-echec-/));
   });
 
-  it("échecs sur 2 réseaux le même jour : 2 e-mails séparés (QA C8)", async () => {
+  it("échecs sur 2 réseaux le même jour : 2 alertes séparées (QA C8)", async () => {
     mockSendAdminAlert.mockResolvedValue(true);
     mockCreatePost.mockRejectedValue(new Error("Buffer API error 400: invalid text"));
     postsAPublier(igPost, { ...igPost, id: "x9", platform: "TWITTER", format: "TWEET", content: "Court." });
@@ -187,21 +192,17 @@ describe("D1 : verrou d'alerte posé après l'envoi réussi", () => {
     expect(mockSendAdminAlert.mock.calls.map((c) => c[0])).toEqual(["Publication INSTAGRAM : échec Buffer", "Publication TWITTER : échec Buffer"]);
   });
 
-  it("n'envoie pas de 2e e-mail le même jour", async () => {
+  it("2e passage le même jour : même clé (un seul enregistrement du jour en base, compté)", async () => {
     await GET(req());
     postsAPublier(igPost);
     await GET(req());
-    expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
+    expect(cles()).toEqual(["social-echec-instagram", "social-echec-instagram"]);
   });
 
-  it("Resend en échec : aucun verrou, l'alerte repart au passage suivant", async () => {
+  it("base illisible (alerte non enregistrée) : le passage continue", async () => {
     mockSendAdminAlert.mockResolvedValueOnce(false);
-    await GET(req());
-    expect(mockTryAcquireLock).not.toHaveBeenCalled();
-    postsAPublier(igPost);
-    await GET(req());
-    expect(mockSendAdminAlert).toHaveBeenCalledTimes(2);
-    expect(mockTryAcquireLock).toHaveBeenCalledTimes(1);
+    const res = await GET(req());
+    expect(res.status).toBe(200);
   });
 });
 
@@ -218,23 +219,19 @@ describe("R4 (s15 cycle 6) : 429 Buffer = réseau bloqué 24 h, avec alerte", ()
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
     expect(mockSendAdminAlert.mock.calls[0][0]).toContain("INSTAGRAM");
     expect(mockSendAdminAlert.mock.calls[0][0]).toContain("429");
-    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringMatching(/^social-429-instagram-\d{4}-\d{2}-\d{2}$/));
+    expect(cles()).toEqual(["social-429-instagram"]);
   });
 
-  it("1 seule alerte par jour et par réseau ; un autre réseau a la sienne", async () => {
+  it("une clé par réseau : un autre réseau a la sienne", async () => {
     mockCreateImagePost.mockRejectedValue(new Error(BUFFER_429));
     await GET(req());
-    postsAPublier(igPost);
-    await GET(req());
-    expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
     mockCreatePost.mockRejectedValue(new Error(BUFFER_429));
     postsAPublier({ ...igPost, id: "x1", platform: "TWITTER", format: "TWEET", content: "Court." });
     await GET(req());
-    expect(mockSendAdminAlert).toHaveBeenCalledTimes(2);
-    expect(mockTryAcquireLock).toHaveBeenLastCalledWith(expect.stringMatching(/^social-429-twitter-/));
+    expect(cles()).toEqual(["social-429-instagram", "social-429-twitter"]);
   });
 
-  it("e-mail en échec : le passage continue (réponse 200, réseau bloqué)", async () => {
+  it("alerte en échec : le passage continue (réponse 200, réseau bloqué)", async () => {
     mockCreateImagePost.mockRejectedValue(new Error(BUFFER_429));
     mockSendAdminAlert.mockRejectedValueOnce(new Error("Resend down"));
     const res = await GET(req());
@@ -275,8 +272,8 @@ describe("interrupteur Pause / Reprise en base", () => {
     const ig = settings.find((r) => r.platform === "INSTAGRAM")!;
     expect(ig).toMatchObject({ paused: true, changedBy: "auto" });
     expect(ig.alertSentAt).toBeInstanceOf(Date);
-    expect(mockSendAdminAlert).toHaveBeenCalledWith(expect.stringContaining("Instagram mis en pause"), expect.any(String));
-    // Passage suivant : même panne, pas de nouvel e-mail.
+    expect(mockSendAdminAlert).toHaveBeenCalledWith(expect.stringContaining("Instagram mis en pause"), expect.any(String), "social-auto-pause-canal-instagram");
+    // Passage suivant : même panne, pas de nouvelle alerte (alertSentAt posé).
     postsAPublier();
     await GET(req());
     expect(mockSendAdminAlert).toHaveBeenCalledTimes(1);
@@ -364,7 +361,7 @@ describe("garde articleSlug (relais d'article) et repli", () => {
     expect(majDe("r1")).toEqual({ status: "APPROVED", scheduledAt: relaisX.scheduledAt });
     expect(mockCreatePost).toHaveBeenCalledWith("TWITTER", repliX.content, relaisX.scheduledAt, false, expect.anything());
     expect(mockUpdate.mock.calls.some((c) => c[0].where.id === "r1" && c[0].data.status === "PUBLISHED")).toBe(true);
-    expect(mockTryAcquireLock).toHaveBeenCalledWith(expect.stringContaining("social-relais-twitter"));
+    expect(cles()).toContain("social-relais-twitter");
   });
 
   it("repli absent ou déjà utilisé : relais REJECTED, créneau vide, rien chez Buffer", async () => {
@@ -374,7 +371,7 @@ describe("garde articleSlug (relais d'article) et repli", () => {
     await GET(req());
     expect(majDe("x1").directorNote).toMatch(/aucun repli en réserve, créneau vide/);
     expect(mockCreatePost).not.toHaveBeenCalled();
-    expect(mockSendAdminAlert).toHaveBeenCalledWith(expect.stringContaining("créneau vide"), expect.any(String));
+    expect(mockSendAdminAlert).toHaveBeenCalledWith(expect.stringContaining("créneau vide"), expect.any(String), "social-relais-twitter");
   });
 
   it("relais Instagram (marqueur seul, sans lien ni repli) : REJECTED, aucun carrousel envoyé", async () => {

@@ -13,9 +13,9 @@
  * Lecture : pages de 100 posts `sent|error` avec curseur jusqu'à trouver tous
  * les candidats, puis relecture par identifiant des absents (25 max par passe).
  *
- * Alertes : un post à signaler garde `alertedAt = null` tant que l'e-mail n'est
- * pas parti (1 e-mail par jour et par réseau) ; rien n'est perdu si Resend
- * échoue ou si l'alerte du jour est déjà partie : il part au passage suivant.
+ * Alertes : un post à signaler garde `alertedAt = null` tant que l'alerte n'est
+ * pas enregistrée (s15 06/10 : plus d'e-mail, alerte B lue par la session via
+ * `/api/admin/alertes`) ; base illisible : il part au passage suivant.
  * Idempotent ; Buffer injoignable → aucun changement de statut.
  */
 import type { SocialPlatform } from "@prisma/client";
@@ -69,7 +69,7 @@ export interface StatusCheckDeps {
   store: StatusStore;
   fetchFinished: (wantedIds: string[]) => Promise<BufferPostStatus[]>;
   fetchOne: (id: string) => Promise<BufferPostStatus | null>;
-  /** Alerte au plus 1×/jour pour `alertJob` ; true si l'e-mail est parti. */
+  /** Enregistre l'alerte `alertJob` ; true si elle est en base. */
   sendAlert: (subject: string, html: string, now: Date, alertJob: string) => Promise<boolean>;
   /** Pause automatique d'un réseau dont Buffer a perdu l'autorisation. */
   autoPause?: (platform: SocialPlatform, motif: string, now: Date) => Promise<boolean>;

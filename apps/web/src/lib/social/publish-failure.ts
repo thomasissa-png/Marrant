@@ -5,12 +5,12 @@
  *    `SocialPost.directorNote` (colonne existante, aucune migration). Avant s14,
  *    les FAILED « permanents » étaient enregistrés sans message : la cause des
  *    41 échecs Instagram n'a été retrouvée que dans les e-mails.
- * 2. Les e-mails d'échec sont limités à UN par jour UTC (verrou `JobLock`
- *    persistant, valable sous Workers où la mémoire ne survit pas d'un tick à
- *    l'autre). Avant s14 : ~200 e-mails répétitifs, un par tick en échec.
+ * 2. Les alertes du pipeline social ne partent plus par e-mail (s15, 06/10/2026,
+ *    choix de Thomas : 3 e-mails « file basse » en une nuit = trop). Elles sont
+ *    enregistrées (`lib/admin-alerts.ts`) : classe A (action de Thomas) dans le
+ *    digest du matin, classe B lue par la session via `GET /api/admin/alertes`.
  */
-import { buildJobLockKey, isLockHeld, nextUtcDay, tryAcquireLock } from "@/lib/job-lock";
-import { sendAdminAlert } from "@/lib/email";
+import { recordAdminAlert } from "@/lib/admin-alerts";
 
 export const PUBLISH_ERROR_PREFIX = "Échec publication Buffer : ";
 const MAX_ERROR_LENGTH = 900;
@@ -25,17 +25,16 @@ export function buildPublishErrorNote(errMsg: string, retry?: number): string {
 
 export const FAILURE_ALERT_JOB = "publish-social-failure-alert";
 
+/** Clé de l'alerte « token Buffer invalide » (classe A : Thomas régénère le token). */
+export const TOKEN_ALERT_JOB = "social-token-buffer";
+
 /**
- * Envoie l'alerte d'échec au plus une fois par jour UTC et par `alertJob`.
- * Retourne `true` si l'e-mail est parti.
- *
- * Ordre (s15 cycle 3, défaut D1) : 1. verrou du jour déjà posé ? alors rien ;
- * 2. envoi ; 3. verrou posé SEULEMENT après un envoi accepté par Resend. Un
- * envoi en échec (clé absente, Resend en erreur) ne pose pas de verrou :
- * l'alerte est retentée au passage suivant. Base illisible : pas d'e-mail
- * (fail-closed, le message reste en base et dans les logs), retenté ensuite.
- * Deux passages concurrents peuvent exceptionnellement envoyer 2 e-mails :
- * un doublon vaut mieux qu'une alerte perdue.
+ * Enregistre l'alerte sous la clé `alertJob` (un enregistrement par clé et par
+ * jour de Paris, les répétitions sont comptées). Aucun e-mail direct : le digest
+ * quotidien (`lib/admin-digest.ts`) envoie les alertes A, la session lit les B.
+ * Retourne `true` si l'alerte est en base ; `false` si la base est illisible
+ * (l'appelant retente au passage suivant, comme avant). Nom conservé (s14) pour
+ * ne pas toucher les ~15 appelants.
  */
 export async function sendDailyPublishFailureAlert(
   subject: string,
@@ -43,22 +42,5 @@ export async function sendDailyPublishFailureAlert(
   now: Date = new Date(),
   alertJob: string = FAILURE_ALERT_JOB,
 ): Promise<boolean> {
-  const key = buildJobLockKey(alertJob, now);
-  try {
-    if (await isLockHeld(key, now)) {
-      console.warn(`[PublishSocial] Alerte « ${subject} » non envoyée : déjà une alerte aujourd'hui (${key}).`);
-      return false;
-    }
-  } catch (err) {
-    console.error("[PublishSocial] Verrou d'alerte illisible, alerte reportée :", err);
-    return false;
-  }
-  const sent = await sendAdminAlert(subject, html);
-  if (!sent) {
-    console.error(`[PublishSocial] Alerte « ${subject} » non envoyée (e-mail refusé) : nouvel essai au prochain passage.`);
-    return false;
-  }
-  const ttlMs = nextUtcDay(now).getTime() - now.getTime();
-  await tryAcquireLock(key, ttlMs);
-  return true;
+  return recordAdminAlert({ cle: alertJob, sujet: subject, html, now });
 }

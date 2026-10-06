@@ -113,6 +113,13 @@ describe("runWeeklyVisitsReport", () => {
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Réseaux sociaux : prévu contre publié"));
   });
 
+  it("lundi : le digest des alertes voyage dans le rapport (un seul e-mail ce jour-là, s15 06/10)", async () => {
+    const digest = { sujet: "x", html: "<h3>Ce que tu as à faire</h3><p>Reconnecte Instagram</p>", actions: 1, filet: false };
+    const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS, digest });
+    expect(res).toMatchObject({ status: "sent", subject: `${SUBJECT} + 1 action(s) pour toi` });
+    expect(sendAdminHtmlEmail).toHaveBeenCalledWith(`${SUBJECT} + 1 action(s) pour toi`, expect.stringContaining("Reconnecte Instagram"));
+  });
+
   it("base sociale illisible : section signalée indisponible, rapport envoyé quand même", async () => {
     await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Section indisponible"));

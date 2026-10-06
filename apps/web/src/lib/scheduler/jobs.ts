@@ -350,8 +350,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    * alerte « file basse » (moins de 10 jours de posts APPROVED) ; tranche en
    * retard (à sa date de prêt, J-14 : insérés < prévus, 9 tranches du plan v2).
    * Tous réseaux : stock éligible < 14 ; e-mail de lancement de tranche.
-   * E-mails séparés par réseau et par type, 1 par jour au plus, verrou posé
-   * après envoi. Aucun LLM, aucun appel Buffer. Détail : `lib/social/couverture.ts`.
+   * Alertes enregistrées par réseau et par type (s15 06/10 : plus d'e-mail,
+   * lues par la session via /api/admin/alertes). Aucun LLM, aucun appel Buffer. Détail : `lib/social/couverture.ts`.
    */
   const runCouvertureSocialeJob = async () => {
     try {
@@ -587,7 +587,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       const { runQualityWatch } = await import("@/lib/ai/quality-watch");
       const res = await runQualityWatch();
       if (!res.skipped) {
-        console.log(`[scheduler:quality-watch] ${res.date} : ${res.defects.length} défaut(s), e-mail ${res.emailed ? "envoyé" : "non"}.`);
+        console.log(`[scheduler:quality-watch] ${res.date} : ${res.defects.length} défaut(s), alerte ${res.emailed ? "enregistrée" : "non"}.`);
       }
     } catch (err) {
       console.error("[scheduler:quality-watch] Échec :", err);
@@ -653,6 +653,21 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Digest quotidien des alertes admin (s15, 06/10/2026). Le SEUL e-mail
+   * d'alerte vers l'admin : au plus 1 par jour, 07:30-09:59 heure de Paris,
+   * seulement s'il y a une action pour Thomas (ou des alertes B non relues par
+   * la session depuis 48 h). Verrou daté par jour. Détail : `lib/admin-digest.ts`.
+   */
+  const runAdminDigestJob = async () => {
+    try {
+      const { runDailyAdminDigest } = await import("@/lib/admin-digest");
+      await runDailyAdminDigest(new Date());
+    } catch (err) {
+      console.error("[scheduler:admin-digest] Échec :", err);
+    }
+  };
+
+  /**
    * Orchestrateur : exécute les jobs séquentiellement.
    * Séquentiel pour éviter de surcharger l'API IA avec des appels simultanés.
    *
@@ -677,6 +692,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCopyReviewJob();
     await runAnnualRenewalReminderJob();
     await runWeeklyVisitsReportJob();
+    await runAdminDigestJob();
   };
 
   // runDailySocialJob exposé pour le test de non-régression s14 (génération arrêtée) ;
@@ -688,5 +704,6 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,
+    runAdminDigestJob,
   };
 }

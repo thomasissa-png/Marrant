@@ -7,51 +7,11 @@ const FROM_EMAIL = process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-m
 /** Destinataire des emails internes (alertes, rapports). */
 export const ADMIN_EMAIL = "alex@deviens-marrant.fr";
 
-/**
- * Envoie une alerte admin par email. Ne lève jamais.
- * Retourne `true` seulement si Resend a accepté l'e-mail : clé absente, erreur
- * renvoyée par Resend (`{ error }`, l'API ne lève pas) ou exception = `false`.
- * Les appelants qui dédoublonnent (verrou « 1 alerte par jour ») ne posent leur
- * verrou qu'après un `true` (s15 cycle 3, défaut D1 : alerte perdue).
+/*
+ * s15 (06/10/2026) : `sendAdminAlert` (un e-mail par alerte) est supprimé. Les
+ * alertes passent par `lib/admin-alerts.ts` (enregistrées) et le seul e-mail
+ * d'alerte est le digest quotidien (`lib/admin-digest.ts`, via sendAdminHtmlEmail).
  */
-export async function sendAdminAlert(
-  subject: string,
-  body: string,
-): Promise<boolean> {
-  if (!process.env.RESEND_API_KEY) {
-    console.warn(`[Email] RESEND_API_KEY non configuree — alerte non envoyee: ${subject}`);
-    return false;
-  }
-
-  try {
-    const { error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
-      subject,
-      html: `
-<!DOCTYPE html>
-<html lang="fr">
-<head><meta charset="UTF-8"></head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a1a;">
-  <h2 style="color: #dc2626; margin-bottom: 8px;">Alerte Pipeline Social</h2>
-  ${body}
-  <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
-  <a href="https://deviens-marrant.fr/admin" style="display: inline-block; background: #7c3aed; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">Voir le dashboard admin</a>
-  <p style="font-size: 12px; color: #999; margin-top: 16px;">deviens-marrant.fr — Alerte automatique pipeline social</p>
-</body>
-</html>`,
-    });
-    if (error) {
-      console.warn(`[Email] Resend a refuse l'alerte admin « ${subject} » : ${error.message}`);
-      return false;
-    }
-    console.log(`[Email] Alerte admin envoyee: ${subject}`);
-    return true;
-  } catch (error) {
-    console.warn(`[Email] Echec envoi alerte admin: ${error instanceof Error ? error.message : "erreur inconnue"}`);
-    return false;
-  }
-}
 
 export async function sendPasswordResetEmail(
   to: string,

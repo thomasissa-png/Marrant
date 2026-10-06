@@ -49,7 +49,8 @@ jest.mock("@/lib/prisma", () => ({
 jest.mock("@/lib/db-retry", () => ({ withDbRetry: (fn: () => unknown) => fn() }));
 jest.mock("@/lib/job-lock", () => ({ ...jest.requireActual("@/lib/job-lock"), tryAcquireLock: async () => true, isLockHeld: async () => false }));
 const mockAlert = jest.fn(async () => true);
-jest.mock("@/lib/email", () => ({ sendAdminAlert: (...a: unknown[]) => mockAlert(...(a as [])) }));
+// s15 (06/10) : alertes enregistrées (lib/admin-alerts), plus d'e-mail direct.
+jest.mock("@/lib/admin-alerts", () => ({ recordAdminAlert: (...a: unknown[]) => mockAlert(...(a as [])) }));
 jest.mock("@/lib/blog-article-page", () => ({ findBlogArticle: jest.fn(async () => ({})) }));
 
 import { GET } from "@/app/api/cron/publish-social/route";

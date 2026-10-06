@@ -305,7 +305,8 @@ export async function alerterPausesAutomatiques(
       <p><strong>Cause :</strong> ${escapeHtml(e.reason ?? "canal Buffer inutilisable")}</p>
       <p><strong>Action :</strong> ${action} Les posts en retard de moins de 24 h repartiront à 1 par jour, les autres passent en REJECTED.</p>`,
       now,
-      `social-auto-pause-${e.platform.toLowerCase()}`,
+      // s15 (06/10) : « canal » = Thomas reconnecte Buffer (alerte A, digest) ; « echecs » = la session corrige (B).
+      `social-auto-pause-${echecs ? "echecs" : "canal"}-${e.platform.toLowerCase()}`,
     );
     if (ok) {
       await db.socialPlatformSetting.updateMany({

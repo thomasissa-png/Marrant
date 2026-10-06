@@ -193,7 +193,7 @@ describe("runCouvertureSociale", () => {
     expect(settings[0]).toMatchObject({ paused: true, changedBy: "auto" });
     expect(settings[0].reason).toMatch(/^Échecs de publication consécutifs : 2 derniers posts X en FAILED \(x3, x2\)/);
     expect(settings[1].paused).toBe(false);
-    expect(sujets).toEqual([{ sujet: "X mis en pause automatiquement : échecs de publication consécutifs", job: "social-auto-pause-twitter" }]);
+    expect(sujets).toEqual([{ sujet: "X mis en pause automatiquement : échecs de publication consécutifs", job: "social-auto-pause-echecs-twitter" }]);
     expect(settings[0].alertSentAt).toEqual(NOW);
   });
 
