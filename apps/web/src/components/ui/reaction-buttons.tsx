@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 interface ReactionButtonsProps {
   jokeId: string;
@@ -44,7 +45,10 @@ export function ReactionButtons({
   initialUserReaction = null,
   className,
 }: ReactionButtonsProps) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  // Réaction en base = accès complet (s15 §1.1) ; sinon localStorage, comme un visiteur.
+  const persistOnServer =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
   const [likes, setLikes] = useState(initialLikes);
   const [dislikes, setDislikes] = useState(initialDislikes);
   const [userReaction, setUserReaction] = useState<boolean | null>(initialUserReaction);
@@ -60,8 +64,8 @@ export function ReactionButtons({
           setDislikes(data.dislikes);
           if (data.userReaction !== undefined && data.userReaction !== null) {
             setUserReaction(data.userReaction);
-          } else if (status !== "authenticated") {
-            // Charger la réaction anonyme depuis localStorage
+          } else if (!persistOnServer) {
+            // Charger la réaction locale (visiteur ou compte non abonné) depuis localStorage
             const anon = getAnonReactions();
             if (jokeId in anon) {
               setUserReaction(anon[jokeId]);
@@ -71,7 +75,7 @@ export function ReactionButtons({
       })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, [jokeId, status]);
+  }, [jokeId, persistOnServer]);
 
   const triggerShake = () => {
     setIsShaking(true);
@@ -81,8 +85,8 @@ export function ReactionButtons({
   const handleReaction = async (e: React.MouseEvent, isLike: boolean) => {
     e.stopPropagation();
 
-    // Utilisateur connecté : persistance serveur
-    if (status === "authenticated") {
+    // Abonné : persistance serveur
+    if (persistOnServer) {
       try {
         const res = await fetch(`/api/jokes/${jokeId}/like`, {
           method: "POST",
@@ -121,7 +125,7 @@ export function ReactionButtons({
       return;
     }
 
-    // Utilisateur non connecté : persistance localStorage uniquement
+    // Visiteur ou compte non abonné : persistance localStorage uniquement
     const prev = userReaction;
     if (prev === isLike) {
       // Toggle off

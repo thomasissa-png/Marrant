@@ -143,9 +143,14 @@ export function ProfilDashboard() {
 
   const levelInfo = USER_LEVELS[user.level as keyof typeof USER_LEVELS] ?? USER_LEVELS.NOVICE;
   const progress = getXpProgress(user.xp, user.level);
+  // Progression, série, statistiques et parcours suivis = accès complet (s15
+  // §1.1). Hors abonnement, rien n'est effacé en base : seul l'affichage change.
+  const isPremium = user.plan === "PREMIUM";
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
+      {isPremium && (
+        <>
       {/* Niveau & XP */}
       <Card>
         <CardHeader>
@@ -285,6 +290,9 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
+        </>
+      )}
+
       {/* Prochaine étape — recommandation personnalisée */}
       <Card className="md:col-span-2">
         <CardHeader>
@@ -350,7 +358,7 @@ export function ProfilDashboard() {
           <div className="flex items-center justify-between">
             <CardTitle>Abonnement</CardTitle>
             <Badge variant={user.plan === "PREMIUM" ? "primary" : "default"}>
-              {user.plan === "PREMIUM" ? "Premium" : "Gratuit"}
+              {user.plan === "PREMIUM" ? "Premium" : "Aucun abonnement"}
             </Badge>
           </div>
         </CardHeader>
@@ -358,7 +366,7 @@ export function ProfilDashboard() {
           {user.plan === "PREMIUM" ? (
             <div>
               <p className="text-sm text-text-primary">
-                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres avancés et les parcours complets.
+                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets.
               </p>
               <Button
                 variant="outline"
@@ -384,8 +392,13 @@ export function ProfilDashboard() {
           ) : (
             <>
               <p className="mb-2 text-sm text-text-primary">
-                Passe Premium pour débloquer tout le catalogue, les filtres avancés et les parcours complets.
+                Passe Premium pour débloquer tout le catalogue, les filtres et les parcours complets.
               </p>
+              {user.xp > 0 && (
+                <p className="mb-2 text-sm text-text-secondary">
+                  Les {user.xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés.
+                </p>
+              )}
               <p className="mb-4 text-xs text-text-muted">
                 Sans engagement &middot; Annulable à tout moment
               </p>

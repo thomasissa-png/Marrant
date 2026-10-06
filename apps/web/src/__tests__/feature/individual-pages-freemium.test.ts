@@ -7,10 +7,10 @@
  *     (vanne + chute + "Pourquoi ça marche" ; conseil + exemple ; vidéo + description + technique).
  *   - Le paywall existant sur les listes reste en place (10 vannes / 3 conseils / 3 vidéos).
  *   - Ce qui reste réservé côté "à toi de jouer" :
- *       - Vannes  : "À toi de jouer" (howToApply) — même barrière que le catalogue
- *                   (session requise), CTA compte gratuit + passerelle parcours Premium
- *       - Conseils: exercice concret d'application → CTA compte gratuit
- *       - Vidéos  : learnings pédagogiques + exercice → CTA compte gratuit
+ *       - Vannes  : "À toi de jouer" (howToApply), accès complet (abonnés, s15),
+ *                   lien « Voir l'accès complet » + passerelle parcours Premium
+ *       - Conseils: exercice concret d'application → « fait partie de l'accès complet »
+ *       - Vidéos  : learnings pédagogiques + exercice → « fait partie de l'accès complet »
  *   - "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
  *     valeur SEO + preuve d'expertise pour les crawlers et visiteurs non connectés.
  *   - Aucune page pour les contenus inactifs (isActive=false) : redirection
@@ -63,8 +63,9 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
         "utf8",
       );
       expect(gate).toMatch(/useSession\(\)/);
-      expect(gate).toMatch(/status === "authenticated"/);
-      expect(gate).toMatch(/Crée ton compte gratuit/);
+      expect(gate).toMatch(/isPremiumPlan\(/);
+      expect(gate).toMatch(/fait partie de l&apos;accès complet/);
+      expect(gate).not.toMatch(/compte gratuit/i);
     });
 
     it("ne mentionne pas l'IA dans les metadata ni le JSON-LD (règle fondateur)", () => {
@@ -93,9 +94,11 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/tip\.example/);
     });
 
-    it("garde le CTA compte gratuit pour l'exercice complet", () => {
+    it("exercice complet : « fait partie de l'accès complet » vers /abonnement avec retour fiche (s15, étalon 4.1)", () => {
       expect(src).toMatch(/À toi de jouer/);
-      expect(src).toMatch(/buildRegisterUrl\(\{ callbackUrl: `\/(conseils|videos)\/\$\{canonicalSlug\}`/);
+      expect(src).toMatch(/L&apos;exercice pour appliquer cette technique fait partie de l&apos;accès complet\./);
+      expect(src).toMatch(/buildAbonnementUrl\(`\/conseils\/\$\{canonicalSlug\}`, "monthly", "fiche-conseil"\)/);
+      expect(src).not.toMatch(/compte gratuit/i);
     });
 
     it("retourne notFound() si tip absent", () => {
@@ -119,9 +122,12 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/youtube-nocookie\.com\/embed/);
     });
 
-    it("garde le CTA compte gratuit pour learnings + exercice", () => {
+    it("learnings + exercice : « font partie de l'accès complet » vers /abonnement (s15, étalon 4.1)", () => {
       expect(src).toMatch(/Analyse pédagogique complète/);
-      expect(src).toMatch(/buildRegisterUrl\(\{ callbackUrl: `\/(conseils|videos)\/\$\{canonicalSlug\}`/);
+      expect(src).toMatch(/Les points clés et l&apos;exercice de cette vidéo font partie de l&apos;accès complet\./);
+      expect(src).toMatch(/buildAbonnementUrl\(`\/videos\/\$\{canonicalSlug\}`, "monthly", "fiche-video"\)/);
+      // Plus de promesse du contenu du jour (déjà public).
+      expect(src).not.toMatch(/compte gratuit|contenu quotidien/i);
     });
 
     it("retourne notFound() si vidéo absente", () => {

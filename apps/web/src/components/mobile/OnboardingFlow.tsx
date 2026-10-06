@@ -215,8 +215,8 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">💾</div>
           <h2 className="text-3xl font-bold mb-3">Garde tes XP et ton parcours</h2>
           <p className="text-gray-300 mb-8">
-            Crée ton compte gratuit pour garder tes XP et reprendre ton parcours là où tu l&apos;as
-            laissé, sur tous tes appareils.
+            Le suivi de tes XP et de ton parcours, sur tous tes appareils, fait partie de
+            l&apos;accès complet.
           </p>
           <button
             onClick={handleGoToLogin}

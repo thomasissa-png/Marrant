@@ -84,7 +84,7 @@ export const PARCOURS_MIN_WEEKS = Math.min(...PREMIUM_PARCOURS.map((p) => p.week
 export const PARCOURS_MAX_WEEKS = Math.max(...PREMIUM_PARCOURS.map((p) => p.weeks));
 
 /**
- * Limites du compte gratuit : SOURCE UNIQUE. Appliquées par /api/jokes,
+ * Limites sans abonnement (visiteur ou compte non abonné) : SOURCE UNIQUE. Appliquées par /api/jokes,
  * /api/tips et /api/videos, et reprises par tous les textes publics
  * (abonnement, CTA blog, avantages, llms.txt). Changer une valeur ici change
  * la limite réelle ET le texte affiché.

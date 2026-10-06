@@ -22,6 +22,14 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     expect(screen.getByText("Les 3 parcours en entier")).toBeInTheDocument();
   });
 
+  it("raison vote (s15) : titre dédié", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<PremiumModal isOpen onClose={jest.fn()} reason="vote" />);
+    expect(
+      screen.getByRole("heading", { name: "Le vote sur les nouveautés fait partie de l'accès complet" }),
+    ).toBeInTheDocument();
+  });
+
   it("ne vend ni le contenu quotidien ni des filtres avancés", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} />);
@@ -37,7 +45,7 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" />);
     // s15 : lien direct /register (plus de 2e modale), destination et source conservées.
-    const href = screen.getByText("Créer un compte pour commencer").closest("a")?.getAttribute("href") ?? "";
+    const href = screen.getByText("Créer mon compte et m'abonner").closest("a")?.getAttribute("href") ?? "";
     const params = new URL(href, "https://deviens-marrant.fr").searchParams;
     expect(href.startsWith("/register?")).toBe(true);
     expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%3Fpage%3D2");
@@ -49,7 +57,7 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
     render(<PremiumModal isOpen onClose={jest.fn()} reason="defaut" />);
     await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "modale-defaut" });
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "modale-defaut", declencheur: "manuel" });
   });
 
   it("connecté : checkout avec returnTo de la page courante", async () => {

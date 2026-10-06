@@ -233,9 +233,10 @@ describe("BlogArticlePage — article detail", () => {
     expect(
       screen.getByText("Maintenant, reste à le dire à voix haute")
     ).toBeInTheDocument();
-    // Double CTA — essai gratuit + premium (fix conversion s11 lot 2)
-    expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
-    expect(screen.getByText("Tout débloquer à 2,99 €/mois")).toBeInTheDocument();
+    // s15 (plus de compte gratuit) : accès complet + étape 1 en lecture libre (étalon 3.1).
+    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    expect(screen.getByText("Lire la première étape d'un parcours")).toBeInTheDocument();
+    expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 
   it("renders breadcrumb navigation", async () => {

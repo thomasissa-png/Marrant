@@ -110,7 +110,17 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
 
   it("liste des événements enrichis", () => {
     expect([...ATTRIBUTED_EVENTS].sort()).toEqual(
-      ["blog-cta-clic", "inscription-envoi", "inscription-reussie", "onboarding-termine", "parcours-etape", "quiz-termine"].sort(),
+      [
+        "abonnement-annule",
+        "abonnement-clic",
+        "abonnement-reussi",
+        "blog-cta-clic",
+        "inscription-envoi",
+        "inscription-reussie",
+        "onboarding-termine",
+        "parcours-etape",
+        "quiz-termine",
+      ].sort(),
     );
   });
 
@@ -134,8 +144,24 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
 
   it("événement hors tunnel : jamais enrichi", () => {
     captureAttribution("?utm_source=x&utm_content=quiz");
-    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil" });
-    expect(track).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "accueil" });
+    trackUmami("partage-vanne", { canal: "x" });
+    expect(track).toHaveBeenCalledWith("partage-vanne", { canal: "x" });
+  });
+
+  it("abonnement-clic, abonnement-reussi, abonnement-annule : origine et contenu ajoutés (s15)", () => {
+    captureAttribution("?utm_source=x&utm_content=quiz");
+    trackUmami("abonnement-clic", { formule: "mensuel", src: "abonnement", declencheur: "auto" });
+    expect(track).toHaveBeenCalledWith("abonnement-clic", {
+      origine: "x",
+      contenu: "quiz",
+      formule: "mensuel",
+      src: "abonnement",
+      declencheur: "auto",
+    });
+    trackUmami("abonnement-reussi", { formule: "annuel" });
+    expect(track).toHaveBeenCalledWith("abonnement-reussi", { origine: "x", contenu: "quiz", formule: "annuel" });
+    trackUmami("abonnement-annule");
+    expect(track).toHaveBeenCalledWith("abonnement-annule", { origine: "x", contenu: "quiz" });
   });
 
   it("origine sans contenu : origine seule", () => {

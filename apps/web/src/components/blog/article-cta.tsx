@@ -2,56 +2,64 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { AuthCta } from "@/components/auth/auth-cta";
-import { FREE_CATALOGUE_LIMITS_LABEL } from "@/config/premium";
+import { buttonVariants } from "@/components/ui/button";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { cn } from "@/lib/utils";
 
 interface ArticleCtaProps {
   /**
-   * Chemin recommandé après création de compte gratuit (ex : `/parcours/repartie`).
-   * Passe par le sanitizer côté page d'auth.
+   * Parcours lié (lien secondaire « étape 1 », lecture libre, et retour après
+   * paiement), ex. `/parcours/repartie`. Défaut : la liste `/parcours`.
    */
-  freeCallbackUrl?: string;
-  /** Source de l'inscription pour la mesure du tunnel (ex. `blog-<slug>`). */
+  parcoursHref?: string;
+  /** Source du clic pour la mesure du tunnel (ex. `blog-<slug>`), relayée par /abonnement. */
   src?: string;
   /** Titre du bloc (défaut : texte générique des articles). */
   title?: string;
   /** Paragraphe sous le titre (défaut : texte générique des articles). */
   text?: string;
-  /** Libellé du bouton d'inscription, visiteur non connecté (défaut : « Essaie gratuitement »). */
+  /** Libellé du bouton principal vers l'accès complet (défaut : « Passer à l'accès complet »). */
   primaryLabel?: string;
-  /** Ligne sous les boutons (défaut : limites du compte gratuit). */
+  /** Libellé du lien secondaire vers l'étape 1 (défaut : « Lire la première étape d'un parcours »). */
+  secondaryLabel?: string;
+  /** Ligne sous les boutons (défaut : prix et lecture libre). */
   note?: string;
 }
 
 const DEFAULT_TITLE = "Maintenant, reste à le dire à voix haute";
 const DEFAULT_TEXT =
   "Des exercices concrets, des parcours étape par étape et des XP pour voir le chemin parcouru. Parce qu'un article lu finit par s'oublier, alors qu'un réflexe entraîné reste.";
-const DEFAULT_PRIMARY_LABEL = "Essaie gratuitement";
-const DEFAULT_NOTE = `Compte gratuit : ${FREE_CATALOGUE_LIMITS_LABEL}, contenu du jour. Sans carte.`;
+// Étalon 3.1 validé par Thomas (s15, docs/copy/etalons-chemin-premium-s15.md).
+const DEFAULT_PRIMARY_LABEL = "Passer à l'accès complet";
+const DEFAULT_SECONDARY_LABEL = "Lire la première étape d'un parcours";
+const DEFAULT_NOTE = `${PREMIUM_PRICE_LABEL}, sans engagement. Cet article reste en lecture libre.`;
 
 /**
- * CTA de fin d'article — double bouton pour le trafic froid.
+ * CTA de fin d'article (plus de compte gratuit, s15 §2.6).
  *
- * Primaire : essai gratuit (inscription free : FREE_CATALOGUE_LIMITS_LABEL + contenu du jour).
- * Secondaire : passage direct au premium (2,99 €/mois).
+ * Visiteur et compte non abonné : un bouton principal vers /abonnement
+ * (`data-blog-cta="abonnement"`, ex-« inscription » : rupture de série datée
+ * au déploiement) + un lien secondaire vers l'étape 1 d'un parcours, en
+ * lecture libre (`data-blog-cta="etape-1"`).
+ * Abonné : « Continuer mon parcours » vers /parcours (`data-blog-cta="parcours"`).
  *
  * Textes surchargeables par article (config/blog-cta.ts) ; boutons marqués
  * `data-blog-cta` pour la mesure Umami (components/blog/blog-article-tracking).
- *
- * Rationale : la landing blog reçoit 99% du trafic froid. Un CTA payant
- * unique tue la conversion. On propose d'abord d'entrer dans le funnel.
  */
 export function ArticleCta({
-  freeCallbackUrl = "/onboarding",
+  parcoursHref = "/parcours",
   src,
   title = DEFAULT_TITLE,
   text = DEFAULT_TEXT,
   primaryLabel = DEFAULT_PRIMARY_LABEL,
+  secondaryLabel = DEFAULT_SECONDARY_LABEL,
   note = DEFAULT_NOTE,
 }: ArticleCtaProps) {
-  const { status } = useSession();
-  const isAuthenticated = status === "authenticated";
+  const { data: session, status } = useSession();
+  const isPremium =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
 
   return (
     <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
@@ -61,41 +69,35 @@ export function ArticleCta({
       <p className="mt-2 text-text-secondary">{text}</p>
 
       <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        {isAuthenticated ? (
-          <>
-            <Link href={freeCallbackUrl} data-blog-cta="parcours">
-              <Button variant="primary" size="lg">
-                Continuer mon parcours
-              </Button>
-            </Link>
-            <Link href="/abonnement" data-blog-cta="premium">
-              <Button variant="outline" size="lg">
-                Tout débloquer à 2,99 €/mois
-              </Button>
-            </Link>
-          </>
+        {isPremium ? (
+          <Link
+            href="/parcours"
+            data-blog-cta="parcours"
+            className={buttonVariants({ variant: "primary", size: "lg" })}
+          >
+            Continuer mon parcours
+          </Link>
         ) : (
           <>
-            {/* Marqueur de mesure (blog-cta-clic) : AuthCta ne transmet pas les data-* (lien /register). */}
-            <span data-blog-cta="inscription" className="contents">
-              <AuthCta
-                label={primaryLabel}
-                variant="primary"
-                size="lg"
-                callbackUrl={freeCallbackUrl}
-                src={src}
-              />
-            </span>
-            <Link href="/abonnement" data-blog-cta="premium">
-              <Button variant="outline" size="lg">
-                Tout débloquer à 2,99 €/mois
-              </Button>
+            <Link
+              href={buildAbonnementUrl(parcoursHref, "monthly", src)}
+              data-blog-cta="abonnement"
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 whitespace-normal py-2")}
+            >
+              {primaryLabel}
+            </Link>
+            <Link
+              href={parcoursHref}
+              data-blog-cta="etape-1"
+              className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
+            >
+              {secondaryLabel}
             </Link>
           </>
         )}
       </div>
 
-      <p className="mt-3 text-xs text-text-muted">{note}</p>
+      {!isPremium && <p className="mt-3 text-xs text-text-muted">{note}</p>}
     </div>
   );
 }

@@ -40,7 +40,8 @@ function mockFetchSequence(
 describe("ReactionButtons", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useSession.mockReturnValue({ status: "authenticated" });
+    // Abonné : réaction/vote enregistrés en base (s15 §1.1 : Premium uniquement).
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
     global.fetch = jest.fn();
   });
 
@@ -204,5 +205,23 @@ describe("ReactionButtons", () => {
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it("compte non abonné (s15) : réaction gardée en local comme un visiteur, aucun envoi", async () => {
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
+    mockFetchSequence({ likes: 0, dislikes: 0, userReaction: null });
+    localStorage.removeItem("marrant_reactions");
+
+    render(<ReactionButtons jokeId="j-free" />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("0 hilarant")).toBeInTheDocument();
+    });
+
+    (global.fetch as jest.Mock).mockClear();
+    await userEvent.click(screen.getByLabelText("0 hilarant"));
+
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(screen.getByLabelText("1 hilarant")).toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem("marrant_reactions") ?? "{}")).toEqual({ "j-free": true });
   });
 });

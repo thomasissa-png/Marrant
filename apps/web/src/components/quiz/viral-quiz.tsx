@@ -8,7 +8,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
-import { AuthCta } from "@/components/auth/auth-cta";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -94,14 +94,13 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             Voir par où commencer
           </Link>
 
-          <AuthCta
-            label="Crée ton compte gratuit et commence un parcours"
-            variant="secondary"
-            size="lg"
-            className="w-full"
-            callbackUrl={profile.recommendedPath}
-            src="quiz"
-          />
+          {/* Plus de compte gratuit (s15) : vers l'accès complet, retour au parcours conseillé. */}
+          <Link
+            href={buildAbonnementUrl(profile.recommendedPath, "monthly", "quiz")}
+            className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}
+          >
+            Accéder aux parcours complets
+          </Link>
         </div>
       </CardContent>
     </Card>

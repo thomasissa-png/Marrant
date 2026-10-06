@@ -291,7 +291,7 @@ describe("ParcoursDetail — completed parcours CTA", () => {
     });
 
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -324,7 +324,7 @@ describe("ParcoursDetail — seed fallback", () => {
     });
 
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -346,7 +346,7 @@ describe("ParcoursDetail — seed fallback", () => {
 describe("ParcoursDetail — quiz gate", () => {
   it("requires quiz completion before step can be validated", async () => {
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -386,17 +386,34 @@ describe("ParcoursDetail — quiz gate", () => {
 });
 
 describe("ParcoursDetail — tunnel s15", () => {
-  it("anonyme : « Crée ton compte gratuit » est un lien /register qui ramène au parcours", async () => {
+  it("anonyme : étape 1 lisible, valider = accès complet, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    const link = await screen.findByRole("link", { name: "Crée ton compte gratuit pour valider l'étape" });
-    expect(link).toHaveAttribute("href", "/register?callbackUrl=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+    expect(await screen.findByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: "Voir l'accès complet" });
+    expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+    expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
+  });
+
+  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers l'accès complet", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
+    });
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    expect(await screen.findByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
+    expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
   });
 
   it("étape validée : événement parcours-etape {parcours, etape}", async () => {
     mockTrack.mockClear();
     sessionStorage.clear(); // quiz déjà réussi par un test précédent (mémorisé par parcours)
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
     const pathPayload = {

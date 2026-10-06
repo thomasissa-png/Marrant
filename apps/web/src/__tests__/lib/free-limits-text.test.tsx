@@ -24,25 +24,25 @@ jest.mock("@/hooks/use-content-stats", () => ({
 }));
 
 describe("limites gratuites affichées = constantes de config", () => {
-  it("CTA de fin d'article", () => {
-    render(<ArticleCta />);
-    expect(
-      screen.getByText("Compte gratuit : 12 vannes, 6 conseils, 2 vidéos, contenu du jour. Sans carte."),
-    ).toBeInTheDocument();
+  it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), prix seul", () => {
+    const { container } = render(<ArticleCta />);
+    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/compte gratuit|sans carte/i);
   });
 
-  it("page /abonnement (sous-titre, bloc gratuit, avantages Premium)", () => {
+  it("page /abonnement (avantages Premium)", () => {
     const { container } = render(<AbonnementPage />);
     const text = container.textContent ?? "";
-    expect(text).toContain("Compte gratuit d'abord (12 vannes, 6 conseils, 2 vidéos, la première étape");
-    expect(text).toContain("12 vannes, 6 conseils, 2 vidéos, le contenu du jour");
-    expect(text).toContain("au lieu de 12 vannes, 6 conseils et 2 vidéos en compte gratuit");
+    // Plus de bloc « Compte gratuit » (s15) : les limites ne restent que dans les avantages Premium.
+    expect(text).not.toMatch(/compte gratuit/i);
+    expect(text).toContain("au lieu de 12 vannes, 6 conseils et 2 vidéos sans abonnement");
     expect(text).not.toMatch(/\b10 vannes\b/);
   });
 
   it("llms.txt / llms-full.txt (tarifs et FAQ)", () => {
-    expect(LLMS_TARIFS[0]).toContain("Accès gratuit : 12 vannes, 6 conseils, 2 vidéos,");
+    expect(LLMS_TARIFS[0]).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos,");
     const cout = LLMS_FAQ_FULL.find((f) => f.question === "Combien ça coûte ?");
-    expect(cout?.answer).toContain("(12 vannes, 6 conseils, 2 vidéos et le contenu du jour)");
+    expect(cout?.answer).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos et le contenu du jour.");
+    expect(cout?.answer).not.toMatch(/accès gratuit/i);
   });
 });

@@ -63,14 +63,21 @@ beforeEach(() => {
 });
 
 describe("POST /api/parcours/[id]/progress — accès Premium", () => {
-  it("compte gratuit : l'étape 1 se valide (200)", async () => {
+  it("compte non abonné (ex-compte gratuit, s15 §1.1) : l'étape 1 est refusée en 403, sans écriture", async () => {
     userFindUnique.mockResolvedValue({ plan: "FREE" });
+    const res = await post(1);
+    expect(res.status).toBe(403);
+    expect(transaction).not.toHaveBeenCalled();
+  });
+
+  it("abonné Premium : l'étape 1 se valide (200)", async () => {
+    userFindUnique.mockResolvedValue({ plan: "PREMIUM" });
     const res = await post(1);
     expect(res.status).toBe(200);
     expect(transaction).toHaveBeenCalled();
   });
 
-  it("compte gratuit : l'étape 2 est refusée en 403, sans écriture", async () => {
+  it("compte non abonné : l'étape 2 est refusée en 403, sans écriture", async () => {
     userFindUnique.mockResolvedValue({ plan: "FREE" });
     const res = await post(2);
     expect(res.status).toBe(403);

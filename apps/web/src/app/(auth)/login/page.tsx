@@ -27,7 +27,7 @@ const OAUTH_ERRORS: Record<string, string> = {
 };
 
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
-// paramètres : le HTML serveur contient déjà « Créer un compte » (s15).
+// paramètres : le HTML serveur contient déjà le lien d'inscription (s15).
 export default function LoginPage() {
   return (
     <Suspense fallback={<LoginForm rawCallbackUrl={null} oauthError={null} src={null} />}>
@@ -67,7 +67,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const callbackUrl = resolvePostAuthRedirect(rawCallbackUrl, "/vannes");
   // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
   const googleCallbackUrl = withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
-  // « Créer un compte » garde la destination demandée (ou l'onboarding par défaut).
+  // Le lien d'inscription garde la destination demandée (puis le paiement, s15).
   const registerHref = buildRegisterUrl({ callbackUrl: rawCallbackUrl, src: src ?? "login" });
   const autoRetried = useRef(false);
   const [autoRetrying, setAutoRetrying] = useState(false);
@@ -228,12 +228,12 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
           </div>
           {/* s15 : création de compte visible (avant : petit lien « Inscris-toi » en bas). */}
           <div className="mt-6 border-t border-border pt-4 text-center">
-            <p className="text-sm text-text-secondary">Pas encore de compte ?</p>
+            <p className="text-sm text-text-secondary">Pas encore abonné ?</p>
             <Link
               href={registerHref}
               className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
             >
-              Créer un compte
+              Créer mon compte et m&apos;abonner
             </Link>
           </div>
         </CardContent>

@@ -13,11 +13,12 @@ jest.mock("@/stores/user-store", () => ({
 const { useSession } = require("next-auth/react");
 const { useUserStore } = require("@/stores/user-store");
 
+// Abonné par défaut : progression, série, stats et parcours suivis sont Premium (s15 §1.1).
 const mockUser = {
   id: "u1",
   name: "Jean",
   email: "jean@test.fr",
-  plan: "FREE",
+  plan: "PREMIUM",
   level: "FARCEUR",
   xp: 750,
   streak: 5,
@@ -102,12 +103,50 @@ describe("ProfilDashboard", () => {
     expect(screen.getByText("Parcours terminés")).toBeInTheDocument();
   });
 
-  it("shows Gratuit badge for FREE plan", () => {
-    render(<ProfilDashboard />);
-    expect(screen.getByText("Gratuit")).toBeInTheDocument();
+  describe("compte non abonné (ex-compte gratuit, s15)", () => {
+    beforeEach(() => {
+      useUserStore.mockReturnValue({
+        user: { ...mockUser, plan: "FREE" },
+        isLoading: false,
+        fetchUser: mockFetchUser,
+      });
+    });
+
+    it("badge « Aucun abonnement » (plus de « Gratuit »)", () => {
+      render(<ProfilDashboard />);
+      expect(screen.getByText("Aucun abonnement")).toBeInTheDocument();
+      expect(screen.queryByText("Gratuit")).not.toBeInTheDocument();
+    });
+
+    it("progression, série, statistiques et parcours suivis non affichés (données gardées en base)", () => {
+      render(<ProfilDashboard />);
+      expect(screen.queryByText("Progression")).not.toBeInTheDocument();
+      expect(screen.queryByText("Streak")).not.toBeInTheDocument();
+      expect(screen.queryByText("Statistiques")).not.toBeInTheDocument();
+      expect(screen.queryByText("Mes parcours")).not.toBeInTheDocument();
+      expect(screen.getByText("Prochaine étape")).toBeInTheDocument();
+    });
+
+    it("XP gagnés > 0 : message « conservés » (étalon 5.2), sinon rien", () => {
+      const { unmount } = render(<ProfilDashboard />);
+      expect(
+        screen.getByText("Les 750 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés."),
+      ).toBeInTheDocument();
+      unmount();
+      useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE", xp: 0 }, isLoading: false, fetchUser: mockFetchUser });
+      render(<ProfilDashboard />);
+      expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
+    });
+
+    it("bouton d'abonnement, sans « filtres avancés »", () => {
+      render(<ProfilDashboard />);
+      expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/filtres avancés/);
+    });
   });
 
   it("shows subscribe button with engagement copy for FREE plan", () => {
+    useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
     expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();

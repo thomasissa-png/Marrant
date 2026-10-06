@@ -27,15 +27,15 @@ export function HomeCta() {
           {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour 2,99 € par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
-          {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
+          {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
           <div className="flex w-full flex-col items-center gap-1 sm:w-auto">
             <Link
               href={buildRegisterUrl({ src: "accueil-cta" })}
               className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
             >
-              Créer mon compte gratuit
+              Accéder aux parcours complets
             </Link>
-            <p className="max-w-[16rem] text-balance text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
+            <p className="max-w-[16rem] text-balance text-sm text-text-muted">2,99 €/mois, sans engagement.</p>
           </div>
           <Link
             href="/vannes"

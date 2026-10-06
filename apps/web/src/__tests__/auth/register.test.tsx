@@ -36,7 +36,11 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Crée ton compte, ta première vanne t'attend")).toBeInTheDocument();
+    // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix.
+    expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
+    expect(screen.getByText("Accès complet, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
+    expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
     expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
@@ -102,7 +106,7 @@ describe("RegisterPage", () => {
     });
   });
 
-  it("redirects to /onboarding on success (no callbackUrl)", async () => {
+  it("redirects to /abonnement?auto=1 on success (no callbackUrl) : Stripe s'ouvre sans clic", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({}),
@@ -116,7 +120,7 @@ describe("RegisterPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/onboarding");
+      expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
     });
   });
 
@@ -148,12 +152,12 @@ describe("RegisterPage", () => {
     expect(screen.getByText("On prépare ton compte…")).toBeInTheDocument();
   });
 
-  it("calls Google signIn with /onboarding callback when no callbackUrl", async () => {
+  it("calls Google signIn with /abonnement?auto=1 callback when no callbackUrl", async () => {
     render(<RegisterPage />);
     await userEvent.click(screen.getByText("S'inscrire avec Google"));
     // Marqueur de retour pour la mesure (AuthReturnTracker), s15.
-    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/onboarding?auth=inscription-google" });
-    expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct" });
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/abonnement?auto=1&auth=inscription-google" });
+    expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
   });
 
   describe("tunnel s15 : destination, source et mesure", () => {
@@ -169,10 +173,10 @@ describe("RegisterPage", () => {
       mockSignIn.mockResolvedValue({ error: null });
       render(<RegisterPage />);
       await fillAndSubmit();
-      const data = { methode: "email", src: "blog-meilleures-blagues-droles-2026" };
+      const data = { methode: "email", src: "blog-meilleures-blagues-droles-2026", etape: "abonnement" };
       await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("inscription-reussie", data));
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", data);
-      expect(mockPush).toHaveBeenCalledWith("/onboarding");
+      expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
     });
 
     it("échec API : envoi mesuré, pas de réussite", async () => {
@@ -180,7 +184,7 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await fillAndSubmit();
       await waitFor(() => expect(screen.getByText("Email déjà utilisé")).toBeInTheDocument());
-      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "email", src: "direct" });
+      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "email", src: "direct", etape: "abonnement" });
       expect(mockTrack).not.toHaveBeenCalledWith("inscription-reussie", expect.anything());
     });
 
@@ -190,7 +194,20 @@ describe("RegisterPage", () => {
       mockSignIn.mockResolvedValue({ error: null });
       render(<RegisterPage />);
       await fillAndSubmit();
-      await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual"));
+      await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
+      // Rappel de la formule annuelle choisie (étalon 2.1, gabarit annuel).
+      expect(screen.getByText("Accès complet, 24,99 €/an (soit 2,08 € par mois), annulable à tout moment.")).toBeInTheDocument();
+    });
+
+    it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {
+      mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: false, status: 409, json: async () => ({ error: "Un compte avec cet email existe déjà" }) });
+      render(<RegisterPage />);
+      await fillAndSubmit();
+      await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Cet e-mail a déjà un compte. Connecte-toi pour reprendre ton abonnement."));
+      const links = screen.getAllByRole("link", { name: "Connecte-toi" });
+      expect(links[0]).toHaveAttribute("href", "/login?callbackUrl=%2Fabonnement%3Fplan%3Dannual");
+      expect(mockPush).not.toHaveBeenCalled();
     });
 
     it("Google : destination + marqueur + source conservés", async () => {
@@ -199,7 +216,7 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await userEvent.click(screen.getByText("S'inscrire avec Google"));
       expect(mockSignIn).toHaveBeenCalledWith("google", {
-        callbackUrl: "/parcours/repartie?auth=inscription-google&src=parcours",
+        callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&auto=1&auth=inscription-google&src=parcours",
       });
     });
 
@@ -207,7 +224,7 @@ describe("RegisterPage", () => {
       mockSearchParams.set("src", "jean@test.fr");
       render(<RegisterPage />);
       await userEvent.click(screen.getByText("S'inscrire avec Google"));
-      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct" });
+      expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
     });
 
     it("lien « Connecte-toi » garde la destination", () => {

@@ -74,7 +74,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Un accès gratuit permanent (${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour) et un accès complet à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
+      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. L'accès complet est à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -120,7 +120,7 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée (ti
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  `Accès gratuit : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
+  `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
   `Accès complet : 2,99 €/mois : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
@@ -152,7 +152,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Un accès gratuit permanent (${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour) et un accès complet à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. L'accès complet est à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
         }
       : entry,
   );

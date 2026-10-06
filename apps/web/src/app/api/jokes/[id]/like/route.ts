@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 /**
  * Génère un compteur de base déterministe à partir du jokeId.
@@ -29,6 +30,12 @@ export async function POST(
     }
 
     const userId = (session.user as { id: string }).id;
+    // Réaction enregistrée en base = accès complet (s15 §1.1). Hors abonnement,
+    // reaction-buttons garde la réaction en local, comme pour un visiteur.
+    const owner = await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } });
+    if (!isPremiumPlan(owner?.plan)) {
+      return NextResponse.json({ error: "Réaction gardée sur cet appareil" }, { status: 403 });
+    }
     const jokeId = params.id;
     const { isLike } = await request.json();
 

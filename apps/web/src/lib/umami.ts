@@ -25,6 +25,11 @@ export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
   "inscription-reussie",
   "onboarding-termine",
   "blog-cta-clic",
+  // Chemin visiteur → Premium (plus de compte gratuit, s15) : le jugement porte
+  // sur ces trois-là, attribués comme le reste du tunnel.
+  "abonnement-clic",
+  "abonnement-reussi",
+  "abonnement-annule",
 ]);
 
 function withAttribution(name: string, data?: UmamiData): UmamiData | undefined {

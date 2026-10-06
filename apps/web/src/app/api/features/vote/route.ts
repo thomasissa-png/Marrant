@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 const VALID_FEATURES = [
   "whatsapp",
@@ -31,6 +32,11 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = (session.user as { id: string }).id;
+    // Voter sur la suite du produit = avantage d'abonné (badge « Abonnés », s15 §1.1).
+    const owner = await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } });
+    if (!isPremiumPlan(owner?.plan)) {
+      return NextResponse.json({ error: "Le vote fait partie de l'accès complet" }, { status: 403 });
+    }
     const { featureSlug } = await request.json();
 
     if (!VALID_FEATURES.includes(featureSlug)) {

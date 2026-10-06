@@ -19,13 +19,13 @@ interface AuthCtaProps {
 }
 
 /**
- * CTA d'inscription. Visiteur anonyme (et pendant le chargement de la
+ * CTA d'abonnement (plus de compte gratuit, s15). Visiteur anonyme (et pendant le chargement de la
  * session, donc dans le HTML serveur) : vrai lien vers
- * `/register?callbackUrl=…&src=…`, une seule page (s15, plus de modale).
+ * `/register?callbackUrl=…&src=…` (étape 1 sur 2, puis paiement ouvert tout seul).
  * Connecté : action fournie, sinon lien direct vers la destination.
  */
 export function AuthCta({
-  label = "Créer un compte pour commencer",
+  label = "Accéder aux parcours complets",
   callbackUrl = "/abonnement",
   src,
   size = "lg",

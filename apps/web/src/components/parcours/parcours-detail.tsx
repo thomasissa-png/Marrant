@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { formatDifficulty, frenchQuizQuotes, withEmojiPresentation } from "@/lib/parcours-labels";
@@ -316,7 +315,8 @@ export function ParcoursDetail({
     }
   }, [quizDone, quizStorageKey]);
   const { status, data: session } = useSession();
-  const registerHref = buildRegisterUrl({ callbackUrl: `/parcours/${slug}`, src: "parcours-etape" });
+  // Valider une étape (étape 1 comprise) fait partie de l'accès complet (s15 §1.1).
+  const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
   const storeUser = useUserStore((s) => s.user);
   // Plan lu dans la session (jwt, rafraîchi toutes les 5 min ou via update())
   // ou dans le store utilisateur (favoris Premium) : l'un ou l'autre suffit,
@@ -377,8 +377,8 @@ export function ParcoursDetail({
   }, [slug, initialPath, status]);
 
   const handleCompleteStep = async (stepOrder: number) => {
-    if (!path || status !== "authenticated") {
-      window.location.assign(registerHref);
+    if (!path || !isPremium) {
+      window.location.assign(abonnementHref);
       return;
     }
 
@@ -529,7 +529,7 @@ export function ParcoursDetail({
           const isCompleted = completedSteps.includes(step.order);
           const isExpanded = expandedStep === step.order;
           // Étape 1 offerte à tous ; 2 et suivantes réservées aux abonnés
-          // Premium (anonymes ET comptes gratuits), comme l'annonce le bloc ci-dessous.
+          // Premium (anonymes ET comptes non abonnés), comme l'annonce le bloc ci-dessous.
           const isPremiumLocked = !canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null);
           const stepXp = step.moduleXp ?? 20;
           const hasQuiz = step.quiz && step.quiz.length > 0;
@@ -759,7 +759,7 @@ export function ParcoursDetail({
                       </div>
 
                       {/* Quiz required: show disabled button if quiz not done */}
-                      {!isCompleted && status === "authenticated" && !isSeedFallback && hasQuiz && !isQuizDone && (
+                      {!isCompleted && isPremium && !isSeedFallback && hasQuiz && !isQuizDone && (
                         <Button
                           variant="primary"
                           className="w-full opacity-50 cursor-not-allowed"
@@ -769,7 +769,7 @@ export function ParcoursDetail({
                         </Button>
                       )}
 
-                      {!isCompleted && status === "authenticated" && !isSeedFallback && (!hasQuiz || isQuizDone) && (
+                      {!isCompleted && isPremium && !isSeedFallback && (!hasQuiz || isQuizDone) && (
                         <Button
                           variant="primary"
                           className="w-full"
@@ -782,7 +782,7 @@ export function ParcoursDetail({
                         </Button>
                       )}
 
-                      {!isCompleted && status === "authenticated" && isSeedFallback && (
+                      {!isCompleted && isPremium && isSeedFallback && (
                         <p className="text-center text-sm text-text-muted">
                           Le suivi de ta progression arrive bientôt sur ce parcours.
                         </p>
@@ -794,13 +794,18 @@ export function ParcoursDetail({
                         </p>
                       )}
 
-                      {status !== "authenticated" && step.order === 1 && (
-                        <Link
-                          href={registerHref}
-                          className={`${buttonVariants({ variant: "primary" })} h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
-                        >
-                          Crée ton compte gratuit pour valider l&apos;étape
-                        </Link>
+                      {!isPremium && !isCompleted && step.order === 1 && (
+                        <div className="text-center">
+                          <p className="text-sm text-text-secondary">
+                            Valider l&apos;étape fait partie de l&apos;accès complet.
+                          </p>
+                          <Link
+                            href={abonnementHref}
+                            className={`${buttonVariants({ variant: "primary" })} mt-3 h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
+                          >
+                            Voir l&apos;accès complet
+                          </Link>
+                        </div>
                       )}
                     </div>
                   )}

@@ -582,7 +582,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     });
   });
 
-  it("seed fallback: no 'Marquer comme terminé' button, shows fallback message", async () => {
+  it("seed fallback, compte non abonné : pas de bouton Valider, la validation fait partie de l'accès complet (s15)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     // Step 1 auto-expands
@@ -590,9 +590,9 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Seed fallback path → no complete button
+    // Suivi de progression = accès complet (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText(/suivi de ta progression arrive bientôt/)).toBeInTheDocument();
+      expect(screen.getByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
     });
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -760,8 +760,8 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     // Quiz
     expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
 
-    // CTA to log in
-    expect(screen.getByText("Crée ton compte gratuit pour valider l'étape")).toBeInTheDocument();
+    // Valider = accès complet (s15, étalon 4.1)
+    expect(screen.getByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
   });
 
   it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {

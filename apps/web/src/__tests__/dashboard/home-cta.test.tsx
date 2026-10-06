@@ -22,8 +22,10 @@ describe("HomeCta", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
     expect(screen.getByText(/Tu crois avoir tout essayé pour être drôle/)).toBeInTheDocument();
-    expect(screen.getByText("Créer mon compte gratuit")).toBeInTheDocument();
-    expect(screen.getByText("Puis 2,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
+    // Étalon 1.2 validé par Thomas (s15), note courte de l'accueil.
+    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
+    expect(screen.getByText("2,99 €/mois, sans engagement.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/compte gratuit/i);
     expect(screen.getByText("Voir les vannes gratuites")).toBeInTheDocument();
   });
 
@@ -43,7 +45,7 @@ describe("HomeCta", () => {
   it("CTA is a real link to /register (s15 : présent dans le HTML serveur)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HomeCta />);
-    const cta = screen.getByText("Créer mon compte gratuit");
+    const cta = screen.getByText("Accéder aux parcours complets");
     expect(cta.closest("a")).toHaveAttribute("href", "/register?src=accueil-cta");
   });
 

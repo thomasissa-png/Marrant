@@ -32,21 +32,20 @@ function registerParams(text: string): URLSearchParams {
 }
 
 describe("AbonnementPage (s12 T45)", () => {
-  it("shows the free account block then the paid card to anonymous visitors", () => {
+  it("visiteur : un seul bloc Accès complet, plus de bloc « Compte gratuit » (s15)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
-    expect(screen.getByText("Compte gratuit")).toBeInTheDocument();
+    expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
     expect(screen.getByText("Accès complet")).toBeInTheDocument();
+    // Titre et sous-titre déclinés de l'étalon 1.2 (prix visible, lecture libre).
+    expect(screen.getByRole("heading", { level: 1, name: "Accéder aux parcours complets" })).toBeInTheDocument();
+    expect(
+      screen.getByText("2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre."),
+    ).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
     // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
-  });
-
-  it("free CTA links to sign-up without callback (onboarding)", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<AbonnementPage />);
-    const params = registerParams("Crée ton compte gratuit");
-    expect(params.get("callbackUrl")).toBeNull();
-    expect(params.get("src")).toBe("abonnement-gratuit");
   });
 
   it("paid CTA keeps /abonnement as the destination", () => {
@@ -216,7 +215,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
       render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement" });
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement", declencheur: "manuel" });
     });
   });
 });

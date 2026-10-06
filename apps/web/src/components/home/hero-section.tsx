@@ -43,8 +43,8 @@ export function HeroSection() {
         1&nbsp;500+ membres bossent leur humour. Rejoins-les.
       </p>
 
-      {/* CTA : connectés vers le catalogue ; anonymes vers l'inscription,
-          avec le chemin gratuit visible juste dessous (T03) */}
+      {/* CTA : connectés vers le catalogue ; anonymes vers l'abonnement (étape 1
+          sur 2 : le compte, puis le paiement), lecture libre visible dessous (T03) */}
       {isAuthenticated ? (
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
@@ -62,14 +62,16 @@ export function HeroSection() {
         </div>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
-          {/* Le bouton ouvre l'inscription gratuite : libellé aligné (reco T03 validée par Thomas) */}
+          {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
           <Link
             href={buildRegisterUrl({ src: "accueil-hero" })}
             className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
           >
-            Créer mon compte gratuit
+            Accéder aux parcours complets
           </Link>
-          <p className="text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
+          <p className="max-w-md text-balance text-sm text-text-muted">
+            2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre.
+          </p>
           <Link
             href="/vannes"
             className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"

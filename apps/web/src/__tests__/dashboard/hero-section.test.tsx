@@ -75,8 +75,13 @@ describe("HeroSection", () => {
   it("shows CTA when unauthenticated, with the free path right below (s12 T03)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Créer mon compte gratuit")).toBeInTheDocument();
-    expect(screen.getByText("Puis 2,99 €/mois pour tout débloquer, sans engagement")).toBeInTheDocument();
+    // Étalon 1.2 validé par Thomas (s15) : bouton parcours, prix en note, lien vers /register.
+    expect(screen.getByText("Accéder aux parcours complets").closest("a")).toHaveAttribute("href", "/register?src=accueil-hero");
+    expect(
+      screen.getByText("2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre."),
+    ).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/compte gratuit/i);
+    expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
     expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
   });
 

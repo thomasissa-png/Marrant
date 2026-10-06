@@ -14,7 +14,7 @@ import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 
 /** Geste qui a ouvert la modale : le titre et l'accroche en dépendent (audit tunnel R5). */
-export type PremiumModalReason = "favoris" | "defaut";
+export type PremiumModalReason = "favoris" | "vote" | "defaut";
 
 const COPY: Record<PremiumModalReason, { title: string; intro: string | null }> = {
   favoris: {
@@ -22,6 +22,7 @@ const COPY: Record<PremiumModalReason, { title: string; intro: string | null }> 
     intro:
       `Garder une vanne, un conseil ou une vidéo sous la main, c'est réservé à l'accès complet. Avec lui, tu as aussi les ${PARCOURS_COUNT} parcours en entier.`,
   },
+  vote: { title: "Le vote sur les nouveautés fait partie de l'accès complet", intro: null },
   defaut: { title: "Passe à l'accès complet", intro: null },
 };
 
@@ -46,7 +47,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}` });
+    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}`, declencheur: "manuel" });
     try {
       const target = resolveReturnTo();
       const res = await fetch("/api/stripe/checkout", {
@@ -105,7 +106,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
             className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-6 w-full")}
             onClick={onClose}
           >
-            Cr&eacute;er un compte pour commencer
+            Cr&eacute;er mon compte et m&apos;abonner
           </Link>
         )}
 

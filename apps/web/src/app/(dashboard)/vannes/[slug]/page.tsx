@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildRegisterUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
@@ -137,8 +137,8 @@ export default async function VannePage({
   if (resolved.status === "missing") notFound();
   const joke = resolved.item;
 
-  // Freemium aligné sur le catalogue : "Pourquoi ça marche" public (valeur SEO),
-  // "À toi de jouer" réservé aux membres connectés — géré côté client par
+  // "Pourquoi ça marche" public (valeur SEO) ; "À toi de jouer" fait partie de
+  // l'accès complet (abonnés, s15 §1.1) : géré côté client par
   // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
@@ -230,8 +230,8 @@ export default async function VannePage({
         {/* Décryptage pédagogique — cœur de la proposition de valeur.
             "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
             valeur SEO, preuve d'expertise, exposition pour les crawlers.
-            "À toi de jouer" (howToApply) reste derrière la même barrière que le
-            catalogue : session requise (freemium existant, pas de règle nouvelle). */}
+            "À toi de jouer" (howToApply) fait partie de l'accès complet
+            (abonnés uniquement, s15 §1.1). */}
         {joke.comedyTechnique && (
           <section
             aria-labelledby="pourquoi-ca-marche"
@@ -276,10 +276,10 @@ export default async function VannePage({
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href={buildRegisterUrl({ callbackUrl: `/vannes/${canonicalSlug}`, src: "fiche-vanne" })}
+              href={buildAbonnementUrl(`/vannes/${canonicalSlug}`, "monthly", "fiche-vanne")}
               className={buttonVariants({ variant: "primary" })}
             >
-              Créer un compte gratuit
+              Voir l&apos;accès complet
             </Link>
             <Link
               href="/vannes"

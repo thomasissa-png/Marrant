@@ -2,7 +2,7 @@
  * @jest-environment node
  *
  * Tunnel s15 : un anonyme sur une page réservée arrive en UN saut sur la bonne
- * page (/register pour l'onboarding, /login pour profil et favoris).
+ * page (/abonnement pour l'onboarding depuis s15, /login pour profil et favoris).
  */
 import { NextRequest } from "next/server";
 import middleware from "@/middleware";
@@ -26,21 +26,18 @@ function location(res: Response): URL {
 }
 
 describe("middleware : anonyme sur une page réservée", () => {
-  it("/onboarding → /register directement, destination et source conservées", async () => {
+  it("/onboarding sans session → /abonnement (réservé aux comptes, proposé après l'abonnement, s15 §2.5)", async () => {
     const res = await middleware(request("/onboarding?src=blog-meilleures-blagues-droles-2026"));
     expect([302, 307]).toContain(res.status);
     const target = location(res);
-    expect(target.pathname).toBe("/register");
-    expect(target.searchParams.get("callbackUrl")).toBe("/onboarding?src=blog-meilleures-blagues-droles-2026");
-    expect(target.searchParams.get("src")).toBe("blog-meilleures-blagues-droles-2026");
+    expect(target.pathname).toBe("/abonnement");
+    expect(target.search).toBe("");
   });
 
-  it("/onboarding sans paramètre → /register?callbackUrl=/onboarding", async () => {
+  it("/onboarding sans paramètre → /abonnement, jamais /register", async () => {
     const res = await middleware(request("/onboarding"));
     const target = location(res);
-    expect(target.pathname).toBe("/register");
-    expect(target.searchParams.get("callbackUrl")).toBe("/onboarding");
-    expect(target.searchParams.get("src")).toBeNull();
+    expect(target.pathname).toBe("/abonnement");
   });
 
   it.each(["/profil", "/favoris"])("%s → /login en un saut (plus /api/auth/signin)", async (path) => {

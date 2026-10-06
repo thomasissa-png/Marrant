@@ -7,7 +7,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getPostSignupRedirect } from "@/lib/safe-callback";
+import { getPostSignupRedirect, readSignupPlan } from "@/lib/premium-return";
+import {
+  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
+  PREMIUM_ANNUAL_PRICE_LABEL,
+  PREMIUM_PRICE_LABEL,
+  type PremiumPlan,
+} from "@/config/premium";
 import {
   AUTH_RETURN_SIGNUP_GOOGLE,
   buildLoginUrl,
@@ -27,11 +33,20 @@ const OAUTH_ERRORS: Record<string, string> = {
   Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
+/** Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15). */
+function planReminder(plan: PremiumPlan): string {
+  return plan === "annual"
+    ? `Accès complet, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
+    : `Accès complet, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
+}
+
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
 // paramètres : le HTML serveur contient déjà le formulaire et ses liens (s15).
+// Plus de compte gratuit (s15) : /register est l'étape 1 sur 2 de l'abonnement,
+// le paiement Stripe s'ouvre tout seul après la création du compte (`auto=1`).
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<RegisterForm callbackUrl={null} oauthError={null} src={null} />}>
+    <Suspense fallback={<RegisterForm callbackUrl={null} oauthError={null} src={null} plan="monthly" />}>
       <RegisterFromUrl />
     </Suspense>
   );
@@ -44,6 +59,7 @@ function RegisterFromUrl() {
       callbackUrl={searchParams.get("callbackUrl")}
       oauthError={searchParams.get("error")}
       src={sanitizeSignupSrc(searchParams.get("src"))}
+      plan={readSignupPlan(searchParams.get("plan"), searchParams.get("callbackUrl"))}
     />
   );
 }
@@ -53,29 +69,34 @@ interface RegisterFormProps {
   oauthError: string | null;
   /** Source du clic (mesure Umami), déjà validée. */
   src: string | null;
+  /** Formule choisie (`?plan=annual` ou dans le callback), mensuel par défaut. */
+  plan: PremiumPlan;
 }
 
-function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
+function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
   const [error, setError] = useState("");
+  // E-mail déjà inscrit (409) : message + lien de connexion (spec s15 §2.3).
+  const [emailTaken, setEmailTaken] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   // Navigateur intégré détecté au montage : Google désactivé seulement là où il est refusé (v5 §2.4).
   const inApp = useInAppBrowser();
   const googleBloque = inApp?.googleBloque === true;
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
-  // Règle unique d'après-inscription, partagée avec la modale (lib/safe-callback) :
-  // onboarding par défaut, callback d'intention explicite respecté,
-  // sinon onboarding qui transmet le callback. Google suit la même règle.
-  const postAuthTarget = getPostSignupRedirect(callbackUrl);
+  // Règle unique d'après-inscription (lib/premium-return) : /abonnement avec
+  // `auto=1` (paiement ouvert tout seul), intention d'origine gardée en
+  // `returnTo`, formule conservée. Google suit la même règle.
+  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan);
   // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
   const oauthCallbackUrl = withAuthReturnMarker(postAuthTarget, AUTH_RETURN_SIGNUP_GOOGLE, src);
   // Source toujours renseignée (« direct » si la page est ouverte sans lien suivi).
-  const srcData = { src: src ?? "direct" };
+  // `etape: "abonnement"` : le compte est créé pour s'abonner (rupture de série s15).
+  const srcData = { src: src ?? "direct", etape: "abonnement" };
   const loginHref = buildLoginUrl({ callbackUrl, src });
 
   const validateForm = (): boolean => {
@@ -87,6 +108,7 @@ function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setEmailTaken(false);
     setFieldErrors({});
     setIsLoading(true);
 
@@ -109,6 +131,10 @@ function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
         const apiFieldErrors = fieldErrorsFromApiDetails(data.details);
         if (Object.keys(apiFieldErrors).length > 0) {
           setFieldErrors(apiFieldErrors);
+          return;
+        }
+        if (res.status === 409) {
+          setEmailTaken(true);
           return;
         }
         setError(data.error ?? "L'inscription n'a pas abouti. Réessaie.");
@@ -150,13 +176,24 @@ function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
               deviens-marrant.fr
             </span>
           </Link>
-          <h1 className="font-display text-xl font-bold text-text-primary">Crée ton compte, ta première vanne t&apos;attend</h1>
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">Étape 1 sur 2</p>
+          <h1 className="font-display text-xl font-bold text-text-primary">Ton compte</h1>
+          <p className="text-sm text-text-secondary">{planReminder(plan)}</p>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {oauthMessage && (
               <p className="order-first rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning sm:order-none" role="alert">
                 {oauthMessage}
+              </p>
+            )}
+            {emailTaken && (
+              <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
+                Cet e-mail a déjà un compte.{" "}
+                <Link href={loginHref} className="font-medium underline">
+                  Connecte-toi
+                </Link>{" "}
+                pour reprendre ton abonnement.
               </p>
             )}
             {error && (
@@ -257,6 +294,7 @@ function RegisterForm({ callbackUrl, oauthError, src }: RegisterFormProps) {
               <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               S&apos;inscrire avec Google
             </Button>
+            <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
             {googleBloque && inApp && (
               <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
             )}

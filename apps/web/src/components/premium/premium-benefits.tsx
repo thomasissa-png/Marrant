@@ -53,7 +53,7 @@ export function PremiumBenefits({ className = "space-y-3" }: { className?: strin
         <span>
           <strong>Les listes complètes</strong>
           {counts.length > 0 ? ` (${counts.join(", ")})` : ""}, au lieu de {FREE_JOKE_LIMIT} vannes,{" "}
-          {FREE_TIP_LIMIT} conseils et {FREE_VIDEO_LIMIT} vidéos en compte gratuit, avec le filtre par catégorie des vannes.
+          {FREE_TIP_LIMIT} conseils et {FREE_VIDEO_LIMIT} vidéos sans abonnement, avec le filtre par catégorie des vannes.
         </span>
       </li>
     </ul>

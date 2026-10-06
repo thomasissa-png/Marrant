@@ -208,11 +208,13 @@ export default function AProposPage() {
             Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.
             La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
           </p>
-          {/* Ouvre l'inscription gratuite : libellé aligné sur l'accueil (reco T03 validée par Thomas).
-              Après inscription : onboarding (callback « / »), plus la page de paiement. */}
+          {/* Étalon 1.2 validé par Thomas (s15), aligné sur l'accueil : inscription (étape 1
+              sur 2) puis paiement ouvert tout seul ; connecté : /abonnement. */}
           <div className="mt-4 inline-flex flex-col items-center gap-1">
-            <AuthCta label="Créer mon compte gratuit" callbackUrl="/" src="a-propos" />
-            <p className="text-sm text-text-muted">Puis 2,99 €/mois pour tout débloquer, sans engagement</p>
+            <AuthCta label="Accéder aux parcours complets" src="a-propos" />
+            <p className="max-w-md text-balance text-sm text-text-muted">
+              2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre.
+            </p>
           </div>
         </div>
       </div>

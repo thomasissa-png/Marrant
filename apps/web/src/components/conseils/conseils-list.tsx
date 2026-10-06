@@ -9,6 +9,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
+import { isPremiumPlan } from "@/lib/parcours-access";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
@@ -94,7 +95,10 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  // XP = suivi de progression, accès complet uniquement (s15 §1.1).
+  const earnsXp =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
@@ -160,7 +164,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         next.delete(id);
       } else {
         next.add(id);
-        if (status === "authenticated" && !completedTipIds.has(id)) {
+        if (earnsXp && !completedTipIds.has(id)) {
           setCompletedTipIds((prev) => new Set(prev).add(id));
           addXp(10, "tip_read");
           showXpGain(10);

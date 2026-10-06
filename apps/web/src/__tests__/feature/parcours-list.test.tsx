@@ -84,12 +84,11 @@ describe("ParcoursPage — Parcours structurés", () => {
     });
   });
 
-  it("anonyme : le CTA mène à /register avec le parcours en destination (s15)", async () => {
+  it("anonyme : le CTA mène directement au parcours, sans /register (s15 §2.7, étape 1 en lecture libre)", async () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(mockPush).toHaveBeenCalledWith(
-      expect.stringMatching(/^\/register\?callbackUrl=%2Fparcours%2F[a-z-]+&src=parcours$/),
-    );
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+$/));
+    expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
   });
 
   it("shows Essai gratuit badges on free modules", () => {

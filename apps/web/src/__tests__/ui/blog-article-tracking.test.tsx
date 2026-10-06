@@ -8,7 +8,6 @@ import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
-import { getPostSignupRedirect } from "@/lib/safe-callback";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 
@@ -29,7 +28,7 @@ function setup() {
       <div data-blog-zone="related">
         <a href="/blog/timing-humour">Timing</a>
       </div>
-      <ArticleCta primaryLabel="Créer mon compte gratuit" />
+      <ArticleCta />
     </BlogArticleTracking>,
   );
 }
@@ -59,19 +58,23 @@ describe("blog-sortie-clic", () => {
 });
 
 describe("blog-cta-clic", () => {
-  it("inscription et premium, sans doublon en sortie", () => {
+  it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText("Créer mon compte gratuit"));
-    fireEvent.click(screen.getByText("Tout débloquer à 2,99 €/mois"));
+    fireEvent.click(screen.getByText("Passer à l'accès complet"));
+    fireEvent.click(screen.getByText("Lire la première étape d'un parcours"));
     expect(track).toHaveBeenCalledTimes(2);
-    expect(track).toHaveBeenNthCalledWith(1, "blog-cta-clic", { slug: SLUG, bouton: "inscription" });
-    expect(track).toHaveBeenNthCalledWith(2, "blog-cta-clic", { slug: SLUG, bouton: "premium" });
+    expect(track).toHaveBeenNthCalledWith(1, "blog-cta-clic", { slug: SLUG, bouton: "abonnement" });
+    expect(track).toHaveBeenNthCalledWith(2, "blog-cta-clic", { slug: SLUG, bouton: "etape-1" });
   });
 
-  it("textes par défaut conservés sans surcharge", () => {
-    render(<ArticleCta />);
+  it("textes par défaut : titre et texte gardés, étalon 3.1 pour bouton, note et lien", () => {
+    const { container } = render(<ArticleCta />);
     expect(screen.getByText("Maintenant, reste à le dire à voix haute")).toBeInTheDocument();
-    expect(screen.getByText("Essaie gratuitement")).toBeInTheDocument();
+    expect(screen.getByText(/^Des exercices concrets, des parcours étape par étape et des XP/)).toBeInTheDocument();
+    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
+    expect(screen.getByText("Lire la première étape d'un parcours").closest("a")).toHaveAttribute("href", "/parcours");
+    expect(container.textContent).not.toMatch(/gratuit|sans carte/i);
   });
 });
 
@@ -209,19 +212,19 @@ describe("blog-vanne-partage", () => {
 });
 
 describe("CTA d'article : note et inscription attribuable", () => {
-  it("note surchargeable, défaut : limites du compte gratuit", () => {
-    const { unmount } = render(<ArticleCta note="Gratuit, sans carte." />);
-    expect(screen.getByText("Gratuit, sans carte.")).toBeInTheDocument();
+  it("note surchargeable, défaut : prix et lecture libre", () => {
+    const { unmount } = render(<ArticleCta note="Note de l'article." />);
+    expect(screen.getByText("Note de l'article.")).toBeInTheDocument();
     unmount();
     render(<ArticleCta />);
-    expect(screen.getByText(/^Compte gratuit : .+, contenu du jour\. Sans carte\.$/)).toBeInTheDocument();
+    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
   });
 
-  it("le bouton d'inscription est un lien direct /register avec callback et source (s15)", () => {
-    const { container } = render(<ArticleCta freeCallbackUrl="/onboarding" src={`blog-${SLUG}`} />);
-    const link = container.querySelector('[data-blog-cta="inscription"] a');
-    expect(link).toHaveAttribute("href", `/register?callbackUrl=%2Fonboarding&src=blog-${SLUG}`);
-    // Destination après inscription : l'onboarding.
-    expect(getPostSignupRedirect("/onboarding")).toBe("/onboarding");
+  it("le bouton principal mène à /abonnement avec retour au parcours et source de l'article (s15)", () => {
+    const { container } = render(<ArticleCta parcoursHref="/parcours/repartie" src={`blog-${SLUG}`} />);
+    const link = container.querySelector('a[data-blog-cta="abonnement"]');
+    expect(link).toHaveAttribute("href", `/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-${SLUG}`);
+    expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/repartie");
+    expect(container.querySelector('[data-blog-cta="inscription"]')).toBeNull();
   });
 });

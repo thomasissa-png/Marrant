@@ -53,17 +53,17 @@ describe("LoginPage", () => {
     expect(screen.getByText("Mot de passe oublié ?")).toBeInTheDocument();
   });
 
-  it("propose clairement « Créer un compte » vers /register (s15)", () => {
+  it("propose clairement l'abonnement vers /register (s15, plus de compte gratuit)", () => {
     render(<LoginPage />);
-    expect(screen.getByText("Pas encore de compte ?")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Créer un compte" })).toHaveAttribute("href", "/register?src=login");
+    expect(screen.getByText("Pas encore abonné ?")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Créer mon compte et m'abonner" })).toHaveAttribute("href", "/register?src=login");
   });
 
-  it("« Créer un compte » garde la destination et la source (s15)", () => {
+  it("le lien d'inscription garde la destination et la source (s15)", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
     mockSearchParams.set("src", "header");
     render(<LoginPage />);
-    expect(screen.getByRole("link", { name: "Créer un compte" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Créer mon compte et m'abonner" })).toHaveAttribute(
       "href",
       "/register?callbackUrl=%2Fabonnement%3Fplan%3Dannual&src=header",
     );

@@ -105,6 +105,8 @@ Chaque réseau est jugé seul, à J+28 et J+56 de son J0, sur les trois mesures 
 
 Seules les cases `[à renseigner]` restent à remplir, à la date réelle (pas de date présumée). **Preuve D8** : test de session (agent utilisateur émulé, Jest, 3 133 PASS au déploiement) + 1 événement Umami de test par `origine`, daté, exclu des relevés et soustrait de la baseline 2 (§1). Si la preuve D8 d'un réseau n'est pas consignée le 11/10, son J0 passe au lundi suivant et ses jalons glissent d'autant (§2).
 
+**Rupture de série « plus de compte gratuit » (s15, @fullstack, commit du 06/10, À DÉPLOYER)** : date de mise en ligne `[à renseigner : date et Worker]`. À partir de cette date, `inscription-envoi` et `inscription-reussie` portent `etape: "abonnement"` (compte créé pour payer, plus de compte gratuit) ; `abonnement-clic` porte `declencheur: auto|manuel` (`auto` = Stripe ouvert sans clic après inscription) et, comme `abonnement-reussi` et `abonnement-annule`, `origine`/`contenu` ; `blog-cta-clic` : `bouton="inscription"` devient `abonnement`, `premium` disparaît, `etape-1` apparaît. Le taux visite vers compte d'avant n'est plus comparable ; la baseline 2 (comptes créés par semaine) change de sens à cette date. Critère de l'hypothèse Marc (§5) à reformuler par @data-analyst.
+
 **Liens de bio** (K1-c : sans bio pointée, aucun trafic suivi ; pose par Thomas, 3 x 1 min, ou par la session si elle a l'accès ; date aussi consignée par la session dans `REPLIT_ACTIONS.md`) :
 
 | Réseau | Lien à poser | Posé le | Preuve |

@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { buildRegisterUrl } from "@/lib/auth-links";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
@@ -185,12 +184,10 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       });
   }, [status, parcours]);
 
+  // L'étape 1 se lit sans compte : « Commencer ce parcours » mène au parcours
+  // pour tout le monde (s15 §2.7, avant : /register pour un visiteur).
   const handleCta = (slug: string) => {
-    if (status === "authenticated") {
-      router.push(`/parcours/${slug}`);
-      return;
-    }
-    router.push(buildRegisterUrl({ callbackUrl: `/parcours/${slug}`, src: "parcours" }));
+    router.push(`/parcours/${slug}`);
   };
 
   return (

@@ -43,24 +43,5 @@ export function resolvePostAuthRedirect(
   return sanitizeCallbackUrl(rawCallback) ?? fallback;
 }
 
-/**
- * Chemins qui expriment une intention explicite : on y va directement après
- * l'inscription, sans détour par l'onboarding (payer, reprendre un parcours).
- */
-const DIRECT_INTENT_PREFIXES = ["/abonnement", "/parcours/"];
-
-/**
- * Destination après une INSCRIPTION (page /register, modale, Google).
- * Règle unique (passe UX s12, T40) :
- * - pas de callback (ou l'accueil) : /onboarding ;
- * - callback d'intention explicite (/abonnement, /parcours/<slug>) : direct ;
- * - sinon : /onboarding?callbackUrl=<callback>, que l'onboarding respecte
- *   via son lien de sortie (le résultat propose le parcours recommandé).
- */
-export function getPostSignupRedirect(rawCallback: string | null | undefined): string {
-  const safe = sanitizeCallbackUrl(rawCallback);
-  if (!safe || safe === "/") return "/onboarding";
-  if (safe.startsWith("/onboarding")) return safe;
-  if (DIRECT_INTENT_PREFIXES.some((prefix) => safe.startsWith(prefix))) return safe;
-  return `/onboarding?callbackUrl=${encodeURIComponent(safe)}`;
-}
+// Destination après une INSCRIPTION : `getPostSignupRedirect`, désormais dans
+// lib/premium-return (plus de compte gratuit, s15 : l'inscription mène au paiement).

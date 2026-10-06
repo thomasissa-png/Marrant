@@ -19,9 +19,9 @@ jest.mock("next/navigation", () => ({
   usePathname: () => "/blog",
 }));
 
-/** s15 : le bouton d'inscription est un lien direct /register (callback + source). */
+/** s15 (plus de compte gratuit) : le bouton principal est un lien /abonnement (retour + source). */
 function signupHref(container: HTMLElement): string | null {
-  return container.querySelector('[data-blog-cta="inscription"] a')?.getAttribute("href") ?? null;
+  return container.querySelector('a[data-blog-cta="abonnement"]')?.getAttribute("href") ?? null;
 }
 
 jest.mock("@/lib/prisma", () => ({
@@ -55,10 +55,9 @@ describe("Page article : position du CTA et partage", () => {
     expect(follows(body, titles[0])).toBe(true);
     expect(follows(titles[0], screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
-    expect(screen.getByText("Gratuit, sans carte. Les vannes de cette page restent en accès libre, compte ou pas.")).toBeInTheDocument();
-    // Bouton Premium conservé (décision Thomas).
-    expect(screen.getByText("Tout débloquer à 2,99 €/mois")).toBeInTheDocument();
-    expect(signupHref(container)).toBe("/register?callbackUrl=%2Fonboarding&src=blog-meilleures-blagues-droles-2026");
+    expect(screen.getByText("2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.")).toBeInTheDocument();
+    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours&src=blog-meilleures-blagues-droles-2026");
   });
 
   it("meilleures-blagues : 50 boutons Partager, un par vanne", async () => {
@@ -73,7 +72,7 @@ describe("Page article : position du CTA et partage", () => {
     const title = screen.getByText("Maintenant, reste à le dire à voix haute");
     expect(follows(container.querySelector('[data-blog-zone="parcours"]')!, title)).toBe(true);
     expect(container.querySelector("[data-share-vanne]")).toBeNull();
-    expect(signupHref(container)).toBe("/register?callbackUrl=%2Fonboarding&src=blog-comment-devenir-drole");
+    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours&src=blog-comment-devenir-drole");
   });
 });
 
@@ -138,8 +137,8 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
-    expect(screen.getByText("Gratuit, sans carte. Les messages de cette page restent en accès libre, compte ou pas.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Créer mon compte gratuit" })).toBeInTheDocument();
+    expect(screen.getByText("2,99 €/mois, sans engagement. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Passer à l'accès complet" })).toBeInTheDocument();
   });
 });
 

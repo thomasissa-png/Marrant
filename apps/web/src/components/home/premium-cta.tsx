@@ -21,7 +21,7 @@ export function PremiumCta() {
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil" });
+    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil", declencheur: "manuel" });
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
@@ -84,8 +84,8 @@ export function PremiumCta() {
                 {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
               </Button>
             ) : (
-              // CTA payant : après inscription, direction /abonnement (pas le quiz
-              // d'onboarding gratuit), voir getPostSignupRedirect (audit tunnel F1).
+              // CTA payant : après inscription, /abonnement avec paiement ouvert
+              // tout seul (`auto=1`), voir getPostSignupRedirect (s15).
               <Link
                 href={buildRegisterUrl({ callbackUrl: "/abonnement", src: "accueil-premium" })}
                 className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}

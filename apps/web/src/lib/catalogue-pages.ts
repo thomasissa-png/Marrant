@@ -149,7 +149,7 @@ async function loadTipsPage(page: number): Promise<CataloguePage<PublicTip>> {
     ...t,
     category: String(t.category),
     difficulty: String(t.difficulty),
-    exercise: "", // réservé aux membres (fiche conseil) : fourni par l'API selon la session
+    exercise: "", // accès complet (fiche conseil) : fourni par l'API selon la session
   }));
   return { items, page, limit: TIPS_PAGE_SIZE, total, totalPages };
 }

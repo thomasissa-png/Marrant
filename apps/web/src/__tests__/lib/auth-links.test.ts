@@ -8,7 +8,7 @@ import {
   sanitizeSignupSrc,
   withAuthReturnMarker,
 } from "@/lib/auth-links";
-import { getPostSignupRedirect } from "@/lib/safe-callback";
+import { getPostSignupRedirect } from "@/lib/premium-return";
 
 describe("buildRegisterUrl", () => {
   it("sans paramètre : /register", () => {
@@ -28,7 +28,7 @@ describe("buildRegisterUrl", () => {
 
   it("la formule annuelle survit jusqu'à la destination après inscription", () => {
     const url = new URL(buildRegisterUrl({ callbackUrl: "/abonnement?returnTo=%2Fcarnet&plan=annual" }), "https://x.fr");
-    expect(getPostSignupRedirect(url.searchParams.get("callbackUrl"))).toBe("/abonnement?returnTo=%2Fcarnet&plan=annual");
+    expect(getPostSignupRedirect(url.searchParams.get("callbackUrl"))).toBe("/abonnement?returnTo=%2Fcarnet&plan=annual&auto=1");
   });
 });
 
@@ -49,13 +49,13 @@ describe("bascule depuis une application (v5 §2.5) : callbackUrl, src, origine,
     );
   });
 
-  it("src=blog-<slug> et callbackUrl survivent : destination intacte après inscription", () => {
+  it("src=blog-<slug> et callbackUrl survivent : intention gardée en returnTo après inscription", () => {
     const url = new URL(
       buildRegisterUrl({ callbackUrl: "/parcours/repartie", src: "blog-se-presenter-avec-humour", origine: "x", contenu: "lundi" }),
       "https://deviens-marrant.fr",
     );
     expect(url.searchParams.get("src")).toBe("blog-se-presenter-avec-humour");
-    expect(getPostSignupRedirect(url.searchParams.get("callbackUrl"))).toBe("/parcours/repartie");
+    expect(getPostSignupRedirect(url.searchParams.get("callbackUrl"))).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&auto=1");
   });
 
   it("origine hors liste blanche : origine et contenu omis", () => {

@@ -1,7 +1,7 @@
 /**
  * Protection serveur des étapes Premium des parcours (décision Thomas, 03/10/2026).
  *
- * Pour un visiteur non Premium (anonyme ou compte gratuit), les étapes 2 et
+ * Pour un visiteur non Premium (anonyme ou compte non abonné), les étapes 2 et
  * suivantes sont réduites à un aperçu : titre du module, format, une phrase
  * « pourquoi », XP. Le contenu du conseil (texte, exemple, exercice), le quiz,
  * les vannes et les vidéos de l'étape ne quittent PAS le serveur.

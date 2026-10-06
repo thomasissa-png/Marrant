@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildRegisterUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { fitDescription, fitTitle } from "@/lib/seo-meta";
@@ -211,22 +211,20 @@ export default async function VideoPage({
           </div>
         </section>
 
-        {/* Freemium : les learnings + exercice sont réservés aux inscrits.
+        {/* Les learnings + exercice font partie de l'accès complet (s15 §1.1).
             Le titre, la vidéo (déjà publique sur YouTube) et la description restent
             visibles pour SEO et VideoObject schema. */}
         <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">Analyse pédagogique complète</div>
           <p className="text-sm text-text-primary">
-            Les points clés à retenir et l&apos;exercice pour appliquer la technique
-            sont accessibles gratuitement quand tu crées ton compte. Tu récupères
-            aussi ton contenu quotidien et la première étape de chaque parcours.
+            Les points clés et l&apos;exercice de cette vidéo font partie de l&apos;accès complet.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href={buildRegisterUrl({ callbackUrl: `/videos/${canonicalSlug}`, src: "fiche-video" })}
+              href={buildAbonnementUrl(`/videos/${canonicalSlug}`, "monthly", "fiche-video")}
               className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
-              Créer un compte gratuit
+              Voir l&apos;accès complet
             </Link>
             <Link
               href="/videos"

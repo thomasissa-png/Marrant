@@ -1,4 +1,5 @@
-import { sanitizeCallbackUrl, resolvePostAuthRedirect, getPostSignupRedirect } from "@/lib/safe-callback";
+import { sanitizeCallbackUrl, resolvePostAuthRedirect } from "@/lib/safe-callback";
+import { getPostSignupRedirect, readSignupPlan } from "@/lib/premium-return";
 
 describe("sanitizeCallbackUrl", () => {
   it("accepte un chemin relatif interne", () => {
@@ -51,24 +52,43 @@ describe("resolvePostAuthRedirect", () => {
   });
 });
 
-describe("getPostSignupRedirect", () => {
-  it("envoie vers l'onboarding sans callback ou depuis l'accueil", () => {
-    expect(getPostSignupRedirect(null)).toBe("/onboarding");
-    expect(getPostSignupRedirect("/")).toBe("/onboarding");
-    expect(getPostSignupRedirect("https://evil.com")).toBe("/onboarding");
+describe("getPostSignupRedirect (plus de compte gratuit, s15 : l'inscription mène au paiement)", () => {
+  it("sans callback, depuis l'accueil ou un callback externe : /abonnement avec paiement automatique", () => {
+    expect(getPostSignupRedirect(null)).toBe("/abonnement?auto=1");
+    expect(getPostSignupRedirect("/")).toBe("/abonnement?auto=1");
+    expect(getPostSignupRedirect("https://evil.com")).toBe("/abonnement?auto=1");
   });
 
-  it("garde l'onboarding tel quel s'il est déjà la cible", () => {
-    expect(getPostSignupRedirect("/onboarding")).toBe("/onboarding");
+  it("/onboarding n'est plus une étape avant paiement : aucun returnTo", () => {
+    expect(getPostSignupRedirect("/onboarding")).toBe("/abonnement?auto=1");
+    expect(getPostSignupRedirect("/onboarding?callbackUrl=%2Fvannes")).toBe("/abonnement?auto=1");
   });
 
-  it("va directement vers une intention explicite (paiement, parcours)", () => {
-    expect(getPostSignupRedirect("/abonnement")).toBe("/abonnement");
-    expect(getPostSignupRedirect("/parcours/repartie")).toBe("/parcours/repartie");
+  it("callback /abonnement : ses paramètres (returnTo, plan) sont gardés", () => {
+    expect(getPostSignupRedirect("/abonnement")).toBe("/abonnement?auto=1");
+    expect(getPostSignupRedirect("/abonnement?returnTo=%2Fcarnet&plan=annual")).toBe(
+      "/abonnement?returnTo=%2Fcarnet&plan=annual&auto=1",
+    );
+    // returnTo non sûr retiré, upgrade=cancel jamais relayé
+    expect(getPostSignupRedirect("/abonnement?returnTo=%2F%2Fevil.com&upgrade=cancel")).toBe("/abonnement?auto=1");
   });
 
-  it("passe par l'onboarding en transmettant le callback sinon", () => {
-    expect(getPostSignupRedirect("/vannes")).toBe("/onboarding?callbackUrl=%2Fvannes");
-    expect(getPostSignupRedirect("/parcours")).toBe("/onboarding?callbackUrl=%2Fparcours");
+  it("toute autre intention est conservée en returnTo", () => {
+    expect(getPostSignupRedirect("/parcours/repartie")).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&auto=1");
+    expect(getPostSignupRedirect("/vannes")).toBe("/abonnement?returnTo=%2Fvannes&auto=1");
+  });
+
+  it("formule annuelle demandée : plan=annual", () => {
+    expect(getPostSignupRedirect(null, "annual")).toBe("/abonnement?plan=annual&auto=1");
+    expect(getPostSignupRedirect("/vannes", "annual")).toBe("/abonnement?returnTo=%2Fvannes&plan=annual&auto=1");
+  });
+});
+
+describe("readSignupPlan", () => {
+  it("?plan=annual sur /register ou dans le callback ; mensuel sinon", () => {
+    expect(readSignupPlan("annual", null)).toBe("annual");
+    expect(readSignupPlan(null, "/abonnement?plan=annual")).toBe("annual");
+    expect(readSignupPlan(null, "/abonnement")).toBe("monthly");
+    expect(readSignupPlan("n'importe", "https://evil.com?plan=annual")).toBe("monthly");
   });
 });

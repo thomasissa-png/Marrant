@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
 import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 
 /** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
@@ -55,6 +56,8 @@ export function Header() {
   // Liens réels (présents dans le HTML serveur) : retour sur la page courante après coup.
   const registerHref = buildRegisterUrl({ callbackUrl: pathname, src: "header" });
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
+  // Compte connecté sans abonnement (s15 §2.4) : un accès direct au paiement.
+  const activateHref = buildAbonnementUrl(pathname, "monthly", "header");
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
@@ -93,6 +96,11 @@ export function Header() {
           <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
             {isAuthenticated ? (
               <>
+                {!isPremium && (
+                  <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
+                    Activer mon accès
+                  </Link>
+                )}
                 <Link
                   href="/favoris"
                   aria-label="Favoris"
@@ -201,6 +209,15 @@ export function Header() {
               <hr className="my-2 border-border" />
               {isAuthenticated ? (
                 <>
+                  {!isPremium && (
+                    <Link
+                      href={activateHref}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
+                    >
+                      Activer mon accès
+                    </Link>
+                  )}
                   <Link
                     href="/favoris"
                     onClick={() => setIsMenuOpen(false)}

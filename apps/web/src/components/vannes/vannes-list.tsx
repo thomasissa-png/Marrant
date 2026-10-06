@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
@@ -13,9 +13,10 @@ import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
-import { AuthCta } from "@/components/auth/auth-cta";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { ListPagination } from "@/components/ui/list-pagination";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
@@ -201,14 +202,13 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans compte.
             </p>
             <p className="text-xs text-text-secondary">
-              Crée ton compte gratuit pour garder tes XP et commencer un parcours, ou passe à l&apos;accès complet à 2,99 €/mois : tout le catalogue, les filtres et les favoris.
+              Passe à l&apos;accès complet à 2,99 €/mois : tout le catalogue, les filtres et les favoris.
             </p>
           </div>
           <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
-            <AuthCta label="Créer mon compte" size="sm" callbackUrl="/vannes" src="vannes" className="w-full sm:w-auto" />
             <Link
-              href="/abonnement"
-              className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline"
+              href={buildAbonnementUrl("/vannes", "monthly", "vannes")}
+              className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full sm:w-auto")}
             >
               Tout débloquer
             </Link>

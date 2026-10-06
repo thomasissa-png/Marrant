@@ -2,13 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
-import { buildRegisterUrl } from "@/lib/auth-links";
+import { PremiumModal } from "@/components/premium/premium-modal";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 interface Feature {
   slug: string;
@@ -83,11 +83,13 @@ const FEATURES: Feature[] = [
 ];
 
 export function UpcomingFeatures() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const isPremium =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
+  const [premiumOpen, setPremiumOpen] = useState(false);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
   const [votingSlug, setVotingSlug] = useState<string | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/features/vote")
@@ -103,9 +105,10 @@ export function UpcomingFeatures() {
 
   const handleVote = useCallback(
     async (slug: string) => {
-      if (status !== "authenticated") {
-        // Anonyme : on ouvre directement l'inscription au lieu d'un toast d'erreur (T10).
-        router.push(buildRegisterUrl({ src: "accueil-vote" }));
+      if (!isPremium) {
+        // Visiteur ou compte non abonné : le vote fait partie de l'accès complet
+        // (badge « Abonnés », s15 §1.1) : modale Premium au lieu d'une erreur.
+        setPremiumOpen(true);
         return;
       }
       if (votingSlug) return;
@@ -151,7 +154,7 @@ export function UpcomingFeatures() {
         setVotingSlug(null);
       }
     },
-    [status, userVotes, votingSlug, router]
+    [isPremium, userVotes, votingSlug]
   );
 
   return (
@@ -235,6 +238,7 @@ export function UpcomingFeatures() {
         })}
       </div>
 
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="vote" />
     </section>
   );
 }

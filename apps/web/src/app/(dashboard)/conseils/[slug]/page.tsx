@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildRegisterUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
@@ -193,19 +193,18 @@ export default async function ConseilPage({
           <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
         </section>
 
-        {/* Freemium : l'exercice (application) reste réservé aux inscrits. */}
+        {/* L'exercice (application) fait partie de l'accès complet (s15 §1.1). */}
         <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">À toi de jouer</div>
           <p className="text-sm text-text-primary">
-            L&apos;exercice complet pour appliquer cette technique dès aujourd&apos;hui
-            t&apos;attend avec ton compte gratuit.
+            L&apos;exercice pour appliquer cette technique fait partie de l&apos;accès complet.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href={buildRegisterUrl({ callbackUrl: `/conseils/${canonicalSlug}`, src: "fiche-conseil" })}
+              href={buildAbonnementUrl(`/conseils/${canonicalSlug}`, "monthly", "fiche-conseil")}
               className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
-              Créer un compte gratuit
+              Voir l&apos;accès complet
             </Link>
             <Link
               href="/conseils"

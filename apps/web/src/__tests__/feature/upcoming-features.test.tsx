@@ -10,8 +10,11 @@ jest.mock("@/components/ui/toast", () => ({
   toast: jest.fn(),
 }));
 
-const mockPush = jest.fn();
-jest.mock("next/navigation", () => ({ useRouter: () => ({ push: mockPush }) }));
+// Modale Premium simplifiée : on vérifie qu'elle s'ouvre avec la raison « vote ».
+jest.mock("@/components/premium/premium-modal", () => ({
+  PremiumModal: ({ isOpen, reason }: { isOpen: boolean; reason?: string }) =>
+    isOpen ? <div role="dialog">modale-premium-{reason}</div> : null,
+}));
 
 const { useSession } = require("next-auth/react");
 const { toast } = require("@/components/ui/toast");
@@ -42,7 +45,8 @@ function mockFetch(
 describe("UpcomingFeatures", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useSession.mockReturnValue({ status: "authenticated" });
+    // Abonné : réaction/vote enregistrés en base (s15 §1.1 : Premium uniquement).
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
     global.fetch = jest.fn();
   });
 
@@ -128,8 +132,11 @@ describe("UpcomingFeatures", () => {
     });
   });
 
-  it("opens the sign-up modal when an unauthenticated user tries to vote (s12 T10)", async () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
+  it.each([
+    ["visiteur", { status: "unauthenticated" }],
+    ["compte non abonné", { status: "authenticated", data: { user: { plan: "FREE" } } }],
+  ])("%s qui vote : modale Premium (raison vote), aucun envoi (s15 §1.1)", async (_label, session) => {
+    useSession.mockReturnValue(session);
     mockFetch({
       counts: { whatsapp: 47, "nouveaux-parcours": 34, communaute: 62, surprises: 21 },
       userVotes: [],
@@ -144,7 +151,9 @@ describe("UpcomingFeatures", () => {
     await userEvent.click(screen.getByLabelText("62 votes pour Une communauté"));
 
     expect(toast).not.toHaveBeenCalled();
-    expect(mockPush).toHaveBeenCalledWith("/register?src=accueil-vote");
+    expect(screen.getByRole("dialog")).toHaveTextContent("modale-premium-vote");
+    const posts = (global.fetch as jest.Mock).mock.calls.filter(([, o]) => (o as RequestInit | undefined)?.method === "POST");
+    expect(posts).toHaveLength(0);
   });
 
   it("rolls back on API error", async () => {
