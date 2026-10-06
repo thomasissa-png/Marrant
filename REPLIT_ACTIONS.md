@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : DÉPLOYÉ depuis l'arbre principal, Worker `1fda1ab3-12b1-4d8e-8564-cd92dabcd782` (N-1 `03e279cf-0e52-4f01-945b-6701d10c79be`)
+
+- Contenu : `5a0a2bf` (haut de page du pilier : En bref 1A, title/H1 2A, intro 3B ; titres alignés dans `/vannes` et `/videos`) + `7761333` (carte « Commence ici » de `/blog`). Jest 3 254 PASS ; tsc, lint OK.
+- Prod : 7 pages 200 ; `<title>` et H1 du pilier = « Comment devenir drôle : 5 piliers et un plan sur 30 jours » ; nouvel « En bref » présent. Bing `SubmitUrlBatch` (pilier, `/blog`) OK ; IndexNow : voir essai programmé du 07/10.
+- Thomas : demande d'indexation du pilier dans Search Console (une fois, maintenant que la nouvelle version est en ligne).
+
 ## s15 (06/10/2026) : haut de page du pilier `/blog/comment-devenir-drole` (étalons 1A, 2A, 3B) @fullstack : **À DÉPLOYER**
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucune requête SQL (article statique), aucun event Umami, aucune URL changée. Contrôles : tsc 0, lint 0 erreur, build OK, Jest 3 254 PASS / 2 skipped. Journal et mesure du diff (9,9 % du contenu) : `docs/seo/pilier-haut-de-page-applique-s15.md`.
