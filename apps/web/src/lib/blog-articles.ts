@@ -17,12 +17,14 @@ export interface BlogArticle {
 export const blogArticles: BlogArticle[] = [
   {
     slug: "comment-devenir-drole",
-    title: "Comment devenir drôle : le guide",
+    title: "Comment devenir drôle : 5 piliers et un plan sur 30 jours",
     excerpt:
       "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours.",
-    content: `> **En bref :** Devenir drôle est une compétence qui s'apprend, pas un talent inné. L'humour s'appuie sur 3 leviers (observation, surprise, timing) que n'importe qui peut développer. Un programme structuré de 8 semaines suffit à progresser significativement, quel que soit le niveau de départ.
+    content: `> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.
 
 "Soit t'es drôle, soit tu l'es pas." Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est "né drôle", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.
+
+Reste à savoir comment. Au programme : pourquoi les humoristes ne sont pas « nés drôles » (ils ont enchaîné les bides avant de remplir des salles), ce que la science dit de l'apprentissage, les 5 piliers, puis un plan sur 30 jours pour passer de « comprendre » à « produire ». Quand tu voudras t'entraîner séance par séance, direction nos [10 exercices pour développer ton humour](/blog/exercices-developper-humour).
 
 ## Pourquoi pense-t-on que l'humour est un talent inné ?
 

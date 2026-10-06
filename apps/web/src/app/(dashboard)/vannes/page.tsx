@@ -93,7 +93,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           url: "https://deviens-marrant.fr/vannes",
           numberOfItems: jokeCount,
           relatedArticles: [
-            { title: "Comment devenir drôle : le guide", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "Comment devenir drôle : 5 piliers et un plan sur 30 jours", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
             { title: "5 erreurs qui tuent tes blagues", url: "https://deviens-marrant.fr/blog/erreurs-blagues" },
           ],
         })}

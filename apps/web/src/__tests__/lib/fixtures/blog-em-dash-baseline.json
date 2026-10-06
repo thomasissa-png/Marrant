@@ -43,17 +43,22 @@
         "slug": "autoderision-interactions",
         "session": "s15",
         "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s15 haut de page",
+        "raison": "étalons 1A (En bref), 2A (title = H1 « Comment devenir drôle : 5 piliers et un plan sur 30 jours »), 3B (1 paragraphe + lien /blog/exercices-developper-humour), GO Thomas 06/10 : slug, excerpt, H2/H3, FAQ et updatedAt inchangés, aucun tiret cadratin ajouté, diff mesuré dans docs/seo/pilier-haut-de-page-applique-s15.md"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "643e629256aaaeca73dc075858a7718919cf6d3241824f309554bc597f51e541",
-      "wordCount": 1773,
+      "words": "f3e44302f1893e65c70203bbc3bc5b0ab6df008af8a2852981356f83ccd0c7dd",
+      "wordCount": 1850,
       "headings": "0d0f261cf80a2c1797565694eb2d6b0fe351b84c50f1e5f4db280c3964c32f4b",
-      "links": "f51c0e718c7a286ff288d3335d0bdd3bd60eb8378e1a5c5f1f31acf65d8f1cc0",
-      "numbers": "0e52f3a749a48fb6291dc3f4b247840037257ac1e353918535df9815388f1049",
-      "meta": "8ed7b9d26dad473b64da92a43f12feb96b880b39f294f9ea8e6c2d86b6edbc33",
+      "links": "0b14d9aa76bb89d72c532df0f317a9457f3ab56a63ce59795fbb3f78546ff12c",
+      "numbers": "05bc115fc9c3f54a49b2e0d3e027dd1e9f43a57b7f96204e4ccf36ad4bffb461",
+      "meta": "6b14c598cef5ec3af1a34a54c8c98f1656e5f1d3ffa6dcbe5b50c96e559b2bd1",
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {

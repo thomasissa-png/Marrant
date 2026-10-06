@@ -89,7 +89,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
           numberOfItems: videoCount,
           relatedArticles: [
             { title: "Timing humour : le secret de la blague", url: "https://deviens-marrant.fr/blog/timing-humour" },
-            { title: "Comment devenir drôle : le guide", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "Comment devenir drôle : 5 piliers et un plan sur 30 jours", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
           ],
         })}
       />

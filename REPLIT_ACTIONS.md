@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : haut de page du pilier `/blog/comment-devenir-drole` (étalons 1A, 2A, 3B) @fullstack : **À DÉPLOYER**
+
+> Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucune requête SQL (article statique), aucun event Umami, aucune URL changée. Contrôles : tsc 0, lint 0 erreur, build OK, Jest 3 254 PASS / 2 skipped. Journal et mesure du diff (9,9 % du contenu) : `docs/seo/pilier-haut-de-page-applique-s15.md`.
+> - **Title = H1** : « Comment devenir drôle : 5 piliers et un plan sur 30 jours » (aussi dans le JSON-LD de `/vannes` et `/videos`). **En bref** réécrit (1A). **Intro** : paragraphe ajouté après celui de l'oncle, avec lien vers `/blog/exercices-developper-humour` (3B).
+> - `updatedAt` du pilier = `2026-10-06` : **si le déploiement a lieu un autre jour, reporter la date** (`apps/web/src/lib/blog-articles.ts`, slug `comment-devenir-drole`).
+> - **Après déploiement** : `/blog/comment-devenir-drole` en 200, `<title>` et H1 au nouveau texte ; `/vannes`, `/videos` en 200. Puis IndexNow pour le pilier ; **Thomas** : Search Console > Inspection de l'URL du pilier > « Demander une indexation » (une seule fois).
+
 ## s15 (06/10/2026, ~08:10 Paris) : DÉPLOYÉ depuis l'arbre principal, Worker `03e279cf-0e52-4f01-945b-6701d10c79be` (N-1 `fd1a595d-7c52-47a8-9e1e-417930b9534a`)
 
 - Contenu : `6167a50` (liens L1 à L7 vers le pilier `/blog/comment-devenir-drole`, `updatedAt` 2026-10-06). Contrôles : tsc 0, lint 0 erreur, Jest 3 248 PASS / 2 skipped.
