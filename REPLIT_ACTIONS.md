@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, ~08:10 Paris) : DÉPLOYÉ depuis l'arbre principal, Worker `03e279cf-0e52-4f01-945b-6701d10c79be` (N-1 `fd1a595d-7c52-47a8-9e1e-417930b9534a`)
+
+- Contenu : `6167a50` (liens L1 à L7 vers le pilier `/blog/comment-devenir-drole`, `updatedAt` 2026-10-06). Contrôles : tsc 0, lint 0 erreur, Jest 3 248 PASS / 2 skipped.
+- Prod : `/`, `/blog`, pilier, article n°1, `/register`, `/api/health` 200 ; liens vers le pilier rendus : accueil 2, `/blog` 3, article n°1 3.
+- IndexNow : 429 (limite, envoi en lot du 05/10) → à refaire ; **Bing `SubmitUrlBatch` : OK** (8 URL : pilier, `/blog`, `/`, article n°1 et les 4 articles modifiés).
+- **Thomas** : Search Console > Inspection de l'URL `https://deviens-marrant.fr/blog/comment-devenir-drole` > « Tester l'URL en direct » > « Demander une indexation ». Contrôle par l'API d'inspection à J+7 (13/10) et J+14 (20/10).
+
 ## s15 (06/10/2026) : liens vers le pilier `/blog/comment-devenir-drole` (L1 à L7, `docs/seo/pilier-non-indexe-s15.md`) @fullstack : **À DÉPLOYER**
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucune requête SQL (les 6 articles touchés sont statiques), aucun event Umami, aucune URL changée, rien supprimé. Journal avant/après et mesure du diff : `docs/seo/liens-pilier-appliques-s15.md`.
