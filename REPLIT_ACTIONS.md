@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026, 07:45 Paris) : DÉPLOYÉ depuis l'arbre principal (propre), Worker `fd1a595d-7c52-47a8-9e1e-417930b9534a` (N-1 `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f`)
+
+- Contenu : `fcafdff` (au plus un e-mail admin par jour, classes A/B/C, `GET /api/admin/alertes`, digest 07:30) + `8fc22df` (suppression du compte gratuit L1 à L3, L5, L6 ; étalons validés par Thomas ; CGU : phrase retirée ; `origine`/`contenu` sur `abonnement-*`).
+- Contrôles : tsc 0, lint 0 erreur, Jest 3 232 PASS / 2 skipped (217 suites).
+- Vérifié en prod : 11 pages 200 (`/`, `/liens`, `/liens/x`, `/register`, `/login`, `/abonnement`, `/vannes`, `/quiz-humour`, `/parcours`, article n°1, `/api/health`) ; visiteur inchangé (`/api/jokes` 10, `/api/tips` 3, `/api/videos` 3) ; « compte gratuit » : 0 occurrence sur 7 pages ; `/register` = « Étape 1 sur 2 », « Ton compte » ; `/api/admin/alertes` 200 (0 alerte) ; 3 réseaux ouverts, canaux ok.
+- **Rupture de série Umami** (`blog-cta-clic` : `inscription` → `abonnement`, `etape-1`) datée du 06/10 07:45 Paris (`docs/social/mesure.md` §6).
+- Reste `[À VÉRIFIER]` : contrôle visuel 3 formats (header desktop avec « Activer mon accès ») ; relecture @copywriter de `docs/copy/textes-appliques-compte-gratuit-s15.md` ; e-mail légal de reconduction (« repasse en gratuit », @legal) ; requête SQL sur `BlogArticle.content` ; brouillon aux 11 comptes NON envoyé (`docs/copy/brouillon-email-11-comptes-s15.md`).
+
 ## s15 (06/10/2026) : suppression du compte gratuit (spec `docs/product/suppression-compte-gratuit-s15.md`, L1 à L3, L5, L6) @fullstack : **À DÉPLOYER** (après GO de Thomas sur la mise en ligne ; ne pas déployer depuis un worktree, voir l'incident ci-dessous)
 
 > Commit poussé sur `claude/marrant-s10-session-recovery-CtZyw`, **non déployé**. Aucune migration, aucun package, aucune variable d'env, aucune donnée modifiée ni supprimée (les 11 comptes FREE restent en base, XP, progression, réactions et votes compris). Contrôles : `tsc -p tsconfig.build.json` 0, `npm run lint` 0 erreur, `npm run build` OK, Jest 3 232 PASS / 2 skipped (217 suites).
