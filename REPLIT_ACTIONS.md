@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (06/10/2026) : DÉPLOYÉ, Worker `59948a54-5cb6-498d-a90f-156da93d6513` (N-1 `34562fa8-bb76-487d-b01f-baf949da543e`, avant `1fda1ab3-12b1-4d8e-8564-cd92dabcd782`)
+
+- **Bug signalé par Thomas** : la carte X du relais Halloween (05/10) affichait « Article introuvable ». Cause : `blog/[slug]/opengraph-image.tsx` ne cherchait que les articles statiques ; tous les articles EN BASE (dont les relais du lundi et du jeudi) avaient cette image. Correctif : même résolution que la page (`findBlogArticle`), `revalidate` 3600, libellé lisible de la catégorie, repli « Le blog humour et répartie ». Test `blog-og-image-db.test.tsx`. Jest 3 256 PASS ; tsc, lint OK.
+- Vérifié en prod : image Open Graph de l'article Halloween = vrai titre. Le post X du 05/10 garde l'ancienne carte en cache chez X (pas de purge possible par API) ; les relais à venir auront la bonne image.
+
 ## s15 (06/10/2026) : profils sociaux
 
 - **X : en-tête posé par la session** via l'API X v1.1 (`account/update_profile_banner`, clés `TWITTER_*` de l'environnement), fichier `docs/social/visuels-s15/bannieres/x-entete.png` (10/10 @design et @growth) ; vérifié : image servie par X identique. Lien de profil (`/liens/x`) et bio : déjà posés par Thomas.
