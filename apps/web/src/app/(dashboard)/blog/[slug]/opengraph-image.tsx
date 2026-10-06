@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { blogArticles } from "@/lib/blog-articles";
 import { findBlogArticle } from "@/lib/blog-article-page";
+import { blogCategoryLabel } from "@/lib/blog-labels";
 
 // Runtime Node.js (défaut) : OpenNext/Cloudflare refuse les routes `runtime = "edge"`
 // dans le bundle serveur (migration Cloudflare, étape B). Même rendu `next/og`.
@@ -19,7 +20,8 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
   // Avant : statiques seulement, d'où « Article introuvable » sur les cartes X des articles en base.
   const article = (await findBlogArticle(params.slug).catch(() => null))?.article ?? null;
   const title = article?.title ?? "Le blog humour et répartie";
-  const category = article?.category ?? "";
+  // Libellé lisible, comme sur la page (jamais le code interne, ex. « CATALOGUE »).
+  const category = article?.category ? blogCategoryLabel(article.category) : "";
 
   return new ImageResponse(
     (

@@ -28,13 +28,14 @@ const texte = (n: unknown): string => {
 describe("opengraph-image des articles du blog", () => {
   it("article en base : titre réel, jamais « Article introuvable »", async () => {
     (findBlogArticle as jest.Mock).mockResolvedValue({
-      article: { title: "Blagues d'Halloween : 8 vannes pour ta soirée déguisée", category: "Saison" },
+      article: { title: "Blagues d'Halloween : 8 vannes pour ta soirée déguisée", category: "CATALOGUE" },
       isVisible: true,
     });
     const img = (await OgImage({ params: { slug: "blagues-halloween-soiree-deguisee" } })) as unknown as { element: unknown };
     const t = texte(img.element);
     expect(t).toContain("Blagues d'Halloween : 8 vannes pour ta soirée déguisée");
     expect(t).not.toContain("Article introuvable");
+    expect(t).not.toContain("CATALOGUE");
   });
 
   it("article absent ou base en erreur : libellé du blog, pas d'erreur", async () => {
