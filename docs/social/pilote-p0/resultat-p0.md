@@ -29,3 +29,10 @@ Rendement < 3 % : « problème de méthode, pas de volume ». Ce qui est fait, s
 1. **Départage contre Alexa** : les 29 candidates ≥ 8 chez les 2 passent en duels à l'aveugle avec la vanne Alexa ET les 4 ancres du pool dans le même lot (méthode des duels du cycle 5), par 2 nouveaux relecteurs : est au niveau ce qui égale ou bat Alexa chez les 2.
 2. **Nouvelle consigne d'écriture** tirée des motifs des relecteurs (chutes attendues ou « de bureau », manque du renversement net d'Alexa : l'objet de la vanne se retourne contre le narrateur), puis **pilote 2** de 120 candidates, avancé au 07/10.
 3. **Stock** : le lot régénéré est couvert sans erreur jusqu'au 02/11 ; aucun créneau n'est menacé avant cette date. Décision D8 à Thomas seulement si, après le pilote 2, le stock ne couvre pas les créneaux suivants.
+
+## Départage contre Alexa (06/10, 2 nouveaux relecteurs à l'aveugle, `duel-p0-relecteur-A.md` et `-B.md`)
+
+- 34 vannes : les 29 finalistes, 4 ancres du pool, l'étalon Alexa lui-même (noté 9 par les deux : cohérent).
+- **Égalent l'étalon chez les 2 : 1 finaliste, P0-041.** Ancres du pool : 2 sur 4 égalent l'étalon chez les 2 (Nicolas/Julien, le zoom sur le parking), 2 restent à 8 / 8,5.
+- P0-072 (au niveau dans la notation à l'aveugle) ne passe pas le départage chez les 2.
+- **Bilan P0 : 2 vannes versées au pool (P0-072 au niveau ≥ 8,5 chez les 2, P0-041 égale Alexa chez les 2) sur 240, soit 0,8 %.** La moitié des ancres du pool ne tient pas la barre aujourd'hui : la barre est instable d'une session de notation à l'autre ; la méthode d'écriture reste le premier levier (pilote 2, consigne `consigne-pilote-2.md`).
