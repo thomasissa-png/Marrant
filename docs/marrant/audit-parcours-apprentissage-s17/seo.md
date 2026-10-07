@@ -99,15 +99,15 @@ Contraintes non re-questionnées : prix 2,99 €/mois et formule annuelle 24,99 
 |---|---|---|---|---|---|---|---|
 | /parcours | 200 | Cours humour en ligne : deviens drôle \| deviens-marrant.fr | Parcours humour : deviens drôle pas à pas | 6 (3 parcours, quiz, Explore aussi, FAQ) | 1 901 | absolue, OK | index, follow |
 | /parcours/machine-a-cafe | 200 | Drôle au bureau : parcours Machine à Café | Parcours Machine à Café | 0 | 678 | absolue, OK | index, follow |
-| /parcours/repartie | 200 | Avoir de la répartie : le parcours guidé | Parcours Répartie | 0 | ~600 | absolue, OK | index, follow |
-| /parcours/confiance | 200 | Retrouver confiance grâce à l'humour \| deviens-marrant.fr | Parcours Confiance | 0 | ~580 | absolue, OK | index, follow |
+| /parcours/repartie | 200 | Avoir de la répartie : le parcours guidé | Parcours Répartie | 0 | 545 | absolue, OK | index, follow |
+| /parcours/confiance | 200 | Retrouver confiance grâce à l'humour \| deviens-marrant.fr | Parcours Confiance | 0 | 520 | absolue, OK | index, follow |
 
 - Meta description présente et propre aux 4 pages (3 parcours, durée, promesse). `/parcours` : « 3 parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine… ».
 - Bing (mot exact title + H1 + premier paragraphe) : title et H1 ne se répondent pas sur /parcours (« Cours humour en ligne » / « Parcours humour ») ni sur `confiance` (« Retrouver confiance » / « Parcours Confiance ») ; la requête Bing réelle est « cours d'humour » (avec « d' »), absente du title.
 - OG/Twitter : voir SEO-02. `og:image` = `/opengraph-image` (1200x630) sur les 4, avec un paramètre de hash seulement sur /parcours ; `twitter:card` = summary_large_image partout ; `og:locale` fr_FR.
 - Contenu étape 1 complet dans le HTML (conseil, exemple, exercice, 2 vidéos, quiz) ; étapes 2+ : titre, format, XP, « pourquoi » seulement (aperçu). Aucune fuite de contenu Premium (code : `toPublicPath`, `redactParcoursForPlan`, `parcours/[slug]/page.tsx`).
 - Cache : `s-maxage` 1 590 s, `stale-while-revalidate` 30 j sur les détails (ISR, `revalidate = 3600`) ; ~300 s sur /parcours. Redirections : `www` vers apex en 301, `/parcours/` vers `/parcours` en 308. Slug inconnu : 404.
-- Mots de la page /parcours : le texte de présentation (étapes de chaque parcours) est dans le HTML, donc pas de contenu mince (> 600 mots utiles par page, seuil indicatif fixé ici à 300).
+- Mots de la page /parcours : le texte de présentation (étapes de chaque parcours) est dans le HTML, donc pas de contenu mince (520 à 1 901 mots dans le bloc principal, seuil indicatif fixé ici à 300).
 
 ### 4.2 JSON-LD relevé (Rich Results Test non disponible pour Course : retiré le 09/09/2025)
 
@@ -156,7 +156,7 @@ Pages vues (PV) / visiteurs / rebonds, par chemin exact (`/stats`) :
 
 - Part des 4 pages : 5,0 % des pages vues sur 30 j, 3,2 % sur 90 j ; 0,7 % des entrées sur 90 j (15 sur 2 131). Les 30 j précédents : 27 PV (58 vs 27, mais le 07/10 contient 7 sessions US de test).
 - Sources (90 j, par page) : /parcours : direct 26, recherche organique 3 (bing.com 3), LLM 1 (chatgpt.com 1) ; détails : 100 % « direct » (en interne ou sans referrer). Google : 0.
-- Sorties 90 j : /parcours 8, repartie 6, machine-a-cafe 4, confiance 3 (+ page de test). Appareils 90 j (4 pages) : mobile 37, laptop 32. Pays : FR 28, US 33 (dont 7 sessions de tests du 07/10), BE 6.
+- Sorties 90 j : /parcours 8, repartie 6, machine-a-cafe 4, confiance 3 (+ page de test). Appareils 90 j (visiteurs cumulés par page) : mobile 37, laptop 32. Pays (visiteurs cumulés par page) : FR 28, US 33, BE 6 ; côté sessions, 14 des 37 sont US dont 7 datées du 07/10 (tests de la session).
 - Parcours des 37 sessions touchant un parcours en 90 j (18 FR, 14 US, 2 BE, 3 autres) : page précédente = /parcours 18, entrée directe 11, /videos 9, /vannes 8, /conseils 8, un autre parcours 19, accueil 5, Bing 3 ; page suivante = sortie 21, /parcours 13, un autre parcours 24, /conseils 9, /vannes 5, /videos 5, un article 13, /abonnement 1 ; 7 sessions sur 37 voient /abonnement à un moment. Pages vues par session : 1 page (29 sessions), 2 (7), 4 (1).
 - Événements (90 j, site entier) : blog-scroll 58, abonnement-clic 4, abonnement-vu 3, blog-sortie-clic 2, inscription-envoi 2, inscription-reussie 1, inscription-echec 1, connexion-reussie 1, abonnement-reussi 1. **Événements parcours : 0** (`mur-vu` et `parcours-etape` jamais reçus). Aucun événement rattaché à un chemin /parcours*.
 - Fichiers : `scratchpad/parcours-umami.json` (agrégats + journeys par session, utilisables par le data-analyst).
@@ -180,10 +180,39 @@ Pages vues (PV) / visiteurs / rebonds, par chemin exact (`/stats`) :
 Non mesuré en session (pas de clé). Snapshot du 05/10 : aucune page `/parcours*` dans les top pages 28 j ni dans les opportunités ; section par section, seuls blog, `/vannes`, conseils et accueil sont listés. Impressions et position des parcours sur Google : **non mesuré**.
 
 ## 6. Potentiel de requêtes (sans cannibalisation)
-_à écrire_
+
+Volumes et difficulté : **non mesurés** (pas d'outil, niche). Travail en intentions, confirmé par deux indices réels : Bing montre /parcours en positions 1 à 6 sur « cours d'humour » (12 impressions), et la SERP « cours d'humour en ligne » est tenue par des écoles et cours anglophones, sans offre française structurée.
+
+Règle de partage : **l'article répond à la question** (informationnel, conseils et exemples), **le parcours vend un programme** (commercial : durée, étapes, XP, première étape gratuite). Chaque parcours lie vers l'article de son cluster (« pour comprendre d'abord ») et chaque article lie déjà vers le parcours (35/35).
+
+| Page | Requêtes visées (propositions) | Intention | Articles à ne pas concurrencer | Title proposé (≤ 60 car., à signer par Thomas) |
+|---|---|---|---|---|
+| /parcours | cours d'humour en ligne, formation humour, apprendre l'humour en ligne, programme pour devenir drôle | commercial | `comment-devenir-drole` (pilier « comment devenir drôle »), `exercices-developper-humour` | Cours d'humour en ligne : 3 parcours pour devenir drôle |
+| /parcours/repartie | cours de répartie, entraînement répartie, programme répartie 4 semaines | commercial | `comment-avoir-de-la-repartie`, `repartie-debutant-5-etapes`, `jamais-quoi-repondre-techniques` | Parcours Répartie : 4 semaines pour répondre du tac au tac |
+| /parcours/machine-a-cafe | être drôle au travail, humour au bureau, parcours humour collègues | commercial | `conversation-machine-a-cafe`, `blagues-travail-faire-rire-pro` | Parcours Machine à Café : être drôle au bureau en 3 semaines |
+| /parcours/confiance | parcours confiance en soi humour, reprendre confiance par l'humour | commercial | `avoir-confiance-en-soi-grace-a-l-humour`, `confiance-humour-apres-rupture` | Parcours Confiance : retrouver ta légèreté en 6 semaines |
+
+- Attention à « gratuit » : Bing montre « cours d'humour gratuit » (pos 1) ; seule l'étape 1 est gratuite (pas de compte gratuit, [CHOIX 05/10]). Écrire « première étape gratuite », jamais « cours gratuit ».
+- Ne pas viser « avoir de la répartie », « comment devenir drôle », « blague(s) » : têtes de requête déjà occupées par les articles ou le pilier.
+- Mot exact (Bing) : « cours d'humour » (avec « d' ») dans title, H1 et premier paragraphe de /parcours ; « Parcours Répartie » est déjà dans le H1 des détails, aligner le title.
+- Pas de nouvelle page : aucune page de plus n'est justifiée par la demande mesurée (impressions Bing 12 en 6 mois). Les titres ci-dessus sont des propositions de test, effet à lire à 30 j (Bing, puis Search Console quand la clé existera).
 
 ## 7. Vérifié / Non vérifié (G_PROOF)
-_à écrire_
+
+**Vérifié en live le 07/10/2026** : HTML, balises, JSON-LD et liens des 4 pages (curl) ; 386 pages du sitemap téléchargées pour compter les liens vers /parcours ; sitemap, llms.txt, llms-full.txt, robots.txt ; codes HTTP, en-têtes de cache, redirections www et slash final, 404 d'un slug inconnu ; Umami (stats, metrics, sessions, activité par session, 30 et 90 j) ; Bing (`GetUserSites`, `GetUrlInfo` x4, `GetPageStats`, `GetPageQueryStats` x4, `GetLinkCounts`) ; code `parcours/page.tsx`, `parcours/[slug]/page.tsx`, `json-ld.tsx`, `sitemap.ts`, composant de maillage ; état du Rich Results Course (WebSearch : annonce Google du 12/06/2025).
+
+**Non vérifié / déduit** :
+- Search Console : non mesuré (pas de clé), seul le snapshot du 05/10 est exploité ; positions Google des 4 pages inconnues.
+- Core Web Vitals (LCP, CLS, INP) : non mesurés (PageSpeed Insights : quota 429). Les temps de réponse `curl` passent par le proxy de la session, donc indicatifs.
+- Volumes et difficulté des requêtes du §6 : non mesurés (aucun outil de volume ; niche) ; analyse en intentions qualitatives et SERP (WebSearch) seulement.
+- Indexation réelle Bing/Google des 3 pages détail : non prouvée (Bing : exploration oui, impressions 0 ; Google : non mesuré).
+- Rendu après exécution du JavaScript (état client, abonné Premium) : non testé ici (C5/C6).
+- Part de trafic « de test » dans les chiffres Umami : estimée sur les sessions US du 07/10 (7 sessions), le reste non filtrable avec certitude.
+- Validité du balisage dans l'outil Google : non testable (le test Course n'existe plus) ; validité JSON syntaxique et champs requis vérifiés à la main.
 
 ## 8. Handoff
-_à écrire_
+
+**Handoff → @orchestrator (puis @fullstack, @geo, @data-analyst, @copywriter)**
+- Fichier produit : `/home/user/Marrant/docs/marrant/audit-parcours-apprentissage-s17/seo.md`. Données brutes : `scratchpad/parcours-umami.json`, `scratchpad/parcours-umami-journeys.json` (inclus dans le précédent), `scratchpad/bing-parcours.json`.
+- Décisions prises : aucune modification, aucune soumission (ni IndexNow ni SubmitUrl), aucun commit. Notes : C10 5, C3 5 (maillage 8, acquisition 2), C11 7.
+- Points d'attention : (1) SEO-02 et SEO-11 sont des correctifs rapides de métadonnées pour @fullstack ; (2) titres et metas des parcours : proposition en §6, à faire signer par Thomas ([CHOIX] titres du 05/10) ; (3) SEO+GEO : les parcours décrivent le programme, les articles répondent aux questions, bloc « En bref » et llms-full à coordonner avec @geo (pas de collision) ; (4) @data-analyst : 0 événement `mur-vu` / `parcours-etape` reçu en 90 j, filtrer les sessions de test (7 sessions US du 07/10) ; (5) le pilier `comment-devenir-drole` est « Explorée, non indexée » (snapshot) : lui ajouter un lien depuis les 3 parcours (liens actuels des pages détail : aucun vers le pilier) renforcerait aussi ce pilier, à traiter avec @seo piliers, pas ici ; (6) SERP consultées : « cours d'humour en ligne » (écoles, universités, cours anglophones, aucune offre française structurée en positions hautes) et « exercices répartie programme 30 jours » (manuel papier, podcasts, rien de structuré en ligne).
