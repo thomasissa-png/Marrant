@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (07/10/2026, 10:09 Paris) : IndexNow, nouvel essai
+
+- POST `/api/indexnow` avec les 8 URL du 06/10 (pilier, `/blog`, `/`, `meilleures-blagues-droles-2026`, `5-types-humour-lequel-pour-toi`, `autoderision-interactions`, `comment-avoir-de-la-repartie`, `phrases-droles-conversations`) : **429 encore** (renvoyé en 502 par la route). Pas de nouvel essai : Bing a déjà reçu ces URL le 06/10 (`SubmitUrlBatch` OK). Contrôles Google prévus à J+7 (13/10) et J+14 (20/10).
+
 ## s15 (07/10/2026, 08:17 Paris) : DÉPLOYÉ depuis l'arbre principal (propre, `e180d1a`), Worker `79ddf8bd-172f-4c44-91f6-06b786f9a78f` (N-1 `59948a54-5cb6-498d-a90f-156da93d6513`)
 
 - **Vannes P0-072 et P0-041 au catalogue** (Neon, `isActive`, `GARDER`, technique, explication et décryptage de @copywriter, `docs/social/preparation/p0-a-inserer.json`) : `cp05d2c3950800b7575c12ce6`, `cp0465e601e49c114994d1a00`.
