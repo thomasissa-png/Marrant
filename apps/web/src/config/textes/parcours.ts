@@ -169,14 +169,6 @@ export const RETOUR_EXERCICE = {
   ],
 } as const;
 
-// s17, aligné sur les étalons
-/** Contenu abonné qui ne se charge pas (FS-09, UX-11). */
-export const CHARGEMENT_ETAPE = {
-  enCours: "Chargement du contenu de l'étape…",
-  echec: "Le contenu de l'étape n'a pas voulu se charger.",
-  reessayer: "Réessayer",
-} as const;
-
 // s17 tour 2 (défaut QA iter-2 : chargement Premium lent ou en échec, signalé au niveau de la page)
 /** Progression et contenu d'un abonné, chargés après l'affichage (le HTML ISR est partagé). */
 export const CHARGEMENT_PREMIUM = {
@@ -184,6 +176,16 @@ export const CHARGEMENT_PREMIUM = {
   // UXV-2-01 : « Ta progression est intacte » + un message court.
   echec: "Ta progression est intacte.",
   echecTexte: "Tes étapes n'ont pas voulu se charger, le souci vient de chez nous.",
+  reessayer: "Réessayer",
+} as const;
+
+// s17, aligné sur les étalons (déplacé sous CHARGEMENT_PREMIUM au tour 3 pour réutiliser sa phrase)
+/** Contenu abonné qui ne se charge pas (FS-09, UX-11). */
+export const CHARGEMENT_ETAPE = {
+  enCours: "Chargement du contenu de l'étape…",
+  // s17 tour 3 : arrivée par #etape-N, l'alerte de la page est hors écran ; même phrase rassurante dans la carte.
+  progressionIntacte: CHARGEMENT_PREMIUM.echec,
+  echec: "Le contenu de l'étape n'a pas voulu se charger.",
   reessayer: "Réessayer",
 } as const;
 

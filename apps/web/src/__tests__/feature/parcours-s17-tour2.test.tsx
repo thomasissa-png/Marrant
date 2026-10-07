@@ -6,7 +6,7 @@
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
-import { CHARGEMENT_PREMIUM } from "@/config/textes/parcours";
+import { CHARGEMENT_ETAPE, CHARGEMENT_PREMIUM } from "@/config/textes/parcours";
 import { ParcoursContent } from "@/components/parcours/parcours-content";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
 
@@ -128,7 +128,7 @@ describe("s17 tour 2 : chargement Premium lent", () => {
 });
 
 describe("s17 tour 2 : échec du chargement Premium puis « Réessayer »", () => {
-  it("message au niveau de la page, progression gardée, le réessai recharge tout", async () => {
+  it("message dans l'étape dépliée (tour 3), progression gardée, le réessai recharge tout", async () => {
     cacher("u1");
     const fetchMock = mockBySlug([
       Promise.resolve(ko),
@@ -137,16 +137,15 @@ describe("s17 tour 2 : échec du chargement Premium puis « Réessayer »", () =
     const user = userEvent.setup();
     render(<ParcoursDetail slug="repartie" initialPath={buildPath(true)} />);
 
-    // L'étape 2 dépliée garde aussi son propre message : on vise celui de la page.
-    const alerte = (await screen.findByText(CHARGEMENT_PREMIUM.echec)).closest<HTMLElement>('[role="alert"]');
-    if (!alerte) throw new Error("alerte de page absente");
-    // Au niveau de la page : hors de la liste des étapes.
-    expect(screen.getByRole("list", { name: "Étapes du parcours" })).not.toContainElement(alerte);
+    // s17 tour 3 (UXV-3-01) : l'étape 2 est dépliée, c'est elle qui porte l'alerte et le seul « Réessayer ».
+    const alerte = await screen.findByRole("alert");
+    expect(alerte).toHaveTextContent(CHARGEMENT_PREMIUM.echec);
+    expect(document.getElementById("etape-2")).toContainElement(alerte);
     expect(screen.getByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
     expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).toBeNull();
 
     await user.click(within(alerte).getByRole("button", { name: CHARGEMENT_PREMIUM.reessayer }));
-    await waitFor(() => expect(screen.queryByText(CHARGEMENT_PREMIUM.echec)).toBeNull());
+    await waitFor(() => expect(screen.queryAllByText(CHARGEMENT_PREMIUM.echec)).toHaveLength(0));
     expect(fetchMock.mock.calls.filter(([url]) => String(url).includes("by-slug"))).toHaveLength(2);
     expect(screen.getByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
     expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
@@ -216,5 +215,97 @@ describe("s17 tour 2 (UXV-2-05) : /parcours, abonné qui a entamé un parcours",
     render(<ParcoursContent parcours={getParcoursCatalogue()} />);
     expect(quizAvantCartes()).toBe(true);
     await waitFor(() => expect(quizAvantCartes()).toBe(false));
+  });
+});
+
+describe("s17 tour 3 : arrivée par l'ancre d'une étape, chargement Premium en échec", () => {
+  it("la carte de l'étape dit « Ta progression est intacte. », une seule alerte vocale", async () => {
+    cacher("u1");
+    window.history.replaceState(null, "", "/parcours/repartie#etape-2");
+    mockBySlug([Promise.resolve(ko)]);
+    render(<ParcoursDetail slug="repartie" initialPath={buildPath(true)} />);
+
+    const bloc = await screen.findByTestId("etape-echec");
+    expect(document.getElementById("etape-2")).toContainElement(bloc);
+    expect(within(bloc).getByText(CHARGEMENT_ETAPE.progressionIntacte)).toBeInTheDocument();
+    expect(within(bloc).getByText(CHARGEMENT_ETAPE.echec)).toBeInTheDocument();
+    expect(CHARGEMENT_ETAPE.progressionIntacte).toBe(CHARGEMENT_PREMIUM.echec);
+    // Une seule zone role="alert" : celle de l'étape (UXV-3-01), le haut de page reste neutre.
+    expect(screen.getAllByRole("alert")).toEqual([bloc]);
+    // DES-3-05 : carte calée à 112 px sous la barre fixe, 8 px entre l'en-tête déplié (anneau de focus) et la suite.
+    expect(document.getElementById("etape-2")).toHaveClass("scroll-mt-28");
+    expect(document.getElementById("etape-2-entete")).toHaveClass("mb-2");
+  });
+});
+
+describe("s17 tour 3 (UXV-3-01, DES-3-06) : un seul bouton Réessayer", () => {
+  it("étape dépliée en échec : bouton et phrase rassurante dans l'étape, haut neutre, une seule alerte", async () => {
+    cacher("u1");
+    mockBySlug([Promise.resolve(ko), Promise.resolve(ko)]);
+    const user = userEvent.setup();
+    render(<ParcoursDetail slug="repartie" initialPath={buildPath(true)} />);
+
+    const bloc = await screen.findByTestId("etape-echec");
+    expect(screen.getAllByRole("button", { name: CHARGEMENT_PREMIUM.reessayer })).toHaveLength(1);
+    expect(within(bloc).getByRole("button", { name: CHARGEMENT_ETAPE.reessayer })).toBeInTheDocument();
+    expect(screen.getAllByRole("alert")).toEqual([bloc]);
+    expect(screen.getByTestId("echec-premium-neutre")).not.toHaveAttribute("role");
+    expect(screen.getByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
+
+    // Nouvel échec après « Réessayer » : focus rendu au bouton de l'étape, toujours un seul bouton.
+    await user.click(within(bloc).getByRole("button", { name: CHARGEMENT_ETAPE.reessayer }));
+    const nouveauBloc = await screen.findByTestId("etape-echec");
+    await waitFor(() => expect(within(nouveauBloc).getByRole("button", { name: CHARGEMENT_ETAPE.reessayer })).toHaveFocus());
+    expect(screen.getAllByRole("button", { name: CHARGEMENT_PREMIUM.reessayer })).toHaveLength(1);
+  });
+
+  it("étape repliée : le haut reprend le message, l'alerte et le seul bouton", async () => {
+    cacher("u1");
+    mockBySlug([Promise.resolve(ko)]);
+    const user = userEvent.setup();
+    render(<ParcoursDetail slug="repartie" initialPath={buildPath(true)} />);
+    await screen.findByTestId("etape-echec");
+    await user.click(screen.getByRole("button", { name: /Étape 2/ }));
+
+    const alerte = await screen.findByRole("alert");
+    expect(screen.queryByTestId("etape-echec")).toBeNull();
+    expect(screen.queryByTestId("echec-premium-neutre")).toBeNull();
+    expect(screen.getByRole("list", { name: "Étapes du parcours" })).not.toContainElement(alerte);
+    expect(within(alerte).getByText(CHARGEMENT_PREMIUM.echec)).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: CHARGEMENT_PREMIUM.reessayer })).toHaveLength(1);
+  });
+});
+
+describe("s17 tour 3 (QA) : échec de la validation d'une étape", () => {
+  it("message dans la carte au-dessus de « Valider », role alert, focus rendu au bouton, pas de doublon en haut", async () => {
+    // Réponses créées à l'appel (un rejet créé d'avance serait signalé comme non géré).
+    const posts: Array<() => Promise<Reponse>> = [() => Promise.reject(new Error("réseau")), () => Promise.resolve(ko)];
+    global.fetch = jest.fn(async (url: string, init?: RequestInit) =>
+      init?.method === "POST"
+        ? (posts.shift() ?? (() => Promise.resolve(ko)))()
+        : String(url).includes("by-slug")
+          ? ok({ path: buildPath(false), userProgress: ETAPE_1_FAITE })
+          : ok({}),
+    ) as unknown as typeof fetch;
+    const user = userEvent.setup();
+    render(<ParcoursDetail slug="repartie" initialPath={buildPath(true)} />);
+    const etape2 = document.getElementById("etape-2") as HTMLElement;
+    await user.click(await within(etape2).findByRole("button", { name: "Valider cette étape" }));
+
+    const alerte = await within(etape2).findByRole("alert");
+    expect(alerte).toHaveTextContent("La connexion a lâché en route. Vérifie ton réseau et réessaie.");
+    expect(alerte).toHaveClass("text-error-text");
+    expect(screen.getAllByRole("alert")).toEqual([alerte]);
+    const valider = within(etape2).getByRole("button", { name: "Valider cette étape" });
+    // Juste au-dessus du bouton conservé, et l'étape reste dépliée, non validée.
+    expect(alerte.compareDocumentPosition(valider) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(etape2.querySelector('[aria-expanded="true"]')).not.toBeNull();
+    await waitFor(() => expect(valider).toHaveFocus());
+
+    // Nouvel échec (serveur) : message remplacé, toujours une seule alerte, focus de nouveau sur « Valider ».
+    await user.click(valider);
+    expect(await within(etape2).findByText("L'étape n'a pas voulu se valider. Réessaie.")).toHaveAttribute("role", "alert");
+    expect(screen.getAllByRole("alert")).toHaveLength(1);
+    await waitFor(() => expect(within(etape2).getByRole("button", { name: "Valider cette étape" })).toHaveFocus());
   });
 });
