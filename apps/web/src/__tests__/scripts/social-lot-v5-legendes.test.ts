@@ -3,11 +3,13 @@
  *
  * Notation cycle 8 (@reviewer K5 d, @social S6, S7, S8) :
  *  - V028 et V060, réservées à un carrousel de décryptage, ne sont jamais tirées (ni tirage, ni repli) ;
+ *    V028 n'est publiée que par le post fixe du 21/10 (carte vanne simple, 07/10) ;
+ *  - X du 12/10 : relais abandonné, vanne du pool sans renvoi ni lien (CASES_VANNE) ;
  *  - légendes Instagram « À envoyer à... », sans pied « deviens-marrant.fr » ni lien, 80 caractères au plus ;
  *  - la légende suit la vanne (`LEGENDES_IG`), un relais Instagram = légende + renvoi.
  */
 import { buildLotV5, controlerLegendesInstagram, controlerLot, type LotPost } from "../../../scripts/content/social-lot-v5";
-import { FIXES, RESERVEES_CARROUSEL } from "../../../scripts/content/social-lot-v5-fixes";
+import { CASES_VANNE, FIXES, RESERVEES_CARROUSEL } from "../../../scripts/content/social-lot-v5-fixes";
 import { LEGENDES_IG, LEGENDE_MAX, ecartsLegende, tournure } from "../../../scripts/content/social-lot-v5-legendes";
 import { FORMULES } from "../../../scripts/content/social-lot-v5-config";
 import { longueurX } from "../../lib/social/longueur-x";
@@ -35,8 +37,12 @@ describe("vannes réservées à un carrousel (V028, V060)", () => {
     expect(tous.some((p) => p.vannes.includes("temoin"))).toBe(true);
   });
 
-  it("ni V028 ni V060 dans les posts ni dans les replis (fiche du 21/10 non intégrée : aveugle en échec)", () => {
-    expect(tous.filter((p) => p.vannes.includes(V028) || p.vannes.includes(V060))).toEqual([]);
+  it("V028 : seulement le post fixe du 21/10 (carte vanne simple, 2 cartes, légende R07) ; V060 absente", () => {
+    expect(tous.filter((p) => p.vannes.includes(V060))).toEqual([]);
+    const v028 = tous.filter((p) => p.vannes.includes(V028));
+    expect(v028.map((p) => [p.cle, p.date, p.platform, p.type, p.origine, p.cartes.length])).toEqual([["IG-21-10", "2026-10-21", "INSTAGRAM", "VANNE", "V5", 2]]);
+    expect(v028[0].content).toBe("À envoyer à qui a déjà décroché un « pas mal » et l'a gardé précieusement.");
+    expect(controlerLot(r.posts).errors.join("\n")).not.toMatch(/réservée au carrousel/);
   });
 
   it("X3 du 21/10 : renvoi = FORMULES.quizCourt, sans « Humour d'Observateur », longueurX ≤ 270", () => {
@@ -130,5 +136,35 @@ describe("garde de bio sur les relais Instagram (S8)", () => {
     const r = buildLotV5({ pool: catalogue(), articles: arts, recents: [], seed: "test", ...M });
     const ig = { ...r.posts.find((p) => p.platform === "INSTAGRAM")!, cartes: [], content: "À envoyer à ton hôte d'anniversaire. Les 20 autres textes : lien en bio." };
     expect(controlerLegendesInstagram([ig]).warnings.join()).toMatch(/lien en bio » : ne part telle quelle que si/);
+  });
+});
+
+describe("X du 12/10 : relais abandonné, vanne du pool sans renvoi (CASES_VANNE)", () => {
+  const S1 = { lot: "relance-s15", debut: "2026-10-12", fin: "2026-10-18" };
+  const arts1 = ARTICLES.map((a) => ({ ...a, aGarder: a.date >= S1.debut }));
+  const autorisees = catalogue().map((j) => j.id);
+  const r = buildLotV5({ pool: catalogue(), articles: arts1, recents: [], seed: "test", autorisees, ...S1 });
+  const x = r.posts.find((p) => p.date === "2026-10-12" && p.platform === "TWITTER")!;
+
+  it("aucun post fixe X le 12/10, une case CASES_VANNE", () => {
+    expect(FIXES.some((f) => f.date === "2026-10-12" && f.platform === "TWITTER")).toBe(false);
+    expect(CASES_VANNE.map((c) => [c.date, c.platform])).toEqual([["2026-10-12", "TWITTER"]]);
+  });
+
+  it("vanne tirée du pool, sans lien, sans renvoi, sans article ni repli, à 12:30", () => {
+    expect([x.type, x.origine, x.heure, x.lien, x.article, x.repli]).toEqual(["VANNE", "TIRAGE", "12:30", null, null, null]);
+    expect(autorisees).toContain(x.vannes[0]);
+    expect(x.content).not.toMatch(/https?:|se-presenter|tour de table/);
+    expect(r.replis.some((p) => p.repliDe === x.id)).toBe(false);
+  });
+
+  it("tirée après le lot : elle ne prend aucune vanne aux autres tirages X (rang --pool plus bas), rang du post gardé", () => {
+    const rangDe = (p: LotPost) => autorisees.indexOf(p.vannes[0]);
+    const autresX = r.posts.filter((p) => p !== x && p.platform === "TWITTER" && p.origine === "TIRAGE");
+    expect(autresX.length).toBeGreaterThan(0);
+    for (const p of autresX) expect(rangDe(p)).toBeLessThan(rangDe(x));
+    const autres = r.posts.filter((p) => p !== x);
+    expect(autres.some((p) => p.vannes.includes(x.vannes[0]))).toBe(false);
+    expect(r.posts.map((p) => p.date)).toEqual([...r.posts.map((p) => p.date)].sort());
   });
 });
