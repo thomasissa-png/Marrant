@@ -9,8 +9,9 @@ export type ParcoursPortail = "gerer" | "changer-formule" | "resilier" | "carte"
 
 /**
  * Résumé d'abonnement du profil (s16, reco 11) + ouverture du portail Stripe.
- * `undefined` = chargement, `null` = jamais abonné (ou lecture impossible :
- * le profil retombe alors sur l'affichage simple, jamais d'erreur bloquante).
+ * `undefined` = chargement, `null` = jamais abonné ou lecture impossible :
+ * jamais d'erreur bloquante, et un Premium garde son bouton de résiliation
+ * (lot G, permanence exigée par L.215-1-1).
  */
 export function useSubscriptionSummary(enabled: boolean) {
   const [summary, setSummary] = useState<SubscriptionSummary | null | undefined>(undefined);
@@ -48,7 +49,8 @@ export function useSubscriptionSummary(enabled: boolean) {
         window.location.href = data.url;
         return;
       }
-      toast(TEXTES_ABONNEMENT.portailIndisponible, "error");
+      // 404 : aucun client Stripe (bouton de résiliation affiché par précaution, lot G).
+      toast(res.status === 404 ? TEXTES_ABONNEMENT.aucunAbonnementCarte : TEXTES_ABONNEMENT.portailIndisponible, "error");
     } catch {
       toast(TEXTES_ABONNEMENT.connexionPerdue, "error");
     }

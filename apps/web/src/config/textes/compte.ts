@@ -87,6 +87,9 @@ export const TEXTES_ABONNEMENT = {
   resilierDetailSansDate: "Si tu résilies, tu gardes Premium jusqu'à la fin de la période déjà payée.",
   chargement: "On redirige…",
   portailIndisponible: "La gestion de ton abonnement ne répond pas. Réessaie dans un instant.",
+  // PROVISOIRE lot G : bouton de résiliation affiché sans client Stripe connu (portail en 404).
+  aucunAbonnementCarte:
+    "On ne trouve pas d'abonnement par carte sur ton compte. Écris-nous à contact@deviens-marrant.fr si tu penses que c'est une erreur.",
   connexionPerdue: "Connexion perdue, réessaie.",
 } as const;
 
@@ -102,8 +105,22 @@ export const TEXTES_SUPPRESSION = {
   titre: "Supprimer mon compte",
   intro:
     "Tu peux supprimer ton compte quand tu veux. On efface ton profil, tes favoris, ta progression et ton inscription à la newsletter. C'est définitif.",
-  avecAbonnement:
-    "Ton abonnement Premium sera résilié tout de suite, sans nouveau prélèvement, et tu perdras l'accès immédiatement.",
+  /**
+   * Avertissement avant suppression d'un compte abonné (lot G, relecture @legal
+   * point 8). Avec date : texte exact @legal. Sans date (résumé illisible) :
+   * PROVISOIRE lot G, même texte sans la date.
+   */
+  avecAbonnement: (fin: string | null) =>
+    fin
+      ? `Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si tu as payé jusqu'au ${fin}. La période déjà payée n'est pas remboursée. Pour garder Premium jusqu'au ${fin}, résilie d'abord ton abonnement, puis supprime ton compte après cette date.`
+      : "Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si ta période payée n'est pas terminée. La période déjà payée n'est pas remboursée. Pour garder Premium jusqu'à la fin de cette période, résilie d'abord ton abonnement, puis supprime ton compte après cette date.",
+  /** PROVISOIRE lot G : abonnement déjà résilié (fin de période programmée). */
+  avecAbonnementResilie: (fin: string) =>
+    `Tu as déjà résilié ton abonnement. Si tu supprimes ton compte maintenant, tu perds tout de suite l'accès Premium payé jusqu'au ${fin}, et la période déjà payée n'est pas remboursée. Pour en profiter jusqu'au bout, supprime ton compte après cette date.`,
+  /** Texte exact @legal (point 8), coupé autour du lien vers /retractation. */
+  retractationAvant: "Tu as souscrit il y a moins de 14 jours ? Demande ton remboursement avec le ",
+  retractationLien: "formulaire de rétractation",
+  retractationApres: " avant de supprimer ton compte.",
   ouvrir: "Supprimer mon compte",
   consigne: `Pour confirmer, tape ${MOT_CONFIRMATION_SUPPRESSION} ci-dessous.`,
   confirmer: "Supprimer définitivement",

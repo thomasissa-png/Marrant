@@ -4,7 +4,8 @@
  */
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AbonnementCard, etatAbonnement } from "@/components/profil/abonnement-card";
+import { AbonnementCard, ANCRE_ABONNEMENT, etatAbonnement } from "@/components/profil/abonnement-card";
+import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { SupprimerCompteCard, confirmationValide } from "@/components/profil/supprimer-compte-card";
 import ResetPasswordPage from "@/app/(auth)/reset-password/page";
 import { TEXTES_ABONNEMENT, TEXTES_SUPPRESSION } from "@/config/textes/compte";
@@ -32,7 +33,12 @@ function mockSummary(subscription: SubscriptionSummary | null) {
   global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => ({ subscription }) }) as jest.Mock;
 }
 
-const card = (plan = "PREMIUM") => <AbonnementCard plan={plan} xp={0} onCheckout={jest.fn()} isCheckoutLoading={false} />;
+/** Le profil lit le résumé une fois et le passe à la carte (lot G) : même câblage ici. */
+function CarteAvecResume({ plan }: { plan: string }) {
+  const abonnement = useSubscriptionSummary(true);
+  return <AbonnementCard plan={plan} xp={0} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
+}
+const card = (plan = "PREMIUM") => <CarteAvecResume plan={plan} />;
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -42,7 +48,8 @@ describe("etatAbonnement", () => {
     expect(etatAbonnement("PREMIUM", { ...actif, cancelAtPeriodEnd: true })).toBe("resilie");
     expect(etatAbonnement("PREMIUM", actif)).toBe("actif");
     expect(etatAbonnement("PREMIUM", undefined)).toBe("actif");
-    expect(etatAbonnement("PREMIUM", null)).toBe("premium-hors-stripe");
+    expect(etatAbonnement("PREMIUM", null)).toBe("premium-sans-resume");
+    expect(etatAbonnement("PREMIUM", { ...actif, hasPortal: false, hasStripeSubscription: false })).toBe("premium-hors-stripe");
     expect(etatAbonnement("FREE", null)).toBe("aucun");
   });
 });
@@ -104,7 +111,7 @@ describe("SupprimerCompteCard (reco 5)", () => {
   it("mot incorrect : aucune requête, erreur annoncée", async () => {
     global.fetch = jest.fn() as jest.Mock;
     render(<SupprimerCompteCard abonne />);
-    expect(screen.getByText(TEXTES_SUPPRESSION.avecAbonnement)).toBeInTheDocument();
+    expect(screen.getByText(TEXTES_SUPPRESSION.avecAbonnement(null))).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: TEXTES_SUPPRESSION.ouvrir }));
     await userEvent.type(screen.getByLabelText(TEXTES_SUPPRESSION.consigne), "oui");
     await userEvent.click(screen.getByRole("button", { name: TEXTES_SUPPRESSION.confirmer }));

@@ -20,6 +20,7 @@ import {
 } from "@/config/premium";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 import { ANNUEL_MOIS_OFFERTS_LABEL, prixTtcLabel } from "@/config/textes/offre";
+import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 import { salutation } from "@/lib/emails/annual-renewal-reminder";
 
 export const CONTACT_EMAIL = "contact@deviens-marrant.fr";
@@ -101,11 +102,21 @@ export function dateHeure(date: Date): string {
  * caractères max). VALIDÉ s16 (étalon 1, texte Stripe) : seule la formule
  * choisie est affichée. Stripe accepte les liens Markdown : le texte visible
  * reste l'adresse en clair de l'étalon, et elle est cliquable.
+ * Lot G (retouche @legal point 13 validée par Thomas, founder-preferences
+ * 07/10/2026) : ouverture « obligation de paiement » (L.221-14), qui reprend
+ * « Premium : {prix} » de l'étalon ; mensuel : « prélevé chaque mois jusqu'à
+ * ta résiliation ». Bouton Stripe : `submit_type: "subscribe"` + locale fr
+ * = « S'abonner » (lib/stripe.ts). Longueur vérifiée par les tests (≤ 1 200).
  */
+export const LIBELLE_BOUTON_STRIPE = "S'abonner";
+
 export function texteStripeSubmit(plan: PremiumPlan): string {
-  const prix = plan === "annual" ? `${prixTtcLabel("annual")}, renouvelé chaque année` : prixTtcLabel("monthly");
+  const prix =
+    plan === "annual"
+      ? `${prixTtcLabel("annual")}, renouvelé chaque année`
+      : `${prixTtcLabel("monthly")}, prélevé chaque mois jusqu'à ta résiliation`;
   const lien = (chemin: string) => `[${siteDomaine()}${chemin}](${siteUrl()}${chemin})`;
-  return `Premium : ${prix}. Tu as 14 jours pour te faire rembourser (formulaire : ${lien("/retractation")}). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : ${lien("/cgu")}`;
+  return `En cliquant sur « ${LIBELLE_BOUTON_STRIPE} », tu passes une commande avec obligation de paiement : Premium, ${prix}. Tu as 14 jours pour te faire rembourser (formulaire : ${lien("/retractation")}). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : ${lien("/cgu")}`;
 }
 
 // PROVISOIRE s16, étalon à valider
@@ -214,6 +225,8 @@ export interface ConfirmationAbonnementVars {
  * « rubrique « Gérer mon abonnement » » → bouton réel « Résilier ton contrat »
  * (libellé unique s16) ; le modèle légal de formulaire de rétractation
  * (L.221-5) est joint après la signature.
+ * Lot G : paragraphe « Droit de rétractation » remplacé mot pour mot par le
+ * texte @legal (point 3), validé par Thomas (founder-preferences 07/10/2026).
  */
 export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): EmailRendu {
   const url = siteUrl();
@@ -242,7 +255,7 @@ Voici ta confirmation :
 ${ligneAnnuelle}
 Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu'à la fin de la période payée.
 
-Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit jusqu'au ${dateLongue(finRetractation)}, pour te rétracter et être remboursé, sans donner de motif. Il suffit de remplir ce formulaire : ${url}/retractation.
+Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit au moins jusqu'au ${dateLongue(finRetractation)}, pour te rétracter sans donner de motif. On te rembourse alors l'intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : ${url}/retractation.
 
 Les CGU qui s'appliquent à ton abonnement : ${url}/cgu.
 
@@ -333,22 +346,69 @@ export interface RetractationVars {
   reference: string;
   /** Prénom du compte trouvé pour cet e-mail (lot E) ; absent → « Salut, ». */
   prenom?: string | null;
+  /**
+   * Date de PREMIÈRE souscription du compte (création de sa ligne d'abonnement,
+   * jamais un renouvellement), lot G. Absente (pas de compte, achat sur
+   * l'appli) → délai inconnu. Une ligne plus ancienne que l'abonnement en
+   * cours (réabonnement) ne peut que donner « dépassé » : jamais de promesse
+   * de remboursement à tort.
+   */
+  premiereSouscription?: Date | null;
 }
 
-/** Accusé de réception de la demande de rétractation, au client (support durable). PROVISOIRE s16 (hors étalons). */
+export type DelaiRetractation = "dans-le-delai" | "depasse" | "inconnu";
+
+/** Jour de Paris comparable (AAAAMMJJ). */
+function jourParis(date: Date): number {
+  const { annee, mois, jour } = partiesParis(date);
+  return annee * 10_000 + mois * 100 + jour;
+}
+
+/**
+ * Demande reçue au plus tard le 14e jour (Paris) après la première souscription
+ * (lot G, règle de Thomas : premier paiement seulement). Le report au jour
+ * ouvrable suivant n'est pas appliqué ici : « dépassé » n'entraîne aucun refus
+ * automatique, seulement un accusé sans promesse et une vérification par Thomas.
+ */
+export function delaiRetractation(premiereSouscription: Date | null | undefined, recueLe: Date): DelaiRetractation {
+  const debut = dateValide(premiereSouscription ?? null);
+  if (!debut) return "inconnu";
+  return jourParis(recueLe) <= jourParis(ajouterJoursParis(debut, 14)) ? "dans-le-delai" : "depasse";
+}
+
+// Accusé de rétractation (lot G). `remboursementDansLeDelai` : PROVISOIRE s16 (inchangé) ;
+// `remboursementSousCondition` : texte exact @legal (point 7, réserve 1).
+export const TEXTES_ACCUSE_RETRACTATION = {
+  remboursementDansLeDelai:
+    "On te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé pour l'achat. Ton abonnement est alors arrêté : plus aucun prélèvement.",
+  remboursementSousCondition:
+    "Si ta demande est faite dans les 14 jours qui suivent ta souscription, on te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé. Ton abonnement est alors arrêté.",
+} as const;
+
+/**
+ * Accusé de réception de la demande de rétractation, au client (support durable). PROVISOIRE s16 (hors étalons).
+ * Lot G : « On te rembourse » sans condition seulement si la demande arrive dans
+ * les 14 jours de la première souscription ; sinon texte conditionnel @legal,
+ * suivi du périmètre (premier paiement seulement).
+ */
 export function emailAccuseRetractation(v: RetractationVars): EmailRendu {
   const dateAchat = dateValide(v.dateAchat);
   const achat = dateAchat ? `\nDate d'achat indiquée : le ${dateLongue(dateAchat)}` : "";
+  const recue = dateValide(v.recueLe) ?? new Date();
+  const remboursement =
+    delaiRetractation(v.premiereSouscription, recue) === "dans-le-delai"
+      ? TEXTES_ACCUSE_RETRACTATION.remboursementDansLeDelai
+      : `${TEXTES_ACCUSE_RETRACTATION.remboursementSousCondition} ${RETRACTATION_PERIMETRE}`;
   return {
     subject: "On a bien reçu ta demande de rétractation",
     text: `${salutation(v.prenom)}
 
-On a bien reçu ta demande de rétractation, le ${dateHeure(dateValide(v.recueLe) ?? new Date())}.
+On a bien reçu ta demande de rétractation, le ${dateHeure(recue)}.
 
 Référence : ${v.reference}
 Adresse du compte : ${v.email}${achat}
 
-On te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé pour l'achat. Ton abonnement est alors arrêté : plus aucun prélèvement.
+${remboursement}
 
 Garde cet e-mail : c'est la preuve de ta demande.
 
@@ -359,16 +419,27 @@ ${SIGNATURE}
   };
 }
 
+const LIGNE_DELAI_ADMIN: Record<DelaiRetractation, (debut: string) => string> = {
+  "dans-le-delai": (debut) => `dans le délai de 14 jours (première souscription le ${debut})`,
+  depasse: (debut) =>
+    `DÉPASSÉ d'après la première souscription (le ${debut}). Remboursement dû seulement pour le premier paiement d'un abonnement : vérifier dans Stripe la date de début de l'abonnement en cours (réabonnement possible).`,
+  inconnu: () => "INCONNU (aucun abonnement enregistré pour cet e-mail) : vérifier dans Stripe.",
+};
+
 /** Notification interne (admin) : demande de rétractation à traiter sous 14 jours. */
 export function emailAdminRetractation(v: RetractationVars & { compteTrouve: boolean }): EmailRendu {
+  const debut = dateValide(v.premiereSouscription ?? null);
+  const delai = delaiRetractation(debut, v.recueLe);
   return {
     subject: `[Rétractation] Demande ${v.reference} à rembourser sous 14 jours`,
     text: `Nouvelle demande de rétractation.
 
 Reçue le : ${dateHeure(v.recueLe)}
+Date limite de remboursement : ${dateLongue(ajouterJoursParis(v.recueLe, 14))} (demande + 14 jours)
 Référence : ${v.reference}
 E-mail saisi : ${v.email} (${v.compteTrouve ? "compte trouvé" : "AUCUN compte avec cet e-mail"})
 Date d'achat indiquée : ${v.dateAchat ? dateLongue(v.dateAchat) : "non renseignée"}
+Délai de rétractation : ${LIGNE_DELAI_ADMIN[delai](debut ? dateLongue(debut) : "")}
 Motif : ${v.motif || "non renseigné"}
 
 À faire dans Stripe : rembourser le paiement (remboursement total). Le site résilie alors l'abonnement automatiquement et repasse le compte sans Premium.

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { RetractationForm } from "@/components/retractation/retractation-form";
+import { formulaireTypeRetractation } from "@/config/textes/paiement";
+import { MODELE_FORMULAIRE_TITRE, RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
 export const metadata: Metadata = {
   title: "Droit de rétractation",
@@ -10,6 +12,9 @@ export const metadata: Metadata = {
 // Audit parcours s16 : tutoiement (D6), point de départ du délai aligné sur les
 // CGU (« conclusion du contrat », @legal D15) et date de mise à jour (D16).
 // Le formulaire (RetractationForm) relève du lot A.
+// Lot G : périmètre du délai (premier paiement seulement, règle de Thomas) et
+// modèle légal de formulaire (annexe R.221-1) offert AVANT la commande
+// (L.221-5) : même source que l'annexe de l'e-mail de confirmation.
 export default function RetractationPage() {
   return (
     <div className="max-w-3xl">
@@ -34,6 +39,7 @@ export default function RetractationPage() {
             Le remboursement est effectué dans un délai de 14 jours suivant la réception
             de ta demande, avec le même moyen de paiement que celui utilisé lors de l&apos;achat.
           </p>
+          <p className="mt-2">{RETRACTATION_PERIMETRE}</p>
         </section>
 
         <section>
@@ -55,6 +61,15 @@ export default function RetractationPage() {
         <div className="max-w-xl">
           <RetractationForm />
         </div>
+
+        <section aria-labelledby="modele-formulaire">
+          <h2 id="modele-formulaire" className="mb-2 text-lg font-semibold text-text-primary">
+            {MODELE_FORMULAIRE_TITRE}
+          </h2>
+          <pre className="whitespace-pre-wrap break-words rounded-lg border border-border bg-background-card p-4 font-sans text-sm text-text-secondary">
+            {formulaireTypeRetractation()}
+          </pre>
+        </section>
       </div>
     </div>
   );

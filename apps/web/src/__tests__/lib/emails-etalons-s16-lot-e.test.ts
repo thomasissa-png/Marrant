@@ -74,7 +74,7 @@ Voici ta confirmation :
 
 Résilier : en ligne, à tout moment, depuis ton profil, bouton « Résilier ton contrat » : https://deviens-marrant.fr/profil. Ton accès reste ouvert jusqu'à la fin de la période payée.
 
-Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit jusqu'au 21 octobre 2026, pour te rétracter et être remboursé, sans donner de motif. Il suffit de remplir ce formulaire : https://deviens-marrant.fr/retractation.
+Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit au moins jusqu'au 21 octobre 2026, pour te rétracter sans donner de motif. On te rembourse alors l'intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : https://deviens-marrant.fr/retractation.
 
 Les CGU qui s'appliquent à ton abonnement : https://deviens-marrant.fr/cgu.
 
@@ -271,7 +271,8 @@ describe("dates, montants, textes d'écran validés", () => {
     );
     const annuel = lisible(texteStripeSubmit("annual")).replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
     expect(annuel).toBe(
-      "Premium : 24,99 € TTC par an, renouvelé chaque année. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
+      // Lot G : ouverture « obligation de paiement » (@legal point 13, validée par Thomas).
+      "En cliquant sur « S'abonner », tu passes une commande avec obligation de paiement : Premium, 24,99 € TTC par an, renouvelé chaque année. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
     );
     expect(annuel).not.toContain("par mois");
   });

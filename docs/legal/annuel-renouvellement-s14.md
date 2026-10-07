@@ -26,7 +26,7 @@ Ton abonnement annuel Premium à Deviens Marrant va être renouvelé automatique
 RENOUVELLEMENT AUTOMATIQUE
 Date de renouvellement : {date_renouvellement}
 Montant : {montant} TTC pour 12 mois, prélevé sur ton moyen de paiement enregistré
-Pour ne pas renouveler : résilie avant le {date_renouvellement}
+Pour ne pas renouveler : résilie au plus tard la veille, le {date_renouvellement - 1 jour}
 ============================================
 
 Si tu ne fais rien, ton abonnement est reconduit pour un an et {montant} est prélevé à cette date. Si tu résilies, tu gardes ton accès Premium jusqu'à la fin de la période déjà payée, puis ton abonnement s'arrête, sans nouveau prélèvement.

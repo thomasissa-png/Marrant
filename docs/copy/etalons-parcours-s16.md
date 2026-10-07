@@ -4,6 +4,8 @@
 > Décisions déjà actées et appliquées ici : « Premium » comme seul nom, annuel avec « plus de 3 mois offerts » ET « 10,89 € économisés », tutoiement partout, e-mails signés « L'Équipe Deviens Marrant ». Prix : 2,99 € TTC par mois, 24,99 € TTC par an (jamais écrits en dur dans le code, ils viennent de `config/premium.ts`).
 > Règles tenues dans tous les textes : tutoiement, zéro tiret cadratin, aucune mention d'IA, rien d'infantilisant ni de culpabilisant, « e-mail » avec trait d'union, aucune promesse non codée. Ce qui dépend d'un fait à confirmer est marqué `[À VÉRIFIER]` ou `[À VALIDER @legal]`. Les `{{...}}` sont des champs remplis automatiquement.
 
+> **Mise à jour 07/10 (validée par Thomas)** : étalon 1 (texte Stripe) ouvert par « En cliquant sur « S'abonner », tu passes une commande avec obligation de paiement : … » (+ « prélevé chaque mois jusqu'à ta résiliation » en mensuel) ; étalon 2, paragraphe rétractation remplacé par le texte de `docs/marrant/audit-parcours-s16/relecture-legal.md` ; remboursement 14 jours réservé au premier paiement. Texte en production : `apps/web/src/config/textes/paiement.ts`.
+
 ---
 
 ## Étalon 1 : ligne de réassurance près du bouton de paiement

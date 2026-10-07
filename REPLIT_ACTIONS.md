@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s16 (07/10/2026) : audit parcours, lots A, B, C, D (connexion, achat, compte, finition) @fullstack : **À DÉPLOYER**
+## s16 (07/10/2026) : audit parcours, lots A à G (connexion, achat, compte, finition, textes validés, corrections, juridique) @fullstack : **À DÉPLOYER**
 
 > Code commité par l'orchestrateur après vérification globale (tsc, lint, build, Jest complet), **non déployé**. Rapports : `docs/marrant/audit-parcours-s16/impl-lot-{a,b,c,d}.md`. Réglages Stripe et Cloudflare : `docs/marrant/audit-parcours-s16/impl-infrastructure.md` (étapes 1 à 3 à faire par Thomas AVANT le déploiement).
 > - **Migration Neon AVANT déploiement** : `12_add_retractation_request` (idempotente), depuis `apps/web` : `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/12_add_retractation_request/migration.sql`, à jouer 2 fois (la 2e passe doit réussir). Sans elle, `/api/retractation` répond 500.
@@ -14,6 +14,8 @@
 > - **Lots E (textes validés) et F (corrections finales)** dans le même déploiement : aucune variable, aucune migration en plus (rapports `impl-lot-e.md`, `impl-lot-f.md`).
 > - **Tests de bout en bout** (`impl-qa-e2e.md`) : nouveau workflow GitHub `.github/workflows/e2e-parcours.yml` (manuel + chaque jour 05:30 UTC ; workflows existants intacts). **Variable de dépôt** GitHub `E2E_EXCLURE_S16=true` à poser tant que s16 n'est pas en ligne ; **la retirer** après le déploiement et un smoke vert contre la prod. Job achat (manuel) : `vars.E2E_ACHAT_BASE_URL` (préprod, jamais la prod) + secret `STRIPE_TEST_SECRET_KEY` (`sk_test_…`, D7).
 > - **Scripts** : `npm run test:e2e:smoke` (lecture seule, prod possible : `E2E_BASE_URL=https://deviens-marrant.fr`), `npm run test:e2e:achat` (préprod + `sk_test` uniquement, sinon ignoré), depuis la racine ou `apps/web`. À lancer après le déploiement : `cd apps/web && E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke` (tout vert attendu, @s16 compris).
+> - **Lot G (juridique)** (`impl-lot-g.md`) : aucune migration ni variable. Checkout avec `submit_type: "subscribe"` (bouton « S'abonner ») et texte « commande avec obligation de paiement » ; remboursement 14 jours limité au premier paiement (CGU art. 6, /retractation, accusé). Après déploiement, ouvrir une session Checkout de l'achat test et vérifier le libellé du bouton et le texte sous le bouton.
+> - **Ordre au déploiement** : (1) Thomas a fait les étapes Stripe 1 à 3 ; (2) migration `12_add_retractation_request` sur Neon ; (3) `STRIPE_CHECKOUT_CGU_CONSENT=true` sur le Worker ; (4) `npm run build:cf && npm run deploy:cf` depuis l'arbre principal propre ; (5) smoke E2E + `/api/health` ; (6) achat test réel de Thomas puis remboursement.
 
 ## s15 (07/10/2026, 10:09 Paris) : IndexNow, nouvel essai
 

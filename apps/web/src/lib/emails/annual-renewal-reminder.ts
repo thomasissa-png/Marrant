@@ -7,6 +7,9 @@
  * repasse en gratuit » (offre gratuite supprimée) et « Résilier votre contrat »
  * (tutoiement) corrigés ici ; le libellé du bouton est lu dans
  * TEXTES_ABONNEMENT.resilier (libellé unique, lot D) ; document @legal aligné.
+ * Lot G (relecture @legal point 14) : « résilie avant le {date} » devient
+ * « résilie au plus tard la veille, le {date - 1 jour} » (lève le doute le jour
+ * du prélèvement) ; document @legal aligné, reste du texte inchangé.
  *
  * Email transactionnel dédié : texte simple, ni contenu promotionnel ni lien
  * de désabonnement marketing.
@@ -41,6 +44,18 @@ export function formatRenewalDate(date: Date): string {
   const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
   const day = get("day") === "1" ? "1er" : get("day");
   return `${day} ${get("month")} ${get("year")}`;
+}
+
+/** Veille de la date (jour calendaire de Paris), à midi UTC : insensible au changement d'heure. */
+export function veilleParis(date: Date): Date {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Europe/Paris",
+  }).formatToParts(date);
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+  return new Date(Date.UTC(get("year"), get("month") - 1, get("day") - 1, 12));
 }
 
 /**
@@ -82,7 +97,7 @@ Ton abonnement annuel Premium à Deviens Marrant va être renouvelé automatique
 RENOUVELLEMENT AUTOMATIQUE
 Date de renouvellement : ${dateRenouvellement}
 Montant : ${montant} TTC pour 12 mois, prélevé sur ton moyen de paiement enregistré
-Pour ne pas renouveler : résilie avant le ${dateRenouvellement}
+Pour ne pas renouveler : résilie au plus tard la veille, le ${formatRenewalDate(veilleParis(vars.renewalDate))}
 ============================================
 
 Si tu ne fais rien, ton abonnement est reconduit pour un an et ${montant} est prélevé à cette date. Si tu résilies, tu gardes ton accès Premium jusqu'à la fin de la période déjà payée, puis ton abonnement s'arrête, sans nouveau prélèvement.

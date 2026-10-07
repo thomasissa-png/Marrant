@@ -173,6 +173,8 @@ export async function createCheckoutSession(
       },
     ],
     locale: "fr",
+    // Lot G : libellé du bouton figé à « S'abonner » (locale fr), cité par le texte ci-dessous (L.221-14).
+    submit_type: "subscribe",
     custom_text: { submit: { message: texteStripeSubmit(plan) } },
     // `formule=annuel` (annuel seulement) : mesure Umami abonnement-reussi sur la page de retour.
     success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`,

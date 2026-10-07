@@ -16,6 +16,7 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { AbonnementCard } from "@/components/profil/abonnement-card";
 import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
+import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -59,6 +60,8 @@ export function ProfilDashboard() {
   const { user, isLoading, fetchUser } = useUserStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
+  // Résumé d'abonnement lu une fois, partagé par les cartes Abonnement et Suppression (lot G).
+  const abonnement = useSubscriptionSummary(status === "authenticated");
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -346,10 +349,15 @@ export function ProfilDashboard() {
         xp={user.xp}
         onCheckout={handleCheckout}
         isCheckoutLoading={isCheckoutLoading}
+        abonnement={abonnement}
       />
 
       {/* s16 reco 5 : suppression du compte en libre-service */}
-      <SupprimerCompteCard abonne={isPremium} />
+      <SupprimerCompteCard
+        abonne={isPremium}
+        finPeriode={abonnement.summary?.currentPeriodEnd ?? null}
+        resilie={abonnement.summary?.cancelAtPeriodEnd ?? false}
+      />
     </div>
   );
 }

@@ -16,7 +16,8 @@ import {
  *
  * 1. validation zod ; 2. limitation partagée (5 par heure et par IP, 3 par jour
  * et par e-mail) ; 3. enregistrement en base AVANT toute réponse (preuve) ;
- * 4. e-mail à l'admin (remboursement à faire sous 14 jours) ; 5. accusé de
+ * 4. e-mail à l'admin (date limite de remboursement, délai calculé depuis la
+ * première souscription, lot G) ; 5. accusé de
  * réception au client (support durable). Un e-mail raté ne fait pas échouer la
  * demande (déjà enregistrée) : alerte A `email-envoi-retractation-*` + réponse
  * `ackSent: false` pour que le formulaire invite à écrire au contact.
@@ -69,7 +70,11 @@ export async function POST(request: Request) {
   if (!parEmail.allowed) return tooMany(retryAfterSeconds(parEmail));
 
   const user = await prisma.user
-    .findFirst({ where: { email: { equals: email, mode: "insensitive" } }, select: { id: true, name: true } })
+    .findFirst({
+      where: { email: { equals: email, mode: "insensitive" } },
+      // Lot G : date de PREMIÈRE souscription (création de la ligne d'abonnement), jamais un renouvellement.
+      select: { id: true, name: true, subscription: { select: { createdAt: true } } },
+    })
     .catch(() => null);
 
   let demande: { id: string; createdAt: Date };
@@ -94,6 +99,7 @@ export async function POST(request: Request) {
     reference: `R-${demande.id.slice(-8).toUpperCase()}`,
     // Lot E : prénom du compte s'il existe (« Salut Marie, »), sinon « Salut, ».
     prenom: firstNameFrom(user?.name),
+    premiereSouscription: user?.subscription?.createdAt ?? null,
   };
   const admin = emailAdminRetractation({ ...vars, compteTrouve: Boolean(user) });
   const adminSent = await trySendTransactionalTextEmail(ADMIN_EMAIL, admin.subject, admin.text, "retractation-admin");

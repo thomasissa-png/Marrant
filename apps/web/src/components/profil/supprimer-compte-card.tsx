@@ -1,13 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { trackUmami } from "@/lib/umami";
-import { MOT_CONFIRMATION_SUPPRESSION, TEXTES_SUPPRESSION as T } from "@/config/textes/compte";
+import { dateLongue, MOT_CONFIRMATION_SUPPRESSION, TEXTES_SUPPRESSION as T } from "@/config/textes/compte";
 
 /** Mot retapé conforme (casse et espaces ignorés, comme côté serveur). */
 export function confirmationValide(saisie: string): boolean {
@@ -18,8 +19,20 @@ export function confirmationValide(saisie: string): boolean {
  * Suppression du compte (s16, reco 5) : confirmation explicite (mot retapé),
  * puis DELETE /api/user (résiliation Stripe immédiate puis effacement), puis
  * déconnexion vers l'accueil.
+ * Abonné : avertissement avant confirmation (lot G, @legal point 8) : période
+ * payée perdue et non remboursée, résilier d'abord, rétractation si < 14 jours.
  */
-export function SupprimerCompteCard({ abonne }: { abonne: boolean }) {
+export function SupprimerCompteCard({
+  abonne,
+  finPeriode = null,
+  resilie = false,
+}: {
+  abonne: boolean;
+  /** Fin de la période payée (ISO), si le résumé d'abonnement est connu. */
+  finPeriode?: string | null;
+  /** Résiliation déjà programmée en fin de période. */
+  resilie?: boolean;
+}) {
   const [ouvert, setOuvert] = useState(false);
   const [saisie, setSaisie] = useState("");
   const [erreur, setErreur] = useState("");
@@ -73,7 +86,7 @@ export function SupprimerCompteCard({ abonne }: { abonne: boolean }) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-text-secondary">{T.intro}</p>
-        {abonne && <p className="mt-2 text-sm text-text-secondary">{T.avecAbonnement}</p>}
+        {abonne && <AvertissementAbonne fin={finPeriode ? dateLongue(finPeriode) : null} resilie={resilie} />}
         {!ouvert ? (
           <Button variant="ghost" size="sm" className="mt-4 text-error" onClick={ouvrir}>
             {T.ouvrir}
@@ -111,5 +124,20 @@ export function SupprimerCompteCard({ abonne }: { abonne: boolean }) {
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function AvertissementAbonne({ fin, resilie }: { fin: string | null; resilie: boolean }) {
+  return (
+    <div className="mt-3 rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm text-text-primary" role="note">
+      <p>{resilie && fin ? T.avecAbonnementResilie(fin) : T.avecAbonnement(fin)}</p>
+      <p className="mt-2">
+        {T.retractationAvant}
+        <Link href="/retractation" className="underline underline-offset-2 hover:text-text-primary">
+          {T.retractationLien}
+        </Link>
+        {T.retractationApres}
+      </p>
+    </div>
   );
 }

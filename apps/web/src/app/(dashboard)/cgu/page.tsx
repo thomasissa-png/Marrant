@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 // Libellé du bouton de résiliation lu à la source (profil, lot B) : la CGU suit le bouton réel.
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
 export const metadata: Metadata = {
   title: "Conditions Générales d'Utilisation",
@@ -27,7 +28,8 @@ export default function CGUPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">3. Offres et tarifs</h2>
           <p>L&apos;abonnement Premium donne accès à l&apos;ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien. Il est proposé en deux formules, prix toutes taxes comprises : mensuelle à 2,99 €/mois, ou annuelle à 24,99 €/an (soit 2,08 €/mois), payable en une seule fois.</p>
-          <p className="mt-2">La formule mensuelle est sans engagement et reconduite tacitement chaque mois. La formule annuelle est conclue pour une durée d&apos;un an à compter du paiement, puis reconduite tacitement par périodes successives d&apos;un an, au tarif annuel en vigueur indiqué dans l&apos;email de rappel. Chaque formule peut être résiliée à tout moment depuis l&apos;espace profil (article 7).</p>
+          {/* Lot G (@legal point 9, à valider par un avocat) : plus de « reconduite tacitement chaque mois » (L.215-1). */}
+          <p className="mt-2">La formule mensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mois jusqu&apos;à ta résiliation. La formule annuelle est conclue pour une durée d&apos;un an à compter du paiement, puis reconduite tacitement par périodes successives d&apos;un an, au tarif annuel en vigueur indiqué dans l&apos;email de rappel. Chaque formule peut être résiliée à tout moment depuis l&apos;espace profil (article 7).</p>
           <p className="mt-2">Avant chaque reconduction de la formule annuelle, l&apos;éditeur informe l&apos;utilisateur par email dédié, au plus tôt trois mois et au plus tard un mois avant la date limite de non-reconduction, de la possibilité de ne pas reconduire le contrat, de cette date limite, du montant et de la date du prélèvement. À défaut, l&apos;utilisateur peut résilier à tout moment à compter de la reconduction et être remboursé des sommes versées pour la période postérieure à la résiliation (article L.215-1 du Code de la consommation).</p>
         </section>
         <section>
@@ -44,11 +46,13 @@ export default function CGUPage() {
           <p>Conformément à la Directive européenne 2011/83/UE et au Code de la consommation français, tu disposes d&apos;un délai de 14 jours à compter de la conclusion du contrat pour exercer ton droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
           <p className="mt-2">Pour exercer ce droit, envoie ta demande à contact@deviens-marrant.fr ou passe par la page{" "}
             <Link href="/retractation" className="underline underline-offset-2 hover:text-text-primary">Rétractation</Link>. Le remboursement est effectué dans un délai de 14 jours suivant la réception de la demande.</p>
+          {/* Lot G : règle de Thomas (premier paiement seulement) + phrase de périmètre @legal (point 3). */}
+          <p className="mt-2">{RETRACTATION_PERIMETRE}</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
-          <p>Tu peux supprimer ton compte à tout moment depuis ton profil. La suppression est immédiate : tes données personnelles sont effacées et ton abonnement Premium est résilié tout de suite, sans nouveau prélèvement. Tes factures restent conservées chez Stripe pour nos obligations comptables (voir la politique de confidentialité).</p>
-          <p className="mt-2">Tu peux résilier l&apos;abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis ton profil, via le bouton « {TEXTES_ABONNEMENT.resilier} » puis « Confirmer la résiliation ». La résiliation prend effet à la fin de la période en cours (mois ou année) : l&apos;accès Premium reste actif jusqu&apos;à cette date et aucun nouveau prélèvement n&apos;est effectué. La période déjà payée n&apos;est pas remboursée, sous réserve de l&apos;article 6. Un email confirme la résiliation et sa date d&apos;effet.</p>
+          <p>Tu peux supprimer ton compte à tout moment depuis ton profil. La suppression est immédiate : tes données personnelles sont effacées et ton abonnement Premium est résilié tout de suite, sans nouveau prélèvement et sans remboursement de la période déjà payée, sauf rétractation (article 6). Pour garder Premium jusqu&apos;à la fin de cette période, résilie d&apos;abord ton abonnement, puis supprime ton compte après cette date. Tes factures restent conservées chez Stripe pour nos obligations comptables (voir la politique de confidentialité).</p>
+          <p className="mt-2">Tu peux résilier l&apos;abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis ton profil, via le bouton « {TEXTES_ABONNEMENT.resilier} », puis en confirmant la résiliation sur la page qui s&apos;ouvre. La résiliation prend effet à la fin de la période en cours (mois ou année) : l&apos;accès Premium reste actif jusqu&apos;à cette date et aucun nouveau prélèvement n&apos;est effectué. La période déjà payée n&apos;est pas remboursée, sous réserve de l&apos;article 6. Un email confirme la résiliation et sa date d&apos;effet.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Limitation de responsabilité</h2>

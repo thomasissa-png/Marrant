@@ -1,27 +1,36 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
-import { useSubscriptionSummary, type ParcoursPortail } from "@/hooks/use-subscription-summary";
+import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { formatEuros, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 
-export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-hors-stripe" | "aucun";
+export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
+
+/** Ancre de la carte (lien « Résilier ton contrat » du pied de page, lot G). */
+export const ANCRE_ABONNEMENT = "abonnement";
 
 /**
  * État affiché, à partir du plan (session) et du résumé base/Stripe.
  * Pendant le chargement du résumé (`undefined`), on affiche tout de suite
  * l'état déduit du plan ; l'impayé prend la main dès que le résumé arrive.
+ * Résumé `null` (lecture en échec ou aucune ligne d'abonnement) pour un Premium :
+ * `premium-sans-resume`, qui garde le bouton de résiliation (lot G, @legal
+ * point 6 : le bouton ne doit jamais disparaître ; le portail répond 404 proprement).
+ * `premium-hors-stripe` = résumé lu, sans client Stripe (aucun portail possible).
  */
 export function etatAbonnement(plan: string, summary: SubscriptionSummary | null | undefined): EtatAbonnement {
   if (summary?.status === "PAST_DUE") return "impaye";
   if (plan !== "PREMIUM") return "aucun";
   if (summary === undefined) return "actif";
-  if (summary?.hasPortal && summary.cancelAtPeriodEnd) return "resilie";
-  if (summary?.hasPortal) return "actif";
+  if (summary === null) return "premium-sans-resume";
+  if (summary.hasPortal && summary.cancelAtPeriodEnd) return "resilie";
+  if (summary.hasPortal) return "actif";
   return "premium-hors-stripe";
 }
 
@@ -37,14 +46,23 @@ interface AbonnementCardProps {
   xp: number;
   onCheckout: () => void;
   isCheckoutLoading: boolean;
+  /** Résumé et portail, lus une seule fois par le profil (partagés avec la suppression du compte). */
+  abonnement: ReturnType<typeof useSubscriptionSummary>;
 }
 
-export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: AbonnementCardProps) {
-  const { summary, openPortal, portalLoading } = useSubscriptionSummary(true);
+export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonnement }: AbonnementCardProps) {
+  const { summary, openPortal, portalLoading } = abonnement;
   const etat = etatAbonnement(plan, summary);
+  const carteRef = useRef<HTMLDivElement>(null);
+
+  // Arrivée par /profil#abonnement (pied de page) : la carte est rendue après le
+  // chargement du profil, le navigateur ne peut donc pas défiler seul jusqu'à elle.
+  useEffect(() => {
+    if (window.location.hash === `#${ANCRE_ABONNEMENT}`) carteRef.current?.scrollIntoView?.({ block: "start" });
+  }, []);
   const fin = summary?.currentPeriodEnd ? dateLongue(summary.currentPeriodEnd) : null;
 
-  const bouton = (parcours: ParcoursPortail, label: string, variant: "outline" | "ghost" | "primary" = "outline") => (
+  const bouton = (parcours: ParcoursPortail, label: string, variant: "outline" | "primary" = "outline") => (
     <Button variant={variant} size="sm" onClick={() => openPortal(parcours)} disabled={portalLoading !== null}>
       {portalLoading === parcours ? T.chargement : label}
     </Button>
@@ -60,7 +78,7 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: Abon
     );
 
   return (
-    <Card className="md:col-span-2">
+    <Card ref={carteRef} id={ANCRE_ABONNEMENT} className="md:col-span-2 scroll-mt-24">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{T.titre}</CardTitle>
@@ -73,11 +91,11 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: Abon
             <p className="text-sm text-error" role="status">{T.impaye}</p>
             <div className="mt-4 flex flex-wrap gap-2">{bouton("carte", T.majCarte, "primary")}</div>
             {/* Toujours encore abonné (Premium conservé) : le bouton légal de résiliation reste visible (lot D). */}
-            {summary?.hasPortal && <div className="mt-4 border-t border-border pt-4">{bouton("resilier", T.resilier, "ghost")}</div>}
+            {summary?.hasPortal && <div className="mt-4 border-t border-border pt-4">{bouton("resilier", T.resilier)}</div>}
           </div>
         )}
 
-        {(etat === "actif" || etat === "resilie" || etat === "premium-hors-stripe") && (
+        {(etat === "actif" || etat === "resilie" || etat === "premium-sans-resume" || etat === "premium-hors-stripe") && (
           <div>
             <p className="text-sm text-text-primary">
               Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets.
@@ -93,7 +111,7 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: Abon
                 <p className="mt-1 text-sm text-text-secondary">{T.resilieDetail}</p>
               </>
             )}
-            {etat !== "premium-hors-stripe" && (
+            {(etat === "actif" || etat === "resilie") && (
               <div className="mt-4 flex flex-wrap gap-2">
                 {bouton("gerer", T.gerer)}
                 {etat === "actif" && summary?.hasStripeSubscription && bouton("changer-formule", T.changerFormule)}
@@ -103,10 +121,11 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: Abon
               <p className="mt-2 text-xs text-text-muted">{T.versAnnuel(ANNUEL_AVANTAGE_LABEL)}</p>
             )}
             {etat === "actif" && summary?.formule === "annual" && <p className="mt-2 text-xs text-text-muted">{T.versMensuel}</p>}
-            {etat === "actif" && (
+            {(etat === "actif" || etat === "premium-sans-resume") && (
               <div className="mt-4 border-t border-border pt-4">
-                {/* Bouton légal de résiliation en ligne (L.215-1-1) : parcours de résiliation du portail. */}
-                {bouton("resilier", T.resilier, "ghost")}
+                {/* Bouton légal de résiliation en ligne (L.215-1-1) : parcours de résiliation du portail.
+                    Variante `outline` (lot G, @legal point 6 : bouton facilement accessible, pas discret). */}
+                {bouton("resilier", T.resilier)}
                 <p className="mt-1 text-xs text-text-muted">{fin ? T.resilierDetail(fin) : T.resilierDetailSansDate}</p>
               </div>
             )}

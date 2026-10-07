@@ -78,6 +78,8 @@ async function main(): Promise<void> {
     ));
     ajout("accuse-retractation", "Accusé de rétractation", p.emailAccuseRetractation({
       email: A, dateAchat: souscrit, motif: null, recueLe: new Date("2026-10-09T08:15:00Z"), reference: "R-EXEMPLE1", prenom,
+      // Lot G : cas a = dans le délai (première souscription connue), cas b = délai inconnu (texte conditionnel @legal).
+      premiereSouscription: prenom ? souscrit : null,
     }));
   }
 

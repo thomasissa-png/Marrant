@@ -12,6 +12,7 @@ import MentionsLegalesPage from "@/app/(dashboard)/mentions-legales/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import CGUPage from "@/app/(dashboard)/cgu/page";
 import RetractationPage from "@/app/(dashboard)/retractation/page";
+import { formulaireTypeRetractation } from "@/config/textes/paiement";
 import {
   ANNUEL_AVANTAGE_LABEL,
   ANNUEL_ECONOMIE_LABEL,
@@ -154,7 +155,8 @@ describe("pages légales (reco 18, D6)", () => {
   it("tutoiement sur les 4 pages légales, sans tiret cadratin", () => {
     for (const Page of [MentionsLegalesPage, ConfidentialitePage, CGUPage, RetractationPage]) {
       const { container, unmount } = render(<Page />);
-      expect(container.textContent).not.toMatch(/\bvous\b|\bvotre\b|\bvos\b|—/i);
+      // Lot G : le modèle légal de formulaire (vouvoiement imposé, annexe R.221-1) est exclu du contrôle.
+      expect((container.textContent ?? "").replace(formulaireTypeRetractation(), "")).not.toMatch(/\bvous\b|\bvotre\b|\bvos\b|—/i);
       unmount();
     }
   });

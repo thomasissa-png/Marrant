@@ -149,4 +149,23 @@ describe("POST /api/retractation", () => {
     expect(prisma.retractationRequest.create.mock.calls[0][0].data.userId).toBeNull();
     expect(trySend.mock.calls[0][2]).toContain("AUCUN compte");
   });
+
+  it("lot G : délai calculé depuis la première souscription du compte (accusé conditionnel si dépassé)", async () => {
+    prisma.user.findFirst.mockResolvedValue({ id: "user-1", name: "Camille", subscription: { createdAt: new Date("2026-01-05T10:00:00Z") } });
+    await post({ email: "client@exemple.fr", dateAchat: "2026-10-01" });
+    expect(prisma.user.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({ select: { id: true, name: true, subscription: { select: { createdAt: true } } } }),
+    );
+    const [admin, client] = trySend.mock.calls;
+    expect(admin[2]).toContain("Date limite de remboursement : 21 octobre 2026");
+    expect(admin[2]).toContain("DÉPASSÉ d'après la première souscription (le 5 janvier 2026)");
+    expect(client[2]).toContain("Si ta demande est faite dans les 14 jours qui suivent ta souscription");
+    expect(client[2]).not.toMatch(/^On te rembourse/m);
+  });
+
+  it("lot G : souscription récente → remboursement promis", async () => {
+    prisma.user.findFirst.mockResolvedValue({ id: "user-1", name: null, subscription: { createdAt: new Date("2026-10-01T10:00:00Z") } });
+    await post({ email: "client@exemple.fr" });
+    expect(trySend.mock.calls[1][2]).toMatch(/^On te rembourse sous 14 jours maximum/m);
+  });
 });
