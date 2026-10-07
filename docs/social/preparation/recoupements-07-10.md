@@ -45,7 +45,7 @@ Le « reste 23 après 1a » du plan §2 devient 16. À corriger dans `plan-execu
 
 **Périmètre.** `complements-lot-s15.md` §1 ne contient que les **8 carrousels livrés (mercredis 04/11 au 30/12)**. Les 12 fiches Q1 (mercredis 06/01 au 24/03) n'ont **aucune vanne désignée** dans les fichiers lus : le recoupement porte donc sur ces 8 vannes (celles que le plan l.38 demande de recouper), et la règle des 90 jours est donnée plus bas pour le choix des vannes Q1. `[À VÉRIFIER]` si Thomas attendait une autre liste de 8.
 
-**Résultat : 2 vannes dans le pool strict (V060, V083), 0 dans la semaine 0, 0 dans les 7 exemptées. Aucune vanne à changer au titre des 90 jours** (le costume, seul cas de semaine 0, est déjà remplacé le 23/12 par V083).
+**Résultat : 2 vannes dans le pool strict (V060, V083), 0 dans la semaine 0, 0 dans les 7 exemptées. V083 est à changer au 23/12 au titre des 90 jours** : le lot 1a la tire le 13/10 en Instagram (71 jours, `lot-1a-dry-run-07-10.md` l.50). Le costume (seul cas de semaine 0) est bien sorti du 23/12, mais sa remplaçante ne peut pas être V083.
 
 | Date de la fiche | Vanne | Pool strict | Semaine 0 | Exemptées |
 |---|---|---|---|---|
@@ -55,7 +55,7 @@ Le « reste 23 après 1a » du plan §2 devient 16. À corriger dans `plan-execu
 | mer. 02/12 | `cs14jkbdb9858fdd496e962a` | non | non | non |
 | mer. 09/12 | `cs14jk577fa779cb48fa9b55` | **OUI, V060** (8,5 / 8,5) | non | non |
 | mer. 16/12 | `cmp9fpyd4006ys60xwsegez9e` | non | non | non |
-| mer. 23/12 | `cs14jka3336e7e90a453a9d6` | **OUI, V083** (9,0 / 9,0) | non (le costume `cs14jkdb222991fcbf194845` l'était : retiré) | non |
+| mer. 23/12 | `cs14jka3336e7e90a453a9d6` (**à changer** : tirée le 13/10 par le lot 1a) | **OUI, V083** (9,0 / 9,0) | non (le costume `cs14jkdb222991fcbf194845` l'était : retiré) | non |
 | mer. 30/12 | `cs14jkbe6b6bc15755d06863` | non | non | non |
 
 Les 10 `sourceId` de la semaine 0 (`lot-semaine0.json`) : V044 `cs14jk0c96df8dc97a67e3f6` (06/10 X), V045 `cs14jkdf1cef669030ec828a` (06/10 IG), V074 `cmonlkgeu000ds60wu0gazutb` (06/10 LI), V070 `cs14jk34c841ef6e1abadb11` (07/10 X), V087 `cs14jkdb222991fcbf194845` (07/10 IG, costume), V033 `cs14jk18882246f6446df2b7` (08/10 X), V059 `cs14jk2fd7c7c96d7815407d` (08/10 IG), V049 `cs14jk0761c9f2d885762bb5` (08/10 LI), V076 `cs14jkafa211aede70b92cc8` (09/10 X), V101 `cs14jk2ef0aabfbf4784ad82` (09/10 IG). Les 10 sont dans `POOL_STRICT`.

@@ -49,6 +49,10 @@
 > - Parcours Confiance (niveau, description) : remettre les valeurs du seed N-1 (`git show <commit N-1>:docs/content/parcours-seed.json`) ; supprimer le marqueur `parcours-content:s17-v1` seulement si la tâche doit être rejouée.
 > - Ne pas passer `CATALOGUE_CONTENT_PATCH_VERSION` à 2 tant que `conseils-seed.json` n'est pas aligné (FS-12, accord de Thomas) : les défis retouchés seraient écrasés.
 
+## s15 (07/10/2026, 20:16 Paris) : H+45 Instagram OK, jour 2 = 2/2
+
+- Carte vanne `sent` à 19:32, `instagram.com/p/DeM51N8lkhD/`, 2 images avec texte alternatif, légende sans lien, aucun FAILED. Semaine 0 : 5 posts sur 5 publiés (`docs/social/releves/2026-10-07.md`).
+
 ## s15 (07/10/2026, 13:17 Paris) : H+45 X OK (jour 2)
 
 - Post quiz X `sent` à 12:33 Paris, lien réel `x.com/…/status/2107781291353481416`, UTM `quiz`, aucun FAILED. 313 caractères bruts acceptés : correctif `longueurX` prouvé en ligne (`docs/social/releves/2026-10-07.md`).
