@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 tour 4 de la notation visuelle (07/10/2026) : dernières finitions @fullstack, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
+
+> Notes finales : @design 9,8/10, @ux 9,9/10 (GO, aucun bloquant ; Thomas : « Finissons et déployons »). Repositionnement de l'étape visée par une ancre après le chargement Premium, survol de l'en-tête d'étape et de l'interrupteur du rappel. **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 799 PASS) et `npm run build` verts en local.
+
 ## s15 lot social (07/10/2026, soir) : textes tranchés à l'aveugle appliqués, scripts hors Worker, **rien à déployer**
 
 > `apps/web/scripts/content/social-lot-v5-{legendes,fixes}.ts` et `social-lot-v5.ts` (scripts locaux, pas dans le Worker) : 4 légendes du lot 1a ; X du lun. 12/10 = vanne du pool strict sans renvoi ni lien (`CASES_VANNE`, tirée après le lot, V011 `cmmnsqn130038th63fxn1wvhn`) ; 1b : IG 21/10 = carte vanne simple V028 (post fixe `IG-21-10`), légende du 30/10. **Dry-run 1a : 0 erreur, 12 posts, prêt pour l'insertion du ven. 09/10 10:15 UTC** (`docs/social/preparation/lot-1a-dry-run-07-10.md`). Aucune migration, aucune variable d'environnement, aucune insertion. tsc, ESLint, build et Jest complet (3 795 PASS) verts.

@@ -139,9 +139,10 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
               }
             }}
           />
+          {/* s17 tour 4 (QA) : survol = bordure #9A9A9A (≈ 6:1 sur la carte), piste violet clair une fois activé. */}
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-full border border-border-hover bg-background-elevated transition-colors peer-checked:border-accent-primary peer-checked:bg-accent-primary peer-aria-disabled:opacity-60 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-primary"
+            className="absolute inset-0 rounded-full border border-border-hover bg-background-elevated transition-colors peer-hover:border-text-muted peer-checked:border-accent-primary peer-checked:bg-accent-primary peer-checked:peer-hover:border-accent-primary-hover peer-checked:peer-hover:bg-accent-primary-hover peer-aria-disabled:opacity-60 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-primary"
           />
           <span
             aria-hidden="true"

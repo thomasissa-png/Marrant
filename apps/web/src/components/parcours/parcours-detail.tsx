@@ -112,6 +112,8 @@ export function ParcoursDetail({
   const focusAfterValidation = useRef<{ validee: number; suivante: number } | "fin" | null>(null);
   const completionHeading = useRef<HTMLHeadingElement>(null);
   const hashStep = useRef<number | null>(null);
+  // s17 tour 4 (QA) : étape d'arrivée par ancre à recaler une fois le chargement abonné terminé.
+  const ancreARecaler = useRef<number | null>(null);
   const cacheApplique = useRef(false);
   const reessayerRef = useRef<HTMLButtonElement>(null);
 
@@ -217,10 +219,21 @@ export function ParcoursDetail({
     const target = stepToOpen(initialPath.steps, initialProgress?.completedSteps ?? [], hashStep.current);
     if (target === null) return;
     setExpandedStep(target);
+    ancreARecaler.current = target;
     requestAnimationFrame(() => document.getElementById(`etape-${target}`)?.scrollIntoView?.({ block: "start" }));
     // Lecture unique à l'arrivée.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // s17 tour 4 (QA) : le défilement d'arrivée est calculé sur la page longue du HTML ISR ; quand le
+  // chargement abonné aboutit (contenu) ou échoue (message), la page raccourcit et la carte passait
+  // sous l'en-tête fixe. Recalage unique sous l'en-tête (scroll-mt-28), sans toucher au focus.
+  useEffect(() => {
+    if (ancreARecaler.current === null || enrich === "attente") return;
+    const cible = expandedStep ?? ancreARecaler.current;
+    ancreARecaler.current = null;
+    document.getElementById(`etape-${cible}`)?.scrollIntoView?.({ behavior: "instant", block: "start" });
+  }, [enrich, expandedStep]);
 
   // parcours-ouvert : une fois par affichage, session résolue (data-analyst §5.1).
   useEffect(() => {

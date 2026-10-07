@@ -127,7 +127,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         // Pas d'aria-label : le nom vocal = le texte visible (QA-05) ; focus visible (UX-09 a).
         // DES-1-04 : pas de marge basse sous un en-tête replié (16 px dessus, 0 dessous + padding de la carte).
         // s17 tour 3 (DES-3-05) : déplié, 8 px sous l'en-tête pour que l'anneau de focus (2 + 2 px) ne touche pas le bloc suivant.
-        className={`rounded-t-xl ${isExpanded && canExpand ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "cursor-pointer" : "cursor-default"}`}
+        // s17 tour 4 (QA) : survol = titre souligné et chevron éclairci (en-tête dépliable seulement).
+        className={`rounded-t-xl ${isExpanded && canExpand ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "group cursor-pointer" : "cursor-default"}`}
         onClick={() => canExpand && props.onToggle()}
         onKeyDown={(e) => {
           if (!canExpand) return;
@@ -163,7 +164,9 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 </p>
               )}
               {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint). */}
-              <CardTitle className={`text-base ${muted ? "text-text-secondary" : ""}`}>
+              <CardTitle
+                className={`text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`}
+              >
                 <span className="sr-only">Étape {step.order} : </span>
                 {title}
                 {isCompleted && <span className="sr-only"> (validée)</span>}
@@ -183,7 +186,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
           </div>
           {canExpand ? (
             <svg
-              className={`h-5 w-5 shrink-0 text-text-muted transition-transform ${isExpanded ? "rotate-180" : ""}`}
+              className={`h-5 w-5 shrink-0 text-text-muted transition-transform group-hover:text-text-primary ${isExpanded ? "rotate-180" : ""}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
