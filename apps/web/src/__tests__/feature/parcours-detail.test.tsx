@@ -144,10 +144,10 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows total XP from seed", async () => {
+  it("visiteur : l'offre des étapes 2+ remplace la barre (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("125 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étape 2 avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -190,15 +190,15 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
   });
 
-  it("shows joke teaser with link to /vannes", async () => {
+  it("visiteur : nombre de vannes de l'étape, sans lien générique vers /vannes (s17 D4)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     // Step 1 auto-expands
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/3 vannes sélectionnées/)).toBeInTheDocument();
-    expect(screen.getByText("Découvre-les dans le catalogue")).toBeInTheDocument();
+    expect(screen.getByText(/3 vannes choisies pour cette étape/)).toBeInTheDocument();
+    expect(screen.queryByText("Découvre-les dans le catalogue")).not.toBeInTheDocument();
   });
 
   it("shows video cards with thumbnails", async () => {
@@ -230,7 +230,7 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Voir le résultat")).toBeInTheDocument();
     await userEvent.click(screen.getByText("Voir le résultat"));
 
-    expect(screen.getByText("Sans faute !")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute." /* étalon 3.2 B, visiteur */)).toBeInTheDocument();
     expect(screen.getByText("Continuer")).toBeInTheDocument();
   });
 
@@ -241,18 +241,17 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows sequential lock on step 2 when step 1 is not completed", async () => {
+  it("D1 s17 : visiteur, l'étape 2 est marquée « Fait partie de Premium » et s'ouvre sur l'aperçu", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
     });
-
-    // Step 2 should show lock indicator
-    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
-
-    // Step 2 header should NOT be expandable (no role=button)
-    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
-    expect(step2Header).toBeInTheDocument();
+    expect(screen.getByText("Fait partie de Premium")).toBeInTheDocument();
+    expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
+    const header = screen.getByRole("button", { name: /Étape 2 : L'art du timing social/ });
+    await userEvent.click(header);
+    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
   });
 
   it("shows error state on fetch failure", async () => {
@@ -268,11 +267,10 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Voir tous les parcours")).toBeInTheDocument();
   });
 
-  it("shows progress bar", async () => {
+  it("visiteur : pas de barre de progression (elle ne peut pas bouger, s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    await waitFor(() => {
-      expect(screen.getByTestId("progress-bar")).toBeInTheDocument();
-    });
+    await screen.findByText("Pourquoi cette étape ?");
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 });
 
@@ -297,8 +295,8 @@ describe("ParcoursDetail — completed parcours CTA", () => {
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Répartie")).toBeInTheDocument();
       expect(screen.getByText(/Passe à la répartie/)).toBeInTheDocument();
     });
   });
@@ -434,7 +432,10 @@ describe("ParcoursDetail — tunnel s15", () => {
     await userEvent.click(await screen.findByText("Valider cette étape"));
 
     await waitFor(() =>
-      expect(mockTrack).toHaveBeenCalledWith("parcours-etape", { parcours: "machine-a-cafe", etape: 1 }),
+      expect(mockTrack).toHaveBeenCalledWith(
+        "parcours-etape",
+        expect.objectContaining({ parcours: "machine-a-cafe", etape: 1, etapes: 2, termine: "non" }),
+      ),
     );
   });
 });
@@ -497,20 +498,20 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Cette étape fait partie de Premium/)).toBeInTheDocument();
+      expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
     });
     // Audit s16 (reco 17) : le mur de l'étape 2 est mesuré.
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
-    // Audit s16 (reco 19) : la barre de progression a un nom accessible.
-    expect(screen.getByTestId("progress-bar").getAttribute("data-label")).toMatch(/étapes complétées/);
-    // Retour au parcours après paiement (returnTo interne, encodé).
-    expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute(
+    // s17 QA-13 : pas de barre immobile pour un non-abonné.
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
+    // Retour au parcours après paiement (returnTo interne, encodé), provenance « aperçu » (D1 s17).
+    expect(screen.getByRole("link", { name: /Voir l'offre Premium/ })).toHaveAttribute(
       "href",
-      "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+      "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-apercu",
     );
-    // Aperçu seulement : la phrase « pourquoi » et le format, jamais le contenu.
-    expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
-    expect(screen.queryByText("Quand placer ta blague.")).not.toBeInTheDocument();
+    // Aperçu seulement : ce qu'on apprend (D1 s17) et le format, jamais le conseil.
+    expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
+    expect(screen.queryByText("Le timing social.")).not.toBeInTheDocument();
     expect(screen.queryByText(/vannes sélectionnées pour ce module/)).not.toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -540,7 +541,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
   });
 
   it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
@@ -561,7 +562,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
   });
 
   it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
@@ -579,6 +580,6 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
   });
 });

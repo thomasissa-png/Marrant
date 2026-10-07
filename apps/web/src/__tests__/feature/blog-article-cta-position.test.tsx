@@ -57,7 +57,7 @@ describe("Page article : position du CTA et partage", () => {
     expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.")).toBeInTheDocument();
     expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
-    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours&src=blog-meilleures-blagues-droles-2026");
+    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=blog-meilleures-blagues-droles-2026");
   });
 
   it("meilleures-blagues : 50 boutons Partager, un par vanne", async () => {
@@ -72,7 +72,7 @@ describe("Page article : position du CTA et partage", () => {
     const title = screen.getByText("Maintenant, reste à le dire à voix haute");
     expect(follows(container.querySelector('[data-blog-zone="parcours"]')!, title)).toBe(true);
     expect(container.querySelector("[data-share-vanne]")).toBeNull();
-    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours&src=blog-comment-devenir-drole");
+    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-comment-devenir-drole");
   });
 });
 

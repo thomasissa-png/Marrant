@@ -69,7 +69,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Quelle différence avec des vidéos d'humoristes en ligne ?",
     answer:
-      "Les vidéos montrent des humoristes ; deviens-marrant.fr enseigne leurs techniques. Chaque vidéo est analysée, chaque conseil vient avec un exercice concret, chaque vanne est décortiquée (« Pourquoi ça marche », « À toi de jouer »), et la progression est suivie (streaks, XP).",
+      "Les vidéos montrent des humoristes ; deviens-marrant.fr enseigne leurs techniques. Chaque vidéo est analysée, chaque conseil vient avec un exercice concret, chaque vanne est décortiquée (« Pourquoi ça marche », « À toi de jouer »), et, avec Premium, la progression est suivie (XP à chaque étape validée, série des jours de pratique).",
   },
   {
     question: "Combien ça coûte ?",

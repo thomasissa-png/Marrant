@@ -2,6 +2,7 @@ import Link from "next/link";
 import { resolveCluster } from "@/lib/blog-clusters";
 import { parcoursWeeks } from "@/config/premium";
 import { FORTE_FRAPPE_PARCOURS, type ParcoursSlug } from "@/config/blog-forte-frappe";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 
 /**
  * Maillage contextuel article → parcours individuel.
@@ -20,6 +21,10 @@ import { FORTE_FRAPPE_PARCOURS, type ParcoursSlug } from "@/config/blog-forte-fr
  *
  * Parcours imposé par slug (config/blog-forte-frappe, FORTE_FRAPPE_PARCOURS) :
  * prioritaire sur le cluster, avec les textes génériques du parcours (HINT_BY_PARCOURS).
+ *
+ * s17 (reco 14, QA-13) : le lien ouvre l'ÉTAPE 1 du parcours (`#etape-1`, lecture
+ * libre) avec `?src=blog`. La même règle (`resolveArticleParcours`) choisit le
+ * parcours du CTA de fin d'article : encart et CTA mènent au même parcours.
  */
 
 interface ParcoursHint {
@@ -151,6 +156,17 @@ const HINT_BY_PARCOURS: Record<ParcoursSlug, ParcoursHint> = {
   "machine-a-cafe": PARCOURS_BY_CLUSTER["humour-contexte"],
 };
 
+/**
+ * Parcours d'un article : slug imposé (FORTE_FRAPPE_PARCOURS), sinon cluster,
+ * sinon Répartie (le plus large).
+ */
+export function resolveArticleParcours(articleSlug: string, articleCategory?: string): ParcoursSlug {
+  const forced = FORTE_FRAPPE_PARCOURS[articleSlug];
+  if (forced) return forced;
+  const cluster = resolveCluster(articleSlug, articleCategory);
+  return ((cluster && PARCOURS_BY_CLUSTER[cluster.id]) || DEFAULT_HINT).slug;
+}
+
 export function BlogArticleParcoursMaillage({
   articleSlug,
   articleCategory,
@@ -188,7 +204,7 @@ export function BlogArticleParcoursMaillage({
       </ul>
       <div className="mt-5">
         <Link
-          href={`/parcours/${hint.slug}`}
+          href={parcoursEtape1Href(hint.slug, "blog")}
           className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-4 py-2 text-sm font-semibold text-accent-link transition-colors hover:bg-accent-primary/20"
         >
           {hint.cta}

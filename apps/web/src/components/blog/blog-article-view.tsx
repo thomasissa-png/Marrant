@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
-import { BlogArticleParcoursMaillage } from "@/components/blog/blog-article-parcours-maillage";
+import { BlogArticleParcoursMaillage, resolveArticleParcours } from "@/components/blog/blog-article-parcours-maillage";
 import { BlogArticleRelated } from "@/components/blog/blog-article-related";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
 import { FORTE_FRAPPE_SHARE } from "@/config/blog-forte-frappe";
@@ -35,7 +35,11 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   // Abonnement attribuable à l'article (s15) : /abonnement?src=blog-<slug>, relayé
   // à /register ; `src` alimente les événements inscription-envoi / inscription-reussie.
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
-  const cta = <ArticleCta {...ctaCopy} src={`blog-${article.slug}`} />;
+  // s17 (reco 14) : sans parcours dédié dans config/blog-cta, le CTA prend le parcours
+  // de l'encart (même règle thématique), donc son lien « étape 1 » ouvre une vraie étape 1.
+  const ctaParcoursHref =
+    ctaCopy?.parcoursHref ?? `/parcours/${resolveArticleParcours(article.slug, article.category)}`;
+  const cta = <ArticleCta {...ctaCopy} parcoursHref={ctaParcoursHref} src={`blog-${article.slug}`} />;
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];

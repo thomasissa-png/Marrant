@@ -142,8 +142,49 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
     prisma.verificationToken.deleteMany({ where: { identifier: user.email } }),
     prisma.ceoLead.deleteMany({ where: { OR: [{ userId }, { email: user.email }] } }),
     prisma.newsletterSubscriber.deleteMany({ where: { email: user.email } }),
+    // s17 (avis @legal C14) : dates par étape, retours d'exercice et préférence
+    // de rappel effacés explicitement (en plus de la cascade).
+    prisma.userPathStepCompletion.deleteMany({ where: { userId } }),
+    prisma.userPathStepFeedback.deleteMany({ where: { userId } }),
+    prisma.parcoursReminderPreference.deleteMany({ where: { userId } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
 
   return { deleted: true, stripeCanceled };
+}
+
+/**
+ * Données de parcours d'un compte, pour une demande d'accès ou de portabilité
+ * (s17, avis @legal C14) : progression, dates par étape, retours d'exercice,
+ * préférence de rappel (preuve du consentement comprise). Lecture seule.
+ */
+export async function collecterDonneesParcours(userId: string) {
+  const [progressions, etapes, retours, rappel] = await Promise.all([
+    prisma.userPathProgress.findMany({
+      where: { userId },
+      select: { learningPath: { select: { slug: true } }, completedSteps: true, startedAt: true, completedAt: true },
+    }),
+    prisma.userPathStepCompletion.findMany({
+      where: { userId },
+      select: { learningPath: { select: { slug: true } }, stepOrder: true, completedAt: true },
+      orderBy: { completedAt: "asc" },
+    }),
+    prisma.userPathStepFeedback.findMany({
+      where: { userId },
+      select: { learningPath: { select: { slug: true } }, stepOrder: true, retour: true, updatedAt: true },
+    }),
+    prisma.parcoursReminderPreference.findUnique({
+      where: { userId },
+      select: {
+        enabled: true,
+        weekday: true,
+        activatedAt: true,
+        consentVersion: true,
+        stoppedAt: true,
+        stopOrigin: true,
+        lastSentAt: true,
+      },
+    }),
+  ]);
+  return { progressions, etapes, retours, rappel };
 }

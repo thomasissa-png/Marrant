@@ -685,6 +685,70 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Alertes des parcours (s17, data-analyst §7). Fenêtre 4h UTC (avant
+   * le digest du matin), verrou daté du jour CONSERVÉ (un seul passage par
+   * jour). Alertes de classe B enregistrées, aucun e-mail direct.
+   */
+  const runParcoursAlertesJob = async (now: Date = new Date()) => {
+    try {
+      if (now.getUTCHours() !== 4) return;
+      const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+      if (!(await tryAcquireLock(buildJobLockKey("parcours-alertes", now), 2 * 60 * 60 * 1000))) return;
+      const { runParcoursAlertes } = await import("@/lib/analytics/parcours-alertes");
+      const res = await runParcoursAlertes(now);
+      console.log(`[scheduler:parcours-alertes] ${res.sansDemarrage} abonné(s) sans démarrage ; suivi muet : ${res.suiviMuet ?? "non contrôlé"}.`);
+    } catch (err) {
+      console.error("[scheduler:parcours-alertes] Échec :", err);
+    }
+  };
+
+  /**
+   * Job : Rappel e-mail des parcours SUR DEMANDE (s17, D7). Chaque jour à 9h
+   * heure de Paris (4 ticks : un envoi en échec est retenté au tick suivant).
+   * Un seul e-mail par personne et par semaine de Paris, au jour choisi
+   * (`lastSentWeek` réservé avant l'envoi). Arrêt automatique des rappels des
+   * comptes qui ne sont plus Premium. Aucun LLM.
+   */
+  const runParcoursReminderJob = async (now: Date = new Date()) => {
+    try {
+      const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
+      if (parisParts(now).hour !== 9) return;
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("rappel-parcours", now);
+      if (!(await tryAcquireLock(lockKey, 10 * 60 * 1000))) return;
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        const { sendServiceTextEmail } = await import("@/lib/email");
+        const { runParcoursReminders } = await import("@/lib/rappels/rappel-parcours");
+        const res = await runParcoursReminders(now, {
+          db: prisma as unknown as import("@/lib/rappels/rappel-parcours").RappelDb,
+          sendEmail: (to, subject, text, headers) =>
+            sendServiceTextEmail(to, subject, text, "rappel-parcours", { headers, replyTo: "contact@deviens-marrant.fr" }),
+          baseUrl: process.env.NEXTAUTH_URL || "https://deviens-marrant.fr",
+        });
+        if (res.secretAbsent) {
+          const { recordAdminAlert, CLES_PARCOURS } = await import("@/lib/admin-alerts");
+          await recordAdminAlert({
+            cle: CLES_PARCOURS.rappelEchec,
+            sujet: "Rappel des parcours non envoyé : secret du lien d'arrêt absent",
+            html: "<p>UNSUBSCRIBE_HMAC_SECRET absent ou trop court (32 caractères minimum) : aucun rappel ne part sans lien d'arrêt.</p>",
+            now,
+          });
+        }
+        if (res.candidats + res.arretesFinPremium > 0) {
+          console.log(
+            `[scheduler:rappel-parcours] ${res.envoyes} envoyé(s), ${res.sansParcours} sans parcours en cours, ${res.echecs} échec(s) sur ${res.candidats} ; ${res.arretesFinPremium} arrêté(s) (fin de Premium).`,
+          );
+        }
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:rappel-parcours] Échec :", err);
+    }
+  };
+
+  /**
    * Job : Rapport hebdomadaire des visites (Umami + conversions en base).
    * Lundi 7h-8h heure de Paris (heure d'été gérée), verrou hebdomadaire
    * conservé après envoi (1 email par semaine), relâché en cas d'échec pour
@@ -739,6 +803,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCopyReviewJob();
     await runAnnualRenewalReminderJob();
     await runStripeReconciliationJob();
+    await runParcoursAlertesJob();
+    await runParcoursReminderJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -750,6 +816,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runDailySocialJob,
     runAnnualRenewalReminderJob,
     runStripeReconciliationJob,
+    runParcoursAlertesJob,
+    runParcoursReminderJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

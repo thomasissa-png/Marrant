@@ -87,7 +87,8 @@ describe("parcours-preview", () => {
     const free = redactParcoursForPlan(path, "FREE");
     expect(free.steps[0]).toEqual(step(1));
     expect(free.steps[1]).toMatchObject({ locked: true, why: "Une phrase.", jokeIds: [], videos: [], quiz: [] });
-    expect(free.steps[1].moduleDetail).toBeUndefined();
+    // D1 s17 : « ce qu'on apprend » fait partie de l'aperçu (déjà public sur /parcours).
+    expect(free.steps[1].moduleDetail).toBe("Détail");
     expect(path.steps[1].tip.content).toBe("C");
   });
 });

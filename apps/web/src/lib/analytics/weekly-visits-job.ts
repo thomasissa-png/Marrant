@@ -14,6 +14,7 @@ import { parisParts, parisWeekKey } from "./weekly-visits-period";
 import type { BlogArticleLookup } from "./weekly-blog-report";
 import { buildWeeklyVisitsReport, type ConversionCounter, type WeeklyVisitsReport } from "./weekly-visits-report";
 import { buildFunnelSectionHtml, buildWeeklyFunnel, type FunnelDbCounter } from "./weekly-funnel";
+import { buildParcoursSectionHtml, buildWeeklyParcours, type ParcoursDbCounter } from "./weekly-parcours";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
 /** Verrou conservé après succès : un seul envoi par semaine, même si un tick rejoue. */
@@ -67,6 +68,8 @@ export async function runWeeklyVisitsReport(
     socialSection?: SocialSection;
     /** Comptages du funnel en base (Prisma par défaut), injectables pour les tests. */
     countFunnel?: FunnelDbCounter;
+    /** Comptages du bloc « Parcours » (s17), injectables pour les tests. */
+    countParcours?: ParcoursDbCounter;
     /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
     digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
@@ -85,7 +88,7 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
-  const [social, funnel] = await Promise.all([
+  const [social, funnel, parcours] = await Promise.all([
     (opts.socialSection ?? prismaSocialSection)(
       new Date(report.current.startAt),
       new Date(report.current.endAt),
@@ -93,13 +96,15 @@ export async function runWeeklyVisitsReport(
     ),
     // Ne lève jamais : section partielle (n.d.) si une source manque.
     buildWeeklyFunnel(config, report.current, opts.countFunnel),
+    // s17 : bloc « Parcours » (data-analyst §6), ne lève jamais non plus.
+    buildWeeklyParcours(config, report.current, opts.countParcours),
   ]);
   const digest = opts.digest;
   const finalSubject = digest
     ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
     : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${buildFunnelSectionHtml(funnel)}${social}${digest?.html ?? ""}`));
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${social}${digest?.html ?? ""}`));
   return { status: "sent", subject: finalSubject, report };
 }
 

@@ -54,7 +54,6 @@ describe("2. liens dans le texte soulignés en permanence", () => {
     "app/(dashboard)/videos/page.tsx",
     "app/(dashboard)/page.tsx",
     "components/parcours/parcours-detail.tsx",
-    "components/parcours/parcours-list.tsx",
     "components/ui/markdown-renderer.tsx",
   ];
   it.each(FICHIERS)("%s : aucun lien text-accent-link en ligne sans soulignement", (fichier) => {

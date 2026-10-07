@@ -12,6 +12,8 @@ import {
   buildBreadcrumbJsonLd,
   buildVideoObjectJsonLd,
 } from "@/components/seo/json-ld";
+import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
+import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -210,6 +212,9 @@ export default async function VideoPage({
             <div className="mt-1 text-sm font-semibold text-text-primary">{video.technique}</div>
           </div>
         </section>
+
+        {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="video" refs={findParcoursForVideo(video.youtubeId)} />
 
         {/* Les learnings + exercice font partie de Premium (s15 §1.1).
             Le titre, la vidéo (déjà publique sur YouTube) et la description restent

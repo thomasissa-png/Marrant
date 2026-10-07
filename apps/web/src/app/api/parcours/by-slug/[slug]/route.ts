@@ -3,127 +3,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
-import parcoursSeed from "../../../../../../../../docs/content/parcours-seed.json";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import {
+  attachCatalogueLinks,
+  buildPathFromSeed,
+  withoutJokeTexts,
+  enrichPathWithSeed,
+  findActivePath,
+} from "@/lib/parcours-data";
+import { resolveStepJokes } from "@/lib/parcours-vannes";
 
-interface SeedStep {
-  week: number;
-  tipTitle: string;
-  dayNumber: number;
-  why: string;
-  moduleTitle: string;
-  moduleDetail: string;
-  moduleFormat: string;
-  moduleXp: number;
-  free: boolean;
-  jokeIds?: number[];
-  videos?: { youtubeId: string; artist: string; title: string; why: string }[];
-  quiz?: { question: string; options: string[]; correctIndex: number }[];
-}
-
-interface SeedParcours {
-  slug: string;
-  title: string;
-  description: string;
-  duration: string;
-  timePerWeek?: string;
-  difficulty: string;
-  difficultyLabel?: string;
-  icon: string;
-  order: number;
-  persona?: string;
-  personaTagline?: string;
-  testimonial?: string;
-  nextParcours?: string;
-  nextParcoursReason?: string;
-  steps: SeedStep[];
-}
-
-function getSeedForSlug(slug: string): SeedParcours | undefined {
-  return (parcoursSeed as SeedParcours[]).find((p) => p.slug === slug);
-}
-
-function buildFallbackFromSeed(slug: string) {
-  const seed = getSeedForSlug(slug);
-  if (!seed) return null;
-
-  return {
-    id: `seed-${seed.slug}`,
-    title: seed.title,
-    description: seed.description,
-    slug: seed.slug,
-    duration: seed.duration,
-    difficulty: seed.difficulty,
-    icon: seed.icon,
-    steps: seed.steps.map((s, i) => ({
-      id: `seed-step-${i + 1}`,
-      order: i + 1,
-      dayNumber: s.dayNumber,
-      tip: {
-        id: `seed-tip-${i + 1}`,
-        title: s.moduleTitle,
-        content: s.moduleDetail,
-        category: "GENERAL",
-        difficulty: seed.difficulty,
-        example: "",
-        exercise: "",
-      },
-      // Rich content from seed
-      moduleTitle: s.moduleTitle,
-      moduleDetail: s.moduleDetail,
-      moduleFormat: s.moduleFormat,
-      moduleXp: s.moduleXp,
-      why: s.why,
-      free: s.free,
-      jokeIds: s.jokeIds ?? [],
-      videos: s.videos ?? [],
-      quiz: s.quiz ?? [],
-    })),
-    // Parcours-level enrichments
-    difficultyLabel: seed.difficultyLabel ?? null,
-    nextParcours: seed.nextParcours ?? null,
-    nextParcoursReason: seed.nextParcoursReason ?? null,
-    personaTagline: seed.personaTagline ?? null,
-    testimonial: seed.testimonial ?? null,
-  };
-}
-
-function enrichPathWithSeed(path: Record<string, unknown>, slug: string) {
-  const seed = getSeedForSlug(slug);
-  if (!seed) return path;
-
-  const steps = path.steps as Array<Record<string, unknown>>;
-  // Build a map of seed steps by week for reliable matching (not by index)
-  const seedStepByWeek = new Map(seed.steps.map((s) => [s.week, s]));
-  const enrichedSteps = steps.map((step) => {
-    const stepOrder = step.order as number;
-    const seedStep = seedStepByWeek.get(stepOrder);
-    if (!seedStep) return step;
-    return {
-      ...step,
-      moduleTitle: seedStep.moduleTitle,
-      moduleDetail: seedStep.moduleDetail,
-      moduleFormat: seedStep.moduleFormat,
-      moduleXp: seedStep.moduleXp,
-      why: seedStep.why,
-      free: seedStep.free,
-      jokeIds: seedStep.jokeIds ?? [],
-      videos: seedStep.videos ?? [],
-      quiz: seedStep.quiz ?? [],
-    };
-  });
-
-  return {
-    ...path,
-    steps: enrichedSteps,
-    difficultyLabel: seed.difficultyLabel ?? null,
-    nextParcours: seed.nextParcours ?? null,
-    nextParcoursReason: seed.nextParcoursReason ?? null,
-    personaTagline: seed.personaTagline ?? null,
-    testimonial: seed.testimonial ?? null,
-  };
-}
-
-type RedactablePath = { steps: ParcoursStepPayload[] };
+type ServedPath = { steps: ParcoursStepPayload[] };
 
 /** Contenu propre à chaque visiteur (plan, progression) : jamais en cache partagé. */
 const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
@@ -138,13 +28,56 @@ async function readPlan(userId: string | undefined): Promise<string | null> {
   return user?.plan ?? null;
 }
 
-/** Repli seed : étapes 2+ en aperçu sauf plan Premium vérifié en base. */
-function seedFallbackResponse(slug: string, plan: string | null = null) {
-  const fallback = buildFallbackFromSeed(slug);
+interface StepValidation {
+  stepOrder: number;
+  completedAt: Date;
+}
+
+/**
+ * Dates de validation par étape (table `UserPathStepCompletion`, lot A s17) :
+ * rythme doux (D2). Table absente (migration pas encore passée) = liste vide.
+ */
+async function readStepValidations(userId: string, learningPathId: string): Promise<StepValidation[]> {
+  try {
+    return await prisma.userPathStepCompletion.findMany({
+      where: { userId, learningPathId },
+      select: { stepOrder: true, completedAt: true },
+      orderBy: { completedAt: "asc" },
+    });
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Vannes de l'étape (D4) : abonné Premium vérifié en base uniquement. Un
+ * non-abonné ne reçoit jamais ni vannes, ni vidéos, ni quiz des étapes 2+.
+ */
+async function withStepJokes<P extends ServedPath>(path: P, plan: string | null): Promise<P> {
+  if (!isPremiumPlan(plan)) return path;
+  try {
+    const jokesByStep = await resolveStepJokes(path.steps);
+    return {
+      ...path,
+      steps: path.steps.map((s) => ({ ...s, jokes: jokesByStep.get(s.order) ?? [] })),
+    };
+  } catch {
+    return path;
+  }
+}
+
+/** Ce qui part au navigateur : aperçu pour un non-Premium, puis liens et vannes. */
+async function servePath<P extends ServedPath>(path: P, plan: string | null): Promise<P> {
+  const redacted = redactParcoursForPlan(path, plan);
+  return withoutJokeTexts(await withStepJokes(await attachCatalogueLinks(redacted), plan));
+}
+
+async function seedFallbackResponse(slug: string, plan: string | null = null) {
+  const fallback = buildPathFromSeed(slug);
   if (!fallback) return null;
   return NextResponse.json(
-    { path: redactParcoursForPlan(fallback, plan), userProgress: null },
-    { headers: PRIVATE_HEADERS }
+    { path: await servePath(fallback, plan), userProgress: null, stepValidations: [] },
+    { headers: PRIVATE_HEADERS },
   );
 }
 
@@ -153,74 +86,39 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const path = await prisma.learningPath.findUnique({
-      where: { slug: params.slug, isActive: true },
-      include: {
-        steps: {
-          orderBy: { order: "asc" },
-          include: {
-            tip: {
-              select: {
-                id: true,
-                title: true,
-                content: true,
-                category: true,
-                difficulty: true,
-                example: true,
-                exercise: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (!path) {
-      // Fallback to seed data if parcours not in DB
-      const session = await getServerSession(authOptions);
-      const plan = await readPlan((session?.user as { id?: string })?.id);
-      const fallback = seedFallbackResponse(params.slug, plan);
-      if (fallback) return fallback;
-      return NextResponse.json(
-        { error: "Parcours introuvable" },
-        { status: 404 }
-      );
-    }
-
-    // Enrich DB path with seed data (vannes, videos, quiz, etc.)
-    const enrichedPath = enrichPathWithSeed(
-      path as unknown as Record<string, unknown>,
-      params.slug
-    );
-
-    // Fetch user progress if authenticated
-    let userProgress = null;
+    const path = await findActivePath(params.slug);
     const session = await getServerSession(authOptions);
     const userId = (session?.user as { id?: string })?.id;
     const plan = await readPlan(userId);
 
-    if (userId) {
-      userProgress = await prisma.userPathProgress.findUnique({
-        where: {
-          userId_learningPathId: { userId, learningPathId: path.id },
-        },
-      });
+    if (!path) {
+      const fallback = await seedFallbackResponse(params.slug, plan);
+      if (fallback) return fallback;
+      return NextResponse.json({ error: "Parcours introuvable" }, { status: 404 });
     }
 
-    // Étapes 2+ : contenu complet pour un Premium, aperçu sinon (décision 03/10).
-    const servedPath = redactParcoursForPlan(
-      enrichedPath as unknown as RedactablePath,
-      plan
-    );
+    const enrichedPath = enrichPathWithSeed(path, params.slug);
+
+    let userProgress = null;
+    let stepValidations: StepValidation[] = [];
+    if (userId) {
+      userProgress = await prisma.userPathProgress.findUnique({
+        where: { userId_learningPathId: { userId, learningPathId: path.id } },
+      });
+      if (userProgress) stepValidations = await readStepValidations(userId, path.id);
+    }
+
+    // Étapes 2+ : contenu complet pour un Premium, aperçu sinon (décision 03/10, D1 s17).
+    const servedPath = await servePath(enrichedPath as unknown as ServedPath, plan);
 
     return NextResponse.json(
-      { path: servedPath, userProgress },
-      { headers: PRIVATE_HEADERS }
+      { path: servedPath, userProgress, stepValidations },
+      { headers: PRIVATE_HEADERS },
     );
   } catch (error) {
     console.error("[API /parcours/by-slug]", error);
-    // Fallback to seed data on DB error too (aperçu : plan inconnu)
-    const fallback = seedFallbackResponse(params.slug);
+    // Repli seed sur erreur base aussi (aperçu : plan inconnu)
+    const fallback = await seedFallbackResponse(params.slug);
     if (fallback) return fallback;
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }

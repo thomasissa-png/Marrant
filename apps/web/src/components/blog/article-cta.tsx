@@ -7,6 +7,8 @@ import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
+import { parcoursEtape1Href, parcoursEtapeHref, parcoursSlugFromHref } from "@/lib/entrees-parcours";
+import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 
 interface ArticleCtaProps {
   /**
@@ -43,7 +45,12 @@ const DEFAULT_NOTE = `${PREMIUM_PRICE_LABEL}, sans engagement. Cet article reste
  * (`data-blog-cta="abonnement"`, ex-« inscription » : rupture de série datée
  * au déploiement) + un lien secondaire vers l'étape 1 d'un parcours, en
  * lecture libre (`data-blog-cta="etape-1"`).
- * Abonné : « Continuer mon parcours » vers /parcours (`data-blog-cta="parcours"`).
+ * Abonné : « Continuer mon parcours » (`data-blog-cta="parcours"`) vers l'étape à
+ * reprendre de son parcours en cours, sinon l'étape 1 du parcours de l'article.
+ *
+ * s17 (reco 14, QA-13) : le lien « étape 1 » ouvre l'étape 1 du parcours lié
+ * (`/parcours/<slug>?src=blog#etape-1`), plus la liste ; `parcoursHref` reste
+ * l'adresse propre du parcours pour le retour après paiement.
  *
  * Textes surchargeables par article (config/blog-cta.ts) ; boutons marqués
  * `data-blog-cta` pour la mesure Umami (components/blog/blog-article-tracking).
@@ -60,6 +67,14 @@ export function ArticleCta({
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
+  const aReprendre = useParcoursAReprendre();
+  const articleParcours = parcoursSlugFromHref(parcoursHref);
+  const etape1Href = articleParcours ? parcoursEtape1Href(articleParcours, "blog") : parcoursHref;
+  const continuerHref = aReprendre
+    ? parcoursEtapeHref(aReprendre.slug, aReprendre.etape, "blog")
+    : articleParcours
+      ? etape1Href
+      : "/parcours";
 
   return (
     <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
@@ -71,7 +86,7 @@ export function ArticleCta({
       <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
         {isPremium ? (
           <Link
-            href="/parcours"
+            href={continuerHref}
             data-blog-cta="parcours"
             className={buttonVariants({ variant: "primary", size: "lg" })}
           >
@@ -87,7 +102,7 @@ export function ArticleCta({
               {primaryLabel}
             </Link>
             <Link
-              href={parcoursHref}
+              href={etape1Href}
               data-blog-cta="etape-1"
               className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
             >

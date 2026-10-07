@@ -87,7 +87,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("anonyme : le CTA mène directement au parcours, sans /register (s15 §2.7, étape 1 en lecture libre)", async () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+$/));
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+\?src=hub$/));
     expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
   });
 
@@ -120,9 +120,10 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("shows total XP to earn", () => {
-    expect(screen.getByText(/225 XP à gagner/)).toBeInTheDocument();
-    expect(screen.getByText(/375 XP à gagner/)).toBeInTheDocument();
-    expect(screen.getByText(/700 XP à gagner/)).toBeInTheDocument();
+    // s17 QA-07 : bonus de fin compris (50 + 75 + 100 + 100).
+    expect(screen.getByText(/325 XP à gagner/)).toBeInTheDocument();
+    expect(screen.getByText(/475 XP à gagner/)).toBeInTheDocument();
+    expect(screen.getByText(/800 XP à gagner/)).toBeInTheDocument();
   });
 
   it("renders the FAQ section", () => {
@@ -177,7 +178,7 @@ describe("ParcoursPage — authenticated user", () => {
     render(Page);
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe?src=hub");
   });
 
   it("keeps programmes collapsed and opens the one the orientation quiz recommends (s12 T23/T24)", async () => {

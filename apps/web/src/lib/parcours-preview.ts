@@ -2,9 +2,10 @@
  * Protection serveur des étapes Premium des parcours (décision Thomas, 03/10/2026).
  *
  * Pour un visiteur non Premium (anonyme ou compte non abonné), les étapes 2 et
- * suivantes sont réduites à un aperçu : titre du module, format, une phrase
- * « pourquoi », XP. Le contenu du conseil (texte, exemple, exercice), le quiz,
- * les vannes et les vidéos de l'étape ne quittent PAS le serveur.
+ * suivantes sont réduites à un aperçu : titre du module, ce qu'on y apprend
+ * (`moduleDetail`, public sur /parcours, D1 s17), format, une phrase « pourquoi »,
+ * XP. Le contenu du conseil (texte, exemple, exercice), le quiz, les vannes et
+ * les vidéos de l'étape ne quittent PAS le serveur.
  *
  * Utilisé par l'API `/api/parcours/by-slug/[slug]` (plan lu en base) et par la
  * page `/parcours/[slug]` (ISR : HTML partagé, donc toujours en aperçu ; un
@@ -47,7 +48,11 @@ export function firstSentence(text: string | null | undefined): string {
   return (match ? match[0] : clean).trim();
 }
 
-/** Aperçu d'une étape verrouillée : aucun contenu de conseil, quiz, vanne ni vidéo. */
+/**
+ * Aperçu d'une étape verrouillée : aucun contenu de conseil, quiz, vanne ni vidéo.
+ * Liste blanche explicite : tout champ ajouté plus tard (liens, vannes résolues)
+ * est écarté par construction.
+ */
 export function toLockedStepPreview<S extends ParcoursStepPayload>(step: S): S {
   return {
     id: step.id,
@@ -63,6 +68,7 @@ export function toLockedStepPreview<S extends ParcoursStepPayload>(step: S): S {
       exercise: "",
     },
     moduleTitle: step.moduleTitle,
+    moduleDetail: step.moduleDetail,
     moduleFormat: step.moduleFormat,
     moduleXp: step.moduleXp,
     why: firstSentence(step.why),

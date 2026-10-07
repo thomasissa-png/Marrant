@@ -11,6 +11,10 @@ const mockDb = {
   verificationToken: { deleteMany: jest.fn((a: unknown) => ({ op: "verificationToken.deleteMany", a })) },
   ceoLead: { deleteMany: jest.fn((a: unknown) => ({ op: "ceoLead.deleteMany", a })) },
   newsletterSubscriber: { deleteMany: jest.fn((a: unknown) => ({ op: "newsletterSubscriber.deleteMany", a })) },
+  // s17 (avis @legal C14) : dates par étape, retours d'exercice, préférence de rappel
+  userPathStepCompletion: { deleteMany: jest.fn((a: unknown) => ({ op: "userPathStepCompletion.deleteMany", a })) },
+  userPathStepFeedback: { deleteMany: jest.fn((a: unknown) => ({ op: "userPathStepFeedback.deleteMany", a })) },
+  parcoursReminderPreference: { deleteMany: jest.fn((a: unknown) => ({ op: "parcoursReminderPreference.deleteMany", a })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
 jest.mock("@/lib/prisma", () => ({
@@ -117,7 +121,26 @@ describe("deleteAccount (reco 5)", () => {
     await expect(deleteAccount("u1")).resolves.toEqual({ deleted: true, stripeCanceled: 2 });
     expect(order).toEqual(["cancel:sub_1", "cancel:sub_2", "transaction"]);
     const ops = (mockDb.$transaction.mock.calls[0][0] as Array<{ op: string }>).map((o) => o.op);
-    expect(ops).toEqual(["verificationToken.deleteMany", "ceoLead.deleteMany", "newsletterSubscriber.deleteMany", "user.delete"]);
+    expect(ops).toEqual([
+      "verificationToken.deleteMany",
+      "ceoLead.deleteMany",
+      "newsletterSubscriber.deleteMany",
+      "userPathStepCompletion.deleteMany",
+      "userPathStepFeedback.deleteMany",
+      "parcoursReminderPreference.deleteMany",
+      "user.delete",
+    ]);
+  });
+
+  it("s17 (C14) : dates par étape, retours et rappel du compte effacés dans la même transaction", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    mockDb.$transaction.mockImplementation(async (ops: unknown[]) => ops);
+    await deleteAccount("u9");
+    const ops = mockDb.$transaction.mock.calls.at(-1)?.[0] as Array<{ op: string; a: unknown }>;
+    for (const table of ["userPathStepCompletion", "userPathStepFeedback", "parcoursReminderPreference"]) {
+      expect(ops.find((o) => o.op === `${table}.deleteMany`)?.a).toEqual({ where: { userId: "u9" } });
+    }
+    expect(ops[ops.length - 1].op).toBe("user.delete");
   });
 
   it("abonnement déjà résilié (remboursement) : idempotent, suppression faite", async () => {

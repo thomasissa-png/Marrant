@@ -10,7 +10,7 @@ describe("BlogArticleParcoursMaillage", () => {
       />,
     );
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/parcours/repartie");
+    expect(link).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
   });
 
   it("suggère /parcours/confiance pour un article du cluster douleurs-personas", () => {
@@ -21,7 +21,7 @@ describe("BlogArticleParcoursMaillage", () => {
       />,
     );
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/parcours/confiance");
+    expect(link).toHaveAttribute("href", "/parcours/confiance?src=blog#etape-1");
   });
 
   it("suggère /parcours/machine-a-cafe pour un article du cluster humour-contexte", () => {
@@ -32,7 +32,7 @@ describe("BlogArticleParcoursMaillage", () => {
       />,
     );
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/parcours/machine-a-cafe");
+    expect(link).toHaveAttribute("href", "/parcours/machine-a-cafe?src=blog#etape-1");
   });
 
   it("suggère /parcours/machine-a-cafe pour le cluster fort-volume", () => {
@@ -43,7 +43,7 @@ describe("BlogArticleParcoursMaillage", () => {
       />,
     );
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/parcours/machine-a-cafe");
+    expect(link).toHaveAttribute("href", "/parcours/machine-a-cafe?src=blog#etape-1");
   });
 
   it.each([
@@ -53,7 +53,7 @@ describe("BlogArticleParcoursMaillage", () => {
   ])("parcours imposé par slug (FORTE_FRAPPE_PARCOURS) : %s → %s", (slug, category, href, cta) => {
     render(<BlogArticleParcoursMaillage articleSlug={slug} articleCategory={category} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", href);
+    expect(link).toHaveAttribute("href", `${href}?src=blog#etape-1`);
     expect(link).toHaveTextContent(cta);
   });
 
@@ -64,7 +64,7 @@ describe("BlogArticleParcoursMaillage", () => {
       />,
     );
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/parcours/repartie");
+    expect(link).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
   });
 
   it("ne mentionne jamais d'IA dans le texte (règle absolue projet)", () => {

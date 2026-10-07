@@ -18,13 +18,15 @@ export async function GET() {
         learningPathId: true,
         completedSteps: true,
         completedAt: true,
+        startedAt: true,
         learningPath: {
           select: {
             slug: true,
             title: true,
             icon: true,
             steps: {
-              select: { id: true },
+              select: { id: true, order: true },
+              orderBy: { order: "asc" },
             },
           },
         },
@@ -43,6 +45,10 @@ export async function GET() {
         completedSteps: p.completedSteps.length,
         totalSteps: p.learningPath.steps.length,
         completedAt: p.completedAt?.toISOString() ?? null,
+        // s17 lot C : « Reprendre ton parcours » (accueil, profil, CTA d'article).
+        nextStepOrder:
+          p.learningPath.steps.find((s) => !p.completedSteps.includes(s.order))?.order ?? null,
+        startedAt: p.startedAt.toISOString(),
       };
     });
 

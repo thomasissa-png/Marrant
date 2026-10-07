@@ -3,7 +3,7 @@
  *
  * Décision Thomas (03/10/2026) : les étapes 2+ des parcours sont RÉELLEMENT
  * protégées côté serveur. Visiteur anonyme ou compte gratuit : aperçu seul
- * (titre, format, une phrase « pourquoi », XP), sans contenu du conseil, quiz,
+ * (titre, ce qu'on apprend, format, une phrase « pourquoi », XP), sans contenu du conseil, quiz,
  * vannes ni vidéos. Premium (plan lu en base, abonnés de lancement compris) : tout.
  */
 
@@ -68,7 +68,8 @@ function expectPreviewOnly(step: ServedStep) {
   expect(step.tip.content).toBe("");
   expect(step.tip.example).toBe("");
   expect(step.tip.exercise).toBe("");
-  expect(step.moduleDetail).toBeUndefined();
+  // D1 s17 : « ce que tu vas apprendre » fait partie de l'aperçu (déjà public sur /parcours).
+  expect(step.moduleDetail).toBe(seed.steps.find((s) => s.week === step.order)?.moduleDetail);
   expect(step.quiz).toEqual([]);
   expect(step.jokeIds).toEqual([]);
   expect(step.videos).toEqual([]);
@@ -98,7 +99,6 @@ describe("GET /api/parcours/by-slug/[slug] : protection Premium", () => {
     rest.forEach(expectPreviewOnly);
     const raw = JSON.stringify(body);
     expect(raw).not.toContain("CONTENU SECRET 2");
-    expect(raw).not.toContain(seed.steps[1].moduleDetail);
     expect(userFindUnique).not.toHaveBeenCalled();
   });
 
@@ -133,6 +133,6 @@ describe("GET /api/parcours/by-slug/[slug] : protection Premium", () => {
     const { res, body } = await get();
     expect(res.status).toBe(200);
     (body.path.steps as ServedStep[]).slice(1).forEach(expectPreviewOnly);
-    expect(JSON.stringify(body)).not.toContain(seed.steps[1].moduleDetail);
+    expect(JSON.stringify(body)).not.toContain("SECRET");
   });
 });

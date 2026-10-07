@@ -14,11 +14,13 @@ export interface ParcoursRecommendation {
 
 /**
  * Signaux reconnus : "confiance" | "global" | "repartie" | "social" | "content" | "work".
- * Priorité inchangée par rapport au quiz de /parcours : confiance, puis répartie,
- * sinon Machine à Café.
+ * Priorité : confiance, puis répartie, sinon Machine à Café. PM-11 (s17) :
+ * « Partout » (global) ne mène à Confiance que si aucune difficulté n'est
+ * nommée ; « je ne sais pas quoi répondre » ou « rien à raconter » l'emporte.
  */
 export function recommendParcours(signals: readonly string[]): ParcoursRecommendation {
-  if (signals.includes("confiance") || signals.includes("global")) {
+  const namedDifficulty = signals.includes("repartie") || signals.includes("content");
+  if (signals.includes("confiance") || (signals.includes("global") && !namedDifficulty)) {
     return {
       slug: "confiance",
       title: "Parcours Confiance",

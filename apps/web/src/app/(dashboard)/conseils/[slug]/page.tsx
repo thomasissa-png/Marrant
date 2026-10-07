@@ -13,6 +13,8 @@ import {
   buildBreadcrumbJsonLd,
   buildHowToJsonLd,
 } from "@/components/seo/json-ld";
+import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
+import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -143,6 +145,18 @@ export default async function ConseilPage({
       .slice(1, 5);
   } catch {}
 
+  // Étape de parcours qui utilise ce conseil (SEO-06, s17) : table des étapes en
+  // base (titre compris, le catalogue ayant des copies d'un même conseil).
+  // Base KO : pas de bloc, la fiche reste servie.
+  let parcoursRefs: FicheParcoursRef[] = [];
+  try {
+    const steps = await prisma.learningPathStep.findMany({
+      where: { OR: [{ tipId: tip.id }, { tip: { title: tip.title } }] },
+      select: { order: true, learningPath: { select: { slug: true, isActive: true } } },
+    });
+    parcoursRefs = refsFromDbSteps(steps);
+  } catch {}
+
   // JSON-LD HowTo — le conseil est concrètement une "méthode à appliquer"
   const howToJsonLd = buildHowToJsonLd({
     name: tip.title,
@@ -192,6 +206,8 @@ export default async function ConseilPage({
           <h2 className="font-display text-base font-bold text-text-primary">Exemple concret</h2>
           <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
         </section>
+
+        <FicheParcoursLien type="conseil" refs={parcoursRefs} />
 
         {/* L'exercice (application) fait partie de Premium (s15 §1.1). */}
         <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">

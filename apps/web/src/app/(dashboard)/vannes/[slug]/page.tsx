@@ -15,6 +15,8 @@ import {
 import { VanneShareRow } from "@/components/vannes/vanne-share-row";
 import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
 import { buttonVariants } from "@/components/ui/button";
+import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
+import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -260,6 +262,9 @@ export default async function VannePage({
             </p>
           </section>
         )}
+
+        {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="vanne" refs={findParcoursForJoke(joke.content)} />
 
         {/* Passerelle parcours — même approche que sur le catalogue, sans
             re-monter un mur : c'est une invitation, pas un blocage. */}

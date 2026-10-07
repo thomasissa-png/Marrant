@@ -1,5 +1,18 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 (07/10/2026) : parcours d'apprentissage, lot A (serveur et données) @fullstack : **NON DÉPLOYÉ**
+
+> Rapport : `docs/marrant/audit-parcours-apprentissage-s17/impl-lot-a.md`. Code non commité (l'orchestrateur committe après vérification globale).
+> - **Migration Neon AVANT déploiement** : `13_parcours_s17` (idempotente, additive : tables `UserPathStepCompletion`, `UserPathStepFeedback`, `ParcoursReminderPreference`, colonne `User.lastPracticeAt`, niveaux COMIQUE/LEGENDE rejoués). Depuis `apps/web` : `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/13_parcours_s17/migration.sql`, **2 fois** (la 2e passe doit réussir ; vérifié en local sur Postgres 16 : 2 passes OK, 0 écart avec `schema.prisma`). Sans elle, la validation d'étape répond 500 (alerte `parcours-progress-erreur`).
+> - **Variables du Worker** (toutes facultatives, rien ne casse si absentes) :
+>   - `ANALYTICS_EMAILS_EXCLUS` : e-mails de test à exclure du bloc « Parcours » du lundi et des alertes (séparés par des virgules). **Liste à fournir par Thomas.**
+>   - `PARCOURS_SUIVI_ACTIF_DEPUIS` : date `AAAA-MM-JJ` de mise en ligne des événements Umami du lot B. L'alerte `parcours-suivi-muet` ne s'active que 7 jours après. À poser le jour du déploiement.
+>   - `UNSUBSCRIBE_HMAC_SECRET` (déjà utilisé par le CEO, 32 caractères minimum) : **obligatoire pour le rappel e-mail**. Absent : aucun rappel ne part, alerte `parcours-rappel-echec`.
+> - **Nouveaux jobs** portés par le cron `*/15` existant (aucun changement de `wrangler.jsonc`) : alertes des parcours à 4h UTC (classe B, digest du matin) ; rappel e-mail des parcours à 9h heure de Paris (désactivé par défaut, envoyé seulement aux Premium qui l'ont activé).
+> - **Thomas (avis @legal C8)** : vérifier dans Resend que le suivi d'ouverture et de clic est désactivé pour le domaine d'envoi (l'e-mail de rappel est en texte seul, sans pixel, mais le réglage est par domaine).
+> - **Aucune écriture en base au démarrage** : la vidéo de Machine à Café étape 3 et les vannes des étapes ne sont stockées que dans `docs/content/parcours-seed.json` (corrigé), pas en base.
+> - **Retour arrière** : `npx wrangler rollback` (version N-1). La migration 13 n'ajoute que des tables et une colonne : elle peut rester en place.
+
 ## s15 (07/10/2026, 13:17 Paris) : H+45 X OK (jour 2)
 
 - Post quiz X `sent` à 12:33 Paris, lien réel `x.com/…/status/2107781291353481416`, UTM `quiz`, aucun FAILED. 313 caractères bruts acceptés : correctif `longueurX` prouvé en ligne (`docs/social/releves/2026-10-07.md`).

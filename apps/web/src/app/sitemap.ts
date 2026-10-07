@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getParcoursSitemapDates } from "@/lib/sitemap-parcours";
 import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
@@ -11,6 +12,8 @@ export const revalidate = 3600;
 const STRUCTURAL_PAGES_LASTMOD = "2026-09-29";
 /** Dernière modification du texte des pages légales. */
 const LEGAL_PAGES_LASTMOD = "2026-05-06";
+/** Politique de confidentialité : phrases P1 à P8 de l'avis @legal s17 (parcours). */
+const CONFIDENTIALITE_LASTMOD = "2026-10-07";
 /** Mise en ligne des pages thème /vannes/theme/<slug> (lot S3b s14). */
 const THEME_PAGES_LASTMOD = "2026-09-30";
 
@@ -24,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // contenu (passe SEO finale s11). Contenu dynamique : date DB reelle.
   const lastDeploy = new Date(STRUCTURAL_PAGES_LASTMOD);
   const legalLastMod = new Date(LEGAL_PAGES_LASTMOD);
+  const parcoursDates = await getParcoursSitemapDates();
 
   // Pour les pages a contenu quotidien, on query la date du dernier DailyContent
   let lastContentDate = lastDeploy;
@@ -43,17 +47,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/vannes`, lastModified: lastContentDate, changeFrequency: "daily", priority: 0.9 },
     { url: `${baseUrl}/conseils`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/videos`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/parcours`, lastModified: lastDeploy, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/parcours/machine-a-cafe`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/parcours/repartie`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/parcours/confiance`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
+    // s17 (SEO-07) : dates réelles des parcours (constante du code ou base, la plus récente).
+    { url: `${baseUrl}/parcours`, lastModified: parcoursDates.hub, changeFrequency: "weekly", priority: 0.8 },
+    ...(["machine-a-cafe", "repartie", "confiance"] as const).map((slug) => ({
+      url: `${baseUrl}/parcours/${slug}`,
+      lastModified: parcoursDates.bySlug[slug] ?? parcoursDates.hub,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     { url: `${baseUrl}/blog`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/abonnement`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/glossaire`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/mentions-legales`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/cgu`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/confidentialite`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/confidentialite`, lastModified: new Date(CONFIDENTIALITE_LASTMOD), changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/retractation`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },

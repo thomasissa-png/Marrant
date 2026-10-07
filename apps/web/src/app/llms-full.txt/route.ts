@@ -15,6 +15,7 @@ import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility"
 import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import { parcoursWeeks } from "@/config/premium";
+import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";
 
 /**
  * llms-full.txt — version étendue de llms.txt pour les crawlers LLM (GEO).
@@ -156,6 +157,8 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
   lines.push("");
   lines.push(LLMS_FULL_INTRO);
   lines.push("");
+  // s17 (SEO-08) : programme public des parcours (titres, objectifs, étape 1 gratuite).
+  lines.push(...renderLlmsParcoursProgramme());
   lines.push("## FAQ complète");
   lines.push("");
   lines.push(...renderFaq(getLlmsFaqFull(isAnnualPlanAvailable())));

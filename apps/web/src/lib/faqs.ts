@@ -4,6 +4,7 @@ import {
   PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_LABEL,
 } from "@/config/premium";
+import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
 
 const PRICE_FAQ_QUESTION = "2,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?";
 
@@ -20,8 +21,9 @@ export const faqs = [
   },
   {
     question: "Combien de temps faut-il pour devenir plus drôle ?",
+    // s17 (UX-04) : dernière phrase, deux rythmes dits clairement (texte provisoire).
     answer:
-      `Avec une pratique quotidienne de 5-10 minutes, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Machine à Café dure ${parcoursWeeks("machine-a-cafe")} semaines, le Parcours Répartie ${parcoursWeeks("repartie")} semaines, et le Parcours Confiance ${parcoursWeeks("confiance")} semaines. L\u2019important, c\u2019est la régularité : 5 minutes chaque jour valent mieux qu\u2019une heure une fois par semaine.`,
+      `Avec une pratique quotidienne de 5-10 minutes, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Machine à Café dure ${parcoursWeeks("machine-a-cafe")} semaines, le Parcours Répartie ${parcoursWeeks("repartie")} semaines, et le Parcours Confiance ${parcoursWeeks("confiance")} semaines. ${FAQ_REGULARITE}`,
   },
   {
     question: "C\u2019est quoi la répartie exactement ?",
@@ -41,8 +43,9 @@ export const faqs = [
   {
     question:
       "C\u2019est quoi la différence avec juste regarder des vidéos YouTube ?",
+    // s17 (PM-12, UX-04) : série et XP décrites telles qu'elles fonctionnent (texte provisoire).
     answer:
-      "YouTube te montre des humoristes. Nous, on t\u2019apprend leurs techniques. Chaque vidéo est analysée avec la technique utilisée (timing, autodérision, observation...), chaque conseil vient avec un exercice concret. Et avec le système de streaks et d\u2019XP, tu gardes la motivation sur la durée. C\u2019est la différence entre regarder du tennis et prendre des cours de tennis.",
+      `YouTube te montre des humoristes. Nous, on t’apprend leurs techniques. Chaque vidéo est analysée avec la technique utilisée (timing, autodérision, observation...), chaque conseil vient avec un exercice concret. ${FAQ_SERIE_XP} C’est la différence entre regarder du tennis et prendre des cours de tennis.`,
   },
   {
     question: "Comment devenir marrant si je n\u2019ai pas le \u00AB sens de l\u2019humour \u00BB ?",

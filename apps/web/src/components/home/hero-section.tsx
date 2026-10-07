@@ -9,14 +9,21 @@ import { cn } from "@/lib/utils";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { ACCUEIL_LIEN_ETAPE_1 } from "@/config/textes/entrees-parcours";
+import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 
-/** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02).
+/** Pastilles du hero : libellés existants, chacune mène à l'étape 1 du parcours qu'elle nomme
+ *  (T02 ; s17 : `?src=accueil`, data-analyst §5.3).
  *  Ordre aligné sur le reste du site, le plus court d'abord (audit forme s14 P2-4, tranché par Thomas). */
 const HERO_PARCOURS_LINKS = [
-  { label: "Briller à la machine à café", href: "/parcours/machine-a-cafe" },
-  { label: "Avoir de la répartie", href: "/parcours/repartie" },
-  { label: "Reprendre confiance en toi", href: "/parcours/confiance" },
+  { label: "Briller à la machine à café", href: parcoursEtape1Href("machine-a-cafe", "accueil") },
+  { label: "Avoir de la répartie", href: parcoursEtape1Href("repartie", "accueil") },
+  { label: "Reprendre confiance en toi", href: parcoursEtape1Href("confiance", "accueil") },
 ] as const;
+
+/** Lien secondaire visiteur (UX-08, s17) : l'étape 1 du parcours le plus court, en lecture libre. */
+const HERO_ETAPE_1_HREF = parcoursEtape1Href("machine-a-cafe", "accueil");
 
 const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
 
@@ -48,6 +55,9 @@ export function HeroSection() {
       {/* CTA : connectés vers le catalogue ; anonymes vers l'abonnement (étape 1
           sur 2 : le compte, puis le paiement), lecture libre visible dessous (T03) */}
       {isAuthenticated ? (
+        <>
+        {/* Abonné avec un parcours en cours : « Reprendre ton parcours » d'abord (reco 5, s17). */}
+        <ReprendreParcours src="accueil" className="mx-auto mt-8 max-w-xl" />
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/vannes"
@@ -62,6 +72,7 @@ export function HeroSection() {
             Voir les conseils
           </Link>
         </div>
+        </>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
           {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
@@ -75,11 +86,12 @@ export function HeroSection() {
           <p className="max-w-md text-balance text-sm text-text-muted">
             {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
           </p>
+          {/* Seul ce lien secondaire change en s17 (UX-08) ; l'étalon 1.2 au-dessus reste intact. */}
           <Link
-            href="/vannes"
+            href={HERO_ETAPE_1_HREF}
             className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
           >
-            Voir les vannes gratuites
+            {ACCUEIL_LIEN_ETAPE_1}
           </Link>
         </div>
       )}

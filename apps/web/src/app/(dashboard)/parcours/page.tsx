@@ -5,27 +5,37 @@ import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
-  buildCourseJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+import { DEFAULT_OG_IMAGE, fitTitle } from "@/lib/seo-meta";
+import { buildParcoursItemListJsonLd } from "@/lib/parcours-jsonld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
-import { PARCOURS_COUNT, parcoursWeeks } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_PARCOURS, parcoursWeeks } from "@/config/premium";
+
+// Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
+// D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
+const TITLE = `Cours d'humour en ligne : ${PARCOURS_COUNT} parcours pour devenir drôle`;
+const DESCRIPTION =
+  `${PARCOURS_COUNT} parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine, des exercices concrets, de l'XP. Première étape gratuite.`;
+const PAGE_URL = "https://deviens-marrant.fr/parcours";
 
 export const metadata: Metadata = {
-  title: "Cours humour en ligne : deviens drôle",
-  description:
-    `${PARCOURS_COUNT} parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine selon le parcours, des exercices concrets et de l'XP pour progresser.`,
+  title: fitTitle(TITLE),
+  description: DESCRIPTION,
   keywords: [
-    "cours humour en ligne",
+    "cours d'humour en ligne",
     "parcours répartie",
     "formation humour",
     "exercices humour débutant",
     "apprendre humour pas à pas",
     "devenir drôle en ligne",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/parcours" },
+  alternates: { canonical: PAGE_URL },
+  // SEO-02 : aperçu de partage de /parcours (il pointait vers l'accueil).
+  openGraph: { title: TITLE, description: DESCRIPTION, url: PAGE_URL, images: [DEFAULT_OG_IMAGE] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [DEFAULT_OG_IMAGE.url] },
 };
 
 export default async function ParcoursPage() {
@@ -38,38 +48,11 @@ export default async function ParcoursPage() {
           { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
         ])}
       />
+      {/* SEO-04 : une liste de liens ; chaque Course (avec @id) vit sur sa page détail. */}
       <JsonLd
-        data={buildCourseJsonLd({
-          name: "Parcours Machine à Café — Deviens drôle au bureau",
-          description:
-            `Apprends à avoir des blagues et anecdotes à ressortir au bureau et en afterwork en ${parcoursWeeks("machine-a-cafe")} semaines.`,
-          duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
-          slug: "machine-a-cafe",
-          difficulty: "DEBUTANT",
-          stepsCount: parcoursWeeks("machine-a-cafe"),
-        })}
-      />
-      <JsonLd
-        data={buildCourseJsonLd({
-          name: "Parcours Répartie — Aie toujours une réponse prête",
-          description:
-            `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des techniques concrètes pour ne plus rester muet.`,
-          duration: `${parcoursWeeks("repartie")} semaines`,
-          slug: "repartie",
-          difficulty: "INTERMEDIAIRE",
-          stepsCount: parcoursWeeks("repartie"),
-        })}
-      />
-      <JsonLd
-        data={buildCourseJsonLd({
-          name: "Parcours Confiance — Retrouve ton humour et ta légèreté",
-          description:
-            `Parcours de ${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour après une période difficile.`,
-          duration: `${parcoursWeeks("confiance")} semaines`,
-          slug: "confiance",
-          difficulty: "INTERMEDIAIRE",
-          stepsCount: parcoursWeeks("confiance"),
-        })}
+        data={buildParcoursItemListJsonLd(
+          PREMIUM_PARCOURS.map((p) => ({ slug: p.slug, name: `Parcours ${p.name}` })),
+        )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>

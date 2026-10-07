@@ -38,9 +38,9 @@ describe("HeroSection", () => {
   it("links each persona tag to its parcours (s12 T02)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie");
-    expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
-    expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance");
+    expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
+    expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=accueil#etape-1");
+    expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance?src=accueil#etape-1");
     // Les 2 libellés descriptifs restent, non cliquables et masqués en mobile (arbitrage Thomas).
     // Forme audit s14 P0-1 : sortis de la rangée de pastilles, sur une ligne à part sans fond ni bordure.
     for (const label of ["Un petit exercice par jour", "Vannes prêtes à ressortir"]) {
@@ -57,11 +57,13 @@ describe("HeroSection", () => {
   it("orders the 3 parcours like the rest of the site (audit forme s14 P2-4, tranché par Thomas)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    const hrefs = screen
-      .getAllByRole("link")
-      .map((a) => a.getAttribute("href"))
-      .filter((href) => href?.startsWith("/parcours/"));
-    expect(hrefs).toEqual(["/parcours/machine-a-cafe", "/parcours/repartie", "/parcours/confiance"]);
+    const pastilles = screen.getByText("Avoir de la répartie").closest("ul") as HTMLElement;
+    const hrefs = Array.from(pastilles.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(hrefs).toEqual([
+      "/parcours/machine-a-cafe?src=accueil#etape-1",
+      "/parcours/repartie?src=accueil#etape-1",
+      "/parcours/confiance?src=accueil#etape-1",
+    ]);
   });
 
   it("shows the H1 as two sentences, one per block (s12 T01)", () => {
@@ -82,7 +84,12 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit/i);
     expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
-    expect(screen.getByText("Voir les vannes gratuites").closest("a")).toHaveAttribute("href", "/vannes");
+    // s17 UX-08 : seul le lien secondaire change, vers l'étape 1 en lecture libre.
+    expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
+    expect(screen.getByText("Lire gratuitement l'étape 1").closest("a")).toHaveAttribute(
+      "href",
+      "/parcours/machine-a-cafe?src=accueil#etape-1",
+    );
   });
 
   it("shows authenticated buttons", () => {

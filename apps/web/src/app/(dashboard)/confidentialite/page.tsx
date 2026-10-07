@@ -43,7 +43,9 @@ export default function ConfidentialitePage() {
           <ul className={LIST}>
             <li>Identification : prénom, adresse e-mail, mot de passe (jamais stocké en clair) ou identifiant de ton compte Google si tu te connectes avec Google</li>
             <li>Connexion : adresse IP, type de navigateur, date et heure de connexion (sécurité du compte)</li>
-            <li>Progression : XP, niveau, série, étapes de parcours validées</li>
+            <li>Progression : XP, niveau, série, étapes de parcours validées avec la date de chaque validation, et tes retours sur les exercices (« pas encore essayé », « bof » ou « ça a marché ») si tu choisis d&apos;en donner</li>
+            {/* P2, legal s17 §4 */}
+            <li>Rappel de parcours, si tu l&apos;actives : le jour de la semaine que tu as choisi, la date d&apos;activation et, si tu l&apos;arrêtes, la date d&apos;arrêt</li>
             <li>Préférences : favoris, réactions, résultats du quiz</li>
             <li>Abonnement : formule, statut, dates de période. Tes données bancaires sont traitées par Stripe et ne passent jamais par nos serveurs</li>
             <li>Rétractation, si tu envoies une demande : adresse e-mail, date d&apos;achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l&apos;adresse elle-même)</li>
@@ -56,6 +58,10 @@ export default function ConfidentialitePage() {
             <li>Facturation, rappel avant renouvellement de la formule annuelle et traitement de ta demande de rétractation : obligation légale</li>
             <li>Sécuriser le site (limitation des tentatives de connexion, prévention des abus) : intérêt légitime</li>
             <li>Mesurer l&apos;audience de façon agrégée pour améliorer le site : intérêt légitime, sans cookie (article 5)</li>
+            {/* P3 à P5, legal s17 §4 */}
+            <li>Afficher ta progression, calculer ta série et ta prochaine étape conseillée, et garder tes retours sur les exercices : exécution du contrat</li>
+            <li>Comprendre, de façon globale, où les membres avancent ou bloquent dans les parcours pour les améliorer : intérêt légitime (tu peux t&apos;y opposer, voir la partie 7)</li>
+            <li>T&apos;envoyer chaque semaine un rappel de ton parcours, uniquement si tu l&apos;as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
           </ul>
         </section>
         <section>
@@ -75,7 +81,7 @@ export default function ConfidentialitePage() {
           <h2 className={SECTION_TITLE}>5. Cookies et mesure d&apos;audience</h2>
           <ul className={LIST}>
             <li><strong>Cookies essentiels</strong> : ta session de connexion. Ils sont nécessaires au fonctionnement du site.</li>
-            <li><strong>Mesure d&apos;audience</strong> : Umami Cloud, sans cookie. On compte les pages vues et quelques actions (par exemple un clic sur un bouton d&apos;abonnement), sans y associer ton nom ni ton e-mail, et on ne lit que des statistiques globales.</li>
+            <li><strong>Mesure d&apos;audience</strong> : Umami Cloud, sans cookie. On compte les pages vues et quelques actions (par exemple un clic sur un bouton d&apos;abonnement, l&apos;ouverture d&apos;une étape de parcours ou le score d&apos;un quiz), sans y associer ton nom, ton e-mail ni ton compte, et on ne lit que des statistiques globales. Ces mesures ne sont ni croisées avec les données de ton compte, ni utilisées pour de la publicité.</li>
             <li><strong>Provenance de ta visite</strong> (réseau social, campagne) : gardée dans le stockage de session de ton navigateur, effacé à la fermeture de l&apos;onglet.</li>
           </ul>
           <p className="mt-2">Comme aucun cookie de mesure ni de publicité n&apos;est déposé, le site n&apos;affiche pas de bandeau cookies.</p>
@@ -91,6 +97,9 @@ export default function ConfidentialitePage() {
           <p className="mt-2">Tes factures restent chez Stripe, notre prestataire de paiement, pendant 10 ans : la loi nous oblige à conserver les pièces comptables.</p>
           {/* [À FIXER PAR THOMAS] durée de conservation des demandes de rétractation (prescription, avis d'avocat,
               @legal point 11 a) : texte neutre sans durée chiffrée en attendant. */}
+          {/* P7, legal s17 §4. Phrase « Les statistiques de mesure d'audience sont conservées 25 mois au plus. »
+              à ajouter seulement une fois la purge Umami réglée (C12, Thomas). */}
+          <p className="mt-2">La date de chaque étape validée et tes retours sur les exercices sont gardés tant que ton compte existe, et effacés avec lui. Ton rappel de parcours s&apos;arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
           <p className="mt-2">Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement, le temps nécessaire pour répondre à une éventuelle contestation.</p>
         </section>
         <section>
@@ -108,6 +117,8 @@ export default function ConfidentialitePage() {
             <Link href="/profil" className="underline underline-offset-2 hover:text-text-primary">profil</Link>
             {" "}: la suppression arrête aussi ton abonnement. Pour les autres droits, écris à contact@deviens-marrant.fr : on te répond sous un mois. Tu peux aussi adresser une réclamation à la CNIL (cnil.fr).
           </p>
+          {/* P8, legal s17 §4 */}
+          <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l&apos;arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-mail : ce que tu as reçu avant reste valable.</p>
         </section>
       </div>
     </div>

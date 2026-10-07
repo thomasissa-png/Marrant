@@ -66,6 +66,9 @@ model User {
   xp            Int       @default(0)
   streak        Int       @default(0)
   lastActiveAt  DateTime?
+  // s17 (D3) : série de jours comptée sur la PRATIQUE (validation d'étape,
+  // quiz d'étape terminé), plus sur la connexion. Jour civil de Paris.
+  lastPracticeAt DateTime?
   // CEO Agent — fenêtre attribution conversion 7j (cf docs/product/ceo-agent-specs.md §11)
   lastCeoTouchpoint DateTime?
   // Si true, le CEO ne contacte JAMAIS cet utilisateur (vérif synchrone avant tout draft)
@@ -82,6 +85,9 @@ model User {
   subscription Subscription?
   jokeLikes    JokeLike[]
   pathProgress  UserPathProgress[]
+  pathStepCompletions UserPathStepCompletion[]
+  pathStepFeedbacks   UserPathStepFeedback[]
+  parcoursReminder    ParcoursReminderPreference?
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -258,6 +264,8 @@ model LearningPath {
 
   steps       LearningPathStep[]
   userProgress UserPathProgress[]
+  stepCompletions UserPathStepCompletion[]
+  stepFeedbacks   UserPathStepFeedback[]
 
   @@index([isActive])
 }
@@ -290,6 +298,67 @@ model UserPathProgress {
 
   @@unique([userId, learningPathId])
   @@index([userId])
+}
+
+/// s17 : date de validation de chaque étape (mesure du rythme, Q5/Q6 du
+/// rapport du lundi). L'unicité rend la double validation impossible (FS-08).
+/// Aucune réponse de quiz, aucun champ libre (avis @legal C13).
+model UserPathStepCompletion {
+  id             String   @id @default(cuid())
+  userId         String
+  learningPathId String
+  stepOrder      Int
+  completedAt    DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, learningPathId, stepOrder])
+  @@index([completedAt])
+}
+
+/// s17 (PM-06) : retour facultatif sur l'exercice d'une étape, 3 valeurs
+/// fermées (`pas-essaye` | `essaye-bof` | `essaye-ca-a-marche`), jamais exigé
+/// pour valider (avis @legal C13).
+model UserPathStepFeedback {
+  id             String   @id @default(cuid())
+  userId         String
+  learningPathId String
+  stepOrder      Int
+  retour         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, learningPathId, stepOrder])
+}
+
+/// s17 (D7) : rappel e-mail hebdomadaire des parcours, SUR DEMANDE
+/// (consentement, désactivé par défaut). Preuve conservée (avis @legal C1-C2) :
+/// activation, jour, version du texte affiché, date et origine de l'arrêt.
+model ParcoursReminderPreference {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  enabled          Boolean   @default(false)
+  /// Jour ISO de Paris : 1 = lundi … 7 = dimanche.
+  weekday          Int       @default(1)
+  activatedAt      DateTime?
+  /// Version du texte affiché à côté de la case au moment de l'activation.
+  consentVersion   String?
+  stoppedAt        DateTime?
+  /// `profil` | `lien-email` | `fin-premium` | `suppression`
+  stopOrigin       String?
+  /// Semaine de Paris (lundi AAAA-MM-JJ) du dernier envoi : un seul par semaine (C5).
+  lastSentWeek     String?
+  lastSentAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([enabled, weekday])
 }
 
 // ==========================================

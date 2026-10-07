@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { deleteAccount, StripeCancelError } from "@/lib/account";
 import { refuserSiAutreSite } from "@/lib/same-site";
+import { effectiveStreak } from "@/lib/progression";
 import { MOT_CONFIRMATION_SUPPRESSION, TEXTES_API, TEXTES_SUPPRESSION } from "@/config/textes/compte";
 
 export async function GET() {
@@ -27,6 +28,7 @@ export async function GET() {
           level: true,
           xp: true,
           streak: true,
+          lastPracticeAt: true,
           lastActiveAt: true,
           _count: {
             select: {
@@ -60,7 +62,8 @@ export async function GET() {
         plan: user.plan,
         level: user.level,
         xp: user.xp,
-        streak: user.streak,
+        // s17 (D3) : série de pratique, 0 si rompue (avant-hier ou plus, heure de Paris)
+        streak: effectiveStreak(user.streak, user.lastPracticeAt),
         lastActiveAt: user.lastActiveAt,
         stats: {
           jokesRead: user._count.jokeLikes,

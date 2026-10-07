@@ -124,7 +124,7 @@
         "jokeIds": [36, 28, 154, 300, 284],
         "videos": [
           {
-            "youtubeId": "57Ip2k3us_8",
+            "youtubeId": "tpIOLzv11qo",
             "artist": "Djimo",
             "title": "Quand il croise Carl Lewis",
             "why": "Le détail ultra-spécifique comme clé du storytelling captivant."
@@ -235,7 +235,7 @@
         "moduleFormat": "Conseil technique + vannes avec timing intégré + vidéo timing + quiz",
         "moduleXp": 75,
         "free": false,
-        "jokeIds": [4, 85, 129, 82, 326],
+        "jokeIds": [4, 266, 129, 322, 326],
         "videos": [
           {
             "youtubeId": "K-oIyXvLUeg",
@@ -546,7 +546,7 @@
         "moduleFormat": "Conseil technique + vannes sociales + vidéo interaction groupe + quiz",
         "moduleXp": 125,
         "free": false,
-        "jokeIds": [291, 343, 284, 180, 296],
+        "jokeIds": [291, 343, 284, 2, 296],
         "videos": [
           {
             "youtubeId": "b0sxUyrE1Cs",

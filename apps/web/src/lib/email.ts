@@ -35,7 +35,8 @@ export type TransactionalEmailKind =
   | "paiement-refuse"
   | "resiliation"
   | "retractation-accuse"
-  | "retractation-admin";
+  | "retractation-admin"
+  | "rappel-parcours";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";
@@ -44,7 +45,14 @@ function domaineDe(to: string): string {
 /** Envoi brut + lecture de `{ error }` ; enregistre l'alerte A puis relance l'erreur. */
 async function sendOrAlert(
   kind: TransactionalEmailKind,
-  payload: { to: string; subject: string; text?: string; html?: string },
+  payload: {
+    to: string;
+    subject: string;
+    text?: string;
+    html?: string;
+    headers?: Record<string, string>;
+    replyTo?: string;
+  },
 ): Promise<void> {
   try {
     const { error } = await getResend().emails.send({ from: FROM_EMAIL, ...payload } as Parameters<Resend["emails"]["send"]>[0]);
@@ -131,6 +139,23 @@ export async function trySendTransactionalTextEmail(
     console.error(`[email] Envoi « ${kind} » en échec :`, err instanceof Error ? err.message : err);
     return false;
   }
+}
+
+/**
+ * E-mail de service en texte seul avec en-têtes (s17, rappel des parcours) :
+ * `List-Unsubscribe` + `List-Unsubscribe-Post` (avis @legal C7) et adresse de
+ * réponse. Texte seul : aucun pixel d'ouverture ni lien réécrit (C8, à
+ * confirmer côté réglages Resend du domaine). Lève en cas d'échec (alerte A
+ * `email-envoi-<type>` enregistrée avant).
+ */
+export async function sendServiceTextEmail(
+  to: string,
+  subject: string,
+  text: string,
+  kind: TransactionalEmailKind,
+  options: { headers?: Record<string, string>; replyTo?: string } = {},
+): Promise<void> {
+  await sendOrAlert(kind, { to, subject, text, ...options });
 }
 
 /**

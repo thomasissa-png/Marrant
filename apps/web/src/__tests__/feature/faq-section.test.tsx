@@ -39,9 +39,13 @@ describe("FaqSection", () => {
     ).toBe(true);
   });
 
-  it("renders FAQ answers mentioning XP and streaks", () => {
+  it("renders FAQ answers mentioning XP and the série as it works (s17 PM-12)", () => {
     expect(screen.getByText(/50 XP par semaine/)).toBeInTheDocument();
-    expect(screen.getByText(/streaks/)).toBeInTheDocument();
+    // Série = jours où tu pratiques, réservée à Premium ; rythme conseillé hebdomadaire.
+    expect(screen.getByText(/ta série compte les jours où tu pratiques/)).toBeInTheDocument();
+    expect(screen.getByText(/une étape par semaine, de quoi tenir/)).toBeInTheDocument();
+    expect(screen.queryByText(/streaks/)).toBeNull();
+    expect(screen.queryByText(/5 minutes chaque jour valent mieux/)).toBeNull();
   });
 
   it("mentions trust reassurances in answers", () => {

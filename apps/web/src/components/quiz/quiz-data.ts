@@ -2,6 +2,8 @@
 // 12 questions, 5 profils de style d'humour.
 // Chaque réponse attribue des points aux profils.
 
+import type { ParcoursSlug } from "@/lib/entrees-parcours";
+
 export interface QuizQuestion {
   question: string;
   options: {
@@ -27,7 +29,11 @@ export interface HumorProfileResult {
   strength: string;
   tip: string;
   color: string;
-  recommendedPath: string;
+  /**
+   * Parcours conseillé (s17 lot C, QA-13) : un des 3 parcours, selon ce que
+   * le parcours travaille. Le résultat mène à son étape 1 (`?src=quiz`).
+   */
+  recommendedParcours: ParcoursSlug;
 }
 
 export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
@@ -41,7 +47,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "Tes vannes tombent juste parce qu'elles parlent de choses que les autres ont vécues, mais jamais formulées.",
     tip: "Note une observation drôle par jour dans ton téléphone. En 1 mois, tu as un stock que personne d'autre n'a.",
     color: "#22C55E",
-    recommendedPath: "/conseils",
+    recommendedParcours: "confiance",
   },
   STORYTELLER: {
     type: "STORYTELLER",
@@ -53,7 +59,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "Quand tu racontes, les téléphones restent dans les poches, même celui qui vibre.",
     tip: "Construis tes anecdotes en 3 temps : une situation banale, un détail qui cloche, puis une chute que personne n'a vue venir.",
     color: "#8B5CF6",
-    recommendedPath: "/parcours",
+    recommendedParcours: "machine-a-cafe",
   },
   ABSURDE: {
     type: "ABSURDE",
@@ -65,7 +71,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "Ton humour est difficile à imiter : c'est 100% toi, et ça s'entend.",
     tip: "Quand une blague évidente te vient, garde-la et pousse-la un cran plus loin dans l'absurde. Le premier réflexe est rarement le plus drôle.",
     color: "#EC4899",
-    recommendedPath: "/videos",
+    recommendedParcours: "machine-a-cafe",
   },
   PUNCHLINEUR: {
     type: "PUNCHLINEUR",
@@ -77,7 +83,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "Tu fais rire en 10 mots là où d'autres en mettent 50, et chez eux, les mots en trop sont souvent des « en fait ».",
     tip: "Relis chaque vanne et enlève tous les mots qui ne servent pas la chute. La version la plus courte est presque toujours la meilleure.",
     color: "#EF4444",
-    recommendedPath: "/vannes",
+    recommendedParcours: "repartie",
   },
   TAQUIN: {
     type: "TAQUIN",
@@ -89,7 +95,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "En conversation, tu renvoies chaque balle, et on a toujours envie de t'en lancer une autre.",
     tip: "Travaille le « oui, et… » de l'impro : au lieu de contredire, prends ce que l'autre vient de dire et emmène-le plus loin.",
     color: "#F59E0B",
-    recommendedPath: "/conseils",
+    recommendedParcours: "repartie",
   },
 };
 

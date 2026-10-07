@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -172,7 +173,8 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
   };
 
   const goToParcours = (recommendation: ParcoursRecommendation) => {
-    router.push(`/parcours/${recommendation.slug}`);
+    // s17 : étape 1 du parcours conseillé, provenance `onboarding` (data-analyst §5.3).
+    router.push(parcoursEtape1Href(recommendation.slug, "onboarding"));
   };
 
   const exitLink = exitHref ? (

@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -86,17 +88,26 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             <span className="text-sm text-text-muted">Partage ton résultat</span>
           </div>
 
+          {/* s17 (QA-13) : un des 3 parcours selon le profil, ouvert sur son étape 1. */}
+          <div className="w-full rounded-lg border border-border bg-background-elevated p-4 text-left" data-testid="quiz-parcours-conseille">
+            <p className="text-sm font-medium text-accent-link">{QUIZ_HUMOUR_PARCOURS.intro}</p>
+            <h3 className="mt-1 font-display text-lg font-bold text-text-primary">
+              {QUIZ_HUMOUR_PARCOURS.titre(profile.recommendedParcours)}
+            </h3>
+            <p className="mt-1 text-sm text-text-secondary">{QUIZ_HUMOUR_PARCOURS.raison[profile.type]}</p>
+          </div>
+
           {/* Lien stylé en bouton : plus de <button> imbriqué dans un <a> (T44). */}
           <Link
-            href={profile.recommendedPath}
+            href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
             className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
           >
-            Voir par où commencer
+            {QUIZ_HUMOUR_PARCOURS.bouton}
           </Link>
 
           {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé. */}
           <Link
-            href={buildAbonnementUrl(profile.recommendedPath, "monthly", "quiz")}
+            href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
             className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}
           >
             Accéder aux parcours complets

@@ -224,7 +224,7 @@ describe("CTA d'article : note et inscription attribuable", () => {
     const { container } = render(<ArticleCta parcoursHref="/parcours/repartie" src={`blog-${SLUG}`} />);
     const link = container.querySelector('a[data-blog-cta="abonnement"]');
     expect(link).toHaveAttribute("href", `/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-${SLUG}`);
-    expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/repartie");
+    expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
     expect(container.querySelector('[data-blog-cta="inscription"]')).toBeNull();
   });
 });

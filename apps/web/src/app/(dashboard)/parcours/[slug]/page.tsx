@@ -6,8 +6,8 @@
 //   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
 //   L'interactivité (progression, quiz, complétion) reste côté client.
 // - Premium (décision 03/10/2026) : le HTML ISR est partagé par tous, il ne
-//   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre,
-//   format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
+//   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre, ce
+//   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
 import type { Metadata } from "next";
 import { fitDescription, fitTitle, DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
@@ -16,91 +16,76 @@ import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
 import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
 import {
-  JsonLd,
-  buildBreadcrumbJsonLd,
-  buildCourseJsonLd,
-} from "@/components/seo/json-ld";
-import parcoursSeed from "../../../../../../../docs/content/parcours-seed.json";
+  attachCatalogueLinks,
+  buildPathFromSeed,
+  enrichPathWithSeed,
+  findActivePath,
+  getSeedForSlug,
+  withoutJokeTexts,
+} from "@/lib/parcours-data";
+import { buildParcoursCourseJsonLd } from "@/lib/parcours-jsonld";
+import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { parcoursWeeks } from "@/config/premium";
 
 // Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
 export const revalidate = 3600;
 export const dynamicParams = true;
 
+const BASE_URL = "https://deviens-marrant.fr";
+
+/** Phrase honnête sur l'accès (D8) : « première étape gratuite », jamais « cours gratuit ». */
+const PREMIERE_ETAPE = "Première étape gratuite.";
+
 const PARCOURS_META: Record<
   string,
-  { name: string; title: string; description: string; duration: string; difficulty: string; stepsCount: number }
+  { name: string; title: string; description: string; duration: string; stepsCount: number }
 > = {
   "machine-a-cafe": {
-    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
+    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO (D8, seo.md §6).
     name: "Parcours Machine à Café",
-    title: "Drôle au bureau : parcours Machine à Café",
+    title: `Parcours Machine à Café : être drôle au bureau en ${parcoursWeeks("machine-a-cafe")} semaines`,
     description:
-      `Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : ${parcoursWeeks("machine-a-cafe")} semaines à 15 min/semaine pour devenir le collègue qu'on écoute.`,
+      `Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : ${parcoursWeeks("machine-a-cafe")} semaines à 15 min/semaine. ${PREMIERE_ETAPE}`,
     duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
-    difficulty: "DEBUTANT",
     stepsCount: parcoursWeeks("machine-a-cafe"),
   },
   repartie: {
-    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
     name: "Parcours Répartie",
-    title: "Avoir de la répartie : le parcours guidé",
+    title: `Parcours Répartie : ${parcoursWeeks("repartie")} semaines pour répondre du tac au tac`,
     description:
-      `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre en soirée ou entre potes.`,
+      `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre. ${PREMIERE_ETAPE}`,
     duration: `${parcoursWeeks("repartie")} semaines`,
-    difficulty: "INTERMEDIAIRE",
     stepsCount: parcoursWeeks("repartie"),
   },
   confiance: {
-    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO.
     name: "Parcours Confiance",
-    title: "Retrouver confiance grâce à l'humour",
+    title: `Parcours Confiance : retrouver ta légèreté en ${parcoursWeeks("confiance")} semaines`,
     description:
-      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression : on remet de la légèreté dans tes échanges, une étape à la fois.`,
+      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression, une étape à la fois. ${PREMIERE_ETAPE}`,
     duration: `${parcoursWeeks("confiance")} semaines`,
-    difficulty: "INTERMEDIAIRE",
     stepsCount: parcoursWeeks("confiance"),
   },
 };
 
-// ---- Types locaux (miroir de ParcoursDetail) --------------------------------
-
-interface SeedStep {
-  week: number;
-  tipTitle: string;
-  dayNumber: number;
-  why: string;
-  moduleTitle: string;
-  moduleDetail: string;
-  moduleFormat: string;
-  moduleXp: number;
-  free: boolean;
-  jokeIds?: number[];
-  videos?: { youtubeId: string; artist: string; title: string; why: string }[];
-  quiz?: { question: string; options: string[]; correctIndex: number }[];
-}
-
-interface SeedParcours {
-  slug: string;
-  title: string;
-  description: string;
-  duration: string;
-  difficulty: string;
-  difficultyLabel?: string;
-  icon: string;
-  nextParcours?: string;
-  nextParcoursReason?: string;
-  personaTagline?: string;
-  testimonial?: string;
-  steps: SeedStep[];
-}
-
-function getSeedForSlug(slug: string): SeedParcours | undefined {
-  return (parcoursSeed as SeedParcours[]).find((p) => p.slug === slug);
-}
-
 export function generateStaticParams() {
   return Object.keys(PARCOURS_META).map((slug) => ({ slug }));
+}
+
+function shareMetadata(slug: string, title: string, description: string): Metadata {
+  const url = `${BASE_URL}/parcours/${slug}`;
+  return {
+    title: fitTitle(title),
+    description: fitDescription(description),
+    alternates: { canonical: url },
+    // SEO-02 : aperçu de partage propre à la page (og ET twitter, sinon ceux de l'accueil).
+    openGraph: { title, description: fitDescription(description), url, images: [DEFAULT_OG_IMAGE] },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: fitDescription(description),
+      images: [DEFAULT_OG_IMAGE.url],
+    },
+  };
 }
 
 export async function generateMetadata({
@@ -109,183 +94,45 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const staticMeta = PARCOURS_META[params.slug];
-
-  if (staticMeta) {
-    return {
-      title: fitTitle(staticMeta.title),
-      description: staticMeta.description,
-      alternates: {
-        canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
-      },
-      openGraph: {
-        title: staticMeta.title,
-        description: staticMeta.description,
-        url: `https://deviens-marrant.fr/parcours/${params.slug}`,
-        images: [DEFAULT_OG_IMAGE],
-      },
-    };
-  }
+  if (staticMeta) return shareMetadata(params.slug, staticMeta.title, staticMeta.description);
 
   const path = await prisma.learningPath
     .findUnique({
-      where: { slug: params.slug },
+      where: { slug: params.slug, isActive: true },
       select: { title: true, description: true },
     })
     .catch(() => null);
 
+  // SEO-11 / QA-11 : parcours inconnu = 404 avec une seule consigne robots (noindex).
+  if (!path) return { title: "Parcours introuvable", robots: { index: false, follow: true } };
+
   // Le template du layout ajoute déjà « | deviens-marrant.fr » : ne pas doubler la marque.
-  const title = path ? path.title : "Parcours humour";
-  const description = path?.description
-    ? fitDescription(path.description)
-    : "Progresse étape par étape dans ton parcours humour personnalisé.";
-
-  return {
-    title: fitTitle(title),
-    description,
-    alternates: {
-      canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `https://deviens-marrant.fr/parcours/${params.slug}`,
-      images: [DEFAULT_OG_IMAGE],
-    },
-  };
-}
-
-// Reconstruit le PathData attendu par ParcoursDetail à partir du seed.
-function buildInitialPathFromSeed(slug: string) {
-  const seed = getSeedForSlug(slug);
-  if (!seed) return null;
-  return {
-    id: `seed-${seed.slug}`,
-    title: seed.title,
-    description: seed.description,
-    slug: seed.slug,
-    duration: seed.duration,
-    difficulty: seed.difficulty,
-    icon: seed.icon,
-    steps: seed.steps.map((s, i) => ({
-      id: `seed-step-${i + 1}`,
-      order: i + 1,
-      dayNumber: s.dayNumber,
-      tip: {
-        id: `seed-tip-${i + 1}`,
-        title: s.moduleTitle,
-        content: s.moduleDetail,
-        category: "GENERAL",
-        difficulty: seed.difficulty,
-        example: "",
-        exercise: "",
-      },
-      moduleTitle: s.moduleTitle,
-      moduleDetail: s.moduleDetail,
-      moduleFormat: s.moduleFormat,
-      moduleXp: s.moduleXp,
-      why: s.why,
-      free: s.free,
-      jokeIds: s.jokeIds ?? [],
-      videos: s.videos ?? [],
-      quiz: s.quiz ?? [],
-    })),
-    difficultyLabel: seed.difficultyLabel ?? null,
-    nextParcours: seed.nextParcours ?? null,
-    nextParcoursReason: seed.nextParcoursReason ?? null,
-    personaTagline: seed.personaTagline ?? null,
-    testimonial: seed.testimonial ?? null,
-  };
-}
-
-// Enrichit le PathData DB avec le seed (vannes, vidéos, quiz…).
-function enrichDbPathWithSeed(dbPath: Record<string, unknown>, slug: string) {
-  const seed = getSeedForSlug(slug);
-  if (!seed) return dbPath;
-
-  const steps = dbPath.steps as Array<Record<string, unknown>>;
-  const seedStepByWeek = new Map(seed.steps.map((s) => [s.week, s]));
-  const enrichedSteps = steps.map((step) => {
-    const stepOrder = step.order as number;
-    const seedStep = seedStepByWeek.get(stepOrder);
-    if (!seedStep) return step;
-    return {
-      ...step,
-      moduleTitle: seedStep.moduleTitle,
-      moduleDetail: seedStep.moduleDetail,
-      moduleFormat: seedStep.moduleFormat,
-      moduleXp: seedStep.moduleXp,
-      why: seedStep.why,
-      free: seedStep.free,
-      jokeIds: seedStep.jokeIds ?? [],
-      videos: seedStep.videos ?? [],
-      quiz: seedStep.quiz ?? [],
-    };
-  });
-
-  return {
-    ...dbPath,
-    steps: enrichedSteps,
-    difficultyLabel: seed.difficultyLabel ?? null,
-    nextParcours: seed.nextParcours ?? null,
-    nextParcoursReason: seed.nextParcoursReason ?? null,
-    personaTagline: seed.personaTagline ?? null,
-    testimonial: seed.testimonial ?? null,
-  };
+  return shareMetadata(params.slug, path.title, path.description);
 }
 
 type RedactablePath = { steps: ParcoursStepPayload[] };
 
 /** HTML partagé (ISR) : jamais de contenu Premium dedans, quel que soit le visiteur. */
-function toPublicPath<P>(path: P): P {
-  return redactParcoursForPlan(path as unknown as RedactablePath, null) as unknown as P;
+async function toPublicPath<P>(path: P): Promise<P> {
+  const redacted = redactParcoursForPlan(path as unknown as RedactablePath, null);
+  return withoutJokeTexts(await attachCatalogueLinks(redacted)) as unknown as P;
 }
 
 async function fetchInitialData(slug: string) {
-  // 1. On tente la DB (pour récupérer l'id réel + suivi de progression)
+  // 1. Base (identifiant réel pour le suivi de progression). Page en ISR : pas
+  // de session serveur, la progression est chargée côté navigateur.
   try {
-    const dbPath = await prisma.learningPath.findUnique({
-      where: { slug, isActive: true },
-      include: {
-        steps: {
-          orderBy: { order: "asc" },
-          include: {
-            tip: {
-              select: {
-                id: true,
-                title: true,
-                content: true,
-                category: true,
-                difficulty: true,
-                example: true,
-                exercise: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
+    const dbPath = await findActivePath(slug);
     if (dbPath) {
-      const enriched = enrichDbPathWithSeed(
-        dbPath as unknown as Record<string, unknown>,
-        slug,
-      );
-
-      // Page en ISR : pas de lecture de session serveur (cookies interdits en
-      // rendu statique). La progression utilisateur est chargée côté client
-      // après hydratation (parcours-detail refetch quand initialProgress est null).
-      const initialProgress = null;
-
-      return { path: toPublicPath(enriched), progress: initialProgress };
+      return { path: await toPublicPath(enrichPathWithSeed(dbPath, slug)), progress: null };
     }
   } catch {
-    // DB indispo → fallback seed uniquement
+    // Base indisponible → repli seed uniquement
   }
-
-  // 2. Fallback seed (pas encore migré, ou parcours purement statique)
-  const seedPath = buildInitialPathFromSeed(slug);
+  // 2. Repli seed (pas encore migré, ou parcours purement statique)
+  const seedPath = buildPathFromSeed(slug);
   if (!seedPath) return null;
-  return { path: toPublicPath(seedPath), progress: null };
+  return { path: await toPublicPath(seedPath), progress: null };
 }
 
 export default async function ParcoursDetailPage({
@@ -314,13 +161,13 @@ export default async function ParcoursDetailPage({
       />
       {meta && (
         <JsonLd
-          data={buildCourseJsonLd({
+          data={buildParcoursCourseJsonLd({
+            slug: params.slug,
             name: meta.name,
             description: meta.description,
-            duration: meta.duration,
-            slug: params.slug,
-            difficulty: meta.difficulty,
-            stepsCount: meta.stepsCount,
+            weeks: meta.stepsCount,
+            // FS-11 : niveau lu dans le seed (même source que le badge de la page).
+            difficulty: getSeedForSlug(params.slug)?.difficulty ?? "DEBUTANT",
           })}
         />
       )}

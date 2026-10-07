@@ -115,7 +115,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
 
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie?src=onboarding#etape-1");
   });
 
   it("quiz terminé : événement onboarding-termine avec le parcours recommandé (s15)", async () => {
@@ -197,7 +197,7 @@ describe("HumorQuiz", () => {
 
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/repartie?src=onboarding#etape-1");
   });
 
   it("shows quiz from scratch on 'Refaire le quiz' click", async () => {
@@ -254,7 +254,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Parfois ça marche"));
 
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe?src=onboarding#etape-1");
   });
 
   it("recommends Confiance for « Être plus à l'aise socialement »", async () => {
@@ -264,7 +264,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Je fais rire souvent"));
 
     await userEvent.click(screen.getByText("Voir par où commencer"));
-    expect(mockPush).toHaveBeenCalledWith("/parcours/confiance");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/confiance?src=onboarding#etape-1");
   });
 
   it("shows the exit link when exitHref is provided", () => {

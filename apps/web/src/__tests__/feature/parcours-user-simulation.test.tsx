@@ -504,11 +504,12 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     });
   });
 
-  it("sees total XP = 225 (50+75+100)", async () => {
+  it("compte non abonné : pas de barre immobile, l'offre des étapes 2+ à la place (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("225 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étapes 2 à 3 avec Premium")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 
   it("auto-expands step 1 and sees full rich content", async () => {
@@ -538,7 +539,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
+    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
     expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Roman Frayssinet")).toBeInTheDocument();
@@ -563,7 +564,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await userEvent.click(screen.getByText("Voir le résultat"));
 
     // Perfect score
-    expect(screen.getByText("Sans faute !")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute." /* étalon 3.2 B, compte non abonné */)).toBeInTheDocument();
     expect(screen.getByText("Continuer")).toBeInTheDocument();
   });
 
@@ -629,10 +630,10 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
     });
   });
 
-  it("sees total XP = 375 (50+75+100+150)", async () => {
+  it("sees total XP = 475 (50+75+100+150 + 100 de bonus de fin, s17 QA-07)", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText("375 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("475 XP au total, dont 100 de bonus à la dernière étape")).toBeInTheDocument();
     });
   });
 
@@ -667,11 +668,12 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
     expect(screen.getByText(/Yanis reste muet/)).toBeInTheDocument();
   });
 
-  it("sees cross-recommendation to Confiance", async () => {
+  it("abonné en cours de route : pas de « parcours suivant » (s17 UX-06)", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
+    expect(screen.queryByText(/Jette un œil au parcours suivant/)).not.toBeInTheDocument();
   });
 
   it("shows completed parcours CTA when all 4 steps done", async () => {
@@ -686,8 +688,8 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Confiance")).toBeInTheDocument();
       expect(screen.getByText(/Passe au parcours Confiance/)).toBeInTheDocument();
     });
   });
@@ -723,10 +725,10 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     });
   });
 
-  it("sees total XP = 700 (50+75+100+125+150+200)", async () => {
+  it("visiteur : étape 1 offerte, étapes 2 à 6 avec Premium (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText("700 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -758,7 +760,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
 
     // Jokes
     expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
-    expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
+    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
 
     // Quiz
     expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
@@ -767,32 +769,26 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
   });
 
-  it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {
+  it("D1 s17 : visiteur, étapes 2 à 6 marquées « Fait partie de Premium », sans « Termine l'étape »", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("Rire de soi avec bienveillance")).toBeInTheDocument();
     });
-
-    // Steps 2-6 are sequentially locked (step 1 not completed)
-    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
-
-    // Step 2 header should NOT be expandable (no role=button)
-    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
-    expect(step2Header).toBeInTheDocument();
+    expect(screen.getAllByText("Fait partie de Premium")).toHaveLength(5);
+    expect(screen.queryByText(/Termine l'étape/)).not.toBeInTheDocument();
   });
 
-  it("steps 3-6 are sequentially locked and cannot be expanded", async () => {
+  it("D1 s17 : visiteur, une étape 3+ s'ouvre sur l'aperçu, sans ordre imposé", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("L'art de l'observation comique")).toBeInTheDocument();
     });
-
-    // Step 3 should show lock message
-    expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
-
-    // Step 3 header should NOT be a button
-    const step3Header = screen.getByLabelText(/Étape 3.*verrouillée/);
-    expect(step3Header).toBeInTheDocument();
+    const header = screen.getByText("L'art de l'observation comique").closest("[role='button']");
+    expect(header).not.toBeNull();
+    await userEvent.click(header as HTMLElement);
+    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    const cta = screen.getByText("Voir l'offre Premium").closest("a");
+    expect(cta?.getAttribute("href")).toContain("src=parcours-apercu");
   });
 
   it("sees cross-recommendation to Machine à Café", async () => {
@@ -806,7 +802,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       const link = screen.getByText(/Jette un œil au parcours suivant/);
-      expect(link.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
+      expect(link.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=suite");
     });
   });
 });
@@ -853,7 +849,7 @@ describe("Error handling — all parcours", () => {
 // ==============================
 describe("Progress bar — all parcours", () => {
   it("shows progress bar with max=3 for Machine à Café", async () => {
-    setSession({ name: "Sophie" });
+    setSession({ name: "Sophie", plan: "PREMIUM" });
     mockFetchWith(machineACafeData);
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
@@ -865,7 +861,7 @@ describe("Progress bar — all parcours", () => {
   });
 
   it("shows progress bar with max=4 for Répartie", async () => {
-    setSession({ name: "Yanis" });
+    setSession({ name: "Yanis", plan: "PREMIUM" });
     mockFetchWith(repartieData);
 
     render(<ParcoursDetail slug="repartie" />);
@@ -875,15 +871,15 @@ describe("Progress bar — all parcours", () => {
     });
   });
 
-  it("shows progress bar with max=6 for Confiance", async () => {
+  it("visiteur : pas de barre pour Confiance (s17 QA-13)", async () => {
     setSession(null);
     mockFetchWith(confianceData);
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      const bar = screen.getByTestId("progress-bar");
-      expect(bar).toHaveAttribute("data-max", "6");
+      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 });
 
@@ -921,14 +917,14 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Répartie")).toBeInTheDocument();
       expect(screen.getByText(/Passe à la répartie/)).toBeInTheDocument();
     });
 
     // The link should point to /parcours/repartie
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/repartie");
+    const nextLink = screen.getByText("Passer au parcours Répartie").closest("a");
+    expect(nextLink).toHaveAttribute("href", "/parcours/repartie?src=suite");
   });
 
   it("Yanis completes Répartie → sees CTA to Confiance", async () => {
@@ -945,14 +941,14 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
     });
 
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/confiance");
+    const nextLink = await screen.findByText("Passer au parcours Confiance");
+    expect(nextLink.closest("a")).toHaveAttribute("href", "/parcours/confiance?src=suite");
   });
 
-  it("Marc completes Confiance → sees CTA to Machine à Café (circular)", async () => {
+  it("Marc completes Confiance → repli sur le parcours suivant du seed si la liste ne se charge pas", async () => {
     setSession({ name: "Marc" });
     mockFetchWith({
       ...confianceData,
@@ -966,11 +962,11 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
     });
 
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/machine-a-cafe");
+    const nextLink = await screen.findByText("Passer au parcours Machine à Café");
+    expect(nextLink.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=suite");
   });
 });
 
@@ -979,7 +975,7 @@ describe("Completed parcours — end-to-end", () => {
 // ==============================
 describe("Partial progress — mid-parcours", () => {
   it("Sophie with 1/3 steps completed sees progress correctly", async () => {
-    setSession({ name: "Sophie" });
+    setSession({ name: "Sophie", plan: "PREMIUM" });
     mockFetchWith({
       ...machineACafeData,
       path: { ...machineACafeData.path, id: "db-real-id" },
@@ -1001,7 +997,7 @@ describe("Partial progress — mid-parcours", () => {
   });
 
   it("Yanis with 2/4 steps completed shows correct state", async () => {
-    setSession({ name: "Yanis" });
+    setSession({ name: "Yanis", plan: "PREMIUM" });
     mockFetchWith({
       ...repartieData,
       path: { ...repartieData.path, id: "db-real-id" },

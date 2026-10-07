@@ -103,6 +103,22 @@ export const CLES_TUNNEL = {
 } as const;
 
 /**
+ * Alertes des parcours (s17, data-analyst §7). Préfixe `parcours-` absent de
+ * `CLES_ACTION_THOMAS` : classe B (lues par la session, filet 48 h vers le
+ * digest). Comptes seulement, jamais d'e-mail ni d'identifiant dans le détail.
+ */
+export const CLES_PARCOURS = {
+  /** Abonné Premium de 3 jours sans aucune étape validée (job quotidien). */
+  sansDemarrage: "parcours-sans-demarrage",
+  /** Erreur serveur sur la validation d'une étape (route progress). */
+  progressErreur: "parcours-progress-erreur",
+  /** Pages parcours vues sur 7 jours mais 0 événement `parcours-ouvert` (job quotidien). */
+  suiviMuet: "parcours-suivi-muet",
+  /** Rappel e-mail : envoi impossible (secret de lien d'arrêt absent, job en échec). */
+  rappelEchec: "parcours-rappel-echec",
+} as const;
+
+/**
  * Échec de connexion Google, à appeler côté serveur (lot B) avec le code
  * d'erreur NextAuth. Une ligne par jour, `occurrences` incrémenté. Ne lève jamais.
  */

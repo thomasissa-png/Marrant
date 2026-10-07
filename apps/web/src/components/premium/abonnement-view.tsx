@@ -20,6 +20,8 @@ import { buildRegisterUrl, sanitizeSignupSrc } from "@/lib/auth-links";
 import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { PlanSelector } from "@/components/premium/plan-selector";
+import { PARCOURS_SLUGS, parcoursEtape1Href, parcoursSlugFromHref } from "@/lib/entrees-parcours";
+import { ABONNEMENT_ETAPE_1 } from "@/config/textes/entrees-parcours";
 import {
   formatEuros,
   PARCOURS_COUNT,
@@ -283,6 +285,33 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
           </p>
         </CardContent>
       </Card>
+
+      {/* s17 (QA-13) : voir ce qu'on achète. Retour vers un parcours précis : son étape 1 ;
+          sinon les 3. Le lien n'apparaît qu'après montage pour le retour (HTML serveur : les 3). */}
+      <section
+        aria-labelledby="abonnement-etape-1-titre"
+        data-testid="abonnement-etape-1"
+        className="mt-6 rounded-xl border border-border bg-background-card p-6 text-center"
+      >
+        <h2 id="abonnement-etape-1-titre" className="font-semibold text-text-primary">
+          {ABONNEMENT_ETAPE_1.titre}
+        </h2>
+        <p className="mt-1 text-sm text-text-secondary">{ABONNEMENT_ETAPE_1.texte}</p>
+        <ul className="mt-3 flex flex-col items-center gap-1 sm:flex-row sm:justify-center sm:gap-4">
+          {(parcoursSlugFromHref(returnTo ?? undefined) ? [parcoursSlugFromHref(returnTo ?? undefined)!] : PARCOURS_SLUGS).map(
+            (slug) => (
+              <li key={slug}>
+                <Link
+                  href={parcoursEtape1Href(slug, "abonnement")}
+                  className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link underline underline-offset-4 hover:text-text-primary"
+                >
+                  {ABONNEMENT_ETAPE_1.lien(slug)}
+                </Link>
+              </li>
+            ),
+          )}
+        </ul>
+      </section>
 
       {/* Garantie */}
       <div className="mt-6 rounded-xl bg-background-elevated p-6 text-center">

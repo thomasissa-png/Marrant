@@ -122,6 +122,9 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
         "inscription-reussie",
         "onboarding-termine",
         "parcours-etape",
+        // s17 lot B (data-analyst §5.2) : ouverture et fin d'un parcours attribuées.
+        "parcours-ouvert",
+        "parcours-termine",
         "quiz-termine",
       ].sort(),
     );

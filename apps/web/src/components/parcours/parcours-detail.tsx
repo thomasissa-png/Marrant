@@ -1,269 +1,69 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { trackUmami } from "@/lib/umami";
-import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { formatDifficulty, frenchQuizQuotes, withEmojiPresentation } from "@/lib/parcours-labels";
+import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypo } from "@/lib/fr-typo";
-import { tipProse } from "@/lib/tip-prose";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import {
+  derniereValidation,
+  formatDateConseillee,
+  PARCOURS_BONUS_FIN_XP,
+  prochaineEtapeConseillee,
+  totalParcoursXp,
+} from "@/lib/parcours-xp";
+import { readParcoursSrc } from "@/lib/parcours-tracking";
 import { useUserStore } from "@/stores/user-store";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { ETAPE_LIBRE_BADGE, etapeVerrouilleeTexte, VALIDATION_ETAPE } from "@/config/textes/offre";
-import Link from "next/link";
+import {
+  progressionVisiteurTexte,
+  prochaineEtapeTexte,
+  APERCU_INTRO,
+  PROCHAINE_ETAPE_DISPONIBLE,
+  RAPPEL_LIEN,
+  TITRES_SECTIONS,
+  totalXpTexte,
+  XP_GAIN,
+} from "@/config/textes/parcours";
+import { ParcoursStepCard } from "@/components/parcours/parcours-step-card";
+import { PathCompletionCard } from "@/components/parcours/path-completion-card";
+import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 
-interface VideoRef {
-  youtubeId: string;
-  artist: string;
-  title: string;
-  why: string;
+export type { PathData, UserProgress } from "@/components/parcours/parcours-types";
+
+interface ByslugResponse {
+  path?: PathData;
+  userProgress?: UserProgress | null;
+  stepValidations?: Array<{ stepOrder: number; completedAt: string }>;
 }
 
-interface QuizQuestion {
-  question: string;
-  options: string[];
-  correctIndex: number;
+function firstIncomplete(steps: Step[], completed: number[]): number | null {
+  return steps.find((s) => !completed.includes(s.order))?.order ?? null;
 }
 
-interface Step {
-  id: string;
-  order: number;
-  dayNumber: number;
-  tip: {
-    id: string;
-    title: string;
-    content: string;
-    category: string;
-    difficulty: string;
-    example: string;
-    exercise: string;
-  };
-  // Rich content from seed
-  moduleTitle?: string;
-  moduleDetail?: string;
-  moduleFormat?: string;
-  moduleXp?: number;
-  why?: string;
-  free?: boolean;
-  jokeIds?: number[];
-  videos?: VideoRef[];
-  quiz?: QuizQuestion[];
-  /** true : aperçu servi par le serveur (contenu réservé Premium, non envoyé). */
-  locked?: boolean;
+/** Étape visée par l'ancre `#etape-N` des liens d'entrée (lot C), lue côté navigateur. */
+function readHashStep(): number | null {
+  if (typeof window === "undefined") return null;
+  const match = window.location.hash.match(/^#etape-(\d{1,3})$/);
+  return match ? Number(match[1]) : null;
 }
 
-interface PathData {
-  id: string;
-  title: string;
-  description: string;
-  slug: string;
-  duration: string;
-  difficulty: string;
-  /** Plage de niveau du seed (« DEBUTANT → EXPERT »), transmise par le serveur. */
-  difficultyLabel?: string | null;
-  icon: string;
-  steps: Step[];
-  nextParcours?: string | null;
-  nextParcoursReason?: string | null;
-  personaTagline?: string | null;
-  testimonial?: string | null;
-}
-
-interface UserProgress {
-  completedSteps: number[];
-  currentStep: number;
-  completedAt: string | null;
-}
-
-
-// ==============================
 /**
- * Aperçu d'une étape réservée aux abonnés : seuls titre, format, une phrase
- * « pourquoi » et XP sont envoyés par le serveur. Le bouton mène à
- * /abonnement avec retour au parcours après paiement (returnTo).
+ * Étape à ouvrir : celle de l'ancre si elle est accessible (déjà faite, à
+ * reprendre, ou aperçu d'un non-abonné), sinon la première non faite.
  */
-function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
-  // Mur vu (audit s16 reco 17) : une fois par aperçu ouvert.
-  useEffect(() => {
-    trackUmami("mur-vu", { type: "parcours-etape", src: slug, etape: step.order });
-  }, [slug, step.order]);
-  return (
-    <div className="space-y-3 rounded-lg bg-background-elevated p-4">
-      {step.why && (
-        <div>
-          <p className="text-sm font-medium text-accent-link">Ce que tu vas apprendre</p>
-          <p className="mt-1 text-sm text-text-secondary">{step.why}</p>
-        </div>
-      )}
-      {step.moduleFormat && (
-        <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>
-      )}
-      <div className="border-t border-border pt-3 text-center">
-        <p className="text-sm text-text-secondary">
-          {etapeVerrouilleeTexte(PREMIUM_PRICE_LABEL)}
-        </p>
-        <Link href={buildAbonnementUrl(`/parcours/${slug}`)}>
-          <Button variant="primary" size="sm" className="mt-3 min-h-[44px]">
-            S&apos;abonner · {PREMIUM_PRICE_LABEL}
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
+function stepToOpen(steps: Step[], completed: number[], hashStep: number | null): number | null {
+  const next = firstIncomplete(steps, completed);
+  const target = hashStep !== null ? steps.find((s) => s.order === hashStep) : undefined;
+  if (target && (next === null || target.order <= next || target.locked)) return target.order;
+  return next;
 }
-
-// Mini-quiz component
-// ==============================
-
-function StepQuiz({
-  quiz,
-  onComplete,
-}: {
-  quiz: QuizQuestion[];
-  onComplete: () => void;
-}) {
-  const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
-
-  const q = quiz[currentQ];
-
-  const handleAnswer = (index: number) => {
-    if (showResult) return;
-    setSelected(index);
-    setShowResult(true);
-    if (index === q.correctIndex) {
-      setScore((s) => s + 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentQ < quiz.length - 1) {
-      setCurrentQ((c) => c + 1);
-      setSelected(null);
-      setShowResult(false);
-    } else {
-      setFinished(true);
-    }
-  };
-
-  if (finished) {
-    const allCorrect = score === quiz.length;
-    return (
-      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center">
-        <p className="font-display text-lg font-bold">
-          {allCorrect ? "Sans faute !" : `${score}/${quiz.length} bonnes réponses`}
-        </p>
-        <p className="mt-1 text-sm text-text-secondary">
-          {allCorrect
-            ? "Tu as tout compris. Tu peux valider l'étape."
-            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c'est ta prochaine conversation. Tu peux valider l'étape."}
-        </p>
-        <Button variant="primary" size="sm" className="mt-3" onClick={onComplete}>
-          Continuer
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Badge variant="secondary">
-          Quiz {currentQ + 1}/{quiz.length}
-        </Badge>
-      </div>
-      <p className="font-medium text-text-primary">{frTypo(frenchQuizQuotes(q.question))}</p>
-      <div className="space-y-2">
-        {q.options.map((opt, i) => {
-          let className =
-            "w-full rounded-lg border p-3 text-left text-sm transition-all";
-          if (showResult) {
-            if (i === q.correctIndex) {
-              className += " border-success bg-success/10 text-success";
-            } else if (i === selected && i !== q.correctIndex) {
-              className += " border-error bg-error/10 text-error";
-            } else {
-              className += " border-border bg-background-card text-text-muted";
-            }
-          } else {
-            className +=
-              " border-border bg-background-card hover:border-accent-primary hover:bg-background-elevated cursor-pointer";
-          }
-          return (
-            <button key={i} className={className} onClick={() => handleAnswer(i)}>
-              {frTypo(frenchQuizQuotes(stripEmDashes(opt)))}
-            </button>
-          );
-        })}
-      </div>
-      {showResult && (
-        <div className="flex justify-end">
-          <Button variant="primary" size="sm" onClick={handleNext}>
-            {currentQ < quiz.length - 1 ? "Question suivante" : "Voir le résultat"}
-          </Button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ==============================
-// Video card component
-// ==============================
-
-function VideoCard({ video }: { video: VideoRef }) {
-  return (
-    <div className="overflow-hidden rounded-lg border border-border">
-      {/* Lecteur intégré : on ne quitte plus le parcours au milieu d'une étape (T31) */}
-      <div className="relative aspect-video bg-background-elevated">
-        <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} />
-      </div>
-      <div className="p-3">
-        <p className="text-sm font-medium text-text-primary">{video.artist}</p>
-        <p className="text-xs text-text-secondary">{video.title}</p>
-        <p className="mt-1 text-xs text-text-muted italic">{frTypo(stripEmDashes(video.why))}</p>
-      </div>
-    </div>
-  );
-}
-
-// ==============================
-// Joke teaser component
-// ==============================
-
-function JokeTeaser({ jokeIds }: { jokeIds: number[] }) {
-  if (!jokeIds.length) return null;
-  return (
-    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-      <h4 className="mb-2 text-sm font-semibold text-text-primary">
-        Vannes à pratiquer
-      </h4>
-      <p className="text-sm text-text-secondary">
-        {jokeIds.length} vannes sélectionnées pour ce module.{" "}
-        <Link
-          href="/vannes"
-          className="text-accent-link underline underline-offset-2"
-        >
-          Découvre-les dans le catalogue
-        </Link>
-      </p>
-    </div>
-  );
-}
-
-// ==============================
-// Main component
-// ==============================
 
 export function ParcoursDetail({
   slug,
@@ -271,44 +71,54 @@ export function ParcoursDetail({
   initialProgress = null,
 }: {
   slug: string;
-  /**
-   * Contenu du parcours pré-fetché côté serveur. Quand fourni, on rend
-   * immédiatement (SSR) sans skeleton — indispensable pour l'indexation SEO
-   * (Googlebot/Bingbot ne suivent pas nos fetch côté client).
-   */
+  /** Contenu pré-rendu côté serveur (ISR) : étape 1 complète, aperçu des étapes 2+. */
   initialPath?: PathData | null;
-  /**
-   * Progression utilisateur pré-fetchée côté serveur si la session existe.
-   * Sinon null → le client refetch côté navigateur (contexte auth complet).
-   */
+  /** Progression pré-chargée (null : chargée côté navigateur après la session). */
   initialProgress?: UserProgress | null;
 }) {
   const [path, setPath] = useState<PathData | null>(initialPath);
   const [progress, setProgress] = useState<UserProgress | null>(initialProgress);
-  // Pas de skeleton si on a déjà le contenu (SSR) — sinon on charge côté client.
   const [isLoading, setIsLoading] = useState<boolean>(!initialPath);
   const [fetchError, setFetchError] = useState(false);
-  const [expandedStep, setExpandedStep] = useState<number | null>(() => {
-    if (!initialPath) return null;
-    const completed = initialProgress?.completedSteps ?? [];
-    return (
-      initialPath.steps.find((s) => !completed.includes(s.order))?.order ?? null
-    );
-  });
+  const [enrichError, setEnrichError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [lastValidation, setLastValidation] = useState<string | null>(null);
+  const [nextRecommended, setNextRecommended] = useState<string | null>(null);
+  const [serverXpTotal, setServerXpTotal] = useState<number | null>(null);
+  const [retours, setRetours] = useState<Record<number, string>>({});
+  const [expandedStep, setExpandedStep] = useState<number | null>(() =>
+    initialPath ? firstIncomplete(initialPath.steps, initialProgress?.completedSteps ?? []) : null,
+  );
   const [completing, setCompleting] = useState<number | null>(null);
   const [completionError, setCompletionError] = useState<string | null>(null);
-  const [xpGained, setXpGained] = useState<{ step: number; xp: number } | null>(null);
+  const [xpMessage, setXpMessage] = useState<string | null>(null);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
   const quizStorageKey = `parcours-quiz-done:${slug}`;
+  const openTrigger = useRef<"auto" | "manuel">("auto");
+  const openedSteps = useRef<Set<number>>(new Set());
+  const openedAt = useRef<Map<number, number>>(new Map());
+  const openTracked = useRef(false);
+  const focusAfterValidation = useRef<number | "fin" | null>(null);
+  const completionHeading = useRef<HTMLHeadingElement>(null);
+  const hashStep = useRef<number | null>(null);
 
-  // T29 : les quiz réussis survivent à l'ouverture de la modale et à l'inscription
-  // (sessionStorage, par parcours), pour que l'étape soit validable au retour.
+  const { status, data: session } = useSession();
+  const storeUser = useUserStore((s) => s.user);
+  // Plan lu dans la session ou dans le store : l'un ou l'autre suffit (l'API tranche en dernier).
+  const isPremium =
+    status === "authenticated" &&
+    (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) || isPremiumPlan(storeUser?.plan));
+  const statut: StatutParcours = isPremium ? "premium" : status === "authenticated" ? "membre" : "visiteur";
+  // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
+  const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
+
+  // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem(quizStorageKey);
       if (raw) setQuizDone(new Set(JSON.parse(raw) as number[]));
     } catch {
-      // sessionStorage indisponible (navigation privée stricte) : on repart de zéro.
+      // sessionStorage indisponible : on repart de zéro.
     }
   }, [quizStorageKey]);
 
@@ -317,77 +127,131 @@ export function ParcoursDetail({
     try {
       sessionStorage.setItem(quizStorageKey, JSON.stringify([...quizDone]));
     } catch {
-      // Sans stockage, le quiz reste simplement à refaire.
+      // Sans stockage, le quiz reste à refaire.
     }
   }, [quizDone, quizStorageKey]);
-  const { status, data: session } = useSession();
-  // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
-  const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
-  const storeUser = useUserStore((s) => s.user);
-  // Plan lu dans la session (jwt, rafraîchi toutes les 5 min ou via update())
-  // ou dans le store utilisateur (favoris Premium) : l'un ou l'autre suffit,
-  // pour qu'un abonné ne se retrouve jamais verrouillé. L'API tranche en dernier.
-  const isPremium =
-    status === "authenticated" &&
-    (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) ||
-      isPremiumPlan(storeUser?.plan));
+
+  const applyServerData = useCallback((data: ByslugResponse) => {
+    if (data.path?.steps) setPath(data.path);
+    if (data.userProgress) setProgress(data.userProgress);
+    // Ouverture directe sur l'étape visée ou à reprendre (UX-11).
+    const next = data.path?.steps
+      ? stepToOpen(data.path.steps, data.userProgress?.completedSteps ?? [], hashStep.current)
+      : null;
+    if (next !== null) setExpandedStep(next);
+    setLastValidation(derniereValidation(data.stepValidations));
+  }, []);
 
   useEffect(() => {
-    // Si le SSR nous a déjà donné le contenu, on skip le fetch initial —
-    // on refetch juste la progression côté client (dépend de la session).
     if (initialPath) {
+      // HTML ISR = aperçu des étapes 2+ : l'API (plan vérifié en base) apporte le contenu d'un abonné.
       if (status !== "authenticated") return;
-      fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) => {
-          // Le HTML ISR ne contient que l'aperçu des étapes 2+ : la réponse de
-          // l'API (plan vérifié en base) apporte le contenu complet d'un abonné.
-          if (data?.path?.steps) setPath(data.path);
-          if (data?.userProgress) {
-            setProgress(data.userProgress);
-            const completed = data.userProgress.completedSteps ?? [];
-            const firstIncomplete = data.path.steps.find(
-              (s: Step) => !completed.includes(s.order)
-            );
-            if (firstIncomplete) setExpandedStep(firstIncomplete.order);
-          }
-        })
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 10_000);
+      setEnrichError(false);
+      fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`, { signal: controller.signal })
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
+        .then((data: ByslugResponse) => applyServerData(data))
         .catch(() => {
-          // Silencieux : le contenu est déjà rendu, seul l'état de progression n'est pas frais.
-        });
-      return;
+          // FS-09 : plus d'attente silencieuse, message et bouton « Réessayer ».
+          setEnrichError(true);
+          trackUmami("parcours-erreur", { parcours: slug, etape: 0, motif: "chargement" });
+        })
+        .finally(() => clearTimeout(timer));
+      return () => {
+        clearTimeout(timer);
+        controller.abort();
+      };
     }
 
-    // Fallback historique : pas de SSR → fetch complet côté client
+    // Repli historique : pas de rendu serveur, chargement complet côté navigateur.
     fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`)
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data) {
-          setPath(data.path);
-          setProgress(data.userProgress);
-          const completed = data.userProgress?.completedSteps ?? [];
-          const firstIncomplete = data.path.steps.find(
-            (s: Step) => !completed.includes(s.order)
-          );
-          if (firstIncomplete) {
-            setExpandedStep(firstIncomplete.order);
-          }
-        } else {
-          setFetchError(true);
-        }
+      .then((data: ByslugResponse | null) => {
+        if (data?.path) applyServerData(data);
+        else setFetchError(true);
+      })
+      .catch(() => setFetchError(true))
+      .finally(() => setIsLoading(false));
+  }, [slug, initialPath, status, reloadKey, applyServerData]);
+
+  // Ancre #etape-N à l'arrivée (HTML ISR) : l'étape s'ouvre et vient à l'écran.
+  useEffect(() => {
+    hashStep.current = readHashStep();
+    if (!initialPath || hashStep.current === null) return;
+    const target = stepToOpen(initialPath.steps, initialProgress?.completedSteps ?? [], hashStep.current);
+    if (target === null) return;
+    setExpandedStep(target);
+    requestAnimationFrame(() => document.getElementById(`etape-${target}`)?.scrollIntoView?.({ block: "start" }));
+    // Lecture unique à l'arrivée.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // parcours-ouvert : une fois par affichage, session résolue (data-analyst §5.1).
+  useEffect(() => {
+    if (status === "loading" || openTracked.current) return;
+    openTracked.current = true;
+    trackUmami("parcours-ouvert", { parcours: slug, statut, src: readParcoursSrc() });
+  }, [status, slug, statut]);
+
+  // Retours déjà donnés sur les exercices (abonné, route du lot A).
+  const pathId = path?.id ?? "";
+  const tracksProgress = isPremium && pathId !== "" && !pathId.startsWith("seed-");
+  useEffect(() => {
+    if (!tracksProgress) return;
+    fetch(`/api/parcours/${encodeURIComponent(pathId)}/retour`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { retours?: Array<{ stepOrder: number; retour: string }> } | null) => {
+        if (!data?.retours) return;
+        setRetours(Object.fromEntries(data.retours.map((r) => [r.stepOrder, r.retour])));
       })
       .catch(() => {
-        setFetchError(true);
-      })
-      .finally(() => setIsLoading(false));
-  }, [slug, initialPath, status]);
+        // Facultatif : sans historique, les boutons restent simplement vides.
+      });
+  }, [tracksProgress, pathId]);
+
+  /** Appels secondaires de l'abonné (quiz = pratique D3, retour d'exercice) : jamais bloquants. */
+  const postQuiet = (route: "quiz" | "retour", body: Record<string, string | number>) => {
+    if (!tracksProgress) return;
+    fetch(`/api/parcours/${encodeURIComponent(pathId)}/${route}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).catch(() => {
+      // Rien à montrer : la série ou le retour seront comptés à la prochaine action.
+    });
+  };
+
+  // etape-ouverte : une fois par étape et par affichage, session résolue.
+  useEffect(() => {
+    if (status === "loading" || expandedStep === null) return;
+    if (!openedAt.current.has(expandedStep)) openedAt.current.set(expandedStep, Date.now());
+    if (openedSteps.current.has(expandedStep)) return;
+    openedSteps.current.add(expandedStep);
+    trackUmami("etape-ouverte", { parcours: slug, etape: expandedStep, statut, declencheur: openTrigger.current });
+    openTrigger.current = "auto";
+  }, [expandedStep, status, slug, statut]);
+
+  // Après validation : focus sur l'étape suivante ou sur la carte de fin (UX-05 d, UX-09 d).
+  useEffect(() => {
+    const target = focusAfterValidation.current;
+    if (target === null) return;
+    focusAfterValidation.current = null;
+    const el = target === "fin" ? completionHeading.current : document.getElementById(`etape-${target}-entete`);
+    el?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+    el?.focus({ preventScroll: true });
+  }, [progress, expandedStep]);
+
+  const toggleStep = (order: number, isExpanded: boolean) => {
+    openTrigger.current = "manuel";
+    setExpandedStep(isExpanded ? null : order);
+  };
 
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || !isPremium) {
       window.location.assign(abonnementHref);
       return;
     }
-
     setCompleting(stepOrder);
     setCompletionError(null);
     try {
@@ -396,26 +260,68 @@ export function ParcoursDetail({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ stepOrder }),
       });
-
       if (res.ok) {
-        const data = await res.json();
-        setProgress(data.progress);
-        trackUmami("parcours-etape", { parcours: slug, etape: stepOrder });
-        if (data.xpGained > 0) {
-          setXpGained({ step: stepOrder, xp: data.xpGained });
-          setTimeout(() => setXpGained(null), 3000);
+        const data = (await res.json()) as {
+          progress?: UserProgress;
+          xpGained?: number;
+          pathCompleted?: boolean;
+          nextRecommendedAt?: string | null;
+          pathXpTotal?: number;
+        };
+        const pathCompleted = data.pathCompleted === true;
+        const base = data.progress ?? { completedSteps: [], currentStep: stepOrder, completedAt: null };
+        const completed = [...new Set([...(base.completedSteps ?? []), stepOrder])];
+        // A2 : la fin vient du serveur (`pathCompleted` ou `completedAt`), jamais d'un seuil d'XP.
+        const completedAt = base.completedAt ?? (pathCompleted ? new Date().toISOString() : null);
+        setProgress({ ...base, completedSteps: completed, completedAt });
+        setLastValidation(new Date().toISOString());
+        setNextRecommended(data.nextRecommendedAt ?? null);
+        // Total réel lu côté serveur (lot A), étapes + bonus de fin.
+        if (typeof data.pathXpTotal === "number") setServerXpTotal(data.pathXpTotal);
+        const opened = openedAt.current.get(stepOrder);
+        trackUmami("parcours-etape", {
+          parcours: slug,
+          etape: stepOrder,
+          etapes: path.steps.length,
+          termine: pathCompleted ? "oui" : "non",
+          ...(opened !== undefined && { duree_s: Math.min(3600, Math.round((Date.now() - opened) / 1000)) }),
+        });
+        if (pathCompleted) {
+          const started = base.startedAt ? new Date(base.startedAt).getTime() : NaN;
+          trackUmami("parcours-termine", {
+            parcours: slug,
+            jours: Number.isNaN(started) ? 0 : Math.max(0, Math.floor((Date.now() - started) / 86_400_000)),
+            etapes: path.steps.length,
+          });
         }
-        // Auto-expand the next step after completion
-        const nextStep = path.steps.find((s) => s.order > stepOrder);
-        if (nextStep) {
-          setTimeout(() => setExpandedStep(nextStep.order), 500);
+        const xp = data.xpGained ?? 0;
+        if (xp > 0) {
+          setXpMessage(pathCompleted ? XP_GAIN.fin(xp, PARCOURS_BONUS_FIN_XP) : XP_GAIN.etape(xp));
+          setTimeout(() => setXpMessage(null), 6000);
         }
-      } else if (res.status === 429) {
-        setCompletionError("Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie.");
+        const nextStep = path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order));
+        if (pathCompleted || !nextStep) {
+          focusAfterValidation.current = "fin";
+        } else {
+          focusAfterValidation.current = nextStep.order;
+          setExpandedStep(nextStep.order);
+        }
       } else {
-        setCompletionError("L'étape n'a pas voulu se valider. Réessaie.");
+        const err = (await res.json().catch(() => null)) as { error?: string; code?: string } | null;
+        // Codes du lot A → motifs fermés de data-analyst §5.1 (« ordre » = refus d'ordre conseillé).
+        const motif =
+          res.status === 429 ? "limite" : res.status === 403 || res.status === 409 ? "refus" : "serveur";
+        trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif });
+        setCompletionError(
+          res.status === 429
+            ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
+            : err?.code === "ordre" && err.error
+              ? err.error
+              : "L'étape n'a pas voulu se valider. Réessaie.",
+        );
       }
     } catch {
+      trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif: "reseau" });
       setCompletionError("La connexion a lâché en route. Vérifie ton réseau et réessaie.");
     } finally {
       setCompleting(null);
@@ -424,7 +330,7 @@ export function ParcoursDetail({
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-4" aria-busy="true">
         {Array.from({ length: 3 }).map((_, i) => (
           <Card key={i} className="animate-pulse">
             <CardContent className="py-8">
@@ -456,14 +362,20 @@ export function ParcoursDetail({
 
   const completedSteps = progress?.completedSteps ?? [];
   const totalSteps = path.steps.length;
-  const isPathCompleted = progress?.completedAt !== null && progress?.completedAt !== undefined;
-  const totalXp = path.steps.reduce((sum, s) => sum + (s.moduleXp ?? 20), 0);
-  // Detect seed fallback (not in DB) — cannot track progress
+  const isPathCompleted = !!progress?.completedAt;
+  const totalXp = serverXpTotal ?? totalParcoursXp(path.steps);
   const isSeedFallback = path.id.startsWith("seed-");
+  // D2 (étalon 3.3 A) : date du serveur (lot A) si fournie, sinon 7 jours après la
+  // dernière validation connue ; date passée = « La prochaine étape t'attend. ».
+  const showRythme = isPremium && !isPathCompleted && completedSteps.length > 0 && (!!nextRecommended || !!lastValidation);
+  const nextDate = !showRythme
+    ? null
+    : nextRecommended && new Date(nextRecommended).getTime() > Date.now()
+      ? new Date(nextRecommended)
+      : prochaineEtapeConseillee(lastValidation);
 
   return (
     <>
-      {/* Header */}
       <div className="mb-8">
         <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
@@ -477,386 +389,137 @@ export function ParcoursDetail({
           <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
             <h1 className="font-display text-3xl font-bold">{path.title}</h1>
-            <div className="mt-1 flex items-center gap-2">
-              <Badge variant="primary">
-                {formatDifficulty(path.difficultyLabel ?? path.difficulty)}
-              </Badge>
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
               <span className="text-sm text-text-muted">{path.duration}</span>
             </div>
           </div>
         </div>
         <p className="mt-4 text-text-secondary">{stripEmDashes(path.description)}</p>
-        {path.personaTagline && (
-          <p className="mt-2 text-sm font-medium text-accent-link">
-            {path.personaTagline}
-          </p>
-        )}
-        {path.testimonial && (
-          <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-            {stripEmDashes(path.testimonial)}
-          </p>
+        {(path.personaTagline || path.testimonial) && (
+          <section aria-labelledby="parcours-pour-qui" className="mt-4">
+            <h2 id="parcours-pour-qui" className="font-display text-lg font-bold">{TITRES_SECTIONS.pourQui}</h2>
+            {path.personaTagline && (
+              <p className="mt-2 text-sm font-medium text-accent-link">{path.personaTagline}</p>
+            )}
+            {path.testimonial && (
+              <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+                {stripEmDashes(path.testimonial)}
+              </p>
+            )}
+          </section>
         )}
       </div>
 
-      {/* Progress */}
       <Card className="mb-8">
         <CardContent className="py-4">
-          {/* Libellé passé à la barre : nom accessible de la progressbar (axe aria-progressbar-name, s16). */}
-          <ProgressBar
-            label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
-            value={completedSteps.length}
-            max={totalSteps}
-            variant="gradient"
-          />
-          <p className="mt-2 text-right text-sm font-medium text-accent-link">
-            {totalXp} XP au total
-          </p>
+          {isPremium ? (
+            <>
+              {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
+              <ProgressBar
+                label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
+                value={completedSteps.length}
+                max={totalSteps}
+                variant="gradient"
+              />
+              <p className="mt-2 text-right text-sm font-medium text-accent-link">
+                {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
+              </p>
+              {showRythme && (
+                <p className="mt-2 text-sm text-text-secondary">
+                  {nextDate ? prochaineEtapeTexte(formatDateConseillee(nextDate)) : PROCHAINE_ETAPE_DISPONIBLE}
+                </p>
+              )}
+              {!isPathCompleted && (
+                <p className="mt-2 text-xs text-text-muted">
+                  {RAPPEL_LIEN.texte}{" "}
+                  <Link href="/profil#rappel-parcours" className="text-accent-link underline underline-offset-2">
+                    {RAPPEL_LIEN.lien}
+                  </Link>
+                </p>
+              )}
+            </>
+          ) : (
+            // QA-13 : pas de barre immobile pour un non-abonné.
+            <p className="text-sm text-text-secondary">{progressionVisiteurTexte(totalSteps)}</p>
+          )}
         </CardContent>
       </Card>
 
-      {/* Completion error banner */}
+      {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : elle ne se démonte pas avec l'étape. */}
+      <div aria-live="polite" aria-atomic="true" className="mb-4 text-center">
+        {xpMessage && <p className="text-sm font-bold text-accent-link animate-scale-in">{xpMessage}</p>}
+      </div>
+
       {completionError && (
-        <div
-          className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error"
-          role="alert"
-        >
+        <div className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error" role="alert">
           {completionError}
         </div>
       )}
 
-      {/* Steps */}
+      <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
+      {!isPremium && <p className="mb-4 text-sm text-text-secondary">{APERCU_INTRO}</p>}
       <div className="space-y-4" role="list" aria-label="Étapes du parcours">
         {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
-          const isExpanded = expandedStep === step.order;
-          // Étape 1 offerte à tous ; 2 et suivantes réservées aux abonnés
-          // Premium (anonymes ET comptes non abonnés), comme l'annonce le bloc ci-dessous.
-          const isPremiumLocked = !canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null);
-          const stepXp = step.moduleXp ?? 20;
-          const hasQuiz = step.quiz && step.quiz.length > 0;
-          const isQuizDone = quizDone.has(step.order);
-
-          // Sequential locking: step N requires steps 1..N-1 completed
-          const previousStepsCompleted = stepIndex === 0
-            || path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
-          const isSequentiallyLocked = !previousStepsCompleted && !isCompleted;
-          // Can this step be expanded?
-          const canExpand = !isSequentiallyLocked;
-
+          const previousStepsCompleted =
+            stepIndex === 0 || path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
           return (
-            <Card
+            <ParcoursStepCard
               key={step.id}
-              role="listitem"
-              className={
-                isCompleted
-                  ? "border-accent-primary/30 bg-accent-primary/5"
-                  : isSequentiallyLocked
-                    ? "border-dashed"
-                    : ""
-              }
-            >
-              <CardHeader
-                role={canExpand ? "button" : undefined}
-                tabIndex={canExpand ? 0 : undefined}
-                aria-expanded={canExpand ? isExpanded : undefined}
-                aria-label={`Étape ${step.order} : ${step.moduleTitle ?? step.tip.title}${isCompleted ? ", complétée" : isSequentiallyLocked ? ", verrouillée" : ""}`}
-                className={canExpand ? "cursor-pointer" : "cursor-default"}
-                onClick={() => {
-                  if (!canExpand) return;
-                  setExpandedStep(isExpanded ? null : step.order);
-                }}
-                onKeyDown={(e) => {
-                  if (!canExpand) return;
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setExpandedStep(isExpanded ? null : step.order);
-                  }
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                        isCompleted
-                          ? "bg-accent-primary text-white"
-                          : isSequentiallyLocked
-                            ? "bg-background-elevated text-text-muted opacity-60"
-                            : "bg-background-elevated text-text-muted"
-                      }`}
-                      aria-hidden="true"
-                    >
-                      {isCompleted ? (
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      ) : isSequentiallyLocked ? (
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      ) : (
-                        step.order
-                      )}
-                    </div>
-                    <div>
-                      <CardTitle className={`text-base ${isSequentiallyLocked ? "text-text-muted" : ""}`}>
-                        {step.moduleTitle ?? step.tip.title}
-                      </CardTitle>
-                      <div className="mt-1 flex items-center gap-2">
-                        <span className={`text-xs ${isSequentiallyLocked ? "text-text-muted" : "text-accent-link"}`}>
-                          +{stepXp} XP
-                        </span>
-                        {(step.free || step.order === 1) && (
-                          <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>
-                        )}
-                        {isSequentiallyLocked && (
-                          <span className="text-xs text-text-muted">
-                            Termine l&apos;étape {step.order - 1} pour débloquer
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {canExpand ? (
-                    <svg
-                      className={`h-5 w-5 shrink-0 text-text-muted transition-transform ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  ) : (
-                    <svg className="h-5 w-5 shrink-0 text-text-muted/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  )}
-                </div>
-              </CardHeader>
-
-              {isExpanded && canExpand && (
-                <CardContent className="pt-0">
-                  {isPremiumLocked ? (
-                    <LockedStepPreview step={step} slug={slug} />
-                  ) : step.locked ? (
-                    <p className="rounded-lg bg-background-elevated p-4 text-center text-sm text-text-secondary" role="status">
-                      Chargement du contenu de l&apos;étape…
-                    </p>
-                  ) : (
-                    <div className="space-y-5">
-                      {/* Why this step */}
-                      {step.why && (
-                        <div className="rounded-lg bg-background-elevated p-3">
-                          <p className="text-sm font-medium text-accent-link">
-                            Pourquoi cette étape ?
-                          </p>
-                          <p className="mt-1 text-sm text-text-secondary">
-                            {step.why}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Module detail */}
-                      {step.moduleDetail && (
-                        <div>
-                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
-                            Ce que tu vas apprendre
-                          </h4>
-                          <p className="text-sm text-text-secondary">
-                            {step.moduleDetail}
-                          </p>
-                          {step.moduleFormat && (
-                            <p className="mt-2 text-xs text-text-muted">
-                              Format : {step.moduleFormat}
-                            </p>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Tip content (from DB) : masqué s'il répète mot pour mot le bloc précédent (T28) */}
-                      {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
-                        <div>
-                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
-                            Le conseil
-                          </h4>
-                          <p className="text-sm text-text-secondary">
-                            {tipProse(step.tip.content)}
-                          </p>
-                        </div>
-                      )}
-
-                      {step.tip.example && (
-                        <div>
-                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
-                            Exemple concret
-                          </h4>
-                          <p className="rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">
-                            {tipProse(step.tip.example)}
-                          </p>
-                        </div>
-                      )}
-
-                      {step.tip.exercise && (
-                        <div>
-                          <h4 className="mb-1 text-sm font-semibold text-text-primary">
-                            Exercice pratique
-                          </h4>
-                          <p className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3 text-sm text-text-secondary">
-                            {tipProse(step.tip.exercise)}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Jokes teaser */}
-                      {step.jokeIds && step.jokeIds.length > 0 && (
-                        <JokeTeaser jokeIds={step.jokeIds} />
-                      )}
-
-                      {/* Videos */}
-                      {step.videos && step.videos.length > 0 && (
-                        <div>
-                          <h4 className="mb-2 text-sm font-semibold text-text-primary">
-                            Vidéos à regarder
-                          </h4>
-                          <div className="grid gap-3 sm:grid-cols-2">
-                            {step.videos.map((v) => (
-                              <VideoCard key={v.youtubeId} video={v} />
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Quiz */}
-                      {hasQuiz && !isQuizDone && !isCompleted && (
-                        <div>
-                          <h4 className="mb-2 text-sm font-semibold text-text-primary">
-                            Petit quiz avant de valider
-                          </h4>
-                          <StepQuiz
-                            quiz={step.quiz!}
-                            onComplete={() =>
-                              setQuizDone((prev) => new Set(prev).add(step.order))
-                            }
-                          />
-                        </div>
-                      )}
-
-                      {hasQuiz && isQuizDone && !isCompleted && (
-                        <p className="text-center text-sm font-medium text-accent-link">
-                          Quiz bouclé, tu peux valider l&apos;étape
-                        </p>
-                      )}
-
-                      {/* XP notification — accessible via aria-live */}
-                      <div aria-live="polite" aria-atomic="true">
-                        {xpGained?.step === step.order && (
-                          <p className="text-center text-sm font-bold text-accent-link animate-scale-in">
-                            +{xpGained.xp} XP gagné{xpGained.xp >= 100 ? "s ! Parcours terminé !" : "s !"}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Quiz required: show disabled button if quiz not done */}
-                      {!isCompleted && isPremium && !isSeedFallback && hasQuiz && !isQuizDone && (
-                        <Button
-                          variant="primary"
-                          className="w-full opacity-50 cursor-not-allowed"
-                          disabled
-                        >
-                          Termine le quiz pour valider cette étape
-                        </Button>
-                      )}
-
-                      {!isCompleted && isPremium && !isSeedFallback && (!hasQuiz || isQuizDone) && (
-                        <Button
-                          variant="primary"
-                          className="w-full"
-                          onClick={() => handleCompleteStep(step.order)}
-                          disabled={completing === step.order}
-                        >
-                          {completing === step.order
-                            ? "On valide…"
-                            : "Valider cette étape"}
-                        </Button>
-                      )}
-
-                      {!isCompleted && isPremium && isSeedFallback && (
-                        <p className="text-center text-sm text-text-muted">
-                          Le suivi de ta progression arrive bientôt sur ce parcours.
-                        </p>
-                      )}
-
-                      {isCompleted && (
-                        <p className="text-center text-sm font-medium text-accent-link">
-                          Étape validée
-                        </p>
-                      )}
-
-                      {!isPremium && !isCompleted && step.order === 1 && (
-                        <div className="text-center">
-                          <p className="text-sm text-text-secondary">
-                            {VALIDATION_ETAPE.texte}
-                          </p>
-                          <Link
-                            href={abonnementHref}
-                            className={`${buttonVariants({ variant: "primary" })} mt-3 h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
-                          >
-                            {VALIDATION_ETAPE.bouton}
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              )}
-            </Card>
+              step={step}
+              slug={slug}
+              timePerWeek={path.timePerWeek}
+              isPremium={isPremium}
+              isCompleted={isCompleted}
+              isExpanded={expandedStep === step.order}
+              // D1 : ordre conseillé pour l'abonné seulement ; le visiteur ouvre l'aperçu.
+              isSequentiallyLocked={isPremium && !previousStepsCompleted && !isCompleted}
+              isPremiumLocked={!canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null)}
+              previousOrder={path.steps[stepIndex - 1]?.order ?? null}
+              isQuizDone={quizDone.has(step.order)}
+              isSeedFallback={isSeedFallback}
+              completing={completing === step.order}
+              abonnementHref={abonnementHref}
+              loadFailed={enrichError}
+              onRetryLoad={() => setReloadKey((k) => k + 1)}
+              onToggle={() => toggleStep(step.order, expandedStep === step.order)}
+              onQuizComplete={(score, total) => {
+                setQuizDone((prev) => new Set(prev).add(step.order));
+                trackUmami("quiz-etape-termine", { parcours: slug, etape: step.order, score, total, statut });
+                postQuiet("quiz", { stepOrder: step.order });
+              }}
+              retour={retours[step.order] ?? null}
+              onRetour={(resultat) => {
+                setRetours((prev) => ({ ...prev, [step.order]: resultat }));
+                postQuiet("retour", { stepOrder: step.order, retour: resultat });
+              }}
+              onComplete={() => handleCompleteStep(step.order)}
+            />
           );
         })}
       </div>
 
-      {/* End of parcours CTA */}
       {isPathCompleted && (
-        <Card className="mt-8 border-accent-primary/30 bg-accent-primary/5">
-          <CardContent className="py-8 text-center">
-            <p className="font-display text-2xl font-bold">
-              Bravo, tu as terminé le {path.title} !
-            </p>
-            <p className="mx-auto mt-2 max-w-md text-text-secondary">
-              {totalXp} XP gagnés. Le plus dur, maintenant, c&apos;est de ne pas le raconter à tout le monde. Quoique, c&apos;était un peu l&apos;idée.
-            </p>
-            {path.nextParcours && (
-              <div className="mt-6">
-                <p className="text-sm text-text-secondary">
-                  {path.nextParcoursReason}
-                </p>
-                <Link href={`/parcours/${path.nextParcours}`}>
-                  <Button variant="primary" size="lg" className="mt-3">
-                    Passer au parcours suivant
-                  </Button>
-                </Link>
-              </div>
-            )}
-            {!path.nextParcours && (
-              <Link href="/parcours">
-                <Button variant="primary" size="lg" className="mt-4">
-                  Voir tous les parcours
-                </Button>
-              </Link>
-            )}
-          </CardContent>
-        </Card>
+        <PathCompletionCard
+          ref={completionHeading}
+          slug={slug}
+          title={path.title}
+          totalXp={totalXp}
+          stepTitles={path.steps.map((s) => s.moduleTitle ?? s.tip.title)}
+          retours={retours}
+          nextParcours={path.nextParcours}
+          nextParcoursReason={path.nextParcoursReason}
+        />
       )}
 
-      {/* Cross-recommendation for non-completed */}
-      {!isPathCompleted && path.nextParcours && (
+      {/* UX-06 : pas de « parcours suivant » en cours de route pour un abonné. */}
+      {!isPathCompleted && !isPremium && path.nextParcours && (
         <div className="mt-8 rounded-lg border border-border p-4 text-center">
           <p className="text-sm text-text-muted">
             Tu y prends goût ?{" "}
             <Link
-              href={`/parcours/${path.nextParcours}`}
+              href={`/parcours/${path.nextParcours}?src=suite`}
               className="text-accent-link underline underline-offset-2"
             >
               Jette un œil au parcours suivant
@@ -864,7 +527,6 @@ export function ParcoursDetail({
           </p>
         </div>
       )}
-
     </>
   );
 }
