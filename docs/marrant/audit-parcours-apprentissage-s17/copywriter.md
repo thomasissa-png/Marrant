@@ -197,12 +197,55 @@ Exercices « aujourd'hui » sur 13 étapes sur 13 ; Rép 3 et Conf 2 (méthode e
 
 ## 6. Les 3 pires passages (extraits exacts)
 
-[EN COURS]
+**1. Confiance, étape 1 (gratuite) : le texte promet l'inverse de l'exercice** (COP-01)
+
+> Pourquoi : « On démarre en douceur : aucune vanne à réussir, juste regarder ta journée et remarquer les règles que tout le monde suit sans jamais les dire. C'est souvent par là que la légèreté revient. »
+> Ce que tu vas apprendre : « Regarder ton quotidien avec un œil comique, noter ce qui te fait sourire, comprendre ce qui te fait rire, toi. Ici, pas d'exercice à rater : chaque détail noté compte déjà. »
+> Exercice pratique affiché juste en dessous : « DÉFI RÈGLE NON ÉCRITE : aujourd'hui, énonce à voix haute une règle non écrite d'un lieu public que tu traverses. »
+> Quiz, question 2 : « Le journal d'observation comique, c'est : » (aucun journal n'est enseigné dans l'étape).
+
+Pourquoi c'est le pire : c'est l'étape d'entrée du persona le plus fragile, et elle lui demande de parler à voix haute en public juste après lui avoir dit qu'il n'y a « pas d'exercice à rater ».
+
+**2. Toutes les étapes : la promesse des vannes** (COP-02)
+
+> Format annoncé : « Conseil technique + vannes à pratiquer + vidéo d'exemple + quiz » (Machine à Café 1).
+> Ce que voit le membre : « Vannes à pratiquer. 5 vannes sélectionnées pour ce module. Découvre-les dans le catalogue » (`parcours-detail.tsx:248-259`).
+> Page Premium : « Chaque étape avec son conseil, ses vannes, ses vidéos et son quiz. » (`premium-benefits.tsx:34-35`).
+
+Pourquoi c'est le pire : une promesse de la page de vente, répétée 13 fois, sans contenu derrière, sur la ressource la plus désirable du site.
+
+**3. Répartie, étape 1 (gratuite) : trois cours dans une étape** (COP-01)
+
+> Ce que tu vas apprendre : « Rebondir sur une remarque, accuser réception, reformuler avec humour : 3 réflexes pour ne plus rester muet en TD, en soirée ou en coloc. »
+> Le conseil affiché : « L'ironie bienveillante consiste à dire le contraire de ce que tu penses, si évidemment que ça fait rire sans blesser. »
+> Quiz, question 1 : « Un pote te dit "T'es toujours en retard". Quelle répartie bienveillante ? » avec pour bonne réponse « C'est stratégique : j'arrive pile quand vous avez fini de parler de moi. » (une exagération, pas une ironie au sens du conseil).
+
+Pourquoi c'est le pire : c'est la vitrine du parcours du persona principal (Yanis) ; le visiteur ne sait plus ce qu'on lui apprend.
 
 ## 7. Vérifié / Non vérifié
 
-[EN COURS]
+**Vérifié (constaté directement)**
+- Textes complets du seed `parcours-seed.json` (13 étapes, 54 questions de quiz, 26 emplacements vidéo, 65 emplacements de vannes) et des composants `parcours-detail.tsx`, `parcours-content.tsx`, `parcours/page.tsx`, `parcours/[slug]/page.tsx`, `parcours-catalogue.ts`, `parcours-labels.ts`, `parcours-preview.ts`, `parcours-orientation.ts`, route de progression.
+- Étape 1 des 3 parcours telle que rendue en prod (captures s17 desktop) : conseil, exemple, exercice, teaser de vannes, 2 vidéos, quiz, bouton « Voir l'offre Premium », étapes 2+ avec cadenas et « Termine l'étape N-1 pour débloquer ».
+- Durées de 22 vidéos (seed) et concordance artiste/titre/identifiant avec `videos-seed.json` : 21 concordent, 1 non (57Ip2k3us_8).
+- Existence des identifiants de vannes dans `blagues-seed.json` : 62 distincts testés, 3 absents (82, 85, 180).
+- Comptage des bonnes réponses de quiz par position (lecture du fichier).
+- Aucun appel du code ne résout `jokeIds` en vannes affichées (grep).
+
+**Non vérifié (déduit ou non mesuré)**
+- Texte exact des conseils des étapes 2 et suivantes en base (payantes, non lisibles sans abonnement) : lu dans les fichiers de travail s14, qui peuvent différer de la base (cas démontré sur MàC 1).
+- Statut actif et qualité en base des vannes et des conseils cités en 4.4 et des vannes des parcours.
+- Que l'identifiant `57Ip2k3us_8` affiche bien la vidéo de Thomas VDB sur YouTube (déduit du seed) ; fonctionnement du lecteur pour les 21 autres.
+- Durées par étape : estimation (lecture 200 mots/min, quiz 40 s/question, exercice 5 à 10 min), aucun temps réel d'utilisateur ; Umami ne mesure que `parcours-etape` et n'a pas été interrogé.
+- Rendu mobile 375 px, accessibilité, performance (hors périmètre copy).
+- Fréquence réelle d'usage des parcours (aucune donnée de progression lue).
 
 ## 8. Handoff
 
-[EN COURS]
+**Handoff → @orchestrator**
+- Fichier produit : `/home/user/Marrant/docs/marrant/audit-parcours-apprentissage-s17/copywriter.md` (aucun autre fichier modifié, aucun commit).
+- Notes : C1 4, C2 5, C12 4, avis C7 4 (valeur ponctuelle, pas récurrente).
+- Décisions Thomas à prévoir : (1) réécriture des textes d'étape, quiz et exercices des 13 étapes (calibrage d'étalons obligatoire, P0 s8) ; (2) afficher les vannes des étapes ou retirer la promesse ; (3) allonger l'offre (étapes, échelonnage, annuel mis en avant) ; (4) pas de modification du chiffre « 15 à 20 min/semaine » (choix fondateur) : agir sur les vidéos.
+- Corrections rapides sans décision éditoriale : identifiant vidéo MàC 3 (COP-03), message « Parcours terminé ! » (COP-08), message « Termine l'étape 1 pour débloquer » pour un visiteur (COP-07, avec @ux), tirets des balisages et « blague » des quiz (COP-10).
+- Contraintes respectées : tutoiement et « vanne » comme référence, humoristes cités conservés, « Imagine… » conservés, chiffres du site non touchés.
+- Références marché : non consultées (audit de l'existant, pas de production de copy).

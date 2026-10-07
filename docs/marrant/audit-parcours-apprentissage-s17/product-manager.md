@@ -132,8 +132,93 @@ Valeur 0 à 5 = à quel point CE parcours, tel qu'il est écrit, sert CETTE pers
 - **Suite par défaut à personnaliser (F7)** : Yanis Répartie, puis Storytelling, puis Confiance ; Sophie Machine à Café, puis Pro, puis Storytelling ; Marc Confiance, puis Storytelling, puis Machine à Café. Aujourd'hui tous suivent la même boucle statique Machine à Café, Répartie, Confiance, Machine à Café (champ `nextParcours` du seed).
 - **Question pour Thomas (aucun document ne la tranche)** : le parcours Confiance reste-t-il écrit pour Marc, étape 3 comprise (assumé : un parcours par persona), ou une étape doit-elle devenir lisible pour un étudiant de 20 ans ? Exécution éventuelle : @copywriter, avec étalons.
 
-## 7. Constats numérotés (PM-01 ...)
-(à remplir)
+## 7. Constats numérotés (PM-01 à PM-12)
+
+Format : problème, effet pour la personne, ce qu'on fait (sans jargon) ; le détail technique est à part. Effort : rapide / moyen / long. Toute formulation nouvelle destinée au site ou aux e-mails passe d'abord par des étalons validés par Thomas (P0 s8) ; aucun chiffre existant du site n'est touché.
+
+### PM-01 [P0] (C8) Rien ne fait revenir la personne d'une semaine à l'autre
+- **Problème** : un parcours est annoncé « en 3, 4 ou 6 semaines, 15 à 20 min par semaine », mais le produit ne propose ni date, ni rythme conseillé, ni rappel, ni relance. La régularité, qui est ce qui fait réussir un parcours, est laissée entièrement à la bonne volonté.
+- **Effet** : la personne commence l'étape 1 un soir, a prévu « la suite la semaine prochaine », et rien ne le lui rappelle. Pour Yanis (timide, besoin d'être guidé) et Marc (en reconstruction), c'est le risque d'abandon le plus fort. Pour le chiffre d'affaires : un abonné qui ne revient pas résilie.
+- **Ce qu'on fait** : (1) un rythme conseillé affiché (« étape conseillée pour le jeudi 15 », jour choisi par la personne, étape suivante toujours ouverte) ; (2) un rappel par e-mail hebdomadaire **sur demande uniquement**, ton « on offre, on n'impose pas » ; (3) un e-mail de reprise ~30 jours après le dernier passage, avec l'étape exacte (F1, F2, F10). Jamais de phrase culpabilisante.
+- **Détail technique et preuve** : déblocage à la validation de l'étape précédente, aucune date (`parcours-detail.tsx:540-542`) ; types d'e-mail client : réinitialisation, rappel annuel, confirmation, paiement refusé, résiliation, rétractation (`email.ts:30-38`) ; routes cron : aucune pour les parcours (`app/api/cron/`, 15 routes dont `daily-push` = push mobile « vanne du jour », appli non publiée) ; recherche de fichiers `*relance*`, `*inactiv*`, `*reactivation*` vide. Déduit, pas lu à 100 % : `lib/scheduler/jobs.ts` lu sur 150 lignes seulement. Série = connexions, d'après la spec s15 (code `auth.ts` non relu).
+- **Agent / effort** : @product-manager (stories) puis @fullstack, @copywriter (étalons e-mail), @legal (consentement et désinscription) ; moyen.
+
+### PM-02 [P1] (C1, C7) Le contenu payant est fini, l'abonnement ne l'est pas
+- **Problème** : 13 étapes, environ 4 h, pour un abonnement mensuel récurrent. Au rythme annoncé, tout est consommé en 13 semaines, et en un week-end si la personne enchaîne. Les contenus qui se renouvellent (vanne, conseil et vidéo du jour) sont publics ; ne reste de nouveau, côté Premium, que le carnet mensuel (15 fiches le 1er mois, puis 30).
+- **Effet** : Sophie finit Machine à Café (45 min) en une soirée et n'a ensuite que des parcours écrits pour d'autres. Marc a 6 étapes, puis une suite qui le renvoie à un parcours déjà fait. « J'ai tout vu, je résilie » est le scénario le plus probable.
+- **Ce qu'on fait** : annoncer et tenir un calendrier d'ajouts (Storytelling d'abord, Pro ensuite, F8 et F9), plus un « défi du mois » par parcours ; mesurer les résiliations juste après une fin de parcours (K13) pour confirmer. Ne pas toucher aux prix ([CHOIX UTILISATEUR]).
+- **Détail technique et preuve** : `parcours-seed.json` (13 étapes) ; `config/premium.ts:70-74` ; `upcoming-features.tsx:39-42` ; matrice §6 (Sophie 10/15 sur son parcours, 3/3/2 sur les autres) ; hypothèse H5 non encore testée (0 abonné aux prix actuels).
+- **Agent / effort** : @product-manager (roadmap par dépendances), @copywriter + @ia (production du contenu préparé à l'avance et relu à l'aveugle, [CHOIX] 01/10) ; long.
+
+### PM-03 [P1] (C7, C12) Au moment décisif, le visiteur lit « tu peux valider » puis trouve un mur
+- **Problème** : à la fin du quiz de l'étape 1, tout le monde, visiteur compris, lit « Tu as tout compris. Tu peux valider l'étape. » Puis le bouton de validation est remplacé par « Valider l'étape fait partie de Premium » et « Voir l'offre Premium ». Le badge dit « Lecture libre », mais la page d'abonnement et le texte du mur disent « la première étape est offerte ».
+- **Effet** : le seul moment où la personne sent qu'elle progresse (coche, XP, barre qui avance) est justement celui qu'on lui retire. L'achat arrive sur une déception plutôt que sur une envie, ce qui est à l'opposé du principe « produit qui s'apprend, pas qui se vend ».
+- **Ce qu'on fait** : (1) pour un visiteur, remplacer le texte de fin de quiz par un texte vrai (ex. « Bien joué. Pour garder ta progression, il te faut l'accès complet ») ; (2) dire clairement « Étape 1 : lecture libre. Valider = Premium » ; (3) à décider par Thomas, car cela ajouterait une fonction aux visiteurs ([CHOIX] 05/10 : visiteurs inchangés) : une coche locale « fait » sans enregistrement. Reco par défaut : (1) et (2) seulement.
+- **Détail technique et preuve** : `parcours-detail.tsx:159-175` (fin de quiz, aucun test de plan), `:747-751` (« Quiz bouclé, tu peux valider l'étape »), `:798-810` (remplacement par le mur pour `!isPremium && step.order === 1`), `config/textes/offre.ts:74,79,84-87` (textes marqués PROVISOIRE s16). Fonction « valider = Premium » décidée par la spec s15 §1.1, pas par un [CHOIX UTILISATEUR] explicite.
+- **Agent / effort** : @copywriter (étalons) puis @fullstack ; rapide.
+
+### PM-04 [P1] (C12, C1) Les « vannes de l'étape » promises ne s'affichent pas
+- **Problème** : chaque étape a 5 vannes choisies pour elle, annoncées comme faisant partie de l'étape. À l'écran : « 5 vannes sélectionnées pour ce module. Découvre-les dans le catalogue », lien vers la liste générale.
+- **Effet** : la personne doit retrouver elle-même 5 vannes parmi des centaines ; un non-abonné n'en voit que 10 en liste. La vanne « à pratiquer » est justement le support de l'exercice (c'est ce qu'on répète à voix haute).
+- **Ce qu'on fait** : afficher les 5 vannes (texte et décryptage) dans l'étape, comme les vidéos. **D'abord vérifier** que les 5 numéros du seed pointent vers des vannes actives : le catalogue a été réduit le 30/09 (décision : 125 vannes validées, le reste en soft delete) et les numéros du seed vont jusqu'à 343 ; un numéro retiré donnerait un trou.
+- **Détail technique et preuve** : `JokeTeaser` (`parcours-detail.tsx:244-262`) : compte + lien `/vannes`, rien d'autre ; `jokeIds` du seed jusqu'à 343 ; `premium-benefits.tsx:34-36` promet « ses vannes ». **Non vérifié** : correspondance des `jokeIds` avec les vannes actives (requête en lecture sur `Joke` à lancer).
+- **Agent / effort** : @qa (vérification des numéros) puis @fullstack ; rapide à moyen.
+
+### PM-05 [P1] (C12) Deux rythmes annoncés, durée réelle inconnue
+- **Problème** : les parcours disent « 15 à 20 min par semaine », la FAQ et le pilier disent « 5-10 minutes par jour ». Une étape contient un conseil, un exemple, un exercice, 5 vannes, 2 vidéos et 4 à 5 questions ; la durée n'a jamais été mesurée, et l'étape 6 de Confiance propose un spectacle complet.
+- **Effet** : la personne qui prend le message « chaque jour » trouve un programme hebdomadaire ; celle qui prend « 15 minutes » peut passer 30 à 45 min sur une étape et se sentir en retard.
+- **Ce qu'on fait** : (1) mesurer la durée réelle (K14) ; (2) réconcilier les deux messages en découpant l'étape en 2 ou 3 micro-pratiques réparties dans la semaine (cela donne aussi le rythme de PM-01) ; (3) corriger les textes seulement après (le « 15 à 20 min/semaine selon le parcours » est un [CHOIX UTILISATEUR], intouchable sans GO).
+- **Détail technique et preuve** : `faqs.ts:24`, `config/premium.ts:70-74`, `parcours-seed.json` (`timePerWeek`, `videos`, `moduleFormat`) ; pas d'horodatage début/fin d'étape ; durée des vidéos non relevée.
+- **Agent / effort** : @data-analyst (mesure), @copywriter, @fullstack ; moyen.
+
+### PM-06 [P1] (C12, C8) « Progression mesurable » veut dire « étapes cliquées »
+- **Problème** : valider une étape = un clic. Le quiz est non bloquant et « ne compte pas », l'exercice est un texte lu, il n'y a aucun retour sur « as-tu essayé, ça a marché ? ». Le maximum d'XP des 3 parcours (1 600) ne dépasse que d'un cheveu le niveau « Comique » (1 500) ; un parcours seul donne 325 à 800 XP, soit « Apprenti » ou « Farceur ».
+- **Effet** : ce que la personne voit progresser, c'est un compteur, pas sa répartie. Le critère qui compte (K15 : j'ai osé la réplique en vrai) n'existe pas dans le produit ; pour Yanis, la récompense de fin de parcours est mince.
+- **Ce qu'on fait** : un retour d'exercice en 3 boutons à la fin de chaque étape (F4) ; un bilan de fin de parcours qui reprend ce que la personne a dit avoir essayé (F5) ; recaler niveaux et badges après mesure (F12). Pas de correction par IA au fil de l'eau ([CHOIX] 01/10).
+- **Détail technique et preuve** : `parcours-detail.tsx:169` (« ce quiz ne compte pas »), `:773-784` (validation = POST sans contenu), `api/parcours/[id]/progress/route.ts:107-199` (XP du seed + 100 de bonus) ; barème `docs/content/progression-levels.md` (code des niveaux non relu).
+- **Agent / effort** : @product-manager (stories), @ux, @fullstack ; moyen.
+
+### PM-07 [P1] (C8) Fin de parcours : une suite figée, parfois déjà faite, et pas de bilan
+- **Problème** : la fin affiche « Bravo », l'XP et un bouton « Passer au parcours suivant » dont la cible est inscrite dans le parcours : Machine à Café mène à Répartie, Répartie à Confiance, **Confiance à Machine à Café**. Une personne qui a fait les trois voit « Ton style est là. Le parcours Machine à Café te donne de quoi le faire vivre » pour un parcours qu'elle a déjà fini. Il n'y a ni récapitulatif, ni suite personnalisée.
+- **Effet** : la fin du parcours, moment de plus forte fierté et de décision de continuer (ou de résilier), est une impasse ou une boucle.
+- **Ce qu'on fait** : suite = premier parcours non commencé ; sinon bilan et annonce du prochain parcours ; bilan avec récap (F5, F7). Pas de certificat (F6, NO-GO).
+- **Détail technique et preuve** : `parcours-seed.json:15-16,177-178,392-393` ; `parcours-detail.tsx:821-851`.
+- **Agent / effort** : @fullstack + @copywriter ; rapide (suite) à moyen (bilan).
+
+### PM-08 [P1] (C7, mesure) Seuls 3 critères de succès sur 15 se lisent dans Umami
+- **Problème** : on ne sait pas combien de gens ouvrent une étape, la lisent, finissent le quiz, valident, reviennent. Les seuls événements « parcours » sont `parcours-etape` (validation, donc Premium seulement) et `mur-vu` (depuis le 07/10). Aucun événement pour : parcours ouvert, étape ouverte, quiz terminé en tant que visiteur, parcours terminé, clic sur une pastille du hero. Aucune date par étape en base.
+- **Effet** : impossible de dire si une modification améliore ou dégrade quoi que ce soit, ni de juger les seuils du §3.
+- **Ce qu'on fait** : poser 6 événements (voir handoff) et une section « Parcours » dans le rapport du lundi ; ajouter la date à chaque étape validée en base ; lancer les requêtes en lecture sur la progression (K7, K8, K10, K11) maintenant, même sur 2 abonnés.
+- **Détail technique et preuve** : `lib/umami.ts:21-37` (liste des événements attribués) ; `parcours-detail.tsx:95,403` ; `parcours-content.tsx:190-192` (clic « Commencer » sans événement) ; snapshot du 05/10 §1 et §4.
+- **Agent / effort** : @data-analyst (plan de mesure), @fullstack ; rapide à moyen.
+
+### PM-09 [P1] (C7) Le volume d'entrée est très loin de ce que l'objectif de revenus demande
+- **Problème** : les parcours sont la valeur principale, mais ils reçoivent 62 vues de pages en 90 jours (environ 21 par mois ; 35 sur les 3 pages parcours, soit environ 12 par mois). L'objectif de 1 000 € de revenus mensuels demande environ **335 abonnés mensuels** (1 000 / 2,99) ou 481 abonnés annuels (1 000 / 2,08).
+- **Effet** : même avec une très bonne conversion au mur, l'offre ne peut pas porter l'objectif. À 3 % [HYPOTHÈSE : seuil K6] de conversion, il faut environ 11 200 personnes devant le mur sur 6 mois, soit environ 1 860 par mois, entre **90 et 155 fois** le volume actuel (selon qu'on compte le hub `/parcours` ou seulement les 3 pages parcours).
+- **Ce qu'on fait** : faire de l'étape 1 de chaque parcours **le produit d'appel** : depuis chaque article qui répond à un besoin de persona (le maillage article vers parcours existe, `blog-article-parcours-maillage.tsx`), renvoyer vers l'étape 1 du bon parcours. Suivre K1 chaque lundi. Ce point relève de l'attraction (C3, autres agents) ; il est ici pour cadrer les seuils.
+- **Détail technique et preuve** : `docs/analytics/snapshot-trafic-2026-10-05.md` §4 (vues 90 j) ; `docs/marrant/audit-note-s15.md` §2 (51 % des entrées sur un seul article, 92 % de rebond).
+- **Agent / effort** : @growth + @seo + @ux ; moyen.
+
+### PM-10 [P1] (C1) Couverture des personas inégale, et le parcours Confiance mélange deux publics
+- **Problème** : un parcours par persona, mais Sophie n'a que 45 min (3 étapes), et l'étape 3 de Confiance (« L'humour de trentenaire : MSN, K7 ») est hors cible pour Yanis, qui est pourtant invité à ce parcours par la suite par défaut.
+- **Effet** : une personne sur trois voit un contenu qui ne lui parle pas ; Marc, qui réclame « profondeur » et « recommandations personnalisées », n'a pas de parcours de suite écrit pour lui.
+- **Ce qu'on fait** : voir matrice §6. Storytelling d'abord (12/15), Pro ensuite (9/15) ; suite personnalisée (F7) ; question à Thomas sur l'étape 3.
+- **Détail technique et preuve** : `parcours-seed.json:491-538` (étape 3 de Confiance) ; `project-context.md` (frictions des personas).
+- **Agent / effort** : @product-manager (specs), @copywriter ; long.
+
+### PM-11 [P2] (C7) Le quiz d'orientation de /parcours ignore la vraie difficulté si on répond « partout »
+- **Problème** : question 1 « Partout, je veux retrouver ma légèreté » + question 2 « Je ne sais pas quoi répondre sur le moment » donne **Confiance** (6 semaines), pas Répartie. La première réponse écrase la seconde. Dans l'onboarding, c'est l'inverse : l'objectif prime sur le contexte.
+- **Effet** : une personne comme Yanis qui répond « partout » à la première question est orientée vers le plus long parcours, pas celui qui répond à son blocage.
+- **Ce qu'on fait** : la difficulté précise (question 2) passe avant le contexte (question 1) sauf si elle vaut « confiance » ; aligner les deux quiz.
+- **Détail technique et preuve** : `parcours-orientation.ts:20-40` (priorité `confiance` ou `global`, puis `repartie` ou `social`), `parcours-content.tsx:25-42` (questions).
+- **Agent / effort** : @fullstack ; rapide.
+
+### PM-12 [P2] (C12) La FAQ présente la série et l'XP comme acquises pour tous
+- **Problème** : « Avec le système de streaks et d'XP, tu gardes la motivation sur la durée » est dans la FAQ publique ; ces fonctions sont réservées aux abonnés, et la série compte les connexions, pas la pratique.
+- **Effet** : une personne attirée par la promesse découvre après paiement que la série tombe si elle ne se connecte pas un jour, sans rappel.
+- **Ce qu'on fait** : après F2, ajuster la phrase (« avec Premium », rythme conseillé) via étalon validé. Les chiffres de la FAQ (« 8 semaines », « 50 XP par semaine ») restent intacts.
+- **Détail technique et preuve** : `faqs.ts:45` ; `docs/product/suppression-compte-gratuit-s15.md` §1.1.
+- **Agent / effort** : @copywriter (étalon) ; rapide.
 
 ## 8. Vérifié / Non vérifié (G_PROOF)
 (à remplir)
