@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (07/10/2026, 13:17 Paris) : H+45 X OK (jour 2)
+
+- Post quiz X `sent` à 12:33 Paris, lien réel `x.com/…/status/2107781291353481416`, UTM `quiz`, aucun FAILED. 313 caractères bruts acceptés : correctif `longueurX` prouvé en ligne (`docs/social/releves/2026-10-07.md`).
+
 ## s15 (07/10/2026, 10:09 Paris) : IndexNow, nouvel essai
 
 - POST `/api/indexnow` avec les 8 URL du 06/10 (pilier, `/blog`, `/`, `meilleures-blagues-droles-2026`, `5-types-humour-lequel-pour-toi`, `autoderision-interactions`, `comment-avoir-de-la-repartie`, `phrases-droles-conversations`) : **429 encore** (renvoyé en 502 par la route). Pas de nouvel essai : Bing a déjà reçu ces URL le 06/10 (`SubmitUrlBatch` OK). Contrôles Google prévus à J+7 (13/10) et J+14 (20/10).
