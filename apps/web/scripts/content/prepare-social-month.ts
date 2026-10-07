@@ -30,7 +30,9 @@
  *       docs/social/preparation/lot-relance-s15.md (tableau de relecture, textes neufs)
  *       et lot-relance-s15.json (exactement les lignes qui seraient insérées). Rien en base.
  *   npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --insert [--driver=neon-http] [--json fichier]
- *       Insère les lignes du JSON relu en APPROVED (approvedBy « thomas-s15 ») via Prisma ;
+ *       Régénère le lot de la même commande (mêmes --debut, --fin, --pool, --seed) et refuse si le JSON
+ *       n'est pas ce dry-run ligne pour ligne (bornes, graine, posts, replis) ; puis
+ *       insère les lignes du JSON relu en APPROVED (approvedBy « thomas-s15 ») via Prisma ;
  *       `--driver=neon-http` = adaptateur HTTP Neon si la connexion TCP est bloquée.
  *       Puis contrôle après insertion : comptes par réseau et par semaine, attendu contre inséré.
  *
@@ -60,7 +62,7 @@ import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLot, type ArticleLot } from "./social-lot-v5";
 import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
-import { annulerLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
+import { annulerLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
 export const APPROVED_BY = "preparation-mensuelle";
 const DOCS_DIR = path.resolve(__dirname, "../../../../docs/social/preparation");
@@ -181,6 +183,21 @@ export function argsLot(argv: string[]): { lot: string; debut: string; fin: stri
   return { lot, debut, fin, pool: arg(argv, "--pool") };
 }
 
+/** Lot d'une commande (lectures SELECT seulement) : même graine et mêmes entrées = mêmes lignes. */
+async function genererLot(argv: string[], a: { lot: string; debut: string; fin: string; pool?: string }, meta: MetaLot, dbUrl: string) {
+  const seed = arg(argv, "--seed") ?? a.lot;
+  // `--pool strict` : pool strict du Worker (src/config/social-pool.ts), sinon fichier.
+  const autorisees = a.pool === "strict" ? [...POOL_STRICT] : a.pool ? lirePool(fs.readFileSync(a.pool, "utf-8"), a.pool) : undefined;
+  // Notes du pool (paires du test LinkedIn texte / image) : commentaires de social-pool.ts ou lignes du fichier.
+  const sourceNotes = a.pool === "strict" ? path.join(process.cwd(), "src", "config", "social-pool.ts") : a.pool;
+  const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
+  const inputs = await loadLotInputs(neonHttpQuery(dbUrl), meta.debut, meta.fin);
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes });
+  // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
+  const lot = controlerLot(res.posts, inputs.recents);
+  return { seed, autorisees, inputs, res, errors: [...res.errors, ...lot.errors], warnings: [...res.warnings, ...lot.warnings] };
+}
+
 async function mainLot(argv: string[]): Promise<number> {
   const a = argsLot(argv);
   if (typeof a === "string") {
@@ -216,6 +233,15 @@ async function mainLot(argv: string[]): Promise<number> {
       console.error(`Le fichier ${jsonPath} est le lot « ${f.lot} », pas « ${a.lot} ».`);
       return 2;
     }
+    // Le fichier doit être le dry-run de CETTE commande (bornes, pool, graine), régénéré à l'instant.
+    const g = await genererLot(argv, a, meta, dbUrl);
+    const ecarts = g.errors.length ? [`le lot régénéré a ${g.errors.length} erreur(s) bloquante(s)`]
+      : ecartsFichierLot(fichierLot(g.res.posts, g.seed, meta, g.res.replis), f);
+    if (ecarts.length) {
+      for (const e of ecarts) console.error(`REFUS : ${e}`);
+      console.error(`Insertion refusée : ${jsonPath} n'est pas le dry-run de cette commande. Relancer la même commande sans --insert, relire, puis --insert.`);
+      return 2;
+    }
     const r = await insererLot(f, driver, dbUrl);
     console.log(`Inséré : ${r.inseres} posts APPROVED (${f.approvedBy}) depuis ${jsonPath}, pilote ${driver}.`);
     for (const [k, n] of [...r.comptes].sort()) console.log(`  ${k.replace("|", ", semaine du ")} : ${n}`);
@@ -223,18 +249,7 @@ async function mainLot(argv: string[]): Promise<number> {
     console.log(r.ecarts.length ? `Contrôle après insertion : ${r.ecarts.length} écart(s), voir --rollback.` : "Contrôle après insertion : conforme (par réseau et par semaine).");
     return r.inseres === f.total && r.ecarts.length === 0 ? 0 : 1;
   }
-  const seed = arg(argv, "--seed") ?? a.lot;
-  // `--pool strict` : pool strict du Worker (src/config/social-pool.ts), sinon fichier.
-  const autorisees = a.pool === "strict" ? [...POOL_STRICT] : a.pool ? lirePool(fs.readFileSync(a.pool, "utf-8"), a.pool) : undefined;
-  // Notes du pool (paires du test LinkedIn texte / image) : commentaires de social-pool.ts ou lignes du fichier.
-  const sourceNotes = a.pool === "strict" ? path.join(process.cwd(), "src", "config", "social-pool.ts") : a.pool;
-  const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
-  const inputs = await loadLotInputs(neonHttpQuery(dbUrl), a.debut, a.fin);
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes });
-  // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
-  const lot = controlerLot(res.posts, inputs.recents);
-  const errors = [...res.errors, ...lot.errors];
-  const warnings = [...res.warnings, ...lot.warnings];
+  const { seed, autorisees, inputs, res, errors, warnings } = await genererLot(argv, a, meta, dbUrl);
   const n = (pf: string) => res.posts.filter((p) => p.platform === pf).length;
   console.log(`Catalogue : ${inputs.pool.length} vannes GARDER${autorisees ? `, pool ${autorisees.length} identifiant(s)` : ""} (stock éligible ${res.stockEligible}), ${inputs.articles.length} article(s), ${inputs.recents.length} post(s) récent(s).`);
   console.log(`Lot ${a.lot} (${a.debut} au ${a.fin}) : ${res.posts.length} posts (X ${n("TWITTER")}, Instagram ${n("INSTAGRAM")}, LinkedIn ${n("LINKEDIN")}), ${res.replis.length} repli(s) en réserve.`);

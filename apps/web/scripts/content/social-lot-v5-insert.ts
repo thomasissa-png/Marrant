@@ -9,6 +9,7 @@
  * Garde-fous : refus si une ligne n'est pas APPROVED avec l'approvedBy de son lot
  * (« thomas-s15 » ou « lot-<id> »), si un id existe déjà, si des posts du lot existent déjà
  * sur la période, ou si un autre post actif occupe déjà la période sur un réseau du lot.
+ * Avant insertion (`ecartsFichierLot`) : le fichier doit être le lot régénéré par la même commande.
  * Après insertion : comptage par réseau et par semaine (attendu contre inséré).
  * `--rollback` : posts APPROVED non envoyés du lot passés en REJECTED (comptage avant, après).
  */
@@ -19,6 +20,38 @@ import { dateParis, lundiDe, parisVersUtc, ajouterJours } from "../../src/lib/so
 import type { FichierLot, LigneLot } from "./social-lot-v5-export";
 
 export type Driver = "tcp" | "neon-http";
+
+/** JSON canonique (clés triées, `undefined` omis) : deux lots égaux ligne pour ligne ont le même texte. */
+function canonique(v: unknown): string {
+  return JSON.stringify(v, (_k, x: unknown) => (x && typeof x === "object" && !Array.isArray(x)
+    ? Object.fromEntries(Object.entries(x as Record<string, unknown>).sort(([a], [b]) => a.localeCompare(b)))
+    : x));
+}
+
+/**
+ * `--insert` n'insère que le dry-run de la MÊME commande : le fichier relu doit être, ligne pour
+ * ligne, le lot régénéré à l'instant (bornes, graine, posts et replis). Écart = insertion refusée
+ * (ex. : l'ancien `lot-relance-s15.json` de 140 posts lu par `--lot relance-s15 --debut/--fin`).
+ */
+export function ecartsFichierLot(attendu: FichierLot, lu: FichierLot): string[] {
+  const e: string[] = [];
+  for (const k of ["lot", "approvedBy", "debut", "fin", "graine", "total"] as const) {
+    if (attendu[k] !== lu[k]) e.push(`${k} : fichier « ${lu[k]} », commande « ${attendu[k]} »`);
+  }
+  const comparer = (nom: string, a: LigneLot[], l: LigneLot[]) => {
+    const parId = new Map(l.map((x) => [x.id, x]));
+    const absents = a.filter((x) => !parId.has(x.id)).map((x) => x.id);
+    const enTrop = l.filter((x) => !a.some((y) => y.id === x.id)).map((x) => x.id);
+    const differents = a.filter((x) => parId.has(x.id) && canonique(x) !== canonique(parId.get(x.id))).map((x) => x.id);
+    const liste = (ids: string[]) => `${ids.slice(0, 5).join(", ")}${ids.length > 5 ? `, … (${ids.length})` : ""}`;
+    if (absents.length) e.push(`${nom} absents du fichier : ${liste(absents)}`);
+    if (enTrop.length) e.push(`${nom} du fichier hors commande : ${liste(enTrop)}`);
+    if (differents.length) e.push(`${nom} modifiés depuis le dry-run : ${liste(differents)}`);
+  };
+  comparer("posts", attendu.posts, lu.posts);
+  comparer("replis", attendu.replis ?? [], lu.replis ?? []);
+  return e;
+}
 
 export function lireFichierLot(chemin: string): FichierLot {
   const f = JSON.parse(fs.readFileSync(chemin, "utf-8")) as FichierLot;

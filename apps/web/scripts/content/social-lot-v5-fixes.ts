@@ -35,6 +35,8 @@ export interface Fixe {
   legende?: string;
   /** Instagram : cartes imposées (sinon amorce et chute de la vanne). */
   cartes?: string[];
+  /** Relais sans lien dont la vanne vient du catalogue (Instagram) : slug relayé, marqueur `[article:]` lu par la garde. */
+  article?: string;
   note?: string;
 }
 
@@ -54,7 +56,7 @@ export const FIXES: Fixe[] = [
     vanne: { jokeId: "cs14jkd6b11e811ffbf7f301" }, renvoi: "Les 4 autres exemples, et comment trouver le tien :",
     lien: { chemin: SE_PRESENTER, content: "lundi" }, note: "v5 §3 S1 : accroche 2 de l'article (catalogue)." },
   { cle: "IG2", date: "2026-10-12", platform: "INSTAGRAM", type: "RELAIS", origine: "VALIDE",
-    vanne: { jokeId: "cs14jk8f28ff20e1cf82f3a8" },
+    vanne: { jokeId: "cs14jk8f28ff20e1cf82f3a8" }, article: "se-presenter-avec-humour",
     legende: "À envoyer à qui a un tour de table demain. Les 4 autres exemples : lien en bio." },
   { cle: "X1", date: "2026-10-13", platform: "TWITTER", type: "VANNE", origine: "VALIDE", vanne: { jokeId: "cmmnsqn130027th63at2ene9i" } },
   { cle: "L3", date: "2026-10-13", platform: "LINKEDIN", type: "RELAIS", origine: "VALIDE",
@@ -86,6 +88,7 @@ export const FIXES: Fixe[] = [
     renvoi: "Les 5 autres sont prêtes à copier :", lien: { chemin: "/blog/blagues-sur-l-ia-assistants-vocaux", content: "lundi" },
     note: "v5 §3 S3 : n°5 de l'article." },
   { cle: "relais-ig-26-10", date: "2026-10-26", platform: "INSTAGRAM", type: "RELAIS", origine: "V5", vanne: { jokeId: "cs14jke6736001250d3a940d" },
+    article: "blagues-sur-l-ia-assistants-vocaux",
     legende: "À envoyer à qui t'a fait lire son roman. Les 5 autres vannes : lien en bio.", note: "v5 §8 : n°4 de l'article." },
   { cle: "IG1", date: "2026-10-27", platform: "INSTAGRAM", type: "VANNE", origine: "VALIDE", vanne: { jokeId: "cs14jke5d015b07714055538" },
     legende: "À envoyer à ton tuteur de stage. deviens-marrant.fr" },

@@ -290,6 +290,8 @@ export function buildLotV5(input: LotInput): LotResult {
       datee: type === "PIVOT" || C.SAISONS.some((x) => x.re.test(`${content} ${cartes.join(" ")}`)),
     };
     const errs = controler(p);
+    // Relais Instagram (sans lien) : seul `[article:<slug>]` déclenche la garde de publication.
+    if (pf === "INSTAGRAM" && type === "RELAIS" && !p.article) errs.push("relais Instagram sans article (marqueur [article:] requis par la garde)");
     if (errs.length) errors.push(`${date} ${pf} ${o.cle ?? type}${o.repliDe ? " (repli)" : ""} : ${errs.join(", ")}`);
     (o.repliDe ? replis : posts).push(p);
     return p;
@@ -393,7 +395,8 @@ export function buildLotV5(input: LotInput): LotResult {
     if (f.vanne && !v) return;
     if (v) reserver(v, f.date, f.platform);
     const valide = f.origine === "VALIDE";
-    const slug = f.vanne?.article?.slug ?? f.vanne?.articleTexte?.slug ?? (f.lien?.chemin.startsWith("/blog/") ? f.lien.chemin.slice(6) : undefined);
+    const slug = f.vanne?.article?.slug ?? f.vanne?.articleTexte?.slug ?? (f.lien?.chemin.startsWith("/blog/") ? f.lien.chemin.slice(6) : undefined)
+      ?? f.article;
     const a = slug ? articleParSlug.get(slug) : undefined;
     let r = f.renvoi ?? null;
     let lien = f.lien ? lienUtmV5(siteUrl, f.lien.chemin, f.platform, f.date, f.lien.content) : null;
