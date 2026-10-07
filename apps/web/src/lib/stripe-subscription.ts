@@ -18,7 +18,10 @@ export function extractSubscriptionBilling(subscription: Stripe.Subscription): S
   return {
     billingInterval: price?.recurring?.interval ?? null,
     priceAmountCents: typeof price?.unit_amount === "number" ? price.unit_amount : null,
-    cancelAtPeriodEnd: subscription.cancel_at_period_end === true,
+    // s16 : une fin programmée par `cancel_at` (portail, versions d'API récentes) compte aussi.
+    cancelAtPeriodEnd:
+      subscription.cancel_at_period_end === true ||
+      typeof (subscription as unknown as { cancel_at?: number | null }).cancel_at === "number",
   };
 }
 

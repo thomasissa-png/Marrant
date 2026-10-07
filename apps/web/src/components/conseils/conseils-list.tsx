@@ -18,6 +18,9 @@ import Link from "next/link";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { buildTipSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 import { tipProse } from "@/lib/tip-prose";
 
@@ -96,7 +99,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const { data: session, status } = useSession();
-  // XP = suivi de progression, accès complet uniquement (s15 §1.1).
+  // XP = suivi de progression, Premium uniquement (s15 §1.1).
   const earnsXp =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
   const addXp = useUserStore((s) => s.addXp);
@@ -105,6 +108,8 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
+  // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
+  useMurVu(limited && (tips.length > 0 || page > 1), "conseils");
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -185,7 +190,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           </svg>
           <p className="text-sm text-text-secondary">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
           </p>
         </div>
       ) : (
@@ -328,14 +333,16 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
               onClick={() => setPremiumOpen(true)}
+              role="button"
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium : cliquer pour débloquer"
+              aria-label={CARTE_VERROUILLEE_LABEL}
             >
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <Badge variant="default" className="opacity-50">Niveau</Badge>
-                  <Badge variant="default" className="opacity-50">Catégorie</Badge>
+                  {/* Gabarits décoratifs sans texte : plus de texte à 50 % d'opacité (contraste axe, s16). */}
+                  <div className="h-5 w-16 rounded-full bg-text-muted/10" aria-hidden="true" />
+                  <div className="h-5 w-20 rounded-full bg-text-muted/10" aria-hidden="true" />
                 </div>
                 <div className="mt-2 h-5 w-3/5 rounded bg-text-muted/10" />
               </CardHeader>
@@ -364,7 +371,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 2,99 &euro;/mois
+            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
           </p>
           {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>

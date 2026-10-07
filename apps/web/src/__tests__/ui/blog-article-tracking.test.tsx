@@ -60,7 +60,7 @@ describe("blog-sortie-clic", () => {
 describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText("Passer à l'accès complet"));
+    fireEvent.click(screen.getByText("Passer à Premium"));
     fireEvent.click(screen.getByText("Lire la première étape d'un parcours"));
     expect(track).toHaveBeenCalledTimes(2);
     expect(track).toHaveBeenNthCalledWith(1, "blog-cta-clic", { slug: SLUG, bouton: "abonnement" });
@@ -71,7 +71,7 @@ describe("blog-cta-clic", () => {
     const { container } = render(<ArticleCta />);
     expect(screen.getByText("Maintenant, reste à le dire à voix haute")).toBeInTheDocument();
     expect(screen.getByText(/^Des exercices concrets, des parcours étape par étape et des XP/)).toBeInTheDocument();
-    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
     expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
     expect(screen.getByText("Lire la première étape d'un parcours").closest("a")).toHaveAttribute("href", "/parcours");
     expect(container.textContent).not.toMatch(/gratuit|sans carte/i);

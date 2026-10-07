@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
+import { CGU_ACCEPTATION, OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
@@ -33,11 +34,33 @@ const OAUTH_ERRORS: Record<string, string> = {
   Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
-/** Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15). */
+/**
+ * Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15), avec le
+ * nom unique de l'offre (« Premium », décision D4 de l'audit s16).
+ */
 function planReminder(plan: PremiumPlan): string {
   return plan === "annual"
-    ? `Accès complet, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
-    : `Accès complet, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
+    ? `${OFFRE_NOM}, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
+    : `${OFFRE_NOM}, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
+}
+
+/**
+ * Motif d'échec mesuré (`inscription-echec`, audit s16 reco 17) : statut HTTP
+ * ramené à un mot court, jamais de donnée personnelle.
+ */
+function registerFailureReason(status: number): string {
+  if (status === 409) return "email-deja-pris";
+  if (status === 400 || status === 422) return "donnees-invalides";
+  if (status === 429) return "trop-d-essais";
+  if (status >= 500) return "serveur";
+  return `http-${status}`;
+}
+
+/** Message humain affiché : jamais l'erreur brute de l'API (audit s16, reco 16). */
+function registerErrorMessage(status: number): string {
+  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
+  if (status >= 500) return "Quelque chose a coincé de notre côté. Réessaie.";
+  return "L'inscription n'a pas abouti. Réessaie.";
 }
 
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
@@ -99,6 +122,19 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   const srcData = { src: src ?? "direct", etape: "abonnement" };
   const loginHref = buildLoginUrl({ callbackUrl, src });
 
+  // Retour de Google en erreur (`?error=OAuthCallback`…) : mesuré une seule fois.
+  const oauthFailureTracked = useRef(false);
+  useEffect(() => {
+    if (!oauthError || oauthFailureTracked.current) return;
+    oauthFailureTracked.current = true;
+    trackUmami("inscription-echec", {
+      methode: "google",
+      motif: oauthError.slice(0, 40),
+      src: src ?? "direct",
+      etape: "abonnement",
+    });
+  }, [oauthError, src]);
+
   const validateForm = (): boolean => {
     const errors = validateRegisterFields({ name, email, password });
     setFieldErrors(errors);
@@ -129,6 +165,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
         const data = await res.json();
         // Erreurs zod de l'API ramenées aux champs quand c'est possible
         const apiFieldErrors = fieldErrorsFromApiDetails(data.details);
+        trackUmami("inscription-echec", { methode: "email", motif: registerFailureReason(res.status), ...srcData });
         if (Object.keys(apiFieldErrors).length > 0) {
           setFieldErrors(apiFieldErrors);
           return;
@@ -137,7 +174,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
           setEmailTaken(true);
           return;
         }
-        setError(data.error ?? "L'inscription n'a pas abouti. Réessaie.");
+        setError(registerErrorMessage(res.status));
         return;
       }
 
@@ -148,6 +185,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
       });
 
       if (result?.error) {
+        // Compte créé mais connexion automatique refusée : mesuré, puis /login.
+        trackUmami("inscription-echec", { methode: "email", motif: "connexion-auto", ...srcData });
         router.push(loginHref);
       } else {
         trackUmami("inscription-reussie", { methode: "email", ...srcData });
@@ -155,6 +194,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
         router.refresh();
       }
     } catch {
+      trackUmami("inscription-echec", { methode: "email", motif: "reseau", ...srcData });
       setError("Quelque chose a coincé de notre côté. Réessaie.");
     } finally {
       setIsLoading(false);
@@ -190,7 +230,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             {emailTaken && (
               <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
                 Cet e-mail a déjà un compte.{" "}
-                <Link href={loginHref} className="font-medium underline">
+                <Link href={loginHref} className="font-medium underline underline-offset-2">
                   Connecte-toi
                 </Link>{" "}
                 pour reprendre ton abonnement.
@@ -295,13 +335,25 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               S&apos;inscrire avec Google
             </Button>
             <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
+            {/* Réassurance et CGU (audit s16, reco 9) : étalon 1.1 validé, config/textes/offre.ts. */}
+            <p className="text-center text-xs text-text-muted" data-testid="register-reassurance">
+              {reassurancePaiement(plan)}
+            </p>
+            <p className="text-center text-xs text-text-muted">
+              {CGU_ACCEPTATION.avant}
+              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
+                {CGU_ACCEPTATION.lien}
+              </Link>
+              {CGU_ACCEPTATION.apres}
+            </p>
             {googleBloque && inApp && (
               <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
             )}
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
             Déjà un compte ?{" "}
-            <Link href={loginHref} className="text-accent-link hover:underline">
+            {/* Souligné en permanence : lien repérable sans la couleur (axe link-in-text-block, s16). */}
+            <Link href={loginHref} className="text-accent-link underline underline-offset-2">
               Connecte-toi
             </Link>
           </div>

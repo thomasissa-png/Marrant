@@ -49,10 +49,14 @@ describe("runAnnualRenewalReminderJob", () => {
     expect(tryAcquireLock).toHaveBeenCalledWith("annual-renewal-reminders:key", 10 * 60 * 1000);
     expect(runAnnualRenewalReminders).toHaveBeenCalledWith(expect.any(Date), {
       prisma: { tag: "prisma" },
-      sendEmail: sendTransactionalTextEmail,
+      sendEmail: expect.any(Function),
       manageUrl: "https://deviens-marrant.fr/profil",
     });
     expect(releaseLock).toHaveBeenCalledWith("annual-renewal-reminders:key");
+    // s16 : le mailer reçoit le type « rappel-annuel » (clé d'alerte email-envoi-rappel-annuel).
+    const { sendEmail } = runAnnualRenewalReminders.mock.calls[0][1];
+    await sendEmail("a@b.fr", "Objet", "Texte");
+    expect(sendTransactionalTextEmail).toHaveBeenCalledWith("a@b.fr", "Objet", "Texte", "rappel-annuel");
   });
 
   it("verrou déjà pris : aucun traitement", async () => {

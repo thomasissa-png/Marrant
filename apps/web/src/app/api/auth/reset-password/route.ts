@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hash } from "@/lib/password";
 import { z } from "zod";
+import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { hashResetToken } from "@/lib/reset-token";
+import { TEXTES_API } from "@/config/textes/compte";
+
+const RESET_LIMIT = { maxRequests: 10, windowMs: 15 * 60_000 };
 
 const resetSchema = z.object({
   token: z.string().min(1),
@@ -11,14 +16,24 @@ const resetSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // s16 reco 14 : limite partagée, clé cf-connecting-ip.
+    const rl = await sharedRateLimit("reset-ip", getClientIp(request.headers), RESET_LIMIT);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: TEXTES_API.tropDeTentatives },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
+      );
+    }
+
     const body = await request.json();
     const { token, email, password } = resetSchema.parse(body);
 
-    // Vérifier le token
+    // s16 reco 15 : la base ne contient que le hash du jeton.
+    const tokenHash = hashResetToken(token);
     const verificationToken = await prisma.verificationToken.findFirst({
       where: {
         identifier: email.toLowerCase().trim(),
-        token,
+        token: tokenHash,
         expires: { gt: new Date() },
       },
     });
@@ -53,15 +68,14 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      // Le seul message utile à l'écran : la longueur du mot de passe.
+      const passwordIssue = error.errors.find((e) => e.path[0] === "password" && e.code === "too_small");
       return NextResponse.json(
-        { error: "Données invalides", details: error.errors },
+        { error: passwordIssue?.message ?? TEXTES_API.donneesInvalides, details: error.errors },
         { status: 400 }
       );
     }
     console.error("[API /auth/reset-password]", error);
-    return NextResponse.json(
-      { error: "Erreur serveur" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
   }
 }

@@ -94,7 +94,7 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             Voir par où commencer
           </Link>
 
-          {/* Plus de compte gratuit (s15) : vers l'accès complet, retour au parcours conseillé. */}
+          {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé. */}
           <Link
             href={buildAbonnementUrl(profile.recommendedPath, "monthly", "quiz")}
             className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}

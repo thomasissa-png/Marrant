@@ -217,10 +217,10 @@ export async function getMultipleVideoDetails(
 }
 
 /**
- * Génère l'URL d'embed YouTube
+ * URL d'embed YouTube, domaine sans cookie (youtube-nocookie.com, audit s16 lot D)
  */
 export function getEmbedUrl(videoId: string): string {
-  return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}`;
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
 }
 
 /**

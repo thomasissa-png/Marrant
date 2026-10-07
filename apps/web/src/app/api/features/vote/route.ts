@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     // Voter sur la suite du produit = avantage d'abonné (badge « Abonnés », s15 §1.1).
     const owner = await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } });
     if (!isPremiumPlan(owner?.plan)) {
-      return NextResponse.json({ error: "Le vote fait partie de l'accès complet" }, { status: 403 });
+      return NextResponse.json({ error: "Le vote fait partie de Premium" }, { status: 403 });
     }
     const { featureSlug } = await request.json();
 

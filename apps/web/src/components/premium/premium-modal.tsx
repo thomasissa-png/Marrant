@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
@@ -8,10 +8,13 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
-import { PARCOURS_COUNT } from "@/config/premium";
+import { formatEuros, PARCOURS_COUNT, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
+import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
 /** Geste qui a ouvert la modale : le titre et l'accroche en dépendent (audit tunnel R5). */
 export type PremiumModalReason = "favoris" | "vote" | "defaut";
@@ -20,10 +23,10 @@ const COPY: Record<PremiumModalReason, { title: string; intro: string | null }> 
   favoris: {
     title: "Les favoris font partie de Premium",
     intro:
-      `Garder une vanne, un conseil ou une vidéo sous la main, c'est réservé à l'accès complet. Avec lui, tu as aussi les ${PARCOURS_COUNT} parcours en entier.`,
+      `Garder une vanne, un conseil ou une vidéo sous la main, ça fait partie de ${OFFRE_NOM}. Avec, tu as aussi les ${PARCOURS_COUNT} parcours en entier.`,
   },
-  vote: { title: "Le vote sur les nouveautés fait partie de l'accès complet", intro: null },
-  defaut: { title: "Passe à l'accès complet", intro: null },
+  vote: { title: `Le vote sur les nouveautés fait partie de ${OFFRE_NOM}`, intro: null },
+  defaut: { title: `Passe à ${OFFRE_NOM}`, intro: null },
 };
 
 interface PremiumModalProps {
@@ -44,10 +47,18 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
   const copy = COPY[reason];
   const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
+  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
+
+  // Mur vu (audit s16 reco 17) : une fois par ouverture, avec le geste qui l'a ouvert.
+  useEffect(() => {
+    if (isOpen) trackUmami("mur-vu", { type: `modale-${reason}`, src: "modale" });
+  }, [isOpen, reason]);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}`, declencheur: "manuel" });
+    setConflict(null);
+    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}`, declencheur: "manuel", statut: "membre" });
     try {
       const target = resolveReturnTo();
       const res = await fetch("/api/stripe/checkout", {
@@ -58,9 +69,11 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
       if (res.ok) {
         const data = await res.json();
         window.location.href = data.url;
-      } else {
-        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        return;
       }
+      const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
+      if (conflit) setConflict(conflit);
+      else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
       toast("Connexion perdue, réessaie", "error");
     } finally {
@@ -78,7 +91,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
           <p className="mt-2 text-sm text-text-secondary">{copy.intro}</p>
         )}
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-4xl font-bold text-text-primary">2,99 €</span>
+          <span className="text-4xl font-bold text-text-primary">{formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}</span>
           <span className="text-text-muted">/ mois</span>
         </div>
         <p className="mt-1 text-sm text-accent-link font-medium">
@@ -95,7 +108,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
             onClick={handleCheckout}
             disabled={isCheckoutLoading}
           >
-            {isCheckoutLoading ? "On t'emmène au paiement…" : "Active mon accès · 2,99 €/mois"}
+            {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
           </Button>
         ) : (
           <Link
@@ -104,13 +117,19 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
               src: `modale-${reason}`,
             })}
             className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-6 w-full")}
-            onClick={onClose}
+            onClick={() => {
+              trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}`, statut: "visiteur" });
+              onClose();
+            }}
           >
             Cr&eacute;er mon compte et m&apos;abonner
           </Link>
         )}
 
-        <p className="mt-3 text-center text-xs text-text-muted">
+        {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" onNavigate={onClose} />}
+
+        <p className="mt-3 text-center text-xs text-text-muted">{reassurancePaiement("monthly")}</p>
+        <p className="mt-1 text-center text-xs text-text-muted">
           Droit de{" "}
           <Link
             href="/retractation"

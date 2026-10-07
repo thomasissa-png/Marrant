@@ -2,7 +2,7 @@
  * @jest-environment node
  *
  * Plus de compte gratuit (s15, spec §1.1, critère 8) : XP, réaction en base et
- * vote sur les nouveautés = accès complet. Compte non abonné (dont les 11
+ * vote sur les nouveautés = Premium. Compte non abonné (dont les 11
  * comptes FREE conservés) : 403, aucune écriture ni suppression en base.
  * Abonné : inchangé. Visiteur : 401 comme avant.
  */

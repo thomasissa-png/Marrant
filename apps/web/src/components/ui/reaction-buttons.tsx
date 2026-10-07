@@ -46,7 +46,7 @@ export function ReactionButtons({
   className,
 }: ReactionButtonsProps) {
   const { data: session, status } = useSession();
-  // Réaction en base = accès complet (s15 §1.1) ; sinon localStorage, comme un visiteur.
+  // Réaction en base = Premium (s15 §1.1) ; sinon localStorage, comme un visiteur.
   const persistOnServer =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
   const [likes, setLikes] = useState(initialLikes);

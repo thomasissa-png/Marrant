@@ -74,7 +74,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. L'accès complet est à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
+      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -121,7 +121,7 @@ Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complèt
 
 export const LLMS_TARIFS: string[] = [
   `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
-  `Accès complet : 2,99 €/mois : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
+  `Premium : 2,99 €/mois : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
   "Coaching individuel : 99 €/séance (45 min en visio).",
 ];
 
@@ -137,7 +137,7 @@ export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
  * llms.txt et llms-full.txt seulement si `isAnnualPlanAvailable()` (prix Stripe
  * annuel configuré côté serveur). Sans annuel : constantes ci-dessus inchangées.
  */
-const ANNUAL_TARIF = `Accès complet en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL} par rapport au mensuel), renouvelé chaque année, résiliable depuis le profil.`;
+const ANNUAL_TARIF = `Premium en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL} par rapport au mensuel), renouvelé chaque année, résiliable depuis le profil.`;
 
 export function getLlmsTarifs(annualAvailable: boolean): string[] {
   if (!annualAvailable) return LLMS_TARIFS;
@@ -152,7 +152,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. L'accès complet est à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
         }
       : entry,
   );

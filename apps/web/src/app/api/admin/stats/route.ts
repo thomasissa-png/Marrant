@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { PREMIUM_PRICE_CENTS } from "@/lib/stripe";
 import { monthlyRevenueCents } from "@/lib/stripe-subscription";
+import { conversionHorsAnciensComptes, LEGACY_FREE_CUTOFF } from "@/lib/analytics/weekly-funnel";
 
 export async function GET(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -39,6 +40,7 @@ export async function GET(request: NextRequest) {
       socialPendingPosts,
       todayDailyContent,
       recentBlogArticle,
+      legacyFreeUsers,
     ] = await Promise.all([
       prisma.user.count(),
       prisma.user.count({ where: { plan: "PREMIUM" } }),
@@ -102,11 +104,13 @@ export async function GET(request: NextRequest) {
           publishedAt: true,
         },
       }),
+      // Anciens comptes gratuits (11 au 06/10/2026) : FREE et créés avant la fin du compte gratuit.
+      prisma.user.count({ where: { plan: "FREE", createdAt: { lt: LEGACY_FREE_CUTOFF } } }),
     ]);
 
-    const conversionRate = totalUsers > 0
-      ? ((premiumUsers / totalUsers) * 100).toFixed(1)
-      : "0.0";
+    // Conversion hors anciens comptes gratuits (audit s16, data-analyst C5) :
+    // depuis le 06/10/2026, un compte n'est créé que pour s'abonner.
+    const conversionRate = conversionHorsAnciensComptes(premiumUsers, totalUsers, legacyFreeUsers);
 
     // MRR = somme des montants mensualisés des abonnements actifs (s14, 04/10/2026) :
     // montant réel du prix Stripe recopié par le webhook (abonnés de lancement à
@@ -128,6 +132,7 @@ export async function GET(request: NextRequest) {
       premiumUsers,
       freeUsers,
       conversionRate,
+      legacyFreeUsers,
       mrr,
       usersLast7d,
       usersLast30d,

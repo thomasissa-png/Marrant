@@ -7,10 +7,10 @@
  *     (vanne + chute + "Pourquoi ça marche" ; conseil + exemple ; vidéo + description + technique).
  *   - Le paywall existant sur les listes reste en place (10 vannes / 3 conseils / 3 vidéos).
  *   - Ce qui reste réservé côté "à toi de jouer" :
- *       - Vannes  : "À toi de jouer" (howToApply), accès complet (abonnés, s15),
- *                   lien « Voir l'accès complet » + passerelle parcours Premium
- *       - Conseils: exercice concret d'application → « fait partie de l'accès complet »
- *       - Vidéos  : learnings pédagogiques + exercice → « fait partie de l'accès complet »
+ *       - Vannes  : "À toi de jouer" (howToApply), Premium (abonnés, s15),
+ *                   lien « Voir Premium » + passerelle parcours Premium
+ *       - Conseils: exercice concret d'application → « fait partie de Premium »
+ *       - Vidéos  : learnings pédagogiques + exercice → « fait partie de Premium »
  *   - "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
  *     valeur SEO + preuve d'expertise pour les crawlers et visiteurs non connectés.
  *   - Aucune page pour les contenus inactifs (isActive=false) : redirection
@@ -64,7 +64,7 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       );
       expect(gate).toMatch(/useSession\(\)/);
       expect(gate).toMatch(/isPremiumPlan\(/);
-      expect(gate).toMatch(/fait partie de l&apos;accès complet/);
+      expect(gate).toMatch(/fait partie de Premium/);
       expect(gate).not.toMatch(/compte gratuit/i);
     });
 
@@ -94,9 +94,9 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/tip\.example/);
     });
 
-    it("exercice complet : « fait partie de l'accès complet » vers /abonnement avec retour fiche (s15, étalon 4.1)", () => {
+    it("exercice complet : « fait partie de Premium » vers /abonnement avec retour fiche (s15, étalon 4.1)", () => {
       expect(src).toMatch(/À toi de jouer/);
-      expect(src).toMatch(/L&apos;exercice pour appliquer cette technique fait partie de l&apos;accès complet\./);
+      expect(src).toMatch(/L&apos;exercice pour appliquer cette technique fait partie de Premium\./);
       expect(src).toMatch(/buildAbonnementUrl\(`\/conseils\/\$\{canonicalSlug\}`, "monthly", "fiche-conseil"\)/);
       expect(src).not.toMatch(/compte gratuit/i);
     });
@@ -122,9 +122,9 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/youtube-nocookie\.com\/embed/);
     });
 
-    it("learnings + exercice : « font partie de l'accès complet » vers /abonnement (s15, étalon 4.1)", () => {
+    it("learnings + exercice : « font partie de Premium » vers /abonnement (s15, étalon 4.1)", () => {
       expect(src).toMatch(/Analyse pédagogique complète/);
-      expect(src).toMatch(/Les points clés et l&apos;exercice de cette vidéo font partie de l&apos;accès complet\./);
+      expect(src).toMatch(/Les points clés et l&apos;exercice de cette vidéo font partie de Premium\./);
       expect(src).toMatch(/buildAbonnementUrl\(`\/videos\/\$\{canonicalSlug\}`, "monthly", "fiche-video"\)/);
       // Plus de promesse du contenu du jour (déjà public).
       expect(src).not.toMatch(/compte gratuit|contenu quotidien/i);

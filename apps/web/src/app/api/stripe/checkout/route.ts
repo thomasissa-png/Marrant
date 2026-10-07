@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
-import { rateLimit } from "@/lib/rate-limit";
+import { AlreadySubscribedError, createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
+import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
+import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { refuserSiAutreSite } from "@/lib/same-site";
 import { PREMIUM_PLANS, type PremiumPlan } from "@/config/premium";
 import { z } from "zod";
 
@@ -13,6 +15,15 @@ import { z } from "zod";
  */
 const returnToSchema = z.string().max(512).optional();
 const planSchema = z.enum(PREMIUM_PLANS).default("monthly");
+/**
+ * Lot H : 20 sessions de paiement par utilisateur et par heure (au lieu de 5).
+ * Un compteur partagé ne peut pas « rendre » un essai après coup ; plutôt que
+ * de décompter les 409 et les succès, la limite est relevée : un acheteur qui
+ * hésite entre mensuel et annuel (aller-retour vers Stripe) n'est jamais
+ * bloqué, et 20 sessions Stripe par heure restent sans risque. Les corps
+ * invalides (400) ne comptent plus : la limite est vérifiée après lecture.
+ */
+const CHECKOUT_LIMIT = { maxRequests: 20, windowMs: 3600_000 };
 
 type CheckoutBody =
   | { ok: true; plan: PremiumPlan; returnTo?: string }
@@ -33,6 +44,8 @@ async function readBody(request: Request): Promise<CheckoutBody> {
 }
 
 export async function POST(request: Request) {
+  const refus = refuserSiAutreSite(request, "POST /api/stripe/checkout");
+  if (refus) return refus;
   try {
     const session = await getServerSession(authOptions);
 
@@ -45,19 +58,20 @@ export async function POST(request: Request) {
 
     const userId = (session.user as { id: string }).id;
 
-    // Rate limit : 5 créations de checkout par utilisateur par heure
-    const rl = rateLimit(`checkout:${userId}`, { maxRequests: 5, windowMs: 3600_000 });
-    if (!rl.allowed) {
-      return NextResponse.json(
-        { error: "Trop de tentatives. Réessaie plus tard." },
-        { status: 429 }
-      );
-    }
     const body = await readBody(request);
     if (!body.ok) {
       return NextResponse.json(
         { error: "Formule inconnue : choisis l'abonnement mensuel ou annuel." },
         { status: 400 }
+      );
+    }
+    // Compteur partagé entre isolats Workers (lib/rate-limit, atomique depuis
+    // le lot H ; repli mémoire si la base tombe). Voir CHECKOUT_LIMIT.
+    const rl = await sharedRateLimit("checkout-user", userId, CHECKOUT_LIMIT);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie plus tard." },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
       );
     }
     const checkoutUrl = await createCheckoutSession(userId, session.user.email, body.returnTo, body.plan);
@@ -71,6 +85,19 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: checkoutUrl });
   } catch (error) {
+    // s16 : abonnement déjà actif, en essai ou en impayé → jamais de second
+    // abonnement (risque de double prélèvement) ; le client passe par le portail.
+    if (error instanceof AlreadySubscribedError) {
+      const impaye = error.status === "PAST_DUE" || error.status === "past_due";
+      return NextResponse.json(
+        {
+          error: impaye ? TEXTES_CHECKOUT.impaye : TEXTES_CHECKOUT.dejaAbonne,
+          code: impaye ? "paiement-en-retard" : "deja-abonne",
+          portal: true,
+        },
+        { status: 409 }
+      );
+    }
     if (error instanceof PremiumPriceNotConfiguredError) {
       console.error("[API /stripe/checkout]", error.message);
       return NextResponse.json(
@@ -86,16 +113,11 @@ export async function POST(request: Request) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("[API /stripe/checkout]", message, error);
 
-    // Messages d'erreur explicites selon le type
-    if (message.includes("No such price") || message.includes("price")) {
+    // Configuration Stripe cassée (prix ou clé) : détail dans les journaux,
+    // jamais le nom d'une variable d'environnement côté client (s16).
+    if (message.includes("No such price") || message.includes("price") || message.includes("Invalid API Key") || message.includes("api_key")) {
       return NextResponse.json(
-        { error: "Configuration Stripe incomplète : STRIPE_PREMIUM_PRICE_ID manquant ou invalide" },
-        { status: 500 }
-      );
-    }
-    if (message.includes("Invalid API Key") || message.includes("api_key")) {
-      return NextResponse.json(
-        { error: "Configuration Stripe incomplète : STRIPE_SECRET_KEY manquant ou invalide" },
+        { error: "Le paiement est indisponible pour le moment. Réessaie dans un instant." },
         { status: 500 }
       );
     }

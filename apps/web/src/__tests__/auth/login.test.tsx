@@ -157,7 +157,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Email ou mot de passe incorrect.");
+      expect(screen.getByRole("alert")).toHaveTextContent("E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe.");
     });
   });
 
@@ -170,7 +170,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
+      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie dans un instant.");
     });
   });
 
@@ -199,28 +199,14 @@ describe("LoginPage", () => {
     mockSearchParams.delete("callbackUrl");
   });
 
-  it("auto-retries Google sign-in on OAuthAccountNotLinked error", async () => {
-    sessionStorage.clear();
+  // s16 reco 13 : liaison Google automatique coupée, donc plus de relance
+  // automatique de Google sur OAuthAccountNotLinked (voir login-s16.test.tsx).
+  it("OAuthAccountNotLinked : pas de relance Google, renvoi vers le mot de passe", () => {
     mockSearchParams.set("error", "OAuthAccountNotLinked");
     render(<LoginPage />);
-
-    await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/vannes?auth=connexion-google" });
-    });
+    expect(mockSignIn).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent("déjà un compte avec mot de passe");
     mockSearchParams.delete("error");
-    sessionStorage.clear();
-  });
-
-  it("shows fallback message if OAuthAccountNotLinked auto-retry already failed", () => {
-    sessionStorage.setItem("oauth-auto-retry", "1");
-    mockSearchParams.set("error", "OAuthAccountNotLinked");
-    render(<LoginPage />);
-
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Tu as déjà un compte"
-    );
-    mockSearchParams.delete("error");
-    sessionStorage.clear();
   });
 
 });

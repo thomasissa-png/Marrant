@@ -4,7 +4,9 @@
   "scripts": {
     "postinstall": "cd apps/web && npm install && npx prisma generate",
     "build": "cd apps/web && bash scripts/seed.sh && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
-    "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js"
+    "start": "cd apps/web && HOSTNAME=0.0.0.0 node .next/standalone/server.js",
+    "test:e2e:smoke": "cd apps/web && npm run test:e2e:smoke --",
+    "test:e2e:achat": "cd apps/web && npm run test:e2e:achat --"
   },
   "devDependencies": {
     "@swc/core": "^1.15.21",

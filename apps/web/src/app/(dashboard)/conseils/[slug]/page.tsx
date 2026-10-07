@@ -193,18 +193,18 @@ export default async function ConseilPage({
           <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
         </section>
 
-        {/* L'exercice (application) fait partie de l'accès complet (s15 §1.1). */}
+        {/* L'exercice (application) fait partie de Premium (s15 §1.1). */}
         <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">À toi de jouer</div>
           <p className="text-sm text-text-primary">
-            L&apos;exercice pour appliquer cette technique fait partie de l&apos;accès complet.
+            L&apos;exercice pour appliquer cette technique fait partie de Premium.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href={buildAbonnementUrl(`/conseils/${canonicalSlug}`, "monthly", "fiche-conseil")}
               className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
-              Voir l&apos;accès complet
+              Voir Premium
             </Link>
             <Link
               href="/conseils"
@@ -234,7 +234,7 @@ export default async function ConseilPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link hover:underline">
+          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link underline underline-offset-2">
             &larr; Tous les conseils {categoryLabel.toLowerCase()}
           </Link>
         </nav>

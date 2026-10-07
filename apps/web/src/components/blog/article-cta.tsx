@@ -20,7 +20,7 @@ interface ArticleCtaProps {
   title?: string;
   /** Paragraphe sous le titre (défaut : texte générique des articles). */
   text?: string;
-  /** Libellé du bouton principal vers l'accès complet (défaut : « Passer à l'accès complet »). */
+  /** Libellé du bouton principal vers Premium (défaut : « Passer à Premium »). */
   primaryLabel?: string;
   /** Libellé du lien secondaire vers l'étape 1 (défaut : « Lire la première étape d'un parcours »). */
   secondaryLabel?: string;
@@ -32,7 +32,7 @@ const DEFAULT_TITLE = "Maintenant, reste à le dire à voix haute";
 const DEFAULT_TEXT =
   "Des exercices concrets, des parcours étape par étape et des XP pour voir le chemin parcouru. Parce qu'un article lu finit par s'oublier, alors qu'un réflexe entraîné reste.";
 // Étalon 3.1 validé par Thomas (s15, docs/copy/etalons-chemin-premium-s15.md).
-const DEFAULT_PRIMARY_LABEL = "Passer à l'accès complet";
+const DEFAULT_PRIMARY_LABEL = "Passer à Premium";
 const DEFAULT_SECONDARY_LABEL = "Lire la première étape d'un parcours";
 const DEFAULT_NOTE = `${PREMIUM_PRICE_LABEL}, sans engagement. Cet article reste en lecture libre.`;
 

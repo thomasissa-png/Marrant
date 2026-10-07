@@ -39,7 +39,7 @@ describe("visiteur : accès strictement inchangés", () => {
     expect(canAccessParcoursStep(2, "PREMIUM")).toBe(true);
   });
 
-  it("valider une étape = accès complet uniquement (s15 §1.1)", () => {
+  it("valider une étape = Premium uniquement (s15 §1.1)", () => {
     expect(canValidateParcoursStep(null)).toBe(false);
     expect(canValidateParcoursStep("FREE")).toBe(false);
     expect(canValidateParcoursStep("PREMIUM")).toBe(true);
@@ -123,7 +123,7 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
       title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
       text: "Le parcours Répartie t'entraîne à renvoyer la balle quand l'autre te répond du tac au tac, étape après étape.",
       primaryLabel: "Commencer le parcours Répartie",
-      note: "Accès complet à 2,99 €/mois, sans engagement. La première étape se lit sans compte.",
+      note: "Premium à 2,99\u00A0€/mois, sans engagement. La première étape se lit sans compte.",
       secondaryLabel: "Lire l'étape 1 de Répartie",
       parcoursHref: "/parcours/repartie",
     });
@@ -132,8 +132,8 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
 
 describe("prix et « 1 500+ » intacts", () => {
   it("2,99 €/mois et 24,99 €/an", () => {
-    expect(PREMIUM_PRICE_LABEL).toBe("2,99 €/mois");
-    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("24,99 €/an");
+    expect(PREMIUM_PRICE_LABEL).toBe("2,99\u00A0€/mois");
+    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("24,99\u00A0€/an");
   });
 
   it("formulations 1 500+ validées par Thomas", () => {

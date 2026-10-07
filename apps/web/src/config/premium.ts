@@ -12,11 +12,17 @@
  * par un test (src/__tests__/lib/premium-offer.test.ts).
  */
 
-/** Format français : 299 → « 2,99 € ». */
+/**
+ * Espace insécable (U+00A0) entre le montant et « € » : le symbole ne passe
+ * jamais seul à la ligne (s16, lot E). Caractère invisible, d'où l'échappement.
+ */
+export const ESPACE_INSECABLE = " ";
+
+/** Format français : 299 → « 2,99 € » (virgule, espace insécable). */
 export function formatEuros(cents: number): string {
   const euros = Math.floor(cents / 100);
   const rest = String(cents % 100).padStart(2, "0");
-  return `${euros},${rest} €`;
+  return `${euros},${rest}${ESPACE_INSECABLE}€`;
 }
 
 /** Prix affiché du mensuel (le prix facturé est celui de STRIPE_PREMIUM_PRICE_ID). */

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 
 const footerLinks = {
   produit: [
@@ -20,6 +21,9 @@ const footerLinks = {
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
     { href: "/retractation", label: "Rétractation" },
+    // Lot G (@legal point 6) : accès permanent à la résiliation en ligne. Sans session,
+    // le middleware renvoie vers /login?callbackUrl=/profil (ancre de la carte Abonnement).
+    { href: "/profil#abonnement", label: TEXTES_ABONNEMENT.resilier },
   ],
 };
 

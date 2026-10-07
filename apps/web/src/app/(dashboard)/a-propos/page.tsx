@@ -191,7 +191,7 @@ export default function AProposPage() {
             Une question, une suggestion, un partenariat ? Écris-nous à{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
-              className="font-medium text-accent-link hover:underline"
+              className="font-medium text-accent-link underline underline-offset-2"
             >
               contact@deviens-marrant.fr
             </a>

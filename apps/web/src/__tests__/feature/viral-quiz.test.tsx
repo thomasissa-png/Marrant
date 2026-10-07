@@ -111,7 +111,7 @@ describe("ViralQuiz", () => {
     const [name, data] = mockTrack.mock.calls[0];
     expect(name).toBe("quiz-termine");
     expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
-    // s15 : plus de compte gratuit, CTA vers l'accès complet avec retour au parcours conseillé.
+    // s15 : plus de compte gratuit, CTA vers Premium avec retour au parcours conseillé.
     const cta = screen.getByText("Accéder aux parcours complets").closest("a");
     expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2F[a-z%0-9-]+&src=quiz$/);
   });

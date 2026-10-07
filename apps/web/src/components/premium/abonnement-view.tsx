@@ -28,6 +28,11 @@ import {
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
+import { OFFRE_NOM, PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
+import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
+import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
+import { useResiliationProgrammee } from "@/hooks/use-resiliation-programmee";
 
 /**
  * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
@@ -45,6 +50,15 @@ function readPlanFromUrl(): PremiumPlan {
   return new URLSearchParams(window.location.search).get("plan") === "annual" ? "annual" : "monthly";
 }
 
+/**
+ * Retour de Stripe sans paiement : `?paiement=annule` (cancel_url posée par le
+ * lot A de l'audit s16) ou l'ancien `?upgrade=cancel` (sessions ouvertes avant
+ * le déploiement, gardé pour ne rien perdre).
+ */
+export function isCheckoutCancelReturn(params: URLSearchParams): boolean {
+  return params.get("paiement") === "annule" || params.get("upgrade") === "cancel";
+}
+
 /** Source du clic d'entrée (`?src=`, ex. `fiche-vanne`), relayée à /register. */
 function readSrcFromUrl(): string | null {
   if (typeof window === "undefined") return null;
@@ -54,7 +68,7 @@ function readSrcFromUrl(): string | null {
 /**
  * `auto=1` (retour d'inscription) : lu puis retiré de l'URL AVANT l'appel au
  * paiement, pour qu'un rechargement ou un retour arrière ne relance rien.
- * Jamais après un retour de Stripe sans paiement (`upgrade=cancel`).
+ * Jamais après un retour de Stripe sans paiement (`paiement=annule`).
  */
 function consumeAutoCheckout(): boolean {
   if (typeof window === "undefined") return false;
@@ -62,7 +76,7 @@ function consumeAutoCheckout(): boolean {
   if (url.searchParams.get(AUTO_CHECKOUT_PARAM) !== AUTO_CHECKOUT_VALUE) return false;
   url.searchParams.delete(AUTO_CHECKOUT_PARAM);
   window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
-  return url.searchParams.get("upgrade") !== "cancel";
+  return !isCheckoutCancelReturn(url.searchParams);
 }
 
 /** Messages humains : jamais l'erreur brute de l'API (audit tunnel F14). */
@@ -85,12 +99,19 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   // Intention d'origine lue après montage (le HTML serveur garde le lien sans returnTo).
   const [returnTo, setReturnTo] = useState<string | null>(null);
   const [entrySrc, setEntrySrc] = useState<string | null>(null);
+  // Retour de Stripe sans paiement : message clair au-dessus de l'offre (reco 12).
+  const [paymentCanceled, setPaymentCanceled] = useState(false);
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const src = readSrcFromUrl();
     setSelectedPlan(readPlanFromUrl());
     setReturnTo(readReturnTo());
-    setEntrySrc(readSrcFromUrl());
+    setEntrySrc(src);
+    // Vue de l'offre (audit s16 reco 17) : une fois par chargement, avec la porte d'entrée.
+    trackUmamiWhenReady("abonnement-vu", { src: src ?? "direct" });
     // Retour de Stripe sans paiement (cancel_url) : mesuré une fois au chargement.
-    if (new URLSearchParams(window.location.search).get("upgrade") === "cancel") {
+    if (isCheckoutCancelReturn(params)) {
+      setPaymentCanceled(true);
       trackUmamiWhenReady("abonnement-annule");
     }
   }, []);
@@ -98,6 +119,8 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   const isAnnual = plan === "annual";
   const priceLabel = isAnnual ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
+  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
   // Plus de compte gratuit (s15) : un seul chemin, /register (étape 1 sur 2)
   // puis retour ici avec `auto=1` (paiement ouvert tout seul), formule et
   // intention conservées (voir getPostSignupRedirect et buildAbonnementUrl).
@@ -107,6 +130,8 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   });
 
   const isAuthenticated = status === "authenticated";
+  // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
+  const resiliation = useResiliationProgrammee(status);
   const pageBadge = "Plus qu'une étape";
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
@@ -118,7 +143,8 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
     const annual = chosenPlan === "annual";
     setIsCheckoutLoading(true);
-    trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur });
+    setConflict(null);
+    trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur, statut: "membre" });
     try {
       const origin = readReturnTo();
       const res = await fetch("/api/stripe/checkout", {
@@ -128,8 +154,11 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
         body: JSON.stringify({ ...(origin ? { returnTo: origin } : {}), ...(annual ? { plan: chosenPlan } : {}) }),
       });
       const data = await res.json();
+      const conflit = readCheckoutConflict(res.status, data);
       if (res.ok && data.url) {
         window.location.href = data.url;
+      } else if (conflit) {
+        setConflict(conflit);
       } else {
         console.error("[Checkout]", data.error);
         toast(checkoutErrorMessage(res.status), "error");
@@ -154,9 +183,20 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
 
   return (
     <div className="mx-auto max-w-2xl">
+      {paymentCanceled && (
+        <div
+          role="status"
+          className="mb-6 rounded-xl border border-border bg-background-elevated p-4 text-center"
+          data-testid="paiement-annule"
+        >
+          <p className="font-semibold text-text-primary">{PAIEMENT_ANNULE.titre}</p>
+          <p className="mt-1 text-sm text-text-secondary">{PAIEMENT_ANNULE.texte}</p>
+        </div>
+      )}
+
       <div className="text-center">
         {/* Badge affiché uniquement pour un utilisateur connecté */}
-        {isAuthenticated && (
+        {isAuthenticated && !resiliation && (
           <Badge variant="primary" className="mb-4">
             {pageBadge}
           </Badge>
@@ -174,7 +214,7 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
         <CardContent className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">
-              Accès complet
+              {OFFRE_NOM}
             </h2>
           </div>
           {annualAvailable ? (
@@ -195,7 +235,9 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
 
           <PremiumBenefits className="mt-6 space-y-3" />
 
-          {isAuthenticated ? (
+          {isAuthenticated && resiliation ? (
+            <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-8" />
+          ) : isAuthenticated ? (
             <Button
               variant="primary"
               size="lg"
@@ -211,12 +253,25 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
             <Link
               href={paidSignupHref}
               className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
+              onClick={() =>
+                trackUmami("abonnement-clic", {
+                  formule: isAnnual ? "annuel" : "mensuel",
+                  src: "abonnement",
+                  entree: entrySrc ?? "direct",
+                  statut: "visiteur",
+                })
+              }
             >
               Commencer à {priceLabel}
             </Link>
           )}
 
-          <p className="mt-3 text-center text-xs text-text-muted">
+          {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
+
+          <p className="mt-3 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
+            {reassurancePaiement(plan)}
+          </p>
+          <p className="mt-1 text-center text-xs text-text-muted">
             Droit de{" "}
             <Link
               href="/retractation"

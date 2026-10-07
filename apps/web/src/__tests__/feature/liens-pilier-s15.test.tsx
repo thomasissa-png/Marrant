@@ -94,7 +94,7 @@ describe("L5 : les 4 articles les mieux vus citent le pilier dans le corps", () 
     ["autoderision-interactions", "devenir drôle"],
   ])("%s : ancre « %s », hors du dernier paragraphe", (slug, ancre) => {
     const { content } = article(slug);
-    expect(renderMarkdown(content)).toContain(`<a href="${PILIER}" class="text-accent-link hover:underline">${ancre}</a>`);
+    expect(renderMarkdown(content)).toContain(`<a href="${PILIER}" class="text-accent-link underline underline-offset-2">${ancre}</a>`);
     const paragraphes = content.trimEnd().split("\n\n");
     expect(paragraphes[paragraphes.length - 1]).not.toContain(PILIER);
   });

@@ -113,7 +113,7 @@ export async function POST(
     });
     if (!canValidateParcoursStep(user?.plan)) {
       return NextResponse.json(
-        { error: "Le suivi des étapes fait partie de l'accès complet" },
+        { error: "Le suivi des étapes fait partie de Premium" },
         { status: 403 }
       );
     }

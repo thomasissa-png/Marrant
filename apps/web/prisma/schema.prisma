@@ -478,6 +478,26 @@ model WebhookEvent {
   @@index([provider, eventType])
 }
 
+/// Demande de rétractation (14 jours, L.221-18) envoyée depuis /retractation
+/// (s16, 07/10/2026). Conservée même si le compte est supprimé : pas de clé
+/// étrangère, `userId` est seulement le compte trouvé pour l'e-mail saisi.
+model RetractationRequest {
+  id             String    @id @default(cuid())
+  email          String
+  userId         String?
+  purchaseDate   DateTime?
+  motif          String?
+  status         String    @default("RECUE") // RECUE | TRAITEE
+  ipHash         String?
+  adminEmailedAt DateTime?
+  ackEmailedAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([email, createdAt])
+  @@index([status])
+}
+
 /// Push notification tokens (FCM Android + APNs iOS) — Phase 5 mobile.
 /// Un user peut avoir plusieurs devices, mais un token est unique.
 model PushToken {

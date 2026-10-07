@@ -41,7 +41,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
     await waitFor(() => expect(checkoutCalls()).toHaveLength(1));
     expect(JSON.parse((checkoutCalls()[0][1] as RequestInit).body as string)).toEqual({ returnTo: "/parcours/repartie" });
     expect(window.location.search).toBe("?returnTo=%2Fparcours%2Frepartie");
-    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement", declencheur: "auto" });
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement", declencheur: "auto", statut: "membre" });
   });
 
   it("rechargement de l'URL nettoyée : pas de seconde session de paiement", async () => {
@@ -71,7 +71,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
     render(<AbonnementView annualAvailable />);
     await waitFor(() => expect(checkoutCalls()).toHaveLength(1));
     expect(JSON.parse((checkoutCalls()[0][1] as RequestInit).body as string)).toEqual({ plan: "annual" });
-    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "annuel", src: "abonnement", declencheur: "auto" });
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "annuel", src: "abonnement", declencheur: "auto", statut: "membre" });
   });
 
   it("checkout abandonné (upgrade=cancel) : aucun lancement, abonnement-annule mesuré, bouton manuel", async () => {

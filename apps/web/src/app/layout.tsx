@@ -11,6 +11,7 @@ import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
 import { AuthReturnTracker } from "@/components/auth/auth-return-tracker";
 import { AttributionCapture } from "@/components/analytics/attribution-capture";
 import { BLOG_PREVIEW_PATH } from "@/config/blog-preview";
+import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -146,7 +147,7 @@ export default function RootLayout({
                 /blog/apercu (vues et événements). Défini avant le tracker. */}
             <script
               dangerouslySetInnerHTML={{
-                __html: `window.marrantUmamiBeforeSend=function(t,p){var a=${JSON.stringify(BLOG_PREVIEW_PATH)},l=location.pathname;return l===a||l.indexOf(a+"/")===0?false:p};`,
+                __html: buildUmamiBeforeSendScript(BLOG_PREVIEW_PATH),
               }}
             />
             <Script

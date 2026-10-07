@@ -50,12 +50,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { amount } = xpSchema.parse(body);
 
-    // XP et niveau = suivi de progression, accès complet uniquement (plus de
+    // XP et niveau = suivi de progression, Premium uniquement (plus de
     // compte gratuit, s15 §1.1). Plan lu en base, pas dans le jwt.
     const owner = await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } });
     if (!isPremiumPlan(owner?.plan)) {
       return NextResponse.json(
-        { error: "Le suivi de progression fait partie de l'accès complet" },
+        { error: "Le suivi de progression fait partie de Premium" },
         { status: 403 }
       );
     }

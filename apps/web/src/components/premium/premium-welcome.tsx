@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PREMIUM_WELCOME_PARAM, PREMIUM_WELCOME_VALUE } from "@/config/premium";
+import { OFFRE_NOM } from "@/config/textes/offre";
 
 /**
  * Message de bienvenue après paiement (décision Thomas, 03/10/2026) : affiché
@@ -23,7 +24,7 @@ export function PremiumWelcome() {
       className="mb-6 flex items-start justify-between gap-3 rounded-xl border border-accent-primary/40 bg-accent-primary/10 p-4"
     >
       <div>
-        <p className="font-semibold text-text-primary">Bienvenue dans l&apos;accès complet</p>
+        <p className="font-semibold text-text-primary">Bienvenue dans {OFFRE_NOM}</p>
         <p className="mt-1 text-sm text-text-secondary">
           Toutes les étapes des parcours sont débloquées, et tes favoris t&apos;attendent. Reprends là où tu t&apos;étais arrêté.
         </p>

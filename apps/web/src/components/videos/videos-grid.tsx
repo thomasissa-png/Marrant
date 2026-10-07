@@ -15,6 +15,9 @@ import Link from "next/link";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 import { frTypo } from "@/lib/fr-typo";
@@ -123,6 +126,8 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
   const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
+  // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
+  useMurVu(limited && (videos.length > 0 || page > 1), "videos");
   // T21 : « Ce que tu vas apprendre » et « Exercice pratique » repliés sur mobile, ouverts dès md.
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -197,7 +202,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
           </svg>
           <p className="text-sm text-text-secondary">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
           </p>
         </div>
       ) : (
@@ -337,9 +342,10 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
               onClick={() => setPremiumOpen(true)}
+              role="button"
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium : cliquer pour débloquer"
+              aria-label={CARTE_VERROUILLEE_LABEL}
             >
               <CardContent className="pt-0">
                 <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
@@ -364,7 +370,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 2,99 &euro;/mois
+            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
           </p>
           {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>

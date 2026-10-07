@@ -337,7 +337,7 @@ export function FavorisList() {
                               Envie de comprendre la mécanique en profondeur ?{" "}
                               <Link
                                 href="/anatomie-vanne"
-                                className="font-medium text-accent-link hover:underline"
+                                className="font-medium text-accent-link underline underline-offset-2"
                               >
                                 L&apos;anatomie d&apos;une vanne
                               </Link>

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "@/components/layout/header";
 
@@ -56,24 +56,37 @@ describe("Header", () => {
       "href",
       "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header",
     );
-    expect(screen.getByRole("link", { name: "Connexion" })).toHaveAttribute(
-      "href",
-      "/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026",
-    );
+    // Desktop + en-tête mobile (s16) : même destination.
+    for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
+      expect(link).toHaveAttribute("href", "/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026");
+    }
   });
 
   it("s15 : session en cours de chargement (rendu serveur) = liens anonymes présents", () => {
     useSession.mockReturnValue({ data: null, status: "loading" });
     render(<Header />);
     expect(screen.getByRole("link", { name: "Commencer" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Connexion" })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
   });
 
   it("s15 : menu mobile anonyme avec les deux liens", async () => {
     render(<Header />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
-    expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
+    // Desktop + en-tête mobile (s16) + menu.
+    expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(3);
+  });
+
+  it("s16 reco 19 : « Connexion » dans l'en-tête mobile sans ouvrir le menu, absent si connecté", () => {
+    const { unmount } = render(<Header />);
+    const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
+    const lien = within(mobile).getByRole("link", { name: "Connexion" });
+    expect(lien).toHaveAttribute("href", "/login?callbackUrl=%2F");
+    expect(screen.getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    unmount();
+    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    render(<Header />);
+    expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
   });
 
   it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {

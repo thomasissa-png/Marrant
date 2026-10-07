@@ -115,8 +115,8 @@ describe("meilleures-blagues-droles-2026 : audit s14", () => {
     expect(BLOG_CTA_BY_SLUG[SLUG]).toEqual({
       title: "Tu les as lues. Reste à les sortir pour de vrai.",
       text: "Les parcours complets : de quoi t'entraîner à les placer au bon moment, pas juste à les connaître.",
-      primaryLabel: "Passer à l'accès complet",
-      note: "2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.",
+      primaryLabel: "Passer à Premium",
+      note: "2,99\u00A0€/mois, sans engagement. Les vannes de cette page restent en accès libre.",
     });
     // La vanne décryptée du jour est publique : le CTA ne la vend pas.
     expect(Object.values(BLOG_CTA_BY_SLUG[SLUG]).join(" ")).not.toMatch(/vanne décryptée/);

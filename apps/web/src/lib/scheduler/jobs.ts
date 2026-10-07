@@ -621,7 +621,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
         const baseUrl = process.env.NEXTAUTH_URL || "https://deviens-marrant.fr";
         const res = await runAnnualRenewalReminders(now, {
           prisma,
-          sendEmail: sendTransactionalTextEmail,
+          // s16 : clé d'alerte dédiée `email-envoi-rappel-annuel` si Resend refuse.
+          sendEmail: (to: string, subject: string, text: string) =>
+            sendTransactionalTextEmail(to, subject, text, "rappel-annuel"),
           manageUrl: `${baseUrl}/profil`,
         });
         if (res.candidates > 0) {
@@ -634,6 +636,51 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       }
     } catch (err) {
       console.error("[scheduler:renewal-reminder] Échec :", err);
+    }
+  };
+
+  /**
+   * Job : Réconciliation quotidienne Stripe ↔ base (s16, 07/10/2026).
+   * Fenêtre 4h UTC (avant le digest de 07:30 heure de Paris), verrou daté du
+   * jour CONSERVÉ après succès (une seule passe par jour), relâché en cas
+   * d'échec pour retenter au tick suivant. Lecture seule ; écarts → alerte A.
+   * Clé Stripe absente ou factice : rien (le /api/health le signale déjà).
+   */
+  const runStripeReconciliationJob = async (now: Date = new Date()) => {
+    try {
+      if (now.getUTCHours() !== 4) return;
+      const key = process.env.STRIPE_SECRET_KEY ?? "";
+      if (!/^(sk|rk)_(live|test)_/.test(key)) return;
+
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("stripe-reconciliation", now);
+      if (!(await tryAcquireLock(lockKey, 2 * 60 * 60 * 1000))) return;
+
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        const { getStripe } = await import("@/lib/stripe");
+        const { runStripeReconciliation } = await import("@/lib/billing/stripe-reconciliation");
+        const res = await runStripeReconciliation(now, {
+          stripe: getStripe(),
+          db: prisma as unknown as import("@/lib/billing/stripe-reconciliation").ReconciliationDb,
+        });
+        console.log(
+          `[scheduler:stripe-reconciliation] ${res.stripeEnCours} abonnement(s) en cours ; écarts : ${res.payeSansPremium.length} payé(s) sans Premium, ${res.premiumSansAbonnement.length} Premium sans abonnement, ${res.doublons.length} doublon(s), ${res.impayesProlonges.length} impayé(s) prolongé(s) ; ${res.evenementsNonLivres.length} événement(s) non livré(s).`,
+        );
+      } catch (err) {
+        await releaseLock(lockKey);
+        throw err;
+      }
+    } catch (err) {
+      console.error("[scheduler:stripe-reconciliation] Échec :", err);
+      // Lot H : un échec n'est plus silencieux (une ligne par jour, occurrences incrémentées).
+      const { recordAdminAlert, CLES_TUNNEL } = await import("@/lib/admin-alerts");
+      await recordAdminAlert({
+        cle: `${CLES_TUNNEL.reconciliation}-echec`,
+        sujet: "Réconciliation Stripe en échec (nouvel essai au tick suivant, entre 4h et 5h UTC)",
+        html: `<p>${(err instanceof Error ? err.message : String(err)).replace(/</g, "&lt;").slice(0, 500)}</p><p>À vérifier si l'alerte persiste : clé Stripe, base, logs du Worker.</p>`,
+        now,
+      });
     }
   };
 
@@ -691,6 +738,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runCeoKpisJob();
     await runCopyReviewJob();
     await runAnnualRenewalReminderJob();
+    await runStripeReconciliationJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -701,6 +749,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runAllJobs,
     runDailySocialJob,
     runAnnualRenewalReminderJob,
+    runStripeReconciliationJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

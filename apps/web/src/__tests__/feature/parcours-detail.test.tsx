@@ -6,7 +6,7 @@ import { useUserStore } from "@/stores/user-store";
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
-    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} />
+    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} data-label={props.label} />
   ),
 }));
 
@@ -159,10 +159,10 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows Essai gratuit badge on free steps", async () => {
+  it("shows Lecture libre badge on free steps", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("Essai gratuit")).toBeInTheDocument();
+      expect(screen.getByText("Lecture libre")).toBeInTheDocument();
     });
   });
 
@@ -386,15 +386,15 @@ describe("ParcoursDetail — quiz gate", () => {
 });
 
 describe("ParcoursDetail — tunnel s15", () => {
-  it("anonyme : étape 1 lisible, valider = accès complet, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
+  it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
-    const link = screen.getByRole("link", { name: "Voir l'accès complet" });
+    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: "Voir l'offre Premium" });
     expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
 
-  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers l'accès complet", async () => {
+  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers Premium", async () => {
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
       data: { user: { name: "Test", plan: "FREE" } },
       status: "authenticated",
@@ -404,7 +404,7 @@ describe("ParcoursDetail — tunnel s15", () => {
       json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
     });
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
+    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
     expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
   });
@@ -497,8 +497,12 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Cette étape fait partie de l'accès complet/)).toBeInTheDocument();
+      expect(screen.getByText(/Cette étape fait partie de Premium/)).toBeInTheDocument();
     });
+    // Audit s16 (reco 17) : le mur de l'étape 2 est mesuré.
+    expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
+    // Audit s16 (reco 19) : la barre de progression a un nom accessible.
+    expect(screen.getByTestId("progress-bar").getAttribute("data-label")).toMatch(/étapes complétées/);
     // Retour au parcours après paiement (returnTo interne, encodé).
     expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute(
       "href",
@@ -536,7 +540,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
   });
 
   it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
@@ -557,7 +561,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
   });
 
   it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
@@ -575,6 +579,6 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Cette étape fait partie de l'accès complet/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Cette étape fait partie de Premium/)).not.toBeInTheDocument();
   });
 });

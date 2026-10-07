@@ -106,7 +106,7 @@ export function UpcomingFeatures() {
   const handleVote = useCallback(
     async (slug: string) => {
       if (!isPremium) {
-        // Visiteur ou compte non abonné : le vote fait partie de l'accès complet
+        // Visiteur ou compte non abonné : le vote fait partie de Premium
         // (badge « Abonnés », s15 §1.1) : modale Premium au lieu d'une erreur.
         setPremiumOpen(true);
         return;

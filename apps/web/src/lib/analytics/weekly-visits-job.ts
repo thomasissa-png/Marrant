@@ -5,12 +5,15 @@
  *  - `runScheduledWeeklyVisitsReport` : fenêtre lundi 7h-8h heure de Paris
  *    (4 ticks du Cron Trigger 15 min), verrou hebdomadaire anti-doublon.
  * Aucun LLM. Lecture Umami + 2 comptages et 1 lecture d'articles en base + 1 email interne.
+ * Audit s16 (reco 17) : section « Funnel de la semaine » dans le MÊME e-mail
+ * (vues /abonnement, comptes, paiements, résiliations, abonnés, MRR).
  */
 import { getUmamiConfig } from "./umami";
 import { buildWeeklyVisitsHtml, buildWeeklyVisitsSubject } from "./weekly-visits-email";
 import { parisParts, parisWeekKey } from "./weekly-visits-period";
 import type { BlogArticleLookup } from "./weekly-blog-report";
 import { buildWeeklyVisitsReport, type ConversionCounter, type WeeklyVisitsReport } from "./weekly-visits-report";
+import { buildFunnelSectionHtml, buildWeeklyFunnel, type FunnelDbCounter } from "./weekly-funnel";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
 /** Verrou conservé après succès : un seul envoi par semaine, même si un tick rejoue. */
@@ -62,6 +65,8 @@ export async function runWeeklyVisitsReport(
     countConversions?: ConversionCounter;
     lookupArticles?: BlogArticleLookup;
     socialSection?: SocialSection;
+    /** Comptages du funnel en base (Prisma par défaut), injectables pour les tests. */
+    countFunnel?: FunnelDbCounter;
     /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
     digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
@@ -80,17 +85,21 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
-  const social = await (opts.socialSection ?? prismaSocialSection)(
-    new Date(report.current.startAt),
-    new Date(report.current.endAt),
-    opts.now ?? new Date(),
-  );
+  const [social, funnel] = await Promise.all([
+    (opts.socialSection ?? prismaSocialSection)(
+      new Date(report.current.startAt),
+      new Date(report.current.endAt),
+      opts.now ?? new Date(),
+    ),
+    // Ne lève jamais : section partielle (n.d.) si une source manque.
+    buildWeeklyFunnel(config, report.current, opts.countFunnel),
+  ]);
   const digest = opts.digest;
   const finalSubject = digest
     ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
     : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${social}${digest?.html ?? ""}`));
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${buildFunnelSectionHtml(funnel)}${social}${digest?.html ?? ""}`));
   return { status: "sent", subject: finalSubject, report };
 }
 

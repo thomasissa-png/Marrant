@@ -15,6 +15,9 @@ jest.mock("stripe", () => {
       list: jest.fn().mockResolvedValue({ data: [] }),
       create: jest.fn().mockResolvedValue({ id: "cus_new_123" }),
     },
+    subscriptions: {
+      list: jest.fn().mockResolvedValue({ data: [] }),
+    },
   }));
 });
 
@@ -84,7 +87,8 @@ describe("createCheckoutSession : retour à l'intention (returnTo, 03/10)", () =
   it("chemin interne : relayé encodé dans success_url et cancel_url", async () => {
     await createCheckoutSession("user-1", "test@test.fr", "/parcours/repartie");
     expect(lastCall().success_url).toMatch(/\/abonnement\/success\?session_id=\{CHECKOUT_SESSION_ID\}&returnTo=%2Fparcours%2Frepartie$/);
-    expect(lastCall().cancel_url).toMatch(/\/abonnement\?upgrade=cancel&returnTo=%2Fparcours%2Frepartie$/);
+    // s16 : `paiement=annule` (message de retour), `upgrade=cancel` conservé (Umami).
+    expect(lastCall().cancel_url).toMatch(/\/abonnement\?paiement=annule&upgrade=cancel&returnTo=%2Fparcours%2Frepartie$/);
   });
 
   it.each(["https://evil.example/x", "//evil.example", "/api/ai", "/abonnement"])(

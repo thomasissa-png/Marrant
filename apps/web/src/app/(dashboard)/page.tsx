@@ -32,7 +32,7 @@ const homepageFaqs = [
   {
     question: "Combien coûte deviens-marrant.fr ?",
     answer:
-      "L'accès complet coûte 2,99 €/mois. Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
+      "Premium coûte 2,99 €/mois. Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
   },
 ];
 
@@ -147,7 +147,7 @@ export default async function HomePage() {
         {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
         <p className="mt-6 text-center text-sm text-text-secondary">
           Tu veux d&apos;abord comprendre le mécanisme ? Lis notre guide{" "}
-          <Link href="/blog/comment-devenir-drole" className="font-medium text-accent-link hover:underline">
+          <Link href="/blog/comment-devenir-drole" className="font-medium text-accent-link underline underline-offset-2">
             comment devenir drôle
           </Link>
           .

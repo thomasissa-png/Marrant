@@ -20,7 +20,9 @@ import { cn } from "@/lib/utils";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
-import { FREE_JOKE_LIMIT } from "@/config/premium";
+import { FREE_JOKE_LIMIT, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { CARTE_VERROUILLEE_LABEL, OFFRE_NOM } from "@/config/textes/offre";
+import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 
 interface Joke {
@@ -126,6 +128,8 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
   const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
+  // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
+  useMurVu(limited && (jokes.length > 0 || page > 1), "vannes");
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -202,7 +206,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans compte.
             </p>
             <p className="text-xs text-text-secondary">
-              Passe à l&apos;accès complet à 2,99 €/mois : tout le catalogue, les filtres et les favoris.
+              Passe à {OFFRE_NOM} à {PREMIUM_PRICE_LABEL} : tout le catalogue, les filtres et les favoris.
             </p>
           </div>
           <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
@@ -224,7 +228,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           </svg>
           <p className="text-sm text-text-secondary">
             Filtres par catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
           </p>
         </div>
       ) : (
@@ -333,7 +337,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                       Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
-                        className="font-medium text-accent-link hover:underline"
+                        className="font-medium text-accent-link underline underline-offset-2"
                       >
                         L&apos;anatomie d&apos;une vanne
                       </Link>
@@ -385,13 +389,15 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
               onClick={() => setPremiumOpen(true)}
+              role="button"
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium : cliquer pour débloquer"
+              aria-label={CARTE_VERROUILLEE_LABEL}
             >
               <CardContent className="pt-0">
                 <div className="mb-3 flex items-center gap-2">
-                  <Badge variant="default" className="opacity-50">Catégorie</Badge>
+                  {/* Gabarit décoratif sans texte : plus de texte à 50 % d'opacité (contraste axe, s16). */}
+                  <div className="h-5 w-20 rounded-full bg-text-muted/10" aria-hidden="true" />
                 </div>
                 <div className="space-y-2">
                   <div className="h-4 w-4/5 rounded bg-text-muted/10" />
@@ -416,7 +422,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 2,99 &euro;/mois
+            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
           </p>
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
             Voir l&apos;offre

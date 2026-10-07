@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
               <p className="mb-4 text-sm text-success">
                 Si un compte existe avec cet email, tu recevras un lien sous quelques minutes.
               </p>
-              <Link href="/login" className="text-accent-link hover:underline text-sm">
+              <Link href="/login" className="text-accent-link underline underline-offset-2 text-sm">
                 Retour à la connexion
               </Link>
             </div>
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">
-                <Link href="/login" className="text-accent-link hover:underline">
+                <Link href="/login" className="text-accent-link underline underline-offset-2">
                   Retour à la connexion
                 </Link>
               </div>

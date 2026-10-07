@@ -1,9 +1,9 @@
-import { periodEndData } from "@/lib/stripe-subscription";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { activatePremium, stripeId } from "@/lib/stripe-activation";
 
 /**
  * POST /api/stripe/verify-session
@@ -55,38 +55,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Récupérer la subscription Stripe
-    const subscriptionId = checkoutSession.subscription as string;
+    const subscriptionId = stripeId(checkoutSession.subscription);
     if (!subscriptionId) {
       return NextResponse.json({ error: "Pas de subscription associée" }, { status: 400 });
     }
 
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-    // Activer le premium — même logique que le webhook
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: userId },
-        data: { plan: "PREMIUM" },
-      }),
-      prisma.subscription.upsert({
-        where: { userId },
-        create: {
-          userId,
-          plan: "PREMIUM",
-          stripeCustomerId: checkoutSession.customer as string,
-          stripeSubscriptionId: subscription.id,
-          status: "ACTIVE",
-          ...periodEndData(subscription),
-        },
-        update: {
-          plan: "PREMIUM",
-          stripeCustomerId: checkoutSession.customer as string,
-          stripeSubscriptionId: subscription.id,
-          status: "ACTIVE",
-          ...periodEndData(subscription),
-        },
-      }),
-    ]);
+    // Activer le premium : même écriture que le webhook (intervalle, montant,
+    // fin de période et résiliation programmée compris, s16).
+    await activatePremium({ userId, customerId: stripeId(checkoutSession.customer), subscription });
 
     console.log(`[Stripe verify-session] User ${userId} activated to PREMIUM via direct verification`);
 

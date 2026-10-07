@@ -233,8 +233,8 @@ describe("BlogArticlePage — article detail", () => {
     expect(
       screen.getByText("Maintenant, reste à le dire à voix haute")
     ).toBeInTheDocument();
-    // s15 (plus de compte gratuit) : accès complet + étape 1 en lecture libre (étalon 3.1).
-    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre (étalon 3.1).
+    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
     expect(screen.getByText("Lire la première étape d'un parcours")).toBeInTheDocument();
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });

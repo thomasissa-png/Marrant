@@ -9,6 +9,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
+import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 /** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
 function isActivePath(pathname: string | null, href: string): boolean {
@@ -64,10 +65,10 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
-          {/* Logo */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4">
+          {/* Logo (s16 : un cran plus petit sous 640 px pour loger « Connexion » sur mobile) */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="whitespace-nowrap font-display text-xl font-bold text-gradient">
+            <span className="whitespace-nowrap font-display text-lg font-bold text-gradient sm:text-xl">
               deviens-marrant.fr
             </span>
           </Link>
@@ -143,6 +144,20 @@ export function Header() {
 
           {/* Actions mobile */}
           <div className="flex items-center gap-1 lg:hidden">
+            {/* s16 reco 19 : « Connexion » visible sans ouvrir le menu (anonyme). Texte à
+                partir de 400 px, icône (nom accessible « Connexion ») en dessous ; sous
+                360 px, place insuffisante : le lien reste dans le menu. */}
+            {!isAuthenticated && (
+              <Link
+                href={loginHref}
+                className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary min-[360px]:flex min-[400px]:px-2"
+              >
+                <svg className="h-5 w-5 min-[400px]:hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="sr-only min-[400px]:not-sr-only">{TEXTES_CONNEXION.lienConnexionMobile}</span>
+              </Link>
+            )}
             {/* Bouton recherche mobile */}
             <button
               className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"

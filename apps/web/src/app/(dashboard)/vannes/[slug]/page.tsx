@@ -138,7 +138,7 @@ export default async function VannePage({
   const joke = resolved.item;
 
   // "Pourquoi ça marche" public (valeur SEO) ; "À toi de jouer" fait partie de
-  // l'accès complet (abonnés, s15 §1.1) : géré côté client par
+  // Premium (abonnés, s15 §1.1) : géré côté client par
   // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
@@ -230,7 +230,7 @@ export default async function VannePage({
         {/* Décryptage pédagogique — cœur de la proposition de valeur.
             "Pourquoi ça marche" (comedyTechnique + techniqueExplanation) est PUBLIC :
             valeur SEO, preuve d'expertise, exposition pour les crawlers.
-            "À toi de jouer" (howToApply) fait partie de l'accès complet
+            "À toi de jouer" (howToApply) fait partie de Premium
             (abonnés uniquement, s15 §1.1). */}
         {joke.comedyTechnique && (
           <section
@@ -253,7 +253,7 @@ export default async function VannePage({
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link
                 href="/anatomie-vanne"
-                className="font-medium text-accent-link hover:underline"
+                className="font-medium text-accent-link underline underline-offset-2"
               >
                 L&apos;anatomie d&apos;une vanne
               </Link>
@@ -269,7 +269,7 @@ export default async function VannePage({
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
             Les variantes et le parcours complet sont dans les{" "}
-            <Link href="/parcours" className="text-accent-link hover:underline">
+            <Link href="/parcours" className="text-accent-link underline underline-offset-2">
               parcours Premium
             </Link>
             .
@@ -279,7 +279,7 @@ export default async function VannePage({
               href={buildAbonnementUrl(`/vannes/${canonicalSlug}`, "monthly", "fiche-vanne")}
               className={buttonVariants({ variant: "primary" })}
             >
-              Voir l&apos;accès complet
+              Voir Premium
             </Link>
             <Link
               href="/vannes"
@@ -309,7 +309,7 @@ export default async function VannePage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link hover:underline">
+          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link underline underline-offset-2">
             &larr; Toutes les vannes {categoryLabel.toLowerCase()}
           </Link>
         </nav>
