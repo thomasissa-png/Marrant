@@ -1,0 +1,1282 @@
+[
+  {
+    "_meta": {
+      "date": "2026-10-07",
+      "source": "Neon prod, table Joke, SELECT en transaction readOnly (isActive = true)",
+      "vannesActives": 127,
+      "avecSeedId": 7,
+      "rapprochement": "seedId = id de docs/content/blagues-seed.json dont content OU previousContent est identique (texte exact) au content en base ; null si aucune correspondance",
+      "donneesPersonnelles": "aucune"
+    }
+  },
+  {
+    "seedId": 109,
+    "content": "Mon ambition dans la vie, c'est d'être aussi confiant...",
+    "punchline": "Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.",
+    "category": "AUTODERISION",
+    "type": "SUBTIL",
+    "maturityLevel": 2,
+    "comedyTechnique": "L'autodérision par cible inversée",
+    "techniqueExplanation": "Au lieu de se moquer de quelqu'un d'incompétent, le narrateur aspire à atteindre le niveau de confiance d'un homme qui répond 'à peu près' à 'sais-tu nager'. La cible du rire est retournée : l'idéal n'est pas l'excellence mais l'inconscience totale. C'est une autodérision qui complimente le mauvais."
+  },
+  {
+    "seedId": null,
+    "content": "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus.",
+    "punchline": "Ils m'ont laissé un avis Google : une étoile.",
+    "category": "AUTODERISION",
+    "type": "CLASSIQUE",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'avis de l'institution",
+    "techniqueExplanation": "Tu poses un défaut concret (le détecteur sert de minuteur), puis tu fais noter ta cuisine par une institution avec le vocabulaire d'un site d'avis. Le format « avis Google » colle parfaitement à l'idée d'un service évalué."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui.",
+    "punchline": "J'ai su répondre à deux. Le discours est très pudique.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'euphémisme démasqué",
+    "techniqueExplanation": "« Très pudique » est un adjectif élégant qui recouvre un vrai manque : tu connais à peine ton frère. Le lecteur traduit le mot tout seul, et le compte des questions (cinq, deux) rend la traduction évidente. L'auto-dérision reste tendre, puisque le discours a bien été écrit."
+  },
+  {
+    "seedId": null,
+    "content": "Mon prof a cru que mon devoir était écrit par une IA.",
+    "punchline": "Il a relu mes anciennes copies et il s'est excusé.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'excuse qui blesse",
+    "techniqueExplanation": "Les excuses du prof sont sincères, et elles disent en creux que tes copies précédentes étaient très loin de ce niveau. Ce qui aurait dû être une victoire devient une confirmation. Le lecteur rit parce que la politesse est le vecteur de l'insulte."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui.",
+    "punchline": "Elle entend le papier alu. Elle insiste pas.",
+    "category": "AUTODERISION",
+    "type": "CLASSIQUE",
+    "maturityLevel": 2,
+    "comedyTechnique": "L'implicite tendre",
+    "techniqueExplanation": "Tu ne dis jamais ce que tu manges : le papier alu suffit à dessiner le kebab. La mère comprend et laisse passer, ce qui rend le mensonge tendre au lieu de coupable. Le rire vient de tout ce qui passe sans un mot."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée.",
+    "punchline": "Elle m'a demandé si tout allait bien.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'outil qui s'inquiète",
+    "techniqueExplanation": "L'appli fait ce qu'elle doit faire : elle lit ta journée, et sa réaction est celle d'un ami inquiet. La personnification de l'outil te permet de dire la vérité (j'ai beaucoup mangé) sans jamais l'écrire."
+  },
+  {
+    "seedId": null,
+    "content": "Dans le métro, quelqu'un m'a demandé « vous descendez ? ». J'ai dit oui par réflexe.",
+    "punchline": "Je suis descendu. J'habite à trois stations. Je tiens parole.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La parole tenue jusqu'à l'absurde",
+    "techniqueExplanation": "Un « oui » lâché par réflexe engage le narrateur, et il choisit d'honorer sa réponse au lieu de la corriger. Le lecteur suit la logique et se rend compte que c'est absurde de s'y tenir. Les trois stations rendent le sacrifice concret : ce n'est pas un détour mais un vrai chemin en trop."
+  },
+  {
+    "seedId": null,
+    "content": "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ».",
+    "punchline": "J'ai répondu « oui, mais ça ne durera pas ».",
+    "category": "AUTODERISION",
+    "type": "CLASSIQUE",
+    "maturityLevel": 2,
+    "comedyTechnique": "La réponse trop honnête",
+    "techniqueExplanation": "On te tend une formule de politesse, tu réponds par une vraie opinion. L'écart entre la formule sociale et ta sincérité crée le malaise, donc le rire. La chute est plate, sans commentaire."
+  },
+  {
+    "seedId": null,
+    "content": "Mon manager m'a félicité pour ma discrétion.",
+    "punchline": "Je n'ai pas su comment le remercier sans me faire remarquer.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le paradoxe auto-annulant",
+    "techniqueExplanation": "On te félicite pour une qualité qui interdit précisément d'en profiter : montrer que tu l'as. La chute explore ce piège avec sérieux, comme un vrai problème de protocole. Le rire vient du fait que ta politesse échoue à cause de la qualité même qu'on vient de saluer."
+  },
+  {
+    "seedId": 2,
+    "content": "Mon psy m'a dit que je devais arrêter de me comparer aux autres.",
+    "punchline": "J'ai vérifié, les autres n'ont pas ce problème.",
+    "category": "AUTODERISION",
+    "type": "SUBTIL",
+    "maturityLevel": 2,
+    "comedyTechnique": "Le retournement de responsabilité",
+    "techniqueExplanation": "Le setup présente un conseil raisonnable du psy. La chute retourne le couteau : au lieu d'appliquer le conseil, le narrateur l'utilise pour se comparer aux autres... et conclure qu'il est le seul à avoir ce problème. Il fait exactement ce qu'on lui a demandé d'arrêter, mais en plus insidieux."
+  },
+  {
+    "seedId": 80,
+    "content": "J'ai dit à Alexa de me raconter une blague.",
+    "punchline": "Elle m'a lu mon historique de recherches.",
+    "category": "AUTODERISION",
+    "type": "SUBTIL",
+    "maturityLevel": 3,
+    "comedyTechnique": "Le retournement de rôle",
+    "techniqueExplanation": "Tu demandes une blague, l'appareil te renvoie ta propre vie. La chute ne commente rien, elle constate, et c'est ce constat froid qui pique. Le rire vient de la reconnaissance : chacun sait ce que contient son historique."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai pris un chien pour me faire des amis.",
+    "punchline": "Il en a plein. Moi, je tiens la laisse.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le rôle de figurant",
+    "techniqueExplanation": "Le plan marche, mais au profit de quelqu'un d'autre : le chien est le vrai sociable, toi tu tiens la laisse. Le lecteur voit l'image, le narrateur au bout d'une corde, à peine dans la scène. Les deux dernières phrases sont volontairement plates, ce qui accentue la tristesse comique."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu « passionnant ».",
+    "punchline": "C'est le mot de ma mère. Je cherche quelqu'un qui me déteste.",
+    "category": "AUTODERISION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le souhait paradoxal",
+    "techniqueExplanation": "Tu demandes une critique honnête et tu reçois un mot poli, alors tu en viens à chercher une personne qui te déteste. Le retournement est simple : le vœu naturel (être aimé) s'inverse, parce que l'éloge mou est devenu inutile. La comparaison avec ta mère montre que la bienveillance générale est devenue du bruit."
+  },
+  {
+    "seedId": null,
+    "content": "Le médecin m'a demandé combien de cafés je bois par jour. J'ai dit deux.",
+    "punchline": "Il a regardé mes mains. Il a écrit six.",
+    "category": "SITUATION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La preuve qui te contredit",
+    "techniqueExplanation": "Tu minimises un chiffre, et ton propre corps te dément avant que le médecin ait dit un mot. Personne ne discute : le regard vaut jugement, et la correction s'écrit sans commentaire. La chute est courte parce qu'un professionnel n'a pas besoin de te convaincre, il note."
+  },
+  {
+    "seedId": null,
+    "content": "Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère.",
+    "punchline": "Elle me l'a dicté de mémoire, avec les espaces.",
+    "category": "SITUATION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La précision absurde",
+    "techniqueExplanation": "Tu ignores ton propre numéro, mais ta mère le connaît par cœur, et avec la mise en forme. Le détail « avec les espaces » est le vrai déclencheur : il donne à cette mémoire une précision d'administrateur. Le lecteur comprend en une seconde ce qui est important pour elle et ce qui l'est pour toi."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai couru pour attraper le bus ce matin sous la pluie.",
+    "punchline": "Le chauffeur m'a fait un petit signe de la main en passant.",
+    "category": "SITUATION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le geste poli qui trahit",
+    "techniqueExplanation": "Tu installes un effort héroïque (la course, la pluie) qui laisse espérer une récompense. La chute te donne le geste le plus aimable possible, sauf qu'il accompagne exactement le contraire de ce que tu attendais : le bus qui part. Le rire vient du décalage entre la politesse du chauffeur et la cruauté de ce qu'il fait, et de ta position de victime qui se fait saluer."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes.",
+    "punchline": "Il était à l'heure, moi j'étais à l'arrêt d'en face.",
+    "category": "SITUATION",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le retournement de responsabilité",
+    "techniqueExplanation": "Le setup te fait plaindre le narrateur et accuser le bus de retard. La chute renverse tout : le bus n'a jamais été en retard, c'est toi qui attendais au mauvais endroit. Le rire vient de ce basculement de victime à coupable, avec en prime l'autodérision du mec qui a subi 20 minutes de pluie par sa propre faute."
+  },
+  {
+    "seedId": 18,
+    "content": "J'ai dit à mon chat qu'on allait chez le vétérinaire.",
+    "punchline": "Depuis, il cherche « droits des animaux » sur mon ordinateur.",
+    "category": "ABSURDE",
+    "type": "CLASSIQUE",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'absurde",
+    "techniqueExplanation": "Le chat qui cherche ses droits sur internet est une image absurde — mais le détail 'sur mon ordinateur' ancre l'absurdité dans le quotidien réel, ce qui la rend plus drôle. Le chat devient un personnage actif et rationnel, ce qui inverse complètement la dynamique maître/animal."
+  },
+  {
+    "seedId": 322,
+    "content": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve.",
+    "punchline": "J'ai hésité. Il avait l'air sûr de lui.",
+    "category": "ABSURDE",
+    "type": "STORY",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'autorité absurde",
+    "techniqueExplanation": "Le GPS dit de tourner à droite. Il y a un fleuve. La logique commande d'ignorer l'instruction. Mais le narrateur 'a hésité' et 'il avait l'air sûr de lui'. On attribue au GPS une certitude, une intention, presque une personnalité — et cette confiance aveugle dans l'outil contre l'évidence physique est le coeur du gag."
+  },
+  {
+    "seedId": null,
+    "content": "Quelqu'un a récupéré le fauteuil que je venais de jeter à la déchetterie. Il l'a essayé sur place.",
+    "punchline": "Il avait l'air plus heureux dedans que moi.",
+    "category": "ABSURDE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La comparaison à ton détriment",
+    "techniqueExplanation": "Un objet dont tu ne voulais plus prospère chez quelqu'un d'autre, et tu te compares à lui, à ton désavantage. Le contraste est mesuré : il essaie le fauteuil, il a l'air heureux, et toi non. L'auto-dérision arrive sur la dernière phrase, sans que tu aies à la souligner."
+  },
+  {
+    "seedId": null,
+    "content": "Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe.",
+    "punchline": "J'ai dû la manger devant lui, en silence.",
+    "category": "ABSURDE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La solennité disproportionnée",
+    "techniqueExplanation": "Un cadeau minuscule est livré avec la gravité d'un acte majeur, et le poids de la cérémonie est ce qui compte. Le narrateur se plie au rituel, sans oser rire, donc le lecteur le fait à sa place. Le « devant lui, en silence » de la chute installe le malaise en quelques mots."
+  },
+  {
+    "seedId": 323,
+    "content": "J'ai mis mon réveil en face du lit pour être obligé de me lever.",
+    "punchline": "Maintenant je dors par terre, à côté du réveil.",
+    "category": "ABSURDE",
+    "type": "STORY",
+    "maturityLevel": 1,
+    "comedyTechnique": "La solution pire que le problème",
+    "techniqueExplanation": "Pour se forcer à se lever, on éloigne le réveil. Logique imparable. Résultat : on dort par terre à côté du réveil. La solution génère exactement le même comportement qu'elle était censée empêcher, juste dans une position moins confortable. L'absurde vient de la rigueur de la déduction : la stratégie a 'fonctionné' dans sa propre logique."
+  },
+  {
+    "seedId": null,
+    "content": "On m'a volé le cadenas de mon vélo. Pas le vélo.",
+    "punchline": "Je prends ça pour une critique.",
+    "category": "ABSURDE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La vexation inattendue",
+    "techniqueExplanation": "On attend de la colère ou de la peur face au vol, et tu te vexes de ce qu'on n'ait pas pris l'essentiel. Le voleur devient un critique, et ton vélo un mauvais produit. L'absurde vient de cette logique parallèle : une injure se cache dans un événement qui aurait dû être simplement négatif."
+  },
+  {
+    "seedId": null,
+    "content": "Tous les soirs, mon voisin se dispute avec sa télé à travers le mur.",
+    "punchline": "Hier, silence. Ils se sont réconciliés.",
+    "category": "ABSURDE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le couple improbable",
+    "techniqueExplanation": "Tu appliques la logique d'une relation amoureuse (dispute, silence, réconciliation) à un objet. Le silence est le meilleur indice : dans un vrai couple, on fait aussi la paix sans le dire. Le lecteur y croit parce que le narrateur reste sérieux, comme un vrai voisin qui a tout entendu à travers le mur."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée.",
+    "punchline": "J'ai voulu retrouver son propriétaire pour lui dire que je comprends.",
+    "category": "ABSURDE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le miroir involontaire",
+    "techniqueExplanation": "Tu tombes sur la trace d'un inconnu et tu t'y reconnais tout de suite. L'empathie du narrateur fonctionne comme un autoportrait : ce carnet, c'est le sien. Le lecteur rit parce qu'il a le même carnet, et le pacte d'amitié envers un inconnu est très doux."
+  },
+  {
+    "seedId": null,
+    "content": "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années.",
+    "punchline": "C'est devenu notre truc.",
+    "category": "OBSERVATIONNEL",
+    "type": "SUBTIL",
+    "maturityLevel": 2,
+    "comedyTechnique": "L'autodéfinition",
+    "techniqueExplanation": "L'engagement jamais tenu devient l'activité elle-même. La chute reprend le mot « truc » et boucle sur lui. Tu reconnais le rituel de l'amitié qui promet sans agenda."
+  },
+  {
+    "seedId": null,
+    "content": "Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non.",
+    "punchline": "Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé.",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La double lecture",
+    "techniqueExplanation": "Le mot « quelqu'un » a un sens amoureux pour toi et un sens hiérarchique pour ta grand-mère. Elle répond avec sa logique à elle, parfaitement cohérente, et le lecteur comprend en une seconde ce qu'elle a compris. La chute est douce parce que la grand-mère est prête à tout pour t'aider, quitte à passer par le haut de l'échelle."
+  },
+  {
+    "seedId": null,
+    "content": "Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu.",
+    "punchline": "J'ai voyagé à genoux devant lui. On n'en a jamais parlé.",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La gêne tacite",
+    "techniqueExplanation": "Le train impose une intimité absurde entre deux inconnus, et les deux jouent le jeu comme si tout était normal. La chute « on n'en a jamais parlé » traite l'épisode comme un secret de couple. Le lecteur rit parce que la vraie règle sociale est là : ne rien dire fait de la scène un souvenir partagé."
+  },
+  {
+    "seedId": null,
+    "content": "Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer.",
+    "punchline": "Elle a demandé : « Et lui, il fait quoi pour toi ? »",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La naïveté qui démonte",
+    "techniqueExplanation": "Une enfant pose la question la plus simple, et la réponse de l'adulte se retrouve nue. La logique enfantine ne cherche pas à piquer : elle applique la règle de réciprocité que le système a oubliée. Le lecteur rit du loyer, et d'avoir jamais vraiment posé la question."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai dit à mon grand-père que je l'admirais.",
+    "punchline": "Il a répondu « prends du pain ».",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La tendresse esquivée",
+    "techniqueExplanation": "Certaines générations n'ont pas le vocabulaire des sentiments, mais elles ont celui de la table. « Prends du pain » est une réponse détournée qui veut dire « moi aussi ». Le lecteur comprend le message caché, et le plaisir vient de ce décodage : l'émotion est la vraie chute, jamais nommée."
+  },
+  {
+    "seedId": null,
+    "content": "Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20.",
+    "punchline": "J'ai passé la journée inquiet.",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le lien invisible",
+    "techniqueExplanation": "Une nuisance sonore devient une routine, puis une relation à sens unique dont tu remarques la moindre variation. Les deux horaires précis font sourire, parce qu'ils prouvent que tu suis la vie de ton voisin de très près. L'inquiétude finale est de l'affection que tu n'aurais jamais dite à voix haute."
+  },
+  {
+    "seedId": null,
+    "content": "Dans le train, la place à côté de moi était réservée. Personne n'est venu.",
+    "punchline": "Je me suis senti attendu pendant tout le trajet.",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le recadrage",
+    "techniqueExplanation": "Tu gardes le même fait (une place vide) et tu changes le regard : au lieu d'un siège perdu, une attente. Le mot « attendu » retourne le sens de la scène en un instant, avec un mélange de tendresse et d'auto-dérision. Le lecteur a le sourire un peu pincé de celui qui reconnaît sa solitude relookée."
+  },
+  {
+    "seedId": null,
+    "content": "Ma grand-mère cuisine toujours pour douze. On est trois.",
+    "punchline": "Elle s'excuse pour les neuf qui ne sont pas venus.",
+    "category": "OBSERVATIONNEL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le retournement de responsabilité",
+    "techniqueExplanation": "La faute change de camp : ce sont les absents qui devraient s'excuser, et c'est elle qui le fait. Le détail « neuf » est précis, ce qui donne du poids à la générosité. Le lecteur reconnaît un vrai comportement de grand-mère, et le rire se mélange à la tendresse."
+  },
+  {
+    "seedId": null,
+    "content": "Quand quelqu'un commence par « à la base », il faut être patient.",
+    "punchline": "Trois digressions plus tard, la base a déménagé.",
+    "category": "CULTUREL",
+    "type": "SUBTIL",
+    "maturityLevel": 2,
+    "comedyTechnique": "L'abstrait pris au pied de la lettre",
+    "techniqueExplanation": "« À la base » désigne un point de départ, et tu le traites comme un endroit physique qui peut déménager. Le lecteur reconnaît le collègue-tornade et sourit de l'image plus que de la remarque. Tout repose sur un seul verbe bien choisi."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain a regardé un épisode de notre série sans moi.",
+    "punchline": "Depuis, je surveille son visage pour savoir qui meurt.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'enquête disproportionnée",
+    "techniqueExplanation": "Une petite trahison de spectateur devient une surveillance de tous les instants. Le narrateur traite un visage comme une source d'informations, avec un sérieux d'inspecteur. Le lecteur rit parce qu'il connaît cette obsession du spoiler, et qu'elle a l'air aussi ridicule vue de l'extérieur."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère a vu que j'allais au Hellfest.",
+    "punchline": "Elle m'a demandé si j'avais fait mes vaccins.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'inquiétude décalée",
+    "techniqueExplanation": "Le nom Hellfest fait attendre une inquiétude spectaculaire : le bruit, la foule, l'enfer promis par le titre. La mère répond par la question la plus terre à terre qui soit, le carnet de santé. Le rire vient de cet écart entre l'image sulfureuse de l'événement et une peur de parent totalement ordinaire, qu'on reconnaît tout de suite."
+  },
+  {
+    "seedId": null,
+    "content": "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien.",
+    "punchline": "Il te fait asseoir et baisse la voix.",
+    "category": "CULTUREL",
+    "type": "CLASSIQUE",
+    "maturityLevel": 2,
+    "comedyTechnique": "La disproportion de réaction",
+    "techniqueExplanation": "Tu prends un fait banal (sauter un déjeuner) et tu montres la réaction du groupe comme s'il s'agissait d'une annonce grave. « Il te fait asseoir et baisse la voix » suffit : le lecteur voit la scène. L'exagération vient de la mise en scène, pas de l'adjectif."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père a vu mon appart. Il a dit « c'est pas mal ».",
+    "punchline": "Je lui ai demandé de me le mettre par écrit.",
+    "category": "CULTUREL",
+    "type": "SUBTIL",
+    "maturityLevel": 2,
+    "comedyTechnique": "La litote prise au sérieux",
+    "techniqueExplanation": "« C'est pas mal » est une litote : elle dit peu pour laisser entendre beaucoup. Tu la traites comme un vrai compliment, assez rare pour être encadré. L'humour vient de la valeur que tu donnes à une phrase minuscule."
+  },
+  {
+    "seedId": null,
+    "content": "Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes.",
+    "punchline": "Le monsieur devant moi a dit « c'est puissant ».",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La rationalisation solennelle",
+    "techniqueExplanation": "Face à un vide qui ressemble à un accident, quelqu'un plaque un vocabulaire de connaisseur pour lui donner un sens. Le lecteur voit la contradiction entre la scène (un trou de mémoire) et le mot (puissant). Deux minutes de silence rendent l'effort de la sur-interprétation encore plus drôle."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles.",
+    "punchline": "Je dois des excuses à un mariage.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La révélation rétroactive",
+    "techniqueExplanation": "Tu ne dis pas ce que disent les paroles : tu laisses le lecteur reconstituer la scène gênante lui-même. La chute donne juste la conséquence (des excuses dues à un mariage), et l'imagination fait le reste. Plus tu en dis peu, plus l'image que le lecteur se fabrique est précise et gênante."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai regardé les prix des pass 3 jours pour les Eurockéennes.",
+    "punchline": "Je vais acheter une guitare.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La solution démesurée",
+    "techniqueExplanation": "Face à un prix trop haut, la réaction normale serait de renoncer ou de râler. Toi, tu proposes un plan à rallonge, présenté comme une évidence : apprendre la guitare pour finir sur scène, donc entrer gratuitement. Le maillon manquant n'est jamais écrit, et c'est le lecteur qui le reconstitue, ce qui fait rire."
+  },
+  {
+    "seedId": null,
+    "content": "À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos.",
+    "punchline": "Le canon a beaucoup amélioré la chanson.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le bon côté forcé",
+    "techniqueExplanation": "Un chaos sonore est présenté comme un choix artistique : le terme technique « canon » lui donne une noblesse qu'il n'a pas. Le lecteur sait que ça devait être insupportable, et l'optimisme du narrateur rend l'ensemble drôle. La fin est nette : une phrase d'éloge, prononcée avec un calme total."
+  },
+  {
+    "seedId": null,
+    "content": "L'audioguide du musée s'est éteint dans la première salle.",
+    "punchline": "J'ai hoché la tête pendant deux heures.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le faux-semblant",
+    "techniqueExplanation": "L'outil tombe en panne, mais tu continues à jouer le visiteur attentif. Le détail des deux heures montre l'ampleur de l'effort : jouer la comédie est plus fatigant que d'admettre le problème. Le hochement de tête est un geste universel de connaisseur, et le lecteur voit la scène tout seul."
+  },
+  {
+    "seedId": null,
+    "content": "Mon voisin a sonné, inquiet, à cause des cris de ma série.",
+    "punchline": "Je l'ai fait entrer. Il revient jeudi.",
+    "category": "CULTUREL",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le renversement d'attente",
+    "techniqueExplanation": "Une plainte potentielle se transforme en rendez-vous régulier : le voisin arrive inquiet et repart fidèle. Le lecteur s'attend à une dispute et reçoit une amitié. Tout est dans la dernière phrase, dont la simplicité joue le rôle d'une confirmation naturelle."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+    "punchline": "Elle a un prénom, maintenant.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'exagération temporelle",
+    "techniqueExplanation": "Tu ne dis jamais combien de temps a passé : tu le prouves par une conséquence affective. Un prénom, c'est ce qu'on donne à ce qu'on côtoie depuis longtemps, donc la fuite fait partie de la famille. Le lecteur reconstitue l'ampleur du retard tout seul, et c'est ce petit travail qui fait rire."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain : 'Choisis le resto, ça m'est égal.'",
+    "punchline": "J'ai réservé chez son ex. Ça lui était égal aussi.",
+    "category": "COUPLE",
+    "type": "DIALOGUE",
+    "maturityLevel": 1,
+    "comedyTechnique": "La consigne prise au mot",
+    "techniqueExplanation": "« Ça m'est égal » est presque toujours une politesse, jamais un vrai blanc-seing. Toi, tu le traites comme un contrat, et tu choisis l'endroit qui met cette indifférence à l'épreuve. La reprise de la formule à la fin, avec ce « aussi », est le coup de grâce : tout le monde entend qu'il ne s'agit plus du tout d'égalité."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée ».",
+    "punchline": "Elle vit chez nous depuis un an.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La contradiction de proximité",
+    "techniqueExplanation": "Un surnom impersonnel installe une distance, et la chute révèle une intimité totale : elle vit chez eux. Le décalage entre le langage (« la fille de la soirée ») et la réalité (un an de colocation) fait rire par l'absurde. Le narrateur constate sans commenter, ce qui laisse la gêne faire son travail."
+  },
+  {
+    "seedId": null,
+    "content": "Je fais semblant d'aimer la série préférée de ma copine depuis deux ans.",
+    "punchline": "Ils viennent d'annoncer une saison 5. On a pleuré tous les deux.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La double lecture",
+    "techniqueExplanation": "Le même geste, pleurer, recouvre deux émotions opposées : la joie de l'une, le désespoir de l'autre. Le narrateur ne précise rien, et c'est le lecteur qui complète en repensant au « deux ans » du setup. Le « tous les deux » réunit le couple dans une émotion partagée qui n'a pas du tout le même sens."
+  },
+  {
+    "seedId": null,
+    "content": "Le dimanche, mon copain se lève à 7 h pour profiter de la journée.",
+    "punchline": "À 8 h, il l'avait profitée. Il est retourné se coucher.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La lecture littérale",
+    "techniqueExplanation": "« Profiter de la journée » est une expression vague, mais il la traite comme une tâche à cocher. En une heure, c'est fait, on peut passer à la suite : la sieste. Le rire vient de la logique parfaitement sérieuse appliquée à une formule qui ne demandait aucun résultat."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier.",
+    "punchline": "Il a zoomé. Sur le parking.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La précision qui démasque",
+    "techniqueExplanation": "Le setup installe la fierté : une belle habitude sportive, prouvée par une carte. Le mot « zoomé » fait tout le travail, car il montre quelqu'un de trop consciencieux qui vérifie ce qu'il aurait mieux fait de croire. Le rire naît du détail vérifié qui dégonfle le beau récit."
+  },
+  {
+    "seedId": null,
+    "content": "Ce matin, j'ai dormi du côté gauche du lit par erreur.",
+    "punchline": "Elle m'a demandé si j'avais quelque chose à lui dire.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La surinterprétation",
+    "techniqueExplanation": "Un geste totalement anodin (changer de côté) est lu comme un message caché. La chute ne raconte pas la scène, elle montre la question qui trahit l'inquiétude de l'autre. Le rire vient de la disproportion : un changement minuscule déclenche un interrogatoire sérieux."
+  },
+  {
+    "seedId": null,
+    "content": "Ma copine m'a envoyé son planning de la semaine pour qu'on s'organise.",
+    "punchline": "Je suis mercredi, de 19 h à 19 h 30.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le contraste de statut",
+    "techniqueExplanation": "On attend « je suis ta priorité » ou au moins « je suis dans ton planning », et la chute nous fait passer de partenaire à ligne d'agenda. Le verbe « je suis » est le pivot : l'identité se réduit à un créneau. La précision horaire (19 h à 19 h 30) donne un côté comptable qui fait mal et rire en même temps."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain m'a dit qu'il ne pouvait pas vivre sans moi. Je suis partie trois jours chez ma mère.",
+    "punchline": "Il a très bien vécu. Il a même trouvé où on range les draps.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le démenti par les faits",
+    "techniqueExplanation": "La déclaration d'amour est démentie par la réalité, mais pas par une dispute : par une compétence domestique. « Il a même trouvé où on range les draps » est l'humiliation parfaite, minuscule et concrète. Le lecteur rit parce qu'un détail anodin suffit à ruiner le grand discours."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain et moi, on a trouvé comment choisir un resto sans se disputer.",
+    "punchline": "On se fait livrer et on chuchote, comme si on était sortis.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le détail qui trahit",
+    "techniqueExplanation": "La solution est annoncée triomphante, puis tu montres la mise en scène : on mime le restaurant chez soi. Le chuchotement est le détail précis qui rend la scène visible. Tu vois deux personnes qui jouent au restaurant dans leur salon."
+  },
+  {
+    "seedId": null,
+    "content": "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an.",
+    "punchline": "Je lui ai demandé s'il partait.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le geste normal devenu suspect",
+    "techniqueExplanation": "Rendre un objet qu'on doit rendre est la chose la plus normale du monde, mais un an de retard a changé la lecture : ce retour ressemble à un adieu. Tu inverses la logique de la situation, et c'est l'habitude du retard qui devient la règle. La chute est une simple question, ce qui la rend encore plus sèche."
+  },
+  {
+    "seedId": null,
+    "content": "Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare.",
+    "punchline": "Moi, elle a dit qu'elle verrait en juin.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le glissement de catégorie",
+    "techniqueExplanation": "Le setup te fait croire à un tri d'objets, la chute te range toi dans la liste. Tu n'avais rien vu venir parce que « moi » n'est jamais dans l'inventaire. Le rire vient de ce petit sursis administratif, annoncé sans émotion."
+  },
+  {
+    "seedId": null,
+    "content": "Premier Noël chez ma belle-famille. On m'a placé à côté du grand-père, qui entend rien.",
+    "punchline": "Il m'a pris pour son notaire. J'ai été très bien traité.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le malentendu qui profite",
+    "techniqueExplanation": "Une erreur d'identité est normalement gênante, ici elle tourne à l'avantage du narrateur qui ne corrige rien. Le choix du notaire n'est pas anodin : c'est la personne que tout le monde traite avec égards à cause de l'héritage. « Très bien traité » est un euphémisme délicieux qui avoue l'intérêt sans le dire."
+  },
+  {
+    "seedId": null,
+    "content": "Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir.",
+    "punchline": "On a croisé un autre couple avec les mêmes. On a changé de trottoir.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le miroir gênant",
+    "techniqueExplanation": "Le couple se voit dans un autre couple, et la gêne vient de ce qu'ils reconnaissent leur propre ridicule. Ils fuient une image d'eux-mêmes en changeant de trottoir, comme si les autres étaient les intrus. Aucun dialogue : l'action seule suffit."
+  },
+  {
+    "seedId": null,
+    "content": "Ma copine a acheté deux couettes pour qu'on arrête de se disputer.",
+    "punchline": "Elle a pris les deux.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le retournement de solution",
+    "techniqueExplanation": "La solution annoncée a l'air de régler le conflit, et la chute montre qu'elle l'a seulement déplacé : le vrai sujet de la dispute, c'était qui garde la couette. Le lecteur croit à la paix pendant une demi-seconde, puis il reconnaît la mauvaise foi ordinaire d'un couple. Trois mots suffisent parce que tout le reste est déjà dans ta tête."
+  },
+  {
+    "seedId": null,
+    "content": "Ma copine a fait un tableau des tâches ménagères avec un code couleur.",
+    "punchline": "J'ai le bleu. Il y a rien en bleu.",
+    "category": "COUPLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le système pris en défaut",
+    "techniqueExplanation": "Tu poses un dispositif ultra sérieux (un tableau à code couleur), puis la chute en révèle la faille ou l'aveu caché. On ne sait pas si le narrateur est privilégié ou mis de côté, et cette ambiguïté est justement ce qui fait sourire. Le ton neutre de la constatation laisse le lecteur faire le calcul."
+  },
+  {
+    "seedId": null,
+    "content": "Avec un collègue, on a enfin comparé nos salaires.",
+    "punchline": "Il a payé le café. Sans un mot.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'aveu par le geste",
+    "techniqueExplanation": "Personne ne prononce de mot : le geste dit tout. Payer le café sans un mot est une reconnaissance silencieuse que l'écart de salaire était réel, et injuste. Le rire vient du fait que la révélation reste sous-entendue, ce qui la rend plus lourde."
+  },
+  {
+    "seedId": null,
+    "content": "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure.",
+    "punchline": "Robert commence en septembre.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'identité empruntée",
+    "techniqueExplanation": "Le costume, le nom cousu, le prénom qui s'installe : tout se prépare pour la chute, où « Robert » est embauché à la place du narrateur. Passer à la troisième personne crée une distance drôle : il se regarde être remplacé par son propre déguisement. Le rire vient de l'idée qu'on peut réussir sous le nom d'un autre."
+  },
+  {
+    "seedId": null,
+    "content": "Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers.",
+    "punchline": "Elle revient lundi.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La disproportion révélée",
+    "techniqueExplanation": "Quarante-cinq minutes de consignes, des dossiers à transmettre : le setup te fait imaginer un départ de plusieurs semaines. La chute ramène l'absence à presque rien, et c'est là que l'effort de la collègue change de sens. Tu ne juges pas, tu laisses le lecteur comparer la durée du briefing et celle du congé."
+  },
+  {
+    "seedId": null,
+    "content": "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis.",
+    "punchline": "Il est là pour prouver qu'on pourrait.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La définition détournée",
+    "techniqueExplanation": "Tu donnes à un objet un but absurde mais parfaitement logique : le canapé n'est pas fait pour qu'on s'asseye, il est fait pour représenter la possibilité. La chute est une petite critique douce de l'entreprise, sans agressivité. Le rire vient de la justification, qui a l'air plus vraie que l'usage réel."
+  },
+  {
+    "seedId": null,
+    "content": "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche.",
+    "punchline": "Il cherche quelqu'un de plus reposé.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La machine qui juge",
+    "techniqueExplanation": "Une panne technique devient un avis personnel : le portique ne dit pas « erreur », il dit qu'il cherche quelqu'un de mieux. En lui prêtant un jugement, tu transformes un bug en constat sur ta fatigue. Le rire vient de l'impossibilité de contester : la machine a raison."
+  },
+  {
+    "seedId": null,
+    "content": "Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion ».",
+    "punchline": "Elle a répondu « tu leur diras bonjour ».",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La réplique qui désarme",
+    "techniqueExplanation": "La mère prend l'excuse au sérieux et ajoute une formule de politesse, ce qui la rend absurde. On ne sait pas si elle est dupe ou si elle joue le jeu, et ce flou fait tout l'effet. Le rire vient de la douceur du ton, qui est plus efficace qu'une accusation directe."
+  },
+  {
+    "seedId": null,
+    "content": "Ma réunion 'point rapide avant l'été' a commencé à 14h.",
+    "punchline": "On a fini par voter la police de caractère.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le bilan dérisoire",
+    "techniqueExplanation": "« Point rapide » promet dix minutes, et le « 14h » suivi de « on a fini par » fait sentir que la réunion a avalé l'après-midi sans que tu aies besoin de le dire. La chute résume ce qui en est sorti : une seule décision, minuscule, et prise par un vote, comme si la police de caractère était une affaire d'État. Le rire naît du contraste entre le cérémonial et l'enjeu."
+  },
+  {
+    "seedId": null,
+    "content": "Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien ».",
+    "punchline": "Ils sont en page 2. Le rapport commence page 3.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le compliment empoisonné",
+    "techniqueExplanation": "L'éloge porte sur la seule partie qui n'est pas le contenu, et tout le monde entend la critique du reste. La localisation exacte (page 2, le rapport commence page 3) rend le constat presque scientifique. Le rire vient du fait qu'on ne dit jamais que le rapport est mauvais, on le laisse comprendre."
+  },
+  {
+    "seedId": null,
+    "content": "Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze.",
+    "punchline": "Depuis, on se surveille.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le compliment qui se dévalue",
+    "techniqueExplanation": "Meilleur collègue du monde multiplié par quatorze, ça fait zéro : le titre perd sa valeur dès qu'il est partagé. La chute n'explique pas la logique, elle montre la conséquence : la méfiance s'installe. Le rire vient de la rivalité créée par un cadeau censé rapprocher."
+  },
+  {
+    "seedId": null,
+    "content": "Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit.",
+    "punchline": "Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le dédoublement de soi",
+    "techniqueExplanation": "Le narrateur n'a pas corrigé l'erreur, et Nicolas a pris vie : un double plus apprécié que lui. La chute met les deux prénoms en concurrence et laisse Julien disparaître dans le doute. Le rire vient de cette rivalité entre soi et son avatar accidentel."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? »",
+    "punchline": "J'avais rien préparé pour ça. J'ai dit « plus ou moins ». Il a noté.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le détail qui décide",
+    "techniqueExplanation": "Trois jours de préparation pour tout, sauf pour la question la plus banale. Le narrateur y répond honnêtement, et sa réponse tiède devient une donnée d'évaluation : « il a noté ». Le rire vient de la disproportion entre une politesse d'accueil et l'enjeu dramatique qu'elle prend."
+  },
+  {
+    "seedId": null,
+    "content": "Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio.",
+    "punchline": "Elle m'a demandé si on me répondait, parfois.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le recadrage",
+    "techniqueExplanation": "L'excuse du narrateur (une visio) est logique, et la voisine change complètement le cadre de lecture avec une question polie. Elle ne l'accuse de rien, elle s'inquiète, et c'est ce qui rend la remarque redoutable. Le rire vient du glissement de « télétravail » à « conversation avec des voix imaginaires » sans que la voisine élève le ton."
+  },
+  {
+    "seedId": null,
+    "content": "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un.",
+    "punchline": "Cinq personnes m'ont demandé ce que je faisais dans la conversation.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le renversement de normalité",
+    "techniqueExplanation": "Le narrateur est habitué à être un fantôme dans les conversations, et c'est le jour où il répond que tout le monde s'étonne. La chute inverse la logique : l'anormal, ici, c'est de participer. Le chiffre de 90 contre 1 rend la statistique aussi claire qu'un rapport."
+  },
+  {
+    "seedId": null,
+    "content": "Mon collègue revient de 4 jours à Rome et me raconte tout en détail.",
+    "punchline": "Ça fait 2h. On vient de récupérer les valises.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le temps réel",
+    "techniqueExplanation": "La chute donne la durée du récit, puis l'étape atteinte : presque rien. Le « on » te met dans le voyage sans que tu y aies été invité. L'exagération est vraie sur le fond, tout le monde a déjà subi un récit de vacances."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai passé mon stage à ranger les archives par ordre alphabétique.",
+    "punchline": "Depuis, plus personne ne retrouve rien. Ils avaient un système.",
+    "category": "BOULOT",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le zèle contre-productif",
+    "techniqueExplanation": "Le narrateur a mis de l'ordre avec la meilleure intention, et l'ordre officiel a détruit un système que personne n'avait besoin d'expliquer. La chute donne raison au désordre : « ils avaient un système » est le vrai twist. Le rire vient du retournement du mérite : celui qui a rangé est celui qui a cassé."
+  },
+  {
+    "seedId": null,
+    "content": "Mon adresse mail pro d'alternant commence par « alternant2 ».",
+    "punchline": "J'aimerais savoir ce qu'est devenu alternant1.",
+    "category": "ECOLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'implicite inquiétant",
+    "techniqueExplanation": "Le chiffre 2 suppose un prédécesseur, et la question sur son sort traite un poste comme une disparition. Le narrateur n'invente rien : il pose une question, et le lecteur écrit lui-même le scénario sombre. Le rire vient de la banalité d'un détail administratif qui devient une énigme."
+  },
+  {
+    "seedId": null,
+    "content": "Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes.",
+    "punchline": "Il a précisé « pas tout ».",
+    "category": "ECOLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La lecture littérale",
+    "techniqueExplanation": "Une formule de politesse que tout le monde comprend comme une simple invitation à se détendre est exécutée à la lettre. Quarante secondes de silence, c'est long à l'oral, et tout le monde le sait. La chute du jury remet la phrase à sa vraie signification, et ce petit rappel à l'ordre, poli lui aussi, fait le rire."
+  },
+  {
+    "seedId": null,
+    "content": "Je me suis filmé pour préparer mon oral.",
+    "punchline": "Mes mains ont fait un autre exposé, plus convaincant.",
+    "category": "ECOLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La personnification d'une partie du corps",
+    "techniqueExplanation": "Tu donnes une volonté propre à un détail de ton corps, ici les mains, qui se mettent à faire leur propre performance. Le lecteur visualise tout de suite l'image : des gestes qui partent dans tous les sens pendant que la voix reste plate. La comparaison flatteuse (plus convaincant) retourne le compliment contre toi, ce qui garde l'auto-dérision douce."
+  },
+  {
+    "seedId": null,
+    "content": "Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pour mon devoir.",
+    "punchline": "La bibliothécaire m'a dit qu'aucun n'existait, mais que les titres étaient plutôt bons.",
+    "category": "ECOLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le compliment cruel",
+    "techniqueExplanation": "Tu fais annoncer une catastrophe, puis tu la fais suivre d'un compliment sur un détail sans importance : les titres étaient plutôt bons. Le lecteur comprend seul que l'IA a mieux inventé que l'étudiant n'a vérifié, et le ton poli de la bibliothécaire rend la chute plus cruelle."
+  },
+  {
+    "seedId": null,
+    "content": "Le prof écrit au feutre presque vide. La formule finale, c'était un 3 ou un 8 ?",
+    "punchline": "On a mis 5, pour ne fâcher personne.",
+    "category": "ECOLE",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le compromis absurde",
+    "techniqueExplanation": "Tu appliques un réflexe de diplomate (ménager tout le monde) à un endroit où la réponse est un fait, pas une opinion. Le résultat est faux pour les deux camps, et c'est ça qui fait rire : la politesse gagne contre les maths. Le « pour ne fâcher personne » donne au groupe une dignité de médiateur qui rend la scène encore plus bête."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul.",
+    "punchline": "Je l'ai pas désinstallé. On a fait le téléchargement ensemble.",
+    "category": "GAMING",
+    "type": "STORY",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'attachement absurde",
+    "techniqueExplanation": "Tu justifies de garder un jeu nul par le trajet parcouru ensemble : le téléchargement. L'attachement à un objet est un vrai biais, et « on a fait le téléchargement ensemble » lui donne un visage tendre. On sourit de reconnaissance."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai passé six heures à installer des mods pour embellir mon jeu.",
+    "punchline": "Il ne se lance plus, mais le message d'erreur est en 4K.",
+    "category": "GAMING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'exploit inutile",
+    "techniqueExplanation": "Tu décris un effort énorme et son résultat, qui est techniquement brillant mais totalement inutile. La haute définition appliquée à un message d'erreur est la métaphore parfaite : tout est beau, rien ne marche. Le lecteur sourit parce qu'il connaît cette envie d'améliorer ce qui marchait déjà."
+  },
+  {
+    "seedId": null,
+    "content": "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle.",
+    "punchline": "Elle m'a dit « c'est un bon début ».",
+    "category": "GAMING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le contraste de statut",
+    "techniqueExplanation": "Le statut attendu (jeune joueur, donc expert) est inversé : c'est la grand-mère qui domine largement. Son « c'est un bon début » reprend le ton bienveillant qu'on adopte avec un débutant, ce qui rend la défaite encore plus complète. Les deux chiffres, très éloignés, font le travail avant même la chute."
+  },
+  {
+    "seedId": null,
+    "content": "Je joue depuis dix ans avec un pote que je n'ai jamais vu. Il m'a enfin envoyé une photo.",
+    "punchline": "Il a la tête de quelqu'un qui dit « on se regroupe ».",
+    "category": "GAMING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le portrait par le vocabulaire",
+    "techniqueExplanation": "Au lieu de décrire un visage, tu le décris par la phrase qu'il aurait prononcée. Dix ans de parties en commun tiennent dans une réplique de stratège, et le lecteur voit le visage sans qu'on lui donne un seul trait. Le mélange d'amitié et de moquerie tendre garde la vanne chaleureuse."
+  },
+  {
+    "seedId": null,
+    "content": "Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé.",
+    "punchline": "Il s'est fait rajouter. Il a écrit « bref ».",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'anticlimax",
+    "techniqueExplanation": "Le départ dramatique du groupe monte une attente : qui va réagir, qui va s'inquiéter ? Personne, et le retour en douce ruine la sortie théâtrale. Le « bref » final joue le rôle d'une fausse conclusion, comme si une longue histoire venait de se terminer alors que rien n'a été raconté."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! ».",
+    "punchline": "Depuis, je passe par l'autre rue.",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'effet boomerang",
+    "techniqueExplanation": "Tu fais un geste gentil et la réponse te rend redevable d'une relation que tu ne voulais pas. Le décalage entre l'intention (dire merci) et la conséquence (être repéré) crée le rire. La chute « je passe par l'autre rue » est courte et parfaitement mesurée : on comprend tout sans explication."
+  },
+  {
+    "seedId": null,
+    "content": "Dans le groupe de mon ancienne classe, quelqu'un a demandé « des nouvelles de Maxime ? ».",
+    "punchline": "Maxime a répondu : « je suis dans le groupe ».",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'ironie de situation",
+    "techniqueExplanation": "Le groupe pose une question qui suppose l'absence de Maxime alors qu'il est présent et qu'il lit tout. Le lecteur a l'information que les autres n'ont pas, et il savoure le décalage. La réponse de Maxime ne contient aucun reproche, juste un constat : c'est cette sobriété qui fait rire."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine.",
+    "punchline": "Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La mesure qui remplace le sentiment",
+    "techniqueExplanation": "Deux conversations réelles ne pèsent rien face à un compteur qui n'a pas bougé. Ta mère ne cherche pas à te faire un procès : sa logique est cohérente, elle mesure le lien avec l'outil qu'elle connaît. Le rire vient de cette sincérité tranquille, qui ne voit pas où est le problème."
+  },
+  {
+    "seedId": null,
+    "content": "Le groupe de mon immeuble a été créé il y a un an. Premier message : « Bonjour à tous ».",
+    "punchline": "Deuxième message, hier : « À qui est le vélo ? ». Personne n'a répondu au premier.",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La réponse sélective",
+    "techniqueExplanation": "Le groupe reste muet devant un simple bonjour et se réveille pour un objet qui gêne. Tu montres où va vraiment l'énergie des gens : pas vers le lien, vers le problème pratique. La dernière phrase, qui souligne le silence du premier message, ajoute la petite pointe de tristesse dont l'humour du quotidien a besoin."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec.",
+    "punchline": "Elle a proposé « j'espère que ce message te trouve bien ».",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le décalage de registre",
+    "techniqueExplanation": "Tu demandes de la chaleur humaine pour un message intime et tu reçois une formule de courrier professionnel. Le rire naît de la distance entre ce que tu attends (spontané) et ce qu'on te donne (corporate). Le lecteur reconnaît le ton mou des mails de bureau, et comprend que le remède est pire que le mal."
+  },
+  {
+    "seedId": null,
+    "content": "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc.",
+    "punchline": "En entretien, on m'a demandé si j'étais dispo pour les régionales.",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le malentendu d'identité",
+    "techniqueExplanation": "Un homonyme brouille ton image en ligne, et un recruteur te prête des exploits qui ne sont pas les tiens. Le décalage entre la vie que tu as et celle qu'on t'attribue est le moteur. La chute reste crédible parce qu'elle sort d'une vraie situation d'entretien : le lecteur a déjà craint qu'on le juge sur ses traces web."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai bloqué quelqu'un sur les réseaux. Il m'a appelé pour demander pourquoi.",
+    "punchline": "J'ai décroché. J'ai dû mal comprendre le principe.",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "STORY",
+    "maturityLevel": 2,
+    "comedyTechnique": "Le principe mal compris",
+    "techniqueExplanation": "Tu décris une décision ferme, puis ton geste qui la contredit. La chute ne se défend pas, elle avoue, avec un faux sérieux (« le principe »). On rit de toi, pas de l'autre, et le retournement arrive dans les deux derniers mots."
+  },
+  {
+    "seedId": null,
+    "content": "J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours.",
+    "punchline": "Il s'appelait « Anniv de Léa ». Léa, c'est moi.",
+    "category": "RESEAUX_SOCIAUX",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le retournement de perspective",
+    "techniqueExplanation": "Tu passes trois jours à jouer la victime d'un complot, et l'indice qui explique tout était sous ton nez. Le lecteur comprend avant la fin de la phrase, et la dernière phrase confirme l'évidence avec une simplicité qui pique. L'auto-dérision fonctionne parce que le drame était entièrement fabriqué par le narrateur."
+  },
+  {
+    "seedId": null,
+    "content": "Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram.",
+    "punchline": "Elle m'a demandé pourquoi j'avais eu un bouc.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'anticlimax",
+    "techniqueExplanation": "Le setup installe la peur classique : quelqu'un fouille dans ton passé. La chute atterrit sur un détail dérisoire, un bouc, au lieu du drame attendu. Plus la tension monte avant, plus la retombée est drôle, et le narrateur reste étrangement sérieux face à ce vieux souvenir capillaire."
+  },
+  {
+    "seedId": null,
+    "content": "Premier rendez-vous en hiver. J'ai enlevé mon gros manteau.",
+    "punchline": "Elle a demandé où était passé le reste.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'autodérision indirecte",
+    "techniqueExplanation": "Tu ne te moques pas de toi directement : tu laisses la réaction d'une autre personne le faire à ta place. Le manteau jouait le rôle d'un déguisement, et la question sur « le reste » est un compliment retourné. Le rire vient de la surprise honnête de l'autre, qui n'a aucune intention méchante."
+  },
+  {
+    "seedId": null,
+    "content": "Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple.",
+    "punchline": "Elle a dit « ne va pas trop vite ».",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La lecture littérale",
+    "techniqueExplanation": "« Se déguiser en couple » est un costume, et elle l'entend comme un statut. La phrase « ne va pas trop vite » prend l'expression au premier degré et crée un malentendu sur le rythme de la relation. Le rire vient de ce double sens que tu n'as jamais besoin d'expliquer."
+  },
+  {
+    "seedId": null,
+    "content": "Mon date a posé son téléphone face contre la table pour me montrer qu'elle m'écoutait.",
+    "punchline": "Il a vibré onze fois. Elle a tenu dix.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La précision absurde",
+    "techniqueExplanation": "Deux chiffres presque identiques, onze et dix, transforment l'écoute en épreuve d'endurance. Le téléphone gagne de justesse, comme un rival dans un match serré. Le verbe « tenu » fait basculer l'attention en effort sportif, et le décompte rend l'image impossible à oublier."
+  },
+  {
+    "seedId": null,
+    "content": "Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date lui a demandé si elle avait des conseils.",
+    "punchline": "Elle avait une liste.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La réponse trop prête",
+    "techniqueExplanation": "La question était polie, la réponse attendue tenait en un mot. La liste transforme la réponse en dossier préparé depuis longtemps, ce qui en dit long sur ce que l'ex a subi. Trois mots suffisent, car l'objet concret (une liste) remplace toute explication."
+  },
+  {
+    "seedId": null,
+    "content": "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités.",
+    "punchline": "Elle a désigné celle où j'ai un CDI.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La vérité qui sonne faux",
+    "techniqueExplanation": "Le jeu attend un mensonge, et le narrateur n'en a pas : c'est donc sa vraie vie qui paraît invraisemblable. Le CDI devient une information exotique, presque une légende. L'autodérision passe par la conclusion de l'autre, qui est logique et injuste à la fois."
+  },
+  {
+    "seedId": null,
+    "content": "Mon date a enregistré mon numéro devant moi. Elle a tapé « Antoine bar ».",
+    "punchline": "Je suis devenu un endroit.",
+    "category": "DATING",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le changement de catégorie",
+    "techniqueExplanation": "Le nom dans le répertoire est un classement : tu passes de la case « personne » à la case « lieu ». La phrase courte et sans aigreur fait exister l'humiliation d'un seul coup, avec un « devenu » presque philosophique. Le rire vient de la manière très calme dont il accepte de n'être plus qu'un décor."
+  },
+  {
+    "seedId": 266,
+    "content": "Elle m'a demandé ce que je faisais dans la vie.",
+    "punchline": "J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.",
+    "category": "DATING",
+    "type": "DIALOGUE",
+    "maturityLevel": 2,
+    "comedyTechnique": "Le retournement inattendu",
+    "techniqueExplanation": "La réponse du narrateur est décalée mais honnête, ce qui crée un moment de complicité — puis la chute montre que l'honnêteté n'est pas toujours la stratégie gagnante. La structure 'elle a ri, puis elle est partie' condense parfaitement le diagnostic : le rire n'est pas une validation, c'est une politesse avant la fuite."
+  },
+  {
+    "seedId": null,
+    "content": "Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat ».",
+    "punchline": "Elle m'a demandé si j'en parlais un autre.",
+    "category": "DATING",
+    "type": "DIALOGUE",
+    "maturityLevel": 2,
+    "comedyTechnique": "Le sens littéral",
+    "techniqueExplanation": "Tu prends le mot « language » au pied de la lettre : si les memes sont ta langue d'amour, existe-t-il une autre langue ? La question de l'autre fait le travail à ta place, et la blague porte sur toi sans que tu aies à te commenter."
+  },
+  {
+    "seedId": null,
+    "content": "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance ».",
+    "punchline": "Je ne connaissais personne. J'ai dû avoir une enfance discrète.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'auto-dérision par déduction",
+    "techniqueExplanation": "Face à une situation absurde, tu ne blâmes pas l'organisation : tu tires de ton propre cas la conclusion la moins flatteuse. La phrase « j'ai dû avoir une enfance discrète » a l'air d'une explication et vaut en fait un aveu. Le lecteur adore quand la gêne est retournée contre soi avec élégance."
+  },
+  {
+    "seedId": null,
+    "content": "Je ne connaissais personne à la soirée, alors j'ai parlé au chat.",
+    "punchline": "À minuit, il s'est excusé pour aller voir quelqu'un.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'humanisation de l'animal",
+    "techniqueExplanation": "Tu traites un chat comme un invité, avec une conversation, des au revoir, un emploi du temps. Le fait qu'il ait mieux réussi sa soirée que toi est l'auto-dérision sous-jacente. Comme tu ne le dis jamais, le lecteur le déduit tout seul, et c'est ce petit travail qui déclenche le rire."
+  },
+  {
+    "seedId": null,
+    "content": "Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai suivi le concert sur son écran.",
+    "punchline": "À la fin, il m'a demandé si c'était bien.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'inversion des rôles",
+    "techniqueExplanation": "Celui qui était sur place n'a rien vu, celui qui était derrière a tout vu : les rôles de témoin et de spectateur sont échangés. La question finale confirme l'inversion, puisqu'elle est adressée à la seule personne capable d'y répondre. Tu n'as pas besoin de commenter, la logique se referme seule."
+  },
+  {
+    "seedId": null,
+    "content": "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons.",
+    "punchline": "Il a beaucoup de chansons.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le deadpan factuel",
+    "techniqueExplanation": "Le mot « ma » suppose une exclusivité, et le compteur (toutes les 3 chansons) la détruit. Ta chute énonce l'évidence avec un calme total, sans un adjectif : c'est ce ton plat qui fait le rire."
+  },
+  {
+    "seedId": null,
+    "content": "Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée.",
+    "punchline": "À 2h du matin, on les a mangés. Par respect.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le faux motif noble",
+    "techniqueExplanation": "La vraie raison (il n'y a plus rien d'autre) est remplacée par un principe moral. Ces carottes délaissées se retrouvent avec la dignité d'un vétéran qu'on honore. Le mot « respect » arrive en fin de phrase, séparé par un point, et cet arrêt lui donne un poids qu'il n'a jamais dans la vraie vie."
+  },
+  {
+    "seedId": null,
+    "content": "Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert.",
+    "punchline": "Il m'a regardé comme si j'étais le bruit.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le malentendu de politesse",
+    "techniqueExplanation": "Un message d'excuse est lu comme une invitation, et la bonne volonté du narrateur transforme le voisin en victime. Le retournement final change l'identité du problème : ce n'est plus la fête qui dérange, c'est toi. Le regard décrit à la fin suffit, aucune réplique n'est nécessaire."
+  },
+  {
+    "seedId": null,
+    "content": "Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un.",
+    "punchline": "Il est venu m'aider à essuyer.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le plan qui se retourne",
+    "techniqueExplanation": "Tu construis une ruse pour fuir quelqu'un, et elle produit l'effet inverse : la fuite devient un tête-à-tête. Le lecteur voit le piège se refermer avant toi, et il adore ça. Le verbe « essuyer » est parfait, un geste modeste qui rend l'échec total."
+  },
+  {
+    "seedId": null,
+    "content": "Au jeu de mimes, ma carte disait « la timidité ».",
+    "punchline": "J'avais à peine bougé qu'ils avaient trouvé.",
+    "category": "SOIREES",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le talent involontaire",
+    "techniqueExplanation": "Un défaut qui devrait te desservir devient ici la meilleure performance possible. Le jeu de mimes exige de jouer un trait, et ton naturel suffit. Le lecteur rit parce que ton point faible se transforme en atout, et parce que tu n'as rien fait pour ça."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père est retraité depuis un an et me dit toujours qu'il est très pris.",
+    "punchline": "Hier, il a dû raccrocher : un nuage arrivait.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'anticlimax",
+    "techniqueExplanation": "« Très pris » annonce une urgence sérieuse, et « raccrocher » renforce le suspense : on imagine un rendez-vous important. La chute atterrit sur un nuage, un motif totalement dérisoire, présenté comme une obligation. Plus la fausse importance est tenue longtemps, plus la retombée fait rire."
+  },
+  {
+    "seedId": null,
+    "content": "Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ».",
+    "punchline": "Il a dit « merci, c'est mieux que papa ».",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'attaque par ricochet",
+    "techniqueExplanation": "La cible de la chute n'est ni le narrateur ni le petit frère : c'est le père, absent, jugé à travers un compliment. Le « ça dépend » n'était pas brillant, mais il bat une référence encore plus basse. Le rire vient de ce que le compliment sous-entend sur les conseils habituels du père."
+  },
+  {
+    "seedId": null,
+    "content": "Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi.",
+    "punchline": "Ils ont cherché un moment.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'aveu par le silence",
+    "techniqueExplanation": "La chute ne contient aucune parole : elle décrit une attente. Le temps qu'ils mettent à trouver une raison d'être fiers est la réponse, plus cruelle que n'importe quelle phrase. Le lecteur entend le silence, et c'est lui qui écrit l'insulte dans sa tête."
+  },
+  {
+    "seedId": null,
+    "content": "Mon petit frère m'appelle « papi ». J'ai 26 ans.",
+    "punchline": "J'ai acheté une canne. Il a arrêté. J'ai gardé la canne.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'escalade assumée",
+    "techniqueExplanation": "Face à une moquerie, tu la prends au pied de la lettre et tu joues le rôle à fond. La petite phrase qui claque est « J'ai gardé la canne » : l'insulte s'est arrêtée mais le narrateur, lui, a pris goût au costume. Tu passes de victime à complice de la blague, et le lecteur adore ce renversement."
+  },
+  {
+    "seedId": null,
+    "content": "Mon frère jumeau est né six minutes avant moi.",
+    "punchline": "Il en parle comme d'un diplôme.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "L'importance gonflée",
+    "techniqueExplanation": "Six minutes, c'est presque rien, et le frère en fait un titre de gloire. Le mot « diplôme » apporte le registre du prestige et du CV, ce qui crée un décalage franc avec la réalité. Le rire vient de ce petit avantage traité avec un sérieux administratif."
+  },
+  {
+    "seedId": null,
+    "content": "Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans.",
+    "punchline": "Elle est de plus en plus détaillée. Je commence à m'en souvenir.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La légende qui grossit",
+    "techniqueExplanation": "Chaque répétition ajoute un détail, jusqu'à ce que l'anecdote devienne plus vraie que le souvenir. Le twist est dans la dernière phrase : le narrateur est dépossédé de son propre passé et finit par croire la version qu'on lui raconte. Le rire vient de l'idée qu'à force de répétition, la fiction gagne sur les faits."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père m'a dit qu'il fallait que je « fasse mes preuves ».",
+    "punchline": "J'ai sorti mon justificatif de domicile : c'est chez lui.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La preuve administrative",
+    "techniqueExplanation": "Tu prends une exigence vague (faire ses preuves) pour une demande de document, et tu réponds par la pièce la plus banale du dossier. Le papier sort avec le sérieux d'une démonstration, et il prouve l'inverse de ce que ton père attendait : que tu habites encore chez lui."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison.",
+    "punchline": "Le congélateur est rempli de baguettes.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La preuve matérielle",
+    "techniqueExplanation": "Tu ne dis jamais que le père fuit souvent : tu montres l'objet qui s'accumule. Un congélateur plein de baguettes est un dossier à charge, l'excuse du pain est démasquée par le stock. Le lecteur fait le calcul lui-même, et il adore ça."
+  },
+  {
+    "seedId": null,
+    "content": "Ma sœur m'a dit qu'elle m'avait « pardonné » mon retard à son anniversaire.",
+    "punchline": "Elle a précisé l'heure : 20 h 47.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La précision absurde",
+    "techniqueExplanation": "Un pardon est censé effacer, et la sœur en garde une trace à la minute près. L'heure exacte (20 h 47) prouve qu'elle n'a rien oublié du tout, ce qui contredit le mot « pardonné » avec une politesse glaçante. Le rire naît du détail chiffré qui fait mentir la phrase précédente."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère m'a dit avoir regardé un film hier soir sur Netflix.",
+    "punchline": "Elle a vu quarante minutes de bandes-annonces. Elle dit que c'était bien.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "La réalité démasquée",
+    "techniqueExplanation": "L'affirmation de départ (« j'ai regardé un film ») est traduite en ce qui s'est vraiment passé : quarante minutes de bandes-annonces. Le twist tient dans le précis « quarante minutes », qui fait sentir le temps perdu sans un mot de jugement. Et la fin, « elle dit que c'était bien », ajoute la tendresse : ta mère est sincère."
+  },
+  {
+    "seedId": null,
+    "content": "Mon cousin ramène une nouvelle copine à chaque repas de famille.",
+    "punchline": "Ma grand-mère a arrêté d'apprendre les prénoms. Elle dit « mademoiselle », par précaution.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le contournement poli",
+    "techniqueExplanation": "Face à un problème insoluble (retenir tous ces prénoms), la grand-mère invente une solution universelle. « Par précaution » est la petite phrase qui donne un air de logique sérieuse à un abandon total. Le rire vient de cette rigueur appliquée à un renoncement."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille.",
+    "punchline": "J'ai jusqu'à Noël pour l'obtenir.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le fait accompli",
+    "techniqueExplanation": "Un rêve devient une promesse publique, et le narrateur hérite d'une échéance qu'il n'a pas choisie. Le mot « jusqu'à Noël » transforme une pression familiale en compte à rebours. Le rire vient de l'obligation qui tombe sur toi à cause d'une nuit de sommeil de quelqu'un d'autre."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse.",
+    "punchline": "Il la surveille depuis trois heures. Il la trouve lente.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le gain annulé",
+    "techniqueExplanation": "Le père a acheté une machine pour ne plus travailler, et il travaille toujours : il surveille. Pire, il se met à juger la performance comme un contremaître exigeant. Le rire vient de la contradiction entre le but annoncé et le comportement, que tout le monde a déjà vue chez quelqu'un."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père m'envoie ses messages en MAJUSCULES.",
+    "punchline": "Je réponds en minuscules. Il m'a demandé pourquoi je boudais.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le malentendu de registre",
+    "techniqueExplanation": "Tu montres deux langages qui se croisent : les majuscules du père, les minuscules du fils. La chute reprend une règle vraie (les minuscules semblent froides) pour la mettre dans sa bouche. Le rire vient de ce que chacun lit l'autre de travers."
+  },
+  {
+    "seedId": null,
+    "content": "Mon père décroche toujours par « qu'est-ce qui se passe ? ».",
+    "punchline": "Un jour, j'inventerai quelque chose. Pour lui faire plaisir.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le renversement d'attente",
+    "techniqueExplanation": "On s'attend à de l'agacement face à un parent qui répète toujours la même phrase, et la chute donne de la tendresse. Le narrateur voudrait lui offrir un événement, comme un cadeau. Le mot « inventer » est le twist : pour rendre service, on serait prêt à mentir."
+  },
+  {
+    "seedId": null,
+    "content": "Ma mère me demande encore des nouvelles de mon ex.",
+    "punchline": "Je n'en ai pas. Elle, si.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le renversement d'information",
+    "techniqueExplanation": "On attend que le narrateur soit la source des nouvelles, et c'est la mère qui en a plus que lui. Le « Elle, si » est le twist : la relation avec l'ex a survécu à la rupture, mais ailleurs. Le rire vient du décalage entre la personne concernée et celle qui est réellement au courant."
+  },
+  {
+    "seedId": null,
+    "content": "Mon frère m'a emprunté ma console il y a dix ans.",
+    "punchline": "Son fils vient de me dire que c'était la leur.",
+    "category": "PARENTS",
+    "type": "ONE_LINER",
+    "maturityLevel": 1,
+    "comedyTechnique": "Le témoin involontaire",
+    "techniqueExplanation": "Le narrateur n'accuse pas son frère : c'est un enfant, qui n'a aucune raison de mentir, qui révèle comment l'histoire a été réécrite. Dix ans ont transformé un emprunt en héritage familial. Le rire vient de la naïveté du témoin, qui rend la version du frère indéfendable sans que personne ne s'énerve."
+  }
+]
