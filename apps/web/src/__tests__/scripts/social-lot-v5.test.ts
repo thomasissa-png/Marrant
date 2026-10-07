@@ -162,7 +162,10 @@ describe("lot de relance v5 (buildLotV5)", () => {
   });
 
   it("R6 : toute vanne à la 1re personne est entre « » sur X et LinkedIn", () => {
-    for (const p of lot.posts.filter((x) => x.platform !== "INSTAGRAM" && x.vannes.length)) expect(p.content.startsWith("«")).toBe(true);
+    // Une ligne d'article au « tu » (relais X du 12/10) reste sans guillemets : R6 ne vise que la 1re personne.
+    for (const p of lot.posts.filter((x) => x.platform !== "INSTAGRAM" && x.vannes.length)) {
+      expect(p.content.startsWith("«")).toBe(premierePersonne(p.content.split("\n\n")[0]));
+    }
   });
 
   it("relais LinkedIn d'un article à angle bureau (visio) le mardi, au plus 1 par semaine", () => {

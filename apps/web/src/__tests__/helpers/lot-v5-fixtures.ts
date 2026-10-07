@@ -21,7 +21,8 @@ const halloween = Array.from({ length: 8 }, (_, i) => `### ${i + 1}. T\n> « J'a
 const anniversaire = Array.from({ length: 21 }, (_, i) => `**${i + 1}.** Joyeux anniversaire. J'ai écrit le message ${i + 1} trop tard. Tu l'as lu avant moi.`).join("\n");
 export const ARTICLES: ArticleLot[] = [
   { slug: "blagues-halloween-soiree-deguisee", title: "Blagues d'Halloween : 8 vannes pour ta soirée déguisée", category: "CATALOGUE", date: "2026-10-05", content: halloween },
-  { slug: "se-presenter-avec-humour", title: "Se présenter avec humour : 5 accroches qui passent", category: "PRATIQUE", date: "2026-10-12", content: "" },
+  { slug: "se-presenter-avec-humour", title: "Se présenter avec humour : 5 accroches qui passent", category: "PRATIQUE", date: "2026-10-12",
+    content: "Le tour de table commence à gauche et tu comptes les places : tu es sixième. Tu avais une phrase géniale. Le quatrième vient de la dire. Au final, tu dis ton prénom." },
   { slug: "message-anniversaire-drole-par-situation", title: "Message d'anniversaire drôle : 21 textes par situation", category: "CATALOGUE", date: "2026-10-22", content: anniversaire },
   { slug: "blagues-sur-l-ia-assistants-vocaux", title: "Blagues sur l'IA : 6 vannes sur nos assistants vocaux", category: "CATALOGUE", date: "2026-10-26", content: "" },
   { slug: "humour-en-visio-reunion-en-ligne", title: "Humour en visio : faire rire à travers un écran", category: "CONTEXTE", date: "2026-11-02", content: "> « J'ai coupé ma caméra. »\n>\n> « Personne n'a vu la différence. »" },

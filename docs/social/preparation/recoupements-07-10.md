@@ -156,6 +156,32 @@ Décryptages « Pourquoi ça fait rire » : 27 mots (P0-072) et 28 mots (P0-041)
 
 `[À VÉRIFIER]` : les codes ECOLE et PARENTS sont ceux des titres du catalogue (13 catégories) ; confirmer qu'ils existent tels quels dans la base avant l'insertion. Les identifiants de base seront créés à l'insertion (`ref` P0-xxx n'est pas un `id`). Avant toute reprise de ces vannes en carte, la règle R6 impose les « » sur la vanne publiée.
 
+## 7. Correctifs X du 12/10 et du 21/10
+
+Décisions de @copywriter, sans option laissée ouverte. Clés de `social-lot-v5-fixes.ts` : `relais-x-12-10` et `X3`.
+
+### 7.1 Relais X du lun. 12/10 12:30 (`relais-x-12-10`) : solution (a)
+
+V053 (9 / 8) sort : sous la barre. Je reprends la seule ligne de l'article notée au niveau (`se-presenter-avec-humour`, « Tu avais une phrase géniale. Le quatrième vient de la dire. », les 2 relecteurs à « = »), avec la phrase qui la précède dans le même paragraphe, mot pour mot (`S2-se-presenter-avec-humour.md` l.32). Je n'ai pas pris (b) : le pool libre n'a aucune vanne de présentation, et le relais d'un article sur le tour de table doit montrer la scène de l'article.
+
+Texte du post, exact (2e personne, donc sans guillemets, R6 ne s'applique pas) :
+
+> Le tour de table commence à gauche et tu comptes les places : tu es sixième. Tu avais une phrase géniale. Le quatrième vient de la dire.
+
+Renvoi exact, suivi du lien `/blog/se-presenter-avec-humour` (contenu `lundi`) :
+
+> La méthode pour trouver ta phrase, et 5 exemples avant/après :
+
+Pourquoi ce renvoi : la ligne n'est pas un des « 4 autres exemples » (elle est dans l'introduction). L'article promet bien « une méthode pour trouver ton propre détail » et « 5 exemples avant/après » (l.34). Longueur : environ 136 + 62 caractères, plus le lien (23), soit environ 224, sous 270. Note de ligne à écrire dans `note` : « ligne d'introduction de l'article, au niveau (2 « = »), remplace V053 (9 / 8) ». V053 retourne au stock non notée au niveau : ne pas la remettre dans `POOL_STRICT`. L'ancienne note « accroche 2 de l'article (catalogue) » est à supprimer.
+
+### 7.2 X3 du mer. 21/10 (`X3`) : renvoi raccourci de 19 caractères
+
+La vanne (V014) et la formule signée « lequel des 5 profils d'humour est le tien » restent intactes. Renvoi exact, suivi du lien `/quiz-humour` (contenu `quiz`) :
+
+> Humour d'Observateur. Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 min, sans inscription :
+
+Coupes : « Ça, c'est de l'humour d'Observateur. » devient « Humour d'Observateur. » (15 caractères) et « Environ 2 minutes » devient « Environ 2 min » (4). Total de 283 à 264 caractères comptés par X, soit 6 sous la limite de 270 ; le pont vers les profils et la promesse « sans inscription » sont gardés. `[À VÉRIFIER]` au dry-run : le décompte réel du script (le chiffre de 283 vient du décompte X rapporté, pas recalculé ici).
+
 ## Points `[À VÉRIFIER]` (synthèse)
 
 1. §1 : le pool strict contient 3 exemptées (V014, V019, V025) et les 4 de Noël ; stock réel au 12/10 = 23 (25 avec P0), pas 30 (32), et 21 une fois V060 et V083 retirées (§2). Corriger plan §1 l.37 et §2.
