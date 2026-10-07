@@ -10,3 +10,13 @@
 | IG ven. 16/10 (détecteur de fumée) | aucune (G01 8 / 9 ; G05 7,5 / 8,5 ; G10 8,5 / 7) | tour 2 |
 
 Échéance du tour 2 : légendes dans `social-lot-v5-legendes.ts` avant l'insertion du 1a (ven. 09/10, 10:15 UTC).
+
+## Tour 2 (07/10/2026, `aveugle-legendes-1a-t2.md`, 12 candidates, mêmes règles)
+
+| Emplacement | Retenue | Notes |
+|---|---|---|
+| IG mar. 13/10 (V083) | **« À envoyer à qui devait monter ton étagère avant l'été. »** (H03) | 9 / 8,5 |
+| IG jeu. 15/10 (deux vérités et un mensonge) | **« À envoyer à ton oncle, qui demande si c'est un vrai travail. »** (H01) | 9 / 8,5 |
+| IG ven. 16/10 (détecteur de fumée) | **« À envoyer à ta mère, qui t'avait dit de surveiller le four. »** (H11) | 8,5 / 9 |
+
+Les 4 légendes du lot 1a sont au niveau (repli du 12/10 : G08, tour 1). À recopier dans `apps/web/scripts/content/social-lot-v5-legendes.ts`.
