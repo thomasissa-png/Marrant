@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { BlogArticleView } from "@/components/blog/blog-article-view";
 import { blogArticles } from "@/lib/blog-articles";
 import { findBlogArticle, loadBlogArticleNavigation } from "@/lib/blog-article-page";
-import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 
 export const revalidate = 3600;
 
@@ -22,7 +22,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const article = (await findBlogArticle(params.slug))?.article;
   if (!article) {
-    return { title: "Article introuvable" };
+    // 404 : une seule consigne robots (celle de notFound()), sans bingbot hérité.
+    return { title: "Article introuvable", ...NOT_FOUND_ROBOTS };
   }
   // Titre = H1 exact (jamais tronqué en « ... ») : template si ≤ 60 car. avec
   // la marque, sinon titre seul (cf. lib/seo-meta.ts — passe SEO finale s11).

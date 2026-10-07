@@ -79,3 +79,17 @@ export const DEFAULT_OG_IMAGE = {
   height: 630,
   alt: "deviens-marrant.fr — Apprends à devenir drôle et à avoir de la répartie",
 } as const;
+
+/**
+ * Consignes robots d'une page introuvable (404). Seul `notFound()` pose la
+ * consigne (`noindex` de Next) : une seule balise robots.
+ * - `robots: null` retire le « index, follow » (et googleBot) du layout racine ;
+ * - `other.bingbot: ""` neutralise le `bingbot: index, follow` du layout : Next
+ *   fusionne `other` clé par clé et n'émet pas une meta au contenu vide.
+ * À mettre dans `not-found.tsx` (head serveur de la 404) ET dans la branche
+ * « introuvable » de `generateMetadata` (head reconstruite au navigateur).
+ */
+export const NOT_FOUND_ROBOTS = {
+  robots: null,
+  other: { bingbot: "" },
+} satisfies Metadata;

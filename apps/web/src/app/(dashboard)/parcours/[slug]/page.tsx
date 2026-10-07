@@ -10,7 +10,7 @@
 //   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
 import type { Metadata } from "next";
-import { fitDescription, fitTitle, DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
+import { fitDescription, fitTitle, DEFAULT_OG_IMAGE, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
@@ -106,7 +106,7 @@ export async function generateMetadata({
   // SEO-11 / QA-11 : parcours inconnu = 404, seul notFound() pose la consigne (`noindex`
   // de Next). `robots: null` n'émet aucune balise : il retire le « index, follow » du
   // layout racine, sinon repris dans la head reconstruite au navigateur (payload RSC).
-  if (!path) return { title: "Parcours introuvable", robots: null };
+  if (!path) return { title: "Parcours introuvable", ...NOT_FOUND_ROBOTS };
 
   // Le template du layout ajoute déjà « | deviens-marrant.fr » : ne pas doubler la marque.
   return shareMetadata(params.slug, path.title, path.description);

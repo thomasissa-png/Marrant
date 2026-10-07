@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
-import { DEFAULT_OG_IMAGE, fitDescription, fitTitle } from "@/lib/seo-meta";
+import { DEFAULT_OG_IMAGE, fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { buildTipSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { tipProse } from "@/lib/tip-prose";
@@ -76,7 +76,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const resolved = await findTipBySlug(params.slug);
   const tip = resolved.status === "active" ? resolved.item : null;
-  if (!tip) return { title: "Conseil introuvable" };
+  // 404 : une seule consigne robots (celle de notFound()), sans bingbot hérité.
+  if (!tip) return { title: "Conseil introuvable", ...NOT_FOUND_ROBOTS };
 
   const canonicalSlug = buildTipSlug(tip);
   // Titre complet (jamais « ... » au milieu du mot-clé) + description coupée

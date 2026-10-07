@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
 import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
-import { TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
+import { NOT_FOUND_ROBOTS, TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
   JsonLd,
@@ -83,7 +83,8 @@ export async function generateMetadata({
   const resolved = await findJokeBySlug(params.slug);
   const joke = resolved.status === "active" ? resolved.item : null;
   if (!joke) {
-    return { title: "Vanne introuvable" };
+    // 404 : une seule consigne robots (celle de notFound()), sans bingbot hérité.
+    return { title: "Vanne introuvable", ...NOT_FOUND_ROBOTS };
   }
   const canonicalSlug = buildJokeSlug(joke);
   const label = CATEGORY_LABELS[joke.category] ?? "Vie quotidienne";

@@ -1,4 +1,3 @@
-import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactNode } from "react";
 import {
@@ -157,6 +156,12 @@ async function renderToPng(
     return Buffer.from(await response.arrayBuffer());
   }
 
+  // Import dynamique, JAMAIS en tête de fichier : à son chargement, le paquet
+  // `satori` compile aussitôt son yoga.wasm embarqué (base64) via
+  // WebAssembly.instantiate(octets), ce que workerd refuse (« Wasm code generation
+  // disallowed by embedder » au cron social de 20:00, s17). Sous Workers on ne
+  // passe jamais ici : next/og utilise les .wasm précompilés fournis par OpenNext.
+  const { default: satori } = await import("satori");
   const svg = await satori(element as React.ReactElement, {
     width,
     height,

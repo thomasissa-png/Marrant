@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { JsonLd, buildBreadcrumbJsonLd, buildCollectionPageJsonLd } from "@/components/seo/json-ld";
@@ -25,7 +26,8 @@ const SITE_URL = "https://deviens-marrant.fr";
 
 export async function generateMetadata({ params, searchParams }: ThemePageProps): Promise<Metadata> {
   const theme = getVannesTheme(params.slug);
-  if (!theme) return {};
+  // 404 : une seule consigne robots (celle de notFound()), sans bingbot hérité.
+  if (!theme) return { ...NOT_FOUND_ROBOTS };
   const page = parsePageParam(searchParams.page);
   const canonical = listCanonical(vannesThemePath(theme.slug), page);
   return {

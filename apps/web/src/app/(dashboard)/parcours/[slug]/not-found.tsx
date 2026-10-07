@@ -3,13 +3,15 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PAGES_ETAT } from "@/config/textes/parcours";
+import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 
 /**
  * Head de la 404 : Next 14 n'y lit pas generateMetadata de la page, seulement les
  * layouts et cette metadata. `robots: null` retire le « index, follow » hérité du
- * layout racine : il ne reste que le `noindex` posé par Next (une seule balise).
+ * layout racine : il ne reste que le `noindex` posé par Next (une seule balise) ;
+ * le `bingbot: index` du layout est neutralisé aussi (NOT_FOUND_ROBOTS).
  */
-export const metadata: Metadata = { title: "Parcours introuvable", robots: null };
+export const metadata: Metadata = { title: "Parcours introuvable", ...NOT_FOUND_ROBOTS };
 
 /**
  * Parcours inconnu (QA-11, SEO-11) : 404 rendue dans le layout du site (menu

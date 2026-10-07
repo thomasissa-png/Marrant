@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
-import { fitDescription, fitTitle } from "@/lib/seo-meta";
+import { fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
 import { buildVideoSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
@@ -79,7 +79,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const resolved = await findVideoBySlug(params.slug);
   const video = resolved.status === "active" ? resolved.item : null;
-  if (!video) return { title: "Vidéo introuvable" };
+  // 404 : une seule consigne robots (celle de notFound()), sans bingbot hérité.
+  if (!video) return { title: "Vidéo introuvable", ...NOT_FOUND_ROBOTS };
 
   const canonicalSlug = buildVideoSlug(video);
   // Titre YouTube conservé tel quel (fitTitle : jamais de « ... » au milieu),
