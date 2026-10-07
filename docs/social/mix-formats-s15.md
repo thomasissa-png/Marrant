@@ -6,7 +6,7 @@
 | Ligne | Valeur | Calcul |
 |---|---|---|
 | Pool strict + P0 | 42 | 40 (41 moins Alexa) + 2 (P0-072, P0-041) |
-| Semaine 0 | -10 | publiées 06 au 09/10, retour au plus tôt le 04/01 : 32 au 12/10 (`lot-semaine0.md` : « stock éligible 32 », avant recompte du 07/10) |
+| Semaine 0 | -10 | publiées 06 au 09/10, retour au plus tôt le 04/01 : 32 après la seule semaine 0 (`lot-semaine0.md` : « stock éligible 32 », avant recompte du 07/10) ; **25 au 12/10 après retrait des exemptées et de Noël** (ligne « Stock libre ») |
 | Exemptées jamais rejouées | -3 | V014, V019, V025 : dans `POOL_STRICT` mais jamais retirées du tirage (`recoupements-07-10.md` §1) |
 | Réservées à Noël | -4 | exclues de tout tirage avant le 24/12 (`recoupements-07-10.md` §1) |
 | **Stock libre au 12/10 (recompté le 07/10)** | **25** | 32 - 3 - 4 = 25 avec les 2 de P0 (23 sans, `recoupements-07-10.md`:32-42) ; 23 avec P0 hors les vannes des carrousels fixes V060 et V083 `[À RECOMPTER : --pool]` |
