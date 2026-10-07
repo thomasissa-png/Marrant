@@ -7,6 +7,7 @@
  * ou texte exact vérifié dans le contenu) au moment du plan : un écart = erreur.
  */
 import type { PreparedPlatform } from "./social-controls";
+import { FORMULES } from "./social-lot-v5-config";
 
 export type OrigineFixe = "VALIDE" | "V5";
 export type TypePost = "VANNE" | "VANNE_QUIZ" | "RELAIS" | "PIVOT" | "DECRYPTAGE" | "SITUATION";
@@ -72,17 +73,19 @@ export const FIXES: Fixe[] = [
       "À toi de jouer : repense à un moment où tu t'es cru mis de côté, puis cherche le détail qui prouvait le contraire.",
       "Le quiz est dans le lien de la bio.",
     ],
-    legende: "À envoyer à celui qui n'est jamais sûr d'être invité. deviens-marrant.fr" },
+    legende: "À envoyer à celui qui n'est jamais sûr d'être invité." },
   { cle: "L1", date: "2026-10-15", platform: "LINKEDIN", type: "VANNE", origine: "VALIDE", vanne: { jokeId: "cs14jka89abf28d3769b05fe" } },
   { cle: "X3", date: "2026-10-21", platform: "TWITTER", type: "VANNE_QUIZ", origine: "VALIDE", vanne: { jokeId: "cs14jk50c85bb0d73deaebaf" },
-    renvoi: "Humour d'Observateur. Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 min, sans inscription :",
+    // Cycle 8 : renvoi = FORMULES.quizCourt (aveugle-textes-neufs-cycle8-resultat.md), « Humour d'Observateur. » retiré.
+    renvoi: FORMULES.quizCourt,
     lien: { chemin: "/quiz-humour", content: "quiz" } },
   { cle: "X2", date: "2026-10-22", platform: "TWITTER", type: "RELAIS", origine: "VALIDE", vanne: { jokeId: "cs14jk0e4fedaac1a91fddf1" },
     renvoi: "Les 21 messages de l'article sont prêts à copier :",
     lien: { chemin: "/blog/message-anniversaire-drole-par-situation", content: "jeudi" } },
   { cle: "relais-ig-22-10", date: "2026-10-22", platform: "INSTAGRAM", type: "RELAIS", origine: "V5",
     vanne: { article: { slug: "message-anniversaire-drole-par-situation", rang: 13 } },
-    legende: "Les 20 autres textes : lien en bio.", note: "v5 §3 S2 : IG n°13 de l'article." },
+    legende: "À envoyer à ton hôte d'anniversaire. Les 20 autres textes : lien en bio.",
+    note: "v5 §3 S2 : IG n°13 de l'article. Légende : corrections-cycle7-copy.md l.70 (@copywriter)." },
   { cle: "li-22-10", date: "2026-10-22", platform: "LINKEDIN", type: "VANNE", origine: "V5", vanne: { jokeId: "cs14jk69eb578cce484b6f87" },
     note: "v5 §3 S2 : repli de la n°6 de l'article (aucune note à l'aveugle de la n°6 seule n'est connue)." },
   { cle: "relais-x-26-10", date: "2026-10-26", platform: "TWITTER", type: "RELAIS", origine: "V5", vanne: { jokeId: "cs14jkf0a20e0837fa95c784" },
@@ -92,14 +95,14 @@ export const FIXES: Fixe[] = [
     article: "blagues-sur-l-ia-assistants-vocaux",
     legende: "À envoyer à qui t'a fait lire son roman. Les 5 autres vannes : lien en bio.", note: "v5 §8 : n°4 de l'article." },
   { cle: "IG1", date: "2026-10-27", platform: "INSTAGRAM", type: "VANNE", origine: "VALIDE", vanne: { jokeId: "cs14jke5d015b07714055538" },
-    legende: "À envoyer à ton tuteur de stage. deviens-marrant.fr" },
+    legende: "À envoyer à ton tuteur de stage." },
   { cle: "L2", date: "2026-10-29", platform: "LINKEDIN", type: "SITUATION", origine: "VALIDE",
     texteMarque: "Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes les quatre minutes suivantes à t'inventer trois fautes graves, dont une dans un dossier que tu n'as jamais ouvert. Il voulait le code du photocopieur." },
   { cle: "halloween-x", date: "2026-10-30", platform: "TWITTER", type: "PIVOT", origine: "V5",
     vanne: { article: { slug: "blagues-halloween-soiree-deguisee", rang: 3 } }, renvoi: "Les 7 autres sont prêtes à copier :",
     lien: { chemin: "/blog/blagues-halloween-soiree-deguisee", content: "saison" }, note: "v5 §3 S3 : pivot Halloween, ligne n°3." },
   { cle: "halloween-ig", date: "2026-10-30", platform: "INSTAGRAM", type: "VANNE", origine: "V5", vanne: { jokeId: "cs14jk1bc86d3502a2cef27b" },
-    legende: "À envoyer à qui a un date pour Halloween. deviens-marrant.fr" },
+    legende: "À envoyer à qui a un date pour Halloween." },
   { cle: "toast-x", date: "2026-11-30", platform: "TWITTER", type: "RELAIS", origine: "V5",
     vanne: { articleTexte: { slug: "toast-drole-discours-qui-fait-rire", texte: "J'ai tapé sur mon verre pour demander le silence. Quelqu'un a demandé « c'est pour un mariage ? ». J'ai dit non. Il y a eu de la déception." } },
     note: "v5 §3 S8 : vanne neuve de l'article validée à l'aveugle (« c'est pour un mariage ? »)." },
@@ -117,6 +120,19 @@ export const RELAIS_FORCES: RelaisForce[] = [
   { date: "2026-12-31", platform: "TWITTER", slug: "voeux-drole-nouvelle-annee", utmContent: "saison", note: "v5 §3 S12 : relais vœux, pivot saisonnier." },
   { date: "2026-12-31", platform: "LINKEDIN", slug: "voeux-drole-nouvelle-annee", utmContent: "saison", note: "v5 §3 S12 : relais vœux LinkedIn." },
   { date: "2027-01-01", platform: "TWITTER", slug: "voeux-drole-nouvelle-annee", utmContent: "saison", note: "v5 §3 S12 : message de vœux." },
+];
+
+/**
+ * Vannes du pool strict réservées à un carrousel de décryptage à fiche écrite : jamais tirées.
+ * V028 : la fiche du 21/10 n'a pas tenu à l'aveugle (cartes 3 et 4, cycle 8), elle n'est PAS un post fixe ;
+ * la vanne reste exclue en attendant la fiche de remplacement. Exclusion
+ * (tirage, relais de repli, décryptage d'article). Notation cycle 8 (@reviewer K5 d, @social S6).
+ * V083 (`cs14jka3336e7e90a453a9d6`) n'y est PAS : le lot 1a la garde en IG le 13/10 (REPLIT_ACTIONS.md l.102) ;
+ * le carrousel du 23/12 prendra une autre vanne avec le lot 2b, et l'anti-répétition (90 jours) la protège.
+ */
+export const RESERVEES_CARROUSEL: Array<{ jokeId: string; date: string; source: string }> = [
+  { jokeId: "cmmnsqn130033th63b54ux45o", date: "2026-10-21", source: "V028, docs/social/preparation/fiche-ig-21-10.md" },
+  { jokeId: "cs14jk577fa779cb48fa9b55", date: "2026-12-09", source: "V060, complements-lot-s15.md §1, recoupements-07-10.md l.62" },
 ];
 
 /** Carrousels « avec citation d'humoriste » (v5 §1) : citation à fournir, repli sans citation. */

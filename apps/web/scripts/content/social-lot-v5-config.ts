@@ -50,6 +50,13 @@ export const PAIN_IDS = PAIN;
 export const PAIN_RE = /(^|[^\p{L}])pain(?=[^\p{L}]|$)/iu;
 export const FENETRE_PAIN_JOURS = 30;
 /**
+ * Monotonie « copain / copine » (notation cycle 8, @social C7 ; `corrections-cycle8-copy.md` §3 point 4).
+ * [HYPOTHÈSE : seuil de 2 par semaine, à valider] : AVERTISSEMENT seulement, jamais bloquant, aucun remplacement
+ * automatique (le lot 1a en compte 3 la semaine du 12/10 et reste tel quel). Lundi au dimanche, tous réseaux, replis exclus.
+ */
+export const COPAIN_RE = /(^|[^\p{L}])(copain|copine|copains|copines)(?=[^\p{L}]|$)/iu;
+export const PLAFOND_COPAIN_PAR_SEMAINE = 2;
+/**
  * Test LinkedIn texte / image (v5 §4 et §8, mesure §7) : à partir de cette date, les vannes
  * éligibles (amorce de 140 caractères au plus, sans lien) alternent `[variante:image]` et
  * `[variante:texte]`, par paires de même note quand c'est possible (dans les 2 posts suivants).
@@ -88,7 +95,6 @@ export const ARTICLES_MARC = new Set(["premier-message-drole-appli-de-rencontre"
 
 /** Formules reprises mot pour mot de la v5 et des posts validés. */
 export const FORMULES = {
-  pied: "deviens-marrant.fr",
   renvoiPratique4: "Les 4 autres exemples, et comment trouver le tien :",
   // Pont validé du X quiz du 07/10 (cycle 6, `lot-semaine0.json`), repris par le générateur (cycle 7, S3).
   quizCourt: "Et toi, lequel des 5 profils d'humour est le tien ? Environ 2 minutes, sans inscription :",

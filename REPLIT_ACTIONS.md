@@ -164,9 +164,17 @@
 > - **L7** `updatedAt` du pilier = `2026-10-06` : **si le déploiement a lieu un autre jour, reporter la date** (`apps/web/src/lib/blog-articles.ts`, slug `comment-devenir-drole`) avant de déployer.
 > - **Après déploiement** : `/`, `/blog`, `/blog/comment-devenir-drole`, `/blog/meilleures-blagues-droles-2026` en 200 avec le lien visible ; `/sitemap.xml` : `lastmod` du pilier à la date de L7. Puis **Thomas** : Search Console > Inspection d'URL du pilier (version apex) > « Tester l'URL en direct » > « Demander une indexation » (une seule fois) ; IndexNow pour le pilier, `/blog` et `/`.
 
+## s15 (07/10/2026, soir) : corrections cycle 8 de la relance sociale (@fullstack) : scripts seulement, AUCUN déploiement
+
+> Fichiers hors Worker (`apps/web/scripts/content/`), rien à déployer, rien inséré. Détail : `docs/social/corrections-cycle8-fullstack.md`.
+> - `--rollback --lot <id>` est **borné par `--debut`/`--fin`** (comptes et UPDATE, pilotes `tcp` et `neon-http`) : annuler 1b (19 au 25/10) ne touche plus 1a. Le contrôle après `--insert` ne compte plus que les replis de la tranche insérée.
+> - Tirage : V028 (`cmmnsqn130033th63b54ux45o`) et V060 (`cs14jk577fa779cb48fa9b55`) exclues (`RESERVEES_CARROUSEL`). V083 reste au lot 1a (IG 13/10).
+> - Légendes Instagram : plus aucun pied « deviens-marrant.fr » ; légende rattachée à la vanne (`social-lot-v5-legendes.ts`), contrôle bloquant au dry-run. **Le dry-run 1a bloque sur 3 légendes à fournir par @copywriter avant le 09/10 10:15 UTC** (`docs/social/preparation/lot-1a-dry-run-07-10.md`, Verdict).
+> - X3 du 21/10 : renvoi = `FORMULES.quizCourt` (246 `longueurX`). Avertissement « copain / copine » (> 2 par semaine, `[HYPOTHÈSE]`).
+
 ## s15 (06/10/2026, 07:50 Paris) : PREUVE `--insert` / `--rollback` en `--driver=neon-http` sur la base réelle (point QA cycle 6 et 7) : FAIT
 
-- Lot fictif `preuve-http-2031` (1 post X daté du 06/01/2031, jamais publiable avant) : `--insert --driver=neon-http` : « Inséré : 1 posts APPROVED… Contrôle après insertion : conforme » ; `--rollback` sans `--confirmer` : comptes seulement, « Rien n'a été modifié » ; `--rollback --confirmer` : « Annulés (REJECTED) : 1. Après : {REJECTED:1} » ; ligne supprimée ensuite (reste 0). À noter : `--rollback` exige `--debut` et `--fin`.
+- Lot fictif `preuve-http-2031` (1 post X daté du 06/01/2031, jamais publiable avant) : `--insert --driver=neon-http` : « Inséré : 1 posts APPROVED… Contrôle après insertion : conforme » ; `--rollback` sans `--confirmer` : comptes seulement, « Rien n'a été modifié » ; `--rollback --confirmer` : « Annulés (REJECTED) : 1. Après : {REJECTED:1} » ; ligne supprimée ensuite (reste 0). À noter : `--rollback` exige `--debut` et `--fin` (utilisés par le filtre depuis le cycle 8, 07/10 soir).
 
 ## s15 (06/10/2026, 07:45 Paris) : DÉPLOYÉ depuis l'arbre principal (propre), Worker `fd1a595d-7c52-47a8-9e1e-417930b9534a` (N-1 `4eebf8aa-682d-4b7e-9f33-f2b3ed37bd9f`)
 
