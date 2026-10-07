@@ -28,11 +28,6 @@ export function invoiceSubscriptionId(invoice: Stripe.Invoice): string | null {
   return stripeId(raw.subscription) ?? stripeId(raw.parent?.subscription_details?.subscription);
 }
 
-/** Facture d'une charge (champ supprimé depuis basil : null dans ce cas). */
-export function chargeInvoiceId(charge: Stripe.Charge): string | null {
-  return stripeId((charge as unknown as { invoice?: unknown }).invoice);
-}
-
 /** Ligne d'abonnement en base pour une facture : par abonnement d'abord, client ensuite. */
 export async function findDbSubscriptionForInvoice(invoice: Stripe.Invoice) {
   const subId = invoiceSubscriptionId(invoice);

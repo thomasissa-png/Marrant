@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { AlreadySubscribedError, createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
 import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
 import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { refuserSiAutreSite } from "@/lib/same-site";
 import { PREMIUM_PLANS, type PremiumPlan } from "@/config/premium";
 import { z } from "zod";
 
@@ -14,7 +15,15 @@ import { z } from "zod";
  */
 const returnToSchema = z.string().max(512).optional();
 const planSchema = z.enum(PREMIUM_PLANS).default("monthly");
-const CHECKOUT_LIMIT = { maxRequests: 5, windowMs: 3600_000 };
+/**
+ * Lot H : 20 sessions de paiement par utilisateur et par heure (au lieu de 5).
+ * Un compteur partagé ne peut pas « rendre » un essai après coup ; plutôt que
+ * de décompter les 409 et les succès, la limite est relevée : un acheteur qui
+ * hésite entre mensuel et annuel (aller-retour vers Stripe) n'est jamais
+ * bloqué, et 20 sessions Stripe par heure restent sans risque. Les corps
+ * invalides (400) ne comptent plus : la limite est vérifiée après lecture.
+ */
+const CHECKOUT_LIMIT = { maxRequests: 20, windowMs: 3600_000 };
 
 type CheckoutBody =
   | { ok: true; plan: PremiumPlan; returnTo?: string }
@@ -35,6 +44,8 @@ async function readBody(request: Request): Promise<CheckoutBody> {
 }
 
 export async function POST(request: Request) {
+  const refus = refuserSiAutreSite(request, "POST /api/stripe/checkout");
+  if (refus) return refus;
   try {
     const session = await getServerSession(authOptions);
 
@@ -47,20 +58,20 @@ export async function POST(request: Request) {
 
     const userId = (session.user as { id: string }).id;
 
-    // 5 créations de checkout par utilisateur et par heure, compteur partagé
-    // entre isolats Workers (lib/rate-limit, s16 lot D ; repli mémoire si la base tombe).
-    const rl = await sharedRateLimit("checkout-user", userId, CHECKOUT_LIMIT);
-    if (!rl.allowed) {
-      return NextResponse.json(
-        { error: "Trop de tentatives. Réessaie plus tard." },
-        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
-      );
-    }
     const body = await readBody(request);
     if (!body.ok) {
       return NextResponse.json(
         { error: "Formule inconnue : choisis l'abonnement mensuel ou annuel." },
         { status: 400 }
+      );
+    }
+    // Compteur partagé entre isolats Workers (lib/rate-limit, atomique depuis
+    // le lot H ; repli mémoire si la base tombe). Voir CHECKOUT_LIMIT.
+    const rl = await sharedRateLimit("checkout-user", userId, CHECKOUT_LIMIT);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Trop de tentatives. Réessaie plus tard." },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
       );
     }
     const checkoutUrl = await createCheckoutSession(userId, session.user.email, body.returnTo, body.plan);

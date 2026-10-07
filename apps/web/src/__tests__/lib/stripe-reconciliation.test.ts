@@ -20,6 +20,12 @@ jest.mock("@/lib/billing/stripe-reconciliation", () => {
   return { ...actual, runStripeReconciliation: (...a: unknown[]) => runStripeReconciliationMock(...a) };
 });
 
+const recordAdminAlertMock = jest.fn().mockResolvedValue(true);
+jest.mock("@/lib/admin-alerts", () => ({
+  ...jest.requireActual("@/lib/admin-alerts"),
+  recordAdminAlert: (...a: unknown[]) => recordAdminAlertMock(...a),
+}));
+
 import { createSchedulerJobs } from "@/lib/scheduler/jobs";
 
 const actual = jest.requireActual("@/lib/billing/stripe-reconciliation") as typeof import("@/lib/billing/stripe-reconciliation");
@@ -37,6 +43,8 @@ function deps(opts: {
   rows: Array<{ userId: string; stripeSubscriptionId: string | null; status: string }>;
   premium: string[];
   events?: Array<{ id: string; type: string; created: number }>;
+  /** Factures ouvertes par abonnement (date de création en secondes). */
+  ouvertes?: Record<string, number[]>;
 }) {
   const record = jest.fn().mockResolvedValue(true);
   const eventsList = jest.fn().mockReturnValue(iterable(opts.events ?? []));
@@ -47,6 +55,11 @@ function deps(opts: {
       stripe: {
         subscriptions: { list: jest.fn().mockReturnValue(iterable(opts.subs)) },
         events: { list: eventsList },
+        invoices: {
+          list: jest.fn(async ({ subscription }: { subscription: string }) => ({
+            data: (opts.ouvertes?.[subscription] ?? []).map((created) => ({ created })),
+          })),
+        },
       } as never,
       db: {
         subscription: { findMany: jest.fn().mockResolvedValue(opts.rows.map((r) => ({ stripeCustomerId: null, ...r }))) },
@@ -104,6 +117,37 @@ describe("runStripeReconciliation", () => {
   });
 });
 
+describe("lot H, P1-2 : impayé qui dure", () => {
+  const S = Math.floor(NOW.getTime() / 1000);
+  const base = {
+    subs: [{ id: "sub_impaye", status: "past_due", customer: "cus_1" }],
+    rows: [{ userId: "u1", stripeSubscriptionId: "sub_impaye", status: "PAST_DUE" }],
+    premium: ["u1"],
+  };
+
+  it("past_due depuis plus de 21 jours (plus ancienne facture ouverte) : alerte A stripe-impaye-prolonge", async () => {
+    const d = deps({ ...base, ouvertes: { sub_impaye: [S - 5 * 86_400, S - 25 * 86_400] } });
+    const res = await actual.runStripeReconciliation(NOW, d.deps);
+    expect(res.impayesProlonges).toEqual(["sub_impaye (impayé depuis 25 jours, utilisateur u1)"]);
+    expect(d.record).toHaveBeenCalledWith(expect.objectContaining({ cle: "stripe-impaye-prolonge" }));
+    const { classerAlerte } = jest.requireActual("@/lib/admin-alerts") as typeof import("@/lib/admin-alerts");
+    expect(classerAlerte("stripe-impaye-prolonge").classe).toBe("A");
+  });
+
+  it("past_due depuis 10 jours : rien", async () => {
+    const d = deps({ ...base, ouvertes: { sub_impaye: [S - 10 * 86_400] } });
+    const res = await actual.runStripeReconciliation(NOW, d.deps);
+    expect(res.impayesProlonges).toEqual([]);
+    expect(d.record).not.toHaveBeenCalled();
+  });
+
+  it("aucune facture ouverte (payée entre-temps) : rien", async () => {
+    const d = deps({ ...base });
+    const res = await actual.runStripeReconciliation(NOW, d.deps);
+    expect(res.impayesProlonges).toEqual([]);
+  });
+});
+
 describe("runStripeReconciliationJob (planificateur)", () => {
   const { runStripeReconciliationJob } = createSchedulerJobs(jest.fn());
 
@@ -116,6 +160,7 @@ describe("runStripeReconciliationJob (planificateur)", () => {
       premiumSansAbonnement: [],
       doublons: [],
       evenementsNonLivres: [],
+      impayesProlonges: [],
     });
     process.env.STRIPE_SECRET_KEY = "sk_live_abcdefghijklmnop";
   });
@@ -143,6 +188,10 @@ describe("runStripeReconciliationJob (planificateur)", () => {
     const spy = jest.spyOn(console, "error").mockImplementation(() => {});
     await expect(runStripeReconciliationJob(NOW)).resolves.toBeUndefined();
     expect(releaseLock).toHaveBeenCalledWith("stripe-reconciliation:key");
+    // Lot H : l'échec lève une alerte A (plus un simple console.error).
+    expect(recordAdminAlertMock).toHaveBeenCalledWith(
+      expect.objectContaining({ cle: "stripe-reconciliation-echec", html: expect.stringContaining("stripe down") }),
+    );
     spy.mockRestore();
   });
 });

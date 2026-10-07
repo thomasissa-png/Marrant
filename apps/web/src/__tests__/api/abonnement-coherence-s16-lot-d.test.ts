@@ -90,12 +90,12 @@ describe("point 4 : profil et /api/stripe/status alignés", () => {
 });
 
 describe("point 5 : limite partagée au checkout", () => {
-  it("compteur partagé par utilisateur, 5 par heure", async () => {
+  it("compteur partagé par utilisateur, 20 par heure (lot H)", async () => {
     sharedRateLimit.mockResolvedValue({ allowed: true, remaining: 4, resetAt: 0 });
     createCheckoutSession.mockResolvedValue("https://checkout.stripe.com/s");
     const res = await checkout(new Request("http://localhost/api/stripe/checkout", { method: "POST" }));
     expect(res.status).toBe(200);
-    expect(sharedRateLimit).toHaveBeenCalledWith("checkout-user", "user-1", { maxRequests: 5, windowMs: 3600_000 });
+    expect(sharedRateLimit).toHaveBeenCalledWith("checkout-user", "user-1", { maxRequests: 20, windowMs: 3600_000 });
   });
 
   it("limite atteinte : 429 + Retry-After, aucune session Stripe", async () => {

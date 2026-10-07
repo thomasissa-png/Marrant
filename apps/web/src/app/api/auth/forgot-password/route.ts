@@ -7,6 +7,8 @@ import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import { TEXTES_API } from "@/config/textes/compte";
 
 const FORGOT_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
+/** Lot H : 3 e-mails par adresse cible et par heure, quelle que soit l'IP (clé hachée). */
+const FORGOT_EMAIL_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,6 +26,15 @@ export async function POST(request: NextRequest) {
 
     if (!email || typeof email !== "string") {
       return NextResponse.json({ error: TEXTES_API.emailRequis }, { status: 400 });
+    }
+
+    // Avant la recherche du compte : même réponse que le compte existe ou non.
+    const parEmail = await sharedRateLimit("forgot-email", email.toLowerCase().trim(), FORGOT_EMAIL_LIMIT);
+    if (!parEmail.allowed) {
+      return NextResponse.json(
+        { error: TEXTES_API.tropDeTentatives },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(parEmail)) } }
+      );
     }
 
     // Toujours répondre OK pour ne pas révéler si l'email existe

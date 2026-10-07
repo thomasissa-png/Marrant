@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 import { extractSubscriptionBilling, periodEndData, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
 import {
   activatePremium,
-  chargeInvoiceId,
   findDbSubscriptionForInvoice,
   invoiceSubscriptionId,
   resolveCheckoutUserId,
@@ -60,6 +59,42 @@ function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+/** Prisma P2025 : ligne à mettre à jour introuvable (ex. compte supprimé). */
+function estEnregistrementAbsent(err: unknown): boolean {
+  return (err as { code?: unknown })?.code === "P2025";
+}
+
+/**
+ * E-mail de confirmation : une seule fois par abonnement, même si l'événement
+ * est livré deux fois en parallèle ou retraité. Marqueur = ligne `WebhookEvent`
+ * à identifiant unique (aucune migration). Base indisponible : on envoie quand
+ * même (mieux vaut un doublon qu'aucune confirmation).
+ */
+async function reserverEmailConfirmation(subscriptionId: string): Promise<boolean> {
+  try {
+    await prisma.webhookEvent.create({
+      data: { eventId: `email-confirmation:${subscriptionId}`, provider: "interne", eventType: "email.confirmation-abonnement", receivedAt: new Date() },
+    });
+    return true;
+  } catch (err) {
+    if ((err as { code?: unknown })?.code === "P2002") return false;
+    console.warn("[Stripe] Marqueur d'e-mail de confirmation non enregistré :", messageDe(err));
+    return true;
+  }
+}
+
+/**
+ * Événement tardif qui voudrait remettre Premium sur un abonnement CANCELED en
+ * base (remboursement, suppression déjà traités) : l'état réel est relu chez
+ * Stripe. Un abonnement résilié ne revient jamais à `active` : no-op journalisé.
+ */
+async function reactivationConfirmee(dbStatus: string, subscriptionId: string | null): Promise<boolean> {
+  if (dbStatus !== "CANCELED") return true;
+  if (!subscriptionId) return false;
+  const live = await stripe.subscriptions.retrieve(subscriptionId);
+  return UPGRADE_STATUSES.includes(live.status);
+}
+
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
   if (session.mode && session.mode !== "subscription") return;
   const contexte = `Session ${session.id ?? "?"}, client ${stripeId(session.customer) ?? "?"}`;
@@ -91,10 +126,24 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   try {
     await activatePremium({ userId: resolved.userId, customerId: stripeId(session.customer), subscription });
   } catch (err) {
+    if (estEnregistrementAbsent(err)) {
+      // Compte supprimé entre le paiement et l'événement : rien n'est recréé.
+      console.warn(`[Stripe] Checkout ${session.id ?? "?"} pour l'utilisateur supprimé ${resolved.userId} : aucune activation`);
+      await recordAdminAlert({
+        cle: CLES_TUNNEL.activationEchec,
+        sujet: "Paiement reçu pour un compte supprimé (aucune activation)",
+        html: `<p>${esc(contexte)}, abonnement ${esc(subscriptionId)}, utilisateur ${esc(resolved.userId)} introuvable.</p><p>À faire : résilier et rembourser cet abonnement dans Stripe.</p>`,
+      });
+      return;
+    }
     throw echec(`Écriture en base impossible pour l'utilisateur ${resolved.userId} : ${messageDe(err)}`);
   }
   console.log(`[Stripe] User ${resolved.userId} upgraded to PREMIUM (via ${resolved.via})`);
 
+  if (!(await reserverEmailConfirmation(subscription.id))) {
+    console.log(`[Stripe] Confirmation déjà envoyée pour ${subscription.id}, pas de second e-mail`);
+    return;
+  }
   const billing = extractSubscriptionBilling(subscription);
   await notifySubscriptionConfirmed(resolved.userId, {
     interval: billing.billingInterval,
@@ -126,7 +175,14 @@ async function handleSubscriptionUpdated(
   previous: Partial<Record<string, unknown>> | undefined,
 ): Promise<void> {
   const sub = await prisma.subscription.findUnique({ where: { stripeSubscriptionId: subscription.id } });
-  if (!sub) return;
+  if (!sub) {
+    console.log(`[Stripe] subscription.updated ${subscription.id} : aucun abonnement en base (compte supprimé ou inconnu), ignoré`);
+    return;
+  }
+  if (UPGRADE_STATUSES.includes(subscription.status) && !(await reactivationConfirmee(sub.status, subscription.id))) {
+    console.log(`[Stripe] subscription.updated tardif pour ${subscription.id} (résilié), ignoré`);
+    return;
+  }
 
   const newStatus = STATUS_MAP[subscription.status] ?? "INACTIVE";
   const shouldDowngrade = DOWNGRADE_STATUSES.includes(subscription.status);
@@ -184,7 +240,14 @@ async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
 
 async function handlePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
   const sub = await findDbSubscriptionForInvoice(invoice);
-  if (!sub) return;
+  if (!sub) {
+    console.log(`[Stripe] invoice.payment_succeeded ${invoice.id ?? "?"} : aucun abonnement en base (compte supprimé ou inconnu), ignoré`);
+    return;
+  }
+  if (!(await reactivationConfirmee(sub.status, invoiceSubscriptionId(invoice) ?? sub.stripeSubscriptionId))) {
+    console.log(`[Stripe] invoice.payment_succeeded tardif pour l'abonnement résilié de ${sub.userId}, ignoré`);
+    return;
+  }
   const periodEnd = invoice.lines?.data?.[0]?.period?.end;
   await prisma.$transaction([
     prisma.subscription.update({
@@ -196,6 +259,70 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
   console.log(`[Stripe] Payment succeeded for user ${sub.userId}`);
 }
 
+/**
+ * Abonnement d'une charge remboursée (lot H, P1-1). L'endpoint reçoit ses
+ * événements en version clover, où la charge n'a plus de champ `invoice` :
+ * la charge est donc relue par le SDK (épinglé en acacia, qui porte encore
+ * `invoice`). Facture référencée mais illisible → erreur rejouable (500).
+ * Sans facture : repli UNIQUEMENT si le client n'a qu'un abonnement chez
+ * Stripe ; plusieurs → « ambigu » (alerte, aucune résiliation à l'aveugle).
+ */
+type AbonnementRembourse =
+  | { kind: "trouve"; subscriptionId: string | null; via: string }
+  | { kind: "hors-abonnement"; invoiceId: string }
+  | { kind: "ambigu"; candidats: string[] };
+
+async function abonnementRembourse(
+  charge: Stripe.Charge,
+  customerId: string,
+  dbSubscriptionId: string | null,
+): Promise<AbonnementRembourse> {
+  const rejouable = (detail: string) =>
+    new RetryableWebhookError(
+      CLES_TUNNEL.remboursementResiliation,
+      "Remboursement total : abonnement à résilier non identifié (Stripe va réessayer)",
+      `${detail}. Charge ${charge.id ?? "?"}, client ${customerId}. À faire si l'alerte se répète : résilier à la main dans Stripe l'abonnement remboursé.`,
+    );
+
+  let invoiceRef: unknown = (charge as unknown as { invoice?: unknown }).invoice ?? null;
+  if (!invoiceRef && charge.id) {
+    try {
+      const relue = await stripe.charges.retrieve(charge.id, { expand: ["invoice"] });
+      invoiceRef = (relue as unknown as { invoice?: unknown }).invoice ?? null;
+    } catch (err) {
+      throw rejouable(`Lecture de la charge impossible : ${messageDe(err)}`);
+    }
+  }
+
+  const invoiceId = stripeId(invoiceRef);
+  if (invoiceId) {
+    let invoice = typeof invoiceRef === "object" ? (invoiceRef as Stripe.Invoice) : null;
+    let subscriptionId = invoice ? invoiceSubscriptionId(invoice) : null;
+    if (!subscriptionId) {
+      try {
+        invoice = await stripe.invoices.retrieve(invoiceId);
+      } catch (err) {
+        throw rejouable(`Facture ${invoiceId} illisible : ${messageDe(err)}`);
+      }
+      subscriptionId = invoiceSubscriptionId(invoice);
+    }
+    return subscriptionId
+      ? { kind: "trouve", subscriptionId, via: `facture ${invoiceId}` }
+      : { kind: "hors-abonnement", invoiceId };
+  }
+
+  // Aucune facture : on ne devine l'abonnement que s'il n'y en a qu'un.
+  let candidats: string[];
+  try {
+    const list = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 10 });
+    candidats = list.data.map((s) => s.id);
+  } catch (err) {
+    throw rejouable(`Liste des abonnements du client illisible : ${messageDe(err)}`);
+  }
+  if (candidats.length > 1) return { kind: "ambigu", candidats };
+  return { kind: "trouve", subscriptionId: candidats[0] ?? dbSubscriptionId, via: "seul abonnement du client" };
+}
+
 async function handleChargeRefunded(charge: Stripe.Charge): Promise<void> {
   const customerId = stripeId(charge.customer);
   if (!customerId) return;
@@ -204,24 +331,27 @@ async function handleChargeRefunded(charge: Stripe.Charge): Promise<void> {
     return;
   }
 
-  // Abonnement remboursé : via la facture de la charge quand l'événement la
-  // porte (acacia), sinon l'abonnement connu en base pour ce client.
-  let subscriptionId: string | null = null;
-  const invoiceId = chargeInvoiceId(charge);
-  if (invoiceId) {
-    try {
-      subscriptionId = invoiceSubscriptionId(await stripe.invoices.retrieve(invoiceId));
-    } catch (err) {
-      console.warn(`[Stripe] Facture ${invoiceId} illisible, repli sur l'abonnement en base :`, messageDe(err));
-    }
-  }
   const dbSub = await prisma.subscription.findUnique({ where: { stripeCustomerId: customerId } });
-  subscriptionId = subscriptionId ?? dbSub?.stripeSubscriptionId ?? null;
+  const cible = await abonnementRembourse(charge, customerId, dbSub?.stripeSubscriptionId ?? null);
+  if (cible.kind === "hors-abonnement") {
+    console.log(`[Stripe] Full refund of invoice ${cible.invoiceId} (no subscription), no plan change`);
+    return;
+  }
+  if (cible.kind === "ambigu") {
+    await recordAdminAlert({
+      cle: CLES_TUNNEL.remboursementResiliation,
+      sujet: "Remboursement total : plusieurs abonnements pour ce client, aucun résilié automatiquement",
+      html: `<p>Charge ${esc(charge.id ?? "?")}, client ${esc(customerId)}, abonnements : ${esc(cible.candidats.join(", "))}.</p><p>À faire : dans Stripe, résilier l'abonnement remboursé, puis vérifier le compte (Premium ou non).</p>`,
+    });
+    console.warn(`[Stripe] Full refund for customer ${customerId} : ${cible.candidats.length} abonnements, résiliation laissée à l'admin`);
+    return;
+  }
+  const subscriptionId = cible.subscriptionId;
 
   if (subscriptionId) {
     try {
       const res = await cancelStripeSubscriptionNow(subscriptionId);
-      console.log(`[Stripe] Full refund, subscription ${subscriptionId} ${res}`);
+      console.log(`[Stripe] Full refund (${cible.via}), subscription ${subscriptionId} ${res}`);
     } catch (err) {
       throw new RetryableWebhookError(
         CLES_TUNNEL.remboursementResiliation,

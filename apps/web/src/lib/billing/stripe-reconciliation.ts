@@ -7,8 +7,12 @@
  *  2. compte Premium en base sans abonnement en cours chez Stripe (accès
  *     offert par erreur, ou abonnement résilié non répercuté) ;
  *  3. plusieurs abonnements en cours pour le même client (double prélèvement) ;
- *  4. événements Stripe non livrés au webhook sur les 3 derniers jours.
- * Résultat non nul → alerte A (`stripe-reconciliation`, `stripe-webhook-livraison`)
+ *  4. événements Stripe non livrés au webhook sur les 3 derniers jours ;
+ *  5. (lot H, P1-2) abonnement `past_due` depuis plus de 21 jours : le réglage
+ *     Stripe « résilier après la dernière relance » manque probablement, et
+ *     l'impayé garde Premium sans fin. Depuis = facture ouverte la plus ancienne.
+ * Résultat non nul → alerte A (`stripe-reconciliation`, `stripe-webhook-livraison`,
+ * `stripe-impaye-prolonge`, classe A par le préfixe `stripe-`)
  * dans le digest du matin. Aucune donnée personnelle dans l'alerte (identifiants seulement).
  */
 import type Stripe from "stripe";
@@ -16,6 +20,8 @@ import { CLES_TUNNEL, recordAdminAlert } from "@/lib/admin-alerts";
 
 const EN_COURS = ["active", "trialing", "past_due"];
 const LIVRAISON_JOURS = 3;
+export const IMPAYE_ALERTE_JOURS = 21;
+export const CLE_IMPAYE_PROLONGE = "stripe-impaye-prolonge";
 
 export interface ReconciliationDb {
   subscription: {
@@ -29,7 +35,7 @@ export interface ReconciliationDb {
 }
 
 export interface ReconciliationDeps {
-  stripe: Pick<Stripe, "subscriptions" | "events">;
+  stripe: Pick<Stripe, "subscriptions" | "events" | "invoices">;
   db: ReconciliationDb;
   record?: typeof recordAdminAlert;
 }
@@ -40,6 +46,7 @@ export interface ReconciliationResult {
   premiumSansAbonnement: string[];
   doublons: string[];
   evenementsNonLivres: string[];
+  impayesProlonges: string[];
 }
 
 export async function runStripeReconciliation(now: Date, deps: ReconciliationDeps): Promise<ReconciliationResult> {
@@ -87,6 +94,26 @@ export async function runStripeReconciliation(now: Date, deps: ReconciliationDep
     evenementsNonLivres.push(`${e.id} (${e.type}, ${new Date(e.created * 1000).toISOString().slice(0, 16)} UTC)`);
   }
 
+  const impayesProlonges: string[] = [];
+  const limite = Math.floor(now.getTime() / 1000) - IMPAYE_ALERTE_JOURS * 86_400;
+  for (const s of enCours.filter((x) => x.status === "past_due")) {
+    const ouvertes = await deps.stripe.invoices.list({ subscription: s.id, status: "open", limit: 100 });
+    const debut = Math.min(...ouvertes.data.map((i) => i.created));
+    if (Number.isFinite(debut) && debut <= limite) {
+      const jours = Math.floor((now.getTime() / 1000 - debut) / 86_400);
+      const userId = rowBySub.get(s.id)?.userId;
+      impayesProlonges.push(`${s.id} (impayé depuis ${jours} jours${userId ? `, utilisateur ${userId}` : ""})`);
+    }
+  }
+  if (impayesProlonges.length > 0) {
+    await record({
+      cle: CLE_IMPAYE_PROLONGE,
+      sujet: `${impayesProlonges.length} impayé(s) depuis plus de ${IMPAYE_ALERTE_JOURS} jours, Premium toujours actif`,
+      html: `<ul>${impayesProlonges.map((i) => `<li>${i}</li>`).join("")}</ul><p>À faire : Stripe, Paramètres, Facturation, Relances, « Si tous les nouveaux essais échouent » = résilier l'abonnement. Puis résilier à la main ces abonnements si besoin.</p>`,
+      now,
+    });
+  }
+
   const ecarts = payeSansPremium.length + premiumSansAbonnement.length + doublons.length;
   if (ecarts > 0) {
     const bloc = (titre: string, items: string[]) =>
@@ -113,5 +140,5 @@ export async function runStripeReconciliation(now: Date, deps: ReconciliationDep
     });
   }
 
-  return { stripeEnCours: enCours.length, payeSansPremium, premiumSansAbonnement, doublons, evenementsNonLivres };
+  return { stripeEnCours: enCours.length, payeSansPremium, premiumSansAbonnement, doublons, evenementsNonLivres, impayesProlonges };
 }

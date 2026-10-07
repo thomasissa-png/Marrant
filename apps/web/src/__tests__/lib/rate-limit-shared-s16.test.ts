@@ -6,6 +6,7 @@
  */
 const rows: Array<{ jobKey: string; expiresAt: Date }> = [];
 let failDb = false;
+let forcerConflit = 0;
 
 function matches(where: { jobKey: { startsWith: string }; expiresAt?: { gt?: Date; lt?: Date } }, r: { jobKey: string; expiresAt: Date }) {
   if (!r.jobKey.startsWith(where.jobKey.startsWith)) return false;
@@ -25,10 +26,27 @@ jest.mock("@/lib/prisma", () => ({
       findFirst: jest.fn(async ({ where }) =>
         rows.filter((r) => matches(where, r)).sort((a, b) => +a.expiresAt - +b.expiresAt)[0] ?? null,
       ),
-      create: jest.fn(async ({ data }) => {
-        rows.push({ jobKey: data.jobKey, expiresAt: data.expiresAt });
-      }),
     },
+    // Lot H : prise de créneau atomique (INSERT … ON CONFLICT). Valeurs de la
+    // requête dans l'ordre : max-1, préfixe, now, id, préfixe, now, expiresAt.
+    $queryRaw: jest.fn(async (sql: { values: unknown[] }) => {
+      if (forcerConflit > 0) {
+        forcerConflit--;
+        return [{ libres: 1, pris: 0 }];
+      }
+      const [maxMoins1, prefix, nowIso, , , , expIso] = sql.values as [number, string, string, string, string, string, string];
+      const now = new Date(nowIso);
+      const libres: number[] = [];
+      for (let n = 0; n <= maxMoins1; n++) {
+        if (!rows.some((r) => r.jobKey === `${prefix}${n}` && r.expiresAt > now)) libres.push(n);
+      }
+      if (libres.length === 0) return [{ libres: 0, pris: 0 }];
+      const jobKey = `${prefix}${libres[0]}`;
+      const i = rows.findIndex((r) => r.jobKey === jobKey);
+      if (i >= 0) rows.splice(i, 1);
+      rows.push({ jobKey, expiresAt: new Date(expIso) });
+      return [{ libres: libres.length, pris: 1 }];
+    }),
   },
 }));
 
@@ -39,6 +57,7 @@ const opts = { maxRequests: 3, windowMs: 60_000 };
 beforeEach(() => {
   rows.length = 0;
   failDb = false;
+  forcerConflit = 0;
 });
 
 describe("sharedRateLimit", () => {
@@ -62,6 +81,20 @@ describe("sharedRateLimit", () => {
     expect((await sharedRateLimit("login-ip", "a@b.fr", opts)).allowed).toBe(true);
     expect(rows.every((r) => !r.jobKey.includes("@"))).toBe(true);
     expect(rows[0].jobKey).toContain(hashRateLimitKey("a@b.fr"));
+  });
+
+  it("lot H : rafale simultanée, jamais plus que le plafond (créneaux uniques)", async () => {
+    const t = 3_000_000;
+    const res = await Promise.all(Array.from({ length: 20 }, () => sharedRateLimit("rafale", "k", opts, t)));
+    expect(res.filter((r) => r.allowed)).toHaveLength(3);
+    expect(new Set(rows.map((r) => r.jobKey)).size).toBe(3);
+  });
+
+  it("lot H : créneau disputé et perdu → nouvel essai, puis refus après 3 pertes", async () => {
+    forcerConflit = 1;
+    expect((await sharedRateLimit("dispute", "k", opts)).allowed).toBe(true);
+    forcerConflit = 3;
+    expect((await sharedRateLimit("dispute", "k2", opts)).allowed).toBe(false);
   });
 
   it("base indisponible : repli mémoire (pas de blocage global)", async () => {

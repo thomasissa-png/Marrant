@@ -31,7 +31,7 @@ beforeEach(() => {
 describe("portail Stripe", () => {
   it("compte FREE en impayé avec client Stripe : portail ouvert (aucune condition de plan)", async () => {
     prisma.subscription.findUnique.mockResolvedValue({ stripeCustomerId: "cus_1" });
-    const res = await portal();
+    const res = await portal(new Request("https://deviens-marrant.fr/api/stripe/portal", { method: "POST" }));
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ url: "https://billing.stripe.com/p/1" });
     expect(prisma.user.findUnique).not.toHaveBeenCalled();
@@ -39,7 +39,7 @@ describe("portail Stripe", () => {
 
   it("sans client Stripe : 404 avec un message humain", async () => {
     prisma.subscription.findUnique.mockResolvedValue(null);
-    const res = await portal();
+    const res = await portal(new Request("https://deviens-marrant.fr/api/stripe/portal", { method: "POST" }));
     expect(res.status).toBe(404);
     expect((await res.json()).error).toMatch(/contact@deviens-marrant\.fr/);
   });
@@ -48,7 +48,7 @@ describe("portail Stripe", () => {
     prisma.subscription.findUnique.mockResolvedValue({ stripeCustomerId: "cus_1" });
     createPortalSession.mockRejectedValue(new Error("down"));
     jest.spyOn(console, "error").mockImplementation(() => {});
-    const res = await portal();
+    const res = await portal(new Request("https://deviens-marrant.fr/api/stripe/portal", { method: "POST" }));
     expect(res.status).toBe(500);
     expect((await res.json()).error).not.toBe("Erreur serveur");
   });

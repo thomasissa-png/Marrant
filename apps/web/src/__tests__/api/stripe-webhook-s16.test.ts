@@ -13,12 +13,18 @@
 const constructEvent = jest.fn();
 const retrieveSubscription = jest.fn();
 const retrieveInvoice = jest.fn();
+const retrieveCharge = jest.fn();
+const listSubscriptions = jest.fn();
 const cancelStripeSubscriptionNow = jest.fn();
 jest.mock("@/lib/stripe", () => ({
   stripe: {
     webhooks: { constructEvent: (...a: unknown[]) => constructEvent(...a) },
-    subscriptions: { retrieve: (...a: unknown[]) => retrieveSubscription(...a) },
+    subscriptions: {
+      retrieve: (...a: unknown[]) => retrieveSubscription(...a),
+      list: (...a: unknown[]) => listSubscriptions(...a),
+    },
     invoices: { retrieve: (...a: unknown[]) => retrieveInvoice(...a) },
+    charges: { retrieve: (...a: unknown[]) => retrieveCharge(...a) },
   },
   cancelStripeSubscriptionNow: (...a: unknown[]) => cancelStripeSubscriptionNow(...a),
 }));
@@ -90,12 +96,15 @@ beforeEach(() => {
   prisma.user.findFirst.mockResolvedValue(null);
   cancelStripeSubscriptionNow.mockResolvedValue("canceled");
   retrieveSubscription.mockResolvedValue(stripeSub());
+  // Lot H : la charge relue en acacia porte sa facture (développée).
+  retrieveCharge.mockResolvedValue({ id: "ch_1", invoice: { id: "in_1", subscription: "sub_1" } });
+  listSubscriptions.mockResolvedValue({ data: [{ id: "sub_1" }] });
 });
 afterEach(() => jest.restoreAllMocks());
 
 describe("reco 2 : remboursement total", () => {
   it("résilie l'abonnement Stripe puis passe la base en CANCELED/FREE", async () => {
-    const res = await deliver("charge.refunded", { customer: "cus_1", refunded: true });
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
     expect(res.status).toBe(200);
     expect(cancelStripeSubscriptionNow).toHaveBeenCalledWith("sub_1");
     expect(prisma.subscription.update).toHaveBeenCalledWith({ where: { id: "db_sub_1" }, data: { status: "CANCELED" } });
@@ -105,14 +114,14 @@ describe("reco 2 : remboursement total", () => {
 
   it("abonnement déjà résilié à la main (procédure de Thomas) : aucune erreur, même résultat", async () => {
     cancelStripeSubscriptionNow.mockResolvedValue("already-canceled");
-    const res = await deliver("charge.refunded", { customer: "cus_1", refunded: true });
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
     expect(res.status).toBe(200);
     expect(prisma.user.update).toHaveBeenCalledWith({ where: { id: "user-1" }, data: { plan: "FREE" } });
   });
 
   it("résiliation Stripe en échec : 500, événement NON enregistré, alerte A", async () => {
     cancelStripeSubscriptionNow.mockRejectedValue(new Error("api down"));
-    const res = await deliver("charge.refunded", { customer: "cus_1", refunded: true });
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
     expect(res.status).toBe(500);
     expect(prisma.webhookEvent.create).not.toHaveBeenCalled();
     expect(alertKeys()).toContain("paiement-remboursement-resiliation");
@@ -291,5 +300,109 @@ describe("reco 8 : alertes du webhook", () => {
     expect(prisma.webhookEvent.create).not.toHaveBeenCalled();
     expect(alertKeys()).toEqual(["stripe-webhook-erreur"]);
     expect(errorSpy).toHaveBeenCalled();
+  });
+});
+
+describe("lot H, P1-1 : remboursement en version clover (charge sans facture)", () => {
+  const PREMIUM = { ...DB_SUB, stripeSubscriptionId: "sub_premium" };
+
+  it("doublon remboursé : seule la charge du doublon est résiliée, Premium conservé", async () => {
+    prisma.subscription.findUnique.mockResolvedValue(PREMIUM);
+    retrieveCharge.mockResolvedValue({ id: "ch_doublon", invoice: { id: "in_d", subscription: "sub_doublon" } });
+    listSubscriptions.mockResolvedValue({ data: [{ id: "sub_premium" }, { id: "sub_doublon" }] });
+    const res = await deliver("charge.refunded", { id: "ch_doublon", customer: "cus_1", refunded: true });
+    expect(res.status).toBe(200);
+    expect(retrieveCharge).toHaveBeenCalledWith("ch_doublon", { expand: ["invoice"] });
+    expect(cancelStripeSubscriptionNow).toHaveBeenCalledTimes(1);
+    expect(cancelStripeSubscriptionNow).toHaveBeenCalledWith("sub_doublon");
+    expect(prisma.user.update).not.toHaveBeenCalled();
+    expect(prisma.subscription.update).not.toHaveBeenCalled();
+  });
+
+  it("facture référencée mais illisible : 500, rien résilié, événement NON enregistré, alerte A", async () => {
+    retrieveCharge.mockResolvedValue({ id: "ch_1", invoice: "in_1" });
+    retrieveInvoice.mockRejectedValue(new Error("api down"));
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
+    expect(res.status).toBe(500);
+    expect(cancelStripeSubscriptionNow).not.toHaveBeenCalled();
+    expect(prisma.user.update).not.toHaveBeenCalled();
+    expect(prisma.webhookEvent.create).not.toHaveBeenCalled();
+    expect(alertKeys()).toContain("paiement-remboursement-resiliation");
+  });
+
+  it("charge illisible : 500 (rejeu), aucun repli sur l'abonnement en base", async () => {
+    retrieveCharge.mockRejectedValue(new Error("timeout"));
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
+    expect(res.status).toBe(500);
+    expect(cancelStripeSubscriptionNow).not.toHaveBeenCalled();
+  });
+
+  it("sans facture et un seul abonnement chez Stripe : repli sur celui-ci", async () => {
+    retrieveCharge.mockResolvedValue({ id: "ch_1", invoice: null });
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
+    expect(res.status).toBe(200);
+    expect(cancelStripeSubscriptionNow).toHaveBeenCalledWith("sub_1");
+    expect(prisma.user.update).toHaveBeenCalledWith({ where: { id: "user-1" }, data: { plan: "FREE" } });
+  });
+
+  it("sans facture et plusieurs abonnements : aucune résiliation, alerte, Premium conservé", async () => {
+    retrieveCharge.mockResolvedValue({ id: "ch_1", invoice: null });
+    listSubscriptions.mockResolvedValue({ data: [{ id: "sub_1" }, { id: "sub_2" }] });
+    const res = await deliver("charge.refunded", { id: "ch_1", customer: "cus_1", refunded: true });
+    expect(res.status).toBe(200);
+    expect(cancelStripeSubscriptionNow).not.toHaveBeenCalled();
+    expect(prisma.user.update).not.toHaveBeenCalled();
+    expect(alertKeys()).toContain("paiement-remboursement-resiliation");
+  });
+});
+
+describe("lot H, P2 : événements tardifs et e-mail unique", () => {
+  const session = { id: "cs_1", mode: "subscription", metadata: { userId: "user-1" }, subscription: "sub_1", customer: "cus_1" };
+
+  it("checkout pour un compte supprimé : rien recréé, 200, alerte A, pas d'e-mail", async () => {
+    prisma.$transaction.mockRejectedValueOnce(Object.assign(new Error("Record to update not found"), { code: "P2025" }));
+    const res = await deliver("checkout.session.completed", session);
+    expect(res.status).toBe(200);
+    expect(notifySubscriptionConfirmed).not.toHaveBeenCalled();
+    expect(alertKeys()).toContain("paiement-activation-echec");
+  });
+
+  it("e-mail de confirmation déjà parti pour cet abonnement : pas de second envoi", async () => {
+    prisma.webhookEvent.create.mockRejectedValueOnce(Object.assign(new Error("Unique constraint"), { code: "P2002" }));
+    const res = await deliver("checkout.session.completed", session);
+    expect(res.status).toBe(200);
+    expect(prisma.webhookEvent.create.mock.calls[0][0].data.eventId).toBe("email-confirmation:sub_1");
+    expect(notifySubscriptionConfirmed).not.toHaveBeenCalled();
+  });
+
+  it("invoice.payment_succeeded pour un client inconnu ou supprimé : no-op", async () => {
+    prisma.subscription.findUnique.mockResolvedValue(null);
+    const res = await deliver("invoice.payment_succeeded", { id: "in_9", customer: "cus_9", subscription: "sub_9" });
+    expect(res.status).toBe(200);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it("invoice.payment_succeeded tardif après remboursement (base CANCELED, Stripe canceled) : Premium NON remis", async () => {
+    prisma.subscription.findUnique.mockResolvedValue({ ...DB_SUB, status: "CANCELED" });
+    retrieveSubscription.mockResolvedValue(stripeSub({ status: "canceled" }));
+    const res = await deliver("invoice.payment_succeeded", { id: "in_1", customer: "cus_1", subscription: "sub_1" });
+    expect(res.status).toBe(200);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+    expect(prisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it("subscription.updated « active » tardif sur un abonnement résilié : ignoré", async () => {
+    prisma.subscription.findUnique.mockResolvedValue({ ...DB_SUB, status: "CANCELED" });
+    retrieveSubscription.mockResolvedValue(stripeSub({ status: "canceled" }));
+    const res = await deliver("customer.subscription.updated", stripeSub());
+    expect(res.status).toBe(200);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it("subscription.updated pour un compte supprimé : no-op", async () => {
+    prisma.subscription.findUnique.mockResolvedValue(null);
+    const res = await deliver("customer.subscription.updated", stripeSub());
+    expect(res.status).toBe(200);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
   });
 });

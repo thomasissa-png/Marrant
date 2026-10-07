@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import { ADMIN_EMAIL, trySendTransactionalTextEmail } from "@/lib/email";
 import { getClientIp, hashRateLimitKey, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { refuserSiAutreSite } from "@/lib/same-site";
 import {
   CONTACT_EMAIL,
   TEXTES_RETRACTATION_FORM,
@@ -49,6 +50,8 @@ function tooMany(retryAfter: number) {
 }
 
 export async function POST(request: Request) {
+  const refus = refuserSiAutreSite(request, "POST /api/retractation");
+  if (refus) return refus;
   let raw: unknown;
   try {
     raw = await request.json();

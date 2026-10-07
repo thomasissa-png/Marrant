@@ -665,7 +665,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           db: prisma as unknown as import("@/lib/billing/stripe-reconciliation").ReconciliationDb,
         });
         console.log(
-          `[scheduler:stripe-reconciliation] ${res.stripeEnCours} abonnement(s) en cours ; écarts : ${res.payeSansPremium.length} payé(s) sans Premium, ${res.premiumSansAbonnement.length} Premium sans abonnement, ${res.doublons.length} doublon(s) ; ${res.evenementsNonLivres.length} événement(s) non livré(s).`,
+          `[scheduler:stripe-reconciliation] ${res.stripeEnCours} abonnement(s) en cours ; écarts : ${res.payeSansPremium.length} payé(s) sans Premium, ${res.premiumSansAbonnement.length} Premium sans abonnement, ${res.doublons.length} doublon(s), ${res.impayesProlonges.length} impayé(s) prolongé(s) ; ${res.evenementsNonLivres.length} événement(s) non livré(s).`,
         );
       } catch (err) {
         await releaseLock(lockKey);
@@ -673,6 +673,14 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
       }
     } catch (err) {
       console.error("[scheduler:stripe-reconciliation] Échec :", err);
+      // Lot H : un échec n'est plus silencieux (une ligne par jour, occurrences incrémentées).
+      const { recordAdminAlert, CLES_TUNNEL } = await import("@/lib/admin-alerts");
+      await recordAdminAlert({
+        cle: `${CLES_TUNNEL.reconciliation}-echec`,
+        sujet: "Réconciliation Stripe en échec (nouvel essai au tick suivant, entre 4h et 5h UTC)",
+        html: `<p>${(err instanceof Error ? err.message : String(err)).replace(/</g, "&lt;").slice(0, 500)}</p><p>À vérifier si l'alerte persiste : clé Stripe, base, logs du Worker.</p>`,
+        now,
+      });
     }
   };
 

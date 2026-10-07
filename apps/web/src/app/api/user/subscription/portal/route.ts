@@ -5,6 +5,7 @@ import type Stripe from "stripe";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createPortalSession, getStripe } from "@/lib/stripe";
+import { refuserSiAutreSite } from "@/lib/same-site";
 import { TEXTES_ABONNEMENT, TEXTES_API } from "@/config/textes/compte";
 
 const bodySchema = z.object({ parcours: z.enum(["changer-formule", "resilier", "carte"]) });
@@ -27,6 +28,8 @@ function flowData(parcours: Parcours, subscription: string | null, returnUrl: st
  * résiliation déjà programmée…), repli sur le portail simple.
  */
 export async function POST(request: Request) {
+  const refus = refuserSiAutreSite(request, "POST /api/user/subscription/portal");
+  if (refus) return refus;
   const session = await getServerSession(authOptions);
   const userId = (session?.user as { id?: string } | undefined)?.id;
   if (!userId) {

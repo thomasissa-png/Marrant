@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { createPortalSession } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { TEXTES_PORTAIL } from "@/config/textes/paiement";
+import { refuserSiAutreSite } from "@/lib/same-site";
 
 /**
  * POST /api/stripe/portal : portail client Stripe (carte, formule, résiliation).
@@ -11,7 +12,9 @@ import { TEXTES_PORTAIL } from "@/config/textes/paiement";
  * le statut de l'abonnement (impayé PAST_DUE compris : c'est là qu'on change
  * de carte). Aucune condition sur `User.plan`.
  */
-export async function POST() {
+export async function POST(request: Request) {
+  const refus = refuserSiAutreSite(request, "POST /api/stripe/portal");
+  if (refus) return refus;
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user || !(session.user as { id?: string }).id) {

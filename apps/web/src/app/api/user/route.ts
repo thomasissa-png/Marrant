@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { deleteAccount, StripeCancelError } from "@/lib/account";
+import { refuserSiAutreSite } from "@/lib/same-site";
 import { MOT_CONFIRMATION_SUPPRESSION, TEXTES_API, TEXTES_SUPPRESSION } from "@/config/textes/compte";
 
 export async function GET() {
@@ -92,6 +93,8 @@ const SESSION_COOKIES = ["next-auth.session-token", "__Secure-next-auth.session-
  * Stripe est résilié d'abord ; si Stripe échoue, RIEN n'est supprimé.
  */
 export async function DELETE(request: Request) {
+  const refus = refuserSiAutreSite(request, "DELETE /api/user");
+  if (refus) return refus;
   const session = await getServerSession(authOptions);
   const userId = (session?.user as { id?: string } | undefined)?.id;
   if (!userId) {
