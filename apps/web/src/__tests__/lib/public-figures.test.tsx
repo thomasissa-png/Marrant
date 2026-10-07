@@ -85,7 +85,7 @@ describe("parcours : nombre et durées dérivés du seed", () => {
 
   it("aucune durée de parcours ni nombre de parcours en dur dans les textes publics", () => {
     for (const file of [
-      "app/(dashboard)/parcours/page.tsx",
+      "app/(dashboard)/parcours/(liste)/page.tsx",
       "app/(dashboard)/parcours/[slug]/page.tsx",
       "app/(dashboard)/page.tsx",
       "app/llms.txt/route.ts",

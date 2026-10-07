@@ -40,7 +40,7 @@ import { NextRequest } from "next/server";
 import { GET as getBySlug } from "@/app/api/parcours/by-slug/[slug]/route";
 import { GET as getList } from "@/app/api/parcours/route";
 import ParcoursDetailPage, { generateMetadata } from "@/app/(dashboard)/parcours/[slug]/page";
-import { metadata as hubMetadata } from "@/app/(dashboard)/parcours/page";
+import { metadata as hubMetadata } from "@/app/(dashboard)/parcours/(liste)/page";
 import { buildParcoursCourseJsonLd, buildParcoursItemListJsonLd, parcoursCourseId } from "@/lib/parcours-jsonld";
 import { jokeSeedTexts, resolveStepJokes } from "@/lib/parcours-vannes";
 import { withoutJokeTexts } from "@/lib/parcours-data";
@@ -188,10 +188,11 @@ describe("Page /parcours/[slug] (ISR) : D1, D8, SEO-02, SEO-04, SEO-11", () => {
     }
   });
 
-  it("parcours inconnu : une seule consigne robots, noindex", async () => {
+  it("parcours inconnu : aucune consigne robots dans la metadata (le noindex vient de notFound, une seule balise)", async () => {
     pathFindUnique.mockResolvedValue(null);
     const meta = await generateMetadata({ params: { slug: "slug-inexistant" } });
-    expect(meta.robots).toEqual({ index: false, follow: true });
+    expect(meta.robots).toBeNull();
+    expect(meta.title).toBe("Parcours introuvable");
   });
 
   it("hub /parcours : titre D8 « Cours d'humour en ligne » et aperçu de partage de la page", () => {

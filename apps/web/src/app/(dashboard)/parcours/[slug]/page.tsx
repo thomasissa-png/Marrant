@@ -103,8 +103,10 @@ export async function generateMetadata({
     })
     .catch(() => null);
 
-  // SEO-11 / QA-11 : parcours inconnu = 404 avec une seule consigne robots (noindex).
-  if (!path) return { title: "Parcours introuvable", robots: { index: false, follow: true } };
+  // SEO-11 / QA-11 : parcours inconnu = 404, seul notFound() pose la consigne (`noindex`
+  // de Next). `robots: null` n'émet aucune balise : il retire le « index, follow » du
+  // layout racine, sinon repris dans la head reconstruite au navigateur (payload RSC).
+  if (!path) return { title: "Parcours introuvable", robots: null };
 
   // Le template du layout ajoute déjà « | deviens-marrant.fr » : ne pas doubler la marque.
   return shareMetadata(params.slug, path.title, path.description);

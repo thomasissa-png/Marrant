@@ -1,7 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { PAGES_ETAT } from "@/config/textes/parcours";
 
-/** Chargement des pages parcours (FS-13 a) : squelette, annoncé une fois au lecteur d'écran. */
+/**
+ * Chargement de la LISTE /parcours (FS-13 a) : squelette, annoncé une fois au lecteur d'écran.
+ * Volontairement dans le groupe (liste) : placé dans parcours/, il enveloppait aussi
+ * [slug] dans un Suspense, la page détail streamait en 200 avant notFound() et un slug
+ * inconnu ne renvoyait plus 404 (régression s17, QA-11).
+ */
 export default function ParcoursLoading() {
   return (
     <div className="mx-auto max-w-3xl space-y-4" aria-busy="true">

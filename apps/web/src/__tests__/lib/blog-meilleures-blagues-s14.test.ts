@@ -6,7 +6,7 @@
  * zéro tiret cadratin.
  */
 import { createHash } from "crypto";
-import { existsSync } from "fs";
+import { existsSync, readdirSync } from "fs";
 import path from "path";
 import { getArticleBySlug } from "@/lib/blog-articles";
 import { renderMarkdown } from "@/components/ui/markdown-renderer";
@@ -46,7 +46,11 @@ function routeExists(href: string): boolean {
       else if (existsSync(path.join(dir, "[slug]"))) dir = path.join(dir, "[slug]");
       else return false;
     }
-    return existsSync(path.join(dir, "page.tsx"));
+    // Page directe, ou dans un groupe imbriqué (ex. parcours/(liste)/page.tsx).
+    return (
+      existsSync(path.join(dir, "page.tsx")) ||
+      readdirSync(dir).some((d) => d.startsWith("(") && existsSync(path.join(dir, d, "page.tsx")))
+    );
   });
 }
 

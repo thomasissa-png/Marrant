@@ -18,7 +18,7 @@ import { isPremiumPlan } from "@/lib/parcours-access";
 import Link from "next/link";
 import { totalParcoursXp } from "@/lib/parcours-xp";
 
-// Les données arrivent du Server Component (app/(dashboard)/parcours/page.tsx) :
+// Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
 
 // ==============================

@@ -1,12 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PAGES_ETAT } from "@/config/textes/parcours";
 
 /**
+ * Head de la 404 : Next 14 n'y lit pas generateMetadata de la page, seulement les
+ * layouts et cette metadata. `robots: null` retire le « index, follow » hérité du
+ * layout racine : il ne reste que le `noindex` posé par Next (une seule balise).
+ */
+export const metadata: Metadata = { title: "Parcours introuvable", robots: null };
+
+/**
  * Parcours inconnu (QA-11, SEO-11) : 404 rendue dans le layout du site (menu
- * et pied de page), avec le chemin vers les parcours. La consigne robots
- * `noindex` vient de generateMetadata (une seule, plus de « index, follow »).
+ * et pied de page), avec le chemin vers les parcours. Pas de loading.tsx au
+ * niveau de [slug] ni au-dessus : il ferait streamer la page en 200 avant
+ * notFound() (régression s17, voir parcours/(liste)/loading.tsx).
  */
 export default function ParcoursNotFound() {
   return (

@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 correctif P2 (07/10/2026) : `/parcours/<slug inconnu>` de nouveau en 404, une seule balise robots @fullstack, **NON DÉPLOYÉ, non commité**
+
+> Régression du lot B (200 + 2 balises robots en prod, `cca01a65`). `parcours/page.tsx` et `parcours/loading.tsx` déplacés dans le groupe `app/(dashboard)/parcours/(liste)/` : l'URL `/parcours` et son squelette ne changent pas, mais `[slug]` n'est plus dans une frontière Suspense, donc `notFound()` repasse avant l'envoi de la réponse. Slug inconnu : `robots: null` dans `generateMetadata` et dans `[slug]/not-found.tsx` (titre « Parcours introuvable »), si bien que seul reste le `noindex` de Next (le `index, follow` du layout racine n'est plus hérité). Test de non-régression : `src/__tests__/feature/parcours-404-status.test.ts`. **Aucune migration, aucune variable d'environnement.** Mesuré en local, sans base ni secret : `next start` et worker OpenNext (`wrangler dev --local`) donnent 404, 1 balise robots (`noindex`) sur `/parcours/slug-inexistant` (2 appels), 200 sur `/parcours` et les 3 parcours. tsc, ESLint, Jest complet (3 806 PASS) et `npm run build` verts. Après déploiement : `curl -s -o /dev/null -w "%{http_code}" https://deviens-marrant.fr/parcours/slug-inexistant` doit renvoyer `404`.
+
 ## s17 tour 4 de la notation visuelle (07/10/2026) : dernières finitions @fullstack, **DÉPLOYÉ le 07/10/2026 à 21:58 (Paris), version `cca01a65`** (N-1 `712ee919`), avec le lot s17 ci-dessous
 
 > Notes finales : @design 9,8/10, @ux 9,9/10 (GO, aucun bloquant ; Thomas : « Finissons et déployons »). Repositionnement de l'étape visée par une ancre après le chargement Premium, survol de l'en-tête d'étape et de l'interrupteur du rappel. **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 799 PASS) et `npm run build` verts en local.

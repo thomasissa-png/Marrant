@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ParcoursPage from "@/app/(dashboard)/parcours/page";
+import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 jest.mock("@/components/ui/progress-bar", () => ({

@@ -291,8 +291,11 @@ describe("liens des e-mails : absolus et vers des pages qui existent", () => {
   it("chaque lien https://deviens-marrant.fr/... correspond à une page de src/app", () => {
     const app = join(__dirname, "../../app");
     const groupes = readdirSync(app).filter((d) => d.startsWith("("));
-    const existe = (chemin: string) =>
-      [app, ...groupes.map((g) => join(app, g))].some((base) => existsSync(join(base, chemin, "page.tsx")));
+    // Page directe, ou dans un groupe imbriqué (ex. parcours/(liste)/page.tsx).
+    const pageDans = (dir: string) =>
+      existsSync(join(dir, "page.tsx")) ||
+      (existsSync(dir) && readdirSync(dir).some((d) => d.startsWith("(") && existsSync(join(dir, d, "page.tsx"))));
+    const existe = (chemin: string) => [app, ...groupes.map((g) => join(app, g))].some((base) => pageDans(join(base, chemin)));
     const textes = [
       emailConfirmationAbonnement({ prenom: null, interval: "year", montantCents: 2499, dateSouscription: SOUSCRIT, prochainRenouvellement: null }).text,
       emailPaiementRefuse({ prenom: null, montantCents: 299, datePrevue: SOUSCRIT }).text,
