@@ -90,7 +90,7 @@ test.describe("Murs Premium @smoke", () => {
       await carte.focus();
       await page.keyboard.press("Enter");
       await expect(page.getByRole("dialog")).toBeVisible();
-      await expect(page.getByRole("dialog")).toContainText(/TTC · remboursé sous 14 jours · résiliable en ligne/);
+      await expect(page.getByRole("dialog")).toContainText(/2,99\s€ TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux\./);
     });
   }
 
