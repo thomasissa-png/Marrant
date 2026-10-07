@@ -130,4 +130,61 @@ Format : **Problème / Effet pour l'utilisateur / Ce qu'on fait**, puis le déta
 - **Ce qu'on fait** : rien d'urgent. Les garder tant qu'aucune décision n'est prise. Aucune progression n'y est rattachée.
 - **Détail technique** : `LearningPath.isActive=false` ×4. `generateMetadata` interroge la base sans filtre `isActive` (`parcours/[slug]/page.tsx:129-134`), sans conséquence puisque la page renvoie ensuite 404.
 
-[SUITE EN COURS]
+### Ce qui fonctionne (vérifié, à ne pas casser)
+
+- **Accès** : l'étape 1 est lisible par tous et les étapes 2 et suivantes ne quittent pas le serveur pour un non-abonné. Vérifié dans le HTML de prod de `/parcours/confiance` : textes et quiz des étapes 2 à 6 absents, 5 étapes marquées `locked`, seules les 2 vidéos de l'étape 1 présentes. Le plan est lu en base, pas dans le jeton. `/api/parcours` renvoie 401 sans session. La valeur Premium affichée sur `/parcours` (programme : titre, détail, format de chaque étape) est publique par choix.
+- **Cache** : `/parcours` et les 3 parcours sont servis depuis le cache (`x-nextjs-cache: HIT`, revalidation horaire). Ils sont construits à partir de la base et non du seed de secours (aucun id `seed-` dans le HTML). Slug inconnu ou inactif : 404 non mis en cache.
+- **Intégrité des données** : 0 doublon d'étape, 0 parcours « terminé » avec des étapes manquantes, 0 étape validée dans le désordre, 0 progression sur un parcours inactif.
+- **Fin de parcours** : la carte « Bravo » et l'enchaînement Machine à Café → Répartie → Confiance → Machine à Café sont codés et testés.
+
+## 4. Chiffres clés de la base (07/10/2026, lecture seule)
+
+| Mesure | Valeur |
+|---|---|
+| Parcours en base | 7, dont **3 actifs** (machine-a-cafe, repartie, confiance) et 4 inactifs (mars 2026) |
+| Étapes des parcours actifs | 3 / 4 / 6 = **13**, identiques au seed (titre du conseil, jour, ordre) ; titres, durées, difficultés et descriptions identiques au seed |
+| Conseils des étapes | 13/13 actifs, relus le 30/09 ; texte en base différent de `conseils-seed.json` (11/11 comparables), 2 absents du fichier |
+| Vidéos des étapes | 22 distinctes, 22/22 en base et actives, 22/22 en ligne sur YouTube ; 1 mal décrite (FS-03) |
+| Vannes des étapes | 62 numéros distincts dans le seed, 3 introuvables (82, 85, 180), aucune affichée (FS-04) |
+| Comptes | 14 : **2 PREMIUM** (2 abonnements actifs, 1 résilié), 12 FREE ; 5 actifs ces 30 derniers jours, 5 créés ces 30 derniers jours |
+| Comptes ayant une progression | **1** (plan FREE), créé après avril, sans adresse de test évidente |
+| Progressions (lignes) | **1** : « Confiance », étape 1 validée |
+| Étapes validées par numéro | confiance étape 1 : 1 ; toutes les autres : 0 |
+| Parcours terminés | **0** |
+| Première / dernière activité | 24/09/2026 18:54 UTC (la seule) ; aucune depuis le passage de la validation en Premium (05/10) |
+| Abonnés Premium ayant une progression | **0** sur 2 |
+| XP | PREMIUM : 2 comptes avec XP, total 170, max 120 ; FREE : 2 avec XP, total 60, max 50 |
+| Niveaux | 13 NOVICE, 1 APPRENTI |
+| Streak | max **1** jour (14 comptes) |
+| Umami 90 jours | pages vues `/parcours` 30, machine-a-cafe 16, repartie 14, confiance 11 (2 627 vues sur tout le site, top 500 des pages) ; 0 `parcours-etape`, 0 `mur-vu`, 0 `onboarding-termine` |
+| Umami 30 jours | `/parcours` 16, machine-a-cafe 10, repartie 7, confiance 6 |
+
+## 5. Vérifié / Non vérifié (G_PROOF)
+
+**Vérifié (constaté)**
+- Lecture du code au commit `79b11f3` : schéma, 4 routes API, 2 pages, 3 composants, 5 `lib/parcours-*`, `startup-tasks.ts`, `seed-data.ts`, `auth.ts` (streak), `api/user/xp`, 5 fichiers de tests.
+- Base Neon de prod : 19 requêtes SELECT dans des transactions `readOnly` (`@neondatabase/serverless` HTTP, installé dans le scratchpad), plus `pg_enum`. Agrégats uniquement.
+- Prod : GET sur `/parcours`, `/parcours/{3 slugs}`, `/parcours/inexistant`, `/parcours/bases-humour` (codes, en-têtes de cache, contenu du HTML), poids JS compressé (176 et 196 Ko).
+- YouTube oEmbed des 22 vidéos (titre et chaîne réels).
+- API Umami (GET, lecture seule) : pages vues et événements sur 30 et 90 jours.
+
+**Non vérifié (déduit ou impossible)**
+- **Tests non exécutés** : `node_modules` n'est pas installé dans le worktree, et l'installer aurait modifié l'environnement du repo. Leur couverture est lue dans le code : 6 tests API progression, 5 tests aperçu Premium, environ 60 tests d'écran. Ne sont pas couverts : validation concurrente, désordre côté API, recalcul du niveau, mur de l'étape 2 sans progression préalable (le test simule un état qui n'existe plus), message « Parcours terminé » d'une étape intermédiaire, échec silencieux du chargement abonné.
+- **Core Web Vitals** non mesurés : quota PageSpeed Insights épuisé, pas de Lighthouse local. Voir le rapport @qa.
+- Scénarios FS-02, FS-08 et FS-09 : déduits du code, non reproduits en prod (cela demanderait un compte Premium et des écritures).
+- Sujet exact des vidéos Jamel Comedy Club aux titres génériques ; durées vidéo (lues en base, pas sur YouTube).
+- Part du trafic Umami venant de Thomas ou des tests (pas de filtre visible). Les 4 `abonnement-clic` et 1 `abonnement-reussi` sur 90 jours correspondent probablement à l'achat test du 07/10 [HYPOTHÈSE : non vérifié].
+- Origine des XP des 2 abonnés : aucune progression de parcours, donc probablement la lecture de conseils (+10 XP chacune) [HYPOTHÈSE : non vérifié].
+
+## 6. Handoff
+
+---
+**Handoff → @orchestrator**
+- **Fichiers produits** : `/home/user/Marrant/docs/marrant/audit-parcours-apprentissage-s17/fullstack.md` ; agrégats bruts pour @data-analyst : `/tmp/claude-0/-home-user-Marrant/bd072092-6ee5-586f-8f47-6fd05fa5f334/scratchpad/parcours-data.json`.
+- **Décisions prises** : aucune (audit seul, zéro modification de code, de contenu ou de base, zéro commit).
+- **À trancher par Thomas (sans jargon)** : FS-01. Faut-il que les visiteurs puissent ouvrir l'aperçu des étapes 2 et suivantes, ce qui revient à abandonner l'ordre imposé pour eux ? Recommandation : oui. Cela ne change rien à ce qui est gratuit (la règle du 05/10 est respectée : aucune fonction ouverte ni retirée, on montre seulement l'aperçu déjà prévu).
+- **Ordre conseillé** : FS-01 + FS-06 ensemble (sinon rien n'est mesuré), puis FS-02, FS-03, FS-05, FS-07 (rapides), puis FS-04 et FS-12 (moyens), puis le reste.
+- **Points d'attention pour @qa** : rejouer FS-02 et FS-09 avec un compte Premium de test (environnement de test prévu en s17) ; ajouter un test « visiteur sans progression : l'étape 2 montre l'aperçu ».
+- **Actions infra requises** : aucune pour l'audit. Pour FS-07 : `prisma generate` après l'ajout des 2 valeurs d'enum (aucune migration, elles existent déjà en base).
+- **Pre-commit check** : sans objet (aucun code modifié).
+---
