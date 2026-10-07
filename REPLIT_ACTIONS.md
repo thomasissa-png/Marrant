@@ -1,5 +1,16 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (07/10/2026) : pilotage quotidien, script de lot seulement (aucun déploiement nécessaire)
+
+- **Alertes lues (07:57)** : 8 alertes de classe B, aucun e-mail envoyé. Ce sont les files basses X, Instagram et LinkedIn (dernier post prévu le 08 ou le 09/10) et le rappel de lancement du lot 1a. Toutes sont attendues : le lot 1a (12 au 18/10) est inséré au plus tard le 09/10. Aucune action de Thomas.
+- **`prepare-social-month.ts`** (`adc2048`) :
+  - un relais Instagram porte `[article:<slug>]`, lu par la garde déjà en ligne : IG2 du 12/10 et relais IG du 26/10 ; un relais IG sans article devient une erreur bloquante ;
+  - `--insert` régénère le lot de la même commande et refuse un JSON différent (l'ancien `lot-relance-s15.json` de 140 posts est refusé).
+- **Relais X du 12/10** (`fa67cfe`) : V053 (9 / 8, sous la barre) est remplacée par la ligne de l'article notée au niveau, avec un nouveau renvoi. X3 du 21/10 passe de 283 à 264 caractères ; la formule signée par Thomas reste intacte.
+- **Contrôles** : tsc, lint et build OK ; Jest 3 261 PASS.
+- **Dry-run 1a** : 0 erreur, 12 posts (X 5, IG 5, LinkedIn 2), aucune vanne de la semaine 0 (`docs/social/preparation/lot-1a-dry-run-07-10.md`). Insertion le 09/10 : commande sans `--out` ni `--json`, relecture, puis la même commande avec `--insert --driver=neon-http`.
+- **14 vannes hors lot** : 0 au niveau (`resultat-hors-lot-07-10.md`). Stock recompté au 12/10 : 23 libres, 25 avec P0 (`recoupements-07-10.md`).
+
 ## s15 (06/10/2026) : DÉPLOYÉ, Worker `59948a54-5cb6-498d-a90f-156da93d6513` (N-1 `34562fa8-bb76-487d-b01f-baf949da543e`, avant `1fda1ab3-12b1-4d8e-8564-cd92dabcd782`)
 
 - **Bug signalé par Thomas** : la carte X du relais Halloween (05/10) affichait « Article introuvable ». Cause : `blog/[slug]/opengraph-image.tsx` ne cherchait que les articles statiques ; tous les articles EN BASE (dont les relais du lundi et du jeudi) avaient cette image. Correctif : même résolution que la page (`findBlogArticle`), `revalidate` 3600, libellé lisible de la catégorie, repli « Le blog humour et répartie ». Test `blog-og-image-db.test.tsx`. Jest 3 256 PASS ; tsc, lint OK.
