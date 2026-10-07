@@ -21,8 +21,11 @@ export const LOGIN_LIMITS = {
 /**
  * Vérification e-mail + mot de passe. Retourne l'utilisateur, `null` pour des
  * identifiants incorrects (code NextAuth `CredentialsSignin`), ou lève une
- * erreur dont le message est un code lu par /login (trop d'essais, compte
- * Google sans mot de passe, erreur serveur). Aucun e-mail dans les logs (s16).
+ * erreur dont le message est un code lu par /login (trop d'essais, erreur
+ * serveur). Aucun e-mail dans les logs (s16).
+ * Compte créé avec Google (sans mot de passe) : `null`, exactement comme des
+ * identifiants faux (s16 lot F, choix de Thomas) : ni l'API ni Umami ne
+ * révèlent qu'un compte existe pour cette adresse.
  */
 export async function authorizeCredentials(credentials: CredentialsInput, headers: HeadersInput) {
   if (!credentials?.email || !credentials?.password) {
@@ -49,7 +52,7 @@ export async function authorizeCredentials(credentials: CredentialsInput, header
   if (!user) return null;
   if (!user.passwordHash) {
     console.warn(`[Auth][authorize] Compte sans mot de passe (Google) : ${user.id}`);
-    throw new Error(LOGIN_ERROR_CODES.compteGoogle);
+    return null;
   }
 
   let isValid: boolean;

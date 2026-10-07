@@ -172,7 +172,7 @@ function inlineMarkdown(text: string): string {
   // Links: [text](url)
   result = result.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" class="text-accent-link hover:underline">$1</a>'
+    '<a href="$2" class="text-accent-link underline underline-offset-2">$1</a>'
   );
   return keepCompoundsTogether(result);
 }

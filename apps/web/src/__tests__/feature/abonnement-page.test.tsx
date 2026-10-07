@@ -31,6 +31,11 @@ function registerParams(text: string): URLSearchParams {
   return new URL(href, "https://deviens-marrant.fr").searchParams;
 }
 
+/** Appels au paiement seuls : /abonnement lit aussi /api/stripe/status au montage (lot F s16). */
+function checkoutCalls(mock: jest.Mock) {
+  return mock.mock.calls.filter(([url]) => url === "/api/stripe/checkout");
+}
+
 describe("AbonnementPage (s12 T45)", () => {
   it("visiteur : un seul bloc Premium, plus de bloc « Compte gratuit » (s15)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
@@ -96,13 +101,13 @@ describe("AbonnementPage (s12 T45)", () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
       const { unmount } = render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
+      expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
       unmount();
 
       window.history.pushState({}, "", "/abonnement?returnTo=https%3A%2F%2Fevil.example");
       render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({});
+      expect(JSON.parse(checkoutCalls(fetchMock)[1][1].body)).toEqual({});
     });
   });
 });
@@ -138,7 +143,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({});
+      expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
   });
 
@@ -168,14 +173,14 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(text).not.toMatch(/4 mois/);
       expect(text).not.toContain("—");
       await userEvent.click(screen.getByText("Active mon accès · 24,99 €/an"));
-      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ plan: "annual" });
+      expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ plan: "annual" });
     });
 
     it("mensuel choisi : corps historique, sans plan", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({});
+      expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
 
     it("anonyme : le choix annuel survit à l'inscription (callback plan=annual + returnTo)", async () => {

@@ -234,7 +234,7 @@ export default async function ConseilPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link hover:underline">
+          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link underline underline-offset-2">
             &larr; Tous les conseils {categoryLabel.toLowerCase()}
           </Link>
         </nav>

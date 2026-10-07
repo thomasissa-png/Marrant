@@ -18,7 +18,6 @@ export const TEXTES_API = {
 /** Codes d'erreur renvoyés par `authorize` (NextAuth) puis lus par /login. */
 export const LOGIN_ERROR_CODES = {
   tropDEssais: "TropDEssais",
-  compteGoogle: "CompteGoogleSansMotDePasse",
   serveur: "ErreurServeurConnexion",
   identifiants: "CredentialsSignin",
 } as const;

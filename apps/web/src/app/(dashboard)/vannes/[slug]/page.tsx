@@ -253,7 +253,7 @@ export default async function VannePage({
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link
                 href="/anatomie-vanne"
-                className="font-medium text-accent-link hover:underline"
+                className="font-medium text-accent-link underline underline-offset-2"
               >
                 L&apos;anatomie d&apos;une vanne
               </Link>
@@ -269,7 +269,7 @@ export default async function VannePage({
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
             Les variantes et le parcours complet sont dans les{" "}
-            <Link href="/parcours" className="text-accent-link hover:underline">
+            <Link href="/parcours" className="text-accent-link underline underline-offset-2">
               parcours Premium
             </Link>
             .
@@ -309,7 +309,7 @@ export default async function VannePage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link hover:underline">
+          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link underline underline-offset-2">
             &larr; Toutes les vannes {categoryLabel.toLowerCase()}
           </Link>
         </nav>

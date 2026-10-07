@@ -41,7 +41,7 @@ test.describe("Accessibilité axe-core @smoke", () => {
 
   test("/abonnement/success visiteur : 0 violation WCAG A/AA @s16", async ({ page }) => {
     await page.goto("/abonnement/success?session_id=cs_test_e2e_inexistant");
-    await expect(page.getByRole("heading", { name: "Connecte-toi pour activer ton accès" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Connecte-toi pour retrouver ton abonnement" })).toBeVisible();
     expect(await auditAxe(page)).toEqual([]);
   });
 

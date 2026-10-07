@@ -35,8 +35,6 @@ describe("/login : échecs de connexion e-mail", () => {
   it.each([
     [LOGIN_ERROR_CODES.identifiants, TEXTES_CONNEXION.identifiants, "identifiants"],
     [LOGIN_ERROR_CODES.tropDEssais, TEXTES_CONNEXION.tropDEssais, "trop-d-essais"],
-    // Étalon 4 b validé : même message générique que des identifiants faux (aucune fuite).
-    [LOGIN_ERROR_CODES.compteGoogle, TEXTES_CONNEXION.identifiants, "compte-google"],
     [LOGIN_ERROR_CODES.serveur, TEXTES_CONNEXION.serveur, "serveur"],
   ])("%s : message dédié + connexion-echec", async (code, message, motif) => {
     mockSignIn.mockResolvedValue({ error: code });
@@ -55,19 +53,16 @@ describe("/login : échecs de connexion e-mail", () => {
     expect(screen.getByLabelText("Mot de passe")).toHaveValue("");
   });
 
-  it("compte Google : écran identique à des identifiants faux (étalon 4 b, ne révèle pas le compte)", async () => {
-    const ecran = async (code: string) => {
-      mockSignIn.mockResolvedValue({ error: code });
-      const { unmount } = render(<LoginPage />);
-      await tenterConnexion();
-      await waitFor(() => expect(screen.getByLabelText("Mot de passe")).toHaveFocus());
-      const texte = screen.getByRole("alert").textContent;
-      unmount();
-      return texte;
-    };
-    const google = await ecran(LOGIN_ERROR_CODES.compteGoogle);
-    const faux = await ecran(LOGIN_ERROR_CODES.identifiants);
-    expect(google).toBe(faux);
+  it("compte Google : authorize renvoie CredentialsSignin, donc écran et motif Umami génériques (lot F)", async () => {
+    // authorize (lib/auth.ts) renvoie null pour un compte sans mot de passe : NextAuth
+    // répond CredentialsSignin, comme pour des identifiants faux (authorize-s16.test.ts).
+    mockSignIn.mockResolvedValue({ error: LOGIN_ERROR_CODES.identifiants });
+    render(<LoginPage />);
+    await tenterConnexion();
+    await waitFor(() => expect(screen.getByLabelText("Mot de passe")).toHaveFocus());
+    const google = screen.getByRole("alert").textContent;
+    expect(mockTrack).toHaveBeenCalledWith("connexion-echec", { methode: "email", motif: "identifiants" });
+    expect(mockTrack).not.toHaveBeenCalledWith("connexion-echec", expect.objectContaining({ motif: "compte-google" }));
     expect(google).toBe(
       "E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe." +
         "Si tu as créé ton compte avec Google, clique sur « Continuer avec Google ».",

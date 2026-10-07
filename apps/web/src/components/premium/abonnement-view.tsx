@@ -31,6 +31,8 @@ import {
 import { OFFRE_NOM, PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
+import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
+import { useResiliationProgrammee } from "@/hooks/use-resiliation-programmee";
 
 /**
  * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
@@ -128,6 +130,8 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   });
 
   const isAuthenticated = status === "authenticated";
+  // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
+  const resiliation = useResiliationProgrammee(status);
   const pageBadge = "Plus qu'une étape";
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
@@ -192,7 +196,7 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
 
       <div className="text-center">
         {/* Badge affiché uniquement pour un utilisateur connecté */}
-        {isAuthenticated && (
+        {isAuthenticated && !resiliation && (
           <Badge variant="primary" className="mb-4">
             {pageBadge}
           </Badge>
@@ -231,7 +235,9 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
 
           <PremiumBenefits className="mt-6 space-y-3" />
 
-          {isAuthenticated ? (
+          {isAuthenticated && resiliation ? (
+            <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-8" />
+          ) : isAuthenticated ? (
             <Button
               variant="primary"
               size="lg"

@@ -7,12 +7,13 @@ import { test, expect, lireUrl, BASE_URL, emailInexistant } from "../support/fix
  */
 
 test.describe("Connexion et erreurs @smoke", () => {
-  test("identifiants inexistants → « Email ou mot de passe incorrect. », callbackUrl conservé", async ({ page }) => {
+  // Hors @s16 : le texte change au déploiement s16 (étalon 4 c), la regex accepte l'ancien et le nouveau.
+  test("identifiants inexistants → « E-mail ou mot de passe incorrect. », callbackUrl conservé", async ({ page }) => {
     await page.goto("/login?callbackUrl=%2Fparcours");
     await page.getByLabel(/e-?mail/i).fill(emailInexistant());
     await page.locator("#password").fill("PasUnVraiMotDePasse-42");
     await page.getByRole("button", { name: "Se connecter" }).click();
-    const erreur = page.getByRole("alert").filter({ hasText: "Email ou mot de passe incorrect." });
+    const erreur = page.getByRole("alert").filter({ hasText: /E-?mail ou mot de passe incorrect\./ });
     await expect(erreur).toBeVisible();
     await expect(page).toHaveURL(/\/login\?callbackUrl=%2Fparcours/);
   });
@@ -23,7 +24,10 @@ test.describe("Connexion et erreurs @smoke", () => {
     await page.getByLabel(/e-?mail/i).fill(email);
     await page.locator("#password").fill("PasUnVraiMotDePasse-42");
     await page.getByRole("button", { name: "Se connecter" }).click();
-    await expect(page.getByRole("alert").filter({ hasText: "incorrect" })).toBeVisible();
+    // Étalon 4 c validé (lot E), mot pour mot, suivi de l'aide « compte Google » (étalon 4 b).
+    const alerte = page.getByRole("alert").filter({ hasText: "incorrect" });
+    await expect(alerte).toContainText("E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe.");
+    await expect(alerte).toContainText("Si tu as créé ton compte avec Google, clique sur « Continuer avec Google ».");
     await expect(page.getByLabel(/e-?mail/i)).toHaveValue(email);
     await expect(page.locator("#password")).toBeFocused();
   });
@@ -98,12 +102,12 @@ test.describe("callbackUrl hostiles rejetés @smoke", () => {
 });
 
 test.describe("Retour de paiement en visiteur @smoke", () => {
-  test("/abonnement/success sans session → « Se connecter » rapide, jamais « Paiement reçu » @s16", async ({ page }) => {
+  test("/abonnement/success sans session → « Me connecter » rapide (étalon 5a.2), jamais « Paiement reçu » @s16", async ({ page }) => {
     const debut = Date.now();
     await page.goto("/abonnement/success?session_id=cs_test_e2e_inexistant");
-    await expect(page.getByRole("heading", { name: "Connecte-toi pour activer ton accès" })).toBeVisible({ timeout: 8_000 });
+    await expect(page.getByRole("heading", { name: "Connecte-toi pour retrouver ton abonnement" })).toBeVisible({ timeout: 8_000 });
     expect(Date.now() - debut, "délai avant le bouton de connexion").toBeLessThan(8_000);
-    const bouton = page.getByRole("main").getByRole("link", { name: "Se connecter" });
+    const bouton = page.getByRole("main").getByRole("link", { name: "Me connecter" });
     const url = lireUrl(await bouton.getAttribute("href"));
     expect(url.pathname).toBe("/login");
     expect(url.searchParams.get("callbackUrl")).toBe("/abonnement/success?session_id=cs_test_e2e_inexistant");

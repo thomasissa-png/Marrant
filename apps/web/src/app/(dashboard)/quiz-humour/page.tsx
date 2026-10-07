@@ -101,7 +101,7 @@ export default function QuizHumourPage() {
               au bon moment.
             </p>
             <p className="mt-3 text-text-secondary">
-              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link hover:underline">techniques
+              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link underline underline-offset-2">techniques
               travailler en priorité</a> pour progresser plus vite. Un Storyteller et un
               Punchlineur ne s&apos;entraînent pas de la même façon, un peu comme un marathonien
               et un sprinteur qui partageraient le même vestiaire.
@@ -115,16 +115,16 @@ export default function QuizHumourPage() {
             <p className="mt-3 text-text-secondary">
               Pas à te coller une étiquette sur le front, plutôt à te donner un <strong>point de
               départ</strong> pour progresser. Que tu veuilles{" "}
-              <a href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">devenir plus drôle</a>,{" "}
-              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">avoir de la répartie</a> ou
-              juste <a href="/vannes" className="text-accent-link hover:underline">avoir des vannes d&apos;avance</a> pour la machine à café, ton
+              <a href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">devenir plus drôle</a>,{" "}
+              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">avoir de la répartie</a> ou
+              juste <a href="/vannes" className="text-accent-link underline underline-offset-2">avoir des vannes d&apos;avance</a> pour la machine à café, ton
               profil t&apos;indique par quoi commencer.
             </p>
             <p className="mt-3 text-text-secondary">
               Et le jour où tu veux aller plus loin, nos{" "}
-              <a href="/parcours" className="text-accent-link hover:underline">parcours structurés</a>{" "}
+              <a href="/parcours" className="text-accent-link underline underline-offset-2">parcours structurés</a>{" "}
               et nos{" "}
-              <a href="/videos" className="text-accent-link hover:underline">analyses de vidéos stand-up</a>{" "}
+              <a href="/videos" className="text-accent-link underline underline-offset-2">analyses de vidéos stand-up</a>{" "}
               prennent le relais, une semaine à la fois.
             </p>
           </div>

@@ -25,11 +25,9 @@ const PAGES_PARCOURS = [
 
 test.describe("Pages des parcours @smoke", () => {
   for (const chemin of PAGES_PARCOURS) {
-    test(`${chemin} répond 200 avec un H1 unique et sans texte cassé`, async ({ page }) => {
-      // BUG (signalé @fullstack, 07/10/2026) : la branche « lien cassé » de
-      // reset-password/page.tsx n'a pas de H1. test.fail() : passera au rouge une
-      // fois corrigé, retirer alors cette ligne.
-      test.fail(chemin === "/reset-password", "BUG : /reset-password sans jeton n'a pas de H1");
+    // H1 de /reset-password sans jeton ajouté en s16 (lot F) : tagué @s16.
+    const tag = chemin === "/reset-password" ? " @s16" : "";
+    test(`${chemin} répond 200 avec un H1 unique et sans texte cassé${tag}`, async ({ page }) => {
       const reponse = await page.goto(chemin);
       expect(reponse?.status(), `statut HTTP de ${chemin}`).toBe(200);
       await expect(page.locator("h1")).toHaveCount(1);

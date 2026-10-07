@@ -9,7 +9,9 @@ async function choisirAnnuel(page: Page) {
   await expect(page.getByRole("radio", { name: "Annuel" })).toBeChecked();
 }
 
-const REASSURANCE = /Prix TTC · remboursé sous 14 jours · résiliable en ligne/;
+// Étalon 1.1 validé (lot E). Espace insécable avant « € » depuis s16 : `\s` accepte les deux.
+const REASSURANCE = /2,99\s€ TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux\./;
+const REASSURANCE_ANNUEL = /24,99\s€ TTC par an, remboursé sous 14 jours, résiliable en ligne quand tu veux\./;
 
 test.describe("Offre /abonnement @smoke", () => {
   test("CTA mensuel « Commencer à 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement", async ({ page }) => {
@@ -40,7 +42,7 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    await expect(page.getByText(/24,99 €\/an/).first()).toBeVisible();
+    await expect(page.getByText(/24,99\s€\/an/).first()).toBeVisible();
   });
 
   test("?plan=annual préselectionne l'annuel", async ({ page }) => {
@@ -48,12 +50,12 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByRole("radio", { name: "Annuel" })).toBeChecked();
   });
 
-  test("ligne « Prix TTC · remboursé sous 14 jours · résiliable en ligne » sous le CTA @s16", async ({ page }) => {
+  test("ligne « 2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux. » sous le CTA @s16", async ({ page }) => {
     await page.goto("/abonnement");
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
     await choisirAnnuel(page);
-    await expect(page.getByTestId("reassurance-paiement")).toBeVisible();
-    await expect(page.getByText(/plus de 3 mois offerts, 10,89 € économisés par an/)).toBeVisible();
+    await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE_ANNUEL);
+    await expect(page.getByText(/plus de 3 mois offerts, 10,89\s€ économisés par an/)).toBeVisible();
   });
 
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
@@ -64,10 +66,11 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(cgu).toHaveAttribute("href", "/cgu");
   });
 
-  test("retour Stripe annulé ?paiement=annule → « Paiement annulé, rien n'a été débité. » @s16", async ({ page }) => {
+  test("retour Stripe annulé ?paiement=annule → « Paiement annulé, rien n'a été prélevé. » (étalon 5b.2) @s16", async ({ page }) => {
     await page.goto("/abonnement?paiement=annule&upgrade=cancel");
-    const bandeau = page.getByRole("status").filter({ hasText: "Paiement annulé, rien n'a été débité." });
+    const bandeau = page.getByRole("status").filter({ hasText: "Paiement annulé, rien n'a été prélevé." });
     await expect(bandeau).toBeVisible();
+    await expect(bandeau).toContainText("Tu peux réessayer quand tu veux.");
     // Le retour annulé ne relance jamais le paiement : on reste sur la page.
     await page.waitForTimeout(1500);
     await expect(page).toHaveURL(/\/abonnement\?paiement=annule/);

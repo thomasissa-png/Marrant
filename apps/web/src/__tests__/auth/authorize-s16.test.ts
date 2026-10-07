@@ -67,9 +67,11 @@ describe("authorizeCredentials", () => {
     expect(findUnique).not.toHaveBeenCalled();
   });
 
-  it("compte Google sans mot de passe : code dédié", async () => {
+  it("compte Google sans mot de passe : null, comme des identifiants faux (lot F, aucune fuite)", async () => {
     findUnique.mockResolvedValue({ id: "u2", passwordHash: null });
-    await expect(authorizeCredentials(creds, headers)).rejects.toThrow(LOGIN_ERROR_CODES.compteGoogle);
+    await expect(authorizeCredentials(creds, headers)).resolves.toBeNull();
+    expect(verify).not.toHaveBeenCalled();
+    expect(Object.values(LOGIN_ERROR_CODES)).not.toContain("CompteGoogleSansMotDePasse");
   });
 
   it("erreur base : code serveur (pas « identifiants incorrects »)", async () => {

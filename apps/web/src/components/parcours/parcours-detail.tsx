@@ -252,7 +252,7 @@ function JokeTeaser({ jokeIds }: { jokeIds: number[] }) {
         {jokeIds.length} vannes sélectionnées pour ce module.{" "}
         <Link
           href="/vannes"
-          className="text-accent-link hover:underline"
+          className="text-accent-link underline underline-offset-2"
         >
           Découvre-les dans le catalogue
         </Link>
@@ -445,7 +445,7 @@ export function ParcoursDetail({
             {fetchError
               ? "Ce parcours ne veut pas se charger pour l'instant. Réessaie un peu plus tard."
               : "Ce parcours n'existe pas, ou plus."}{" "}
-            <Link href="/parcours" className="text-accent-link hover:underline">
+            <Link href="/parcours" className="text-accent-link underline underline-offset-2">
               Voir tous les parcours
             </Link>
           </p>
@@ -857,7 +857,7 @@ export function ParcoursDetail({
             Tu y prends goût ?{" "}
             <Link
               href={`/parcours/${path.nextParcours}`}
-              className="text-accent-link hover:underline"
+              className="text-accent-link underline underline-offset-2"
             >
               Jette un œil au parcours suivant
             </Link>

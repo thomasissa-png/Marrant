@@ -151,11 +151,18 @@ export function DailyContent() {
 
   return (
     <section className="py-12 md:py-16">
-      <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
+      <h2 id="contenu-du-jour-titre" className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9) */}
-      <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
+      {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9).
+          Zone défilante focusable et nommée (axe scrollable-region-focusable) : sans contenu
+          du jour (/api/daily en échec), aucune carte n'a d'élément focusable. */}
+      <div
+        role="region"
+        aria-labelledby="contenu-du-jour-titre"
+        tabIndex={0}
+        className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+      >
         {/* Vanne du jour */}
         <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
@@ -208,7 +215,7 @@ export function DailyContent() {
                       Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
-                        className="font-medium text-accent-link hover:underline"
+                        className="font-medium text-accent-link underline underline-offset-2"
                       >
                         L&apos;anatomie d&apos;une vanne
                       </Link>

@@ -101,7 +101,7 @@ describe("frenchQuotes (guillemets au rendu)", () => {
 
   it("produit des attributs HTML intacts dans le rendu", () => {
     const html = renderMarkdown('Un [lien "cité"](/parcours) et "une vanne".');
-    expect(html).toContain('<a href="/parcours" class="text-accent-link hover:underline">');
+    expect(html).toContain('<a href="/parcours" class="text-accent-link underline underline-offset-2">');
     expect(html).toContain(`lien «${NBSP}cité${NBSP}»`);
     expect(html).toContain(`«${NBSP}une vanne${NBSP}»`);
   });

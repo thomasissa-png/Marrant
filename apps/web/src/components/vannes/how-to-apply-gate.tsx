@@ -35,7 +35,7 @@ export function HowToApplyGate({ howToApply }: { howToApply: string }) {
       <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
       <p className="mt-1 text-sm text-text-secondary">
         L&apos;exercice (consigne + exemple à réutiliser) fait partie de Premium.{" "}
-        <Link href={buildAbonnementUrl(pathname, "monthly", "exercice-vanne")} className="font-medium text-accent-link hover:underline">
+        <Link href={buildAbonnementUrl(pathname, "monthly", "exercice-vanne")} className="font-medium text-accent-link underline underline-offset-2">
           Voir Premium
         </Link>
       </p>

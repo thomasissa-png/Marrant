@@ -135,10 +135,10 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
             Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
-            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link hover:underline">tu deviens drôle</Link> : pas en regardant, en faisant.
+            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">tu deviens drôle</Link> : pas en regardant, en faisant.
           </p>
           <p>
-            Tu veux comprendre comment <strong className="text-text-primary">les pros de la scène</strong> maîtrisent leurs silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
+            Tu veux comprendre comment <strong className="text-text-primary">les pros de la scène</strong> maîtrisent leurs silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link underline underline-offset-2">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
           </p>
         </div>
       </section>

@@ -76,7 +76,7 @@ export function ParcoursList() {
     return (
       <Card>
         <CardContent className="py-12 text-center">
-          <p className="text-text-secondary">Les parcours s&apos;échauffent encore en coulisses. <a href="/parcours" className="text-accent-link hover:underline">Recharge la page</a> dans un instant.</p>
+          <p className="text-text-secondary">Les parcours s&apos;échauffent encore en coulisses. <a href="/parcours" className="text-accent-link underline underline-offset-2">Recharge la page</a> dans un instant.</p>
         </CardContent>
       </Card>
     );

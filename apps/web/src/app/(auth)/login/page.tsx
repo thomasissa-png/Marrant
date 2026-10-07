@@ -41,16 +41,15 @@ interface ErreurConnexion {
 
 /**
  * s16 reco 16 : erreur de connexion e-mail → message, motif Umami, champ à refocaliser.
- * Lot E (étalon 4, validé) : un compte créé avec Google affiche EXACTEMENT le même
- * écran que des identifiants faux (message générique + aide Google, focus sur le
- * mot de passe) : l'écran ne révèle pas qu'un compte existe pour cette adresse.
+ * Étalon 4 (validé) : un compte créé avec Google affiche EXACTEMENT le même écran
+ * que des identifiants faux (message générique + aide Google, focus sur le mot de
+ * passe). Depuis le lot F, `authorize` renvoie le même code (`CredentialsSignin`)
+ * et Umami le même motif : rien ne révèle qu'un compte existe pour cette adresse.
  */
 function erreurConnexion(code: string): ErreurConnexion {
   switch (code) {
     case LOGIN_ERROR_CODES.tropDEssais:
       return { message: TEXTES_CONNEXION.tropDEssais, motif: "trop-d-essais", focus: "password", aideGoogle: false };
-    case LOGIN_ERROR_CODES.compteGoogle:
-      return { message: TEXTES_CONNEXION.identifiants, motif: "compte-google", focus: "password", aideGoogle: true };
     case LOGIN_ERROR_CODES.serveur:
       return { message: TEXTES_CONNEXION.serveur, motif: "serveur", focus: "password", aideGoogle: false };
     default:
@@ -265,7 +264,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
             )}
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/forgot-password" className="text-accent-link hover:underline">
+            <Link href="/forgot-password" className="text-accent-link underline underline-offset-2">
               Mot de passe oublié ?
             </Link>
           </div>

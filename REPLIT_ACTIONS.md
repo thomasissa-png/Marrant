@@ -11,6 +11,9 @@
 > - **Procédure** : depuis l'arbre principal **propre** (jamais un worktree), `cd apps/web && npx tsc --noEmit -p tsconfig.build.json && npm run lint && npm run build`, puis `npm run build:cf && npm run deploy:cf`. Journaliser ici le commit, l'ID de version du Worker et l'ID N-1.
 > - **Après déploiement** : `/api/health` en 200 (bloc `critical` vert), `/abonnement`, `/profil`, `/login`, `/register`, `/retractation`, `/confidentialite`, `/cgu` en 200 ; une vidéo se lance depuis `www.youtube-nocookie.com` (CSP `frame-src` réduite à ce domaine) ; achat mensuel réel par Thomas puis remboursement (reco 1).
 > - **Retour arrière** : `npx wrangler rollback` (version N-1). La migration 12 n'ajoute qu'une table : elle peut rester en place.
+> - **Lots E (textes validés) et F (corrections finales)** dans le même déploiement : aucune variable, aucune migration en plus (rapports `impl-lot-e.md`, `impl-lot-f.md`).
+> - **Tests de bout en bout** (`impl-qa-e2e.md`) : nouveau workflow GitHub `.github/workflows/e2e-parcours.yml` (manuel + chaque jour 05:30 UTC ; workflows existants intacts). **Variable de dépôt** GitHub `E2E_EXCLURE_S16=true` à poser tant que s16 n'est pas en ligne ; **la retirer** après le déploiement et un smoke vert contre la prod. Job achat (manuel) : `vars.E2E_ACHAT_BASE_URL` (préprod, jamais la prod) + secret `STRIPE_TEST_SECRET_KEY` (`sk_test_…`, D7).
+> - **Scripts** : `npm run test:e2e:smoke` (lecture seule, prod possible : `E2E_BASE_URL=https://deviens-marrant.fr`), `npm run test:e2e:achat` (préprod + `sk_test` uniquement, sinon ignoré), depuis la racine ou `apps/web`. À lancer après le déploiement : `cd apps/web && E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke` (tout vert attendu, @s16 compris).
 
 ## s15 (07/10/2026, 10:09 Paris) : IndexNow, nouvel essai
 

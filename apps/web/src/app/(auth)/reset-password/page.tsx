@@ -69,6 +69,7 @@ function ResetPasswordContent() {
       <main className="flex min-h-screen items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="py-8 text-center">
+            <h1 className="mb-3 font-display text-lg font-bold text-text-primary">Nouveau mot de passe</h1>
             <p className="text-text-secondary">Ce lien est cassé ou incomplet. Pas de panique, on t&apos;en renvoie un.</p>
             <Link href="/forgot-password" className="mt-4 inline-block text-accent-link hover:underline text-sm">
               Demander un nouveau lien

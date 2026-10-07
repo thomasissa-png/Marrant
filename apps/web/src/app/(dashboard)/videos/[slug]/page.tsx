@@ -255,7 +255,7 @@ export default async function VideoPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-link hover:underline">
+          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-link underline underline-offset-2">
             &larr; Toutes les vidéos {categoryLabel.toLowerCase()}
           </Link>
         </nav>

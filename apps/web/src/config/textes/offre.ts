@@ -89,3 +89,14 @@ export const VALIDATION_ETAPE = {
 // PROVISOIRE s16, étalon à valider
 /** Nom accessible des cartes verrouillées des listes (lecteur d'écran, D4). */
 export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l'offre`;
+
+// PROVISOIRE s16 (lot F), hors étalons, étalon à valider
+/**
+ * /abonnement pour un abonné dont la résiliation est programmée (lien de l'e-mail
+ * de résiliation) : pas de nouveau paiement, renvoi vers le profil (réactivation).
+ * `date` : « 12 novembre 2026 » ; `null` si la fin n'est pas connue. Lien : `TEXTES_CHECKOUT.lienProfil`.
+ */
+export const RESILIATION_PROGRAMMEE = {
+  texte: (date: string | null) =>
+    `${date ? `Ton Premium court jusqu'au ${date}.` : "Ton Premium court jusqu'à la fin de la période déjà payée."} Pour le garder, réactive-le depuis ton profil.`,
+} as const;
