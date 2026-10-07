@@ -52,7 +52,7 @@ export const LEGENDES_IG: Record<string, string> = {
   "repas-de-famille-questions-genantes-humour#8": "À envoyer à ton conseiller bancaire.",
   "toast-drole-discours-qui-fait-rire#3": "À envoyer à celui qui fera le toast.",
   cs14jk626438b67f197925d2: "À envoyer à ton petit frère.",
-  cmmnsqn130033th63b54ux45o: "À envoyer à celui qui vient d'emménager.", // V028, réservée au carrousel du 21/10
+  cmmnsqn130033th63b54ux45o: "À envoyer à celui qui vient d'emménager.", // V028 : le 21/10 (post fixe IG-21-10) a sa propre légende
   cmnz37u510010s60xj40i8lqu: "À envoyer à ceux qui se disputent pour dîner.",
   "humour-en-visio-reunion-en-ligne#3": "À envoyer à celui qui se connecte en avance.",
   // complements-lot-s15.md §1 (carrousels, colonne « Vanne (JOKE) » du 1er tableau)
@@ -61,8 +61,11 @@ export const LEGENDES_IG: Record<string, string> = {
   cs14jkbdb9858fdd496e962a: "À envoyer à ton voisin de table.",
   cs14jk577fa779cb48fa9b55: "À envoyer à qui ment un peu à son médecin.", // V060, réservée au carrousel du 09/12
   cmp9fpyd4006ys60xwsegez9e: "À envoyer à qui part en festival cette année.",
-  // corrections-cycle7-copy.md §2 (V083, fuite sous l'évier)
-  cs14jka3336e7e90a453a9d6: "À envoyer à celui qui répare tout, bientôt.",
+  // Lot 1a, relu à l'aveugle le 07/10 (aveugle-legendes-1a-resultat.md, tours 1 et 2)
+  cs14jke10b58d158ae638560: "À envoyer à qui a ton chargeur depuis la fac.", // repli IG du 12/10, G08 (9 / 9)
+  cs14jka3336e7e90a453a9d6: "À envoyer à qui devait monter ton étagère avant l'été.", // V083, IG du 13/10, H03 (9 / 8,5)
+  cs14jk9a9e7a1b8e0e16264e: "À envoyer à ton oncle, qui demande si c'est un vrai travail.", // IG du 15/10, H01 (9 / 8,5)
+  cmmnsqn120000th63o435xsb0: "À envoyer à ta mère, qui t'avait dit de surveiller le four.", // IG du 16/10, H11 (8,5 / 9)
 };
 
 /** Plafond R3 (`corrections-cycle6-copy.md` §3) : 80 caractères, relais renvoi compris. */

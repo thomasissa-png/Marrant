@@ -10,7 +10,7 @@ import { checkPost, nombreDePhrases, premierePersonne, type PreparedPlatform } f
 import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./social-article-lines";
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
-import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
@@ -351,7 +351,10 @@ export function buildLotV5(input: LotInput): LotResult {
     const t = textePost(pf, v, null, suffixe || null, null);
     return checkPost({ platform: pf, text: t, quoted: "", r6: true }).length === 0 && (pf !== "LINKEDIN" || t.split("\n")[0].length <= 140);
   };
+  /** Cases de relais devenues vanne simple (CASES_VANNE) : tirées après le lot, avant les replis, rang d'origine gardé. */
+  const differees: Array<{ date: string; pf: PreparedPlatform; note: string; rang: number }> = [];
   construire();
+  construireDifferees();
   construireReplis();
   const variantes = alternerVariantes(posts, input.notes);
   // Bras image : threadParts = [amorce, chute], 1 carte servie par /api/social/image (slide 0).
@@ -381,9 +384,24 @@ export function buildLotV5(input: LotInput): LotResult {
     }
   }
 
+  /**
+   * Vanne simple du pool sur une case de relais abandonnée (CASES_VANNE) : mêmes règles que tout tirage
+   * (pool, exclusions, anti-répétition, R6), sans renvoi ni lien. Tirée après tous les posts du lot, à la place
+   * du repli qu'aurait eu le relais : elle ne prend aucune vanne aux autres posts, et les replis qui suivent
+   * restent ceux du plan d'origine.
+   */
+  function construireDifferees(): void {
+    for (const d of [...differees].reverse()) {
+      const avant = posts.length;
+      construireVanne(d.date, d.pf, "VANNE", d.note);
+      if (posts.length > avant) posts.splice(d.rang, 0, posts.pop()!);
+    }
+  }
+
   function construire(): void {
     const parCase = new Map(FIXES.map((f) => [`${f.date}|${f.platform}`, f]));
     const forces = new Map(RELAIS_FORCES.map((r) => [`${r.date}|${r.platform}`, r]));
+    const casesVanne = new Map(CASES_VANNE.map((c) => [`${c.date}|${c.platform}`, c]));
     const relaisLiParSemaine = new Map<string, number>();
     for (let date = debut; date <= fin; date = addDays(date, 1)) {
       for (const pf of PLATEFORMES) {
@@ -397,6 +415,8 @@ export function buildLotV5(input: LotInput): LotResult {
         if (f) { construireFixe(f); continue; }
         const r = forces.get(`${date}|${pf}`);
         if (r) { construireRelais(date, pf, articleParSlug.get(r.slug), r.utmContent, "PIVOT", r.note); continue; }
+        const cv = casesVanne.get(`${date}|${pf}`);
+        if (cv) { differees.push({ date, pf, note: cv.note, rang: posts.length }); continue; }
         construireCase(date, pf, typeCase, relaisLiParSemaine);
       }
     }

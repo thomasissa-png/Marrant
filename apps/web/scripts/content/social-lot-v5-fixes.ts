@@ -53,10 +53,6 @@ export interface RelaisForce {
 const SE_PRESENTER = "/blog/se-presenter-avec-humour";
 
 export const FIXES: Fixe[] = [
-  { cle: "relais-x-12-10", date: "2026-10-12", platform: "TWITTER", type: "RELAIS", origine: "V5",
-    vanne: { articleTexte: { slug: "se-presenter-avec-humour", texte: "Le tour de table commence à gauche et tu comptes les places : tu es sixième. Tu avais une phrase géniale. Le quatrième vient de la dire." } },
-    renvoi: "La méthode pour trouver ta phrase, et 5 exemples avant/après :",
-    lien: { chemin: SE_PRESENTER, content: "lundi" }, note: "v5 §3 S1 : ligne de l'article notée au niveau (07/10, `recoupements-07-10.md` §7), remplace V053 (9 / 8)." },
   { cle: "IG2", date: "2026-10-12", platform: "INSTAGRAM", type: "RELAIS", origine: "VALIDE",
     vanne: { jokeId: "cs14jk8f28ff20e1cf82f3a8" }, article: "se-presenter-avec-humour",
     legende: "À envoyer à qui a un tour de table demain. Les 4 autres exemples : lien en bio." },
@@ -79,6 +75,9 @@ export const FIXES: Fixe[] = [
     // Cycle 8 : renvoi = FORMULES.quizCourt (aveugle-textes-neufs-cycle8-resultat.md), « Humour d'Observateur. » retiré.
     renvoi: FORMULES.quizCourt,
     lien: { chemin: "/quiz-humour", content: "quiz" } },
+  { cle: "IG-21-10", date: "2026-10-21", platform: "INSTAGRAM", type: "VANNE", origine: "V5", vanne: { jokeId: "cmmnsqn130033th63b54ux45o" },
+    legende: "À envoyer à qui a déjà décroché un « pas mal » et l'a gardé précieusement.",
+    note: "Carte vanne simple sur V028 (cartes 1 et 2, pas de carrousel) : cartes 3 et 4 sous la barre au cycle 8. Légende R07 (8,5 / 8,5), aveugle-remplacements-cycle8-resultat.md." },
   { cle: "X2", date: "2026-10-22", platform: "TWITTER", type: "RELAIS", origine: "VALIDE", vanne: { jokeId: "cs14jk0e4fedaac1a91fddf1" },
     renvoi: "Les 21 messages de l'article sont prêts à copier :",
     lien: { chemin: "/blog/message-anniversaire-drole-par-situation", content: "jeudi" } },
@@ -102,7 +101,8 @@ export const FIXES: Fixe[] = [
     vanne: { article: { slug: "blagues-halloween-soiree-deguisee", rang: 3 } }, renvoi: "Les 7 autres sont prêtes à copier :",
     lien: { chemin: "/blog/blagues-halloween-soiree-deguisee", content: "saison" }, note: "v5 §3 S3 : pivot Halloween, ligne n°3." },
   { cle: "halloween-ig", date: "2026-10-30", platform: "INSTAGRAM", type: "VANNE", origine: "V5", vanne: { jokeId: "cs14jk1bc86d3502a2cef27b" },
-    legende: "À envoyer à qui a un date pour Halloween." },
+    // Légende R01 (8,5 / 8,5), aveugle-remplacements-cycle8-resultat.md ; remplace « qui a un date pour Halloween » (6,5 / 6,5).
+    legende: "À envoyer à celui qui planifie le costume avant le deuxième rendez-vous." },
   { cle: "toast-x", date: "2026-11-30", platform: "TWITTER", type: "RELAIS", origine: "V5",
     vanne: { articleTexte: { slug: "toast-drole-discours-qui-fait-rire", texte: "J'ai tapé sur mon verre pour demander le silence. Quelqu'un a demandé « c'est pour un mariage ? ». J'ai dit non. Il y a eu de la déception." } },
     note: "v5 §3 S8 : vanne neuve de l'article validée à l'aveugle (« c'est pour un mariage ? »)." },
@@ -116,6 +116,15 @@ export const FIXES: Fixe[] = [
     note: "Motif « pain » : seul du lot (fenêtre de 30 jours)." },
 ];
 
+/**
+ * Cases de relais devenues vanne simple : vanne du pool tirée par le script (mêmes règles que tout
+ * tirage : pool, exclusions, anti-répétition, R6), sans renvoi ni lien, à l'heure de la grille.
+ */
+export const CASES_VANNE: Array<{ date: string; platform: PreparedPlatform; note: string }> = [
+  { date: "2026-10-12", platform: "TWITTER",
+    note: "Relais X du 12/10 abandonné : aucune version avec renvoi au niveau à l'aveugle (aveugle-remplacements-cycle8-resultat.md, si_echec) ; vanne du pool strict sans renvoi (repli du mix, v5 l.31). L'article est relayé par IG2 et L3." },
+];
+
 export const RELAIS_FORCES: RelaisForce[] = [
   { date: "2026-12-31", platform: "TWITTER", slug: "voeux-drole-nouvelle-annee", utmContent: "saison", note: "v5 §3 S12 : relais vœux, pivot saisonnier." },
   { date: "2026-12-31", platform: "LINKEDIN", slug: "voeux-drole-nouvelle-annee", utmContent: "saison", note: "v5 §3 S12 : relais vœux LinkedIn." },
@@ -124,8 +133,8 @@ export const RELAIS_FORCES: RelaisForce[] = [
 
 /**
  * Vannes du pool strict réservées à un carrousel de décryptage à fiche écrite : jamais tirées.
- * V028 : la fiche du 21/10 n'a pas tenu à l'aveugle (cartes 3 et 4, cycle 8), elle n'est PAS un post fixe ;
- * la vanne reste exclue en attendant la fiche de remplacement. Exclusion
+ * V028 : la fiche du 21/10 n'a pas tenu à l'aveugle (cartes 3 et 4, cycle 8) ; le 21/10 est une carte vanne
+ * simple sur V028 (post fixe `IG-21-10`, 07/10). La vanne reste exclue du tirage libre. Exclusion
  * (tirage, relais de repli, décryptage d'article). Notation cycle 8 (@reviewer K5 d, @social S6).
  * V083 (`cs14jka3336e7e90a453a9d6`) n'y est PAS : le lot 1a la garde en IG le 13/10 (REPLIT_ACTIONS.md l.102) ;
  * le carrousel du 23/12 prendra une autre vanne avec le lot 2b, et l'anti-répétition (90 jours) la protège.
