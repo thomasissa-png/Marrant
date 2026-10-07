@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+// Libellé du bouton de résiliation lu à la source (profil, lot B) : la CGU suit le bouton réel.
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 
 export const metadata: Metadata = {
   title: "Conditions Générales d'Utilisation",
@@ -9,12 +12,12 @@ export default function CGUPage() {
   return (
     <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d&apos;Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 4 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 7 octobre 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
           <p>Les présentes CGU régissent l&apos;utilisation de la plateforme deviens-marrant.fr, accessible à l&apos;adresse https://deviens-marrant.fr, dédiée à l&apos;apprentissage de l&apos;humour et de la répartie.</p>
-          <p className="mt-2">En accédant au site ou en créant un compte, vous acceptez sans réserve les présentes conditions.</p>
+          <p className="mt-2">En accédant au site ou en créant un compte, tu acceptes sans réserve les présentes conditions.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">2. Inscription et compte</h2>
@@ -38,13 +41,14 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">6. Droit de rétractation</h2>
-          <p>Conformément à la Directive européenne 2011/83/UE et au Code de la consommation français, vous disposez d&apos;un délai de 14 jours à compter de la conclusion du contrat pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
-          <p className="mt-2">Pour exercer ce droit, adressez votre demande à contact@deviens-marrant.fr. Le remboursement sera effectué dans un délai de 14 jours suivant la réception de la demande.</p>
+          <p>Conformément à la Directive européenne 2011/83/UE et au Code de la consommation français, tu disposes d&apos;un délai de 14 jours à compter de la conclusion du contrat pour exercer ton droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
+          <p className="mt-2">Pour exercer ce droit, envoie ta demande à contact@deviens-marrant.fr ou passe par la page{" "}
+            <Link href="/retractation" className="underline underline-offset-2 hover:text-text-primary">Rétractation</Link>. Le remboursement est effectué dans un délai de 14 jours suivant la réception de la demande.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
           <p>L&apos;utilisateur peut supprimer son compte à tout moment depuis son profil. La suppression entraîne l&apos;effacement de toutes les données personnelles dans un délai de 30 jours.</p>
-          <p className="mt-2">Vous pouvez résilier l&apos;abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis votre profil, via le bouton « Résilier votre contrat » puis « Confirmer la résiliation ». La résiliation prend effet à la fin de la période en cours (mois ou année) : l&apos;accès Premium reste actif jusqu&apos;à cette date et aucun nouveau prélèvement n&apos;est effectué. La période déjà payée n&apos;est pas remboursée, sous réserve de l&apos;article 6. Un email confirme la résiliation et sa date d&apos;effet.</p>
+          <p className="mt-2">Tu peux résilier l&apos;abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis ton profil, via le bouton « {TEXTES_ABONNEMENT.resilier} » puis « Confirmer la résiliation ». La résiliation prend effet à la fin de la période en cours (mois ou année) : l&apos;accès Premium reste actif jusqu&apos;à cette date et aucun nouveau prélèvement n&apos;est effectué. La période déjà payée n&apos;est pas remboursée, sous réserve de l&apos;article 6. Un email confirme la résiliation et sa date d&apos;effet.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Limitation de responsabilité</h2>
@@ -52,7 +56,11 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">9. Droit applicable</h2>
-          <p>Les présentes CGU sont soumises au droit français. Tout litige sera soumis à la compétence exclusive des tribunaux de Paris.</p>
+          {/* Audit s16 (reco 18, D11 @legal) : plus de « compétence exclusive des tribunaux de Paris »,
+              inopposable à un consommateur (art. R.631-3 du Code de la consommation). */}
+          <p>Les présentes CGU sont soumises au droit français, sans te priver de la protection que t&apos;accordent les règles impératives du pays où tu résides.</p>
+          <p className="mt-2">En cas de litige, écris-nous d&apos;abord à contact@deviens-marrant.fr : on cherche une solution amiable avec toi. Tu peux aussi recourir gratuitement à un médiateur de la consommation.</p>
+          <p className="mt-2">À défaut d&apos;accord, tu peux saisir, à ton choix, l&apos;une des juridictions territorialement compétentes selon le Code de procédure civile ou la juridiction du lieu où tu demeurais au moment de la conclusion du contrat ou de la survenance du fait dommageable (article R.631-3 du Code de la consommation).</p>
         </section>
       </div>
     </div>

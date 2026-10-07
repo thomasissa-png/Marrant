@@ -16,7 +16,10 @@ import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
-    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} />
+    // Libellé rendu comme le vrai composant (nom accessible de la barre, audit s16).
+    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} aria-label={props.label as string}>
+      {props.label as string}
+    </div>
   ),
 }));
 
@@ -564,14 +567,14 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     expect(screen.getByText("Continuer")).toBeInTheDocument();
   });
 
-  it("sees Essai gratuit badge on step 1 only", async () => {
+  it("sees Lecture libre badge on step 1 only", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
     });
 
     // Only step 1 is free
-    const freeBadges = screen.getAllByText("Essai gratuit");
+    const freeBadges = screen.getAllByText("Lecture libre");
     expect(freeBadges.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -592,7 +595,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Suivi de progression = accès complet (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
+      expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
     });
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -761,7 +764,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
 
     // Valider = accès complet (s15, étalon 4.1)
-    expect(screen.getByText("Valider l'étape fait partie de l'accès complet.")).toBeInTheDocument();
+    expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
   });
 
   it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {

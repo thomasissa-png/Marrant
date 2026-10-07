@@ -17,14 +17,32 @@ import {
 import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
+import { LOGIN_ERROR_CODES, TEXTES_CONNEXION } from "@/config/textes/compte";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Tu as déjà un compte. Clique sur « Continuer avec Google » juste en dessous.",
+  // s16 reco 13 : plus de liaison automatique, on renvoie vers le mot de passe.
+  OAuthAccountNotLinked: TEXTES_CONNEXION.oauthCompteExistant,
   OAuthCallback:
     "La connexion avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
   OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
   Default: "La connexion a coincé de notre côté. Réessaie.",
 };
+
+type ChampFocus = "email" | "password" | "google";
+
+/** s16 reco 16 : erreur de connexion e-mail → message, motif Umami, champ à refocaliser. */
+function erreurConnexion(code: string): { message: string; motif: string; focus: ChampFocus } {
+  switch (code) {
+    case LOGIN_ERROR_CODES.tropDEssais:
+      return { message: TEXTES_CONNEXION.tropDEssais, motif: "trop-d-essais", focus: "password" };
+    case LOGIN_ERROR_CODES.compteGoogle:
+      return { message: TEXTES_CONNEXION.compteGoogle, motif: "compte-google", focus: "google" };
+    case LOGIN_ERROR_CODES.serveur:
+      return { message: TEXTES_CONNEXION.serveur, motif: "serveur", focus: "password" };
+    default:
+      return { message: TEXTES_CONNEXION.identifiants, motif: "identifiants", focus: "password" };
+  }
+}
 
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
 // paramètres : le HTML serveur contient déjà le lien d'inscription (s15).
@@ -69,31 +87,33 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const googleCallbackUrl = withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
   // Le lien d'inscription garde la destination demandée (puis le paiement, s15).
   const registerHref = buildRegisterUrl({ callbackUrl: rawCallbackUrl, src: src ?? "login" });
-  const autoRetried = useRef(false);
-  const [autoRetrying, setAutoRetrying] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const googleRef = useRef<HTMLButtonElement>(null);
+  const oauthTracked = useRef(false);
 
-  // Auto-retry Google sign-in when OAuthAccountNotLinked (account exists, just connect)
+  // s16 : plus de relance automatique de Google sur OAuthAccountNotLinked
+  // (la liaison automatique est coupée, la relance bouclait). Échec mesuré une fois.
   useEffect(() => {
-    if (oauthError === "OAuthAccountNotLinked" && !autoRetried.current) {
-      const alreadyRetried = sessionStorage.getItem("oauth-auto-retry");
-      if (!alreadyRetried) {
-        autoRetried.current = true;
-        setAutoRetrying(true);
-        sessionStorage.setItem("oauth-auto-retry", "1");
-        signIn("google", { callbackUrl: googleCallbackUrl });
-        return;
-      }
-      // Cleanup after second failure (prevent permanent loop)
-      sessionStorage.removeItem("oauth-auto-retry");
-    } else if (!oauthError) {
-      // Clear retry flag on successful navigation to login without error
-      sessionStorage.removeItem("oauth-auto-retry");
-    }
-  }, [oauthError, googleCallbackUrl]);
+    if (!oauthError || oauthTracked.current) return;
+    oauthTracked.current = true;
+    trackUmami("connexion-echec", {
+      methode: "google",
+      motif: oauthError === "OAuthAccountNotLinked" ? "compte-mot-de-passe" : oauthError,
+    });
+    if (oauthError === "OAuthAccountNotLinked") emailRef.current?.focus();
+  }, [oauthError]);
 
-  const oauthMessage = oauthError && !autoRetrying
-    ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default)
-    : null;
+  const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
+
+  // s16 reco 19 : l'e-mail est gardé, le focus revient sur le champ utile.
+  const signalerEchec = (motif: string, message: string, focus: ChampFocus) => {
+    setError(message);
+    setPassword("");
+    trackUmami("connexion-echec", { methode: "email", motif });
+    const cible = focus === "google" ? googleRef : focus === "email" ? emailRef : passwordRef;
+    window.setTimeout(() => cible.current?.focus(), 0);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,16 +128,15 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
       });
 
       if (result?.error) {
-        setError("Email ou mot de passe incorrect.");
-        setPassword("");
+        const { message, motif, focus } = erreurConnexion(result.error);
+        signalerEchec(motif, message, focus);
       } else {
         trackUmami("connexion-reussie", { methode: "email" });
         router.push(callbackUrl);
         router.refresh();
       }
     } catch {
-      setError("Quelque chose a coincé de notre côté. Réessaie.");
-      setPassword("");
+      signalerEchec("reseau", TEXTES_CONNEXION.serveur, "password");
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +160,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            {oauthMessage && (
+            {oauthMessage && !error && (
               <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
                 {oauthMessage}
               </p>
@@ -156,6 +175,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
                 Email
               </label>
               <Input
+                ref={emailRef}
                 id="email"
                 type="email"
                 placeholder="ton@email.fr"
@@ -173,6 +193,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               </label>
               <div className="relative">
                 <Input
+                  ref={passwordRef}
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
@@ -207,6 +228,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               {isLoading ? "On t'ouvre…" : "Se connecter"}
             </Button>
             <Button
+              ref={googleRef}
               type="button"
               variant="outline"
               className="w-full"

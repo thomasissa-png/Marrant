@@ -104,6 +104,9 @@ describe("runWeeklyVisitsReport", () => {
     const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
     expect(res.status).toBe("sent");
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Visites par jour"));
+    // Audit s16 (reco 17) : funnel dans le même e-mail, sans nouvel envoi.
+    expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Funnel de la semaine"));
+    expect(sendAdminHtmlEmail).toHaveBeenCalledTimes(1);
   });
 
   it("section réseaux sociaux « prévu contre publié » sur la semaine du rapport (s15)", async () => {

@@ -30,6 +30,10 @@ export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
   "abonnement-clic",
   "abonnement-reussi",
   "abonnement-annule",
+  // Audit parcours s16 (reco 17) : marches amont et échecs du tunnel.
+  "mur-vu",
+  "abonnement-vu",
+  "inscription-echec",
 ]);
 
 function withAttribution(name: string, data?: UmamiData): UmamiData | undefined {

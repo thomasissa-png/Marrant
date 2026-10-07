@@ -11,6 +11,7 @@ import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-o
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
+import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
@@ -241,11 +242,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
                 {progressValue > 0 && (
                   <div className="mb-6">
-                    <div className="mb-2 flex items-center justify-between text-xs text-text-muted">
-                      <span>{`${progressValue}/${progressMax} étapes`}</span>
-                      <span>{totalXp} XP à gagner</span>
-                    </div>
-                    <ProgressBar value={progressValue} max={progressMax} />
+                    {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
+                    <ProgressBar label={`${progressValue}/${progressMax} étapes`} value={progressValue} max={progressMax} />
+                    <p className="mt-2 text-right text-xs text-text-muted">{totalXp} XP à gagner</p>
                   </div>
                 )}
 
@@ -276,7 +275,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                               {m.title}
                             </span>
                             {m.free && (
-                              <Badge variant="success">Essai gratuit</Badge>
+                              <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
                             )}
                           </div>
                           <p className="mt-1 text-sm text-text-secondary">

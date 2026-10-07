@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
+import { TEXTES_RESET } from "@/config/textes/compte";
 
 export default function ResetPasswordPage() {
   return (
@@ -21,6 +22,7 @@ function ResetPasswordContent() {
   const email = searchParams.get("email") ?? "";
 
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -111,15 +113,34 @@ function ResetPasswordContent() {
                 <label htmlFor="password" className="mb-1 block text-sm text-text-secondary">
                   Nouveau mot de passe
                 </label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Min. 8 caractères"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={8}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Min. 8 caractères"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                    className="pr-12"
+                    aria-describedby={error ? "reset-error" : undefined}
+                    aria-invalid={!!error}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                    aria-label={showPassword ? TEXTES_RESET.masquerMotDePasse : TEXTES_RESET.afficherMotDePasse}
+                    aria-pressed={showPassword}
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      {showPassword && <path strokeLinecap="round" strokeLinejoin="round" d="M3 3l18 18" />}
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div>
                 <label htmlFor="confirm-password" className="mb-1 block text-sm text-text-secondary">
@@ -127,16 +148,19 @@ function ResetPasswordContent() {
                 </label>
                 <Input
                   id="confirm-password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Retape ton mot de passe"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   minLength={8}
+                  autoComplete="new-password"
+                  aria-describedby={error ? "reset-error" : undefined}
+                  aria-invalid={!!error}
                 />
               </div>
               {error && (
-                <p className="text-sm text-error">{error}</p>
+                <p id="reset-error" className="text-sm text-error" role="alert">{error}</p>
               )}
               <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
                 {isLoading ? "On enregistre…" : "Enregistrer mon nouveau mot de passe"}

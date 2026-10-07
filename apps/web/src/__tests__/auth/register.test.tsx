@@ -39,7 +39,7 @@ describe("RegisterPage", () => {
     // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix.
     expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
-    expect(screen.getByText("Accès complet, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
+    expect(screen.getByText("Premium, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
     expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
     expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
@@ -124,10 +124,11 @@ describe("RegisterPage", () => {
     });
   });
 
-  it("shows API error message", async () => {
+  it("erreur API : message humain, jamais l'erreur brute (audit s16)", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: false,
-      json: async () => ({ error: "Email déjà utilisé." }),
+      status: 500,
+      json: async () => ({ error: "Erreur serveur" }),
     });
 
     render(<RegisterPage />);
@@ -137,8 +138,9 @@ describe("RegisterPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Email déjà utilisé.");
+      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
     });
+    expect(screen.queryByText("Erreur serveur")).not.toBeInTheDocument();
   });
 
   it("shows loading state", async () => {
@@ -180,10 +182,16 @@ describe("RegisterPage", () => {
     });
 
     it("échec API : envoi mesuré, pas de réussite", async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({ ok: false, json: async () => ({ error: "Email déjà utilisé" }) });
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: false, status: 500, json: async () => ({ error: "Erreur serveur" }) });
       render(<RegisterPage />);
       await fillAndSubmit();
-      await waitFor(() => expect(screen.getByText("Email déjà utilisé")).toBeInTheDocument());
+      await waitFor(() => expect(screen.getByText("Quelque chose a coincé de notre côté. Réessaie.")).toBeInTheDocument());
+      expect(mockTrack).toHaveBeenCalledWith("inscription-echec", {
+        methode: "email",
+        motif: "serveur",
+        src: "direct",
+        etape: "abonnement",
+      });
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "email", src: "direct", etape: "abonnement" });
       expect(mockTrack).not.toHaveBeenCalledWith("inscription-reussie", expect.anything());
     });
@@ -196,7 +204,7 @@ describe("RegisterPage", () => {
       await fillAndSubmit();
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
       // Rappel de la formule annuelle choisie (étalon 2.1, gabarit annuel).
-      expect(screen.getByText("Accès complet, 24,99 €/an (soit 2,08 € par mois), annulable à tout moment.")).toBeInTheDocument();
+      expect(screen.getByText("Premium, 24,99 €/an (soit 2,08 € par mois), annulable à tout moment.")).toBeInTheDocument();
     });
 
     it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {

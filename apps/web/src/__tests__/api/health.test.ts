@@ -72,12 +72,24 @@ beforeEach(() => {
   p.blogArticle.findFirst.mockReset().mockResolvedValue({ publishedAt: now });
   p.llmUsageLog.findFirst.mockReset().mockResolvedValue({ createdAt: now });
   (console.warn as jest.Mock).mockClear();
+  // s16 : éléments critiques configurés (formats attendus, valeurs factices de test)
+  Object.assign(process.env, CRITICAL_ENV);
 });
+
+const CRITICAL_ENV = {
+  STRIPE_SECRET_KEY: "sk_live_testvaleur0123456789",
+  STRIPE_WEBHOOK_SECRET: "whsec_testvaleur0123456789",
+  STRIPE_PREMIUM_PRICE_ID: "price_testvaleur0123456789",
+  STRIPE_PREMIUM_ANNUAL_PRICE_ID: "price_testannuel0123456789",
+  RESEND_API_KEY: "re_testvaleur0123456789",
+};
 
 async function callHealth(): Promise<{
   status: number;
   body: {
     status: string;
+    contentStatus: string;
+    critical: { status: string; failures: string[]; stripe: { mode: string | null } };
     checks: {
       database: { status: string; latencyMs: number | null; error?: string };
       content: Record<string, { status: string; lastSeenAt: string | null }> | null;
@@ -175,5 +187,52 @@ describe("GET /api/health", () => {
     expect(typeof body.checks.ai.sonnetOverridden).toBe("boolean");
     expect(typeof body.checks.ai.opusOverridden).toBe("boolean");
     expect(typeof body.checks.ai.effortOverridden).toBe("boolean");
+  });
+
+  describe("s16 : critique séparé du contenu", () => {
+    afterEach(() => Object.assign(process.env, CRITICAL_ENV));
+
+    it("contenu périmé seul : status 'degraded' en 200, critique 'ok'", async () => {
+      p.joke.findFirst.mockResolvedValue({ createdAt: new Date(Date.now() - 10 * 86_400_000) });
+      const { status, body } = await callHealth();
+      expect(status).toBe(200);
+      expect(body.status).toBe("degraded");
+      expect(body.contentStatus).toBe("degraded");
+      expect(body.critical.status).toBe("ok");
+      expect(body.critical.stripe.mode).toBe("live");
+    });
+
+    it.each(["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_PREMIUM_PRICE_ID", "RESEND_API_KEY"])(
+      "%s absent : panne critique, 503 'down', même si le contenu est périmé",
+      async (name) => {
+        delete process.env[name];
+        p.joke.findFirst.mockResolvedValue({ createdAt: new Date(Date.now() - 10 * 86_400_000) });
+        const { status, body } = await callHealth();
+        expect(status).toBe(503);
+        expect(body.status).toBe("down");
+        expect(body.critical.failures).toEqual([name]);
+        expect(body.contentStatus).toBe("degraded");
+      },
+    );
+
+    it("valeur factice (placeholder) : considérée comme absente", async () => {
+      process.env.RESEND_API_KEY = "re_xxxxxxxxxxxxxxxx";
+      const { status, body } = await callHealth();
+      expect(status).toBe(503);
+      expect(body.critical.failures).toEqual(["RESEND_API_KEY"]);
+    });
+
+    it("annuel non configuré : non bloquant", async () => {
+      delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
+      const { status, body } = await callHealth();
+      expect(status).toBe(200);
+      expect(body.critical.status).toBe("ok");
+    });
+
+    it("aucune valeur de secret dans la réponse", async () => {
+      const { body } = await callHealth();
+      const json = JSON.stringify(body);
+      for (const v of Object.values(CRITICAL_ENV)) expect(json).not.toContain(v);
+    });
   });
 });

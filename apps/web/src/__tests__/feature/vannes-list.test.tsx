@@ -316,7 +316,7 @@ describe("VannesList", () => {
       await waitFor(() => {
         expect(screen.getByText("Abonne-toi pour accéder à toutes les vannes")).toBeInTheDocument();
       });
-      expect(screen.getAllByLabelText("Contenu premium : cliquer pour débloquer").length).toBeGreaterThan(0);
+      expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
       // La pagination du catalogue public reste disponible (retour en page 1).
       expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");

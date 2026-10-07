@@ -19,14 +19,20 @@ jest.mock("@/lib/stripe", () => {
       super(`missing ${plan}`);
     }
   }
+  class AlreadySubscribedError extends Error {
+    constructor(public readonly status: string) {
+      super(`already ${status}`);
+    }
+  }
   return {
     createCheckoutSession: (...a: unknown[]) => createCheckoutSession(...a),
     PremiumPriceNotConfiguredError,
+    AlreadySubscribedError,
   };
 });
 
 import { POST } from "@/app/api/stripe/checkout/route";
-import { PremiumPriceNotConfiguredError } from "@/lib/stripe";
+import { AlreadySubscribedError, PremiumPriceNotConfiguredError } from "@/lib/stripe";
 
 function post(body?: string) {
   return POST(
@@ -83,5 +89,31 @@ describe("POST /api/stripe/checkout : formule", () => {
     const res = await post(JSON.stringify({ plan: "annual" }));
     expect(res.status).toBe(401);
     expect(createCheckoutSession).not.toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/stripe/checkout : double abonnement refusé (s16)", () => {
+  it.each([
+    ["ACTIVE", "deja-abonne"],
+    ["TRIALING", "deja-abonne"],
+    ["PAST_DUE", "paiement-en-retard"],
+    ["past_due", "paiement-en-retard"],
+  ])("abonnement %s : 409, code %s, portail proposé, aucun lien de paiement", async (status, code) => {
+    createCheckoutSession.mockRejectedValue(new AlreadySubscribedError(status));
+    const res = await post(JSON.stringify({ plan: "annual" }));
+    expect(res.status).toBe(409);
+    const body = await res.json();
+    expect(body).toMatchObject({ code, portal: true });
+    expect(body.url).toBeUndefined();
+    expect(body.error).not.toMatch(/—/);
+  });
+
+  it("erreur de prix Stripe : message client sans nom de variable d'environnement", async () => {
+    createCheckoutSession.mockRejectedValue(new Error("No such price: 'price_x'"));
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const res = await post();
+    expect(res.status).toBe(500);
+    expect((await res.json()).error).not.toMatch(/STRIPE_/);
+    spy.mockRestore();
   });
 });

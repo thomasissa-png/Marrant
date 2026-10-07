@@ -6,6 +6,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
+import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 export function HomeCta() {
   const { status } = useSession();
@@ -24,7 +26,7 @@ export function HomeCta() {
           Tu crois avoir tout essayé pour être drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour 2,99 € par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
+          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
           {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
@@ -32,10 +34,11 @@ export function HomeCta() {
             <Link
               href={buildRegisterUrl({ src: "accueil-cta" })}
               className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+              onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-cta", statut: "visiteur" })}
             >
               Accéder aux parcours complets
             </Link>
-            <p className="max-w-[16rem] text-balance text-sm text-text-muted">2,99 €/mois, sans engagement.</p>
+            <p className="max-w-[16rem] text-balance text-sm text-text-muted">{PREMIUM_PRICE_LABEL}, sans engagement.</p>
           </div>
           <Link
             href="/vannes"

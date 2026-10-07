@@ -13,6 +13,8 @@ import { toast } from "@/components/ui/toast";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { PARCOURS_MIN_WEEKS } from "@/config/premium";
+import { AbonnementCard } from "@/components/profil/abonnement-card";
+import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -55,25 +57,7 @@ export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [isPortalLoading, setIsPortalLoading] = useState(false);
   const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
-
-  const handlePortal = async () => {
-    setIsPortalLoading(true);
-    try {
-      const res = await fetch("/api/stripe/portal", { method: "POST" });
-      if (res.ok) {
-        const data = await res.json();
-        window.location.href = data.url;
-      } else {
-        toast("La gestion de ton abonnement ne répond pas. Réessaie dans un instant.", "error");
-      }
-    } catch {
-      toast("Connexion perdue, réessaie", "error");
-    } finally {
-      setIsPortalLoading(false);
-    }
-  };
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -83,7 +67,9 @@ export function ProfilDashboard() {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        // s16 : message du serveur s'il existe (ex. abonnement déjà en cours, 409).
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        toast(data.error ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -352,68 +338,16 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
-      {/* Abonnement */}
-      <Card className="md:col-span-2">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Abonnement</CardTitle>
-            <Badge variant={user.plan === "PREMIUM" ? "primary" : "default"}>
-              {user.plan === "PREMIUM" ? "Premium" : "Aucun abonnement"}
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {user.plan === "PREMIUM" ? (
-            <div>
-              <p className="text-sm text-text-primary">
-                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4"
-                onClick={handlePortal}
-                disabled={isPortalLoading}
-              >
-                {isPortalLoading ? "On t'emmène…" : "Gérer mon abonnement"}
-              </Button>
-              {/* Bouton légal de résiliation en ligne (L.215-1-1) : ouvre le portail Stripe,
-                  où l'annulation se confirme en fin de période. */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="ml-2 mt-4"
-                onClick={handlePortal}
-                disabled={isPortalLoading}
-              >
-                Résilier votre contrat
-              </Button>
-            </div>
-          ) : (
-            <>
-              <p className="mb-2 text-sm text-text-primary">
-                Passe Premium pour débloquer tout le catalogue, les filtres et les parcours complets.
-              </p>
-              {user.xp > 0 && (
-                <p className="mb-2 text-sm text-text-secondary">
-                  Les {user.xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés.
-                </p>
-              )}
-              <p className="mb-4 text-xs text-text-muted">
-                Sans engagement &middot; Annulable à tout moment
-              </p>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleCheckout}
-                disabled={isCheckoutLoading}
-              >
-                {isCheckoutLoading ? "On t'emmène au paiement…" : "S'abonner à 2,99 €/mois"}
-              </Button>
-            </>
-          )}
-        </CardContent>
-      </Card>
+      {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
+      <AbonnementCard
+        plan={user.plan}
+        xp={user.xp}
+        onCheckout={handleCheckout}
+        isCheckoutLoading={isCheckoutLoading}
+      />
+
+      {/* s16 reco 5 : suppression du compte en libre-service */}
+      <SupprimerCompteCard abonne={isPremium} />
     </div>
   );
 }

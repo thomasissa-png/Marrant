@@ -12,6 +12,8 @@ import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
+import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
 
 export function PremiumCta() {
   const { status } = useSession();
@@ -21,7 +23,7 @@ export function PremiumCta() {
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil", declencheur: "manuel" });
+    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil", declencheur: "manuel", statut: "membre" });
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
@@ -54,14 +56,16 @@ export function PremiumCta() {
 
 
       <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-6">
-        {/* Offre 1 — Accès complet */}
+        {/* Offre 1 : Premium (nom unique de l'offre, D4 audit s16) */}
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 sm:p-8">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
           <div className="relative">
             {/* Badge « Populaire » retiré : offre payante unique (reco validée par Thomas) */}
-            <h3 className="font-display text-lg font-bold text-text-primary">Accès complet</h3>
+            <h3 className="font-display text-lg font-bold text-text-primary">{OFFRE_NOM}</h3>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="font-display text-4xl font-bold text-text-primary">2,99 €</span>
+              <span className="font-display text-4xl font-bold text-text-primary">
+                {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
+              </span>
               <span className="text-text-muted">/ mois</span>
             </div>
             <p className="mt-1 text-xs text-text-muted">
@@ -81,7 +85,7 @@ export function PremiumCta() {
                 onClick={handleCheckout}
                 disabled={isCheckoutLoading}
               >
-                {isCheckoutLoading ? "On t'emmène au paiement…" : "Passer à l'offre complète"}
+                {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
               </Button>
             ) : (
               // CTA payant : après inscription, /abonnement avec paiement ouvert
@@ -89,10 +93,14 @@ export function PremiumCta() {
               <Link
                 href={buildRegisterUrl({ callbackUrl: "/abonnement", src: "accueil-premium" })}
                 className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
+                onClick={() =>
+                  trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-premium", statut: "visiteur" })
+                }
               >
-                Commencer à 2,99 €/mois
+                Commencer à {PREMIUM_PRICE_LABEL}
               </Link>
             )}
+            <p className="mt-3 text-center text-xs text-text-muted">{REASSURANCE_PAIEMENT}</p>
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
               Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?

@@ -12,6 +12,13 @@
  *   3. **Configuration IA** : modèles Sonnet/Haiku résolus (env override
  *      compris). Aucun secret n'est retourné.
  *
+ * s16 (07/10/2026) : bloc `critical` séparé du contenu. Critique = base +
+ * Stripe (clé, secret webhook, prix mensuel) + Resend configurés (formats
+ * attendus, jamais la valeur). Une panne critique donne `status: "down"` et
+ * HTTP 503 ; un contenu périmé ne donne plus que `contentStatus: "degraded"`
+ * (et `status: "degraded"` en 200), il ne peut donc plus masquer une panne
+ * critique. Une sonde externe se cale sur le code HTTP.
+ *
  * Réponse volontairement JSON stable pour un monitoring externe
  * (UptimeRobot, BetterStack) — champ `status` = "ok" | "degraded" | "down".
  * Codes HTTP : 200 (ok/degraded) — 503 (down). Un monitoring peut se caler
@@ -50,10 +57,27 @@ interface FreshnessCheck {
   status: "ok" | "stale" | "empty";
 }
 
+interface CriticalChecks {
+  status: "ok" | "down";
+  database: "up" | "down";
+  stripe: {
+    secretKey: boolean;
+    mode: "live" | "test" | null;
+    webhookSecret: boolean;
+    monthlyPrice: boolean;
+    annualPrice: boolean;
+  };
+  resend: { apiKey: boolean };
+  /** Libellés des éléments critiques en échec (vide si ok). */
+  failures: string[];
+}
+
 interface HealthPayload {
   status: "ok" | "degraded" | "down";
+  contentStatus: "ok" | "degraded" | "unknown";
   timestamp: string;
   uptime: number;
+  critical: CriticalChecks;
   checks: {
     database: {
       status: "up" | "down";
@@ -103,6 +127,35 @@ function buildFreshness(
   };
 }
 
+/** Valeur présente, au bon format, et pas un placeholder (jamais retournée). */
+function looksSet(value: string | undefined, prefixes: string[]): boolean {
+  if (!value) return false;
+  const v = value.trim();
+  if (v.length < 12 || /x{4,}|\.\.\.|placeholder|changeme|your_/i.test(v)) return false;
+  return prefixes.some((p) => v.startsWith(p));
+}
+
+function criticalChecks(database: "up" | "down"): CriticalChecks {
+  const key = process.env.STRIPE_SECRET_KEY;
+  const stripe = {
+    secretKey: looksSet(key, ["sk_live_", "sk_test_", "rk_live_", "rk_test_"]),
+    mode: key?.includes("_live_") ? ("live" as const) : key?.includes("_test_") ? ("test" as const) : null,
+    webhookSecret: looksSet(process.env.STRIPE_WEBHOOK_SECRET, ["whsec_"]),
+    monthlyPrice: looksSet(process.env.STRIPE_PREMIUM_PRICE_ID, ["price_"]),
+    // L'annuel peut être volontairement absent (503 propre au checkout) : non bloquant.
+    annualPrice: looksSet(process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID, ["price_"]),
+  };
+  const resend = { apiKey: looksSet(process.env.RESEND_API_KEY, ["re_"]) };
+  const failures = [
+    database === "down" ? "base de données" : null,
+    stripe.secretKey ? null : "STRIPE_SECRET_KEY",
+    stripe.webhookSecret ? null : "STRIPE_WEBHOOK_SECRET",
+    stripe.monthlyPrice ? null : "STRIPE_PREMIUM_PRICE_ID",
+    resend.apiKey ? null : "RESEND_API_KEY",
+  ].filter((f): f is string => f !== null);
+  return { status: failures.length ? "down" : "ok", database, stripe, resend, failures };
+}
+
 export async function GET() {
   const startedAt = Date.now();
   const now = Date.now();
@@ -138,8 +191,10 @@ export async function GET() {
   if (dbStatus.status === "down") {
     const payload: HealthPayload = {
       status: "down",
+      contentStatus: "unknown",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
+      critical: criticalChecks("down"),
       checks: {
         database: dbStatus,
         content: null,
@@ -205,12 +260,17 @@ export async function GET() {
   const anyStale = Object.values(content).some(
     (c) => c.status === "stale" || c.status === "empty",
   );
-  const globalStatus: HealthPayload["status"] = anyStale ? "degraded" : "ok";
+  const contentStatus: HealthPayload["contentStatus"] = anyStale ? "degraded" : "ok";
+  const critical = criticalChecks("up");
+  const globalStatus: HealthPayload["status"] =
+    critical.status === "down" ? "down" : contentStatus === "degraded" ? "degraded" : "ok";
 
   const payload: HealthPayload = {
     status: globalStatus,
+    contentStatus,
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
+    critical,
     checks: {
       database: dbStatus,
       content,
@@ -221,9 +281,9 @@ export async function GET() {
   // Log léger côté serveur pour un run manuel — utile en debug Replit.
   if (globalStatus !== "ok") {
     console.warn(
-      `[health] status=${globalStatus} — DB ${dbStatus.status} en ${Date.now() - startedAt}ms`,
+      `[health] status=${globalStatus} (critique ${critical.status}${critical.failures.length ? ` : ${critical.failures.join(", ")}` : ""}, contenu ${contentStatus}) en ${Date.now() - startedAt}ms`,
     );
   }
 
-  return NextResponse.json(payload, { status: 200 });
+  return NextResponse.json(payload, { status: critical.status === "down" ? 503 : 200 });
 }

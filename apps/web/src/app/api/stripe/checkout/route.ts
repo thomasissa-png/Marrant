@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
+import { AlreadySubscribedError, createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
+import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
 import { rateLimit } from "@/lib/rate-limit";
 import { PREMIUM_PLANS, type PremiumPlan } from "@/config/premium";
 import { z } from "zod";
@@ -71,6 +72,19 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: checkoutUrl });
   } catch (error) {
+    // s16 : abonnement déjà actif, en essai ou en impayé → jamais de second
+    // abonnement (risque de double prélèvement) ; le client passe par le portail.
+    if (error instanceof AlreadySubscribedError) {
+      const impaye = error.status === "PAST_DUE" || error.status === "past_due";
+      return NextResponse.json(
+        {
+          error: impaye ? TEXTES_CHECKOUT.impaye : TEXTES_CHECKOUT.dejaAbonne,
+          code: impaye ? "paiement-en-retard" : "deja-abonne",
+          portal: true,
+        },
+        { status: 409 }
+      );
+    }
     if (error instanceof PremiumPriceNotConfiguredError) {
       console.error("[API /stripe/checkout]", error.message);
       return NextResponse.json(
@@ -86,16 +100,11 @@ export async function POST(request: Request) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("[API /stripe/checkout]", message, error);
 
-    // Messages d'erreur explicites selon le type
-    if (message.includes("No such price") || message.includes("price")) {
+    // Configuration Stripe cassée (prix ou clé) : détail dans les journaux,
+    // jamais le nom d'une variable d'environnement côté client (s16).
+    if (message.includes("No such price") || message.includes("price") || message.includes("Invalid API Key") || message.includes("api_key")) {
       return NextResponse.json(
-        { error: "Configuration Stripe incomplète : STRIPE_PREMIUM_PRICE_ID manquant ou invalide" },
-        { status: 500 }
-      );
-    }
-    if (message.includes("Invalid API Key") || message.includes("api_key")) {
-      return NextResponse.json(
-        { error: "Configuration Stripe incomplète : STRIPE_SECRET_KEY manquant ou invalide" },
+        { error: "Le paiement est indisponible pour le moment. Réessaie dans un instant." },
         { status: 500 }
       );
     }

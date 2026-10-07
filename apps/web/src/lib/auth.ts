@@ -4,7 +4,102 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { verify } from "@/lib/password";
-import { rateLimit } from "@/lib/rate-limit";
+import { getClientIp, sharedRateLimit } from "@/lib/rate-limit";
+import { recordAuthFailureAlert } from "@/lib/admin-alerts";
+import { isCloudflareWorkers } from "@/lib/runtime-env";
+import { LOGIN_ERROR_CODES } from "@/config/textes/compte";
+
+type CredentialsInput = Record<"email" | "password", string> | undefined;
+type HeadersInput = Record<string, string | string[] | undefined>;
+
+/** Fenêtres de limitation du login (s16, reco 14), partagées entre isolats. */
+export const LOGIN_LIMITS = {
+  parEmail: { maxRequests: 10, windowMs: 15 * 60_000 },
+  parIp: { maxRequests: 30, windowMs: 15 * 60_000 },
+} as const;
+
+/**
+ * Vérification e-mail + mot de passe. Retourne l'utilisateur, `null` pour des
+ * identifiants incorrects (code NextAuth `CredentialsSignin`), ou lève une
+ * erreur dont le message est un code lu par /login (trop d'essais, compte
+ * Google sans mot de passe, erreur serveur). Aucun e-mail dans les logs (s16).
+ */
+export async function authorizeCredentials(credentials: CredentialsInput, headers: HeadersInput) {
+  if (!credentials?.email || !credentials?.password) {
+    console.warn("[Auth][authorize] Email ou mot de passe manquant");
+    return null;
+  }
+  const email = credentials.email.toLowerCase().trim();
+  const ip = getClientIp(headers);
+
+  const parEmail = await sharedRateLimit("login-email", email, LOGIN_LIMITS.parEmail);
+  const parIp = parEmail.allowed ? await sharedRateLimit("login-ip", ip, LOGIN_LIMITS.parIp) : parEmail;
+  if (!parEmail.allowed || !parIp.allowed) {
+    console.warn(`[Auth][authorize] Limite atteinte (${parEmail.allowed ? "ip" : "email"})`);
+    throw new Error(LOGIN_ERROR_CODES.tropDEssais);
+  }
+
+  let user;
+  try {
+    user = await prisma.user.findUnique({ where: { email } });
+  } catch (error) {
+    console.error("[Auth][authorize] Erreur base :", error);
+    throw new Error(LOGIN_ERROR_CODES.serveur);
+  }
+  if (!user) return null;
+  if (!user.passwordHash) {
+    console.warn(`[Auth][authorize] Compte sans mot de passe (Google) : ${user.id}`);
+    throw new Error(LOGIN_ERROR_CODES.compteGoogle);
+  }
+
+  let isValid: boolean;
+  try {
+    isValid = await verify(credentials.password, user.passwordHash);
+  } catch (error) {
+    console.error(`[Auth][authorize] Erreur vérification mot de passe : ${user.id}`, error);
+    throw new Error(LOGIN_ERROR_CODES.serveur);
+  }
+  if (!isValid) return null;
+
+  return { id: user.id, email: user.email, name: user.name, image: user.image };
+}
+
+/** Résumé lisible d'une métadonnée d'erreur NextAuth (Error non sérialisable par JSON). */
+export function describeAuthError(metadata: unknown): string {
+  if (metadata instanceof Error) return `${metadata.name}: ${metadata.message}`;
+  if (metadata && typeof metadata === "object") {
+    const m = metadata as { error?: unknown; message?: unknown; providerId?: unknown };
+    const err = m.error instanceof Error ? `${m.error.name}: ${m.error.message}` : undefined;
+    const parts = [m.providerId && `provider=${String(m.providerId)}`, err ?? (m.message && String(m.message))];
+    return parts.filter(Boolean).join(" ") || "détail indisponible";
+  }
+  return String(metadata);
+}
+
+/** Codes NextAuth qui signalent une panne de la connexion Google (pas un choix de l'utilisateur). */
+export function isOAuthFailure(code: string): boolean {
+  return code.includes("OAUTH");
+}
+
+/**
+ * Alerte admin (digest quotidien, clé lot A `auth-connexion-google`, classe A).
+ * OAuthAccountNotLinked n'est pas journalisé par NextAuth : c'est une situation
+ * de l'utilisateur (mesurée par Umami `connexion-echec`), pas une panne.
+ */
+export function alertOAuthFailure(code: string, detail: string): Promise<boolean> {
+  return recordAuthFailureAlert(code, detail);
+}
+
+/** Garde une tâche en vie après la réponse sous Workers (sinon elle peut être coupée). */
+function keepAlive(task: Promise<unknown>): void {
+  if (!isCloudflareWorkers()) return;
+  try {
+    const { getCloudflareContext } = require("@opennextjs/cloudflare") as typeof import("@opennextjs/cloudflare");
+    getCloudflareContext().ctx.waitUntil(task);
+  } catch {
+    // Hors contexte de requête : la tâche suit son cours sans garantie.
+  }
+}
 
 async function updateStreak(userId: string): Promise<void> {
   try {
@@ -63,7 +158,9 @@ export const authOptions: NextAuthOptions = {
   // Logger pour diagnostiquer les erreurs OAuth en production
   logger: {
     error(code, metadata) {
-      console.error("[NextAuth][Error]", code, JSON.stringify(metadata, null, 2));
+      const detail = describeAuthError(metadata);
+      console.error("[NextAuth][Error]", code, detail);
+      if (isOAuthFailure(code)) keepAlive(alertOAuthFailure(code, detail));
     },
     warn(code) {
       console.warn("[NextAuth][Warn]", code);
@@ -73,9 +170,10 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      // Permettre la liaison d'un compte Google à un compte existant (même email)
-      // Sécurisé car Google vérifie l'email — pas de risque d'usurpation
-      allowDangerousEmailAccountLinking: true,
+      // s16 (reco 13) : plus de liaison automatique Google ↔ compte existant.
+      // Les e-mails des comptes mot de passe ne sont jamais vérifiés : la liaison
+      // auto permettait de préempter un compte. Cas rencontré → erreur
+      // OAuthAccountNotLinked, expliquée sur /login.
     }),
     CredentialsProvider({
       name: "credentials",
@@ -83,54 +181,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Mot de passe", type: "password" },
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          console.warn("[Auth][authorize] Missing email or password");
-          return null;
-        }
-
-        const email = credentials.email.toLowerCase().trim();
-
-        // Rate limit : 10 tentatives par email par 15 minutes
-        const rl = rateLimit(`login:${email}`, { maxRequests: 10, windowMs: 15 * 60_000 });
-        if (!rl.allowed) {
-          console.warn(`[Auth][authorize] Rate limited: ${email}`);
-          return null;
-        }
-
-        try {
-          const user = await prisma.user.findUnique({
-            where: { email },
-          });
-
-          if (!user) {
-            console.warn(`[Auth][authorize] User not found: ${email}`);
-            return null;
-          }
-
-          if (!user.passwordHash) {
-            console.warn(`[Auth][authorize] No passwordHash for: ${email} (OAuth-only account?)`);
-            return null;
-          }
-
-          const isValid = await verify(credentials.password, user.passwordHash);
-          if (!isValid) {
-            console.warn(`[Auth][authorize] Invalid password for: ${email}`);
-            return null;
-          }
-
-          console.log(`[Auth][authorize] Success: ${email}`);
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user.image,
-          };
-        } catch (error) {
-          console.error(`[Auth][authorize] DB/crypto error for ${email}:`, error);
-          return null;
-        }
-      },
+      authorize: (credentials, req) => authorizeCredentials(credentials, req?.headers ?? {}),
     }),
   ],
   session: {
@@ -182,6 +233,9 @@ export const authOptions: NextAuthOptions = {
             select: { plan: true, passwordChangedAt: true },
           });
 
+          // s16 (reco 5) : compte supprimé → jeton invalidé (autres appareils).
+          if (!dbUser) return { ...token, sub: undefined };
+
           let plan = dbUser?.plan ?? "FREE";
 
           // Filet de sécurité : si le plan est FREE mais qu'une subscription ACTIVE existe,
@@ -222,7 +276,7 @@ export const authOptions: NextAuthOptions = {
       console.log(`[NextAuth][Event] signIn — provider=${account?.provider} userId=${user.id}`);
     },
     async createUser({ user }) {
-      console.log(`[NextAuth][Event] createUser — userId=${user.id} email=${user.email}`);
+      console.log(`[NextAuth][Event] createUser — userId=${user.id}`);
     },
     async linkAccount({ user, account }) {
       console.log(`[NextAuth][Event] linkAccount — provider=${account.provider} userId=${user.id}`);

@@ -73,7 +73,50 @@ export const CLES_ACTION_THOMAS: readonly string[] = [
   "stripe-",
   "paiement-",
   "securite-",
+  // s16 (07/10/2026) : e-mail client non parti (`email-envoi-<type>`) et
+  // échec de connexion Google (`auth-connexion-google`).
+  "email-",
+  "auth-",
 ];
+
+/**
+ * Clés émises par le tunnel d'achat et de connexion (s16). Toutes en classe A,
+ * regroupées dans le digest quotidien (un seul e-mail par jour).
+ */
+export const CLES_TUNNEL = {
+  /** Webhook Stripe : secret absent. */
+  webhookConfig: "stripe-webhook-config",
+  /** Webhook Stripe : erreur inattendue (500, Stripe va réessayer). */
+  webhookErreur: "stripe-webhook-erreur",
+  /** Paiement reçu mais Premium non activé (500, Stripe va réessayer). */
+  activationEchec: "paiement-activation-echec",
+  /** Remboursement total sans résiliation Stripe confirmée. */
+  remboursementResiliation: "paiement-remboursement-resiliation",
+  /** Case CGU du checkout refusée par Stripe (URL des CGU absente des réglages). */
+  checkoutCgu: "paiement-checkout-cgu",
+  /** Écart Stripe ↔ base (job quotidien). */
+  reconciliation: "stripe-reconciliation",
+  /** Événements Stripe non livrés au webhook (job quotidien). */
+  webhookLivraison: "stripe-webhook-livraison",
+  /** Échec de connexion Google (`OAuthCallback`, `OAuthAccountNotLinked`…). */
+  authGoogle: "auth-connexion-google",
+} as const;
+
+/**
+ * Échec de connexion Google, à appeler côté serveur (lot B) avec le code
+ * d'erreur NextAuth. Une ligne par jour, `occurrences` incrémenté. Ne lève jamais.
+ */
+export async function recordAuthFailureAlert(code: string, contexte = "", db?: AlertDb): Promise<boolean> {
+  const propre = code.replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60) || "inconnu";
+  return recordAdminAlert(
+    {
+      cle: CLES_TUNNEL.authGoogle,
+      sujet: `Connexion Google en échec (${propre})`,
+      html: `<p>Code : ${propre}</p>${contexte ? `<p>${contexte.replace(/</g, "&lt;").slice(0, 300)}</p>` : ""}<p>À vérifier : identifiants Google OAuth, URL de rappel, NEXTAUTH_URL.</p>`,
+    },
+    db,
+  );
+}
 
 const RESEAUX = ["x", "twitter", "instagram", "linkedin", "threads", "facebook", "tiktok"];
 const RESEAU_RE = new RegExp(`-(${RESEAUX.join("|")})$`);

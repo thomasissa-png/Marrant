@@ -32,12 +32,12 @@ function registerParams(text: string): URLSearchParams {
 }
 
 describe("AbonnementPage (s12 T45)", () => {
-  it("visiteur : un seul bloc Accès complet, plus de bloc « Compte gratuit » (s15)", () => {
+  it("visiteur : un seul bloc Premium, plus de bloc « Compte gratuit » (s15)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
-    expect(screen.getByText("Accès complet")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
     // Titre et sous-titre déclinés de l'étalon 1.2 (prix visible, lecture libre).
     expect(screen.getByRole("heading", { level: 1, name: "Accéder aux parcours complets" })).toBeInTheDocument();
     expect(
@@ -155,12 +155,15 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
     });
 
-    it("annuel : 24,99 €/an, soit 2,08 € par mois (10,89 € économisés par an), envoi plan=annual", async () => {
+    it("annuel : 24,99 €/an, soit 2,08 € par mois, plus de 3 mois offerts et 10,89 € économisés (D5 s16), envoi plan=annual", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
       expect(screen.getByText("24,99 €")).toBeInTheDocument();
-      expect(screen.getByText("soit 2,08 € par mois (10,89 € économisés par an)")).toBeInTheDocument();
+      expect(
+        screen.getByText("soit 2,08 € par mois, plus de 3 mois offerts, 10,89 € économisés par an"),
+      ).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/4 mois/);
       const text = document.body.textContent ?? "";
       expect(text).not.toMatch(/4 mois/);
       expect(text).not.toContain("—");
@@ -215,7 +218,12 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
       render(<AbonnementPage />);
       await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
-      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "abonnement", declencheur: "manuel" });
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {
+        formule: "mensuel",
+        src: "abonnement",
+        declencheur: "manuel",
+        statut: "membre",
+      });
     });
   });
 });

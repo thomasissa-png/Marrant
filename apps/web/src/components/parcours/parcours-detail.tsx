@@ -15,6 +15,8 @@ import { tipProse } from "@/lib/tip-prose";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { useUserStore } from "@/stores/user-store";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { ETAPE_LIBRE_BADGE, etapeVerrouilleeTexte, VALIDATION_ETAPE } from "@/config/textes/offre";
 import Link from "next/link";
 
 interface VideoRef {
@@ -88,6 +90,10 @@ interface UserProgress {
  * /abonnement avec retour au parcours après paiement (returnTo).
  */
 function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
+  // Mur vu (audit s16 reco 17) : une fois par aperçu ouvert.
+  useEffect(() => {
+    trackUmami("mur-vu", { type: "parcours-etape", src: slug, etape: step.order });
+  }, [slug, step.order]);
   return (
     <div className="space-y-3 rounded-lg bg-background-elevated p-4">
       {step.why && (
@@ -101,11 +107,11 @@ function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
       )}
       <div className="border-t border-border pt-3 text-center">
         <p className="text-sm text-text-secondary">
-          Cette étape fait partie de l&apos;accès complet. La première étape est offerte, les suivantes se débloquent avec l&apos;abonnement à 2,99 &euro;/mois, sans engagement.
+          {etapeVerrouilleeTexte(PREMIUM_PRICE_LABEL)}
         </p>
         <Link href={buildAbonnementUrl(`/parcours/${slug}`)}>
           <Button variant="primary" size="sm" className="mt-3 min-h-[44px]">
-            S&apos;abonner · 2,99 &euro;/mois
+            S&apos;abonner · {PREMIUM_PRICE_LABEL}
           </Button>
         </Link>
       </div>
@@ -315,7 +321,7 @@ export function ParcoursDetail({
     }
   }, [quizDone, quizStorageKey]);
   const { status, data: session } = useSession();
-  // Valider une étape (étape 1 comprise) fait partie de l'accès complet (s15 §1.1).
+  // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
   const storeUser = useUserStore((s) => s.user);
   // Plan lu dans la session (jwt, rafraîchi toutes les 5 min ou via update())
@@ -495,21 +501,16 @@ export function ParcoursDetail({
       {/* Progress */}
       <Card className="mb-8">
         <CardContent className="py-4">
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="text-text-secondary">
-              {isPathCompleted
-                ? "Parcours terminé !"
-                : `${completedSteps.length}/${totalSteps} étapes complétées`}
-            </span>
-            <span className="font-medium text-accent-link">
-              {totalXp} XP au total
-            </span>
-          </div>
+          {/* Libellé passé à la barre : nom accessible de la progressbar (axe aria-progressbar-name, s16). */}
           <ProgressBar
+            label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
             value={completedSteps.length}
             max={totalSteps}
             variant="gradient"
           />
+          <p className="mt-2 text-right text-sm font-medium text-accent-link">
+            {totalXp} XP au total
+          </p>
         </CardContent>
       </Card>
 
@@ -605,7 +606,7 @@ export function ParcoursDetail({
                           +{stepXp} XP
                         </span>
                         {(step.free || step.order === 1) && (
-                          <Badge variant="primary">Essai gratuit</Badge>
+                          <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>
                         )}
                         {isSequentiallyLocked && (
                           <span className="text-xs text-text-muted">
@@ -797,13 +798,13 @@ export function ParcoursDetail({
                       {!isPremium && !isCompleted && step.order === 1 && (
                         <div className="text-center">
                           <p className="text-sm text-text-secondary">
-                            Valider l&apos;étape fait partie de l&apos;accès complet.
+                            {VALIDATION_ETAPE.texte}
                           </p>
                           <Link
                             href={abonnementHref}
                             className={`${buttonVariants({ variant: "primary" })} mt-3 h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
                           >
-                            Voir l&apos;accès complet
+                            {VALIDATION_ETAPE.bouton}
                           </Link>
                         </div>
                       )}

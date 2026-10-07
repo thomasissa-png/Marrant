@@ -3,7 +3,7 @@ import { JsonLd, buildFaqJsonLd, buildProductJsonLd } from "@/components/seo/jso
 import { getPremiumFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
-import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_LABEL } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_LABEL, PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 // Rendu dynamique (s14, 04/10/2026) : l'annuel (page, JSON-LD, FAQ, metadata)
 // dépend du secret serveur STRIPE_PREMIUM_ANNUAL_PRICE_ID, lu à chaque requête.
@@ -21,8 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const annual = isAnnualPlanAvailable() ? ` ou ${PREMIUM_ANNUAL_PRICE_LABEL}` : "";
   const catalogueText = catalogue.length > 0 ? ` et toutes les listes (${catalogue.join(", ")})` : " et toutes les listes";
   return {
-    title: "Abonnement Premium : 2,99 €/mois",
-    description: `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}, à 2,99 €/mois${annual}. Sans engagement, tu annules quand tu veux.`,
+    title: `Abonnement Premium : ${PREMIUM_PRICE_LABEL}`,
+    description: `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}, à ${PREMIUM_PRICE_LABEL}${annual}. Sans engagement, tu annules quand tu veux.`,
     alternates: {
       canonical: "https://deviens-marrant.fr/abonnement",
     },

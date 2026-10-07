@@ -3,6 +3,9 @@
  * Code de la consommation). Objet et corps repris À L'IDENTIQUE de
  * docs/legal/annuel-renouvellement-s14.md, section 2 (texte @legal, 04/10/2026).
  * Ne pas reformuler ici : toute modification passe d'abord par ce document.
+ * Exception s16 (07/10/2026, audit parcours, défauts D13 et D6) : « ton compte
+ * repasse en gratuit » (offre gratuite supprimée) et « Résilier votre contrat »
+ * (tutoiement) corrigés ici ; le document @legal est à aligner.
  *
  * Email transactionnel dédié : texte simple, ni contenu promotionnel ni lien
  * de désabonnement marketing.
@@ -62,10 +65,10 @@ Montant : ${montant} TTC pour 12 mois, prélevé sur ton moyen de paiement enreg
 Pour ne pas renouveler : résilie avant le ${dateRenouvellement}
 ============================================
 
-Si tu ne fais rien, ton abonnement est reconduit pour un an et ${montant} est prélevé à cette date. Si tu résilies, tu gardes ton accès Premium jusqu'à la fin de la période déjà payée, puis ton compte repasse en gratuit, sans nouveau prélèvement.
+Si tu ne fais rien, ton abonnement est reconduit pour un an et ${montant} est prélevé à cette date. Si tu résilies, tu gardes ton accès Premium jusqu'à la fin de la période déjà payée, puis ton abonnement s'arrête, sans nouveau prélèvement.
 
 Pour gérer ou résilier ton abonnement : ${vars.manageUrl}
-Tu peux aussi passer par ton profil, bouton « Résilier votre contrat ». Un email te confirme la résiliation et sa date d'effet.
+Tu peux aussi passer par ton profil, bouton « Résilier ton contrat ». Un email te confirme la résiliation et sa date d'effet.
 
 Tu peux résilier à tout moment, même après un renouvellement : la résiliation prend alors effet à la fin de la période en cours.
 

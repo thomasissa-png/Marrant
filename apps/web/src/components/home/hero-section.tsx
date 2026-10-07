@@ -7,6 +7,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
 import { buildRegisterUrl } from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /** Pastilles du hero : libellés existants, chacune mène au parcours qu'elle nomme (T02).
  *  Ordre aligné sur le reste du site, le plus court d'abord (audit forme s14 P2-4, tranché par Thomas). */
@@ -66,11 +68,12 @@ export function HeroSection() {
           <Link
             href={buildRegisterUrl({ src: "accueil-hero" })}
             className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+            onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
           >
             Accéder aux parcours complets
           </Link>
           <p className="max-w-md text-balance text-sm text-text-muted">
-            2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre.
+            {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
           </p>
           <Link
             href="/vannes"

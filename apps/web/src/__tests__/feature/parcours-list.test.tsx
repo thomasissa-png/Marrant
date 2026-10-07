@@ -91,8 +91,8 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
   });
 
-  it("shows Essai gratuit badges on free modules", () => {
-    const badges = screen.getAllByText("Essai gratuit");
+  it("shows Lecture libre badges on free modules", () => {
+    const badges = screen.getAllByText("Lecture libre");
     expect(badges).toHaveLength(3); // One per parcours (Semaine 1)
   });
 
