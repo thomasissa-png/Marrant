@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,20 @@ import {
   VideoCard,
 } from "@/components/parcours/step-blocks";
 import type { Step } from "@/components/parcours/parcours-types";
+
+/**
+ * s17 tour 3 (UXV-3-01) : la carte affiche-t-elle le bloc d'échec du chargement ? Règle unique,
+ * lue aussi par la page : un seul « Réessayer » et une seule alerte à l'écran (celle de l'étape dépliée).
+ */
+export function etapeAfficheEchec(p: {
+  step: Pick<Step, "locked">;
+  isExpanded: boolean;
+  isSequentiallyLocked: boolean;
+  isPremiumLocked: boolean;
+  loadFailed: boolean;
+}): boolean {
+  return p.isExpanded && !p.isSequentiallyLocked && !p.isPremiumLocked && !!p.step.locked && p.loadFailed;
+}
 
 const LOCK_PATH =
   "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z";
@@ -69,9 +84,13 @@ export interface ParcoursStepCardProps {
   abonnementHref: string;
   loadFailed: boolean;
   onRetryLoad: () => void;
+  /** s17 tour 3 : focus rendu au « Réessayer » de l'étape après un nouvel échec. */
+  reessayerRef?: React.Ref<HTMLButtonElement>;
   onToggle: () => void;
   onQuizComplete: (score: number, total: number) => void;
   onComplete: () => void;
+  /** s17 tour 3 (QA) : échec de la validation de CETTE étape, affiché au-dessus de « Valider ». */
+  erreurValidation?: string | null;
   /** Retour déjà enregistré sur l'exercice (abonné). */
   retour?: string | null;
   onRetour?: (resultat: Resultat) => void;
@@ -97,7 +116,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       role="listitem"
       // Ancre des liens d'entrée (lot C) : /parcours/<slug>#etape-N.
       id={`etape-${step.order}`}
-      className={`scroll-mt-24 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`}
+      // s17 tour 3 (DES-3-05) : 112 px sous la barre fixe (64 px), « Le programme » reste entier au-dessus de l'étape 1.
+      className={`scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`}
     >
       <CardHeader
         id={`etape-${step.order}-entete`}
@@ -106,7 +126,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         aria-expanded={canExpand ? isExpanded : undefined}
         // Pas d'aria-label : le nom vocal = le texte visible (QA-05) ; focus visible (UX-09 a).
         // DES-1-04 : pas de marge basse sous un en-tête replié (16 px dessus, 0 dessous + padding de la carte).
-        className={`rounded-t-xl ${isExpanded && canExpand ? "" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "cursor-pointer" : "cursor-default"}`}
+        // s17 tour 3 (DES-3-05) : déplié, 8 px sous l'en-tête pour que l'anneau de focus (2 + 2 px) ne touche pas le bloc suivant.
+        className={`rounded-t-xl ${isExpanded && canExpand ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "cursor-pointer" : "cursor-default"}`}
         onClick={() => canExpand && props.onToggle()}
         onKeyDown={(e) => {
           if (!canExpand) return;
@@ -192,12 +213,19 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
           {isPremiumLocked ? (
             <LockedStepPreview step={step} slug={slug} />
           ) : step.locked ? (
-            // s17 tour 2 (DES-2-01, UXV-2-01) : bloc d'échec en error-text ; l'alerte vocale est portée par la
-            // carte de progression (une seule annonce), ce bloc garde le message et son « Réessayer ».
+            // s17 tour 2 (DES-2-01, UXV-2-01) : bloc d'échec en error-text.
+            // s17 tour 3 (UXV-3-01, DES-3-06) : étape dépliée en échec = c'est elle qui porte l'alerte, la phrase
+            // rassurante et le seul « Réessayer » ; la carte de progression reste neutre (voir etapeAfficheEchec).
             props.loadFailed ? (
-              <div className="rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
-                <p>{CHARGEMENT_ETAPE.echec}</p>
+              <div
+                role="alert"
+                data-testid="etape-echec"
+                className="rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text"
+              >
+                <p className="font-semibold">{CHARGEMENT_ETAPE.progressionIntacte}</p>
+                <p className="mt-1">{CHARGEMENT_ETAPE.echec}</p>
                 <Button
+                  ref={props.reessayerRef}
                   variant="outline"
                   className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
                   onClick={props.onRetryLoad}
@@ -226,6 +254,12 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
 
 function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   const { step, slug, isPremium, isCompleted, isQuizDone, isSeedFallback, hasQuiz } = props;
+  const validerRef = useRef<HTMLButtonElement>(null);
+  // s17 tour 3 (QA) : échec de validation = focus rendu à « Valider » (désactivé pendant l'envoi, il l'avait perdu).
+  const { erreurValidation, completing } = props;
+  useEffect(() => {
+    if (erreurValidation && !completing) validerRef.current?.focus();
+  }, [erreurValidation, completing]);
   return (
     <div className="space-y-6">
       {step.why && (
@@ -321,16 +355,30 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {!isCompleted && isPremium && !isSeedFallback && (!hasQuiz || isQuizDone) && (
-        <Button variant="primary" className="w-full disabled:opacity-80" onClick={props.onComplete} disabled={props.completing}>
-          {/* s17 tour 2 (DES-2-03) : « On valide… » lisible, avec un indicateur 16 px. */}
-          {props.completing && (
-            <span
-              aria-hidden="true"
-              className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent motion-reduce:animate-none"
-            />
+        <div className="space-y-3">
+          {/* s17 tour 3 (QA) : message à côté du bouton cliqué, quiz et bouton conservés, pas de doublon en haut. */}
+          {erreurValidation && (
+            <p role="alert" className="rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
+              {erreurValidation}
+            </p>
           )}
-          {props.completing ? "On valide…" : "Valider cette étape"}
-        </Button>
+          <Button
+            ref={validerRef}
+            variant="primary"
+            className="w-full disabled:opacity-80"
+            onClick={props.onComplete}
+            disabled={props.completing}
+          >
+            {/* s17 tour 2 (DES-2-03) : « On valide… » lisible, avec un indicateur 16 px. */}
+            {props.completing && (
+              <span
+                aria-hidden="true"
+                className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent motion-reduce:animate-none"
+              />
+            )}
+            {props.completing ? "On valide…" : "Valider cette étape"}
+          </Button>
+        </div>
       )}
 
       {!isCompleted && isPremium && isSeedFallback && (

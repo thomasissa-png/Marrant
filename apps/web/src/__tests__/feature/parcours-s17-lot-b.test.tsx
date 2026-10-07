@@ -185,7 +185,8 @@ describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
     await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 0, motif: "chargement" }));
     // Étape 2 ouverte d'office (étape à reprendre) : plus d'attente sans fin.
     expect(await screen.findByText("Le contenu de l'étape n'a pas voulu se charger.")).toBeInTheDocument();
-    // s17 tour 2 : la page porte aussi son « Réessayer » ; ici, celui de l'étape dépliée.
+    // s17 tour 3 (UXV-3-01) : un seul « Réessayer », celui de l'étape dépliée.
+    expect(screen.getAllByRole("button", { name: "Réessayer" })).toHaveLength(1);
     await userEvent.click(within(document.getElementById("etape-2") as HTMLElement).getByText("Réessayer"));
     expect(await screen.findByText("Conseil complet 2")).toBeInTheDocument();
   });

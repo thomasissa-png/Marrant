@@ -37,6 +37,8 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
   // Case cochée sans jour choisi : le choix du jour active le rappel (consentement déjà donné).
   const [activationEnAttente, setActivationEnAttente] = useState(false);
   const selectRef = useRef<HTMLSelectElement>(null);
+  // s17 tour 3 : garde synchrone contre le double envoi (deux Espace avant le rendu suivant).
+  const enregistrementRef = useRef(false);
   const checkboxId = useId();
   const selectId = useId();
 
@@ -76,6 +78,8 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
   const weekday = pref.weekday;
 
   async function save(next: { enabled: boolean; weekday: number }) {
+    if (enregistrementRef.current) return;
+    enregistrementRef.current = true;
     const previous = pref;
     setPref(next);
     setSaving(true);
@@ -93,6 +97,7 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
       setPref(previous);
       setMessage(RAPPEL_PARCOURS_UI.erreur);
     } finally {
+      enregistrementRef.current = false;
       setSaving(false);
     }
   }
@@ -117,9 +122,12 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
             role="switch"
             className="peer sr-only"
             checked={pref.enabled}
-            disabled={saving}
+            // s17 tour 3 : pas de `disabled` pendant l'envoi (Chromium retire le focus d'un champ désactivé,
+            // il partait sur body) ; aria-disabled + garde : la bascule est ignorée, React rétablit l'état.
+            aria-disabled={saving || undefined}
             aria-describedby={activationEnAttente ? `${selectId}-aide` : undefined}
             onChange={(e) => {
+              if (saving || enregistrementRef.current) return;
               if (!e.target.checked) {
                 setActivationEnAttente(false);
                 void save({ enabled: false, weekday: weekday ?? 1 });
@@ -133,7 +141,7 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
           />
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-full border border-border-hover bg-background-elevated transition-colors peer-checked:border-accent-primary peer-checked:bg-accent-primary peer-disabled:opacity-60 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-primary"
+            className="absolute inset-0 rounded-full border border-border-hover bg-background-elevated transition-colors peer-checked:border-accent-primary peer-checked:bg-accent-primary peer-aria-disabled:opacity-60 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-primary"
           />
           <span
             aria-hidden="true"
@@ -152,8 +160,11 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
           ref={selectRef}
           value={weekday ?? ""}
           // s17 tour 2 (UXV-2-03) : pas de jour à choisir tant que le rappel est éteint (on ne croit pas l'avoir programmé).
-          disabled={saving || (!pref.enabled && !activationEnAttente)}
+          // s17 tour 3 : pendant l'envoi, aria-disabled + garde plutôt que `disabled` (le focus clavier resterait perdu).
+          disabled={!pref.enabled && !activationEnAttente}
+          aria-disabled={saving || undefined}
           onChange={(e) => {
+            if (saving || enregistrementRef.current) return;
             const nextDay = Number(e.target.value);
             if (!nextDay) return;
             setActivationEnAttente(false);

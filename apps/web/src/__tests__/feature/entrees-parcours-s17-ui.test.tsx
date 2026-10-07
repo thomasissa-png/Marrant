@@ -2,7 +2,7 @@
  * s17 lot C : écrans d'entrée (reprise abonné, CTA d'article, rappel e-mail,
  * quiz d'humour, /abonnement, confidentialité). Cas visiteur systématique.
  */
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 import { ArticleCta } from "@/components/blog/article-cta";
@@ -151,6 +151,49 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     expect(document.getElementById("rappel-parcours")).toHaveClass("md:col-span-2");
     await waitFor(() => expect(box).toHaveFocus());
     window.history.replaceState(null, "", "/");
+  });
+  it("s17 tour 3 : bascule au clavier, focus gardé sur l'interrupteur et une seule requête par bascule", async () => {
+    useSession.mockReturnValue(premium);
+    let terminer: () => void = () => undefined;
+    const fetchMock = jest.fn((url: string, init?: RequestInit) => {
+      if (init?.method !== "POST") {
+        return Promise.resolve({ ok: true, json: () => Promise.resolve({ enabled: false, weekday: 3, eligible: true }) });
+      }
+      return new Promise((resolve) => {
+        terminer = () => resolve({ ok: true, json: () => Promise.resolve({}) });
+      });
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+    const posts = () => fetchMock.mock.calls.filter(([, init]) => init?.method === "POST");
+    const user = userEvent.setup();
+    render(<RappelParcoursToggle />);
+    const box = await screen.findByRole("switch");
+    box.focus();
+
+    await user.keyboard(" ");
+    expect(posts()).toHaveLength(1);
+    // Pendant l'envoi : jamais `disabled` (Chromium enverrait le focus sur body), aria-disabled à la place.
+    expect(box).toBeChecked();
+    expect(box).not.toBeDisabled();
+    expect(box).toHaveAttribute("aria-disabled", "true");
+    expect(box).toHaveFocus();
+
+    // Seconde pression pendant l'envoi : ignorée, pas de double envoi ni d'état inversé.
+    await user.keyboard(" ");
+    expect(posts()).toHaveLength(1);
+    expect(box).toBeChecked();
+
+    await act(async () => terminer());
+    expect(await screen.findByText("C'est noté.")).toBeInTheDocument();
+    expect(box).not.toHaveAttribute("aria-disabled");
+    expect(box).toHaveFocus();
+
+    // Bascule suivante : une nouvelle requête, une seule.
+    await user.keyboard(" ");
+    expect(posts()).toHaveLength(2);
+    expect(JSON.parse(posts()[1][1]?.body as string)).toEqual({ enabled: false, weekday: 3 });
+    expect(box).toHaveFocus();
+    await act(async () => terminer());
   });
 });
 

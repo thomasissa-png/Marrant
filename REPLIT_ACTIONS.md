@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 tour 3 de la notation visuelle (07/10/2026) : corrections @fullstack, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
+
+> Focus clavier conservé sur l'interrupteur et le choix du jour du rappel (aria-disabled + garde), un seul « Réessayer » et « Ta progression est intacte. » dans l'étape en échec, message d'échec de validation près du bouton, finitions de focus et de défilement. **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 770 PASS) et `npm run build` verts en local.
+
 ## s17 tour 2 de la notation visuelle (07/10/2026) : corrections @fullstack et @copywriter, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
 
 > Rapport : `docs/marrant/audit-parcours-apprentissage-s17/iterations/iter-1-corrections.md` (section « Tour 2 »). Chargement et échec du contenu Premium (progression gardée dans le navigateur, liée au compte ; squelette ; « Réessayer »), finitions design et UX du tour 2, 7 doublons « Ce que tu vas apprendre » réécrits (`parcours-seed.json`, lu à l'affichage, rien à rejouer en base). **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 765 PASS) et `npm run build` verts en local.

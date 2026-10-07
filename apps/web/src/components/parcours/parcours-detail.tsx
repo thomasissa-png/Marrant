@@ -35,7 +35,7 @@ import {
   totalXpTexte,
   XP_GAIN,
 } from "@/config/textes/parcours";
-import { ParcoursStepCard } from "@/components/parcours/parcours-step-card";
+import { etapeAfficheEchec, ParcoursStepCard } from "@/components/parcours/parcours-step-card";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 
@@ -95,7 +95,8 @@ export function ParcoursDetail({
     initialPath ? firstIncomplete(initialPath.steps, initialProgress?.completedSteps ?? []) : null,
   );
   const [completing, setCompleting] = useState<number | null>(null);
-  const [completionError, setCompletionError] = useState<string | null>(null);
+  // s17 tour 3 (QA) : l'échec de validation s'affiche dans la carte de l'étape, près de « Valider ».
+  const [completionError, setCompletionError] = useState<{ order: number; message: string } | null>(null);
   // s17 tour 1 (UXV-1-01, DES-1-01, bugs 1 et 3 QA) : résultat affiché dans la carte validée,
   // sans minuterie ; l'annonce vocale reste dans une zone permanente.
   const [stepResults, setStepResults] = useState<Record<number, { xp: string | null; rythme: string | null }>>({});
@@ -282,7 +283,7 @@ export function ParcoursDetail({
 
   // Après validation : focus sur l'étape suivante ou sur la carte de fin (UX-05 d, UX-09 d).
   // s17 tour 1 : la carte validée (gain d'XP, date conseillée) est calée sous l'en-tête
-  // (scroll-mt-24), l'étape suivante ouverte juste en dessous.
+  // (scroll-mt-28, DES-3-05), l'étape suivante ouverte juste en dessous.
   useEffect(() => {
     const target = focusAfterValidation.current;
     if (target === null) return;
@@ -378,17 +379,19 @@ export function ParcoursDetail({
         const motif =
           res.status === 429 ? "limite" : res.status === 403 || res.status === 409 ? "refus" : "serveur";
         trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif });
-        setCompletionError(
-          res.status === 429
-            ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
-            : err?.code === "ordre" && err.error
-              ? err.error
-              : "L'étape n'a pas voulu se valider. Réessaie.",
-        );
+        setCompletionError({
+          order: stepOrder,
+          message:
+            res.status === 429
+              ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
+              : err?.code === "ordre" && err.error
+                ? err.error
+                : "L'étape n'a pas voulu se valider. Réessaie.",
+        });
       }
     } catch {
       trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif: "reseau" });
-      setCompletionError("La connexion a lâché en route. Vérifie ton réseau et réessaie.");
+      setCompletionError({ order: stepOrder, message: "La connexion a lâché en route. Vérifie ton réseau et réessaie." });
     } finally {
       setCompleting(null);
     }
@@ -436,6 +439,23 @@ export function ParcoursDetail({
   const chargementPremium = isPremium && attendApi && enrich === "attente";
   const echecPremium = isPremium && attendApi && enrich === "echec";
   const progressionConnue = progress !== null || !attendApi || enrich === "ok";
+  // D1 : ordre conseillé pour l'abonné seulement. s17 tour 2 : pas de verrou tant que la progression est inconnue.
+  const etapeVerrouillee = (stepIndex: number) =>
+    isPremium &&
+    progressionConnue &&
+    !completedSteps.includes(path.steps[stepIndex].order) &&
+    !path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
+  const etapeAccessible = (order: number) => canAccessParcoursStep(order, isPremium ? "PREMIUM" : null);
+  // s17 tour 3 (UXV-3-01) : étape dépliée qui affiche l'échec = elle porte l'alerte et le seul « Réessayer ».
+  const etapeEnEchec = path.steps.findIndex((step, i) =>
+    etapeAfficheEchec({
+      step,
+      isExpanded: expandedStep === step.order,
+      isSequentiallyLocked: etapeVerrouillee(i),
+      isPremiumLocked: !etapeAccessible(step.order),
+      loadFailed: enrich === "echec",
+    }),
+  );
   // D2 (étalon 3.3 A) : date du serveur (lot A) si fournie, sinon 7 jours après la
   // dernière validation connue ; date passée = « La prochaine étape t'attend. ».
   const showRythme = isPremium && !isPathCompleted && completedSteps.length > 0 && (!!nextRecommended || !!lastValidation);
@@ -514,8 +534,14 @@ export function ParcoursDetail({
               {chargementPremium && (
                 <p role="status" className="mt-2 text-sm text-text-muted">{CHARGEMENT_PREMIUM.enCours}</p>
               )}
-              {/* s17 tour 2 (DES-2-01, UXV-2-01) : échec signalé au niveau de la page, progression gardée. */}
-              {echecPremium && (
+              {/* s17 tour 2 (DES-2-01, UXV-2-01) : échec signalé au niveau de la page, progression gardée.
+                  s17 tour 3 (UXV-3-01) : étape dépliée en échec, le haut reste neutre (ni bouton ni alerte). */}
+              {echecPremium && etapeEnEchec >= 0 && (
+                <p className="mt-2 text-sm text-text-muted" data-testid="echec-premium-neutre">
+                  {CHARGEMENT_PREMIUM.echecTexte}
+                </p>
+              )}
+              {echecPremium && etapeEnEchec < 0 && (
                 <div role="alert" className="mt-3 rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
                   <p className="font-semibold">{CHARGEMENT_PREMIUM.echec}</p>
                   <p className="mt-1">{CHARGEMENT_PREMIUM.echecTexte}</p>
@@ -581,19 +607,11 @@ export function ParcoursDetail({
       )}
       {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
 
-      {completionError && (
-        <div className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error-text" role="alert">
-          {completionError}
-        </div>
-      )}
-
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
       {!isPremium && <p className="mb-4 text-sm text-text-secondary">{APERCU_INTRO}</p>}
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
-          const previousStepsCompleted =
-            stepIndex === 0 || path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
           return (
             <ParcoursStepCard
               key={step.id}
@@ -603,10 +621,9 @@ export function ParcoursDetail({
               isPremium={isPremium}
               isCompleted={isCompleted}
               isExpanded={expandedStep === step.order}
-              // D1 : ordre conseillé pour l'abonné seulement ; le visiteur ouvre l'aperçu.
-              // s17 tour 2 : pas de verrou tant que la progression est inconnue (faux « Termine l'étape 1 »).
-              isSequentiallyLocked={isPremium && progressionConnue && !previousStepsCompleted && !isCompleted}
-              isPremiumLocked={!canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null)}
+              // D1 : le visiteur ouvre l'aperçu ; règle de l'abonné dans etapeVerrouillee.
+              isSequentiallyLocked={etapeVerrouillee(stepIndex)}
+              isPremiumLocked={!etapeAccessible(step.order)}
               previousOrder={path.steps[stepIndex - 1]?.order ?? null}
               isQuizDone={quizDone.has(step.order)}
               isSeedFallback={isSeedFallback}
@@ -614,6 +631,7 @@ export function ParcoursDetail({
               abonnementHref={abonnementHref}
               loadFailed={enrich === "echec"}
               onRetryLoad={() => setReloadKey((k) => k + 1)}
+              reessayerRef={stepIndex === etapeEnEchec ? reessayerRef : undefined}
               onToggle={() => toggleStep(step.order, expandedStep === step.order)}
               onQuizComplete={(score, total) => {
                 setQuizDone((prev) => new Set(prev).add(step.order));
@@ -626,6 +644,7 @@ export function ParcoursDetail({
                 postQuiet("retour", { stepOrder: step.order, retour: resultat });
               }}
               onComplete={() => handleCompleteStep(step.order)}
+              erreurValidation={completionError?.order === step.order ? completionError.message : null}
               resultat={stepResults[step.order] ?? null}
               contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
             />
