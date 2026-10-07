@@ -15,6 +15,12 @@ export function getStripe(): Stripe {
       // s16 : délai explicite (défaut SDK 80 s), un seul nouvel essai réseau.
       timeout: 10_000,
       maxNetworkRetries: 1,
+      // s16 : client HTTP `fetch` imposé. Le build Next embarque la variante
+      // Node du SDK (NodeHttpClient sur node:https), qui ne joint pas Stripe
+      // sous Cloudflare Workers : appels en délai dépassé, aucun paiement.
+      ...(typeof Stripe.createFetchHttpClient === "function"
+        ? { httpClient: Stripe.createFetchHttpClient() }
+        : {}),
     });
   }
   return _stripe;
