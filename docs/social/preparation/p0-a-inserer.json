@@ -4,13 +4,19 @@
     "content": "Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pour mon devoir.",
     "punchline": "La bibliothécaire m'a dit qu'aucun n'existait, mais que les titres étaient plutôt bons.",
     "category": "ECOLE",
-    "decryptage": "Pourquoi ça fait rire : la bibliothécaire annonce que les livres n'existent pas, puis complimente les titres. Le compliment va à l'IA, qui invente mieux qu'elle ne cite."
+    "decryptage": "Pourquoi ça fait rire : la bibliothécaire annonce que les livres n'existent pas, puis complimente les titres. Le compliment va à l'IA, qui invente mieux qu'elle ne cite.",
+    "comedyTechnique": "Le compliment cruel",
+    "techniqueExplanation": "Tu fais annoncer une catastrophe, puis tu la fais suivre d'un compliment sur un détail sans importance : les titres étaient plutôt bons. Le lecteur comprend seul que l'IA a mieux inventé que l'étudiant n'a vérifié, et le ton poli de la bibliothécaire rend la chute plus cruelle.",
+    "howToApply": "Fais annoncer un échec total par un personnage calme, puis fais-lui complimenter ce qui est réussi dans l'échec. Exemple : « Le garagiste m'a dit que ma voiture ne démarrerait plus jamais. Il a ajouté que la rouille était très régulière. »"
   },
   {
     "ref": "P0-041",
     "content": "Mon père m'a dit qu'il fallait que je « fasse mes preuves ».",
     "punchline": "J'ai sorti mon justificatif de domicile : c'est chez lui.",
     "category": "PARENTS",
-    "decryptage": "Pourquoi ça fait rire : le père réclame des preuves, le fils sort la seule qu'il ait, un justificatif de domicile, qui prouve surtout qu'il vit chez son père."
+    "decryptage": "Pourquoi ça fait rire : le père réclame des preuves, le fils sort la seule qu'il ait, un justificatif de domicile, qui prouve surtout qu'il vit chez son père.",
+    "comedyTechnique": "La preuve administrative",
+    "techniqueExplanation": "Tu prends une exigence vague (faire ses preuves) pour une demande de document, et tu réponds par la pièce la plus banale du dossier. Le papier sort avec le sérieux d'une démonstration, et il prouve l'inverse de ce que ton père attendait : que tu habites encore chez lui.",
+    "howToApply": "Prends une phrase d'exigence, puis réponds par un document officiel qui dit tout autre chose que ce qu'on attend. Exemple : « Mon chef m'a demandé de justifier mes absences. J'ai sorti mon badge : la dernière date d'entrée remonte à mars. »"
   }
 ]

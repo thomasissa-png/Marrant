@@ -4,7 +4,7 @@
  * et par `prepare-social-month.ts --pool` (fichier exporté depuis cette liste).
  *
  * Source : `docs/social/preparation/stock-vannes-resultat-s15.md` (41 au niveau, 05/10/2026)
- * moins Alexa V100 (exemptée, post validé X1) = 40, identifiants via la clé du
+ * moins Alexa V100 (exemptée, post validé X1) = 40, plus 2 du pilote P0 (07/10) = 42, identifiants via la clé du
  * croisement (`aveugle-stock-lot-CLE-ne-pas-ouvrir.json`), ordre : note moyenne des 2
  * relecteurs décroissante, puis numéro V.
  * MISE À JOUR À CHAQUE VAGUE (14 hors lot notées le 07/10, pilote P0, V1 à V4) :
@@ -51,4 +51,7 @@ export const POOL_STRICT: string[] = [
   "cs14jk4f97079b992f85eeb1", // V094 : 8,5 / 8,5
   "cs14jkb9ba433a0746280280", // V096 : 8,5 / 8,5
   "cs14jkee5c537f7286c1da98", // V097 : 8,5 / 8,5
+  // Pilote P0 (06/10, `docs/social/pilote-p0/resultat-p0.md`), insérées au catalogue le 07/10.
+  "cp05d2c3950800b7575c12ce6", // P0-072 : 8,5 / 8,5
+  "cp0465e601e49c114994d1a00", // P0-041 : 8 / 8,5, égale l'étalon Alexa en duel chez les 2
 ];
