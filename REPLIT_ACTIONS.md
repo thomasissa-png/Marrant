@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (07/10/2026, 13:17 Paris) : H+45 X OK (jour 2)
+
+- Post quiz X `sent` à 12:33 Paris, lien réel `x.com/…/status/2107781291353481416`, UTM `quiz`, aucun FAILED. 313 caractères bruts acceptés : correctif `longueurX` prouvé en ligne (`docs/social/releves/2026-10-07.md`).
+
 ## s16 (07/10/2026) : audit parcours, lots A à H (connexion, achat, compte, finition, textes validés, corrections, juridique, réserves de la revue croisée) @fullstack : **DÉPLOYÉ le 07/10/2026 à 14:31 (Paris), version `d7fd90b2`**
 
 > **Déploiement du 07/10 (GO de Thomas)** : commit `ecb34b6` (+ spec corrigée). Ordre suivi : réglages Stripe faits par Thomas (vérif API : portail `subscription_update.enabled=true` mais **aucun prix coché** et liens CGU/confidentialité du portail vides : à compléter par Thomas, étape 2a/2e ; URL des CGU des Informations publiques non lisible par API) → migration 12 appliquée sur Neon (driver HTTP, 2 passes OK, 11 colonnes) → ID N-1 relevé : **`79ddf8bd`** → `wrangler secret put STRIPE_CHECKOUT_CGU_CONSENT` (version intermédiaire `5f55d130`) → `build:cf` + `deploy:cf` (avec `CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE` factice) → **`d7fd90b2`**. Variables de build absentes de la session (vérif Google/Bing, profils sociaux, CWV) : déjà absentes de la prod précédente, aucune régression. Après déploiement : `startup-tasks` OK ; `/api/health` 200, bloc `critical` ok (base, Stripe live mensuel + annuel, Resend) ; 14 pages en 200 (`/profil` → 307 login, attendu) ; beacon Cloudflare absent ; **smoke E2E prod : 112/112 verts** (2 sautés volontaires) après correction d'une spec restée sur l'ancien texte provisoire. **Retirer `E2E_EXCLURE_S16`** si elle avait été posée. Reste : achat réel D1 de Thomas (liste de contrôle ci-dessous). Retour arrière : `npx wrangler rollback 79ddf8bd`.
