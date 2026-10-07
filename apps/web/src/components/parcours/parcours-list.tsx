@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { progressionParcoursLabel } from "@/config/textes/accessibilite";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -110,7 +111,12 @@ export function ParcoursList() {
                 <span>{completedSteps}/{path.steps.length} étapes</span>
                 <span>+{path.steps.length * 20 + 100} XP</span>
               </div>
-              <ProgressBar value={completedSteps} max={path.steps.length} variant="gradient" />
+              <ProgressBar
+                value={completedSteps}
+                max={path.steps.length}
+                variant="gradient"
+                ariaLabel={progressionParcoursLabel(path.title, completedSteps, path.steps.length)}
+              />
               <Link
                 href={`/parcours/${path.slug}`}
                 className={cn(buttonVariants({ variant: "primary", size: "sm" }), "mt-4 w-full")}

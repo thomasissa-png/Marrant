@@ -51,7 +51,7 @@ describe("/carnet non Premium", () => {
     }
     expect(html).not.toContain("2026-11");
 
-    const cta = screen.getByRole("link", { name: /S'abonner · 2,99 €\/mois/ });
+    const cta = screen.getByRole("link", { name: /S'abonner · 2,99\s€\/mois/ });
     expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet");
     expect(html).not.toContain("—");
   });

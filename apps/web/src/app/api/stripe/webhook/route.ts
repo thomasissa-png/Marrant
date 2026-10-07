@@ -108,8 +108,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
 function resiliationProgrammee(
   subscription: Stripe.Subscription,
   previous: Partial<Record<string, unknown>> | undefined,
-): { dateDemande: Date; finAcces: Date | null } | null {
-  const raw = subscription as unknown as { cancel_at?: number | null; canceled_at?: number | null };
+): { finAcces: Date | null } | null {
+  const raw = subscription as unknown as { cancel_at?: number | null };
   const programmee = subscription.cancel_at_period_end === true || typeof raw.cancel_at === "number";
   if (!programmee || !previous) return null;
   const etaitProgrammee =
@@ -118,8 +118,7 @@ function resiliationProgrammee(
   const vientDEtrePosee = ("cancel_at_period_end" in previous || "cancel_at" in previous) && !etaitProgrammee;
   if (!vientDEtrePosee) return null;
   const finAcces = typeof raw.cancel_at === "number" ? new Date(raw.cancel_at * 1000) : subscriptionPeriodEnd(subscription);
-  const dateDemande = typeof raw.canceled_at === "number" ? new Date(raw.canceled_at * 1000) : new Date();
-  return { dateDemande, finAcces };
+  return { finAcces };
 }
 
 async function handleSubscriptionUpdated(
@@ -148,7 +147,7 @@ async function handleSubscriptionUpdated(
   if (planUpdate) console.log(`[Stripe] User ${sub.userId} → ${planUpdate.plan} (${subscription.status})`);
 
   const resiliation = shouldDowngrade ? null : resiliationProgrammee(subscription, previous);
-  if (resiliation) await notifyCancellationScheduled(sub.userId, resiliation.dateDemande, resiliation.finAcces);
+  if (resiliation) await notifyCancellationScheduled(sub.userId, resiliation.finAcces);
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
@@ -170,7 +169,12 @@ async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   console.log(`[Stripe] Payment failed for user ${sub.userId}, PAST_DUE (Premium conservé)`);
 
   const premierEchec = (invoice.attempt_count ?? 1) <= 1 && invoice.billing_reason !== "subscription_create";
-  if (premierEchec) await notifyPaymentFailed(sub.userId, invoice.hosted_invoice_url ?? null);
+  if (premierEchec) {
+    await notifyPaymentFailed(sub.userId, {
+      montantCents: typeof invoice.amount_due === "number" ? invoice.amount_due : null,
+      datePrevue: typeof invoice.created === "number" ? new Date(invoice.created * 1000) : null,
+    });
+  }
   await recordAdminAlert({
     cle: "abonnement-impaye",
     sujet: "Paiement d'abonnement refusé (Premium conservé pendant les relances)",

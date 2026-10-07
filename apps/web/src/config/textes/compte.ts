@@ -5,12 +5,13 @@
  * Tutoiement, zéro tiret cadratin, vocabulaire « Premium ».
  */
 
-// PROVISOIRE s16, étalon à valider
+// PROVISOIRE s16, étalon à valider (sauf `erreurServeur`, étalon 4 b, et `tropDeTentatives`, étalon 4 b adapté)
 export const TEXTES_API = {
   erreurServeur: "Quelque chose a coincé de notre côté. Réessaie dans un instant.",
   donneesInvalides: "Certaines informations ne sont pas valides. Vérifie le formulaire puis réessaie.",
   emailRequis: "Indique ton adresse email.",
-  tropDeTentatives: "Trop d'essais d'affilée. Attends quelques minutes puis réessaie.",
+  /** Étalon 4 « trop d'essais » b, sans la seconde sortie (inscription, mot de passe oublié : pas de réinitialisation à proposer). */
+  tropDeTentatives: "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu.",
   nonConnecte: "Ta session a expiré. Reconnecte-toi puis réessaie.",
 } as const;
 
@@ -24,16 +25,24 @@ export const LOGIN_ERROR_CODES = {
 
 export type LoginErrorCode = (typeof LOGIN_ERROR_CODES)[keyof typeof LOGIN_ERROR_CODES];
 
-// PROVISOIRE s16, étalon à valider (sauf `identifiants` et `serveur`, textes déjà en ligne)
+// VALIDÉ s16 (étalon 4, recos c/b/b/b/b), sauf `lienConnexionMobile` (PROVISOIRE, hors étalons).
 export const TEXTES_CONNEXION = {
-  identifiants: "Email ou mot de passe incorrect.",
-  tropDEssais:
-    "Trop d'essais d'affilée sur ce compte. Attends un quart d'heure, ou réinitialise ton mot de passe.",
-  compteGoogle:
-    "Ce compte a été créé avec Google : il n'a pas de mot de passe. Clique sur « Continuer avec Google ».",
-  serveur: "Quelque chose a coincé de notre côté. Réessaie.",
+  /** Étalon 4, identifiants incorrects, variante c. */
+  identifiants: "E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe.",
+  /** Étalon 4, trop d'essais, variante b (aucune durée écrite tant qu'elle n'est pas confirmée). */
+  tropDEssais: "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu, ou réinitialise ton mot de passe.",
+  /**
+   * Étalon 4, compte créé avec Google, variante b : aide affichée sous l'erreur
+   * générique (`identifiants`), pour TOUT échec d'identifiants. L'écran est donc
+   * identique qu'un compte Google existe ou non (aucune fuite d'information).
+   */
+  aideCompteGoogle: "Si tu as créé ton compte avec Google, clique sur « Continuer avec Google ».",
+  /** Étalon 4, erreur serveur, variante b. */
+  serveur: "Quelque chose a coincé de notre côté. Réessaie dans un instant.",
+  /** Étalon 4, adresse déjà liée à un compte avec mot de passe (inscription Google), variante b. */
   oauthCompteExistant:
-    "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec lui (tu peux le réinitialiser si tu l'as oublié).",
+    "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
+  // PROVISOIRE s16, hors étalons
   lienConnexionMobile: "Connexion",
 } as const;
 
@@ -73,7 +82,8 @@ export const TEXTES_ABONNEMENT = {
   changerFormule: "Changer de formule",
   versAnnuel: (avantage: string) => `Passe à l'annuel : ${avantage}.`,
   versMensuel: "Tu peux repasser au mensuel à tout moment, le changement se fait à la fin de ta période.",
-  resilier: "Résilier mon abonnement",
+  /** Libellé unique de résiliation (D6 + formule analogue au décret 2023-417), repris par les e-mails et la CGU. */
+  resilier: "Résilier ton contrat",
   resilierDetail: (date: string) => `Si tu résilies, tu gardes Premium jusqu'au ${date}, sans nouveau prélèvement.`,
   resilierDetailSansDate: "Si tu résilies, tu gardes Premium jusqu'à la fin de la période déjà payée.",
   chargement: "On redirige…",

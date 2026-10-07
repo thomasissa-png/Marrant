@@ -24,7 +24,7 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
-import { CGU_ACCEPTATION, OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import { CGU_ACCEPTATION, OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
@@ -335,9 +335,9 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               S&apos;inscrire avec Google
             </Button>
             <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
-            {/* Réassurance et CGU (audit s16, reco 9) : textes provisoires, config/textes/offre.ts. */}
+            {/* Réassurance et CGU (audit s16, reco 9) : étalon 1.1 validé, config/textes/offre.ts. */}
             <p className="text-center text-xs text-text-muted" data-testid="register-reassurance">
-              {REASSURANCE_PAIEMENT}
+              {reassurancePaiement(plan)}
             </p>
             <p className="text-center text-xs text-text-muted">
               {CGU_ACCEPTATION.avant}

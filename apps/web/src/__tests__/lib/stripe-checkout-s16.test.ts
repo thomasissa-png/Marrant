@@ -33,7 +33,7 @@ jest.mock("@/lib/admin-alerts", () => ({
 }));
 
 import { AlreadySubscribedError, cancelStripeSubscriptionNow, createCheckoutSession } from "@/lib/stripe";
-import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
+import { texteStripeSubmit } from "@/config/textes/paiement";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -79,10 +79,16 @@ describe("paramètres de la session Checkout", () => {
     await createCheckoutSession("u1", "a@b.fr", null, "monthly");
     const params = sessionsCreate.mock.calls[0][0];
     expect(params.locale).toBe("fr");
-    expect(params.custom_text).toEqual({ submit: { message: TEXTES_CHECKOUT.stripeSubmit } });
-    expect(TEXTES_CHECKOUT.stripeSubmit).toMatch(/TTC/);
-    expect(TEXTES_CHECKOUT.stripeSubmit).toMatch(/14 jours/);
-    expect(TEXTES_CHECKOUT.stripeSubmit.length).toBeLessThanOrEqual(1200);
+    // Étalon 1 (texte Stripe) validé, formule mensuelle seule, liens Markdown cliquables.
+    const message = params.custom_text.submit.message as string;
+    expect(message).toBe(texteStripeSubmit("monthly"));
+    expect(message.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\u00A0/g, " ")).toBe(
+      "Premium : 2,99 € TTC par mois. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
+    );
+    expect(message).toContain("(https://deviens-marrant.fr/retractation)");
+    expect(message).toContain("(https://deviens-marrant.fr/cgu)");
+    expect(message).not.toMatch(/24,99|par an/);
+    expect(message.length).toBeLessThanOrEqual(1200);
     expect(params.cancel_url).toBe("https://deviens-marrant.fr/abonnement?paiement=annule&upgrade=cancel");
     expect(params.consent_collection).toBeUndefined();
     expect(params.subscription_data).toEqual({ metadata: { userId: "u1", plan: "monthly" } });

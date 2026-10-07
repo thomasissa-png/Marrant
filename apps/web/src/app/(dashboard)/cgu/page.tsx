@@ -47,7 +47,7 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
-          <p>L&apos;utilisateur peut supprimer son compte à tout moment depuis son profil. La suppression entraîne l&apos;effacement de toutes les données personnelles dans un délai de 30 jours.</p>
+          <p>Tu peux supprimer ton compte à tout moment depuis ton profil. La suppression est immédiate : tes données personnelles sont effacées et ton abonnement Premium est résilié tout de suite, sans nouveau prélèvement. Tes factures restent conservées chez Stripe pour nos obligations comptables (voir la politique de confidentialité).</p>
           <p className="mt-2">Tu peux résilier l&apos;abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis ton profil, via le bouton « {TEXTES_ABONNEMENT.resilier} » puis « Confirmer la résiliation ». La résiliation prend effet à la fin de la période en cours (mois ou année) : l&apos;accès Premium reste actif jusqu&apos;à cette date et aucun nouveau prélèvement n&apos;est effectué. La période déjà payée n&apos;est pas remboursée, sous réserve de l&apos;article 6. Un email confirme la résiliation et sa date d&apos;effet.</p>
         </section>
         <section>

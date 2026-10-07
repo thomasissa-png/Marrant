@@ -24,11 +24,11 @@ describe("chiffres de l'annuel (dérivés, pas en dur)", () => {
     expect(PREMIUM_ANNUAL_PRICE_CENTS).toBe(2499);
     expect(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS).toBe(208);
     expect(PREMIUM_ANNUAL_SAVINGS_CENTS).toBe(1089);
-    expect(PREMIUM_PRICE_LABEL).toBe("2,99 €/mois");
-    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("24,99 €/an");
-    expect(PREMIUM_ANNUAL_EQUIVALENT_LABEL).toBe("soit 2,08 € par mois");
-    expect(PREMIUM_ANNUAL_SAVINGS_LABEL).toBe("10,89 € économisés par an");
-    expect(PREMIUM_ANNUAL_SUMMARY).toBe("24,99 €/an, soit 2,08 € par mois (10,89 € économisés par an)");
+    expect(PREMIUM_PRICE_LABEL).toBe("2,99\u00A0€/mois");
+    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("24,99\u00A0€/an");
+    expect(PREMIUM_ANNUAL_EQUIVALENT_LABEL).toBe("soit 2,08\u00A0€ par mois");
+    expect(PREMIUM_ANNUAL_SAVINGS_LABEL).toBe("10,89\u00A0€ économisés par an");
+    expect(PREMIUM_ANNUAL_SUMMARY).toBe("24,99\u00A0€/an, soit 2,08\u00A0€ par mois (10,89\u00A0€ économisés par an)");
   });
 });
 
@@ -54,9 +54,9 @@ describe("affichage conditionné", () => {
 
   it("avec annuel : FAQ et llms citent les chiffres exacts, jamais « 4 mois », sans tiret cadratin", () => {
     const texts = all([getPremiumFaqs(true), getLlmsTarifs(true), getLlmsFaqFull(true)]);
-    expect(texts).toContain("24,99 €/an");
-    expect(texts).toContain("soit 2,08 € par mois");
-    expect(texts).toContain("10,89 €");
+    expect(texts).toContain("24,99\u00A0€/an");
+    expect(texts).toContain("soit 2,08\u00A0€ par mois");
+    expect(texts).toContain("10,89\u00A0€");
     expect(texts).not.toMatch(/4 mois/);
     expect(texts).not.toContain("—");
     expect(getLlmsTarifs(true)).toHaveLength(LLMS_TARIFS.length + 1);

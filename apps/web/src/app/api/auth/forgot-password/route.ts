@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { generateResetToken, hashResetToken, RESET_TOKEN_TTL_MS } from "@/lib/reset-token";
 import { sendPasswordResetEmail } from "@/lib/email";
+import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import { TEXTES_API } from "@/config/textes/compte";
 
 const FORGOT_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
     // Toujours répondre OK pour ne pas révéler si l'email existe
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase().trim() },
-      select: { id: true, email: true, passwordHash: true },
+      select: { id: true, email: true, name: true, passwordHash: true },
     });
 
     if (user && user.passwordHash) {
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
 
       const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
       try {
-        await sendPasswordResetEmail(user.email, resetUrl);
+        await sendPasswordResetEmail(user.email, resetUrl, firstNameFrom(user.name));
       } catch (err) {
         console.error(`[API /auth/forgot-password] Erreur envoi email (user ${user.id}):`, err);
       }

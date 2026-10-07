@@ -277,6 +277,16 @@ describe("SubscriptionSuccessPage", () => {
         "href",
         `/login?callbackUrl=${encodeURIComponent("/abonnement/success?session_id=cs_test_123&formule=annuel")}`,
       );
+      // Étalon 5a.2 validé (lot E), mot pour mot.
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Connecte-toi pour retrouver ton abonnement");
+      expect(
+        screen.getByText(
+          "Tu n'es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d'ici. Si tu viens de t'abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
+        ),
+      ).toBeInTheDocument();
+      expect(link).toHaveTextContent("Me connecter");
+      expect(screen.getByText(/Pas encore abonné \?/)).toHaveTextContent("Pas encore abonné ? Voir Premium");
+      expect(screen.getByRole("link", { name: "Voir Premium" })).toHaveAttribute("href", "/abonnement");
       // Plus aucun appel après le 401
       for (let i = 0; i < 5; i++) {
         await act(async () => {

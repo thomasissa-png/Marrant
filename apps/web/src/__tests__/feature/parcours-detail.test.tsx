@@ -386,7 +386,7 @@ describe("ParcoursDetail — quiz gate", () => {
 });
 
 describe("ParcoursDetail — tunnel s15", () => {
-  it("anonyme : étape 1 lisible, valider = accès complet, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
+  it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
     const link = screen.getByRole("link", { name: "Voir l'offre Premium" });
@@ -394,7 +394,7 @@ describe("ParcoursDetail — tunnel s15", () => {
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
 
-  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers l'accès complet", async () => {
+  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers Premium", async () => {
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
       data: { user: { name: "Test", plan: "FREE" } },
       status: "authenticated",

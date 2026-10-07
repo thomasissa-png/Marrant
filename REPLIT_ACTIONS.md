@@ -1,5 +1,17 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s16 (07/10/2026) : audit parcours, lots A, B, C, D (connexion, achat, compte, finition) @fullstack : **À DÉPLOYER**
+
+> Code commité par l'orchestrateur après vérification globale (tsc, lint, build, Jest complet), **non déployé**. Rapports : `docs/marrant/audit-parcours-s16/impl-lot-{a,b,c,d}.md`. Réglages Stripe et Cloudflare : `docs/marrant/audit-parcours-s16/impl-infrastructure.md` (étapes 1 à 3 à faire par Thomas AVANT le déploiement).
+> - **Migration Neon AVANT déploiement** : `12_add_retractation_request` (idempotente), depuis `apps/web` : `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/12_add_retractation_request/migration.sql`, à jouer 2 fois (la 2e passe doit réussir). Sans elle, `/api/retractation` répond 500.
+> - **Variable** `STRIPE_CHECKOUT_CGU_CONSENT` (secret du Worker) : mettre `true` SEULEMENT après la déclaration de l'URL des CGU dans Stripe (étape 1 d'`impl-infrastructure.md`). Absente = pas de case CGU au paiement, rien ne casse.
+> - **Nouveau job** de réconciliation Stripe, chaque jour à 4h UTC (`lib/billing/stripe-reconciliation.ts`, lecture seule, résultat dans le digest admin). Porté par le cron `*/15` existant : aucun changement de `wrangler.jsonc`.
+> - **Liens de réinitialisation du mot de passe émis avant le déploiement : invalides** (seul le hash du jeton est stocké désormais). L'utilisateur redemande un lien.
+> - **Thomas, réglages hors code** (`impl-infrastructure.md`) : Stripe, URL des CGU et de la confidentialité (Informations publiques) ; portail client (changement de formule avec les 2 prix, prorata, annuel vers mensuel en fin de période) ; relances (« Résilier l'abonnement » si toutes échouent). Cloudflare : couper l'injection Web Analytics (indépendant du déploiement).
+> - **Procédure** : depuis l'arbre principal **propre** (jamais un worktree), `cd apps/web && npx tsc --noEmit -p tsconfig.build.json && npm run lint && npm run build`, puis `npm run build:cf && npm run deploy:cf`. Journaliser ici le commit, l'ID de version du Worker et l'ID N-1.
+> - **Après déploiement** : `/api/health` en 200 (bloc `critical` vert), `/abonnement`, `/profil`, `/login`, `/register`, `/retractation`, `/confidentialite`, `/cgu` en 200 ; une vidéo se lance depuis `www.youtube-nocookie.com` (CSP `frame-src` réduite à ce domaine) ; achat mensuel réel par Thomas puis remboursement (reco 1).
+> - **Retour arrière** : `npx wrangler rollback` (version N-1). La migration 12 n'ajoute qu'une table : elle peut rester en place.
+
 ## s15 (07/10/2026, 10:09 Paris) : IndexNow, nouvel essai
 
 - POST `/api/indexnow` avec les 8 URL du 06/10 (pilier, `/blog`, `/`, `meilleures-blagues-droles-2026`, `5-types-humour-lequel-pour-toi`, `autoderision-interactions`, `comment-avoir-de-la-repartie`, `phrases-droles-conversations`) : **429 encore** (renvoyé en 502 par la route). Pas de nouvel essai : Bing a déjà reçu ces URL le 06/10 (`SubmitUrlBatch` OK). Contrôles Google prévus à J+7 (13/10) et J+14 (20/10).

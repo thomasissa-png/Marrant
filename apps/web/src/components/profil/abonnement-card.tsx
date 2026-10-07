@@ -72,6 +72,8 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading }: Abon
           <div>
             <p className="text-sm text-error" role="status">{T.impaye}</p>
             <div className="mt-4 flex flex-wrap gap-2">{bouton("carte", T.majCarte, "primary")}</div>
+            {/* Toujours encore abonné (Premium conservé) : le bouton légal de résiliation reste visible (lot D). */}
+            {summary?.hasPortal && <div className="mt-4 border-t border-border pt-4">{bouton("resilier", T.resilier, "ghost")}</div>}
           </div>
         )}
 

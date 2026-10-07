@@ -13,9 +13,6 @@ jest.mock("@/lib/admin-alerts", () => ({ recordAdminAlert: (...a: unknown[]) => 
 import { sendAdminHtmlEmail, sendPasswordResetEmail, sendTransactionalTextEmail, trySendTransactionalTextEmail } from "@/lib/email";
 import {
   emailAccuseRetractation,
-  emailConfirmationAbonnement,
-  emailConfirmationResiliation,
-  emailPaiementRefuse,
   formulaireTypeRetractation,
 } from "@/config/textes/paiement";
 import { renderAnnualRenewalReminder } from "@/lib/emails/annual-renewal-reminder";
@@ -73,64 +70,9 @@ const tutoie = (t: string) => {
   expect(hors).not.toMatch(/\b(vous|votre|vos)\b/i);
 };
 
-describe("gabarits (PROVISOIRE s16)", () => {
-  it("confirmation d'abonnement : mentions L.221-13 complètes", () => {
-    const { subject, text } = emailConfirmationAbonnement({
-      prenom: "Léa",
-      interval: "year",
-      montantCents: 2499,
-      dateSouscription: new Date("2026-10-07T10:00:00Z"),
-      prochainRenouvellement: new Date("2027-10-07T10:00:00Z"),
-    });
-    expect(text).toContain("Salut Léa,");
-    expect(text).toContain("Premium annuel, 24,99 € TTC par an");
-    expect(text).toContain("le 7 octobre 2026");
-    expect(text).toContain("le 7 octobre 2027");
-    expect(text).toMatch(/automatique chaque année/);
-    expect(text).toContain("https://deviens-marrant.fr/profil");
-    expect(text).toContain("14 jours");
-    expect(text).toContain("https://deviens-marrant.fr/retractation");
-    expect(text).toContain("MODÈLE DE FORMULAIRE DE RÉTRACTATION");
-    expect(text).toContain("https://deviens-marrant.fr/cgu");
-    expect(text).toContain("L'Équipe Deviens Marrant");
-    sansTiret(subject + text);
-    tutoie(text);
-  });
-
-  it("confirmation mensuelle, montant inconnu : pas de prix inventé", () => {
-    const { text } = emailConfirmationAbonnement({
-      prenom: null,
-      interval: "month",
-      montantCents: null,
-      dateSouscription: new Date("2026-10-07T10:00:00Z"),
-      prochainRenouvellement: null,
-    });
-    expect(text).toContain("Salut,");
-    expect(text).toContain("Formule : Premium mensuel\n");
-    expect(text).toMatch(/automatique chaque mois/);
-  });
-
-  it("paiement refusé : accès conservé, profil, lien facture, pas de réabonnement", () => {
-    const { subject, text } = emailPaiementRefuse({ prenom: null, lienFacture: "https://invoice.stripe.com/i/1" });
-    expect(text).toContain("reste ouvert");
-    expect(text).toContain("https://deviens-marrant.fr/profil");
-    expect(text).toContain("https://invoice.stripe.com/i/1");
-    expect(text).toMatch(/ne reprends pas un nouvel abonnement/);
-    sansTiret(subject + text);
-    tutoie(text);
-  });
-
-  it("résiliation : date de la demande et fin d'accès", () => {
-    const { subject, text } = emailConfirmationResiliation({
-      prenom: "Max",
-      dateDemande: new Date("2026-10-07T12:30:00Z"),
-      finAcces: new Date("2026-11-01T00:00:00Z"),
-    });
-    expect(text).toContain("le 7 octobre 2026 à 14:30");
-    expect(text).toContain("jusqu'au 1er novembre 2026");
-    sansTiret(subject + text);
-    tutoie(text);
-  });
+describe("gabarits hors étalons (s16)", () => {
+  // Confirmation, paiement refusé et résiliation : textes VALIDÉS (étalons s16),
+  // testés mot pour mot dans __tests__/lib/emails-etalons-s16-lot-e.test.ts.
 
   it("accusé de rétractation : date de réception, référence, signature", () => {
     const { subject, text } = emailAccuseRetractation({

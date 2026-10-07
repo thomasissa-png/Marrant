@@ -585,7 +585,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     });
   });
 
-  it("seed fallback, compte non abonné : pas de bouton Valider, la validation fait partie de l'accès complet (s15)", async () => {
+  it("seed fallback, compte non abonné : pas de bouton Valider, la validation fait partie de Premium (s15)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     // Step 1 auto-expands
@@ -593,7 +593,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Suivi de progression = accès complet (s15 §1.1) : aucun bouton de validation
+    // Suivi de progression = Premium (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
       expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
     });
@@ -763,7 +763,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     // Quiz
     expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
 
-    // Valider = accès complet (s15, étalon 4.1)
+    // Valider = Premium (s15, étalon 4.1)
     expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
   });
 

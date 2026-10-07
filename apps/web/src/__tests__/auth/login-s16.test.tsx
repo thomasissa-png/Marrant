@@ -35,7 +35,8 @@ describe("/login : échecs de connexion e-mail", () => {
   it.each([
     [LOGIN_ERROR_CODES.identifiants, TEXTES_CONNEXION.identifiants, "identifiants"],
     [LOGIN_ERROR_CODES.tropDEssais, TEXTES_CONNEXION.tropDEssais, "trop-d-essais"],
-    [LOGIN_ERROR_CODES.compteGoogle, TEXTES_CONNEXION.compteGoogle, "compte-google"],
+    // Étalon 4 b validé : même message générique que des identifiants faux (aucune fuite).
+    [LOGIN_ERROR_CODES.compteGoogle, TEXTES_CONNEXION.identifiants, "compte-google"],
     [LOGIN_ERROR_CODES.serveur, TEXTES_CONNEXION.serveur, "serveur"],
   ])("%s : message dédié + connexion-echec", async (code, message, motif) => {
     mockSignIn.mockResolvedValue({ error: code });
@@ -54,11 +55,34 @@ describe("/login : échecs de connexion e-mail", () => {
     expect(screen.getByLabelText("Mot de passe")).toHaveValue("");
   });
 
-  it("compte Google : focus sur « Continuer avec Google »", async () => {
-    mockSignIn.mockResolvedValue({ error: LOGIN_ERROR_CODES.compteGoogle });
+  it("compte Google : écran identique à des identifiants faux (étalon 4 b, ne révèle pas le compte)", async () => {
+    const ecran = async (code: string) => {
+      mockSignIn.mockResolvedValue({ error: code });
+      const { unmount } = render(<LoginPage />);
+      await tenterConnexion();
+      await waitFor(() => expect(screen.getByLabelText("Mot de passe")).toHaveFocus());
+      const texte = screen.getByRole("alert").textContent;
+      unmount();
+      return texte;
+    };
+    const google = await ecran(LOGIN_ERROR_CODES.compteGoogle);
+    const faux = await ecran(LOGIN_ERROR_CODES.identifiants);
+    expect(google).toBe(faux);
+    expect(google).toBe(
+      "E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe." +
+        "Si tu as créé ton compte avec Google, clique sur « Continuer avec Google ».",
+    );
+  });
+
+  it.each([
+    [LOGIN_ERROR_CODES.tropDEssais, "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu, ou réinitialise ton mot de passe."],
+    [LOGIN_ERROR_CODES.serveur, "Quelque chose a coincé de notre côté. Réessaie dans un instant."],
+  ])("%s : texte validé mot pour mot, sans aide Google", async (code, attendu) => {
+    mockSignIn.mockResolvedValue({ error: code });
     render(<LoginPage />);
     await tenterConnexion();
-    await waitFor(() => expect(screen.getByRole("button", { name: /Continuer avec Google/ })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole("alert").textContent).toBe(attendu));
+    expect(screen.queryByTestId("login-aide-google")).toBeNull();
   });
 
   it("panne réseau : message serveur, motif reseau", async () => {
@@ -73,7 +97,9 @@ describe("/login : retour Google en erreur", () => {
   it("OAuthAccountNotLinked : message « compte avec mot de passe », aucune relance Google", () => {
     mockSearchParams.set("error", "OAuthAccountNotLinked");
     render(<LoginPage />);
-    expect(screen.getByRole("alert")).toHaveTextContent(TEXTES_CONNEXION.oauthCompteExistant);
+    expect(screen.getByRole("alert").textContent).toBe(
+      "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
+    ); // étalon 4 b validé
     expect(mockSignIn).not.toHaveBeenCalled();
     expect(mockTrack).toHaveBeenCalledWith("connexion-echec", { methode: "google", motif: "compte-mot-de-passe" });
     expect(screen.getByLabelText("Email")).toHaveFocus();

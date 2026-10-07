@@ -25,22 +25,36 @@ const OAUTH_ERRORS: Record<string, string> = {
   OAuthCallback:
     "La connexion avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
   OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
-  Default: "La connexion a coincé de notre côté. Réessaie.",
+  // Lot E : erreur inconnue = erreur de notre côté, étalon 4 b.
+  Default: TEXTES_CONNEXION.serveur,
 };
 
 type ChampFocus = "email" | "password" | "google";
 
-/** s16 reco 16 : erreur de connexion e-mail → message, motif Umami, champ à refocaliser. */
-function erreurConnexion(code: string): { message: string; motif: string; focus: ChampFocus } {
+interface ErreurConnexion {
+  message: string;
+  motif: string;
+  focus: ChampFocus;
+  /** Aide « compte Google » sous le message (étalon 4 b). */
+  aideGoogle: boolean;
+}
+
+/**
+ * s16 reco 16 : erreur de connexion e-mail → message, motif Umami, champ à refocaliser.
+ * Lot E (étalon 4, validé) : un compte créé avec Google affiche EXACTEMENT le même
+ * écran que des identifiants faux (message générique + aide Google, focus sur le
+ * mot de passe) : l'écran ne révèle pas qu'un compte existe pour cette adresse.
+ */
+function erreurConnexion(code: string): ErreurConnexion {
   switch (code) {
     case LOGIN_ERROR_CODES.tropDEssais:
-      return { message: TEXTES_CONNEXION.tropDEssais, motif: "trop-d-essais", focus: "password" };
+      return { message: TEXTES_CONNEXION.tropDEssais, motif: "trop-d-essais", focus: "password", aideGoogle: false };
     case LOGIN_ERROR_CODES.compteGoogle:
-      return { message: TEXTES_CONNEXION.compteGoogle, motif: "compte-google", focus: "google" };
+      return { message: TEXTES_CONNEXION.identifiants, motif: "compte-google", focus: "password", aideGoogle: true };
     case LOGIN_ERROR_CODES.serveur:
-      return { message: TEXTES_CONNEXION.serveur, motif: "serveur", focus: "password" };
+      return { message: TEXTES_CONNEXION.serveur, motif: "serveur", focus: "password", aideGoogle: false };
     default:
-      return { message: TEXTES_CONNEXION.identifiants, motif: "identifiants", focus: "password" };
+      return { message: TEXTES_CONNEXION.identifiants, motif: "identifiants", focus: "password", aideGoogle: true };
   }
 }
 
@@ -76,6 +90,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [aideGoogle, setAideGoogle] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   // Navigateur intégré détecté au montage : Google désactivé seulement là où il est refusé (v5 §2.4).
@@ -107,8 +122,9 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
 
   // s16 reco 19 : l'e-mail est gardé, le focus revient sur le champ utile.
-  const signalerEchec = (motif: string, message: string, focus: ChampFocus) => {
+  const signalerEchec = (motif: string, message: string, focus: ChampFocus, aide = false) => {
     setError(message);
+    setAideGoogle(aide);
     setPassword("");
     trackUmami("connexion-echec", { methode: "email", motif });
     const cible = focus === "google" ? googleRef : focus === "email" ? emailRef : passwordRef;
@@ -128,8 +144,8 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
       });
 
       if (result?.error) {
-        const { message, motif, focus } = erreurConnexion(result.error);
-        signalerEchec(motif, message, focus);
+        const { message, motif, focus, aideGoogle: aide } = erreurConnexion(result.error);
+        signalerEchec(motif, message, focus, aide);
       } else {
         trackUmami("connexion-reussie", { methode: "email" });
         router.push(callbackUrl);
@@ -168,6 +184,11 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
             {error && (
               <p id="login-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
                 {error}
+                {aideGoogle && (
+                  <span className="mt-1 block text-text-secondary" data-testid="login-aide-google">
+                    {TEXTES_CONNEXION.aideCompteGoogle}
+                  </span>
+                )}
               </p>
             )}
             <div>

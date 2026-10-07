@@ -134,6 +134,13 @@ function SubscriptionSuccessContent() {
               <Link href={loginHref} className={buttonVariants({ variant: "primary", className: "mt-4" })}>
                 {TEXTES_SUCCESS.connexionBouton}
               </Link>
+              {/* Étalon 5a.2 : lien discret pour qui arrive ici sans s'être abonné. */}
+              <p className="mt-4 text-sm text-text-muted">
+                {TEXTES_SUCCESS.connexionLienAvant}
+                <Link href="/abonnement" className="underline underline-offset-2 hover:text-text-secondary">
+                  {TEXTES_SUCCESS.connexionLien}
+                </Link>
+              </p>
             </>
           )}
           {etat === "non-verifie" && (

@@ -145,13 +145,16 @@ describe("reco 3 : impayé", () => {
     ...over,
   });
 
-  it("1er échec : PAST_DUE, Premium CONSERVÉ, e-mail avec lien de la facture", async () => {
-    const res = await deliver("invoice.payment_failed", invoice());
+  it("1er échec : PAST_DUE, Premium CONSERVÉ, e-mail avec montant et date prévue (étalon 3)", async () => {
+    const res = await deliver("invoice.payment_failed", invoice({ amount_due: 299, created: 1_791_331_200 }));
     expect(res.status).toBe(200);
     expect(prisma.subscription.findUnique).toHaveBeenCalledWith({ where: { stripeSubscriptionId: "sub_1" } });
     expect(prisma.subscription.update).toHaveBeenCalledWith({ where: { id: "db_sub_1" }, data: { status: "PAST_DUE" } });
     expect(prisma.user.update).not.toHaveBeenCalled();
-    expect(notifyPaymentFailed).toHaveBeenCalledWith("user-1", "https://invoice.stripe.com/i/abc");
+    expect(notifyPaymentFailed).toHaveBeenCalledWith("user-1", {
+      montantCents: 299,
+      datePrevue: new Date(1_791_331_200 * 1000),
+    });
   });
 
   it("relances suivantes : pas de nouvel e-mail", async () => {
@@ -263,7 +266,7 @@ describe("reco 10 : accusé de résiliation", () => {
       stripeSub({ cancel_at_period_end: true, canceled_at: 1_759_850_000 }),
       { cancel_at_period_end: false },
     );
-    expect(notifyCancellationScheduled).toHaveBeenCalledWith("user-1", new Date(1_759_850_000 * 1000), new Date(PERIOD_END * 1000));
+    expect(notifyCancellationScheduled).toHaveBeenCalledWith("user-1", new Date(PERIOD_END * 1000));
     expect(prisma.subscription.update.mock.calls[0][0].data.cancelAtPeriodEnd).toBe(true);
   });
 

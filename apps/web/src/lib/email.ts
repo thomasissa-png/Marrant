@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { recordAdminAlert } from "@/lib/admin-alerts";
+import { salutation } from "@/lib/emails/annual-renewal-reminder";
 
 const FROM_EMAIL = process.env.EMAIL_FROM ?? "Deviens Marrant <noreply@deviens-marrant.fr>";
 
@@ -60,9 +61,18 @@ async function sendOrAlert(
   }
 }
 
-export async function sendPasswordResetEmail(to: string, resetUrl: string): Promise<void> {
-  await sendOrAlert("reinitialisation", {
-    to,
+/** Échappement HTML minimal des valeurs insérées dans un gabarit HTML. */
+function escapeHtml(valeur: string): string {
+  return valeur.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/**
+ * Gabarit de l'e-mail de réinitialisation (hors étalons s16, texte inchangé).
+ * Lot E : salutation avec le prénom du compte (« Salut Marie-Hélène, »), repli
+ * « Salut, » si absent. Exporté pour les tests et les aperçus.
+ */
+export function renderPasswordResetEmail(resetUrl: string, prenom: string | null = null): { subject: string; html: string } {
+  return {
     subject: "Réinitialise ton mot de passe Deviens Marrant",
     html: `
 <!DOCTYPE html>
@@ -70,7 +80,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
 <head><meta charset="UTF-8"></head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #1a1a1a;">
   <h2 style="color: #7c3aed; margin-bottom: 8px;">Deviens Marrant 🎤</h2>
-  <p>Salut,</p>
+  <p>${escapeHtml(salutation(prenom))}</p>
   <p>Tu as demandé à changer ton mot de passe. Un clic sur le bouton ci-dessous et tu en choisis un nouveau :</p>
   <a href="${resetUrl}" style="display: inline-block; background: #7c3aed; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 16px 0;">Réinitialiser mon mot de passe</a>
   <p style="font-size: 14px; color: #666;">Ce lien expire dans <strong>1 heure</strong>.</p>
@@ -81,7 +91,12 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
   <p style="font-size: 12px; color: #999;">deviens-marrant.fr · Deviens dr&ocirc;le, un exercice &agrave; la fois.</p>
 </body>
 </html>`,
-  });
+  };
+}
+
+export async function sendPasswordResetEmail(to: string, resetUrl: string, prenom: string | null = null): Promise<void> {
+  const { subject, html } = renderPasswordResetEmail(resetUrl, prenom);
+  await sendOrAlert("reinitialisation", { to, subject, html });
 }
 
 /**

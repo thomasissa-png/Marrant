@@ -28,7 +28,9 @@ import {
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
-import { OFFRE_NOM, PAIEMENT_ANNULE, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import { OFFRE_NOM, PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
+import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
 /**
  * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
@@ -115,6 +117,8 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   const isAnnual = plan === "annual";
   const priceLabel = isAnnual ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
+  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
   // Plus de compte gratuit (s15) : un seul chemin, /register (étape 1 sur 2)
   // puis retour ici avec `auto=1` (paiement ouvert tout seul), formule et
   // intention conservées (voir getPostSignupRedirect et buildAbonnementUrl).
@@ -135,6 +139,7 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
     const annual = chosenPlan === "annual";
     setIsCheckoutLoading(true);
+    setConflict(null);
     trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur, statut: "membre" });
     try {
       const origin = readReturnTo();
@@ -145,8 +150,11 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
         body: JSON.stringify({ ...(origin ? { returnTo: origin } : {}), ...(annual ? { plan: chosenPlan } : {}) }),
       });
       const data = await res.json();
+      const conflit = readCheckoutConflict(res.status, data);
       if (res.ok && data.url) {
         window.location.href = data.url;
+      } else if (conflit) {
+        setConflict(conflit);
       } else {
         console.error("[Checkout]", data.error);
         toast(checkoutErrorMessage(res.status), "error");
@@ -252,8 +260,10 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
             </Link>
           )}
 
+          {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
+
           <p className="mt-3 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
-            {REASSURANCE_PAIEMENT}
+            {reassurancePaiement(plan)}
           </p>
           <p className="mt-1 text-center text-xs text-text-muted">
             Droit de{" "}

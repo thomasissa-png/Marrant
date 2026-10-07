@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { subscriptionFlags } from "@/lib/subscription-state";
 
 /**
  * GET /api/stripe/status : plan et état de l'abonnement de l'utilisateur connecté.
@@ -14,6 +15,9 @@ import { prisma } from "@/lib/prisma";
  * - `billingInterval` ("month" | "year" | null), `priceAmountCents`,
  *   `currentPeriodEnd` (ISO, prochain prélèvement ou fin d'accès),
  *   `cancelAtPeriodEnd` (résiliation programmée : l'accès court jusqu'à `currentPeriodEnd`).
+ * `paymentIssue` et `cancelAtPeriodEnd` viennent de `subscriptionFlags`, comme
+ * le profil (/api/user/subscription) : un abonnement terminé n'est jamais
+ * « résiliation programmée » (lot D).
  */
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -38,14 +42,15 @@ export async function GET() {
     }),
   ]);
 
+  const flags = subscriptionFlags(sub);
   return NextResponse.json({
     plan: user?.plan ?? "FREE",
     subscriptionStatus: sub?.status ?? null,
-    paymentIssue: sub?.status === "PAST_DUE",
+    paymentIssue: flags.paymentIssue,
     portalAvailable: Boolean(sub?.stripeCustomerId),
     billingInterval: sub?.billingInterval ?? null,
     priceAmountCents: sub?.priceAmountCents ?? null,
     currentPeriodEnd: sub?.currentPeriodEnd ? sub.currentPeriodEnd.toISOString() : null,
-    cancelAtPeriodEnd: sub?.cancelAtPeriodEnd ?? false,
+    cancelAtPeriodEnd: flags.cancelAtPeriodEnd,
   });
 }

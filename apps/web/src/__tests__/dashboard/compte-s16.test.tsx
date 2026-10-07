@@ -55,7 +55,7 @@ describe("AbonnementCard (reco 11)", () => {
     expect(screen.getByText("Prochain prélèvement le 12 novembre 2026.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.changerFormule })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /Résilier/ })).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "Résilier mon abonnement" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
     expect(screen.getByText(/tu gardes Premium jusqu'au 12 novembre 2026/)).toBeInTheDocument();
     expect(screen.getByText(/Passe à l'annuel : plus de 3 mois offerts, 10,89 € économisés/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/votre|—/);
@@ -145,5 +145,15 @@ describe("/reset-password (reco 19)", () => {
     expect(champ).toHaveAttribute("type", "text");
     await userEvent.click(screen.getByRole("button", { name: "Masquer le mot de passe" }));
     expect(champ).toHaveAttribute("type", "password");
+  });
+});
+
+describe("AbonnementCard, impayé (audit s16, lot D)", () => {
+  it("impayé : mise à jour de la carte ET bouton légal de résiliation", async () => {
+    mockSummary({ ...actif, status: "PAST_DUE" });
+    render(card());
+    expect(await screen.findByText(TEXTES_ABONNEMENT.impaye)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.majCarte })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
   });
 });

@@ -157,7 +157,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Email ou mot de passe incorrect.");
+      expect(screen.getByRole("alert")).toHaveTextContent("E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe.");
     });
   });
 
@@ -170,7 +170,7 @@ describe("LoginPage", () => {
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
+      expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie dans un instant.");
     });
   });
 

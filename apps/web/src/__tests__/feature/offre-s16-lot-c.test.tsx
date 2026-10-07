@@ -16,7 +16,6 @@ import {
   ANNUEL_AVANTAGE_LABEL,
   ANNUEL_ECONOMIE_LABEL,
   ANNUEL_MOIS_OFFERTS_LABEL,
-  REASSURANCE_PAIEMENT,
 } from "@/config/textes/offre";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
@@ -43,8 +42,8 @@ beforeEach(() => {
 describe("offre : textes calculés (D5)", () => {
   it("annuel : plus de 3 mois offerts ET 10,89 € économisés, jamais 4 mois", () => {
     expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
-    expect(ANNUEL_ECONOMIE_LABEL).toBe("10,89 € économisés");
-    expect(ANNUEL_AVANTAGE_LABEL).toBe("plus de 3 mois offerts, 10,89 € économisés par an");
+    expect(ANNUEL_ECONOMIE_LABEL).toBe("10,89\u00A0€ économisés");
+    expect(ANNUEL_AVANTAGE_LABEL).toBe("plus de 3 mois offerts, 10,89\u00A0€ économisés par an");
     expect(ANNUEL_AVANTAGE_LABEL).not.toMatch(/4 mois|—/);
   });
 });
@@ -55,7 +54,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     window.history.pushState({}, "", "/abonnement?src=vannes");
     render(<AbonnementView annualAvailable={false} />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText(REASSURANCE_PAIEMENT)).toBeInTheDocument();
+    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
   });
@@ -81,7 +80,9 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       window.history.pushState({}, "", url);
       render(<AbonnementView annualAvailable={false} />);
-      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n'a été débité.");
+      // Étalon 5b.2 validé : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
+      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n'a été prélevé.");
+      expect(screen.getByRole("status")).toHaveTextContent("Tu peux réessayer quand tu veux.");
       expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
     },
   );
@@ -98,7 +99,7 @@ describe("accueil : bloc Premium", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText(REASSURANCE_PAIEMENT)).toBeInTheDocument();
+    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
     expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
     const link = screen.getByText("Commencer à 2,99 €/mois");
     link.addEventListener("click", (e) => e.preventDefault());

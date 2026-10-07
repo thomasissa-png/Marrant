@@ -10,7 +10,11 @@
 const getServerSession = jest.fn();
 jest.mock("next-auth", () => ({ getServerSession: (...a: unknown[]) => getServerSession(...a) }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
-jest.mock("@/lib/rate-limit", () => ({ rateLimit: () => ({ allowed: true }) }));
+const sharedRateLimit = jest.fn();
+jest.mock("@/lib/rate-limit", () => ({
+  sharedRateLimit: (...a: unknown[]) => sharedRateLimit(...a),
+  retryAfterSeconds: () => 1800,
+}));
 
 const createCheckoutSession = jest.fn();
 jest.mock("@/lib/stripe", () => {
@@ -45,6 +49,7 @@ function post(body?: string) {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  sharedRateLimit.mockResolvedValue({ allowed: true, remaining: 4, resetAt: 0 });
   getServerSession.mockResolvedValue({ user: { id: "user-1", email: "a@b.fr" } });
   createCheckoutSession.mockResolvedValue("https://checkout.stripe.com/s");
 });

@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { sanitizeReturnTo } from "@/lib/premium-return";
 import type { PremiumPlan } from "@/config/premium";
 import { getPremiumPriceId, PREMIUM_PRICE_ENV } from "@/lib/premium-plan-availability";
-import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
+import { texteStripeSubmit } from "@/config/textes/paiement";
 
 // Client Stripe — singleton lazy (évite crash au build sans clé API)
 let _stripe: Stripe | null = null;
@@ -173,7 +173,7 @@ export async function createCheckoutSession(
       },
     ],
     locale: "fr",
-    custom_text: { submit: { message: TEXTES_CHECKOUT.stripeSubmit } },
+    custom_text: { submit: { message: texteStripeSubmit(plan) } },
     // `formule=annuel` (annuel seulement) : mesure Umami abonnement-reussi sur la page de retour.
     success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`,
     // `paiement=annule` : message de retour (lot C) ; `upgrade=cancel` conservé pour l'événement Umami abonnement-annule.

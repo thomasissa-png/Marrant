@@ -2,13 +2,25 @@
  * Textes client du lot A (paiement, e-mails transactionnels, rétractation),
  * audit parcours s16 (07/10/2026).
  *
- * PROVISOIRE s16, étalon à valider : la règle P0 du projet impose de calibrer
- * tout nouveau texte avec Thomas (étalons @copywriter). Tutoiement, zéro tiret
- * cadratin, signature « L'Équipe Deviens Marrant », aucune mention d'IA.
+ * Lot E (07/10/2026) : les textes couverts par les étalons validés par Thomas
+ * (`docs/copy/etalons-parcours-s16.md`, décision dans founder-preferences)
+ * sont repris mot pour mot et marqués `VALIDÉ s16`. Les autres restent
+ * `PROVISOIRE s16`. Tutoiement, zéro tiret cadratin, signature « L'Équipe
+ * Deviens Marrant », aucune mention d'IA. Prix et dates viennent toujours des
+ * données (config/premium.ts, Stripe), jamais en dur.
  * Exception : le modèle de formulaire de rétractation (annexe à l'article
  * R.221-1 du Code de la consommation) est un texte légal repris mot pour mot.
  */
-import { formatEuros } from "@/config/premium";
+import {
+  formatEuros,
+  PREMIUM_ANNUAL_PRICE_CENTS,
+  PREMIUM_ANNUAL_SAVINGS_CENTS,
+  PREMIUM_MONTHLY_PRICE_CENTS,
+  type PremiumPlan,
+} from "@/config/premium";
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import { ANNUEL_MOIS_OFFERTS_LABEL, prixTtcLabel } from "@/config/textes/offre";
+import { salutation } from "@/lib/emails/annual-renewal-reminder";
 
 export const CONTACT_EMAIL = "contact@deviens-marrant.fr";
 export const SIGNATURE = "L'Équipe Deviens Marrant";
@@ -16,6 +28,49 @@ export const SIGNATURE = "L'Équipe Deviens Marrant";
 /** URL publique du site (liens des e-mails). */
 export function siteUrl(): string {
   return (process.env.NEXTAUTH_URL || "https://deviens-marrant.fr").replace(/\/+$/, "");
+}
+
+/** « deviens-marrant.fr » : l'adresse du site telle qu'on l'écrit en clair. */
+export function siteDomaine(): string {
+  return siteUrl().replace(/^https?:\/\//, "");
+}
+
+function partiesParis(date: Date): { annee: number; mois: number; jour: number } {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Europe/Paris",
+  }).formatToParts(date);
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+  return { annee: get("year"), mois: get("month"), jour: get("day") };
+}
+
+/**
+ * Jour de Paris + n jours, au calendrier (insensible au changement d'heure :
+ * souscrit le 20/10 à 00:30 → 3 novembre). Renvoie midi UTC de ce jour.
+ */
+export function ajouterJoursParis(date: Date, jours: number): Date {
+  const { annee, mois, jour } = partiesParis(date);
+  return new Date(Date.UTC(annee, mois - 1, jour + jours, 12));
+}
+
+/** Même jour le mois (ou l'an) suivant, borné au dernier jour du mois (31/01 → 28/02). */
+export function ajouterPeriodeParis(date: Date, periode: "month" | "year"): Date {
+  const { annee, mois, jour } = partiesParis(date);
+  const cible = mois - 1 + (periode === "year" ? 12 : 1);
+  const dernierJour = new Date(Date.UTC(annee, cible + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(annee, cible, Math.min(jour, dernierJour), 12));
+}
+
+/** Date exploitable (objet Date valide), sinon null. */
+function dateValide(date: Date | null | undefined): Date | null {
+  return date instanceof Date && !Number.isNaN(date.getTime()) ? date : null;
+}
+
+/** Montant exploitable en centimes (entier positif), sinon null. */
+function centimesValides(cents: number | null | undefined): number | null {
+  return typeof cents === "number" && Number.isInteger(cents) && cents > 0 ? cents : null;
 }
 
 /** « 7 octobre 2026 », « 1er novembre 2026 » (heure de Paris). */
@@ -41,15 +96,26 @@ export function dateHeure(date: Date): string {
   return `${dateLongue(date)} à ${heure}`;
 }
 
+/**
+ * Texte sous le bouton de la page Stripe (`custom_text.submit.message`, 1 200
+ * caractères max). VALIDÉ s16 (étalon 1, texte Stripe) : seule la formule
+ * choisie est affichée. Stripe accepte les liens Markdown : le texte visible
+ * reste l'adresse en clair de l'étalon, et elle est cliquable.
+ */
+export function texteStripeSubmit(plan: PremiumPlan): string {
+  const prix = plan === "annual" ? `${prixTtcLabel("annual")}, renouvelé chaque année` : prixTtcLabel("monthly");
+  const lien = (chemin: string) => `[${siteDomaine()}${chemin}](${siteUrl()}${chemin})`;
+  return `Premium : ${prix}. Tu as 14 jours pour te faire rembourser (formulaire : ${lien("/retractation")}). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : ${lien("/cgu")}`;
+}
+
 // PROVISOIRE s16, étalon à valider
 export const TEXTES_CHECKOUT = {
-  /** Sous le bouton de paiement de la page Stripe (custom_text.submit, 1200 caractères max). */
-  stripeSubmit:
-    "Prix TTC. Ton abonnement se renouvelle automatiquement et tu peux le résilier en ligne depuis ton profil, à tout moment. Tu changes d'avis ? On te rembourse sous 14 jours, sans justification.",
   dejaAbonne:
     "Tu as déjà un abonnement Premium. Pour changer de formule ou mettre ta carte à jour, passe par ton profil.",
   impaye:
     "Ton dernier paiement n'est pas passé. Mets ta carte à jour depuis ton profil pour garder ton accès : pas besoin de te réabonner.",
+  /** Lien affiché sous dejaAbonne / impaye (/abonnement, modale Premium, accueil). Lot D. */
+  lienProfil: "Aller à mon profil",
 } as const;
 
 // PROVISOIRE s16, étalon à valider
@@ -59,14 +125,17 @@ export const TEXTES_PORTAIL = {
   connexion: "Connecte-toi pour gérer ton abonnement.",
 } as const;
 
-// PROVISOIRE s16, étalon à valider
+// PROVISOIRE s16, étalon à valider (sauf la partie « connexion », VALIDÉ s16, étalon 5a.2)
 export const TEXTES_SUCCESS = {
   verificationTitre: "On vérifie ton paiement",
   verificationTexte: "Quelques secondes, le temps de confirmer avec notre service de paiement.",
-  connexionTitre: "Connecte-toi pour activer ton accès",
+  // VALIDÉ s16 (étalon 5a.2) : client non connecté.
+  connexionTitre: "Connecte-toi pour retrouver ton abonnement",
   connexionTexte:
-    "Ta session a expiré. Connecte-toi avec le compte utilisé pour payer : on vérifie ton paiement et ton accès Premium s'active.",
-  connexionBouton: "Se connecter",
+    "Tu n'es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d'ici. Si tu viens de t'abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
+  connexionBouton: "Me connecter",
+  connexionLienAvant: "Pas encore abonné ? ",
+  connexionLien: "Voir Premium",
   nonVerifieTitre: "On n'arrive pas à confirmer ton paiement",
   nonVerifieTexte:
     "On n'a pas encore de confirmation de ton paiement. Si tu as bien été débité, pas d'inquiétude : écris-nous à " +
@@ -94,7 +163,11 @@ export const TEXTES_RETRACTATION_FORM = {
 export { formatEuros };
 
 // ==========================================================================
-// E-mails transactionnels (texte simple, support durable). PROVISOIRE s16.
+// E-mails transactionnels (texte simple, support durable).
+// Chaque champ variable a un repli propre (prénom absent → « Salut, »,
+// montant ou date manquants → tirés de config/premium ou phrase sans le
+// champ) : jamais « undefined », « null » ni date en anglais. Rendus vérifiés
+// par lib/emails/garde-fou-rendu.ts (tests + alerte à l'envoi).
 // ==========================================================================
 
 export interface EmailRendu {
@@ -102,16 +175,11 @@ export interface EmailRendu {
   text: string;
 }
 
-function salut(prenom: string | null): string {
-  return prenom ? `Salut ${prenom},` : "Salut,";
-}
-
-/** « Premium mensuel, 2,99 € TTC par mois » ; intervalle inconnu → libellé sans périodicité. */
-export function libelleFormule(interval: string | null, montantCents: number | null): string {
-  const nom = interval === "year" ? "Premium annuel" : interval === "month" ? "Premium mensuel" : "Premium";
-  if (montantCents === null) return nom;
-  const periode = interval === "year" ? " par an" : interval === "month" ? " par mois" : "";
-  return `${nom}, ${formatEuros(montantCents)} TTC${periode}`;
+/** Formule de l'abonnement. Intervalle inconnu : déduit du montant, sinon mensuel (formule par défaut du checkout). */
+export function formuleDe(interval: string | null | undefined, montantCents: number | null | undefined): PremiumPlan {
+  if (interval === "year") return "annual";
+  if (interval === "month") return "monthly";
+  return centimesValides(montantCents) === PREMIUM_ANNUAL_PRICE_CENTS ? "annual" : "monthly";
 }
 
 /**
@@ -140,74 +208,87 @@ export interface ConfirmationAbonnementVars {
   prochainRenouvellement: Date | null;
 }
 
-/** Confirmation de commande (L.221-13), qui sert aussi d'e-mail de bienvenue. */
+/**
+ * Confirmation de commande (L.221-13), qui sert aussi d'e-mail de bienvenue.
+ * VALIDÉ s16 : étalon 2, corps A + objet 2.2, mot pour mot. Adaptations :
+ * « rubrique « Gérer mon abonnement » » → bouton réel « Résilier ton contrat »
+ * (libellé unique s16) ; le modèle légal de formulaire de rétractation
+ * (L.221-5) est joint après la signature.
+ */
 export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): EmailRendu {
   const url = siteUrl();
-  const annuel = v.interval === "year";
-  const reconduction = annuel ? "chaque année" : "chaque mois";
-  const prochain = v.prochainRenouvellement
-    ? `Prochain renouvellement : le ${dateLongue(v.prochainRenouvellement)}`
-    : `Renouvellement : ${reconduction}, à la date anniversaire de ta souscription`;
+  const plan = formuleDe(v.interval, v.montantCents);
+  const annuel = plan === "annual";
+  const prixDefaut = annuel ? PREMIUM_ANNUAL_PRICE_CENTS : PREMIUM_MONTHLY_PRICE_CENTS;
+  const montant = formatEuros(centimesValides(v.montantCents) ?? prixDefaut);
+  const prix = `${montant} TTC par ${annuel ? "an" : "mois"}`;
+  const souscription = dateValide(v.dateSouscription) ?? new Date();
+  const prochain = dateValide(v.prochainRenouvellement) ?? ajouterPeriodeParis(souscription, annuel ? "year" : "month");
+  const finRetractation = ajouterJoursParis(souscription, 14);
+  const ligneAnnuelle = annuel
+    ? `\nAvec l'annuel, tu as ${ANNUEL_MOIS_OFFERTS_LABEL} : ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par rapport au mensuel.\n`
+    : "";
   return {
-    subject: "Bienvenue dans Premium : la confirmation de ton abonnement",
-    text: `${salut(v.prenom)}
+    subject: "Bienvenue dans Premium, ton abonnement est confirmé",
+    text: `${salutation(v.prenom)}
 
-Bienvenue dans Premium ! Ton abonnement à Deviens Marrant est actif : tous les parcours, toutes les vannes et tes favoris sont ouverts.
+Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance.
 
-Pour commencer : ${url}/parcours
+Voici ta confirmation :
+- Formule : Premium ${annuel ? "annuel" : "mensuel"}
+- Prix : ${prix}
+- Souscrit le : ${dateLongue(souscription)}
+- Prochain prélèvement : ${dateLongue(prochain)}, ${montant} TTC. L'abonnement se reconduit automatiquement à cette date, jusqu'à ce que tu le résilies.
+${ligneAnnuelle}
+Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu'à la fin de la période payée.
 
-============================================
-TON ABONNEMENT
-Formule : ${libelleFormule(v.interval, v.montantCents)}
-Date de souscription : le ${dateLongue(v.dateSouscription)}
-${prochain}
-Reconduction : automatique ${reconduction}, jusqu'à ce que tu résilies
-============================================
+Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit jusqu'au ${dateLongue(finRetractation)}, pour te rétracter et être remboursé, sans donner de motif. Il suffit de remplir ce formulaire : ${url}/retractation.
 
-RÉSILIER
-Tu peux résilier en ligne à tout moment depuis ton profil (${url}/profil), bouton « Résilier ton contrat ». Tu gardes ton accès jusqu'à la fin de la période déjà payée, sans nouveau prélèvement.
+Les CGU qui s'appliquent à ton abonnement : ${url}/cgu.
 
-DROIT DE RÉTRACTATION
-Tu as 14 jours à partir d'aujourd'hui pour changer d'avis, sans justification. On te rembourse alors sous 14 jours, sur le moyen de paiement utilisé.
-Pour te rétracter, le plus simple : le formulaire en ligne ${url}/retractation
-Tu peux aussi nous écrire à ${CONTACT_EMAIL}, ou utiliser le modèle ci-dessous.
+Pour bien démarrer : ouvre un parcours et lance l'étape 2 (la première se lit déjà sans compte) : ${url}/parcours.
 
-${formulaireTypeRetractation()}
-
-CONDITIONS GÉNÉRALES
-Les conditions générales que tu as acceptées : ${url}/cgu
-
-Garde cet e-mail : c'est la confirmation de ton contrat.
-
-Une question ? ${CONTACT_EMAIL}
-
+À très vite,
 ${SIGNATURE}
+
+============================================
+${formulaireTypeRetractation()}
 `,
   };
 }
 
 export interface PaiementRefuseVars {
   prenom: string | null;
-  /** Page Stripe de la facture (payer avec une autre carte). */
-  lienFacture: string | null;
+  /** Montant de l'échéance refusée, en centimes (facture Stripe `amount_due`). */
+  montantCents: number | null;
+  /** Date prévue du prélèvement (création de la facture Stripe). */
+  datePrevue: Date | null;
 }
 
+/**
+ * Premier prélèvement refusé (Premium conservé pendant les relances).
+ * VALIDÉ s16 : étalon 3, corps A + objet 3.2, mot pour mot. Le bouton
+ * « Mettre à jour ma carte » est le lien du profil (bouton du même nom).
+ * Montant ou date absents : la parenthèse ne garde que ce qui est connu.
+ */
 export function emailPaiementRefuse(v: PaiementRefuseVars): EmailRendu {
   const url = siteUrl();
-  const facture = v.lienFacture ? `\nTu peux aussi régler directement cette échéance avec une autre carte : ${v.lienFacture}\n` : "";
+  const cents = centimesValides(v.montantCents);
+  const date = dateValide(v.datePrevue);
+  const details = [cents !== null ? `${formatEuros(cents)} TTC` : null, date ? `prévu le ${dateLongue(date)}` : null]
+    .filter(Boolean)
+    .join(", ");
   return {
-    subject: "Ton paiement Deviens Marrant n'est pas passé",
-    text: `${salut(v.prenom)}
+    subject: "Ton paiement n'est pas passé, ton Premium reste actif",
+    text: `${salutation(v.prenom)}
 
-Le paiement de ton abonnement Premium n'est pas passé (carte expirée, plafond atteint, refus de la banque…). Ça arrive.
+Le prélèvement de ton abonnement Premium${details ? ` (${details})` : ""} n'est pas passé. Ça arrive : carte expirée, plafond atteint, vérification de la banque.
 
-Ton accès Premium reste ouvert pendant qu'on réessaie le paiement dans les prochains jours. Pour qu'il passe, mets ta carte à jour depuis ton profil, bouton « Gérer mon abonnement » : ${url}/profil
-${facture}
-Surtout, ne reprends pas un nouvel abonnement : tu paierais deux fois.
+Rien n'est coupé pour l'instant : ton accès Premium reste ouvert pendant que le prélèvement est retenté automatiquement dans les prochains jours.
 
-Si rien ne change à la fin des nouvelles tentatives, ton abonnement s'arrête, sans autre prélèvement.
+Si ta carte a changé ou si ta banque a bloqué le paiement, tu peux la mettre à jour ici : ${url}/profil.
 
-Une question ? ${CONTACT_EMAIL}
+Si le paiement reste impossible à la fin des tentatives, l'abonnement s'arrête et l'accès Premium se ferme. Tu pourras te réabonner quand tu veux.
 
 ${SIGNATURE}
 `,
@@ -216,31 +297,28 @@ ${SIGNATURE}
 
 export interface ResiliationVars {
   prenom: string | null;
-  /** Date de la demande de résiliation. */
-  dateDemande: Date;
   /** Fin de l'accès Premium (fin de la période payée). */
   finAcces: Date | null;
 }
 
-/** Accusé de résiliation (D.215-3) : date de la demande et date d'effet. */
+/**
+ * Confirmation de résiliation (L.215-1-1 : date de fin et effets).
+ * VALIDÉ s16 : étalon 5c, objet 5c.3 + corps, mot pour mot. Date de fin
+ * inconnue : objet 5c.1 (variante de l'étalon) et « la fin de la période payée ».
+ */
 export function emailConfirmationResiliation(v: ResiliationVars): EmailRendu {
   const url = siteUrl();
-  const fin = v.finAcces
-    ? `Ton accès Premium reste ouvert jusqu'au ${dateLongue(v.finAcces)}. Ensuite, plus aucun prélèvement.`
-    : "Ton accès Premium reste ouvert jusqu'à la fin de la période déjà payée. Ensuite, plus aucun prélèvement.";
+  const fin = dateValide(v.finAcces);
+  const jusquau = fin ? `jusqu'au ${dateLongue(fin)}` : "jusqu'à la fin de la période payée";
   return {
-    subject: "Ta résiliation Deviens Marrant est confirmée",
-    text: `${salut(v.prenom)}
+    subject: fin ? `C'est noté : ton Premium s'arrête le ${dateLongue(fin)}` : "Ta résiliation est confirmée",
+    text: `${salutation(v.prenom)}
 
-On confirme ta résiliation, demandée le ${dateHeure(v.dateDemande)}.
+Ta résiliation est bien prise en compte. Tu gardes l'accès Premium ${jusquau}, puis l'abonnement s'arrête : aucun nouveau prélèvement.
 
-${fin}
+Tu peux te réabonner quand tu veux : ${url}/abonnement. Les premières étapes des parcours restent en lecture libre.
 
-Tu changes d'avis avant cette date ? Tu peux réactiver ton abonnement depuis ton profil : ${url}/profil
-
-Garde cet e-mail : c'est la confirmation de ta résiliation.
-
-Une question ? ${CONTACT_EMAIL}
+Merci d'avoir bossé ton humour avec nous.
 
 ${SIGNATURE}
 `,
@@ -253,16 +331,19 @@ export interface RetractationVars {
   motif: string | null;
   recueLe: Date;
   reference: string;
+  /** Prénom du compte trouvé pour cet e-mail (lot E) ; absent → « Salut, ». */
+  prenom?: string | null;
 }
 
-/** Accusé de réception de la demande de rétractation, au client (support durable). */
+/** Accusé de réception de la demande de rétractation, au client (support durable). PROVISOIRE s16 (hors étalons). */
 export function emailAccuseRetractation(v: RetractationVars): EmailRendu {
-  const achat = v.dateAchat ? `\nDate d'achat indiquée : le ${dateLongue(v.dateAchat)}` : "";
+  const dateAchat = dateValide(v.dateAchat);
+  const achat = dateAchat ? `\nDate d'achat indiquée : le ${dateLongue(dateAchat)}` : "";
   return {
     subject: "On a bien reçu ta demande de rétractation",
-    text: `Salut,
+    text: `${salutation(v.prenom)}
 
-On a bien reçu ta demande de rétractation, le ${dateHeure(v.recueLe)}.
+On a bien reçu ta demande de rétractation, le ${dateHeure(dateValide(v.recueLe) ?? new Date())}.
 
 Référence : ${v.reference}
 Adresse du compte : ${v.email}${achat}

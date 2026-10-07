@@ -8,6 +8,7 @@
 import { prisma } from "@/lib/prisma";
 import { cancelStripeSubscriptionNow, getStripe } from "@/lib/stripe";
 import { extractSubscriptionBilling, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
+import { isSubscriptionLive, subscriptionFlags } from "@/lib/subscription-state";
 
 export type Formule = "monthly" | "annual";
 
@@ -57,7 +58,7 @@ export async function getSubscriptionSummary(userId: string): Promise<Subscripti
   let priceCents = sub.priceAmountCents;
   let periodEnd = sub.currentPeriodEnd;
   let cancelAtPeriodEnd = sub.cancelAtPeriodEnd;
-  const live = sub.status === "ACTIVE" || sub.status === "PAST_DUE" || sub.status === "TRIALING";
+  const live = isSubscriptionLive(sub.status);
 
   if (live && sub.stripeSubscriptionId && (!interval || priceCents === null || !periodEnd)) {
     try {
@@ -77,7 +78,8 @@ export async function getSubscriptionSummary(userId: string): Promise<Subscripti
     formule: toFormule(interval),
     priceCents,
     currentPeriodEnd: periodEnd ? periodEnd.toISOString() : null,
-    cancelAtPeriodEnd,
+    // Même règle que /api/stripe/status (lib/subscription-state, lot D).
+    cancelAtPeriodEnd: subscriptionFlags({ status: sub.status, cancelAtPeriodEnd }).cancelAtPeriodEnd,
     hasPortal: Boolean(sub.stripeCustomerId),
     hasStripeSubscription: Boolean(sub.stripeSubscriptionId),
   };

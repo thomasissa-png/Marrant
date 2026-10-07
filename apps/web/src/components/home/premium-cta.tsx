@@ -13,25 +13,32 @@ import { FaqSection } from "@/components/home/faq-section";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import { OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
+import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
 export function PremiumCta() {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
+    setConflict(null);
     trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil", declencheur: "manuel", statut: "membre" });
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
         window.location.href = data.url;
-      } else {
-        toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        return;
       }
+      // Refus 409 (déjà abonné, impayé) : message + lien /profil (audit s16, lot D).
+      const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
+      if (conflit) setConflict(conflit);
+      else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
       toast("Connexion perdue, réessaie", "error");
     } finally {
@@ -100,7 +107,8 @@ export function PremiumCta() {
                 Commencer à {PREMIUM_PRICE_LABEL}
               </Link>
             )}
-            <p className="mt-3 text-center text-xs text-text-muted">{REASSURANCE_PAIEMENT}</p>
+            {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
+            <p className="mt-3 text-center text-xs text-text-muted">{reassurancePaiement("monthly")}</p>
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
               Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?

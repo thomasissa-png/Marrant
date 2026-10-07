@@ -107,7 +107,7 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     it("réassurance TTC, 14 jours, résiliation près du bouton ; nom Premium", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<PremiumModal isOpen onClose={jest.fn()} />);
-      expect(screen.getByText("Prix TTC · remboursé sous 14 jours · résiliable en ligne")).toBeInTheDocument();
+      expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Passe à Premium" })).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/accès complet/i);
     });

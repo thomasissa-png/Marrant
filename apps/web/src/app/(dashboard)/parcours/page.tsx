@@ -129,7 +129,7 @@ export default async function ParcoursPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/abonnement" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Abonnement 2,99 &euro;/mois</h3>
-            <p className="mt-1 text-sm text-text-secondary">Accès complet à tous les parcours, vannes, conseils et vidéos.</p>
+            <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>

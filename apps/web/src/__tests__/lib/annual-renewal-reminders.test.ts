@@ -218,7 +218,7 @@ describe("contenu de l'email (texte @legal)", () => {
     expect(subject).toBe("Ton abonnement annuel Deviens Marrant se renouvelle le 12 novembre 2026");
     expect(text.startsWith("Salut Léa,\n")).toBe(true);
     expect(text).toContain("Date de renouvellement : 12 novembre 2026");
-    expect(text).toContain("Montant : 24,99 € TTC pour 12 mois");
+    expect(text).toContain("Montant : 24,99\u00A0€ TTC pour 12 mois");
     expect(text).toContain("Pour ne pas renouveler : résilie avant le 12 novembre 2026");
     expect(text).toContain("Pour gérer ou résilier ton abonnement : https://deviens-marrant.fr/profil");
     expect(text).not.toMatch(/\{(prenom|date_renouvellement|montant|lien_gestion)\}|TODO/);

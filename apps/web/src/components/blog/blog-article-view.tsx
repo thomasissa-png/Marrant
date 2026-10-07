@@ -141,7 +141,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           <BlogArticleParcoursMaillage articleSlug={article.slug} articleCategory={article.category} />
         </div>
 
-        {/* CTA de fin (accès complet + étape 1 en lecture libre), collé au parcours recommandé (T35)
+        {/* CTA de fin (Premium + étape 1 en lecture libre), collé au parcours recommandé (T35)
             pour les articles sans CTA dédié. */}
         {!ctaCopy && cta}
       </BlogArticleTracking>

@@ -45,3 +45,17 @@ describe("CSP frame-src couvre les iframes du site", () => {
     for (const host of hosts) expect(frameSrc).toContain(host);
   });
 });
+
+describe("YouTube sans cookie (audit s16, lot D)", () => {
+  it("frame-src n'autorise plus www.youtube.com, seulement youtube-nocookie.com", async () => {
+    const frameSrc = await getFrameSrc();
+    expect(frameSrc).toContain("https://www.youtube-nocookie.com");
+    expect(frameSrc).not.toContain("https://www.youtube.com");
+  });
+
+  it("aucune intégration src/ n'embarque www.youtube.com/embed", () => {
+    for (const file of listSourceFiles(join(__dirname, "../.."))) {
+      expect({ file, hit: readFileSync(file, "utf-8").includes("www.youtube.com/embed") }).toEqual({ file, hit: false });
+    }
+  });
+});

@@ -56,7 +56,7 @@ describe("Page article : position du CTA et partage", () => {
     expect(follows(titles[0], screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByText("Passer à l'accès complet")).toBeInTheDocument();
+    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours&src=blog-meilleures-blagues-droles-2026");
   });
 
@@ -138,7 +138,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Passer à l'accès complet" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Passer à Premium" })).toBeInTheDocument();
   });
 });
 

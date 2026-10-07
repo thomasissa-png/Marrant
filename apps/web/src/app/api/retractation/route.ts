@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import { ADMIN_EMAIL, trySendTransactionalTextEmail } from "@/lib/email";
 import { getClientIp, hashRateLimitKey, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import {
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
   if (!parEmail.allowed) return tooMany(retryAfterSeconds(parEmail));
 
   const user = await prisma.user
-    .findFirst({ where: { email: { equals: email, mode: "insensitive" } }, select: { id: true } })
+    .findFirst({ where: { email: { equals: email, mode: "insensitive" } }, select: { id: true, name: true } })
     .catch(() => null);
 
   let demande: { id: string; createdAt: Date };
@@ -91,6 +92,8 @@ export async function POST(request: Request) {
     motif,
     recueLe: demande.createdAt,
     reference: `R-${demande.id.slice(-8).toUpperCase()}`,
+    // Lot E : prénom du compte s'il existe (« Salut Marie, »), sinon « Salut, ».
+    prenom: firstNameFrom(user?.name),
   };
   const admin = emailAdminRetractation({ ...vars, compteTrouve: Boolean(user) });
   const adminSent = await trySendTransactionalTextEmail(ADMIN_EMAIL, admin.subject, admin.text, "retractation-admin");

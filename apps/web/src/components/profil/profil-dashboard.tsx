@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { progressionParcoursLabel } from "@/config/textes/accessibilite";
 import { StreakCounter } from "@/components/ui/streak-counter";
 import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
@@ -129,7 +130,7 @@ export function ProfilDashboard() {
 
   const levelInfo = USER_LEVELS[user.level as keyof typeof USER_LEVELS] ?? USER_LEVELS.NOVICE;
   const progress = getXpProgress(user.xp, user.level);
-  // Progression, série, statistiques et parcours suivis = accès complet (s15
+  // Progression, série, statistiques et parcours suivis = Premium (s15
   // §1.1). Hors abonnement, rien n'est effacé en base : seul l'affichage change.
   const isPremium = user.plan === "PREMIUM";
 
@@ -265,6 +266,7 @@ export function ProfilDashboard() {
                         value={p.completedSteps}
                         max={p.totalSteps}
                         variant={isDone ? "gradient" : "primary"}
+                        ariaLabel={progressionParcoursLabel(p.title, p.completedSteps, p.totalSteps)}
                       />
                       <p className="mt-1 text-xs text-text-muted text-right">{pct}%</p>
                     </div>

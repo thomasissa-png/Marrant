@@ -7,8 +7,15 @@
  * Ces fonctions NE LÈVENT JAMAIS : elles partent après un traitement de
  * paiement déjà réussi, un e-mail raté ne doit pas faire rejouer le webhook.
  * L'échec d'envoi est enregistré en alerte A `email-envoi-<type>` par lib/email.
+ *
+ * Lot E (s16) : textes validés (étalons 2, 3, 5c). Avant chaque envoi, le rendu
+ * final passe par le garde-fou des champs variables : s'il trouve « undefined »,
+ * une date en anglais, etc., l'e-mail part quand même (confirmation légale) et
+ * une alerte A `email-rendu-<type>` est enregistrée (digest du matin).
  */
 import { prisma } from "@/lib/prisma";
+import { recordAdminAlert } from "@/lib/admin-alerts";
+import { problemesDeRendu } from "@/lib/emails/garde-fou-rendu";
 import { trySendTransactionalTextEmail } from "@/lib/email";
 import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import {
@@ -35,6 +42,14 @@ async function envoyer(
       return false;
     }
     const { subject, text } = rendu(d.prenom);
+    const problemes = problemesDeRendu(`${subject}\n${text}`);
+    if (problemes.length > 0) {
+      await recordAdminAlert({
+        cle: `email-rendu-${kind}`,
+        sujet: `E-mail « ${kind} » : champ variable mal rempli`,
+        html: `<p>Problèmes : ${problemes.join(", ")}</p><p>Utilisateur ${userId}. L'e-mail est parti quand même : vérifier les données Stripe et le nom du compte.</p>`,
+      });
+    }
     return await trySendTransactionalTextEmail(d.email, subject, text, kind);
   } catch (err) {
     console.error(`[email:${kind}] Préparation impossible :`, err instanceof Error ? err.message : err);
@@ -49,10 +64,13 @@ export function notifySubscriptionConfirmed(
   return envoyer(userId, "confirmation-abonnement", (prenom) => emailConfirmationAbonnement({ prenom, ...v }));
 }
 
-export function notifyPaymentFailed(userId: string, lienFacture: string | null): Promise<boolean> {
-  return envoyer(userId, "paiement-refuse", (prenom) => emailPaiementRefuse({ prenom, lienFacture }));
+export function notifyPaymentFailed(
+  userId: string,
+  v: { montantCents: number | null; datePrevue: Date | null },
+): Promise<boolean> {
+  return envoyer(userId, "paiement-refuse", (prenom) => emailPaiementRefuse({ prenom, ...v }));
 }
 
-export function notifyCancellationScheduled(userId: string, dateDemande: Date, finAcces: Date | null): Promise<boolean> {
-  return envoyer(userId, "resiliation", (prenom) => emailConfirmationResiliation({ prenom, dateDemande, finAcces }));
+export function notifyCancellationScheduled(userId: string, finAcces: Date | null): Promise<boolean> {
+  return envoyer(userId, "resiliation", (prenom) => emailConfirmationResiliation({ prenom, finAcces }));
 }

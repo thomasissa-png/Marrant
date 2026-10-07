@@ -8,16 +8,31 @@
  */
 import {
   formatEuros,
+  PREMIUM_ANNUAL_PRICE_CENTS,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
+  type PremiumPlan,
 } from "@/config/premium";
 
 /** Nom unique de l'offre (décision D4, s16) : « Premium » partout. */
 export const OFFRE_NOM = "Premium";
 
-// PROVISOIRE s16, étalon à valider
-/** Ligne de réassurance posée sous chaque bouton de paiement (reco 9). */
-export const REASSURANCE_PAIEMENT = "Prix TTC · remboursé sous 14 jours · résiliable en ligne";
+/** « 2,99 € TTC par mois » / « 24,99 € TTC par an » (prix de config/premium.ts). */
+export function prixTtcLabel(plan: PremiumPlan): string {
+  return plan === "annual"
+    ? `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)} TTC par an`
+    : `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
+}
+
+// VALIDÉ s16 (étalon 1.1)
+/**
+ * Ligne de réassurance posée sous chaque bouton de paiement (reco 9), selon la
+ * formule affichée : « 2,99 € TTC par mois, remboursé sous 14 jours,
+ * résiliable en ligne quand tu veux. »
+ */
+export function reassurancePaiement(plan: PremiumPlan): string {
+  return `${prixTtcLabel(plan)}, remboursé sous 14 jours, résiliable en ligne quand tu veux.`;
+}
 
 // PROVISOIRE s16, étalon à valider
 /** Acceptation des CGU sous le bouton de création de compte (reco 9). */
@@ -47,11 +62,11 @@ export const ANNUEL_ECONOMIE_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS
 /** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux). */
 export const ANNUEL_AVANTAGE_LABEL = `${ANNUEL_MOIS_OFFERTS_LABEL}, ${ANNUEL_ECONOMIE_LABEL} par an`;
 
-// PROVISOIRE s16, étalon à valider
+// VALIDÉ s16 (étalon 5b.2) : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
 /** Retour de Stripe sans paiement (reco 12), affiché sur /abonnement. */
 export const PAIEMENT_ANNULE = {
-  titre: "Paiement annulé, rien n'a été débité.",
-  texte: "Tu peux reprendre quand tu veux, ta formule t'attend juste en dessous.",
+  titre: "Paiement annulé, rien n'a été prélevé.",
+  texte: "Tu peux réessayer quand tu veux.",
 } as const;
 
 // PROVISOIRE s16, étalon à valider

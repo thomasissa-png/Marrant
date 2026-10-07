@@ -26,7 +26,7 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
   if (isPlaying) {
     return (
       <iframe
-        src={`https://www.youtube.com/embed/${encodeURIComponent(youtubeId)}?autoplay=1`}
+        src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(youtubeId)}?autoplay=1`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

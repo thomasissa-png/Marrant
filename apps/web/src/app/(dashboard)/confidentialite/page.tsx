@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 /**
  * Audit parcours s16 (reco 18) : prestataires réels (plus Replit), mesure
  * d'audience Umami sans cookie (donc pas de bandeau, plus de « consentement
- * cookies » qui n'existait pas), suppression du compte depuis le profil,
+ * cookies » qui n'existait pas), suppression du compte en libre-service depuis
+ * le profil (lot D : plus de « effacement sous 30 jours »),
  * tutoiement (D6). Identité de l'éditeur inchangée (D3, en attente de Thomas).
  */
 const PRESTATAIRES: { nom: string; role: string }[] = [
@@ -73,11 +74,13 @@ export default function ConfidentialitePage() {
             <li><strong>Provenance de ta visite</strong> (réseau social, campagne) : gardée dans le stockage de session de ton navigateur, effacé à la fermeture de l&apos;onglet.</li>
           </ul>
           <p className="mt-2">Comme aucun cookie de mesure ni de publicité n&apos;est déposé, le site n&apos;affiche pas de bandeau cookies.</p>
-          <p className="mt-2">Deux services tiers déposent leurs propres traceurs quand tu les utilises : Stripe sur sa page de paiement (sécurité du paiement), et YouTube (Google) quand tu lances une vidéo. Leurs politiques de confidentialité s&apos;appliquent alors.</p>
+          <p className="mt-2">Deux services tiers peuvent déposer leurs propres traceurs quand tu les utilises : Stripe sur sa page de paiement (sécurité du paiement), et YouTube (Google) quand tu lances une vidéo. Le lecteur YouTube n&apos;est chargé qu&apos;à ce moment-là, en mode de confidentialité renforcée (youtube-nocookie.com). Leurs politiques de confidentialité s&apos;appliquent alors.</p>
         </section>
         <section>
           <h2 className={SECTION_TITLE}>6. Durée de conservation</h2>
-          <p>Tes données sont conservées tant que ton compte existe. Quand tu supprimes ton compte, elles sont effacées dans un délai de 30 jours, sauf celles qu&apos;une obligation légale nous impose de garder (par exemple les pièces comptables liées à tes paiements).</p>
+          {/* PROVISOIRE s16 (lot D), à relire par @legal : suppression en libre-service (lib/account.ts#deleteAccount). */}
+          <p>Tes données sont conservées tant que ton compte existe. Tu peux supprimer ton compte toi-même, à tout moment, depuis ton profil (voir la partie 7) : ton compte, ta progression, tes favoris et ton inscription à la newsletter sont effacés tout de suite, et ton abonnement s&apos;arrête aussitôt.</p>
+          <p className="mt-2">Tes factures restent chez Stripe, notre prestataire de paiement, car la loi nous oblige à conserver les pièces comptables. Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement.</p>
         </section>
         <section>
           <h2 className={SECTION_TITLE}>7. Tes droits (RGPD)</h2>

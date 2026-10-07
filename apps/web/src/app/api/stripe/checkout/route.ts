@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AlreadySubscribedError, createCheckoutSession, PremiumPriceNotConfiguredError } from "@/lib/stripe";
 import { TEXTES_CHECKOUT } from "@/config/textes/paiement";
-import { rateLimit } from "@/lib/rate-limit";
+import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { PREMIUM_PLANS, type PremiumPlan } from "@/config/premium";
 import { z } from "zod";
 
@@ -14,6 +14,7 @@ import { z } from "zod";
  */
 const returnToSchema = z.string().max(512).optional();
 const planSchema = z.enum(PREMIUM_PLANS).default("monthly");
+const CHECKOUT_LIMIT = { maxRequests: 5, windowMs: 3600_000 };
 
 type CheckoutBody =
   | { ok: true; plan: PremiumPlan; returnTo?: string }
@@ -46,12 +47,13 @@ export async function POST(request: Request) {
 
     const userId = (session.user as { id: string }).id;
 
-    // Rate limit : 5 créations de checkout par utilisateur par heure
-    const rl = rateLimit(`checkout:${userId}`, { maxRequests: 5, windowMs: 3600_000 });
+    // 5 créations de checkout par utilisateur et par heure, compteur partagé
+    // entre isolats Workers (lib/rate-limit, s16 lot D ; repli mémoire si la base tombe).
+    const rl = await sharedRateLimit("checkout-user", userId, CHECKOUT_LIMIT);
     if (!rl.allowed) {
       return NextResponse.json(
         { error: "Trop de tentatives. Réessaie plus tard." },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
       );
     }
     const body = await readBody(request);

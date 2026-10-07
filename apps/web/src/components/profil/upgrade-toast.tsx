@@ -9,7 +9,7 @@ export function UpgradeToast({ status }: { status: string }) {
 
   useEffect(() => {
     if (status === "success") {
-      toast("Bienvenue dans l'accès complet : tout le catalogue est à toi.", "success");
+      toast("Bienvenue dans Premium : tout le catalogue est à toi.", "success");
       // Rafraîchir les données user pour refléter le nouveau plan
       fetchUser();
     } else if (status === "cancel") {

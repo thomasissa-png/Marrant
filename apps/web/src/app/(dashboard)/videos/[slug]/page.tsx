@@ -151,7 +151,7 @@ export default async function VideoPage({
     thumbnailUrl: `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`,
     uploadDate: video.createdAt.toISOString(),
     contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
-    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    embedUrl: `https://www.youtube-nocookie.com/embed/${video.youtubeId}`,
     duration: video.duration,
   });
 
@@ -211,20 +211,20 @@ export default async function VideoPage({
           </div>
         </section>
 
-        {/* Les learnings + exercice font partie de l'accès complet (s15 §1.1).
+        {/* Les learnings + exercice font partie de Premium (s15 §1.1).
             Le titre, la vidéo (déjà publique sur YouTube) et la description restent
             visibles pour SEO et VideoObject schema. */}
         <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">Analyse pédagogique complète</div>
           <p className="text-sm text-text-primary">
-            Les points clés et l&apos;exercice de cette vidéo font partie de l&apos;accès complet.
+            Les points clés et l&apos;exercice de cette vidéo font partie de Premium.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href={buildAbonnementUrl(`/videos/${canonicalSlug}`, "monthly", "fiche-video")}
               className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
             >
-              Voir l&apos;accès complet
+              Voir Premium
             </Link>
             <Link
               href="/videos"

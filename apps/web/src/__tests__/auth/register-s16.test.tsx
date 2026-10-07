@@ -33,7 +33,7 @@ describe("RegisterPage, audit s16", () => {
 
   it("réassurance TTC / 14 jours / résiliable en ligne et acceptation des CGU avec lien", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Prix TTC · remboursé sous 14 jours · résiliable en ligne")).toBeInTheDocument();
+    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument();
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");
     expect(cgu.closest("p")).toHaveTextContent("En créant ton compte, tu acceptes les CGU.");
