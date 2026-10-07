@@ -1,5 +1,18 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (07/10/2026, 08:17 Paris) : DÉPLOYÉ depuis l'arbre principal (propre, `e180d1a`), Worker `79ddf8bd-172f-4c44-91f6-06b786f9a78f` (N-1 `59948a54-5cb6-498d-a90f-156da93d6513`)
+
+- **Vannes P0-072 et P0-041 au catalogue** (Neon, `isActive`, `GARDER`, technique, explication et décryptage de @copywriter, `docs/social/preparation/p0-a-inserer.json`) : `cp05d2c3950800b7575c12ce6`, `cp0465e601e49c114994d1a00`.
+- **`POOL_STRICT` passe à 42** (`src/config/social-pool.ts`). Le Worker lit cette liste pour l'alerte de stock, d'où le déploiement.
+- **Contrôles** :
+  - tsc, lint et build OK ; Jest 3 261 PASS ;
+  - dry-run 1a inchangé (12 posts identiques) ;
+  - après déploiement : `/`, `/blog`, `/quiz-humour` et `/liens` en 200 ;
+  - les 3 réseaux restent ouverts, canaux `ok` ;
+  - `/blog/se-presenter-avec-humour` répond 404 comme attendu : l'article est programmé le 12/10 à 05:00 UTC, `isPublished=false`.
+- **Fiche du carrousel IG du 21/10** (lot 1b) : V028, dans `docs/social/preparation/fiche-ig-21-10.md`. V007 est écartée, car elle est publiée sur X le 16/10. À intégrer au lot 1b, prêt le 14/10.
+- **Carrousel du 23/12** : V083 est publiée sur Instagram le 13/10 par le lot 1a, donc à 71 jours du 23/12. La fiche neuve, déjà prévue avec le lot 2b, prendra une autre vanne.
+
 ## s15 (07/10/2026) : pilotage quotidien, script de lot seulement (aucun déploiement nécessaire)
 
 - **Alertes lues (07:57)** : 8 alertes de classe B, aucun e-mail envoyé. Ce sont les files basses X, Instagram et LinkedIn (dernier post prévu le 08 ou le 09/10) et le rappel de lancement du lot 1a. Toutes sont attendues : le lot 1a (12 au 18/10) est inséré au plus tard le 09/10. Aucune action de Thomas.
