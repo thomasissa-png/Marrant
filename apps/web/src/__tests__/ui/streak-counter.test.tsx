@@ -4,7 +4,8 @@ import { StreakCounter } from "@/components/ui/streak-counter";
 describe("StreakCounter", () => {
   it("renders fire emoji with role img", () => {
     render(<StreakCounter count={5} />);
-    expect(screen.getByRole("img", { name: "streak" })).toBeInTheDocument();
+    // s17 tour 1 (DES-1-03) : nom vocal en français.
+    expect(screen.getByRole("img", { name: "série" })).toBeInTheDocument();
   });
 
   it("displays count", () => {
@@ -14,17 +15,17 @@ describe("StreakCounter", () => {
 
   it("uses singular when count is 1", () => {
     render(<StreakCounter count={1} />);
-    expect(screen.getByText("1 jour")).toBeInTheDocument();
+    expect(screen.getByText("1 jour de pratique d'affilée")).toBeInTheDocument();
   });
 
   it("uses plural when count > 1", () => {
     render(<StreakCounter count={3} />);
-    expect(screen.getByText("3 jours")).toBeInTheDocument();
+    expect(screen.getByText("3 jours de pratique d'affilée")).toBeInTheDocument();
   });
 
-  it("shows 'de suite' label", () => {
+  it("shows the rule of the streak (étalon 3.8 A)", () => {
     render(<StreakCounter count={2} />);
-    expect(screen.getByText("de suite")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.")).toBeInTheDocument();
   });
 
   it("applies pulse animation when count > 0", () => {

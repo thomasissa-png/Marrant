@@ -64,7 +64,8 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+      {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4">
           {/* Logo (s16 : un cran plus petit sous 640 px pour loger « Connexion » sur mobile) */}
           <Link href="/" className="flex shrink-0 items-center gap-2">

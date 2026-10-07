@@ -3,6 +3,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { isPremiumPlan } from "@/lib/parcours-access";
+import { cn } from "@/lib/utils";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { RAPPEL_PARCOURS_UI } from "@/config/textes/entrees-parcours";
 import { JOURS_SEMAINE, RAPPEL_PARCOURS_CONSENTEMENT } from "@/config/textes/parcours-emails";
 
@@ -25,7 +27,7 @@ interface RappelPreference {
  * ET `eligible` renvoyé par le serveur), texte voisin exact (source unique :
  * RAPPEL_PARCOURS_CONSENTEMENT). API en erreur au chargement : rien n'est affiché.
  */
-export function RappelParcoursToggle() {
+export function RappelParcoursToggle({ className }: { className?: string } = {}) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -53,6 +55,15 @@ export function RappelParcoursToggle() {
       .catch(() => {});
     return () => controller.abort();
   }, [isPremium]);
+
+  // s17 tour 1 (UXV-1-02) : arrivée par /profil#rappel-parcours, la section vient à l'écran et l'interrupteur prend le focus.
+  const loaded = pref !== null;
+  useEffect(() => {
+    if (!loaded || typeof window === "undefined" || window.location.hash !== "#rappel-parcours") return;
+    const input = document.getElementById(checkboxId);
+    document.getElementById("rappel-parcours")?.scrollIntoView?.({ block: "start" });
+    input?.focus({ preventScroll: true });
+  }, [loaded, checkboxId]);
 
   if (!isPremium || !pref) return null;
 
@@ -82,46 +93,58 @@ export function RappelParcoursToggle() {
   }
 
   return (
-    <section
+    // s17 tour 1 (DES-1-08) : carte du système (Card, CardTitle) et vrai interrupteur (role="switch").
+    <Card
+      id="rappel-parcours"
+      role="region"
       aria-labelledby={`${checkboxId}-titre`}
       data-testid="rappel-parcours"
-      className="rounded-xl border border-border bg-background-card p-5"
+      className={cn("scroll-mt-24", className)}
     >
-      <h2 id={`${checkboxId}-titre`} className="font-display text-lg font-bold text-text-primary">
-        {RAPPEL_PARCOURS_UI.titre}
-      </h2>
-      <div className="mt-3 flex items-start gap-3">
-        <input
-          id={checkboxId}
-          type="checkbox"
-          className="mt-1 h-5 w-5 accent-accent-primary"
-          checked={pref.enabled}
-          disabled={saving}
-          aria-describedby={activationEnAttente ? `${selectId}-aide` : undefined}
-          onChange={(e) => {
-            if (!e.target.checked) {
-              setActivationEnAttente(false);
-              void save({ enabled: false, weekday: weekday ?? 1 });
-            } else if (weekday === null) {
-              setActivationEnAttente(true);
-              setMessage(RAPPEL_PARCOURS_UI.choisirJour);
-              selectRef.current?.focus();
-            } else {
-              void save({ enabled: true, weekday });
-            }
-          }}
-        />
-        <label htmlFor={checkboxId} className="text-sm text-text-secondary">
-          {RAPPEL_PARCOURS_CONSENTEMENT.texte}
-        </label>
-      </div>
-      <div className="mt-3 flex items-center gap-3">
+      <CardHeader className="pb-2">
+        <CardTitle id={`${checkboxId}-titre`}>{RAPPEL_PARCOURS_UI.titre}</CardTitle>
+      </CardHeader>
+      <label htmlFor={checkboxId} className="flex min-h-[44px] cursor-pointer items-center gap-3">
+        <span className="relative inline-flex h-6 w-11 shrink-0">
+          <input
+            id={checkboxId}
+            type="checkbox"
+            role="switch"
+            className="peer sr-only"
+            checked={pref.enabled}
+            disabled={saving}
+            aria-describedby={activationEnAttente ? `${selectId}-aide` : undefined}
+            onChange={(e) => {
+              if (!e.target.checked) {
+                setActivationEnAttente(false);
+                void save({ enabled: false, weekday: weekday ?? 1 });
+              } else if (weekday === null) {
+                setActivationEnAttente(true);
+                setMessage(RAPPEL_PARCOURS_UI.choisirJour);
+                selectRef.current?.focus();
+              } else {
+                void save({ enabled: true, weekday });
+              }
+            }}
+          />
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border border-border-hover bg-background-elevated transition-colors peer-checked:border-accent-primary peer-checked:bg-accent-primary peer-disabled:opacity-60 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-primary"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5 motion-reduce:transition-none"
+          />
+        </span>
+        <span className="text-sm text-text-secondary">{RAPPEL_PARCOURS_CONSENTEMENT.texte}</span>
+      </label>
+      <div className="mt-3 flex flex-wrap items-center gap-3">
         <label htmlFor={selectId} className="text-sm text-text-secondary">
           {RAPPEL_PARCOURS_UI.jourLabel}
         </label>
         <select
           id={selectId}
-          className="min-h-[44px] rounded-md border border-border bg-background px-3 text-sm text-text-primary"
+          className="min-h-[44px] rounded-md border border-border-hover bg-background-light px-3 text-sm text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
           ref={selectRef}
           value={weekday ?? ""}
           disabled={saving}
@@ -146,9 +169,9 @@ export function RappelParcoursToggle() {
           ))}
         </select>
       </div>
-      <p id={`${selectId}-aide`} role="status" aria-live="polite" className="mt-2 min-h-[1.25rem] text-xs text-text-muted">
+      <p id={`${selectId}-aide`} role="status" aria-live="polite" className="mt-2 text-xs text-text-muted empty:mt-0">
         {message}
       </p>
-    </section>
+    </Card>
   );
 }

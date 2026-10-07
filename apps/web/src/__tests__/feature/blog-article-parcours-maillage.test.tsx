@@ -47,9 +47,9 @@ describe("BlogArticleParcoursMaillage", () => {
   });
 
   it.each([
-    ["premier-message-drole-appli-de-rencontre", "DATING", "/parcours/confiance", "Commencer le parcours Confiance"],
-    ["blagues-de-couple-drole", "CATALOGUE", "/parcours/confiance", "Commencer le parcours Confiance"],
-    ["message-anniversaire-drole-par-situation", "CATALOGUE", "/parcours/repartie", "Découvrir le parcours Répartie"],
+    ["premier-message-drole-appli-de-rencontre", "DATING", "/parcours/confiance", "Lire la première étape gratuite"],
+    ["blagues-de-couple-drole", "CATALOGUE", "/parcours/confiance", "Lire la première étape gratuite"],
+    ["message-anniversaire-drole-par-situation", "CATALOGUE", "/parcours/repartie", "Lire la première étape gratuite"],
   ])("parcours imposé par slug (FORTE_FRAPPE_PARCOURS) : %s → %s", (slug, category, href, cta) => {
     render(<BlogArticleParcoursMaillage articleSlug={slug} articleCategory={category} />);
     const link = screen.getByRole("link");

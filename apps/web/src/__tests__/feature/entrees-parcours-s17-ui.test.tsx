@@ -104,7 +104,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     useSession.mockReturnValue(premium);
     const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: null, eligible: true } });
     render(<RappelParcoursToggle />);
-    const box = await screen.findByRole("checkbox", {
+    const box = await screen.findByRole("switch", {
       name: "Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l'arrêter à tout moment.",
     });
     expect(box).not.toBeChecked();
@@ -118,7 +118,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     useSession.mockReturnValue(premium);
     const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: null, eligible: true } });
     render(<RappelParcoursToggle />);
-    const box = await screen.findByRole("checkbox");
+    const box = await screen.findByRole("switch");
     const select = screen.getByLabelText("Jour du rappel") as HTMLSelectElement;
     expect(select.value).toBe("");
     expect(screen.getByRole("option", { name: "Choisis un jour" })).toBeInTheDocument();
@@ -135,9 +135,19 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/rappel-parcours": { enabled: true, weekday: 4, eligible: true } });
     render(<RappelParcoursToggle />);
-    expect(await screen.findByRole("checkbox")).toBeChecked();
+    expect(await screen.findByRole("switch")).toBeChecked();
     expect((screen.getByLabelText("Jour du rappel") as HTMLSelectElement).value).toBe("4");
     expect(screen.queryByRole("option", { name: "Choisis un jour" })).not.toBeInTheDocument();
+  });
+  it("s17 tour 1 (UXV-1-02, DES-1-08) : vrai interrupteur, ancre #rappel-parcours, focus à l'arrivée", async () => {
+    useSession.mockReturnValue(premium);
+    mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: 2, eligible: true } });
+    window.history.replaceState(null, "", "/profil#rappel-parcours");
+    render(<RappelParcoursToggle className="md:col-span-2" />);
+    const box = await screen.findByRole("switch");
+    expect(document.getElementById("rappel-parcours")).toHaveClass("md:col-span-2");
+    await waitFor(() => expect(box).toHaveFocus());
+    window.history.replaceState(null, "", "/");
   });
 });
 

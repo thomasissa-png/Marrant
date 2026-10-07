@@ -2,6 +2,8 @@ import Link from "next/link";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import type { FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 import { FICHE_PARCOURS } from "@/config/textes/entrees-parcours";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type FicheType = "vanne" | "conseil" | "video";
 
@@ -21,11 +23,15 @@ export function FicheParcoursLien({ type, refs }: { type: FicheType; refs: reado
       data-testid="fiche-parcours-lien"
       className="mt-6 rounded-xl border border-border bg-background-card p-5"
     >
-      <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{FICHE_PARCOURS.titre}</p>
+      {/* s17 tour 1 (DES-1-14) : étiquette violette comme « Pourquoi ça marche », lien en bouton (texte inchangé). */}
+      <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">{FICHE_PARCOURS.titre}</p>
       <p className="mt-2 text-sm text-text-secondary">{FICHE_PARCOURS[type](ref.etape, ref.slug)}</p>
       <Link
         href={parcoursEtape1Href(ref.slug, "fiche")}
-        className="mt-3 inline-flex min-h-[44px] items-center text-sm font-semibold text-accent-link underline underline-offset-4 hover:text-text-primary"
+        className={cn(
+          buttonVariants({ variant: "outline" }),
+          "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center sm:w-auto",
+        )}
       >
         {FICHE_PARCOURS.lien(ref.slug)}
       </Link>

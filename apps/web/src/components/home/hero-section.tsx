@@ -86,10 +86,11 @@ export function HeroSection() {
           <p className="max-w-md text-balance text-sm text-text-muted">
             {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
           </p>
-          {/* Seul ce lien secondaire change en s17 (UX-08) ; l'étalon 1.2 au-dessus reste intact. */}
+          {/* Seul ce lien secondaire change en s17 (UX-08) ; l'étalon 1.2 au-dessus reste intact.
+              s17 tour 1 (UXV-1-08, DES-1-13) : texte principal, soulignement violet, cible 44 px. */}
           <Link
             href={HERO_ETAPE_1_HREF}
-            className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
+            className="inline-flex min-h-[44px] items-center px-3 py-2 text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link"
           >
             {ACCUEIL_LIEN_ETAPE_1}
           </Link>

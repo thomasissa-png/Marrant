@@ -550,7 +550,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/2")).toBeInTheDocument();
 
@@ -565,7 +565,9 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Perfect score
     expect(screen.getByText("Sans faute." /* étalon 3.2 B, compte non abonné */)).toBeInTheDocument();
-    expect(screen.getByText("Continuer")).toBeInTheDocument();
+    // s17 tour 1 (UXV-1-04) : plus de « Continuer » pour un non-abonné.
+    expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
+    sessionStorage.clear();
   });
 
   it("sees Lecture libre badge on step 1 only", async () => {
@@ -763,7 +765,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
 
     // Quiz
-    expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
 
     // Valider = Premium (s15, étalon 4.1)
     expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();

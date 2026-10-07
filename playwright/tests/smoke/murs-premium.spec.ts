@@ -108,11 +108,14 @@ test.describe("Murs Premium @smoke", () => {
     expect(url.searchParams.get("src")).toBe("parcours-etape");
   });
 
-  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 nommée verrouillée) @s16", async ({ page }) => {
+  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu Premium) @s16", async ({ page }) => {
     await page.goto("/parcours/machine-a-cafe");
     await expect(page.getByText("Lecture libre").first()).toBeVisible();
     await expect(page.getByText("Essai gratuit")).toHaveCount(0);
-    await expect(page.getByRole("listitem").nth(1).getByLabel(/^Étape 2 : .*, verrouillée$/)).toHaveCount(1);
+    // s17 (QA-05) : plus d'aria-label « verrouillée » ; le nom vocal = le texte visible, badge « Fait partie de Premium » compris.
+    await expect(
+      page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : .*Fait partie de Premium$/ }),
+    ).toHaveCount(1);
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
     await expect(page.getByText("Valider l'étape fait partie de Premium.")).toBeVisible();

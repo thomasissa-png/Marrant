@@ -78,24 +78,49 @@ export const PathCompletionCard = forwardRef<
   const reussis = valeurs.filter((r) => r === "essaye-ca-a-marche").length;
 
   return (
-    <Card className="mt-8 border-accent-primary/30 bg-accent-primary/5">
+    // s17 tour 1 (DES-1-07) : pastille de succès, titre / XP / suite centrés, bilan dans un bloc aligné à gauche.
+    <Card className="mb-8 border-accent-primary/30 bg-accent-primary/5">
       <CardContent className="py-8 text-center">
-        <h2 ref={ref} tabIndex={-1} className="font-display text-2xl font-bold focus:outline-none">
+        <div
+          className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-primary text-white"
+          aria-hidden="true"
+        >
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h2 ref={ref} tabIndex={-1} className="scroll-mt-[196px] font-display text-2xl font-bold focus:outline-none">
           {FIN_PARCOURS.titre(title)}
         </h2>
         <p className="mx-auto mt-2 max-w-md text-text-secondary">{FIN_PARCOURS.sousTitre}</p>
         <p className="mt-4 text-sm font-medium text-accent-link">{FIN_PARCOURS.xp(stepTitles.length, totalXp)}</p>
-        {stepTitles.length > 0 && (
-          <div className="mx-auto mt-4 max-w-md text-left">
-            <p className="text-sm font-semibold text-text-primary">{FIN_PARCOURS.acquis}</p>
-            <ul className="mt-1 list-disc pl-5 text-sm text-text-secondary">
-              {stepTitles.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
+        {(stepTitles.length > 0 || essayes >= 1) && (
+          <div className="mx-auto mt-6 max-w-md border-t border-border pt-4 text-left">
+            {stepTitles.length > 0 && (
+              <>
+                <p className="text-sm font-semibold text-text-primary">{FIN_PARCOURS.acquis}</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-text-secondary">
+                  {stepTitles.map((t) => (
+                    <li key={t} className="flex items-start gap-2">
+                      <svg
+                        className="mt-0.5 h-4 w-4 shrink-0 text-accent-link"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        strokeWidth={3}
+                        aria-hidden="true"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {essayes >= 1 && <p className="mt-3 text-sm text-text-secondary">{FIN_PARCOURS.exercices(essayes, reussis)}</p>}
           </div>
         )}
-        {essayes >= 1 && <p className="mt-3 text-sm text-text-secondary">{FIN_PARCOURS.exercices(essayes, reussis)}</p>}
         {suite.kind === "parcours" && (
           <div className="mt-6">
             {suite.slug === nextParcours && nextParcoursReason && (
@@ -103,7 +128,7 @@ export const PathCompletionCard = forwardRef<
             )}
             <Link
               href={`/parcours/${suite.slug}?src=suite`}
-              className={`${buttonVariants({ variant: "primary", size: "lg" })} mt-3`}
+              className={`${buttonVariants({ variant: "primary", size: "lg" })} mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 sm:w-auto`}
             >
               {FIN_PARCOURS.suite(suite.nom)}
             </Link>
@@ -112,7 +137,7 @@ export const PathCompletionCard = forwardRef<
         {suite.kind === "tout-fini" && (
           <p className="mt-6 text-sm text-text-secondary">
             {FIN_PARCOURS.carnetAvant}
-            <Link href="/carnet" className="text-accent-link underline underline-offset-2">
+            <Link href="/carnet" className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2">
               {FIN_PARCOURS.carnet}
             </Link>
             .

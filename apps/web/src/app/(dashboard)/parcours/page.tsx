@@ -70,9 +70,10 @@ export default async function ParcoursPage() {
           série, avec des exercices concrets et des XP à gagner.
         </p>
       </div>
-      {/* Liens SSR vers les parcours individuels — visibles par les crawlers
-          (ParcoursContent est un Client Component qui charge les data dynamiquement) */}
-      <ul className="mb-8 grid gap-3 sm:grid-cols-3">
+      {/* Liens SSR vers les parcours individuels, lus par les robots et les lecteurs d'écran
+          (les cartes de ParcoursContent ouvrent le parcours par un bouton, sans lien).
+          s17 tour 1 (UXV-1-11) : hors écran, pour ne plus présenter deux fois les 3 parcours. */}
+      <ul className="sr-only">
         <li>
           <Link
             href="/parcours/machine-a-cafe"

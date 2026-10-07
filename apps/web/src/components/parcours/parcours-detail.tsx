@@ -21,7 +21,9 @@ import {
 } from "@/lib/parcours-xp";
 import { readParcoursSrc } from "@/lib/parcours-tracking";
 import { useUserStore } from "@/stores/user-store";
+import { RAPPEL_PARCOURS_API } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import {
+  etapeContexteTexte,
   progressionVisiteurTexte,
   prochaineEtapeTexte,
   APERCU_INTRO,
@@ -91,14 +93,19 @@ export function ParcoursDetail({
   );
   const [completing, setCompleting] = useState<number | null>(null);
   const [completionError, setCompletionError] = useState<string | null>(null);
-  const [xpMessage, setXpMessage] = useState<string | null>(null);
+  // s17 tour 1 (UXV-1-01, DES-1-01, bugs 1 et 3 QA) : résultat affiché dans la carte validée,
+  // sans minuterie ; l'annonce vocale reste dans une zone permanente.
+  const [stepResults, setStepResults] = useState<Record<number, { xp: string | null; rythme: string | null }>>({});
+  const [annonce, setAnnonce] = useState("");
+  // s17 tour 1 (UXV-1-02) : invitation au rappel seulement pour un compte qui y a droit et ne l'a pas activé.
+  const [rappelInvite, setRappelInvite] = useState(false);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
   const quizStorageKey = `parcours-quiz-done:${slug}`;
   const openTrigger = useRef<"auto" | "manuel">("auto");
   const openedSteps = useRef<Set<number>>(new Set());
   const openedAt = useRef<Map<number, number>>(new Map());
   const openTracked = useRef(false);
-  const focusAfterValidation = useRef<number | "fin" | null>(null);
+  const focusAfterValidation = useRef<{ validee: number; suivante: number } | "fin" | null>(null);
   const completionHeading = useRef<HTMLHeadingElement>(null);
   const hashStep = useRef<number | null>(null);
 
@@ -138,7 +145,8 @@ export function ParcoursDetail({
     const next = data.path?.steps
       ? stepToOpen(data.path.steps, data.userProgress?.completedSteps ?? [], hashStep.current)
       : null;
-    if (next !== null) setExpandedStep(next);
+    // UXV-1-03 : parcours terminé sans ancre = toutes les étapes repliées (next vaut alors null).
+    if (next !== null || data.userProgress?.completedAt) setExpandedStep(next);
     setLastValidation(derniereValidation(data.stepValidations));
   }, []);
 
@@ -210,6 +218,20 @@ export function ParcoursDetail({
       });
   }, [tracksProgress, pathId]);
 
+  useEffect(() => {
+    if (!tracksProgress) return;
+    const controller = new AbortController();
+    fetch(RAPPEL_PARCOURS_API, { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { eligible?: boolean; enabled?: boolean } | null) => {
+        setRappelInvite(data?.eligible === true && data.enabled !== true);
+      })
+      .catch(() => {
+        // Sans réponse, pas d'invitation (jamais de lien vers une commande absente).
+      });
+    return () => controller.abort();
+  }, [tracksProgress]);
+
   /** Appels secondaires de l'abonné (quiz = pratique D3, retour d'exercice) : jamais bloquants. */
   const postQuiet = (route: "quiz" | "retour", body: Record<string, string | number>) => {
     if (!tracksProgress) return;
@@ -233,13 +255,21 @@ export function ParcoursDetail({
   }, [expandedStep, status, slug, statut]);
 
   // Après validation : focus sur l'étape suivante ou sur la carte de fin (UX-05 d, UX-09 d).
+  // s17 tour 1 : la carte validée (gain d'XP, date conseillée) est calée sous l'en-tête
+  // (scroll-mt-24), l'étape suivante ouverte juste en dessous.
   useEffect(() => {
     const target = focusAfterValidation.current;
     if (target === null) return;
     focusAfterValidation.current = null;
-    const el = target === "fin" ? completionHeading.current : document.getElementById(`etape-${target}-entete`);
-    el?.scrollIntoView?.({ behavior: "smooth", block: "center" });
-    el?.focus({ preventScroll: true });
+    const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const behavior: ScrollBehavior = reduit ? "auto" : "smooth";
+    if (target === "fin") {
+      completionHeading.current?.scrollIntoView?.({ behavior, block: "start" });
+      completionHeading.current?.focus({ preventScroll: true });
+      return;
+    }
+    document.getElementById(`etape-${target.validee}`)?.scrollIntoView?.({ behavior, block: "start" });
+    document.getElementById(`etape-${target.suivante}-entete`)?.focus({ preventScroll: true });
   }, [progress, expandedStep]);
 
   const toggleStep = (order: number, isExpanded: boolean) => {
@@ -295,15 +325,24 @@ export function ParcoursDetail({
           });
         }
         const xp = data.xpGained ?? 0;
-        if (xp > 0) {
-          setXpMessage(pathCompleted ? XP_GAIN.fin(xp, PARCOURS_BONUS_FIN_XP) : XP_GAIN.etape(xp));
-          setTimeout(() => setXpMessage(null), 6000);
-        }
+        const xpTexte = xp > 0 ? (pathCompleted ? XP_GAIN.fin(xp, PARCOURS_BONUS_FIN_XP) : XP_GAIN.etape(xp)) : null;
+        // Étalon 3.3 A : date du serveur si elle est à venir, sinon 7 jours après cette validation.
+        const serveur = data.nextRecommendedAt ? new Date(data.nextRecommendedAt) : null;
+        const dateConseillee =
+          serveur && serveur.getTime() > Date.now() ? serveur : prochaineEtapeConseillee(new Date().toISOString());
+        const rythme = pathCompleted
+          ? null
+          : dateConseillee
+            ? prochaineEtapeTexte(formatDateConseillee(dateConseillee))
+            : PROCHAINE_ETAPE_DISPONIBLE;
+        setStepResults((prev) => ({ ...prev, [stepOrder]: { xp: xpTexte, rythme } }));
+        setAnnonce([xpTexte, rythme].filter(Boolean).join(" "));
         const nextStep = path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order));
         if (pathCompleted || !nextStep) {
           focusAfterValidation.current = "fin";
+          setExpandedStep(null);
         } else {
-          focusAfterValidation.current = nextStep.order;
+          focusAfterValidation.current = { validee: stepOrder, suivante: nextStep.order };
           setExpandedStep(nextStep.order);
         }
       } else {
@@ -411,8 +450,9 @@ export function ParcoursDetail({
         )}
       </div>
 
-      <Card className="mb-8">
-        <CardContent className="py-4">
+      {/* DES-1-16 : carte resserrée (une ligne pour le visiteur). */}
+      <Card className={isPremium ? "mb-8" : "mb-8 py-3"}>
+        <CardContent className={isPremium ? "py-2" : ""}>
           {isPremium ? (
             <>
               {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
@@ -422,7 +462,8 @@ export function ParcoursDetail({
                 max={totalSteps}
                 variant="gradient"
               />
-              <p className="mt-2 text-right text-sm font-medium text-accent-link">
+              {/* DES-1-16 : total à gagner en secondaire, pour ne pas le lire comme un gain. */}
+              <p className="mt-2 text-right text-sm text-text-secondary">
                 {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
               </p>
               {showRythme && (
@@ -430,10 +471,13 @@ export function ParcoursDetail({
                   {nextDate ? prochaineEtapeTexte(formatDateConseillee(nextDate)) : PROCHAINE_ETAPE_DISPONIBLE}
                 </p>
               )}
-              {!isPathCompleted && (
+              {!isPathCompleted && rappelInvite && (
                 <p className="mt-2 text-xs text-text-muted">
                   {RAPPEL_LIEN.texte}{" "}
-                  <Link href="/profil#rappel-parcours" className="text-accent-link underline underline-offset-2">
+                  <Link
+                    href="/profil#rappel-parcours"
+                    className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2 sm:min-h-0"
+                  >
                     {RAPPEL_LIEN.lien}
                   </Link>
                 </p>
@@ -446,13 +490,28 @@ export function ParcoursDetail({
         </CardContent>
       </Card>
 
-      {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : elle ne se démonte pas avec l'étape. */}
-      <div aria-live="polite" aria-atomic="true" className="mb-4 text-center">
-        {xpMessage && <p className="text-sm font-bold text-accent-link animate-scale-in">{xpMessage}</p>}
+      {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : elle ne se démonte pas avec l'étape.
+          s17 tour 1 : le texte visible est dans la carte validée ; ici, l'annonce vocale seule (plus de 16 px morts). */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {annonce}
       </div>
 
+      {/* UXV-1-03 : parcours terminé, la carte de fin et le bilan passent avant « Le programme ». */}
+      {isPathCompleted && (
+        <PathCompletionCard
+          ref={completionHeading}
+          slug={slug}
+          title={path.title}
+          totalXp={totalXp}
+          stepTitles={path.steps.map((s) => s.moduleTitle ?? s.tip.title)}
+          retours={retours}
+          nextParcours={path.nextParcours}
+          nextParcoursReason={path.nextParcoursReason}
+        />
+      )}
+
       {completionError && (
-        <div className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error" role="alert">
+        <div className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error-text" role="alert">
           {completionError}
         </div>
       )}
@@ -495,23 +554,12 @@ export function ParcoursDetail({
                 postQuiet("retour", { stepOrder: step.order, retour: resultat });
               }}
               onComplete={() => handleCompleteStep(step.order)}
+              resultat={stepResults[step.order] ?? null}
+              contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
             />
           );
         })}
       </div>
-
-      {isPathCompleted && (
-        <PathCompletionCard
-          ref={completionHeading}
-          slug={slug}
-          title={path.title}
-          totalXp={totalXp}
-          stepTitles={path.steps.map((s) => s.moduleTitle ?? s.tip.title)}
-          retours={retours}
-          nextParcours={path.nextParcours}
-          nextParcoursReason={path.nextParcoursReason}
-        />
-      )}
 
       {/* UX-06 : pas de « parcours suivant » en cours de route pour un abonné. */}
       {!isPathCompleted && !isPremium && path.nextParcours && (

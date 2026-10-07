@@ -17,6 +17,8 @@ import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { AbonnementCard } from "@/components/profil/abonnement-card";
 import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
 import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
+import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
+import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -136,6 +138,7 @@ export function ProfilDashboard() {
   // Progression, série, statistiques et parcours suivis = Premium (s15
   // §1.1). Hors abonnement, rien n'est effacé en base : seul l'affichage change.
   const isPremium = user.plan === "PREMIUM";
+  const parcoursEnCours = isPremium && parcoursProgress.some((p) => !p.completedAt && p.completedSteps < p.totalSteps);
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -161,30 +164,33 @@ export function ProfilDashboard() {
             showPercentage
             variant="gradient"
           />
+          {/* s17 tour 1 (UXV-1-09) : « Premiers XP » seulement au premier niveau. */}
           <p className="mt-2 text-xs text-text-muted">
             {progress.value >= progress.max
-              ? "Niveau maximum. Il ne te reste plus qu'à faire rire les autres."
+              ? PROGRESSION_NIVEAU.max
               : progress.value / progress.max >= 0.75
-                ? "Le niveau suivant est à portée de vanne."
+                ? PROGRESSION_NIVEAU.presque
                 : progress.value / progress.max >= 0.25
-                  ? "Ça avance, et ça commence à s'entendre."
-                  : "Premiers XP au compteur : le reste vient en pratiquant."}
+                  ? PROGRESSION_NIVEAU.milieu
+                  : user.level === LEVEL_ORDER[0]
+                    ? PROGRESSION_NIVEAU.debut
+                    : PROGRESSION_NIVEAU.nouveauNiveau(levelInfo.label)}
           </p>
         </CardContent>
       </Card>
 
-      {/* Streak */}
+      {/* Série (s17 tour 1, DES-1-03 / DES-1-09 : titre français, carte resserrée) */}
       <Card>
         <CardHeader>
-          <CardTitle>Streak</CardTitle>
+          <CardTitle>{SERIE.titre}</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center py-4">
+        <CardContent className="flex items-center justify-center py-2">
           <StreakCounter count={user.streak} />
         </CardContent>
       </Card>
 
-      {/* Statistiques */}
-      <Card>
+      {/* Statistiques (s17 tour 1, DES-1-09 : pleine largeur, plus de trou dans la grille) */}
+      <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
@@ -197,7 +203,7 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Vannes lues</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-secondary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.tipsCompleted}
               </p>
               <p className="text-xs text-text-muted">Conseils terminés</p>
@@ -209,7 +215,7 @@ export function ProfilDashboard() {
               <p className="text-xs text-text-muted">Favoris sauvegardés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-secondary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.pathsCompleted}
               </p>
               <p className="text-xs text-text-muted">Parcours terminés</p>
@@ -281,10 +287,14 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
+      {/* s17 tour 1 (UXV-1-02, DES-1-08) : rappel juste sous « Mes parcours » (rien si le compte n'y a pas droit). */}
+      <RappelParcoursToggle className="md:col-span-2" />
         </>
       )}
 
-      {/* Prochaine étape — recommandation personnalisée */}
+      {/* Prochaine étape : recommandation personnalisée. s17 tour 1 (UXV-1-09) : masquée quand
+          un parcours est en cours, « Reprendre ton parcours » (en tête de page) suffit. */}
+      {!parcoursEnCours && (
       <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle>Prochaine étape</CardTitle>
@@ -332,8 +342,8 @@ export function ProfilDashboard() {
               </Link>
             )}
             <Link href="/videos" className="group">
-              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-secondary">
-                <p className="font-semibold text-accent-secondary">Regarde les pros</p>
+              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                <p className="font-semibold text-accent-link">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
                   Décortique les techniques des meilleurs humoristes, puis pique-leur ce qui te va.
                 </p>
@@ -342,6 +352,7 @@ export function ProfilDashboard() {
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
       <AbonnementCard

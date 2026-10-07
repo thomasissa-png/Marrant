@@ -111,7 +111,8 @@ describe("A2 : « Parcours terminé ! » et carte de fin pilotés par le serveur
     expect(await screen.findByText("800 XP au total, dont 100 de bonus à la dernière étape")).toBeInTheDocument();
     await userEvent.click(await screen.findByText("Valider cette étape"));
     expect(await screen.findByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
-    expect(screen.getByText("+300 XP gagnés, dont 100 de bonus de fin. Parcours terminé !")).toBeInTheDocument();
+    // s17 tour 1 : gain affiché dans la carte validée (persistant) et annoncé par la zone vocale.
+    expect(screen.getByTestId("etape-resultat")).toHaveTextContent("+300 XP gagnés, dont 100 de bonus de fin. Parcours terminé !");
     expect(screen.getByText("Tu as fait les 6 étapes et gagné 800 XP, bonus de fin compris.")).toBeInTheDocument();
     expect((await screen.findByText("Passer au parcours Machine à Café")).closest("a")).toHaveAttribute(
       "href",
@@ -194,13 +195,31 @@ describe("D2 rythme doux et rappel (lien vers le profil)", () => {
     session = PREMIUM;
     const path = buildPath([50, 75, 100]);
     const deuxJours = new Date(Date.now() - 2 * 86_400_000).toISOString();
-    mockFetch(() => ({
-      body: { path, userProgress: { completedSteps: [1], currentStep: 1, completedAt: null }, stepValidations: [{ stepOrder: 1, completedAt: deuxJours }] },
-    }));
+    mockFetch((url) =>
+      url.includes("rappel-parcours")
+        ? { body: { eligible: true, enabled: false } }
+        : {
+            body: { path, userProgress: { completedSteps: [1], currentStep: 1, completedAt: null }, stepValidations: [{ stepOrder: 1, completedAt: deuxJours }] },
+          },
+    );
     render(<ParcoursDetail slug="confiance" />);
     expect(await screen.findByText(/Prochaine étape conseillée le .+\. Tu peux y aller dès maintenant si tu veux/)).toBeInTheDocument();
     expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
-    expect(screen.getByText("Règle-le dans ton profil").closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
+    expect((await screen.findByText("Règle-le dans ton profil")).closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
+  });
+
+  it("s17 tour 1 (UXV-1-02) : abonné sans droit au rappel (e-mail non vérifié) : aucune invitation", async () => {
+    session = PREMIUM;
+    const path = buildPath([50, 75, 100]);
+    mockFetch((url) =>
+      url.includes("rappel-parcours")
+        ? { body: { eligible: false, enabled: false } }
+        : { body: { path, userProgress: { completedSteps: [1], currentStep: 1, completedAt: null } } },
+    );
+    render(<ParcoursDetail slug="confiance" />);
+    await screen.findByText("Valider cette étape");
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith("/api/user/rappel-parcours", expect.anything()));
+    expect(screen.queryByText("Règle-le dans ton profil")).not.toBeInTheDocument();
   });
 
   it("visiteur : ni date conseillée ni lien de rappel", async () => {
@@ -234,9 +253,15 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     await userEvent.click(screen.getByText("Voir le résultat"));
     expect(screen.getByText("1 sur 2. Les explications sont là pour ça.")).toBeInTheDocument();
     expect(screen.queryByText(/Tu peux valider/)).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText("Continuer"));
-    expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();
+    // s17 tour 1 (UXV-1-04) : quiz compté dès la fin, plus de « Continuer » ; titre sans « valider ».
+    expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
+    // Un seul bouton plein : « Voir l'offre Premium » passe en plein une fois le quiz fini.
+    expect(screen.getByRole("link", { name: "Voir l'offre Premium" }).className).toContain("bg-accent-secondary-hover");
+    await userEvent.click(screen.getByText("Refaire le quiz"));
+    expect(screen.getByText("Q1 ?")).toBeInTheDocument();
+    expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();
   });
 
   it("événements : parcours-ouvert (src lu dans l'URL), etape-ouverte auto puis manuel, mur de validation", async () => {

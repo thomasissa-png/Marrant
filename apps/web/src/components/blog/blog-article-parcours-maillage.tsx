@@ -3,6 +3,9 @@ import { resolveCluster } from "@/lib/blog-clusters";
 import { parcoursWeeks } from "@/config/premium";
 import { FORTE_FRAPPE_PARCOURS, type ParcoursSlug } from "@/config/blog-forte-frappe";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { BLOG_LIEN_ETAPE_1 } from "@/config/textes/entrees-parcours";
 
 /**
  * Maillage contextuel article → parcours individuel.
@@ -33,7 +36,6 @@ interface ParcoursHint {
   duration: string;
   headline: string;
   bullets: string[];
-  cta: string;
 }
 
 const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
@@ -47,7 +49,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des situations que tu connais : le chambrage entre potes, la pique en TD, le raté à rattraper",
       "Des XP à chaque étape validée, pour mesurer le chemin parcouru",
     ],
-    cta: "Découvrir le parcours Répartie",
   },
   "apprendre-humour": {
     slug: "repartie",
@@ -59,7 +60,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des exercices à tester le soir même, en soirée ou en coloc",
       "À chaque étape, un conseil, des vannes, une vidéo et un petit quiz",
     ],
-    cta: "Commencer le parcours Répartie",
   },
   "apprendre-des-pros": {
     slug: "repartie",
@@ -71,7 +71,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "De vrais humoristes, avec ce qu'il faut regarder de près chez eux",
       "Le but : trouver ton style, pas faire une copie carbone du leur",
     ],
-    cta: "Ouvrir le parcours Répartie",
   },
   "techniques-delivery": {
     slug: "repartie",
@@ -83,7 +82,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des vannes avec le timing intégré, à dire à voix haute",
       `${parcoursWeeks("repartie")} semaines pour que ta chute arrive au bon moment, et pas juste après`,
     ],
-    cta: "Travailler ton timing",
   },
   "types-humour": {
     slug: "repartie",
@@ -95,7 +93,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Une étape par semaine, chacune un cran au-dessus de la précédente",
       `${parcoursWeeks("repartie")} étapes en ${parcoursWeeks("repartie")} semaines, à ton rythme`,
     ],
-    cta: "Lancer le parcours",
   },
   "douleurs-personas": {
     slug: "confiance",
@@ -107,7 +104,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des étapes pensées pour les moments où c'est dur : reprendre après une pause, trouver ta place dans un groupe qui rit",
       "Le rire revient d'abord pour toi, puis il se partage",
     ],
-    cta: "Commencer le parcours Confiance",
   },
   "humour-contexte": {
     slug: "machine-a-cafe",
@@ -119,7 +115,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des vannes courtes, le bon moment pour les placer et des anecdotes qu'on écoute jusqu'au bout",
       "Zéro blague de manager, promis",
     ],
-    cta: "Rejoindre le parcours Machine à Café",
   },
   "fort-volume": {
     slug: "machine-a-cafe",
@@ -131,7 +126,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Place ta chute sans prévenir tout le monde que « t'en as une bonne »",
       `${parcoursWeeks("machine-a-cafe")} semaines, 15 min/semaine, l'équivalent d'une pause café un peu longue`,
     ],
-    cta: "Ouvrir le parcours",
   },
   saisonnier: {
     slug: "machine-a-cafe",
@@ -143,7 +137,6 @@ const PARCOURS_BY_CLUSTER: Record<string, ParcoursHint> = {
       "Des réflexes qui marchent au repas de Noël comme à la rentrée ou au bureau",
       "Des XP à chaque étape, pour que ça tienne plus longtemps que les décorations de Noël",
     ],
-    cta: "Découvrir le parcours",
   },
 };
 
@@ -203,11 +196,12 @@ export function BlogArticleParcoursMaillage({
         ))}
       </ul>
       <div className="mt-5">
+        {/* s17 tour 1 (UXV-1-05) : libellé unique de l'étape gratuite, en style principal. */}
         <Link
           href={parcoursEtape1Href(hint.slug, "blog")}
-          className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-4 py-2 text-sm font-semibold text-accent-link transition-colors hover:bg-accent-primary/20"
+          className={cn(buttonVariants({ variant: "primary" }), "min-h-[44px] w-full sm:w-auto")}
         >
-          {hint.cta}
+          {BLOG_LIEN_ETAPE_1}
         </Link>
       </div>
     </aside>

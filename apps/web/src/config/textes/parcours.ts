@@ -4,6 +4,7 @@
  * validés par Thomas : ne rien y écrire de pédagogique (D5), seulement l'interface.
  */
 import { OFFRE_NOM } from "@/config/textes/offre";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 // VALIDÉ s17 (étalon 3.1 a)
 /** Badge d'une étape 2+ vue par un non-abonné (D1 : aperçu ouvrable, pas d'ordre imposé). */
@@ -76,6 +77,48 @@ export const QUIZ_CORRECTION = {
 export const quizLettre = (index: number): string => String.fromCharCode(65 + index);
 /** Lecture vocale de la lettre, avant le texte de la réponse. */
 export const QUIZ_LETTRE_VOCALE = (lettre: string) => `Réponse ${lettre} : `;
+
+// s17 tour 1 (UXV-1-04) : le visiteur ne peut pas valider, son titre ne parle pas de « valider »
+/** Titre du bloc quiz d'une étape. */
+export const QUIZ_TITRE = {
+  abonne: "Petit quiz avant de valider",
+  visiteur: "Petit quiz pour t'entraîner",
+} as const;
+
+// s17 tour 1 (UXV-1-04) : fin de quiz, bouton secondaire qui dit son effet (le visiteur garde ses explications et peut recommencer)
+export const QUIZ_FIN_BOUTON = {
+  abonne: "Continuer",
+  visiteur: "Refaire le quiz",
+} as const;
+
+// s17 tour 1 (UXV-1-07) : réassurance sous « Voir l'offre Premium », prix lu dans config/premium.ts
+/** Ligne discrète sous le bouton de l'aperçu verrouillé et du blocage de validation (texte du blocage inchangé). */
+export const APERCU_REASSURANCE = `${PREMIUM_PRICE_LABEL}, sans engagement.`;
+
+// VALIDÉ s17 (étalon 3.8 A, série comptée sur la pratique) ; titre « Série » : s17 tour 1 (UXV-1-09, DES-1-03)
+/** Série du profil : libellé, aide, état à zéro (jamais de culpabilité). */
+export const SERIE = {
+  titre: "Série",
+  ariaIcone: "série",
+  jours: (n: number) => `${n} ${n > 1 ? "jours" : "jour"} de pratique d'affilée`,
+  aide: "Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.",
+  zero: "Ta série démarre à ta prochaine étape.",
+} as const;
+
+// s17 tour 1 (UXV-1-09) : phrase sous la barre de niveau, selon le niveau réel (plus de « Premiers XP » à 600 XP)
+export const PROGRESSION_NIVEAU = {
+  max: "Niveau maximum. Il ne te reste plus qu'à faire rire les autres.",
+  presque: "Le niveau suivant est à portée de vanne.",
+  milieu: "Ça avance, et ça commence à s'entendre.",
+  debut: "Premiers XP au compteur : le reste vient en pratiquant.",
+  nouveauNiveau: (niveau: string) => `Niveau ${niveau} atteint. Le prochain se gagne en pratiquant.`,
+} as const;
+
+// s17 tour 1 (UXV-1-06) : repère à l'arrivée sur #etape-1 (« Parcours Répartie · 4 semaines »)
+/** Ligne au-dessus du titre de l'étape 1 : nom du parcours et durée (données du parcours). */
+export function etapeContexteTexte(titreParcours: string, duree?: string | null): string {
+  return duree ? `${titreParcours} · ${duree}` : titreParcours;
+}
 
 // s17, aligné sur les étalons (XP et bonus intouchables)
 /** Gain d'XP (A2) : « Parcours terminé ! » seulement quand le serveur le dit. */

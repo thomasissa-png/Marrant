@@ -88,7 +88,10 @@ describe("ProfilDashboard", () => {
 
   it("displays streak counter", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("5 jours")).toBeInTheDocument();
+    expect(screen.getByText("5 jours de pratique d'affilée")).toBeInTheDocument();
+    // s17 tour 1 (DES-1-03) : titre en français.
+    expect(screen.getByText("Série")).toBeInTheDocument();
+    expect(screen.queryByText("Streak")).not.toBeInTheDocument();
   });
 
   it("displays statistics with favoris and parcours", () => {
@@ -121,7 +124,7 @@ describe("ProfilDashboard", () => {
     it("progression, série, statistiques et parcours suivis non affichés (données gardées en base)", () => {
       render(<ProfilDashboard />);
       expect(screen.queryByText("Progression")).not.toBeInTheDocument();
-      expect(screen.queryByText("Streak")).not.toBeInTheDocument();
+      expect(screen.queryByText("Série")).not.toBeInTheDocument();
       expect(screen.queryByText("Statistiques")).not.toBeInTheDocument();
       expect(screen.queryByText("Mes parcours")).not.toBeInTheDocument();
       expect(screen.getByText("Prochaine étape")).toBeInTheDocument();

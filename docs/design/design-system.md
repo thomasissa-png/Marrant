@@ -17,6 +17,16 @@
 | `accent-primary-hover` | `#A78BFA` | Hover de l'accent principal |
 | `accent-secondary` | `#6D28D9` | Accent secondaire (boutons secondary, deep) |
 | `accent-secondary-hover` | `#7C3AED` | Hover de l'accent secondaire |
+| `accent-link` | `#A78BFA` | Texte violet courant (< 24 px), AA sur fond, carte et élevé |
+
+**Règle (s17 tour 1, DES-1-03)** : `accent-secondary` est **interdit en couleur de texte** (2,3:1 sur fond sombre), réservé aux fonds de bouton et aux teintes de fond (`/10`). Texte violet = `accent-link`.
+
+### États
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `success` | `#22C55E` | Texte, bordure et fond de succès (≈ 6,2:1 sur carte) |
+| `error` | `#EF4444` | Bordures et fonds d'erreur seulement (≈ 4,0:1 en texte : sous AA) |
+| `error-text` | `#F87171` | Tout texte d'erreur (≈ 6:1 sur carte, ≈ 5,4:1 sur `bg-error/10`), s17 tour 1 (DES-1-02) |
 
 ### Texte
 | Token | Hex | Usage |
@@ -56,7 +66,10 @@ Fond `background-light`, bordure `border`, focus `accent-primary`
 Variants : `primary`, `secondary`, `gradient`
 
 ### StreakCounter
-Animation pulse sur l'emoji feu, fond `accent-secondary/10`
+Animation pulse sur l'emoji feu (coupée si mouvement réduit), fond `accent-secondary/10`, texte `accent-link` « {n} jours de pratique d'affilée » + aide (étalon 3.8 A)
+
+### Interrupteur (s17 tour 1, DES-1-08)
+`<input type="checkbox" role="switch" class="peer sr-only">` + piste `h-6 w-11 rounded-full` (`background-elevated`, cochée `accent-primary`, focus visible `accent-primary`) + pastille blanche `h-5 w-5`, le tout dans un `<label>` de 44 px de haut. Jamais de case native sur fond sombre.
 
 ## Animations
 

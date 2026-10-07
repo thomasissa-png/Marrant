@@ -14,6 +14,10 @@ import { LISTE_PARCOURS } from "@/config/textes/parcours";
 /** Accueil visiteur : lien secondaire sous le bouton principal (UX-08). */
 export const ACCUEIL_LIEN_ETAPE_1 = "Lire la première étape gratuite";
 
+// s17 tour 1 (UXV-1-05) : même libellé (étalon 3.9 A) sur l'encart « Parcours recommandé » du blog
+/** Encart de maillage des articles : bouton principal vers l'étape 1 du parcours lié. */
+export const BLOG_LIEN_ETAPE_1 = ACCUEIL_LIEN_ETAPE_1;
+
 // s17, validé (étalon 3.4 A : titre « Reprendre ton parcours », ligne « {parcours}, étape N sur M : {titre de l'étape} ») ; bouton : aligné sur les étalons
 /** Bloc « Reprendre ton parcours » (accueil abonné, profil). Ligne : même format que la liste /parcours. */
 export const REPRENDRE = {

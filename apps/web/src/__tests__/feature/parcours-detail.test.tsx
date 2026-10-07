@@ -218,7 +218,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
     expect(screen.getByText("Quelle est la clé d'une bonne vanne ?")).toBeInTheDocument();
@@ -231,7 +231,9 @@ describe("ParcoursDetail — enriched content", () => {
     await userEvent.click(screen.getByText("Voir le résultat"));
 
     expect(screen.getByText("Sans faute." /* étalon 3.2 B, visiteur */)).toBeInTheDocument();
-    expect(screen.getByText("Continuer")).toBeInTheDocument();
+    // s17 tour 1 (UXV-1-04) : plus de « Continuer » pour le visiteur, un bouton discret pour recommencer.
+    expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
+    sessionStorage.clear();
   });
 
   it("shows cross-recommendation to next parcours", async () => {
@@ -343,6 +345,7 @@ describe("ParcoursDetail — seed fallback", () => {
 
 describe("ParcoursDetail — quiz gate", () => {
   it("requires quiz completion before step can be validated", async () => {
+    sessionStorage.clear();
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
       data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",

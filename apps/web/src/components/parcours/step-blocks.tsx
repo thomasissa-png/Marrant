@@ -11,6 +11,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
 import {
   APERCU_BAS,
+  APERCU_REASSURANCE,
   LIENS_FICHES,
   RETOUR_EXERCICE,
   VANNES_ETAPE,
@@ -44,25 +45,38 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
         >
           {VALIDATION_ETAPE.bouton}
         </Link>
+        {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton, texte du blocage s16 inchangé. */}
+        <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
       </div>
     </div>
   );
 }
 
 /** Mur de validation de l'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2). */
-export function ValidationWall({ slug, href }: { slug: string; href: string }) {
+export function ValidationWall({
+  slug,
+  href,
+  quizPending = false,
+}: {
+  slug: string;
+  href: string;
+  /** s17 tour 1 (DES-1-05) : quiz pas encore fini, le bouton reste en contour (un seul plein à l'écran). */
+  quizPending?: boolean;
+}) {
   useEffect(() => {
     trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
   }, [slug]);
   return (
-    <div className="text-center">
+    <div className="mt-2 border-t border-border pt-4 text-center">
       <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
       <Link
         href={href}
-        className={`${buttonVariants({ variant: "primary" })} mt-3 h-auto min-h-10 w-full whitespace-normal py-2 text-center leading-snug`}
+        className={`${buttonVariants({ variant: quizPending ? "outline" : "primary" })} mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug`}
       >
         {VALIDATION_ETAPE.bouton}
       </Link>
+      {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton. */}
+      <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
     </div>
   );
 }
@@ -77,9 +91,10 @@ export function VideoCard({ video }: { video: VideoRef }) {
       <div className="p-3">
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>
         <p className="text-xs text-text-secondary">{video.title}</p>
-        <p className="mt-1 text-xs text-text-muted italic">{frTypo(stripEmDashes(video.why))}</p>
+        {/* s17 tour 1 (DES-1-13) : description lisible, lien en cible de 44 px. */}
+        <p className="mt-1 text-sm text-text-secondary">{frTypo(stripEmDashes(video.why))}</p>
         {video.href && (
-          <Link href={video.href} className="mt-2 inline-block py-2 text-xs text-accent-link underline underline-offset-2">
+          <Link href={video.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
             {LIENS_FICHES.video}
           </Link>
         )}
@@ -97,13 +112,14 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
   if (isPremium && jokes.length > 0) {
     return (
       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-        <h4 className="mb-3 text-sm font-semibold text-text-primary">{VANNES_ETAPE.titre}</h4>
-        <ul className="space-y-3">
+        <h4 className="mb-1 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
+        {/* s17 tour 1 (DES-1-15) : amorce en retrait, chute en avant, vannes séparées d'un filet. */}
+        <ul className="divide-y divide-border">
           {jokes.map((j) => (
-            <li key={j.id} className="text-sm">
-              <p className="text-text-primary">{frTypo(stripEmDashes(j.content))}</p>
-              <p className="mt-1 font-medium text-text-secondary">{frTypo(stripEmDashes(j.punchline))}</p>
-              <Link href={j.href} className="mt-1 inline-block py-1 text-xs text-accent-link underline underline-offset-2">
+            <li key={j.id} className="py-3 text-sm last:pb-0">
+              <p className="text-text-secondary">{frTypo(stripEmDashes(j.content))}</p>
+              <p className="mt-1 font-semibold text-text-primary">{frTypo(stripEmDashes(j.punchline))}</p>
+              <Link href={j.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
                 {VANNES_ETAPE.voirFiche}
                 <span className="sr-only"> : {j.technique ?? j.content}</span>
               </Link>
@@ -117,7 +133,7 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
   if (isPremium || count === 0) return null;
   return (
     <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-      <h4 className="mb-2 text-sm font-semibold text-text-primary">{VANNES_ETAPE.titre}</h4>
+      <h4 className="mb-2 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
       <p className="text-sm text-text-secondary">{VANNES_ETAPE.apercuVisiteur(count)}</p>
     </div>
   );
@@ -161,6 +177,8 @@ export function ExerciseFeedback({
             key={o.resultat}
             type="button"
             size="sm"
+            // s17 tour 1 (DES-1-13) : cible de 44 px à toutes les largeurs.
+            className="min-h-[44px]"
             variant={actif === o.resultat ? "primary" : "outline"}
             aria-pressed={actif === o.resultat}
             onClick={() => {

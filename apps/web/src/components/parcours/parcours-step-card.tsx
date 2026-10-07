@@ -13,6 +13,7 @@ import {
   ETAPE_APERCU_LIBELLE,
   etapeOrdreTexte,
   LIENS_FICHES,
+  QUIZ_TITRE,
 } from "@/config/textes/parcours";
 import { PARCOURS_ETAPE_XP_DEFAUT } from "@/lib/parcours-xp";
 import { StepQuiz } from "@/components/parcours/step-quiz";
@@ -37,10 +38,14 @@ function LockIcon({ className }: { className: string }) {
   );
 }
 
+/** s17 tour 1 (DES-1-06) : titres de bloc lisibles d'un coup d'œil, corps à longueur de ligne lisible. */
+const SECTION_TITRE = "mb-2 font-display text-base font-bold text-text-primary";
+const CORPS_LECTURE = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="mb-1 text-sm font-semibold text-text-primary">{title}</h4>
+      <h4 className={SECTION_TITRE}>{title}</h4>
       {children}
     </div>
   );
@@ -70,6 +75,13 @@ export interface ParcoursStepCardProps {
   /** Retour déjà enregistré sur l'exercice (abonné). */
   retour?: string | null;
   onRetour?: (resultat: Resultat) => void;
+  /**
+   * s17 tour 1 (UXV-1-01, DES-1-01) : gain d'XP et date conseillée, affichés dans
+   * la carte qui vient d'être validée, sans minuterie.
+   */
+  resultat?: { xp: string | null; rythme: string | null } | null;
+  /** s17 tour 1 (UXV-1-06) : repère « Parcours Répartie · 4 semaines » au-dessus du titre. */
+  contexte?: string | null;
 }
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
@@ -93,7 +105,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         tabIndex={canExpand ? 0 : undefined}
         aria-expanded={canExpand ? isExpanded : undefined}
         // Pas d'aria-label : le nom vocal = le texte visible (QA-05) ; focus visible (UX-09 a).
-        className={`rounded-t-xl focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "cursor-pointer" : "cursor-default"}`}
+        // DES-1-04 : pas de marge basse sous un en-tête replié (16 px dessus, 0 dessous + padding de la carte).
+        className={`rounded-t-xl ${isExpanded && canExpand ? "" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "cursor-pointer" : "cursor-default"}`}
         onClick={() => canExpand && props.onToggle()}
         onKeyDown={(e) => {
           if (!canExpand) return;
@@ -107,7 +120,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
           <div className="flex items-center gap-3">
             <div
               className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                isCompleted ? "bg-accent-primary text-white" : muted ? "bg-background-elevated text-text-muted opacity-60" : "bg-background-elevated text-text-muted"
+                isCompleted ? "bg-accent-primary text-white" : "bg-background-elevated text-text-muted"
               }`}
               aria-hidden="true"
             >
@@ -122,7 +135,14 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
               )}
             </div>
             <div>
-              <CardTitle className={`text-base ${muted ? "text-text-muted" : ""}`}>
+              {props.contexte && (
+                // Répète le H1 : masqué au lecteur d'écran (nom du bouton « Étape 1 : … » inchangé).
+                <p aria-hidden="true" className="mb-0.5 text-xs font-semibold uppercase tracking-wide text-accent-link">
+                  {props.contexte}
+                </p>
+              )}
+              {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint). */}
+              <CardTitle className={`text-base ${muted ? "text-text-secondary" : ""}`}>
                 <span className="sr-only">Étape {step.order} : </span>
                 {title}
                 {isCompleted && <span className="sr-only"> (validée)</span>}
@@ -130,9 +150,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
               <div className="mt-1 flex flex-wrap items-center gap-2">
                 <span className={`text-xs ${muted ? "text-text-muted" : "text-accent-link"}`}>+{stepXp} XP</span>
                 {(step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
-                {isPremiumLocked && !isCompleted && (
-                  <span className="text-xs text-text-muted">{ETAPE_APERCU_LIBELLE}</span>
-                )}
+                {isPremiumLocked && !isCompleted && <Badge variant="premium">{ETAPE_APERCU_LIBELLE}</Badge>}
                 {isSequentiallyLocked && props.previousOrder !== null && (
                   <span className="text-xs text-text-muted">{etapeOrdreTexte(props.previousOrder)}</span>
                 )}
@@ -151,10 +169,20 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           ) : (
-            <LockIcon className="h-5 w-5 shrink-0 text-text-muted/50" />
+            <LockIcon className="h-5 w-5 shrink-0 text-text-muted" />
           )}
         </div>
       </CardHeader>
+
+      {/* Hors de l'en-tête : le nom vocal du bouton reste « Étape N : titre ». Annonce : zone aria-live de la page. */}
+      {isCompleted && props.resultat && (props.resultat.xp || props.resultat.rythme) && (
+        <div className="mt-2 pl-11 text-sm" data-testid="etape-resultat">
+          {props.resultat.xp && (
+            <p className="font-bold text-accent-link animate-scale-in motion-reduce:animate-none">{props.resultat.xp}</p>
+          )}
+          {props.resultat.rythme && <p className="mt-0.5 text-text-secondary">{props.resultat.rythme}</p>}
+        </div>
+      )}
 
       {isExpanded && canExpand && (
         <CardContent className="pt-0">
@@ -185,7 +213,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
 function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   const { step, slug, isPremium, isCompleted, isQuizDone, isSeedFallback, hasQuiz } = props;
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {step.why && (
         <div className="rounded-lg bg-background-elevated p-3">
           <p className="text-sm font-medium text-accent-link">Pourquoi cette étape ?</p>
@@ -195,7 +223,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.moduleDetail && (
         <Section title="Ce que tu vas apprendre">
-          <p className="text-sm text-text-secondary">{step.moduleDetail}</p>
+          <p className={CORPS_LECTURE}>{step.moduleDetail}</p>
           {step.moduleFormat && <p className="mt-2 text-xs text-text-muted">Format : {step.moduleFormat}</p>}
           {props.timePerWeek && (
             <p className="mt-1 text-xs text-text-muted">
@@ -208,9 +236,9 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {/* Conseil : masqué s'il répète mot pour mot le bloc précédent (T28). */}
       {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
         <Section title="Le conseil">
-          <p className="text-sm text-text-secondary">{tipProse(step.tip.content)}</p>
+          <p className={CORPS_LECTURE}>{tipProse(step.tip.content)}</p>
           {step.tipHref && (
-            <Link href={step.tipHref} className="mt-1 inline-block py-2 text-xs text-accent-link underline underline-offset-2">
+            <Link href={step.tipHref} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
               {LIENS_FICHES.conseil}
             </Link>
           )}
@@ -243,8 +271,9 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       <StepJokes step={step} isPremium={isPremium} />
 
       {step.videos && step.videos.length > 0 && (
-        <div>
-          <h4 className="mb-2 text-sm font-semibold text-text-primary">{VIDEOS_ETAPE.titre}</h4>
+        // DES-1-06 : filet avant la zone facultative.
+        <div className="border-t border-border pt-6">
+          <h4 className={SECTION_TITRE}>{VIDEOS_ETAPE.titre}</h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v) => (
               <VideoCard key={v.youtubeId} video={v} />
@@ -253,9 +282,10 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </div>
       )}
 
-      {hasQuiz && !isQuizDone && !isCompleted && (
-        <div>
-          <h4 className="mb-2 text-sm font-semibold text-text-primary">Petit quiz avant de valider</h4>
+      {/* Visiteur : le quiz reste affiché une fois fini (résultat, « Refaire le quiz »), UXV-1-04. */}
+      {hasQuiz && (!isQuizDone || !isPremium) && !isCompleted && (
+        <div className="border-t border-border pt-6">
+          <h4 className={SECTION_TITRE}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
           <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={props.onQuizComplete} />
         </div>
       )}
@@ -282,7 +312,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {isCompleted && <p className="text-center text-sm font-medium text-accent-link">Étape validée</p>}
 
-      {!isPremium && !isCompleted && step.order === 1 && <ValidationWall slug={slug} href={props.abonnementHref} />}
+      {!isPremium && !isCompleted && step.order === 1 && <ValidationWall slug={slug} href={props.abonnementHref} quizPending={hasQuiz && !isQuizDone} />}
     </div>
   );
 }

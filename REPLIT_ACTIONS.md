@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 tour 1 de la notation visuelle (07/10/2026) : corrections @fullstack, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
+
+> Rapport : `docs/marrant/audit-parcours-apprentissage-s17/iterations/iter-1-corrections.md`. Code seul (interface, textes, token Tailwind `error-text`, smoke `murs-premium.spec.ts:115` réaligné) : **aucune migration, aucune variable d'environnement**. tsc, ESLint, Jest complet (3 756 PASS) et `npm run build` verts en local. Mise en ligne après 10/10 @design et @ux (choix fondateur du 07/10).
+
 ## s17 (07/10/2026) : parcours d'apprentissage, lots A à E (serveur, interface, entrées, contenu, réserves de la revue) @fullstack : **NON DÉPLOYÉ**
 
 > Rapports : `docs/marrant/audit-parcours-apprentissage-s17/impl-lot-{a,b,c,d,e}.md`, revue : `revue-croisee.md`. Code non commité (l'orchestrateur committe après vérification globale). Mise en ligne sur feu vert de Thomas en une ligne (`docs/founder-preferences.md`).
