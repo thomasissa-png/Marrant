@@ -92,10 +92,92 @@ Format : problème / effet pour l'utilisateur / ce qu'on fait. Détail technique
 Contraintes non re-questionnées : prix 2,99 €/mois et formule annuelle 24,99 €, pas de compte gratuit, 1 500+ membres, humoristes nommés (vidéos de l'étape 1), titres/metas à re-signer par Thomas avant changement.
 
 ## 4. Détail technique (HTML servi, JSON-LD, sitemap, llms, maillage)
-_à écrire_
+
+### 4.1 HTML servi sans JavaScript (curl, UA Googlebot, 07/10/2026)
+
+| URL | Code | Title | H1 | H2 | Mots (main) | Canonical | Robots |
+|---|---|---|---|---|---|---|---|
+| /parcours | 200 | Cours humour en ligne : deviens drôle \| deviens-marrant.fr | Parcours humour : deviens drôle pas à pas | 6 (3 parcours, quiz, Explore aussi, FAQ) | 1 901 | absolue, OK | index, follow |
+| /parcours/machine-a-cafe | 200 | Drôle au bureau : parcours Machine à Café | Parcours Machine à Café | 0 | 678 | absolue, OK | index, follow |
+| /parcours/repartie | 200 | Avoir de la répartie : le parcours guidé | Parcours Répartie | 0 | ~600 | absolue, OK | index, follow |
+| /parcours/confiance | 200 | Retrouver confiance grâce à l'humour \| deviens-marrant.fr | Parcours Confiance | 0 | ~580 | absolue, OK | index, follow |
+
+- Meta description présente et propre aux 4 pages (3 parcours, durée, promesse). `/parcours` : « 3 parcours pour devenir drôle (Machine à Café, Répartie, Confiance) : 15 à 20 min/semaine… ».
+- Bing (mot exact title + H1 + premier paragraphe) : title et H1 ne se répondent pas sur /parcours (« Cours humour en ligne » / « Parcours humour ») ni sur `confiance` (« Retrouver confiance » / « Parcours Confiance ») ; la requête Bing réelle est « cours d'humour » (avec « d' »), absente du title.
+- OG/Twitter : voir SEO-02. `og:image` = `/opengraph-image` (1200x630) sur les 4, avec un paramètre de hash seulement sur /parcours ; `twitter:card` = summary_large_image partout ; `og:locale` fr_FR.
+- Contenu étape 1 complet dans le HTML (conseil, exemple, exercice, 2 vidéos, quiz) ; étapes 2+ : titre, format, XP, « pourquoi » seulement (aperçu). Aucune fuite de contenu Premium (code : `toPublicPath`, `redactParcoursForPlan`, `parcours/[slug]/page.tsx`).
+- Cache : `s-maxage` 1 590 s, `stale-while-revalidate` 30 j sur les détails (ISR, `revalidate = 3600`) ; ~300 s sur /parcours. Redirections : `www` vers apex en 301, `/parcours/` vers `/parcours` en 308. Slug inconnu : 404.
+- Mots de la page /parcours : le texte de présentation (étapes de chaque parcours) est dans le HTML, donc pas de contenu mince (> 600 mots utiles par page, seuil indicatif fixé ici à 300).
+
+### 4.2 JSON-LD relevé (Rich Results Test non disponible pour Course : retiré le 09/09/2025)
+
+| Page | Types présents | Remarques |
+|---|---|---|
+| /parcours | Organization, WebSite, BreadcrumbList (2 niveaux), Course x3, FAQPage (8 Q, FAQ accueil) | Course : name, description, provider (Organization + logo), url, hasCourseInstance (online, `P3W`/`P4W`/`P6W`), educationalLevel, inLanguage, isAccessibleForFree false, offers 2.99 EUR. Pas d'ItemList ni `@id`. Noms avec « — ». |
+| /parcours/<slug> | Organization, WebSite, BreadcrumbList (3 niveaux), Course x1 | Mêmes champs, `name` « Parcours X » ≠ nom de /parcours. Champs obligatoires Google Course (name, description, provider) présents. Pas de `teaches`, de plan d'étapes, ni de `dateModified`. |
+
+- JSON-LD valides syntaxiquement (analysés en Python), Breadcrumb cohérent avec le fil d'Ariane visible. Source : `components/seo/json-ld.tsx:444-483`, `parcours/page.tsx:34-72`.
+- `Organization.logo` en accueil : hors périmètre (vérifié au s11).
+
+### 4.3 Sitemap, llms.txt, llms-full.txt, robots
+
+- `/sitemap.xml` : les 4 URL présentes ; `lastmod` 2026-09-29, priorités 0.8 (liste) et 0.7 (détail), `changefreq` weekly/monthly. Stable (constante), pas régénéré à chaque build.
+- `/llms.txt` (l.20, 46-48) : `/parcours` et 3 parcours avec durée et niveau ; ligne tarifs cohérente (« la première étape de chaque parcours » libre, Premium 2,99 €/mois). `/llms-full.txt` : 3 lignes de résumé par parcours (l.124-140), pas de liste d'étapes.
+- `robots.txt` : `/parcours` autorisé pour tous les bots (dont bingbot et bots IA listés) ; seuls `/api/`, `/admin/`, `/login`, `/onboarding`, `/profil`, `/favoris`, etc. bloqués.
+
+### 4.4 Maillage (386 pages du sitemap récupérées en HTML)
+
+| Source | Vers /parcours | Vers un parcours individuel |
+|---|---|---|
+| Menu et pied de page (386 pages) | 386/386 (« Parcours ») | non |
+| Accueil | oui (2 blocs) | 3/3 (« Briller à la machine à café », « Avoir de la répartie », « Reprendre confiance en toi », puis cartes avec durée) |
+| 35 articles (composant `blog-article-parcours-maillage`) | oui | 35/35 : repartie 24, machine-a-cafe 10, confiance 8 (un article peut en lier plusieurs) |
+| Fiches vannes (134), conseils (109), vidéos (89) | via menu seulement | 0 |
+| /abonnement, /glossaire, /a-propos, /quiz-humour | via menu | 0 |
+
+- Liens entrants vers `confiance` : 11 pages (dont 8 articles), `machine-a-cafe` : 13, `repartie` : 27 (profondeur : accueil, 1 clic).
+- Sortants des pages détail : voir SEO-05 (5 liens dans le bloc principal) ; un seul lien « parcours suivant » (boucle machine-a-cafe, repartie, confiance, machine-a-cafe).
+- Profondeur : 1 clic depuis l'accueil et le menu (cocon respecté).
 
 ## 5. Mesures Umami et Bing
-_à écrire_
+
+### 5.1 Umami Cloud (site deviens-marrant.fr, extraction 07/10/2026)
+
+Pages vues (PV) / visiteurs / rebonds, par chemin exact (`/stats`) :
+
+| Page | 30 j PV | 30 j visiteurs | 30 j rebonds | 90 j PV | 90 j visiteurs | 90 j rebonds | Entrées 30 j / 90 j |
+|---|---|---|---|---|---|---|---|
+| /parcours | 28 | 16 | 11 | 45 | 30 | 23 | 6 / 10 |
+| /parcours/machine-a-cafe | 15 | 10 | 7 | 21 | 16 | 13 | 1 / 1 |
+| /parcours/repartie | 8 | 7 | 6 | 19 | 14 | 13 | 1 / 3 |
+| /parcours/confiance | 7 | 6 | 5 | 12 | 11 | 10 | 1 / 1 |
+| **Total 4 pages** | **58** | n.d. (sessions distinctes : voir plus bas) | 29 | **97** | n.d. | 59 | 9 / 15 |
+| Site entier | 1 169 | 713 | 703 | 3 078 | 2 131 | 2 215 | 713 / 2 131 |
+
+- Part des 4 pages : 5,0 % des pages vues sur 30 j, 3,2 % sur 90 j ; 0,7 % des entrées sur 90 j (15 sur 2 131). Les 30 j précédents : 27 PV (58 vs 27, mais le 07/10 contient 7 sessions US de test).
+- Sources (90 j, par page) : /parcours : direct 26, recherche organique 3 (bing.com 3), LLM 1 (chatgpt.com 1) ; détails : 100 % « direct » (en interne ou sans referrer). Google : 0.
+- Sorties 90 j : /parcours 8, repartie 6, machine-a-cafe 4, confiance 3 (+ page de test). Appareils 90 j (4 pages) : mobile 37, laptop 32. Pays : FR 28, US 33 (dont 7 sessions de tests du 07/10), BE 6.
+- Parcours des 37 sessions touchant un parcours en 90 j (18 FR, 14 US, 2 BE, 3 autres) : page précédente = /parcours 18, entrée directe 11, /videos 9, /vannes 8, /conseils 8, un autre parcours 19, accueil 5, Bing 3 ; page suivante = sortie 21, /parcours 13, un autre parcours 24, /conseils 9, /vannes 5, /videos 5, un article 13, /abonnement 1 ; 7 sessions sur 37 voient /abonnement à un moment. Pages vues par session : 1 page (29 sessions), 2 (7), 4 (1).
+- Événements (90 j, site entier) : blog-scroll 58, abonnement-clic 4, abonnement-vu 3, blog-sortie-clic 2, inscription-envoi 2, inscription-reussie 1, inscription-echec 1, connexion-reussie 1, abonnement-reussi 1. **Événements parcours : 0** (`mur-vu` et `parcours-etape` jamais reçus). Aucun événement rattaché à un chemin /parcours*.
+- Fichiers : `scratchpad/parcours-umami.json` (agrégats + journeys par session, utilisables par le data-analyst).
+
+### 5.2 Bing Webmaster (API, clé de session, 07/10/2026)
+
+| URL | Découverte | Dernière exploration | Taille | Impressions Bing (17/04 → 02/10) |
+|---|---|---|---|---|
+| /parcours | 28/04/2026 | 05/10/2026 | 102 Ko | 12 (4 jours-semaines), 3 clics, position 1 à 5 |
+| /parcours/machine-a-cafe | 22/04/2026 | **10/08/2026** | 40 Ko | 0 |
+| /parcours/repartie | 04/06/2026 | 23/09/2026 | 40 Ko | 0 |
+| /parcours/confiance | 09/04/2026 | 07/10/2026 | 40 Ko | 0 |
+
+- Statut d'indexation : l'API `GetUrlInfo` retourne `IsPage: true` et une taille de document pour les 4 URL, ce qui indique qu'elles sont connues et explorées ; elle ne donne pas de champ « indexée » explicite (`HttpStatus` renvoie 0). Lecture prudente : connues et explorées, indexation effective non prouvée pour les 3 pages détail (0 impression).
+- Requêtes sur /parcours (Bing, 9 lignes) : « cours d'humour » (pos 6), « cours d'humour en ligne gratuit » (pos 2, 1 clic), « cours d'humour » (pos 2, 1 clic), « cours d'humour gratuit » (pos 1), « etudiant apprendre les vours humour » (pos 2), « comment apprendre le visa marrant » (pos 4), « competence drole humour » (pos 8), « trop marrant comment tu cours » (pos 3), « how to treat seasonal allergies » (pos 8, parasite).
+- Site : 103 clics / 2 692 impressions sur la fenêtre (17/04 → 02/10) ; les parcours = 3 clics et 12 impressions, soit 3 % des clics et 0,4 % des impressions. Liens entrants Bing (`GetLinkCounts`) : 0.
+- Fichier : `scratchpad/bing-parcours.json`.
+
+### 5.3 Search Console
+
+Non mesuré en session (pas de clé). Snapshot du 05/10 : aucune page `/parcours*` dans les top pages 28 j ni dans les opportunités ; section par section, seuls blog, `/vannes`, conseils et accueil sont listés. Impressions et position des parcours sur Google : **non mesuré**.
 
 ## 6. Potentiel de requêtes (sans cannibalisation)
 _à écrire_
