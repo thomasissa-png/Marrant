@@ -221,7 +221,51 @@ Format : problème, effet pour la personne, ce qu'on fait (sans jargon) ; le dé
 - **Agent / effort** : @copywriter (étalon) ; rapide.
 
 ## 8. Vérifié / Non vérifié (G_PROOF)
-(à remplir)
+
+**Vérifié (lu et constaté directement).**
+- Code : `lib/parcours-access.ts`, `lib/parcours-orientation.ts`, `lib/parcours-catalogue.ts`, `lib/parcours-preview.ts`, `components/parcours/parcours-detail.tsx` (en entier), `components/parcours/parcours-content.tsx` (en entier), `app/api/parcours/[id]/progress/route.ts`, `config/premium.ts`, `config/textes/offre.ts`, `components/premium/premium-benefits.tsx`, `components/premium/abonnement-view.tsx` (260 premières lignes), `components/premium/premium-welcome.tsx`, `components/home/hero-section.tsx`, `components/home/upcoming-features.tsx` (110 premières lignes), `lib/faqs.ts`, `lib/umami.ts`, `lib/email.ts` (120 premières lignes), `app/api/cron/daily-push/route.ts` (120 premières lignes), `lib/scheduler/jobs.ts` (150 premières lignes), liste des routes cron et des fichiers `*relance*`, `*inactiv*`, `*reactivation*`, `*welcome*`.
+- Seed : `docs/content/parcours-seed.json` en entier (13 étapes, XP, quiz, vidéos, `nextParcours`).
+- Documents : grille s17, `project-context.md`, `docs/founder-preferences.md`, `docs/content/progression-levels.md`, `docs/marrant/audit-parcours-s16.md`, `docs/marrant/audit-note-s15.md`, `docs/product/suppression-compte-gratuit-s15.md`, `docs/analytics/snapshot-trafic-2026-10-05.md`, `MEMORY.md` (personas).
+- Calculs refaits à la main : 245 min, 1 300 + 300 = 1 600 XP, 22 % de temps libre, 335 et 481 abonnés pour 1 000 €, 62 et 35 vues.
+- Repères de marché : 6 recherches web (Jordan 2015, RevenueCat 2025, Duolingo, rétention d'applis éducation, cohorte contre libre-service).
+
+**Non vérifié (déduit ou inaccessible).**
+- **Prod en ligne** : aucun navigateur ni shell dans cette session ; aucune capture ; l'affichage réel (mobile 375 px, états) relève de @qa et @ux (fichiers voisins `qa.md`, `ux.md`, vides au moment de l'écriture).
+- **Base de données** : aucune requête lancée. Donc ni progression réelle des 13 comptes, ni correspondance des `jokeIds` avec les vannes actives, ni contenu réel des exercices (`tip.exercise`), ni votes `nouveaux-parcours`.
+- **Grep** de « parcours » dans tout `apps/web/src` : impossible ; recensement fait par lecture ciblée. Non relus : corps des articles, `llms*.txt`, e-mail de bienvenue (`lib/ai/**`), pages thèmes, `/profil`, `lib/auth.ts` (série), reste de `abonnement-view.tsx`, `jobs.ts` au-delà de 150 lignes, `email.ts` au-delà de 120 lignes.
+- **Durée réelle des étapes** : durée des vidéos non relevée.
+- **Repères de marché** : lus via des résumés de recherche, pas dans les rapports complets ; aucune donnée « éducation » ventilée pour RevenueCat ; sources éditeurs (cohorte, rétention éducation) de fiabilité faible. Tous les seuils « bon » sont des **[HYPOTHÈSE]**.
+- **Aucun achat réel aux prix 2,99/24,99 €** hors l'achat test du 07/10 (remboursé) : toute conversion mesurée est sur un n minuscule.
 
 ## 9. Handoff
-(à remplir)
+
+**Handoff vers @orchestrator** (puis @data-analyst, @fullstack, @ux, @copywriter, @legal, @qa)
+- Fichier produit : `/home/user/Marrant/docs/marrant/audit-parcours-apprentissage-s17/product-manager.md`. Aucun autre fichier modifié, aucun commit.
+- Notes : C1 5/10, C7 5/10, C8 3/10, C12 6/10.
+- Décisions proposées (verdicts par valeur persona) : GO F4 (retour sur l'exercice), F1 et F2 (rythme conseillé et rappel sur demande), F5 (bilan de fin), F7 (suite personnalisée), F10 (reprise), F8 (Storytelling) puis F9 (Pro) ; **NO-GO certificat (F6)** ; communauté (F13) pas maintenant.
+
+**Jalons par dépendances (pas de semaines).**
+
+| Jalon | Contenu | Dépend de | Critère de sortie |
+|---|---|---|---|
+| J0 Savoir | Requêtes en lecture sur la progression (K7, K8, K10, K11) ; vérification des `jokeIds` (PM-04) ; lecture des votes `nouveaux-parcours` (H3) ; durée des vidéos (K14) ; 6 événements ci-dessous ; section Parcours au rapport du lundi | Rien | K1 à K11 lisibles ; liste des `jokeIds` orphelins connue |
+| J1 Corriger sans nouvelle fonction | PM-03 (textes du mur, via étalons), PM-07 (suite non déjà faite), PM-11 (priorité du quiz), PM-12 (FAQ, sans toucher aux chiffres) | Étalons validés par Thomas (PM-03, PM-12) ; PM-07 et PM-11 sans dépendance | Plus de « tu peux valider » devant le mur ; suite correcte pour les 3 ordres de parcours |
+| J2 Faire revenir et faire essayer | PM-04 (vannes affichées), F4 retour d'exercice, F5 bilan, F1 rythme conseillé, F2 rappel sur demande, F10 reprise | J0 (mesure) ; étalon d'e-mail validé ; avis @legal sur le consentement ; PM-04 après vérification des `jokeIds` | K15, K9, K12 lisibles sur les premiers abonnés |
+| J3 Allonger l'offre | Parcours Storytelling puis Pro ; calendrier d'ajouts ; « défi du mois » | H3 (votes) ; J0 pour juger K13 (résiliations après fin) | Un nouveau parcours en ligne, annoncé, avec son étape 1 en lecture libre |
+
+**Événements Umami à ajouter (spécification pour @data-analyst, nommage comme `mur-vu`).**
+
+| Événement | Déclencheur | Propriétés | Étape du parcours |
+|---|---|---|---|
+| `parcours-ouvert` | Arrivée sur `/parcours/[slug]` | `parcours`, `src` (hero, hub, blog, recherche), `statut` (visiteur, membre) | K2 |
+| `etape-ouverte` | Ouverture d'une étape | `parcours`, `etape`, `statut` | K3 |
+| `quiz-etape-termine` | Fin du quiz d'une étape | `parcours`, `etape`, `score`, `statut` | K4 |
+| `etape-retour` (à créer avec F4) | Choix « essayé / bof / ça a marché » | `parcours`, `etape`, `resultat` | K15 |
+| `parcours-termine` (serveur) | Dernière étape validée | `parcours`, `jours_ecoules` | K10, K11 |
+| `hero-pastille-clic` | Clic sur une pastille de parcours du hero | `parcours` | K1, K2 |
+
+Points d'attention :
+- **Un vrai doute sur la valeur des parcours aux prix actuels** : aucun achat réel hors test ; ne conclure sur K6 qu'avec plusieurs dizaines de murs vus.
+- PM-04 : ne pas coder avant la vérification des `jokeIds`.
+- Toute formulation client (mur, FAQ, e-mails de rappel et de reprise) = étalons à valider par Thomas avant brief @copywriter, diff mesuré après (P0 s8, P0 s11) ; e-mails = brouillons ; aucune IA au fil de l'eau ; aucune mention IA.
+- Contrainte à surveiller : la recommandation de PM-03 (coche locale pour visiteur) est **hors défaut** car elle ajouterait une fonction aux visiteurs ([CHOIX] 05/10) ; à soumettre à Thomas, pas à implémenter.
