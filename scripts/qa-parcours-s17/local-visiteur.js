@@ -63,7 +63,7 @@ async function playQuiz(page, card, tag) {
     ok(`[${w}] lettres A-D sur chaque question`, q.letters.length > 0 && q.letters.every((l) => l === 'ABCD'), JSON.stringify(q.letters));
     ok(`[${w}] explication affichée après réponse`, q.explanations.every((e) => /La [ABCD]/.test(e)), q.explanations[0]);
     const finBox = c1.locator('[role="status"]').filter({ hasText: /sur \d/ }).first();
-    await finBox.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+    await finBox.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
     await page.waitForTimeout(300);
     await shot(page, `v-${w}-repartie-quiz-fin-visiteur`, false);
     const finTxt = (await finBox.innerText()).replace(/\s+/g, ' ');

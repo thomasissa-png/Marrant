@@ -21,7 +21,7 @@ async function clicSwitch(sec) {
 /** Capture serrée d'un élément (marge autour), cadrage stable. */
 async function clip(page, locator, name, pad = 24) {
   await locator.scrollIntoViewIfNeeded();
-  await locator.evaluate((el) => { el.scrollIntoView({ block: 'center' }); });
+  await locator.evaluate((el) => { el.scrollIntoView({ block: 'center', behavior: 'instant' }); });
   await page.waitForTimeout(250);
   const b = await locator.boundingBox();
   if (!b) throw new Error('élément invisible pour ' + name);
@@ -60,7 +60,7 @@ async function finSousEntete(page) {
 /** Tour 4 (DES-3-02, UXV-3-02) : survol réel. On cadre D'ABORD (défilement), souris garée, capture « -repos »,
  *  puis hover() sans défilement, 300 ms, capture au même cadrage. Le changement de style est mesuré et noté. */
 async function pairSurvol(page, cible, cadre, nom, pad = 16, styleDe = null) {
-  await cadre.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await cadre.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.waitForTimeout(300);
   await page.mouse.move(1, 1);
   await page.waitForTimeout(300);
@@ -86,10 +86,15 @@ async function pairSurvol(page, cible, cadre, nom, pad = 16, styleDe = null) {
 async function cadreProgression(page) {
   const r = await page.evaluate(() => {
     const hdr = document.querySelector('header'); const hb = hdr ? hdr.getBoundingClientRect().bottom : 0;
-    const marque = document.querySelector('main [data-testid*="squelette"]') || [...document.querySelectorAll('main p, main span, main div')].find((e) => e.children.length === 0 && /étapes complétées|Ta progression est intacte/.test(e.textContent || ''));
+    // Repère de la CARTE DE PROGRESSION (pas le squelette d'une carte d'étape) : texte « N/M étapes complétées »,
+    // sinon le squelette de progression, sinon le texte d'échec de la carte de progression.
+    const feuilles = [...document.querySelectorAll('main p, main span, main div')].filter((e) => e.children.length === 0);
+    const marque = feuilles.find((e) => /étapes complétées/.test(e.textContent || ''))
+      || document.querySelector('main [data-testid="progression-squelette"]')
+      || feuilles.find((e) => /Tes étapes n.ont pas voulu se charger/.test(e.textContent || ''));
     const carte = marque ? (marque.closest('[class*="rounded-xl"]') || marque.closest('[class*="rounded"]') || marque) : null;
     if (!carte) return { ok: false, detail: 'carte de progression introuvable' };
-    window.scrollBy(0, carte.getBoundingClientRect().top - hb - 12);
+    window.scrollBy({ top: carte.getBoundingClientRect().top - hb - 12, behavior: 'instant' });
     const c = carte.getBoundingClientRect();
     const e2 = document.querySelector('#etape-2-entete');
     const e2b = e2 ? e2.getBoundingClientRect() : null;
@@ -145,7 +150,7 @@ async function runPath(page, w, email, slug, opts = {}) {
     if (wrongFirst && i === 1 && capture) {
       const g = card.locator('[role="group"][aria-labelledby^="quiz-q-"]');
       await g.locator('button').nth(wrongIndex(slug, 1, 0)).click();
-      await card.locator('[role="status"][aria-live="polite"]').first().evaluate((el) => el.scrollIntoView({ block: 'center' }));
+      await card.locator('[role="status"][aria-live="polite"]').first().evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
       await page.waitForTimeout(250);
       await shot(page, `p-${w}-${slug}-quiz-mauvaise-reponse`, false);
       await card.getByRole('button', { name: /Question suivante|Voir le résultat/ }).click();
@@ -155,7 +160,7 @@ async function runPath(page, w, email, slug, opts = {}) {
     await finishQuiz(card);
     if (capture) {
       // Tour 3 (UXV-2-06) : la version « vue » est cadrée sur « Valider cette étape ».
-      await card.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => el.scrollIntoView({ block: 'center' })).catch(() => {});
+      await card.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' })).catch(() => {});
       await page.waitForTimeout(250);
       await shot(page, `p-${w}-${slug}-etape${i}-avant-validation`);
     }
@@ -164,7 +169,7 @@ async function runPath(page, w, email, slug, opts = {}) {
     if (i < n) ok(`[${w}] ${slug} étape ${i} : pas de « Parcours terminé ! » avant la fin`, !/Parcours terminé/.test(body));
     if (capture) {
       await shot(page, `p-${w}-${slug}-etape${i}-apres-validation-vue`, false);
-      await page.locator(`#etape-${i}`).evaluate((el) => { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -90); }).catch(() => {});
+      await page.locator(`#etape-${i}`).evaluate((el) => { el.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -90, behavior: 'instant' }); }).catch(() => {});
       await page.waitForTimeout(250);
       await shot(page, `p-${w}-${slug}-etape${i}-apres-validation`, false);
     }
@@ -174,7 +179,7 @@ async function runPath(page, w, email, slug, opts = {}) {
   if (end) {
     const fin = page.getByRole('heading', { level: 2, name: /^Parcours .+ terminé$/ });
     ok(`[${w}] ${slug} : carte de fin sans recharger`, await fin.isVisible().catch(() => false));
-    await fin.evaluate((el) => { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -100); }).catch(() => {});
+    await fin.evaluate((el) => { el.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -100, behavior: 'instant' }); }).catch(() => {});
     await page.waitForTimeout(300);
     await shot(page, `p-${w}-${endName}`, false);
     if (capture) {
@@ -201,7 +206,7 @@ async function runPath(page, w, email, slug, opts = {}) {
       await g.locator('button').nth(wrongIndex('repartie', 1, 0)).click();
       const st = c1.locator('[role="status"][aria-live="polite"]').first();
       ok(`[${w}] visiteur : mauvaise réponse corrigée (bonne réponse donnée)`, /La [ABCD]/.test(await st.innerText()), (await st.innerText()).replace(/\s+/g, ' ').slice(0, 100));
-      await st.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+      await st.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
       await page.waitForTimeout(250);
       await shot(page, `v-${w}-repartie-quiz-mauvaise-reponse`, false);
       if (w === 1280) {
@@ -243,7 +248,7 @@ async function runPath(page, w, email, slug, opts = {}) {
     const cadreCarte = async () => {
       await page.evaluate(() => {
         const cible = document.querySelector('#etape-2') || document.querySelector('main [aria-busy="true"]');
-        if (cible) { cible.scrollIntoView({ block: 'start' }); window.scrollBy(0, -100); }
+        if (cible) { cible.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -100, behavior: 'instant' }); }
       });
       await page.waitForTimeout(300);
     };
@@ -354,17 +359,17 @@ async function runPath(page, w, email, slug, opts = {}) {
       const haut = Math.min(...rs.map((r) => r.top)); const bas = Math.max(...rs.map((r) => r.bottom));
       const dispo = window.innerHeight - hb - 24;
       const ecart = al && bt ? Math.round(Math.abs(bt.getBoundingClientRect().top - al.getBoundingClientRect().top)) : null;
-      if (bas - haut <= dispo) { window.scrollBy(0, haut - hb - 12); return { une: true, ecart, quiz: !!qz }; }
+      if (bas - haut <= dispo) { window.scrollBy({ top: haut - hb - 12, behavior: 'instant' }); return { une: true, ecart, quiz: !!qz }; }
       return { une: false, ecart, quiz: !!qz };
     });
     ok(`[${w}] échec de la validation : message, bouton et quiz conservé dans une même vue`, cadre.une, `écart message/bouton=${cadre.ecart}px quiz conservé repéré=${cadre.quiz}`);
     await page.waitForTimeout(300);
     if (!cadre.une) {
       const al = page.locator('main [role="alert"]').filter({ hasText: /connexion|valider|réessaie/i }).first();
-      if (await al.count()) await al.evaluate((el) => { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -90); });
+      if (await al.count()) await al.evaluate((el) => { el.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -90, behavior: 'instant' }); });
       await page.waitForTimeout(300);
       await shot(page, `p-${w}-validation-echec`, false);
-      await c2.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => { el.scrollIntoView({ block: 'center' }); });
+      await c2.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => { el.scrollIntoView({ block: 'center', behavior: 'instant' }); });
       await page.waitForTimeout(300);
       await shot(page, `p-${w}-validation-echec-bouton`, false);
     } else {
@@ -399,7 +404,7 @@ async function runPath(page, w, email, slug, opts = {}) {
     await clip(page, g, 'p-1280-focus-reponse-quiz', 16);
     await g.locator('button').nth(wrongIndex('repartie', 1, 0)).click();
     const st = c1.locator('[role="status"][aria-live="polite"]').first();
-    await st.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+    await st.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
     await page.waitForTimeout(250);
     await shot(page, 'p-1280-repartie-quiz-mauvaise-reponse', false);
     const next = c1.getByRole('button', { name: /Question suivante/ });

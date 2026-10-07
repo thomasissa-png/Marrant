@@ -65,7 +65,7 @@ async function runPath(page, w, email, slug, nSteps, expectedTotal, stopAfter = 
     await playQuiz(card);
     if (capture) {
       // Tour 3 (UXV-2-06) : la version « vue » est cadrée sur « Valider cette étape ».
-      await card.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => el.scrollIntoView({ block: 'center' })).catch(() => {});
+      await card.getByRole('button', { name: 'Valider cette étape' }).evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' })).catch(() => {});
       await page.waitForTimeout(250);
       await shot(page, `p-${w}-${slug}-etape${n}-avant-validation`);
     }
@@ -102,7 +102,7 @@ async function runPath(page, w, email, slug, nSteps, expectedTotal, stopAfter = 
     if (!last) ok(`[${w}] ${slug} étape ${n} : date conseillée à l'écran sans défiler`, vue.next, '');
     if (capture) {
       await shot(page, `p-${w}-${slug}-etape${n}-apres-validation-vue`, false);
-      await page.locator(`#etape-${n}`).evaluate((el) => { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -90); }).catch(() => {});
+      await page.locator(`#etape-${n}`).evaluate((el) => { el.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -90, behavior: 'instant' }); }).catch(() => {});
       await page.waitForTimeout(300);
       await shot(page, `p-${w}-${slug}-etape${n}-apres-validation`, false);
       // Tour 2 : la carte validée seule (résultat dans la carte), 375 / 768 / 1280
@@ -122,7 +122,7 @@ async function runPath(page, w, email, slug, nSteps, expectedTotal, stopAfter = 
     ok(`[${w}] ${slug} : total XP en base = étapes + 100`, xp - (R.startXp[email + slug] || 0) === expectedTotal, `delta=${xp - (R.startXp[email + slug] || 0)} attendu=${expectedTotal}`);
     ok(`[${w}] ${slug} : total XP affiché`, body.includes(String(expectedTotal)), (body.match(/.{0,40}\b\d{3}\s*XP.{0,40}/) || [''])[0]);
     if (capture || slug === 'confiance') {
-      await fin.evaluate((el) => { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -100); }).catch(() => {});
+      await fin.evaluate((el) => { el.scrollIntoView({ block: 'start', behavior: 'instant' }); window.scrollBy({ top: -100, behavior: 'instant' }); }).catch(() => {});
       await page.waitForTimeout(300);
       await shot(page, `p-${w}-${slug}-fin-bilan`, false);
       await shot(page, `p-${w}-${slug}-fin-pleine-page`);
