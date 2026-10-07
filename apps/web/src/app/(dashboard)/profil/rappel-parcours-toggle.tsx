@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { RAPPEL_PARCOURS_UI } from "@/config/textes/entrees-parcours";
@@ -32,6 +32,9 @@ export function RappelParcoursToggle() {
   const [pref, setPref] = useState<RappelPreference | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  // Case cochée sans jour choisi : le choix du jour active le rappel (consentement déjà donné).
+  const [activationEnAttente, setActivationEnAttente] = useState(false);
+  const selectRef = useRef<HTMLSelectElement>(null);
   const checkboxId = useId();
   const selectId = useId();
 
@@ -53,7 +56,8 @@ export function RappelParcoursToggle() {
 
   if (!isPremium || !pref) return null;
 
-  const weekday = pref.weekday ?? 1;
+  // Étalon 3.7 : aucun jour présélectionné tant que le rappel n'a jamais été réglé.
+  const weekday = pref.weekday;
 
   async function save(next: { enabled: boolean; weekday: number }) {
     const previous = pref;
@@ -93,7 +97,19 @@ export function RappelParcoursToggle() {
           className="mt-1 h-5 w-5 accent-accent-primary"
           checked={pref.enabled}
           disabled={saving}
-          onChange={(e) => void save({ enabled: e.target.checked, weekday })}
+          aria-describedby={activationEnAttente ? `${selectId}-aide` : undefined}
+          onChange={(e) => {
+            if (!e.target.checked) {
+              setActivationEnAttente(false);
+              void save({ enabled: false, weekday: weekday ?? 1 });
+            } else if (weekday === null) {
+              setActivationEnAttente(true);
+              setMessage(RAPPEL_PARCOURS_UI.choisirJour);
+              selectRef.current?.focus();
+            } else {
+              void save({ enabled: true, weekday });
+            }
+          }}
         />
         <label htmlFor={checkboxId} className="text-sm text-text-secondary">
           {RAPPEL_PARCOURS_CONSENTEMENT.texte}
@@ -106,14 +122,23 @@ export function RappelParcoursToggle() {
         <select
           id={selectId}
           className="min-h-[44px] rounded-md border border-border bg-background px-3 text-sm text-text-primary"
-          value={weekday}
+          ref={selectRef}
+          value={weekday ?? ""}
           disabled={saving}
           onChange={(e) => {
             const nextDay = Number(e.target.value);
-            if (pref.enabled) void save({ enabled: true, weekday: nextDay });
-            else setPref({ ...pref, weekday: nextDay });
+            if (!nextDay) return;
+            if (pref.enabled || activationEnAttente) {
+              setActivationEnAttente(false);
+              void save({ enabled: true, weekday: nextDay });
+            } else setPref({ ...pref, weekday: nextDay });
           }}
         >
+          {weekday === null && (
+            <option value="" disabled>
+              {RAPPEL_PARCOURS_UI.jourVide}
+            </option>
+          )}
           {JOURS_SEMAINE.map((label, i) => (
             <option key={label} value={i + 1}>
               {label}
@@ -121,7 +146,7 @@ export function RappelParcoursToggle() {
           ))}
         </select>
       </div>
-      <p role="status" aria-live="polite" className="mt-2 min-h-[1.25rem] text-xs text-text-muted">
+      <p id={`${selectId}-aide`} role="status" aria-live="polite" className="mt-2 min-h-[1.25rem] text-xs text-text-muted">
         {message}
       </p>
     </section>

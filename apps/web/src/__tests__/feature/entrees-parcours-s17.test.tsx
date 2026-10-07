@@ -14,7 +14,7 @@ import { resolveArticleParcours } from "@/components/blog/blog-article-parcours-
 import { QUIZ_PROFILES } from "@/components/quiz/quiz-data";
 import { computeParcoursDates } from "@/lib/sitemap-parcours";
 import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";
-import blaguesSeed from "../../../../../docs/content/blagues-seed.json";
+import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 const row = (p: Partial<ParcoursProgressSummary>): ParcoursProgressSummary => ({
   slug: "repartie",
@@ -48,7 +48,13 @@ describe("parcours à reprendre (accueil abonné, profil)", () => {
     const r = pickParcoursAReprendre([
       row({ slug: "confiance", title: "Parcours Confiance", totalSteps: 6, completedSteps: 4, nextStepOrder: 5 }),
     ]);
-    expect(r).toEqual({ slug: "confiance", title: "Parcours Confiance", etape: 5, totalSteps: 6, completedSteps: 4 });
+    expect(r).toEqual({ slug: "confiance", title: "Parcours Confiance", etape: 5, totalSteps: 6, completedSteps: 4, titreEtape: null });
+  });
+  it("titre de l'étape transmis quand l'API le donne (étalon 3.4 A)", () => {
+    const r = pickParcoursAReprendre([
+      row({ slug: "repartie", title: "Parcours Répartie", totalSteps: 4, completedSteps: 1, nextStepOrder: 2, nextStepTitle: "Le rythme" }),
+    ]);
+    expect(r?.titreEtape).toBe("Le rythme");
   });
   it("ignore un parcours terminé, garde le plus avancé des parcours en cours", () => {
     const r = pickParcoursAReprendre([
@@ -80,9 +86,25 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
     expect(findParcoursForVideo("inexistant")).toEqual([]);
   });
   it("vanne retrouvée par son texte (casse et espaces neutralisés)", () => {
-    const seed7 = (blaguesSeed as { id: number; content: string }[]).find((j) => j.id === 7)!;
-    expect(findParcoursForJoke(`  ${seed7.content.toUpperCase()} `)).toContainEqual({ slug: "machine-a-cafe", etape: 1 });
+    // Seed s17 (lot D) : l'étape cite ses vannes par leur texte exact en base (`jokeContents`).
+    const mac1 = (parcoursSeed as { slug: string; steps: { jokeContents: string[] }[] }[]).find((p) => p.slug === "machine-a-cafe")!;
+    const texte = mac1.steps[0].jokeContents[0];
+    expect(findParcoursForJoke(`  ${texte.toUpperCase()} `)).toContainEqual({ slug: "machine-a-cafe", etape: 1 });
     expect(findParcoursForJoke("Une vanne qui n'existe dans aucun parcours.")).toEqual([]);
+  });
+  it("N4 (lot E) : chaque vanne de chaque étape (`jokeContents`) renvoie à son étape depuis sa fiche", () => {
+    const seed = parcoursSeed as { slug: string; steps: { week: number; jokeContents?: string[] }[] }[];
+    let total = 0;
+    for (const p of seed) {
+      for (const s of p.steps) {
+        expect(s.jokeContents?.length ?? 0).toBeGreaterThan(0);
+        for (const texte of s.jokeContents ?? []) {
+          total++;
+          expect(findParcoursForJoke(texte)).toContainEqual({ slug: p.slug, etape: s.week });
+        }
+      }
+    }
+    expect(total).toBe(65);
   });
   it("conseil : étapes en base, parcours inactifs exclus", () => {
     expect(

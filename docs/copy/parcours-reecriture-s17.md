@@ -102,3 +102,76 @@ Persona : Sophie sur situations de bureau, Yanis sur TD, soirée et famille, Mar
 - @fullstack : clé `explanation`, « Étape N » à la place de « Semaine N », enums de niveau, `nextParcours` de Confiance, « 5 vannes » vrai seulement quand l'affichage D4 est en ligne, retouches de défi dans la base et le seed.
 - Doublon de bonne réponse sur le sens : Rép 2 et MàC 2 parlent toutes deux d'un blanc de deux secondes (angles distincts : après le rire, entre deux chansons).
 - Validation Thomas : retouches de défi MàC 3 et Conf 4 (hors étalons), Confiance vers Répartie.
+
+## 8. Corrections N3 (revue croisée, réserve N3 et point 4)
+
+Fichiers touchés : `docs/content/parcours-seed.json` et `docs/content/parcours-reecriture-s17.json` (tableau `parcours`), mêmes modifications dans les deux. Rien d'autre : répartition des bonnes réponses (A/B/C/D), slugs, XP, titres, nombre de questions (54) et ordre des étapes inchangés. Pour MàC 2, Rép 2 et Conf 5, les listes ci-dessous remplacent les lignes correspondantes du tableau du § 6.
+
+### 8.1 Question corrigée : Répartie 2, question 2 (la scène contredisait la bonne réponse)
+
+| | Avant | Après |
+|---|---|---|
+| Question | « Quelle phrase fonctionne le mieux dans ce blanc ? » (la scène n'était posée que dans la question 1) | « La musique vient de s'arrêter et tout le monde parlait trop fort. Quelle phrase fonctionne le mieux dans ce blanc ? » |
+| Bonne réponse (D, inchangée de place) | « Je viens de remarquer que je chuchotais depuis dix minutes. » | « Je viens de remarquer que je criais depuis dix minutes. » |
+| Explication | « La D : une pensée simple et vraie, dite sans effort, et chacun se reconnaît dans le petit choc de silence. La A est une vanne longue, … » | « La D : une pensée simple et vraie, dite sans effort, et chacun s'y reconnaît, puisque tout le monde criait aussi. La A est une vanne longue, … » |
+
+Scène, bonne réponse et explication disent maintenant la même chose : tout le monde parlait trop fort, donc « je criais ». Les trois mauvaises réponses sont inchangées.
+
+### 8.2 Question rendue indiscutable : Confiance 1, question 3 (bonne réponse toujours en B)
+
+Le défaut : « Où est-il le plus facile de repérer une règle non écrite ? » opposait une file d'attente à un dîner ou une soirée, où il y a aussi des règles non écrites. Le choix dépendait d'un avis. La question demande maintenant de reconnaître une règle non écrite parmi des cas qui n'en sont clairement pas.
+
+| | Avant | Après |
+|---|---|---|
+| Question | « Où est-il le plus facile de repérer une règle non écrite ? » | « Laquelle de ces situations montre une règle non écrite, celle que tout le monde suit sans que personne ne l'ait jamais dite ? » |
+| A | Dans un dîner entre amis où tout le monde parle en même temps | Un panneau « Interdit de fumer » affiché à l'entrée de la gare (règle écrite) |
+| B (bonne) | Dans une file d'attente où chacun fixe son téléphone en silence | Dans une file d'attente, chacun fixe son téléphone et garde un mètre d'écart avec le suivant, sans un mot |
+| C | Dans une soirée avec de la musique forte | Un collègue qui arrive en retard à la réunion du lundi (cas isolé) |
+| D | Dans un bureau où tu es seul | Une vendeuse qui annonce un prix à voix haute (geste ponctuel) |
+| Explication | « La B : des gens proches qui ne se parlent pas appliquent des règles que personne n'a dites… » | « La B : tout le monde applique la règle alors que personne ne l'a écrite ni dite, et c'est celle-là que tu peux énoncer. La A est une règle écrite, la C un cas isolé, la D un geste ponctuel. » |
+
+### 8.3 Vannes remplacées, 5 par étape, `comedyTechnique` indiqué
+
+Contrôle : les 15 vannes des trois étapes sont présentes dans `vannes-actives-s17.json` (`content` copié caractère pour caractère, vérifié par recherche exacte : 15 sur 15), les 15 sont distinctes entre elles, et aucune n'apparaît dans une autre des 13 étapes (15 occurrences exactement dans chaque fichier de parcours). 12 vannes changent sur 65 (MàC 2 : 5, Rép 2 : 4, Conf 5 : 3). Les 53 autres sont intactes.
+
+**Machine à Café 2, « Lire le tempo du groupe » (technique : timing, le blanc après le rire, savoir quand c'est ton tour).** Les 5 anciennes vannes parlaient de temps qui passe, pas du moment où on parle.
+
+| # | Vanne (`content`) | `comedyTechnique` |
+|---|---|---|
+| 1 | Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi. | L'aveu par le silence |
+| 2 | Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram. | L'anticlimax |
+| 3 | Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars. | L'exagération temporelle |
+| 4 | Mon père décroche toujours par « qu'est-ce qui se passe ? ». | Le renversement d'attente |
+| 5 | Mon voisin a sonné, inquiet, à cause des cris de ma série. | Le renversement d'attente |
+
+Limite assumée : la liste des 127 vannes actives n'a aucune `comedyTechnique` « timing » à proprement parler. J'ai retenu celles dont la chute repose sur une attente, un silence ou une durée (la vanne 1 est la plus proche : le blanc est la réponse).
+
+**Répartie 2, « Le silence entre deux chansons » (technique : laisser le blanc travailler, une phrase courte, simple et honnête).**
+
+| # | Vanne (`content`) | `comedyTechnique` |
+|---|---|---|
+| 1 | Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons. (conservée) | Le deadpan factuel |
+| 2 | Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui. | L'implicite tendre |
+| 3 | J'ai dit à mon grand-père que je l'admirais. | La tendresse esquivée |
+| 4 | Mon adresse mail pro d'alternant commence par « alternant2 ». | L'implicite inquiétant |
+| 5 | Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir. | Le miroir gênant |
+
+Fil conducteur : la chute est dite plate et courte, et ce qui n'est pas dit fait le rire, comme le silence de l'étape. Les 4 anciennes vannes de soirée (fête de la musique, bâtonnets de carottes, le chat, jeu de mimes) quittent l'étape.
+
+**Confiance 5, « Le décalage de registre » (technique : ton solennel ou administratif posé sur un sujet banal).**
+
+| # | Vanne (`content`) | `comedyTechnique` |
+|---|---|---|
+| 1 | Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe. (conservée) | La solennité disproportionnée |
+| 2 | Mon père m'a dit qu'il fallait que je « fasse mes preuves ». (conservée) | La preuve administrative |
+| 3 | J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec. | Le décalage de registre |
+| 4 | J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui. | L'euphémisme démasqué |
+| 5 | Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. | Le contraste de statut |
+
+Persona : aucune vanne de couple ni d'ex pour Marc (les candidats « copain » et « copine » ont été écartés). La vanne 5 est la moins proche de la technique (le « c'est un bon début » de la grand-mère est un ton de coach posé sur un jeu de bonbons) : à confirmer par @reviewer.
+
+### 8.4 Points à confirmer
+
+- Fit des vannes : choix faits sur `comedyTechnique` et sur le sens de la chute (explications de technique lues), pas validés à l'aveugle. Contrôle par @reviewer.
+- Persona de Rép 2 : la vanne 5 (« deux pulls assortis ») est une vanne de couple ; elle reste lisible pour Yanis, mais c'est la plus fragile de l'étape.
+- Seule la formulation Rép 2, question 2 et Conf 1, question 3 change côté quiz. `_meta` du fichier de réécriture n'est pas touché (ses lignes « vannes » et « tauxDeChangement » décrivent l'état avant N3).

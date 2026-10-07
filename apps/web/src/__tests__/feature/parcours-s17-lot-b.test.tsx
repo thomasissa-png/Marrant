@@ -288,6 +288,8 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
       "/api/parcours/db-path/retour",
       expect.objectContaining({ method: "POST", body: JSON.stringify({ stepOrder: 1, retour: "essaye-ca-a-marche" }) }),
     );
+    // N2 (lot E) : la donnée part en base, jamais recopiée dans Umami pour un abonné.
+    expect(mockTrack).not.toHaveBeenCalledWith("etape-retour", expect.anything());
     await userEvent.click(screen.getByText("Bonne"));
     await userEvent.click(screen.getByText("Question suivante"));
     await userEvent.click(screen.getByText("Bonne 2"));

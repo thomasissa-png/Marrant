@@ -15,7 +15,7 @@ import {
   type PracticeDb,
 } from "@/lib/progression";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
-import blaguesSeed from "../../../../../docs/content/blagues-seed.json";
+import vannesActives from "../../../../../docs/content/vannes-actives-s17.json";
 
 describe("niveaux (FS-07)", () => {
   it.each([
@@ -70,17 +70,19 @@ describe("XP et rythme doux", () => {
 });
 
 describe("seed des parcours (s17)", () => {
-  type Step = { week: number; jokeIds: number[]; videos: { youtubeId: string; artist: string }[] };
+  type Step = { week: number; jokeContents: string[]; videos: { youtubeId: string; artist: string }[] };
   const paths = parcoursSeed as Array<{ slug: string; steps: Step[] }>;
-  const ids = new Set((blaguesSeed as Array<{ id: number }>).map((b) => b.id));
 
   it("Machine à Café étape 3 : la vidéo Djimo est bien tpIOLzv11qo (FS-03)", () => {
     const step = paths.find((p) => p.slug === "machine-a-cafe")?.steps.find((s) => s.week === 3);
     expect(step?.videos.find((v) => v.artist === "Djimo")?.youtubeId).toBe("tpIOLzv11qo");
   });
 
-  it("toutes les vannes citées existent dans blagues-seed (82, 85, 180 remplacées)", () => {
-    const manquantes = paths.flatMap((p) => p.steps.flatMap((s) => s.jokeIds.filter((id) => !ids.has(id))));
-    expect(manquantes).toEqual([]);
+  it("seed s17 (lot D) : 5 vannes par étape, toutes dans la liste des vannes actives", () => {
+    const actives = new Set((vannesActives as Array<{ content: string }>).map((v) => v.content));
+    const toutes = paths.flatMap((p) => p.steps.flatMap((s) => s.jokeContents));
+    expect(toutes).toHaveLength(65);
+    paths.forEach((p) => p.steps.forEach((s) => expect(s.jokeContents).toHaveLength(5)));
+    expect(toutes.filter((c) => !actives.has(c))).toEqual([]);
   });
 });

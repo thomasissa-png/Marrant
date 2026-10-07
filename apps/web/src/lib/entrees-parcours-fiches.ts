@@ -5,9 +5,10 @@
  * importer depuis un composant client (le contenu partirait dans le bundle).
  *
  * Sources (les mêmes que la page parcours) :
- * - vidéos et vannes : `parcours-seed.json` (`videos[].youtubeId`, `jokeIds`),
- *   les `jokeIds` étant des identifiants de `blagues-seed.json`, retrouvés en
- *   base par le texte de la vanne (`content`, ou `previousContent` avant réécriture) ;
+ * - vidéos et vannes : `parcours-seed.json` (`videos[].youtubeId`, `jokeContents`),
+ *   `jokeContents` étant les textes exacts des vannes en base (s17, lot D) ;
+ *   repli `jokeIds` (identifiants de `blagues-seed.json`, retrouvés par le texte
+ *   `content` ou `previousContent`) pour une étape qui n'aurait que des numéros ;
  * - conseils : la table des étapes en base (`LearningPathStep.tipId`), source de vérité.
  * Aucun parcours ne l'utilise → liste vide → pas de bloc sur la fiche.
  */
@@ -23,6 +24,7 @@ export interface FicheParcoursRef {
 
 interface SeedStep {
   jokeIds?: number[];
+  jokeContents?: string[];
   videos?: { youtubeId: string }[];
 }
 interface SeedParcours {
@@ -81,9 +83,13 @@ function seedJokeIdByContent(content: string): number | undefined {
 }
 
 export function findParcoursForJoke(content: string): FicheParcoursRef[] {
+  const key = jokeContentKey(content);
   const seedId = seedJokeIdByContent(content);
-  if (seedId === undefined) return [];
-  return collect((step) => (step.jokeIds ?? []).includes(seedId));
+  return collect((step) =>
+    step.jokeContents && step.jokeContents.length > 0
+      ? step.jokeContents.some((text) => jokeContentKey(text) === key)
+      : seedId !== undefined && (step.jokeIds ?? []).includes(seedId),
+  );
 }
 
 /** Lignes `LearningPathStep` (avec le parcours) → références, parcours inactifs exclus. */

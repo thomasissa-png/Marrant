@@ -1,15 +1,32 @@
 # Implémentation s17, lot D (contenu réécrit des parcours en production) @fullstack, 07/10/2026
 
-Statut : EN COURS. Rien commité, rien déployé, aucune écriture en prod.
+Statut : FAIT. Rien commité, rien déployé, aucune écriture en prod. Fichiers sous `apps/web/src/` sauf mention.
 
 ## 1. Changements
-(à compléter)
+| Point | Changement | Fichiers |
+|---|---|---|
+| 1. Seed | `docs/content/parcours-seed.json` = tableau `parcours` de `parcours-reecriture-s17.json` (racine tableau gardée : 10 lecteurs dans le code et `prisma/seed-data.ts`). Trace et `_meta` restent dans `parcours-reecriture-s17.json` (test d'égalité) | `docs/content/parcours-seed.json` |
+| 2. Base | Ce qui vit en base : `LearningPath` (title, description, duration, difficulty, icon, order), `LearningPathStep` (conseil, order, dayNumber), `Tip.exercise` (défi). Tout le reste (module, quiz + explication, vannes, vidéos, niveau affiché, nextParcours) est lu dans le seed au rendu. Nouvelle tâche de démarrage `applyParcoursContentTask`, lancée juste après `applyCatalogueContentTask` : comparaison champ par champ, marqueur `DataPatch` `parcours-content:s17-v1`, aucune suppression d'étape, pannes non bloquantes. Effet attendu en prod : Confiance `EXPERT` → `INTERMEDIAIRE` + nouvelle description ; étapes inchangées (tipTitle identiques) | `lib/parcours-content-sync.ts`, `lib/startup-tasks.ts` |
+| 3. Quiz | `explanation` : déjà affichée par le lot B (`step-quiz.tsx`), transmise telle quelle par `parcours-data.ts` ; les 54 questions en ont une (testé). `jokeContents` : les 65 vannes des 13 étapes résolues à 5 par étape avec les données réelles de `vannes-actives-s17.json` (testé). **Correctif** : le bloc « Dans un parcours » des fiches vanne (lot C) ne lisait que `jokeIds` (0 lien avec le nouveau seed) : il lit `jokeContents`, avec repli sur `jokeIds` | `lib/entrees-parcours-fiches.ts` |
+| 4. Libellés | Programme de `/parcours` et `llms-full.txt` : « Étape N » (`etapeLibelle`) au lieu de « Semaine N ». Niveaux : seed = enum de la base, libellés « Débutant » / « Débutant → Intermédiaire », JSON-LD Confiance `Intermediate`. Bilan de fin : le parcours conseillé (`nextParcours`, Confiance → Répartie) passe en premier s'il n'est pas terminé, puis le premier non terminé, puis le carnet | `lib/parcours-catalogue.ts`, `config/textes/parcours.ts`, `components/parcours/path-completion-card.tsx` |
+| 5. Vidéos | Titre du bloc : « Pour aller plus loin, facultatif ». La durée affichée (ce n'est plus « Durée estimée » mais « Environ 15 min » / « Environ 20 min », tirée de `PREMIUM_PARCOURS.timePerWeek`) devient « Environ 20 min, hors vidéos » quand l'étape contient des vidéos | `config/textes/parcours.ts` (`VIDEOS_ETAPE`, `dureeEtapeTexte`), `parcours-step-card.tsx` |
+| 6. Défis | Même tâche : retouche de `Tip.exercise` seul, pour le conseil de l'étape en base (parcours + ordre). Textes lus dans `_meta.defisRetouches` (aucune recopie). Appliqués : `repartie-1` et `repartie-4` (ajout en fin, sans doublon), `confiance-1` (remplacement). Marqueur `parcours-defi:s17:<clé>` posé dans la même transaction, avec l'ancien texte dans `note` (retour arrière) | `lib/parcours-content-sync.ts` (`DEFIS_CONFIRMES`) |
 
 ## 2. Tests et résultats
-(à compléter)
+- Nouveau `__tests__/lib/parcours-contenu-s17-lot-d.test.ts` (16) : format du seed et égalité avec la trace, 54 explications, niveaux + JSON-LD, Confiance → Répartie et bilan, 65 vannes réelles, « Étape N », vidéos facultatives, tâche (diff seul, idempotence, création d'étape, conseil introuvable, marqueur, panne), défis (3 confirmés, exercise seul, transaction, 2e démarrage, erreur isolée).
+- Adaptés au nouveau seed : `progression-s17` (vannes actives au lieu de `jokeIds`), `parcours-s17-lot-b` (vanne par `jokeContents`, repli sur l'id 7), `entrees-parcours-s17` (vanne par texte), `parcours-list` (niveaux), `parcours-detail` et `parcours-user-simulation` (titre du bloc vidéos).
+- Postgres 16 local (base jetable, schéma de HEAD, état « avant » = ancien seed + 13 conseils de la base exportés en lecture par le lot A, étape MàC 3 retirée) : passe 1 = Confiance mis à jour, 1 étape créée, 3 défis retouchés, 4 marqueurs ; passe 2 = 0 écriture. Base supprimée après coup.
+- `tsc --noEmit -p tsconfig.build.json` : 0 erreur. ESLint sur les 14 fichiers touchés : 0. Jest complet : 3 733 OK, 2 ignorés, **4 échecs hors lot D**, causés par une modification en cours, non commitée, d'un autre agent dans `config/textes/entrees-parcours.ts` (« Lire gratuitement l'étape 1 » → « Lire la première étape gratuite » : `hero-section`, `viral-quiz`, `entrees-parcours-s17-ui`) et `config/textes/parcours-emails.ts` (objet du rappel : `rappel-parcours-s17`). Tests à aligner par cet agent.
 
-## 3. Actions prod
-(à compléter)
+## 3. Actions prod (à ajouter dans `REPLIT_ACTIONS.md` au commit)
+- Aucune migration ni variable d'environnement. Au premier démarrage, chercher dans les logs `[startup] parcours-content:s17-v1 : 1 parcours mis à jour` et `[startup] défis s17 : 3 retouché(s)`.
+- Les étapes 1 de Répartie et Confiance sont gratuites et pré-rendues (ISR 1 h) : l'ancien défi peut rester affiché jusqu'à 1 h après le démarrage.
+- Retour arrière d'un défi : `UPDATE "Tip" t SET exercise = d.note::json->>'before' FROM "DataPatch" d WHERE d."patchId" = 'parcours-defi:s17:<clé>' AND t.id = d.note::json->>'tipId';` puis supprimer la ligne `DataPatch`.
 
 ## 4. En attente / à signaler
-(à compléter)
+- **Thomas** : retouches `machine-a-cafe-3` et `confiance-4` marquées « PROPOSÉ EN PLUS, à confirmer » dans le JSON : **non appliquées**. Après accord, ajouter la clé dans `DEFIS_CONFIRMES` : appliquée au démarrage suivant.
+- **`docs/content/conseils-seed.json` non modifié** (écriture refusée par le garde-fou de permissions, en attente d'un accord de Thomas : FS-12 + les 3 défis + défi de la base pour Confiance 6). Risque : un futur passage de `CATALOGUE_CONTENT_PATCH_VERSION` à 2 réécrirait `Tip.exercise` depuis ce fichier et effacerait les retouches et les textes de la base. Ne pas changer cette version avant FS-12.
+- Ajouter une étape ou un parcours plus tard : passer `PARCOURS_CONTENT_PATCH_ID` en `s17-v2` (ou plus) pour rejouer la tâche.
+- `config/textes/parcours.ts` est aussi modifié par un autre agent (textes finalisés) : mes ajouts (`etapeLibelle`, `VIDEOS_ETAPE`, `dureeEtapeTexte(…, avecVideos)`) sont à garder si ce fichier est réécrit en entier.
+- Textes provisoires (`// PROVISOIRE s17, étalon à valider (lot D)`) : « Pour aller plus loin, facultatif », « Environ N min, hors vidéos ».
+- « 5 vannes » : vrai seulement pour l'abonné (affichage D4 du lot B) ; le visiteur voit leur nombre, pas les textes.

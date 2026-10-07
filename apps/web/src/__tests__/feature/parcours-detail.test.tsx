@@ -206,7 +206,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+      expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     });
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Les relations amoureuses")).toBeInTheDocument();

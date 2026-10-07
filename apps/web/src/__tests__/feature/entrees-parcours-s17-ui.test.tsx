@@ -23,7 +23,7 @@ const premium = { status: "authenticated", data: { user: { plan: "PREMIUM" } } }
 
 const progress = {
   parcours: [
-    { slug: "confiance", title: "Parcours Confiance", completedSteps: 2, totalSteps: 6, completedAt: null, nextStepOrder: 3, startedAt: "2026-10-01T00:00:00.000Z" },
+    { slug: "confiance", title: "Parcours Confiance", completedSteps: 2, totalSteps: 6, completedAt: null, nextStepOrder: 3, startedAt: "2026-10-01T00:00:00.000Z", nextStepTitle: "Ton personnage" },
   ],
 };
 
@@ -51,7 +51,14 @@ describe("Reprendre ton parcours", () => {
     render(<ReprendreParcours src="profil" />);
     const link = await screen.findByRole("link", { name: "Reprendre l'étape 3" });
     expect(link).toHaveAttribute("href", "/parcours/confiance?src=profil#etape-3");
-    expect(screen.getByText("Parcours Confiance : étape 3 sur 6.")).toBeInTheDocument();
+    // Étalon 3.4 A, même format que la liste /parcours (lot E).
+    expect(screen.getByText("Parcours Confiance, étape 3 sur 6 : Ton personnage")).toBeInTheDocument();
+  });
+  it("titre d'étape absent : ligne sans deux-points final", async () => {
+    useSession.mockReturnValue(premium);
+    mockFetch({ "/api/user/progress": { parcours: [{ ...progress.parcours[0], nextStepTitle: null }] } });
+    render(<ReprendreParcours src="accueil" />);
+    expect(await screen.findByText("Parcours Confiance, étape 3 sur 6")).toBeInTheDocument();
   });
   it("abonné sans parcours en cours : rien", async () => {
     useSession.mockReturnValue(premium);
@@ -107,6 +114,31 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     expect(JSON.parse(post[1].body as string)).toEqual({ enabled: true, weekday: 3 });
     expect(await screen.findByText("C'est noté.")).toBeInTheDocument();
   });
+  it("aucun jour présélectionné (étalon 3.7) ; case cochée sans jour : rien n'est envoyé, le choix du jour active", async () => {
+    useSession.mockReturnValue(premium);
+    const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: null, eligible: true } });
+    render(<RappelParcoursToggle />);
+    const box = await screen.findByRole("checkbox");
+    const select = screen.getByLabelText("Jour du rappel") as HTMLSelectElement;
+    expect(select.value).toBe("");
+    expect(screen.getByRole("option", { name: "Choisis un jour" })).toBeInTheDocument();
+    const posts = () => fetchMock.mock.calls.filter((c) => ((c as unknown[])[1] as RequestInit | undefined)?.method === "POST");
+    await userEvent.click(box);
+    expect(posts()).toHaveLength(0);
+    expect(box).not.toBeChecked();
+    expect(screen.getByText("Choisis d'abord le jour du rappel, il s'activera aussitôt.")).toBeInTheDocument();
+    expect(select).toHaveFocus();
+    await userEvent.selectOptions(select, "5");
+    expect(JSON.parse((posts()[0] as unknown as [string, RequestInit])[1].body as string)).toEqual({ enabled: true, weekday: 5 });
+  });
+  it("jour déjà réglé : affiché tel quel, sans option vide", async () => {
+    useSession.mockReturnValue(premium);
+    mockFetch({ "/api/user/rappel-parcours": { enabled: true, weekday: 4, eligible: true } });
+    render(<RappelParcoursToggle />);
+    expect(await screen.findByRole("checkbox")).toBeChecked();
+    expect((screen.getByLabelText("Jour du rappel") as HTMLSelectElement).value).toBe("4");
+    expect(screen.queryByRole("option", { name: "Choisis un jour" })).not.toBeInTheDocument();
+  });
 });
 
 describe("Quiz d'humour et /abonnement", () => {
@@ -115,7 +147,7 @@ describe("Quiz d'humour et /abonnement", () => {
     window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "TAQUIN", completedAt: "2026-10-07" }));
     render(<ViralQuiz />);
     expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Lire gratuitement l'étape 1" })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
+    expect(screen.getByRole("link", { name: "Lire la première étape gratuite" })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
     window.localStorage.clear();
   });
   it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", () => {

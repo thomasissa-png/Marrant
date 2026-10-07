@@ -53,9 +53,11 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("shows difficulty badges with human labels (s12 T27)", () => {
+    // Seed s17 (lot D) : niveaux harmonisés, « Expert » disparaît.
     const intermediaire = screen.getAllByText("Débutant → Intermédiaire");
     expect(intermediaire).toHaveLength(2);
-    expect(screen.getByText("Débutant → Expert")).toBeInTheDocument();
+    expect(screen.getByText("Débutant")).toBeInTheDocument();
+    expect(screen.queryByText(/Expert/)).not.toBeInTheDocument();
     expect(screen.queryByText(/DEBUTANT/)).not.toBeInTheDocument();
   });
 

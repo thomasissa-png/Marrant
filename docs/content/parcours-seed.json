@@ -6,7 +6,7 @@
     "duration": "3 semaines",
     "timePerWeek": "15 min/semaine",
     "difficulty": "DEBUTANT",
-    "difficultyLabel": "DEBUTANT → INTERMEDIAIRE",
+    "difficultyLabel": "DEBUTANT",
     "icon": "☕",
     "order": 1,
     "persona": "Sophie (26 ans, jeune active)",
@@ -21,11 +21,17 @@
         "dayNumber": 3,
         "why": "La pause café, c'est le seul moment de la journée où tout le monde a envie de parler d'autre chose que du boulot. Ce conseil te donne les codes pour y glisser une vanne entre deux réunions, sans que ça sente la préparation.",
         "moduleTitle": "Des vannes courtes, faciles à ressortir",
-        "moduleDetail": "Une vanne de pause café se dit d'une traite et se comprend sans contexte. Tu apprends à en repérer, à les garder en tête et à les placer au bon moment : tu repars avec une petite réserve pour la machine à café et les réunions.",
-        "moduleFormat": "Conseil technique + vannes à pratiquer + vidéo d'exemple + quiz",
+        "moduleDetail": "Le faux secret est la vanne la plus facile à lâcher à la machine à café : une phrase, à voix basse, sur un détail minuscule de ta vie. Imagine Léa qui avoue, l'air grave, qu'elle n'a jamais compris le bouton « eau chaude » : tout le monde se penche, et le rire arrive sur la petitesse de l'aveu. Dans cette étape, tu trouves le tien.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 50,
         "free": true,
-        "jokeIds": [7, 83, 41, 64, 99],
+        "jokeContents": [
+          "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ».",
+          "Avec un collègue, on a enfin comparé nos salaires.",
+          "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un.",
+          "Mon manager m'a félicité pour ma discrétion.",
+          "J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée."
+        ],
         "videos": [
           {
             "youtubeId": "GKJKPlf6EqA",
@@ -42,24 +48,48 @@
         ],
         "quiz": [
           {
-            "question": "Tu arrives à la machine à café, deux collègues parlent de leur week-end. Le meilleur moment pour placer ta vanne ?",
-            "options": ["Tu coupes la conversation pour la caser tout de suite", "Tu attends qu'un collègue finisse sa phrase et tu rebondis sur ce qu'il vient de dire", "Tu attends qu'il ne reste plus qu'une personne", "Tu l'envoies sur Slack avant d'arriver, pour préparer le terrain"],
-            "correctIndex": 1
+            "question": "Imagine Léa à la machine à café, gobelet en main, qui veut tenter le faux secret. Quelle phrase a le plus de chances de faire sourire ?",
+            "options": [
+              "« Ça reste entre nous : je trouve que les réunions du lundi sont trop longues. »",
+              "« Ça reste entre nous : Kévin de la compta fait semblant de comprendre les tableaux croisés dynamiques. »",
+              "« Ça reste entre nous : je relis toujours mes mails deux fois avant de les envoyer, et je les envoie quand même avec une faute. »",
+              "« Ça reste entre nous : j'ai failli démissionner hier, je dors mal depuis des semaines. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : un aveu minuscule, sur elle, dit avec la gravité d'un scandale, et le suspense fait le travail. La A se plaint, la B vise Kévin, la D confie un vrai souci. Le faux secret, c'est l'inverse d'un vrai secret."
           },
           {
-            "question": "Tu veux placer une vanne en réunion. Le meilleur moment ?",
-            "options": ["Dès que tu entres dans la salle", "Quand tout le monde est déjà tendu", "Juste après un moment de détente qui arrive tout seul", "Pendant que ta responsable présente les résultats du trimestre"],
-            "correctIndex": 2
+            "question": "Ton faux secret est lâché, les collègues se sont penchés vers toi. Et maintenant ?",
+            "options": [
+              "Tu t'arrêtes net et tu bois une gorgée de café, sans rien ajouter",
+              "Tu ajoutes « non mais je rigole » pour être sûr que ça passe",
+              "Tu enchaînes avec un deuxième aveu, tant qu'ils sont penchés",
+              "Tu expliques pourquoi ton aveu est drôle"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : un seul aveu, puis tu t'arrêtes net, et le silence fait le reste. Le « je rigole » casse le sérieux, un deuxième aveu dilue le premier, et l'explication achève la vanne."
           },
           {
-            "question": "Quelle vanne est la mieux construite pour la machine à café ?",
-            "options": ["'Ma boîte organise un atelier pour nous apprendre à mieux gérer notre temps. Il dure tout l'après-midi.'", "'Les réunions c'est pas top, je trouve que c'est un peu long et ennuyeux souvent'", "'Haha tu connais la blague du chef qui demande des heures sup ? Attends je me rappelle plus...'", "'Mon collègue fait des blagues nulles. Enfin, plus nulles que les miennes, c'est dire.'"],
-            "correctIndex": 0
+            "question": "Laquelle de ces phrases tient dans le temps qu'un gobelet met à se remplir, avec un seul aveu sur toi ?",
+            "options": [
+              "« Ça reste entre nous : lundi, à la boulangerie, j'ai hésité entre trois pains, puis j'ai changé d'avis, puis j'ai pris le premier, et en fait c'était le même qu'hier. »",
+              "« Ça reste entre nous : je suis nul en informatique, en cuisine et en orientation. »",
+              "« Ça reste entre nous : le nouveau stagiaire dit « pas de souci » à tout, même à ce qu'il ne comprend pas. »",
+              "« Ça reste entre nous : je dis « je regarde ça » sur tout ce que je ne regarderai jamais. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : un seul aveu, court, sur toi, avec un détail que tout le monde reconnaît. La A est une histoire qui déborde du gobelet, la B empile trois aveux, la C vise le stagiaire."
           },
           {
-            "question": "Tu as trouvé une très bonne vanne hier soir. Comment être sûr de la ressortir au bon moment ?",
-            "options": ["La noter sur ton téléphone et la lire à voix haute devant le groupe", "Te la redire 2-3 fois dans ta tête en imaginant la situation où tu vas la placer", "La poster d'abord sur les réseaux pour voir si elle prend", "La sortir au premier collègue croisé dans l'ascenseur, sans contexte"],
-            "correctIndex": 1
+            "question": "Pour faire monter le suspense avant l'aveu, qu'est-ce qui marche le mieux ?",
+            "options": [
+              "Annoncer à voix forte : « Vous allez pas en revenir ! »",
+              "Te pencher, jeter un œil vers le couloir et lâcher « Ça reste entre nous : »",
+              "Prévenir : « J'ai une vanne pour vous. »",
+              "Parler très vite, pour que ça passe sans qu'on te regarde"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : la posture, le regard vers le couloir et la phrase d'ouverture installent le suspense avant l'aveu. À voix forte tu casses le secret, annoncer une vanne ruine le sérieux, et aller vite supprime le suspense."
           }
         ]
       },
@@ -69,45 +99,75 @@
         "dayNumber": 10,
         "why": "Tu as la vanne, il te manque le moment. Ce conseil t'apprend à lire le groupe pour sentir quand c'est ton tour, au lieu de parler en même temps que tout le monde.",
         "moduleTitle": "Sentir le bon moment",
-        "moduleDetail": "Quand placer ta vanne en réunion, comment lire le groupe à la machine à café, quand te lancer en afterwork. Entre le flop et le fou rire, il y a souvent 3 secondes : celles où tu attends au lieu de foncer.",
-        "moduleFormat": "Conseil technique + vannes sur le timing + vidéo d'analyse + quiz",
+        "moduleDetail": "À la pause, en réunion, à l'afterwork : le rire d'un groupe a un rythme. Une histoire, les rires, puis un blanc d'à peine deux secondes où tout le monde reprend son souffle. C'est là que ta phrase passe : pendant le rire personne ne t'entend, et dix minutes plus tard la conversation est déjà ailleurs. Aujourd'hui, tu n'as rien à préparer et personne à faire rire : tu écoutes et tu repères les blancs.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 75,
         "free": false,
-        "jokeIds": [75, 172, 173, 156, 188],
+        "jokeContents": [
+          "Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi.",
+          "Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram.",
+          "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+          "Mon père décroche toujours par « qu'est-ce qui se passe ? ».",
+          "Mon voisin a sonné, inquiet, à cause des cris de ma série."
+        ],
         "videos": [
           {
             "youtubeId": "K-oIyXvLUeg",
             "artist": "Jason Brokerss",
             "title": "Le mariage",
-            "why": "Pauses millimétrées, silence avant la punchline, non-réaction : la meilleure leçon de timing."
+            "why": "Il ne se précipite jamais : une pause, un regard, une non-réaction, et il laisse le silence travailler avant de relancer. À regarder en guettant le blanc, comme celui qui suit un rire."
           },
           {
             "youtubeId": "lw0hwSg87qk",
             "artist": "Félix Dhjan",
             "title": "Le quotidien",
-            "why": "Rythme quotidien, musicalité des phrases : montre comment le timing crée le rire."
+            "why": "Un débit très net, des phrases qui se répondent : écoute où il respire, c'est là que le groupe a le temps de rire."
           }
         ],
         "quiz": [
           {
-            "question": "Au déjeuner, le groupe est en mode plainte : le boulot, le métro, le lundi. Tu fais quoi ?",
-            "options": ["Tu te plains aussi, pour t'intégrer", "Tu attends le premier soupir collectif, puis tu fais basculer la conversation avec une vanne", "Tu sors ta meilleure vanne tout de suite pour remonter le moral des troupes", "Tu manges en silence en attendant que ça passe"],
-            "correctIndex": 1
+            "question": "Le groupe vient d'éclater de rire à l'histoire d'un collègue. Où places-tu ta vanne ?",
+            "options": [
+              "Dans le petit blanc juste après le rire, quand tout le monde reprend son souffle",
+              "Pendant le rire, pour surfer dessus",
+              "Dix minutes plus tard, quand tu auras trouvé la formulation parfaite",
+              "Avant la fin de son histoire, pour être le premier à réagir"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : le blanc d'environ deux secondes après le rire est ta fenêtre. Pendant le rire personne ne t'entend, dix minutes plus tard le groupe est déjà ailleurs, et couper l'histoire revient à parler pendant."
           },
           {
-            "question": "Ta vanne fait rire tout le monde. Le bon réflexe ?",
-            "options": ["Enchaîner avec une deuxième vanne tant que le public est chaud", "Expliquer pourquoi c'était drôle", "Ne rien ajouter et laisser le rire retomber tout seul", "Demander si tout le monde a bien compris"],
-            "correctIndex": 2
+            "question": "Au déjeuner, tout le monde parle en même temps et tu as une vanne qui colle au sujet. Tu fais quoi ?",
+            "options": [
+              "Tu hausses la voix pour passer au-dessus",
+              "Tu la lances vite, avant qu'un nouveau sujet n'arrive",
+              "Tu écoutes le rythme du groupe et tu la places au premier blanc",
+              "Tu la gardes pour demain, ce sera plus sûr"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : tu n'as rien à préparer, tu écoutes le groupe et tu attends son blanc. Élever la voix ou foncer, c'est parler pendant que personne n'écoute ; attendre demain, c'est arriver quand la conversation est partie."
           },
           {
-            "question": "À l'afterwork, un collègue raconte un vrai souci sur son projet. Tu as une vanne qui colle au sujet. Tu fais quoi ?",
-            "options": ["Tu la places tout de suite, ça va détendre l'atmosphère", "Tu le laisses finir, tu attends que le groupe ait réagi, puis tu glisses ta vanne sur un ton léger", "Tu la gardes pour toi : on ne plaisante pas avec un projet qui coince", "Tu la chuchotes à un seul collègue, en aparté"],
-            "correctIndex": 1
+            "question": "Le blanc est passé, la conversation est déjà repartie ailleurs. Ta vanne ?",
+            "options": [
+              "Tu la ressors quand même en lançant « Pour revenir à ce qu'on disait... »",
+              "Tu la laisses tomber et tu guettes le prochain blanc : il y en aura un",
+              "Tu la répètes plus fort jusqu'à ce que quelqu'un réagisse",
+              "Tu te tais pour le reste de la pause : ce n'est pas ton jour"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : il y a un blanc après chaque rire, donc rien n'est perdu. Revenir en arrière ou répéter plus fort, c'est forcer un moment qui a passé ; se taire jusqu'à la fin, c'est renoncer au prochain."
           },
           {
-            "question": "Tes collègues ont ri 3 fois en 5 minutes. C'est le signe que :",
-            "options": ["Le groupe est de bonne humeur : c'est le moment idéal pour placer ta vanne", "Ils sont trop excités, mieux vaut attendre que ça redescende", "Tu dois rire plus fort qu'eux pour t'intégrer", "Il y a eu assez de blagues pour aujourd'hui, pas la peine d'en rajouter"],
-            "correctIndex": 0
+            "question": "Ton défi du jour : ne pas chercher à faire rire. Que fais-tu à la pause ?",
+            "options": [
+              "Tu prépares une vanne pour la sortir en premier",
+              "Tu notes les sujets qui font rire pour les resservir demain",
+              "Tu ris le plus fort pour donner le rythme au groupe",
+              "Tu écoutes et tu repères les blancs qui suivent chaque rire, en les comptant dans ta tête"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : le défi sert à entendre le rythme du groupe, sans rien préparer. Préparer une vanne, noter des sujets ou imposer ton rire, c'est déjà vouloir mener au lieu d'écouter."
           }
         ]
       },
@@ -117,45 +177,75 @@
         "dayNumber": 17,
         "why": "Après la vanne courte, l'anecdote. Un seul détail précis suffit à transformer « j'ai eu un week-end chargé » en histoire qu'on te redemande à la pause suivante.",
         "moduleTitle": "Raconter une anecdote qu'on écoute jusqu'au bout",
-        "moduleDetail": "Tes histoires de boulot et de week-end ont déjà tout ce qu'il faut, il leur manque juste la mise en forme. Structure, détails, chute : les 3 ingrédients d'une anecdote qu'on raconte entre collègues sans que personne ne regarde son téléphone.",
-        "moduleFormat": "Conseil technique + vannes narratives + vidéo storytelling + quiz",
+        "moduleDetail": "Tes histoires de boulot et de week-end ont déjà tout ce qu'il faut : il leur manque de la précision. « J'ai croisé quelqu'un à la boulangerie » ne retient personne, « samedi, 7 h 40, un monsieur en bonnet de ski devant les croissants » se voit tout de suite. Ici, un seul réflexe : ajouter trois détails précis (heure, lieu, prénom, vêtement) à une anecdote banale, et regarder ce que ça change chez ceux qui t'écoutent.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un dernier quiz.",
         "moduleXp": 100,
         "free": false,
-        "jokeIds": [36, 28, 154, 300, 284],
+        "jokeContents": [
+          "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure.",
+          "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche.",
+          "Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze.",
+          "Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu.",
+          "Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20."
+        ],
         "videos": [
           {
             "youtubeId": "tpIOLzv11qo",
             "artist": "Djimo",
             "title": "Quand il croise Carl Lewis",
-            "why": "Le détail ultra-spécifique comme clé du storytelling captivant."
+            "why": "Un détail ultra précis (le lieu, le moment, le geste) et on voit la scène : la règle des détails spécifiques, racontée par un pro."
           },
           {
             "youtubeId": "Ps3UNPLpmKc",
             "artist": "Karim Duval",
             "title": "Élever son enfant en mode start-up",
-            "why": "Jargon corporate transposé dans la vie quotidienne : la technique du détail ancré dans un univers partagé."
+            "why": "Il ancre chaque détail dans un univers que tout le monde connaît (le jargon de start-up, appliqué à un enfant) : plus c'est précis, plus on voit la scène."
           }
         ],
         "quiz": [
           {
-            "question": "Quelle version est la plus drôle ?",
-            "options": ["'Je me suis fait doubler dans la file'", "'Mardi, un monsieur en doudoune Decathlon m'a doublé à la boulangerie. Il a pris la dernière tradition et m'a souhaité bonne journée.'", "Les deux sont aussi drôles l'une que l'autre", "'Un homme m'a doublé dans une file d'attente, c'était désagréable'"],
-            "correctIndex": 1
+            "question": "Quelle version de la même anecdote fait le mieux voir la scène ?",
+            "options": [
+              "« Je suis allé à la boulangerie ce week-end, il y avait du monde. »",
+              "« Samedi, 7 h 40, un monsieur en bonnet de ski attendait devant les croissants avec une liste de courses. »",
+              "« Un homme bizarre m'a fait attendre longtemps à la boulangerie, c'était vraiment pénible. »",
+              "« Il se passe toujours un truc improbable à la boulangerie, tu connais. »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : une heure, un lieu, un vêtement, et la scène se voit. La A et la D restent plates, et la C juge au lieu de montrer."
           },
           {
-            "question": "Dans une bonne anecdote, la chute doit être :",
-            "options": ["Plus longue que le setup pour bien expliquer", "Plus courte que le setup : elle tombe comme un couperet", "De la même longueur que le setup", "Répétée deux fois pour que tout le monde comprenne"],
-            "correctIndex": 1
+            "question": "Tu racontes ton week-end : comment présentes-tu ton ami ?",
+            "options": [
+              "« Un pote. »",
+              "« Mon ami, qui est très sympa et très drôle. »",
+              "« Un ami, tu sais, celui qu'on connaît tous. »",
+              "« Théo, celui qui arrive toujours en retard avec une baguette sous le bras. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : un prénom et un détail propre à lui, et on voit la personne arriver. « Un pote » ne fait voir personne, les adjectifs racontent au lieu de montrer, et « celui qu'on connaît tous » demande à l'autre de deviner."
           },
           {
-            "question": "Tu racontes ton week-end au ski à la machine à café. Quelle version rend l'histoire drôle ?",
-            "options": ["'J'ai fait du ski ce week-end, c'était sympa'", "'J'ai pas mal chuté, c'était dur'", "'Devant la piste noire, le moniteur m'a dit : « Tranquille, elle est large. » J'ai mis 45 minutes à la descendre. Je l'ai faite dans la largeur.'", "'Le ski c'est dur, mais c'était bien quand même'"],
-            "correctIndex": 2
+            "question": "Tu as trois détails à ajouter à une anecdote banale. Lesquels choisis-tu ?",
+            "options": [
+              "L'heure, le lieu et le vêtement de la personne : tout ce qu'on peut voir",
+              "Ce que tu en penses : « c'était pénible », « c'était énorme »",
+              "Le contexte de ta semaine, pour qu'on comprenne ton état d'esprit",
+              "Autant que possible : vingt détails valent mieux que trois"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : heure, lieu, vêtement, ce sont des détails qu'on voit, et le cerveau accroche sur le précis. Ton avis n'ajoute pas d'image, ton état d'esprit non plus, et vingt détails noient la scène : trois suffisent."
           },
           {
-            "question": "Pour transformer une anecdote banale en histoire drôle, l'ordre idéal c'est :",
-            "options": ["Chute → Contexte → Détails", "Contexte précis → Montée en tension → Chute courte", "Détails → Détails → Plus de détails → Fin", "Chute → Explication → Excuse de pourquoi c'est drôle"],
-            "correctIndex": 1
+            "question": "Tu viens de raconter un événement banal avec tes trois détails précis. Comment sais-tu que ça a marché ?",
+            "options": [
+              "Tu demandes tout de suite : « C'était drôle, non ? »",
+              "Tu recommences en ajoutant dix détails de plus",
+              "Tu regardes son visage : il a vu la scène, il pose une question, il sourit",
+              "Tu lui expliques quels détails étaient les plus importants"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : quand les détails fonctionnent, l'autre voit la scène, pose une question ou sourit sans que tu aies rien demandé. Quémander un verdict, en ajouter dix de plus ou expliquer tes détails, c'est ne plus laisser l'histoire travailler."
           }
         ]
       }
@@ -183,45 +273,75 @@
         "dayNumber": 3,
         "why": "On commence par la version douce : répondre à une pique sans en lancer une plus grosse. L'ironie bienveillante, dite avec le sourire, te fait exister dans l'échange sans déclencher de conflit, idéal quand tu débutes et que tu es plutôt timide.",
         "moduleTitle": "Tes premières répliques",
-        "moduleDetail": "Rebondir sur une remarque, accuser réception, reformuler avec humour : 3 réflexes pour ne plus rester muet en TD, en soirée ou en coloc. Si tu es timide, bonne nouvelle : tu écoutes déjà, et c'est par là que toute bonne réplique commence.",
-        "moduleFormat": "Conseil technique + vannes comebacks + vidéo répartie + quiz",
+        "moduleDetail": "Ton coloc laisse la vaisselle pour la troisième fois. Râler te fait passer pour le relou, te taire pour un paillasson. L'ironie bienveillante est la sortie du milieu : dire l'inverse de ce que tu penses, avec le sourire, assez évidemment pour que personne ne se vexe. Une seule phrase suffit.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 50,
         "free": true,
-        "jokeIds": [13, 337, 204, 201, 105],
+        "jokeContents": [
+          "Mon père a vu mon appart. Il a dit « c'est pas mal ».",
+          "Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien ».",
+          "Ma sœur m'a dit qu'elle m'avait « pardonné » mon retard à son anniversaire.",
+          "Mon père est retraité depuis un an et me dit toujours qu'il est très pris.",
+          "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an."
+        ],
         "videos": [
           {
-            "youtubeId": "qdqIc-uzdbA",
-            "artist": "Haroun",
-            "title": "L'impro et la répartie",
-            "why": "Rebond en 3 temps (écoute → reformule → retourne), « oui, et… », filets de sécurité préparés : la meilleure démonstration de répartie."
+            "youtubeId": "m30qZa8p_Js",
+            "artist": "Marina Rollman",
+            "title": "Les relations sociales",
+            "why": "Elle ne se moque pas des gens, elle se moque des situations : l'ironie reste douce, et la salle se sent complice plutôt que visée."
           },
           {
             "youtubeId": "vpdrKdWY838",
             "artist": "Lilia Benchabane",
             "title": "Sa vie est un blind test",
-            "why": "Réponses préparées aux remarques gênantes, prendre les devants : la répartie bienveillante en action."
+            "why": "Elle ne vise jamais la personne, seulement la maladresse de la situation : la même douceur qui sépare l'ironie bienveillante de la pique."
           }
         ],
         "quiz": [
           {
-            "question": "Un pote te dit 'T'es toujours en retard'. Quelle répartie bienveillante ?",
-            "options": ["'Ferme-la'", "'C'est stratégique : j'arrive pile quand vous avez fini de parler de moi.'", "'Toi aussi t'es souvent en retard'", "'Oui pardon, c'est vrai'"],
-            "correctIndex": 1
+            "question": "Imagine Tom au restaurant : son pote arrive avec 30 minutes de retard. Laquelle de ces phrases est de l'ironie bienveillante ?",
+            "options": [
+              "« T'as une demi-heure de retard, c'est pas sérieux. »",
+              "« Quelle surprise, un retard de ta part. Tu es vraiment incapable de te réveiller, toi. »",
+              "« Merci d'être venu, ça me fait vraiment plaisir. »",
+              "« Pile à l'heure ! J'ai juste eu le temps de lire toute la carte. Deux fois. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : Tu dis l'inverse de ce que tu penses (« pile à l'heure ») avec de la douceur, et la carte lue deux fois fait sourire sans blesser. La A reproche, la C est sincère, la B est ironique mais vise la personne : c'est une pique, pas un jeu."
           },
           {
-            "question": "Le principe de la répartie bienveillante, c'est :",
-            "options": ["Humilier l'autre plus vite", "Faire rire tout le monde, y compris celui qui t'a lancé la pique", "Ignorer la remarque", "Changer de sujet"],
-            "correctIndex": 1
+            "question": "Tu dis exactement la même phrase : « Quelle organisation, bravo. » Qu'est-ce qui la rend bienveillante ?",
+            "options": [
+              "Un ton sec et un regard appuyé",
+              "Un sourire et de l'affection dans la voix",
+              "Dix secondes de silence juste après",
+              "Un détail sur la personne : « toi, toujours pareil »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : la même phrase devient un compliment déguisé avec le sourire et l'affection dans la voix, et une pique sans. Le ton sec la durcit, le silence ne change rien au sens, et viser la personne fait de l'ironie un reproche."
           },
           {
-            "question": "En TD, un camarade te lance 'T'as encore rien compris au cours'. Répartie bienveillante ?",
-            "options": ["'Toi non plus t'as rien compris'", "'Laisse-moi tranquille'", "'Rien, c'est sévère : j'ai très bien compris à quelle heure finissait le cours.'", "'Oui c'est vrai, je suis nul'"],
-            "correctIndex": 2
+            "question": "Ton coloc vient de manger les dernières pâtes que tu gardais pour ce soir. Laquelle de ces réactions est de l'ironie bienveillante ?",
+            "options": [
+              "« T'es vraiment un voleur, t'as aucun respect. »",
+              "« Ça va, y en avait pas beaucoup, t'as bien fait. » (tu le penses vraiment)",
+              "« Aucun souci, j'ai toujours rêvé de dîner en regardant ton assiette. Régale-toi. »",
+              "« Tu es vraiment incapable de te retenir, toi. Bravo. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : tu dis l'inverse de ce que tu penses, sur la situation, avec de la légèreté. La A insulte, la B est sincère, la D est ironique mais vise la personne."
           },
           {
-            "question": "Un pote te lance « T'es vraiment pas drôle ». Laquelle de ces réponses reste bienveillante, sans agressivité ?",
-            "options": ["'Tu t'es regardé avant de parler ?'", "'Et pourtant tu m'écoutes jusqu'au bout. Soit je suis drôle, soit t'es très poli.'", "'Ferme-la, toi non plus t'es pas drôle'", "'...' (tu restes muet et tu encaisses)"],
-            "correctIndex": 1
+            "question": "Pas d'occasion aujourd'hui pour tenter l'ironie douce. Que fais-tu du défi ?",
+            "options": [
+              "Tu écris la phrase que tu aurais pu dire au dernier retard d'un proche, et tu l'envoies si ça te fait sourire",
+              "Tu attends la prochaine occasion sans rien faire",
+              "Tu provoques un proche pour en créer une",
+              "Tu t'entraînes sur quelqu'un que tu ne connais pas"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : le défi compte aussi à l'écrit, et l'envoyer à un proche te rapporte un sourire en retour. Attendre sans rien faire ne t'entraîne pas, provoquer quelqu'un va contre la bienveillance, et l'ironie sur un inconnu n'a pas l'affection qui la rend douce."
           }
         ]
       },
@@ -231,45 +351,75 @@
         "dayNumber": 10,
         "why": "Si tu as le réflexe de combler chaque blanc, ce conseil va te soulager : le silence travaille pour toi. Tu apprends à repérer le blanc où ta phrase porte dans toute la pièce, puis à le laisser faire.",
         "moduleTitle": "Le rythme et les silences",
-        "moduleDetail": "Les pauses, le regard, le rythme : tout ce qui se passe autour de tes mots. Un bon silence avant ta réplique vaut mieux que 10 mots précipités, et c'est souvent lui qui fait que tes potes tendent l'oreille quand tu parles.",
-        "moduleFormat": "Conseil technique + vannes avec timing intégré + vidéo timing + quiz",
+        "moduleDetail": "En soirée, la musique laisse parfois un blanc de deux secondes entre deux morceaux, et toutes les conversations paraissent soudain trop fortes. Si tu glisses une phrase courte à cet instant, à voix normale, tout le monde l'entend : c'est le même petit choc de silence pour tous, et ta phrase le met en mots. Pas besoin d'une vanne longue : une pensée simple et honnête suffit.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 75,
         "free": false,
-        "jokeIds": [4, 266, 129, 322, 326],
+        "jokeContents": [
+          "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons.",
+          "Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui.",
+          "J'ai dit à mon grand-père que je l'admirais.",
+          "Mon adresse mail pro d'alternant commence par « alternant2 ».",
+          "Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir."
+        ],
         "videos": [
           {
             "youtubeId": "K-oIyXvLUeg",
             "artist": "Jason Brokerss",
             "title": "Le mariage",
-            "why": "Pause d'impact avant la punchline, regard-pause, non-réaction : le sketch qui enseigne le silence."
+            "why": "Pause d'impact, regard, non-réaction : regarde comment le silence fait le travail, et comment la salle l'attend."
           },
           {
             "youtubeId": "b0sxUyrE1Cs",
             "artist": "Thomas Wiesel & Kyan Khojandi",
             "title": "Petites blagues entre amis",
-            "why": "Timing à deux, silences entre les blagues, ping-pong comique : montre l'espace laissé à l'autre."
+            "why": "Timing à deux, silences entre les vannes, ping-pong comique : montre l'espace laissé à l'autre."
           }
         ],
         "quiz": [
           {
-            "question": "Ta réplique vient de faire rire la table, puis il y a un blanc. Ce blanc, c'est :",
-            "options": ["Un moment gênant qu'il faut vite remplir avec autre chose", "La suite de ta réplique : ce silence, c'est la deuxième punchline, laisse-le durer", "Le signe que personne n'a compris ta vanne", "Le moment de t'excuser, au cas où"],
-            "correctIndex": 1
+            "question": "En soirée, la musique s'arrête deux secondes entre deux morceaux et tout le monde semble parler trop fort. Ton moment ?",
+            "options": [
+              "Tu hausses la voix pour reprendre la conversation d'avant",
+              "Tu glisses une phrase courte, à voix normale, juste dans ce blanc",
+              "Tu attends la fin de la chanson suivante pour être sûr",
+              "Tu chuchotes à ton voisin pour ne pas déranger"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : dans le blanc, une phrase à voix normale porte dans toute la pièce. Crier tue l'effet, attendre la chanson suivante fait rater le blanc, et chuchoter garde ta phrase pour une seule personne."
           },
           {
-            "question": "Pourquoi le silence t'aide autant en répartie ?",
-            "options": ["Parce qu'il met les gens mal à l'aise", "Parce que la punchline résonne plus fort après une pause", "Parce qu'il te fait gagner du temps pour trouver la suite", "Parce que c'est poli d'attendre"],
-            "correctIndex": 1
+            "question": "La musique vient de s'arrêter et tout le monde parlait trop fort. Quelle phrase fonctionne le mieux dans ce blanc ?",
+            "options": [
+              "« Attendez, je vous raconte ce qui m'est arrivé mardi, ça va être long mais ça vaut le coup... »",
+              "« Hé, écoutez-moi ! J'ai une super vanne ! »",
+              "« Je fais un petit sondage : qui connaît cette chanson ? »",
+              "« Je viens de remarquer que je criais depuis dix minutes. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : une pensée simple et vraie, dite sans effort, et chacun s'y reconnaît, puisque tout le monde criait aussi. La A est une vanne longue, la B annonce une vanne avant de la dire, et la C déplace la conversation sans rien confier."
           },
           {
-            "question": "En soirée, tout le monde parle en même temps et tu tiens la réplique parfaite. Tu fais quoi ?",
-            "options": ["Tu cries pour te faire entendre", "Tu la dis même si personne n'écoute, au moins c'est sorti", "Tu attends un micro-silence (il y en a toujours un) et tu la places calmement", "Tu la tapes sur le groupe WhatsApp"],
-            "correctIndex": 2
+            "question": "Une chanson se termine et tu n'as aucune phrase prête. Que fais-tu ?",
+            "options": [
+              "Tu laisses passer ce blanc : il y en aura d'autres, à chaque morceau",
+              "Tu dis n'importe quoi pour ne pas rater le blanc",
+              "Tu inventes une vanne en deux secondes",
+              "Tu demandes qu'on coupe la musique"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : le blanc revient à chaque morceau, rien ne presse. Dire n'importe quoi ou improviser une vanne en deux secondes sacrifie la phrase au timing, et couper la musique crée un silence qui n'est plus celui de la soirée."
           },
           {
-            "question": "'Tu devrais faire stand-up.' Quelle version a le meilleur timing ?",
-            "options": ["'Merci-c'est-gentil-mais-non-je-préfère-rester-amateur' (tout d'un bloc)", "'...' (pause, regard) 'J'y ai pensé. Mais je veux pas perdre mon meilleur public.' (sourire)", "'Haha oui peut-être, on verra, enfin je sais pas trop quoi dire'", "'Et toi, tu devrais faire silence.' (agressif)"],
-            "correctIndex": 1
+            "question": "Un blanc s'installe et ton réflexe est de le combler tout de suite. Que te propose ce conseil ?",
+            "options": [
+              "Parler plus vite pour le couvrir",
+              "Dire « euh » pour te donner le temps",
+              "Le repérer et y glisser ta phrase au lieu de le combler",
+              "Attendre qu'un autre le comble à ta place"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : le silence travaille pour toi, tu le repères et tu y poses ta phrase. Parler vite ou meubler avec des « euh » étouffe le blanc, et attendre qu'un autre le comble te fait perdre ton moment."
           }
         ]
       },
@@ -279,45 +429,75 @@
         "dayNumber": 17,
         "why": "Le cœur du parcours : une technique en 3 temps (accepter, exagérer, retourner) qui transforme le chambrage en jeu où tu marques aussi des points, au lieu d'en être la cible préférée.",
         "moduleTitle": "Retourner les piques avec le sourire",
-        "moduleDetail": "Un pote te chambre en soirée, quelqu'un te lance une pique en TD : tu apprends à retourner la situation avec humour, sans agressivité. L'autre rit avec toi au lieu de rire de toi, et c'est toi qui repars avec la dernière réplique.",
-        "moduleFormat": "Conseil technique + vannes comebacks + vidéo retournement + quiz",
+        "moduleDetail": "Un pote te chambre en soirée, quelqu'un te lance une pique en TD : tu apprends la méthode en trois temps pour retourner la situation sans agressivité : accepter, exagérer, retourner. L'autre rit avec toi au lieu de rire de toi, et c'est toi qui repars avec la dernière réplique.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 100,
         "free": false,
-        "jokeIds": [338, 339, 280, 270, 23],
+        "jokeContents": [
+          "Mon petit frère m'appelle « papi ». J'ai 26 ans.",
+          "Mon frère jumeau est né six minutes avant moi.",
+          "Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion ».",
+          "Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio.",
+          "Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans."
+        ],
         "videos": [
           {
             "youtubeId": "vpdrKdWY838",
             "artist": "Lilia Benchabane",
             "title": "Sa vie est un blind test",
-            "why": "Accepter la pique et la retourner, prendre les devants : le comeback en douceur."
+            "why": "Elle accepte la remarque, la pousse un cran plus loin et la retourne avec le sourire : les trois temps, version scène."
           },
           {
-            "youtubeId": "m30qZa8p_Js",
-            "artist": "Marina Rollman",
-            "title": "Les relations sociales",
-            "why": "Retournement de cliché, ironie douce : retourner les conventions sans agressivité."
+            "youtubeId": "t2MsC6I9t5U",
+            "artist": "Sugar Sammy",
+            "title": "La procureure et l'immigrant",
+            "why": "Il prend le cliché qu'on lui colle, l'accepte, le pousse jusqu'à l'absurde et le retourne : les trois temps, par la personne visée elle-même."
           }
         ],
         "quiz": [
           {
-            "question": "On te dit 'T'es célibataire depuis combien de temps déjà ?' La technique en 3 temps :",
-            "options": ["Ignorer → Changer de sujet → Partir", "Accepter → Exagérer → Retourner", "Nier → Se justifier → S'excuser", "Attaquer → Humilier → Dominer"],
-            "correctIndex": 1
+            "question": "Un pote te lance : « T'es encore arrivé après tout le monde. » Laquelle de ces réponses suit les trois temps (accepter, exagérer, retourner) ?",
+            "options": [
+              "« Après tout le monde, oui. C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure. Tu me remercieras. »",
+              "« Non, j'étais là avant, c'est toi qui n'as pas vu. »",
+              "« Et toi, t'étais en retard la semaine dernière. »",
+              "« Ouais, désolé. » (en baissant la tête)"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : tu acceptes (« après tout le monde, oui »), tu exagères (« c'est mon rôle »), tu retournes avec un compliment déguisé. Nier prolonge la scène, contre-attaquer en lance une autre, et t'excuser te laisse cible."
           },
           {
-            "question": "Quelle réponse retourne le mieux la pique 'T'es toujours sur ton téléphone' ?",
-            "options": ["'Non c'est pas vrai'", "'Oui, j'attends un message intéressant. Je suis quelqu'un de très patient.'", "'Et toi tu es toujours en train de me juger'", "'Désolé, tu as raison'"],
-            "correctIndex": 1
+            "question": "On te dit : « T'es toujours sur ton téléphone. » Quelle réponse exagère sans attaquer ?",
+            "options": [
+              "« Et toi, tu es toujours en train de me regarder. »",
+              "« Non, c'est pas vrai, je l'ai posé hier. »",
+              "« Oui. On a une relation sérieuse, je songe à lui présenter mes parents. »",
+              "« Pardon, je vais le ranger. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : tu acceptes la pique et tu la pousses jusqu'à l'absurde, sans viser l'autre. La A contre-attaque, la B nie, et la D s'excuse : dans les trois cas, la pique reste la dernière chose dite."
           },
           {
-            "question": "Un pote te dit 'T'as vraiment cette tête au réveil ?' Applique les 3 temps :",
-            "options": ["'Parle pour toi, franchement' (attaque directe)", "'Et encore, là c'est retouché. La version de 6h du mat, même mon miroir l'évite.'", "'Non j'ai pas cette tête' (nier)", "'Oui désolé' (s'excuser)"],
-            "correctIndex": 1
+            "question": "On te lance « T'es toujours fauché ». Tu as déjà accepté et exagéré (« Fauché, oui : ma carte bancaire me demande poliment de ne plus insister »). Quel retournement termine bien ?",
+            "options": [
+              "« Toi aussi, tu es fauché, regarde ton pull. »",
+              "« Au moins, avec toi, je suis sûr que quelqu'un paie le café. Merci de ta confiance. »",
+              "« Arrête, c'est blessant. »",
+              "« Donc tu peux me prêter 20 € ? »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : le retournement garde la douceur, avec un compliment déguisé qui fait rire l'autre avec toi. La A attaque la personne, la C ferme la conversation, et la D change de sujet sans jouer avec la pique."
           },
           {
-            "question": "Quelle réponse est la meilleure à 'T'es toujours fauché' ?",
-            "options": ["'C'est pas vrai, j'ai de l'argent'", "'Toi aussi t'es fauché'", "'Fauché, non. Chez moi, la fin du mois arrive juste un peu plus tôt.'", "'Prête-moi 20€ alors'"],
-            "correctIndex": 2
+            "question": "Quelqu'un te chambre devant tout le groupe et tu n'as aucune réplique brillante. Que dis-tu ?",
+            "options": [
+              "Rien : mieux vaut se taire que dire une bêtise",
+              "Tu cherches la meilleure réplique pendant dix secondes",
+              "Tu prends un ton agressif pour compenser",
+              "Une seule phrase qui accepte, même simple, plutôt que de laisser le silence répondre à ta place"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : personne ne te demande d'être brillant, juste de ne pas laisser le silence répondre à ta place. Se taire fait de toi la cible, chercher dix secondes laisse passer le moment, et l'agressivité rend la scène moins drôle."
           }
         ]
       },
@@ -327,17 +507,23 @@
         "dayNumber": 24,
         "why": "Le niveau au-dessus : ta vanne tombe à plat, et tu t'en sers comme deuxième chance. Un raté bien rattrapé fait souvent plus rire que la vanne d'origine.",
         "moduleTitle": "Improviser sur l'inattendu",
-        "moduleDetail": "Accepter ce qui arrive, rebondir dessus, trouver ta réplique en moins de 2 secondes : c'est de l'impro, et ça se travaille. De quoi être à l'aise au BDE, en coloc, en soirée, et même à un premier rendez-vous.",
-        "moduleFormat": "Conseil technique + vannes d'impro + vidéo improvisation + quiz final",
+        "moduleDetail": "Ta vanne tombe à plat et personne ne rit : plutôt que de te justifier, tu décris ce qui se passe vraiment, en moins de 2 secondes, comme un constat de terrain. C'est le principe du « oui, et » de l'impro : tu acceptes ce qui arrive, puis tu ajoutes ta lecture par-dessus. De quoi être à l'aise au BDE, en coloc, en soirée, et même à un premier rendez-vous.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un dernier quiz.",
         "moduleXp": 150,
         "free": false,
-        "jokeIds": [73, 91, 178, 289, 229],
+        "jokeContents": [
+          "Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date lui a demandé si elle avait des conseils.",
+          "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités.",
+          "L'audioguide du musée s'est éteint dans la première salle.",
+          "Dans le métro, quelqu'un m'a demandé « vous descendez ? ». J'ai dit oui par réflexe.",
+          "Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé."
+        ],
         "videos": [
           {
             "youtubeId": "qdqIc-uzdbA",
             "artist": "Haroun",
             "title": "L'impro et la répartie",
-            "why": "« oui, et… » d'impro, filet de sécurité, écoute active : le plus directement pédagogique sur l'impro."
+            "why": "« Oui, et… » : il accepte ce que le public lui tend et ajoute par-dessus, en gardant le sourire. C'est le rebond de l'étape, en direct."
           },
           {
             "youtubeId": "TWGNkUX8wbk",
@@ -348,29 +534,59 @@
         ],
         "quiz": [
           {
-            "question": "Ta vanne tombe à plat, personne ne rit. Le meilleur réflexe ?",
-            "options": ["Répéter la blague plus fort", "Dire 'vous avez pas compris' et expliquer", "'Celle-là, je la note « à retravailler ». Merci pour vos retours, ils sont très clairs.'", "Quitter la pièce"],
-            "correctIndex": 2
+            "question": "Ta vanne tombe à plat, personne ne rit. Quel premier réflexe ?",
+            "options": [
+              "Répéter ta vanne plus fort",
+              "Décrire en une phrase ce qui se passe vraiment : les regards, le silence, les téléphones",
+              "Expliquer pourquoi elle était drôle",
+              "Dire « bon, je vais chercher à boire » et disparaître"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : tu acceptes ce qui arrive et tu le décris, comme un constat de terrain. Répéter plus fort, expliquer ou disparaître, c'est refuser la scène au lieu de la prendre telle qu'elle est."
           },
           {
-            "question": "Le principe du OUI-ET en impro, c'est :",
-            "options": ["Dire oui à tout ce que l'autre dit", "Accepter ce qu'on te donne ET ajouter quelque chose par-dessus", "Dire oui puis corriger l'autre", "Dire non mais gentiment"],
-            "correctIndex": 1
+            "question": "Ta vanne tombe à plat. Laquelle de ces phrases rebondit sans se justifier ?",
+            "options": [
+              "« Je note trois silences et une toux. Je classe ça en mitigé. »",
+              "« C'était de l'humour, hein, c'était pour rire. »",
+              "« Vous avez pas compris, en fait c'était à cause du mot « tonton ». »",
+              "« Bon. Passons. »"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : tu décris la scène telle qu'elle est (les silences, la toux) et tu conclus d'un ton neutre. La B se justifie, la C explique la vanne, et la D passe à autre chose sans rien ajouter qui fasse sourire."
           },
           {
-            "question": "En soirée, un inconnu te lance 'C'est quoi ton excuse pour cette coupe de cheveux ?' Meilleure réponse OUI-ET ?",
-            "options": ["'T'as vu la tienne ?'", "'C'est pas une excuse, c'est un choix artistique'", "'Mon coiffeur traverse une période difficile. Par solidarité, je la porte avec lui.'", "'...' (tu ignores et tu pars)"],
-            "correctIndex": 2
+            "question": "Un ami raconte : « Mon vélo est tellement rouillé qu'il grince le prénom de ses anciens propriétaires. » Quelle réponse est un « oui, et » ?",
+            "options": [
+              "« Non, un vélo ça grince pas un prénom. »",
+              "« T'as pas un vélo plus récent ? »",
+              "« Moi aussi j'ai un vélo, il est encore plus vieux. »",
+              "« Oui, et le mien ne dit plus rien depuis qu'on s'est disputés. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : tu acceptes l'image (le vélo qui parle) et tu ajoutes un détail dans la même logique. La A la refuse, la B change de sujet et la C la tire vers toi."
           },
           {
-            "question": "Tu racontes une histoire et tu perds le fil en plein milieu. Meilleure impro ?",
-            "options": ["'Bref, c'est pas important' (tu abandonnes)", "'Attendez, je recommence depuis le début'", "'...et là, j'ai perdu la suite. Si quelqu'un la retrouve, elle répond au nom de « la chute ».'", "Tu fais semblant de rien et tu changes de sujet"],
-            "correctIndex": 2
+            "question": "Tu racontes une histoire et tu perds le fil en plein milieu. Quelle impro ?",
+            "options": [
+              "« Bref, c'est pas important. » (tu abandonnes sans rien commenter)",
+              "« Attendez, je recommence depuis le début, vous allez voir. » (tu t'excuses)",
+              "« ...et là, j'ai perdu la suite. Si quelqu'un la retrouve, elle répond au nom de « la chute ». »",
+              "« C'est parce que vous parlez : je peux pas me concentrer. » (tu accuses le public)"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : tu constates ce qui t'arrive, sur le ton de la vanne, et le trou de mémoire devient le moment fort. Abandonner coupe l'histoire, recommencer s'excuse, et accuser le public n'est ni un constat ni un « oui, et »."
           },
           {
-            "question": "Ton pote te chambre, ta réplique fait rire, et un inconnu rebondit dessus. Tu fais quoi ?",
-            "options": ["Tu te sens dépossédé : c'était ta vanne, il n'a pas à y toucher", "Tu rebondis sur sa relance avec un OUI-ET : à deux, le ping-pong peut durer toute la soirée", "Tu le corriges, il n'a pas bien compris ta vanne", "Tu t'arrêtes là : tu as fait ton effet, pas la peine d'en rajouter"],
-            "correctIndex": 1
+            "question": "En soirée, ta phrase fait rire et un inconnu ajoute un détail dessus. Ta réaction ?",
+            "options": [
+              "Tu le corriges : c'était ta vanne",
+              "Tu ajoutes un détail dans la même logique, sans chercher à faire mieux",
+              "Tu te tais pour le laisser briller",
+              "Tu enchaînes avec ta meilleure vanne pour reprendre la main"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : le « oui, et » marche dans les deux sens, tu acceptes son ajout et tu en poses un autre. Corriger ou reprendre la main refuse son cadeau, et te taire coupe le ping-pong."
           }
         ]
       }
@@ -379,18 +595,18 @@
   {
     "slug": "confiance",
     "title": "Parcours Confiance",
-    "description": "Pour le jour où tu te rends compte que ça fait longtemps que tu n'as fait rire personne, toi compris. Observation, autodérision, répartie, registres avancés : tu reprends tout à ton rythme, jusqu'à retrouver un humour qui te ressemble.",
+    "description": "Pour le jour où tu te rends compte que ça fait longtemps que tu n'as fait rire personne, toi compris. Observation, autodérision, place en groupe, décalage de registre : tu reprends tout à ton rythme, jusqu'à retrouver un humour qui te ressemble.",
     "duration": "6 semaines",
     "timePerWeek": "20 min/semaine",
-    "difficulty": "EXPERT",
-    "difficultyLabel": "DEBUTANT → EXPERT",
+    "difficulty": "INTERMEDIAIRE",
+    "difficultyLabel": "DEBUTANT → INTERMEDIAIRE",
     "icon": "🌱",
     "order": 3,
     "persona": "Marc (34 ans, récemment séparé)",
     "personaTagline": "Pour toi si tu sors d'une période compliquée et que tu as envie de retrouver ta légèreté, sans te forcer",
     "testimonial": "Imagine Julien, 36 ans, qui sort d'une séparation. Il commence par noter ce qui le fait sourire dans sa journée. Quelques semaines plus tard, à un dîner, c'est lui qui raconte, et toute la table rit. Lui aussi, d'ailleurs.",
-    "nextParcours": "machine-a-cafe",
-    "nextParcoursReason": "Ton style est là. Le parcours Machine à Café te donne de quoi le faire vivre au quotidien : des vannes courtes et des anecdotes à raconter au bureau comme au dîner.",
+    "nextParcours": "repartie",
+    "nextParcoursReason": "Ton style est là. Reste le moment où quelqu'un te lance une pique : le parcours Répartie t'apprend à répondre du tac au tac, avec le sourire.",
     "steps": [
       {
         "week": 1,
@@ -398,45 +614,75 @@
         "dayNumber": 3,
         "why": "On démarre en douceur : aucune vanne à réussir, juste regarder ta journée et remarquer les règles que tout le monde suit sans jamais les dire. C'est souvent par là que la légèreté revient.",
         "moduleTitle": "Redécouvrir ce qui te fait rire",
-        "moduleDetail": "Regarder ton quotidien avec un œil comique, noter ce qui te fait sourire, comprendre ce qui te fait rire, toi. Ici, pas d'exercice à rater : chaque détail noté compte déjà.",
-        "moduleFormat": "Conseil technique + vannes légères + vidéo observation + quiz",
+        "moduleDetail": "Imagine Julien dans une salle d'attente où personne ne se parle et où tout le monde fait semblant de lire un magazine froissé. Il y a là une règle que chacun suit sans que personne l'ait jamais écrite. Tu apprends à la repérer, puis à la formuler comme un article de loi : pas besoin d'être drôle, la reconnaissance fait le travail. Et si la dire tout haut te fait peur, la noter compte déjà.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 50,
         "free": true,
-        "jokeIds": [8, 163, 29, 39, 196],
+        "jokeContents": [
+          "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien.",
+          "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années.",
+          "Dans le train, la place à côté de moi était réservée. Personne n'est venu.",
+          "Quand quelqu'un commence par « à la base », il faut être patient.",
+          "Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison."
+        ],
         "videos": [
           {
             "youtubeId": "brlY_DMoaRk",
             "artist": "Roman Frayssinet",
             "title": "L'intelligence des animaux",
-            "why": "Faux naïf, regard décalé : redécouvrir que le quotidien est drôle si on le regarde autrement."
+            "why": "Il dit tout haut ce que tout le monde a observé sans jamais le formuler, avec le sérieux d'un documentaire : le modèle de la règle non écrite."
           },
           {
             "youtubeId": "QGqA4va99rw",
             "artist": "Pierre Croce",
             "title": "Ce qu'on rêverait d'entendre dans l'avion",
-            "why": "Micro-vannes sur le quotidien, format rapide : très accessible pour repartir de zéro."
+            "why": "Des lieux où tout le monde est passé, une voix d'annonce officielle, et tout part de là : de quoi repérer les règles non écrites des tiens."
           }
         ],
         "quiz": [
           {
-            "question": "Pour retrouver ton humour après une pause, la meilleure approche :",
-            "options": ["Caser une blague dans chaque conversation, quitte à forcer", "Observer ton quotidien et noter ce qui te fait sourire", "Regarder 10h de stand-up d'un coup", "Attendre que ça revienne tout seul"],
-            "correctIndex": 1
+            "question": "Imagine Julien dans une salle d'attente où personne ne se parle. Laquelle de ces phrases dit tout haut une règle que tout le monde suit en silence ?",
+            "options": [
+              "« Règle numéro un : on s'assoit toujours le plus loin possible des autres, même quand il reste dix chaises à côté. »",
+              "« Les gens sont vraiment froids, ça me déprime. »",
+              "« Il faudrait que quelqu'un lance la conversation. »",
+              "« Cette salle d'attente est trop chauffée. »"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : Elle met des mots sur ce que chacun fait sans l'avoir jamais dit, comme un article de loi : on rit de se reconnaître. La B juge, la C conseille, la D constate."
           },
           {
-            "question": "Le journal d'observation comique, c'est :",
-            "options": ["Un carnet où tu écris des blagues des autres", "Un outil pour noter les détails drôles ou absurdes de ta journée", "Un journal intime classique", "Un carnet de vannes à copier sur internet"],
-            "correctIndex": 1
+            "question": "Dans le métro, personne ne se regarde. Quelle phrase énonce la règle non écrite, façon article de loi ?",
+            "options": [
+              "« Les gens dans le métro sont désagréables, ils ne regardent jamais personne. »",
+              "« On devrait tous se dire bonjour en entrant dans une rame. »",
+              "« Il y a beaucoup de monde ce matin sur la ligne 7. »",
+              "« Article premier : dans un wagon, on se tient à un mètre de tout le monde, comme si la proximité était contagieuse. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : le comportement exact (se tenir à distance) et son explication naïve, énoncés comme une loi que tout le monde connaît. La A juge, la B souhaite autre chose, et la C constate : aucune ne révèle de règle."
           },
           {
-            "question": "Dans le métro, un type mange un kebab à 8h du matin. Ton regard d'observateur comique ?",
-            "options": ["'C'est dégoûtant, les gens ont aucune éducation'", "'Kebab 8h, métro ligne 7. L'homme avait l'air en paix avec lui-même. Moi non.'", "'Je ne remarque rien de spécial'", "'Je prends une photo pour la poster sur les réseaux'"],
-            "correctIndex": 1
+            "question": "Laquelle de ces situations montre une règle non écrite, celle que tout le monde suit sans que personne ne l'ait jamais dite ?",
+            "options": [
+              "Un panneau « Interdit de fumer » affiché à l'entrée de la gare",
+              "Dans une file d'attente, chacun fixe son téléphone et garde un mètre d'écart avec le suivant, sans un mot",
+              "Un collègue qui arrive en retard à la réunion du lundi",
+              "Une vendeuse qui annonce un prix à voix haute"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : tout le monde applique la règle alors que personne ne l'a écrite ni dite, et c'est celle-là que tu peux énoncer. La A est une règle écrite, la C un cas isolé, la D un geste ponctuel."
           },
           {
-            "question": "Tu hésites à lâcher une petite remarque drôle devant un ami. Tu devrais :",
-            "options": ["Attendre d'être sûr que c'est la vanne parfaite", "La lâcher : elle n'a pas besoin d'être la vanne du siècle, l'important c'est de recommencer à oser", "L'écrire d'abord et la relire 5 fois avant", "Demander d'abord à quelqu'un d'autre si c'est drôle"],
-            "correctIndex": 1
+            "question": "Tu as repéré la règle, mais la dire tout haut te fait peur. Qu'est-ce qui compte aussi pour le défi ?",
+            "options": [
+              "Renoncer : sans voix haute, le défi ne compte pas",
+              "La garder pour toi, sans rien écrire",
+              "La formuler comme un article de loi et l'écrire dans tes notes, ou l'envoyer à un proche",
+              "L'adresser à un inconnu, ça passera mieux"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : le but est de repérer et de formuler, pas de se faire remarquer. Renoncer ou ne rien noter ne t'entraîne pas, et interpeller un inconnu fait l'inverse d'un exercice doux."
           }
         ]
       },
@@ -446,17 +692,23 @@
         "dayNumber": 10,
         "why": "Rire de toi, sans te taper dessus. L'autodérision est l'outil #1 pour reprendre confiance : quand tu ris le premier de ce qui t'arrive, tu montres que tu t'acceptes, et les autres le sentent tout de suite.",
         "moduleTitle": "Rire de toi sans te rabaisser",
-        "moduleDetail": "Transformer un moment gênant en anecdote drôle, sans te dévaloriser au passage. Entre « je suis nul » et « regardez ce qui m'est arrivé », la frontière est fine : tu apprends à rester du bon côté.",
-        "moduleFormat": "Conseil technique + vannes autodérision + vidéo modèle + quiz",
+        "moduleDetail": "Transformer un moment gênant en anecdote drôle, sans te dévaloriser au passage. Entre « je suis nul en cuisine » (un verdict) et « mon gâteau est sorti du four plus plat que la notice » (un fait), la frontière est fine : tu apprends à rester du bon côté, en laissant un objet ou une situation conclure à ta place. Et ce qui fait vraiment mal, tu le gardes pour toi.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 75,
         "free": false,
-        "jokeIds": [1, 51, 109, 133, 165],
+        "jokeContents": [
+          "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus.",
+          "Le médecin m'a demandé combien de cafés je bois par jour. J'ai dit deux.",
+          "J'ai mis mon réveil en face du lit pour être obligé de me lever.",
+          "J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles.",
+          "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc."
+        ],
         "videos": [
           {
             "youtubeId": "RYjfe8OSRFw",
             "artist": "Paul Mirabel",
             "title": "Je me suis fait racketter",
-            "why": "Gênant assumé, vulnérabilité comique : le modèle d'autodérision bienveillante."
+            "why": "Un moment gênant raconté comme un fait, sans se rabaisser : il rit de la situation, pas de lui."
           },
           {
             "youtubeId": "F5WiaMalDSc",
@@ -467,24 +719,48 @@
         ],
         "quiz": [
           {
-            "question": "La différence entre autodérision bienveillante et autodérision triste ?",
-            "options": ["Y'a pas de différence, c'est la même chose", "La bienveillante finit sur un retournement drôle, la triste finit juste… triste", "La bienveillante est plus longue à raconter", "La triste est plus drôle, parce que plus sincère"],
-            "correctIndex": 1
+            "question": "Quelle phrase est un fait raconté plutôt qu'un verdict ?",
+            "options": [
+              "« Je suis nul en cuisine, c'est un désastre. »",
+              "« Je ne sais rien faire de mes dix doigts. »",
+              "« Les gâteaux et moi, ça ne va pas. »",
+              "« Mon gâteau est sorti du four plus plat que le mode d'emploi. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : un fait précis, et c'est le gâteau qui conclut à ta place. La A, la B et la C sont des verdicts sur toi : l'autre ne sait que te rassurer."
           },
           {
-            "question": "'Mes invités me demandent toujours la recette. Pour être sûrs de pas la refaire.' C'est :",
-            "options": ["De l'autodérision triste : il se dévalorise", "De l'autodérision bienveillante : on rit avec lui, pas de lui", "Une insulte déguisée envers soi-même", "Pas drôle du tout"],
-            "correctIndex": 1
+            "question": "Quel sujet est un bon défaut léger pour t'entraîner à l'autodérision cette semaine ?",
+            "options": [
+              "Ton moral des dernières semaines",
+              "Ton sens de l'orientation, qui t'a fait faire deux fois le tour du même rond-point",
+              "Ton licenciement de l'an dernier",
+              "Une dispute récente avec ta sœur"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : un défaut léger, déjà passé, qui ne coûte rien à raconter. Ton moral, un licenciement ou une dispute récente font encore mal : l'autodérision est un choix, pas un cri d'aide."
           },
           {
-            "question": "Tu racontes ta galère Ikea de samedi. Quelle version est de l'autodérision bienveillante ?",
-            "options": ["'J'ai raté le montage. Je suis nul en bricolage. Je suis nul en tout, en fait.'", "'J'ai mis 3h à monter une étagère Billy, le manuel disait 30 minutes. Mon fils de 8 ans a fini par m'aider : il m'a confié la notice.'", "'J'ai monté une étagère. C'était pas drôle.'", "'Tout le monde galère chez Ikea, y'a rien de drôle.'"],
-            "correctIndex": 1
+            "question": "Tu racontes un oubli récent. Quelle version laisse l'objet ou la situation conclure ?",
+            "options": [
+              "« J'ai encore tout oublié, je suis vraiment une catastrophe. »",
+              "« J'ai oublié mes clés. Ça ne m'étonne même plus de moi. »",
+              "« J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement. »",
+              "« J'ai oublié mes clés, mais bon, tout le monde fait ça. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : un fait précis, et c'est le serrurier qui conclut, pas toi. La A et la B retombent en verdict sur toi, et la D enlève toute vanne en généralisant."
           },
           {
-            "question": "Dans quel cas l'autodérision est à éviter ?",
-            "options": ["Quand tes amis rient de bon cœur avec toi", "Quand tu racontes une vraie galère passée avec du recul", "Quand tu te sens vraiment mal et que l'humour masque une vraie souffrance", "Quand tu es en groupe et que tout le monde se marre"],
-            "correctIndex": 2
+            "question": "Tu racontes une galère et tu sens ta voix se serrer : ça touche encore un point sensible. Que fais-tu ?",
+            "options": [
+              "Tu t'arrêtes là : ce sujet n'est pas pour aujourd'hui, tu en choisis un plus léger",
+              "Tu en rajoutes pour que ça passe en vanne",
+              "Tu forces le ton léger pour ne pas gâcher l'ambiance",
+              "Tu continues : le rire finit toujours par aider"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : si l'humour masque une vraie difficulté, ce n'est pas le bon sujet, et tu peux en choisir un plus léger. En rajouter, forcer ou continuer te fait rire de ce qui te fait mal, et c'est l'inverse de l'idée."
           }
         ]
       },
@@ -492,47 +768,77 @@
         "week": 3,
         "tipTitle": "L'humour de trentenaire : tes références sont tes armes",
         "dayNumber": 17,
-        "why": "Tu as connu MSN, les K7 et la vie avant Internet : tu as vu deux mondes, et ça te donne un angle que les plus jeunes n'ont pas. Tes références sont une ressource, pas un aveu d'âge.",
+        "why": "Tu as connu le téléphone fixe de la maison et celui qu'on garde dans la poche : tu as vu deux mondes, ce qui te donne un angle que les plus jeunes n'ont pas. Tes références sont une ressource, pas un aveu d'âge.",
         "moduleTitle": "L'œil de l'observateur",
-        "moduleDetail": "Repérer le détail absurde dans une situation banale, le décalage dans une conversation, l'ironie du quotidien. Au bout d'un moment, tu ne vas plus faire les courses : tu pars en repérage, et tu reviens avec de quoi animer le prochain dîner.",
-        "moduleFormat": "Conseil technique + vannes observation + vidéo observation + quiz",
+        "moduleDetail": "Prendre un geste d'avant qui a disparu ou changé (appeler chez quelqu'un, attendre qu'une page se charge) et le mettre face à son équivalent d'aujourd'hui : la chute se cache dans ce qui n'a pas changé au fond, ou dans ce qui est devenu pire. Garde un ton tendre : tu ne regrettes rien, tu constates. Au bout d'un moment, tu ne vas plus faire les courses : tu pars en repérage, et tu reviens avec de quoi animer le prochain dîner.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 100,
         "free": false,
-        "jokeIds": [16, 116, 124, 140, 93],
+        "jokeContents": [
+          "Ma grand-mère cuisine toujours pour douze. On est trois.",
+          "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine.",
+          "Dans le groupe de mon ancienne classe, quelqu'un a demandé « des nouvelles de Maxime ? ».",
+          "Mon frère m'a emprunté ma console il y a dix ans.",
+          "Mon père m'envoie ses messages en MAJUSCULES."
+        ],
         "videos": [
           {
             "youtubeId": "t7fgrrRVyaU",
             "artist": "Élodie Poux",
             "title": "Survivre en école maternelle",
-            "why": "Ethnologue du quotidien, micro-observation, détail ultra-spécifique : la technique de l'observation comique ciblée."
+            "why": "Elle regarde un lieu que tout le monde a connu avec l'œil d'une ethnologue : à ton tour, observe ce qui a changé depuis ton enfance."
           },
           {
             "youtubeId": "rldvVgHQSvo",
             "artist": "Vérino",
             "title": "Le distributeur de baguettes",
-            "why": "Œil neuf sur un objet banal : transformer n'importe quel détail du quotidien en matière comique."
+            "why": "Un automate face à un rituel ancien : l'écart entre avant et aujourd'hui fait toute la vanne."
           }
         ],
         "quiz": [
           {
-            "question": "Au supermarché, rayon fromage. Ton regard d'observateur comique ?",
-            "options": ["Comparer les prix du camembert pour ton budget", "Remarquer le type qui hésite 4 minutes entre Président et Cœur de Lion, avec la gravité de quelqu'un qui signe un bail", "Regarder les promotions en cours", "Te dépêcher de finir les courses"],
-            "correctIndex": 1
+            "question": "Pour une vanne de trentenaire, quelle paire mets-tu face à face ?",
+            "options": [
+              "Un geste d'aujourd'hui et un autre geste d'aujourd'hui",
+              "Un souvenir précis et l'explication de ce qui s'est passé",
+              "Un geste d'avant qui a disparu (attendre qu'une page se charge) et son équivalent actuel",
+              "Un reproche aux plus jeunes sur leur façon de faire"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : le geste d'avant face à son équivalent d'aujourd'hui, la chute est dans l'écart. Deux gestes actuels n'ont aucun contraste, un souvenir expliqué reste une anecdote, et un reproche aux jeunes est du regret, pas de l'humour."
           },
           {
-            "question": "Tes références de trentenaire (MSN, K7, Kazaa) sont :",
-            "options": ["Dépassées et inutiles pour faire rire", "Une vraie matière comique : tu as vécu deux époques", "Intéressantes seulement pour les plus vieux que toi", "Trop spécifiques pour être drôles en groupe"],
-            "correctIndex": 1
+            "question": "Dans une vanne qui compare avant et aujourd'hui, où se cache la chute ?",
+            "options": [
+              "Dans ce qui n'a pas changé au fond, ou dans ce qui est devenu pire",
+              "Dans la nostalgie : plus tu regrettes, plus c'est drôle",
+              "Dans la technologie : l'ancien est toujours plus drôle",
+              "Dans le détail le plus technique de l'ancien appareil"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : l'écart entre avant et maintenant fait le travail, surtout s'il n'a pas bougé ou s'il a empiré. Le regret, la technologie ou le détail technique ne créent pas de contraste."
           },
           {
-            "question": "En dîner, la conversation part sur les vacances. Comment placer une référence de trentenaire ?",
-            "options": ["'De mon temps, on avait pas de GPS' (nostalgie triste)", "'Petit, j'étais le GPS de la famille : une carte Michelin et beaucoup d'assurance. On partait pour Biarritz. On a découvert Clermont-Ferrand.'", "'Les jeunes connaissent pas les cartes routières' (condescendant)", "'Bof, les vacances c'est surfait de toute façon'"],
-            "correctIndex": 1
+            "question": "Tu compares une vieille habitude et la même aujourd'hui. Quelle version garde le ton tendre ?",
+            "options": [
+              "« Avant, on se parlait vraiment. Maintenant, tout le monde est accro à son écran. »",
+              "« Avant, une page mettait trois minutes à s'afficher et on ne disait rien. Aujourd'hui, elle met une seconde et on soupire. »",
+              "« De mon temps, c'était mieux, les jeunes ne savent plus rien. »",
+              "« Franchement, c'était n'importe quoi, heureusement que ça a changé. »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : tu constates sans regretter, et la chute vient de l'écart (la page rapide qui fait soupirer). La A et la C regrettent et sermonnent, la D balaie l'avant sans rien observer."
           },
           {
-            "question": "La technique d'observation comique en 3 mots, c'est :",
-            "options": ["Regarder → Juger → Moquer", "Repérer → Exagérer → Partager", "Voir → Copier → Répéter", "Observer → Oublier → Inventer"],
-            "correctIndex": 1
+            "question": "Tu hésites sur le geste à choisir pour ton défi. Combien en prends-tu ?",
+            "options": [
+              "Cinq, pour avoir le choix",
+              "Aucun : tu improvises à voix haute",
+              "Tous ceux dont tu te souviens, du plus ancien au plus récent",
+              "Un seul, en deux phrases : l'avant, l'aujourd'hui, et la chute"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : un seul geste, deux phrases, et tu termines sur ce qui rend l'un pire ou l'autre plus bête que prévu. Cinq gestes ou tous les gestes noient l'effet, et improviser sans geste choisi te laisse sans contraste."
           }
         ]
       },
@@ -542,11 +848,17 @@
         "dayNumber": 24,
         "why": "Après avoir observé, tu participes. Des techniques concrètes pour prendre ta place dans un groupe, sans jouer des coudes ni attendre qu'on te la donne.",
         "moduleTitle": "Être à l'aise en groupe",
-        "moduleDetail": "Participer avec légèreté, rebondir sur ce que disent les autres, passer du public à la scène sans prendre toute la place. Pour les dîners entre amis, les apéros et les soirées où tu ne connais que la personne qui invite.",
-        "moduleFormat": "Conseil technique + vannes sociales + vidéo interaction groupe + quiz",
+        "moduleDetail": "Dans un groupe qui rit, les rôles se distribuent vite, et celui du boute-en-train n'est pas obligatoire : ton créneau, c'est la remarque chirurgicale. Tu observes, tu repères qui fait quoi, puis tu places une phrase bien sentie quand tout le monde reprend son souffle. Pour les dîners entre amis, les apéros et les soirées où tu ne connais que la personne qui invite.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 125,
         "free": false,
-        "jokeIds": [291, 343, 284, 2, 296],
+        "jokeContents": [
+          "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance ».",
+          "Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert.",
+          "Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un.",
+          "Mon cousin ramène une nouvelle copine à chaque repas de famille.",
+          "Le groupe de mon immeuble a été créé il y a un an. Premier message : « Bonjour à tous »."
+        ],
         "videos": [
           {
             "youtubeId": "b0sxUyrE1Cs",
@@ -558,29 +870,53 @@
             "youtubeId": "4t9a0To2ygo",
             "artist": "Marina Rollman",
             "title": "Les enterrements de vie",
-            "why": "Observation participante, consensus inavoué : rebondir sur les rituels de groupe."
+            "why": "Elle observe les rituels d'un groupe de l'intérieur, sans le juger : une remarque bien placée suffit."
           }
         ],
         "quiz": [
           {
-            "question": "Tu arrives à un dîner où tu connais personne. Meilleure stratégie ?",
-            "options": ["Raconter tes meilleures blagues direct pour te faire remarquer", "Observer 15 min, identifier les rôles, puis placer 2-3 remarques au bon moment", "Rester silencieux toute la soirée en espérant qu'on te parle", "Monopoliser la parole pour montrer que t'es drôle"],
-            "correctIndex": 1
+            "question": "Tu arrives à un dîner où tu ne connais personne. Meilleure stratégie ?",
+            "options": [
+              "Observer un moment, repérer les rôles, puis placer une phrase bien sentie quand le groupe reprend son souffle",
+              "Raconter tes meilleures vannes dès l'entrée pour te faire remarquer",
+              "Rester silencieux toute la soirée en attendant qu'on te parle",
+              "Parler le plus souvent possible : plus tu parles, plus on te retient"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : tu observes, tu repères qui fait quoi, et une phrase bien placée pèse plus que dix. Se faire remarquer d'entrée ou parler beaucoup, c'est jouer le boute-en-train à contretemps ; ne rien dire t'efface."
           },
           {
-            "question": "Dans un groupe qui rit, ton rôle n'est pas forcément d'être :",
-            "options": ["Le rieur : quelqu'un doit rire pour que ça marche", "Le blagueur principal : tu peux être le commentateur, le relanceur ou le rieur", "Présent physiquement", "Poli avec les autres"],
-            "correctIndex": 1
+            "question": "Dans un groupe qui rit, tu n'es pas le plus drôle. Quel rôle te va aussi bien ?",
+            "options": [
+              "Le blagueur principal : sinon, tu ne sers à rien",
+              "Le spectateur muet",
+              "Le modérateur qui demande qui veut rire",
+              "Le commentateur, avec UNE remarque bien sentie au bon moment"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : le commentateur existe, et sa phrase unique est attendue. Le blagueur principal n'est pas obligatoire, le spectateur muet ne participe pas, et le modérateur casse le rythme du groupe."
           },
           {
-            "question": "En apéro, quelqu'un raconte une histoire drôle et tout le monde rit. Meilleure façon de participer ?",
-            "options": ["Raconter une histoire encore plus drôle immédiatement", "Rebondir avec un commentaire court : 'Il m'est arrivé la même chose. Sauf que moi, c'était en visio, caméra allumée.'", "Rire poliment et ne rien dire de plus", "Dire 'Ah oui j'en connais une meilleure' et enchaîner"],
-            "correctIndex": 1
+            "question": "Quand ta remarque pèse-t-elle le plus ?",
+            "options": [
+              "Pendant que quelqu'un parle, pour qu'on t'entende",
+              "Dès que tu as une idée, sans attendre",
+              "Quand tout le monde reprend son souffle, après un moment d'observation",
+              "À la toute fin de la soirée, pour partir sur un bon mot"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : tout le monde attend un peu de calme, et ta phrase arrive quand elle peut être entendue. Couper la parole ou parler sans attendre affaiblit l'effet, et la fin de soirée est un peu tard pour t'être fait connaître."
           },
           {
-            "question": "Tu es dans un groupe où une personne monopolise la parole. Comment t'intégrer ?",
-            "options": ["Parler plus fort qu'elle pour prendre le dessus", "Attendre la fin de la soirée, c'est foutu", "Placer des réactions courtes et drôles entre ses histoires : devenir le commentateur", "Lui dire de se taire pour laisser les autres parler"],
-            "correctIndex": 2
+            "question": "Combien de remarques places-tu pendant ta soirée de défi ?",
+            "options": [
+              "Autant que possible, c'est de l'entraînement",
+              "Trois, pas plus, au moment où le groupe reprend son souffle",
+              "Une par minute, pour battre un record",
+              "Aucune : tu observes toute la soirée"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : trois remarques maximum, car la qualité bat la quantité. Beaucoup de remarques diluent chacune, une par minute devient du bruit, et aucune ne t'apprend si ça marche."
           }
         ]
       },
@@ -590,45 +926,75 @@
         "dayNumber": 31,
         "why": "Parler d'un frigo vide comme d'un courrier officiel : le décalage entre le sujet et le ton est une technique de stand-up pro, et elle s'apprend plus vite qu'on ne le croit.",
         "moduleTitle": "Jouer avec les registres",
-        "moduleDetail": "Absurde, ironie, second degré : tu essaies chaque registre pour voir lequel te va, un peu comme en cabine d'essayage, sauf qu'ici personne ne t'attend dehors en soupirant.",
-        "moduleFormat": "Conseil technique + vannes multi-registres + vidéo absurde/ironie + quiz",
+        "moduleDetail": "Raconter ta lessive comme un commentateur sportif, ta boîte mail comme un avocat au tribunal : un ton solennel posé sur un sujet banal, et le contraste fait le travail. Tu essaies un registre à la fois pour voir lequel te va, un peu comme en cabine d'essayage, sauf qu'ici personne ne t'attend dehors en soupirant.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 150,
         "free": false,
-        "jokeIds": [3, 47, 60, 200, 323],
+        "jokeContents": [
+          "Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe.",
+          "Mon père m'a dit qu'il fallait que je « fasse mes preuves ».",
+          "J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec.",
+          "J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui.",
+          "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle."
+        ],
         "videos": [
           {
             "youtubeId": "mFKUThh26oU",
             "artist": "Max Bird",
             "title": "Les effets de l'alcool",
-            "why": "Prof cool, décalage éducatif, autorité détournée : l'absurde via la logique poussée à l'extrême."
+            "why": "Un ton de prof sérieux posé sur un sujet de soirée : le décalage entre la forme et le fond fait le travail."
           },
           {
             "youtubeId": "egM-wlaobjo",
             "artist": "Artus",
             "title": "Le commissariat du 18ème",
-            "why": "Absurde physique, personnage joué à 100%, escalade situationnelle : ironie et décalage de registre."
+            "why": "Il joue le sérieux jusqu'au bout, sans jamais lâcher le ton : c'est le registre tenu qui rend la scène absurde."
           }
         ],
         "quiz": [
           {
-            "question": "'Après examen de votre dossier, mon frigo a le regret de ne pas donner suite à votre demande de dîner.' C'est du :",
-            "options": ["Jeu de mots classique", "Décalage de registre : vocabulaire corporate pour un sujet banal", "Storytelling pur", "Autodérision simple"],
-            "correctIndex": 1
+            "question": "Tu racontes à un ami que ta lessive a mal tourné. Quelle version utilise le décalage de registre ?",
+            "options": [
+              "« Ma lessive a rétréci mon pull, c'est pénible. »",
+              "« Mon pull a rétréci, je suis nul en lessive. »",
+              "« Compte rendu de dimanche : le programme 40 degrés a ramené un pull d'adulte au format d'un pull d'enfant. Les pertes sont estimées à un pull. »",
+              "« Tu sais, le pull qui a rétréci, un classique de la lessive. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : un ton de communiqué officiel posé sur un incident banal, et le contraste fait le travail. La A constate, la B se juge, et la D reste dans le registre de la conversation."
           },
           {
-            "question": "Le décalage de registre fonctionne parce que :",
-            "options": ["C'est compliqué à comprendre, donc ça impressionne", "Le contraste entre le ton et le sujet crée la surprise", "C'est plus intelligent que les autres types d'humour", "Ça ne marche qu'à l'écrit, pas à l'oral"],
-            "correctIndex": 1
+            "question": "Tu veux t'entraîner : combien de registres prends-tu pour ton défi ?",
+            "options": [
+              "Trois ou quatre, pour comparer",
+              "Un seul, tenu pendant trois phrases",
+              "Aucun : tu laisses venir",
+              "Un nouveau à chaque phrase"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B : un registre, tenu jusqu'au bout, pour que le décalage soit net. Passer d'un ton à l'autre le brouille, et sans registre choisi il n'y a plus de contraste."
           },
           {
-            "question": "Tu racontes le ménage que tu as fait dimanche. Quelle version utilise le décalage de registre ?",
-            "options": ["'J'ai fait le ménage dimanche, c'était long'", "'Dimanche, opération de décontamination de l'appartement. Bilan : 3 chaussettes rapatriées, 1 assiette portée disparue retrouvée sous le canapé. Les recherches continuent pour la télécommande.'", "'Mon appart était sale, je l'ai nettoyé'", "'Le ménage, c'est pénible, mais faut le faire'"],
-            "correctIndex": 1
+            "question": "Quelle combinaison marche le mieux ?",
+            "options": [
+              "Un sujet banal (ton trajet en métro) et un ton solennel (le commentateur d'une finale de coupe)",
+              "Un sujet dramatique et un ton solennel",
+              "Un sujet banal et un ton familier",
+              "Un sujet compliqué et un vocabulaire technique, pour impressionner"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : le contraste entre un fond banal et une forme solennelle crée l'effet tout seul. Deux éléments dans le même ton ne créent pas de décalage, et le vocabulaire technique sur un sujet compliqué ne fait qu'ennuyer."
           },
           {
-            "question": "Identifie le registre : 'Mon réveil et moi, on traverse une mauvaise passe. Il est toujours là pour moi, et moi, chaque matin, je le repousse.'",
-            "options": ["Jeu de mots", "Storytelling", "Décalage de registre : vocabulaire sentimental pour un objet du quotidien", "Autodérision"],
-            "correctIndex": 2
+            "question": "Tu racontes ta journée avec la voix d'un avocat au tribunal. Qu'est-ce qui rend ça drôle ?",
+            "options": [
+              "Les mots compliqués : plus c'est technique, mieux c'est",
+              "Le fait de crier pour que ça sonne officiel",
+              "Une explication à la fin : « c'était un avocat, vous avez compris ? »",
+              "Le sérieux tenu jusqu'au bout sur un sujet minuscule (une chaussette, un retard de bus)"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : le sérieux tenu sur un sujet minuscule, c'est lui qui crée le décalage. Les mots compliqués ne suffisent pas, crier n'est pas du sérieux, et expliquer le jeu à la fin l'enterre."
           }
         ]
       },
@@ -638,50 +1004,86 @@
         "dayNumber": 38,
         "why": "Dernière étape : tu fais le tri entre tout ce que tu as essayé et ce qui te ressemble vraiment. Tu ne repars pas avec des vannes empruntées, mais avec ta façon à toi de voir les choses.",
         "moduleTitle": "Affirmer ton style personnel",
-        "moduleDetail": "Repérer ce qui marche pour toi, te constituer un répertoire, garder les bons réflexes une fois le parcours terminé. Tu repars avec un humour qui a ta voix, pas celle de ton humoriste préféré.",
-        "moduleFormat": "Conseil technique + palette de vannes multi-styles + vidéo style + quiz final",
+        "moduleDetail": "Ton style n'est pas à inventer : il est déjà dans ce que tu as envoyé. Tu retrouves trois messages qui ont fait répondre « mdr », tu cherches ce qui se répète (la façon d'ouvrir, la longueur, le genre de détail, le ton), puis tu le refais exprès sur un quatrième sujet. Tu repars avec un humour qui a ta voix, pas celle de ton humoriste préféré.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un dernier quiz.",
         "moduleXp": 200,
         "free": false,
-        "jokeIds": [55, 148, 43, 339, 326],
+        "jokeContents": [
+          "Mon ambition dans la vie, c'est d'être aussi confiant...",
+          "J'ai dit à mon chat qu'on allait chez le vétérinaire.",
+          "Tous les soirs, mon voisin se dispute avec sa télé à travers le mur.",
+          "J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée.",
+          "Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer."
+        ],
         "videos": [
           {
             "youtubeId": "zC7ff6w7x-Y",
             "artist": "Fary",
             "title": "Le legging",
-            "why": "Objet unique, style reconnaissable : t'apprend à trouver ton phrasé à toi, pas une copie."
+            "why": "Un seul objet, un phrasé reconnaissable dès la première phrase : un style, c'est ce qu'on repère avant même que tu aies fini."
           },
           {
-            "youtubeId": "u41ujNodvnM",
-            "artist": "Kyan Khojandi",
-            "title": "Pulsions (spectacle complet)",
-            "why": "Honnêteté radicale, névroses comme matière première : le modèle pour affirmer son style."
+            "youtubeId": "da21Xp8hGYY",
+            "artist": "Doully",
+            "title": "Qu'est-ce qu'elle a ma voix ?",
+            "why": "Sa voix, ce que les gens remarquent chez elle : elle le dit avant eux et en fait son style. Un style naît souvent de ce qu'on assume au lieu de le cacher."
           }
         ],
         "quiz": [
           {
-            "question": "Pour trouver ton style d'humour, la meilleure méthode c'est :",
-            "options": ["Copier ton humoriste préféré trait pour trait", "Demander à tes proches quand ils te trouvent drôle et repérer ce qui revient", "Essayer d'être drôle dans tous les registres en même temps", "Choisir le registre le plus impressionnant et s'y tenir"],
-            "correctIndex": 1
+            "question": "Comment trouves-tu ton style d'humour ?",
+            "options": [
+              "En retrouvant trois messages qui ont fait rire et en cherchant ce qui se répète",
+              "En copiant ton humoriste préféré phrase par phrase",
+              "En choisissant le registre qui impressionne le plus",
+              "En essayant tous les registres le même soir"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : ton style est déjà dans ce qui t'a fait répondre « mdr », il suffit de chercher ce qui revient. Copier ou viser le plus impressionnant, c'est un style emprunté, et tout essayer d'un coup ne laisse rien se répéter."
           },
           {
-            "question": "Un ami te dit 'Toi t'es le genre pince-sans-rire'. C'est :",
-            "options": ["Une insulte : ça veut dire que t'es pas drôle", "La preuve que tu as un style identifiable : c'est exactement l'objectif", "Un conseil de changer de registre pour être plus expressif", "Rien de particulier, c'est juste un commentaire"],
-            "correctIndex": 1
+            "question": "Dans tes trois messages qui ont fait rire, tu retrouves à chaque fois une phrase courte suivie d'un détail précis. Qu'en fais-tu ?",
+            "options": [
+              "Un hasard : trois messages ne prouvent rien",
+              "Une habitude à corriger, pour être plus varié",
+              "Le début de ton style : tu le notes en une phrase et tu le refais exprès sur un quatrième sujet",
+              "Un modèle à abandonner : un humoriste l'aurait fait mieux"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : ce qui revient trois fois n'est pas un hasard, c'est ta manière de faire. La corriger ou l'abandonner te ferait perdre ce qu'on reconnaît chez toi."
           },
           {
-            "question": "Tu dois raconter un truc drôle qui t'est arrivé cette semaine. Tu choisis :",
-            "options": ["L'événement le plus spectaculaire de ta semaine", "Un détail absurde d'un moment banal : c'est ton regard qui le rend drôle", "Une blague trouvée sur internet que tu fais passer pour du vécu", "Rien : t'as pas eu de semaine drôle, ça arrive"],
-            "correctIndex": 1
+            "question": "Tu ne retrouves aucun message qui ait fait rire. Que fais-tu du défi ?",
+            "options": [
+              "Tu l'abandonnes : pas de messages drôles, pas de style",
+              "Tu en inventes trois qui auraient pu faire rire",
+              "Tu attends d'avoir fait rire pour recommencer",
+              "Tu prends trois messages quelconques et tu regardes comment tu ouvres et comment tu finis"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D : ta manière est déjà là, même dans des messages sans prétention. Abandonner ou attendre arrête l'exercice, et inventer des messages te fait chercher le style de quelqu'un d'autre."
           },
           {
-            "question": "Tu as testé l'observation, l'autodérision et le décalage de registre, et c'est l'autodérision que tu préfères. Prochaine étape ?",
-            "options": ["Abandonner les autres registres définitivement", "En faire ton registre principal, et garder les autres en réserve pour varier", "Copier Paul Mirabel qui fait aussi de l'autodérision", "Tout recommencer depuis le début pour être sûr"],
-            "correctIndex": 1
+            "question": "Un ami te dit : « Toi, t'es plutôt le genre calme face à la catastrophe. » Que fais-tu de cette remarque ?",
+            "options": [
+              "Tu la notes : c'est ce que les autres reconnaissent chez toi, à cultiver",
+              "Tu essaies de changer pour devenir plus expressif",
+              "Tu en déduis que tu n'es pas drôle",
+              "Tu l'ignores : ce n'est qu'un commentaire"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A : ce que les autres reconnaissent avant même que tu aies fini ta phrase, c'est ton style. Changer, douter ou ignorer, c'est passer à côté de ce qu'on te montre."
           },
           {
-            "question": "En dîner, quelqu'un te demande 'Alors, quoi de neuf ?' Avec ton nouveau style, tu réponds :",
-            "options": ["'Rien de spécial' (tu fermes la conversation)", "'Beaucoup de choses !' (vague, personne rebondit)", "Une micro-anecdote avec ton regard comique : 'Mon voisin s'est mis au didgeridoo, tous les matins à 7h. Je suis furieux et, depuis, parfaitement ponctuel.'", "Une blague sans rapport avec la question pour montrer que t'es drôle"],
-            "correctIndex": 2
+            "question": "En dîner, quelqu'un te demande « Alors, quoi de neuf ? ». Avec ton style, tu réponds :",
+            "options": [
+              "« Rien de spécial. »",
+              "« Beaucoup de choses ! »",
+              "« Mon voisin s'est mis au didgeridoo, tous les matins à 7h. Je ne lui en veux pas : il est plus matinal que moi. » (une micro-anecdote vraie, dans ton ton)",
+              "Une vanne trouvée sur internet, pour être sûr que ça fasse rire"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C : une micro-anecdote qui prend ta voix, sans copier personne. « Rien de spécial » ferme la conversation, « beaucoup de choses » ne donne rien à rebondir, et la vanne empruntée n'est pas la tienne."
           }
         ]
       }

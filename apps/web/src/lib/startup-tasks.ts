@@ -23,6 +23,7 @@ import blogArticleFixes from "@/data/blog-article-fixes.json";
 import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 import { stripEmDashesWithStats } from "@/lib/em-dash";
+import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 // Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
 // d'import relatif que `components/parcours/parcours-content.tsx`.
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
@@ -1374,6 +1375,8 @@ export async function runStartupTasks(): Promise<void> {
   // nouveau content) pour que le match par content des décryptages porte
   // ensuite sur les textes réécrits (même fichier source → aucune contradiction).
   await applyCatalogueContentTask();
+  // APRÈS le catalogue : parcours, étapes et retouches de défi s17 (lot D).
+  await applyParcoursContentTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
   await fixPublishedBlogArticlesTask();

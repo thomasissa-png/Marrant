@@ -8,6 +8,7 @@
  */
 import parcoursSeed from "../../../../docs/content/parcours-seed.json";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
+import { etapeLibelle } from "@/config/textes/parcours";
 
 export interface ParcoursCatalogueModule {
   week: string;
@@ -43,7 +44,8 @@ export function getParcoursCatalogue(): ParcoursCatalogueItem[] {
     description: p.description,
     testimonial: p.testimonial,
     modules: p.steps.map((s) => ({
-      week: `Semaine ${s.week}`,
+      // « Étape N », jamais « Semaine N » (COP-10 b, lot D s17) : le rythme reste libre.
+      week: etapeLibelle(s.week),
       title: s.moduleTitle,
       detail: s.moduleDetail,
       format: s.moduleFormat,

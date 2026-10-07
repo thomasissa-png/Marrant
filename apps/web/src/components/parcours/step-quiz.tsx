@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo } from "@/lib/fr-typo";
-import { QUIZ_CORRECTION, quizFinVisiteur } from "@/config/textes/parcours";
+import { QUIZ_CORRECTION, QUIZ_LETTRE_VOCALE, quizFinVisiteur, quizLettre } from "@/config/textes/parcours";
 import type { QuizQuestion } from "@/components/parcours/parcours-types";
 
 /**
@@ -118,9 +118,16 @@ export function StepQuiz({
               aria-disabled={showResult || undefined}
               aria-pressed={showResult ? i === selected : undefined}
             >
+              {/* Lettre visible (les explications disent « La A : … ») ; lue « Réponse A : … ». */}
+              <span aria-hidden="true" className="shrink-0 font-bold" data-testid="quiz-lettre">
+                {quizLettre(i)}
+              </span>
               {isCorrectOption && <span aria-hidden="true">✓</span>}
               {isWrongPick && <span aria-hidden="true">✗</span>}
-              <span>{frTypo(frenchQuizQuotes(stripEmDashes(opt)))}</span>
+              <span>
+                <span className="sr-only">{QUIZ_LETTRE_VOCALE(quizLettre(i))}</span>
+                {frTypo(frenchQuizQuotes(stripEmDashes(opt)))}
+              </span>
               {isCorrectOption && <span className="sr-only"> ({QUIZ_CORRECTION.juste})</span>}
             </button>
           );

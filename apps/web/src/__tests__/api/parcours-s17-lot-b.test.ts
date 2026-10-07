@@ -53,7 +53,7 @@ import { PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 const SLUG = "repartie";
-const seed = (parcoursSeed as Array<{ slug: string; steps: Array<{ week: number; jokeIds?: number[]; videos?: Array<{ youtubeId: string }> }> }>).find(
+const seed = (parcoursSeed as Array<{ slug: string; steps: Array<{ week: number; jokeIds?: number[]; jokeContents?: string[]; videos?: Array<{ youtubeId: string }> }> }>).find(
   (p) => p.slug === SLUG,
 )!;
 
@@ -79,7 +79,11 @@ function dbPath() {
   };
 }
 
-const firstJokeText = jokeSeedTexts(seed.steps[1].jokeIds![0])[0];
+// Seed s17 (lot D) : vannes citées par leur texte exact (`jokeContents`).
+const firstJokeText = seed.steps[1].jokeContents![0];
+/** Repli `jokeIds` : un identifiant de blagues-seed et son texte. */
+const FALLBACK_JOKE_ID = 7;
+const fallbackJokeText = jokeSeedTexts(FALLBACK_JOKE_ID)[0];
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -276,9 +280,9 @@ describe("D4, contrat jokeContents : textes exacts de vannes actives", () => {
 
   it("sans jokeContents : repli sur jokeIds (ancien seed)", async () => {
     jokeFindMany.mockResolvedValue([]);
-    await resolveStepJokes([{ order: 1, jokeIds: [seed.steps[1].jokeIds![0]] }]);
+    await resolveStepJokes([{ order: 1, jokeIds: [FALLBACK_JOKE_ID] }]);
     expect(jokeFindMany).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { isActive: true, content: { in: expect.arrayContaining([firstJokeText]) } } }),
+      expect.objectContaining({ where: { isActive: true, content: { in: expect.arrayContaining([fallbackJokeText]) } } }),
     );
   });
 

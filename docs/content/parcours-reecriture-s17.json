@@ -156,11 +156,11 @@
           "moduleXp": 75,
           "free": false,
           "jokeContents": [
-            "Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes.",
-            "Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes.",
-            "Ma réunion 'point rapide avant l'été' a commencé à 14h.",
-            "Mon collègue revient de 4 jours à Rome et me raconte tout en détail.",
-            "Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers."
+            "Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi.",
+            "Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram.",
+            "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+            "Mon père décroche toujours par « qu'est-ce qui se passe ? ».",
+            "Mon voisin a sonné, inquiet, à cause des cris de ma série."
           ],
           "videos": [
             {
@@ -360,7 +360,7 @@
                 "« Pile à l'heure ! J'ai juste eu le temps de lire toute la carte. Deux fois. »"
               ],
               "correctIndex": 3,
-              "explanation": "La D. Tu dis l'inverse de ce que tu penses (« pile à l'heure ») avec de la douceur, et la carte lue deux fois fait sourire sans blesser. La A reproche, la C est sincère, la B est ironique mais vise la personne : c'est une pique, pas un jeu."
+              "explanation": "La D : Tu dis l'inverse de ce que tu penses (« pile à l'heure ») avec de la douceur, et la carte lue deux fois fait sourire sans blesser. La A reproche, la C est sincère, la B est ironique mais vise la personne : c'est une pique, pas un jeu."
             },
             {
               "question": "Tu dis exactement la même phrase : « Quelle organisation, bravo. » Qu'est-ce qui la rend bienveillante ?",
@@ -409,10 +409,10 @@
           "free": false,
           "jokeContents": [
             "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons.",
-            "À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos.",
-            "Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée.",
-            "Je ne connaissais personne à la soirée, alors j'ai parlé au chat.",
-            "Au jeu de mimes, ma carte disait « la timidité »."
+            "Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui.",
+            "J'ai dit à mon grand-père que je l'admirais.",
+            "Mon adresse mail pro d'alternant commence par « alternant2 ».",
+            "Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir."
           ],
           "videos": [
             {
@@ -441,15 +441,15 @@
               "explanation": "La B : dans le blanc, une phrase à voix normale porte dans toute la pièce. Crier tue l'effet, attendre la chanson suivante fait rater le blanc, et chuchoter garde ta phrase pour une seule personne."
             },
             {
-              "question": "Quelle phrase fonctionne le mieux dans ce blanc ?",
+              "question": "La musique vient de s'arrêter et tout le monde parlait trop fort. Quelle phrase fonctionne le mieux dans ce blanc ?",
               "options": [
                 "« Attendez, je vous raconte ce qui m'est arrivé mardi, ça va être long mais ça vaut le coup... »",
                 "« Hé, écoutez-moi ! J'ai une super vanne ! »",
                 "« Je fais un petit sondage : qui connaît cette chanson ? »",
-                "« Je viens de remarquer que je chuchotais depuis dix minutes. »"
+                "« Je viens de remarquer que je criais depuis dix minutes. »"
               ],
               "correctIndex": 3,
-              "explanation": "La D : une pensée simple et vraie, dite sans effort, et chacun se reconnaît dans le petit choc de silence. La A est une vanne longue, la B annonce une vanne avant de la dire, et la C déplace la conversation sans rien confier."
+              "explanation": "La D : une pensée simple et vraie, dite sans effort, et chacun s'y reconnaît, puisque tout le monde criait aussi. La A est une vanne longue, la B annonce une vanne avant de la dire, et la C déplace la conversation sans rien confier."
             },
             {
               "question": "Une chanson se termine et tu n'as aucune phrase prête. Que fais-tu ?",
@@ -701,7 +701,7 @@
                 "« Cette salle d'attente est trop chauffée. »"
               ],
               "correctIndex": 0,
-              "explanation": "La A. Elle met des mots sur ce que chacun fait sans l'avoir jamais dit, comme un article de loi : on rit de se reconnaître. La B juge, la C conseille, la D constate."
+              "explanation": "La A : Elle met des mots sur ce que chacun fait sans l'avoir jamais dit, comme un article de loi : on rit de se reconnaître. La B juge, la C conseille, la D constate."
             },
             {
               "question": "Dans le métro, personne ne se regarde. Quelle phrase énonce la règle non écrite, façon article de loi ?",
@@ -715,15 +715,15 @@
               "explanation": "La D : le comportement exact (se tenir à distance) et son explication naïve, énoncés comme une loi que tout le monde connaît. La A juge, la B souhaite autre chose, et la C constate : aucune ne révèle de règle."
             },
             {
-              "question": "Où est-il le plus facile de repérer une règle non écrite ?",
+              "question": "Laquelle de ces situations montre une règle non écrite, celle que tout le monde suit sans que personne ne l'ait jamais dite ?",
               "options": [
-                "Dans un dîner entre amis où tout le monde parle en même temps",
-                "Dans une file d'attente où chacun fixe son téléphone en silence",
-                "Dans une soirée avec de la musique forte",
-                "Dans un bureau où tu es seul"
+                "Un panneau « Interdit de fumer » affiché à l'entrée de la gare",
+                "Dans une file d'attente, chacun fixe son téléphone et garde un mètre d'écart avec le suivant, sans un mot",
+                "Un collègue qui arrive en retard à la réunion du lundi",
+                "Une vendeuse qui annonce un prix à voix haute"
               ],
               "correctIndex": 1,
-              "explanation": "La B : des gens proches qui ne se parlent pas appliquent des règles que personne n'a dites, et c'est là qu'elles se voient. Un dîner animé ou une soirée bruyante n'ont pas ce silence, et seul dans un bureau il n'y a personne à reconnaître."
+              "explanation": "La B : tout le monde applique la règle alors que personne ne l'a écrite ni dite, et c'est celle-là que tu peux énoncer. La A est une règle écrite, la C un cas isolé, la D un geste ponctuel."
             },
             {
               "question": "Tu as repéré la règle, mais la dire tout haut te fait peur. Qu'est-ce qui compte aussi pour le défi ?",
@@ -985,9 +985,9 @@
           "jokeContents": [
             "Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe.",
             "Mon père m'a dit qu'il fallait que je « fasse mes preuves ».",
-            "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis.",
-            "Ma mère a vu que j'allais au Hellfest.",
-            "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille."
+            "J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec.",
+            "J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui.",
+            "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle."
           ],
           "videos": [
             {

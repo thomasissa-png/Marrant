@@ -128,17 +128,21 @@ export type Resultat = (typeof RETOUR_EXERCICE.options)[number]["resultat"];
 /**
  * Retour sur l'exercice (PM-06) : 3 valeurs fermées, facultatif, jamais exigé
  * pour valider, aucun champ libre ni stockage (avis @legal s17). Événement
- * `etape-retour {parcours, etape, resultat}` (data-analyst §5.1). Stockage
- * seulement pour un abonné, via la route du lot A (onSelect).
+ * `etape-retour {parcours, etape, resultat}` (data-analyst §5.1) pour le
+ * visiteur SEULEMENT : pour un abonné, la donnée part en base via la route du
+ * lot A (onSelect) et n'est pas recopiée dans Umami (avis @legal §2, réserve N2 s17).
  */
 export function ExerciseFeedback({
   slug,
   etape,
   initial = null,
+  isPremium = false,
   onSelect,
 }: {
   slug: string;
   etape: number;
+  /** Abonné Premium : aucun événement Umami (la base compte déjà). */
+  isPremium?: boolean;
   /** Choix déjà enregistré (abonné). */
   initial?: string | null;
   /** Abonné : enregistrement serveur (`POST /api/parcours/[id]/retour`, lot A). */
@@ -162,7 +166,7 @@ export function ExerciseFeedback({
             onClick={() => {
               if (actif === o.resultat) return;
               setChoix(o.resultat);
-              trackUmami("etape-retour", { parcours: slug, etape, resultat: o.resultat });
+              if (!isPremium) trackUmami("etape-retour", { parcours: slug, etape, resultat: o.resultat });
               onSelect?.(o.resultat);
             }}
           >

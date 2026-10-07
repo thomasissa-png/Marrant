@@ -27,8 +27,11 @@ function nomCourt(slug: string, titre: string): string {
  * l'ordre du catalogue ; si tout est fini, le carnet du mois. Si la liste ne
  * se charge pas, repli sur le parcours suivant du seed.
  */
-export function pickSuite(paths: ApiPath[], currentSlug: string): Suite {
-  const next = paths.find((p) => p.slug !== currentSlug && !p.progress?.completedAt);
+export function pickSuite(paths: ApiPath[], currentSlug: string, conseille?: string | null): Suite {
+  // Lot D s17 : le parcours conseillé par le seed (`nextParcours`, Confiance → Répartie)
+  // passe en premier s'il n'est pas terminé, sinon le premier non terminé, sinon le carnet.
+  const ouverts = paths.filter((p) => p.slug !== currentSlug && !p.progress?.completedAt);
+  const next = ouverts.find((p) => p.slug === conseille) ?? ouverts[0];
   return next ? { kind: "parcours", slug: next.slug, nom: nomCourt(next.slug, next.title) } : { kind: "tout-fini" };
 }
 
@@ -60,7 +63,7 @@ export const PathCompletionCard = forwardRef<
       .then((res) => (res.ok ? res.json() : null))
       .then((data: { paths?: ApiPath[] } | null) => {
         if (cancelled) return;
-        setSuite(data?.paths ? pickSuite(data.paths, slug) : fallback);
+        setSuite(data?.paths ? pickSuite(data.paths, slug, nextParcours) : fallback);
       })
       .catch(() => {
         if (!cancelled) setSuite(fallback);

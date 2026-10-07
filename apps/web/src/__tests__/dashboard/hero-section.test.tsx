@@ -86,7 +86,7 @@ describe("HeroSection", () => {
     expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
     // s17 UX-08 : seul le lien secondaire change, vers l'étape 1 en lecture libre.
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
-    expect(screen.getByText("Lire gratuitement l'étape 1").closest("a")).toHaveAttribute(
+    expect(screen.getByText("Lire la première étape gratuite").closest("a")).toHaveAttribute(
       "href",
       "/parcours/machine-a-cafe?src=accueil#etape-1",
     );

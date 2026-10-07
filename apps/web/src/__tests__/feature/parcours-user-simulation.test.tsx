@@ -540,7 +540,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
     expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+    expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Roman Frayssinet")).toBeInTheDocument();
   });
@@ -652,7 +652,7 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+      expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     });
     expect(screen.getByText("Fary")).toBeInTheDocument();
     expect(screen.getByText("Paul Mirabel")).toBeInTheDocument();
@@ -754,7 +754,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText(/Marc a perdu contact/)).toBeInTheDocument();
 
     // Videos
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+    expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     expect(screen.getByText("Panayotis Pascot")).toBeInTheDocument();
     expect(screen.getByText("Waly Dia")).toBeInTheDocument();
 

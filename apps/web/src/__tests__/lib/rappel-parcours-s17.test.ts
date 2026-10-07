@@ -109,8 +109,10 @@ describe("runParcoursReminders", () => {
     expect(claimOrder).toBeLessThan(sendEmail.mock.invocationCallOrder[0]);
     const [to, subject, text, headers] = sendEmail.mock.calls[0];
     expect(to).toBe("yanis@exemple.fr");
-    expect(subject).toContain("Répartie");
+    // Objet 7.2 (textes finalisés s17) ; le parcours est nommé dans le corps (corps A).
+    expect(subject).toBe("Yanis, ta prochaine étape t'attend");
     expect(text).toContain("Salut Yanis,");
+    expect(text).toContain("parcours Répartie");
     expect(text).toContain("https://deviens-marrant.fr/parcours/repartie?src=rappel");
     expect(text).toContain("/api/rappel-parcours/arret?token=");
     expect(text).toContain("chaque jeudi");

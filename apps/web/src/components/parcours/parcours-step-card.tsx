@@ -9,6 +9,7 @@ import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import {
   CHARGEMENT_ETAPE,
   dureeEtapeTexte,
+  VIDEOS_ETAPE,
   ETAPE_APERCU_LIBELLE,
   etapeOrdreTexte,
   LIENS_FICHES,
@@ -196,7 +197,11 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <Section title="Ce que tu vas apprendre">
           <p className="text-sm text-text-secondary">{step.moduleDetail}</p>
           {step.moduleFormat && <p className="mt-2 text-xs text-text-muted">Format : {step.moduleFormat}</p>}
-          {props.timePerWeek && <p className="mt-1 text-xs text-text-muted">{dureeEtapeTexte(props.timePerWeek)}</p>}
+          {props.timePerWeek && (
+            <p className="mt-1 text-xs text-text-muted">
+              {dureeEtapeTexte(props.timePerWeek, (step.videos?.length ?? 0) > 0)}
+            </p>
+          )}
         </Section>
       )}
 
@@ -224,7 +229,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
             {tipProse(step.tip.exercise)}
           </p>
           <div className="mt-3">
-            <ExerciseFeedback slug={slug} etape={step.order} initial={props.retour} onSelect={props.onRetour} />
+            <ExerciseFeedback
+              slug={slug}
+              etape={step.order}
+              initial={props.retour}
+              isPremium={isPremium}
+              onSelect={props.onRetour}
+            />
           </div>
         </Section>
       )}
@@ -233,7 +244,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.videos && step.videos.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-semibold text-text-primary">Vidéos à regarder</h4>
+          <h4 className="mb-2 text-sm font-semibold text-text-primary">{VIDEOS_ETAPE.titre}</h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v) => (
               <VideoCard key={v.youtubeId} video={v} />

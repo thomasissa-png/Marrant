@@ -14,7 +14,7 @@ jest.mock("@/lib/rate-limit", () => ({
 }));
 
 const db = {
-  user: { findUnique: jest.fn(), update: jest.fn() },
+  user: { findUnique: jest.fn(), update: jest.fn(), count: jest.fn() },
   parcoursReminderPreference: { findUnique: jest.fn(), upsert: jest.fn(), updateMany: jest.fn() },
   learningPathStep: { findFirst: jest.fn() },
   userPathStepFeedback: { upsert: jest.fn(), findMany: jest.fn() },
@@ -30,7 +30,7 @@ import { GET as getPref, POST as postPref } from "@/app/api/user/rappel-parcours
 import { GET as getArret, POST as postArret } from "@/app/api/rappel-parcours/arret/route";
 import { POST as postQuiz } from "@/app/api/parcours/[id]/quiz/route";
 import { POST as postRetour } from "@/app/api/parcours/[id]/retour/route";
-import { signerJetonArret } from "@/lib/rappels/rappel-parcours";
+import { FILTRE_DESTINATAIRE_RAPPEL, signerJetonArret } from "@/lib/rappels/rappel-parcours";
 import { RAPPEL_PARCOURS_CONSENTEMENT } from "@/config/textes/parcours-emails";
 
 function req(url: string, body?: unknown) {
@@ -46,6 +46,7 @@ beforeEach(() => {
   process.env.UNSUBSCRIBE_HMAC_SECRET = "s".repeat(40);
   getServerSession.mockResolvedValue({ user: { id: "u1" } });
   db.user.findUnique.mockResolvedValue({ plan: "PREMIUM", streak: 0, lastPracticeAt: null });
+  db.user.count.mockResolvedValue(1);
   db.parcoursReminderPreference.findUnique.mockResolvedValue(null);
   db.parcoursReminderPreference.updateMany.mockResolvedValue({ count: 1 });
   db.learningPathStep.findFirst.mockResolvedValue({ id: "st1" });
@@ -59,8 +60,22 @@ describe("préférence du rappel /api/user/rappel-parcours", () => {
     expect(body).toMatchObject({ enabled: false, weekday: null, consentVersion: RAPPEL_PARCOURS_CONSENTEMENT.version, eligible: true });
   });
 
+  it("éligibilité = filtre d'envoi du job (N1) : Premium, pas désinscrit, adresse vérifiée ou Google", async () => {
+    await getPref();
+    expect(db.user.count).toHaveBeenCalledWith({ where: { id: "u1", ...FILTRE_DESTINATAIRE_RAPPEL } });
+    expect(FILTRE_DESTINATAIRE_RAPPEL).toMatchObject({ plan: "PREMIUM", emailOptOut: false });
+  });
+
+  it("Premium inscrit par mot de passe, adresse non vérifiée : case absente, activation refusée (N1)", async () => {
+    db.user.count.mockResolvedValue(0);
+    expect((await (await getPref()).json()).eligible).toBe(false);
+    const res = await postPref(req(URL, { enabled: true, weekday: 2 }));
+    expect(res.status).toBe(403);
+    expect(db.parcoursReminderPreference.upsert).not.toHaveBeenCalled();
+  });
+
   it("activer sans Premium : 403, rien d'écrit", async () => {
-    db.user.findUnique.mockResolvedValue({ plan: "FREE" });
+    db.user.count.mockResolvedValue(0);
     const res = await postPref(req(URL, { enabled: true, weekday: 2 }));
     expect(res.status).toBe(403);
     expect(db.parcoursReminderPreference.upsert).not.toHaveBeenCalled();
@@ -85,7 +100,7 @@ describe("préférence du rappel /api/user/rappel-parcours", () => {
   });
 
   it("arrêter : toujours possible, origine profil", async () => {
-    db.user.findUnique.mockResolvedValue({ plan: "FREE" });
+    db.user.count.mockResolvedValue(0);
     await postPref(req(URL, { enabled: false }));
     expect(db.parcoursReminderPreference.updateMany).toHaveBeenCalledWith(
       expect.objectContaining({ data: expect.objectContaining({ enabled: false, stopOrigin: "profil" }) }),

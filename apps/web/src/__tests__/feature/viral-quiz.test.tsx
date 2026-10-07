@@ -133,7 +133,7 @@ describe("ViralQuiz", () => {
         screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
       );
     }
-    expect(screen.getByText("Lire gratuitement l'étape 1")).toBeInTheDocument();
+    expect(screen.getByText("Lire la première étape gratuite")).toBeInTheDocument();
     expect(
       screen.getByText("Accéder aux parcours complets"),
     ).toBeInTheDocument();

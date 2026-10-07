@@ -8,7 +8,7 @@
  * article de blog ou réseau social.
  */
 
-// PROVISOIRE s17, étalon à valider
+// s17, aligné sur les étalons
 export const TEXTES_PROGRESSION_API = {
   authRequise: "Connecte-toi pour suivre ta progression.",
   corpsInvalide: "La demande est arrivée incomplète. Réessaie.",
@@ -27,7 +27,7 @@ export const TEXTES_PROGRESSION_API = {
  * (avis @legal C1). Changer le texte = changer la version : la version vue
  * est enregistrée à l'activation (preuve du consentement).
  */
-// PROVISOIRE s17, étalon à valider (texte de la case donné par @legal C1)
+// s17, validé (texte juridique @legal C1, conservé tel quel : le modifier impose de changer la version ; même contenu que l'étalon 3.7 A)
 export const RAPPEL_PARCOURS_CONSENTEMENT = {
   version: "s17-v1",
   texte: "Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l'arrêter à tout moment.",
@@ -50,21 +50,25 @@ export interface RappelParcoursContenu {
   jourChoisi: string;
 }
 
-// PROVISOIRE s17, étalon à valider
+// s17, validé (étalon 3.7 : objet 7.2, corps A ; date conseillée : étalon 3.3 A ; pied : texte de service @legal C6)
 export function rappelParcoursEmail(c: RappelParcoursContenu): { subject: string; text: string } {
   const bonjour = c.prenom ? `Salut ${c.prenom},` : "Salut,";
-  const quand = c.dateConseillee
-    ? `Ta prochaine étape est conseillée à partir du ${c.dateConseillee}. Rien ne presse, elle t'attend.`
-    : "Ta prochaine étape t'attend, 15 à 20 minutes suffisent.";
+  const dateLigne = c.dateConseillee
+    ? [`Prochaine étape conseillée le ${c.dateConseillee}. Tu peux y aller dès maintenant si tu veux.`, ""]
+    : [];
   return {
-    subject: `Ton parcours ${c.parcoursTitre} : l'étape ${c.etapeNumero} t'attend`,
+    subject: c.prenom ? `${c.prenom}, ta prochaine étape t'attend` : "Ta prochaine étape t'attend",
     text: [
       bonjour,
       "",
-      `Tu en es au parcours ${c.parcoursTitre}. Prochaine étape : ${c.etapeNumero}, « ${c.etapeTitre} ».`,
-      quand,
+      "Tu as demandé un rappel chaque semaine : le voici.",
       "",
-      `Reprendre ici : ${c.lienEtape}`,
+      `Ta prochaine étape dans le parcours ${c.parcoursTitre} : l'étape ${c.etapeNumero}, « ${c.etapeTitre} ». Un conseil, un défi et un petit quiz, de quoi remplir tes 15 à 20 minutes de la semaine.`,
+      "",
+      ...dateLigne,
+      `Reprendre mon parcours : ${c.lienEtape}`,
+      "",
+      "Plus envie de ce rappel ? Un clic suffit, le lien d'arrêt est tout en bas.",
       "",
       "L'Équipe Deviens Marrant",
       "deviens-marrant.fr",
@@ -79,7 +83,7 @@ export function rappelParcoursEmail(c: RappelParcoursContenu): { subject: string
 }
 
 /** Page affichée après le clic sur le lien d'arrêt (C7). */
-// PROVISOIRE s17, étalon à valider
+// s17, aligné sur les étalons
 export const TEXTES_ARRET_RAPPEL = {
   okTitre: "Rappel arrêté",
   ok: "C'est fait : tu ne recevras plus le rappel de ton parcours. Tes autres e-mails (paiement, compte) ne changent pas. Tu peux le réactiver quand tu veux depuis ton profil.",
@@ -91,7 +95,7 @@ export const TEXTES_ARRET_RAPPEL = {
 } as const;
 
 /** Messages de l'API de préférence du rappel (profil, lot C). */
-// PROVISOIRE s17, étalon à valider
+// s17, aligné sur les étalons
 export const TEXTES_RAPPEL_API = {
   authRequise: "Connecte-toi pour régler ton rappel.",
   reservePremium: "Le rappel de parcours fait partie de Premium.",

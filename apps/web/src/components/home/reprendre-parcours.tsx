@@ -26,7 +26,7 @@ export function ReprendreParcours({ src, className }: { src: Extract<ParcoursEnt
         {REPRENDRE.titre}
       </h2>
       <p className="mt-1 text-sm text-text-secondary">
-        {REPRENDRE.ligne(aReprendre.title, aReprendre.etape, aReprendre.totalSteps)}
+        {REPRENDRE.ligne(aReprendre.title, aReprendre.etape, aReprendre.totalSteps, aReprendre.titreEtape)}
       </p>
       <Link
         href={parcoursEtapeHref(aReprendre.slug, aReprendre.etape, src)}

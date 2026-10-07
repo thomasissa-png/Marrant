@@ -74,6 +74,8 @@ export interface ParcoursProgressSummary {
   nextStepOrder?: number | null;
   /** Ajouté s17 : début du parcours (ISO), pour départager plusieurs parcours en cours. */
   startedAt?: string | null;
+  /** Ajouté s17 lot E : titre de l'étape suivante (seed), pour la ligne « Reprendre » (étalon 3.4 A). */
+  nextStepTitle?: string | null;
 }
 
 export interface ParcoursAReprendre {
@@ -82,6 +84,8 @@ export interface ParcoursAReprendre {
   etape: number;
   totalSteps: number;
   completedSteps: number;
+  /** Titre de l'étape à reprendre, null si inconnu. */
+  titreEtape: string | null;
 }
 
 /**
@@ -104,5 +108,6 @@ export function pickParcoursAReprendre(
     etape: best.nextStepOrder as number,
     totalSteps: best.totalSteps,
     completedSteps: best.completedSteps,
+    titreEtape: best.nextStepTitle ?? null,
   };
 }

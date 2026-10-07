@@ -15,12 +15,24 @@
  *    jamais `emailOptOut`), sans connexion, immédiat, idempotent.
  */
 import { createHmac, timingSafeEqual } from "crypto";
+import type { Prisma } from "@prisma/client";
 import { parisParts, parisWeekKey } from "@/lib/analytics/weekly-visits-period";
 import { NEXT_STEP_DELAY_DAYS } from "@/lib/progression";
 import { JOURS_SEMAINE, rappelParcoursEmail } from "@/config/textes/parcours-emails";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 
 export type OrigineArret = "profil" | "lien-email" | "fin-premium" | "suppression";
+
+/**
+ * Destinataire possible du rappel : Premium en cours, pas désinscrit des e-mails,
+ * adresse vérifiée (e-mail vérifié ou compte Google). MÊME filtre pour l'envoi et
+ * pour `eligible` (case du profil, réserve N1 s17) : pas de « C'est noté » sans envoi.
+ */
+export const FILTRE_DESTINATAIRE_RAPPEL = {
+  plan: "PREMIUM",
+  emailOptOut: false,
+  OR: [{ emailVerified: { not: null } }, { accounts: { some: { provider: "google" } } }],
+} satisfies Prisma.UserWhereInput;
 
 const TOKEN_PURPOSE = "rappel-parcours";
 
@@ -154,11 +166,7 @@ export async function runParcoursReminders(now: Date, deps: RappelDeps): Promise
       enabled: true,
       weekday: parisParts(now).weekday,
       OR: [{ lastSentWeek: null }, { lastSentWeek: { not: semaine } }],
-      user: {
-        plan: "PREMIUM",
-        emailOptOut: false,
-        OR: [{ emailVerified: { not: null } }, { accounts: { some: { provider: "google" } } }],
-      },
+      user: FILTRE_DESTINATAIRE_RAPPEL,
     },
     select: { id: true, userId: true, weekday: true, activatedAt: true, lastSentWeek: true, user: { select: { email: true, name: true } } },
   });

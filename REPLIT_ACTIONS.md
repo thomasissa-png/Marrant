@@ -1,17 +1,45 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s17 (07/10/2026) : parcours d'apprentissage, lot A (serveur et données) @fullstack : **NON DÉPLOYÉ**
+## s17 (07/10/2026) : parcours d'apprentissage, lots A à E (serveur, interface, entrées, contenu, réserves de la revue) @fullstack : **NON DÉPLOYÉ**
 
-> Rapport : `docs/marrant/audit-parcours-apprentissage-s17/impl-lot-a.md`. Code non commité (l'orchestrateur committe après vérification globale).
-> - **Migration Neon AVANT déploiement** : `13_parcours_s17` (idempotente, additive : tables `UserPathStepCompletion`, `UserPathStepFeedback`, `ParcoursReminderPreference`, colonne `User.lastPracticeAt`, niveaux COMIQUE/LEGENDE rejoués). Depuis `apps/web` : `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/13_parcours_s17/migration.sql`, **2 fois** (la 2e passe doit réussir ; vérifié en local sur Postgres 16 : 2 passes OK, 0 écart avec `schema.prisma`). Sans elle, la validation d'étape répond 500 (alerte `parcours-progress-erreur`).
-> - **Variables du Worker** (toutes facultatives, rien ne casse si absentes) :
->   - `ANALYTICS_EMAILS_EXCLUS` : e-mails de test à exclure du bloc « Parcours » du lundi et des alertes (séparés par des virgules). **Liste à fournir par Thomas.**
->   - `PARCOURS_SUIVI_ACTIF_DEPUIS` : date `AAAA-MM-JJ` de mise en ligne des événements Umami du lot B. L'alerte `parcours-suivi-muet` ne s'active que 7 jours après. À poser le jour du déploiement.
->   - `UNSUBSCRIBE_HMAC_SECRET` (déjà utilisé par le CEO, 32 caractères minimum) : **obligatoire pour le rappel e-mail**. Absent : aucun rappel ne part, alerte `parcours-rappel-echec`.
-> - **Nouveaux jobs** portés par le cron `*/15` existant (aucun changement de `wrangler.jsonc`) : alertes des parcours à 4h UTC (classe B, digest du matin) ; rappel e-mail des parcours à 9h heure de Paris (désactivé par défaut, envoyé seulement aux Premium qui l'ont activé).
-> - **Thomas (avis @legal C8)** : vérifier dans Resend que le suivi d'ouverture et de clic est désactivé pour le domaine d'envoi (l'e-mail de rappel est en texte seul, sans pixel, mais le réglage est par domaine).
-> - **Aucune écriture en base au démarrage** : la vidéo de Machine à Café étape 3 et les vannes des étapes ne sont stockées que dans `docs/content/parcours-seed.json` (corrigé), pas en base.
-> - **Retour arrière** : `npx wrangler rollback` (version N-1). La migration 13 n'ajoute que des tables et une colonne : elle peut rester en place.
+> Rapports : `docs/marrant/audit-parcours-apprentissage-s17/impl-lot-{a,b,c,d,e}.md`, revue : `revue-croisee.md`. Code non commité (l'orchestrateur committe après vérification globale). Mise en ligne sur feu vert de Thomas en une ligne (`docs/founder-preferences.md`).
+>
+> **BLOQUANT (B1) : la migration 13 doit être jouée ET vérifiée AVANT le déploiement.** Le nouveau code lit la colonne `User.lastPracticeAt`. Prisma lit toutes les colonnes de `User` dès qu'une lecture n'a pas de `select` : c'est le cas de la connexion par mot de passe (`lib/auth.ts`), de l'adaptateur d'auth (connexion Google), de `/api/user` (compte, profil) et des mises à jour de l'abonnement (`lib/stripe-activation.ts`, webhook Stripe : `user.update` sans `select` relit toute la ligne). Sans la migration, **connexion, compte et paiement tombent**, pas seulement la validation d'étape. Rendre le code tolérant à une colonne absente n'a pas été retenu (lot E) : il faudrait masquer la colonne pour tout le client Prisma (Node et Workers), adaptateur compris, ce qui n'est ni léger ni testable sans base réelle. La garde, c'est l'ordre ci-dessous.
+>
+> **Ordre exact**
+> 1. Arbre principal **propre** sur le commit s17 (jamais un worktree) : `cd apps/web && npx tsc --noEmit -p tsconfig.build.json && npm run lint && npm run build`, Jest complet vert.
+> 2. **Migration Neon** `13_parcours_s17` (idempotente, additive : colonne `User.lastPracticeAt`, tables `UserPathStepCompletion`, `UserPathStepFeedback`, `ParcoursReminderPreference`, niveaux `COMIQUE` et `LEGENDE`). Depuis `apps/web` : `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/13_parcours_s17/migration.sql`, **2 fois** (la 2e passe doit réussir ; vérifié en local sur Postgres 16).
+> 3. **Vérification** (console SQL Neon ou driver HTTP, comme la migration 12). Attendu : `1 | 3 | 2`. Autre résultat : **on s'arrête, pas de déploiement.**
+>    ```sql
+>    SELECT
+>      (SELECT count(*) FROM information_schema.columns WHERE table_name = 'User' AND column_name = 'lastPracticeAt') AS colonne,
+>      (SELECT count(*) FROM information_schema.tables WHERE table_name IN ('UserPathStepCompletion', 'UserPathStepFeedback', 'ParcoursReminderPreference')) AS tables,
+>      (SELECT count(*) FROM pg_enum e JOIN pg_type t ON t.oid = e.enumtypid WHERE t.typname = 'UserLevel' AND e.enumlabel IN ('COMIQUE', 'LEGENDE')) AS niveaux;
+>    ```
+> 4. **Variables du Worker** (`npx wrangler secret put <NOM>` ; aucune valeur dans le dépôt ni dans ce fichier) :
+>    - `UNSUBSCRIBE_HMAC_SECRET` (déjà posé pour le CEO, 32 caractères minimum) : vérifier sa présence avec `npx wrangler secret list`. Absent : aucun rappel ne part (alerte `parcours-rappel-echec`), le reste marche.
+>    - `ANALYTICS_EMAILS_EXCLUS` : les 3 e-mails de Thomas, séparés par des virgules, exclus du bloc « Parcours » du lundi et des alertes. **Valeur fournie par l'orchestrateur au déploiement, jamais écrite dans le dépôt.**
+>    - `PARCOURS_SUIVI_ACTIF_DEPUIS` : date du jour du déploiement, `AAAA-MM-JJ`. L'alerte `parcours-suivi-muet` ne s'active que 7 jours après.
+> 5. Relever l'ID de la version en ligne (N-1) : `npx wrangler deployments list`.
+> 6. `npm run build:cf && npm run deploy:cf` (avec `CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE` factice, comme en s16). Journaliser ici le commit, l'ID de version et l'ID N-1.
+> 7. **Logs du premier démarrage** (`npx wrangler tail`), tâche du lot D lancée après `applyCatalogueContentTask` :
+>    - `[startup] parcours-content:s17-v1 : 1 parcours mis à jour, 0 absent(s) ; étapes : …, 0 conseil(s) introuvable(s).` (Confiance passe de `EXPERT` à `INTERMEDIAIRE`, nouvelle description). Un avertissement `conseil(s) introuvable(s)` est à remonter.
+>    - `[startup] défis s17 : 5 retouché(s) [repartie-1, confiance-1, repartie-4, machine-a-cafe-3, confiance-4], 0 déjà en place, 0 introuvable(s) [], 0 en échec [].`
+>    - Démarrages suivants : `parcours-content:s17-v1 déjà appliqué (skip).` et `défis s17 : 0 retouché(s) […], 5 déjà en place`.
+>    - Les étapes 1 gratuites sont pré-rendues (ISR 1 h) : l'ancien défi peut rester affiché jusqu'à 1 h.
+> 8. **Contrôles** : `/api/health` 200 (bloc `critical` vert) ; connexion mot de passe ET Google ; `/profil`, `/abonnement`, `/parcours`, `/parcours/confiance` (visiteur : aperçu des étapes 2+), `/parcours/slug-inexistant` (404, une seule balise robots) ; `cd apps/web && E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke` (tout vert, @s16 compris) ; avec un compte Premium de test : valider une étape (première transaction interactive sous Workers), finir le quiz, cocher un retour d'exercice, activer puis arrêter le rappel ; **captures B3** à 375, 768 et 1280 px (visiteur et Premium : aperçu, quiz avec lettres A à D, bilan, profil).
+> 9. **Thomas (avis @legal C8)** : dans Resend, suivi d'ouverture et de clic désactivé pour le domaine d'envoi.
+>
+> **Jobs** portés par le cron `*/15` existant (aucun changement de `wrangler.jsonc`) : alertes des parcours à 4h UTC (digest du matin) ; rappel e-mail à 9h (Paris), envoyé seulement aux Premium qui l'ont activé avec une adresse vérifiée ou un compte Google (lot E : la case n'apparaît qu'à ces comptes).
+>
+> **Si la mise en ligne n'a pas lieu le 07/10** : passer `PARCOURS_PAGES_LASTMOD` (`lib/sitemap-parcours.ts`), `CONFIDENTIALITE_LASTMOD` (`app/sitemap.ts`) et « Dernière mise à jour » de `/confidentialite` à la date réelle (lot C).
+>
+> **Retour arrière**
+> - Code : `npx wrangler rollback <ID N-1>`. La migration 13 reste en place (colonne et tables ajoutées, ignorées par l'ancien code). Ne jamais revenir en arrière sur la base avant le code.
+> - Code déployé sans migration (connexions en erreur) : rollback immédiat vers N-1, puis étapes 2 et 3, puis redéploiement.
+> - Un défi : `UPDATE "Tip" t SET exercise = d.note::json->>'before' FROM "DataPatch" d WHERE d."patchId" = 'parcours-defi:s17:<clé>' AND t.id = d.note::json->>'tipId';` puis supprimer la ligne `DataPatch` correspondante.
+> - Parcours Confiance (niveau, description) : remettre les valeurs du seed N-1 (`git show <commit N-1>:docs/content/parcours-seed.json`) ; supprimer le marqueur `parcours-content:s17-v1` seulement si la tâche doit être rejouée.
+> - Ne pas passer `CATALOGUE_CONTENT_PATCH_VERSION` à 2 tant que `conseils-seed.json` n'est pas aligné (FS-12, accord de Thomas) : les défis retouchés seraient écrasés.
 
 ## s15 (07/10/2026, 13:17 Paris) : H+45 X OK (jour 2)
 
