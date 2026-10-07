@@ -1,22 +1,48 @@
 # Notation de la relance, cycle 8 : K7 Fiabilité de la chaîne (@qa, 07/10/2026, soir)
 
-> Objet : même critère et même échelle qu'au cycle 7 (K7, chaîne base → `publish-social` → Buffer, plus le script de lot). État réel du 07/10 au soir : semaine 0 publiée, lot 1a en dry-run, à insérer au plus tard le 09/10. Aucun fichier de code modifié. Les travaux s16 et s17 (parcours, compte) sont hors du périmètre.
-> `[LIVE]` = lecture réelle ; `[LIVE local]` = vrai code exécuté dans ce shell (Jest, dry-run dans `/tmp`) ; `[STATIQUE]` = lecture du code ; `[DÉCLARÉ]` = preuve consignée par la session dans `REPLIT_ACTIONS.md` ou un relevé, non revérifiable d'ici (pas d'accès Neon ni Buffer dans cette notation).
-> HEAD = `32e4c45`.
+> Objet : même critère et même échelle qu'au cycle 7 (K7 : chaîne base → `publish-social` → Buffer, plus le script de lot qui alimente la base). État réel du 07/10 au soir : semaine 0 publiée à moitié (5 posts sur 10 envoyés, tous publiés), lot 1a (12 au 18/10) en dry-run, à insérer au plus tard le 09/10. Aucun fichier de code ni de doc modifié hors ce fichier. Les travaux s16 et s17 (parcours, compte, Stripe) sont hors périmètre, sauf leur effet sur le code social en ligne.
+> `[LIVE]` = lecture réelle (SELECT Neon en lecture seule, `wrangler deployments list`, `curl`). `[LIVE local]` = vrai code exécuté dans ce shell (Jest, dry-run écrit dans `/tmp/qa-c8`). `[STATIQUE]` = lecture du code. `[DÉCLARÉ]` = preuve consignée par la session (`REPLIT_ACTIONS.md`, relevés), non revérifiable d'ici (pas de lecture Buffer dans cette notation).
+> HEAD = `32e4c45`. En ligne `[LIVE]` : `712ee919` à 100 % depuis le 07/10 13:12 UTC (correctif Stripe s16), N-1 `d7fd90b2` (s16), avant `79ddf8bd` (déploiement social du 07/10 08:17 Paris).
 
-## Note K7 : (en cours)
+## Note K7 : 9/10 (cycle 7 : 8/10)
+La chaîne a fait ses preuves en vrai : 5 posts sur 5 publiés sur les 3 réseaux, aucun FAILED. Le X de 328 caractères bruts, qui aurait été refusé avant le correctif `longueurX`, est parti. 4 des 5 points du cycle 7 sont fermés avec preuve. Le 5e (rendu de la carte LinkedIn sur un vrai post du lot) ne peut pas l'être avant l'insertion du 09/10. Il manque 1 point pour 10/10 : le script de lot a 2 défauts de périmètre, sans effet sur le lot 1a mais certains dès l'insertion du lot 1b (14/10). Ils touchent justement le chemin de secours : un `--rollback` de 1b annulerait aussi 1a.
 
 ## Les 5 points « Pour 10/10 » du cycle 7
-(en cours)
+| # | Point | État | Preuve |
+|---|---|---|---|
+| 1 | Test d'intégration route + vrai `buffer-client` | **Fait** | `src/__tests__/api/cron/publish-social-buffer-reel.test.ts` : seuls `fetch` (l.16), Prisma (l.34), verrou, alertes et `findBlogArticle` sont simulés ; le `buffer-client` et le rendu de carte sont les vrais. 4 cas sur les textes de `lot-semaine0` : LinkedIn texte (l.112), X 07/10 de plus de 280 car. bruts (l.125), Instagram 2 cartes avec alt et `type post` (l.138), LinkedIn `[variante:image]` (l.155) `[STATIQUE + Jest LIVE local]` |
+| 2 | `--insert` / `--rollback` en `neon-http` prouvés | **Fait** `[DÉCLARÉ]` | `REPLIT_ACTIONS.md` l.167-169 : lot fictif `preuve-http-2031` inséré, comptes sans `--confirmer`, REJECTED avec `--confirmer`, ligne supprimée. Fait sur la base réelle (pas sur une branche Neon), avec un lot daté de 2031 : équivalent accepté. Reste 0 ligne `lot-preuve-*` en base `[LIVE]` |
+| 3 | H+45 consignés | **Fait, 2 écarts de relevé** | Base `[LIVE]` : les 5 posts du 06 et du 07/10 sont en `PUBLISHED` avec `externalId` et la note « Publication confirmée par Buffer » (écrite par `buffer-status-check`) ; les 5 du 08 et du 09/10 sont `APPROVED` ; 0 FAILED. Liens réels et `sent` : `releves/2026-10-06.md`, `2026-10-07.md` `[DÉCLARÉ]`. Écarts : (a) le relevé du 07/10 (l.7) annonce « 313 caractères bruts, environ 229 » ; la base donne **328 bruts, 244 comptés** (`longueurX` exécuté sur le texte en base `[LIVE]`) ; (b) l'alt des 2 cartes Instagram du **06/10** n'est pas consigné (celui du 07/10 l'est) |
+| 4 | Rendu Worker prouvé sur un vrai post du lot régénéré | **Pas encore possible** | Lot 1a non inséré (0 post actif après le 12/10 `[LIVE]`). Le dry-run donne le 1er `[variante:image]` le **jeu. 15/10 06:15 UTC** (`c55c58e5410ff05de08c28332`, amorces 87 et 38 car., 1 URL `slide=0`) `[LIVE local]`. Le butoir passe donc du 13/10 au **15/10 avant 06:00 UTC**. Le Worker rend les cartes en ligne : `/api/social/image?postId=c9ce63fb…&slide=0` → 200 `image/png` en 4,2 s `[LIVE]`. Il reste à vérifier `rendreCarte` dans le cron (`route.ts:341`) |
+| 5 | Alerte de repli image + marqueurs conservés en échec | **Fait** | `route.ts:351-363`, clé `social-repli-image-linkedin` (1 par jour, sans effet sur l'envoi), test `publish-social-linkedin-image.test.ts:164` ; `conserverMarqueurs` aux 3 sorties en échec (`route.ts:316, 474, 494, 499`), `garde-article.ts:52` `[STATIQUE + Jest]`. Alerte de classe B : visible le jour même seulement si la routine du matin lit `/api/admin/alertes` (c'est le cas le 07/10, l.106) |
+
+## Code en ligne contre code relu `[LIVE + STATIQUE]`
+`e180d1a` (déployé dans `79ddf8bd`) est un ancêtre de `ecb34b6` (s16, `d7fd90b2`). De `e180d1a` à HEAD, aucune ligne ne change dans `lib/social`, `api/cron/publish-social`, `api/social`, `buffer-status-check`, `config/social-pool.ts` ni `scripts/content`. Seul `lib/admin-alerts.ts` change (+59 : préfixes `email-`, `auth-`, `parcours-`) ; aucune clé `social-*` n'est reclassée. Le code social en ligne est donc celui que j'ai relu. Le retour arrière documenté (`d7fd90b2`, puis `79ddf8bd`) garde la chaîne sociale intacte.
 
 ## Tests Jest `[LIVE local]`
-`npx jest src/__tests__/lib/social src/__tests__/api src/__tests__/scripts` : **58 suites, 804 tests PASS** (24,2 s). Le worker forcé à quitter du cycle 7 est toujours là (fuite de minuterie, non isolée).
+`npx jest src/__tests__/lib/social src/__tests__/api src/__tests__/scripts` : **58 suites, 804 tests PASS** (24,2 s, code 0 ; cycle 7 : 41 suites, 592 tests). Le worker forcé à quitter (fuite de minuterie) est toujours là et n'est toujours pas isolé.
 
-## Dry-run du lot 1a `[LIVE local]`
-(en cours)
+## Dry-run du lot 1a `[LIVE local]`, refait par moi
+Commande du doc avec `--out /tmp/qa-c8/lot-1a.md --json /tmp/qa-c8/lot-1a.json` ; code 0, fichiers du dépôt intacts.
+- 127 vannes GARDER, pool 42, stock éligible 24 (le doc dit 22 : c'était avant P0-072 et P0-041) ; **12 posts (X 5, IG 5, LinkedIn 2), 3 replis** ; identiques au doc, sauf le relais X du 12/10.
+- **V053 retirée** (`fa67cfe`) : le relais X du 12/10 est la ligne de l'article `se-presenter-avec-humour#letourdetable…`, 327 bruts / **224** `longueurX`, comme prévu dans `recoupements-07-10.md` l.175.
+- 0 `sourceId` de `lot-semaine0` dans les posts ni dans les replis. Chaque `[repli:<id>]` pointe sur un repli dont le `[repli-de:<id>]` renvoie au relais (3 sur 3). IG2 porte `[article:se-presenter-avec-humour]`.
+- `longueurX` des X : 224, 93, 248, 106, 139, repli 132 (tous ≤ 270). Lot 1b (19 au 25/10, dry-run de contrôle) : 191, 133, **264 (X3 du 21/10)**, 184, 140, 135, 105 (tous ≤ 270).
+- Conditions d'insertion `[LIVE]` : 0 post `thomas-s15` en base, 0 post actif après le 12/10 ; article `se-presenter-avec-humour` `isPublished=false`, `publishedAt` 12/10 05:00 UTC (la garde le surveille).
 
 ## Défauts et angles morts
-(en cours)
+| # | Constat | Effet | Gravité |
+|---|---|---|---|
+| D1 | `annulerLot` (`social-lot-v5-insert.ts:174-190`) filtre sur `approvedBy` seulement. Pour `relance-s15`, c'est « thomas-s15 » pour toutes les tranches. `--debut`/`--fin` sont demandés (`REPLIT_ACTIONS.md` l.169) mais **ne sont pas utilisés** `[STATIQUE]` | dès que 1b est inséré (14/10), `--rollback --lot relance-s15 --confirmer` passe aussi en REJECTED les posts 1a non encore envoyés. Le chemin de secours casse la tranche saine | **haute** dès le 14/10, nulle pour 1a seul |
+| D2 | Contrôle après insertion : `replisLus` (`social-lot-v5-insert.ts:159`) compte tous les replis `thomas-s15`, sans filtre de période `[STATIQUE]` | à l'insertion de 1b, le contrôle compte aussi les 3 replis de 1a et signale un faux écart (« attendu 4, inséré 7 »). Le texte de sortie renvoie alors vers `--rollback` (`prepare-social-month.ts:249`), donc vers D1 | moyenne |
+| D3 | `lot-1a-dry-run-07-10.md` est périmé : l.38, 46, 65 et 84-87 (V053, verdict « PAS PRÊT »), l.77 (« non commités ») | c'est la fiche suivie pour l'insertion du 09/10, et elle décrit un lot qui n'est plus celui que le script régénère | faible (`--insert` refuse tout autre JSON) |
+| D4 | Relevés : 313 au lieu de 328 bruts (07/10) ; alt IG du 06/10 absent | preuve R1 sous-évaluée de 15 car. ; la trace du 06/10 est incomplète | faible |
+| L1 | `rendreCarte` dans le cron (`route.ts:341`) n'a jamais tourné en production. La route `/api/social/image` rend bien, mais par un autre chemin | un échec reste possible en Worker, mais il n'est plus silencieux (L2 du cycle 7 fermé par l'alerte) | moyenne jusqu'au 15/10 |
 
 ## Pour 10/10 (liste exacte)
-(en cours)
+1. **D1** (@fullstack) : `annulerLot(lot, driver, url, confirmer, now, periode?)` avec `where: { approvedBy, scheduledAt: bornesLot(debut, fin), ...NON_ENVOYES }`. `prepare-social-month.ts:221` passe `a.debut`/`a.fin`. La requête HTTP `requeteAnnulation` prend les mêmes bornes. Test : 2 tranches `thomas-s15` en base simulée, rollback de la 2e = la 1re intacte. **Avant l'insertion de 1b (14/10).**
+2. **D2** (@fullstack) : `replisLus` filtré par `scheduledAt: periode`. Test : 1b inséré après 1a = 0 écart.
+3. **Point 4 du cycle 7**, après l'insertion du 09/10 et **avant le 15/10 06:00 UTC** (session) : `curl -o /tmp/c.png -w "%{http_code} %{content_type}" "https://deviens-marrant.fr/api/social/image?postId=c55c58e5410ff05de08c28332&slide=0"` → 200 `image/png` 1080×1350 ; puis brouillon LinkedIn image réel (`saveToDraft`), supprimé ensuite ; le 15/10 à H+45 : note sans `[variante:texte]`, aucune alerte `social-repli-image-linkedin`, 1 image sur le post LinkedIn. L'id est à relire après l'insertion (il dépend du lot régénéré).
+4. **D3 + D4** (session) : en tête de `lot-1a-dry-run-07-10.md`, ajouter « Mis à jour par `fa67cfe` : relais X 12/10 = ligne de `se-presenter-avec-humour` (224 `longueurX`), V053 retirée, verdict PRÊT ; correctifs commités dans `adc2048` ». Remplacer la ligne 46 et barrer les lignes 38, 65 et 84-87. `releves/2026-10-07.md` l.7 : « 328 caractères bruts, 244 comptés par X ». `REPLIT_ACTIONS.md` l.169 : « `--debut`/`--fin` non utilisés par le filtre » tant que D1 n'est pas corrigé.
+
+Points 1 et 2 : @fullstack. Points 3 et 4 : la session. Le lot 1a peut être inséré le 09/10 sans attendre les points 1 et 2. En revanche, ne lancer aucun `--rollback --confirmer` sur `relance-s15` dès qu'une 2e tranche est en base, tant que D1 n'est pas corrigé.
