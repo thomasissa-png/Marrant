@@ -109,3 +109,5 @@ Lourde -- 2 agents principaux (@seo, @geo), 3 phases, 22 articles a produire au 
 **Phase 5 (différée session 9)** : implémentation code par @fullstack — `ceo-agent.ts` + 6 migrations Prisma + 2 crons + intégrations APIs (Twitter/IG/Resend Inbound) + suppression `haro-agent.ts` + dashboard React + tests Jest. Audit @legal pré-S3 + audit @qa scénarios garde-fous. ~3-4h dédiées.
 
 **BLOCKER persistant** (s7+s8) : default branch `claude/init-project-setup-jcI9q` toujours obsolète. Tous fixes session 7 et 8 invisibles en prod tant que pas de redéploiement Replit. Réflexe P0 #2 actif.
+
+**Session 17 (07/10/2026)** : hors de ce plan SEO/GEO. Audit puis implémentation des parcours d'apprentissage, déployés (version `797b1dea`). Suite : parcours Storytelling puis Boulot (`docs/product/specs-parcours-storytelling-pro-s17.md`). Voir le mémo de reprise de `project-context.md`.
