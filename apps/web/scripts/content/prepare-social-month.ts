@@ -60,9 +60,9 @@ import type { PreparedPlatform } from "./social-controls";
 import { blogArticles } from "../../src/lib/blog-articles";
 import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
-import { buildLotV5, controlerLot, type ArticleLot } from "./social-lot-v5";
+import { buildLotV5, controlerLegendesInstagram, controlerLot, type ArticleLot } from "./social-lot-v5";
 import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
-import { annulerLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
+import { annulerLot, bornesLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
 export const APPROVED_BY = "preparation-mensuelle";
 const DOCS_DIR = path.resolve(__dirname, "../../../../docs/social/preparation");
@@ -195,7 +195,9 @@ async function genererLot(argv: string[], a: { lot: string; debut: string; fin: 
   const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes });
   // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
   const lot = controlerLot(res.posts, inputs.recents);
-  return { seed, autorisees, inputs, res, errors: [...res.errors, ...lot.errors], warnings: [...res.warnings, ...lot.warnings] };
+  // Légendes Instagram : « À envoyer à... », sans pied ni lien (posts et replis).
+  const leg = controlerLegendesInstagram(res.posts, res.replis);
+  return { seed, autorisees, inputs, res, errors: [...res.errors, ...lot.errors, ...leg.errors], warnings: [...res.warnings, ...lot.warnings, ...leg.warnings] };
 }
 
 async function mainLot(argv: string[]): Promise<number> {
@@ -218,8 +220,9 @@ async function mainLot(argv: string[]): Promise<number> {
   }
   if (argv.includes("--rollback")) {
     const confirmer = argv.includes("--confirmer");
-    const r = await annulerLot(a.lot, driver, dbUrl, confirmer, new Date());
-    console.log(`Lot ${a.lot} (approvedBy « ${r.approvedBy} ») avant : ${JSON.stringify(r.avant)}. APPROVED non envoyés : ${r.aAnnuler}.`);
+    // Tranche seulement (--debut/--fin ; défaut de relance-s15 = tout le lot) : annuler 1b ne touche jamais 1a.
+    const r = await annulerLot(a.lot, driver, dbUrl, confirmer, new Date(), bornesLot(a.debut, a.fin));
+    console.log(`Lot ${a.lot}, tranche du ${a.debut} au ${a.fin} (approvedBy « ${r.approvedBy} ») avant : ${JSON.stringify(r.avant)}. APPROVED non envoyés : ${r.aAnnuler}.`);
     if (!confirmer) {
       console.log("Rien n'a été modifié. Relancer avec --confirmer pour passer ces posts en REJECTED.");
       return 0;

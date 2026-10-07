@@ -10,7 +10,8 @@ import { checkPost, nombreDePhrases, premierePersonne, type PreparedPlatform } f
 import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./social-article-lines";
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
-import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { CARROUSELS_CITATION, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
 
@@ -41,6 +42,8 @@ export interface LotInput {
    * `slug#rang`), ordonnées des meilleures aux moins bonnes. Les posts fixes restent imposés.
    */
   autorisees?: string[];
+  /** Légendes Instagram par vanne (« À envoyer à... ») ; défaut : `LEGENDES_IG` (social-lot-v5-legendes.ts). */
+  legendes?: Record<string, string>;
 }
 /** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
 export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
@@ -143,6 +146,13 @@ export function buildLotV5(input: LotInput): LotResult {
   const posts: LotPost[] = [];
   const replis: LotPost[] = [];
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
+  const legendes = input.legendes ?? LEGENDES_IG;
+  /** Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi. */
+  const legendeDe = (v: Vanne | null, renvoiIg?: string): string | undefined => {
+    const l = v ? legendes[v.cle] : undefined;
+    if (renvoiIg === undefined) return l;
+    return l ? `${l} ${renvoiIg}` : renvoiIg;
+  };
   const articleParDate = new Map(input.articles.map((a) => [a.date, a]));
   const articleParSlug = new Map(input.articles.map((a) => [a.slug, a]));
   const lignesParSlug = new Map(input.articles.map((a) => [a.slug, extraireLignes(a.slug, a.content, input.pool)]));
@@ -204,6 +214,8 @@ export function buildLotV5(input: LotInput): LotResult {
     if (rang && !rang.has(v.cle)) return false;
     if (pf && premier.get(v.cle)?.pf === pf) return false;
     if (v.jokeId && (C.SOUS_HUIT.includes(v.jokeId) || C.RESERVEES_NOEL.includes(v.jokeId))) return false;
+    // Réservées à un carrousel de décryptage (fiche écrite) : jamais tirées (cycle 8, V028 et V060).
+    if (v.jokeId && RESERVEES_CARROUSEL.some((r) => r.jokeId === v.jokeId)) return false;
     if (estPain(v) || (!relais && saisonBloque(texteDe(v), date)) || fixesVannes.has(v.cle)) return false;
     const d = utilise.get(v.cle);
     if (d && Math.abs(jours(d, date)) < C.ANTI_REPETITION_JOURS) return false;
@@ -265,14 +277,14 @@ export function buildLotV5(input: LotInput): LotResult {
     const g = creneau(pf, date);
     const id = idDuPost(pf, date, o.repliDe ? `${lotId}-repli` : lotId);
     const lien = o.lien ?? null;
-    const content = pf === "INSTAGRAM" ? (o.legende ?? C.FORMULES.pied) : textePost(pf, o.v, o.marque ?? null, o.renvoi ?? null, lien);
+    const content = pf === "INSTAGRAM" ? (o.legende ?? legendeDe(o.v) ?? "") : textePost(pf, o.v, o.marque ?? null, o.renvoi ?? null, lien);
     const cartes = pf === "INSTAGRAM" ? (o.cartes ?? (o.v?.cartes ? [...o.v.cartes] : [])) : [];
     const segV: Origine = o.valide ? "VALIDE" : (o.v?.origine ?? "NEUF");
     const segments: Segment[] = [];
     if (o.v) o.v.lignes.forEach((l) => segments.push({ texte: l, origine: segV }));
     if (o.marque) segments.push({ texte: o.marque, origine: o.valide ? "VALIDE" : "NEUF" });
     if (o.renvoi) segments.push({ texte: o.renvoi, origine: o.valide ? "VALIDE" : (o.renvoiOrigine ?? "FORMULE_V5") });
-    if (pf === "INSTAGRAM" && content !== C.FORMULES.pied) segments.push({ texte: content, origine: o.valide ? "VALIDE" : (o.legendeOrigine ?? "FORMULE_V5") });
+    if (pf === "INSTAGRAM" && content) segments.push({ texte: content, origine: o.valide ? "VALIDE" : (o.legendeOrigine ?? "FORMULE_V5") });
     if (cartes.length === 5) cartes.slice(2).forEach((c) => segments.push({ texte: c, origine: o.valide ? "VALIDE" : (o.cartesOrigine ?? "ARTICLE") }));
     const persona = pf === "LINKEDIN" ? "SOPHIE" : o.slug && C.ARTICLES_MARC.has(o.slug) ? "MARC" : "YANIS";
     const sourceType = o.v?.jokeId ? "JOKE" : o.v || o.slug ? "BLOG" : "ORIGINAL";
@@ -405,7 +417,7 @@ export function buildLotV5(input: LotInput): LotResult {
     let legOrig: Origine = "FORMULE_V5";
     if (f.type === "RELAIS" && a && !r && !legende && !f.texteMarque) {
       const rv = renvoi(a, f.platform, v?.origine === "ARTICLE" || !!v?.article);
-      if (f.platform === "INSTAGRAM") { legende = rv.texte; legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
+      if (f.platform === "INSTAGRAM") { legende = legendeDe(v, rv.texte); legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
       if (f.platform !== "INSTAGRAM" && !lien) lien = lienUtmV5(siteUrl, `/blog/${a.slug}`, f.platform, f.date, weekday(f.date) === 1 ? "lundi" : "jeudi");
     }
     poster(f.date, f.platform, f.type, { v, marque: f.texteMarque, renvoi: r, renvoiOrigine: rOrig, lien, legende, legendeOrigine: legOrig,
@@ -427,7 +439,7 @@ export function buildLotV5(input: LotInput): LotResult {
     const rv = renvoi(a, pf, !!v.article);
     const lien = pf === "INSTAGRAM" ? null : lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, utm);
     poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv.texte, renvoiOrigine: rv.origine, lien,
-      legende: pf === "INSTAGRAM" ? rv.texte : undefined, legendeOrigine: rv.origine, origine: "TIRAGE", slug: a.slug, note: n });
+      legende: pf === "INSTAGRAM" ? legendeDe(v, rv.texte) : undefined, legendeOrigine: rv.origine, origine: "TIRAGE", slug: a.slug, note: n });
     return true;
   }
 
@@ -537,8 +549,18 @@ export function controlerLot(posts: LotPost[], base: PostEnBase[] = []): { error
     if (a.enBase && b.enBase) continue;
     if (jours(a.date, b.date) < C.FENETRE_PAIN_JOURS) errors.push(`Motif « pain » deux fois en moins de 30 jours (${a.quoi}, ${b.quoi}).`);
   }
+  // « copain / copine » : au plus 2 par semaine (lundi-dimanche), AVERTISSEMENT seulement ([HYPOTHÈSE] du seuil, C7).
+  const copains = new Map<string, string[]>();
+  for (const p of posts) {
+    if (!C.COPAIN_RE.test(`${p.cartes.join(" ")} ${p.content}`)) continue;
+    const lundi = mondayOf(p.date);
+    copains.set(lundi, [...(copains.get(lundi) ?? []), `${p.date} ${p.platform}`]);
+  }
+  for (const [lundi, qui] of copains) if (qui.length > C.PLAFOND_COPAIN_PAR_SEMAINE) warnings.push(`Semaine du ${lundi} : « copain / copine » ${qui.length} fois (${qui.join(", ")}), plafond ${C.PLAFOND_COPAIN_PAR_SEMAINE} [HYPOTHÈSE] (corrections-cycle8-copy.md §3 point 4).`);
   for (const p of posts) {
     if (p.vannes.some((k) => C.RESERVEES_NOEL.includes(k)) && p.date < C.NOEL_DES) errors.push(`${p.date} : vanne réservée à Noël avant le 24/12.`);
+    const carrousel = RESERVEES_CARROUSEL.find((r) => p.vannes.includes(r.jokeId));
+    if (carrousel && p.origine === "TIRAGE") errors.push(`${p.date} ${p.platform} : vanne ${carrousel.jokeId} réservée au carrousel du ${carrousel.date} (${carrousel.source}), tirée.`);
     if (weekday(p.date) === 0) errors.push(`${p.date} : post un dimanche.`);
     for (const url of `${p.content} ${p.lien ?? ""}`.match(/https?:\/\/\S+/g) ?? []) {
       if (!/utm_source=(x|instagram|linkedin)&utm_medium=social&utm_campaign=\d{4}-\d{2}/.test(url)) errors.push(`${p.date} ${p.platform} : lien sans UTM v5 (${url}).`);
@@ -552,6 +574,31 @@ export function controlerLot(posts: LotPost[], base: PostEnBase[] = []): { error
     const max = s === "2026-10-26" || s === "2026-12-28" ? 4 : 3;
     if (xLiens > max) warnings.push(`Semaine du ${s} : ${xLiens} posts X avec lien (plafond v5 : ${max}).`);
     if (ps.filter((p) => p.platform === "LINKEDIN" && p.lien).length > 1) errors.push(`Semaine du ${s} : 2 relais LinkedIn.`);
+  }
+  return { errors, warnings };
+}
+
+/**
+ * Légendes Instagram (notation cycle 8, @social S7 et S8) : chaque post et chaque repli Instagram porte une
+ * légende « À envoyer à... » de 80 caractères au plus, sans lien ni « deviens-marrant » (erreur sinon).
+ * Avertissements : même tournure sur 2 posts Instagram consécutifs ; carrousel qui renvoie au quiz
+ * « dans le lien de la bio » (à retirer si les liens de bio ne sont pas posés la veille, founder-preferences l.67).
+ */
+export function controlerLegendesInstagram(posts: LotPost[], replis: LotPost[] = []): { errors: string[]; warnings: string[] } {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  for (const p of [...posts, ...replis].filter((x) => x.platform === "INSTAGRAM")) {
+    const quoi = `${p.date} INSTAGRAM ${p.cle ?? p.type}${p.repliDe ? " (repli)" : ""}`;
+    if (!p.content) errors.push(`${quoi} : légende manquante pour la vanne ${p.vannes[0] ?? p.sourceId} (« À envoyer à... » à fournir par @copywriter, social-lot-v5-legendes.ts).`);
+    else for (const e of ecartsLegende(p.content)) errors.push(`${quoi} : ${e}.`);
+    if (p.cartes.includes(C.FORMULES.renvoiQuizBio)) warnings.push(`${quoi} : « ${C.FORMULES.renvoiQuizBio} » ne part que si les liens de bio sont posés le ${addDays(p.date, -1)} (sinon retirer la 5e partie avant l'envoi).`);
+    // Garde S8 étendue aux relais (corrections-cycle8-copy.md §3 point 3) : contrôle manuel, aucune lecture de mesure.md.
+    else if (/lien en bio\.?$/.test(p.content)) warnings.push(`${quoi} : légende « … lien en bio » : ne part telle quelle que si les liens de bio sont posés le ${addDays(p.date, -1)} (sinon la tronquer à sa 1re phrase).`);
+  }
+  const ig = posts.filter((p) => p.platform === "INSTAGRAM" && p.content).sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
+  for (let i = 1; i < ig.length; i++) {
+    const t = tournure(ig[i].content);
+    if (t !== "autre" && t === tournure(ig[i - 1].content)) warnings.push(`${ig[i - 1].date} et ${ig[i].date} INSTAGRAM : même tournure « ${t} » deux fois de suite (corrections-cycle7-copy.md §3).`);
   }
   return { errors, warnings };
 }

@@ -1,0 +1,92 @@
+{
+  "fichier": "aveugle-remplacements-cycle8.md",
+  "date": "2026-10-07",
+  "regle_generale": "Au niveau = 8,5 ou plus chez les 2 relecteurs. Choix par emplacement = meilleure somme des 2 notes parmi les candidats au niveau. Égalité de somme : la moins longue, puis l'ordre du tableau. Aucun candidat au niveau : voir si_echec.",
+  "emplacements": {
+    "X-12-10-relais": {
+      "echeance": "avant l'insertion du lot 1a, ven. 09/10 (10:15 UTC)",
+      "fichier_a_modifier": "apps/web/scripts/content/social-lot-v5-fixes.ts, entree cle \"relais-x-12-10\" : remplacer vanne.articleTexte par vanne.jokeId, renvoi = \"Les 4 autres exemples, et comment trouver le tien :\", lien inchange (/blog/se-presenter-avec-humour, utm_content lundi), mettre a jour la note",
+      "contraintes_verifiees": "pool strict (social-pool.ts) ; hors semaine 0, V014/V019/V025, 4 Noel, V060, V083, V028 (reservee carrousel), hors vannes tirees ou en repli du lot 1a (V083, V061, V105, V111, V007, V009, V011, V013, V015)",
+      "candidats": {
+        "R18": { "vanne": "V046", "jokeId": "cs14jk177b62432b07f5d17a", "theme": "prise de parole devant un jury", "notes_aveugle_stock": "8,5 / 8,5" },
+        "R03": { "vanne": "V050", "jokeId": "cs14jk7911857c4ff09eb025", "theme": "se presenter : son nom en entretien", "notes_aveugle_stock": "8,5 / 8,5" },
+        "R12": { "vanne": "V096", "jokeId": "cs14jkb9ba433a0746280280", "theme": "comment on te presente / t'enregistre (theme le plus lointain)", "notes_aveugle_stock": "8,5 / 8,5" }
+      },
+      "avertissement": "V046 (relais IG 02/11), V050 (IG 16/10) et V096 sont placees dans l'ancien lot long obsolete (lot-relance-s15.json) : les lots 1b, 2a, 2b sont regeneres apres l'insertion de 1a, donc sans conflit. Verifier au Grep apres choix.",
+      "si_echec": "aucun des 3 au niveau : vanne du pool strict sans renvoi (repli du mix, v5 l.31) tiree par le script, ou 3 nouvelles vannes (V035 cs14jk90226d6abb90287724, V058 cs14jkbc3334e2de46753dcf, P0-041) relues a l'aveugle le 08/10"
+    },
+    "IG-09-10-legende": {
+      "echeance": "09/10 17:30 UTC",
+      "post": "id cffb035c9ba24af7d7cb0a227 (cs14jk2ef0aabfbf4784ad82, V101), content actuel : A envoyer a qui a deja appele sa mere pour un papier. (8 / 8)",
+      "candidats": {
+        "R09": { "texte": "À envoyer à ta mère, qui connaît tes papiers mieux que toi.", "caracteres": 59 },
+        "R21": { "texte": "À envoyer à celui dont le numéro de sécu est stocké chez sa mère.", "caracteres": 65 },
+        "R02": { "texte": "À envoyer à qui garde sa mère comme sauvegarde de tous ses papiers.", "caracteres": 67 },
+        "R15": { "texte": "À envoyer à qui ne sait pas son numéro de sécu, mais sait qui le sait.", "caracteres": 70 }
+      },
+      "application": "UPDATE SocialPost SET content et hook = texte retenu WHERE id = 'cffb035c9ba24af7d7cb0a227' (statut APPROVED, a faire avant 17:30 UTC)",
+      "si_echec": "garder la legende en base (L-09-10, 8 / 8) : seule la barre 8,5 est ratee, aucun risque de publication ; ou reecrire une 2e serie le 08/10"
+    },
+    "IG3-14-10-legende": {
+      "echeance": "avant l'insertion de 1b (14/10) ; IG3 date du 14/10 est deja dans le lot 1a (insertion 09/10) : modifier legende dans FIXES avant le 09/10 si possible",
+      "fichier_a_modifier": "apps/web/scripts/content/social-lot-v5-fixes.ts, entree cle \"IG3\", champ legende",
+      "post": "vanne et cartes validees par Thomas, inchangees (cs14jk04b4bc8bbf8a2d8a05) ; legende actuelle : A envoyer a celui qui n'est jamais sur d'etre invite. (8,5 / 7,5)",
+      "candidats": {
+        "R06": { "texte": "À envoyer à celui qui boude vite et vérifie après.", "caracteres": 50 },
+        "R22": { "texte": "À envoyer à celui qui se croit toujours le dernier invité.", "caracteres": 58 },
+        "R14": { "texte": "À envoyer à qui a déjà tiré la tête trois jours pour rien.", "caracteres": 58 }
+      },
+      "si_echec": "legende actuelle conservee (8,5 / 7,5, validee Thomas)"
+    },
+    "IG-21-10": {
+      "echeance": "avant l'insertion de 1b (14/10)",
+      "fichier_a_modifier": "apps/web/scripts/content/social-lot-v5-fixes.ts, entree cle \"IG-21-10\" (vanne, cartes, legende). RESERVEES_CARROUSEL : ajouter la vanne retenue si elle change (V028 y est deja)",
+      "logique_de_decision": "1) Si R10 (cartes 3 et 4 de la grand-mere) est au niveau ET qu'au moins une legende G (R05, R13, R20) l'est : carrousel sur la vanne grand-mere cs14jkb81aae613b293f204b, cartes 3 et 4 de R10, legende G de meilleure somme. La vanne V028 reste exclue du tirage (RESERVEES_CARROUSEL) et retourne a une carte vanne simple dans un autre lot. 2) Sinon : le 21/10 devient une CARTE VANNE simple sur V028 (cmmnsqn130033th63b54ux45o, cartes 1 et 2 seules, pas de carrousel : les cartes 3 et 4 de V028 ont echoue au cycle 8, T06 6,5 a 8 / T13 7,5 a 8), legende V de meilleure somme au niveau. 3) Aucune legende au niveau dans la branche retenue : legende de FIXES inchangee (A envoyer a celui qui attend un vrai compliment.).",
+      "candidats_vanne_V028": {
+        "R16": { "texte": "À envoyer à celui dont le père distribue les compliments au compte-gouttes.", "caracteres": 75 },
+        "R23": { "texte": "À envoyer à qui attend un « génial » de son père depuis toujours.", "caracteres": 65 },
+        "R07": { "texte": "À envoyer à qui a déjà décroché un « pas mal » et l'a gardé précieusement.", "caracteres": 74 }
+      },
+      "carrousel_grand_mere": {
+        "jokeId": "cs14jkb81aae613b293f204b",
+        "cartes_3_4": "R10 (recopiees de docs/social/preparation/complements-lot-s15.md §1, ligne mer. 04/11 : 22 et 30 mots)",
+        "fiche": "decryptage-ecrit-2.json V301, Le contraste de statut",
+        "conditions": "[A VERIFIER base] vanne non publiee depuis 90 jours et sans fiche differente en base ; hors pool strict (notes a l'aveugle du stock non connues) : la barre Alexa est celle de la relecture des cartes et de la vanne ; si Thomas veut une vanne du pool strict, prendre la 2e option ci-dessous. Le creneau du 04/11 (lot 2a, regenere le 02/11) perd sa vanne : le carrousel du 04/11 doit recevoir une autre vanne a fiche.",
+        "carte_1_2": "« Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. » // « Elle m'a dit “c'est un bon début”. »",
+        "legende_proposee": "meilleure somme parmi R05, R13, R20",
+        "candidats_legende": {
+          "R13": { "texte": "À envoyer à celui qui se croit fort à son jeu préféré.", "caracteres": 54 },
+          "R05": { "texte": "À envoyer à ton pote gamer, avant que sa grand-mère le rattrape.", "caracteres": 64 },
+          "R20": { "texte": "À envoyer à celui dont la grand-mère n'a jamais perdu une partie.", "caracteres": 65 }
+        },
+        "options_si_echec_carrousel": [
+          "meme logique avec une autre vanne a cartes 3 et 4 ecrites de complements-lot-s15.md §1 : 02/12 cs14jkbdb9858fdd496e962a (table des amis d'enfance), 25/11 cs14jk20142f9a641e8ea80f (canon), 16/12 cmp9fpyd4006ys60xwsegez9e (Hellfest), 30/12 cs14jkbe6b6bc15755d06863 (cote gauche du lit)",
+          "vanne du pool strict avec fiche technique ecrite mais cartes a rediger puis relire : V046 (vid V201), V047 (vid V053), V037 (vid V454), V040 (vid V054), P0-072 et P0-041 (docs/social/preparation/p0-a-inserer.json)"
+        ]
+      }
+    },
+    "IG1-27-10-legende": {
+      "echeance": "avant le 27/10 (lot 1b ou 2a)",
+      "fichier_a_modifier": "apps/web/scripts/content/social-lot-v5-fixes.ts, entree cle \"IG1\", champ legende",
+      "post": "vanne validee Thomas inchangee (cs14jke5d015b07714055538, V025) ; legende actuelle : A envoyer a ton tuteur de stage. (8,5 / 8)",
+      "candidats": {
+        "R11": { "texte": "À envoyer à ton tuteur de stage, qui a sûrement tout lu.", "caracteres": 56 },
+        "R19": { "texte": "À envoyer à qui a eu un retour très encourageant sur son rapport.", "caracteres": 65 },
+        "R04": { "texte": "À envoyer à celui qui attend encore un avis sur le fond.", "caracteres": 56 }
+      },
+      "si_echec": "legende actuelle conservee (8,5 / 8, validee Thomas)"
+    },
+    "IG-30-10-legende": {
+      "echeance": "avant le 30/10",
+      "fichier_a_modifier": "apps/web/scripts/content/social-lot-v5-fixes.ts, entree cle \"halloween-ig\", champ legende",
+      "post": "vanne cs14jk1bc86d3502a2cef27b inchangee ; legende actuelle : A envoyer a qui a un date pour Halloween. (6,5 / 6,5)",
+      "candidats": {
+        "R08": { "texte": "À envoyer à ton date, si c'est bien un date.", "caracteres": 44 },
+        "R01": { "texte": "À envoyer à celui qui planifie le costume avant le deuxième rendez-vous.", "caracteres": 72 },
+        "R17": { "texte": "À envoyer à qui a déjà une idée de costume pour deux.", "caracteres": 53 }
+      },
+      "si_echec": "aucune au niveau : 2e serie de 3 candidats relue a l'aveugle avant le 29/10 ; en dernier recours, carte vanne sans legende (rien n'est publie sous la barre)"
+    }
+  },
+  "verifications_faites": "zero tiret cadratin ; aucune mention de prix ; aucun lien dans une legende IG ; legendes de 80 caracteres au plus (decompte a la main, point final inclus) ; vannes recopiees mot pour mot de docs/copy/catalogue-vannes-valides.md, guillemets imbriques en “ ” (R6)"
+}
