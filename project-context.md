@@ -48,7 +48,7 @@
 - **Backend** : Next.js API Routes (serverless) + Prisma 6.2 ORM
 - **Base de données** : PostgreSQL (via Prisma)
 - **Authentification** : NextAuth.js 4.24 (Prisma Adapter)
-- **Hébergement** : Replit
+- **Hébergement** : Cloudflare Workers (OpenNext) depuis le 30/09/2026 ; base Neon Postgres ; Replit en pause
 - **Outils IA utilisés** : Anthropic Claude (SDK @anthropic-ai/sdk 0.39) — 7 agents IA en production : joke-agent, tip-agent, video-agent, video-discovery-agent, seo-blog-agent, social-media-agent, standup-director-agent (validation qualité), marketing-agent (tonalité), haro-agent (backlinks presse)
 - **Budget IA mensuel (tokens)** : Inclus dans infra Replit — à monitorer si le volume augmente
 - **Volume d'usage IA prévu** : ~10-20 requêtes IA/jour (3 contenus quotidiens + validation directeur + social posts + hebdo SEO)
