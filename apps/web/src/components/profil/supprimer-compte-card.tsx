@@ -88,7 +88,7 @@ export function SupprimerCompteCard({
         <p className="text-sm text-text-secondary">{T.intro}</p>
         {abonne && <AvertissementAbonne fin={finPeriode ? dateLongue(finPeriode) : null} resilie={resilie} />}
         {!ouvert ? (
-          <Button variant="ghost" size="sm" className="mt-4 text-error-text" onClick={ouvrir}>
+          <Button variant="ghost" size="sm" className="-ml-3 mt-4 text-error-text" onClick={ouvrir}>
             {T.ouvrir}
           </Button>
         ) : (

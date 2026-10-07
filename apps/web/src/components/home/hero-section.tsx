@@ -11,7 +11,8 @@ import { trackUmami } from "@/lib/umami";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { ACCUEIL_LIEN_ETAPE_1 } from "@/config/textes/entrees-parcours";
-import { ReprendreParcours } from "@/components/home/reprendre-parcours";
+import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
+import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 
 /** Pastilles du hero : libellés existants, chacune mène à l'étape 1 du parcours qu'elle nomme
  *  (T02 ; s17 : `?src=accueil`, data-analyst §5.3).
@@ -30,6 +31,7 @@ const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressor
 export function HeroSection() {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
+  const aReprendre = useParcoursAReprendre();
 
   return (
     <section className="py-12 text-center md:py-20">
@@ -57,11 +59,16 @@ export function HeroSection() {
       {isAuthenticated ? (
         <>
         {/* Abonné avec un parcours en cours : « Reprendre ton parcours » d'abord (reco 5, s17). */}
-        <ReprendreParcours src="accueil" className="mx-auto mt-8 max-w-xl" />
+        <ReprendreParcoursBloc src="accueil" className="mx-auto mt-8 max-w-xl" aReprendre={aReprendre} />
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/vannes"
-            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+            // s17 tour 2 (DES-2-08) : un seul bouton plein ; avec « Reprendre » affiché, celui-ci passe en contour.
+            className={cn(
+              buttonVariants({ variant: aReprendre ? "outline" : "primary", size: "lg" }),
+              aReprendre && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
+              "w-full sm:w-auto",
+            )}
           >
             Explorer les vannes
           </Link>

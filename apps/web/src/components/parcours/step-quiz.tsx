@@ -78,7 +78,12 @@ export function StepQuiz({
     return (
       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center" role="status">
         <p className="font-display text-lg font-bold">{quizFinVisiteur(score, quiz.length)}</p>
-        <Button variant="outline" className="mt-3 min-h-[44px] w-full sm:w-auto" onClick={restart}>
+        {/* s17 tour 2 (DES-2-02) : contour lisible (≈ 5,9:1), survol visible. */}
+        <Button
+          variant="outline"
+          className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
+          onClick={restart}
+        >
           {QUIZ_FIN_BOUTON.visiteur}
         </Button>
       </div>
@@ -99,7 +104,7 @@ export function StepQuiz({
         </p>
         <Button
           variant="outline"
-          className="mt-3 min-h-[44px] w-full sm:w-auto"
+          className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
           onClick={() => onComplete(score, quiz.length)}
         >
           {QUIZ_FIN_BOUTON.abonne}

@@ -211,6 +211,17 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
     return prog && !prog.done && prog.completed > 0 && prog.nextStep !== null;
   });
 
+  // s17 tour 2 (UXV-2-05) : abonné qui a entamé un parcours = ses cartes d'abord, le quiz d'orientation après.
+  const parcoursEntame = statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0);
+  const quizOrientation = (
+    <div className={parcoursEntame ? "mt-10" : "mb-10"}>
+      <h2 className="mb-4 font-display text-xl font-bold">
+        Quel parcours est fait pour toi ?
+      </h2>
+      <OrientationQuiz onShowParcours={showParcours} statut={statut} />
+    </div>
+  );
+
   // L'étape 1 se lit sans compte : « Commencer ce parcours » mène au parcours
   // pour tout le monde (s15 §2.7, avant : /register pour un visiteur).
   const handleCta = (slug: string) => {
@@ -239,13 +250,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
         </div>
       )}
 
-      {/* Orientation quiz */}
-      <div className="mb-10">
-        <h2 className="mb-4 font-display text-xl font-bold">
-          Quel parcours est fait pour toi ?
-        </h2>
-        <OrientationQuiz onShowParcours={showParcours} statut={statut} />
-      </div>
+      {!parcoursEntame && quizOrientation}
 
       {/* Parcours cards */}
       <div className="flex flex-col gap-6">
@@ -357,6 +362,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           );
         })}
       </div>
+
+      {parcoursEntame && quizOrientation}
     </>
   );
 }

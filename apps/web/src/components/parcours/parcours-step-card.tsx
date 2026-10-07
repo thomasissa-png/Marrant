@@ -148,7 +148,10 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 {isCompleted && <span className="sr-only"> (validée)</span>}
               </CardTitle>
               <div className="mt-1 flex flex-wrap items-center gap-2">
-                <span className={`text-xs ${muted ? "text-text-muted" : "text-accent-link"}`}>+{stepXp} XP</span>
+                {/* s17 tour 2 (DES-2-04) : pas de « +N XP » statique au-dessus du gain qui vient d'être affiché. */}
+                {!(isCompleted && props.resultat?.xp) && (
+                  <span className={`text-xs ${muted ? "text-text-muted" : "text-accent-link"}`}>+{stepXp} XP</span>
+                )}
                 {(step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
                 {isPremiumLocked && !isCompleted && <Badge variant="premium">{ETAPE_APERCU_LIBELLE}</Badge>}
                 {isSequentiallyLocked && props.previousOrder !== null && (
@@ -178,7 +181,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       {isCompleted && props.resultat && (props.resultat.xp || props.resultat.rythme) && (
         <div className="mt-2 pl-11 text-sm" data-testid="etape-resultat">
           {props.resultat.xp && (
-            <p className="font-bold text-accent-link animate-scale-in motion-reduce:animate-none">{props.resultat.xp}</p>
+            <p className="text-base font-bold text-accent-link animate-scale-in motion-reduce:animate-none">{props.resultat.xp}</p>
           )}
           {props.resultat.rythme && <p className="mt-0.5 text-text-secondary">{props.resultat.rythme}</p>}
         </div>
@@ -189,17 +192,28 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
           {isPremiumLocked ? (
             <LockedStepPreview step={step} slug={slug} />
           ) : step.locked ? (
+            // s17 tour 2 (DES-2-01, UXV-2-01) : bloc d'échec en error-text ; l'alerte vocale est portée par la
+            // carte de progression (une seule annonce), ce bloc garde le message et son « Réessayer ».
             props.loadFailed ? (
-              <div className="rounded-lg bg-background-elevated p-4 text-center text-sm text-text-secondary" role="alert">
+              <div className="rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
                 <p>{CHARGEMENT_ETAPE.echec}</p>
-                <Button variant="primary" size="sm" className="mt-3" onClick={props.onRetryLoad}>
+                <Button
+                  variant="outline"
+                  className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
+                  onClick={props.onRetryLoad}
+                >
                   {CHARGEMENT_ETAPE.reessayer}
                 </Button>
               </div>
             ) : (
-              <p className="rounded-lg bg-background-elevated p-4 text-center text-sm text-text-secondary" role="status">
-                {CHARGEMENT_ETAPE.enCours}
-              </p>
+              <div aria-busy="true" className="min-h-[160px] space-y-3 rounded-lg bg-background-elevated/40 p-4">
+                <p role="status" className="text-sm text-text-muted">{CHARGEMENT_ETAPE.enCours}</p>
+                <div aria-hidden="true" data-testid="etape-squelette" className="space-y-3 animate-pulse motion-reduce:animate-none">
+                  <div className="h-4 w-full rounded bg-background-elevated" />
+                  <div className="h-4 w-[90%] rounded bg-background-elevated" />
+                  <div className="h-4 w-[60%] rounded bg-background-elevated" />
+                </div>
+              </div>
             )
           ) : (
             <StepContent {...props} hasQuiz={hasQuiz} />
@@ -295,13 +309,26 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {!isCompleted && isPremium && !isSeedFallback && hasQuiz && !isQuizDone && (
-        <Button variant="primary" className="w-full cursor-not-allowed opacity-50" disabled>
+        // s17 tour 2 (DES-2-03, UXV-2-02) : gris lisible (≈ 7:1), aria-disabled pour que la consigne soit lue.
+        <Button
+          variant="primary"
+          aria-disabled="true"
+          className="w-full cursor-not-allowed border border-border bg-background-elevated text-text-secondary hover:bg-background-elevated"
+          onClick={(e) => e.preventDefault()}
+        >
           Termine le quiz pour valider cette étape
         </Button>
       )}
 
       {!isCompleted && isPremium && !isSeedFallback && (!hasQuiz || isQuizDone) && (
-        <Button variant="primary" className="w-full" onClick={props.onComplete} disabled={props.completing}>
+        <Button variant="primary" className="w-full disabled:opacity-80" onClick={props.onComplete} disabled={props.completing}>
+          {/* s17 tour 2 (DES-2-03) : « On valide… » lisible, avec un indicateur 16 px. */}
+          {props.completing && (
+            <span
+              aria-hidden="true"
+              className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent motion-reduce:animate-none"
+            />
+          )}
           {props.completing ? "On valide…" : "Valider cette étape"}
         </Button>
       )}

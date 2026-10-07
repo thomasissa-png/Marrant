@@ -124,7 +124,8 @@ export const PathCompletionCard = forwardRef<
         {suite.kind === "parcours" && (
           <div className="mt-6">
             {suite.slug === nextParcours && nextParcoursReason && (
-              <p className="text-sm text-text-secondary">{nextParcoursReason}</p>
+              // s17 tour 2 (DES-2-05) : même largeur que le bilan (une seule colonne de lecture).
+              <p className="mx-auto max-w-md text-sm text-text-secondary">{nextParcoursReason}</p>
             )}
             <Link
               href={`/parcours/${suite.slug}?src=suite`}
@@ -135,7 +136,7 @@ export const PathCompletionCard = forwardRef<
           </div>
         )}
         {suite.kind === "tout-fini" && (
-          <p className="mt-6 text-sm text-text-secondary">
+          <p className="mx-auto mt-6 max-w-md text-sm text-text-secondary">
             {FIN_PARCOURS.carnetAvant}
             <Link href="/carnet" className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2">
               {FIN_PARCOURS.carnet}

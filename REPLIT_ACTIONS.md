@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s17 tour 2 de la notation visuelle (07/10/2026) : corrections @fullstack et @copywriter, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
+
+> Rapport : `docs/marrant/audit-parcours-apprentissage-s17/iterations/iter-1-corrections.md` (section « Tour 2 »). Chargement et échec du contenu Premium (progression gardée dans le navigateur, liée au compte ; squelette ; « Réessayer »), finitions design et UX du tour 2, 7 doublons « Ce que tu vas apprendre » réécrits (`parcours-seed.json`, lu à l'affichage, rien à rejouer en base). **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 765 PASS) et `npm run build` verts en local.
+
 ## s17 tour 1 de la notation visuelle (07/10/2026) : corrections @fullstack, **NON DÉPLOYÉ** (part avec le lot s17 ci-dessous)
 
 > Rapport : `docs/marrant/audit-parcours-apprentissage-s17/iterations/iter-1-corrections.md`. Code seul (interface, textes, token Tailwind `error-text`, smoke `murs-premium.spec.ts:115` réaligné) : **aucune migration, aucune variable d'environnement**. tsc, ESLint, Jest complet (3 756 PASS) et `npm run build` verts en local. Mise en ligne après 10/10 @design et @ux (choix fondateur du 07/10).

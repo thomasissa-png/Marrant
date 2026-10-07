@@ -65,6 +65,11 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
     input?.focus({ preventScroll: true });
   }, [loaded, checkboxId]);
 
+  // s17 tour 2 (UXV-2-03) : le sélecteur, inactif interrupteur éteint, s'active puis prend le focus.
+  useEffect(() => {
+    if (activationEnAttente) selectRef.current?.focus();
+  }, [activationEnAttente]);
+
   if (!isPremium || !pref) return null;
 
   // Étalon 3.7 : aucun jour présélectionné tant que le rappel n'a jamais été réglé.
@@ -121,7 +126,6 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
               } else if (weekday === null) {
                 setActivationEnAttente(true);
                 setMessage(RAPPEL_PARCOURS_UI.choisirJour);
-                selectRef.current?.focus();
               } else {
                 void save({ enabled: true, weekday });
               }
@@ -144,17 +148,16 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
         </label>
         <select
           id={selectId}
-          className="min-h-[44px] rounded-md border border-border-hover bg-background-light px-3 text-sm text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          className="min-h-[44px] rounded-md border border-border-hover bg-background-light px-3 text-sm text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary disabled:cursor-not-allowed disabled:border-border disabled:text-text-muted"
           ref={selectRef}
           value={weekday ?? ""}
-          disabled={saving}
+          // s17 tour 2 (UXV-2-03) : pas de jour à choisir tant que le rappel est éteint (on ne croit pas l'avoir programmé).
+          disabled={saving || (!pref.enabled && !activationEnAttente)}
           onChange={(e) => {
             const nextDay = Number(e.target.value);
             if (!nextDay) return;
-            if (pref.enabled || activationEnAttente) {
-              setActivationEnAttente(false);
-              void save({ enabled: true, weekday: nextDay });
-            } else setPref({ ...pref, weekday: nextDay });
+            setActivationEnAttente(false);
+            void save({ enabled: true, weekday: nextDay });
           }}
         >
           {weekday === null && (

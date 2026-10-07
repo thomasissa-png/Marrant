@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { trackUmami } from "@/lib/umami";
 import { stripEmDashes } from "@/lib/em-dash";
@@ -32,13 +33,14 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
     <div className="space-y-3 rounded-lg bg-background-elevated p-4">
       {(step.moduleDetail || step.why) && (
         <div>
-          <p className="text-sm font-medium text-accent-link">Ce que tu vas apprendre</p>
-          <p className="mt-1 text-sm text-text-secondary">{step.moduleDetail || step.why}</p>
+          {/* s17 tour 2 (DES-2-06) : label comme dans l'étape ouverte, corps limité à ≈ 70 caractères par ligne. */}
+          <p className="font-display text-base font-bold text-text-primary">Ce que tu vas apprendre</p>
+          <p className="mt-1 max-w-[68ch] text-sm text-text-secondary">{step.moduleDetail || step.why}</p>
         </div>
       )}
       {step.moduleFormat && <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>}
       <div className="border-t border-border pt-3 text-center">
-        <p className="text-sm text-text-secondary">{APERCU_BAS}</p>
+        <p className="mx-auto max-w-[48ch] text-sm text-text-secondary">{APERCU_BAS}</p>
         <Link
           href={buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-apercu")}
           className={`${buttonVariants({ variant: "primary", size: "sm" })} mt-3 min-h-[44px]`}
@@ -71,7 +73,12 @@ export function ValidationWall({
       <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
       <Link
         href={href}
-        className={`${buttonVariants({ variant: quizPending ? "outline" : "primary" })} mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug`}
+        className={cn(
+          buttonVariants({ variant: quizPending ? "outline" : "primary" }),
+          // s17 tour 2 (DES-2-02) : contour violet lisible (≈ 3,9:1) et survol visible, variante globale intacte.
+          quizPending && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
+          "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug",
+        )}
       >
         {VALIDATION_ETAPE.bouton}
       </Link>

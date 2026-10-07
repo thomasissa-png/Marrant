@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { parcoursEtapeHref, type ParcoursEntreeSrc } from "@/lib/entrees-parcours";
+import { parcoursEtapeHref, type ParcoursAReprendre, type ParcoursEntreeSrc } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { REPRENDRE } from "@/config/textes/entrees-parcours";
 
@@ -12,8 +12,18 @@ import { REPRENDRE } from "@/config/textes/entrees-parcours";
  * (reco 5, UX-03). Rien pour un visiteur, un compte sans Premium, ou un
  * abonné sans parcours en cours.
  */
-export function ReprendreParcours({ src, className }: { src: Extract<ParcoursEntreeSrc, "accueil" | "profil">; className?: string }) {
-  const aReprendre = useParcoursAReprendre();
+type ReprendreProps = { src: Extract<ParcoursEntreeSrc, "accueil" | "profil">; className?: string };
+
+export function ReprendreParcours(props: ReprendreProps) {
+  return <ReprendreParcoursBloc {...props} aReprendre={useParcoursAReprendre()} />;
+}
+
+/** s17 tour 2 (DES-2-08) : bloc seul, pour l'accueil qui lit déjà le parcours à reprendre (une seule requête). */
+export function ReprendreParcoursBloc({
+  src,
+  className,
+  aReprendre,
+}: ReprendreProps & { aReprendre: ParcoursAReprendre | null }) {
   if (!aReprendre) return null;
 
   return (

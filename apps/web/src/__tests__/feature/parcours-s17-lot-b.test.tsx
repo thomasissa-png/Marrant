@@ -4,7 +4,7 @@
  * D2 rythme doux, retour d'exercice, événements data-analyst §5, FS-09.
  * Parcours de 4 et 6 étapes (cas cités par l'audit).
  */
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
 
@@ -185,7 +185,8 @@ describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
     await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 0, motif: "chargement" }));
     // Étape 2 ouverte d'office (étape à reprendre) : plus d'attente sans fin.
     expect(await screen.findByText("Le contenu de l'étape n'a pas voulu se charger.")).toBeInTheDocument();
-    await userEvent.click(screen.getByText("Réessayer"));
+    // s17 tour 2 : la page porte aussi son « Réessayer » ; ici, celui de l'étape dépliée.
+    await userEvent.click(within(document.getElementById("etape-2") as HTMLElement).getByText("Réessayer"));
     expect(await screen.findByText("Conseil complet 2")).toBeInTheDocument();
   });
 });

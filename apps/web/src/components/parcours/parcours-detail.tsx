@@ -20,6 +20,7 @@ import {
   totalParcoursXp,
 } from "@/lib/parcours-xp";
 import { readParcoursSrc } from "@/lib/parcours-tracking";
+import { ecrireProgressionCache, lireProgressionCache } from "@/lib/parcours-progress-cache";
 import { useUserStore } from "@/stores/user-store";
 import { RAPPEL_PARCOURS_API } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import {
@@ -27,6 +28,7 @@ import {
   progressionVisiteurTexte,
   prochaineEtapeTexte,
   APERCU_INTRO,
+  CHARGEMENT_PREMIUM,
   PROCHAINE_ETAPE_DISPONIBLE,
   RAPPEL_LIEN,
   TITRES_SECTIONS,
@@ -82,7 +84,8 @@ export function ParcoursDetail({
   const [progress, setProgress] = useState<UserProgress | null>(initialProgress);
   const [isLoading, setIsLoading] = useState<boolean>(!initialPath);
   const [fetchError, setFetchError] = useState(false);
-  const [enrichError, setEnrichError] = useState(false);
+  // s17 tour 2 : état du chargement abonné (HTML ISR) : « attente » tant que l'API n'a pas répondu.
+  const [enrich, setEnrich] = useState<"attente" | "ok" | "echec">("attente");
   const [reloadKey, setReloadKey] = useState(0);
   const [lastValidation, setLastValidation] = useState<string | null>(null);
   const [nextRecommended, setNextRecommended] = useState<string | null>(null);
@@ -108,6 +111,8 @@ export function ParcoursDetail({
   const focusAfterValidation = useRef<{ validee: number; suivante: number } | "fin" | null>(null);
   const completionHeading = useRef<HTMLHeadingElement>(null);
   const hashStep = useRef<number | null>(null);
+  const cacheApplique = useRef(false);
+  const reessayerRef = useRef<HTMLButtonElement>(null);
 
   const { status, data: session } = useSession();
   const storeUser = useUserStore((s) => s.user);
@@ -117,6 +122,7 @@ export function ParcoursDetail({
     (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) || isPremiumPlan(storeUser?.plan));
   const statut: StatutParcours = isPremium ? "premium" : status === "authenticated" ? "membre" : "visiteur";
   // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
+  const userId = (session?.user as { id?: string } | undefined)?.id;
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
 
   // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
@@ -141,6 +147,7 @@ export function ParcoursDetail({
   const applyServerData = useCallback((data: ByslugResponse) => {
     if (data.path?.steps) setPath(data.path);
     if (data.userProgress) setProgress(data.userProgress);
+    if (data.path?.steps) ecrireProgressionCache(slug, userId, data.userProgress ?? null);
     // Ouverture directe sur l'étape visée ou à reprendre (UX-11).
     const next = data.path?.steps
       ? stepToOpen(data.path.steps, data.userProgress?.completedSteps ?? [], hashStep.current)
@@ -148,7 +155,7 @@ export function ParcoursDetail({
     // UXV-1-03 : parcours terminé sans ancre = toutes les étapes repliées (next vaut alors null).
     if (next !== null || data.userProgress?.completedAt) setExpandedStep(next);
     setLastValidation(derniereValidation(data.stepValidations));
-  }, []);
+  }, [slug, userId]);
 
   useEffect(() => {
     if (initialPath) {
@@ -156,17 +163,31 @@ export function ParcoursDetail({
       if (status !== "authenticated") return;
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 10_000);
-      setEnrichError(false);
+      let annule = false;
+      setEnrich("attente");
+      // s17 tour 2 : dernière progression connue affichée tout de suite (jamais « 0/N » par défaut).
+      const cache = lireProgressionCache(slug, userId);
+      if (cache && !cacheApplique.current) {
+        cacheApplique.current = true;
+        setProgress((prev) => prev ?? cache);
+        setExpandedStep(stepToOpen(initialPath.steps, cache.completedSteps, hashStep.current ?? readHashStep()));
+      }
       fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`, { signal: controller.signal })
         .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
-        .then((data: ByslugResponse) => applyServerData(data))
+        .then((data: ByslugResponse) => {
+          if (annule) return;
+          applyServerData(data);
+          setEnrich("ok");
+        })
         .catch(() => {
-          // FS-09 : plus d'attente silencieuse, message et bouton « Réessayer ».
-          setEnrichError(true);
+          if (annule) return;
+          // FS-09 : plus d'attente silencieuse ; s17 tour 2 : message et « Réessayer » au niveau de la page.
+          setEnrich("echec");
           trackUmami("parcours-erreur", { parcours: slug, etape: 0, motif: "chargement" });
         })
         .finally(() => clearTimeout(timer));
       return () => {
+        annule = true;
         clearTimeout(timer);
         controller.abort();
       };
@@ -181,7 +202,12 @@ export function ParcoursDetail({
       })
       .catch(() => setFetchError(true))
       .finally(() => setIsLoading(false));
-  }, [slug, initialPath, status, reloadKey, applyServerData]);
+  }, [slug, initialPath, status, reloadKey, applyServerData, userId]);
+
+  // s17 tour 2 (DES-2-01) : nouvel échec après « Réessayer » = focus rendu au bouton (le précédent a disparu).
+  useEffect(() => {
+    if (enrich === "echec" && reloadKey > 0) reessayerRef.current?.focus();
+  }, [enrich, reloadKey]);
 
   // Ancre #etape-N à l'arrivée (HTML ISR) : l'étape s'ouvre et vient à l'écran.
   useEffect(() => {
@@ -304,6 +330,7 @@ export function ParcoursDetail({
         // A2 : la fin vient du serveur (`pathCompleted` ou `completedAt`), jamais d'un seuil d'XP.
         const completedAt = base.completedAt ?? (pathCompleted ? new Date().toISOString() : null);
         setProgress({ ...base, completedSteps: completed, completedAt });
+        ecrireProgressionCache(slug, userId, { ...base, completedSteps: completed, completedAt });
         setLastValidation(new Date().toISOString());
         setNextRecommended(data.nextRecommendedAt ?? null);
         // Total réel lu côté serveur (lot A), étapes + bonus de fin.
@@ -404,6 +431,11 @@ export function ParcoursDetail({
   const isPathCompleted = !!progress?.completedAt;
   const totalXp = serverXpTotal ?? totalParcoursXp(path.steps);
   const isSeedFallback = path.id.startsWith("seed-");
+  // s17 tour 2 : HTML ISR = progression inconnue tant que l'API (ou le cache du compte) ne l'a pas donnée.
+  const attendApi = !!initialPath && status === "authenticated";
+  const chargementPremium = isPremium && attendApi && enrich === "attente";
+  const echecPremium = isPremium && attendApi && enrich === "echec";
+  const progressionConnue = progress !== null || !attendApi || enrich === "ok";
   // D2 (étalon 3.3 A) : date du serveur (lot A) si fournie, sinon 7 jours après la
   // dernière validation connue ; date passée = « La prochaine étape t'attend. ».
   const showRythme = isPremium && !isPathCompleted && completedSteps.length > 0 && (!!nextRecommended || !!lastValidation);
@@ -412,6 +444,26 @@ export function ParcoursDetail({
     : nextRecommended && new Date(nextRecommended).getTime() > Date.now()
       ? new Date(nextRecommended)
       : prochaineEtapeConseillee(lastValidation);
+
+  // s17 tour 2 (DES-2-11) : parcours terminé, l'argumentaire (intro, « Pour qui ? ») passe après la carte de fin.
+  const argumentaire = (
+    <>
+      <p className="mt-4 text-text-secondary">{stripEmDashes(path.description)}</p>
+      {(path.personaTagline || path.testimonial) && (
+        <section aria-labelledby="parcours-pour-qui" className="mt-4">
+          <h2 id="parcours-pour-qui" className="font-display text-lg font-bold">{TITRES_SECTIONS.pourQui}</h2>
+          {path.personaTagline && (
+            <p className="mt-2 text-sm font-medium text-accent-link">{path.personaTagline}</p>
+          )}
+          {path.testimonial && (
+            <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+              {stripEmDashes(path.testimonial)}
+            </p>
+          )}
+        </section>
+      )}
+    </>
+  );
 
   return (
     <>
@@ -434,38 +486,56 @@ export function ParcoursDetail({
             </div>
           </div>
         </div>
-        <p className="mt-4 text-text-secondary">{stripEmDashes(path.description)}</p>
-        {(path.personaTagline || path.testimonial) && (
-          <section aria-labelledby="parcours-pour-qui" className="mt-4">
-            <h2 id="parcours-pour-qui" className="font-display text-lg font-bold">{TITRES_SECTIONS.pourQui}</h2>
-            {path.personaTagline && (
-              <p className="mt-2 text-sm font-medium text-accent-link">{path.personaTagline}</p>
-            )}
-            {path.testimonial && (
-              <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-                {stripEmDashes(path.testimonial)}
-              </p>
-            )}
-          </section>
-        )}
+        {!isPathCompleted && argumentaire}
       </div>
 
       {/* DES-1-16 : carte resserrée (une ligne pour le visiteur). */}
-      <Card className={isPremium ? "mb-8" : "mb-8 py-3"}>
+      <Card className={isPremium ? "mb-8" : "mb-8 py-3"} aria-busy={chargementPremium || undefined}>
         <CardContent className={isPremium ? "py-2" : ""}>
           {isPremium ? (
             <>
-              {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
-              <ProgressBar
-                label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
-                value={completedSteps.length}
-                max={totalSteps}
-                variant="gradient"
-              />
-              {/* DES-1-16 : total à gagner en secondaire, pour ne pas le lire comme un gain. */}
-              <p className="mt-2 text-right text-sm text-text-secondary">
-                {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
-              </p>
+              {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16).
+                  s17 tour 2 : progression inconnue = squelette, jamais « 0/N » par défaut. */}
+              {progressionConnue ? (
+                <ProgressBar
+                  label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
+                  value={completedSteps.length}
+                  max={totalSteps}
+                  variant="gradient"
+                />
+              ) : (
+                chargementPremium && (
+                  <div aria-hidden="true" data-testid="progression-squelette" className="animate-pulse motion-reduce:animate-none">
+                    <div className="mb-1 h-4 w-40 rounded bg-background-elevated" />
+                    <div className="h-2 w-full rounded-full bg-background-elevated" />
+                  </div>
+                )
+              )}
+              {chargementPremium && (
+                <p role="status" className="mt-2 text-sm text-text-muted">{CHARGEMENT_PREMIUM.enCours}</p>
+              )}
+              {/* s17 tour 2 (DES-2-01, UXV-2-01) : échec signalé au niveau de la page, progression gardée. */}
+              {echecPremium && (
+                <div role="alert" className="mt-3 rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
+                  <p className="font-semibold">{CHARGEMENT_PREMIUM.echec}</p>
+                  <p className="mt-1">{CHARGEMENT_PREMIUM.echecTexte}</p>
+                  <Button
+                    ref={reessayerRef}
+                    variant="outline"
+                    className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
+                    onClick={() => setReloadKey((k) => k + 1)}
+                  >
+                    {CHARGEMENT_PREMIUM.reessayer}
+                  </Button>
+                </div>
+              )}
+              {/* DES-1-16 : total à gagner en secondaire, pour ne pas le lire comme un gain.
+                  s17 tour 2 (DES-2-05) : parcours terminé, la carte de fin dit déjà l'XP gagné. */}
+              {!isPathCompleted && (
+                <p className="mt-2 text-right text-sm text-text-secondary">
+                  {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
+                </p>
+              )}
               {showRythme && (
                 <p className="mt-2 text-sm text-text-secondary">
                   {nextDate ? prochaineEtapeTexte(formatDateConseillee(nextDate)) : PROCHAINE_ETAPE_DISPONIBLE}
@@ -509,6 +579,7 @@ export function ParcoursDetail({
           nextParcoursReason={path.nextParcoursReason}
         />
       )}
+      {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
 
       {completionError && (
         <div className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error-text" role="alert">
@@ -518,7 +589,7 @@ export function ParcoursDetail({
 
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
       {!isPremium && <p className="mb-4 text-sm text-text-secondary">{APERCU_INTRO}</p>}
-      <div className="space-y-4" role="list" aria-label="Étapes du parcours">
+      <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
           const previousStepsCompleted =
@@ -533,14 +604,15 @@ export function ParcoursDetail({
               isCompleted={isCompleted}
               isExpanded={expandedStep === step.order}
               // D1 : ordre conseillé pour l'abonné seulement ; le visiteur ouvre l'aperçu.
-              isSequentiallyLocked={isPremium && !previousStepsCompleted && !isCompleted}
+              // s17 tour 2 : pas de verrou tant que la progression est inconnue (faux « Termine l'étape 1 »).
+              isSequentiallyLocked={isPremium && progressionConnue && !previousStepsCompleted && !isCompleted}
               isPremiumLocked={!canAccessParcoursStep(step.order, isPremium ? "PREMIUM" : null)}
               previousOrder={path.steps[stepIndex - 1]?.order ?? null}
               isQuizDone={quizDone.has(step.order)}
               isSeedFallback={isSeedFallback}
               completing={completing === step.order}
               abonnementHref={abonnementHref}
-              loadFailed={enrichError}
+              loadFailed={enrich === "echec"}
               onRetryLoad={() => setReloadKey((k) => k + 1)}
               onToggle={() => toggleStep(step.order, expandedStep === step.order)}
               onQuizComplete={(score, total) => {

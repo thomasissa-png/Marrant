@@ -102,13 +102,14 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
   });
   it("Premium : case décochée par défaut, texte exact, activation envoyée avec le jour", async () => {
     useSession.mockReturnValue(premium);
-    const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: null, eligible: true } });
+    // s17 tour 2 (UXV-2-03) : jour déjà connu, sélecteur inactif tant que le rappel est éteint.
+    const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: 3, eligible: true } });
     render(<RappelParcoursToggle />);
     const box = await screen.findByRole("switch", {
       name: "Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l'arrêter à tout moment.",
     });
     expect(box).not.toBeChecked();
-    await userEvent.selectOptions(screen.getByLabelText("Jour du rappel"), "3");
+    expect(screen.getByLabelText("Jour du rappel")).toBeDisabled();
     await userEvent.click(box);
     const post = fetchMock.mock.calls.find((c) => ((c as unknown[])[1] as RequestInit | undefined)?.method === "POST") as unknown as [string, RequestInit];
     expect(JSON.parse(post[1].body as string)).toEqual({ enabled: true, weekday: 3 });
@@ -122,11 +123,13 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     const select = screen.getByLabelText("Jour du rappel") as HTMLSelectElement;
     expect(select.value).toBe("");
     expect(screen.getByRole("option", { name: "Choisis un jour" })).toBeInTheDocument();
+    expect(select).toBeDisabled();
     const posts = () => fetchMock.mock.calls.filter((c) => ((c as unknown[])[1] as RequestInit | undefined)?.method === "POST");
     await userEvent.click(box);
     expect(posts()).toHaveLength(0);
     expect(box).not.toBeChecked();
     expect(screen.getByText("Choisis d'abord le jour du rappel, il s'activera aussitôt.")).toBeInTheDocument();
+    expect(select).toBeEnabled();
     expect(select).toHaveFocus();
     await userEvent.selectOptions(select, "5");
     expect(JSON.parse((posts()[0] as unknown as [string, RequestInit])[1].body as string)).toEqual({ enabled: true, weekday: 5 });

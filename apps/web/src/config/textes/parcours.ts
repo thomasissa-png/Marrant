@@ -177,6 +177,16 @@ export const CHARGEMENT_ETAPE = {
   reessayer: "Réessayer",
 } as const;
 
+// s17 tour 2 (défaut QA iter-2 : chargement Premium lent ou en échec, signalé au niveau de la page)
+/** Progression et contenu d'un abonné, chargés après l'affichage (le HTML ISR est partagé). */
+export const CHARGEMENT_PREMIUM = {
+  enCours: "Chargement de ta progression et de tes étapes…",
+  // UXV-2-01 : « Ta progression est intacte » + un message court.
+  echec: "Ta progression est intacte.",
+  echecTexte: "Tes étapes n'ont pas voulu se charger, le souci vient de chez nous.",
+  reessayer: "Réessayer",
+} as const;
+
 // s17, aligné sur les étalons (ligne de format « 5 vannes » : étalon 1)
 /** Vannes de l'étape (D4) et liens vers les fiches (SEO-05). */
 export const VANNES_ETAPE = {
