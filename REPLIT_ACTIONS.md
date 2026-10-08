@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (08/10/2026, 13:17 Paris) : H+45 LinkedIn et X OK (jour 3)
+
+- LinkedIn `sent` à 08:17, X `sent` à 12:32, liens réels, aucun FAILED (`docs/social/releves/2026-10-08.md`). Alertes du matin : 8 de classe B (files basses avant l'insertion du lot 1a le 09/10), aucun e-mail.
+
 ## s15 gabarit carte conseil : **COMMITÉ, À DÉPLOYER avant le ven. 23/10 (1er conseil IG)**
 
 > - **Pourquoi** : le 1er conseil Instagram (K26, « Consoler en exagérant ») part le ven. 23/10 à 19:30. Sans ce code, le Worker rend ses cartes avec le gabarit vanne (5 cartes sur 10 débordaient). Le Worker de production ne connaît pas encore le gabarit : il **part avec le prochain déploiement autorisé**, c'est-à-dire le déploiement groupé s18 ci-dessous, qui attend le feu vert de Thomas (garde de déploiement : une autre session a du code non déployé, donc **aucun `deploy:cf` dans cette session**). Si ce feu vert tarde, prévoir un déploiement avant le 23/10 qui embarque les deux. Ce déploiement doit avoir lieu avant l'insertion du lot 1b, ou au plus tard avant le 23/10 à 19:30.
