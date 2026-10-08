@@ -9,7 +9,7 @@
 import { buildLotV5, controlerLot, type LotInput, type LotResult } from "../../../scripts/content/social-lot-v5";
 import { fichierLot } from "../../../scripts/content/social-lot-v5-export";
 import { FORMULES } from "../../../scripts/content/social-lot-v5-config";
-import { PLAFONDS_MIX, carteAvecSurtitre, caseConseilNominale, conseilPermis, lireTextesFormats, ordreRepli, type TexteFormat } from "../../../scripts/content/social-lot-v5-mix";
+import { PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, conseilPermis, lireTextesFormats, ordreRepli, type TexteFormat } from "../../../scripts/content/social-lot-v5-mix";
 import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
 import { longueurX } from "../../lib/social/longueur-x";
 import fs from "node:fs";
@@ -90,15 +90,15 @@ describe("barres et champs du lot 1b (08/10)", () => {
     expect(erreurs.join("\n")).toMatch(/conseil-ig-3 : surtitre de 5 mots/);
     expect(erreurs.join("\n")).toMatch(/entrée 4 : creneau créneau AAAA-MM-JJ/);
     const p = lot(textes).posts.find((x) => x.mix?.texte === "conseil-ig-1")!;
-    expect(p.note).toMatch(/Surtitre « Le carnet d'absurdités » en tête de la carte 1/);
-    // Gabarit sans surtitre (Worker gelé) : la technique passe dans le texte de la carte 1, la carte 2 ne change pas.
-    expect(p.cartes).toEqual([`Le carnet d'absurdités : ${conseilIg(1).cartes![0]}`, conseilIg(1).cartes![1]]);
+    expect(p.note).toMatch(/Surtitre « Le carnet d'absurdités » de la carte 1 \(rendu à part/);
+    // Gabarit carte conseil : [surtitre, carte 1, carte 2], cartes mot pour mot (plus de « Technique : » dans le texte).
+    expect(p.cartes).toEqual(["Le carnet d'absurdités", ...conseilIg(1).cartes!]);
+    expect(p.imageUrls).toHaveLength(2);
   });
 
-  it("carteAvecSurtitre : « Technique : texte » en carte 1, jamais en double, sans surtitre rien ne change", () => {
-    expect(carteAvecSurtitre(["Premier rendez-vous.", "Réplique."], "La fausse naïveté")).toEqual(["La fausse naïveté : Premier rendez-vous.", "Réplique."]);
-    expect(carteAvecSurtitre(["La fausse naïveté : Premier rendez-vous.", "Réplique."], "La fausse naïveté")[0]).toBe("La fausse naïveté : Premier rendez-vous.");
-    expect(carteAvecSurtitre(["A.", "B."])).toEqual(["A.", "B."]);
+  it("partiesConseilIg : [surtitre, carte 1, carte 2], textes intacts ; sans surtitre rien ne change", () => {
+    expect(partiesConseilIg(["Premier rendez-vous.", "Réplique."], "La fausse naïveté")).toEqual(["La fausse naïveté", "Premier rendez-vous.", "Réplique."]);
+    expect(partiesConseilIg(["A.", "B."])).toEqual(["A.", "B."]);
   });
 
   it("créneau : le texte sert sa case, quel que soit l'ordre du fichier ; après la fin du lot, jamais pris", () => {

@@ -48,8 +48,8 @@ export const COLONNE_CITATION: Partial<Record<FormatCarte, number>> = { instagra
 export const ECART_TITRE_PIED = 64;
 const INTERLIGNE = 1.12;
 
-type Poids = 700 | 800;
-type Teinte = string | undefined;
+export type Poids = 700 | 800;
+export type Teinte = string | undefined;
 
 /** Largeur utile d'un format (hors marges de sécurité). */
 export function largeurUtile(format: FormatCarte): number {
@@ -118,7 +118,7 @@ function tronçons(texte: string, teintes: Teinte[]): Array<{ texte: string; cou
   return out;
 }
 
-function Ligne({ texte, corps, teintes = [] }: { texte: string; corps: number; teintes?: Teinte[] }) {
+export function Ligne({ texte, corps, teintes = [] }: { texte: string; corps: number; teintes?: Teinte[] }) {
   return (
     <div style={{ display: "flex" }}>
       {tronçons(texte, teintes).flatMap((t, i) =>
@@ -232,13 +232,13 @@ function Bloc(props: BlocProps) {
 }
 
 /** Surtitre (« Vanne n° 2 sur 8 », titre du conseil) : jamais de guillemets. */
-function Surtitre({ texte, couleur = COLORS.accentHover }: { texte: string; couleur?: string }) {
+export function Surtitre({ texte, couleur = COLORS.accentHover, poids = 700 }: { texte: string; couleur?: string; poids?: Poids }) {
   return (
     <div
       style={{
         display: "flex",
         fontFamily: FONT_TITRE,
-        fontWeight: 700,
+        fontWeight: poids,
         fontSize: 40,
         lineHeight: 1.2,
         color: couleur,

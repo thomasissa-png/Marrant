@@ -64,6 +64,8 @@ Commande pour @copywriter, avec textes des vannes et contraintes : **`lot-1b-leg
 
 Aucun mot coupé. **5 cartes sur 10 débordent, dont 4 sans lien avec la technique** : le gabarit des vannes (chute en corps 100) n'est pas fait pour des cartes de conseil de 30 mots. Autre défaut du gabarit : la carte 1 des 06/11 et 10/11 s'affiche entre « » lilas, car une 1re personne dans la carte 2 en fait une « vanne citée » (R6). **Bloquant avant l'insertion du 1b** : il faut un gabarit conseil (@design, puis déploiement à lever par la garde) ou des cartes raccourcies (@copywriter, relecture à l'aveugle). PNG de contrôle : `docs/social/visuels-s15/controle-conseil-ig-06-11-fausse-naivete-carte1.png`.
 
+> **Mise à jour (08/10, gabarit carte conseil codé)** : les conseils IG ont désormais `threadParts = [surtitre, carte 1, carte 2]` (plus de « Technique : » dans le texte) et leur propre gabarit. Rendu réel : 10 cartes sur 10 tiennent (`docs/social/visuels-s15/conseils-1b/index.md`). Le gabarit est commité mais pas déployé : voir `REPLIT_ACTIONS.md`.
+
 **Lot 1a** : JSON identique à l'octet (sha256 `63a2f315aed1c0d5…` avant et après), Markdown identique, sortie console identique hors chemin.
 
 **Contrôles** : `npx tsc --noEmit -p tsconfig.build.json`, `npm run lint` (0 erreur), `npm run build` : OK. `npx jest` : 267 suites, 3 852 tests passés (2 ignorés, déjà ignorés avant).

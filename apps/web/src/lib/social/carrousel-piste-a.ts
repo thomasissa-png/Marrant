@@ -13,6 +13,7 @@ import {
   DecryptageConsigne,
   estPremierePersonne,
 } from "./templates/cartes-piste-a";
+import { ConseilCarte1, ConseilCarte2 } from "./templates/cartes-conseil";
 import { NNBSP } from "./typo";
 import { FORMATS, type FormatCarte } from "./templates/carte-marque";
 
@@ -190,6 +191,30 @@ export function carrouselConseil(
       joindre(c.situation, citer(joindre(...c.replique)))),
     slide("instagram", createElement(ConseilPrincipe, { surtitre: surtitrePrincipe, principe: c.principe, cta }),
       joindre(`${surtitrePrincipe} :`, c.principe, `${cta}.`)),
+  ];
+}
+
+export interface ConseilCartes {
+  /** Nom de la technique (4 mots au plus), affiché à part, jamais préfixé dans le texte. */
+  surtitre: string;
+  situation: string;
+  /** Réplique puis « À toi de jouer : … » (découpés au rendu). */
+  carte2: string;
+}
+
+/**
+ * Conseil Instagram du mix (s15, gabarit carte conseil) : 2 cartes 4:5,
+ * surtitre + situation sur noir, réplique + consigne sur aplat. Les cartes
+ * se composent au rendu (polices mesurées) : un texte qui ne tient pas fait
+ * échouer le rendu, jamais d'image rognée. Alt : « surtitre : situation »,
+ * puis la carte 2 telle quelle.
+ */
+export function carrouselConseilCartes(c: ConseilCartes): Slide[] {
+  const surtitre = c.surtitre.trim();
+  return [
+    slide("instagram", createElement(ConseilCarte1, { surtitre, situation: c.situation.trim(), indice: INDICE_SWIPE }),
+      joindre(`${surtitre} :`, c.situation)),
+    slide("instagram", createElement(ConseilCarte2, { texte: c.carte2.trim() }), joindre(c.carte2)),
   ];
 }
 
