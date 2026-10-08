@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b : textes du repli du mix versés, dry-run du 08/10 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Versé** : `docs/social/preparation/textes-formats-valides.json` (10 conseils K04, K07, K09, K22, K25, K26, K27, K28, K30, K36 ; 3 relais LinkedIn R08 05/11, R07 10/11, R02 12/11 ; notes des 2 relecteurs ; mot pour mot, extraction par script), légendes L12 (03/11) et L13 (04/11) dans `apps/web/scripts/content/social-lot-v5-legendes.ts`.
+> - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : champs `creneau` (le texte sert sa case ; vanne au niveau sur la case = texte rendu au repli, avertissement) et `surtitre` (conseil Instagram) ; barre des relais LinkedIn 8 vers 8,5 (conseils : 8). Tests : `src/__tests__/scripts/social-lot-v5-mix.test.ts` (+5).
+> - **Dry-run 1b** : 46 posts, **3 erreurs** (légendes des relais IG 19/10, 29/10, 05/11 : vannes tirées différentes de la clé, L07/L16/L15 non versées) ; X 19 posts, 260 caractères au plus. **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`. Aucun `--insert` (le 1b sera régénéré et inséré après le 1a).
+
 ## s18 correctif de la redirection des anciennes URL de conseils (cas C081) @fullstack, **COMMITÉ, NON DÉPLOYÉ** (attend le feu vert de Thomas)
 
 > **Défaut** : `/conseils/construire-une-histoire-drole-cmmp8ozsx0` (ancien slug de C081) renvoie un 308 vers `le-callback-faire-revenir-une-vanne-au-bon-moment-cmmp8ozsx0` (C033) au lieu de `derailler-le-plus-tard-possible-cmmp8ozsx0`. C033, C042 et C081 partagent le préfixe d'id `cmmp8ozsx0`, et `pickBySlug` retombait sur le score de mots (C033 partage « une »). Aucune solution sans déploiement : la résolution ne lisait que `title`, `originalTitle` (déjà rempli : « Construire une histoire drôle ») n'était pas consulté. Contrôle des 12 anciens slugs de la phase 1 : 11 OK, seul C081 KO.

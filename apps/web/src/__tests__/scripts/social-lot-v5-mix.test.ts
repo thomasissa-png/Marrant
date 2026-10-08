@@ -11,6 +11,9 @@ import { fichierLot } from "../../../scripts/content/social-lot-v5-export";
 import { FORMULES } from "../../../scripts/content/social-lot-v5-config";
 import { lireTextesFormats, ordreRepli, type TexteFormat } from "../../../scripts/content/social-lot-v5-mix";
 import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { longueurX } from "../../lib/social/longueur-x";
+import fs from "node:fs";
+import path from "node:path";
 
 const SEMAINE = { lot: "mix-test", debut: "2026-11-02", fin: "2026-11-08" };
 /** Pool réduit à un id inconnu : aucune vanne au niveau, toutes les cases passent au repli. */
@@ -27,7 +30,7 @@ const ligneX = (n: number): TexteFormat => ({ id: `ligne-x-${n}`, format: "ligne
   article: "se-presenter-avec-humour", texte: "Tu avais une phrase géniale. Le quatrième vient de la dire." });
 const QUIZ: TexteFormat = { id: "quiz-1", format: "quiz", reseau: "TWITTER", notes: [8, 8], source: "test", profils: ["Taquin", "Storyteller"],
   texte: "Le Taquin a toujours la bonne réplique. Le Storyteller transforme une anecdote en sketch." };
-const relaisLi = (n: number): TexteFormat => ({ id: `relais-li-${n}`, format: "relaisLinkedIn", reseau: "LINKEDIN", notes: [8, 8], source: "test",
+const relaisLi = (n: number): TexteFormat => ({ id: `relais-li-${n}`, format: "relaisLinkedIn", reseau: "LINKEDIN", notes: [8.5, 8.5], source: "test",
   article: "humour-en-visio-reunion-en-ligne", texte: `Tu lances une phrase légère en visio ${n} et il ne se passe rien. Voici les ressorts de l'humour en visio :` });
 const CARROUSEL: TexteFormat = { id: "carrousel-t005", format: "carrousel", reseau: "INSTAGRAM", notes: [8.5, 8.5], source: "test", jokeId: "t005",
   cartes: ["J'ai raconté l'histoire numéro 5 au travail.", "Mon voisin a compris la 5.", "Pourquoi ça fait rire : le voisin comprend avant tout le monde.",
@@ -67,6 +70,54 @@ describe("fichier des textes validés", () => {
     expect(erreurs.join("\n")).toMatch(/quiz-1 : quiz seul : texte sans la formule/);
     expect(erreurs.join("\n")).toMatch(/carrousel-t005 : Instagram : 5 cartes exactes attendues/);
     expect(erreurs.join("\n")).toMatch(/conseil-x-5 : id en double/);
+  });
+});
+
+describe("barres et champs du lot 1b (08/10)", () => {
+  it("barres : conseil 8 chez les 2 accepté (plan §3), relais LinkedIn 8,5 chez les 2 exigé", () => {
+    const entrees = [{ ...conseilX(1), notes: [8, 8] }, { ...relaisLi(1), notes: [8.5, 8] }, { ...relaisLi(2), notes: [8.5, 8.5] }];
+    const { textes, erreurs } = lireTextesFormats(JSON.stringify({ textes: entrees }), "f.json");
+    expect(textes.map((t) => t.id)).toEqual(["conseil-x-1", "relais-li-2"]);
+    expect(erreurs).toEqual(["f.json, relais-li-1 : notes 8.5 / 8 sous la barre du format (8.5 chez les 2 relecteurs)."]);
+  });
+
+  it("surtitre : conseil Instagram seulement, 4 mots au plus ; créneau AAAA-MM-JJ", () => {
+    const entrees = [{ ...conseilIg(1), surtitre: "Le carnet d'absurdités" }, { ...conseilX(2), surtitre: "La remarque" },
+      { ...conseilIg(3), surtitre: "Une technique beaucoup trop longue" }, { ...conseilX(4), creneau: "10/11/2026" }];
+    const { textes, erreurs } = lireTextesFormats(JSON.stringify({ textes: entrees }), "f.json");
+    expect(textes.map((t) => t.id)).toEqual(["conseil-ig-1"]);
+    expect(erreurs.join("\n")).toMatch(/conseil-x-2 : « surtitre » réservé au conseil Instagram/);
+    expect(erreurs.join("\n")).toMatch(/conseil-ig-3 : surtitre de 5 mots/);
+    expect(erreurs.join("\n")).toMatch(/entrée 4 : creneau créneau AAAA-MM-JJ/);
+    expect(lot(textes).posts.find((p) => p.mix?.texte === "conseil-ig-1")?.note).toMatch(/Surtitre de la carte 1 : « Le carnet d'absurdités »/);
+  });
+
+  it("créneau : le texte sert sa case, quel que soit l'ordre du fichier ; après la fin du lot, jamais pris", () => {
+    const r = lot([{ ...conseilX(1), creneau: "2026-11-06" }, conseilX(2), { ...conseilX(3), creneau: "2026-11-20" }]);
+    expect(de(r, "2026-11-03", "TWITTER")).toMatchObject({ mix: { texte: "conseil-x-2" } });
+    expect(de(r, "2026-11-06", "TWITTER")).toMatchObject({ mix: { texte: "conseil-x-1" } });
+    expect(r.posts.some((p) => p.mix?.texte === "conseil-x-3")).toBe(false);
+  });
+
+  it("fichier versionné du lot 1b : 13 textes conformes (10 conseils, 3 relais LinkedIn), créneaux tranchés", () => {
+    const chemin = path.resolve(__dirname, "../../../../../docs/social/preparation/textes-formats-valides.json");
+    const { textes, erreurs } = lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin);
+    expect(erreurs).toEqual([]);
+    expect(textes.filter((t) => t.format === "conseil")).toHaveLength(10);
+    expect(textes.filter((t) => t.format === "relaisLinkedIn").map((t) => `${t.creneau} ${t.article}`)).toEqual([
+      "2026-11-05 blagues-de-couple-drole", "2026-11-10 chambrer-sans-blesser-entre-potes", "2026-11-12 voeux-drole-nouvelle-annee"]);
+    for (const t of textes.filter((x) => x.reseau === "TWITTER")) expect(longueurX(t.texte!)).toBeLessThanOrEqual(270);
+  });
+
+  it("créneau tenu par une vanne au niveau : la vanne garde la case, le texte est rendu au repli (avertissement)", () => {
+    const base = lot([conseilX(9)], { autorisees: ["t005"] });
+    const vanne = base.posts.find((p) => p.vannes.includes("t005"))!;
+    const t = { ...(vanne.platform === "INSTAGRAM" ? conseilIg(1) : conseilX(1)), creneau: vanne.date };
+    const r = lot([t], { autorisees: ["t005"] });
+    expect(r.posts.find((p) => p.date === vanne.date && p.platform === vanne.platform)?.vannes).toEqual(["t005"]);
+    const sert = r.posts.find((p) => p.mix?.texte === t.id)!;
+    expect(sert.date).not.toBe(vanne.date);
+    expect(r.warnings.join("\n")).toMatch(new RegExp(`Texte ${t.id} .*case tenue par .*t005 .*texte rendu au repli`));
   });
 });
 

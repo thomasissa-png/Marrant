@@ -185,6 +185,8 @@ export function buildLotV5(input: LotInput): LotResult {
   const textesFormats = input.textesFormats ?? [];
   const cleLigne = (t: TexteFormat) => `${t.article}#${t.rang ?? normaliser(t.texte ?? (t.cartes ?? []).join(" ")).slice(0, 24)}`;
   const formatsUtilises = new Set<string>();
+  /** Textes à créneau rendus au repli (case tenue par une vanne au niveau) : servent la case libre suivante. */
+  const rendus = new Set<string>();
   for (const t of textesFormats) for (const d of usages.get(t.id) ?? []) {
     formatsUtilises.add(t.id);
     if (t.format === "ligne" && (!utilise.has(cleLigne(t)) || d > utilise.get(cleLigne(t))!)) utilise.set(cleLigne(t), d);
@@ -402,6 +404,14 @@ export function buildLotV5(input: LotInput): LotResult {
     const erreurs: Array<{ date: string; pf: PreparedPlatform; m: string }> = [];
     const cases = [...aReplier].sort((a, b) => prioriteRepli(weekday(a.date)) - prioriteRepli(weekday(b.date))
       || a.date.localeCompare(b.date) || PLATEFORMES.indexOf(a.pf) - PLATEFORMES.indexOf(b.pf));
+    // Texte à créneau dont la case est tenue par une vanne au niveau (mix §2) ou déjà passée : rendu au repli.
+    for (const t of textesFormats) {
+      if (!t.creneau || t.creneau > fin || formatsUtilises.has(t.id)) continue;
+      if (t.creneau >= debut && aReplier.some((c) => c.date === t.creneau && c.pf === t.reseau)) continue;
+      rendus.add(t.id);
+      const tient = posts.find((p) => p.date === t.creneau && p.platform === t.reseau);
+      warnings.push(`Texte ${t.id} (${LIBELLE_FORMAT[t.format]}, ${jjmm(t.creneau)} ${t.reseau}) : ${tient ? `case tenue par ${tient.type} ${tient.vannes[0] ?? tient.sourceId ?? ""} (mix §2 : une vanne au niveau passe avant le conseil)` : "créneau hors du lot ou déjà passé"}, texte rendu au repli (case libre suivante du même réseau).`);
+    }
     for (const { date, pf } of cases) {
       const jour = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0] ?? date;
       const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE");
@@ -444,12 +454,16 @@ export function buildLotV5(input: LotInput): LotResult {
     return pf !== "LINKEDIN";
   }
 
-  /** Pose sur la case le 1er texte libre du format (ordre du fichier) ; false si aucun. Chaque texte sert une fois. */
+  /**
+   * Pose sur la case le texte du format qui a ce créneau, sinon le 1er texte libre (sans créneau ou rendu, ordre du
+   * fichier) ; false si aucun. Chaque texte sert une fois ; un texte à créneau ne sert jamais une autre case.
+   */
   function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform): boolean {
-    for (const t of textesFormats) {
+    const libreIci = (t: TexteFormat) => !t.creneau || rendus.has(t.id);
+    for (const t of [...textesFormats.filter((x) => x.creneau === date && !rendus.has(x.id)), ...textesFormats.filter(libreIci)]) {
       if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
       const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
-        cartes: t.cartes ? [...t.cartes] : undefined, note: `Repli du mix (${LIBELLE_FORMAT[f]}) : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).` };
+        cartes: t.cartes ? [...t.cartes] : undefined, note: `Repli du mix (${LIBELLE_FORMAT[f]}) : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre de la carte 1 : « ${t.surtitre} ».` : ""}` };
       let p: LotPost;
       if (f === "conseil") p = poster(date, pf, "CONSEIL", { ...base, v: null, marque: t.texte, sourceId: t.id });
       else if (f === "quiz") {
