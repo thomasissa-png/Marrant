@@ -8,6 +8,7 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { trackUmami } from "@/lib/umami";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo } from "@/lib/fr-typo";
+import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
 import {
@@ -88,11 +89,12 @@ export function ValidationWall({
   );
 }
 
-export function VideoCard({ video }: { video: VideoRef }) {
+export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: boolean }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-border">
+    // s18 (M-2 @design) : vidéo seule de l'étape, en largeur pleine et disposition horizontale dès sm.
+    <div className={`overflow-hidden rounded-lg border border-border${seule ? " sm:col-span-2 sm:grid sm:grid-cols-2 sm:gap-4" : ""}`}>
       {/* Lecteur intégré : on ne quitte plus le parcours au milieu d'une étape (T31) */}
-      <div className="relative aspect-video bg-background-elevated">
+      <div className="relative aspect-video self-start bg-background-elevated">
         <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} />
       </div>
       <div className="p-3">
@@ -124,8 +126,9 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
         <ul className="divide-y divide-border">
           {jokes.map((j) => (
             <li key={j.id} className="py-3 text-sm last:pb-0">
-              <p className="text-text-secondary">{frTypo(stripEmDashes(j.content))}</p>
-              <p className="mt-1 font-semibold text-text-primary">{frTypo(stripEmDashes(j.punchline))}</p>
+              {/* s18 (D4 @ux) : répliques entre apostrophes droites rendues en « … » (ponctuation seulement). */}
+              <p className="text-text-secondary">{frTypo(frenchQuizQuotes(stripEmDashes(j.content)))}</p>
+              <p className="mt-1 font-semibold text-text-primary">{frTypo(frenchQuizQuotes(stripEmDashes(j.punchline)))}</p>
               <Link href={j.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
                 {VANNES_ETAPE.voirFiche}
                 <span className="sr-only"> : {j.technique ?? j.content}</span>

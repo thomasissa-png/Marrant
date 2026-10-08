@@ -126,7 +126,7 @@ export const PathCompletionCard = forwardRef<
         <h2 ref={ref} tabIndex={-1} className="scroll-mt-[196px] font-display text-2xl font-bold focus:outline-none">
           {FIN_PARCOURS.titre(title)}
         </h2>
-        <p className="mx-auto mt-2 max-w-md text-text-secondary">{FIN_PARCOURS.sousTitre}</p>
+        <p className="mx-auto mt-2 max-w-md text-balance text-text-secondary">{FIN_PARCOURS.sousTitre}</p>
         <p className="mt-4 text-sm font-medium text-accent-link">{FIN_PARCOURS.xp(stepTitles.length, totalXp)}</p>
         {(stepTitles.length > 0 || essayes >= 1) && (
           <div className="mx-auto mt-6 max-w-md border-t border-border pt-4 text-left">
@@ -166,7 +166,7 @@ export const PathCompletionCard = forwardRef<
             )}
             <Link
               href={`/parcours/${suite.slug}?src=suite`}
-              className={`${buttonVariants({ variant: "primary", size: "lg" })} mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 sm:w-auto`}
+              className={`${buttonVariants({ variant: "primary", size: "lg" })} mt-3 h-auto min-h-[44px] w-full whitespace-normal text-balance py-2 sm:w-auto`}
             >
               {FIN_PARCOURS.suite(suite.nom)}
             </Link>

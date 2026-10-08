@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
+import { frTypo } from "@/lib/fr-typo";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import {
   CHARGEMENT_ETAPE,
@@ -263,6 +264,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   useEffect(() => {
     if (erreurValidation && !completing) validerRef.current?.focus();
   }, [erreurValidation, completing]);
+  // s18 (D3 @ux) : typographie française (espaces insécables) sur les textes du conseil, Storytelling seulement
+  // pour l'instant (les 3 autres parcours gardent leur rendu s17).
+  const prose = (t: string) => (slug === "storytelling" ? frTypo(tipProse(t)) : tipProse(t));
+  // s18 (D5 @ux) : défi en base suivi d'un second défi après une ligne vide (callback, étape 6).
+  const exercice = step.tip.exercise ?? "";
+  const coupure = step.exerciceSecondTitre ? exercice.indexOf("\n\n") : -1;
+  const defis = coupure > 0 ? [exercice.slice(0, coupure), exercice.slice(coupure + 2)] : [exercice];
   return (
     <div className="space-y-6">
       {step.why && (
@@ -278,7 +286,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           {step.moduleFormat && <p className="mt-2 text-xs text-text-muted">Format : {step.moduleFormat}</p>}
           {props.timePerWeek && (
             <p className="mt-1 text-xs text-text-muted">
-              {dureeEtapeTexte(props.timePerWeek, (step.videos?.length ?? 0) > 0)}
+              {step.dureeTexte ?? dureeEtapeTexte(props.timePerWeek, (step.videos?.length ?? 0) > 0)}
             </p>
           )}
         </Section>
@@ -287,7 +295,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {/* Conseil : masqué s'il répète mot pour mot le bloc précédent (T28). */}
       {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
         <Section title="Le conseil">
-          <p className={CORPS_LECTURE}>{tipProse(step.tip.content)}</p>
+          <p className={CORPS_LECTURE}>{prose(step.tip.content)}</p>
           {step.tipHref && (
             <Link href={step.tipHref} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
               {LIENS_FICHES.conseil}
@@ -298,16 +306,21 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.tip.example && (
         <Section title="Exemple concret">
-          <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{tipProse(step.tip.example)}</p>
+          <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{prose(step.tip.example)}</p>
         </Section>
       )}
 
       {step.tip.exercise && (
         <Section title="Exercice pratique">
-          <p className="whitespace-pre-line rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3 text-sm text-text-secondary">
-            {tipProse(step.tip.exercise)}
-          </p>
+          {defis.map((defi, i) => (
+            // s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre.
+            <div key={i} className={`${i > 0 ? "mt-3 " : ""}rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3`}>
+              {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
+              <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
+            </div>
+          ))}
           {step.exerciceProtection && <p className="mt-2 text-sm text-text-secondary">{step.exerciceProtection}</p>}
+          {step.retourExerciceNote && <p className="mt-3 text-sm text-text-secondary">{step.retourExerciceNote}</p>}
           <div className="mt-3">
             <ExerciseFeedback
               slug={slug}
@@ -328,7 +341,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           <h4 className={SECTION_TITRE}>{VIDEOS_ETAPE.titre}</h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v) => (
-              <VideoCard key={v.youtubeId} video={v} />
+              <VideoCard key={v.youtubeId} video={v} seule={step.videos!.length === 1} />
             ))}
           </div>
         </div>
@@ -389,7 +402,15 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <p className="text-center text-sm text-text-muted">Le suivi de ta progression arrive bientôt sur ce parcours.</p>
       )}
 
-      {isCompleted && <p className="text-center text-sm font-medium text-accent-link">Étape validée</p>}
+      {isCompleted && (
+        // s18 (M-4 @design) : même coche que l'en-tête de l'étape validée.
+        <p className="flex items-center justify-center gap-1.5 text-center text-sm font-medium text-accent-link">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Étape validée
+        </p>
+      )}
 
       {!isPremium && !isCompleted && step.order === 1 && <ValidationWall slug={slug} href={props.abonnementHref} quizPending={hasQuiz && !isQuizDone} />}
     </div>

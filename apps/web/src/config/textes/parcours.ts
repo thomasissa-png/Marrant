@@ -219,7 +219,8 @@ export const FIN_PARCOURS = {
   acquis: "Ce que tu sais faire maintenant :",
   exercices: (essayes: number, reussis: number) =>
     `${essayes} ${essayes > 1 ? "défis essayés" : "défi essayé"}, dont ${reussis} qui ${reussis > 1 ? "ont" : "a"} marché.`,
-  suite: (nom: string) => `Passer au parcours ${nom}`,
+  // s18 (I-2 @design) : le nom du parcours ne se coupe pas (« Machine à Café » sur une ligne).
+  suite: (nom: string) => `Passer au parcours ${nom.replace(/ /g, String.fromCharCode(0xa0))}`,
   carnetAvant: "Pour continuer à t'entraîner, le carnet du mois te donne de nouvelles fiches : ",
   carnet: "ouvrir le carnet",
 } as const;

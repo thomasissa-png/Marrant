@@ -13,7 +13,30 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ETALONS = os.path.join(ROOT, "docs/copy/etalons-parcours-storytelling-s18.md")
 ETAPES = os.path.join(ROOT, "docs/copy/parcours-storytelling-etapes-2-6-s18.md")
+COMPLEMENTS = os.path.join(ROOT, "docs/copy/parcours-storytelling-complements-s18.md")
 OUT = os.path.join(ROOT, "docs/content/parcours-storytelling-s18.json")
+
+NBSP = "\u00a0"
+# Champs affichés tels quels (D3 @ux, s18) : espace insécable avant « : ; ? ! » et autour des guillemets.
+# Jamais sur jokeContents ni tipTitle (désignations exactes de la base).
+TEXTES_AFFICHES = {"description", "personaTagline", "testimonial", "nextParcoursReason", "metaDescription", "why",
+                   "moduleTitle", "moduleDetail", "moduleFormat", "question", "explanation", "exerciceProtection",
+                   "exerciceSecondTitre", "retourExerciceNote", "dureeTexte"}
+
+
+def typo(text):
+    text = re.sub(r" ([:;?!»])", NBSP + r"\1", text)
+    return re.sub(r"« ", "«" + NBSP, text)
+
+
+def typo_tree(value, key=None):
+    if isinstance(value, dict):
+        return {k: typo_tree(v, k) for k, v in value.items()}
+    if isinstance(value, list):
+        return [typo_tree(v, key) for v in value]
+    if isinstance(value, str) and key in TEXTES_AFFICHES | {"options", "why"}:
+        return typo(value)
+    return value
 
 # Squelette (spec s17 §2.2 et annexe A.1 ; titres des conseils : base, après import s18).
 STEPS = [
@@ -82,6 +105,7 @@ def vannes(block):
 def main():
     et = open(ETALONS, encoding="utf-8").read()
     ep = open(ETAPES, encoding="utf-8").read()
+    cp = open(COMPLEMENTS, encoding="utf-8").read()
     fiche = section(et, "## 2. Fiche du parcours", "## 3.")
     fiche_b = {}
     for key in ("description", "personaTagline", "testimonial"):
@@ -106,8 +130,14 @@ def main():
             "moduleXp": xp, "free": free,
             "jokeContents": [r[0] for r in rows],
             "videos": [{"youtubeId": y, "artist": a, "title": t, "why": w} for (y, a, t), w in zip(VIDEOS[week], leg)],
-            "quiz": quiz(b),
+            "quiz": quiz(b) + (quiz(section(cp, "## 1.", "## 2.")) if week == 1 else []),
+            # D1 @ux (s18) : durée vidéo comprise, dans « 15 à 20 min/semaine » (estimation spec RC7, non mesurée).
+            "dureeTexte": "Environ 15 min, vidéo comprise" if week == 6 else "Environ 20 min, vidéo comprise",
         }
+        if week == 6:
+            # D5 @ux (s18) : défi de l'anecdote séparé du défi du conseil ; le retour porte sur l'histoire racontée.
+            step["exerciceSecondTitre"] = "Pour ton anecdote du parcours :"
+            step["retourExerciceNote"] = "Ton retour porte sur l'histoire racontée."
         prot = re.search(r"^\*\*Phrase de protection\*\*[^:]*: (.+)$", b, re.M)
         if prot:
             step["exerciceProtection"] = prot.group(1).strip()
@@ -142,6 +172,7 @@ def main():
          "ajouterALaFin": defi_b, "separateur": "\n\n",
          "quand": "seulement si STORYTELLING_PUBLIE (le défi cite le parcours)"},
     ]
+    parcours_obj = None
     data = {
         "_meta": {
             "conseilsReactives": conseils,
@@ -149,9 +180,8 @@ def main():
             "session": "s18", "auteur": "@fullstack (extraction automatique, aucun texte retapé)",
             "sources": ["docs/copy/etalons-parcours-storytelling-s18.md", "docs/copy/parcours-storytelling-etapes-2-6-s18.md"],
             "publication": "Publié seulement si STORYTELLING_PUBLIE = true (apps/web/src/config/parcours-publication.ts).",
-            "manques": ["Étape 1 : questions 3 et 4 du quiz non écrites (étalons §3).",
-                        "nextParcoursReason non écrit : repli sur la personaTagline du parcours proposé.",
-                        "icon provisoire, à choisir par @design."],
+            "sourceComplements": "docs/copy/parcours-storytelling-complements-s18.md (Q3, Q4 de l'étape 1, nextParcoursReason, meta)",
+            "icone": "📖 confirmée par @design (rendu iter 1)",
             "vannesNeuvesEtape5": neuves,
         },
         "parcours": {
@@ -161,10 +191,13 @@ def main():
             "icon": "📖", "order": 4, "persona": "Marc (34 ans, récemment séparé)",
             "personaTagline": fiche_b["personaTagline"], "testimonial": fiche_b["testimonial"],
             "nextParcours": "machine-a-cafe",
+            "nextParcoursReason": re.search(r"## 2\..*?\n> (.+?)\n", cp, re.S).group(1),
+            "metaDescription": re.search(r"## 3\..*?\n> (.+?)\n", cp, re.S).group(1),
             "nextParcoursRanking": ["machine-a-cafe", "repartie", "confiance", "pro"],
             "steps": steps,
         },
     }
+    data["parcours"] = typo_tree(data["parcours"])
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")

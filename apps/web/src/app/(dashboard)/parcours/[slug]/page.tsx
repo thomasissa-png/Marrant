@@ -68,14 +68,14 @@ const PARCOURS_META: Record<
     duration: `${parcoursWeeks("confiance")} semaines`,
     stepsCount: parcoursWeeks("confiance"),
   },
-  // s18 : titre validé (étalons Storytelling, choix 3 A). Description : la fiche validée
-  // (choix 2 B), réduite par fitDescription [PROVISOIRE : meta dédiée à faire signer par @seo].
+  // s18 : titre validé (étalons Storytelling, choix 3 A), meta description validée
+  // (docs/copy/parcours-storytelling-complements-s18.md §3).
   ...(STORYTELLING_PUBLIE
     ? {
         storytelling: {
           name: "Parcours Storytelling",
           title: `Parcours Storytelling : raconter tes histoires en ${STORYTELLING_SEED.steps.length} semaines`,
-          description: `${STORYTELLING_SEED.description} ${PREMIERE_ETAPE}`,
+          description: STORYTELLING_SEED.metaDescription,
           duration: STORYTELLING_SEED.duration,
           stepsCount: STORYTELLING_SEED.steps.length,
         },

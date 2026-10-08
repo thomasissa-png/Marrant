@@ -71,6 +71,8 @@ export function toLockedStepPreview<S extends ParcoursStepPayload>(step: S): S {
     moduleDetail: step.moduleDetail,
     moduleFormat: step.moduleFormat,
     moduleXp: step.moduleXp,
+    // s18 (D1) : durée affichée, information publique comme le format.
+    ...((step as { dureeTexte?: string }).dureeTexte && { dureeTexte: (step as { dureeTexte?: string }).dureeTexte }),
     why: firstSentence(step.why),
     free: false,
     jokeIds: [],

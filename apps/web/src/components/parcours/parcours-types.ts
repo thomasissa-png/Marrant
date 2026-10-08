@@ -46,6 +46,10 @@ export interface Step {
   quiz?: QuizQuestion[];
   /** s18 : phrase de protection sous le défi (Storytelling 3). */
   exerciceProtection?: string;
+  /** s18 : durée affichée (D1), second défi titré et précision du retour (D5). */
+  dureeTexte?: string;
+  exerciceSecondTitre?: string;
+  retourExerciceNote?: string;
   /** Fiche conseil du catalogue (SEO-05). */
   tipHref?: string;
   /** true : aperçu servi par le serveur (contenu réservé Premium, non envoyé). */

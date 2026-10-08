@@ -13,6 +13,8 @@ import { pickSuite } from "@/components/parcours/path-completion-card";
 
 const seed = storytelling.parcours;
 const meta = storytelling._meta;
+const NBSP = String.fromCharCode(0xa0);
+const plain = (t: string) => t.split(NBSP).join(" ");
 const lettres = (s: { quiz: Array<{ correctIndex: number }> }) => s.quiz.map((q) => "ABCD"[q.correctIndex]).join("");
 
 function allStrings(value: unknown): string[] {
@@ -34,7 +36,15 @@ describe("contenu du parcours Storytelling", () => {
       difficultyLabel: "DEBUTANT → INTERMEDIAIRE",
       nextParcoursRanking: ["machine-a-cafe", "repartie", "confiance", "pro"],
     });
-    expect(seed.description.startsWith("Il y a toujours quelqu'un pour dire « et donc ? »")).toBe(true);
+    expect(plain(seed.description).startsWith("Il y a toujours quelqu'un pour dire « et donc ? »")).toBe(true);
+    // D3 @ux : plus aucune espace sécable avant « : ; ? ! » ni autour des guillemets dans les textes affichés.
+    expect(seed.description).not.toMatch(/ [:;?!»]|« /);
+    expect(plain(seed.nextParcoursReason)).toBe(
+      "Tu sais maintenant raconter une histoire du début à la chute. Reste à avoir des vannes courtes sous la main pour la pause café : c'est ce que t'apprend le parcours Machine à Café.",
+    );
+    expect(seed.metaDescription.length).toBeGreaterThanOrEqual(150);
+    expect(seed.metaDescription.length).toBeLessThanOrEqual(160);
+    expect(seed.metaDescription).toContain("première étape gratuite");
     expect(seed.testimonial.startsWith("Imagine Samir.")).toBe(true);
     expect(allStrings(seed).some((t) => /expert/i.test(t))).toBe(false);
   });
@@ -70,13 +80,24 @@ describe("contenu du parcours Storytelling", () => {
   });
 
   it("positions des bonnes réponses : celles des fichiers validés, jamais deux de suite au même rang", () => {
-    expect(seed.steps.map(lettres)).toEqual(["DB", "ACBD", "CDAB", "DACB", "CBDA", "BDCAD"]);
+    expect(seed.steps.map(lettres)).toEqual(["DBAC", "ACBD", "CDAB", "DACB", "CBDA", "BDCAD"]);
+    expect(seed.steps.map((s) => s.quiz.length)).toEqual([4, 4, 4, 4, 4, 5]);
     const suite = seed.steps.map(lettres).join("");
     for (let i = 1; i < suite.length; i++) expect(suite[i]).not.toBe(suite[i - 1]);
     seed.steps.flatMap((s) => s.quiz).forEach((q) => {
       expect(q.options).toHaveLength(4);
       expect(q.explanation.startsWith(`La ${"ABCD"[q.correctIndex]}.`)).toBe(true);
     });
+  });
+
+  it("durée vidéo comprise (D1) et second défi titré à l'étape 6 (D5)", () => {
+    expect(seed.steps.map((s) => plain(s.dureeTexte))).toEqual([
+      ...Array(5).fill("Environ 20 min, vidéo comprise"),
+      "Environ 15 min, vidéo comprise",
+    ]);
+    const e6 = seed.steps[5] as { exerciceSecondTitre?: string; retourExerciceNote?: string };
+    expect(plain(e6.exerciceSecondTitre ?? "")).toBe("Pour ton anecdote du parcours :");
+    expect(e6.retourExerciceNote).toBe("Ton retour porte sur l'histoire racontée.");
   });
 
   it("vidéos : 2 par étape (obligatoire puis facultative), une seule à l'étape 6, chacune légendée", () => {

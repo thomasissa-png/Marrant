@@ -57,6 +57,26 @@ async function shot(page, name, target) {
   console.log('CAPTURE ' + path.basename(f));
 }
 
+/** I-1 @design : chaque miniature vidéo de la zone est chargée avant la capture (chargement différé). */
+async function waitThumbs(page, target) {
+  const imgs = target.locator('img');
+  for (let i = 0; i < (await imgs.count()); i++) {
+    await imgs.nth(i).scrollIntoViewIfNeeded().catch(() => {});
+    await imgs.nth(i).evaluate((el) => el.complete || new Promise((res) => { el.onload = res; el.onerror = res; setTimeout(res, 8000); })).catch(() => {});
+  }
+}
+
+async function playQuiz(card) {
+  for (let i = 0; i < 6; i++) {
+    const group = card.locator('[role="group"][aria-labelledby^="quiz-q-"]');
+    if (!(await group.count())) break;
+    await group.locator('button').first().click();
+    await card.getByRole('button', { name: /Question suivante|Voir le résultat/ }).click();
+  }
+  const cont = card.getByRole('button', { name: 'Continuer' });
+  if (await cont.count()) await cont.click();
+}
+
 async function openStep(page, k) {
   const head = page.locator(`#etape-${k}-entete`);
   if ((await head.getAttribute('aria-expanded')) !== 'true') await head.click();
@@ -77,7 +97,28 @@ async function parcours(browser, w, role, email, emailEtape5) {
   const e1 = await openStep(page, 1);
   const t1 = await e1.innerText();
   ok(`[${role} ${w}] étape 1 : titre et défi COUPE`, /Ton anecdote, coupée au plus court/.test(t1) && /DÉFI COUPE/.test(t1));
+  await waitThumbs(page, e1);
   await shot(page, `${role}-${w}-etape1`, e1);
+  if (role === 'premium') {
+    // P2 @ux (375) : retour d'exercice après un clic.
+    if (w === 375) {
+      await e1.getByRole('button', { name: 'Essayé, ça a marché' }).click();
+      await page.waitForTimeout(1200);
+      const exo = e1.locator('h4, h3', { hasText: 'Exercice pratique' }).first().locator('xpath=..');
+      ok(`[${role} ${w}] retour d'exercice : bouton sélectionné`, (await e1.getByRole('button', { name: 'Essayé, ça a marché' }).getAttribute('aria-pressed')) === 'true');
+      await shot(page, `${role}-${w}-retour-exercice`, exo);
+    }
+    // P1 @ux (375 et 1280) : validation de l'étape 1, choix du jour et prochaine étape conseillée.
+    if (w !== 768) {
+      await playQuiz(e1);
+      await e1.getByRole('button', { name: 'Valider cette étape' }).click();
+      await page.locator('#etape-1 [data-testid="etape-resultat"]').filter({ hasText: /XP/ }).waitFor({ timeout: 15000 }).catch(() => {});
+      await page.waitForTimeout(1200);
+      const res1 = (await page.locator('#etape-1').innerText()).replace(/\s+/g, ' ');
+      ok(`[${role} ${w}] étape 1 validée : gain d'XP et rythme affichés`, /\+50 XP/.test(res1), res1.match(/.{0,80}XP.{0,140}/)?.[0] ?? '');
+      await shot(page, `${role}-${w}-etape1-apres-validation`, page.locator('#etape-1'));
+    }
+  }
   if (emailEtape5) {
     // Premium : l'étape 5 s'ouvre après l'étape 4 (blocage s16) : compte qui a validé 1 à 4.
     await ctx.clearCookies();
@@ -85,6 +126,7 @@ async function parcours(browser, w, role, email, emailEtape5) {
     await go(page, `${BASE}/parcours/storytelling`);
   }
   const e5 = await openStep(page, 5);
+  await waitThumbs(page, e5);
   if (role === 'premium') await e5.getByText(/Parenthèse\s:\sun pigeon/).first().waitFor({ timeout: 15000 }).catch(() => {});
   const t5 = await e5.innerText();
   if (role === 'visiteur') ok(`[${role} ${w}] étape 5 : aperçu seul (ni défi ni vannes)`, !/DÉFI TIROIR|Parenthèse\s:/.test(t5));
@@ -117,10 +159,13 @@ async function fin(browser, w) {
   await shot(page, `premium-${w}-fin-parcours-carte`, carte);
   const e3 = await openStep(page, 3);
   const t3 = await e3.innerText();
-  ok(`[premium ${w}] étape 3 : repli solo et phrase de protection`, /Personne ce soir \?/.test(t3) && /jamais une blessure récente/.test(t3));
+  ok(`[premium ${w}] étape 3 : repli solo et phrase de protection`, /Personne ce soir\s\?/.test(t3) && /jamais une blessure récente/.test(t3));
   const e6 = await openStep(page, 6);
   const t6 = await e6.innerText();
   ok(`[premium ${w}] étape 6 : défi SOIRÉE puis défi de l'anecdote`, /DÉFI SOIRÉE/.test(t6) && /Tu travailles ton anecdote du parcours Storytelling/.test(t6));
+  ok(`[premium ${w}] étape 6 : second défi titré, retour précisé`, /Pour ton anecdote du parcours/.test(t6) && /Ton retour porte sur l'histoire racontée/.test(t6));
+  ok(`[premium ${w}] étape 6 : vanne en « … », durée vidéo comprise`, /Mon copain\s:\s«\sChoisis le resto/.test(t6) && /Environ 15\smin, vidéo comprise/.test(t6));
+  await waitThumbs(page, e6);
   if (w === 1280) await shot(page, `premium-${w}-etape6`, e6);
   ok(`[premium ${w}] fin : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
   await ctx.close();

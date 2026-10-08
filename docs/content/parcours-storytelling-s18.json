@@ -45,11 +45,8 @@
       "docs/copy/parcours-storytelling-etapes-2-6-s18.md"
     ],
     "publication": "Publié seulement si STORYTELLING_PUBLIE = true (apps/web/src/config/parcours-publication.ts).",
-    "manques": [
-      "Étape 1 : questions 3 et 4 du quiz non écrites (étalons §3).",
-      "nextParcoursReason non écrit : repli sur la personaTagline du parcours proposé.",
-      "icon provisoire, à choisir par @design."
-    ],
+    "sourceComplements": "docs/copy/parcours-storytelling-complements-s18.md (Q3, Q4 de l'étape 1, nextParcoursReason, meta)",
+    "icone": "📖 confirmée par @design (rendu iter 1)",
     "vannesNeuvesEtape5": [
       {
         "content": "Mardi, j'ai suivi mon premier cours de poterie. Parenthèse : un pigeon marche toujours comme quelqu'un qui est en retard à un rendez-vous qu'il n'a pas. Bref.",
@@ -91,7 +88,7 @@
   "parcours": {
     "slug": "storytelling",
     "title": "Parcours Storytelling",
-    "description": "Il y a toujours quelqu'un pour dire « et donc ? » au milieu de ton histoire. En 6 semaines, tu apprends à ne plus lui laisser la place : une anecdote coupée au plus court, des personnages qu'on entend, une chute qui surprend, un détour qui ne perd personne, un détail qui revient. Une seule anecdote vraie, que tu retravailles au fil des étapes, jusqu'à ce qu'on te la redemande.",
+    "description": "Il y a toujours quelqu'un pour dire « et donc ? » au milieu de ton histoire. En 6 semaines, tu apprends à ne plus lui laisser la place : une anecdote coupée au plus court, des personnages qu'on entend, une chute qui surprend, un détour qui ne perd personne, un détail qui revient. Une seule anecdote vraie, que tu retravailles au fil des étapes, jusqu'à ce qu'on te la redemande.",
     "duration": "6 semaines",
     "timePerWeek": "20 min/semaine",
     "difficulty": "INTERMEDIAIRE",
@@ -100,8 +97,10 @@
     "order": 4,
     "persona": "Marc (34 ans, récemment séparé)",
     "personaTagline": "Pour toi si tu as de quoi tenir une table, mais que ta chute arrive quand tout le monde est passé au dessert",
-    "testimonial": "Imagine Samir. Il y a six semaines, son histoire de déménagement durait trois minutes et comptait trois digressions qui ne menaient nulle part. Hier soir, au dîner, il l'a racontée en une minute, canapé coincé compris, et quelqu'un a demandé : « Attends, refais le passage du cousin. »",
+    "testimonial": "Imagine Samir. Il y a six semaines, son histoire de déménagement durait trois minutes et comptait trois digressions qui ne menaient nulle part. Hier soir, au dîner, il l'a racontée en une minute, canapé coincé compris, et quelqu'un a demandé : « Attends, refais le passage du cousin. »",
     "nextParcours": "machine-a-cafe",
+    "nextParcoursReason": "Tu sais maintenant raconter une histoire du début à la chute. Reste à avoir des vannes courtes sous la main pour la pause café : c'est ce que t'apprend le parcours Machine à Café.",
+    "metaDescription": "Apprends à raconter tes histoires en 6 semaines : coupe, voix, chute, détour et détail qui revient. Lis la première étape gratuite du parcours Storytelling.",
     "nextParcoursRanking": [
       "machine-a-cafe",
       "repartie",
@@ -113,9 +112,9 @@
         "week": 1,
         "tipTitle": "Raconter une anecdote en 3 actes",
         "dayNumber": 3,
-        "why": "Une anecdote qui te fait déjà sourire se perd souvent en route : trop de contexte, une chute qui arrive en retard, un détail de trop. Elle a trois temps, un décor, une montée, une chute, et le travail est de couper. Ici, tu écris ton histoire comme elle vient, puis tu coupes ce qui ralentit la chute.",
+        "why": "Une anecdote qui te fait déjà sourire se perd souvent en route : trop de contexte, une chute qui arrive en retard, un détail de trop. Elle a trois temps, un décor, une montée, une chute, et le travail est de couper. Ici, tu écris ton histoire comme elle vient, puis tu coupes ce qui ralentit la chute.",
         "moduleTitle": "Ton anecdote, coupée au plus court",
-        "moduleDetail": "Imagine Samir qui raconte son déménagement : la météo du jour, le voisin du dessous, la queue à la station-service, et enfin, trois minutes plus tard, le canapé coincé. Entre-temps, quelqu'un a repris du fromage deux fois. L'histoire était bonne, juste jamais coupée. Dans cette étape, tu prends une anecdote de ta journée, de préférence légère et avec quelqu'un d'autre dedans, tu l'écris comme elle vient et tu coupes ce qui traîne. Tu la retrouveras dans les étapes suivantes.",
+        "moduleDetail": "Imagine Samir qui raconte son déménagement : la météo du jour, le voisin du dessous, la queue à la station-service, et enfin, trois minutes plus tard, le canapé coincé. Entre-temps, quelqu'un a repris du fromage deux fois. L'histoire était bonne, juste jamais coupée. Dans cette étape, tu prends une anecdote de ta journée, de préférence légère et avec quelqu'un d'autre dedans, tu l'écris comme elle vient et tu coupes ce qui traîne. Tu la retrouveras dans les étapes suivantes.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 50,
         "free": true,
@@ -131,47 +130,70 @@
             "youtubeId": "JuB6-b0fhLE",
             "artist": "Panayotis Pascot",
             "title": "Amsterdam et le Kem's",
-            "why": "Amsterdam, une partie de Kem's entre potes, racontée comme s'il y était encore, sans effet de manche. Repère le moment où le décor est posé et celui où l'histoire démarre : combien de phrases entre les deux ?"
+            "why": "Amsterdam, une partie de Kem's entre potes, racontée comme s'il y était encore, sans effet de manche. Repère le moment où le décor est posé et celui où l'histoire démarre : combien de phrases entre les deux ?"
           },
           {
             "youtubeId": "v-ySkBGAXLI",
             "artist": "Thomas Ngijol",
             "title": "Le voisin",
-            "why": "Un voisin banal, puis agaçant, puis dément. Repère chaque marche : c'est la montée, le deuxième acte, vue de l'intérieur."
+            "why": "Un voisin banal, puis agaçant, puis dément. Repère chaque marche : c'est la montée, le deuxième acte, vue de l'intérieur."
           }
         ],
         "quiz": [
           {
-            "question": "Imagine Samir qui écrit le milieu de son histoire de canapé coincé. Il a quatre phrases en réserve. Laquelle doit-il couper ?",
+            "question": "Imagine Samir qui écrit le milieu de son histoire de canapé coincé. Il a quatre phrases en réserve. Laquelle doit-il couper ?",
             "options": [
-              "« L'escalier faisait un coude à chaque étage. »",
-              "« Le canapé faisait deux mètres dix. »",
-              "« Mon cousin a lâché son côté en riant. »",
-              "« Deux jours avant, j'avais changé d'abonnement internet. »"
+              "« L'escalier faisait un coude à chaque étage. »",
+              "« Le canapé faisait deux mètres dix. »",
+              "« Mon cousin a lâché son côté en riant. »",
+              "« Deux jours avant, j'avais changé d'abonnement internet. »"
             ],
             "correctIndex": 3,
-            "explanation": "La D. L'abonnement internet n'amène rien à la chute : il ralentit juste l'histoire. Le coude, les deux mètres dix et le cousin qui lâche son côté font voir la scène, donc ils restent."
+            "explanation": "La D. L'abonnement internet n'amène rien à la chute : il ralentit juste l'histoire. Le coude, les deux mètres dix et le cousin qui lâche son côté font voir la scène, donc ils restent."
           },
           {
-            "question": "Tu racontes l'histoire d'un canapé coincé dans l'escalier. Quelle phrase fait la meilleure chute ?",
+            "question": "Tu racontes l'histoire d'un canapé coincé dans l'escalier. Quelle phrase fait la meilleure chute ?",
             "options": [
-              "« Moralité : la prochaine fois, je louerai un monte-meuble, parce que ce n'est vraiment pas pratique, un canapé coincé. »",
-              "« Depuis, il fait partie de l'immeuble. »",
-              "« Alors on a essayé de le tourner, puis de le pencher, puis de le soulever, et on a fini par se dire que peut-être. »",
-              "« Et là, le plus drôle, c'est ce qui s'est passé ensuite. »"
+              "« Moralité : la prochaine fois, je louerai un monte-meuble, parce que ce n'est vraiment pas pratique, un canapé coincé. »",
+              "« Depuis, il fait partie de l'immeuble. »",
+              "« Alors on a essayé de le tourner, puis de le pencher, puis de le soulever, et on a fini par se dire que peut-être. »",
+              "« Et là, le plus drôle, c'est ce qui s'est passé ensuite. »"
             ],
             "correctIndex": 1,
             "explanation": "La B. C'est la phrase la plus courte, et elle ne dit que ce que la scène a déjà montré. La A explique, la C rallonge la montée, la D annonce sans livrer."
+          },
+          {
+            "question": "Tu racontes ta file d'attente à la poste. Quelle phrase gardes-tu dans ta version coupée ?",
+            "options": [
+              "« Le monsieur devant moi tenait un cactus en pot sous le bras. »",
+              "« Il y avait pas mal de monde, comme d'habitude, et ça avançait lentement. »",
+              "« C'était un mardi matin, vers dix heures et demie, il me semble. »",
+              "« J'avais un peu sommeil ce jour-là. »"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. Le cactus fait voir la scène, alors que les trois autres détails sont neutres : aucun ne fait image. La C est la plus tentante parce qu'elle est précise, mais précis n'est pas utile."
+          },
+          {
+            "question": "Tu racontes une panne d'ascenseur de quarante minutes avec ta voisine du dessus. Quelle dernière phrase choisis-tu ?",
+            "options": [
+              "« Et c'est comme ça que j'ai appris son prénom, qu'elle aime la pêche et qu'elle a un neveu à Lyon. »",
+              "« Au bout de quarante minutes, on était presque amis, ce qui était une belle surprise. »",
+              "« Elle a gardé mon numéro. »",
+              "« Moralité : une panne d'ascenseur, ça rapproche les gens. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. C'est la phrase la plus courte de l'histoire, et elle laisse deviner la suite sans l'expliquer. La A rallonge la montée, la B et la D expliquent ce que tout le monde avait compris."
           }
-        ]
+        ],
+        "dureeTexte": "Environ 20 min, vidéo comprise"
       },
       {
         "week": 2,
         "tipTitle": "La technique du personnage",
         "dayNumber": 10,
-        "why": "Une anecdote où tout le monde parle pareil ressemble à un résumé : on sait ce qui s'est passé, mais on n'y était pas. Un seul tic par personnage (un soupir, une phrase qui revient) suffit pour qu'on l'entende arriver. Ici, tu en donnes un à l'autre personnage de ton histoire, sans imiter personne.",
+        "why": "Une anecdote où tout le monde parle pareil ressemble à un résumé : on sait ce qui s'est passé, mais on n'y était pas. Un seul tic par personnage (un soupir, une phrase qui revient) suffit pour qu'on l'entende arriver. Ici, tu en donnes un à l'autre personnage de ton histoire, sans imiter personne.",
         "moduleTitle": "Des personnages qu'on entend",
-        "moduleDetail": "Imagine Samir qui reprend son histoire de canapé coincé. Son cousin, à l'autre bout du meuble, dit « Attends, attends » à chaque marche, d'une voix posée, comme si l'escalier allait lui répondre. Samir n'imite personne : une phrase, un rythme, et la salle entend le cousin avant qu'il arrive. Dans cette étape, tu donnes un tic à l'autre personnage de ton histoire, tu changes un peu ton rythme et ta hauteur de voix, et tu regardes lequel des deux fait le plus rire. Ton anecdote de l'étape 1 fait l'affaire si quelqu'un d'autre y figure ; sinon, prends une anecdote récente. C'est réussi si ton ami reconnaît ton personnage à son tic, sans que tu aies dit qui parle (seul : réécoute ton vocal et vérifie qu'une seule réplique suffit pour savoir qui parle). Si tu joues un accent ou une façon de parler, tu le fais avec la tendresse de quelqu'un qui aime cette voix, jamais pour t'en moquer.",
+        "moduleDetail": "Imagine Samir qui reprend son histoire de canapé coincé. Son cousin, à l'autre bout du meuble, dit « Attends, attends » à chaque marche, d'une voix posée, comme si l'escalier allait lui répondre. Samir n'imite personne : une phrase, un rythme, et la salle entend le cousin avant qu'il arrive. Dans cette étape, tu donnes un tic à l'autre personnage de ton histoire, tu changes un peu ton rythme et ta hauteur de voix, et tu regardes lequel des deux fait le plus rire. Ton anecdote de l'étape 1 fait l'affaire si quelqu'un d'autre y figure ; sinon, prends une anecdote récente. C'est réussi si ton ami reconnaît ton personnage à son tic, sans que tu aies dit qui parle (seul : réécoute ton vocal et vérifie qu'une seule réplique suffit pour savoir qui parle). Si tu joues un accent ou une façon de parler, tu le fais avec la tendresse de quelqu'un qui aime cette voix, jamais pour t'en moquer.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 75,
         "free": false,
@@ -187,32 +209,32 @@
             "youtubeId": "fnu6fRa-BN4",
             "artist": "Samia Orosemane",
             "title": "Les accents africains",
-            "why": "Samia Orosemane rejoue des voix et des accents avec de l'affection, sans se moquer : c'est la règle que tu gardes pour tes personnages. Repère une phrase qu'elle rejoue, et demande-toi : de la tendresse ou de la moquerie dans sa voix ?"
+            "why": "Samia Orosemane rejoue des voix et des accents avec de l'affection, sans se moquer : c'est la règle que tu gardes pour tes personnages. Repère une phrase qu'elle rejoue, et demande-toi : de la tendresse ou de la moquerie dans sa voix ?"
           },
           {
             "youtubeId": "PrQTbXOz2iU",
             "artist": "Laura Domenge",
             "title": "La vie de couple",
-            "why": "Un couple, rejoué avec les voix. Repère un moment où elle rejoue une réplique au lieu de la résumer, et écoute ce qui change : le rythme, la hauteur, la posture."
+            "why": "Un couple, rejoué avec les voix. Repère un moment où elle rejoue une réplique au lieu de la résumer, et écoute ce qui change : le rythme, la hauteur, la posture."
           }
         ],
         "quiz": [
           {
-            "question": "Imagine Samir qui veut faire entendre le déménageur, un homme toujours pressé. Comment s'y prend-il ?",
+            "question": "Imagine Samir qui veut faire entendre le déménageur, un homme toujours pressé. Comment s'y prend-il ?",
             "options": [
               "Il choisit une seule phrase pressée, la répète, et la dit plus vite et plus sec que le reste.",
               "Il lui prête un accent très marqué, pour qu'on le reconnaisse tout de suite.",
-              "Il lui donne trois manies : un soupir, un sifflement et un « bon, allez ».",
-              "Il prévient « là, c'est le déménageur qui parle » avant chacune de ses répliques."
+              "Il lui donne trois manies : un soupir, un sifflement et un « bon, allez ».",
+              "Il prévient « là, c'est le déménageur qui parle » avant chacune de ses répliques."
             ],
             "correctIndex": 0,
             "explanation": "La A. Un seul tic, tenu jusqu'au bout, fait entendre le personnage, et un simple changement de rythme suffit. La B force l'imitation, la C empile des manies qu'on ne retient pas, et la D explique au lieu de jouer."
           },
           {
-            "question": "Ton boss t'a répondu en deux mots, et tu veux qu'on l'entende dans ton histoire. Quel réglage de voix choisis-tu ?",
+            "question": "Ton boss t'a répondu en deux mots, et tu veux qu'on l'entende dans ton histoire. Quel réglage de voix choisis-tu ?",
             "options": [
               "Une voix très grave, avec un accent étranger, pour marquer la différence.",
-              "Ta voix normale, avec « dit-il d'un ton froid » après chaque réplique.",
+              "Ta voix normale, avec « dit-il d'un ton froid » après chaque réplique.",
               "Un cran plus lent et un cran plus bas, gardés à chaque réplique.",
               "Une voix différente à chaque réplique, pour surprendre."
             ],
@@ -220,7 +242,7 @@
             "explanation": "La C. Un léger changement de rythme et de hauteur suffit, à condition de le tenir d'une réplique à l'autre. La B décrit la voix au lieu de la jouer, la A force l'imitation, et la D change tout le temps, donc personne n'est reconnaissable."
           },
           {
-            "question": "Dans ton histoire, ta voisine ajoute « Ce n'est pas un reproche » à chaque phrase. Où tombe la meilleure chute ?",
+            "question": "Dans ton histoire, ta voisine ajoute « Ce n'est pas un reproche » à chaque phrase. Où tombe la meilleure chute ?",
             "options": [
               "Elle dit enfin autre chose, pour surprendre le public.",
               "Elle le dit une dernière fois, en demandant le plus gros service de l'histoire.",
@@ -228,28 +250,29 @@
               "Tu finis sur ta propre colère, que tout le monde comprend."
             ],
             "correctIndex": 1,
-            "explanation": "La B. Le tic tenu jusqu'au bout devient la chute quand il rencontre sa conséquence : le public l'attend, puis il le reçoit. La A casse ce que tu as construit, la C explique la manie, et la D parle de toi au lieu de la voisine."
+            "explanation": "La B. Le tic tenu jusqu'au bout devient la chute quand il rencontre sa conséquence : le public l'attend, puis il le reçoit. La A casse ce que tu as construit, la C explique la manie, et la D parle de toi au lieu de la voisine."
           },
           {
-            "question": "Tu racontes un séjour chez ton beau-père, qui a un accent très marqué. Comment fais-tu entendre sa voix ?",
+            "question": "Tu racontes un séjour chez ton beau-père, qui a un accent très marqué. Comment fais-tu entendre sa voix ?",
             "options": [
               "Tu forces son accent au maximum, pour que ce soit bien clair.",
-              "Tu l'évites en entier : mieux vaut ne rien jouer que prendre un risque.",
+              "Tu l'évites en entier : mieux vaut ne rien jouer que prendre un risque.",
               "Tu prends l'accent d'un autre, plus facile à jouer.",
               "Tu gardes son rythme et sa phrase favorite, comme tu pourrais la jouer devant lui, en souriant."
             ],
             "correctIndex": 3,
-            "explanation": "La D. Le rythme et la phrase qu'il répète font entendre quelqu'un sans caricature, et le test est simple : pourrais-tu la jouer devant lui ? La A grossit jusqu'à la moquerie, la C déplace le problème, et la B te prive d'un bon personnage."
+            "explanation": "La D. Le rythme et la phrase qu'il répète font entendre quelqu'un sans caricature, et le test est simple : pourrais-tu la jouer devant lui ? La A grossit jusqu'à la moquerie, la C déplace le problème, et la B te prive d'un bon personnage."
           }
-        ]
+        ],
+        "dureeTexte": "Environ 20 min, vidéo comprise"
       },
       {
         "week": 3,
         "tipTitle": "Rigoler de ses échecs",
         "dayNumber": 17,
-        "why": "Un raté qu'on garde pour soi pèse, un raté qu'on raconte en premier se dégonfle. La technique : au lieu de dire ce qui a raté, tu fais le bilan de ce que ça a produit malgré toi, avec l'air fier d'un rapport annuel. Ici, tu prépares le tien sur un petit échec récent.",
+        "why": "Un raté qu'on garde pour soi pèse, un raté qu'on raconte en premier se dégonfle. La technique : au lieu de dire ce qui a raté, tu fais le bilan de ce que ça a produit malgré toi, avec l'air fier d'un rapport annuel. Ici, tu prépares le tien sur un petit échec récent.",
         "moduleTitle": "Faire le bilan de ton raté",
-        "moduleDetail": "Imagine Hugo, dont l'étagère penche depuis samedi. À la question « alors, ce bricolage ? », il pourrait soupirer. Il sort un bilan à la place, l'air satisfait : « L'opération n'est pas un échec : j'ai maintenant une étagère qui oblige tout le monde à pencher la tête, et la quincaillerie me connaît par mon prénom. » Le raté est le même, mais c'est lui qui tient le micro. Dans cette étape, tu fais le bilan d'un échec récent et léger, dont tu peux déjà sourire aujourd'hui. C'est réussi si ta phrase liste un résultat vrai et inattendu du raté, sur le ton d'un rapport annuel, et que tu souris en la disant ou en la relisant. Si ton anecdote de l'étape 1 contient un petit raté, tu peux t'en servir ; sinon, n'importe quel raté léger fait l'affaire. Si ça fait encore mal, choisis-en un plus léger, ou passe ton tour : celui-là n'est pas pour aujourd'hui.",
+        "moduleDetail": "Imagine Hugo, dont l'étagère penche depuis samedi. À la question « alors, ce bricolage ? », il pourrait soupirer. Il sort un bilan à la place, l'air satisfait : « L'opération n'est pas un échec : j'ai maintenant une étagère qui oblige tout le monde à pencher la tête, et la quincaillerie me connaît par mon prénom. » Le raté est le même, mais c'est lui qui tient le micro. Dans cette étape, tu fais le bilan d'un échec récent et léger, dont tu peux déjà sourire aujourd'hui. C'est réussi si ta phrase liste un résultat vrai et inattendu du raté, sur le ton d'un rapport annuel, et que tu souris en la disant ou en la relisant. Si ton anecdote de l'étape 1 contient un petit raté, tu peux t'en servir ; sinon, n'importe quel raté léger fait l'affaire. Si ça fait encore mal, choisis-en un plus léger, ou passe ton tour : celui-là n'est pas pour aujourd'hui.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 100,
         "free": false,
@@ -265,40 +288,40 @@
             "youtubeId": "Fw14PLdtSyA",
             "artist": "Nora Hamzawi",
             "title": "Les chagrins d'amour (chronique France Inter)",
-            "why": "Quatre minutes sur les chagrins d'amour. Repère un moment où elle analyse sa propre réaction comme si elle la découvrait : c'est ce recul qui fait le bilan. Si le sujet te touche de trop près en ce moment, passe directement à la facultative."
+            "why": "Quatre minutes sur les chagrins d'amour. Repère un moment où elle analyse sa propre réaction comme si elle la découvrait : c'est ce recul qui fait le bilan. Si le sujet te touche de trop près en ce moment, passe directement à la facultative."
           },
           {
             "youtubeId": "0FmK8RA_hnE",
             "artist": "Nordine Ganso",
             "title": "La première fois",
-            "why": "Un souvenir amplifié pour faire rire. Repère ce qu'il grossit et ce qu'il laisse tel quel : c'est la distance qu'il faut pour rire d'un raté."
+            "why": "Un souvenir amplifié pour faire rire. Repère ce qu'il grossit et ce qu'il laisse tel quel : c'est la distance qu'il faut pour rire d'un raté."
           }
         ],
         "quiz": [
           {
-            "question": "Imagine Hugo qui a raté son train. Laquelle de ses phrases est un vrai bilan ?",
+            "question": "Imagine Hugo qui a raté son train. Laquelle de ses phrases est un vrai bilan ?",
             "options": [
-              "« J'ai raté mon train, et en plus il pleuvait, mais bon, je ne me plains pas. »",
-              "« Le train n'est pas un échec : je suis nul en organisation, ce n'est pas nouveau. »",
-              "« Le train n'est pas un échec : j'ai lu la moitié de mon livre et je connais la gare par cœur. »",
-              "« Mon train est parti sans moi, ce qui prouve qu'il me détestait. »"
+              "« J'ai raté mon train, et en plus il pleuvait, mais bon, je ne me plains pas. »",
+              "« Le train n'est pas un échec : je suis nul en organisation, ce n'est pas nouveau. »",
+              "« Le train n'est pas un échec : j'ai lu la moitié de mon livre et je connais la gare par cœur. »",
+              "« Mon train est parti sans moi, ce qui prouve qu'il me détestait. »"
             ],
             "correctIndex": 2,
-            "explanation": "La C. C'est un bilan : tu listes ce que le raté a produit, avec des détails vrais et un ton fier. La A se plaint en s'en défendant, la B rend un verdict sur toi, et la D invente une cause au lieu de lister un résultat."
+            "explanation": "La C. C'est un bilan : tu listes ce que le raté a produit, avec des détails vrais et un ton fier. La A se plaint en s'en défendant, la B rend un verdict sur toi, et la D invente une cause au lieu de lister un résultat."
           },
           {
-            "question": "Ton dîner est raté, les pâtes ont fait un bloc. Quelle conséquence mets-tu dans ton bilan ?",
+            "question": "Ton dîner est raté, les pâtes ont fait un bloc. Quelle conséquence mets-tu dans ton bilan ?",
             "options": [
-              "« Le dîner n'est pas un échec : j'ai appris qu'il faut remuer les pâtes pendant la cuisson. »",
-              "« Plus jamais je ne cuisine pour des invités. »",
-              "« Les pâtes étaient immangeables, il n'y a pas d'autre mot. »",
-              "« Le dîner n'est pas un échec : pour la première fois, tous mes invités se sont proposés pour cuisiner la prochaine fois. »"
+              "« Le dîner n'est pas un échec : j'ai appris qu'il faut remuer les pâtes pendant la cuisson. »",
+              "« Plus jamais je ne cuisine pour des invités. »",
+              "« Les pâtes étaient immangeables, il n'y a pas d'autre mot. »",
+              "« Le dîner n'est pas un échec : pour la première fois, tous mes invités se sont proposés pour cuisiner la prochaine fois. »"
             ],
             "correctIndex": 3,
             "explanation": "La D. Le bilan est positif pour une mauvaise raison, vrai et précis, et c'est ce contraste qui fait sourire. La A emprunte la formule mais tire une vraie leçon, sage et pas drôle, et les B et C restent dans l'échec."
           },
           {
-            "question": "Tu cherches l'échec à raconter ce soir. Lequel prends-tu ?",
+            "question": "Tu cherches l'échec à raconter ce soir. Lequel prends-tu ?",
             "options": [
               "Le plat raté de dimanche, dont tu souris déjà.",
               "La rupture de la semaine dernière, pour tourner la page plus vite.",
@@ -306,10 +329,10 @@
               "Le gâteau raté d'une collègue, parce que ça ne touche personne."
             ],
             "correctIndex": 0,
-            "explanation": "La A. Le bon échec est récent, léger, et déjà assez loin pour que tu puisses en sourire aujourd'hui. La B est une blessure fraîche, la C est trop lourde pour un bilan, et la D n'est pas le tien : ce n'est plus de l'autodérision."
+            "explanation": "La A. Le bon échec est récent, léger, et déjà assez loin pour que tu puisses en sourire aujourd'hui. La B est une blessure fraîche, la C est trop lourde pour un bilan, et la D n'est pas le tien : ce n'est plus de l'autodérision."
           },
           {
-            "question": "Tu fais le bilan d'un barbecue raté. Dans quel ordre le racontes-tu ?",
+            "question": "Tu fais le bilan d'un barbecue raté. Dans quel ordre le racontes-tu ?",
             "options": [
               "Tout le raté, étape par étape, puis le positif à la fin.",
               "Le raté en une phrase, puis la liste de ce qu'il a produit.",
@@ -320,15 +343,16 @@
             "explanation": "La B. Une phrase suffit pour le raté, tout le reste est le bilan, et on rit du contraste entre les deux. La A s'attarde sur la panne, la C dévoile le contraste avant de l'avoir posé, et la D les mélange jusqu'à ce qu'il n'en reste rien."
           }
         ],
+        "dureeTexte": "Environ 20 min, vidéo comprise",
         "exerciceProtection": "Un raté léger, jamais une blessure récente. Si ça fait encore mal, prends-en un plus léger, ou garde celui-là pour un autre jour."
       },
       {
         "week": 4,
         "tipTitle": "Le twist final",
         "dayNumber": 24,
-        "why": "Une chute qui surprend n'est pas un coup de chance : le public a compris l'histoire d'une façon, et elle tient aussi d'une autre. Tout se prépare dans les phrases d'avant, qui doivent rester vraies dans les deux lectures. Ici, tu écris la tienne en trois phrases.",
+        "why": "Une chute qui surprend n'est pas un coup de chance : le public a compris l'histoire d'une façon, et elle tient aussi d'une autre. Tout se prépare dans les phrases d'avant, qui doivent rester vraies dans les deux lectures. Ici, tu écris la tienne en trois phrases.",
         "moduleTitle": "Une chute qui se lit de deux façons",
-        "moduleDetail": "Imagine Nadia qui raconte sa soirée : « Il m'a attendue toute la journée devant la porte, ravi de me voir, comme tous les soirs. Il m'a suivie jusque dans la cuisine. On a dîné face à face : des pâtes pour moi, des croquettes pour lui, et il a ronronné tout le repas. » Pendant deux phrases, tout le monde imaginait un amoureux. La troisième a tranché pour le chat. Dans cette étape, tu écris une chute à double lecture, en trois phrases. Regarde si ton anecdote de l'étape 1 s'y prête (quelqu'un qu'on a pris pour un autre, un bruit mal interprété). Sinon, une scène de ta semaine fera l'affaire.",
+        "moduleDetail": "Imagine Nadia qui raconte sa soirée : « Il m'a attendue toute la journée devant la porte, ravi de me voir, comme tous les soirs. Il m'a suivie jusque dans la cuisine. On a dîné face à face : des pâtes pour moi, des croquettes pour lui, et il a ronronné tout le repas. » Pendant deux phrases, tout le monde imaginait un amoureux. La troisième a tranché pour le chat. Dans cette étape, tu écris une chute à double lecture, en trois phrases. Regarde si ton anecdote de l'étape 1 s'y prête (quelqu'un qu'on a pris pour un autre, un bruit mal interprété). Sinon, une scène de ta semaine fera l'affaire.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 125,
         "free": false,
@@ -344,43 +368,43 @@
             "youtubeId": "RYjfe8OSRFw",
             "artist": "Paul Mirabel",
             "title": "Je me suis fait racketter",
-            "why": "Paul Mirabel raconte comment il s'est fait racketter. Repère un moment où tu crois savoir où l'histoire va, et regarde si elle y va : c'est le mouvement que tu écris dans ton défi."
+            "why": "Paul Mirabel raconte comment il s'est fait racketter. Repère un moment où tu crois savoir où l'histoire va, et regarde si elle y va : c'est le mouvement que tu écris dans ton défi."
           },
           {
             "youtubeId": "uEj_jmlANXE",
             "artist": "Djimo",
             "title": "J'aurais kiffé être une tortue",
-            "why": "Djimo aurait kiffé être une tortue, et il le défend avec un sérieux de plus en plus solide. Repère le moment où tu passes de « n'importe quoi » à « il n'a pas tort » : chaque argument est vrai, seule la conclusion est délirante."
+            "why": "Djimo aurait kiffé être une tortue, et il le défend avec un sérieux de plus en plus solide. Repère le moment où tu passes de « n'importe quoi » à « il n'a pas tort » : chaque argument est vrai, seule la conclusion est délirante."
           }
         ],
         "quiz": [
           {
-            "question": "Imagine Nadia qui cherche le début de son prochain twist. Lequel de ces débuts laisse deux lectures ouvertes ?",
+            "question": "Imagine Nadia qui cherche le début de son prochain twist. Lequel de ces débuts laisse deux lectures ouvertes ?",
             "options": [
-              "« Hier, j'ai pris rendez-vous chez le dentiste. »",
-              "« Ma voisine m'a dit qu'elle avait mal dormi. »",
-              "« J'ai appelé mon frère pour lui annoncer une grande nouvelle. »",
-              "« Il m'a regardée droit dans les yeux et m'a dit que ça ne pouvait plus durer. »"
+              "« Hier, j'ai pris rendez-vous chez le dentiste. »",
+              "« Ma voisine m'a dit qu'elle avait mal dormi. »",
+              "« J'ai appelé mon frère pour lui annoncer une grande nouvelle. »",
+              "« Il m'a regardée droit dans les yeux et m'a dit que ça ne pouvait plus durer. »"
             ],
             "correctIndex": 3,
-            "explanation": "La D. Elle laisse deux lectures ouvertes : une rupture, ou tout autre chose (un voisin, un plombier), et ta fin pourra choisir. Les trois autres ne disent qu'une chose, donc il n'y a rien à retourner."
+            "explanation": "La D. Elle laisse deux lectures ouvertes : une rupture, ou tout autre chose (un voisin, un plombier), et ta fin pourra choisir. Les trois autres ne disent qu'une chose, donc il n'y a rien à retourner."
           },
           {
-            "question": "Ton twist commence par « Il est toujours là quand je rentre. Il garde tout ce que je lui confie. » Son vrai sujet est ton frigo, mais tu ne l'as pas nommé. Quelle dernière phrase tranche le mieux ?",
+            "question": "Ton twist commence par « Il est toujours là quand je rentre. Il garde tout ce que je lui confie. » Son vrai sujet est ton frigo, mais tu ne l'as pas nommé. Quelle dernière phrase tranche le mieux ?",
             "options": [
-              "« Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi. »",
-              "« Vous l'avez deviné : je parlais de mon frigo, évidemment. »",
-              "« Et le plus drôle, c'est que ce n'était pas une personne. »",
-              "« Il me comprend vraiment, ce grand silencieux. »"
+              "« Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi. »",
+              "« Vous l'avez deviné : je parlais de mon frigo, évidemment. »",
+              "« Et le plus drôle, c'est que ce n'était pas une personne. »",
+              "« Il me comprend vraiment, ce grand silencieux. »"
             ],
             "correctIndex": 0,
-            "explanation": "La A. Elle révèle l'objet par un détail de scène, sans l'annoncer, et la lecture cachée s'impose d'un coup. Les B et C commentent le tour qu'elles viennent de jouer, et la D ne tranche pas : le public reste dans la première lecture."
+            "explanation": "La A. Elle révèle l'objet par un détail de scène, sans l'annoncer, et la lecture cachée s'impose d'un coup. Les B et C commentent le tour qu'elles viennent de jouer, et la D ne tranche pas : le public reste dans la première lecture."
           },
           {
-            "question": "Tu lis ton twist à un ami. Quelle réaction te dit qu'il marche ?",
+            "question": "Tu lis ton twist à un ami. Quelle réaction te dit qu'il marche ?",
             "options": [
               "Il rit dès la première phrase.",
-              "Il dit « j'avais compris dès le début ».",
+              "Il dit « j'avais compris dès le début ».",
               "Il se trompe jusqu'à la fin, puis trouve toutes les phrases d'avant justes.",
               "Il te demande de répéter la dernière phrase."
             ],
@@ -388,7 +412,7 @@
             "explanation": "La C. Se tromper jusqu'au bout prouve que le tour a tenu, et trouver les phrases justes après coup prouve qu'il est honnête. La A rit trop tôt, la B a tout vu venir, et la D n'a pas compris la fin."
           },
           {
-            "question": "Ton ami devine ton twist au bout de deux phrases. Que fais-tu ?",
+            "question": "Ton ami devine ton twist au bout de deux phrases. Que fais-tu ?",
             "options": [
               "Tu ajoutes un faux indice pour l'égarer.",
               "Tu cherches la phrase qui trahit et tu la remplaces par une phrase vraie des deux côtés.",
@@ -398,15 +422,16 @@
             "correctIndex": 1,
             "explanation": "La B. Quand quelqu'un devine tôt, c'est presque toujours qu'une phrase ne sert que la lecture cachée, donc tu la remplaces. La A ment et casse les deux lectures, la C dilue sans rien réparer, et la D jette une histoire qu'il suffisait de corriger."
           }
-        ]
+        ],
+        "dureeTexte": "Environ 20 min, vidéo comprise"
       },
       {
         "week": 5,
         "tipTitle": "La blague à tiroirs",
         "dayNumber": 31,
-        "why": "Une digression au bon endroit fait rire, une digression perdue fait décrocher. La différence tient à deux choses : le détour doit faire sourire tout seul, et tu dois revenir au fil sans que personne se demande où on en est. Ici, tu apprends à ouvrir un tiroir et à le refermer sans te perdre.",
+        "why": "Une digression au bon endroit fait rire, une digression perdue fait décrocher. La différence tient à deux choses : le détour doit faire sourire tout seul, et tu dois revenir au fil sans que personne se demande où on en est. Ici, tu apprends à ouvrir un tiroir et à le refermer sans te perdre.",
         "moduleTitle": "Un détour qui ne perd personne",
-        "moduleDetail": "Imagine Maëlle qui raconte son week-end à la campagne. Au milieu, elle glisse deux phrases sur les poules du voisin, qui regardent passer les voitures comme un défilé, puis elle revient à son histoire d'un seul mot. Personne n'a perdu le fil, et tout le monde a souri deux fois. C'est un tiroir : une vanne cachée dans une autre. Dans cette étape, tu reprends ton anecdote de l'étape 1, coupée à trois phrases, et tu ouvres un tiroir entre la première et la deuxième. Deux phrases au plus, un chrono, moins d'une minute trente chute comprise. Pas d'anecdote sous la main ? Une anecdote de ta journée fera l'affaire.",
+        "moduleDetail": "Imagine Maëlle qui raconte son week-end à la campagne. Au milieu, elle glisse deux phrases sur les poules du voisin, qui regardent passer les voitures comme un défilé, puis elle revient à son histoire d'un seul mot. Personne n'a perdu le fil, et tout le monde a souri deux fois. C'est un tiroir : une vanne cachée dans une autre. Dans cette étape, tu reprends ton anecdote de l'étape 1, coupée à trois phrases, et tu ouvres un tiroir entre la première et la deuxième. Deux phrases au plus, un chrono, moins d'une minute trente chute comprise. Pas d'anecdote sous la main ? Une anecdote de ta journée fera l'affaire.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
         "moduleXp": 150,
         "free": false,
@@ -433,18 +458,18 @@
         ],
         "quiz": [
           {
-            "question": "Imagine Maëlle qui raconte son trajet du matin, en retard. Quelle parenthèse fait vraiment un tiroir ?",
+            "question": "Imagine Maëlle qui raconte son trajet du matin, en retard. Quelle parenthèse fait vraiment un tiroir ?",
             "options": [
-              "« Parenthèse : si j'étais en retard, c'est que je n'étais pas à l'heure. »",
-              "« Parenthèse : mon métro avait du retard, ce qui explique celui de ma réunion. »",
-              "« Parenthèse : dans le métro, tout le monde fixe le plan comme si la ligne avait changé depuis ce matin. »",
-              "« Parenthèse : je reviens dessus à la fin, c'est important pour la chute. »"
+              "« Parenthèse : si j'étais en retard, c'est que je n'étais pas à l'heure. »",
+              "« Parenthèse : mon métro avait du retard, ce qui explique celui de ma réunion. »",
+              "« Parenthèse : dans le métro, tout le monde fixe le plan comme si la ligne avait changé depuis ce matin. »",
+              "« Parenthèse : je reviens dessus à la fin, c'est important pour la chute. »"
             ],
             "correctIndex": 2,
             "explanation": "La C. Elle se raconte seule et fait sourire sans l'histoire autour, et c'est ce qui fait un tiroir. La A tourne en rond, la B explique le retard, et la D annonce la chute au lieu d'ouvrir un tiroir."
           },
           {
-            "question": "Tu viens de refermer ton tiroir et tu reprends ton histoire. D'où doit venir la chute ?",
+            "question": "Tu viens de refermer ton tiroir et tu reprends ton histoire. D'où doit venir la chute ?",
             "options": [
               "De la parenthèse, puisque c'est le passage qui a fait le plus rire.",
               "De l'histoire de départ, que tu reprends là où tu l'avais laissée.",
@@ -452,39 +477,40 @@
               "D'une phrase qui mêle l'histoire et la parenthèse."
             ],
             "correctIndex": 1,
-            "explanation": "La B. Le tiroir fait sourire en chemin, mais c'est l'histoire de départ qui conclut. La A fait de la parenthèse le plat principal, la C ouvre un troisième sujet, et la D mélange tout : la chute n'appartient plus à personne."
+            "explanation": "La B. Le tiroir fait sourire en chemin, mais c'est l'histoire de départ qui conclut. La A fait de la parenthèse le plat principal, la C ouvre un troisième sujet, et la D mélange tout : la chute n'appartient plus à personne."
           },
           {
-            "question": "Un ami te dit : « Ta parenthèse n'est drôle que parce qu'on connaît l'histoire. » Que fais-tu ?",
+            "question": "Un ami te dit : « Ta parenthèse n'est drôle que parce qu'on connaît l'histoire. » Que fais-tu ?",
             "options": [
               "Tu la rallonges pour qu'elle devienne drôle.",
               "Tu l'expliques mieux avant de l'ouvrir.",
-              "Tu la gardes : ceux qui connaissent l'histoire riront.",
+              "Tu la gardes : ceux qui connaissent l'histoire riront.",
               "Tu en cherches une autre, qui fait sourire sans l'histoire."
             ],
             "correctIndex": 3,
             "explanation": "La D. Un tiroir qui ne fait rire que grâce à l'histoire est une explication déguisée, il en faut un qui tienne seul. Les A et B ajoutent des mots autour d'un tiroir qui ne marche pas, et la C garde le défaut."
           },
           {
-            "question": "Ton récit avec tiroir dure deux minutes quarante. Que fais-tu d'abord ?",
+            "question": "Ton récit avec tiroir dure deux minutes quarante. Que fais-tu d'abord ?",
             "options": [
               "Tu ramènes le tiroir à deux phrases et tu coupes dans le reste ce qui ne sert pas la chute.",
               "Tu parles plus vite, pour tenir dans le temps.",
-              "Tu supprimes le tiroir : c'est lui qui rallonge.",
+              "Tu supprimes le tiroir : c'est lui qui rallonge.",
               "Tu ajoutes un second tiroir, pour compenser."
             ],
             "correctIndex": 0,
             "explanation": "La A. Le tiroir tient en deux phrases au plus, et le reste se coupe comme à l'étape 1. La B écrase le rythme, la C jette ce qui fait la technique, et la D rallonge encore."
           }
-        ]
+        ],
+        "dureeTexte": "Environ 20 min, vidéo comprise"
       },
       {
         "week": 6,
         "tipTitle": "Le callback : faire revenir une vanne au bon moment",
         "dayNumber": 38,
-        "why": "Un détail posé au début qui revient à la fin, c'est ce qui fait dire « ah oui, bien sûr ». Ceux qui écoutaient depuis le début sont récompensés, et ton histoire a l'air d'avoir été prévue. Dans cette dernière étape, tu l'ajoutes à ton anecdote et tu la racontes à deux personnes.",
+        "why": "Un détail posé au début qui revient à la fin, c'est ce qui fait dire « ah oui, bien sûr ». Ceux qui écoutaient depuis le début sont récompensés, et ton histoire a l'air d'avoir été prévue. Dans cette dernière étape, tu l'ajoutes à ton anecdote et tu la racontes à deux personnes.",
         "moduleTitle": "Un détail qui revient à la fin",
-        "moduleDetail": "Imagine Samir qui raconte, une dernière fois, son canapé coincé. Dans ses premières phrases, il glisse en passant que son cousin a apporté des sandwichs au thon « pour l'énergie », et ça fait sourire. Puis le canapé reste dans l'escalier, et Samir termine : « Depuis, il fait partie de l'immeuble, et le dimanche le cousin lui monte un sandwich. Pour l'énergie. » Au départ, le thon a fait sourire ; à la fin, il fait rire, parce que tout le monde s'en souvient. Dans cette dernière étape, tu fais la même chose avec ton anecdote et tu la racontes à deux personnes cette semaine. Le signe que ça a marché : l'une des deux te redemande un passage, ou la raconte à son tour. Deux défis courts : celui du conseil, puis celui de ton anecdote. Ils se rejoignent si ta soirée s'y prête.",
+        "moduleDetail": "Imagine Samir qui raconte, une dernière fois, son canapé coincé. Dans ses premières phrases, il glisse en passant que son cousin a apporté des sandwichs au thon « pour l'énergie », et ça fait sourire. Puis le canapé reste dans l'escalier, et Samir termine : « Depuis, il fait partie de l'immeuble, et le dimanche le cousin lui monte un sandwich. Pour l'énergie. » Au départ, le thon a fait sourire ; à la fin, il fait rire, parce que tout le monde s'en souvient. Dans cette dernière étape, tu fais la même chose avec ton anecdote et tu la racontes à deux personnes cette semaine. Le signe que ça a marché : l'une des deux te redemande un passage, ou la raconte à son tour. Deux défis courts : celui du conseil, puis celui de ton anecdote. Ils se rejoignent si ta soirée s'y prête.",
         "moduleFormat": "Un conseil, un défi, 5 vannes, une vidéo, un petit quiz.",
         "moduleXp": 200,
         "free": false,
@@ -500,45 +526,45 @@
             "youtubeId": "eYhWcDdI3rM",
             "artist": "Jonathan Cohen",
             "title": "Serge le Mytho (Bloqués)",
-            "why": "Un personnage qui ment avec un aplomb parfait, en trois minutes. Repère ce qui revient d'une scène à l'autre, et pourquoi on sourit en le reconnaissant : comme ton détail à la fin de ton anecdote."
+            "why": "Un personnage qui ment avec un aplomb parfait, en trois minutes. Repère ce qui revient d'une scène à l'autre, et pourquoi on sourit en le reconnaissant : comme ton détail à la fin de ton anecdote."
           }
         ],
         "quiz": [
           {
-            "question": "Imagine Samir à table. Une amie lance : « J'ai 47 plantes et aucune ne m'a jamais dit merci. » Que reprendra-t-il plus tard ?",
+            "question": "Imagine Samir à table. Une amie lance : « J'ai 47 plantes et aucune ne m'a jamais dit merci. » Que reprendra-t-il plus tard ?",
             "options": [
               "Toute la phrase, mot pour mot.",
-              "« Quarante-sept », glissé quand on compte les verres.",
-              "Le mot « plantes », dans n'importe quelle phrase.",
+              "« Quarante-sept », glissé quand on compte les verres.",
+              "Le mot « plantes », dans n'importe quelle phrase.",
               "Le ton de l'amie, imité une heure après."
             ],
             "correctIndex": 1,
             "explanation": "La B. Un chiffre précis se reconnaît en une demi-seconde, même glissé en passant. La A répète toute la phrase et perd la surprise, la C est un mot trop banal pour être reconnu, et la D est un ton, qui ne se rappelle pas."
           },
           {
-            "question": "Une collègue a dit en passant qu'elle collectionne les bouchons de liège. Personne n'a ri. Peux-tu en faire un callback ?",
+            "question": "Une collègue a dit en passant qu'elle collectionne les bouchons de liège. Personne n'a ri. Peux-tu en faire un callback ?",
             "options": [
-              "Non : un callback ne marche que sur ce qui a déjà fait rire.",
+              "Non : un callback ne marche que sur ce qui a déjà fait rire.",
               "Oui, mais seulement dans les deux minutes qui suivent.",
-              "Oui, à condition de prévenir : « je reprends un truc de tout à l'heure ».",
-              "Oui : un détail précis, même juste dit, peut revenir."
+              "Oui, à condition de prévenir : « je reprends un truc de tout à l'heure ».",
+              "Oui : un détail précis, même juste dit, peut revenir."
             ],
             "correctIndex": 3,
-            "explanation": "La D. Un détail précis, même juste glissé, suffit : celui qui écoutait s'en souvient, et c'est ce petit coup de coude qui fait sourire. La A réserve le callback aux rires, la B impose un délai, et la C annonce le tour et tue la surprise."
+            "explanation": "La D. Un détail précis, même juste glissé, suffit : celui qui écoutait s'en souvient, et c'est ce petit coup de coude qui fait sourire. La A réserve le callback aux rires, la B impose un délai, et la C annonce le tour et tue la surprise."
           },
           {
-            "question": "Tu as ressorti ton détail dans une conversation à six. Un seul sourit, en te regardant. Le callback a-t-il marché ?",
+            "question": "Tu as ressorti ton détail dans une conversation à six. Un seul sourit, en te regardant. Le callback a-t-il marché ?",
             "options": [
-              "Non : il faut que tout le monde rie.",
-              "Non : il faut au moins un fou rire.",
-              "Oui : un sourire de reconnaissance suffit.",
+              "Non : il faut que tout le monde rie.",
+              "Non : il faut au moins un fou rire.",
+              "Oui : un sourire de reconnaissance suffit.",
               "Oui, mais seulement s'il en reparle à la fin de la soirée."
             ],
             "correctIndex": 2,
-            "explanation": "La C. Le critère est un sourire de reconnaissance, pas un fou rire : quelqu'un qui se souvient, c'est gagné. Les A et B demandent trop, et la D réclame un deuxième tour dont le callback n'a pas besoin."
+            "explanation": "La C. Le critère est un sourire de reconnaissance, pas un fou rire : quelqu'un qui se souvient, c'est gagné. Les A et B demandent trop, et la D réclame un deuxième tour dont le callback n'a pas besoin."
           },
           {
-            "question": "Ce soir, tu tentes ton premier callback. Que fais-tu ?",
+            "question": "Ce soir, tu tentes ton premier callback. Que fais-tu ?",
             "options": [
               "Je reprends un seul détail, une seule fois, quand la conversation est passée à autre chose.",
               "Je plante une graine dès l'apéro et je vise la fin de soirée.",
@@ -546,10 +572,10 @@
               "Je prépare trois callbacks et je les place dans la soirée."
             ],
             "correctIndex": 0,
-            "explanation": "La A. Un seul détail repris une seule fois, après un moment, suffit pour un premier essai : c'est ce que demande ton défi du soir. La B est la version avancée, qui demande de tenir le fil pendant une heure, la C répète toute la phrase, et la D en place trop : on les voit venir."
+            "explanation": "La A. Un seul détail repris une seule fois, après un moment, suffit pour un premier essai : c'est ce que demande ton défi du soir. La B est la version avancée, qui demande de tenir le fil pendant une heure, la C répète toute la phrase, et la D en place trop : on les voit venir."
           },
           {
-            "question": "Ton anecdote est prête et tu choisis le détail qui reviendra. Lequel prends-tu ?",
+            "question": "Ton anecdote est prête et tu choisis le détail qui reviendra. Lequel prends-tu ?",
             "options": [
               "Le plus gros détail, celui qui explique tout.",
               "Un détail neutre, comme la date.",
@@ -559,7 +585,10 @@
             "correctIndex": 3,
             "explanation": "La D. Il est discret au départ, et c'est ce qui rend son retour savoureux. La A prévient trop tôt, la B est trop pâle pour être reconnu, et la C ne revient pas puisqu'il est déjà dans la chute."
           }
-        ]
+        ],
+        "dureeTexte": "Environ 15 min, vidéo comprise",
+        "exerciceSecondTitre": "Pour ton anecdote du parcours :",
+        "retourExerciceNote": "Ton retour porte sur l'histoire racontée."
       }
     ]
   }

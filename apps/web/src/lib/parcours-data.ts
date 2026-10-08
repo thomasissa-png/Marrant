@@ -42,6 +42,12 @@ export interface SeedStep {
   quiz?: SeedQuizQuestion[];
   /** s18 (Storytelling 3) : phrase de protection affichée sous le défi. */
   exerciceProtection?: string;
+  /** s18 (D1 @ux) : durée affichée, prioritaire sur le calcul depuis `timePerWeek`. */
+  dureeTexte?: string;
+  /** s18 (D5 @ux) : titre du second défi (après la ligne vide du défi en base). */
+  exerciceSecondTitre?: string;
+  /** s18 (D5 @ux) : précision sous « Alors, ce défi ? ». */
+  retourExerciceNote?: string;
 }
 
 export interface SeedParcours {
@@ -58,6 +64,8 @@ export interface SeedParcours {
   nextParcoursReason?: string;
   /** Spec s17 §5.5 : ordre des suites non commencées après ce parcours. */
   nextParcoursRanking?: string[];
+  /** s18 : meta description de la page (Storytelling). */
+  metaDescription?: string;
   personaTagline?: string;
   testimonial?: string;
   steps: SeedStep[];
@@ -91,6 +99,9 @@ function seedStepContent(s: SeedStep) {
     videos: s.videos ?? [],
     quiz: s.quiz ?? [],
     ...(s.exerciceProtection && { exerciceProtection: s.exerciceProtection }),
+    ...(s.dureeTexte && { dureeTexte: s.dureeTexte }),
+    ...(s.exerciceSecondTitre && { exerciceSecondTitre: s.exerciceSecondTitre }),
+    ...(s.retourExerciceNote && { retourExerciceNote: s.retourExerciceNote }),
   };
 }
 
