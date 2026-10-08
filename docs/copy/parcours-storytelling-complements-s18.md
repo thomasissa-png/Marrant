@@ -11,24 +11,24 @@ Positions de l'étape 1 : D, B, **A, C** (Q1 et Q2 : voir étalons §3). Aucun p
 > **A. « Le monsieur devant moi tenait un cactus en pot sous le bras. »**
 > B. « Il y avait pas mal de monde, comme d'habitude, et ça avançait lentement. »
 > C. « C'était un mardi matin, vers dix heures et demie, il me semble. »
-> D. « J'étais un peu fatigué ce jour-là. »
+> D. « J'avais un peu sommeil ce jour-là. »
 >
 > **Explication (3 phrases)** : La A. Le cactus fait voir la scène, alors que les trois autres détails sont neutres : aucun ne fait image. La C est la plus tentante parce qu'elle est précise, mais précis n'est pas utile.
 
 **Question 4 (bonne réponse en C)**
 > **Tu racontes une panne d'ascenseur de quarante minutes avec ta voisine du dessus. Quelle dernière phrase choisis-tu ?**
-> A. « Et c'est comme ça que j'ai appris qu'elle s'appelle Odile, qu'elle aime la pêche et qu'elle a un neveu à Lyon. »
-> B. « Au bout d'une heure, on était presque amis, ce qui était une belle surprise. »
+> A. « Et c'est comme ça que j'ai appris son prénom, qu'elle aime la pêche et qu'elle a un neveu à Lyon. »
+> B. « Au bout de quarante minutes, on était presque amis, ce qui était une belle surprise. »
 > **C. « Elle a gardé mon numéro. »**
 > D. « Moralité : une panne d'ascenseur, ça rapproche les gens. »
 >
-> **Explication (3 phrases)** : La C. C'est la phrase la plus courte de l'histoire, et elle ne dit que ce que la scène a déjà montré. La A rallonge la montée, la B et la D expliquent ce que tout le monde avait compris.
+> **Explication (3 phrases)** : La C. C'est la phrase la plus courte de l'histoire, et elle laisse deviner la suite sans l'expliquer. La A rallonge la montée, la B et la D expliquent ce que tout le monde avait compris.
 
 (Contrôle : la bonne réponse de Q4 est la plus courte de toutes les options. Positions de l'étape 1 : D, B, A, C, jamais deux de suite au même rang.)
 
 ## 2. `nextParcoursReason` de Storytelling (vers Machine à Café)
 
-> Tu sais maintenant raconter une histoire du début à la chute ; reste à savoir la glisser en deux phrases entre deux réunions, et c'est ce que t'apprend le parcours Machine à Café.
+> Tu sais maintenant raconter une histoire du début à la chute. Reste à avoir des vannes courtes sous la main pour la pause café : c'est ce que t'apprend le parcours Machine à Café.
 
 ## 3. Meta description de `/parcours/storytelling`
 
