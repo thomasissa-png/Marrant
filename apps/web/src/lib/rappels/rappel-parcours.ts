@@ -19,7 +19,7 @@ import type { Prisma } from "@prisma/client";
 import { parisParts, parisWeekKey } from "@/lib/analytics/weekly-visits-period";
 import { NEXT_STEP_DELAY_DAYS } from "@/lib/progression";
 import { JOURS_SEMAINE, rappelParcoursEmail } from "@/config/textes/parcours-emails";
-import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 
 export type OrigineArret = "profil" | "lien-email" | "fin-premium" | "suppression";
 

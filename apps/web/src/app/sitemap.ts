@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getParcoursSitemapDates } from "@/lib/sitemap-parcours";
+import { PARCOURS_SLUGS } from "@/lib/entrees-parcours";
 import { blogArticles } from "@/lib/blog-articles";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
@@ -49,7 +50,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/videos`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
     // s17 (SEO-07) : dates réelles des parcours (constante du code ou base, la plus récente).
     { url: `${baseUrl}/parcours`, lastModified: parcoursDates.hub, changeFrequency: "weekly", priority: 0.8 },
-    ...(["machine-a-cafe", "repartie", "confiance"] as const).map((slug) => ({
+    // s18 : parcours publiés seulement (Storytelling quand STORYTELLING_PUBLIE).
+    ...PARCOURS_SLUGS.map((slug) => ({
       url: `${baseUrl}/parcours/${slug}`,
       lastModified: parcoursDates.bySlug[slug] ?? parcoursDates.hub,
       changeFrequency: "monthly" as const,

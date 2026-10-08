@@ -44,6 +44,8 @@ export interface Step {
   jokes?: StepJoke[];
   videos?: VideoRef[];
   quiz?: QuizQuestion[];
+  /** s18 : phrase de protection sous le défi (Storytelling 3). */
+  exerciceProtection?: string;
   /** Fiche conseil du catalogue (SEO-05). */
   tipHref?: string;
   /** true : aperçu servi par le serveur (contenu réservé Premium, non envoyé). */
@@ -65,6 +67,8 @@ export interface PathData {
   steps: Step[];
   nextParcours?: string | null;
   nextParcoursReason?: string | null;
+  /** Spec s17 §5.5 : ordre des suites non commencées. */
+  nextParcoursRanking?: string[];
   personaTagline?: string | null;
   testimonial?: string | null;
 }

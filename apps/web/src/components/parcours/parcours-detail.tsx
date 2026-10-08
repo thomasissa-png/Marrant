@@ -616,6 +616,7 @@ export function ParcoursDetail({
           retours={retours}
           nextParcours={path.nextParcours}
           nextParcoursReason={path.nextParcoursReason}
+          nextParcoursRanking={path.nextParcoursRanking}
         />
       )}
       {isPathCompleted && <div className="mb-8">{argumentaire}</div>}

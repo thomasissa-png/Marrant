@@ -3,6 +3,7 @@
 // Chaque réponse attribue des points aux profils.
 
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 export interface QuizQuestion {
   question: string;
@@ -59,7 +60,8 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     strength: "Quand tu racontes, les téléphones restent dans les poches, même celui qui vibre.",
     tip: "Construis tes anecdotes en 3 temps : une situation banale, un détail qui cloche, puis une chute que personne n'a vue venir.",
     color: "#8B5CF6",
-    recommendedParcours: "machine-a-cafe",
+    // s18 (spec s17 §12) : Storytelling seulement une fois publié, sinon Machine à Café.
+    recommendedParcours: STORYTELLING_PUBLIE ? "storytelling" : "machine-a-cafe",
   },
   ABSURDE: {
     type: "ABSURDE",

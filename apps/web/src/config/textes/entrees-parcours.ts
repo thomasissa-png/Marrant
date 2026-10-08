@@ -9,6 +9,7 @@
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { PARCOURS_NOMS } from "@/lib/entrees-parcours";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 // s17, validé (étalon 3.9 A, bouton secondaire de l'accueil)
 /** Accueil visiteur : lien secondaire sous le bouton principal (UX-08). */
@@ -46,7 +47,10 @@ export const QUIZ_HUMOUR_PARCOURS = {
   titre: (slug: ParcoursSlug) => `Parcours ${PARCOURS_NOMS[slug]}`,
   raison: {
     OBSERVATEUR: "Tu vois ce que les autres ne remarquent pas : ce parcours commence justement par regarder ton quotidien avec un œil comique.",
-    STORYTELLER: "Tu sais tenir une table avec une histoire : ce parcours t'apprend à la raconter au bon moment et jusqu'au bout.",
+    // s18 : accroche validée (étalons Storytelling, choix 4 A), affichée seulement avec /parcours/storytelling en ligne.
+    STORYTELLER: STORYTELLING_PUBLIE
+      ? "Tu sais tenir une table avec tes histoires : ce parcours commence par en écrire une comme elle vient, puis par couper ce qui traîne."
+      : "Tu sais tenir une table avec une histoire : ce parcours t'apprend à la raconter au bon moment et jusqu'au bout.",
     ABSURDE: "Tes idées surprennent : ce parcours t'aide à les placer au bon moment, en quelques mots.",
     PUNCHLINEUR: "Tu vises le mot juste : ce parcours travaille le rythme, les silences et la réplique qui tombe pile.",
     TAQUIN: "Tu renvoies chaque balle : ce parcours t'apprend à retourner une pique avec le sourire.",

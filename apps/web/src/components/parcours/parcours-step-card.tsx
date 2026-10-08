@@ -298,15 +298,16 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.tip.example && (
         <Section title="Exemple concret">
-          <p className="rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{tipProse(step.tip.example)}</p>
+          <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{tipProse(step.tip.example)}</p>
         </Section>
       )}
 
       {step.tip.exercise && (
         <Section title="Exercice pratique">
-          <p className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3 text-sm text-text-secondary">
+          <p className="whitespace-pre-line rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3 text-sm text-text-secondary">
             {tipProse(step.tip.exercise)}
           </p>
+          {step.exerciceProtection && <p className="mt-2 text-sm text-text-secondary">{step.exerciceProtection}</p>}
           <div className="mt-3">
             <ExerciseFeedback
               slug={slug}

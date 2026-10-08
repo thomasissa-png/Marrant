@@ -51,6 +51,7 @@ import { normalizeParcoursSrc } from "@/lib/parcours-tracking";
 import { recommendParcours } from "@/lib/parcours-orientation";
 import { PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 const SLUG = "repartie";
 const seed = (parcoursSeed as Array<{ slug: string; steps: Array<{ week: number; jokeIds?: number[]; jokeContents?: string[]; videos?: Array<{ youtubeId: string }> }> }>).find(
@@ -196,7 +197,7 @@ describe("Page /parcours/[slug] (ISR) : D1, D8, SEO-02, SEO-04, SEO-11", () => {
   });
 
   it("hub /parcours : titre D8 « Cours d'humour en ligne » et aperçu de partage de la page", () => {
-    expect(hubMetadata.title).toEqual({ absolute: "Cours d'humour en ligne : 3 parcours pour devenir drôle" });
+    expect(hubMetadata.title).toEqual({ absolute: `Cours d'humour en ligne : ${STORYTELLING_PUBLIE ? 4 : 3} parcours pour devenir drôle` });
     expect(hubMetadata.openGraph).toMatchObject({ url: "https://deviens-marrant.fr/parcours" });
     expect(hubMetadata.twitter).toMatchObject({ card: "summary_large_image" });
     expect(String(hubMetadata.description)).toContain("Première étape gratuite.");

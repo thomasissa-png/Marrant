@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import type { ParcoursStepPayload } from "@/lib/parcours-preview";
-import parcoursSeed from "../../../../docs/content/parcours-seed.json";
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 
 export interface SeedVideo {
   youtubeId: string;
@@ -40,6 +40,8 @@ export interface SeedStep {
   jokeContents?: string[];
   videos?: SeedVideo[];
   quiz?: SeedQuizQuestion[];
+  /** s18 (Storytelling 3) : phrase de protection affichée sous le défi. */
+  exerciceProtection?: string;
 }
 
 export interface SeedParcours {
@@ -54,12 +56,14 @@ export interface SeedParcours {
   order: number;
   nextParcours?: string;
   nextParcoursReason?: string;
+  /** Spec s17 §5.5 : ordre des suites non commencées après ce parcours. */
+  nextParcoursRanking?: string[];
   personaTagline?: string;
   testimonial?: string;
   steps: SeedStep[];
 }
 
-export const PARCOURS_SEED = parcoursSeed as SeedParcours[];
+export const PARCOURS_SEED = parcoursSeed as unknown as SeedParcours[];
 
 export function getSeedForSlug(slug: string): SeedParcours | undefined {
   return PARCOURS_SEED.find((p) => p.slug === slug);
@@ -86,6 +90,7 @@ function seedStepContent(s: SeedStep) {
     jokeContents: s.jokeContents ?? [],
     videos: s.videos ?? [],
     quiz: s.quiz ?? [],
+    ...(s.exerciceProtection && { exerciceProtection: s.exerciceProtection }),
   };
 }
 
@@ -109,6 +114,7 @@ function seedPathExtras(seed: SeedParcours) {
     difficultyLabel: seed.difficultyLabel ?? null,
     nextParcours: seed.nextParcours ?? null,
     nextParcoursReason: seed.nextParcoursReason ?? null,
+    nextParcoursRanking: seed.nextParcoursRanking ?? [],
     personaTagline: seed.personaTagline ?? null,
     testimonial: seed.testimonial ?? null,
     timePerWeek: timePerWeekFor(seed.slug),

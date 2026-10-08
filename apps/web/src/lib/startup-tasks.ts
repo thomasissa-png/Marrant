@@ -24,6 +24,7 @@ import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 import { stripEmDashesWithStats } from "@/lib/em-dash";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
+import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
 // Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
 // d'import relatif que `components/parcours/parcours-content.tsx`.
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
@@ -1377,6 +1378,8 @@ export async function runStartupTasks(): Promise<void> {
   await applyCatalogueContentTask();
   // APRÈS le catalogue : parcours, étapes et retouches de défi s17 (lot D).
   await applyParcoursContentTask();
+  // s18 : parcours Storytelling (conseils, vannes neuves, parcours inactif tant que non publié).
+  await applyStorytellingImportTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
   await fixPublishedBlogArticlesTask();

@@ -10,7 +10,7 @@
  * - Rythme doux (D2) : prochaine étape conseillée 7 jours après la dernière
  *   validation ; rien n'est bloqué.
  */
-import parcoursSeed from "../../../../docs/content/parcours-seed.json";
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import { parisParts } from "@/lib/analytics/weekly-visits-period";
 
 export const XP_THRESHOLDS = {

@@ -15,6 +15,7 @@ import { QUIZ_PROFILES } from "@/components/quiz/quiz-data";
 import { computeParcoursDates } from "@/lib/sitemap-parcours";
 import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 const row = (p: Partial<ParcoursProgressSummary>): ParcoursProgressSummary => ({
   slug: "repartie",
@@ -113,7 +114,8 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
         { order: 1, learningPath: { slug: "confiance", isActive: false } },
         { order: 2, learningPath: { slug: "storytelling", isActive: true } },
       ]),
-    ).toEqual([{ slug: "repartie", etape: 3 }]);
+      // s18 : Storytelling n'est un parcours reconnu qu'une fois publié.
+    ).toEqual([...(STORYTELLING_PUBLIE ? [{ slug: "storytelling", etape: 2 }] : []), { slug: "repartie", etape: 3 }]);
   });
   it("bloc de fiche : rien sans parcours, sinon lien vers l'étape 1 avec src=fiche", () => {
     const { container, rerender } = render(<FicheParcoursLien type="video" refs={[]} />);
@@ -138,8 +140,8 @@ describe("règle thématique des articles (encart et CTA)", () => {
 describe("quiz d'humour : un des 3 parcours par profil", () => {
   it("chaque profil recommande un parcours existant, et les 3 sont couverts", () => {
     const slugs = Object.values(QUIZ_PROFILES).map((p) => p.recommendedParcours);
-    for (const s of slugs) expect(["machine-a-cafe", "repartie", "confiance"]).toContain(s);
-    expect(new Set(slugs).size).toBe(3);
+    for (const s of slugs) expect(["machine-a-cafe", "repartie", "confiance", ...(STORYTELLING_PUBLIE ? ["storytelling"] : [])]).toContain(s);
+    expect(new Set(slugs).size).toBe(STORYTELLING_PUBLIE ? 4 : 3);
   });
 });
 

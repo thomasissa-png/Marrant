@@ -1,0 +1,8 @@
+# Compléments Storytelling : relecteur n°1
+C1 9 · C2 9 · C3 8 · C4 9 · C5 10 → **note globale 8/10**. Meta description juste (156 caractères recomptés, « première étape gratuite », notions présentes dans les étapes). Q3 fidèle au conseil (garder ce qui fait voir la scène, couper le neutre), positions D, B, A, C conformes.
+- **R1 (Q4, option A)** : « Odile » contredit la règle de l'étape (« un seul prénom, Samir en Q1 », étalons §3 ; et l. 7 du fichier : « Aucun prénom »). Correction : « Et c'est comme ça que j'ai appris son prénom, qu'elle aime la pêche et qu'elle a un neveu à Lyon. »
+- **R2 (Q4, option B)** : « Au bout d'une heure », alors que la question dit « quarante minutes ». Correction : « Au bout de quarante minutes, on était presque amis, ce qui était une belle surprise. »
+- **R3 (explication de Q4)** : « elle ne dit que ce que la scène a déjà montré » est faux pour « Elle a gardé mon numéro » (fait nouveau), et recopie l'explication de Q2. Correction : « La C. C'est la phrase la plus courte de l'histoire, et elle laisse deviner la suite sans l'expliquer. La A rallonge la montée, la B et la D expliquent ce que tout le monde avait compris. »
+- **R4 (Q3, option D)** : « J'étais un peu fatigué » met le lecteur au masculin. Correction : « J'avais un peu sommeil ce jour-là. »
+- **R5 (`nextParcoursReason`)** : « la glisser en deux phrases » prête à Machine à Café une leçon qu'il ne donne pas (des vannes courtes à la pause café, pas une histoire condensée). Correction : « Tu sais maintenant raconter une histoire du début à la chute. Reste à avoir des vannes courtes sous la main pour la pause café : c'est ce que t'apprend le parcours Machine à Café. »
+Ces 5 points corrigés : 10/10.

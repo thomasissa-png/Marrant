@@ -6,7 +6,7 @@
  * vannes et « pourquoi » de chaque étape partaient dans le bundle JS public.
  * Seuls les champs du programme sont désormais transmis au composant client.
  */
-import parcoursSeed from "../../../../docs/content/parcours-seed.json";
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import { etapeLibelle } from "@/config/textes/parcours";
 

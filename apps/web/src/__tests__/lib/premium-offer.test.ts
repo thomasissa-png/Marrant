@@ -2,7 +2,8 @@
  * Offre Premium (décisions Thomas, 03/10/2026) : config alignée sur le seed,
  * retour à l'intention d'origine (returnTo) et aperçu des étapes verrouillées.
  */
-import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+// s18 : seed PUBLIÉ (Storytelling inclus une fois STORYTELLING_PUBLIE).
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import {
   buildAbonnementUrl,

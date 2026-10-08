@@ -2,6 +2,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+
+/** s18 : 4 parcours une fois Storytelling publié. */
+const NB = STORYTELLING_PUBLIE ? 4 : 3;
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -35,7 +39,7 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("renders the page header with title and description", () => {
     expect(screen.getByText(/Parcours humour : deviens drôle pas à pas/)).toBeInTheDocument();
     expect(
-      screen.getByText(/3 parcours pour progresser en humour/)
+      screen.getByText(new RegExp(`${NB} parcours pour progresser en humour`))
     ).toBeInTheDocument();
   });
 
@@ -48,14 +52,14 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("shows the duration and time per week for each parcours", () => {
     expect(screen.getByText("4 semaines")).toBeInTheDocument();
     expect(screen.getByText("3 semaines")).toBeInTheDocument();
-    expect(screen.getByText("6 semaines")).toBeInTheDocument();
+    expect(screen.getAllByText("6 semaines")).toHaveLength(NB - 2);
     expect(screen.getAllByText(/min\/semaine/).length).toBeGreaterThanOrEqual(3);
   });
 
   it("shows difficulty badges with human labels (s12 T27)", () => {
     // Seed s17 (lot D) : niveaux harmonisés, « Expert » disparaît.
     const intermediaire = screen.getAllByText("Débutant → Intermédiaire");
-    expect(intermediaire).toHaveLength(2);
+    expect(intermediaire).toHaveLength(NB - 1);
     expect(screen.getByText("Débutant")).toBeInTheDocument();
     expect(screen.queryByText(/Expert/)).not.toBeInTheDocument();
     expect(screen.queryByText(/DEBUTANT/)).not.toBeInTheDocument();
@@ -80,7 +84,7 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   it("renders CTA buttons for each parcours", () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
-    expect(buttons).toHaveLength(3);
+    expect(buttons).toHaveLength(NB);
     buttons.forEach((btn) => {
       expect(btn.tagName).toBe("BUTTON");
     });
@@ -95,7 +99,7 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   it("shows Lecture libre badges on free modules", () => {
     const badges = screen.getAllByText("Lecture libre");
-    expect(badges).toHaveLength(3); // One per parcours (Semaine 1)
+    expect(badges).toHaveLength(NB); // One per parcours (Semaine 1)
   });
 
   it("shows exercise format descriptions", () => {
@@ -103,8 +107,8 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("shows XP rewards on modules", () => {
-    expect(screen.getAllByText("+50 XP").length).toBe(3);
-    expect(screen.getAllByText("+75 XP").length).toBe(3);
+    expect(screen.getAllByText("+50 XP").length).toBe(NB);
+    expect(screen.getAllByText("+75 XP").length).toBe(NB);
   });
 
   it.each(["repartie", "machine-a-cafe", "confiance"])(
@@ -125,7 +129,8 @@ describe("ParcoursPage — Parcours structurés", () => {
     // s17 QA-07 : bonus de fin compris (50 + 75 + 100 + 100).
     expect(screen.getByText(/325 XP à gagner/)).toBeInTheDocument();
     expect(screen.getByText(/475 XP à gagner/)).toBeInTheDocument();
-    expect(screen.getByText(/800 XP à gagner/)).toBeInTheDocument();
+    // s18 : Storytelling publié = 700 + 100, comme Confiance.
+    expect(screen.getAllByText(/800 XP à gagner/)).toHaveLength(NB - 2);
   });
 
   it("renders the FAQ section", () => {
