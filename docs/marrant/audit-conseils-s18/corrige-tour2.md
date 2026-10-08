@@ -50,32 +50,126 @@
 - Phrase du contenu qui explique le ressort du rire (« Le rire vient du fait que… ») : supprimée.
 - Défi trop chargé : réduit à une seule consigne (choisir une photo, écrire la légende en une phrase à la première personne, l'envoyer). La variante « en direct » est retirée.
 
-<<R030>>
+## R030
+**titre** : Le détour avant l'annonce
+**contenu** : Quand tu as une petite nouvelle à donner, annonce-la comme une grande, puis pars dans un détour très soigné sur un détail qui n'a rien à voir. Ce détour doit être plus long et plus précis que la nouvelle elle-même. Ne reviens à l'annonce que dans la toute dernière phrase, en quelques mots, sans emphase. Pendant le détour, ton public a monté son attente : la nouvelle ne peut que la décevoir, et c'est cette déception qui fait rire.
+**exemple** : Léa m'appelle hier : « Assieds-toi, j'ai une grande nouvelle. » Je m'assieds. Pendant dix minutes, elle me parle de sa bouilloire neuve, celle qui s'éteint toute seule quand l'eau bout. Elle en parle comme d'un enfant surdoué. Elle me raconte la promo, l'hésitation, le vendeur qui avait l'air sincère. Puis : « Bref. Je change de forfait. »
+**exercice** : DÉFI DÉTOUR : aujourd'hui, annonce à quelqu'un (de vive voix, en vocal ou par message) une toute petite nouvelle comme si elle était énorme : une phrase d'accroche grave, deux ou trois phrases de détour sur un détail sans rapport, puis la nouvelle en cinq mots maximum, tout à la fin. Réussi si la nouvelle est le dernier élément de ton message. Pas de nouvelle à annoncer ? Prends ton petit-déjeuner, ton trajet ou ta dernière course.
+**réponse** :
+- Phrase qui renvoie à une autre fiche (« Ici rien ne revient plus tard dans la soirée… ») : supprimée avec la phrase qui la suivait, sans rien ajouter.
+- Réserve de goût sur la chute (« Je change de forfait ») : l'autre critique a validé le conseil, la chute est donc conservée telle quelle.
 
-<<R034>>
+## R034
+**titre** : Signer ton histoire comme un sponsor
+**contenu** : À la fin d'une anecdote, ajoute une phrase de générique, comme une émission qui remercie ses partenaires : « Cette histoire vous est offerte par mon refus de lire les notices. » Le ton officiel fait de ton défaut un partenaire commercial, et la phrase clôt le récit proprement. Ça sert aussi quand tu ne sais pas comment conclure une histoire un peu longue. Pour aller plus loin, ajoute ensuite une mention de fin de film, du type « Aucun animal n'a été blessé durant le tournage », adaptée à ce que ton défaut a abîmé dans l'histoire, au lieu d'ajouter une deuxième phrase de remerciement.
+**exemple** : Tu viens de raconter comment le secret d'un ami a fait le tour de la table avant le dessert. Toi : « Cette anecdote vous a été offerte par mon incapacité à garder un secret. Aucun secret n'a survécu au tournage. »
+**exercice** : DÉFI GÉNÉRIQUE : aujourd'hui, à la fin d'une anecdote, ajoute une phrase de générique qui remercie ton pire défaut, puis une mention de fin de film adaptée à ce que ce défaut a abîmé. Pas d'anecdote à raconter aujourd'hui ? Écris le générique de la dernière que tu as racontée et envoie-le à un ami. C'est réussi si la mention de fin de film a sa propre phrase, distincte du remerciement.
+**réponse** :
+- Doublon de chute avec R007 (gardé par la critique : une qualité personnifiée qui vit sa vie, le sens de l'orientation « pas encore rentré ») : R034 abandonne la personnification. Nouveau mécanisme : la mention de fin de film (« Aucun… n'a survécu au tournage ») après le remerciement de sponsor. Nouveau défaut (l'incapacité à garder un secret), nouvelle anecdote, nouvelle chute, sans le sens de l'orientation ni « pas encore rentré ».
 
-<<R036>>
+## R036
+**titre** : Donner un nom de vertu à un geste inutile
+**contenu** : Beaucoup de gestes ne servent à rien et tout le monde les fait quand même : cliquer encore, secouer, retaper. Plutôt que de te moquer, donne au geste un nom de vertu, puis explique en une phrase comment il agit, avec les mots d'un domaine qui n'a rien à voir avec la machine. Le sérieux fait le travail : tu ne ris pas de la personne, tu lui prêtes une grandeur, et elle rit avec toi. Garde un ton posé, sans sourire.
+**exemple** : Au bureau, une collègue clique pour la quatrième fois sur « Imprimer ». Rien ne sort. Toi : « Ça s'appelle de la persévérance. Quatre lettres de motivation, et toujours pas de réponse. »
+**exercice** : DÉFI VERTU : aujourd'hui, choisis un geste inutile que tu fais ou que tu vois faire (cliquer plusieurs fois, secouer un appareil, retaper un code). Donne-lui un nom de vertu et une phrase de fonctionnement, puis dis les deux à voix haute au moment du geste, sans sourire. Critère : le nom ET la phrase sont sortis. Aucun geste ni témoin dans la journée ? Écris-les pour un geste d'hier et envoie-les à un ami.
+**réponse** :
+- Consigne de commentateur sportif sans rapport avec l'exemple : retirée, remplacée par « Garde un ton posé, sans sourire ». La chute des lettres de motivation est conservée.
 
-<<R038>>
+## R038
+**titre** : L'audioguide du quotidien
+**contenu** : Donne à un coin banal de chez toi le statut d'une institution culturelle : archives nationales, musée, fondation. Puis fais-le visiter avec la voix d'un audioguide : tu accueilles les visiteurs, tu annonces la collection, tu signales une pièce maîtresse, tu termines par une consigne de visite. Le sérieux de la voix fait le travail, ne commente pas. Choisis une collection que tout le monde a chez soi, sinon personne ne se reconnaît dans tes pièces.
+**exemple** : Un invité tombe sur la boîte à chaussures où tu gardes tes tickets de caisse. Toi, voix d'audioguide : « Bienvenue aux archives nationales des tickets de caisse. Vous y trouverez tous les tickets de la décennie, sauf celui du grille-pain. Les historiens s'interrogent encore. »
+**exercice** : DÉFI VISITE GUIDÉE : aujourd'hui, choisis un coin banal de chez toi (boîte à tickets, placard à boîtes de conservation, étagère de livres jamais lus) et fais-en la visite en deux phrases d'audioguide : l'accueil, puis une pièce maîtresse ou une consigne. Dis-les à quelqu'un, ou envoie-les en vocal à un ami. C'est réussi quand tu as gardé la voix d'audioguide jusqu'au bout, sans rire.
+**réponse** :
+- Marque gratuite dans le défi (critiques A et B) : « placard à Tupperware » devient « placard à boîtes de conservation ».
 
-<<R041>>
+## R041
+**titre** : Raconter à l'envers
+**contenu** : Ouvre ton histoire par son résultat, dit au présent et d'une voix tranquille, sans aucun contexte : le public se demande comment on en est arrivé là, et te suit pour le savoir. Remonte ensuite le fil en trois étapes au plus, jusqu'à la toute première, qui est ta chute et doit être minuscule : une remarque, un oui, un geste. Ta première phrase intrigue sans rien expliquer : si elle contient déjà la cause, il ne reste plus rien à découvrir.
+**exemple** : « Pour commencer par la fin : il est deux heures du matin, je suis dans un taxi et j'ai un aquarium sur les genoux. Remontons. Jérémy part vivre à Lisbonne, et l'aquarium n'a pas de place dans la valise. Personne ne veut du poisson. En arrivant à la soirée, j'avais fait une seule remarque : il avait l'air triste. »
+**exercice** : DÉFI À REBOURS : aujourd'hui, choisis une anecdote de ta semaine et raconte-la en quatre phrases maximum : la première donne le résultat sans la cause, la dernière donne la cause en une phrase courte. Critère : après ta première phrase, ton auditeur demande « mais comment ? ». Raconte-la à quelqu'un ou envoie-la en vocal ; sans auditeur, écris les quatre phrases et envoie-les à un ami.
+**réponse** :
+- Doublon d'image avec R037 (gardé par la critique : une plante en pot sur les genoux dans un transport) : le ficus devient un aquarium (avec son poisson), objet encombrant différent, comme le suggérait le critique. Technique et chute inchangées.
 
-<<R042>>
+## R042
+**titre** : Rallonger la vanne de quelqu'un d'autre
+**contenu** : Quand quelqu'un vient de faire rire le groupe, tu n'as pas besoin d'une vanne à toi : prolonge la sienne. Laisse le rire retomber, puis ajoute une rallonge courte, qui pousse son idée un cran plus loin dans la même direction. Tu n'as rien à inventer, la matière est déjà posée, et tu fais briller celui qui a lancé le sujet au lieu de lui faire concurrence. La rallonge s'appuie sur ce qu'il vient de dire, ne change jamais de sujet, et tient en une seule phrase.
+**exemple** : Un collègue : « Ça fait six ans que je dis bonjour à mon voisin sans connaître son prénom. » Le groupe rit. Une fois le rire retombé, tu ajoutes : « Maintenant, c'est trop tard pour demander, alors il te reste la boîte aux lettres, de nuit, avec une lampe de poche. »
+**exercice** : DÉFI RALLONGE : aujourd'hui, quand quelqu'un fait rire un groupe, laisse le rire retomber puis ajoute une rallonge d'une seule phrase à sa vanne, dans la même direction. C'est réussi si celui qui a lancé la vanne sourit ou en ajoute une à son tour. Pas de groupe aujourd'hui ? Prends une vanne lue (fil de discussion, vidéo, message d'un ami) et écris ta rallonge en réponse, en une phrase.
+**réponse** :
+- Exemple en deux phrases alors que la technique et le défi exigent une seule phrase : la rallonge est fondue en une phrase, chute en dernier.
 
-<<R043>>
+## R043
+**titre** : Le compte rendu du retour
+**contenu** : Quand quelqu'un revient à table après une absence (toilettes, appel, pause), fais-lui un compte rendu solennel de ce qui s'est passé. Tu prends le ton d'un reporter pour raconter des événements insignifiants, et le groupe rit de reconnaître les micro-événements d'une table. Le compte rendu doit être bref, chronologique et un peu dramatique. Termine par le fait le plus minuscule, présenté comme le point culminant.
+**exemple** : Camille revient des toilettes. Toi : « Tu as raté un moment historique, on en parle encore. Dans l'ordre : Paul a changé de chaise, le serveur est passé sans nous voir, et, point culminant de la soirée, quelqu'un a reposé son verre. »
+**exercice** : DÉFI COMPTE RENDU : au prochain retour de quelqu'un à table (ou à son bureau), fais le compte rendu de ce qu'il ou elle a manqué, avec le sérieux d'un reporter : trois faits dans l'ordre, le plus minuscule en dernier. Pas de retour aujourd'hui ? Fais-le à un collègue qui revient de pause, ou envoie par message à un proche le compte rendu de l'heure où il était absent (« Pendant ta réunion... »).
+**réponse** :
+- L'exemple mettait le fait minuscule en tête et finissait sur « on en parle encore » : l'exemple annonce le moment historique, puis donne trois faits dans l'ordre, et finit sur le plus minuscule (le verre reposé), présenté comme le point culminant. Règle et défi inchangés.
 
-<<R054>>
+## R054
+**titre** : Le silence entre deux chansons
+**contenu** : Quand la musique laisse un blanc entre deux morceaux, toutes les conversations paraissent soudain trop fortes, et chacun entend ce que dit son voisin. Glisse ta phrase juste à ce moment, à voix normale : elle porte dans toute la pièce. Plutôt qu'une vanne préparée, prends la responsabilité du silence, comme un responsable qui assume ses actes devant la presse. Une seule phrase courte, ton sérieux.
+**exemple** : Entre deux chansons, le salon se tait. Toi, d'une voix claire : « Je précise que ce n'est pas moi qui ai coupé la musique, mais je ne démens pas. »
+**exercice** : DÉFI SILENCE : aujourd'hui, guette un blanc dans un lieu sonore (café, magasin, cantine, soirée) et glisse ta phrase de responsable du silence à voix normale, en une seule phrase. Aucun lieu sonore dans ta journée ? Dis-la chez toi à voix haute quand ta musique ou ta vidéo s'arrête, ou envoie-la en vocal à un ami. C'est réussi quand ta phrase est dite au moment exact du blanc.
+**réponse** :
+- Exemple en deux phrases alors que la technique et le défi exigent une seule phrase : fondu en une phrase, « mais je ne démens pas » en fin de phrase.
 
-<<R055>>
+## R055
+**titre** : Ouvrir un exposé par un aveu
+**contenu** : Avant un oral, l'ouverture qui rassure le plus est un aveu court sur ce que la salle voit déjà de ton stress : la main qui tremble, la voix qui monte, les fiches qui bougent. Dis-le dès la première seconde, au ton d'un constat, en prêtant le tremblement à un objet plutôt qu'à toi : il prend de vitesse le stress de la salle et met les gens de ton côté, parce que tu dis tout haut ce que chacun a remarqué. L'aveu doit rester léger et ne jamais dévaluer le sujet ni les personnes qui écoutent. Finis par une chute sur l'objet, puis enchaîne tout de suite sur ton premier point.
+**exemple** : Exposé de dix minutes devant la classe. Toi : « Avant de commencer, un aveu : mes fiches tremblent. Elles n'ont pourtant pas à parler. » La salle sourit. Tu enchaînes : « Premier point… »
+**exercice** : DÉFI AVEU D'OUVERTURE : aujourd'hui, avant de prendre la parole (réunion, oral, tour de table), ouvre par un aveu d'une phrase sur ce que les autres voient déjà de ton stress, prêté à un objet (tes notes, ton stylo), puis enchaîne sans attendre. Pas de prise de parole aujourd'hui ? Ouvre par un aveu du même genre un message vocal ou un mail à un collègue ou à un ami (tes doigts qui tremblent sur le clavier), puis enchaîne sur ton vrai sujet. C'est réussi quand ton aveu tient en une phrase, prête le tremblement à un objet, et que le premier point suit sans pause.
+**réponse** :
+- Doublon avec R063 (gardé par la critique : avouer sa préparation en menu pour désamorcer le blanc) : R055 abandonne l'aveu de préparation. Nouveau mécanisme : avouer le stress que la salle voit déjà, en le prêtant à un objet (les fiches qui tremblent). Contenu, exemple et défi sont réécrits en conséquence.
+- Chute faible (« Il a placé la barre haut ») : remplacée par une chute sur l'objet, sans dévaluer le sujet.
 
-<<R057>>
+## R057
+**titre** : Consulter ton équipe imaginaire
+**contenu** : Quand on te propose une sortie et que tu hésites, dis que tu consultes ton équipe : un conseil d'administration, un comité d'experts. C'est une façon drôle de dire « peut-être » sans te justifier, et ça installe un personnage sympathique. Si on te demande qui siège, donne trois noms précis, chacun avec une fonction, et fais trancher le moins sérieux des trois.
+**exemple** : Ton pote : « Tu viens au bar ? » Toi : « Je consulte mon conseil d'administration. » Ton pote : « Il est composé de qui ? » Toi : « Ma fatigue préside, mon canapé tient les comptes, et mon pyjama tranche : il a déjà voté. »
+**exercice** : DÉFI CONSEIL : aujourd'hui, à la prochaine invitation ou proposition (sortie, réunion, service), annonce que tu consultes ton conseil d'administration, et nomme trois membres. Pas d'invitation aujourd'hui ? Écris la réponse que tu aurais faite à la dernière invitation que tu as déclinée, avec trois membres nommés, et envoie-la à un ami. C'est réussi quand tes trois membres ont chacun un rôle.
+**réponse** :
+- Les trois membres n'avaient aucune fonction dans l'exemple (critiques A et B) : chacun reçoit un rôle (la fatigue préside, le canapé tient les comptes, le pyjama tranche), le moins sérieux tranchant en dernier.
 
-<<R058>>
+## R058
+**titre** : Inventer une tradition ancienne
+**contenu** : Présente un geste que ton groupe vient d'inventer comme une tradition immémoriale. Le mot « tradition », prononcé avec respect, donne un poids comique à une simple habitude. Ça marche particulièrement bien devant une personne nouvelle, qui découvre un rituel qu'elle croit ancien. Donne un détail de rituel (un fondateur, une cérémonie) pour que la tradition ait l'air vraie, et garde ton sérieux, sans jamais sourire et sans te corriger.
+**exemple** : Une nouvelle personne te voit trinquer avec des verres d'eau. « C'est une habitude, ce truc ? » Toi : « C'est une tradition ancestrale. Son fondateur, Kévin, est parmi nous ce soir. »
+**exercice** : DÉFI TRADITION : aujourd'hui, transforme une petite habitude récente (café, place, chanson) en tradition ancestrale devant quelqu'un de nouveau, avec un fondateur ou un détail de cérémonie. Personne de nouveau aujourd'hui ? Écris la phrase pour un rituel récent de ton groupe et envoie-la à un ami qui ne le connaît pas. C'est réussi si ta phrase contient le mot « tradition », un détail de rituel, et reste sérieuse jusqu'au bout.
+**réponse** :
+- Consigne « guide de musée » absente de l'exemple et empiétant sur R038 : retirée, remplacée par « garde ton sérieux ».
+- Chute attendue (« elle date de la semaine dernière ») et « toute récente » annoncé dans la technique : « toute récente » est retiré, la chute devient un détail de rituel inattendu (le fondateur, Kévin, est présent), que la règle et le défi demandent désormais.
 
-<<R061>>
+## R061
+**titre** : Donner des nouvelles de tes projets comme de vieux amis
+**contenu** : Quand la famille te demande où en sont tes projets, ne réponds pas par l'avancement : réponds par la santé. Parle de ton projet comme d'un vieil ami en convalescence, avec de l'affection et le vocabulaire d'un bulletin médical : état stable, repos, médecins prudents, aucune promesse de changement. Tu transformes une question qui pique en tendresse pour ce qui n'avance pas, et tu désarmes la question suivante. Reste chaleureux : si tu t'excuses, l'effet disparaît.
+**exemple** : Ta tante : « Alors, ton roman, ça avance ? » Toi : « Il est stable. Les médecins restent prudents : beaucoup de repos, pas d'émotions fortes. Il vous embrasse. »
+**exercice** : DÉFI NOUVELLES : aujourd'hui, choisis celui de tes projets qui est le plus à la traîne et écris en deux phrases le bulletin de santé que tu en donnerais à ta famille : son état, ce que disent les médecins. Dis-les à voix haute, ou envoie-les à la personne qui te pose toujours la question. Si on te la pose aujourd'hui, tu les ressors. C'est réussi quand tes deux phrases sont écrites et dites une fois.
+**réponse** :
+- Doublon de ressort avec R007 (gardé par la critique : donner des nouvelles d'une qualité personnifiée) : R061 change de ressort et devient un bulletin médical de convalescence, avec vocabulaire hospitalier. Contenu, exemple et défi suivent.
+- Chute douce proche de R013 (« on se croise à peine ») : remplacée par une chute plus nette qui ferme la question suivante (« Il vous embrasse »).
 
-<<R066>>
+## R066
+**titre** : Le mode d'emploi de toi-même
+**contenu** : Au début d'une rencontre, présente un mode d'emploi de toi en une phrase, avec un défaut réel raconté comme une caractéristique technique d'appareil. Tu prends les devants sur ce qui pourrait gêner ou vexer (lenteur, timidité, mémoire qui flanche), et le vocabulaire de la notice rend l'aveu léger. Un seul point suffit : une liste de défauts finit par ressembler à un CV. Et rien après la phrase : l'aveu se suffit, ne le commente pas.
+**exemple** : Soirée chez des amis, on te présente trois personnes d'un coup. Tu te tournes vers la dernière : « Petit mode d'emploi me concernant : je retiens les visages, et les prénoms sont chiffrés, même moi je n'ai pas la clé. »
+**exercice** : DÉFI MODE D'EMPLOI : aujourd'hui, avec quelqu'un que tu connais peu, présente une seule caractéristique de ton fonctionnement comme une fonction d'appareil. Critère : une phrase, un défaut vrai, un mot de notice, et rien d'autre. Pas de rencontre dans la journée ? Écris ton mode d'emploi en une phrase et envoie-le à un ami en lui demandant de deviner le défaut que tu y cachais.
+**réponse** :
+- Exemple en plusieurs phrases, avec un commentaire de l'aveu, alors que la règle demande une phrase et rien après : l'exemple tient en une seule phrase, sans explication.
 
-<<R067>>
+## R067
+**titre** : Le charriage en feuilleton
+**contenu** : Quand tes potes te charrient sur ton look et que ça repart à chaque réplique, ne cherche pas la meilleure réponse : choisis un univers dès ta première (un tribunal, un hôpital, un chantier) et ne le quitte plus. Chaque pote qui relance te donne un détail de plus à y loger, et le charriage devient un feuilleton dont tu es l'auteur, pas la cible. Les autres se mettent à jouer avec toi. Règle : un seul univers, et un détail neuf à chaque réplique.
+**exemple** : Un pote : « Tes baskets, là, il est temps. » Toi : « Elles ont fait l'Italie. » Un autre : « Et la semelle ? » Toi : « Démobilisée depuis l'hiver. Elle touche une pension. » Un autre : « Et les lacets ? » Toi : « Les lacets sont portés disparus depuis la dernière campagne. »
+**exercice** : DÉFI FEUILLETON : aujourd'hui, la première fois qu'on te fait une remarque légère sur toi (look, retard, manie), réponds en installant un univers, puis, à chaque relance, ajoute un détail de plus du même univers. Réussi s'il y a au moins deux répliques dans le même univers. Pas de remarque aujourd'hui ? Prends la dernière que tu as reçue, écris trois répliques de suite dans un même univers et envoie-les à celui qui te l'avait faite.
+**réponse** :
+- L'exemple passait du militaire au juridique (« clause de confidentialité ») alors que la règle impose un seul univers : la dernière réplique reste dans l'univers militaire (« portés disparus depuis la dernière campagne »).
 
-<<R073>>
+## R073
+**titre** : Le stratège qui marche
+**contenu** : Quand tu ralentis dans un effort sportif, ne cache pas la marche : annonce-la comme une décision de stratège, en parlant de toi à la troisième personne, comme un consultant sportif qui analyse ta course en direct, avec le vrai vocabulaire des entraîneurs (gérer son effort, relancer, changer de rythme). Ça fonctionne parce que tout le monde a déjà marché discrètement en espérant qu'on ne le voie pas, et ton franc-parler soulage tout le monde. Le sérieux du commentaire doit contraster avec ton souffle : garde un ton de technicien et une conclusion banale. Reste léger, sans excuse ni honte : tu te moques de ton souffle, pas de toi.
+**exemple** : Footing du dimanche, tu ralentis. Ton pote : « Tu marches ? » Toi : « Il ne marche pas, il gère son effort. Un coureur d'expérience, qui relancera au moment opportun. » Ton pote : « C'est quand, le moment opportun ? » Toi : « Quand ça descendra. »
+**exercice** : DÉFI TACTIQUE : aujourd'hui, la prochaine fois que tu ralentis dans un effort (escalier, course, courses lourdes), annonce à voix haute, à la troisième personne, ta décision avec un mot de jargon d'entraîneur, puis donne en une phrase banale le moment où tu relanceras. Pas d'effort prévu aujourd'hui ? Monte un escalier à ton rythme, ralentis à mi-chemin et fais ton annonce en entier, même seul. C'est réussi quand tu as dit les deux phrases à voix haute, à la troisième personne.
+**réponse** :
+- Doublon avec R011 (gardé par la critique : requalifier son raté d'un mot de métier, « bus de repérage ») : R073 abandonne le rebaptême par un terme. Nouveau mécanisme : le commentaire de soi à la troisième personne, en consultant sportif en direct. Nouvel exemple, nouvelle conclusion banale (« Quand ça descendra »), sans « reconnaissance de parcours ».
