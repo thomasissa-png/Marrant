@@ -9,9 +9,7 @@
 
 | # | § | Point | Options | Reco |
 |---|---|---|---|---|
-| 1a | 1 | Étape 1, conseil inactif « Raconter une anecdote en 3 actes » | A réactiver avec retouche / B « Construire une histoire drôle » (actif) | **A** |
-| 1b | 1 | Étape 4, conseil inactif « Le twist final » | A réactiver, retouche légère / B « La chute anti-climax » (actif) | **A** |
-| 1c | 1 | Étape 5, conseil inactif « La blague à tiroirs » | A réactiver, exemple corrigé / B « Raconter à l'envers » (actif) | **A** |
+| 1 | 1 | Conseils des étapes 1, 4 et 5 (« Raconter une anecdote en 3 actes », « Le twist final », « La blague à tiroirs ») | Conseils réécrits et validés à l'aveugle (deux critiques « = ») : tu valides le texte | **Valider** |
 | 2 | 2 | Fiche du parcours (description, accroche, témoignage « Imagine… ») | A sobre / B complice | **B** |
 | 3 | 4 | Titre de la page (≤ 60 caractères) et slug | A avec durée / B avec promesse | **A**, slug `storytelling` |
 | 4 | 5 | Phrase d'accroche du profil Storyteller du quiz | A même gabarit que les 4 autres / B plus explicite | **A** |
@@ -19,7 +17,7 @@
 | 6 | 7 | Fil rouge « ton anecdote » : défis des étapes 3 et 6 | A on garde le défi du conseil actif tel quel (l'anecdote reste une option) / B le défi ramène à ton anecdote (étape 6 : raconter l'histoire finale à deux personnes) | **A pour l'étape 3, B pour l'étape 6** |
 
 L'étape 1 complète (§3) n'a pas d'A/B : les choix de forme sont acquis depuis s17, tu valides le texte ou tu corriges un mot.
-« Je suis tes recos » suffit. Le détail et les textes complets sont dessous.
+« Je suis tes recos » suffit : valider le choix 1, puis B, A, A, A, et pour le fil rouge A à l'étape 3 et B à l'étape 6. Le détail et les textes complets sont dessous.
 
 ## Ce que la base a changé (faits relus le 08/10)
 
@@ -30,54 +28,43 @@ L'étape 1 complète (§3) n'a pas d'A/B : les choix de forme sont acquis depuis
 
 ---
 
-## 1. Les 3 conseils inactifs (choix 1a, 1b, 1c)
+## 1. Les 3 conseils des étapes 1, 4 et 5 : réécrits et validés à l'aveugle (choix 1)
 
-**Principe de la retouche A** : on réactive le conseil prévu par la spec (une seule idée par étape), on corrige ce que l'audit s14 a relevé (tirets cadratins, flèches, guillemets droits, faute de casse, fausse étymologie, défi trop lourd), on ajoute le repli solo, et on garde les humoristes déjà cités (règle P0 s15 : citation douteuse = vérifier, pas retirer). Titre, catégorie et difficulté ne bougent pas. Les retouches passent par la base ET par `conseils-seed.json` (sinon un rejeu du seed remet l'ancien texte).
+Règle d'or du fondateur (P0, 08/10) : un contenu sous la barre ne revient jamais en ligne. Les trois textes ci-dessous ont été réécrits à neuf, puis ont passé la relecture à l'aveugle (« = » chez les deux critiques, contre les étalons de l'audit s14). Les premières retouches et les conseils de remplacement ne l'ont pas passée : on ne les propose plus. Tu valides le texte. Titre, catégorie et difficulté ne changent pas ; les textes passent par la base ET par `conseils-seed.json` (sinon un rejeu du seed remet l'ancien texte). Source, copiée à l'identique : `docs/copy/conseils-storytelling-s18-v2.md`.
 
-### 1a. Étape 1 : « Raconter une anecdote en 3 actes » (inactif ; l'audit des conseils de s14 conseillait de le réécrire)
+### 1a. Étape 1 : « Raconter une anecdote en 3 actes » (inactif en prod, réactivé avec ce texte)
 
-**Texte en base aujourd'hui** : plan contexte / montée / chute, exemple « rendez-vous Tinder… j'ai renversé mon café sur elle » (jugé très bon par l'audit s14). Défauts : tirets cadratins ×2, faute « eNREGISTRE-TOI », défi lourd (filmer 3 anecdotes), « Tinder » nommé, « dans chaque sketch » non vérifiable.
+**contenu**
+Une anecdote a trois temps : un décor, une montée, une chute. Le vrai travail est de couper. La chute est la phrase la plus courte, et elle ne tombe que si rien ne la ralentit avant elle. Pour chaque phrase, demande-toi : si je l'enlève, la chute marche encore ? Si oui, elle saute. Garde le détail qui fait voir la scène, coupe le détail neutre, celui qui ne fait ni image ni effet. Une anecdote ne devient pas meilleure quand on ajoute, elle devient meilleure quand il ne reste que ce dont l'histoire a besoin.
 
-**A (reco) : réactiver avec cette retouche**
+**exemple**
+Avant : Dimanche, à dix-huit heures et quart, je finissais ma deuxième lessive quand mon téléphone a sonné. C'était ma mère. Elle m'a dit de ne pas m'inquiéter, qu'il n'y avait rien de grave. Je ne m'inquiétais pas. Maintenant, si.
+Après : Dimanche, je finissais ma deuxième lessive quand ma mère m'a appelé pour me dire de ne pas m'inquiéter. Je ne m'inquiétais pas. Maintenant, si.
 
-- `contenu` : « Toute bonne histoire drôle tient en trois actes. 1) Le contexte : qui, où, quand, en deux phrases maximum. 2) La montée : ce qui s'est passé, avec les seuls détails qui servent la chute. 3) La chute : le retournement, en une seule phrase, plus courte que le contexte. Le plus dur n'est pas de trouver la chute, c'est de couper ce qui traîne entre les deux : un détail qui n'amène rien ralentit la montée. Paul Mirabel suit cette structure dans ses sketchs. » `[À VÉRIFIER : la phrase sur Paul Mirabel (adoucie de « religieusement dans chaque sketch » à « dans ses sketchs ») ; je la garde et je ne la retire pas]`
-- `exemple` : « Contexte : mardi soir, premier rendez-vous dans un bistrot près de chez moi. Montée : elle arrive, on discute, ça se passe bien, elle me dit qu'elle adore les gens spontanés. Chute : alors spontanément, j'ai renversé mon café sur elle. » (même vanne ; « Tinder » retiré parce qu'il n'apporte rien à la chute, alors qu'Uber Eats et Ikea portent la leur ; plus de guillemets imbriqués ; mots comptés : contexte 11, chute 8, donc l'exemple respecte la règle qu'il illustre)
-- `exercice` : « DÉFI 3 ACTES : choisis une anecdote vraie et légère de ta semaine (si une histoire te pèse, prends-en une autre), avec au moins une autre personne dedans (rien en tête ? prends celle que tu racontes le plus souvent). Écris-la en trois blocs dans tes notes : le contexte en une ou deux phrases, la montée en trois ou quatre, la chute en une seule. C'est réussi quand ta chute est plus courte que ton contexte et que tu as coupé au moins un détail qui n'amène rien. La version dite à quelqu'un peut attendre ce soir : demande-lui à quel moment son attention a décroché. Personne sous la main ? Enregistre un vocal et réécoute-le : repère ce qui traîne, et coupe-le. Garde ton texte : il te resservira. »
+**exercice**
+DÉFI COUPE : écris dans tes notes une anecdote de ta journée en cinq phrases, bavarde, comme tu la raconterais sans y penser (pas d'anecdote ? prends ton trajet de ce matin et les gens que tu y as croisés). Puis coupe : pour chaque phrase, demande-toi si la chute marche encore sans elle. Garde le détail qui fait voir la scène, barre le détail neutre. C'est réussi si ta version coupée tient en trois phrases ou moins et que la dernière est la plus courte. Dis-la ensuite à voix haute, même seul.
 
-Ce que ce défi règle : un critère de réussite écrit (chute plus courte que le contexte, un détail coupé), un support (tes notes), une anecdote qui contient quelqu'un d'autre (l'étape 2 donne une voix aux personnages), un repli si rien ne vient, ce qui tient dans la séance (écrire) et ce qui attend ce soir (la dire), un garde-fou qui ne repose pas que sur le mot « légère » (« si une histoire te pèse, prends-en une autre »). Le temps n'est pas chiffré : il n'est pas mesuré, je n'écris pas de durée.
+### 1b. Étape 4 : « Le twist final » (inactif en prod, réactivé avec ce texte)
 
-**B : remplacer par « Construire une histoire drôle »** (actif, EXPERT). Texte en base : situation normale, détails crédibles, dérapage absurde ; défi « écris en 4 phrases une anecdote vraie de ta journée, puis remplace la dernière phrase par un détail absurde ». Pourquoi je ne le recommande pas : il enseigne le dérapage absurde, pas le découpage (c'est le sujet de l'étape 4), et son défi remplace la vraie chute par une chute inventée, alors que le parcours garde l'anecdote vraie d'un bout à l'autre.
+**contenu**
+Le twist, c'est une histoire que le public comprend d'une façon et qui marche aussi d'une autre. Tu ne nommes pas la personne ou l'objet clé : chacun remplit le vide à sa manière, et ta dernière phrase tranche pour la lecture cachée. La règle : chaque phrase d'avant doit rester vraie dans les deux lectures. Si une seule ne marche que pour la lecture cachée, le public flaire la ruse.
 
-**Reco : A.** C'est le seul conseil dont le sujet est exactement le titre de l'étape.
+**exemple**
+Je le vois tous les matins, avant même mon café. Il est toujours là, il ne fait jamais semblant et il me dit en face ce que personne n'ose me dire. Hier, il m'a encore fait remarquer que j'avais mauvaise mine. J'ai changé de miroir : le nouveau me trouve très bien.
 
-### 1b. Étape 4 : « Le twist final » (inactif ; l'audit s14 conseillait de le garder, candidat étalon)
+**exercice**
+DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
 
-**Texte en base aujourd'hui** : bon. L'audit demandait seulement « retoucher flèche et réf. plaquée ». Défauts réels : flèche « → » dans l'exemple, guillemets simples dans `contenu`, défi sans lien avec l'anecdote du parcours ni repli. Et une explication à corriger : dans l'exemple, ce n'est pas un élément nouveau qui crée le twist (le livreur arrive à la fin), c'est le mot « préparer », déjà dit, qui change de sens.
+### 1c. Étape 5 : « La blague à tiroirs » (inactif en prod, réactivé avec ce texte)
 
-**A (reco) : réactiver, retouche légère**
+**contenu**
+La blague à tiroirs, c'est une vanne qui en cache une autre. Tu racontes ton histoire, tu ouvres un tiroir au milieu (une parenthèse de deux phrases, qui fait sourire pour elle-même), tu le refermes d'un « bref », puis tu reprends le fil et tu finis sur le sujet de départ. Le tiroir doit pouvoir se raconter seul : s'il ne fait rire que grâce à l'histoire, c'est une explication, pas un tiroir. La chute, elle, appartient à l'histoire.
 
-- `contenu` : « Le twist, c'est la technique de base du stand-up : tu amènes l'audience dans une direction et tu pivotes au dernier moment. Tout le monde s'attend à A, et tu donnes B. La clé : le twist doit être logique rétrospectivement. Quand la personne comprend, elle doit se dire « ah oui, bien sûr » tout en riant. Le plus sûr : appuie ta chute sur un mot ou un détail déjà dit, qui change de sens à la fin. Panayotis Pascot excelle dans ces retournements narratifs. » (phrase sur Pascot inchangée ; une phrase ajoutée, celle de « le plus sûr ») `[À VÉRIFIER : la phrase sur Panayotis Pascot, gardée telle quelle ; je la garde et je ne la retire pas]`
-- `exemple` : « J'ai passé 3 heures à préparer un dîner romantique. Bougies, musique, tout. Elle a adoré. Le livreur Uber Eats aussi. » Le twist tient sur un mot déjà là : « préparer ». On croyait qu'il avait cuisiné, il avait commandé. (vanne inchangée, flèche remplacée par une explication qui désigne le vrai mécanisme)
-- `exercice` : « DÉFI TWIST : reprends ton anecdote du parcours Storytelling (ou, à défaut, une que tu connais bien) et résume-la en trois phrases. Les deux premières orientent vers une conclusion logique, la troisième part dans la direction opposée, en s'appuyant sur un mot ou un détail déjà dit. Écris deux fins différentes, puis teste-les sur un proche, à l'oral ou par message : laquelle surprend, puis paraît évidente ? Seul aujourd'hui ? Dis les deux à voix haute et garde celle qui te fait sourire. »
+**exemple**
+Lundi, je suis allé chez le coiffeur. Parenthèse : c'est le seul endroit où je croise l'arrière de ma tête, et on ne s'est jamais présentés. Bref. Le coiffeur m'a demandé si c'était comme d'habitude. C'était ma première fois. J'ai dit oui.
 
-**B : remplacer par « La chute anti-climax »** (actif, EXPERT, s14 GARDER : « 6 mois de musculation… ouvrir un bocal de cornichons »). Pourquoi je ne le recommande pas : c'est une autre chute (on dégonfle une attente, on ne surprend pas), donc le titre de l'étape « La chute qu'on n'a pas vue venir » ne serait plus vrai, et les vannes prévues pour l'étape 4 (chute logique après coup) ne collent plus.
-
-**Reco : A.** Si tu veux quand même l'anti-climax, il trouvera sa place comme conseil de l'étape 3 ou en bonus, pas ici.
-
-### 1c. Étape 5 : « La blague à tiroirs » (inactif ; l'audit s14 conseillait de le réécrire)
-
-**Texte en base aujourd'hui** : technique claire, chute « marié, avec un chariot et un hot-dog » bonne. Défauts : tirets cadratins ×2, **vouvoiement** (« vous savez »), **fausse étymologie** (Ikea ne veut pas dire « tu trouveras jamais la sortie » en suédois : on ne la garde pas), « architecture narrative avancée » qui sent l'Expert. Titre conservé tel quel : « blague à tiroirs » est le terme consacré.
-
-**A (reco) : réactiver avec exemple corrigé**
-
-- `contenu` : « La blague à tiroirs, c'est une vanne qui en contient d'autres. Tu ouvres un sujet, tu digresses sur un détail, tu fais une vanne dans la digression, puis tu reviens au sujet principal pour la chute finale. C'est de l'architecture : deux étages, et un escalier pour redescendre. Garde la digression courte (deux phrases), sinon on perd le fil de l'histoire. Paul Mirabel est le roi de cette technique : ses spectacles sont des poupées russes comiques. » `[À VÉRIFIER : la phrase sur Paul Mirabel, gardée telle quelle, tiret remplacé par deux-points]`
-- `exemple` : « L'autre jour, je vais chez Ikea acheter une étagère. Parenthèse : c'est le seul endroit où des couples se disputent à voix basse devant un meuble à quarante euros, comme si c'était un divorce. Bref. L'étagère. J'en suis ressorti marié, avec un chariot et un hot-dog. » (chute d'origine gardée, digression remplacée : plus de fausse étymologie, et la chute « marié » répond maintenant à la digression sur les couples)
-- `exercice` : « DÉFI TIROIRS : reprends ton anecdote du parcours Storytelling (ou, à défaut, une que tu connais bien). Ajoute une seule digression de deux phrases au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire avec un « bref ». Chronomètre-toi : le tout doit tenir en moins d'une minute trente. Pas de public ? Fais-le en vocal et réécoute. »
-
-**B : remplacer par « Raconter à l'envers »** (actif, DEBUTANT : commencer par la fin absurde, remonter le temps, finir par une morale petite et fausse ; exemple du hall en pyjama avec le sac-poubelle). Bon texte, bon exemple, mais c'est un autre sujet : l'ordre du récit, pas le détour. L'étape deviendrait « Commencer par la fin » et perdrait sa raison d'être entre la chute (4) et le détail qui revient (6).
-Je ne propose pas « La digression qui revient à la fin » (actif, EXPERT) : c'est presque mot pour mot l'étape 6 (planter un détail, le faire revenir).
-
-**Reco : A.**
+**exercice**
+DÉFI TIROIR : raconte une anecdote de ta journée en trois phrases. Entre la première et la deuxième, ouvre un tiroir : une parenthèse de deux phrases au maximum sur un détail qui t'a fait sourire, puis reviens avec « bref ». C'est réussi si le tout tient en moins d'une minute trente, chronométrée, et si ta chute parle de l'histoire, pas de la parenthèse. Pas de public : dis-le à voix haute devant ton téléphone ou un miroir.
 
 ---
 
@@ -99,53 +86,53 @@ Le prénom « Samir » n'est pas un prénom de persona et ne figure dans aucune 
 
 ## 3. Étape 1 complète : « Ton anecdote en trois actes »
 
-C'est la vitrine que le visiteur lit avant de payer. Aucun A/B : forme acquise (version B avec scène, repli solo, quiz complice).
+C'est la vitrine que le visiteur lit avant de payer. Aucun A/B : forme acquise (version B avec scène, repli solo, quiz complice). L'étape suit le conseil validé du §1a, qui enseigne la coupe.
 
 **Ce qui doit se lire face à Machine à Café 3** (« La règle des détails spécifiques », texte validé s17 : ajouter 3 détails précis à une anecdote banale, sans repli ni suite) :
 
 | | Machine à Café 3 | Storytelling 1 |
 |---|---|---|
-| Le geste | Ajouter | **Découper et couper** |
-| La matière | Une anecdote banale, au choix | **TON anecdote vraie**, reprise dans la suite du parcours |
-| Ce qu'on travaille | Le grain (heure, lieu, vêtement) | **La charpente** (contexte, montée, chute) |
-| Ce qui se mesure | La réaction de l'autre aux détails | **La chute plus courte que le contexte**, et ce qui traîne repéré à la réécoute |
-| Repli solo | Aucun | **Vocal** à réécouter |
+| Le geste | Ajouter | **Écrire bavard, puis couper** |
+| La matière | Une anecdote banale, au choix | **Une anecdote de ta journée** (repli : ton trajet de ce matin), reprise dans la suite du parcours |
+| Ce qu'on travaille | Le grain (heure, lieu, vêtement) | **La coupe** : garder le détail qui fait voir la scène, barrer le détail neutre |
+| Ce qui se mesure | La réaction de l'autre aux détails | **Une version coupée de trois phrases ou moins, dont la dernière est la plus courte** |
+| Repli solo | Aucun | **Voix haute, même seul** ; repli sans anecdote : le trajet de ce matin |
 
-Aucune phrase de l'étape 1 ne reprend un exemple de Machine à Café 3 (boulangerie, bonnet de ski, heure, prénom d'ami). Pour qui a fait Machine à Café, c'est une révision rapide, mais le geste est inverse.
+Aucune phrase de l'étape 1 ne reprend un exemple de Machine à Café 3 (boulangerie, bonnet de ski, heure, prénom d'ami) ni l'exemple du conseil (la lessive et la mère). Pour qui a fait Machine à Café, c'est une révision rapide, mais le geste est inverse.
 
 | Champ | Texte |
 |---|---|
 | `moduleTitle` | Ton anecdote en trois actes `[remplace le titre de travail « Le plan en trois actes » ; à valider]` |
 | `why` (« Pourquoi cette étape ? ») | Une anecdote qui te fait déjà sourire se perd souvent en route : trop de contexte, une chute qui arrive en retard, un détail de trop. Le plan en trois actes remet de l'ordre avant de travailler le reste. Ici, on ne rajoute rien : on découpe, on garde, on coupe. |
-| `moduleDetail` (version B, scène) | Imagine Samir qui raconte son déménagement : la météo du jour, le voisin du dessous, la queue à la station-service, et enfin, trois minutes plus tard, le canapé coincé. Entre-temps, quelqu'un a repris du fromage deux fois. L'histoire était bonne, juste mal découpée. Dans cette étape, tu prends une histoire vraie à toi, tu la poses en trois actes et tu coupes ce qui traîne. Tu la retrouveras dans les étapes suivantes. |
+| `moduleDetail` (version B, scène) | Imagine Samir qui raconte son déménagement : la météo du jour, le voisin du dessous, la queue à la station-service, et enfin, trois minutes plus tard, le canapé coincé. Entre-temps, quelqu'un a repris du fromage deux fois. L'histoire était bonne, juste mal découpée. Dans cette étape, tu prends une anecdote de ta journée, tu l'écris comme elle vient et tu coupes ce qui traîne. Tu la retrouveras dans les étapes suivantes. |
 | `moduleFormat` | Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. |
 | `moduleXp` / `free` / `dayNumber` | 50 / oui / 3 (spec, inchangé) |
 
-**Exercice « aujourd'hui »** : c'est le `exercice` du conseil réactivé, texte complet au §1a (anecdote avec une autre personne dedans, trois blocs écrits dans tes notes, critère de réussite écrit, version dite à quelqu'un ce soir, repli vocal, « si une histoire te pèse, prends-en une autre »). Le garde-fou renforcé sur les histoires douloureuses reste celui de l'étape 3.
+**Exercice « aujourd'hui »** : c'est le défi du conseil validé, le DÉFI COUPE du §1a, sans retouche (anecdote de ta journée en cinq phrases bavardes, coupe, critère de réussite écrit, voix haute même seul, repli du trajet de ce matin). Le garde-fou renforcé sur les histoires douloureuses reste celui de l'étape 3.
 
-**Quiz, questions modèles** (ton B complice). La question 1 porte sur le découpage en actes (ce qui reste dans le deuxième acte et ce qu'on coupe) ; la question 2 porte sur le premier acte, le contexte. Aucune bonne réponse n'est citée dans le texte de l'étape. Positions de la bonne réponse pour les 4 questions de l'étape : **D, B, A, C** (jamais deux de suite au même rang). Les questions 3 et 4 s'écrivent après ta validation de celles-ci. Un seul prénom dans l'étape (question 1, comme Samir dans le texte) ; les questions 2 à 4 n'en ont pas.
+**Quiz, questions modèles** (ton B complice). La question 1 porte sur la coupe (ce qui reste dans l'histoire et ce qu'on coupe) ; la question 2 porte sur la chute (la phrase la plus courte). Aucune bonne réponse n'est citée dans le texte de l'étape ni dans l'exemple du conseil. Positions de la bonne réponse pour les 4 questions de l'étape : **D, B, A, C** (jamais deux de suite au même rang). Les questions 3 et 4 s'écrivent après ta validation de celles-ci. Un seul prénom dans l'étape (question 1, comme Samir dans le texte) ; les questions 2 à 4 n'en ont pas.
 
 **Question 1 (bonne réponse en D)**
-> **Imagine Samir qui écrit le deuxième acte de son histoire de canapé coincé. Il a quatre phrases en réserve. Laquelle doit-il couper ?**
+> **Imagine Samir qui écrit le milieu de son histoire de canapé coincé. Il a quatre phrases en réserve. Laquelle doit-il couper ?**
 > A. « L'escalier faisait un coude à chaque étage. »
 > B. « Le canapé faisait deux mètres dix. »
 > C. « Mon cousin a lâché son côté en riant. »
 > **D. « Deux jours avant, j'avais changé d'abonnement internet. »**
 >
-> **Explication (affichée quelle que soit la réponse, 3 phrases)** : La D. L'abonnement internet n'amène rien à la chute : il ralentit juste le deuxième acte. Le coude, les deux mètres dix et le cousin qui lâche son côté préparent tous le canapé coincé, donc ils restent.
+> **Explication (affichée quelle que soit la réponse, 3 phrases)** : La D. L'abonnement internet n'amène rien à la chute : il ralentit juste l'histoire. Le coude, les deux mètres dix et le cousin qui lâche son côté font voir la scène, donc ils restent.
 
 (La bonne réponse n'apparaît pas dans la scène de l'étape, qui cite d'autres détails qui traînent : la météo, le voisin, la station-service.)
 
 **Question 2 (bonne réponse en B)**
-> **Tu racontes l'histoire d'un canapé coincé dans l'escalier. Quelle ouverture pose le mieux le contexte ?**
-> A. « Il m'est arrivé un truc de fou en déménageant, vous allez pas en revenir. » (promet, ne pose rien)
-> **B. « Dimanche matin, quatrième étage sans ascenseur : mon cousin devait m'aider à descendre mon canapé. »**
-> C. « Alors, d'abord, le camion, qui était trop cher, ensuite mon cousin, qui devait venir mais qui avait un truc, et puis l'escalier, qui est étroit. » (le contexte qui s'éternise)
-> D. « Dimanche matin, mon cousin m'a aidé à déménager et on a fini par laisser le canapé coincé dans l'escalier. » (la chute dite d'avance)
+> **Tu racontes l'histoire d'un canapé coincé dans l'escalier. Quelle phrase fait la meilleure chute ?**
+> A. « Moralité : la prochaine fois, je louerai un monte-meuble, parce que ce n'est vraiment pas pratique, un canapé coincé. » (la chute qui explique)
+> **B. « Depuis, il fait partie de l'immeuble. »**
+> C. « Alors on a essayé de le tourner, puis de le pencher, puis de le soulever, et on a fini par se dire que peut-être. » (la montée qui s'étire)
+> D. « Et là, le plus drôle, c'est ce qui s'est passé ensuite. » (la chute qui s'annonce)
 >
-> **Explication (3 phrases)** : La B. Un quand, un où, un qui, en une phrase, et le canapé coincé reste en réserve pour la chute. La A promet sans rien poser, la C s'éternise, la D raconte la fin avant le début.
+> **Explication (3 phrases)** : La B. C'est la phrase la plus courte, et elle ne dit que ce que la scène a déjà montré. La A explique, la C rallonge la montée, la D annonce sans livrer.
 
-Question 1 : les trois mauvaises réponses sont des détails qui préparent la chute, et l'explication dit pourquoi ils restent. Question 2 : chaque mauvaise réponse enfreint une seule règle, ce que l'explication nomme. Aucune ne reprend l'exemple du conseil (rendez-vous et café) ni les détails de Machine à Café 3. Les mots entre parenthèses sont des notes pour toi, pas du texte affiché.
+Question 1 : les trois mauvaises réponses sont des détails qui font voir la scène, et l'explication dit pourquoi ils restent. Question 2 : chaque mauvaise réponse enfreint une seule règle, ce que l'explication nomme. Aucune ne reprend l'exemple du conseil (la lessive et la mère) ni les détails de Machine à Café 3. Les mots entre parenthèses sont des notes pour toi, pas du texte affiché.
 
 **Les 2 vidéos** (plafond 8 min, 1 obligatoire + 1 facultative, aucune minute inventée). Les légendes ne disent que ce que la fiche du catalogue établit, et elles invitent à observer plutôt qu'à constater : elles restent vraies quoi qu'on voie.
 
@@ -156,15 +143,15 @@ Question 1 : les trois mauvaises réponses sont des détails qui préparent la c
 
 (Sources : fiches `videos-seed.json`, « récit revécu », « ton sincère, sans effet de manche », « marche après marche », « le banal, puis l'agaçant, puis l'absurde, puis le dément ». Regarder les deux vidéos reste utile pour choisir où lancer la lecture, mais plus aucune légende n'en dépend.)
 
-**Les 5 vannes** (désignées par leur texte exact en base, toutes actives, aucune déjà utilisée dans les 13 étapes réécrites en s17). Critère : la chute est plus courte que le contexte (mots comptés, vérifiés un à un).
+**Les 5 vannes** (désignées par leur texte exact en base, toutes actives, aucune déjà utilisée dans les 13 étapes réécrites en s17). Critère : la chute est courte et plus courte que tout ce qui la précède (mots comptés, vérifiés un à un).
 
 | # | Vanne (`content` puis chute) | Décryptage de l'étape (une ligne) |
 |---|---|---|
-| 1 | « Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. » / « Il a zoomé. Sur le parking. » | Le contexte fait dix-sept mots, la montée trois (« Il était fier. »), la chute six : « sur le parking » dit tout sans rien expliquer. |
-| 2 | « On m'a volé le cadenas de mon vélo. Pas le vélo. » / « Je prends ça pour une critique. » | Le contexte fait huit mots, la montée trois (« Pas le vélo. »), la chute six : la vexation arrive sans explication. |
-| 3 | « Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère. » / « Elle me l'a dicté de mémoire, avec les espaces. » | Le contexte fait onze mots, l'appel à la mère quatre, la chute neuf : un détail précis, « avec les espaces », pas un commentaire. |
-| 4 | « Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse. » / « Il la surveille depuis trois heures. Il la trouve lente. » | Le contexte fait quinze mots, la montée six (« Il la surveille depuis trois heures. »), la chute quatre : « Il la trouve lente. » est la phrase la plus courte des trois. |
-| 5 | « Ma copine a acheté deux couettes pour qu'on arrête de se disputer. » / « Elle a pris les deux. » | Le contexte fait douze mots et promet une solution, la chute en fait cinq et la retourne. Rallonge-la d'un mot et elle perd. |
+| 1 | « Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. » / « Il a zoomé. Sur le parking. » | Vingt mots pour poser la scène, six pour la chute : « sur le parking » dit tout sans rien expliquer. |
+| 2 | « On m'a volé le cadenas de mon vélo. Pas le vélo. » / « Je prends ça pour une critique. » | Onze mots pour poser la scène, six pour la chute : la vexation arrive sans explication. |
+| 3 | « Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère. » / « Elle me l'a dicté de mémoire, avec les espaces. » | Quinze mots pour poser la scène, neuf pour la chute : un détail précis, « avec les espaces », pas un commentaire. |
+| 4 | « Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse. » / « Il la surveille depuis trois heures. Il la trouve lente. » | Quinze mots, puis six, puis une chute de quatre : « Il la trouve lente. » est la phrase la plus courte des trois. |
+| 5 | « Ma copine a acheté deux couettes pour qu'on arrête de se disputer. » / « Elle a pris les deux. » | Douze mots promettent une solution, cinq mots la retournent. Rallonge-la d'un mot et elle perd. |
 
 Pour le catalogue : les décryptages complets (`comedyTechnique`, `techniqueExplanation`) existent déjà en base pour ces 5 vannes ; la ligne ci-dessus est celle qui relie la vanne à l'étape.
 
@@ -186,7 +173,7 @@ Le titre de Storytelling n'est pas dans `seo.md` §6 (les 4 titres signés sont 
 
 Emplacement : `QUIZ_HUMOUR_PARCOURS.raison.STORYTELLER` (`apps/web/src/config/textes/entrees-parcours.ts`, lu en lecture seule). Texte actuel : « Tu sais tenir une table avec une histoire : ce parcours t'apprend à la raconter au bon moment et jusqu'au bout. » Il promet trop pour Machine à Café (l'anecdote n'y arrive qu'à l'étape 3) et ne dit rien de ce que le visiteur lit à Storytelling 1. Les specs de s17 (§12) jugeaient cette phrase « vraie » une fois Storytelling publié ; relue face à l'étape 1 écrite ici, « au bon moment » et « jusqu'au bout » n'y sont pas enseignés (le timing est une étape de Machine à Café, la voix et la chute viennent plus tard), d'où la nouvelle phrase.
 
-La phrase doit être **vraie pour l'étape 1 affichée** (§3 : découper en trois actes, couper ce qui traîne), et rien de plus : la voix, la chute et le détour sont des étapes payantes, donc hors de la phrase.
+La phrase doit être **vraie pour l'étape 1 affichée** (§3 : écrire une anecdote, la découper en trois temps, couper ce qui traîne), et rien de plus : la voix, la chute et le détour sont des étapes payantes, donc hors de la phrase.
 
 | | Phrase |
 |---|---|
@@ -220,7 +207,7 @@ Une étape payante qui ne montre pas ce qu'elle enseigne est un défaut que l'au
 
 ## 7. Le fil rouge « une seule anecdote » (choix 6)
 
-La fiche promet une anecdote vraie que tu travailles au fil du parcours, « jusqu'à ce qu'on te la redemande ». Le défi de l'étape 1 te fait choisir ton anecdote, ceux des étapes 4 et 5 la reprennent (les trois sont retouchés ici). Celui de l'étape 2 demande « une anecdote récente » : le texte de l'étape 2 dira « prends celle de l'étape 1 », le défi du conseil ne change pas. Les deux conseils déjà actifs des étapes 3 et 6 ont leur propre défi : à l'étape 3, « pense à un petit échec récent » ; à l'étape 6, « lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire ». Ni l'un ni l'autre ne parle de ton anecdote.
+La fiche promet une anecdote vraie que tu travailles au fil du parcours, « jusqu'à ce qu'on te la redemande ». Les conseils validés des étapes 1, 4 et 5 (§1) ne parlent pas de « ton anecdote du parcours Storytelling » : leurs défis demandent une anecdote de ta journée (étapes 1 et 5) ou un moment où tu as mal compris (étape 4), et on n'y touche plus. Le pont se fait dans le texte de chaque étape, pas dans le conseil : le texte de l'étape 2 dira « prends celle de l'étape 1 » (le défi du conseil demande déjà « une anecdote récente »), celui de l'étape 5 invitera à ouvrir un tiroir dans ton anecdote de l'étape 1, celui de l'étape 4 à lui chercher une double lecture si elle s'y prête. Les deux conseils déjà actifs des étapes 3 et 6 ont leur propre défi : à l'étape 3, « pense à un petit échec récent » ; à l'étape 6, « lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire ». Ni l'un ni l'autre ne parle de ton anecdote.
 
 **Retouche commune aux deux options, pas un choix (repli solo, acquis depuis s17)** : le défi de l'étape 3 (« Rigoler de ses échecs ») se termine par « Raconte-la à quelqu'un ce soir avec l'air satisfait d'un bilan annuel » et n'a pas de repli. On ajoute à la fin : « Personne ce soir ? Dis-la à voix haute ou enregistre-la en vocal. » En base ET dans `conseils-seed.json`. Le garde-fou « échec récent et sans gravité, dont tu peux déjà sourire aujourd'hui » est déjà dans le conseil.
 
@@ -248,7 +235,7 @@ La fiche promet une anecdote vraie que tu travailles au fil du parcours, « jusq
 2. **Titre du callback en base** : « Le callback : faire revenir une **blague** au bon moment », alors que le seed et la spec disent « une **vanne** ». À aligner avec `previousTitle` pour les favoris (comme en s11). Pas de choix, c'est de la cohérence de vocabulaire.
 3. **Étape 6 / callback** : le conseil actif parle d'un détail qui a déjà fait rire (version débutant : y revenir deux minutes plus tard). Planter dans l'anecdote un détail qui revient à la fin est une variante naturelle, à présenter dans le texte de l'étape 6 ; voir le choix 6 pour la retouche éventuelle du défi.
 4. **Étape 2** : la spec cite la vidéo des « accents africains » avec la règle « imiter avec tendresse, jamais se moquer d'un accent ». Légendes à écrire en regardant les vidéos.
-5. **Niveaux « Expert »** (conseils 5 et 6, et « Construire une histoire drôle ») : jamais affichés (décision acquise).
+5. **Niveaux « Expert »** (conseils des étapes 5 et 6) : jamais affichés (décision acquise).
 6. **Durée de l'étape 1** (18 min 30 estimée en spec) : non mesurée, non écrite dans les textes.
 
 ---
@@ -258,10 +245,10 @@ La fiche promet une anecdote vraie que tu travailles au fil du parcours, « jusq
 **Handoff → @orchestrator** (puis @fullstack pour l'import, @design pour l'icône, @seo pour la signature du titre)
 
 - **Fichier produit** : `/home/user/Marrant/docs/copy/etalons-parcours-storytelling-s18.md`. Aucun autre fichier modifié, aucun commit, rien en base. `project-context.md` (historique) à compléter par la session : consigne de session = ne produire que ce fichier.
-- **Prêt (en attente de ta validation)** : 3 retouches de conseils avec textes complets (§1) ; fiche A/B (§2) ; étape 1 complète au format s17 (§3 : `why`, `moduleDetail`, exercice, 2 questions de quiz modèles, 2 légendes, 5 vannes avec décryptage) ; titre A/B (§4) ; phrase d'accroche A/B (§5) ; méthode de vannes pour les étapes 2 à 6 (§6) ; fil rouge par étape (§7, avec le repli solo de l'étape 3 hors choix).
-- **Frameworks et niveau de conscience (pour les agents, pas pour Thomas)** : retouches de conseils = avant/après sur texte réel, Solution-Aware ; fiche = PAS court, Solution-Aware ; étape 1 = PAS court avec scène, Product-Aware (vitrine lue avant l'achat) ; quiz = mise en situation puis explication, Product-Aware.
-- **Attend Thomas** : choix 1a, 1b, 1c, 2, 3, 4, 5, 6. « Je suis tes recos » = A, A, A, B, A (titre), A (accroche), A (vannes), et pour le fil rouge A à l'étape 3 et B à l'étape 6. Puis, hors étalons : vérification des trois phrases d'humoristes gardées telles quelles (Paul Mirabel dans 1a et 1c, Panayotis Pascot dans 1b, toutes marquées `[À VÉRIFIER]`, jamais retirées). Les légendes vidéo n'ont plus de `[À VÉRIFIER]`.
-- **Après validation, @fullstack devra** : (1) **réactiver** les 3 conseils (ids de l'audit s14 : « Raconter une anecdote en 3 actes » `cmmp8ozsx000mqk63ux155ma1`, « Le twist final » `cmmp8ozsx000tqk63yhagsgqi`, « La blague à tiroirs » `cmmp8ozsx0012qk63kxfsux75` `[À VÉRIFIER sur la base de prod avant tout UPDATE]`) en y posant `isActive = true` et les textes retouchés, **en base ET dans `conseils-seed.json`** (sinon un rejeu du seed les remet à l'ancien texte, cf. FS-12/COP-09) ; (2) **aligner le titre du callback** (« vanne ») avec `previousTitle`, **ajouter le repli solo au défi de « Rigoler de ses échecs »** (§7, hors choix) et, si 6B est retenu pour l'étape 6, **ajouter la phrase au défi du « Callback »** (en base ET dans `conseils-seed.json`) ; (3) importer le parcours (`slug: storytelling`, `order: 4`, vannes désignées par leur texte exact via `jokeContents`, vérifier `isActive` de chacune à l'import, RC3/PM-04 ; `[À VÉRIFIER @fullstack : l'import accepte-t-il une désignation par texte ? Les 5 vannes de l'étape 1 ont seedId null et l'annexe A de la spec utilise jokeIds]`) ; (4) **brancher la bascule du quiz** : profil Storyteller vers `/parcours/storytelling?src=quiz` seulement quand le parcours est publié, avec la phrase de §5 ; (5) laisser `icon` à @design et ne pas afficher « Expert ». Ordre d'importation : conseils d'abord, puis parcours (le rattachement étape/conseil se fait par titre, `[À VÉRIFIER @fullstack : mécanisme réel de la tâche parcours-content]`).
-- **Décisions prises** : registre « pote drôle et bienveillant », version B avec scène (acquis), Samir comme personnage d'exemple (fiche + étape 1), positions de bonne réponse D, B, A, C (questions 1 et 2 livrées), vannes de l'étape 1 comptées mot à mot (chute plus courte que le contexte), différence avec Machine à Café 3 posée dans un tableau lisible (découper et couper contre ajouter), slug `storytelling`.
-- **Points d'attention** : objections traitées (« je ne suis pas drôle » : anecdote vraie et légère, repli vocal ; « je m'étire » : étape dédiée à la coupe ; « je n'ai personne à qui raconter » : vocal ; « ça ressemble à Machine à Café » : tableau §3). Références consultées : étalons s17, charte s11, export base du 08/10, 127 vannes actives, fiches vidéo `videos-seed.json`, audit s14 (lignes 162, 294, 296, 473, 518). Mots-clés SEO : `keyword-map` absent ; « raconter » dans le titre `[À SIGNER, volumes non mesurés]`.
+- **Prêt (en attente de ta validation)** : 3 conseils réécrits et validés à l'aveugle (§1, texte à valider) ; fiche A/B (§2) ; étape 1 complète au format s17, alignée sur le conseil de la coupe (§3 : `why`, `moduleDetail`, exercice, 2 questions de quiz modèles, 2 légendes, 5 vannes avec décryptage) ; titre A/B (§4) ; phrase d'accroche A/B (§5) ; méthode de vannes pour les étapes 2 à 6 (§6) ; fil rouge par étape (§7, avec le repli solo de l'étape 3 hors choix).
+- **Frameworks et niveau de conscience (pour les agents, pas pour Thomas)** : conseils = avant/après sur texte réel, Solution-Aware ; fiche = PAS court, Solution-Aware ; étape 1 = PAS court avec scène, Product-Aware (vitrine lue avant l'achat) ; quiz = mise en situation puis explication, Product-Aware.
+- **Attend Thomas** : choix 1 (valider le texte des 3 conseils), 2, 3, 4, 5, 6. « Je suis tes recos » = valider le 1, puis B, A (titre), A (accroche), A (vannes), et pour le fil rouge A à l'étape 3 et B à l'étape 6. Les trois conseils validés ne citent plus aucun humoriste : plus de `[À VÉRIFIER]` à traiter côté conseils. Les légendes vidéo n'ont pas de `[À VÉRIFIER]` non plus.
+- **Après validation, @fullstack devra** : (1) **réactiver** les 3 conseils (ids de l'audit s14 : « Raconter une anecdote en 3 actes » `cmmp8ozsx000mqk63ux155ma1`, « Le twist final » `cmmp8ozsx000tqk63yhagsgqi`, « La blague à tiroirs » `cmmp8ozsx0012qk63kxfsux75` `[À VÉRIFIER sur la base de prod avant tout UPDATE]`) en y posant `isActive = true` et les textes validés du §1 (copiés à l'identique de `conseils-storytelling-s18-v2.md`), **en base ET dans `conseils-seed.json`** (sinon un rejeu du seed les remet à l'ancien texte, cf. FS-12/COP-09) ; (2) **aligner le titre du callback** (« vanne ») avec `previousTitle`, **ajouter le repli solo au défi de « Rigoler de ses échecs »** (§7, hors choix) et, si 6B est retenu pour l'étape 6, **ajouter la phrase au défi du « Callback »** (en base ET dans `conseils-seed.json`) ; (3) importer le parcours (`slug: storytelling`, `order: 4`, vannes désignées par leur texte exact via `jokeContents`, vérifier `isActive` de chacune à l'import, RC3/PM-04 ; `[À VÉRIFIER @fullstack : l'import accepte-t-il une désignation par texte ? Les 5 vannes de l'étape 1 ont seedId null et l'annexe A de la spec utilise jokeIds]`) ; (4) **brancher la bascule du quiz** : profil Storyteller vers `/parcours/storytelling?src=quiz` seulement quand le parcours est publié, avec la phrase de §5 ; (5) laisser `icon` à @design et ne pas afficher « Expert ». Ordre d'importation : conseils d'abord, puis parcours (le rattachement étape/conseil se fait par titre, `[À VÉRIFIER @fullstack : mécanisme réel de la tâche parcours-content]`).
+- **Décisions prises** : registre « pote drôle et bienveillant », version B avec scène (acquis), Samir comme personnage d'exemple (fiche + étape 1), positions de bonne réponse D, B, A, C (questions 1 et 2 livrées), vannes de l'étape 1 comptées mot à mot (chute plus courte que tout ce qui la précède), différence avec Machine à Café 3 posée dans un tableau lisible (écrire bavard puis couper contre ajouter), slug `storytelling`.
+- **Points d'attention** : objections traitées (« je ne suis pas drôle » : anecdote de la journée, repli du trajet, voix haute même seul ; « je m'étire » : étape dédiée à la coupe ; « je n'ai personne à qui raconter » : voix haute seul ; « ça ressemble à Machine à Café » : tableau §3). Références consultées : étalons s17, charte s11, export base du 08/10, 127 vannes actives, fiches vidéo `videos-seed.json`, audit s14 (lignes 162, 294, 296, 473, 518). Mots-clés SEO : `keyword-map` absent ; « raconter » dans le titre `[À SIGNER, volumes non mesurés]`.
 - **Contrôles faits sur ce fichier** : zéro tiret cadratin dans les textes ; « blague » uniquement dans « blague à tiroirs » (terme consacré) et dans les citations du texte ou du titre en base ; aucun prénom de persona (Samir, Léa, Tom, Julien sont des exemples) ; aucun concurrent ; aucun chiffre du site modifié (« 20 min/semaine » et « 700 XP + 100 » = décisions de la spec, non réécrits dans les textes publics).

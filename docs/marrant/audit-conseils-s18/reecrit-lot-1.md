@@ -51,7 +51,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 
 ## C015
 
-**titre** : L'audioguide du quotidien (ancien titre : Le musée du tiroir)
+**titre** : L'audioguide du quotidien
 
 **contenu** : Donne à un coin banal de chez toi le statut d'une institution culturelle : archives nationales, musée, fondation. Puis fais-le visiter avec la voix d'un audioguide : tu accueilles les visiteurs, tu annonces la collection, tu signales une pièce maîtresse, tu termines par une consigne de visite. Le sérieux de la voix fait le travail, ne commente pas. Choisis une collection que tout le monde a chez soi, sinon personne ne se reconnaît dans tes pièces.
 
@@ -61,7 +61,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 
 **réponse** :
 - Critique A (« ont fondé une famille » est le gag des câbles qui se reproduisent) : gag abandonné. Nouvelle chute sur un autre objet (les tickets de caisse, il manque celui du grille-pain).
-- Critique A (même tiroir et mêmes câbles que C075) : changement de lieu (boîte à chaussures des tickets) et d'objet. Le tiroir et les câbles restent à C075. Titre changé pour ne plus pointer le tiroir : ancien titre : Le musée du tiroir.
+- Critique A (même tiroir et mêmes câbles que C075) : changement de lieu (boîte à chaussures des tickets) et d'objet. Le tiroir et les câbles restent à C075. Titre changé pour ne plus pointer le tiroir, qui reste à C075. ancien titre : Le musée du tiroir.
 - Critique A (l'exemple ne fait pas l'audioguide annoncé) : l'exemple est maintenant une phrase d'audioguide complète (accueil, collection, consigne finale).
 - Critique B : « = », rien à corriger.
 
@@ -82,7 +82,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 
 ## C027
 
-**titre** : L'auto-vanne préventive : désamorcer avant que ça glace (ancien titre : L'auto-blague préventive : désamorcer avant que ça glace)
+**titre** : L'auto-vanne préventive : désamorcer avant que ça glace
 
 **contenu** : Tu viens de faire une bourde visible au bureau : tu as quelques secondes avant que l'ambiance se fige ou que quelqu'un d'autre s'en empare. Le réflexe est de t'excuser ou de te taire. La technique de l'auto-vanne préventive : tu annonces toi-même la conséquence la plus voyante de ta bourde, à voix haute, sur le ton d'une annonce officielle, comme si tout était prévu. Appuie-toi sur un détail exact (qui l'a vu, combien de personnes, quel bruit) plutôt que sur un « oups » vague. Fais-le dans les cinq secondes : passé ce délai, c'est le silence ou un collègue qui prend la parole. Pas d'excuse, pas d'explication : une phrase, et tu reprends ta journée.
 
@@ -93,7 +93,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 **réponse** :
 - Critique A (chute « paris sportifs » faible, puis expliquée) : bourde plus légère qu'une fuite confidentielle (un « répondre à tous »), chute neuve, phrase d'explication supprimée.
 - Critique A (« 3 secondes » puis « 5 secondes ») : une seule durée, cinq secondes, partout.
-- Critique A et B (« auto-blague » contre la charte) : titre passé en « auto-vanne », ancien titre indiqué.
+- Critique A et B (« auto-blague » contre la charte) : titre passé en « auto-vanne ». ancien titre : L'auto-blague préventive : désamorcer avant que ça glace.
 - Critique A (défi qui attend une erreur visible) : repli sur ta dernière bourde, à écrire et envoyer.
 - Critique B (technique banale, « fais une vanne vite sur ton erreur ») : technique précisée (annoncer la conséquence la plus voyante comme une annonce officielle, avec un détail exact).
 - Critique B (doublon avec C002) : angle distinct. C002 rattrape une vanne qui tombe à plat ; C027 désamorce une bourde (ce n'est pas une vanne) avant que le groupe réagisse. Exemples sans rapport.
@@ -146,7 +146,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 
 ## C042
 
-**titre** : Ne jamais expliquer sa vanne (ancien titre : Ne jamais expliquer sa blague)
+**titre** : Ne jamais expliquer sa vanne
 
 **contenu** : Quand une vanne tombe et que tu te sens obligé de l'expliquer, le vrai problème est presque toujours en amont : il manquait une information au début, pas une explication à la fin. On ne peut pas rire d'un écart entre deux choses dont on ne connaît qu'une. La technique : repère le fait que ton public ignore (qui est la personne, ce qui se passe d'habitude), écris-le en une phrase courte et place-la AVANT la chute, qui ne change pas d'un mot. Si on te répond « hein ? », n'explique rien sur le moment : tu répares le début pour la prochaine fois.
 
@@ -155,7 +155,7 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 **exercice** : DÉFI INFO EN AMONT : aujourd'hui, prends une anecdote qui n'a pas marché, ou qui suppose qu'on connaisse une personne ou un lieu. Trouve l'information qui manquait et écris-la en dix mots maximum. Place-la tout au début, ne touche pas à la chute, et raconte l'anecdote ainsi à quelqu'un, ou envoie-la par message. Aucune anecdote sous la main ? Écris seulement l'ouverture d'une vanne sur une personne de ton entourage que personne d'autre ne connaît.
 
 **réponse** :
-- Critique A et B (« blague » à la place de « vanne », dans le titre, le contenu et le défi) : tous les « blague » remplacés par « vanne ». Technique, exemple et défi inchangés (jugés au niveau). Le titre change donc (ancien titre indiqué), le slug n'est pas touché.
+- Critique A et B (« blague » à la place de « vanne », dans le titre, le contenu et le défi) : tous les « blague » remplacés par « vanne ». Technique, exemple et défi inchangés (jugés au niveau). Le slug n'est pas touché. ancien titre : Ne jamais expliquer sa blague.
 
 ## C047
 
@@ -304,4 +304,49 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 - Critique A et B (« mauvais chiffres en police plus petite » nuit au mail et contredit la règle RH) : l'exemple n'avoue plus aucune faute, le PS parle du café.
 - Critique A (l'exemple est expliqué) : phrase « Le PS casse la formalité… » supprimée.
 
-<!-- FIN -->
+## C096
+
+**titre** : Les excuses disproportionnées
+
+**contenu** : Quand on te fait un petit reproche, réponds par des excuses immenses, organisées comme un événement officiel. Tu transformes une faute minuscule en grand rendez-vous, et tout le monde rit de ta solennité. Plus les modalités pratiques sont précises, plus c'est drôle : tu demandes à l'autre de choisir, tu fixes l'organisation. Souris en le disant, c'est le signe que tu ne te défends pas, tu joues.
+
+**exemple** : Sasha : « Tu as encore oublié de fermer la porte. » Toi : « Je m'excuse du fond du cœur. Je propose une cérémonie officielle, samedi, avec discours. Matin ou après-midi ? » Sasha : « Ça ira, laisse tomber. » Toi : « Après-midi, alors. La porte sera fermée pour l'occasion. »
+
+**exercice** : DÉFI EXCUSES : aujourd'hui, au prochain petit reproche, réponds par des excuses avec de la logistique précise. Pas de reproche aujourd'hui ? Écris tes excuses pour une petite faute passée (porte, vaisselle, retard) en trois phrases avec au moins un détail pratique, et envoie-les à la personne concernée ou à un ami. C'est réussi quand ton message contient un horaire, un lieu ou un programme.
+
+**réponse** :
+- Critique A (« une date, un discours, une cérémonie » dans le contenu, chute éventée) : la liste est retirée du contenu. Seule la consigne de logistique reste.
+- Critique A (dernière réplique « je prépare un discours » faible) : nouvelle dernière réplique, un détail logistique inattendu qui reprend la porte (« La porte sera fermée pour l'occasion. »).
+- Critique B (défi suspendu à un reproche, sans plan B) : repli par message pour une faute passée.
+
+## C100
+
+**titre** : Rebaptiser l'erreur d'un mot de métier
+
+**contenu** : Quand tu te trompes (mauvais bus, mauvais message, mauvais plat), rebaptise l'erreur avec un mot de métier : audit, test, étude de terrain. Le vocabulaire pro donne une dignité ridicule à l'échec sans que tu aies à te défendre. Le mot doit être court et poser une utilité future. Dis-le avec un petit hochement de tête, comme si le plan était prévu dès le départ.
+
+**exemple** : Ton pote : « Tu as encore pris le mauvais bus. » Toi : « Non, j'ai fait un bus de repérage. » Ton pote : « Pour quoi faire ? » Toi : « Pour savoir où ne pas aller demain. »
+
+**exercice** : DÉFI BAPTÊME : aujourd'hui, au prochain petit raté, donne-lui un nom de métier (audit, test, étude de marché) avant que quelqu'un d'autre le nomme. Pas de raté aujourd'hui ? Rebaptise un raté d'hier d'un mot de métier, en une phrase, et envoie-la à un ami. C'est réussi quand ton mot de métier annonce une utilité future.
+
+**réponse** :
+- Critique A : « = », exemple et chute conservés.
+- Critique B (défi suspendu à un raté, sans plan B) : repli ajouté, rebaptiser un raté d'hier en une phrase.
+- Précaution : le mot « repérage » (utilisé dans l'exemple) est retiré de la liste du contenu et du défi pour ne pas en donner le vocabulaire d'avance.
+
+## C103
+
+**titre** : Ouvrir un exposé par un aveu
+
+**contenu** : Avant un oral, l'ouverture qui rassure le plus est un aveu court sur ta préparation, dès la première seconde. Choisis un aveu qui montre que tu as bossé (trop répété, trop de versions, trop de notes) : il prend de vitesse le stress de la salle et met les gens de ton côté, parce que tu leur fais une confidence. L'aveu doit rester crédible et ne jamais dévaluer le sujet ni les personnes qui écoutent. Finis par un détail qui rend ta préparation un peu ridicule, puis enchaîne tout de suite sur ton premier point.
+
+**exemple** : Exposé de dix minutes devant la classe. Toi : « Avant de commencer, un aveu : j'ai répété cet exposé en entier devant mon miroir. Il a applaudi à la fin. Il a placé la barre haut. » La salle sourit. Tu enchaînes : « Premier point… »
+
+**exercice** : DÉFI AVEU D'OUVERTURE : aujourd'hui, avant de prendre la parole (réunion, oral, tour de table), ouvre par un aveu d'une phrase sur ta préparation, puis enchaîne sans attendre. Pas de prise de parole aujourd'hui ? Ouvre par cet aveu un message vocal ou un mail à un collègue ou à un ami, puis enchaîne sur ton vrai sujet. C'est réussi quand ton aveu tient en une phrase et que le premier point suit sans pause.
+
+**réponse** :
+- Critique A (l'aveu « cycle de machine à laver » dévalue la préparation, contre la règle du contenu) : l'aveu dit maintenant le contraire, une préparation poussée (répétée en entier devant le miroir), et reste valorisant.
+- Critique A (« essorés » faible) : nouvelle chute, le miroir qui applaudit et « place la barre haut ».
+- Critique A (même mécanique que C064) : angle distinct. C064 avoue des sujets préparés dans un tête-à-tête, sur le vocabulaire du menu ; C103 ouvre un exposé par l'aveu d'une préparation poussée, devant une salle.
+- Critique B (défi suspendu à une prise de parole aujourd'hui) : repli par vocal ou mail à un collègue ou ami.
+
