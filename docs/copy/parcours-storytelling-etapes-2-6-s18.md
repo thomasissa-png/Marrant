@@ -73,12 +73,12 @@ Le repli solo existe déjà (vocal). La vigilance de la spec (imiter avec tendre
 >
 > **Explication (3 phrases)** : La D. Le rythme et la phrase qu'il répète font entendre quelqu'un sans caricature, et le test est simple : pourrais-tu la jouer devant lui ? La A grossit jusqu'à la moquerie, la C déplace le problème, et la B te prive d'un bon personnage.
 
-**Les 2 vidéos** (spec §2.2, plafond 8 min, 1 obligatoire + 1 facultative, aucune minute inventée). Les légendes invitent à observer ; elles ne disent que ce que la fiche du catalogue établit (imitation tendre, phrase culte, dialogue reconstruit).
+**Les 2 vidéos** (spec §2.2, plafond 8 min, 1 obligatoire + 1 facultative, aucune minute inventée). Les légendes sont des consignes d'observation : elles ne disent que ce que la fiche du catalogue établit (imitation tendre, dialogue rejoué) et restent vraies quoi qu'on voie.
 
 | | Légende (`why`) |
 |---|---|
-| **Obligatoire** : Samia Orosemane, « Les accents africains » (5 min 10) | Samia Orosemane joue les voix de sa famille, et ce qu'on entend d'abord, c'est de l'affection. Repère une phrase qu'elle rejoue plusieurs fois, et demande-toi : de la tendresse ou de la moquerie dans sa voix ? C'est la règle que tu gardes pour tes propres personnages. |
-| *Facultative* : Laura Domenge, « La vie de couple » (5 min 10) | Des disputes de couple minuscules, rejouées avec les voix. Repère un moment où elle rejoue une réplique au lieu de la résumer, et écoute ce qui change : le rythme, la hauteur, la posture. |
+| **Obligatoire** : Samia Orosemane, « Les accents africains » (5 min 10) | Samia Orosemane rejoue des voix et des accents avec de l'affection, sans se moquer : c'est la règle que tu gardes pour tes personnages. Repère une phrase qu'elle rejoue, et demande-toi : de la tendresse ou de la moquerie dans sa voix ? |
+| *Facultative* : Laura Domenge, « La vie de couple » (5 min 10) | Un couple, rejoué avec les voix. Repère un moment où elle rejoue une réplique au lieu de la résumer, et écoute ce qui change : le rythme, la hauteur, la posture. |
 
 **Les 5 vannes** (désignées par leur texte exact en base, toutes actives, aucune déjà utilisée dans les 13 étapes réécrites en s17 ni dans l'étape 1). Technique : un personnage qui existe par sa seule phrase ou son seul tic.
 
@@ -88,7 +88,7 @@ Le repli solo existe déjà (vocal). La vigilance de la spec (imiter avec tendre
 | 2 | « Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée ». » / « Elle vit chez nous depuis un an. » | Un surnom répété fait le portrait du copain, et la chute pousse son tic jusqu'à sa conséquence. |
 | 3 | « Ma mère me demande encore des nouvelles de mon ex. » / « Je n'en ai pas. Elle, si. » | La mère n'est jamais décrite : sa question est son tic, et la chute révèle que, elle, elle a des nouvelles. |
 | 4 | « Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. » / « Elle revient lundi. » | Le tic de la collègue, c'est de tout dire : 45 minutes de briefing, puis une chute de trois mots qui en révèle l'inutilité. |
-| 5 | « Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ». » / « Il a dit « merci, c'est mieux que papa ». » | Une phrase par personnage suffit : le « ça dépend » du grand frère prudent, puis le frère, et même papa qu'on entend sans qu'il parle. |
+| 5 | « Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ». » / « Il a dit « merci, c'est mieux que papa ». » | Une phrase par personnage suffit : le « ça dépend » prudent de l'aîné, le « merci » du petit frère, et même papa, qu'on entend sans qu'il parle. |
 
 ---
 
@@ -101,7 +101,7 @@ Conseil affiché : « Rigoler de ses échecs » (AUTODERISION, INTERMEDIAIRE), t
 |---|---|
 | `moduleTitle` | Faire le bilan de ton raté |
 | `why` | Un raté qu'on garde pour soi pèse, un raté qu'on raconte en premier se dégonfle. La technique : au lieu de dire ce qui a raté, tu fais le bilan de ce que ça a produit malgré toi, avec l'air fier d'un rapport annuel. Ici, tu prépares le tien sur un petit échec récent. |
-| `moduleDetail` (version B, scène) | Imagine Hugo, dont l'étagère penche depuis samedi. À la question « alors, ce bricolage ? », il pourrait soupirer. Il sort un bilan à la place, l'air satisfait : « L'opération n'est pas un échec : j'ai maintenant une étagère qui oblige tout le monde à pencher la tête, et la quincaillerie me connaît par mon prénom. » Le raté est le même, mais c'est lui qui tient le micro. Dans cette étape, tu fais le bilan d'un échec récent et léger, dont tu peux déjà sourire aujourd'hui. Si ton anecdote de l'étape 1 contient un petit raté, tu peux t'en servir ; sinon, n'importe quel raté léger fait l'affaire. Si ça fait encore mal, choisis-en un plus léger, ou passe ton tour : celui-là n'est pas pour aujourd'hui. |
+| `moduleDetail` (version B, scène) | Imagine Hugo, dont l'étagère penche depuis samedi. À la question « alors, ce bricolage ? », il pourrait soupirer. Il sort un bilan à la place, l'air satisfait : « L'opération n'est pas un échec : j'ai maintenant une étagère qui oblige tout le monde à pencher la tête, et la quincaillerie me connaît par mon prénom. » Le raté est le même, mais c'est lui qui tient le micro. Dans cette étape, tu fais le bilan d'un échec récent et léger, dont tu peux déjà sourire aujourd'hui. C'est réussi si ta phrase liste un résultat vrai et inattendu du raté, sur le ton d'un rapport annuel, et que tu souris en la réécoutant. Si ton anecdote de l'étape 1 contient un petit raté, tu peux t'en servir ; sinon, n'importe quel raté léger fait l'affaire. Si ça fait encore mal, choisis-en un plus léger, ou passe ton tour : celui-là n'est pas pour aujourd'hui. |
 
 **Exercice « aujourd'hui »** : le défi du conseil, avec le repli solo ajouté (choix 6 : A à l'étape 3, le sujet reste « un petit échec récent », l'anecdote est une option).
 > DÉFI BILAN : pense à un petit échec récent (un plat, un bricolage, un rendez-vous, un trajet). Écris une phrase du type « C'est raté, mais l'opération n'est pas un échec : ... » en listant ce que ça a produit d'inattendu et de vrai. Raconte-la à quelqu'un ce soir avec l'air satisfait d'un bilan annuel. Personne ce soir ? Dis-la à voix haute ou enregistre-la en vocal.
@@ -113,7 +113,7 @@ Conseil affiché : « Rigoler de ses échecs » (AUTODERISION, INTERMEDIAIRE), t
 **Question 1 (bonne réponse en C)**
 > **Imagine Hugo qui a raté son train. Laquelle de ses phrases est un vrai bilan ?**
 > A. « J'ai raté mon train, et en plus il pleuvait, mais bon, je ne me plains pas. »
-> B. « J'ai raté mon train : je suis nul en organisation, ce n'est pas nouveau. »
+> B. « Le train n'est pas un échec : je suis nul en organisation, ce n'est pas nouveau. »
 > **C. « Le train n'est pas un échec : j'ai lu la moitié de mon livre et je connais la gare par cœur. »**
 > D. « Mon train est parti sans moi, ce qui prouve qu'il me détestait. »
 >
@@ -121,12 +121,12 @@ Conseil affiché : « Rigoler de ses échecs » (AUTODERISION, INTERMEDIAIRE), t
 
 **Question 2 (bonne réponse en D)**
 > **Ton dîner est raté, les pâtes ont fait un bloc. Quelle conséquence mets-tu dans ton bilan ?**
-> A. « J'ai appris qu'il faut toujours saler l'eau. »
+> A. « Le dîner n'est pas un échec : j'ai appris qu'il faut remuer les pâtes pendant la cuisson. »
 > B. « Plus jamais je ne cuisine pour des invités. »
 > C. « Les pâtes étaient immangeables, il n'y a pas d'autre mot. »
-> **D. « Le dîner n'est pas un échec : la pizzeria d'en face connaît mon prénom, et elle prend de mes nouvelles. »**
+> **D. « Le dîner n'est pas un échec : pour la première fois, tous mes invités se sont proposés pour cuisiner la prochaine fois. »**
 >
-> **Explication (3 phrases)** : La D. Le bilan est positif pour une mauvaise raison, et il est vrai et précis : c'est ce contraste qui fait sourire. La A tire une vraie leçon, ce qui est sage mais pas drôle, et les B et C restent dans l'échec.
+> **Explication (3 phrases)** : La D. Le bilan est positif pour une mauvaise raison, vrai et précis, et c'est ce contraste qui fait sourire. La A emprunte la formule mais tire une vraie leçon, sage et pas drôle, et les B et C restent dans l'échec.
 
 **Question 3 (bonne réponse en A)**
 > **Tu cherches l'échec à raconter ce soir. Lequel prends-tu ?**
@@ -150,8 +150,8 @@ Conseil affiché : « Rigoler de ses échecs » (AUTODERISION, INTERMEDIAIRE), t
 
 | | Légende (`why`) |
 |---|---|
-| **Obligatoire** : Nora Hamzawi, « Les chagrins d'amour » (4 min, chronique) | Quatre minutes sur le chagrin d'amour, dites avec de l'ironie plutôt qu'avec des larmes. Repère un moment où elle garde exactement les mêmes faits mais change de regard : c'est la matière de ton bilan. Si le sujet te touche de trop près en ce moment, passe directement à la facultative. |
-| *Facultative* : Nordine Ganso, « La première fois » (6 min 20) | Un souvenir gênant, raconté en grossissant la gêne plutôt que les faits. Repère comment il garde de la distance avec le lui d'autrefois `[À VÉRIFIER en visionnant : procédés réellement employés, et sujet adapté à toute la page, sans passage cru]`. |
+| **Obligatoire** : Nora Hamzawi, « Les chagrins d'amour » (4 min, chronique) | Quatre minutes sur les chagrins d'amour. Repère un moment où elle analyse sa propre réaction comme si elle la découvrait : c'est ce recul qui fait le bilan. Si le sujet te touche de trop près en ce moment, passe directement à la facultative. |
+| *Facultative* : Nordine Ganso, « La première fois » (6 min 20) | Un souvenir amplifié pour faire rire. Repère ce qu'il grossit et ce qu'il laisse tel quel : c'est la distance qu'il faut pour rire d'un raté. |
 
 **Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : un raté présenté comme un bilan.
 
@@ -174,7 +174,7 @@ Conseil affiché : « Le twist final » (STORYTELLING, INTERMEDIAIRE), texte val
 |---|---|
 | `moduleTitle` | Une chute qui se lit de deux façons |
 | `why` | Une chute qui surprend n'est pas un coup de chance : le public a compris l'histoire d'une façon, et elle tient aussi d'une autre. Tout se prépare dans les phrases d'avant, qui doivent rester vraies dans les deux lectures. Ici, tu écris la tienne en trois phrases. |
-| `moduleDetail` (version B, scène) | Imagine Nadia qui raconte sa soirée : « Il m'a attendue toute la journée devant la porte, ravi de me voir, comme tous les soirs. Il m'a suivie jusque dans la cuisine. On a dîné face à face : des pâtes pour moi, des croquettes pour lui. » Pendant deux phrases, tout le monde imaginait un amoureux. La troisième a tranché pour le chat. Dans cette étape, tu écris une chute à double lecture, en trois phrases. Regarde si ton anecdote de l'étape 1 s'y prête (quelqu'un qu'on a pris pour un autre, un bruit mal interprété). Sinon, une scène de ta semaine fera l'affaire. |
+| `moduleDetail` (version B, scène) | Imagine Nadia qui raconte sa soirée : « Il m'a attendue toute la journée devant la porte, ravi de me voir, comme tous les soirs. Il m'a suivie jusque dans la cuisine. On a dîné face à face : des pâtes pour moi, des croquettes pour lui, et il a ronronné tout le repas. » Pendant deux phrases, tout le monde imaginait un amoureux. La troisième a tranché pour le chat. Dans cette étape, tu écris une chute à double lecture, en trois phrases. Regarde si ton anecdote de l'étape 1 s'y prête (quelqu'un qu'on a pris pour un autre, un bruit mal interprété). Sinon, une scène de ta semaine fera l'affaire. |
 
 **Exercice « aujourd'hui »** : le défi du conseil, sans retouche (le pont vers l'anecdote de l'étape 1 est dans le texte d'étape, « si elle s'y prête »).
 > DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
@@ -193,7 +193,7 @@ Le repli (objet de la pièce) existe déjà dans le défi.
 > **Explication (3 phrases)** : La D. Elle laisse deux lectures ouvertes : une rupture, ou tout autre chose (un voisin, un plombier), et ta fin pourra choisir. Les trois autres ne disent qu'une chose, donc il n'y a rien à retourner.
 
 **Question 2 (bonne réponse en A)**
-> **Ton twist commence par « Il est toujours là quand je rentre. Il garde tout ce que je lui confie. » Il parle de ton frigo, sans que tu l'aies dit. Quelle dernière phrase tranche le mieux ?**
+> **Ton twist commence par « Il est toujours là quand je rentre. Il garde tout ce que je lui confie. » Son vrai sujet est ton frigo, mais tu ne l'as pas nommé. Quelle dernière phrase tranche le mieux ?**
 > **A. « Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi. »**
 > B. « Vous l'avez deviné : je parlais de mon frigo, évidemment. »
 > C. « Et le plus drôle, c'est que ce n'était pas une personne. »
@@ -219,11 +219,11 @@ Le repli (objet de la pièce) existe déjà dans le défi.
 >
 > **Explication (3 phrases)** : La B. Quand quelqu'un devine tôt, c'est presque toujours qu'une phrase ne sert que la lecture cachée, donc tu la remplaces. La A ment et casse les deux lectures, la C dilue sans rien réparer, et la D jette une histoire qu'il suffisait de corriger.
 
-**Les 2 vidéos** (spec §2.2, plafond 8 min pour l'obligatoire, aucune minute inventée). Les deux sont d'adéquation « moyenne » dans la spec : les légendes invitent à observer, elles ne promettent pas un twist.
+**Les 2 vidéos** (spec §2.2, plafond 8 min pour l'obligatoire, aucune minute inventée). Les deux sont d'adéquation « moyenne » dans la spec : les légendes sont des consignes d'observation, vraies quoi qu'on voie, et ne promettent pas un twist. **Choix pour la vidéo obligatoire : on garde Paul Mirabel à l'étape 4 avec une légende sur ce qu'on attend et ce qui arrive, et on n'échange pas avec l'étape 6.** Justification : l'échange mettrait 7 min 45 sur l'étape finale, dont la spec libère le temps pour l'exercice, et donnerait à l'étape 4 la vidéo de Cohen, dont la fiche porte sur le personnage et la récurrence (étapes 2 et 6) ; la légende d'observation garde un enseignement juste à chaque étape.
 
 | | Légende (`why`) |
 |---|---|
-| **Obligatoire** : Paul Mirabel, « Je me suis fait racketter » (7 min 45, reprise de Confiance 2) | Paul Mirabel raconte comment il s'est fait racketter. Repère un détail lâché en passant au début, et regarde s'il revient plus tard avec un autre sens `[À VÉRIFIER en visionnant : quel détail précis revient, avant de le nommer ici]`. |
+| **Obligatoire** : Paul Mirabel, « Je me suis fait racketter » (7 min 45, reprise de Confiance 2) | Paul Mirabel raconte comment il s'est fait racketter. Repère un moment où tu crois savoir où l'histoire va, et regarde si elle y va : c'est le mouvement que tu écris dans ton défi. |
 | *Facultative* : Djimo, « J'aurais kiffé être une tortue » (8 min 50, la plus longue du parcours) | Djimo aurait kiffé être une tortue, et il le défend avec un sérieux de plus en plus solide. Repère le moment où tu passes de « n'importe quoi » à « il n'a pas tort » : chaque argument est vrai, seule la conclusion est délirante. |
 
 **Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : une phrase qui se lit de deux façons, et dont la fin tranche.
@@ -261,7 +261,7 @@ Conseil affiché : « La blague à tiroirs » (STORYTELLING, EXPERT en base, niv
 > **C. « Parenthèse : dans le métro, tout le monde fixe le plan comme si la ligne avait changé depuis ce matin. »**
 > D. « Parenthèse : je reviens dessus à la fin, c'est important pour la chute. »
 >
-> **Explication (3 phrases)** : La C. Elle se raconte seule et fait sourire sans l'histoire autour, et c'est ce qui fait un tiroir. Les A et B expliquent le retard, et la D annonce la chute au lieu d'ouvrir un tiroir.
+> **Explication (3 phrases)** : La C. Elle se raconte seule et fait sourire sans l'histoire autour, et c'est ce qui fait un tiroir. La A tourne en rond, la B explique le retard, et la D annonce la chute au lieu d'ouvrir un tiroir.
 
 **Question 2 (bonne réponse en B)**
 > **Tu viens de refermer ton tiroir et tu reprends ton histoire. D'où doit venir la chute ?**
@@ -290,12 +290,14 @@ Conseil affiché : « La blague à tiroirs » (STORYTELLING, EXPERT en base, niv
 >
 > **Explication (3 phrases)** : La A. Le tiroir tient en deux phrases au plus, et le reste se coupe comme à l'étape 1. La B écrase le rythme, la C jette ce qui fait la technique, et la D rallonge encore.
 
-**Les 2 vidéos** (spec §2.2, adéquation « moyenne » : aucune ne montre explicitement un tiroir). Les légendes invitent à observer et marquent ce qu'il faut vérifier en visionnant.
+**Les 2 vidéos** (spec §2.2, adéquation « moyenne » : aucune ne montre explicitement un tiroir). Les légendes sont des consignes d'observation, vraies quoi qu'on voie.
 
 | | Légende (`why`) |
 |---|---|
-| **Obligatoire** : Jason Brokerss, « Le mariage (Montreux) » (7 min) | Le mariage, dans une version étoffée du même texte, avec des détails concrets en plus. Repère un passage où il s'éloigne du fil principal : fait-il sourire tout seul, et comment revient-il à l'histoire ? `[À VÉRIFIER en visionnant : qu'un détour identifiable existe ; sinon remplacer par « repère un détail ajouté qui fait sourire à lui seul »]` |
-| *Facultative* : Sugar Sammy, « L'andrologue » (5 min 30) | Une visite chez l'andrologue, où il prend la salle à témoin en plein récit. Ce pas de côté ressemble à un tiroir : écoute ce qu'il dit pendant ce moment, puis comment il repart dans son histoire `[À VÉRIFIER en visionnant : que le récit reprend bien son fil juste après, et que le sujet convient à tous les publics]`. |
+| **Obligatoire** : Jason Brokerss, « Le mariage (Montreux) » (7 min) | Le mariage, dans une version étoffée du même texte, avec des détails concrets en plus. Repère un détail ajouté qui fait sourire à lui seul, et comment l'histoire reprend son fil ensuite. |
+| *Facultative* : Sugar Sammy, « L'andrologue » (5 min 30) | Une visite chez l'andrologue, où il prend la salle à témoin en plein récit. Repère ce pas de côté, et comment il repart dans son histoire ensuite. |
+
+**Note de version** : les 5 vannes du tableau ci-dessous sont la version 1. La version 2 (`docs/marrant/parcours-storytelling-s18/vannes-neuves/v2.md`) les remplace après les relectures à l'aveugle (4 sous la barre en v1) ; le tableau sera remplacé quand la v2 aura passé la barre.
 
 **Les 5 vannes** : la vanne active 136 est écartée (voir ci-dessous), les 5 sont **NEUVES, à relire à l'aveugle** avant import (2 relecteurs + départage, mêmes étalons que les vannes du catalogue). Chaque vanne a la forme du conseil : récit, parenthèse d'une phrase qui se raconte seule, « Bref. », puis chute qui appartient à l'histoire.
 
@@ -313,21 +315,21 @@ Conseil affiché : « La blague à tiroirs » (STORYTELLING, EXPERT en base, niv
 
 ## Étape 6 : Un détail qui revient à la fin
 
-Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TIMING, EXPERT en base, niveau jamais affiché), **nouvelle version validée par l'audit** (`conseils-finaux-109.json`, C033, titre avec « vanne » au lieu de « blague »), avec le défi B de l'étape 6 (choix 6 des étalons). Le détail de ce qui change dans le défi est au bas de cette section.
+Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TIMING, EXPERT en base, niveau jamais affiché), **nouvelle version validée par l'audit** (`conseils-finaux-109.json`, C033, titre avec « vanne » au lieu de « blague »), avec le défi B de l'étape 6, repris **mot pour mot** du choix 6 des étalons (validé par Thomas).
 `[Framework : PAS court avec scène]` `[Conscience : Product-Aware]`
 
 | Champ | Texte |
 |---|---|
 | `moduleTitle` | Un détail qui revient à la fin |
 | `why` | Un détail posé au début qui revient à la fin, c'est ce qui fait dire « ah oui, bien sûr ». Ceux qui écoutaient depuis le début sont récompensés, et ton histoire a l'air d'avoir été prévue. Dans cette dernière étape, tu l'ajoutes à ton anecdote et tu la racontes à deux personnes. |
-| `moduleDetail` (version B, scène) | Imagine Samir qui raconte, une dernière fois, son canapé coincé. Au début, il glisse en passant que son cousin a apporté des sandwichs au thon « pour l'énergie ». Personne n'y repense. Puis le canapé reste dans l'escalier, et Samir termine : « Depuis, il fait partie de l'immeuble, et le dimanche le cousin lui monte un sandwich. Pour l'énergie. » La salle rit une première fois sur le sandwich, une seconde parce qu'elle se souvient. Dans cette dernière étape, tu fais la même chose avec ton anecdote, et tu la racontes à deux personnes cette semaine : c'est le vrai test. Deux défis courts : celui du conseil, puis celui de ton anecdote. Ils se rejoignent si ta soirée s'y prête. |
+| `moduleDetail` (version B, scène) | Imagine Samir qui raconte, une dernière fois, son canapé coincé. Dans ses premières phrases, il glisse en passant que son cousin a apporté des sandwichs au thon « pour l'énergie », et ça fait sourire. Puis le canapé reste dans l'escalier, et Samir termine : « Depuis, il fait partie de l'immeuble, et le dimanche le cousin lui monte un sandwich. Pour l'énergie. » Au départ, le thon a fait sourire ; à la fin, il fait rire, parce que tout le monde s'en souvient. Dans cette dernière étape, tu fais la même chose avec ton anecdote et tu la racontes à deux personnes cette semaine. Le signe que ça a marché : l'une des deux te redemande un passage, ou la raconte à son tour. Deux défis courts : celui du conseil, puis celui de ton anecdote. Ils se rejoignent si ta soirée s'y prête. |
 
-**Exercice « aujourd'hui »** : le défi du conseil (version de l'audit) suivi du défi B (choix 6 des étalons), ajusté.
+**Exercice « aujourd'hui »** : le défi du conseil (version de l'audit) suivi du défi B (choix 6 des étalons), **repris mot pour mot** (aucune retouche sans l'accord de Thomas).
 > DÉFI SOIRÉE : lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir dans un autre contexte. C'est réussi si quelqu'un sourit en reconnaissant le détail. Pas de groupe aujourd'hui ? Fais-le par message : envoie un détail drôle le matin et reprends-le le soir.
 >
-> TON ANECDOTE : tu travailles ton anecdote du parcours Storytelling ? Plante dans ses premières phrases un détail qui fait sourire, et fais-le revenir dans la chute : ceux qui s'en souviennent sourient. Raconte-la ensuite à deux personnes cette semaine, à une soirée si l'occasion se présente ou une par une. Pas de public ? Envoie-la en vocal ou par écrit à deux amis.
+> Tu travailles ton anecdote du parcours Storytelling ? Plante dans ses deux premières phrases un détail qui fait sourire, et fais-le revenir dans la chute : la deuxième fois, il fait rire. Raconte-la ensuite à deux personnes cette semaine, à une soirée si l'occasion se présente ou une par une. Pas de public ? Envoie-la en vocal ou par écrit à deux amis.
 
-**Vérification du défi B contre le conseil de l'audit** : il colle. Le conseil enseigne « un détail précis, plutôt qu'une phrase entière », une version débutant (retour deux minutes plus tard) et une version avancée (graine plantée tôt) : planter un détail dans l'anecdote et le faire revenir à la chute est la version avancée à l'échelle d'un récit. Le reste du conseil n'est pas touché. **Deux ajustements de mot sur le défi B tel qu'il était écrit au §7 des étalons** : (1) « ses deux premières phrases » devient « ses premières phrases » (après les étapes 2 à 5, l'anecdote peut avoir grandi : voix, tiroir) ; (2) « la deuxième fois, il fait rire » devient « ceux qui s'en souviennent sourient », car la version de l'audit a retiré « double le rire » et fixe la réussite à « quelqu'un sourit ». Le repli solo des deux défis est conservé. Retouche à passer en base ET dans `conseils-seed.json` `[À VÉRIFIER @fullstack : « Le callback » est-il aussi utilisé par un autre parcours ? Si oui, ajout conditionnel plutôt que remplacement]`.
+**Vérification du défi B contre le conseil de l'audit** : il colle. Le conseil enseigne « un détail précis, plutôt qu'une phrase entière », une version débutant (retour deux minutes plus tard) et une version avancée (graine plantée tôt) : planter un détail dans l'anecdote et le faire revenir à la chute est la version avancée à l'échelle d'un récit, et « la surprise s'ajoute au souvenir » dans le conseil va dans le sens de « la deuxième fois, il fait rire ». Le défi B est repris tel que validé au §7 des étalons, sans aucun ajustement, et le reste du conseil n'est pas touché. Le repli solo des deux défis est conservé. Retouche à passer en base ET dans `conseils-seed.json` `[À VÉRIFIER @fullstack : « Le callback » est-il aussi utilisé par un autre parcours ? Si oui, ajout conditionnel plutôt que remplacement]`.
 
 **Quiz** (ton B complice, 5 questions). Positions : **B, D, C, A, D** (la dernière étape a une question de plus : la 5e est en D, le seul rang qui compte deux fois, soit 7 questions sur 25 pour D, 28 % du parcours). Un seul prénom (Samir, question 1). La scène (thon, sandwich) et l'exemple du conseil (film plastique, fromage, « Joyeux anniversaire ») ne contiennent aucune bonne réponse.
 
@@ -354,18 +356,18 @@ Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TI
 > A. Non : il faut que tout le monde rie.
 > B. Non : il faut au moins un fou rire.
 > **C. Oui : un sourire de reconnaissance suffit.**
-> D. Oui, mais seulement si c'était quelqu'un qui arrivait en retard.
+> D. Oui, mais seulement s'il en reparle à la fin de la soirée.
 >
-> **Explication (3 phrases)** : La C. Le critère est un sourire de reconnaissance, pas un fou rire : quelqu'un qui se souvient, c'est gagné. Les A et B demandent trop, et la D oublie que le callback récompense justement ceux qui écoutaient depuis le début.
+> **Explication (3 phrases)** : La C. Le critère est un sourire de reconnaissance, pas un fou rire : quelqu'un qui se souvient, c'est gagné. Les A et B demandent trop, et la D réclame un deuxième tour dont le callback n'a pas besoin.
 
 **Question 4 (bonne réponse en A)**
-> **Ce soir, tu tentes ton premier callback. Que choisis-tu ?**
-> **A. Reprendre un détail amusant deux minutes plus tard.**
-> B. Planter une graine dès l'apéro pour la faire germer au dessert.
-> C. Reprendre toute la vanne du début, mot pour mot.
-> D. Préparer trois callbacks et les placer dans la soirée.
+> **Ce soir, tu tentes ton premier callback. Que fais-tu ?**
+> **A. Un seul détail, repris une seule fois, quand la conversation est passée à autre chose.**
+> B. Je plante une graine dès l'apéro et je vise la fin de soirée.
+> C. Je reprends toute la vanne du début, mot pour mot.
+> D. Je prépare trois callbacks et je les place dans la soirée.
 >
-> **Explication (3 phrases)** : La A. Quand on débute, deux minutes d'écart suffisent pour que le détail revienne sans être oublié. La B demande de tenir le fil pendant une heure, la C répète toute la phrase, et la D en place trop : on les voit venir.
+> **Explication (3 phrases)** : La A. Un seul détail repris une seule fois, après un moment, suffit pour un premier essai : c'est ce que demande ton défi du soir. La B est la version avancée, qui demande de tenir le fil pendant une heure, la C répète toute la phrase, et la D en place trop : on les voit venir.
 
 **Question 5 (bonne réponse en D)**
 > **Ton anecdote est prête et tu choisis le détail qui reviendra. Lequel prends-tu ?**
@@ -380,7 +382,7 @@ Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TI
 
 | | Légende (`why`) |
 |---|---|
-| **Obligatoire (unique)** : Jonathan Cohen, « Serge le Mytho (Bloqués) » (3 min) | Un personnage qui ment avec un aplomb parfait, dans un format de trois minutes. Repère ce qui revient d'une scène à l'autre : c'est ce retour qui fait sourire, comme ton détail à la fin de l'anecdote `[À VÉRIFIER en visionnant : ce qui revient réellement dans ces trois minutes]`. |
+| **Obligatoire (unique)** : Jonathan Cohen, « Serge le Mytho (Bloqués) » (3 min) | Un personnage qui ment avec un aplomb parfait, en trois minutes. Repère ce qui revient d'une scène à l'autre, et pourquoi on sourit en le reconnaissant : comme ton détail à la fin de ton anecdote. |
 
 **Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : un élément posé au début qui revient à la fin avec un autre sens.
 
@@ -389,7 +391,7 @@ Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TI
 | 1 | « Mon copain : 'Choisis le resto, ça m'est égal.' » / « J'ai réservé chez son ex. Ça lui était égal aussi. » | « Ça m'est égal » est posé au début comme une permission et revient à la fin comme une conséquence : c'est un callback en miniature. |
 | 2 | « Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit. » / « Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas. » | Le mauvais prénom est planté dans la première phrase et revient à la dernière : « Nicolas » existe, Julien beaucoup moins. |
 | 3 | « Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes. » / « Il a précisé « pas tout ». » | La phrase du début revient dans la chute, complétée de deux mots qui la retournent. |
-| 4 | « Mon psy m'a dit que je devais arrêter de me comparer aux autres. » / « J'ai vérifié, les autres n'ont pas ce problème. » | Le verbe du conseil (« comparer ») revient dans la chute, mis en pratique : le détail de départ sert deux fois. |
+| 4 | « Mon psy m'a dit que je devais arrêter de me comparer aux autres. » / « J'ai vérifié, les autres n'ont pas ce problème. » | « Les autres » revient dans la chute : à peine le conseil reçu, il se compare encore, et c'est le détail du début qui le trahit. |
 | 5 | « Le dimanche, mon copain se lève à 7 h pour profiter de la journée. » / « À 8 h, il l'avait profitée. Il est retourné se coucher. » | « Profiter » ouvre la phrase et se referme à la chute avec un autre sens : même mot, deux lectures. |
 
 ---
@@ -436,5 +438,8 @@ Critères donnés aux relecteurs : (1) le tiroir se raconte seul et fait sourire
 - **Décisions prises** : registre « pote drôle et bienveillant » ; version B avec scène pour chaque étape (Samir aux étapes 2 et 6 pour tenir le fil rouge du canapé, Hugo, Nadia, Maëlle ailleurs, aucun prénom de persona) ; bonnes réponses A/C/B/D, C/D/A/B, D/A/C/B, C/B/D/A, B/D/C/A/D ; titres d'étape tirés des mots de la fiche validée ; étape 3 suit le bilan positif du conseil en base (pas l'épopée de la spec) ; étape 4 suit la double lecture du conseil validé ; vanne 136 écartée, 5 vannes neuves pour l'étape 5.
 - **Frameworks et niveau de conscience** : textes d'étape = PAS court avec scène, Product-Aware ; quiz = mise en situation puis explication, Product-Aware.
 - **Points d'attention** : objections traitées (« je ne suis pas drôle » : tic unique, défis courts, repli solo partout ; « ça fait mal d'en rire » : phrase de protection de l'étape 3 et question 3 ; « je n'ai personne à qui raconter » : vocal ou voix haute ; « ça ressemble à Machine à Café » : étape 6 distincte du callback de Machine à Café par le détail qui revient dans une anecdote) ; références : étalons s18, spec s17, base du 08/10, fiches `videos-seed.json`, 127 vannes actives.
-- **À vérifier avant import** : (1) légendes vidéo marquées `[À VÉRIFIER en visionnant]` (étapes 3, 4, 5, 6) ; (2) la 136 en base est bien le texte réécrit ; (3) « Le callback » n'est utilisé que par ce parcours ; (4) `parcours-reecriture-s17.json` : les 20 vannes actives de ce fichier (étapes 2, 3, 4, 6) existent toutes dans `vannes-actives-s17.json` et ne figurent dans aucune des 13 étapes s17 (contrôle fait par recherche des textes dans les deux fichiers) ; (5) relecture à l'aveugle des 5 vannes neuves avant tout import.
-- **Écarts avec la demande** : l'étape 6 n'a qu'une vidéo (la spec §2.2 prévoit « une seule » ; la demande parlait de deux vidéos par étape) ; le défi B est ajusté de deux mots (voir étape 6). Piste, non appliquée : la vidéo de Paul Mirabel (étape 4) enseigne aussi le callback personnel et irait bien à l'étape 6, mais elle est retenue à l'étape 4 par la spec et une vidéo ne se reprend pas dans un même parcours.
+- **À vérifier avant import** : (1) **en visionnant** (les légendes affichées sont des consignes d'observation, vraies quoi qu'on voie, mais ces contrôles restent à faire) : étape 3, Nordine Ganso, « La première fois » : sujet adapté à toute la page, sans passage cru ; étape 4, Paul Mirabel : qu'un moment « où l'on croit savoir où l'histoire va » existe, sinon la consigne reste valable mais perd son intérêt ; étape 5, Sugar Sammy, « L'andrologue » : sujet adapté à toute la page, et Brokerss : qu'un détail ajouté fasse sourire à lui seul ; étape 6, Jonathan Cohen : ce qui revient d'une scène à l'autre ; (2) la 136 en base est bien le texte réécrit ; (3) « Le callback » n'est utilisé que par ce parcours ; (4) `parcours-reecriture-s17.json` : les 20 vannes actives de ce fichier (étapes 2, 3, 4, 6) existent toutes dans `vannes-actives-s17.json` et ne figurent dans aucune des 13 étapes s17 (contrôle fait par recherche des textes dans les deux fichiers) ; (5) relecture à l'aveugle des 5 vannes neuves avant tout import.
+- **Écarts avec la demande** : l'étape 6 n'a qu'une vidéo (la spec §2.2 prévoit « une seule » ; la demande parlait de deux vidéos par étape) ; le défi B de l'étape 6 est repris mot pour mot des étalons (aucune retouche). Vidéo de l'étape 4 : Paul Mirabel gardé, légende d'observation sur l'attente et la surprise, pas d'échange avec l'étape 6 (voir la justification à l'étape 4).
+- **Une ligne pour Thomas, non appliquée** : le défi B dit « ses deux premières phrases ». Après les étapes 2 à 5, l'anecdote peut avoir grandi (voix, tiroir) ; « ses premières phrases » serait plus souple. À ne changer qu'avec ton accord.
+- **Tour 1 de corrections (08/10)** : R1 à R8 et X1 à X9 traités. Écart assumé : R2 proposait de noter un échange possible des vidéos 4 et 6, écarté (étape 4, justification) ; pour la légende Hamzawi, X2 et R7 divergent, j'ai suivi R7 (recul sur sa propre réaction, établi par la fiche).
+- **Vannes de l'étape 5** : le tableau et la liste de ce fichier sont la version 1 ; la v2 (`docs/marrant/parcours-storytelling-s18/vannes-neuves/v2.md`) les remplace une fois passée à l'aveugle.
