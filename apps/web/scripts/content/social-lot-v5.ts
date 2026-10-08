@@ -14,7 +14,7 @@ import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, 
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
-import { LIBELLE_FORMAT, PLAFONDS_MIX, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
+import { LIBELLE_FORMAT, PLAFONDS_MIX, carteAvecSurtitre, caseConseilNominale, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -185,6 +185,8 @@ export function buildLotV5(input: LotInput): LotResult {
   const textesFormats = input.textesFormats ?? [];
   const cleLigne = (t: TexteFormat) => `${t.article}#${t.rang ?? normaliser(t.texte ?? (t.cartes ?? []).join(" ")).slice(0, 24)}`;
   const formatsUtilises = new Set<string>();
+  /** Textes à créneau rendus au repli (case tenue par une vanne au niveau) : servent la case libre suivante. */
+  const rendus = new Set<string>();
   for (const t of textesFormats) for (const d of usages.get(t.id) ?? []) {
     formatsUtilises.add(t.id);
     if (t.format === "ligne" && (!utilise.has(cleLigne(t)) || d > utilise.get(cleLigne(t))!)) utilise.set(cleLigne(t), d);
@@ -402,9 +404,17 @@ export function buildLotV5(input: LotInput): LotResult {
     const erreurs: Array<{ date: string; pf: PreparedPlatform; m: string }> = [];
     const cases = [...aReplier].sort((a, b) => prioriteRepli(weekday(a.date)) - prioriteRepli(weekday(b.date))
       || a.date.localeCompare(b.date) || PLATEFORMES.indexOf(a.pf) - PLATEFORMES.indexOf(b.pf));
+    // Texte à créneau dont la case est tenue par une vanne au niveau (mix §2) ou déjà passée : rendu au repli.
+    for (const t of textesFormats) {
+      if (!t.creneau || t.creneau > fin || formatsUtilises.has(t.id)) continue;
+      if (t.creneau >= debut && aReplier.some((c) => c.date === t.creneau && c.pf === t.reseau)) continue;
+      rendus.add(t.id);
+      const tient = posts.find((p) => p.date === t.creneau && p.platform === t.reseau);
+      warnings.push(`Texte ${t.id} (${LIBELLE_FORMAT[t.format]}, ${jjmm(t.creneau)} ${t.reseau}) : ${tient ? `case tenue par ${tient.type} ${tient.vannes[0] ?? tient.sourceId ?? ""} (${t.format === "relaisLinkedIn" ? "plan §2 : une vanne de thème bureau passe avant le relais" : "mix §2 : une vanne au niveau passe avant le conseil"})` :"créneau hors du lot ou déjà passé"}, texte rendu au repli (case libre suivante du même réseau).`);
+    }
     for (const { date, pf } of cases) {
       const jour = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0] ?? date;
-      const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE");
+      const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE", date);
       const ouverts = ordre.filter((f) => sousPlafond(f, date, pf, prevus));
       if (ouverts.some((f) => posterFormat(f, date, pf))) continue;
       if (ouverts.length) prevus.push({ date, pf, f: ouverts[0] });
@@ -444,12 +454,18 @@ export function buildLotV5(input: LotInput): LotResult {
     return pf !== "LINKEDIN";
   }
 
-  /** Pose sur la case le 1er texte libre du format (ordre du fichier) ; false si aucun. Chaque texte sert une fois. */
-  function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform): boolean {
-    for (const t of textesFormats) {
+  /**
+   * Pose sur la case le texte du format qui a ce créneau, sinon le 1er texte libre (sans créneau ou rendu, ordre du
+   * fichier) ; false si aucun. Chaque texte sert une fois ; un texte à créneau ne sert jamais une autre case.
+   */
+  function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform, nominal?: string): boolean {
+    const libreIci = (t: TexteFormat) => !t.creneau || rendus.has(t.id);
+    for (const t of [...textesFormats.filter((x) => x.creneau === date && !rendus.has(x.id)), ...textesFormats.filter(libreIci)]) {
       if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
+      const quoi = nominal ?? `Repli du mix (${LIBELLE_FORMAT[f]})`;
       const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
-        cartes: t.cartes ? [...t.cartes] : undefined, note: `Repli du mix (${LIBELLE_FORMAT[f]}) : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).` };
+        cartes: t.cartes ? carteAvecSurtitre(t.cartes, t.surtitre) : undefined,
+        note: `${quoi} : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre « ${t.surtitre} » en tête de la carte 1.` : ""}` };
       let p: LotPost;
       if (f === "conseil") p = poster(date, pf, "CONSEIL", { ...base, v: null, marque: t.texte, sourceId: t.id });
       else if (f === "quiz") {
@@ -474,6 +490,34 @@ export function buildLotV5(input: LotInput): LotResult {
       return true;
     }
     return false;
+  }
+
+  /** Case de conseil nominale servie par le conseil qui y a son créneau (false : la case suit le tirage). */
+  function conseilNominal(date: string, pf: PreparedPlatform): boolean {
+    if (!caseConseilNominale(date, pf)) return false;
+    const t = textesFormats.find((x) => x.format === "conseil" && x.creneau === date && x.reseau === pf && !formatsUtilises.has(x.id));
+    return !!t && posterFormat("conseil", date, pf, "Case de conseil nominale (plan §3, avant la vanne)");
+  }
+
+  /**
+   * Relais LinkedIn validé sur son créneau (`mix-formats-s15.md` §2 « relais, sinon vanne », plan §2 « LinkedIn tire
+   * d'abord les vannes de thème bureau », décision de la session du 08/10) : il passe AVANT toute vanne qui n'est pas
+   * de thème bureau. Une vanne de thème bureau au niveau, libre, garde la priorité : elle prend la case, le texte est
+   * rendu au repli. false : aucun relais validé sur cette case, elle suit le tirage.
+   */
+  function relaisLinkedInValide(date: string, pf: PreparedPlatform, relaisLi: Map<string, number>): boolean {
+    if (pf !== "LINKEDIN") return false;
+    const t = textesFormats.find((x) => x.format === "relaisLinkedIn" && x.creneau === date && x.reseau === pf && !formatsUtilises.has(x.id));
+    if (!t) return false;
+    const bureau = melange.LINKEDIN.map(deJoke).find((v) => v.categorie === "BOULOT" && libre(v, date, false, pf) && filtreReseau(pf)(v));
+    if (bureau) {
+      reserver(bureau, date, pf);
+      poster(date, pf, "VANNE", { v: bureau, origine: "TIRAGE", note: `Vanne de thème bureau au niveau : passe avant le relais validé ${t.id} (plan §2), texte rendu au repli.` });
+      return true;
+    }
+    if (!posterFormat("relaisLinkedIn", date, pf, "Relais LinkedIn validé sur son créneau (mix §2, avant toute vanne hors thème bureau)")) return false;
+    relaisLi.set(mondayOf(date), 1);
+    return true;
   }
 
   /** Repli inséré à sa place dans le lot (date, puis X, Instagram, LinkedIn). */
@@ -567,6 +611,10 @@ export function buildLotV5(input: LotInput): LotResult {
         if (f) { construireFixe(f); continue; }
         const r = forces.get(`${date}|${pf}`);
         if (r) { construireRelais(date, pf, articleParSlug.get(r.slug), r.utmContent, "PIVOT", r.note); continue; }
+        // Case de conseil nominale (plan §3) : son conseil passe avant la vanne, qui retourne au tirage.
+        if (conseilNominal(date, pf)) continue;
+        // Relais LinkedIn validé (mix §2) : sa case avant toute vanne hors thème bureau.
+        if (relaisLinkedInValide(date, pf, relaisLiParSemaine)) continue;
         const cv = casesVanne.get(`${date}|${pf}`);
         if (cv) { differees.push({ date, pf, note: cv.note, rang: posts.length }); continue; }
         construireCase(date, pf, typeCase, relaisLiParSemaine);

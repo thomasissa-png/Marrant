@@ -32,6 +32,25 @@
 >
 > **5. Revérifier ensuite** : la première validation réelle d'une étape par un Premium (`SELECT count(*), max("completedAt") FROM "UserPathStepCompletion"`), l'alerte `parcours-progress-erreur`, et après activation l'événement Umami `parcours-ouvert` avec `src=quiz` sur `storytelling`.
 
+## s15 lot 1b, révision 3 : relais LinkedIn validés avant les vannes hors thème bureau @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lot-v5.ts`, `relaisLinkedInValide`) : un relais LinkedIn validé garde sa case avant toute vanne hors thème bureau ; une vanne de thème bureau libre au niveau garde la priorité (mix §2, plan §2). Tests : `social-lot-v5-mix.test.ts` (+2).
+> - **Dry-run 1b** : 46 posts, 0 erreur de mix, 5 erreurs de légende de relais IG (commande : `docs/social/preparation/lot-1b-legendes-a-commander.md`). **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`, révision 3.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`.
+
+## s15 lot 1b, révision 2 : cases de conseil nominales et technique dans la carte 1 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : cases de conseil nominales (plan §3 : vendredi avant le 03/11, mardi et vendredi ensuite, X et IG) servies par leur conseil AVANT la vanne ; jamais de conseil le lundi ni le jeudi ; technique (`surtitre`) en tête de la carte 1 des conseils IG (`carteAvecSurtitre`). Script de contrôle `apps/web/scripts/content/social-conseil-rendu.ts` (rendu local `generatePostImage`). Tests : `social-lot-v5-mix.test.ts` (+5, 3 ajustés).
+> - **Dry-run 1b** : 44 posts, 6 erreurs (4 légendes de relais IG, 12/11 X et IG sans texte), cartes conseil : 5 sur 10 débordent (gabarit vanne). **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`, révision 2.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`.
+
+## s15 lot 1b : textes du repli du mix versés, dry-run du 08/10 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Versé** : `docs/social/preparation/textes-formats-valides.json` (10 conseils K04, K07, K09, K22, K25, K26, K27, K28, K30, K36 ; 3 relais LinkedIn R08 05/11, R07 10/11, R02 12/11 ; notes des 2 relecteurs ; mot pour mot, extraction par script), légendes L12 (03/11) et L13 (04/11) dans `apps/web/scripts/content/social-lot-v5-legendes.ts`.
+> - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : champs `creneau` (le texte sert sa case ; vanne au niveau sur la case = texte rendu au repli, avertissement) et `surtitre` (conseil Instagram) ; barre des relais LinkedIn 8 vers 8,5 (conseils : 8). Tests : `src/__tests__/scripts/social-lot-v5-mix.test.ts` (+5).
+> - **Dry-run 1b** : 46 posts, **3 erreurs** (légendes des relais IG 19/10, 29/10, 05/11 : vannes tirées différentes de la clé, L07/L16/L15 non versées) ; X 19 posts, 260 caractères au plus. **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`. Aucun `--insert` (le 1b sera régénéré et inséré après le 1a).
+
 ## s18 correctif de la redirection des anciennes URL de conseils (cas C081) @fullstack, **COMMITÉ, NON DÉPLOYÉ** : part avec le déploiement groupé ci-dessus
 
 > **Défaut** : `/conseils/construire-une-histoire-drole-cmmp8ozsx0` (ancien slug de C081) renvoie un 308 vers `le-callback-faire-revenir-une-vanne-au-bon-moment-cmmp8ozsx0` (C033) au lieu de `derailler-le-plus-tard-possible-cmmp8ozsx0`. C033, C042 et C081 partagent le préfixe d'id `cmmp8ozsx0`, et `pickBySlug` retombait sur le score de mots (C033 partage « une »). Aucune solution sans déploiement : la résolution ne lisait que `title`, `originalTitle` (déjà rempli : « Construire une histoire drôle ») n'était pas consulté. Contrôle des 12 anciens slugs de la phase 1 : 11 OK, seul C081 KO.

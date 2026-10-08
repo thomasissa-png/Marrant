@@ -1,4 +1,202 @@
 {
-  "_lisez-moi": "Source UNIQUE des textes du repli du mix (mix-formats-s15.md §2 à §6). Le générateur (prepare-social-month.ts --lot) n'utilise QUE ces entrées, chacune une seule fois. Entrée = texte noté à l'aveugle par 2 relecteurs, au moins à la barre du format (conseil 8, ligne 8,5, autres 8). Champs : id, format (conseil | ligne | carrousel | quiz | relaisLinkedIn), reseau (TWITTER | INSTAGRAM | LINKEDIN), notes [n1, n2], source (document de notation), texte (X, LinkedIn : sans lien), cartes + legende (Instagram : 2 cartes, carrousel 5 parties), article (ligne, relaisLinkedIn), rang (ligne, optionnel), jokeId (carrousel R9), profils (quiz, optionnel), persona (optionnel). Besoins du lot 1b : lot-1b-besoins-textes.md.",
-  "textes": []
+  "_lisez-moi": "Source UNIQUE des textes du repli du mix (mix-formats-s15.md §2 à §6). Le générateur (prepare-social-month.ts --lot) n'utilise QUE ces entrées, chacune une seule fois. Entrée = texte noté à l'aveugle par 2 relecteurs, au moins à la barre du format (conseil 8, ligne 8,5, relais LinkedIn 8,5, autres 8). Champs : id, creneau (AAAA-MM-JJ, optionnel : créneau tranché à l'aveugle ; une vanne au niveau sur ce créneau le garde, le texte est alors rendu au repli et sert la case libre suivante du même réseau), format (conseil | ligne | carrousel | quiz | relaisLinkedIn), reseau (TWITTER | INSTAGRAM | LINKEDIN), notes [n1, n2], source (document de notation), texte (X, LinkedIn : sans lien), cartes + legende (Instagram : 2 cartes, carrousel 5 parties), surtitre (conseil Instagram : technique nommée de la carte 1, 4 mots au plus, hors texte de la carte), article (ligne, relaisLinkedIn), rang (ligne, optionnel), jokeId (carrousel R9), profils (quiz, optionnel), persona (optionnel). Besoins du lot 1b : lot-1b-besoins-textes.md.",
+  "textes": [
+    {
+      "id": "cmptbp7nv002bs60xscu5ixmx",
+      "format": "conseil",
+      "reseau": "TWITTER",
+      "creneau": "2026-10-23",
+      "notes": [
+        8,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K36) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "YANIS",
+      "texte": "Trois coups d'avance : ton pote voit ta note. « 8/20 en maths, aïe. » Toi, sans broncher : « C'est mon record du semestre. Je progresse par paliers. Prochain palier : 9. »"
+    },
+    {
+      "id": "cmny1tkhw000rs60wsolieluq",
+      "format": "conseil",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-10-23",
+      "notes": [
+        8,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K26) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "YANIS",
+      "surtitre": "Consoler en exagérant",
+      "cartes": [
+        "Ton pote raconte son week-end camping qui a viré au naufrage : il a plu sans arrêt. C'est à toi, juste après la fin du récit.",
+        "« Un week-end camping ? Plutôt une expédition polaire. Tu as commencé à manger la tente ? » Puis, plus doucement : « Tu as pu te sécher, au moins ? » À toi de jouer : exagère d'abord, puis demande des nouvelles."
+      ],
+      "legende": "À envoyer à ton ami qui part en camping malgré la météo."
+    },
+    {
+      "id": "cmmw0tqkc000smw62bo1yfeyg",
+      "format": "conseil",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-03",
+      "notes": [
+        8,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K28) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "SOPHIE",
+      "texte": "Le PS qui détend : tu envoies le rapport du trimestre, mail sérieux de bout en bout. Juste avant ta signature, une ligne de plus : « PS : j'ai mis les mauvais chiffres en police plus petite, c'est normal. »"
+    },
+    {
+      "id": "cmq0gw85z00nas60xc0gno2ka",
+      "format": "conseil",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-03",
+      "notes": [
+        9,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K30) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "SOPHIE",
+      "surtitre": "La manie en métier",
+      "cartes": [
+        "À la pause café, Sam répond « effectivement » à chaque phrase. Tout le monde l'a remarqué, personne ne l'a dit. Tu lui donnes un métier.",
+        "« Sam, tu valides l'existence de chaque phrase, comme un notaire de la conversation. » Sam éclate de rire : « Effectivement. » À toi de jouer : repère la manie d'un collègue et donne-lui un métier."
+      ],
+      "legende": "À envoyer à la collègue qui répond « absolument » à tout."
+    },
+    {
+      "id": "cmnfak3lg0000s60x6zvwqbnh",
+      "format": "conseil",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-06",
+      "notes": [
+        8,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 1, K09) ; texte : aveugle-1b-formats.md",
+      "persona": "YANIS",
+      "texte": "L'escalade complice : ton pote lance « Ton pull, on dirait que ta grand-mère l'a tricoté les yeux fermés. » Ne te défends pas, pousse l'idée plus loin que lui : « Elle l'a tricoté pendant un tremblement de terre. Le col, c'est la réplique de 3 h du matin. »"
+    },
+    {
+      "id": "cmmp8ozsx000pqk63pgbihclg",
+      "format": "conseil",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-06",
+      "notes": [
+        8.5,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K22) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "YANIS",
+      "surtitre": "La fausse naïveté",
+      "cartes": [
+        "Premier rendez-vous au restaurant, la carte est un poème : « tartare de bœuf aux herbes aromatiques de Provence ». Le serveur arrive. Tu prends l'air perplexe.",
+        "« Excusez-moi, le tartare de bœuf aux herbes aromatiques de Provence, c'est de la viande crue avec du persil ? » À toi de jouer : au prochain jargon, pose la question la plus simple."
+      ],
+      "legende": "À envoyer à ton ami qui demande au serveur ce qu'est une émulsion."
+    },
+    {
+      "id": "cmnl5yc92000cs60zfctq4dm2",
+      "format": "conseil",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-10",
+      "notes": [
+        8,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 1, K04) ; texte : aveugle-1b-formats.md",
+      "persona": "SOPHIE",
+      "texte": "Le tic collectif : en pause café, tout le monde secoue la dosette avant de la mettre dans la machine. Vanne le « on », jamais le « tu » : « Pourquoi on secoue toutes les dosettes comme si c'étaient des maracas ? On croit que la caféine va mieux se répartir ? »"
+    },
+    {
+      "id": "cmorynj4s000rs60w3dxwnx8h",
+      "format": "conseil",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-10",
+      "notes": [
+        8,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 1, K07) ; texte : aveugle-1b-formats.md",
+      "persona": "SOPHIE",
+      "surtitre": "Le carnet d'absurdités",
+      "cartes": [
+        "Ton manager termine chaque mail par « Cordialement », même pour annoncer une panne. Tu le notes dans ton téléphone : la phrase exacte, pas ton interprétation.",
+        "Trois semaines plus tard : « Mon chef écrirait “Cordialement” même pour annoncer la fin du monde : “Cordialement, un astéroïde va détruire la Terre.” » À toi de jouer : note aujourd'hui une seule phrase absurde entendue."
+      ],
+      "legende": "À envoyer à ton manager qui signe tout « Cordialement »."
+    },
+    {
+      "id": "cmmw0tqsb000wmw620z1lmqn4",
+      "format": "conseil",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-13",
+      "notes": [
+        8.5,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K25) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "YANIS",
+      "texte": "La patience du sniper : ton coloc annonce son régime à 12 h 15. À 12 h 40, il reprend du pain. C'est là que tu tires : « C'est la phase 2 du régime, celle où on teste sa résilience au pain. »"
+    },
+    {
+      "id": "cmmp8ozsx0004qk63x4cxt89b",
+      "format": "conseil",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-13",
+      "notes": [
+        8,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-formats-resultat.md (tour 2, K27) ; texte : aveugle-1b-formats-t2.md",
+      "persona": "YANIS",
+      "surtitre": "L'anecdote qui déraille",
+      "cartes": [
+        "Soirée entre amis, on te demande ta semaine. Tu poses un décor crédible : « Lundi, j'attends mon bus depuis vingt minutes. Une dame me dit : “Il ne passe plus ici depuis trois ans.” »",
+        "« Je la remercie, et je reste, par principe. Une heure plus tard, elle m'a apporté un thermos. » À toi de jouer : remplace la dernière phrase d'une anecdote vraie par un détail absurde."
+      ],
+      "legende": "À envoyer à ton ami qui ne demande jamais son chemin."
+    },
+    {
+      "id": "relais-linkedin-2026-11-05",
+      "format": "relaisLinkedIn",
+      "reseau": "LINKEDIN",
+      "creneau": "2026-11-05",
+      "notes": [
+        8.5,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-linkedin-resultat.md (R08) ; texte : aveugle-1b-linkedin.md",
+      "article": "blagues-de-couple-drole",
+      "angleTravail": true,
+      "texte": "Entre deux réunions, ton téléphone vibre : l'autre te demande si tu rentres dîner.\nTu réponds « oui » avec la chaleur d'un accusé de réception. Voici des blagues de couple pour chaque moment, à dire ou à envoyer :"
+    },
+    {
+      "id": "relais-linkedin-2026-11-10",
+      "format": "relaisLinkedIn",
+      "reseau": "LINKEDIN",
+      "creneau": "2026-11-10",
+      "notes": [
+        9,
+        9
+      ],
+      "source": "docs/social/preparation/aveugle-1b-linkedin-resultat.md (R07) ; texte : aveugle-1b-linkedin.md",
+      "article": "chambrer-sans-blesser-entre-potes",
+      "angleTravail": true,
+      "texte": "Lundi, un nouveau arrive dans l'équipe et reçoit la pique maison, celle qui fait rire le service depuis trois ans.\nLui ne connaît pas l'histoire, et son sourire arrive une seconde trop tard. Voici 5 règles pour chambrer sans blesser, avec des exemples qui passent :"
+    },
+    {
+      "id": "relais-linkedin-2026-11-12",
+      "format": "relaisLinkedIn",
+      "reseau": "LINKEDIN",
+      "creneau": "2026-11-12",
+      "notes": [
+        9,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-linkedin-resultat.md (R02) ; texte : aveugle-1b-linkedin.md",
+      "article": "voeux-drole-nouvelle-annee",
+      "angleTravail": true,
+      "texte": "Ton manager va recevoir quarante mails de vœux sur le même modèle : « bonne année, bonne santé ».\nLe tien arrivera entre le trente-septième et le trente-huitième. Voici des vœux drôles classés par destinataire, avec le moment pour les envoyer :"
+    }
+  ]
 }

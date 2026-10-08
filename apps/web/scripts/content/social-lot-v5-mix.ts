@@ -33,15 +33,21 @@ export const PLAFONDS_MIX = {
 } as const;
 
 /**
- * Barre de note à l'aveugle (2 relecteurs, chacune au moins égale) : conseil 8 (§4, [HYPOTHÈSE]), ligne d'article 8,5
- * (§4, relais d'article) ; carrousel, quiz et relais LinkedIn : [HYPOTHÈSE : même seuil que les conseils, 8], §4 ne fixe
- * pas de note pour ces étalons validés par Thomas le 06/10.
+ * Barre de note à l'aveugle (2 relecteurs, chacune au moins égale) : conseil 8 (§4 et `plan-execution-s15.md` §3 :
+ * « au moins 8/10 chez les 2 », jamais la barre Alexa), ligne d'article 8,5 (§4, relais d'article), relais LinkedIn 8,5
+ * (texte de marque, `aveugle-1b-linkedin-resultat.md`) ; carrousel et quiz : [HYPOTHÈSE : même seuil que les conseils, 8].
  */
-export const SEUIL_NOTE: Record<FormatMix, number> = { conseil: 8, ligne: 8.5, carrousel: 8, quiz: 8, relaisLinkedIn: 8 };
+export const SEUIL_NOTE: Record<FormatMix, number> = { conseil: 8, ligne: 8.5, carrousel: 8, quiz: 8, relaisLinkedIn: 8.5 };
 
 const RESEAU = z.enum(["TWITTER", "INSTAGRAM", "LINKEDIN"]);
 const texteFormatSchema = z.object({
   id: z.string().regex(/^[a-z0-9][a-z0-9-]{2,60}$/, "id en minuscules, chiffres et tirets"),
+  /**
+   * Créneau tranché à l'aveugle (AAAA-MM-JJ) : le texte sert d'abord SA case. Une vanne au niveau sur ce créneau le
+   * garde (mix §2 : la vanne passe avant le conseil) ; le texte est alors rendu au repli (case libre suivante du même
+   * réseau, avertissement). Créneau après la fin du lot : texte réservé, jamais pris par ce lot.
+   */
+  creneau: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "créneau AAAA-MM-JJ").optional(),
   format: z.enum(["conseil", "ligne", "carrousel", "quiz", "relaisLinkedIn"]),
   reseau: RESEAU,
   /** Notes à l'aveugle des 2 relecteurs. */
@@ -54,6 +60,8 @@ const texteFormatSchema = z.object({
   cartes: z.array(z.string().min(1)).optional(),
   /** Instagram : légende « À envoyer à... » (80 caractères, sans lien ni pied). */
   legende: z.string().min(1).optional(),
+  /** Conseil Instagram : technique nommée (4 mots au plus, plan §3), mise en tête de la carte 1 par le script (`carteAvecSurtitre`). */
+  surtitre: z.string().min(1).optional(),
   /** Ligne d'article et relais LinkedIn : slug de l'article. */
   article: z.string().min(1).optional(),
   /** Ligne d'article : rang `**N.**` dans l'article (clé anti-répétition `slug#rang`). */
@@ -90,6 +98,9 @@ function ecartsEntree(t: TexteFormat): string[] {
     if (t.texte && /https?:\/\/|www\.|\[lien\]/i.test(t.texte)) e.push("lien dans le texte (le script ajoute lui-même le lien des relais et du quiz)");
   }
   if (t.format === "conseil" && t.reseau === "TWITTER" && t.texte && longueurX(t.texte) > PLAFONDS_MIX.conseilXMax) e.push(`conseil X de ${longueurX(t.texte)} caractères (plafond ${PLAFONDS_MIX.conseilXMax})`);
+  if (t.format === "conseil" && t.creneau && !caseConseilNominale(t.creneau, t.reseau)) e.push(`créneau ${t.creneau} hors case de conseil nominale (vendredi avant le ${CONSEILS_MARDI_DES}, mardi et vendredi ensuite, X et Instagram, hors ${EXCEPTIONS_CONSEIL.join(", ")})`);
+  if (t.surtitre && !(t.format === "conseil" && ig)) e.push("« surtitre » réservé au conseil Instagram");
+  if (t.surtitre && t.surtitre.split(/\s+/).length > 4) e.push(`surtitre de ${t.surtitre.split(/\s+/).length} mots (4 au plus)`);
   if (t.format === "quiz" && t.texte?.includes(FORMULES.quizCourt)) e.push("quiz seul : texte sans la formule du quiz (ajoutée par le script, FORMULES.quizCourt)");
   if ((t.format === "ligne" || t.format === "relaisLinkedIn") && !t.article) e.push("slug de l'article manquant");
   if (t.format === "carrousel" && !t.jokeId) e.push("carrousel R9 : jokeId de la vanne déjà publiée manquant");
@@ -124,16 +135,48 @@ export function lireTextesFormats(contenu: string, chemin: string): { textes: Te
  * LinkedIn), ligne d'article notée, carrousel R9 (Instagram, case du mercredi), quiz seul (X, case du mercredi :
  * « vanne + quiz si vanne, sinon quiz seul, sinon conseil »), relais LinkedIn à angle travail (LinkedIn seul).
  */
-export function ordreRepli(pf: PreparedPlatform, t: TypeCase): FormatMix[] {
+export function ordreRepli(pf: PreparedPlatform, t: TypeCase, date?: string): FormatMix[] {
   if (pf === "LINKEDIN") return ["relaisLinkedIn"];
-  if (pf === "TWITTER" && t === "VANNE_QUIZ") return ["quiz", "conseil", "ligne"];
-  if (pf === "INSTAGRAM" && t === "DECRYPTAGE") return ["carrousel", "conseil", "ligne"];
-  return ["conseil", "ligne"];
+  const ordre: FormatMix[] = pf === "TWITTER" && t === "VANNE_QUIZ" ? ["quiz", "conseil", "ligne"]
+    : pf === "INSTAGRAM" && t === "DECRYPTAGE" ? ["carrousel", "conseil", "ligne"] : ["conseil", "ligne"];
+  // Jamais de conseil le lundi ni le jeudi, même en repli (plan §3, décision du 08/10).
+  return date && !conseilPermis(date) ? ordre.filter((f) => f !== "conseil") : ordre;
 }
 
 /** Conseils « mardi et vendredi d'abord » : ces cases sont servies avant les autres (0 avant 1), puis par date. */
 export function prioriteRepli(jourSemaine: number): number {
   return jourSemaine === 2 || jourSemaine === 5 ? 0 : 1;
+}
+
+/**
+ * Cases de conseil nominales (`plan-execution-s15.md` §3, décision de la session du 08/10) : X et Instagram, le
+ * vendredi avant le 03/11 (2 le ven. 23/10), mardi et vendredi à partir du 03/11 ; jamais LinkedIn, hors exceptions.
+ * Sur une telle case, le conseil qui y a son créneau passe AVANT la vanne (la vanne retourne au tirage) ; ailleurs,
+ * l'ordre du mix §2 reste (vanne avant conseil).
+ */
+export const CONSEILS_MARDI_DES = "2026-11-03";
+export const EXCEPTIONS_CONSEIL: readonly string[] = ["2026-10-30", "2026-11-27", "2026-12-25", "2027-01-01"];
+/** Jours sans conseil, nominal ou repli : lundi (1) et jeudi (4), jours des relais d'article. */
+export const JOURS_SANS_CONSEIL: readonly number[] = [1, 4];
+const jourDe = (date: string) => new Date(`${date}T12:00:00Z`).getUTCDay();
+
+export function caseConseilNominale(date: string, pf: PreparedPlatform): boolean {
+  if (pf === "LINKEDIN" || EXCEPTIONS_CONSEIL.includes(date)) return false;
+  const j = jourDe(date);
+  return date < CONSEILS_MARDI_DES ? j === 5 : j === 2 || j === 5;
+}
+
+export function conseilPermis(date: string): boolean {
+  return !JOURS_SANS_CONSEIL.includes(jourDe(date));
+}
+
+/**
+ * Carte 1 d'un conseil Instagram : la technique en tête du texte (« La fausse naïveté : Premier rendez-vous… »),
+ * comme les posts X. Le gabarit de la carte (Worker) n'a pas de surtitre : le nom passe dans le texte, mot pour mot.
+ */
+export function carteAvecSurtitre(cartes: string[], surtitre?: string): string[] {
+  if (!surtitre || !cartes.length || cartes[0].startsWith(`${surtitre} :`)) return [...cartes];
+  return [`${surtitre} : ${cartes[0]}`, ...cartes.slice(1)];
 }
 
 export const jjmm = (date: string) => `${date.slice(8, 10)}/${date.slice(5, 7)}`;
