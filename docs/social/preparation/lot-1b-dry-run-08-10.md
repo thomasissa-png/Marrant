@@ -2,6 +2,31 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
+## Révision 3 (08/10, fin de session) : relais LinkedIn validés avant les vannes hors thème bureau
+
+> Décision de la session : la variante mesurée en révision 2 est appliquée. Justification : `mix-formats-s15.md` §2 (LinkedIn : « relais, sinon vanne ») et `plan-execution-s15.md` §2 (« LinkedIn tire d'abord les vannes de thème bureau »). Mêmes commandes, sorties dans `/tmp/fs-1b-v3/`. Remplace la « Décision à prendre (non codée) » de la révision 2.
+
+**Code** (`social-lot-v5.ts`, `relaisLinkedInValide`) : sur une case LinkedIn, un relais validé dont le `creneau` est ce jour passe AVANT toute vanne qui n'est pas de thème bureau. Une vanne de thème bureau (`BOULOT`) au niveau et libre (mêmes règles que le tirage, sans pénurie) garde la priorité : elle prend la case, le relais est rendu au repli avec un avertissement (« plan §2 : une vanne de thème bureau passe avant le relais »). Le relais posé compte dans le relais LinkedIn de la semaine. Tests +2 : relais avant une vanne hors bureau (la vanne n'est pas consommée) ; vanne bureau libre prioritaire (relais rendu).
+
+**Résultat 1b** : **46 posts (X 19, IG 19, LinkedIn 8), 0 erreur de mix, 5 erreurs**, toutes de légende de relais IG (« légende sans « À envoyer à » en tête ») : 19/10, 29/10, 05/11, 09/11, 12/11. Chiffres identiques à la mesure de la révision 2.
+- LinkedIn : **R08 jeu. 05/11, R07 mar. 10/11, R02 jeu. 12/11** sur leur case. Aucune vanne de thème bureau libre ces jours-là. Les autres cases LinkedIn : vannes les 20/10, 22/10 (li-22-10), 27/10 ; L2 le 29/10 ; relais d'article (visio) le 03/11. La semaine du 02/11 compte donc 2 relais LinkedIn (03/11 et 05/11), comme en révision 1.
+- 12/11 X et IG : relais vœux servis par une vanne du thème (plus d'erreur « sans texte »).
+- **Conseils** : 10, ven. 23/10, mar. 03/11, ven. 06/11, mar. 10/11, ven. 13/11 (X et IG). **Aucun le lundi, le jeudi ni sur LinkedIn** (vérifié sur le calendrier du dry-run).
+
+| Relais IG | Vanne tirée | Renvoi | Max « À envoyer à... » |
+|---|---|---|---|
+| lun. 19/10 | `cs14jkd9058d03e24961004a` (concert filmé) | Les autres exemples : lien en bio. | 45 |
+| jeu. 29/10 | `cs14jk29357d022f6880a69e` (Instagram remonté, bouc) | Les autres exemples : lien en bio. | 45 |
+| jeu. 05/11 | `cs14jkbc3334e2de46753dcf` (théâtre, « c'est puissant ») | Les 30 vannes : lien en bio. | 51 |
+| lun. 09/11 | `cs14jk4f97079b992f85eeb1` (l'ex et sa liste) | Les autres exemples : lien en bio. | 45 |
+| jeu. 12/11 | `cp0465e601e49c114994d1a00` (« fais tes preuves ») | Les 27 messages : lien en bio. | 49 |
+
+Commande pour @copywriter, avec textes des vannes et contraintes : **`lot-1b-legendes-a-commander.md`**. Les ids sont à relire après l'insertion du 1a (09/10) : le tirage peut encore changer.
+
+**Lot 1a** : JSON identique à l'octet (sha256 `63a2f315aed1c0d5…`, comparé par `cmp` à la sortie de la révision 2), Markdown identique, sortie console identique hors chemin.
+
+**Contrôles** : `npx tsc --noEmit -p tsconfig.build.json`, `npm run lint` (0 erreur, 1 avertissement `<img>` existant dans `admin/page.tsx`), `npm run build` : OK. `npx jest` : 267 suites, 3 854 tests passés (2 ignorés, déjà ignorés avant).
+
 ## Révision 2 (08/10, plus tard) : cases de conseil nominales et technique dans la carte 1
 
 > Décision de la session, d'après `plan-execution-s15.md` §3 : les conseils ont des **cases nominales** (le vendredi avant le 03/11, avec 2 conseils le ven. 23/10 sur X et IG ; mardi et vendredi à partir du 03/11 ; X et IG), où le conseil passe AVANT la vanne. Jamais le lundi, jamais le jeudi, jamais sur LinkedIn. Mêmes commandes qu'en version 1, sorties dans `/tmp/fs-1b-v2/`. La version 1 ci-dessous (« Conflit du 03/11 ») est **remplacée** pour les conseils.

@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b, révision 3 : relais LinkedIn validés avant les vannes hors thème bureau @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lot-v5.ts`, `relaisLinkedInValide`) : un relais LinkedIn validé garde sa case avant toute vanne hors thème bureau ; une vanne de thème bureau libre au niveau garde la priorité (mix §2, plan §2). Tests : `social-lot-v5-mix.test.ts` (+2).
+> - **Dry-run 1b** : 46 posts, 0 erreur de mix, 5 erreurs de légende de relais IG (commande : `docs/social/preparation/lot-1b-legendes-a-commander.md`). **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`, révision 3.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`.
+
 ## s15 lot 1b, révision 2 : cases de conseil nominales et technique dans la carte 1 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
 
 > - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : cases de conseil nominales (plan §3 : vendredi avant le 03/11, mardi et vendredi ensuite, X et IG) servies par leur conseil AVANT la vanne ; jamais de conseil le lundi ni le jeudi ; technique (`surtitre`) en tête de la carte 1 des conseils IG (`carteAvecSurtitre`). Script de contrôle `apps/web/scripts/content/social-conseil-rendu.ts` (rendu local `generatePostImage`). Tests : `social-lot-v5-mix.test.ts` (+5, 3 ajustés).

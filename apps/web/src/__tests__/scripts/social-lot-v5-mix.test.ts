@@ -254,7 +254,7 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
       expect(caseConseilNominale("2026-10-30", pf)).toBe(false);
       expect(caseConseilNominale("2026-11-27", pf)).toBe(false);
     }
-    expect(caseConseilNominale("2026-11-03", "LINKEDIN")).toBe(false);
+    expect(caseConseilNominale("2026-11-05", "LINKEDIN")).toBe(false);
     expect([conseilPermis("2026-11-09"), conseilPermis("2026-11-12"), conseilPermis("2026-11-10"), conseilPermis("2026-11-11")]).toEqual([false, false, true, true]);
     expect(ordreRepli("TWITTER", "RELAIS_JEUDI", "2026-11-12")).toEqual(["ligne"]);
     expect(ordreRepli("INSTAGRAM", "RELAIS_LUNDI", "2026-11-09")).toEqual(["ligne"]);
@@ -299,6 +299,40 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
         expect(p.platform).not.toBe("LINKEDIN");
       }
     }
+  });
+});
+
+describe("relais LinkedIn validés sur leur créneau (mix §2, plan §2, décision du 08/10)", () => {
+  // Jeudi 05/11 : aucun article ce jour-là, la case LinkedIn tire une vanne (X et Instagram aussi, dans l'ordre du pool).
+  const JEUDI = { debut: "2026-11-05", fin: "2026-11-05" };
+  const relais = { ...relaisLi(1), creneau: "2026-11-05" };
+
+  it("vannes au niveau hors thème bureau : le relais garde sa case, avant la vanne", () => {
+    const autorisees = ["t001", "t002", "t003"];
+    // Sans le relais, la case LinkedIn tient une vanne hors thème bureau : il y a bien des vannes au niveau.
+    const temoin = de(lot([], { ...JEUDI, autorisees }), "2026-11-05", "LINKEDIN")!;
+    expect(temoin.type).toBe("VANNE");
+    expect(temoin.mix).toBeUndefined();
+    expect(temoin.vannes).toEqual(["t003"]);
+    const r = lot([relais], { ...JEUDI, autorisees });
+    const li = de(r, "2026-11-05", "LINKEDIN")!;
+    expect(li).toMatchObject({ type: "RELAIS", origine: "MIX", mix: { format: "relaisLinkedIn", texte: "relais-li-1" }, article: "humour-en-visio-reunion-en-ligne" });
+    expect(li.note).toMatch(/^Relais LinkedIn validé sur son créneau/);
+    expect(r.posts.some((p) => p.vannes.includes("t003"))).toBe(false);
+    expect(r.warnings.join("\n")).not.toMatch(/relais-li-1 .*texte rendu au repli/);
+    expect(r.errors.filter((e) => e.startsWith("2026-11-05"))).toEqual([]);
+  });
+
+  it("vanne de thème bureau au niveau, libre : elle garde la priorité, le relais est rendu au repli", () => {
+    // t004 : thème bureau (BOULOT), libre pour LinkedIn (X et Instagram prennent t001 et t002).
+    const autorisees = ["t001", "t002", "t004"];
+    const r = lot([relais], { ...JEUDI, autorisees });
+    const li = de(r, "2026-11-05", "LINKEDIN")!;
+    expect(li).toMatchObject({ type: "VANNE", vannes: ["t004"] });
+    expect(li.mix).toBeUndefined();
+    expect(li.note).toMatch(/Vanne de thème bureau au niveau : passe avant le relais validé relais-li-1/);
+    expect(r.posts.some((p) => p.mix?.texte === "relais-li-1")).toBe(false);
+    expect(r.warnings.join("\n")).toMatch(/Texte relais-li-1 .*plan §2 : une vanne de thème bureau passe avant le relais.*texte rendu au repli/);
   });
 });
 
