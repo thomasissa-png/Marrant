@@ -1,6 +1,6 @@
 # Conseils Storytelling des étapes 1, 4 et 5 : version 2 (s18, 08/10/2026)
 
-> Statut (tour 3, 08/10) : **« La blague à tiroirs » validé** (deux « = » à l'aveugle, texte FIGÉ, ne plus y toucher). **« Raconter une anecdote en 3 actes » et « Le twist final » repris au tour 3, à relire à l'aveugle** (deux critiques) avant toute remise en ligne. Règle d'or du fondateur (P0, 08/10) : un contenu sous la barre ne revient jamais en ligne. Rien n'est modifié en base, dans `conseils-seed.json` ni dans le fichier d'étalons.
+> Statut (tour 4, 08/10) : **« La blague à tiroirs » validé** (deux « = » à l'aveugle, texte FIGÉ, ne plus y toucher). **« Raconter une anecdote en 3 actes » et « Le twist final » repris au tour 4** (nouvel exemple pour le twist, avant/après pour la coupe, défi avec repli), à relire à l'aveugle. Règle validée par Thomas : un conseil passe avec 2 avis « au niveau » sur 3, sauf faute objective (charte, donnée inventée, exemple qui contredit sa règle, défi sans repli) corrigée quel que soit le vote. Règle d'or du fondateur (P0, 08/10) : un contenu sous la barre ne revient jamais en ligne. Rien n'est modifié en base, dans `conseils-seed.json` ni dans le fichier d'étalons.
 > Barre : étalons E2, E3, E4, E6, E7 de `docs/copy/audit-conseils-s14.md` §2. Critiques lues : `aveugle-conseils-critique-A.md` et `-B.md` (versions A du tour précédent toutes « < »).
 > Titres conservés : « Raconter une anecdote en 3 actes », « Le twist final », « La blague à tiroirs ». Aucun n'est cause d'un « < ».
 > Ce que j'ai fait de différent : chaque exemple est une vanne neuve (pas de rafistolage), sans marque, sans phrase qui explique la chute ; aucun humoriste n'est cité (les affirmations sur Mirabel et Pascot ne sont pas vérifiées : je laisse ces phrases de côté dans ces conseils, ce n'est pas un retrait de ces humoristes du site) ; un seul repli par défi.
@@ -58,7 +58,7 @@ DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là
 - Doublon avec « Construire une histoire drôle » (dérive vers l'absurde) : ici rien d'absurde, un malentendu. Doublon avec « Le callback » (étape 6) : aucun détail ne revient, c'est la même phrase relue autrement.
 - Note de travail, défi collé deux fois, guillemet manquant : texte propre, un seul défi. Affirmation invérifiable sur Pascot : supprimée.
 - Défi difficile sans souvenir : repli ajouté (décrire un objet de la pièce comme une personne, sans le nommer, puis le révéler) et exemples de mots flous (« elle », « il », « le nouveau »). Le critère observable (les deux premières phrases tiennent dans les deux lectures) se vérifie seul ; le public est un bonus.
-- Forme : l'exemple compte 4 phrases ; les trois premières sont ambiguës et exactes dans les deux lectures, la quatrième révèle.
+- Forme : l'exemple compte 4 phrases ; les trois premières sont ambiguës et exactes dans les deux lectures, la quatrième révèle et fait rire. Technique et défi inchangés, validés par les trois critiques.
 
 ---
 
