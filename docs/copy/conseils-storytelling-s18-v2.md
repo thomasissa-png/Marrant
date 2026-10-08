@@ -16,7 +16,7 @@ Une anecdote a trois temps : un décor, une montée, une chute. Le vrai travail 
 
 **exemple**
 Avant : Dimanche, à dix-huit heures et quart, je finissais ma deuxième lessive quand mon téléphone a sonné. C'était ma mère. Elle m'a dit de ne pas m'inquiéter, qu'il n'y avait rien de grave. Je ne m'inquiétais pas. Maintenant, si.
-Après : Dimanche, à dix-huit heures et quart, je finissais ma deuxième lessive quand ma mère m'a appelé pour me dire de ne pas m'inquiéter. Je ne m'inquiétais pas. Maintenant, si.
+Après : Dimanche, je finissais ma deuxième lessive quand ma mère m'a appelé pour me dire de ne pas m'inquiéter. Je ne m'inquiétais pas. Maintenant, si.
 
 **exercice**
 DÉFI COUPE : écris dans tes notes une anecdote de ta journée en cinq phrases, bavarde, comme tu la raconterais sans y penser (pas d'anecdote ? prends ton trajet de ce matin et les gens que tu y as croisés). Puis coupe : pour chaque phrase, demande-toi si la chute marche encore sans elle. Garde le détail qui fait voir la scène, barre le détail neutre. C'est réussi si ta version coupée tient en trois phrases ou moins et que la dernière est la plus courte. Dis-la ensuite à voix haute, même seul.
