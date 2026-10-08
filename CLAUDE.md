@@ -116,7 +116,7 @@ Agents dans `.claude/agents/`. Ambiguïté de domaine → trancher soi-même (fo
 # Règles propres à Marrant (hors section Gradient — préservées par update.sh)
 
 - **Détails Marrant** : `docs/marrant/playbook.md` · historique des audits : `docs/marrant/audits-history.md` · préférences fondateur : `docs/founder-preferences.md` · lessons : `docs/lessons-learned.md`.
-- **[P0 s8] `[CHOIX UTILISATEUR]` documenté = non re-questionnable** par aucun agent (@reviewer compris). Doc fondateur > toute reco agent. **[P0 s15] Humoristes nommés et cités = autorisés partout** (« on est un site d'humoriste ») : jamais de règle « zéro humoriste », jamais de suppression ; citation douteuse = vérifier, pas retirer.
+- **[P0 s8] `[CHOIX UTILISATEUR]` documenté = non re-questionnable** par aucun agent (@reviewer compris). Doc fondateur > toute reco agent. **[P0 s18] Règle d'or : jamais remettre en ligne un contenu sous la barre** ; corriger oui, mais la version corrigée repasse la relecture à l'aveugle et doit en sortir au niveau. **[P0 s15] Humoristes nommés et cités = autorisés partout** (« on est un site d'humoriste ») : jamais de règle « zéro humoriste », jamais de suppression ; citation douteuse = vérifier, pas retirer.
 - **[P0 s8] « Le fix ne marche pas »** : seule première action = `git show <branche déployée>:fichier` vs `git show HEAD:fichier`. Ne jamais accuser l'outil avant ce check.
 - **[P0 s8] Projet copy** : calibrer 3-5 étalons AVEC le fondateur avant tout brief copywriter (charte : `docs/copy/charte-refonte-copy-s11.md`).
 - **[P0 s11] Aucun rapport d'agent validé sans mesure du diff réel** (taux de changement, intouchables : slugs/H2/FAQ/liens/chiffres/prix) — la refonte s11 passe 1 annonçait « réécriture complète » pour 3-5 % de changement.
