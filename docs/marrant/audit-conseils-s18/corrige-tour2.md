@@ -19,10 +19,10 @@
 ## R024
 **titre** : L'auto-vanne préventive : désamorcer avant que ça glace
 **contenu** : Tu viens de faire une bourde visible au bureau : tu as quelques secondes avant que l'ambiance se fige ou que quelqu'un d'autre s'en empare. Le réflexe est de t'excuser ou de te taire. La technique de l'auto-vanne préventive : tu annonces toi-même la conséquence la plus voyante de ta bourde, à voix haute, sur le ton d'une annonce officielle, comme si tout était prévu. Appuie-toi sur un détail exact (qui l'a vu, combien de personnes, quel bruit) plutôt que sur un « oups » vague. Fais-le dans les cinq secondes : passé ce délai, c'est le silence ou un collègue qui prend la parole. Pas d'excuse, pas d'explication : une phrase, et tu reprends ta journée.
-**exemple** : Tu réponds « Merci, bisous » à un mail de la direction, avec « répondre à tous ». L'open space s'arrête de taper. Avant qu'on se tourne vers toi, tu lances, très calme : « Pour les gens de la compta et de la logistique qui ne me connaissaient pas encore : bonjour. »
+**exemple** : Tu réponds « Merci, bisous » à un mail de la direction, avec « répondre à tous ». L'open space s'arrête de taper. Avant qu'on se tourne vers toi, tu lances, très calme : « Pour les quarante-trois personnes qui ne me connaissaient pas encore : bonjour. »
 **exercice** : DÉFI AUTO-VANNE : à ta prochaine bourde visible aujourd'hui (mail raté, café renversé, mauvaise manipulation), annonce-en la conséquence à voix haute dans les cinq secondes, sur le ton d'une annonce officielle. Compte-les dans ta tête. Pas de bourde aujourd'hui ? Prends ta dernière en date, écris en une phrase sa conséquence annoncée comme une bonne nouvelle officielle, avec un détail exact, et envoie-la à un ami. C'est réussi quand ta phrase est dite ou envoyée, sans excuse.
 **réponse** :
-- Exemple sans détail exact alors que la règle l'exige : la réplique nomme maintenant précisément qui a vu (les services compta et logistique, destinataires du « répondre à tous »). Le critique proposait « quarante-trois personnes » : pas ajouté, car la consigne interdit d'ajouter un chiffre ; le détail exact passe par le « qui l'a vu », prévu par la règle.
+- Exemple sans détail exact alors que la règle l'exige (« combien de personnes ») : la réplique donne maintenant le décompte, « quarante-trois personnes », comme le proposait le critique. Le seul repère de durée du conseil reste « cinq secondes », identique dans le contenu et le défi, sans second délai contradictoire. Aucun autre chiffre ajouté.
 
 ## R025
 **titre** : Assumer ton rôle de figurant
@@ -39,6 +39,16 @@
 **exercice** : DÉFI SANG-FROID : aujourd'hui, au prochain petit incident (renversé, cassé, en retard), commente-le avec un calme de standardiste, en une seule phrase, sans élever la voix. Pas d'incident aujourd'hui ? Raconte par message à un proche un incident d'hier, avec la même phrase calme et un verbe neutre.
 **réponse** :
 - L'exemple ne démontrait pas la règle (verbe neutre demandé, personnification dans la chute) : la réplique utilise maintenant le verbe neutre « ça évolue » et reste un compte rendu de standardiste. La personnification disparaît, ce qui distingue aussi R028 de R068 (prêter un avis à un bruit ou un objet).
+
+## R029
+**titre** : La légende de photo
+**contenu** : Quand quelqu'un te montre une photo sur son téléphone, donne-lui une légende plutôt qu'un compliment. Une légende est une phrase courte, à la première personne, qui prête une voix à ce qu'on voit, surtout aux animaux, aux enfants et aux plats. Regarde ce que le regard, la posture ou l'objet racontent, puis écris la phrase comme si c'était le sujet qui parlait.
+**exemple** : Camille te montre une photo de son chien assis à côté d'un coussin éventré, quelques plumes sur la truffe, le regard droit vers l'objectif. Toi : « Il y avait un oiseau là-dedans. J'ai fait mon travail. »
+**exercice** : DÉFI LÉGENDE : aujourd'hui, ouvre ta galerie, choisis une photo avec un animal, un enfant ou un plat, écris sa légende en une phrase, à la première personne, comme si le sujet parlait, et envoie-la à quelqu'un.
+**réponse** :
+- Gag rebattu du chien qui « peut tout expliquer » : nouvelle réplique, tirée des plumes sur la truffe (le chien croit avoir chassé un oiseau). Le décor, plumes et regard vers l'objectif, est conservé.
+- Phrase du contenu qui explique le ressort du rire (« Le rire vient du fait que… ») : supprimée.
+- Défi trop chargé : réduit à une seule consigne (choisir une photo, écrire la légende en une phrase à la première personne, l'envoyer). La variante « en direct » est retirée.
 
 <<R030>>
 
