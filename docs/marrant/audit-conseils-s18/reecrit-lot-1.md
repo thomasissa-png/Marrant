@@ -231,4 +231,77 @@ Chaque conseil : titre, contenu, exemple, exercice, puis « réponse » (une lig
 - Critique A et B (exemple qui se commente, « personne d'autre ne l'aurait dite ») : phrase de commentaire supprimée, l'exemple finit sur la chute.
 - À signaler au fondateur : la durée « 5 secondes » est un repère de technique non sourcé, conservé tel quel.
 
+## C064
+
+**titre** : Avouer les sujets que tu avais préparés
+
+**contenu** : Le silence d'un premier rendez-vous pèse moins quand tu avoues ce qui le cause. Dis simplement que tu avais préparé des sujets, et présente-les comme les plats d'un menu, avec le vocabulaire de la carte. L'honnêteté désarme, elle prouve que tu tiens à la conversation, et l'autre se sent autorisé à improviser aussi. Garde un ton léger : l'aveu doit sonner comme un clin d'œil, pas comme un stress. Le meilleur sujet de la carte est celui auquel personne ne s'attendait.
+
+**exemple** : Premier rendez-vous, un blanc s'installe. Toi : « Je te dois un aveu : j'avais préparé trois sujets de conversation. Le premier, la météo, était l'entrée, et on l'a terminé avant le pain. » Ton rendez-vous : « Et le plat principal ? » Toi : « Mon avis sur les parkings souterrains. Je te préviens, c'est copieux. »
+
+**exercice** : DÉFI AVEU : aujourd'hui, avec quelqu'un que tu connais peu (voisin, collègue d'un autre service, commerçant), avoue en souriant une petite préparation ou une petite hésitation (« j'ai répété cette phrase dans ma tête »). Personne sous la main ? Écris l'aveu que tu ferais à un premier rendez-vous, avec trois sujets en menu, et envoie-le à un ami. C'est réussi quand l'aveu contient au moins un sujet du menu.
+
+**réponse** :
+- Critique A (chute « ils dépendent du dessert » floue) : nouvelle chute, un sujet nommé et inattendu (les parkings souterrains) présenté dans le vocabulaire du menu (« copieux »).
+- Critique A (le menu annoncé n'est pas dans l'exemple) : l'exemple utilise maintenant l'entrée, le pain, le plat principal.
+- Critique B : « = », rien à corriger. Le repli faisable seul est ajouté par précaution.
+- Tic évité : plus de « dessert ».
+
+## C069
+
+**titre** : Répondre aux chambrages entre potes sans rester muet
+
+**contenu** : Entre potes, le chambrage est un sport de contact, et rester muet fait de toi la cible la plus facile. Nier ne fait que prolonger la scène, contre-attaquer risque de la durcir. La technique : traite la pique comme une preuve d'attention. Quelqu'un qui te chambre sur un détail t'observe de très près, alors remercie-le de cette observation avec le sérieux de quelqu'un qui découvre un fan. Tu ne contredis rien et tu ne te défends pas : tu transformes l'attaque en un compliment qu'il n'avait pas prévu de te faire. Personne ne te demande d'être brillant : juste de ne pas laisser le silence répondre à ta place.
+
+**exemple** : Un ami te lance : « Tu portes la même veste depuis deux hivers. » Toi : « Tu as remarqué ? Deux hivers de suivi attentif. Je ne savais pas que j'avais un biographe. »
+
+**exercice** : DÉFI ADMIRATEUR : repense au dernier chambrage que tu as reçu et écris ta réponse en deux phrases : une qui le remercie d'avoir remarqué, une qui le traite en fan de la première heure. Lis-la à voix haute une fois. Aucun chambrage en tête ? Prends « tu es toujours en retard » ou « tu parles de ton chat tout le temps » et réponds-y de la même façon. Si on te chambre aujourd'hui, tu la sors. C'est réussi quand tes deux phrases sont écrites et lues à voix haute.
+
+**réponse** :
+- Critique A et B (doublon de C048 : accepter, exagérer, retourner, et même amorce « trois heures ») : structure en trois temps abandonnée, au profit d'un seul mouvement distinct, le retournement de la pique en compliment (le chambreur devient ton fan). Nouveau pique (la veste) à la place de « trois heures ». C048 garde la répartie en trois temps (confirmer avec un détail, raison inattendue, silence).
+
+## C074
+
+**titre** : Chuchoter la vanne dans un lieu silencieux
+
+**contenu** : Dans un lieu silencieux (bibliothèque, salle d'examen, cinéma), la vanne murmurée a une force particulière : le silence la rend nette, et devoir retenir son rire crée une complicité tout de suite. Parle à voix très basse, une seule phrase, avec un détail que ton voisin peut vérifier du regard ou de l'expérience. Choisis une vanne qui rassure : elle sera reçue comme un cadeau.
+
+**exemple** : À la bibliothèque, Sasha te chuchote : « Je n'y arriverai jamais. » Toi, à voix basse : « Il y a trois versions du chapitre 3 : celle du livre, celle du cours, et celle qu'on comprend la veille à 23 h. » Sasha étouffe un rire dans sa manche.
+
+**exercice** : DÉFI MURMURE : aujourd'hui, dans un lieu calme, glisse une seule phrase drôle à voix basse à quelqu'un qui galère à côté de toi. Pas de lieu calme ni de voisin qui galère aujourd'hui ? Écris la phrase que tu aurais murmurée au dernier moment de galère partagée, et envoie-la en vocal, à voix basse, à un ami qui l'a vécu avec toi. C'est réussi quand ta phrase fait une seule ligne.
+
+**réponse** :
+- Critique A et B (le défi attend à la fois un lieu calme et quelqu'un qui galère) : repli par vocal murmuré à un ami, pour un moment de galère passé.
+- Critique A (« double le plaisir » et « le meilleur rire » affirmés sans base) : les deux formules sont retirées et reformulées sans chiffre ni superlatif.
+- À signaler au fondateur : « double le plaisir » était un chiffre figuré non sourcé ; il n'est plus dans le texte.
+
+## C084
+
+**titre** : Raconter à deux voix avec un complice
+
+**contenu** : Raconte une histoire à deux avec quelqu'un qui l'a vécue : chacun corrige l'autre, le coupe, le contredit. Le public voit un duo, et chaque correction devient une nouvelle vanne. Fixe une seule règle à l'avance : celui qu'on vient de corriger a toujours le dernier mot, et il le prend en ajoutant un détail, jamais en se défendant. Ce format soulage les personnes discrètes, puisque tu n'es pas seul à porter le récit.
+
+**exemple** : Au dîner, Alex et toi racontez l'anniversaire de samedi. Alex : « Il y avait une quinzaine de personnes. » Toi : « Douze. » Alex : « Douze, plus le chien de la voisine, qui a mangé pour trois. »
+
+**exercice** : DÉFI DUO : aujourd'hui, propose à quelqu'un qui a vécu la même scène que toi de la raconter à deux, chacun corrigeant l'autre, avec la règle du dernier mot. Personne sous la main ? Joue les deux voix seul : enregistre deux vocaux, toi qui racontes puis toi qui corriges, ou fais-le par message avec un ami qui connaît l'histoire. C'est réussi quand il y a au moins deux corrections et que la règle est tenue.
+
+**réponse** :
+- Critique A (la règle contredite par l'exemple) : règle et exemple disent la même chose. Alex est corrigé (« Douze »), et c'est lui qui a le dernier mot (« Douze, plus le chien de la voisine… »).
+- Critique B (défi suspendu à un témoin de la même scène) : plan B ajouté, jouer les deux voix seul en deux vocaux ou par message avec un ami.
+
+## C091
+
+**titre** : Le PS qui détend un mail sérieux
+
+**contenu** : Au boulot, l'humour écrit doit rester montrable à n'importe qui. La technique du PS tient en trois règles de forme. Une ligne, après la signature, jamais dans le corps du mail. Un sujet sans rapport avec le fond : un détail minuscule du quotidien (le café, la météo du bureau, ta semaine). Un sérieux total, avec le vocabulaire d'un compte rendu administratif. Le fond du mail reste irréprochable, c'est le PS qui est là pour sourire. Règle d'or : rien qui ne survivrait à une capture d'écran envoyée aux RH.
+
+**exemple** : « Bonjour Nadia, ci-joint le compte rendu de la réunion de jeudi. Les points d'action sont en page 2. Bien cordialement, Léa. PS : le café de la machine était correct ce matin. Je souhaitais que ce soit acté. »
+
+**exercice** : DÉFI PS : aujourd'hui, ajoute un PS d'une ligne à UN mail ou message pro sérieux, sur un détail minuscule sans rapport avec le fond. Il doit rester présentable si ton chef le lit. Pas de mail pro à envoyer aujourd'hui ? Écris le PS que tu aurais ajouté au dernier mail sérieux que tu as envoyé, et montre-le à un ami. C'est réussi quand ton PS tient en une ligne et n'a rien à voir avec le fond.
+
+**réponse** :
+- Critique A et B (le PS drôle est une astuce connue, technique mince) : technique précisée en trois règles de forme (une ligne, après la signature, sans rapport avec le fond, avec le sérieux d'un compte rendu).
+- Critique A et B (« mauvais chiffres en police plus petite » nuit au mail et contredit la règle RH) : l'exemple n'avoue plus aucune faute, le PS parle du café.
+- Critique A (l'exemple est expliqué) : phrase « Le PS casse la formalité… » supprimée.
+
 <!-- FIN -->
