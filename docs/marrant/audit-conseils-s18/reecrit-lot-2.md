@@ -54,7 +54,6 @@ Ordre : C003, C007, C012, C018, C024, C028, C033, C036, C039, C045, C049, C052, 
 - B (critère 3, défi suspendu à une question rhétorique sans plan B) : repli ajouté (question lue ou entendue, réponse écrite en deux phrases) et critère observable (un objet ou un fait réellement présent).
 
 [[LOT-B]]
-[[LOT-B]]
 [[LOT-C]]
 [[LOT-D]]
 [[LOT-E]]
