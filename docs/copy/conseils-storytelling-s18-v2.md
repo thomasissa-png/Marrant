@@ -9,24 +9,29 @@
 
 ## Étape 1 : « Raconter une anecdote en 3 actes » (DEBUTANT, STORYTELLING)
 
+**Titre : deux options, à signaler.** Le titre actuel annonce le plan en trois actes, que les critiques jugent banal ; le conseil enseigne en réalité la coupe. Titre proposé : « Couper ton anecdote jusqu'à la chute ». Si Thomas le retient, il faut un `previousTitle` pour les favoris et l'étalon de l'étape 1 doit suivre (le titre « Ton anecdote en trois actes » et `why` restent vrais, car le cadre en trois temps est toujours dit, mais on aligne le titre d'étape sur « Couper ton anecdote jusqu'à la chute »). Texte ci-dessous valable avec l'un ou l'autre titre.
+
 **contenu**
-Une anecdote tient en trois actes : le contexte (qui, où, quand, en deux phrases), la montée (ce qui se passe) et la chute (une seule phrase, plus courte que le contexte). Le plan, tu le connais déjà ; le vrai travail est ailleurs : la coupe. Pour chaque phrase de ta montée, demande-toi : si je l'enlève, la chute marche encore ? Si oui, enlève-la. Mais on ne coupe pas tout : le détail qui fait voir la scène ou qui prépare la chute reste, seul le détail neutre saute. Une anecdote ne devient pas meilleure quand on ajoute, elle devient meilleure quand il ne reste que ce dont l'histoire a besoin.
+Une anecdote a trois temps : un décor, une montée, une chute. Le vrai travail est de couper. La chute est la phrase la plus courte, et elle ne tombe que si rien ne la ralentit avant elle. Pour chaque phrase, demande-toi : si je l'enlève, la chute marche encore ? Si oui, elle saute. Garde le détail qui fait voir la scène, coupe le détail neutre, celui qui ne fait ni image ni effet. Une anecdote ne devient pas meilleure quand on ajoute, elle devient meilleure quand il ne reste que ce dont l'histoire a besoin.
 
 **exemple**
-Contexte : mardi, un collègue m'a envoyé un mail tout en majuscules. Montée : j'ai passé l'après-midi à préparer ma défense. Chute : il venait d'avoir une fille.
-Coupé au passage : la réunion d'avant, l'heure d'arrivée du mail, le nombre de personnes en copie.
+Avant : Dimanche, il était dix-huit heures et quart, je finissais ma deuxième lessive quand mon téléphone a sonné. C'était ma mère. Elle m'a dit de ne pas m'inquiéter, qu'il n'y avait rien de grave. Je ne m'inquiétais pas. Maintenant, si.
+Après : Dimanche, ma mère m'a appelé pour me dire de ne pas m'inquiéter. Je ne m'inquiétais pas. Maintenant, si.
 
 **exercice**
-DÉFI COUPE : prends une anecdote vraie et légère de ta semaine, avec quelqu'un d'autre dedans, et écris-la en trois actes dans tes notes. Compte les mots : la chute doit être plus courte que le contexte. Puis, pour chaque phrase de la montée, demande-toi si la chute marche encore sans elle, et barre celles qui ne servent à rien. C'est réussi si tu as barré au moins une phrase et que la chute reste plus courte que le contexte. Dis-la ensuite à voix haute, même seul.
+DÉFI COUPE : écris dans tes notes une anecdote de ta journée en cinq phrases, bavarde, comme tu la raconterais sans y penser (pas d'anecdote ? prends ton trajet de ce matin et les gens que tu y as croisés). Puis coupe : pour chaque phrase, demande-toi si la chute marche encore sans elle. Garde le détail qui fait voir la scène, barre le détail neutre. C'est réussi si ta version coupée tient en trois phrases ou moins et que la dernière est la plus courte. Dis-la ensuite à voix haute, même seul.
 
 **Ce qui répond aux motifs des critiques**
 - Technique banale (« 3 actes » connu de tous) : l'apport est la coupe, annoncée comme le vrai travail avec un test en une question (« si je l'enlève, la chute marche encore ? »).
-- Chute connue ou devinable (tour 2 : gag d'indications routières) : la chute est neuve et retourne l'idée au lieu de confirmer la mésaventure attendue. Le mail en majuscules se lit comme une colère, la montée confirme ce contresens (la défense préparée), la chute le renverse (une naissance). Rien dans la montée ne permet de la deviner.
-- Exemple qui échouait à son propre test (tour 2, itinéraire superflu) : la montée tient en une phrase, et elle est indispensable : sans elle, rien n'est à renverser. Et le contexte ne garde que « tout en majuscules », le seul détail qui lance la fausse piste. Mots comptés : contexte 10, montée 7, chute 5 (la chute est plus courte que le contexte).
-- Tension avec l'étalon E2 (qui demande d'ajouter le vêtement, le lieu, le prénom) : le contenu dit maintenant « le détail qui fait voir la scène ou qui prépare la chute reste, seul le détail neutre saute ». La ligne « Coupé au passage » ne montre que des détails tentants mais neutres (la réunion d'avant, l'heure du mail, le nombre de personnes en copie), pas un vêtement, un lieu ou un prénom.
-- Défi trop long, quatre échappatoires : une consigne, deux critères observables (une phrase barrée, chute plus courte), un seul repli (voix haute, même seul). « Quelqu'un d'autre dedans » est conservé pour l'étape 2 (les voix).
-- Affirmation invérifiable sur Mirabel et généralisation « toute bonne histoire drôle » : phrases supprimées. Pas de marque, aucune note de travail.
+- Technique banale (plan en trois actes) : le plan n'est plus que le cadre, dit en une phrase ; l'idée du conseil est la coupe, et le titre peut l'annoncer (voir « Titre » en tête).
+- Exemple qui ne montrait aucune coupe (faute objective du tour 3) : l'exemple est maintenant en avant/après. L'avant fait 5 phrases et 39 mots avec deux détails morts (« dix-huit heures et quart », « ma deuxième lessive ») et une redite (« qu'il n'y avait rien de grave »). L'après fait 3 phrases et 18 mots : la coupe se voit. Plus d'étiquettes « Contexte / Montée / Chute ».
+- Chute devinable, attendrie, moule « je le croyais fâché, il était heureux » : plus de malentendu. La chute (« Maintenant, si. », 2 mots contre 12 pour la première phrase) retourne la phrase de la mère contre le narrateur : la consigne de ne pas s'inquiéter crée l'inquiétude. Elle est la phrase la plus courte, et l'exemple respecte la règle qu'il énonce.
+- Test de la coupe passé : « Je ne m'inquiétais pas » est indispensable (sans elle, « Maintenant, si » n'a rien à retourner) ; « dimanche » reste, c'est le seul détail de décor.
+- Alignement avec E2 : le contenu et le défi disent « garde le détail qui fait voir la scène, coupe le détail neutre ». Les deux détails coupés dans l'exemple sont neutres (une heure, une lessive), pas un vêtement, un lieu ou un prénom. La phrase sur le « détail qui prépare la chute » est retirée (elle frôlait le callback de l'étape 6).
+- Défi sans repli (faute objective du tour 3) : repli ajouté (« pas d'anecdote ? prends ton trajet de ce matin et les gens que tu y as croisés »). Critères observables : trois phrases ou moins, la dernière est la plus courte. Une seule consigne, un seul repli.
+- Affirmation invérifiable sur Mirabel et généralisation « toute bonne histoire drôle » : supprimées. Pas de marque, aucune note de travail dans les champs.
 - Doublon : ni la voix des personnages (étape 2) ni un détail qui revient (étape 6) ; l'exemple n'a aucun détail planté.
+- À signaler pour l'étalon de l'étape 1 : le défi ne demande plus « avec quelqu'un d'autre dedans » ; le texte de l'étape 2 devra proposer une anecdote avec au moins une autre personne (le repli du trajet y aide).
 
 ---
 
@@ -36,7 +41,7 @@ DÉFI COUPE : prends une anecdote vraie et légère de ta semaine, avec quelqu'u
 Le twist, c'est une histoire que le public comprend d'une façon et qui marche aussi d'une autre. Tu ne nommes pas la personne ou l'objet clé : chacun remplit le vide à sa manière, et ta dernière phrase tranche pour la lecture cachée. La règle : chaque phrase d'avant doit rester vraie dans les deux lectures. Si une seule ne marche que pour la lecture cachée, le public flaire la ruse.
 
 **exemple**
-Elle vit chez ma grand-mère depuis cinquante ans. Elle ne parle à personne, elle ne sort qu'à l'heure des repas et elle n'a jamais voulu partir. Ma grand-mère dit qu'elle est de la famille. Elle a quatre-vingts ans, c'est une tortue.
+Je le vois tous les matins, avant même mon café. Il est toujours là, il ne ment jamais et il me renvoie en face ce que personne n'ose me dire. Hier, il m'a encore fait remarquer que j'avais mauvaise mine. J'ai changé de miroir : le nouveau me trouve très bien.
 
 **exercice**
 DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
@@ -44,8 +49,10 @@ DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là
 **Ce qui répond aux motifs des critiques**
 - « A puis B » banal : l'ouverture du contenu est l'apport non banal (une histoire à double lecture, où chaque phrase reste vraie des deux côtés).
 - Chute expliquée (« Le twist tient sur un mot… ») : plus aucune phrase après la vanne ; l'exemple s'arrête sur la chute.
-- Fausse piste et non double lecture (tour 2 : « cuisiné pour deux » ne soutenait que le rendez-vous) : « elle » désigne une aïeule ou une tortue, et chaque phrase est exacte dans les deux cas. Elle vit chez la grand-mère depuis cinquante ans, ne parle à personne, ne sort qu'à l'heure des repas, n'a jamais voulu partir, est « de la famille », a quatre-vingts ans : une tortue peut tout cela, une pensionnaire âgée aussi. Rien ne sert une seule lecture, et on peut relire l'histoire en constatant que rien n'était faux.
-- Situation implausible (relevé de compteur un samedi à 20 h) : supprimée, une tortue de famille est banale.
+- Moule usé « ce n'était pas une personne, c'était un animal » (tour 3, la tortue) : l'exemple sort du moule animal. Le pivot est un miroir, que le narrateur traite en ami qui dit les vérités.
+- Double lecture réelle : « il » est un ami franc ou un miroir, et chaque phrase est exacte dans les deux cas. Le voir tous les matins avant le café, être toujours là, ne jamais mentir, renvoyer en face ce que personne n'ose dire, faire remarquer une mauvaise mine : un miroir comme un ami. Aucun indice ne désigne le pivot (pas de « il ne parle à personne », pas de « il ne sort qu'à l'heure des repas »).
+- Dernière phrase qui n'est qu'une révélation sèche (tour 3) : elle est elle-même la vanne et se retourne contre le narrateur : il règle le problème en changeant le miroir pour un qui le flatte. La révélation est courte (« J'ai changé de miroir »), sans information ajoutée juste avant ; la seule chose en plus est la chute (« le nouveau me trouve très bien »). Au niveau de « le chat nommé responsable de la cellule de crise » (E3) : un traitement sérieux appliqué à une idée absurde.
+- Situation plausible : un miroir, rien de rare ni de daté.
 - Marque gratuite (Uber Eats) et blague déjà connue : vanne neuve, aucune marque, ni dîner raté ni livraison.
 - Contenu qui explique l'effet (« c'est ce second passage qui fait rire ») : phrase supprimée, le contenu s'arrête sur la règle.
 - Doublon avec « Construire une histoire drôle » (dérive vers l'absurde) : ici rien d'absurde, un malentendu. Doublon avec « Le callback » (étape 6) : aucun détail ne revient, c'est la même phrase relue autrement.
