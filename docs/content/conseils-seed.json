@@ -37,22 +37,23 @@
   },
   {
     "id": 5,
-    "title": "Construire une histoire drôle",
-    "content": "Une histoire drôle repose sur la tension. Tu poses une situation normale, tu empiles des détails crédibles, puis un seul détail absurde fait tout dérailler. Plus le début est réaliste, plus la chute surprend. Paul Mirabel est un maître du genre : ses histoires démarrent de façon hyper-réaliste avant de basculer, l'air de rien, dans l'inattendu.",
+    "title": "Dérailler le plus tard possible",
+    "previousTitle": "Construire une histoire drôle",
+    "content": "Une histoire drôle commence comme une histoire ordinaire, et c'est ce qui la rend drôle. Pose quatre détails vérifiables (un lieu, un jour, un geste, une personne), au ton d'un compte rendu, sans le moindre clin d'œil. Le déraillement arrive tout à la fin, dans la même voix : ne la change pas, ne marque pas de pause. Dès que ton public flaire un gag, il se met à guetter et la dérive perd sa force ; tant qu'il croit entendre une anecdote banale, il ne se protège pas. Ton test : si quelqu'un devine ta fin avant que tu y arrives, tu as dérapé trop tôt.",
     "category": "STORYTELLING",
     "difficulty": "EXPERT",
-    "example": "« Dimanche, je cherche mes clés partout. Je vide mon sac, je soulève les coussins, j'appelle ma mère pour savoir si elle les a vues. Elle habite à Lyon. Je finis par les retrouver dans le frigo, à côté du beurre. Le plus inquiétant, c'est que le beurre, lui, je l'ai jamais retrouvé. »",
-    "exercise": "DÉFI ANECDOTE : écris une anecdote vraie de ta vie (1 minute maximum à raconter). Garde tout le début tel quel et remplace seulement la fin par un détail inattendu. Teste les deux versions sur des amis aujourd'hui : la bonne est celle après laquelle on te demande « attends, c'est vrai ? »."
+    "example": "« Mardi, préfecture, pour refaire ma carte d'identité. Ticket 214, guichet 6, une dame efficace. Elle vérifie mon justificatif de domicile, compare ma photo avec mon visage, me fait signer deux fois. Tout est en règle. Elle tamponne, lève les yeux : « Dernière étape, il faut que vous confirmiez que vous êtes bien vous. » J'ai demandé un délai de réflexion. »",
+    "exercise": "DÉFI DÉRAILLEMENT : aujourd'hui, écris cinq phrases sur un moment banal de ta journée (une file, un rendez-vous, un trajet). Les quatre premières donnent des détails vrais, sans une once d'humour : heure, lieu, geste, personne. La cinquième déraille, dans le même ton. Critère : quelqu'un qui entend les quatre premières ne peut pas deviner la fin. Lis-les à voix haute à quelqu'un, ou envoie-les en vocal. Personne sous la main ? Relis-les seul : si tu ne souris qu'à la dernière phrase, c'est réussi."
   },
   {
     "id": 6,
     "title": "Le callback : faire revenir une vanne au bon moment",
     "previousTitle": "Le callback : faire revenir une blague au bon moment",
-    "content": "Le callback, c'est reprendre un élément dit plus tôt et le ressortir au moment où plus personne ne l'attend. Ça récompense l'attention du groupe et ça fait souvent plus rire que la vanne d'origine. Version débutant : tu y reviens 2 minutes plus tard. Version avancée : tu plantes une graine en début de soirée et tu la fais germer 30 minutes plus tard. Plus l'attente est longue, plus la surprise est forte. Élodie Poux est redoutable sur ce terrain : elle tisse dans ses spectacles des fils rouges que le public a oubliés, puis les fait revenir au moment parfait.",
+    "content": "Le callback consiste à reprendre plus tard un détail qui a déjà fait rire (ou qui a juste été dit) et à le ressortir là où on ne l'attend pas. Il récompense celles et ceux qui écoutaient depuis le début, parce que la surprise s'ajoute au souvenir. Choisis un détail précis, un mot, un chiffre, une passion étrange, plutôt qu'une phrase entière. Version débutant : tu y reviens deux minutes plus tard. Version avancée : tu plantes une graine en début de soirée et tu la fais germer une heure après, quand la situation lui donne un nouveau sens.",
     "category": "TIMING",
     "difficulty": "EXPERT",
-    "example": "En début de soirée, ton pote Julien arrive le dernier en expliquant qu'il a pris « un raccourci ». (…30 min plus tard, le groupe hésite sur le chemin pour aller au bar) « On prend le raccourci de Julien ? On arrivera pour le brunch. » Le callback récompense ceux qui suivent depuis le début.",
-    "exercise": "DÉFI SOIRÉE : à ta prochaine conversation de groupe, ce soir si possible, retiens la première chose drôle qui est dite. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir. C'est réussi si les gens mettent 1 seconde à faire le lien, puis rient."
+    "example": "En début de repas, un ami dit : « Mon moment préféré de la journée, c'est quand j'enlève le film plastique d'un truc neuf. » Tout le monde rit, la conversation repart. Une heure plus tard, l'hôte apporte le plateau de fromages, emballé sous trois couches de film. Tu le glisses vers cet ami, très calme : « Joyeux anniversaire. »",
+    "exercise": "DÉFI SOIRÉE : lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir dans un autre contexte. C'est réussi si quelqu'un sourit en reconnaissant le détail. Pas de groupe aujourd'hui ? Fais-le par message : envoie un détail drôle le matin et reprends-le le soir."
   },
   {
     "id": 7,
@@ -66,29 +67,29 @@
   {
     "id": 8,
     "title": "L'absurde assumé",
-    "content": "L'humour absurde marche quand il est totalement assumé. Pas de demi-mesure : tu dis un truc complètement dingue avec le sérieux d'un présentateur météo. C'est le décalage entre ton ton posé et ce que tu racontes qui fait rire. Les Monty Python sont les maîtres absolus de cette technique. En France, les Inconnus et plus récemment Roman Frayssinet excellent dans ce registre.",
+    "content": "L'absurde fonctionne quand il est cohérent : une idée folle traitée avec la rigueur d'un règlement. La technique : invente UNE règle personnelle absurde, énonce-la comme une évidence (jamais comme une vanne), puis donne sa conséquence réelle, avec les gens autour de toi qui s'y sont adaptés. Pas de clin d'œil, pas d'excuse, pas d'explication, et tu ne ris pas avant les autres. L'adaptation de l'entourage est le plus drôle : c'est elle qui prouve que la règle existe.",
     "category": "ABSURDE",
     "difficulty": "DEBUTANT",
-    "example": "« Je range mes chaussettes par ancienneté. Les plus vieilles ont la place près de la fenêtre. Elles l'ont méritée. »",
-    "exercise": "DÉFI ABSURDE : prends 3 situations du quotidien (faire les courses, prendre le métro, un rendez-vous chez le médecin) et ajoute à chacune un élément complètement absurde. Raconte-les aujourd'hui à quelqu'un avec le plus grand sérieux. Si tu souris avant la fin, recommence : c'est ton sérieux qui porte la vanne."
+    "example": "« J'ai une règle : je ne réponds pas aux messages qui contiennent plus de deux points d'exclamation. Ma mère s'est adaptée. Elle ne m'écrit plus qu'en points de suspension. »",
+    "exercise": "DÉFI RÈGLE : aujourd'hui, invente une règle personnelle absurde (un mot que tu ne dis plus, un objet que tu ne touches que d'une main, un jour où tu ne fais que tourner à gauche). Écris-la en une phrase, puis la conséquence qu'elle a sur ton entourage, sans jamais sourire dans le texte. Dis-la à quelqu'un avec le plus grand sérieux, ou envoie-la par message."
   },
   {
     "id": 9,
     "title": "Le rythme de la phrase comique",
-    "content": "En humour, le rythme de ta phrase fait 80% du travail, et les phrases courtes frappent plus fort. Coupe les adverbes, vire les « vraiment », « franchement », « du coup » : chaque mot inutile dilue ta chute. Les stand-uppers écrivent leurs vannes, puis en coupent la moitié. Écoute Jamel quand il imite quelqu'un : chaque syllabe est pesée. Ta vanne doit arriver comme une évidence, pas comme une dissertation.",
+    "content": "Le rythme d'une phrase compte plus que ses mots : plus elle est courte, plus la chute frappe fort. Les adverbes, les « vraiment », « franchement » et « du coup » n'ajoutent rien et diluent l'effet. Écris ta vanne comme tu la dirais naturellement, puis coupe tout ce qui n'est pas indispensable, jusqu'à ce que la chute soit le dernier mot de la phrase. Une vanne se travaille en retirant, jamais en ajoutant.",
     "category": "TIMING",
     "difficulty": "INTERMEDIAIRE",
-    "example": "Trop long : « Hier soir j'ai essayé un nouveau restaurant et franchement le service était vraiment très lent. » → Mieux : « Nouveau resto hier. Quand le plat est arrivé, j'avais oublié ce que j'avais commandé. Le serveur aussi. »",
-    "exercise": "DÉFI SCALPEL : prends 3 vannes que tu connais et réécris-les en enlevant au moins 5 mots à chacune. Dis les deux versions à voix haute : si la courte perd du sens, remets un mot ; si elle garde tout, c'est elle que tu racontes ce soir."
+    "example": "Avant : « Du coup hier j'ai voulu essayer de faire un peu de sport et franchement j'ai vraiment couru dix minutes mais après, du coup, mes poumons ont, enfin, genre, demandé une rupture conventionnelle, parce que c'était vraiment trop dur. » Après : « J'ai couru dix minutes. Mes poumons ont demandé une rupture conventionnelle. »",
+    "exercise": "DÉFI SCALPEL : aujourd'hui, prends une phrase drôle que tu as dite ou écrite récemment. Retire au moins 5 mots en gardant la chute en dernière position. Lis les deux versions à voix haute : la courte doit tenir seule. Envoie-la à un ami, sans explication. Pas de phrase drôle en stock ? Écris en roue libre une phrase sur ta journée, puis coupe-la de la même façon."
   },
   {
     "id": 10,
     "title": "L'exagération contrôlée",
-    "content": "L'exagération est un outil puissant, à condition de la doser. L'astuce : prends une vérité et multiplie-la par 10. Pas par 100 (on n'y croit plus), ni par 2 (ça reste banal). Le bon dosage, c'est quand l'autre se dit « c'est exagéré, mais je vois exactement ce qu'il veut dire ». Kev Adams utilise beaucoup cette technique, notamment quand il parle de sa mère.",
+    "content": "L'exagération est un outil puissant, mais elle se dose. Prends une vérité de ta journée et pousse-la d'un cran, jusqu'à la limite de ce qui pourrait presque arriver. Trop près du réel, ça reste un constat. Trop loin, plus personne ne reconnaît sa propre cuisine et le rire s'éteint. Le bon dosage, c'est quand on se dit : « c'est exagéré, mais je vois ce que tu veux dire ».",
     "category": "OBSERVATION",
     "difficulty": "DEBUTANT",
-    "example": "« Mon manager répond à mes mails tellement vite que j'ai plus le temps de regretter de les avoir envoyés. »",
-    "exercise": "DÉFI 5 JOURS : commence aujourd'hui en exagérant une vérité sur ta vie, puis une par jour (lundi : ta cuisine, mardi : tes transports, mercredi : ton boss, jeudi : ton téléphone, vendredi : ton week-end). À chaque fois, cherche le point où c'est exagéré mais encore crédible. Raconte la meilleure à la machine à café."
+    "example": "Constat : « Il y a pas mal de vaisselle. » Trop loin : « Ma vaisselle a déclaré la guerre à l'Espagne. » Bien dosé : « Dans notre évier, il y a une casserole arrivée avant moi dans l'appartement. Je la salue en passant. »",
+    "exercise": "DÉFI DOSAGE : choisis UNE vérité de ta journée (ta cuisine, tes transports, ton téléphone) et écris-la en une phrase. Pousse-la d'un cran, pas plus loin que ce qui pourrait presque arriver. Envoie-la à quelqu'un aujourd'hui : réussi s'il répond quelque chose comme « c'est exagéré, mais c'est tout à fait ça »."
   },
   {
     "id": 11,
@@ -129,11 +130,11 @@
   {
     "id": 17,
     "title": "Le double sens en conversation",
-    "content": "Le double sens est l'arme discrète des esprits vifs. Tu formules une phrase qui peut se comprendre de deux façons, une innocente et une drôle, et tu laisses l'autre faire le chemin tout seul. Plus le double sens est subtil, plus le rire est satisfaisant, parce que la personne a l'impression de l'avoir trouvé elle-même. Florence Foresti est une maîtresse du double sens intelligent.",
+    "content": "Un double sens, c'est une phrase qui se lit de deux façons, une sérieuse et une drôle. La technique : quand quelqu'un te donne un conseil ou une consigne avec un verbe à plusieurs vies (décrocher, prendre du recul, se lâcher, rester en contact, passer à autre chose), réponds que tu l'as appliqué, mais par l'autre sens, avec le sérieux de quelqu'un qui a fait ses devoirs. Tu ne signales rien : tu racontes ce que tu as fait, et l'autre fait le chemin. N'ajoute jamais « tu vois ? » : si tu dois le dire, c'est que le double sens ne tient pas.",
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
-    "example": "« Mon ex me trouvait « un peu léger ». Sur le moment, j'ai dit merci : j'étais au régime. »",
-    "exercise": "DÉFI SOUS-ENTENDU : prends 5 mots qui ont plusieurs sens (note, courant, marcher, tomber, sortir) et construis pour chacun une phrase où le double sens crée un effet comique. Place la meilleure aujourd'hui dans une conversation, sans l'expliquer : si tu dois l'expliquer, choisis la suivante."
+    "example": "Un proche te dit : « Il faut que tu sortes plus. » Toi : « J'ai sorti la poubelle deux fois cette semaine. Le voisin m'a dit bonjour, il ne savait pas que j'habitais là. »",
+    "exercise": "DÉFI DOUBLE SENS : aujourd'hui, choisis un conseil ou une consigne qu'on t'a déjà donné (« il faut que tu décroches », « prends du recul », « lâche prise »). Écris en deux phrases ce que tu aurais fait en le comprenant par l'autre sens, la seconde étant la chute. Dis-la à voix haute d'un ton appliqué, puis envoie-la à la personne qui t'a donné le conseil."
   },
   {
     "id": 18,
@@ -147,11 +148,11 @@
   {
     "id": 20,
     "title": "L'art du non-dit",
-    "content": "Parfois, ce que tu ne dis pas est plus drôle que ce que tu dis. Tu poses le contexte, tu amènes l'autre vers une conclusion évidente, et tu t'arrêtes juste avant. Son cerveau finit la phrase à ta place, et il rit de sa propre pensée. Blanche Gardin excelle dans ces pauses où tout est dit sans rien dire.",
+    "content": "Ce que tu ne dis pas est parfois plus drôle que ce que tu dis. Tu poses le contexte, tu amènes vers une conclusion évidente, et tu t'arrêtes juste avant : le cerveau de l'autre fait le travail et rit de sa propre pensée. La dernière chose que tu dis doit être un geste ou un détail, jamais la conclusion. Le silence après la dernière phrase fait partie de la vanne. Si tu sens le besoin d'expliquer la fin, c'est que tu as parlé une phrase de trop.",
     "category": "TIMING",
     "difficulty": "EXPERT",
-    "example": "« J'ai montré mon premier tatouage à mon père. Il l'a regardé longtemps. Il a ouvert la bouche, il l'a refermée. Puis il m'a demandé si je voulais un café. »",
-    "exercise": "DÉFI NON-DIT : aujourd'hui, raconte 3 anecdotes à un ami en t'arrêtant juste avant la fin. Laisse un silence de 3 secondes. S'il rit, le non-dit fonctionne. S'il te demande « et alors ? », c'est que la conclusion n'était pas encore assez évidente."
+    "example": "« Mon père a monté l'étagère sans notice. Il reste une vis sur la table. Il la regarde. Il regarde l'étagère. Puis il pose une main à plat dessus, très doucement, et de l'autre il met la vis dans sa poche. »",
+    "exercise": "DÉFI NON-DIT : aujourd'hui, raconte UNE anecdote à un ami, mais arrête-toi sur un geste ou un détail, avant la conclusion, et laisse 3 secondes de silence. S'il sourit ou finit la phrase à ta place, le non-dit a marché. Pas d'ami sous la main ? Envoie l'anecdote par message, coupée avant sa conclusion, et regarde s'il répond en la complétant."
   },
   {
     "id": 22,
@@ -371,12 +372,13 @@
   },
   {
     "id": 53,
-    "title": "L'humour digital : mails, Slack et textos pro",
-    "content": "L'humour écrit au boulot demande du doigté. La règle : être drôle sans que ton message puisse finir en capture d'écran chez les RH. Joue sur le décalage de ton, un sujet sérieux traité avec légèreté, jamais l'inverse. Un GIF bien choisi en dit souvent plus qu'un paragraphe. Sur Slack, la réaction emoji ironique (🏆 sur un truc raté) fait sourire sans un mot. Et dans un mail, un PS drôle au bas d'un message sérieux détend tout le monde sans rien enlever au fond.",
+    "title": "Le PS qui détend un mail sérieux",
+    "previousTitle": "L'humour digital : mails, Slack et textos pro",
+    "content": "Au boulot, l'humour écrit doit rester montrable à n'importe qui. La technique du PS tient en trois règles de forme. Une ligne, après la signature, jamais dans le corps du mail. Un sujet sans rapport avec le fond : un détail minuscule du quotidien (le café, la météo du bureau, ta semaine). Un sérieux total, avec le vocabulaire d'un compte rendu administratif. Le fond du mail reste irréprochable, c'est le PS qui est là pour sourire. Règle d'or : rien qui ne survivrait à une capture d'écran envoyée aux RH.",
     "category": "JEUX_DE_MOTS",
     "difficulty": "INTERMEDIAIRE",
-    "example": "Mail pro : « Ci-joint le rapport Q1. PS : je l'ai relu très attentivement, donc s'il reste une faute, c'est qu'elle s'est battue pour sa place. » Le PS casse la formalité sans toucher au message.",
-    "exercise": "DÉFI DIGITAL : aujourd'hui, glisse un trait d'humour dans 3 messages pro (mail, Slack, Teams). Règle : chaque message doit rester professionnel même si ton N+2 le lit par-dessus ton épaule."
+    "example": "« Bonjour Nadia, ci-joint le compte rendu de la réunion de jeudi. Les points d'action sont en page 2. Bien cordialement, Léa. PS : le café de la machine était correct ce matin. Je souhaitais que ce soit acté. »",
+    "exercise": "DÉFI PS : aujourd'hui, ajoute un PS d'une ligne à UN mail ou message pro sérieux, sur un détail minuscule sans rapport avec le fond. Il doit rester présentable si ton chef le lit. Pas de mail pro à envoyer aujourd'hui ? Écris le PS que tu aurais ajouté au dernier mail sérieux que tu as envoyé, et montre-le à un ami. C'est réussi quand ton PS tient en une ligne et n'a rien à voir avec le fond."
   },
   {
     "id": 54,
