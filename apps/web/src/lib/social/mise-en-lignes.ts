@@ -72,7 +72,7 @@ interface Solution {
   defauts: number;
 }
 
-function resoudre(blocs: string[], larg: number[], esp: number, max: number, nbLignes: number): Solution | null {
+function resoudre(blocs: string[], larg: number[], esp: number, max: number, nbLignes: number, coupeDeSens = true): Solution | null {
   const n = blocs.length;
   const motsTotal = nbMots(blocs.join(" "));
   const largeurLigne = (i: number, j: number) => {
@@ -87,7 +87,8 @@ function resoudre(blocs: string[], larg: number[], esp: number, max: number, nbL
     const seul = motsTotal > 1 && nbMots(texte) < 2 ? 1e12 : 0;
     // Coupe de sens : on préfère couper après « : » ou une fin de phrase
     // plutôt qu'au milieu de la ligne suivante (« … avec humour : / 5 … »).
-    const ponctuationInterne = (texte.match(/(:|[.?!»]) \S/g) ?? []).length;
+    // Paragraphe de conseil (coupeDeSens false) : coupe équilibrée seule, pas de vers.
+    const ponctuationInterne = coupeDeSens ? (texte.match(/(:|[.?!»]) \S/g) ?? []).length : 0;
     // Début de phrase laissé seul en fin de ligne (« … ». J’ai / dit… ») :
     // aussi visible qu'un orphelin, on l'évite autant que possible.
     const debutSeul = j < blocs.length && debutDePhraseSeul(texte) ? 1e10 : 0;
@@ -159,13 +160,40 @@ export function mettreEnLignes(texte: string, police: Police, corps: number, lar
   return nominal;
 }
 
+/** Largeur affichée d'un texte, espaces élargies comprises (ESPACE_MOTS). */
+function mesurer(t: string, police: Police, c: number): number {
+  const a = affichage(t);
+  return largeurTexte(a, police.famille, police.poids, c) + (a.split(" ").length - 1) * ESPACE_MOTS * c;
+}
+
+/**
+ * Paragraphe de lecture (gabarit conseil, s15) : coupe équilibrée au corps
+ * EXACT, sans préférence de fin de phrase ni réduction de corps. null si un
+ * bloc insécable dépasse la largeur : le gabarit change alors de palier.
+ */
+export function composerParagraphe(texte: string, police: Police, corps: number, largeur: number): (Lignes & { defauts: number }) | null {
+  const max = largeur * MARGE;
+  const blocs = texte.trim().split(/ +/).filter(Boolean);
+  const larg = blocs.map((b) => mesurer(b, police, corps));
+  if (larg.some((w) => w > max)) return null;
+  const esp = mesurer(" ", police, corps);
+  let meilleure: Solution | null = null;
+  let minimum = 0;
+  for (let l = 1; l <= blocs.length; l++) {
+    const s = resoudre(blocs, larg, esp, max, l, false);
+    if (!s) continue;
+    if (s.defauts === 0) return { lignes: s.lignes.map(affichage), corps, defauts: 0 };
+    if (!minimum) minimum = l;
+    if (!meilleure || s.defauts < meilleure.defauts) meilleure = s;
+    if (l >= minimum + 2) break;
+  }
+  return meilleure ? { lignes: meilleure.lignes.map(affichage), corps, defauts: meilleure.defauts } : null;
+}
+
 function composer(texte: string, police: Police, corps: number, largeur: number): Lignes & { defauts: number } {
   const max = largeur * MARGE;
   let blocs = texte.trim().split(/ +/).filter(Boolean);
-  const mesure = (t: string, c: number) => {
-    const a = affichage(t);
-    return largeurTexte(a, police.famille, police.poids, c) + (a.split(" ").length - 1) * ESPACE_MOTS * c;
-  };
+  const mesure = (t: string, c: number) => mesurer(t, police, c);
   let c = corps;
   while (c > PLANCHER_CORPS && blocs.some((b) => mesure(b, c) > max)) c -= 2;
   c = Math.max(PLANCHER_CORPS, c);

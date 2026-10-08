@@ -60,7 +60,7 @@ const texteFormatSchema = z.object({
   cartes: z.array(z.string().min(1)).optional(),
   /** Instagram : légende « À envoyer à... » (80 caractères, sans lien ni pied). */
   legende: z.string().min(1).optional(),
-  /** Conseil Instagram : technique nommée (4 mots au plus, plan §3), mise en tête de la carte 1 par le script (`carteAvecSurtitre`). */
+  /** Conseil Instagram : technique nommée (4 mots au plus, plan §3), rendue en surtitre de la carte 1 (`partiesConseilIg`, threadParts à 3 parties). */
   surtitre: z.string().min(1).optional(),
   /** Ligne d'article et relais LinkedIn : slug de l'article. */
   article: z.string().min(1).optional(),
@@ -171,12 +171,12 @@ export function conseilPermis(date: string): boolean {
 }
 
 /**
- * Carte 1 d'un conseil Instagram : la technique en tête du texte (« La fausse naïveté : Premier rendez-vous… »),
- * comme les posts X. Le gabarit de la carte (Worker) n'a pas de surtitre : le nom passe dans le texte, mot pour mot.
+ * threadParts d'un conseil Instagram (gabarit carte conseil, s15) : `[surtitre, carte 1, carte 2]`, cartes mot pour
+ * mot, technique rendue à part (plus de préfixe « Technique : » dans le texte). 3 parties = jamais ambigu avec une
+ * vanne (2) ni un décryptage (5) ; sans surtitre, les cartes restent telles quelles (le contrôle du mix le signale).
  */
-export function carteAvecSurtitre(cartes: string[], surtitre?: string): string[] {
-  if (!surtitre || !cartes.length || cartes[0].startsWith(`${surtitre} :`)) return [...cartes];
-  return [`${surtitre} : ${cartes[0]}`, ...cartes.slice(1)];
+export function partiesConseilIg(cartes: string[], surtitre?: string): string[] {
+  return surtitre && cartes.length === 2 ? [surtitre, ...cartes] : [...cartes];
 }
 
 export const jjmm = (date: string) => `${date.slice(8, 10)}/${date.slice(5, 7)}`;

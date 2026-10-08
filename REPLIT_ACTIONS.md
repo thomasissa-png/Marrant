@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 gabarit carte conseil : **COMMITÉ, À DÉPLOYER avant le ven. 23/10 (1er conseil IG)**
+
+> - **Pourquoi** : le 1er conseil Instagram (K26, « Consoler en exagérant ») part le ven. 23/10 à 19:30. Sans ce code, le Worker rend ses cartes avec le gabarit vanne (5 cartes sur 10 débordaient). Le Worker de production ne connaît pas encore le gabarit : il **part avec le prochain déploiement autorisé**, c'est-à-dire le déploiement groupé s18 ci-dessous, qui attend le feu vert de Thomas (garde de déploiement : une autre session a du code non déployé, donc **aucun `deploy:cf` dans cette session**). Si ce feu vert tarde, prévoir un déploiement avant le 23/10 qui embarque les deux. Ce déploiement doit avoir lieu avant l'insertion du lot 1b, ou au plus tard avant le 23/10 à 19:30.
+> - **Code Worker** (`apps/web/src/lib/social/`) : nouveau `templates/cartes-conseil.tsx` (`ConseilCarte1`, `ConseilCarte2`, réduction du corps de 72 à 56 px par pas de 4, erreur si rien ne tient, jamais de rognage), `carrouselConseilCartes` (`carrousel-piste-a.ts`), sélection dans `generate-post-image.ts` (post `IMAGE_QUI_CLAQUE` à **3 parties** = conseil : `[surtitre, carte 1, carte 2]`), `position="debut"` dans `carte-marque.tsx`, `composerParagraphe` dans `mise-en-lignes.ts` (coupe sans préférence de fin de phrase). Couleurs : surtitre `#A78BFA` sur noir (7,1:1), « » et « À toi de jouer : » en `#DDD6FE` sur l'aplat (5,1:1). Pied identique à la vanne (test au pixel).
+> - **Vannes inchangées** : 24 PNG du lot 1a (vannes, décryptages) identiques à l'octet avant et après ; 4 empreintes figées dans `cartes-conseil.test.tsx`.
+> - **Données** : aucun post en base n'a 3 parties (semaine 0 : 2 ; lot 1a : 2 et 5 ; export s14 : 1 à 8, aucun `IMAGE_QUI_CLAQUE` à 3) ; le lot 1b n'est pas inséré. Le générateur de lots (`social-lot-v5*.ts`) écrit désormais `[surtitre, carte 1, carte 2]` (`partiesConseilIg`, 2 `imageUrls`), sans le préfixe « Technique : » de `0a12c43`. Dry-run 1a : JSON identique à l'octet (sha256 `63a2f315…`) ; 1b : mêmes 46 posts et mêmes 5 erreurs de légende, seules les 5 lignes de conseil IG changent.
+> - **Rendu réel** : `docs/social/visuels-s15/conseils-1b/` (10 cartes à 1080 px + 10 aperçus à 390 px, `index.md`) : 10 sur 10 tiennent, toutes au corps 72.
+> - **Après le déploiement** : ouvrir `/api/social/image?postId=<conseil IG du 1b>&slide=0` puis `&slide=1` : 2 cartes 1080×1350, surtitre lilas en haut, aucun « Technique : ».
+
 ## s18 DÉPLOIEMENT GROUPÉ (à faire en une fois) : parcours Storytelling importé INACTIF + correctif de redirection C081 @fullstack, **COMMITÉ, NON DÉPLOYÉ** (attend le feu vert de Thomas)
 
 > **Ce que le déploiement embarque depuis la version en ligne** (`cf8e25b`, Worker `797b1dea-9cb7-4675-a484-5a8b5710a335`). `git diff --stat cf8e25b..HEAD -- apps/` à relancer juste avant le déploiement (la session s15 pousse aussi sur cette branche), commit par commit :

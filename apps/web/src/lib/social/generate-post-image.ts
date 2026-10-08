@@ -12,7 +12,9 @@ import {
   generateLeDefi,
   renderSlides,
 } from "./image-generator";
-import { carrouselArticle, carrouselDecryptage, carrouselVanne, carteVanneUnique, type Slide } from "./carrousel-piste-a";
+import {
+  carrouselArticle, carrouselConseilCartes, carrouselDecryptage, carrouselVanne, carteVanneUnique, type Slide,
+} from "./carrousel-piste-a";
 import { vanneLinkedInImage } from "./carte-linkedin";
 
 interface PostData {
@@ -25,6 +27,11 @@ interface PostData {
   /** s15 : carte LinkedIn du test alterné (`[variante:image]` dans directorNote). */
   platform?: string | null;
   directorNote?: string | null;
+}
+
+/** Conseil Instagram du mix : IMAGE_QUI_CLAQUE à 3 parties non vides. */
+export function estConseil(post: PostData): boolean {
+  return post.format === "IMAGE_QUI_CLAQUE" && post.threadParts.length === 3 && post.threadParts.every((p) => p?.trim());
 }
 
 /**
@@ -44,6 +51,12 @@ export function slidesDuPost(post: PostData): Slide[] | null {
   const [amorce, chute, mecanisme, consigne, renvoi] = post.threadParts;
   if (post.threadParts.length === 2 && amorce?.trim() && chute?.trim()) {
     return carrouselVanne({ amorce: amorce.trim(), chute: [chute.trim()] });
+  }
+  // Conseil (s15) : 3 parties [surtitre, situation, réplique + consigne] → 2 cartes du gabarit
+  // conseil. Jamais ambigu : vanne = 2 parties, décryptage = 5 (aucun post en base à 3, 08/10).
+  if (estConseil(post)) {
+    const [surtitre, situation, carte2] = post.threadParts;
+    return carrouselConseilCartes({ surtitre, situation, carte2 });
   }
   if (post.threadParts.length === 5 && post.threadParts.every((p) => p?.trim())) {
     return carrouselDecryptage({
@@ -68,6 +81,11 @@ export function texteAlternatifDuPost(post: PostData): string {
   if (vanneLinkedInImage(post)) {
     const carte = slidesDuPost(post)?.[0];
     if (carte) return carte.alt;
+  }
+  // Conseil : alt des 2 cartes, sans composer (jamais d'erreur ici ; le rendu tranche).
+  if (estConseil(post)) {
+    const [surtitre, situation, carte2] = post.threadParts.map((p) => p.replace(/\s*\n\s*/g, " ").trim());
+    return `${surtitre} : ${situation} ${carte2}`;
   }
   const [amorce, chute] = post.threadParts;
   if ((post.threadParts.length === 2 || post.threadParts.length === 5) && amorce?.trim() && chute?.trim()) {

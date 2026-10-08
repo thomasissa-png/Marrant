@@ -14,7 +14,7 @@ import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, 
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
-import { LIBELLE_FORMAT, PLAFONDS_MIX, carteAvecSurtitre, caseConseilNominale, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
+import { LIBELLE_FORMAT, PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -131,7 +131,8 @@ export function deuxCartes(lignes: string[]): [string, string] | null {
 
 /** Nombre d'images Instagram : vanne 2, décryptage 4 (5 parties en base). */
 export function nombreDeCartes(parties: string[]): number {
-  return parties.length === 5 ? 4 : parties.length;
+  // Décryptage : 5 parties = 4 cartes ; conseil Instagram : [surtitre, carte 1, carte 2] = 2 cartes.
+  return parties.length === 5 ? 4 : parties.length === 3 ? 2 : parties.length;
 }
 
 function deJoke(j: CatalogueJoke): Vanne {
@@ -312,7 +313,7 @@ export function buildLotV5(input: LotInput): LotResult {
     if (o.renvoi) segments.push({ texte: o.renvoi, origine: o.valide ? "VALIDE" : (o.renvoiOrigine ?? "FORMULE_V5") });
     if (pf === "INSTAGRAM" && content) segments.push({ texte: content, origine: fige ?? (o.legendeOrigine ?? "FORMULE_V5") });
     if (cartes.length === 5) cartes.slice(2).forEach((c) => segments.push({ texte: c, origine: fige ?? (o.cartesOrigine ?? "ARTICLE") }));
-    if (o.mix && !o.v && cartes.length === 2) cartes.forEach((c) => segments.push({ texte: c, origine: "TEXTE_MIX" }));
+    if (o.mix && !o.v && (cartes.length === 2 || cartes.length === 3)) cartes.forEach((c) => segments.push({ texte: c, origine: "TEXTE_MIX" }));
     const persona = o.persona ?? (pf === "LINKEDIN" ? "SOPHIE" : o.slug && C.ARTICLES_MARC.has(o.slug) ? "MARC" : "YANIS");
     const sourceType = o.v?.jokeId ? "JOKE" : o.v || o.slug ? "BLOG" : "ORIGINAL";
     const sourceId = o.sourceId ?? o.v?.jokeId ?? o.v?.cle ?? o.slug ?? o.cle ?? id;
@@ -464,8 +465,8 @@ export function buildLotV5(input: LotInput): LotResult {
       if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
       const quoi = nominal ?? `Repli du mix (${LIBELLE_FORMAT[f]})`;
       const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
-        cartes: t.cartes ? carteAvecSurtitre(t.cartes, t.surtitre) : undefined,
-        note: `${quoi} : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre « ${t.surtitre} » en tête de la carte 1.` : ""}` };
+        cartes: t.cartes ? partiesConseilIg(t.cartes, t.surtitre) : undefined,
+        note: `${quoi} : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre « ${t.surtitre} » de la carte 1 (rendu à part, threadParts à 3 parties).` : ""}` };
       let p: LotPost;
       if (f === "conseil") p = poster(date, pf, "CONSEIL", { ...base, v: null, marque: t.texte, sourceId: t.id });
       else if (f === "quiz") {

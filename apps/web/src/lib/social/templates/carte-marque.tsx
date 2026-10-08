@@ -28,6 +28,8 @@ export const FONT_TEXTE = "Inter";
 /** Pied et étiquettes : jamais sous 32 px (notation cycle 2, V2). */
 export const TAILLE_PIED: Record<FormatCarte, number> = { instagram: 32, x: 40, linkedin: 32 };
 export const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56 };
+/** Écart texte/pied de la position « debut » (= ECART_TITRE_PIED des cartes piste A). */
+export const ECART_PIED_DEBUT = 64;
 
 /** Étiquette affichée selon le type de contenu (vanne : aucune). */
 export const ETIQUETTES: Record<KindCarte, string | null> = {
@@ -66,8 +68,11 @@ export interface CarteProps {
   kind?: KindCarte;
   /** Indice de swipe affiché en pied (« Glisse → », slides 1 seulement). */
   indice?: string;
-  /** « haut » : bloc centré à 40 % de la hauteur (slide 1, arrêt du défilement). */
-  position?: "centre" | "haut";
+  /**
+   * « haut » : bloc centré à 40 % de la hauteur (slide 1, arrêt du défilement).
+   * « debut » (gabarit conseil) : bloc ancré en haut, 64 px réservés au-dessus du pied.
+   */
+  position?: "centre" | "haut" | "debut";
   children: ReactNode;
 }
 
@@ -113,9 +118,10 @@ export function Carte({ format, fond = "sombre", kind, indice, position = "centr
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          justifyContent: "center",
+          justifyContent: position === "debut" ? "flex-start" : "center",
           // Centre du bloc remonté de 50 % à 40 % de la hauteur (notation cycle 3, V1).
-          paddingBottom: position === "haut" ? Math.round(f.height * 0.2) : 0,
+          // « debut » : jamais d'overflow hidden, un texte trop long fait échouer le rendu en amont.
+          paddingBottom: position === "haut" ? Math.round(f.height * 0.2) : position === "debut" ? ECART_PIED_DEBUT : 0,
         }}
       >
         {children}
