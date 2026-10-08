@@ -73,4 +73,21 @@ Le repli solo existe déjà (vocal). La vigilance de la spec (imiter avec tendre
 >
 > **Explication (3 phrases)** : La D. Le rythme et la phrase qu'il répète font entendre quelqu'un sans caricature, et le test est simple : pourrais-tu la jouer devant lui ? La A grossit jusqu'à la moquerie, la C déplace le problème, et la B te prive d'un bon personnage.
 
-Les mots entre parenthèses ailleurs dans ce fichier sont des notes pour toi, pas du texte affiché.
+**Les 2 vidéos** (spec §2.2, plafond 8 min, 1 obligatoire + 1 facultative, aucune minute inventée). Les légendes invitent à observer ; elles ne disent que ce que la fiche du catalogue établit (imitation tendre, phrase culte, dialogue reconstruit).
+
+| | Légende (`why`) |
+|---|---|
+| **Obligatoire** : Samia Orosemane, « Les accents africains » (5 min 10) | Samia Orosemane joue les voix de sa famille, et ce qu'on entend d'abord, c'est de l'affection. Repère une phrase qu'elle rejoue plusieurs fois, et demande-toi : de la tendresse ou de la moquerie dans sa voix ? C'est la règle que tu gardes pour tes propres personnages. |
+| *Facultative* : Laura Domenge, « La vie de couple » (5 min 10) | Des disputes de couple minuscules, rejouées avec les voix. Repère un moment où elle rejoue une réplique au lieu de la résumer, et écoute ce qui change : le rythme, la hauteur, la posture. |
+
+**Les 5 vannes** (désignées par leur texte exact en base, toutes actives, aucune déjà utilisée dans les 13 étapes réécrites en s17 ni dans l'étape 1). Technique : un personnage qui existe par sa seule phrase ou son seul tic.
+
+| # | Vanne (`content` puis chute) | Décryptage de l'étape (une ligne) |
+|---|---|---|
+| 1 | « Je joue depuis dix ans avec un pote que je n'ai jamais vu. Il m'a enfin envoyé une photo. » / « Il a la tête de quelqu'un qui dit « on se regroupe ». » | Aucune description : la phrase « on se regroupe » suffit pour voir et entendre ce pote jamais rencontré. |
+| 2 | « Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée ». » / « Elle vit chez nous depuis un an. » | Un surnom répété fait le portrait du copain, et la chute pousse son tic jusqu'à sa conséquence. |
+| 3 | « Ma mère me demande encore des nouvelles de mon ex. » / « Je n'en ai pas. Elle, si. » | La mère n'est jamais décrite : sa question est son tic, et la chute révèle que, elle, elle a des nouvelles. |
+| 4 | « Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. » / « Elle revient lundi. » | Le tic de la collègue, c'est de tout dire : 45 minutes de briefing, puis une chute de trois mots qui en révèle l'inutilité. |
+| 5 | « Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ». » / « Il a dit « merci, c'est mieux que papa ». » | Une phrase par personnage suffit : le « ça dépend » du grand frère prudent, puis le frère, et même papa qu'on entend sans qu'il parle. |
+
+---
