@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (08/10/2026, 20:16 Paris) : H+45 Instagram OK, jour 3 = 3/3
+
+- Carte vanne `sent` à 19:32, `instagram.com/p/DePen34lAaI/`, 2 images avec texte alternatif, légende sans lien. Semaine 0 : 8 posts sur 8 publiés.
+
 ## s15 (08/10/2026, 13:17 Paris) : H+45 LinkedIn et X OK (jour 3)
 
 - LinkedIn `sent` à 08:17, X `sent` à 12:32, liens réels, aucun FAILED (`docs/social/releves/2026-10-08.md`). Alertes du matin : 8 de classe B (files basses avant l'insertion du lot 1a le 09/10), aucun e-mail.
