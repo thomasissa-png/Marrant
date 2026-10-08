@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b, révision 2 : cases de conseil nominales et technique dans la carte 1 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : cases de conseil nominales (plan §3 : vendredi avant le 03/11, mardi et vendredi ensuite, X et IG) servies par leur conseil AVANT la vanne ; jamais de conseil le lundi ni le jeudi ; technique (`surtitre`) en tête de la carte 1 des conseils IG (`carteAvecSurtitre`). Script de contrôle `apps/web/scripts/content/social-conseil-rendu.ts` (rendu local `generatePostImage`). Tests : `social-lot-v5-mix.test.ts` (+5, 3 ajustés).
+> - **Dry-run 1b** : 44 posts, 6 erreurs (4 légendes de relais IG, 12/11 X et IG sans texte), cartes conseil : 5 sur 10 débordent (gabarit vanne). **Lot 1a identique à l'octet.** Détail : `docs/social/preparation/lot-1b-dry-run-08-10.md`, révision 2.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`.
+
 ## s15 lot 1b : textes du repli du mix versés, dry-run du 08/10 @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
 
 > - **Versé** : `docs/social/preparation/textes-formats-valides.json` (10 conseils K04, K07, K09, K22, K25, K26, K27, K28, K30, K36 ; 3 relais LinkedIn R08 05/11, R07 10/11, R02 12/11 ; notes des 2 relecteurs ; mot pour mot, extraction par script), légendes L12 (03/11) et L13 (04/11) dans `apps/web/scripts/content/social-lot-v5-legendes.ts`.

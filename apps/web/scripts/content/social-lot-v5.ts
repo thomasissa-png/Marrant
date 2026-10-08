@@ -14,7 +14,7 @@ import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, 
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
-import { LIBELLE_FORMAT, PLAFONDS_MIX, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
+import { LIBELLE_FORMAT, PLAFONDS_MIX, carteAvecSurtitre, caseConseilNominale, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -414,7 +414,7 @@ export function buildLotV5(input: LotInput): LotResult {
     }
     for (const { date, pf } of cases) {
       const jour = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0] ?? date;
-      const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE");
+      const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE", date);
       const ouverts = ordre.filter((f) => sousPlafond(f, date, pf, prevus));
       if (ouverts.some((f) => posterFormat(f, date, pf))) continue;
       if (ouverts.length) prevus.push({ date, pf, f: ouverts[0] });
@@ -458,12 +458,14 @@ export function buildLotV5(input: LotInput): LotResult {
    * Pose sur la case le texte du format qui a ce créneau, sinon le 1er texte libre (sans créneau ou rendu, ordre du
    * fichier) ; false si aucun. Chaque texte sert une fois ; un texte à créneau ne sert jamais une autre case.
    */
-  function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform): boolean {
+  function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform, nominal = false): boolean {
     const libreIci = (t: TexteFormat) => !t.creneau || rendus.has(t.id);
     for (const t of [...textesFormats.filter((x) => x.creneau === date && !rendus.has(x.id)), ...textesFormats.filter(libreIci)]) {
       if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
+      const quoi = nominal ? `Case de conseil nominale (plan §3, avant la vanne)` : `Repli du mix (${LIBELLE_FORMAT[f]})`;
       const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
-        cartes: t.cartes ? [...t.cartes] : undefined, note: `Repli du mix (${LIBELLE_FORMAT[f]}) : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre de la carte 1 : « ${t.surtitre} ».` : ""}` };
+        cartes: t.cartes ? carteAvecSurtitre(t.cartes, t.surtitre) : undefined,
+        note: `${quoi} : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).${t.surtitre ? ` Surtitre « ${t.surtitre} » en tête de la carte 1.` : ""}` };
       let p: LotPost;
       if (f === "conseil") p = poster(date, pf, "CONSEIL", { ...base, v: null, marque: t.texte, sourceId: t.id });
       else if (f === "quiz") {
@@ -488,6 +490,13 @@ export function buildLotV5(input: LotInput): LotResult {
       return true;
     }
     return false;
+  }
+
+  /** Case de conseil nominale servie par le conseil qui y a son créneau (false : la case suit le tirage). */
+  function conseilNominal(date: string, pf: PreparedPlatform): boolean {
+    if (!caseConseilNominale(date, pf)) return false;
+    const t = textesFormats.find((x) => x.format === "conseil" && x.creneau === date && x.reseau === pf && !formatsUtilises.has(x.id));
+    return !!t && posterFormat("conseil", date, pf, true);
   }
 
   /** Repli inséré à sa place dans le lot (date, puis X, Instagram, LinkedIn). */
@@ -581,6 +590,8 @@ export function buildLotV5(input: LotInput): LotResult {
         if (f) { construireFixe(f); continue; }
         const r = forces.get(`${date}|${pf}`);
         if (r) { construireRelais(date, pf, articleParSlug.get(r.slug), r.utmContent, "PIVOT", r.note); continue; }
+        // Case de conseil nominale (plan §3) : son conseil passe avant la vanne, qui retourne au tirage.
+        if (conseilNominal(date, pf)) continue;
         const cv = casesVanne.get(`${date}|${pf}`);
         if (cv) { differees.push({ date, pf, note: cv.note, rang: posts.length }); continue; }
         construireCase(date, pf, typeCase, relaisLiParSemaine);

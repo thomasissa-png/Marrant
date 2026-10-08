@@ -2,6 +2,47 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
+## Révision 2 (08/10, plus tard) : cases de conseil nominales et technique dans la carte 1
+
+> Décision de la session, d'après `plan-execution-s15.md` §3 : les conseils ont des **cases nominales** (le vendredi avant le 03/11, avec 2 conseils le ven. 23/10 sur X et IG ; mardi et vendredi à partir du 03/11 ; X et IG), où le conseil passe AVANT la vanne. Jamais le lundi, jamais le jeudi, jamais sur LinkedIn. Mêmes commandes qu'en version 1, sorties dans `/tmp/fs-1b-v2/`. La version 1 ci-dessous (« Conflit du 03/11 ») est **remplacée** pour les conseils.
+
+**Code** : `caseConseilNominale`, `conseilPermis`, `carteAvecSurtitre` (`social-lot-v5-mix.ts`) ; dans `social-lot-v5.ts`, une case nominale est servie par son conseil avant tout tirage ; le repli du mix ne propose plus de conseil le lundi ni le jeudi ; un conseil dont le créneau tombe hors case nominale est refusé à la lecture du fichier. Exceptions du plan §3 (30/10, 27/11, 25/12, 01/01) codées.
+
+**Résultat 1b** : 44 posts (X 18, IG 18, LinkedIn 8), **6 erreurs** et non 3 comme attendu :
+- K36 et K26 au ven. 23/10 (X, IG), K28 et K30 au mar. 03/11 (X, IG) : **conforme**. K09/K22 06/11, K04/K07 10/11, K25/K27 13/11 inchangés. Aucun conseil un lundi ou un jeudi.
+- **4 erreurs de légende de relais IG** (et non 3) : la cascade du tirage change les vannes des relais.
+
+| Relais IG | Vanne tirée | Texte (cartes 1 et 2) |
+|---|---|---|
+| lun. 19/10 | `cs14jkd9058d03e24961004a` (inchangée) | « Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai suivi le concert sur son écran. » / « À la fin, il m'a demandé si c'était bien. » |
+| jeu. 29/10 | `cs14jk29357d022f6880a69e` (était `cs14jka7e683e43af915bb60`) | « Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram. » / « Elle m'a demandé pourquoi j'avais eu un bouc. » |
+| jeu. 05/11 | `cs14jkbc3334e2de46753dcf` (était `cp0465e601e49c114994d1a00`) | « Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes. » / « Le monsieur devant moi a dit « c'est puissant ». » |
+| lun. 09/11 (nouveau) | `cp05d2c3950800b7575c12ce6` | « Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pour mon devoir. » / « La bibliothécaire m'a dit qu'aucun n'existait, mais que les titres étaient plutôt bons. » |
+
+- **2 erreurs nouvelles : jeu. 12/11, X et IG** (relais vœux sans ligne au niveau). Avant, K28 et K30 y étaient rendus ; le jeudi n'admet plus de conseil, et il ne reste ni vanne ni ligne d'article notée. **À commander** : 2 lignes notées de `voeux-drole-nouvelle-annee` (X et IG), ou une décision.
+
+**Pourquoi la cascade** : les 4 vannes libérées (23/10 et 03/11) sont tirées dès le 27/10 (ordre du pool), puis LinkedIn en prend 2 (mix §2, affectation n°1 : LinkedIn d'abord) : `cs14jk55b4243d4d1c132b97` (L13) au jeu. 05/11 et `cp0465e601e49c114994d1a00` au mar. 10/11. **R08 (05/11) et R07 (10/11) sont alors rendus et ne servent aucune case** (aucune case LinkedIn libre après eux). La vanne TGV `cs14jk76ca7ad32cce9041ce` passe au relais X du 05/11 (L12 reste attachée à la vanne, non utilisée sur X). L13 n'est pas servie (vanne sur LinkedIn). 04/11 IG : tondeuse `cs14jkd11f7913f8177df395`, légende existante « À envoyer à celui qui adore les gadgets. ».
+
+**Décision à prendre (non codée)** : le tableau du mix §2 met au mardi LinkedIn « relais à angle travail, sinon vanne de bureau », et les vannes prises par LinkedIn ne sont pas de thème bureau. Mesure faite, sans la garder : si R08 et R07 tiennent leur créneau avant la vanne, le 1b compte **46 posts, 0 erreur de mix et 5 erreurs de légende de relais IG** (19/10, 29/10, 05/11, 09/11, 12/11). Je n'ai pas codé cette variante : la consigne limite la priorité aux cases de conseil.
+
+**Technique dans la carte 1** : le gabarit du Worker n'affiche pas de surtitre (déploiement gelé). Le script met donc la technique en tête de la carte 1 (« La manie en métier : À la pause café… »), comme sur X. Le champ `surtitre` du fichier reste inchangé, et les cartes ne sont pas réécrites dans le JSON.
+
+**Rendu vérifié en local** (`scripts/content/social-conseil-rendu.ts`, `generatePostImage` puis analyse des pixels hors zone) :
+
+| Conseil IG | Carte 1 avec la technique | Carte 2 |
+|---|---|---|
+| 23/10 K26, Consoler en exagérant | tient | **DÉBORDE** (haut et bas, coupée) |
+| 03/11 K30, La manie en métier | tient | tient |
+| 06/11 K22, La fausse naïveté | tient | **DÉBORDE** (haut et bas) |
+| 10/11 K07, Le carnet d'absurdités | tient | **DÉBORDE** (lignes trop larges, mots qui se chevauchent) |
+| 13/11 K27, L'anecdote qui déraille | **DÉBORDE** (déborde déjà sans la technique : 75 rangées hors marge, 78 avec) | **DÉBORDE** |
+
+Aucun mot coupé. **5 cartes sur 10 débordent, dont 4 sans lien avec la technique** : le gabarit des vannes (chute en corps 100) n'est pas fait pour des cartes de conseil de 30 mots. Autre défaut du gabarit : la carte 1 des 06/11 et 10/11 s'affiche entre « » lilas, car une 1re personne dans la carte 2 en fait une « vanne citée » (R6). **Bloquant avant l'insertion du 1b** : il faut un gabarit conseil (@design, puis déploiement à lever par la garde) ou des cartes raccourcies (@copywriter, relecture à l'aveugle). PNG de contrôle : `docs/social/visuels-s15/controle-conseil-ig-06-11-fausse-naivete-carte1.png`.
+
+**Lot 1a** : JSON identique à l'octet (sha256 `63a2f315aed1c0d5…` avant et après), Markdown identique, sortie console identique hors chemin.
+
+**Contrôles** : `npx tsc --noEmit -p tsconfig.build.json`, `npm run lint` (0 erreur), `npm run build` : OK. `npx jest` : 267 suites, 3 852 tests passés (2 ignorés, déjà ignorés avant).
+
 ## Commande
 
 ```bash
@@ -19,7 +60,7 @@ Sortie : catalogue 127 vannes GARDER, pool 42, stock éligible 22, 10 articles ;
 - **Barres** : conseil 8 chez les 2 (déjà le cas, plan §3) ; relais LinkedIn relevé de 8 à **8,5** chez les 2 (`aveugle-1b-linkedin-resultat.md`). Tests ajoutés.
 - **Légendes** (`social-lot-v5-legendes.ts`) : **L12** (vanne `cs14jk76ca7ad32cce9041ce`, TGV, 03/11) et **L13** (`cs14jk55b4243d4d1c132b97`, téléphone face contre la table, 04/11) : vannes du dry-run conformes à la clé, versées. L07, L16, L15 : non versées (voir Erreurs).
 
-## Conflit du 03/11 Instagram (et trois cas identiques)
+## Conflit du 03/11 Instagram (et trois cas identiques) : version 1, remplacée par la révision 2 ci-dessus
 
 `mix-formats-s15.md` §2 : une vanne au niveau passe avant le conseil (affectation n°4 : X et Instagram du mardi). Donc :
 - **la vanne `cs14jk76ca7ad32cce9041ce` garde le 03/11 Instagram, avec la légende L12** (la légende suit la vanne) ;

@@ -67,8 +67,8 @@ export const LEGENDES_IG: Record<string, string> = {
   cs14jk9a9e7a1b8e0e16264e: "À envoyer à ton oncle, qui demande si c'est un vrai travail.", // IG du 15/10, H01 (9 / 8,5)
   cmmnsqn120000th63o435xsb0: "À envoyer à ta mère, qui t'avait dit de surveiller le four.", // IG du 16/10, H11 (8,5 / 9)
   // Lot 1b, relu à l'aveugle le 08/10 (aveugle-1b-formats-resultat.md) ; vanne vérifiée au dry-run du 08/10.
-  cs14jk76ca7ad32cce9041ce: "À envoyer à ta sœur, qui demande toujours si t'as un câble.", // cartes IG du 03/11, L12 (9 / 9)
-  cs14jk55b4243d4d1c132b97: "À envoyer à celle qui répond « deux secondes » en fixant son écran.", // cartes IG du 04/11, L13 (9 / 9)
+  cs14jk76ca7ad32cce9041ce: "À envoyer à ta sœur, qui demande toujours si t'as un câble.", // L12 (9 / 9) : plus au 03/11 (conseil nominal), vanne rendue au tirage, légende servie si elle est tirée sur IG
+  cs14jk55b4243d4d1c132b97: "À envoyer à celle qui répond « deux secondes » en fixant son écran.", // L13 (9 / 9), attachée à la vanne : servie si elle est tirée sur IG (dry-run 1b du 08/10 : LinkedIn 05/11)
   // L07 (relais IG 19/10, vanne cs14jkb03209d55cbfc17448), L16 (29/10, cs14jkd11f7913f8177df395) et L15 (05/11,
   // cs14jkfec1cb933d1931e868) NON versées : le dry-run du 08/10 tire d'autres vannes sur ces relais, et une légende
   // de relais compte le renvoi « lien en bio » dans ses 80 caractères (L07, L15, L16 + renvoi > 80). Voir lot-1b-dry-run-08-10.md.

@@ -9,7 +9,7 @@
 import { buildLotV5, controlerLot, type LotInput, type LotResult } from "../../../scripts/content/social-lot-v5";
 import { fichierLot } from "../../../scripts/content/social-lot-v5-export";
 import { FORMULES } from "../../../scripts/content/social-lot-v5-config";
-import { lireTextesFormats, ordreRepli, type TexteFormat } from "../../../scripts/content/social-lot-v5-mix";
+import { PLAFONDS_MIX, carteAvecSurtitre, caseConseilNominale, conseilPermis, lireTextesFormats, ordreRepli, type TexteFormat } from "../../../scripts/content/social-lot-v5-mix";
 import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
 import { longueurX } from "../../lib/social/longueur-x";
 import fs from "node:fs";
@@ -89,7 +89,16 @@ describe("barres et champs du lot 1b (08/10)", () => {
     expect(erreurs.join("\n")).toMatch(/conseil-x-2 : « surtitre » réservé au conseil Instagram/);
     expect(erreurs.join("\n")).toMatch(/conseil-ig-3 : surtitre de 5 mots/);
     expect(erreurs.join("\n")).toMatch(/entrée 4 : creneau créneau AAAA-MM-JJ/);
-    expect(lot(textes).posts.find((p) => p.mix?.texte === "conseil-ig-1")?.note).toMatch(/Surtitre de la carte 1 : « Le carnet d'absurdités »/);
+    const p = lot(textes).posts.find((x) => x.mix?.texte === "conseil-ig-1")!;
+    expect(p.note).toMatch(/Surtitre « Le carnet d'absurdités » en tête de la carte 1/);
+    // Gabarit sans surtitre (Worker gelé) : la technique passe dans le texte de la carte 1, la carte 2 ne change pas.
+    expect(p.cartes).toEqual([`Le carnet d'absurdités : ${conseilIg(1).cartes![0]}`, conseilIg(1).cartes![1]]);
+  });
+
+  it("carteAvecSurtitre : « Technique : texte » en carte 1, jamais en double, sans surtitre rien ne change", () => {
+    expect(carteAvecSurtitre(["Premier rendez-vous.", "Réplique."], "La fausse naïveté")).toEqual(["La fausse naïveté : Premier rendez-vous.", "Réplique."]);
+    expect(carteAvecSurtitre(["La fausse naïveté : Premier rendez-vous.", "Réplique."], "La fausse naïveté")[0]).toBe("La fausse naïveté : Premier rendez-vous.");
+    expect(carteAvecSurtitre(["A.", "B."])).toEqual(["A.", "B."]);
   });
 
   it("créneau : le texte sert sa case, quel que soit l'ordre du fichier ; après la fin du lot, jamais pris", () => {
@@ -139,7 +148,8 @@ describe("ordre du repli (mix §2)", () => {
     const lundi = de(r, "2026-11-02", "TWITTER")!;
     expect(lundi).toMatchObject({ type: "VANNE", origine: "MIX", mix: { format: "ligne" }, lien: null, sourceId: "ligne-x-1" });
     expect(lundi.vannes[0]).toMatch(/^se-presenter-avec-humour#/);
-    expect(sansTexte(r).find((e) => e.startsWith("2026-11-05 TWITTER"))).toMatch(/format attendu : conseil/);
+    // Jeudi : jamais de conseil (décision du 08/10), seule une ligne d'article notée peut servir la case.
+    expect(sansTexte(r).find((e) => e.startsWith("2026-11-05 TWITTER"))).toMatch(/format attendu : ligne d'article notée\)/);
     expect(r.posts.map((p) => `${p.date}${p.platform}`)).toEqual([...r.posts].sort((a, b) => a.date.localeCompare(b.date)).map((p) => `${p.date}${p.platform}`));
   });
 
@@ -165,12 +175,13 @@ describe("ordre du repli (mix §2)", () => {
 });
 
 describe("plafonds (mix §2 et §6)", () => {
-  it("8 conseils par semaine au plus : les 2 cases restantes attendent une ligne d'article", () => {
+  it("jamais de conseil le lundi ni le jeudi : 6 conseils sur la semaine, lundi et jeudi attendent une ligne d'article", () => {
     const r = lot([...[1, 2, 3, 4, 5].map(conseilX), ...[1, 2, 3, 4, 5].map(conseilIg)]);
-    expect(r.posts.filter((p) => p.type === "CONSEIL")).toHaveLength(8);
-    const jeudi = sansTexte(r).filter((e) => e.startsWith("2026-11-05 TWITTER") || e.startsWith("2026-11-05 INSTAGRAM"));
-    expect(jeudi).toHaveLength(2);
-    for (const e of jeudi) expect(e).toMatch(/format attendu : ligne d'article notée\)/);
+    expect(r.posts.filter((p) => p.type === "CONSEIL")).toHaveLength(6);
+    expect(PLAFONDS_MIX.conseilsParSemaine).toBe(8);
+    const lunJeu = sansTexte(r).filter((e) => /^2026-11-0[25] (TWITTER|INSTAGRAM)/.test(e));
+    expect(lunJeu).toHaveLength(4);
+    for (const e of lunJeu) expect(e).toMatch(/format attendu : ligne d'article notée\)/);
     expect(r.posts.filter((p) => p.platform === "LINKEDIN" && p.type === "CONSEIL")).toEqual([]);
   });
 
@@ -225,6 +236,69 @@ describe("carrousel R9 et registre", () => {
     expect(r.posts.filter((p) => p.mix?.texte === "conseil-x-1")).toHaveLength(1);
     const deja = lot([conseilX(1)], { recents: [{ date: "2026-10-23", sourceId: "conseil-x-1", platform: "TWITTER" }] });
     expect(deja.posts.filter((p) => p.mix?.texte === "conseil-x-1")).toHaveLength(0);
+  });
+});
+
+describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
+  const FICHIER = path.resolve(__dirname, "../../../../../docs/social/preparation/textes-formats-valides.json");
+  const reels = () => lireTextesFormats(fs.readFileSync(FICHIER, "utf-8"), FICHIER).textes;
+  const LOT_1B = { lot: "relance-s15", debut: "2026-10-19", fin: "2026-11-15" };
+  const jour = (d: string) => new Date(`${d}T12:00:00Z`).getUTCDay();
+
+  it("vendredi avant le 03/11, mardi et vendredi ensuite ; X et Instagram ; jamais LinkedIn, lundi, jeudi ni exception", () => {
+    for (const pf of ["TWITTER", "INSTAGRAM"] as const) {
+      expect(caseConseilNominale("2026-10-23", pf)).toBe(true);
+      expect(caseConseilNominale("2026-10-27", pf)).toBe(false);
+      expect(caseConseilNominale("2026-11-03", pf)).toBe(true);
+      expect(caseConseilNominale("2026-11-06", pf)).toBe(true);
+      expect(caseConseilNominale("2026-10-30", pf)).toBe(false);
+      expect(caseConseilNominale("2026-11-27", pf)).toBe(false);
+    }
+    expect(caseConseilNominale("2026-11-03", "LINKEDIN")).toBe(false);
+    expect([conseilPermis("2026-11-09"), conseilPermis("2026-11-12"), conseilPermis("2026-11-10"), conseilPermis("2026-11-11")]).toEqual([false, false, true, true]);
+    expect(ordreRepli("TWITTER", "RELAIS_JEUDI", "2026-11-12")).toEqual(["ligne"]);
+    expect(ordreRepli("INSTAGRAM", "RELAIS_LUNDI", "2026-11-09")).toEqual(["ligne"]);
+    expect(ordreRepli("TWITTER", "VANNE_QUIZ", "2026-11-04")).toEqual(["quiz", "conseil", "ligne"]);
+  });
+
+  it("lecture : un conseil à créneau hors case nominale est refusé", () => {
+    const entrees = [{ ...conseilX(1), creneau: "2026-11-09" }, { ...conseilX(2), creneau: "2026-10-27" }, { ...conseilIg(3), creneau: "2026-10-30" },
+      { ...conseilX(4), creneau: "2026-11-10" }];
+    const { textes, erreurs } = lireTextesFormats(JSON.stringify({ textes: entrees }), "f.json");
+    expect(textes.map((t) => t.id)).toEqual(["conseil-x-4"]);
+    for (const id of ["conseil-x-1", "conseil-x-2", "conseil-ig-3"]) expect(erreurs.join("\n")).toMatch(new RegExp(`${id} : créneau .* hors case de conseil nominale`));
+  });
+
+  it("conseil nominal prioritaire : il passe avant la vanne, qui retourne au tirage (aucun texte rendu)", () => {
+    const base = lot([], { autorisees: undefined, debut: "2026-11-03", fin: "2026-11-03" });
+    const v = de(base, "2026-11-03", "TWITTER")!.vannes[0];
+    expect(v).toBeTruthy();
+    // Pool réduit à cette seule vanne : sans le conseil, elle tiendrait le mardi X.
+    expect(de(lot([], { autorisees: [v], debut: "2026-11-03", fin: "2026-11-03" }), "2026-11-03", "TWITTER")!.vannes).toEqual([v]);
+    const r = lot([{ ...conseilX(1), creneau: "2026-11-03" }], { autorisees: [v], debut: "2026-11-03", fin: "2026-11-03" });
+    expect(de(r, "2026-11-03", "TWITTER")).toMatchObject({ type: "CONSEIL", mix: { texte: "conseil-x-1" } });
+    expect(de(r, "2026-11-03", "TWITTER")!.note).toMatch(/^Case de conseil nominale/);
+    expect(r.warnings.join("\n")).not.toMatch(/texte rendu au repli/);
+    // La vanne n'est pas consommée par la case du conseil : elle reste au tirage des autres cases.
+    const ailleurs = r.posts.filter((p) => p.vannes.includes(v));
+    expect(ailleurs).toHaveLength(1);
+    expect(ailleurs[0].platform).not.toBe("TWITTER");
+  });
+
+  it("fichier versionné, stock plein : K36 et K26 le ven. 23/10, K28 et K30 le mar. 03/11, aucun conseil lundi ou jeudi", () => {
+    for (const autorisees of [undefined, ["aucune-vanne"]]) {
+      const r = lot(reels(), { ...LOT_1B, autorisees });
+      expect(de(r, "2026-10-23", "TWITTER")?.mix?.texte).toBe("cmptbp7nv002bs60xscu5ixmx");
+      expect(de(r, "2026-10-23", "INSTAGRAM")?.mix?.texte).toBe("cmny1tkhw000rs60wsolieluq");
+      expect(de(r, "2026-11-03", "TWITTER")?.mix?.texte).toBe("cmmw0tqkc000smw62bo1yfeyg");
+      expect(de(r, "2026-11-03", "INSTAGRAM")?.mix?.texte).toBe("cmq0gw85z00nas60xc0gno2ka");
+      const conseils = r.posts.filter((p) => p.type === "CONSEIL");
+      expect(conseils.length).toBeGreaterThanOrEqual(4);
+      for (const p of conseils) {
+        expect([1, 4]).not.toContain(jour(p.date));
+        expect(p.platform).not.toBe("LINKEDIN");
+      }
+    }
   });
 });
 
