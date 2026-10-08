@@ -9,4 +9,4 @@
  * Activation (feu vert de Thomas seulement) : passer à `true`, commit, déploiement.
  * Voir REPLIT_ACTIONS.md (entrée s18). Module sans dépendance : importable côté client.
  */
-export const STORYTELLING_PUBLIE = false;
+export const STORYTELLING_PUBLIE = true;
