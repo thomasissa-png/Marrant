@@ -14,6 +14,7 @@ import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, 
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
+import { LIBELLE_FORMAT, PLAFONDS_MIX, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -44,10 +45,15 @@ export interface LotInput {
   autorisees?: string[];
   /** Légendes Instagram par vanne (« À envoyer à... ») ; défaut : `LEGENDES_IG` (social-lot-v5-legendes.ts). */
   legendes?: Record<string, string>;
+  /**
+   * Textes validés du repli du mix (`docs/social/preparation/textes-formats-valides.json`, lus par
+   * `lireTextesFormats`) : seule source des cases sans vanne au niveau ; vide = erreur par créneau et par format.
+   */
+  textesFormats?: TexteFormat[];
 }
 /** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
 export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
-export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF";
+export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF" | "TEXTE_MIX";
 export type Variante = "image" | "texte";
 /** Test LinkedIn texte / image : bras par post et paires formées. */
 export interface CompteVariantes { eligibles: number; image: number; texte: number; paires: number; pairesMemeNote: number }
@@ -77,7 +83,9 @@ export interface LotPost {
   repliDe: string | null;
   /** Post daté (pivot, saison) : jamais rattrapé à la reprise. */
   datee: boolean;
-  origine: "VALIDE" | "V5" | "TIRAGE";
+  origine: "VALIDE" | "V5" | "TIRAGE" | "MIX";
+  /** Repli du mix : format et id du texte validé (textes-formats-valides.json). */
+  mix?: { format: FormatMix; texte: string };
   segments: Segment[];
   note: string | null;
   /** Lignes de la vanne (amorce, chute) : éligibilité à la carte LinkedIn. */
@@ -169,6 +177,18 @@ export function buildLotV5(input: LotInput): LotResult {
     if (r.platform && (!p || r.date < p.date)) premier.set(r.sourceId, { date: r.date, pf: r.platform });
   }
   const fixesVannes = new Set<string>();
+  /** Toutes les diffusions de chaque clé (R9 : une seule réutilisation, après la seule 1re diffusion). */
+  const usages = new Map<string, string[]>();
+  const noterUsage = (k: string, d: string) => usages.set(k, [...(usages.get(k) ?? []), d]);
+  for (const r of input.recents) noterUsage(r.sourceId, r.date);
+  // ── Textes du mix : chacun une seule fois (lot et posts en base, par id), lignes d'article aussi par clé 90 jours ──
+  const textesFormats = input.textesFormats ?? [];
+  const cleLigne = (t: TexteFormat) => `${t.article}#${t.rang ?? normaliser(t.texte ?? (t.cartes ?? []).join(" ")).slice(0, 24)}`;
+  const formatsUtilises = new Set<string>();
+  for (const t of textesFormats) for (const d of usages.get(t.id) ?? []) {
+    formatsUtilises.add(t.id);
+    if (t.format === "ligne" && (!utilise.has(cleLigne(t)) || d > utilise.get(cleLigne(t))!)) utilise.set(cleLigne(t), d);
+  }
 
   const vanneDeLigne = (l: LigneArticle): Vanne => {
     const j = l.catalogueId ? poolById.get(l.catalogueId) : undefined;
@@ -223,6 +243,7 @@ export function buildLotV5(input: LotInput): LotResult {
   };
   const reserver = (v: Vanne, date: string, pf: PreparedPlatform) => {
     utilise.set(v.cle, date);
+    noterUsage(v.cle, date);
     textes.add(normaliser(texteDe(v)));
     if (!premier.has(v.cle)) premier.set(v.cle, { date, pf });
   };
@@ -254,7 +275,8 @@ export function buildLotV5(input: LotInput): LotResult {
   const controler = (p: LotPost) => {
     const errs = checkPost({ platform: p.platform, text: p.content, quoted: "", r6: true, cardText: p.cartes.join("\n") || undefined,
       maxLength: p.platform === "INSTAGRAM" ? 80 : undefined });
-    if (p.platform === "INSTAGRAM") {
+    // Cartes conseil : 2 cartes 4:5 (mix §4), pas le plafond de 25 mots des cartes vanne.
+    if (p.platform === "INSTAGRAM" && p.type !== "CONSEIL") {
       p.cartes.slice(0, 2).forEach((c, i) => { if (mots(c) > 25) errs.push(`carte ${i + 1} : ${mots(c)} mots (max 25)`); });
       if (p.cartes.length === 5) {
         if (mots(p.cartes[2]) > 30) errs.push(`carte 3 : ${mots(p.cartes[2])} mots (max 30)`);
@@ -272,29 +294,32 @@ export function buildLotV5(input: LotInput): LotResult {
   const poster = (date: string, pf: PreparedPlatform, type: TypePost, o: {
     v: Vanne | null; marque?: string; renvoi?: string | null; renvoiOrigine?: Origine; lien?: string | null; legende?: string; legendeOrigine?: Origine;
     cartes?: string[]; cartesOrigine?: Origine; origine: LotPost["origine"]; cle?: string; slug?: string; note?: string | null; valide?: boolean;
-    repliDe?: string;
+    repliDe?: string; mix?: LotPost["mix"]; sourceId?: string; persona?: LotPost["persona"];
   }): LotPost => {
     const g = creneau(pf, date);
     const id = idDuPost(pf, date, o.repliDe ? `${lotId}-repli` : lotId);
     const lien = o.lien ?? null;
     const content = pf === "INSTAGRAM" ? (o.legende ?? legendeDe(o.v) ?? "") : textePost(pf, o.v, o.marque ?? null, o.renvoi ?? null, lien);
     const cartes = pf === "INSTAGRAM" ? (o.cartes ?? (o.v?.cartes ? [...o.v.cartes] : [])) : [];
-    const segV: Origine = o.valide ? "VALIDE" : (o.v?.origine ?? "NEUF");
+    // Texte validé du mix : tous ses segments sont déjà notés à l'aveugle (jamais « NEUF »), formules v5 exceptées.
+    const fige: Origine | null = o.valide ? "VALIDE" : o.mix ? "TEXTE_MIX" : null;
+    const segV: Origine = fige ?? (o.v?.origine ?? "NEUF");
     const segments: Segment[] = [];
     if (o.v) o.v.lignes.forEach((l) => segments.push({ texte: l, origine: segV }));
-    if (o.marque) segments.push({ texte: o.marque, origine: o.valide ? "VALIDE" : "NEUF" });
+    if (o.marque) segments.push({ texte: o.marque, origine: fige ?? "NEUF" });
     if (o.renvoi) segments.push({ texte: o.renvoi, origine: o.valide ? "VALIDE" : (o.renvoiOrigine ?? "FORMULE_V5") });
-    if (pf === "INSTAGRAM" && content) segments.push({ texte: content, origine: o.valide ? "VALIDE" : (o.legendeOrigine ?? "FORMULE_V5") });
-    if (cartes.length === 5) cartes.slice(2).forEach((c) => segments.push({ texte: c, origine: o.valide ? "VALIDE" : (o.cartesOrigine ?? "ARTICLE") }));
-    const persona = pf === "LINKEDIN" ? "SOPHIE" : o.slug && C.ARTICLES_MARC.has(o.slug) ? "MARC" : "YANIS";
+    if (pf === "INSTAGRAM" && content) segments.push({ texte: content, origine: fige ?? (o.legendeOrigine ?? "FORMULE_V5") });
+    if (cartes.length === 5) cartes.slice(2).forEach((c) => segments.push({ texte: c, origine: fige ?? (o.cartesOrigine ?? "ARTICLE") }));
+    if (o.mix && !o.v && cartes.length === 2) cartes.forEach((c) => segments.push({ texte: c, origine: "TEXTE_MIX" }));
+    const persona = o.persona ?? (pf === "LINKEDIN" ? "SOPHIE" : o.slug && C.ARTICLES_MARC.has(o.slug) ? "MARC" : "YANIS");
     const sourceType = o.v?.jokeId ? "JOKE" : o.v || o.slug ? "BLOG" : "ORIGINAL";
-    const sourceId = o.v?.jokeId ?? o.v?.cle ?? o.slug ?? o.cle ?? id;
+    const sourceId = o.sourceId ?? o.v?.jokeId ?? o.v?.cle ?? o.slug ?? o.cle ?? id;
     const p: LotPost = {
       id, cle: o.cle ?? null, date, heure: `${String(g.h).padStart(2, "0")}:${String(g.m).padStart(2, "0")}`,
       scheduledAt: parisToUtc(date, g.h, g.m).toISOString(), platform: pf, type, content, cartes,
       // Décryptage : 5 parties (amorce, chute, mécanisme, consigne, renvoi) = 4 cartes (carte 4 = consigne + renvoi).
       imageUrls: Array.from({ length: nombreDeCartes(cartes) }, (_, i) => `${siteUrl}/api/social/image?postId=${id}&slide=${i}`),
-      lien, sourceType, sourceId, vannes: o.v ? [o.v.cle] : [], persona, origine: o.origine, segments, note: o.note ?? null,
+      lien, sourceType, sourceId, vannes: o.v ? [o.v.cle] : [], persona, origine: o.origine, ...(o.mix ? { mix: o.mix } : {}), segments, note: o.note ?? null,
       lignes: o.v ? [...o.v.lignes] : undefined,
       ...(g.bras ? { bras: g.bras } : {}),
       article: (type === "RELAIS" || type === "PIVOT") && o.slug ? o.slug : null,
@@ -353,8 +378,11 @@ export function buildLotV5(input: LotInput): LotResult {
   };
   /** Cases de relais devenues vanne simple (CASES_VANNE) : tirées après le lot, avant les replis, rang d'origine gardé. */
   const differees: Array<{ date: string; pf: PreparedPlatform; note: string; rang: number }> = [];
+  /** Cases sans vanne au niveau : servies après le lot par le repli du mix (mix-formats-s15.md §2), jamais omises. */
+  const aReplier: Array<{ date: string; pf: PreparedPlatform }> = [];
   construire();
   construireDifferees();
+  construireReplisMix();
   construireReplis();
   const variantes = alternerVariantes(posts, input.notes);
   // Bras image : threadParts = [amorce, chute], 1 carte servie par /api/social/image (slide 0).
@@ -363,6 +391,130 @@ export function buildLotV5(input: LotInput): LotResult {
     p.imageUrls = [`${siteUrl}/api/social/image?postId=${p.id}&slide=0`];
   }
   return { posts, replis, warnings, errors, stockEligible: stock, variantes };
+
+  /**
+   * Repli du mix (mix-formats-s15.md §2, §3, §6) : chaque case sans vanne au niveau reçoit, dans l'ordre de
+   * `ordreRepli` et sous `PLAFONDS_MIX`, le 1er texte libre de `textesFormats`. Mardis et vendredis servis d'abord.
+   * Sans texte : erreur par créneau et par format ; le format attendu compte dans les plafonds (commande cohérente).
+   */
+  function construireReplisMix(): void {
+    const prevus: Array<{ date: string; pf: PreparedPlatform; f: FormatMix }> = [];
+    const erreurs: Array<{ date: string; pf: PreparedPlatform; m: string }> = [];
+    const cases = [...aReplier].sort((a, b) => prioriteRepli(weekday(a.date)) - prioriteRepli(weekday(b.date))
+      || a.date.localeCompare(b.date) || PLATEFORMES.indexOf(a.pf) - PLATEFORMES.indexOf(b.pf));
+    for (const { date, pf } of cases) {
+      const jour = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0] ?? date;
+      const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE");
+      const ouverts = ordre.filter((f) => sousPlafond(f, date, pf, prevus));
+      if (ouverts.some((f) => posterFormat(f, date, pf))) continue;
+      if (ouverts.length) prevus.push({ date, pf, f: ouverts[0] });
+      const detail = ouverts[0] === "relaisLinkedIn" ? articlesTravail(date) : undefined;
+      erreurs.push({ date, pf, m: ouverts.length ? erreurSansTexte(date, pf, ouverts[0], ouverts.slice(1), detail)
+        : `${date} ${pf} : créneau du ${jjmm(date)} : repli du mix impossible, plafonds atteints (${ordre.map((f) => LIBELLE_FORMAT[f]).join(", ")}).` });
+    }
+    erreurs.sort((a, b) => a.date.localeCompare(b.date) || PLATEFORMES.indexOf(a.pf) - PLATEFORMES.indexOf(b.pf)).forEach((e) => errors.push(e.m));
+  }
+
+  /** Relais LinkedIn possible : article publié depuis 7 jours au plus (mix §4), de thème bureau ou angle travail porté par le texte. */
+  function articleTravail(slug: string | undefined, date: string, angleTexte = false): ArticleLot | null {
+    const a = slug ? articleParSlug.get(slug) : undefined;
+    return a && a.date <= date && jours(a.date, date) <= 7 && (angleTexte || estAngleBureau(a)) ? a : null;
+  }
+  function articlesTravail(date: string): string {
+    const ok = input.articles.filter((a) => articleTravail(a.slug, date, true))
+      .map((a) => `${a.slug} (${jjmm(a.date)}${estAngleBureau(a) ? ", thème bureau" : ", angle travail à porter par le texte"})`);
+    return ok.length ? `articles de 7 jours au plus : ${ok.join(", ")}` : "aucun article de 7 jours au plus : relais impossible, décision à prendre";
+  }
+
+  function sousPlafond(f: FormatMix, date: string, pf: PreparedPlatform, prevus: Array<{ date: string; pf: PreparedPlatform; f: FormatMix }>): boolean {
+    const semaine = mondayOf(date);
+    const n = (ok: (p: LotPost) => boolean) => posts.filter((p) => mondayOf(p.date) === semaine && ok(p)).length
+      + prevus.filter((x) => x.f === f && mondayOf(x.date) === semaine).length;
+    if (f === "conseil") return pf !== "LINKEDIN" && n((p) => p.type === "CONSEIL") < PLAFONDS_MIX.conseilsParSemaine;
+    if (f === "carrousel") return pf === "INSTAGRAM" && n((p) => p.platform === "INSTAGRAM" && p.type === "DECRYPTAGE") < PLAFONDS_MIX.carrouselsParSemaine;
+    if (f === "relaisLinkedIn") return pf === "LINKEDIN" && n((p) => p.platform === "LINKEDIN" && !!p.lien) < PLAFONDS_MIX.relaisLinkedInParSemaine;
+    if (f === "quiz") {
+      const quiz = [...posts.filter((p) => p.type === "QUIZ").map((p) => p.date), ...prevus.filter((x) => x.f === "quiz").map((x) => x.date),
+        ...textesFormats.filter((t) => t.format === "quiz").flatMap((t) => usages.get(t.id) ?? [])];
+      const fenetre = date >= PLAFONDS_MIX.fenetre.de && date <= PLAFONDS_MIX.fenetre.a
+        ? quiz.filter((d) => d >= PLAFONDS_MIX.fenetre.de && d <= PLAFONDS_MIX.fenetre.a).length < PLAFONDS_MIX.quizSeulMax : true;
+      // 1 mercredi sur 2 : aucun quiz seul à 7 jours ou moins.
+      return pf === "TWITTER" && fenetre && !quiz.some((d) => Math.abs(jours(d, date)) <= 7);
+    }
+    return pf !== "LINKEDIN";
+  }
+
+  /** Pose sur la case le 1er texte libre du format (ordre du fichier) ; false si aucun. Chaque texte sert une fois. */
+  function posterFormat(f: FormatMix, date: string, pf: PreparedPlatform): boolean {
+    for (const t of textesFormats) {
+      if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
+      const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
+        cartes: t.cartes ? [...t.cartes] : undefined, note: `Repli du mix (${LIBELLE_FORMAT[f]}) : texte ${t.id}, notes ${t.notes.join(" / ")} (${t.source}).` };
+      let p: LotPost;
+      if (f === "conseil") p = poster(date, pf, "CONSEIL", { ...base, v: null, marque: t.texte, sourceId: t.id });
+      else if (f === "quiz") {
+        const avant = [...posts].reverse().find((x) => x.type === "QUIZ" && x.date < date)?.mix?.texte;
+        const profils = textesFormats.find((x) => x.id === avant)?.profils ?? [];
+        if (t.profils?.some((x) => profils.includes(x))) continue;
+        p = poster(date, pf, "QUIZ", { ...base, v: null, marque: t.texte, renvoi: C.FORMULES.quizCourt, sourceId: t.id,
+          lien: lienUtmV5(siteUrl, "/quiz-humour", pf, date, "quiz") });
+      } else if (f === "relaisLinkedIn") {
+        const a = articleTravail(t.article, date, t.angleTravail);
+        if (!a) continue;
+        p = poster(date, pf, "RELAIS", { ...base, v: null, marque: t.texte, slug: a.slug, sourceId: t.id,
+          lien: lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, "relais") });
+      } else {
+        const v = f === "ligne" ? vanneDeLigneNotee(t, date) : vanneR9(t, date);
+        if (!v) continue;
+        reserver(v, date, pf);
+        p = poster(date, pf, f === "ligne" ? "VANNE" : "DECRYPTAGE", { ...base, v, ...(f === "ligne" ? { sourceId: t.id } : {}) });
+      }
+      formatsUtilises.add(t.id);
+      placer(p);
+      return true;
+    }
+    return false;
+  }
+
+  /** Repli inséré à sa place dans le lot (date, puis X, Instagram, LinkedIn). */
+  function placer(p: LotPost): void {
+    posts.splice(posts.indexOf(p), 1);
+    const k = PLATEFORMES.indexOf(p.platform);
+    const i = posts.findIndex((q) => q.date > p.date || (q.date === p.date && PLATEFORMES.indexOf(q.platform) > k));
+    posts.splice(i < 0 ? posts.length : i, 0, p);
+  }
+
+  /** Ligne d'article notée : mot pour mot dans un article publié avant la case, libre au registre des 90 jours. */
+  function vanneDeLigneNotee(t: TexteFormat, date: string): Vanne | null {
+    const a = articleParSlug.get(t.article ?? "");
+    const texte = t.texte ?? (t.cartes ?? []).join(" ");
+    if (!a || a.date >= date) return null;
+    if (!normaliser(a.content).includes(normaliser(texte))) return avertir(`Texte ${t.id} : ligne introuvable mot pour mot dans l'article ${a.slug}, non utilisée.`);
+    const v: Vanne = { cle: cleLigne(t), lignes: t.cartes ? [...t.cartes] : [texte], cartes: t.cartes ? [t.cartes[0], t.cartes[1]] : deuxCartes([texte]),
+      categorie: null, origine: "ARTICLE" };
+    const d = utilise.get(v.cle);
+    return (d && Math.abs(jours(d, date)) < C.ANTI_REPETITION_JOURS) || textes.has(normaliser(texteDe(v))) ? null : v;
+  }
+
+  /** R9 (mix §3) : vanne au niveau, 1re diffusion sur X ou LinkedIn depuis 28 jours, jamais rejouée ; cartes 1 et 2 = la vanne. */
+  function vanneR9(t: TexteFormat, date: string): Vanne | null {
+    const j = poolById.get(t.jokeId ?? "");
+    const refus = (m: string) => avertir(`Carrousel ${t.id} (${t.jokeId}) : ${m}, non utilisé.`);
+    if (!j) return refus("vanne absente du catalogue validé");
+    if (rang && !rang.has(j.id)) return refus("vanne hors du pool");
+    if (C.SOUS_HUIT.includes(j.id) || C.RESERVEES_NOEL.includes(j.id) || RESERVEES_CARROUSEL.some((r) => r.jokeId === j.id)) return refus("vanne sous 8 ou réservée");
+    if (normaliser(`${t.cartes?.[0]} ${t.cartes?.[1]}`) !== normaliser(`${j.setup} ${j.punchline}`)) return refus("cartes 1 et 2 différentes de la vanne du catalogue");
+    const p1 = premier.get(j.id);
+    if (!p1 || jours(p1.date, date) < PLAFONDS_MIX.r9Jours) return null;
+    if (p1.pf === "INSTAGRAM") return refus("1re diffusion sur Instagram (R9 a)");
+    const ds = usages.get(j.id) ?? [];
+    return ds.length === 1 && ds[0] === p1.date ? deJoke(j) : null;
+  }
+
+  function avertir(m: string): null {
+    if (!warnings.includes(m)) warnings.push(m);
+    return null;
+  }
 
   /**
    * Repli de chaque relais d'un article pas encore visible (plan v2 §6, R3) : vanne du même
@@ -444,7 +596,8 @@ export function buildLotV5(input: LotInput): LotResult {
       cartes: f.cartes, origine: f.origine, cle: f.cle, slug, note: f.note ?? (valide ? "Post validé par Thomas (s15)." : null), valide });
   }
 
-  function construireRelais(date: string, pf: PreparedPlatform, a: ArticleLot | undefined, utm: string, type: TypePost, note: string | null) {
+  // `signaler = false` : la case retombe ensuite sur une vanne, puis sur le repli du mix (aucune erreur ici).
+  function construireRelais(date: string, pf: PreparedPlatform, a: ArticleLot | undefined, utm: string, type: TypePost, note: string | null, signaler = true) {
     if (!a) { errors.push(`${date} ${pf} : article du relais absent.`); return false; }
     const filtreLi = (v: Vanne) => pf !== "LINKEDIN" || nombreDePhrases(texteDe(v)) <= 2;
     let v = ligneRelais(a, date, pf, (x) => filtreLi(x) && filtreReseau(pf, "x".repeat(80))(x));
@@ -454,7 +607,11 @@ export function buildLotV5(input: LotInput): LotResult {
       v = tirer(pf, date, (x) => filtreLi(x) && filtreReseau(pf, "x".repeat(80))(x), (x) => themes.includes(x.categorie ?? ""));
       n = `${note ? `${note} ` : ""}Aucune ligne de l'article disponible : vanne du catalogue du même thème (v5 §1, relais (2)).`;
     }
-    if (!v) { errors.push(`${date} ${pf} : aucune ligne ni vanne pour le relais de ${a.slug}.`); return false; }
+    if (!v) {
+      if (signaler) errors.push(`${date} ${pf} : aucune ligne ni vanne pour le relais de ${a.slug}.`);
+      else warnings.push(`${date} ${pf} : aucune ligne ni vanne pour le relais de ${a.slug} : case servie par une vanne, sinon par le repli du mix.`);
+      return false;
+    }
     reserver(v, date, pf);
     const rv = renvoi(a, pf, !!v.article);
     const lien = pf === "INSTAGRAM" ? null : lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, utm);
@@ -469,7 +626,8 @@ export function buildLotV5(input: LotInput): LotResult {
     const suffixe = quiz ? `${C.FORMULES.quizCourt} ${"x".repeat(23)}` : "";
     const prefere = saisonniere ? (v: Vanne) => C.SAISONS.some((s) => s.re.test(texteDe(v)) && date >= s.de && date <= s.a) : undefined;
     const v = tirer(pf, date, filtreReseau(pf, suffixe), prefere);
-    if (!v) { errors.push(`${date} ${pf} : aucune vanne du catalogue ne passe les contrôles.`); return; }
+    // Aucune vanne au niveau : la case passe au repli du mix (barre Alexa intacte, [CHOIX UTILISATEUR] du 06/10).
+    if (!v) { aReplier.push({ date, pf }); return; }
     reserver(v, date, pf);
     poster(date, pf, type, { v, renvoi: quiz ? C.FORMULES.quizCourt : null, lien: lienQuiz, origine: "TIRAGE", note });
   }
@@ -499,14 +657,14 @@ export function buildLotV5(input: LotInput): LotResult {
     }
     if (t === "RELAIS_LUNDI" || t === "RELAIS_JEUDI") {
       const a = articleParDate.get(date);
-      if (a && construireRelais(date, pf, a, t === "RELAIS_LUNDI" ? "lundi" : "jeudi", "RELAIS", null)) return;
+      if (a && construireRelais(date, pf, a, t === "RELAIS_LUNDI" ? "lundi" : "jeudi", "RELAIS", null, false)) return;
       const note = date === REFONTE_17_12 ? "17/12 : vanne simple sans lien (refonte 2027 non confirmée)." : `Aucun article le ${date} : vanne.`;
       return construireVanne(date, pf, "VANNE", note, t === "RELAIS_JEUDI");
     }
     // LinkedIn : relais d'article à angle bureau (lundi pour le mardi, jeudi pour le jeudi), 1 par semaine au plus.
     const semaine = mondayOf(date);
     const a = articleParDate.get(t === "LI_MARDI" ? addDays(date, -1) : date);
-    if (a && estAngleBureau(a) && !relaisLi.get(semaine) && construireRelais(date, pf, a, "relais", "RELAIS", null)) {
+    if (a && estAngleBureau(a) && !relaisLi.get(semaine) && construireRelais(date, pf, a, "relais", "RELAIS", null, false)) {
       relaisLi.set(semaine, 1);
       return;
     }
@@ -554,7 +712,8 @@ export function controlerLot(posts: LotPost[], base: PostEnBase[] = []): { error
   const errors: string[] = [];
   const warnings: string[] = [];
   const parCle = new Map<string, string[]>();
-  for (const p of posts) for (const k of p.vannes) parCle.set(k, [...(parCle.get(k) ?? []), p.date]);
+  // Carrousel R9 du mix : réutilisation unique contrôlée à la construction (28 jours, 1re diffusion hors Instagram).
+  for (const p of posts) if (p.mix?.format !== "carrousel") for (const k of p.vannes) parCle.set(k, [...(parCle.get(k) ?? []), p.date]);
   for (const [k, ds] of parCle) if (ds.length > 1) errors.push(`Vanne ${k} postée ${ds.length} fois (${ds.join(", ")}) : anti-répétition 90 jours.`);
   // « pain » : 1 par fenêtre de 30 jours tous réseaux, posts déjà en base compris (seule une paire base/base est ignorée).
   const estPain = (ids: string[], texte: string) => ids.some((k) => C.PAIN_IDS.includes(k)) || C.PAIN_RE.test(texte);
@@ -593,7 +752,9 @@ export function controlerLot(posts: LotPost[], base: PostEnBase[] = []): { error
     const xLiens = ps.filter((p) => p.platform === "TWITTER" && p.lien).length;
     const max = s === "2026-10-26" || s === "2026-12-28" ? 4 : 3;
     if (xLiens > max) warnings.push(`Semaine du ${s} : ${xLiens} posts X avec lien (plafond v5 : ${max}).`);
-    if (ps.filter((p) => p.platform === "LINKEDIN" && p.lien).length > 1) errors.push(`Semaine du ${s} : 2 relais LinkedIn.`);
+    // 2e relais LinkedIn admis seulement en repli du mix (LinkedIn sans vanne, mix-formats-s15.md §2).
+    const relaisLi = ps.filter((p) => p.platform === "LINKEDIN" && p.lien);
+    if (relaisLi.length > 2 || (relaisLi.length === 2 && !relaisLi.some((p) => p.mix))) errors.push(`Semaine du ${s} : ${relaisLi.length} relais LinkedIn.`);
   }
   return { errors, warnings };
 }

@@ -41,6 +41,8 @@
  *       `--pool` : vannes autorisées (id catalogue ou `slug#rang`), les meilleures d'abord (ordre
  *       du tirage, sans mélange) ; JSON ou texte (1 id par ligne, `# ` = commentaire) ;
  *       `--pool strict` = pool strict de `src/config/social-pool.ts` (lu aussi par le Worker).
+ *       `--textes-formats fichier` : textes validés du repli du mix (défaut docs/social/preparation/
+ *       textes-formats-valides.json) ; case sans vanne au niveau et sans texte = erreur par créneau et par format.
  *       Retour à 90 jours sur un autre réseau que la 1re diffusion, sauf pénurie (avertissement).
  *       approvedBy du lot : « lot-<id> » (« thomas-s15 » pour relance-s15, bornes par défaut 12/10 au 03/01).
  *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback [--confirmer] [--driver=neon-http]
@@ -61,6 +63,7 @@ import { blogArticles } from "../../src/lib/blog-articles";
 import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLegendesInstagram, controlerLot, type ArticleLot } from "./social-lot-v5";
+import { lireTextesFormats } from "./social-lot-v5-mix";
 import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
 import { annulerLot, bornesLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
@@ -191,13 +194,21 @@ async function genererLot(argv: string[], a: { lot: string; debut: string; fin: 
   // Notes du pool (paires du test LinkedIn texte / image) : commentaires de social-pool.ts ou lignes du fichier.
   const sourceNotes = a.pool === "strict" ? path.join(process.cwd(), "src", "config", "social-pool.ts") : a.pool;
   const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
+  // Repli du mix : textes validés (`--textes-formats`, défaut textes-formats-valides.json), seule source des cases sans vanne.
+  const tf = chargerTextesFormats(arg(argv, "--textes-formats") ?? path.join(DOCS_DIR, "textes-formats-valides.json"));
   const inputs = await loadLotInputs(neonHttpQuery(dbUrl), meta.debut, meta.fin);
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes });
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes, textesFormats: tf.textes });
   // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
   const lot = controlerLot(res.posts, inputs.recents);
   // Légendes Instagram : « À envoyer à... », sans pied ni lien (posts et replis).
   const leg = controlerLegendesInstagram(res.posts, res.replis);
-  return { seed, autorisees, inputs, res, errors: [...res.errors, ...lot.errors, ...leg.errors], warnings: [...res.warnings, ...lot.warnings, ...leg.warnings] };
+  return { seed, autorisees, inputs, res, errors: [...tf.erreurs, ...res.errors, ...lot.errors, ...leg.errors], warnings: [...tf.avertissements, ...res.warnings, ...lot.warnings, ...leg.warnings] };
+}
+
+/** Fichier des textes du mix : absent = aucun texte (avertissement), entrée non conforme = erreur bloquante. */
+export function chargerTextesFormats(chemin: string): ReturnType<typeof lireTextesFormats> & { avertissements: string[] } {
+  if (!fs.existsSync(chemin)) return { textes: [], erreurs: [], avertissements: [`Textes du mix : ${chemin} introuvable, aucun texte de repli.`] };
+  return { ...lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin), avertissements: [] };
 }
 
 async function mainLot(argv: string[]): Promise<number> {

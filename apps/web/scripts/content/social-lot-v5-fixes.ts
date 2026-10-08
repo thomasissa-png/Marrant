@@ -10,7 +10,8 @@ import type { PreparedPlatform } from "./social-controls";
 import { FORMULES } from "./social-lot-v5-config";
 
 export type OrigineFixe = "VALIDE" | "V5";
-export type TypePost = "VANNE" | "VANNE_QUIZ" | "RELAIS" | "PIVOT" | "DECRYPTAGE" | "SITUATION";
+/** CONSEIL et QUIZ (quiz seul) : repli du mix de formats (social-lot-v5-mix.ts). */
+export type TypePost = "VANNE" | "VANNE_QUIZ" | "RELAIS" | "PIVOT" | "DECRYPTAGE" | "SITUATION" | "CONSEIL" | "QUIZ";
 
 export interface VanneFixe {
   jokeId?: string;

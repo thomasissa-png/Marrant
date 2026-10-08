@@ -1,0 +1,4 @@
+{
+  "_lisez-moi": "Source UNIQUE des textes du repli du mix (mix-formats-s15.md §2 à §6). Le générateur (prepare-social-month.ts --lot) n'utilise QUE ces entrées, chacune une seule fois. Entrée = texte noté à l'aveugle par 2 relecteurs, au moins à la barre du format (conseil 8, ligne 8,5, autres 8). Champs : id, format (conseil | ligne | carrousel | quiz | relaisLinkedIn), reseau (TWITTER | INSTAGRAM | LINKEDIN), notes [n1, n2], source (document de notation), texte (X, LinkedIn : sans lien), cartes + legende (Instagram : 2 cartes, carrousel 5 parties), article (ligne, relaisLinkedIn), rang (ligne, optionnel), jokeId (carrousel R9), profils (quiz, optionnel), persona (optionnel). Besoins du lot 1b : lot-1b-besoins-textes.md.",
+  "textes": []
+}

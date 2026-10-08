@@ -62,6 +62,10 @@
 
 > Notes finales : @design 9,8/10, @ux 9,9/10 (GO, aucun bloquant ; Thomas : « Finissons et déployons »). Repositionnement de l'étape visée par une ancre après le chargement Premium, survol de l'en-tête d'étape et de l'interrupteur du rappel. **Aucune migration, aucune variable d'environnement.** tsc, ESLint, Jest complet (3 799 PASS) et `npm run build` verts en local.
 
+## s15 mix de formats codé (08/10/2026) : repli sans vanne au niveau, scripts hors Worker, **rien à déployer**
+
+> `apps/web/scripts/content/social-lot-v5-mix.ts` (nouveau), `social-lot-v5.ts`, `social-lot-v5-fixes.ts`, `social-lot-v5-export.ts`, `prepare-social-month.ts` (scripts locaux, pas dans le Worker) : une case sans vanne au niveau passe au repli du mix (`mix-formats-s15.md` §2 et §6 : conseil, ligne d'article notée, carrousel R9, quiz seul, relais LinkedIn ; plafonds ; jamais de conseil sur LinkedIn), avec des textes pris UNIQUEMENT dans `docs/social/preparation/textes-formats-valides.json` (vide à ce jour, option `--textes-formats`). **Dry-run 1a identique octet pour octet** (JSON et Markdown, sha256 `63a2f315…`). Dry-run 1b : 18 erreurs (13 « repli du mix sans texte validé » + 5 légendes déjà connues) contre 22 ; commande de textes : `docs/social/preparation/lot-1b-besoins-textes.md`. Aucune migration, aucune variable d'environnement, aucune insertion. tsc, ESLint, build et Jest complet verts.
+
 ## s15 lot social (07/10/2026, soir) : textes tranchés à l'aveugle appliqués, scripts hors Worker, **rien à déployer**
 
 > `apps/web/scripts/content/social-lot-v5-{legendes,fixes}.ts` et `social-lot-v5.ts` (scripts locaux, pas dans le Worker) : 4 légendes du lot 1a ; X du lun. 12/10 = vanne du pool strict sans renvoi ni lien (`CASES_VANNE`, tirée après le lot, V011 `cmmnsqn130038th63fxn1wvhn`) ; 1b : IG 21/10 = carte vanne simple V028 (post fixe `IG-21-10`), légende du 30/10. **Dry-run 1a : 0 erreur, 12 posts, prêt pour l'insertion du ven. 09/10 10:15 UTC** (`docs/social/preparation/lot-1a-dry-run-07-10.md`). Aucune migration, aucune variable d'environnement, aucune insertion. tsc, ESLint, build et Jest complet (3 795 PASS) verts.
