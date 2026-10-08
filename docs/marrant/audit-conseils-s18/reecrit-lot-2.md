@@ -101,12 +101,137 @@ Ordre : C003, C007, C012, C018, C024, C028, C033, C036, C039, C045, C049, C052, 
 
 ## C045
 **titre** : Repousser ton exploit à une autre vie
-**contenu** : Quand on t'interroge sur un projet sportif ou ambitieux que tu remets sans cesse, annonce qu'il aura lieu dans une autre vie, en précisant ce qui manque à celle-ci. Tu avoues ta procrastination avec une élégance philosophique, et la précision du manque fait rire. Choisis un manque petit, concret et matériel plutôt que grave : un objet ou une partie de toi que l'autre peut se représenter. Tu es le premier à rire de ta mollesse, personne n'a besoin de le faire à ta place.
+**contenu** : Quand on t'interroge sur un projet sportif ou ambitieux que tu remets sans cesse, annonce qu'il aura lieu dans une autre vie, en précisant ce qui manque à celle-ci. Tu avoues ta procrastination avec une élégance philosophique, et la précision du manque fait rire. Choisis un manque petit, concret et matériel plutôt que grave, que l'autre peut se représenter tout de suite. Tu es le premier à rire de ta mollesse, personne n'a besoin de le faire à ta place.
 **exemple** : Un pote : « Toujours pas de marathon ? » Toi : « Je m'y prépare. Il aura lieu dans une autre vie, une vie avec des genoux. »
 **exercice** : DÉFI AUTRE VIE : aujourd'hui, si on te parle d'un projet que tu repousses, annonce qu'il aura lieu dans une autre vie, en précisant ce qui manque à celle-ci. Personne ne t'en parle ? Choisis ton propre projet repoussé (un sport, un livre, un rangement), écris la phrase avec un manque concret et dis-la à voix haute à quelqu'un, ou envoie-la. C'est réussi si le manque tient en quelques mots et se visualise.
 **réponse** :
 - A et B (critère 2, « des genoux » dans le contenu) : liste d'exemples de manques (genoux, agenda, réveil) retirée du contenu. « Des genoux » n'apparaît plus que dans la chute de l'exemple.
 - A et B (critère 3, défi suspendu à une question) : repli ajouté (ton propre projet repoussé, phrase écrite puis dite ou envoyée) et critère observable.
-[[LOT-C]]
-[[LOT-D]]
-[[LOT-E]]
+## C049
+**titre** : Expliquer une disparition par un projet de vie
+**contenu** : Quand un objet disparaît, invente pour lui un projet de vie : il est parti voir du pays, changer d'air, faire une pause. Tu remplaces l'énervement par une histoire, et l'objet prend une personnalité. Le rire vient de ta fausse confiance dans son retour. Ajoute une condition de retour très terre à terre, le genre de raison qui fait rentrer n'importe quel voyageur.
+**exemple** : Sacha cherche ses clés partout. Toi : « Elles sont peut-être parties voir du pays. » Sacha : « Ce n'est pas drôle. » Toi : « Elles rentrent toujours quand elles n'ont plus d'argent. »
+**exercice** : DÉFI DISPARITION : aujourd'hui, à la prochaine chose introuvable, explique son absence par un projet de vie avec une condition de retour. Rien d'introuvable aujourd'hui ? Choisis un objet perdu depuis longtemps (la chaussette orpheline, le tournevis, le parapluie) et écris-lui, en deux phrases, son projet de vie et sa condition de retour. C'est réussi si l'objet a un projet et une condition de retour.
+**réponse** :
+- A (critère 2, « l'argent » dans la liste) : liste de conditions de retour retirée du contenu, qui ne nomme plus aucune condition. « L'argent » n'apparaît que dans la chute de l'exemple.
+- B : « = ». Repli ajouté malgré tout au défi (objet perdu depuis longtemps), car « la prochaine chose introuvable » est un événement incertain (critère 3).
+
+## C052
+**titre** : Rallonger la vanne de quelqu'un d'autre
+(ancien titre : Lire le tempo du groupe : savoir quand c'est ton tour)
+**contenu** : Quand quelqu'un vient de faire rire le groupe, tu n'as pas besoin d'une vanne à toi : prolonge la sienne. Laisse le rire retomber, puis ajoute une rallonge courte, qui pousse son idée un cran plus loin dans la même direction. Tu n'as rien à inventer, la matière est déjà posée, et tu fais briller celui qui a lancé le sujet au lieu de lui faire concurrence. La rallonge s'appuie sur ce qu'il vient de dire, ne change jamais de sujet, et tient en une seule phrase.
+**exemple** : Un collègue : « Ça fait six ans que je dis bonjour à mon voisin sans connaître son prénom. » Le groupe rit. Une fois le rire retombé, tu ajoutes : « Maintenant, c'est trop tard pour demander. Il te reste la boîte aux lettres, de nuit, avec une lampe de poche. »
+**exercice** : DÉFI RALLONGE : aujourd'hui, quand quelqu'un fait rire un groupe, laisse le rire retomber puis ajoute une rallonge d'une seule phrase à sa vanne, dans la même direction. C'est réussi si celui qui a lancé la vanne sourit ou en ajoute une à son tour. Pas de groupe aujourd'hui ? Prends une vanne lue (fil de discussion, vidéo, message d'un ami) et écris ta rallonge en réponse, en une phrase.
+**réponse** :
+- B (critère 5, doublon avec C006 « place ta phrase dans le blanc qui suit le rire ») : au lieu de supprimer, nouvel angle : C006 apprend à l'introverti à placer UNE phrase à lui, alors que C052 apprend à prolonger la vanne d'un autre, sans rien inventer. Titre, technique, exemple (un voisin dont on ignore le prénom) et défi distincts. Le timing n'est plus que mentionné en passant.
+- A : « = » sur l'ancien texte ; la chute du mail lu jusqu'au bout est abandonnée avec l'ancien angle, remplacée par une chute neuve.
+- Chiffre retiré : « à peine deux secondes » (durée de blanc non sourcée) ne figure plus dans le conseil. « Six ans » est un chiffre de gag.
+- Défi faisable aujourd'hui grâce au repli (vanne lue), avec critère observable (l'auteur sourit ou enchaîne).
+
+## C056
+**titre** : Séparer la personne de sa qualité
+**contenu** : Quand quelqu'un se vante d'une qualité qu'il vient de contredire dans les faits, parle de cette qualité comme d'une personne distincte de lui, absente, qui aurait sa propre vie. Tu ne contredis pas, tu donnes de ses nouvelles. L'effet marche parce que tu ménages l'amour-propre de l'autre tout en énonçant un fait que tout le monde a vu. Reste léger, souris, et garde-toi de viser les qualités sensibles (physique, intelligence).
+**exemple** : Ton ami, au volant, passe pour la troisième fois devant la même boulangerie : « Moi, j'ai un sens de l'orientation incroyable. » Toi : « Ton sens de l'orientation m'a appelé. Il a quitté la voiture à la station-service et il rentre en train. Il dit de ne pas l'attendre pour dîner. »
+**exercice** : DÉFI SÉPARATION : aujourd'hui, si quelqu'un met en avant une qualité qu'il vient de contredire, donne des nouvelles de cette qualité comme d'une personne (elle appelle, elle a laissé un message). Pas d'occasion aujourd'hui ? Écris la phrase pour une qualité qu'un proche a revendiquée et trahie récemment (organisé, matinal, discret) et envoie-la-lui. C'est réussi si la qualité fait quelque chose de précis et que l'intéressé sourit.
+**réponse** :
+- A (critère 2, formule « venue, attendu, repartie » dans le contenu) : formule retirée. Le contenu dit seulement de parler de la qualité comme d'une personne absente qui a sa vie ; « train » n'y figure pas.
+- A (critère 5, le retard est la scène de C040) : qualité et scène changées (sens de l'orientation, voiture qui tourne en rond), plus de retard.
+- A (critère 3) et B (critère 3) : repli ajouté (phrase écrite pour une qualité qu'un proche a trahie, envoyée) et critère observable.
+
+## C059
+**titre** : L'absurde assumé
+**contenu** : L'absurde fonctionne quand il est cohérent : une idée folle traitée avec la rigueur d'un règlement. La technique : invente UNE règle personnelle absurde, énonce-la comme une évidence (jamais comme une vanne), puis donne sa conséquence réelle, avec les gens autour de toi qui s'y sont adaptés. Pas de clin d'œil, pas d'excuse, pas d'explication, et tu ne ris pas avant les autres. L'adaptation de l'entourage est le plus drôle : c'est elle qui prouve que la règle existe.
+**exemple** : « J'ai une règle : je ne réponds pas aux messages qui contiennent plus de deux points d'exclamation. Ma mère s'est adaptée. Elle ne m'écrit plus qu'en points de suspension. »
+**exercice** : DÉFI RÈGLE : aujourd'hui, invente une règle personnelle absurde (un mot que tu ne dis plus, un objet que tu ne touches que d'une main, un jour où tu ne fais que tourner à gauche). Écris-la en une phrase, puis la conséquence qu'elle a sur ton entourage, sans jamais sourire dans le texte. Dis-la à quelqu'un avec le plus grand sérieux, ou envoie-la par message.
+**réponse** :
+- A et B (critère 4, « jamais comme une blague ») : remplacé par « jamais comme une vanne ». Aucun autre changement, le reste étant au niveau (points de suspension).
+- Doublon C101 : C101 est réécrit avec une autre amorce, pour que « J'ai une règle : » reste propre à C059. Le défi de C101 change aussi de nom.
+
+## C062
+**titre** : Raconter le personnage secondaire
+**contenu** : Quand tu racontes une scène, ne te mets pas au centre : raconte la personne à côté de toi, dans le tram, la salle d'attente, la file. Ton public voit un personnage entier avec une petite manie, et le réel invente mieux que toi. Décris ce que la personne fait avec précision, puis termine par la phrase qu'elle a prononcée, exactement comme elle l'a dite. Tu te contentes d'être le témoin, et ce rôle te va bien.
+**exemple** : « Dans le tram, un monsieur tenait une plante en pot sur les genoux depuis trois arrêts. Il avait dit à sa voisine qu'il descendait à Mairie. Les portes se sont ouvertes à Mairie, il n'a pas bougé. La dame lui a dit : « C'est votre arrêt. » Il a répondu, sans lever les yeux : « Je sais, mais c'est elle qui décide. » »
+**exercice** : DÉFI TÉMOIN DU TRAM : aujourd'hui, repère une personne inconnue avec un détail précis (objet, geste, phrase) et raconte-la ce soir à quelqu'un, sans parler de toi. Rien vu de marquant aujourd'hui ? Raconte quelqu'un croisé cette semaine, ou écris-le par message. C'est réussi si ton récit contient un geste précis et une phrase prononcée, et pas un seul « je ».
+**réponse** :
+- A (critère 2, logique cassée : il se lève déjà à son arrêt) : « il ne bouge pas » ; la dame sait qu'il descend ici parce qu'il l'avait dit, ce qui rend la réplique « c'est votre arrêt » logique.
+- B : « = ». Repli ajouté au défi (personne croisée cette semaine) et critère observable (un geste, une phrase, aucun « je »).
+
+## C066
+**titre** : Inventer une tradition ancienne
+**contenu** : Présente un geste que ton groupe vient d'inventer comme une tradition immémoriale. Le mot « tradition », prononcé avec respect, donne un poids comique à une habitude toute récente. Ça marche particulièrement bien devant une personne nouvelle, qui découvre un rituel qu'elle croit ancien. Parle comme un guide de musée, sans jamais sourire et sans te corriger.
+**exemple** : Une nouvelle personne te voit trinquer avec des verres d'eau. « C'est une habitude, ce truc ? » Toi : « C'est une vieille tradition. Elle date de la semaine dernière. »
+**exercice** : DÉFI TRADITION : aujourd'hui, transforme une petite habitude récente (café, place, chanson) en tradition ancestrale devant quelqu'un de nouveau. Personne de nouveau aujourd'hui ? Écris la phrase pour un rituel récent de ton groupe et envoie-la à un ami qui ne le connaît pas. C'est réussi si ta phrase contient le mot « tradition » et reste sérieuse jusqu'au bout.
+**réponse** :
+- A (critère 2, « donne la date la plus proche possible, c'est la chute ») : phrase qui annonçait la chute retirée. Le contenu dit seulement de rester sérieux comme un guide de musée.
+- A (critère 3, défi qui attend une personne nouvelle) et B (critère 3) : repli par message à un ami qui ne connaît pas le rituel, avec critère observable.
+
+## C070
+**titre** : Souligner ce qui s'est bien passé
+**contenu** : Face à une accusation, ne nie pas et ne t'excuse pas : souligne ce qui s'est bien passé, comme si l'accusation n'existait pas. Le rire vient de ton optimisme, qui prend le reproche pour un compliment sur le résultat. Ajoute à la fin la petite précision qui révèle que tu es le seul à avoir été content. L'ordre compte : d'abord la bonne nouvelle, ensuite le détail.
+**exemple** : Lou, ta colocataire : « Tu as mangé mes pâtes. » Toi : « Je tiens à souligner qu'elles ont été très bien accueillies. » Lou : « Par qui ? » Toi : « Par moi. Mais quand même. »
+**exercice** : DÉFI POINT POSITIF : aujourd'hui, au prochain reproche, souligne d'abord un point positif que personne n'a demandé, puis précise qui en a profité. Pas de reproche aujourd'hui ? Reprends un reproche récent (pâtes mangées, retard, oubli) et réponds-y en une phrase par message : la bonne nouvelle d'abord, la précision ensuite. C'est réussi si ta phrase respecte cet ordre.
+**réponse** :
+- A : « = », texte conservé.
+- B (critère 3, défi suspendu à un reproche) : repli ajouté (reproche passé, réponse écrite en une phrase par message) et critère observable (l'ordre bonne nouvelle puis précision).
+
+## C075
+**titre** : La minute de silence pour un objet
+**contenu** : Quand un objet lâche définitivement, propose une minute de silence avec la gravité d'une cérémonie. L'hommage est court, chaleureux, et détaille un souvenir précis du défunt. Tu rends solennel le plus banal, et tout le monde a déjà ressenti ce genre d'attachement. Si on te demande où il repose, réponds avec la même gravité, en ajoutant un détail absurde sur le lieu.
+**exemple** : Ton chargeur vient de rendre l'âme. Toi : « Une minute de silence pour mon chargeur. Il a tenu trois ans, dont deux avec du scotch. » Ta colocataire : « Il repose où ? » Toi : « Dans le tiroir, avec les autres. Ils ont une belle communauté. »
+**exercice** : DÉFI HOMMAGE : aujourd'hui, si un objet lâche, prononce son éloge funèbre en deux phrases, avec un souvenir précis. Rien ne lâche aujourd'hui ? Fais l'éloge d'un objet déjà mort qui traîne dans un tiroir (chargeur, parapluie, stylo), en deux phrases. C'est réussi si tu cites un souvenir précis et un détail sur son lieu de repos.
+**réponse** :
+- A et B (critère 3, défi qui attend qu'un objet lâche) : repli ajouté (éloge d'un objet déjà mort dans un tiroir) et critère observable.
+- Critère 1 : le contenu annonçait « un détail absurde sur ses derniers instants », que l'exemple ne montrait pas ; aligné sur l'exemple (détail absurde sur le lieu de repos), sans citer la chute.
+
+## C089
+**titre** : Récuser le témoin
+**contenu** : Quand quelqu'un t'accuse d'un truc léger (cuisine ratée, retard, oubli), ne te défends pas sur le fond : attaque la crédibilité du témoin. Tu prends le langage du tribunal pour une affaire minuscule, et la preuve contre lui est dans des faits que tout le monde a vus. Trouve le détail qui affaiblit l'accusateur sans le blesser, dans ce qu'il a fait ou dit autour de l'affaire. La réplique fait sourire l'accusateur lui-même, c'est le signe qu'elle est bien dosée.
+**exemple** : Ton pote : « Ton riz de la dernière fois, c'était du ciment. » Toi : « Je récuse le témoin. Il en a repris trois fois. »
+**exercice** : DÉFI TÉMOIN : aujourd'hui, la première fois qu'on te reproche un petit truc, réponds « je récuse le témoin » en ajoutant une raison précise. Pas de reproche aujourd'hui ? Choisis un reproche passé (un plat raté, un retard), écris ta récusation en une phrase avec une raison tirée d'un fait réel et envoie-la à la personne. C'est réussi si ta raison est un fait que l'accusateur reconnaît.
+**réponse** :
+- A : « = ».
+- B (critère 2, « il en a repris trois fois » dans la technique) : liste d'exemples de détails (repris trois fois, pas là, dit le contraire) retirée du contenu. La chute n'apparaît plus que dans l'exemple.
+- B (critère 3, défi suspendu à un reproche) : repli ajouté (reproche passé, récusation écrite et envoyée) et critère observable.
+- Retrait de « presque toujours » dans « la preuve contraire est presque toujours dans des faits… » (généralisation non sourcée).
+
+## C092
+**titre** : Convertir l'âge d'un objet en années humaines
+**contenu** : Donne à un objet l'âge qu'il aurait s'il était une personne, et tires-en les conséquences : ce qu'on peut encore lui demander à cet âge, ce dont il a besoin, ce qu'on ne peut plus décemment lui imposer. Le calcul est fantaisiste et personne ne le vérifie, mais l'image marche tout de suite. Elle te permet aussi de justifier avec tendresse pourquoi tu ne changes pas d'objet. Choisis un appareil que tout le monde garde trop longtemps.
+**exemple** : Ton ami : « Tu n'as toujours pas changé de téléphone ? » Toi : « Il a quatre ans, soit soixante-quinze en années humaines. Sa coque, c'est son déambulateur, et toi tu voudrais que je le remplace ? »
+**exercice** : DÉFI ÂGE HUMAIN : choisis un de tes objets (téléphone, montre, vélo, sac), annonce son âge en années humaines et dis ce que ça change pour lui, à voix haute ou par message. C'est réussi si tu donnes un âge et une conséquence concrète, par exemple un accessoire qui prend un autre rôle.
+**réponse** :
+- A et B (critère 2, « retraite, reconversion » dans le contenu) : mots retirés du contenu, remplacés par une consigne générale. L'exemple a une nouvelle chute (coque / déambulateur).
+- A (critère 1, « années de téléphone » au lieu de « années humaines ») : l'exemple annonce maintenant un âge « en années humaines ».
+- Chiffre pour le fondateur : « soixante-quinze » (quatre ans convertis en années humaines) est un chiffre de gag inventé, sans source ni règle de conversion. À valider ou à remplacer par un exemple sans nombre.
+- Défi sans événement incertain : un objet à soi suffit.
+
+## C098
+**titre** : Numéroter les conseils que personne n'a demandés
+**contenu** : Quand on te donne un conseil non demandé, réponds en numérotant : la personne est la neuvième de ta semaine. Tu n'attaques pas, tu transformes le rituel en jeu avec une récompense absurde à la clé. Le sourire compte, car l'idée est de faire sourire et pas de fermer la conversation. Prépare la récompense (un lot, une médaille, un badge) : c'est ta chute.
+**exemple** : Ton oncle : « Tu devrais chercher un vrai travail. » Toi : « Merci, tu es le neuvième cette semaine. Il y a un lot à dix. » Ton oncle : « C'est quoi, le lot ? » Toi : « Une conversation sur autre chose. »
+**exercice** : DÉFI NUMÉRO : aujourd'hui, au prochain conseil que personne n'a demandé, remercie et annonce à quelle place l'auteur se classe dans ta semaine. Pas de conseil non demandé aujourd'hui ? Écris à un ami le classement des conseils non demandés reçus cette semaine (qui, quel conseil, quelle place) et propose un lot au gagnant. C'est réussi si ton classement contient un numéro et un lot.
+**réponse** :
+- A : « = », texte conservé.
+- B (critère 3, défi suspendu à un conseil non demandé) : repli ajouté (classement des conseils reçus cette semaine, envoyé à un ami) et critère observable (un numéro, un lot).
+- « Neuvième » et « lot à dix » sont des chiffres de gag, pas des données.
+
+## C101
+**titre** : Le serment qu'on brise dans l'histoire
+(ancien titre : La règle qu'on brise dans l'histoire)
+**contenu** : Ouvre sur un serment que tu t'étais fait, un réflexe dont tu t'étais promis de te débarrasser, précis, un peu ridicule, énoncé avec conviction. Puis raconte le jour où tu l'as brisé. Le public voit venir la catastrophe et savoure le chemin. La fin montre des conséquences rarement graves, toujours humaines, et plus grosses que le serment lui-même : c'est la précision de la dernière image (un nom, un objet, un lieu) qui fait rire.
+**exemple** : « Je m'étais juré de ne plus jamais dire « on se fait un truc un de ces jours ». Samedi, je l'ai dit à ma voisine. Elle a sorti son agenda. Trois semaines plus tard, je choisissais le traiteur de son mariage. Je ne connais toujours pas le marié. »
+**exercice** : DÉFI SERMENT : aujourd'hui, raconte à quelqu'un un serment que tu t'étais fait et que tu as brisé, avec la conséquence précise. Aucun serment en tête ? Écris par message ton serment le plus fragile (ne plus dire oui à un dernier verre, ne plus répondre aux messages vocaux) et la catastrophe qui en découlerait, en trois phrases. C'est réussi si ta dernière phrase donne un fait précis (un nom, un objet, un lieu).
+**réponse** :
+- A (critère 5, même amorce « J'ai une règle : » que C059) : amorce, vocabulaire et exemple changés. C101 raconte un serment brisé (« Je m'étais juré de… »), C059 garde la règle absurde assumée. Titre et nom du défi changés (« règle » devient « serment ») pour supprimer l'écho avec C059.
+- A (critère 2, « la meilleure interlocutrice » prévisible) : nouvelle chute, une conséquence humaine précise et inattendue (le traiteur du mariage d'une voisine, un marié inconnu).
+- B : « = ». Repli ajouté au défi (serment écrit par message) pour tenir le critère 3.
+
+## C107
+**titre** : Raconter ta galère du point de vue de l'objet
+**contenu** : Raconte une petite catastrophe du point de vue de l'objet qui l'a subie, à la première personne : c'est lui qui parle, comme un employé qui fait son bilan de journée. Tu fais exister un personnage neuf, et tu peux dramatiser sans te plaindre. Prête-lui le vocabulaire du monde du travail, avec un seul terme bien choisi plutôt que cinq. Choisis un objet fragile ou surchargé, on devine tout de suite son destin.
+**exemple** : Tu arrives à bout de souffle avec les courses. Racontée par le sac : « Journée chargée. On ne m'a pas demandé mon avis pour le melon. J'ai tenu quatre étages sans me plaindre. Au cinquième, j'ai demandé mon solde de tout compte. Il est parti dans l'escalier : une bouteille d'huile, trois yaourts, et le melon. »
+**exercice** : DÉFI POINT DE VUE : aujourd'hui, raconte une petite galère du point de vue de l'objet en cause, à la première personne, en trois phrases maximum. Pas de galère aujourd'hui ? Prends-en une d'hier (parapluie retourné, mug brûlant, valise trop pleine) et raconte-la de la même façon, à voix haute ou par message. C'est réussi si l'objet dit « je », si un terme du monde du travail apparaît, et si tu t'arrêtes à trois phrases.
+**réponse** :
+- A (critère 1, « racontée par le sac » mais à la troisième personne, et c'est la bouteille qui démissionne) : récit entièrement à la première personne du sac, et c'est le sac qui subit la catastrophe.
+- A et B (critère 2, « démissionné » dans le contenu) : liste de verbes d'employé retirée du contenu. Le verbe d'employé de l'exemple (« solde de tout compte ») n'est cité nulle part avant.
+- Défi : repli ajouté (galère d'hier) et critère observable (je, terme de travail, trois phrases).

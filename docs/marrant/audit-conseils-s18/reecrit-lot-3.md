@@ -146,4 +146,88 @@ Format : titre, contenu, exemple, exercice, réponse (une ligne par motif des cr
 - B (critère 3) : défi suspendu à une petite défaite. Repli ajouté : un recours par message sur une défaite passée, avec critère observable (une autorité, un motif).
 - A : sans critère raté. Contenu, exemple et chute inchangés.
 
-<!-- SUITE -->
+## C068
+**titre** : Nommer le silence par ce que tout le monde fait
+**contenu** : Un silence gênant s'étire tant que personne ne le mentionne. Nomme-le en décrivant très précisément ce que tout le monde est en train de faire : le regard posé sur le même objet, la main qui hésite, le téléphone qu'on sort en douce. Le rire vient de la reconnaissance : chacun se voit dans ta description et se sent soulagé que quelqu'un l'ait dit. Reste factuel et bienveillant, tu commentes la scène, pas les personnes.
+**exemple** : Soirée sur des coussins, le sujet vient de mourir, huit personnes fixent la dernière part de pizza. Toi : « Pour ceux qui viennent d'arriver, on est en pleine négociation de paix autour de la dernière part. Aucune délégation n'ose parler la première. » Un rire, puis quelqu'un prend la part. Toi : « Traité rompu. »
+**exercice** : DÉFI SOUS-TITRE : au prochain silence qui s'installe autour de toi, décris à voix haute, en une seule phrase, ce que tout le monde fait à ce moment précis. Pas de silence aujourd'hui ? Décris en une phrase un silence d'hier (ascenseur, table, visio) comme si tu le commentais en direct, et envoie-la à l'un de ceux qui y étaient. Réussi si ta phrase décrit des gestes précis, sans juger personne.
+**réponse** :
+- A : sans critère raté. Exemple et chute inchangés.
+- B (critère 4) : « deux fois plus longtemps » est un chiffre sans source. Je n'ai rien inventé : la phrase est reformulée sans chiffre (« s'étire tant que personne ne le mentionne »). CHIFFRE À SIGNALER AU FONDATEUR : « Un silence gênant dure deux fois plus longtemps quand personne ne le mentionne » (texte d'origine de C068). Si tu as une source, on peut le remettre.
+- B (critère 3) : défi suspendu à un silence. Repli ajouté : décrire un silence passé en une phrase, avec critère observable (gestes précis, aucun jugement).
+
+## C072
+**titre** : Le charriage en feuilleton (ancien titre : L'escalade complice)
+**contenu** : Quand tes potes te charrient sur ton look et que ça repart à chaque réplique, ne cherche pas la meilleure réponse : choisis un univers dès ta première (un tribunal, un hôpital, un chantier) et ne le quitte plus. Chaque pote qui relance te donne un détail de plus à y loger, et le charriage devient un feuilleton dont tu es l'auteur, pas la cible. Les autres se mettent à jouer avec toi. Règle : un seul univers, et un détail neuf à chaque réplique.
+**exemple** : Un pote : « Tes baskets, là, il est temps. » Toi : « Elles ont fait l'Italie. » Un autre : « Et la semelle ? » Toi : « Démobilisée depuis l'hiver. Elle touche une pension. » Un autre : « Et les lacets ? » Toi : « Les lacets ne parlent pas. Ils ont signé une clause de confidentialité. »
+**exercice** : DÉFI FEUILLETON : aujourd'hui, la première fois qu'on te fait une remarque légère sur toi (look, retard, manie), réponds en installant un univers, puis, à chaque relance, ajoute un détail de plus du même univers. Réussi s'il y a au moins deux répliques dans le même univers. Pas de remarque aujourd'hui ? Prends la dernière que tu as reçue, écris trois répliques de suite dans un même univers et envoie-les à celui qui te l'avait faite.
+**réponse** :
+- A et B (critère 5) : doublon avec C048 (confirmer puis donner une raison inattendue) et C069 (accepter, exagérer, retourner). Nouvel angle : un seul univers conservé sur plusieurs répliques, nourri par les relances du groupe, au lieu d'une réponse unique. Exemple entièrement différent (trois répliques, trois relances de potes).
+- A et B (critère 3) : défi suspendu à une remarque sur l'apparence. Repli ajouté : écrire trois répliques sur la dernière remarque reçue et les envoyer.
+- Titre changé pour cause de doublon. Ancien titre : « L'escalade complice ».
+
+## C080
+**titre** : Refuser du rab avec des mots d'hôtelier
+**contenu** : Quand on te propose de te resservir, refuse avec le vocabulaire d'un établissement : complet, fermé, sur réservation. Le rab est un rituel de famille où le refus simple ne marche jamais, alors que l'humour passe. Tu fais plaisir à la personne qui a cuisiné, parce que tu parles de son plat comme d'une adresse très demandée. Reste affectueux : jamais de critique envers le plat.
+**exemple** : Ta grand-mère : « Reprends du gratin. » Toi : « Impossible, mon estomac a affiché complet. » Ta grand-mère : « Et la tarte ? » Toi : « La tarte avait réservé. Je lui garde sa table. »
+**exercice** : DÉFI COMPLET : aujourd'hui, si on te propose de te resservir, refuse avec au moins un mot d'établissement (complet, fermé, sur réservation) et réponds à la relance dans le même registre. Pas de rab proposé aujourd'hui ? Écris par message à un proche ce que ton estomac aurait affiché après le dernier repas où on t'a resservi, dans le même vocabulaire.
+**réponse** :
+- B (critère 3) : défi suspendu à une proposition de resservir. Repli ajouté : refuser par message un rab passé, avec critère observable (un mot d'établissement, une réponse à la relance).
+- A : sans critère raté. La chute « le dessert passe par l'entrée de service » est remplacée par « La tarte avait réservé. Je lui garde sa table. » pour éviter le tic du dessert, avec un meilleur prolongement du registre hôtelier. Le mot « dessert » disparaît du contenu et du défi.
+
+## C090
+**titre** : La légende de photo
+**contenu** : Quand quelqu'un te montre une photo sur son téléphone, donne-lui une légende plutôt qu'un compliment. Une légende est une phrase courte, à la première personne, qui prête une voix à ce qu'on voit, surtout aux animaux, aux enfants et aux plats. Le rire vient du fait que tu parles à la place de quelqu'un qui n'a pas la parole. Regarde ce que le regard, la posture ou l'objet racontent, puis écris la phrase comme si c'était le sujet qui parlait.
+**exemple** : Camille te montre une photo de son chien assis à côté d'un coussin éventré, quelques plumes sur la truffe, le regard droit vers l'objectif. Toi : « Je peux tout expliquer. Mais d'abord, quelqu'un pourrait m'enlever ces plumes de la truffe ? »
+**exercice** : DÉFI LÉGENDE : aujourd'hui, ouvre ta galerie et choisis une photo avec un animal, un enfant ou un plat. Écris sa légende en une phrase, à la première personne, comme si le sujet parlait, puis dis-la à voix haute ou envoie-la à quelqu'un. Si on te montre une photo aujourd'hui, fais la même chose en direct.
+**réponse** :
+- A (critère 1) : le contenu annonçait « dans la tête du sujet » mais l'exemple était une légende vue de l'extérieur. La légende est maintenant à la première personne dans le contenu et dans l'exemple.
+- La chute « il a déjà appelé son avocat » (tic à éviter) est remplacée par « Je peux tout expliquer. Mais d'abord, quelqu'un pourrait m'enlever ces plumes de la truffe ? ».
+- B : sans critère raté. Défi reformulé pour être faisable seul aujourd'hui (galerie personnelle).
+
+## C094
+**titre** : Le prix qui fait fuir
+**contenu** : Face à une demande de service, propose un paiement qui est en réalité une punition : le récit détaillé de ton trajet, ton avis complet sur un film, ta playlist entière. L'autre comprend tout de suite qu'il vaut mieux le faire lui-même, et le rire vient de ce que tu te présentes comme un fardeau. C'est de l'auto-dérision déguisée en négociation. Le paiement doit être précis et un peu long, pour que la menace soit crédible.
+**exemple** : Ta colocataire Dominique te demande de descendre les poubelles. Toi : « Je les descends, mais en échange tu écoutes mon rêve d'hier, avec les flashbacks. » Dominique, déjà en train d'enfiler ses chaussures : « Je les descends. » Toi : « C'est ce que je pensais. »
+**exercice** : DÉFI PAIEMENT : aujourd'hui, quand tu peux rendre un petit service, propose-le en échange d'un paiement qui fait fuir (un récit, un avis, une playlist), précis et un peu long. Réussi si l'autre décline en riant. Pas de service à rendre aujourd'hui ? Écris le paiement qui fait fuir pour une demande passée (descendre les poubelles, déplacer un carton) et envoie-le à celui qui te l'avait faite.
+**réponse** :
+- A (critère 2) : « ton rêve de la nuit » était cité dans le contenu, donc l'exemple tombait sur la première option attendue. Retiré du contenu (qui cite maintenant le trajet, le film, la playlist) et de la liste du défi.
+- B (critère 3) : défi suspendu à un service à rendre. Repli ajouté : écrire le paiement pour une demande passée et l'envoyer à l'intéressé, avec critère observable (l'autre décline en riant).
+
+## C099
+**titre** : Le double sens en conversation
+**contenu** : Un double sens, c'est une phrase qui se lit de deux façons, une sérieuse et une drôle. La technique : quand quelqu'un te donne un conseil ou une consigne avec un verbe à plusieurs vies (décrocher, prendre du recul, se lâcher, rester en contact, passer à autre chose), réponds que tu l'as appliqué, mais par l'autre sens, avec le sérieux de quelqu'un qui a fait ses devoirs. Tu ne signales rien : tu racontes ce que tu as fait, et l'autre fait le chemin. N'ajoute jamais « tu vois ? » : si tu dois le dire, c'est que le double sens ne tient pas.
+**exemple** : Un proche te dit : « Il faut que tu sortes plus. » Toi : « J'ai sorti la poubelle deux fois cette semaine. Le voisin m'a dit bonjour, il ne savait pas que j'habitais là. »
+**exercice** : DÉFI DOUBLE SENS : aujourd'hui, choisis un conseil ou une consigne qu'on t'a déjà donné (« il faut que tu décroches », « prends du recul », « lâche prise »). Écris en deux phrases ce que tu aurais fait en le comprenant par l'autre sens, la seconde étant la chute. Dis-la à voix haute d'un ton appliqué, puis envoie-la à la personne qui t'a donné le conseil.
+**réponse** :
+- A (critère 5) : le défi s'appelait « DÉFI À LA LETTRE », comme celui de C024, alors que la technique est le double sens. Renommé « DÉFI DOUBLE SENS ». Par prudence sur le critère 2, « sortir » est aussi retiré de la liste de verbes du contenu et du défi, puisque l'exemple en tire sa chute.
+- B : sans critère raté. Exemple et chute inchangés.
+
+## C102
+**titre** : Dire oui, puis prévenir la victime (ancien titre : Prévenir ton week-end)
+**contenu** : Quand on te confie une tâche en plus de ta charge, accepte avec entrain et annonce que tu préviens la partie de ta vie qui va en pâtir. Ta limite s'exprime alors comme une simple consultation de tes ressources, pas comme un refus. L'humour est léger : il montre ton plafond sans faire de reproche. Choisis la victime la plus touchante et parle d'elle comme de quelqu'un qu'on ménage.
+**exemple** : Un collègue : « Tu peux t'en occuper en plus ? » Toi : « Avec plaisir, je préviens juste mon week-end. » Le collègue : « Il va le prendre comment ? » Toi : « Il a l'habitude. On se croise à peine. »
+**exercice** : DÉFI PRÉVENIR : aujourd'hui, si on te confie une tâche en plus, accepte en annonçant quelle partie de ta vie tu dois prévenir. Réussi si ta phrase accepte la tâche et nomme la victime. Pas de tâche en plus aujourd'hui ? Écris ta réponse à une demande imaginaire ou passée et envoie-la à un collègue ou un ami.
+**réponse** :
+- B (critère 2) : « Prévenir ton week-end » dans le titre annonçait la chute. Titre changé. Ancien titre : « Prévenir ton week-end ».
+- A (critère 2) : la liste « week-end, déjeuner, soirée » éventait la chute dans le contenu. Retirée. L'exemple a maintenant une relance du collègue et une seconde chute (« Il a l'habitude. On se croise à peine. »).
+- A et B (critère 3) : défi suspendu à une tâche en plus. Repli ajouté : écrire la réponse à une demande imaginaire ou passée, avec critère observable (accepter et nommer la victime).
+
+## C109
+**titre** : Le pouvoir de l'auto-dérision
+**contenu** : Rire de toi marche quand tu racontes un fait, pas un verdict. « Je suis nul en cuisine » est un verdict : l'autre ne sait pas quoi en faire, sauf te rassurer. « Mon détecteur de fumée me connaît par mon prénom » est un fait : on rit sans avoir à s'inquiéter. Choisis des défauts légers (cuisine, orientation, ponctualité) et laisse un objet ou une situation conclure à ta place. Garde pour toi ce qui fait vraiment mal : l'auto-dérision est un choix, pas un cri d'aide.
+**exemple** : « Mon GPS a une formule rien que pour moi : Dans la mesure du possible, faites demi-tour. Il est poli, mais il n'y croit pas. »
+**exercice** : DÉFI FAIT DIVERS : pense à un petit ridicule récent et léger (un oubli, un détour, un plat raté). Écris-le d'abord en verdict (« je suis nul en... »), puis réécris-le en fait raconté, avec un détail précis et un objet ou une situation qui conclut à ta place. Envoie la seconde version à un ami aujourd'hui.
+**réponse** :
+- A (critère 2) : le contenu donnait déjà le GPS (« demi-tour ») et l'exemple s'expliquait (« c'est le GPS qui s'en charge »). Le contenu prend maintenant un autre exemple de fait (le détecteur de fumée) et la phrase explicative finale de l'exemple est coupée.
+- B : sans critère raté. Défi inchangé.
+
+## Synthèse
+
+- Conseils réécrits : 23 (C004, C008, C013, C022, C026, C029, C034, C037, C041, C046, C050, C054, C057, C060, C063, C068, C072, C080, C090, C094, C099, C102, C109).
+- Titres changés (4) : C008 (ancien : « La digression qui revient à la fin »), C054 (ancien : « La cuisine de soirée, là où naissent les amitiés »), C072 (ancien : « L'escalade complice »), C102 (ancien : « Prévenir ton week-end »).
+- Défis renommés : C013 (DÉFI x10 devenu DÉFI DOSAGE), C099 (DÉFI À LA LETTRE devenu DÉFI DOUBLE SENS), C008, C054, C072 (nouveaux défis liés au nouvel angle).
+- Chiffres à signaler au fondateur : C068, « deux fois plus longtemps » (retiré du texte, non remplacé). Aucun autre chiffre sans source n'était présent dans le lot (les « par 10 / par 100 » de C013 étaient une règle de style, supprimée avec la règle).
+- Tics évités : dessert (C080, C022), avocat (C046, C090), « on ne s'est jamais compris » (C029).
+- Doublons traités : C008 (vs C033), C072 (vs C048 et C069), C029 (chute vs C023), C099 (nom de défi vs C024).
+
