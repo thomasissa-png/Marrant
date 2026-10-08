@@ -1,5 +1,6 @@
 // Stratégie de rendu : ISR + SSR fallback.
-// - Les 3 parcours canoniques (machine-a-cafe, repartie, confiance) ont un
+// - Les parcours canoniques (machine-a-cafe, repartie, confiance ; storytelling une
+//   fois publié, s18) ont un
 //   generateStaticParams → rendu statique au build, revalidé chaque heure.
 // - Les parcours DB ajoutés dynamiquement passent en SSR (dynamicParams: true).
 // - Objectif SEO : Googlebot / Bingbot doivent recevoir le contenu du parcours
@@ -26,6 +27,8 @@ import {
 import { buildParcoursCourseJsonLd } from "@/lib/parcours-jsonld";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { parcoursWeeks } from "@/config/premium";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { STORYTELLING_SEED } from "@/lib/parcours-seed";
 
 // Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
 export const revalidate = 3600;
@@ -65,6 +68,19 @@ const PARCOURS_META: Record<
     duration: `${parcoursWeeks("confiance")} semaines`,
     stepsCount: parcoursWeeks("confiance"),
   },
+  // s18 : titre validé (étalons Storytelling, choix 3 A). Description : la fiche validée
+  // (choix 2 B), réduite par fitDescription [PROVISOIRE : meta dédiée à faire signer par @seo].
+  ...(STORYTELLING_PUBLIE
+    ? {
+        storytelling: {
+          name: "Parcours Storytelling",
+          title: `Parcours Storytelling : raconter tes histoires en ${STORYTELLING_SEED.steps.length} semaines`,
+          description: `${STORYTELLING_SEED.description} ${PREMIERE_ETAPE}`,
+          duration: STORYTELLING_SEED.duration,
+          stepsCount: STORYTELLING_SEED.steps.length,
+        },
+      }
+    : {}),
 };
 
 export function generateStaticParams() {

@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { PremiumPaywall } from "@/components/marketing/premium-paywall";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
@@ -64,7 +65,7 @@ describe("PremiumPaywall (mode web)", () => {
   it("vend les parcours complets, sans contenu quotidien ni filtres avancés", () => {
     render(<PremiumPaywall />);
     const text = document.body.textContent ?? "";
-    expect(text).toContain("Les 3 parcours en entier");
+    expect(text).toContain(`Les ${STORYTELLING_PUBLIE ? 4 : 3} parcours en entier`);
     expect(text).toContain("première étape de chaque parcours restant offerte");
     expect(text).not.toMatch(/quotidien|Filtres avancés|illimit|sans limite/i);
   });

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -74,7 +75,7 @@ describe("AbonnementPage (s12 T45)", () => {
     it("met les 3 parcours en avant et ne vend plus le gratuit ni l'inexistant", () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
-      expect(screen.getByText("Les 3 parcours en entier")).toBeInTheDocument();
+      expect(screen.getByText(`Les ${STORYTELLING_PUBLIE ? 4 : 3} parcours en entier`)).toBeInTheDocument();
       const text = document.body.textContent ?? "";
       expect(text).toContain("Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine)");
       expect(text).toContain("La première étape de chaque parcours est offerte");

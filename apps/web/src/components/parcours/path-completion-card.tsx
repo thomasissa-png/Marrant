@@ -10,29 +10,57 @@ import { FIN_PARCOURS } from "@/config/textes/parcours";
 interface ApiPath {
   slug: string;
   title: string;
-  progress?: { completedAt: string | null } | null;
+  personaTagline?: string | null;
+  progress?: { completedSteps?: number[]; completedAt: string | null; lastActivityAt?: string | null } | null;
 }
 
 type Suite =
   | { kind: "chargement" }
-  | { kind: "parcours"; slug: string; nom: string }
+  | { kind: "parcours"; slug: string; nom: string; accroche?: string | null }
   | { kind: "tout-fini" };
 
 function nomCourt(slug: string, titre: string): string {
   return PREMIUM_PARCOURS.find((p) => p.slug === slug)?.name ?? titre.replace(/^Parcours\s+/i, "");
 }
 
+function timeOf(iso: string | null | undefined): number {
+  const t = iso ? Date.parse(iso) : Number.NaN;
+  return Number.isNaN(t) ? 0 : t;
+}
+
 /**
- * Suite non circulaire (UX-06) : premier parcours actif non terminé, dans
- * l'ordre du catalogue ; si tout est fini, le carnet du mois. Si la liste ne
- * se charge pas, repli sur le parcours suivant du seed.
+ * Suite de fin dynamique (spec s17 §5.5, s18). Candidats : parcours actifs (la liste
+ * de l'API), sauf le courant et sauf tout parcours terminé. Ordre : les parcours EN
+ * COURS d'abord, de la dernière validation à la plus ancienne ; puis les non commencés
+ * dans l'ordre du classement (`nextParcoursRanking`) ; un parcours absent du classement
+ * passe après, dans l'ordre du catalogue. Sans classement : le parcours conseillé
+ * (`nextParcours`, lot D s17) d'abord. Si tout est fini : le carnet du mois.
  */
-export function pickSuite(paths: ApiPath[], currentSlug: string, conseille?: string | null): Suite {
-  // Lot D s17 : le parcours conseillé par le seed (`nextParcours`, Confiance → Répartie)
-  // passe en premier s'il n'est pas terminé, sinon le premier non terminé, sinon le carnet.
+export function pickSuite(
+  paths: ApiPath[],
+  currentSlug: string,
+  conseille?: string | null,
+  ranking: readonly string[] = [],
+): Suite {
   const ouverts = paths.filter((p) => p.slug !== currentSlug && !p.progress?.completedAt);
-  const next = ouverts.find((p) => p.slug === conseille) ?? ouverts[0];
-  return next ? { kind: "parcours", slug: next.slug, nom: nomCourt(next.slug, next.title) } : { kind: "tout-fini" };
+  const enCours = ouverts
+    .filter((p) => (p.progress?.completedSteps?.length ?? 0) > 0)
+    .sort((a, b) => timeOf(b.progress?.lastActivityAt) - timeOf(a.progress?.lastActivityAt));
+  const classement = ranking.length > 0 ? ranking : conseille ? [conseille] : [];
+  const rang = (slug: string) => {
+    const i = classement.indexOf(slug);
+    return i === -1 ? classement.length : i;
+  };
+  const nonCommences = ouverts
+    .filter((p) => !enCours.includes(p))
+    .map((p, ordre) => ({ p, ordre }))
+    .sort((a, b) => rang(a.p.slug) - rang(b.p.slug) || a.ordre - b.ordre)
+    .map(({ p }) => p);
+  const next = [...enCours, ...nonCommences][0];
+  if (!next) return { kind: "tout-fini" };
+  // §5.5 point 5 : la phrase du parcours conseillé est affichée par la carte ; sinon l'accroche du candidat.
+  const accroche = next.slug === conseille ? null : (next.personaTagline ?? null);
+  return { kind: "parcours", slug: next.slug, nom: nomCourt(next.slug, next.title), accroche };
 }
 
 /**
@@ -50,9 +78,15 @@ export const PathCompletionCard = forwardRef<
     retours: Record<number, string>;
     nextParcours?: string | null;
     nextParcoursReason?: string | null;
+    nextParcoursRanking?: readonly string[];
   }
->(function PathCompletionCard({ slug, title, totalXp, stepTitles, retours, nextParcours, nextParcoursReason }, ref) {
+>(function PathCompletionCard(
+  { slug, title, totalXp, stepTitles, retours, nextParcours, nextParcoursReason, nextParcoursRanking },
+  ref,
+) {
   const [suite, setSuite] = useState<Suite>({ kind: "chargement" });
+  // Clé stable (le tableau change de référence à chaque rendu).
+  const rankingKey = (nextParcoursRanking ?? []).join(",");
 
   useEffect(() => {
     let cancelled = false;
@@ -63,7 +97,7 @@ export const PathCompletionCard = forwardRef<
       .then((res) => (res.ok ? res.json() : null))
       .then((data: { paths?: ApiPath[] } | null) => {
         if (cancelled) return;
-        setSuite(data?.paths ? pickSuite(data.paths, slug, nextParcours) : fallback);
+        setSuite(data?.paths ? pickSuite(data.paths, slug, nextParcours, rankingKey ? rankingKey.split(",") : []) : fallback);
       })
       .catch(() => {
         if (!cancelled) setSuite(fallback);
@@ -71,7 +105,7 @@ export const PathCompletionCard = forwardRef<
     return () => {
       cancelled = true;
     };
-  }, [slug, nextParcours]);
+  }, [slug, nextParcours, rankingKey]);
 
   const valeurs = Object.values(retours);
   const essayes = valeurs.filter((r) => r === "essaye-bof" || r === "essaye-ca-a-marche").length;
@@ -123,9 +157,12 @@ export const PathCompletionCard = forwardRef<
         )}
         {suite.kind === "parcours" && (
           <div className="mt-6">
-            {suite.slug === nextParcours && nextParcoursReason && (
+            {(suite.slug === nextParcours ? nextParcoursReason : suite.accroche) && (
               // s17 tour 2 (DES-2-05) : même largeur que le bilan (une seule colonne de lecture).
-              <p className="mx-auto max-w-md text-sm text-text-secondary">{nextParcoursReason}</p>
+              // s18 (§5.5 point 5) : phrase du parcours conseillé, sinon accroche du parcours proposé.
+              <p className="mx-auto max-w-md text-sm text-text-secondary">
+                {suite.slug === nextParcours ? nextParcoursReason : suite.accroche}
+              </p>
             )}
             <Link
               href={`/parcours/${suite.slug}?src=suite`}

@@ -8,7 +8,8 @@
  */
 import fs from "fs";
 import path from "path";
-import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+// s18 : seed PUBLIÉ (Storytelling inclus une fois STORYTELLING_PUBLIE).
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import {
   FREE_CATALOGUE_LIMITS_LABEL,
   FREE_JOKE_LIMIT,

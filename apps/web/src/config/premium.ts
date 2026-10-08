@@ -16,6 +16,8 @@
  * Espace insécable (U+00A0) entre le montant et « € » : le symbole ne passe
  * jamais seul à la ligne (s16, lot E). Caractère invisible, d'où l'échappement.
  */
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+
 export const ESPACE_INSECABLE = " ";
 
 /** Format français : 299 → « 2,99 € » (virgule, espace insécable). */
@@ -71,6 +73,10 @@ export const PREMIUM_PARCOURS: readonly PremiumParcoursOffer[] = [
   { slug: "machine-a-cafe", name: "Machine à Café", timePerWeek: "15 min/semaine", weeks: 3 },
   { slug: "repartie", name: "Répartie", timePerWeek: "20 min/semaine", weeks: 4 },
   { slug: "confiance", name: "Confiance", timePerWeek: "20 min/semaine", weeks: 6 },
+  // s18 : Storytelling n'entre dans l'offre (et dans PARCOURS_COUNT) qu'une fois publié.
+  ...(STORYTELLING_PUBLIE
+    ? [{ slug: "storytelling", name: "Storytelling", timePerWeek: "20 min/semaine", weeks: 6 }]
+    : []),
 ];
 
 /** Nombre de parcours affiché partout (« les 3 parcours en entier »). */

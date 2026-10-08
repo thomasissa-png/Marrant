@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { PremiumModal } from "@/components/premium/premium-modal";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({
@@ -19,7 +20,7 @@ describe("PremiumModal (offre vraie, 03/10)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" />);
     expect(screen.getByRole("heading", { name: "Les favoris font partie de Premium" })).toBeInTheDocument();
-    expect(screen.getByText("Les 3 parcours en entier")).toBeInTheDocument();
+    expect(screen.getByText(`Les ${STORYTELLING_PUBLIE ? 4 : 3} parcours en entier`)).toBeInTheDocument();
   });
 
   it("raison vote (s15) : titre dédié", () => {

@@ -25,6 +25,10 @@ Source du contenu (validé) : `docs/copy/etalons-parcours-storytelling-s18.md` (
 
 Test de contenu `parcours-contenu-s18-storytelling.test.ts` ; `tsc`, lint, build, Jest complet ; captures locales avec l'interrupteur forcé (jamais committé) dans `docs/qa/captures-parcours-storytelling-s18/`.
 
+## Fait (08/10)
+
+Extraction sans retaper : `scripts/content/storytelling-s18-extraire.py`. Suite classée : Confiance garde Répartie avant Machine à Café (décision s17 COP-11 d en ligne, écart à la spec §5.5 à confirmer). Lien de suite secondaire (§5.5 point 3) non fait : texte à écrire. Contrôle local et captures : `scripts/qa-parcours-storytelling-s18/captures.sh`. Déploiement, activation, retour arrière : `REPLIT_ACTIONS.md` (entrée « DÉPLOIEMENT GROUPÉ »).
+
 ## Manques signalés (aucune invention)
 
 - Étape 1 : questions 3 et 4 du quiz non écrites (étalons §3) : import avec 2 questions, à compléter par @copywriter avant activation.

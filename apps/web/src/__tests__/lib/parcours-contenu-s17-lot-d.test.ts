@@ -56,6 +56,7 @@ import { DIFFICULTY_LABELS } from "@/lib/parcours-labels";
 import { dureeEtapeTexte, VIDEOS_ETAPE } from "@/config/textes/parcours";
 import type { SeedParcours } from "@/lib/parcours-data";
 import { pickSuite } from "@/components/parcours/path-completion-card";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 const seed = parcoursSeed as SeedParcours[];
 const actives = (vannesActives as Array<{ content?: string; punchline?: string }>).filter(
@@ -142,7 +143,7 @@ describe("vannes de l'étape avec les données réelles (D4)", () => {
 describe("libellés", () => {
   it("le programme affiche « Étape N », jamais « Semaine N »", () => {
     const modules = getParcoursCatalogue().flatMap((p) => p.modules);
-    expect(modules).toHaveLength(13);
+    expect(modules).toHaveLength(STORYTELLING_PUBLIE ? 19 : 13);
     modules.forEach((m) => expect(m.week).toMatch(/^Étape \d$/));
     expect(JSON.stringify(getParcoursCatalogue())).not.toMatch(/Semaine \d/);
   });

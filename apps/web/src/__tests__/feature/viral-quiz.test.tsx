@@ -7,6 +7,7 @@ import {
   computeQuizResult,
   type HumorProfileType,
 } from "@/components/quiz/quiz-data";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -314,7 +315,7 @@ describe("QUIZ_PROFILES data integrity", () => {
       expect(profile.strength).toBeTruthy();
       expect(profile.tip).toBeTruthy();
       expect(profile.color).toBeTruthy();
-      expect(["machine-a-cafe", "repartie", "confiance"]).toContain(profile.recommendedParcours);
+      expect(["machine-a-cafe", "repartie", "confiance", ...(STORYTELLING_PUBLIE ? ["storytelling"] : [])]).toContain(profile.recommendedParcours);
     });
   });
 });

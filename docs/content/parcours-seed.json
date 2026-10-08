@@ -14,6 +14,12 @@
     "testimonial": "Imagine Léa, 27 ans, en open space. À la machine à café, elle avait deux répliques : « Ça va ? » et « Bon, j'y retourne ». À la fin du parcours, c'est elle que les collègues attendent le lundi pour savoir comment s'est fini son week-end.",
     "nextParcours": "repartie",
     "nextParcoursReason": "Tu sais placer une vanne et raconter une histoire. Reste le cas où c'est quelqu'un d'autre qui lance la première : le parcours Répartie t'apprend à répondre du tac au tac.",
+    "nextParcoursRanking": [
+      "pro",
+      "storytelling",
+      "repartie",
+      "confiance"
+    ],
     "steps": [
       {
         "week": 1,
@@ -266,6 +272,12 @@
     "testimonial": "Imagine Tom, 21 ans, étudiant. En soirée, il trouvait la réplique parfaite dans le bus du retour. À la fin du parcours, il la trouve pendant la soirée, et le trajet du retour est devenu beaucoup plus reposant.",
     "nextParcours": "confiance",
     "nextParcoursReason": "Tu sais répondre quand on te lance une pique. Le parcours Confiance t'aide à trouver ce qui te rend drôle, toi, même quand personne ne t'a rien lancé.",
+    "nextParcoursRanking": [
+      "storytelling",
+      "confiance",
+      "machine-a-cafe",
+      "pro"
+    ],
     "steps": [
       {
         "week": 1,
@@ -607,6 +619,12 @@
     "testimonial": "Imagine Julien, 36 ans, qui sort d'une séparation. Il commence par noter ce qui le fait sourire dans sa journée. Quelques semaines plus tard, à un dîner, c'est lui qui raconte, et toute la table rit. Lui aussi, d'ailleurs.",
     "nextParcours": "repartie",
     "nextParcoursReason": "Ton style est là. Reste le moment où quelqu'un te lance une pique : le parcours Répartie t'apprend à répondre du tac au tac, avec le sourire.",
+    "nextParcoursRanking": [
+      "storytelling",
+      "repartie",
+      "machine-a-cafe",
+      "pro"
+    ],
     "steps": [
       {
         "week": 1,

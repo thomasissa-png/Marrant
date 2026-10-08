@@ -12,7 +12,7 @@
  * - conseils : la table des étapes en base (`LearningPathStep.tipId`), source de vérité.
  * Aucun parcours ne l'utilise → liste vide → pas de bloc sur la fiche.
  */
-import parcoursSeed from "../../../../docs/content/parcours-seed.json";
+import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
 import { jokeContentKey } from "@/lib/jokes-dedupe";
 import { isParcoursSlug, type ParcoursSlug } from "@/lib/entrees-parcours";
