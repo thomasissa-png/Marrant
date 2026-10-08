@@ -5,7 +5,13 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
-import { buildTipSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import {
+  buildFormerTipSlugs,
+  buildTipSlug,
+  isNonCanonicalSlug,
+  parseShortIdFromSlug,
+  resolveBySlug,
+} from "@/lib/catalogue-slug";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { tipProse } from "@/lib/tip-prose";
 import {
@@ -58,11 +64,13 @@ async function findTipBySlug(slug: string) {
           exercise: true,
           updatedAt: true,
           createdAt: true,
+          originalTitle: true,
         },
       }),
     { label: "findTipBySlug" },
   );
-  return resolveBySlug(candidates, slug, buildTipSlug);
+  // Ancienne URL d'un conseil renommé : correspondance exacte via originalTitle (s18).
+  return resolveBySlug(candidates, slug, buildTipSlug, buildFormerTipSlugs);
 }
 
 export function generateStaticParams() {

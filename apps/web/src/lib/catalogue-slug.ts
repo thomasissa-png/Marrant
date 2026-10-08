@@ -86,6 +86,14 @@ export function buildTipSlug(tip: { id: string; title: string }): string {
 }
 
 /**
+ * Ancien slug d'un conseil renommé, calculé depuis `originalTitle` (titre avant
+ * réécriture). Sert à résoudre l'ancienne URL vers la bonne fiche (puis 308).
+ */
+export function buildFormerTipSlugs(tip: { id: string; originalTitle?: string | null }): string[] {
+  return tip.originalTitle ? [buildCatalogueSlug(tip.originalTitle, tip.id)] : [];
+}
+
+/**
  * Construit le slug pour une vidéo (utilise title).
  */
 export function buildVideoSlug(video: { id: string; title: string }): string {
@@ -102,17 +110,27 @@ export function buildVideoSlug(video: { id: string; title: string }): string {
  * mauvaise vidéo affichée). On compare donc le slug complet, puis, à défaut
  * (ancienne URL d'un contenu renommé), le nombre de mots en commun.
  * Les URL existantes ne changent pas.
+ *
+ * s18 : avant le score de mots, une ancienne URL qui correspond EXACTEMENT à
+ * l'ancien slug d'un candidat (`buildFormerSlugs`, ex. depuis `originalTitle`)
+ * désigne ce candidat. Sans cela, « construire-une-histoire-drole-cmmp8ozsx0 »
+ * partait vers une autre fiche du même préfixe qui avait plus de mots en commun.
  */
 export function pickBySlug<T extends { id: string }>(
   candidates: T[],
   slug: string,
-  buildSlug: (item: T) => string
+  buildSlug: (item: T) => string,
+  buildFormerSlugs?: (item: T) => string[]
 ): T | null {
   if (candidates.length === 0) return null;
   if (candidates.length === 1) return candidates[0];
   const wanted = slug.trim().toLowerCase();
   const exact = candidates.find((c) => buildSlug(c) === wanted);
   if (exact) return exact;
+  if (buildFormerSlugs) {
+    const former = candidates.find((c) => buildFormerSlugs(c).includes(wanted));
+    if (former) return former;
+  }
   const words = new Set(wanted.split("-"));
   let best = candidates[0];
   let bestScore = -1;
@@ -147,9 +165,10 @@ export type SlugResolution<T> =
 export function resolveBySlug<T extends { id: string; isActive: boolean }>(
   candidates: T[],
   slug: string,
-  buildSlug: (item: T) => string
+  buildSlug: (item: T) => string,
+  buildFormerSlugs?: (item: T) => string[]
 ): SlugResolution<T> {
-  const picked = pickBySlug(candidates, slug, buildSlug);
+  const picked = pickBySlug(candidates, slug, buildSlug, buildFormerSlugs);
   if (!picked) return { status: "missing" };
   if (!picked.isActive) return { status: "inactive" };
   return { status: "active", item: picked };
