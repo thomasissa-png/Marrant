@@ -2,7 +2,8 @@
  "_meta": {
   "date": "2026-10-08",
   "statut": "109 conseils en ligne validés à l'aveugle (audit s18). Pas encore en base.",
-  "regle": "2 avis au niveau sur 3, faute objective toujours corrigée ; chiffres non sourcés gardés s'ils sont cohérents (décision de Thomas)"
+  "regle": "2 avis au niveau sur 3, faute objective toujours corrigée ; chiffres non sourcés gardés s'ils sont cohérents (décision de Thomas)",
+  "chiffres": "C074 et C068 : chiffres remis ; C013 : non remis (règle incohérente avec le conseil réécrit) ; C081 : guillemets français."
  },
  "conseils": {
   "cmmp8ozsx000hqk637xkg9poy": {
@@ -947,7 +948,7 @@
    "label": "C068",
    "tour_valide": 2,
    "titre": "Nommer le silence par ce que tout le monde fait",
-   "contenu": "Un silence gênant s'étire tant que personne ne le mentionne. Nomme-le en décrivant très précisément ce que tout le monde est en train de faire : le regard posé sur le même objet, la main qui hésite, le téléphone qu'on sort en douce. Le rire vient de la reconnaissance : chacun se voit dans ta description et se sent soulagé que quelqu'un l'ait dit. Reste factuel et bienveillant, tu commentes la scène, pas les personnes.",
+   "contenu": "Un silence gênant dure deux fois plus longtemps quand personne ne le mentionne. Nomme-le en décrivant très précisément ce que tout le monde est en train de faire : le regard posé sur le même objet, la main qui hésite, le téléphone qu'on sort en douce. Le rire vient de la reconnaissance : chacun se voit dans ta description et se sent soulagé que quelqu'un l'ait dit. Reste factuel et bienveillant, tu commentes la scène, pas les personnes.",
    "exemple": "Soirée sur des coussins, le sujet vient de mourir, huit personnes fixent la dernière part de pizza. Toi : « Pour ceux qui viennent d'arriver, on est en pleine négociation de paix autour de la dernière part. Aucune délégation n'ose parler la première. » Un rire, puis quelqu'un prend la part. Toi : « Traité rompu. »",
    "exercice": "DÉFI SOUS-TITRE : au prochain silence qui s'installe autour de toi, décris à voix haute, en une seule phrase, ce que tout le monde fait à ce moment précis. Pas de silence aujourd'hui ? Décris en une phrase un silence d'hier (ascenseur, table, visio) comme si tu le commentais en direct, et envoie-la à l'un de ceux qui y étaient. Réussi si ta phrase décrit des gestes précis, sans juger personne.",
    "ancien_titre": "Nommer le silence par ce que tout le monde fait",
@@ -1031,7 +1032,7 @@
    "label": "C074",
    "tour_valide": 2,
    "titre": "Chuchoter la vanne dans un lieu silencieux",
-   "contenu": "Dans un lieu silencieux (bibliothèque, salle d'examen, cinéma), la vanne murmurée a une force particulière : le silence la rend nette, et devoir retenir son rire crée une complicité tout de suite. Parle à voix très basse, une seule phrase, avec un détail que ton voisin peut vérifier du regard ou de l'expérience. Choisis une vanne qui rassure : elle sera reçue comme un cadeau.",
+   "contenu": "Dans un lieu silencieux (bibliothèque, salle d'examen, cinéma), la vanne murmurée a une force particulière : le silence la rend nette, et devoir retenir son rire double le plaisir et crée une complicité tout de suite. Parle à voix très basse, une seule phrase, avec un détail que ton voisin peut vérifier du regard ou de l'expérience. Choisis une vanne qui rassure : elle sera reçue comme un cadeau.",
    "exemple": "À la bibliothèque, Sasha te chuchote : « Je n'y arriverai jamais. » Toi, à voix basse : « Il y a trois versions du chapitre 3 : celle du livre, celle du cours, et celle qu'on comprend la veille à 23 h. » Sasha étouffe un rire dans sa manche.",
    "exercice": "DÉFI MURMURE : aujourd'hui, dans un lieu calme, glisse une seule phrase drôle à voix basse à quelqu'un qui galère à côté de toi. Pas de lieu calme ni de voisin qui galère aujourd'hui ? Écris la phrase que tu aurais murmurée au dernier moment de galère partagée, et envoie-la en vocal, à voix basse, à un ami qui l'a vécu avec toi. C'est réussi quand ta phrase fait une seule ligne.",
    "ancien_titre": "Chuchoter la vanne dans un lieu silencieux",
@@ -1130,7 +1131,7 @@
    "tour_valide": 2,
    "titre": "Dérailler le plus tard possible",
    "contenu": "Une histoire drôle commence comme une histoire ordinaire, et c'est ce qui la rend drôle. Pose quatre détails vérifiables (un lieu, un jour, un geste, une personne), au ton d'un compte rendu, sans le moindre clin d'œil. Le déraillement arrive tout à la fin, dans la même voix : ne la change pas, ne marque pas de pause. Dès que ton public flaire un gag, il se met à guetter et la dérive perd sa force ; tant qu'il croit entendre une anecdote banale, il ne se protège pas. Ton test : si quelqu'un devine ta fin avant que tu y arrives, tu as dérapé trop tôt.",
-   "exemple": "« Mardi, préfecture, pour refaire ma carte d'identité. Ticket 214, guichet 6, une dame efficace. Elle vérifie mon justificatif de domicile, compare ma photo avec mon visage, me fait signer deux fois. Tout est en règle. Elle tamponne, lève les yeux : \"Dernière étape, il faut que vous confirmiez que vous êtes bien vous.\" J'ai demandé un délai de réflexion. »",
+   "exemple": "« Mardi, préfecture, pour refaire ma carte d'identité. Ticket 214, guichet 6, une dame efficace. Elle vérifie mon justificatif de domicile, compare ma photo avec mon visage, me fait signer deux fois. Tout est en règle. Elle tamponne, lève les yeux : « Dernière étape, il faut que vous confirmiez que vous êtes bien vous. » J'ai demandé un délai de réflexion. »",
    "exercice": "DÉFI DÉRAILLEMENT : aujourd'hui, écris cinq phrases sur un moment banal de ta journée (une file, un rendez-vous, un trajet). Les quatre premières donnent des détails vrais, sans une once d'humour : heure, lieu, geste, personne. La cinquième déraille, dans le même ton. Critère : quelqu'un qui entend les quatre premières ne peut pas deviner la fin. Lis-les à voix haute à quelqu'un, ou envoie-les en vocal. Personne sous la main ? Relis-les seul : si tu ne souris qu'à la dernière phrase, c'est réussi.",
    "ancien_titre": "Construire une histoire drôle",
    "titre_change": true,
