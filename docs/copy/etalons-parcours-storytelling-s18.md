@@ -24,7 +24,7 @@ L'étape 1 complète (§3) n'a pas d'A/B : les choix de forme sont acquis depuis
 ## Ce que la base a changé (faits relus le 08/10)
 
 - **3 conseils sur 6 sont inactifs en prod (export du 08/10)** : « Raconter une anecdote en 3 actes » (étape 1), « Le twist final » (étape 4), « La blague à tiroirs » (étape 5). Actifs : « La technique du personnage » (2), « Rigoler de ses échecs » (3), « Le callback… » (6).
-- **Vannes** : sur les 30 vannes prévues par la spec, **3 sont actives** (seed 136, 308 et 322 ; 136 et 308 sous un texte réécrit en s14, d'où leur absence du rapprochement par texte exact de `vannes-actives-s17.json`, corrigé le 08/10). Les 27 autres ont été retirées le 30/09 lors de la bascule du catalogue (seules les 125 vannes relues à l'aveugle restent actives). Les vannes se choisissent donc parmi les 127 actives, désignées par leur texte exact ; la vanne 136 (étape 5, détour) est à relire pour le choix 5.
+- **Vannes** : sur les 30 vannes prévues par la spec, **3 sont actives** (seed 136, 308 et 322 ; 136 et 308 sous un texte réécrit en s14, d'où leur absence du rapprochement par texte exact de `vannes-actives-s17.json`). Les 27 autres ont été retirées le 30/09 lors de la bascule du catalogue (seules les 125 vannes relues à l'aveugle restent actives). Les vannes se choisissent donc parmi les 127 actives, désignées par leur texte exact ; la vanne 136 (étape 5, détour) est à relire pour le choix 5.
 - **Vidéos** : les 11 de la spec sont actives. **Votes « nouveaux parcours »** : 0 en base, aucune donnée, l'ordre Storytelling puis Boulot reste celui décidé.
 - Deux écarts à connaître, sans choix à faire : voir « Signalements » en fin de fichier (étape 3 et titre du callback).
 
