@@ -1,6 +1,6 @@
 # Conseils Storytelling des étapes 1, 4 et 5 : version 2 (s18, 08/10/2026)
 
-> Statut : **à relire à l'aveugle (deux critiques) avant toute remise en ligne**. Règle d'or du fondateur (P0, 08/10) : un contenu sous la barre ne revient jamais en ligne. Rien n'est modifié en base, dans `conseils-seed.json` ni dans le fichier d'étalons.
+> Statut (tour 3, 08/10) : **« La blague à tiroirs » validé** (deux « = » à l'aveugle, texte FIGÉ, ne plus y toucher). **« Raconter une anecdote en 3 actes » et « Le twist final » repris au tour 3, à relire à l'aveugle** (deux critiques) avant toute remise en ligne. Règle d'or du fondateur (P0, 08/10) : un contenu sous la barre ne revient jamais en ligne. Rien n'est modifié en base, dans `conseils-seed.json` ni dans le fichier d'étalons.
 > Barre : étalons E2, E3, E4, E6, E7 de `docs/copy/audit-conseils-s14.md` §2. Critiques lues : `aveugle-conseils-critique-A.md` et `-B.md` (versions A du tour précédent toutes « < »).
 > Titres conservés : « Raconter une anecdote en 3 actes », « Le twist final », « La blague à tiroirs ». Aucun n'est cause d'un « < ».
 > Ce que j'ai fait de différent : chaque exemple est une vanne neuve (pas de rafistolage), sans marque, sans phrase qui explique la chute ; aucun humoriste n'est cité (les affirmations sur Mirabel et Pascot ne sont pas vérifiées : je laisse ces phrases de côté dans ces conseils, ce n'est pas un retrait de ces humoristes du site) ; un seul repli par défi.
@@ -10,19 +10,20 @@
 ## Étape 1 : « Raconter une anecdote en 3 actes » (DEBUTANT, STORYTELLING)
 
 **contenu**
-Une anecdote tient en trois actes : le contexte (qui, où, quand, en deux phrases), la montée (ce qui se passe) et la chute (une seule phrase, plus courte que le contexte). Le plan, tu le connais déjà ; le vrai travail est ailleurs : la coupe. Pour chaque phrase de ta montée, demande-toi : si je l'enlève, la chute marche encore ? Si oui, enlève-la. Une anecdote ne devient pas meilleure quand on ajoute, elle devient meilleure quand il ne reste que ce dont la chute a besoin.
+Une anecdote tient en trois actes : le contexte (qui, où, quand, en deux phrases), la montée (ce qui se passe) et la chute (une seule phrase, plus courte que le contexte). Le plan, tu le connais déjà ; le vrai travail est ailleurs : la coupe. Pour chaque phrase de ta montée, demande-toi : si je l'enlève, la chute marche encore ? Si oui, enlève-la. Mais on ne coupe pas tout : le détail qui fait voir la scène ou qui prépare la chute reste, seul le détail neutre saute. Une anecdote ne devient pas meilleure quand on ajoute, elle devient meilleure quand il ne reste que ce dont l'histoire a besoin.
 
 **exemple**
-Contexte : jeudi, une dame m'arrête dans la rue pour demander où est la poste. Montée : je lui explique avec les gestes, la rue à droite, le feu, le deuxième à gauche. Chute : elle me remercie très poliment et part dans l'autre sens.
-Coupé au passage : la météo, la couleur de son manteau, le nom de la rue.
+Contexte : mardi, un collègue m'a envoyé un mail tout en majuscules. Montée : j'ai passé l'après-midi à préparer ma défense. Chute : il venait d'avoir une fille.
+Coupé au passage : la réunion d'avant, l'heure d'arrivée du mail, le nombre de personnes en copie.
 
 **exercice**
 DÉFI COUPE : prends une anecdote vraie et légère de ta semaine, avec quelqu'un d'autre dedans, et écris-la en trois actes dans tes notes. Compte les mots : la chute doit être plus courte que le contexte. Puis, pour chaque phrase de la montée, demande-toi si la chute marche encore sans elle, et barre celles qui ne servent à rien. C'est réussi si tu as barré au moins une phrase et que la chute reste plus courte que le contexte. Dis-la ensuite à voix haute, même seul.
 
 **Ce qui répond aux motifs des critiques**
 - Technique banale (« 3 actes » connu de tous) : l'apport est la coupe, annoncée comme le vrai travail avec un test en une question (« si je l'enlève, la chute marche encore ? »).
-- Chute télégraphiée (« spontanés » → « spontanément ») : la vanne est neuve, rien dans la montée n'annonce le demi-tour de la dame.
-- Exemple qui contredit sa règle (« on discute, ça se passe bien ») : la montée ne contient que des détails que la chute utilise (les gestes, l'itinéraire précis rendent le départ dans l'autre sens plus cruel). Mots comptés : contexte 13, chute 10.
+- Chute connue ou devinable (tour 2 : gag d'indications routières) : la chute est neuve et retourne l'idée au lieu de confirmer la mésaventure attendue. Le mail en majuscules se lit comme une colère, la montée confirme ce contresens (la défense préparée), la chute le renverse (une naissance). Rien dans la montée ne permet de la deviner.
+- Exemple qui échouait à son propre test (tour 2, itinéraire superflu) : la montée tient en une phrase, et elle est indispensable : sans elle, rien n'est à renverser. Et le contexte ne garde que « tout en majuscules », le seul détail qui lance la fausse piste. Mots comptés : contexte 10, montée 7, chute 5 (la chute est plus courte que le contexte).
+- Tension avec l'étalon E2 (qui demande d'ajouter le vêtement, le lieu, le prénom) : le contenu dit maintenant « le détail qui fait voir la scène ou qui prépare la chute reste, seul le détail neutre saute ». La ligne « Coupé au passage » ne montre que des détails tentants mais neutres (la réunion d'avant, l'heure du mail, le nombre de personnes en copie), pas un vêtement, un lieu ou un prénom.
 - Défi trop long, quatre échappatoires : une consigne, deux critères observables (une phrase barrée, chute plus courte), un seul repli (voix haute, même seul). « Quelqu'un d'autre dedans » est conservé pour l'étape 2 (les voix).
 - Affirmation invérifiable sur Mirabel et généralisation « toute bonne histoire drôle » : phrases supprimées. Pas de marque, aucune note de travail.
 - Doublon : ni la voix des personnages (étape 2) ni un détail qui revient (étape 6) ; l'exemple n'a aucun détail planté.
@@ -32,22 +33,25 @@ DÉFI COUPE : prends une anecdote vraie et légère de ta semaine, avec quelqu'u
 ## Étape 4 : « Le twist final » (INTERMEDIAIRE, STORYTELLING)
 
 **contenu**
-Le twist, c'est une histoire que le public comprend d'une façon et qui marche aussi d'une autre. Tu ne nommes pas la personne ou l'objet clé : chacun remplit le vide à sa manière, et ta dernière phrase tranche pour la lecture cachée. La règle : chaque phrase d'avant doit rester vraie dans les deux lectures. Si une seule ne marche que pour la lecture cachée, le public flaire la ruse ; si toutes tiennent, il relit l'histoire dans sa tête, et c'est ce second passage qui fait rire.
+Le twist, c'est une histoire que le public comprend d'une façon et qui marche aussi d'une autre. Tu ne nommes pas la personne ou l'objet clé : chacun remplit le vide à sa manière, et ta dernière phrase tranche pour la lecture cachée. La règle : chaque phrase d'avant doit rester vraie dans les deux lectures. Si une seule ne marche que pour la lecture cachée, le public flaire la ruse.
 
 **exemple**
-Samedi soir, j'ai rangé tout l'appartement, mis une playlist et cuisiné pour deux. J'ai même allumé des bougies. À vingt heures, elle a sonné. Elle venait relever le compteur.
+Elle vit chez ma grand-mère depuis cinquante ans. Elle ne parle à personne, elle ne sort qu'à l'heure des repas et elle n'a jamais voulu partir. Ma grand-mère dit qu'elle est de la famille. Elle a quatre-vingts ans, c'est une tortue.
 
 **exercice**
-DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « ça »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
+DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
 
 **Ce qui répond aux motifs des critiques**
 - « A puis B » banal : l'ouverture du contenu est l'apport non banal (une histoire à double lecture, où chaque phrase reste vraie des deux côtés).
 - Chute expliquée (« Le twist tient sur un mot… ») : plus aucune phrase après la vanne ; l'exemple s'arrête sur la chute.
-- Mécanisme faux (« préparer » ne change pas de sens) : le mécanisme décrit est exactement celui de l'exemple (« elle » reste non nommée jusqu'au compteur ; bougies et dîner pour deux restent vrais).
-- Marque gratuite (Uber Eats) et blague déjà connue : vanne neuve, aucune marque.
+- Fausse piste et non double lecture (tour 2 : « cuisiné pour deux » ne soutenait que le rendez-vous) : « elle » désigne une aïeule ou une tortue, et chaque phrase est exacte dans les deux cas. Elle vit chez la grand-mère depuis cinquante ans, ne parle à personne, ne sort qu'à l'heure des repas, n'a jamais voulu partir, est « de la famille », a quatre-vingts ans : une tortue peut tout cela, une pensionnaire âgée aussi. Rien ne sert une seule lecture, et on peut relire l'histoire en constatant que rien n'était faux.
+- Situation implausible (relevé de compteur un samedi à 20 h) : supprimée, une tortue de famille est banale.
+- Marque gratuite (Uber Eats) et blague déjà connue : vanne neuve, aucune marque, ni dîner raté ni livraison.
+- Contenu qui explique l'effet (« c'est ce second passage qui fait rire ») : phrase supprimée, le contenu s'arrête sur la règle.
 - Doublon avec « Construire une histoire drôle » (dérive vers l'absurde) : ici rien d'absurde, un malentendu. Doublon avec « Le callback » (étape 6) : aucun détail ne revient, c'est la même phrase relue autrement.
 - Note de travail, défi collé deux fois, guillemet manquant : texte propre, un seul défi. Affirmation invérifiable sur Pascot : supprimée.
-- Défi : un critère observable (les deux premières phrases tiennent dans les deux lectures) qui se vérifie seul ; le public est un bonus.
+- Défi difficile sans souvenir : repli ajouté (décrire un objet de la pièce comme une personne, sans le nommer, puis le révéler) et exemples de mots flous (« elle », « il », « le nouveau »). Le critère observable (les deux premières phrases tiennent dans les deux lectures) se vérifie seul ; le public est un bonus.
+- Forme : l'exemple compte 4 phrases ; les trois premières sont ambiguës et exactes dans les deux lectures, la quatrième révèle.
 
 ---
 
