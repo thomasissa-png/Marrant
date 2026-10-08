@@ -91,3 +91,222 @@ Le repli solo existe déjà (vocal). La vigilance de la spec (imiter avec tendre
 | 5 | « Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ». » / « Il a dit « merci, c'est mieux que papa ». » | Une phrase par personnage suffit : le « ça dépend » du grand frère prudent, puis le frère, et même papa qu'on entend sans qu'il parle. |
 
 ---
+
+## Étape 3 : Faire le bilan de ton raté
+
+Conseil affiché : « Rigoler de ses échecs » (AUTODERISION, INTERMEDIAIRE), texte de la base, inchangé. L'étape enseigne le **bilan positif pour de mauvaises raisons**, pas l'épopée de la spec (voir Signalement 1 des étalons). Le repli solo (« Personne ce soir ? Dis-la à voix haute ou enregistre-la en vocal. ») est la retouche commune déjà décidée au §7 des étalons.
+`[Framework : PAS court avec scène]` `[Conscience : Product-Aware]`
+
+| Champ | Texte |
+|---|---|
+| `moduleTitle` | Faire le bilan de ton raté |
+| `why` | Un raté qu'on garde pour soi pèse, un raté qu'on raconte en premier se dégonfle. La technique : au lieu de dire ce qui a raté, tu fais le bilan de ce que ça a produit malgré toi, avec l'air fier d'un rapport annuel. Ici, tu prépares le tien sur un petit échec récent. |
+| `moduleDetail` (version B, scène) | Imagine Hugo, dont l'étagère penche depuis samedi. À la question « alors, ce bricolage ? », il pourrait soupirer. Il sort un bilan à la place, l'air satisfait : « L'opération n'est pas un échec : j'ai maintenant une étagère qui oblige tout le monde à pencher la tête, et la quincaillerie me connaît par mon prénom. » Le raté est le même, mais c'est lui qui tient le micro. Dans cette étape, tu fais le bilan d'un échec récent et léger, dont tu peux déjà sourire aujourd'hui. Si ton anecdote de l'étape 1 contient un petit raté, tu peux t'en servir ; sinon, n'importe quel raté léger fait l'affaire. Si ça fait encore mal, choisis-en un plus léger, ou passe ton tour : celui-là n'est pas pour aujourd'hui. |
+
+**Exercice « aujourd'hui »** : le défi du conseil, avec le repli solo ajouté (choix 6 : A à l'étape 3, le sujet reste « un petit échec récent », l'anecdote est une option).
+> DÉFI BILAN : pense à un petit échec récent (un plat, un bricolage, un rendez-vous, un trajet). Écris une phrase du type « C'est raté, mais l'opération n'est pas un échec : ... » en listant ce que ça a produit d'inattendu et de vrai. Raconte-la à quelqu'un ce soir avec l'air satisfait d'un bilan annuel. Personne ce soir ? Dis-la à voix haute ou enregistre-la en vocal.
+
+**Phrase de protection** (affichée sous le défi, vigilance de la spec) : Un raté léger, jamais une blessure récente. Si ça fait encore mal, prends-en un plus léger, ou garde celui-là pour un autre jour.
+
+**Quiz** (ton B complice). Positions : **C, D, A, B**. Un seul prénom (Hugo, question 1). La question 3 porte sur la limite entre humour et souffrance (comme Confiance 2). Aucune bonne réponse n'est citée dans la scène (étagère, quincaillerie) ni dans l'exemple du conseil (gâteau, voisins, extincteur).
+
+**Question 1 (bonne réponse en C)**
+> **Imagine Hugo qui a raté son train. Laquelle de ses phrases est un vrai bilan ?**
+> A. « J'ai raté mon train, et en plus il pleuvait, mais bon, je ne me plains pas. »
+> B. « J'ai raté mon train : je suis nul en organisation, ce n'est pas nouveau. »
+> **C. « Le train n'est pas un échec : j'ai lu la moitié de mon livre et je connais la gare par cœur. »**
+> D. « Mon train est parti sans moi, ce qui prouve qu'il me détestait. »
+>
+> **Explication (3 phrases)** : La C. C'est un bilan : tu listes ce que le raté a produit, avec des détails vrais et un ton fier. La A se plaint en s'en défendant, la B rend un verdict sur toi, et la D invente une cause au lieu de lister un résultat.
+
+**Question 2 (bonne réponse en D)**
+> **Ton dîner est raté, les pâtes ont fait un bloc. Quelle conséquence mets-tu dans ton bilan ?**
+> A. « J'ai appris qu'il faut toujours saler l'eau. »
+> B. « Plus jamais je ne cuisine pour des invités. »
+> C. « Les pâtes étaient immangeables, il n'y a pas d'autre mot. »
+> **D. « Le dîner n'est pas un échec : la pizzeria d'en face connaît mon prénom, et elle prend de mes nouvelles. »**
+>
+> **Explication (3 phrases)** : La D. Le bilan est positif pour une mauvaise raison, et il est vrai et précis : c'est ce contraste qui fait sourire. La A tire une vraie leçon, ce qui est sage mais pas drôle, et les B et C restent dans l'échec.
+
+**Question 3 (bonne réponse en A)**
+> **Tu cherches l'échec à raconter ce soir. Lequel prends-tu ?**
+> **A. Le plat raté de dimanche, dont tu souris déjà.**
+> B. La rupture de la semaine dernière, pour tourner la page plus vite.
+> C. Le licenciement de l'an dernier, parce que le temps a passé.
+> D. Le gâteau raté d'une collègue, parce que ça ne touche personne.
+>
+> **Explication (3 phrases)** : La A. Le bon échec est récent, léger, et déjà assez loin pour que tu puisses en sourire aujourd'hui. La B est une blessure fraîche, la C est trop lourde pour un bilan, et la D n'est pas le tien : ce n'est plus de l'autodérision.
+
+**Question 4 (bonne réponse en B)**
+> **Tu fais le bilan d'un barbecue raté. Dans quel ordre le racontes-tu ?**
+> A. Tout le raté, étape par étape, puis le positif à la fin.
+> **B. Le raté en une phrase, puis la liste de ce qu'il a produit.**
+> C. Le positif d'abord, pour surprendre, puis l'aveu du raté.
+> D. Les deux mélangés au fil de l'histoire, comme ça vient.
+>
+> **Explication (3 phrases)** : La B. Une phrase suffit pour le raté, tout le reste est le bilan, et on rit du contraste entre les deux. La A s'attarde sur la panne, la C dévoile le contraste avant de l'avoir posé, et la D les mélange jusqu'à ce qu'il n'en reste rien.
+
+**Les 2 vidéos** (spec §2.2, aucune minute inventée).
+
+| | Légende (`why`) |
+|---|---|
+| **Obligatoire** : Nora Hamzawi, « Les chagrins d'amour » (4 min, chronique) | Quatre minutes sur le chagrin d'amour, dites avec de l'ironie plutôt qu'avec des larmes. Repère un moment où elle garde exactement les mêmes faits mais change de regard : c'est la matière de ton bilan. Si le sujet te touche de trop près en ce moment, passe directement à la facultative. |
+| *Facultative* : Nordine Ganso, « La première fois » (6 min 20) | Un souvenir gênant, raconté en grossissant la gêne plutôt que les faits. Repère comment il garde de la distance avec le lui d'autrefois `[À VÉRIFIER en visionnant : procédés réellement employés, et sujet adapté à toute la page, sans passage cru]`. |
+
+**Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : un raté présenté comme un bilan.
+
+| # | Vanne (`content` puis chute) | Décryptage de l'étape (une ligne) |
+|---|---|---|
+| 1 | « J'ai passé six heures à installer des mods pour embellir mon jeu. » / « Il ne se lance plus, mais le message d'erreur est en 4K. » | Le jeu est cassé et le bilan est fier : l'erreur est en haute définition, une qualité que personne n'avait demandée. |
+| 2 | « À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos. » / « Le canon a beaucoup amélioré la chanson. » | Le raté est total, et le bilan trouve le bon côté en un mot, « canon », qui reste vrai. |
+| 3 | « Premier Noël chez ma belle-famille. On m'a placé à côté du grand-père, qui entend rien. » / « Il m'a pris pour son notaire. J'ai été très bien traité. » | Le raté du placement devient un avantage pour une mauvaise raison, dite le plus sérieusement du monde. |
+| 4 | « J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul. » / « Je l'ai pas désinstallé. On a fait le téléchargement ensemble. » | Le bilan est tendre : on ne supprime pas un raté qu'on a installé ensemble, c'est la raison la moins raisonnable. |
+| 5 | « Je me suis filmé pour préparer mon oral. » / « Mes mains ont fait un autre exposé, plus convaincant. » | La préparation a raté, et le bilan salue une partie de toi : l'échec devient un compliment sur tes mains. |
+
+---
+
+## Étape 4 : Une chute qui se lit de deux façons
+
+Conseil affiché : « Le twist final » (STORYTELLING, INTERMEDIAIRE), texte validé au §1b des étalons : le twist est une **double lecture**, pas une chute logique après coup (c'est la règle « la base fait foi » : l'étape suit le conseil validé).
+`[Framework : PAS court avec scène]` `[Conscience : Product-Aware]`
+
+| Champ | Texte |
+|---|---|
+| `moduleTitle` | Une chute qui se lit de deux façons |
+| `why` | Une chute qui surprend n'est pas un coup de chance : le public a compris l'histoire d'une façon, et elle tient aussi d'une autre. Tout se prépare dans les phrases d'avant, qui doivent rester vraies dans les deux lectures. Ici, tu écris la tienne en trois phrases. |
+| `moduleDetail` (version B, scène) | Imagine Nadia qui raconte sa soirée : « Il m'a attendue toute la journée devant la porte, ravi de me voir, comme tous les soirs. Il m'a suivie jusque dans la cuisine. On a dîné face à face : des pâtes pour moi, des croquettes pour lui. » Pendant deux phrases, tout le monde imaginait un amoureux. La troisième a tranché pour le chat. Dans cette étape, tu écris une chute à double lecture, en trois phrases. Regarde si ton anecdote de l'étape 1 s'y prête (quelqu'un qu'on a pris pour un autre, un bruit mal interprété). Sinon, une scène de ta semaine fera l'affaire. |
+
+**Exercice « aujourd'hui »** : le défi du conseil, sans retouche (le pont vers l'anecdote de l'étape 1 est dans le texte d'étape, « si elle s'y prête »).
+> DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné.
+
+Le repli (objet de la pièce) existe déjà dans le défi.
+
+**Quiz** (ton B complice). Positions : **D, A, C, B**. Un seul prénom (Nadia, question 1). La scène ne cite ni le frigo, ni les débuts de la question 1 ; le conseil cite le miroir, aucune question n'en parle.
+
+**Question 1 (bonne réponse en D)**
+> **Imagine Nadia qui cherche le début de son prochain twist. Lequel de ces débuts laisse deux lectures ouvertes ?**
+> A. « Hier, j'ai pris rendez-vous chez le dentiste. »
+> B. « Ma voisine m'a dit qu'elle avait mal dormi. »
+> C. « J'ai appelé mon frère pour lui annoncer une grande nouvelle. »
+> **D. « Il m'a regardée droit dans les yeux et m'a dit que ça ne pouvait plus durer. »**
+>
+> **Explication (3 phrases)** : La D. Elle laisse deux lectures ouvertes : une rupture, ou tout autre chose (un voisin, un plombier), et ta fin pourra choisir. Les trois autres ne disent qu'une chose, donc il n'y a rien à retourner.
+
+**Question 2 (bonne réponse en A)**
+> **Ton twist commence par « Il est toujours là quand je rentre. Il garde tout ce que je lui confie. » Il parle de ton frigo, sans que tu l'aies dit. Quelle dernière phrase tranche le mieux ?**
+> **A. « Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi. »**
+> B. « Vous l'avez deviné : je parlais de mon frigo, évidemment. »
+> C. « Et le plus drôle, c'est que ce n'était pas une personne. »
+> D. « Il me comprend vraiment, ce grand silencieux. »
+>
+> **Explication (3 phrases)** : La A. Elle révèle l'objet par un détail de scène, sans l'annoncer, et la lecture cachée s'impose d'un coup. Les B et C commentent le tour qu'elles viennent de jouer, et la D ne tranche pas : le public reste dans la première lecture.
+
+**Question 3 (bonne réponse en C)**
+> **Tu lis ton twist à un ami. Quelle réaction te dit qu'il marche ?**
+> A. Il rit dès la première phrase.
+> B. Il dit « j'avais compris dès le début ».
+> **C. Il se trompe jusqu'à la fin, puis trouve toutes les phrases d'avant justes.**
+> D. Il te demande de répéter la dernière phrase.
+>
+> **Explication (3 phrases)** : La C. Se tromper jusqu'au bout prouve que le tour a tenu, et trouver les phrases justes après coup prouve qu'il est honnête. La A rit trop tôt, la B a tout vu venir, et la D n'a pas compris la fin.
+
+**Question 4 (bonne réponse en B)**
+> **Ton ami devine ton twist au bout de deux phrases. Que fais-tu ?**
+> A. Tu ajoutes un faux indice pour l'égarer.
+> **B. Tu cherches la phrase qui trahit et tu la remplaces par une phrase vraie des deux côtés.**
+> C. Tu allonges l'histoire pour qu'il oublie le début.
+> D. Tu choisis un autre souvenir, celui-là est grillé.
+>
+> **Explication (3 phrases)** : La B. Quand quelqu'un devine tôt, c'est presque toujours qu'une phrase ne sert que la lecture cachée, donc tu la remplaces. La A ment et casse les deux lectures, la C dilue sans rien réparer, et la D jette une histoire qu'il suffisait de corriger.
+
+**Les 2 vidéos** (spec §2.2, plafond 8 min pour l'obligatoire, aucune minute inventée). Les deux sont d'adéquation « moyenne » dans la spec : les légendes invitent à observer, elles ne promettent pas un twist.
+
+| | Légende (`why`) |
+|---|---|
+| **Obligatoire** : Paul Mirabel, « Je me suis fait racketter » (7 min 45, reprise de Confiance 2) | Paul Mirabel raconte comment il s'est fait racketter. Repère un détail lâché en passant au début, et regarde s'il revient plus tard avec un autre sens `[À VÉRIFIER en visionnant : quel détail précis revient, avant de le nommer ici]`. |
+| *Facultative* : Djimo, « J'aurais kiffé être une tortue » (8 min 50, la plus longue du parcours) | Djimo aurait kiffé être une tortue, et il le défend avec un sérieux de plus en plus solide. Repère le moment où tu passes de « n'importe quoi » à « il n'a pas tort » : chaque argument est vrai, seule la conclusion est délirante. |
+
+**Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : une phrase qui se lit de deux façons, et dont la fin tranche.
+
+| # | Vanne (`content` puis chute) | Décryptage de l'étape (une ligne) |
+|---|---|---|
+| 1 | « Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non. » / « Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé. » | « Quelqu'un dans ta vie » se lit comme un amoureux, puis la chute le met au ciel : les deux lectures tiennent depuis la première phrase. |
+| 2 | « Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat ». » / « Elle m'a demandé si j'en parlais un autre. » | Le mot « language » ouvre deux lectures (la façon d'aimer, la langue qu'on parle) et la dernière phrase tranche sans rien changer avant. |
+| 3 | « Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes. » / « Le monsieur devant moi a dit « c'est puissant ». » | Le silence se lit comme un trou de mémoire ou comme un parti pris d'artiste, et « c'est puissant » tranche pour la seconde lecture. |
+| 4 | « Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. » / « Il a zoomé. Sur le parking. » | « Il était fier » installe la première lecture, « sur le parking » bascule dans l'autre, et chaque phrase d'avant reste vraie. |
+| 5 | « Premier rendez-vous en hiver. J'ai enlevé mon gros manteau. » / « Elle a demandé où était passé le reste. » | Le manteau s'enlève, puis « le reste » ouvre l'autre lecture : c'est lui qui flottait dedans. La première phrase n'a rien dit de faux. |
+
+---
+
+## Étape 5 : Un détour qui ne perd personne
+
+Conseil affiché : « La blague à tiroirs » (STORYTELLING, EXPERT en base, niveau jamais affiché), texte validé au §1c des étalons. Titre du conseil conservé tel quel (terme consacré).
+`[Framework : PAS court avec scène]` `[Conscience : Product-Aware]`
+
+| Champ | Texte |
+|---|---|
+| `moduleTitle` | Un détour qui ne perd personne |
+| `why` | Une digression au bon endroit fait rire, une digression perdue fait décrocher. La différence tient à deux choses : le détour doit faire sourire tout seul, et tu dois revenir au fil sans que personne se demande où on en est. Ici, tu apprends à ouvrir un tiroir et à le refermer sans te perdre. |
+| `moduleDetail` (version B, scène) | Imagine Maëlle qui raconte son week-end à la campagne. Au milieu, elle glisse deux phrases sur les poules du voisin, qui regardent passer les voitures comme un défilé, puis elle revient à son histoire d'un seul mot. Personne n'a perdu le fil, et tout le monde a souri deux fois. C'est un tiroir : une vanne cachée dans une autre. Dans cette étape, tu reprends ton anecdote de l'étape 1, coupée à trois phrases, et tu ouvres un tiroir entre la première et la deuxième. Deux phrases au plus, un chrono, moins d'une minute trente chute comprise. Pas d'anecdote sous la main ? Une anecdote de ta journée fera l'affaire. |
+
+**Exercice « aujourd'hui »** : le défi du conseil, sans retouche (le pont vers l'anecdote de l'étape 1 est dans le texte d'étape).
+> DÉFI TIROIR : raconte une anecdote de ta journée en trois phrases. Entre la première et la deuxième, ouvre un tiroir : une parenthèse de deux phrases au maximum sur un détail qui t'a fait sourire, puis reviens avec « bref ». C'est réussi si le tout tient en moins d'une minute trente, chronométrée, et si ta chute parle de l'histoire, pas de la parenthèse. Pas de public : dis-le à voix haute devant ton téléphone ou un miroir.
+
+**Quiz** (ton B complice). Positions : **C, B, D, A**. Un seul prénom (Maëlle, question 1). La scène (poules, voisin) et l'exemple du conseil (coiffeur) ne contiennent aucune bonne réponse.
+
+**Question 1 (bonne réponse en C)**
+> **Imagine Maëlle qui raconte son trajet du matin, en retard. Quelle parenthèse fait vraiment un tiroir ?**
+> A. « Parenthèse : si j'étais en retard, c'est que je n'étais pas à l'heure. »
+> B. « Parenthèse : mon métro avait du retard, ce qui explique celui de ma réunion. »
+> **C. « Parenthèse : dans le métro, tout le monde fixe le plan comme si la ligne avait changé depuis ce matin. »**
+> D. « Parenthèse : je reviens dessus à la fin, c'est important pour la chute. »
+>
+> **Explication (3 phrases)** : La C. Elle se raconte seule et fait sourire sans l'histoire autour, et c'est ce qui fait un tiroir. Les A et B expliquent le retard, et la D annonce la chute au lieu d'ouvrir un tiroir.
+
+**Question 2 (bonne réponse en B)**
+> **Tu viens de refermer ton tiroir et tu reprends ton histoire. D'où doit venir la chute ?**
+> A. De la parenthèse, puisque c'est le passage qui a fait le plus rire.
+> **B. De l'histoire de départ, que tu reprends là où tu l'avais laissée.**
+> C. D'un troisième sujet, pour surprendre ceux qui suivent.
+> D. D'une phrase qui mêle l'histoire et la parenthèse.
+>
+> **Explication (3 phrases)** : La B. Le tiroir fait sourire en chemin, mais c'est l'histoire de départ qui conclut. La A fait de la parenthèse le plat principal, la C ouvre un troisième sujet, et la D mélange tout : la chute n'appartient plus à personne.
+
+**Question 3 (bonne réponse en D)**
+> **Un ami te dit : « Ta parenthèse n'est drôle que parce qu'on connaît l'histoire. » Que fais-tu ?**
+> A. Tu la rallonges pour qu'elle devienne drôle.
+> B. Tu l'expliques mieux avant de l'ouvrir.
+> C. Tu la gardes : ceux qui connaissent l'histoire riront.
+> **D. Tu en cherches une autre, qui fait sourire sans l'histoire.**
+>
+> **Explication (3 phrases)** : La D. Un tiroir qui ne fait rire que grâce à l'histoire est une explication déguisée, il en faut un qui tienne seul. Les A et B ajoutent des mots autour d'un tiroir qui ne marche pas, et la C garde le défaut.
+
+**Question 4 (bonne réponse en A)**
+> **Ton récit avec tiroir dure deux minutes quarante. Que fais-tu d'abord ?**
+> **A. Tu ramènes le tiroir à deux phrases et tu coupes dans le reste ce qui ne sert pas la chute.**
+> B. Tu parles plus vite, pour tenir dans le temps.
+> C. Tu supprimes le tiroir : c'est lui qui rallonge.
+> D. Tu ajoutes un second tiroir, pour compenser.
+>
+> **Explication (3 phrases)** : La A. Le tiroir tient en deux phrases au plus, et le reste se coupe comme à l'étape 1. La B écrase le rythme, la C jette ce qui fait la technique, et la D rallonge encore.
+
+**Les 2 vidéos** (spec §2.2, adéquation « moyenne » : aucune ne montre explicitement un tiroir). Les légendes invitent à observer et marquent ce qu'il faut vérifier en visionnant.
+
+| | Légende (`why`) |
+|---|---|
+| **Obligatoire** : Jason Brokerss, « Le mariage (Montreux) » (7 min) | Le mariage, dans une version étoffée du même texte, avec des détails concrets en plus. Repère un passage où il s'éloigne du fil principal : fait-il sourire tout seul, et comment revient-il à l'histoire ? `[À VÉRIFIER en visionnant : qu'un détour identifiable existe ; sinon remplacer par « repère un détail ajouté qui fait sourire à lui seul »]` |
+| *Facultative* : Sugar Sammy, « L'andrologue » (5 min 30) | Une visite chez l'andrologue, où il prend la salle à témoin en plein récit. Ce pas de côté ressemble à un tiroir : écoute ce qu'il dit pendant ce moment, puis comment il repart dans son histoire `[À VÉRIFIER en visionnant : que le récit reprend bien son fil juste après, et que le sujet convient à tous les publics]`. |
+
+**Les 5 vannes** : la vanne active 136 est écartée (voir ci-dessous), les 5 sont **NEUVES, à relire à l'aveugle** avant import (2 relecteurs + départage, mêmes étalons que les vannes du catalogue). Chaque vanne a la forme du conseil : récit, parenthèse d'une phrase qui se raconte seule, « Bref. », puis chute qui appartient à l'histoire.
+
+**Pourquoi pas la 136.** En base, la vanne du seed 136 (« Pour avancer, j'ai déjeuné devant mon ordi. ») a été réécrite en s14 : elle est devenue « En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien. » / « Il te fait asseoir et baisse la voix. » C'est une vanne en deux temps, sans digression qui revient au fil, et elle figure déjà dans une étape s17. Elle ne montre pas le détour : écartée. `[À VÉRIFIER @fullstack : que la 136 en base est bien ce texte, rapprochée par previousContent]`
+
+| # | Vanne NEUVE (`content` puis chute) | Décryptage de l'étape (une ligne) |
+|---|---|---|
+| 1 | « Samedi, je suis allé voir mes parents en train. Parenthèse : dans un train, personne n'écoute la conversation du voisin, et tout le monde en connaît la fin. Bref. » / « Ma mère m'a ouvert la porte : « Tu as maigri. » J'ai pris deux kilos. » | Le tiroir (la conversation du voisin) se raconte seul. « Bref. » le referme, et la chute revient à la mère, pas au train. |
+| 2 | « Je suis allé chercher du pain à 19 h 50. Parenthèse : une baguette « tradition », c'est une baguette qui ne m'a jamais dit de quelle tradition. Bref. » / « Il en restait une. La dame devant moi l'a prise et m'a salué d'un signe de tête. J'ai répondu « bon appétit ». » | Le tiroir (la baguette « tradition ») n'a aucun lien avec la file d'attente. La chute vient de l'histoire du pain, par un salut rendu trop poliment. |
+| 3 | « Lundi, j'ai appelé mon dentiste pour un rendez-vous. Parenthèse : la musique d'attente, c'est le seul concert où je reste jusqu'à la fin. Bref. » / « On m'a proposé une date dans huit mois. J'ai dit que j'avais mal. La secrétaire a répondu : « D'ici là, ça passera. » » | La musique d'attente est un tiroir qui se tient seul. Après le « Bref. », la chute reste dans l'histoire du rendez-vous. |
+| 4 | « Jeudi, j'ai présenté mon projet à toute l'équipe. Parenthèse : « juste une petite question », c'est la seule phrase de la langue française qui peut durer vingt minutes. Bref. » / « À la fin, mon chef a dit « très clair ». Puis il a demandé de la refaire lundi. » | Le tiroir pourrait se dire dans n'importe quelle réunion. La chute appartient à la présentation : « très clair », puis « on la refait ». |
+| 5 | « Dimanche, j'ai accompagné mon père au cinéma. Parenthèse : il y a toujours quelqu'un qui ouvre un paquet de bonbons pendant la scène la plus silencieuse, et ça devient la scène. Bref. » / « Mon père a dormi tout le film. À la sortie, il a dit « la fin était prévisible ». » | Le tiroir (le paquet de bonbons) fait sourire sans le film. La chute retrouve le père et sa sieste, sans repasser par les bonbons. |
+
+---
