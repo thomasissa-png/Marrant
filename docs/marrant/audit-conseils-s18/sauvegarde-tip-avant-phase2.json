@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "date": "2026-10-08",
+    "session": "s18",
+    "phase": 2,
+    "description": "État des 5 Tip d'étapes en ligne avant la phase 2, et ids réservés pour les 3 nouveaux conseils (à désactiver en cas de retour arrière).",
+    "actifs_total_avant": 109
+  },
+  "tips": [
+    {
+      "id": "cmmp8ozsx0001qk63tepbec3u",
+      "title": "Le pouvoir de l'auto-dérision",
+      "content": "Rire de toi marche quand tu racontes un fait, pas un verdict. « Je suis nul en orientation » est un verdict : l'autre ne sait pas quoi en faire, sauf te rassurer. « Mon GPS m'a demandé de faire demi-tour » est un fait : on rit sans avoir à s'inquiéter. Choisis des défauts légers (cuisine, orientation, ponctualité) et laisse un objet ou une situation conclure à ta place. Garde pour toi ce qui fait vraiment mal : l'auto-dérision est un choix, pas un cri d'aide.",
+      "example": "« Mon GPS a une formule rien que pour moi : Dans la mesure du possible, faites demi-tour. Il est poli, mais il n'y croit pas. » Aucun verdict sur toi : c'est le GPS qui s'en charge.",
+      "exercise": "DÉFI FAIT DIVERS : pense à un petit ridicule récent et léger (un oubli, un détour, un plat raté). Écris-le d'abord en verdict (« je suis nul en... »), puis réécris-le en fait raconté, avec un détail précis et un objet ou une situation qui conclut à ta place. Envoie la seconde version à un ami aujourd'hui.",
+      "isActive": true,
+      "updatedAt": "2026-09-30 13:12:53.264",
+      "copyReviewedAt": "2026-09-30 13:12:53.264",
+      "copyReviewVersion": 1,
+      "copyVerdict": "GARDER",
+      "originalTitle": null,
+      "originalContent": "L'auto-dérision est le super-pouvoir des gens drôles. Elle te rend attachant, désamorce les tensions et montre une vraie confiance en toi. La clé : ris de tes défauts mineurs, jamais de tes vraies insécurités. L'auto-dérision doit être un choix, pas un cri d'aide. Pierre Croce excelle dans cet art — il se moque de lui-même avec une assurance qui le rend encore plus cool."
+    },
+    {
+      "id": "cmmp8ozsx000uqk63inkyafkn",
+      "title": "Savoir rebondir sur un raté",
+      "content": "Un raté, c'est un cadeau que tu peux ouvrir devant tout le monde. Ta vanne tombe à plat ? Tu commentes ce qui se passe vraiment, comme un constat de terrain : les regards qui partent, le silence, le téléphone qu'on sort. Tu acceptes ce qui arrive plutôt que de le contester, puis tu ajoutes ton observation en moins de 2 secondes, sans te justifier. Plus tu es à l'aise avec l'échec, plus les autres se détendent, et c'est souvent ton rattrapage qu'on retient, pas la vanne d'origine. Ne confonds pas avec l'explication : ici tu décris la scène, tu n'expliques pas la vanne.",
+      "example": "Ta vanne tombe à plat. Sans l'expliquer, tu constates : « Je note deux regards vers un téléphone et un vers la sortie de secours. Je prends ça pour un avis. » Le silence lui-même devient la vanne.",
+      "exercise": "DÉFI CONSTAT : aujourd'hui, lance volontairement une phrase moyenne à un ami ou à un petit groupe. Si elle tombe à plat, décris en une phrase ce que tu vois vraiment (regards, silence, téléphones), sur le ton d'un constat, puis change de sujet. Si elle fait rire, recommence avec une phrase encore plus faible, jusqu'à ce que ça tombe. Pas d'ami ni de groupe sous la main ? Écris ta phrase moyenne, imagine le silence qui suivrait, puis écris le constat que tu en ferais (ou dis-le en vocal pour toi).",
+      "isActive": true,
+      "updatedAt": "2026-10-07 20:00:12.841",
+      "copyReviewedAt": "2026-09-30 13:26:27.404",
+      "copyReviewVersion": 1,
+      "copyVerdict": "GARDER",
+      "originalTitle": null,
+      "originalContent": "Les meilleurs humoristes sont ceux qui gèrent le mieux les moments où rien ne se passe comme prévu. Ta blague tombe à plat ? Rebondis dessus. Un silence gênant ? Commente-le. Plus tu es à l'aise avec l'échec, plus tu es drôle. L'anti-fragilité comique, c'est quand les ratés te rendent encore plus drôle. Tania Dutel est la maîtresse du rattrapage en live — ses moments de flottement deviennent les meilleurs passages de ses spectacles."
+    },
+    {
+      "id": "cmmw0tqub000xmw62q8pc5ziz",
+      "title": "Lire le tempo du groupe : savoir quand c'est ton tour",
+      "content": "Dans un groupe, le rire a un rythme : quelqu'un lance un sujet, les réactions s'enchaînent, puis tout le monde reprend son souffle. Ton moment se situe dans ce petit blanc d'à peine deux secondes, juste après le rire. Si tu parles pendant le rire, personne ne t'entend ; si tu attends trop, la conversation est déjà ailleurs. Tu n'as rien à préparer : tu écoutes le rythme, tu respires avec le groupe, et tu places ta phrase quand le blanc arrive.",
+      "example": "Un collègue raconte qu'il a répondu à tous, par erreur, sur un mail perso. Le groupe rit, puis il y a un blanc. C'est là que tu glisses, sans hausser la voix : « Bonne nouvelle, c'est le premier mail de la semaine que tout le monde a lu jusqu'au bout. » Pas pendant le rire, personne ne t'entendrait. Pas dix minutes plus tard, le moment serait passé.",
+      "exercise": "DÉFI RYTHME : à ta prochaine conversation de groupe (pause café, déjeuner, afterwork), ne cherche pas à faire rire. Écoute le rythme et repère les blancs qui suivent chaque rire, en les comptant mentalement. À la fin, note à quel endroit tu aurais pu placer une phrase.",
+      "isActive": true,
+      "updatedAt": "2026-09-30 13:12:54.272",
+      "copyReviewedAt": "2026-09-30 13:12:54.272",
+      "copyReviewVersion": 1,
+      "copyVerdict": "GARDER",
+      "originalTitle": null,
+      "originalContent": "Dans un groupe, le rire a un rythme. Quelqu'un lance un sujet, les réactions s'enchaînent, puis il y a un micro-silence de 1-2 secondes. C'est TON moment. Si tu parles en même temps que le rire, tu te fais écraser. Si tu attends trop, le sujet change. Le sweet spot c'est juste après le pic de rire, quand le groupe reprend son souffle. C'est là que ta vanne a le plus d'espace."
+    },
+    {
+      "id": "cmmw0trk3001amw62akk6qqy9",
+      "title": "Répondre aux chambrages entre potes sans rester muet",
+      "content": "Entre potes, le chambrage est un sport de contact, et rester muet fait de toi la cible la plus facile. La technique en trois temps : tu acceptes (nier ne fait que prolonger la scène), tu exagères (tu pousses le détail jusqu'à l'absurde), puis tu retournes doucement, avec un clin d'œil ou un compliment déguisé. La personne qui rit d'elle-même la première garde la main. Personne ne te demande d'être brillant : juste de ne pas laisser le silence répondre à ta place.",
+      "example": "Un ami te lance : « T'as encore mis trois heures à répondre à mon message. » Accepter : « Trois heures, oui. » Exagérer : « C'est mon délai légal de réflexion. » Retourner : « Pour toi, j'ai fait un effort : d'habitude, c'est trois jours. »",
+      "exercise": "DÉFI CHAMBRAGE : repense au dernier chambrage que tu as reçu et écris ta réponse en trois phrases : une qui accepte, une qui exagère, une qui retourne avec un clin d'œil. Lis-la à voix haute une fois, puis garde-la en tête. Si on te chambre aujourd'hui, tu la sors.",
+      "isActive": true,
+      "updatedAt": "2026-09-30 13:12:54.819",
+      "copyReviewedAt": "2026-09-30 13:12:54.819",
+      "copyReviewVersion": 1,
+      "copyVerdict": "GARDER",
+      "originalTitle": null,
+      "originalContent": "Les chambrages, c'est le sport national entre potes. Si tu restes muet, tu deviens la cible facile. La technique en 3 temps : 1) Accepte (ne nie jamais, ça empire tout), 2) Exagère (pousse le truc à l'absurde), 3) Retourne (renvoie la balle). L'autodérision d'abord, puis le retournement. Celui qui rit de lui-même en premier gagne toujours. C'est comme en judo : tu utilises la force de l'autre."
+    },
+    {
+      "id": "cs14tipec04d92986f2a9f048",
+      "title": "Le silence entre deux chansons",
+      "content": "En soirée, la musique laisse parfois un blanc de deux secondes entre deux morceaux, et toutes les conversations paraissent soudain trop fortes. Glisse ta phrase juste à ce moment, à voix normale : elle résonne dans toute la pièce. Tout le monde vit le même petit choc de silence, et ta phrase le nomme. Choisis une phrase courte qui confie une pensée simple plutôt qu'une vanne longue.",
+      "example": "Entre deux chansons, le salon se tait. Toi, d'une voix claire : « Ça fait vingt minutes que j'attends ce silence pour dire que j'ai faim. »",
+      "exercise": "DÉFI SILENCE MUSICAL : ce soir, guette le blanc entre deux chansons et glisse une confidence simple d'une phrase.",
+      "isActive": true,
+      "updatedAt": "2026-09-30 12:23:08.008",
+      "copyReviewedAt": "2026-09-30 12:23:08.008",
+      "copyReviewVersion": 1,
+      "copyVerdict": "GARDER",
+      "originalTitle": null,
+      "originalContent": null
+    }
+  ],
+  "nouveaux_crees": [
+    {
+      "id": "cs18tip2f23fbc9f7986d735d",
+      "titre": "Rallonger la vanne de quelqu'un d'autre",
+      "copie_de": "cmmw0tqub000xmw62q8pc5ziz"
+    },
+    {
+      "id": "cs18tipdad0a86f65286cc919",
+      "titre": "Remercier celui qui te chambre",
+      "copie_de": "cmmw0trk3001amw62akk6qqy9"
+    },
+    {
+      "id": "cs18tipe7897545c144f7ca1d",
+      "titre": "Rattraper une vanne avec ses états de service",
+      "copie_de": "cmmp8ozsx000uqk63inkyafkn"
+    }
+  ]
+}

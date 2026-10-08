@@ -310,3 +310,131 @@ Conseil affiché : « La blague à tiroirs » (STORYTELLING, EXPERT en base, niv
 | 5 | « Dimanche, j'ai accompagné mon père au cinéma. Parenthèse : il y a toujours quelqu'un qui ouvre un paquet de bonbons pendant la scène la plus silencieuse, et ça devient la scène. Bref. » / « Mon père a dormi tout le film. À la sortie, il a dit « la fin était prévisible ». » | Le tiroir (le paquet de bonbons) fait sourire sans le film. La chute retrouve le père et sa sieste, sans repasser par les bonbons. |
 
 ---
+
+## Étape 6 : Un détail qui revient à la fin
+
+Conseil affiché : « Le callback : faire revenir une vanne au bon moment » (TIMING, EXPERT en base, niveau jamais affiché), **nouvelle version validée par l'audit** (`conseils-finaux-109.json`, C033, titre avec « vanne » au lieu de « blague »), avec le défi B de l'étape 6 (choix 6 des étalons). Le détail de ce qui change dans le défi est au bas de cette section.
+`[Framework : PAS court avec scène]` `[Conscience : Product-Aware]`
+
+| Champ | Texte |
+|---|---|
+| `moduleTitle` | Un détail qui revient à la fin |
+| `why` | Un détail posé au début qui revient à la fin, c'est ce qui fait dire « ah oui, bien sûr ». Ceux qui écoutaient depuis le début sont récompensés, et ton histoire a l'air d'avoir été prévue. Dans cette dernière étape, tu l'ajoutes à ton anecdote et tu la racontes à deux personnes. |
+| `moduleDetail` (version B, scène) | Imagine Samir qui raconte, une dernière fois, son canapé coincé. Au début, il glisse en passant que son cousin a apporté des sandwichs au thon « pour l'énergie ». Personne n'y repense. Puis le canapé reste dans l'escalier, et Samir termine : « Depuis, il fait partie de l'immeuble, et le dimanche le cousin lui monte un sandwich. Pour l'énergie. » La salle rit une première fois sur le sandwich, une seconde parce qu'elle se souvient. Dans cette dernière étape, tu fais la même chose avec ton anecdote, et tu la racontes à deux personnes cette semaine : c'est le vrai test. Deux défis courts : celui du conseil, puis celui de ton anecdote. Ils se rejoignent si ta soirée s'y prête. |
+
+**Exercice « aujourd'hui »** : le défi du conseil (version de l'audit) suivi du défi B (choix 6 des étalons), ajusté.
+> DÉFI SOIRÉE : lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir dans un autre contexte. C'est réussi si quelqu'un sourit en reconnaissant le détail. Pas de groupe aujourd'hui ? Fais-le par message : envoie un détail drôle le matin et reprends-le le soir.
+>
+> TON ANECDOTE : tu travailles ton anecdote du parcours Storytelling ? Plante dans ses premières phrases un détail qui fait sourire, et fais-le revenir dans la chute : ceux qui s'en souviennent sourient. Raconte-la ensuite à deux personnes cette semaine, à une soirée si l'occasion se présente ou une par une. Pas de public ? Envoie-la en vocal ou par écrit à deux amis.
+
+**Vérification du défi B contre le conseil de l'audit** : il colle. Le conseil enseigne « un détail précis, plutôt qu'une phrase entière », une version débutant (retour deux minutes plus tard) et une version avancée (graine plantée tôt) : planter un détail dans l'anecdote et le faire revenir à la chute est la version avancée à l'échelle d'un récit. Le reste du conseil n'est pas touché. **Deux ajustements de mot sur le défi B tel qu'il était écrit au §7 des étalons** : (1) « ses deux premières phrases » devient « ses premières phrases » (après les étapes 2 à 5, l'anecdote peut avoir grandi : voix, tiroir) ; (2) « la deuxième fois, il fait rire » devient « ceux qui s'en souviennent sourient », car la version de l'audit a retiré « double le rire » et fixe la réussite à « quelqu'un sourit ». Le repli solo des deux défis est conservé. Retouche à passer en base ET dans `conseils-seed.json` `[À VÉRIFIER @fullstack : « Le callback » est-il aussi utilisé par un autre parcours ? Si oui, ajout conditionnel plutôt que remplacement]`.
+
+**Quiz** (ton B complice, 5 questions). Positions : **B, D, C, A, D** (la dernière étape a une question de plus : la 5e est en D, le seul rang qui compte deux fois, soit 7 questions sur 25 pour D, 28 % du parcours). Un seul prénom (Samir, question 1). La scène (thon, sandwich) et l'exemple du conseil (film plastique, fromage, « Joyeux anniversaire ») ne contiennent aucune bonne réponse.
+
+**Question 1 (bonne réponse en B)**
+> **Imagine Samir à table. Une amie lance : « J'ai 47 plantes et aucune ne m'a jamais dit merci. » Que reprendra-t-il plus tard ?**
+> A. Toute la phrase, mot pour mot.
+> **B. « Quarante-sept », glissé quand on compte les verres.**
+> C. Le mot « plantes », dans n'importe quelle phrase.
+> D. Le ton de l'amie, imité une heure après.
+>
+> **Explication (3 phrases)** : La B. Un chiffre précis se reconnaît en une demi-seconde, même glissé en passant. La A répète toute la phrase et perd la surprise, la C est un mot trop banal pour être reconnu, et la D est un ton, qui ne se rappelle pas.
+
+**Question 2 (bonne réponse en D)**
+> **Une collègue a dit en passant qu'elle collectionne les bouchons de liège. Personne n'a ri. Peux-tu en faire un callback ?**
+> A. Non : un callback ne marche que sur ce qui a déjà fait rire.
+> B. Oui, mais seulement dans les deux minutes qui suivent.
+> C. Oui, à condition de prévenir : « je reprends un truc de tout à l'heure ».
+> **D. Oui : un détail précis, même juste dit, peut revenir.**
+>
+> **Explication (3 phrases)** : La D. Un détail précis, même juste glissé, suffit : celui qui écoutait s'en souvient, et c'est ce petit coup de coude qui fait sourire. La A réserve le callback aux rires, la B impose un délai, et la C annonce le tour et tue la surprise.
+
+**Question 3 (bonne réponse en C)**
+> **Tu as ressorti ton détail dans une conversation à six. Un seul sourit, en te regardant. Le callback a-t-il marché ?**
+> A. Non : il faut que tout le monde rie.
+> B. Non : il faut au moins un fou rire.
+> **C. Oui : un sourire de reconnaissance suffit.**
+> D. Oui, mais seulement si c'était quelqu'un qui arrivait en retard.
+>
+> **Explication (3 phrases)** : La C. Le critère est un sourire de reconnaissance, pas un fou rire : quelqu'un qui se souvient, c'est gagné. Les A et B demandent trop, et la D oublie que le callback récompense justement ceux qui écoutaient depuis le début.
+
+**Question 4 (bonne réponse en A)**
+> **Ce soir, tu tentes ton premier callback. Que choisis-tu ?**
+> **A. Reprendre un détail amusant deux minutes plus tard.**
+> B. Planter une graine dès l'apéro pour la faire germer au dessert.
+> C. Reprendre toute la vanne du début, mot pour mot.
+> D. Préparer trois callbacks et les placer dans la soirée.
+>
+> **Explication (3 phrases)** : La A. Quand on débute, deux minutes d'écart suffisent pour que le détail revienne sans être oublié. La B demande de tenir le fil pendant une heure, la C répète toute la phrase, et la D en place trop : on les voit venir.
+
+**Question 5 (bonne réponse en D)**
+> **Ton anecdote est prête et tu choisis le détail qui reviendra. Lequel prends-tu ?**
+> A. Le plus gros détail, celui qui explique tout.
+> B. Un détail neutre, comme la date.
+> C. Un détail qui fait déjà partie de la chute.
+> **D. Un détail précis et un peu étrange, dit en passant.**
+>
+> **Explication (3 phrases)** : La D. Il est discret au départ, et c'est ce qui rend son retour savoureux. La A prévient trop tôt, la B est trop pâle pour être reconnu, et la C ne revient pas puisqu'il est déjà dans la chute.
+
+**La vidéo** (spec §2.2 : **une seule** à l'étape 6, pas de facultative ; le temps libéré sert à l'exercice final ; aucun spectacle complet).
+
+| | Légende (`why`) |
+|---|---|
+| **Obligatoire (unique)** : Jonathan Cohen, « Serge le Mytho (Bloqués) » (3 min) | Un personnage qui ment avec un aplomb parfait, dans un format de trois minutes. Repère ce qui revient d'une scène à l'autre : c'est ce retour qui fait sourire, comme ton détail à la fin de l'anecdote `[À VÉRIFIER en visionnant : ce qui revient réellement dans ces trois minutes]`. |
+
+**Les 5 vannes** (textes exacts en base, actives, absentes des 13 étapes s17 et de l'étape 1). Technique : un élément posé au début qui revient à la fin avec un autre sens.
+
+| # | Vanne (`content` puis chute) | Décryptage de l'étape (une ligne) |
+|---|---|---|
+| 1 | « Mon copain : 'Choisis le resto, ça m'est égal.' » / « J'ai réservé chez son ex. Ça lui était égal aussi. » | « Ça m'est égal » est posé au début comme une permission et revient à la fin comme une conséquence : c'est un callback en miniature. |
+| 2 | « Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit. » / « Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas. » | Le mauvais prénom est planté dans la première phrase et revient à la dernière : « Nicolas » existe, Julien beaucoup moins. |
+| 3 | « Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes. » / « Il a précisé « pas tout ». » | La phrase du début revient dans la chute, complétée de deux mots qui la retournent. |
+| 4 | « Mon psy m'a dit que je devais arrêter de me comparer aux autres. » / « J'ai vérifié, les autres n'ont pas ce problème. » | Le verbe du conseil (« comparer ») revient dans la chute, mis en pratique : le détail de départ sert deux fois. |
+| 5 | « Le dimanche, mon copain se lève à 7 h pour profiter de la journée. » / « À 8 h, il l'avait profitée. Il est retourné se coucher. » | « Profiter » ouvre la phrase et se referme à la chute avec un autre sens : même mot, deux lectures. |
+
+---
+
+## Tableau récapitulatif des positions de bonnes réponses
+
+Le parcours compte 25 questions (étape 1 : 4, étapes 2 à 5 : 4 chacune, étape 6 : 5). Étape 1 reprise des étalons (questions 3 et 4 à écrire après validation, positions déjà annoncées : A, C).
+
+| Étape | Q1 | Q2 | Q3 | Q4 | Q5 |
+|---|---|---|---|---|---|
+| 1 (étalons) | D | B | A | C | |
+| 2 | A | C | B | D | |
+| 3 | C | D | A | B | |
+| 4 | D | A | C | B | |
+| 5 | C | B | D | A | |
+| 6 | B | D | C | A | D |
+
+| Position | Nombre | Part du parcours |
+|---|---|---|
+| A | 6 | 24 % |
+| B | 6 | 24 % |
+| C | 6 | 24 % |
+| D | 7 | 28 % |
+
+Plafond de 40 % respecté (max 28 %). Jamais deux bonnes réponses de suite au même rang, y compris d'une étape à l'autre (C, A | D, C | B, D | B, C | A, B).
+
+## Liste des vannes neuves (étape 5 uniquement, toutes « NEUVE, à relire à l'aveugle »)
+
+1. « Samedi, je suis allé voir mes parents en train. Parenthèse : dans un train, personne n'écoute la conversation du voisin, et tout le monde en connaît la fin. Bref. » / « Ma mère m'a ouvert la porte : « Tu as maigri. » J'ai pris deux kilos. »
+2. « Je suis allé chercher du pain à 19 h 50. Parenthèse : une baguette « tradition », c'est une baguette qui ne m'a jamais dit de quelle tradition. Bref. » / « Il en restait une. La dame devant moi l'a prise et m'a salué d'un signe de tête. J'ai répondu « bon appétit ». »
+3. « Lundi, j'ai appelé mon dentiste pour un rendez-vous. Parenthèse : la musique d'attente, c'est le seul concert où je reste jusqu'à la fin. Bref. » / « On m'a proposé une date dans huit mois. J'ai dit que j'avais mal. La secrétaire a répondu : « D'ici là, ça passera. » »
+4. « Jeudi, j'ai présenté mon projet à toute l'équipe. Parenthèse : « juste une petite question », c'est la seule phrase de la langue française qui peut durer vingt minutes. Bref. » / « À la fin, mon chef a dit « très clair ». Puis il a demandé de la refaire lundi. »
+5. « Dimanche, j'ai accompagné mon père au cinéma. Parenthèse : il y a toujours quelqu'un qui ouvre un paquet de bonbons pendant la scène la plus silencieuse, et ça devient la scène. Bref. » / « Mon père a dormi tout le film. À la sortie, il a dit « la fin était prévisible ». »
+
+Critères donnés aux relecteurs : (1) le tiroir se raconte seul et fait sourire sans l'histoire ; (2) il tient en deux phrases au plus ; (3) la chute appartient à l'histoire de départ, pas au tiroir ; (4) lecture à voix haute en moins d'une minute trente. Format d'import : `content` (récit + tiroir + « Bref. »), `punchline` (chute), `comedyTechnique` « Le tiroir » `[à valider]`, `techniqueExplanation` = décryptage ci-dessus étendu.
+
+---
+
+## Handoff
+
+**Handoff → @orchestrator** (puis @reviewer / @ux pour le 10/10, relecteurs à l'aveugle pour les vannes neuves, @fullstack pour l'import)
+
+- **Fichier produit** : `/home/user/Marrant/docs/copy/parcours-storytelling-etapes-2-6-s18.md`. Aucun autre fichier modifié, rien en base, aucun commit.
+- **Décisions prises** : registre « pote drôle et bienveillant » ; version B avec scène pour chaque étape (Samir aux étapes 2 et 6 pour tenir le fil rouge du canapé, Hugo, Nadia, Maëlle ailleurs, aucun prénom de persona) ; bonnes réponses A/C/B/D, C/D/A/B, D/A/C/B, C/B/D/A, B/D/C/A/D ; titres d'étape tirés des mots de la fiche validée ; étape 3 suit le bilan positif du conseil en base (pas l'épopée de la spec) ; étape 4 suit la double lecture du conseil validé ; vanne 136 écartée, 5 vannes neuves pour l'étape 5.
+- **Frameworks et niveau de conscience** : textes d'étape = PAS court avec scène, Product-Aware ; quiz = mise en situation puis explication, Product-Aware.
+- **Points d'attention** : objections traitées (« je ne suis pas drôle » : tic unique, défis courts, repli solo partout ; « ça fait mal d'en rire » : phrase de protection de l'étape 3 et question 3 ; « je n'ai personne à qui raconter » : vocal ou voix haute ; « ça ressemble à Machine à Café » : étape 6 distincte du callback de Machine à Café par le détail qui revient dans une anecdote) ; références : étalons s18, spec s17, base du 08/10, fiches `videos-seed.json`, 127 vannes actives.
+- **À vérifier avant import** : (1) légendes vidéo marquées `[À VÉRIFIER en visionnant]` (étapes 3, 4, 5, 6) ; (2) la 136 en base est bien le texte réécrit ; (3) « Le callback » n'est utilisé que par ce parcours ; (4) `parcours-reecriture-s17.json` : les 20 vannes actives de ce fichier (étapes 2, 3, 4, 6) existent toutes dans `vannes-actives-s17.json` et ne figurent dans aucune des 13 étapes s17 (contrôle fait par recherche des textes dans les deux fichiers) ; (5) relecture à l'aveugle des 5 vannes neuves avant tout import.
+- **Écarts avec la demande** : l'étape 6 n'a qu'une vidéo (la spec §2.2 prévoit « une seule » ; la demande parlait de deux vidéos par étape) ; le défi B est ajusté de deux mots (voir étape 6). Piste, non appliquée : la vidéo de Paul Mirabel (étape 4) enseigne aussi le callback personnel et irait bien à l'étape 6, mais elle est retenue à l'étape 4 par la spec et une vidéo ne se reprend pas dans un même parcours.
