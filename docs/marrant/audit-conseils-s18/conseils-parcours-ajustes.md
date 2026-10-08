@@ -67,7 +67,7 @@ Titre de conseil conservé : celui d'origine du `tipTitle` (le rattachement par 
 
 **exemple** : Un ami te lance : « Tu t'es encore endormi pendant le film. » Toi : « Oui, dès la bande-annonce. Cinq étoiles, sieste comprise. »
 
-**exercice** : DÉFI CHAMBRAGE : prends une pique que tu reçois vraiment (ton retard, ton téléphone, ta façon de manger) et écris ta réponse en trois courtes phrases : une qui accepte, une qui exagère, une qui retourne en compliment déguisé. C'est réussi quand tes trois phrases sont écrites.
+**exercice** : DÉFI CHAMBRAGE : prends une pique que tu reçois vraiment (ton retard, ton téléphone, ta façon de manger) et écris ta réponse en trois temps, en deux ou trois phrases courtes : accepter, exagérer, retourner en compliment déguisé. C'est réussi quand tes trois temps sont écrits.
 
 **Vérification contre l'étape** : `why` (technique en 3 temps accepter, exagérer, retourner) vrai. `moduleDetail` (méthode en trois temps, sans agressivité, l'autre rit avec toi, dernière réplique) vrai. Q1 (accepter, exagérer, retourner avec un compliment déguisé ; nier, contre-attaquer, s'excuser écartés) vraie. Q2 (exagérer sans attaquer) vraie. Q3 (retournement doux, compliment déguisé) vraie. Q4 (une seule phrase qui accepte, pas besoin d'être brillant) vraie. Légendes Lilia Benchabane et Sugar Sammy : inchangées par rapport à s17, donc leur statut `[À VÉRIFIER en visionnant]` d'origine reste le même.
 
