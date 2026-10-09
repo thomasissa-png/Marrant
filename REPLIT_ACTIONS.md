@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (09/10/2026, ~08:10 Paris) : LOT 1a INSÉRÉ en base (12 au 18/10)
+
+- Dry-run final sans `--out`/`--json` : `lot-relance-s15.json` identique à l'octet à la version relue (sha256 `63a2f315…`), 0 erreur.
+- `--insert --driver=neon-http` : **12 posts APPROVED** (`thomas-s15`), X 5, Instagram 5, LinkedIn 2 ; 2 replis en réserve (REJECTED, envoyés seulement si l'article du relais n'est pas en ligne) ; contrôle après insertion conforme par réseau et par semaine.
+- Contrôles SQL : 0 dimanche, 0 vanne de la semaine 0 reprise ; anciens posts `preparation-mensuelle` de la période en REJECTED (inchangés).
+- Retour arrière possible : `--rollback --lot relance-s15 --debut 2026-10-12 --fin 2026-10-18 --confirmer` (borné à la période).
+- Gabarit carte conseil : déjà en ligne (déploiement s18 du 08/10), section mise à jour ; plus d'échéance au 23/10.
+
 ## s15 (08/10/2026, 20:16 Paris) : H+45 Instagram OK, jour 3 = 3/3
 
 - Carte vanne `sent` à 19:32, `instagram.com/p/DePen34lAaI/`, 2 images avec texte alternatif, légende sans lien. Semaine 0 : 8 posts sur 8 publiés.
@@ -8,7 +16,7 @@
 
 - LinkedIn `sent` à 08:17, X `sent` à 12:32, liens réels, aucun FAILED (`docs/social/releves/2026-10-08.md`). Alertes du matin : 8 de classe B (files basses avant l'insertion du lot 1a le 09/10), aucun e-mail.
 
-## s15 gabarit carte conseil : **COMMITÉ, À DÉPLOYER avant le ven. 23/10 (1er conseil IG)**
+## s15 gabarit carte conseil : **DÉPLOYÉ le 08/10/2026 à 09:33 (Paris) avec le déploiement groupé s18, version `8e377821`** (commit `d47db06` ancêtre du commit déployé `b248ad8`, vérifié le 09/10 par `git merge-base --is-ancestor`)
 
 > - **Pourquoi** : le 1er conseil Instagram (K26, « Consoler en exagérant ») part le ven. 23/10 à 19:30. Sans ce code, le Worker rend ses cartes avec le gabarit vanne (5 cartes sur 10 débordaient). Le Worker de production ne connaît pas encore le gabarit : il **part avec le prochain déploiement autorisé**, c'est-à-dire le déploiement groupé s18 ci-dessous, qui attend le feu vert de Thomas (garde de déploiement : une autre session a du code non déployé, donc **aucun `deploy:cf` dans cette session**). Si ce feu vert tarde, prévoir un déploiement avant le 23/10 qui embarque les deux. Ce déploiement doit avoir lieu avant l'insertion du lot 1b, ou au plus tard avant le 23/10 à 19:30.
 > - **Code Worker** (`apps/web/src/lib/social/`) : nouveau `templates/cartes-conseil.tsx` (`ConseilCarte1`, `ConseilCarte2`, réduction du corps de 72 à 56 px par pas de 4, erreur si rien ne tient, jamais de rognage), `carrouselConseilCartes` (`carrousel-piste-a.ts`), sélection dans `generate-post-image.ts` (post `IMAGE_QUI_CLAQUE` à **3 parties** = conseil : `[surtitre, carte 1, carte 2]`), `position="debut"` dans `carte-marque.tsx`, `composerParagraphe` dans `mise-en-lignes.ts` (coupe sans préférence de fin de phrase). Couleurs : surtitre `#A78BFA` sur noir (7,1:1), « » et « À toi de jouer : » en `#DDD6FE` sur l'aplat (5,1:1). Pied identique à la vanne (test au pixel).
