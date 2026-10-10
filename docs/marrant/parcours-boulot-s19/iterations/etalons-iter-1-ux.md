@@ -76,4 +76,71 @@ Correction : (a) « une liste de six formules » (ou ajouter un « on avance » 
 
 ## Corrections non bloquantes
 
-<!-- SUITE -->
+**8. Vitrine trop longue pour une lectrice qui fuit les contenus longs.**
+Emplacement : §3, `why` (l.87), `moduleDetail` (l.88), défi (l.95).
+Problème : le `moduleDetail` fait environ 125 mots (165 avec la phrase `[SI 6B]`), contre environ 85 pour Storytelling 1. Le repli « pas de réunion cette semaine » est écrit deux fois (l.88 et l.95), et « tu écoutes comme au spectacle / tu comptes les formules » est dit dans `why` puis dans `moduleDetail`. Dans `why`, « tout le monde les connaît, personne ne les dit » se contredit (ces formules se disent sans arrêt) : la phrase d'accroche de la vitrine accroche la lecture.
+Correction : `why` : « Une réunion répète les mêmes formules et les mêmes rituels, et c'est ce qui la rend drôle : tout le monde les connaît, personne ne les relève. Ici, tu suis ta prochaine réunion comme un spectacle et tu notes ce qui revient. » (la phrase « Avant de placer quoi que ce soit… » saute). `moduleDetail` : supprimer « Pas de réunion cette semaine ? … font l'affaire. » (le repli reste dans le défi, l.95). Gain : environ 35 mots, aucun contenu perdu.
+
+**9. Quiz, question 1 : un seul rival plausible, et un détail qui contredit la scène.**
+Emplacement : §3, Question 1, l.101-108.
+Problème : A, B et D ont chacune un sujet humain, C est la seule formule : l'énoncé (« sans viser personne ») suffit à répondre. D (« Quelqu'un… ») est le seul rival honnête. De plus Anouk « a noté quatre choses » dont trois sur des personnes, alors que la scène dit « pas un seul prénom ».
+Correction : remplacer D par une formule attribuée à quelqu'un, pour que la leçon porte sur la bonne distinction : « Le chef a lancé “juste une petite remarque” avant dix minutes de remarques. » (et ajuster l'explication : « D est la même formule, mais mise dans la bouche du chef : on rit de lui, plus du système »). Remplacer « qui a noté quatre choses » par « qui hésite entre quatre notes ». Position C inchangée.
+
+**10. Quiz, question 3 : la bonne réponse est la seule qui parle du tour de table, et la règle enfreinte par B est floue.**
+Emplacement : §3, Question 3, l.119-126.
+Problème : D est la seule réponse qui reprend « tour de table » (indice lexical), et « Je suis le seul à qui ça donne envie de dormir ? » n'enfreint pas clairement « fait de toi la seule victime » (elle vise plutôt la réunion), donc l'explication discute.
+Correction (bonne réponse en D inchangée) :
+> A. « Ce tour de table, le chef a lancé et il ne sait plus comment l'arrêter. » (vise le chef)
+> B. « Heureusement que quelqu'un suit ce tour de table. » (te place au-dessus de la salle)
+> C. « Ce tour de table aurait pu être un mail. » (le cliché)
+> **D. « À ce rythme, on va finir le tour de table par le début. »**
+Explication : « La D. Elle vise le tour de table, elle est propre à cette réunion et elle tient en une respiration. La A vise le chef, la B te place au-dessus de la salle, et la C est la phrase que tout le monde a déjà dite. » Le masculin « le seul » disparaît aussi (persona féminine).
+
+**11. Règle de longueur à ajouter à la vérification du quiz.**
+Emplacement : l.128 (contrôles du quiz) et signalement 7 (l.240).
+Problème : dans les trois questions la bonne réponse est la plus longue (Q1 14 mots contre 12 au plus, Q2 16 contre 11, Q3 13 contre 10). Un habitué des quiz le voit. Les corrections 4, 9 et 10 règlent l'étape 1, pas les 16 questions suivantes.
+Correction : ajouter au signalement 7 : « aucune bonne réponse n'est la plus longue sur plus d'une question sur trois, comptée sur les 19 questions », à côté du plafond de 40 % par position.
+
+**12. Légendes vidéo de l'étape 1.**
+Emplacement : §3, tableau des vidéos, l.134-135.
+Problème : (a) la légende de Thomas VDB finit sur « le réflexe à garder en réunion quand une formule sonne creux » : lu vite, c'est « corrige le mot savant à voix haute devant ton chef », l'inverse de l'étape ; (b) « ramené, mot après mot » va plus loin que la fiche (« détourner le jargon tech en langage de tous les jours »), alors que la règle l.130 est de ne dire que ce que la fiche établit ; (c) la légende de Roumanoff ne fait aucun pont avec une réunion.
+Correction : VDB : « Du jargon de bitcoin et de blockchain ramené au langage de tous les jours. Repère chaque fois le mot simple qui prend la place du mot savant : c'est le réflexe à garder dans ta tête quand une formule sonne creux en réunion. » Roumanoff : ajouter « …ou un système qui déraille, comme une réunion qui tourne en rond ? » à la fin de la question.
+
+**13. Vidéos : ajouter l'adéquation et lever trois doutes avant que Thomas tranche.**
+Emplacement : §6, tableau l.196-203 et bilan l.205-206.
+Problème : Thomas doit choisir six échanges de vidéos qu'il ne peut pas juger sans les regarder, et le tableau ne donne ni note d'adéquation (forte / moyenne / faible, comme la spec) ni la durée au même endroit. Trois points restent ouverts : Fary « Le legging » (fiche à 8 min, base à 5 min), Rollman « Les relations sociales » 5 min 20 (au-dessus du plafond de 5 min de l'obligatoire, extrait à minuter), et Hamzawi « Les chagrins d'amour » comme seule vidéo d'une étape sur le mot de départ ou le toast (la lectrice verra une chronique sur les chagrins d'amour, adéquation moyenne à faible).
+Correction : ajouter une colonne « Adéquation » (forte / moyenne / faible) et « Durée » au tableau ; écrire à côté de l'étape 6 : « Si la légende ne tient pas le pont (fond sincère, une touche d'humour), l'étape 6 reste sans vidéo plutôt que celle-ci » ; trancher les deux durées avant la présentation, ou les afficher en tête du §6 comme « à confirmer avant de choisir ». Rappeler que le plafond des facultatives est à confirmer (signalement 11) : à 5 min 20 et 6 min, la lectrice qui regarde tout dépasse 15 minutes.
+
+**14. Témoignage B : reconnaissance et lisibilité de la vanne.**
+Emplacement : §2, `testimonial` B (l.60).
+Problème : « Imagine Anouk. » seul ne dit ni l'âge ni la situation ; l'exemple validé par Thomas (29/09, « Imagine Tom, 21 ans, étudiant… ») et celui de Machine à Café (« Imagine Léa, 27 ans, en open space ») le font, et c'est ce qui permet de se reconnaître en une seconde. Ensuite, la vanne « Elle prépare son discours de pot de départ. » demande à la lectrice de décoder en une seconde (une imprimante lente qui « prépare son départ »), sur la page de vente. Nouvelle vanne publiée : elle doit passer la même relecture à l'aveugle que les autres.
+Correction : « Imagine Anouk, 26 ans, en CDI. » (valeurs de la persona, rien d'inventé) ; faire passer la vanne de l'imprimante à la relecture à l'aveugle avant la validation, et garder le témoignage A comme repli si elle ne passe pas (règle d'or du 08/10).
+
+**15. La durée de 15 minutes n'est jamais rendue vérifiable.**
+Emplacement : §3, `dureeTexte` (l.91) et signalement 8 (l.241).
+Problème : « non mesuré » est honnête et conforme au modèle s18, mais la lectrice et Thomas ne voient aucun ordre de grandeur. Calcul de contrôle fait ici, à partir de la longueur des textes du document : environ 1 100 mots à lire (scène, `why`, conseil, défi, 5 vannes avec décryptage, quiz) soit 5 à 6 minutes à 200 mots par minute, plus 4 min 30 de vidéo obligatoire, plus environ 2 minutes de quiz : 12 à 13 minutes, cohérent avec les 13 min 30 de la spec. `[HYPOTHÈSE : à mesurer (K14), le conseil 1 n'étant pas écrit]`
+Correction : ajouter ce calcul en une ligne au signalement 8, avec la mention de l'hypothèse, pour que Thomas sache que la promesse « 15 min » tient avec la vidéo facultative non regardée.
+
+**16. Lecture de Thomas : ajouter l'effet pour la lectrice, retirer le bruit interne du haut du document.**
+Emplacement : tableau des choix (l.10-17), section « Ce que la base a changé » (l.22-28), renvois internes (l.48 « règle RC1 », l.91 « K14 », l.140 « décryptage »).
+Problème : Thomas a demandé des recommandations « sans jargon : problème, effet pour l'utilisateur, ce qu'on fait » (07/10). Le tableau a « Point, Options, Reco » mais pas l'effet. « actives », « reprise », « décryptage », « RC1 », « K14 » ne sont pas expliqués. L'encadré [ÉCART] sur 8 contre 9 vannes (l.25) est à lire avant le premier choix alors que le signalement 1 dit lui-même qu'il ne change aucun choix.
+Correction : ajouter une colonne « Effet pour la lectrice » (exemples : choix 4, « les vannes montrent le sujet de l'étape (le couloir) plutôt qu'un barbecue » ; choix 6, « une seule question à retenir au lieu de six consignes » ; choix 3, « la page se distingue de Machine à Café dans Google »). Remplacer « actives » par « déjà en ligne », « reprise » par « vidéo déjà utilisée ailleurs », « décryptage » par « explication de la vanne ». Déplacer le [ÉCART] des vannes et la phrase sur le slug du fichier Storytelling vers « Signalements ».
+
+**17. Le critère de réussite du défi et le test de la salle entière ne disent pas la même chose.**
+Emplacement : §3, défi l.95 et phrase `[SI 6B]` l.88.
+Problème : le défi dit « ta phrase parle de la réunion, pas d'une personne », la phrase 6B dit « ta phrase passerait-elle si toute la salle l'entendait ». Deux critères pour une même phrase, dans la même étape, alors que le choix 6B vend « un seul test ».
+Correction : si 6B est retenu, terminer le critère du défi par « …et que ta phrase passerait si toute la salle l'entendait » et simplifier la phrase `[SI 6B]` en « Le test à retenir pour toute la suite : ta phrase passerait-elle si toute la salle l'entendait, y compris la personne ou le métier dont elle parle ? Ici, tu l'essaies à blanc, dans tes notes. »
+
+**18. Titre A : même mot de situation que l'accroche de Machine à Café.**
+Emplacement : §4, tableau l.152.
+Problème : « oser une vanne en réunion » reprend la situation que l'accroche de Machine à Café nomme déjà (« en réunion ou à l'afterwork »). Le titre est bien distinct pour le moteur de recherche (aucun des quatre mots interdits), pas pour la lectrice qui voit les deux cartes côte à côte. La peur (« oser ») et la durée sont de bons choix, à garder.
+Correction : montrer à Thomas, en une ligne sous le tableau, la variante « Parcours Boulot : oser une vanne du mail au pot de départ » (57 caractères, comptés à la main, sans la durée) et dire ce qu'on perd (la durée) et ce qu'on gagne (deux situations que Machine à Café ne couvre pas). La reco A peut rester, mais la comparaison doit être sous les yeux de Thomas.
+
+**19. Casse de la suite de fin dans les parcours déjà en ligne (point technique à passer à @fullstack).**
+Emplacement : §4 (l.156), signalement 9 (l.242) et handoff (l.256, point 4).
+Problème : le document dit que seul le fichier Storytelling porte `"pro"` dans `nextParcoursRanking`. `parcours-seed.json` l.17-22 montre que Machine à Café le porte aussi (`"pro"` en tête), et les classements de la spec §5.5 le mettent dans les cinq parcours. Si le renommage ne vaut que pour Storytelling, la suite de fin de Machine à Café pointera vers un parcours qui n'existe pas (la suite dynamique l'ignore, ou pire, la page ne propose pas Boulot à la bonne personne).
+Correction : remplacer « le fichier Storytelling » par « tous les fichiers de parcours » dans le §4, le signalement 9 et le handoff, avec un contrôle par recherche du mot `"pro"` dans les classements.
+
+## Pour l'itération 2
+
+À re-vérifier après corrections : (1) aucune phrase de l'étape 1 qui fasse parler à un collègue ; (2) tableau d'exposition présent et repli de l'étape 3 réécrit ; (3) trois champs de fiche, trois idées ; (4) Q2, Q1, Q3 relues avec un décompte de mots par réponse ; (5) mot « carnet » absent de l'étape ; (6) choix 7 (PS) visible en tête ; (7) `moduleDetail` sous 100 mots hors phrase 6B. Si les 7 bloquants sont traités, la note attendue est 9 (le reste passe par les 12 non bloquantes).
