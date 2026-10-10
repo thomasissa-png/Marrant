@@ -23,7 +23,7 @@ L'étape 1 complète (§3) n'a pas d'A/B : les choix de forme sont acquis, tu va
 
 ## Ce que la base a changé (faits relus le 10/10)
 
-- **Conseils** : sur les 97 conseils au titre « bureau », 3 seulement sont en ligne. Un seul sert le parcours : « Le PS qui détend un mail sérieux » (étape 2), au niveau. Un deuxième, « Compare la manie d'un collègue à un autre métier », vise une personne, même avec tendresse : il est écarté. Le troisième, « Décrire tes révisions comme une rencontre », n'a aucun rapport avec le boulot. Quatre conseils prévus étaient **retirés** le 30/09 (sous la barre) : « Survivre aux réunions avec humour » (1), « La vanne de couloir : l'art du timing entre deux réunions » (3), « L'afterwork : passer de collègue à personne drôle » (4), « Survivre (et briller) au networking pro avec humour » (5). Ils sont réécrits à neuf (voir §1). Pour l'étape 2, la spec prévoyait « L'humour digital : mails, Slack et textos pro » (id 53) ; son équivalent en base, « L'humour par mail, Slack et Teams », est retiré lui aussi : le PS, en ligne et au niveau, le remplace. Le conseil de l'étape 6 (prise de parole officielle) n'existe pas en base. Les ~90 autres conseils « bureau » retirés (tics et rituels de collègues, lundi matin) ne reviennent pas : ils ciblent des personnes.
+- **Conseils** : sur les 97 conseils au titre « bureau », 3 seulement sont en ligne. Un seul sert le parcours : « Le PS qui détend un mail sérieux » (étape 2), au niveau. Un deuxième, « Compare la manie d'un collègue à un autre métier », vise une personne, même avec tendresse : il est écarté. Le troisième, « Décrire tes révisions comme une rencontre », n'a aucun rapport avec le boulot. Quatre conseils prévus étaient **retirés** le 30/09 (sous la barre) : « Survivre aux réunions avec humour » (1), « La vanne de couloir : l'art du timing entre deux réunions » (3), « L'afterwork : passer de collègue à personne drôle » (4), « Survivre (et briller) au networking pro avec humour » (5). Ils sont réécrits à neuf (voir §1). Pour l'étape 2, la spec prévoyait « L'humour digital : mails, Slack et textos pro » (id 53) ; son équivalent en base, « L'humour par mail, Slack et Teams », est retiré lui aussi : le PS, en ligne et au niveau, le remplace. Le conseil de l'étape 6 (prise de parole officielle) n'existe pas parmi les 97 conseils « bureau » ; la vérification sur tous les conseils en ligne de la base reste à faire `[À VÉRIFIER @fullstack : aucun conseil en ligne ne couvre déjà la prise de parole officielle]`. Les ~90 autres conseils « bureau » retirés (tics et rituels de collègues, lundi matin) ne reviennent pas : ils ciblent des personnes.
 - **Vannes** : 16 vannes BOULOT en ligne (47 retirées). 8 sont déjà dans un parcours (Machine à Café, Répartie), 3 dans Storytelling, 5 dans aucun. Cinq autres vannes en ligne parlent du travail sans être classées BOULOT, et sont déjà dans un parcours : « Mon manager m'a félicité pour ma discrétion » (Machine à Café 1), « alternant2 » (Répartie 2), « la pause déjeuner est sacrée » et « à la base » (Confiance 1), « champion de tir à l'arc » (Confiance 2). Le détail du comptage est au signalement 1.
 - **Vidéos** : les 11 de la spec sont en ligne. Deux affirmations de la spec ne sont **pas** dans les fiches de la base : Haroun, « le tu fais quoi dans la vie ? est dans la fiche » (la fiche parle d'impro et de rebonds avec le public) ; Rollman « Les enterrements de vie », « le pot de départ est cité dans la fiche » (la fiche parle des enterrements de vie et de rituel social). Détails au §6. La vidéo « Bitcoin, JPEG et blockchain » n'est plus dans Machine à Café 3 (le correctif `tpIOLzv11qo` y est), `[À VÉRIFIER @fullstack en base]`.
 - **Parcours** : aucun parcours `boulot` ni `pro` en base ; `storytelling` est en ligne.
@@ -285,6 +285,109 @@ Sources : les conseils des étapes 3, 4, 5 (§1, validés à l'aveugle), le déf
 
 **Reco : B.** Personne ne retient six consignes différentes ; une seule question se retient, elle s'applique à une réunion comme à un mail ou à un toast, et elle tient la promesse « sans te griller » de la fiche. Elle prolonge la règle du conseil en ligne de l'étape 2 (la capture d'écran) sans la répéter. Coût : une phrase par étape, aucune nouvelle fonction. Risque : l'effet « consigne qui revient » ; c'est pourquoi la phrase est unique, jamais numérotée, jamais nommée comme une méthode, et identique aux étapes 2 à 6. A reste le plan B si tu trouves la répétition scolaire.
 
-<!--SUITE-->
+---
+
+## Signalements (information, aucune réponse attendue de ta part)
+
+1. **Comptage des vannes.** La session annonçait 9 vannes BOULOT déjà en ligne et 3 dans Storytelling ; mes recoupements par texte donnent 8 et 3 (Machine à Café 5, Répartie 3, Confiance 0), soit 16 avec les 5 hors parcours (9 + 3 + 5 ferait 17). `[ÉCART : à contrôler par @fullstack si le chiffre compte.]` Lecture dans `parcours-reecriture-s17.json` et `parcours-storytelling-s18.json` ; si la base en ligne diverge de ces fichiers, `[À VÉRIFIER @fullstack]`. Cela ne change aucun choix.
+2. **La spec s'appuie sur deux phrases absentes des fiches vidéo en base** (Haroun, Rollman) : voir §6. Si la fiche complète existe ailleurs que dans l'export, la reco 5B pour les étapes 5 et 6 serait à revoir.
+3. **Conseil en ligne écarté** : « Compare la manie d'un collègue à un autre métier » (OBSERVATION, INTERMEDIAIRE) est en ligne mais vise une personne. Il n'est dans aucun parcours en ligne (absent de tous les titres de conseil des fichiers s17 et s18). Il reste dans le catalogue, rien n'est désactivé. Même constat pour « Décrire tes révisions comme une rencontre ».
+4. **Étapes 1 et 6 : tant que le conseil n'est pas validé, l'étape ne s'écrit pas.** L'étape 1 du §3 est écrite sur l'objectif de la spec (compter des formules) et son exercice sera aligné ensuite. Si la variante « Ce que raconte une salle de réunion » (les traces laissées dans la salle) l'emporte sur « Compter ce que personne ne compte », la scène et le défi du §3 sont à réécrire autour des objets de la salle. Les deux variantes disent « carnet » dans leur défi : à passer en « notes » dans le texte qui sera validé, ce qui est une retouche d'un mot à faire passer dans le tour 3.
+5. **Recoupement avec Machine à Café 2 et Confiance 1** (observation sans parole d'un rituel) : traité dans le tableau du §3. Vérifié en base le 10/10 : le défi de Machine à Café 2 compte les blancs après les rires, celui de Confiance 1 formule une règle non écrite ; aucun ne relève de formules de langage.
+6. **Positions et longueurs des bonnes réponses du quiz.** Seule l'étape 1 est livrée (positions C, A, D ; la bonne réponse n'est la plus longue dans aucune des 3 questions). Pour les 19 questions du parcours (3 × 5 + 4) : aucune position ne doit dépasser 40 %, soit 7 questions au plus par rang ; la bonne réponse ne doit pas être la plus longue pour plus d'une question sur trois ; aucune bonne réponse ne reprend un mot de sa question. Les trois se vérifient à l'écriture des étapes 2 à 6.
+7. **Durée de l'étape 1** (13 min 30 estimées en spec) : non mesurée, non écrite dans les textes. Ordre de grandeur : environ 1 000 mots à lire (scène, `why`, conseil, défi, 5 vannes avec leur explication, quiz), soit 5 minutes à 200 mots par minute, plus 4 min 30 de vidéo obligatoire, plus environ 2 minutes de quiz : une douzaine de minutes, donc la promesse de 15 minutes tient sans la vidéo facultative `[HYPOTHÈSE : à mesurer, le conseil 1 n'étant pas écrit]`.
+8. **Champs à écrire plus tard, hors étalons** : `nextParcours`, `nextParcoursReason` et `metaDescription`. Classement de départ de la spec (§5.5) : `storytelling`, `machine-a-cafe`, `repartie`, `confiance`. La `metaDescription` évite aussi « drôle », « bureau », « humour » en tête (choix 3).
+9. **Renommage de `"pro"` en `"boulot"`** : le mot `"pro"` figure dans les classements de fin de parcours des quatre parcours existants, soit 7 occurrences dans 3 fichiers : `parcours-reecriture-s17.json` (3, Machine à Café, Répartie, Confiance), `parcours-seed.json` (3) et `parcours-storytelling-s18.json` (1). À renommer partout à l'import, avec un contrôle par recherche du mot ensuite : sinon la suite de fin pointe vers un parcours qui n'existe pas, et la page ne propose pas le Boulot.
+10. **Niveaux « Expert »** : aucun conseil du Boulot n'est marqué Expert dans la liste utile ; jamais affiché de toute façon (décision acquise).
+11. **Même objet dans deux textes** : le témoignage B (§2) et l'exemple du conseil de l'étape 3 (§1) parlent tous deux de l'imprimante. Gardé : le conseil donne l'irritant, le témoignage montre le résultat. Si ça gêne à la relecture du rendu, on change l'objet du témoignage (la clim, l'ascenseur).
+
+---
+
+## Arbitrages de l'itération 1 (quand les deux relecteurs se contredisent, ou quand je n'ai pas suivi l'un d'eux)
+
+R = relecteur (reviewer), U = relecteur UX, suivi du numéro de leur note.
+
+1. **Défi de l'étape 1 : collègue ou ami ?** R14 gardait « un collègue de confiance » avec la précision « les formules, pas ta phrase » ; U1 (bloquant) veut un ami hors boulot. Tranché pour U1 : la vitrine promet « tu ne dis rien », et raconter les tics d'une réunion à un collègue est le geste par lequel on se grille, peur n°1 de la lectrice. Je garde la précision de R14 (« les formules, pas ta phrase »), qui lève la contradiction avec « garde-la pour toi ».
+2. **`why`** : R1 écrivait « plus personne ne les entend » et gardait « Avant de placer quoi que ce soit… » ; U8 écrivait « personne ne les relève » et retirait cette phrase. Tranché : « tout le monde les prononce, personne ne les relève », phrase retirée. Cela corrige le contresens (R1), ne rappelle plus Confiance 1, et raccourcit la vitrine (U8) ; l'idée « sans ouvrir la bouche » est déjà dans la scène.
+3. **Question 1** : R5 remplace la B par une formule accrochée au directeur, U9 remplace la D par une formule accrochée au chef. Un seul piège de ce type suffit : j'ai gardé la B de R5 ; la A et la D restent des personnes. Pour l'énoncé, « Tu as noté quatre choses » (R5, R15) plutôt que « Anouk qui hésite entre quatre notes » (U9) : plus aucun prénom dans le quiz, donc plus de contradiction avec la scène.
+4. **Question 2** : R5 propose trois accidents plus drôles, U4 une A raccourcie et une visio plantée. Retenu : les accidents de R5, avec le courant d'air à la place du livreur (pas de personne), et la A sans « comme chaque semaine ». « qui attend qui » est retiré du défi (R5), et le défi dit « un geste que l'équipe refait à chaque fois » sans reprendre la A.
+5. **Question 3** : U10 garde « À ce rythme… » et met « tour de table » dans toutes les réponses ; mais « rythme » est dans la liste lexicale interdite (R4), et reprendre « tour de table » partout n'enlève pas le calque. Retenu : une D sans « rythme » ni « tour de table » (R5), aucune réponse qui reprend un mot de la question. La B garde le défaut de R6 (elle se plaint sans rien montrer), reformulée sans masculin (U10) ; l'explication de R6 est retenue.
+6. **Phrase du test** : R12 (« équipe », « l'entendait ou la lisait », sans « métier ») contre U17 (« salle », « ou le métier »). Retenu R12 : « salle » ne va pas à un mail, et « métier » n'a de sens qu'à l'étape 5, où l'exercice le dit déjà. Retenu U17 sur le fond : le critère du défi reprend le même test (`[SI 6B]`).
+7. **Repli de l'étape 1** : R13 retire la visio du repli (une visio est une réunion), le tableau de U2 la cite comme repli. Retenu R13 : la visio compte comme réunion ; repli = la dernière réunion en souvenir, ou un fil de mails. Le tableau du §7 est aligné.
+8. **Accroche B** : R7 propose le contraste samedi / lundi 9 h, U3 propose « le mail, la réunion ou le pot de départ te font tout garder pour toi ». Retenu R7 : U3 liste des situations que la description cite déjà (même répétition), R7 apporte une idée neuve et n'emploie aucun mot de l'accroche de Machine à Café. U3 est retenu pour la ligne « Boulot ou Machine à Café d'abord ? » et pour la phrase « version sans risque » de la description.
+9. **Témoignage B** : R7 (ouvrir sans la réunion) et U14 (« 26 ans, en CDI », passage à l'aveugle) s'additionnent sans conflit.
+10. **Titre** : A et B sont les deux titres de R8 (60 et 56 caractères) ; la variante sans durée de U18 est montrée en une ligne. Reco A (elle tient la promesse de la fiche).
+11. **Plafond des facultatives** : R10 voulait retirer la question (la spec tranche : seule la vidéo obligatoire est plafonnée) ; la demande de cette itération et U13 la maintiennent. Elle devient le choix 8, avec une reco qui suit la spec (pas de plafond) : la décision reste à Thomas.
+12. **Retouche du PS** : R10 admettait « retouche commune ou choix 7 », U5 exige le choix 7. Retenu : choix 7.
+13. **Vannes de R11** : « à la base » n'est pas retenue, malgré R11. Même critère que Rome : l'explication en base parle du « collègue-tornade », donc d'une personne ; et c'est déjà une vanne de l'étape gratuite de Confiance, lue deux fois dans deux vitrines. « Champion de tir à l'arc » est retenue (étape 5, l'homonyme est le sujet, pas une personne visée). Totaux : 14 en ligne et 16 neuves, au lieu de 15 et 15.
+14. **Fary à l'étape 3** : R19 laissait deux voies (un vrai argument, ou garder A). Je n'ai trouvé aucun argument (la fiche dit 8 minutes sur un seul objet), l'étape 3 reste en A.
+15. **Légende de Thomas VDB** : R21 jugeait « mot après mot » acceptable, U12 le retire car la fiche ne dit pas ça. Retenu U12 (règle : ne dire que ce que la fiche établit).
+16. **Scène** : U7 proposait « six formules », R3 « trois formules entendues six fois ». Retenu R3 : les trois formules distinctes sont aussi le critère du défi, la scène montre donc exactement ce qu'on demande.
+17. **Rituel ou formules** : R2 veut les formules au premier plan, la spec garde le rituel dans l'objectif. Retenu : formules d'abord, rituel au second plan dans la scène (absent), le défi et le tableau.
+
+---
+
+## Handoff
+
+**Handoff → @orchestrator** (puis @fullstack pour l'import, @design pour l'icône, @seo pour la signature du titre)
+
+- **Fichier produit** : `/home/user/Marrant/docs/copy/etalons-parcours-boulot-s19.md` (version corrigée, itération 1). Aucun autre fichier modifié, aucun commit, rien en base. `project-context.md` (historique) à compléter par la session.
+- **Prêt (en attente de ta validation)** : fiche A/B (§2) ; étape 1 complète (§3 : titre, `why`, `moduleDetail` avec scène, exercice, 3 questions de quiz complètes, légendes des 2 vidéos) ; état réel des conseils avec les trois textes validés à l'aveugle en texte intégral et la retouche du PS (§1) ; titre A/B et slug (§4) ; méthode de vannes avec tableau étape par étape (§5) ; vidéos A/B avec adéquation et plafond des facultatives (§6) ; vue d'ensemble de la progression d'exposition et garde-fou A/B (§7). **En cours** : conseils des étapes 1 et 6, `[EN COURS : relecture à l'aveugle, tour 3]`.
+- **Frameworks et niveau de conscience (pour les agents, pas pour Thomas)** : fiche = PAS court, Solution-Aware ; étape 1 = PAS court avec scène, Product-Aware (vitrine lue avant l'achat) ; quiz = mise en situation puis explication, Product-Aware ; titre = bénéfice et durée, Problem-Aware.
+- **Attend Thomas** : choix 1 à 8. « Je suis tes recos » = valider le 1, puis B (fiche), A (titre), A (vannes), B (vidéos), B (garde-fou), oui (retouche du PS), a (pas de plafond pour les facultatives).
+- **Après validation, @fullstack devra** : (1) **réactiver** les conseils retirés des étapes 3, 4 et 5, textes copiés à l'identique du §1, **en base ET dans `conseils-seed.json`** (ids vus dans l'export du 10/10 : « La vanne de couloir » `cmmw0tr870014mw62jnung2qp`, « L'afterwork » `cmmw0trc60016mw629l4o8rav`, « Survivre (et briller) au networking pro » `cmmw0tra60015mw62l0360wm9`), puis les conseils des étapes 1 (« Survivre aux réunions avec humour » `cmmp8ozsx001fqk6301jruvzj`, ou la variante retenue) et 6 (à créer) une fois passés à l'aveugle ; (2) si accordé (choix 7), ajouter la phrase au défi du PS (`cmmw0tqkc000smw62bo1yfeyg`) après passage à l'aveugle `[À VÉRIFIER sur la base de prod avant tout UPDATE]` ; (3) importer le parcours (`slug: boulot`, `order: 5`, vannes désignées par leur texte exact via `jokeContents`, `isActive` de chacune vérifié à l'import, dont « tir à l'arc » dont l'export date du 07/10) ; (4) renommer `"pro"` en `"boulot"` dans les 7 occurrences des 3 fichiers de parcours (signalement 9) ; (5) laisser `icon` à @design ; (6) rejouer les vérifications de contenu (tirets cadratins, « blague », « carnet », prénoms de persona) sur les textes importés.
+- **Décisions prises** : registre « pote drôle et bienveillant » ; version B avec scène (acquis) ; Anouk comme personnage d'exemple (fiche + étape 1) ; positions de bonne réponse C, A, D pour l'étape 1 ; l'étape 1 est de l'observation pure (rien à dire, rien à envoyer, personne à qui raconter) pour rester sans risque en vitrine ; « tes notes » à la place de « carnet » ; titre de page sans « drôle », « bureau », « humour » ; slug `boulot` ; un seul test unifié en dernière phrase des étapes 2 à 6 ; vannes « à la base », « briefé » et « pot de départ » écartées avec le critère de Rome ; vidéo de l'étape 3 gardée comme dans la spec.
+- **Points d'attention** : objections traitées (« je vais me griller » : étape 1 sans parole ni collègue, test de l'équipe entière, tableau de progression avec un repli par étape ; « je n'ai pas de réunion » : dernière réunion en souvenir ou fil de mails ; « je n'ai personne à qui le dire » : tes notes, ami hors boulot ; « ça ressemble à Machine à Café 2 ou à Confiance 1 » : tableau §3). Références consultées : étalons Storytelling s18 (modèle), spec s17 §1, §3, §9, export base du 10/10, fiches vidéo de l'export, 127 vannes en ligne (recherche par mots-clés), parcours en ligne (recoupements par texte et par `youtubeId`), `conseils-boulot-s19-v1.md` et `v2.md` (textes validés). Mots-clés SEO : `keyword-map` non lu ; titre `[À SIGNER, volumes non mesurés]`.
+- **Contrôles faits sur ce fichier** : zéro tiret cadratin ; « blague » absent ; aucun prénom de persona dans les textes destinés au site (le champ interne `persona` suit la forme de Storytelling) ; aucun concurrent ; aucun chiffre du site modifié (« 15 min/semaine » et « 6 semaines » sont les décisions de la spec) ; humoristes cités uniquement dans les tableaux de choix et les légendes, avec ce que la fiche en base établit ; relecture arithmétique et lexicale de la scène et du quiz (fin du §3).
+
+---
+
+## Corrections de l'itération 1
+
+Chaque ligne : numéro de la note, état (fait, ou arbitré avec la section « Arbitrages » correspondante), emplacement dans ce fichier.
+
+| N° | Sujet | État | Emplacement |
+|---|---|---|---|
+| R1 | `why` : contresens et écho de Confiance 1 | Fait, arbitré (arb. 2) | §3, champ `why` |
+| R2 | Comparaison avec Confiance 1 | Fait | §3, tableau à 3 colonnes ; formules au premier plan (arb. 17) |
+| R3 | « sept formules » | Fait, arbitré (arb. 16) | §3, `moduleDetail` |
+| R4 | Mots que le document s'interdit (silence, à blanc, rythme) | Fait | §3, scène, phrase `[SI 6B]`, question 3 ; contrôle en fin de §3 |
+| R5 | Quiz repérable (Q1, Q2, Q3) | Fait, arbitré (arb. 3, 4, 5) | §3, quiz et défi (« qui attend qui » retiré) |
+| R6 | Explication de la B (autodérision) | Fait | §3, question 3 |
+| R7 | Fiche B : une idée trois fois | Fait, arbitré (arb. 8, 9) | §2, accroche, témoignage, reco |
+| R8 | Titre A qui promet une vanne en réunion | Fait, arbitré (arb. 10) | §4 |
+| R9 | Deux vannes visant une personne (briefé, pot de départ) | Fait | §5, « Écartées » et tableau, totaux |
+| R10 | Décisions cachées dans les signalements | Fait, arbitré (arb. 11, 12) | Tableau des choix (7 et 8), « Je suis tes recos », §1, §6, handoff |
+| R11 | Vannes oubliées, « 127 au 08/10 » | Fait en partie, arbitré (arb. 13) | §5 (« tir à l'arc » retenue, « à la base » écartée) |
+| R12 | Phrase du test | Fait, arbitré (arb. 6) | §7, §3 |
+| R13 | Repli illogique, dit deux fois | Fait, arbitré (arb. 7) | §3, `moduleDetail` et défi |
+| R14 | Deux consignes qui se heurtent | Fait, arbitré (arb. 1) | §3, défi |
+| R15 | Anouk dans la question 1 | Fait, arbitré (arb. 3) | §3, quiz |
+| R16 | « d'abord en spectateur » | Fait | §2, description B |
+| R17 | Faits incomplets (conseil 53, troisième conseil en ligne) | Fait | « Ce que la base a changé », conseils |
+| R18 | « vérifié sur les 3 actifs » | Fait | « Ce que la base a changé », conseils (marqué `[À VÉRIFIER]`) |
+| R19 | Fary étape 3 et durée de Croce « avion » | Fait, arbitré (arb. 14) | §6, lignes 2 et 3 |
+| R20 | Vérification du signalement 4 | Fait | Signalement 3 |
+| R21 | Légende de Roumanoff | Fait | §3, légendes |
+| U1 | Défi qui envoie parler à un collègue | Fait, arbitré (arb. 1) | §3, défi et note |
+| U2 | Progression d'exposition invisible | Fait | §7 (vue d'ensemble), §2 (description B) ; repli de l'étape 3 réécrit dans le texte validé (§1) |
+| U3 | Accroche B et ressemblance avec Machine à Café | Fait, arbitré (arb. 8) | §2, accroche et ligne « Boulot ou Machine à Café d'abord ? » |
+| U4 | Question 2 devinable | Fait, arbitré (arb. 4) | §3, question 2 |
+| U5 | Retouche du PS cachée | Fait | Choix 7 (tableau, §1, phrase « Je suis tes recos », handoff) |
+| U6 | « Carnet » est une fonction du site | Fait | Partout (« tes notes ») ; variantes 1A et 1B au signalement 4 |
+| U7 | Scène qui se contredit | Fait, arbitré (arb. 16) | §3, scène et contrôle |
+| U8 | Vitrine trop longue | Fait | §3, `why` et `moduleDetail` (environ 90 mots) |
+| U9 | Question 1 : un seul rival | Fait, arbitré (arb. 3) | §3, question 1 |
+| U10 | Question 3 : indice lexical | Fait, arbitré (arb. 5) | §3, question 3 |
+| U11 | Règle de longueur des réponses | Fait | Signalement 6, contrôle en fin de §3 |
+| U12 | Légendes vidéo de l'étape 1 | Fait, arbitré (arb. 15) | §3, légendes |
+| U13 | Vidéos : adéquation, durées, plafond | Fait | §6 (colonne « Adéquation », choix 8, étape 6) |
+| U14 | Témoignage B : âge et vanne à l'aveugle | Fait, arbitré (arb. 9) | §2 |
+| U15 | Durée de 15 minutes | Fait | Signalement 7 |
+| U16 | Lecture de Thomas : effet, jargon, bruit interne | Fait | Tableau des choix (colonne « Ce que ça change… »), vocabulaire, écart de vannes déplacé en signalement 1 |
+| U17 | Critère du défi et test de la salle | Fait, arbitré (arb. 6) | §3, défi et `[SI 6B]` |
+| U18 | Titre A et situation de Machine à Café | Fait | §4 (variante sous le tableau) |
+| U19 | Renommage de `"pro"` | Fait | §4, signalement 9, handoff |
+
 
 
