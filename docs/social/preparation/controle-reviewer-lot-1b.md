@@ -61,3 +61,50 @@ Les choix de Thomas sont tenus sur les 46 posts (tiret cadratin, prix, « gratui
 - **Décision** : NO-GO pour l'insertion du 1b.
 - **Agents à relancer** : @fullstack pour E1, E4 et la régénération ; @copywriter et 2 relecteurs à l'aveugle pour E2, E3, E4 (légende) et E5.
 - **Ensuite** : je revérifie uniquement E1 à E5.
+
+## Recontrôle (révision 8)
+
+> @reviewer, 10/10/2026. Objet : `lot-1b.md` et `lot-1b.json` régénérés en révision 8 (`lot-1b-dry-run-08-10.md` l.5 à 63, révision 7 l.65 à 102). Croisements : `aveugle-1b-r7.md`, `-relecteur-1.md`, `-relecteur-2.md`, `-resultat.md`, clé `aveugle-1b-r7-CLE-ne-pas-ouvrir.json`, `lignes-articles-notes.json`, `etalons-formats-sociaux-s15.md`, `strategie-relance-v5.md` l.32, brouillons validés S3, S5 et A3, `social-lot-v5.ts` l.387 à 421. Aucun autre fichier modifié.
+
+### E1 à E5
+
+| # | Verdict | Preuve |
+|---|---|---|
+| E1 | **Corrigé** | `lot-1b.md` l.101 : le texte est l'étalon V-A mot pour mot (`etalons-formats-sociaux-s15.md` l.193), suivi à la ligne de l'URL UTM `linkedin / 2026-11 / relais`. Il est identique dans `lot-1b.json` l.634. Il est classé « validé Thomas » (`lot-1b.md` l.28, renvoi à `founder-preferences.md` l.67). La BU est sortie du 1b sans cascade : seules les 9 cases attendues changent (dry-run l.31). |
+| E2 | **Corrigé** | 19/10 X (l.73) : renvoi 3a « Les 5 situations de coloc, avec la phrase qui détend et celle qui envenime : », noté 8,8 / 8,5 (relecteur-1 l.26, relecteur-2 l.26). Il est vrai : 5 situations, chacune avec « ça détend » et « ça envenime » (S3 l.53 à 121). 02/11 X (l.97) : renvoi 4b « 4 autres moments de visio, et que faire si la chute tombe à plat : », noté 8,8 / 8,5 (l.24 et l.24). Il est vrai : la ligne montrée est le ressort 1 (S5 l.71 à 75), et chacun des 5 ressorts a son « Si ça tombe à plat » (S5 l.79 à 117). Pour le 29/10 X, voir le point 3 ci-dessous. |
+| E3 | **Corrigé** | 29/10 IG (l.93) : renvoi 6b « Écrire à un match : lien en bio. », 8,5 / 8,5 (l.22 et l.22). 02/11 IG (l.98) : renvoi 7a « Le silence en visio : lien en bio. », 8,5 / 8,5 (l.18 et l.18). Aucun des deux ne contient « autres » ni « exemples » : ils ne laissent plus croire que la vanne vient de l'article (clé l.7). 19/10 IG : repli, voir le point 2 ci-dessous. |
+| E4 | **Corrigé** | `lot-1b.md` l.81 : la ligne n°4 est au niveau (« = / = », `lignes-articles-notes.json` l.12). Cartes 1 et 2 mot pour mot. Légende 1C « À envoyer à celle qui « dit juste un mot ». », notée 9 / 9 (relecteur-1 l.11, relecteur-2 l.11). Elle fait 79 caractères avec le renvoi, sans « ton/ta » (le 23/10 est « ton ami ») et sans « qui » en tête (le 21/10). |
+| E5 | **Corrigé** | `lot-1b.md` l.91 : légende 2C « À envoyer à celle qui était la troisième Léa de sa classe. », notée 9 / 9 (l.21 et l.21) dans son contexte de vanne. Elle fait 58 caractères, n'a ni « ton/ta » (le 27/10 est « ton tuteur ») ni « l'ami » (le 29/10), et ne redit pas la chute (vigilance V2 levée). |
+
+Section « Textes NEUFS » : **0** (`lot-1b.md` l.17). Chaque texte versé est recopié du candidat M correspondant (`aveugle-1b-r7.md` l.50, 111, 142, 128, 116 et 92). Je retrouve les 8 textes contrôlés dans `lot-1b.json` (l.18, 37, 193, 413, 438, 457, 545 et 564).
+
+### Point 2. Repli du 19/10 Instagram : **conforme**
+
+- Aucun renvoi au niveau : 5c a 7,5 / 8, 5a 7 / 7 et 5b 6,5 / 6,5 (`aveugle-1b-r7-resultat.md` l.11 ; relecteur-1 l.13, l.19 et l.27). La règle d'or est tenue : aucun texte sous la barre ne part.
+- Ce repli est prévu par la clé, l.3 : « Instagram légende retenue seule ». Il reprend aussi la correction E3 ci-dessus.
+- `lot-1b.md` l.74 et `lot-1b.json` l.37 portent la légende seule : « À envoyer à la sœur qui a « vu » Beyoncé. » (41 caractères), sans renvoi, sans « lien en bio » ni URL. L38 était retenue (`aveugle-1b-repli-resultat.md` l.10). L'avertissement du lot le signale (l.34).
+- Le repli ne vaut que pour cette case. `RELAIS_IG_SANS_RENVOI` n'a qu'une entrée, limitée à Instagram, à cet article et à cette vanne (`social-lot-v5-renvois.ts` l.35 à 37). Un autre relais sans renvoi garde l'erreur (dry-run l.25).
+
+### Point 3. Renvoi du 29/10 X, « Les 18 autres sont prêts à copier : » : **vrai**
+
+- C'est la formule CATALOGUE de la v5 (`strategie-relance-v5.md` l.32), pas un texte neuf. L'article est classé CATALOGUE (A3 l.25).
+- **Nombre** : l'article compte 18 messages numérotés, de **1.** à **18.** (A3 l.67 à 197, 4 rubriques). La vanne montrée, « Antoine bar », est citée hors de cette liste, dans la partie « Et après le premier message ? » (A3 l.226, déclarée l.29). « 18 autres » est donc exact : la vanne n'est pas comptée parmi les 18. Le script calcule N de la même façon : messages `**N.**`, moins la vanne montrée seulement si elle en fait partie (`social-lot-v5.ts` l.404 à 412).
+- **Base** : @fullstack indique 18 messages comptés en base (dry-run l.71). Je n'ai pas d'accès en lecture à la base depuis ce contrôle. Je n'ai donc vérifié que le brouillon validé, pas le texte publié en base. Voir V7.
+
+### Point 4. Aucun nouvel écart (46 posts relus)
+
+- **Tiret cadratin, prix, « gratuit », abonnement, Premium** : Grep sur `lot-1b.md` et `lot-1b.json`, **0** occurrence dans les posts. Le seul « compte » trouvé est dans l'en-tête technique (l.5).
+- **R6** : les 9 cases modifiées n'ont aucun « je » hors « ». Les renvois et les légendes sont au « tu » ou impersonnels. Le « Je me suis connecté… » du 02/11 X est entre « ». Les 37 autres cases n'ont pas changé depuis le contrôle initial.
+- **LinkedIn** : 0 conseil. On y trouve 3 vannes (20/10, 22/10, 27/10), L2 (29/10) et 4 relais : V-A (03/11), R08, R07 et R02. V-A est un relais validé par Thomas, pas un conseil.
+- **Retenu à l'aveugle** : les 6 textes neufs versés sont au niveau chez les 2 relecteurs (8,5 et plus). Les 2 renvois sans relecture sont des formules exactes de la v5 : « Les 18 autres… » (29/10 X) et « Les 20 autres textes » (22/10 IG). Rien ne part sous la barre.
+- **Plafonds** : X entre 105 et 260 (le 02/11 X fait 223), légendes IG de 79 au plus, 0 dimanche, 0 reprise à moins de 90 jours (dry-run l.38 à 43).
+
+### Points de vigilance (non bloquants)
+
+- **V1 reste ouvert** (chargeur du 20/10 X, repli IG du 12/10 dans le 1a) : relire le statut du repli après le 12/10 et avant l'insertion. Si nécessaire, `--insert` refuse l'écart (dry-run l.48).
+- **V7, 29/10 X** : juste avant l'insertion, vérifier en base que l'article publié compte toujours 18 messages numérotés. La clé le demande aussi : « [À VÉRIFIER en base avant insertion] », l.9.
+- **V8, liens de bio** : les relais IG des 22/10, 26/10, 29/10, 02/11 et 05/11 ne partent avec « lien en bio » que si les liens sont posés la veille (`lot-1b.md` l.63 à 67).
+
+### Verdict : **GO**
+
+E1 à E5 sont corrigés, avec preuves. Le repli du 19/10 Instagram est conforme à la clé. Le renvoi du 29/10 X est vrai (18 messages). La section « Textes NEUFS » est à 0 et je ne trouve aucun nouvel écart sur les 46 posts. L'insertion du 1b est possible avec la commande de la révision 8 (`lot-1b-dry-run-08-10.md` l.54), une fois V1 et V7 vérifiés.
