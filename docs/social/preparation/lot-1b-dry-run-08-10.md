@@ -2,6 +2,102 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
+## Révision 6 (10/10, légendes des relais du 19/10 et du 05/11 versées) : prêt pour l'insertion
+
+> @fullstack, 10/10/2026. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Lectures Neon en SELECT seulement. Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out ../../docs/social/preparation/lot-1b.md --json ../../docs/social/preparation/lot-1b.json`. Fichiers du 1a (`lot-relance-s15.{md,json}`, inséré) non touchés.
+
+**Versé** (`social-lot-v5-legendes.ts`, mot pour mot depuis `aveugle-1b-repli-resultat.md`, dernière section) :
+- relais IG lun. 19/10, vanne du concert `cs14jkd9058d03e24961004a` : L38 « À envoyer à la sœur qui a « vu » Beyoncé. » (41 caractères ; 76 avec le renvoi) ;
+- relais IG jeu. 05/11, vanne « fais tes preuves » `cp0465e601e49c114994d1a00` : L31 « À envoyer à celui qui a un CDI mais pas de bail. » (48 caractères ; 77 avec le renvoi).
+
+Aucune autre modification de code : le tirage est celui de la révision 5 (mêmes 46 cases, mêmes sources), seules les 2 légendes manquantes sont désormais servies.
+
+### Résultat : 46 posts (X 19, IG 19, LinkedIn 8), **0 erreur**, JSON écrit
+
+- `docs/social/preparation/lot-1b.md` (relecture) et `docs/social/preparation/lot-1b.json` (les 46 lignes que `--insert` lira ; sha256 `eb1f00d60ae92646…`, 0 repli en réserve).
+- **`--insert` accepte ce JSON** : `--insert` relit le fichier de `--json` (sinon `lot-<id>.json`, donc `lot-relance-s15.json` : à ne pas utiliser pour le 1b), vérifie `lot` = `relance-s15`, régénère le lot de la même commande et refuse au moindre écart (`ecartsFichierLot` : lot, approvedBy, bornes, graine, total, chaque ligne). Contrôle rejoué à l'identique : 2e dry-run de la même commande vers le scratchpad, JSON identique à l'octet (`cmp`), `ecartsFichierLot(régénéré, lot-1b.json)` = **0 écart**. Garde-fous de l'insertion, rejoués en SELECT sur la tranche 18/10 22:00 UTC au 15/11 23:00 UTC : « thomas-s15 » déjà présent **0**, ids du lot déjà en base **0**, autres posts actifs (PENDING, APPROVED, PUBLISHED) sur les 3 réseaux **0**.
+- **Lot 1a inchangé** : même commande sur le 12/10 au 18/10, JSON identique à l'octet à `lot-relance-s15.json` (sha256 `63a2f315aed1c0d5…`, 12 posts, 2 replis).
+
+### Mesures (script en lecture seule : `longueurX` de `src/lib/social/longueur-x.ts`, fuseau `Europe/Paris` par `Intl`)
+
+| Mesure | Résultat |
+|---|---|
+| `longueurX` des 19 X | 105 à 260, **0 au-dessus de 270** |
+| Légendes IG (19), renvoi compris | 25 à 80 caractères, **0 au-dessus de 80**, 0 sans « À envoyer à / au / aux » |
+| Conseils par semaine (plafond 8, `PLAFONDS_MIX`) | 19/10 : 2 ; 26/10 : 0 ; 02/11 : 4 ; 09/11 : **8** (au plafond, 4 nominaux et 4 de repli) |
+| Dimanches | **0** |
+| Heures | 46 sur 46 dans les créneaux de Paris (08:15, 09:00, 12:30, 19:30) ; UTC = Paris moins 2 h jusqu'au 23/10, moins 1 h à partir du 26/10 (heure d'hiver le dim. 25/10) : **0 écart** |
+| Reprises à moins de 90 jours | **0** : aucun `sourceId` ni texte (60 premiers caractères normalisés) commun avec la semaine 0 (`lot-semaine0.json`, 10), le 1a (`lot-relance-s15.json`, 12) et les 24 posts actifs en base des 90 jours avant le 19/10 |
+
+### Tableau des 46 posts
+
+| # | Jour | Paris | UTC | Réseau | Type (origine) | Source | Début du texte (X, LI) ou carte 1 (IG) | Mesure |
+|---|---|---|---|---|---|---|---|---|
+| 1 | lun. 19/10 | 12:30 | 10:30 | X | RELAIS (TIRAGE) | `humour-en-colocation-desamorcer-tensions#1` | « J'ai dit “je la fais tout à l'heure” à la poêle. » | X 176 |
+| 2 | lun. 19/10 | 19:30 | 17:30 | IG | RELAIS (TIRAGE) | `cs14jkd9058d03e24961004a` | Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai su… | légende 76 |
+| 3 | mar. 20/10 | 09:00 | 07:00 | X | VANNE (TIRAGE) | `cs14jke10b58d158ae638560` | « Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an. » | X 105 |
+| 4 | mar. 20/10 | 12:30 | 10:30 | IG | VANNE (TIRAGE) | `cs14jk29357d022f6880a69e` | Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagr… | légende 68 |
+| 5 | mar. 20/10 | 08:15 | 06:15 | LI | VANNE (TIRAGE) | `cs14jk90226d6abb90287724` | « Ma mère me demande encore des nouvelles de mon ex. » | LI 84 |
+| 6 | mer. 21/10 | 12:30 | 10:30 | X | VANNE_QUIZ (VALIDE X3) | `cs14jk50c85bb0d73deaebaf` | « Dans le train, la place à côté de moi était réservée. Personne n'est… | X 246 |
+| 7 | mer. 21/10 | 19:30 | 17:30 | IG | VANNE (V5 IG-21-10) | `cmmnsqn130033th63b54ux45o` | Mon père a vu mon appart. Il a dit « c'est pas mal ». | légende 74 |
+| 8 | jeu. 22/10 | 09:00 | 07:00 | X | RELAIS (VALIDE X2) | `cs14jk0e4fedaac1a91fddf1` | « Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pour… | X 184 |
+| 9 | jeu. 22/10 | 12:30 | 10:30 | IG | RELAIS (V5 relais-ig-22-10) | `message-anniversaire-drole-par-situation#13` | On m'a dit que celui qui fait un discours est dispensé de vaisselle. | légende 72 |
+| 10 | jeu. 22/10 | 08:15 | 06:15 | LI | VANNE (V5 li-22-10) | `cs14jk69eb578cce484b6f87` | « Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un. » | LI 140 |
+| 11 | ven. 23/10 | 12:30 | 10:30 | X | CONSEIL (MIX) | `cmptbp7nv002bs60xscu5ixmx` | Trois coups d'avance : ton pote voit ta note. « 8/20 en maths, aïe. » … | X 171 |
+| 12 | ven. 23/10 | 19:30 | 17:30 | IG | CONSEIL (MIX) | `cmny1tkhw000rs60wsolieluq` | Consoler en exagérant | légende 56 |
+| 13 | lun. 26/10 | 12:30 | 11:30 | X | RELAIS (V5 relais-x-26-10) | `cs14jkf0a20e0837fa95c784` | « J'ai demandé à une IA si mon message “tu viens ce soir ?” n'était pa… | X 205 |
+| 14 | lun. 26/10 | 19:30 | 18:30 | IG | RELAIS (V5 relais-ig-26-10) | `cs14jke6736001250d3a940d` | J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu … | légende 75 |
+| 15 | mar. 27/10 | 12:30 | 11:30 | X | VANNE (TIRAGE) | `cs14jka7e683e43af915bb60` | « Quelqu'un a récupéré le fauteuil que je venais de jeter à la déchett… | X 150 |
+| 16 | mar. 27/10 | 19:30 | 18:30 | IG | VANNE (VALIDE IG1) | `cs14jke5d015b07714055538` | Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements s… | légende 32 |
+| 17 | mar. 27/10 | 08:15 | 07:15 | LI | VANNE (TIRAGE) | `cs14jkd11f7913f8177df395` | « Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la … | LI 141 |
+| 18 | mer. 28/10 | 09:00 | 08:00 | X | VANNE_QUIZ (TIRAGE) | `cs14jk177b62432b07f5d17a` | « Le jury m'a dit “prenez votre temps”. Je me suis tu quarante seconde… | X 218 |
+| 19 | mer. 28/10 | 12:30 | 11:30 | IG | VANNE (TIRAGE) | `cs14jk7911857c4ff09eb025` | Quand on tape mon nom sur Internet, on tombe sur un champion de tir à … | légende 25 |
+| 20 | jeu. 29/10 | 12:30 | 11:30 | X | RELAIS (TIRAGE) | `cs14jkb9ba433a0746280280` | « Mon date a enregistré mon numéro devant moi. Elle a tapé “Antoine ba… | X 181 |
+| 21 | jeu. 29/10 | 19:30 | 18:30 | IG | RELAIS (TIRAGE) | `cs14jk76ca7ad32cce9041ce` | Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu. | légende 80 |
+| 22 | jeu. 29/10 | 08:15 | 07:15 | LI | SITUATION (VALIDE L2) | `L2` | Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes… | LI 221 |
+| 23 | ven. 30/10 | 12:30 | 11:30 | X | PIVOT (V5 halloween-x) | `blagues-halloween-soiree-deguisee#3` | « Je me suis déguisé en plante verte. » | X 154 |
+| 24 | ven. 30/10 | 19:30 | 18:30 | IG | VANNE (V5 halloween-ig) | `cs14jk1bc86d3502a2cef27b` | Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple. | légende 72 |
+| 25 | lun. 02/11 | 12:30 | 11:30 | X | RELAIS (TIRAGE) | `humour-en-visio-reunion-en-ligne#3` | « Je me suis connecté dix minutes en avance à la visio. J'ai passé dix… | X 206 |
+| 26 | lun. 02/11 | 19:30 | 18:30 | IG | RELAIS (TIRAGE) | `cs14jkbc3334e2de46753dcf` | Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de d… | légende 79 |
+| 27 | mar. 03/11 | 09:00 | 08:00 | X | CONSEIL (MIX) | `cmmw0tqkc000smw62bo1yfeyg` | Le PS qui détend : tu envoies le rapport du trimestre, mail sérieux de… | X 206 |
+| 28 | mar. 03/11 | 12:30 | 11:30 | IG | CONSEIL (MIX) | `cmq0gw85z00nas60xc0gno2ka` | La manie en métier | légende 57 |
+| 29 | mar. 03/11 | 08:15 | 07:15 | LI | RELAIS (TIRAGE) | `cp05d2c3950800b7575c12ce6` | « Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pou… | LI 370 |
+| 30 | mer. 04/11 | 12:30 | 11:30 | X | VANNE_QUIZ (TIRAGE) | `cs14jk55b4243d4d1c132b97` | « Mon date a posé son téléphone face contre la table pour me montrer q… | X 248 |
+| 31 | mer. 04/11 | 19:30 | 18:30 | IG | VANNE (TIRAGE) | `cs14jk4f97079b992f85eeb1` | Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date l… | légende 44 |
+| 32 | jeu. 05/11 | 09:00 | 08:00 | X | RELAIS (TIRAGE) | `blagues-de-couple-drole#5` | « Elle s'est endormie sur moi, la télécommande hors d'atteinte. J'ai a… | X 174 |
+| 33 | jeu. 05/11 | 12:30 | 11:30 | IG | RELAIS (TIRAGE) | `cp0465e601e49c114994d1a00` | Mon père m'a dit qu'il fallait que je « fasse mes preuves ». | légende 77 |
+| 34 | jeu. 05/11 | 08:15 | 07:15 | LI | RELAIS (MIX) | `relais-linkedin-2026-11-05` | Entre deux réunions, ton téléphone vibre : l'autre te demande si tu re… | LI 347 |
+| 35 | ven. 06/11 | 12:30 | 11:30 | X | CONSEIL (MIX) | `cmnfak3lg0000s60x6zvwqbnh` | L'escalade complice : ton pote lance « Ton pull, on dirait que ta gran… | X 257 |
+| 36 | ven. 06/11 | 19:30 | 18:30 | IG | CONSEIL (MIX) | `cmmp8ozsx000pqk63pgbihclg` | La fausse naïveté | légende 66 |
+| 37 | lun. 09/11 | 12:30 | 11:30 | X | CONSEIL (MIX) | `cmmp8ozsx000lqk63pgytfuuv` | La répartie bienveillante : ton pote renverse son verre en plein dîner… | X 167 |
+| 38 | lun. 09/11 | 19:30 | 18:30 | IG | CONSEIL (MIX) | `cmp51ckjk012hs60ya03z0at2` | La fausse critique | légende 48 |
+| 39 | mar. 10/11 | 12:30 | 11:30 | X | CONSEIL (MIX) | `cmnl5yc92000cs60zfctq4dm2` | Le tic collectif : en pause café, tout le monde secoue la dosette avan… | X 260 |
+| 40 | mar. 10/11 | 19:30 | 18:30 | IG | CONSEIL (MIX) | `cmorynj4s000rs60w3dxwnx8h` | Le carnet d'absurdités | légende 56 |
+| 41 | mar. 10/11 | 08:15 | 07:15 | LI | RELAIS (MIX) | `relais-linkedin-2026-11-10` | Lundi, un nouveau arrive dans l'équipe et reçoit la pique maison, cell… | LI 409 |
+| 42 | jeu. 12/11 | 12:30 | 11:30 | X | CONSEIL (MIX) | `cmpdlrjvn00qts60x5u5im54k` | Détourner un proverbe : ton coloc regarde l'évier et demande où en est… | X 193 |
+| 43 | jeu. 12/11 | 19:30 | 18:30 | IG | CONSEIL (MIX) | `cmov5buqv0024s60wto587pj7` | La vanne retenue | légende 57 |
+| 44 | jeu. 12/11 | 08:15 | 07:15 | LI | RELAIS (MIX) | `relais-linkedin-2026-11-12` | Ton manager va recevoir quarante mails de vœux sur le même modèle : « … | LI 381 |
+| 45 | ven. 13/11 | 12:30 | 11:30 | X | CONSEIL (MIX) | `cmmw0tqsb000wmw620z1lmqn4` | La patience du sniper : ton coloc annonce son régime à 12 h 15. À 12 h… | X 191 |
+| 46 | ven. 13/11 | 19:30 | 18:30 | IG | CONSEIL (MIX) | `cmmp8ozsx0004qk63x4cxt89b` | L'anecdote qui déraille | légende 53 |
+
+Mesure : X = `longueurX` ; IG = longueur de la légende, renvoi compris ; LI = longueur du post.
+
+**À savoir avant l'insertion** (déjà signalé en révision 5, inchangé) : les légendes L24 (TGV) et L20 (l'ex) suivent leur vanne, tirée le 29/10 et le 04/11 au lieu des cases relues (19/10, 02/11) ; L19 (théâtre) part le 02/11 au lieu du 29/10. Le carrousel C3 (04/11) et le conseil K63 (05/11 IG) ne sont pas utilisés : la vanne du parking reste libre pour le carrousel du 18/11 (lot 2a).
+
+### Commande d'insertion (à lancer par Thomas, depuis `apps/web`)
+
+```bash
+npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --json ../../docs/social/preparation/lot-1b.json --insert --driver=neon-http
+```
+
+Même pilote que pour l'insertion du 1a (`--driver=neon-http`, voir `REPLIT_ACTIONS.md`). Attendu : « Inséré : 46 posts APPROVED (thomas-s15) », puis contrôle conforme par réseau et par semaine. Annulation de la seule tranche 1b si besoin : même commande avec `--rollback` (comptes), puis `--rollback --confirmer`, sans jamais toucher au 1a.
+
+### Contrôles
+
+`npx tsc --noEmit -p tsconfig.build.json`, `npm run lint` (0 erreur, 1 avertissement `<img>` existant dans `admin/page.tsx`), `npm run build` : OK. `npx jest` : 271 suites, 3 906 tests passés (4 ignorés, déjà ignorés avant), 0 échec.
+
+### Verdict : **GO pour l'insertion du 1b** (0 erreur, 46 posts, toutes les mesures dans les plafonds)
+
 ## Révision 5 (10/10, lignes notées au tirage et repli versé)
 
 > @fullstack, 10/10/2026. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Lectures Neon en SELECT seulement. Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out /tmp/fs-1b-v5/1b-v5.md --json /tmp/fs-1b-v5/1b-v5.json`. Mesures : script `/tmp/fs-1b-v5/mesure.txt` (`longueurX`, longueur des légendes, conseils par semaine). Référence avant modification : `/tmp/fs-1b-v5/1b-ref.md` (identique à la révision 4).

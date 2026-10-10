@@ -77,6 +77,9 @@ export const LEGENDES_IG: Record<string, string> = {
   cs14jkbc3334e2de46753dcf: "À envoyer à la tante qui applaudit trop tôt.", // L19 (9 / 9), relais IG 29/10 (théâtre)
   cs14jk4f97079b992f85eeb1: "À envoyer à ton pote, resté ami avec ses ex.", // L20 (8,5 / 8,5), relais IG 02/11 (l'ex)
   cs14jk29357d022f6880a69e: "À envoyer à ton cousin, qui n'a jamais supprimé ses photos de lycée.", // L29 (9 / 8,5, départage 3e relecteur), vanne IG 20/10 (bouc)
+  // Lot 1b, révision 5 : légendes des relais IG retirés le 10/10 (aveugle-1b-repli-resultat.md, dernière section).
+  cs14jkd9058d03e24961004a: "À envoyer à la sœur qui a « vu » Beyoncé.", // L38 (9 / 9), relais IG 19/10 (concert)
+  cp0465e601e49c114994d1a00: "À envoyer à celui qui a un CDI mais pas de bail.", // L31 (9 / 8,8), relais IG 05/11 (« fais tes preuves »)
 };
 
 /** Tête de légende : « À envoyer à », « au » ou « aux ». */

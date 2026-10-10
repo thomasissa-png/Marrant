@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b, révision 6 : légendes des relais IG du 19/10 et du 05/11 versées @fullstack, **RIEN À DÉPLOYER** (script de préparation et doc seulement, aucune écriture en base)
+
+> - **Versé** (`apps/web/scripts/content/social-lot-v5-legendes.ts`) : L38 (concert, 19/10) et L31 (« fais tes preuves », 05/11), tranchées à l'aveugle.
+> - **Dry-run 1b** : 46 posts, **0 erreur** ; lignes à insérer dans `docs/social/preparation/lot-1b.json` (relecture `lot-1b.md`). Dry-run 1a identique à l'octet (sha256 `63a2f315…`). tsc, lint, build verts ; Jest 3 906 passés.
+> - **Insertion (Thomas, depuis `apps/web`)** : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --json ../../docs/social/preparation/lot-1b.json --insert --driver=neon-http`. Détail : `lot-1b-dry-run-08-10.md` révision 6.
+> - Aucun `deploy:cf`, aucun `--insert`, aucun `--rollback --confirmer` lancés.
+
 ## s15 lot 1b, révision 5 : lignes d'article notées au tirage des relais, repli versé @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
 
 > - **Code** (`apps/web/scripts/content/social-lignes-notees.ts` nouveau, `social-lot-v5.ts`, `prepare-social-month.ts --lignes-notees`, `social-lot-v5-legendes.ts`) : les lignes `auNiveau` de `lignes-articles-notes.json` entrent au relais de leur article, même avec `--pool strict` ; « À envoyer au / aux » accepté par le contrôle des légendes.
