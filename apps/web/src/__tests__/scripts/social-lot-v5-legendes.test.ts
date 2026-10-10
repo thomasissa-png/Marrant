@@ -94,14 +94,16 @@ describe("légendes du code", () => {
 });
 
 describe("légende Instagram rattachée à la vanne", () => {
-  // Une légende pour toute clé (vannes du catalogue et lignes d'article `slug#rang`).
-  const legendes = new Proxy({} as Record<string, string>, { get: (_, k) => (typeof k === "string" ? `À envoyer à qui a lu la ${k}.` : undefined) });
+  // Une légende pour toute clé (vannes du catalogue et lignes d'article `slug#rang`), courte : 80 caractères renvoi compris
+  // (le relais IG du 22/10, sans légende fixe depuis le contrôle @reviewer du lot 1b, E4, prend celle de sa ligne).
+  const leg = (k: string) => `À envoyer à qui a lu ${k.slice(-12)}.`;
+  const legendes = new Proxy({} as Record<string, string>, { get: (_, k) => (typeof k === "string" ? leg(k) : undefined) });
   const r = buildLotV5({ pool: catalogue(), articles: arts, recents: [], seed: "test", legendes, ...M });
 
   it("une vanne Instagram tirée reçoit la légende de sa vanne, sans pied", () => {
     const ig = r.posts.filter((p) => p.platform === "INSTAGRAM" && p.origine === "TIRAGE" && p.type === "VANNE");
     expect(ig.length).toBeGreaterThan(0);
-    for (const p of ig) expect(p.content).toBe(`À envoyer à qui a lu la ${p.vannes[0]}.`);
+    for (const p of ig) expect(p.content).toBe(leg(p.vannes[0]));
   });
 
   it("légendes fournies pour toutes les vannes : 0 erreur de légende", () => {

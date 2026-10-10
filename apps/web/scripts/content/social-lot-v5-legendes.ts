@@ -14,7 +14,8 @@ export const LEGENDES_IG: Record<string, string> = {
   // complements-lot-s15.md §3 (cartes vanne, cycle 7)
   cmmnsqn15007xth63p3dzv6pc: "À envoyer à ton pote qui s'enflamme à chaque morceau.",
   cmmw0tois0002mw62b7bkcvj7: "À envoyer à qui dit encore cinq minutes.",
-  cs14jk7911857c4ff09eb025: "À envoyer à ton homonyme.",
+  // cs14jk7911857c4ff09eb025 (V050, homonyme) : légende retirée (contrôle @reviewer du lot 1b, E5), jamais retenue à
+  // l'aveugle. À relire avant de la servir (lot-1b-textes-a-relire.md) ; d'ici là, erreur « légende manquante ».
   cs14jk0761c9f2d885762bb5: "À envoyer à ton voisin de palier.",
   cs14jk9de039def971586501: "À envoyer à celui qui paie un loyer trop cher.",
   cs14jk0ae967eb481a4ecc4f: "À envoyer à ton coéquipier de jeu en ligne.",

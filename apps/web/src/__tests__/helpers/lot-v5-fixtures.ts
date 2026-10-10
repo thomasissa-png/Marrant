@@ -31,3 +31,9 @@ export const ARTICLES: ArticleLot[] = [
   { slug: "voeux-drole-nouvelle-annee", title: "Vœux drôles nouvelle année : messages prêts à envoyer", category: "CATALOGUE", date: "2026-11-12",
     content: Array.from({ length: 12 }, (_, i) => `**${i + 1}.** Bonne année. J'ai tenu ma résolution ${i + 1} une heure.`).join("\n") },
 ];
+
+/**
+ * Relais sans formule exacte de la v5 (contrôle @reviewer du lot 1b, E2 et E3) : le script ne pose plus de renvoi
+ * neuf, il lève l'erreur « renvoi manquant » (relecture à l'aveugle d'abord). Retirées des contrôles « aucune erreur ».
+ */
+export const horsRenvoiManquant = (errors: string[]): string[] => errors.filter((e) => !/renvoi manquant/.test(e));

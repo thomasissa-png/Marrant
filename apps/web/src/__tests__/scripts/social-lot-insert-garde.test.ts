@@ -11,7 +11,7 @@ import { buildLotV5 } from "../../../scripts/content/social-lot-v5";
 import { fichierLot } from "../../../scripts/content/social-lot-v5-export";
 import { ecartsFichierLot } from "../../../scripts/content/social-lot-v5-insert";
 import { articleSlugDuPost, estDateOuRelais, repliDuPost } from "@/lib/social/garde-article";
-import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
 
 const PROGRAMMES = ARTICLES.map((a) => ({ ...a, aGarder: true }));
 const lot = (debut: string, fin: string) =>
@@ -23,7 +23,7 @@ describe("relais Instagram : marqueur [article:] lu par la garde du Worker", () 
   const relaisIg = l.posts.filter((p) => p.platform === "INSTAGRAM" && p.type === "RELAIS");
 
   it("aucune erreur ; chaque relais Instagram (fixe ou généré) a un article", () => {
-    expect(l.errors).toEqual([]);
+    expect(horsRenvoiManquant(l.errors)).toEqual([]);
     expect(relaisIg.length).toBeGreaterThanOrEqual(3);
     for (const p of relaisIg) expect(p.article).toBeTruthy();
   });

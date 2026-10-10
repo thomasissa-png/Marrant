@@ -14,7 +14,7 @@ import { longueurX } from "@/lib/social/longueur-x";
 import { buildLotV5, controlerLot } from "../../../scripts/content/social-lot-v5";
 import { FORMULES } from "../../../scripts/content/social-lot-v5-config";
 import { renderLotMarkdown, versLigne } from "../../../scripts/content/social-lot-v5-export";
-import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
 
 const lot = buildLotV5({ pool: catalogue(), articles: ARTICLES, recents: [{ date: "2026-10-02", sourceId: "t000" }], seed: "test" });
 const paris = (iso: string) => new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
@@ -45,7 +45,7 @@ describe("brasHeure : alternance par jour", () => {
 
 describe("lot : créneau et marqueur [heure:A|B]", () => {
   it("chaque post porte l'heure de son bras ; B à 09:00 (X) et 12:30 (Instagram), heure d'hiver comprise", () => {
-    expect(lot.errors).toEqual([]);
+    expect(horsRenvoiManquant(lot.errors)).toEqual([]);
     for (const p of lot.posts) {
       const attendu = heureDuCreneau(p.platform, p.date);
       expect(p.bras).toBe(attendu.bras ?? undefined);

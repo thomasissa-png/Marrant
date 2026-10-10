@@ -22,7 +22,7 @@ import {
 } from "../../../scripts/content/social-lot-v5-insert";
 import { argsLot, lirePool } from "../../../scripts/content/prepare-social-month";
 import { approvedByDuLot, SAISONS } from "../../../scripts/content/social-lot-v5-config";
-import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
 
 const META = { lot: "tranche-1b", debut: "2026-10-19", fin: "2026-11-15" };
 const ARTICLES_PROGRAMMES = ARTICLES.map((a) => ({ ...a, aGarder: a.date >= "2026-10-19" }));
@@ -53,7 +53,7 @@ describe("arguments --lot, --debut, --fin, --pool", () => {
 
 describe("lot borné --debut/--fin, identifiant libre", () => {
   it("posts seulement dans les bornes, grille complète (X 19, Instagram 19, LinkedIn 8 : silence du 11/11)", () => {
-    expect(lot1b.errors).toEqual([]);
+    expect(horsRenvoiManquant(lot1b.errors)).toEqual([]);
     expect(controlerLot(lot1b.posts).errors).toEqual([]);
     expect(lot1b.posts.every((p) => p.date >= META.debut && p.date <= META.fin)).toBe(true);
     const n = (pf: string) => lot1b.posts.filter((p) => p.platform === pf).length;

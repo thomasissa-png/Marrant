@@ -83,9 +83,11 @@ export const FIXES: Fixe[] = [
     renvoi: "Les 21 messages de l'article sont prêts à copier :",
     lien: { chemin: "/blog/message-anniversaire-drole-par-situation", content: "jeudi" } },
   { cle: "relais-ig-22-10", date: "2026-10-22", platform: "INSTAGRAM", type: "RELAIS", origine: "V5",
-    vanne: { article: { slug: "message-anniversaire-drole-par-situation", rang: 13 } },
-    legende: "À envoyer à ton hôte d'anniversaire. Les 20 autres textes : lien en bio.",
-    note: "v5 §3 S2 : IG n°13 de l'article. Légende : corrections-cycle7-copy.md l.70 (@copywriter)." },
+    vanne: { article: { slug: "message-anniversaire-drole-par-situation", rang: 4 } },
+    // Contrôle @reviewer du lot 1b, E4 : la n°13 (« = » / « < ») remplacée par la n°4, au niveau (« = » / « = »,
+    // lignes-articles-notes.json). Légende « À envoyer à... » à relire à l'aveugle (lot-1b-textes-a-relire.md) :
+    // tant qu'elle manque, erreur « légende manquante ». Renvoi généré : « Les 20 autres textes : lien en bio. ».
+    note: "v5 §3 S2 : relais IG de l'article, ligne n°4 au niveau (contrôle @reviewer 1b, E4)." },
   { cle: "li-22-10", date: "2026-10-22", platform: "LINKEDIN", type: "VANNE", origine: "V5", vanne: { jokeId: "cs14jk69eb578cce484b6f87" },
     note: "v5 §3 S2 : repli de la n°6 de l'article (aucune note à l'aveugle de la n°6 seule n'est connue)." },
   { cle: "relais-x-26-10", date: "2026-10-26", platform: "TWITTER", type: "RELAIS", origine: "V5", vanne: { jokeId: "cs14jkf0a20e0837fa95c784" },
@@ -98,6 +100,12 @@ export const FIXES: Fixe[] = [
     legende: "À envoyer à ton tuteur de stage." },
   { cle: "L2", date: "2026-10-29", platform: "LINKEDIN", type: "SITUATION", origine: "VALIDE",
     texteMarque: "Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes les quatre minutes suivantes à t'inventer trois fautes graves, dont une dans un dossier que tu n'as jamais ouvert. Il voulait le code du photocopieur." },
+  // Contrôle @reviewer du lot 1b, E1 : étalon V-A mot pour mot (etalons-formats-sociaux-s15.md §3.1 l.121 et l.193,
+  // [CHOIX UTILISATEUR] du 06/10, founder-preferences.md l.67). Remplace le relais tiré (vanne de la BU, rendue au pool).
+  { cle: "LI-visio-03-11", date: "2026-11-03", platform: "LINKEDIN", type: "RELAIS", origine: "VALIDE",
+    texteMarque: "Tu lances une phrase légère en visio et il ne se passe rien : aucun rire, des micros coupés. Pas drôle, ou drôle mais en muet : tu ne le sauras pas. Voici les 5 ressorts de l'humour en visio, et comment les placer :",
+    lien: { chemin: "/blog/humour-en-visio-reunion-en-ligne", content: "relais" },
+    note: "Étalon V-A du relais LinkedIn visio, validé par Thomas le 06/10 (founder-preferences.md l.67)." },
   { cle: "halloween-x", date: "2026-10-30", platform: "TWITTER", type: "PIVOT", origine: "V5",
     vanne: { article: { slug: "blagues-halloween-soiree-deguisee", rang: 3 } }, renvoi: "Les 7 autres sont prêtes à copier :",
     lien: { chemin: "/blog/blagues-halloween-soiree-deguisee", content: "saison" }, note: "v5 §3 S3 : pivot Halloween, ligne n°3." },
@@ -143,6 +151,16 @@ export const RELAIS_FORCES: RelaisForce[] = [
 export const RESERVEES_CARROUSEL: Array<{ jokeId: string; date: string; source: string }> = [
   { jokeId: "cmmnsqn130033th63b54ux45o", date: "2026-10-21", source: "V028, docs/social/preparation/fiche-ig-21-10.md" },
   { jokeId: "cs14jk577fa779cb48fa9b55", date: "2026-12-09", source: "V060, complements-lot-s15.md §1, recoupements-07-10.md l.62" },
+];
+
+/**
+ * Vannes rendues au pool par un post fixe, non tirées de `du` (début du lot) à `tirableDes` exclu (lot suivant) :
+ * sans cela, la vanne libérée reprend une case ou un repli du même lot et décale les suivantes (contrôle @reviewer du
+ * lot 1b, E1 : « vérifier que la cascade ne change aucune autre case »). Mesuré au dry-run du 10/10 : la BU prenait le
+ * relais IG du 05/11 et décalait le 09/11 X ; bornée au 03/11, elle devenait le repli du X2 (22/10).
+ */
+export const RENDUES_AU_POOL: Array<{ jokeId: string; du: string; tirableDes: string; source: string }> = [
+  { jokeId: "cp05d2c3950800b7575c12ce6", du: "2026-10-19", tirableDes: "2026-11-16", source: "BU, relais LinkedIn du 03/11 remplacé par l'étalon V-A (lot 1b, E1)" },
 ];
 
 /** Carrousels « avec citation d'humoriste » (v5 §1) : citation à fournir, repli sans citation. */

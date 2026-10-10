@@ -40,13 +40,14 @@ describe("fichier des textes validés", () => {
   it("fichier vide : aucune case omise, une erreur claire par créneau et par format", () => {
     const r = lot([]);
     const e = sansTexte(r);
-    expect(r.posts).toHaveLength(0);
-    // X 5, Instagram 5, LinkedIn 2 : 12 cases, 12 erreurs, dans l'ordre des dates.
-    expect(e).toHaveLength(12);
+    // Seul post : l'étalon V-A, post fixe du LinkedIn du 03/11 (contrôle @reviewer du lot 1b, E1).
+    expect(r.posts.map((p) => p.cle)).toEqual(["LI-visio-03-11"]);
+    // X 5, Instagram 5, LinkedIn 2 : 12 cases, 11 erreurs (LinkedIn du 03/11 servi), dans l'ordre des dates.
+    expect(e).toHaveLength(11);
     expect(e).toContain("2026-11-03 TWITTER : créneau du 03/11 (X) : repli du mix sans texte validé (format attendu : conseil ; à défaut : ligne d'article notée).");
     expect(e.find((x) => x.startsWith("2026-11-04 TWITTER"))).toMatch(/format attendu : quiz seul ; à défaut : conseil, ligne d'article notée/);
     expect(e.find((x) => x.startsWith("2026-11-04 INSTAGRAM"))).toMatch(/format attendu : carrousel R9 ; à défaut : conseil/);
-    expect(e.find((x) => x.startsWith("2026-11-03 LINKEDIN"))).toMatch(/format attendu : relais LinkedIn à angle travail\) ; articles de 7 jours au plus : humour-en-visio-reunion-en-ligne \(02\/11, thème bureau\)/);
+    expect(e.find((x) => x.startsWith("2026-11-05 LINKEDIN"))).toMatch(/format attendu : relais LinkedIn à angle travail\) ; articles de 7 jours au plus : humour-en-visio-reunion-en-ligne \(02\/11, thème bureau\)/);
     expect(e.map((x) => x.slice(0, 10))).toEqual(e.map((x) => x.slice(0, 10)).sort());
   });
 
@@ -193,7 +194,8 @@ describe("plafonds (mix §2 et §6)", () => {
   it("relais LinkedIn à angle travail : 2 par semaine au plus en repli, avec lien et garde d'article, sans erreur « 2 relais »", () => {
     const r = lot([relaisLi(1), relaisLi(2), relaisLi(3), conseilX(1)]);
     const li = r.posts.filter((p) => p.platform === "LINKEDIN");
-    expect(li.map((p) => p.mix?.texte)).toEqual(["relais-li-1", "relais-li-2"]);
+    // L'étalon V-A (post fixe du 03/11) compte dans les 2 relais de la semaine.
+    expect(li.map((p) => p.cle ?? p.mix?.texte)).toEqual(["LI-visio-03-11", "relais-li-1"]);
     for (const p of li) {
       expect(p).toMatchObject({ type: "RELAIS", article: "humour-en-visio-reunion-en-ligne" });
       expect(p.content.split("\n").pop()).toMatch(/^https:\/\/deviens-marrant\.fr\/blog\/humour-en-visio-reunion-en-ligne\?utm_source=linkedin/);

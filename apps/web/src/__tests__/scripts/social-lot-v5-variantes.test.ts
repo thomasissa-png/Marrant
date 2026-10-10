@@ -14,14 +14,14 @@ import { alternerVariantes, buildLotV5, controlerLot, eligibleCarteLinkedIn, typ
 import { PAIN_IDS } from "../../../scripts/content/social-lot-v5-config";
 import { renderLotMarkdown, versLigne } from "../../../scripts/content/social-lot-v5-export";
 import { notesDuTexte } from "../../../scripts/content/prepare-social-month";
-import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
 
 const lot = buildLotV5({ pool: catalogue(), articles: ARTICLES, recents: [{ date: "2026-10-02", sourceId: "t000" }], seed: "test" });
 const li = lot.posts.filter((p) => p.platform === "LINKEDIN");
 
 describe("test LinkedIn texte / image dans le lot", () => {
   it("dès le 13/10, chaque vanne éligible porte un bras ; relais avec lien et textes de marque restent hors test", () => {
-    expect(lot.errors).toEqual([]);
+    expect(horsRenvoiManquant(lot.errors)).toEqual([]);
     for (const p of li) expect(!!p.variante).toBe(eligibleCarteLinkedIn(p));
     expect(li.filter((p) => p.date < "2026-10-13").every((p) => !p.variante)).toBe(true);
     expect(li.find((p) => p.cle === "L1")?.variante).toBeDefined();

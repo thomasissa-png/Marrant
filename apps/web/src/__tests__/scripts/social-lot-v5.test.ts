@@ -19,10 +19,11 @@ import { FIXES } from "../../../scripts/content/social-lot-v5-fixes";
 import { RESERVEES_NOEL } from "../../../scripts/content/social-lot-v5-config";
 import { fichierLot, renderLotMarkdown, textesNeufs } from "../../../scripts/content/social-lot-v5-export";
 import { lireFichierLot } from "../../../scripts/content/social-lot-v5-insert";
-import { ARTICLES, catalogue } from "../helpers/lot-v5-fixtures";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
 
 const L1 = "« Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. »\n« Il est là pour prouver qu'on pourrait. »";
 const L2 = "Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes les quatre minutes suivantes à t'inventer trois fautes graves, dont une dans un dossier que tu n'as jamais ouvert. Il voulait le code du photocopieur.";
+const VA = "Tu lances une phrase légère en visio et il ne se passe rien : aucun rire, des micros coupés. Pas drôle, ou drôle mais en muet : tu ne le sauras pas. Voici les 5 ressorts de l'humour en visio, et comment les placer :\nhttps://deviens-marrant.fr/blog/humour-en-visio-reunion-en-ligne?utm_source=linkedin&utm_medium=social&utm_campaign=2026-11&utm_content=relais";
 const L3 = "Au tour de table, tu es le suivant, et celui d'avant vient d'évoquer sa boîte montée à 19 ans. Ta présentation commence par « Bonjour, moi c'est » et se termine au même endroit. Voici 5 accroches pour la prolonger, et comment trouver la tienne :\nhttps://deviens-marrant.fr/blog/se-presenter-avec-humour?utm_source=linkedin&utm_medium=social&utm_campaign=2026-10&utm_content=relais";
 
 describe("contrôles étendus (social-controls)", () => {
@@ -117,8 +118,11 @@ const parPf = (pf: string) => lot.posts.filter((p) => p.platform === pf);
 const paris = (p: LotPost) => new Date(p.scheduledAt).toLocaleTimeString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" });
 
 describe("lot de relance v5 (buildLotV5)", () => {
-  it("aucune erreur, X 58, Instagram 58, LinkedIn 24 (silences du 11/11 et du 27/11)", () => {
-    expect(lot.errors).toEqual([]);
+  it("aucune erreur hors renvois sans formule v5, X 58, Instagram 58, LinkedIn 24 (silences du 11/11 et du 27/11)", () => {
+    expect(horsRenvoiManquant(lot.errors)).toEqual([]);
+    expect(lot.errors.filter((e) => /renvoi manquant/.test(e)).map((e) => e.split(" : ")[0])).toEqual([
+      "2026-11-02 TWITTER RELAIS", "2026-11-02 INSTAGRAM RELAIS", "2026-11-30 TWITTER toast-x", "2026-11-30 INSTAGRAM toast-ig",
+    ]);
     expect(controlerLot(lot.posts).errors).toEqual([]);
     expect([parPf("TWITTER").length, parPf("INSTAGRAM").length, parPf("LINKEDIN").length]).toEqual([58, 58, 24]);
     expect(lot.posts.some((p) => p.date === "2026-11-11" || p.date === "2026-11-27")).toBe(false);
@@ -132,11 +136,13 @@ describe("lot de relance v5 (buildLotV5)", () => {
     expect(new Set(parPf("LINKEDIN").map(paris))).toEqual(new Set(["08:15"]));
   });
 
-  it("les 9 posts validés sont à leur date, textes de marque inchangés", () => {
+  it("les 10 posts validés sont à leur date, textes de marque inchangés (étalon V-A du 03/11 compris)", () => {
     const v = lot.posts.filter((p) => p.origine === "VALIDE");
     expect(v.map((p) => `${p.cle} ${p.date}`).sort()).toEqual([
-      "IG1 2026-10-27", "IG2 2026-10-12", "IG3 2026-10-14", "L1 2026-10-15", "L2 2026-10-29", "L3 2026-10-13", "X1 2026-10-13", "X2 2026-10-22", "X3 2026-10-21",
+      "IG1 2026-10-27", "IG2 2026-10-12", "IG3 2026-10-14", "L1 2026-10-15", "L2 2026-10-29", "L3 2026-10-13", "LI-visio-03-11 2026-11-03",
+      "X1 2026-10-13", "X2 2026-10-22", "X3 2026-10-21",
     ]);
+    expect(v.find((p) => p.cle === "LI-visio-03-11")!.content).toBe(VA);
     expect(v.find((p) => p.cle === "L2")!.content).toBe(L2);
     expect(v.find((p) => p.cle === "L3")!.content).toBe(L3);
     expect(v.find((p) => p.cle === "IG3")!.imageUrls).toHaveLength(4);
@@ -179,9 +185,13 @@ describe("lot de relance v5 (buildLotV5)", () => {
     expect(bis.posts.map((p) => [p.id, p.content])).toEqual(lot.posts.map((p) => [p.id, p.content]));
   });
 
-  it("textes neufs signalés (renvoi générique), formules v5 non signalées", () => {
+  it("aucun renvoi neuf (relais sans formule v5 : sans renvoi, erreur bloquante), formules v5 non signalées", () => {
     const neufs = textesNeufs(lot.posts).map((t) => t.texte);
-    expect(neufs).toContain("Les autres exemples, et comment trouver le tien :");
+    expect(neufs).not.toContain("Les autres exemples, et comment trouver le tien :");
+    expect(neufs).not.toContain("Les autres exemples : lien en bio.");
+    const visioX = lot.posts.find((p) => p.date === "2026-11-02" && p.platform === "TWITTER")!;
+    expect(visioX.content).not.toMatch(/autres exemples/);
+    expect(lot.errors.some((e) => e.startsWith("2026-11-02 TWITTER RELAIS : renvoi manquant pour humour-en-visio-reunion-en-ligne"))).toBe(true);
     expect(neufs).not.toContain("Les 21 messages de l'article sont prêts à copier :");
     expect(renderLotMarkdown(lot.posts, [], [], lot.stockEligible, "test")).toContain("Textes NEUFS à faire passer à la relecture à l'aveugle");
   });

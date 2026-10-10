@@ -11,7 +11,7 @@ import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./
 import type { LigneNotee } from "./social-lignes-notees";
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
-import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RENDUES_AU_POOL, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
@@ -162,11 +162,14 @@ export function buildLotV5(input: LotInput): LotResult {
   const replis: LotPost[] = [];
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
   const legendes = input.legendes ?? LEGENDES_IG;
-  /** Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi. */
+  /**
+   * Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi.
+   * Sans « À envoyer à... » retenue, aucune légende (le renvoi seul n'en est pas une) : erreur « légende manquante ».
+   */
   const legendeDe = (v: Vanne | null, renvoiIg?: string): string | undefined => {
     const l = v ? legendes[v.cle] : undefined;
-    if (renvoiIg === undefined) return l;
-    return l ? `${l} ${renvoiIg}` : renvoiIg;
+    if (renvoiIg === undefined || !l) return l;
+    return `${l} ${renvoiIg}`;
   };
   const articleParDate = new Map(input.articles.map((a) => [a.date, a]));
   const articleParSlug = new Map(input.articles.map((a) => [a.slug, a]));
@@ -274,6 +277,8 @@ export function buildLotV5(input: LotInput): LotResult {
     if (v.jokeId && (C.SOUS_HUIT.includes(v.jokeId) || C.RESERVEES_NOEL.includes(v.jokeId))) return false;
     // Réservées à un carrousel de décryptage (fiche écrite) : jamais tirées (cycle 8, V028 et V060).
     if (v.jokeId && RESERVEES_CARROUSEL.some((r) => r.jokeId === v.jokeId)) return false;
+    // Rendues au pool par un post fixe : pas de tirage dans la fenêtre, la cascade ne change aucune autre case.
+    if (v.jokeId && RENDUES_AU_POOL.some((r) => r.jokeId === v.jokeId && date >= r.du && date < r.tirableDes)) return false;
     if (estPain(v) || (!relais && saisonBloque(texteDe(v), date)) || fixesVannes.has(v.cle)) return false;
     const d = utilise.get(v.cle);
     if (d && Math.abs(jours(d, date)) < C.ANTI_REPETITION_JOURS) return false;
@@ -372,8 +377,14 @@ export function buildLotV5(input: LotInput): LotResult {
     return p;
   };
 
-  // ── Renvoi d'un relais (v5 §1) ──
-  const renvoi = (a: ArticleLot, pf: PreparedPlatform, depuisArticle: boolean): { texte: string; origine: Origine } => {
+  /** Messages numérotés (`**N.**`) de l'article, chacun avec son texte jusqu'au numéro suivant ou au titre suivant. */
+  const messagesNumerotes = (a: ArticleLot): string[] => a.content.split(/^(?=\*\*\d+\.|#)/m)
+    .filter((b) => /^\*\*\d+\./.test(b)).map(normaliser);
+
+  // ── Renvoi d'un relais (v5 §1, l.32) ──
+  // null : aucune formule exacte de la v5 (ni d'un post validé par Thomas) pour ce cas. Le relais part sans renvoi
+  // dans le dry-run et le contrôle lève une erreur : le renvoi passe d'abord à l'aveugle (contrôle @reviewer E2, E3).
+  const renvoi = (a: ArticleLot, pf: PreparedPlatform, depuisArticle: boolean, v?: Vanne | null): { texte: string; origine: Origine } | null => {
     // Nombre du titre, sinon numéro le plus haut des lignes `**N.**` (« Vœux drôles : messages prêts à envoyer »).
     const numeros = [...a.content.matchAll(/^\*\*(\d+)\.\*\* /gm)].map((m) => Number(m[1]));
     const n = nombreDuTitre(a.title) ?? (numeros.length ? Math.max(...numeros) : null);
@@ -383,8 +394,20 @@ export function buildLotV5(input: LotInput): LotResult {
       if (pf === "INSTAGRAM") return { texte: depuisArticle ? `Les ${n - 1} autres ${nom} : lien en bio.` : `Les ${n} ${nom} : lien en bio.`, origine: "FORMULE_V5" };
       return { texte: depuisArticle ? `Les ${n - 1} autres sont ${accord} à copier :` : `Les ${n} ${nom} de l'article sont ${accord} à copier :`, origine: "FORMULE_V5" };
     }
-    if (pf === "INSTAGRAM") return { texte: "Les autres exemples : lien en bio.", origine: "NEUF" };
-    return { texte: "Les autres exemples, et comment trouver le tien :", origine: "NEUF" };
+    // CATALOGUE sans nombre dans le titre : « Les N autres sont prêts à copier : », N = messages numérotés de
+    // l'article, moins la vanne montrée si elle en est un. X et LinkedIn : la v5 n'a pas de formule Instagram.
+    // Vanne hors de l'article (relais (2) de la v5) : « autres » serait faux, aucune formule exacte.
+    const messages = messagesNumerotes(a);
+    if (a.category === "CATALOGUE" && messages.length && pf !== "INSTAGRAM" && depuisArticle) {
+      const montre = v ? normaliser(texteDe(v)) : "";
+      const autres = messages.length - (montre && messages.some((m) => m.includes(montre)) ? 1 : 0);
+      const accord = /\b(vannes|blagues|phrases|répliques)\b/i.test(a.title) ? "prêtes" : "prêts";
+      return { texte: `Les ${autres} autres sont ${accord} à copier :`, origine: "FORMULE_V5" };
+    }
+    // PRATIQUE : « Les 4 autres exemples, et comment trouver le tien : » (v5) et « Les 4 autres exemples : lien en bio. »
+    // (IG2) valent pour un article de 5 exemples dont la ligne montrée fait partie. Le nombre exact n'est vérifié
+    // que dans les posts fixes (IG2, L3) : le script ne pose jamais ces formules seul.
+    return null;
   };
 
   /** Ligne d'article reprise : catalogue, ou vanne citée à la 1re personne, sans question, d'un article CATALOGUE ou décryptée. */
@@ -684,8 +707,9 @@ export function buildLotV5(input: LotInput): LotResult {
     let legende = f.legende;
     let legOrig: Origine = "FORMULE_V5";
     if (f.type === "RELAIS" && a && !r && !legende && !f.texteMarque) {
-      const rv = renvoi(a, f.platform, v?.origine === "ARTICLE" || !!v?.article);
-      if (f.platform === "INSTAGRAM") { legende = legendeDe(v, rv.texte); legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
+      const rv = renvoi(a, f.platform, v?.origine === "ARTICLE" || !!v?.article, v);
+      if (!rv) { legende = f.platform === "INSTAGRAM" ? legendeDe(v) : undefined; errors.push(`${f.date} ${f.platform} ${f.cle} : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle.`); }
+      else if (f.platform === "INSTAGRAM") { legende = legendeDe(v, rv.texte); legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
       if (f.platform !== "INSTAGRAM" && !lien) lien = lienUtmV5(siteUrl, `/blog/${a.slug}`, f.platform, f.date, weekday(f.date) === 1 ? "lundi" : "jeudi");
     }
     poster(f.date, f.platform, f.type, { v, marque: f.texteMarque, renvoi: r, renvoiOrigine: rOrig, lien, legende, legendeOrigine: legOrig,
@@ -709,10 +733,12 @@ export function buildLotV5(input: LotInput): LotResult {
       return false;
     }
     reserver(v, date, pf);
-    const rv = renvoi(a, pf, !!v.article);
+    const rv = renvoi(a, pf, !!v.article, v);
     const lien = pf === "INSTAGRAM" ? null : lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, utm);
-    poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv.texte, renvoiOrigine: rv.origine, lien,
-      legende: pf === "INSTAGRAM" ? legendeDe(v, rv.texte) : undefined, legendeOrigine: rv.origine, origine: "TIRAGE", slug: a.slug, note: n });
+    // Sans formule exacte, Instagram garde la seule légende retenue (« À envoyer à... ») : aucun texte neuf.
+    poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv?.texte ?? null, renvoiOrigine: rv?.origine, lien,
+      legende: pf === "INSTAGRAM" ? (rv ? legendeDe(v, rv.texte) : legendeDe(v)) : undefined, legendeOrigine: rv?.origine, origine: "TIRAGE", slug: a.slug, note: n });
+    if (!rv) errors.push(`${date} ${pf} RELAIS : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle (lot-1b-textes-a-relire.md).`);
     return true;
   }
 
