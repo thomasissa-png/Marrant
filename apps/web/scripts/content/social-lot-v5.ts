@@ -8,6 +8,7 @@
 import { createHash } from "node:crypto";
 import { checkPost, nombreDePhrases, premierePersonne, type PreparedPlatform } from "./social-controls";
 import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./social-article-lines";
+import type { LigneNotee } from "./social-lignes-notees";
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
 import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
@@ -50,6 +51,11 @@ export interface LotInput {
    * `lireTextesFormats`) : seule source des cases sans vanne au niveau ; vide = erreur par créneau et par format.
    */
   textesFormats?: TexteFormat[];
+  /**
+   * Lignes d'article notées au niveau (`lignes-articles-notes.json`, lues par `lireLignesNotees`) : admises au
+   * tirage du relais de LEUR article seulement, même hors `--pool` (plan §2, mix §2 : « relais, ligne notée »).
+   */
+  lignesNotees?: LigneNotee[];
 }
 /** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
 export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
@@ -200,6 +206,32 @@ export function buildLotV5(input: LotInput): LotResult {
     if (j) return { ...deJoke(j), origine: "CATALOGUE", article: l };
     return { cle: `${l.slug}#${l.rang}`, lignes: l.lignes, cartes: deuxCartes(l.lignes), categorie: null, origine: "ARTICLE", article: l };
   };
+  /**
+   * Lignes notées au niveau, par article (ordre du fichier), mot pour mot depuis l'article en base : ligne reconnue au
+   * texte identique, sinon texte présent tel quel dans le contenu (clé `slug#rang`, ou `slug#<texte normalisé>` comme
+   * les fixes quand le rang est nul ou désigne une autre ligne).
+   */
+  const noteesParSlug = new Map<string, Vanne[]>();
+  const clesNotees = new Set<string>();
+  for (const n of input.lignesNotees ?? []) {
+    const a = articleParSlug.get(n.slug);
+    if (!a) continue;
+    const quoi = `Ligne notée ${n.slug}#${n.rang ?? `« ${n.texte.slice(0, 40)}… »`}`;
+    // Ligne reconnue dans l'article (même texte) : sa clé et ses lignes d'origine (`slug#rang` de l'article, ou id catalogue).
+    const ls = lignesParSlug.get(n.slug) ?? [];
+    const l = ls.find((x) => normaliser(x.lignes.join(" ")) === normaliser(n.texte));
+    let v: Vanne | null = l ? vanneDeLigne(l) : null;
+    if (!v && a.content.includes(n.texte)) {
+      // Hors lignes reconnues (FAQ, intro, section `**N. titre**`) : texte tel quel. `slug#rang` s'il ne désigne
+      // aucune autre ligne de l'article, sinon clé du texte (pas de faux doublon au registre des 90 jours).
+      const rangLibre = n.rang !== null && !ls.some((x) => x.rang === n.rang);
+      v = { cle: `${n.slug}#${rangLibre ? n.rang : normaliser(n.texte).slice(0, 24)}`, lignes: [n.texte], cartes: deuxCartes([n.texte]), categorie: null, origine: "ARTICLE" };
+    }
+    if (!v) { warnings.push(`${quoi} : introuvable mot pour mot dans l'article en base, non utilisée.`); continue; }
+    if (clesNotees.has(v.cle)) continue;
+    clesNotees.add(v.cle);
+    noteesParSlug.set(n.slug, [...(noteesParSlug.get(n.slug) ?? []), v]);
+  }
   // Fixes hors des bornes du lot : leurs vannes restent réservées, sans erreur bloquante.
   const vanneDuFixe = (f: Fixe, signaler = true): Vanne | null => {
     const v = f.vanne;
@@ -235,8 +267,9 @@ export function buildLotV5(input: LotInput): LotResult {
   /** Vanne utilisable par un tirage ou un relais à cette date (les fixes passent à part). */
   // `relais` : la ligne vient de l'article relayé ce jour-là, sa saison est celle de l'article.
   // `pf` : réseau visé ; une vanne ne revient pas sur le réseau de sa 1re diffusion.
-  const libre = (v: Vanne, date: string, relais = false, pf?: PreparedPlatform): boolean => {
-    if (rang && !rang.has(v.cle)) return false;
+  // `admises` : lignes notées admises hors pool, celles du relais servi seulement (ligneRelais).
+  const libre = (v: Vanne, date: string, relais = false, pf?: PreparedPlatform, admises?: Set<string>): boolean => {
+    if (rang && !rang.has(v.cle) && !admises?.has(v.cle)) return false;
     if (pf && premier.get(v.cle)?.pf === pf) return false;
     if (v.jokeId && (C.SOUS_HUIT.includes(v.jokeId) || C.RESERVEES_NOEL.includes(v.jokeId))) return false;
     // Réservées à un carrousel de décryptage (fiche écrite) : jamais tirées (cycle 8, V028 et V060).
@@ -360,12 +393,19 @@ export function buildLotV5(input: LotInput): LotResult {
     if (l.catalogueId) return true;
     return l.citee && premierePersonne(t) && !t.includes("?") && (a.category === "CATALOGUE" || !!l.pourquoi);
   }
-  /** Ligne d'article pour un relais : catalogue, article CATALOGUE, ou vanne décryptée citée. */
+  /**
+   * Ligne d'article pour un relais : catalogue, puis lignes notées au niveau (Instagram : seulement avec leur légende
+   * « À envoyer à... » validée, sans quoi le post serait refusé), puis article CATALOGUE ou vanne décryptée citée.
+   */
   const ligneRelais = (a: ArticleLot, date: string, pf: PreparedPlatform, filtre: (v: Vanne) => boolean): Vanne | null => {
     const ls = shuffle(lignesParSlug.get(a.slug) ?? [], seededRandom(`${graine}-${a.slug}-${date}`));
-    const candidats = parRang(ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId)));
-    return candidats.find((v) => libre(v, date, true, pf) && filtre(v))
-      ?? penurie(candidats.find((v) => libre(v, date, true) && filtre(v)) ?? null, pf, date);
+    const extraites = parRang(ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId)));
+    const notees = (noteesParSlug.get(a.slug) ?? []).filter((v) => pf !== "INSTAGRAM" || !!legendes[v.cle]);
+    const cles = new Set(notees.map((v) => v.cle));
+    const candidats = notees.length === 0 ? extraites : [...extraites.filter((v) => v.jokeId && !cles.has(v.cle)), ...notees,
+      ...extraites.filter((v) => !v.jokeId && !cles.has(v.cle))];
+    return candidats.find((v) => libre(v, date, true, pf, cles) && filtre(v))
+      ?? penurie(candidats.find((v) => libre(v, date, true, undefined, cles) && filtre(v)) ?? null, pf, date);
   };
   /** Lignes d'articles déjà publiés à cette date (v5 : « vannes = catalogue ou lignes des articles du site »). */
   const lignesPubliees = (date: string): Vanne[] => input.articles.filter((a) => a.date < date && !C.ARTICLES_MESSAGES.test(a.slug))

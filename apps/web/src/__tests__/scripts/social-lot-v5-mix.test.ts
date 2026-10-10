@@ -108,11 +108,16 @@ describe("barres et champs du lot 1b (08/10)", () => {
     expect(r.posts.some((p) => p.mix?.texte === "conseil-x-3")).toBe(false);
   });
 
-  it("fichier versionné du lot 1b : 13 textes conformes (10 conseils, 3 relais LinkedIn), créneaux tranchés", () => {
+  it("fichier versionné du lot 1b : 19 textes conformes (10 conseils nominaux, 5 de repli, 1 carrousel R9, 3 relais LinkedIn)", () => {
     const chemin = path.resolve(__dirname, "../../../../../docs/social/preparation/textes-formats-valides.json");
     const { textes, erreurs } = lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin);
     expect(erreurs).toEqual([]);
-    expect(textes.filter((t) => t.format === "conseil")).toHaveLength(10);
+    expect(textes).toHaveLength(19);
+    expect(textes.filter((t) => t.format === "conseil" && t.role !== "repli")).toHaveLength(10);
+    // Repli du 10/10 (aveugle-1b-repli-resultat.md, tours 1 à 3) : K59, K42, K53, K63 et K76 sur leur créneau.
+    expect(textes.filter((t) => t.role === "repli").map((t) => `${t.creneau} ${t.reseau}`)).toEqual([
+      "2026-11-09 TWITTER", "2026-11-09 INSTAGRAM", "2026-11-12 TWITTER", "2026-11-05 INSTAGRAM", "2026-11-12 INSTAGRAM"]);
+    expect(textes.filter((t) => t.format === "carrousel").map((t) => `${t.creneau} ${t.jokeId}`)).toEqual(["2026-11-04 cs14jk34c841ef6e1abadb11"]);
     expect(textes.filter((t) => t.format === "relaisLinkedIn").map((t) => `${t.creneau} ${t.article}`)).toEqual([
       "2026-11-05 blagues-de-couple-drole", "2026-11-10 chambrer-sans-blesser-entre-potes", "2026-11-12 voeux-drole-nouvelle-annee"]);
     for (const t of textes.filter((x) => x.reseau === "TWITTER")) expect(longueurX(t.texte!)).toBeLessThanOrEqual(270);
@@ -287,7 +292,7 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
     expect(ailleurs[0].platform).not.toBe("TWITTER");
   });
 
-  it("fichier versionné, stock plein : K36 et K26 le ven. 23/10, K28 et K30 le mar. 03/11, aucun conseil lundi ou jeudi", () => {
+  it("fichier versionné, stock plein : K36 et K26 le ven. 23/10, K28 et K30 le mar. 03/11, aucun conseil nominal lundi ou jeudi", () => {
     for (const autorisees of [undefined, ["aucune-vanne"]]) {
       const r = lot(reels(), { ...LOT_1B, autorisees });
       expect(de(r, "2026-10-23", "TWITTER")?.mix?.texte).toBe("cmptbp7nv002bs60xscu5ixmx");
@@ -296,8 +301,10 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
       expect(de(r, "2026-11-03", "INSTAGRAM")?.mix?.texte).toBe("cmq0gw85z00nas60xc0gno2ka");
       const conseils = r.posts.filter((p) => p.type === "CONSEIL");
       expect(conseils.length).toBeGreaterThanOrEqual(4);
+      // Conseils de repli (role « repli », décision du 10/10) : tout jour ouvré ; les nominaux jamais lundi ni jeudi.
+      const repli = new Set(reels().filter((t) => t.role === "repli").map((t) => t.id));
       for (const p of conseils) {
-        expect([1, 4]).not.toContain(jour(p.date));
+        if (!repli.has(p.mix?.texte ?? "")) expect([1, 4]).not.toContain(jour(p.date));
         expect(p.platform).not.toBe("LINKEDIN");
       }
     }

@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b, révision 5 : lignes d'article notées au tirage des relais, repli versé @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lignes-notees.ts` nouveau, `social-lot-v5.ts`, `prepare-social-month.ts --lignes-notees`, `social-lot-v5-legendes.ts`) : les lignes `auNiveau` de `lignes-articles-notes.json` entrent au relais de leur article, même avec `--pool strict` ; « À envoyer au / aux » accepté par le contrôle des légendes.
+> - **Versé** : K59, K42, K53, K63, K76 et le carrousel C3 dans `textes-formats-valides.json` ; L24, L19, L20, L29 dans les légendes.
+> - **Tests** : +14 (`social-lot-lignes-notees.test.ts` 13, légendes 1), 2 ajustés au fichier versionné. tsc, lint, build verts ; Jest 3 906 passés.
+> - **Dry-run 1a** : identique à l'octet (sha256 `63a2f315…`). **Dry-run 1b** : 46 posts, 2 erreurs (légendes des relais IG du 19/10 et du 05/11), détail dans `docs/social/preparation/lot-1b-dry-run-08-10.md` révision 5.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`, aucun `--rollback --confirmer`.
+
 ## s15 lot 1b : conseil de repli S1 tous jours ouvrés et carrousel R9 à 28 jours en base @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
 
 > - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : champ `role` du conseil dans `textes-formats-valides.json` (plan §3, décision du 10/10). `nominal` (défaut) : mardi ou vendredi, comportement inchangé. `repli` : tout jour ouvré hors 30/10, 27/11, 25/12 et 01/01, jamais LinkedIn, 8 conseils au plus par semaine (le 9e est refusé à la lecture et au tirage). Lundi et jeudi : ligne notée d'abord, puis conseil de repli seulement (le conseil nominal, même rendu, n'y va jamais). Un texte qui a son créneau sert sa case d'abord. R9 : date de 1re diffusion **en base** seulement, refus motivé (« publiée depuis N jours », « jamais publiée en base ») ; créneau du carrousel un mercredi.

@@ -43,6 +43,8 @@
  *       `--pool strict` = pool strict de `src/config/social-pool.ts` (lu aussi par le Worker).
  *       `--textes-formats fichier` : textes validés du repli du mix (défaut docs/social/preparation/
  *       textes-formats-valides.json) ; case sans vanne au niveau et sans texte = erreur par créneau et par format.
+ *       `--lignes-notees fichier` : lignes d'article notées (défaut docs/social/preparation/lignes-articles-notes.json) ;
+ *       les lignes `auNiveau` entrent au relais de LEUR article seulement, même hors `--pool`.
  *       Retour à 90 jours sur un autre réseau que la 1re diffusion, sauf pénurie (avertissement).
  *       approvedBy du lot : « lot-<id> » (« thomas-s15 » pour relance-s15, bornes par défaut 12/10 au 03/01).
  *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback [--confirmer] [--driver=neon-http]
@@ -64,6 +66,7 @@ import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLegendesInstagram, controlerLot, type ArticleLot } from "./social-lot-v5";
 import { lireTextesFormats } from "./social-lot-v5-mix";
+import { lireLignesNotees } from "./social-lignes-notees";
 import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
 import { annulerLot, bornesLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
@@ -196,13 +199,23 @@ async function genererLot(argv: string[], a: { lot: string; debut: string; fin: 
   const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
   // Repli du mix : textes validés (`--textes-formats`, défaut textes-formats-valides.json), seule source des cases sans vanne.
   const tf = chargerTextesFormats(arg(argv, "--textes-formats") ?? path.join(DOCS_DIR, "textes-formats-valides.json"));
+  // Lignes d'article notées au niveau (`--lignes-notees`, défaut lignes-articles-notes.json) : relais de leur article.
+  const ln = chargerLignesNotees(arg(argv, "--lignes-notees") ?? path.join(DOCS_DIR, "lignes-articles-notes.json"));
   const inputs = await loadLotInputs(neonHttpQuery(dbUrl), meta.debut, meta.fin);
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes, textesFormats: tf.textes });
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes, textesFormats: tf.textes,
+    lignesNotees: ln.lignes });
   // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
   const lot = controlerLot(res.posts, inputs.recents);
   // Légendes Instagram : « À envoyer à... », sans pied ni lien (posts et replis).
   const leg = controlerLegendesInstagram(res.posts, res.replis);
-  return { seed, autorisees, inputs, res, errors: [...tf.erreurs, ...res.errors, ...lot.errors, ...leg.errors], warnings: [...tf.avertissements, ...res.warnings, ...lot.warnings, ...leg.warnings] };
+  return { seed, autorisees, inputs, res, errors: [...tf.erreurs, ...ln.erreurs, ...res.errors, ...lot.errors, ...leg.errors],
+    warnings: [...tf.avertissements, ...ln.avertissements, ...res.warnings, ...lot.warnings, ...leg.warnings] };
+}
+
+/** Lignes d'article notées : fichier absent = aucune ligne (avertissement), entrée non conforme = erreur bloquante. */
+export function chargerLignesNotees(chemin: string): ReturnType<typeof lireLignesNotees> & { avertissements: string[] } {
+  if (!fs.existsSync(chemin)) return { lignes: [], erreurs: [], avertissements: [`Lignes d'article notées : ${chemin} introuvable, aucune ligne au relais.`] };
+  return { ...lireLignesNotees(fs.readFileSync(chemin, "utf-8"), chemin), avertissements: [] };
 }
 
 /** Fichier des textes du mix : absent = aucun texte (avertissement), entrée non conforme = erreur bloquante. */

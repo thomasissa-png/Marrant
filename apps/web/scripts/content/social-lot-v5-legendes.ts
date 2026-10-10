@@ -67,12 +67,20 @@ export const LEGENDES_IG: Record<string, string> = {
   cs14jk9a9e7a1b8e0e16264e: "À envoyer à ton oncle, qui demande si c'est un vrai travail.", // IG du 15/10, H01 (9 / 8,5)
   cmmnsqn120000th63o435xsb0: "À envoyer à ta mère, qui t'avait dit de surveiller le four.", // IG du 16/10, H11 (8,5 / 9)
   // Lot 1b, relu à l'aveugle le 08/10 (aveugle-1b-formats-resultat.md) ; vanne vérifiée au dry-run du 08/10.
-  cs14jk76ca7ad32cce9041ce: "À envoyer à ta sœur, qui demande toujours si t'as un câble.", // L12 (9 / 9) : plus au 03/11 (conseil nominal), vanne rendue au tirage, légende servie si elle est tirée sur IG
   cs14jk55b4243d4d1c132b97: "À envoyer à celle qui répond « deux secondes » en fixant son écran.", // L13 (9 / 9), attachée à la vanne : servie si elle est tirée sur IG (dry-run 1b du 08/10 : LinkedIn 05/11)
   // L07 (relais IG 19/10, vanne cs14jkb03209d55cbfc17448), L16 (29/10, cs14jkd11f7913f8177df395) et L15 (05/11,
   // cs14jkfec1cb933d1931e868) NON versées : le dry-run du 08/10 tire d'autres vannes sur ces relais, et une légende
   // de relais compte le renvoi « lien en bio » dans ses 80 caractères (L07, L15, L16 + renvoi > 80). Voir lot-1b-dry-run-08-10.md.
+  // Lot 1b, repli relu à l'aveugle le 10/10 (aveugle-1b-repli-resultat.md, tour 1) : légendes figées des relais IG (renvoi
+  // « Les autres exemples : lien en bio. » compris dans les 80 caractères) et de la vanne IG du 20/10.
+  cs14jk76ca7ad32cce9041ce: "À envoyer à l'ami toujours à 2 % de batterie.", // L24 (9 / 9), relais IG 19/10 (TGV) ; remplace L12, trop longue avec le renvoi
+  cs14jkbc3334e2de46753dcf: "À envoyer à la tante qui applaudit trop tôt.", // L19 (9 / 9), relais IG 29/10 (théâtre)
+  cs14jk4f97079b992f85eeb1: "À envoyer à ton pote, resté ami avec ses ex.", // L20 (8,5 / 8,5), relais IG 02/11 (l'ex)
+  cs14jk29357d022f6880a69e: "À envoyer à ton cousin, qui n'a jamais supprimé ses photos de lycée.", // L29 (9 / 8,5, départage 3e relecteur), vanne IG 20/10 (bouc)
 };
+
+/** Tête de légende : « À envoyer à », « au » ou « aux ». */
+const A_ENVOYER = /^À envoyer (?:à|au|aux) /;
 
 /** Plafond R3 (`corrections-cycle6-copy.md` §3) : 80 caractères, relais renvoi compris. */
 export const LEGENDE_MAX = 80;
@@ -80,7 +88,8 @@ export const LEGENDE_MAX = 80;
 /** Légende Instagram conforme : « À envoyer à », 80 caractères au plus, ni lien ni « deviens-marrant ». Vide = conforme. */
 export function ecartsLegende(legende: string): string[] {
   const e: string[] = [];
-  if (!legende.startsWith("À envoyer à ")) e.push("légende sans « À envoyer à » en tête");
+  // « au » / « aux » : contraction de « à le » / « à les » (K63 « À envoyer au pote qui... », 8 / 8 à l'aveugle).
+  if (!A_ENVOYER.test(legende)) e.push("légende sans « À envoyer à » en tête");
   if (legende.length > LEGENDE_MAX) e.push(`légende de ${legende.length} caractères (plafond ${LEGENDE_MAX})`);
   if (/https?:\/\/|www\./i.test(legende)) e.push("lien dans la légende");
   if (/deviens-marrant/i.test(legende)) e.push("« deviens-marrant » dans la légende ([CHOIX UTILISATEUR] du 06/10)");
@@ -89,7 +98,7 @@ export function ecartsLegende(legende: string): string[] {
 
 /** Tournure de la légende (« celui qui », « ceux qui », « qui », « ton / ta / tes ») : jamais 2 fois de suite sur Instagram. */
 export function tournure(legende: string): string {
-  const suite = legende.replace(/^À envoyer à /, "");
+  const suite = legende.replace(A_ENVOYER, "");
   const m = suite.match(/^(celui qui|celle qui|ceux qui|qui|ton|ta|tes)\b/);
   return m ? (["ton", "ta", "tes"].includes(m[1]) ? "ton/ta" : m[1]) : "autre";
 }

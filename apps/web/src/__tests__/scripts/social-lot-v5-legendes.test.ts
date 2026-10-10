@@ -74,6 +74,12 @@ describe("ecartsLegende et tournure", () => {
     expect(tournure("À envoyer à qui a un date pour Halloween.")).toBe("qui");
     expect(tournure("À envoyer à ta mère, juste pour voir.")).toBe("ton/ta");
     expect(tournure("À envoyer à ceux qui se disputent pour dîner.")).toBe("ceux qui");
+    expect(tournure("À envoyer au pote qui scrolle pendant que tu parles.")).toBe("autre");
+  });
+  it("« au » et « aux » (contraction de « à le », « à les ») sont des têtes conformes ; « À envoyer » seul ne l'est pas", () => {
+    expect(ecartsLegende("À envoyer au pote qui scrolle pendant que tu parles.")).toEqual([]);
+    expect(ecartsLegende("À envoyer aux collègues qui répondent à tous.")).toEqual([]);
+    expect(ecartsLegende("À envoyer auprès de ton chef.").join()).toMatch(/sans « À envoyer à »/);
   });
 });
 
