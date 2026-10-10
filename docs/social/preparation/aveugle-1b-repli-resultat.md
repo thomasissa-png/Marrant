@@ -10,7 +10,7 @@
 | relais IG lun. 19/10 (TGV) | **L24** | 9 / 9 | |
 | relais IG jeu. 29/10 (théâtre) | **L19** | 9 / 9 | |
 | relais IG lun. 02/11 (l'ex) | **L20** | 8,5 / 8,5 | |
-| vanne IG mar. 20/10 (bouc) | L26 ou L29 | 9 / 8,5 chacune | égalité parfaite : 3e relecteur à l'aveugle |
+| vanne IG mar. 20/10 (bouc) | **L29** (« À envoyer à ton cousin, qui n'a jamais supprimé ses photos de lycée. ») | 9 / 8,5 ; égalité avec L26, départagée par le 3e relecteur à l'aveugle (8,7 contre 7,6, `departage-1b-repli-L-relecteur-3.md`) | |
 | mer. 04/11 Instagram (carrousel R9) | aucun (C1 7 / 8 ; C2 7,5 / 7) | | tour 2 : carrousel, sinon conseil de repli (mix §2) |
 | jeu. 05/11 X | aucun (K54 8 / 7,5 ; K43 8 / 7) | | tour 2 |
 | jeu. 05/11 Instagram | aucun (K51 8 / 7 ; K57 8 / 6,5) | | tour 2 |
