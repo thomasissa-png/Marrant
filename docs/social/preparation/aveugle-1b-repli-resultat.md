@@ -26,3 +26,6 @@
 | jeu. 12/11 Instagram | aucun (K65 et K69 7 / 7,5) | tour 3 |
 
 Conséquence : la vanne du parking est consommée par le carrousel du 04/11 ; le carrousel prévu le 18/11 sur cette vanne (lot 2a) doit changer de vanne. K63 reste disponible comme conseil validé pour une autre case de repli.
+| jeu. 05/11 Instagram (réaffectation) | **K63** (conseil IG validé 8 / 8 au tour 2, libéré par C3) | semaine du 02/11 : 5 conseils avec lui, sous le plafond de 8 |
+
+Reste au tour 3 : **jeu. 05/11 X** et **jeu. 12/11 Instagram**.
