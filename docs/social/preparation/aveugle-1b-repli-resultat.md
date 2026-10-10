@@ -29,3 +29,12 @@ Conséquence : la vanne du parking est consommée par le carrousel du 04/11 ; le
 | jeu. 05/11 Instagram (réaffectation) | **K63** (conseil IG validé 8 / 8 au tour 2, libéré par C3) | semaine du 02/11 : 5 conseils avec lui, sous le plafond de 8 |
 
 Reste au tour 3 : **jeu. 05/11 X** et **jeu. 12/11 Instagram**.
+
+## Tour 3 (10/10/2026, `aveugle-1b-repli-t3.md`, 8 candidats)
+
+| Case | Retenu | Notes |
+|---|---|---|
+| jeu. 12/11 Instagram | **K76** (« La vanne retenue ») | 8 / 8 ; égalité avec K73 (8 / 8), départagée par un 3e relecteur à l'aveugle (8,5 contre 7,5, `departage-1b-repli-t3-relecteur-3.md`) |
+| jeu. 05/11 X | aucun (K72 7 / 7 ; K75 7 / 6 ; K77 6 / 6 ; K74 5 / 5) | tour 4 |
+
+K78 (8 / 7) : le relecteur 2 relève le mot « blague » dans le surtitre (charte) ; non retenu de toute façon.
