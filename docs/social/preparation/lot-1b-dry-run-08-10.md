@@ -2,6 +2,63 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
+## Révision 4 (10/10, après insertion du 1a)
+
+> @fullstack, 10/10/2026. Aucune modification de code. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out /tmp/1b-0910.md --json /tmp/1b-0910.json`. Sorties hors dépôt ; les fichiers par défaut `lot-relance-s15.{md,json}` (lot 1a inséré) ne sont pas touchés. Comparaison avec `/tmp/fs-1b-v3/1b-new.md` (révision 3).
+
+**Console** : catalogue 132 vannes GARDER (127 en rév. 3), pool strict 42 (inchangé, `social-pool.ts` non modifié depuis), **stock éligible 15 (22)**, **26 posts récents (14 : +12, les 12 posts du 1a)**. **39 posts (X 16, IG 15, LinkedIn 8)**, contre 46 (19 / 19 / 8). **12 erreurs** (5 en rév. 3), 0 repli en réserve. JSON non écrit.
+
+**Cause unique des différences** : la révision 3 tournait sans le 1a en base, et le 1b réutilisait donc **7 vannes du 1a** : `cs14jka3336e7e90a453a9d6` (19/10 X), `cmni62ad30005s60yc7qnog31` (20/10 X), `cmnz0jqsx000rs60xrbrqm8kk` (20/10 IG), `cs14jk9a9e7a1b8e0e16264e` (20/10 LI), `cmmnsqn15006kth63res9rqp9` (27/10 X), `cmmnsqn120000th63o435xsb0` (27/10 LI), `cmmnsqn130038th63fxn1wvhn` (28/10 X). L'anti-répétition de 90 jours les exclut désormais (stock 22 moins 7 = 15). Chaque case concernée prend la vanne suivante du pool, toute la suite remonte d'un cran, et **les 7 dernières cases restent sans vanne**. Le pool strict étant inchangé, les 5 vannes GARDER de plus au catalogue n'entrent pas dans le tirage. Inchangés : les 10 conseils, L2 (29/10), R08 (05/11), R07 (10/11), R02 (12/11), les relais d'article des 22/10 et 26/10, Halloween (30/10), et les 3 posts validés par Thomas (X3 21/10, X2 22/10, IG1 27/10).
+
+| Case | Rév. 3 | Rév. 4 | Pourquoi |
+|---|---|---|---|
+| 19/10 X relais | `cs14jka3336e7e90a453a9d6` | `cs14jkd9058d03e24961004a` (concert) | vanne du 1a sortie ; le concert passe de l'IG au X |
+| 19/10 IG relais | `cs14jkd9058d03e24961004a` | `cs14jk76ca7ad32cce9041ce` (TGV) + L12 | remonte du 05/11 X |
+| 20/10 X | `cmni62ad30005s60yc7qnog31` | `cs14jke10b58d158ae638560` (chargeur) | 1a ; remonte du 28/10 IG |
+| 20/10 IG | `cmnz0jqsx000rs60xrbrqm8kk` | `cs14jk29357d022f6880a69e` (bouc) | 1a ; remonte du 29/10 IG relais |
+| 20/10 LI | `cs14jk9a9e7a1b8e0e16264e` | `cs14jk90226d6abb90287724` (mère et ex) | 1a ; remonte du 02/11 IG relais |
+| 27/10 X | `cmmnsqn15006kth63res9rqp9` | `cs14jka7e683e43af915bb60` (fauteuil) | 1a ; remonte du 04/11 X |
+| 27/10 LI | `cmmnsqn120000th63o435xsb0` | `cs14jkd11f7913f8177df395` (tondeuse) | 1a ; remonte du 04/11 IG |
+| 28/10 X quiz | `cmmnsqn130038th63fxn1wvhn` | `cs14jk177b62432b07f5d17a` (jury) | 1a ; remonte du 02/11 X |
+| 28/10 IG | `cs14jke10b58d158ae638560` | `cs14jk7911857c4ff09eb025` (homonyme) | le chargeur part au 20/10 ; l'homonyme remonte du 03/11 LI |
+| 29/10 IG relais | `cs14jk29357d022f6880a69e` | `cs14jkbc3334e2de46753dcf` (théâtre) | le bouc part au 20/10 ; le théâtre remonte du 05/11 IG |
+| 02/11 X relais | `cs14jk177b62432b07f5d17a` | `cs14jk55b4243d4d1c132b97` (téléphone face contre la table) | remonte du 09/11 X |
+| 02/11 IG relais | `cs14jk90226d6abb90287724` | `cs14jk4f97079b992f85eeb1` (l'ex et sa liste) | remonte du 09/11 IG |
+| 03/11 LI relais | `cs14jk7911857c4ff09eb025` | `cp05d2c3950800b7575c12ce6` (BU) | remonte du 12/11 X |
+| 04/11 X quiz | `cs14jka7e683e43af915bb60` | `cp0465e601e49c114994d1a00` (« fais tes preuves ») | remonte du 12/11 IG |
+| 04/11 IG | `cs14jkd11f7913f8177df395` | **vide** | stock épuisé |
+| 05/11 X et IG relais | `cs14jk76ca7ad32cce9041ce`, `cs14jkbc3334e2de46753dcf` | **vides** | stock épuisé |
+| 09/11 X et IG relais | `cs14jk55b4243d4d1c132b97`, `cs14jk4f97079b992f85eeb1` | **vides** | stock épuisé |
+| 12/11 X et IG relais | `cp05d2c3950800b7575c12ce6`, `cp0465e601e49c114994d1a00` | **vides** | stock épuisé |
+
+**Erreurs, rév. 3 contre rév. 4** :
+- Rév. 3 : 5 × « légende sans « À envoyer à » en tête » (relais IG 19/10, 29/10, 05/11, 09/11, 12/11).
+- Rév. 4 : 12 erreurs.
+  - 29/10 et 02/11 IG relais : « légende sans « À envoyer à » » (2).
+  - 19/10 IG relais : « trop long (94 > 80) » et « légende de 94 caractères » (2). L12, écrite pour une case de vanne, ne tient pas avec le renvoi.
+  - 20/10 IG vanne : « légende manquante » pour le bouc (1).
+  - 04/11 IG, 05/11 X et IG, 09/11 X et IG, 12/11 X et IG : « repli du mix sans texte validé » (7). Le 04/11 IG attend un carrousel R9, sinon un conseil ou une ligne d'article notée ; les 6 autres attendent une ligne d'article notée.
+
+**Vannes des relais Instagram (à figer)** :
+
+| Relais IG | Rév. 3 | Rév. 4 | Renvoi | Max « À envoyer à... » |
+|---|---|---|---|---|
+| lun. 19/10 | `cs14jkd9058d03e24961004a` | `cs14jk76ca7ad32cce9041ce` (L12 trop longue) | Les autres exemples : lien en bio. | 45 |
+| jeu. 22/10 | n°13 de l'article | inchangé, légende OK | | |
+| lun. 26/10 | `cs14jke6736001250d3a940d` | inchangé, légende OK | | |
+| jeu. 29/10 | `cs14jk29357d022f6880a69e` | `cs14jkbc3334e2de46753dcf` | Les autres exemples : lien en bio. | 45 |
+| lun. 02/11 | `cs14jk90226d6abb90287724` (légende OK) | `cs14jk4f97079b992f85eeb1` | Les autres exemples : lien en bio. | 45 |
+| jeu. 05/11, lun. 09/11, jeu. 12/11 | vannes tirées | aucune vanne | | |
+
+Commande mise à jour (4 légendes : 3 relais et la vanne IG du 20/10, avec textes, renvois et voisines) : **`lot-1b-legendes-a-commander.md`**. L'ancienne commande (5 relais, rév. 3) est caduque : n'écrire aucune de ses légendes.
+
+**Décision à prendre (orchestrateur ou Thomas), non tranchée ici** : 7 cases sans texte. Options :
+- (a) commander 6 lignes d'article notées (05/11 couple, 09/11 chambrer, 12/11 vœux, X et IG) et 1 carrousel R9 pour le 04/11, puis les faire passer à l'aveugle ;
+- (b) élargir le pool strict (`src/config/social-pool.ts`, lu aussi par le Worker) avec des vannes au niveau ;
+- (c) laisser ces 7 cases en silence.
+
+Avec (b), le tirage change : il faut relancer le dry-run avant d'écrire les 4 légendes. Avec (a) ou (c), les vannes des 19/10, 20/10, 29/10 et 02/11 ne devraient pas bouger [HYPOTHÈSE : à confirmer par un dry-run après versement].
+
 ## Révision 3 (08/10, fin de session) : relais LinkedIn validés avant les vannes hors thème bureau
 
 > Décision de la session : la variante mesurée en révision 2 est appliquée. Justification : `mix-formats-s15.md` §2 (LinkedIn : « relais, sinon vanne ») et `plan-execution-s15.md` §2 (« LinkedIn tire d'abord les vannes de thème bureau »). Mêmes commandes, sorties dans `/tmp/fs-1b-v3/`. Remplace la « Décision à prendre (non codée) » de la révision 2.
