@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 lot 1b : conseil de repli S1 tous jours ouvrés et carrousel R9 à 28 jours en base @fullstack, **RIEN À DÉPLOYER** (scripts de préparation et doc seulement, aucune écriture en base)
+
+> - **Code** (`apps/web/scripts/content/social-lot-v5-mix.ts`, `social-lot-v5.ts`) : champ `role` du conseil dans `textes-formats-valides.json` (plan §3, décision du 10/10). `nominal` (défaut) : mardi ou vendredi, comportement inchangé. `repli` : tout jour ouvré hors 30/10, 27/11, 25/12 et 01/01, jamais LinkedIn, 8 conseils au plus par semaine (le 9e est refusé à la lecture et au tirage). Lundi et jeudi : ligne notée d'abord, puis conseil de repli seulement (le conseil nominal, même rendu, n'y va jamais). Un texte qui a son créneau sert sa case d'abord. R9 : date de 1re diffusion **en base** seulement, refus motivé (« publiée depuis N jours », « jamais publiée en base ») ; créneau du carrousel un mercredi.
+> - **Tests** (`social-lot-v5-mix.test.ts`, +5, 3 ajustés à la décision du 10/10) : repli un jeudi accepté, nominal un jeudi refusé, 9e conseil refusé, carrousel à 27 jours refusé et à 28 jours accepté. tsc, lint, build verts ; Jest complet : 3 892 PASS, 4 ignorés.
+> - **Dry-run 1a** (`--pool strict --debut 2026-10-12 --fin 2026-10-18`) : JSON et Markdown identiques à l'octet à `lot-relance-s15.{json,md}` (sha256 `63a2f315…`). **Dry-run 1b** : mêmes 39 posts, mêmes 12 erreurs. Seuls changent les messages des 6 cases 05/11, 09/11 et 12/11 X et IG (« ligne d'article notée ; à défaut : conseil »). Aucun texte versé : les textes viennent de @copywriter, puis passent à l'aveugle.
+> - Le Worker n'importe pas ces scripts : aucun `deploy:cf`, aucun `--insert`.
+
 ## s15 (10/10/2026, 08:00 Paris) : semaine 0 = 10 posts sur 10 ; alertes B seulement
 
 - Posts du 09/10 (X 12:32, Instagram 19:32) publiés, liens réels (`docs/social/releves/2026-10-09.md`). Semaine 0 : 10 sur 10, aucun FAILED.

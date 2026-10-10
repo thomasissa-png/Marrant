@@ -48,6 +48,12 @@ const texteFormatSchema = z.object({
    * réseau, avertissement). Créneau après la fin du lot : texte réservé, jamais pris par ce lot.
    */
   creneau: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "créneau AAAA-MM-JJ").optional(),
+  /**
+   * Conseil seulement (`plan-execution-s15.md` §3, décision de la session du 10/10). « nominal » (défaut) : case de
+   * conseil nominale (`caseConseilNominale`), jamais le lundi ni le jeudi même rendu au repli. « repli » (secours S1) :
+   * tout jour ouvré hors exceptions, jamais LinkedIn, 8 conseils au plus par semaine (nominaux compris).
+   */
+  role: z.enum(["nominal", "repli"]).optional(),
   format: z.enum(["conseil", "ligne", "carrousel", "quiz", "relaisLinkedIn"]),
   reseau: RESEAU,
   /** Notes à l'aveugle des 2 relecteurs. */
@@ -98,7 +104,10 @@ function ecartsEntree(t: TexteFormat): string[] {
     if (t.texte && /https?:\/\/|www\.|\[lien\]/i.test(t.texte)) e.push("lien dans le texte (le script ajoute lui-même le lien des relais et du quiz)");
   }
   if (t.format === "conseil" && t.reseau === "TWITTER" && t.texte && longueurX(t.texte) > PLAFONDS_MIX.conseilXMax) e.push(`conseil X de ${longueurX(t.texte)} caractères (plafond ${PLAFONDS_MIX.conseilXMax})`);
-  if (t.format === "conseil" && t.creneau && !caseConseilNominale(t.creneau, t.reseau)) e.push(`créneau ${t.creneau} hors case de conseil nominale (vendredi avant le ${CONSEILS_MARDI_DES}, mardi et vendredi ensuite, X et Instagram, hors ${EXCEPTIONS_CONSEIL.join(", ")})`);
+  if (t.role && t.format !== "conseil") e.push("« role » réservé au conseil");
+  if (t.format === "conseil" && t.creneau && t.role === "repli" && !caseConseilRepli(t.creneau, t.reseau)) e.push(`créneau ${t.creneau} hors case de conseil de repli (jour ouvré, X et Instagram, hors ${EXCEPTIONS_CONSEIL.join(", ")})`);
+  if (t.format === "conseil" && t.creneau && t.role !== "repli" && !caseConseilNominale(t.creneau, t.reseau)) e.push(`créneau ${t.creneau} hors case de conseil nominale (vendredi avant le ${CONSEILS_MARDI_DES}, mardi et vendredi ensuite, X et Instagram, hors ${EXCEPTIONS_CONSEIL.join(", ")} ; ailleurs : « role » « repli »)`);
+  if (t.format === "carrousel" && t.creneau && jourDe(t.creneau) !== 3) e.push(`carrousel R9 : créneau ${t.creneau} hors mercredi (case décryptage Instagram)`);
   if (t.surtitre && !(t.format === "conseil" && ig)) e.push("« surtitre » réservé au conseil Instagram");
   if (t.surtitre && t.surtitre.split(/\s+/).length > 4) e.push(`surtitre de ${t.surtitre.split(/\s+/).length} mots (4 au plus)`);
   if (t.format === "quiz" && t.texte?.includes(FORMULES.quizCourt)) e.push("quiz seul : texte sans la formule du quiz (ajoutée par le script, FORMULES.quizCourt)");
@@ -118,12 +127,20 @@ export function lireTextesFormats(contenu: string, chemin: string): { textes: Te
   const textes: TexteFormat[] = [];
   const erreurs: string[] = [];
   const ids = new Set<string>();
+  /** Conseils à créneau par semaine (lundi) : 8 au plus, nominaux compris (plan §3, secours S1). */
+  const conseilsSemaine = new Map<string, number>();
   fichier.data.textes.forEach((x, i) => {
     const r = texteFormatSchema.safeParse(x);
     if (!r.success) { erreurs.push(`${chemin}, entrée ${i + 1} : ${r.error.issues.map((q) => `${q.path.join(".") || "entrée"} ${q.message}`).join(" ; ")}.`); return; }
     const e = ecartsEntree(r.data);
     if (ids.has(r.data.id)) e.push("id en double");
     ids.add(r.data.id);
+    if (!e.length && r.data.format === "conseil" && r.data.creneau) {
+      const lundi = lundiDe(r.data.creneau);
+      const n = (conseilsSemaine.get(lundi) ?? 0) + 1;
+      if (n > PLAFONDS_MIX.conseilsParSemaine) e.push(`${n}e conseil de la semaine du ${jjmm(lundi)} (${PLAFONDS_MIX.conseilsParSemaine} au plus, nominaux compris)`);
+      else conseilsSemaine.set(lundi, n);
+    }
     if (e.length) erreurs.push(`${chemin}, ${r.data.id} : ${e.join(" ; ")}.`);
     else textes.push(r.data);
   });
@@ -139,8 +156,12 @@ export function ordreRepli(pf: PreparedPlatform, t: TypeCase, date?: string): Fo
   if (pf === "LINKEDIN") return ["relaisLinkedIn"];
   const ordre: FormatMix[] = pf === "TWITTER" && t === "VANNE_QUIZ" ? ["quiz", "conseil", "ligne"]
     : pf === "INSTAGRAM" && t === "DECRYPTAGE" ? ["carrousel", "conseil", "ligne"] : ["conseil", "ligne"];
-  // Jamais de conseil le lundi ni le jeudi, même en repli (plan §3, décision du 08/10).
-  return date && !conseilPermis(date) ? ordre.filter((f) => f !== "conseil") : ordre;
+  if (!date) return ordre;
+  // Jamais de conseil les jours d'exception (plan §3), nominal ou repli.
+  if (EXCEPTIONS_CONSEIL.includes(date)) return ordre.filter((f) => f !== "conseil");
+  // Lundi et jeudi (décision du 10/10, révise celle du 08/10) : seul le conseil de repli S1 (« role » « repli »), après
+  // la ligne notée (plan §3 : « créneau sans vanne au niveau ni ligne notée »). Le conseil nominal, même rendu, n'y va pas.
+  return conseilPermis(date) ? ordre : [...ordre.filter((f) => f !== "conseil"), "conseil"];
 }
 
 /** Conseils « mardi et vendredi d'abord » : ces cases sont servies avant les autres (0 avant 1), puis par date. */
@@ -156,9 +177,13 @@ export function prioriteRepli(jourSemaine: number): number {
  */
 export const CONSEILS_MARDI_DES = "2026-11-03";
 export const EXCEPTIONS_CONSEIL: readonly string[] = ["2026-10-30", "2026-11-27", "2026-12-25", "2027-01-01"];
-/** Jours sans conseil, nominal ou repli : lundi (1) et jeudi (4), jours des relais d'article. */
+/**
+ * Jours sans conseil NOMINAL (même rendu au repli) : lundi (1) et jeudi (4), jours des relais d'article. Le conseil de
+ * repli S1 (« role » « repli ») y reste permis (décision de la session du 10/10).
+ */
 export const JOURS_SANS_CONSEIL: readonly number[] = [1, 4];
 const jourDe = (date: string) => new Date(`${date}T12:00:00Z`).getUTCDay();
+const lundiDe = (date: string) => new Date(Date.parse(`${date}T12:00:00Z`) - ((jourDe(date) + 6) % 7) * 86_400_000).toISOString().slice(0, 10);
 
 export function caseConseilNominale(date: string, pf: PreparedPlatform): boolean {
   if (pf === "LINKEDIN" || EXCEPTIONS_CONSEIL.includes(date)) return false;
@@ -166,8 +191,20 @@ export function caseConseilNominale(date: string, pf: PreparedPlatform): boolean
   return date < CONSEILS_MARDI_DES ? j === 5 : j === 2 || j === 5;
 }
 
+/** Conseil nominal (ou rendu au repli) permis ce jour : ni lundi ni jeudi. */
 export function conseilPermis(date: string): boolean {
   return !JOURS_SANS_CONSEIL.includes(jourDe(date));
+}
+
+/** Case de conseil de repli S1 (plan §3, décision du 10/10) : tout jour ouvré, X et Instagram, hors exceptions. */
+export function caseConseilRepli(date: string, pf: PreparedPlatform): boolean {
+  const j = jourDe(date);
+  return pf !== "LINKEDIN" && j >= 1 && j <= 5 && !EXCEPTIONS_CONSEIL.includes(date);
+}
+
+/** Le texte de conseil peut-il servir cette case ? Repli S1 : tout jour ouvré ; nominal : ni lundi ni jeudi. */
+export function conseilServira(t: Pick<TexteFormat, "role" | "reseau">, date: string): boolean {
+  return t.role === "repli" ? caseConseilRepli(date, t.reseau) : !EXCEPTIONS_CONSEIL.includes(date) && conseilPermis(date);
 }
 
 /**

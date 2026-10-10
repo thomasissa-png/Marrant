@@ -148,8 +148,8 @@ describe("ordre du repli (mix §2)", () => {
     const lundi = de(r, "2026-11-02", "TWITTER")!;
     expect(lundi).toMatchObject({ type: "VANNE", origine: "MIX", mix: { format: "ligne" }, lien: null, sourceId: "ligne-x-1" });
     expect(lundi.vannes[0]).toMatch(/^se-presenter-avec-humour#/);
-    // Jeudi : jamais de conseil (décision du 08/10), seule une ligne d'article notée peut servir la case.
-    expect(sansTexte(r).find((e) => e.startsWith("2026-11-05 TWITTER"))).toMatch(/format attendu : ligne d'article notée\)/);
+    // Jeudi : jamais de conseil nominal ; ligne d'article notée, sinon conseil de repli S1 seulement (décision du 10/10).
+    expect(sansTexte(r).find((e) => e.startsWith("2026-11-05 TWITTER"))).toMatch(/format attendu : ligne d'article notée ; à défaut : conseil\)/);
     expect(r.posts.map((p) => `${p.date}${p.platform}`)).toEqual([...r.posts].sort((a, b) => a.date.localeCompare(b.date)).map((p) => `${p.date}${p.platform}`));
   });
 
@@ -175,13 +175,13 @@ describe("ordre du repli (mix §2)", () => {
 });
 
 describe("plafonds (mix §2 et §6)", () => {
-  it("jamais de conseil le lundi ni le jeudi : 6 conseils sur la semaine, lundi et jeudi attendent une ligne d'article", () => {
+  it("conseils nominaux jamais le lundi ni le jeudi : 6 conseils sur la semaine, lundi et jeudi attendent une ligne ou un repli S1", () => {
     const r = lot([...[1, 2, 3, 4, 5].map(conseilX), ...[1, 2, 3, 4, 5].map(conseilIg)]);
     expect(r.posts.filter((p) => p.type === "CONSEIL")).toHaveLength(6);
     expect(PLAFONDS_MIX.conseilsParSemaine).toBe(8);
     const lunJeu = sansTexte(r).filter((e) => /^2026-11-0[25] (TWITTER|INSTAGRAM)/.test(e));
     expect(lunJeu).toHaveLength(4);
-    for (const e of lunJeu) expect(e).toMatch(/format attendu : ligne d'article notée\)/);
+    for (const e of lunJeu) expect(e).toMatch(/format attendu : ligne d'article notée ; à défaut : conseil\)/);
     expect(r.posts.filter((p) => p.platform === "LINKEDIN" && p.type === "CONSEIL")).toEqual([]);
   });
 
@@ -256,8 +256,10 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
     }
     expect(caseConseilNominale("2026-11-05", "LINKEDIN")).toBe(false);
     expect([conseilPermis("2026-11-09"), conseilPermis("2026-11-12"), conseilPermis("2026-11-10"), conseilPermis("2026-11-11")]).toEqual([false, false, true, true]);
-    expect(ordreRepli("TWITTER", "RELAIS_JEUDI", "2026-11-12")).toEqual(["ligne"]);
-    expect(ordreRepli("INSTAGRAM", "RELAIS_LUNDI", "2026-11-09")).toEqual(["ligne"]);
+    // Lundi et jeudi : ligne notée, puis conseil de repli S1 seulement (décision du 10/10) ; jours d'exception : aucun conseil.
+    expect(ordreRepli("TWITTER", "RELAIS_JEUDI", "2026-11-12")).toEqual(["ligne", "conseil"]);
+    expect(ordreRepli("INSTAGRAM", "RELAIS_LUNDI", "2026-11-09")).toEqual(["ligne", "conseil"]);
+    expect(ordreRepli("TWITTER", "VANNE", "2026-10-30")).toEqual(["ligne"]);
     expect(ordreRepli("TWITTER", "VANNE_QUIZ", "2026-11-04")).toEqual(["quiz", "conseil", "ligne"]);
   });
 
@@ -333,6 +335,71 @@ describe("relais LinkedIn validés sur leur créneau (mix §2, plan §2, décisi
     expect(li.note).toMatch(/Vanne de thème bureau au niveau : passe avant le relais validé relais-li-1/);
     expect(r.posts.some((p) => p.mix?.texte === "relais-li-1")).toBe(false);
     expect(r.warnings.join("\n")).toMatch(/Texte relais-li-1 .*plan §2 : une vanne de thème bureau passe avant le relais.*texte rendu au repli/);
+  });
+});
+
+describe("conseil de repli S1 (plan §3, décision du 10/10) et carrousel R9 à 28 jours", () => {
+  const repli = (t: TexteFormat, creneau?: string): TexteFormat => ({ ...t, role: "repli", ...(creneau ? { creneau } : {}) });
+  const ids = (entrees: TexteFormat[]) => lireTextesFormats(JSON.stringify({ textes: entrees }), "f.json");
+
+  it("repli un jeudi : accepté à la lecture et posé sur sa case X et Instagram, avant une ligne libre", () => {
+    const entrees = [repli(conseilX(1), "2026-11-05"), repli(conseilIg(2), "2026-11-05")];
+    const { textes, erreurs } = ids(entrees);
+    expect(erreurs).toEqual([]);
+    expect(textes.map((t) => t.id)).toEqual(["conseil-x-1", "conseil-ig-2"]);
+    const r = lot([ligneX(9), ...textes], { debut: "2026-11-05", fin: "2026-11-05" });
+    expect(de(r, "2026-11-05", "TWITTER")).toMatchObject({ type: "CONSEIL", origine: "MIX", mix: { format: "conseil", texte: "conseil-x-1" }, lien: null });
+    expect(de(r, "2026-11-05", "INSTAGRAM")).toMatchObject({ type: "CONSEIL", mix: { texte: "conseil-ig-2" }, content: conseilIg(2).legende });
+    expect(r.errors.filter((e) => /^2026-11-05 (TWITTER|INSTAGRAM)/.test(e))).toEqual([]);
+  });
+
+  it("repli sans créneau : sert le lundi et le jeudi ; le conseil nominal (sans role) n'y va jamais", () => {
+    const r = lot([repli(conseilX(1)), repli(conseilX(2)), conseilX(3)], { debut: "2026-11-02", fin: "2026-11-05" });
+    // Mardi d'abord (1er texte libre), puis par date : le lundi prend le 2e repli, le mercredi le nominal.
+    expect(r.posts.filter((p) => p.platform === "TWITTER").map((p) => `${p.date} ${p.mix?.texte}`)).toEqual([
+      "2026-11-02 conseil-x-2", "2026-11-03 conseil-x-1", "2026-11-04 conseil-x-3"]);
+    const nominalSeul = lot([conseilX(3)], { debut: "2026-11-05", fin: "2026-11-05" });
+    expect(de(nominalSeul, "2026-11-05", "TWITTER")).toBeUndefined();
+  });
+
+  it("nominal un jeudi : refusé à la lecture (sans role ou role « nominal ») ; repli hors jour ouvré, exception ou LinkedIn : refusé", () => {
+    const { textes, erreurs } = ids([{ ...conseilX(1), creneau: "2026-11-05" }, { ...conseilX(2), role: "nominal", creneau: "2026-11-12" },
+      repli(conseilX(3), "2026-11-07"), repli(conseilIg(4), "2026-10-30"), { ...repli(conseilX(5), "2026-11-05"), reseau: "LINKEDIN" },
+      { ...QUIZ, role: "repli" }]);
+    expect(textes).toEqual([]);
+    const tout = erreurs.join("\n");
+    for (const id of ["conseil-x-1", "conseil-x-2"]) expect(tout).toMatch(new RegExp(`${id} : créneau 2026-11-(05|12) hors case de conseil nominale.*« role » « repli »`));
+    for (const id of ["conseil-x-3", "conseil-ig-4"]) expect(tout).toMatch(new RegExp(`${id} : créneau .* hors case de conseil de repli`));
+    expect(tout).toMatch(/conseil-x-5 : conseil sur LinkedIn interdit/);
+    expect(tout).toMatch(/quiz-1 : « role » réservé au conseil/);
+  });
+
+  it("9e conseil de la semaine refusé : à la lecture (créneaux) et au tirage (8 posés au plus)", () => {
+    const jours = ["2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06"];
+    const neuf = [...jours.map((d, i) => repli(conseilX(i + 1), d)), ...jours.slice(0, 4).map((d, i) => repli(conseilIg(i + 1), d))];
+    const { textes, erreurs } = ids(neuf);
+    expect(textes).toHaveLength(8);
+    expect(erreurs).toEqual(["f.json, conseil-ig-4 : 9e conseil de la semaine du 02/11 (8 au plus, nominaux compris)."]);
+    // Le lundi suivant ouvre une nouvelle semaine.
+    expect(ids([...neuf.slice(0, 8), repli(conseilIg(4), "2026-11-09")]).erreurs).toEqual([]);
+    // Au tirage : 10 cases X et Instagram vides, 10 conseils de repli libres, 8 posés.
+    const r = lot([...[1, 2, 3, 4, 5].map((n) => repli(conseilX(n))), ...[1, 2, 3, 4, 5].map((n) => repli(conseilIg(n)))]);
+    expect(r.posts.filter((p) => p.type === "CONSEIL")).toHaveLength(PLAFONDS_MIX.conseilsParSemaine);
+    expect(sansTexte(r).filter((e) => /(TWITTER|INSTAGRAM)/.test(e))).toHaveLength(2);
+  });
+
+  it("carrousel R9 : vanne publiée en base depuis 27 jours refusée, depuis 28 jours acceptée (5 parties, légende)", () => {
+    const carrousel = (date: string) => lot([CARROUSEL], { recents: [{ date, sourceId: "t005", platform: "TWITTER" }], autorisees: ["t005"] });
+    const a27 = carrousel("2026-10-08");
+    expect(de(a27, "2026-11-04", "INSTAGRAM")).toBeUndefined();
+    expect(a27.warnings).toContain("Carrousel carrousel-t005 (t005) : publiée depuis 27 jours (28 au moins, mix §3), non utilisé.");
+    const a28 = carrousel("2026-10-07");
+    expect(de(a28, "2026-11-04", "INSTAGRAM")).toMatchObject({ type: "DECRYPTAGE", mix: { format: "carrousel", texte: "carrousel-t005" }, cartes: CARROUSEL.cartes, content: CARROUSEL.legende });
+    expect(de(a28, "2026-11-04", "INSTAGRAM")!.cartes).toHaveLength(5);
+    // Jamais publiée en base : refusée, avec son motif.
+    expect(lot([CARROUSEL], { autorisees: ["t005"] }).warnings).toContain("Carrousel carrousel-t005 (t005) : vanne jamais publiée en base, non utilisé.");
+    // Lecture : créneau hors mercredi refusé.
+    expect(ids([{ ...CARROUSEL, creneau: "2026-11-05" }]).erreurs.join("\n")).toMatch(/carrousel R9 : créneau 2026-11-05 hors mercredi/);
   });
 });
 

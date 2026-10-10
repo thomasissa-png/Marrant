@@ -14,7 +14,7 @@ import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, 
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
-import { LIBELLE_FORMAT, PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
+import { LIBELLE_FORMAT, PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, conseilServira, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
 
 export interface ArticleLot {
   slug: string; title: string; category: string; date: string; content: string;
@@ -177,6 +177,8 @@ export function buildLotV5(input: LotInput): LotResult {
     const p = premier.get(r.sourceId);
     if (r.platform && (!p || r.date < p.date)) premier.set(r.sourceId, { date: r.date, pf: r.platform });
   }
+  /** 1re diffusion EN BASE seulement (R9 : vanne déjà publiée, jamais une diffusion du lot en cours). */
+  const premierEnBase = new Map(premier);
   const fixesVannes = new Set<string>();
   /** Toutes les diffusions de chaque clé (R9 : une seule réutilisation, après la seule 1re diffusion). */
   const usages = new Map<string, string[]>();
@@ -416,7 +418,9 @@ export function buildLotV5(input: LotInput): LotResult {
     for (const { date, pf } of cases) {
       const jour = Object.entries(C.LI_DEPLACE).find(([, vers]) => vers === date && pf === "LINKEDIN")?.[0] ?? date;
       const ordre = ordreRepli(pf, C.GRILLE_V5[pf].jours[weekday(jour)] ?? "VANNE", date);
-      const ouverts = ordre.filter((f) => sousPlafond(f, date, pf, prevus));
+      // Un texte qui a CE créneau sert sa case d'abord (ex. conseil de repli S1 un jeudi, avant une ligne libre).
+      const aCreneau = new Set(textesFormats.filter((t) => t.creneau === date && t.reseau === pf && !rendus.has(t.id) && !formatsUtilises.has(t.id)).map((t) => t.format));
+      const ouverts = ordre.filter((f) => sousPlafond(f, date, pf, prevus)).sort((a, b) => Number(aCreneau.has(b)) - Number(aCreneau.has(a)));
       if (ouverts.some((f) => posterFormat(f, date, pf))) continue;
       if (ouverts.length) prevus.push({ date, pf, f: ouverts[0] });
       const detail = ouverts[0] === "relaisLinkedIn" ? articlesTravail(date) : undefined;
@@ -463,6 +467,8 @@ export function buildLotV5(input: LotInput): LotResult {
     const libreIci = (t: TexteFormat) => !t.creneau || rendus.has(t.id);
     for (const t of [...textesFormats.filter((x) => x.creneau === date && !rendus.has(x.id)), ...textesFormats.filter(libreIci)]) {
       if (t.format !== f || t.reseau !== pf || formatsUtilises.has(t.id)) continue;
+      // Conseil : repli S1 tout jour ouvré, nominal (même rendu) ni lundi ni jeudi ; jamais les jours d'exception.
+      if (f === "conseil" && !conseilServira(t, date)) continue;
       const quoi = nominal ?? `Repli du mix (${LIBELLE_FORMAT[f]})`;
       const base = { origine: "MIX" as const, mix: { format: f, texte: t.id }, persona: t.persona, legende: t.legende,
         cartes: t.cartes ? partiesConseilIg(t.cartes, t.surtitre) : undefined,
@@ -496,7 +502,7 @@ export function buildLotV5(input: LotInput): LotResult {
   /** Case de conseil nominale servie par le conseil qui y a son créneau (false : la case suit le tirage). */
   function conseilNominal(date: string, pf: PreparedPlatform): boolean {
     if (!caseConseilNominale(date, pf)) return false;
-    const t = textesFormats.find((x) => x.format === "conseil" && x.creneau === date && x.reseau === pf && !formatsUtilises.has(x.id));
+    const t = textesFormats.find((x) => x.format === "conseil" && x.role !== "repli" && x.creneau === date && x.reseau === pf && !formatsUtilises.has(x.id));
     return !!t && posterFormat("conseil", date, pf, "Case de conseil nominale (plan §3, avant la vanne)");
   }
 
@@ -549,8 +555,9 @@ export function buildLotV5(input: LotInput): LotResult {
     if (rang && !rang.has(j.id)) return refus("vanne hors du pool");
     if (C.SOUS_HUIT.includes(j.id) || C.RESERVEES_NOEL.includes(j.id) || RESERVEES_CARROUSEL.some((r) => r.jokeId === j.id)) return refus("vanne sous 8 ou réservée");
     if (normaliser(`${t.cartes?.[0]} ${t.cartes?.[1]}`) !== normaliser(`${j.setup} ${j.punchline}`)) return refus("cartes 1 et 2 différentes de la vanne du catalogue");
-    const p1 = premier.get(j.id);
-    if (!p1 || jours(p1.date, date) < PLAFONDS_MIX.r9Jours) return null;
+    const p1 = premierEnBase.get(j.id);
+    if (!p1) return refus("vanne jamais publiée en base");
+    if (jours(p1.date, date) < PLAFONDS_MIX.r9Jours) return refus(`publiée depuis ${jours(p1.date, date)} jours (${PLAFONDS_MIX.r9Jours} au moins, mix §3)`);
     if (p1.pf === "INSTAGRAM") return refus("1re diffusion sur Instagram (R9 a)");
     const ds = usages.get(j.id) ?? [];
     return ds.length === 1 && ds[0] === p1.date ? deJoke(j) : null;
