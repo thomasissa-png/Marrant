@@ -1,4 +1,4 @@
-# Étalons du parcours Boulot (s19) : historique des corrections, itérations 1 à 4
+# Étalons du parcours Boulot (s19) : historique des corrections, itérations 1 à 5
 
 > Déplacé hors de `docs/copy/etalons-parcours-boulot-s19.md` à l'itération 3 (le document remis à Thomas ne garde que l'état actuel). Les codes R = @reviewer, U = @ux renvoient aux notes d'itération de ce dossier. Certains états décrits ici ont été dépassés depuis (étape 6 sans vidéo, témoignage B conditionnel, Fary) : voir le document pour l'état vivant.
 
@@ -83,3 +83,39 @@ Notes : @reviewer 9/10 (1 bloquant, 7 non bloquants) et @ux 9/10 (1 bloquant, 11
 | U11 | Checklist d'insertion du PS | Fait : bullet dédié au handoff (emplacements « en cours », états « à valider », ligne 2 du §7, neuf passages, catégorie) | Handoff |
 | U12 | Deux précisions d'import (Q3 sans guillemets ; difficulté de l'étape 1) | Fait : guillemets de Q1 et Q2 conservés, ceux de Q3 retirés ; difficulté `DEBUTANT` proposée comme métadonnée à @fullstack sans toucher au texte du conseil validé | §3 (note après Q3), handoff (7)(f)(g) |
 | Session | Écarts YouTube du 10/10 : `m30qZa8p_Js` (titre « JCC 8è saison - Marina Rollman », 5 min 08, lecture restreinte) et `qdqIc-uzdbA` (titre « Haroun - Jamel Comedy Club Saison 9 ») | Fait : Rollman « Les relations sociales » n'est plus proposée à l'étape 5 ; reco B étape 5 = Delmoitiez seule en première place (déjà dans la spec, jamais utilisée dans un parcours, fiche d'autodérision sur soi, 6 min de la base, entière avec 8a) ; Haroun sort ; recompte : 5 étapes changées, 10 vidéos, 3 vidéos déjà utilisées (Confiance 3, Confiance 1, Storytelling 3) ; plafond (choix 8) et justification de l'écart mis à jour ; signalement 11 étendu (Vérino, `m30qZa8p_Js` dans Répartie 1 à vérifier en lecture, `qdqIc-uzdbA`, Fary) | En-tête, tableau des choix, numéros 5 et 8, §6, signalements 2 et 11, handoff |
+
+## Corrections de l'itération 5
+
+Notes : @reviewer 9,5/10 (0 bloquant, 10 non bloquants R1 à R10, plus une note hors notation sur le PS) et @ux 9,5/10 (0 bloquant, 9 non bloquants U1 à U9). Aucun mot des cinq conseils validés du §1 n'a été modifié (étapes 1, 3, 4, 5, 6). Faits de la session (10/10) : `m30qZa8p_Js` est publique et intégrable (oEmbed), titre « JCC 8è saison - Marina Rollman », 5 min 08.
+
+**Arbitrages entre relecteurs ou avec la consigne**
+- R5 contre U2 (extraits de Haroun et Rollman « enterrements » avec le 8a) : U2 retenu. Avec le 8a, aucune vidéo n'est découpée, ces deux-là passent entières si elles reprennent leur place ; `[À MINUTER]` devient `[À MINUTER, seulement si 8b]` ; l'option b est recomptée (5 extraits avec 5B, 7 avec 5A). R5 est appliqué dans ce sens (les deux sources sont citées au choix 8).
+- R1 contre la consigne de la session : la consigne l'emporte. Aucune action de retrait sur Répartie 1 (R1 proposait « la relire au visionnage » si la légende s'appuie sur la fiche) ; seule phrase gardée : « la regarder une fois pour vérifier que son contenu correspond à la fiche ».
+- U9 (vanne du tuteur) : tranché selon le critère « jamais une personne pour chute ». La chute est une phrase du tuteur : elle frôle le critère, elle est donc écartée (même motif que « briefé » et le chef du pot de départ) et remplacée par une vanne neuve à écrire à l'étape 5. Totaux : 12 en ligne et 18 neuves deviennent 11 en ligne (8 fortes, 3 acceptables) et 19 neuves (3, 2, 3, 3, 3, 5) ; 7 écartées et 8 retenues parmi les 16 BOULOT ; lot réduit « A pour 1, 3, 4, 5, 6 ; B pour 2 ».
+- U3 (description B « 75 mots, recompter ») : recompté à 73 mots (18 + 37 + 18), car « un toast au pot d'un collègue » (6 mots) remplace « un mot de départ ou un toast » (7 mots).
+- U4 (phrase `[SI 6B]`) : recomptée à 37 mots ; bloc scène plus test : 136 mots (au lieu de 137).
+
+| N° | Sujet | État et raison | Emplacement |
+|---|---|---|---|
+| R1 | `m30qZa8p_Js` dite « lecture restreinte » | Fait : « publique et intégrable (oEmbed) » partout, plus aucune action de retrait ; handoff : « titre, durée et fiche » | Faits vidéo, §1 « base », signalement 11, handoff (1) |
+| R2 | Étape 5 à une seule vidéo, écart à la spec non nommé | Fait : écart nommé avec la raison qui écarte Haroun (fiche muette, titre YouTube qui ne la confirme pas), RC4 reformulé (« au moins une vidéo par étape »), « la spec en prévoyait deux » au numéro 5 | §6 (étape 5, alternative), « Je suis tes recos » |
+| R3 | Écart à RC7 (budget de temps) non dit | Fait : « 13 min 30 vidéo obligatoire comprise, soit 9 min hors vidéo » et phrase d'écart au choix 8 | §3 (`dureeTexte`), §6 (choix 8) |
+| R4 | Écart de l'étape 1 à la spec non signalé | Fait : paragraphe « Écart à la spec » en tête du §3 et mention dans la colonne « Ce que ça change » du choix 9 | §3, tableau des choix |
+| R5 | Extraits avec « B sauf étape 5 / 6 » | Fait, arbitré avec U2 (voir ci-dessus) | Numéro 8, §6 |
+| R6 | Fiches citées non mot pour mot ; Hamzawi « texte écrit d'avance » présenté comme un fait | Fait : fragments exacts pour Hamzawi et Vérino ; « chronique de radio » dans le tableau des choix ; « d'après le genre ... à confirmer au visionnage » | Tableau des choix (5), §3 (Vérino), §6 (étape 6) |
+| R7 | « Rollman EVJF » inexistant | Fait : « Rollman « Les enterrements de vie » » | Signalement 11 |
+| R8 | « restent dans les exercices » inexact (étape 5) | Fait : « dans les conseils et leurs défis » | §7 |
+| R9 | Handoff (3) oublie le choix du 07/10 sur le rendu | Fait : « après la relecture du rendu par @design et @ux jusqu'à 10/10 (captures 375/768/1280, visiteur et Premium) » | Handoff (3) |
+| R10 | Lignes vides de fin de fichier | Fait | Fin de fichier |
+| R hors notation | « Une fois passé à l'aveugle » pour le PS | Fait avec la décision de Thomas (voir ci-dessous) | Tout le document |
+| U1 | Trois `<p>` sans `whitespace-pre-line`, le handoff en nomme deux | Fait : les trois nommés avec leurs fichiers et lignes, plus `[À VÉRIFIER @fullstack]` sur `parcours-jsonld.ts` et `llms-parcours.ts` | §3, handoff (7)(e) |
+| U2 | Choix 8 : l'option a et son explication se contredisent | Fait : numéro 8 et tableau réécrits, `[À MINUTER, seulement si 8b]` (voir arbitrages) | Tableau des choix, numéro 8, §6 |
+| U3 | Titres des étapes 5 et 6, description B | Fait : étape 6 « Un toast de soixante secondes, une seule vanne », étape 5 « « Tu fais quoi dans la vie ? » en deux phrases » (`[PROPOSITION]`), description B et vérification alignées (73 mots) | Tableau du §7, §2, paragraphe sous le tableau des choix |
+| U4 | « Le test à retenir » sonne cours | Fait : « Un seul test pour toute la suite : ... » (37 mots) ; renvoi du §7 corrigé (« avec la même question ») | §3, §7 |
+| U5 | 1 000 mots avant le tableau des choix, faits vidéo en six endroits | Fait : en-tête réduit à une note de vocabulaire ; faits YouTube, deux fiches à corriger et règle de sortie déplacés au début du §6, doublons retirés | En-tête, §6 |
+| U6 | Traces caduques (Fary, « avant / ne plus », lignes vides) | Fait : Fary gardée au seul signalement 11 (« n'est pas retenue : durée non lue ») ; états écrits sans histoire dans §2, §3, handoff | Tout le document |
+| U7 | Décision sans propriétaire au handoff (7)(b) | Fait : `[DÉCISION @product-manager, défaut si silence : corriger la phrase de la spec (RC8) ...]` | Handoff (7)(b) |
+| U8 | Champ `title` du parcours jamais écrit | Fait : `title` « Parcours Boulot » ajouté aux champs du seed | §2 |
+| U9 | Vanne du tuteur : critère frôlé | Fait : écartée et remplacée par une neuve (voir arbitrages) | §5 |
+
+**Choix 7 refondu en décision directe de Thomas** (faits donnés par la session). Le PS en ligne a été jugé sous la barre à l'aveugle (tour 7) ; sept tours de réécriture (8 à 13) ; le ressort « registre officiel » est abandonné (trop proche de l'étalon E3) au profit du faux rectificatif, jugé au niveau par les deux critiques (technique, défi, charte) ; seule la chute ne converge pas (« touche Entrée » : au niveau chez A et chez B après correction d'une faute au tour 10, sous la barre chez les deux au tour 11 ; « reflet dans l'écran » : au niveau chez A et « meilleur retournement du lot » chez B au tour 12, sous la barre chez les deux au tour 13). Écrit au §1 : le conseil complet du tour 13 (contenu et défi mot pour mot), les chutes a (reflet, reco), b (touche Entrée), c (son remplaçant, proposée au tour 13, jamais relue) et l'option d (relancer la relecture à l'aveugle) ; la catégorie passe de JEUX_DE_MOTS à ABSURDE (reco). Dit sans jargon à Thomas : a, b ou c est une exception explicite à sa règle d'or du 08/10, décidée par lui, à inscrire dans `docs/founder-preferences.md` (à faire par la session après sa réponse). Remplacés : tableau des choix (lignes 1 et 7), « Je suis tes recos » (7 : a), tableau d'état du §1, « Ce que la base a changé », sections de description, brief des vannes de l'étape 2 (faux rectificatif), Croce « avion », ligne 2 du §7, handoff (importer le §1 seulement après la réponse et l'inscription). Les neuf passages qui s'appuient sur le PS sont relus contre le texte du tour 13 et alignés.
