@@ -1,0 +1,16 @@
+[N1] « Je relis le journal interne d'une entreprise. » / « Chaque mois, je laisse une faute, pour voir si quelqu'un me relit. »
+[N2] « Les murs sont fins. » / « L'autre réunion avançait. »
+[N3] « Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros. » / « Je suis la roulette de gauche. »
+[N4] [Contexte : sous la signature d'un mail sérieux pour caler une réunion de lundi (horaire, salle, ordre du jour), un PS d'une seule phrase.] « Mise au point : mon créneau « Concentration » de demain n'est pas libre, je l'ai bloqué pour que personne ne l'occupe, moi compris. »
+[N5] « Mardi, mon chargeur s'est coincé dans la rallonge. J'ai tiré : la rallonge est venue. J'ai tiré encore : la multiprise, puis la lampe. » / « Mon téléphone était déjà chargé. »
+[N6] « Le fil de mails s'appelle « Re: Re: Re: Re: Re: Salle de sieste ». » / « Le premier message était une vanne. »
+[N7] « Quatre ans que je ne sais pas si on se fait la bise ou la main. » / « Ce soir, j'ai trouvé : un verre dans chaque main. »
+[N8] « Mon métier : monter des stands de salon. » / « Je bâtis un village en une nuit, et on me demande où sont les toilettes. »
+[N9] « Ma chaise a quinze réglages. » / « Le meilleur : debout. »
+[N10] [Contexte : toast de départ ; le souvenir est déjà dit : « Mon troisième jour, il pleuvait, et tu m'as prêté ton parapluie : « Garde-le le temps qu'il faut. » »] « Pour ton départ, j'ai cherché ce qui te ferait plaisir, et j'ai pris le temps qu'il faut. » / « Voici ton parapluie. »
+[N11] « Mercredi, j'ai voulu agrafer un dossier de quarante pages. L'agrafeuse a coincé, j'ai appuyé plus fort : elle a cédé, avec mon pouce. » / « Le dossier va bien. »
+[N12] « Tu disais à chaque nouveau : « Ma porte est toujours ouverte. » » / « Moi, je frappais quand même. »
+[N13] « Dans un centre de congrès, je règle le son. » / « Chaque jour, je parle devant six cents fauteuils vides : « un, deux ». »
+[N14] « J'ai fini un mail de trois lignes par un smiley, pour signaler la vanne. » / « On m'a demandé laquelle des trois. »
+[N15] « Le micro de la salle capte les stylos. » / « Pas moi. »
+[N16] « On ne remplace pas quelqu'un comme toi. » / « Mais ta place près de la fenêtre, je l'ai prise à midi. »
