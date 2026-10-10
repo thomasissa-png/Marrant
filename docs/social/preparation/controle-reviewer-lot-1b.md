@@ -108,3 +108,8 @@ Section « Textes NEUFS » : **0** (`lot-1b.md` l.17). Chaque texte versé est r
 ### Verdict : **GO**
 
 E1 à E5 sont corrigés, avec preuves. Le repli du 19/10 Instagram est conforme à la clé. Le renvoi du 29/10 X est vrai (18 messages). La section « Textes NEUFS » est à 0 et je ne trouve aucun nouvel écart sur les 46 posts. L'insertion du 1b est possible avec la commande de la révision 8 (`lot-1b-dry-run-08-10.md` l.54), une fois V1 et V7 vérifiés.
+
+### Suivi session de contrôle (10/10/2026)
+
+- **V7 vérifié en base le 10/10** : `BlogArticle` `premier-message-drole-appli-de-rencontre` compte 18 lignes `**1.**` à `**18.**`, « Antoine bar » hors liste (section « Et après le premier message ? »). Article programmé `publishedAt` 29/10 05:00 UTC (404 en ligne avant cette date, normal), donc avant le relais X du 29/10 12:30 Paris. Revérifié juste avant l'insertion.
+- **V1** : statut des replis du 1a (chargeur IG 12/10, bouc LinkedIn 13/10) relu à l'insertion, programmée le 13/10 06:30 UTC.
