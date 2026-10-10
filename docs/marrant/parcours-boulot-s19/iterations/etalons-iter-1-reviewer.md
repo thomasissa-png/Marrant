@@ -51,3 +51,54 @@ Correction : passer les deux vannes dans « Écartées », avec la même raison 
 
 **10. Décisions cachées dans « Signalements (information, rien à trancher) ».** Le signalement 3 (retouche du défi du PS, `[À CONFIRMER par toi]`) et le signalement 11 (plafond des vidéos facultatives, `[À CONFIRMER]`) demandent une réponse. Ils n'apparaissent ni dans le tableau des choix, ni dans la phrase « Je suis tes recos ». Thomas ne peut pas tout valider en une ligne.
 Correction : signalement 3, le traiter comme en s18 (le repli solo de « Rigoler de ses échecs ») : « retouche commune aux options, pas un choix », placée au §1 ou au §3, ou bien en faire le choix 7 avec une reco. Signalement 11 : la spec tranche déjà (RC4 : le plafond ne vaut que pour la vidéo obligatoire), retirer le `[À CONFIRMER]`. Mettre à jour la phrase « Je suis tes recos » et le handoff.
+
+---
+
+## Corrections non bloquantes
+
+**11. §5 : l'inventaire « 19 vannes actives sur le travail » en oublie au moins deux qui collent mieux que des vannes neuves.** Dans `vannes-actives-s17.json` :
+- « Quand quelqu'un commence par « à la base », il faut être patient. » / « Trois digressions plus tard, la base a déménagé. » (l. 344, Confiance 1). Technique en base : « l'abstrait pris au pied de la lettre ». C'est exactement la technique que le §5 demande aux vannes neuves de l'étape 1 (« une formule creuse prise au pied de la lettre »), et elle passe le test : « quelqu'un » ne désigne personne.
+- « Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc. » / « En entretien, on m'a demandé si j'étais dispo pour les régionales. » (l. 914, Confiance 2) : la présentation de soi en entretien, pour l'étape 5, en autodérision.
+
+Correction : les ajouter (étape 1 : 2 neuves au lieu de 3 ; étape 5 : 2 au lieu de 3), avec la mention « reprise de Confiance 1 / 2 ». Vérifier leur `isActive` au 10/10, car l'export date du 07/10. Avec la correction 9, le total reste à 15 vannes neuves. Remplacer « 127 actives » par « 127 actives au 08/10 ».
+
+**12. §7, phrase du test 6B : elle ne s'applique pas à toutes les étapes, et la reco se dédit.** « Avant de la *dire* […] si toute la *salle* l'entendait » ne colle pas à l'étape 2 (un mail, ça se lit et ça s'envoie). Le morceau « ou le métier dont elle parle » n'a de sens qu'à l'étape 5, et une consigne de l'exercice couvre déjà ce cas. Enfin, « on la retire des étapes 5 et 6 si elle lasse » contredit « le même du début à la fin » et laisse une décision ouverte.
+Correction : « Avant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ? », la même phrase aux étapes 2 à 6 (et dans la phrase `[SI 6B]` du §3). Supprimer la clause de retrait, ou la garder comme option de la relecture du rendu, sans en faire une promesse.
+
+**13. §3 : repli illogique et dit deux fois.** « Pas de réunion cette semaine ? Une visio » : une visio est une réunion. Le repli est écrit dans le `moduleDetail` puis à nouveau dans l'exercice, et « en y repensant » est mal placé. Le modèle Storytelling ne met le repli que dans l'exercice.
+Correction : retirer le repli du `moduleDetail` (finir sur « et tu n'as rien à dire. ») ; dans l'exercice : « Pas de réunion cette semaine ? Repense à la dernière, ou prends un fil de mails à rallonge. »
+
+**14. §3, exercice : deux consignes qui se heurtent.** « garde-la pour toi » est suivi de « raconte ton bingo à un collègue de confiance ».
+Correction : « Si tu veux, raconte ton bingo (les formules, pas ta phrase) à un collègue de confiance. »
+
+**15. §3, Q1 : Anouk ne colle pas à la scène.** Dans la scène, Anouk note « pas un seul prénom » ; dans Q1, elle a noté le collègue du fond et le chef. Correction : déjà intégrée à la correction 5 (« Tu as noté quatre choses »). L'étape n'a alors plus de prénom dans le quiz ; mettre à jour la ligne « Un seul prénom dans l'étape (question 1…) ».
+
+**16. §2, description B : « tu apprends à la sortir […] : d'abord en spectateur ».** En spectateur, on ne sort rien.
+Correction : « d'abord en écoutant une réunion sans rien dire, puis dans un mail, […] ».
+
+**17. §1 et « Ce que la base a changé » : deux faits incomplets.**
+(a) La spec prévoyait pour l'étape 2 le conseil id 53 « L'humour digital : mails, Slack et textos pro ». En base, « L'humour par mail, Slack et Teams » (`cmmp8ozsx001gqk634jbf0vwv`) est inactif. Le document le remplace par le PS sans le dire : ajouter une ligne pour l'expliquer.
+(b) « Le troisième conseil actif, « Compare la manie… » » : il y a trois actifs, et le document en oublie un (« Décrire tes révisions comme une rencontre », sans rapport avec le boulot). Le nommer.
+
+**18. §1, étape 6 : « vérifié sur les 3 actifs » ne suffit pas.** L'export ne couvre que 97 conseils au titre « pro ». La spec demande de vérifier qu'*aucun conseil actif de la base* ne couvre déjà la prise de parole officielle. Correction : marquer `[À VÉRIFIER sur tous les conseils actifs]`, ou faire la vérification.
+
+**19. §6, vidéos B de l'étape 3 : l'argument pour Fary est faible, et deux fiches sont traitées différemment.** D'après sa fiche, Fary construit 8 minutes sur un seul objet, alors que l'étape apprend à dire une phrase en quinze secondes ; et un legging n'est pas un irritant partagé du bureau. Il faut soit trouver un vrai argument, soit garder A pour l'étape 3 (le document juge déjà ce gain « moyen »). Par ailleurs, l'écart de durée est signalé pour Fary (8 min dans la fiche, 5 en base) mais pas pour Croce « avion » (« 10 vannes en 5 minutes » dans la fiche, 2 min 30 en base) : le signaler aussi.
+
+**20. Signalement 4 : vérification faisable dès maintenant.** « Compare la manie d'un collègue » n'apparaît dans aucun `tipTitle` de `parcours-reecriture-s17.json` ni de `parcours-storytelling-s18.json`. Correction : écrire « dans aucun parcours en ligne (fichiers s17 et s18) » et retirer le `[À VÉRIFIER @fullstack]`.
+
+**21. §3, légende Roumanoff : « un aplomb qui ne baisse jamais » va plus loin que la fiche** (« avec un aplomb comique »). Correction : « qu'elle traverse avec un aplomb comique ». Dans la légende VDB, « mot après mot » et « chaque fois » restent prudents, car la fiche dit « détourner le jargon […] en langage de tous les jours ». On peut les garder.
+
+---
+
+## Ce qui a été vérifié et est exact (rien à corriger)
+
+- 16 vannes BOULOT actives sur 63 ; MàC 1 (salaires, 90 mails, discrétion), MàC 3 (costume, portique, mug), Répartie 1 (rapport de stage), Répartie 2 (alternant2), Répartie 3 (chez ma mère, voisine), Confiance 1 (pause déjeuner), Storytelling 2 (briefé), 5 (pot de départ), 6 (mail de bienvenue) ; les 5 hors parcours sont exactes. L'écart « 9 et 3 » annoncé par la session est bien une erreur de la session : le bon décompte est 8 et 3.
+- Les 11 vidéos de la spec sont actives, avec les durées citées. Les 6 remplaçantes existent et leurs durées sont exactes (Croce 2 min 30, Fary 5 min, Guiz 4 min 30, Rollman 5 min 20, Hamzawi 4 min, Roumanoff 4 min 50). Reprises exactes : Croce = Confiance 1, Fary = Confiance 6, Rollman « relations sociales » = Répartie 1, Haroun = Répartie 4, Rollman « enterrements » = Confiance 4, Hamzawi = Storytelling 3. Roumanoff et Guiz « fast-food » n'ont jamais servi. VDB n'est plus dans MàC 3 (`tpIOLzv11qo` y est).
+- Haroun et Rollman « enterrements » : les fiches ne disent pas ce que la spec leur attribue. Ce signalement est juste et utile.
+- Les ids des conseils cités au handoff sont exacts ; le défi actif du PS dit bien « ajoute un PS […] à UN mail ».
+- Titres : 58 et 48 caractères, exacts. XP, `dayNumber`, plafond de 5 min, 3 questions (4 à la dernière) : conformes à la spec et aux décisions du 07/10 et du 08/10. Rien de ce qui est acquis n'est re-proposé.
+- Charte : zéro tiret cadratin, zéro « blague », zéro mention d'IA, « Anouk » unique dans le dépôt, `persona` « jeune active en CDI » conforme à `project-context.md`.
+
+## Pour l'itération 2
+
+Corriger les points 1 à 10 (le texte de l'étape 1 et le quiz repassent en entier, recontrôlés par recherche de mots), puis les points 11 à 21. Après les corrections 9 et 11, recompter le tableau du §5. Après les corrections 5 et 6, revérifier les positions C, A, D et la longueur des réponses.
