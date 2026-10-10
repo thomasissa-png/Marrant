@@ -1,5 +1,7 @@
 # Lot 1b : textes qui doivent encore passer la relecture à l'aveugle (après correction E1 à E5)
 
+> **Soldé le 10/10** : les 7 entrées sont tranchées (`aveugle-1b-r7-resultat.md`) et versées en révision 8 (`lot-1b-dry-run-08-10.md`), 0 erreur au dry-run.
+
 > @fullstack, 10/10/2026. Source : `controle-reviewer-lot-1b.md` (NO-GO, écarts E1 à E5), dry-run de la révision 7 (`lot-1b-dry-run-08-10.md`, sorties dans `/tmp/fs-1b-r7/`). **Aucun texte n'est écrit ici** : chaque entrée donne la case, ce qui manque et ses contraintes. Barre : 2 relecteurs, 8,5, texte lu dans son contexte (cartes ou vanne affichées). Tant qu'une entrée n'est pas tranchée, le dry-run lève l'erreur indiquée et le JSON du lot n'est pas écrit.
 
 ## Résumé : 7 entrées, 7 erreurs au dry-run

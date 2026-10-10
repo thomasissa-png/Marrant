@@ -85,8 +85,8 @@ export const FIXES: Fixe[] = [
   { cle: "relais-ig-22-10", date: "2026-10-22", platform: "INSTAGRAM", type: "RELAIS", origine: "V5",
     vanne: { article: { slug: "message-anniversaire-drole-par-situation", rang: 4 } },
     // Contrôle @reviewer du lot 1b, E4 : la n°13 (« = » / « < ») remplacée par la n°4, au niveau (« = » / « = »,
-    // lignes-articles-notes.json). Légende « À envoyer à... » à relire à l'aveugle (lot-1b-textes-a-relire.md) :
-    // tant qu'elle manque, erreur « légende manquante ». Renvoi généré : « Les 20 autres textes : lien en bio. ».
+    // lignes-articles-notes.json). Légende 1C relue à l'aveugle (r7, social-lot-v5-legendes.ts) ; renvoi généré :
+    // « Les 20 autres textes : lien en bio. ».
     note: "v5 §3 S2 : relais IG de l'article, ligne n°4 au niveau (contrôle @reviewer 1b, E4)." },
   { cle: "li-22-10", date: "2026-10-22", platform: "LINKEDIN", type: "VANNE", origine: "V5", vanne: { jokeId: "cs14jk69eb578cce484b6f87" },
     note: "v5 §3 S2 : repli de la n°6 de l'article (aucune note à l'aveugle de la n°6 seule n'est connue)." },

@@ -14,8 +14,7 @@ export const LEGENDES_IG: Record<string, string> = {
   // complements-lot-s15.md §3 (cartes vanne, cycle 7)
   cmmnsqn15007xth63p3dzv6pc: "À envoyer à ton pote qui s'enflamme à chaque morceau.",
   cmmw0tois0002mw62b7bkcvj7: "À envoyer à qui dit encore cinq minutes.",
-  // cs14jk7911857c4ff09eb025 (V050, homonyme) : légende retirée (contrôle @reviewer du lot 1b, E5), jamais retenue à
-  // l'aveugle. À relire avant de la servir (lot-1b-textes-a-relire.md) ; d'ici là, erreur « légende manquante ».
+  // V050 (homonyme) : « À envoyer à ton homonyme. » retirée (contrôle @reviewer 1b, E5), remplacée par 2C ci-dessous.
   cs14jk0761c9f2d885762bb5: "À envoyer à ton voisin de palier.",
   cs14jk9de039def971586501: "À envoyer à celui qui paie un loyer trop cher.",
   cs14jk0ae967eb481a4ecc4f: "À envoyer à ton coéquipier de jeu en ligne.",
@@ -81,6 +80,9 @@ export const LEGENDES_IG: Record<string, string> = {
   // Lot 1b, révision 5 : légendes des relais IG retirés le 10/10 (aveugle-1b-repli-resultat.md, dernière section).
   cs14jkd9058d03e24961004a: "À envoyer à la sœur qui a « vu » Beyoncé.", // L38 (9 / 9), relais IG 19/10 (concert)
   cp0465e601e49c114994d1a00: "À envoyer à celui qui a un CDI mais pas de bail.", // L31 (9 / 8,8), relais IG 05/11 (« fais tes preuves »)
+  // Lot 1b, révision 7 : légendes relues à l'aveugle le 10/10 (aveugle-1b-r7-resultat.md, textes de aveugle-1b-r7.md).
+  "message-anniversaire-drole-par-situation#4": "À envoyer à celle qui « dit juste un mot ».", // 1C (M05, 9 / 9), relais IG 22/10 (E4)
+  cs14jk7911857c4ff09eb025: "À envoyer à celle qui était la troisième Léa de sa classe.", // 2C (M15, 9 / 9), vanne IG 28/10 (V050, E5)
 };
 
 /** Tête de légende : « À envoyer à », « au » ou « aux ». */

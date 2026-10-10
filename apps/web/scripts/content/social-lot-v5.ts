@@ -13,6 +13,7 @@ import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom,
 import * as C from "./social-lot-v5-config";
 import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RENDUES_AU_POOL, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
+import { RELAIS_IG_SANS_RENVOI, RENVOIS_RELUS, cleRenvoi } from "./social-lot-v5-renvois";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
 import { LIBELLE_FORMAT, PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, conseilServira, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
@@ -46,6 +47,10 @@ export interface LotInput {
   autorisees?: string[];
   /** Légendes Instagram par vanne (« À envoyer à... ») ; défaut : `LEGENDES_IG` (social-lot-v5-legendes.ts). */
   legendes?: Record<string, string>;
+  /** Renvois tranchés à l'aveugle par `réseau|slug|vanne` ; défaut : `RENVOIS_RELUS` (social-lot-v5-renvois.ts). */
+  renvoisRelus?: Record<string, string>;
+  /** Relais Instagram partant sur la seule légende retenue (repli) ; défaut : `RELAIS_IG_SANS_RENVOI`. */
+  relaisIgSansRenvoi?: ReadonlySet<string>;
   /**
    * Textes validés du repli du mix (`docs/social/preparation/textes-formats-valides.json`, lus par
    * `lireTextesFormats`) : seule source des cases sans vanne au niveau ; vide = erreur par créneau et par format.
@@ -59,7 +64,7 @@ export interface LotInput {
 }
 /** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
 export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
-export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF" | "TEXTE_MIX";
+export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF" | "TEXTE_MIX" | "AVEUGLE";
 export type Variante = "image" | "texte";
 /** Test LinkedIn texte / image : bras par post et paires formées. */
 export interface CompteVariantes { eligibles: number; image: number; texte: number; paires: number; pairesMemeNote: number }
@@ -162,6 +167,8 @@ export function buildLotV5(input: LotInput): LotResult {
   const replis: LotPost[] = [];
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
   const legendes = input.legendes ?? LEGENDES_IG;
+  const renvoisRelus = input.renvoisRelus ?? RENVOIS_RELUS;
+  const relaisIgSansRenvoi = input.relaisIgSansRenvoi ?? RELAIS_IG_SANS_RENVOI;
   /**
    * Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi.
    * Sans « À envoyer à... » retenue, aucune légende (le renvoi seul n'en est pas une) : erreur « légende manquante ».
@@ -407,6 +414,9 @@ export function buildLotV5(input: LotInput): LotResult {
     // PRATIQUE : « Les 4 autres exemples, et comment trouver le tien : » (v5) et « Les 4 autres exemples : lien en bio. »
     // (IG2) valent pour un article de 5 exemples dont la ligne montrée fait partie. Le nombre exact n'est vérifié
     // que dans les posts fixes (IG2, L3) : le script ne pose jamais ces formules seul.
+    // Sans formule : renvoi tranché à l'aveugle pour ce réseau, cet article et cette vanne (social-lot-v5-renvois.ts).
+    const relu = v ? renvoisRelus[cleRenvoi(pf, a.slug, v.cle)] : undefined;
+    if (relu) return { texte: relu, origine: "AVEUGLE" };
     return null;
   };
 
@@ -738,7 +748,9 @@ export function buildLotV5(input: LotInput): LotResult {
     // Sans formule exacte, Instagram garde la seule légende retenue (« À envoyer à... ») : aucun texte neuf.
     poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv?.texte ?? null, renvoiOrigine: rv?.origine, lien,
       legende: pf === "INSTAGRAM" ? (rv ? legendeDe(v, rv.texte) : legendeDe(v)) : undefined, legendeOrigine: rv?.origine, origine: "TIRAGE", slug: a.slug, note: n });
-    if (!rv) errors.push(`${date} ${pf} RELAIS : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle (lot-1b-textes-a-relire.md).`);
+    // Repli prévu à l'aveugle (Instagram, légende retenue seule) : pas d'erreur, la légende reste exigée.
+    if (!rv && pf === "INSTAGRAM" && relaisIgSansRenvoi.has(cleRenvoi(pf, a.slug, v.cle))) warnings.push(`${date} ${pf} RELAIS : aucun renvoi au niveau pour ${a.slug}, repli prévu : légende retenue seule, sans renvoi (aveugle-1b-r7-resultat.md).`);
+    else if (!rv) errors.push(`${date} ${pf} RELAIS : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle (lot-1b-textes-a-relire.md).`);
     return true;
   }
 

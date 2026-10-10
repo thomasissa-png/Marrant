@@ -2,6 +2,66 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
+## Révision 8 (10/10, textes tranchés à l'aveugle en révision 7 versés) : 0 erreur, en attente du contrôle @reviewer (E1 à E5)
+
+> @fullstack, 10/10/2026. Sources : `aveugle-1b-r7-resultat.md` (décisions), `aveugle-1b-r7.md` (textes, par numéro M), clé `aveugle-1b-r7-CLE-ne-pas-ouvrir.json` (`ordre_aveugle`, `versement_si_retenu`). Aucun texte écrit : tout est recopié mot pour mot. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Lectures Neon en SELECT seulement, sorties de travail dans le scratchpad de session, hors dépôt. Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out ../../docs/social/preparation/lot-1b.md --json ../../docs/social/preparation/lot-1b.json`. Référence d'avant modification rejouée : 7 erreurs, identiques à la révision 7.
+
+**Versé**
+
+| Case | Retenu (M, notes) | Texte exact | Où | Mesure |
+|---|---|---|---|---|
+| jeu. 22/10 12:30 IG, relais ligne n°4 (E4) | 1C (M05, 9 / 9) | « À envoyer à celle qui « dit juste un mot ». » + renvoi généré « Les 20 autres textes : lien en bio. » | `social-lot-v5-legendes.ts`, clé `message-anniversaire-drole-par-situation#4` | légende 79 |
+| mer. 28/10 12:30 IG, vanne V050 (E5) | 2C (M15, 9 / 9) | « À envoyer à celle qui était la troisième Léa de sa classe. » | `social-lot-v5-legendes.ts`, clé `cs14jk7911857c4ff09eb025` | légende 58 |
+| lun. 19/10 12:30 X, colocation n°1 | 3a (M20, 8,8 / 8,5) | « Les 5 situations de coloc, avec la phrase qui détend et celle qui envenime : » | `social-lot-v5-renvois.ts` (nouveau) | X 203 |
+| lun. 02/11 12:30 X, visio (ressort 1) | 4b (M18, 8,8 / 8,5) | « 4 autres moments de visio, et que faire si la chute tombe à plat : » | `social-lot-v5-renvois.ts` | X 223 |
+| jeu. 29/10 19:30 IG, relais (TGV) | 6b (M16, 8,5 / 8,5) | L24 + « Écrire à un match : lien en bio. » | `social-lot-v5-renvois.ts` | légende 78 |
+| lun. 02/11 19:30 IG, relais (théâtre) | 7a (M12, 8,5 / 8,5) | L19 + « Le silence en visio : lien en bio. » | `social-lot-v5-renvois.ts` | légende 79 |
+| lun. 19/10 19:30 IG, relais (concert) | aucun (5c 7,5 / 8 ; 5a 7 / 7 ; 5b 6,5 / 6,5) | repli de la clé : L38 seule, « À envoyer à la sœur qui a « vu » Beyoncé. », sans renvoi | `RELAIS_IG_SANS_RENVOI` | légende 41 |
+
+Longueurs identiques aux totaux de la clé (203, 223, 79, 58, 78, 79).
+
+**Code** (`apps/web/scripts/content/`, préparation seulement)
+- `social-lot-v5-renvois.ts` : `RENVOIS_RELUS`, clé `réseau|slug|vanne montrée` (le renvoi suit la vanne : « 4 autres moments » n'est vrai que si la ligne montrée est le 1er). Servi par `renvoi` uniquement quand la v5 n'a pas de formule exacte ; origine « relu à l'aveugle » (`AVEUGLE`, jamais « NEUF »).
+- `RELAIS_IG_SANS_RENVOI` : une seule entrée, le relais IG du 19/10 (vanne du concert `cs14jkd9058d03e24961004a`). Pour ce cas, `construireRelais` remplace l'erreur « renvoi manquant » par un avertissement (« repli prévu : légende retenue seule ») ; la légende reste exigée. Tout autre relais sans renvoi, X compris, garde l'erreur.
+- Tests (`social-lot-v5-renvois.test.ts`) : E4 et E5 mis à jour (légendes versées) ; 4 nouveaux : renvoi relu servi seulement pour son réseau, son article et sa vanne ; repli IG sans erreur, texte inchangé ; repli limité à Instagram et à la vanne listée ; tables versées mot pour mot (4 renvois, 1 repli, légendes de relais dans les 80).
+
+### Résultat : 46 posts (X 19, IG 19, LinkedIn 8), **0 erreur**, 0 repli, « Textes NEUFS » : **0**, JSON écrit
+
+- `lot-1b.md` et `lot-1b.json` (sha256 `2268b3d9cc8978e2…`) régénérés. 1 avertissement nouveau : le repli du 19/10 IG.
+- **Comparaison case par case avec la révision 6** (`lot-1b.json` d'avant) : mêmes 46 cases, mêmes ids, mêmes heures ; **9 cases changent, exactement celles de la révision 7** (19/10 X et IG, 22/10 IG, 28/10 IG, 29/10 X et IG, 02/11 X et IG, 03/11 LI), désormais avec les textes ci-dessus. Aucune autre.
+- **Lot 1a inchangé** : même commande sur le 12/10 au 18/10, JSON identique à l'octet à `lot-relance-s15.json` (`cmp`, sha256 `63a2f315aed1c0d5…`, 12 posts), Markdown identique à l'octet à la référence d'avant modification.
+
+### Mesures (script en lecture seule : `longueurX` de `src/lib/social/longueur-x.ts`, fuseau `Europe/Paris` par `Intl`)
+
+| Mesure | Résultat |
+|---|---|
+| `longueurX` des 19 X | 105 à 260, **0 au-dessus de 270** |
+| Légendes IG (19), renvoi compris | 32 à 79 caractères, **0 au-dessus de 80**, 0 sans « À envoyer à / au / aux », 0 « lien en bio » en double |
+| Conseils par semaine (plafond 8, `PLAFONDS_MIX`) | 19/10 : 2 ; 26/10 : 0 ; 02/11 : 4 ; 09/11 : **8** (au plafond) |
+| Dimanches | **0** |
+| Heures | 46 sur 46 dans les créneaux de Paris (08:15, 09:00, 12:30, 19:30) ; UTC = Paris moins 2 h jusqu'au 24/10, moins 1 h à partir du 26/10 : **0 écart** |
+| Reprises à moins de 90 jours | **0** : aucun `sourceId` ni texte (60 premiers caractères normalisés) commun avec la semaine 0 et le 1a (22 posts) ni avec les 24 posts actifs en base des 90 jours avant le 19/10 |
+
+### Contrôle de cohérence `--insert`, sans insérer
+
+- 2e dry-run de la même commande vers le scratchpad : JSON identique à l'octet à `lot-1b.json` (`cmp`), Markdown identique hors en-tête.
+- `lireFichierLot(lot-1b.json)` accepte le fichier (46 lignes APPROVED « thomas-s15 », 0 repli) ; `ecartsFichierLot(régénéré, lot-1b.json)` = **0 écart**.
+- Garde-fous de `insererLot`, rejoués en SELECT sur la période 18/10 22:00 UTC au 15/11 23:00 UTC : « thomas-s15 » déjà présent **0**, ids du lot déjà en base **0**, autres posts actifs (PENDING, APPROVED, PUBLISHED) sur les 3 réseaux **0**. **Période vide en base.**
+
+### Commande d'insertion (à lancer par Thomas, depuis `apps/web`, APRÈS le contrôle @reviewer E1 à E5)
+
+```bash
+npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --json ../../docs/social/preparation/lot-1b.json --insert --driver=neon-http
+```
+
+Attendu : « Inséré : 46 posts APPROVED (thomas-s15) », puis « Contrôle après insertion : conforme (par réseau et par semaine) ». Rappels : les relais IG du 29/10 et du 02/11 ne partent que si les liens de bio sont posés la veille ; annulation de la seule tranche 1b si besoin : même commande avec `--rollback` (comptes), puis `--rollback --confirmer`, sans toucher au 1a.
+
+### Contrôles
+
+`npx tsc --noEmit -p tsconfig.build.json` : OK. `npm run lint` : 0 erreur, 1 avertissement `<img>` existant dans `admin/page.tsx`. `npm run build` : OK. `npx jest` : 272 suites, 3 916 tests passés (4 ignorés, déjà ignorés avant), 0 échec. Pour info, `npx tsc --noEmit` sans `-p` (tests compris) compte 28 erreurs, toutes dans d'anciens fichiers de test, en nombre identique avant et après cette révision (aucune dans les fichiers touchés).
+
+### Verdict : **prêt techniquement (0 erreur, 46 posts, mesures dans les plafonds), insertion en attente du contrôle @reviewer (E1 à E5)**
+
 ## Révision 7 (10/10, corrections E1 à E5 du contrôle @reviewer) : pas prêt, 7 textes à relire à l'aveugle
 
 > @fullstack, 10/10/2026. Source : `controle-reviewer-lot-1b.md` (NO-GO). Aucun texte neuf écrit. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Lectures Neon en SELECT seulement. Commandes (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out /tmp/fs-1b-r7/1b-r7.md --json /tmp/fs-1b-r7/1b-r7.json`, et la même sur le 12/10 au 18/10 pour le 1a. Références d'avant modification : `/tmp/fs-1b-r7/1b-ref.*` et `1a-ref.*`, identiques à l'octet à `lot-1b.json` (révision 6) et à `lot-relance-s15.json`. **`lot-1b.{md,json}` du dépôt restent ceux de la révision 6 : périmés, à ne pas insérer.**

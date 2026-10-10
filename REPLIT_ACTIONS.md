@@ -1,8 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s15 lot 1b, révision 7 : corrections E1 à E5 du contrôle @reviewer (NO-GO) @fullstack, **RIEN À DÉPLOYER, NE PAS INSÉRER LE 1b**
+## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER, NE PAS INSÉRER LE 1b : en attente du contrôle @reviewer (E1 à E5)**
 
-> - **La commande d'insertion de la révision 6 ne vaut plus** : le contrôle @reviewer est NO-GO, et le dry-run de la révision 7 compte 7 erreurs (textes à relire à l'aveugle : `docs/social/preparation/lot-1b-textes-a-relire.md`). `lot-1b.{md,json}` restent ceux de la révision 6, périmés.
+> - **Révision 8 (10/10)** : 6 textes retenus à l'aveugle versés mot pour mot (légendes 1C et 2C, renvois 3a, 4b, 6b, 7a ; `social-lot-v5-legendes.ts`, nouveau `social-lot-v5-renvois.ts`) ; 19/10 IG : repli de la clé, L38 seule, sans renvoi. Dry-run 1b : 46 posts, **0 erreur**, `lot-1b.{md,json}` régénérés (sha256 `2268b3d9…`) ; contrôle `--insert` rejoué sans insérer : 0 écart, période vide en base. 1a identique à l'octet. tsc, lint, build verts ; Jest 3 916 passés. Commande d'insertion : `lot-1b-dry-run-08-10.md` révision 8, **à ne lancer qu'après le GO @reviewer**.
+> - Révision 7 : la commande d'insertion de la révision 6 ne vaut plus (contrôle @reviewer NO-GO, 7 textes à relire à l'aveugle).
 > - **Code** (`apps/web/scripts/content/`, préparation seulement) : étalon V-A en post fixe du 03/11 LinkedIn, BU rendue au pool sans cascade (`social-lot-v5-fixes.ts`) ; renvois des relais limités aux formules exactes de la v5 (`social-lot-v5.ts`) ; légende « homonyme » retirée (`social-lot-v5-legendes.ts`). Dry-run 1a identique à l'octet (sha256 `63a2f315…`). Détail : `lot-1b-dry-run-08-10.md` révision 7.
 > - Aucun `deploy:cf`, aucun `--insert`, aucun `--rollback --confirmer` lancés.
 

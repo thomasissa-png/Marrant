@@ -78,7 +78,7 @@ export function textesNeufs(posts: LotPost[]): Array<{ texte: string; dates: str
 
 const cell = (t: string) => t.replace(/\|/g, "/").replace(/\n/g, "<br>");
 const frDate = (d: string) => `${JOURS[new Date(`${d}T12:00:00Z`).getUTCDay()]} ${d.slice(8, 10)}/${d.slice(5, 7)}/${d.slice(0, 4)}`;
-const ORIGINE: Record<Origine, string> = { CATALOGUE: "catalogue", ARTICLE: "article", VALIDE: "validé Thomas", FORMULE_V5: "formule v5", NEUF: "NEUF", TEXTE_MIX: "texte validé du mix" };
+const ORIGINE: Record<Origine, string> = { CATALOGUE: "catalogue", ARTICLE: "article", VALIDE: "validé Thomas", FORMULE_V5: "formule v5", NEUF: "NEUF", TEXTE_MIX: "texte validé du mix", AVEUGLE: "relu à l'aveugle" };
 
 function source(p: LotPost): string {
   const s = [...new Set(p.segments.map((x) => ORIGINE[x.origine]))].join(" + ");
