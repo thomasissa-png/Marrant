@@ -46,3 +46,10 @@ Aucun au niveau (K82 8 / 7 ; K79 7 / 7 ; les autres 5 à 7). Stock de conseils j
 ## Tour 5 (10/10/2026, `aveugle-1b-repli-t5.md`, adaptation X de K73)
 
 Aucune version au niveau (X1 7 / 7 ; X2 5 / 8 ; X3 7 / 7). Piste suivante (plan §2 et mix §2 : jeudi X = relais, ligne notée) : l'article du jeu. 05/11 (`blagues-de-couple-drole`) a 5 lignes au niveau dans `lignes-articles-notes.json` ; vérification par @fullstack de leur éligibilité au tirage `--pool strict`.
+
+## Légendes des relais IG après la révision 5 (10/10/2026, `aveugle-1b-legendes-r5.md`)
+
+| Relais IG | Retenue | Notes |
+|---|---|---|
+| lun. 19/10 (concert, `cs14jkd9058d03e24961004a`) | **L38** « À envoyer à la sœur qui a « vu » Beyoncé. » (41 car.) | 9 / 9 (L32 8,5 / 8,6 au niveau, somme inférieure) |
+| jeu. 05/11 (« fais tes preuves », `cp0465e601e49c114994d1a00`) | **L31** « À envoyer à celui qui a un CDI mais pas de bail. » (48 car.) | 9 / 8,8 (L37 9 / 8,5 au niveau, somme inférieure) |
