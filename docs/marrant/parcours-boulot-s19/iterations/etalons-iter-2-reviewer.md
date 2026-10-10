@@ -59,3 +59,66 @@ Correction : « Les vidéos collent mieux à la leçon de l'étape, surtout aux 
 
 **6. §5, l. 246 : les techniques des vannes neuves de l'étape 6 ne suivent pas le conseil validé.** Le brief demande « une sincérité suivie d'une seule touche, ou une solennité décalée, prise dans le décor de la salle ». Le conseil validé (T-b) enseigne autre chose : **le rappel**, soit un détail du souvenir qui revient et se retourne contre soi, de préférence sur le dernier mot, sans viser « la personne honorée, l'organisation, le buffet ou un responsable ». Les 4 vannes neuves de l'étape 6 seraient écrites sur une technique que l'étape n'enseigne pas (RC3 : « de même technique que l'étape »).
 Correction : « 6, un rappel : une première phrase installe un détail, la chute le fait revenir contre soi sur le dernier mot ; jamais la personne honorée, l'organisation, le buffet ni un responsable. » Dans la même ligne, aligner l'étape 3 sur son conseil : « dix mots maximum » plutôt que « une phrase qui tient en quinze secondes ».
+
+---
+
+## Corrections non bloquantes (nécessaires pour le 10)
+
+**7. Traces caduques des versions précédentes.** Thomas lit encore des variantes abandonnées et un historique qui contredit le texte actuel. Le modèle s18, noté 10/10, n'a ni section d'arbitrages ni historique de versions.
+- l. 3 : « Les 6 étapes du parcours restent à écrire » devient « Les étapes 2 à 6 restent à écrire » (l'étape 1 est au §3).
+- l. 42 : supprimer « La variante « Compter ce que personne ne compte » et la première version (« Survivre aux réunions avec humour ») sont abandonnées ».
+- l. 110 : supprimer « Réécriture du tour 5 : l'ancienne version, bâtie sur les formules de réunion (bingo), est abandonnée. »
+- l. 126 : supprimer la parenthèse « (remplace « Ta prochaine réunion, en spectateur »…) ».
+- l. 140 : supprimer « ce qui remplace l'ancienne règle « une visio compte comme réunion » (arbitrage 7, version abandonnée) ».
+- l. 184 : supprimer les deux premières phrases (« Les anciennes (jargon pour VDB… ») et garder la comparaison des fiches.
+- l. 195 : supprimer « L'ancienne version gardait « Mon manager m'a félicité pour ma discrétion »… sort de l'étape. » (la raison figure déjà l. 222).
+- l. 215 : remplacer « Le titre précédent (« oser une vanne en réunion ») promettait… » par la seule raison actuelle (« Il reprend la promesse de la fiche… »).
+- l. 262 : supprimer « Roumanoff, mon remplacement précédent, parlait d'un système et non d'un objet ».
+- l. 316, signalement 4 : réduire à une ligne (« Conseils des étapes 1 et 6 validés à l'aveugle aux tours 5 et 6, textes au §1 ») ou le supprimer.
+- l. 327-349 (arbitrages) et l. 368-414 (table des corrections) : les déplacer dans `docs/marrant/parcours-boulot-s19/iterations/` et laisser dans le document un renvoi d'une ligne. En l'état, l'arbitrage 7 affirme « la visio compte comme réunion » (le défi dit l'inverse), l'arbitrage 13 donne d'anciens totaux (14 et 16), la ligne U6 renvoie à des « variantes 1A et 1B au signalement 4 » qui n'y sont plus, et la ligne U8 annonce « environ 90 mots » (il y en a 100).
+
+**8. « Ce que la base a changé », l. 26 : « Ils sont réécrits à neuf » est inexact pour l'étape 1.** Les conseils 3, 4 et 5 sont réécrits sous leur id puis réactivés. Celui de l'étape 1 est un conseil neuf, et « Survivre aux réunions avec humour » reste retiré (c'est ce que dit le handoff, l. 361). Correction : « Les trois derniers sont réécrits à neuf ; le premier est remplacé par un conseil neuf (voir §1). »
+
+**9. Choix 7, l. 84 : renvoi vers une phrase qui n'existe pas.** « la progression du §7 ne peut plus affirmer « rien tant que tu n'envoies pas » » : cette formule n'apparaît pas au §7. Correction : « Si tu dis non, la ligne 2 du tableau du §7 (repli « garder le PS en brouillon ») et la phrase « Chaque exercice a une version sans risque au boulot » de la description B ne tiennent plus pour l'étape 2. » Signaler la même dépendance dans la reco du §2 (l. 100).
+
+**10. Le témoignage B est conditionnel, mais « Je suis tes recos » ne le dit pas.** Le §2 (l. 101) le soumet à la relecture à l'aveugle de sa vanne, avec le témoignage A comme repli. Correction l. 22 et l. 360 : « B (fiche ; témoignage B si sa vanne passe à l'aveugle, sinon témoignage A) ».
+
+**11. §2, description A (l. 96) : elle reproduit le défaut du titre A de l'itération 1.** « tu apprends à en placer une dans six situations du travail : la réunion, … » : l'étape 1 ne fait placer aucune vanne en réunion. A est le plan B, donc publiable s'il est choisi. Correction : « …tu apprends à en placer une, un cran à la fois : d'abord en observant une salle de réunion sans rien dire, puis dans le mail ou le message, le couloir, l'afterwork, le « tu fais quoi dans la vie ? » et la prise de parole officielle. »
+
+**12. §3, scène : « trois traces repérées » ne correspond pas au critère du défi, qui demande « trois traces notées ».** Anouk regarde trois traces mais n'en note aucune. Correction : « Elle note les trois, choisit le carton et écrit deux phrases… » et « trois traces notées, deux phrases écrites, rien à dire. » Recompter ensuite les mots (environ 103) aux l. 134 et 174.
+
+**13. §3, `why` : le geste central manque.** « Ici, tu les repères et tu les gardes dans tes notes » ne dit rien des deux phrases. Correction : « Ici, tu les repères et tu en tires deux phrases, gardées dans tes notes. » Recompter (environ 52 mots) aux l. 134 et 174.
+
+**14. §3, phrase `[SI 6B]` : « tu peux l'essayer sans risque, dans tes notes » est ambigu.** On ne sait pas si « l' » désigne le test ou la phrase, et « essayer » sa phrase évoque le fait de la dire, dans une étape où « tu ne dis rien ». Correction : « Ici, ta phrase ne parle que d'un objet : elle passe ce test d'avance. » Reporter la même formulation à la l. 305.
+
+**15. §1, exemples des étapes 5 et 6 : les sauts de ligne de la source sont remplacés par « / ».** L'étape 1 garde les siens (l. 54-55). Correction : rétablir les sauts de ligne, ou préciser au handoff (point 1) que l'import copie depuis les sources v1, v5 et v6 et non depuis ce document.
+
+**16. §3, quiz : deux mauvaises réponses à reprendre.**
+- Q2 B : la phrase est bancale (« choses » deux fois ; « protège des choses inutiles » se lit aussi « protège contre »). Proposition : « Il protège surtout du vide, comme pas mal de procédures dans cette boîte. » (13 mots, longueur inchangée, la morale se voit mieux).
+- Q3 B : « Tu attends la prochaine réunion » ne tente personne. Proposition : « Tu reprends la salle de ta dernière vraie réunion, de mémoire. » (11 mots). Ce piège reprend le repli de l'ancienne version, et le conseil le fait tomber (« La première dit ce que tu vois »). Longueurs 12, 11, 11, 13 : la bonne réponse A n'est ni la plus longue ni la plus courte. Explication : « …La B se fie à ta mémoire, alors que la première phrase dit ce que tu vois… »
+
+**17. §5, canapé (« fort » à l'étape 1) : son décryptage en base contredit la leçon de l'étape.** `boulot-base-s19.json` l. 1184 : « La chute est une petite critique douce de l'entreprise ». Ce décryptage s'affiche avec la vanne (D4), dans une étape dont le conseil dit « pas de commentaire, pas de morale » et dont la Q2 compte comme fausse une pique contre « cette boîte ». Correction : soit classer la vanne en « acceptable » avec cette réserve, soit l'écrire noir sur blanc au §5 pour que Thomas tranche en connaissance de cause.
+
+**18. §5, vannes citées de façon inexacte.**
+- Mug (l. 241) : la chute en base (« Depuis, on se surveille. ») n'est pas citée. L'explication en base parle du « titre qui perd sa valeur » et de « la rivalité créée par un cadeau », mais elle ne dit pas « pas le chef ». Surtout, la scène met en place un responsable dans l'étape dont le conseil exclut « un responsable », et la vanne ne montre pas le rappel (correction 6). Ma reco : la remplacer par une 5e vanne neuve (totaux 12 en ligne et 18 neuves, à reporter l. 16, 22, 242, 248-251 et 360). Si tu la gardes, écris en une ligne pourquoi elle passe la règle du conseil 6.
+- Costume (l. 239) : la citation est tronquée par « … ». Le texte exact en base contient « Son nom est cousu sur la manche. » Or le document annonce que les vannes sont désignées par leur texte exact (l. 222).
+
+**19. §6 : deux imprécisions.**
+- Bilan (l. 269) : « plus un second si le choix 8b s'applique à Vérino » contredit le choix 8, où le 8b donne 5 extraits de facultatives. Correction : « plus 5 extraits de vidéos facultatives si tu choisis 8b ».
+- Étape 6 (l. 267) : « Si la légende ne tient pas ce pont, l'étape 6 reste sans vidéo » ne dit pas qui en juge. Correction : « jugé par les deux relecteurs à l'aveugle avec les vannes neuves de l'étape ; à défaut, sans vidéo ».
+
+---
+
+## Ce qui a été vérifié et est exact
+
+- Les 6 conseils sont identiques à leurs sources (tableau en tête), et la validation de l'étape 6 au tour 6 (T-b = R1) est confirmée.
+- Étape 1 : `why` 49 mots, `moduleDetail` 100 mots (« d'une » compté pour un mot, comme l'annonce le document), 12 réponses dont les longueurs sont exactes, positions B, D, A, aucune bonne réponse à l'extrême de longueur. Aucun mot de la liste interdite (tempo, blanc, silence, rythme, morceau, règle, article, loi, tout le monde) dans les textes du site. Scène conforme au défi (présent, « En ce moment, », aucune personne, une durée et un rang).
+- §5 : 16 vannes BOULOT, 6 écartées, 10 retenues, plus 3 vannes rangées ailleurs, soit 13 en ligne. Fortes 9, acceptables 4, neuves 17, total 30. Le plan « lot plus petit » (2, 2, 2, 1 ; 3, 3) est exact. Canapé, point rapide, archives et entretien ne figurent dans aucun parcours.
+- Vidéos : Fary « Le legging » 5 min (Confiance 6, `zC7ff6w7x-Y`) et Vérino 7 min 30 (Confiance 3, `rldvVgHQSvo`). Les extraits de fiches cités sont exacts, et les 6 changements de B portent bien sur 5 étapes. Aucune vidéo n'apparaît deux fois dans le parcours (RC4).
+- Confiance 1 : conseil, lieux, article de loi, exemple de l'ascenseur et quiz (métro, file d'attente) sont exacts. Le défi « DÉFI BLANCS » de Machine à Café 2 est exact.
+- Titres : 60, 56 et 57 caractères, exacts. Spec §12 (le Boulot n'est la cible d'aucun profil) : exact. XP, `dayNumber` et nombre de questions : conformes à RC11, RC12 et RC5.
+- Charte : ni tiret cadratin, ni « blague » ou « carnet » hors des consignes internes, ni mention d'IA. Seul prénom affiché à l'étape 1 : Anouk.
+
+## Pour l'itération 3
+
+Corriger 1 à 6, puis 7 à 19. Après les corrections 2, 12, 13 et 16, refaire la relecture arithmétique et lexicale du §3 (mots, longueurs, positions, mots repris de la question). Après la correction 18, recompter le §5 et reporter les totaux partout où ils apparaissent (tableau des choix, « Je suis tes recos », §5, handoff).
