@@ -194,5 +194,97 @@ Variante sous les yeux pour comparer : « Parcours Boulot : oser une vanne du ma
 **Reco : A.** Le titre précédent (« oser une vanne en réunion ») promettait ce que le parcours n'enseigne pas : on n'y place aucune vanne en réunion, l'étape 1 se vit sans parole. Celui-ci reprend la promesse de la fiche (« sans te griller »), garde « oser » (la peur du persona) et la durée, comme « Parcours Confiance : retrouver ta légèreté en 6 semaines ». B couvre mieux l'arc du parcours (deux de ses six situations) mais n'a ni verbe ni promesse, et « pot de départ » attire sans doute des gens qui cherchent un discours à copier, ce qu'un article fait mieux qu'un parcours `[HYPOTHÈSE : intention de recherche non mesurée]`. Règle de partage SEO inchangée : l'article répond à la question, le parcours vend le programme et la première étape gratuite (jamais « cours gratuit »).
 **Slug : `boulot`** (nom acquis, spec §3.1 et §9 point 1 : « Pro » se lit comme un palier de prix). Pas de choix : aucun ancien slug à rediriger (aucun parcours `pro` ni `boulot` en base). Le renommage de `"pro"` en `"boulot"` dans les classements de fin de parcours concerne tous les fichiers (signalement 9). Caractères comptés à la main, à re-vérifier à la signature.
 
+---
+
+## 5. Méthode de choix des vannes (choix 4)
+
+Contrainte : 30 places (6 étapes × 5). Les ids de vannes de la spec viennent d'un seed périmé : on désigne chaque vanne par son **texte exact**. Il n'existe en tout que **16 vannes BOULOT en ligne**, dont 6 écartées ci-dessous, soit 10 retenues ; 4 vannes en ligne sur le travail rangées ailleurs s'y ajoutent (sur 5 trouvées). Doublons de vannes acceptés (décision acquise), donc une vanne déjà en ligne peut servir.
+
+**Écartées (garde-fou « jamais viser une personne », ou hors des 6 situations)**, avec le même critère pour toutes : la vanne ne doit pas avoir une personne pour cible, ou pour chute.
+- « Mon collègue revient de 4 jours à Rome et me raconte tout en détail. » : la cible est le récit d'un collègue.
+- « Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. » (Storytelling 2) : la cible est l'excès de zèle d'une collègue, même critère que Rome.
+- « À mon pot de départ, mon chef a fait un discours de dix minutes… Bref. » (Storytelling 5) : l'explication en base dit que « la chute revient au chef qui réfute son propre éloge ». Le chef est visé, et à un pot de départ il est dans la salle : le test du §7 échoue. Une vanne de l'étape qui enseigne « jamais une personne » ne peut pas avoir un chef pour chute.
+- « Quand quelqu'un commence par « à la base », il faut être patient. » (Confiance 1) : la technique (l'abstrait pris au pied de la lettre) colle à l'étape 1, mais l'explication en base parle du « collègue-tornade », donc d'une personne, et c'est déjà la vanne de l'étape gratuite de Confiance.
+- « Avec un collègue, on a enfin comparé nos salaires. » : un sujet qui ne passerait pas le test de la salle entière (§7) devant tout le service.
+- « Je télétravaillais chez ma mère… » et « Ma voisine m'a dit qu'elle m'entendait parler seul… » : le télétravail à la maison n'est pas une des 6 situations. La seconde reste en réserve pour l'étape 1.
+
+**Lecture étape par étape** (« fort » = la vanne illustre la leçon de l'étape ; « acceptable » = elle l'illustre à moitié ; entre parenthèses, où elle est déjà en ligne) :
+
+| Étape | En ligne, collent vraiment (fort) | En ligne, acceptables | Places à pourvoir par des vannes neuves (A) |
+|---|---|---|---|
+| 1, la réunion en spectateur | « Ma réunion 'point rapide avant l'été' a commencé à 14h. » (aucun parcours) | « Mon manager m'a félicité pour ma discrétion. » (Machine à Café 1) : la discrétion de celui qui écoute sans parler | **3** |
+| 2, le mail | « Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un. » (Machine à Café 1) ; « Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit. » (Storytelling) ; « Mon adresse mail pro d'alternant commence par « alternant2 ». » (Répartie 2) | | **2** |
+| 3, le couloir | « Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche. » (Machine à Café 3) ; « Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. » (aucun parcours) | « En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien. » (Confiance 1) | **2** |
+| 4, l'afterwork | « J'ai passé mon stage à ranger les archives par ordre alphabétique. » (aucun parcours) ; « Pour mon entretien, j'ai emprunté le costume de mon père… Le recruteur m'a appelé Robert toute l'heure. » (Machine à Café 3) | | **3** |
+| 5, « tu fais quoi dans la vie ? » | « J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? » » (aucun parcours) ; « Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc. » / « En entretien, on m'a demandé si j'étais dispo pour les régionales. » (Confiance 2 ; l'homonyme dont on t'attribue les exploits : autodérision sur soi) | « Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien ». » (Répartie 1) | **2** |
+| 6, la parole officielle | | « Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze. » (Machine à Café 3) : l'explication en base dit que la vanne vise le titre qui se dévalue, pas le chef | **4** |
+| **Total** | **10 fortes** | **4 acceptables** = 14 en ligne | **16 neuves** (14 + 16 = 30) |
+
+`[À VÉRIFIER @fullstack : « tir à l'arc » est tirée de l'export du 07/10 ; contrôler qu'elle est toujours en ligne au 10/10 avant l'import.]`
+Les 5 vannes BOULOT qui ne sont dans aucun parcours : 4 sont retenues (point rapide, canapé, archives, entretien) ; la cinquième (Rome) est écartée ci-dessus.
+Techniques que les 16 vannes neuves doivent montrer (une fiche par étape, écrite avec l'étape) : 1, une formule creuse prise au pied de la lettre ou un rituel de réunion décrit comme un reportage ; 2, un message beaucoup trop sérieux pour son sujet (ressort du PS) ; 3, un irritant partagé dit en une phrase qui tient en quinze secondes ; 4, un moment absurde de la semaine en trois temps, la chute étant la phrase la plus courte ; 5, un métier décrit honnêtement en deux phrases, sans mépriser ni le poste ni l'employeur ; 6, une sincérité suivie d'une seule touche, ou une solennité décalée, prise dans le décor de la salle. Aucune ne vise un collègue ou un chef : l'explication de chaque vanne dit ce qu'elle vise (la situation, le système, soi).
+
+**A (reco)** : les 14 vannes en ligne ci-dessus là où elles collent, et **16 vannes neuves** (catégorie BOULOT), écrites par @copywriter puis relues à l'aveugle par deux relecteurs avant l'import ; rien n'est importé avant d'avoir passé la relecture (règle d'or).
+**B** : les mêmes 14, et 16 autres choisies parmi les 127 vannes actives du catalogue (à la date de l'export, 08/10) pour leur technique, sans lien avec le travail. Plus rapide, aucun texte à relire, mais l'étape « couloir » montrerait par exemple un barbecue.
+Une étape qui ne montre pas son propre sujet est un défaut que l'audit des parcours de s17 reprochait déjà aux parcours existants, et le Boulot n'a qu'un seul argument : le travail. 16 vannes neuves, c'est plus de trois fois le lot de Storytelling (5), parce que je n'ai repéré que 21 vannes actives sur le travail en tout (16 BOULOT, 5 rangées ailleurs ; recherche par mots-clés sur les 127 actives, `[À VÉRIFIER]` si tu veux un inventaire exhaustif). **Reco : A.**
+Si tu préfères un lot plus petit : A pour les étapes 1, 4 et 6 (les plus faibles en vannes déjà en ligne : 2, 2 et 1 sur 5), B pour les étapes 2, 3 et 5 (3 sur 5 chacune). Dis-le, c'est un détail d'import.
+
+---
+
+## 6. Vidéos des 6 étapes (choix 5 et choix 8)
+
+Règle : 1 vidéo obligatoire (plafond 5 min, au-delà un extrait minuté) + 1 facultative, étape 6 une seule. Je n'invente aucune minute : tout extrait est marqué `[À MINUTER]`. Les 11 vidéos de la spec sont en ligne. La spec en juge 8 « moyennes » (Tsamère, Croce « Tinder », Brokerss « Snapchat », Guiz « cabillauds », Kev Adams, Roumanoff, Foresti, Delmoitiez) et 3 « fortes » (Thomas VDB, Haroun, Rollman). **Deux des trois « fortes » reposent sur une phrase qui n'est pas dans la fiche en base** : pas de « tu fais quoi dans la vie ? » chez Haroun (fiche : impro structurée, rebonds avec le public), pas de « pot de départ » chez Rollman (fiche : enterrements de vie, rituel social). Seule Thomas VDB tient (fiche : jargon ramené au langage de tous les jours).
+Je cherche donc dans les 89 vidéos actives des remplaçantes plus justes, en préférant celles qui n'ont jamais servi (vérifié par `youtubeId` dans les parcours en ligne). Quand la meilleure a déjà servi, je le dis : les doublons sont acceptés, mais ils se paient. L'adéquation de B est jugée **d'après les fiches du catalogue, vidéos non visionnées** : tu peux me demander de regarder avant de trancher.
+
+| Étape | **A (spec)** | **B (mes remplacements)** | Adéquation de B | Pourquoi |
+|---|---|---|---|---|
+| 1, réunion | Obl. Thomas VDB, « Bitcoin, JPEG et blockchain » (4 min 30). Fac. Arnaud Tsamère, « L'avocat de la salade, la frite et la saucisse » (6 min) | Obl. identique. Fac. **Anne Roumanoff, « Carmen et la crise »** (4 min 50, jamais utilisée) | VDB forte. Roumanoff forte pour cette étape (la spec la jugeait moyenne en afterwork) | VDB reste. Roumanoff porte la leçon de l'étape (fiche : un personnage naïf face à un système absurde, donc un système et personne en face). Tsamère n'a que le cadre codifié. |
+| 2, mail | Obl. Pierre Croce, « Tester Tinder avec un enfant » (3 min). Fac. Jason Brokerss, « Snapchat » (5 min 40) | Obl. **Pierre Croce, « Ce qu'on rêverait d'entendre dans l'avion »** (2 min 30, **vidéo déjà utilisée dans Confiance 1**). Fac. Brokerss « Snapchat » inchangée | Moyenne à forte ; Brokerss moyenne (spec) | La fiche de l'avion parle d'une liste de one-liners : des annonces formelles retournées en une phrase, le même ressort qu'un PS ou un message au service. Tinder avec un enfant ne parle pas d'écrit pro. `[À VÉRIFIER : la fiche parle de 10 vannes en 5 minutes, la durée en base est de 2 min 30]` |
+| 3, couloir | Obl. Guillermo Guiz, « Les cabillauds, ces arrogants ! » (4 min 30). Fac. Kev Adams, « Du côté de chez vous » (5 min 20) | **Identique à A, aucun remplacement** | Moyenne (spec) | Je n'ai pas trouvé mieux. Une piste est retirée : Fary, « Le legging » (5 min, déjà utilisée dans Confiance 6), dont la fiche parle de construire 8 minutes sur un seul objet, soit la leçon inverse d'une phrase de quinze secondes, et un legging n'est pas un irritant partagé du bureau. La légende des cabillauds ne reprendra pas la lecture de la spec (« on reconnaît un collègue dans un poisson ») : elle viserait une personne, et la fiche dit seulement « observation surréaliste et logique impeccable ». |
+| 4, afterwork | Obl. Roumanoff, « Carmen et la crise » (4 min 50). Fac. Florence Foresti, « Le styliste » (6 min) | Obl. **Guillermo Guiz, « Pas de sentiments au fast-food »** (4 min 30, jamais utilisée). Fac. Foresti inchangée | Moyenne à forte ; Foresti moyenne (spec) | Roumanoff passe à l'étape 1. Guiz fait d'un McDo un sujet entier (fiche : une réflexion existentielle sur un fast-food) : le geste de l'étape, un moment banal de la semaine devenu un récit. |
+| 5, « tu fais quoi dans la vie ? » | Obl. Haroun, « L'impro et la répartie » (5 min 45, déjà utilisée dans Répartie 4, `[À MINUTER]`). Fac. Lisa Delmoitiez, « J'ai pas confiance en moi et j'ai raison » (6 min) | Obl. **Marina Rollman, « Les relations sociales »** (5 min 20, **déjà utilisée dans Répartie 1**, `[À MINUTER]`, au-dessus des 5 min). Fac. Delmoitiez inchangée | Moyenne à forte ; Delmoitiez moyenne (spec) | La fiche d'Haroun ne dit rien de la question. La fiche de Rollman parle de politesse, de conventions et de small talk : le terrain exact de « tu fais quoi dans la vie ? ». |
+| 6, parole officielle | Une seule : Marina Rollman, « Les enterrements de vie » (6 min 40, déjà utilisée dans Confiance 4, `[À MINUTER]`) | Une seule : **Nora Hamzawi, « Les chagrins d'amour »** (4 min, chronique France Inter, **déjà utilisée dans Storytelling 3**) | **Moyenne à faible** : le sujet est un chagrin d'amour, pas une prise de parole | Le pot de départ n'est pas dans la fiche de Rollman. Hamzawi : fiche « lucidité et auto-dérision, style introspectif et mordant », soit le geste de l'étape (un fond sincère, une touche d'humour) ; 4 min, aucun extrait à minuter. **Si la légende ne tient pas ce pont, l'étape 6 reste sans vidéo plutôt qu'avec celle-ci.** |
+
+**Bilan.** A : 8 vidéos jugées moyennes par la spec et 2 affirmations non tenues par la base, 2 vidéos déjà utilisées ailleurs et à extraire (`[À MINUTER]`). B : 5 vidéos changées (2 jamais utilisées : Roumanoff, Guiz « fast-food » ; 3 déjà utilisées dans d'autres parcours : Croce « avion », Rollman « relations sociales », Hamzawi), 1 extrait `[À MINUTER]`, toutes en ligne dans l'export du 10/10. Les 6 autres (VDB, Brokerss, Guiz « cabillauds », Kev Adams, Foresti, Delmoitiez) restent celles de la spec, moyennes pour 5 d'entre elles : je n'ai pas trouvé mieux parmi les 89, et le catalogue n'a aucun sketch sur la prise de parole officielle (l'alerte de la spec tient toujours). Si aucune vidéo ne te convainc à l'étape 6, l'étape peut n'en avoir aucune (vide assumé plutôt que placeholder bancal).
+**Reco : B.** Le gain est net aux étapes 1 et 5 (la spec s'appuie sur une phrase absente de la fiche, ou place la vidéo là où elle sert le moins), léger aux étapes 2 et 4, nul à l'étape 3 (gardée), et à l'étape 6 il tient à la légende ou à l'absence de vidéo. Les 3 vidéos déjà utilisées de B (Confiance 1, Répartie 1, Storytelling 3) sont vues à d'autres étapes d'autres parcours, jamais dans le même parcours. Les légendes des étapes 2 à 6 s'écrivent avec les étapes, en regardant chaque vidéo.
+
+**Choix 8 : plafond des vidéos facultatives.** La spec plafonne à 5 min la vidéo **obligatoire** seulement. Les facultatives de B qui dépassent 5 min sont au nombre de 4 : Kev Adams (5 min 20), Brokerss (5 min 40), Foresti et Delmoitiez (6 min chacune). Option **a** : pas de plafond, la facultative reste entière, c'est son rôle. Option **b** : même plafond de 5 min, donc 4 extraits à minuter (5 avec Tsamère si tu choisis 5A). La promesse de 15 minutes compte la vidéo obligatoire et le quiz (signalement 7) ; qui regarde aussi la facultative dépasse, et c'est son choix. **Reco : a.**
+
+---
+
+## 7. La progression d'exposition et le garde-fou « jamais viser une personne » (choix 6)
+
+**Vue d'ensemble de la progression d'exposition sociale.** Le parcours monte d'un cran à la fois, de personne qui t'entend à toute une salle, et chaque exercice a une version sans risque au boulot. C'est ce qui rend vraie la promesse « sans te griller » de la fiche (choix 2).
+
+| Étape | Situation | Ce qu'on fait | Qui l'entend | Repli sans risque |
+|---|---|---|---|---|
+| 1 | La réunion | Écouter et compter les formules qui reviennent, garder une phrase pour toi | Personne : tu ne dis rien | Repenser à la dernière réunion, ou prendre un fil de mails à rallonge |
+| 2 | Le mail ou le message | Glisser un PS d'une ligne dans un mail à faible enjeu | Un collègue, après relecture | Garder le PS en brouillon, jamais envoyé (avec la retouche du choix 7) ; sinon l'écrire pour ton dernier mail et le montrer à un ami |
+| 3 | Le couloir | Dire en marchant une phrase de dix mots maximum sur un irritant partagé | Une personne croisée, 15 secondes | La dire seul, à voix haute, en traversant une pièce, puis faire cinq pas de plus |
+| 4 | L'afterwork | Raconter en trente secondes un moment absurde de ta semaine (décor, escalade, chute) | Un petit groupe, 30 secondes | La raconter à un ami hors boulot qui ne connaît rien à ton travail |
+| 5 | Le « tu fais quoi dans la vie ? » | Répondre en deux phrases (25 mots au plus) à la première personne qui te le demande | Des gens que tu connais peu | La dire trois fois à voix haute |
+| 6 | La parole officielle | Écrire un mot de soixante secondes : un souvenir, une seule touche d'humour, une fermeture `[conseil en cours de relecture]` | Toute la salle, le jour J ; pendant l'exercice, personne | Écrire le texte et compter les mots, sans rien prononcer |
+
+Sources : les conseils des étapes 3, 4, 5 (§1, validés à l'aveugle), le défi du PS (étape 2), l'étape 1 (§3), et la version en cours de relecture du conseil de l'étape 6.
+
+**Le garde-fou.** La spec le range en « vigilance » par étape. Chaque étape l'applique déjà à sa manière ; la question est de savoir si le parcours le dit **six fois différemment** ou **une fois, pareil partout**. Le cœur du parcours est là : l'humour au boulot se grille quand il vise quelqu'un, et le persona le sait.
+
+| Étape | **A : une vigilance propre à chaque étape** (déjà dans la spec) |
+|---|---|
+| 1 | Tu notes des formules, jamais ce que fait une personne. |
+| 2 | Aucun envoi exigé ; le message reste montrable à tout le service (règle de la capture d'écran, déjà dans le conseil en ligne). |
+| 3 | Un irritant partagé, jamais une personne. |
+| 4 | L'anecdote met un moment absurde au centre, toi dedans, pas un collègue. |
+| 5 | Tu te décris sans mépriser ton métier ni ton employeur. |
+| 6 | Tu vises la situation, et tu n'ouvres jamais par l'humour. |
+
+**B : un seul test, le même du début à la fin.** Une phrase fixe, identique mot pour mot, en dernière phrase du texte (`moduleDetail`) des étapes 2 à 6, sans encadré ni titre en gras :
+> Avant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?
+
+À l'étape 1, rien à dire donc rien à sortir : la phrase `[SI 6B]` du §3 l'introduit avec les mêmes mots et la fait essayer sans risque, dans tes notes, et le critère du défi reprend le même test. Les consignes de sécurité propres aux étapes (aucun envoi exigé à l'étape 2, repli sans public, pas d'humour en ouverture à l'étape 6, ni métier ni employeur moqués à l'étape 5) **restent dans les exercices** : le test unifie le réflexe, il ne remplace pas ces consignes.
+
+**Reco : B.** Personne ne retient six consignes différentes ; une seule question se retient, elle s'applique à une réunion comme à un mail ou à un toast, et elle tient la promesse « sans te griller » de la fiche. Elle prolonge la règle du conseil en ligne de l'étape 2 (la capture d'écran) sans la répéter. Coût : une phrase par étape, aucune nouvelle fonction. Risque : l'effet « consigne qui revient » ; c'est pourquoi la phrase est unique, jamais numérotée, jamais nommée comme une méthode, et identique aux étapes 2 à 6. A reste le plan B si tu trouves la répétition scolaire.
+
 <!--SUITE-->
+
 
