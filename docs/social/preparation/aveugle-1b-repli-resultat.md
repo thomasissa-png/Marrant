@@ -42,3 +42,7 @@ K78 (8 / 7) : le relecteur 2 relève le mot « blague » dans le surtitre (chart
 ## Tour 4 (10/10/2026, `aveugle-1b-repli-t4.md`, 5 candidats pour jeu. 05/11 X)
 
 Aucun au niveau (K82 8 / 7 ; K79 7 / 7 ; les autres 5 à 7). Stock de conseils jamais utilisés quasi épuisé (@copywriter). Quiz seul écarté (mix §2 : mercredi ; quiz déjà le mer. 04/11). **Décision** : adaptation X de **K73** (conseil IG au niveau, 8 / 8 au tour 3, non utilisé après le départage du 12/11), 3 versions, relues à l'aveugle (règle d'or : un texte modifié repasse la relecture).
+
+## Tour 5 (10/10/2026, `aveugle-1b-repli-t5.md`, adaptation X de K73)
+
+Aucune version au niveau (X1 7 / 7 ; X2 5 / 8 ; X3 7 / 7). Piste suivante (plan §2 et mix §2 : jeudi X = relais, ligne notée) : l'article du jeu. 05/11 (`blagues-de-couple-drole`) a 5 lignes au niveau dans `lignes-articles-notes.json` ; vérification par @fullstack de leur éligibilité au tirage `--pool strict`.
