@@ -15,3 +15,14 @@
 | jeu. 05/11 X | aucun (K54 8 / 7,5 ; K43 8 / 7) | | tour 2 |
 | jeu. 05/11 Instagram | aucun (K51 8 / 7 ; K57 8 / 6,5) | | tour 2 |
 | jeu. 12/11 Instagram | aucun (K55 7 / 7) | | tour 2 |
+
+## Tour 2 (10/10/2026, `aveugle-1b-repli-t2.md`, 13 candidats)
+
+| Case | Retenu | Notes |
+|---|---|---|
+| mer. 04/11 Instagram | **C3** (carrousel R9, vanne du parking `cs14jk34c841ef6e1abadb11`, publiée le 06/10 au plus tard) | 8,5 / 8,5 ; prime sur K63 (conseil, 8 / 8) selon l'ordre du mix §2 (carrousel d'abord) |
+| jeu. 05/11 X | aucun (K68 7 / 6 ; K64 6 / 7 ; K61 6,5 / 6) | tour 3 |
+| jeu. 05/11 Instagram | aucun (K70 8,5 / 7,5) | tour 3 |
+| jeu. 12/11 Instagram | aucun (K65 et K69 7 / 7,5) | tour 3 |
+
+Conséquence : la vanne du parking est consommée par le carrousel du 04/11 ; le carrousel prévu le 18/11 sur cette vanne (lot 2a) doit changer de vanne. K63 reste disponible comme conseil validé pour une autre case de repli.
