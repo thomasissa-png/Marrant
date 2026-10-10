@@ -1,0 +1,26 @@
+{
+  "_lot": "1b, repli tour 5 (10/10/2026) : adaptation en post X unique du conseil K73 (« Baptiser la manie », Sandrine et le Protocole), 8 / 8 au tour 3 en cartes Instagram, non utilisé après le départage du 12/11 (K76 retenu). Case : jeu. 05/11/2026 X 12:30, en repli.",
+  "_sources": "departage-1b-repli-t3.md (bloc D1) et aveugle-1b-repli-t3.md (texte K73) ; étalons X passés K04, K09 (aveugle-1b-formats.md), K28 (aveugle-1b-formats-t2.md) ; format de clé : aveugle-1b-repli-t4-CLE-ne-pas-ouvrir.json.",
+  "_regle_de_choix": "Barre 8 chez les 2 relecteurs (E4 = 9). Retenir la version avec la meilleure somme des 2 notes parmi celles au niveau. Égalité : note minimale la plus haute, puis relecteur 3 à l'aveugle, puis la plus courte. Règle d'or : un texte modifié repasse la relecture à l'aveugle et doit en sortir au niveau ; aucune version au niveau = conseil de réserve S1, jamais de post omis.",
+  "_ce_qui_a_ete_repris": "Format des X passés : nom de la technique en tête, situation, un seul geste, réplique entre guillemets. Mots qui ont fait passer K73 (notes de relecteur : « la scène de Sandrine est concrète », « Protocole Sandrine », « les astronautes ont moins de checklists ») conservés mot pour mot : détail observé (sac, PC, mails, café, « toujours dans cet ordre »), « Protocole Sandrine », « Les astronautes ont moins de checklists ». Chute non expliquée. Consigne « À toi de jouer » sur 2 versions sur 3, un seul critère.",
+  "_ce_qui_a_ete_retire": "Carte 1 : « Tu lui trouves un nom. » (consigne télégraphiée avant la réplique, retirée). Légende « À envoyer à la collègue qui aligne ses stylos... » (propre à Instagram). Surtitre remplacé par « Baptiser la manie : » en ouverture.",
+  "_controles": [
+    "Longueurs comptées à la main caractère par caractère (espaces, guillemets « » et accents comptés pour 1), pas d'outil de comptage dans cette session : X1 262, X2 229, X3 266 ; limite 270 ; marge la plus faible 4. [À MESURER par longueurX avant insertion, surtout X3 et X1].",
+    "Tutoiement dans les 3 textes. Aucun « je » hors citation entre « ». Zéro émoji, zéro tiret cadratin, zéro lien, zéro prix, zéro humoriste nommé, zéro marque nommée. Aucun tic « ne X pas, tu Y ». Technique en 3 mots (« Baptiser la manie »).",
+    "Chute non expliquée : rien après la réplique dans X2 ; dans X1 et X3 seule la consigne suit la réplique (elle n'explique pas, elle invite à jouer).",
+    "Calendrier : aucune dépendance de cours ou de jour ; se joue un jeudi midi (case 05/11 X). Prénom Sandrine : absent des autres posts du lot 1b (K01 à K83) ; [À VÉRIFIER : Grep 'Sandrine' dans docs/social montre des occurrences dans pilote-p0 et notation-relance-cycle6-social.md, archives antérieures au lot 1b, à confirmer qu'aucun post publié récemment ne la nomme].",
+    "Vérité du copy : aucune promesse produit, aucun chiffre, aucun témoignage."
+  ],
+  "_alertes": [
+    "K73 a été noté 8 / 8 en cartes Instagram (deux cartes + légende). Sur X le texte perd la légende et la carte 1 séparée de la carte 2 : la scène et la réplique s'enchaînent dans un seul bloc, donc la chute arrive plus vite. Risque principal : la scène (5 gestes) pèse plus de la moitié du post.",
+    "Relecteur 1 tour 3 : « Déjà lu : peut-être (Protocole + prénom existe) ». Risque de 'déjà lu' inchangé en X.",
+    "X1 et X3 se terminent par une consigne : risque 'ton de coach' si le relecteur la juge superflue après la chute ; X2 (nue) mesure l'effet inverse."
+  ],
+  "ordre_dans_le_fichier": "X1, X2, X3 (noms attribués par tirage aléatoire parmi les trois variantes ci-dessous).",
+  "versions": [
+    {"nom": "X1", "variante": "consigne courte, scène complète, 'Tu lâches :'", "consigne": "À toi de jouer : baptise une manie.", "longueur_x_main": 262, "difference": "Scène complète (Sandrine arrive...), « Ah, » conservé, consigne la plus courte (non spécifique à un collègue)."},
+    {"nom": "X2", "variante": "nue, la plus proche des cartes", "consigne": "aucune", "longueur_x_main": 229, "difference": "Scène complète, « Le lendemain : » comme sur la carte 2, aucune consigne. Marge de 41 caractères."},
+    {"nom": "X3", "variante": "consigne ciblée collègue, scène resserrée", "consigne": "À toi de jouer : baptise la manie d'un collègue.", "longueur_x_main": 266, "difference": "« arrive » et « Ah, » retirés pour tenir la consigne complète, « Le lendemain : » conservé."}
+  ],
+  "_ou_recopier": "Version retenue : texte à intégrer par @fullstack au lot 1b (sourceId du conseil K73 si la base le porte ; [À VÉRIFIER @fullstack] que K73 existe en base avec ce sourceId avant insertion), créneau jeu. 05/11 X 12:30. Texte exact : aveugle-1b-repli-t5.md (par nom X1 à X3)."
+}
