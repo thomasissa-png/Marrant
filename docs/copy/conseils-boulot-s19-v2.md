@@ -1,6 +1,45 @@
 # Conseils du Parcours Boulot : version 2 (s19, 10/10/2026)
 
-> Corrections après le tour 1 de relecture à l'aveugle : étape 3 (K4) et étape 6 (K3). Les étapes 1, 2, 4 et 5 ne sont pas concernées. Les deux textes sont à repasser à l'aveugle avant mise en ligne.
+> Corrections après le tour 1 de relecture à l'aveugle : étape 1 (deux variantes, v1 retirée), étape 3 (K4) et étape 6 (K3). Les étapes 2, 4 et 5 ne sont pas concernées. Les textes corrigés ou neufs sont à repasser à l'aveugle avant mise en ligne.
+
+---
+
+## Étape 1 : « La réunion vue de la salle » (deux variantes, au choix du fondateur)
+
+> La v1 de l'étape 1 (« dernier point / dernier verre ») est retirée : chute annoncée (départage C) et doublon de deux conseils actifs. Les deux variantes ci-dessous remplacent la v1 ; il n'en faut qu'une.
+
+### Variante 1A : reprise de « Compter ce que personne ne compte » (conseil actif, défi seul ajusté)
+
+**Titre** : Compter ce que personne ne compte (conservé)
+**Catégorie** : OBSERVATION · **Difficulté** : INTERMEDIAIRE
+
+**contenu**
+Compte en silence un tic collectif que tout le monde entend sans le remarquer : une expression répétée en réunion, un mot du jour, une phrase de fin. Le chiffre donne une forme scientifique à une observation banale, et le groupe rit d'être si prévisible. Annonce le total à la fin, comme un bilan. Compte une expression plutôt qu'une personne, pour que personne ne se sente visé.
+
+**exemple**
+Fin de réunion. Toi : « Petit bilan : on a dit onze fois « on se cale un point ». Ça fait onze rendez-vous imaginaires. »
+
+**exercice**
+DÉFI TOTAL : à ta prochaine réunion, choisis une expression qui revient (un mot du jour, « on se cale un point », une phrase de fin) et fais un trait dans tes notes chaque fois qu'elle tombe. Tu ne comptes pas à voix haute pendant la réunion : le chiffre reste dans ton carnet, et l'annoncer à la fin comme un bilan est une option, jamais une obligation. C'est réussi si tu as un total noté pour une seule expression, et pas pour une personne. Pas de réunion aujourd'hui, ou elle se passe en visio ? Une visio compte aussi. À défaut, reprends de mémoire la dernière que tu as subie et note le chiffre que tu estimes. Dans tous les cas, tu peux garder le total pour toi.
+
+**Ce qui le distingue** : c'est le conseil actif lui-même (contenu et exemple intacts) ; seul le défi change, pour devenir un relevé écrit sans public (traits dans les notes, annonce optionnelle, repli visio puis mémoire), avec un critère observable (un total noté pour une expression, pas une personne). Face au « Glossaire du cours », il compte au lieu de traduire.
+
+### Variante 1B : conseil neuf, « ce que raconte la salle »
+
+**Titre proposé** : Ce que raconte une salle de réunion
+**Catégorie** : OBSERVATION · **Difficulté** : INTERMEDIAIRE
+
+**contenu**
+Une salle de réunion en dit plus long que ceux qui s'y réunissent. Regarde les traces : le scotch sur la télécommande, le « NE PAS EFFACER » vieux de deux ans, le feutre qui n'écrit plus mais qu'on a rangé quand même. Chaque trace est un petit fait divers que personne n'a raconté. Ton geste : choisis une trace, décris-la en deux phrases courtes, au présent, comme un constat, et prête à l'objet l'intention que sa trace suggère. Ne commente pas, ne conclus pas, et n'y mets personne : l'objet est le seul sujet, c'est lui qui porte la vanne. Ce n'est donc ni un métier ni un collègue qu'on moque, seulement du mobilier. Pour l'instant, tu ne dis rien : tu observes et tu écris.
+
+**exemple**
+Salle du deuxième, 14 h. Trace relevée : la télécommande du vidéoprojecteur, scotchée à la table sur trois tours.
+Phrase écrite pour la prochaine fois : La télécommande est scotchée à la table. Elle a déjà essayé de partir.
+
+**exercice**
+DÉFI TRACE : à ta prochaine réunion, repère dans la salle trois traces (un scotch, une étiquette, une rature, un mot oublié) et note-les dans ton carnet. Choisis-en une et écris sa phrase en deux phrases courtes au plus, avec l'objet pour seul sujet. Tu ne dis rien à personne : elle reste dans ton carnet. C'est réussi si tu as trois traces notées, si ta phrase fait deux phrases au plus et si elle ne contient ni prénom ni personne. Pas de réunion aujourd'hui, ou elle se passe en visio ? Fais-le sur la première pièce où tu passes (cuisine, escalier, la pièce où tu es) : n'importe quel objet qui porte une trace compte.
+
+**Ce qui le distingue** : il ne compte rien, ne traduit rien et ne compare à aucun métier : le geste est de lire les objets de la salle (pas ce qui s'y dit) et de leur prêter un passé, donc le sujet de la vanne est un meuble, jamais un collègue, ni « Compter ce que personne ne compte » (un tic de langage chiffré) ni « Le glossaire du cours » (une expression officielle traduite).
 
 ---
 
