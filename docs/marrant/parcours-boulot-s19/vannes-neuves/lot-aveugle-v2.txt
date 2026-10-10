@@ -1,0 +1,18 @@
+[N1] « Jeudi, mon ordinateur m'a proposé de prendre une pause. J'ai cliqué sur « Oui ». Il m'a demandé de choisir un créneau : le premier était dans trois semaines. » / « Je l'ai pris. »
+[N2] « Quand ça chauffait, tu baissais la voix, et toute l'équipe se penchait pour t'écouter. » / « Ce soir, j'ai essayé. Ils se penchent aussi. Pour m'entendre. »
+[N3] « La table de la salle B mesure 2,40 mètres. La porte, 90 centimètres. » / « L'immeuble a donc été construit autour d'elle. »
+[N4] « Dans le train, mon voisin m'a demandé mon métier. J'ai répondu : je traite les réclamations. » / « Quand quelqu'un m'écrit « merci », je cherche le piège. »
+[N5] « J'ai réservé la salle 3. » / « Elle est à Lyon. »
+[N6] « Mon mail commençait par « Suite à notre échange de ce matin », puis trois lignes sans faute. Sous la signature, un PS. » / « Erratum : « échange » est à lire « regard », à la cantine, entre deux plateaux. »
+[N7] « Pour présenter quoi que ce soit, tu commençais toujours par la conclusion. » / « Donc : à ta santé. Maintenant, il me reste à trouver le début. »
+[N8] « Un parapluie noir est appuyé au mur de la salle 4 depuis 2018. » / « Neuf cents réunions, aucune absence. »
+[N9] « Vendredi, j'ai passé l'après-midi à réparer l'imprimante du couloir : bourrage, cartouche, redémarrage. À 17 h, elle s'est remise à imprimer tout ce qui attendait depuis des mois : un menu, un plan d'étage, trois pages blanches. » / « Et ma lettre de motivation. »
+[N10] « Chez des amis, on m'a demandé ce que je fais. J'ai répondu : je fais l'inventaire du matériel d'un immeuble de bureaux. » / « Il manque toujours une chaise, jamais la même. »
+[N11] « Mon premier jour, tu m'as dit : « Viens toujours me voir avec les mauvaises nouvelles d'abord. Les bonnes, on a le temps. » » / « Alors, la mauvaise nouvelle d'abord : j'ai préparé un discours. La bonne : on a le temps. »
+[N12] « Le wifi invité est excellent. » / « Je me déclare visiteur. »
+[N13] « Mon mail était irréprochable : objet clair, trois lignes, remerciements. Sous la signature, un PS. » / « Pour être précis, personne n'est en copie cachée, sauf moi, au cas où je nierais. »
+[N14] « Chaque soir, avant de partir, tu notais ta journée sur dix, à voix haute, et tu n'as jamais dépassé huit. » / « Pour ce discours, je signe tout de suite pour un six. »
+[N15] « Jeudi, en visio, j'ai mis un fond de plage pour détendre l'ambiance. Le logiciel a gardé le sable, puis effacé mon oreille, mon épaule, et la moitié de mon visage. » / « On a félicité la plage. »
+[N16] « À la question « tu fais quoi ? », je réponds toujours pareil : je teste l'alarme incendie d'un immeuble de bureaux. » / « Un matin par mois, quatre cents personnes m'obéissent sans savoir que c'est moi. »
+[N17] « Le micro-ondes est impeccable. » / « Il ne chauffe plus. »
+[N18] « Ta règle avant tout envoi : toujours un deuxième avis. » / « J'ai fait lire ce discours à mon frère. Il a voulu un troisième avis. »
