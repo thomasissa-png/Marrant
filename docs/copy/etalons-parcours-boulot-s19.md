@@ -371,29 +371,6 @@ L'aperçu d'une étape 2 à 6 montre le texte d'étape (`moduleDetail`), le form
 ---
 
 Historique des relectures : `docs/marrant/parcours-boulot-s19/iterations/` (dont `etalons-historique-corrections.md`).
-| U2(a)(b) | Reco vidéo incohérente avec l'analyse, vidéo obligatoire jamais visionnée | Arbitré : aucune vidéo ne peut être visionnée ici. Fary « Le legging » n'est plus la vidéo obligatoire (fiche contradictoire : « 8 minutes » pour 5 min en base, durée `[À MESURER]`) ; VDB, garantie par sa fiche et sous le plafond, reste l'obligatoire (comme le prévoyait @ux) ; Vérino devient la facultative de l'étape 1, avec sa durée réelle de 5 min 51 s ; étape 6 sans vidéo tant qu'aucune légende n'a passé l'aveugle (Hamzawi candidate). Reco « B » redéfinie en conséquence | §6, §3 (légendes), tableau des choix, handoff |
-| R6, U15 | Brief des vannes neuves de l'étape 6 ne suit pas le conseil validé ; étape 3 | Fait : étape 6 = un rappel (détail installé, chute qui le retourne contre soi, jamais la personne honorée, l'organisation, le buffet ni un responsable) ; étape 3 = dix mots maximum | §5 |
-| R18, U15 | Vanne du mug à l'étape 6 ; costume cité de façon tronquée | Fait : mug sorti de l'étape 6 (chef installé dans la scène, pas de rappel) et remplacé par une 5e vanne neuve, soit 12 en ligne et 18 neuves, totaux reportés partout ; costume cité mot pour mot avec sa chute | §5, tableau des choix, « Je suis tes recos », handoff |
-| R7, U14 | Traces caduques des versions précédentes | Fait pour toutes les traces citées dans le texte vivant (statut, titre du fichier, variantes abandonnées, parenthèses d'historique, « environ 90 mots », « 6 écartées »). Arbitré pour le déplacement des arbitrages et de la table d'itération 1 vers `iterations/` : impossible (consigne : ne modifier aucun autre fichier). Les 17 arbitrages sont supprimés du fichier (historique git) et la table d'itération 1 est résumée | Tout le fichier, fin de fichier |
-| R8 | « Ils sont réécrits à neuf » inexact pour l'étape 1 | Fait | « Ce que la base a changé » |
-| R9 | Renvoi à une phrase absente du §7 | Fait : conséquence du « non » au choix 7 énoncée avec ses deux dépendances ; même signalement dans la reco du §2 | §1 (choix 7), §2 |
-| R10 | « Je suis tes recos » ne dit pas que le témoignage B est conditionnel | Fait | Tableau des choix, « Je suis tes recos », handoff, §2 |
-| U3 | Témoignage B jamais passé à l'aveugle, vanne à décoder, même objet que l'étape 3 | Fait : l'objet change (l'ascenseur), vanne plus rapide à décoder, « 26 ans, en CDI » gardé ; la relecture à l'aveugle ne peut pas être faite ici, donc le choix 2 est annoncé « témoignage B si sa vanne passe, sinon A » | §2 |
-| R11, U4 | Description A et B qui promettent une vanne placée « en réunion » | Fait | §2 |
-| R12, U7 | Scène : « trois traces repérées » contre « notées » ; « seule » ambigu | Fait : « Elle note les trois », « avant l'arrivée de l'équipe » ; `moduleDetail` recompté : 99 mots | §3 |
-| R13, U6 | `why` : geste central absent, redite du conseil | Fait : « garde une histoire de bureau que personne n'a notée » et « tu en tires deux phrases, gardées dans tes notes » ; 52 mots | §3 |
-| R14 | Phrase `[SI 6B]` ambiguë | Fait : « elle passe ce test d'avance » ; §7 aligné | §3, §7 |
-| R15 | Sauts de ligne des exemples 5 et 6 remplacés par « / » | Fait : retours à la ligne rétablis ; le texte des conseils est inchangé | §1 |
-| R16 | Q2 B bancale, Q3 B sans tentation | Fait : propositions du reviewer ; longueurs recomptées (Q2 : 12, 13, 11, 12 ; Q3 : 12, 11, 11, 13) | §3 |
-| R17 | Canapé « fort » mais décryptage critique l'entreprise | Fait : classée « acceptable », réserve écrite noir sur blanc ; totaux 8 fortes et 4 acceptables | §3, §5 |
-| R19 | §6 : extraits du 8b, juge de la légende de l'étape 6 | Fait : « 5 extraits de facultatives si tu choisis 8b » ; légende jugée par les deux relecteurs à l'aveugle avec les vannes neuves, à défaut sans vidéo | §6 |
-| U8 | Durée du défi non comptée | Fait : défi hors des 15 minutes, `[HYPOTHÈSE : 3 à 5 min]`, repli « 15 minutes, plus un défi », aperçu visiteur à « 15 min/semaine » | §3 (`dureeTexte`), signalement 7 |
-| U9 | Rien ne donne envie de l'étape 2 ; repli sans risque invisible aux visiteuses | Fait : colonne « Titre vu par la visiteuse » (titres de la spec, provisoires) et règle de la demi-phrase dans le `moduleDetail` des étapes 2 à 6 | §7 |
-| U10 | « Étape 1 complète » ne l'est pas | Fait : titre changé et encadré « Ce qui manque encore à l'étape 1 » | En-tête, tableau des choix, §3 |
-| U11 | Accroche B au masculin | Fait | §2 |
-| U12 | « A reste le plan B » | Fait : « A reste le repli » | §2, §7 |
-| U13 | Jargon restant (minuter, RC1, `[SI 6B]`, cellules §6) | Fait : « à découper », RC1 supprimé, `[SI 6B]` expliqué, §6 en quatre colonnes avec la piste Fary en note | Tableau des choix, §3, §6 |
-| Session | Faits vidéo vérifiés sur YouTube le 10/10 | Fait : Vérino 5 min 51 s (écart avec la base signalé, signalement 11) ; Fary existe et s'intègre, durée `[À MESURER]` ; Hamzawi existe et s'intègre ; mention « aucune vidéo n'a été visionnée, le contenu vient des fiches » | En-tête, §3, §6, signalement 11 |
 
 
 
