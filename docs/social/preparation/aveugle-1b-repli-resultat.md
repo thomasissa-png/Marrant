@@ -38,3 +38,7 @@ Reste au tour 3 : **jeu. 05/11 X** et **jeu. 12/11 Instagram**.
 | jeu. 05/11 X | aucun (K72 7 / 7 ; K75 7 / 6 ; K77 6 / 6 ; K74 5 / 5) | tour 4 |
 
 K78 (8 / 7) : le relecteur 2 relève le mot « blague » dans le surtitre (charte) ; non retenu de toute façon.
+
+## Tour 4 (10/10/2026, `aveugle-1b-repli-t4.md`, 5 candidats pour jeu. 05/11 X)
+
+Aucun au niveau (K82 8 / 7 ; K79 7 / 7 ; les autres 5 à 7). Stock de conseils jamais utilisés quasi épuisé (@copywriter). Quiz seul écarté (mix §2 : mercredi ; quiz déjà le mer. 04/11). **Décision** : adaptation X de **K73** (conseil IG au niveau, 8 / 8 au tour 3, non utilisé après le départage du 12/11), 3 versions, relues à l'aveugle (règle d'or : un texte modifié repasse la relecture).
