@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (10/10/2026, 08:00 Paris) : semaine 0 = 10 posts sur 10 ; alertes B seulement
+
+- Posts du 09/10 (X 12:32, Instagram 19:32) publiés, liens réels (`docs/social/releves/2026-10-09.md`). Semaine 0 : 10 sur 10, aucun FAILED.
+- Alertes : files basses (5 à 6 jours devant), classe B, attendues avant l'insertion du lot 1b (14/10) ; aucun e-mail.
+
 ## s15 (09/10/2026, ~08:10 Paris) : LOT 1a INSÉRÉ en base (12 au 18/10)
 
 - Dry-run final sans `--out`/`--json` : `lot-relance-s15.json` identique à l'octet à la version relue (sha256 `63a2f315…`), 0 erreur.
