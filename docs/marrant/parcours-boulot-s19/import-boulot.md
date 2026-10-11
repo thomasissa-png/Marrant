@@ -196,6 +196,8 @@ Zéro tiret cadratin (—) ; zéro « blague » ; zéro « carnet » (dire « te
 
 ## 7. Avant l'import : vidéos
 
+> **FAIT le 11/10/2026** : les 10 vidéos ont été regardées par Thomas, contenu confirmé (« J'ai regardé c'est ok ») ; fiches corrigées en prod au déploiement masqué du 11/10 (`bcd071ca`). Aucune vidéo retirée.
+
 1. **Chaque vidéo retenue (les 10, étape 1 comprise : VDB et Vérino) est regardée une fois par une personne** (Thomas ou quelqu'un qu'il désigne) : contenu confirmé, **durée affichée relevée**, fiche corrigée en base. Une session ne peut pas visionner. Légendes et durées vraies à confirmer en particulier : Croce « avion » (fiche « 10 vannes en 5 minutes », base 2 min 30), Hamzawi (4 min), Delmoitiez (6 min), Foresti, Guiz « fast-food ».
 2. **Fiches en base à corriger** (E, signalement 11) : `m30qZa8p_Js` (titre YouTube « JCC 8è saison - Marina Rollman », 5 min 08 ; vidéo de Répartie 1, la regarder pour vérifier le contenu) ; `qdqIc-uzdbA` (titre YouTube « Haroun - Jamel Comedy Club Saison 9 » ; vidéo de Répartie 4) ; **Vérino `rldvVgHQSvo` : 5 min 51 s** (la base dit 7 min 30, `PT7M30S`, et la fiche « 7 minutes de comédie »).
 3. Une vidéo qui ne tient pas est retirée : étapes 5 et 6, variantes sans vidéo (section 2) ; autres étapes, la vidéo de la spec (E §6, colonne A) reprend sa place.
