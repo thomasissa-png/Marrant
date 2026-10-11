@@ -133,6 +133,21 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getAllByText(/800 XP à gagner/)).toHaveLength(NB - 2);
   });
 
+  it("s19 : intro et liens SSR suivent les parcours publiés (Storytelling oui, Boulot non)", () => {
+    const liens = Array.from(document.querySelectorAll("ul.sr-only a")).map((a) => a.getAttribute("href"));
+    expect(liens).toHaveLength(NB);
+    // Interrupteurs actuels (Storytelling publié, Boulot pas encore) : texte et liens exacts.
+    if (STORYTELLING_PUBLIE && !BOULOT_PUBLIE) {
+      expect(bodyText()).toContain(
+        "chacun taillé pour une situation : Machine à Café, Répartie, Confiance et Storytelling.",
+      );
+      expect(liens).toHaveLength(4);
+    }
+    expect(liens.includes("/parcours/storytelling")).toBe(STORYTELLING_PUBLIE);
+    expect(liens.includes("/parcours/boulot")).toBe(BOULOT_PUBLIE);
+    expect(bodyText().includes("Confiance et Storytelling.")).toBe(STORYTELLING_PUBLIE && !BOULOT_PUBLIE);
+  });
+
   it("renders the FAQ section", () => {
     expect(screen.getByTestId("faq-section")).toBeInTheDocument();
   });

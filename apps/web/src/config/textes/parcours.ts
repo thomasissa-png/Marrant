@@ -27,9 +27,10 @@ export function etapeOrdreTexte(etapePrecedente: number): string {
 // s17, aligné sur les étalons (« offerte » : formule validée s15/s16 dans le paywall et /abonnement)
 /** Barre de progression remplacée pour un non-abonné (QA-13). */
 export function progressionVisiteurTexte(totalEtapes: number): string {
-  return totalEtapes > 2
-    ? `Étape 1 offerte, étapes 2 à ${totalEtapes} avec ${OFFRE_NOM}`
-    : `Étape 1 offerte, étape 2 avec ${OFFRE_NOM}`;
+  // s19 : « étapes 2 et 3 » pour 3 étapes (« 2 à 3 » relevé en QA), « 2 à N » au-delà.
+  if (totalEtapes > 3) return `Étape 1 offerte, étapes 2 à ${totalEtapes} avec ${OFFRE_NOM}`;
+  if (totalEtapes === 3) return `Étape 1 offerte, étapes 2 et 3 avec ${OFFRE_NOM}`;
+  return `Étape 1 offerte, étape 2 avec ${OFFRE_NOM}`;
 }
 
 // s17, aligné sur les étalons (« Durée estimée » sonnait fiche de cours ; le rythme « 15 à 20 min/semaine » ne change pas)

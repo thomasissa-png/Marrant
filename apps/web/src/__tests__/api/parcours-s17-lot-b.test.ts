@@ -200,7 +200,11 @@ describe("Page /parcours/[slug] (ISR) : D1, D8, SEO-02, SEO-04, SEO-11", () => {
     expect(hubMetadata.title).toEqual({ absolute: `Cours d'humour en ligne : ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours pour devenir drôle` });
     expect(hubMetadata.openGraph).toMatchObject({ url: "https://deviens-marrant.fr/parcours" });
     expect(hubMetadata.twitter).toMatchObject({ card: "summary_large_image" });
-    expect(String(hubMetadata.description)).toContain("Première étape gratuite.");
+    // s19 : la mention remonte en tête de la description du hub ; D8 inchangé (jamais « cours gratuit »).
+    expect(String(hubMetadata.description)).toMatch(/première étape gratuite/i);
+    expect(String(hubMetadata.description)).not.toMatch(/cours gratuit/i);
+    expect(String(hubMetadata.description)).toContain("Storytelling");
+    expect(String(hubMetadata.description).length).toBeLessThanOrEqual(160);
   });
 
   it("JSON-LD : Course avec @id, prix lu dans la config, sans tiret cadratin ; hub en ItemList", () => {

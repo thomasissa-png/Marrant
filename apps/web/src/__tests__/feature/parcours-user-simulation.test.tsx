@@ -507,7 +507,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
   it("compte non abonné : pas de barre immobile, l'offre des étapes 2+ à la place (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("Étape 1 offerte, étapes 2 à 3 avec Premium")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étapes 2 et 3 avec Premium")).toBeInTheDocument();
     });
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
