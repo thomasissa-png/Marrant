@@ -130,7 +130,9 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getByText(/325 XP à gagner/)).toBeInTheDocument();
     expect(screen.getByText(/475 XP à gagner/)).toBeInTheDocument();
     // s18 : Storytelling publié = 700 + 100, comme Confiance.
-    expect(screen.getAllByText(/800 XP à gagner/)).toHaveLength(NB - 2);
+    expect(screen.getAllByText(/800 XP à gagner/)).toHaveLength(1 + (STORYTELLING_PUBLIE ? 1 : 0));
+    // s19 : Boulot publié = 600 (6 étapes) + 100 de bonus.
+    if (BOULOT_PUBLIE) expect(screen.getByText(/700 XP à gagner/)).toBeInTheDocument();
   });
 
   it("s19 : intro et liens SSR suivent les parcours publiés (Storytelling oui, Boulot non)", () => {
@@ -169,6 +171,10 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("orientation quiz recommends a parcours after answering", async () => {
+    // s19 : la raison Boulot est aussi la fin de la description de la fiche (carte du hub, liens SSR) :
+    // on compte ses occurrences avant le quiz pour vérifier que le résultat en ajoute une.
+    const raisonBoulot = /une version sans risque au boulot, et ta vanne vise toujours la situation/;
+    const avant = screen.queryAllByText(raisonBoulot).length;
     // Answer both questions
     await userEvent.click(screen.getByText(/Au boulot, en réunion/));
     await userEvent.click(screen.getByText(/rien de drôle à raconter/));
@@ -176,13 +182,11 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(screen.getByText("Voir ce parcours")).toBeInTheDocument();
     // s19 point 1 : « Au boulot » ne mène à Boulot qu'une fois publié (état réel de l'interrupteur ;
     // l'état forcé à true est couvert par parcours-orientation-boulot.test.tsx).
-    expect(
-      screen.getByText(
-        BOULOT_PUBLIE
-          ? /une version sans risque au boulot, et ta vanne vise toujours la situation/
-          : "Tu veux avoir de quoi raconter à la pause, autre chose que la météo.",
-      ),
-    ).toBeInTheDocument();
+    if (BOULOT_PUBLIE) {
+      expect(screen.queryAllByText(raisonBoulot)).toHaveLength(avant + 1);
+    } else {
+      expect(screen.getByText("Tu veux avoir de quoi raconter à la pause, autre chose que la météo.")).toBeInTheDocument();
+    }
   });
 });
 

@@ -97,7 +97,7 @@ beforeEach(() => {
 
 describe("interrupteur de publication (état publié simulé)", () => {
   it("publié : Storytelling rejoint le seed, l'offre, les slugs et le quiz (accroche 4 A)", () => {
-    expect(publishedSeedJson(true).map((p) => p.slug)).toEqual(["machine-a-cafe", "repartie", "confiance", "storytelling"]);
+    expect(publishedSeedJson(true, false).map((p) => p.slug)).toEqual(["machine-a-cafe", "repartie", "confiance", "storytelling"]);
     jest.isolateModules(() => {
       jest.doMock("@/config/parcours-publication", () => ({ STORYTELLING_PUBLIE: true, BOULOT_PUBLIE: false }));
       const entrees = require("@/lib/entrees-parcours");

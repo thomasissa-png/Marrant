@@ -22,4 +22,4 @@ export const STORYTELLING_PUBLIE = true;
  * Activation (feu vert de Thomas seulement) : passer à `true`, commit, déploiement.
  * Voir REPLIT_ACTIONS.md (entrée s19). Les deux interrupteurs coexistent.
  */
-export const BOULOT_PUBLIE = false;
+export const BOULOT_PUBLIE = true;
