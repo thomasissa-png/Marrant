@@ -2,7 +2,8 @@
 # Comptes de test LOCAUX (base jetable) pour la non-régression des 4 parcours en ligne (s19, après 508cd96) :
 #  - qa_r2_<slug>_<w> : Premium qui a validé l'étape 1 du parcours <slug> (étape 2, première Premium, ouverte),
 #    un par largeur (375, 1280) ;
-#  - qa_rfin_<slug> : Premium qui a fini toutes les étapes du parcours <slug> (carte de fin).
+#  - qa_rfin_<slug> : Premium qui a fini toutes les étapes du parcours <slug> (carte de fin) ;
+#  - qa_r0_<w> : Premium sans aucune progression (carte de progression à 0 XP, rendu itération 4).
 # Mot de passe : celui de comptes.sh. Jamais contre la prod (port 55433, base marrant_qa).
 set -euo pipefail
 PSQL="psql -h 127.0.0.1 -p 55433 -U postgres -d marrant_qa -v ON_ERROR_STOP=1 -q"
@@ -16,6 +17,9 @@ with p as (select slug from "LearningPath" where slug in ('machine-a-cafe','repa
 insert into "User"(id,email,name,"passwordHash",plan,level,xp,streak,"emailOptOut","createdAt","updatedAt","emailVerified")
 select 'qa_rfin_'||p.slug, 'qa-rfin-'||p.slug||'@local.test', 'Premium fin', '$H', 'PREMIUM', 'NOVICE', 300, 0, false, now(), now(), now()
 from p;
+insert into "User"(id,email,name,"passwordHash",plan,level,xp,streak,"emailOptOut","createdAt","updatedAt","emailVerified")
+select 'qa_r0_'||w, 'qa-r0-'||w||'@local.test', 'Premium neuf', '$H', 'PREMIUM', 'NOVICE', 0, 0, false, now(), now(), now()
+from unnest(array[375,1280]) w;
 insert into "Subscription"(id,"userId",plan,status,"currentPeriodEnd","billingInterval","priceAmountCents","cancelAtPeriodEnd","createdAt","updatedAt")
 select 'sub_'||id, id, 'PREMIUM', 'ACTIVE', now()+interval '30 days', 'month', 299, false, now(), now() from "User" where id like 'qa_r%';
 -- Étape 2 ouverte : étape 1 validée il y a 7 jours.

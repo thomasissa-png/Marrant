@@ -3,8 +3,9 @@
  * d'orientation de /parcours et l'onboarding (passe UX s12, T43).
  * Textes repris à l'identique du quiz d'orientation de /parcours.
  */
+import { BOULOT_PUBLIE } from "@/config/parcours-publication";
 
-export type ParcoursSlug = "confiance" | "repartie" | "machine-a-cafe";
+export type ParcoursSlug = "confiance" | "repartie" | "machine-a-cafe" | "boulot";
 
 export interface ParcoursRecommendation {
   slug: ParcoursSlug;
@@ -14,11 +15,25 @@ export interface ParcoursRecommendation {
 
 /**
  * Signaux reconnus : "confiance" | "global" | "repartie" | "social" | "content" | "work".
- * Priorité : confiance, puis répartie, sinon Machine à Café. PM-11 (s17) :
- * « Partout » (global) ne mène à Confiance que si aucune difficulté n'est
- * nommée ; « je ne sais pas quoi répondre » ou « rien à raconter » l'emporte.
+ * Priorité : Boulot (si publié), puis confiance, puis répartie, sinon Machine à Café.
+ * PM-11 (s17) : « Partout » (global) ne mène à Confiance que si aucune difficulté
+ * n'est nommée ; « je ne sais pas quoi répondre » ou « rien à raconter » l'emporte.
+ * s19 ([CHOIX UTILISATEUR] 11/10, point 1) : « Au boulot » (work) mène à Boulot, quelle
+ * que soit la réponse suivante, une fois `BOULOT_PUBLIE` à true ; à false, `work` reste
+ * sans effet (comportement d'avant s19). `boulotPublie` : paramètre pour les tests.
  */
-export function recommendParcours(signals: readonly string[]): ParcoursRecommendation {
+export function recommendParcours(
+  signals: readonly string[],
+  boulotPublie: boolean = BOULOT_PUBLIE,
+): ParcoursRecommendation {
+  if (boulotPublie && signals.includes("work")) {
+    return {
+      slug: "boulot",
+      title: "Parcours Boulot",
+      // Phrase validée : `personaTagline` de docs/content/parcours-boulot-s19.json (fiche B), point final ajouté.
+      reason: "Pour toi si tu fais rire tes amis le samedi et que, le lundi à 9 h, tu prends un ton de compte rendu.",
+    };
+  }
   const namedDifficulty = signals.includes("repartie") || signals.includes("content");
   if (signals.includes("confiance") || (signals.includes("global") && !namedDifficulty)) {
     return {

@@ -123,3 +123,51 @@ Arbitrages délégués par le fondateur, tranchés par la session principale, ap
 - `npm run lint` : 0 erreur, 1 avertissement préexistant (`src/app/admin/page.tsx`, `<img>`).
 - `npx jest parcours premium` : 33 suites, 437 tests passés, 2 ignorés. Jest complet : 281 suites passées, 1 ignorée ; 4 034 tests passés, 4 ignorés.
 - `npm run build` (interrupteur à `false`) : réussi, 157 pages.
+
+## Rendu itération 4 (s19, 11/10/2026, @fullstack) : choix de Thomas « Go tout est ok pour moi! » (`docs/founder-preferences.md`, 11/10) et retouches de `iterations/rendu-iter-3-design.md` / `rendu-iter-3-ux.md`
+
+Rien déployé, rien écrit en base de prod, rien commité. `BOULOT_PUBLIE = false` et `STORYTELLING_PUBLIE = true` dans le fichier commité (`parcours-publication.ts` non modifié). Aucun texte de contenu validé changé (conseils, défis, vannes, scènes, quiz). Pas de tiret cadratin ajouté.
+
+### Corrections
+
+1. **Quiz d'orientation vers Boulot (point 1)**, `lib/parcours-orientation.ts` : `recommendParcours(signals, boulotPublie = BOULOT_PUBLIE)`. Interrupteur à true : le signal `work` (« Au boulot, en réunion, à la pause ») passe en premier et mène à Boulot, **quelle que soit la 2e réponse** (« rien à raconter », « quoi répondre », « perdu confiance »). À false : `work` reste sans effet, comportement d'avant inchangé (Machine à Café, Répartie ou Confiance selon la 2e réponse). Une seule fonction, partagée par le quiz de `/parcours` et l'onboarding : l'onboarding suit donc la même règle quand Q1 = « Tout ça à la fois » et Q2 = « Au boulot / machine à café » (seul cas où `work` lui parvient). Titre « Parcours Boulot » ; raison = `personaTagline` validée de la fiche B (`parcours-boulot-s19.json`), point final ajouté, égalité testée. `ParcoursSlug` reçoit `boulot` ; l'événement `orientation-resultat` peut donc porter `parcours: boulot` après activation.
+2. **XP de la carte de progression (point 3, tous parcours)** : `xpProgressionTexte(gagnés, total)` dans `config/textes/parcours.ts` : « N XP gagnés sur T, bonus de fin compris », singulier pour 0 et 1 (« 0 XP gagné sur 700, bonus de fin compris »). `totalXpTexte` retiré (Grep : 1 usage, remplacé). Total inchangé (`serverXpTotal ?? totalParcoursXp`). Gagnés : `xpGagnesParcours` (`lib/parcours-xp.ts`), somme des XP des étapes validées avec le même repli (20) que le serveur, bonus seulement une fois terminé. Parcours fini : la ligne reste masquée (`!isPathCompleted`), la carte de fin dit « … et gagné T XP, bonus de fin compris » : aucune contradiction.
+3. **Défi en gras et exemple en paragraphes, tous les parcours (point 4)**, `parcours-step-card.tsx` : condition sur le slug retirée pour ces deux traitements seulement. La typographie (`frTypoParcours`) reste réservée à Storytelling et Boulot, « Version sans risque » et « Aller au défi » à Boulot. Les 13 défis des anciens parcours (`conseils-seed.json`) ouvrent tous sur « DÉFI X : » : le libellé passe en gras, la suite est inchangée. Sans libellé, le code existant rend le texte tel quel, sans gras (testé). Les exemples d'une ligne donnent un seul paragraphe dans le même encadré, avec l'interligne de Storytelling (24 px au lieu de 20).
+4. **Vidéos de Répartie (point 5)** : le titre affiché sous une vidéo d'étape vient du **seed** (`step.videos[].title`, `parcours-data.ts`), la base ne sert qu'au lien vers la fiche ; le changement est donc visible en ligne. Format du fichier : `artist` à part, `title` = sous-titre seul (26 vidéos sur 26). Retenu : « JCC 8è saison » (`m30qZa8p_Js`) et « Jamel Comedy Club Saison 9 » (`qdqIc-uzdbA`). `parcours-reecriture-s17.json` (trace, égalité testée avec le seed) aligné de même. `videos-seed.json` déjà aligné (« Marina Rollman - JCC 8è saison », « Haroun - Jamel Comedy Club Saison 9 »). `parcours-boulot-sync.ts`, ses tests et `boulot-base-s19.json` (sauvegardes) non touchés.
+5. **Retouches** :
+   - a. Lien d'étape : la 2e ligne prend la couleur du lien (`text-accent-link`), soulignée au survol (`group-hover:underline`).
+   - b. `etapeLienTexte` : « Étape 3 · Le couloir : quinze secondes ».
+   - c. « Version sans risque » : `ENCADRE_REPLI` = `border-dashed border-border`, sans fond ; titre en `text-xs font-medium text-text-secondary` (12 px medium gris) sous « DÉFI X » (14 px semibold blanc). Tokens existants seulement.
+   - d. Marge basse : `-mb-3 sm:mb-0` sur la ligne du rappel (le lien de 44 px creusait le bas sous 640 px).
+   - e. « Aller au défi » : `-my-2`, lien en `flex w-fit` (cible de 44 px intacte).
+   - f. « Le suivi de ta progression arrive bientôt sur ce parcours. » masqué si `loadFailed`.
+   - g. Umami : `lien-etape-clic` et `defi-lien-clic`, propriétés `parcours` et `etape` seulement (même helper `trackUmami`). Non ajoutés au rapport hebdo (`PARCOURS_EVENTS`) : à faire avec @data-analyst si on veut les lire.
+6. **Critère commun hors de l'encadré (ajout @copywriter)** : `decouperRepli` rend 3 morceaux `[défi, repli, suite]`, concaténation = texte d'origine. La suite commence à la première phrase « C'est réussi » / « C'est gagné » (début de phrase, hors citation) après la question, **seulement si le défi principal n'a pas son propre critère**. Affichée sous l'encadré, au corps du défi (`data-testid="defi-suite"`). **Écart à la consigne, signalé** : appliquée telle quelle, la règle aurait sorti de l'encadré le critère de l'étape 3 (« C'est réussi si tu l'as dite d'un seul trait… ces cinq pas »), propre au repli, alors que l'étape 3 devait rester inchangée ; la condition « pas de critère avant la question » la protège. Morceaux par étape :
+   - Étape 1 : défi jusqu'à « …ni nom ni fonction. » ; repli « Pas de réunion en vue, ou elle se passe en visio ? … n'importe quel objet qui porte une trace compte. » ; suite vide (aucun « C'est … » après la question).
+   - Étape 2 : défi jusqu'à « …il compte quand même. » ; repli « Pas de mail pro à envoyer aujourd'hui ? Écris le PS … que tu as envoyé. » ; suite « C'est gagné si ton PS tient en une phrase et que la version rectifiée en est la toute fin. »
+   - Étape 3 : défi jusqu'à « …qu'elle ait fait rire ou non. » ; repli « Pas de couloir aujourd'hui (…) ? … C'est réussi si tu l'as dite d'un seul trait, en marchant, et si tu as fait ces cinq pas sans te retourner. » ; suite vide (critère propre au repli).
+   - Étape 4 : défi jusqu'à « …après la chute. » ; repli « Pas d'afterwork à venir ? … c'est gagné. » ; suite vide (« c'est gagné » en fin de phrase, minuscule).
+   - Étape 5 : défi jusqu'à « …au lieu de changer de sujet. » ; repli « Personne ne te le demande aujourd'hui ? … sans regarder ta feuille. » ; suite vide (« c'est réussi quand » en milieu de phrase).
+   - Étape 6 : défi jusqu'à « …tu changes de vanne sans toucher au reste. » ; repli « Aucun pot en vue ? Choisis quelqu'un qui t'a dépanné au travail et imagine son pot de départ. Pas besoin de chrono : compte tes mots. » ; suite « C'est réussi s'il fait entre 100 et 125 mots (…) et si tu as noté une vanne de rechange à côté. Rien à prononcer : le toast reste sur ta feuille jusqu'au jour J. »
+
+### Tests
+
+- `__tests__/api/parcours-s17-lot-b.test.ts` : PM-11 appelé avec l'interrupteur à false explicite ; « Au boulot » aux deux états (3 deuxièmes réponses chacun), raison = `personaTagline`.
+- `__tests__/feature/parcours-orientation-boulot.test.tsx` (neuf) : quiz de `/parcours` rendu, interrupteur simulé par `jest.mock` (false : Machine à Café et Répartie ; true : Boulot pour les 3 deuxièmes réponses).
+- `__tests__/feature/parcours-list.test.tsx` : verdict du quiz selon l'état réel de l'interrupteur.
+- `__tests__/feature/parcours-rendu-s19-iter4.test.tsx` (neuf, 15 tests) : texte XP (0, 1, pluriel), `xpGagnesParcours`, défi en gras et exemple en paragraphes sur les 3 anciens parcours, défi sans libellé, encadré en pointillés, suite des étapes 2 et 6 (texte rendu = texte d'origine), événements Umami, « arrive bientôt » masqué, carte à 0 XP, en cours et en erreur.
+- `__tests__/lib/parcours-rendu-s19-iter3.test.ts` : 3e morceau des 6 défis, brut et rendu (`frTypoParcours`), concaténation identique au caractère près.
+- Anciens textes mis à jour : `parcours-user-simulation.test.tsx` (« 0 XP gagné sur 475… »), `parcours-s17-lot-b.test.tsx` (« 500 XP gagnés sur 800… »), `parcours-rendu-s19-iter3.test.tsx` (« Étape 3 · Module 3 »).
+
+### Captures (instance locale jetable, jamais la prod)
+
+- `captures.sh` (passe Boulot complète, ordre de la prod, build forcé à `true` puis remis à `false`) : **215 PASS, 0 FAIL, 107 captures** (98 refaites, 9 ajoutées : carte de progression à 0 XP en 375 / 1280, en cours en 375 / 1280, en erreur en 375 ; étape 2 « Version sans risque » en 375 avec le critère sous l'encadré ; quiz d'orientation « Au boulot » avec les 3 deuxièmes réponses, Boulot publié). Mesures : marges de la carte 26 / 28 px (375) et 26 / 26 px (1280), contre environ 16 / 40 avant ; 30 px sous le texte de « Aller au défi » (environ 40 avant), cible de 44 px conservée ; 2e ligne du lien d'étape de la même couleur que la 1re.
+- `captures.sh --regression` (build à `false`, état de la prod) : **189 PASS, 0 FAIL, 89 captures** (72 refaites, 17 ajoutées : quiz « Au boulot » avec Boulot masqué, 3 réponses = Machine à Café, Répartie, Confiance comme avant ; carte de progression de Répartie à 0 XP (375, 1280) et en erreur (375, carte et page) ; carte en cours des 4 parcours (375) ; zone exemple + défi de l'étape 2 Premium de Machine à Café, Répartie, Confiance en 375 et 1280). Compte ajouté : `qa-r0-<w>` (Premium sans progression, `comptes-regression.sh`). Les exemples des anciens parcours tiennent tous sur une ligne : le rendu en paragraphes n'y fait qu'un paragraphe (interligne 24 px au lieu de 20) ; le gras du libellé est le changement visible.
+- Les deux runs : `BOULOT_PUBLIE` à `false` en sortie, `git diff` de l'interrupteur vide, `STORYTELLING_PUBLIE` inchangé, aucune variable sensible dans l'environnement de l'app (contrôle du script). Index : `docs/qa/captures-parcours-boulot-s19/index.md` et `regression/index.md`.
+
+### Résultats (11/10, depuis `apps/web`)
+
+- `npx tsc --noEmit -p tsconfig.build.json` : 0 erreur.
+- `npm run lint` : 0 erreur, 1 avertissement préexistant (`src/app/admin/page.tsx`, `<img>`).
+- Jest complet : 283 suites passées, 1 ignorée ; 4 069 tests passés, 4 ignorés.
+- `npm run build` (interrupteur à `false`) : réussi.

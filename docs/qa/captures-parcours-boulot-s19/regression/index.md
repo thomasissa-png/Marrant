@@ -1,9 +1,15 @@
-# Non-régression des 4 parcours en ligne après 508cd96, 0441569 et le rendu itération 3 (s19)
+# Non-régression des 4 parcours en ligne après 508cd96, 0441569 et les rendus itérations 3 et 4 (s19)
 
 Objet : le commit 508cd96 modifie des composants communs (`parcours-detail.tsx`, `parcours-content.tsx`,
 `parcours-step-card.tsx`, `step-blocks.tsx`, `parcours-preview.ts`, `fr-typo.ts`, `parcours-data.ts`).
 Ces captures montrent le rendu des 4 parcours déjà en ligne (Machine à Café, Répartie, Confiance, Storytelling)
 et du hub, pour relecture par @design et @ux.
+
+**Run de l'itération 4 (11/10/2026)** : toutes les captures refaites sur le code de l'itération 4 (choix de Thomas
+« Go tout est ok pour moi! » : XP gagnés sur le total, « Étape N · titre » en couleur de lien, défi en gras et exemple
+en paragraphes sur Machine à Café, Répartie et Confiance, titres des vidéos de Répartie, « arrive bientôt » masqué en
+erreur, quiz « Au boulot »). **189 PASS, 0 FAIL, 89 captures** (itération 3 : 162 PASS, 72 captures) ; interrupteur à `false` tout du long, `git diff` vide. 17 captures ajoutées (section « Itération 4 » ci-dessous).
+Comptes : `qa-r0-<largeur>` ajouté (Premium sans progression).
 
 **Run de l'itération 3 (11/10/2026)** : toutes les captures refaites sur le code de l'itération 3 (lien d'étape de la
 carte de progression, un seul cadenas, gluon après « Choisis- », « En 6 semaines », total d'XP à gauche en mobile,
@@ -33,7 +39,7 @@ fin, hub). Hub : 200, les 4 parcours présents, Boulot absent, intro « 4 parcou
 chacun taillé pour une situation : Machine à Café, Répartie, Confiance et Storytelling » (après 0441569).
 Ajouts de l'itération 3 : aperçu de l'étape 2 déplié (scène, « Fait partie de Premium », « Voir l'offre Premium »
 de 44 px, ni vannes ni quiz) ; haut de page Premium en cours (1/N, lien « La prochaine étape t'attend. » vers
-`#etape-2` avec « Étape 2 : <titre> », argumentaire après le programme) sur les 4 parcours en 375.
+`#etape-2` avec « Étape 2 · <titre> » (point médian depuis l'itération 4), argumentaire après le programme) sur les 4 parcours en 375.
 
 ## Captures
 
@@ -91,13 +97,29 @@ de 44 px, ni vannes ni quiz) ; haut de page Premium en cours (1/N, lien « La pr
 | storytelling-1280-premium-etape2.png | Storytelling | 1280 | Premium, étape 2 dépliée | Étape 2 complète desktop |
 | storytelling-1280-premium-fin.png | Storytelling | 1280 | Premium, parcours fini | Première fenêtre avec carte de fin |
 | storytelling-1280-premium-fin-carte.png | Storytelling | 1280 | Premium, parcours fini | Carte de fin desktop |
-| machine-a-cafe-375-premium-page-haut.png | Machine à Café | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/3, total d'XP à gauche, lien « La prochaine étape t'attend. » et « Étape 2 : Sentir le bon moment », puis « Le programme » |
-| repartie-375-premium-page-haut.png | Répartie | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/4, lien d'étape « Étape 2 : Le rythme et les silences » |
-| confiance-375-premium-page-haut.png | Confiance | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 : Rire de toi sans te rabaisser » |
-| storytelling-375-premium-page-haut.png | Storytelling | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 : Des personnages qu'on entend » |
+| machine-a-cafe-375-premium-page-haut.png | Machine à Café | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/3, total d'XP à gauche, lien « La prochaine étape t'attend. » et « Étape 2 · Sentir le bon moment », puis « Le programme » |
+| repartie-375-premium-page-haut.png | Répartie | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/4, lien d'étape « Étape 2 · Le rythme et les silences » |
+| confiance-375-premium-page-haut.png | Confiance | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 · Rire de toi sans te rabaisser » |
+| storytelling-375-premium-page-haut.png | Storytelling | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 · Des personnages qu'on entend » |
 | repartie-375-visiteur-apercu-etape2.png, repartie-1280-visiteur-apercu-etape2.png | Répartie | 375, 1280 | visiteur, étape 2 dépliée | **Nouveau (BR1 a)** : aperçu verrouillé, cadenas à gauche et chevron, scène en 16 px (15 px en 1280), format, texte du verrou, « Voir l'offre Premium » |
 | storytelling-375-visiteur-apercu-etape2.png, storytelling-1280-visiteur-apercu-etape2.png | Storytelling | 375, 1280 | visiteur, étape 2 dépliée | **Nouveau (BR1 a)** : idem |
 | <slug>-768-visiteur-page-haut.png, <slug>-768-visiteur-page.png, <slug>-768-visiteur-etape1.png | les 4 | 768 | visiteur | **Nouveau (S9 @ux)** : haut de page, page entière et étape 1 dépliée en tablette, pour machine-a-cafe, repartie, confiance, storytelling (12 captures) |
+
+## Itération 4 : nouvelles captures
+
+| Fichier | Parcours | Largeur | État | Ce qu'on doit y voir |
+|---|---|---|---|---|
+| quiz-orientation-375-boulot-masque-raconter.png | Hub | 375 | Visiteur, `BOULOT_PUBLIE = false` | « Au boulot » + « rien de drôle à raconter » : **Parcours Machine à Café**, comme avant (contrôlé). |
+| quiz-orientation-375-boulot-masque-repondre.png | Hub | 375 | Visiteur | « Au boulot » + « quoi répondre » : **Parcours Répartie** (contrôlé). |
+| quiz-orientation-375-boulot-masque-confiance.png | Hub | 375 | Visiteur | « Au boulot » + « perdu confiance » : **Parcours Confiance** (contrôlé). Boulot publié : `../visiteur-375-quiz-orientation-boulot-*.png`. |
+| repartie-375-premium-carte-progression-0xp.png, repartie-1280-… | Répartie | 375, 1280 | Premium sans progression (`qa-r0-<w>`) | « 0 XP gagné sur 475, bonus de fin compris » (singulier, contrôlé). |
+| <slug>-375-premium-carte-progression-en-cours.png | les 4 | 375 | Premium, étape 1 validée | « 50 XP gagnés sur T, bonus de fin compris » (T = 325, 475, 800, 800, contrôlé) ; « Étape 2 · titre » en couleur de lien ; marges haute / basse mesurées 26 / 28 px. |
+| repartie-375-premium-carte-progression-erreur.png | Répartie | 375 | Premium, API coupée | Alerte « Ta progression est intacte. », « Réessayer », sans ligne d'XP. |
+| repartie-375-premium-erreur-chargement-page.png | Répartie | 375 | Premium, API coupée | Page entière : ni ligne d'XP ni « Le suivi de ta progression arrive bientôt » (contrôlé). |
+| <slug>-<w>-premium-etape2-exemple-defi.png | Machine à Café, Répartie, Confiance | 375, 1280 | Premium, étape 1 validée | De « Exemple concret » à « Alors, ce défi ? » : exemple en paragraphe(s), interligne 24 px ; **« DÉFI BLANCS », « DÉFI SILENCE », « DÉFI FAIT DIVERS » en gras**, suite du défi inchangée ; ni « Version sans risque » ni « Aller au défi » (contrôlé, Storytelling compris). Les exemples de ces étapes tiennent sur une ligne : un seul paragraphe, pas de coupure visible. |
+
+Vidéos de Répartie : sous-titre « JCC 8è saison » sous Marina Rollman à l'étape 1 (`repartie-<w>-visiteur-etape1.png`) ;
+« Jamel Comedy Club Saison 9 » sous Haroun à l'étape 4 (non capturée).
 
 ## Défauts et remarques vus à la relecture (non corrigés)
 

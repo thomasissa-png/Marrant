@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
 import { frTypoParcours } from "@/lib/fr-typo";
+import { trackUmami } from "@/lib/umami";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import {
   CHARGEMENT_ETAPE,
@@ -58,8 +59,10 @@ function LockIcon({ className }: { className: string }) {
 /** s17 tour 1 (DES-1-06) : titres de bloc lisibles d'un coup d'œil, corps à longueur de ligne lisible. */
 const SECTION_TITRE = "mb-2 font-display text-base font-bold text-text-primary";
 const CORPS_LECTURE = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
-/** Encadré du défi (s18), repris pour le second défi et « Version sans risque » (s19). */
+/** Encadré du défi (s18), repris pour le second défi. */
 const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
+/** s19 iter 4 (N-b @design) : « Version sans risque » en retrait du défi, pointillés neutres, sans fond. */
+const ENCADRE_REPLI = "rounded-lg border border-dashed border-border p-3";
 
 function Section({ title, id, children }: { title: string; id?: string; children: React.ReactNode }) {
   return (
@@ -99,12 +102,32 @@ function questionsHorsCitation(texte: string): { questions: number[]; dansCitati
   return { questions, dansCitation };
 }
 
+/** Début de phrase « C'est réussi » / « C'est gagné » (apostrophe droite ou typographique). */
+const CRITERE = /C['’]est (?:réussi|gagné)(?![\p{L}])/gu;
+
+/** Index des phrases critère (« C'est réussi… », « C'est gagné… ») hors citation, en début de phrase. */
+function criteres(texte: string, dansCitation: boolean[]): number[] {
+  const trouves: number[] = [];
+  for (const m of texte.matchAll(CRITERE)) {
+    const i = m.index ?? 0;
+    if (dansCitation[i]) continue;
+    let j = i - 1;
+    while (j >= 0 && /\s/.test(texte[j])) j--;
+    if (j < 0 || /[.!?…]/.test(texte[j]) || texte.slice(j + 1, i).includes("\n")) trouves.push(i);
+  }
+  return trouves;
+}
+
 /**
  * s19 (N4 @ux rendu iter 2, règle corrigée) : coupe le défi au début de sa DERNIÈRE phrase
  * interrogative, qui ouvre le repli (« Pas de réunion en vue… ? », « Aucun pot en vue ? »).
- * Zéro ou plus d'un « ? » hors citation : pas de coupe. Concaténation = texte d'origine.
+ * Zéro ou plus d'un « ? » hors citation : pas de coupe.
+ * s19 iter 4 (@copywriter) : 3 morceaux [défi, repli, suite]. Si le défi principal n'a pas son
+ * propre critère et qu'une phrase « C'est réussi / C'est gagné » suit la question, ce critère
+ * vaut pour les deux versions : il sort de l'encadré (suite). Sinon (critère propre au repli,
+ * comme à l'étape 3), suite vide. Concaténation des 3 morceaux = texte d'origine.
  */
-export function decouperRepli(texte: string): [string, string] | null {
+export function decouperRepli(texte: string): [string, string, string] | null {
   const { questions, dansCitation } = questionsHorsCitation(texte);
   if (questions.length !== 1) return null;
   const q = questions[0];
@@ -113,7 +136,11 @@ export function decouperRepli(texte: string): [string, string] | null {
     if (texte[i] !== "\n" && !finDePhrase) continue;
     let debut = i + 1;
     while (debut < q && /\s/.test(texte[debut])) debut++;
-    return [texte.slice(0, debut), texte.slice(debut)];
+    const tous = criteres(texte, dansCitation);
+    const critereApres = tous.find((c) => c > q);
+    const critereAvant = tous.some((c) => c < debut);
+    const fin = critereApres !== undefined && !critereAvant ? critereApres : texte.length;
+    return [texte.slice(0, debut), texte.slice(debut, fin), texte.slice(fin)];
   }
   return null;
 }
@@ -342,9 +369,11 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   return (
     <div className="space-y-6">
       {versionSansRisque && (
+        // s19 iter 4 (S13 @ux) : -my-2, le blanc autour du lien passe de 40 à 32 px environ, cible de 44 px intacte.
         <a
           href={`#${defiAncre}`}
-          className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          onClick={() => trackUmami("defi-lien-clic", { parcours: slug, etape: step.order })}
+          className="-my-2 flex min-h-[44px] w-fit items-center text-sm text-accent-link underline underline-offset-2 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
         >
           {DEFI_BOULOT.allerAuDefi}
         </a>
@@ -386,16 +415,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.tip.example && (
         <Section title="Exemple concret">
-          {typoFr ? (
-            // s19 (N3 @design rendu) : une ligne de l'exemple = un paragraphe, avec un peu d'air (Storytelling, Boulot).
-            <div className="rounded-lg bg-background-elevated p-3 text-sm italic leading-6 text-text-secondary">
-              {lignesExemple(prose(step.tip.example)).map((l, i) => (
-                <p key={i} className={i > 0 ? "mt-1.5" : undefined}>{l}</p>
-              ))}
-            </div>
-          ) : (
-            <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{prose(step.tip.example)}</p>
-          )}
+          {/* s19 (N3 @design rendu) : une ligne de l'exemple = un paragraphe, avec un peu d'air.
+              s19 iter 4 ([CHOIX UTILISATEUR] 11/10, point 4) : tous les parcours, plus seulement Storytelling et Boulot. */}
+          <div className="rounded-lg bg-background-elevated p-3 text-sm italic leading-6 text-text-secondary">
+            {lignesExemple(prose(step.tip.example)).map((l, i) => (
+              <p key={i} className={i > 0 ? "mt-1.5" : undefined}>{l}</p>
+            ))}
+          </div>
         </Section>
       )}
 
@@ -409,20 +435,24 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
                 {/* s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre. */}
                 <div className={`${i > 0 ? "mt-3 " : ""}${ENCADRE_DEFI}`}>
                   {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
-                  {typoFr ? (
-                    // s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
-                    <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">
-                      <DefiTexte texte={repli ? repli[0] : prose(defi)} />
-                    </p>
-                  ) : (
-                    <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
-                  )}
+                  {/* s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
+                      s19 iter 4 (point 4) : tous les parcours ; sans libellé « DÉFI X : », texte tel quel. */}
+                  <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">
+                    <DefiTexte texte={repli ? repli[0] : prose(defi)} />
+                  </p>
                 </div>
                 {repli && (
-                  <div className={`mt-3 ${ENCADRE_DEFI}`} data-testid="version-sans-risque">
-                    <p className="mb-1 text-sm font-semibold text-text-primary">{DEFI_BOULOT.versionSansRisque}</p>
+                  // s19 iter 4 (N-b @design) : titre en 12 px medium gris, sous le « DÉFI X » en 14 px semibold blanc.
+                  <div className={`mt-3 ${ENCADRE_REPLI}`} data-testid="version-sans-risque">
+                    <p className="mb-1 text-xs font-medium text-text-secondary">{DEFI_BOULOT.versionSansRisque}</p>
                     <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">{repli[1]}</p>
                   </div>
+                )}
+                {/* s19 iter 4 (@copywriter) : critère commun aux deux versions, sous l'encadré, au corps du défi. */}
+                {repli && repli[2] !== "" && (
+                  <p className="mt-3 whitespace-pre-line text-sm leading-6 text-text-secondary" data-testid="defi-suite">
+                    {repli[2]}
+                  </p>
                 )}
               </Fragment>
             );
@@ -506,7 +536,8 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </div>
       )}
 
-      {!isCompleted && isPremium && isSeedFallback && (
+      {/* s19 iter 4 (S10 @ux) : masqué si le chargement a échoué (l'alerte dit « Ta progression est intacte. »). */}
+      {!isCompleted && isPremium && isSeedFallback && !props.loadFailed && (
         <p className="text-center text-sm text-text-muted">Le suivi de ta progression arrive bientôt sur ce parcours.</p>
       )}
 

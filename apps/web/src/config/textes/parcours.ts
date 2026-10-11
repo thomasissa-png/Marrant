@@ -129,10 +129,10 @@ export const XP_GAIN = {
     `+${xp} XP gagnés, dont ${bonus} de bonus de fin. Parcours terminé !`,
 } as const;
 
-// s17, aligné sur les étalons
-/** Total affiché sous la barre : étapes + bonus de fin (QA-07). */
-export function totalXpTexte(total: number, bonus: number): string {
-  return `${total} XP au total, dont ${bonus} de bonus à la dernière étape`;
+// [CHOIX UTILISATEUR] s19 (11/10, point 3) : remplace « 700 XP au total, dont 100 de bonus à la dernière étape ».
+/** Sous la barre : XP déjà gagnés sur le total gagnable (étapes + bonus de fin). 0 et 1 au singulier. */
+export function xpProgressionTexte(gagnes: number, total: number): string {
+  return `${gagnes} XP ${gagnes > 1 ? "gagnés" : "gagné"} sur ${total}, bonus de fin compris`;
 }
 
 // VALIDÉ s17 (étalon 3.3 A)
@@ -143,6 +143,12 @@ export function prochaineEtapeTexte(date: string): string {
 
 // VALIDÉ s17 (étalon 3.3 A, date passée ou aujourd'hui)
 export const PROCHAINE_ETAPE_DISPONIBLE = "La prochaine étape t'attend.";
+
+// s19 iter 4 (S11 @ux, [CHOIX UTILISATEUR] 11/10) : point médian, pas de second « : » (« Le couloir : quinze secondes »).
+/** 2e ligne du lien de la carte de progression : « Étape 3 · Le couloir : quinze secondes ». */
+export function etapeLienTexte(numero: number, titre: string): string {
+  return `${etapeLibelle(numero)} · ${titre}`;
+}
 
 // s17, aligné sur les étalons (3.7 A : rappel sur demande, jour choisi par la personne)
 /** Rappel e-mail sur demande (D7) : réglé au profil (lot C, avis @legal), ici un lien discret. */

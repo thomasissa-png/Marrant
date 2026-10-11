@@ -635,7 +635,8 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
   it("sees total XP = 475 (50+75+100+150 + 100 de bonus de fin, s17 QA-07)", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText("475 XP au total, dont 100 de bonus à la dernière étape")).toBeInTheDocument();
+      // s19 iter 4 (point 3) : gagnés sur le total ; aucune étape validée ici, singulier pour 0.
+      expect(screen.getByText("0 XP gagné sur 475, bonus de fin compris")).toBeInTheDocument();
     });
   });
 

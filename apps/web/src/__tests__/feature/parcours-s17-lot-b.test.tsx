@@ -108,7 +108,8 @@ describe("A2 : « Parcours terminé ! » et carte de fin pilotés par le serveur
           : { body: { paths: [{ slug: "machine-a-cafe", title: "Parcours Machine à Café", progress: null }] } },
     );
     render(<ParcoursDetail slug="confiance" />);
-    expect(await screen.findByText("800 XP au total, dont 100 de bonus à la dernière étape")).toBeInTheDocument();
+    // s19 iter 4 (point 3) : étapes 1 à 5 validées = 50+75+100+125+150.
+    expect(await screen.findByText("500 XP gagnés sur 800, bonus de fin compris")).toBeInTheDocument();
     await userEvent.click(await screen.findByText("Valider cette étape"));
     expect(await screen.findByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
     // s17 tour 1 : gain affiché dans la carte validée (persistant) et annoncé par la zone vocale.

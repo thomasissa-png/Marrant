@@ -45,6 +45,7 @@ import { buildParcoursCourseJsonLd, buildParcoursItemListJsonLd, parcoursCourseI
 import { jokeSeedTexts, resolveStepJokes } from "@/lib/parcours-vannes";
 import { withoutJokeTexts } from "@/lib/parcours-data";
 import vannesActives from "../../../../../docs/content/vannes-actives-s17.json";
+import boulotS19 from "../../../../../docs/content/parcours-boulot-s19.json";
 import { PARCOURS_BONUS_FIN_XP, PARCOURS_RYTHME_JOURS, prochaineEtapeConseillee, totalParcoursXp } from "@/lib/parcours-xp";
 import { NEXT_STEP_DELAY_DAYS, PATH_COMPLETION_BONUS_XP } from "@/lib/progression";
 import { normalizeParcoursSrc } from "@/lib/parcours-tracking";
@@ -260,7 +261,36 @@ describe("PM-11 : orientation, la difficulté nommée passe avant « Partout »"
     [["global"], "confiance"],
     [["work", "repartie"], "repartie"],
   ])("%j → %s", (signals, slug) => {
-    expect(recommendParcours(signals).slug).toBe(slug);
+    // Interrupteur Boulot éteint, explicitement (s19 : `work` ne compte qu'une fois Boulot publié).
+    expect(recommendParcours(signals, false).slug).toBe(slug);
+  });
+});
+
+describe("s19 point 1 : « Au boulot » oriente vers Boulot seulement si BOULOT_PUBLIE", () => {
+  const SECONDE = ["content", "repartie", "confiance"] as const;
+
+  it.each([
+    ["content", "machine-a-cafe"],
+    ["repartie", "repartie"],
+    ["confiance", "confiance"],
+  ])("interrupteur à false : work + %s → %s (comportement d'avant s19)", (q2, slug) => {
+    expect(recommendParcours(["work", q2], false).slug).toBe(slug);
+  });
+
+  it.each(SECONDE)("interrupteur à true : work + %s → boulot", (q2) => {
+    const reco = recommendParcours(["work", q2], true);
+    expect(reco.slug).toBe("boulot");
+    expect(reco.title).toBe("Parcours Boulot");
+  });
+
+  it("interrupteur à true : sans « Au boulot », rien ne change", () => {
+    expect(recommendParcours(["social", "content"], true).slug).toBe("repartie");
+    expect(recommendParcours(["global", "content"], true).slug).toBe("machine-a-cafe");
+    expect(recommendParcours(["global", "confiance"], true).slug).toBe("confiance");
+  });
+
+  it("la raison reprend la phrase validée de la fiche Boulot (personaTagline)", () => {
+    expect(recommendParcours(["work", "content"], true).reason).toBe(`${boulotS19.parcours.personaTagline}.`);
   });
 });
 

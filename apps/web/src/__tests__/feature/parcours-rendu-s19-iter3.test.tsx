@@ -142,7 +142,7 @@ describe("carte de progression", () => {
     const lien = await screen.findByTestId("lien-prochaine-etape");
     expect(lien).toHaveAttribute("href", "#etape-3");
     expect(lien.className).toContain("min-h-[44px]");
-    expect(plain(lien.textContent)).toBe("La prochaine étape t'attend.Étape 3 : Module 3");
+    expect(plain(lien.textContent)).toBe("La prochaine étape t'attend.Étape 3 · Module 3");
     expect(lien.textContent).not.toMatch(/aujourd'hui/i);
     await userEvent.click(lien);
     await waitFor(() => expect(Element.prototype.scrollIntoView).toHaveBeenCalled());

@@ -20,6 +20,7 @@ import {
   PARCOURS_BONUS_FIN_XP,
   prochaineEtapeConseillee,
   totalParcoursXp,
+  xpGagnesParcours,
 } from "@/lib/parcours-xp";
 import { readParcoursSrc } from "@/lib/parcours-tracking";
 import { ecrireProgressionCache, lireProgressionCache } from "@/lib/parcours-progress-cache";
@@ -27,7 +28,7 @@ import { useUserStore } from "@/stores/user-store";
 import { RAPPEL_PARCOURS_API } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import {
   etapeContexteTexte,
-  etapeLibelle,
+  etapeLienTexte,
   progressionVisiteurTexte,
   prochaineEtapeTexte,
   APERCU_INTRO,
@@ -35,7 +36,7 @@ import {
   PROCHAINE_ETAPE_DISPONIBLE,
   RAPPEL_LIEN,
   TITRES_SECTIONS,
-  totalXpTexte,
+  xpProgressionTexte,
   XP_GAIN,
 } from "@/config/textes/parcours";
 import { etapeAfficheEchec, ParcoursStepCard } from "@/components/parcours/parcours-step-card";
@@ -625,7 +626,7 @@ export function ParcoursDetail({
                   s19 (S2 @ux rendu iter 2) : à gauche sous 640 px (« dernière étape » orphelin à droite). */}
               {!isPathCompleted && !echecPremium && (
                 <p className="mt-2 text-left text-sm text-text-secondary sm:text-right">
-                  {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
+                  {xpProgressionTexte(xpGagnesParcours(path.steps, completedSteps), totalXp)}
                 </p>
               )}
               {showRythme && nextDate && (
@@ -638,22 +639,26 @@ export function ParcoursDetail({
                   href={`#etape-${etapeAFaire.order}`}
                   onClick={(e) => {
                     e.preventDefault();
+                    // s19 iter 4 (S14 @ux) : mesure du raccourci, sans donnée personnelle.
+                    trackUmami("lien-etape-clic", { parcours: slug, etape: etapeAFaire.order });
                     allerAEtape(etapeAFaire.order);
                   }}
                   data-testid="lien-prochaine-etape"
                   className="group mt-2 flex min-h-[44px] flex-col justify-center rounded text-sm focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
                 >
                   <span className="text-accent-link underline underline-offset-2">{PROCHAINE_ETAPE_DISPONIBLE}</span>
-                  <span className="text-text-secondary">
-                    {frTypoTexte(`${etapeLibelle(etapeAFaire.order)} : ${etapeAFaire.moduleTitle ?? etapeAFaire.tip.title}`)}
+                  {/* s19 iter 4 (N-a @design) : la 2e ligne a aussi l'allure d'un lien (couleur, soulignement au survol). */}
+                  <span className="text-accent-link underline-offset-2 group-hover:underline">
+                    {frTypoTexte(etapeLienTexte(etapeAFaire.order, etapeAFaire.moduleTitle ?? etapeAFaire.tip.title))}
                   </span>
                 </a>
               )}
               {showRythme && !nextDate && !etapeAFaire && (
                 <p className="mt-2 text-sm text-text-secondary">{PROCHAINE_ETAPE_DISPONIBLE}</p>
               )}
+              {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}
               {!isPathCompleted && rappelInvite && (
-                <p className="mt-2 text-xs text-text-muted">
+                <p className="-mb-3 mt-2 text-xs text-text-muted sm:mb-0">
                   {RAPPEL_LIEN.texte}{" "}
                   <Link
                     href="/profil#rappel-parcours"

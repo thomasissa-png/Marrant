@@ -174,6 +174,15 @@ describe("ParcoursPage — Parcours structurés", () => {
     await userEvent.click(screen.getByText(/rien de drôle à raconter/));
     expect(screen.getByText("Ton point de départ :")).toBeInTheDocument();
     expect(screen.getByText("Voir ce parcours")).toBeInTheDocument();
+    // s19 point 1 : « Au boulot » ne mène à Boulot qu'une fois publié (état réel de l'interrupteur ;
+    // l'état forcé à true est couvert par parcours-orientation-boulot.test.tsx).
+    expect(
+      screen.getByText(
+        BOULOT_PUBLIE
+          ? /le lundi à 9 h, tu prends un ton de compte rendu/
+          : "Tu veux avoir de quoi raconter à la pause, autre chose que la météo.",
+      ),
+    ).toBeInTheDocument();
   });
 });
 

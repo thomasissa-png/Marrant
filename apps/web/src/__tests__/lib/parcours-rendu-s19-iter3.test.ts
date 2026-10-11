@@ -47,6 +47,37 @@ describe("Version sans risque : coupe au début de la dernière phrase interroga
     }
   });
 
+  // s19 iter 4 (@copywriter) : le critère commun aux deux versions sort de l'encadré (3e morceau).
+  const SUITES: Array<[number, string | null]> = [
+    [1, null],
+    [2, "C'est gagné si ton PS tient en une phrase"],
+    [3, null], // critère propre au repli (« ces cinq pas ») : le défi principal a déjà le sien
+    [4, null], // « c'est gagné » en milieu de phrase, dans le repli
+    [5, null], // « c'est réussi quand… » en milieu de phrase, dans le repli
+    [6, "C'est réussi s'il fait entre 100 et 125 mots"],
+  ];
+
+  it.each(SUITES)("étape %i : 3e morceau = %s", (etape, debut) => {
+    for (const texte of [DEFIS[etape - 1], prose(DEFIS[etape - 1])]) {
+      const parts = decouperRepli(texte)!;
+      expect(parts).toHaveLength(3);
+      expect(parts.join("")).toBe(texte);
+      if (debut === null) {
+        expect(parts[2]).toBe("");
+      } else {
+        expect(parts[2].startsWith("C'est")).toBe(true);
+        expect(parts[2].replaceAll(NBSP, " ").startsWith(debut)).toBe(true);
+        expect(parts[1]).not.toMatch(/C'est (réussi|gagné)/);
+      }
+    }
+  });
+
+  it("étape 6 : la suite garde « Rien à prononcer… » ; le repli garde « Pas besoin de chrono »", () => {
+    const [, repli, suite] = decouperRepli(DEFIS[5])!;
+    expect(repli).toBe("Aucun pot en vue ? Choisis quelqu'un qui t'a dépanné au travail et imagine son pot de départ. Pas besoin de chrono : compte tes mots. ");
+    expect(suite.endsWith("Rien à prononcer : le toast reste sur ta feuille jusqu'au jour J.")).toBe(true);
+  });
+
   it("étape 5 : la question citée « tu fais quoi dans la vie ? » ne compte pas", () => {
     expect(DEFIS[4]).toContain("« tu fais quoi dans la vie ? »");
     expect(decouperRepli(DEFIS[4])![0]).toContain("« tu fais quoi dans la vie ? »");

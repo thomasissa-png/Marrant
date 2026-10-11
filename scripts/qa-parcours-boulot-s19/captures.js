@@ -22,6 +22,52 @@ const ok = (name, pass, detail = '') => console.log((pass ? 'PASS ' : 'FAIL ') +
 const norm = (s) => s.normalize('NFC').toLowerCase().replace(/[^a-z0-9àâäçéèêëîïôöùûüÿœ]/g, '');
 const has = (txt, s, n = 40) => norm(txt).includes(norm(s).slice(0, n));
 
+/** Rendu itération 4 (point 3) : « N XP gagnés sur T, bonus de fin compris » (0 et 1 au singulier). */
+const xpTotal = (steps) => steps.reduce((a, s) => a + (s.moduleXp ?? 20), 0) + 100;
+const xpGagnes = (steps, k) => steps.slice(0, k).reduce((a, s) => a + (s.moduleXp ?? 20), 0);
+const xpTexte = (g, t) => `${g} XP ${g > 1 ? 'gagnés' : 'gagné'} sur ${t}, bonus de fin compris`;
+
+/** Rendu itération 4 (C @design) : marges haute et basse de la carte de progression (contenu visible). */
+async function margesCarte(page) {
+  return page.evaluate(() => {
+    const barre = document.querySelector('[role="progressbar"]');
+    const carte = barre?.closest('div.rounded-lg');
+    if (!carte) return null;
+    const r = carte.getBoundingClientRect();
+    let haut = Infinity, bas = -Infinity;
+    const walker = document.createTreeWalker(carte, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (!n.textContent.trim()) continue;
+      const range = document.createRange(); range.selectNodeContents(n);
+      for (const b of range.getClientRects()) { if (b.height) { haut = Math.min(haut, b.top); bas = Math.max(bas, b.bottom); } }
+    }
+    const pb = barre.getBoundingClientRect();
+    haut = Math.min(haut, pb.top);
+    return { haut: Math.round(haut - r.top), bas: Math.round(r.bottom - bas) };
+  });
+}
+
+/** Rendu itération 4 (point 1) : quiz d'orientation de /parcours, « Au boulot… » puis la réponse q2. */
+async function quizOrientation(browser, w, q2, attendu, nom, dir) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await go(page, `${BASE}/parcours`);
+  await page.getByRole('button', { name: /Au boulot, en réunion, à la pause/ }).click();
+  await page.getByRole('button', { name: q2 }).click();
+  await page.waitForTimeout(500);
+  const res = page.getByText('Ton point de départ :').first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+  const t = (await res.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  ok(`[quiz ${w}] « Au boulot » + ${q2} : ${attendu}`, t.includes(attendu), t.slice(0, 200));
+  const f = path.join(dir, nom + '.png');
+  await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
+  await res.scrollIntoViewIfNeeded().catch(() => {});
+  const box = await res.evaluate((el) => { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height }; });
+  await page.screenshot({ path: f, fullPage: true, clip: box });
+  console.log('CAPTURE ' + (dir === OUT ? '' : 'regression/') + nom + '.png');
+  ok(`[quiz ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
 let n = 0;
 async function ctxFor(browser, w) {
   const ctx = await browser.newContext({
@@ -186,6 +232,14 @@ async function page1(browser, w, role, email) {
   const h1 = (await page.locator('h1').first().innerText()).trim();
   ok(`[${role} ${w}] titre « ${DATA.title} »`, norm(h1) === norm(DATA.title), h1);
   await viewport(page, `${role}-${w}-page-haut`);
+  if (role === 'premium') {
+    // Rendu itération 4 (point 3) : compte neuf, « 0 XP gagné sur 700, bonus de fin compris ».
+    const attendu = xpTexte(0, xpTotal(DATA.steps));
+    const ligneXp = page.getByText(/XP gagnés? sur/).first();
+    await ligneXp.waitFor({ timeout: 15000 }).catch(() => {});
+    ok(`[premium ${w}] XP avant toute étape : « ${attendu} »`, norm(await ligneXp.innerText().catch(() => '')) === norm(attendu), await ligneXp.innerText().catch(() => 'absent'));
+    if (w !== 768) await shot(page, `premium-${w}-carte-progression-0xp`, page.locator('[role="progressbar"]').first().locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]'));
+  }
   await shot(page, `${role}-${w}-page`);
   const e1 = await openStep(page, 1);
   const t1 = await e1.innerText();
@@ -273,9 +327,25 @@ async function etapePremium(browser, w, k) {
   const vsrTxt = (await vsr.innerText().catch(() => '')).replace(/\s+/g, ' ');
   ok(`[premium ${w}] étape ${k} : encadré « Version sans risque » qui commence par « ${REPLIS[k - 1]} »`,
     (await vsr.count()) === 1 && /^Version sans risque/.test(vsrTxt) && has(vsrTxt.replace(/^Version sans risque/, ''), REPLIS[k - 1], 20), vsrTxt.slice(0, 90));
+  // Rendu itération 4 (@copywriter) : étapes 2 et 6, le critère commun sort de l'encadré, sous lui.
+  const suite = e.locator('[data-testid="defi-suite"]');
+  const suiteTxt = (await suite.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  if (k === 2 || k === 6) {
+    ok(`[premium ${w}] étape ${k} : critère « C'est … » sous l'encadré, hors de « Version sans risque »`,
+      (await suite.count()) === 1 && /^C.est (réussi|gagné)/.test(suiteTxt) && !/C.est (réussi|gagné)/.test(vsrTxt), suiteTxt.slice(0, 90));
+  } else {
+    ok(`[premium ${w}] étape ${k} : pas de 3e morceau (repli inchangé)`, (await suite.count()) === 0);
+  }
   const allerDefi = e.getByRole('link', { name: 'Aller au défi' });
   const hLien = await allerDefi.evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
   ok(`[premium ${w}] étape ${k} : lien « Aller au défi » (cible >= 44 px)`, (await allerDefi.count()) === 1 && hLien >= 44, `hauteur ${hLien}px`);
+  // Rendu itération 4 (S13) : blanc visible entre le texte du lien et « Pourquoi cette étape ? ».
+  const blanc = await allerDefi.evaluate((el) => {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const t = r.getBoundingClientRect(); const n = el.nextElementSibling?.getBoundingClientRect();
+    return n ? Math.round(n.top - t.bottom) : -1;
+  }).catch(() => -1);
+  console.log(`INFO [premium ${w}] étape ${k} : blanc sous le texte « Aller au défi » = ${blanc}px`);
   if (w === 375 && k === 3) {
     // Lien cliqué, en-tête collant ACTIF : « Exercice pratique » doit apparaître sous la barre fixe.
     await allerDefi.click();
@@ -288,7 +358,7 @@ async function etapePremium(browser, w, k) {
     ok(`[premium ${w}] étape ${k} : après « Aller au défi », « Exercice pratique » sous l'en-tête collant`, pos.t >= pos.hd && pos.t < 260 && pos.hash === `#etape-${k}-defi`, JSON.stringify(pos));
     await viewport(page, `premium-${w}-etape${k}-aller-au-defi`);
   }
-  if ((k === 3 || k === 6) && w !== 768) {
+  if ((k === 3 || k === 6 || (k === 2 && w === 375)) && w !== 768) {
     await shot(page, `premium-${w}-etape${k}-version-sans-risque`, e.locator(`#etape-${k}-defi`));
   }
   await waitThumbs(page, e);
@@ -326,13 +396,25 @@ async function hautProgression(browser, w) {
   const lien = page.locator('[data-testid="lien-prochaine-etape"]');
   const lt = (await lien.innerText().catch(() => '')).replace(/\s+/g, ' ');
   const hl = await lien.evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
-  ok(`[premium ${w}] lien d'étape : « La prochaine étape t'attend. » vers #etape-3, « Étape 3 : ${DATA.steps[2].moduleTitle} », >= 44 px`,
+  // Rendu itération 4 (S11) : « Étape 3 · <titre> », point médian, plus de double « : ».
+  ok(`[premium ${w}] lien d'étape : « La prochaine étape t'attend. » vers #etape-3, « Étape 3 · ${DATA.steps[2].moduleTitle} », >= 44 px`,
     (await lien.getAttribute('href').catch(() => '')) === '#etape-3' && /La prochaine étape t.attend\./.test(lt)
-      && has(lt, `Étape 3 : ${DATA.steps[2].moduleTitle}`) && !/aujourd/i.test(lt) && hl >= 44, `${lt} ; ${hl}px`);
+      && lt.includes('Étape 3 · ') && has(lt, `Étape 3 ${DATA.steps[2].moduleTitle}`) && !/aujourd/i.test(lt) && hl >= 44, `${lt} ; ${hl}px`);
+  // Rendu itération 4 (N-a) : la 2e ligne a la couleur de la 1re (lien).
+  const couleurs = await lien.evaluate((el) => [...el.querySelectorAll(':scope > span')].map((x) => getComputedStyle(x).color)).catch(() => []);
+  ok(`[premium ${w}] lien d'étape : 2e ligne en couleur de lien`, couleurs.length === 2 && couleurs[0] === couleurs[1], couleurs.join(' / '));
+  // Rendu itération 4 (point 3) : XP gagnés sur le total (étapes 1 et 2 validées).
+  const attendu = xpTexte(xpGagnes(DATA.steps, 2), xpTotal(DATA.steps));
+  const ligneXp = page.getByText(/XP gagnés? sur/).first();
+  ok(`[premium ${w}] XP : « ${attendu} »`, norm(await ligneXp.innerText().catch(() => '')) === norm(attendu), await ligneXp.innerText().catch(() => 'absent'));
   // Total d'XP : à gauche sous 640 px, à droite au-dessus (S2 @ux).
-  const align = await page.getByText(/XP au total/).first().evaluate((el) => getComputedStyle(el).textAlign).catch(() => '?');
-  ok(`[premium ${w}] total d'XP aligné ${w < 640 ? 'à gauche' : 'à droite'}`, align === (w < 640 ? 'left' : 'right'), align);
+  const align = await ligneXp.evaluate((el) => getComputedStyle(el).textAlign).catch(() => '?');
+  ok(`[premium ${w}] ligne d'XP alignée ${w < 640 ? 'à gauche' : 'à droite'}`, align === (w < 640 ? 'left' : 'right'), align);
+  const marges = await margesCarte(page);
+  ok(`[premium ${w}] carte de progression : marges haute et basse équilibrées (écart <= 12 px)`, !!marges && Math.abs(marges.haut - marges.bas) <= 12, JSON.stringify(marges));
   await viewport(page, `premium-${w}-page-haut-progression`);
+  const carteProg = page.locator('[role="progressbar"]').first().locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]');
+  await shot(page, `premium-${w}-carte-progression-en-cours`, carteProg);
   if (w === 375) {
     await lien.click();
     await page.waitForTimeout(1200);
@@ -405,8 +487,9 @@ async function erreurChargement(browser, w) {
   await viewport(page, `premium-${w}-erreur-chargement`);
   // Rendu itération 3 (S4 @design, S3 @ux) : pas de ligne XP orpheline ; rien de visiteur montré à l'abonné.
   const t = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
-  ok(`[premium ${w}] erreur : ni « XP au total », ni « Voir l'offre Premium », ni « Lecture libre »`,
-    !/XP au total/.test(t) && !/Voir l.offre Premium/.test(t) && !/Lecture libre/.test(t));
+  ok(`[premium ${w}] erreur : ni ligne d'XP, ni « arrive bientôt », ni « Voir l'offre Premium », ni « Lecture libre »`,
+    !/XP au total|XP gagnés? sur/.test(t) && !/arrive bientôt/.test(t) && !/Voir l.offre Premium/.test(t) && !/Lecture libre/.test(t));
+  if (await alerte.count()) await shot(page, `premium-${w}-carte-progression-erreur`, alerte.locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]'));
   await page.evaluate(() => window.scrollTo(0, 0));
   await shot(page, `premium-${w}-erreur-chargement-page`);
   await ctx.close();
@@ -552,10 +635,17 @@ async function regPremium(browser, w, p) {
       const pq = document.getElementById('parcours-pour-qui');
       return { programme: Math.round(prog?.getBoundingClientRect().top ?? -1), pourQui: Math.round(pq?.getBoundingClientRect().top ?? -1) };
     });
-    ok(`[reg ${p.slug} premium ${w}] haut de page en cours : 1/${p.steps.length}, lien « Étape 2 : ${p.steps[1].moduleTitle.slice(0, 30)} » vers #etape-2, argumentaire après le programme`,
-      (await lien.getAttribute('href').catch(() => '')) === '#etape-2' && has(lt, `Étape 2 : ${p.steps[1].moduleTitle}`)
+    ok(`[reg ${p.slug} premium ${w}] haut de page en cours : 1/${p.steps.length}, lien « Étape 2 · ${p.steps[1].moduleTitle.slice(0, 30)} » vers #etape-2, argumentaire après le programme`,
+      (await lien.getAttribute('href').catch(() => '')) === '#etape-2' && lt.includes('Étape 2 · ') && has(lt, `Étape 2 ${p.steps[1].moduleTitle}`)
         && ordre.pourQui > ordre.programme, `${lt} ; ${JSON.stringify(ordre)}`);
+    // Rendu itération 4 (point 3) : étape 1 validée.
+    const attendu = xpTexte(xpGagnes(p.steps, 1), xpTotal(p.steps));
+    const ligneXp = page.getByText(/XP gagnés? sur/).first();
+    ok(`[reg ${p.slug} premium ${w}] XP en cours : « ${attendu} »`, norm(await ligneXp.innerText().catch(() => '')) === norm(attendu), await ligneXp.innerText().catch(() => 'absent'));
+    const marges = await margesCarte(page);
+    ok(`[reg ${p.slug} premium ${w}] carte de progression : marges équilibrées (écart <= 12 px)`, !!marges && Math.abs(marges.haut - marges.bas) <= 12, JSON.stringify(marges));
     await regViewport(page, `${p.slug}-${w}-premium-page-haut`);
+    await regShot(page, `${p.slug}-${w}-premium-carte-progression-en-cours`, page.locator('[role="progressbar"]').first().locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]'));
   }
   const k = p.steps.findIndex((s) => !s.free) + 1;
   const s = p.steps[k - 1];
@@ -567,6 +657,25 @@ async function regPremium(browser, w, p) {
   ok(`[reg ${p.slug} premium ${w}] étape ${k} (1re Premium) : titre, ${vannes}/${s.jokeContents.length} vannes, quiz`, has(t, s.moduleTitle)
     && vannes === s.jokeContents.length && (await e.locator('[role="group"][aria-labelledby^="quiz-q-"]').count()) > 0);
   await sansTrou(`[reg ${p.slug} premium ${w}] étape ${k}`, e);
+  // Rendu itération 4 (point 4) : « DÉFI X » en gras, exemple en paragraphes ; rien de Boulot.
+  const exo = e.locator('h4', { hasText: 'Exercice pratique' }).first().locator('xpath=..');
+  const gras = (await exo.locator('strong').first().innerText().catch(() => '')).trim();
+  const exemple = e.locator('h4', { hasText: 'Exemple concret' }).first().locator('xpath=..');
+  const paras = await exemple.locator('div > p').count();
+  ok(`[reg ${p.slug} premium ${w}] étape ${k} : défi « ${gras || 'sans libellé'} » en gras, exemple en ${paras} paragraphe(s), ni « Version sans risque » ni « Aller au défi »`,
+    /^DÉFI /.test(gras) && paras >= 1 && (await e.locator('[data-testid="version-sans-risque"]').count()) === 0
+      && (await e.getByRole('link', { name: 'Aller au défi' }).count()) === 0, `gras=${gras} ; paragraphes=${paras}`);
+  if (p.slug !== 'storytelling') {
+    // Zone « Exemple concret » jusqu'au bas de « Exercice pratique » (défi et « Alors, ce défi ? » compris).
+    await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
+    await exo.scrollIntoViewIfNeeded().catch(() => {});
+    await page.waitForTimeout(300);
+    const b = async (l) => l.evaluate((el) => { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, bas: r.bottom + window.scrollY }; });
+    const a = await b(exemple); const z = await b(exo);
+    await page.screenshot({ path: path.join(REG_DIR, `${p.slug}-${w}-premium-etape${k}-exemple-defi.png`), fullPage: true,
+      clip: { x: Math.min(a.x, z.x), y: a.y, width: Math.max(a.w, z.w), height: z.bas - a.y } });
+    console.log(`CAPTURE regression/${p.slug}-${w}-premium-etape${k}-exemple-defi.png`);
+  }
   await waitThumbs(page, e);
   await regShot(page, `${p.slug}-${w}-premium-etape${k}`, e);
   ok(`[reg ${p.slug} premium ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
@@ -592,9 +701,42 @@ async function regFin(browser, w, p) {
   await ctx.close();
 }
 
+/** Rendu itération 4 (point 3, S10) : carte de progression d'un parcours en ligne, à 0 XP puis en erreur. */
+async function regCarteProgression(browser, w, p) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await login(page, `qa-r0-${w}@local.test`);
+  await go(page, `${BASE}/parcours/${p.slug}`);
+  const attendu = xpTexte(0, xpTotal(p.steps));
+  const ligneXp = page.getByText(/XP gagnés? sur/).first();
+  await ligneXp.waitFor({ timeout: 15000 }).catch(() => {});
+  ok(`[reg ${p.slug} premium ${w}] XP avant toute étape : « ${attendu} »`, norm(await ligneXp.innerText().catch(() => '')) === norm(attendu), await ligneXp.innerText().catch(() => 'absent'));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await regShot(page, `${p.slug}-${w}-premium-carte-progression-0xp`, page.locator('[role="progressbar"]').first().locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]'));
+  if (w === 375) {
+    await page.route('**/api/parcours/by-slug/**', (r) => r.abort());
+    await go(page, `${BASE}/parcours/${p.slug}`);
+    const alerte = page.locator('[role="alert"]').filter({ hasText: /Réessayer/ }).first();
+    await alerte.waitFor({ timeout: 15000 }).catch(() => {});
+    const t = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
+    ok(`[reg ${p.slug} premium ${w}] erreur de chargement : alerte, ni ligne d'XP ni « arrive bientôt »`,
+      (await alerte.count()) > 0 && !/XP gagnés? sur/.test(t) && !/arrive bientôt/.test(t), (t.match(/.{0,40}arrive bientôt.{0,20}/) || [''])[0]);
+    if (await alerte.count()) await regShot(page, `${p.slug}-${w}-premium-carte-progression-erreur`, alerte.locator('xpath=ancestor::div[contains(@class,"rounded-lg")][1]'));
+    await regShot(page, `${p.slug}-${w}-premium-erreur-chargement-page`);
+  }
+  ok(`[reg ${p.slug} premium ${w}] carte de progression : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
 async function regression() {
   fs.mkdirSync(REG_DIR, { recursive: true });
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  // Rendu itération 4 (point 1) : Boulot masqué, « Au boulot » ne change rien (comportement d'avant).
+  for (const [q2, attendu, nom] of [[/rien de drôle à raconter/, 'Parcours Machine à Café', 'raconter'],
+    [/quoi répondre sur le moment/, 'Parcours Répartie', 'repondre'], [/perdu confiance en moi/, 'Parcours Confiance', 'confiance']]) {
+    await quizOrientation(browser, 375, q2, attendu, `quiz-orientation-375-boulot-masque-${nom}`, REG_DIR);
+  }
+  for (const w of [375, 1280]) await regCarteProgression(browser, w, REG_PARCOURS.find((p) => p.slug === 'repartie'));
   for (const w of [375, 1280]) {
     await regHub(browser, w);
     for (const p of REG_PARCOURS) {
@@ -621,6 +763,10 @@ if (process.env.QA_REGRESSION === '1') {
       // §4 @ux : Machine à Café finie, Boulot publié = Boulot ; Machine à Café puis Storytelling finis = Répartie.
       await finAutreParcours(browser, w, 'qa-bmac@local.test', 'machine-a-cafe', 'boulot', 'fin-machine-a-cafe-boulot-publie');
       await finAutreParcours(browser, w, 'qa-bmacstory@local.test', 'storytelling', 'repartie', 'fin-storytelling-apres-machine-a-cafe');
+      // Rendu itération 4 (point 1) : Boulot publié, « Au boulot » mène à Boulot quelle que soit la 2e réponse.
+      for (const [q2, nom] of [[/rien de drôle à raconter/, 'raconter'], [/quoi répondre sur le moment/, 'repondre'], [/perdu confiance en moi/, 'confiance']]) {
+        await quizOrientation(browser, w, q2, 'Parcours Boulot', `visiteur-${w}-quiz-orientation-boulot-${nom}`, OUT);
+      }
     }
     await hub(browser, w, 'visiteur', null);
     await hub(browser, w, 'premium', `qa-b${w}@local.test`);

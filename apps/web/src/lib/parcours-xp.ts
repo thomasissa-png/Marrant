@@ -20,6 +20,23 @@ export function totalParcoursXp(steps: ReadonlyArray<{ moduleXp?: number }>): nu
 }
 
 /**
+ * XP déjà gagnés sur ce parcours (s19, carte de progression) : mêmes valeurs que celles
+ * créditées par `api/parcours/[id]/progress` (XP de chaque étape validée, repli par défaut),
+ * plus le bonus de fin une fois le parcours terminé. Étapes inconnues ignorées.
+ */
+export function xpGagnesParcours(
+  steps: ReadonlyArray<{ order: number; moduleXp?: number }>,
+  completedSteps: readonly number[],
+  termine = false,
+): number {
+  const faites = new Set(completedSteps);
+  const etapes = steps
+    .filter((s) => faites.has(s.order))
+    .reduce((sum, s) => sum + (s.moduleXp ?? PARCOURS_ETAPE_XP_DEFAUT), 0);
+  return etapes + (termine ? PARCOURS_BONUS_FIN_XP : 0);
+}
+
+/**
  * Date conseillée pour l'étape suivante, ou null si elle est déjà passée
  * (ou inconnue) : rien n'est bloqué, on n'affiche une date que si elle aide.
  */
