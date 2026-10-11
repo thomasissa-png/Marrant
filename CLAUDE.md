@@ -121,4 +121,4 @@ Agents dans `.claude/agents/`. Ambiguïté de domaine → trancher soi-même (fo
 - **[P0 s8] Projet copy** : calibrer 3-5 étalons AVEC le fondateur avant tout brief copywriter (charte : `docs/copy/charte-refonte-copy-s11.md`).
 - **[P0 s11] Aucun rapport d'agent validé sans mesure du diff réel** (taux de changement, intouchables : slugs/H2/FAQ/liens/chiffres/prix) — la refonte s11 passe 1 annonçait « réécriture complète » pour 3-5 % de changement.
 - **Déploiement** : toute modification code/config est documentée dans `REPLIT_ACTIONS.md` (Replit déploie la branche indiquée par Thomas).
-- **Pre-commit code** (`src/`) : `npx tsc --noEmit -p tsconfig.build.json && npx next lint && npm run build`.
+- **Pre-commit code** (`src/`) : `npx tsc --noEmit -p tsconfig.build.json && npx next lint && npm run build` ; si des tests changent, aussi `npx tsc --noEmit` (config complète, celle de la CI) et Jest sans secrets Stripe. Clôture : CI GitHub verte sur le dernier commit.

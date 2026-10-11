@@ -51,3 +51,10 @@
 | 7 | 05/05/2026 | 3. Requête non couverte | P1 | Pas de protocole audit cron×quota API tierce + veille LLM | remplacé par les audits notés s15/s16 |
 | 10 | 07/05/2026 | 5. Pattern efficace | P1 | L'IA plafonne sur la création d'humour : elle décortique (vanne + technique + à toi de jouer) | promu en pratique (décryptages) |
 | 14 | 04/10/2026 | 1. Problème corrigé | P1 | Webhooks Stripe en 500 après montée d'API basil | fusionné dans le P0 s16 |
+
+
+## Archivé en clôture s19 (11/10/2026, TTL 5 sessions)
+
+| Session | Date | Catégorie | Sévérité | Description | Correction appliquée | Recommandation framework | Cible propagation | Fichiers impactés | Statut | Propagation |
+|---------|------|-----------|----------|-------------|---------------------|--------------------------|-------------------|-------------------|--------|-------------|
+| 14 | 05/10/2026 | 5. Pattern efficace | P1 | Noter un article sur le brouillon laisse passer les défauts de rendu : « <!-- FIN --> » affiché en FAQ et JSON-LD, « Mis à jour » antérieur à la publication, « » imbriqués coupant la chute. | Aperçu admin `/blog/apercu/[slug]` + `snapshot-article.sh` (captures prod sans JS) ; import refuse les commentaires HTML ; `publicUpdatedAt` | **Toute notation de contenu publié se fait sur le rendu réel (captures + HTML servi), pas sur la source.** | règle-globale | _base-agent-protocol.md (reviewer) | fait | propagé (framework-feedback #2) |
