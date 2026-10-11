@@ -84,6 +84,10 @@ describe("parcours : nombre et durées dérivés du seed", () => {
     expect(PREMIUM_PARCOURS.map((p) => p.slug)).toEqual(parcoursSeed.map((p) => p.slug));
   });
 
+  it("s19 : llms.txt liste chaque parcours publié (Storytelling manquait depuis s18)", () => {
+    for (const p of PREMIUM_PARCOURS) expect(code("app/llms.txt/route.ts")).toContain(`path: "/parcours/${p.slug}"`);
+  });
+
   it("aucune durée de parcours ni nombre de parcours en dur dans les textes publics", () => {
     for (const file of [
       "app/(dashboard)/parcours/(liste)/page.tsx",

@@ -8,7 +8,11 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
-import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, parcoursWeeks } from "@/config/premium";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PARCOURS, parcoursWeeks } from "@/config/premium";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+
+/** Durée d'un parcours publié hors des 3 historiques (Storytelling, Boulot), lue dans l'offre. */
+const semainesPubliees = (slug: string) => PREMIUM_PARCOURS.find((p) => p.slug === slug)?.weeks ?? 6;
 
 /**
  * llms.txt — carte de site condensée pour les crawlers LLM (GEO).
@@ -67,6 +71,21 @@ const RESOURCE_PAGES: ResourceEntry[] = [
     label: "Parcours Confiance",
     summary: `${parcoursWeeks("confiance")} semaines, 20 min par semaine, pour retrouver ta légèreté et ta confiance sociale par l'humour.`,
   },
+  // s19 : Storytelling (s18) et Boulot n'entrent ici qu'une fois publiés, comme dans le hub et l'offre.
+  ...(STORYTELLING_PUBLIE
+    ? [{
+        path: "/parcours/storytelling",
+        label: "Parcours Storytelling",
+        summary: `${semainesPubliees("storytelling")} semaines, 20 min par semaine, pour raconter tes histoires jusqu'au bout : coupe, voix, chute, détour et détail qui revient (débutant à intermédiaire).`,
+      }]
+    : []),
+  ...(BOULOT_PUBLIE
+    ? [{
+        path: "/parcours/boulot",
+        label: "Parcours Boulot",
+        summary: `${semainesPubliees("boulot")} semaines, 15 min par semaine, pour oser une vanne au travail sans te griller, du silence en réunion au toast (débutant à intermédiaire).`,
+      }]
+    : []),
 ];
 
 function truncate(text: string, max = 160): string {
